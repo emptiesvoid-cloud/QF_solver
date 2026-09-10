@@ -269,9 +269,9 @@ retuning or silent fallback is permitted.
 ## `LU2-027-G08` route-decision closeout
 
 LU2-WP08 is `PASS_WITH_LIMITATIONS`. The controlled decision matrix is
-[`qualification/0_2_7/lu2_wp08_decision_matrix.json`](../../../qualification/0_2_7/lu2_wp08_decision_matrix.json)
+[`qualification/0_2_7/lu2_wp08_decision_matrix.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/lu2_wp08_decision_matrix.json)
 and its state record is
-[`qualification/0_2_7/lu2_wp08_state.json`](../../../qualification/0_2_7/lu2_wp08_state.json).
+[`qualification/0_2_7/lu2_wp08_state.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/lu2_wp08_state.json).
 No new element, formulation or mixed-mesh framework was implemented.
 
 Mixed TET/WEDGE/HEX is `PARTIAL` at technical infrastructure level but has no

@@ -1,0 +1,1535 @@
+{
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "65c816fee4a1497dd320358565a297c01bfcaff5",
+  "bugs_fixed": [
+    "Added the existing mixed conforming-interface contract to modal validation; no element or modal formulation changed."
+  ],
+  "bugs_found": [
+    "Modal mixed-interface validation was not invoked for modal analysis before WP08."
+  ],
+  "failure_contract": {
+    "cases": {
+      "disconnected_families": {
+        "error": "Mesh validation failed: Mixed modal model has no conforming shared-face interface between its solid families.",
+        "status": "PASS"
+      },
+      "invalid_connectivity": {
+        "error": "Mesh validation failed: Element 1: repeated node in connectivity.",
+        "status": "PASS"
+      },
+      "invalid_orientation": {
+        "error": "Mesh validation failed: Element 0: invalid TET4 signed corner volume -1.666667e-01.",
+        "status": "PASS"
+      },
+      "nonconforming_interface": {
+        "error": "Mesh validation failed: Model contains exact duplicate nodes.; Mixed modal nonconforming interface rejected: coincident faces from different families do not share the same node identities.; Mixed modal nonconforming interface rejected: coincident faces from different families do not share the same node identities.; Mixed modal model has no conforming shared-face interface between its solid families.",
+        "status": "PASS"
+      }
+    },
+    "status": "PASS"
+  },
+  "historical_0_2_7_evidence_changed": false,
+  "interface_robustness": {
+    "displacement_continuity_max": 0.0,
+    "duplicate_interface_dofs": false,
+    "interface_count": 2,
+    "interface_family_pairs": [
+      [
+        "TET4",
+        "WEDGE6"
+      ],
+      [
+        "HEX8",
+        "WEDGE6"
+      ]
+    ],
+    "mass_duplication_check": "covered by analytical total-mass conservation",
+    "shared_dof_sets_consistent": true,
+    "shared_node_count": 7,
+    "status": "PASS"
+  },
+  "limitations": [
+    "The pairwise and three-family modal checks pass, but the predeclared refinement mode-matching gate does not pass at every transition; the result remains SUPPORTED_WITH_LIMITATIONS and no public promotion is applied.",
+    "The dense reference independently reassembles local K/M and solves the generalized eigenproblem, but it is not an external industrial solver correlation.",
+    "Pure-versus-mixed comparison is a diagnostic envelope across the tested component subdomains; it is not an equality or universal discretization oracle.",
+    "Refinement covers first-frequency trend and shared-node mode matching for three levels; no universal modal convergence claim is made.",
+    "No modal stress claim is made."
+  ],
+  "mesh_refinement": {
+    "first_frequency_relative_changes": [
+      0.17019944393134467,
+      0.1341121198737569
+    ],
+    "interpretation": "finite positive frequency trend, but the predeclared shared-node mode-matching gate does not pass at every refinement transition; no convergence claim",
+    "levels": [
+      {
+        "first_frequency_hz": 779.2970010584501,
+        "segments": 1
+      },
+      {
+        "first_frequency_hz": 665.9522913806574,
+        "segments": 2
+      },
+      {
+        "first_frequency_hz": 587.2014589305222,
+        "segments": 4
+      }
+    ],
+    "monotonicity_claim": false,
+    "shared_node_mode_matching_minimum_mac": [
+      0.10276564845529834,
+      0.7311931058062087
+    ],
+    "status": "FAIL"
+  },
+  "mixed_mass_assembly": {
+    "cases": {
+      "TET4_WEDGE6": {
+        "assembly": {
+          "accumulator_chunk_count": 1,
+          "accumulator_occupied_levels": 1,
+          "assembly_index_dtype": "int32",
+          "assembly_memory_budget_bytes": null,
+          "assembly_memory_budget_exceeded": false,
+          "assembly_peak_memory_estimate_bytes": 22464,
+          "assembly_phase_seconds": {
+            "assembly_plan": 0.00018799991812556982,
+            "chunk_fusion": 2.300017513334751e-06,
+            "chunk_sparse_conversion": 0.00023739994503557682,
+            "discrete_merge": 4.75000124424696e-05,
+            "element_kernel": 0.004242900060489774,
+            "sparse_finalize": 0.00015480001457035542
+          },
+          "assembly_plan_reused": false,
+          "chunk_count": 1,
+          "chunk_size": 256,
+          "coefficient_entry_count": 468,
+          "concentrated_mass_count": 0,
+          "element_count": 2,
+          "final_nnz": 129,
+          "matrix": "mass",
+          "paired_assembly": true,
+          "peak_chunk_entry_count": 468,
+          "shared_chunk_pattern": true,
+          "spring_count": 0
+        },
+        "direction_masses": {
+          "UX": 5200.0,
+          "UY": 5200.0,
+          "UZ": 5200.0
+        },
+        "dof_count": 21,
+        "expected_total_mass": 5200.0,
+        "formulation": "consistent_translational_finite_element_mass",
+        "independent_scatter_relative": 0.0,
+        "mass_conservation_relative": 0.0,
+        "minimum_eigenvalue": 77.66468780584248,
+        "minimum_eigenvalue_relative_to_trace": 0.014224301795941844,
+        "paired_vs_direct_relative": 0.0,
+        "positive_definite": true,
+        "status": "PASS",
+        "symmetry_relative": 0.0,
+        "unique_dof_count": 21
+      },
+      "TET4_WEDGE6_HEX8": {
+        "assembly": {
+          "accumulator_chunk_count": 1,
+          "accumulator_occupied_levels": 1,
+          "assembly_index_dtype": "int32",
+          "assembly_memory_budget_bytes": null,
+          "assembly_memory_budget_exceeded": false,
+          "assembly_peak_memory_estimate_bytes": 50112,
+          "assembly_phase_seconds": {
+            "assembly_plan": 0.00022659997921437025,
+            "chunk_fusion": 1.600012183189392e-06,
+            "chunk_sparse_conversion": 0.00024670001585036516,
+            "discrete_merge": 4.970002919435501e-05,
+            "element_kernel": 0.009686600067652762,
+            "sparse_finalize": 0.00016659998800605536
+          },
+          "assembly_plan_reused": false,
+          "chunk_count": 1,
+          "chunk_size": 256,
+          "coefficient_entry_count": 1044,
+          "concentrated_mass_count": 0,
+          "element_count": 3,
+          "final_nnz": 273,
+          "matrix": "mass",
+          "paired_assembly": true,
+          "peak_chunk_entry_count": 1044,
+          "shared_chunk_pattern": true,
+          "spring_count": 0
+        },
+        "direction_masses": {
+          "UX": 12999.999999999996,
+          "UY": 12999.999999999996,
+          "UZ": 12999.999999999996
+        },
+        "dof_count": 33,
+        "expected_total_mass": 12999.999999999998,
+        "formulation": "consistent_translational_finite_element_mass",
+        "independent_scatter_relative": 0.0,
+        "mass_conservation_relative": 1.3992226181121976e-16,
+        "minimum_eigenvalue": 58.69556047595917,
+        "minimum_eigenvalue_relative_to_trace": 0.004736059210002086,
+        "paired_vs_direct_relative": 0.0,
+        "positive_definite": true,
+        "status": "PASS",
+        "symmetry_relative": 0.0,
+        "unique_dof_count": 33
+      },
+      "WEDGE6_HEX8": {
+        "assembly": {
+          "accumulator_chunk_count": 1,
+          "accumulator_occupied_levels": 1,
+          "assembly_index_dtype": "int32",
+          "assembly_memory_budget_bytes": null,
+          "assembly_memory_budget_exceeded": false,
+          "assembly_peak_memory_estimate_bytes": 43200,
+          "assembly_phase_seconds": {
+            "assembly_plan": 0.00018009997438639402,
+            "chunk_fusion": 1.600012183189392e-06,
+            "chunk_sparse_conversion": 0.0002788000274449587,
+            "discrete_merge": 4.900002386420965e-05,
+            "element_kernel": 0.009564999956637621,
+            "sparse_finalize": 0.00015599990729242563
+          },
+          "assembly_plan_reused": false,
+          "chunk_count": 1,
+          "chunk_size": 256,
+          "coefficient_entry_count": 900,
+          "concentrated_mass_count": 0,
+          "element_count": 2,
+          "final_nnz": 252,
+          "matrix": "mass",
+          "paired_assembly": true,
+          "peak_chunk_entry_count": 900,
+          "shared_chunk_pattern": true,
+          "spring_count": 0
+        },
+        "direction_masses": {
+          "UX": 11699.999999999998,
+          "UY": 11699.999999999998,
+          "UZ": 11699.999999999998
+        },
+        "dof_count": 30,
+        "expected_total_mass": 11699.999999999998,
+        "formulation": "consistent_translational_finite_element_mass",
+        "independent_scatter_relative": 0.0,
+        "mass_conservation_relative": 0.0,
+        "minimum_eigenvalue": 54.166666666666636,
+        "minimum_eigenvalue_relative_to_trace": 0.004999999999999998,
+        "paired_vs_direct_relative": 0.0,
+        "positive_definite": true,
+        "status": "PASS",
+        "symmetry_relative": 0.0,
+        "unique_dof_count": 30
+      }
+    },
+    "formulation": "consistent_translational_finite_element_mass",
+    "lumped_route": "NOT_TESTED_OUT_OF_SCOPE",
+    "status": "PASS"
+  },
+  "numerical_source_changed": false,
+  "owner_gate_required": false,
+  "pairwise_modal": {
+    "TET4_WEDGE6": {
+      "element_types": [
+        "TET4",
+        "WEDGE6"
+      ],
+      "free_dof_count": 6,
+      "frequencies_hz": [
+        1206.684988126994,
+        1313.7220049110836,
+        1996.5865121433635,
+        2204.629888480552,
+        3006.910308912157,
+        3216.6773568974513
+      ],
+      "frequency_count": 6,
+      "independent_reference_frequencies_hz": [
+        1206.6849881269932,
+        1313.722004911084,
+        1996.586512143363,
+        2204.629888480552,
+        3006.910308912156,
+        3216.6773568974513
+      ],
+      "input_digest": "2ac728cd210c70cf770362c96d3fd65ca47de9aaaff6d0b8b6a6b4fa1a3cec4a",
+      "mass_orthogonality_error": 3.779282396625027e-16,
+      "maximum_relative_frequency_error": 7.537134469408116e-16,
+      "maximum_relative_residual": 1.1864525904435172e-15,
+      "modal_mass_normalization_error": 8.881784197001252e-16,
+      "mode_matching": {
+        "assignment": [
+          {
+            "candidate": 0,
+            "mac": 0.9999999999999998,
+            "reference": 0
+          },
+          {
+            "candidate": 1,
+            "mac": 0.9999999999999999,
+            "reference": 1
+          },
+          {
+            "candidate": 2,
+            "mac": 1.0,
+            "reference": 2
+          },
+          {
+            "candidate": 3,
+            "mac": 1.0000000000000002,
+            "reference": 3
+          },
+          {
+            "candidate": 4,
+            "mac": 0.9999999999999998,
+            "reference": 4
+          },
+          {
+            "candidate": 5,
+            "mac": 1.0000000000000004,
+            "reference": 5
+          }
+        ],
+        "cluster_assignment": [
+          {
+            "candidate_modes": [
+              0
+            ],
+            "reference_modes": [
+              0
+            ],
+            "subspace_mac": 1.0000000000000018
+          },
+          {
+            "candidate_modes": [
+              1
+            ],
+            "reference_modes": [
+              1
+            ],
+            "subspace_mac": 0.9999999999999998
+          },
+          {
+            "candidate_modes": [
+              2
+            ],
+            "reference_modes": [
+              2
+            ],
+            "subspace_mac": 1.0
+          },
+          {
+            "candidate_modes": [
+              3
+            ],
+            "reference_modes": [
+              3
+            ],
+            "subspace_mac": 1.0000000000000013
+          },
+          {
+            "candidate_modes": [
+              4
+            ],
+            "reference_modes": [
+              4
+            ],
+            "subspace_mac": 1.0000000000000004
+          },
+          {
+            "candidate_modes": [
+              5
+            ],
+            "reference_modes": [
+              5
+            ],
+            "subspace_mac": 1.0000000000000004
+          }
+        ],
+        "matching_method": "individual MAC with subspace MAC for numerically degenerate eigenvalue clusters",
+        "minimum_assigned_mac": 0.9999999999999998,
+        "minimum_individual_mac": 0.9999999999999998,
+        "mode_ordered": true
+      },
+      "name": "TET4_WEDGE6",
+      "node_count": 7,
+      "output_labels": {
+        "analysis": "modal",
+        "families": [
+          "TET4",
+          "WEDGE6"
+        ],
+        "normalization": "unit generalized mass"
+      },
+      "relative_residuals": [
+        1.1864525904435172e-15,
+        8.968472981461886e-16,
+        5.146492371065361e-16,
+        5.664262625055436e-16,
+        2.519082636747264e-16,
+        4.835201781258442e-16
+      ],
+      "status": "PASS"
+    },
+    "TET4_WEDGE6_HEX8": {
+      "element_types": [
+        "TET4",
+        "WEDGE6",
+        "HEX8"
+      ],
+      "free_dof_count": 12,
+      "frequencies_hz": [
+        779.2970010584501,
+        876.0645186655587,
+        1139.4548515471656,
+        1616.6196599993436,
+        2207.4327397382967,
+        2285.4134048737073
+      ],
+      "frequency_count": 6,
+      "independent_reference_frequencies_hz": [
+        779.2970010584489,
+        876.0645186655561,
+        1139.4548515471624,
+        1616.6196599993434,
+        2207.4327397382967,
+        2285.4134048737064
+      ],
+      "input_digest": "aeb404e4d6d793a614d5006b9a1596f234420c988dc5070c9f237907be6a39a7",
+      "mass_orthogonality_error": 4.3855285317645964e-16,
+      "maximum_relative_frequency_error": 2.9847085595705838e-15,
+      "maximum_relative_residual": 4.955018400212803e-15,
+      "modal_mass_normalization_error": 2.3314683517128287e-15,
+      "mode_matching": {
+        "assignment": [
+          {
+            "candidate": 0,
+            "mac": 1.0000000000000002,
+            "reference": 0
+          },
+          {
+            "candidate": 1,
+            "mac": 0.9999999999999998,
+            "reference": 1
+          },
+          {
+            "candidate": 2,
+            "mac": 0.9999999999999999,
+            "reference": 2
+          },
+          {
+            "candidate": 3,
+            "mac": 1.0000000000000004,
+            "reference": 3
+          },
+          {
+            "candidate": 4,
+            "mac": 1.0000000000000002,
+            "reference": 4
+          },
+          {
+            "candidate": 5,
+            "mac": 1.0000000000000002,
+            "reference": 5
+          }
+        ],
+        "cluster_assignment": [
+          {
+            "candidate_modes": [
+              0
+            ],
+            "reference_modes": [
+              0
+            ],
+            "subspace_mac": 0.9999999999999987
+          },
+          {
+            "candidate_modes": [
+              1
+            ],
+            "reference_modes": [
+              1
+            ],
+            "subspace_mac": 0.9999999999999989
+          },
+          {
+            "candidate_modes": [
+              2
+            ],
+            "reference_modes": [
+              2
+            ],
+            "subspace_mac": 0.9999999999999973
+          },
+          {
+            "candidate_modes": [
+              3
+            ],
+            "reference_modes": [
+              3
+            ],
+            "subspace_mac": 0.999999999999998
+          },
+          {
+            "candidate_modes": [
+              4
+            ],
+            "reference_modes": [
+              4
+            ],
+            "subspace_mac": 1.0000000000000013
+          },
+          {
+            "candidate_modes": [
+              5
+            ],
+            "reference_modes": [
+              5
+            ],
+            "subspace_mac": 1.0000000000000004
+          }
+        ],
+        "matching_method": "individual MAC with subspace MAC for numerically degenerate eigenvalue clusters",
+        "minimum_assigned_mac": 0.9999999999999973,
+        "minimum_individual_mac": 0.9999999999999998,
+        "mode_ordered": true
+      },
+      "name": "TET4_WEDGE6_HEX8",
+      "node_count": 11,
+      "output_labels": {
+        "analysis": "modal",
+        "families": [
+          "HEX8",
+          "TET4",
+          "WEDGE6"
+        ],
+        "normalization": "unit generalized mass"
+      },
+      "relative_residuals": [
+        4.955018400212803e-15,
+        4.805706818479944e-15,
+        4.1358185107997335e-15,
+        1.6705271214496616e-15,
+        3.8667489642244735e-16,
+        1.17725797017441e-15
+      ],
+      "status": "PASS"
+    },
+    "WEDGE6_HEX8": {
+      "element_types": [
+        "WEDGE6",
+        "HEX8"
+      ],
+      "free_dof_count": 12,
+      "frequencies_hz": [
+        740.9294743235075,
+        837.8896897933662,
+        1084.927719069486,
+        1591.2186634461875,
+        2243.4512104092983,
+        2274.113387824576
+      ],
+      "frequency_count": 6,
+      "independent_reference_frequencies_hz": [
+        740.9294743235104,
+        837.8896897933677,
+        1084.927719069483,
+        1591.218663446188,
+        2243.4512104092983,
+        2274.1133878245764
+      ],
+      "input_digest": "8eb4a48017707120303230306701996d4ce916ce47c880dcf92726c4dceb2e1e",
+      "mass_orthogonality_error": 3.3999816592250907e-16,
+      "maximum_relative_frequency_error": 3.835953409243685e-15,
+      "maximum_relative_residual": 7.999083822712703e-15,
+      "modal_mass_normalization_error": 1.1102230246251565e-15,
+      "mode_matching": {
+        "assignment": [
+          {
+            "candidate": 0,
+            "mac": 1.0,
+            "reference": 0
+          },
+          {
+            "candidate": 1,
+            "mac": 1.0,
+            "reference": 1
+          },
+          {
+            "candidate": 2,
+            "mac": 1.0,
+            "reference": 2
+          },
+          {
+            "candidate": 3,
+            "mac": 0.9999999999999998,
+            "reference": 3
+          },
+          {
+            "candidate": 4,
+            "mac": 1.0000000000000004,
+            "reference": 4
+          },
+          {
+            "candidate": 5,
+            "mac": 1.0000000000000002,
+            "reference": 5
+          }
+        ],
+        "cluster_assignment": [
+          {
+            "candidate_modes": [
+              0
+            ],
+            "reference_modes": [
+              0
+            ],
+            "subspace_mac": 1.0000000000000009
+          },
+          {
+            "candidate_modes": [
+              1
+            ],
+            "reference_modes": [
+              1
+            ],
+            "subspace_mac": 1.0000000000000013
+          },
+          {
+            "candidate_modes": [
+              2
+            ],
+            "reference_modes": [
+              2
+            ],
+            "subspace_mac": 1.0000000000000009
+          },
+          {
+            "candidate_modes": [
+              3
+            ],
+            "reference_modes": [
+              3
+            ],
+            "subspace_mac": 1.0000000000000013
+          },
+          {
+            "candidate_modes": [
+              4
+            ],
+            "reference_modes": [
+              4
+            ],
+            "subspace_mac": 1.0000000000000009
+          },
+          {
+            "candidate_modes": [
+              5
+            ],
+            "reference_modes": [
+              5
+            ],
+            "subspace_mac": 1.0000000000000009
+          }
+        ],
+        "matching_method": "individual MAC with subspace MAC for numerically degenerate eigenvalue clusters",
+        "minimum_assigned_mac": 1.0000000000000009,
+        "minimum_individual_mac": 0.9999999999999998,
+        "mode_ordered": true
+      },
+      "name": "WEDGE6_HEX8",
+      "node_count": 10,
+      "output_labels": {
+        "analysis": "modal",
+        "families": [
+          "HEX8",
+          "WEDGE6"
+        ],
+        "normalization": "unit generalized mass"
+      },
+      "relative_residuals": [
+        7.999083822712703e-15,
+        4.853487657947602e-15,
+        5.464768317606759e-15,
+        1.7078674447652134e-15,
+        8.289415235628701e-16,
+        7.16602149450496e-16
+      ],
+      "status": "PASS"
+    },
+    "status": "PASS"
+  },
+  "post_processing_output": {
+    "element_labels": {
+      "HEX8": 1,
+      "TET4": 1,
+      "WEDGE6": 1
+    },
+    "frequencies_finite": true,
+    "json_analysis": "modal",
+    "mode_rows": 6,
+    "status": "PASS",
+    "stress_modal_claim": false
+  },
+  "predeclared_tolerances": {
+    "interface_displacement_absolute": 1e-14,
+    "mass_direction_relative": 1e-12,
+    "mass_minimum_eigenvalue_relative": 1e-14,
+    "mass_symmetry_relative": 1e-12,
+    "mass_total_relative": 1e-12,
+    "modal_mass_orthogonality_relative": 1e-10,
+    "modal_residual_relative": 1e-08,
+    "oracle_frequency_relative": 1e-09,
+    "oracle_mode_mac": 0.99999999,
+    "refinement_first_frequency_step_relative": 0.25,
+    "refinement_mode_mac": 0.5,
+    "replay_frequency_absolute": 1e-12,
+    "replay_mode_absolute_after_sign": 1e-10
+  },
+  "pure_vs_mixed": {
+    "comparison_policy": "diagnostic envelope only; no equality claim across different discretizations or subdomain envelopes",
+    "mixed_cases": {
+      "TET4_WEDGE6": {
+        "element_types": [
+          "TET4",
+          "WEDGE6"
+        ],
+        "free_dof_count": 6,
+        "frequencies_hz": [
+          1206.684988126994,
+          1313.7220049110836,
+          1996.5865121433635,
+          2204.629888480552,
+          3006.910308912157,
+          3216.6773568974513
+        ],
+        "frequency_count": 6,
+        "independent_reference_frequencies_hz": [
+          1206.6849881269932,
+          1313.722004911084,
+          1996.586512143363,
+          2204.629888480552,
+          3006.910308912156,
+          3216.6773568974513
+        ],
+        "input_digest": "2ac728cd210c70cf770362c96d3fd65ca47de9aaaff6d0b8b6a6b4fa1a3cec4a",
+        "mass_orthogonality_error": 3.779282396625027e-16,
+        "maximum_relative_frequency_error": 7.537134469408116e-16,
+        "maximum_relative_residual": 1.1864525904435172e-15,
+        "modal_mass_normalization_error": 8.881784197001252e-16,
+        "mode_matching": {
+          "assignment": [
+            {
+              "candidate": 0,
+              "mac": 0.9999999999999998,
+              "reference": 0
+            },
+            {
+              "candidate": 1,
+              "mac": 0.9999999999999999,
+              "reference": 1
+            },
+            {
+              "candidate": 2,
+              "mac": 1.0,
+              "reference": 2
+            },
+            {
+              "candidate": 3,
+              "mac": 1.0000000000000002,
+              "reference": 3
+            },
+            {
+              "candidate": 4,
+              "mac": 0.9999999999999998,
+              "reference": 4
+            },
+            {
+              "candidate": 5,
+              "mac": 1.0000000000000004,
+              "reference": 5
+            }
+          ],
+          "cluster_assignment": [
+            {
+              "candidate_modes": [
+                0
+              ],
+              "reference_modes": [
+                0
+              ],
+              "subspace_mac": 1.0000000000000018
+            },
+            {
+              "candidate_modes": [
+                1
+              ],
+              "reference_modes": [
+                1
+              ],
+              "subspace_mac": 0.9999999999999998
+            },
+            {
+              "candidate_modes": [
+                2
+              ],
+              "reference_modes": [
+                2
+              ],
+              "subspace_mac": 1.0
+            },
+            {
+              "candidate_modes": [
+                3
+              ],
+              "reference_modes": [
+                3
+              ],
+              "subspace_mac": 1.0000000000000013
+            },
+            {
+              "candidate_modes": [
+                4
+              ],
+              "reference_modes": [
+                4
+              ],
+              "subspace_mac": 1.0000000000000004
+            },
+            {
+              "candidate_modes": [
+                5
+              ],
+              "reference_modes": [
+                5
+              ],
+              "subspace_mac": 1.0000000000000004
+            }
+          ],
+          "matching_method": "individual MAC with subspace MAC for numerically degenerate eigenvalue clusters",
+          "minimum_assigned_mac": 0.9999999999999998,
+          "minimum_individual_mac": 0.9999999999999998,
+          "mode_ordered": true
+        },
+        "name": "PAIR_TET4_WEDGE6",
+        "node_count": 7,
+        "output_labels": {
+          "analysis": "modal",
+          "families": [
+            "TET4",
+            "WEDGE6"
+          ],
+          "normalization": "unit generalized mass"
+        },
+        "relative_residuals": [
+          1.1864525904435172e-15,
+          8.968472981461886e-16,
+          5.146492371065361e-16,
+          5.664262625055436e-16,
+          2.519082636747264e-16,
+          4.835201781258442e-16
+        ],
+        "status": "PASS"
+      },
+      "TET4_WEDGE6_HEX8": {
+        "element_types": [
+          "TET4",
+          "WEDGE6",
+          "HEX8"
+        ],
+        "free_dof_count": 12,
+        "frequencies_hz": [
+          779.2970010584501,
+          876.0645186655587,
+          1139.4548515471656,
+          1616.6196599993436,
+          2207.4327397382967,
+          2285.4134048737073
+        ],
+        "frequency_count": 6,
+        "independent_reference_frequencies_hz": [
+          779.2970010584489,
+          876.0645186655561,
+          1139.4548515471624,
+          1616.6196599993434,
+          2207.4327397382967,
+          2285.4134048737064
+        ],
+        "input_digest": "aeb404e4d6d793a614d5006b9a1596f234420c988dc5070c9f237907be6a39a7",
+        "mass_orthogonality_error": 4.3855285317645964e-16,
+        "maximum_relative_frequency_error": 2.9847085595705838e-15,
+        "maximum_relative_residual": 4.955018400212803e-15,
+        "modal_mass_normalization_error": 2.3314683517128287e-15,
+        "mode_matching": {
+          "assignment": [
+            {
+              "candidate": 0,
+              "mac": 1.0000000000000002,
+              "reference": 0
+            },
+            {
+              "candidate": 1,
+              "mac": 0.9999999999999998,
+              "reference": 1
+            },
+            {
+              "candidate": 2,
+              "mac": 0.9999999999999999,
+              "reference": 2
+            },
+            {
+              "candidate": 3,
+              "mac": 1.0000000000000004,
+              "reference": 3
+            },
+            {
+              "candidate": 4,
+              "mac": 1.0000000000000002,
+              "reference": 4
+            },
+            {
+              "candidate": 5,
+              "mac": 1.0000000000000002,
+              "reference": 5
+            }
+          ],
+          "cluster_assignment": [
+            {
+              "candidate_modes": [
+                0
+              ],
+              "reference_modes": [
+                0
+              ],
+              "subspace_mac": 0.9999999999999987
+            },
+            {
+              "candidate_modes": [
+                1
+              ],
+              "reference_modes": [
+                1
+              ],
+              "subspace_mac": 0.9999999999999989
+            },
+            {
+              "candidate_modes": [
+                2
+              ],
+              "reference_modes": [
+                2
+              ],
+              "subspace_mac": 0.9999999999999973
+            },
+            {
+              "candidate_modes": [
+                3
+              ],
+              "reference_modes": [
+                3
+              ],
+              "subspace_mac": 0.999999999999998
+            },
+            {
+              "candidate_modes": [
+                4
+              ],
+              "reference_modes": [
+                4
+              ],
+              "subspace_mac": 1.0000000000000013
+            },
+            {
+              "candidate_modes": [
+                5
+              ],
+              "reference_modes": [
+                5
+              ],
+              "subspace_mac": 1.0000000000000004
+            }
+          ],
+          "matching_method": "individual MAC with subspace MAC for numerically degenerate eigenvalue clusters",
+          "minimum_assigned_mac": 0.9999999999999973,
+          "minimum_individual_mac": 0.9999999999999998,
+          "mode_ordered": true
+        },
+        "name": "MIXED_TET4_WEDGE6_HEX8",
+        "node_count": 11,
+        "output_labels": {
+          "analysis": "modal",
+          "families": [
+            "HEX8",
+            "TET4",
+            "WEDGE6"
+          ],
+          "normalization": "unit generalized mass"
+        },
+        "relative_residuals": [
+          4.955018400212803e-15,
+          4.805706818479944e-15,
+          4.1358185107997335e-15,
+          1.6705271214496616e-15,
+          3.8667489642244735e-16,
+          1.17725797017441e-15
+        ],
+        "status": "PASS"
+      },
+      "WEDGE6_HEX8": {
+        "element_types": [
+          "WEDGE6",
+          "HEX8"
+        ],
+        "free_dof_count": 12,
+        "frequencies_hz": [
+          740.9294743235075,
+          837.8896897933662,
+          1084.927719069486,
+          1591.2186634461875,
+          2243.4512104092983,
+          2274.113387824576
+        ],
+        "frequency_count": 6,
+        "independent_reference_frequencies_hz": [
+          740.9294743235104,
+          837.8896897933677,
+          1084.927719069483,
+          1591.218663446188,
+          2243.4512104092983,
+          2274.1133878245764
+        ],
+        "input_digest": "8eb4a48017707120303230306701996d4ce916ce47c880dcf92726c4dceb2e1e",
+        "mass_orthogonality_error": 3.3999816592250907e-16,
+        "maximum_relative_frequency_error": 3.835953409243685e-15,
+        "maximum_relative_residual": 7.999083822712703e-15,
+        "modal_mass_normalization_error": 1.1102230246251565e-15,
+        "mode_matching": {
+          "assignment": [
+            {
+              "candidate": 0,
+              "mac": 1.0,
+              "reference": 0
+            },
+            {
+              "candidate": 1,
+              "mac": 1.0,
+              "reference": 1
+            },
+            {
+              "candidate": 2,
+              "mac": 1.0,
+              "reference": 2
+            },
+            {
+              "candidate": 3,
+              "mac": 0.9999999999999998,
+              "reference": 3
+            },
+            {
+              "candidate": 4,
+              "mac": 1.0000000000000004,
+              "reference": 4
+            },
+            {
+              "candidate": 5,
+              "mac": 1.0000000000000002,
+              "reference": 5
+            }
+          ],
+          "cluster_assignment": [
+            {
+              "candidate_modes": [
+                0
+              ],
+              "reference_modes": [
+                0
+              ],
+              "subspace_mac": 1.0000000000000009
+            },
+            {
+              "candidate_modes": [
+                1
+              ],
+              "reference_modes": [
+                1
+              ],
+              "subspace_mac": 1.0000000000000013
+            },
+            {
+              "candidate_modes": [
+                2
+              ],
+              "reference_modes": [
+                2
+              ],
+              "subspace_mac": 1.0000000000000009
+            },
+            {
+              "candidate_modes": [
+                3
+              ],
+              "reference_modes": [
+                3
+              ],
+              "subspace_mac": 1.0000000000000013
+            },
+            {
+              "candidate_modes": [
+                4
+              ],
+              "reference_modes": [
+                4
+              ],
+              "subspace_mac": 1.0000000000000009
+            },
+            {
+              "candidate_modes": [
+                5
+              ],
+              "reference_modes": [
+                5
+              ],
+              "subspace_mac": 1.0000000000000009
+            }
+          ],
+          "matching_method": "individual MAC with subspace MAC for numerically degenerate eigenvalue clusters",
+          "minimum_assigned_mac": 1.0000000000000009,
+          "minimum_individual_mac": 0.9999999999999998,
+          "mode_ordered": true
+        },
+        "name": "PAIR_WEDGE6_HEX8",
+        "node_count": 10,
+        "output_labels": {
+          "analysis": "modal",
+          "families": [
+            "HEX8",
+            "WEDGE6"
+          ],
+          "normalization": "unit generalized mass"
+        },
+        "relative_residuals": [
+          7.999083822712703e-15,
+          4.853487657947602e-15,
+          5.464768317606759e-15,
+          1.7078674447652134e-15,
+          8.289415235628701e-16,
+          7.16602149450496e-16
+        ],
+        "status": "PASS"
+      }
+    },
+    "mixed_first_frequencies_hz": {
+      "TET4_WEDGE6": 1206.684988126994,
+      "TET4_WEDGE6_HEX8": 779.2970010584501,
+      "WEDGE6_HEX8": 740.9294743235075
+    },
+    "pure_cases": {
+      "HEX8": {
+        "element_types": [
+          "HEX8"
+        ],
+        "free_dof_count": 12,
+        "frequencies_hz": [
+          654.7080902860578,
+          654.7080902860617,
+          887.0670159088427,
+          1473.6726495150772,
+          2411.1745256939907,
+          2411.1745256939917
+        ],
+        "frequency_count": 6,
+        "independent_reference_frequencies_hz": [
+          654.7080902860573,
+          654.7080902860573,
+          887.067015908842,
+          1473.6726495150785,
+          2411.174525693991,
+          2411.174525693992
+        ],
+        "input_digest": "77c8aa0aae3ce6cd92a918dc47b4f5a348ae369e0ba5f1a0cb99cf6980cbb6f9",
+        "mass_orthogonality_error": 2.7317440393552993e-16,
+        "maximum_relative_frequency_error": 6.7721580608631246e-15,
+        "maximum_relative_residual": 1.5286011917037517e-14,
+        "modal_mass_normalization_error": 1.1102230246251565e-15,
+        "mode_matching": {
+          "assignment": [
+            {
+              "candidate": 1,
+              "mac": 0.9922036004176776,
+              "reference": 0
+            },
+            {
+              "candidate": 0,
+              "mac": 0.9922036004176774,
+              "reference": 1
+            },
+            {
+              "candidate": 2,
+              "mac": 1.0000000000000004,
+              "reference": 2
+            },
+            {
+              "candidate": 3,
+              "mac": 1.0000000000000004,
+              "reference": 3
+            },
+            {
+              "candidate": 4,
+              "mac": 0.7188948634313694,
+              "reference": 4
+            },
+            {
+              "candidate": 5,
+              "mac": 0.7188948634313699,
+              "reference": 5
+            }
+          ],
+          "cluster_assignment": [
+            {
+              "candidate_modes": [
+                0,
+                1
+              ],
+              "reference_modes": [
+                0,
+                1
+              ],
+              "subspace_mac": 0.9999999999999989
+            },
+            {
+              "candidate_modes": [
+                2
+              ],
+              "reference_modes": [
+                2
+              ],
+              "subspace_mac": 0.9999999999999996
+            },
+            {
+              "candidate_modes": [
+                3
+              ],
+              "reference_modes": [
+                3
+              ],
+              "subspace_mac": 1.0000000000000009
+            },
+            {
+              "candidate_modes": [
+                4,
+                5
+              ],
+              "reference_modes": [
+                4,
+                5
+              ],
+              "subspace_mac": 0.9999999999999993
+            }
+          ],
+          "matching_method": "individual MAC with subspace MAC for numerically degenerate eigenvalue clusters",
+          "minimum_assigned_mac": 0.9999999999999989,
+          "minimum_individual_mac": 0.7188948634313694,
+          "mode_ordered": true
+        },
+        "name": "PURE_HEX8",
+        "node_count": 8,
+        "output_labels": {
+          "analysis": "modal",
+          "families": [
+            "HEX8"
+          ],
+          "normalization": "unit generalized mass"
+        },
+        "relative_residuals": [
+          6.16477823930278e-15,
+          1.5286011917037517e-14,
+          1.0074444103824495e-14,
+          1.4783195658223674e-15,
+          1.4046122267306507e-15,
+          8.090338285488967e-16
+        ],
+        "status": "PASS"
+      },
+      "TET4": {
+        "element_types": [
+          "TET4"
+        ],
+        "free_dof_count": 3,
+        "frequencies_hz": [
+          1619.5553821068938,
+          1619.5553821068938,
+          3029.910679374876
+        ],
+        "frequency_count": 3,
+        "independent_reference_frequencies_hz": [
+          1619.5553821068938,
+          1619.5553821068938,
+          3029.910679374876
+        ],
+        "input_digest": "e3f9561e74ae60ab3c632a4602fe1a16496a60e6c5cea55ef19ac83096d18d38",
+        "mass_orthogonality_error": 0.0,
+        "maximum_relative_frequency_error": 0.0,
+        "maximum_relative_residual": 2.0193754640700194e-16,
+        "modal_mass_normalization_error": 2.220446049250313e-16,
+        "mode_matching": {
+          "assignment": [
+            {
+              "candidate": 0,
+              "mac": 1.0,
+              "reference": 0
+            },
+            {
+              "candidate": 1,
+              "mac": 1.0,
+              "reference": 1
+            },
+            {
+              "candidate": 2,
+              "mac": 1.0,
+              "reference": 2
+            }
+          ],
+          "cluster_assignment": [
+            {
+              "candidate_modes": [
+                0,
+                1
+              ],
+              "reference_modes": [
+                0,
+                1
+              ],
+              "subspace_mac": 1.0000000000000004
+            },
+            {
+              "candidate_modes": [
+                2
+              ],
+              "reference_modes": [
+                2
+              ],
+              "subspace_mac": 1.0000000000000004
+            }
+          ],
+          "matching_method": "individual MAC with subspace MAC for numerically degenerate eigenvalue clusters",
+          "minimum_assigned_mac": 1.0000000000000004,
+          "minimum_individual_mac": 1.0,
+          "mode_ordered": true
+        },
+        "name": "PURE_TET4",
+        "node_count": 4,
+        "output_labels": {
+          "analysis": "modal",
+          "families": [
+            "TET4"
+          ],
+          "normalization": "unit generalized mass"
+        },
+        "relative_residuals": [
+          2.0193754640700194e-16,
+          2.0193754640700194e-16,
+          0.0
+        ],
+        "status": "PASS"
+      },
+      "WEDGE6": {
+        "element_types": [
+          "WEDGE6"
+        ],
+        "free_dof_count": 6,
+        "frequencies_hz": [
+          1065.2205048069131,
+          1254.5022046321176,
+          2140.2211412428223,
+          2172.8615566299964,
+          3015.7665452440765,
+          3676.6662825154494
+        ],
+        "frequency_count": 6,
+        "independent_reference_frequencies_hz": [
+          1065.2205048069125,
+          1254.5022046321176,
+          2140.221141242822,
+          2172.861556629996,
+          3015.7665452440756,
+          3676.666282515449
+        ],
+        "input_digest": "444eaee3dc030d6229dd442dadb0f5bd42090b3a8c4c6f4756b9c901f37aa453",
+        "mass_orthogonality_error": 4.261470290224069e-16,
+        "maximum_relative_frequency_error": 6.403566428279946e-16,
+        "maximum_relative_residual": 2.10900152209332e-15,
+        "modal_mass_normalization_error": 6.661338147750939e-16,
+        "mode_matching": {
+          "assignment": [
+            {
+              "candidate": 0,
+              "mac": 1.0000000000000004,
+              "reference": 0
+            },
+            {
+              "candidate": 1,
+              "mac": 1.0000000000000002,
+              "reference": 1
+            },
+            {
+              "candidate": 2,
+              "mac": 1.0,
+              "reference": 2
+            },
+            {
+              "candidate": 3,
+              "mac": 0.9999999999999999,
+              "reference": 3
+            },
+            {
+              "candidate": 4,
+              "mac": 1.0,
+              "reference": 4
+            },
+            {
+              "candidate": 5,
+              "mac": 1.0000000000000004,
+              "reference": 5
+            }
+          ],
+          "cluster_assignment": [
+            {
+              "candidate_modes": [
+                0
+              ],
+              "reference_modes": [
+                0
+              ],
+              "subspace_mac": 1.0000000000000009
+            },
+            {
+              "candidate_modes": [
+                1
+              ],
+              "reference_modes": [
+                1
+              ],
+              "subspace_mac": 0.9999999999999998
+            },
+            {
+              "candidate_modes": [
+                2
+              ],
+              "reference_modes": [
+                2
+              ],
+              "subspace_mac": 1.0
+            },
+            {
+              "candidate_modes": [
+                3
+              ],
+              "reference_modes": [
+                3
+              ],
+              "subspace_mac": 0.9999999999999993
+            },
+            {
+              "candidate_modes": [
+                4
+              ],
+              "reference_modes": [
+                4
+              ],
+              "subspace_mac": 1.0000000000000004
+            },
+            {
+              "candidate_modes": [
+                5
+              ],
+              "reference_modes": [
+                5
+              ],
+              "subspace_mac": 0.9999999999999993
+            }
+          ],
+          "matching_method": "individual MAC with subspace MAC for numerically degenerate eigenvalue clusters",
+          "minimum_assigned_mac": 0.9999999999999993,
+          "minimum_individual_mac": 0.9999999999999999,
+          "mode_ordered": true
+        },
+        "name": "PURE_WEDGE6",
+        "node_count": 6,
+        "output_labels": {
+          "analysis": "modal",
+          "families": [
+            "WEDGE6"
+          ],
+          "normalization": "unit generalized mass"
+        },
+        "relative_residuals": [
+          2.10900152209332e-15,
+          8.100591292897414e-16,
+          2.7663853290482464e-16,
+          3.0002491154456648e-16,
+          4.3223079423181344e-16,
+          3.025901310466194e-16
+        ],
+        "status": "PASS"
+      }
+    },
+    "pure_first_frequencies_hz": {
+      "HEX8": 654.7080902860578,
+      "TET4": 1619.5553821068938,
+      "WEDGE6": 1065.2205048069131
+    },
+    "status": "PASS"
+  },
+  "record_id": "QF-028-WP08-MIXED-MODAL-VNV",
+  "reference_oracle": {
+    "external": "NOT_AVAILABLE_AND_NOT_REQUIRED_FOR_THIS_BOUNDED_CONTRACT",
+    "external_correlation_claimed": false,
+    "mass": "analytical rho*volume conservation",
+    "modal": "independent dense local-matrix scatter plus scipy.linalg.eigh",
+    "status": "PASS"
+  },
+  "replay_determinism": {
+    "canonicalization": "eigenvector sign only; no mode permutation applied",
+    "eigenvalues_exactly_equal": true,
+    "frequency_digest": "ea3044a86b4126b481e283875a84bb91a0438ee6543417bc639d2d15a8319bd6",
+    "maximum_frequency_absolute_difference": 0.0,
+    "maximum_mode_difference_after_sign_canonicalization": 0.0,
+    "required_replays": 2,
+    "status": "PASS"
+  },
+  "schema_version": 1,
+  "scope": {
+    "analysis": "modal",
+    "excluded": [
+      "lumped mass",
+      "concentrated-mass qualification",
+      "Newmark",
+      "harmonic",
+      "nonlinear",
+      "contact",
+      "nonconforming interfaces",
+      "TET10/HEX20 mixed",
+      "PYRAMID5",
+      "large mixed performance",
+      "universal all-frequency modal claim"
+    ],
+    "families": [
+      "TET4",
+      "WEDGE6",
+      "HEX8"
+    ],
+    "interfaces": "conforming shared-node triangular and quadrilateral faces only",
+    "mass": "consistent translational finite-element mass only",
+    "material": "homogeneous isotropic_3d with positive density",
+    "modes": "first six positive modes in the tested fixed-base cases"
+  },
+  "source_sha": "65c816fee4a1497dd320358565a297c01bfcaff5",
+  "status": "CAMPAIGN_COMPLETE_NO_PROMOTION",
+  "technical_decision": "SUPPORTED_WITH_LIMITATIONS",
+  "work_package": "WP08",
+  "wp07_static_claim_changed": false
+}

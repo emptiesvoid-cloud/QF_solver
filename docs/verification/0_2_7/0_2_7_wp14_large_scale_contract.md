@@ -12,7 +12,7 @@ approver: ""
 WP14 is a contract gate, not a large benchmark. It freezes the physical
 model, execution profile, acceptance metrics, resource rules and evidence
 format before WP15-WP18 runs. The authoritative machine-readable record is
-[`qualification/0_2_7/wp14_execution_contract.json`](../../../qualification/0_2_7/wp14_execution_contract.json).
+[`qualification/0_2_7/wp14_execution_contract.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp14_execution_contract.json).
 
 ## Reference model
 

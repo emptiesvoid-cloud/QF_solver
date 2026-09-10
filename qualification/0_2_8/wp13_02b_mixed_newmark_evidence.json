@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-02B-MIXED-NEWMARK",
+  "work_package": "WP13-02B",
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "402dea92a01aa7e9d2f98f9155f44e9d7e4cd9c8",
+  "contract_id": "WP13-02A-NEWMARK-MIXED-CONTRACT-001",
+  "contract_sha": "7e5af8374e33e8d45a61d4a60b01127802bfca64",
+  "contract_unchanged": true,
+  "status": "PASS_WITH_LIMITATIONS",
+  "objective": "Execute the frozen connected mixed TET4/WEDGE6/HEX8 Newmark campaign without changing the contract, formulation or maturity records.",
+  "scope": {
+    "analysis": "linear transient Newmark",
+    "method": "implicit average acceleration, beta=0.25, gamma=0.5",
+    "model": "WP13-01K compact elbow, one connected component",
+    "families": ["TET4", "WEDGE6", "HEX8"],
+    "family_counts": {"TET4": 3, "WEDGE6": 2, "HEX8": 1},
+    "ndof": 48,
+    "fixed_dofs": 12,
+    "interfaces": {
+      "TET4_WEDGE6": {"nodes": [10, 11, 12], "topology": "conforming shared triangular interface"},
+      "WEDGE6_HEX8": {"nodes": [2, 3, 6, 7], "topology": "conforming shared quadrilateral interface"}
+    },
+    "connected_components": 1,
+    "mechanical_path": "initial modal state -> TET4 -> WEDGE6 -> HEX8 -> fixed HEX8 support; no direct support bypass",
+    "direct_support_bypass": false,
+    "loads": "zero external load after the declared modal initial condition",
+    "damping": {"model": "Rayleigh", "alpha_mass": 0.0, "beta_stiffness": 0.0},
+    "probe": {"node": 13, "dof": "UZ", "label": "mixed_probe_13_UZ", "global_index": 41},
+    "initial_mode_scale": "max absolute displacement = 1.0e-5 m"
+  },
+  "independent_oracle": {
+    "status": "PASS",
+    "method": "independent local-element K/M scatter into dense arrays, scipy generalized eigensolve, and closed-form first-mode oscillator",
+    "production_newmark_or_router_reused": false,
+    "external_correlation": "NOT_REQUIRED_FOR_THIS_NARROW_CONTRACT",
+    "first_frequency_reference_hz": 97.80394654204198,
+    "first_frequency_production_modal_hz": 97.80394654200138,
+    "first_frequency_relative_difference": 4.150011260703e-13,
+    "first_mode_initial_condition": "generalized-mass-normalized dense reference mode, scaled before the first run"
+  },
+  "assembly": {
+    "K": {"status": "PASS", "nnz": 1096},
+    "M": {"status": "PASS", "nnz": 396, "formulation": "consistent"},
+    "C": {"status": "PASS", "definition": "zero Rayleigh damping"},
+    "family_drop": false,
+    "silent_fallback": false
+  },
+  "dt_campaign": [
+    {
+      "level": "T1/20",
+      "dt_s": 0.000511226814129704,
+      "steps": 80,
+      "solver_status": "PASS",
+      "interpretation": "PASS_SOLVER_CONVERGED_CHARACTERIZATION; coarse oracle gates intentionally not claimed",
+      "oracle_displacement_relative_rms": 0.11805653205911465,
+      "amplitude_error": 0.0058326479447348145,
+      "phase_error_rad": 0.10267643634107548,
+      "frequency_error_relative_from_phase_drift": 0.004085365595685621,
+      "dynamic_residual_norm_max": 5.825883872091655e-10,
+      "energy_drift_max": 3.262428903078445e-14,
+      "fine_oracle_gate": "NOT_APPLICABLE_COARSE_CHARACTERIZATION"
+    },
+    {
+      "level": "T1/40",
+      "dt_s": 0.000255613407064852,
+      "steps": 160,
+      "solver_status": "PASS",
+      "interpretation": "PASS_SOLVER_CONVERGED_CHARACTERIZATION; coarse oracle gates intentionally not claimed",
+      "oracle_displacement_relative_rms": 0.02973404669353537,
+      "amplitude_error": 0.001134192625238284,
+      "phase_error_rad": 0.025795953688879436,
+      "frequency_error_relative_from_phase_drift": 0.0010263883853386935,
+      "dynamic_residual_norm_max": 8.545879116331092e-10,
+      "energy_drift_max": 2.945574297383776e-14,
+      "fine_oracle_gate": "NOT_APPLICABLE_COARSE_CHARACTERIZATION"
+    },
+    {
+      "level": "T1/80",
+      "dt_s": 0.000127806703532426,
+      "steps": 320,
+      "solver_status": "PASS",
+      "interpretation": "PASS_FINE_GATE",
+      "oracle_displacement_relative_rms": 0.007446035856862365,
+      "amplitude_error": 0.0002635002101076811,
+      "phase_error_rad": 0.00645698147087348,
+      "frequency_error_relative_from_phase_drift": 0.0002569151296355728,
+      "dynamic_residual_norm_max": 1.413984865262717e-09,
+      "energy_drift_max": 1.532637463100881e-13,
+      "fine_oracle_gate": "PASS"
+    },
+    {
+      "level": "T1/160",
+      "dt_s": 0.000063903351766213,
+      "steps": 640,
+      "solver_status": "PASS",
+      "interpretation": "PASS_FINE_GATE",
+      "oracle_displacement_relative_rms": 0.0018622704684325055,
+      "amplitude_error": 0.00006465372161845728,
+      "phase_error_rad": 0.0016147441596650047,
+      "frequency_error_relative_from_phase_drift": 0.00006424862870986355,
+      "dynamic_residual_norm_max": 6.262457569351659e-09,
+      "energy_drift_max": 1.8201536793793772e-13,
+      "fine_oracle_gate": "PASS"
+    }
+  ],
+  "dt_convergence": {
+    "relative_probe_rms_20_to_40": 0.08876023064674442,
+    "relative_probe_rms_40_to_80": 0.022312039241466027,
+    "relative_probe_rms_80_to_160": 0.005585216889486116,
+    "gate": "<= 0.01 at the declared fine refinement",
+    "status": "PASS_FINE_REFINEMENT; coarse levels retained as characterization"
+  },
+  "histories": {
+    "displacement": "PASS; monitored displacement follows the independent oscillator with fine-level RMS gate",
+    "velocity": "PASS; monitored velocity history finite and deterministic",
+    "acceleration": "PASS; monitored acceleration history finite and deterministic",
+    "frequency_content": "PASS; first-mode content with phase-drift error decreasing under dt refinement",
+    "amplitude": "PASS_FINE_LEVELS",
+    "phase": "PASS_FINE_LEVELS",
+    "stability": "PASS; no non-finite state or Newmark convergence failure"
+  },
+  "interfaces": {
+    "displacement_continuity": "PASS; shared DOFs are unique and the measured jump is 0 at every captured step",
+    "force_transfer": "PASS",
+    "interface_capture": "all Newmark steps at every declared dt level",
+    "maximum_force_transfer_relative": 3.66742111211155e-12,
+    "maximum_final_state_force_transfer_relative": 5.044749868791829e-14,
+    "energy_transfer": "PASS",
+    "maximum_interface_energy_relative": 3.948190782042867e-14,
+    "maximum_interface_kinetic_energy_relative": 3.9942951304443803e-16,
+    "no_duplicated_load": true,
+    "no_dropped_contribution": true
+  },
+  "residual_energy": {
+    "free_residual": "PASS",
+    "maximum_dynamic_residual_norm_observed": 6.262457569351659e-09,
+    "dynamic_residual_relative_gate": "PASS; the solver-enforced relative gate is <= 1e-7 and the residual reference is >= 1",
+    "energy_balance": "PASS",
+    "maximum_relative_energy_drift": 1.8201536793793772e-13,
+    "external_work": 0.0,
+    "kinetic_energy_final_T1_160": 6.165216898975044e-07,
+    "strain_energy_final_T1_160": 0.059127492092904896,
+    "damping_energy": 0.0
+  },
+  "pure_vs_mixed_control": {
+    "status": "NOT_APPLICABLE_AS_IDENTICAL_SYSTEM",
+    "basis": "The contract is a connected heterogeneous elbow; the earlier pure WEDGE6 micro-run is retained as a route control, not used to relabel mixed evidence."
+  },
+  "replays": {
+    "level": "T1/160",
+    "replay_1": "PASS",
+    "replay_2": "PASS",
+    "displacement_relative_l2": 0.0,
+    "velocity_relative_l2": 0.0,
+    "acceleration_relative_l2": 0.0,
+    "reaction_relative_l2": 0.0,
+    "energy_relative_l2": 0.0,
+    "residual_relative_l2": 0.0,
+    "same_convergence_status": true,
+    "iterations_per_step": 1,
+    "iterations_identical": true,
+    "contract_status": "PASS_NUMERICAL_DETERMINISM"
+  },
+  "failure_contract": {
+    "unsupported_dynamic_family": {"status": "REJECTED", "case": "PYRAMID5 + transient_dynamic preflight", "reason": "UNKNOWN_ELEMENT"},
+    "invalid_dt": {"status": "REJECTED", "exception": "InputValidationError"},
+    "incompatible_damping": {"status": "REJECTED", "exception": "InputValidationError"},
+    "invalid_initial_condition": {"status": "REJECTED", "exception": "ValueError"},
+    "missing_or_invalid_interface_connectivity": {"status": "REJECTED", "exception": "MeshValidationError"},
+    "unsupported_time_load": {"status": "REJECTED", "exception": "InputValidationError"},
+    "silent_fallback": false
+  },
+  "integrity": {
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "gates_changed": false,
+    "maturity_changed": false,
+    "evidence_0_2_7_changed": false,
+    "harmonic_campaign_started": false,
+    "full_suite_started": false,
+    "release_performed": false
+  },
+  "decision": {
+    "wp13_02b_status": "PASS_WITH_LIMITATIONS",
+    "technical_points": "8/8",
+    "claim_candidate": "CONNECTED_MIXED_NEWMARK_TET4_WEDGE6_HEX8_BOUNDED",
+    "claim_status": "CANDIDATE_ONLY_PENDING_WP13_02D_OWNER_GATE",
+    "limitations": [
+      "compact 48-DOF connected elbow only",
+      "undamped free-vibration initial-mode contract only",
+      "oracle amplitude/phase gates pass at T1/80 and T1/160; T1/20 and T1/40 are convergence characterization levels",
+      "no arbitrary temporal load claim",
+      "no distributed-performance claim",
+      "no historical element maturity promotion",
+      "no external-correlation claim"
+    ],
+    "owner_gate_required": true,
+    "ready_for_wp13_02c": true
+  }
+}

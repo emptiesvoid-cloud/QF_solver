@@ -1,0 +1,245 @@
+{
+  "case": "mpi",
+  "contract_id": "WP13-01C-PETSC-MPI-MIXED-RUNTIME-001",
+  "result": {
+    "backend": "petsc4py_mpi_rank_local",
+    "converged_reason": 3,
+    "element_count": 3,
+    "energy": 0.048279414999195316,
+    "family_counts": {
+      "HEX8": 1,
+      "TET4": 1,
+      "WEDGE6": 1
+    },
+    "force_balance_component_relative": 9.720679372549057e-13,
+    "force_balance_relative": 9.721294869110946e-13,
+    "free_residual_relative": 1.4963663948133532e-12,
+    "global_gather_audit": {
+      "ghost_solution_exchange": true,
+      "global_connectivity_required_on_all_ranks": false,
+      "global_gather_only_for_validation": true,
+      "global_k_replicated_on_all_ranks": false,
+      "global_model_retained_on_any_rank": false,
+      "global_u_required_on_all_ranks": false
+    },
+    "iterations": 12,
+    "ksp_final_residual": 9.068849173354248e-19,
+    "load_resultant": [
+      100000.0,
+      0.0,
+      0.0
+    ],
+    "model_digest": "178b1e4afe20f85404bb643905d3439256c3357ba120895ffad06ced98d7407c",
+    "ndof": 33,
+    "normalized_physics_digest": "d0e0b148f25965a3fdb63e85a5715d0345d6e2e6b058bb931ecb149a6c9a681b",
+    "offprocess_insertion": true,
+    "partition": {
+      "digest": "041b7556f3014ee059cef15936d0f31b7a8f1cdaa67392769fbefb1f7e2049f4",
+      "records": [
+        {
+          "family_counts": {
+            "HEX8": 0,
+            "TET4": 1,
+            "WEDGE6": 0
+          },
+          "ghost_nodes": 0,
+          "global_model_retained": false,
+          "local_nodes": 4,
+          "owned_elements": [
+            0
+          ],
+          "owned_nodes": 4,
+          "rank": 0
+        },
+        {
+          "family_counts": {
+            "HEX8": 0,
+            "TET4": 0,
+            "WEDGE6": 1
+          },
+          "ghost_nodes": 3,
+          "global_model_retained": false,
+          "local_nodes": 6,
+          "owned_elements": [
+            1
+          ],
+          "owned_nodes": 3,
+          "rank": 1
+        },
+        {
+          "family_counts": {
+            "HEX8": 1,
+            "TET4": 0,
+            "WEDGE6": 0
+          },
+          "ghost_nodes": 4,
+          "global_model_retained": false,
+          "local_nodes": 8,
+          "owned_elements": [
+            2
+          ],
+          "owned_nodes": 4,
+          "rank": 2
+        }
+      ]
+    },
+    "petsc_matrix_assembly": "PASS",
+    "petsc_vector_assembly": "PASS",
+    "preallocation_runtime": {
+      "global_connectivity_required": false,
+      "mallocs_zero": true,
+      "mat_info_local": {
+        "by_rank": [
+          {
+            "assemblies": 1.0,
+            "block_size": 1.0,
+            "factor_mallocs": 0.0,
+            "fill_ratio_given": 0.0,
+            "fill_ratio_needed": 0.0,
+            "mallocs": 0.0,
+            "memory": 0.0,
+            "nz_allocated": 321.0,
+            "nz_unneeded": 0.0,
+            "nz_used": 321.0
+          },
+          {
+            "assemblies": 1.0,
+            "block_size": 1.0,
+            "factor_mallocs": 0.0,
+            "fill_ratio_given": 0.0,
+            "fill_ratio_needed": 0.0,
+            "mallocs": 0.0,
+            "memory": 0.0,
+            "nz_allocated": 270.0,
+            "nz_unneeded": 0.0,
+            "nz_used": 270.0
+          },
+          {
+            "assemblies": 1.0,
+            "block_size": 1.0,
+            "factor_mallocs": 0.0,
+            "fill_ratio_given": 0.0,
+            "fill_ratio_needed": 0.0,
+            "mallocs": 0.0,
+            "memory": 0.0,
+            "nz_allocated": 228.0,
+            "nz_unneeded": 0.0,
+            "nz_used": 228.0
+          }
+        ],
+        "mallocs_sum": 0.0,
+        "nz_allocated_sum": 819.0,
+        "nz_used_sum": 819.0
+      },
+      "max_diag_nnz": 11,
+      "max_offdiag_nnz": 22,
+      "owned_row_pattern_complete": true,
+      "received_row_records": 28,
+      "sent_row_records": 12,
+      "strategy": "rank-local connectivity exact row-owner exchange"
+    },
+    "rank_count": 3,
+    "reaction_resultant": [
+      -100000.0000000972,
+      -1.0868461686186492e-09,
+      -1.241460267920047e-10
+    ],
+    "reaction_vector": [
+      -4624.344811764877,
+      -1633.9395263746735,
+      -3934.5031506126847,
+      5508.037382839291,
+      -312.08606134750835,
+      -3935.2129490148513,
+      -55370.20169515189,
+      4392.354505808315,
+      12129.438121504743,
+      -2799.1011082835525,
+      7696.009254882822,
+      931.6916886979809,
+      -7748.703507755014,
+      -3953.7885677738186,
+      -11398.212223563194,
+      -39542.36021773588,
+      -6188.549605196222,
+      2494.8768077509026,
+      4576.673957754719,
+      0.0,
+      3711.9217052369795
+    ],
+    "residual": [
+      -4624.344811764872,
+      -1633.9395263746728,
+      -3934.503150612685,
+      2.580554792075418e-08,
+      3.174318408127874e-08,
+      -3.7347490433603525e-08,
+      5508.037382839292,
+      -312.0860613475088,
+      -3935.212949014851,
+      -55370.20169515189,
+      4392.354505808324,
+      12129.438121504742,
+      2.5829649530351162e-08,
+      3.1969193514669314e-08,
+      3.7667632568627596e-08,
+      -2799.1011082835525,
+      7696.0092548828225,
+      931.6916886979807,
+      -7748.70350775501,
+      -3953.7885677738177,
+      -11398.21222356319,
+      2.2571839508600533e-08,
+      -3.136392479063943e-08,
+      -3.187869879184291e-08,
+      -39542.36021773588,
+      -6188.549605196223,
+      2494.876807750904,
+      2.2970198187977076e-08,
+      -3.1269337341655046e-08,
+      3.169043338857591e-08,
+      4576.673957754719,
+      0.0,
+      3711.9217052369795
+    ],
+    "runtime_seconds": 0.02062139399959051,
+    "segments": 1,
+    "solution": [
+      0.0,
+      0.0,
+      0.0,
+      -1.8382850349745043e-07,
+      1.5311809982923038e-07,
+      -3.3998149400463626e-07,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      5.742715819807484e-07,
+      -7.00006223657372e-08,
+      -4.6805185420577555e-07,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -3.501891431113004e-07,
+      8.405987983180806e-08,
+      -5.220128295506993e-07,
+      0.0,
+      0.0,
+      0.0,
+      1.356905017986816e-06,
+      3.149385950237331e-07,
+      -7.1918761292204e-07,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "status": "PASS"
+  },
+  "schema_version": 1
+}

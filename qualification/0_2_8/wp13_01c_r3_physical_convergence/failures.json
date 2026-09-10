@@ -1,0 +1,134 @@
+{
+  "case": "physical_convergence_failure_contract",
+  "contract_id": "WP13-01C-R3-PHYSICAL-CONVERGENCE-001",
+  "contract_sha256": "9eefa127ecacdd650bfcbae553c888604a143fe250a35777195a3969a6547c49",
+  "failure_contract": {
+    "cases": [
+      {
+        "actual_input": {
+          "residual": [
+            0.0,
+            "NaN"
+          ],
+          "runtime_encoding": "float('nan')"
+        },
+        "actual_input_digest": "7c550475d02bf58d0bd05f644de74c8c86f518c9ac4f348d2a8df832bc87ec5b",
+        "case_id": "physical_residual_callback_failure",
+        "execution_path": "__main__.<lambda>",
+        "expected_exception_type": "ValueError",
+        "expected_message_pattern": "non-finite or malformed residual",
+        "message_match": true,
+        "observed_exception_type": "ValueError",
+        "observed_execution_function": "physical_residual_callback",
+        "observed_message": "Physical residual callback received a non-finite or malformed residual.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "diagonal_factor": [
+            1.0,
+            1.0
+          ],
+          "uniform_factor": 0.0
+        },
+        "actual_input_digest": "ca964a874f6ca80d6dd4dfe2fac43e37c439b6a6e89d2639dd9995afae4a4140",
+        "case_id": "scaling_map_inconsistency",
+        "execution_path": "__main__.<lambda>",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "scaling map is inconsistent",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "validate_scaling_map",
+        "observed_message": "Physical scaling map is inconsistent.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "residual": [
+            "Infinity"
+          ],
+          "runtime_encoding": "float('inf')"
+        },
+        "actual_input_digest": "cf7cb45a442a23ac41e690a2a021be73aa8c849cf6bde05be3d7b011120cb7f2",
+        "case_id": "nan_residual",
+        "execution_path": "__main__.<lambda>",
+        "expected_exception_type": "ValueError",
+        "expected_message_pattern": "non-finite or malformed residual",
+        "message_match": true,
+        "observed_exception_type": "ValueError",
+        "observed_execution_function": "physical_residual_callback",
+        "observed_message": "Physical residual callback received a non-finite or malformed residual.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "reduced_value": "NaN",
+          "runtime_encoding": "float('nan')"
+        },
+        "actual_input_digest": "9447e6809f6375a8c8e270aa0bebbca774b6eead981c90236da4f2d6b5fe3ad4",
+        "case_id": "invalid_global_reduction",
+        "execution_path": "__main__.<lambda>",
+        "expected_exception_type": "RuntimeError",
+        "expected_message_pattern": "global reduction is invalid",
+        "message_match": true,
+        "observed_exception_type": "RuntimeError",
+        "observed_execution_function": "validate_global_reduction",
+        "observed_message": "Physical residual global reduction is invalid.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "ksp": "bicgstab",
+          "pc": "asm"
+        },
+        "actual_input_digest": "6ddd1d7321724b43259c68672b03227df2a8854e5d012668520a821b722cfdba",
+        "case_id": "unsupported_ksp_path",
+        "execution_path": "__main__.<lambda>",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "unsupported physical convergence KSP path",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "validate_ksp_path",
+        "observed_message": "Unsupported physical convergence KSP path.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "expected_dof": 33,
+          "shape": [
+            33,
+            32
+          ]
+        },
+        "actual_input_digest": "8bb02d9f1fbf188f2445721f2391f4c2146a3e046ceadd73f01705ada28896c2",
+        "case_id": "malformed_physical_residual_operator",
+        "execution_path": "__main__.<lambda>",
+        "expected_exception_type": "InputValidationError",
+        "expected_message_pattern": "malformed physical residual operator shape",
+        "message_match": true,
+        "observed_exception_type": "InputValidationError",
+        "observed_execution_function": "validate_physical_operator",
+        "observed_message": "Malformed physical residual operator shape.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      }
+    ],
+    "executed": 6,
+    "pass": 6,
+    "required": 6,
+    "silent_fallback": false,
+    "status": "PASS"
+  },
+  "schema_version": 1
+}

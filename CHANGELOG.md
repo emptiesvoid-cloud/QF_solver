@@ -1,5 +1,68 @@
 # Changelog
 
+## 0.2.8 - Unreleased
+
+This section records the current QF Solver 0.2.8 candidate. Publication is
+`NOT_PUBLISHED_YET`; DOI status is `NOT_AVAILABLE_YET`; no release date is
+assigned.
+
+### Added
+
+- Separate bounded mixed TET4/WEDGE6/HEX8 workflow records for static, modal,
+  translational MPC and multi-material analyses.
+- Experimental bounded mixed Newmark and harmonic workflow records.
+- Separate experimental bounded capability records for the documented
+  Abaqus/CalculiX `.inp` subset, family-aware mixed-HDF5 result storage,
+  frictionless contact and HEX8-SRI.
+- A public capability index linking the element-analysis registry, mixed
+  workflows, separate capabilities and internal/research routes.
+
+### Improved
+
+- The public `qf_solver` facade, optional HDF5 integration and package metadata
+  are documented for the 0.2.8 candidate.
+- Release-surface checks keep optional `h5py` support out of the base import
+  path and retain explicit errors when HDF5 is requested without its extra.
+
+### Verification and qualification
+
+- The element-analysis registry remains unchanged at 32
+  `QUALIFIED_BOUNDED`, 14 `EXPERIMENTAL`, 0 `NOT_QUALIFIED` and 46 records.
+- Mixed static, modal, translational MPC and multi-material routes remain
+  `QUALIFIED_BOUNDED` within their recorded serial scopes.
+- Mixed Newmark and harmonic evidence remains `EXPERIMENTAL_BOUNDED` within
+  the documented serial model, damping, loading and timestep/frequency scope.
+- The release candidate retains prospective contracts, frozen gates, replay,
+  failure-case and evidence-integrity checks for the recorded workflows.
+
+### API and packaging
+
+- The `qf_solver` namespace is the documented public facade; the historical
+  `solveur` namespace remains a compatibility surface.
+- `read_inp(path)` remains `PROVISIONAL`, and HDF5 support remains an optional
+  extra rather than a base installation requirement.
+- Candidate package metadata is aligned to version `0.2.8`; publication and
+  DOI creation remain separate owner actions.
+
+### Documentation
+
+- Current capability, maturity, limitation, V&V, installation and release
+  preparation pages are linked from the public documentation surface.
+- Historical 0.2.7 evidence and benchmarks remain explicitly historical and
+  are not reclassified as 0.2.8 mixed-HPC evidence.
+
+### Known limitations
+
+- The generic mixed distributed PETSc/MPI architecture is recorded, but its
+  runtime remains `NOT_VALIDATED`: the latest campaign still fails the
+  force-balance and three-rank partition-consistency gates.
+- No distributed mixed, production-HPC, universal scalability or general
+  nonlinear-production claim is made.
+- Geometric nonlinear work remains `RESEARCH_ONLY`; PYRAMID5 remains
+  `INTERNAL` / `RESEARCH_ONLY`; MITC4 modal remains `EXPERIMENTAL`.
+- The `.inp`, mixed-HDF5, frictionless-contact and HEX8-SRI capabilities keep
+  their documented bounded scopes and limitations.
+
 ## 0.2.7 - 2026-09-04
 
 QF Solver 0.2.7 freezes the reproducible large-model solving and numerical

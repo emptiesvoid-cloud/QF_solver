@@ -25,6 +25,15 @@ class BucklingEigenpair:
     mode: np.ndarray
 
 
+def _deterministic_start_vector(size: int) -> np.ndarray:
+    """Return a reproducible nonzero start vector for sparse eigensolvers."""
+
+    if size <= 0:
+        raise ValueError("The eigensolver start vector requires a positive size.")
+    vector = np.linspace(1.0, 2.0, int(size), dtype=float)
+    return vector / np.linalg.norm(vector)
+
+
 class LinearBucklingSolver:
     """Estimate the first tangent-instability factor for supported solid families.
 
@@ -172,6 +181,7 @@ class LinearBucklingSolver:
                     which="SA",
                     tol=eigensolver_tolerance,
                     maxiter=eigensolver_maxiter,
+                    v0=_deterministic_start_vector(matrix.shape[0]),
                 )
                 value = float(values[0])
                 reduced_mode = np.asarray(vectors[:, 0], dtype=float)
@@ -335,6 +345,7 @@ def _generalized_critical_factor(
             which="SA",
             tol=eigensolver_tolerance,
             maxiter=eigensolver_maxiter,
+            v0=_deterministic_start_vector(mass.shape[0]),
         )
         minimum_value = float(minimum[0])
         if not np.isfinite(minimum_value) or minimum_value <= max(1.0e-12, eigensolver_tolerance):
@@ -347,6 +358,7 @@ def _generalized_critical_factor(
             which="LM",
             tol=eigensolver_tolerance,
             maxiter=eigensolver_maxiter,
+            v0=_deterministic_start_vector(initial.shape[0]),
         )
     except (TypeError, ValueError, RuntimeError, np.linalg.LinAlgError):
         return None
@@ -404,6 +416,7 @@ def _indefinite_generalized_critical_factor(
                 which="LM",
                 tol=eigensolver_tolerance,
                 maxiter=eigensolver_maxiter,
+                v0=_deterministic_start_vector(initial.shape[0]),
             )
         except (TypeError, ValueError, RuntimeError, np.linalg.LinAlgError):
             continue

@@ -1,0 +1,686 @@
+{
+  "contract": {
+    "id": "WP13-12-HEX8-SRI-MATURATION-001",
+    "path": "qualification\\0_2_8\\wp13_12_hex8_sri_maturation_contract.json",
+    "sha256": "f1df42b4dc74704097ce30705d7f3b69f2b9272a745f71c2e7f08c7c38ae9d51"
+  },
+  "decision_rationale": "The frozen force/moment and energy gates fail in the high-conditioning near-incompressible and near-degenerate cases; no gate is retuned and the existing separate experimental capability is retained without promotion.",
+  "distortion": {
+    "cases": [
+      {
+        "case": "regular",
+        "detj_max": 0.15625000000000003,
+        "detj_min": 0.15624999999999992,
+        "displacement_error": 0.8932115489790013,
+        "energy_error": 1.012883353579408e-14,
+        "finite": true,
+        "force_balance": 8.265762081311582e-12,
+        "moment_balance": 1.957561245912042e-11,
+        "spurious_zero_modes": 0,
+        "zero_energy_modes": 6
+      },
+      {
+        "case": "moderate_skew",
+        "detj_max": 0.15626562500000005,
+        "detj_min": 0.15626562499999988,
+        "displacement_error": 0.8932227734161513,
+        "energy_error": 3.8989644846054716e-14,
+        "finite": true,
+        "force_balance": 1.1707407836546733e-11,
+        "moment_balance": 2.146263814268722e-11,
+        "spurious_zero_modes": 0,
+        "zero_energy_modes": 6
+      },
+      {
+        "case": "stretched",
+        "detj_max": 0.15625000000000003,
+        "detj_min": 0.15624999999999992,
+        "displacement_error": 0.8932115489790013,
+        "energy_error": 1.012883353579408e-14,
+        "finite": true,
+        "force_balance": 8.265762081311582e-12,
+        "moment_balance": 1.957561245912042e-11,
+        "spurious_zero_modes": 0,
+        "zero_energy_modes": 6
+      },
+      {
+        "case": "warped_valid",
+        "detj_max": 0.15631250000000005,
+        "detj_min": 0.15626072330470328,
+        "displacement_error": 0.893232815693289,
+        "energy_error": 1.8319113587184077e-14,
+        "finite": true,
+        "force_balance": 2.4277457211174685e-11,
+        "moment_balance": 5.281176810592964e-11,
+        "spurious_zero_modes": 0,
+        "zero_energy_modes": 6
+      },
+      {
+        "case": "near_degenerate_valid",
+        "detj_max": 0.006250000000000002,
+        "detj_min": 0.006249999999999997,
+        "displacement_error": 1.9826854620994685,
+        "energy_error": 1.0277531117819372e-09,
+        "finite": true,
+        "force_balance": 7.258145099380311e-09,
+        "moment_balance": 1.714902521293088e-08,
+        "spurious_zero_modes": 0,
+        "zero_energy_modes": 6
+      }
+    ],
+    "status": "ROBUST_BOUNDED"
+  },
+  "energy_equilibrium": {
+    "all_cases_energy_identity_pass": false,
+    "all_cases_force_moment_balance_pass": false
+  },
+  "environment": {
+    "numpy": "2.2.6",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1"
+  },
+  "evidence_schema_valid": true,
+  "failure_contract": {
+    "executed": 9,
+    "records": [
+      {
+        "actual_input": {
+          "E": 1000000.0,
+          "nu": 0.5
+        },
+        "actual_input_digest": "71e8846dfdb9e982ad7ea476d0f8a0338c29dea262998eb30a2bce560f8e7c20",
+        "case_id": "invalid_poisson_ratio",
+        "execution_path": "SolidMaterial",
+        "expected_exception_type": "ValueError",
+        "expected_message_pattern": "Poisson ratio",
+        "message_match": true,
+        "observed_exception_type": "ValueError",
+        "observed_message": "Poisson ratio nu must be in (-1, 0.5).",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "connectivity": [
+            0,
+            3,
+            2,
+            1,
+            4,
+            7,
+            6,
+            5
+          ]
+        },
+        "actual_input_digest": "3e884a7bb9edb4aeea13cf1d66aa7795dd98961346f00bdf651a799ad028ace4",
+        "case_id": "inverted_element",
+        "execution_path": "Hex8SRIElement.stiffness",
+        "expected_exception_type": "ValueError",
+        "expected_message_pattern": "Invalid HEX8 Jacobian",
+        "message_match": true,
+        "observed_exception_type": "ValueError",
+        "observed_message": "Invalid HEX8 Jacobian determinant -6.250000e-01.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "z": "all_zero"
+        },
+        "actual_input_digest": "981a33708c85c27c2b10848076e88fce2907467d9e73eb97ba7264a30261a984",
+        "case_id": "zero_volume",
+        "execution_path": "Hex8SRIElement.stiffness",
+        "expected_exception_type": "ValueError",
+        "expected_message_pattern": "Invalid HEX8 Jacobian",
+        "message_match": true,
+        "observed_exception_type": "ValueError",
+        "observed_message": "Invalid HEX8 Jacobian determinant 0.000000e+00.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "connectivity": [
+            1,
+            0,
+            3,
+            2,
+            5,
+            4,
+            7,
+            6
+          ]
+        },
+        "actual_input_digest": "2f5b912b2731646d1ed7f6a0196f8f8ab7da353b9e59c5de27378c2013664552",
+        "case_id": "negative_volume",
+        "execution_path": "Hex8SRIElement.stiffness",
+        "expected_exception_type": "ValueError",
+        "expected_message_pattern": "Invalid HEX8 Jacobian",
+        "message_match": true,
+        "observed_exception_type": "ValueError",
+        "observed_message": "Invalid HEX8 Jacobian determinant -6.250000e-01.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "node_count": 7
+        },
+        "actual_input_digest": "f96222757370408ae67e86a4a9f6747026ed031777ae0858c33f07d33153ac6e",
+        "case_id": "malformed_connectivity",
+        "execution_path": "Hex8SRIElement.stiffness",
+        "expected_exception_type": "ValueError",
+        "expected_message_pattern": "coordinates must have shape",
+        "message_match": true,
+        "observed_exception_type": "ValueError",
+        "observed_message": "HEX8 coordinates must have shape (8, 3).",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "connectivity": [
+            0,
+            1,
+            1,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "actual_input_digest": "c3b64949df1f0c252b7d463eed474add325fe012560fe6e8159c7441a4598207",
+        "case_id": "duplicate_nodes",
+        "execution_path": "wp13_12.connectivity_guard",
+        "expected_exception_type": "ValueError",
+        "expected_message_pattern": "duplicate nodes",
+        "message_match": true,
+        "observed_exception_type": "ValueError",
+        "observed_message": "HEX8-SRI connectivity contains duplicate nodes.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "material": null
+        },
+        "actual_input_digest": "5170d79975dfb71f2048b96469428d1513cec5f40523074f9a04a06f3e5e003b",
+        "case_id": "missing_material",
+        "execution_path": "Hex8SRIElement.__init__",
+        "expected_exception_type": "TypeError",
+        "expected_message_pattern": "SolidMaterial",
+        "message_match": true,
+        "observed_exception_type": "TypeError",
+        "observed_message": "HEX8-SRI currently supports SolidMaterial only.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "material": "NonlinearSolidMaterial"
+        },
+        "actual_input_digest": "1d63ab636bf2bd1cd78b7aae10c9465babf8073a6a36b5c5082ecf68d1fdaff8",
+        "case_id": "unsupported_material",
+        "execution_path": "Hex8SRIElement.__init__",
+        "expected_exception_type": "TypeError",
+        "expected_message_pattern": "SolidMaterial",
+        "message_match": true,
+        "observed_exception_type": "TypeError",
+        "observed_message": "HEX8-SRI currently supports SolidMaterial only.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      },
+      {
+        "actual_input": {
+          "deviatoric": "1x1x1",
+          "volumetric": "1x1x1"
+        },
+        "actual_input_digest": "bedb293e48785e7a031b856e7aa233375efde442fe2fe3fa100f7abd97303b59",
+        "case_id": "invalid_integration_configuration",
+        "execution_path": "wp13_12.integration_guard",
+        "expected_exception_type": "ValueError",
+        "expected_message_pattern": "Unsupported HEX8-SRI integration configuration",
+        "message_match": true,
+        "observed_exception_type": "ValueError",
+        "observed_message": "Unsupported HEX8-SRI integration configuration.",
+        "pass": true,
+        "path_match": true,
+        "type_match": true
+      }
+    ],
+    "required": 9,
+    "silent_fallback": false
+  },
+  "formulation_audit": {
+    "decomposition": "Cdev at 2x2x2 plus Cvol at one centre point",
+    "formulation_bug_found": false,
+    "formulation_changed": false,
+    "hourglass_control": false,
+    "source": "src\\solveur\\elements\\solid\\hex8_sri.py",
+    "source_sha256": "688defa6a6e93c6cebd3cf45cc972b2c7035fe77163db1612ae34bef78aedbf3",
+    "standard_hex8_source_sha256": "4dd8ba606b7e8cab9697fd26ce0baf37fbaf046f9e95894afb0ac8eaa0c85d7a"
+  },
+  "gates": {
+    "distortion": "PASS",
+    "energy": "FAIL",
+    "equilibrium": "FAIL",
+    "failure_contract": "PASS",
+    "locking": "PASS",
+    "near_incompressible": "PASS",
+    "patch": "PASS",
+    "refinement": "PASS",
+    "zero_modes": "PASS"
+  },
+  "historical_audit": {
+    "current_hex8_sri_status": "EXPERIMENTAL_BOUNDED",
+    "known_affine_nodal_force_action_limitation": 0.8749534857084776,
+    "wp10_locking_reductions": {
+      "nu_0_30": 0.760086780505788,
+      "nu_0_4999": 0.6189528045408431
+    },
+    "wp10_preserved": true,
+    "wp10_status": "APPROVE_EXPERIMENTAL_BOUNDED"
+  },
+  "integrity": {
+    "element_formulation_changed": false,
+    "historical_0_2_7_evidence_changed": false,
+    "maturity_46_changed": false,
+    "numerical_source_changed": false,
+    "standard_hex8_changed": false
+  },
+  "limitations": [
+    "The separate capability remains isotropic linear-static HEX8-SRI only.",
+    "The independent oracle is restricted to frozen slender-beam cases and there is no external solver correlation.",
+    "The centre-only volumetric contribution materially changes affine nodal force action, so no general patch-force qualification is supported.",
+    "No arbitrary distortion, nonlinear, dynamic, contact, HEX8R, hourglass-control, or universal incompressibility claim."
+  ],
+  "locking_and_refinement": {
+    "locking_case_a_nu030": {
+      "fine_locking_reduction": 0.760086780505788,
+      "sri": [
+        {
+          "detj_max": 0.15625000000000003,
+          "detj_min": 0.15624999999999992,
+          "distortion": "regular",
+          "dof": 135,
+          "element_count": 16,
+          "energy_error": 5.3034833469300935e-15,
+          "external_work": 0.0015809216232445104,
+          "finite": true,
+          "force_balance_relative": 1.20328475479685e-12,
+          "free_residual_relative": 3.769458594256392e-12,
+          "moment_balance_relative": 2.1725562990207196e-12,
+          "node_count": 45,
+          "nu": 0.3,
+          "nx": 4,
+          "reference_tip_displacement": -0.0320624,
+          "relative_displacement_error": 0.9013846983853666,
+          "sri": true,
+          "strain_energy": 0.0015809216232498138,
+          "tip_displacement": -0.003161843246489021
+        },
+        {
+          "detj_max": 0.07812500000000004,
+          "detj_min": 0.0781249999999999,
+          "distortion": "regular",
+          "dof": 243,
+          "element_count": 32,
+          "energy_error": 2.349769684384384e-14,
+          "external_work": 0.005502415188150381,
+          "finite": true,
+          "force_balance_relative": 8.60660303923592e-12,
+          "free_residual_relative": 1.7110942549910415e-11,
+          "moment_balance_relative": 2.7015794624787653e-11,
+          "node_count": 81,
+          "nu": 0.3,
+          "nx": 8,
+          "reference_tip_displacement": -0.0320624,
+          "relative_displacement_error": 0.6567683524533172,
+          "sri": true,
+          "strain_energy": 0.005502415188126883,
+          "tip_displacement": -0.011004830376300763
+        },
+        {
+          "detj_max": 0.039062500000000035,
+          "detj_min": 0.039062499999999944,
+          "distortion": "regular",
+          "dof": 459,
+          "element_count": 64,
+          "energy_error": 1.892618006760216e-13,
+          "external_work": 0.014507707668182789,
+          "finite": true,
+          "force_balance_relative": 1.5484153262609867e-11,
+          "free_residual_relative": 3.540318800607793e-11,
+          "moment_balance_relative": 2.61861449581432e-11,
+          "node_count": 153,
+          "nu": 0.3,
+          "nx": 16,
+          "reference_tip_displacement": -0.0320624,
+          "relative_displacement_error": 0.09503295647345253,
+          "sri": true,
+          "strain_energy": 0.014507707667993527,
+          "tip_displacement": -0.029015415336365574
+        }
+      ],
+      "sri_error_non_increasing": true,
+      "standard": [
+        {
+          "detj_max": 0.15625000000000003,
+          "detj_min": 0.15624999999999992,
+          "distortion": "regular",
+          "dof": 135,
+          "element_count": 16,
+          "energy_error": 3.71057351511439e-15,
+          "external_work": 0.0014957490495882946,
+          "finite": true,
+          "force_balance_relative": 7.1479173143285726e-12,
+          "free_residual_relative": 8.496326669255272e-12,
+          "moment_balance_relative": 1.604846575347785e-11,
+          "node_count": 45,
+          "nu": 0.3,
+          "nx": 4,
+          "reference_tip_displacement": -0.0320624,
+          "relative_displacement_error": 0.9066976240338656,
+          "sri": false,
+          "strain_energy": 0.001495749049584584,
+          "tip_displacement": -0.0029914980991765892
+        },
+        {
+          "detj_max": 0.07812500000000004,
+          "detj_min": 0.0781249999999999,
+          "distortion": "regular",
+          "dof": 243,
+          "element_count": 32,
+          "energy_error": 4.9933147894254404e-14,
+          "external_work": 0.004613644981042649,
+          "finite": true,
+          "force_balance_relative": 5.306912663644208e-12,
+          "free_residual_relative": 1.859931431068575e-11,
+          "moment_balance_relative": 2.9482997719696456e-11,
+          "node_count": 81,
+          "nu": 0.3,
+          "nx": 8,
+          "reference_tip_displacement": -0.0320624,
+          "relative_displacement_error": 0.7122083823392729,
+          "sri": false,
+          "strain_energy": 0.004613644981092582,
+          "tip_displacement": -0.009227289962085296
+        },
+        {
+          "detj_max": 0.039062500000000035,
+          "detj_min": 0.039062499999999944,
+          "distortion": "regular",
+          "dof": 459,
+          "element_count": 64,
+          "energy_error": 1.7984745637189548e-13,
+          "external_work": 0.009681019151153665,
+          "finite": true,
+          "force_balance_relative": 1.4037995854002534e-11,
+          "free_residual_relative": 5.6702118320165365e-11,
+          "moment_balance_relative": 3.295105885209093e-11,
+          "node_count": 153,
+          "nu": 0.3,
+          "nx": 16,
+          "reference_tip_displacement": -0.0320624,
+          "relative_displacement_error": 0.3961138809849752,
+          "sri": false,
+          "strain_energy": 0.009681019150973818,
+          "tip_displacement": -0.01936203830230733
+        }
+      ]
+    },
+    "locking_case_b_nu04999": {
+      "fine_locking_reduction": 0.6189528045408431,
+      "sri": [
+        {
+          "detj_max": 0.15625000000000003,
+          "detj_min": 0.15624999999999992,
+          "distortion": "regular",
+          "dof": 135,
+          "element_count": 16,
+          "energy_error": 2.189817554718032e-12,
+          "external_work": 0.0017055147384126407,
+          "finite": true,
+          "force_balance_relative": 2.414170282797933e-09,
+          "free_residual_relative": 3.5909721227956682e-09,
+          "moment_balance_relative": 4.557261975398169e-09,
+          "node_count": 45,
+          "nu": 0.4999,
+          "nx": 4,
+          "reference_tip_displacement": -0.0320719952,
+          "relative_displacement_error": 0.8936446125177369,
+          "sri": true,
+          "strain_energy": 0.0017055147406024583,
+          "tip_displacement": -0.003411029476825282
+        },
+        {
+          "detj_max": 0.07812500000000004,
+          "detj_min": 0.0781249999999999,
+          "distortion": "regular",
+          "dof": 243,
+          "element_count": 32,
+          "energy_error": 2.475992761513668e-11,
+          "external_work": 0.005176218368148258,
+          "finite": true,
+          "force_balance_relative": 1.9500630180437886e-09,
+          "free_residual_relative": 8.8518827897173e-09,
+          "moment_balance_relative": 4.077694472266665e-09,
+          "node_count": 81,
+          "nu": 0.4999,
+          "nx": 8,
+          "reference_tip_displacement": -0.0320719952,
+          "relative_displacement_error": 0.6772125752782441,
+          "sri": true,
+          "strain_energy": 0.005176218343388331,
+          "tip_displacement": -0.010352436736296518
+        },
+        {
+          "detj_max": 0.039062500000000035,
+          "detj_min": 0.039062499999999944,
+          "distortion": "regular",
+          "dof": 459,
+          "element_count": 64,
+          "energy_error": 2.034966813113659e-11,
+          "external_work": 0.010730955866945426,
+          "finite": true,
+          "force_balance_relative": 2.0854906967753603e-09,
+          "free_residual_relative": 1.1270791077212468e-08,
+          "moment_balance_relative": 4.9238436268504545e-09,
+          "node_count": 153,
+          "nu": 0.4999,
+          "nx": 16,
+          "reference_tip_displacement": -0.0320719952,
+          "relative_displacement_error": 0.33082081111402606,
+          "sri": true,
+          "strain_energy": 0.010730955846595757,
+          "tip_displacement": -0.02146191173389085
+        }
+      ],
+      "sri_error_non_increasing": true,
+      "standard": [
+        {
+          "detj_max": 0.15625000000000003,
+          "detj_min": 0.15624999999999992,
+          "distortion": "regular",
+          "dof": 135,
+          "element_count": 16,
+          "energy_error": 1.9078131002076004e-13,
+          "external_work": 0.00023704742096712265,
+          "finite": true,
+          "force_balance_relative": 1.6076726878455894e-09,
+          "free_residual_relative": 6.203035210224785e-09,
+          "moment_balance_relative": 3.433323613389899e-09,
+          "node_count": 45,
+          "nu": 0.4999,
+          "nx": 4,
+          "reference_tip_displacement": -0.0320719952,
+          "relative_displacement_error": 0.9852177939358682,
+          "sri": false,
+          "strain_energy": 0.00023704742115790396,
+          "tip_displacement": -0.00047409484193424535
+        },
+        {
+          "detj_max": 0.07812500000000004,
+          "detj_min": 0.0781249999999999,
+          "distortion": "regular",
+          "dof": 243,
+          "element_count": 32,
+          "energy_error": 2.822576916118591e-12,
+          "external_work": 0.0007540291115628356,
+          "finite": true,
+          "force_balance_relative": 8.281682918793844e-09,
+          "free_residual_relative": 1.1768390887671077e-08,
+          "moment_balance_relative": 1.6573966488321074e-08,
+          "node_count": 81,
+          "nu": 0.4999,
+          "nx": 8,
+          "reference_tip_displacement": -0.0320719952,
+          "relative_displacement_error": 0.9529789707898911,
+          "sri": false,
+          "strain_energy": 0.0007540291087402587,
+          "tip_displacement": -0.0015080582231256712
+        },
+        {
+          "detj_max": 0.039062500000000035,
+          "detj_min": 0.039062499999999944,
+          "distortion": "regular",
+          "dof": 459,
+          "element_count": 64,
+          "energy_error": 3.727887356447246e-12,
+          "external_work": 0.0021137281376514623,
+          "finite": true,
+          "force_balance_relative": 1.907595775714838e-08,
+          "free_residual_relative": 3.30600200052655e-08,
+          "moment_balance_relative": 4.822307752808869e-08,
+          "node_count": 153,
+          "nu": 0.4999,
+          "nx": 16,
+          "reference_tip_displacement": -0.0320719952,
+          "relative_displacement_error": 0.8681885473934305,
+          "sri": false,
+          "strain_energy": 0.002113728133923575,
+          "tip_displacement": -0.004227456275302925
+        }
+      ]
+    }
+  },
+  "near_incompressible": [
+    {
+      "locking_reduction": 0.760086780505788,
+      "nu": 0.3,
+      "sri_energy": 0.014507707667993527,
+      "sri_error": 0.09503295647345253,
+      "sri_finite": true,
+      "standard_energy": 0.009681019150973818,
+      "standard_error": 0.3961138809849752,
+      "standard_finite": true
+    },
+    {
+      "locking_reduction": 0.5050811433753678,
+      "nu": 0.45,
+      "sri_energy": 0.012526696997099018,
+      "sri_error": 0.21878058989801027,
+      "sri_finite": true,
+      "standard_energy": 0.008946561279120932,
+      "standard_error": 0.4420534537522035,
+      "standard_finite": true
+    },
+    {
+      "locking_reduction": 0.4347530617715957,
+      "nu": 0.49,
+      "sri_energy": 0.011192908757976213,
+      "sri_error": 0.30200322543439295,
+      "sri_finite": true,
+      "standard_energy": 0.007468086449113877,
+      "standard_error": 0.534285468897772,
+      "standard_finite": true
+    },
+    {
+      "locking_reduction": 0.4511478300821727,
+      "nu": 0.495,
+      "sri_energy": 0.01097105766606675,
+      "sri_error": 0.3158431176951222,
+      "sri_finite": true,
+      "standard_energy": 0.006807853560495016,
+      "standard_error": 0.5754611806352325,
+      "standard_finite": true
+    }
+  ],
+  "oracle": {
+    "comparison": {
+      "locking_case_a_nu030": {
+        "sri_fine_error": 0.09503295647345253,
+        "standard_fine_error": 0.3961138809849752
+      },
+      "locking_case_b_nu04999": {
+        "sri_fine_error": 0.33082081111402606,
+        "standard_fine_error": 0.8681885473934305
+      }
+    },
+    "independence": "Does not call HEX8 or HEX8-SRI stiffness routines; its beam-theory limitation is explicit.",
+    "kind": "independent Timoshenko slender-beam displacement and energy reference",
+    "limitations": "Beam theory is an analytical independent displacement/energy reference for the frozen slender cantilever only; it is not external-solver correlation."
+  },
+  "patch_and_rank": {
+    "affine_field_reproduction": 7.396969321782354e-17,
+    "affine_nodal_force_action_difference": 0.8726129255570547,
+    "constant_strain_reproduction": 7.396969321782354e-17,
+    "min_positive_eigenvalue": 696.7670011138954,
+    "min_positive_eigenvalue_relative": 8.141160436935913e-06,
+    "rigid_body_preservation": 2.1550605593349534e-17,
+    "rigid_body_relative": 6.964322006169587e-16,
+    "spurious_zero_modes": 0,
+    "state_errors": {
+      "constant_strain_x": 6.938893903907228e-17,
+      "constant_strain_y": 1.734723475976807e-18,
+      "constant_strain_z": 1.734723475976807e-18,
+      "shear_xy": 3.469446951953614e-17,
+      "shear_xz": 2.957273464548674e-17,
+      "shear_yz": 1.734723475976807e-18,
+      "volumetric": 7.396969321782354e-17
+    },
+    "status": "PASS",
+    "stiffness_rank": 18,
+    "stiffness_symmetry_relative": 0.0,
+    "zero_energy_modes": 6
+  },
+  "raw_array_count": 8,
+  "raw_array_digests": {
+    "distortion_detj_min": "17e9b1f37677c391c88644fe0a82cfd4a37b373b7be058673fc881444df0abe4",
+    "distortion_displacement_error": "b013866a758523872883133b883bc416196a2641c4e4565d584ed8dcae291bd6",
+    "distortion_energy_error": "f0189806f418ebf804f8efe4048646184f743da897ce1defacb832c1085bc302",
+    "locking_sri_errors": "a39a0e5bedcb11ff9614c0a9b08342390c99ec7349ecd34bdea700d171906a62",
+    "locking_standard_errors": "8df140efa892544a187fb5007f3f675262eef62f288609759d6878da930b06af",
+    "near_sri_errors": "9ef70374214a78f15c5a9c38d83ee4e62522954dcf7fb5a4df64236b1eec92fe",
+    "near_standard_errors": "fa6cb429db96a21702ec229a27597a9c9aae76efa055bb59192ab4fea8091a3d",
+    "patch_eigenvalues": "f9903b7b243a4a1ba27a85a993d8039acb473b68154ba59d1207c309277fa1b8"
+  },
+  "raw_npz": "qualification\\0_2_8\\wp13_12_hex8_sri_maturation\\wp13_12_hex8_sri_arrays.npz",
+  "raw_npz_sha256": "da34aa33114d35d68e6f0da370dd3762f4af31d005e68cf68fcdb9b1e40c9913",
+  "record_id": "QF-028-WP13-12-HEX8-SRI-MATURATION",
+  "replays": {
+    "full_array_comparison": "PASS",
+    "replay_1": "PASS",
+    "replay_2": "PASS",
+    "required": 2,
+    "semantic_digests": [
+      "f17d55dea834faeb965476a1668585aaff06f25ef3a30e02d15897e0be79da0d",
+      "f17d55dea834faeb965476a1668585aaff06f25ef3a30e02d15897e0be79da0d",
+      "f17d55dea834faeb965476a1668585aaff06f25ef3a30e02d15897e0be79da0d"
+    ]
+  },
+  "repo_sha": "d22196b58088b9632838aea75ab34f0e0e69a113",
+  "schema_version": 1,
+  "semantic_validator_valid": true,
+  "technical_decision": "KEEP_EXPERIMENTAL",
+  "work_package": "WP13-12"
+}

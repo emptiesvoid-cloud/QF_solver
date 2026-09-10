@@ -1,7 +1,15 @@
-# QF Solver 0.2.7 Open Source Readiness
+# QF Solver 0.2.8 Open Source Readiness
 
 This section records the current public release-readiness state for QF Solver
-0.2.7. It is distinct from the historical snapshots below.
+0.2.8 in preparation. It is not a publication or tag record and is distinct
+from the historical snapshots below.
+
+Current candidate metadata:
+
+- Version: `0.2.8`
+- Publication status: `NOT_PUBLISHED_YET`
+- Release/tag status: `NOT_CREATED`
+- DOI status: `NOT_AVAILABLE_YET`
 
 ## Current public gates
 
@@ -12,8 +20,8 @@ This section records the current public release-readiness state for QF Solver
   BY 4.0.
 - [x] README, installation and Quick Start documentation are present.
 - [x] CONTRIBUTING, SECURITY, SUPPORT and CODE_OF_CONDUCT are present.
-- [x] Version `0.2.7` is coherent across the public release documentation and
-  package metadata.
+- [x] Candidate version `0.2.8` is coherent across the public release
+  documentation and package metadata.
 - [x] Wheel and sdist build and clean-install checks are controlled by CI.
 - [x] Public-source, release-archive and reachable-history audits are
   available.

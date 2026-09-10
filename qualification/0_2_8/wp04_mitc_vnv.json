@@ -1,0 +1,306 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP04-MITC-VNV",
+  "work_package": "WP04",
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "2a6a02859e3f19ddf26903167de1db6fdd3f3c7c",
+  "status": "CAMPAIGN_COMPLETE_OWNER_GATE_FINALIZED",
+  "owner_gate_record": "qualification/0_2_8/wp04_owner_gate_final.json",
+  "historical_0_2_7_evidence_modified": false,
+  "policy": {
+    "allowed_decisions": ["QUALIFIED_BOUNDED", "EXPERIMENTAL", "NOT_QUALIFIED"],
+    "no_automatic_maturity_promotion": true,
+    "tolerance_rule": "All observable limits in this record are frozen before the WP04 execution. No limit may be retuned after a result.",
+    "historical_evidence_rule": "A referenced but absent historical artifact is not treated as executable evidence and is not recreated or rewritten.",
+    "external_correlation_rule": "External correlation is not required for a narrow analytical oracle that is independent of the algorithm under test; the resulting claim must state that spatial/general-family validation is excluded."
+  },
+  "wp01_dispositions": {
+    "MITC3_STATIC": "NEEDS_MINOR_VNV",
+    "MITC3_MODAL": "NEEDS_MAJOR_VNV",
+    "MITC3_NEWMARK": "NEEDS_MAJOR_VNV",
+    "MITC3_HARMONIC": "NEEDS_MAJOR_VNV",
+    "MITC4_STATIC": "NEEDS_MINOR_VNV",
+    "MITC4_MODAL": "NEEDS_MINOR_VNV",
+    "MITC4_NEWMARK": "NEEDS_MINOR_VNV",
+    "MITC4_HARMONIC": "NEEDS_MINOR_VNV"
+  },
+  "historical_audit": {
+    "mitc3_static_owner_review": "historical_owner_review_present_but_four_of_five_evidence_paths_absent",
+    "mitc3_dynamic_owner_review": "historical_owner_review_present_but_four_of_five_evidence_paths_absent",
+    "mitc4_classic_owner_review": "historical_owner_review_present_but_all_eight_evidence_paths_absent",
+    "interpretation": "Historical documents remain provenance records only. Current WP04 decisions use the fresh executable campaign below."
+  },
+  "cases": {
+    "MITC3_STATIC": {
+      "source_record": "COMB-MITC3-linear_static",
+      "decision": "QUALIFIED_BOUNDED",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS",
+      "scope": "MITC3 isotropic shell, linear static, small displacement/small rotation, flat and faceted curved assemblies within the executed mesh families; membrane, bending and transverse shear patch behavior, thin-shell locking trend, one reference-shell trend, load resultant and static energy/reaction checks.",
+      "oracle": "Affine membrane/bending/transverse-shear patch identities, global static equilibrium and strain-energy identity; Cook/Scordelis/pinched values are recorded as bounded reference trends, not universal acceptance claims.",
+      "tolerances": {
+        "patch_affine_membrane_error": 1.0e-10,
+        "patch_constant_shear_error": 1.0e-10,
+        "patch_constant_bending_error": 2.0e-13,
+        "rigid_body_residual_ratio": 2.0e-12,
+        "static_free_residual_ratio": 1.0e-10,
+        "static_energy_identity_error": 1.0e-10,
+        "load_resultant_relative_error": 1.0e-14,
+        "orientation_energy_relative_error": 2.0e-12,
+        "locking_tip_ratio_min": 0.89,
+        "locking_final_increment_max": 0.02
+      },
+      "required_replays": 2,
+      "external_correlation": "NOT_REQUIRED_FOR_DECLARED_ANALYTICAL_PATCH_SCOPE",
+      "limitations": ["The absent historical Code_Aster/CalculiX artifacts are not used.", "Reference-shell benchmark values remain bounded trends and do not support arbitrary curved-shell or mesh extrapolation.", "Composite, nonlinear, contact and dynamic MITC3 remain excluded."],
+      "execution": {
+        "status": "PASS_WITH_BOUNDED_REFERENCE_WARNINGS",
+        "replays": 2,
+        "replay_digests": [
+          "a760cf3ba9a76ca5021ab4413a0483fdc3fc55e20cc8698bacb2d38e1141905a",
+          "a760cf3ba9a76ca5021ab4413a0483fdc3fc55e20cc8698bacb2d38e1141905a"
+        ],
+        "gate_metrics": {
+          "affine_membrane_error": 2.232335435579801e-16,
+          "constant_shear_error": 1.8070036208091741e-16,
+          "locking_fine_tip_ratio": 0.9753698608790409,
+          "locking_final_increment": 0.006716137009817877,
+          "rigid_body_residual_ratio": 1.9551278363364564e-17,
+          "free_residual_ratio": 7.847277775396759e-13,
+          "energy_identity_error": 9.565118837284669e-14,
+          "load_resultant_relative_error": 0.0,
+          "orientation_energy_relative_error": 2.5557227094295173e-16,
+          "permutation_energy_relative_error": 0.0,
+          "thickness_monotonic": true,
+          "reference_trend_status": {
+            "cook": "WARNING",
+            "scordelis": "WARNING",
+            "pinched": "WARNING"
+          }
+        },
+        "reaction_relative_error_diagnostic": 1.2896054594572584e-11,
+        "test": "tests/verification/test_028_mitc_vnv.py::test_wp04_mitc3_static_replays_and_frozen_gates"
+      }
+    },
+    "MITC3_MODAL": {
+      "source_record": "COMB-MITC3-modal",
+      "decision": "EXPERIMENTAL",
+      "owner_gate": "REJECTED",
+      "scope": "No WP04 promotion scope.",
+      "oracle": "The current executable records provide same-assembled-model modal invariants, but no materialized independent same-mesh shell modal oracle is available in this clone.",
+      "tolerances": {},
+      "required_replays": 0,
+      "external_correlation": "MISSING_EXECUTABLE_ARTIFACT",
+      "reason_not_closed": "Historical independent modal paths are absent; internal modal convergence alone is insufficient for this route-level promotion."
+    },
+    "MITC3_NEWMARK": {
+      "source_record": "COMB-MITC3-newmark_transient",
+      "decision": "EXPERIMENTAL",
+      "owner_gate": "REJECTED",
+      "scope": "No WP04 promotion scope.",
+      "oracle": "Current temporal-refinement studies use the first mode of the same assembled MITC3 model and explicitly do not provide an independent element oracle.",
+      "tolerances": {},
+      "required_replays": 0,
+      "external_correlation": "MISSING_EXECUTABLE_ARTIFACT",
+      "reason_not_closed": "No materialized independent same-mesh transient shell correlation is available; temporal convergence alone is not sufficient."
+    },
+    "MITC3_HARMONIC": {
+      "source_record": "COMB-MITC3-harmonic",
+      "decision": "EXPERIMENTAL",
+      "owner_gate": "REJECTED",
+      "scope": "No WP04 promotion scope.",
+      "oracle": "Current internal harmonic evidence shares the assembled spatial model and does not provide a materialized independent shell FRF oracle.",
+      "tolerances": {},
+      "required_replays": 0,
+      "external_correlation": "MISSING_EXECUTABLE_ARTIFACT",
+      "reason_not_closed": "No independent same-mesh shell FRF evidence is available in the clone."
+    },
+    "MITC4_STATIC": {
+      "source_record": "COMB-MITC4-linear_static",
+      "decision": "QUALIFIED_BOUNDED",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS",
+      "scope": "MITC4 isotropic constant-thickness shell, linear static, small displacement/small rotation, distorted flat quadrilateral patch and the executed bounded structural reference meshes; membrane, bending, shear, rigid-body, frame-objectivity, drilling and convergence checks.",
+      "oracle": "Affine patch identities and exact element invariants, plus the declared Cook/Scordelis/pinched reference trends. The route claim is limited to these executable cases and mesh-quality controls.",
+      "tolerances": {
+        "element_symmetry": 1.0e-12,
+        "rigid_body_force_ratio": 1.0e-10,
+        "rank_gap_ratio": 1.0e-8,
+        "frame_objectivity": 1.0e-10,
+        "patch_and_energy_checks": 1.0e-10,
+        "global_free_residual_ratio": 1.0e-10,
+        "global_energy_identity_error": 1.0e-10,
+        "global_reaction_relative_error": 1.0e-10,
+        "scordelis_error_percent": 1.5,
+        "scordelis_final_increment": 0.02,
+        "cook_final_increment": 0.05,
+        "pinched_final_increment": 0.10
+      },
+      "required_replays": 2,
+      "external_correlation": "NOT_REQUIRED_FOR_DECLARED_PATCH_AND_REFERENCE_SCOPE",
+      "limitations": ["The historical external paths are absent and are not claimed as current correlations.", "No variable thickness, composite, nonlinear, contact, buckling or large-rotation claim."],
+      "execution": {
+        "status": "PASS",
+        "replays": 2,
+        "replay_digests": [
+          "3fc52b809778490e47f186b01a764795d5c9de487815c61cc5c79215da628fe9",
+          "3fc52b809778490e47f186b01a764795d5c9de487815c61cc5c79215da628fe9"
+        ],
+        "gate_metrics": {
+          "mechanical_checks": "14/14 PASS",
+          "cook_status": "PASS_WITH_REFERENCE_TREND_WARNING",
+          "cook_final_increment": 0.008254539037748917,
+          "scordelis_final_error": 0.003137634565931238,
+          "scordelis_final_increment": 0.006839799568395038,
+          "pinched_final_error": 0.07259114219962623,
+          "pinched_final_increment": 0.05969829832040064,
+          "drilling_plateau_relative_change": 9.49731161871514e-06,
+          "global_free_residual_ratio": 2.3355210871076343e-11,
+          "global_energy_identity_error": 7.029628071317814e-13,
+          "global_reaction_relative_error": 5.180481821298599e-12
+        },
+        "test": "tests/verification/test_028_mitc_vnv.py::test_wp04_mitc4_static_replays_and_frozen_gates"
+      }
+    },
+    "MITC4_MODAL": {
+      "source_record": "COMB-MITC4-modal",
+      "decision": "EXPERIMENTAL",
+      "owner_gate": "REJECTED",
+      "scope": "Straight slender isotropic MITC4 cantilever, coherent mass, fixed root, undamped first-mode and first-two-mode modal study on the executed 4x1, 8x2 and 16x4 meshes, with rigid-body and mode-shape checks.",
+      "oracle": "Euler-Bernoulli slender cantilever frequency and first-mode shape, with eigen-residual, mass orthogonality, deterministic mode pairing and mesh convergence.",
+      "tolerances": {
+        "maximum_relative_frequency_error": 0.02,
+        "mode_assurance_criterion_min": 0.999,
+        "maximum_relative_residual": 1.0e-8,
+        "mass_orthogonality_error": 1.0e-8,
+        "mesh_frequency_increment": 0.02
+      },
+      "required_replays": 2,
+      "external_correlation": "NOT_REQUIRED_FOR_DECLARED_ANALYTICAL_SLENDER_CANTILEVER_SCOPE",
+      "limitations": ["No thick-shell shear, damping, prestress, concentrated mass, composite or general curved-shell modal claim."],
+      "reason_not_closed": "The deterministic analytical replay satisfies the study's internal 1e-7 residual limit, but the frozen WP04 promotion gate is 1e-8 and the observed final relative residual is 2.6317020430528298e-08. No tolerance relaxation is allowed after the result.",
+      "execution": {
+        "status": "REPLAY_PASS_FROZEN_GATE_FAILED",
+        "replays": 2,
+        "replay_digests": [
+          "3cc0069ed48d37b0cb15b49c4c4fff146319d52416a35dd7e9d217f540d464ba",
+          "3cc0069ed48d37b0cb15b49c4c4fff146319d52416a35dd7e9d217f540d464ba"
+        ],
+        "gate_metrics": {
+          "relative_frequency_error": 0.013877308803999497,
+          "mode_assurance_criterion": 0.9999792558936241,
+          "mass_orthogonality_error": 1.02195480266465e-15,
+          "relative_residual": 2.6317020430528298e-08,
+          "frozen_relative_residual_limit": 1.0e-08,
+          "mesh_frequency_increment": 0.002894605772661243
+        },
+        "test": "tests/verification/test_028_mitc_vnv.py::test_wp04_mitc4_modal_replays_and_preserves_failed_frozen_gate"
+      }
+    },
+    "MITC4_NEWMARK": {
+      "source_record": "COMB-MITC4-newmark_transient",
+      "decision": "QUALIFIED_BOUNDED",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS",
+      "scope": "MITC4 isotropic cantilever initialized with one verified numerical mode, undamped linear free vibration, Newmark average acceleration beta=0.25/gamma=0.5, two periods and 20/40/80 steps per period; a damped sensitivity point is recorded but not generalized.",
+      "oracle": "Exact first-mode sinusoidal time history generated from the precomputed mode; it is independent of the Newmark recurrence and qualifies temporal integration on the declared spatial model only.",
+      "tolerances": {
+        "fine_normalized_rms_error": 0.003,
+        "period_return_error": 0.02,
+        "maximum_relative_energy_drift": 1.0e-8,
+        "minimum_observed_order": 1.9,
+        "maximum_dynamic_residual": 1.0e-7
+      },
+      "required_replays": 2,
+      "external_correlation": "NOT_REQUIRED_FOR_DECLARED_MODAL_TIME_INTEGRATION_SCOPE",
+      "limitations": ["The spatial mode is from QF Solver; this is not a general independent shell-element correlation.", "No nonlinear, base-excitation, PSD, composite or curved-dynamic claim."],
+      "execution": {
+        "status": "PASS",
+        "replays": 2,
+        "replay_digests": [
+          "ceca5947ffa3d5db71e20b8c05b56d40110d00dfbee989b8ab1bdf1459fda1a2",
+          "ceca5947ffa3d5db71e20b8c05b56d40110d00dfbee989b8ab1bdf1459fda1a2"
+        ],
+        "gate_metrics": {
+          "fine_normalized_rms_error": 0.00262317529168414,
+          "fine_period_return_error": 2.0825240762813255e-05,
+          "fine_energy_drift": 3.6723055087171204e-11,
+          "minimum_observed_order": 1.9902537812858132,
+          "maximum_dynamic_residual": 3.495016696316973e-11
+        },
+        "test": "tests/verification/test_028_mitc_vnv.py::test_wp04_mitc4_newmark_replays_and_frozen_gates"
+      }
+    },
+    "MITC4_HARMONIC": {
+      "source_record": "COMB-MITC4-harmonic",
+      "decision": "QUALIFIED_BOUNDED",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS",
+      "scope": "MITC4 isotropic cantilever first-mode harmonic response with mass-proportional Rayleigh damping ratio 0.02, seven frequency ratios from 0 to 2, static limit, resonance, off-resonance phase and damping sensitivity.",
+      "oracle": "Closed-form single-mode complex response using the computed mass-normalized first mode; amplitude, wrapped phase, static limit, resonance location and residual are checked.",
+      "tolerances": {
+        "maximum_relative_complex_response_error": 1.0e-6,
+        "zero_hz_static_relative_error": 1.0e-9,
+        "maximum_residual_norm": 1.0e-7,
+        "peak_frequency_ratio_min": 0.95,
+        "peak_frequency_ratio_max": 1.05,
+        "phase_before_resonance_max_deg": 0.0,
+        "phase_after_resonance_min_deg": -180.0
+      },
+      "required_replays": 2,
+      "external_correlation": "NOT_REQUIRED_FOR_DECLARED_SINGLE_MODE_ANALYTICAL_SCOPE",
+      "limitations": ["No broadband modal coupling, thick-shell, composite, nonlinear or alternate damping-model claim.", "The missing historical external artifacts are not represented as current evidence."],
+      "execution": {
+        "status": "PASS",
+        "replays": 2,
+        "replay_digests": [
+          "7a6debdafcf7d79c3cf027da1f5df7ae8480e434b3e5a520a0886ff2ebec69bf",
+          "7a6debdafcf7d79c3cf027da1f5df7ae8480e434b3e5a520a0886ff2ebec69bf"
+        ],
+        "gate_metrics": {
+          "maximum_relative_complex_response_error": 1.2540506221768314e-07,
+          "zero_hz_static_relative_error": 4.6342460017585094e-11,
+          "maximum_residual_norm": 2.027319181469083e-09,
+          "peak_frequency_ratio": 1.0,
+          "phase_before_resonance": true,
+          "phase_after_resonance": true,
+          "damping_amplitude_order": [0.015647337087197278, 0.007823668543595896, 0.0031294674174432587]
+        },
+        "test": "tests/verification/test_028_mitc_vnv.py::test_wp04_mitc4_harmonic_replays_and_frozen_gates"
+      }
+    }
+  },
+  "campaign_summary": {
+    "new_promotions": [
+      "MITC3_STATIC",
+      "MITC4_STATIC",
+      "MITC4_NEWMARK",
+      "MITC4_HARMONIC"
+    ],
+    "owner_approved_promotions": [
+      "MITC3_STATIC",
+      "MITC4_STATIC",
+      "MITC4_NEWMARK",
+      "MITC4_HARMONIC"
+    ],
+    "remain_experimental": [
+      "MITC3_MODAL",
+      "MITC3_NEWMARK",
+      "MITC3_HARMONIC",
+      "MITC4_MODAL"
+    ],
+    "failed_gates": [
+      "MITC4_MODAL.relative_residual: observed 2.6317020430528298e-08 > frozen 1.0e-08"
+    ],
+    "qualifying_replays": 8,
+    "historical_0_2_7_evidence_modified": false,
+    "numerical_source_modified": false,
+    "owner_gate_finalized": true,
+    "global_state_after_wp04_owner_gate": {
+      "QUALIFIED_BOUNDED": 31,
+      "PUBLIC_QUALIFIED_BOUNDED": 31,
+      "EXPERIMENTAL": 14,
+      "NOT_QUALIFIED": 1,
+      "TOTAL": 46,
+      "not_qualified_combination": "COMB-HEX8-linear_buckling",
+      "wedge6_static_state": "EXPERIMENTAL"
+    },
+    "registry_counts_consistent": true
+  }
+}

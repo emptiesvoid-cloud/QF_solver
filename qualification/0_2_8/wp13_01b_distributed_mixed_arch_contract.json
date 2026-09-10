@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-01B-DISTRIBUTED-MIXED-ARCH-CONTRACT",
+  "contract_id": "WP13-01B-DISTRIBUTED-MIXED-ARCH-001",
+  "work_package": "WP13-01B",
+  "creation_sha": "c9ccd4891fea2f83e0c5302fa85bc3cbcf88e6e0",
+  "status": "PREDECLARED_NOT_EXECUTED",
+  "contract_created_before_validation": true,
+  "objective": "Complete and validate a backend-neutral, rank-local mixed-solid distributed architecture for a future PETSc/MPI runtime. This work package explicitly excludes PETSc runtime and scaling qualification.",
+  "historical_context": {
+    "wp13_01a_status": "NO_GO",
+    "wp13_01a_conclusion": "ARCHITECTURE_EXTENSION_MAJOR_REDESIGN",
+    "legacy_large_route": "TET4_ONLY and immutable in this work package",
+    "serial_mixed_reference": "qualified bounded TET4/WEDGE6/HEX8 linear-static workflow",
+    "historical_0_2_7_evidence_read_only": true,
+    "maturity_registry_read_only": true
+  },
+  "scope": {
+    "analysis": "linear_static architecture only",
+    "families": {
+      "TET4": {"nodes": 4, "translational_dofs": 12},
+      "WEDGE6": {"nodes": 6, "translational_dofs": 18},
+      "HEX8": {"nodes": 8, "translational_dofs": 24}
+    },
+    "model": "conforming connected shared-node mixed solid model",
+    "runtime": "backend-neutral structural validation; PETSc/MPI runtime is deferred to WP13-01C",
+    "excluded": [
+      "PETSc production solve",
+      "MPI scaling or performance claim",
+      "one-million-DOF claim",
+      "modal or transient distributed solve",
+      "MPC/RBE/contact distributed solve",
+      "distributed result post-processing qualification",
+      "element formulation changes",
+      "legacy large TET4 route changes",
+      "maturity promotion"
+    ]
+  },
+  "architecture_contract": {
+    "element_descriptor_source": "solveur.elements.registry.ElementRegistry",
+    "no_parallel_element_table": true,
+    "variable_connectivity": "family blocks derive node counts and local DOFs from ElementRegistry descriptors",
+    "rank_local_envelope": [
+      "owned element records",
+      "local node coordinates for owned plus ghost nodes",
+      "global node and element ids",
+      "family, material and region metadata",
+      "node and element ownership",
+      "explicit ghost nodes",
+      "local/global DOF maps"
+    ],
+    "assembly": "owned rows with local and off-process-column insertion metadata; deterministic element-id order",
+    "reaction": "local K*u-F contributions reduce to the unique owner of each constrained DOF",
+    "gather_policy": "No global K, global connectivity, global displacement or global element-result gather is structurally required. A global model may exist only in the serial partition simulator or explicit debug reconstruction."
+  },
+  "gates": {
+    "fixed_before_execution": true,
+    "post_observation_retuning": false,
+    "serial_matrix_relative": {"operator": "<=", "value": 1.0e-12},
+    "serial_load_relative": {"operator": "<=", "value": 1.0e-12},
+    "serial_displacement_relative": {"operator": "<=", "value": 1.0e-12},
+    "serial_reaction_relative": {"operator": "<=", "value": 1.0e-12},
+    "sparsity_exact": {"operator": "==", "value": true},
+    "owned_element_multiplicity": {"operator": "==", "value": 1},
+    "owned_node_multiplicity": {"operator": "==", "value": 1},
+    "bc_load_ownership_multiplicity": {"operator": "==", "value": 1},
+    "local_matrix_relative": {"operator": "<=", "value": 1.0e-12},
+    "replay_semantic_digest": {"operator": "==", "value": "identical"},
+    "failure_contract": {"operator": "==", "value": "all declared cases reject explicitly"}
+  },
+  "validation": {
+    "benchmark": "existing connected TET4/WEDGE6/HEX8 linear-static manufactured mixed model; fixed support, owned and interface nodal loads",
+    "partition_counts": [2, 3],
+    "required": [
+      "descriptor-derived local TET4/WEDGE6/HEX8 stiffness dispatch",
+      "variable-size connectivity and local DOF maps",
+      "owned element and node uniqueness",
+      "ghost and interface-node coherence",
+      "rank-local envelope self-sufficiency for local dispatch",
+      "connectivity-derived preallocation versus exact serial sparsity",
+      "distributed BC ownership including owned, ghost and partition-boundary DOFs",
+      "distributed nodal load ownership including owned, ghost and multiple loads",
+      "reaction reduction architecture R=K*u-F",
+      "logical assembly recomposition versus serial K and F",
+      "two deterministic replays"
+    ],
+    "petsc": {
+      "probe_allowed": true,
+      "absence_status": "NOT_AVAILABLE_DEFERRED_TO_WP13_01C",
+      "no_runtime_claim_if_absent": true
+    }
+  },
+  "failure_contract": {
+    "cases": [
+      "unsupported_element_family",
+      "malformed_connectivity",
+      "invalid_element_owner",
+      "duplicate_owned_element",
+      "missing_ghost_node",
+      "invalid_local_global_dof_map",
+      "missing_material",
+      "inconsistent_partition",
+      "unsupported_dof_layout"
+    ],
+    "actual_execution_required": true,
+    "any_exception_is_not_automatically_pass": true,
+    "silent_fallback_allowed": false,
+    "trace_fields": ["case_id", "input", "input_digest", "execution_path", "expected_exception", "observed_exception", "message_match", "pass"]
+  },
+  "evidence_schema": {
+    "required_fields": [
+      "contract_id",
+      "contract_sha",
+      "repo_sha",
+      "environment",
+      "architecture_map",
+      "mixed_model",
+      "partition_results",
+      "local_dispatch",
+      "preallocation",
+      "bc_load",
+      "reaction_architecture",
+      "serial_equivalence",
+      "failure_cases",
+      "replays",
+      "gate_decisions",
+      "integrity"
+    ],
+    "contract_values_single_source_of_truth": true
+  },
+  "claim_policy": {
+    "maximum_pre_owner_claim": "Generic backend-neutral mixed distributed architecture foundation for conforming linear-static TET4/WEDGE6/HEX8 models, pending PETSc/MPI runtime validation in WP13-01C.",
+    "forbidden": [
+      "PETSc runtime validated",
+      "MPI scaling validated",
+      "performance or one-million-DOF claim",
+      "distributed modal or dynamics",
+      "arbitrary families or DOF layouts",
+      "maturity promotion"
+    ]
+  },
+  "integrity": {
+    "element_formulation_changed": false,
+    "maturity_changed": false,
+    "historical_0_2_7_evidence_changed": false,
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE"
+  }
+}

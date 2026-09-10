@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "record_id": "QF-028-WP13-02C4-OWNER-GATE",
+  "work_package": "WP13-02C4",
+  "contract_id": "WP13-02C-HARMONIC-MIXED-001",
+  "owner_decision": "REJECT_CONTRACT_VIOLATION",
+  "verdict": "REJECT_CONTRACT_VIOLATION",
+  "historical_record_immutable": true,
+  "numerical_runs": "NONE",
+  "findings": [
+    "The archived interface-energy denominator did not match the literal frozen contract definition.",
+    "Failure-case records did not archive the actual runtime input for every case.",
+    "The complete evidence pipeline was not frozen before the campaign; post-run evidence processing occurred.",
+    "Harmonic replay iteration metadata was synthetic rather than observed runtime metadata."
+  ],
+  "historical_results_preserved": true,
+  "numerical_source_changed": false,
+  "formulation_changed": false,
+  "contract_changed": false,
+  "gates_changed": false,
+  "maturity_changed": false,
+  "evidence_only_findings": true
+}

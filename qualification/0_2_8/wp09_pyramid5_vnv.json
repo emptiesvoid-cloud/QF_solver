@@ -1,0 +1,127 @@
+{
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "8daed7e0c6e11b79e6ad8f88a7c2da859c7eeac6",
+  "contract": "qualification/0_2_8/wp09_pyramid5_contract.json",
+  "convergence": "NOT_RUN: a coherent conforming PYRAMID5 h-refinement is not established by this feasibility WP.",
+  "elemental_gates": {
+    "affine_strain_max_abs": 4.235164736271502e-22,
+    "analytical_mass_total": 10400.0,
+    "derivative_sum_max_abs": 6.938893903907228e-18,
+    "kronecker_max_abs": 0.0,
+    "mass_conservation_relative": 0.0,
+    "mass_total": 10400.0,
+    "minimum_positive_eigenvalue_relative": 0.05527575140896192,
+    "partition_unity_max_abs": 0.0,
+    "production_reference_mass_relative": 4.936916054189136e-16,
+    "production_reference_stiffness_relative": 6.405490002089081e-16,
+    "rigid_body_relative_residual": 4.1036404124733043e-17,
+    "sampled_minimum_det_j": 0.0011400916279895696,
+    "status": "PASS",
+    "stiffness_rank": 9,
+    "stiffness_symmetry_relative": 0.0,
+    "volume": 1.3333333333333333
+  },
+  "formulation": "collapsed-coordinate five-node isoparametric displacement pyramid",
+  "geometric_robustness": {
+    "invalid_cases": {
+      "coincident": "PYRAMID5_JACOBIAN_INVALID: coincident element nodes.",
+      "inverted": "PYRAMID5_JACOBIAN_INVALID: sampled minimum detJ -9.336096e-01 <= tolerance 8.000000e-12.",
+      "near_flat": "PYRAMID5_JACOBIAN_INVALID: sampled minimum detJ 1.140092e-16 <= tolerance 8.000000e-12."
+    },
+    "status": "PASS",
+    "valid_cases": {
+      "apex_offset": "PASS",
+      "base_distorted": "PASS",
+      "reduced_height": "PASS",
+      "regular": "PASS"
+    }
+  },
+  "gmsh_import": {
+    "element_type": "PYRAMID5",
+    "family": "PYRAMID5",
+    "status": "PASS"
+  },
+  "independent_oracle": "analytical regular-pyramid volume/mass and exact affine displacement field; production rule compared to an independently denser reference rule",
+  "integrity": {
+    "historical_0_2_7_evidence_changed": false,
+    "numerical_source_changed": true,
+    "wp07_wp08_claims_changed": false
+  },
+  "limitations": [
+    "No production qualification, maturity promotion or public capability claim is made.",
+    "The kernel is limited to the predeclared small-strain isotropic linear-static scope.",
+    "The conforming HEX8/PYRAMID5/TET4 patch is a feasibility check and does not modify WP07/WP08 workflows.",
+    "No coherent PYRAMID5 mesh-refinement or external-solver correlation is claimed."
+  ],
+  "loads": {
+    "body_resultant": [
+      0.0,
+      0.0,
+      -4.0
+    ],
+    "body_resultant_relative": 0.0,
+    "expected_body_resultant": [
+      0.0,
+      0.0,
+      -4.0
+    ],
+    "status": "PASS",
+    "surface_traction_vector_norms": {
+      "0": 4.582575694955839,
+      "1": 1.870828693386971,
+      "2": 1.870828693386971,
+      "3": 1.870828693386971,
+      "4": 1.8708286933869713
+    }
+  },
+  "patch_tests": {
+    "displacement_max_abs_error": 0.0,
+    "energy_identity_relative": 0.0,
+    "force_balance_relative": 2.7235299766648143e-16,
+    "free_residual_relative": 0.0,
+    "post_processing": "PASS",
+    "status": "PASS",
+    "strain_max_abs_error": 4.235164736271502e-22,
+    "stress_relative_error": 2.493329292846756e-34
+  },
+  "record_id": "QF-028-WP09-PYRAMID5-VNV",
+  "replay_determinism": {
+    "digests": [
+      "37a2eb2b26bf8602abf7916d93736d720b7af9c2315cc5e6ca09ff4f86c634b1",
+      "37a2eb2b26bf8602abf7916d93736d720b7af9c2315cc5e6ca09ff4f86c634b1"
+    ],
+    "required_replays": 2,
+    "status": "PASS"
+  },
+  "schema_version": 1,
+  "status": "CAMPAIGN_COMPLETE_FEASIBILITY_GATE",
+  "technical_decision": "FEASIBLE_CONTINUE",
+  "transition_feasibility": {
+    "affine_displacement_max_abs_error": 2.149953074129294e-22,
+    "duplicate_global_dofs": false,
+    "element_types": [
+      "HEX8",
+      "PYRAMID5",
+      "TET4"
+    ],
+    "energy_identity_relative": 5.551115123125783e-17,
+    "force_balance_relative": 1.1797721263035747e-16,
+    "mesh_errors": [],
+    "mesh_status": "PASS",
+    "shared_interface_nodes": {
+      "HEX8_PYRAMID5": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "PYRAMID5_TET4": [
+        0,
+        1,
+        4
+      ]
+    },
+    "status": "PASS"
+  },
+  "work_package": "WP09"
+}

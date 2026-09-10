@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-02B6-INPUT-VALIDATION-FIX",
+  "work_package": "WP13-02B6",
+  "commit": "fc6b32c8ea1fff0a98390b7788018b14e2ac4891",
+  "status": "HISTORICAL_FIX_PRESERVED",
+  "scope": "Reject malformed transient Newmark initial_displacements input explicitly.",
+  "source_path": "src/solveur/core/analyses/dynamic.py",
+  "numerical_source_changed": false,
+  "input_validation_source_changed": true,
+  "contract_changed": false,
+  "gates_changed": false,
+  "maturity_changed": false,
+  "evidence_0_2_7_changed": false
+}

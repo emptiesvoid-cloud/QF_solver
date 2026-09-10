@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-05D-INP-IMPORT-CAPABILITY",
+  "capability_id": "INP-ABAQUS-CALCULIX-BOUNDED-SUBSET",
+  "registry_kind": "API_IMPORT_RESEARCH_CAPABILITY",
+  "applicable_version": "0.2.8",
+  "status": "EXPERIMENTAL_BOUNDED",
+  "public_api": "qf_solver.read_inp(path)",
+  "api_status": "PROVISIONAL",
+  "public_wording": "Experimental bounded support for a bounded Abaqus/CalculiX .inp subset.",
+  "owner_decision": {
+    "decision": "APPROVE_EXPERIMENTAL_BOUNDED",
+    "final_status": "APPROVED_EXPERIMENTAL_BOUNDED",
+    "source": "WP13-05C Owner Gate",
+    "preserved_by": "qualification/0_2_8/wp13_05c_registry_reconciliation_erratum.json"
+  },
+  "scope": {
+    "analysis": "linear_static_only",
+    "elements": {
+      "C3D4": "TET4",
+      "C3D6": "WEDGE6",
+      "C3D8": "HEX8"
+    },
+    "keywords": [
+      "NODE",
+      "ELEMENT",
+      "NSET",
+      "ELSET",
+      "MATERIAL",
+      "ELASTIC",
+      "SOLID SECTION",
+      "BOUNDARY",
+      "CLOAD",
+      "STEP",
+      "STATIC",
+      "END STEP"
+    ],
+    "material": "isotropic linear elasticity; E / nu",
+    "boundary_conditions": "zero prescribed displacement only",
+    "loads": "CLOAD only",
+    "units": "USER_CONSISTENT",
+    "automatic_unit_conversion": false
+  },
+  "limitations": [
+    "bounded subset only",
+    "no complete Abaqus compatibility",
+    "no complete CalculiX compatibility",
+    "C3D4/C3D6/C3D8 only",
+    "static only",
+    "zero prescribed displacement BC only",
+    "CLOAD only",
+    "isotropic linear elasticity only",
+    "no unit conversion",
+    "no assemblies",
+    "no INCLUDE",
+    "no contact/interactions",
+    "no DLOAD",
+    "no modal/dynamic",
+    "no plasticity",
+    "no hyperelasticity",
+    "no shells/beams",
+    "no nonlinear materials",
+    "no universal claim"
+  ],
+  "contract": {
+    "contract_id": "WP13-05-INP-IMPORT-001",
+    "contract_sha256": "13ffa0c31683ab69d04782f56ff5e0d7144e834eea41a7dceaa1defdd240fb27",
+    "path": "qualification/0_2_8/wp13_05_inp_import_contract.json",
+    "linked": true
+  },
+  "evidence": {
+    "report": "qualification/0_2_8/wp13_05_inp_import_runtime_final/wp13_05_inp_import_report.json",
+    "machine_readable": "qualification/0_2_8/wp13_05_inp_import_runtime_final/wp13_05_inp_import_evidence.json",
+    "fixtures": 5,
+    "native_model_equivalence": "5/5",
+    "failure_cases": "10/10",
+    "deterministic_replays": 2,
+    "parser_fail_closed": true,
+    "connectivity_orientation_evidence": true,
+    "material_section_set_mapping": true,
+    "api_smoke": true,
+    "evidence_integrity": "PASS"
+  },
+  "registry_separation": {
+    "element_analysis_registry": "qualification/0_2_8/consolidated_registry.json#/combination_registry/records",
+    "element_analysis_counts": {
+      "QUALIFIED_BOUNDED": 32,
+      "EXPERIMENTAL": 14,
+      "NOT_QUALIFIED": 0,
+      "TOTAL": 46
+    },
+    "added_to_element_analysis_registry": false,
+    "added_to_mixed_workflow_registry": false,
+    "separate_capability_record": true,
+    "registry_erratum": "qualification/0_2_8/wp13_05c_registry_reconciliation_erratum.json",
+    "snapshot_wp05_is_current_state": false
+  },
+  "historical_integrity": {
+    "element_analysis_registry_46_unchanged": true,
+    "mixed_workflow_registry_unchanged": true,
+    "evidence_0_2_7_changed": false,
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "maturity_46_changed": false,
+    "contracts_or_gates_changed": false
+  },
+  "delivery": {
+    "start_sha": "45acf5f5acfa22d15677f6364a3d2d12ae958ef4",
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE",
+    "release_metadata_changed": false,
+    "version_bump": false
+  }
+}

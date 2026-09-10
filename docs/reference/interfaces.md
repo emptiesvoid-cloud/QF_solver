@@ -2,17 +2,17 @@
 doc_id: DOC-REF-001
 revision: 0.1
 status: draft technique
-applicable_version: 0.2.7
+applicable_version: 0.2.8-development
 reviewer: ""
 approver: ""
 ---
 
 # Interfaces CLI et API publiques
 
-Cette page decrit les interfaces disponibles dans la release 0.2.7.
+Cette page decrit les interfaces disponibles dans le candidat 0.2.8.
 La stabilite d'une API ou la compatibilite d'un import ne constitue pas une
-qualification mecanique : les claims restent gouvernes par le registry v2 et
-les preuves de verification 0.2.7.
+qualification mecanique : les claims restent gouvernes par le registre
+consolide 0.2.8, les records separes et leurs preuves.
 
 ## Commandes principales
 
@@ -95,6 +95,9 @@ Le parsing reste dans `io`, la logique mecanique dans `core/elements` et
 l'interface publique dans `solveur.api`. Le code appelant ne doit pas importer
 les classes internes pour obtenir un resultat courant.
 
+`qf_solver.read_inp(path)` reste `PROVISIONAL` et ne couvre que le sous-ensemble
+Abaqus/CalculiX borne documente.
+
 ## Grand modele
 
 ```python
@@ -105,4 +108,6 @@ result = solve_large_model(model, "result_large", solver_backend="petsc", precon
 ```
 
 Le backend large refuse explicitement MITC4, TET10, dynamique, modal et
-non-lineaire dans son perimetre v1.
+non-lineaire dans son perimetre v1. Les preuves PETSc/MPI historiques de cette
+route TET4 ne valident pas le runtime distribue mixed, qui reste
+`NOT_VALIDATED`.

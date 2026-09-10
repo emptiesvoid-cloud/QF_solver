@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-05-INP-IMPORT-001",
+  "contract_version": 1,
+  "created_before_numerical_campaign": true,
+  "scope": {
+    "purpose": "Strict, fail-closed import of a bounded Abaqus/CalculiX .inp subset into the existing QF FiniteElementModel schema.",
+    "analysis": "linear_static_only",
+    "materials": "isotropic_linear_elastic_only",
+    "units_policy": "USER_CONSISTENT / NO_AUTOMATIC_CONVERSION",
+    "public_claim": "bounded Abaqus/CalculiX .inp import subset",
+    "not_general_abaqus_compatibility": true
+  },
+  "supported_keywords": {
+    "NODE": {
+      "parameters": ["NSET"],
+      "notes": "Positive unique node labels; three finite coordinates; optional node-set membership via NSET."
+    },
+    "ELEMENT": {
+      "parameters": ["TYPE", "ELSET"],
+      "types": ["C3D4", "C3D6", "C3D8"],
+      "notes": "Positive unique element labels and exact connectivity cardinality."
+    },
+    "NSET": {
+      "parameters": ["NSET", "GENERATE"],
+      "notes": "Explicit node labels or inclusive start,end,increment ranges."
+    },
+    "ELSET": {
+      "parameters": ["ELSET", "GENERATE"],
+      "notes": "Explicit element labels or inclusive start,end,increment ranges."
+    },
+    "MATERIAL": {
+      "parameters": ["NAME"],
+      "notes": "One material block with one ELASTIC card."
+    },
+    "ELASTIC": {
+      "parameters": [],
+      "notes": "Exactly one data row containing finite E and nu."
+    },
+    "SOLID SECTION": {
+      "parameters": ["ELSET", "MATERIAL"],
+      "notes": "Maps each referenced element set to one isotropic material; no section data are used."
+    },
+    "BOUNDARY": {
+      "parameters": [],
+      "notes": "Node or NSET, first DOF, optional last DOF, optional finite zero value; DOFs 1..3 only. Nonzero prescribed displacements are rejected because the QF fixed_dofs schema is zero-valued."
+    },
+    "CLOAD": {
+      "parameters": [],
+      "notes": "Node or NSET, DOF, finite value; DOFs 1..3 only."
+    },
+    "STEP": {
+      "parameters": [],
+      "notes": "Exactly one bounded step."
+    },
+    "STATIC": {
+      "parameters": [],
+      "notes": "Optional numeric static-control data are accepted but do not change the linear-static model."
+    },
+    "END STEP": {
+      "parameters": [],
+      "notes": "Closes the single supported step."
+    }
+  },
+  "unsupported_keywords": [
+    "AMPLITUDE",
+    "ASSEMBLY",
+    "COUPLING",
+    "DAMPING",
+    "DLOAD",
+    "DYNAMIC",
+    "FREQUENCY",
+    "HYPERELASTIC",
+    "INCLUDE",
+    "INTERACTION",
+    "OUTPUT",
+    "PLASTIC",
+    "RADIATE",
+    "SHELL SECTION",
+    "SURFACE",
+    "TEMPERATURE",
+    "USER MATERIAL"
+  ],
+  "ignorable_metadata": [
+    "HEADING",
+    "PREPRINT",
+    "COMMENT_LINES_STARTING_WITH_DOUBLE_ASTERISK"
+  ],
+  "element_mapping": {
+    "C3D4": "TET4",
+    "C3D6": "WEDGE6",
+    "C3D8": "HEX8"
+  },
+  "deferred_element_types": ["C3D10", "C3D20", "all other element types"],
+  "dialects": {
+    "abaqus_subset": ["NODE", "ELEMENT", "NSET", "ELSET", "MATERIAL", "ELASTIC", "SOLID SECTION", "BOUNDARY", "CLOAD", "STEP", "STATIC", "END STEP"],
+    "calculix_subset": ["NODE", "ELEMENT", "NSET", "ELSET", "MATERIAL", "ELASTIC", "SOLID SECTION", "BOUNDARY", "CLOAD", "STEP", "STATIC", "END STEP"],
+    "common_subset": ["NODE", "ELEMENT", "NSET", "ELSET", "MATERIAL", "ELASTIC", "SOLID SECTION", "BOUNDARY", "CLOAD", "STEP", "STATIC", "END STEP"]
+  },
+  "validation": {
+    "labels_positive_unique": true,
+    "connectivity_references_existing_nodes": true,
+    "connectivity_has_no_duplicate_nodes": true,
+    "sets_nonempty": true,
+    "set_members_exist": true,
+    "element_has_exactly_one_material_assignment": true,
+    "tet4_positive_orientation_required": true,
+    "wedge6_positive_jacobians_required": true,
+    "hex8_positive_jacobians_required": true,
+    "unknown_keyword_policy": "REJECT",
+    "unsupported_physical_keyword_policy": "REJECT",
+    "silent_fallback_allowed": false
+  },
+  "gates": {
+    "node_coordinate_absolute_error": 0.0,
+    "element_connectivity_exact": true,
+    "material_and_section_mapping_exact": true,
+    "set_mapping_exact": true,
+    "boundary_and_cload_mapping_exact": true,
+    "displacement_relative_l2": 1.0e-12,
+    "reaction_relative_l2": 1.0e-12,
+    "equilibrium_relative": 1.0e-10,
+    "energy_relative": 1.0e-10,
+    "replay_digest_exact": true
+  },
+  "fixtures": [
+    "tet4_simple",
+    "wedge6_simple",
+    "hex8_simple",
+    "mixed_tet4_wedge6_hex8",
+    "mixed_multimaterial"
+  ],
+  "negative_cases": [
+    "unknown_element_type",
+    "malformed_node",
+    "malformed_connectivity",
+    "duplicate_ids",
+    "missing_material",
+    "invalid_elset",
+    "invalid_nset",
+    "unsupported_physical_keyword",
+    "invalid_boundary_dof",
+    "invalid_material_property"
+  ],
+  "replay": {
+    "count": 2,
+    "fields": ["input_file_digest", "parsed_model_digest", "numerical_output_digest", "mapping_report"],
+    "comparison": "exact_digest"
+  },
+  "evidence": {
+    "required": ["contract_id", "contract_sha256", "repo_sha", "environment", "input_digest", "parsed_model_digest", "output_digest", "mapping_report", "gate_decisions", "failure_cases"],
+    "machine_readable": true
+  },
+  "api": {
+    "proposed": "qf_solver.read_inp(path)",
+    "status": "PROVISIONAL_UNTIL_OWNER_GATE"
+  },
+  "maturity": "EXPERIMENTAL_BOUNDED_CANDIDATE",
+  "historical_integrity": {
+    "element_analysis_registry_46_unchanged": true,
+    "evidence_0_2_7_unchanged": true,
+    "formulations_unchanged": true
+  }
+}

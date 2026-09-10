@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-02A-READINESS",
+  "work_package": "WP13-02A",
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "889fbf27328e843813b670bcbded98327e320b24",
+  "contract_commit_sha": "e7c75286dbf073b7b82f05eaef276dabc05684e0",
+  "status": "PASS_WITH_LIMITATIONS",
+  "objective": "Audit the existing mixed dynamic routes and freeze the Newmark and harmonic V&V contracts without starting either campaign.",
+  "readiness_matrix": {
+    "TET4": {
+      "stiffness_K": {"status": "READY", "basis": "Registered solid kernel and common sparse assembler."},
+      "consistent_mass_M": {"status": "READY", "basis": "Consistent translational mass kernel and pair assembly are exercised by existing tests."},
+      "damping_C": {"status": "READY", "basis": "Generic Rayleigh C=alpha*M+beta*K path is implemented."},
+      "Newmark": {"status": "READY", "basis": "Public pure-TET4 transient route and focused Newmark tests exist."},
+      "harmonic": {"status": "READY", "basis": "Public pure-TET4 harmonic route and closed-form SDOF tests exist."},
+      "temporal_loads": {"status": "READY", "basis": "Load factors, load tables and load functions are implemented in the generic solver."},
+      "harmonic_loads": {"status": "READY", "basis": "Complex frequency load assembly is implemented for the generic small-system route."},
+      "initial_conditions": {"status": "READY", "basis": "Newmark initial displacement/velocity/acceleration inputs are implemented."},
+      "post_processing": {"status": "READY", "basis": "Transient history, residual, energy and harmonic response records exist for pure routes."},
+      "interface_continuity": {"status": "NEEDS_VNV", "basis": "No connected mixed dynamic campaign has exercised TET4 interfaces."},
+      "mixed_assembly": {"status": "NEEDS_VNV", "basis": "K/M generic dispatch exists, but dynamic mixed interface conservation is unproven."},
+      "solver_dispatch": {"status": "READY", "basis": "Router dispatches Newmark and harmonic routes for declared pure TET4 combinations."}
+    },
+    "WEDGE6": {
+      "stiffness_K": {"status": "READY", "basis": "Static qualified-bounded kernel and common assembler path are present."},
+      "consistent_mass_M": {"status": "READY", "basis": "Consistent translational mass() and reference_mass() exist; modal route already uses the kernel."},
+      "damping_C": {"status": "PARTIAL", "basis": "Rayleigh composition is generic, but WEDGE6 dynamic damping is not contractualized or V&V-tested."},
+      "Newmark": {"status": "MISSING", "basis": "Compatibility preflight returns UNSUPPORTED_ROUTE: WEDGE6 does not declare transient_dynamic."},
+      "harmonic": {"status": "MISSING", "basis": "Compatibility preflight returns UNSUPPORTED_ROUTE: WEDGE6 does not declare harmonic_response."},
+      "temporal_loads": {"status": "PARTIAL", "basis": "Generic nodal/load-factor machinery exists, but the public WEDGE6 dynamic route is blocked before use."},
+      "harmonic_loads": {"status": "PARTIAL", "basis": "Generic complex load assembly exists, but no WEDGE6 harmonic dispatch is available."},
+      "initial_conditions": {"status": "PARTIAL", "basis": "Generic Newmark initial-state support exists; WEDGE6 compatibility and mixed behavior are untested."},
+      "post_processing": {"status": "NEEDS_VNV", "basis": "Static/modal recovery exists; dynamic history/FRF recovery for WEDGE6 is not evidenced."},
+      "interface_continuity": {"status": "NEEDS_VNV", "basis": "Static and modal interfaces are evidenced; dynamic force/energy transfer is not."},
+      "mixed_assembly": {"status": "PARTIAL", "basis": "Generic K/M element dispatch includes WEDGE6, but no mixed dynamic evidence exists."},
+      "solver_dispatch": {"status": "MISSING", "basis": "Router preflight deliberately rejects WEDGE6 transient_dynamic and harmonic_response."}
+    },
+    "HEX8": {
+      "stiffness_K": {"status": "READY", "basis": "Common kernel/assembler and pure workflow are covered."},
+      "consistent_mass_M": {"status": "READY", "basis": "Consistent mass kernel and pure modal/dynamic paths are covered."},
+      "damping_C": {"status": "READY", "basis": "Generic Rayleigh composition is available on the declared pure route."},
+      "Newmark": {"status": "READY", "basis": "Existing pure HEX8 common dynamic workflow test passes."},
+      "harmonic": {"status": "READY", "basis": "Existing pure HEX8 common harmonic workflow test passes."},
+      "temporal_loads": {"status": "READY", "basis": "Generic dynamic load mechanisms are available on the pure route."},
+      "harmonic_loads": {"status": "READY", "basis": "Generic complex frequency load mechanism is available on the pure route."},
+      "initial_conditions": {"status": "READY", "basis": "Generic Newmark initial-state support is available; mixed use still needs V&V."},
+      "post_processing": {"status": "READY", "basis": "Pure transient/harmonic result paths exist; mixed interface post-processing needs V&V."},
+      "interface_continuity": {"status": "NEEDS_VNV", "basis": "No connected mixed dynamic interface campaign has been executed."},
+      "mixed_assembly": {"status": "NEEDS_VNV", "basis": "K/M generic dispatch exists, but mixed dynamic conservation is unproven."},
+      "solver_dispatch": {"status": "READY", "basis": "Pure route is declared and routed; the mixed route remains blocked by WEDGE6."}
+    }
+  },
+  "mixed_dynamic_readiness": {
+    "mixed_mass_assembly": "READY_AT_GENERIC_KERNEL_LEVEL; NEEDS_VNV_FOR_CONNECTED_DYNAMIC_USE",
+    "mixed_damping": "PARTIAL_GENERIC_RAYLEIGH_ONLY",
+    "newmark_dispatch": "MISSING_PUBLIC_MIXED_ROUTE; WEDGE6_PREFLIGHT_BLOCKS",
+    "harmonic_dispatch": "MISSING_PUBLIC_MIXED_ROUTE; WEDGE6_PREFLIGHT_BLOCKS",
+    "dynamic_loads": "PARTIAL_GENERIC_MECHANISM; MIXED_WEDGE6_ROUTE_BLOCKED",
+    "dynamic_postprocessing": "PARTIAL_PURE_ROUTE_ONLY; MIXED_RECOVERY_NEEDS_VNV"
+  },
+  "architecture_gaps": [
+    "WEDGE6 descriptor does not declare transient_dynamic or harmonic_response.",
+    "AnalysisRouter therefore rejects any mixed model containing WEDGE6 before entering the generic dynamic solver.",
+    "The dynamic family campaign has no WEDGE6 case.",
+    "The large dynamic PETSc runner is explicitly TET4-only and is out of scope for this 02A readiness check.",
+    "No mixed dynamic evidence runner or connected dynamic interface evidence pack exists yet."
+  ],
+  "numerical_gaps": [
+    "No mixed dynamic conservation check for assembled M and Rayleigh C.",
+    "No WEDGE6 transient response against an independent analytical/reduced oracle.",
+    "No mixed FRF amplitude/phase/resonance evidence.",
+    "No dynamic interface force/energy transfer evidence for TET4-WEDGE6-HEX8."
+  ],
+  "vnv_gaps": [
+    "Newmark dt refinement, amplitude, phase, residual and energy gates are not yet executed.",
+    "Harmonic multi-frequency, off-resonance and near-resonance gates are not yet executed.",
+    "Two-replay evidence and pure-family controls for the connected mixed model are not yet executed.",
+    "No external correlation is available or claimed; the frozen contracts use independent reduced/dense analytical references."
+  ],
+  "benchmark_connected": {
+    "status": "CONTRACT_READY_NOT_EXECUTED",
+    "geometry": "WP13-01K compact elbow at n=1: 3 TET4, 2 WEDGE6 and 1 HEX8, 48 translational DOF.",
+    "connected_components": 1,
+    "element_counts": {"TET4": 3, "WEDGE6": 2, "HEX8": 1},
+    "mechanical_load_path": "LOAD -> TET4 -> WEDGE6 -> HEX8 -> SUPPORT",
+    "direct_support_bypass": false,
+    "interfaces": ["TET4-WEDGE6 shared triangular face", "WEDGE6-HEX8 shared quadrilateral face"],
+    "note": "The load is applied only to TET4 and support only to HEX8; the precheck finds one connected component and no TET4-HEX8 direct node intersection. No dynamic solve was run in WP13-02A."
+  },
+  "conditioning_precheck": {
+    "max_aspect_ratio": 1.7320508075688772,
+    "jacobian_range": [0.12499999999999997, 1.0],
+    "max_affine_jacobian_condition": 3.7320508075688785,
+    "mass_scale_range": {
+      "assembled_diagonal": [130.0, 722.2222222222223],
+      "assembled_diagonal_ratio": 5.555555555555555,
+      "local_nonzero_entries": [36.11111111111108, 722.2222222222223]
+    },
+    "stiffness_scale_range": {
+      "assembled_positive_diagonal": [20192307692.30769, 201923076923.0769],
+      "assembled_positive_diagonal_ratio": 10.0,
+      "local_nonzero_entries": [1121794871.7948728, 74038461538.46153],
+      "local_nonzero_entry_ratio": 65.99999999999994
+    },
+    "assessment": "PASS_PREDECLARED_GEOMETRIC_PROXY; global condition number was not computed and is not claimed.",
+    "matrix_checks": {"consistent_mass_symmetric": true, "mass_sum": 58499.999999999985, "stiffness_relative_symmetry": 7.552e-17}
+  },
+  "contracts": {
+    "newmark": {
+      "id": "WP13-02A-NEWMARK-MIXED-CONTRACT-001",
+      "path": "qualification/0_2_8/wp13_02a_newmark_contract.json",
+      "predeclared": true,
+      "creation_sha": "889fbf27328e843813b670bcbded98327e320b24",
+      "contract_commit_sha": "e7c75286dbf073b7b82f05eaef276dabc05684e0",
+      "oracle": "Independent dense K/M generalized-eigen solve plus closed-form first-mode oscillator; not an external correlation.",
+      "gates": ["dt convergence", "amplitude", "phase", "frequency", "dynamic residual", "undamped energy", "interface continuity/force transfer", "two numerical replays", "pure controls where comparable"]
+    },
+    "harmonic": {
+      "id": "WP13-02A-HARMONIC-MIXED-CONTRACT-001",
+      "path": "qualification/0_2_8/wp13_02a_harmonic_contract.json",
+      "predeclared": true,
+      "creation_sha": "889fbf27328e843813b670bcbded98327e320b24",
+      "contract_commit_sha": "e7c75286dbf073b7b82f05eaef276dabc05684e0",
+      "oracle": "Independent dense K/M generalized-eigen solve plus closed-form first-mode damped SDOF FRF; not an external correlation.",
+      "gates": ["zero-frequency limit", "amplitude", "phase", "multi-frequency FRF consistency", "residual", "interface continuity/force transfer", "two numerical replays", "pure controls where comparable"]
+    }
+  },
+  "targeted_checks": {
+    "pytest": {"command": "python -m pytest -q <7 targeted nodes/files>", "result": "12 passed in 3.80s"},
+    "compatibility": {
+      "TET4_transient_dynamic": "SUPPORTED_ROUTE",
+      "TET4_harmonic_response": "SUPPORTED_ROUTE",
+      "WEDGE6_transient_dynamic": "UNSUPPORTED_ROUTE / ANALYSIS_NOT_SUPPORTED",
+      "WEDGE6_harmonic_response": "UNSUPPORTED_ROUTE / ANALYSIS_NOT_SUPPORTED",
+      "HEX8_transient_dynamic": "SUPPORTED_ROUTE",
+      "HEX8_harmonic_response": "SUPPORTED_ROUTE",
+      "mixed_router_smoke": "CompatibilityError for both WEDGE6 dynamic routes; no silent fallback"
+    },
+    "matrix_precheck": "PASS for connected n=1 K/M assembly and conditioning proxies",
+    "json_validation": "PASS",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "diff_check": "PASS",
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE"
+  },
+  "decision": {
+    "wp13_02a_points_validated": "3/3 readiness and contract-freeze points",
+    "ready_for_wp13_02b": false,
+    "reason": "02B cannot execute through the public route until WEDGE6 transient compatibility/dispatch is separately approved and the missing WEDGE6 dynamic V&V path is addressed.",
+    "kill_gates": [
+      "WEDGE6 dynamic mass/damping or dispatch remains inconsistent",
+      "no independent oracle can be maintained without reusing the production solver",
+      "connected dynamic interface continuity/force/energy fails",
+      "conditioning contract fails before execution",
+      "a gate or benchmark must be changed after results",
+      "major solver/formulation redesign is required"
+    ]
+  },
+  "integrity": {
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "maturity_changed": false,
+    "evidence_0_2_7_changed": false,
+    "wp13_01_claims_changed": false,
+    "dynamic_campaign_executed": false
+  }
+}

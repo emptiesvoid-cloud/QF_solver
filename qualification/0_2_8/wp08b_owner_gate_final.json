@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP08B-OWNER-GATE-FINAL",
+  "work_package": "WP08B",
+  "applicable_version": "0.2.8-development",
+  "audited_commit": "35d2debbd414917ac31d2b2d945df1132737eae5",
+  "status": "CLOSED_WITH_APPROVE_WITH_LIMITATIONS",
+  "authorization": {
+    "source": "Explicit project-owner instruction in the associated task.",
+    "owner_identity": null,
+    "identity_note": "No personal identity or signature is inferred by this record."
+  },
+  "technical_evidence": [
+    {
+      "path": "qualification/0_2_8/wp08b_root_cause_audit.json",
+      "sha256": "37b91540bd62502fd8bbcab0bd7d88d41f12af3a559842723acb01e494547769"
+    },
+    {
+      "path": "qualification/0_2_8/wp08b_mixed_modal_contract.json",
+      "sha256": "b465518278f04b2e5ce00f8bac76ffe25cfd2d046d4614aeb28e23190d27ce84"
+    },
+    {
+      "path": "qualification/0_2_8/wp08b_mixed_modal_vnv.json",
+      "sha256": "877b6394f6ce7950d3c8af8a0254a0885743d359438d48eabb749f8f5aabc8ba"
+    },
+    {
+      "path": "qualification/0_2_8/wp08b_mixed_modal_matrix.json",
+      "sha256": "d755c917dabb71276439591148ca56b0a47d4195c1a7fbba80af6042e20e7513"
+    },
+    {
+      "path": "docs/verification/0_2_8/wp08b_mixed_modal_vnv.md",
+      "sha256": "af6bdf40d48ab2a76b34c85e1638ab392f106bdb087fe02d72774418a1f664c3"
+    }
+  ],
+  "audit_checks": {
+    "predeclared_scope": "PASS",
+    "mesh_to_mesh_mapping_validity": "PASS",
+    "mass_weighted_mac_validity": "PASS",
+    "new_contract_independence": "PASS",
+    "old_wp08_gate_unchanged": "PASS",
+    "frequency_and_global_mode_matching": "PASS",
+    "mode_residuals": "PASS",
+    "orthogonality": "PASS",
+    "mass_assembly_and_conservation": "PASS",
+    "interface_continuity_and_robustness": "PASS",
+    "deterministic_replays": "PASS",
+    "reference_oracle_independence": "PASS_WITH_LIMITATIONS",
+    "claim_evidence_coherence": "PASS_WITH_LIMITATIONS",
+    "opportunistic_numerical_core_change": "NOT_FOUND",
+    "historical_0_2_7_evidence_integrity": "PASS",
+    "element_analysis_registry_reconciliation": "PASS"
+  },
+  "decision_policy": "APPROVE_WITH_LIMITATIONS applies only to the dedicated mixed_workflow_qualification record. It does not add a route to the 46 element-analysis records and does not establish general modal accuracy.",
+  "decision": {
+    "owner_decision": "APPROVE_WITH_LIMITATIONS",
+    "mixed_modal_final_status": "QUALIFIED_BOUNDED",
+    "scope": "modal linear only; fixed x=0 base; conforming shared-node triangular and quadrilateral interfaces; TET4, WEDGE6 and HEX8; small-strain homogeneous isotropic elasticity; consistent translational finite-element mass; first six positive modes; refinement levels 1, 2, 4 and 8; and valid geometries in the already qualified elementary domains.",
+    "limitations": [
+      "The result is a bounded workflow qualification for the tested fixed-base chain, not a universal mixed-modal or all-frequency claim.",
+      "The WP08B contract uses shape-function field prolongation with no extrapolation and a fine consistent-mass inner product; the original WP08 shared-node MAC gate of 0.5 remains unchanged and its 0.1028 failure remains historical evidence.",
+      "The independent dense local-matrix scatter/eigensolve plus analytical mass conservation is sufficient for the declared assembly scope; no external industrial-solver correlation is claimed.",
+      "No modal stress, lumped/concentrated mass, Newmark, harmonic, nonlinear, contact, nonconforming/hanging-node/MPC/RBE interface, TET10/HEX20, PYRAMID5, large-model performance or universal all-frequency claim is made."
+    ],
+    "reference_oracle_sufficient_for_bounded_scope": true,
+    "external_correlation_required_for_bounded_scope": false
+  },
+  "registry_separation": {
+    "element_analysis_registry": "qualification/0_2_7/capability_registry_v2.json",
+    "element_analysis_registry_total": 46,
+    "source_registry_counts": {
+      "QUALIFIED_BOUNDED": 20,
+      "EXPERIMENTAL": 25,
+      "NOT_QUALIFIED": 1
+    },
+    "cumulative_0_2_8_counts_after_wp06b": {
+      "QUALIFIED_BOUNDED": 32,
+      "EXPERIMENTAL": 13,
+      "NOT_QUALIFIED": 1,
+      "TOTAL": 46
+    },
+    "mixed_workflow_record": "qualification/0_2_8/wp08b_mixed_modal_matrix.json",
+    "mixed_workflow_record_kind": "mixed_workflow_qualification",
+    "mixed_workflow_added_to_combination_registry": false,
+    "not_qualified_combination": "COMB-HEX8-linear_buckling"
+  },
+  "integrity": {
+    "claims_bounded": true,
+    "evidence_integrity": "PASS",
+    "numerical_source_changed": false,
+    "historical_0_2_7_evidence_changed": false,
+    "wp08_initial_gate_changed": false,
+    "wp08_initial_evidence_rewritten": false,
+    "wp08b_campaign_evidence_rewritten": false,
+    "owner_decision_applied_only_to_0_2_8": true
+  },
+  "final_matrix": "qualification/0_2_8/wp08b_mixed_modal_matrix.json",
+  "documentation": "docs/verification/0_2_8/wp08b_owner_gate_final.md",
+  "summary": {
+    "owner_decision": "APPROVE_WITH_LIMITATIONS",
+    "mixed_workflow_status": "QUALIFIED_BOUNDED",
+    "element_analysis_registry_total": 46,
+    "qualified_bounded_global": 32,
+    "experimental_global": 13,
+    "not_qualified_global": 1,
+    "not_qualified_combination": "COMB-HEX8-linear_buckling"
+  }
+}

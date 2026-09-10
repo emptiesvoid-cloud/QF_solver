@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP08-MIXED-MODAL-CONTRACT",
+  "work_package": "WP08",
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "65c816fee4a1497dd320358565a297c01bfcaff5",
+  "status": "PREDECLARED_CAMPAIGN_CONTRACT",
+  "parent_records": [
+    "qualification/0_2_8/wp07_owner_gate_final.json",
+    "qualification/0_2_8/wp07_mixed_static_matrix.json"
+  ],
+  "objective": "Audit and test one bounded mixed modal workflow using TET4, WEDGE6 and HEX8 without changing numerical kernels or extending the WP07 static claim automatically.",
+  "subsystem_audit": {
+    "mixed_mass_assembly": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+    "consistent_mass": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+    "lumped_mass": "OUT_OF_SCOPE_NOT_SUPPORTED_FOR_FINITE_ELEMENT_MODAL_ROUTE",
+    "DOF_mapping": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+    "modal_route": "ALREADY_IMPLEMENTED_NEEDS_VNV",
+    "mixed_modal_interface_validation": "NEEDS_FIX",
+    "WEDGE6_modal_scope": "EXPERIMENTAL_PREVIOUSLY_NOT_QUALIFIED",
+    "post_processing_and_output": "ALREADY_IMPLEMENTED_NEEDS_VNV"
+  },
+  "scope": {
+    "analysis": "modal",
+    "families": ["TET4", "WEDGE6", "HEX8"],
+    "interfaces": "conforming shared-node triangular and quadrilateral faces only",
+    "kinematics": "small-strain linear isotropic elasticity",
+    "mass": "consistent translational finite-element mass only",
+    "boundary_conditions": "fixed-base cases used to remove rigid-body modes",
+    "modes": "first six positive modes in the explicitly tested cases",
+    "material": "homogeneous isotropic_3d with positive density",
+    "excluded": [
+      "lumped finite-element mass",
+      "concentrated-mass qualification",
+      "Newmark",
+      "harmonic",
+      "nonlinear",
+      "contact",
+      "hanging nodes",
+      "MPC/RBE transitions",
+      "nonconforming interfaces",
+      "TET10/HEX20 mixed",
+      "PYRAMID5",
+      "large mixed performance",
+      "universal all-frequency modal claim"
+    ]
+  },
+  "cases": {
+    "pairwise": [
+      "TET4-WEDGE6",
+      "WEDGE6-HEX8"
+    ],
+    "three_family": "TET4-WEDGE6-HEX8",
+    "pure_comparison": ["TET4", "WEDGE6", "HEX8"],
+    "refinement_segments": [1, 2, 4]
+  },
+  "oracle": {
+    "mass": "analytical total mass rho*sum(volume) and translational mass conservation",
+    "modal": "independent dense generalized eigensolve from separately assembled local K/M arrays",
+    "independence_boundary": "The dense oracle does not call the production ModalAnalysisSolver or GlobalAssembler matrix path; it reassembles local element matrices with an independent dense scatter and uses scipy.linalg.eigh.",
+    "external": "NOT_AVAILABLE_AND_NOT_REQUIRED_FOR_THIS_BOUNDED_CONTRACT",
+    "external_policy": "No external modal correlation is claimed without comparable mixed geometry, interfaces, material, boundary conditions and mode observables."
+  },
+  "tolerance_policy": {
+    "fixed_before_execution": true,
+    "post_observation_retuning": false,
+    "values": {
+      "mass_symmetry_relative": 1.0e-12,
+      "mass_total_relative": 1.0e-12,
+      "mass_direction_relative": 1.0e-12,
+      "mass_minimum_eigenvalue_relative": 1.0e-14,
+      "modal_residual_relative": 1.0e-8,
+      "modal_mass_orthogonality_relative": 1.0e-10,
+      "oracle_frequency_relative": 1.0e-9,
+      "oracle_mode_mac": 0.99999999,
+      "refinement_first_frequency_step_relative": 2.5e-1,
+      "refinement_mode_mac": 5.0e-1,
+      "replay_frequency_absolute": 1.0e-12,
+      "replay_mode_absolute_after_sign": 1.0e-10,
+      "interface_displacement_absolute": 1.0e-14
+    }
+  },
+  "gates": [
+    "global consistent mass assembly for every pairwise and three-family case",
+    "mass symmetry, positive definiteness, density/volume conservation and DOF uniqueness",
+    "first six positive modal frequencies with residual and mass orthogonality checks",
+    "independent dense generalized-eigen oracle and MAC mode matching",
+    "pure-family versus mixed diagnostic comparison without equality claim",
+    "three-level mixed refinement with finite positive frequency trend and no monotonicity assumption",
+    "conforming interface continuity and no duplicated interface mass",
+    "invalid connectivity, geometry and nonconforming interface rejection",
+    "normalization, family labels, frequencies and mode output checks",
+    "two deterministic replays with sign canonicalization only"
+  ],
+  "historical_integrity": {
+    "source_registry_0_2_7_read_only": true,
+    "evidence_0_2_7_read_only": true,
+    "wp07_static_claim_read_only": true,
+    "public_maturity_relabel_applied": false,
+    "owner_gate_required": true
+  }
+}

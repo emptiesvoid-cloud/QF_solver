@@ -1,0 +1,34 @@
+{
+  "mode": "partition",
+  "comparisons": [
+    {
+      "reference": "stage_a_mpi1",
+      "label": "stage_a_mpi2",
+      "values": {
+        "displacement": 6.44177510122345e-13,
+        "reactions": 2.2327120048497197e-13,
+        "energy": 1.9984616056489462e-13,
+        "residual_difference": 1.8043424622989363e-15,
+        "equilibrium_difference": 1.429614075480275e-13
+      },
+      "pass": true,
+      "same_model": true,
+      "raw_digest_equal": false
+    },
+    {
+      "reference": "stage_a_mpi1",
+      "label": "stage_a_mpi4",
+      "values": {
+        "displacement": 1.3186770737711898e-12,
+        "reactions": 4.721518364335495e-13,
+        "energy": 4.265677448896317e-13,
+        "residual_difference": 1.6336072533476928e-15,
+        "equilibrium_difference": 2.634602441221194e-13
+      },
+      "pass": true,
+      "same_model": true,
+      "raw_digest_equal": false
+    }
+  ],
+  "pass": true
+}

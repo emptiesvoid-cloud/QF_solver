@@ -11,8 +11,6 @@ on:
       - ".github/workflows/pages.yml"
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -20,6 +18,9 @@ concurrency:
 
 jobs:
   build:
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
 
     steps:
@@ -48,6 +49,10 @@ jobs:
           path: site/
 
   deploy:
+    if: github.ref == 'refs/heads/main' && needs.build.result == 'success'
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

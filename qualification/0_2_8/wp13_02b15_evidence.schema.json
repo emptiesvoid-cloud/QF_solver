@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qf-solver.org/schemas/wp13-02b15-evidence.json",
+  "title": "QF Solver WP13-02B15 residual normalization evidence",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_id",
+    "work_package",
+    "start_sha",
+    "repo_sha",
+    "contract_id",
+    "contract_sha",
+    "contract_unchanged",
+    "gates_unchanged",
+    "source_residual_arrays_valid",
+    "fstar",
+    "residual",
+    "archive",
+    "replay_history_comparison",
+    "iterations_contract_status",
+    "historical_records",
+    "integrity",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "record_id": {"const": "QF-028-WP13-02B15-RESIDUAL-NORMALIZATION"},
+    "work_package": {"const": "WP13-02B15"},
+    "start_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "repo_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "contract_id": {"const": "WP13-02B4-NEWMARK-MIXED-V2-001"},
+    "contract_sha": {"const": "8b44792466eacaf1f341a7970502e9b48dbed4e1"},
+    "contract_unchanged": {"const": true},
+    "gates_unchanged": {"const": true},
+    "source_residual_arrays_valid": {"const": true},
+    "fstar": {
+      "type": "object",
+      "required": ["value_N", "source", "formula"],
+      "properties": {
+        "value_N": {"type": "number", "exclusiveMinimum": 0},
+        "source": {"const": "B13 archived oracle K/M and initial state"},
+        "formula": {"const": "max(norm(K@u0,2), norm(M@a0,2), 1 N)"}
+      },
+      "additionalProperties": true
+    },
+    "residual": {
+      "type": "object",
+      "required": [
+        "metric_name",
+        "contract_metric_definition",
+        "numerator_source",
+        "denominator_source",
+        "denominator_value_N",
+        "variable_denominator_used",
+        "gate_threshold",
+        "by_level",
+        "old_history_preserved"
+      ],
+      "properties": {
+        "metric_name": {"const": "residual_relative"},
+        "contract_metric_definition": {"const": "norm(r_free,2)/Fstar"},
+        "numerator_source": {"const": "B13 archived residual_vector at oracle free indices"},
+        "denominator_source": {"const": "Fstar"},
+        "denominator_value_N": {"type": "number", "exclusiveMinimum": 0},
+        "variable_denominator_used": {"const": false},
+        "gate_threshold": {"const": 1e-07},
+        "old_history_preserved": {"const": true},
+        "by_level": {
+          "type": "object",
+          "required": ["T1/20", "T1/40", "T1/80", "T1/160"],
+          "properties": {
+            "T1/20": {"$ref": "#/$defs/history"},
+            "T1/40": {"$ref": "#/$defs/history"},
+            "T1/80": {"$ref": "#/$defs/history"},
+            "T1/160": {"$ref": "#/$defs/history"}
+          },
+          "additionalProperties": false
+        },
+        "replay_histories": {
+          "type": "object",
+          "required": ["main", "replay_1", "replay_2"],
+          "properties": {
+            "main": {"$ref": "#/$defs/history"},
+            "replay_1": {"$ref": "#/$defs/history"},
+            "replay_2": {"$ref": "#/$defs/history"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "archive": {
+      "type": "object",
+      "required": ["path", "sha256", "array_count", "array_manifest"],
+      "properties": {
+        "path": {"type": "string"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "array_count": {"type": "integer", "minimum": 7},
+        "array_manifest": {"type": "object", "minProperties": 7}
+      },
+      "additionalProperties": true
+    },
+    "replay_history_comparison": {
+      "type": "object",
+      "required": ["tolerance", "main_replay_1", "main_replay_2"],
+      "properties": {
+        "tolerance": {"const": 1e-12},
+        "main_replay_1": {"$ref": "#/$defs/comparison"},
+        "main_replay_2": {"$ref": "#/$defs/comparison"}
+      },
+      "additionalProperties": true
+    },
+    "iterations_contract_status": {"const": "PASS"},
+    "historical_records": {
+      "type": "object",
+      "required": ["B5", "B6", "B7", "B8", "B9", "B10", "B11", "B12", "B12b", "B13", "B14"],
+      "additionalProperties": true
+    },
+    "integrity": {
+      "type": "object",
+      "required": [
+        "numerical_runs",
+        "numerical_source_changed",
+        "vnv_harness_changed",
+        "input_validation_source_changed",
+        "preflight_source_changed",
+        "formulation_changed",
+        "contract_changed",
+        "gates_changed",
+        "maturity_changed",
+        "evidence_0_2_7_changed"
+      ],
+      "properties": {
+        "numerical_runs": {"const": "NONE"},
+        "numerical_source_changed": {"const": false},
+        "vnv_harness_changed": {"const": "YES_SCHEMA_ONLY"},
+        "input_validation_source_changed": {"const": false},
+        "preflight_source_changed": {"const": false},
+        "formulation_changed": {"const": false},
+        "contract_changed": {"const": false},
+        "gates_changed": {"const": false},
+        "maturity_changed": {"const": false},
+        "evidence_0_2_7_changed": {"const": false}
+      },
+      "additionalProperties": true
+    },
+    "decision": {
+      "type": "object",
+      "required": ["status", "ready_for_owner_recheck", "blockers"],
+      "properties": {
+        "status": {"const": "PASS_EVIDENCE_ONLY_CLOSURE"},
+        "ready_for_owner_recheck": {"const": true},
+        "blockers": {"type": "array", "maxItems": 0}
+      },
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "history": {
+      "type": "object",
+      "required": [
+        "source_array",
+        "derived_array",
+        "source_digest",
+        "history_digest",
+        "max_value",
+        "gate_threshold",
+        "gate_pass"
+      ],
+      "properties": {
+        "source_array": {"type": "string"},
+        "derived_array": {"type": "string"},
+        "source_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "history_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "max_value": {"type": "number", "minimum": 0},
+        "gate_threshold": {"const": 1e-07},
+        "gate_pass": {"const": true}
+      },
+      "additionalProperties": true
+    },
+    "comparison": {
+      "type": "object",
+      "required": ["left", "right", "max_abs_difference", "tolerance", "pass"],
+      "properties": {
+        "left": {"type": "string"},
+        "right": {"type": "string"},
+        "max_abs_difference": {"type": "number", "minimum": 0},
+        "tolerance": {"const": 1e-12},
+        "pass": {"const": true}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

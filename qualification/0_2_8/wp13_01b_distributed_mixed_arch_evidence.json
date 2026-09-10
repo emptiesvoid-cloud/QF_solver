@@ -1,0 +1,3877 @@
+{
+  "architecture_map": {
+    "GENERIC": [
+      "src/solveur/elements/registry.py:ElementRegistry",
+      "src/solveur/core/dofs.py:DofManager",
+      "src/solveur/large/generic_distributed.py:RankLocalModel",
+      "src/solveur/large/generic_distributed.py:exchange_preallocation_metadata"
+    ],
+    "MISSING": [
+      "mixed PETSc Mat/Vec runtime creation",
+      "MPI owner/ghost value exchange",
+      "distributed constrained solve and reaction reduction execution",
+      "mixed distributed result post-processing qualification"
+    ],
+    "PARTIAL": [
+      "src/solveur/large/partitioning.py:PETSc helpers await mixed runtime adapter",
+      "src/solveur/large/runtime.py:runtime ownership/ghost exchange awaits WP13-01C",
+      "src/solveur/large/generic_distributed.py:reaction packets require PETSc reduction in WP13-01C"
+    ],
+    "TET4_ONLY_LEGACY": [
+      "src/solveur/large/model.py",
+      "src/solveur/large/io.py",
+      "src/solveur/large/assembler.py",
+      "src/solveur/large/postprocess.py",
+      "src/solveur/large/dynamic.py",
+      "src/solveur/large/audit.py"
+    ]
+  },
+  "bc_load": {
+    "distributed_bc": "owned constrained DOFs assigned exactly once by node owner",
+    "distributed_load": "owned nodal load records assigned exactly once by node owner",
+    "ghost_load_visibility": true
+  },
+  "contract_id": "WP13-01B-DISTRIBUTED-MIXED-ARCH-001",
+  "contract_sha": "e5932862c36f8a2a13b3d848f2117ba40473adb2b6dd85a52ba60c6184dc1472",
+  "environment": {
+    "numpy": "2.2.6",
+    "petsc": {
+      "available": "NO",
+      "status": "NOT_AVAILABLE_DEFERRED_TO_WP13_01C",
+      "tested": "NO"
+    },
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "validation_mode": "backend-neutral serial partition simulation"
+  },
+  "evidence_schema_valid": true,
+  "failure_cases": [
+    {
+      "case_id": "unsupported_element_family",
+      "execution_path": "ElementBlock.__post_init__",
+      "expected_exception": "InputValidationError",
+      "expected_message_pattern": "Unsupported distributed element family",
+      "input": {
+        "family": "PYRAMID5"
+      },
+      "input_digest": "ed09e6fbf175c96042c68ad5a7175557b7afe12b7332aeed8095311e98daa6bb",
+      "message_match": true,
+      "observed_exception": "InputValidationError",
+      "observed_message": "Unsupported distributed element family 'PYRAMID5'.",
+      "pass": true,
+      "type_match": true
+    },
+    {
+      "case_id": "malformed_connectivity",
+      "execution_path": "ElementBlock.__post_init__",
+      "expected_exception": "InputValidationError",
+      "expected_message_pattern": "distributed connectivity",
+      "input": {
+        "connectivity_shape": [
+          1,
+          3
+        ],
+        "family": "TET4"
+      },
+      "input_digest": "4f08036610ae3e0834992df8dd594031edc10eced0f2b77c159e890f69c1c90a",
+      "message_match": true,
+      "observed_exception": "InputValidationError",
+      "observed_message": "TET4 distributed connectivity must have shape (n, 4).",
+      "pass": true,
+      "type_match": true
+    },
+    {
+      "case_id": "invalid_element_owner",
+      "execution_path": "validate_partitions",
+      "expected_exception": "InputValidationError",
+      "expected_message_pattern": "invalid owner",
+      "input": {
+        "element_id": 0,
+        "owner": 1
+      },
+      "input_digest": "30d7722b0463b8a262959126552de408f33817c164ab4f83e811f5ab1a963c78",
+      "message_match": true,
+      "observed_exception": "InputValidationError",
+      "observed_message": "Distributed partition has an element with an invalid owner.",
+      "pass": true,
+      "type_match": true
+    },
+    {
+      "case_id": "duplicate_owned_element",
+      "execution_path": "validate_partitions",
+      "expected_exception": "InputValidationError",
+      "expected_message_pattern": "lost or duplicated an element",
+      "input": {
+        "duplicate_element_id": 0
+      },
+      "input_digest": "ef1f2c9ac011c6ed1b7bca4e1b3056f610ee4f61502278b2f529eee7fee146b8",
+      "message_match": true,
+      "observed_exception": "InputValidationError",
+      "observed_message": "Distributed partitioning lost or duplicated an element.",
+      "pass": true,
+      "type_match": true
+    },
+    {
+      "case_id": "missing_ghost_node",
+      "execution_path": "validate_partitions",
+      "expected_exception": "InputValidationError",
+      "expected_message_pattern": "local node map is incoherent",
+      "input": {
+        "ghost_nodes": [],
+        "rank": 1
+      },
+      "input_digest": "18faf20223db3fedd648a8c6934288e6e680bab8bae7e908ad41ff03e1a9fd13",
+      "message_match": true,
+      "observed_exception": "InputValidationError",
+      "observed_message": "Distributed partition local node map is incoherent.",
+      "pass": true,
+      "type_match": true
+    },
+    {
+      "case_id": "invalid_local_global_dof_map",
+      "execution_path": "RankLocalDofMap.__post_init__",
+      "expected_exception": "InputValidationError",
+      "expected_message_pattern": "node local/global mapping",
+      "input": {
+        "node_local_index": 99,
+        "rank": 0
+      },
+      "input_digest": "9886f9928ea21512efe3287a4d4d01e2e5175bd305fdeb8dfa0853ec472ab426",
+      "message_match": true,
+      "observed_exception": "InputValidationError",
+      "observed_message": "Rank-local node local/global mapping is invalid.",
+      "pass": true,
+      "type_match": true
+    },
+    {
+      "case_id": "missing_material",
+      "execution_path": "RankLocalModel.__post_init__",
+      "expected_exception": "InputValidationError",
+      "expected_message_pattern": "unknown material",
+      "input": {
+        "materials": {},
+        "rank": 0
+      },
+      "input_digest": "5a4f270cf84d35fb0497755ae240c706fcc6d4ebf9d024ca3fa8186e555a8c09",
+      "message_match": true,
+      "observed_exception": "InputValidationError",
+      "observed_message": "Rank-local element references unknown material 'solid'.",
+      "pass": true,
+      "type_match": true
+    },
+    {
+      "case_id": "inconsistent_partition",
+      "execution_path": "validate_partitions",
+      "expected_exception": "InputValidationError",
+      "expected_message_pattern": "sizes disagree",
+      "input": {
+        "declared_size": 3,
+        "rank": 0
+      },
+      "input_digest": "88e2d0d3cbf14a1b82b645efdd9f7a8e063c42d5ee0d9f5434ffd626494fde0b",
+      "message_match": true,
+      "observed_exception": "InputValidationError",
+      "observed_message": "Distributed partition sizes disagree.",
+      "pass": true,
+      "type_match": true
+    },
+    {
+      "case_id": "unsupported_dof_layout",
+      "execution_path": "GenericDistributedModel.__post_init__",
+      "expected_exception": "InputValidationError",
+      "expected_message_pattern": "translational DOFs only",
+      "input": {
+        "additional_dof": "RX",
+        "node": 0
+      },
+      "input_digest": "0cf0a858ea1e0edc264bbc6ec1318bf00772e4691e5c165128e9d4d5e39c9b15",
+      "message_match": true,
+      "observed_exception": "InputValidationError",
+      "observed_message": "Generic distributed solid schema supports translational DOFs only.",
+      "pass": true,
+      "type_match": true
+    }
+  ],
+  "failure_cases_executed": 9,
+  "gate_decisions": {
+    "displacement": true,
+    "failure_contract": true,
+    "load": true,
+    "local_dispatch": true,
+    "matrix": true,
+    "ownership": true,
+    "reaction": true,
+    "replay": true,
+    "sparsity": true
+  },
+  "integrity": {
+    "contract_values_single_source_of_truth": true,
+    "element_formulation_changed": false,
+    "historical_0_2_7_evidence_changed": false,
+    "mandatory_global_gather": false,
+    "maturity_changed": false,
+    "raw_array_digest": "2164b51f1608941a6c9d6b23eabb718e7b5730a7ef59358cff922c4c5c63b665",
+    "raw_array_keys": [
+      "manufactured_expected_displacement",
+      "partition_2_displacement",
+      "partition_2_load",
+      "partition_2_reaction",
+      "partition_2_stiffness",
+      "partition_3_displacement",
+      "partition_3_load",
+      "partition_3_reaction",
+      "partition_3_stiffness"
+    ],
+    "raw_array_path": "qualification/0_2_8/wp13_01b_distributed_mixed_arch_arrays.npz",
+    "replicated_model_required": false
+  },
+  "local_dispatch": {
+    "families": [
+      "TET4",
+      "WEDGE6",
+      "HEX8"
+    ],
+    "global_model_retained_by_rank_local_envelope": false,
+    "max_relative_error": 0.0,
+    "sizes": {
+      "HEX8": [
+        24,
+        24
+      ],
+      "TET4": [
+        12,
+        12
+      ],
+      "WEDGE6": [
+        18,
+        18
+      ]
+    }
+  },
+  "mixed_model": {
+    "connected": true,
+    "descriptor_source": "solveur.elements.registry.ElementRegistry",
+    "dof_count": 33,
+    "element_counts": {
+      "HEX8": 1,
+      "TET4": 1,
+      "WEDGE6": 1
+    },
+    "families": [
+      "TET4",
+      "WEDGE6",
+      "HEX8"
+    ],
+    "fixed_local_dof_assumption": false,
+    "fixed_nodes_per_element_assumption": false,
+    "node_count": 11
+  },
+  "partition_results": [
+    {
+      "boundary_ownership": {
+        "duplicate_fixed_ownership": false,
+        "duplicate_load_ownership": false,
+        "fixed": [
+          {
+            "dof": 0,
+            "node": 0,
+            "rank": 0
+          },
+          {
+            "dof": 1,
+            "node": 0,
+            "rank": 0
+          },
+          {
+            "dof": 2,
+            "node": 0,
+            "rank": 0
+          },
+          {
+            "dof": 6,
+            "node": 2,
+            "rank": 0
+          },
+          {
+            "dof": 7,
+            "node": 2,
+            "rank": 0
+          },
+          {
+            "dof": 8,
+            "node": 2,
+            "rank": 0
+          },
+          {
+            "dof": 9,
+            "node": 3,
+            "rank": 0
+          },
+          {
+            "dof": 10,
+            "node": 3,
+            "rank": 0
+          },
+          {
+            "dof": 11,
+            "node": 3,
+            "rank": 0
+          },
+          {
+            "dof": 15,
+            "node": 5,
+            "rank": 0
+          },
+          {
+            "dof": 16,
+            "node": 5,
+            "rank": 0
+          },
+          {
+            "dof": 17,
+            "node": 5,
+            "rank": 0
+          },
+          {
+            "dof": 18,
+            "node": 6,
+            "rank": 0
+          },
+          {
+            "dof": 19,
+            "node": 6,
+            "rank": 0
+          },
+          {
+            "dof": 20,
+            "node": 6,
+            "rank": 0
+          },
+          {
+            "dof": 21,
+            "node": 7,
+            "rank": 1
+          },
+          {
+            "dof": 22,
+            "node": 7,
+            "rank": 1
+          },
+          {
+            "dof": 23,
+            "node": 7,
+            "rank": 1
+          },
+          {
+            "dof": 27,
+            "node": 9,
+            "rank": 1
+          },
+          {
+            "dof": 28,
+            "node": 9,
+            "rank": 1
+          },
+          {
+            "dof": 29,
+            "node": 9,
+            "rank": 1
+          }
+        ],
+        "fixed_by_rank": {
+          "0": [
+            0,
+            1,
+            2,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+          ],
+          "1": [
+            21,
+            22,
+            23,
+            27,
+            28,
+            29
+          ]
+        },
+        "loads": [
+          {
+            "dof": 3,
+            "index": 0,
+            "node": 1,
+            "rank": 0,
+            "value": 188461.53846153844
+          },
+          {
+            "dof": 4,
+            "index": 1,
+            "node": 1,
+            "rank": 0,
+            "value": 30288.46153846153
+          },
+          {
+            "dof": 5,
+            "index": 2,
+            "node": 1,
+            "rank": 0,
+            "value": -50480.76923076921
+          },
+          {
+            "dof": 12,
+            "index": 3,
+            "node": 4,
+            "rank": 0,
+            "value": 141346.15384615381
+          },
+          {
+            "dof": 13,
+            "index": 4,
+            "node": 4,
+            "rank": 0,
+            "value": 30288.461538461528
+          },
+          {
+            "dof": 14,
+            "index": 5,
+            "node": 4,
+            "rank": 0,
+            "value": 50480.76923076922
+          },
+          {
+            "dof": 24,
+            "index": 6,
+            "node": 8,
+            "rank": 1,
+            "value": 70673.07692307691
+          },
+          {
+            "dof": 25,
+            "index": 7,
+            "node": 8,
+            "rank": 1,
+            "value": -30288.46153846153
+          },
+          {
+            "dof": 26,
+            "index": 8,
+            "node": 8,
+            "rank": 1,
+            "value": -30288.46153846153
+          },
+          {
+            "dof": 30,
+            "index": 9,
+            "node": 10,
+            "rank": 1,
+            "value": 70673.07692307692
+          },
+          {
+            "dof": 31,
+            "index": 10,
+            "node": 10,
+            "rank": 1,
+            "value": -30288.46153846153
+          },
+          {
+            "dof": 32,
+            "index": 11,
+            "node": 10,
+            "rank": 1,
+            "value": 30288.46153846153
+          }
+        ],
+        "loads_by_rank": {
+          "0": [
+            3,
+            4,
+            5,
+            12,
+            13,
+            14
+          ],
+          "1": [
+            24,
+            25,
+            26,
+            30,
+            31,
+            32
+          ]
+        }
+      },
+      "debug_recomposition_only": true,
+      "displacement_relative_error": 3.9806342641912074e-22,
+      "family_counts": {
+        "HEX8": 1,
+        "TET4": 1,
+        "WEDGE6": 1
+      },
+      "ghost_visible_load_records": 6,
+      "load_relative_error": 0.0,
+      "local_dispatch_relative_error": 0.0,
+      "mandatory_global_gather": false,
+      "matrix_relative_error": 0.0,
+      "owned_element_multiplicity": 1,
+      "owned_fixed_matches_serial": true,
+      "owned_node_multiplicity": 1,
+      "partition_count": 2,
+      "preallocation": [
+        {
+          "diag_nnz_per_owned_row": [
+            21,
+            21,
+            21,
+            21,
+            21,
+            21,
+            21,
+            21,
+            21,
+            18,
+            18,
+            18,
+            18,
+            18,
+            18,
+            18,
+            18,
+            18,
+            12,
+            12,
+            12
+          ],
+          "family_element_counts": {
+            "HEX8": 0,
+            "TET4": 1,
+            "WEDGE6": 1
+          },
+          "ghost_coupling_rows": 12,
+          "global_connectivity_required": false,
+          "max_diag_nnz": 21,
+          "max_offdiag_nnz": 12,
+          "offdiag_nnz_per_owned_row": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            0,
+            0,
+            0,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "owned_row_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+          ],
+          "owned_row_pattern_complete": true,
+          "rank": 0,
+          "reallocations_expected": 0,
+          "strategy": "connectivity_exact_family_aware_row_owner_exchange"
+        },
+        {
+          "diag_nnz_per_owned_row": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "family_element_counts": {
+            "HEX8": 1,
+            "TET4": 0,
+            "WEDGE6": 0
+          },
+          "ghost_coupling_rows": 12,
+          "global_connectivity_required": false,
+          "max_diag_nnz": 12,
+          "max_offdiag_nnz": 12,
+          "offdiag_nnz_per_owned_row": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "owned_row_ids": [
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32
+          ],
+          "owned_row_pattern_complete": true,
+          "rank": 1,
+          "reallocations_expected": 0,
+          "strategy": "connectivity_exact_family_aware_row_owner_exchange"
+        }
+      ],
+      "rank_local_models": [
+        {
+          "families": [
+            "TET4",
+            "WEDGE6"
+          ],
+          "ghost_dofs": [],
+          "ghost_nodes": [],
+          "global_model_retained": false,
+          "local_nodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "owned_dofs": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+          ],
+          "owned_elements": [
+            0,
+            1
+          ],
+          "owned_fixed_dofs": [
+            0,
+            1,
+            2,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+          ],
+          "owned_load_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "owned_nodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "rank": 0
+        },
+        {
+          "families": [
+            "HEX8"
+          ],
+          "ghost_dofs": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "ghost_nodes": [
+            0,
+            1,
+            3,
+            4
+          ],
+          "global_model_retained": false,
+          "local_nodes": [
+            0,
+            1,
+            3,
+            4,
+            7,
+            8,
+            9,
+            10
+          ],
+          "owned_dofs": [
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32
+          ],
+          "owned_elements": [
+            2
+          ],
+          "owned_fixed_dofs": [
+            21,
+            22,
+            23,
+            27,
+            28,
+            29
+          ],
+          "owned_load_ids": [
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "owned_nodes": [
+            7,
+            8,
+            9,
+            10
+          ],
+          "rank": 1
+        }
+      ],
+      "reaction_relative_error": 1.505310391980182e-16,
+      "sparsity_exact": true,
+      "status": "PASS"
+    },
+    {
+      "boundary_ownership": {
+        "duplicate_fixed_ownership": false,
+        "duplicate_load_ownership": false,
+        "fixed": [
+          {
+            "dof": 0,
+            "node": 0,
+            "rank": 0
+          },
+          {
+            "dof": 1,
+            "node": 0,
+            "rank": 0
+          },
+          {
+            "dof": 2,
+            "node": 0,
+            "rank": 0
+          },
+          {
+            "dof": 6,
+            "node": 2,
+            "rank": 0
+          },
+          {
+            "dof": 7,
+            "node": 2,
+            "rank": 0
+          },
+          {
+            "dof": 8,
+            "node": 2,
+            "rank": 0
+          },
+          {
+            "dof": 9,
+            "node": 3,
+            "rank": 1
+          },
+          {
+            "dof": 10,
+            "node": 3,
+            "rank": 1
+          },
+          {
+            "dof": 11,
+            "node": 3,
+            "rank": 1
+          },
+          {
+            "dof": 15,
+            "node": 5,
+            "rank": 1
+          },
+          {
+            "dof": 16,
+            "node": 5,
+            "rank": 1
+          },
+          {
+            "dof": 17,
+            "node": 5,
+            "rank": 1
+          },
+          {
+            "dof": 18,
+            "node": 6,
+            "rank": 0
+          },
+          {
+            "dof": 19,
+            "node": 6,
+            "rank": 0
+          },
+          {
+            "dof": 20,
+            "node": 6,
+            "rank": 0
+          },
+          {
+            "dof": 21,
+            "node": 7,
+            "rank": 2
+          },
+          {
+            "dof": 22,
+            "node": 7,
+            "rank": 2
+          },
+          {
+            "dof": 23,
+            "node": 7,
+            "rank": 2
+          },
+          {
+            "dof": 27,
+            "node": 9,
+            "rank": 2
+          },
+          {
+            "dof": 28,
+            "node": 9,
+            "rank": 2
+          },
+          {
+            "dof": 29,
+            "node": 9,
+            "rank": 2
+          }
+        ],
+        "fixed_by_rank": {
+          "0": [
+            0,
+            1,
+            2,
+            6,
+            7,
+            8,
+            18,
+            19,
+            20
+          ],
+          "1": [
+            9,
+            10,
+            11,
+            15,
+            16,
+            17
+          ],
+          "2": [
+            21,
+            22,
+            23,
+            27,
+            28,
+            29
+          ]
+        },
+        "loads": [
+          {
+            "dof": 3,
+            "index": 0,
+            "node": 1,
+            "rank": 0,
+            "value": 188461.53846153844
+          },
+          {
+            "dof": 4,
+            "index": 1,
+            "node": 1,
+            "rank": 0,
+            "value": 30288.46153846153
+          },
+          {
+            "dof": 5,
+            "index": 2,
+            "node": 1,
+            "rank": 0,
+            "value": -50480.76923076921
+          },
+          {
+            "dof": 12,
+            "index": 3,
+            "node": 4,
+            "rank": 1,
+            "value": 141346.15384615381
+          },
+          {
+            "dof": 13,
+            "index": 4,
+            "node": 4,
+            "rank": 1,
+            "value": 30288.461538461528
+          },
+          {
+            "dof": 14,
+            "index": 5,
+            "node": 4,
+            "rank": 1,
+            "value": 50480.76923076922
+          },
+          {
+            "dof": 24,
+            "index": 6,
+            "node": 8,
+            "rank": 2,
+            "value": 70673.07692307691
+          },
+          {
+            "dof": 25,
+            "index": 7,
+            "node": 8,
+            "rank": 2,
+            "value": -30288.46153846153
+          },
+          {
+            "dof": 26,
+            "index": 8,
+            "node": 8,
+            "rank": 2,
+            "value": -30288.46153846153
+          },
+          {
+            "dof": 30,
+            "index": 9,
+            "node": 10,
+            "rank": 2,
+            "value": 70673.07692307692
+          },
+          {
+            "dof": 31,
+            "index": 10,
+            "node": 10,
+            "rank": 2,
+            "value": -30288.46153846153
+          },
+          {
+            "dof": 32,
+            "index": 11,
+            "node": 10,
+            "rank": 2,
+            "value": 30288.46153846153
+          }
+        ],
+        "loads_by_rank": {
+          "0": [
+            3,
+            4,
+            5
+          ],
+          "1": [
+            12,
+            13,
+            14
+          ],
+          "2": [
+            24,
+            25,
+            26,
+            30,
+            31,
+            32
+          ]
+        }
+      },
+      "debug_recomposition_only": true,
+      "displacement_relative_error": 3.9806342641912074e-22,
+      "family_counts": {
+        "HEX8": 1,
+        "TET4": 1,
+        "WEDGE6": 1
+      },
+      "ghost_visible_load_records": 9,
+      "load_relative_error": 0.0,
+      "local_dispatch_relative_error": 0.0,
+      "mandatory_global_gather": false,
+      "matrix_relative_error": 0.0,
+      "owned_element_multiplicity": 1,
+      "owned_fixed_matches_serial": true,
+      "owned_node_multiplicity": 1,
+      "partition_count": 3,
+      "preallocation": [
+        {
+          "diag_nnz_per_owned_row": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "family_element_counts": {
+            "HEX8": 0,
+            "TET4": 1,
+            "WEDGE6": 0
+          },
+          "ghost_coupling_rows": 9,
+          "global_connectivity_required": false,
+          "max_diag_nnz": 12,
+          "max_offdiag_nnz": 21,
+          "offdiag_nnz_per_owned_row": [
+            21,
+            21,
+            21,
+            21,
+            21,
+            21,
+            9,
+            9,
+            9,
+            0,
+            0,
+            0
+          ],
+          "owned_row_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            18,
+            19,
+            20
+          ],
+          "owned_row_pattern_complete": true,
+          "rank": 0,
+          "reallocations_expected": 0,
+          "strategy": "connectivity_exact_family_aware_row_owner_exchange"
+        },
+        {
+          "diag_nnz_per_owned_row": [
+            9,
+            9,
+            9,
+            9,
+            9,
+            9,
+            9,
+            9,
+            9
+          ],
+          "family_element_counts": {
+            "HEX8": 0,
+            "TET4": 0,
+            "WEDGE6": 1
+          },
+          "ghost_coupling_rows": 9,
+          "global_connectivity_required": false,
+          "max_diag_nnz": 9,
+          "max_offdiag_nnz": 21,
+          "offdiag_nnz_per_owned_row": [
+            21,
+            21,
+            21,
+            21,
+            21,
+            21,
+            9,
+            9,
+            9
+          ],
+          "owned_row_ids": [
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17
+          ],
+          "owned_row_pattern_complete": true,
+          "rank": 1,
+          "reallocations_expected": 0,
+          "strategy": "connectivity_exact_family_aware_row_owner_exchange"
+        },
+        {
+          "diag_nnz_per_owned_row": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "family_element_counts": {
+            "HEX8": 1,
+            "TET4": 0,
+            "WEDGE6": 0
+          },
+          "ghost_coupling_rows": 12,
+          "global_connectivity_required": false,
+          "max_diag_nnz": 12,
+          "max_offdiag_nnz": 12,
+          "offdiag_nnz_per_owned_row": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "owned_row_ids": [
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32
+          ],
+          "owned_row_pattern_complete": true,
+          "rank": 2,
+          "reallocations_expected": 0,
+          "strategy": "connectivity_exact_family_aware_row_owner_exchange"
+        }
+      ],
+      "rank_local_models": [
+        {
+          "families": [
+            "TET4"
+          ],
+          "ghost_dofs": [],
+          "ghost_nodes": [],
+          "global_model_retained": false,
+          "local_nodes": [
+            0,
+            1,
+            2,
+            6
+          ],
+          "owned_dofs": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            18,
+            19,
+            20
+          ],
+          "owned_elements": [
+            0
+          ],
+          "owned_fixed_dofs": [
+            0,
+            1,
+            2,
+            6,
+            7,
+            8,
+            18,
+            19,
+            20
+          ],
+          "owned_load_ids": [
+            0,
+            1,
+            2
+          ],
+          "owned_nodes": [
+            0,
+            1,
+            2,
+            6
+          ],
+          "rank": 0
+        },
+        {
+          "families": [
+            "WEDGE6"
+          ],
+          "ghost_dofs": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "ghost_nodes": [
+            0,
+            1,
+            2
+          ],
+          "global_model_retained": false,
+          "local_nodes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "owned_dofs": [
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17
+          ],
+          "owned_elements": [
+            1
+          ],
+          "owned_fixed_dofs": [
+            9,
+            10,
+            11,
+            15,
+            16,
+            17
+          ],
+          "owned_load_ids": [
+            3,
+            4,
+            5
+          ],
+          "owned_nodes": [
+            3,
+            4,
+            5
+          ],
+          "rank": 1
+        },
+        {
+          "families": [
+            "HEX8"
+          ],
+          "ghost_dofs": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "ghost_nodes": [
+            0,
+            1,
+            3,
+            4
+          ],
+          "global_model_retained": false,
+          "local_nodes": [
+            0,
+            1,
+            3,
+            4,
+            7,
+            8,
+            9,
+            10
+          ],
+          "owned_dofs": [
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32
+          ],
+          "owned_elements": [
+            2
+          ],
+          "owned_fixed_dofs": [
+            21,
+            22,
+            23,
+            27,
+            28,
+            29
+          ],
+          "owned_load_ids": [
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "owned_nodes": [
+            7,
+            8,
+            9,
+            10
+          ],
+          "rank": 2
+        }
+      ],
+      "reaction_relative_error": 1.505310391980182e-16,
+      "sparsity_exact": true,
+      "status": "PASS"
+    }
+  ],
+  "preallocation": {
+    "global_connectivity_required_by_rank": false,
+    "sparsity_equivalence": true,
+    "strategy": "connectivity_exact_family_aware_row_owner_exchange"
+  },
+  "reaction_architecture": {
+    "definition": "local K*u-F contributions reduced to a unique DOF owner",
+    "ready": "READY_FOR_WP13_01C_RUNTIME_REDUCTION",
+    "relative_error": 1.505310391980182e-16
+  },
+  "replays": [
+    {
+      "digest": "97d9039bb686adaef6ce899a22d70c5af2625f5bb380cd344dd5a9084dfe039e",
+      "id": "replay_1",
+      "partition_results": [
+        {
+          "boundary_ownership": {
+            "duplicate_fixed_ownership": false,
+            "duplicate_load_ownership": false,
+            "fixed": [
+              {
+                "dof": 0,
+                "node": 0,
+                "rank": 0
+              },
+              {
+                "dof": 1,
+                "node": 0,
+                "rank": 0
+              },
+              {
+                "dof": 2,
+                "node": 0,
+                "rank": 0
+              },
+              {
+                "dof": 6,
+                "node": 2,
+                "rank": 0
+              },
+              {
+                "dof": 7,
+                "node": 2,
+                "rank": 0
+              },
+              {
+                "dof": 8,
+                "node": 2,
+                "rank": 0
+              },
+              {
+                "dof": 9,
+                "node": 3,
+                "rank": 0
+              },
+              {
+                "dof": 10,
+                "node": 3,
+                "rank": 0
+              },
+              {
+                "dof": 11,
+                "node": 3,
+                "rank": 0
+              },
+              {
+                "dof": 15,
+                "node": 5,
+                "rank": 0
+              },
+              {
+                "dof": 16,
+                "node": 5,
+                "rank": 0
+              },
+              {
+                "dof": 17,
+                "node": 5,
+                "rank": 0
+              },
+              {
+                "dof": 18,
+                "node": 6,
+                "rank": 0
+              },
+              {
+                "dof": 19,
+                "node": 6,
+                "rank": 0
+              },
+              {
+                "dof": 20,
+                "node": 6,
+                "rank": 0
+              },
+              {
+                "dof": 21,
+                "node": 7,
+                "rank": 1
+              },
+              {
+                "dof": 22,
+                "node": 7,
+                "rank": 1
+              },
+              {
+                "dof": 23,
+                "node": 7,
+                "rank": 1
+              },
+              {
+                "dof": 27,
+                "node": 9,
+                "rank": 1
+              },
+              {
+                "dof": 28,
+                "node": 9,
+                "rank": 1
+              },
+              {
+                "dof": 29,
+                "node": 9,
+                "rank": 1
+              }
+            ],
+            "fixed_by_rank": {
+              "0": [
+                0,
+                1,
+                2,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20
+              ],
+              "1": [
+                21,
+                22,
+                23,
+                27,
+                28,
+                29
+              ]
+            },
+            "loads": [
+              {
+                "dof": 3,
+                "index": 0,
+                "node": 1,
+                "rank": 0,
+                "value": 188461.53846153844
+              },
+              {
+                "dof": 4,
+                "index": 1,
+                "node": 1,
+                "rank": 0,
+                "value": 30288.46153846153
+              },
+              {
+                "dof": 5,
+                "index": 2,
+                "node": 1,
+                "rank": 0,
+                "value": -50480.76923076921
+              },
+              {
+                "dof": 12,
+                "index": 3,
+                "node": 4,
+                "rank": 0,
+                "value": 141346.15384615381
+              },
+              {
+                "dof": 13,
+                "index": 4,
+                "node": 4,
+                "rank": 0,
+                "value": 30288.461538461528
+              },
+              {
+                "dof": 14,
+                "index": 5,
+                "node": 4,
+                "rank": 0,
+                "value": 50480.76923076922
+              },
+              {
+                "dof": 24,
+                "index": 6,
+                "node": 8,
+                "rank": 1,
+                "value": 70673.07692307691
+              },
+              {
+                "dof": 25,
+                "index": 7,
+                "node": 8,
+                "rank": 1,
+                "value": -30288.46153846153
+              },
+              {
+                "dof": 26,
+                "index": 8,
+                "node": 8,
+                "rank": 1,
+                "value": -30288.46153846153
+              },
+              {
+                "dof": 30,
+                "index": 9,
+                "node": 10,
+                "rank": 1,
+                "value": 70673.07692307692
+              },
+              {
+                "dof": 31,
+                "index": 10,
+                "node": 10,
+                "rank": 1,
+                "value": -30288.46153846153
+              },
+              {
+                "dof": 32,
+                "index": 11,
+                "node": 10,
+                "rank": 1,
+                "value": 30288.46153846153
+              }
+            ],
+            "loads_by_rank": {
+              "0": [
+                3,
+                4,
+                5,
+                12,
+                13,
+                14
+              ],
+              "1": [
+                24,
+                25,
+                26,
+                30,
+                31,
+                32
+              ]
+            }
+          },
+          "debug_recomposition_only": true,
+          "displacement_relative_error": 3.9806342641912074e-22,
+          "family_counts": {
+            "HEX8": 1,
+            "TET4": 1,
+            "WEDGE6": 1
+          },
+          "ghost_visible_load_records": 6,
+          "load_relative_error": 0.0,
+          "local_dispatch_relative_error": 0.0,
+          "mandatory_global_gather": false,
+          "matrix_relative_error": 0.0,
+          "owned_element_multiplicity": 1,
+          "owned_fixed_matches_serial": true,
+          "owned_node_multiplicity": 1,
+          "partition_count": 2,
+          "preallocation": [
+            {
+              "diag_nnz_per_owned_row": [
+                21,
+                21,
+                21,
+                21,
+                21,
+                21,
+                21,
+                21,
+                21,
+                18,
+                18,
+                18,
+                18,
+                18,
+                18,
+                18,
+                18,
+                18,
+                12,
+                12,
+                12
+              ],
+              "family_element_counts": {
+                "HEX8": 0,
+                "TET4": 1,
+                "WEDGE6": 1
+              },
+              "ghost_coupling_rows": 12,
+              "global_connectivity_required": false,
+              "max_diag_nnz": 21,
+              "max_offdiag_nnz": 12,
+              "offdiag_nnz_per_owned_row": [
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                0,
+                0,
+                0,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "owned_row_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20
+              ],
+              "owned_row_pattern_complete": true,
+              "rank": 0,
+              "reallocations_expected": 0,
+              "strategy": "connectivity_exact_family_aware_row_owner_exchange"
+            },
+            {
+              "diag_nnz_per_owned_row": [
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12
+              ],
+              "family_element_counts": {
+                "HEX8": 1,
+                "TET4": 0,
+                "WEDGE6": 0
+              },
+              "ghost_coupling_rows": 12,
+              "global_connectivity_required": false,
+              "max_diag_nnz": 12,
+              "max_offdiag_nnz": 12,
+              "offdiag_nnz_per_owned_row": [
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12
+              ],
+              "owned_row_ids": [
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32
+              ],
+              "owned_row_pattern_complete": true,
+              "rank": 1,
+              "reallocations_expected": 0,
+              "strategy": "connectivity_exact_family_aware_row_owner_exchange"
+            }
+          ],
+          "rank_local_models": [
+            {
+              "families": [
+                "TET4",
+                "WEDGE6"
+              ],
+              "ghost_dofs": [],
+              "ghost_nodes": [],
+              "global_model_retained": false,
+              "local_nodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "owned_dofs": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20
+              ],
+              "owned_elements": [
+                0,
+                1
+              ],
+              "owned_fixed_dofs": [
+                0,
+                1,
+                2,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20
+              ],
+              "owned_load_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "owned_nodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "rank": 0
+            },
+            {
+              "families": [
+                "HEX8"
+              ],
+              "ghost_dofs": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14
+              ],
+              "ghost_nodes": [
+                0,
+                1,
+                3,
+                4
+              ],
+              "global_model_retained": false,
+              "local_nodes": [
+                0,
+                1,
+                3,
+                4,
+                7,
+                8,
+                9,
+                10
+              ],
+              "owned_dofs": [
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32
+              ],
+              "owned_elements": [
+                2
+              ],
+              "owned_fixed_dofs": [
+                21,
+                22,
+                23,
+                27,
+                28,
+                29
+              ],
+              "owned_load_ids": [
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "owned_nodes": [
+                7,
+                8,
+                9,
+                10
+              ],
+              "rank": 1
+            }
+          ],
+          "reaction_relative_error": 1.505310391980182e-16,
+          "sparsity_exact": true,
+          "status": "PASS"
+        },
+        {
+          "boundary_ownership": {
+            "duplicate_fixed_ownership": false,
+            "duplicate_load_ownership": false,
+            "fixed": [
+              {
+                "dof": 0,
+                "node": 0,
+                "rank": 0
+              },
+              {
+                "dof": 1,
+                "node": 0,
+                "rank": 0
+              },
+              {
+                "dof": 2,
+                "node": 0,
+                "rank": 0
+              },
+              {
+                "dof": 6,
+                "node": 2,
+                "rank": 0
+              },
+              {
+                "dof": 7,
+                "node": 2,
+                "rank": 0
+              },
+              {
+                "dof": 8,
+                "node": 2,
+                "rank": 0
+              },
+              {
+                "dof": 9,
+                "node": 3,
+                "rank": 1
+              },
+              {
+                "dof": 10,
+                "node": 3,
+                "rank": 1
+              },
+              {
+                "dof": 11,
+                "node": 3,
+                "rank": 1
+              },
+              {
+                "dof": 15,
+                "node": 5,
+                "rank": 1
+              },
+              {
+                "dof": 16,
+                "node": 5,
+                "rank": 1
+              },
+              {
+                "dof": 17,
+                "node": 5,
+                "rank": 1
+              },
+              {
+                "dof": 18,
+                "node": 6,
+                "rank": 0
+              },
+              {
+                "dof": 19,
+                "node": 6,
+                "rank": 0
+              },
+              {
+                "dof": 20,
+                "node": 6,
+                "rank": 0
+              },
+              {
+                "dof": 21,
+                "node": 7,
+                "rank": 2
+              },
+              {
+                "dof": 22,
+                "node": 7,
+                "rank": 2
+              },
+              {
+                "dof": 23,
+                "node": 7,
+                "rank": 2
+              },
+              {
+                "dof": 27,
+                "node": 9,
+                "rank": 2
+              },
+              {
+                "dof": 28,
+                "node": 9,
+                "rank": 2
+              },
+              {
+                "dof": 29,
+                "node": 9,
+                "rank": 2
+              }
+            ],
+            "fixed_by_rank": {
+              "0": [
+                0,
+                1,
+                2,
+                6,
+                7,
+                8,
+                18,
+                19,
+                20
+              ],
+              "1": [
+                9,
+                10,
+                11,
+                15,
+                16,
+                17
+              ],
+              "2": [
+                21,
+                22,
+                23,
+                27,
+                28,
+                29
+              ]
+            },
+            "loads": [
+              {
+                "dof": 3,
+                "index": 0,
+                "node": 1,
+                "rank": 0,
+                "value": 188461.53846153844
+              },
+              {
+                "dof": 4,
+                "index": 1,
+                "node": 1,
+                "rank": 0,
+                "value": 30288.46153846153
+              },
+              {
+                "dof": 5,
+                "index": 2,
+                "node": 1,
+                "rank": 0,
+                "value": -50480.76923076921
+              },
+              {
+                "dof": 12,
+                "index": 3,
+                "node": 4,
+                "rank": 1,
+                "value": 141346.15384615381
+              },
+              {
+                "dof": 13,
+                "index": 4,
+                "node": 4,
+                "rank": 1,
+                "value": 30288.461538461528
+              },
+              {
+                "dof": 14,
+                "index": 5,
+                "node": 4,
+                "rank": 1,
+                "value": 50480.76923076922
+              },
+              {
+                "dof": 24,
+                "index": 6,
+                "node": 8,
+                "rank": 2,
+                "value": 70673.07692307691
+              },
+              {
+                "dof": 25,
+                "index": 7,
+                "node": 8,
+                "rank": 2,
+                "value": -30288.46153846153
+              },
+              {
+                "dof": 26,
+                "index": 8,
+                "node": 8,
+                "rank": 2,
+                "value": -30288.46153846153
+              },
+              {
+                "dof": 30,
+                "index": 9,
+                "node": 10,
+                "rank": 2,
+                "value": 70673.07692307692
+              },
+              {
+                "dof": 31,
+                "index": 10,
+                "node": 10,
+                "rank": 2,
+                "value": -30288.46153846153
+              },
+              {
+                "dof": 32,
+                "index": 11,
+                "node": 10,
+                "rank": 2,
+                "value": 30288.46153846153
+              }
+            ],
+            "loads_by_rank": {
+              "0": [
+                3,
+                4,
+                5
+              ],
+              "1": [
+                12,
+                13,
+                14
+              ],
+              "2": [
+                24,
+                25,
+                26,
+                30,
+                31,
+                32
+              ]
+            }
+          },
+          "debug_recomposition_only": true,
+          "displacement_relative_error": 3.9806342641912074e-22,
+          "family_counts": {
+            "HEX8": 1,
+            "TET4": 1,
+            "WEDGE6": 1
+          },
+          "ghost_visible_load_records": 9,
+          "load_relative_error": 0.0,
+          "local_dispatch_relative_error": 0.0,
+          "mandatory_global_gather": false,
+          "matrix_relative_error": 0.0,
+          "owned_element_multiplicity": 1,
+          "owned_fixed_matches_serial": true,
+          "owned_node_multiplicity": 1,
+          "partition_count": 3,
+          "preallocation": [
+            {
+              "diag_nnz_per_owned_row": [
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12
+              ],
+              "family_element_counts": {
+                "HEX8": 0,
+                "TET4": 1,
+                "WEDGE6": 0
+              },
+              "ghost_coupling_rows": 9,
+              "global_connectivity_required": false,
+              "max_diag_nnz": 12,
+              "max_offdiag_nnz": 21,
+              "offdiag_nnz_per_owned_row": [
+                21,
+                21,
+                21,
+                21,
+                21,
+                21,
+                9,
+                9,
+                9,
+                0,
+                0,
+                0
+              ],
+              "owned_row_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                18,
+                19,
+                20
+              ],
+              "owned_row_pattern_complete": true,
+              "rank": 0,
+              "reallocations_expected": 0,
+              "strategy": "connectivity_exact_family_aware_row_owner_exchange"
+            },
+            {
+              "diag_nnz_per_owned_row": [
+                9,
+                9,
+                9,
+                9,
+                9,
+                9,
+                9,
+                9,
+                9
+              ],
+              "family_element_counts": {
+                "HEX8": 0,
+                "TET4": 0,
+                "WEDGE6": 1
+              },
+              "ghost_coupling_rows": 9,
+              "global_connectivity_required": false,
+              "max_diag_nnz": 9,
+              "max_offdiag_nnz": 21,
+              "offdiag_nnz_per_owned_row": [
+                21,
+                21,
+                21,
+                21,
+                21,
+                21,
+                9,
+                9,
+                9
+              ],
+              "owned_row_ids": [
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17
+              ],
+              "owned_row_pattern_complete": true,
+              "rank": 1,
+              "reallocations_expected": 0,
+              "strategy": "connectivity_exact_family_aware_row_owner_exchange"
+            },
+            {
+              "diag_nnz_per_owned_row": [
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12
+              ],
+              "family_element_counts": {
+                "HEX8": 1,
+                "TET4": 0,
+                "WEDGE6": 0
+              },
+              "ghost_coupling_rows": 12,
+              "global_connectivity_required": false,
+              "max_diag_nnz": 12,
+              "max_offdiag_nnz": 12,
+              "offdiag_nnz_per_owned_row": [
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12
+              ],
+              "owned_row_ids": [
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32
+              ],
+              "owned_row_pattern_complete": true,
+              "rank": 2,
+              "reallocations_expected": 0,
+              "strategy": "connectivity_exact_family_aware_row_owner_exchange"
+            }
+          ],
+          "rank_local_models": [
+            {
+              "families": [
+                "TET4"
+              ],
+              "ghost_dofs": [],
+              "ghost_nodes": [],
+              "global_model_retained": false,
+              "local_nodes": [
+                0,
+                1,
+                2,
+                6
+              ],
+              "owned_dofs": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                18,
+                19,
+                20
+              ],
+              "owned_elements": [
+                0
+              ],
+              "owned_fixed_dofs": [
+                0,
+                1,
+                2,
+                6,
+                7,
+                8,
+                18,
+                19,
+                20
+              ],
+              "owned_load_ids": [
+                0,
+                1,
+                2
+              ],
+              "owned_nodes": [
+                0,
+                1,
+                2,
+                6
+              ],
+              "rank": 0
+            },
+            {
+              "families": [
+                "WEDGE6"
+              ],
+              "ghost_dofs": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "ghost_nodes": [
+                0,
+                1,
+                2
+              ],
+              "global_model_retained": false,
+              "local_nodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "owned_dofs": [
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17
+              ],
+              "owned_elements": [
+                1
+              ],
+              "owned_fixed_dofs": [
+                9,
+                10,
+                11,
+                15,
+                16,
+                17
+              ],
+              "owned_load_ids": [
+                3,
+                4,
+                5
+              ],
+              "owned_nodes": [
+                3,
+                4,
+                5
+              ],
+              "rank": 1
+            },
+            {
+              "families": [
+                "HEX8"
+              ],
+              "ghost_dofs": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14
+              ],
+              "ghost_nodes": [
+                0,
+                1,
+                3,
+                4
+              ],
+              "global_model_retained": false,
+              "local_nodes": [
+                0,
+                1,
+                3,
+                4,
+                7,
+                8,
+                9,
+                10
+              ],
+              "owned_dofs": [
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32
+              ],
+              "owned_elements": [
+                2
+              ],
+              "owned_fixed_dofs": [
+                21,
+                22,
+                23,
+                27,
+                28,
+                29
+              ],
+              "owned_load_ids": [
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "owned_nodes": [
+                7,
+                8,
+                9,
+                10
+              ],
+              "rank": 2
+            }
+          ],
+          "reaction_relative_error": 1.505310391980182e-16,
+          "sparsity_exact": true,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "digest": "97d9039bb686adaef6ce899a22d70c5af2625f5bb380cd344dd5a9084dfe039e",
+      "id": "replay_2",
+      "partition_results": [
+        {
+          "boundary_ownership": {
+            "duplicate_fixed_ownership": false,
+            "duplicate_load_ownership": false,
+            "fixed": [
+              {
+                "dof": 0,
+                "node": 0,
+                "rank": 0
+              },
+              {
+                "dof": 1,
+                "node": 0,
+                "rank": 0
+              },
+              {
+                "dof": 2,
+                "node": 0,
+                "rank": 0
+              },
+              {
+                "dof": 6,
+                "node": 2,
+                "rank": 0
+              },
+              {
+                "dof": 7,
+                "node": 2,
+                "rank": 0
+              },
+              {
+                "dof": 8,
+                "node": 2,
+                "rank": 0
+              },
+              {
+                "dof": 9,
+                "node": 3,
+                "rank": 0
+              },
+              {
+                "dof": 10,
+                "node": 3,
+                "rank": 0
+              },
+              {
+                "dof": 11,
+                "node": 3,
+                "rank": 0
+              },
+              {
+                "dof": 15,
+                "node": 5,
+                "rank": 0
+              },
+              {
+                "dof": 16,
+                "node": 5,
+                "rank": 0
+              },
+              {
+                "dof": 17,
+                "node": 5,
+                "rank": 0
+              },
+              {
+                "dof": 18,
+                "node": 6,
+                "rank": 0
+              },
+              {
+                "dof": 19,
+                "node": 6,
+                "rank": 0
+              },
+              {
+                "dof": 20,
+                "node": 6,
+                "rank": 0
+              },
+              {
+                "dof": 21,
+                "node": 7,
+                "rank": 1
+              },
+              {
+                "dof": 22,
+                "node": 7,
+                "rank": 1
+              },
+              {
+                "dof": 23,
+                "node": 7,
+                "rank": 1
+              },
+              {
+                "dof": 27,
+                "node": 9,
+                "rank": 1
+              },
+              {
+                "dof": 28,
+                "node": 9,
+                "rank": 1
+              },
+              {
+                "dof": 29,
+                "node": 9,
+                "rank": 1
+              }
+            ],
+            "fixed_by_rank": {
+              "0": [
+                0,
+                1,
+                2,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20
+              ],
+              "1": [
+                21,
+                22,
+                23,
+                27,
+                28,
+                29
+              ]
+            },
+            "loads": [
+              {
+                "dof": 3,
+                "index": 0,
+                "node": 1,
+                "rank": 0,
+                "value": 188461.53846153844
+              },
+              {
+                "dof": 4,
+                "index": 1,
+                "node": 1,
+                "rank": 0,
+                "value": 30288.46153846153
+              },
+              {
+                "dof": 5,
+                "index": 2,
+                "node": 1,
+                "rank": 0,
+                "value": -50480.76923076921
+              },
+              {
+                "dof": 12,
+                "index": 3,
+                "node": 4,
+                "rank": 0,
+                "value": 141346.15384615381
+              },
+              {
+                "dof": 13,
+                "index": 4,
+                "node": 4,
+                "rank": 0,
+                "value": 30288.461538461528
+              },
+              {
+                "dof": 14,
+                "index": 5,
+                "node": 4,
+                "rank": 0,
+                "value": 50480.76923076922
+              },
+              {
+                "dof": 24,
+                "index": 6,
+                "node": 8,
+                "rank": 1,
+                "value": 70673.07692307691
+              },
+              {
+                "dof": 25,
+                "index": 7,
+                "node": 8,
+                "rank": 1,
+                "value": -30288.46153846153
+              },
+              {
+                "dof": 26,
+                "index": 8,
+                "node": 8,
+                "rank": 1,
+                "value": -30288.46153846153
+              },
+              {
+                "dof": 30,
+                "index": 9,
+                "node": 10,
+                "rank": 1,
+                "value": 70673.07692307692
+              },
+              {
+                "dof": 31,
+                "index": 10,
+                "node": 10,
+                "rank": 1,
+                "value": -30288.46153846153
+              },
+              {
+                "dof": 32,
+                "index": 11,
+                "node": 10,
+                "rank": 1,
+                "value": 30288.46153846153
+              }
+            ],
+            "loads_by_rank": {
+              "0": [
+                3,
+                4,
+                5,
+                12,
+                13,
+                14
+              ],
+              "1": [
+                24,
+                25,
+                26,
+                30,
+                31,
+                32
+              ]
+            }
+          },
+          "debug_recomposition_only": true,
+          "displacement_relative_error": 3.9806342641912074e-22,
+          "family_counts": {
+            "HEX8": 1,
+            "TET4": 1,
+            "WEDGE6": 1
+          },
+          "ghost_visible_load_records": 6,
+          "load_relative_error": 0.0,
+          "local_dispatch_relative_error": 0.0,
+          "mandatory_global_gather": false,
+          "matrix_relative_error": 0.0,
+          "owned_element_multiplicity": 1,
+          "owned_fixed_matches_serial": true,
+          "owned_node_multiplicity": 1,
+          "partition_count": 2,
+          "preallocation": [
+            {
+              "diag_nnz_per_owned_row": [
+                21,
+                21,
+                21,
+                21,
+                21,
+                21,
+                21,
+                21,
+                21,
+                18,
+                18,
+                18,
+                18,
+                18,
+                18,
+                18,
+                18,
+                18,
+                12,
+                12,
+                12
+              ],
+              "family_element_counts": {
+                "HEX8": 0,
+                "TET4": 1,
+                "WEDGE6": 1
+              },
+              "ghost_coupling_rows": 12,
+              "global_connectivity_required": false,
+              "max_diag_nnz": 21,
+              "max_offdiag_nnz": 12,
+              "offdiag_nnz_per_owned_row": [
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                0,
+                0,
+                0,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "owned_row_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20
+              ],
+              "owned_row_pattern_complete": true,
+              "rank": 0,
+              "reallocations_expected": 0,
+              "strategy": "connectivity_exact_family_aware_row_owner_exchange"
+            },
+            {
+              "diag_nnz_per_owned_row": [
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12
+              ],
+              "family_element_counts": {
+                "HEX8": 1,
+                "TET4": 0,
+                "WEDGE6": 0
+              },
+              "ghost_coupling_rows": 12,
+              "global_connectivity_required": false,
+              "max_diag_nnz": 12,
+              "max_offdiag_nnz": 12,
+              "offdiag_nnz_per_owned_row": [
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12
+              ],
+              "owned_row_ids": [
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32
+              ],
+              "owned_row_pattern_complete": true,
+              "rank": 1,
+              "reallocations_expected": 0,
+              "strategy": "connectivity_exact_family_aware_row_owner_exchange"
+            }
+          ],
+          "rank_local_models": [
+            {
+              "families": [
+                "TET4",
+                "WEDGE6"
+              ],
+              "ghost_dofs": [],
+              "ghost_nodes": [],
+              "global_model_retained": false,
+              "local_nodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "owned_dofs": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20
+              ],
+              "owned_elements": [
+                0,
+                1
+              ],
+              "owned_fixed_dofs": [
+                0,
+                1,
+                2,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20
+              ],
+              "owned_load_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "owned_nodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "rank": 0
+            },
+            {
+              "families": [
+                "HEX8"
+              ],
+              "ghost_dofs": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14
+              ],
+              "ghost_nodes": [
+                0,
+                1,
+                3,
+                4
+              ],
+              "global_model_retained": false,
+              "local_nodes": [
+                0,
+                1,
+                3,
+                4,
+                7,
+                8,
+                9,
+                10
+              ],
+              "owned_dofs": [
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32
+              ],
+              "owned_elements": [
+                2
+              ],
+              "owned_fixed_dofs": [
+                21,
+                22,
+                23,
+                27,
+                28,
+                29
+              ],
+              "owned_load_ids": [
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "owned_nodes": [
+                7,
+                8,
+                9,
+                10
+              ],
+              "rank": 1
+            }
+          ],
+          "reaction_relative_error": 1.505310391980182e-16,
+          "sparsity_exact": true,
+          "status": "PASS"
+        },
+        {
+          "boundary_ownership": {
+            "duplicate_fixed_ownership": false,
+            "duplicate_load_ownership": false,
+            "fixed": [
+              {
+                "dof": 0,
+                "node": 0,
+                "rank": 0
+              },
+              {
+                "dof": 1,
+                "node": 0,
+                "rank": 0
+              },
+              {
+                "dof": 2,
+                "node": 0,
+                "rank": 0
+              },
+              {
+                "dof": 6,
+                "node": 2,
+                "rank": 0
+              },
+              {
+                "dof": 7,
+                "node": 2,
+                "rank": 0
+              },
+              {
+                "dof": 8,
+                "node": 2,
+                "rank": 0
+              },
+              {
+                "dof": 9,
+                "node": 3,
+                "rank": 1
+              },
+              {
+                "dof": 10,
+                "node": 3,
+                "rank": 1
+              },
+              {
+                "dof": 11,
+                "node": 3,
+                "rank": 1
+              },
+              {
+                "dof": 15,
+                "node": 5,
+                "rank": 1
+              },
+              {
+                "dof": 16,
+                "node": 5,
+                "rank": 1
+              },
+              {
+                "dof": 17,
+                "node": 5,
+                "rank": 1
+              },
+              {
+                "dof": 18,
+                "node": 6,
+                "rank": 0
+              },
+              {
+                "dof": 19,
+                "node": 6,
+                "rank": 0
+              },
+              {
+                "dof": 20,
+                "node": 6,
+                "rank": 0
+              },
+              {
+                "dof": 21,
+                "node": 7,
+                "rank": 2
+              },
+              {
+                "dof": 22,
+                "node": 7,
+                "rank": 2
+              },
+              {
+                "dof": 23,
+                "node": 7,
+                "rank": 2
+              },
+              {
+                "dof": 27,
+                "node": 9,
+                "rank": 2
+              },
+              {
+                "dof": 28,
+                "node": 9,
+                "rank": 2
+              },
+              {
+                "dof": 29,
+                "node": 9,
+                "rank": 2
+              }
+            ],
+            "fixed_by_rank": {
+              "0": [
+                0,
+                1,
+                2,
+                6,
+                7,
+                8,
+                18,
+                19,
+                20
+              ],
+              "1": [
+                9,
+                10,
+                11,
+                15,
+                16,
+                17
+              ],
+              "2": [
+                21,
+                22,
+                23,
+                27,
+                28,
+                29
+              ]
+            },
+            "loads": [
+              {
+                "dof": 3,
+                "index": 0,
+                "node": 1,
+                "rank": 0,
+                "value": 188461.53846153844
+              },
+              {
+                "dof": 4,
+                "index": 1,
+                "node": 1,
+                "rank": 0,
+                "value": 30288.46153846153
+              },
+              {
+                "dof": 5,
+                "index": 2,
+                "node": 1,
+                "rank": 0,
+                "value": -50480.76923076921
+              },
+              {
+                "dof": 12,
+                "index": 3,
+                "node": 4,
+                "rank": 1,
+                "value": 141346.15384615381
+              },
+              {
+                "dof": 13,
+                "index": 4,
+                "node": 4,
+                "rank": 1,
+                "value": 30288.461538461528
+              },
+              {
+                "dof": 14,
+                "index": 5,
+                "node": 4,
+                "rank": 1,
+                "value": 50480.76923076922
+              },
+              {
+                "dof": 24,
+                "index": 6,
+                "node": 8,
+                "rank": 2,
+                "value": 70673.07692307691
+              },
+              {
+                "dof": 25,
+                "index": 7,
+                "node": 8,
+                "rank": 2,
+                "value": -30288.46153846153
+              },
+              {
+                "dof": 26,
+                "index": 8,
+                "node": 8,
+                "rank": 2,
+                "value": -30288.46153846153
+              },
+              {
+                "dof": 30,
+                "index": 9,
+                "node": 10,
+                "rank": 2,
+                "value": 70673.07692307692
+              },
+              {
+                "dof": 31,
+                "index": 10,
+                "node": 10,
+                "rank": 2,
+                "value": -30288.46153846153
+              },
+              {
+                "dof": 32,
+                "index": 11,
+                "node": 10,
+                "rank": 2,
+                "value": 30288.46153846153
+              }
+            ],
+            "loads_by_rank": {
+              "0": [
+                3,
+                4,
+                5
+              ],
+              "1": [
+                12,
+                13,
+                14
+              ],
+              "2": [
+                24,
+                25,
+                26,
+                30,
+                31,
+                32
+              ]
+            }
+          },
+          "debug_recomposition_only": true,
+          "displacement_relative_error": 3.9806342641912074e-22,
+          "family_counts": {
+            "HEX8": 1,
+            "TET4": 1,
+            "WEDGE6": 1
+          },
+          "ghost_visible_load_records": 9,
+          "load_relative_error": 0.0,
+          "local_dispatch_relative_error": 0.0,
+          "mandatory_global_gather": false,
+          "matrix_relative_error": 0.0,
+          "owned_element_multiplicity": 1,
+          "owned_fixed_matches_serial": true,
+          "owned_node_multiplicity": 1,
+          "partition_count": 3,
+          "preallocation": [
+            {
+              "diag_nnz_per_owned_row": [
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12
+              ],
+              "family_element_counts": {
+                "HEX8": 0,
+                "TET4": 1,
+                "WEDGE6": 0
+              },
+              "ghost_coupling_rows": 9,
+              "global_connectivity_required": false,
+              "max_diag_nnz": 12,
+              "max_offdiag_nnz": 21,
+              "offdiag_nnz_per_owned_row": [
+                21,
+                21,
+                21,
+                21,
+                21,
+                21,
+                9,
+                9,
+                9,
+                0,
+                0,
+                0
+              ],
+              "owned_row_ids": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                18,
+                19,
+                20
+              ],
+              "owned_row_pattern_complete": true,
+              "rank": 0,
+              "reallocations_expected": 0,
+              "strategy": "connectivity_exact_family_aware_row_owner_exchange"
+            },
+            {
+              "diag_nnz_per_owned_row": [
+                9,
+                9,
+                9,
+                9,
+                9,
+                9,
+                9,
+                9,
+                9
+              ],
+              "family_element_counts": {
+                "HEX8": 0,
+                "TET4": 0,
+                "WEDGE6": 1
+              },
+              "ghost_coupling_rows": 9,
+              "global_connectivity_required": false,
+              "max_diag_nnz": 9,
+              "max_offdiag_nnz": 21,
+              "offdiag_nnz_per_owned_row": [
+                21,
+                21,
+                21,
+                21,
+                21,
+                21,
+                9,
+                9,
+                9
+              ],
+              "owned_row_ids": [
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17
+              ],
+              "owned_row_pattern_complete": true,
+              "rank": 1,
+              "reallocations_expected": 0,
+              "strategy": "connectivity_exact_family_aware_row_owner_exchange"
+            },
+            {
+              "diag_nnz_per_owned_row": [
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12
+              ],
+              "family_element_counts": {
+                "HEX8": 1,
+                "TET4": 0,
+                "WEDGE6": 0
+              },
+              "ghost_coupling_rows": 12,
+              "global_connectivity_required": false,
+              "max_diag_nnz": 12,
+              "max_offdiag_nnz": 12,
+              "offdiag_nnz_per_owned_row": [
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12
+              ],
+              "owned_row_ids": [
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32
+              ],
+              "owned_row_pattern_complete": true,
+              "rank": 2,
+              "reallocations_expected": 0,
+              "strategy": "connectivity_exact_family_aware_row_owner_exchange"
+            }
+          ],
+          "rank_local_models": [
+            {
+              "families": [
+                "TET4"
+              ],
+              "ghost_dofs": [],
+              "ghost_nodes": [],
+              "global_model_retained": false,
+              "local_nodes": [
+                0,
+                1,
+                2,
+                6
+              ],
+              "owned_dofs": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                18,
+                19,
+                20
+              ],
+              "owned_elements": [
+                0
+              ],
+              "owned_fixed_dofs": [
+                0,
+                1,
+                2,
+                6,
+                7,
+                8,
+                18,
+                19,
+                20
+              ],
+              "owned_load_ids": [
+                0,
+                1,
+                2
+              ],
+              "owned_nodes": [
+                0,
+                1,
+                2,
+                6
+              ],
+              "rank": 0
+            },
+            {
+              "families": [
+                "WEDGE6"
+              ],
+              "ghost_dofs": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "ghost_nodes": [
+                0,
+                1,
+                2
+              ],
+              "global_model_retained": false,
+              "local_nodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "owned_dofs": [
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17
+              ],
+              "owned_elements": [
+                1
+              ],
+              "owned_fixed_dofs": [
+                9,
+                10,
+                11,
+                15,
+                16,
+                17
+              ],
+              "owned_load_ids": [
+                3,
+                4,
+                5
+              ],
+              "owned_nodes": [
+                3,
+                4,
+                5
+              ],
+              "rank": 1
+            },
+            {
+              "families": [
+                "HEX8"
+              ],
+              "ghost_dofs": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14
+              ],
+              "ghost_nodes": [
+                0,
+                1,
+                3,
+                4
+              ],
+              "global_model_retained": false,
+              "local_nodes": [
+                0,
+                1,
+                3,
+                4,
+                7,
+                8,
+                9,
+                10
+              ],
+              "owned_dofs": [
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32
+              ],
+              "owned_elements": [
+                2
+              ],
+              "owned_fixed_dofs": [
+                21,
+                22,
+                23,
+                27,
+                28,
+                29
+              ],
+              "owned_load_ids": [
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "owned_nodes": [
+                7,
+                8,
+                9,
+                10
+              ],
+              "rank": 2
+            }
+          ],
+          "reaction_relative_error": 1.505310391980182e-16,
+          "sparsity_exact": true,
+          "status": "PASS"
+        }
+      ]
+    }
+  ],
+  "repo_sha": "1adf6a72652189c60c6bde5d9be4a0f0f98d8668",
+  "schema_missing_fields": [],
+  "schema_version": 1,
+  "serial_equivalence": {
+    "debug_global_recomposition_only": true,
+    "displacement_relative_error": 3.9806342641912074e-22,
+    "load_relative_error": 0.0,
+    "matrix_relative_error": 0.0,
+    "reaction_relative_error": 1.505310391980182e-16
+  },
+  "start_sha": "c9ccd4891fea2f83e0c5302fa85bc3cbcf88e6e0",
+  "status": "PASS_ARCHITECTURE_FOUNDATION"
+}

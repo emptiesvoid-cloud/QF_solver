@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-02B11-OWNER-GATE",
+  "work_package": "WP13-02B11",
+  "audited_commit": "a7ad437c3ddc2e8e4e382d4291b5d83835d10169",
+  "owner_decision": "REJECT_KEEP_EXPERIMENTAL",
+  "status": "HISTORICAL_OWNER_DECISION_PRESERVED",
+  "points_validated": 0,
+  "points_total": 8,
+  "verdict_basis": [
+    "failure-contract coverage was not exhaustive",
+    "the contractual Fstar residual normalization was not consistently archived",
+    "fit coefficients c and s were absent",
+    "per-step replay iteration histories were absent",
+    "the evidence schema did not enforce all required fields"
+  ],
+  "historical_integrity": {
+    "results_rewritten": false,
+    "contract_rewritten": false,
+    "gates_retroactively_changed": false,
+    "evidence_0_2_7_changed": false
+  }
+}

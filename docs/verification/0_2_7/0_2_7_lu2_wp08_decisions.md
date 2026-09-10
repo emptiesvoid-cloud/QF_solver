@@ -12,9 +12,9 @@ approver: ""
 This is a governance decision record, not an implementation or qualification
 record. It is based on the repository state at
 `8ef34e345f970879548a4dfdce4ac5ba32c11bda`. The machine-readable source is
-[`lu2_wp08_decision_matrix.json`](../../../qualification/0_2_7/lu2_wp08_decision_matrix.json),
+[`lu2_wp08_decision_matrix.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/lu2_wp08_decision_matrix.json),
 and the state record is
-[`lu2_wp08_state.json`](../../../qualification/0_2_7/lu2_wp08_state.json).
+[`lu2_wp08_state.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/lu2_wp08_state.json).
 
 ## Decision summary
 

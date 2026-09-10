@@ -120,9 +120,9 @@ sizes.
 
 Machine-readable records:
 
-- [`wp12_state.json`](../../../qualification/0_2_7/wp12_state.json)
-- [`wp12_scaling_evidence.json`](../../../qualification/0_2_7/wp12_scaling_evidence.json)
-- [`wp12_assembly_probe_300k.json`](../../../qualification/0_2_7/wp12_assembly_probe_300k.json)
+- [`wp12_state.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp12_state.json)
+- [`wp12_scaling_evidence.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp12_scaling_evidence.json)
+- [`wp12_assembly_probe_300k.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp12_assembly_probe_300k.json)
 
 The campaign report and this document are `CONTROLLED_PROOF` records. The
 Owner decision remains `PROPOSED_OWNER_REVIEW`; resource-limited and

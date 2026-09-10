@@ -8,6 +8,15 @@ include qualification/element_analysis_matrix.json
 include qualification/formulas.json
 include qualification/requirements.json
 include qualification/technical_content_coverage.json
+include qualification/0_2_8/consolidated_registry.json
+include qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json
+include qualification/0_2_8/wp13_02d_mixed_dynamics_delivery.json
+include qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json
+include qualification/0_2_8/wp13_04d_multimaterial_owner_delivery.json
+include qualification/0_2_8/wp13_05_inp_import_capability_record.json
+include qualification/0_2_8/wp13_05c_registry_reconciliation_erratum.json
+include qualification/0_2_8/wp13_06d_mixed_hdf5_capability_record.json
+include qualification/0_2_8/wp13_07d_contact_capability_record.json
 include requirements/baseline-standard.txt
 include requirements/baseline-large-linux.txt
 global-exclude __pycache__ *.py[cod]

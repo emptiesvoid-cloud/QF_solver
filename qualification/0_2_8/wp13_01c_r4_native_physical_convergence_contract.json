@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-01C-R4-NATIVE-PHYSICAL-CONVERGENCE-001",
+  "work_package": "WP13-01C-R4",
+  "status": "PREDECLARED",
+  "creation_sha": "6ab432363a23baa55c9c098f892d34b303baaffc",
+  "purpose": "Make PETSc convergence depend directly on the physical free-DOF residual for the unchanged WP13-01C mixed runtime case.",
+  "historical_preservation": {
+    "wp13_01c_status": "FAIL_RUNTIME",
+    "wp13_01c_r1_status": "STILL_FAIL_RUNTIME",
+    "wp13_01c_r2_status": "PASS_DIAGNOSTIC_FIX_REQUIRED",
+    "wp13_01c_r3_status": "STILL_FAIL_PHYSICAL_CONVERGENCE",
+    "rewrite_historical_evidence": false
+  },
+  "environment": {
+    "strategy": "Dedicated Docker Linux + conda-forge",
+    "container_image": "qf-solver-wp13-01c-petsc:2026-09",
+    "python": "3.12.14",
+    "petsc": "3.25.5",
+    "petsc4py": "3.25.5",
+    "mpi": "MPICH 5.0.1",
+    "scalar": "float64",
+    "index": "int32"
+  },
+  "frozen_model": {
+    "small_connected_control": {"segments": 1, "dof": 33, "tet4": 1, "wedge6": 1, "hex8": 1},
+    "scale_ladder": [
+      {"id": "L1", "segments": 55, "dof": 1005, "tet4": 55, "wedge6": 55, "hex8": 55, "ranks": 2},
+      {"id": "L2", "segments": 555, "dof": 10005, "tet4": 555, "wedge6": 555, "hex8": 555, "ranks": 2},
+      {"id": "L3", "segments": 1666, "dof": 30003, "tet4": 1666, "wedge6": 1666, "hex8": 1666, "ranks": 2},
+      {"id": "L4", "segments": 5556, "dof": 100023, "tet4": 5556, "wedge6": 5556, "hex8": 5556, "ranks": 2}
+    ],
+    "scale_a": {"segments": 5556, "dof": 100023, "tet4": 5556, "wedge6": 5556, "hex8": 5556, "ranks": [2, 3]},
+    "mesh_material_bc_load_partition_unchanged": true
+  },
+  "solver": {
+    "ksp": "GMRES",
+    "pc": "ASM",
+    "rtol": 1.0e-10,
+    "atol": 0.0,
+    "dtol": 1.0e4,
+    "max_it": 20000,
+    "restart": 100,
+    "automatic_fallback": false,
+    "solver_search": false
+  },
+  "physical_callback": {
+    "implemented": true,
+    "evaluates": "r_phys = K_original_physical*u_physical - F_original_physical on free DOFs",
+    "norm": "sqrt(sum_free(r_phys**2))",
+    "denominator": "max(sqrt(sum_free(F_physical**2)), 1.0)",
+    "gate": {"operator": "<=", "value": 1.0e-8},
+    "mpi_reduction": "MPI SUM for squared local free residual followed by sqrt",
+    "stop_condition": "PETSc callback returns convergence only when physical relative residual <= gate",
+    "error_condition": "callback failure, invalid reduction, NaN/Inf, or PETSc breakdown remains non-converged"
+  },
+  "force_balance": {
+    "definition": "norm(external_resultant + reaction_resultant) / max(norm(external_resultant), 1.0)",
+    "gate": {"operator": "<=", "value": 1.0e-8}
+  },
+  "scaling_map": {
+    "uniform_factor": "1/E",
+    "diagonal_factor": "1/sqrt(diag(K/E))",
+    "physical_from_scaled": "u_physical = diagonal_factor*u_scaled",
+    "scaled_residual_from_physical": "r_scaled = diagonal_factor*(r_phys/E)",
+    "reconstruction_reference_relative_to_load": 7.05022211956668e-11,
+    "validity_gate": {"operator": "<=", "value": 1.0e-10}
+  },
+  "partition_consistency": {
+    "intermediate_segments": 555,
+    "ranks": [1, 2, 3],
+    "physical_residual_gate": {"operator": "<=", "value": 1.0e-8},
+    "force_balance_gate": {"operator": "<=", "value": 1.0e-8},
+    "reaction_relative_gate": {"operator": "<=", "value": 1.0e-10},
+    "operator_and_rhs_digest_match_required": true
+  },
+  "ladder": {
+    "same_policy_required": true,
+    "scale_b_requires_scale_a_two_and_three_rank_pass": true,
+    "scale_c_requires_scale_b_pass": true
+  },
+  "replay": {
+    "required": 2,
+    "scope": ["iterations", "PETSc reason", "scaled residual", "physical residual", "force balance", "reactions", "solution digest"],
+    "deterministic": true
+  },
+  "failure_contract": {
+    "cases": [
+      "physical_callback_failure",
+      "nan_physical_residual",
+      "invalid_scaling_map",
+      "mpi_reduction_failure",
+      "unsupported_norm_configuration",
+      "ksp_breakdown",
+      "invalid_physical_operator"
+    ],
+    "actual_execution_required": true,
+    "type_message_path_match_required": true,
+    "any_exception_is_not_automatically_pass": true,
+    "silent_fallback_allowed": false
+  },
+  "scope": {
+    "ksp_pc_search": false,
+    "ksp_pc": "GMRES/ASM only",
+    "fem_formulation_change": false,
+    "physical_k_or_f_change": false,
+    "model_change": false,
+    "bc_or_load_physics_change": false,
+    "physical_gate_change": false,
+    "maturity_change": false,
+    "historical_evidence_change": false,
+    "public_claim": false
+  },
+  "integrity": {
+    "numerical_source_changed": false,
+    "element_formulation_changed": false,
+    "maturity_changed": false,
+    "historical_0_2_7_evidence_changed": false,
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE"
+  }
+}

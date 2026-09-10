@@ -66,8 +66,8 @@ champs Owner ne sont pas remplis et enregistres.
 
 ## Liens
 
-- [Resume de la tentative 012](../../results/VNV-TET4-TL-PHASE2-LARGE-012/summary.json)
-- [Rapport de la tentative 012](../../results/VNV-TET4-TL-PHASE2-LARGE-012/report.md)
+- Resume de la tentative 012 (source artifact not included in the tracked release tree)
+- Rapport de la tentative 012 (source artifact not included in the tracked release tree)
 - [Feuille de route phase 2](tet4_total_lagrangian_phase2_roadmap_2026-08-22.md)
-- [Ticket phase 2](../../qualification/tickets/tet4_total_lagrangian_phase2_2026-08-22.json)
+- [Ticket phase 2](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/tickets/tet4_total_lagrangian_phase2_2026-08-22.json)
 

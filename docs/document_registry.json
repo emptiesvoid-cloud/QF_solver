@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "language": "fr",
+  "language": "en",
   "authority": "Les exigences et maturites proviennent de qualification/requirements.json.",
   "default_review_roles": [
     "ingenieur_mecanique",
@@ -11,7 +11,7 @@
     {
       "id": "DOC-STATE-001",
       "path": "index.md",
-      "title": "QF Solver 0.2.7",
+      "title": "QF Solver 0.2.8",
       "status": "controlled",
       "requirements": [
         "REQ-AUD-001",
@@ -63,6 +63,33 @@
         "REQ-CMP-002",
         "REQ-REL-001"
       ],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-CAPABILITY-028-001",
+      "path": "capabilities/index.md",
+      "title": "QF Solver 0.2.8 capability index",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-VV-MATURITY-028-001",
+      "path": "verification/evidence-and-maturity.md",
+      "title": "V&V, evidence and maturity",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-WHATS-NEW-028-001",
+      "path": "whats-new/0.2.8.md",
+      "title": "What's New in QF Solver 0.2.8",
+      "status": "controlled",
+      "requirements": [],
       "examples": [],
       "tests": []
     },
@@ -2737,7 +2764,7 @@
     {
       "id": "DOC-REF-002",
       "path": "reference/registre_documentaire.md",
-      "title": "Registre documentaire",
+      "title": "Documentation registry",
       "status": "controlled",
       "requirements": [
         "REQ-CMP-001",
@@ -2812,7 +2839,7 @@
     {
       "id": "DOC-ARCH-001",
       "path": "architecture.md",
-      "title": "Architecture Du Solveur EF",
+      "title": "QF Solver architecture",
       "status": "controlled",
       "requirements": [
         "REQ-REL-001"
@@ -5072,7 +5099,7 @@
   "examples": [],
   "tests": []
 },
-    {
+{
   "id": "DOC-SOLVER-BENCH-001",
   "path": "benchmarks/index.md",
   "title": "QF Solver benchmarks and reproducibility",
@@ -5080,6 +5107,510 @@
   "requirements": [],
   "examples": [],
   "tests": []
+},
+{
+  "id": "DOC-028-001",
+  "path": "verification/0_2_8/README.md",
+  "title": "QF Solver 0.2.8 WP01 maturity baseline",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp01_maturity_matrix.json"
+  ],
+  "tests": [
+    "tests/unit/test_028_wp01_maturity_matrix.py"
+  ]
+},
+{
+  "id": "DOC-REF-API-003",
+  "path": "reference/qf_solver_api.md",
+  "title": "QF Solver public Python API contract",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "examples/tet4_static.json"
+  ],
+  "tests": [
+    "tests/unit/test_public_api_contract.py"
+  ]
+},
+{
+  "id": "DOC-028-WP03-001",
+  "path": "verification/0_2_8/wp03_beam2_discrete_vnv.md",
+  "title": "QF Solver 0.2.8 WP03 BEAM2 and DISCRETE V&V",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp03_beam2_discrete_vnv.json",
+    "qualification/0_2_8/wp03_maturity_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_beam2_discrete_vnv.py"
+  ]
+},
+{
+  "id": "DOC-028-WP03B-001",
+  "path": "verification/0_2_8/wp03b_dynamic_vnv.md",
+  "title": "QF Solver 0.2.8 WP03B BEAM2 and DISCRETE dynamic V&V",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp03b_dynamic_vnv.json",
+    "qualification/0_2_8/wp03b_maturity_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_beam2_discrete_dynamic_vnv.py"
+  ]
+},
+{
+  "id": "DOC-028-WP03-OWNER-001",
+  "path": "verification/0_2_8/wp03_owner_gate_final.md",
+  "title": "QF Solver 0.2.8 WP03 final Owner gate",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp03_owner_gate_final.json",
+    "qualification/0_2_8/wp03_maturity_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp03_owner_gate_final.py"
+  ]
+},
+{
+  "id": "DOC-028-WP04-001",
+  "path": "verification/0_2_8/wp04_mitc_vnv.md",
+  "title": "QF Solver 0.2.8 WP04 MITC3 and MITC4 V&V",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp04_mitc_vnv.json",
+    "qualification/0_2_8/wp04_maturity_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_mitc_vnv.py"
+  ]
+},
+{
+  "id": "DOC-028-WP04-OWNER-001",
+  "path": "verification/0_2_8/wp04_owner_gate_final.md",
+  "title": "QF Solver 0.2.8 WP04 final Owner gate",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp04_owner_gate_final.json",
+    "qualification/0_2_8/wp04_maturity_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp04_owner_gate_final.py"
+  ]
+},
+{
+  "id": "DOC-028-WP05-001",
+  "path": "verification/0_2_8/wp05_wedge6_vnv.md",
+  "title": "QF Solver 0.2.8 WP05 WEDGE6 static V&V",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp05_wedge6_contract.json",
+    "qualification/0_2_8/wp05_wedge6_vnv.json",
+    "qualification/0_2_8/wp05_maturity_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wedge6_static_campaign.py"
+  ]
+},
+{
+  "id": "DOC-028-WP05-OWNER-001",
+  "path": "verification/0_2_8/wp05_owner_gate_final.md",
+  "title": "QF Solver 0.2.8 WP05 final Owner gate",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp05_owner_gate_final.json",
+    "qualification/0_2_8/wp05_maturity_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp05_owner_gate_final.py"
+  ]
+},
+{
+  "id": "DOC-028-WP06-001",
+  "path": "verification/0_2_8/wp06_hex8_buckling_vnv.md",
+  "title": "QF Solver 0.2.8 WP06 HEX8 linear-buckling assessment",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp06_hex8_buckling_contract.json",
+    "qualification/0_2_8/wp06_hex8_buckling_vnv.json",
+    "qualification/0_2_8/wp06_maturity_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_hex8_buckling_vnv.py"
+  ]
+},
+{
+  "id": "DOC-028-WP06B-001",
+  "path": "verification/0_2_8/wp06b_hex8_buckling_vnv.md",
+  "title": "QF Solver 0.2.8 WP06B HEX8 buckling root-cause remediation",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp06b_hex8_buckling_contract.json",
+    "qualification/0_2_8/wp06b_hex8_buckling_vnv.json",
+    "qualification/0_2_8/wp06b_maturity_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp06b_hex8_buckling.py"
+  ]
+},
+{
+  "id": "DOC-028-WP07-001",
+  "path": "verification/0_2_8/wp07_mixed_static_vnv.md",
+  "title": "QF Solver 0.2.8 WP07 mixed linear-static V&V",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp07_mixed_static_contract.json",
+    "qualification/0_2_8/wp07_mixed_static_vnv.json",
+    "qualification/0_2_8/wp07_mixed_static_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp07_mixed_static.py"
+  ]
+},
+{
+  "id": "DOC-028-WP07-OWNER-001",
+  "path": "verification/0_2_8/wp07_owner_gate_final.md",
+  "title": "QF Solver 0.2.8 WP07 final Owner gate",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp07_owner_gate_final.json",
+    "qualification/0_2_8/wp07_mixed_static_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp07_owner_gate_final.py"
+  ]
+},
+{
+  "id": "DOC-028-WP08-001",
+  "path": "verification/0_2_8/wp08_mixed_modal_vnv.md",
+  "title": "QF Solver 0.2.8 WP08 mixed modal V&V",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp08_mixed_modal_contract.json",
+    "qualification/0_2_8/wp08_mixed_modal_vnv.json",
+    "qualification/0_2_8/wp08_mixed_modal_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp08_mixed_modal.py"
+  ]
+},
+{
+  "id": "DOC-028-WP08B-001",
+  "path": "verification/0_2_8/wp08b_mixed_modal_vnv.md",
+  "title": "QF Solver 0.2.8 WP08B mixed modal follow-up",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp08b_root_cause_audit.json",
+    "qualification/0_2_8/wp08b_mixed_modal_contract.json",
+    "qualification/0_2_8/wp08b_mixed_modal_vnv.json",
+    "qualification/0_2_8/wp08b_mixed_modal_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp08b_mixed_modal.py"
+  ]
+},
+{
+  "id": "DOC-028-WP08B-OWNER-001",
+  "path": "verification/0_2_8/wp08b_owner_gate_final.md",
+  "title": "QF Solver 0.2.8 WP08B final Owner gate",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp08b_owner_gate_final.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp08b_owner_gate_final.py"
+  ]
+},
+{
+  "id": "DOC-028-WP09-001",
+  "path": "verification/0_2_8/wp09_pyramid5_formulation.md",
+  "title": "QF Solver 0.2.8 WP09 PYRAMID5 formulation gate",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp09_pyramid5_contract.json",
+    "qualification/0_2_8/wp09_pyramid5_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp09_pyramid5.py"
+  ]
+},
+{
+  "id": "DOC-028-WP09-VNV-001",
+  "path": "verification/0_2_8/wp09_pyramid5_vnv.md",
+  "title": "WP09 PYRAMID5 feasibility gate",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp09_pyramid5_contract.json",
+    "qualification/0_2_8/wp09_pyramid5_vnv.json",
+    "qualification/0_2_8/wp09_pyramid5_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp09_pyramid5.py"
+  ]
+},
+{
+  "id": "DOC-028-WP10-FORMULATION-001",
+  "path": "verification/0_2_8/wp10_hex8_sri_formulation.md",
+  "title": "WP10 HEX8 selective reduced integration formulation",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp10_hex8_sri_contract.json",
+    "qualification/0_2_8/wp10_hex8_sri_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp10_hex8_sri.py"
+  ]
+},
+{
+  "id": "DOC-028-WP10-VNV-001",
+  "path": "verification/0_2_8/wp10_hex8_sri_vnv.md",
+  "title": "WP10 HEX8 selective reduced integration research gate",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp10_hex8_sri_contract.json",
+    "qualification/0_2_8/wp10_hex8_sri_vnv.json",
+    "qualification/0_2_8/wp10_hex8_sri_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp10_hex8_sri.py"
+  ]
+},
+{
+  "id": "DOC-028-WP10-OWNER-001",
+  "path": "verification/0_2_8/wp10_hex8_sri_owner_gate_final.md",
+  "title": "WP10 HEX8-SRI Owner gate",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp10_owner_gate_final.py"
+  ]
+},
+{
+  "id": "DOC-028-WP11-CONTRACT-001",
+  "path": "verification/0_2_8/wp11_mixed_large_contract.md",
+  "title": "WP11 mixed large-scale evidence contract",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp11_mixed_large_contract.json",
+    "qualification/0_2_8/wp11_mixed_large_matrix.json",
+    "qualification/0_2_8/wp11_mixed_large_vnv.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp11_mixed_large.py"
+  ]
+},
+{
+  "id": "DOC-028-WP11-VNV-001",
+  "path": "verification/0_2_8/wp11_mixed_large_vnv.md",
+  "title": "WP11 mixed large-scale evidence",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp11_mixed_large_vnv.json",
+    "qualification/0_2_8/wp11_mixed_large_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp11_mixed_large.py"
+  ]
+},
+{
+  "id": "DOC-028-WP11B-CONTRACT-001",
+  "path": "verification/0_2_8/wp11b_hex8_buckling_experimental_contract.md",
+  "title": "WP11B HEX8 buckling experimental-readiness contract",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp11b_hex8_buckling_experimental_contract.json",
+    "qualification/0_2_8/wp11b_hex8_buckling_experimental_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp11b_hex8_buckling_experimental.py"
+  ]
+},
+{
+  "id": "DOC-028-WP11B-VNV-001",
+  "path": "verification/0_2_8/wp11b_hex8_buckling_experimental_vnv.md",
+  "title": "WP11B HEX8 buckling experimental-readiness campaign",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp11b_hex8_buckling_experimental_vnv.json",
+    "qualification/0_2_8/wp11b_hex8_buckling_experimental_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp11b_hex8_buckling_experimental.py"
+  ]
+},
+{
+  "id": "DOC-028-WP11B-OWNER-001",
+  "path": "verification/0_2_8/wp11b_hex8_buckling_owner_gate_final.md",
+  "title": "WP11B HEX8 buckling Owner gate",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp11b_hex8_buckling_owner_gate_final.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp11b_owner_gate_final.py"
+  ]
+},
+{
+  "id": "DOC-028-WP13-02A-READINESS-001",
+  "path": "verification/0_2_8/wp13_02a_dynamic_readiness.md",
+  "title": "QF Solver 0.2.8 WP13-02A mixed dynamics readiness",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp13_02a_readiness.json",
+    "qualification/0_2_8/wp13_02a_newmark_contract.json",
+    "qualification/0_2_8/wp13_02a_harmonic_contract.json"
+  ],
+  "tests": []
+},
+{
+  "id": "DOC-028-WP13-02A2-WEDGE6-DYNAMIC-001",
+  "path": "verification/0_2_8/wp13_02a2_wedge6_dynamic_enablement.md",
+  "title": "QF Solver 0.2.8 WP13-02A2 WEDGE6 dynamic enablement",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp13_02a2_wedge6_dynamic_evidence.json",
+    "qualification/0_2_8/wp13_02a_newmark_contract.json",
+    "qualification/0_2_8/wp13_02a_harmonic_contract.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp13_02a2_wedge6_dynamic.py"
+  ]
+},
+{
+  "id": "DOC-028-WP13-02B-MIXED-NEWMARK-001",
+  "path": "verification/0_2_8/wp13_02b_mixed_newmark.md",
+  "title": "QF Solver 0.2.8 WP13-02B connected mixed Newmark campaign",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp13_02b_mixed_newmark_evidence.json",
+    "qualification/0_2_8/wp13_02a_newmark_contract.json"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp13_02b_mixed_newmark.py"
+  ]
+},
+{
+  "id": "DOC-028-WP13-02B2-EVIDENCE-CLOSURE-001",
+  "path": "verification/0_2_8/wp13_02b2_evidence_closure.md",
+  "title": "QF Solver 0.2.8 WP13-02B2 Newmark evidence closure",
+  "status": "owner_review_required",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp13_02a_newmark_contract.json",
+    "qualification/0_2_8/wp13_02b2_raw/manifest.json",
+    "qualification/0_2_8/wp13_02b2_raw/wp13_02b2_raw_arrays.npz"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp13_02b2_evidence_closure.py"
+  ]
+},
+{
+  "id": "DOC-028-WP13-02B5-NEWMARK-V2-001",
+  "path": "verification/0_2_8/wp13_02b5_newmark_v2.md",
+  "title": "QF Solver 0.2.8 WP13-02B5 Newmark V2 campaign",
+  "status": "owner_review_required",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp13_02b4_newmark_v2_contract.json",
+    "qualification/0_2_8/wp13_02b5_v2/manifest.json",
+    "qualification/0_2_8/wp13_02b5_v2/wp13_02b5_arrays.npz"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp13_02b5_newmark_v2.py"
+  ]
+},
+{
+  "id": "DOC-028-WP13-02B7-NEWMARK-V2-RERUN-001",
+  "path": "verification/0_2_8/wp13_02b7_newmark_v2_rerun.md",
+  "title": "QF Solver 0.2.8 WP13-02B7 Newmark V2 rerun",
+  "status": "owner_review_required",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp13_02b4_newmark_v2_contract.json",
+    "qualification/0_2_8/wp13_02b7_v2/manifest.json",
+    "qualification/0_2_8/wp13_02b7_v2/wp13_02b7_arrays.npz"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp13_02b7_newmark_v2.py"
+  ]
+},
+{
+  "id": "DOC-028-WP13-02C-MIXED-HARMONIC-001",
+  "path": "verification/0_2_8/wp13_02c_mixed_harmonic.md",
+  "title": "QF Solver 0.2.8 WP13-02C connected mixed harmonic campaign",
+  "status": "owner_review_required",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp13_02c_harmonic_contract.json",
+    "qualification/0_2_8/wp13_02c_harmonic_contract.schema.json",
+    "qualification/0_2_8/wp13_02c_harmonic_v1/manifest.json",
+    "qualification/0_2_8/wp13_02c_harmonic_v1/wp13_02c_harmonic_arrays.npz"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp13_02c_mixed_harmonic.py"
+  ]
+},
+{
+  "id": "DOC-028-WP13-02C2-HARMONIC-HARNESS-001",
+  "path": "verification/0_2_8/wp13_02c2_harmonic_harness.md",
+  "title": "QF Solver 0.2.8 WP13-02C2 harmonic harness/evidence correction",
+  "status": "owner_review_required",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp13_02c_harmonic_contract.json",
+    "qualification/0_2_8/wp13_02c_harmonic_evidence.schema.json",
+    "qualification/0_2_8/wp13_02c2_harmonic_harness/manifest.json",
+    "qualification/0_2_8/wp13_02c2_harmonic_harness/wp13_02c2_harness_arrays.npz"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp13_02c2_harmonic_harness.py"
+  ]
+},
+{
+  "id": "DOC-028-WP13-02C3-HARMONIC-FINAL-001",
+  "path": "verification/0_2_8/wp13_02c3_harmonic_final.md",
+  "title": "QF Solver 0.2.8 WP13-02C3 final mixed harmonic campaign",
+  "status": "owner_review_required",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_8/wp13_02c_harmonic_contract.json",
+    "qualification/0_2_8/wp13_02c3_harmonic_evidence.schema.json",
+    "qualification/0_2_8/wp13_02c3_harmonic_final/manifest.json",
+    "qualification/0_2_8/wp13_02c3_harmonic_final/wp13_02c3_harmonic_arrays.npz"
+  ],
+  "tests": [
+    "tests/verification/test_028_wp13_02c3_harmonic_final.py"
+  ]
 }
   ]
   

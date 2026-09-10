@@ -19,6 +19,12 @@ from solveur.io.evidence_writer import EvidenceBundleWriter
 from solveur.io.json_reader import JsonModelReader
 from solveur.io.json_writer import JsonResultWriter
 from solveur.io.model_writer import JsonModelWriter
+from solveur.io.inp_reader import InpImportResult, InpModelImporter
+from solveur.io.mixed_results_hdf5 import (
+    load_mixed_results_hdf5 as _load_mixed_results_hdf5,
+    mixed_results_semantic_digest as _mixed_results_semantic_digest,
+    write_mixed_results_hdf5 as _write_mixed_results_hdf5,
+)
 from solveur.io.vtu_writer import VtuResultWriter
 from solveur.large.audit import LargeAuditReport
 from solveur.large.audit import inspect_large_model as _inspect_large_model
@@ -71,6 +77,47 @@ DEFAULT_QUALIFICATION_CAMPAIGN = project_path("qualification/campaign.json")
 def load_model(path: str | Path) -> FiniteElementModel:
     """Load a finite element model from a JSON file."""
     return JsonModelReader().read(path)
+
+
+def read_inp(path: str | Path) -> InpImportResult:
+    """Read the bounded, fail-closed Abaqus/CalculiX ``.inp`` subset."""
+    return InpModelImporter().import_model(path)
+
+
+def save_mixed_results_hdf5(
+    path: str | Path,
+    model: object,
+    results: object,
+    *,
+    reactions: object | None = None,
+    source_sha: str,
+    metadata: dict[str, object] | None = None,
+) -> Path:
+    """Write family-aware mixed TET4/WEDGE6/HEX8 results to HDF5."""
+    return _write_mixed_results_hdf5(
+        path,
+        model,
+        results,
+        reactions=reactions,
+        source_sha=source_sha,
+        metadata=metadata,
+    )
+
+
+def load_mixed_results_hdf5(
+    path: str | Path,
+    *,
+    families: tuple[str, ...] | list[str] | None = None,
+    fields: tuple[str, ...] | list[str] | None = None,
+    region_id: int | None = None,
+) -> dict[str, object]:
+    """Read family-aware mixed HDF5 results, optionally selecting subsets."""
+    return _load_mixed_results_hdf5(path, families=families, fields=fields, region_id=region_id)
+
+
+def mixed_results_semantic_digest(path: str | Path) -> str:
+    """Hash logical mixed-result content independently of HDF5 container bytes."""
+    return _mixed_results_semantic_digest(path)
 
 
 def import_gmsh_model(

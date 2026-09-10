@@ -1,0 +1,3999 @@
+{
+  "case_b_active_set_sequence": {
+    "expected": [
+      "inactive",
+      "active",
+      "inactive",
+      "active"
+    ],
+    "observed": [
+      "inactive",
+      "active",
+      "inactive",
+      "active"
+    ],
+    "pass": true
+  },
+  "case_inputs": {
+    "case_a": {
+      "analysis": {
+        "method": "newton_raphson",
+        "parameters": {
+          "contact_mode": "penalty",
+          "contact_penalty": 100000.0,
+          "contact_search_mode": "initial",
+          "load_path": [
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_iterations": 30,
+          "tolerance": 1e-10
+        },
+        "type": "nonlinear_static"
+      },
+      "contacts": [
+        {
+          "friction_coefficient": 0.0,
+          "master_nodes": [
+            4,
+            5,
+            6
+          ],
+          "name": "case_a_frozen_plane",
+          "slave_node": 0
+        }
+      ],
+      "elements": [
+        {
+          "material": "elastic",
+          "nodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "type": "TET4"
+        }
+      ],
+      "fixed_dofs": [
+        {
+          "dofs": [
+            "UX",
+            "UY",
+            "UZ"
+          ],
+          "node": 1
+        },
+        {
+          "dofs": [
+            "UX",
+            "UY",
+            "UZ"
+          ],
+          "node": 2
+        },
+        {
+          "dofs": [
+            "UX",
+            "UY",
+            "UZ"
+          ],
+          "node": 3
+        },
+        {
+          "dofs": [
+            "UX",
+            "UY",
+            "UZ"
+          ],
+          "node": 4
+        },
+        {
+          "dofs": [
+            "UX",
+            "UY",
+            "UZ"
+          ],
+          "node": 5
+        },
+        {
+          "dofs": [
+            "UX",
+            "UY",
+            "UZ"
+          ],
+          "node": 6
+        },
+        {
+          "dofs": [
+            "UY",
+            "UZ"
+          ],
+          "node": 0
+        }
+      ],
+      "loads": [
+        {
+          "dof": "UX",
+          "node": 0,
+          "value": -1000.0
+        }
+      ],
+      "materials": {
+        "elastic": {
+          "E": 10000.0,
+          "nu": 0.3,
+          "type": "isotropic_3d"
+        }
+      },
+      "nodes": [
+        [
+          0.1,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.1,
+          1.0,
+          0.0
+        ],
+        [
+          0.1,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          -1.0,
+          -1.0
+        ],
+        [
+          0.0,
+          1.0,
+          -1.0
+        ],
+        [
+          0.0,
+          -1.0,
+          1.0
+        ]
+      ],
+      "verification_profile": "engineering"
+    },
+    "case_b": {
+      "analysis": {
+        "method": "newton_raphson",
+        "parameters": {
+          "contact_mode": "penalty",
+          "contact_penalty": 100000.0,
+          "contact_search_mode": "initial",
+          "load_path": [
+            0.25,
+            1.0,
+            0.0,
+            1.0
+          ],
+          "max_iterations": 30,
+          "tolerance": 1e-10
+        },
+        "type": "nonlinear_static"
+      },
+      "contacts": [
+        {
+          "friction_coefficient": 0.0,
+          "master_nodes": [
+            4,
+            5,
+            6
+          ],
+          "name": "case_b_frozen_plane",
+          "slave_node": 0
+        }
+      ],
+      "elements": [
+        {
+          "material": "elastic",
+          "nodes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "type": "TET4"
+        }
+      ],
+      "fixed_dofs": [
+        {
+          "dofs": [
+            "UX",
+            "UY",
+            "UZ"
+          ],
+          "node": 1
+        },
+        {
+          "dofs": [
+            "UX",
+            "UY",
+            "UZ"
+          ],
+          "node": 2
+        },
+        {
+          "dofs": [
+            "UX",
+            "UY",
+            "UZ"
+          ],
+          "node": 3
+        },
+        {
+          "dofs": [
+            "UX",
+            "UY",
+            "UZ"
+          ],
+          "node": 4
+        },
+        {
+          "dofs": [
+            "UX",
+            "UY",
+            "UZ"
+          ],
+          "node": 5
+        },
+        {
+          "dofs": [
+            "UX",
+            "UY",
+            "UZ"
+          ],
+          "node": 6
+        },
+        {
+          "dofs": [
+            "UX",
+            "UZ"
+          ],
+          "node": 0
+        }
+      ],
+      "loads": [
+        {
+          "dof": "UY",
+          "node": 0,
+          "value": -1000.0
+        }
+      ],
+      "materials": {
+        "elastic": {
+          "E": 10000.0,
+          "nu": 0.3,
+          "type": "isotropic_3d"
+        }
+      },
+      "nodes": [
+        [
+          0.0,
+          0.1,
+          0.0
+        ],
+        [
+          1.0,
+          0.1,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.1,
+          1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          -1.0
+        ]
+      ],
+      "verification_profile": "engineering"
+    }
+  },
+  "cases": {
+    "case_a": {
+      "active_contact_sets": [
+        [],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ]
+      ],
+      "contact_force_magnitude": 612.974161627268,
+      "contact_internal_force": [
+        -612.974161627268,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        306.487080813634,
+        -0.0,
+        -0.0,
+        306.487080813634,
+        -0.0,
+        -0.0
+      ],
+      "displacement": [
+        -0.10612974161627269,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "energy": {
+        "U_contact_final": 1.87868661411326,
+        "U_strain_final": 20.5374761126597,
+        "U_total_final": 22.41616272677296,
+        "W_external_endpoint_trapezoid_characterization_only": 24.469010917743272,
+        "W_external_incremental": 83.71357888949971,
+        "contact_energy_nonnegative": true,
+        "definition": {
+          "absolute_tolerance": 1e-10,
+          "branch_definitions": {
+            "active": "K1=Kff+penalty*c_free*c_free^T; A1=K1^-1*F_ref_free; b1=-K1^-1*(penalty*g0*c_free)",
+            "inactive": "K0=Kff; A0=K0^-1*F_ref_free; b0=0"
+          },
+          "contact_energy_nonnegative": true,
+          "external_work": "For F(lambda)=lambda*F_ref and each observed constant-active-set branch q, u_q(lambda)=A_q*lambda+b_q, W_q(lambda_a,lambda_b)=F_ref_free^T*(A_q*(lambda_b^2-lambda_a^2)/2+b_q*(lambda_b-lambda_a)); split each declared interval at g(lambda)=0 if the observed active set changes, then sum W_q.",
+          "final_balance": "U_strain_final+U_contact_final-W_external_incremental",
+          "ghost_energy_tolerance": 1e-14,
+          "inactive_contact_energy": 0.0,
+          "incremental_local_absolute_tolerance": 1e-10,
+          "other_external_work": "0 J: no imposed reaction or additional external contribution exists in the frozen benchmark",
+          "potential_force_relation": "runtime penalty internal contact force is f_contact(u)=penalty*min(g0+c^T*u,0)*c; its conservative potential is U_contact(u)=0.5*penalty*min(g0+c^T*u,0)^2",
+          "prescribed_displacement_work": "0 J: all prescribed displacements are zero in the frozen benchmark",
+          "relative_tolerance": 1e-12,
+          "strain_energy": "U_strain(u)=0.5*u^T*K*u",
+          "transition_policy": "transition lambda is independently solved from g0+c_free^T*(A_q*lambda+b_q)=0 and must lie in the declared interval; direct endpoint trapezoid is archived characterization only because it does not resolve the contact activation kink"
+        },
+        "energy_balance": -61.297416162726755,
+        "energy_error_abs": 61.297416162726755,
+        "energy_error_rel": 0.7322278771958626,
+        "ghost_contact_energy_max": 0.0,
+        "incremental_records": [
+          {
+            "U_contact_end": 0.0,
+            "U_contact_start": 0.0,
+            "U_strain_end": 8.5693359375,
+            "U_strain_start": 0.0,
+            "active_set_transition": "inactive_to_inactive",
+            "contact_force_end": 0.0,
+            "cumulative_endpoint_trapezoid_characterization": 8.569335937499998,
+            "cumulative_external_work_exact": 8.569335937499998,
+            "external_incremental_work_endpoint_trapezoid_characterization": 8.569335937499998,
+            "external_incremental_work_exact": 8.569335937499998,
+            "gap_end": 0.03144531250000002,
+            "gap_start": 0.1,
+            "load_factor_end": 0.25,
+            "load_factor_start": 0.0,
+            "local_energy_balance_error": 1.7763568394002505e-15,
+            "local_energy_gate_pass": true,
+            "penetration_end": 0.0,
+            "penetration_start": 0.0,
+            "runtime_active_set_end": "inactive",
+            "runtime_active_set_start": "inactive",
+            "runtime_endpoint_oracle_relative_error": 0.0,
+            "step": 1,
+            "transition_load_factors": []
+          },
+          {
+            "U_contact_end": 0.08523772191463784,
+            "U_contact_start": 0.0,
+            "U_strain_end": 18.712865631576296,
+            "U_strain_start": 8.5693359375,
+            "active_set_transition": "inactive_to_active",
+            "contact_force_end": 130.56624518966441,
+            "cumulative_endpoint_trapezoid_characterization": 20.850951544461246,
+            "cumulative_external_work_exact": 31.85472787245739,
+            "external_incremental_work_endpoint_trapezoid_characterization": 12.281615606961248,
+            "external_incremental_work_exact": 23.285391934957392,
+            "gap_end": -0.0013056624518966442,
+            "gap_start": 0.03144531250000002,
+            "load_factor_end": 0.5,
+            "load_factor_start": 0.25,
+            "local_energy_balance_error": -13.056624518966458,
+            "local_energy_gate_pass": false,
+            "penetration_end": 0.0013056624518966442,
+            "penetration_start": 0.0,
+            "runtime_active_set_end": "active",
+            "runtime_active_set_start": "inactive",
+            "runtime_endpoint_oracle_relative_error": 0.0,
+            "step": 2,
+            "transition_load_factors": [
+              0.3646723646723651
+            ]
+          },
+          {
+            "U_contact_end": 0.6910654207118591,
+            "U_contact_start": 0.08523772191463784,
+            "U_strain_end": 19.61456267164658,
+            "U_strain_start": 18.712865631576296,
+            "active_set_transition": "active_to_active",
+            "contact_force_end": 371.7702034084655,
+            "cumulative_endpoint_trapezoid_characterization": 22.358476283328752,
+            "cumulative_external_work_exact": 57.48264843320505,
+            "external_incremental_work_endpoint_trapezoid_characterization": 1.5075247388675068,
+            "external_incremental_work_exact": 25.62792056074766,
+            "gap_end": -0.003717702034084655,
+            "gap_start": -0.0013056624518966442,
+            "load_factor_end": 0.75,
+            "load_factor_start": 0.5,
+            "local_energy_balance_error": -24.120395821880155,
+            "local_energy_gate_pass": false,
+            "penetration_end": 0.003717702034084655,
+            "penetration_start": 0.0013056624518966442,
+            "runtime_active_set_end": "active",
+            "runtime_active_set_start": "active",
+            "runtime_endpoint_oracle_relative_error": 0.0,
+            "step": 3,
+            "transition_load_factors": []
+          },
+          {
+            "U_contact_end": 1.87868661411326,
+            "U_contact_start": 0.6910654207118591,
+            "U_strain_end": 20.5374761126597,
+            "U_strain_start": 19.61456267164658,
+            "active_set_transition": "active_to_active",
+            "contact_force_end": 612.974161627268,
+            "cumulative_endpoint_trapezoid_characterization": 24.469010917743272,
+            "cumulative_external_work_exact": 83.71357888949971,
+            "external_incremental_work_endpoint_trapezoid_characterization": 2.1105346344145217,
+            "external_incremental_work_exact": 26.23093045629467,
+            "gap_end": -0.00612974161627268,
+            "gap_start": -0.003717702034084655,
+            "load_factor_end": 1.0,
+            "load_factor_start": 0.75,
+            "local_energy_balance_error": -24.120395821880148,
+            "local_energy_gate_pass": false,
+            "penetration_end": 0.00612974161627268,
+            "penetration_start": 0.003717702034084655,
+            "runtime_active_set_end": "active",
+            "runtime_active_set_start": "active",
+            "runtime_endpoint_oracle_relative_error": 1.3877787807814457e-17,
+            "step": 4,
+            "transition_load_factors": []
+          }
+        ],
+        "maximum_runtime_endpoint_oracle_relative_error": 1.3877787807814457e-17,
+        "maximum_transition_root_disagreement": 6.661338147750939e-16,
+        "other_external_work": 0.0,
+        "prescribed_displacement_work": 0.0
+      },
+      "final_gap": -0.00612974161627268,
+      "force_balance": {
+        "maximum_free_relative_residual": 6.821210263296962e-16,
+        "residual_gate": {
+          "definition": "maximum recorded nonlinear free residual relative to reference load norm",
+          "threshold": 1e-07
+        }
+      },
+      "gap_history": [
+        0.03144531250000002,
+        -0.0013056624518966442,
+        -0.003717702034084655,
+        -0.00612974161627268
+      ],
+      "gates": {
+        "active_contact_count": {
+          "minimum": 1,
+          "pass": true,
+          "value": 1
+        },
+        "energy": {
+          "absolute_error": 61.297416162726755,
+          "absolute_tolerance": 1e-10,
+          "pass": false,
+          "relative_error": 0.7322278771958626,
+          "relative_tolerance": 1e-12
+        },
+        "final_gap": {
+          "pass": true,
+          "threshold": 0.05,
+          "value": 0.00612974161627268
+        },
+        "force_balance": {
+          "pass": true,
+          "threshold": 1e-07,
+          "value": 6.821210263296962e-16
+        },
+        "max_penetration": {
+          "pass": true,
+          "threshold": 0.05,
+          "value": 0.00612974161627268
+        },
+        "normal_force": {
+          "pass": true,
+          "sign": "compressive_positive_magnitude",
+          "threshold": 0.0,
+          "value": 612.974161627268
+        }
+      },
+      "geometry": {
+        "barycentric": [
+          0.0,
+          0.5,
+          0.5
+        ],
+        "contact_row_construction": "independent_normal_and_barycentric_projection",
+        "initial_gap": 0.1,
+        "master_nodes": [
+          4,
+          5,
+          6
+        ],
+        "normal": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "slave_node": 0
+      },
+      "input": {
+        "analysis": {
+          "method": "newton_raphson",
+          "parameters": {
+            "contact_mode": "penalty",
+            "contact_penalty": 100000.0,
+            "contact_search_mode": "initial",
+            "load_path": [
+              0.25,
+              0.5,
+              0.75,
+              1.0
+            ],
+            "max_iterations": 30,
+            "tolerance": 1e-10
+          },
+          "type": "nonlinear_static"
+        },
+        "contacts": [
+          {
+            "friction_coefficient": 0.0,
+            "master_nodes": [
+              4,
+              5,
+              6
+            ],
+            "name": "case_a_frozen_plane",
+            "slave_node": 0
+          }
+        ],
+        "elements": [
+          {
+            "material": "elastic",
+            "nodes": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "type": "TET4"
+          }
+        ],
+        "fixed_dofs": [
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 1
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 2
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 3
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 4
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 5
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 6
+          },
+          {
+            "dofs": [
+              "UY",
+              "UZ"
+            ],
+            "node": 0
+          }
+        ],
+        "loads": [
+          {
+            "dof": "UX",
+            "node": 0,
+            "value": -1000.0
+          }
+        ],
+        "materials": {
+          "elastic": {
+            "E": 10000.0,
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          }
+        },
+        "nodes": [
+          [
+            0.1,
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.1,
+            1.0,
+            0.0
+          ],
+          [
+            0.1,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            -1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            -1.0,
+            1.0
+          ]
+        ],
+        "verification_profile": "engineering"
+      },
+      "load_vector": [
+        -1000.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_penetration": 0.00612974161627268,
+      "mesh_report": {
+        "details": {
+          "component_count": 1,
+          "components": [
+            {
+              "element_types": {
+                "TET4": 1
+              },
+              "elements": [
+                0
+              ],
+              "fixed_dof_count": 20,
+              "fixed_translation_dof_count": 20,
+              "fixed_translation_node_count": 7,
+              "index": 0,
+              "load_count": 1,
+              "nodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ]
+            }
+          ],
+          "concentrated_mass_count": 0,
+          "contact_count": 1,
+          "distributed_load_count": 0,
+          "element_count": 1,
+          "element_quality": [
+            {
+              "aspect_ratio": 1.5713484026367723,
+              "edge_length_max": 1.4142135623730951,
+              "edge_length_min": 0.9,
+              "index": 0,
+              "quality": 0.76426332760812,
+              "quality_status": "PASS",
+              "quality_warnings": [],
+              "radius_ratio": 0.7290408137144143,
+              "relative_volume": 0.05303300858899105,
+              "signed_volume": 0.15,
+              "skew": 0.23573667239188,
+              "type": "TET4"
+            }
+          ],
+          "element_types": {
+            "TET4": 1
+          },
+          "error_count": 0,
+          "fixed_condition_count": 7,
+          "isolated_nodes": [],
+          "load_count": 1,
+          "material_count": 1,
+          "mechanical_rank": {
+            "checked": true,
+            "eigenvalue_max": 3646.7236467236476,
+            "eigenvalue_min": 3646.7236467236476,
+            "free_dof_count": 1,
+            "rank": 1,
+            "tolerance": 3.646723646723648e-07,
+            "zero_mode_count": 0
+          },
+          "multipoint_constraint_count": 0,
+          "nodal_load_count": 1,
+          "node_count": 7,
+          "quality_thresholds": {
+            "mitc3_max_angle_degrees": 140.0,
+            "mitc3_max_aspect_ratio": 10.0,
+            "mitc3_min_angle_degrees": 20.0,
+            "mitc3_min_relative_area": 1e-08,
+            "mitc4_max_angle_degrees": 150.0,
+            "mitc4_max_aspect_ratio": 10.0,
+            "mitc4_max_planarity_ratio": 0.001,
+            "mitc4_max_warpage_degrees": 5.0,
+            "mitc4_min_angle_degrees": 30.0,
+            "tet10_max_mid_edge_deviation_ratio": 0.05,
+            "tet10_min_jacobian_ratio": 0.05,
+            "tet10_min_sampled_jacobian": 1e-14,
+            "tet_max_aspect_ratio": 20.0,
+            "tet_min_quality": 0.05,
+            "tet_min_radius_ratio": 0.05,
+            "tet_min_relative_volume": 0.0001,
+            "tet_min_signed_volume": 1e-14
+          },
+          "rbe2_count": 0,
+          "rbe3_count": 0,
+          "spring_count": 0,
+          "warning_count": 0
+        },
+        "errors": [],
+        "status": "PASS",
+        "warnings": []
+      },
+      "oracle": {
+        "K_free": [
+          [
+            3646.7236467236476
+          ]
+        ],
+        "active": true,
+        "comparison_status": "PASS",
+        "construction": "[K_ff + p*c_f*c_f^T]u_f=lambda*f_f-p*g0*c_f on active branches; K_ff*u_f=lambda*f_f on inactive branches",
+        "contact_internal_force": [
+          -612.9741616272665,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          306.48708081363327,
+          -0.0,
+          -0.0,
+          306.48708081363327,
+          -0.0,
+          -0.0
+        ],
+        "contact_row": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0
+        ],
+        "displacement": [
+          -0.10612974161627267,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "f_free": [
+          -1000.0
+        ],
+        "gap": -0.006129741616272666,
+        "gap0": 0.1,
+        "independence": "PASS_WITH_KERNEL_LIMITATION_EXPECTED",
+        "penalty": 100000.0,
+        "plan": "independent dense linear-elastic K plus independently constructed contact row and active-set branch work integration",
+        "reaction": [
+          1.1368683772161603e-12,
+          -170.0797141286421,
+          -170.0797141286421,
+          264.56844420011,
+          68.03188565145683,
+          68.03188565145683,
+          61.22869708631116,
+          102.04782847718525,
+          0.0,
+          61.22869708631116,
+          0.0,
+          102.04782847718525,
+          0.0,
+          0.0,
+          0.0,
+          306.48708081363327,
+          0.0,
+          0.0,
+          306.48708081363327,
+          0.0,
+          0.0
+        ],
+        "runtime_contact_force_relative_error": 2.4110786113031927e-15,
+        "runtime_displacement_relative_error": 1.3877787807814457e-17,
+        "runtime_reaction_relative_error": 2.600892795621973e-15,
+        "shared_limitations": [
+          "element K kernel may be shared with runtime assembly",
+          "contact row, gap equation, dense branch solves and work integration are constructed independently of runtime active/contact assembly"
+        ]
+      },
+      "reactions": [
+        0.0,
+        -170.0797141286421,
+        -170.0797141286421,
+        264.5684442001099,
+        68.03188565145686,
+        68.03188565145686,
+        61.228697086311165,
+        102.04782847718526,
+        0.0,
+        61.228697086311165,
+        0.0,
+        102.04782847718526,
+        0.0,
+        0.0,
+        0.0,
+        306.487080813634,
+        0.0,
+        0.0,
+        306.487080813634,
+        0.0,
+        0.0
+      ],
+      "residual_vector_consistency": [
+        -4.547473508864641e-13,
+        -170.0797141286421,
+        -170.0797141286421,
+        264.56844420011004,
+        68.03188565145685,
+        68.03188565145685,
+        61.228697086311165,
+        102.04782847718526,
+        0.0,
+        61.228697086311165,
+        0.0,
+        102.04782847718526,
+        0.0,
+        0.0,
+        0.0,
+        306.487080813634,
+        0.0,
+        0.0,
+        306.487080813634,
+        0.0,
+        0.0
+      ],
+      "solver_status": "PASS",
+      "status": "FAIL",
+      "steps": [
+        {
+          "arc_length_branch_direction": null,
+          "arc_length_constraint_residual": null,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": null,
+          "arc_length_predictor_sign": null,
+          "arc_length_radius": null,
+          "assembly_seconds": 0.0014162000006763265,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 2,
+          "contact_assembly_seconds": 0.0006453999994846527,
+          "contact_closest_distances": [
+            0.1
+          ],
+          "contact_finite_sliding": false,
+          "contact_gaps": [
+            0.03144531250000002
+          ],
+          "contact_master_face_indices": [
+            0
+          ],
+          "contact_projection_clamped": [
+            false
+          ],
+          "contact_projection_modes": [
+            "exact_node_to_triangle"
+          ],
+          "contact_search_mode": "initial",
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.06855468749999999,
+          "element_cache_hits": 2,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 2,
+          "element_kernel_seconds": 0.00018660000023373868,
+          "element_scatter_seconds": 0.0002700000004551839,
+          "element_setup_seconds": 1.7000002117129043e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 8.569335937499998,
+          "incremental_internal_work": 8.569335937499998,
+          "iterations": 1,
+          "last_correction_norm": 0.06855468749999999,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0012568999991344754,
+          "load_factor": 0.25,
+          "load_increment": 0.25,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 2.842170943040401e-17,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            250.0,
+            2.842170943040401e-14
+          ],
+          "residual_initial": 250.0,
+          "residual_norm": 2.842170943040401e-14,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0003683000004457426,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 1,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": true
+        },
+        {
+          "arc_length_branch_direction": null,
+          "arc_length_constraint_residual": null,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": null,
+          "arc_length_predictor_sign": null,
+          "arc_length_radius": null,
+          "assembly_seconds": 0.0024376999999731197,
+          "contact_active_contacts": [
+            0
+          ],
+          "contact_assembly_calls": 3,
+          "contact_assembly_seconds": 0.0012028999999529333,
+          "contact_closest_distances": [
+            0.1
+          ],
+          "contact_finite_sliding": false,
+          "contact_gaps": [
+            -0.0013056624518966442
+          ],
+          "contact_master_face_indices": [
+            0
+          ],
+          "contact_projection_clamped": [
+            false
+          ],
+          "contact_projection_modes": [
+            "exact_node_to_triangle"
+          ],
+          "contact_search_mode": "initial",
+          "contact_tangent_nnz": 9,
+          "cumulative_correction_norm": 0.10435840004810332,
+          "element_cache_hits": 3,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 3,
+          "element_kernel_seconds": 0.0002905999999711639,
+          "element_scatter_seconds": 0.000430400000368536,
+          "element_setup_seconds": 2.1999994714860804e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 12.281615606961248,
+          "incremental_internal_work": 12.281615606961244,
+          "iterations": 2,
+          "last_correction_norm": 0.03580371254810333,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0019062000001213164,
+          "load_factor": 0.5,
+          "load_increment": 0.25,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 1.7053025658242405e-16,
+          "relative_work_imbalance": 2.8927087384063825e-16,
+          "residual_history": [
+            250.00000000000003,
+            3710.9374999999973,
+            1.7053025658242404e-13
+          ],
+          "residual_initial": 250.00000000000003,
+          "residual_norm": 1.7053025658242404e-13,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0006034000016370555,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 2,
+          "tangent_nnz": 80,
+          "work_diagnostics_available": true
+        },
+        {
+          "arc_length_branch_direction": null,
+          "arc_length_constraint_residual": null,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": null,
+          "arc_length_predictor_sign": null,
+          "arc_length_radius": null,
+          "assembly_seconds": 0.0021156000011615106,
+          "contact_active_contacts": [
+            0
+          ],
+          "contact_assembly_calls": 2,
+          "contact_assembly_seconds": 0.0008682999996381113,
+          "contact_closest_distances": [
+            0.1
+          ],
+          "contact_finite_sliding": false,
+          "contact_gaps": [
+            -0.003717702034084655
+          ],
+          "contact_master_face_indices": [
+            0
+          ],
+          "contact_projection_clamped": [
+            false
+          ],
+          "contact_projection_modes": [
+            "exact_node_to_triangle"
+          ],
+          "contact_search_mode": "initial",
+          "contact_tangent_nnz": 9,
+          "cumulative_correction_norm": 0.002412039582188017,
+          "element_cache_hits": 2,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 2,
+          "element_kernel_seconds": 0.0003432000003158464,
+          "element_scatter_seconds": 0.0005013999998482177,
+          "element_setup_seconds": 2.4000000848900527e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 1.5075247388675068,
+          "incremental_internal_work": 1.5075247388675057,
+          "iterations": 1,
+          "last_correction_norm": 0.002412039582188017,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0013094999994791579,
+          "load_factor": 0.75,
+          "load_increment": 0.25,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 6.821210263296962e-16,
+          "relative_work_imbalance": 7.364542657251422e-16,
+          "residual_history": [
+            250.00000000000017,
+            6.821210263296962e-13
+          ],
+          "residual_initial": 250.00000000000017,
+          "residual_norm": 6.821210263296962e-13,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0005799000018669176,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 3,
+          "tangent_nnz": 80,
+          "work_diagnostics_available": true
+        },
+        {
+          "arc_length_branch_direction": null,
+          "arc_length_constraint_residual": null,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": null,
+          "arc_length_predictor_sign": null,
+          "arc_length_radius": null,
+          "assembly_seconds": 0.001403799999934563,
+          "contact_active_contacts": [
+            0
+          ],
+          "contact_assembly_calls": 2,
+          "contact_assembly_seconds": 0.000684200000250712,
+          "contact_closest_distances": [
+            0.1
+          ],
+          "contact_finite_sliding": false,
+          "contact_gaps": [
+            -0.00612974161627268
+          ],
+          "contact_master_face_indices": [
+            0
+          ],
+          "contact_projection_clamped": [
+            false
+          ],
+          "contact_projection_modes": [
+            "exact_node_to_triangle"
+          ],
+          "contact_search_mode": "initial",
+          "contact_tangent_nnz": 9,
+          "cumulative_correction_norm": 0.0024120395821880217,
+          "element_cache_hits": 2,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 2,
+          "element_kernel_seconds": 0.00017519999983051093,
+          "element_scatter_seconds": 0.00025210000057995785,
+          "element_setup_seconds": 1.2999998943996616e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 2.1105346344145217,
+          "incremental_internal_work": 2.1105346344145213,
+          "iterations": 1,
+          "last_correction_norm": 0.0024120395821880217,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0010116000003108638,
+          "load_factor": 1.0,
+          "load_increment": 0.25,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 2.2737367544323206e-16,
+          "relative_work_imbalance": 2.1041550449289657e-16,
+          "residual_history": [
+            250.00000000000068,
+            2.2737367544323206e-13
+          ],
+          "residual_initial": 250.00000000000068,
+          "residual_norm": 2.2737367544323206e-13,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0003468999993856414,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 4,
+          "tangent_nnz": 80,
+          "work_diagnostics_available": true
+        }
+      ]
+    },
+    "case_b": {
+      "active_contact_sets": [
+        [],
+        [
+          0
+        ],
+        [],
+        [
+          0
+        ]
+      ],
+      "contact_force_magnitude": 612.9741616272665,
+      "contact_internal_force": [
+        -0.0,
+        -612.9741616272665,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        -0.0,
+        306.48708081363327,
+        -0.0,
+        -0.0,
+        306.48708081363327,
+        -0.0
+      ],
+      "displacement": [
+        0.0,
+        -0.10612974161627267,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "energy": {
+        "U_contact_final": 1.8786866141132517,
+        "U_strain_final": 20.537476112659697,
+        "U_total_final": 22.41616272677295,
+        "W_external_endpoint_trapezoid_characterization_only": 32.053744760170424,
+        "W_external_incremental": 83.71357888949973,
+        "contact_energy_nonnegative": true,
+        "definition": {
+          "absolute_tolerance": 1e-10,
+          "branch_definitions": {
+            "active": "K1=Kff+penalty*c_free*c_free^T; A1=K1^-1*F_ref_free; b1=-K1^-1*(penalty*g0*c_free)",
+            "inactive": "K0=Kff; A0=K0^-1*F_ref_free; b0=0"
+          },
+          "contact_energy_nonnegative": true,
+          "external_work": "For F(lambda)=lambda*F_ref and each observed constant-active-set branch q, u_q(lambda)=A_q*lambda+b_q, W_q(lambda_a,lambda_b)=F_ref_free^T*(A_q*(lambda_b^2-lambda_a^2)/2+b_q*(lambda_b-lambda_a)); split each declared interval at g(lambda)=0 if the observed active set changes, then sum W_q.",
+          "final_balance": "U_strain_final+U_contact_final-W_external_incremental",
+          "ghost_energy_tolerance": 1e-14,
+          "inactive_contact_energy": 0.0,
+          "incremental_local_absolute_tolerance": 1e-10,
+          "other_external_work": "0 J: no imposed reaction or additional external contribution exists in the frozen benchmark",
+          "potential_force_relation": "runtime penalty internal contact force is f_contact(u)=penalty*min(g0+c^T*u,0)*c; its conservative potential is U_contact(u)=0.5*penalty*min(g0+c^T*u,0)^2",
+          "prescribed_displacement_work": "0 J: all prescribed displacements are zero in the frozen benchmark",
+          "relative_tolerance": 1e-12,
+          "strain_energy": "U_strain(u)=0.5*u^T*K*u",
+          "transition_policy": "transition lambda is independently solved from g0+c_free^T*(A_q*lambda+b_q)=0 and must lie in the declared interval; direct endpoint trapezoid is archived characterization only because it does not resolve the contact activation kink"
+        },
+        "energy_balance": -61.297416162726776,
+        "energy_error_abs": 61.297416162726776,
+        "energy_error_rel": 0.7322278771958628,
+        "ghost_contact_energy_max": 0.0,
+        "incremental_records": [
+          {
+            "U_contact_end": 0.0,
+            "U_contact_start": 0.0,
+            "U_strain_end": 8.5693359375,
+            "U_strain_start": 0.0,
+            "active_set_transition": "inactive_to_inactive",
+            "contact_force_end": 0.0,
+            "cumulative_endpoint_trapezoid_characterization": 8.569335937499998,
+            "cumulative_external_work_exact": 8.569335937499998,
+            "external_incremental_work_endpoint_trapezoid_characterization": 8.569335937499998,
+            "external_incremental_work_exact": 8.569335937499998,
+            "gap_end": 0.03144531250000002,
+            "gap_start": 0.1,
+            "load_factor_end": 0.25,
+            "load_factor_start": 0.0,
+            "local_energy_balance_error": 1.7763568394002505e-15,
+            "local_energy_gate_pass": true,
+            "penetration_end": 0.0,
+            "penetration_start": 0.0,
+            "runtime_active_set_end": "inactive",
+            "runtime_active_set_start": "inactive",
+            "runtime_endpoint_oracle_relative_error": 0.0,
+            "step": 1,
+            "transition_load_factors": []
+          },
+          {
+            "U_contact_end": 1.8786866141132517,
+            "U_contact_start": 0.0,
+            "U_strain_end": 20.537476112659697,
+            "U_strain_start": 8.5693359375,
+            "active_set_transition": "inactive_to_active",
+            "contact_force_end": 612.9741616272665,
+            "cumulative_endpoint_trapezoid_characterization": 32.053744760170424,
+            "cumulative_external_work_exact": 83.71357888949973,
+            "external_incremental_work_endpoint_trapezoid_characterization": 23.484408822670428,
+            "external_incremental_work_exact": 75.14424295199973,
+            "gap_end": -0.006129741616272666,
+            "gap_start": 0.03144531250000002,
+            "load_factor_end": 1.0,
+            "load_factor_start": 0.25,
+            "local_energy_balance_error": -61.297416162726776,
+            "local_energy_gate_pass": false,
+            "penetration_end": 0.006129741616272666,
+            "penetration_start": 0.0,
+            "runtime_active_set_end": "active",
+            "runtime_active_set_start": "inactive",
+            "runtime_endpoint_oracle_relative_error": 0.0,
+            "step": 2,
+            "transition_load_factors": [
+              0.3646723646723651
+            ]
+          },
+          {
+            "U_contact_end": 0.0,
+            "U_contact_start": 1.8786866141132517,
+            "U_strain_end": 3.5116671350650462e-31,
+            "U_strain_start": 20.537476112659697,
+            "active_set_transition": "active_to_inactive",
+            "contact_force_end": 0.0,
+            "cumulative_endpoint_trapezoid_characterization": -21.011126047965902,
+            "cumulative_external_work_exact": 0.0,
+            "external_incremental_work_endpoint_trapezoid_characterization": -53.06487080813633,
+            "external_incremental_work_exact": -83.71357888949973,
+            "gap_end": 0.09999999999999999,
+            "gap_start": -0.006129741616272666,
+            "load_factor_end": 0.0,
+            "load_factor_start": 1.0,
+            "local_energy_balance_error": 61.297416162726776,
+            "local_energy_gate_pass": false,
+            "penetration_end": 0.0,
+            "penetration_start": 0.006129741616272666,
+            "runtime_active_set_end": "inactive",
+            "runtime_active_set_start": "active",
+            "runtime_endpoint_oracle_relative_error": 1.3877787807814457e-17,
+            "step": 3,
+            "transition_load_factors": [
+              0.3646723646723651
+            ]
+          },
+          {
+            "U_contact_end": 1.8786866141132517,
+            "U_contact_start": 0.0,
+            "U_strain_end": 20.537476112659697,
+            "U_strain_start": 3.5116671350650462e-31,
+            "active_set_transition": "inactive_to_active",
+            "contact_force_end": 612.9741616272665,
+            "cumulative_endpoint_trapezoid_characterization": 32.053744760170424,
+            "cumulative_external_work_exact": 83.71357888949973,
+            "external_incremental_work_endpoint_trapezoid_characterization": 53.06487080813633,
+            "external_incremental_work_exact": 83.71357888949973,
+            "gap_end": -0.006129741616272666,
+            "gap_start": 0.09999999999999999,
+            "load_factor_end": 1.0,
+            "load_factor_start": 0.0,
+            "local_energy_balance_error": -61.297416162726776,
+            "local_energy_gate_pass": false,
+            "penetration_end": 0.006129741616272666,
+            "penetration_start": 0.0,
+            "runtime_active_set_end": "active",
+            "runtime_active_set_start": "inactive",
+            "runtime_endpoint_oracle_relative_error": 0.0,
+            "step": 4,
+            "transition_load_factors": [
+              0.3646723646723651
+            ]
+          }
+        ],
+        "maximum_runtime_endpoint_oracle_relative_error": 1.3877787807814457e-17,
+        "maximum_transition_root_disagreement": 6.661338147750939e-16,
+        "other_external_work": 0.0,
+        "prescribed_displacement_work": 0.0
+      },
+      "final_gap": -0.006129741616272666,
+      "force_balance": {
+        "maximum_free_relative_residual": 1.1368683772161603e-15,
+        "residual_gate": {
+          "definition": "maximum recorded nonlinear free residual relative to reference load norm",
+          "threshold": 1e-07
+        }
+      },
+      "gap_history": [
+        0.03144531250000002,
+        -0.006129741616272666,
+        0.09999999999999999,
+        -0.006129741616272666
+      ],
+      "gates": {
+        "active_contact_count": {
+          "minimum": 1,
+          "pass": true,
+          "value": 1
+        },
+        "energy": {
+          "absolute_error": 61.297416162726776,
+          "absolute_tolerance": 1e-10,
+          "pass": false,
+          "relative_error": 0.7322278771958628,
+          "relative_tolerance": 1e-12
+        },
+        "final_gap": {
+          "pass": true,
+          "threshold": 0.05,
+          "value": 0.006129741616272666
+        },
+        "force_balance": {
+          "pass": true,
+          "threshold": 1e-07,
+          "value": 1.1368683772161603e-15
+        },
+        "max_penetration": {
+          "pass": true,
+          "threshold": 0.05,
+          "value": 0.006129741616272666
+        },
+        "normal_force": {
+          "pass": true,
+          "sign": "compressive_positive_magnitude",
+          "threshold": 0.0,
+          "value": 612.9741616272665
+        }
+      },
+      "geometry": {
+        "barycentric": [
+          0.0,
+          0.5,
+          0.5
+        ],
+        "contact_row_construction": "independent_normal_and_barycentric_projection",
+        "initial_gap": 0.1,
+        "master_nodes": [
+          4,
+          5,
+          6
+        ],
+        "normal": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "slave_node": 0
+      },
+      "input": {
+        "analysis": {
+          "method": "newton_raphson",
+          "parameters": {
+            "contact_mode": "penalty",
+            "contact_penalty": 100000.0,
+            "contact_search_mode": "initial",
+            "load_path": [
+              0.25,
+              1.0,
+              0.0,
+              1.0
+            ],
+            "max_iterations": 30,
+            "tolerance": 1e-10
+          },
+          "type": "nonlinear_static"
+        },
+        "contacts": [
+          {
+            "friction_coefficient": 0.0,
+            "master_nodes": [
+              4,
+              5,
+              6
+            ],
+            "name": "case_b_frozen_plane",
+            "slave_node": 0
+          }
+        ],
+        "elements": [
+          {
+            "material": "elastic",
+            "nodes": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "type": "TET4"
+          }
+        ],
+        "fixed_dofs": [
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 1
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 2
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 3
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 4
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 5
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 6
+          },
+          {
+            "dofs": [
+              "UX",
+              "UZ"
+            ],
+            "node": 0
+          }
+        ],
+        "loads": [
+          {
+            "dof": "UY",
+            "node": 0,
+            "value": -1000.0
+          }
+        ],
+        "materials": {
+          "elastic": {
+            "E": 10000.0,
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          }
+        },
+        "nodes": [
+          [
+            0.0,
+            0.1,
+            0.0
+          ],
+          [
+            1.0,
+            0.1,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.1,
+            1.0
+          ],
+          [
+            -1.0,
+            0.0,
+            -1.0
+          ],
+          [
+            -1.0,
+            0.0,
+            1.0
+          ],
+          [
+            1.0,
+            0.0,
+            -1.0
+          ]
+        ],
+        "verification_profile": "engineering"
+      },
+      "load_vector": [
+        0.0,
+        -1000.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_penetration": 0.006129741616272666,
+      "mesh_report": {
+        "details": {
+          "component_count": 1,
+          "components": [
+            {
+              "element_types": {
+                "TET4": 1
+              },
+              "elements": [
+                0
+              ],
+              "fixed_dof_count": 20,
+              "fixed_translation_dof_count": 20,
+              "fixed_translation_node_count": 7,
+              "index": 0,
+              "load_count": 1,
+              "nodes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ]
+            }
+          ],
+          "concentrated_mass_count": 0,
+          "contact_count": 1,
+          "distributed_load_count": 0,
+          "element_count": 1,
+          "element_quality": [
+            {
+              "aspect_ratio": 1.5713484026367723,
+              "edge_length_max": 1.4142135623730951,
+              "edge_length_min": 0.9,
+              "index": 0,
+              "quality": 0.76426332760812,
+              "quality_status": "PASS",
+              "quality_warnings": [],
+              "radius_ratio": 0.7290408137144143,
+              "relative_volume": 0.05303300858899105,
+              "signed_volume": 0.15,
+              "skew": 0.23573667239188,
+              "type": "TET4"
+            }
+          ],
+          "element_types": {
+            "TET4": 1
+          },
+          "error_count": 0,
+          "fixed_condition_count": 7,
+          "isolated_nodes": [],
+          "load_count": 1,
+          "material_count": 1,
+          "mechanical_rank": {
+            "checked": true,
+            "eigenvalue_max": 3646.7236467236476,
+            "eigenvalue_min": 3646.7236467236476,
+            "free_dof_count": 1,
+            "rank": 1,
+            "tolerance": 3.646723646723648e-07,
+            "zero_mode_count": 0
+          },
+          "multipoint_constraint_count": 0,
+          "nodal_load_count": 1,
+          "node_count": 7,
+          "quality_thresholds": {
+            "mitc3_max_angle_degrees": 140.0,
+            "mitc3_max_aspect_ratio": 10.0,
+            "mitc3_min_angle_degrees": 20.0,
+            "mitc3_min_relative_area": 1e-08,
+            "mitc4_max_angle_degrees": 150.0,
+            "mitc4_max_aspect_ratio": 10.0,
+            "mitc4_max_planarity_ratio": 0.001,
+            "mitc4_max_warpage_degrees": 5.0,
+            "mitc4_min_angle_degrees": 30.0,
+            "tet10_max_mid_edge_deviation_ratio": 0.05,
+            "tet10_min_jacobian_ratio": 0.05,
+            "tet10_min_sampled_jacobian": 1e-14,
+            "tet_max_aspect_ratio": 20.0,
+            "tet_min_quality": 0.05,
+            "tet_min_radius_ratio": 0.05,
+            "tet_min_relative_volume": 0.0001,
+            "tet_min_signed_volume": 1e-14
+          },
+          "rbe2_count": 0,
+          "rbe3_count": 0,
+          "spring_count": 0,
+          "warning_count": 0
+        },
+        "errors": [],
+        "status": "PASS",
+        "warnings": []
+      },
+      "oracle": {
+        "K_free": [
+          [
+            3646.7236467236476
+          ]
+        ],
+        "active": true,
+        "comparison_status": "PASS",
+        "construction": "[K_ff + p*c_f*c_f^T]u_f=lambda*f_f-p*g0*c_f on active branches; K_ff*u_f=lambda*f_f on inactive branches",
+        "contact_internal_force": [
+          -0.0,
+          -612.9741616272665,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          -0.0,
+          306.48708081363327,
+          -0.0,
+          -0.0,
+          306.48708081363327,
+          -0.0
+        ],
+        "contact_row": [
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.5,
+          0.0,
+          0.0,
+          -0.5,
+          0.0
+        ],
+        "displacement": [
+          0.0,
+          -0.10612974161627267,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "f_free": [
+          -1000.0
+        ],
+        "gap": -0.006129741616272666,
+        "gap0": 0.1,
+        "independence": "PASS_WITH_KERNEL_LIMITATION_EXPECTED",
+        "penalty": 100000.0,
+        "plan": "independent dense linear-elastic K plus independently constructed contact row and active-set branch work integration",
+        "reaction": [
+          -170.0797141286421,
+          1.1368683772161603e-12,
+          -170.0797141286421,
+          102.04782847718525,
+          61.22869708631116,
+          0.0,
+          68.03188565145683,
+          264.56844420011,
+          68.03188565145683,
+          0.0,
+          61.22869708631116,
+          102.04782847718525,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          306.48708081363327,
+          0.0,
+          0.0,
+          306.48708081363327,
+          0.0
+        ],
+        "runtime_contact_force_relative_error": 0.0,
+        "runtime_displacement_relative_error": 0.0,
+        "runtime_reaction_relative_error": 1.916241585541515e-15,
+        "shared_limitations": [
+          "element K kernel may be shared with runtime assembly",
+          "contact row, gap equation, dense branch solves and work integration are constructed independently of runtime active/contact assembly"
+        ]
+      },
+      "reactions": [
+        -170.07971412864208,
+        0.0,
+        -170.07971412864208,
+        102.04782847718525,
+        61.22869708631116,
+        0.0,
+        68.03188565145683,
+        264.5684442001099,
+        68.03188565145683,
+        0.0,
+        61.22869708631116,
+        102.04782847718525,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        306.48708081363327,
+        0.0,
+        0.0,
+        306.48708081363327,
+        0.0
+      ],
+      "residual_vector_consistency": [
+        -170.0797141286421,
+        1.1368683772161603e-12,
+        -170.0797141286421,
+        102.04782847718525,
+        61.22869708631116,
+        0.0,
+        68.03188565145683,
+        264.56844420011,
+        68.03188565145683,
+        0.0,
+        61.22869708631116,
+        102.04782847718525,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        306.48708081363327,
+        0.0,
+        0.0,
+        306.48708081363327,
+        0.0
+      ],
+      "solver_status": "PASS",
+      "status": "FAIL",
+      "steps": [
+        {
+          "arc_length_branch_direction": null,
+          "arc_length_constraint_residual": null,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": null,
+          "arc_length_predictor_sign": null,
+          "arc_length_radius": null,
+          "assembly_seconds": 0.001337200000307348,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 2,
+          "contact_assembly_seconds": 0.0005733999996664352,
+          "contact_closest_distances": [
+            0.1
+          ],
+          "contact_finite_sliding": false,
+          "contact_gaps": [
+            0.03144531250000002
+          ],
+          "contact_master_face_indices": [
+            0
+          ],
+          "contact_projection_clamped": [
+            false
+          ],
+          "contact_projection_modes": [
+            "exact_node_to_triangle"
+          ],
+          "contact_search_mode": "initial",
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.06855468749999999,
+          "element_cache_hits": 2,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 2,
+          "element_kernel_seconds": 0.00019689999953698134,
+          "element_scatter_seconds": 0.000267100000201026,
+          "element_setup_seconds": 1.8000000636675395e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 8.569335937499998,
+          "incremental_internal_work": 8.569335937499998,
+          "iterations": 1,
+          "last_correction_norm": 0.06855468749999999,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0011424000003898982,
+          "load_factor": 0.25,
+          "load_increment": 0.25,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 2.842170943040401e-17,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            250.0,
+            2.842170943040401e-14
+          ],
+          "residual_initial": 250.0,
+          "residual_norm": 2.842170943040401e-14,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0003529999994498212,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 1,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": true
+        },
+        {
+          "arc_length_branch_direction": null,
+          "arc_length_constraint_residual": null,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": null,
+          "arc_length_predictor_sign": null,
+          "arc_length_radius": null,
+          "assembly_seconds": 0.001954499999555992,
+          "contact_active_contacts": [
+            0
+          ],
+          "contact_assembly_calls": 3,
+          "contact_assembly_seconds": 0.0009145000003627501,
+          "contact_closest_distances": [
+            0.1
+          ],
+          "contact_finite_sliding": false,
+          "contact_gaps": [
+            -0.006129741616272666
+          ],
+          "contact_master_face_indices": [
+            0
+          ],
+          "contact_projection_clamped": [
+            false
+          ],
+          "contact_projection_modes": [
+            "exact_node_to_triangle"
+          ],
+          "contact_search_mode": "initial",
+          "contact_tangent_nnz": 9,
+          "cumulative_correction_norm": 0.3737530708837272,
+          "element_cache_hits": 3,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 3,
+          "element_kernel_seconds": 0.00024759999996604165,
+          "element_scatter_seconds": 0.0003659000003608526,
+          "element_setup_seconds": 2.100000529026147e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 23.484408822670428,
+          "incremental_internal_work": 23.484408822670407,
+          "iterations": 2,
+          "last_correction_norm": 0.16808900838372728,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0018166999998356914,
+          "load_factor": 1.0,
+          "load_increment": 0.75,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 1.1368683772161603e-15,
+          "relative_work_imbalance": 9.076780358305447e-16,
+          "residual_history": [
+            750.0,
+            17421.874999999996,
+            1.1368683772161603e-12
+          ],
+          "residual_initial": 750.0,
+          "residual_norm": 1.1368683772161603e-12,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0005072000003565336,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 2,
+          "tangent_nnz": 80,
+          "work_diagnostics_available": true
+        },
+        {
+          "arc_length_branch_direction": null,
+          "arc_length_constraint_residual": null,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": null,
+          "arc_length_predictor_sign": null,
+          "arc_length_radius": null,
+          "assembly_seconds": 0.0018534000000727247,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 3,
+          "contact_assembly_seconds": 0.000846300000375777,
+          "contact_closest_distances": [
+            0.1
+          ],
+          "contact_finite_sliding": false,
+          "contact_gaps": [
+            0.09999999999999999
+          ],
+          "contact_master_face_indices": [
+            0
+          ],
+          "contact_projection_clamped": [
+            false
+          ],
+          "contact_projection_modes": [
+            "exact_node_to_triangle"
+          ],
+          "contact_search_mode": "initial",
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.10612974161627267,
+          "element_cache_hits": 3,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 3,
+          "element_kernel_seconds": 0.00023149999924498843,
+          "element_scatter_seconds": 0.0003530000003593159,
+          "element_setup_seconds": 2.099999619531445e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": -53.06487080813633,
+          "incremental_internal_work": -53.06487080813627,
+          "iterations": 2,
+          "last_correction_norm": 0.09648158328752061,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0017978999994738842,
+          "load_factor": 0.0,
+          "load_increment": -1.0,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 5.060845696297011e-17,
+          "relative_work_imbalance": 1.0712062046911142e-15,
+          "residual_history": [
+            999.9999999999989,
+            351.8416712479385,
+            5.060845696297011e-14
+          ],
+          "residual_initial": 999.9999999999989,
+          "residual_norm": 5.060845696297011e-14,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.000496299999213079,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 3,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": true
+        },
+        {
+          "arc_length_branch_direction": null,
+          "arc_length_constraint_residual": null,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": null,
+          "arc_length_predictor_sign": null,
+          "arc_length_radius": null,
+          "assembly_seconds": 0.002143400000022666,
+          "contact_active_contacts": [
+            0
+          ],
+          "contact_assembly_calls": 3,
+          "contact_assembly_seconds": 0.0010628000018186867,
+          "contact_closest_distances": [
+            0.1
+          ],
+          "contact_finite_sliding": false,
+          "contact_gaps": [
+            -0.006129741616272666
+          ],
+          "contact_master_face_indices": [
+            0
+          ],
+          "contact_projection_clamped": [
+            false
+          ],
+          "contact_projection_modes": [
+            "exact_node_to_triangle"
+          ],
+          "contact_search_mode": "initial",
+          "contact_tangent_nnz": 9,
+          "cumulative_correction_norm": 0.44230775838372727,
+          "element_cache_hits": 3,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 3,
+          "element_kernel_seconds": 0.0002505000002201996,
+          "element_scatter_seconds": 0.00037570000040432205,
+          "element_setup_seconds": 2.1999994714860804e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 53.06487080813633,
+          "incremental_internal_work": 53.06487080813627,
+          "iterations": 2,
+          "last_correction_norm": 0.16808900838372728,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0018944000003102701,
+          "load_factor": 1.0,
+          "load_increment": 1.0,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 1.1368683772161603e-15,
+          "relative_work_imbalance": 1.0712062046911142e-15,
+          "residual_history": [
+            1000.0,
+            17421.874999999996,
+            1.1368683772161603e-12
+          ],
+          "residual_initial": 1000.0,
+          "residual_norm": 1.1368683772161603e-12,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0005154000000402448,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 4,
+          "tangent_nnz": 80,
+          "work_diagnostics_available": true
+        }
+      ]
+    }
+  },
+  "contract": {
+    "claim_policy": {
+      "candidate": "EXPERIMENTAL_BOUNDED",
+      "no_general_contact_claim": true,
+      "owner_gate_required": true,
+      "wording": "Bounded frictionless small-sliding penalty node-to-triangle static/quasi-static contact in the documented TET4 scope."
+    },
+    "contract_commit_sha": "aa76c3a8a5ebea02cbee4638d87152767d229b62",
+    "contract_id": "WP13-07-CONTACT-BOUNDED-002",
+    "contract_sha256": "d7f9105fcad22d9df164692d9bbc0a483ca77ded5f18395bd647403790d0bf2c",
+    "created_before_campaign": true,
+    "gates": {
+      "active_contact_count": {
+        "definition": "final active contact count",
+        "minimum": 1
+      },
+      "energy": {
+        "absolute_tolerance": 1e-10,
+        "branch_definitions": {
+          "active": "K1=Kff+penalty*c_free*c_free^T; A1=K1^-1*F_ref_free; b1=-K1^-1*(penalty*g0*c_free)",
+          "inactive": "K0=Kff; A0=K0^-1*F_ref_free; b0=0"
+        },
+        "contact_energy_nonnegative": true,
+        "external_work": "For F(lambda)=lambda*F_ref and each observed constant-active-set branch q, u_q(lambda)=A_q*lambda+b_q, W_q(lambda_a,lambda_b)=F_ref_free^T*(A_q*(lambda_b^2-lambda_a^2)/2+b_q*(lambda_b-lambda_a)); split each declared interval at g(lambda)=0 if the observed active set changes, then sum W_q.",
+        "final_balance": "U_strain_final+U_contact_final-W_external_incremental",
+        "ghost_energy_tolerance": 1e-14,
+        "inactive_contact_energy": 0.0,
+        "incremental_local_absolute_tolerance": 1e-10,
+        "other_external_work": "0 J: no imposed reaction or additional external contribution exists in the frozen benchmark",
+        "potential_force_relation": "runtime penalty internal contact force is f_contact(u)=penalty*min(g0+c^T*u,0)*c; its conservative potential is U_contact(u)=0.5*penalty*min(g0+c^T*u,0)^2",
+        "prescribed_displacement_work": "0 J: all prescribed displacements are zero in the frozen benchmark",
+        "relative_tolerance": 1e-12,
+        "strain_energy": "U_strain(u)=0.5*u^T*K*u",
+        "transition_policy": "transition lambda is independently solved from g0+c_free^T*(A_q*lambda+b_q)=0 and must lie in the declared interval; direct endpoint trapezoid is archived characterization only because it does not resolve the contact activation kink"
+      },
+      "final_gap": {
+        "definition": "absolute final normal gap for the active final state",
+        "threshold": 0.05,
+        "units": "m"
+      },
+      "force_balance": {
+        "definition": "maximum recorded nonlinear free residual relative to reference load norm",
+        "threshold": 1e-07
+      },
+      "max_penetration": {
+        "definition": "max over all recorded load steps of max(-gap,0)",
+        "threshold": 0.05,
+        "units": "m"
+      },
+      "mesh_refinement": {
+        "definition": "two-level contact force, displacement, penetration and reaction characterization",
+        "levels": [
+          "2x1x1",
+          "4x2x2"
+        ],
+        "promotion_gate": "none; finite, converged, traceable observations required",
+        "status": "CHARACTERIZATION_ONLY"
+      },
+      "normal_force": {
+        "comparison": "strictly positive contact-force norm and non-tensile normal sign",
+        "definition": "final contact force is compressive along the frozen master normal",
+        "threshold": 0.0
+      },
+      "penalty_sensitivity": {
+        "definition": "penetration is non-increasing over the declared penalty sequence; every solve converges and residuals are finite",
+        "penalties": [
+          10000.0,
+          100000.0,
+          1000000.0
+        ],
+        "universal_penalty_claim": false
+      },
+      "replay": {
+        "comparison": "exact arrays and identical status; semantic digest equality",
+        "fields": [
+          "displacement",
+          "reactions",
+          "contact_forces",
+          "gaps",
+          "penetration",
+          "active_contact_set",
+          "strain_energy",
+          "contact_penalty_energy",
+          "incremental_external_work",
+          "cumulative_energy",
+          "solver_status",
+          "evidence_digest"
+        ],
+        "replay_count": 2
+      },
+      "search": {
+        "deterministic_face_selection": true,
+        "duplicate_pair_count": 0,
+        "no_missed_contact_in_declared_cases": true,
+        "unexpected_self_contact": false,
+        "updated_search_required": false
+      }
+    },
+    "limitations": [
+      "bounded frictionless node-to-triangle penalty only",
+      "initial small-sliding search with frozen normal and face",
+      "linear elastic isotropic TET4 solids only",
+      "no general surface-to-surface contact",
+      "no general finite sliding or self-contact",
+      "no friction qualification",
+      "no augmented Lagrangian, mortar, impact, dynamic, MPI or nonlinear-material contact claim",
+      "mesh refinement remains characterization only",
+      "penalty values are bounded tested values, not universal recommendations"
+    ],
+    "oracle": {
+      "construction": "[K_ff + p*c_f*c_f^T]u_f=lambda*f_f-p*g0*c_f on active branches; K_ff*u_f=lambda*f_f on inactive branches",
+      "independence": "PASS_WITH_KERNEL_LIMITATION_EXPECTED",
+      "plan": "independent dense linear-elastic K plus independently constructed contact row and active-set branch work integration",
+      "shared_limitations": [
+        "element K kernel may be shared with runtime assembly",
+        "contact row, gap equation, dense branch solves and work integration are constructed independently of runtime active/contact assembly"
+      ]
+    },
+    "scope": {
+      "analysis": "nonlinear_static_quasi_static",
+      "contact_formulation": "frictionless_penalty",
+      "contact_geometry": "single_slave_node_to_single_fixed_triangular_master",
+      "dynamics": false,
+      "element_family": "TET4",
+      "finite_sliding": false,
+      "friction": false,
+      "impact": false,
+      "kinematics": "small_strain",
+      "material": "isotropic_3d_linear_elastic",
+      "nonlinear_material": false,
+      "search_policy": "initial_fixed_face_and_normal",
+      "self_contact": false,
+      "sliding_scope": "bounded_small_sliding_without_updated_search",
+      "solver_method": "newton_raphson_load_control",
+      "surface_to_surface": false
+    }
+  },
+  "evidence_integrity_sha256": "65d1b44c1ce082d195fcfd7305445983994ce100dcf800f9e210d5851f404de5",
+  "failure_cases": [
+    {
+      "actual_input": {
+        "analysis": {
+          "method": "newton_raphson",
+          "parameters": {
+            "contact_mode": "penalty",
+            "contact_penalty": 100000.0,
+            "contact_search_mode": "initial",
+            "load_path": [
+              0.25,
+              0.5,
+              0.75,
+              1.0
+            ],
+            "max_iterations": 30,
+            "tolerance": 1e-10
+          },
+          "type": "nonlinear_static"
+        },
+        "contacts": [
+          {
+            "friction_coefficient": 0.0,
+            "master_nodes": [
+              4,
+              5,
+              99
+            ],
+            "name": "case_a_frozen_plane",
+            "slave_node": 0
+          }
+        ],
+        "elements": [
+          {
+            "material": "elastic",
+            "nodes": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "type": "TET4"
+          }
+        ],
+        "fixed_dofs": [
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 1
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 2
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 3
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 4
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 5
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 6
+          },
+          {
+            "dofs": [
+              "UY",
+              "UZ"
+            ],
+            "node": 0
+          }
+        ],
+        "loads": [
+          {
+            "dof": "UX",
+            "node": 0,
+            "value": -1000.0
+          }
+        ],
+        "materials": {
+          "elastic": {
+            "E": 10000.0,
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          }
+        },
+        "nodes": [
+          [
+            0.1,
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.1,
+            1.0,
+            0.0
+          ],
+          [
+            0.1,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            -1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            -1.0,
+            1.0
+          ]
+        ],
+        "verification_profile": "engineering"
+      },
+      "actual_input_digest": "7ad9408dd5832852e1ee9e9baab495f0c45b7af957f2a234b8c149b5132c883b",
+      "actual_input_serialized": "{\"analysis\":{\"method\":\"newton_raphson\",\"parameters\":{\"contact_mode\":\"penalty\",\"contact_penalty\":100000.0,\"contact_search_mode\":\"initial\",\"load_path\":[0.25,0.5,0.75,1.0],\"max_iterations\":30,\"tolerance\":1e-10},\"type\":\"nonlinear_static\"},\"contacts\":[{\"friction_coefficient\":0.0,\"master_nodes\":[4,5,99],\"name\":\"case_a_frozen_plane\",\"slave_node\":0}],\"elements\":[{\"material\":\"elastic\",\"nodes\":[0,1,2,3],\"type\":\"TET4\"}],\"fixed_dofs\":[{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":1},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":2},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":3},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":4},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":5},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":6},{\"dofs\":[\"UY\",\"UZ\"],\"node\":0}],\"loads\":[{\"dof\":\"UX\",\"node\":0,\"value\":-1000.0}],\"materials\":{\"elastic\":{\"E\":10000.0,\"nu\":0.3,\"type\":\"isotropic_3d\"}},\"nodes\":[[0.1,0.0,0.0],[1.0,0.0,0.0],[0.1,1.0,0.0],[0.1,0.0,1.0],[0.0,-1.0,-1.0],[0.0,1.0,-1.0],[0.0,-1.0,1.0]],\"verification_profile\":\"engineering\"}",
+      "case_id": "WP13-07-F-01",
+      "execution_path": "FrictionlessContact.face_geometry",
+      "expected_exception": "InputValidationError",
+      "expected_message_pattern": "existing node|master",
+      "message_match": true,
+      "name": "invalid master surface",
+      "observed_exception": "InputValidationError",
+      "observed_message": "contact master must reference an existing node.",
+      "pass": true,
+      "path_match": true,
+      "type_match": true
+    },
+    {
+      "actual_input": {
+        "analysis": {
+          "method": "newton_raphson",
+          "parameters": {
+            "contact_mode": "penalty",
+            "contact_penalty": 100000.0,
+            "contact_search_mode": "initial",
+            "load_path": [
+              0.25,
+              0.5,
+              0.75,
+              1.0
+            ],
+            "max_iterations": 30,
+            "tolerance": 1e-10
+          },
+          "type": "nonlinear_static"
+        },
+        "contacts": [
+          {
+            "friction_coefficient": 0.0,
+            "master_nodes": [
+              4,
+              5,
+              6
+            ],
+            "name": "case_a_frozen_plane",
+            "slave_node": 99
+          }
+        ],
+        "elements": [
+          {
+            "material": "elastic",
+            "nodes": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "type": "TET4"
+          }
+        ],
+        "fixed_dofs": [
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 1
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 2
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 3
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 4
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 5
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 6
+          },
+          {
+            "dofs": [
+              "UY",
+              "UZ"
+            ],
+            "node": 0
+          }
+        ],
+        "loads": [
+          {
+            "dof": "UX",
+            "node": 0,
+            "value": -1000.0
+          }
+        ],
+        "materials": {
+          "elastic": {
+            "E": 10000.0,
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          }
+        },
+        "nodes": [
+          [
+            0.1,
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.1,
+            1.0,
+            0.0
+          ],
+          [
+            0.1,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            -1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            -1.0,
+            1.0
+          ]
+        ],
+        "verification_profile": "engineering"
+      },
+      "actual_input_digest": "350a9ad1cd8292d53fa860c33efc981283b41c1a265708ca5cb164d1c003e182",
+      "actual_input_serialized": "{\"analysis\":{\"method\":\"newton_raphson\",\"parameters\":{\"contact_mode\":\"penalty\",\"contact_penalty\":100000.0,\"contact_search_mode\":\"initial\",\"load_path\":[0.25,0.5,0.75,1.0],\"max_iterations\":30,\"tolerance\":1e-10},\"type\":\"nonlinear_static\"},\"contacts\":[{\"friction_coefficient\":0.0,\"master_nodes\":[4,5,6],\"name\":\"case_a_frozen_plane\",\"slave_node\":99}],\"elements\":[{\"material\":\"elastic\",\"nodes\":[0,1,2,3],\"type\":\"TET4\"}],\"fixed_dofs\":[{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":1},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":2},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":3},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":4},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":5},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":6},{\"dofs\":[\"UY\",\"UZ\"],\"node\":0}],\"loads\":[{\"dof\":\"UX\",\"node\":0,\"value\":-1000.0}],\"materials\":{\"elastic\":{\"E\":10000.0,\"nu\":0.3,\"type\":\"isotropic_3d\"}},\"nodes\":[[0.1,0.0,0.0],[1.0,0.0,0.0],[0.1,1.0,0.0],[0.1,0.0,1.0],[0.0,-1.0,-1.0],[0.0,1.0,-1.0],[0.0,-1.0,1.0]],\"verification_profile\":\"engineering\"}",
+      "case_id": "WP13-07-F-02",
+      "execution_path": "FrictionlessContact.face_geometry",
+      "expected_exception": "InputValidationError",
+      "expected_message_pattern": "existing node|slave",
+      "message_match": true,
+      "name": "invalid slave node",
+      "observed_exception": "InputValidationError",
+      "observed_message": "contact slave must reference an existing node.",
+      "pass": true,
+      "path_match": true,
+      "type_match": true
+    },
+    {
+      "actual_input": {
+        "analysis": {
+          "method": "newton_raphson",
+          "parameters": {
+            "contact_mode": "penalty",
+            "contact_penalty": 0.0,
+            "contact_search_mode": "initial",
+            "load_path": [
+              0.25,
+              0.5,
+              0.75,
+              1.0
+            ],
+            "max_iterations": 30,
+            "tolerance": 1e-10
+          },
+          "type": "nonlinear_static"
+        },
+        "contacts": [
+          {
+            "friction_coefficient": 0.0,
+            "master_nodes": [
+              4,
+              5,
+              6
+            ],
+            "name": "case_a_frozen_plane",
+            "slave_node": 0
+          }
+        ],
+        "elements": [
+          {
+            "material": "elastic",
+            "nodes": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "type": "TET4"
+          }
+        ],
+        "fixed_dofs": [
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 1
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 2
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 3
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 4
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 5
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 6
+          },
+          {
+            "dofs": [
+              "UY",
+              "UZ"
+            ],
+            "node": 0
+          }
+        ],
+        "loads": [
+          {
+            "dof": "UX",
+            "node": 0,
+            "value": -1000.0
+          }
+        ],
+        "materials": {
+          "elastic": {
+            "E": 10000.0,
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          }
+        },
+        "nodes": [
+          [
+            0.1,
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.1,
+            1.0,
+            0.0
+          ],
+          [
+            0.1,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            -1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            -1.0,
+            1.0
+          ]
+        ],
+        "verification_profile": "engineering"
+      },
+      "actual_input_digest": "e011fc594b4f257d00416112f29903420973218e528ac954860c6df01fece8a8",
+      "actual_input_serialized": "{\"analysis\":{\"method\":\"newton_raphson\",\"parameters\":{\"contact_mode\":\"penalty\",\"contact_penalty\":0.0,\"contact_search_mode\":\"initial\",\"load_path\":[0.25,0.5,0.75,1.0],\"max_iterations\":30,\"tolerance\":1e-10},\"type\":\"nonlinear_static\"},\"contacts\":[{\"friction_coefficient\":0.0,\"master_nodes\":[4,5,6],\"name\":\"case_a_frozen_plane\",\"slave_node\":0}],\"elements\":[{\"material\":\"elastic\",\"nodes\":[0,1,2,3],\"type\":\"TET4\"}],\"fixed_dofs\":[{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":1},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":2},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":3},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":4},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":5},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":6},{\"dofs\":[\"UY\",\"UZ\"],\"node\":0}],\"loads\":[{\"dof\":\"UX\",\"node\":0,\"value\":-1000.0}],\"materials\":{\"elastic\":{\"E\":10000.0,\"nu\":0.3,\"type\":\"isotropic_3d\"}},\"nodes\":[[0.1,0.0,0.0],[1.0,0.0,0.0],[0.1,1.0,0.0],[0.1,0.0,1.0],[0.0,-1.0,-1.0],[0.0,1.0,-1.0],[0.0,-1.0,1.0]],\"verification_profile\":\"engineering\"}",
+      "case_id": "WP13-07-F-03",
+      "execution_path": "assemble_penalty_contact",
+      "expected_exception": "InputValidationError",
+      "expected_message_pattern": "Penalty contact stiffness.*positive",
+      "message_match": true,
+      "name": "zero penalty",
+      "observed_exception": "InputValidationError",
+      "observed_message": "Penalty contact stiffness must be finite and positive.",
+      "pass": true,
+      "path_match": true,
+      "type_match": true
+    },
+    {
+      "actual_input": {
+        "analysis": {
+          "method": "newton_raphson",
+          "parameters": {
+            "contact_mode": "penalty",
+            "contact_penalty": -1.0,
+            "contact_search_mode": "initial",
+            "load_path": [
+              0.25,
+              0.5,
+              0.75,
+              1.0
+            ],
+            "max_iterations": 30,
+            "tolerance": 1e-10
+          },
+          "type": "nonlinear_static"
+        },
+        "contacts": [
+          {
+            "friction_coefficient": 0.0,
+            "master_nodes": [
+              4,
+              5,
+              6
+            ],
+            "name": "case_a_frozen_plane",
+            "slave_node": 0
+          }
+        ],
+        "elements": [
+          {
+            "material": "elastic",
+            "nodes": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "type": "TET4"
+          }
+        ],
+        "fixed_dofs": [
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 1
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 2
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 3
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 4
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 5
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 6
+          },
+          {
+            "dofs": [
+              "UY",
+              "UZ"
+            ],
+            "node": 0
+          }
+        ],
+        "loads": [
+          {
+            "dof": "UX",
+            "node": 0,
+            "value": -1000.0
+          }
+        ],
+        "materials": {
+          "elastic": {
+            "E": 10000.0,
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          }
+        },
+        "nodes": [
+          [
+            0.1,
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.1,
+            1.0,
+            0.0
+          ],
+          [
+            0.1,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            -1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            -1.0,
+            1.0
+          ]
+        ],
+        "verification_profile": "engineering"
+      },
+      "actual_input_digest": "2e8a61d01f7821bd85d1a3a1b8c25357bc2839ecc08d481450f9bcbe4d4e1352",
+      "actual_input_serialized": "{\"analysis\":{\"method\":\"newton_raphson\",\"parameters\":{\"contact_mode\":\"penalty\",\"contact_penalty\":-1.0,\"contact_search_mode\":\"initial\",\"load_path\":[0.25,0.5,0.75,1.0],\"max_iterations\":30,\"tolerance\":1e-10},\"type\":\"nonlinear_static\"},\"contacts\":[{\"friction_coefficient\":0.0,\"master_nodes\":[4,5,6],\"name\":\"case_a_frozen_plane\",\"slave_node\":0}],\"elements\":[{\"material\":\"elastic\",\"nodes\":[0,1,2,3],\"type\":\"TET4\"}],\"fixed_dofs\":[{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":1},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":2},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":3},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":4},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":5},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":6},{\"dofs\":[\"UY\",\"UZ\"],\"node\":0}],\"loads\":[{\"dof\":\"UX\",\"node\":0,\"value\":-1000.0}],\"materials\":{\"elastic\":{\"E\":10000.0,\"nu\":0.3,\"type\":\"isotropic_3d\"}},\"nodes\":[[0.1,0.0,0.0],[1.0,0.0,0.0],[0.1,1.0,0.0],[0.1,0.0,1.0],[0.0,-1.0,-1.0],[0.0,1.0,-1.0],[0.0,-1.0,1.0]],\"verification_profile\":\"engineering\"}",
+      "case_id": "WP13-07-F-04",
+      "execution_path": "assemble_penalty_contact",
+      "expected_exception": "InputValidationError",
+      "expected_message_pattern": "Penalty contact stiffness.*positive",
+      "message_match": true,
+      "name": "negative penalty",
+      "observed_exception": "InputValidationError",
+      "observed_message": "Penalty contact stiffness must be finite and positive.",
+      "pass": true,
+      "path_match": true,
+      "type_match": true
+    },
+    {
+      "actual_input": {
+        "analysis": {
+          "method": "newton_raphson",
+          "parameters": {
+            "contact_mode": "penalty",
+            "contact_penalty": 100000.0,
+            "contact_search_mode": "initial",
+            "load_path": [
+              0.25,
+              0.5,
+              0.75,
+              1.0
+            ],
+            "max_iterations": 30,
+            "tolerance": 1e-10
+          },
+          "type": "nonlinear_static"
+        },
+        "contacts": [
+          {
+            "friction_coefficient": 0.0,
+            "master_nodes": [
+              4,
+              5,
+              6
+            ],
+            "name": "case_a_frozen_plane",
+            "slave_node": 0
+          }
+        ],
+        "elements": [
+          {
+            "material": "elastic",
+            "nodes": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "type": "TET4"
+          }
+        ],
+        "fixed_dofs": [
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 1
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 2
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 3
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 4
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 5
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 6
+          },
+          {
+            "dofs": [
+              "UY",
+              "UZ"
+            ],
+            "node": 0
+          }
+        ],
+        "loads": [
+          {
+            "dof": "UX",
+            "node": 0,
+            "value": -1000.0
+          }
+        ],
+        "materials": {
+          "elastic": {
+            "E": 10000.0,
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          }
+        },
+        "nodes": [
+          [
+            0.1,
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.1,
+            1.0,
+            0.0
+          ],
+          [
+            0.1,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            -1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            1.0,
+            -1.0
+          ]
+        ],
+        "verification_profile": "engineering"
+      },
+      "actual_input_digest": "e0c2dd46c0e386f5be73beef30b18e0184cbf74bd23abdb5be76017d6e6774d0",
+      "actual_input_serialized": "{\"analysis\":{\"method\":\"newton_raphson\",\"parameters\":{\"contact_mode\":\"penalty\",\"contact_penalty\":100000.0,\"contact_search_mode\":\"initial\",\"load_path\":[0.25,0.5,0.75,1.0],\"max_iterations\":30,\"tolerance\":1e-10},\"type\":\"nonlinear_static\"},\"contacts\":[{\"friction_coefficient\":0.0,\"master_nodes\":[4,5,6],\"name\":\"case_a_frozen_plane\",\"slave_node\":0}],\"elements\":[{\"material\":\"elastic\",\"nodes\":[0,1,2,3],\"type\":\"TET4\"}],\"fixed_dofs\":[{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":1},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":2},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":3},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":4},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":5},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":6},{\"dofs\":[\"UY\",\"UZ\"],\"node\":0}],\"loads\":[{\"dof\":\"UX\",\"node\":0,\"value\":-1000.0}],\"materials\":{\"elastic\":{\"E\":10000.0,\"nu\":0.3,\"type\":\"isotropic_3d\"}},\"nodes\":[[0.1,0.0,0.0],[1.0,0.0,0.0],[0.1,1.0,0.0],[0.1,0.0,1.0],[0.0,-1.0,-1.0],[0.0,1.0,-1.0],[0.0,1.0,-1.0]],\"verification_profile\":\"engineering\"}",
+      "case_id": "WP13-07-F-05",
+      "execution_path": "FrictionlessContact.face_geometry",
+      "expected_exception": "InputValidationError",
+      "expected_message_pattern": "zero or non-finite area|degenerate",
+      "message_match": true,
+      "name": "invalid triangle",
+      "observed_exception": "InputValidationError",
+      "observed_message": "Contact master triangle has a zero or non-finite area.",
+      "pass": true,
+      "path_match": true,
+      "type_match": true
+    },
+    {
+      "actual_input": {
+        "analysis": {
+          "method": "newton_raphson",
+          "parameters": {
+            "contact_mode": "active_set",
+            "contact_penalty": 100000.0,
+            "contact_search_mode": "initial",
+            "load_path": [
+              0.25,
+              0.5,
+              0.75,
+              1.0
+            ],
+            "max_iterations": 30,
+            "tolerance": 1e-10
+          },
+          "type": "nonlinear_static"
+        },
+        "contacts": [
+          {
+            "friction_coefficient": 0.0,
+            "master_nodes": [
+              4,
+              5,
+              6
+            ],
+            "name": "case_a_frozen_plane",
+            "slave_node": 0
+          }
+        ],
+        "elements": [
+          {
+            "material": "elastic",
+            "nodes": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "type": "TET4"
+          }
+        ],
+        "fixed_dofs": [
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 1
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 2
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 3
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 4
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 5
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 6
+          },
+          {
+            "dofs": [
+              "UY",
+              "UZ"
+            ],
+            "node": 0
+          }
+        ],
+        "loads": [
+          {
+            "dof": "UX",
+            "node": 0,
+            "value": -1000.0
+          }
+        ],
+        "materials": {
+          "elastic": {
+            "E": 10000.0,
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          }
+        },
+        "nodes": [
+          [
+            0.1,
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.1,
+            1.0,
+            0.0
+          ],
+          [
+            0.1,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            -1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            -1.0,
+            1.0
+          ]
+        ],
+        "verification_profile": "engineering"
+      },
+      "actual_input_digest": "21567e5d93e5e5b024cb5cac312a17c8d0f8d40e84ba8d5458b69f000e4a0dd0",
+      "actual_input_serialized": "{\"analysis\":{\"method\":\"newton_raphson\",\"parameters\":{\"contact_mode\":\"active_set\",\"contact_penalty\":100000.0,\"contact_search_mode\":\"initial\",\"load_path\":[0.25,0.5,0.75,1.0],\"max_iterations\":30,\"tolerance\":1e-10},\"type\":\"nonlinear_static\"},\"contacts\":[{\"friction_coefficient\":0.0,\"master_nodes\":[4,5,6],\"name\":\"case_a_frozen_plane\",\"slave_node\":0}],\"elements\":[{\"material\":\"elastic\",\"nodes\":[0,1,2,3],\"type\":\"TET4\"}],\"fixed_dofs\":[{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":1},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":2},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":3},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":4},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":5},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":6},{\"dofs\":[\"UY\",\"UZ\"],\"node\":0}],\"loads\":[{\"dof\":\"UX\",\"node\":0,\"value\":-1000.0}],\"materials\":{\"elastic\":{\"E\":10000.0,\"nu\":0.3,\"type\":\"isotropic_3d\"}},\"nodes\":[[0.1,0.0,0.0],[1.0,0.0,0.0],[0.1,1.0,0.0],[0.1,0.0,1.0],[0.0,-1.0,-1.0],[0.0,1.0,-1.0],[0.0,-1.0,1.0]],\"verification_profile\":\"engineering\"}",
+      "case_id": "WP13-07-F-06",
+      "execution_path": "NonlinearStaticSolver._validate_kinematics_scope",
+      "expected_exception": "InputValidationError",
+      "expected_message_pattern": "contact_mode='penalty'",
+      "message_match": true,
+      "name": "unsupported contact mode",
+      "observed_exception": "InputValidationError",
+      "observed_message": "Nonlinear contact requires explicit contact_mode='penalty'; the historical active-set solver is not silently reused.",
+      "pass": true,
+      "path_match": true,
+      "type_match": true
+    },
+    {
+      "actual_input": {
+        "analysis": {
+          "method": "newton_raphson",
+          "parameters": {
+            "contact_mode": "penalty",
+            "contact_penalty": 100000.0,
+            "contact_search_mode": "initial",
+            "load_path": [
+              0.25,
+              0.5,
+              0.75,
+              1.0
+            ],
+            "max_iterations": 30,
+            "tolerance": 1e-10
+          },
+          "type": "nonlinear_static"
+        },
+        "contacts": [
+          {
+            "friction_coefficient": 0.2,
+            "master_nodes": [
+              4,
+              5,
+              6
+            ],
+            "name": "case_a_frozen_plane",
+            "slave_node": 0
+          }
+        ],
+        "elements": [
+          {
+            "material": "elastic",
+            "nodes": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "type": "TET4"
+          }
+        ],
+        "fixed_dofs": [
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 1
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 2
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 3
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 4
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 5
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 6
+          },
+          {
+            "dofs": [
+              "UY",
+              "UZ"
+            ],
+            "node": 0
+          }
+        ],
+        "loads": [
+          {
+            "dof": "UX",
+            "node": 0,
+            "value": -1000.0
+          }
+        ],
+        "materials": {
+          "elastic": {
+            "E": 10000.0,
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          }
+        },
+        "nodes": [
+          [
+            0.1,
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.1,
+            1.0,
+            0.0
+          ],
+          [
+            0.1,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            -1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            -1.0,
+            1.0
+          ]
+        ],
+        "verification_profile": "engineering"
+      },
+      "actual_input_digest": "76c8dbbd66ddf072fddc8c56252c756b864f9921c47804ec696a5e8245ac7ae3",
+      "actual_input_serialized": "{\"analysis\":{\"method\":\"newton_raphson\",\"parameters\":{\"contact_mode\":\"penalty\",\"contact_penalty\":100000.0,\"contact_search_mode\":\"initial\",\"load_path\":[0.25,0.5,0.75,1.0],\"max_iterations\":30,\"tolerance\":1e-10},\"type\":\"nonlinear_static\"},\"contacts\":[{\"friction_coefficient\":0.2,\"master_nodes\":[4,5,6],\"name\":\"case_a_frozen_plane\",\"slave_node\":0}],\"elements\":[{\"material\":\"elastic\",\"nodes\":[0,1,2,3],\"type\":\"TET4\"}],\"fixed_dofs\":[{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":1},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":2},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":3},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":4},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":5},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":6},{\"dofs\":[\"UY\",\"UZ\"],\"node\":0}],\"loads\":[{\"dof\":\"UX\",\"node\":0,\"value\":-1000.0}],\"materials\":{\"elastic\":{\"E\":10000.0,\"nu\":0.3,\"type\":\"isotropic_3d\"}},\"nodes\":[[0.1,0.0,0.0],[1.0,0.0,0.0],[0.1,1.0,0.0],[0.1,0.0,1.0],[0.0,-1.0,-1.0],[0.0,1.0,-1.0],[0.0,-1.0,1.0]],\"verification_profile\":\"engineering\"}",
+      "case_id": "WP13-07-F-07",
+      "execution_path": "NonlinearStaticSolver._validate_kinematics_scope",
+      "expected_exception": "InputValidationError",
+      "expected_message_pattern": "frictionless only",
+      "message_match": true,
+      "name": "unsupported friction request",
+      "observed_exception": "InputValidationError",
+      "observed_message": "The common nonlinear contact path is frictionless only.",
+      "pass": true,
+      "path_match": true,
+      "type_match": true
+    },
+    {
+      "actual_input": {
+        "analysis": {
+          "method": "newton_raphson",
+          "parameters": {
+            "contact_mode": "penalty",
+            "contact_penalty": 100000.0,
+            "contact_search_mode": "initial",
+            "load_path": [
+              0.25,
+              0.5,
+              0.75,
+              1.0
+            ],
+            "max_iterations": 30,
+            "tolerance": 1e-10
+          },
+          "type": "nonlinear_static"
+        },
+        "contacts": [
+          {
+            "friction_coefficient": 0.0,
+            "master_nodes": [
+              4,
+              5
+            ],
+            "name": "case_a_frozen_plane",
+            "slave_node": 0
+          }
+        ],
+        "elements": [
+          {
+            "material": "elastic",
+            "nodes": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "type": "TET4"
+          }
+        ],
+        "fixed_dofs": [
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 1
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 2
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 3
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 4
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 5
+          },
+          {
+            "dofs": [
+              "UX",
+              "UY",
+              "UZ"
+            ],
+            "node": 6
+          },
+          {
+            "dofs": [
+              "UY",
+              "UZ"
+            ],
+            "node": 0
+          }
+        ],
+        "loads": [
+          {
+            "dof": "UX",
+            "node": 0,
+            "value": -1000.0
+          }
+        ],
+        "materials": {
+          "elastic": {
+            "E": 10000.0,
+            "nu": 0.3,
+            "type": "isotropic_3d"
+          }
+        },
+        "nodes": [
+          [
+            0.1,
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.1,
+            1.0,
+            0.0
+          ],
+          [
+            0.1,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            -1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            1.0,
+            -1.0
+          ],
+          [
+            0.0,
+            -1.0,
+            1.0
+          ]
+        ],
+        "verification_profile": "engineering"
+      },
+      "actual_input_digest": "b669110a48f5a369f7f6f062daec983d14fde155118fc3006e3a27ddbb72cad8",
+      "actual_input_serialized": "{\"analysis\":{\"method\":\"newton_raphson\",\"parameters\":{\"contact_mode\":\"penalty\",\"contact_penalty\":100000.0,\"contact_search_mode\":\"initial\",\"load_path\":[0.25,0.5,0.75,1.0],\"max_iterations\":30,\"tolerance\":1e-10},\"type\":\"nonlinear_static\"},\"contacts\":[{\"friction_coefficient\":0.0,\"master_nodes\":[4,5],\"name\":\"case_a_frozen_plane\",\"slave_node\":0}],\"elements\":[{\"material\":\"elastic\",\"nodes\":[0,1,2,3],\"type\":\"TET4\"}],\"fixed_dofs\":[{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":1},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":2},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":3},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":4},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":5},{\"dofs\":[\"UX\",\"UY\",\"UZ\"],\"node\":6},{\"dofs\":[\"UY\",\"UZ\"],\"node\":0}],\"loads\":[{\"dof\":\"UX\",\"node\":0,\"value\":-1000.0}],\"materials\":{\"elastic\":{\"E\":10000.0,\"nu\":0.3,\"type\":\"isotropic_3d\"}},\"nodes\":[[0.1,0.0,0.0],[1.0,0.0,0.0],[0.1,1.0,0.0],[0.1,0.0,1.0],[0.0,-1.0,-1.0],[0.0,1.0,-1.0],[0.0,-1.0,1.0]],\"verification_profile\":\"engineering\"}",
+      "case_id": "WP13-07-F-08",
+      "execution_path": "FiniteElementModel.from_raw",
+      "expected_exception": "InputValidationError",
+      "expected_message_pattern": "exactly three master nodes|master nodes",
+      "message_match": true,
+      "name": "malformed contact pair",
+      "observed_exception": "InputValidationError",
+      "observed_message": "A frictionless contact needs exactly three master nodes.",
+      "pass": true,
+      "path_match": true,
+      "type_match": true
+    }
+  ],
+  "gate_decisions": {
+    "case_a": "FAIL",
+    "case_b": "FAIL",
+    "case_b_active_set": true,
+    "energy_case_a": false,
+    "energy_case_b": false,
+    "failure_contract": true,
+    "mesh_refinement": "PASS_CHARACTERIZATION",
+    "nonenergy": true,
+    "oracle": true,
+    "overall_targeted_status": "FAIL_CONTACT_BOUNDED_CAMPAIGN",
+    "penalty_sensitivity": false,
+    "replay": true,
+    "search": "PASS"
+  },
+  "historical_integrity": {
+    "contact_formulation_changed": false,
+    "element_analysis_registry_46_unchanged": true,
+    "element_formulation_changed": false,
+    "evidence_0_2_7_unchanged": true,
+    "maturity_changed": false,
+    "numerical_source_changed": false,
+    "v1_contract_and_evidence_immutable": true
+  },
+  "mesh_refinement_characterization": {
+    "levels": [
+      {
+        "cells": [
+          2,
+          1,
+          1
+        ],
+        "contact_force_magnitude": 127.05787294212713,
+        "displacement_norm": 0.02127057872942127,
+        "element_count": 12,
+        "level": "2x1x1",
+        "maximum_free_relative_residual": 2.2737367544323206e-16,
+        "node_count": 15,
+        "penetration": 0.0012705787294212713,
+        "reaction_norm": 874.3481892348286,
+        "solver_status": "PASS",
+        "status": "PASS_CHARACTERIZATION"
+      },
+      {
+        "cells": [
+          4,
+          2,
+          2
+        ],
+        "contact_force_magnitude": 489.2145854263928,
+        "displacement_norm": 0.024892145854263928,
+        "element_count": 96,
+        "level": "4x2x2",
+        "maximum_free_relative_residual": 4.547473508864641e-16,
+        "node_count": 48,
+        "penetration": 0.0048921458542639275,
+        "reaction_norm": 703.9506751640959,
+        "solver_status": "PASS",
+        "status": "PASS_CHARACTERIZATION"
+      }
+    ],
+    "promotion_gate": "none; finite, converged, traceable observations required",
+    "status": "PASS_CHARACTERIZATION"
+  },
+  "penalty_sensitivity": {
+    "penetration_non_increasing": true,
+    "rows": [
+      {
+        "energy_error_abs": 46.5553235908142,
+        "energy_error_rel": 0.4821621621621622,
+        "penalty": 10000.0,
+        "penetration": 0.046555323590814185,
+        "solver_status": "PASS",
+        "status": "FAIL"
+      },
+      {
+        "energy_error_abs": 61.297416162726755,
+        "energy_error_rel": 0.7322278771958626,
+        "penalty": 100000.0,
+        "penetration": 0.00612974161627268,
+        "solver_status": "PASS",
+        "status": "FAIL"
+      },
+      {
+        "energy_error_abs": 63.301918928125346,
+        "energy_error_rel": 0.7722809994632127,
+        "penalty": 1000000.0,
+        "penetration": 0.0006330191892812559,
+        "solver_status": "PASS",
+        "status": "FAIL"
+      }
+    ],
+    "status": "FAIL",
+    "universal_penalty_claim": false
+  },
+  "provenance": {
+    "contract_source": "qualification\\0_2_8\\wp13_07_contact_bounded_v2_contract.json",
+    "environment": {
+      "numpy": "2.2.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+      "scipy": "1.15.2"
+    },
+    "output_directory_new_before_run": true,
+    "output_path": "qualification\\0_2_8\\wp13_07_contact_bounded_v2\\wp13_07_contact_v2_evidence.json",
+    "repo_sha": "a24507afa4ef83c918eece788b5500c3cd7eaa29"
+  },
+  "registry_audit": {
+    "counts": {
+      "EXPERIMENTAL": 14,
+      "QUALIFIED_BOUNDED": 32
+    },
+    "expected_unchanged": {
+      "EXPERIMENTAL": 14,
+      "NOT_QUALIFIED": 0,
+      "QUALIFIED_BOUNDED": 32,
+      "TOTAL": 46
+    },
+    "source": "qualification\\0_2_8\\consolidated_registry.json",
+    "total": 46
+  },
+  "replays": {
+    "all_fields_exact": true,
+    "count": 2,
+    "fields": [
+      "displacement",
+      "reactions",
+      "contact_forces",
+      "gaps",
+      "penetration",
+      "active_contact_set",
+      "strain_energy",
+      "contact_penalty_energy",
+      "incremental_external_work",
+      "cumulative_energy",
+      "solver_status",
+      "evidence_digest"
+    ],
+    "replays": [
+      {
+        "exact_match_main": true,
+        "replay": 1,
+        "semantic_digest": "35f2ba9f2f2c138886dacdc96e41c25688734b92415fccb71d808ef087b9ca0e",
+        "status": "FAIL"
+      },
+      {
+        "exact_match_main": true,
+        "replay": 2,
+        "semantic_digest": "35f2ba9f2f2c138886dacdc96e41c25688734b92415fccb71d808ef087b9ca0e",
+        "status": "FAIL"
+      }
+    ],
+    "semantic_digest_equal": true
+  },
+  "schema_version": 1,
+  "search_evidence": {
+    "gates": {
+      "deterministic_face_selection": true,
+      "duplicate_pair_count": 0,
+      "no_missed_contact_in_declared_cases": true,
+      "unexpected_self_contact": false,
+      "updated_search_required": false
+    },
+    "policy": "initial_fixed_face_and_normal",
+    "records": [
+      {
+        "case": "case_a",
+        "deterministic_face_selection": true,
+        "duplicate_pair_count": 0,
+        "finite_sliding": false,
+        "first_face_index": 0,
+        "initial_gap": 0.1,
+        "no_missed_contact_in_declared_case": true,
+        "projection_mode": "exact_node_to_triangle",
+        "search_mode": "initial",
+        "second_face_index": 0,
+        "unexpected_self_contact": false
+      },
+      {
+        "case": "case_b",
+        "deterministic_face_selection": true,
+        "duplicate_pair_count": 0,
+        "finite_sliding": false,
+        "first_face_index": 0,
+        "initial_gap": 0.1,
+        "no_missed_contact_in_declared_case": true,
+        "projection_mode": "exact_node_to_triangle",
+        "search_mode": "initial",
+        "second_face_index": 0,
+        "unexpected_self_contact": false
+      }
+    ],
+    "status": "PASS"
+  },
+  "semantic_digest": "60fca710b44497253f33fbe93231adbba7635ff3e2790ac16134519a9496a2c0",
+  "v1_preservation": {
+    "contract_id": "WP13-07-CONTACT-BOUNDED-001",
+    "contract_sha256": "7599708d36bf4f508971f5ca4d98d8d866dec7d6f167d1c7b6b53cc309115d0d",
+    "energy_error": 0.5775705775705774,
+    "evidence_sha256": "8136940045baa3e8817f1cb5ed07e56be55c1aa4ca7bcd9f0ccdd267e761c239",
+    "modified": false,
+    "status": "FAIL_ENERGY_GATE"
+  },
+  "validation": {
+    "evidence_integrity": "PASS",
+    "evidence_schema_valid": true,
+    "schema_missing_fields": [],
+    "semantic_validator_valid": true
+  }
+}

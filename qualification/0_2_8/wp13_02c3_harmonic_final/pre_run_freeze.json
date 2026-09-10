@@ -1,0 +1,37 @@
+{
+  "c2_freeze_repo_sha": "a793df1f22352426fb69bd3062cb2fc7e510e980",
+  "c2_schema_blob_digest": "18f10c47e111a0639269f3f8499f55eaab198bd4b3f2704ffd56e926b1ad639a",
+  "c3_evaluator_pre_run_digest": "88856ded6f090c504c7c0e590055bbe08277df9a6a9258e120eef436fa19d4cb",
+  "checks": {
+    "c2_evaluator_pre_run_digest": true,
+    "c2_freeze_valid": true,
+    "c2_historical_archive": true,
+    "c2_historical_manifest": true,
+    "c2_schema_sha": true,
+    "contract_blob_sha": true,
+    "contract_fixed": true,
+    "contract_id": true,
+    "contract_sha": true,
+    "contract_status": true,
+    "post_observation_retuning_disabled": true
+  },
+  "contract_blob_digest": "f26f7160f308e812da8fa0fc94ebdbba1eb1958f50db9f6d255ffb993951d045",
+  "contract_blob_sha": "68e9b53eade0c697ebc6b5b5154b73c72ae240ac",
+  "contract_id": "WP13-02C-HARMONIC-MIXED-001",
+  "contract_sha": "f26f7160f308e812da8fa0fc94ebdbba1eb1958f50db9f6d255ffb993951d045",
+  "environment": {
+    "executable": "C:\\Python313\\python.exe",
+    "numpy": "2.2.6",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "runner": "WP13-02C3 full frozen harmonic campaign",
+    "scipy": "1.15.2"
+  },
+  "evaluator_pre_run_digest": "9b885b7afc664cf987a82b8c354a6cc69cbae3a0983ca48d57666fb56c35c651",
+  "future_campaign": "WP13-02C3",
+  "numerical_campaign_started": false,
+  "pre_run_freeze_valid": true,
+  "repo_sha": "4e55ccaf940908dd58499a61a71727df2842da65",
+  "schema_blob_digest": "86caa5e401e6f8bf1522b08c8209a8d7a26647f625b1c2040c9a68979a64543f",
+  "schema_blob_sha": "5fb183a194edf11d07594a76fda18a6a8de3f69d"
+}

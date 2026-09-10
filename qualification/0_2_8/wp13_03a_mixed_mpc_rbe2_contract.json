@@ -1,0 +1,390 @@
+{
+  "contract_id": "WP13-03-MIXED-MPC-RBE2-001",
+  "contract_version": "1.0.0",
+  "campaign": "WP13-03A",
+  "points": 2,
+  "status": "PREDECLARED_READINESS_AND_BOUNDED_TARGET",
+  "creation_sha": "eacea0f133396e65aa80d5b4364d3f205d750d7f",
+  "contract_committed_before_numerical_campaign": true,
+  "contract_changed_after_first_result": false,
+  "scope": {
+    "analysis": "linear_static",
+    "kinematics": "small_strain_linear_elasticity",
+    "families": ["TET4", "WEDGE6", "HEX8"],
+    "constraint_routes": {
+      "mpc_primary": {
+        "role": "ACCEPTANCE_ROUTE",
+        "constraint_type": "explicit_linear_mpc",
+        "status_at_predeclaration": "EXPERIMENTAL_STATIC_ONLY"
+      },
+      "rbe2_diagnostic": {
+        "role": "READINESS_DIAGNOSTIC_ONLY",
+        "constraint_type": "rbe2_expanded_to_linear_constraints",
+        "status_at_predeclaration": "EXPERIMENTAL_STATIC_ONLY",
+        "not_part_of_acceptance": true,
+        "reason": "The current solid-only mixed route has translational element DOFs; a nonzero-offset RBE2 can activate master rotations, while the existing mixed preflight rejects MPC/RBE records and no mixed rotational stiffness path is qualified."
+      }
+    },
+    "claims_excluded": [
+      "arbitrary_mpc_systems",
+      "general_rbe2_capability",
+      "nonlinear_mpc",
+      "contact_plus_mpc",
+      "industrial_qualification",
+      "arbitrary_rigid_body_couplings",
+      "modal_or_dynamic_mpc_rbe2",
+      "large_distributed_mpc_rbe2"
+    ]
+  },
+  "readiness_snapshot": {
+    "mpc_architecture": "PRESENT_EXPERIMENTAL_STATIC",
+    "rbe2_architecture": "PRESENT_EXPERIMENTAL_STATIC_AS_LINEAR_MPC_EXPANSION",
+    "constraint_enforcement_method": [
+      "SPARSE_AFFINE_ELIMINATION",
+      "LAGRANGE_KKT_STATIC_ORACLE_ONLY",
+      "LSMR_CONSTRAINT_FORCE_RECOVERY"
+    ],
+    "static_ready": "BOUNDED_PURE_STATIC",
+    "modal_ready": "NO_MPC_RBE_DYNAMIC_PATH",
+    "mixed_ready": "NO_PRECHECK_BLOCKED",
+    "reaction_ready": "BOUNDED_STATIC_WITH_CONSTRAINT_FORCE_AUDIT",
+    "failure_validation_ready": "BASIC_SCHEMA_AND_REDUCER_VALIDATION_ONLY",
+    "rbe2_translational_scope": "THREE_TRANSLATIONAL_EQUATIONS_PER_SLAVE; tie_rotations=false ONLY",
+    "rbe2_rotational_scope": "NOT_QUALIFIED_FOR_THIS_MIXED_SOLID_BENCHMARK",
+    "rbe2_true_rigid_kinematics_supported": false
+  },
+  "source_traceability": {
+    "public_api_entrypoints": [
+      "src/solveur/core/model.py:FiniteElementModel.from_raw",
+      "src/solveur/core/model.py:FiniteElementModel.linear_constraints",
+      "src/solveur/core/constraints.py:LinearConstraint",
+      "src/solveur/core/constraints.py:ConstraintTerm",
+      "src/solveur/core/rbe.py:Rbe2Definition",
+      "src/solveur/core/router.py:AnalysisRouter.solve",
+      "src/solveur/api.py:solve_model",
+      "src/solveur/io/json_reader.py:load_model"
+    ],
+    "internal_constraint_objects": [
+      "src/solveur/core/constraints.py:LinearConstraint",
+      "src/solveur/core/constraints.py:ConstraintReduction",
+      "src/solveur/core/rbe.py:Rbe2Definition",
+      "src/solveur/core/rbe.py:rbe2_constraints"
+    ],
+    "assembly_stage": [
+      "src/solveur/core/solvers/static.py:LinearStaticSolver.solve",
+      "src/solveur/core/constraints.py:ConstraintReduction.from_system"
+    ],
+    "validation_stage": [
+      "src/solveur/io/constraint_schema.py:ConstraintSchemaValidator.validate",
+      "src/solveur/mesh/constraint_validation.py:multipoint_constraint_errors",
+      "src/solveur/mesh/mixed_validation.py:_mixed_scope_errors",
+      "src/solveur/mesh/validation.py:MeshValidator.validate"
+    ],
+    "bc_interaction": "src/solveur/core/constraints.py:validate_constraint_definitions; fixed-DOF compatibility is checked before static reduction",
+    "solver_integration": [
+      "src/solveur/core/solvers/static.py:LinearStaticSolver.solve",
+      "src/solveur/core/analyses/modal.py:DynamicDofReducer.from_system (does not compose MPC/RBE)",
+      "src/solveur/core/analyses/dynamic.py:DynamicDofReducer (does not compose MPC/RBE)",
+      "src/solveur/core/analyses/harmonic.py:DynamicDofReducer (does not compose MPC/RBE)",
+      "src/solveur/large/generic_distributed.py:GenericDistributedModel.from_finite_element_model (rejects MPC/RBE/contact)"
+    ],
+    "postprocessing": [
+      "src/solveur/core/constraints.py:ConstraintReduction.expand",
+      "src/solveur/core/constraints.py:recover_constraint_forces",
+      "src/solveur/core/solvers/static.py:equilibrium/reaction audit"
+    ],
+    "existing_tests_and_evidence": [
+      "tests/unit/test_mpc_reduction.py",
+      "tests/unit/test_rbe_links.py",
+      "tests/unit/test_backend_edge_matrix_contracts.py",
+      "tests/unit/test_schema_entity_validation_paths.py",
+      "tests/integration/test_api_and_cli.py",
+      "tests/integration/test_wedge6_static_workflow.py",
+      "tests/verification/test_code_aster_rbe_vnv.py",
+      "src/solveur/verification/code_aster_rbe.py",
+      "examples/rbe2_rigid_arm.json",
+      "docs/elements/liaisons_mpc_rbe.md"
+    ],
+    "known_preflight_limitations": [
+      "MPC/RBE is currently implemented for linear_static only.",
+      "Mixed solid-family preflight rejects multipoint_constraints, rbe2 and rbe3 records.",
+      "Modal/Newmark/harmonic routes do not compose DynamicDofReducer with ConstraintReduction.",
+      "The large distributed path rejects MPC/RBE/contact records rather than absorbing them silently."
+    ]
+  },
+  "benchmark": {
+    "name": "connected_compact_elbow_mixed_mpc_rbe2",
+    "description": "Unit-scale connected HEX8/WEDGE6/TET4 elbow with a frozen kinematic interface relation on the TET4/WEDGE6 transition.",
+    "connected_components": 1,
+    "all_families_present": true,
+    "all_families_participate": true,
+    "direct_support_bypass": false,
+    "dof_model": "three translational DOFs per node",
+    "dof_count": 48,
+    "geometry_units": "m",
+    "force_units": "N",
+    "material": {
+      "model": "isotropic_3d",
+      "young_modulus_pa": 210000000000.0,
+      "poisson_ratio": 0.3,
+      "density_kg_m3": 7800.0,
+      "homogeneous_across_families": true
+    },
+    "nodes": {
+      "0": [0.0, -1.0, 0.0],
+      "1": [1.0, -1.0, 0.0],
+      "2": [1.0, 0.0, 0.0],
+      "3": [0.0, 0.0, 0.0],
+      "4": [0.0, -1.0, 1.0],
+      "5": [1.0, -1.0, 1.0],
+      "6": [1.0, 0.0, 1.0],
+      "7": [0.0, 0.0, 1.0],
+      "8": [0.0, 1.0, 0.0],
+      "9": [0.0, 1.0, 1.0],
+      "10": [0.0, 0.0, 2.0],
+      "11": [1.0, 0.0, 2.0],
+      "12": [0.0, 1.0, 2.0],
+      "13": [0.0, 0.0, 3.0],
+      "14": [1.0, 0.0, 3.0],
+      "15": [0.0, 1.0, 3.0]
+    },
+    "elements": [
+      {"id": "hex8_0", "family": "HEX8", "connectivity": [0, 1, 2, 3, 4, 5, 6, 7]},
+      {"id": "wedge6_0", "family": "WEDGE6", "connectivity": [3, 2, 8, 7, 6, 9]},
+      {"id": "wedge6_1", "family": "WEDGE6", "connectivity": [7, 6, 9, 10, 11, 12]},
+      {"id": "tet4_0", "family": "TET4", "connectivity": [10, 11, 12, 15]},
+      {"id": "tet4_1", "family": "TET4", "connectivity": [10, 11, 14, 15]},
+      {"id": "tet4_2", "family": "TET4", "connectivity": [10, 13, 14, 15]}
+    ],
+    "conforming_interfaces": [
+      {"id": "tet4_wedge6", "left_family": "TET4", "right_family": "WEDGE6", "shared_nodes": [10, 11, 12]},
+      {"id": "wedge6_hex8", "left_family": "WEDGE6", "right_family": "HEX8", "shared_nodes": [3, 7, 2, 6]}
+    ],
+    "boundary_conditions": {
+      "fixed_nodes": [0, 1, 4, 5],
+      "fixed_dofs": ["UX", "UY", "UZ"],
+      "description": "HEX8 y=-1 face fully fixed; no support is attached directly to WEDGE6 or TET4."
+    },
+    "loads": {
+      "type": "nodal_static_force",
+      "entries": [
+        {"node": 13, "dof": "UZ", "value_n": 33333.333333333336},
+        {"node": 14, "dof": "UZ", "value_n": 33333.333333333336},
+        {"node": 15, "dof": "UZ", "value_n": 33333.333333333336}
+      ],
+      "total_force_n": 100000.0
+    },
+    "mechanical_load_path": "LOAD -> TET4 top face -> TET4/WEDGE6 triangular interface with the constrained edge -> WEDGE6 -> WEDGE6/HEX8 quadrilateral interface -> HEX8 -> fixed HEX8 y=-1 face -> SUPPORT",
+    "load_path_obligations": [
+      "removing TET4 must remove the load path to support",
+      "removing WEDGE6 must disconnect the loaded TET4 region from support",
+      "removing HEX8 or the fixed HEX8 face must remove the support path",
+      "no TET4 node is directly fixed",
+      "no TET4-to-HEX8 direct common node is allowed"
+    ]
+  },
+  "constraint_definition": {
+    "acceptance_variant": "MPC_PRIMARY",
+    "constraint_equations": [
+      {
+        "id": "mpc_tet4_wedge6_ux",
+        "relation": "u(node_12,UX) - u(node_10,UX) = 0",
+        "terms": [{"node": 12, "dof": "UX", "coefficient": 1.0}, {"node": 10, "dof": "UX", "coefficient": -1.0}],
+        "value": 0.0
+      },
+      {
+        "id": "mpc_tet4_wedge6_uy",
+        "relation": "u(node_12,UY) - u(node_10,UY) = 0",
+        "terms": [{"node": 12, "dof": "UY", "coefficient": 1.0}, {"node": 10, "dof": "UY", "coefficient": -1.0}],
+        "value": 0.0
+      },
+      {
+        "id": "mpc_tet4_wedge6_uz",
+        "relation": "u(node_12,UZ) - u(node_10,UZ) = 0",
+        "terms": [{"node": 12, "dof": "UZ", "coefficient": 1.0}, {"node": 10, "dof": "UZ", "coefficient": -1.0}],
+        "value": 0.0
+      }
+    ],
+    "master_node": 10,
+    "slave_node": 12,
+    "master_dofs": ["UX", "UY", "UZ"],
+    "slave_dofs": ["UX", "UY", "UZ"],
+    "constraint_rhs": [0.0, 0.0, 0.0],
+    "homogeneous": true,
+    "constraint_matrix_evidence_required": true,
+    "constraint_forces_evidence_required": true,
+    "rbe2_diagnostic_definition": {
+      "master_node": 10,
+      "slave_nodes": [12],
+      "tie_rotations": false,
+      "expected_expanded_translation_relations": 3,
+      "acceptance_status": "NOT_QUALIFIED_IN_MIXED_SOLID_ROUTE",
+      "expected_behavior_if_preflight_is_unchanged": "EXPLICIT_REJECTION; no family/constraint drop and no silent fallback"
+    }
+  },
+  "control_case": {
+    "id": "NO_MPC_RBE_CONTROL",
+    "definition": "Byte-equivalent benchmark geometry/material/BC/load with multipoint_constraints=[], rbe2=[], and rbe3=[]",
+    "same_mesh_material_bc_load": true,
+    "constraint_effect_required": true,
+    "constraint_effect_metric": "||u_mpc-u_control||2 / max(||u_control||2, 1e-30 m)",
+    "constraint_effect_threshold": 1.0e-12,
+    "purpose": "Demonstrate that the acceptance constraint changes the kinematics and is not decorative or bypassed."
+  },
+  "conditioning_contract": {
+    "pre_run_required": true,
+    "max_element_edge_aspect_ratio": {"operator": "<=", "value": 4.0},
+    "max_affine_jacobian_condition": {"operator": "<=", "value": 10.0},
+    "min_normalized_det_jacobian": {"operator": ">=", "value": 0.05},
+    "max_normalized_det_jacobian": {"operator": "<=", "value": 2.0},
+    "assembled_positive_diagonal_ratio": {"operator": "<=", "value": 1000.0},
+    "no_pathological_layers": true,
+    "no_quasi_degenerate_jacobians": true,
+    "no_post_result_limit_selection": true
+  },
+  "metrics_and_gates": {
+    "constraint_satisfaction": {
+      "definition": "constraint_residual = ||C u - d||2",
+      "gate": {"operator": "<=", "value": 1.0e-12},
+      "units": "m-equivalent equation norm",
+      "archive": ["C", "d", "u", "C_u_minus_d", "constraint_residual"]
+    },
+    "free_residual": {
+      "definition": "||r_free||2 / max(||F_free||2, 1 N)",
+      "gate": {"operator": "<=", "value": 1.0e-10}
+    },
+    "equilibrium": {
+      "force_definition": "||sum(F_external)+sum(R_support)+sum(R_constraint)||2 / max(||F_external||2, 1 N)",
+      "force_gate": {"operator": "<=", "value": 1.0e-10},
+      "moment_definition": "||sum(M_external)+sum(M_support)+sum(M_constraint)||2 / max(||M_external||2, 1 N*m)",
+      "moment_gate": {"operator": "<=", "value": 1.0e-10},
+      "archive": ["external_loads", "support_reactions", "constraint_forces", "force_balance", "moment_balance"]
+    },
+    "interface_load_transfer": {
+      "displacement_definition": "max shared-DOF jump across each conforming interface",
+      "displacement_gate": {"operator": "<=", "value": 1.0e-12},
+      "force_definition": "interface force imbalance / max(interface transmitted force, 1 N)",
+      "force_gate": {"operator": "<=", "value": 1.0e-10},
+      "archive": ["left_state", "right_state", "shared_dofs", "side_forces", "force_transfer"]
+    },
+    "energy_work": {
+      "definition": "abs(U_strain - W_external) / max(abs(W_external), 1 J)",
+      "U_strain": "0.5 * u^T K u",
+      "W_external": "u^T F_external",
+      "homogeneous_constraint_work": "zero because d=0; constraint-force work must be reported separately",
+      "gate": {"operator": "<=", "value": 1.0e-10},
+      "archive": ["strain_energy", "external_work", "constraint_work", "energy_error"]
+    },
+    "control": {
+      "definition": "||u_mpc-u_control||2 / max(||u_control||2, 1e-30 m)",
+      "gate": {"operator": ">=", "value": 1.0e-12},
+      "classification": "REQUIRED_CHARACTERIZATION_NOT_A_NUMERICAL_ACCURACY_GATE"
+    },
+    "replay": {
+      "count": 2,
+      "comparison_fields": ["displacement", "support_reactions", "constraint_forces", "constraint_residual", "free_residual", "energy", "status"],
+      "relative_l2_gate": {"operator": "<=", "value": 1.0e-12},
+      "status_must_match": true,
+      "bitwise_identity_required": false
+    }
+  },
+  "independent_reference": {
+    "plan": "Assemble dense K and F from independent element contributions, construct C from the literal frozen equations, and solve the KKT system [K C^T; C 0][u;lambda]=[F;d] with an independent dense linear algebra path. Solve the no-constraint control with the same independent dense assembly but without C.",
+    "rbe2_plan": "For the diagnostic RBE2 case, construct the translational relation matrix independently from the literal master/slave definition; do not call production Rbe2Definition or rbe2_constraints.",
+    "independence_requirements": [
+      "must not call AnalysisRouter",
+      "must not call LinearStaticSolver",
+      "must not call ConstraintReduction.from_system",
+      "must not reuse production MPC expansion or RBE2 equation-generation helpers",
+      "shared element constitutive/material kernels, if unavoidable, must be listed in the evidence limitations"
+    ],
+    "oracle_outputs": ["displacement", "support_reactions", "constraint_forces", "constraint_residual", "free_residual", "equilibrium", "strain_energy"]
+  },
+  "failure_contract": {
+    "silent_fallback_allowed": false,
+    "constraint_dropped_silently": false,
+    "family_dropped_silently": false,
+    "invalid_constraint_accepted": false,
+    "cases": [
+      {"case_id": "master_node_missing", "category": "MPC_OR_RBE2", "expected": "explicit input/schema validation error"},
+      {"case_id": "slave_node_missing", "category": "MPC_OR_RBE2", "expected": "explicit input/schema validation error"},
+      {"case_id": "invalid_dof", "category": "MPC", "expected": "explicit input/schema validation error"},
+      {"case_id": "duplicate_constraint", "category": "MPC", "expected": "explicit duplicate/redundancy validation error"},
+      {"case_id": "conflicting_constraint", "category": "MPC", "expected": "explicit incompatible-constraint validation error"},
+      {"case_id": "slave_fixed_incompatibly", "category": "MPC_OR_RBE2", "expected": "explicit fixed-DOF compatibility error"},
+      {"case_id": "self_reference_master_equals_slave", "category": "RBE2", "expected": "explicit topology validation error"},
+      {"case_id": "unsupported_family_or_path", "category": "MPC_OR_RBE2", "expected": "explicit mixed-scope/preflight rejection"},
+      {"case_id": "singular_or_redundant_constraint_set", "category": "MPC", "expected": "explicit rank/redundancy validation error"}
+    ],
+    "future_record_fields": ["case_id", "actual_input", "actual_input_digest", "execution_path", "expected_exception_type", "expected_message_pattern", "observed_exception_type", "observed_message", "pass"],
+    "actual_runtime_execution_required": true,
+    "any_exception_is_not_automatic_pass": true
+  },
+  "evidence_schema": {
+    "single_source_of_truth": "this_contract_json",
+    "required_fields": [
+      "contract_id",
+      "contract_sha",
+      "repo_sha",
+      "environment",
+      "benchmark_inputs",
+      "constraint_definitions",
+      "constraint_matrix_or_equivalent",
+      "master_slave_mappings",
+      "raw_displacement",
+      "support_reactions",
+      "constraint_residuals",
+      "constraint_forces",
+      "equilibrium",
+      "load_transfer",
+      "energy_work",
+      "independent_oracle",
+      "control_case",
+      "replay_runs",
+      "failure_executions",
+      "conditioning_prechecks",
+      "digests",
+      "gate_decisions"
+    ],
+    "contract_values_must_not_be_duplicated": true,
+    "actual_inputs_must_be_serialized": true,
+    "post_result_gate_change_forbidden": true
+  },
+  "abort_criteria": [
+    "contract not committed before first numerical campaign",
+    "contract or gates changed after first result",
+    "model is not connected or connected_components != 1",
+    "family missing, family drop, or direct support bypass",
+    "MPC/RBE constraint not exercised or control effect absent",
+    "constraint residual, equilibrium, interface, energy, oracle, replay, or conditioning gate fails",
+    "failure contract not actually executed or silent fallback detected",
+    "independent oracle unavailable or circular",
+    "schema/evidence traceability failure",
+    "mixed route requires a formulation redesign beyond bounded enabling"
+  ],
+  "future_campaign_policy": {
+    "numerical_campaign_in_this_03a_contract_creation": "NONE",
+    "allowed_03a_micro_checks": [
+      "existing pure static MPC unit/integration routes",
+      "existing pure static RBE2 unit/integration routes",
+      "schema and preflight rejection checks",
+      "no full mixed qualification campaign"
+    ],
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE",
+    "ruff": "RUN_IF_FAST",
+    "compileall": "RUN_IF_FAST"
+  },
+  "claim_policy": {
+    "candidate_claim": "Connected conforming TET4/WEDGE6/HEX8 mixed linear-static workflow with the frozen MPC/RBE2 constraint benchmark.",
+    "allowed_only_after_future_vnv": true,
+    "acceptance_route_limit": "MPC_PRIMARY only unless a separate RBE2 acceptance campaign is explicitly passed",
+    "rbe2_status_until_separate_vnv": "EXPERIMENTAL_DIAGNOSTIC_ONLY",
+    "no_historical_registry_maturity_change": true
+  },
+  "historical_integrity": {
+    "preserve_wp13_01_and_wp13_02": true,
+    "preserve_0_2_7_evidence": true,
+    "preserve_existing_mpc_rbe_evidence": true,
+    "old_failures_must_not_be_rewritten": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "contract_id": "WP13-01C-PETSC-MPI-MIXED-RUNTIME-001",
+  "case": "mpi",
+  "result": {
+    "status": "FAIL_RUNTIME",
+    "backend": "petsc4py_mpi_rank_local",
+    "rank_count": 2,
+    "segments": 5556,
+    "ndof": 100023,
+    "element_count": 16668,
+    "family_counts": {
+      "TET4": 5556,
+      "WEDGE6": 5556,
+      "HEX8": 5556
+    },
+    "converged_reason": -3,
+    "iterations": null,
+    "ksp_final_residual": null,
+    "free_residual_relative": null,
+    "runtime_seconds": null,
+    "failure": {
+      "exception_type": "RuntimeError",
+      "message": "PETSc CG/Jacobi did not converge: reason=-3",
+      "execution_path": "_petsc_case",
+      "command": "mpiexec -n 2 python scripts/run_wp13_01c_final_runtime.py --mode mpi --segments 5556 --output qualification/0_2_8/wp13_01c_petsc_mpi_mixed_runtime/scale_a.json",
+      "observed_after": "real PETSc Mat/Vec assembly and KSP execution",
+      "qualification_status": "FAIL_RUNTIME"
+    }
+  }
+}

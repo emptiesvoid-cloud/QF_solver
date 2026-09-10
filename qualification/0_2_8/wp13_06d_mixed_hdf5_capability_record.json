@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-06D-MIXED-HDF5-CAPABILITY",
+  "capability_id": "MIXED-HDF5-FAMILY-AWARE-RESULT-STORAGE-V1",
+  "registry_kind": "IO_POSTPROCESSING_RESEARCH_CAPABILITY",
+  "applicable_version": "0.2.8",
+  "status": "EXPERIMENTAL_BOUNDED",
+  "public_wording": "Experimental bounded family-aware HDF5 result storage for mixed TET4/WEDGE6/HEX8 workflows, with exact round-trip and selective-read evidence within the documented scope.",
+  "owner_decision": {
+    "decision": "APPROVE_EXPERIMENTAL_BOUNDED",
+    "final_status": "APPROVED_EXPERIMENTAL_BOUNDED",
+    "source": "WP13-06C Owner Gate",
+    "source_start_sha": "2ed66f14525b09983e26a9f709fed04720be7fa1",
+    "traceability": "Bounded HDF5 family-aware mixed-result storage capability; separate from the 46 ELEMENT_ANALYSIS records."
+  },
+  "approved_scope": {
+    "path": "opt-in HDF5 path",
+    "format": "HDF5 family-aware mixed results",
+    "schema_version": "1.0",
+    "families": ["TET4", "WEDGE6", "HEX8"],
+    "features": [
+      "family-aware element blocks",
+      "nodal displacement",
+      "reactions when available",
+      "connectivity",
+      "element IDs",
+      "material/region metadata",
+      "bounded element fields",
+      "exact round-trip evidence",
+      "selective reads",
+      "deterministic semantic replay"
+    ],
+    "connectivity_widths": {
+      "TET4": 4,
+      "WEDGE6": 6,
+      "HEX8": 8
+    }
+  },
+  "limitations": [
+    "HDF5 opt-in only",
+    "schema v1.0",
+    "TET4/WEDGE6/HEX8 only",
+    "tested bounded fields only",
+    "no MPI",
+    "no parallel HDF5",
+    "no solver restart",
+    "no XDMF",
+    "no quantitative memory claim",
+    "no general scalability claim",
+    "100023 DOF evidence is storage-only zero-result characterization",
+    "legacy large pipeline remains TET4-only",
+    "selective reads still scan structural metadata/connectivity",
+    "no universal post-processing claim"
+  ],
+  "contract": {
+    "contract_id": "WP13-06-SCALABLE-MIXED-POST-001",
+    "contract_sha256": "bd9153a7a96df3ae2cc5b4a7861a4c7f57f6979fbb77a6b767a12b451b5008c3",
+    "path": "qualification/0_2_8/wp13_06_scalable_mixed_post_contract.json",
+    "linked": true,
+    "created_before_run": true,
+    "unchanged": true,
+    "gates_unchanged": true
+  },
+  "evidence": {
+    "manifest": "qualification/0_2_8/wp13_06_scalable_mixed_post/wp13_06_scalable_mixed_post_evidence.json",
+    "format": "qf_solver.mixed_results.hdf5",
+    "schema_version": "1.0",
+    "repo_sha_at_campaign": "fc16fb9883cc6a06c2404e001949f9e665d0b574",
+    "environment": {
+      "python": "3.13.1",
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "h5py": "3.14.0",
+      "platform": "Windows-10-10.0.19045-SP0"
+    },
+    "family_coverage": {
+      "TET4": true,
+      "WEDGE6": true,
+      "HEX8": true,
+      "mixed_blocks": true,
+      "silent_family_drop": false
+    },
+    "round_trip": {
+      "status": "PASS",
+      "nodes_error": 0.0,
+      "coordinates_error": 0.0,
+      "displacement_error": 0.0,
+      "reaction_error": 0.0,
+      "element_field_error": 0.0,
+      "connectivity_error": 0.0,
+      "element_ids_error": 0.0,
+      "material_region_metadata": "PASS",
+      "metadata_round_trip": "PASS",
+      "source_sha_exact": true
+    },
+    "partial_read": {
+      "status": "SUPPORTED_WITH_LIMITATIONS",
+      "probes": [
+        "displacement-only",
+        "family=WEDGE6",
+        "field=von_mises",
+        "region_id=0"
+      ],
+      "structural_scan_limitation": "Reader retains global nodal arrays and scans block connectivity/IDs for structural validation; this is not a quantitative memory claim."
+    },
+    "failure_contract": {
+      "required": 8,
+      "executed": 8,
+      "passed": "8/8",
+      "silent_fallback": false,
+      "cases": [
+        "unsupported family",
+        "malformed connectivity",
+        "duplicate IDs",
+        "inconsistent array lengths",
+        "missing required field",
+        "invalid result shape",
+        "corrupt file",
+        "unsupported schema version"
+      ]
+    },
+    "replay": {
+      "replay_1": "PASS",
+      "replay_2": "PASS",
+      "semantic_digest_match": true,
+      "semantic_digest": "3d9065d1b92b30bc62a6e79a83c31d4c1bd270efe96e5659e3bf552ca87e1ed7",
+      "files": [
+        "qualification/0_2_8/wp13_06_scalable_mixed_post/mixed_result_main.h5",
+        "qualification/0_2_8/wp13_06_scalable_mixed_post/mixed_result_replay_1.h5",
+        "qualification/0_2_8/wp13_06_scalable_mixed_post/mixed_result_replay_2.h5"
+      ]
+    },
+    "evidence_integrity": "PASS",
+    "schema_valid": true
+  },
+  "scale_evidence": {
+    "scale_dof": 100023,
+    "scale_mode": "STORAGE_ONLY_ZERO_RESULT_CHARACTERIZATION",
+    "output_runtime_seconds": 0.0695854,
+    "read_runtime_seconds": 0.0770316,
+    "partial_read_runtime_seconds": 0.0668509,
+    "output_file_size_bytes": 127605,
+    "peak_additional_memory": "UNAVAILABLE",
+    "solved_mixed_analysis": false,
+    "general_scalability_claim_allowed": false,
+    "storage_path_note": "Storage path avoids a structural global gather; one bounded model-to-family-envelope adapter copy remains documented."
+  },
+  "checkpoint": {
+    "metadata_ready": true,
+    "restart_ready": false,
+    "restart_status": "RESTART_NOT_IN_SCOPE"
+  },
+  "legacy_routes": {
+    "vtu": "preserved",
+    "csv": "preserved",
+    "npz": "preserved",
+    "new_hdf5_path": "opt-in",
+    "historical_routes_redirected": false
+  },
+  "registry_separation": {
+    "element_analysis_registry": "qualification/0_2_8/consolidated_registry.json#/combination_registry/records",
+    "element_analysis_counts": {
+      "QUALIFIED_BOUNDED": 32,
+      "EXPERIMENTAL": 14,
+      "NOT_QUALIFIED": 0,
+      "TOTAL": 46
+    },
+    "added_to_element_analysis_registry": false,
+    "mixed_workflow_registry_changed": false,
+    "separate_capability_record": true,
+    "separation_valid": true
+  },
+  "historical_integrity": {
+    "element_analysis_registry_46_unchanged": true,
+    "mixed_workflow_registry_unchanged": true,
+    "evidence_0_2_7_changed": false,
+    "contract_changed": false,
+    "gates_changed": false,
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "maturity_46_changed": false
+  },
+  "delivery": {
+    "start_sha": "2ed66f14525b09983e26a9f709fed04720be7fa1",
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE",
+    "numerical_runs": "NONE",
+    "release_metadata_changed": false,
+    "version_bump": false
+  }
+}

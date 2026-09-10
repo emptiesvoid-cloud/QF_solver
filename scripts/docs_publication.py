@@ -272,23 +272,25 @@ class DocumentationPublisher:
         panels = f"""
 <div class="status-grid">
   <section class="status-panel"><h3>Release</h3><span class="value">{version}</span><span>active documentation</span></section>
-  <section class="status-panel"><h3>Qualification</h3><span class="value">COMPLETE</span><span>bounded evidence index</span></section>
-  <section class="status-panel"><h3>Test inventory</h3><span class="value">{test_count}</span><span>local collection only</span></section>
+  <section class="status-panel"><h3>Qualification</h3><span class="value">BOUNDED</span><span>declared 0.2.8 scope; WP13-01C not validated</span></section>
   <section class="status-panel"><h3>Source revision</h3><span class="value">{revision_label}</span><span>dirty: {str(self.source_state['dirty']).lower()}</span></section>
 </div>
 
-The active public scope is complete at its declared boundaries. Historical
-planning snapshots and pre-release audit records remain available in the
-verification archive and do not define the current release.
+The active public scope is bounded at its declared 0.2.8 boundaries. The
+full-suite test inventory is recorded by the final Gate-E evidence; this
+generated overview deliberately does not hard-code a collection count.
+Historical planning snapshots and pre-release audit records remain available
+in the verification archive and do not define the current release.
 
 | Scope | Maturity | Public boundary |
 | --- | --- | --- |
 | TET4 linear static | <span class="maturity stable">bounded</span> | Recorded elastic scope |
 | TET4/TET10/HEX8/HEX20 small-strain J2 | <span class="maturity reinforced">qualified bounded</span> | Declared material and analysis scope |
-| Modal, transient and harmonic | <span class="maturity reinforced">supported with limitations</span> | Route-specific evidence |
-| Frictionless contact | <span class="maturity reinforced">supported with limitations</span> | Bounded node-to-triangle cases |
-| WEDGE6 static | <span class="maturity experimental">experimental</span> | Controlled static slice only |
-| Large-model PETSc/MPI | <span class="maturity experimental">bounded evidence</span> | Recorded workloads and environments |
+| Modal, transient and harmonic | <span class="maturity route-dependent">route-dependent</span> | See the capability index for route-specific evidence |
+| Frictionless contact | <span class="maturity experimental">experimental bounded</span> | Bounded node-to-triangle cases |
+| WEDGE6 static | <span class="maturity stable">qualified bounded</span> | Approved documented static scope |
+| Structured TET4 PETSc/MPI | <span class="maturity route-dependent">route-dependent</span> | Historical recorded workloads and environments only |
+| Mixed distributed PETSc/MPI | <span class="maturity not-validated">not validated</span> | Architecture foundation only; physical and partition gates remain failed |
 """.strip()
         (self.generated / "status.md").write_text(panels + "\n", encoding="utf-8")
         write_markdown_table(
@@ -301,7 +303,7 @@ verification archive and do not define the current release.
                     "approved commit and clean repository",
                 ),
                 ("Engineering documentation", "generated", "strict build and declared checks"),
-                ("0.2.7 public scope", "complete", "bounded evidence remains explicit"),
+                ("Historical 0.2.7 public scope", "complete", "bounded evidence remains explicit"),
                 ("Large-model evidence", "bounded", "hardware and workload scope remains explicit"),
             ],
         )
@@ -449,6 +451,19 @@ def read_document_metadata(path: Path) -> dict[str, Any]:
     metadata = yaml.safe_load(parts[1])
     if not isinstance(metadata, dict):
         raise ValueError(f"Controlled document has invalid YAML metadata: {path}")
+    # A small set of older 0.2.8 pages carried a descriptive status header
+    # followed by the controlled-document header.  Preserve both pieces of
+    # metadata while making the controlled registry fields authoritative for
+    # publication validation.  Do not reinterpret ordinary Markdown rules as
+    # a second header: only a header missing ``doc_id`` can enter this path.
+    if "doc_id" not in metadata:
+        remainder = parts[2].lstrip()
+        if remainder.startswith("---\n"):
+            secondary_parts = remainder.split("---", 2)
+            if len(secondary_parts) == 3:
+                secondary = yaml.safe_load(secondary_parts[1])
+                if isinstance(secondary, dict):
+                    metadata = {**metadata, **secondary}
     return metadata
 
 
@@ -465,6 +480,7 @@ def normalize_document_status(status: str) -> str:
         "owner_accepted",
         "owner_accepted_experimental",
         "owner_accepted_with_recommendations",
+        "owner_review_required",
         "accepted_for_release_0_2_3",
         "ready_for_owner_review",
         "verified_development_external_correlation",

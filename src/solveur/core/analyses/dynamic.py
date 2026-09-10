@@ -104,8 +104,18 @@ class NewmarkDynamicSolver:
             initial_energy = checkpoint.initial_energy
             restart_step = checkpoint.completed_step
         else:
-            displacement = _initial_vector(dofs, params.get("initial_displacements", []))
-            velocity = _initial_vector(dofs, params.get("initial_velocities", []))
+            displacement = _initial_vector(
+                dofs,
+                params.get("initial_displacements", []),
+                fixed_indices=fixed,
+                field_name="initial_displacements",
+            )
+            velocity = _initial_vector(
+                dofs,
+                params.get("initial_velocities", []),
+                fixed_indices=fixed,
+                field_name="initial_velocities",
+            )
             reduced_displacement = reducer.reduce_state(displacement)
             reduced_velocity = reducer.reduce_state(velocity)
             initial_force = self._dynamic_load(params, 0, 0.0, steps, dt, loads, load_vectors)
@@ -508,13 +518,52 @@ def _reduced_matrices(
     return mass[free, :][:, free], damping[free, :][:, free], stiffness[free, :][:, free]
 
 
-def _initial_vector(dofs: DofManager, entries: object) -> np.ndarray:
+def _initial_vector(
+    dofs: DofManager,
+    entries: object,
+    *,
+    fixed_indices: np.ndarray | None = None,
+    field_name: str = "initial_conditions",
+) -> np.ndarray:
+    """Normalize a supported list of nodal initial-condition entries.
+
+    The public dynamic contract uses ``list[dict]`` entries with ``node``,
+    ``dof`` and finite numeric ``value`` fields.  Reject unsupported or
+    malformed input here instead of silently treating it as a zero state.
+    """
     vector = np.zeros(dofs.ndof, dtype=float)
+    fixed_set = {int(item) for item in fixed_indices} if fixed_indices is not None else set()
     if not isinstance(entries, list):
-        return vector
-    for entry in entries:
-        if isinstance(entry, dict):
-            vector[dofs.index(int(entry["node"]), entry["dof"])] = float(entry["value"])
+        raise InputValidationError(
+            "Initial conditions must be provided as a list of {node, dof, value} entries."
+        )
+    for position, entry in enumerate(entries):
+        if not isinstance(entry, dict):
+            raise InputValidationError(
+                f"Initial-condition entry {position} must be an object with node, dof and value."
+            )
+        missing = {"node", "dof", "value"}.difference(entry)
+        if missing:
+            names = ", ".join(sorted(missing))
+            raise InputValidationError(
+                f"Initial-condition entry {position} is missing required field(s): {names}."
+            )
+        try:
+            node = int(entry["node"])
+            value = float(entry["value"])
+            if not np.isfinite(value):
+                raise ValueError("value must be finite")
+            index = dofs.index(node, entry["dof"])
+        except (TypeError, ValueError, OverflowError, KeyError) as exc:
+            raise InputValidationError(
+                f"Invalid initial-condition entry {position}: {exc}."
+            ) from exc
+        if index in fixed_set and value != 0.0:
+            raise InputValidationError(
+                f"{field_name} entry {position} sets a nonzero value on fixed DOF "
+                f"{entry['node']}:{entry['dof']}; constrained initial states must be zero."
+            )
+        vector[index] = value
     return vector
 
 

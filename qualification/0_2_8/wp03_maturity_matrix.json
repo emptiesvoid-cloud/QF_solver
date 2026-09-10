@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP03-MATURITY-MATRIX",
+  "work_package": "WP03",
+  "applicable_version": "0.2.8-development",
+  "parent_baseline": "qualification/0_2_8/wp01_maturity_matrix.json",
+  "baseline_sha": "6895576206e163cfb9999ba74f5b4cbf081b1c98",
+  "status": "OWNER_GATE_FINALIZED",
+  "owner_gate_record": "qualification/0_2_8/wp03_owner_gate_final.json",
+  "public_maturity_policy": "Only the seven routes approved by the final Owner gate are relabeled QUALIFIED_BOUNDED. Every claim remains limited to the declared analytical or V&V scope.",
+  "summary": {
+    "QUALIFIED_BOUNDED": 7,
+    "EXPERIMENTAL": 1,
+    "NOT_QUALIFIED": 0,
+    "public_maturity_relabels_applied": 7
+  },
+  "evidence_record": "qualification/0_2_8/wp03_beam2_discrete_vnv.json",
+  "decisions": [
+    {
+      "source_record": "COMB-BEAM2-linear_static",
+      "wp01_disposition": "NEEDS_MINOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "QUALIFIED_BOUNDED",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS"
+    },
+    {
+      "source_record": "COMB-BEAM2-modal",
+      "wp01_disposition": "NEEDS_MINOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "QUALIFIED_BOUNDED",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS"
+    },
+    {
+      "source_record": "COMB-BEAM2-newmark_transient",
+      "wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "QUALIFIED_BOUNDED",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS"
+    },
+    {
+      "source_record": "COMB-BEAM2-harmonic",
+      "wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "QUALIFIED_BOUNDED",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS"
+    },
+    {
+      "source_record": "COMB-DISCRETE-linear_static",
+      "wp01_disposition": "NEEDS_MINOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "QUALIFIED_BOUNDED",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS"
+    },
+    {
+      "source_record": "COMB-DISCRETE-modal",
+      "wp01_disposition": "NEEDS_MINOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "QUALIFIED_BOUNDED",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS"
+    },
+    {
+      "source_record": "COMB-DISCRETE-newmark_transient",
+      "wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "EXPERIMENTAL",
+      "public_maturity": "EXPERIMENTAL",
+      "owner_gate": "REJECTED",
+      "failed_gate": "coarse.max_phase_error_rad exceeds the predeclared 0.012 rad limit"
+    },
+    {
+      "source_record": "COMB-DISCRETE-harmonic",
+      "wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "QUALIFIED_BOUNDED",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS"
+    }
+  ]
+}

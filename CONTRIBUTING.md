@@ -6,11 +6,21 @@ QF Solver is an open-source finite-element solver focused on structural mechanic
 transparent numerical formulations, reproducible verification, and explicit
 capability boundaries.
 
-QF Solver has its roots in a personal FEM solver project I started back in 2024. It has changed a lot since then and eventually evolved into the current QF Solver project. I still haven't had the time to put everything on GitHub, because I'm kind of mixing new upgrades with older parts of the original project as I go.
+QF Solver grew from an earlier personal FEM codebase and has since been
+consolidated as the current public project. Historical origins do not change
+the current source, verification, contribution or release policies.
 
 Contributions are welcome, including bug fixes, documentation improvements,
 new examples, tests, numerical methods, solver improvements, and verification
 cases.
+
+## Current release state
+
+The repository currently targets QF Solver `0.2.8-development` in release
+preparation. It is not published or tagged as 0.2.8 yet. The public
+[capability index](docs/capabilities/index.md) and [V&V/maturity guide](docs/verification/evidence-and-maturity.md)
+define the current bounded scope; historical 0.2.7 evidence must remain
+unchanged.
 
 Because QF Solver is numerical engineering software, changes that affect results
 need a little more care than ordinary application code.

@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-01G-RUNTIME-EXECUTION",
+  "work_package": "WP13-01G",
+  "contract_id": "WP13-01G-CONNECTED-MIXED-PETSC-001",
+  "contract_path": "qualification/0_2_8/wp13_01g_connected_mixed_contract.json",
+  "contract_git_blob_sha1": "d5271e29f20cd29a122ad58b1ec7e5dbc456c059",
+  "source": {
+    "start_sha": "c06838b909e1586ef776ce6ac986488965bbb8bb",
+    "contract_commit": "cdc16e9267cc6b1b2cc67d3017348a76f0a491fa",
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "gates_changed": false,
+    "benchmark_changed_after_results": false,
+    "maturity_changed": false,
+    "historical_0_2_7_evidence_changed": false
+  },
+  "environment": {
+    "execution_image": "qf-solver-large:0.2.0",
+    "petsc4py": "3.25.1",
+    "petsc": "3.25.1",
+    "mpi4py": "4.1.2",
+    "mpi": "MPICH 5.0.1",
+    "launcher": "mpiexec",
+    "available_ranks": [1, 2, 4]
+  },
+  "status": "FAIL_STAGE_A",
+  "stop_reason": "The frozen Stage-A equilibrium gate failed on PETSc-1, MPI-2 and MPI-4. No Stage-B or Stage-C run was started.",
+  "control_33_dof": {
+    "connected_components": 1,
+    "element_counts": {"TET4": 1, "WEDGE6": 1, "HEX8": 1},
+    "interface_counts": {"TET4_WEDGE6": 1, "WEDGE6_HEX8": 1},
+    "mechanical_load_path": "TET4 -> WEDGE6 -> HEX8 through shared conforming faces",
+    "serial": {
+      "status": "PASS",
+      "free_residual": 1.2974253529761977e-16,
+      "equilibrium": 2.511012588416365e-16,
+      "energy_identity": 1.3877787807814457e-17
+    },
+    "petsc_1": {
+      "status": "PASS",
+      "free_residual": 2.4642523555644445e-16,
+      "equilibrium": 1.1073821644355049e-16,
+      "energy_identity": 0.0,
+      "cross_rank_family_interfaces": {"TET4_WEDGE6": 0, "WEDGE6_HEX8": 0}
+    },
+    "mpi_2": {
+      "status": "PASS",
+      "free_residual": 2.785721919979543e-16,
+      "equilibrium": 1.9160195604656302e-16,
+      "energy_identity": 2.7755575615628914e-17,
+      "cross_rank_family_interfaces": {"TET4_WEDGE6": 0, "WEDGE6_HEX8": 1},
+      "ghost_nodes_global_sum": 4
+    },
+    "mpi_4": {
+      "status": "PASS",
+      "free_residual": 1.200136759543661e-16,
+      "equilibrium": 1.908855834864458e-16,
+      "energy_identity": 0.0,
+      "cross_rank_family_interfaces": {"TET4_WEDGE6": 1, "WEDGE6_HEX8": 1},
+      "ghost_nodes_global_sum": 7
+    },
+    "partition_invariance": {
+      "serial_vs_petsc_1_displacement_relative_l2": 2.2499312661442353e-22,
+      "serial_vs_petsc_1_reaction_relative_l2": 1.5069795760294545e-16,
+      "serial_vs_mpi_2_displacement_relative_l2": 4.085702871755285e-22,
+      "serial_vs_mpi_2_reaction_relative_l2": 3.137190311721911e-16,
+      "serial_vs_mpi_4_displacement_relative_l2": 2.458271674856295e-22,
+      "serial_vs_mpi_4_reaction_relative_l2": 2.197012922800696e-16,
+      "status": "PASS"
+    }
+  },
+  "stage_a_49998_dof": {
+    "status": "FAIL",
+    "element_counts": {"TET4": 1, "WEDGE6": 3332, "HEX8": 3332},
+    "connected_components": 1,
+    "interface_counts": {"TET4_WEDGE6": 1, "WEDGE6_HEX8": 3332},
+    "cross_rank_family_interfaces": {
+      "mpi_1": {"TET4_WEDGE6": 0, "WEDGE6_HEX8": 0},
+      "mpi_2": {"TET4_WEDGE6": 0, "WEDGE6_HEX8": 0},
+      "mpi_4": {"TET4_WEDGE6": 0, "WEDGE6_HEX8": 0}
+    },
+    "ghost_nodes_global_sum": {"mpi_1": 0, "mpi_2": 5, "mpi_4": 15},
+    "mpi_1": {
+      "runtime_seconds": 18.073006679999708,
+      "peak_memory_mb": 288.28515625,
+      "iterations": 1,
+      "free_residual": 2.5741794818374375e-11,
+      "equilibrium": 6.798705461879565e-10,
+      "energy_identity": 3.5665914666083154e-13,
+      "gate_status": "FAIL_EQUILIBRIUM"
+    },
+    "mpi_2": {
+      "runtime_seconds": 11.427822876999926,
+      "peak_memory_mb": 236.9453125,
+      "iterations": 1,
+      "free_residual": 2.601040197563168e-11,
+      "equilibrium": 6.755964550854925e-10,
+      "energy_identity": 8.060219158778636e-13,
+      "gate_status": "FAIL_EQUILIBRIUM"
+    },
+    "mpi_4": {
+      "runtime_seconds": 6.727593073999742,
+      "peak_memory_mb": 205.70703125,
+      "iterations": 1,
+      "free_residual": 2.621011698382215e-11,
+      "equilibrium": 6.587795990334173e-10,
+      "energy_identity": 2.9742874829707944e-13,
+      "gate_status": "FAIL_EQUILIBRIUM"
+    },
+    "frozen_equilibrium_gate": 1.0e-10,
+    "equilibrium_failure": "All three Stage-A partitions exceed the frozen 1e-10 relative force/component balance gate; no gate adjustment is applied.",
+    "partition_invariance": {
+      "mpi_1_vs_2_displacement_relative_l2": 3.993585385408244e-16,
+      "mpi_1_vs_2_reaction_relative_l2": 2.835887393088517e-11,
+      "mpi_1_vs_2_residual_relative_difference": 6.404206175975934e-11,
+      "mpi_1_vs_2_energy_relative_difference": 1.3367085216486885e-13,
+      "mpi_1_vs_4_displacement_relative_l2": 2.563608184863839e-15,
+      "mpi_1_vs_4_reaction_relative_l2": 4.552250201424403e-11,
+      "mpi_1_vs_4_residual_relative_difference": 7.419535488997313e-11,
+      "mpi_1_vs_4_energy_relative_difference": 1.050270981295398e-12,
+      "status": "PASS_WITHIN_FROZEN_PARTITION_GATES"
+    }
+  },
+  "stage_b_150003_dof": {"status": "NOT_EXECUTED_ABORT_STAGE_A"},
+  "stage_c_300003_dof": {"status": "NOT_EXECUTED_ABORT_STAGE_A"},
+  "replays": {
+    "status": "NOT_EXECUTED_ABORT_STAGE_A",
+    "required": 2,
+    "reason": "The contract requires stopping after a Stage-A gate failure."
+  },
+  "runtime_characteristics": {
+    "preallocation": "Exact PETSc row pattern; zero recorded reallocations on Stage A.",
+    "structural_global_gather": "NOT_PRESENT",
+    "result_exchange": "Result-only displacement/reaction exchange used for post-processing.",
+    "connected_runtime_evidence": "Control PASS; Stage A assembled and solved on MPI-1/2/4 but is not a passing campaign because equilibrium fails."
+  },
+  "raw_run_records": {
+    "control_serial.json": "7d7158973f3f5676f7fdb4d040398c39d12ad845",
+    "control_mpi1.json": "a98a84838509f6b2ae1226f8bf80b873da0c5cc6",
+    "control_mpi2.json": "2c4196c5eabe939db3dccbf914b51c909f2677bd",
+    "control_mpi4.json": "14a5baf5f2cc3c1140ed3d884a79a65be49fdf70",
+    "stage_a_mpi1.json": "77d6df9f9846e971dca87eb5d78f22e898953ec7",
+    "stage_a_mpi1.npz": "d1d81f36aa8d28f29ee2f79ab63e724c7b948fce",
+    "stage_a_mpi2.json": "020569bef881d3c5947e58a3cf5cb3f82fdb4ec0",
+    "stage_a_mpi2.npz": "bbd87540f9c14b4211b45b2ed28628005fef835b",
+    "stage_a_mpi4.json": "1b4afb5e77a5e070079af90c669b1b8b132dbe20",
+    "stage_a_mpi4.npz": "8277daacb87e62ee313719bfbd6d63cc7c005ebf"
+  },
+  "decision": {
+    "wp13_01g_status": "FAIL_STAGE_A",
+    "wp13_01_final_status": "CONNECTED_CONTROL_PASS_STAGE_A_BLOCKED",
+    "connected_confirmation": "NOT_CLOSED",
+    "claim_supported": "None beyond the prior WP13-01C2 runtime-plumbing-only claim.",
+    "next_step": "Diagnose the connected Stage-A equilibrium failure under a separate owner-approved remediation or contract decision; do not modify this frozen record or continue to Stage B/C."
+  }
+}

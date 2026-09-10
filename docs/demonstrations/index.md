@@ -2,7 +2,7 @@
 doc_id: DOC-DEMO-000
 revision: 1.0
 status: controlled
-applicable_version: 0.2.7
+applicable_version: 0.2.8-development
 reviewer: ""
 approver: ""
 ---
@@ -15,7 +15,7 @@ not establish universal element or solver qualification.
 
 ## Public examples
 
-The maintained JSON examples are in [`examples/`](../../examples/). The
+The maintained JSON examples are in [`examples/`](https://github.com/emptiesvoid-cloud/QF_solver/tree/0b356330bdbf63ca6c0406d9a5f816bd75246764/examples). The
 shortest path is the [TET4 static quickstart](../getting-started/quickstart.md).
 The public Python API is available through `qf_solver`.
 
@@ -25,6 +25,6 @@ Some demonstrations generate a result directory containing inputs, outputs,
 diagnostics and a manifest. Read the reported residual, reactions, energy and
 mesh checks together. A plausible displacement alone is not sufficient.
 
-The active 0.2.7 capability and evidence boundaries are in the
-[verification summary](../verification/0_2_7/README.md). Large-model examples
+The active 0.2.8 capability and evidence boundaries are in the
+[verification summary](../verification/0_2_8/README.md). Large-model examples
 are described in [Large models](../solveurs/grand_modele.md).

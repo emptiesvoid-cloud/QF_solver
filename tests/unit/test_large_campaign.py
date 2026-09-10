@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 import numpy as np
@@ -63,6 +64,10 @@ def test_process_memory_snapshot_has_stable_schema() -> None:
     assert set(snapshot) == {"source", "current_rss_bytes", "peak_rss_bytes"}
     for name in ("current_rss_bytes", "peak_rss_bytes"):
         assert snapshot[name] is None or snapshot[name] > 0
+    if os.name == "nt":
+        assert snapshot["source"].startswith("windows_psapi:")
+        assert snapshot["current_rss_bytes"] > 0
+        assert snapshot["peak_rss_bytes"] > 0
 
 
 @pytest.mark.parametrize("count,size", [(0, 1), (1, 4), (17, 3), (100, 8)])

@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP04-MATURITY-MATRIX",
+  "work_package": "WP04",
+  "applicable_version": "0.2.8-development",
+  "parent_baseline": "qualification/0_2_8/wp01_maturity_matrix.json",
+  "previous_delta": "qualification/0_2_8/wp03_maturity_matrix.json",
+  "baseline_sha": "2a6a02859e3f19ddf26903167de1db6fdd3f3c7c",
+  "status": "OWNER_GATE_FINALIZED",
+  "owner_gate_record": "qualification/0_2_8/wp04_owner_gate_final.json",
+  "evidence_record": "qualification/0_2_8/wp04_mitc_vnv.json",
+  "public_maturity_policy": "Only the four routes approved with limitations by the final WP04 Owner gate are relabeled QUALIFIED_BOUNDED. Every claim remains limited to the exact WP04 scope.",
+  "summary": {
+    "QUALIFIED_BOUNDED": 4,
+    "EXPERIMENTAL": 4,
+    "NOT_QUALIFIED": 0,
+    "owner_gate_required": 0,
+    "public_maturity_relabels_applied": 4,
+    "global_state_after_wp04_owner_gate": {
+      "QUALIFIED_BOUNDED": 31,
+      "PUBLIC_QUALIFIED_BOUNDED": 31,
+      "EXPERIMENTAL": 14,
+      "NOT_QUALIFIED": 1,
+      "TOTAL": 46,
+      "not_qualified_combination": "COMB-HEX8-linear_buckling",
+      "wedge6_static_state": "EXPERIMENTAL"
+    },
+    "registry_counts_consistent": true
+  },
+  "decisions": [
+    {
+      "source_record": "COMB-MITC3-linear_static",
+      "wp01_disposition": "NEEDS_MINOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "QUALIFIED_BOUNDED",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS",
+      "evidence_case": "MITC3_STATIC"
+    },
+    {
+      "source_record": "COMB-MITC3-modal",
+      "wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "EXPERIMENTAL",
+      "public_maturity": "EXPERIMENTAL",
+      "owner_gate": "REJECTED",
+      "reason_not_closed": "No executable independent shell modal oracle is available.",
+      "evidence_case": "MITC3_MODAL"
+    },
+    {
+      "source_record": "COMB-MITC3-newmark_transient",
+      "wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "EXPERIMENTAL",
+      "public_maturity": "EXPERIMENTAL",
+      "owner_gate": "REJECTED",
+      "reason_not_closed": "No executable independent same-mesh transient shell oracle is available.",
+      "evidence_case": "MITC3_NEWMARK"
+    },
+    {
+      "source_record": "COMB-MITC3-harmonic",
+      "wp01_disposition": "NEEDS_MAJOR_VNV",
+      "decision": "EXPERIMENTAL",
+      "public_maturity": "EXPERIMENTAL",
+      "owner_gate": "REJECTED",
+      "reason_not_closed": "No executable independent same-mesh shell FRF oracle is available.",
+      "evidence_case": "MITC3_HARMONIC"
+    },
+    {
+      "source_record": "COMB-MITC4-linear_static",
+      "wp01_disposition": "NEEDS_MINOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "QUALIFIED_BOUNDED",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS",
+      "evidence_case": "MITC4_STATIC"
+    },
+    {
+      "source_record": "COMB-MITC4-modal",
+      "wp01_disposition": "NEEDS_MINOR_VNV",
+      "decision": "EXPERIMENTAL",
+      "public_maturity": "EXPERIMENTAL",
+      "owner_gate": "REJECTED",
+      "reason_not_closed": "The deterministic replay misses the frozen relative-residual gate (2.6317020430528298e-08 > 1e-08); no tolerance relaxation was applied.",
+      "evidence_case": "MITC4_MODAL"
+    },
+    {
+      "source_record": "COMB-MITC4-newmark_transient",
+      "wp01_disposition": "NEEDS_MINOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "QUALIFIED_BOUNDED",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS",
+      "evidence_case": "MITC4_NEWMARK"
+    },
+    {
+      "source_record": "COMB-MITC4-harmonic",
+      "wp01_disposition": "NEEDS_MINOR_VNV",
+      "decision": "QUALIFIED_BOUNDED",
+      "public_maturity": "QUALIFIED_BOUNDED",
+      "owner_gate": "APPROVED_WITH_LIMITATIONS",
+      "evidence_case": "MITC4_HARMONIC"
+    }
+  ]
+}

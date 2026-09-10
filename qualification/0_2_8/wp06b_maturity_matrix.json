@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP06B-MATURITY-DELTA",
+  "work_package": "WP06B",
+  "applicable_version": "0.2.8-development",
+  "parent_matrix": "qualification/0_2_8/wp06_maturity_matrix.json",
+  "evidence_record": "qualification/0_2_8/wp06b_hex8_buckling_vnv.json",
+  "contract_record": "qualification/0_2_8/wp06b_hex8_buckling_contract.json",
+  "baseline_sha": "be8fbd99d8a3d3b8e4ee3b8d867842389b063061",
+  "status": "TECHNICAL_REMEDIATION_COMPLETE_NO_PROMOTION",
+  "summary": {
+    "QUALIFIED_BOUNDED": 0,
+    "EXPERIMENTAL": 0,
+    "NOT_QUALIFIED": 1,
+    "public_maturity_relabels_applied": 0,
+    "global_state_after_wp06b": {
+      "QUALIFIED_BOUNDED": 32,
+      "EXPERIMENTAL": 13,
+      "NOT_QUALIFIED": 1,
+      "TOTAL": 46,
+      "not_qualified_combination": "COMB-HEX8-linear_buckling"
+    },
+    "registry_counts_consistent": true
+  },
+  "decision": {
+    "source_record": "COMB-HEX8-linear_buckling",
+    "wp06_technical_decision": "NOT_QUALIFIED",
+    "wp06b_technical_decision": "NOT_QUALIFIED",
+    "public_maturity": "NOT_QUALIFIED",
+    "promotion_applied": false,
+    "gates_after_remediation": {
+      "euler_oracle": "FAIL",
+      "mesh_refinement": "FAIL",
+      "invalid_geometry": "PASS",
+      "replay_determinism": "PASS",
+      "mode_residuals": "PASS",
+      "mode_matching": "PASS",
+      "robustness": "PASS",
+      "external_oracle": "SKIPPED_EXTERNAL_UNAVAILABLE"
+    },
+    "remaining_blockers": [
+      "The cantilever factor errors remain 1.719602, 0.395475 and 0.158458 at the declared levels; the 0.10 gate is not met.",
+      "The pinned-pinned-lateral factor errors remain 0.815744, 0.201651 and 0.542572; the 0.10 gate is not met.",
+      "The final adjacent refinement changes remain 0.204597 and 0.745298, above the frozen 0.01 gate.",
+      "The pinned-pinned-lateral boundary/oracle pair is not an equivalent pure Euler pinned-column model, and no scope rewrite is authorized in WP06B.",
+      "Current CalculiX execution remains unavailable; no external result is claimed."
+    ]
+  },
+  "root_cause_disposition": {
+    "euler_factor": "MODEL_SCOPE_LIMITATION",
+    "mesh_convergence": "MODEL_SCOPE_LIMITATION",
+    "invalid_orientation": "TEST_ORACLE_PROBLEM_CORRECTED",
+    "replay_determinism": "SOLVER_NONDETERMINISM_CORRECTED_WITH_FIXED_ARPACK_START",
+    "external_oracle": "MODEL_SCOPE_LIMITATION"
+  },
+  "fixes": {
+    "deterministic_arpack_start": {
+      "applied": true,
+      "path": "src/solveur/core/analyses/buckling.py",
+      "formulation_changed": false,
+      "tolerance_changed": false,
+      "regression_test": "tests/verification/test_028_wp06b_hex8_buckling.py"
+    },
+    "invalid_orientation_case": {
+      "applied": true,
+      "path": "scripts/run_wp06_hex8_buckling.py",
+      "validator_changed": false,
+      "regression_test": "tests/verification/test_028_wp06b_hex8_buckling.py"
+    }
+  },
+  "registry_integrity": {
+    "source_registry_0_2_7_unchanged": true,
+    "wp06_evidence_unchanged": true,
+    "historical_0_2_7_evidence_changed": false,
+    "numerical_source_changed_intentionally": true,
+    "wedge6_static_distinct_from_hex8_buckling": true,
+    "owner_gate_applied": false,
+    "total_combinations": 46
+  }
+}

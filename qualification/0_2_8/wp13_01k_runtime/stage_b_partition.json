@@ -1,0 +1,20 @@
+{
+  "mode": "partition",
+  "comparisons": [
+    {
+      "reference": "stage_b_mpi2",
+      "label": "stage_b_mpi4",
+      "values": {
+        "displacement": 7.179440032123783e-13,
+        "reactions": 2.651864716761197e-13,
+        "energy": 6.856668575980681e-14,
+        "residual_difference": 1.703469592852682e-14,
+        "equilibrium_difference": 1.1220756988223148e-13
+      },
+      "pass": true,
+      "same_model": true,
+      "raw_digest_equal": false
+    }
+  ],
+  "pass": true
+}

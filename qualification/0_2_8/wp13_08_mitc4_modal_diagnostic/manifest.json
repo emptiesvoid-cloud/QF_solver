@@ -1,0 +1,12 @@
+{
+  "arrays_file": "wp13_08_mitc4_modal_diagnostic_arrays.npz",
+  "arrays_sha256": "29be07a3d93222c81b4565dce618e3e67521f912bd58295e61a96a3aca8c15ed",
+  "contract_id": "WP13-08-MITC4-MODAL-DIAGNOSTIC-001",
+  "contract_sha": "0ea1fe1f1405a0393740461b86aaeeae74136c136143456de049ceeba20585ca",
+  "evidence_file": "wp13_08_mitc4_modal_diagnostic_evidence.json",
+  "evidence_sha256": "cfb5f9138811e070ce0d5944c0e9e09cb96cd52240c87c892985d2c961f4058a",
+  "historical_evidence_immutable": true,
+  "repo_sha": "eb027850c67c25839b9e066b54cfd7d3bb8915b0",
+  "schema_version": 1,
+  "technical_decision": "KEEP_EXPERIMENTAL"
+}

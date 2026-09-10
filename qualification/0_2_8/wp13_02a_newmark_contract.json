@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-02A-NEWMARK-MIXED-CONTRACT",
+  "contract_id": "WP13-02A-NEWMARK-MIXED-CONTRACT-001",
+  "work_package": "WP13-02A",
+  "applicable_version": "0.2.8-development",
+  "creation_sha": "889fbf27328e843813b670bcbded98327e320b24",
+  "status": "PREDECLARED_CONTRACT",
+  "objective": "Freeze a bounded V&V contract for a future connected mixed TET4/WEDGE6/HEX8 Newmark campaign without changing the production formulation or declaring a maturity promotion.",
+  "scope": {
+    "analysis": "linear transient Newmark",
+    "backend": "small-system reference path only for 02B; no distributed-runtime claim",
+    "element_families": ["TET4", "WEDGE6", "HEX8"],
+    "interfaces": [
+      "conforming shared triangular TET4-WEDGE6 interface",
+      "conforming shared quadrilateral WEDGE6-HEX8 interface"
+    ],
+    "kinematics": "small-strain homogeneous linear isotropic elasticity",
+    "mass": "consistent translational element mass",
+    "damping": {
+      "model": "Rayleigh",
+      "alpha_mass": 0.0,
+      "beta_stiffness": 0.0,
+      "interpretation": "undamped primary free-vibration contract; energy conservation is tested, not inferred for damped runs"
+    },
+    "geometry": "WP13-01K compact elbow at n=1: HEX8 box [0,1]x[-1,0]x[0,1], WEDGE6 right-triangular prism x>=0,y>=0,x+y<=1,z in [0,2], and a TET4 continuation over z in [2,3], with shared conforming interfaces and 48 translational DOF.",
+    "boundary_conditions": "All translational DOFs on the HEX8 y=-1 support surface are fixed; no independent support is allowed on TET4 or WEDGE6.",
+    "initial_conditions": "Initial displacement is the first positive generalized-mass-normalized mode from the independent dense reference; initial velocity is zero; initial acceleration is obtained from M*a+K*u=0.",
+    "temporal_load": "Zero external load after the declared modal initial condition; no hidden load ramp.",
+    "monitored_dofs": "The first modal coordinate and a fixed free-interface/probe displacement selected before execution; the probe list is part of the evidence record.",
+    "excluded": [
+      "nonlinear dynamics",
+      "contact",
+      "nonconforming or hanging-node interfaces",
+      "TET10/HEX20/PYRAMID5 mixed dynamics",
+      "large-model PETSc/MPI performance",
+      "Newmark route maturity promotion",
+      "general arbitrary-load or arbitrary-geometry claim"
+    ]
+  },
+  "time_discretization": {
+    "scheme": "implicit Newmark average acceleration",
+    "beta": 0.25,
+    "gamma": 0.5,
+    "reference_period": "T1=2*pi/omega1 from the independent dense generalized-eigen oracle",
+    "dt_levels": ["T1/20", "T1/40", "T1/80", "T1/160"],
+    "final_time": "4*T1",
+    "output_times": "uniform steps at each declared dt; no result-dependent sampling"
+  },
+  "independent_oracle": {
+    "method": "Separate dense generalized eigensolve of the assembled local K/M contributions followed by the closed-form first-mode oscillator u(t)=phi1*cos(omega1*t).",
+    "independence_boundary": "The reference implementation must not call NewmarkDynamicSolver, the production router, or the production time-stepping loop. It may consume an independently scattered K/M snapshot and scipy.linalg.eigh.",
+    "role": "Validates time integration, modal frequency, phase and energy for the declared assembled system; it is not an external correlation and does not by itself qualify the element formulation.",
+    "external_correlation": "NOT_REQUIRED_FOR_THIS_NARROW_02B_CONTRACT; no external-correlation claim is allowed."
+  },
+  "predeclared_gates": {
+    "fixed_before_execution": true,
+    "post_observation_retuning": false,
+    "dt_convergence_relative_rms": {"operator": "<=", "value": 0.01},
+    "oracle_displacement_relative_rms": {"operator": "<=", "value": 0.01},
+    "oracle_phase_absolute_rad": {"operator": "<=", "value": 0.02},
+    "first_frequency_relative": {"operator": "<=", "value": 1.0e-8},
+    "newmark_dynamic_residual_relative": {"operator": "<=", "value": 1.0e-7},
+    "undamped_energy_relative_drift": {"operator": "<=", "value": 1.0e-6},
+    "interface_displacement_continuity": "shared translational DOFs are unique and have zero jump",
+    "interface_force_transfer_relative": {"operator": "<=", "value": 1.0e-8},
+    "replay_displacement_relative_l2": {"operator": "<=", "value": 1.0e-12},
+    "replay_reaction_relative_l2": {"operator": "<=", "value": 1.0e-12},
+    "replay_energy_relative": {"operator": "<=", "value": 1.0e-12},
+    "replay_iterations": "identical for a direct solve; absolute delta <= 1 only for an explicitly iterative solve",
+    "pure_control": "Record pure-family controls where a physically comparable control exists; never relabel a mixed result based on a control.",
+    "numerical_determinism": "two complete replays under the same process and solver settings; raw bitwise identity across MPI is not a gate"
+  },
+  "required_evidence": [
+    "predeclared geometry/material/BC/load/initial-condition and dt records",
+    "independent dense K/M oracle and first-mode frequency",
+    "dt refinement with amplitude and phase comparisons",
+    "dynamic residual and undamped energy records",
+    "TET4/WEDGE6/HEX8 interface continuity and force transfer",
+    "two complete deterministic replays",
+    "pure-family controls when comparable",
+    "explicit record of any rejected route or unsupported backend"
+  ],
+  "abort_criteria": [
+    "WEDGE6 remains rejected by the public dynamic compatibility preflight and no separately approved 02B route is available",
+    "consistent mass assembly is not positive/symmetric or is incompatible across the three families",
+    "no independent analytical or reduced oracle can be implemented without reusing the production time integrator",
+    "interface continuity or dynamic force/energy transfer fails",
+    "the conditioning contract fails before solving",
+    "a tolerance would need to be changed after observing a result",
+    "a solver/formulation redesign is required rather than a bounded route enablement"
+  ],
+  "claim_policy": {
+    "maximum": "Only a bounded, connected mixed Newmark evidence statement for the declared compact-elbow case and tested dt levels may be considered after a separate 02B campaign and Owner review.",
+    "not_allowed": "No general mixed transient support, no distributed-performance claim, no production maturity claim and no claim for routes outside this contract.",
+    "owner_gate_required": true
+  },
+  "integrity": {
+    "numerical_source_change_allowed": false,
+    "formulation_change_allowed": false,
+    "maturity_change_allowed": false,
+    "historical_0_2_7_evidence_read_only": true,
+    "wp13_01_records_read_only": true,
+    "contract_change_after_first_result": false
+  }
+}

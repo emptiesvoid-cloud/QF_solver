@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP10-HEX8-SRI-CONTRACT",
+  "work_package": "WP10",
+  "baseline_sha": "324e496c125d55d6925309ee791faaedcead3039",
+  "status": "PREDECLARED_RESEARCH_GATE",
+  "objective": "Study a separate HEX8 selective reduced integration research variant without changing standard HEX8.",
+  "standard_hex8": {
+    "implementation": "src/solveur/elements/solid/hex8.py",
+    "integration": "complete 2x2x2 Gauss",
+    "must_remain_unchanged": true
+  },
+  "formulation": {
+    "scope": "isotropic linear small-strain elasticity only",
+    "deviatoric_rule": "complete 2x2x2 Gauss",
+    "volumetric_rule": "one element-centre point",
+    "kernel": "Cdev full integration plus Cvol centre integration",
+    "public_registry": false,
+    "hourglass_control": false,
+    "hex8r": false
+  },
+  "baseline_cases": [
+    {
+      "id": "WP10-BEND-NU030",
+      "family": "bending_dominated",
+      "geometry": "cantilever L=20, W=1, H=1; structured HEX8 nx=4,8,16 and ny=nz=2",
+      "material": "E=1e6, nu=0.30",
+      "load": "unit vertical nodal resultant distributed over the free end",
+      "oracle": "Timoshenko slender-beam tip displacement",
+      "observable": "free-end displacement and strain energy"
+    },
+    {
+      "id": "WP10-BEND-NU04999",
+      "family": "nearly_incompressible_bending",
+      "geometry": "same cantilever and refinements",
+      "material": "E=1e6, nu=0.4999",
+      "load": "same unit vertical free-end resultant",
+      "oracle": "Timoshenko slender-beam tip displacement",
+      "observable": "free-end displacement and strain energy"
+    }
+  ],
+  "predeclared_gates": {
+    "patch_affine_absolute": 1e-11,
+    "constant_strain_absolute": 1e-11,
+    "symmetry_relative": 1e-12,
+    "rigid_body_relative": 1e-10,
+    "energy_identity_relative": 1e-10,
+    "invalid_geometry": "explicit rejection",
+    "rank": "exactly six numerical rigid-body null modes within 1e-10 of max eigenvalue and no additional null mode above that threshold",
+    "locking_reduction": "fine-level (nx=16) relative displacement error reduction >= 0.50 for nu=0.4999, with no SRI instability gate failure",
+    "mesh_convergence": "SRI and standard records are finite at all three levels; SRI fine error does not increase versus the preceding level",
+    "replay": "two identical machine-readable campaign digests",
+    "post_observation_retuning": false
+  },
+  "excluded": [
+    "standard HEX8 modification",
+    "HEX8R",
+    "hourglass control",
+    "anisotropic or nonlinear materials",
+    "modal, Newmark, harmonic, buckling and mixed-large workflows",
+    "QUALIFIED_BOUNDED promotion"
+  ]
+}

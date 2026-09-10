@@ -32,6 +32,12 @@ def rayleigh_damping_definition(
     parameters: dict[str, object],
 ) -> RayleighDampingDefinition:
     """Return explicit coefficients or fit them to two modal damping targets."""
+    declared_model = parameters.get("damping_model")
+    if declared_model is not None:
+        if not isinstance(declared_model, str) or declared_model.strip().lower() != "rayleigh":
+            raise InputValidationError(
+                "Unsupported damping model; the dynamic scope supports only Rayleigh damping."
+            )
     raw_targets = parameters.get("modal_damping_targets")
     if raw_targets is None:
         alpha = _nonnegative_float(parameters.get("rayleigh_alpha", 0.0), "rayleigh_alpha")

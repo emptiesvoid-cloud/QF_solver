@@ -36,7 +36,7 @@ def check_element_geometry(
         error = geometry_error(index, element_type, coords)
         if error is not None:
             errors.append(error)
-        if element_type in {"HEX8", "HEX20", "WEDGE6"}:
+        if element_type in {"HEX8", "HEX20", "WEDGE6", "PYRAMID5"}:
             return
     if element_type == "MITC4":
         element = MITC4Element(ShellMaterial(E=1.0, nu=0.3, t=1.0))

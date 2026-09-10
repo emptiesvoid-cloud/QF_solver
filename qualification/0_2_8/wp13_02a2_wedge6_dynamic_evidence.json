@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-02A2-WEDGE6-DYNAMIC-ENABLEMENT",
+  "work_package": "WP13-02A2",
+  "applicable_version": "0.2.8-development",
+  "baseline_sha": "894f1adb408a35e72be1df36326d956195d2874e",
+  "status": "PASS_WITH_LIMITATIONS",
+  "objective": "Enable WEDGE6 Newmark and harmonic routes without changing the FEM formulation, then validate the enablement with pure micro-runs and a connected mixed smoke.",
+  "root_cause": {
+    "classification": ["REGISTRY_BLOCK", "PREFLIGHT_BLOCK"],
+    "before": "WEDGE6 supported_analyses contained only linear_static and modal; the generic router was present but preflight stopped the model with ANALYSIS_NOT_SUPPORTED.",
+    "not_found": ["MASS_BLOCK", "DAMPING_BLOCK", "POSTPROCESSING_BLOCK", "NUMERICAL_FORMULATION_LIMITATION"],
+    "dispatch_assessment": "The Newmark and harmonic solvers already dispatch generically after preflight; no separate WEDGE6 numerical dispatch branch was required."
+  },
+  "preflight": {
+    "before": {
+      "transient_dynamic": {"status": "UNSUPPORTED_ROUTE", "reason": "ANALYSIS_NOT_SUPPORTED"},
+      "harmonic_response": {"status": "UNSUPPORTED_ROUTE", "reason": "ANALYSIS_NOT_SUPPORTED"}
+    },
+    "after": {
+      "transient_dynamic": {"status": "EXPERIMENTAL_ROUTE", "reason": "NO_REGISTRY_COMBINATION"},
+      "harmonic_response": {"status": "EXPERIMENTAL_ROUTE", "reason": "NO_REGISTRY_COMBINATION"}
+    },
+    "policy": "The routes are technically executable but remain experimental/internal candidates; no maturity or 46-combination registry record was added."
+  },
+  "enablement": {
+    "newmark_transient": true,
+    "harmonic": true,
+    "scope": "WEDGE6 isotropic_3d, small-system generic Newmark/harmonic paths only; full mixed V&V remains WP13-02B/02C.",
+    "failure_contract": "Unsupported material, load, geometry or analysis input still fails explicitly; no family substitution or silent backend fallback was introduced."
+  },
+  "wedge6_km_consistency": {
+    "stiffness_symmetry": "PASS; local K symmetry absolute error 0.0",
+    "mass_symmetry": "PASS; local M symmetry absolute error 0.0",
+    "mass_positive": "PASS; constrained-free local mass minimum eigenvalue 108.33333333333312",
+    "mass_conservation": "PASS; local translational mass sum 23400.0 kg across three DOFs",
+    "rigid_body_consistency": "PASS; maximum local K rigid-mode residual 4.81e-18 relative",
+    "modal_consistency": "PASS; production WEDGE6 modal route frequencies 592.6962413580521, 767.0889844558105 and 887.067015908844 Hz; maximum relative modal residual 1.348186910491594e-14",
+    "formulation_reused": true
+  },
+  "pure_wedge6_newmark": {
+    "status": "PASS_MICRO_RUN",
+    "model": "One WEDGE6, fixed lower triangular face, first dense K/M mode as initial displacement, zero external load, zero Rayleigh damping.",
+    "first_frequency_hz": 592.6962413580519,
+    "dt_levels": [
+      {"points_per_period": 20, "oracle_rms": 0.11805653205513823, "amplitude_error": 0.0058326479444055, "phase_error_rad": 0.102676436337607, "residual": 1.8438028419590785e-10, "energy_drift": 8.07785075983156e-15, "status": "PASS_SOLVER_CONVERGED_CHARACTERIZATION"},
+      {"points_per_period": 40, "oracle_rms": 0.02973404668963452, "amplitude_error": 0.0011341926249226, "phase_error_rad": 0.0257959536855123, "residual": 8.662531810406657e-10, "energy_drift": 1.7670298537131536e-14, "status": "PASS_SOLVER_CONVERGED_CHARACTERIZATION"},
+      {"points_per_period": 80, "oracle_rms": 0.0074460358528009255, "amplitude_error": 0.0002635002098816, "phase_error_rad": 0.0064569814673407, "residual": 3.412357626330238e-09, "energy_drift": 9.508303498551732e-14, "status": "PASS_FINE_GATE"},
+      {"points_per_period": 160, "oracle_rms": 0.0018622704638753987, "amplitude_error": 0.0000646537211656, "phase_error_rad": 0.0016147434957409, "residual": 1.6011364102702275e-08, "energy_drift": 3.290041299056396e-13, "status": "PASS_FINE_GATE"}
+    ],
+    "dt_convergence_displacement_relative_80_to_160": 7.808552557262672e-05,
+    "replay_displacement_relative": 0.0,
+    "replay_energy_relative": 0.0,
+    "oracle": "Independent dense generalized K/M eigenpair and closed-form first-mode oscillator; no production Newmark loop reused.",
+    "interpretation": "Coarse levels are retained as convergence characterization; the frozen 1% amplitude/RMS and 0.02 rad phase gates pass at the declared fine levels 80 and 160. This is a route smoke, not a qualification decision."
+  },
+  "pure_wedge6_harmonic": {
+    "status": "PASS_MICRO_RUN",
+    "model": "One WEDGE6, fixed lower triangular face, unit nodal UZ load at node 4, 2% first-mode mass-proportional damping.",
+    "frequency_hz": [0.0, 296.34812067902595, 563.0614292901492, 592.6962413580519, 622.3310534259546, 1185.3924827161038],
+    "oracle": "Independent dense complex reduced solve at every frequency using K+i*omega*C-omega^2*M.",
+    "maximum_relative_response_error": 2.9336072909402147e-16,
+    "maximum_amplitude_error": 2.9336072909402147e-16,
+    "maximum_phase_error_rad": 0.0,
+    "maximum_relative_residual": 1.919738026412448e-15,
+    "static_limit": "PASS",
+    "off_resonance": "PASS",
+    "near_resonance": "PASS",
+    "replay_response_relative": 0.0
+  },
+  "mixed_smoke": {
+    "model": "Existing connected compact elbow: 3 TET4, 2 WEDGE6 and 1 HEX8, 48 translational DOF, one connected component.",
+    "family_counts": {"TET4": 3, "WEDGE6": 2, "HEX8": 1},
+    "K_nnz": 1096,
+    "M_nnz": 396,
+    "mechanical_path": "LOAD -> TET4 -> WEDGE6 -> HEX8 -> SUPPORT",
+    "newmark": {"status": "PASS", "steps": 160, "max_relative_dynamic_residual": 8.037300214492003e-11, "max_relative_energy_drift": 5.90435087000311e-14, "all_families_present": true},
+    "harmonic": {"status": "PASS", "frequency_count": 4, "max_relative_residual": 4.4669817151815393e-14, "all_families_present": true},
+    "interface_transfer": "SMOKE_PASS through shared-node generic assembly; no family was dropped.",
+    "silent_fallback": false,
+    "note": "This is dispatch/assembly smoke evidence only; mixed dynamic amplitude/phase and full interface V&V remain 02B/02C."
+  },
+  "targeted_checks": {
+    "pytest": "PASS; 29 targeted tests passed, 1 skipped (including 5 new WP13-02A2 checks)",
+    "preflight_before_after": "PASS; expected status transition recorded",
+    "pure_newmark_micro_run": "PASS",
+    "pure_harmonic_micro_run": "PASS",
+    "mixed_newmark_smoke": "PASS",
+    "mixed_harmonic_smoke": "PASS",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "full_test_suite": "DEFERRED_TO_WP13_FINAL_GATE"
+  },
+  "integrity": {
+    "numerical_source_changed": false,
+    "formulation_changed": false,
+    "maturity_changed": false,
+    "evidence_0_2_7_changed": false,
+    "wp13_02a_gates_changed": false,
+    "full_mixed_campaign_started": false,
+    "release_performed": false
+  },
+  "decision": {
+    "wp13_02a2_status": "PASS_WITH_LIMITATIONS",
+    "wedge6_dynamic_status": "EXPERIMENTAL_INTERNAL_ROUTE_CANDIDATE",
+    "ready_for_wp13_02b": true,
+    "ready_for_wp13_02c": true,
+    "blockers": "No enablement blocker remains. Full Newmark/harmonic mixed V&V, independent gates and Owner decisions remain mandatory.",
+    "recommended_next_step": "Run WP13-02B against the frozen Newmark contract, then WP13-02C against the frozen harmonic contract; do not alter maturity records in either campaign."
+  }
+}

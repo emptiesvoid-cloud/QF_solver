@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP04-OWNER-GATE-FINAL",
+  "work_package": "WP04",
+  "applicable_version": "0.2.8-development",
+  "audited_commit": "0496467120997b0c23f6817eb2f6e76eeda698d8",
+  "status": "CLOSED_WITH_FOUR_APPROVED_PROMOTIONS",
+  "authorization": {
+    "source": "Explicit project-owner instruction in the associated task.",
+    "owner_identity": null,
+    "identity_note": "No personal identity or signature is inferred by this record."
+  },
+  "technical_evidence": [
+    {
+      "path": "qualification/0_2_8/wp04_mitc_vnv.json",
+      "sha256": "2857d08589217840911e687697589b5c4ae0236527e684e90fdb411233935a2c"
+    },
+    {
+      "path": "qualification/0_2_8/wp04_maturity_matrix.json",
+      "sha256": "17ed37d57d28245d83466feab07aab58d20788cb91b6686a436ec2ae742f8384"
+    },
+    {
+      "path": "docs/verification/0_2_8/wp04_mitc_vnv.md",
+      "sha256": "57539d2e9f600881d2c555ca2e3a3c9f4a56945a021239711698b50240a86961"
+    }
+  ],
+  "audit_checks": {
+    "predeclared_scope": "PASS",
+    "oracle_independence_and_validity": "PASS_WITH_LIMITATIONS",
+    "frozen_tolerances": "PASS",
+    "static_invariants_and_patch_checks": "PASS",
+    "dynamic_amplitude_phase_checks": "PASS_WITH_LIMITATIONS",
+    "energy_checks": "PASS",
+    "convergence": "PASS_WITH_LIMITATIONS",
+    "deterministic_replays": "PASS",
+    "claim_evidence_coherence": "PASS",
+    "opportunistic_numerical_core_change": "NOT_FOUND",
+    "historical_0_2_7_evidence_integrity": "PASS",
+    "source_registry_reconciliation": "PASS"
+  },
+  "decision_policy": "APPROVE_WITH_LIMITATIONS applies only to the exact declared WP04 scopes. It is not a universal element, shell-family, damping, nonlinear, curved-shell or external-correlation claim.",
+  "decisions": {
+    "MITC3_STATIC": {
+      "owner_decision": "APPROVE_WITH_LIMITATIONS",
+      "promotion_applied": true,
+      "resulting_maturity": "QUALIFIED_BOUNDED",
+      "evidence_case": "MITC3_STATIC",
+      "limitations": [
+        "Isotropic MITC3 linear static, small-displacement/small-rotation, executed patch, equilibrium, energy, orientation, permutation, thickness and locking scope only.",
+        "Cook, Scordelis and pinched values remain bounded reference trends; composite, nonlinear, contact and dynamic MITC3 remain excluded."
+      ]
+    },
+    "MITC3_MODAL": {
+      "owner_decision": "REJECT",
+      "promotion_applied": false,
+      "resulting_maturity": "EXPERIMENTAL",
+      "rejected_gate": "independent executable shell modal oracle",
+      "limitations": ["The inherited same-assembled-model evidence is not sufficient for route-level promotion."]
+    },
+    "MITC3_NEWMARK": {
+      "owner_decision": "REJECT",
+      "promotion_applied": false,
+      "resulting_maturity": "EXPERIMENTAL",
+      "rejected_gate": "independent executable same-mesh transient shell oracle",
+      "limitations": ["Temporal refinement alone is not accepted as an independent element/oracle qualification."]
+    },
+    "MITC3_HARMONIC": {
+      "owner_decision": "REJECT",
+      "promotion_applied": false,
+      "resulting_maturity": "EXPERIMENTAL",
+      "rejected_gate": "independent executable same-mesh shell FRF oracle",
+      "limitations": ["Internal harmonic evidence does not close the independent shell FRF requirement."]
+    },
+    "MITC4_STATIC": {
+      "owner_decision": "APPROVE_WITH_LIMITATIONS",
+      "promotion_applied": true,
+      "resulting_maturity": "QUALIFIED_BOUNDED",
+      "evidence_case": "MITC4_STATIC",
+      "limitations": [
+        "Isotropic constant-thickness MITC4 linear static, small-displacement/small-rotation, executed mechanics, patch, equilibrium, drilling and reference-mesh scope only.",
+        "No variable thickness, composite, nonlinear, contact, buckling or large-rotation claim; Cook remains a bounded trend warning."
+      ]
+    },
+    "MITC4_MODAL": {
+      "owner_decision": "REJECT",
+      "promotion_applied": false,
+      "resulting_maturity": "EXPERIMENTAL",
+      "rejected_gate": "relative residual",
+      "observed_value": 2.6317020430528298e-08,
+      "predeclared_limit": 1.0e-08,
+      "limitations": ["No tolerance relaxation or numerical-core change is authorized."]
+    },
+    "MITC4_NEWMARK": {
+      "owner_decision": "APPROVE_WITH_LIMITATIONS",
+      "promotion_applied": true,
+      "resulting_maturity": "QUALIFIED_BOUNDED",
+      "evidence_case": "MITC4_NEWMARK",
+      "limitations": [
+        "Verified one-mode, undamped free-vibration Newmark average-acceleration temporal scope with the declared 20/40/80 steps-per-period study only.",
+        "The spatial mode is from QF Solver; forced, nonlinear, broadband, composite and curved-dynamic claims remain excluded."
+      ]
+    },
+    "MITC4_HARMONIC": {
+      "owner_decision": "APPROVE_WITH_LIMITATIONS",
+      "promotion_applied": true,
+      "resulting_maturity": "QUALIFIED_BOUNDED",
+      "evidence_case": "MITC4_HARMONIC",
+      "limitations": [
+        "Verified first-mode, seven-frequency, mass-proportional damping FRF scope only.",
+        "Broadband coupling, thick-shell, composite, nonlinear and alternate damping-model claims remain excluded."
+      ]
+    }
+  },
+  "registry_reconciliation": {
+    "source_path": "qualification/0_2_7/capability_registry_v2.json",
+    "source_combination_count": 46,
+    "source_counts": {
+      "QUALIFIED_BOUNDED": 20,
+      "EXPERIMENTAL": 25,
+      "NOT_QUALIFIED": 1
+    },
+    "applied_wp03_delta": {
+      "QUALIFIED_BOUNDED": 7,
+      "EXPERIMENTAL": 1,
+      "NOT_QUALIFIED": 0
+    },
+    "applied_wp04_delta": {
+      "QUALIFIED_BOUNDED": 4,
+      "EXPERIMENTAL": 4,
+      "NOT_QUALIFIED": 0
+    },
+    "final_counts": {
+      "QUALIFIED_BOUNDED": 31,
+      "EXPERIMENTAL": 14,
+      "NOT_QUALIFIED": 1,
+      "TOTAL": 46
+    },
+    "identity_check": "31 + 14 + 1 = 46",
+    "not_qualified_combination": "COMB-HEX8-linear_buckling",
+    "wedge6_static_state": "EXPERIMENTAL",
+    "wedge6_is_not_not_qualified": true
+  },
+  "final_matrix": "qualification/0_2_8/wp04_maturity_matrix.json",
+  "documentation": "docs/verification/0_2_8/wp04_owner_gate_final.md",
+  "summary": {
+    "approved_with_limitations": 4,
+    "rejected_promotions": 4,
+    "qualified_bounded_global": 31,
+    "experimental_global": 14,
+    "not_qualified_global": 1,
+    "total_global": 46,
+    "not_qualified_combination": "COMB-HEX8-linear_buckling",
+    "wedge6_static_global": "EXPERIMENTAL"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP10-HEX8-SRI-OWNER-GATE",
+  "work_package": "WP10",
+  "source_sha": "a4eb1e0dd8eb5218aeb8d23e917ddeec44f88c6b",
+  "decision": "APPROVE_EXPERIMENTAL_BOUNDED",
+  "final_status": "EXPERIMENTAL_BOUNDED",
+  "public_exposure": {
+    "status": "APPROVED_AS_SEPARATE_EXPERIMENTAL_CAPABILITY",
+    "standard_hex8_replaced": false,
+    "element_analysis_registry_46_changed": false,
+    "public_descriptor_entry": "separate opt-in research capability only"
+  },
+  "scope": "HEX8-SRI; linear static only; isotropic small-strain elasticity; structured bending cases in the executed domain; documented locking reduction only.",
+  "audit": {
+    "formulation_valid": true,
+    "decomposition": "deviatoric 2x2x2 plus volumetric 1x1x1",
+    "locking_reduction": {
+      "nu_0_30": 0.760086780505788,
+      "nu_0_4999": 0.6189528045408431,
+      "gate": 0.5
+    },
+    "rank_and_zero_energy": "PASS; six rigid-body null modes and no additional null mode in regular/distorted probes",
+    "stability": "PASS",
+    "mesh_convergence": "PASS; SRI error non-increasing at levels 4, 8 and 16",
+    "energy": "PASS_WITH_LIMITATIONS; local energy identity passes, global Timoshenko error remains bounded and case-specific",
+    "distortion": "PASS_BOUNDED",
+    "oracle": "SUFFICIENT_FOR_EXPERIMENTAL_SCOPE; independent Timoshenko oracle, no external correlation claimed",
+    "affine_nodal_force_action": "LIMITATION; relative diagnostic 0.8749534857084776",
+    "replays": "PASS_2_DETERMINISTIC",
+    "non_regression": "PASS; standard HEX8 source unchanged"
+  },
+  "limitations": [
+    "No production-use claim.",
+    "No universal incompressibility or universal locking-cure claim.",
+    "No general affine patch-force qualification.",
+    "No arbitrary-distortion, nonlinear, dynamic, contact, HEX8R or hourglass-control scope.",
+    "No external correlation claim."
+  ],
+  "integrity": {
+    "numerical_source_changed": false,
+    "hex8_standard_changed": false,
+    "historical_0_2_7_evidence_changed": false,
+    "wp07_wp09_claims_changed": false
+  },
+  "owner_gate_required_for": "Any future maturity promotion or expansion beyond this experimental bounded record"
+}

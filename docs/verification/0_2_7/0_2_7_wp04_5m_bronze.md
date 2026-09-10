@@ -33,7 +33,7 @@ not change WP02 tolerances or the FEM formulation.
 - No rank, partition, matrix, solver, preconditioner or tolerance change was made
 
 The predeclared contract is
-[`wp04_execution_contract.json`](../../../qualification/0_2_7/wp04_execution_contract.json).
+[`wp04_execution_contract.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp04_execution_contract.json).
 
 ## Workload and preflight
 
@@ -49,9 +49,9 @@ Two independent generator runs produced the same input digest:
 The preflight estimated `10,135,530,000` bytes of RAM and
 `4,090,089,600` bytes for two model recreations on the pinned Docker route;
 the preflight classification was `PASS`. The machine-readable records are
-[`wp04_preflight.json`](../../../qualification/0_2_7/wp04_runtime/wp04_preflight.json),
-[`workload_5m_run1_build.json`](../../../qualification/0_2_7/wp04_runtime/workload_5m_run1_build.json),
-and [`workload_5m_run2_build.json`](../../../qualification/0_2_7/wp04_runtime/workload_5m_run2_build.json).
+[`wp04_preflight.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp04_runtime/wp04_preflight.json),
+[`workload_5m_run1_build.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp04_runtime/workload_5m_run1_build.json),
+and [`workload_5m_run2_build.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp04_runtime/workload_5m_run2_build.json).
 
 ## Controlled stop
 
@@ -73,11 +73,11 @@ this historical run. S1 installs opt-in rank-zero progress telemetry for the
 supervised retry; it does not alter this historical result.
 
 The original time-budget observation is retained in
-[`wp04_resource_guard_audit.json`](../../../qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json)
+[`wp04_resource_guard_audit.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp04_runtime/wp04_resource_guard_audit.json)
 and the corrected forensic classification is recorded in
-[`wp04_forensic_audit.json`](../../../qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json)
+[`wp04_forensic_audit.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json)
 and summarized in
-[`wp04_summary.json`](../../../qualification/0_2_7/wp04_runtime/wp04_summary.json).
+[`wp04_summary.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_7/wp04_runtime/wp04_summary.json).
 
 ## Boundary and next step
 

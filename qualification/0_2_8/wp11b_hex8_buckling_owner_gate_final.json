@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP11B-HEX8-BUCKLING-OWNER-GATE-FINAL",
+  "work_package": "WP11B",
+  "audited_commit": "a631a96838a55e50cf057ade77e816ce8e50be95",
+  "status": "CLOSED_WITH_APPROVE_EXPERIMENTAL",
+  "owner_decision": "APPROVE_EXPERIMENTAL",
+  "final_status": "EXPERIMENTAL",
+  "scope": "HEX8 linear eigenvalue buckling; linear-elastic prestress; valid bounded cantilever geometries; explicitly tested clamped solid-block boundary condition; first positive mode; exploratory/research use only.",
+  "audit_checks": {
+    "new_contract_predeclared": "PASS",
+    "benchmark_selected_before_results": "PASS",
+    "benchmark_physical_relevance": "PASS_WITH_LIMITATIONS",
+    "E_and_preload_scaling": "PASS",
+    "geometry_sensitivity": "PASS",
+    "mode_plausibility": "PASS; UZ dominant with lateral fraction about 0.984",
+    "mode_residuals": "PASS",
+    "refinement_characterization": "PASS_WITH_LIMITATIONS; positive decreasing factors, not general convergence",
+    "robustness": "PASS",
+    "invalid_geometry_rejection": "PASS",
+    "deterministic_replays": "PASS_2",
+    "external_oracle": "NOT_AVAILABLE; not required for this experimental status",
+    "WP06_failures_preserved": "PASS",
+    "claims_bounded": "PASS",
+    "opportunistic_numerical_change": "NOT_FOUND",
+    "historical_0_2_7_integrity": "PASS"
+  },
+  "evidence": {
+    "contract": "qualification/0_2_8/wp11b_hex8_buckling_experimental_contract.json",
+    "campaign": "qualification/0_2_8/wp11b_hex8_buckling_experimental_vnv.json",
+    "matrix": "qualification/0_2_8/wp11b_hex8_buckling_experimental_matrix.json",
+    "critical_factors": [41.93968580637746, 21.519985969228905, 17.864877725683325],
+    "refinement_adjacent_changes": [0.9488714289287349, 0.20459743971775624],
+    "E_scaling_ratio": 2.0008601739271086,
+    "preload_scaling_ratio": 0.4995690669085592,
+    "length_scaled_factor": 10.038186515624064,
+    "max_recomputed_eigen_residual": 1.4984977588183868e-12,
+    "replay_digest_match": true
+  },
+  "limitations": [
+    "EXPERIMENTAL does not mean QUALIFIED_BOUNDED, normal-use or production-ready.",
+    "No general Euler prediction or convergence claim is made; WP06/WP06B Euler and convergence FAIL records remain visible.",
+    "No certification, imperfections, nonlinear/post-buckling, plasticity, arbitrary-mesh, universal-accuracy, multi-mode or mixed-mesh claim.",
+    "No external correlation claim; current comparable Code_Aster/CalculiX evidence was unavailable.",
+    "HEX8R, SRI, B-bar and hourglass formulations are excluded."
+  ],
+  "registry_reconciliation": {
+    "source_registry": "qualification/0_2_7/capability_registry_v2.json",
+    "element_analysis_registry_total": 46,
+    "state_before_wp11b": {"QUALIFIED_BOUNDED": 32, "EXPERIMENTAL": 13, "NOT_QUALIFIED": 1},
+    "transition": "COMB-HEX8-linear_buckling: NOT_QUALIFIED -> EXPERIMENTAL",
+    "state_after_wp11b": {"QUALIFIED_BOUNDED": 32, "EXPERIMENTAL": 14, "NOT_QUALIFIED": 0, "TOTAL": 46},
+    "counts_consistent": true
+  },
+  "integrity": {
+    "numerical_source_changed": false,
+    "wp06_evidence_rewritten": false,
+    "wp06b_evidence_rewritten": false,
+    "historical_0_2_7_evidence_changed": false,
+    "maturity_claim_bounded": true
+  },
+  "owner_gate_required_for": "Any future promotion beyond EXPERIMENTAL or any scope expansion"
+}

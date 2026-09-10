@@ -1,0 +1,184 @@
+{
+  "schema_version": "1.0",
+  "work_package": "WP13-02D",
+  "status": "DELIVERED_EXPERIMENTAL_BOUNDED",
+  "source_sha": "bd8bec5f942ddaf4d5b60823f721ad7599e50ebf",
+  "contract": {
+    "id": "WP13-02-MIXED-DYNAMICS-001",
+    "sha256": "27705f5218a5adc5c929ef26794a2d6ded9024aff8f7d6f52b0601525f8d1f1f",
+    "path": "qualification/0_2_8/wp13_02_mixed_dynamics_contract.json",
+    "created_before_run": true,
+    "unchanged": true,
+    "gates_unchanged": true
+  },
+  "owner_gate": {
+    "source": "WP13-02C Owner Gate audited at bd8bec5f942ddaf4d5b60823f721ad7599e50ebf",
+    "newmark_decision": "APPROVE_EXPERIMENTAL_BOUNDED",
+    "harmonic_decision": "APPROVE_EXPERIMENTAL_BOUNDED"
+  },
+  "evidence": {
+    "manifest": "qualification/0_2_8/wp13_02_mixed_dynamics_vnv/final/manifest.json",
+    "raw_npz": "qualification/0_2_8/wp13_02_mixed_dynamics_vnv/final/wp13_02_mixed_dynamics_arrays.npz",
+    "raw_arrays": 119,
+    "archive_sha256": "141016b969838350bb0099fe0af7f861265cfd58065b632be9d434489d692c48",
+    "semantic_digest": "7ab0dc50a9ef1872f26d0a0dd16935faa57e4728d76858aa88b998307f0b2d38"
+  },
+  "registry_separation": {
+    "element_analysis_source": "qualification/0_2_8/consolidated_registry.json::combination_registry.records",
+    "element_analysis_registry_changed": false,
+    "expected_live_counts": {
+      "QUALIFIED_BOUNDED": 32,
+      "EXPERIMENTAL": 14,
+      "NOT_QUALIFIED": 0,
+      "TOTAL": 46
+    },
+    "mixed_workflow_registry_additions_only": true
+  },
+  "workflows": [
+    {
+      "workflow_id": "MIXED-TET4-WEDGE6-HEX8-NEWMARK-LINEAR",
+      "status": "EXPERIMENTAL_BOUNDED",
+      "public_wording": "Experimental bounded mixed TET4/WEDGE6/HEX8 Newmark linear dynamics within the documented timestep, damping, loading and model scope.",
+      "approved_scope": [
+        "connected serial TET4/WEDGE6/HEX8",
+        "linear dynamics",
+        "Newmark gamma=0.5",
+        "Newmark beta=0.25",
+        "Rayleigh mass-proportional damping",
+        "zeta1 = 0.02",
+        "alpha = 24.580812795885436",
+        "betaK = 0",
+        "documented half-sine load",
+        "T1/160 accepted timestep",
+        "documented model/BC/load scope"
+      ],
+      "limitations": [
+        "serial only",
+        "linear only",
+        "TET4/WEDGE6/HEX8 only",
+        "documented Rayleigh damping only",
+        "gamma=0.5 beta=0.25 tested scope",
+        "T1/160 only as acceptance",
+        "T1/40 and T1/80 remain characterization",
+        "no universal timestep convergence",
+        "no arbitrary damping",
+        "no nonlinear dynamics",
+        "no contact dynamics",
+        "no impact",
+        "no MPI/distributed dynamics"
+      ],
+      "contract_id": "WP13-02-MIXED-DYNAMICS-001",
+      "contract_sha256": "27705f5218a5adc5c929ef26794a2d6ded9024aff8f7d6f52b0601525f8d1f1f",
+      "owner_decision": "APPROVE_EXPERIMENTAL_BOUNDED",
+      "owner_gate_source": "WP13-02C Owner Gate audited at bd8bec5f942ddaf4d5b60823f721ad7599e50ebf",
+      "evidence_references": {
+        "manifest": "qualification/0_2_8/wp13_02_mixed_dynamics_vnv/final/manifest.json",
+        "raw_npz": "qualification/0_2_8/wp13_02_mixed_dynamics_vnv/final/wp13_02_mixed_dynamics_arrays.npz",
+        "raw_arrays": 119,
+        "archive_sha256": "141016b969838350bb0099fe0af7f861265cfd58065b632be9d434489d692c48",
+        "semantic_digest": "7ab0dc50a9ef1872f26d0a0dd16935faa57e4728d76858aa88b998307f0b2d38",
+        "failure_cases": "10/10 PASS",
+        "silent_fallback": "NO",
+        "replays": "Newmark 2/2 PASS"
+      },
+      "evidence_metrics": {
+        "max_newmark_residual": 6.660679683356711e-14,
+        "mean_newmark_residual": 2.8010249303402876e-14,
+        "displacement_history_error": 2.9477472126737835e-13,
+        "velocity_history_error": 3.0764446166597944e-13,
+        "acceleration_history_error": 3.3329950942168544e-12,
+        "peak_response_error": 2.484188956772641e-15,
+        "energy_drift": 5.35741144962506e-11,
+        "energy_balance_error_t1_160": 9.721714233151265e-4
+      },
+      "timestep_characterization": {
+        "T1/40": {
+          "role": "CHARACTERIZATION_ONLY",
+          "energy_balance_error": 0.0148003459428368
+        },
+        "T1/80": {
+          "role": "CHARACTERIZATION_ONLY",
+          "energy_balance_error": 0.00379449429625599
+        },
+        "T1/160": {
+          "role": "ACCEPTANCE",
+          "energy_balance_error": 9.721714233151265e-4
+        }
+      },
+      "family_participation": {
+        "TET4": 3,
+        "WEDGE6": 2,
+        "HEX8": 1,
+        "dof": 48,
+        "all_families_dynamic_participation": true
+      }
+    },
+    {
+      "workflow_id": "MIXED-TET4-WEDGE6-HEX8-HARMONIC-LINEAR",
+      "status": "EXPERIMENTAL_BOUNDED",
+      "public_wording": "Experimental bounded mixed TET4/WEDGE6/HEX8 harmonic linear response within the documented frequency, damping, loading and model scope.",
+      "approved_scope": [
+        "connected serial TET4/WEDGE6/HEX8",
+        "linear harmonic response",
+        "documented Rayleigh damping",
+        "frozen 12-frequency sweep",
+        "range 0 to 2*f1",
+        "documented load/support/model scope"
+      ],
+      "limitations": [
+        "serial only",
+        "linear only",
+        "TET4/WEDGE6/HEX8 only",
+        "documented damping only",
+        "frozen tested sweep only",
+        "no arbitrary frequency range claim",
+        "no universal resonance prediction",
+        "no nonlinear response",
+        "no contact",
+        "no MPI",
+        "no modal-reduction claim"
+      ],
+      "contract_id": "WP13-02-MIXED-DYNAMICS-001",
+      "contract_sha256": "27705f5218a5adc5c929ef26794a2d6ded9024aff8f7d6f52b0601525f8d1f1f",
+      "owner_decision": "APPROVE_EXPERIMENTAL_BOUNDED",
+      "owner_gate_source": "WP13-02C Owner Gate audited at bd8bec5f942ddaf4d5b60823f721ad7599e50ebf",
+      "evidence_references": {
+        "manifest": "qualification/0_2_8/wp13_02_mixed_dynamics_vnv/final/manifest.json",
+        "raw_npz": "qualification/0_2_8/wp13_02_mixed_dynamics_vnv/final/wp13_02_mixed_dynamics_arrays.npz",
+        "raw_arrays": 119,
+        "archive_sha256": "141016b969838350bb0099fe0af7f861265cfd58065b632be9d434489d692c48",
+        "semantic_digest": "7ab0dc50a9ef1872f26d0a0dd16935faa57e4728d76858aa88b998307f0b2d38",
+        "failure_cases": "10/10 PASS",
+        "silent_fallback": "NO",
+        "replays": "Harmonic 2/2 PASS"
+      },
+      "evidence_metrics": {
+        "max_harmonic_residual": 1.6316734048844104e-13,
+        "mean_harmonic_residual": 3.149721592171111e-14,
+        "amplitude_error_max": 2.6678160021863485e-13,
+        "phase_error_max_rad": 8.624212455288216e-13,
+        "frf_peak_hz": 107.58434119624619,
+        "modal_harmonic_consistency": "PASS"
+      },
+      "frequency_scope": {
+        "ratios_to_first_mode": [0.0, 0.25, 0.5, 0.75, 0.9, 0.98, 1.0, 1.02, 1.1, 1.25, 1.5, 2.0],
+        "range": "0 to 2*f1"
+      },
+      "family_participation": {
+        "TET4": 3,
+        "WEDGE6": 2,
+        "HEX8": 1,
+        "dof": 48,
+        "all_families_dynamic_participation": true
+      }
+    }
+  ],
+  "delivery_policy": {
+    "numerical_source_changed": false,
+    "element_formulation_changed": false,
+    "maturity_46_changed": false,
+    "evidence_0_2_7_changed": false,
+    "release_metadata_changed": false,
+    "registry_separation": "two mixed-workflow capability records; no ELEMENT_ANALYSIS record changed"
+  }
+}

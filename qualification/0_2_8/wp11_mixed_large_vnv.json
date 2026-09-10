@@ -1,0 +1,1336 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-028-WP11-MIXED-LARGE-VNV",
+  "work_package": "WP11",
+  "baseline_sha": "9ab8dc8ddfc432134436f2cf9fa2d65933adecb4",
+  "contract": "wp11_mixed_large_contract.json",
+  "command": "python scripts/run_wp11_mixed_large.py",
+  "scope": "Recorded large-scale mixed TET4/WEDGE6/HEX8 evidence for this specific conforming linear-static route and environment.",
+  "small_baseline": {
+    "label": "small_baseline",
+    "manifest": {
+      "chains": 2,
+      "segments_per_chain": 1,
+      "components": 2,
+      "nodes": 22,
+      "dof": 66,
+      "elements": 6,
+      "elements_by_family": {
+        "TET4": 2,
+        "WEDGE6": 2,
+        "HEX8": 2
+      },
+      "interfaces": {
+        "triangular": 2,
+        "quadrilateral": 2
+      },
+      "fixed_nodes_per_chain": 7,
+      "loads_per_chain": 2,
+      "material": {
+        "type": "isotropic_3d",
+        "E": 210000000000.0,
+        "nu": 0.3,
+        "density": 7800.0
+      },
+      "input_digest": "e15be04639374a53768aa4366913ff127c80f4fd5776a29c64f2672c4290c3eb",
+      "interface_records_detected": 30
+    },
+    "preparation": {
+      "seconds": 0.0002508999314159155,
+      "memory": {
+        "source": "psutil",
+        "current_rss_before_bytes": 78520320,
+        "current_rss_after_bytes": 78553088,
+        "current_rss_delta_bytes": 32768,
+        "peak_rss_before_bytes": 78524416,
+        "peak_rss_after_bytes": 78557184,
+        "peak_rss_delta_bytes": 32768
+      }
+    },
+    "replays": [
+      {
+        "label": "replay_1",
+        "status": "PASS",
+        "ndof": 66,
+        "node_count": 22,
+        "element_count": 6,
+        "solver_method": "cg",
+        "solver_backend": "scipy",
+        "preconditioner": "jacobi",
+        "iterations": 12,
+        "relative_residual_norm": 2.1249497231820666e-12,
+        "equilibrium": {
+          "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs",
+          "load_factor": 1.0,
+          "free_residual_norm": 2.1249497231820666e-12,
+          "free_relative_residual": 2.1249497231820666e-12,
+          "fixed_reaction_norm": 1.4029084704809742,
+          "ground_spring_reaction_norm": 0.0,
+          "external_load_norm": 1.0,
+          "internal_force_norm": 1.722832602589555,
+          "displacement_norm": 4.308752772565331e-11,
+          "external_work_at_final_load": 3.1583287747118783e-11,
+          "secant_internal_energy": 1.5791643873556984e-11,
+          "linear_energy_identity_relative_error": 4.814449659000044e-24,
+          "external_resultant": [
+            0.0,
+            0.0,
+            -2.0
+          ],
+          "reaction_resultant": [
+            -2.4726887204451486e-12,
+            -2.8418239983452054e-14,
+            1.999999999999998
+          ],
+          "force_imbalance": [
+            -2.4726887204451486e-12,
+            -2.8418239983452054e-14,
+            -1.9984014443252818e-15
+          ],
+          "force_balance_relative_error": 1.2364264129123047e-12,
+          "external_moment_about_origin": [
+            -2.0,
+            2.0,
+            0.0
+          ],
+          "reaction_moment_about_origin": [
+            2.0000000000000107,
+            -2.0000000000012443,
+            6.866729407306593e-13
+          ],
+          "moment_imbalance_about_origin": [
+            1.0658141036401503e-14,
+            -1.2443379659998755e-12,
+            6.866729407306593e-13
+          ],
+          "moment_balance_relative_error": 5.024950618077608e-13,
+          "constraint_forces": {
+            "equation_count": 42,
+            "kinematic_equation_count": 0,
+            "fixed_equation_count": 42,
+            "constraint_violation_norm": 0.0,
+            "constraint_violation_max_abs": 0.0,
+            "equilibrium_relative_error": 1.5146745318678607e-12,
+            "lsmr_stop_code": 1,
+            "sign_convention": "K u - f + C.T lambda = 0",
+            "fixed_support_reaction_norm": 1.4029084704809742,
+            "largest_multipliers": [
+              {
+                "index": 6,
+                "name": "fixed_9",
+                "kind": "fixed",
+                "multiplier": 0.506940266097001,
+                "violation": 0.0
+              },
+              {
+                "index": 27,
+                "name": "fixed_42",
+                "kind": "fixed",
+                "multiplier": 0.5069402660966189,
+                "violation": 0.0
+              },
+              {
+                "index": 23,
+                "name": "fixed_35",
+                "kind": "fixed",
+                "multiplier": -0.45055620798125606,
+                "violation": 0.0
+              },
+              {
+                "index": 2,
+                "name": "fixed_2",
+                "kind": "fixed",
+                "multiplier": -0.45055620798106594,
+                "violation": 0.0
+              },
+              {
+                "index": 21,
+                "name": "fixed_33",
+                "kind": "fixed",
+                "multiplier": -0.3498786224653552,
+                "violation": 0.0
+              },
+              {
+                "index": 0,
+                "name": "fixed_0",
+                "kind": "fixed",
+                "multiplier": -0.34987862246489676,
+                "violation": 0.0
+              },
+              {
+                "index": 36,
+                "name": "fixed_54",
+                "kind": "fixed",
+                "multiplier": -0.34028185603348465,
+                "violation": 0.0
+              },
+              {
+                "index": 15,
+                "name": "fixed_21",
+                "kind": "fixed",
+                "multiplier": -0.3402818560332404,
+                "violation": 0.0
+              },
+              {
+                "index": 18,
+                "name": "fixed_27",
+                "kind": "fixed",
+                "multiplier": 0.30286638042321734,
+                "violation": 0.0
+              },
+              {
+                "index": 39,
+                "name": "fixed_60",
+                "kind": "fixed",
+                "multiplier": 0.3028663804229693,
+                "violation": 0.0
+              },
+              {
+                "index": 8,
+                "name": "fixed_11",
+                "kind": "fixed",
+                "multiplier": -0.2685305849323476,
+                "violation": 0.0
+              },
+              {
+                "index": 29,
+                "name": "fixed_44",
+                "kind": "fixed",
+                "multiplier": -0.26853058493213955,
+                "violation": 0.0
+              },
+              {
+                "index": 38,
+                "name": "fixed_56",
+                "kind": "fixed",
+                "multiplier": -0.23832284786470703,
+                "violation": 0.0
+              },
+              {
+                "index": 17,
+                "name": "fixed_23",
+                "kind": "fixed",
+                "multiplier": -0.2383228478645026,
+                "violation": 0.0
+              },
+              {
+                "index": 3,
+                "name": "fixed_6",
+                "kind": "fixed",
+                "multiplier": -0.14537813668230862,
+                "violation": 0.0
+              },
+              {
+                "index": 24,
+                "name": "fixed_39",
+                "kind": "fixed",
+                "multiplier": -0.14537813668225286,
+                "violation": 0.0
+              },
+              {
+                "index": 30,
+                "name": "fixed_48",
+                "kind": "fixed",
+                "multiplier": 0.10796266107143142,
+                "violation": 0.0
+              },
+              {
+                "index": 9,
+                "name": "fixed_15",
+                "kind": "fixed",
+                "multiplier": 0.10796266107138978,
+                "violation": 0.0
+              },
+              {
+                "index": 7,
+                "name": "fixed_10",
+                "kind": "fixed",
+                "multiplier": -0.08855527831239363,
+                "violation": 0.0
+              },
+              {
+                "index": 28,
+                "name": "fixed_43",
+                "kind": "fixed",
+                "multiplier": -0.08855527831228655,
+                "violation": 0.0
+              }
+            ],
+            "generalized_force_norm": 1.4029084704809742,
+            "resultant": [
+              2.4726887204451486e-12,
+              2.8418239983452054e-14,
+              -1.999999999999998
+            ],
+            "moment_about_origin": [
+              -2.0000000000000107,
+              2.0000000000012443,
+              -6.866729407306593e-13
+            ],
+            "residual_resultant": [
+              0.0,
+              1.8041124150158794e-16,
+              2.000000000000001
+            ],
+            "residual_moment_about_origin": [
+              2.0,
+              -1.9999999999999998,
+              1.1102230246251565e-16
+            ],
+            "global_force_closure_relative_error": 1.2364278914894166e-12,
+            "global_moment_closure_relative_error": 5.02544834293607e-13
+          }
+        },
+        "energy": {
+          "external_work": 3.1583287747118783e-11,
+          "secant_internal_energy": 1.5791643873559392e-11,
+          "linear_energy_identity_relative_error": 0.0
+        },
+        "matrix_audits": [
+          {
+            "name": "stiffness",
+            "shape": [
+              66,
+              66
+            ],
+            "nnz": 1544,
+            "density": 0.3544536271808999,
+            "data_norm": 961730910228.2003,
+            "symmetry_relative_error": 2.3128419823773127e-17,
+            "is_symmetric": true,
+            "diagonal_min": 13461538461.538462,
+            "diagonal_max": 190705128205.1282,
+            "rank_estimate": 54,
+            "eigenvalue_min": -7.431064102812122e-05,
+            "eigenvalue_max": 434928239617.78174,
+            "condition_estimate": 56.32655321248039,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "reduced_stiffness",
+            "shape": [
+              24,
+              24
+            ],
+            "nnz": 288,
+            "density": 0.5,
+            "data_norm": 454264596864.5334,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 49358974358.97435,
+            "diagonal_max": 150320512820.51282,
+            "rank_estimate": 24,
+            "eigenvalue_min": 11474845682.907412,
+            "eigenvalue_max": 216760264482.6731,
+            "condition_estimate": 18.89003743253408,
+            "positive_definite_estimate": true
+          }
+        ],
+        "resource_estimate": {
+          "nnz": 288,
+          "sparse_memory_bytes": 3556,
+          "direct_memory_estimate_bytes": 35560,
+          "direct_memory_budget_bytes": null,
+          "direct_budget_exceeded": false,
+          "dense_memory_estimate_bytes": 4608
+        },
+        "timing_seconds": {
+          "assembly": 0.010290100006386638,
+          "linear_solve": 0.0014563000295311213,
+          "total": 0.03196750010829419,
+          "validation_constraints_postprocessing": 0.02022110007237643
+        },
+        "memory": {
+          "source": "psutil",
+          "current_rss_before_bytes": 78561280,
+          "current_rss_after_bytes": 79753216,
+          "current_rss_delta_bytes": 1191936,
+          "peak_rss_before_bytes": 78565376,
+          "peak_rss_after_bytes": 79757312,
+          "peak_rss_delta_bytes": 1191936
+        },
+        "displacement_digest": "3b3467a1ca02557374bf36272aafd276a53d8871c7bd93673d4dac71d7d811ee",
+        "physics_digest": "0aefc7e7bc72edae4c1a44b6b8e0d0aafea7bcb751561eb02e3279848cb8c058",
+        "finite_solution": true
+      },
+      {
+        "label": "replay_2",
+        "status": "PASS",
+        "ndof": 66,
+        "node_count": 22,
+        "element_count": 6,
+        "solver_method": "cg",
+        "solver_backend": "scipy",
+        "preconditioner": "jacobi",
+        "iterations": 12,
+        "relative_residual_norm": 2.1249497231820666e-12,
+        "equilibrium": {
+          "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs",
+          "load_factor": 1.0,
+          "free_residual_norm": 2.1249497231820666e-12,
+          "free_relative_residual": 2.1249497231820666e-12,
+          "fixed_reaction_norm": 1.4029084704809742,
+          "ground_spring_reaction_norm": 0.0,
+          "external_load_norm": 1.0,
+          "internal_force_norm": 1.722832602589555,
+          "displacement_norm": 4.308752772565331e-11,
+          "external_work_at_final_load": 3.1583287747118783e-11,
+          "secant_internal_energy": 1.5791643873556984e-11,
+          "linear_energy_identity_relative_error": 4.814449659000044e-24,
+          "external_resultant": [
+            0.0,
+            0.0,
+            -2.0
+          ],
+          "reaction_resultant": [
+            -2.4726887204451486e-12,
+            -2.8418239983452054e-14,
+            1.999999999999998
+          ],
+          "force_imbalance": [
+            -2.4726887204451486e-12,
+            -2.8418239983452054e-14,
+            -1.9984014443252818e-15
+          ],
+          "force_balance_relative_error": 1.2364264129123047e-12,
+          "external_moment_about_origin": [
+            -2.0,
+            2.0,
+            0.0
+          ],
+          "reaction_moment_about_origin": [
+            2.0000000000000107,
+            -2.0000000000012443,
+            6.866729407306593e-13
+          ],
+          "moment_imbalance_about_origin": [
+            1.0658141036401503e-14,
+            -1.2443379659998755e-12,
+            6.866729407306593e-13
+          ],
+          "moment_balance_relative_error": 5.024950618077608e-13,
+          "constraint_forces": {
+            "equation_count": 42,
+            "kinematic_equation_count": 0,
+            "fixed_equation_count": 42,
+            "constraint_violation_norm": 0.0,
+            "constraint_violation_max_abs": 0.0,
+            "equilibrium_relative_error": 1.5146745318678607e-12,
+            "lsmr_stop_code": 1,
+            "sign_convention": "K u - f + C.T lambda = 0",
+            "fixed_support_reaction_norm": 1.4029084704809742,
+            "largest_multipliers": [
+              {
+                "index": 6,
+                "name": "fixed_9",
+                "kind": "fixed",
+                "multiplier": 0.506940266097001,
+                "violation": 0.0
+              },
+              {
+                "index": 27,
+                "name": "fixed_42",
+                "kind": "fixed",
+                "multiplier": 0.5069402660966189,
+                "violation": 0.0
+              },
+              {
+                "index": 23,
+                "name": "fixed_35",
+                "kind": "fixed",
+                "multiplier": -0.45055620798125606,
+                "violation": 0.0
+              },
+              {
+                "index": 2,
+                "name": "fixed_2",
+                "kind": "fixed",
+                "multiplier": -0.45055620798106594,
+                "violation": 0.0
+              },
+              {
+                "index": 21,
+                "name": "fixed_33",
+                "kind": "fixed",
+                "multiplier": -0.3498786224653552,
+                "violation": 0.0
+              },
+              {
+                "index": 0,
+                "name": "fixed_0",
+                "kind": "fixed",
+                "multiplier": -0.34987862246489676,
+                "violation": 0.0
+              },
+              {
+                "index": 36,
+                "name": "fixed_54",
+                "kind": "fixed",
+                "multiplier": -0.34028185603348465,
+                "violation": 0.0
+              },
+              {
+                "index": 15,
+                "name": "fixed_21",
+                "kind": "fixed",
+                "multiplier": -0.3402818560332404,
+                "violation": 0.0
+              },
+              {
+                "index": 18,
+                "name": "fixed_27",
+                "kind": "fixed",
+                "multiplier": 0.30286638042321734,
+                "violation": 0.0
+              },
+              {
+                "index": 39,
+                "name": "fixed_60",
+                "kind": "fixed",
+                "multiplier": 0.3028663804229693,
+                "violation": 0.0
+              },
+              {
+                "index": 8,
+                "name": "fixed_11",
+                "kind": "fixed",
+                "multiplier": -0.2685305849323476,
+                "violation": 0.0
+              },
+              {
+                "index": 29,
+                "name": "fixed_44",
+                "kind": "fixed",
+                "multiplier": -0.26853058493213955,
+                "violation": 0.0
+              },
+              {
+                "index": 38,
+                "name": "fixed_56",
+                "kind": "fixed",
+                "multiplier": -0.23832284786470703,
+                "violation": 0.0
+              },
+              {
+                "index": 17,
+                "name": "fixed_23",
+                "kind": "fixed",
+                "multiplier": -0.2383228478645026,
+                "violation": 0.0
+              },
+              {
+                "index": 3,
+                "name": "fixed_6",
+                "kind": "fixed",
+                "multiplier": -0.14537813668230862,
+                "violation": 0.0
+              },
+              {
+                "index": 24,
+                "name": "fixed_39",
+                "kind": "fixed",
+                "multiplier": -0.14537813668225286,
+                "violation": 0.0
+              },
+              {
+                "index": 30,
+                "name": "fixed_48",
+                "kind": "fixed",
+                "multiplier": 0.10796266107143142,
+                "violation": 0.0
+              },
+              {
+                "index": 9,
+                "name": "fixed_15",
+                "kind": "fixed",
+                "multiplier": 0.10796266107138978,
+                "violation": 0.0
+              },
+              {
+                "index": 7,
+                "name": "fixed_10",
+                "kind": "fixed",
+                "multiplier": -0.08855527831239363,
+                "violation": 0.0
+              },
+              {
+                "index": 28,
+                "name": "fixed_43",
+                "kind": "fixed",
+                "multiplier": -0.08855527831228655,
+                "violation": 0.0
+              }
+            ],
+            "generalized_force_norm": 1.4029084704809742,
+            "resultant": [
+              2.4726887204451486e-12,
+              2.8418239983452054e-14,
+              -1.999999999999998
+            ],
+            "moment_about_origin": [
+              -2.0000000000000107,
+              2.0000000000012443,
+              -6.866729407306593e-13
+            ],
+            "residual_resultant": [
+              0.0,
+              1.8041124150158794e-16,
+              2.000000000000001
+            ],
+            "residual_moment_about_origin": [
+              2.0,
+              -1.9999999999999998,
+              1.1102230246251565e-16
+            ],
+            "global_force_closure_relative_error": 1.2364278914894166e-12,
+            "global_moment_closure_relative_error": 5.02544834293607e-13
+          }
+        },
+        "energy": {
+          "external_work": 3.1583287747118783e-11,
+          "secant_internal_energy": 1.5791643873559392e-11,
+          "linear_energy_identity_relative_error": 0.0
+        },
+        "matrix_audits": [
+          {
+            "name": "stiffness",
+            "shape": [
+              66,
+              66
+            ],
+            "nnz": 1544,
+            "density": 0.3544536271808999,
+            "data_norm": 961730910228.2003,
+            "symmetry_relative_error": 2.3128419823773127e-17,
+            "is_symmetric": true,
+            "diagonal_min": 13461538461.538462,
+            "diagonal_max": 190705128205.1282,
+            "rank_estimate": 54,
+            "eigenvalue_min": -7.431064102812122e-05,
+            "eigenvalue_max": 434928239617.78174,
+            "condition_estimate": 56.32655321248039,
+            "positive_definite_estimate": false
+          },
+          {
+            "name": "reduced_stiffness",
+            "shape": [
+              24,
+              24
+            ],
+            "nnz": 288,
+            "density": 0.5,
+            "data_norm": 454264596864.5334,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 49358974358.97435,
+            "diagonal_max": 150320512820.51282,
+            "rank_estimate": 24,
+            "eigenvalue_min": 11474845682.907412,
+            "eigenvalue_max": 216760264482.6731,
+            "condition_estimate": 18.89003743253408,
+            "positive_definite_estimate": true
+          }
+        ],
+        "resource_estimate": {
+          "nnz": 288,
+          "sparse_memory_bytes": 3556,
+          "direct_memory_estimate_bytes": 35560,
+          "direct_memory_budget_bytes": null,
+          "direct_budget_exceeded": false,
+          "dense_memory_estimate_bytes": 4608
+        },
+        "timing_seconds": {
+          "assembly": 0.010323600028641522,
+          "linear_solve": 0.001233799965120852,
+          "total": 0.029509900021366775,
+          "validation_constraints_postprocessing": 0.0179525000276044
+        },
+        "memory": {
+          "source": "psutil",
+          "current_rss_before_bytes": 79753216,
+          "current_rss_after_bytes": 79892480,
+          "current_rss_delta_bytes": 139264,
+          "peak_rss_before_bytes": 79757312,
+          "peak_rss_after_bytes": 79896576,
+          "peak_rss_delta_bytes": 139264
+        },
+        "displacement_digest": "3b3467a1ca02557374bf36272aafd276a53d8871c7bd93673d4dac71d7d811ee",
+        "physics_digest": "0aefc7e7bc72edae4c1a44b6b8e0d0aafea7bcb751561eb02e3279848cb8c058",
+        "finite_solution": true
+      }
+    ],
+    "replay_determinism": true,
+    "interface_contract": {
+      "detected_faces": 30,
+      "expected_triangular": 2,
+      "expected_quadrilateral": 2,
+      "note": "mixed_solid_faces reports one record per cross-family shared face"
+    }
+  },
+  "mandatory_300k": {
+    "label": "mandatory_300k",
+    "manifest": {
+      "chains": 9091,
+      "segments_per_chain": 1,
+      "components": 9091,
+      "nodes": 100001,
+      "dof": 300003,
+      "elements": 27273,
+      "elements_by_family": {
+        "TET4": 9091,
+        "WEDGE6": 9091,
+        "HEX8": 9091
+      },
+      "interfaces": {
+        "triangular": 9091,
+        "quadrilateral": 9091
+      },
+      "fixed_nodes_per_chain": 7,
+      "loads_per_chain": 2,
+      "material": {
+        "type": "isotropic_3d",
+        "E": 210000000000.0,
+        "nu": 0.3,
+        "density": 7800.0
+      },
+      "input_digest": "32a9f024ebd243cccdf7842e4ce3f8be4bdae56cdcfcfd6164ba634a9c2a0eb8",
+      "interface_records_detected": 136365
+    },
+    "preparation": {
+      "seconds": 0.5331370999338105,
+      "memory": {
+        "source": "psutil",
+        "current_rss_before_bytes": 79896576,
+        "current_rss_after_bytes": 162910208,
+        "current_rss_delta_bytes": 83013632,
+        "peak_rss_before_bytes": 79900672,
+        "peak_rss_after_bytes": 195588096,
+        "peak_rss_delta_bytes": 115687424
+      }
+    },
+    "replays": [
+      {
+        "label": "replay_1",
+        "status": "PASS",
+        "ndof": 300003,
+        "node_count": 100001,
+        "element_count": 27273,
+        "solver_method": "cg",
+        "solver_backend": "scipy",
+        "preconditioner": "jacobi",
+        "iterations": 12,
+        "relative_residual_norm": 2.484933369237869e-09,
+        "equilibrium": {
+          "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs",
+          "load_factor": 1.0,
+          "free_residual_norm": 1.6753501124604315e-07,
+          "free_relative_residual": 2.4849333692411353e-09,
+          "fixed_reaction_norm": 94.58454270386707,
+          "ground_spring_reaction_norm": 0.0,
+          "external_load_norm": 67.4203233454127,
+          "internal_force_norm": 116.15393113671017,
+          "displacement_norm": 2.9049750514183733e-09,
+          "external_work_at_final_load": 1.4356183445459714e-07,
+          "secant_internal_energy": 7.178091722731534e-08,
+          "linear_energy_identity_relative_error": 3.3537210755349954e-20,
+          "external_resultant": [
+            0.0,
+            0.0,
+            -9091.0
+          ],
+          "reaction_resultant": [
+            1.8775741794652134e-08,
+            1.4524510656699352e-09,
+            9091.000000000742
+          ],
+          "force_imbalance": [
+            1.8775741794652134e-08,
+            1.4524510656699352e-09,
+            7.421476766467094e-10
+          ],
+          "force_balance_relative_error": 2.0730893516296557e-12,
+          "external_moment_about_origin": [
+            -123951239.5,
+            9091.0,
+            0.0
+          ],
+          "reaction_moment_about_origin": [
+            123951239.50001225,
+            -9090.99999999076,
+            -0.0005401185753726168
+          ],
+          "moment_imbalance_about_origin": [
+            1.2248754501342773e-05,
+            9.240466170012951e-09,
+            -0.0005401185753726168
+          ],
+          "moment_balance_relative_error": 4.358628815121694e-12,
+          "constraint_forces": {
+            "equation_count": 190911,
+            "kinematic_equation_count": 0,
+            "fixed_equation_count": 190911,
+            "constraint_violation_norm": 0.0,
+            "constraint_violation_max_abs": 0.0,
+            "equilibrium_relative_error": 1.7712726250691505e-09,
+            "lsmr_stop_code": 2,
+            "sign_convention": "K u - f + C.T lambda = 0",
+            "fixed_support_reaction_norm": 94.58454270386707,
+            "largest_multipliers": [
+              {
+                "index": 182769,
+                "name": "fixed_287208",
+                "kind": "fixed",
+                "multiplier": 0.5069402681471064,
+                "violation": 0.0
+              },
+              {
+                "index": 181509,
+                "name": "fixed_285228",
+                "kind": "fixed",
+                "multiplier": 0.5069402681392635,
+                "violation": 0.0
+              },
+              {
+                "index": 182664,
+                "name": "fixed_287043",
+                "kind": "fixed",
+                "multiplier": 0.5069402681349321,
+                "violation": 0.0
+              },
+              {
+                "index": 182559,
+                "name": "fixed_286878",
+                "kind": "fixed",
+                "multiplier": 0.5069402681222253,
+                "violation": 0.0
+              },
+              {
+                "index": 182454,
+                "name": "fixed_286713",
+                "kind": "fixed",
+                "multiplier": 0.5069402681108753,
+                "violation": 0.0
+              },
+              {
+                "index": 182349,
+                "name": "fixed_286548",
+                "kind": "fixed",
+                "multiplier": 0.5069402680980946,
+                "violation": 0.0
+              },
+              {
+                "index": 182244,
+                "name": "fixed_286383",
+                "kind": "fixed",
+                "multiplier": 0.5069402680858067,
+                "violation": 0.0
+              },
+              {
+                "index": 182139,
+                "name": "fixed_286218",
+                "kind": "fixed",
+                "multiplier": 0.5069402680735543,
+                "violation": 0.0
+              },
+              {
+                "index": 182034,
+                "name": "fixed_286053",
+                "kind": "fixed",
+                "multiplier": 0.5069402680610336,
+                "violation": 0.0
+              },
+              {
+                "index": 181929,
+                "name": "fixed_285888",
+                "kind": "fixed",
+                "multiplier": 0.5069402680493205,
+                "violation": 0.0
+              },
+              {
+                "index": 181824,
+                "name": "fixed_285723",
+                "kind": "fixed",
+                "multiplier": 0.5069402680369733,
+                "violation": 0.0
+              },
+              {
+                "index": 181719,
+                "name": "fixed_285558",
+                "kind": "fixed",
+                "multiplier": 0.5069402680233956,
+                "violation": 0.0
+              },
+              {
+                "index": 181404,
+                "name": "fixed_285063",
+                "kind": "fixed",
+                "multiplier": 0.5069402678942645,
+                "violation": 0.0
+              },
+              {
+                "index": 181299,
+                "name": "fixed_284898",
+                "kind": "fixed",
+                "multiplier": 0.5069402678818741,
+                "violation": 0.0
+              },
+              {
+                "index": 177267,
+                "name": "fixed_278562",
+                "kind": "fixed",
+                "multiplier": 0.5069402678746687,
+                "violation": 0.0
+              },
+              {
+                "index": 181194,
+                "name": "fixed_284733",
+                "kind": "fixed",
+                "multiplier": 0.5069402678699573,
+                "violation": 0.0
+              },
+              {
+                "index": 177162,
+                "name": "fixed_278397",
+                "kind": "fixed",
+                "multiplier": 0.5069402678626403,
+                "violation": 0.0
+              },
+              {
+                "index": 173130,
+                "name": "fixed_272061",
+                "kind": "fixed",
+                "multiplier": 0.5069402678562641,
+                "violation": 0.0
+              },
+              {
+                "index": 183504,
+                "name": "fixed_288363",
+                "kind": "fixed",
+                "multiplier": 0.5069402678320212,
+                "violation": 0.0
+              },
+              {
+                "index": 179472,
+                "name": "fixed_282027",
+                "kind": "fixed",
+                "multiplier": 0.5069402678258276,
+                "violation": 0.0
+              }
+            ],
+            "generalized_force_norm": 94.58454270386707,
+            "resultant": [
+              -1.8775741794652134e-08,
+              -1.4524510656699352e-09,
+              -9091.000000000742
+            ],
+            "moment_about_origin": [
+              -123951239.50001225,
+              9090.99999999076,
+              0.0005401185753726168
+            ],
+            "residual_resultant": [
+              6.2727600891321345e-15,
+              -1.066507993030541e-14,
+              9090.999999999894
+            ],
+            "residual_moment_about_origin": [
+              123951239.50000064,
+              -9090.999999999894,
+              3.0483348623100426e-09
+            ],
+            "global_force_closure_relative_error": 2.073578169656872e-12,
+            "global_moment_closure_relative_error": 4.358539266072894e-12
+          }
+        },
+        "energy": {
+          "external_work": 1.4356183445459756e-07,
+          "secant_internal_energy": 7.178091722729878e-08,
+          "linear_energy_identity_relative_error": 0.0
+        },
+        "matrix_audits": [
+          {
+            "name": "stiffness",
+            "shape": [
+              300003,
+              300003
+            ],
+            "nnz": 7100045,
+            "density": 7.88878111247776e-05,
+            "data_norm": 64840208938863.63,
+            "symmetry_relative_error": 1.6216165521354464e-17,
+            "is_symmetric": true,
+            "diagonal_min": 13461538461.538462,
+            "diagonal_max": 190705128205.4173
+          },
+          {
+            "name": "reduced_stiffness",
+            "shape": [
+              109092,
+              109092
+            ],
+            "nnz": 1309104,
+            "density": 0.00010999890001099989,
+            "data_norm": 30626666004981.27,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 49358974358.7939,
+            "diagonal_max": 150320512820.65936
+          }
+        ],
+        "resource_estimate": {
+          "nnz": 1309104,
+          "sparse_memory_bytes": 16145620,
+          "direct_memory_estimate_bytes": 161456200,
+          "direct_memory_budget_bytes": null,
+          "direct_budget_exceeded": false,
+          "dense_memory_estimate_bytes": 95208515712
+        },
+        "timing_seconds": {
+          "assembly": 46.11255359998904,
+          "linear_solve": 0.053697200026363134,
+          "total": 62.4159071999602,
+          "validation_constraints_postprocessing": 16.249656399944797
+        },
+        "memory": {
+          "source": "psutil",
+          "current_rss_before_bytes": 163430400,
+          "current_rss_after_bytes": 606769152,
+          "current_rss_delta_bytes": 443338752,
+          "peak_rss_before_bytes": 195588096,
+          "peak_rss_after_bytes": 754372608,
+          "peak_rss_delta_bytes": 558784512
+        },
+        "displacement_digest": "8bce66a93a12da3e7e2ca59c3ce216d8eb1564c889c940bcd7c46c81b961e283",
+        "physics_digest": "b2205f0b8e51c856a1606fb99a621c2747c6df2fad69fae4047911f74a296127",
+        "finite_solution": true
+      },
+      {
+        "label": "replay_2",
+        "status": "PASS",
+        "ndof": 300003,
+        "node_count": 100001,
+        "element_count": 27273,
+        "solver_method": "cg",
+        "solver_backend": "scipy",
+        "preconditioner": "jacobi",
+        "iterations": 12,
+        "relative_residual_norm": 2.484933369237869e-09,
+        "equilibrium": {
+          "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs",
+          "load_factor": 1.0,
+          "free_residual_norm": 1.6753501124604315e-07,
+          "free_relative_residual": 2.4849333692411353e-09,
+          "fixed_reaction_norm": 94.58454270386707,
+          "ground_spring_reaction_norm": 0.0,
+          "external_load_norm": 67.4203233454127,
+          "internal_force_norm": 116.15393113671017,
+          "displacement_norm": 2.9049750514183733e-09,
+          "external_work_at_final_load": 1.4356183445459714e-07,
+          "secant_internal_energy": 7.178091722731534e-08,
+          "linear_energy_identity_relative_error": 3.3537210755349954e-20,
+          "external_resultant": [
+            0.0,
+            0.0,
+            -9091.0
+          ],
+          "reaction_resultant": [
+            1.8775741794652134e-08,
+            1.4524510656699352e-09,
+            9091.000000000742
+          ],
+          "force_imbalance": [
+            1.8775741794652134e-08,
+            1.4524510656699352e-09,
+            7.421476766467094e-10
+          ],
+          "force_balance_relative_error": 2.0730893516296557e-12,
+          "external_moment_about_origin": [
+            -123951239.5,
+            9091.0,
+            0.0
+          ],
+          "reaction_moment_about_origin": [
+            123951239.50001225,
+            -9090.99999999076,
+            -0.0005401185753726168
+          ],
+          "moment_imbalance_about_origin": [
+            1.2248754501342773e-05,
+            9.240466170012951e-09,
+            -0.0005401185753726168
+          ],
+          "moment_balance_relative_error": 4.358628815121694e-12,
+          "constraint_forces": {
+            "equation_count": 190911,
+            "kinematic_equation_count": 0,
+            "fixed_equation_count": 190911,
+            "constraint_violation_norm": 0.0,
+            "constraint_violation_max_abs": 0.0,
+            "equilibrium_relative_error": 1.7712726250691505e-09,
+            "lsmr_stop_code": 2,
+            "sign_convention": "K u - f + C.T lambda = 0",
+            "fixed_support_reaction_norm": 94.58454270386707,
+            "largest_multipliers": [
+              {
+                "index": 182769,
+                "name": "fixed_287208",
+                "kind": "fixed",
+                "multiplier": 0.5069402681471064,
+                "violation": 0.0
+              },
+              {
+                "index": 181509,
+                "name": "fixed_285228",
+                "kind": "fixed",
+                "multiplier": 0.5069402681392635,
+                "violation": 0.0
+              },
+              {
+                "index": 182664,
+                "name": "fixed_287043",
+                "kind": "fixed",
+                "multiplier": 0.5069402681349321,
+                "violation": 0.0
+              },
+              {
+                "index": 182559,
+                "name": "fixed_286878",
+                "kind": "fixed",
+                "multiplier": 0.5069402681222253,
+                "violation": 0.0
+              },
+              {
+                "index": 182454,
+                "name": "fixed_286713",
+                "kind": "fixed",
+                "multiplier": 0.5069402681108753,
+                "violation": 0.0
+              },
+              {
+                "index": 182349,
+                "name": "fixed_286548",
+                "kind": "fixed",
+                "multiplier": 0.5069402680980946,
+                "violation": 0.0
+              },
+              {
+                "index": 182244,
+                "name": "fixed_286383",
+                "kind": "fixed",
+                "multiplier": 0.5069402680858067,
+                "violation": 0.0
+              },
+              {
+                "index": 182139,
+                "name": "fixed_286218",
+                "kind": "fixed",
+                "multiplier": 0.5069402680735543,
+                "violation": 0.0
+              },
+              {
+                "index": 182034,
+                "name": "fixed_286053",
+                "kind": "fixed",
+                "multiplier": 0.5069402680610336,
+                "violation": 0.0
+              },
+              {
+                "index": 181929,
+                "name": "fixed_285888",
+                "kind": "fixed",
+                "multiplier": 0.5069402680493205,
+                "violation": 0.0
+              },
+              {
+                "index": 181824,
+                "name": "fixed_285723",
+                "kind": "fixed",
+                "multiplier": 0.5069402680369733,
+                "violation": 0.0
+              },
+              {
+                "index": 181719,
+                "name": "fixed_285558",
+                "kind": "fixed",
+                "multiplier": 0.5069402680233956,
+                "violation": 0.0
+              },
+              {
+                "index": 181404,
+                "name": "fixed_285063",
+                "kind": "fixed",
+                "multiplier": 0.5069402678942645,
+                "violation": 0.0
+              },
+              {
+                "index": 181299,
+                "name": "fixed_284898",
+                "kind": "fixed",
+                "multiplier": 0.5069402678818741,
+                "violation": 0.0
+              },
+              {
+                "index": 177267,
+                "name": "fixed_278562",
+                "kind": "fixed",
+                "multiplier": 0.5069402678746687,
+                "violation": 0.0
+              },
+              {
+                "index": 181194,
+                "name": "fixed_284733",
+                "kind": "fixed",
+                "multiplier": 0.5069402678699573,
+                "violation": 0.0
+              },
+              {
+                "index": 177162,
+                "name": "fixed_278397",
+                "kind": "fixed",
+                "multiplier": 0.5069402678626403,
+                "violation": 0.0
+              },
+              {
+                "index": 173130,
+                "name": "fixed_272061",
+                "kind": "fixed",
+                "multiplier": 0.5069402678562641,
+                "violation": 0.0
+              },
+              {
+                "index": 183504,
+                "name": "fixed_288363",
+                "kind": "fixed",
+                "multiplier": 0.5069402678320212,
+                "violation": 0.0
+              },
+              {
+                "index": 179472,
+                "name": "fixed_282027",
+                "kind": "fixed",
+                "multiplier": 0.5069402678258276,
+                "violation": 0.0
+              }
+            ],
+            "generalized_force_norm": 94.58454270386707,
+            "resultant": [
+              -1.8775741794652134e-08,
+              -1.4524510656699352e-09,
+              -9091.000000000742
+            ],
+            "moment_about_origin": [
+              -123951239.50001225,
+              9090.99999999076,
+              0.0005401185753726168
+            ],
+            "residual_resultant": [
+              6.2727600891321345e-15,
+              -1.066507993030541e-14,
+              9090.999999999894
+            ],
+            "residual_moment_about_origin": [
+              123951239.50000064,
+              -9090.999999999894,
+              3.0483348623100426e-09
+            ],
+            "global_force_closure_relative_error": 2.073578169656872e-12,
+            "global_moment_closure_relative_error": 4.358539266072894e-12
+          }
+        },
+        "energy": {
+          "external_work": 1.4356183445459756e-07,
+          "secant_internal_energy": 7.178091722729878e-08,
+          "linear_energy_identity_relative_error": 0.0
+        },
+        "matrix_audits": [
+          {
+            "name": "stiffness",
+            "shape": [
+              300003,
+              300003
+            ],
+            "nnz": 7100045,
+            "density": 7.88878111247776e-05,
+            "data_norm": 64840208938863.63,
+            "symmetry_relative_error": 1.6216165521354464e-17,
+            "is_symmetric": true,
+            "diagonal_min": 13461538461.538462,
+            "diagonal_max": 190705128205.4173
+          },
+          {
+            "name": "reduced_stiffness",
+            "shape": [
+              109092,
+              109092
+            ],
+            "nnz": 1309104,
+            "density": 0.00010999890001099989,
+            "data_norm": 30626666004981.27,
+            "symmetry_relative_error": 0.0,
+            "is_symmetric": true,
+            "diagonal_min": 49358974358.7939,
+            "diagonal_max": 150320512820.65936
+          }
+        ],
+        "resource_estimate": {
+          "nnz": 1309104,
+          "sparse_memory_bytes": 16145620,
+          "direct_memory_estimate_bytes": 161456200,
+          "direct_memory_budget_bytes": null,
+          "direct_budget_exceeded": false,
+          "dense_memory_estimate_bytes": 95208515712
+        },
+        "timing_seconds": {
+          "assembly": 46.00564650003798,
+          "linear_solve": 0.0516353000421077,
+          "total": 62.5279550999403,
+          "validation_constraints_postprocessing": 16.47067329986021
+        },
+        "memory": {
+          "source": "psutil",
+          "current_rss_before_bytes": 205697024,
+          "current_rss_after_bytes": 606400512,
+          "current_rss_delta_bytes": 400703488,
+          "peak_rss_before_bytes": 754372608,
+          "peak_rss_after_bytes": 754372608,
+          "peak_rss_delta_bytes": 0
+        },
+        "displacement_digest": "8bce66a93a12da3e7e2ca59c3ce216d8eb1564c889c940bcd7c46c81b961e283",
+        "physics_digest": "b2205f0b8e51c856a1606fb99a621c2747c6df2fad69fae4047911f74a296127",
+        "finite_solution": true
+      }
+    ],
+    "replay_determinism": true,
+    "interface_contract": {
+      "detected_faces": 136365,
+      "expected_triangular": 9091,
+      "expected_quadrilateral": 9091,
+      "note": "mixed_solid_faces reports one record per cross-family shared face"
+    }
+  },
+  "desired_1m": {
+    "status": "NOT_RUN_NON_BLOCKER",
+    "dof": 999999
+  },
+  "stretch_3m": {
+    "status": "NOT_RUN_NON_BLOCKER",
+    "dof": 2999997
+  },
+  "runtime_environment": "wp11_mixed_large_evidence/runtime_environment.json",
+  "gates": {
+    "mandatory_dof_at_least": true,
+    "all_three_families_present": true,
+    "replay_determinism": true,
+    "finite_solution": true,
+    "relative_residual": true,
+    "force_closure": true,
+    "moment_closure": true,
+    "energy_identity": true
+  },
+  "integrity": {
+    "numerical_source_changed": false,
+    "historical_0_2_7_evidence_changed": false,
+    "wp01_wp10_records_changed": false
+  },
+  "status": "PASS"
+}

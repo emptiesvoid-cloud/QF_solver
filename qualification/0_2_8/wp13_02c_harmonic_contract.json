@@ -1,0 +1,187 @@
+{
+  "$schema": "./wp13_02c_harmonic_contract.schema.json",
+  "schema_version": 1,
+  "record_id": "QF-028-WP13-02C-HARMONIC-MIXED-CONTRACT",
+  "contract_id": "WP13-02C-HARMONIC-MIXED-001",
+  "work_package": "WP13-02C",
+  "applicable_version": "0.2.8-development",
+  "creation_sha": "046aa459d6290f57a1dc5c8cc32d3ea5e9bdcea7",
+  "status": "PREDECLARED_NOT_EXECUTED",
+  "provenance": {
+    "independent_versioned_contract": true,
+    "first_numerical_run": null,
+    "freeze_rule": "The commit containing this contract is the execution freeze. The contract blob, schema blob, evaluator source digest and execution source SHA are recorded before the first harmonic solve.",
+    "no_post_observation_retuning": true,
+    "historical_newmark_evidence_read_only": true,
+    "historical_0_2_7_evidence_read_only": true
+  },
+  "scope": {
+    "analysis": "linear harmonic response / FRF by direct complex frequency solves",
+    "backend": "serial SciPy sparse direct complex solve; no distributed harmonic-performance claim",
+    "element_families": ["TET4", "WEDGE6", "HEX8"],
+    "interfaces": [
+      "conforming shared triangular TET4-WEDGE6 interface",
+      "conforming shared quadrilateral WEDGE6-HEX8 interface"
+    ],
+    "kinematics": "small-strain homogeneous isotropic linear elasticity",
+    "mass": "consistent translational element mass",
+    "damping": {
+      "model": "Rayleigh",
+      "beta_stiffness_s": 0.0,
+      "zeta_at_first_mode": 0.02,
+      "alpha_mass_per_s": "2*zeta_at_first_mode*omega1 from the independent dense K/M oracle"
+    },
+    "geometry": "WP13-01K compact elbow at n=1: HEX8 box [0,1]x[-1,0]x[0,1], WEDGE6 right-triangular prism x>=0,y>=0,x+y<=1,z in [0,2], and a TET4 continuation over z in [2,3], SI metres, 48 translational DOF.",
+    "mesh_generation": "Reuse only the frozen WP13-01K geometry/element ordering generator; do not reuse its static load vector. Globally shared nodes, one connected mechanical component.",
+    "family_counts": {"TET4": 3, "WEDGE6": 2, "HEX8": 1},
+    "boundary_conditions": "All translational DOFs on the HEX8 y=-1 support surface are fixed; no TET4 or WEDGE6 support is permitted.",
+    "harmonic_load": "Fixed unit nodal harmonic load: +1/3 N in UZ at each node on the TET4 z=3 end face, zero phase, independent of frequency. The load is applied only to TET4-end nodes and must traverse TET4, WEDGE6 and HEX8 before reaching the support.",
+    "monitored_dofs": "First generalized modal coordinate from the independent dense oracle, plus the predeclared TET4 end-face node with the smallest global node id in UZ; no result-dependent probe selection.",
+    "mechanical_path": "LOAD -> TET4 -> TET4/WEDGE6 triangular interface -> WEDGE6 -> WEDGE6/HEX8 quadrilateral interface -> HEX8 -> SUPPORT",
+    "connected_components": 1,
+    "direct_support_bypass": false,
+    "excluded": [
+      "nonlinear dynamics",
+      "contact",
+      "nonconforming or hanging-node interfaces",
+      "TET10/HEX20/PYRAMID5 mixed harmonic routes",
+      "distributed harmonic performance",
+      "arbitrary load, damping or geometry claims",
+      "industrial generality",
+      "historical element-analysis maturity promotion"
+    ]
+  },
+  "conditioning_precheck": {
+    "must_pass_before_solve": true,
+    "metrics": {
+      "max_element_edge_aspect_ratio": {"operator": "<=", "value": 4.0},
+      "jacobian_condition_number": {"operator": "<=", "value": 10.0},
+      "jacobian_determinant_positive": true,
+      "assembled_stiffness_positive_diagonal_ratio": {"operator": "<=", "value": 100.0},
+      "assembled_mass_positive_diagonal_ratio": {"operator": "<=", "value": 100.0},
+      "stiffness_symmetry_relative_frobenius": {"operator": "<=", "value": 1.0e-12},
+      "mass_symmetry_relative_frobenius": {"operator": "<=", "value": 1.0e-12},
+      "free_stiffness_positive_definite": true,
+      "free_mass_positive_definite": true
+    },
+    "interpretation": "These are bounded prechecks for this compact benchmark, not a global condition-number claim. A failed precheck aborts the campaign before any harmonic solve."
+  },
+  "frequency_contract": {
+    "reference_frequency": "f1=omega1/(2*pi) from the independent dense generalized-eigen oracle, computed from the frozen geometry and material before the production route is called",
+    "frequency_ratios": [0.0, 0.25, 0.5, 0.75, 0.9, 0.98, 1.0, 1.02, 1.1, 1.25, 1.5, 2.0],
+    "required_regions": [
+      "quasi-static zero-frequency point",
+      "off-resonance below first mode",
+      "near-resonance points 0.98*f1 and 1.02*f1",
+      "first-mode point f1",
+      "off-resonance above first mode"
+    ],
+    "no_result_dependent_frequency_selection": true,
+    "grid_replay_rule": "The exact floating-point frequency array generated from these frozen ratios and the frozen independent f1 is reused for main and both replays."
+  },
+  "oracle": {
+    "dense_reference": "Independently scatter each TET4/WEDGE6/HEX8 local K and M contribution into dense arrays with explicit node-major UX/UY/UZ indices; independently form C=alpha*M+beta*K; solve (K+i*omega*C-omega^2*M)x=F directly for each declared frequency using scipy.linalg.solve.",
+    "eigen_reference": "scipy.linalg.eigh(Kff,Mff) on the independently scattered dense arrays; first positive fixed-base eigenpair is mass normalized and sign canonicalized by the largest free component.",
+    "sdof_reference": "For the first mode, H1(omega)=1/(k1-omega^2*m1+i*omega*c1) with m1=1, k1=omega1^2 and c1=2*zeta*omega1; project the fixed load and monitored displacement onto this mode.",
+    "independence_boundary": "The oracle must not call HarmonicResponseSolver, AnalysisRouter, the production assembler, the production frequency loop, or production result arrays. Shared element stiffness/mass kernels are permitted and their use is declared as a limitation.",
+    "comparison_policy": "Full dense direct complex response is the primary oracle for amplitude, phase, residual and resonance. The first-mode SDOF response is a supporting first-mode-dominance control, not an external correlation.",
+    "external_correlation": "NOT_AVAILABLE_AND_NOT_REQUIRED_FOR_THIS_NARROW_CONTRACT"
+  },
+  "predeclared_gates": {
+    "fixed_before_execution": true,
+    "post_observation_retuning": false,
+    "oracle_amplitude_relative": {"operator": "<=", "value": 1.0e-8},
+    "oracle_phase_absolute_rad": {"operator": "<=", "value": 1.0e-8},
+    "harmonic_residual_relative": {"operator": "<=", "value": 1.0e-7},
+    "static_limit_relative": {"operator": "<=", "value": 1.0e-8},
+    "resonance_frequency_relative": {"operator": "<=", "value": 1.0e-12},
+    "resonance_peak_index_match": true,
+    "interface_displacement_continuity": {"operator": "<=", "value": 1.0e-12},
+    "interface_force_transfer_relative": {"operator": "<=", "value": 1.0e-8},
+    "interface_energy_error_relative": {"operator": "<=", "value": 1.0e-8},
+    "replay_response_relative": {"operator": "<=", "value": 1.0e-12},
+    "replay_reaction_relative": {"operator": "<=", "value": 1.0e-12},
+    "replay_residual_relative_difference": {"operator": "<=", "value": 1.0e-12},
+    "replay_amplitude_relative": {"operator": "<=", "value": 1.0e-12},
+    "replay_phase_absolute_rad": {"operator": "<=", "value": 1.0e-12},
+    "replay_frequency_grid": "identical declared frequencies and identical convergence status",
+    "numerical_determinism": "two complete replays at one off-resonance and one near-resonance frequency; raw bitwise identity is diagnostic only"
+  },
+  "metric_definitions": {
+    "amplitude_error": "abs(abs(x_runtime_probe)/max(abs(x_reference_probe),tiny)-1)",
+    "phase_error": "abs(wrap_to_minus_pi_pi(angle(x_runtime_probe)-angle(x_reference_probe))) in radians",
+    "frequency_error": "abs(f_peak_runtime-f_peak_reference)/max(f_peak_reference,1 Hz); peak is the maximum monitored amplitude on the frozen frequency grid",
+    "static_limit_error": "norm(real(x_runtime at ratio 0)-x_static)/max(norm(x_static),tiny)",
+    "residual_relative": "norm((K+i*omega*C-omega^2*M)x-F)_free / max(norm(F_free),1 N)",
+    "interface_continuity": "max norm(x_left(shared)-x_right(shared),infinity)/max(max(abs(x)),1e-30) using independently gathered family states",
+    "interface_force_transfer": "norm(g_left+g_right,2)/max(norm(F_free,2),1 N), with g_family the family dynamic internal force on the shared nodes",
+    "interface_energy": "W_side=conj(x_interface) dot g_side; mismatch=abs(W_left+W_right)/max(abs(W_left)+abs(W_right),max(norm(F_free)*norm(x),1e-30)",
+    "replay_scales": "response uses max(norm(x_main),1e-30), reaction uses max(norm(R_main),1e-30), residual uses max(norm(r_main),1e-30), amplitude uses max(abs(A_main),1e-30), phase is absolute radians"
+  },
+  "interfaces": {
+    "applies_to": "ALL_DECLARED_FREQUENCIES",
+    "TET4_WEDGE6": {"shared_nodes": [10, 11, 12]},
+    "WEDGE6_HEX8": {"shared_nodes": [2, 3, 6, 7]},
+    "side_force_definition": "For each family and interface, sum each member element's (Ke+i*omega*Ce-omega^2*Me)xe contribution on the interface DOFs; archive both side vectors.",
+    "side_work_definition": "Use the complex displacement on the shared interface and the corresponding side dynamic internal force; archive W_left, W_right and mismatch for every frequency.",
+    "no_hardcoded_metrics": true
+  },
+  "replay": {
+    "frequencies": {"off_resonance_ratio": 0.75, "near_resonance_ratio": 1.0},
+    "count": 2,
+    "fields": ["complex displacement", "complex reactions", "complex residual", "amplitude", "phase", "interface continuity", "interface forces", "interface work"],
+    "tolerance": 1.0e-12,
+    "require_identical_frequency_grid": true,
+    "raw_bitwise_identity_required": false
+  },
+  "failure_contract": {
+    "silent_fallback_allowed": false,
+    "cases": {
+      "invalid_frequency_negative": "Negative frequency is rejected explicitly before solve.",
+      "invalid_frequency_nan": "NaN frequency is rejected explicitly before solve.",
+      "invalid_frequency_inf": "+Inf frequency is rejected explicitly before solve.",
+      "missing_mass": "Absent or zero density is rejected explicitly before harmonic solve.",
+      "unsupported_damping": "Unknown damping model or negative/nonfinite Rayleigh coefficient is rejected explicitly.",
+      "malformed_harmonic_load": "Malformed/unknown harmonic load input is rejected explicitly; never replaced by zero load.",
+      "unsupported_family": "PYRAMID5 or unknown element family is rejected explicitly by route/preflight.",
+      "invalid_mixed_interface": "Broken shared-node connectivity or missing family in the declared chain is rejected before solve.",
+      "invalid_complex_real_input": "Non-real/non-finite model or load value is rejected explicitly where the public input contract applies."
+    },
+    "all_cases_must_execute": true,
+    "expected_behavior": "Each case records the actual input, command/path, exception type, exception message and result status; hardcoded status is forbidden."
+  },
+  "evidence_schema": {
+    "format": "NPZ float64/complex128 arrays without pickle plus JSON manifest",
+    "required_fields": [
+      "contract_id", "contract_sha", "repo_sha", "environment", "benchmark_inputs", "conditioning", "frequencies", "damping", "raw_complex_responses", "oracle_responses", "amplitude_phase", "residuals", "static_limit", "resonance", "interface_metrics", "replay_arrays", "failure_executions", "digests", "gate_decisions"
+    ],
+    "contract_values_single_source_of_truth": true,
+    "all_gate_values_must_be_loaded_from_contract": true
+  },
+  "abort_criteria": [
+    "contract or schema changed after the freeze commit",
+    "conditioning precheck failure",
+    "model disconnected or direct support bypass detected",
+    "family drop or silent fallback",
+    "oracle calls a production harmonic path",
+    "mass, damping or interface incompatibility",
+    "any declared amplitude, phase, residual, static-limit, resonance or interface gate fails",
+    "replay gate fails",
+    "any failure-contract case is not actually rejected",
+    "formulation or numerical-kernel change is required"
+  ],
+  "claim_policy": {
+    "candidate": "CONNECTED_MIXED_HARMONIC_TET4_WEDGE6_HEX8_BOUNDED",
+    "maximum": "Connected conforming TET4/WEDGE6/HEX8 mixed harmonic workflow, linear small-strain, frozen damping/load/frequency benchmark, only after a separate Owner Gate.",
+    "not_allowed": ["arbitrary frequency response", "arbitrary damping", "nonlinear harmonic response", "nonconforming interfaces", "industrial generality", "historical maturity promotion"],
+    "owner_gate_required": true
+  },
+  "integrity": {
+    "numerical_source_change_allowed": false,
+    "formulation_change_allowed": false,
+    "contract_change_after_first_result": false,
+    "maturity_change_allowed": false,
+    "historical_newmark_evidence_read_only": true,
+    "historical_0_2_7_evidence_read_only": true
+  }
+}
