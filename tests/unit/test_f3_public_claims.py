@@ -2,7 +2,9 @@
 
 import json
 import re
+import subprocess
 from pathlib import Path
+from urllib.parse import unquote, urlparse
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -19,6 +21,20 @@ def _active_markdown_scope() -> list[Path]:
         paths.extend(sorted((ROOT / "docs" / directory).rglob("*.md")))
     paths.append(ROOT / "examples/README.md")
     return paths
+
+
+def _frozen_first_party_blob_reference(target: str) -> str | None:
+    """Return a local Git object reference for a pinned first-party blob URL."""
+    parsed = urlparse(target)
+    if parsed.scheme != "https" or parsed.netloc != "github.com":
+        return None
+    parts = unquote(parsed.path).strip("/").split("/")
+    if len(parts) < 5 or parts[:3] != ["emptiesvoid-cloud", "QF_solver", "blob"]:
+        return None
+    revision, relative = parts[3], "/".join(parts[4:])
+    if not re.fullmatch(r"[0-9a-f]{40}", revision):
+        return None
+    return f"{revision}:{relative}"
 
 
 def test_f3_audit_schema_and_evidence_references_are_complete() -> None:
@@ -103,20 +119,39 @@ def test_active_lu2_views_do_not_present_old_accounting_as_current() -> None:
 
 def test_critical_markdown_links_resolve_locally() -> None:
     link_pattern = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
-    checked = 0
+    local_checked = 0
     broken: list[tuple[str, str]] = []
+    frozen_blob_references: set[str] = set()
     for path in _active_markdown_scope():
         text = path.read_text(encoding="utf-8")
         for raw_target in link_pattern.findall(text):
             target = raw_target.split("#", 1)[0].strip()
+            frozen_reference = _frozen_first_party_blob_reference(target)
+            if frozen_reference is not None:
+                frozen_blob_references.add(frozen_reference)
+                continue
             if not target or target.startswith(("http://", "https://", "mailto:")):
                 continue
-            checked += 1
+            local_checked += 1
             candidate = (path.parent / target).resolve()
             if not candidate.exists():
                 broken.append((str(path.relative_to(ROOT)), raw_target))
-    assert checked >= 354
+
+    frozen_missing = [
+        reference
+        for reference in sorted(frozen_blob_references)
+        if subprocess.run(
+            ["git", "cat-file", "-e", reference],
+            cwd=ROOT,
+            check=False,
+            capture_output=True,
+        ).returncode
+        != 0
+    ]
+    assert local_checked > 0
+    assert frozen_blob_references
     assert broken == broken[:0], broken
+    assert frozen_missing == [], frozen_missing
 
     audit = json.loads(AUDIT_PATH.read_text(encoding="utf-8"))
     assert audit["scanned_scope"]["active_link_scope_broken"] == 0
