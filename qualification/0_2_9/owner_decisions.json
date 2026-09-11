@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "open_decisions": [
+    {
+      "id": "OD-029-01",
+      "title": "Bounded J2 plus geometric formulation",
+      "status": "OPEN",
+      "decision_required_before": "WP09 implementation or any public J2-plus-geometry claim",
+      "question": "Which physical formulation is acceptable for a bounded J2 plus geometric-nonlinear scope?",
+      "options": [
+        {"id": "A", "name": "Corotational / large-rotation plus small-strain J2", "scope": "Potentially bounded large-rotation engineering model; requires explicit stress/strain and state-transport limits."},
+        {"id": "B", "name": "Existing total_lagrangian_j2 research formulation", "scope": "Research continuation only until the physical formulation and validation basis are independently reviewed."},
+        {"id": "C", "name": "Finite-strain multiplicative plasticity F = Fe Fp", "scope": "Most physically complete option; substantial new formulation and verification work, not selected by default."},
+        {"id": "D", "name": "Defer public J2 plus geometry claim", "scope": "Keep work research-only or out of release scope."}
+      ],
+      "default_without_owner_approval": "D",
+      "required_evidence_after_decision": ["constitutive/objectivity definition", "tangent verification", "state-transport/rollback contract", "bounded external correlation", "failure limits"]
+    }
+  ]
+}

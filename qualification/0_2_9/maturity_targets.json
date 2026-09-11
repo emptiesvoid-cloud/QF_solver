@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "target_policy": "Prospective targets only. They are not claims, approvals or predeclared passes.",
+  "targets": [
+    {"capability": "geometric nonlinear TET4/HEX8", "target": "QUALIFIED_BOUNDED", "condition": "Only if all frozen gates and Owner gate pass."},
+    {"capability": "geometric nonlinear TET10/HEX20", "target": "EXPERIMENTAL_BOUNDED", "condition": "Evidence remains bounded by declared element, load and deformation scope."},
+    {"capability": "arc-length/postbuckling", "target": "EXPERIMENTAL_BOUNDED", "condition": "Continuation, branch and failure gates pass."},
+    {"capability": "frictionless penalty contact", "target": "QUALIFIED_BOUNDED", "condition": "Only in a tightly declared contact/search/kinematics scope."},
+    {"capability": "frictional contact", "target": "EXPERIMENTAL_BOUNDED", "condition": "Stick/slip, dissipation and rollback evidence pass."},
+    {"capability": "J2 plus geometry", "target": "OWNER_DECISION_DEPENDENT", "condition": "No automatic promotion; formulation must first be approved."},
+    {"capability": "geometry plus contact", "target": "EXPERIMENTAL_BOUNDED_OR_BETTER", "condition": "Only with sufficient coupled evidence."},
+    {"capability": "J2 plus geometry plus contact", "target": "RESEARCH_ONLY", "condition": "Feasibility by default."},
+    {"capability": "mixed distributed PETSc/MPI", "target": "VALIDATED_BOUNDED_LINEAR_STATIC_RUNTIME_ONLY", "condition": "No nonlinear distributed claim is within this target."}
+  ],
+  "non_targets": [
+    "general finite-strain plasticity", "general nonlinear dynamics", "general surface-to-surface contact", "general finite sliding", "nonlinear HPC qualification"
+  ]
+}

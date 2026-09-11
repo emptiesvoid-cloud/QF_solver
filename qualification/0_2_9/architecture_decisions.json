@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "decision_set_id": "QF-SOLVER-0.2.9-ARCHITECTURE-BASELINE-001",
+  "frozen_decisions": [
+    {
+      "id": "AD-029-01",
+      "decision": "Use CompositeNonlinearAssembly and NonlinearAssemblyProtocol as the principal composition seam; do not introduce separate per-physics Newton public APIs.",
+      "evidence": ["src/solveur/core/nonlinear/iteration.py", "src/solveur/core/analyses/geometric_nonlinear.py"]
+    },
+    {
+      "id": "AD-029-02",
+      "decision": "WP01 defines one canonical residual/tangent and nonlinear-driver contract before any physics migration.",
+      "reason": "Current routes use equivalent but non-uniform residual signs, convergence scales and iteration ownership."
+    },
+    {
+      "id": "AD-029-03",
+      "decision": "WP02 extends accepted-increment transaction semantics to every mutable nonlinear state, including contact and continuation state where applicable.",
+      "reason": "StateTransaction and MaterialStateSession presently cover material/slip use cases but are not a universal atomic transaction."
+    },
+    {
+      "id": "AD-029-04",
+      "decision": "Checkpoint/restart remains a continuation feature only after its payload has declared topology, version and rollback semantics for all participating state families.",
+      "reason": "Current checkpoints persist material states and generic continuation data, but not a declared contact-state payload."
+    },
+    {
+      "id": "AD-029-05",
+      "decision": "The legacy active-set/friction solver remains a bounded compatibility/research route until adapted through the common driver contract; no third Newton framework is introduced.",
+      "evidence": ["src/solveur/contact/solver.py", "src/solveur/contact/slip_root.py"]
+    }
+  ],
+  "architecture_debt": [
+    {"id": "DEBT-029-01", "classification": "BLOCKER", "area": "state transaction", "finding": "No atomic transaction currently spans displacement, material state, contact history and continuation state.", "planned_wp": "WP01/WP02"},
+    {"id": "DEBT-029-02", "classification": "MAJOR", "area": "Newton ownership", "finding": "Full Newton, material load-control, arc-length corrector and contact active-set/friction routes retain separately owned iteration loops and convergence semantics.", "planned_wp": "WP01/WP03/WP06/WP08"},
+    {"id": "DEBT-029-03", "classification": "MAJOR", "area": "contact integration", "finding": "Penalty contact can compose in common assembly, while active-set/friction state and updated-search loops remain outside the common nonlinear transaction/diagnostics boundary.", "planned_wp": "WP02/WP07/WP08"},
+    {"id": "DEBT-029-04", "classification": "MAJOR", "area": "checkpoint", "finding": "Nonlinear checkpoints validate material topology and continuation data but have no explicit contact-state schema, digest or restart compatibility contract.", "planned_wp": "WP02/WP13"},
+    {"id": "DEBT-029-05", "classification": "MAJOR", "area": "physics scope", "finding": "The bounded mechanics interpretation of total_lagrangian_j2 is unresolved; stress measure, state transport and finite-kinematic claims require Owner approval.", "planned_wp": "WP09", "owner_decision": "OD-029-01"},
+    {"id": "DEBT-029-06", "classification": "MINOR", "area": "controls", "finding": "Line-search helpers and compatibility wrappers are duplicated across iteration and load-control modules.", "planned_wp": "WP03"},
+    {"id": "DEBT-029-07", "classification": "MINOR", "area": "performance", "finding": "Sparse nonlinear assembly has chunking and counters but no frozen nonlinear assembly scaling/performance contract.", "planned_wp": "WP13"},
+    {"id": "DEBT-029-08", "classification": "ACCEPTABLE", "area": "assembly", "finding": "The nonlinear assembly plan keeps immutable element/DOF data separate from trial material history and is a suitable retained foundation.", "planned_wp": "retain"}
+  ]
+}
