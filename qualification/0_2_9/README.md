@@ -9,6 +9,11 @@ The baseline commit is recorded in `baseline.json`. Work packages may only
 add prospective contracts and evidence beneath this directory; historical
 0.2.8 evidence remains immutable.
 
+WP03 Newton Robustness / Adaptive Control is now in **CONTRACT_PHASE** at
+0/7 points. WP03-A freezes the current authority map, robustness contracts,
+failure and retry matrix, and 16-case baseline campaign. WP03-B
+implementation requires Owner review.
+
 ## Current planning status
 
 - WP00: `CLOSED`, 4/4 points.
@@ -18,7 +23,7 @@ add prospective contracts and evidence beneath this directory; historical
 - WP02 State Transactions & Rollback: `CLOSED`, 6/6 points after the
   independent WP02-E audit at `c4e02fbd2d1262f621f6c8d4f07ee2da89d885f5`.
   The decision is `GO_WITH_LIMITATIONS`; Owner review is required before any
-  WP03 authorization.
+  WP03-B implementation.
 - OD-029-01: **OPEN**; it blocks WP09 only.
 - OD-029-02: **CLOSED** as `READ_V1_WRITE_V2_BOUNDED`; ambiguous/stateful
   contact-bearing v1 checkpoints are rejected.

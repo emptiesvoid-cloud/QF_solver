@@ -50,7 +50,7 @@ def test_step_up_requires_owner_decision_before_j2_geometry_work() -> None:
     assert [option["id"] for option in decision["options"]] == ["A", "B", "C", "D"]
 
 
-def test_step_up_documents_are_present_and_explicitly_planning_only() -> None:
+def test_step_up_and_wp03_documents_are_present_and_explicitly_planning_only() -> None:
     expected = {
         "README.md",
         "architecture-baseline.md",
@@ -76,6 +76,15 @@ def test_step_up_documents_are_present_and_explicitly_planning_only() -> None:
         "wp02-implementation-plan.md",
         "wp02-b-schema-v2-foundation.md",
         "wp02-c-fixed-adaptive-restart.md",
+        "wp02-d-arc-length-restart.md",
+        "wp02-d1-material-state-alias.md",
+        "wp02-e-independent-closure.md",
+        "wp03-robustness-contract.md",
+        "wp03-architecture-map.md",
+        "wp03-failure-retry-matrix.md",
+        "wp03-baseline-campaign.md",
+        "wp03-gate-matrix.md",
+        "wp03-implementation-plan.md",
     }
 
     assert {path.name for path in DOCS.glob("*.md")} == expected
@@ -109,7 +118,7 @@ def test_wp01_contract_is_prospective_and_preserves_the_open_j2_geometry_decisio
         "status": "CLOSED",
         "validated_points": 12,
     }
-    assert progress["validated_points"] == 16
+    assert progress["validated_points"] == 22
     closure = _load("wp01_owner_closure.json")
     assert closure["status"] == "CLOSED"
     assert closure["owner_approval_recorded"] is True
@@ -119,10 +128,23 @@ def test_wp01_contract_is_prospective_and_preserves_the_open_j2_geometry_decisio
     assert closure["integrity"]["maturity_changed"] is False
     assert progress["work_packages"]["WP02"] == {
         "points": 6,
-        "status": "FIXED_ADAPTIVE_RESTART",
+        "status": "CLOSED",
+        "validated_points": 6,
+    }
+    assert progress["work_packages"]["WP03"] == {
+        "points": 7,
+        "status": "CONTRACT_PHASE",
         "validated_points": 0,
     }
     assert progress["total_points"] == 100
     wp02 = _load("wp02_state_checkpoint_contract.json")
     assert wp02["target_checkpoint_schema_version"] == 2
     assert wp02["v1_compatibility"]["policy"] == "READ_V1_WRITE_V2_BOUNDED"
+    wp03 = _load("wp03_robustness_contract.json")
+    assert wp03["status"] == "PROSPECTIVE_CONTRACT_FROZEN"
+    assert wp03["baseline_sha"] == "ecc09f0bae2dab867c12d7e471860887f6ef0548"
+    assert len(wp03["gate_record"]) == 10
+    assert all(value == "PROSPECTIVE_NOT_DEMONSTRATED" for value in wp03["gate_record"].values())
+    baseline = _load("wp03_baseline_campaign.json")
+    assert baseline["status"] == "FROZEN_NOT_EXECUTED"
+    assert len(baseline["cases"]) == 16

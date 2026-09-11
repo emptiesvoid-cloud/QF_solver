@@ -12,10 +12,11 @@ applicable_version: 0.2.9-development
 | WP00 | 4 | Closed |
 | WP01 | 12 | **Closed** — Owner-approved unified nonlinear core |
 | WP02 | 6 | **Closed** — 6/6; independent WP02-E audit `GO_WITH_LIMITATIONS` |
-| WP03–WP08 | 50 | Not started |
+| WP03 | 7 | **Contract phase** — 0/7; WP03-B not authorized |
+| WP04–WP08 | 43 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
-| **Validated total** | **22 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6; Owner review is required before WP03** |
+| **Validated total** | **22 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6; Owner review is required before WP03-B** |
 
 WP01 is closed by the independent Owner decision recorded in
 [the WP01 closure record](wp01-owner-closure.md), based on audit SHA
@@ -25,7 +26,7 @@ bounded/research boundaries. Unified checkpoint persistence, frictional
 contact migration and adaptive penalty-contact qualification remain future
 work; inherited typing debt remains documented. OD-029-01 stays OPEN and
 blocks WP09 only. WP02 is closed by the independent audit; Owner review is
-required before WP03 authorization.
+required before WP03-B authorization.
 
 ## WP02 closure
 
@@ -43,7 +44,23 @@ blocker and closes WP02 at **6/6**, bringing the validated roadmap to
 **22/100**. Its `GO_WITH_LIMITATIONS` result is bounded to supported
 single-process fixed/adaptive/arc restart routes; it does not claim frictional
 contact, distributed, nonlinear-dynamics or adaptive penalty-contact restart.
-Owner review is required before WP03 may begin.
+Owner review is required before WP03-B may begin.
+
+## WP03-A contract phase
+
+WP03-A freezes the Newton robustness and adaptive-control contract at
+ecc09f0bae2dab867c12d7e471860887f6ef0548. It records the actual current
+authority map, duplicate policy surfaces to consolidate, canonical stagnation
+and line-search semantics, the failure/retry matrix and a 16-case baseline
+campaign. No production source was changed, no numerical campaign was run,
+and no WP03 points were awarded. WP03-B remains unauthorized pending Owner
+review.
+
+The controlled records are [the robustness contract](wp03-robustness-contract.md),
+[the architecture map](wp03-architecture-map.md), [the failure/retry
+matrix](wp03-failure-retry-matrix.md), [the baseline campaign](wp03-baseline-campaign.md),
+[the gate matrix](wp03-gate-matrix.md) and [the implementation
+decomposition](wp03-implementation-plan.md).
 
 The contract is split into the [state/checkpoint contract](wp02-state-checkpoint-contract.md),
 [compatibility matrix](wp02-compatibility-matrix.md),
