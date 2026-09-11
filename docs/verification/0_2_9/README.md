@@ -78,14 +78,15 @@ WP00 (4/4).
 The controlled documentation view is [WP01 Owner closure](wp01-owner-closure.md);
 the corresponding machine-readable record is
 `qualification/0_2_9/wp01_owner_closure.json`.
-WP02 remains **NOT STARTED**. OD-029-01 remains **OPEN** and blocks WP09
-only. This record does not promote maturity, alter numerical source or change
-historical WP01-A/B/C/D evidence.
+WP02-B is now the **SCHEMA_V2_FOUNDATION** phase at 0/6 points. OD-029-01
+remains **OPEN** and blocks WP09 only. OD-029-02 is **CLOSED** as
+`READ_V1_WRITE_V2_BOUNDED`. This record does not promote maturity, alter
+numerical formulations or change historical WP01-A/B/C/D evidence.
 
-WP02 is now in **CONTRACT_PHASE** at 0/6 points. WP02-A freezes the
-state/rollback/checkpoint contract only; implementation remains not started.
-The bounded v1 compatibility policy and its contact-bearing exception are
-recorded in [OD-029-02](owner-decisions.md).
+WP02 is now in **SCHEMA_V2_FOUNDATION** at 0/6 points. WP02-B implements the
+checkpoint-v2 serialization foundation and leaves full solver restart
+migration to WP02-C/WP02-D. The bounded v1 compatibility policy and its
+contact-bearing rejection are recorded in [OD-029-02](owner-decisions.md).
 
 ## Planning records
 
@@ -103,8 +104,9 @@ recorded in [OD-029-02](owner-decisions.md).
 - [WP02 failure matrix](wp02-failure-matrix.md)
 - [WP02 gate matrix](wp02-gate-matrix.md)
 - [WP02 implementation plan](wp02-implementation-plan.md)
+- [WP02-B schema-v2 foundation](wp02-b-schema-v2-foundation.md)
 
 WP01 implementation and continuation migration are closed under the recorded
-Owner decision. The next permitted planning step is the WP02 prospective
-contract; no WP02 implementation is started by this record. OD-029-01 remains
-open and blocks WP09; WP01 remains formulation-neutral.
+Owner decision. The next permitted implementation step is WP02-C fixed/adaptive
+restart migration after Owner review; WP02-D remains the arc-length migration
+step. OD-029-01 remains open and blocks WP09; WP01 remains formulation-neutral.

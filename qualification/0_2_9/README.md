@@ -15,10 +15,13 @@ add prospective contracts and evidence beneath this directory; historical
 - WP01 Unified Nonlinear Core: `CLOSED`, 12/12 points after independent
   Owner closure at audit SHA `6876d867cdd845195e8946b05329b0bc82937fdc`.
 - Validated total: `16/100`.
-- WP02 State Transactions & Rollback: `CONTRACT_PHASE`, 0/6 points;
-  implementation is **NOT STARTED**.
+- WP02 State Transactions & Rollback: `SCHEMA_V2_FOUNDATION`, 0/6 points;
+  WP02-B implemented the bounded schema-v2 serialization foundation; full
+  solver restart migration remains future WP02-C/WP02-D work.
 - OD-029-01: **OPEN**; it blocks WP09 only.
+- OD-029-02: **CLOSED** as `READ_V1_WRITE_V2_BOUNDED`; ambiguous/stateful
+  contact-bearing v1 checkpoints are rejected.
 
-WP02-A is recorded in the `wp02_*` planning records. It freezes the target
-persisted-state authority and restart contract without changing the current
-checkpoint implementation.
+WP02-A is recorded in the `wp02_*` planning records. WP02-B adds the schema-v2
+checkpoint and deterministic serialization foundation without changing
+numerical formulations or maturity claims.

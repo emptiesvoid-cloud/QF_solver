@@ -41,13 +41,13 @@ state-transport verification, bounded external correlation and failure limits.
 
 ## OD-029-02 — legacy v1 checkpoint compatibility boundary
 
-**Status:** OPEN. Non-blocking for WP02-A; applies only to the implementation
-choice for legacy schema-1 checkpoints with non-empty or stateful contact
-topology.
+**Status:** CLOSED — Owner-approved decision:
+`READ_V1_WRITE_V2_BOUNDED`.
 
 Schema 1 has no contact-state payload, contact topology, accepted metadata or
-composite digest. The conservative default is therefore to read/migrate v1
-only for bounded contact-free or stateless-compatible cases, write schema 2,
-and reject ambiguous contact-bearing v1 inputs explicitly. The alternatives
-are to define a separate legacy topology/invariant source or to intentionally
-reject all v1 checkpoints. No option is selected by code existence alone.
+composite digest. The approved boundary is therefore to read/migrate
+contact-free v1 checkpoints, and stateless-compatible penalty-contact v1
+checkpoints only when compatibility is proven from the current model. Any
+ambiguous, stateful or contact-history-dependent v1 checkpoint is rejected
+explicitly. Missing history is never invented, and all new writes use schema
+2. The implementation record is [WP02-B schema-v2 foundation](wp02-b-schema-v2-foundation.md).

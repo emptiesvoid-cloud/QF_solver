@@ -43,7 +43,13 @@ class NonlinearState:
     schema_version: int = _STATE_SCHEMA_VERSION
 
     def __post_init__(self) -> None:
-        self.displacement = np.array(self.displacement, dtype=float, copy=True)
+        displacement = np.array(self.displacement, copy=True)
+        # Preserve floating-point precision in detached snapshots.  Integer
+        # displacement inputs are converted because nonlinear updates are
+        # floating-point operations and must not fail on in-place correction.
+        if displacement.dtype.kind not in "fc":
+            displacement = displacement.astype(float)
+        self.displacement = displacement
         self.load_factor = float(self.load_factor)
         self.material_state = _detach_mapping(self.material_state, "material_state")
         self.contact_state = _detach_mapping(self.contact_state, "contact_state")
@@ -69,7 +75,12 @@ class NonlinearState:
         """Validate finite scalar/vector data and canonical state payloads."""
         if self.schema_version != _STATE_SCHEMA_VERSION:
             raise ValueError(f"Unsupported nonlinear state schema version {self.schema_version!r}.")
-        if self.displacement.ndim != 1 or not np.all(np.isfinite(self.displacement)):
+        if (
+            self.displacement.ndim != 1
+            or self.displacement.dtype.hasobject
+            or not np.issubdtype(self.displacement.dtype, np.number)
+            or not np.all(np.isfinite(self.displacement))
+        ):
             raise ValueError("NonlinearState displacement must be a finite one-dimensional NumPy vector.")
         if not np.isfinite(self.load_factor):
             raise ValueError("NonlinearState load_factor must be finite.")
@@ -229,14 +240,16 @@ def _detach_mapping(value: Mapping[str | int, Any], name: str) -> dict[str | int
 
 
 def _validate_payload(value: Any, path: str) -> None:
-    if value is None or isinstance(value, (str, bool, int, np.integer)):
+    if value is None or isinstance(value, (str, bool, np.bool_, int, np.integer)):
         return
     if isinstance(value, (float, np.floating)):
         if not np.isfinite(value):
             raise ValueError(f"NonlinearState {path} contains a non-finite scalar.")
         return
     if isinstance(value, np.ndarray):
-        if value.dtype.hasobject or not np.issubdtype(value.dtype, np.number):
+        if value.dtype.hasobject or not (
+            np.issubdtype(value.dtype, np.number) or np.issubdtype(value.dtype, np.bool_)
+        ):
             raise TypeError(f"NonlinearState {path} array must have a non-object numeric dtype.")
         if not np.all(np.isfinite(value)):
             raise ValueError(f"NonlinearState {path} array contains non-finite values.")
@@ -262,8 +275,8 @@ def _canonical_payload(value: Any) -> Any:
     _validate_payload(value, "digest")
     if value is None:
         return {"type": "none"}
-    if isinstance(value, bool):
-        return {"type": "bool", "value": value}
+    if isinstance(value, (bool, np.bool_)):
+        return {"type": "bool", "value": bool(value)}
     if isinstance(value, str):
         return {"type": "str", "value": value}
     if isinstance(value, (int, np.integer)) and not isinstance(value, bool):
@@ -293,3 +306,79 @@ def _canonical_mapping_key(key: Any) -> dict[str, str]:
     if isinstance(key, str):
         return {"type": "str", "value": key}
     return {"type": "int", "value": str(int(key))}
+
+
+def canonical_state_payload(value: Any) -> Any:
+    """Return the typed, JSON-safe representation used by state persistence."""
+
+    return _canonical_payload(value)
+
+
+def _decode_mapping_key(payload: Any) -> str | int:
+    if not isinstance(payload, dict) or payload.get("type") not in {"str", "int"}:
+        raise ValueError("Invalid canonical mapping key payload")
+    if payload["type"] == "str":
+        return str(payload["value"])
+    return int(payload["value"])
+
+
+def decode_canonical_state_payload(payload: Any) -> Any:
+    """Decode a payload produced by :func:`canonical_state_payload`.
+
+    The decoder accepts only the frozen nonlinear-state types and never
+    deserializes arbitrary Python objects or pickle data.
+    """
+
+    if not isinstance(payload, dict):
+        raise ValueError("Canonical state payload must be a mapping")
+    payload_type = payload.get("type")
+    if payload_type == "none":
+        return None
+    if payload_type == "bool":
+        return bool(payload["value"])
+    if payload_type == "str":
+        return str(payload["value"])
+    if payload_type == "int":
+        return int(payload["value"])
+    if payload_type == "float":
+        return float.fromhex(str(payload["value"]))
+    if payload_type == "ndarray":
+        dtype: np.dtype = np.dtype(str(payload["dtype"]))
+        if dtype.hasobject or not (
+            np.issubdtype(dtype, np.number) or np.issubdtype(dtype, np.bool_)
+        ):
+            raise ValueError("Canonical arrays must have a numeric non-object dtype")
+        shape = tuple(int(axis) for axis in payload["shape"])
+        if any(axis < 0 for axis in shape):
+            raise ValueError("Canonical array shape cannot contain negative axes")
+        raw = base64.b64decode(str(payload["data_base64"]), validate=True)
+        expected_size = dtype.itemsize
+        for axis in shape:
+            expected_size *= axis
+        if len(raw) != expected_size:
+            raise ValueError("Canonical array byte count does not match its shape")
+        return np.frombuffer(raw, dtype=dtype).copy().reshape(shape)
+    if payload_type == "mapping":
+        entries = payload.get("entries")
+        if not isinstance(entries, list):
+            raise ValueError("Canonical mapping entries must be a list")
+        result: dict[str | int, Any] = {}
+        for entry in entries:
+            if not isinstance(entry, list) or len(entry) != 2:
+                raise ValueError("Invalid canonical mapping entry")
+            key = _decode_mapping_key(entry[0])
+            if key in result:
+                raise ValueError("Duplicate canonical mapping key")
+            result[key] = decode_canonical_state_payload(entry[1])
+        return result
+    if payload_type == "list":
+        items = payload.get("items")
+        if not isinstance(items, list):
+            raise ValueError("Canonical list items must be a list")
+        return [decode_canonical_state_payload(item) for item in items]
+    if payload_type == "tuple":
+        items = payload.get("items")
+        if not isinstance(items, list):
+            raise ValueError("Canonical tuple items must be a list")
+        return tuple(decode_canonical_state_payload(item) for item in items)
+    raise ValueError(f"Unsupported canonical state payload type: {payload_type!r}")
