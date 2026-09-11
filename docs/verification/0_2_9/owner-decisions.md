@@ -16,11 +16,13 @@ roadmap total to **16/100** including WP00 (4/4). The detailed record is
 [WP01 Owner closure](wp01-owner-closure.md).
 
 This decision records no production-source, numerical-formulation or maturity
-change and does not alter the WP01-A/B/C/D evidence. WP02 implementation is
-now in the **ARC_LENGTH_RESTART** phase at 0/6 points, pending WP02-E
-independent closure. The limitations are frictional-contact migration,
-adaptive penalty-contact qualification, distributed restart and inherited
-mypy/mixin typing debt.
+change and does not alter the WP01-A/B/C/D evidence. The subsequent independent
+WP02-E audit closes State Transactions & Rollback at **6/6**, bringing the
+validated roadmap to **22/100** with `GO_WITH_LIMITATIONS`. Its scope remains
+bounded to supported single-process fixed/adaptive/arc restart; frictional
+contact migration, adaptive penalty-contact qualification, distributed restart
+and inherited mypy/mixin typing debt remain outside that closure. Owner review
+is required before WP03 authorization.
 
 ## OD-029-01 — bounded J2 plus geometric formulation
 

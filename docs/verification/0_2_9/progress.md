@@ -11,11 +11,11 @@ applicable_version: 0.2.9-development
 | --- | ---: | --- |
 | WP00 | 4 | Closed |
 | WP01 | 12 | **Closed** — Owner-approved unified nonlinear core |
-| WP02 | 6 | **Arc-length restart** — 0/6; WP02-E independent closure remains |
+| WP02 | 6 | **Closed** — 6/6; independent WP02-E audit `GO_WITH_LIMITATIONS` |
 | WP03–WP08 | 50 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
-| **Validated total** | **16 / 100** | **WP00 4/4 + WP01 12/12; WP02 closure remains pending independent review** |
+| **Validated total** | **22 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6; Owner review is required before WP03** |
 
 WP01 is closed by the independent Owner decision recorded in
 [the WP01 closure record](wp01-owner-closure.md), based on audit SHA
@@ -24,9 +24,10 @@ WP01 is closed by the independent Owner decision recorded in
 bounded/research boundaries. Unified checkpoint persistence, frictional
 contact migration and adaptive penalty-contact qualification remain future
 work; inherited typing debt remains documented. OD-029-01 stays OPEN and
-blocks WP09 only. WP02 is now in the arc-length restart phase.
+blocks WP09 only. WP02 is closed by the independent audit; Owner review is
+required before WP03 authorization.
 
-## WP02 current phase
+## WP02 closure
 
 WP02-A froze the prospective state, rollback and checkpoint contract at 0/6
 points. WP02-B implemented the schema-v2 persistence foundation: one accepted
@@ -36,8 +37,13 @@ migration and atomic canonical writes. WP02-C migrated solver-level fixed and
 adaptive restart ownership. WP02-D now routes the public arc-length restart
 path through the accepted composite state while retaining its specialized
 correction kernel. WP02-D1 remediates and verifies the caller-visible
-material-state mirror after a path-dependent restart; WP02 remains at 0/6
-points pending independent WP02-E closure.
+material-state mirror after a path-dependent restart. The independent WP02-E
+audit at `c4e02fbd2d1262f621f6c8d4f07ee2da89d885f5` found no in-scope production
+blocker and closes WP02 at **6/6**, bringing the validated roadmap to
+**22/100**. Its `GO_WITH_LIMITATIONS` result is bounded to supported
+single-process fixed/adaptive/arc restart routes; it does not claim frictional
+contact, distributed, nonlinear-dynamics or adaptive penalty-contact restart.
+Owner review is required before WP03 may begin.
 
 The contract is split into the [state/checkpoint contract](wp02-state-checkpoint-contract.md),
 [compatibility matrix](wp02-compatibility-matrix.md),
@@ -45,5 +51,6 @@ The contract is split into the [state/checkpoint contract](wp02-state-checkpoint
 [implementation decomposition](wp02-implementation-plan.md), [WP02-B
 schema-v2 evidence](wp02-b-schema-v2-foundation.md), [WP02-C fixed/adaptive
 restart evidence](wp02-c-fixed-adaptive-restart.md), [WP02-D arc-length
-restart evidence](wp02-d-arc-length-restart.md) and [WP02-D1 material-state
-ownership remediation](wp02-d1-material-state-alias.md).
+restart evidence](wp02-d-arc-length-restart.md), [WP02-D1 material-state
+ownership remediation](wp02-d1-material-state-alias.md) and the independent
+[WP02-E closure audit](wp02-e-independent-closure.md).

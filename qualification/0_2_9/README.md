@@ -14,11 +14,11 @@ add prospective contracts and evidence beneath this directory; historical
 - WP00: `CLOSED`, 4/4 points.
 - WP01 Unified Nonlinear Core: `CLOSED`, 12/12 points after independent
   Owner closure at audit SHA `6876d867cdd845195e8946b05329b0bc82937fdc`.
-- Validated total: `16/100`.
-- WP02 State Transactions & Rollback: `ARC_LENGTH_RESTART`, 0/6 points;
-  WP02-B implemented schema-v2 serialization, WP02-C migrated fixed/adaptive
-  restart ownership and WP02-D migrated the public arc-length restart path.
-  Independent WP02-E closure remains pending.
+- Validated total: `22/100`.
+- WP02 State Transactions & Rollback: `CLOSED`, 6/6 points after the
+  independent WP02-E audit at `c4e02fbd2d1262f621f6c8d4f07ee2da89d885f5`.
+  The decision is `GO_WITH_LIMITATIONS`; Owner review is required before any
+  WP03 authorization.
 - OD-029-01: **OPEN**; it blocks WP09 only.
 - OD-029-02: **CLOSED** as `READ_V1_WRITE_V2_BOUNDED`; ambiguous/stateful
   contact-bearing v1 checkpoints are rejected.

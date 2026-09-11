@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "record_id": "QF-SOLVER-0.2.9-WP02-GATES-001",
-  "status": "ARC_LENGTH_RESTART",
+  "status": "CLOSED_AUDIT",
   "baseline_sha": "cced3d30ac12f2e405915766c5329ac53b7b07bb",
   "thresholds": {
     "persisted_deterministic_state": {"relative": 1e-12, "absolute": 1e-14},
@@ -19,5 +19,19 @@
     {"id": "G02-09", "name": "No trial persistence", "requirement": "Rejected/unaccepted trial data never enters a checkpoint.", "negative_case": "Injected failed trial is absent after reload."},
     {"id": "G02-10", "name": "Numerical preservation", "requirement": "Existing nonlinear fixed/adaptive/arc behavior remains unchanged outside persistence plumbing.", "threshold": "Existing frozen regression thresholds; no tolerance relaxation."}
   ],
-  "award_policy": "WP02-A freezes these gates and awards 0/6. Points require implementation evidence and independent closure review."
+  "award_policy": "WP02-A froze these gates. The independent WP02-E audit at c4e02fbd2d1262f621f6c8d4f07ee2da89d885f5 closed WP02 at 6/6 with the bounded limitations recorded in wp02_e_independent_closure.json; Owner review remains required before WP03 authorization.",
+  "independent_audit_results": {
+    "audit_sha": "c4e02fbd2d1262f621f6c8d4f07ee2da89d885f5",
+    "decision": "GO_WITH_LIMITATIONS",
+    "G02-01": "PASS",
+    "G02-02": "PASS",
+    "G02-03": "PASS_WITH_LIMITATIONS",
+    "G02-04": "PASS_WITH_LIMITATIONS",
+    "G02-05": "PASS",
+    "G02-06": "PASS",
+    "G02-07": "PASS_WITH_LIMITATIONS",
+    "G02-08": "PASS",
+    "G02-09": "PASS",
+    "G02-10": "PASS_WITH_LIMITATIONS"
+  }
 }
