@@ -87,6 +87,8 @@ def test_step_up_and_wp03_documents_are_present_and_status_is_explicit() -> None
         "wp03-implementation-plan.md",
         "wp03-b-baseline.md",
         "wp03-b-robustness-authority.md",
+        "wp03-c-baseline.md",
+        "wp03-c-adaptive-policy.md",
     }
 
     assert {path.name for path in DOCS.glob("*.md")} == expected
@@ -135,7 +137,7 @@ def test_wp01_contract_is_prospective_and_preserves_the_open_j2_geometry_decisio
     }
     assert progress["work_packages"]["WP03"] == {
         "points": 7,
-        "status": "STAGNATION_LINESEARCH_AUTHORITY",
+        "status": "ADAPTIVE_POLICY_AUTHORITY",
         "validated_points": 0,
     }
     assert progress["total_points"] == 100
@@ -150,3 +152,7 @@ def test_wp01_contract_is_prospective_and_preserves_the_open_j2_geometry_decisio
     baseline = _load("wp03_baseline_campaign.json")
     assert baseline["status"] == "FROZEN_NOT_EXECUTED"
     assert len(baseline["cases"]) == 16
+    adaptive = _load("wp03_c_adaptive_policy.json")
+    assert adaptive["status"] == "IMPLEMENTED_TARGETED"
+    assert adaptive["baseline_sha"] == "e2f3e07310b4348c01ee68f764de0f986436995e"
+    assert adaptive["validated_points"] == 0

@@ -15,6 +15,7 @@ from scipy.sparse.linalg import MatrixRankWarning, splu, spsolve
 
 from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
+from solveur.core.nonlinear.controls import AdaptiveLoadControls
 
 
 _PARAMETER_KEYS = {
@@ -31,6 +32,8 @@ _PERMUTATIONS = {"NATURAL", "MMD_ATA", "MMD_AT_PLUS_A", "COLAMD"}
 
 ROBUSTNESS_POLICY_ID = "qf-solver-unified-robustness"
 ROBUSTNESS_POLICY_VERSION = 1
+ADAPTIVE_POLICY_ID = "qf-solver-unified-adaptive-step"
+ADAPTIVE_POLICY_VERSION = 1
 
 
 class RobustnessPolicySource(str, Enum):
@@ -124,6 +127,247 @@ class LineSearchResult:
             "policy_id": self.policy_id,
             "policy_version": self.policy_version,
         }
+
+
+@dataclass(frozen=True)
+class AdaptivePolicyDecision:
+    """One deterministic adaptive increment-policy decision."""
+
+    decision: str
+    base_load_factor: float
+    policy_increment: float
+    proposed_increment: float
+    accepted: bool
+    rejected: bool
+    failure_reason: str | None
+    retry_classification: str | None
+    cutback_factor: float
+    growth_factor: float
+    minimum_increment: float
+    maximum_increment: float
+    cutback_count: int
+    maximum_cutbacks: int
+    iterations: int | None
+    grow_below_iterations: int
+    shrink_above_iterations: int
+    next_increment: float | None
+    retry_increment: float | None
+    clipped_to_target: bool = False
+    policy_id: str = ADAPTIVE_POLICY_ID
+    policy_version: int = ADAPTIVE_POLICY_VERSION
+
+    def to_dict(self) -> dict[str, Any]:
+        """Return deterministic, JSON-compatible policy diagnostics."""
+        return {
+            "decision": self.decision,
+            "base_load_factor": self.base_load_factor,
+            "policy_increment": self.policy_increment,
+            "proposed_increment": self.proposed_increment,
+            "accepted": self.accepted,
+            "rejected": self.rejected,
+            "failure_reason": self.failure_reason,
+            "retry_classification": self.retry_classification,
+            "cutback_factor": self.cutback_factor,
+            "growth_factor": self.growth_factor,
+            "minimum_increment": self.minimum_increment,
+            "maximum_increment": self.maximum_increment,
+            "cutback_count": self.cutback_count,
+            "maximum_cutbacks": self.maximum_cutbacks,
+            "iterations": self.iterations,
+            "grow_below_iterations": self.grow_below_iterations,
+            "shrink_above_iterations": self.shrink_above_iterations,
+            "next_increment": self.next_increment,
+            "retry_increment": self.retry_increment,
+            "clipped_to_target": self.clipped_to_target,
+            "policy_id": self.policy_id,
+            "policy_version": self.policy_version,
+        }
+
+
+class UnifiedAdaptiveStepPolicy:
+    """Single formulation-neutral authority for adaptive step decisions.
+
+    This class owns only deterministic increment policy.  It does not own
+    model assembly, material/contact state or accepted-state publication;
+    callers must rollback through ``UnifiedContinuationController`` before
+    asking it to classify a failed trial.
+    """
+
+    def __init__(
+        self,
+        controls: AdaptiveLoadControls,
+        *,
+        policy_source: str | RobustnessPolicySource = RobustnessPolicySource.PUBLIC_DEFAULT,
+        allow_owner_policy: bool = True,
+    ) -> None:
+        source = policy_source.value if isinstance(policy_source, RobustnessPolicySource) else str(policy_source)
+        if source not in {item.value for item in RobustnessPolicySource}:
+            raise ValueError(f"Unknown adaptive policy source {source!r}.")
+        self.controls = controls
+        self.policy_source = source
+        self.allow_owner_policy = bool(allow_owner_policy)
+        self._decisions: list[AdaptivePolicyDecision] = []
+
+    @property
+    def decisions(self) -> tuple[AdaptivePolicyDecision, ...]:
+        """Return the immutable view of decisions emitted so far."""
+        return tuple(self._decisions)
+
+    def configuration_diagnostics(self) -> dict[str, Any]:
+        """Return controls and deterministic policy history."""
+        controls = self.controls
+        return {
+            "policy_id": ADAPTIVE_POLICY_ID,
+            "policy_version": ADAPTIVE_POLICY_VERSION,
+            "policy_source": self.policy_source,
+            "allow_owner_policy": self.allow_owner_policy,
+            "controls": {
+                "initial_increment": controls.initial_increment,
+                "minimum_increment": controls.minimum_increment,
+                "maximum_increment": controls.maximum_increment,
+                "cutback_factor": controls.cutback_factor,
+                "growth_factor": controls.growth_factor,
+                "grow_below_iterations": controls.grow_below_iterations,
+                "shrink_above_iterations": controls.shrink_above_iterations,
+                "maximum_cutbacks": controls.maximum_cutbacks,
+            },
+            "minimum_increment_equality": "PERMITTED",
+            "maximum_cutbacks_semantics": "terminal after the Nth rejected attempt; no N+1 attempt",
+            "decisions": [decision.to_dict() for decision in self._decisions],
+        }
+
+    def initial_increment(self, stored_increment: float | None = None) -> float:
+        """Return a validated initial/continued policy increment."""
+        if stored_increment is None or not np.isfinite(float(stored_increment)) or float(stored_increment) <= 0.0:
+            return self.controls.initial_increment
+        return min(
+            self.controls.maximum_increment,
+            max(self.controls.minimum_increment, float(stored_increment)),
+        )
+
+    def propose_increment(self, accepted_load_factor: float, policy_increment: float) -> float:
+        """Clip one policy increment to the final target without mutating policy state."""
+        base = float(accepted_load_factor)
+        increment = float(policy_increment)
+        if not np.isfinite(base) or not np.isfinite(increment) or increment <= 0.0:
+            raise ValueError("Adaptive policy inputs must be finite and positive where required.")
+        remaining = 1.0 - base
+        if remaining <= 0.0:
+            return 0.0
+        proposed = min(increment, remaining)
+        if proposed <= 0.0 or not np.isfinite(proposed):
+            raise ValueError("Adaptive policy produced an invalid proposed increment.")
+        return proposed
+
+    def on_accept(
+        self,
+        *,
+        base_load_factor: float,
+        policy_increment: float,
+        proposed_increment: float,
+        iterations: int,
+        cutback_count: int,
+    ) -> AdaptivePolicyDecision:
+        """Choose keep/grow/shrink after a globally accepted increment."""
+        controls = self.controls
+        policy_value = float(policy_increment)
+        proposed_value = float(proposed_increment)
+        if not np.isfinite(policy_value) or not np.isfinite(proposed_value) or policy_value <= 0.0 or proposed_value <= 0.0:
+            raise ValueError("Accepted adaptive increments must be finite and positive.")
+        if int(iterations) <= controls.grow_below_iterations:
+            decision_name = "ACCEPT_GROW"
+            next_increment = min(controls.maximum_increment, policy_value * controls.growth_factor)
+        elif int(iterations) >= controls.shrink_above_iterations:
+            decision_name = "ACCEPT_SHRINK"
+            next_increment = max(controls.minimum_increment, policy_value * controls.cutback_factor)
+        else:
+            decision_name = "ACCEPT_KEEP"
+            next_increment = policy_value
+        decision = AdaptivePolicyDecision(
+            decision=decision_name,
+            base_load_factor=float(base_load_factor),
+            policy_increment=policy_value,
+            proposed_increment=proposed_value,
+            accepted=True,
+            rejected=False,
+            failure_reason=None,
+            retry_classification=None,
+            cutback_factor=controls.cutback_factor,
+            growth_factor=controls.growth_factor,
+            minimum_increment=controls.minimum_increment,
+            maximum_increment=controls.maximum_increment,
+            cutback_count=int(cutback_count),
+            maximum_cutbacks=controls.maximum_cutbacks,
+            iterations=int(iterations),
+            grow_below_iterations=controls.grow_below_iterations,
+            shrink_above_iterations=controls.shrink_above_iterations,
+            next_increment=float(next_increment),
+            retry_increment=None,
+            clipped_to_target=proposed_value < policy_value,
+        )
+        self._decisions.append(decision)
+        return decision
+
+    def on_failure(
+        self,
+        *,
+        base_load_factor: float,
+        proposed_increment: float,
+        failure_reason: NonlinearFailureReason | str | None,
+        retry_classification: object,
+        rejected_count: int,
+        iterations: int | None = None,
+    ) -> AdaptivePolicyDecision:
+        """Classify a post-rollback failure and choose retry or terminal outcome."""
+        controls = self.controls
+        proposed_value = float(proposed_increment)
+        if not np.isfinite(proposed_value) or proposed_value <= 0.0:
+            raise ValueError("Failed adaptive increments must be finite and positive.")
+        reason_value = self._enum_value(failure_reason)
+        classification_value = self._enum_value(retry_classification)
+        retry_allowed = classification_value == "RETRYABLE" or (
+            self.allow_owner_policy and classification_value == "OWNER_POLICY_DEPENDENT"
+        )
+        retry_value = proposed_value * controls.cutback_factor
+        if not retry_allowed:
+            decision_name = "TERMINAL_NON_RETRYABLE"
+            next_increment = None
+        elif int(rejected_count) >= controls.maximum_cutbacks:
+            decision_name = "TERMINAL_MAX_CUTBACKS"
+            next_increment = None
+        elif retry_value < controls.minimum_increment:
+            decision_name = "TERMINAL_MIN_INCREMENT"
+            next_increment = None
+        else:
+            decision_name = "RETRY_CUTBACK"
+            next_increment = retry_value
+        decision = AdaptivePolicyDecision(
+            decision=decision_name,
+            base_load_factor=float(base_load_factor),
+            policy_increment=proposed_value,
+            proposed_increment=proposed_value,
+            accepted=False,
+            rejected=True,
+            failure_reason=None if reason_value is None else str(reason_value),
+            retry_classification=None if classification_value is None else str(classification_value),
+            cutback_factor=controls.cutback_factor,
+            growth_factor=controls.growth_factor,
+            minimum_increment=controls.minimum_increment,
+            maximum_increment=controls.maximum_increment,
+            cutback_count=int(rejected_count),
+            maximum_cutbacks=controls.maximum_cutbacks,
+            iterations=None if iterations is None else int(iterations),
+            grow_below_iterations=controls.grow_below_iterations,
+            shrink_above_iterations=controls.shrink_above_iterations,
+            next_increment=None if next_increment is None else float(next_increment),
+            retry_increment=float(retry_value),
+        )
+        self._decisions.append(decision)
+        return decision
+
+    @staticmethod
+    def _enum_value(value: object) -> object:
+        return getattr(value, "value", value)
 
 
 class UnifiedNonlinearRobustnessController:

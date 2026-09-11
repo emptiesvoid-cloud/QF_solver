@@ -28,11 +28,13 @@ from solveur.core.nonlinear.driver import (
     ContributionResponse,
     UnifiedContinuationController,
     UnifiedNewtonEngine,
-    continuation_retry_permitted,
 )
 from solveur.core.nonlinear.checkpoint import NonlinearCheckpointSession
 from solveur.core.nonlinear.iteration import _line_search_factor_with_result
-from solveur.core.nonlinear.robustness import UnifiedNonlinearRobustnessController
+from solveur.core.nonlinear.robustness import (
+    UnifiedAdaptiveStepPolicy,
+    UnifiedNonlinearRobustnessController,
+)
 from solveur.core.nonlinear.state import NonlinearState
 from solveur.core.nonlinear.support import _failure_reason_value
 
@@ -132,16 +134,20 @@ class NonlinearLoadControlMixin:
             else int(controller.accepted_state.continuation_state.get("accepted_step", 0))
         )
         stored_increment = controller.accepted_state.continuation_state.get("next_increment")
-        if isinstance(stored_increment, (int, float)) and np.isfinite(float(stored_increment)) and float(stored_increment) > 0.0:
-            increment = min(controls.maximum_increment, max(controls.minimum_increment, float(stored_increment)))
-        else:
-            increment = controls.initial_increment
+        adaptive_policy = UnifiedAdaptiveStepPolicy(controls)
+        increment = adaptive_policy.initial_increment(
+            float(stored_increment)
+            if isinstance(stored_increment, (int, float))
+            else None
+        )
         history: list[NonlinearStep] = []
         pending_cutbacks = 0
         metadata = controller.accepted_state.accepted_increment_metadata
         self._rejected_increments = int(metadata.get("rejected_increments", 0)) if isinstance(metadata, dict) else 0
+        self._adaptive_policy_diagnostics = adaptive_policy.configuration_diagnostics()
         while current_factor < 1.0 - 1.0e-12:
-            proposed = min(increment, 1.0 - current_factor)
+            policy_increment = increment
+            proposed = adaptive_policy.propose_increment(current_factor, policy_increment)
             target_factor = current_factor + proposed
             trial_state = controller.begin_trial()
             try:
@@ -167,22 +173,36 @@ class NonlinearLoadControlMixin:
                     commit_to_inputs=False,
                 )
             except RuntimeError as error:
-                controller.rollback(
+                retry_classification = controller.rollback(
                     error,
                     path="adaptive_load_control",
                     metadata={
                         "base_load_factor": current_factor,
                         "rejected_increment": proposed,
-                        "retry_increment": proposed * controls.cutback_factor,
                     },
                 )
                 self._continuation_rejection_log = list(controller.rejection_log)
                 self._rejected_increments = controller.rejected_increments
-                if not continuation_retry_permitted(error, allow_owner_policy=True):
-                    raise
                 pending_cutbacks += 1
                 rejected = proposed
-                proposed *= controls.cutback_factor
+                error_diagnostics = getattr(error, "diagnostics", None)
+                failed_iterations = (
+                    error_diagnostics.get("iterations")
+                    if isinstance(error_diagnostics, dict)
+                    else None
+                )
+                policy_decision = adaptive_policy.on_failure(
+                    base_load_factor=current_factor,
+                    proposed_increment=proposed,
+                    failure_reason=_failure_reason_value(error),
+                    retry_classification=retry_classification,
+                    rejected_count=self._rejected_increments,
+                    iterations=int(failed_iterations) if isinstance(failed_iterations, int) else None,
+                )
+                retry_increment = float(policy_decision.retry_increment or 0.0)
+                proposed = retry_increment
+                if controller.rejection_log:
+                    controller.rejection_log[-1]["retry_increment"] = retry_increment
                 self._rejection_log.append(
                     {
                         "base_load_factor": current_factor,
@@ -191,7 +211,7 @@ class NonlinearLoadControlMixin:
                         "failure_reason": _failure_reason_value(error),
                     }
                 )
-                if self._rejected_increments > controls.maximum_cutbacks:
+                if policy_decision.decision == "TERMINAL_MAX_CUTBACKS":
                     raise NumericalConvergenceError(
                         f"Adaptive nonlinear load stepping exceeded max_cutbacks={controls.maximum_cutbacks}.",
                         reason=NonlinearFailureReason.MAX_ITERATIONS,
@@ -200,9 +220,11 @@ class NonlinearLoadControlMixin:
                             "last_failure_reason": _failure_reason_value(error),
                             "continuation_commit_count": controller.transaction.commit_count,
                             "accepted_state_digest": controller.accepted_digest,
+                            "adaptive_policy": adaptive_policy.configuration_diagnostics(),
+                            "adaptive_policy_terminal_decision": policy_decision.to_dict(),
                         },
                     )
-                if proposed < controls.minimum_increment:
+                if policy_decision.decision == "TERMINAL_MIN_INCREMENT":
                     raise NumericalConvergenceError(
                         "Adaptive nonlinear load stepping reached the minimum load increment.",
                         reason=NonlinearFailureReason.MIN_INCREMENT_REACHED,
@@ -210,8 +232,13 @@ class NonlinearLoadControlMixin:
                             "minimum_increment": controls.minimum_increment,
                             "continuation_commit_count": controller.transaction.commit_count,
                             "accepted_state_digest": controller.accepted_digest,
+                            "adaptive_policy": adaptive_policy.configuration_diagnostics(),
+                            "adaptive_policy_terminal_decision": policy_decision.to_dict(),
                         },
                     )
+                if policy_decision.decision == "TERMINAL_NON_RETRYABLE":
+                    raise
+                policy_increment = proposed
                 increment = proposed
                 continue
             accepted_cutbacks = pending_cutbacks
@@ -226,12 +253,14 @@ class NonlinearLoadControlMixin:
             trial_state.displacement = final_state.displacement.copy()
             trial_state.material_state = copy_material_states(final_state.material_state)
             trial_state.load_factor = target_factor
-            if info.iterations <= controls.grow_below_iterations:
-                next_increment = min(controls.maximum_increment, proposed * controls.growth_factor)
-            elif info.iterations >= controls.shrink_above_iterations:
-                next_increment = max(controls.minimum_increment, proposed * controls.cutback_factor)
-            else:
-                next_increment = proposed
+            policy_decision = adaptive_policy.on_accept(
+                base_load_factor=current_factor,
+                policy_increment=policy_increment,
+                proposed_increment=proposed,
+                iterations=info.iterations,
+                cutback_count=accepted_cutbacks,
+            )
+            next_increment = float(policy_decision.next_increment or 0.0)
             trial_state.continuation_state = {
                 "accepted_step": step + 1,
                 "current_factor": target_factor,
@@ -254,6 +283,7 @@ class NonlinearLoadControlMixin:
             step += 1
             current_factor = target_factor
             increment = next_increment
+            self._adaptive_policy_diagnostics = adaptive_policy.configuration_diagnostics()
             if checkpoint_session is not None:
                 checkpoint_session.save_state(
                     step,
@@ -261,6 +291,7 @@ class NonlinearLoadControlMixin:
                     final=current_factor >= 1.0 - 1.0e-12,
                     migration_metadata={"continuation_kind": "adaptive_load_control"},
                 )
+        self._adaptive_policy_diagnostics = adaptive_policy.configuration_diagnostics()
         return history
 
 

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "record_id": "QF-SOLVER-0.2.9-WP03-DECOMPOSITION-001",
   "work_package": "WP03",
-  "status": "WP03_B_IMPLEMENTED_TARGETED",
+  "status": "WP03_C_IMPLEMENTED_TARGETED",
   "baseline_sha": "ecc09f0bae2dab867c12d7e471860887f6ef0548",
   "points": 7,
   "validated_points": 0,
@@ -24,8 +24,8 @@
     {
       "id": "WP03-C",
       "title": "Adaptive increment and cutback consolidation",
-      "status": "NOT_STARTED",
-      "scope": "Consolidate adaptive load-control retry, cutback, growth and terminal policy while preserving accepted composite state semantics.",
+      "status": "IMPLEMENTED_TARGETED",
+      "scope": "Consolidate adaptive load-control retry, cutback, growth and terminal policy behind one deterministic authority while preserving accepted composite state semantics.",
       "production_change": true
     },
     {
@@ -51,5 +51,5 @@
     "nonlinear dynamics",
     "maturity promotion"
   ],
-  "closure_policy": "No WP03 points are awarded in WP03-A or WP03-B. WP03 closure requires independent WP03-E review."
+  "closure_policy": "No WP03 points are awarded in WP03-A, WP03-B or WP03-C. WP03 closure requires independent WP03-E review. WP03-D arc-length radius policy remains pending Owner review."
 }

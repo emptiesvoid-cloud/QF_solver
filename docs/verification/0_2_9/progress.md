@@ -12,11 +12,11 @@ applicable_version: 0.2.9-development
 | WP00 | 4 | Closed |
 | WP01 | 12 | **Closed** — Owner-approved unified nonlinear core |
 | WP02 | 6 | **Closed** — 6/6; independent WP02-E audit `GO_WITH_LIMITATIONS` |
-| WP03 | 7 | **Stagnation/line-search authority** — 0/7; WP03-C not started |
+| WP03 | 7 | **Adaptive policy authority** — 0/7; WP03-C targeted implementation |
 | WP04–WP08 | 43 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
-| **Validated total** | **22 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6; WP03-B targeted implementation recorded, no points awarded** |
+| **Validated total** | **22 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6; WP03-C targeted implementation recorded, no points awarded** |
 
 WP01 is closed by the independent Owner decision recorded in
 [the WP01 closure record](wp01-owner-closure.md), based on audit SHA
@@ -26,7 +26,7 @@ bounded/research boundaries. Unified checkpoint persistence, frictional
 contact migration and adaptive penalty-contact qualification remain future
 work; inherited typing debt remains documented. OD-029-01 stays OPEN and
 blocks WP09 only. WP02 is closed by the independent audit; Owner review is
-required before WP03-C authorization.
+required before WP03-D authorization.
 
 ## WP02 closure
 
@@ -53,8 +53,9 @@ ecc09f0bae2dab867c12d7e471860887f6ef0548. It records the actual current
 authority map, duplicate policy surfaces to consolidate, canonical stagnation
 and line-search semantics, the failure/retry matrix and a 16-case baseline
 campaign. No production source was changed during WP03-A, and no WP03 points
-were awarded. WP03-B is now recorded as a targeted implementation phase;
-Owner review is required before WP03-C.
+were awarded. WP03-B is recorded as a targeted implementation phase; its
+historical evidence remains unchanged, including the pre-existing adaptive
+rollback benchmark signature mismatch at that SHA.
 
 The controlled records are [the robustness contract](wp03-robustness-contract.md),
 [the architecture map](wp03-architecture-map.md), [the failure/retry
@@ -74,10 +75,20 @@ defaults remain an explicit compatibility configuration and were not observed
 to change the easy baseline outcomes. Targeted evidence is recorded in
 [the WP03-B baseline](wp03-b-baseline.md) and [the WP03-B authority record](wp03-b-robustness-authority.md).
 
-WP03-B is `STAGNATION_LINESEARCH_AUTHORITY`, remains at 0/7 points and leaves
-adaptive consolidation and arc-length robustness for WP03-C/WP03-D. The
-pre-existing adaptive rollback benchmark signature mismatch is documented and
-was not repaired in this step. The next action is Owner review before WP03-C.
+## WP03-C implementation
+
+WP03-C is `ADAPTIVE_POLICY_AUTHORITY` at 0/7 points. A single
+`UnifiedAdaptiveStepPolicy` now owns proposed increment, retry/cutback,
+growth, shrink and terminal boundary decisions for both stateless adaptive
+Full Newton and stateful material load control. Accepted physical state
+continues to be owned by `UnifiedContinuationController` and
+`NonlinearStateTransaction`. The B16 signature mismatch was resolved as a
+stale verification fixture seam; no numerical source or formulation changed.
+
+The controlled records are [the WP03-C baseline](wp03-c-baseline.md) and
+[the WP03-C adaptive policy evidence](wp03-c-adaptive-policy.md). Arc-length
+radius policy remains WP03-D, difficult-case improvement is not yet
+demonstrated, and Owner review is required before WP03-D.
 
 The contract is split into the [state/checkpoint contract](wp02-state-checkpoint-contract.md),
 [compatibility matrix](wp02-compatibility-matrix.md),
