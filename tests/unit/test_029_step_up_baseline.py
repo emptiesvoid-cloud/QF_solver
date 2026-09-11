@@ -89,6 +89,7 @@ def test_step_up_and_wp03_documents_are_present_and_status_is_explicit() -> None
         "wp03-b-robustness-authority.md",
         "wp03-c-baseline.md",
         "wp03-c-adaptive-policy.md",
+        "wp03-d-arc-radius-policy.md",
     }
 
     assert {path.name for path in DOCS.glob("*.md")} == expected
@@ -137,7 +138,7 @@ def test_wp01_contract_is_prospective_and_preserves_the_open_j2_geometry_decisio
     }
     assert progress["work_packages"]["WP03"] == {
         "points": 7,
-        "status": "ADAPTIVE_POLICY_AUTHORITY",
+        "status": "ARC_LENGTH_ROBUSTNESS_BOUNDARY",
         "validated_points": 0,
     }
     assert progress["total_points"] == 100
@@ -156,3 +157,10 @@ def test_wp01_contract_is_prospective_and_preserves_the_open_j2_geometry_decisio
     assert adaptive["status"] == "IMPLEMENTED_TARGETED"
     assert adaptive["baseline_sha"] == "e2f3e07310b4348c01ee68f764de0f986436995e"
     assert adaptive["validated_points"] == 0
+    radius = _load("wp03_d_arc_radius_policy.json")
+    assert radius["status"] == "IMPLEMENTED_TARGETED"
+    assert radius["phase"] == "ARC_LENGTH_ROBUSTNESS_BOUNDARY"
+    assert radius["baseline_sha"] == "862e6dd5e5b976fbb2ca57c1966640691fcb2700"
+    assert radius["validated_points"] == 0
+    assert radius["integrity"]["numerical_formulation_changed"] is False
+    assert radius["gate_status"]["G03-10"]["status"] == "NOT_YET_DEMONSTRATED"

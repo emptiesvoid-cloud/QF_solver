@@ -86,6 +86,7 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
         self._continuation_rejection_log: list[dict[str, object]] = []
         self._continuation_commit_count = 0
         self._adaptive_policy_diagnostics: dict[str, object] = {}
+        self._arc_radius_policy_diagnostics: dict[str, object] = {}
         reference_force_norm = max(float(np.linalg.norm(loads[free])), 1.0)
         arc_length_controls = (
             ArcLengthControls.from_parameters(params, max_iterations=max_iterations)
@@ -329,6 +330,7 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                 "continuation_rejection_log": list(self._continuation_rejection_log),
                 "continuation_commit_count": self._continuation_commit_count,
                 "adaptive_policy": dict(self._adaptive_policy_diagnostics),
+                "arc_radius_policy": dict(self._arc_radius_policy_diagnostics),
                 "load_assembly": dict(self.assembler.last_load_diagnostics),
                 "steps": [item.to_dict() for item in history],
             },

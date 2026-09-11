@@ -1,0 +1,1765 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP03-D-BASELINE-001",
+  "work_package": "WP03-D",
+  "status": "EXECUTED_AT_START_SHA",
+  "baseline_sha": "862e6dd5e5b976fbb2ca57c1966640691fcb2700",
+  "branch": "0.2.9-unified-nonlinear",
+  "scope": "Structured arc-length robustness baseline before WP03-D production edits; specialized correction kernel unchanged.",
+  "comparison_policy": {
+    "relative": 1e-09,
+    "absolute_floor": 1e-12,
+    "full_suite": "NOT_RUN"
+  },
+  "cases": {
+    "D-B01_monotonic_fixed_radius": {
+      "status": "PASS",
+      "accepted_load_factors": [
+        0.8465484148039244,
+        1.0010559898383413,
+        1.0021120178694192,
+        1.0042241880404519,
+        1.008448981555829,
+        1.0169003555249327
+      ],
+      "effective_attempt_radii": [
+        0.05,
+        0.008156919785890518,
+        5.54180953379408e-05,
+        0.000110830181582989,
+        0.00022163641804107242,
+        0.000443177779895708
+      ],
+      "policy_radii_after_acceptance": [
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05
+      ],
+      "iterations": [
+        4,
+        3,
+        2,
+        2,
+        2,
+        2
+      ],
+      "branch_direction": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "predictor_sign": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "previous_du_digests": [
+        "ab250c2611e8661046d646deb93bdf5bf9ea17a0f55410b62276ec80d61d3a73",
+        "937e5dc9771530898585e01564645153ad3a9d9cabeaa084877ebefddec534af",
+        "dd5e388fe6c22ee04b569da15c783da2dd09fc97226107a075bb239e346ce876",
+        "9fe9c634a70c454fdc414b986d3537e1cbd179c81f84bc66b3835e5fb9e83f9a",
+        "410d419fa6002461190bdc026b9cafffafa7b6953b7202463a0e223535faac15",
+        "e9489bc2aebfd8a01b1174c15ae646e83dcff668f66bff3521552de8ca755311"
+      ],
+      "previous_dlambda": [
+        0.8465484148039244,
+        0.15450757503441692,
+        0.0010560280310778491,
+        0.0021121701710327123,
+        0.00422479351537719,
+        0.00845137396910367
+      ],
+      "accepted_displacement_digests": [
+        "cfeb6b8d59e9d6dfcb8aa8bd49fd24d0fdb3768c7ba49f160fd87d5e5bfb26a2",
+        "5922aae9087db914e765b8d57411bad85003826c85211b61c9cfc56b2126f78d",
+        "9cbee71c641a96377140c757ea84c32e546c3afd480696c3bd801b796fbd37aa",
+        "03fa3fef188b059216c7d514d7bac5fb6c5482ac9f6d67344afe0cb6fc5a8e1a",
+        "5606a3b2d7f0274cb93cc6f2f0b2c4d09c5b39b651bdb2c34535e3aeb396430c",
+        "9daa5a1b83aef98bb42d48f38947511aa758e3a19abb0ce04521539f75bac05f"
+      ],
+      "material_digests": [
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+      ],
+      "continuation_digests": [
+        "878866880c3add984c4de24fcac23284091e0f6082bc229a37aa77644522955a",
+        "7c9d8cbcf0c55cb39d6f3e46b138834ff1329fda48b595b0627d89ab8992ebd7",
+        "be30a3cc32baae29ec7d5e36befec3b6c70808db08a3417c281e2b493e6f06ce",
+        "206d7d59dcc26db7c3d866a89de28e0d5f3dabc159418e931481feeeb15b84e5",
+        "c95d38c63a6ce054c1c8296913f83600e7ebbba3288dd95ceed46a23ec748a9c",
+        "7df5dec3bfd278b321bbe16d51647b2cb18267886c3085355e6df72410cb3dc3"
+      ],
+      "composite_digests": [
+        "8a550568f4d5f5280544ddced5f2543c5f37d96c76c27ab85c9d3896ce95538d",
+        "7ac754fd732ae4d148689f4c0363e012cbcd91ca1763d22fcf711a83a4e4d57c",
+        "35dec4de26931755195805d3b9169a22652ae19ed3bd31decec14079b4d96d3d",
+        "36e89099e13e8b74453f066c855a989eb6aa11b73b10be0254af6930dc8df33a",
+        "24c3f07bd5422b0f679c7cb04297f27712f9f69b4a1ad05624fbf91d665b8151",
+        "f4cfcafb5c3bba46493a06ca0f99639482cad51e14ea46a460a969a77586d144"
+      ],
+      "rejection_log": [],
+      "continuation_rejection_log": [],
+      "final_material_digest": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+    },
+    "D-B02_monotonic_adaptive_radius": {
+      "status": "PASS",
+      "accepted_load_factors": [
+        0.8465484148039244,
+        1.0010559898383413,
+        1.0021120178694192,
+        1.0042241880404519,
+        1.008448981555829,
+        1.0169003555249327
+      ],
+      "effective_attempt_radii": [
+        0.05,
+        0.008156919785890518,
+        5.54180953379408e-05,
+        0.000110830181582989,
+        0.00022163641804107242,
+        0.000443177779895708
+      ],
+      "policy_radii_after_acceptance": [
+        0.1,
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2
+      ],
+      "iterations": [
+        4,
+        3,
+        2,
+        2,
+        2,
+        2
+      ],
+      "branch_direction": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "predictor_sign": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "previous_du_digests": [
+        "ab250c2611e8661046d646deb93bdf5bf9ea17a0f55410b62276ec80d61d3a73",
+        "937e5dc9771530898585e01564645153ad3a9d9cabeaa084877ebefddec534af",
+        "dd5e388fe6c22ee04b569da15c783da2dd09fc97226107a075bb239e346ce876",
+        "9fe9c634a70c454fdc414b986d3537e1cbd179c81f84bc66b3835e5fb9e83f9a",
+        "410d419fa6002461190bdc026b9cafffafa7b6953b7202463a0e223535faac15",
+        "e9489bc2aebfd8a01b1174c15ae646e83dcff668f66bff3521552de8ca755311"
+      ],
+      "previous_dlambda": [
+        0.8465484148039244,
+        0.15450757503441692,
+        0.0010560280310778491,
+        0.0021121701710327123,
+        0.00422479351537719,
+        0.00845137396910367
+      ],
+      "accepted_displacement_digests": [
+        "cfeb6b8d59e9d6dfcb8aa8bd49fd24d0fdb3768c7ba49f160fd87d5e5bfb26a2",
+        "5922aae9087db914e765b8d57411bad85003826c85211b61c9cfc56b2126f78d",
+        "9cbee71c641a96377140c757ea84c32e546c3afd480696c3bd801b796fbd37aa",
+        "03fa3fef188b059216c7d514d7bac5fb6c5482ac9f6d67344afe0cb6fc5a8e1a",
+        "5606a3b2d7f0274cb93cc6f2f0b2c4d09c5b39b651bdb2c34535e3aeb396430c",
+        "9daa5a1b83aef98bb42d48f38947511aa758e3a19abb0ce04521539f75bac05f"
+      ],
+      "material_digests": [
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+      ],
+      "continuation_digests": [
+        "6c5e9134dc834a7dc51463e55c46b7163ee2c35c0224f1275a988989a4abc289",
+        "8ecfb123401881e1422a1ca695dbcf296b10cb8bcd9474f1b3290aee8aef12ec",
+        "d9a47bb179a55c836e2e8d5e75a4387a460fda04048bdabcd48d6d82daf27652",
+        "239fd3629c6ce31a5296090aef93287e0f7a9110f160bceebd600d259d395f29",
+        "424bec62d584c07bc9889e273b17fc194609f5c781b6c0b7e73fba5cffca69dd",
+        "aae1ce98f53e4f9a923a81823ed7a7f3fd8fe0812ff9084595f0dd9a824ed23b"
+      ],
+      "composite_digests": [
+        "f017396a2a4202e281e9c2d11e9252db134f6b9585dde3f1d323e508d9dd0bc2",
+        "0d77726b2dcc05b8f7777319212eea8aa9a17c55b2af37b1a327b9527a0426be",
+        "dd18c99f3e72c0638c0b8b29c2cb0f8d8f0fb64574c4ee3d9a3a95f7213a7954",
+        "321c730ab158b4ad8fc89dd8175567ab4325219ec9a4e191be1e298a48653900",
+        "5ceedf2566389cdcdee41801dae3fa9a46c84f57288e2f32263366936c645c46",
+        "0c81a479943826cf84551072f47efb0338768922440fb61c9623c673defe4901"
+      ],
+      "rejection_log": [],
+      "continuation_rejection_log": [],
+      "final_material_digest": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+    },
+    "D-B03_turning_branch": {
+      "status": "PASS",
+      "accepted_load_factors": [
+        0.8465484148039244,
+        1.0010559898383413,
+        1.0021120178694192,
+        1.0042241880404519,
+        1.008448981555829,
+        1.0169003555249327
+      ],
+      "effective_attempt_radii": [
+        0.05,
+        0.008156919785890518,
+        5.54180953379408e-05,
+        0.000110830181582989,
+        0.00022163641804107242,
+        0.000443177779895708
+      ],
+      "policy_radii_after_acceptance": [
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05
+      ],
+      "iterations": [
+        4,
+        3,
+        2,
+        2,
+        2,
+        2
+      ],
+      "branch_direction": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "predictor_sign": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "previous_du_digests": [
+        "ab250c2611e8661046d646deb93bdf5bf9ea17a0f55410b62276ec80d61d3a73",
+        "937e5dc9771530898585e01564645153ad3a9d9cabeaa084877ebefddec534af",
+        "dd5e388fe6c22ee04b569da15c783da2dd09fc97226107a075bb239e346ce876",
+        "9fe9c634a70c454fdc414b986d3537e1cbd179c81f84bc66b3835e5fb9e83f9a",
+        "410d419fa6002461190bdc026b9cafffafa7b6953b7202463a0e223535faac15",
+        "e9489bc2aebfd8a01b1174c15ae646e83dcff668f66bff3521552de8ca755311"
+      ],
+      "previous_dlambda": [
+        0.8465484148039244,
+        0.15450757503441692,
+        0.0010560280310778491,
+        0.0021121701710327123,
+        0.00422479351537719,
+        0.00845137396910367
+      ],
+      "accepted_displacement_digests": [
+        "cfeb6b8d59e9d6dfcb8aa8bd49fd24d0fdb3768c7ba49f160fd87d5e5bfb26a2",
+        "5922aae9087db914e765b8d57411bad85003826c85211b61c9cfc56b2126f78d",
+        "9cbee71c641a96377140c757ea84c32e546c3afd480696c3bd801b796fbd37aa",
+        "03fa3fef188b059216c7d514d7bac5fb6c5482ac9f6d67344afe0cb6fc5a8e1a",
+        "5606a3b2d7f0274cb93cc6f2f0b2c4d09c5b39b651bdb2c34535e3aeb396430c",
+        "9daa5a1b83aef98bb42d48f38947511aa758e3a19abb0ce04521539f75bac05f"
+      ],
+      "material_digests": [
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+      ],
+      "continuation_digests": [
+        "878866880c3add984c4de24fcac23284091e0f6082bc229a37aa77644522955a",
+        "7c9d8cbcf0c55cb39d6f3e46b138834ff1329fda48b595b0627d89ab8992ebd7",
+        "be30a3cc32baae29ec7d5e36befec3b6c70808db08a3417c281e2b493e6f06ce",
+        "206d7d59dcc26db7c3d866a89de28e0d5f3dabc159418e931481feeeb15b84e5",
+        "c95d38c63a6ce054c1c8296913f83600e7ebbba3288dd95ceed46a23ec748a9c",
+        "7df5dec3bfd278b321bbe16d51647b2cb18267886c3085355e6df72410cb3dc3"
+      ],
+      "composite_digests": [
+        "8a550568f4d5f5280544ddced5f2543c5f37d96c76c27ab85c9d3896ce95538d",
+        "7ac754fd732ae4d148689f4c0363e012cbcd91ca1763d22fcf711a83a4e4d57c",
+        "35dec4de26931755195805d3b9169a22652ae19ed3bd31decec14079b4d96d3d",
+        "36e89099e13e8b74453f066c855a989eb6aa11b73b10be0254af6930dc8df33a",
+        "24c3f07bd5422b0f679c7cb04297f27712f9f69b4a1ad05624fbf91d665b8151",
+        "f4cfcafb5c3bba46493a06ca0f99639482cad51e14ea46a460a969a77586d144"
+      ],
+      "rejection_log": [],
+      "continuation_rejection_log": [],
+      "final_material_digest": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+    },
+    "D-B04_easy_radius_growth": {
+      "status": "PASS",
+      "accepted_load_factors": [
+        0.8465484148039244,
+        1.0010559898383413,
+        1.0021120178694192,
+        1.0042241880404519,
+        1.008448981555829,
+        1.0169003555249327
+      ],
+      "effective_attempt_radii": [
+        0.05,
+        0.008156919785890518,
+        5.54180953379408e-05,
+        0.000110830181582989,
+        0.00022163641804107242,
+        0.000443177779895708
+      ],
+      "policy_radii_after_acceptance": [
+        0.1,
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2
+      ],
+      "iterations": [
+        4,
+        3,
+        2,
+        2,
+        2,
+        2
+      ],
+      "branch_direction": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "predictor_sign": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "previous_du_digests": [
+        "ab250c2611e8661046d646deb93bdf5bf9ea17a0f55410b62276ec80d61d3a73",
+        "937e5dc9771530898585e01564645153ad3a9d9cabeaa084877ebefddec534af",
+        "dd5e388fe6c22ee04b569da15c783da2dd09fc97226107a075bb239e346ce876",
+        "9fe9c634a70c454fdc414b986d3537e1cbd179c81f84bc66b3835e5fb9e83f9a",
+        "410d419fa6002461190bdc026b9cafffafa7b6953b7202463a0e223535faac15",
+        "e9489bc2aebfd8a01b1174c15ae646e83dcff668f66bff3521552de8ca755311"
+      ],
+      "previous_dlambda": [
+        0.8465484148039244,
+        0.15450757503441692,
+        0.0010560280310778491,
+        0.0021121701710327123,
+        0.00422479351537719,
+        0.00845137396910367
+      ],
+      "accepted_displacement_digests": [
+        "cfeb6b8d59e9d6dfcb8aa8bd49fd24d0fdb3768c7ba49f160fd87d5e5bfb26a2",
+        "5922aae9087db914e765b8d57411bad85003826c85211b61c9cfc56b2126f78d",
+        "9cbee71c641a96377140c757ea84c32e546c3afd480696c3bd801b796fbd37aa",
+        "03fa3fef188b059216c7d514d7bac5fb6c5482ac9f6d67344afe0cb6fc5a8e1a",
+        "5606a3b2d7f0274cb93cc6f2f0b2c4d09c5b39b651bdb2c34535e3aeb396430c",
+        "9daa5a1b83aef98bb42d48f38947511aa758e3a19abb0ce04521539f75bac05f"
+      ],
+      "material_digests": [
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+      ],
+      "continuation_digests": [
+        "6c5e9134dc834a7dc51463e55c46b7163ee2c35c0224f1275a988989a4abc289",
+        "8ecfb123401881e1422a1ca695dbcf296b10cb8bcd9474f1b3290aee8aef12ec",
+        "d9a47bb179a55c836e2e8d5e75a4387a460fda04048bdabcd48d6d82daf27652",
+        "239fd3629c6ce31a5296090aef93287e0f7a9110f160bceebd600d259d395f29",
+        "424bec62d584c07bc9889e273b17fc194609f5c781b6c0b7e73fba5cffca69dd",
+        "aae1ce98f53e4f9a923a81823ed7a7f3fd8fe0812ff9084595f0dd9a824ed23b"
+      ],
+      "composite_digests": [
+        "f017396a2a4202e281e9c2d11e9252db134f6b9585dde3f1d323e508d9dd0bc2",
+        "0d77726b2dcc05b8f7777319212eea8aa9a17c55b2af37b1a327b9527a0426be",
+        "dd18c99f3e72c0638c0b8b29c2cb0f8d8f0fb64574c4ee3d9a3a95f7213a7954",
+        "321c730ab158b4ad8fc89dd8175567ab4325219ec9a4e191be1e298a48653900",
+        "5ceedf2566389cdcdee41801dae3fa9a46c84f57288e2f32263366936c645c46",
+        "0c81a479943826cf84551072f47efb0338768922440fb61c9623c673defe4901"
+      ],
+      "rejection_log": [],
+      "continuation_rejection_log": [],
+      "final_material_digest": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+    },
+    "D-B05_expensive_accept_shrink": {
+      "status": "PASS",
+      "accepted_load_factors": [
+        0.8465484148039244,
+        1.0010559898383413,
+        1.0021120178694192
+      ],
+      "effective_attempt_radii": [
+        0.05,
+        0.008156919785890518,
+        5.54180953379408e-05
+      ],
+      "policy_radii_after_acceptance": [
+        0.025,
+        0.0125,
+        0.00625
+      ],
+      "iterations": [
+        4,
+        3,
+        2
+      ],
+      "branch_direction": [
+        1,
+        1,
+        1
+      ],
+      "predictor_sign": [
+        1,
+        1,
+        1
+      ],
+      "previous_du_digests": [
+        "ab250c2611e8661046d646deb93bdf5bf9ea17a0f55410b62276ec80d61d3a73",
+        "937e5dc9771530898585e01564645153ad3a9d9cabeaa084877ebefddec534af",
+        "dd5e388fe6c22ee04b569da15c783da2dd09fc97226107a075bb239e346ce876"
+      ],
+      "previous_dlambda": [
+        0.8465484148039244,
+        0.15450757503441692,
+        0.0010560280310778491
+      ],
+      "accepted_displacement_digests": [
+        "cfeb6b8d59e9d6dfcb8aa8bd49fd24d0fdb3768c7ba49f160fd87d5e5bfb26a2",
+        "5922aae9087db914e765b8d57411bad85003826c85211b61c9cfc56b2126f78d",
+        "9cbee71c641a96377140c757ea84c32e546c3afd480696c3bd801b796fbd37aa"
+      ],
+      "material_digests": [
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+      ],
+      "continuation_digests": [
+        "9dacfb1606bed05767be456c5a88540b40c95c65ae7aa102f91ecd4cf16c3655",
+        "f9dd45d04d8bd309e1f76b285e726c98e5ca7b1bbb4bb1d379fa12a9b9acfec5",
+        "a0595799b97f8e73ab5d73a4adedc95bde0f615eb9cab82ab28ca7a5cf6fbf4a"
+      ],
+      "composite_digests": [
+        "a4423fc5e9eeefb3ed45460dce791779d92569e3e4a1c4cedd1f8df366496255",
+        "963bf67f49077be7bc40cef296d357512993b9bbec3081cd4795822cf67d20bb",
+        "63ec7fb43b77c8d8abe1a5059aa445c9db59a551a5e1aa85443bd0c8b068e2e6"
+      ],
+      "rejection_log": [],
+      "continuation_rejection_log": [],
+      "final_material_digest": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+    },
+    "D-B06_one_forced_rejection": {
+      "status": "PASS",
+      "accepted_load_factors": [
+        0.38555926141623725,
+        0.8387850926192187,
+        1.0011824683001795,
+        1.0023649844719997,
+        1.0047301597720775,
+        1.0094610776249089
+      ],
+      "effective_attempt_radii": [
+        0.025,
+        0.025,
+        0.008576302617495327,
+        6.205511697475338e-05,
+        0.0001241027026726558,
+        0.0002481754082344272
+      ],
+      "policy_radii_after_acceptance": [
+        0.025,
+        0.025,
+        0.025,
+        0.025,
+        0.025,
+        0.025
+      ],
+      "iterations": [
+        3,
+        4,
+        3,
+        2,
+        2,
+        2
+      ],
+      "branch_direction": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "predictor_sign": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "previous_du_digests": [
+        "5fd561cea05afa2d771824f222b6d20ab76ba238f7f665460ef186cd01fb5cb9",
+        "564d20669586a5a2777014ee60b26e8631a31eefee69e8dd0ae080fe6ac3fbd3",
+        "9567920ad9e3c997083108b7bccf0ae4104c1bcce62b9133a416fdf64e4be517",
+        "54a5d8830141b89eaf416a3c55ad0e2790b167c422f414c371748dd1ebe67cb5",
+        "eebba538b83ca7242a4529d33d4a4d0ad5924df6322b0d026248a9832873a8f3",
+        "76e04359f368c729026909efb373439e765966eda5de2d89e509355ec03b8e18"
+      ],
+      "previous_dlambda": [
+        0.38555926141623725,
+        0.4532258312029815,
+        0.1623973756809608,
+        0.0011825161718201915,
+        0.0023651753000777376,
+        0.004730917852831418
+      ],
+      "accepted_displacement_digests": [
+        "7edf14352843b1b2a6c81b3f802051dfe22f7d6d5f1aae3191090859928ed696",
+        "f6d79f507a84727eb677bcff94459c393a49c6ad5bacffa0bb77f8e710993f16",
+        "25a075030667b0884df2290e5f330a96ff605333edacda83501a51ef5573b725",
+        "acb228914019d5aad0b9195d3baa3325258942d32a0a31e88bce208b19f12445",
+        "8e9fd1d8d0d47263fbcb59ed52dd05a71003bb7a68f8212171691ecbd4203c54",
+        "be94df93606d49ee2b9136f72bffd7e1064f3e735787c505fef13c21a04de0a6"
+      ],
+      "material_digests": [
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+      ],
+      "continuation_digests": [
+        "34b464c3a6a23058675b48d25f11b32bf7c46be86d62be2bff11bdc5d73ba1cb",
+        "2638f5d001608fab88458a5a94de7575427308e0aa5a2f5e1896d501bfff0d12",
+        "387cb310f3bf1e4813bd43448905454c7f8feaf009387c65032c0655f37133da",
+        "293e876f9ce942d06dedbb5442c63289958cbcbb751a1c1c6807891a968b1104",
+        "7fd8b07c7ad589dacbc6f85fec13346548d23d8c56ad568e23507c495e875cf2",
+        "e7d7066c5ace8b7391dfbf6f82f62d62fe82b016fc11a0379d2fe0e058bf46ed"
+      ],
+      "composite_digests": [
+        "c798ece5734e801addbf251fbdf6827880697b47bfd0443abdcbc2b59b9abc65",
+        "ca56afa3187f62536bc54fb2ef0954fe42698be4c64cb68a9b24e49f9ee13d1f",
+        "e001ab80518f6750a6292390102acf3fd0018051d92549eb661a49096aa9074d",
+        "ed9fbc54d93f8634ffcc62613367b09501721a1c5c44e424d660312014e6feb7",
+        "e042dd6f0845caf4ab1238e1522f0e21daa61a431cebb527f2e24b6bda004af9",
+        "5e5845d2223410f98d537ca384e69aae8e95c76617c11e8266511cd2bfcf6ed0"
+      ],
+      "rejection_log": [
+        {
+          "path": "arc_length",
+          "step": 1,
+          "base_load_factor": 0.0,
+          "rejected_radius": 0.05,
+          "retry_radius": 0.025,
+          "previous_radius": 0.05,
+          "failure_reason": "MAX_ITERATIONS",
+          "failure_diagnostics": {
+            "controlled": true,
+            "attempt": 1
+          },
+          "rollback_before_retry": true
+        }
+      ],
+      "continuation_rejection_log": [
+        {
+          "step": 1,
+          "base_load_factor": 0.0,
+          "rejected_radius": 0.05,
+          "path": "arc_length",
+          "failure_reason": "MAX_ITERATIONS",
+          "retry_classification": "RETRYABLE",
+          "accepted_digest_before": "e88ab4779bbfc9f6f354a653bd7f2b8d46f865e4bde91165631a0bd1563109a9",
+          "accepted_digest_after": "e88ab4779bbfc9f6f354a653bd7f2b8d46f865e4bde91165631a0bd1563109a9",
+          "accepted_component_digests_before": {
+            "displacement": "f3cfa29b85bf8131e3e75f745f116f23657905934e36f4fb8c1599b4fd945c5f",
+            "load_factor": "95ffe3dc54ad62f74992c891e39c007f7f808e667a126e81274a81e292c3d59f",
+            "material_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "contact_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "continuation_state": "c7efcda528d5abc36dc2220f1ed9eab816db94a057648fdf07d1c392a0ef7bed",
+            "accepted_increment_metadata": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+          },
+          "accepted_component_digests_after": {
+            "displacement": "f3cfa29b85bf8131e3e75f745f116f23657905934e36f4fb8c1599b4fd945c5f",
+            "load_factor": "95ffe3dc54ad62f74992c891e39c007f7f808e667a126e81274a81e292c3d59f",
+            "material_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "contact_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "continuation_state": "c7efcda528d5abc36dc2220f1ed9eab816db94a057648fdf07d1c392a0ef7bed",
+            "accepted_increment_metadata": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+          },
+          "accepted_load_factor_before": 0.0,
+          "accepted_load_factor_after": 0.0,
+          "accepted_continuation_before": {
+            "accepted_step": 0,
+            "load_factor": 0.0,
+            "radius": 0.05,
+            "maximum_radius": 0.2,
+            "load_scale": 0.05,
+            "previous_du": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "previous_dlambda": 0.0,
+            "target_load_factor": 1.0,
+            "stop_mode": "max_steps",
+            "allow_load_factor_turning": true,
+            "control_dof": null
+          },
+          "accepted_continuation_after": {
+            "accepted_step": 0,
+            "load_factor": 0.0,
+            "radius": 0.05,
+            "maximum_radius": 0.2,
+            "load_scale": 0.05,
+            "previous_du": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "previous_dlambda": 0.0,
+            "target_load_factor": 1.0,
+            "stop_mode": "max_steps",
+            "allow_load_factor_turning": true,
+            "control_dof": null
+          },
+          "rollback_before_retry": true,
+          "failure_diagnostics": {
+            "controlled": true,
+            "attempt": 1
+          }
+        }
+      ],
+      "final_material_digest": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+      "injected_failure_calls": 1
+    },
+    "D-B07_multiple_rejections": {
+      "status": "PASS",
+      "accepted_load_factors": [
+        0.08908778882611555,
+        0.18190321388835923,
+        0.2803623252077109,
+        0.3844366312416378,
+        0.493135880824862,
+        0.605338736314905
+      ],
+      "effective_attempt_radii": [
+        0.00625,
+        0.00625,
+        0.00625,
+        0.00625,
+        0.00625,
+        0.00625
+      ],
+      "policy_radii_after_acceptance": [
+        0.00625,
+        0.00625,
+        0.00625,
+        0.00625,
+        0.00625,
+        0.00625
+      ],
+      "iterations": [
+        2,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "branch_direction": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "predictor_sign": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "previous_du_digests": [
+        "8cc641cc72d2aa447c961d3497b6dab8031ff34b9663636977dbda09c3561b03",
+        "b4f131bd14ddd2fd2c6e335d991486b64bb704cb18f30e63f403ed5ec37991ca",
+        "a59743edcc373b01408cd21d51247036d5939015ea515b0f2dc7c8c2893cf0bd",
+        "f72ebe219aacaeeae83afccaf23b7cc1522e3d4420963743b9bd2126a3db00af",
+        "062d36fdb906a6492c2b91c324f2b62db0c9900e87e4453a1ad189d30f0f53ea",
+        "f4d7174e8022a6b12d11a603786943dae2e57ca957eb7e646da99d591626fd6d"
+      ],
+      "previous_dlambda": [
+        0.08908778882611555,
+        0.09281542506224368,
+        0.0984591113193517,
+        0.10407430603392687,
+        0.10869924958322419,
+        0.112202855490043
+      ],
+      "accepted_displacement_digests": [
+        "e597a87594439fbd84755aa8961151ed9c2a77e4b53d8152d289fcef59b1ba4d",
+        "14a29c478ea01f93f6d6b7bd836562a1ebcf859b22018090afe2b9a28ffb3963",
+        "28db178e1cf63a52582e9c6f5ccd204d6078f782b2bc240a9039f7bc0e4ee03a",
+        "93f3d24638d136afffeb390c4fb7d39f75f299d7b4df75531c9d5b780d0d8e15",
+        "7e8188e50a6fd49e416ea6e0acb79e6dec07bb030d16201508f303efc012f4fd",
+        "9e734baa34abc07b0e47060a1a3e574cfbfc047994981e6c83710a1ecbfdda84"
+      ],
+      "material_digests": [
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+      ],
+      "continuation_digests": [
+        "9fdbd5ddc150eb112da3160db459f8ded2fc07e1685205481004dd801ea3834d",
+        "521bdc17b96751c58ff7c893d2d7912eebafdc2173831fd9dc0a2bf7c9223b61",
+        "4ffad8cd35defe0c292b2c8c9317ce8cea81a98d113936882c0f6ee26b5b906b",
+        "5d1f257f320215bd1c3db3787dd5c8a27bdd1a535f3a321441b5d247417909f5",
+        "1842abb1dea089ddee2923618cd3a4235b3831bfecbf590a7627140583bc5224",
+        "69f39e9abf6117a20564b0e166a1cff3864d2208bea1ba3a0de31556006880f7"
+      ],
+      "composite_digests": [
+        "96e38a07737889f554e6706ed28e86b28d8e39c4644a3e128a5c1a66e0a2f6e2",
+        "9a3168e3b65a94744eeb1a4a93e37911b14c6e3b52fc1c9d170f411f1c4a3beb",
+        "ec4c737cf1f5bd655351b084e57fb51cc20046ff955092c2a7132a98283b9f31",
+        "ec6a4e5340ddf32d3ad99424f9ee31c00e68ff5424b705c8fb6ac950f0808b41",
+        "82253605f5eeae7e2841c40d1f3324ca2e83e83289c3774998106d79d297c6f9",
+        "27f6c941fcb2aa8b15c8a4ef096d17ae7522af897421cce1c4d6a8c37f03a3c6"
+      ],
+      "rejection_log": [
+        {
+          "path": "arc_length",
+          "step": 1,
+          "base_load_factor": 0.0,
+          "rejected_radius": 0.05,
+          "retry_radius": 0.025,
+          "previous_radius": 0.05,
+          "failure_reason": "MAX_ITERATIONS",
+          "failure_diagnostics": {
+            "controlled": true,
+            "attempt": 1
+          },
+          "rollback_before_retry": true
+        },
+        {
+          "path": "arc_length",
+          "step": 1,
+          "base_load_factor": 0.0,
+          "rejected_radius": 0.025,
+          "retry_radius": 0.0125,
+          "previous_radius": 0.025,
+          "failure_reason": "MAX_ITERATIONS",
+          "failure_diagnostics": {
+            "controlled": true,
+            "attempt": 2
+          },
+          "rollback_before_retry": true
+        },
+        {
+          "path": "arc_length",
+          "step": 1,
+          "base_load_factor": 0.0,
+          "rejected_radius": 0.0125,
+          "retry_radius": 0.00625,
+          "previous_radius": 0.0125,
+          "failure_reason": "MAX_ITERATIONS",
+          "failure_diagnostics": {
+            "controlled": true,
+            "attempt": 3
+          },
+          "rollback_before_retry": true
+        }
+      ],
+      "continuation_rejection_log": [
+        {
+          "step": 1,
+          "base_load_factor": 0.0,
+          "rejected_radius": 0.05,
+          "path": "arc_length",
+          "failure_reason": "MAX_ITERATIONS",
+          "retry_classification": "RETRYABLE",
+          "accepted_digest_before": "e88ab4779bbfc9f6f354a653bd7f2b8d46f865e4bde91165631a0bd1563109a9",
+          "accepted_digest_after": "e88ab4779bbfc9f6f354a653bd7f2b8d46f865e4bde91165631a0bd1563109a9",
+          "accepted_component_digests_before": {
+            "displacement": "f3cfa29b85bf8131e3e75f745f116f23657905934e36f4fb8c1599b4fd945c5f",
+            "load_factor": "95ffe3dc54ad62f74992c891e39c007f7f808e667a126e81274a81e292c3d59f",
+            "material_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "contact_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "continuation_state": "c7efcda528d5abc36dc2220f1ed9eab816db94a057648fdf07d1c392a0ef7bed",
+            "accepted_increment_metadata": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+          },
+          "accepted_component_digests_after": {
+            "displacement": "f3cfa29b85bf8131e3e75f745f116f23657905934e36f4fb8c1599b4fd945c5f",
+            "load_factor": "95ffe3dc54ad62f74992c891e39c007f7f808e667a126e81274a81e292c3d59f",
+            "material_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "contact_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "continuation_state": "c7efcda528d5abc36dc2220f1ed9eab816db94a057648fdf07d1c392a0ef7bed",
+            "accepted_increment_metadata": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+          },
+          "accepted_load_factor_before": 0.0,
+          "accepted_load_factor_after": 0.0,
+          "accepted_continuation_before": {
+            "accepted_step": 0,
+            "load_factor": 0.0,
+            "radius": 0.05,
+            "maximum_radius": 0.2,
+            "load_scale": 0.05,
+            "previous_du": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "previous_dlambda": 0.0,
+            "target_load_factor": 1.0,
+            "stop_mode": "max_steps",
+            "allow_load_factor_turning": true,
+            "control_dof": null
+          },
+          "accepted_continuation_after": {
+            "accepted_step": 0,
+            "load_factor": 0.0,
+            "radius": 0.05,
+            "maximum_radius": 0.2,
+            "load_scale": 0.05,
+            "previous_du": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "previous_dlambda": 0.0,
+            "target_load_factor": 1.0,
+            "stop_mode": "max_steps",
+            "allow_load_factor_turning": true,
+            "control_dof": null
+          },
+          "rollback_before_retry": true,
+          "failure_diagnostics": {
+            "controlled": true,
+            "attempt": 1
+          }
+        },
+        {
+          "step": 1,
+          "base_load_factor": 0.0,
+          "rejected_radius": 0.025,
+          "path": "arc_length",
+          "failure_reason": "MAX_ITERATIONS",
+          "retry_classification": "RETRYABLE",
+          "accepted_digest_before": "e88ab4779bbfc9f6f354a653bd7f2b8d46f865e4bde91165631a0bd1563109a9",
+          "accepted_digest_after": "e88ab4779bbfc9f6f354a653bd7f2b8d46f865e4bde91165631a0bd1563109a9",
+          "accepted_component_digests_before": {
+            "displacement": "f3cfa29b85bf8131e3e75f745f116f23657905934e36f4fb8c1599b4fd945c5f",
+            "load_factor": "95ffe3dc54ad62f74992c891e39c007f7f808e667a126e81274a81e292c3d59f",
+            "material_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "contact_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "continuation_state": "c7efcda528d5abc36dc2220f1ed9eab816db94a057648fdf07d1c392a0ef7bed",
+            "accepted_increment_metadata": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+          },
+          "accepted_component_digests_after": {
+            "displacement": "f3cfa29b85bf8131e3e75f745f116f23657905934e36f4fb8c1599b4fd945c5f",
+            "load_factor": "95ffe3dc54ad62f74992c891e39c007f7f808e667a126e81274a81e292c3d59f",
+            "material_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "contact_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "continuation_state": "c7efcda528d5abc36dc2220f1ed9eab816db94a057648fdf07d1c392a0ef7bed",
+            "accepted_increment_metadata": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+          },
+          "accepted_load_factor_before": 0.0,
+          "accepted_load_factor_after": 0.0,
+          "accepted_continuation_before": {
+            "accepted_step": 0,
+            "load_factor": 0.0,
+            "radius": 0.05,
+            "maximum_radius": 0.2,
+            "load_scale": 0.05,
+            "previous_du": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "previous_dlambda": 0.0,
+            "target_load_factor": 1.0,
+            "stop_mode": "max_steps",
+            "allow_load_factor_turning": true,
+            "control_dof": null
+          },
+          "accepted_continuation_after": {
+            "accepted_step": 0,
+            "load_factor": 0.0,
+            "radius": 0.05,
+            "maximum_radius": 0.2,
+            "load_scale": 0.05,
+            "previous_du": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "previous_dlambda": 0.0,
+            "target_load_factor": 1.0,
+            "stop_mode": "max_steps",
+            "allow_load_factor_turning": true,
+            "control_dof": null
+          },
+          "rollback_before_retry": true,
+          "failure_diagnostics": {
+            "controlled": true,
+            "attempt": 2
+          }
+        },
+        {
+          "step": 1,
+          "base_load_factor": 0.0,
+          "rejected_radius": 0.0125,
+          "path": "arc_length",
+          "failure_reason": "MAX_ITERATIONS",
+          "retry_classification": "RETRYABLE",
+          "accepted_digest_before": "e88ab4779bbfc9f6f354a653bd7f2b8d46f865e4bde91165631a0bd1563109a9",
+          "accepted_digest_after": "e88ab4779bbfc9f6f354a653bd7f2b8d46f865e4bde91165631a0bd1563109a9",
+          "accepted_component_digests_before": {
+            "displacement": "f3cfa29b85bf8131e3e75f745f116f23657905934e36f4fb8c1599b4fd945c5f",
+            "load_factor": "95ffe3dc54ad62f74992c891e39c007f7f808e667a126e81274a81e292c3d59f",
+            "material_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "contact_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "continuation_state": "c7efcda528d5abc36dc2220f1ed9eab816db94a057648fdf07d1c392a0ef7bed",
+            "accepted_increment_metadata": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+          },
+          "accepted_component_digests_after": {
+            "displacement": "f3cfa29b85bf8131e3e75f745f116f23657905934e36f4fb8c1599b4fd945c5f",
+            "load_factor": "95ffe3dc54ad62f74992c891e39c007f7f808e667a126e81274a81e292c3d59f",
+            "material_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "contact_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "continuation_state": "c7efcda528d5abc36dc2220f1ed9eab816db94a057648fdf07d1c392a0ef7bed",
+            "accepted_increment_metadata": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+          },
+          "accepted_load_factor_before": 0.0,
+          "accepted_load_factor_after": 0.0,
+          "accepted_continuation_before": {
+            "accepted_step": 0,
+            "load_factor": 0.0,
+            "radius": 0.05,
+            "maximum_radius": 0.2,
+            "load_scale": 0.05,
+            "previous_du": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "previous_dlambda": 0.0,
+            "target_load_factor": 1.0,
+            "stop_mode": "max_steps",
+            "allow_load_factor_turning": true,
+            "control_dof": null
+          },
+          "accepted_continuation_after": {
+            "accepted_step": 0,
+            "load_factor": 0.0,
+            "radius": 0.05,
+            "maximum_radius": 0.2,
+            "load_scale": 0.05,
+            "previous_du": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "previous_dlambda": 0.0,
+            "target_load_factor": 1.0,
+            "stop_mode": "max_steps",
+            "allow_load_factor_turning": true,
+            "control_dof": null
+          },
+          "rollback_before_retry": true,
+          "failure_diagnostics": {
+            "controlled": true,
+            "attempt": 3
+          }
+        }
+      ],
+      "final_material_digest": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+      "injected_failure_calls": 3
+    },
+    "D-B08_minimum_radius_terminal": {
+      "status": "FAILURE_EXPECTED",
+      "exception": "NumericalConvergenceError",
+      "failure_reason": "ARC_LENGTH_FAILURE",
+      "message": "Arc-length continuation reached the minimum radius.",
+      "diagnostics": {
+        "failure_stage": "minimum_radius",
+        "minimum_radius": 0.05,
+        "last_radius": 0.025,
+        "last_failure_reason": "MAX_ITERATIONS",
+        "last_failure_diagnostics": {
+          "controlled": true,
+          "attempt": 2
+        },
+        "continuation_commit_count": 0,
+        "accepted_state_digest": "ca75bbcea9943adee259e4ef8914fe2fa6fb32ac96211d0ae49b4b821544657c"
+      },
+      "injected_failure_calls": 2
+    },
+    "D-B09_max_steps_terminal": {
+      "status": "FAILURE_EXPECTED",
+      "exception": "NumericalConvergenceError",
+      "failure_reason": "ARC_LENGTH_FAILURE",
+      "message": "Arc-length continuation reached max_arc_steps before the target load factor.",
+      "diagnostics": {
+        "max_arc_steps": 1,
+        "current_load_factor": 0.8465484148039244,
+        "target_load_factor": 10.0,
+        "last_radius": 0.05
+      }
+    },
+    "D-B10_load_factor_limit_terminal": {
+      "status": "FAILURE_EXPECTED",
+      "exception": "NumericalConvergenceError",
+      "failure_reason": "ARC_LENGTH_FAILURE",
+      "message": "Arc-length continuation reached the minimum radius.",
+      "diagnostics": {
+        "failure_stage": "minimum_radius",
+        "minimum_radius": 0.09,
+        "last_radius": 0.05,
+        "last_failure_reason": "ARC_LENGTH_FAILURE",
+        "last_failure_diagnostics": {
+          "load_factor": 1.2727922061357853,
+          "load_factor_limit": 0.001
+        },
+        "continuation_commit_count": 0,
+        "accepted_state_digest": "d943d1c3e7502ea53cabf7d63c709f14c0f464ac802eeeb56e967b4fabadd90f"
+      }
+    },
+    "D-B11_restart_before_rejection": {
+      "source": {
+        "status": "PASS",
+        "accepted_load_factors": [
+          0.8465484148039244,
+          1.0010559898383413,
+          1.0021120178694192,
+          1.0042241880404519,
+          1.008448981555829,
+          1.0169003555249327
+        ],
+        "effective_attempt_radii": [
+          0.05,
+          0.008156919785890518,
+          5.54180953379408e-05,
+          0.000110830181582989,
+          0.00022163641804107242,
+          0.000443177779895708
+        ],
+        "policy_radii_after_acceptance": [
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05
+        ],
+        "iterations": [
+          4,
+          3,
+          2,
+          2,
+          2,
+          2
+        ],
+        "branch_direction": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "predictor_sign": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "previous_du_digests": [
+          "ab250c2611e8661046d646deb93bdf5bf9ea17a0f55410b62276ec80d61d3a73",
+          "937e5dc9771530898585e01564645153ad3a9d9cabeaa084877ebefddec534af",
+          "dd5e388fe6c22ee04b569da15c783da2dd09fc97226107a075bb239e346ce876",
+          "9fe9c634a70c454fdc414b986d3537e1cbd179c81f84bc66b3835e5fb9e83f9a",
+          "410d419fa6002461190bdc026b9cafffafa7b6953b7202463a0e223535faac15",
+          "e9489bc2aebfd8a01b1174c15ae646e83dcff668f66bff3521552de8ca755311"
+        ],
+        "previous_dlambda": [
+          0.8465484148039244,
+          0.15450757503441692,
+          0.0010560280310778491,
+          0.0021121701710327123,
+          0.00422479351537719,
+          0.00845137396910367
+        ],
+        "accepted_displacement_digests": [
+          "cfeb6b8d59e9d6dfcb8aa8bd49fd24d0fdb3768c7ba49f160fd87d5e5bfb26a2",
+          "5922aae9087db914e765b8d57411bad85003826c85211b61c9cfc56b2126f78d",
+          "9cbee71c641a96377140c757ea84c32e546c3afd480696c3bd801b796fbd37aa",
+          "03fa3fef188b059216c7d514d7bac5fb6c5482ac9f6d67344afe0cb6fc5a8e1a",
+          "5606a3b2d7f0274cb93cc6f2f0b2c4d09c5b39b651bdb2c34535e3aeb396430c",
+          "9daa5a1b83aef98bb42d48f38947511aa758e3a19abb0ce04521539f75bac05f"
+        ],
+        "material_digests": [
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+        ],
+        "continuation_digests": [
+          "878866880c3add984c4de24fcac23284091e0f6082bc229a37aa77644522955a",
+          "7c9d8cbcf0c55cb39d6f3e46b138834ff1329fda48b595b0627d89ab8992ebd7",
+          "be30a3cc32baae29ec7d5e36befec3b6c70808db08a3417c281e2b493e6f06ce",
+          "206d7d59dcc26db7c3d866a89de28e0d5f3dabc159418e931481feeeb15b84e5",
+          "c95d38c63a6ce054c1c8296913f83600e7ebbba3288dd95ceed46a23ec748a9c",
+          "7df5dec3bfd278b321bbe16d51647b2cb18267886c3085355e6df72410cb3dc3"
+        ],
+        "composite_digests": [
+          "8a550568f4d5f5280544ddced5f2543c5f37d96c76c27ab85c9d3896ce95538d",
+          "7ac754fd732ae4d148689f4c0363e012cbcd91ca1763d22fcf711a83a4e4d57c",
+          "35dec4de26931755195805d3b9169a22652ae19ed3bd31decec14079b4d96d3d",
+          "36e89099e13e8b74453f066c855a989eb6aa11b73b10be0254af6930dc8df33a",
+          "24c3f07bd5422b0f679c7cb04297f27712f9f69b4a1ad05624fbf91d665b8151",
+          "f4cfcafb5c3bba46493a06ca0f99639482cad51e14ea46a460a969a77586d144"
+        ],
+        "rejection_log": [],
+        "continuation_rejection_log": [],
+        "final_material_digest": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+      },
+      "restart_from_step": 2,
+      "restart": {
+        "status": "PASS",
+        "accepted_load_factors": [
+          1.0021120178694192,
+          1.0042241880404519,
+          1.008448981555829,
+          1.0169003555249327
+        ],
+        "effective_attempt_radii": [
+          5.54180953379408e-05,
+          0.000110830181582989,
+          0.00022163641804107242,
+          0.000443177779895708
+        ],
+        "policy_radii_after_acceptance": [
+          0.05,
+          0.05,
+          0.05,
+          0.05
+        ],
+        "iterations": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "branch_direction": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "predictor_sign": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "previous_du_digests": [
+          "dd5e388fe6c22ee04b569da15c783da2dd09fc97226107a075bb239e346ce876",
+          "9fe9c634a70c454fdc414b986d3537e1cbd179c81f84bc66b3835e5fb9e83f9a",
+          "410d419fa6002461190bdc026b9cafffafa7b6953b7202463a0e223535faac15",
+          "e9489bc2aebfd8a01b1174c15ae646e83dcff668f66bff3521552de8ca755311"
+        ],
+        "previous_dlambda": [
+          0.0010560280310778491,
+          0.0021121701710327123,
+          0.00422479351537719,
+          0.00845137396910367
+        ],
+        "accepted_displacement_digests": [
+          "9cbee71c641a96377140c757ea84c32e546c3afd480696c3bd801b796fbd37aa",
+          "03fa3fef188b059216c7d514d7bac5fb6c5482ac9f6d67344afe0cb6fc5a8e1a",
+          "5606a3b2d7f0274cb93cc6f2f0b2c4d09c5b39b651bdb2c34535e3aeb396430c",
+          "9daa5a1b83aef98bb42d48f38947511aa758e3a19abb0ce04521539f75bac05f"
+        ],
+        "material_digests": [
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+        ],
+        "continuation_digests": [
+          "be30a3cc32baae29ec7d5e36befec3b6c70808db08a3417c281e2b493e6f06ce",
+          "206d7d59dcc26db7c3d866a89de28e0d5f3dabc159418e931481feeeb15b84e5",
+          "c95d38c63a6ce054c1c8296913f83600e7ebbba3288dd95ceed46a23ec748a9c",
+          "7df5dec3bfd278b321bbe16d51647b2cb18267886c3085355e6df72410cb3dc3"
+        ],
+        "composite_digests": [
+          "35dec4de26931755195805d3b9169a22652ae19ed3bd31decec14079b4d96d3d",
+          "36e89099e13e8b74453f066c855a989eb6aa11b73b10be0254af6930dc8df33a",
+          "24c3f07bd5422b0f679c7cb04297f27712f9f69b4a1ad05624fbf91d665b8151",
+          "f4cfcafb5c3bba46493a06ca0f99639482cad51e14ea46a460a969a77586d144"
+        ],
+        "rejection_log": [],
+        "continuation_rejection_log": [],
+        "final_material_digest": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+      }
+    },
+    "D-B12_restart_after_rejection_retry": {
+      "source": {
+        "status": "PASS",
+        "accepted_load_factors": [
+          0.38555926141623725,
+          0.8387850926192187,
+          1.0011824683001795,
+          1.0023649844719997,
+          1.0047301597720775,
+          1.0094610776249089
+        ],
+        "effective_attempt_radii": [
+          0.025,
+          0.025,
+          0.008576302617495327,
+          6.205511697475338e-05,
+          0.0001241027026726558,
+          0.0002481754082344272
+        ],
+        "policy_radii_after_acceptance": [
+          0.025,
+          0.025,
+          0.025,
+          0.025,
+          0.025,
+          0.025
+        ],
+        "iterations": [
+          3,
+          4,
+          3,
+          2,
+          2,
+          2
+        ],
+        "branch_direction": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "predictor_sign": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "previous_du_digests": [
+          "5fd561cea05afa2d771824f222b6d20ab76ba238f7f665460ef186cd01fb5cb9",
+          "564d20669586a5a2777014ee60b26e8631a31eefee69e8dd0ae080fe6ac3fbd3",
+          "9567920ad9e3c997083108b7bccf0ae4104c1bcce62b9133a416fdf64e4be517",
+          "54a5d8830141b89eaf416a3c55ad0e2790b167c422f414c371748dd1ebe67cb5",
+          "eebba538b83ca7242a4529d33d4a4d0ad5924df6322b0d026248a9832873a8f3",
+          "76e04359f368c729026909efb373439e765966eda5de2d89e509355ec03b8e18"
+        ],
+        "previous_dlambda": [
+          0.38555926141623725,
+          0.4532258312029815,
+          0.1623973756809608,
+          0.0011825161718201915,
+          0.0023651753000777376,
+          0.004730917852831418
+        ],
+        "accepted_displacement_digests": [
+          "7edf14352843b1b2a6c81b3f802051dfe22f7d6d5f1aae3191090859928ed696",
+          "f6d79f507a84727eb677bcff94459c393a49c6ad5bacffa0bb77f8e710993f16",
+          "25a075030667b0884df2290e5f330a96ff605333edacda83501a51ef5573b725",
+          "acb228914019d5aad0b9195d3baa3325258942d32a0a31e88bce208b19f12445",
+          "8e9fd1d8d0d47263fbcb59ed52dd05a71003bb7a68f8212171691ecbd4203c54",
+          "be94df93606d49ee2b9136f72bffd7e1064f3e735787c505fef13c21a04de0a6"
+        ],
+        "material_digests": [
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+        ],
+        "continuation_digests": [
+          "34b464c3a6a23058675b48d25f11b32bf7c46be86d62be2bff11bdc5d73ba1cb",
+          "2638f5d001608fab88458a5a94de7575427308e0aa5a2f5e1896d501bfff0d12",
+          "387cb310f3bf1e4813bd43448905454c7f8feaf009387c65032c0655f37133da",
+          "293e876f9ce942d06dedbb5442c63289958cbcbb751a1c1c6807891a968b1104",
+          "7fd8b07c7ad589dacbc6f85fec13346548d23d8c56ad568e23507c495e875cf2",
+          "e7d7066c5ace8b7391dfbf6f82f62d62fe82b016fc11a0379d2fe0e058bf46ed"
+        ],
+        "composite_digests": [
+          "c798ece5734e801addbf251fbdf6827880697b47bfd0443abdcbc2b59b9abc65",
+          "ca56afa3187f62536bc54fb2ef0954fe42698be4c64cb68a9b24e49f9ee13d1f",
+          "e001ab80518f6750a6292390102acf3fd0018051d92549eb661a49096aa9074d",
+          "ed9fbc54d93f8634ffcc62613367b09501721a1c5c44e424d660312014e6feb7",
+          "e042dd6f0845caf4ab1238e1522f0e21daa61a431cebb527f2e24b6bda004af9",
+          "5e5845d2223410f98d537ca384e69aae8e95c76617c11e8266511cd2bfcf6ed0"
+        ],
+        "rejection_log": [
+          {
+            "path": "arc_length",
+            "step": 1,
+            "base_load_factor": 0.0,
+            "rejected_radius": 0.05,
+            "retry_radius": 0.025,
+            "previous_radius": 0.05,
+            "failure_reason": "MAX_ITERATIONS",
+            "failure_diagnostics": {},
+            "rollback_before_retry": true
+          }
+        ],
+        "continuation_rejection_log": [
+          {
+            "step": 1,
+            "base_load_factor": 0.0,
+            "rejected_radius": 0.05,
+            "path": "arc_length",
+            "failure_reason": "MAX_ITERATIONS",
+            "retry_classification": "RETRYABLE",
+            "accepted_digest_before": "e88ab4779bbfc9f6f354a653bd7f2b8d46f865e4bde91165631a0bd1563109a9",
+            "accepted_digest_after": "e88ab4779bbfc9f6f354a653bd7f2b8d46f865e4bde91165631a0bd1563109a9",
+            "accepted_component_digests_before": {
+              "displacement": "f3cfa29b85bf8131e3e75f745f116f23657905934e36f4fb8c1599b4fd945c5f",
+              "load_factor": "95ffe3dc54ad62f74992c891e39c007f7f808e667a126e81274a81e292c3d59f",
+              "material_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+              "contact_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+              "continuation_state": "c7efcda528d5abc36dc2220f1ed9eab816db94a057648fdf07d1c392a0ef7bed",
+              "accepted_increment_metadata": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+            },
+            "accepted_component_digests_after": {
+              "displacement": "f3cfa29b85bf8131e3e75f745f116f23657905934e36f4fb8c1599b4fd945c5f",
+              "load_factor": "95ffe3dc54ad62f74992c891e39c007f7f808e667a126e81274a81e292c3d59f",
+              "material_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+              "contact_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+              "continuation_state": "c7efcda528d5abc36dc2220f1ed9eab816db94a057648fdf07d1c392a0ef7bed",
+              "accepted_increment_metadata": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+            },
+            "accepted_load_factor_before": 0.0,
+            "accepted_load_factor_after": 0.0,
+            "accepted_continuation_before": {
+              "accepted_step": 0,
+              "load_factor": 0.0,
+              "radius": 0.05,
+              "maximum_radius": 0.2,
+              "load_scale": 0.05,
+              "previous_du": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "previous_dlambda": 0.0,
+              "target_load_factor": 1.0,
+              "stop_mode": "max_steps",
+              "allow_load_factor_turning": true,
+              "control_dof": null
+            },
+            "accepted_continuation_after": {
+              "accepted_step": 0,
+              "load_factor": 0.0,
+              "radius": 0.05,
+              "maximum_radius": 0.2,
+              "load_scale": 0.05,
+              "previous_du": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "previous_dlambda": 0.0,
+              "target_load_factor": 1.0,
+              "stop_mode": "max_steps",
+              "allow_load_factor_turning": true,
+              "control_dof": null
+            },
+            "rollback_before_retry": true,
+            "failure_diagnostics": {}
+          }
+        ],
+        "final_material_digest": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+      },
+      "injected_failure_calls": 1,
+      "restart_from_step": 2,
+      "restart": {
+        "status": "PASS",
+        "accepted_load_factors": [
+          1.0011824683001795,
+          1.0023649844719997,
+          1.0047301597720775,
+          1.0094610776249089
+        ],
+        "effective_attempt_radii": [
+          0.008576302617495327,
+          6.205511697475338e-05,
+          0.0001241027026726558,
+          0.0002481754082344272
+        ],
+        "policy_radii_after_acceptance": [
+          0.025,
+          0.025,
+          0.025,
+          0.025
+        ],
+        "iterations": [
+          3,
+          2,
+          2,
+          2
+        ],
+        "branch_direction": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "predictor_sign": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "previous_du_digests": [
+          "9567920ad9e3c997083108b7bccf0ae4104c1bcce62b9133a416fdf64e4be517",
+          "54a5d8830141b89eaf416a3c55ad0e2790b167c422f414c371748dd1ebe67cb5",
+          "eebba538b83ca7242a4529d33d4a4d0ad5924df6322b0d026248a9832873a8f3",
+          "76e04359f368c729026909efb373439e765966eda5de2d89e509355ec03b8e18"
+        ],
+        "previous_dlambda": [
+          0.1623973756809608,
+          0.0011825161718201915,
+          0.0023651753000777376,
+          0.004730917852831418
+        ],
+        "accepted_displacement_digests": [
+          "25a075030667b0884df2290e5f330a96ff605333edacda83501a51ef5573b725",
+          "acb228914019d5aad0b9195d3baa3325258942d32a0a31e88bce208b19f12445",
+          "8e9fd1d8d0d47263fbcb59ed52dd05a71003bb7a68f8212171691ecbd4203c54",
+          "be94df93606d49ee2b9136f72bffd7e1064f3e735787c505fef13c21a04de0a6"
+        ],
+        "material_digests": [
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+          "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+        ],
+        "continuation_digests": [
+          "387cb310f3bf1e4813bd43448905454c7f8feaf009387c65032c0655f37133da",
+          "293e876f9ce942d06dedbb5442c63289958cbcbb751a1c1c6807891a968b1104",
+          "7fd8b07c7ad589dacbc6f85fec13346548d23d8c56ad568e23507c495e875cf2",
+          "e7d7066c5ace8b7391dfbf6f82f62d62fe82b016fc11a0379d2fe0e058bf46ed"
+        ],
+        "composite_digests": [
+          "e001ab80518f6750a6292390102acf3fd0018051d92549eb661a49096aa9074d",
+          "ed9fbc54d93f8634ffcc62613367b09501721a1c5c44e424d660312014e6feb7",
+          "e042dd6f0845caf4ab1238e1522f0e21daa61a431cebb527f2e24b6bda004af9",
+          "5e5845d2223410f98d537ca384e69aae8e95c76617c11e8266511cd2bfcf6ed0"
+        ],
+        "rejection_log": [],
+        "continuation_rejection_log": [],
+        "final_material_digest": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+      }
+    },
+    "D-B13_path_dependent_J2_restart_retry": {
+      "source": {
+        "status": "PASS",
+        "accepted_load_factors": [
+          0.03359677010975726,
+          0.15026357849979133,
+          0.27112442760403194,
+          0.2851884797464559,
+          0.2990240068850848,
+          0.4252673732793638
+        ],
+        "effective_attempt_radii": [
+          0.00304626144136861,
+          0.02,
+          0.02,
+          0.0022823146182523388,
+          0.002236086720003408,
+          0.02
+        ],
+        "policy_radii_after_acceptance": [
+          0.02,
+          0.02,
+          0.02,
+          0.02,
+          0.02,
+          0.02
+        ],
+        "iterations": [
+          5,
+          3,
+          6,
+          5,
+          5,
+          5
+        ],
+        "branch_direction": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "predictor_sign": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "previous_du_digests": [
+          "cd2fe190076948756d00722690b241661857d8192802bad05dd83083dc69e07b",
+          "673dc03b0da05c2bee3d34916e9bce7b35f2b9969ee245ba05e7076588c690e5",
+          "457892cb5194d7c840612762c6031c70808e41cbc56902aea57a48c12bf56fc7",
+          "9238416b0853249aab79a5c25fa92d540385192a603bfa3dbf8b3fad81b18439",
+          "b7afff02b84b3f8acfc7326b9718ef94e324446fc47162908ad5e761ade289e5",
+          "52e42b6912519c0177aa490cb6fe8b0444bec77e8a8b66c40bd8a42737c070d5"
+        ],
+        "previous_dlambda": [
+          0.03359677010975726,
+          0.11666680839003407,
+          0.12086084910424061,
+          0.014064052142423955,
+          0.0138355271386289,
+          0.12624336639427902
+        ],
+        "accepted_displacement_digests": [
+          "3adf340566c70b5e4895fbc16c7cc162d6d6ac3de8d30f18c67c53975d769be0",
+          "e75622e7323194e9a3ebd4fc04968482b396529984ff1693554c5898771c265f",
+          "ec3dc4f805cd6ab32fe92ef176e59d7312bf20a77472db504edb6556b3c2ca85",
+          "b4309fca0c523075afb0b273d06bed6985ec383122fab1aae22f73a244423734",
+          "ff249991e07fe5863bc445aacf8b896153ce738df7dd94d62045608b7ff2b019",
+          "ead61571016b469baeac0d6a250c2f5ef47b91e0c0c08b50573cd3b82b0e50da"
+        ],
+        "material_digests": [
+          "254d11ef2d274643c188672dad34bda07be29d0f544bf2e7178bb4f11e88bc84",
+          "5460956c65025426774696b07a1408b0ddc0e193559737f600e26b75498a72b3",
+          "e0345b5a3fcac5f54fa398b00fc2e0f6451a6263064ae4573ef0ee8189277677",
+          "7af9c9232b29a32ad46f9006537c9a0cb80b66ae33b84ecf6fc4917afb5f813c",
+          "35ea990e432a9a09e5525e9a50bde18503e8529a5076074098a5dd6c8a5282ee",
+          "71b080b614da0c58b890b8a2cdb35f32da4701587b2c127aea9111164e69af09"
+        ],
+        "continuation_digests": [
+          "a81238f3938da5e905442c0c33b8c5204218c2c1fd9d621a2b83324cb643689f",
+          "678e28f3f5fa7bc6b720137e4c17a25051eb4dd225cb9a544e99a30ce6c147d2",
+          "44c75e9f575b36f36dc37842cc01c32441f75243b5430c955c89a8b299b7b7ef",
+          "77d48ba735fda679e5fb17bcefdc44313d283ae676a29ac64587a70deca0be5a",
+          "ecdd68735624e59c3f80b9e43dd689e90915447f2c0b75c71568971ce19ef555",
+          "47f3b112e88b457bca96defa9f0b78023cf58d50667de034c815aa1fe1ca3dfa"
+        ],
+        "composite_digests": [
+          "98e3eb2f7aef2852c8292d038059d1ce1dff7367506236afa02bc8b2635c1f77",
+          "1a50d0eeda3e2bef5f17e167c6a0ee503f6a729c880aa0f3bc4f5afc2ec1a042",
+          "5f32b7b142eb80b24879611aa209154321aeda40ca0fae7ec3f2f6c96b44cfe1",
+          "776447a569a1d6133551b70303c75040ef22de331d552db990fbb85412b5d3c0",
+          "fe72c57f843e3e8f079600c534b9fda2197edbe493f0d5668737ca011e8258ec",
+          "f223ad0357dd89d8fd1e2688cd0bdeb288780bcfbab732a29db68437de6c67d6"
+        ],
+        "rejection_log": [],
+        "continuation_rejection_log": [],
+        "final_material_digest": "71b080b614da0c58b890b8a2cdb35f32da4701587b2c127aea9111164e69af09"
+      },
+      "restart_from_step": 2,
+      "restart": {
+        "status": "PASS",
+        "accepted_load_factors": [
+          0.27112442760403194,
+          0.2851884797464559,
+          0.2990240068850848,
+          0.4252673732793638
+        ],
+        "effective_attempt_radii": [
+          0.02,
+          0.0022823146182523388,
+          0.002236086720003408,
+          0.02
+        ],
+        "policy_radii_after_acceptance": [
+          0.02,
+          0.02,
+          0.02,
+          0.02
+        ],
+        "iterations": [
+          6,
+          5,
+          5,
+          5
+        ],
+        "branch_direction": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "predictor_sign": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "previous_du_digests": [
+          "457892cb5194d7c840612762c6031c70808e41cbc56902aea57a48c12bf56fc7",
+          "9238416b0853249aab79a5c25fa92d540385192a603bfa3dbf8b3fad81b18439",
+          "b7afff02b84b3f8acfc7326b9718ef94e324446fc47162908ad5e761ade289e5",
+          "52e42b6912519c0177aa490cb6fe8b0444bec77e8a8b66c40bd8a42737c070d5"
+        ],
+        "previous_dlambda": [
+          0.12086084910424061,
+          0.014064052142423955,
+          0.0138355271386289,
+          0.12624336639427902
+        ],
+        "accepted_displacement_digests": [
+          "ec3dc4f805cd6ab32fe92ef176e59d7312bf20a77472db504edb6556b3c2ca85",
+          "b4309fca0c523075afb0b273d06bed6985ec383122fab1aae22f73a244423734",
+          "ff249991e07fe5863bc445aacf8b896153ce738df7dd94d62045608b7ff2b019",
+          "ead61571016b469baeac0d6a250c2f5ef47b91e0c0c08b50573cd3b82b0e50da"
+        ],
+        "material_digests": [
+          "e0345b5a3fcac5f54fa398b00fc2e0f6451a6263064ae4573ef0ee8189277677",
+          "7af9c9232b29a32ad46f9006537c9a0cb80b66ae33b84ecf6fc4917afb5f813c",
+          "35ea990e432a9a09e5525e9a50bde18503e8529a5076074098a5dd6c8a5282ee",
+          "71b080b614da0c58b890b8a2cdb35f32da4701587b2c127aea9111164e69af09"
+        ],
+        "continuation_digests": [
+          "44c75e9f575b36f36dc37842cc01c32441f75243b5430c955c89a8b299b7b7ef",
+          "77d48ba735fda679e5fb17bcefdc44313d283ae676a29ac64587a70deca0be5a",
+          "ecdd68735624e59c3f80b9e43dd689e90915447f2c0b75c71568971ce19ef555",
+          "47f3b112e88b457bca96defa9f0b78023cf58d50667de034c815aa1fe1ca3dfa"
+        ],
+        "composite_digests": [
+          "5f32b7b142eb80b24879611aa209154321aeda40ca0fae7ec3f2f6c96b44cfe1",
+          "776447a569a1d6133551b70303c75040ef22de331d552db990fbb85412b5d3c0",
+          "fe72c57f843e3e8f079600c534b9fda2197edbe493f0d5668737ca011e8258ec",
+          "f223ad0357dd89d8fd1e2688cd0bdeb288780bcfbab732a29db68437de6c67d6"
+        ],
+        "rejection_log": [],
+        "continuation_rejection_log": [],
+        "final_material_digest": "71b080b614da0c58b890b8a2cdb35f32da4701587b2c127aea9111164e69af09"
+      }
+    },
+    "D-B14_checkpoint_failure_after_accept": {
+      "status": "FAILURE_EXPECTED",
+      "exception": "NumericalConvergenceError",
+      "failure_reason": "CHECKPOINT_FAILURE",
+      "message": "controlled checkpoint failure",
+      "diagnostics": {},
+      "save_calls": [
+        {
+          "step": 1,
+          "load_factor": 0.8465484148039244,
+          "digest": "8a550568f4d5f5280544ddced5f2543c5f37d96c76c27ab85c9d3896ce95538d"
+        }
+      ]
+    },
+    "D-B15_target_clipped_radius": {
+      "status": "PASS",
+      "accepted_load_factors": [
+        0.050129033337781875
+      ],
+      "effective_attempt_radii": [
+        0.0035355339059327385
+      ],
+      "policy_radii_after_acceptance": [
+        0.1
+      ],
+      "iterations": [
+        2
+      ],
+      "branch_direction": [
+        1
+      ],
+      "predictor_sign": [
+        1
+      ],
+      "previous_du_digests": [
+        "fea20186b995b8c93a1c9aac18fef743f99f1819663cd1b39cf78505412996f7"
+      ],
+      "previous_dlambda": [
+        0.050129033337781875
+      ],
+      "accepted_displacement_digests": [
+        "1ee6537ed5a5f255de7bfbccb5d40eeb3324301f7e9fe9154d7baa005c7ee0bf"
+      ],
+      "material_digests": [
+        "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+      ],
+      "continuation_digests": [
+        "53312c1d3c8ceb8612c47d3efcab2fddea66c34fc58b8ddd99cc4d71d1184b94"
+      ],
+      "composite_digests": [
+        "2c4887aa612a400cabd635415f24219bfa29acfe7fe2acd6aa91ccb81b03991a"
+      ],
+      "rejection_log": [],
+      "continuation_rejection_log": [],
+      "final_material_digest": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+    }
+  },
+  "target_clipped_retry_audit": {
+    "status": "REPRODUCED",
+    "policy_radius_before": 0.1,
+    "effective_failed_attempt_radius": 0.0035355339059327385,
+    "policy_retry_radius": 0.05,
+    "effective_retry_attempt_radius": 0.0035355339059327385,
+    "evidence": "A retryable failure at target_load_factor=0.05 cuts policy radius from 0.1 to 0.05, but target clipping leaves the effective attempted radius unchanged.",
+    "requires_policy_fix": true
+  }
+}

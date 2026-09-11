@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Mapping, Sequence
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from enum import Enum
 from math import isfinite
 from typing import Any, cast
@@ -15,7 +15,7 @@ from scipy.sparse.linalg import MatrixRankWarning, splu, spsolve
 
 from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
-from solveur.core.nonlinear.controls import AdaptiveLoadControls
+from solveur.core.nonlinear.controls import AdaptiveLoadControls, ArcLengthControls
 
 
 _PARAMETER_KEYS = {
@@ -364,6 +364,328 @@ class UnifiedAdaptiveStepPolicy:
         )
         self._decisions.append(decision)
         return decision
+
+    @staticmethod
+    def _enum_value(value: object) -> object:
+        return getattr(value, "value", value)
+
+
+ARC_RADIUS_POLICY_ID = "qf-solver-unified-arc-length-radius"
+ARC_RADIUS_POLICY_VERSION = 1
+
+
+@dataclass(frozen=True)
+class ArcRadiusPolicyDecision:
+    """One deterministic accepted-step or retry radius decision."""
+
+    decision: str
+    accepted_step: int
+    base_load_factor: float
+    policy_radius: float
+    effective_attempt_radius: float
+    adaptive_radius_enabled: bool
+    iterations: int | None
+    grow_below_iterations: int
+    shrink_above_iterations: int
+    growth_factor: float
+    shrink_factor: float
+    minimum_radius: float
+    maximum_radius: float
+    failure_reason: str | None
+    retry_classification: str | None
+    rejected_count: int
+    retry_radius: float | None
+    effective_retry_radius: float | None
+    accepted_next_radius: float | None
+    target_clipped: bool
+    rollback_verified: bool
+    accepted_state_digest: str | None
+    failure_stage: str | None = None
+    policy_id: str = ARC_RADIUS_POLICY_ID
+    policy_version: int = ARC_RADIUS_POLICY_VERSION
+
+    def to_dict(self) -> dict[str, Any]:
+        """Return deterministic, JSON-compatible radius diagnostics."""
+        return {
+            "decision": self.decision,
+            "accepted_step": self.accepted_step,
+            "base_load_factor": self.base_load_factor,
+            "policy_radius": self.policy_radius,
+            "effective_attempt_radius": self.effective_attempt_radius,
+            "adaptive_radius_enabled": self.adaptive_radius_enabled,
+            "iterations": self.iterations,
+            "grow_below_iterations": self.grow_below_iterations,
+            "shrink_above_iterations": self.shrink_above_iterations,
+            "growth_factor": self.growth_factor,
+            "shrink_factor": self.shrink_factor,
+            "minimum_radius": self.minimum_radius,
+            "maximum_radius": self.maximum_radius,
+            "failure_reason": self.failure_reason,
+            "retry_classification": self.retry_classification,
+            "rejected_count": self.rejected_count,
+            "retry_radius": self.retry_radius,
+            "effective_retry_radius": self.effective_retry_radius,
+            "accepted_next_radius": self.accepted_next_radius,
+            "target_clipped": self.target_clipped,
+            "rollback_verified": self.rollback_verified,
+            "accepted_state_digest": self.accepted_state_digest,
+            "failure_stage": self.failure_stage,
+            "policy_id": self.policy_id,
+            "policy_version": self.policy_version,
+        }
+
+
+class UnifiedArcLengthRadiusPolicy:
+    """Single formulation-neutral policy authority for arc-length radii.
+
+    The policy owns only radius decisions.  It does not know the augmented
+    arc-length equations and it never publishes accepted nonlinear state.
+    ``effective_attempt_radius`` is the radius actually passed to the
+    correction kernel after target clipping; it is used to prevent a retry
+    from silently repeating an identical clipped attempt.
+    """
+
+    _TERMINAL_ARC_FAILURE_STAGES = frozenset(
+        {
+            "minimum_radius",
+            "max_steps",
+            "load_factor_limit",
+            "target_load_factor_limit",
+            "terminal_policy",
+        }
+    )
+
+    def __init__(
+        self,
+        controls: ArcLengthControls,
+        *,
+        policy_source: str | RobustnessPolicySource = RobustnessPolicySource.PUBLIC_DEFAULT,
+        allow_owner_policy: bool = True,
+    ) -> None:
+        source = policy_source.value if isinstance(policy_source, RobustnessPolicySource) else str(policy_source)
+        if source not in {item.value for item in RobustnessPolicySource}:
+            raise ValueError(f"Unknown arc-length policy source {source!r}.")
+        self.controls = controls
+        self.policy_source = source
+        self.allow_owner_policy = bool(allow_owner_policy)
+        self._decisions: list[ArcRadiusPolicyDecision] = []
+
+    @property
+    def decisions(self) -> tuple[ArcRadiusPolicyDecision, ...]:
+        """Return an immutable view of all radius decisions."""
+        return tuple(self._decisions)
+
+    def configuration_diagnostics(self) -> dict[str, Any]:
+        """Return controls and the deterministic decision history."""
+        controls = self.controls
+        return {
+            "policy_id": ARC_RADIUS_POLICY_ID,
+            "policy_version": ARC_RADIUS_POLICY_VERSION,
+            "policy_source": self.policy_source,
+            "allow_owner_policy": self.allow_owner_policy,
+            "controls": {
+                "adaptive_radius": controls.adaptive_radius,
+                "minimum_radius": controls.minimum_radius,
+                "growth_factor": controls.growth_factor,
+                "shrink_factor": controls.shrink_factor,
+                "grow_below_iterations": controls.grow_below_iterations,
+                "shrink_above_iterations": controls.shrink_above_iterations,
+            },
+            "minimum_radius_equality": "PERMITTED",
+            "radius_roles": {
+                "policy_radius": "radius carried between accepted/rejected decisions",
+                "effective_attempt_radius": "radius passed to the augmented correction after target clipping",
+            },
+            "decisions": [decision.to_dict() for decision in self._decisions],
+        }
+
+    def on_accept(
+        self,
+        *,
+        accepted_step: int,
+        base_load_factor: float,
+        policy_radius: float,
+        effective_attempt_radius: float,
+        maximum_radius: float,
+        iterations: int,
+        target_clipped: bool | None = None,
+        accepted_state_digest: str | None = None,
+    ) -> ArcRadiusPolicyDecision:
+        """Choose keep/grow/shrink after a globally accepted arc step."""
+        controls = self.controls
+        policy_value = float(policy_radius)
+        effective_value = float(effective_attempt_radius)
+        maximum_value = float(maximum_radius)
+        if (
+            not np.isfinite(policy_value)
+            or policy_value <= 0.0
+            or not np.isfinite(effective_value)
+            or effective_value <= 0.0
+            or not np.isfinite(maximum_value)
+            or maximum_value < policy_value
+        ):
+            raise ValueError("Accepted arc-length radii must be finite and ordered.")
+        if int(iterations) <= controls.grow_below_iterations and controls.adaptive_radius:
+            decision_name = "ACCEPT_GROW"
+            next_radius = min(maximum_value, policy_value * controls.growth_factor)
+        elif int(iterations) >= controls.shrink_above_iterations and controls.adaptive_radius:
+            decision_name = "ACCEPT_SHRINK"
+            next_radius = max(controls.minimum_radius, policy_value * controls.shrink_factor)
+        else:
+            decision_name = "ACCEPT_KEEP"
+            next_radius = policy_value
+        decision = ArcRadiusPolicyDecision(
+            decision=decision_name,
+            accepted_step=int(accepted_step),
+            base_load_factor=float(base_load_factor),
+            policy_radius=policy_value,
+            effective_attempt_radius=effective_value,
+            adaptive_radius_enabled=controls.adaptive_radius,
+            iterations=int(iterations),
+            grow_below_iterations=controls.grow_below_iterations,
+            shrink_above_iterations=controls.shrink_above_iterations,
+            growth_factor=controls.growth_factor,
+            shrink_factor=controls.shrink_factor,
+            minimum_radius=controls.minimum_radius,
+            maximum_radius=maximum_value,
+            failure_reason=None,
+            retry_classification=None,
+            rejected_count=0,
+            retry_radius=None,
+            effective_retry_radius=None,
+            accepted_next_radius=float(next_radius),
+            target_clipped=(effective_value < policy_value) if target_clipped is None else bool(target_clipped),
+            rollback_verified=False,
+            accepted_state_digest=accepted_state_digest,
+        )
+        self._decisions.append(decision)
+        return decision
+
+    def on_failure(
+        self,
+        *,
+        accepted_step: int,
+        base_load_factor: float,
+        policy_radius: float,
+        effective_attempt_radius: float,
+        maximum_radius: float,
+        failure_reason: object,
+        retry_classification: object,
+        rejected_count: int,
+        failure_diagnostics: Mapping[str, Any] | None = None,
+        rollback_verified: bool = True,
+        accepted_state_digest: str | None = None,
+    ) -> ArcRadiusPolicyDecision:
+        """Classify a post-rollback failure and choose the next radius."""
+        controls = self.controls
+        policy_value = float(policy_radius)
+        effective_value = float(effective_attempt_radius)
+        maximum_value = float(maximum_radius)
+        if (
+            not np.isfinite(policy_value)
+            or policy_value <= 0.0
+            or not np.isfinite(effective_value)
+            or effective_value <= 0.0
+            or not np.isfinite(maximum_value)
+            or maximum_value < policy_value
+        ):
+            raise ValueError("Failed arc-length radii must be finite and ordered.")
+        diagnostics = dict(failure_diagnostics or {})
+        reason_value = self._enum_value(failure_reason)
+        classification_value = self._enum_value(retry_classification)
+        reason_name = None if reason_value is None else str(reason_value)
+        classification_name = None if classification_value is None else str(classification_value)
+        failure_stage = diagnostics.get("failure_stage")
+        failure_stage_name = None if failure_stage is None else str(failure_stage).lower()
+        terminal_arc_boundary = self._is_terminal_arc_failure(
+            reason_name,
+            diagnostics,
+            failure_stage_name,
+        )
+        retry_allowed = classification_name == "RETRYABLE" or (
+            self.allow_owner_policy and classification_name == "OWNER_POLICY_DEPENDENT"
+        )
+        if terminal_arc_boundary:
+            retry_allowed = False
+
+        # A target-clipped attempt can otherwise retry the same effective
+        # radius even after the policy radius is reduced.  Advance the policy
+        # radius through the first value strictly below the failed effective
+        # radius.  This preserves the legacy geometric cutback sequence while
+        # guaranteeing that the next correction genuinely steps down.
+        policy_retry_value = policy_value * controls.shrink_factor
+        while effective_value < policy_value and policy_retry_value >= effective_value:
+            policy_retry_value *= controls.shrink_factor
+        effective_retry_value = policy_retry_value
+        if (
+            not np.isfinite(policy_retry_value)
+            or policy_retry_value <= 0.0
+            or not np.isfinite(effective_retry_value)
+            or effective_retry_value <= 0.0
+        ):
+            raise ValueError("Arc-length radius policy produced an invalid retry radius.")
+        if not rollback_verified:
+            decision_name = "TERMINAL_NON_RETRYABLE"
+        elif not retry_allowed:
+            decision_name = "TERMINAL_NON_RETRYABLE"
+        elif effective_retry_value < controls.minimum_radius:
+            decision_name = "TERMINAL_MIN_RADIUS"
+        else:
+            decision_name = "RETRY_SHRINK"
+        decision = ArcRadiusPolicyDecision(
+            decision=decision_name,
+            accepted_step=int(accepted_step),
+            base_load_factor=float(base_load_factor),
+            policy_radius=policy_value,
+            effective_attempt_radius=effective_value,
+            adaptive_radius_enabled=controls.adaptive_radius,
+            iterations=None,
+            grow_below_iterations=controls.grow_below_iterations,
+            shrink_above_iterations=controls.shrink_above_iterations,
+            growth_factor=controls.growth_factor,
+            shrink_factor=controls.shrink_factor,
+            minimum_radius=controls.minimum_radius,
+            maximum_radius=maximum_value,
+            failure_reason=reason_name,
+            retry_classification=classification_name,
+            rejected_count=int(rejected_count),
+            retry_radius=float(policy_retry_value),
+            effective_retry_radius=float(effective_retry_value),
+            accepted_next_radius=None,
+            target_clipped=effective_value < policy_value,
+            rollback_verified=bool(rollback_verified),
+            accepted_state_digest=accepted_state_digest,
+            failure_stage=failure_stage_name,
+        )
+        self._decisions.append(decision)
+        return decision
+
+    def record_accepted_state_digest(self, digest: str) -> ArcRadiusPolicyDecision:
+        """Attach the digest published by the completed accepted increment."""
+        if not self._decisions or not self._decisions[-1].decision.startswith("ACCEPT_"):
+            raise RuntimeError("An accepted radius decision is required before recording its state digest.")
+        if not isinstance(digest, str) or not digest:
+            raise ValueError("Accepted arc-length state digest must be a non-empty string.")
+        decision = replace(self._decisions[-1], accepted_state_digest=digest)
+        self._decisions[-1] = decision
+        return decision
+
+    @classmethod
+    def _is_terminal_arc_failure(
+        cls,
+        reason_name: str | None,
+        diagnostics: Mapping[str, Any],
+        failure_stage: str | None,
+    ) -> bool:
+        if reason_name != NonlinearFailureReason.ARC_LENGTH_FAILURE.value:
+            return False
+        if failure_stage in cls._TERMINAL_ARC_FAILURE_STAGES:
+            return True
+        # A predictor/correction envelope violation is a retryable numerical
+        # correction failure.  The route emits an explicit failure stage for
+        # terminal policy boundaries, so a bare load-factor diagnostic must
+        # not bypass radius cutback and retry.
+        return "max_arc_steps" in diagnostics
 
     @staticmethod
     def _enum_value(value: object) -> object:
