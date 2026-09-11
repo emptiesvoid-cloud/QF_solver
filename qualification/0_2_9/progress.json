@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "release": "0.2.9",
-  "status": "WP02_SCHEMA_V2_FOUNDATION",
+  "status": "WP02_FIXED_ADAPTIVE_RESTART",
   "work_packages": {
     "WP00": {"points": 4, "status": "CLOSED", "validated_points": 4},
     "WP01": {"points": 12, "status": "CLOSED", "validated_points": 12},
-    "WP02": {"points": 6, "status": "SCHEMA_V2_FOUNDATION", "validated_points": 0},
+    "WP02": {"points": 6, "status": "FIXED_ADAPTIVE_RESTART", "validated_points": 0},
     "WP03": {"points": 7, "status": "NOT_STARTED", "validated_points": 0},
     "WP04": {"points": 12, "status": "NOT_STARTED", "validated_points": 0},
     "WP05": {"points": 5, "status": "NOT_STARTED", "validated_points": 0},
@@ -21,5 +21,5 @@
   },
   "validated_points": 16,
   "total_points": 100,
-  "next_gate": "Owner review of WP02-B schema-v2 foundation before WP02-C fixed/adaptive restart migration. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
+  "next_gate": "Owner review of WP02-C fixed/adaptive restart migration before WP02-D arc-length restart migration. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
 }

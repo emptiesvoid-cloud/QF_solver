@@ -78,15 +78,16 @@ WP00 (4/4).
 The controlled documentation view is [WP01 Owner closure](wp01-owner-closure.md);
 the corresponding machine-readable record is
 `qualification/0_2_9/wp01_owner_closure.json`.
-WP02-B is now the **SCHEMA_V2_FOUNDATION** phase at 0/6 points. OD-029-01
+WP02-C is now the **FIXED_ADAPTIVE_RESTART** phase at 0/6 points. OD-029-01
 remains **OPEN** and blocks WP09 only. OD-029-02 is **CLOSED** as
 `READ_V1_WRITE_V2_BOUNDED`. This record does not promote maturity, alter
 numerical formulations or change historical WP01-A/B/C/D evidence.
 
-WP02 is now in **SCHEMA_V2_FOUNDATION** at 0/6 points. WP02-B implements the
-checkpoint-v2 serialization foundation and leaves full solver restart
-migration to WP02-C/WP02-D. The bounded v1 compatibility policy and its
-contact-bearing rejection are recorded in [OD-029-02](owner-decisions.md).
+WP02 is now in **FIXED_ADAPTIVE_RESTART** at 0/6 points. WP02-B implements
+the checkpoint-v2 serialization foundation and WP02-C migrates fixed and
+adaptive restart ownership. Complete arc-length restart remains WP02-D. The
+bounded v1 compatibility policy and its contact-bearing rejection are
+recorded in [OD-029-02](owner-decisions.md).
 
 ## Planning records
 

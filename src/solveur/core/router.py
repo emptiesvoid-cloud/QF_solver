@@ -42,8 +42,9 @@ class AnalysisRouter:
             return NonlinearStaticSolver(checkpoint_store=NpzNonlinearCheckpointStore()).solve(model)
         if model.analysis.type == "geometric_nonlinear_static":
             from solveur.core.analyses.geometric_nonlinear import GeometricNonlinearStaticSolver
+            from solveur.io.nonlinear_checkpoint import NpzNonlinearCheckpointStore
 
-            return GeometricNonlinearStaticSolver().solve(model)
+            return GeometricNonlinearStaticSolver(checkpoint_store=NpzNonlinearCheckpointStore()).solve(model)
         if model.analysis.type == "linear_buckling":
             from solveur.core.analyses.buckling import LinearBucklingSolver
 

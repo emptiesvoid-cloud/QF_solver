@@ -100,6 +100,7 @@ class NpzNonlinearCheckpointStore:
         *,
         model: FiniteElementModel | None = None,
         expected_model_signature: str | None = None,
+        expected_legacy_model_signature: str | None = None,
         expected_dofs: int | None = None,
         expected_topology: dict[str, Any] | None = None,
     ) -> NonlinearCheckpointV2:
@@ -115,6 +116,7 @@ class NpzNonlinearCheckpointStore:
                         model=model,
                         expected_dofs=expected_dofs,
                         expected_model_signature=expected_model_signature,
+                        expected_legacy_model_signature=expected_legacy_model_signature,
                     )
                 elif schema_version == 2:
                     checkpoint = _decode_v2(metadata)

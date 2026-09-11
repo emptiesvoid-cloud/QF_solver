@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "record_id": "QF-SOLVER-0.2.9-WP02-GATES-001",
-  "status": "SCHEMA_V2_FOUNDATION",
+  "status": "FIXED_ADAPTIVE_RESTART",
   "baseline_sha": "cced3d30ac12f2e405915766c5329ac53b7b07bb",
   "thresholds": {
     "persisted_deterministic_state": {"relative": 1e-12, "absolute": 1e-14},
@@ -10,7 +10,7 @@
   "gates": [
     {"id": "G02-01", "name": "Composite checkpoint completeness", "requirement": "Schema 2 represents every accepted NonlinearState component, topology and digest.", "negative_case": "Missing contact or metadata field is rejected."},
     {"id": "G02-02", "name": "Round-trip exactness", "requirement": "Save then load reproduces every component digest and the composite digest.", "threshold": "Exact digest equality."},
-    {"id": "G02-03", "name": "Fixed-load restart equivalence", "requirement": "Continuous and interrupted/restarted fixed-load runs agree in final state and bounded diagnostics.", "threshold": "Physical restart threshold."},
+    {"id": "G02-03", "name": "Fixed-load restart equivalence", "requirement": "Continuous and interrupted/restarted fixed/adaptive load-control runs agree in final state and bounded diagnostics.", "threshold": "Physical restart threshold."},
     {"id": "G02-04", "name": "Arc-length restart equivalence", "requirement": "Continuous and interrupted/restarted arc-length paths agree in displacement, load factor, radius and continuation state.", "threshold": "Physical restart threshold plus exact persisted state digests."},
     {"id": "G02-05", "name": "Checkpoint integrity", "requirement": "Corrupt, non-finite and digest-mismatched checkpoints fail deterministically with the frozen error distinction.", "negative_case": "No partially restored state."},
     {"id": "G02-06", "name": "Atomic persistence", "requirement": "A failed write cannot expose a partially valid canonical checkpoint.", "negative_case": "Target remains prior valid checkpoint or is absent; never truncated canonical output."},

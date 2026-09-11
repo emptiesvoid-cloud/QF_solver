@@ -112,6 +112,9 @@ def solve_full_newton(
     tolerance: float,
     max_iterations: int,
     robustness_options: NonlinearRobustnessOptions | None = None,
+    initial_state: NonlinearState | None = None,
+    target_load_factors: Sequence[float] | None = None,
+    accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
     """Compatibility adapter into the authoritative unified Newton engine."""
 
@@ -176,12 +179,22 @@ def solve_full_newton(
             ) from exc
 
     engine = UnifiedNewtonEngine()
+    state = initial_state.detached_copy() if initial_state is not None else NonlinearState(
+        np.zeros(assembly.ndof, dtype=float)
+    )
+    factors = (
+        tuple(float(value) for value in target_load_factors)
+        if target_load_factors is not None
+        else tuple(float(value) for value in np.linspace(1.0 / increments, 1.0, increments))
+    )
+    if not factors or any(not np.isfinite(value) for value in factors):
+        raise ValueError("Full Newton target load factors must be finite and non-empty.")
     try:
         result = engine.solve(
-            initial_state=NonlinearState(np.zeros(assembly.ndof, dtype=float)),
+            initial_state=state,
             external_force=external_values,
             fixed=fixed_values,
-            target_load_factors=np.linspace(1.0 / increments, 1.0, increments).tolist(),
+            target_load_factors=factors,
             tolerance=tolerance,
             max_iterations=max_iterations,
             contributions=(_AssemblyContribution(assembly),),
@@ -191,6 +204,7 @@ def solve_full_newton(
             failure_diagnostics=_failure_diagnostics,
             assembly_failure_reason=_assembly_failure_reason,
             nonfinite_failure_reason=_nonfinite_failure_reason,
+            accepted_state_callback=accepted_state_callback,
         )
     except NumericalConvergenceError as exc:
         # Preserve the legacy diagnostic envelope while the engine owns the
@@ -290,6 +304,8 @@ def solve_adaptive_full_newton(
     max_iterations: int,
     controls: AdaptiveLoadControls,
     robustness_options: NonlinearRobustnessOptions | None = None,
+    initial_state: NonlinearState | None = None,
+    accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
     """Solve a dead-load path with deterministic cutback/retry continuation.
 
@@ -311,21 +327,31 @@ def solve_adaptive_full_newton(
     if free.size == 0:
         raise ValueError("Adaptive Full Newton requires at least one free degree of freedom.")
 
-    displacement: np.ndarray = np.zeros(assembly.ndof, dtype=float)
-    controller = UnifiedContinuationController(
-        NonlinearState(
-            displacement=displacement,
+    starting_state = (
+        initial_state.detached_copy()
+        if initial_state is not None
+        else NonlinearState(
+            displacement=np.zeros(assembly.ndof, dtype=float),
             load_factor=0.0,
             continuation_state={"accepted_step": 0},
         )
     )
+    displacement: np.ndarray = starting_state.displacement.copy()
+    controller = UnifiedContinuationController(
+        starting_state
+    )
     history: list[dict[str, object]] = []
     rejection_log: list[dict[str, object]] = []
-    current_factor = 0.0
-    increment = controls.initial_increment
-    accepted_step = 0
+    current_factor = float(controller.accepted_state.load_factor)
+    stored_increment = controller.accepted_state.continuation_state.get("next_increment")
+    if isinstance(stored_increment, (int, float)) and np.isfinite(float(stored_increment)) and float(stored_increment) > 0.0:
+        increment = min(controls.maximum_increment, max(controls.minimum_increment, float(stored_increment)))
+    else:
+        increment = controls.initial_increment
+    accepted_step = int(controller.accepted_state.continuation_state.get("accepted_step", 0))
     total_iterations = 0
-    rejected_increments = 0
+    metadata = controller.accepted_state.accepted_increment_metadata
+    rejected_increments = int(metadata.get("rejected_increments", 0)) if isinstance(metadata, dict) else 0
     pending_cutbacks = 0
     while current_factor < 1.0 - 1.0e-12:
         proposed = min(increment, 1.0 - current_factor)
@@ -439,14 +465,29 @@ def solve_adaptive_full_newton(
             step_diagnostics = dict(attempt_steps[0])
             trial_state.displacement = controller.accepted_state.displacement + trial_delta
             trial_state.load_factor = target_factor
+            next_iterations = int(step_diagnostics["iterations"])
+            if next_iterations <= controls.grow_below_iterations:
+                next_increment = min(controls.maximum_increment, proposed * controls.growth_factor)
+            elif next_iterations >= controls.shrink_above_iterations:
+                next_increment = max(controls.minimum_increment, proposed * controls.cutback_factor)
+            else:
+                next_increment = proposed
             accepted_step += 1
-            trial_state.continuation_state = {"accepted_step": accepted_step}
+            trial_state.continuation_state = {
+                "accepted_step": accepted_step,
+                "current_factor": target_factor,
+                "next_increment": next_increment,
+                "controller_policy": "adaptive_load_control_v1",
+            }
             trial_state.accepted_increment_metadata = {
                 "step": accepted_step,
                 "load_increment": proposed,
                 "load_step_cutbacks": pending_cutbacks,
+                "rejected_increments": controller.rejected_increments,
             }
             controller.commit()
+            if accepted_state_callback is not None:
+                accepted_state_callback(accepted_step, controller.accepted_state.detached_copy())
             displacement[:] = controller.accepted_state.displacement
             total_iterations += attempt_total_iterations
             step_diagnostics.update(
@@ -461,13 +502,7 @@ def solve_adaptive_full_newton(
             history.append(step_diagnostics)
             current_factor = target_factor
             pending_cutbacks = 0
-            iterations = int(step_diagnostics["iterations"])
-            if iterations <= controls.grow_below_iterations:
-                increment = min(controls.maximum_increment, proposed * controls.growth_factor)
-            elif iterations >= controls.shrink_above_iterations:
-                increment = max(controls.minimum_increment, proposed * controls.cutback_factor)
-            else:
-                increment = proposed
+            increment = next_increment
             break
 
     return displacement, {
