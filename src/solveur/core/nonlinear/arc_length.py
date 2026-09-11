@@ -19,9 +19,9 @@ from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.core.nonlinear.controls import ArcLengthControls, NonlinearStep
 from solveur.core.nonlinear.driver import (
     UnifiedContinuationController,
-    continuation_retry_permitted,
 )
 from solveur.core.nonlinear.iteration import solve_arc_length_correction
+from solveur.core.nonlinear.robustness import UnifiedArcLengthRadiusPolicy
 from solveur.core.nonlinear.state import NonlinearState
 from solveur.core.nonlinear.support import _failure_reason_value
 
@@ -151,9 +151,12 @@ class NonlinearArcLengthMixin:
                 "max_arc_length_radius must be finite and at least the current arc-length radius."
             )
         controller = UnifiedContinuationController(restored_state)
+        radius_policy = UnifiedArcLengthRadiusPolicy(controls)
+        self._arc_radius_policy_diagnostics = radius_policy.configuration_diagnostics()
         self._continuation_rejection_log: list[dict[str, object]] = []
         self._continuation_commit_count = 0
         accepted_step = step
+        effective_retry_radius: float | None = None
 
         def target_reached() -> bool:
             return target_direction * (controller.accepted_state.load_factor - target_factor) >= -1.0e-12
@@ -189,7 +192,11 @@ class NonlinearArcLengthMixin:
                 load_scale,
                 linear_method,
             )
+            if effective_retry_radius is not None:
+                step_radius = min(step_radius, effective_retry_radius)
+                effective_retry_radius = None
             step_radius = max(step_radius, controls.minimum_radius)
+            target_clipped = step_radius < radius
             trial = controller.begin_trial()
             self._last_arc_length_updated_states = None
             try:
@@ -219,12 +226,16 @@ class NonlinearArcLengthMixin:
                 updated_states = self._last_arc_length_updated_states
                 if updated_states is None:
                     updated_states = copy_material_states(trial.material_state)
-                next_radius = radius
-                if controls.adaptive_radius:
-                    if info.iterations <= controls.grow_below_iterations:
-                        next_radius = min(maximum_radius, radius * controls.growth_factor)
-                    elif info.iterations >= controls.shrink_above_iterations:
-                        next_radius = max(controls.minimum_radius, radius * controls.shrink_factor)
+                radius_decision = radius_policy.on_accept(
+                    accepted_step=step,
+                    base_load_factor=current_factor,
+                    policy_radius=radius,
+                    effective_attempt_radius=step_radius,
+                    maximum_radius=maximum_radius,
+                    iterations=info.iterations,
+                    target_clipped=target_clipped,
+                )
+                next_radius = float(radius_decision.accepted_next_radius or radius)
                 trial.load_factor = trial_factor
                 trial.material_state = copy_material_states(updated_states)
                 trial.continuation_state = {
@@ -249,6 +260,7 @@ class NonlinearArcLengthMixin:
                 controller.commit()
                 self._continuation_commit_count = controller.transaction.commit_count
                 accepted = controller.accepted_state
+                radius_policy.record_accepted_state_digest(accepted.digest)
                 displacement[:] = accepted.displacement
                 commit_material_states(material_states, accepted.material_state)
                 current_factor = accepted.load_factor
@@ -257,11 +269,17 @@ class NonlinearArcLengthMixin:
                     dtype=float,
                 )
                 previous_dlambda = float(accepted.continuation_state["previous_dlambda"])
-                radius = next_radius
+                radius = float(accepted.continuation_state["radius"])
                 accepted_step = step
                 history.append(info)
-            except NumericalConvergenceError as error:
-                controller.rollback(
+                self._arc_radius_policy_diagnostics = radius_policy.configuration_diagnostics()
+            except RuntimeError as error:
+                failure_diagnostics = (
+                    dict(error.diagnostics)
+                    if isinstance(error, NumericalConvergenceError)
+                    else {"message": str(error)}
+                )
+                retry_classification = controller.rollback(
                     error,
                     path="arc_length",
                     metadata={
@@ -272,81 +290,57 @@ class NonlinearArcLengthMixin:
                 )
                 self._continuation_rejection_log = list(controller.rejection_log)
                 self._rejected_increments = controller.rejected_increments
-                if not continuation_retry_permitted(error, allow_owner_policy=True):
-                    raise
                 previous_radius = radius
-                radius *= controls.shrink_factor
+                radius_decision = radius_policy.on_failure(
+                    accepted_step=accepted_step,
+                    base_load_factor=current_factor,
+                    policy_radius=radius,
+                    effective_attempt_radius=step_radius,
+                    maximum_radius=maximum_radius,
+                    failure_reason=_failure_reason_value(error),
+                    retry_classification=retry_classification,
+                    rejected_count=controller.rejected_increments,
+                    failure_diagnostics=failure_diagnostics,
+                    rollback_verified=True,
+                    accepted_state_digest=controller.accepted_digest,
+                )
+                retry_radius = float(radius_decision.retry_radius or 0.0)
                 self._rejection_log.append(
                     {
                         "path": "arc_length",
                         "step": step,
                         "base_load_factor": current_factor,
                         "rejected_radius": step_radius,
-                        "retry_radius": radius,
+                        "retry_radius": retry_radius,
+                        "effective_retry_radius": radius_decision.effective_retry_radius,
                         "previous_radius": previous_radius,
                         "failure_reason": _failure_reason_value(error),
-                        "failure_diagnostics": dict(error.diagnostics),
+                        "failure_diagnostics": failure_diagnostics,
                         "rollback_before_retry": True,
+                        "radius_policy": radius_decision.to_dict(),
                     }
                 )
-                if radius < controls.minimum_radius:
+                self._arc_radius_policy_diagnostics = radius_policy.configuration_diagnostics()
+                if radius_decision.decision == "TERMINAL_MIN_RADIUS":
                     raise NumericalConvergenceError(
                         "Arc-length continuation reached the minimum radius.",
                         reason=NonlinearFailureReason.ARC_LENGTH_FAILURE,
                         diagnostics={
                             "failure_stage": "minimum_radius",
                             "minimum_radius": controls.minimum_radius,
-                            "last_radius": radius,
+                            "last_radius": retry_radius,
+                            "failed_effective_radius": step_radius,
                             "last_failure_reason": _failure_reason_value(error),
-                            "last_failure_diagnostics": dict(error.diagnostics),
+                            "last_failure_diagnostics": failure_diagnostics,
+                            "radius_policy": radius_decision.to_dict(),
                             "continuation_commit_count": controller.transaction.commit_count,
                             "accepted_state_digest": controller.accepted_digest,
                         },
                     ) from error
-                continue
-
-            except RuntimeError as error:
-                controller.rollback(
-                    error,
-                    path="arc_length",
-                    metadata={
-                        "step": step,
-                        "base_load_factor": current_factor,
-                        "rejected_radius": step_radius,
-                    },
-                )
-                self._continuation_rejection_log = list(controller.rejection_log)
-                self._rejected_increments = controller.rejected_increments
-                if not continuation_retry_permitted(error, allow_owner_policy=True):
+                if radius_decision.decision == "TERMINAL_NON_RETRYABLE":
                     raise
-                previous_radius = radius
-                radius *= controls.shrink_factor
-                self._rejection_log.append(
-                    {
-                        "path": "arc_length",
-                        "step": step,
-                        "base_load_factor": current_factor,
-                        "rejected_radius": step_radius,
-                        "retry_radius": radius,
-                        "previous_radius": previous_radius,
-                        "failure_reason": type(error).__name__,
-                        "failure_diagnostics": {"message": str(error)},
-                        "rollback_before_retry": True,
-                    }
-                )
-                if radius < controls.minimum_radius:
-                    raise NumericalConvergenceError(
-                        "Arc-length continuation reached the minimum radius.",
-                        reason=NonlinearFailureReason.ARC_LENGTH_FAILURE,
-                        diagnostics={
-                            "failure_stage": "minimum_radius",
-                            "minimum_radius": controls.minimum_radius,
-                            "last_radius": radius,
-                            "last_failure_reason": _failure_reason_value(error),
-                            "continuation_commit_count": controller.transaction.commit_count,
-                            "accepted_state_digest": controller.accepted_digest,
-                        },
-                ) from error
+                radius = retry_radius
+                effective_retry_radius = radius_decision.effective_retry_radius
                 continue
 
             if checkpoint_session is not None:
@@ -359,6 +353,8 @@ class NonlinearArcLengthMixin:
                     final=(stop_mode == "target_load" and target_reached()),
                     migration_metadata={"continuation_kind": "arc_length"},
                 )
+                self._arc_radius_policy_diagnostics = radius_policy.configuration_diagnostics()
+        self._arc_radius_policy_diagnostics = radius_policy.configuration_diagnostics()
         return history
 
 

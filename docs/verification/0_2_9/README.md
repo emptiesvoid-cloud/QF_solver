@@ -83,7 +83,8 @@ WP02 is **CLOSED** at **6/6 points** after the independent WP02-E audit at
 **22/100**. The audit decision is `GO_WITH_LIMITATIONS`: restart closure is
 bounded to supported single-process fixed/adaptive/arc paths and does not
 claim frictional-contact, distributed, nonlinear-dynamics or adaptive
-penalty-contact restart. Owner review remains required before WP03-D. OD-029-01
+penalty-contact restart. Owner review remains required before independent
+WP03-E closure. OD-029-01
 remains **OPEN** and blocks WP09 only; OD-029-02 is **CLOSED** as
 `READ_V1_WRITE_V2_BOUNDED`. This record does not promote maturity, alter
 numerical formulations or change historical WP01-A/B/C/D evidence.
@@ -92,8 +93,10 @@ WP03-A froze the actual robustness authority map, stagnation and line-search
 contracts, adaptive retry policy, failure matrix, 16-case baseline campaign
 and prospective G03-01 through G03-10 gates. WP03-B records the common
 stagnation/line-search authority and WP03-C records the targeted common
-adaptive increment/retry policy; no maturity promotion is made. Arc-length
-radius consolidation remains future WP03-D work.
+adaptive increment/retry policy; no maturity promotion is made. WP03-D now
+records the targeted common arc-length radius/retry policy, preserves the
+specialized correction kernel and fixes the target-clipped retry-progress
+boundary. Independent WP03-E closure remains pending.
 
 WP02-B established checkpoint-v2 serialization, WP02-C migrated fixed and
 adaptive restart ownership, and WP02-D migrated the public arc-length restart
@@ -132,8 +135,10 @@ recorded in [OD-029-02](owner-decisions.md).
 - [WP03-B robustness authority evidence](wp03-b-robustness-authority.md)
 - [WP03-A prospective gate matrix](wp03-gate-matrix.md)
 - [WP03 implementation decomposition](wp03-implementation-plan.md)
+- [WP03-D arc-length radius policy](wp03-d-arc-radius-policy.md)
 
 WP01 implementation and continuation migration are closed under the recorded
-Owner decision. WP02 is closed under the independent audit record; the next
-permitted step is Owner review before WP03-D authorization. OD-029-01 remains
-open and blocks WP09; WP01 remains formulation-neutral.
+Owner decision. WP02 is closed under the independent audit record; WP03-D is a
+targeted implementation phase with no points awarded, and the next permitted
+step is Owner review before the independent WP03-E closure audit. OD-029-01
+remains open and blocks WP09; WP01 remains formulation-neutral.

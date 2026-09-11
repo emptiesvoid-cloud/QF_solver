@@ -12,11 +12,11 @@ applicable_version: 0.2.9-development
 | WP00 | 4 | Closed |
 | WP01 | 12 | **Closed** — Owner-approved unified nonlinear core |
 | WP02 | 6 | **Closed** — 6/6; independent WP02-E audit `GO_WITH_LIMITATIONS` |
-| WP03 | 7 | **Adaptive policy authority** — 0/7; WP03-C targeted implementation |
+| WP03 | 7 | **Arc-length robustness boundary** — 0/7; WP03-D targeted implementation |
 | WP04–WP08 | 43 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
-| **Validated total** | **22 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6; WP03-C targeted implementation recorded, no points awarded** |
+| **Validated total** | **22 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6; WP03-D targeted implementation recorded, no points awarded** |
 
 WP01 is closed by the independent Owner decision recorded in
 [the WP01 closure record](wp01-owner-closure.md), based on audit SHA
@@ -26,7 +26,7 @@ bounded/research boundaries. Unified checkpoint persistence, frictional
 contact migration and adaptive penalty-contact qualification remain future
 work; inherited typing debt remains documented. OD-029-01 stays OPEN and
 blocks WP09 only. WP02 is closed by the independent audit; Owner review is
-required before WP03-D authorization.
+required before the independent WP03-E closure audit.
 
 ## WP02 closure
 
@@ -44,7 +44,7 @@ blocker and closes WP02 at **6/6**, bringing the validated roadmap to
 **22/100**. Its `GO_WITH_LIMITATIONS` result is bounded to supported
 single-process fixed/adaptive/arc restart routes; it does not claim frictional
 contact, distributed, nonlinear-dynamics or adaptive penalty-contact restart.
-Owner review is required before WP03-C may begin.
+Owner review is required before the independent WP03-E closure audit.
 
 ## WP03-A contract phase
 
@@ -86,9 +86,32 @@ continues to be owned by `UnifiedContinuationController` and
 stale verification fixture seam; no numerical source or formulation changed.
 
 The controlled records are [the WP03-C baseline](wp03-c-baseline.md) and
-[the WP03-C adaptive policy evidence](wp03-c-adaptive-policy.md). Arc-length
-radius policy remains WP03-D, difficult-case improvement is not yet
-demonstrated, and Owner review is required before WP03-D.
+[the WP03-C adaptive policy evidence](wp03-c-adaptive-policy.md). WP03-D now
+records the common arc-length radius/retry policy in
+[the WP03-D evidence](wp03-d-arc-radius-policy.md), including the
+target-clipped retry-progress correction. Difficult-case improvement is not
+yet demonstrated; Owner review is required before independent WP03-E.
+
+## WP03-D implementation
+
+WP03-D is `ARC_LENGTH_ROBUSTNESS_BOUNDARY` at 0/7 points. One
+`UnifiedArcLengthRadiusPolicy` now owns arc-radius keep/grow/shrink, retry
+classification, minimum-radius boundaries and deterministic diagnostics while
+the augmented arc-length correction kernel and branch-selection mathematics
+remain unchanged. The policy distinguishes carried `policy_radius` from the
+target-clipped `effective_attempt_radius`; when the latter would repeat after
+a nominal cutback, the next effective attempt is forced strictly smaller.
+Rollback remains before radius policy evaluation, and checkpoint persistence
+remains after physical acceptance. The start-SHA D-B01–D-B15 baseline and
+targeted after-evidence are recorded in
+`qualification/0_2_9/wp03_d_baseline.json` and
+`qualification/0_2_9/wp03_d_arc_radius_policy.json`.
+
+The focused WP03-D tests report `40 passed`. Existing WP03-B/C, WP02-D/D1 and
+continuation/arc regressions remain green in the controlled targeted campaign.
+No difficult physical-case improvement is claimed, so G03-10 remains
+`NOT_YET_DEMONSTRATED`, WP03 remains at 0/7, and the next step is Owner review
+before independent WP03-E closure.
 
 The contract is split into the [state/checkpoint contract](wp02-state-checkpoint-contract.md),
 [compatibility matrix](wp02-compatibility-matrix.md),
