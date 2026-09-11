@@ -38,3 +38,16 @@ stress/strain measures, state transport and required validation basis:
 No option is selected by the existence of code alone. The selected option must
 receive a prospective constitutive/objectivity contract, tangent and
 state-transport verification, bounded external correlation and failure limits.
+
+## OD-029-02 — legacy v1 checkpoint compatibility boundary
+
+**Status:** OPEN. Non-blocking for WP02-A; applies only to the implementation
+choice for legacy schema-1 checkpoints with non-empty or stateful contact
+topology.
+
+Schema 1 has no contact-state payload, contact topology, accepted metadata or
+composite digest. The conservative default is therefore to read/migrate v1
+only for bounded contact-free or stateless-compatible cases, write schema 2,
+and reject ambiguous contact-bearing v1 inputs explicitly. The alternatives
+are to define a separate legacy topology/invariant source or to intentionally
+reject all v1 checkpoints. No option is selected by code existence alone.

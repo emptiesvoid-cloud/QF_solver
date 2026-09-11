@@ -82,6 +82,11 @@ WP02 remains **NOT STARTED**. OD-029-01 remains **OPEN** and blocks WP09
 only. This record does not promote maturity, alter numerical source or change
 historical WP01-A/B/C/D evidence.
 
+WP02 is now in **CONTRACT_PHASE** at 0/6 points. WP02-A freezes the
+state/rollback/checkpoint contract only; implementation remains not started.
+The bounded v1 compatibility policy and its contact-bearing exception are
+recorded in [OD-029-02](owner-decisions.md).
+
 ## Planning records
 
 - [Architecture baseline](architecture-baseline.md)
@@ -93,6 +98,11 @@ historical WP01-A/B/C/D evidence.
 - [WP01 Owner closure](wp01-owner-closure.md)
 - [WP01 Unified Nonlinear Core prospective contract](wp01-unified-nonlinear-core-contract.md)
 - [WP01-B implementation foundation evidence](wp01-b-foundation-evidence.md)
+- [WP02 state and checkpoint contract](wp02-state-checkpoint-contract.md)
+- [WP02 compatibility matrix](wp02-compatibility-matrix.md)
+- [WP02 failure matrix](wp02-failure-matrix.md)
+- [WP02 gate matrix](wp02-gate-matrix.md)
+- [WP02 implementation plan](wp02-implementation-plan.md)
 
 WP01 implementation and continuation migration are closed under the recorded
 Owner decision. The next permitted planning step is the WP02 prospective
