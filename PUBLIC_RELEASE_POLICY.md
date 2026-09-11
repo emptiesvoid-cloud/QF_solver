@@ -12,12 +12,13 @@ kept out of the public archive. Owner review decisions may identify Quentin
 Farinazzo where authorship or accountability is required; they must not include
 contact details beyond the public repository profile.
 
-## Candidate Metadata
+## Release Metadata
 
-The current source candidate is QF Solver `0.2.8`. Its publication status is
-`NOT_PUBLISHED_YET`, its release/tag status is `NOT_CREATED`, and its DOI status
-is `NOT_AVAILABLE_YET`. These labels describe release state only; they do not
-change any capability maturity or V&V result.
+The published QF Solver `0.2.8` release is tagged `v0.2.8`. Its version DOI is
+[`10.5281/zenodo.22697898`](https://doi.org/10.5281/zenodo.22697898), while
+[`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897) is the
+concept DOI for the evolving project. These identifiers do not change any
+capability maturity or V&V result.
 
 ## Content Classification
 

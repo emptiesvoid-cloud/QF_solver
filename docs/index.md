@@ -2,7 +2,7 @@
 doc_id: DOC-STATE-001
 revision: 1.0
 status: controlled
-applicable_version: 0.2.8-development
+applicable_version: 0.2.8
 reviewer: ""
 approver: ""
 ---
@@ -10,10 +10,11 @@ approver: ""
 # QF Solver 0.2.8
 
 QF Solver is an inspectable Python finite-element solver for structural
-mechanics. **Current development state:** `0.2.8`. **Publication status:**
-`NOT_PUBLISHED_YET`. This site does not announce a tag or publication. Claims
-are bounded by the active consolidated registry, separate workflow/capability
-records and their linked evidence.
+mechanics. **Current release:** [`0.2.8`](https://github.com/emptiesvoid-cloud/QF_solver/releases/tag/v0.2.8).
+The package is available on [PyPI](https://pypi.org/project/qf-solver/), and
+the release archive is preserved at [Zenodo](https://doi.org/10.5281/zenodo.22697898).
+Claims are bounded by the active consolidated registry, separate
+workflow/capability records and their linked evidence.
 
 ## Start here
 

@@ -2,7 +2,7 @@
 doc_id: DOC-ANALYSIS-000
 revision: 1.0
 status: controlled
-applicable_version: 0.2.8-development
+applicable_version: 0.2.8
 reviewer: ""
 approver: ""
 ---
@@ -32,5 +32,5 @@ Finite-kinematic J2, generalized nonlinear production use, contact with a
 universal friction law, arbitrary mixed meshes, generalized dynamics and
 production finite-sliding are not qualified by this release.
 
-[Read the authoritative 0.2.8 registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/consolidated_registry.json).
+[Read the authoritative 0.2.8 registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json).
 For separate mixed workflows and capabilities, use the [central capability index](../capabilities/index.md).

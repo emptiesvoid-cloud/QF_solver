@@ -2,7 +2,7 @@
 doc_id: DOC-STATE-002
 revision: 1.0
 status: controlled
-applicable_version: 0.2.8-development
+applicable_version: 0.2.8
 reviewer: ""
 approver: ""
 ---
@@ -45,7 +45,7 @@ element or analysis.
   general qualified capability.
 
 The machine-readable source of truth for the 46 element-analysis combinations
-is [`qualification/0_2_8/consolidated_registry.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/consolidated_registry.json):
+is [`qualification/0_2_8/consolidated_registry.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json):
 32 `QUALIFIED_BOUNDED`, 14 `EXPERIMENTAL`, 0 `NOT_QUALIFIED`, total 46.
 Mixed workflows and the `.inp`, HDF5, contact and HEX8-SRI capabilities are
 separate records and are not added to those 46 combinations.

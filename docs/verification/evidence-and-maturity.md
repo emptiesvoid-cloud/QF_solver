@@ -2,19 +2,19 @@
 doc_id: DOC-VV-MATURITY-028-001
 revision: 1.0
 status: controlled
-applicable_version: 0.2.8-development
+applicable_version: 0.2.8
 reviewer: ""
 approver: ""
 ---
 
 # V&V, evidence and maturity
 
-**Current state:** QF Solver `0.2.8` development / release preparation
-**Publication:** `NOT_PUBLISHED_YET`
+**Current release:** QF Solver `0.2.8` / `v0.2.8`
+**Publication:** `PUBLISHED`
 
 This page explains how a public capability status is supported. The current
 orientation is maintained by the [0.2.8 capability index](../capabilities/index.md)
-and the [consolidated element-analysis registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/consolidated_registry.json).
+and the [consolidated element-analysis registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json).
 
 ## Evidence chain
 

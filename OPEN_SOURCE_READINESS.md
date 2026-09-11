@@ -1,15 +1,15 @@
 # QF Solver 0.2.8 Open Source Readiness
 
-This section records the current public release-readiness state for QF Solver
-0.2.8 in preparation. It is not a publication or tag record and is distinct
-from the historical snapshots below.
+This section records the public release-readiness state completed for QF
+Solver 0.2.8. It is distinct from the historical snapshots below.
 
-Current candidate metadata:
+Published release metadata:
 
 - Version: `0.2.8`
-- Publication status: `NOT_PUBLISHED_YET`
-- Release/tag status: `NOT_CREATED`
-- DOI status: `NOT_AVAILABLE_YET`
+- Publication status: `PUBLISHED`
+- Release/tag status: `v0.2.8`
+- Version DOI: [`10.5281/zenodo.22697898`](https://doi.org/10.5281/zenodo.22697898)
+- Concept DOI: [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897)
 
 ## Current public gates
 
@@ -20,7 +20,7 @@ Current candidate metadata:
   BY 4.0.
 - [x] README, installation and Quick Start documentation are present.
 - [x] CONTRIBUTING, SECURITY, SUPPORT and CODE_OF_CONDUCT are present.
-- [x] Candidate version `0.2.8` is coherent across the public release
+- [x] Published version `0.2.8` is coherent across the public release
   documentation and package metadata.
 - [x] Wheel and sdist build and clean-install checks are controlled by CI.
 - [x] Public-source, release-archive and reachable-history audits are

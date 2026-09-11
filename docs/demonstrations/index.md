@@ -2,7 +2,7 @@
 doc_id: DOC-DEMO-000
 revision: 1.0
 status: controlled
-applicable_version: 0.2.8-development
+applicable_version: 0.2.8
 reviewer: ""
 approver: ""
 ---
@@ -15,7 +15,7 @@ not establish universal element or solver qualification.
 
 ## Public examples
 
-The maintained JSON examples are in [`examples/`](https://github.com/emptiesvoid-cloud/QF_solver/tree/0b356330bdbf63ca6c0406d9a5f816bd75246764/examples). The
+The maintained JSON examples are in [`examples/`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.8/examples). The
 shortest path is the [TET4 static quickstart](../getting-started/quickstart.md).
 The public Python API is available through `qf_solver`.
 

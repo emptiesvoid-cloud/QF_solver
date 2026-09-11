@@ -16,8 +16,9 @@ cases.
 
 ## Current release state
 
-The repository currently targets QF Solver `0.2.8-development` in release
-preparation. It is not published or tagged as 0.2.8 yet. The public
+The latest published release is QF Solver `0.2.8` (`v0.2.8`). New changes on
+the default branch target a future development cycle until a subsequent version
+is announced. The public
 [capability index](docs/capabilities/index.md) and [V&V/maturity guide](docs/verification/evidence-and-maturity.md)
 define the current bounded scope; historical 0.2.7 evidence must remain
 unchanged.
