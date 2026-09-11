@@ -15,11 +15,6 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - "docs/**"
-      - "tests/documentation/**"
-      - "scripts/docs_publication.py"
-      - ".github/workflows/docs-tests.yml"
 
 permissions:
   contents: read
