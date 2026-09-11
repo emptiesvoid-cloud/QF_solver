@@ -69,6 +69,11 @@ def test_step_up_documents_are_present_and_explicitly_planning_only() -> None:
         "wp01-c-load-control-migration.md",
         "wp01-d-continuation-migration.md",
         "wp01-owner-closure.md",
+        "wp02-state-checkpoint-contract.md",
+        "wp02-compatibility-matrix.md",
+        "wp02-failure-matrix.md",
+        "wp02-gate-matrix.md",
+        "wp02-implementation-plan.md",
     }
 
     assert {path.name for path in DOCS.glob("*.md")} == expected
@@ -110,3 +115,12 @@ def test_wp01_contract_is_prospective_and_preserves_the_open_j2_geometry_decisio
     assert closure["score"] == {"awarded": 12, "available": 12}
     assert closure["validated_total"] == {"awarded": 16, "available": 100}
     assert closure["integrity"]["maturity_changed"] is False
+    assert progress["work_packages"]["WP02"] == {
+        "points": 6,
+        "status": "CONTRACT_PHASE",
+        "validated_points": 0,
+    }
+    assert progress["total_points"] == 100
+    wp02 = _load("wp02_state_checkpoint_contract.json")
+    assert wp02["target_checkpoint_schema_version"] == 2
+    assert wp02["v1_compatibility"]["policy"] == "READ_V1_WRITE_V2_BOUNDED"

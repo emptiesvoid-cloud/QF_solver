@@ -11,7 +11,8 @@ applicable_version: 0.2.9-development
 | --- | ---: | --- |
 | WP00 | 4 | Closed |
 | WP01 | 12 | **Closed** — Owner-approved unified nonlinear core |
-| WP02–WP08 | 56 | Not started |
+| WP02 | 6 | **Contract phase** — 0/6; implementation not started |
+| WP03–WP08 | 50 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
 | **Validated total** | **16 / 100** | **WP00 4/4 + WP01 12/12; WP02 prospective contract not started** |
@@ -24,3 +25,16 @@ bounded/research boundaries. Unified checkpoint persistence, frictional
 contact migration and adaptive penalty-contact qualification remain future
 work; inherited typing debt remains documented. OD-029-01 stays OPEN and
 blocks WP09 only. WP02 remains NOT STARTED.
+
+## WP02 current phase
+
+WP02-A freezes the prospective state, rollback and checkpoint contract at
+0/6 points. The target is schema 2 persisted state with one accepted
+`NonlinearState` authority, deterministic component/composite digests, bounded
+schema-1 read compatibility and schema-2 writes. No checkpoint implementation
+or production source was changed in WP02-A.
+
+The contract is split into the [state/checkpoint contract](wp02-state-checkpoint-contract.md),
+[compatibility matrix](wp02-compatibility-matrix.md),
+[failure matrix](wp02-failure-matrix.md), [prospective gates](wp02-gate-matrix.md)
+and [implementation decomposition](wp02-implementation-plan.md).

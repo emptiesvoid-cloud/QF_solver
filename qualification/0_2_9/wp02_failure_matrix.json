@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP02-FAILURE-MATRIX-001",
+  "status": "PROSPECTIVE_CONTRACT_PHASE",
+  "baseline_sha": "cced3d30ac12f2e405915766c5329ac53b7b07bb",
+  "load_or_save_cases": [
+    {"case": "convergence_succeeds_checkpoint_succeeds", "result": "PASS", "state_effect": "Accepted state and canonical checkpoint both remain valid."},
+    {"case": "convergence_succeeds_checkpoint_fails", "reason": "CHECKPOINT_FAILURE", "result": "FAIL_CLOSED", "state_effect": "Accepted physical state remains authoritative; no cutback and no false success."},
+    {"case": "checkpoint_file_corrupted_or_truncated", "reason": "INPUT_VALIDATION_ERROR", "result": "REJECT", "state_effect": "No state is installed."},
+    {"case": "persisted_digest_mismatch", "reason": "STATE_CORRUPTION", "result": "REJECT", "state_effect": "No state is installed; expose persisted and recomputed digest diagnostics."},
+    {"case": "wrong_model_signature", "reason": "INPUT_VALIDATION_ERROR", "result": "REJECT", "state_effect": "No state is installed."},
+    {"case": "wrong_state_topology", "reason": "INPUT_VALIDATION_ERROR", "result": "REJECT", "state_effect": "No state is installed."},
+    {"case": "wrong_dof_count", "reason": "INPUT_VALIDATION_ERROR", "result": "REJECT", "state_effect": "No state is installed."},
+    {"case": "unsupported_schema_version", "reason": "INPUT_VALIDATION_ERROR", "result": "REJECT", "state_effect": "No state is installed."},
+    {"case": "missing_required_fields", "reason": "INPUT_VALIDATION_ERROR", "result": "REJECT", "state_effect": "No state is installed."},
+    {"case": "non_finite_accepted_state", "reason": "STATE_CORRUPTION", "result": "REJECT", "state_effect": "No state is installed."},
+    {"case": "invalid_npz_container", "reason": "INPUT_VALIDATION_ERROR", "result": "REJECT", "state_effect": "No state is installed."}
+  ],
+  "retry_policy": {
+    "checkpoint_failure": "NON_RETRYABLE_BY_DEFAULT; infrastructure retry requires an explicit storage policy and must not become physical cutback.",
+    "load_validation_failure": "NON_RETRYABLE; reject before opening a trial.",
+    "state_corruption": "NON_RETRYABLE; stop and preserve the offending artifact for diagnosis."
+  },
+  "distinction": "CHECKPOINT_FAILURE describes failure while producing/persisting a valid accepted state; INPUT_VALIDATION_ERROR describes an absent, unsupported or model-incompatible input; STATE_CORRUPTION describes a present checkpoint whose accepted-state integrity or finite-value contract is violated."
+}

@@ -15,5 +15,10 @@ add prospective contracts and evidence beneath this directory; historical
 - WP01 Unified Nonlinear Core: `CLOSED`, 12/12 points after independent
   Owner closure at audit SHA `6876d867cdd845195e8946b05329b0bc82937fdc`.
 - Validated total: `16/100`.
-- WP02: prospective contract — **NOT STARTED**.
+- WP02 State Transactions & Rollback: `CONTRACT_PHASE`, 0/6 points;
+  implementation is **NOT STARTED**.
 - OD-029-01: **OPEN**; it blocks WP09 only.
+
+WP02-A is recorded in the `wp02_*` planning records. It freezes the target
+persisted-state authority and restart contract without changing the current
+checkpoint implementation.

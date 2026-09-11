@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-SOLVER-0.2.9-WP02-STATE-CHECKPOINT-001",
+  "release": "0.2.9",
+  "work_package": "WP02",
+  "status": "PROSPECTIVE_CONTRACT_PHASE",
+  "baseline_sha": "cced3d30ac12f2e405915766c5329ac53b7b07bb",
+  "validated_total": 16,
+  "points": {"available": 6, "awarded": 0},
+  "current_implementation_observations": [
+    "NonlinearCheckpoint is currently schema 1 and stores model_signature, completed_step, load_factor, displacement, material_states and continuation_state.",
+    "The NPZ store writes a temporary file in the target directory and replaces the canonical path; no composite state or component digests are persisted.",
+    "Fixed-load and arc-length restoration use separate session methods, and adaptive checkpointing is currently rejected by the solver.",
+    "The current model signature includes nodes, elements, materials, boundary conditions, loads, distributed loads and analysis settings but omits several model entities and explicit state topology.",
+    "The repository contains both material_state.state_digest and nonlinear.deterministic_state_digest implementations."
+  ],
+  "target_checkpoint_schema_version": 2,
+  "target_state_authority": "Exactly one accepted NonlinearState; a checkpoint is a persisted accepted state, never a trial or controller-only snapshot.",
+  "target_checkpoint_schema": {
+    "required_fields": [
+      "schema_version",
+      "state_schema_version",
+      "model_signature",
+      "completed_step",
+      "state_topology",
+      "accepted_state",
+      "component_digests",
+      "composite_digest"
+    ],
+    "accepted_state_fields": [
+      "displacement",
+      "load_factor",
+      "material_state",
+      "contact_state",
+      "continuation_state",
+      "accepted_increment_metadata"
+    ],
+    "state_topology": {
+      "required": [
+        "dof_count",
+        "material_element_ids_and_integration_point_counts",
+        "contact_pair_identity_and_entry_count",
+        "continuation_analysis_method_and_required_keys"
+      ],
+      "empty_contact_state_is_valid": true,
+      "trial_entries_forbidden": true
+    },
+    "schema_version_semantics": "A reader must reject unsupported versions explicitly. A v1 reader may migrate only within the bounded compatibility policy; all writes after WP02 implementation use v2."
+  },
+  "serialization_contract": {
+    "container": "NPZ with a canonical metadata_json member and allow_pickle=false",
+    "canonical_payload": "Use the tagged canonical representation already defined by deterministic_state_digest for mappings, scalars and NumPy arrays.",
+    "mapping_order": "Sort mapping entries by canonical encoded key; never depend on insertion order.",
+    "float_encoding": "Encode finite floats by exact float.hex() representation before hashing/serialization.",
+    "array_encoding": "Preserve dtype.str, shape and C-order numerical bytes; object and non-numeric arrays are rejected.",
+    "supported_values": ["float", "int", "bool", "str", "list", "tuple", "mapping", "NumPy array", "None"],
+    "arbitrary_objects": "Forbidden; no pickle and no executable deserialization."
+  },
+  "digest_contract": {
+    "authority": "solveur.core.nonlinear.state.deterministic_state_digest",
+    "algorithm": "SHA-256 over the canonical tagged state representation",
+    "component_names": ["displacement", "load_factor", "material_state", "contact_state", "continuation_state", "accepted_increment_metadata"],
+    "save": "Validate the accepted state, compute all component digests and the composite digest, then persist them.",
+    "load": "Decode and validate the state, recompute all digests, and reject any persisted/recomputed mismatch.",
+    "material_digest_policy": "material_state.state_digest remains a compatibility helper initially and must delegate or be deprecated so it cannot define a second accepted-state identity."
+  },
+  "v1_compatibility": {
+    "policy": "READ_V1_WRITE_V2_BOUNDED",
+    "legacy_signature": "Validate a v1 checkpoint with the v1 signature rules before constructing a v2 accepted state.",
+    "migration": [
+      "Map displacement, load_factor, material_states and continuation_state into NonlinearState.",
+      "Initialize contact_state to an empty mapping only when the selected route has no stateful/contact-bearing topology.",
+      "Initialize accepted_increment_metadata with an explicit migration marker and do not claim historical metadata that v1 did not store.",
+      "Recompute all component digests and the composite digest; v1 has no persisted composite digest to trust.",
+      "Write the next checkpoint in schema 2."
+    ],
+    "supported_scope": "Existing bounded contact-free fixed-load and arc-length restart cases whose v1 material topology and continuation payload validate.",
+    "rejected_scope": "Contact-bearing or stateful-contact v1 checkpoints are rejected explicitly until OD-029-02 is resolved; no empty contact state may silently stand in for missing history.",
+    "historical_information": "A migration marker records that accepted metadata and digests were reconstructed, not recovered from v1."
+  },
+  "model_signature_contract": {
+    "must_include": [
+      "model schema version and units",
+      "node coordinates and shape",
+      "element type, ordered connectivity and material reference",
+      "material definitions",
+      "fixed degrees of freedom",
+      "nodal and distributed loads",
+      "springs and concentrated masses",
+      "MPC, RBE2 and RBE3 definitions",
+      "contact definitions and ordered topology",
+      "analysis type and method",
+      "all physically relevant analysis parameters, including load path, kinematics, contact and continuation controls",
+      "derived DOF count",
+      "accepted-state topology and state schema version"
+    ],
+    "must_not_include": [
+      "checkpoint output path",
+      "checkpoint interval",
+      "keep-step preference",
+      "restart input path",
+      "pure output, cache, reporting and storage settings"
+    ],
+    "current_gaps_to_close_in_wp02_b": [
+      "The current _signature_payload does not explicitly include contacts, springs, concentrated masses, MPC/RBE entities or DOF/state topology.",
+      "The non-physical signature exclusion list must be explicit rather than relying on accidental parameter inclusion."
+    ]
+  },
+  "save_atomicity_contract": {
+    "ordering": [
+      "Global increment is accepted and the composite NonlinearState is published.",
+      "The accepted state is validated and serialized to a temporary file in the target directory.",
+      "The temporary file is flushed/durably prepared as supported by the platform.",
+      "The temporary file is atomically replaced into the canonical path.",
+      "Optional retained-step copies are created only after the canonical checkpoint is valid."
+    ],
+    "physical_convergence_independence": "Checkpoint persistence never decides convergence and never rolls back a physically accepted state.",
+    "failure_behavior": "A write failure raises CHECKPOINT_FAILURE and cannot expose a half-written canonical checkpoint; automatic cutback is forbidden by default."
+  },
+  "restart_equivalence_contract": {
+    "level_1": "Save/load of an accepted v2 state reproduces displacement, load factor, material, contact, continuation, accepted metadata, component digests and composite digest.",
+    "level_2": "Continuous and interrupted-plus-restarted fixed/adaptive/arc-length runs produce equivalent accepted paths and final state under the frozen thresholds.",
+    "deterministic_thresholds": {"relative": 1e-12, "absolute": 1e-14},
+    "physical_result_thresholds": {"relative": 1e-9, "absolute_floor": 1e-12}
+  },
+  "contact_state_contract": {
+    "current_scope": "Frictionless penalty contact may persist an empty contact state because the current bounded path is stateless.",
+    "future_scope": "The top-level schema must accept path-dependent contact/slip state and validate pair identity and entry topology without changing the checkpoint envelope.",
+    "claim_boundary": "No frictional-contact restart support is claimed by WP02-A."
+  },
+  "non_goals": [
+    "Frictional contact qualification",
+    "Adaptive penalty-contact qualification",
+    "Geometric formulation changes",
+    "J2 plus geometry formulation selection",
+    "PETSc/MPI checkpointing or distributed restart",
+    "Nonlinear dynamics checkpoint migration",
+    "HDF5 nonlinear checkpoint migration",
+    "Arbitrary user-object serialization"
+  ],
+  "owner_decisions": {
+    "OD-029-01": "OPEN; unchanged and blocks WP09 only.",
+    "OD-029-02": "OPEN; legacy contact-bearing v1 checkpoint compatibility boundary; non-blocking for WP02-A."
+  }
+}

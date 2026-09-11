@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP02-DECOMPOSITION-001",
+  "status": "PROSPECTIVE_CONTRACT_PHASE",
+  "baseline_sha": "cced3d30ac12f2e405915766c5329ac53b7b07bb",
+  "phases": [
+    {"id": "WP02-A", "title": "Prospective state / rollback / checkpoint contract", "status": "CURRENT_CONTRACT_PHASE", "points": 0, "scope": "Freeze schema, digests, compatibility, failure semantics and gates; no production implementation."},
+    {"id": "WP02-B", "title": "Checkpoint schema and state serialization foundation", "status": "NOT_STARTED", "scope": "Implement schema 2, accepted-state serialization, digest checks, topology validation and atomic persistence."},
+    {"id": "WP02-C", "title": "Fixed/adaptive restart migration", "status": "NOT_STARTED", "scope": "Route fixed and supported adaptive continuation through one accepted-state checkpoint API and prove interrupted-run equivalence."},
+    {"id": "WP02-D", "title": "Arc-length restart migration and compatibility", "status": "NOT_STARTED", "scope": "Persist accepted arc-length continuation state, preserve specialized correction mathematics and prove path equivalence."},
+    {"id": "WP02-E", "title": "Independent closure audit", "status": "NOT_STARTED", "scope": "Adversarial audit of all gates, legacy authorities, corruption behavior and numerical preservation before any points are awarded."}
+  ],
+  "out_of_scope_for_wp02_a": ["Production code", "Checkpoint format changes", "Numerical formulation changes", "Frictional contact persistence", "Distributed restart", "Nonlinear dynamics migration"]
+}
