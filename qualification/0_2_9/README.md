@@ -15,10 +15,10 @@ add prospective contracts and evidence beneath this directory; historical
 - WP01 Unified Nonlinear Core: `CLOSED`, 12/12 points after independent
   Owner closure at audit SHA `6876d867cdd845195e8946b05329b0bc82937fdc`.
 - Validated total: `16/100`.
-- WP02 State Transactions & Rollback: `FIXED_ADAPTIVE_RESTART`, 0/6 points;
-  WP02-B implemented the bounded schema-v2 serialization foundation and
-  WP02-C migrated fixed/adaptive solver restart ownership. Arc-length restart
-  equivalence remains future WP02-D work.
+- WP02 State Transactions & Rollback: `ARC_LENGTH_RESTART`, 0/6 points;
+  WP02-B implemented schema-v2 serialization, WP02-C migrated fixed/adaptive
+  restart ownership and WP02-D migrated the public arc-length restart path.
+  Independent WP02-E closure remains pending.
 - OD-029-01: **OPEN**; it blocks WP09 only.
 - OD-029-02: **CLOSED** as `READ_V1_WRITE_V2_BOUNDED`; ambiguous/stateful
   contact-bearing v1 checkpoints are rejected.

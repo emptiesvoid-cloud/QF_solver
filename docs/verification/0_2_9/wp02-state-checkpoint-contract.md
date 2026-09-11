@@ -7,13 +7,14 @@ applicable_version: 0.2.9-development
 
 # WP02-A — prospective state and checkpoint contract
 
-> Current implementation phase: **FIXED_ADAPTIVE_RESTART** (WP02-C), 0/6
-> points. This contract remains the frozen basis; WP02-D still owns complete
-> arc-length restart equivalence.
+> Current implementation phase: **ARC_LENGTH_RESTART** (WP02-D), 0/6
+> points. This contract remains the frozen basis; independent WP02-E closure
+> is still required before any points are awarded.
 
-This is a contract-only record based on baseline SHA
-`cced3d30ac12f2e405915766c5329ac53b7b07bb`. It does not implement schema 2,
-change the current checkpoint format or award WP02 points.
+This is a contract record based on baseline SHA
+`cced3d30ac12f2e405915766c5329ac53b7b07bb`. The implementation records for
+WP02-B, WP02-C and WP02-D document the subsequent bounded implementation;
+this page does not award WP02 points.
 
 ## Target authority
 
