@@ -12,11 +12,11 @@ applicable_version: 0.2.9-development
 | WP00 | 4 | Closed |
 | WP01 | 12 | **Closed** — Owner-approved unified nonlinear core |
 | WP02 | 6 | **Closed** — 6/6; independent WP02-E audit `GO_WITH_LIMITATIONS` |
-| WP03 | 7 | **Arc-length robustness boundary** — 0/7; WP03-D targeted implementation |
+| WP03 | 7 | **Closed** — 7/7; independent WP03-E audit `GO_WITH_LIMITATIONS` |
 | WP04–WP08 | 43 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
-| **Validated total** | **22 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6; WP03-D targeted implementation recorded, no points awarded** |
+| **Validated total** | **29 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6 + WP03 7/7** |
 
 WP01 is closed by the independent Owner decision recorded in
 [the WP01 closure record](wp01-owner-closure.md), based on audit SHA
@@ -26,7 +26,7 @@ bounded/research boundaries. Unified checkpoint persistence, frictional
 contact migration and adaptive penalty-contact qualification remain future
 work; inherited typing debt remains documented. OD-029-01 stays OPEN and
 blocks WP09 only. WP02 is closed by the independent audit; Owner review is
-required before the independent WP03-E closure audit.
+required before WP04 authorization.
 
 ## WP02 closure
 
@@ -109,9 +109,22 @@ targeted after-evidence are recorded in
 
 The focused WP03-D tests report `40 passed`. Existing WP03-B/C, WP02-D/D1 and
 continuation/arc regressions remain green in the controlled targeted campaign.
-No difficult physical-case improvement is claimed, so G03-10 remains
-`NOT_YET_DEMONSTRATED`, WP03 remains at 0/7, and the next step is Owner review
-before independent WP03-E closure.
+The independent WP03-E audit independently closes G03-10 with the same-model
+target-clipped retry challenge: repeated effective attempts drop from five to
+one without changing the accepted physical solution. WP03 is therefore
+**CLOSED at 7/7**, the roadmap is **29/100**, and the next step is Owner review
+before WP04 authorization.
+
+## WP03-E independent closure
+
+The audit at `4ca71d549ea13460086f52670baa42c74d9ac1aa` reports one authority
+each for stagnation, line search, adaptive step and arc radius. It found no
+policy able to commit accepted state, no rollback leak, and no checkpoint
+failure-induced physical retry. Easy pre-WP03 comparisons are exact for the
+replayed core paths; targeted geometric/contact results remain bounded and
+unchanged. The decision is `GO_WITH_LIMITATIONS`, retaining the documented
+frictional-contact, adaptive-penalty-contact, distributed and dynamics scope
+boundaries. See [the WP03-E closure record](wp03-e-independent-closure.md).
 
 The contract is split into the [state/checkpoint contract](wp02-state-checkpoint-contract.md),
 [compatibility matrix](wp02-compatibility-matrix.md),

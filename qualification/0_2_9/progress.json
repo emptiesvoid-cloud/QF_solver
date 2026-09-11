@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "release": "0.2.9",
-  "status": "WP03_ARC_LENGTH_ROBUSTNESS_BOUNDARY",
+  "status": "WP03_CLOSED",
   "work_packages": {
     "WP00": {"points": 4, "status": "CLOSED", "validated_points": 4},
     "WP01": {"points": 12, "status": "CLOSED", "validated_points": 12},
     "WP02": {"points": 6, "status": "CLOSED", "validated_points": 6},
-    "WP03": {"points": 7, "status": "ARC_LENGTH_ROBUSTNESS_BOUNDARY", "validated_points": 0},
+    "WP03": {"points": 7, "status": "CLOSED", "validated_points": 7},
     "WP04": {"points": 12, "status": "NOT_STARTED", "validated_points": 0},
     "WP05": {"points": 5, "status": "NOT_STARTED", "validated_points": 0},
     "WP06": {"points": 8, "status": "NOT_STARTED", "validated_points": 0},
@@ -19,7 +19,7 @@
     "WP13": {"points": 2, "status": "NOT_STARTED", "validated_points": 0},
     "WP14": {"points": 2, "status": "NOT_STARTED", "validated_points": 0}
   },
-  "validated_points": 22,
+  "validated_points": 29,
   "total_points": 100,
-  "next_gate": "Owner review before the independent WP03-E robustness closure audit. WP03-D records a targeted arc-length radius-policy boundary implementation at 0/7; the validated total remains 22/100. The inherited load-control typing debt, unsupported adaptive penalty-contact baseline and absence of difficult-case improvement evidence remain documented; no maturity or numerical formulation claim is changed. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
+  "next_gate": "Owner review of the independent WP03-E closure is required before WP04 authorization. WP03 is CLOSED at 7/7 and the validated total is 29/100. The closure is bounded to the supported single-process nonlinear robustness routes; inherited mixin typing debt, unqualified adaptive penalty contact, frictional-contact robustness, distributed nonlinear mechanics and nonlinear dynamics remain outside scope. No maturity or numerical formulation claim is changed. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
 }

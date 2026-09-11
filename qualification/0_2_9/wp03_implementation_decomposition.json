@@ -2,10 +2,10 @@
   "schema_version": 1,
   "record_id": "QF-SOLVER-0.2.9-WP03-DECOMPOSITION-001",
   "work_package": "WP03",
-  "status": "WP03_D_IMPLEMENTED_TARGETED",
+  "status": "CLOSED_GO_WITH_LIMITATIONS",
   "baseline_sha": "ecc09f0bae2dab867c12d7e471860887f6ef0548",
   "points": 7,
-  "validated_points": 0,
+  "validated_points": 7,
   "phases": [
     {
       "id": "WP03-A",
@@ -38,8 +38,8 @@
     {
       "id": "WP03-E",
       "title": "Independent robustness closure audit",
-      "status": "NOT_STARTED",
-      "scope": "Adversarial replay of the baseline campaign, deterministic failures, easy-case preservation and difficult-case evidence.",
+      "status": "CLOSED_GO_WITH_LIMITATIONS",
+      "scope": "Independent adversarial replay closed all frozen G03 gates, including same-model target-clipped difficult-case improvement evidence.",
       "production_change": false
     }
   ],
@@ -51,5 +51,5 @@
     "nonlinear dynamics",
     "maturity promotion"
   ],
-  "closure_policy": "No WP03 points are awarded in WP03-A, WP03-B, WP03-C or WP03-D. WP03 closure requires independent WP03-E review; no difficult physical-case improvement is claimed in WP03-D."
+  "closure_policy": "No WP03 points were awarded in WP03-A through WP03-D. The independent WP03-E audit at 4ca71d549ea13460086f52670baa42c74d9ac1aa closed WP03 at 7/7 with bounded limitations recorded in wp03_e_independent_closure.json."
 }

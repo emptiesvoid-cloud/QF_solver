@@ -89,7 +89,8 @@ def test_step_up_and_wp03_documents_are_present_and_status_is_explicit() -> None
         "wp03-b-robustness-authority.md",
         "wp03-c-baseline.md",
         "wp03-c-adaptive-policy.md",
-        "wp03-d-arc-radius-policy.md",
+            "wp03-d-arc-radius-policy.md",
+            "wp03-e-independent-closure.md",
     }
 
     assert {path.name for path in DOCS.glob("*.md")} == expected
@@ -123,7 +124,7 @@ def test_wp01_contract_is_prospective_and_preserves_the_open_j2_geometry_decisio
         "status": "CLOSED",
         "validated_points": 12,
     }
-    assert progress["validated_points"] == 22
+    assert progress["validated_points"] == 29
     closure = _load("wp01_owner_closure.json")
     assert closure["status"] == "CLOSED"
     assert closure["owner_approval_recorded"] is True
@@ -138,8 +139,8 @@ def test_wp01_contract_is_prospective_and_preserves_the_open_j2_geometry_decisio
     }
     assert progress["work_packages"]["WP03"] == {
         "points": 7,
-        "status": "ARC_LENGTH_ROBUSTNESS_BOUNDARY",
-        "validated_points": 0,
+        "status": "CLOSED",
+        "validated_points": 7,
     }
     assert progress["total_points"] == 100
     wp02 = _load("wp02_state_checkpoint_contract.json")
@@ -164,3 +165,10 @@ def test_wp01_contract_is_prospective_and_preserves_the_open_j2_geometry_decisio
     assert radius["validated_points"] == 0
     assert radius["integrity"]["numerical_formulation_changed"] is False
     assert radius["gate_status"]["G03-10"]["status"] == "NOT_YET_DEMONSTRATED"
+    wp03_closure = _load("wp03_e_independent_closure.json")
+    assert wp03_closure["status"] == "CLOSED"
+    assert wp03_closure["auditor_decision"] == "GO_WITH_LIMITATIONS"
+    assert wp03_closure["score"] == {"awarded": 7, "available": 7}
+    assert wp03_closure["validated_total"] == {"awarded": 29, "available": 100}
+    assert wp03_closure["gate_status"]["G03-10"]["status"] == "PASS"
+    assert wp03_closure["integrity"]["production_source_changed"] is False
