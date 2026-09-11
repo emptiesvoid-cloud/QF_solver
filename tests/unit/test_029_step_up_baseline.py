@@ -59,8 +59,44 @@ def test_step_up_documents_are_present_and_explicitly_planning_only() -> None:
         "known-limitations.md",
         "progress.md",
         "owner-decisions.md",
+        "wp01-unified-nonlinear-core-contract.md",
+        "wp01-ownership-model.md",
+        "wp01-state-transaction-contract.md",
+        "wp01-migration-matrix.md",
+        "wp01-failure-retry-matrix.md",
+        "wp01-gate-matrix.md",
     }
 
     assert {path.name for path in DOCS.glob("*.md")} == expected
     assert "not a release claim" in (DOCS / "README.md").read_text(encoding="utf-8").lower()
     assert "NOT_VALIDATED" in (DOCS / "known-limitations.md").read_text(encoding="utf-8")
+
+
+def test_wp01_contract_is_prospective_and_preserves_the_open_j2_geometry_decision() -> None:
+    contract = _load("wp01_unified_nonlinear_core_contract.json")
+    migration = _load("wp01_migration_matrix.json")
+    progress = _load("progress.json")
+
+    assert contract["status"] == "PROSPECTIVE_CONTRACT_PHASE"
+    assert contract["canonical_equations"]["residual"] == (
+        "R(u, lambda, state) = lambda * F_ext - F_internal - F_contact"
+    )
+    assert contract["canonical_equations"]["tangent"] == (
+        "K_T = K_material + K_geometric + K_contact"
+    )
+    assert len(contract["prospective_gates"]) == 10
+    assert contract["owner_decisions"]["OD-029-01"].startswith("OPEN")
+    assert {entry["classification"] for entry in migration["entries"]} == {
+        "RETAIN",
+        "ADAPT",
+        "WRAP",
+        "MIGRATE",
+        "DEPRECATE_LATER",
+        "RESEARCH_COMPATIBILITY",
+    }
+    assert progress["work_packages"]["WP00"]["status"] == "CLOSED"
+    assert progress["work_packages"]["WP01"] == {
+        "points": 12,
+        "status": "CONTRACT_PHASE",
+        "validated_points": 0,
+    }

@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-SOLVER-0.2.9-WP01-UNIFIED-NONLINEAR-CORE-001",
+  "status": "PROSPECTIVE_CONTRACT_PHASE",
+  "baseline_sha": "a47ed99ff941fbb35c8d21b611b45912a37d35e0",
+  "scope": "Architecture contract only. No nonlinear-core implementation, formulation change, maturity change or WP02 work is authorized by this record.",
+  "canonical_equations": {
+    "residual": "R(u, lambda, state) = lambda * F_ext - F_internal - F_contact",
+    "tangent": "K_T = K_material + K_geometric + K_contact",
+    "residual_sign": "Positive residual is the unapplied external force. Existing internal-minus-external implementation conventions may be adapted internally for diagnostics only; physical force definitions are not changed to normalize signs.",
+    "reaction_sign": "Reactions are recovered from the physical equilibrium residual on constrained DOFs. A positive reported reaction is the force exerted by the constrained system on the model, and the external-plus-reaction resultant must satisfy the declared equilibrium convention.",
+    "free_fixed_dofs": "Global Newton corrections and residual convergence are evaluated on free DOFs. Fixed DOFs are prescribed inputs, excluded from correction solves, and included only in physical reaction/equilibrium recovery.",
+    "load_factor_ownership": "The authoritative driver owns lambda, its predictor/update and accepted value. Contributions receive lambda as immutable evaluation input and must not advance it.",
+    "contribution_accumulation": "Contributions add internal force and tangent terms to one composite response. The driver alone forms lambda*F_ext minus the accumulated internal/contact terms."
+  },
+  "state_contract": {
+    "conceptual_type": "NonlinearState",
+    "committed_fields": ["displacement", "load_factor", "material_state", "contact_state", "continuation_state", "accepted_increment"],
+    "trial_fields": ["displacement", "load_factor", "material_state", "contact_state", "continuation_state", "iteration_metadata"],
+    "operations": ["begin_trial()", "commit()", "rollback()"],
+    "semantics": [
+      "begin_trial creates a detached trial view from one accepted committed state.",
+      "Contribution evaluation may update only trial-owned state returned through the common response.",
+      "commit atomically replaces the full committed state after global increment acceptance.",
+      "rollback discards trial state and leaves every committed component unchanged.",
+      "A stateful contact contribution must declare its state payload even when a current formulation is stateless."
+    ],
+    "deterministic_digest": {
+      "required_components": ["displacement", "load_factor", "material_state", "contact_state", "continuation_state", "accepted_increment"],
+      "encoding": "Canonical deterministic serialization with explicit schema/version and stable ordering; array dtype, shape and bytes must be represented.",
+      "rollback_gate": "Committed-state component digests and composite digest must be exactly identical before begin_trial and after rejected increment rollback."
+    }
+  },
+  "accepted_increment_transaction": {
+    "boundary": "One authoritative driver transaction spans displacement, material history, contact history and continuation variables.",
+    "lifecycle": [
+      "accepted state n",
+      "begin trial",
+      "predict increment",
+      "assemble composite residual/tangent",
+      "Newton correction and trial-state update",
+      "global convergence and subsystem admissibility evaluation",
+      "commit full increment atomically on PASS",
+      "rollback full increment, then cut back/retry only if policy allows, on FAIL"
+    ],
+    "commit_failure": "Commit is staged and validated before publication. If any component validation/copy/persistence preparation fails, the driver reports STATE_CORRUPTION or CHECKPOINT_FAILURE as applicable, publishes no partial committed state, restores the pre-commit digest and treats the increment as failed.",
+    "prohibited": ["contribution-level commit", "contact-level global displacement commit", "material-level accepted-state mutation before driver acceptance", "silent fallback to another global solver"]
+  },
+  "contribution_contract": {
+    "primary_seam": "Retain NonlinearAssemblyProtocol and CompositeNonlinearAssembly; evolve only if a demonstrated contract gap requires a backward-compatible extension.",
+    "driver_knowledge": "The common driver is formulation-neutral and does not interpret constitutive laws, contact geometry or friction physics.",
+    "response_fields": ["internal_force", "tangent", "trial_state_update_if_any", "diagnostics", "failure_reason_if_any", "subsystem_admissibility_if_any"],
+    "families": {
+      "MaterialContribution": "Provides constitutive internal force/tangent and detached material trial state.",
+      "GeometricContribution": "Provides geometric force/tangent and any declared kinematic trial metadata.",
+      "ContactContribution": "Provides contact force/tangent, optional contact trial state and contact admissibility diagnostics."
+    },
+    "stateless_policy": "Stateless contributions need not allocate a state payload and must remain inexpensive.",
+    "stateful_policy": "Stateful contributions return trial updates through the transaction boundary and may not commit them independently."
+  },
+  "driver_ownership": {
+    "authoritative_driver": ["increment lifecycle", "residual normalization", "iteration limits", "linear correction solve", "line-search dispatch", "cutback/retry", "state acceptance/rejection", "failure propagation", "diagnostics history"],
+    "contribution_ownership": ["force", "tangent", "subsystem trial state", "subsystem diagnostics", "subsystem admissibility"],
+    "prohibition": "A contribution must not own an independent global Newton lifecycle. Legacy loops can survive only behind adapters or as declared research compatibility until migrated."
+  },
+  "convergence_contract": {
+    "global_required": ["free_dof_residual_force_norm", "relative_residual", "free_dof_correction_norm"],
+    "global_optional": ["energy_or_work_norm"],
+    "subsystem_admissibility": "Contact penetration, active-set consistency, material admissibility and arc-length constraint are contribution/continuation diagnostics. They may veto global acceptance but do not redefine unrelated material-only convergence norms.",
+    "normalization": "The driver records absolute and relative quantities with frozen denominators in diagnostics; no subsystem silently selects a different global convergence scale.",
+    "diagnostics": "Iteration history records global quantities plus namespaced contribution diagnostics and one deterministic terminal reason."
+  },
+  "failure_retry_contract": {
+    "existing_enum": "solveur.core.nonlinear.contracts.NonlinearFailureReason",
+    "policy": "The existing enum is retained. No duplicate failure reason with equivalent meaning is introduced. Contributions may recommend a retry class; only the driver applies retry/cutback policy.",
+    "matrix": [
+      {"reason": "MAX_ITERATIONS", "retry_class": "RETRYABLE"},
+      {"reason": "CONVERGENCE_STAGNATION", "retry_class": "RETRYABLE"},
+      {"reason": "LINE_SEARCH_FAILURE", "retry_class": "RETRYABLE"},
+      {"reason": "SINGULAR_TANGENT", "retry_class": "OWNER_POLICY_DEPENDENT"},
+      {"reason": "LINEAR_SOLVER_FAILURE", "retry_class": "OWNER_POLICY_DEPENDENT"},
+      {"reason": "MATERIAL_UPDATE_FAILURE", "retry_class": "NON_RETRYABLE"},
+      {"reason": "CONTACT_UPDATE_FAILURE", "retry_class": "RETRYABLE"},
+      {"reason": "CONTACT_PENETRATION_EXCESSIVE", "retry_class": "RETRYABLE"},
+      {"reason": "STATE_CORRUPTION", "retry_class": "NON_RETRYABLE"},
+      {"reason": "NAN_DETECTED", "retry_class": "NON_RETRYABLE"},
+      {"reason": "INF_DETECTED", "retry_class": "NON_RETRYABLE"},
+      {"reason": "INVALID_ELEMENT", "retry_class": "NON_RETRYABLE"},
+      {"reason": "ARC_LENGTH_FAILURE", "retry_class": "RETRYABLE"},
+      {"reason": "MIN_INCREMENT_REACHED", "retry_class": "NON_RETRYABLE"},
+      {"reason": "CHECKPOINT_FAILURE", "retry_class": "NON_RETRYABLE"}
+    ]
+  },
+  "future_checkpoint_contract": {
+    "planned_schema_version": 2,
+    "required_fields": ["schema_version", "model_signature", "accepted_step", "load_factor", "displacement", "material_state", "contact_state", "continuation_state", "state_digests", "accepted_increment_metadata"],
+    "restart_requirements": ["validate model signature", "validate state topology/version", "validate component and composite digests", "reject incomplete state rather than reconstructing it heuristically", "restore only an accepted state"],
+    "implementation_boundary": "WP01-A defines this future payload only; persistence changes are not authorized here."
+  },
+  "compatibility_policy": {
+    "public_api": "No public API removal in WP01-A.",
+    "compatibility_wrappers": ["GeometricNonlinearStaticSolver compatibility line-search wrapper", "existing NonlinearStaticSolver entry points", "legacy result-diagnostics adapters"],
+    "deprecate_later": ["separate load-control Newton ownership", "duplicate line-search helpers", "legacy contact solver as a public global-driver alternative"],
+    "research_boundaries": ["total_lagrangian_j2 remains formulation-neutral research pending OD-029-01", "frictional active-set/Coulomb remains research compatibility until a common-driver adapter is qualified", "mixed distributed nonlinear mechanics remains out of scope"],
+    "diagnostic_mapping": "Legacy diagnostics are mapped into common absolute residual, relative residual, correction norm, terminal reason and namespaced subsystem diagnostics without erasing legacy fields during compatibility support."
+  },
+  "non_goals": ["finite-strain plasticity", "frictional common-driver integration", "geometric formulation changes", "new contact formulation", "new element formulation", "PETSc/MPI nonlinear support", "nonlinear dynamics", "new maturity claims", "resolution of OD-029-01"],
+  "prospective_gates": [
+    {"id": "G01", "gate": "Only one authoritative global Newton lifecycle.", "threshold": "0 alternate public/global driver lifecycles after migration; compatibility adapters delegate to the authoritative driver."},
+    {"id": "G02", "gate": "Material, geometric and contact contributions coexist through one composition contract.", "threshold": "4 declared composition fixtures pass: material-only, geometric-only, penalty-contact-only, and combined material/geometric/contact."},
+    {"id": "G03", "gate": "Rejected increments preserve committed state.", "threshold": "Composite and component committed-state digests exactly equal pre-trial values after every injected rejection/failure fixture."},
+    {"id": "G04", "gate": "No contribution silently commits global state.", "threshold": "0 contribution-level commit events observed by transaction instrumentation outside driver-approved acceptance."},
+    {"id": "G05", "gate": "Small-strain J2 regression preservation.", "threshold": "Frozen existing J2 references retain their declared tolerances; additionally displacement, reaction and energy relative error <= 1e-9 with absolute floor 1e-12, with no tolerance loosening."},
+    {"id": "G06", "gate": "Geometric research regression preservation.", "threshold": "Frozen existing geometric references retain their declared tolerances; additionally declared displacement, reaction and energy observables have relative error <= 1e-9 with absolute floor 1e-12."},
+    {"id": "G07", "gate": "Frictionless penalty composition preservation.", "threshold": "Frozen penalty-contact references retain their declared tolerances; additionally declared displacement, reaction and penetration observables have relative error <= 1e-9 with absolute floor 1e-12."},
+    {"id": "G08", "gate": "Failures and diagnostics are explicit and deterministic.", "threshold": "2 identical replays per failure fixture produce identical terminal reason, retry class and deterministic diagnostics digest."},
+    {"id": "G09", "gate": "Migration creates no maturity expansion.", "threshold": "0 changes to existing maturity registry records or public maturity claims."},
+    {"id": "G10", "gate": "Compatibility adapters do not create a second authoritative driver.", "threshold": "0 adapter-owned global Newton loops; adapter trace identifies exactly one authoritative lifecycle."}
+  ],
+  "owner_decisions": {"new": [], "OD-029-01": "OPEN and intentionally unresolved; non-blocking until WP09."}
+}
