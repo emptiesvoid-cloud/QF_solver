@@ -11,11 +11,13 @@ from collections.abc import Callable, Mapping, Sequence
 from copy import deepcopy
 from dataclasses import dataclass, field
 from enum import Enum
+from time import perf_counter
 from typing import Any, Protocol
 
 import numpy as np
 from scipy.sparse import csr_matrix
 
+from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.core.nonlinear.state import NonlinearState, NonlinearStateTransaction
 
@@ -259,3 +261,403 @@ class UnifiedNonlinearDriverFoundation:
             lifecycle=tuple(lifecycle),
             commit_count=transaction.commit_count,
         )
+
+
+@dataclass(frozen=True)
+class UnifiedNewtonResult:
+    """Result of the formulation-neutral fixed load-control Newton engine."""
+
+    state: NonlinearState
+    diagnostics: Mapping[str, Any]
+
+
+LinearSolve = Callable[[csr_matrix, np.ndarray], tuple[np.ndarray, Mapping[str, Any] | None]]
+LineSearch = Callable[
+    [NonlinearState, np.ndarray, np.ndarray, np.ndarray, float], tuple[np.ndarray, int, Mapping[str, Any] | None]
+]
+TrialStateApplier = Callable[[NonlinearState, CompositeContributionResponse], None]
+FinalTrialStateApplier = Callable[[NonlinearState, CompositeContributionResponse], None]
+FailureDiagnostics = Callable[
+    [int, int, list[float], float, float, int], dict[str, Any]
+]
+AssemblyFailureReason = Callable[[str], NonlinearFailureReason]
+NonFiniteFailureReason = Callable[[np.ndarray], NonlinearFailureReason]
+
+
+class UnifiedNewtonEngine:
+    """Authoritative formulation-neutral Newton lifecycle for fixed load control.
+
+    The engine owns one global increment/iteration lifecycle.  Contributions
+    only evaluate force, tangent and detached trial responses; they never
+    publish accepted state.  Legacy routes provide adapters for their existing
+    linear backend and line-search implementation, which keeps this class free
+    of constitutive, geometric and contact mathematics.
+    """
+
+    def solve(
+        self,
+        *,
+        initial_state: NonlinearState,
+        external_force: np.ndarray,
+        fixed: np.ndarray,
+        target_load_factors: Sequence[float],
+        tolerance: float,
+        max_iterations: int,
+        contributions: Sequence[NonlinearContribution],
+        linear_solve: LinearSolve,
+        line_search: LineSearch | None = None,
+        apply_trial_state: TrialStateApplier | None = None,
+        finalize_trial_state: FinalTrialStateApplier | None = None,
+        force_scale: float | None = None,
+        solver_name: str = "unified_newton",
+        failure_diagnostics: FailureDiagnostics | None = None,
+        assembly_failure_reason: AssemblyFailureReason | None = None,
+        nonfinite_failure_reason: NonFiniteFailureReason | None = None,
+        stagnation_check: bool = True,
+    ) -> UnifiedNewtonResult:
+        """Solve the requested fixed load factors through one transaction lifecycle."""
+
+        if tolerance <= 0.0 or not np.isfinite(tolerance):
+            raise ValueError("Unified Newton tolerance must be finite and positive.")
+        if max_iterations < 1:
+            raise ValueError("Unified Newton requires max_iterations >= 1.")
+        if not contributions:
+            raise ValueError("Unified Newton requires at least one contribution.")
+        external = np.asarray(external_force, dtype=float)
+        fixed_values = np.asarray(fixed, dtype=int)
+        if external.ndim != 1 or not np.all(np.isfinite(external)):
+            raise ValueError("Unified Newton external force must be a finite one-dimensional vector.")
+        if initial_state.displacement.shape != external.shape:
+            raise ValueError("Unified Newton state and external force dimensions must match.")
+        free = np.setdiff1d(np.arange(external.size, dtype=int), fixed_values)
+        if free.size == 0:
+            raise ValueError("Unified Newton requires at least one free degree of freedom.")
+        factors = tuple(float(value) for value in target_load_factors)
+        if not factors or any(not np.isfinite(value) for value in factors):
+            raise ValueError("Unified Newton target load factors must be finite and non-empty.")
+
+        transaction = NonlinearStateTransaction(initial_state)
+        history: list[dict[str, Any]] = []
+        total_iterations = 0
+        for step, load_factor in enumerate(factors, start=1):
+            try:
+                transaction.begin_trial()
+                step_result, step_iterations = self._solve_increment(
+                    transaction=transaction,
+                    external=external,
+                    free=free,
+                    load_factor=load_factor,
+                    step=step,
+                    tolerance=tolerance,
+                    max_iterations=max_iterations,
+                    contributions=contributions,
+                    linear_solve=linear_solve,
+                    line_search=line_search,
+                    apply_trial_state=apply_trial_state,
+                    finalize_trial_state=finalize_trial_state,
+                    force_scale=force_scale,
+                    solver_name=solver_name,
+                    failure_diagnostics=failure_diagnostics,
+                    assembly_failure_reason=assembly_failure_reason,
+                    nonfinite_failure_reason=nonfinite_failure_reason,
+                    stagnation_check=stagnation_check,
+                )
+                history.append(step_result)
+                total_iterations += step_iterations
+            except NumericalConvergenceError:
+                if transaction.trial_state is not None:
+                    transaction.rollback()
+                raise
+            except (TypeError, ValueError, FloatingPointError) as exc:
+                if transaction.trial_state is not None:
+                    transaction.rollback()
+                raise NumericalConvergenceError(
+                    f"Unified Newton increment {step} failed: {exc}",
+                    reason=NonlinearFailureReason.INVALID_ELEMENT,
+                    diagnostics={"step": step, "solver": solver_name},
+                ) from exc
+
+        accepted = transaction.accepted_state.detached_copy()
+        return UnifiedNewtonResult(
+            state=accepted,
+            diagnostics={
+                "converged": True,
+                "newton_iterations": total_iterations,
+                "final_relative_residual": history[-1]["relative_residual"],
+                "increments": history,
+                "solver": solver_name,
+                "state_digest": accepted.digest,
+                "commit_count": transaction.commit_count,
+            },
+        )
+
+    def _solve_increment(
+        self,
+        *,
+        transaction: NonlinearStateTransaction,
+        external: np.ndarray,
+        free: np.ndarray,
+        load_factor: float,
+        step: int,
+        tolerance: float,
+        max_iterations: int,
+        contributions: Sequence[NonlinearContribution],
+        linear_solve: LinearSolve,
+        line_search: LineSearch | None,
+        apply_trial_state: TrialStateApplier | None,
+        finalize_trial_state: FinalTrialStateApplier | None,
+        force_scale: float | None,
+        solver_name: str,
+        failure_diagnostics: FailureDiagnostics | None,
+        assembly_failure_reason: AssemblyFailureReason | None,
+        nonfinite_failure_reason: NonFiniteFailureReason | None,
+        stagnation_check: bool,
+    ) -> tuple[dict[str, Any], int]:
+        trial = transaction.trial_state
+        if trial is None:
+            raise RuntimeError("Unified Newton increment requires an open transaction trial.")
+        target = load_factor * external
+        scale = max(
+            float(np.linalg.norm(target[free])),
+            float(force_scale or 0.0),
+            1.0,
+        )
+        residual_history: list[float] = []
+        line_search_iterations = 0
+        assembly_seconds = 0.0
+        linear_solve_seconds = 0.0
+        line_search_seconds = 0.0
+        linear_diagnostics: list[dict[str, Any]] = []
+        line_search_factors: list[float] = []
+        correction_norms: list[float] = []
+        contribution_diagnostics: Mapping[str, Mapping[str, Any]] = {}
+
+        for iteration in range(1, max_iterations + 1):
+            assembly_started = perf_counter()
+            try:
+                responses = tuple(contribution.evaluate(trial) for contribution in contributions)
+                composite = compose_contribution_responses(responses)
+                contribution_diagnostics = composite.diagnostics
+                if apply_trial_state is not None:
+                    apply_trial_state(trial, composite)
+            except NumericalConvergenceError:
+                raise
+            except (TypeError, ValueError, FloatingPointError) as exc:
+                diagnostics = self._failure_diagnostics(
+                    failure_diagnostics, step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
+                )
+                diagnostics["assembly_error"] = str(exc)
+                reason = (
+                    assembly_failure_reason(str(exc))
+                    if assembly_failure_reason is not None
+                    else NonlinearFailureReason.INVALID_ELEMENT
+                )
+                raise NumericalConvergenceError(
+                    f"Unified Newton assembly failed at increment {step}: {exc}",
+                    reason=reason,
+                    diagnostics=diagnostics,
+                ) from exc
+            finally:
+                assembly_seconds += perf_counter() - assembly_started
+
+            if composite.failure_reason is not None:
+                diagnostics = self._failure_diagnostics(
+                    failure_diagnostics, step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
+                )
+                diagnostics["contribution_diagnostics"] = dict(contribution_diagnostics)
+                raise NumericalConvergenceError(
+                    f"Unified Newton contribution failed at increment {step}.",
+                    reason=composite.failure_reason,
+                    diagnostics=diagnostics,
+                )
+            if not composite.admissible:
+                diagnostics = self._failure_diagnostics(
+                    failure_diagnostics, step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
+                )
+                diagnostics["contribution_diagnostics"] = dict(contribution_diagnostics)
+                raise NumericalConvergenceError(
+                    f"Unified Newton contribution was inadmissible at increment {step}.",
+                    reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+                    diagnostics=diagnostics,
+                )
+
+            residual = load_factor * external - composite.internal_force
+            if not np.all(np.isfinite(residual)):
+                reason = (
+                    nonfinite_failure_reason(residual)
+                    if nonfinite_failure_reason is not None
+                    else NonlinearFailureReason.NAN_DETECTED
+                )
+                diagnostics = self._failure_diagnostics(
+                    failure_diagnostics, step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
+                )
+                raise NumericalConvergenceError(
+                    f"Unified Newton residual is non-finite at increment {step}.",
+                    reason=reason,
+                    diagnostics=diagnostics,
+                )
+            residual_norm = float(np.linalg.norm(residual[free]))
+            relative = residual_norm / scale
+            residual_history.append(residual_norm)
+            if relative <= tolerance:
+                if finalize_trial_state is not None:
+                    finalize_trial_state(trial, composite)
+                trial.load_factor = load_factor
+                transaction.commit()
+                return (
+                    {
+                        "increment": step,
+                        "load_factor": load_factor,
+                        "iterations": iteration,
+                        "relative_residual": relative,
+                        "residual_initial": residual_history[0],
+                        "residual_final": residual_history[-1],
+                        "residual_history": tuple(residual_history),
+                        "line_search_iterations": line_search_iterations,
+                        "line_search_factors": tuple(line_search_factors),
+                        "last_correction_norm": correction_norms[-1] if correction_norms else 0.0,
+                        "cumulative_correction_norm": float(sum(correction_norms)),
+                        "assembly_seconds": assembly_seconds,
+                        "linear_solve_seconds": linear_solve_seconds,
+                        "line_search_seconds": line_search_seconds,
+                        "linear_system_diagnostics": linear_diagnostics,
+                        "contribution_diagnostics": dict(contribution_diagnostics),
+                        "state_committed": True,
+                    },
+                    max(iteration - 1, 0),
+                )
+            if stagnation_check and len(residual_history) >= 4 and residual_history[-1] >= residual_history[-4] * (1.0 - 1.0e-10):
+                diagnostics = self._failure_diagnostics(
+                    failure_diagnostics, step, iteration, residual_history, relative, tolerance, line_search_iterations
+                )
+                raise NumericalConvergenceError(
+                    f"Unified Newton stagnated at increment {step}; relative residual={relative:.6e}.",
+                    reason=NonlinearFailureReason.CONVERGENCE_STAGNATION,
+                    diagnostics=diagnostics,
+                )
+
+            linear_started = perf_counter()
+            try:
+                correction, solve_diagnostics = linear_solve(
+                    composite.tangent[free, :][:, free], residual[free]
+                )
+            except NumericalConvergenceError as exc:
+                diagnostics = self._failure_diagnostics(
+                    failure_diagnostics,
+                    step,
+                    iteration,
+                    residual_history,
+                    relative,
+                    tolerance,
+                    line_search_iterations,
+                )
+                diagnostics.update(exc.diagnostics)
+                raise NumericalConvergenceError(
+                    str(exc), reason=exc.reason, diagnostics=diagnostics
+                ) from exc
+            finally:
+                linear_solve_seconds += perf_counter() - linear_started
+            if solve_diagnostics is not None:
+                linear_diagnostics.append(dict(solve_diagnostics))
+            correction = np.asarray(correction, dtype=float)
+            if correction.shape != free.shape or not np.all(np.isfinite(correction)):
+                reason = (
+                    nonfinite_failure_reason(correction)
+                    if nonfinite_failure_reason is not None
+                    else NonlinearFailureReason.NAN_DETECTED
+                )
+                diagnostics = self._failure_diagnostics(
+                    failure_diagnostics, step, iteration, residual_history, relative, tolerance, line_search_iterations
+                )
+                raise NumericalConvergenceError(
+                    f"Unified Newton correction is non-finite at increment {step}.",
+                    reason=reason,
+                    diagnostics=diagnostics,
+                )
+
+            before_displacement = trial.displacement[free].copy()
+            if line_search is None:
+                trial.displacement[free] += correction
+                reductions = 0
+            else:
+                line_started = perf_counter()
+                try:
+                    updated, reductions, line_diagnostics = line_search(
+                        trial, free, correction, target, residual_norm
+                    )
+                except NumericalConvergenceError as exc:
+                    diagnostics = self._failure_diagnostics(
+                        failure_diagnostics,
+                        step,
+                        iteration,
+                        residual_history,
+                        relative,
+                        tolerance,
+                        line_search_iterations,
+                    )
+                    diagnostics.update(exc.diagnostics)
+                    raise NumericalConvergenceError(
+                        str(exc), reason=exc.reason, diagnostics=diagnostics
+                    ) from exc
+                line_search_seconds += perf_counter() - line_started
+                trial.displacement = np.array(updated, dtype=float, copy=True)
+                if line_diagnostics is not None:
+                    contribution_diagnostics = {
+                        **dict(contribution_diagnostics),
+                        "line_search": dict(line_diagnostics),
+                    }
+                    factor = line_diagnostics.get("factor")
+                    if factor is not None:
+                        line_search_factors.append(float(factor))
+            correction_norms.append(float(np.linalg.norm(trial.displacement[free] - before_displacement)))
+            line_search_iterations += int(reductions)
+
+        diagnostics = self._failure_diagnostics(
+            failure_diagnostics,
+            step,
+            max_iterations,
+            residual_history,
+            relative,
+            tolerance,
+            line_search_iterations,
+        )
+        diagnostics.update(
+            {
+                "assembly_seconds": assembly_seconds,
+                "linear_solve_seconds": linear_solve_seconds,
+                "line_search_seconds": line_search_seconds,
+                "linear_system_diagnostics": linear_diagnostics,
+                "contribution_diagnostics": dict(contribution_diagnostics),
+            }
+        )
+        raise NumericalConvergenceError(
+            f"Unified Newton did not converge at increment {step}; relative residual={relative:.6e}.",
+            reason=NonlinearFailureReason.MAX_ITERATIONS,
+            diagnostics=diagnostics,
+        )
+
+    @staticmethod
+    def _failure_diagnostics(
+        factory: FailureDiagnostics | None,
+        step: int,
+        iterations: int,
+        residual_history: list[float],
+        relative: float,
+        tolerance: float,
+        line_search_iterations: int,
+    ) -> dict[str, Any]:
+        if factory is not None:
+            return factory(step, iterations, residual_history, relative, tolerance, line_search_iterations)
+        finite = bool(np.isfinite(relative))
+        return {
+            "step": step,
+            "iterations": iterations,
+            "residual_initial": residual_history[0] if residual_history else None,
+            "residual_final": residual_history[-1] if residual_history else None,
+            "relative_residual": relative if finite else None,
+            "relative_residual_status": "COMPUTED" if finite else "NOT_COMPUTABLE",
+            "tolerance": tolerance,
+            "solver": "unified_newton",
+            "residual_history": tuple(residual_history),
+            "line_search_iterations": line_search_iterations,
+        }
