@@ -41,7 +41,7 @@ def test_installation_document_matches_extras_and_runtime_boundaries() -> None:
     for extra in ("mesh", "hdf5", "large", "hpc", "docs"):
         assert f'qf-solver[{extra}]' in installation
     assert "python -m mkdocs build --strict -f .github/pages/mkdocs.yml" in installation
-    assert "--branch 0.2.8-pre-publication" in installation
+    assert "--branch v0.2.8" in installation
     assert "default branch" in installation
     assert "Linux" in installation and "native Windows" in installation
     assert "NOT_VALIDATED" in installation

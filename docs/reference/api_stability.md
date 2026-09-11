@@ -2,7 +2,7 @@
 doc_id: DOC-REF-API-002
 revision: 1.0
 status: controlled
-applicable_version: 0.2.8-development
+applicable_version: 0.2.8
 reviewer: ""
 approver: ""
 ---
@@ -36,7 +36,7 @@ available for compatibility but should not be used in new integrations.
 JSON v1 inputs remain supported where the documented schema permits them. CLI
 commands and stable exit codes are part of the public interface. Interface
 stability does not qualify every element, analysis or material combination;
-the active [0.2.8 consolidated registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/consolidated_registry.json)
+the active [0.2.8 consolidated registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json)
 and separate mixed-workflow/capability records define those boundaries.
 
 `qf_solver.read_inp(path)` remains `PROVISIONAL`; it covers only the documented
