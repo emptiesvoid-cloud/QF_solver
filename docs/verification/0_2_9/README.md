@@ -75,6 +75,8 @@ does not claim distributed nonlinear mechanics.
 - [Known inherited limitations](known-limitations.md)
 - [Progress tracker](progress.md)
 - [Owner decision log](owner-decisions.md)
+- [WP01 Unified Nonlinear Core prospective contract](wp01-unified-nonlinear-core-contract.md)
 
-Implementation must not begin until the Owner has reviewed this STEP-UP,
-including the open J2-plus-geometry decision.
+WP01 implementation must not begin until the Owner has reviewed the STEP-UP
+and the WP01 prospective contract. OD-029-01 remains open and blocks WP09;
+WP01 itself remains formulation-neutral.
