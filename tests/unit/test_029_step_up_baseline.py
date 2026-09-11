@@ -60,6 +60,7 @@ def test_step_up_documents_are_present_and_explicitly_planning_only() -> None:
         "progress.md",
         "owner-decisions.md",
         "wp01-unified-nonlinear-core-contract.md",
+        "wp01-b-foundation-evidence.md",
         "wp01-ownership-model.md",
         "wp01-state-transaction-contract.md",
         "wp01-migration-matrix.md",
@@ -81,9 +82,7 @@ def test_wp01_contract_is_prospective_and_preserves_the_open_j2_geometry_decisio
     assert contract["canonical_equations"]["residual"] == (
         "R(u, lambda, state) = lambda * F_ext - F_internal - F_contact"
     )
-    assert contract["canonical_equations"]["tangent"] == (
-        "K_T = K_material + K_geometric + K_contact"
-    )
+    assert contract["canonical_equations"]["tangent"] == ("K_T = K_material + K_geometric + K_contact")
     assert len(contract["prospective_gates"]) == 10
     assert contract["owner_decisions"]["OD-029-01"].startswith("OPEN")
     assert {entry["classification"] for entry in migration["entries"]} == {
@@ -97,6 +96,6 @@ def test_wp01_contract_is_prospective_and_preserves_the_open_j2_geometry_decisio
     assert progress["work_packages"]["WP00"]["status"] == "CLOSED"
     assert progress["work_packages"]["WP01"] == {
         "points": 12,
-        "status": "CONTRACT_PHASE",
+        "status": "IMPLEMENTATION_FOUNDATION",
         "validated_points": 0,
     }

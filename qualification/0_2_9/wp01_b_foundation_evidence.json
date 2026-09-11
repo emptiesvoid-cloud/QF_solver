@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "evidence_id": "QF-SOLVER-0.2.9-WP01-B-FOUNDATION-001",
+  "contract_id": "QF-SOLVER-0.2.9-WP01-UNIFIED-NONLINEAR-CORE-001",
+  "baseline_sha": "5a61b25bff4542b5c7b14b9ec65fcddfeb80b8b9",
+  "status": "IMPLEMENTATION_FOUNDATION_PASS",
+  "scope": "Formulation-neutral state, atomic transaction, deterministic digest, contribution response and driver lifecycle foundation only. Existing solver routes are not migrated.",
+  "implemented": {
+    "nonlinear_state": "src/solveur/core/nonlinear/state.py: NonlinearState",
+    "atomic_transaction": "src/solveur/core/nonlinear/state.py: NonlinearStateTransaction",
+    "deterministic_digest": "src/solveur/core/nonlinear/state.py: deterministic_state_digest",
+    "driver_foundation": "src/solveur/core/nonlinear/driver.py: UnifiedNonlinearDriverFoundation",
+    "contribution_response": "src/solveur/core/nonlinear/driver.py: ContributionResponse and compose_contribution_responses"
+  },
+  "excluded_migrations": [
+    "NonlinearStaticSolver._solve_load_step", "complete geometric nonlinear solver", "arc-length control loop", "FrictionlessActiveSetSolver", "frictional active-set/fixed-point paths", "checkpoint persistence format"
+  ],
+  "tests": {
+    "foundation": {
+      "path": "tests/unit/test_unified_nonlinear_foundation.py",
+      "cases": [
+        "T01 equivalent states have identical digest", "T02 displacement changes digest", "T03 material state changes digest", "T04 contact state changes digest", "T05 continuation state changes digest", "T06 begin trial preserves accepted state", "T07 trial does not leak", "T08 rollback digest exact", "T09 atomic successful commit", "T10 invalid commit publishes none", "T11 accepted-state corruption detection", "T12 stateless contribution", "T13 sparse contribution composition", "T14 diagnostics isolation", "T15 rejection rollback", "T16 one global commit", "T17 contribution receives trial only", "T18 deterministic failure metadata"
+      ],
+      "status": "PASS"
+    },
+    "targeted_regression": {
+      "command": "python -m pytest -q tests/unit/test_unified_nonlinear_foundation.py tests/unit/test_nonlinear_state_transaction_contract.py tests/unit/test_nonlinear_contracts.py tests/unit/test_nonlinear_composite_assembly.py tests/unit/test_nonlinear_failure_modes.py tests/verification/test_j2_methods_vnv.py tests/unit/test_geometric_nonlinear_contracts.py tests/unit/test_nonlinear_contact_composition.py",
+      "passed": 72,
+      "failed": 0,
+      "errors": 0,
+      "status": "PASS"
+    },
+    "lint": {
+      "command": "python -m ruff check src/solveur/core/nonlinear/state.py src/solveur/core/nonlinear/driver.py tests/unit/test_unified_nonlinear_foundation.py",
+      "status": "PASS"
+    }
+  },
+  "gate_status": {
+    "G01": "PENDING_MIGRATION",
+    "G02": "PARTIAL_FOUNDATION_PASS",
+    "G03": "PASS_FOUNDATION",
+    "G04": "PASS_FOUNDATION",
+    "G05": "TARGETED_REGRESSION_PASS_NOT_CLOSED",
+    "G06": "TARGETED_REGRESSION_PASS_NOT_CLOSED",
+    "G07": "TARGETED_REGRESSION_PASS_NOT_CLOSED",
+    "G08": "PASS_FOUNDATION",
+    "G09": "PASS_NO_MATURITY_CHANGE",
+    "G10": "PENDING_MIGRATION"
+  },
+  "integrity": {
+    "numerical_source_changed": false,
+    "element_formulation_changed": false,
+    "maturity_changed": false,
+    "evidence_0_2_8_changed": false,
+    "od_029_01": "OPEN"
+  },
+  "remaining_work": [
+    "Migrate legacy load-control ownership to the driver foundation.",
+    "Define composite transaction adapters for material/contact/continuation state families.",
+    "Adapt arc-length and checkpoint persistence under later contracts.",
+    "Keep active-set/friction contact in research compatibility until separately contracted."
+  ]
+}
