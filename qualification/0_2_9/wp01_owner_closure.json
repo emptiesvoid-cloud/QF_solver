@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP01-OWNER-CLOSURE-001",
+  "release": "0.2.9",
+  "work_package": "WP01",
+  "title": "Unified Nonlinear Core",
+  "source_branch": "0.2.9-unified-nonlinear",
+  "audit_sha": "6876d867cdd845195e8946b05329b0bc82937fdc",
+  "status": "CLOSED",
+  "owner_approval_recorded": true,
+  "auditor_decision": "GO_WITH_LIMITATIONS",
+  "score": {
+    "awarded": 12,
+    "available": 12
+  },
+  "validated_total": {
+    "awarded": 16,
+    "available": 100
+  },
+  "gate_status": {
+    "G01": "PASS_WITH_LIMITATIONS",
+    "G02": "PASS",
+    "G03": "PASS",
+    "G04": "PASS",
+    "G05": "PASS_WITH_LIMITATIONS",
+    "G06": "PASS_WITH_LIMITATIONS",
+    "G07": "PASS_WITH_LIMITATIONS",
+    "G08": "PASS",
+    "G09": "PASS",
+    "G10": "PASS_WITH_LIMITATIONS"
+  },
+  "limitations": [
+    "Unified checkpoint persistence schema remains future work.",
+    "Frictional-contact migration remains future work.",
+    "Adaptive penalty-contact qualification remains future work.",
+    "Inherited mypy/mixin typing debt remains.",
+    "OD-029-01 remains OPEN and blocks WP09 only."
+  ],
+  "integrity": {
+    "production_source_changed": false,
+    "numerical_formulation_changed": false,
+    "maturity_changed": false,
+    "wp01_historical_evidence_changed": false,
+    "full_test_suite_run": false
+  },
+  "scope_note": "Owner closure record only; WP02 remains NOT STARTED."
+}

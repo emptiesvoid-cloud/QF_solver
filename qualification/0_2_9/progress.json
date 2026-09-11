@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "release": "0.2.9",
-  "status": "WP01_CONTINUATION_MIGRATION_COMPLETE_PENDING_OWNER_REVIEW",
+  "status": "WP01_CLOSED_PENDING_WP02",
   "work_packages": {
     "WP00": {"points": 4, "status": "CLOSED", "validated_points": 4},
-    "WP01": {"points": 12, "status": "CONTINUATION_MIGRATION", "validated_points": 0},
+    "WP01": {"points": 12, "status": "CLOSED", "validated_points": 12},
     "WP02": {"points": 6, "status": "NOT_STARTED", "validated_points": 0},
     "WP03": {"points": 7, "status": "NOT_STARTED", "validated_points": 0},
     "WP04": {"points": 12, "status": "NOT_STARTED", "validated_points": 0},
@@ -19,7 +19,7 @@
     "WP13": {"points": 2, "status": "NOT_STARTED", "validated_points": 0},
     "WP14": {"points": 2, "status": "NOT_STARTED", "validated_points": 0}
   },
-  "validated_points": 4,
+  "validated_points": 16,
   "total_points": 100,
-  "next_gate": "Independent Owner review of WP01-D adaptive and arc-length continuation evidence before WP02. OD-029-01 remains open and blocks WP09, not formulation-neutral WP01 migration."
+  "next_gate": "WP02 prospective contract — NOT STARTED. OD-029-01 remains OPEN and blocks WP09 only."
 }

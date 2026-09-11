@@ -67,6 +67,21 @@ The existing mixed distributed PETSc/MPI runtime remains `NOT_VALIDATED`.
 0.2.9 may target a bounded **linear-static** runtime closure only; this plan
 does not claim distributed nonlinear mechanics.
 
+## Current owner-closure state
+
+WP01 Unified Nonlinear Core is **CLOSED** at **12/12 points** following the
+independent audit at SHA
+`6876d867cdd845195e8946b05329b0bc82937fdc`. The accepted decision is
+`GO_WITH_LIMITATIONS`; the combined validated total is **16/100** including
+WP00 (4/4).
+
+The controlled documentation view is [WP01 Owner closure](wp01-owner-closure.md);
+the corresponding machine-readable record is
+`qualification/0_2_9/wp01_owner_closure.json`.
+WP02 remains **NOT STARTED**. OD-029-01 remains **OPEN** and blocks WP09
+only. This record does not promote maturity, alter numerical source or change
+historical WP01-A/B/C/D evidence.
+
 ## Planning records
 
 - [Architecture baseline](architecture-baseline.md)
@@ -75,9 +90,11 @@ does not claim distributed nonlinear mechanics.
 - [Known inherited limitations](known-limitations.md)
 - [Progress tracker](progress.md)
 - [Owner decision log](owner-decisions.md)
+- [WP01 Owner closure](wp01-owner-closure.md)
 - [WP01 Unified Nonlinear Core prospective contract](wp01-unified-nonlinear-core-contract.md)
 - [WP01-B implementation foundation evidence](wp01-b-foundation-evidence.md)
 
-WP01 implementation must not begin until the Owner has reviewed the STEP-UP
-and the WP01 prospective contract. OD-029-01 remains open and blocks WP09;
-WP01 itself remains formulation-neutral.
+WP01 implementation and continuation migration are closed under the recorded
+Owner decision. The next permitted planning step is the WP02 prospective
+contract; no WP02 implementation is started by this record. OD-029-01 remains
+open and blocks WP09; WP01 remains formulation-neutral.
