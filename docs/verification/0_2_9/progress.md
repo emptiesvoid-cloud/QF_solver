@@ -35,12 +35,15 @@ component/composite digest validation, topology checks, bounded schema-1
 migration and atomic canonical writes. WP02-C migrated solver-level fixed and
 adaptive restart ownership. WP02-D now routes the public arc-length restart
 path through the accepted composite state while retaining its specialized
-correction kernel.
+correction kernel. WP02-D1 remediates and verifies the caller-visible
+material-state mirror after a path-dependent restart; WP02 remains at 0/6
+points pending independent WP02-E closure.
 
 The contract is split into the [state/checkpoint contract](wp02-state-checkpoint-contract.md),
 [compatibility matrix](wp02-compatibility-matrix.md),
 [failure matrix](wp02-failure-matrix.md), [prospective gates](wp02-gate-matrix.md),
 [implementation decomposition](wp02-implementation-plan.md), [WP02-B
 schema-v2 evidence](wp02-b-schema-v2-foundation.md), [WP02-C fixed/adaptive
-restart evidence](wp02-c-fixed-adaptive-restart.md) and [WP02-D arc-length
-restart evidence](wp02-d-arc-length-restart.md).
+restart evidence](wp02-c-fixed-adaptive-restart.md), [WP02-D arc-length
+restart evidence](wp02-d-arc-length-restart.md) and [WP02-D1 material-state
+ownership remediation](wp02-d1-material-state-alias.md).

@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP02-D1-MATERIAL-STATE-001",
+  "work_package": "WP02-D1",
+  "status": "MATERIAL_STATE_ALIAS_REMEDIATION_PASS",
+  "baseline_sha": "13e378827a94eb909758c32d29b0757b3691c0c6",
+  "implementation_sha": "recorded in the final commit; not embedded self-referentially",
+  "validated_total": 16,
+  "points_awarded": 0,
+  "owner_decisions": {
+    "OD-029-01": "OPEN; unchanged and blocks WP09 only.",
+    "OD-029-02": "CLOSED; READ_V1_WRITE_V2_BOUNDED"
+  },
+  "defect_reproduction": {
+    "reproduced": true,
+    "case": "Path-dependent total_lagrangian_j2 TET4 arc-length restart from accepted step 2.",
+    "before_fix": {
+      "continuous_final_material_digest": "71b080b614da0c58b890b8a2cdb35f32da4701587b2c127aea9111164e69af09",
+      "restarted_caller_visible_material_digest": "5460956c65025426774696b07a1408b0ddc0e193559737f600e26b75498a72b3",
+      "restarted_final_checkpoint_material_digest": "71b080b614da0c58b890b8a2cdb35f32da4701587b2c127aea9111164e69af09",
+      "final_displacement_max_abs_difference": 0.0,
+      "interpretation": "The controller and checkpoint held the accepted material state; only the outer caller-visible mirror remained stale."
+    },
+    "root_cause": "_solve_arc_length rebound its material_states parameter to a detached copy during restore instead of updating the caller-owned compatibility mirror in place."
+  },
+  "fix": {
+    "file": "src/solveur/core/nonlinear/arc_length.py",
+    "operation": "Use commit_material_states(material_states, restored_state.material_state) during restore.",
+    "scope": "Alias/ownership synchronization only; no mechanics, formulation, tolerance or checkpoint schema change."
+  },
+  "d1_checks": {
+    "D1-01": "PASS; caller-visible material state is initialized and remains synchronized.",
+    "D1-02": "PASS; one accepted post-restart increment matches controller.accepted_state.",
+    "D1-03": "PASS; multiple accepted post-restart increments match controller.accepted_state.",
+    "D1-04": "PASS; rejected increment leaves caller-visible material digest unchanged.",
+    "D1-05": "PASS; rollback/retry publishes only the final accepted material state.",
+    "D1-06": "PASS; path-dependent continuous/restarted final material digest is exact.",
+    "D1-07": "PASS; final post-processing receives the final accepted material state.",
+    "D1-08": "PASS; final internal/tangent assembly receives the final accepted material state.",
+    "D1-09": "PASS; final checkpoint material digest equals the final accepted material digest.",
+    "D1-10": "PASS; elastic arc-length result regression is unchanged."
+  },
+  "tests": {
+    "d1_focused": "10 passed",
+    "wp02_b_regression": "28 passed",
+    "wp02_c_regression": "25 passed",
+    "wp02_d_regression": "28 passed",
+    "arc_length_regression": "3 passed, 27 deselected",
+    "checkpoint_regression": "10 passed",
+    "continuation_regression": "22 passed",
+    "failure_regression": "21 passed",
+    "geometric_regression": "7 passed",
+    "penalty_contact_regression": "11 passed",
+    "total_lagrangian_j2_regression": "21 passed",
+    "full_suite_run": false
+  },
+  "validation": {
+    "ruff": "PASS",
+    "mypy": "15 inherited diagnostics; no new D1 diagnostics",
+    "compileall": "PASS",
+    "qualification_json": "PASS; 28 files valid",
+    "mkdocs_strict": "PASS"
+  },
+  "integrity": {
+    "numerical_formulation_changed": false,
+    "element_formulation_changed": false,
+    "maturity_changed": false,
+    "wp02_evidence_rewritten": false,
+    "wp02_points_awarded": 0,
+    "validated_total": 16
+  },
+  "closure_boundary": "D1 remediation is complete; WP02-D/WP02-E independent closure remains pending and WP03 must not start."
+}

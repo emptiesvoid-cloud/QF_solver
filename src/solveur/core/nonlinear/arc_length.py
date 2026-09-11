@@ -96,7 +96,12 @@ class NonlinearArcLengthMixin:
             if checkpoint_session is not None and step != checkpoint_session.restart_step:
                 raise InputValidationError("Arc-length checkpoint step and continuation state are inconsistent.")
             displacement[:] = restored_state.displacement
-            material_states = copy_material_states(restored_state.material_state)
+            # Keep the caller-visible compatibility mirror synchronized with
+            # the accepted restart state. Rebinding this local parameter
+            # would leave the outer solver's material-state object stale
+            # after the resumed run, even though the controller and
+            # checkpoints held the correct accepted state.
+            commit_material_states(material_states, restored_state.material_state)
         else:
             radius, load_scale = self._initial_arc_length_radius(
                 model,
