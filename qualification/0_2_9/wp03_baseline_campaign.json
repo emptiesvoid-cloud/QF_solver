@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP03-BASELINE-001",
+  "work_package": "WP03-A",
+  "status": "FROZEN_NOT_EXECUTED",
+  "baseline_sha": "ecc09f0bae2dab867c12d7e471860887f6ef0548",
+  "baseline_branch": "0.2.9-unified-nonlinear",
+  "purpose": "Define the numerical and robustness baseline to be captured before WP03-B implementation. No numerical values are invented in the contract phase.",
+  "comparison_policy": {
+    "easy_case_relative": 1e-9,
+    "easy_case_absolute_floor": 1e-12,
+    "deterministic_state": "Exact digest equality where the route is deterministic.",
+    "existing_stricter_tolerance": "Preserve the stricter existing test threshold."
+  },
+  "required_record_fields": [
+    "case_id",
+    "route",
+    "model_signature",
+    "final_displacement",
+    "final_load_factor",
+    "final_material_state_digest",
+    "final_contact_state_digest",
+    "final_continuation_state_digest",
+    "final_composite_state_digest",
+    "residual_history",
+    "iteration_count",
+    "accepted_step_count",
+    "rejected_increment_count",
+    "cutback_count",
+    "line_search_reductions",
+    "failure_reason",
+    "retry_classification",
+    "diagnostics_digest",
+    "owner_review"
+  ],
+  "cases": [
+    {"case_id": "B01", "name": "easy elastic Newton", "route": "fixed_load_control/newton_raphson", "expected_outcome": "converged"},
+    {"case_id": "B02", "name": "small-strain J2", "route": "fixed_load_control/material_state", "expected_outcome": "converged"},
+    {"case_id": "B03", "name": "geometric TET4", "route": "fixed_load_control/geometric_nonlinear", "expected_outcome": "bounded research result"},
+    {"case_id": "B04", "name": "geometric HEX8", "route": "fixed_load_control/geometric_nonlinear", "expected_outcome": "bounded research result"},
+    {"case_id": "B05", "name": "frictionless penalty contact", "route": "fixed_load_control/penalty_contact_composition", "expected_outcome": "converged where supported"},
+    {"case_id": "B06", "name": "modified Newton", "route": "fixed_load_control/modified_newton", "expected_outcome": "converged or canonical failure"},
+    {"case_id": "B07", "name": "line-search challenge", "route": "fixed_load_control/newton_line_search", "expected_outcome": "record alpha/reduction history"},
+    {"case_id": "B08", "name": "adaptive easy increment", "route": "adaptive_load_control", "expected_outcome": "converged with growth policy record"},
+    {"case_id": "B09", "name": "adaptive forced cutback", "route": "adaptive_load_control", "expected_outcome": "rejection followed by accepted retry"},
+    {"case_id": "B10", "name": "adaptive multiple cutbacks", "route": "adaptive_load_control", "expected_outcome": "deterministic retry history"},
+    {"case_id": "B11", "name": "minimum-increment terminal failure", "route": "adaptive_load_control", "expected_outcome": "MIN_INCREMENT_REACHED"},
+    {"case_id": "B12", "name": "stagnation candidate", "route": "fixed_load_control/stagnation_detection", "expected_outcome": "CONVERGENCE_STAGNATION or convergence, explicitly justified"},
+    {"case_id": "B13", "name": "singular tangent", "route": "fixed_load_control/failure_injection", "expected_outcome": "SINGULAR_TANGENT with owner-policy classification"},
+    {"case_id": "B14", "name": "linear-solver failure", "route": "fixed_load_control/failure_injection", "expected_outcome": "LINEAR_SOLVER_FAILURE with owner-policy classification"},
+    {"case_id": "B15", "name": "arc rejection and radius shrink", "route": "arc_length", "expected_outcome": "accepted path with radius/rejection history"},
+    {"case_id": "B16", "name": "path-dependent restart and retry regression", "route": "fixed_or_arc_length/restart", "expected_outcome": "accepted-state digest and retry integrity record"}
+  ],
+  "execution_boundary": {
+    "wp03_a": "Freeze this campaign and its fields; do not run the full campaign or claim numerical improvement.",
+    "wp03_b_to_d": "Capture before/after results at the exact baseline SHA and preserve raw diagnostics.",
+    "wp03_e": "Independently audit the evidence and deterministic replay."
+  },
+  "status_policy": "A case without captured evidence is NOT_DEMONSTRATED, not PASS."
+}

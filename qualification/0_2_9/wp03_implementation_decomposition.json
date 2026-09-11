@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP03-DECOMPOSITION-001",
+  "work_package": "WP03",
+  "status": "PROSPECTIVE_CONTRACT_PHASE",
+  "baseline_sha": "ecc09f0bae2dab867c12d7e471860887f6ef0548",
+  "points": 7,
+  "validated_points": 0,
+  "phases": [
+    {
+      "id": "WP03-A",
+      "title": "Newton robustness and adaptive-control contract",
+      "status": "CONTRACT_PHASE",
+      "scope": "Inventory current authorities, freeze residual/convergence/stagnation/line-search/retry contracts, define baseline campaign and gates.",
+      "production_change": false
+    },
+    {
+      "id": "WP03-B",
+      "title": "Stagnation and line-search authority",
+      "status": "NOT_STARTED",
+      "scope": "Implement one deterministic stagnation and line-search policy behind the authoritative driver; retain delegating compatibility wrappers.",
+      "production_change": true
+    },
+    {
+      "id": "WP03-C",
+      "title": "Adaptive increment and cutback consolidation",
+      "status": "NOT_STARTED",
+      "scope": "Consolidate adaptive load-control retry, cutback, growth and terminal policy while preserving accepted composite state semantics.",
+      "production_change": true
+    },
+    {
+      "id": "WP03-D",
+      "title": "Arc-length robustness boundary",
+      "status": "NOT_STARTED",
+      "scope": "Integrate specialized arc-length retry/radius diagnostics with the common robustness contract without changing arc mathematics.",
+      "production_change": true
+    },
+    {
+      "id": "WP03-E",
+      "title": "Independent robustness closure audit",
+      "status": "NOT_STARTED",
+      "scope": "Adversarial replay of the baseline campaign, deterministic failures, easy-case preservation and difficult-case evidence.",
+      "production_change": false
+    }
+  ],
+  "non_goals": [
+    "finite-strain plasticity",
+    "frictional contact migration",
+    "new element formulation",
+    "distributed nonlinear mechanics",
+    "nonlinear dynamics",
+    "maturity promotion"
+  ],
+  "closure_policy": "No WP03 points are awarded in WP03-A. WP03 closure requires independent WP03-E review."
+}
