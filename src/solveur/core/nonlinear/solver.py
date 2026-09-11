@@ -85,6 +85,8 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
             raise InputValidationError("Nonlinear checkpoint/restart currently requires fixed load-control steps.")
         self._rejected_increments = 0
         self._rejection_log: list[dict[str, object]] = []
+        self._continuation_rejection_log: list[dict[str, object]] = []
+        self._continuation_commit_count = 0
         reference_force_norm = max(float(np.linalg.norm(loads[free])), 1.0)
         arc_length_controls = (
             ArcLengthControls.from_parameters(params, max_iterations=max_iterations)
@@ -276,6 +278,8 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                 "checkpoint_model_signature": checkpoint_session.signature if checkpoint_session else "",
                 "rejected_increments": self._rejected_increments,
                 "rejection_log": list(self._rejection_log),
+                "continuation_rejection_log": list(self._continuation_rejection_log),
+                "continuation_commit_count": self._continuation_commit_count,
                 "load_assembly": dict(self.assembler.last_load_diagnostics),
                 "steps": [item.to_dict() for item in history],
             },

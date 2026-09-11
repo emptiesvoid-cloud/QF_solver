@@ -13,7 +13,12 @@ from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear.material_state import MaterialStateTable
 from solveur.core.nonlinear.contracts import NonlinearFailureReason, NonlinearIterationDiagnostics
 from solveur.core.nonlinear.controls import AdaptiveLoadControls
-from solveur.core.nonlinear.driver import ContributionResponse, UnifiedNewtonEngine
+from solveur.core.nonlinear.driver import (
+    ContributionResponse,
+    UnifiedContinuationController,
+    UnifiedNewtonEngine,
+    continuation_retry_permitted,
+)
 from solveur.core.nonlinear.robustness import NonlinearRobustnessOptions, solve_scaled_system
 from solveur.core.nonlinear.state import NonlinearState
 from solveur.core.model import FiniteElementModel
@@ -307,6 +312,13 @@ def solve_adaptive_full_newton(
         raise ValueError("Adaptive Full Newton requires at least one free degree of freedom.")
 
     displacement: np.ndarray = np.zeros(assembly.ndof, dtype=float)
+    controller = UnifiedContinuationController(
+        NonlinearState(
+            displacement=displacement,
+            load_factor=0.0,
+            continuation_state={"accepted_step": 0},
+        )
+    )
     history: list[dict[str, object]] = []
     rejection_log: list[dict[str, object]] = []
     current_factor = 0.0
@@ -318,9 +330,9 @@ def solve_adaptive_full_newton(
     while current_factor < 1.0 - 1.0e-12:
         proposed = min(increment, 1.0 - current_factor)
         target_factor = current_factor + proposed
-        committed = displacement.copy()
         while True:
-            attempt = _OffsetNonlinearAssembly(assembly, committed)
+            trial_state = controller.begin_trial()
+            attempt = _OffsetNonlinearAssembly(assembly, controller.accepted_state.displacement)
             try:
                 trial_delta, attempt_diagnostics = solve_full_newton(
                     attempt,
@@ -332,8 +344,17 @@ def solve_adaptive_full_newton(
                     robustness_options=robustness_options,
                 )
             except NumericalConvergenceError as exc:
-                displacement[:] = committed
-                rejected_increments += 1
+                controller.rollback(
+                    exc,
+                    path="adaptive_full_newton",
+                    metadata={
+                        "adaptive_load_step": accepted_step + 1,
+                        "base_load_factor": current_factor,
+                        "rejected_increment": proposed,
+                        "retry_increment": proposed * controls.cutback_factor,
+                    },
+                )
+                rejected_increments = controller.rejected_increments
                 pending_cutbacks += 1
                 failure_reason = (
                     exc.reason.value
@@ -348,7 +369,8 @@ def solve_adaptive_full_newton(
                         "base_load_factor": current_factor,
                         "rejected_increment": proposed,
                         "retry_increment": retry_increment,
-                        "rollback_verified": bool(np.array_equal(displacement, committed)),
+                        "rollback_verified": True,
+                        "accepted_state_digest": controller.accepted_digest,
                     }
                 )
                 rejection_log.append(
@@ -359,9 +381,11 @@ def solve_adaptive_full_newton(
                         "retry_increment": retry_increment,
                         "failure_reason": failure_reason,
                         "failure_diagnostics": failure_diagnostics,
-                        "rollback_before_retry": bool(np.array_equal(displacement, committed)),
+                        "rollback_before_retry": True,
                     }
                 )
+                if not continuation_retry_permitted(exc, allow_owner_policy=True):
+                    raise
                 if rejected_increments >= controls.maximum_cutbacks:
                     raise NumericalConvergenceError(
                         "Adaptive Full Newton exceeded the configured maximum number of cutbacks.",
@@ -371,6 +395,7 @@ def solve_adaptive_full_newton(
                             "max_cutbacks": controls.maximum_cutbacks,
                             "rejected_increments": rejected_increments,
                             "rejection_log": rejection_log,
+                            "continuation_rejection_log": controller.rejection_log,
                         },
                     ) from exc
                 if retry_increment < controls.minimum_increment:
@@ -382,6 +407,7 @@ def solve_adaptive_full_newton(
                             "minimum_increment": controls.minimum_increment,
                             "rejected_increments": rejected_increments,
                             "rejection_log": rejection_log,
+                            "continuation_rejection_log": controller.rejection_log,
                         },
                     ) from exc
                 proposed = retry_increment
@@ -397,14 +423,31 @@ def solve_adaptive_full_newton(
                 or not isinstance(attempt_steps[0], dict)
                 or not isinstance(attempt_total_iterations, int)
             ):
+                controller.rollback(
+                    NumericalConvergenceError(
+                        "Adaptive Full Newton received an invalid attempt diagnostic payload.",
+                        reason=NonlinearFailureReason.INVALID_ELEMENT,
+                    ),
+                    path="adaptive_full_newton",
+                    metadata={"adaptive_load_step": accepted_step + 1},
+                )
                 raise NumericalConvergenceError(
                     "Adaptive Full Newton received an invalid attempt diagnostic payload.",
                     reason=NonlinearFailureReason.INVALID_ELEMENT,
                     diagnostics={"adaptive_load_step": accepted_step + 1},
                 )
             step_diagnostics = dict(attempt_steps[0])
-            displacement[:] = committed + trial_delta
+            trial_state.displacement = controller.accepted_state.displacement + trial_delta
+            trial_state.load_factor = target_factor
             accepted_step += 1
+            trial_state.continuation_state = {"accepted_step": accepted_step}
+            trial_state.accepted_increment_metadata = {
+                "step": accepted_step,
+                "load_increment": proposed,
+                "load_step_cutbacks": pending_cutbacks,
+            }
+            controller.commit()
+            displacement[:] = controller.accepted_state.displacement
             total_iterations += attempt_total_iterations
             step_diagnostics.update(
                 {
@@ -435,6 +478,8 @@ def solve_adaptive_full_newton(
         "adaptive_load_steps": True,
         "rejected_increments": rejected_increments,
         "rejection_log": rejection_log,
+        "continuation_commit_count": controller.transaction.commit_count,
+        "continuation_rejection_log": controller.rejection_log,
         "adaptive_controls": {
             "initial_increment": controls.initial_increment,
             "minimum_increment": controls.minimum_increment,

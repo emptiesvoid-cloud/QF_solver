@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "evidence_id": "QF-SOLVER-0.2.9-WP01-D-CONTINUATION-MIGRATION-001",
+  "contract_id": "QF-SOLVER-0.2.9-WP01-UNIFIED-NONLINEAR-CORE-001",
+  "baseline_sha": "9bc07ea5d4e7878702fca58ef7e90af53b039247",
+  "final_sha": "the commit containing this evidence; reported by final Git verification",
+  "status": "CONTINUATION_MIGRATION_TARGETED_PASS",
+  "scope": "Adaptive load-control ownership and arc-length accepted-step ownership only. No FEM formulation, frictional contact physics or checkpoint persistence schema was changed.",
+  "migrated_paths": [
+    "src/solveur/core/nonlinear/load_control.py: adaptive NonlinearStaticSolver continuation",
+    "src/solveur/core/nonlinear/arc_length.py: arc-length accepted-step lifecycle",
+    "src/solveur/core/nonlinear/iteration.py: stateless geometric adaptive helper",
+    "src/solveur/core/nonlinear/driver.py: UnifiedContinuationController"
+  ],
+  "intentionally_unmigrated": [
+    "arc-length augmented correction kernel (retained as a specialized numerical kernel)",
+    "FrictionlessActiveSetSolver linear-static path",
+    "frictional active-set, fixed-point, slip-root and semi-smooth research paths",
+    "checkpoint persistence schema",
+    "PETSc/MPI and nonlinear distributed execution",
+    "all FEM and constitutive formulations"
+  ],
+  "transaction_contract": {
+    "accepted_state": ["displacement", "load_factor", "material_state", "contact_state", "continuation_state", "accepted_increment_metadata"],
+    "commit_boundary": "one composite commit after global convergence/admissibility",
+    "rollback_boundary": "complete accepted composite state is unchanged before retry",
+    "retry_controller_state": "load increment or arc radius may change for the next trial only",
+    "checkpoint_boundary": "checkpoint save occurs only after composite acceptance"
+  },
+  "baseline_comparison": {
+    "baseline_artifact": "qualification/0_2_9/wp01_d_baseline.json",
+    "post_artifact": "qualification/0_2_9/wp01_d_post_migration.json",
+    "tolerance": {"relative": 1e-9, "absolute_floor": 1e-12},
+    "cases": [
+      {"name": "adaptive_small_strain_j2", "status": "PASS", "state_digest_equal": true, "accepted_steps": [3, 3], "rejected_increments": [0, 0], "newton_iterations": [4, 4], "load_factor": [1.0, 1.0]},
+      {"name": "adaptive_geometric_tet4", "status": "PASS", "state_digest_equal": true, "accepted_steps": [3, 3], "rejected_increments": [0, 0], "newton_iterations": [9, 9], "load_factor": [1.0, 1.0]},
+      {"name": "adaptive_geometric_hex8", "status": "PASS", "state_digest_equal": true, "accepted_steps": [3, 3], "rejected_increments": [0, 0], "newton_iterations": [9, 9], "load_factor": [1.0, 1.0]},
+      {"name": "adaptive_penalty_contact", "status": "NOT_SUPPORTED_AT_BASELINE", "state_digest_equal": true, "limitation": "analysis.load_path is not compatible with adaptive_load_steps in the inherited baseline case"},
+      {"name": "arc_length_monotonic", "status": "PASS", "state_digest_equal": true, "accepted_steps": [9, 9], "rejected_increments": [12, 12], "newton_iterations": [19, 19], "load_factor": [1.0, 1.0]},
+      {"name": "arc_length_turning_point", "status": "PASS", "state_digest_equal": true, "accepted_steps": [6, 6], "rejected_increments": [0, 0], "newton_iterations": [15, 15], "load_factor": [1.0169003555249327, 1.0169003555249327]},
+      {"name": "arc_length_adaptive_radius", "status": "PASS", "state_digest_equal": true, "accepted_steps": [6, 6], "rejected_increments": [0, 0], "newton_iterations": [15, 15], "load_factor": [1.0169003555249327, 1.0169003555249327]},
+      {"name": "arc_length_rejected_step_radius_shrink", "status": "PASS", "state_digest_equal": true, "accepted_steps": [9, 9], "rejected_increments": [14, 14], "newton_iterations": [17, 17], "load_factor": [1.0, 1.0]},
+      {"name": "arc_length_checkpoint_compatible", "status": "PASS", "state_digest_equal": true, "accepted_steps": [9, 9], "rejected_increments": [12, 12], "newton_iterations": [19, 19], "load_factor": [1.0, 1.0]}
+    ],
+    "failure_cases": [
+      {"name": "adaptive_max_cutbacks", "reason_before_after": ["MAX_ITERATIONS", "MAX_ITERATIONS"], "accepted_digest_unchanged": [true, true]},
+      {"name": "adaptive_minimum_increment", "reason_before_after": ["MIN_INCREMENT_REACHED", "MIN_INCREMENT_REACHED"], "accepted_digest_unchanged": [true, true]}
+    ]
+  },
+  "alternate_lifecycle_boundary": {
+    "public_nonlinear_lifecycles": "fixed, adaptive and arc-length paths publish accepted state through UnifiedContinuationController; solve_full_newton and solve_adaptive_full_newton remain compatibility adapters",
+    "research_compatibility": "frictional/active-set loops are not invoked as the public nonlinear global lifecycle; their future migration remains separate",
+    "specialized_arc_kernel": "allowed because it does not own accepted-state publication"
+  },
+  "tests": {
+    "foundation": {"command": "python -m pytest -q tests/unit/test_unified_nonlinear_foundation.py", "passed": 19, "failed": 0, "skipped": 0},
+    "wp01_c": {"command": "python -m pytest -q tests/unit/test_wp01_c_unified_newton.py", "passed": 12, "failed": 0, "skipped": 0},
+    "wp01_d": {"command": "python -m pytest -q tests/unit/test_wp01_d_continuation.py", "passed": 22, "failed": 0, "skipped": 0},
+    "adaptive": {"command": "python -m pytest -q tests/unit/test_geometric_nonlinear_adaptive.py tests/unit/test_nonlinear_load_path.py -k \"adaptive or load_path or modified\"", "passed": 30, "failed": 0, "skipped": 0},
+    "arc_length": {"command": "python -m pytest -q tests/unit/test_nonlinear_load_path.py -k \"arc_length\" tests/unit/test_nonlinear_checkpoint.py -k \"arc_length\" tests/unit/test_analysis_features.py -k \"arc_length\"", "passed": 13, "failed": 0, "skipped": 52},
+    "failure": {"command": "python -m pytest -q tests/unit/test_nonlinear_failure_modes.py", "passed": 20, "failed": 0, "skipped": 0},
+    "j2": {"command": "python -m pytest -q tests/verification/test_j2_methods_vnv.py tests/verification/test_j2_material_vnv.py", "passed": 2, "failed": 0, "skipped": 3},
+    "geometric": {"command": "python -m pytest -q tests/unit/test_geometric_nonlinear_public.py tests/unit/test_geometric_nonlinear_contracts.py", "passed": 15, "failed": 0, "skipped": 0},
+    "penalty_contact": {"command": "python -m pytest -q tests/unit/test_nonlinear_contact_composition.py tests/verification/test_frictionless_contact_structural_vnv.py", "passed": 12, "failed": 0, "skipped": 0},
+    "modified_newton": {"command": "python -m pytest -q tests/unit/test_analysis_features.py -k \"modified_newton or modified\"", "passed": 2, "failed": 0, "skipped": 28},
+    "legacy_regression": {"command": "python -m pytest -q tests/unit/test_nonlinear_state_transaction_contract.py tests/unit/test_nonlinear_contracts.py tests/unit/test_nonlinear_composite_assembly.py tests/unit/test_nonlinear_failure_modes.py tests/verification/test_j2_methods_vnv.py tests/unit/test_geometric_nonlinear_contracts.py tests/unit/test_nonlinear_contact_composition.py", "passed": 53, "failed": 0, "errors": 0},
+    "ruff": {"command": "python -m ruff check src/solveur/core/nonlinear/iteration.py src/solveur/core/nonlinear/driver.py src/solveur/core/nonlinear/load_control.py src/solveur/core/nonlinear/arc_length.py src/solveur/core/nonlinear/solver.py tests/unit/test_wp01_d_continuation.py scripts/wp01d_baseline.py", "status": "PASS"},
+    "compileall": {"command": "python -m compileall -q src/solveur/core/nonlinear", "status": "PASS"},
+    "mypy": {"command": "python -m mypy src/solveur/core/nonlinear/driver.py src/solveur/core/nonlinear/load_control.py src/solveur/core/nonlinear/arc_length.py src/solveur/core/nonlinear/solver.py", "status": "BASELINE_DIAGNOSTICS_ONLY", "current_diagnostics": 34, "baseline_diagnostics": 38, "wp01_d_added_diagnostics": 0},
+    "qualification": {"command": "python -m pytest -q tests/unit/test_029_step_up_baseline.py", "status": "PASS", "passed": 5, "failed": 0, "skipped": 0}
+  },
+  "gate_status": {
+    "G01": "PASS_WITH_RESEARCH_BOUNDARY",
+    "G02": "PASS",
+    "G03": "PASS",
+    "G04": "PASS",
+    "G05": "PASS_BOUNDED_J2_TARGETED_REGRESSION",
+    "G06": "PASS_BOUNDED_GEOMETRIC_TARGETED_REGRESSION",
+    "G07": "PASS_BOUNDED_PENALTY_CONTACT_TARGETED_REGRESSION",
+    "G08": "PASS",
+    "G09": "PASS_NO_MATURITY_CHANGE",
+    "G10": "PASS_WITH_RESEARCH_BOUNDARY"
+  },
+  "integrity": {
+    "numerical_source_changed": false,
+    "element_formulation_changed": false,
+    "maturity_changed": false,
+    "evidence_0_2_8_changed": false,
+    "od_029_01": "OPEN",
+    "checkpoint_format_changed": false,
+    "full_test_suite_run": false
+  },
+  "wp01_phase": "CONTINUATION_MIGRATION",
+  "wp01_points_awarded": "0/12"
+}

@@ -1,9 +1,4 @@
-"""Formulation-neutral contribution and authoritative driver foundation.
-
-The foundation deliberately stops before a Newton implementation.  Existing
-drivers continue to own legacy physics until a later migration step delegates
-to this lifecycle boundary.
-"""
+"""Formulation-neutral contributions, transactions and nonlinear drivers."""
 
 from __future__ import annotations
 
@@ -20,6 +15,7 @@ from scipy.sparse import csr_matrix
 from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.core.nonlinear.state import NonlinearState, NonlinearStateTransaction
+from solveur.core.nonlinear.support import _failure_reason_value
 
 
 class RetryClassification(str, Enum):
@@ -53,6 +49,125 @@ _RETRY_CLASSIFICATION: dict[NonlinearFailureReason, RetryClassification] = {
 def retry_classification(reason: NonlinearFailureReason) -> RetryClassification:
     """Return the frozen policy classification for one canonical reason."""
     return _RETRY_CLASSIFICATION[reason]
+
+
+def continuation_retry_classification(error: BaseException) -> RetryClassification:
+    """Classify a continuation failure without weakening the frozen policy."""
+
+    reason = getattr(error, "reason", None)
+    if isinstance(reason, NonlinearFailureReason):
+        return retry_classification(reason)
+    return RetryClassification.OWNER_POLICY_DEPENDENT
+
+
+def continuation_retry_permitted(
+    error: BaseException,
+    *,
+    allow_owner_policy: bool = False,
+) -> bool:
+    """Return whether a continuation controller may retry one failed trial."""
+
+    classification = continuation_retry_classification(error)
+    return classification is RetryClassification.RETRYABLE or (
+        allow_owner_policy and classification is RetryClassification.OWNER_POLICY_DEPENDENT
+    )
+
+
+class UnifiedContinuationController:
+    """Own accepted-state publication and retry diagnostics for continuations.
+
+    Standard Newton and arc-length use different correction kernels, but both
+    pass their accepted state through this controller.  A retry policy may
+    adjust a *next-trial controller variable* (load increment or radius), but
+    it cannot mutate the accepted composite state after rollback.
+    """
+
+    def __init__(self, initial_state: NonlinearState) -> None:
+        self.transaction = NonlinearStateTransaction(initial_state)
+        self.rejected_increments = 0
+        self.rejection_log: list[dict[str, Any]] = []
+
+    @property
+    def accepted_state(self) -> NonlinearState:
+        return self.transaction.accepted_state
+
+    @property
+    def accepted_digest(self) -> str:
+        return self.transaction.accepted_digest
+
+    @property
+    def accepted_component_digests(self) -> dict[str, str]:
+        return self.transaction.accepted_component_digests
+
+    @property
+    def trial_state(self) -> NonlinearState | None:
+        return self.transaction.trial_state
+
+    def begin_trial(self) -> NonlinearState:
+        """Start a detached trial from the complete accepted composite state."""
+
+        return self.transaction.begin_trial()
+
+    def commit(self, *, accepted_increment_metadata: Mapping[str | int, Any] | None = None) -> NonlinearState:
+        """Atomically publish a trial and optional accepted-step metadata."""
+
+        trial = self.transaction.trial_state
+        if trial is None:
+            raise RuntimeError("A continuation commit requires an open trial.")
+        if accepted_increment_metadata is not None:
+            trial.accepted_increment_metadata = deepcopy(dict(accepted_increment_metadata))
+        return self.transaction.commit()
+
+    def rollback(
+        self,
+        error: BaseException,
+        *,
+        path: str,
+        metadata: Mapping[str, Any] | None = None,
+    ) -> RetryClassification:
+        """Rollback and prove the accepted composite digest did not change."""
+
+        before = self.accepted_digest
+        before_components = self.accepted_component_digests
+        before_load_factor = self.accepted_state.load_factor
+        before_continuation = deepcopy(dict(self.accepted_state.continuation_state))
+        classification = continuation_retry_classification(error)
+        self.transaction.rollback()
+        after = self.accepted_digest
+        after_components = self.accepted_component_digests
+        if before != after:
+            raise NumericalConvergenceError(
+                "Continuation rollback changed the accepted composite state.",
+                reason=NonlinearFailureReason.STATE_CORRUPTION,
+                diagnostics={
+                    "path": path,
+                    "accepted_digest_before": before,
+                    "accepted_digest_after": after,
+                },
+            ) from error
+        self.rejected_increments += 1
+        entry: dict[str, Any] = dict(metadata or {})
+        entry.update(
+            {
+                "path": path,
+                "failure_reason": _failure_reason_value(error),
+                "retry_classification": classification.value,
+                "accepted_digest_before": before,
+                "accepted_digest_after": after,
+                "accepted_component_digests_before": before_components,
+                "accepted_component_digests_after": after_components,
+                "accepted_load_factor_before": before_load_factor,
+                "accepted_load_factor_after": self.accepted_state.load_factor,
+                "accepted_continuation_before": before_continuation,
+                "accepted_continuation_after": deepcopy(dict(self.accepted_state.continuation_state)),
+                "rollback_before_retry": True,
+            }
+        )
+        diagnostics = getattr(error, "diagnostics", None)
+        if isinstance(diagnostics, Mapping):
+            entry["failure_diagnostics"] = deepcopy(dict(diagnostics))
+        self.rejection_log.append(entry)
+        return classification
 
 
 @dataclass(frozen=True)
