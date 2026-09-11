@@ -1,0 +1,5147 @@
+{
+  "baseline_sha": "9bc07ea5d4e7878702fca58ef7e90af53b039247",
+  "cases": [
+    {
+      "accepted_step_count": 3,
+      "analysis": "nonlinear_static",
+      "arc_radius_history": [
+        null,
+        null,
+        null
+      ],
+      "checkpoint_files": [],
+      "continuation_state_observation": {
+        "arc_length_radius": [
+          null,
+          null,
+          null
+        ],
+        "load_factors": [
+          0.25,
+          0.625,
+          1.0
+        ]
+      },
+      "cutback_count": 0,
+      "displacements": [
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 0
+        },
+        {
+          "dofs": {
+            "UX": 0.08043478260869565,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 1
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 2
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 3
+        }
+      ],
+      "equilibrium": {
+        "displacement_norm": 0.08043478260869565,
+        "external_load_norm": 10.0,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "external_resultant": [
+          10.0,
+          0.0,
+          0.0
+        ],
+        "external_work_at_final_load": 0.8043478260869564,
+        "fixed_reaction_norm": 19.56092277074198,
+        "force_balance_relative_error": 1.7763568394002506e-16,
+        "force_imbalance": [
+          1.7763568394002505e-15,
+          0.0,
+          0.0
+        ],
+        "free_relative_residual": 1.7763568394002506e-16,
+        "free_residual_norm": 1.7763568394002505e-15,
+        "ground_spring_reaction_norm": 0.0,
+        "internal_force_norm": 21.968834735664338,
+        "linear_energy_identity_relative_error": 1.1102230246251565e-16,
+        "load_factor": 1.0,
+        "moment_balance_relative_error": 0.0,
+        "moment_imbalance_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reaction_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reaction_resultant": [
+          -9.999999999999998,
+          0.0,
+          0.0
+        ],
+        "reactions": [
+          {
+            "dof": "UX",
+            "index": 0,
+            "node": 0,
+            "value": -9.999999999999998
+          },
+          {
+            "dof": "UY",
+            "index": 1,
+            "node": 0,
+            "value": -8.405797101449274
+          },
+          {
+            "dof": "UZ",
+            "index": 2,
+            "node": 0,
+            "value": -8.405797101449274
+          },
+          {
+            "dof": "UX",
+            "index": 6,
+            "node": 2,
+            "value": 0.0
+          },
+          {
+            "dof": "UY",
+            "index": 7,
+            "node": 2,
+            "value": 8.405797101449274
+          },
+          {
+            "dof": "UZ",
+            "index": 8,
+            "node": 2,
+            "value": 0.0
+          },
+          {
+            "dof": "UX",
+            "index": 9,
+            "node": 3,
+            "value": 0.0
+          },
+          {
+            "dof": "UY",
+            "index": 10,
+            "node": 3,
+            "value": 0.0
+          },
+          {
+            "dof": "UZ",
+            "index": 11,
+            "node": 3,
+            "value": 8.405797101449274
+          }
+        ],
+        "secant_internal_energy": 0.40217391304347816,
+        "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs"
+      },
+      "load_factor": 1.0,
+      "load_factor_history": [
+        0.25,
+        0.625,
+        1.0
+      ],
+      "material_states": [
+        {
+          "element": 0,
+          "integration_points": [
+            {
+              "elastic": false,
+              "equivalent_plastic_strain": 0.04565217391304348,
+              "equivalent_stress": 9.565217391304348,
+              "index": 0,
+              "model": "von_mises_isotropic_hardening",
+              "plastic_multiplier": 0.019565217391304356,
+              "plastic_strain": [
+                0.04565217391304348,
+                -0.022826086956521732,
+                -0.02282608695652174,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "stress": [
+                59.99999999999999,
+                50.43478260869565,
+                50.43478260869564,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "yield_function": 0.0,
+              "yield_stress": 9.565217391304348
+            }
+          ]
+        }
+      ],
+      "method": "newton_line_search",
+      "name": "adaptive_small_strain_j2",
+      "newton_iteration_count": 4,
+      "rejected_increment_count": 0,
+      "rejection_log": [],
+      "residual_histories": [
+        [
+          2.5,
+          0.5128205128205128,
+          0.0
+        ],
+        [
+          3.75,
+          0.0
+        ],
+        [
+          3.7500000000000018,
+          1.7763568394002505e-15
+        ]
+      ],
+      "solver_steps": [
+        {
+          "arc_length_branch_direction": null,
+          "arc_length_constraint_residual": null,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": null,
+          "arc_length_predictor_sign": null,
+          "arc_length_radius": null,
+          "assembly_seconds": 0.002149700012523681,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.01684782608695652,
+          "element_cache_hits": 3,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 3,
+          "element_kernel_seconds": 0.0007139999943319708,
+          "element_scatter_seconds": 0.00040469999657943845,
+          "element_setup_seconds": 3.700028173625469e-06,
+          "equivalent_plastic_strain_max": 0.006521739130434782,
+          "failure_reason": null,
+          "incremental_external_work": 0.021059782608695652,
+          "incremental_internal_work": 0.021059782608695652,
+          "iterations": 2,
+          "last_correction_norm": 0.004347826086956521,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0011075000220444053,
+          "linear_solve_seconds": 0.002371800015680492,
+          "load_factor": 0.25,
+          "load_increment": 0.25,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.01843100189035916,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 0.0,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            2.5,
+            0.5128205128205128,
+            0.0
+          ],
+          "residual_initial": 2.5,
+          "residual_norm": 0.0,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0005556999822147191,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 1,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": true
+        },
+        {
+          "arc_length_branch_direction": null,
+          "arc_length_constraint_residual": null,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": null,
+          "arc_length_predictor_sign": null,
+          "arc_length_radius": null,
+          "assembly_seconds": 0.0014398999919649214,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.03179347826086956,
+          "element_cache_hits": 2,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 2,
+          "element_kernel_seconds": 0.0005536999960895628,
+          "element_scatter_seconds": 0.00024399999529123306,
+          "element_setup_seconds": 1.600012183189392e-06,
+          "equivalent_plastic_strain_max": 0.026086956521739122,
+          "failure_reason": null,
+          "incremental_external_work": 0.13909646739130432,
+          "incremental_internal_work": 0.13909646739130432,
+          "iterations": 1,
+          "last_correction_norm": 0.03179347826086956,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0005718999891541898,
+          "linear_solve_seconds": 0.001040400005877018,
+          "load_factor": 0.625,
+          "load_increment": 0.375,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.1481568998109641,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 0.0,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            3.75,
+            0.0
+          ],
+          "residual_initial": 3.75,
+          "residual_norm": 0.0,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0003400000277906656,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 2,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": true
+        },
+        {
+          "arc_length_branch_direction": null,
+          "arc_length_constraint_residual": null,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": null,
+          "arc_length_predictor_sign": null,
+          "arc_length_radius": null,
+          "assembly_seconds": 0.0015180999762378633,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.03179347826086956,
+          "element_cache_hits": 2,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 2,
+          "element_kernel_seconds": 0.0005088000034447759,
+          "element_scatter_seconds": 0.000294400000711903,
+          "element_setup_seconds": 1.500011421740055e-06,
+          "equivalent_plastic_strain_max": 0.04565217391304348,
+          "failure_reason": null,
+          "incremental_external_work": 0.2583220108695652,
+          "incremental_internal_work": 0.25832201086956513,
+          "iterations": 1,
+          "last_correction_norm": 0.03179347826086956,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0006773999775759876,
+          "linear_solve_seconds": 0.0012208000116515905,
+          "load_factor": 1.0,
+          "load_increment": 0.375,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.31616257088846944,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 1.7763568394002506e-16,
+          "relative_work_imbalance": 2.148912941812269e-16,
+          "residual_history": [
+            3.7500000000000018,
+            1.7763568394002505e-15
+          ],
+          "residual_initial": 3.7500000000000018,
+          "residual_norm": 1.7763568394002505e-15,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0003992999845650047,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 3,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": true
+        }
+      ],
+      "state_digest": "93223a792cece1c15944cf70ad8d6798361a2f77e9abfb57e3236b9c7a1ec5de",
+      "status": "PASS"
+    },
+    {
+      "accepted_step_count": 3,
+      "analysis": "geometric_nonlinear_static",
+      "arc_radius_history": [
+        null,
+        null,
+        null
+      ],
+      "checkpoint_files": [],
+      "continuation_state_observation": {
+        "arc_length_radius": [
+          null,
+          null,
+          null
+        ],
+        "load_factors": [
+          0.25,
+          0.625,
+          1.0
+        ]
+      },
+      "cutback_count": 0,
+      "displacements": [
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 0
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 1
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 2
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 3
+        },
+        {
+          "dofs": {
+            "UX": -8.325456778819536e-06,
+            "UY": 4.003217190794511e-06,
+            "UZ": -2.9918132433212976e-05
+          },
+          "node": 4
+        },
+        {
+          "dofs": {
+            "UX": 1.064197712643729e-05,
+            "UY": 2.644649298511038e-06,
+            "UZ": -2.8775335512490574e-05
+          },
+          "node": 5
+        },
+        {
+          "dofs": {
+            "UX": -1.051610210283892e-05,
+            "UY": 3.978783359430716e-06,
+            "UZ": -2.8215443688609622e-05
+          },
+          "node": 6
+        },
+        {
+          "dofs": {
+            "UX": 7.011948794204318e-06,
+            "UY": 2.136027092165014e-06,
+            "UZ": -2.680946830711943e-05
+          },
+          "node": 7
+        },
+        {
+          "dofs": {
+            "UX": -1.1283516182227556e-05,
+            "UY": 1.070414401390979e-05,
+            "UZ": -8.321519514741508e-05
+          },
+          "node": 8
+        },
+        {
+          "dofs": {
+            "UX": 1.2483778428250463e-05,
+            "UY": 8.753612801393916e-06,
+            "UZ": -8.206147734333681e-05
+          },
+          "node": 9
+        },
+        {
+          "dofs": {
+            "UX": -1.54793628881087e-05,
+            "UY": 1.0516635636204381e-05,
+            "UZ": -8.104507539487122e-05
+          },
+          "node": 10
+        },
+        {
+          "dofs": {
+            "UX": 8.943308967120941e-06,
+            "UY": 8.400339936829793e-06,
+            "UZ": -7.972937225889967e-05
+          },
+          "node": 11
+        }
+      ],
+      "equilibrium": {},
+      "load_factor": 1.0,
+      "load_factor_history": [
+        0.25,
+        0.625,
+        1.0
+      ],
+      "material_states": [],
+      "method": "newton_raphson",
+      "name": "adaptive_geometric_tet4",
+      "newton_iteration_count": 9,
+      "rejected_increment_count": 0,
+      "rejection_log": [],
+      "residual_histories": [
+        [
+          0.125,
+          7.852836849108162e-05,
+          8.645578821581815e-11
+        ],
+        [
+          0.18749999999999936,
+          0.00017668724036051575,
+          1.1693660873391628e-10
+        ],
+        [
+          0.18749999999999623,
+          0.00017668477138028325,
+          1.0905280515770704e-10
+        ]
+      ],
+      "solver_steps": [
+        {
+          "assembly_seconds": 0.0026799000042956322,
+          "diagnostics": {
+            "assembly_seconds": 0.0026799000042956322,
+            "backend": "scipy.sparse.linalg.spsolve",
+            "converged": true,
+            "iterations": 3,
+            "line_search_iterations": 0,
+            "line_search_seconds": 0.00048590003279969096,
+            "linear_solve_seconds": 0.0005073999927844852,
+            "linear_system_diagnostics": [],
+            "reason": null,
+            "relative_residual": 8.645578821581815e-11,
+            "residual_final": 8.645578821581815e-11,
+            "residual_history": [
+              0.125,
+              7.852836849108162e-05,
+              8.645578821581815e-11
+            ],
+            "residual_initial": 0.125,
+            "robustness_options": null,
+            "solver": "full_newton",
+            "tolerance": 1e-09
+          },
+          "increment": 1,
+          "iterations": 3,
+          "line_search_seconds": 0.00048590003279969096,
+          "linear_solve_seconds": 0.0005073999927844852,
+          "load_factor": 0.25,
+          "load_increment": 0.25,
+          "load_step_cutbacks": 0,
+          "minimum_det_f": 0.9999922968082129,
+          "relative_residual": 8.645578821581815e-11,
+          "residual_final": 8.645578821581815e-11,
+          "residual_history": [
+            0.125,
+            7.852836849108162e-05,
+            8.645578821581815e-11
+          ],
+          "residual_initial": 0.125,
+          "state_committed": true
+        },
+        {
+          "assembly_seconds": 0.0024170999822672457,
+          "diagnostics": {
+            "assembly_seconds": 0.0024170999822672457,
+            "backend": "scipy.sparse.linalg.spsolve",
+            "converged": true,
+            "iterations": 3,
+            "line_search_iterations": 0,
+            "line_search_seconds": 0.00046060001477599144,
+            "linear_solve_seconds": 0.00039350002771243453,
+            "linear_system_diagnostics": [],
+            "reason": null,
+            "relative_residual": 1.1693660873391628e-10,
+            "residual_final": 1.1693660873391628e-10,
+            "residual_history": [
+              0.18749999999999936,
+              0.00017668724036051575,
+              1.1693660873391628e-10
+            ],
+            "residual_initial": 0.18749999999999936,
+            "robustness_options": null,
+            "solver": "full_newton",
+            "tolerance": 1e-09
+          },
+          "increment": 2,
+          "iterations": 3,
+          "line_search_seconds": 0.00046060001477599144,
+          "linear_solve_seconds": 0.00039350002771243453,
+          "load_factor": 0.625,
+          "load_increment": 0.375,
+          "load_step_cutbacks": 0,
+          "minimum_det_f": 0.9999922968082129,
+          "relative_residual": 1.1693660873391628e-10,
+          "residual_final": 1.1693660873391628e-10,
+          "residual_history": [
+            0.18749999999999936,
+            0.00017668724036051575,
+            1.1693660873391628e-10
+          ],
+          "residual_initial": 0.18749999999999936,
+          "state_committed": true
+        },
+        {
+          "assembly_seconds": 0.0024409000179730356,
+          "diagnostics": {
+            "assembly_seconds": 0.0024409000179730356,
+            "backend": "scipy.sparse.linalg.spsolve",
+            "converged": true,
+            "iterations": 3,
+            "line_search_iterations": 0,
+            "line_search_seconds": 0.0004633000062312931,
+            "linear_solve_seconds": 0.00038119996315799654,
+            "linear_system_diagnostics": [],
+            "reason": null,
+            "relative_residual": 1.0905280515770704e-10,
+            "residual_final": 1.0905280515770704e-10,
+            "residual_history": [
+              0.18749999999999623,
+              0.00017668477138028325,
+              1.0905280515770704e-10
+            ],
+            "residual_initial": 0.18749999999999623,
+            "robustness_options": null,
+            "solver": "full_newton",
+            "tolerance": 1e-09
+          },
+          "increment": 3,
+          "iterations": 3,
+          "line_search_seconds": 0.0004633000062312931,
+          "linear_solve_seconds": 0.00038119996315799654,
+          "load_factor": 1.0,
+          "load_increment": 0.375,
+          "load_step_cutbacks": 0,
+          "minimum_det_f": 0.9999922968082129,
+          "relative_residual": 1.0905280515770704e-10,
+          "residual_final": 1.0905280515770704e-10,
+          "residual_history": [
+            0.18749999999999623,
+            0.00017668477138028325,
+            1.0905280515770704e-10
+          ],
+          "residual_initial": 0.18749999999999623,
+          "state_committed": true
+        }
+      ],
+      "state_digest": "62eaa037731c8ac4fb2034e66c8ad8e3d144b3a8ee22f9347b5845455128cc7d",
+      "status": "success"
+    },
+    {
+      "accepted_step_count": 3,
+      "analysis": "geometric_nonlinear_static",
+      "arc_radius_history": [
+        null,
+        null,
+        null
+      ],
+      "checkpoint_files": [],
+      "continuation_state_observation": {
+        "arc_length_radius": [
+          null,
+          null,
+          null
+        ],
+        "load_factors": [
+          0.25,
+          0.625,
+          1.0
+        ]
+      },
+      "cutback_count": 0,
+      "displacements": [
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 0
+        },
+        {
+          "dofs": {
+            "UX": 9.099987312674398e-07,
+            "UY": 1.9499983163445188e-07,
+            "UZ": 1.9499983163445183e-07
+          },
+          "node": 1
+        },
+        {
+          "dofs": {
+            "UX": 9.099987312674397e-07,
+            "UY": -1.9499983163445175e-07,
+            "UZ": 1.9499983163445183e-07
+          },
+          "node": 2
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 3
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 4
+        },
+        {
+          "dofs": {
+            "UX": 9.099987312674398e-07,
+            "UY": 1.9499983163445183e-07,
+            "UZ": -1.9499983163445177e-07
+          },
+          "node": 5
+        },
+        {
+          "dofs": {
+            "UX": 9.099987312674396e-07,
+            "UY": -1.9499983163445172e-07,
+            "UZ": -1.9499983163445177e-07
+          },
+          "node": 6
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 7
+        }
+      ],
+      "equilibrium": {},
+      "load_factor": 1.0,
+      "load_factor_history": [
+        0.25,
+        0.625,
+        1.0
+      ],
+      "material_states": [],
+      "method": "newton_raphson",
+      "name": "adaptive_geometric_hex8",
+      "newton_iteration_count": 9,
+      "rejected_increment_count": 0,
+      "rejection_log": [],
+      "residual_histories": [
+        [
+          0.125,
+          4.892086048554372e-08,
+          3.842495564209301e-11
+        ],
+        [
+          0.18749999996568606,
+          1.0986339561629592e-07,
+          6.715124579489844e-11
+        ],
+        [
+          0.18750000004470072,
+          1.1005797227555922e-07,
+          3.463367157945928e-11
+        ]
+      ],
+      "solver_steps": [
+        {
+          "assembly_seconds": 0.010020400019129738,
+          "diagnostics": {
+            "assembly_seconds": 0.010020400019129738,
+            "backend": "scipy.sparse.linalg.spsolve",
+            "converged": true,
+            "iterations": 3,
+            "line_search_iterations": 0,
+            "line_search_seconds": 0.000759299990022555,
+            "linear_solve_seconds": 0.00039530001231469214,
+            "linear_system_diagnostics": [],
+            "reason": null,
+            "relative_residual": 3.842495564209301e-11,
+            "residual_final": 3.842495564209301e-11,
+            "residual_history": [
+              0.125,
+              4.892086048554372e-08,
+              3.842495564209301e-11
+            ],
+            "residual_initial": 0.125,
+            "robustness_options": null,
+            "solver": "full_newton",
+            "tolerance": 1e-09
+          },
+          "increment": 1,
+          "iterations": 3,
+          "line_search_seconds": 0.000759299990022555,
+          "linear_solve_seconds": 0.00039530001231469214,
+          "load_factor": 0.25,
+          "load_increment": 0.25,
+          "load_step_cutbacks": 0,
+          "minimum_det_f": 1.0000002948321922,
+          "relative_residual": 3.842495564209301e-11,
+          "residual_final": 3.842495564209301e-11,
+          "residual_history": [
+            0.125,
+            4.892086048554372e-08,
+            3.842495564209301e-11
+          ],
+          "residual_initial": 0.125,
+          "state_committed": true
+        },
+        {
+          "assembly_seconds": 0.009930800006259233,
+          "diagnostics": {
+            "assembly_seconds": 0.009930800006259233,
+            "backend": "scipy.sparse.linalg.spsolve",
+            "converged": true,
+            "iterations": 3,
+            "line_search_iterations": 0,
+            "line_search_seconds": 0.0007534000324085355,
+            "linear_solve_seconds": 0.00040989997796714306,
+            "linear_system_diagnostics": [],
+            "reason": null,
+            "relative_residual": 6.715124579489844e-11,
+            "residual_final": 6.715124579489844e-11,
+            "residual_history": [
+              0.18749999996568606,
+              1.0986339561629592e-07,
+              6.715124579489844e-11
+            ],
+            "residual_initial": 0.18749999996568606,
+            "robustness_options": null,
+            "solver": "full_newton",
+            "tolerance": 1e-09
+          },
+          "increment": 2,
+          "iterations": 3,
+          "line_search_seconds": 0.0007534000324085355,
+          "linear_solve_seconds": 0.00040989997796714306,
+          "load_factor": 0.625,
+          "load_increment": 0.375,
+          "load_step_cutbacks": 0,
+          "minimum_det_f": 1.0000002948321922,
+          "relative_residual": 6.715124579489844e-11,
+          "residual_final": 6.715124579489844e-11,
+          "residual_history": [
+            0.18749999996568606,
+            1.0986339561629592e-07,
+            6.715124579489844e-11
+          ],
+          "residual_initial": 0.18749999996568606,
+          "state_committed": true
+        },
+        {
+          "assembly_seconds": 0.010350299999117851,
+          "diagnostics": {
+            "assembly_seconds": 0.010350299999117851,
+            "backend": "scipy.sparse.linalg.spsolve",
+            "converged": true,
+            "iterations": 3,
+            "line_search_iterations": 0,
+            "line_search_seconds": 0.0008411000308115035,
+            "linear_solve_seconds": 0.0005373000167310238,
+            "linear_system_diagnostics": [],
+            "reason": null,
+            "relative_residual": 3.463367157945928e-11,
+            "residual_final": 3.463367157945928e-11,
+            "residual_history": [
+              0.18750000004470072,
+              1.1005797227555922e-07,
+              3.463367157945928e-11
+            ],
+            "residual_initial": 0.18750000004470072,
+            "robustness_options": null,
+            "solver": "full_newton",
+            "tolerance": 1e-09
+          },
+          "increment": 3,
+          "iterations": 3,
+          "line_search_seconds": 0.0008411000308115035,
+          "linear_solve_seconds": 0.0005373000167310238,
+          "load_factor": 1.0,
+          "load_increment": 0.375,
+          "load_step_cutbacks": 0,
+          "minimum_det_f": 1.0000002948321922,
+          "relative_residual": 3.463367157945928e-11,
+          "residual_final": 3.463367157945928e-11,
+          "residual_history": [
+            0.18750000004470072,
+            1.1005797227555922e-07,
+            3.463367157945928e-11
+          ],
+          "residual_initial": 0.18750000004470072,
+          "state_committed": true
+        }
+      ],
+      "state_digest": "067a2ca85f6f772786e42928070c738c94af1186ac303f4a91331f3d87edc61f",
+      "status": "success"
+    },
+    {
+      "name": "adaptive_penalty_contact",
+      "reason": "analysis.load_path is not yet compatible with adaptive_load_steps.",
+      "status": "NOT_SUPPORTED_AT_BASELINE"
+    },
+    {
+      "accepted_step_count": 9,
+      "analysis": "nonlinear_static",
+      "arc_radius_history": [
+        0.014142135623730952,
+        0.014142135623730952,
+        0.014142135623730952,
+        0.014142135623730952,
+        0.001767766952966369,
+        0.00022097086912079613,
+        2.7621358640099516e-05,
+        3.4526698300124396e-06,
+        2.268300990568405e-06
+      ],
+      "checkpoint_files": [],
+      "continuation_state_observation": {
+        "arc_length_radius": [
+          0.014142135623730952,
+          0.014142135623730952,
+          0.014142135623730952,
+          0.014142135623730952,
+          0.001767766952966369,
+          0.00022097086912079613,
+          2.7621358640099516e-05,
+          3.4526698300124396e-06,
+          2.268300990568405e-06
+        ],
+        "load_factors": [
+          0.2072856400927547,
+          0.44138974588258245,
+          0.6961187172838063,
+          0.9615244966847448,
+          0.9951552316449446,
+          0.9993647230762978,
+          0.9998909954769123,
+          0.9999567808659118,
+          1.0
+        ]
+      },
+      "cutback_count": 0,
+      "displacements": [
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 0
+        },
+        {
+          "dofs": {
+            "UX": 0.029216734657660254,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 1
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 2
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 3
+        }
+      ],
+      "equilibrium": {
+        "displacement_norm": 0.029216734657660254,
+        "external_load_norm": 10.0,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "external_resultant": [
+          10.0,
+          0.0,
+          0.0
+        ],
+        "external_work_at_final_load": 0.29216734657660254,
+        "fixed_reaction_norm": 10.731981357394531,
+        "force_balance_relative_error": 6.945521486451004e-10,
+        "force_imbalance": [
+          -6.945521491275031e-09,
+          0.0,
+          0.0
+        ],
+        "free_relative_residual": 6.94552149127503e-10,
+        "free_residual_norm": 6.945521491275031e-09,
+        "ground_spring_reaction_norm": 0.0,
+        "internal_force_norm": 14.668858987473232,
+        "linear_energy_identity_relative_error": 2.029254542179615e-10,
+        "load_factor": 1.0,
+        "moment_balance_relative_error": 0.0,
+        "moment_imbalance_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reaction_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reaction_resultant": [
+          -10.000000006945521,
+          0.0,
+          0.0
+        ],
+        "reactions": [
+          {
+            "dof": "UX",
+            "index": 0,
+            "node": 0,
+            "value": -10.000000006945521
+          },
+          {
+            "dof": "UY",
+            "index": 1,
+            "node": 0,
+            "value": -1.9477823105106835
+          },
+          {
+            "dof": "UZ",
+            "index": 2,
+            "node": 0,
+            "value": -1.9477823105106835
+          },
+          {
+            "dof": "UX",
+            "index": 6,
+            "node": 2,
+            "value": 0.0
+          },
+          {
+            "dof": "UY",
+            "index": 7,
+            "node": 2,
+            "value": 1.9477823105106835
+          },
+          {
+            "dof": "UZ",
+            "index": 8,
+            "node": 2,
+            "value": 0.0
+          },
+          {
+            "dof": "UX",
+            "index": 9,
+            "node": 3,
+            "value": 0.0
+          },
+          {
+            "dof": "UY",
+            "index": 10,
+            "node": 3,
+            "value": 0.0
+          },
+          {
+            "dof": "UZ",
+            "index": 11,
+            "node": 3,
+            "value": 1.9477823105106835
+          }
+        ],
+        "secant_internal_energy": 0.146083673389764,
+        "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs"
+      },
+      "load_factor": 1.0,
+      "load_factor_history": [
+        0.2072856400927547,
+        0.44138974588258245,
+        0.6961187172838063,
+        0.9615244966847448,
+        0.9951552316449446,
+        0.9993647230762978,
+        0.9998909954769123,
+        0.9999567808659118,
+        1.0
+      ],
+      "material_states": [],
+      "method": "arc_length",
+      "name": "arc_length_monotonic",
+      "newton_iteration_count": 19,
+      "rejected_increment_count": 12,
+      "rejection_log": [
+        {
+          "base_load_factor": 0.9615244966847448,
+          "failure_diagnostics": {
+            "load_factor": 1.0000545541669017,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.014142135623730952,
+          "rejected_radius": 0.00202492294697891,
+          "retry_radius": 0.007071067811865476,
+          "rollback_before_retry": true,
+          "step": 5
+        },
+        {
+          "base_load_factor": 0.9615244966847448,
+          "failure_diagnostics": {
+            "load_factor": 1.0000545541669017,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.007071067811865476,
+          "rejected_radius": 0.00202492294697891,
+          "retry_radius": 0.003535533905932738,
+          "rollback_before_retry": true,
+          "step": 5
+        },
+        {
+          "base_load_factor": 0.9615244966847448,
+          "failure_diagnostics": {
+            "load_factor": 1.0000545541669017,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.003535533905932738,
+          "rejected_radius": 0.00202492294697891,
+          "retry_radius": 0.001767766952966369,
+          "rollback_before_retry": true,
+          "step": 5
+        },
+        {
+          "base_load_factor": 0.9951552316449446,
+          "failure_diagnostics": {
+            "load_factor": 1.0000008134865979,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.001767766952966369,
+          "rejected_radius": 0.0002543558510563173,
+          "retry_radius": 0.0008838834764831845,
+          "rollback_before_retry": true,
+          "step": 6
+        },
+        {
+          "base_load_factor": 0.9951552316449446,
+          "failure_diagnostics": {
+            "load_factor": 1.0000008134865979,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.0008838834764831845,
+          "rejected_radius": 0.0002543558510563173,
+          "retry_radius": 0.00044194173824159226,
+          "rollback_before_retry": true,
+          "step": 6
+        },
+        {
+          "base_load_factor": 0.9951552316449446,
+          "failure_diagnostics": {
+            "load_factor": 1.0000008134865979,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.00044194173824159226,
+          "rejected_radius": 0.0002543558510563173,
+          "retry_radius": 0.00022097086912079613,
+          "rollback_before_retry": true,
+          "step": 6
+        },
+        {
+          "base_load_factor": 0.9993647230762978,
+          "failure_diagnostics": {
+            "load_factor": 1.0000000138815217,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.00022097086912079613,
+          "rejected_radius": 3.3343054554869305e-05,
+          "retry_radius": 0.00011048543456039807,
+          "rollback_before_retry": true,
+          "step": 7
+        },
+        {
+          "base_load_factor": 0.9993647230762978,
+          "failure_diagnostics": {
+            "load_factor": 1.0000000138815217,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.00011048543456039807,
+          "rejected_radius": 3.3343054554869305e-05,
+          "retry_radius": 5.524271728019903e-05,
+          "rollback_before_retry": true,
+          "step": 7
+        },
+        {
+          "base_load_factor": 0.9993647230762978,
+          "failure_diagnostics": {
+            "load_factor": 1.0000000138815217,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 5.524271728019903e-05,
+          "rejected_radius": 3.3343054554869305e-05,
+          "retry_radius": 2.7621358640099516e-05,
+          "rollback_before_retry": true,
+          "step": 7
+        },
+        {
+          "base_load_factor": 0.9998909954769123,
+          "failure_diagnostics": {
+            "load_factor": 1.000000000408309,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 2.7621358640099516e-05,
+          "rejected_radius": 5.720988881309117e-06,
+          "retry_radius": 1.3810679320049758e-05,
+          "rollback_before_retry": true,
+          "step": 8
+        },
+        {
+          "base_load_factor": 0.9998909954769123,
+          "failure_diagnostics": {
+            "load_factor": 1.000000000408309,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 1.3810679320049758e-05,
+          "rejected_radius": 5.720988881309117e-06,
+          "retry_radius": 6.905339660024879e-06,
+          "rollback_before_retry": true,
+          "step": 8
+        },
+        {
+          "base_load_factor": 0.9998909954769123,
+          "failure_diagnostics": {
+            "load_factor": 1.000000000408309,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 6.905339660024879e-06,
+          "rejected_radius": 5.720988881309117e-06,
+          "retry_radius": 3.4526698300124396e-06,
+          "rollback_before_retry": true,
+          "step": 8
+        }
+      ],
+      "residual_histories": [
+        [
+          0.16666666666666674,
+          0.000677403512336916,
+          2.8469081403414975e-07,
+          3.774758283725532e-14
+        ],
+        [
+          0.5004444966471588,
+          0.007996574790641198,
+          1.5193322899342832e-05,
+          5.7686300181103434e-11
+        ],
+        [
+          0.4806261602913251,
+          0.007444934297986094,
+          6.747489722513933e-06,
+          7.387868095065642e-12
+        ],
+        [
+          0.37614877404267766,
+          0.0040915570138171375,
+          1.330852557046569e-06,
+          2.0961010704922955e-13
+        ],
+        [
+          0.004379973009497107,
+          5.864179222214716e-07,
+          3.197442310920451e-13
+        ],
+        [
+          6.62190202511681e-05,
+          1.3428014256078313e-10,
+          0.0
+        ],
+        [
+          1.0304771453917283e-06,
+          3.552713678800501e-14,
+          3.552713678800501e-15
+        ],
+        [
+          1.6093041566023203e-08,
+          1.7763568394002505e-15
+        ],
+        [
+          6.945521491275031e-09
+        ]
+      ],
+      "solver_steps": [
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 1.2007539060276962e-17,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": null,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.014142135623730952,
+          "assembly_seconds": 0.0016385999915655702,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 5,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 5,
+          "element_kernel_seconds": 0.0004945999826304615,
+          "element_scatter_seconds": 0.0006021999870426953,
+          "element_setup_seconds": 3.700028173625469e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 3,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.006458200019551441,
+          "load_factor": 0.2072856400927547,
+          "load_increment": 0.2072856400927547,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 6.003769530138478e-14,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            0.16666666666666674,
+            0.000677403512336916,
+            2.8469081403414975e-07,
+            3.774758283725532e-14
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 3.774758283725532e-14,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0008742999925743788,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 1,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 1.1137006030934038e-14,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 0.0001976806291203155,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.014142135623730952,
+          "assembly_seconds": 0.0016331999795511365,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 5,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 5,
+          "element_kernel_seconds": 0.0005101999850012362,
+          "element_scatter_seconds": 0.0006181999633554369,
+          "element_setup_seconds": 3.5999983083456755e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 3,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0035534999624360353,
+          "load_factor": 0.44138974588258245,
+          "load_increment": 0.23410410578982774,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 5.568503015467017e-11,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            0.5004444966471588,
+            0.007996574790641198,
+            1.5193322899342832e-05,
+            5.7686300181103434e-11
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 5.7686300181103434e-11,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0008773000445216894,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 2,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 1.315354075659414e-15,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 0.00019786670051574702,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.014142135623730952,
+          "assembly_seconds": 0.001594900037162006,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 5,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 5,
+          "element_kernel_seconds": 0.00047619998804293573,
+          "element_scatter_seconds": 0.0006270000012591481,
+          "element_setup_seconds": 3.6999990697950125e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 3,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.003413500002352521,
+          "load_factor": 0.6961187172838063,
+          "load_increment": 0.2547289714012238,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 6.5767703782970675e-12,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            0.4806261602913251,
+            0.007444934297986094,
+            6.747489722513933e-06,
+            7.387868095065642e-12
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 7.387868095065642e-12,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0008794999739620835,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 3,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 4.0766001685454967e-17,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 0.00019906613281558993,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.014142135623730952,
+          "assembly_seconds": 0.0016305000171996653,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 5,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 5,
+          "element_kernel_seconds": 0.0005053000058978796,
+          "element_scatter_seconds": 0.0006365999870467931,
+          "element_setup_seconds": 3.500026650726795e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 3,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.003425699978834018,
+          "load_factor": 0.9615244966847448,
+          "load_increment": 0.26540577940093857,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 2.0383000842727476e-13,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            0.37614877404267766,
+            0.0040915570138171375,
+            1.330852557046569e-06,
+            2.0961010704922955e-13
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 2.0961010704922955e-13,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0008776999020483345,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 4,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 1.5974448462153026e-16,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 2.498065694956709e-05,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.001767766952966369,
+          "assembly_seconds": 0.0013055000163149089,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.0003881000156980008,
+          "element_scatter_seconds": 0.0004946999833919108,
+          "element_setup_seconds": 2.8999929782003164e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.002605799993034452,
+          "load_factor": 0.9951552316449446,
+          "load_increment": 0.03363073496019975,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 5.1118235078889665e-11,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            0.004379973009497107,
+            5.864179222214716e-07,
+            3.197442310920451e-13
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 3.197442310920451e-13,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0007120000082068145,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 5,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 1.0058516248644817e-21,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 3.9062160303012534e-07,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.00022097086912079613,
+          "assembly_seconds": 0.0013188000302761793,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.0004102000093553215,
+          "element_scatter_seconds": 0.0005167000344954431,
+          "element_setup_seconds": 2.9999646358191967e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0026402999937999994,
+          "load_factor": 0.9993647230762978,
+          "load_increment": 0.004209491431353185,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 2.0599841277224578e-14,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            6.62190202511681e-05,
+            1.3428014256078313e-10,
+            0.0
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 0.0,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0007108999998308718,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 6,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": -9.026608434484915e-23,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 6.1035148267955205e-09,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 2.7621358640099516e-05,
+          "assembly_seconds": 0.0013233000063337386,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.0004515000036917627,
+          "element_scatter_seconds": 0.0004861000052187592,
+          "element_setup_seconds": 3.100023604929447e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0027793999761343002,
+          "load_factor": 0.9998909954769123,
+          "load_increment": 0.0005262724006145358,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 1.1831356207248065e-13,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            1.0304771453917283e-06,
+            3.552713678800501e-14,
+            3.552713678800501e-15
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 3.552713678800501e-15,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0006784999859519303,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 7,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 6.099148392000126e-22,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 9.53674314491066e-11,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 3.4526698300124396e-06,
+          "assembly_seconds": 0.0009768999880179763,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 3,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 3,
+          "element_kernel_seconds": 0.000308599992422387,
+          "element_scatter_seconds": 0.00036940001882612705,
+          "element_setup_seconds": 2.300017513334751e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 1,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.002036400022916496,
+          "load_factor": 0.9999567808659118,
+          "load_increment": 6.578538899948416e-05,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 5.1163364994319374e-11,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            1.6093041566023203e-08,
+            1.7763568394002505e-15
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 1.7763568394002505e-15,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0005167000635992736,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 8,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": -2.115611351832402e-24,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 7.831694395525078e-12,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 2.268300990568405e-06,
+          "assembly_seconds": 0.0006375999946612865,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 2,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 2,
+          "element_kernel_seconds": 0.00019329998758621514,
+          "element_scatter_seconds": 0.00024430002667941153,
+          "element_setup_seconds": 1.5999830793589354e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 0,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0010260000126436353,
+          "load_factor": 1.0,
+          "load_increment": 4.3219134088223754e-05,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 6.94552149127503e-10,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            6.945521491275031e-09
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 6.945521491275031e-09,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.00034779999987222254,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 9,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        }
+      ],
+      "state_digest": "95fbc95987fd1149907a9a29f13323abad702fa7606f0b9b99d52efbb46fa164",
+      "status": "PASS"
+    },
+    {
+      "accepted_step_count": 6,
+      "analysis": "nonlinear_static",
+      "arc_radius_history": [
+        0.05,
+        0.008156919785890518,
+        5.54180953379408e-05,
+        0.000110830181582989,
+        0.00022163641804107242,
+        0.000443177779895708
+      ],
+      "checkpoint_files": [],
+      "continuation_state_observation": {
+        "arc_length_radius": [
+          0.05,
+          0.008156919785890518,
+          5.54180953379408e-05,
+          0.000110830181582989,
+          0.00022163641804107242,
+          0.000443177779895708
+        ],
+        "load_factors": [
+          0.8465484148039244,
+          1.0010559898383413,
+          1.0021120178694192,
+          1.0042241880404519,
+          1.008448981555829,
+          1.0169003555249327
+        ]
+      },
+      "cutback_count": 0,
+      "displacements": [
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 0
+        },
+        {
+          "dofs": {
+            "UX": 0.029484681642296437,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 1
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 2
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 3
+        }
+      ],
+      "equilibrium": {
+        "displacement_norm": 0.029484681642296437,
+        "external_load_norm": 10.169003555249327,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "external_resultant": [
+          10.169003555249327,
+          0.0,
+          0.0
+        ],
+        "external_work_at_final_load": 0.29982983244590705,
+        "fixed_reaction_norm": 10.902462168436355,
+        "force_balance_relative_error": 3.4936694234574816e-16,
+        "force_imbalance": [
+          -3.552713678800501e-15,
+          0.0,
+          0.0
+        ],
+        "free_relative_residual": 3.4936694234574826e-16,
+        "free_residual_norm": 3.552713678800501e-15,
+        "ground_spring_reaction_norm": 0.0,
+        "internal_force_norm": 14.908799906124553,
+        "linear_energy_identity_relative_error": 1.1102230246251565e-16,
+        "load_factor": 1.0169003555249327,
+        "moment_balance_relative_error": 0.0,
+        "moment_imbalance_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reaction_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reaction_resultant": [
+          -10.169003555249331,
+          0.0,
+          0.0
+        ],
+        "reactions": [
+          {
+            "dof": "UX",
+            "index": 0,
+            "node": 0,
+            "value": -10.169003555249331
+          },
+          {
+            "dof": "UY",
+            "index": 1,
+            "node": 0,
+            "value": -1.9656454428197625
+          },
+          {
+            "dof": "UZ",
+            "index": 2,
+            "node": 0,
+            "value": -1.9656454428197625
+          },
+          {
+            "dof": "UX",
+            "index": 6,
+            "node": 2,
+            "value": 0.0
+          },
+          {
+            "dof": "UY",
+            "index": 7,
+            "node": 2,
+            "value": 1.9656454428197625
+          },
+          {
+            "dof": "UZ",
+            "index": 8,
+            "node": 2,
+            "value": 0.0
+          },
+          {
+            "dof": "UX",
+            "index": 9,
+            "node": 3,
+            "value": 0.0
+          },
+          {
+            "dof": "UY",
+            "index": 10,
+            "node": 3,
+            "value": 0.0
+          },
+          {
+            "dof": "UZ",
+            "index": 11,
+            "node": 3,
+            "value": 1.9656454428197625
+          }
+        ],
+        "secant_internal_energy": 0.14991491622295358,
+        "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs"
+      },
+      "load_factor": 1.0169003555249327,
+      "load_factor_history": [
+        0.8465484148039244,
+        1.0010559898383413,
+        1.0021120178694192,
+        1.0042241880404519,
+        1.008448981555829,
+        1.0169003555249327
+      ],
+      "material_states": [],
+      "method": "arc_length",
+      "name": "arc_length_turning_point",
+      "newton_iteration_count": 15,
+      "rejected_increment_count": 0,
+      "rejection_log": [],
+      "residual_histories": [
+        [
+          7.365695637359871,
+          0.8510143723502921,
+          0.031128274031367198,
+          3.833226384131194e-05,
+          5.88897819397971e-11
+        ],
+        [
+          0.10556723927237854,
+          0.0003299011034698651,
+          1.3134066279008039e-08,
+          0.0
+        ],
+        [
+          4.142884886704223e-06,
+          5.222489107836736e-13,
+          1.7763568394002505e-15
+        ],
+        [
+          1.6558862981241873e-05,
+          8.37196978409338e-12,
+          1.7763568394002505e-15
+        ],
+        [
+          6.613417857970205e-05,
+          1.3312728697201237e-10,
+          0.0
+        ],
+        [
+          0.0002637287620501638,
+          2.104011187498145e-09,
+          3.552713678800501e-15
+        ]
+      ],
+      "solver_steps": [
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 4.478622334103122e-15,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": null,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.05,
+          "assembly_seconds": 0.0019115999748464674,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 6,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 6,
+          "element_kernel_seconds": 0.0005781000363640487,
+          "element_scatter_seconds": 0.0007174999918788671,
+          "element_setup_seconds": 4.499946953728795e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 4,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.004130100016482174,
+          "load_factor": 0.8465484148039244,
+          "load_increment": 0.8465484148039244,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 5.88897819397971e-12,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            7.365695637359871,
+            0.8510143723502921,
+            0.031128274031367198,
+            3.833226384131194e-05,
+            5.88897819397971e-11
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 5.88897819397971e-11,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0010195000504609197,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 1,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 4.0657581468206416e-20,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 0.0003966746553375291,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.008156919785890518,
+          "assembly_seconds": 0.001646499993512407,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 5,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 5,
+          "element_kernel_seconds": 0.0005044999998062849,
+          "element_scatter_seconds": 0.000620899983914569,
+          "element_setup_seconds": 3.7999998312443495e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 3,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0038376000011339784,
+          "load_factor": 1.0010559898383413,
+          "load_increment": 0.15450757503441692,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 6.110674602065696e-16,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            0.10556723927237854,
+            0.0003299011034698651,
+            1.3134066279008039e-08,
+            0.0
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 0.0,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0008807000704109669,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 2,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 5.008578609008583e-22,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 4.519660008799262e-07,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 5.54180953379408e-05,
+          "assembly_seconds": 0.0012855000095441937,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.0003981000045314431,
+          "element_scatter_seconds": 0.0004765000194311142,
+          "element_setup_seconds": 2.7999922167509794e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0026328999956604093,
+          "load_factor": 1.0021120178694192,
+          "load_increment": 0.0010560280310778491,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 1.6308398065950833e-13,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            4.142884886704223e-06,
+            5.222489107836736e-13,
+            1.7763568394002505e-15
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 1.7763568394002505e-15,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0006964999774936587,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 3,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": -5.293955920339377e-23,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 6.141997214617347e-09,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.000110830181582989,
+          "assembly_seconds": 0.001268000021809712,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.0003825000021606684,
+          "element_scatter_seconds": 0.00047950001317076385,
+          "element_setup_seconds": 2.8999929782003164e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.002647899993462488,
+          "load_factor": 1.0042241880404519,
+          "load_increment": 0.0021121701710327123,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 4.30987060251559e-15,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            1.6558862981241873e-05,
+            8.37196978409338e-12,
+            1.7763568394002505e-15
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 1.7763568394002505e-15,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.000695999973686412,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 4,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 2.2499312661442353e-21,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 2.4563998825184556e-08,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.00022163641804107242,
+          "assembly_seconds": 0.0014598000270780176,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.00043119999463669956,
+          "element_scatter_seconds": 0.0005738000036217272,
+          "element_setup_seconds": 3.0999945010989904e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0026567999739199877,
+          "load_factor": 1.008448981555829,
+          "load_increment": 0.00422479351537719,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 4.5802270306905293e-14,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            6.613417857970205e-05,
+            1.3312728697201237e-10,
+            0.0
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 0.0,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0008049999596551061,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 5,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 2.7157993871341005e-20,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 9.822424694110014e-08,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.000443177779895708,
+          "assembly_seconds": 0.0012431999784894288,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.00037429999792948365,
+          "element_scatter_seconds": 0.0004737999988719821,
+          "element_setup_seconds": 2.899934770539403e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.00260459998389706,
+          "load_factor": 1.0169003555249327,
+          "load_increment": 0.00845137396910367,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 1.3827438351190777e-13,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            0.0002637287620501638,
+            2.104011187498145e-09,
+            3.552713678800501e-15
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 3.552713678800501e-15,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0006781999545637518,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 6,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        }
+      ],
+      "state_digest": "67d192bec99905a1bdddc40f16094c2d5a92f4508059546ad88b1c679c1ca2ee",
+      "status": "PASS"
+    },
+    {
+      "accepted_step_count": 6,
+      "analysis": "nonlinear_static",
+      "arc_radius_history": [
+        0.05,
+        0.008156919785890518,
+        5.54180953379408e-05,
+        0.000110830181582989,
+        0.00022163641804107242,
+        0.000443177779895708
+      ],
+      "checkpoint_files": [],
+      "continuation_state_observation": {
+        "arc_length_radius": [
+          0.05,
+          0.008156919785890518,
+          5.54180953379408e-05,
+          0.000110830181582989,
+          0.00022163641804107242,
+          0.000443177779895708
+        ],
+        "load_factors": [
+          0.8465484148039244,
+          1.0010559898383413,
+          1.0021120178694192,
+          1.0042241880404519,
+          1.008448981555829,
+          1.0169003555249327
+        ]
+      },
+      "cutback_count": 0,
+      "displacements": [
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 0
+        },
+        {
+          "dofs": {
+            "UX": 0.029484681642296437,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 1
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 2
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 3
+        }
+      ],
+      "equilibrium": {
+        "displacement_norm": 0.029484681642296437,
+        "external_load_norm": 10.169003555249327,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "external_resultant": [
+          10.169003555249327,
+          0.0,
+          0.0
+        ],
+        "external_work_at_final_load": 0.29982983244590705,
+        "fixed_reaction_norm": 10.902462168436355,
+        "force_balance_relative_error": 3.4936694234574816e-16,
+        "force_imbalance": [
+          -3.552713678800501e-15,
+          0.0,
+          0.0
+        ],
+        "free_relative_residual": 3.4936694234574826e-16,
+        "free_residual_norm": 3.552713678800501e-15,
+        "ground_spring_reaction_norm": 0.0,
+        "internal_force_norm": 14.908799906124553,
+        "linear_energy_identity_relative_error": 1.1102230246251565e-16,
+        "load_factor": 1.0169003555249327,
+        "moment_balance_relative_error": 0.0,
+        "moment_imbalance_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reaction_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reaction_resultant": [
+          -10.169003555249331,
+          0.0,
+          0.0
+        ],
+        "reactions": [
+          {
+            "dof": "UX",
+            "index": 0,
+            "node": 0,
+            "value": -10.169003555249331
+          },
+          {
+            "dof": "UY",
+            "index": 1,
+            "node": 0,
+            "value": -1.9656454428197625
+          },
+          {
+            "dof": "UZ",
+            "index": 2,
+            "node": 0,
+            "value": -1.9656454428197625
+          },
+          {
+            "dof": "UX",
+            "index": 6,
+            "node": 2,
+            "value": 0.0
+          },
+          {
+            "dof": "UY",
+            "index": 7,
+            "node": 2,
+            "value": 1.9656454428197625
+          },
+          {
+            "dof": "UZ",
+            "index": 8,
+            "node": 2,
+            "value": 0.0
+          },
+          {
+            "dof": "UX",
+            "index": 9,
+            "node": 3,
+            "value": 0.0
+          },
+          {
+            "dof": "UY",
+            "index": 10,
+            "node": 3,
+            "value": 0.0
+          },
+          {
+            "dof": "UZ",
+            "index": 11,
+            "node": 3,
+            "value": 1.9656454428197625
+          }
+        ],
+        "secant_internal_energy": 0.14991491622295358,
+        "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs"
+      },
+      "load_factor": 1.0169003555249327,
+      "load_factor_history": [
+        0.8465484148039244,
+        1.0010559898383413,
+        1.0021120178694192,
+        1.0042241880404519,
+        1.008448981555829,
+        1.0169003555249327
+      ],
+      "material_states": [],
+      "method": "arc_length",
+      "name": "arc_length_adaptive_radius",
+      "newton_iteration_count": 15,
+      "rejected_increment_count": 0,
+      "rejection_log": [],
+      "residual_histories": [
+        [
+          7.365695637359871,
+          0.8510143723502921,
+          0.031128274031367198,
+          3.833226384131194e-05,
+          5.88897819397971e-11
+        ],
+        [
+          0.10556723927237854,
+          0.0003299011034698651,
+          1.3134066279008039e-08,
+          0.0
+        ],
+        [
+          4.142884886704223e-06,
+          5.222489107836736e-13,
+          1.7763568394002505e-15
+        ],
+        [
+          1.6558862981241873e-05,
+          8.37196978409338e-12,
+          1.7763568394002505e-15
+        ],
+        [
+          6.613417857970205e-05,
+          1.3312728697201237e-10,
+          0.0
+        ],
+        [
+          0.0002637287620501638,
+          2.104011187498145e-09,
+          3.552713678800501e-15
+        ]
+      ],
+      "solver_steps": [
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 4.478622334103122e-15,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": null,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.05,
+          "assembly_seconds": 0.002036300051258877,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 6,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 6,
+          "element_kernel_seconds": 0.0006410000205505639,
+          "element_scatter_seconds": 0.0007748999632894993,
+          "element_setup_seconds": 4.8999791033566e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 4,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.004560200002742931,
+          "load_factor": 0.8465484148039244,
+          "load_increment": 0.8465484148039244,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 5.88897819397971e-12,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            7.365695637359871,
+            0.8510143723502921,
+            0.031128274031367198,
+            3.833226384131194e-05,
+            5.88897819397971e-11
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 5.88897819397971e-11,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0010659000254236162,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 1,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 4.0657581468206416e-20,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 0.0003966746553375291,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.008156919785890518,
+          "assembly_seconds": 0.0015584999928250909,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 5,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 5,
+          "element_kernel_seconds": 0.0004792000399902463,
+          "element_scatter_seconds": 0.0005876999639440328,
+          "element_setup_seconds": 3.6999699659645557e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 3,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0033053999941330403,
+          "load_factor": 1.0010559898383413,
+          "load_increment": 0.15450757503441692,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 6.110674602065696e-16,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            0.10556723927237854,
+            0.0003299011034698651,
+            1.3134066279008039e-08,
+            0.0
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 0.0,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0008337000326719135,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 2,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 5.008578609008583e-22,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 4.519660008799262e-07,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 5.54180953379408e-05,
+          "assembly_seconds": 0.0013394000416155905,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.0004226999881211668,
+          "element_scatter_seconds": 0.0004986999847460538,
+          "element_setup_seconds": 3.00002284348011e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.002845999988494441,
+          "load_factor": 1.0021120178694192,
+          "load_increment": 0.0010560280310778491,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 1.6308398065950833e-13,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            4.142884886704223e-06,
+            5.222489107836736e-13,
+            1.7763568394002505e-15
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 1.7763568394002505e-15,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0007160000095609576,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 3,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": -5.293955920339377e-23,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 6.141997214617347e-09,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.000110830181582989,
+          "assembly_seconds": 0.0012556000147014856,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.00037599995266646147,
+          "element_scatter_seconds": 0.00046869998914189637,
+          "element_setup_seconds": 3.100023604929447e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0025668999878689647,
+          "load_factor": 1.0042241880404519,
+          "load_increment": 0.0021121701710327123,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 4.30987060251559e-15,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            1.6558862981241873e-05,
+            8.37196978409338e-12,
+            1.7763568394002505e-15
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 1.7763568394002505e-15,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0006919000006746501,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 4,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 2.2499312661442353e-21,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 2.4563998825184556e-08,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.00022163641804107242,
+          "assembly_seconds": 0.001223899977048859,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.0003708000003825873,
+          "element_scatter_seconds": 0.0004676000098697841,
+          "element_setup_seconds": 2.800021320581436e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.002578500017989427,
+          "load_factor": 1.008448981555829,
+          "load_increment": 0.00422479351537719,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 4.5802270306905293e-14,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            6.613417857970205e-05,
+            1.3312728697201237e-10,
+            0.0
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 0.0,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0006648999988101423,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 5,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 2.7157993871341005e-20,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 9.822424694110014e-08,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.000443177779895708,
+          "assembly_seconds": 0.0012827999598812312,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.0003899999719578773,
+          "element_scatter_seconds": 0.0004795999557245523,
+          "element_setup_seconds": 2.9999937396496534e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.002772300038486719,
+          "load_factor": 1.0169003555249327,
+          "load_increment": 0.00845137396910367,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 1.3827438351190777e-13,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            0.0002637287620501638,
+            2.104011187498145e-09,
+            3.552713678800501e-15
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 3.552713678800501e-15,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0006953999400138855,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 6,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        }
+      ],
+      "state_digest": "67d192bec99905a1bdddc40f16094c2d5a92f4508059546ad88b1c679c1ca2ee",
+      "status": "PASS"
+    },
+    {
+      "accepted_step_count": 9,
+      "analysis": "nonlinear_static",
+      "arc_radius_history": [
+        0.05,
+        0.00625,
+        0.0015625,
+        0.0001953125,
+        4.8828125e-05,
+        2.44140625e-05,
+        1.220703125e-05,
+        6.103515625e-06,
+        2.3848474645144533e-06
+      ],
+      "checkpoint_files": [],
+      "continuation_state_observation": {
+        "arc_length_radius": [
+          0.05,
+          0.00625,
+          0.0015625,
+          0.0001953125,
+          4.8828125e-05,
+          2.44140625e-05,
+          1.220703125e-05,
+          6.103515625e-06,
+          2.3848474645144533e-06
+        ],
+        "load_factors": [
+          0.8465484148039244,
+          0.9647613506994014,
+          0.9944897970653978,
+          0.9982102627107867,
+          0.9991405286621038,
+          0.9996056839892967,
+          0.9998382672343917,
+          0.999954560251462,
+          1.0
+        ]
+      },
+      "cutback_count": 0,
+      "displacements": [
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 0
+        },
+        {
+          "dofs": {
+            "UX": 0.0292167346588282,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 1
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 2
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 3
+        }
+      ],
+      "equilibrium": {
+        "displacement_norm": 0.0292167346588282,
+        "external_load_norm": 10.0,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "external_resultant": [
+          10.0,
+          0.0,
+          0.0
+        ],
+        "external_work_at_final_load": 0.29216734658828203,
+        "fixed_reaction_norm": 10.731981358133206,
+        "force_balance_relative_error": 7.677600771461464e-10,
+        "force_imbalance": [
+          -7.67760077735602e-09,
+          0.0,
+          0.0
+        ],
+        "free_relative_residual": 7.67760077735602e-10,
+        "free_residual_norm": 7.67760077735602e-09,
+        "ground_spring_reaction_norm": 0.0,
+        "internal_force_norm": 14.66885898851273,
+        "linear_energy_identity_relative_error": 2.243144003877262e-10,
+        "load_factor": 1.0,
+        "moment_balance_relative_error": 0.0,
+        "moment_imbalance_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reaction_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reaction_resultant": [
+          -10.0000000076776,
+          0.0,
+          0.0
+        ],
+        "reactions": [
+          {
+            "dof": "UX",
+            "index": 0,
+            "node": 0,
+            "value": -10.0000000076776
+          },
+          {
+            "dof": "UY",
+            "index": 1,
+            "node": 0,
+            "value": -1.9477823105885466
+          },
+          {
+            "dof": "UZ",
+            "index": 2,
+            "node": 0,
+            "value": -1.9477823105885466
+          },
+          {
+            "dof": "UX",
+            "index": 6,
+            "node": 2,
+            "value": 0.0
+          },
+          {
+            "dof": "UY",
+            "index": 7,
+            "node": 2,
+            "value": 1.9477823105885466
+          },
+          {
+            "dof": "UZ",
+            "index": 8,
+            "node": 2,
+            "value": 0.0
+          },
+          {
+            "dof": "UX",
+            "index": 9,
+            "node": 3,
+            "value": 0.0
+          },
+          {
+            "dof": "UY",
+            "index": 10,
+            "node": 3,
+            "value": 0.0
+          },
+          {
+            "dof": "UZ",
+            "index": 11,
+            "node": 3,
+            "value": 1.9477823105885466
+          }
+        ],
+        "secant_internal_energy": 0.14608367340629821,
+        "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs"
+      },
+      "load_factor": 1.0,
+      "load_factor_history": [
+        0.8465484148039244,
+        0.9647613506994014,
+        0.9944897970653978,
+        0.9982102627107867,
+        0.9991405286621038,
+        0.9996056839892967,
+        0.9998382672343917,
+        0.999954560251462,
+        1.0
+      ],
+      "material_states": [],
+      "method": "arc_length",
+      "name": "arc_length_rejected_step_radius_shrink",
+      "newton_iteration_count": 17,
+      "rejected_increment_count": 14,
+      "rejection_log": [
+        {
+          "base_load_factor": 0.0,
+          "failure_diagnostics": {},
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.1,
+          "rejected_radius": 0.07071067811865477,
+          "retry_radius": 0.05,
+          "rollback_before_retry": true,
+          "step": 1
+        },
+        {
+          "base_load_factor": 0.8465484148039244,
+          "failure_diagnostics": {
+            "load_factor": 1.0010824680679495,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.05,
+          "rejected_radius": 0.008156919785890518,
+          "retry_radius": 0.025,
+          "rollback_before_retry": true,
+          "step": 2
+        },
+        {
+          "base_load_factor": 0.8465484148039244,
+          "failure_diagnostics": {
+            "load_factor": 1.0010824680679495,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.025,
+          "rejected_radius": 0.008156919785890518,
+          "retry_radius": 0.0125,
+          "rollback_before_retry": true,
+          "step": 2
+        },
+        {
+          "base_load_factor": 0.8465484148039244,
+          "failure_diagnostics": {
+            "load_factor": 1.0010824680679495,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.0125,
+          "rejected_radius": 0.008156919785890518,
+          "retry_radius": 0.00625,
+          "rollback_before_retry": true,
+          "step": 2
+        },
+        {
+          "base_load_factor": 0.9647613506994014,
+          "failure_diagnostics": {
+            "load_factor": 1.0000454889075532,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.00625,
+          "rejected_radius": 0.0018541215900234741,
+          "retry_radius": 0.003125,
+          "rollback_before_retry": true,
+          "step": 3
+        },
+        {
+          "base_load_factor": 0.9647613506994014,
+          "failure_diagnostics": {
+            "load_factor": 1.0000454889075532,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.003125,
+          "rejected_radius": 0.0018541215900234741,
+          "retry_radius": 0.0015625,
+          "rollback_before_retry": true,
+          "step": 3
+        },
+        {
+          "base_load_factor": 0.9944897970653978,
+          "failure_diagnostics": {
+            "load_factor": 1.0000010535642967,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.0015625,
+          "rejected_radius": 0.00028930530985476284,
+          "retry_radius": 0.00078125,
+          "rollback_before_retry": true,
+          "step": 4
+        },
+        {
+          "base_load_factor": 0.9944897970653978,
+          "failure_diagnostics": {
+            "load_factor": 1.0000010535642967,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.00078125,
+          "rejected_radius": 0.00028930530985476284,
+          "retry_radius": 0.000390625,
+          "rollback_before_retry": true,
+          "step": 4
+        },
+        {
+          "base_load_factor": 0.9944897970653978,
+          "failure_diagnostics": {
+            "load_factor": 1.0000010535642967,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.000390625,
+          "rejected_radius": 0.00028930530985476284,
+          "retry_radius": 0.0001953125,
+          "rollback_before_retry": true,
+          "step": 4
+        },
+        {
+          "base_load_factor": 0.9982102627107867,
+          "failure_diagnostics": {
+            "load_factor": 1.0000001104057745,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.0001953125,
+          "rejected_radius": 9.39433703706636e-05,
+          "retry_radius": 9.765625e-05,
+          "rollback_before_retry": true,
+          "step": 5
+        },
+        {
+          "base_load_factor": 0.9982102627107867,
+          "failure_diagnostics": {
+            "load_factor": 1.0000001104057745,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 9.765625e-05,
+          "rejected_radius": 9.39433703706636e-05,
+          "retry_radius": 4.8828125e-05,
+          "rollback_before_retry": true,
+          "step": 5
+        },
+        {
+          "base_load_factor": 0.9991405286621038,
+          "failure_diagnostics": {
+            "load_factor": 1.0000000254184394,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 4.8828125e-05,
+          "rejected_radius": 4.51107869245127e-05,
+          "retry_radius": 2.44140625e-05,
+          "rollback_before_retry": true,
+          "step": 6
+        },
+        {
+          "base_load_factor": 0.9996056839892967,
+          "failure_diagnostics": {
+            "load_factor": 1.0000000053457851,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 2.44140625e-05,
+          "rejected_radius": 2.0695671162829527e-05,
+          "retry_radius": 1.220703125e-05,
+          "rollback_before_retry": true,
+          "step": 7
+        },
+        {
+          "base_load_factor": 0.9998382672343917,
+          "failure_diagnostics": {
+            "load_factor": 1.0000000008989531,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 1.220703125e-05,
+          "rejected_radius": 8.488406545292164e-06,
+          "retry_radius": 6.103515625e-06,
+          "rollback_before_retry": true,
+          "step": 8
+        }
+      ],
+      "residual_histories": [
+        [
+          7.365695637359871,
+          0.8510143723502921,
+          0.031128274031367198,
+          3.833226384131194e-05,
+          5.88897819397971e-11
+        ],
+        [
+          0.061492281955532135,
+          0.00011564003539277223,
+          2.2589574655285105e-09,
+          1.7763568394002505e-15
+        ],
+        [
+          0.0034101986511672067,
+          3.558763133071352e-07,
+          1.474376176702208e-13
+        ],
+        [
+          5.175675458879425e-05,
+          8.209966040340078e-11,
+          1.7763568394002505e-15
+        ],
+        [
+          3.2234704079314724e-06,
+          3.161915174132446e-13,
+          0.0
+        ],
+        [
+          8.051964694999469e-07,
+          1.7763568394002505e-14,
+          0.0
+        ],
+        [
+          2.0121531285610672e-07,
+          1.7763568394002505e-15
+        ],
+        [
+          5.0293360587261304e-08,
+          1.7763568394002505e-15
+        ],
+        [
+          7.67760077735602e-09
+        ]
+      ],
+      "solver_steps": [
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 4.478622334103122e-15,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": null,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.05,
+          "assembly_seconds": 0.0021570000099018216,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 6,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 6,
+          "element_kernel_seconds": 0.0006769999745301902,
+          "element_scatter_seconds": 0.0008100999984890223,
+          "element_setup_seconds": 4.400033503770828e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 4,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.004469900042749941,
+          "load_factor": 0.8465484148039244,
+          "load_increment": 0.8465484148039244,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 5.88897819397971e-12,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            7.365695637359871,
+            0.8510143723502921,
+            0.031128274031367198,
+            3.833226384131194e-05,
+            5.88897819397971e-11
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 5.88897819397971e-11,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0011113000218756497,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 1,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": -2.710505431213761e-20,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 0.0003042504403675493,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.00625,
+          "assembly_seconds": 0.0015343999839387834,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 5,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 5,
+          "element_kernel_seconds": 0.0004658999969251454,
+          "element_scatter_seconds": 0.0005874999915249646,
+          "element_setup_seconds": 3.700028173625469e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 3,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0034512999991420656,
+          "load_factor": 0.9647613506994014,
+          "load_increment": 0.11821293589547699,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 6.938893903907227e-16,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            0.061492281955532135,
+            0.00011564003539277223,
+            2.2589574655285105e-09,
+            1.7763568394002505e-15
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 1.7763568394002505e-15,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0008293000282719731,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 2,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 7.521610219970824e-17,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 9.764094075192908e-06,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.0015625,
+          "assembly_seconds": 0.0012756000214722008,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.00040469999657943845,
+          "element_scatter_seconds": 0.00047009994159452617,
+          "element_setup_seconds": 2.700020559132099e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.002691699977731332,
+          "load_factor": 0.9944897970653978,
+          "load_increment": 0.029728446365996364,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 3.080851546100049e-11,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            0.0034101986511672067,
+            3.558763133071352e-07,
+            1.474376176702208e-13
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 1.474376176702208e-13,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0006805000593885779,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 3,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": -7.279189390466644e-23,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 3.051737109379727e-07,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.0001953125,
+          "assembly_seconds": 0.0012396999809425324,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.0003727000148501247,
+          "element_scatter_seconds": 0.0004850999976042658,
+          "element_setup_seconds": 2.700020559132099e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0025394000113010406,
+          "load_factor": 0.9982102627107867,
+          "load_increment": 0.0037204656453889706,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 1.9081958235744874e-15,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            5.175675458879425e-05,
+            8.209966040340078e-11,
+            1.7763568394002505e-15
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 1.7763568394002505e-15,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0006770000036340207,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 4,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 2.2003004293910536e-22,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 9.536741958080735e-09,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 4.8828125e-05,
+          "assembly_seconds": 0.0012320999812800437,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.00037590001011267304,
+          "element_scatter_seconds": 0.0004647000168915838,
+          "element_setup_seconds": 2.900022082030773e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.002643899992108345,
+          "load_factor": 0.9991405286621038,
+          "load_increment": 0.0009302659513170664,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 9.228728892196612e-14,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            3.2234704079314724e-06,
+            3.161915174132446e-13,
+            0.0
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 0.0,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0006639999337494373,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 5,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 1.1125579238838222e-22,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 1.1920928820090536e-09,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 2.44140625e-05,
+          "assembly_seconds": 0.0012968999799340963,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.00038549996679648757,
+          "element_scatter_seconds": 0.00048669998068362474,
+          "element_setup_seconds": 3.0999945010989904e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0027373999764677137,
+          "load_factor": 0.9996056839892967,
+          "load_increment": 0.0004651553271929343,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 1.8665624601510442e-13,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            8.051964694999469e-07,
+            1.7763568394002505e-14,
+            0.0
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 0.0,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0007164000417105854,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 6,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 9.351323353821434e-20,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 2.9802322312816515e-10,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 1.220703125e-05,
+          "assembly_seconds": 0.0009189000120386481,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 3,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 3,
+          "element_kernel_seconds": 0.00028110004495829344,
+          "element_scatter_seconds": 0.0003538000164553523,
+          "element_setup_seconds": 2.2999884095042944e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 1,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0017666000057943165,
+          "load_factor": 0.9998382672343917,
+          "load_increment": 0.00023258324509500827,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 6.275566871716264e-10,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            2.0121531285610672e-07,
+            1.7763568394002505e-15
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 1.7763568394002505e-15,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0004959000216331333,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 7,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 5.868691349698878e-21,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 7.450580594588197e-11,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 6.103515625e-06,
+          "assembly_seconds": 0.0010270999919157475,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 3,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 3,
+          "element_kernel_seconds": 0.0003148999821860343,
+          "element_scatter_seconds": 0.00037170000723563135,
+          "element_setup_seconds": 2.400018274784088e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 1,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0021040000137872994,
+          "load_factor": 0.999954560251462,
+          "load_increment": 0.00011629301707027917,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 1.5753648385796734e-10,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            5.0293360587261304e-08,
+            1.7763568394002505e-15
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 1.7763568394002505e-15,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.000525100011145696,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 8,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": -5.089099471761791e-25,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 1.4555953762910006e-11,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 2.3848474645144533e-06,
+          "assembly_seconds": 0.0006455000257119536,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 2,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 2,
+          "element_kernel_seconds": 0.00020370000856928527,
+          "element_scatter_seconds": 0.00024369999300688505,
+          "element_setup_seconds": 1.300009898841381e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 0,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0011540999985300004,
+          "load_factor": 1.0,
+          "load_increment": 4.543974853798982e-05,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 7.67760077735602e-10,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            7.67760077735602e-09
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 7.67760077735602e-09,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.00033950002398341894,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 9,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        }
+      ],
+      "state_digest": "11286e475687add28a7d2320e0dd45473cede5a5e9c2a308aa20d9a837f8030c",
+      "status": "PASS"
+    },
+    {
+      "accepted_step_count": 9,
+      "analysis": "nonlinear_static",
+      "arc_radius_history": [
+        0.014142135623730952,
+        0.014142135623730952,
+        0.014142135623730952,
+        0.014142135623730952,
+        0.001767766952966369,
+        0.00022097086912079613,
+        2.7621358640099516e-05,
+        3.4526698300124396e-06,
+        2.268300990568405e-06
+      ],
+      "checkpoint_files": [
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\tmplga3pe3x\\arc.npz",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\tmplga3pe3x\\arc.step00000001.npz",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\tmplga3pe3x\\arc.step00000002.npz",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\tmplga3pe3x\\arc.step00000003.npz",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\tmplga3pe3x\\arc.step00000004.npz",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\tmplga3pe3x\\arc.step00000005.npz",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\tmplga3pe3x\\arc.step00000006.npz",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\tmplga3pe3x\\arc.step00000007.npz",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\tmplga3pe3x\\arc.step00000008.npz",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\tmplga3pe3x\\arc.step00000009.npz"
+      ],
+      "continuation_state_observation": {
+        "arc_length_radius": [
+          0.014142135623730952,
+          0.014142135623730952,
+          0.014142135623730952,
+          0.014142135623730952,
+          0.001767766952966369,
+          0.00022097086912079613,
+          2.7621358640099516e-05,
+          3.4526698300124396e-06,
+          2.268300990568405e-06
+        ],
+        "load_factors": [
+          0.2072856400927547,
+          0.44138974588258245,
+          0.6961187172838063,
+          0.9615244966847448,
+          0.9951552316449446,
+          0.9993647230762978,
+          0.9998909954769123,
+          0.9999567808659118,
+          1.0
+        ]
+      },
+      "cutback_count": 0,
+      "displacements": [
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 0
+        },
+        {
+          "dofs": {
+            "UX": 0.029216734657660254,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 1
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 2
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 3
+        }
+      ],
+      "equilibrium": {
+        "displacement_norm": 0.029216734657660254,
+        "external_load_norm": 10.0,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "external_resultant": [
+          10.0,
+          0.0,
+          0.0
+        ],
+        "external_work_at_final_load": 0.29216734657660254,
+        "fixed_reaction_norm": 10.731981357394531,
+        "force_balance_relative_error": 6.945521486451004e-10,
+        "force_imbalance": [
+          -6.945521491275031e-09,
+          0.0,
+          0.0
+        ],
+        "free_relative_residual": 6.94552149127503e-10,
+        "free_residual_norm": 6.945521491275031e-09,
+        "ground_spring_reaction_norm": 0.0,
+        "internal_force_norm": 14.668858987473232,
+        "linear_energy_identity_relative_error": 2.029254542179615e-10,
+        "load_factor": 1.0,
+        "moment_balance_relative_error": 0.0,
+        "moment_imbalance_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reaction_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reaction_resultant": [
+          -10.000000006945521,
+          0.0,
+          0.0
+        ],
+        "reactions": [
+          {
+            "dof": "UX",
+            "index": 0,
+            "node": 0,
+            "value": -10.000000006945521
+          },
+          {
+            "dof": "UY",
+            "index": 1,
+            "node": 0,
+            "value": -1.9477823105106835
+          },
+          {
+            "dof": "UZ",
+            "index": 2,
+            "node": 0,
+            "value": -1.9477823105106835
+          },
+          {
+            "dof": "UX",
+            "index": 6,
+            "node": 2,
+            "value": 0.0
+          },
+          {
+            "dof": "UY",
+            "index": 7,
+            "node": 2,
+            "value": 1.9477823105106835
+          },
+          {
+            "dof": "UZ",
+            "index": 8,
+            "node": 2,
+            "value": 0.0
+          },
+          {
+            "dof": "UX",
+            "index": 9,
+            "node": 3,
+            "value": 0.0
+          },
+          {
+            "dof": "UY",
+            "index": 10,
+            "node": 3,
+            "value": 0.0
+          },
+          {
+            "dof": "UZ",
+            "index": 11,
+            "node": 3,
+            "value": 1.9477823105106835
+          }
+        ],
+        "secant_internal_energy": 0.146083673389764,
+        "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs"
+      },
+      "load_factor": 1.0,
+      "load_factor_history": [
+        0.2072856400927547,
+        0.44138974588258245,
+        0.6961187172838063,
+        0.9615244966847448,
+        0.9951552316449446,
+        0.9993647230762978,
+        0.9998909954769123,
+        0.9999567808659118,
+        1.0
+      ],
+      "material_states": [],
+      "method": "arc_length",
+      "name": "arc_length_checkpoint_compatible",
+      "newton_iteration_count": 19,
+      "rejected_increment_count": 12,
+      "rejection_log": [
+        {
+          "base_load_factor": 0.9615244966847448,
+          "failure_diagnostics": {
+            "load_factor": 1.0000545541669017,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.014142135623730952,
+          "rejected_radius": 0.00202492294697891,
+          "retry_radius": 0.007071067811865476,
+          "rollback_before_retry": true,
+          "step": 5
+        },
+        {
+          "base_load_factor": 0.9615244966847448,
+          "failure_diagnostics": {
+            "load_factor": 1.0000545541669017,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.007071067811865476,
+          "rejected_radius": 0.00202492294697891,
+          "retry_radius": 0.003535533905932738,
+          "rollback_before_retry": true,
+          "step": 5
+        },
+        {
+          "base_load_factor": 0.9615244966847448,
+          "failure_diagnostics": {
+            "load_factor": 1.0000545541669017,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.003535533905932738,
+          "rejected_radius": 0.00202492294697891,
+          "retry_radius": 0.001767766952966369,
+          "rollback_before_retry": true,
+          "step": 5
+        },
+        {
+          "base_load_factor": 0.9951552316449446,
+          "failure_diagnostics": {
+            "load_factor": 1.0000008134865979,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.001767766952966369,
+          "rejected_radius": 0.0002543558510563173,
+          "retry_radius": 0.0008838834764831845,
+          "rollback_before_retry": true,
+          "step": 6
+        },
+        {
+          "base_load_factor": 0.9951552316449446,
+          "failure_diagnostics": {
+            "load_factor": 1.0000008134865979,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.0008838834764831845,
+          "rejected_radius": 0.0002543558510563173,
+          "retry_radius": 0.00044194173824159226,
+          "rollback_before_retry": true,
+          "step": 6
+        },
+        {
+          "base_load_factor": 0.9951552316449446,
+          "failure_diagnostics": {
+            "load_factor": 1.0000008134865979,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.00044194173824159226,
+          "rejected_radius": 0.0002543558510563173,
+          "retry_radius": 0.00022097086912079613,
+          "rollback_before_retry": true,
+          "step": 6
+        },
+        {
+          "base_load_factor": 0.9993647230762978,
+          "failure_diagnostics": {
+            "load_factor": 1.0000000138815217,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.00022097086912079613,
+          "rejected_radius": 3.3343054554869305e-05,
+          "retry_radius": 0.00011048543456039807,
+          "rollback_before_retry": true,
+          "step": 7
+        },
+        {
+          "base_load_factor": 0.9993647230762978,
+          "failure_diagnostics": {
+            "load_factor": 1.0000000138815217,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 0.00011048543456039807,
+          "rejected_radius": 3.3343054554869305e-05,
+          "retry_radius": 5.524271728019903e-05,
+          "rollback_before_retry": true,
+          "step": 7
+        },
+        {
+          "base_load_factor": 0.9993647230762978,
+          "failure_diagnostics": {
+            "load_factor": 1.0000000138815217,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 5.524271728019903e-05,
+          "rejected_radius": 3.3343054554869305e-05,
+          "retry_radius": 2.7621358640099516e-05,
+          "rollback_before_retry": true,
+          "step": 7
+        },
+        {
+          "base_load_factor": 0.9998909954769123,
+          "failure_diagnostics": {
+            "load_factor": 1.000000000408309,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 2.7621358640099516e-05,
+          "rejected_radius": 5.720988881309117e-06,
+          "retry_radius": 1.3810679320049758e-05,
+          "rollback_before_retry": true,
+          "step": 8
+        },
+        {
+          "base_load_factor": 0.9998909954769123,
+          "failure_diagnostics": {
+            "load_factor": 1.000000000408309,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 1.3810679320049758e-05,
+          "rejected_radius": 5.720988881309117e-06,
+          "retry_radius": 6.905339660024879e-06,
+          "rollback_before_retry": true,
+          "step": 8
+        },
+        {
+          "base_load_factor": 0.9998909954769123,
+          "failure_diagnostics": {
+            "load_factor": 1.000000000408309,
+            "load_factor_limit": 1.0
+          },
+          "failure_reason": "ARC_LENGTH_FAILURE",
+          "path": "arc_length",
+          "previous_radius": 6.905339660024879e-06,
+          "rejected_radius": 5.720988881309117e-06,
+          "retry_radius": 3.4526698300124396e-06,
+          "rollback_before_retry": true,
+          "step": 8
+        }
+      ],
+      "residual_histories": [
+        [
+          0.16666666666666674,
+          0.000677403512336916,
+          2.8469081403414975e-07,
+          3.774758283725532e-14
+        ],
+        [
+          0.5004444966471588,
+          0.007996574790641198,
+          1.5193322899342832e-05,
+          5.7686300181103434e-11
+        ],
+        [
+          0.4806261602913251,
+          0.007444934297986094,
+          6.747489722513933e-06,
+          7.387868095065642e-12
+        ],
+        [
+          0.37614877404267766,
+          0.0040915570138171375,
+          1.330852557046569e-06,
+          2.0961010704922955e-13
+        ],
+        [
+          0.004379973009497107,
+          5.864179222214716e-07,
+          3.197442310920451e-13
+        ],
+        [
+          6.62190202511681e-05,
+          1.3428014256078313e-10,
+          0.0
+        ],
+        [
+          1.0304771453917283e-06,
+          3.552713678800501e-14,
+          3.552713678800501e-15
+        ],
+        [
+          1.6093041566023203e-08,
+          1.7763568394002505e-15
+        ],
+        [
+          6.945521491275031e-09
+        ]
+      ],
+      "solver_steps": [
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 1.2007539060276962e-17,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": null,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.014142135623730952,
+          "assembly_seconds": 0.0015989000094123185,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 5,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 5,
+          "element_kernel_seconds": 0.000504100025864318,
+          "element_scatter_seconds": 0.0005957999965175986,
+          "element_setup_seconds": 3.900029696524143e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 3,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0034599999780766666,
+          "load_factor": 0.2072856400927547,
+          "load_increment": 0.2072856400927547,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 6.003769530138478e-14,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            0.16666666666666674,
+            0.000677403512336916,
+            2.8469081403414975e-07,
+            3.774758283725532e-14
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 3.774758283725532e-14,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0008478000527247787,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 1,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 1.1137006030934038e-14,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 0.0001976806291203155,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.014142135623730952,
+          "assembly_seconds": 0.001670899975579232,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 5,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 5,
+          "element_kernel_seconds": 0.0005271999689284712,
+          "element_scatter_seconds": 0.0006196000031195581,
+          "element_setup_seconds": 4.00003045797348e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 3,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.003636600013123825,
+          "load_factor": 0.44138974588258245,
+          "load_increment": 0.23410410578982774,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 5.568503015467017e-11,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            0.5004444966471588,
+            0.007996574790641198,
+            1.5193322899342832e-05,
+            5.7686300181103434e-11
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 5.7686300181103434e-11,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0008836999768391252,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 2,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 1.315354075659414e-15,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 0.00019786670051574702,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.014142135623730952,
+          "assembly_seconds": 0.0017310000257566571,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 5,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 5,
+          "element_kernel_seconds": 0.0005355999746825546,
+          "element_scatter_seconds": 0.0006255999905988574,
+          "element_setup_seconds": 3.6999699659645557e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 3,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0037358000117819756,
+          "load_factor": 0.6961187172838063,
+          "load_increment": 0.2547289714012238,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 6.5767703782970675e-12,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            0.4806261602913251,
+            0.007444934297986094,
+            6.747489722513933e-06,
+            7.387868095065642e-12
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 7.387868095065642e-12,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0009224999812431633,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 3,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 4.0766001685454967e-17,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 0.00019906613281558993,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.014142135623730952,
+          "assembly_seconds": 0.0017566999595146626,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 5,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 5,
+          "element_kernel_seconds": 0.0005631000094581395,
+          "element_scatter_seconds": 0.000640099955489859,
+          "element_setup_seconds": 3.8000289350748062e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 3,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0035615000233519822,
+          "load_factor": 0.9615244966847448,
+          "load_increment": 0.26540577940093857,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 2.0383000842727476e-13,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            0.37614877404267766,
+            0.0040915570138171375,
+            1.330852557046569e-06,
+            2.0961010704922955e-13
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 2.0961010704922955e-13,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0009312000183854252,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 4,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 1.5974448462153026e-16,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 2.498065694956709e-05,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.001767766952966369,
+          "assembly_seconds": 0.0012544000055640936,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.00037489994429051876,
+          "element_scatter_seconds": 0.0004824000352527946,
+          "element_setup_seconds": 2.900022082030773e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0026523999695200473,
+          "load_factor": 0.9951552316449446,
+          "load_increment": 0.03363073496019975,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 5.1118235078889665e-11,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            0.004379973009497107,
+            5.864179222214716e-07,
+            3.197442310920451e-13
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 3.197442310920451e-13,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0006859999557491392,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 5,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 1.0058516248644817e-21,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 3.9062160303012534e-07,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 0.00022097086912079613,
+          "assembly_seconds": 0.0013073000009171665,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.0004050000279676169,
+          "element_scatter_seconds": 0.0004931000003125519,
+          "element_setup_seconds": 3.00002284348011e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.002670599991688505,
+          "load_factor": 0.9993647230762978,
+          "load_increment": 0.004209491431353185,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 2.0599841277224578e-14,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            6.62190202511681e-05,
+            1.3428014256078313e-10,
+            0.0
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 0.0,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0006979000463616103,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 6,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": -9.026608434484915e-23,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 6.1035148267955205e-09,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 2.7621358640099516e-05,
+          "assembly_seconds": 0.0012761999969370663,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 4,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 4,
+          "element_kernel_seconds": 0.0003913000109605491,
+          "element_scatter_seconds": 0.00048210000386461616,
+          "element_setup_seconds": 3.200024366378784e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 2,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.0026406999968457967,
+          "load_factor": 0.9998909954769123,
+          "load_increment": 0.0005262724006145358,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 1.1831356207248065e-13,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            1.0304771453917283e-06,
+            3.552713678800501e-14,
+            3.552713678800501e-15
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 3.552713678800501e-15,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0006868000491522253,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 7,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": 6.099148392000126e-22,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 9.53674314491066e-11,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 3.4526698300124396e-06,
+          "assembly_seconds": 0.0009363999997731298,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 3,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 3,
+          "element_kernel_seconds": 0.0002859999949578196,
+          "element_scatter_seconds": 0.0003603000077418983,
+          "element_setup_seconds": 2.200016751885414e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 1,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.001795399992261082,
+          "load_factor": 0.9999567808659118,
+          "load_increment": 6.578538899948416e-05,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 5.1163364994319374e-11,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            1.6093041566023203e-08,
+            1.7763568394002505e-15
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 1.7763568394002505e-15,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.0005055000074207783,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 8,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        },
+        {
+          "arc_length_branch_direction": 1,
+          "arc_length_constraint_residual": -2.115611351832402e-24,
+          "arc_length_control_displacement": null,
+          "arc_length_direction_alignment": 7.831694395525078e-12,
+          "arc_length_predictor_sign": 1,
+          "arc_length_radius": 2.268300990568405e-06,
+          "assembly_seconds": 0.0006554000137839466,
+          "contact_active_contacts": [],
+          "contact_assembly_calls": 0,
+          "contact_assembly_seconds": 0.0,
+          "contact_closest_distances": [],
+          "contact_finite_sliding": false,
+          "contact_gaps": [],
+          "contact_master_face_indices": [],
+          "contact_projection_clamped": [],
+          "contact_projection_modes": [],
+          "contact_search_mode": null,
+          "contact_tangent_nnz": 0,
+          "cumulative_correction_norm": 0.0,
+          "element_cache_hits": 2,
+          "element_cache_misses": 0,
+          "element_kernel_calls": 2,
+          "element_kernel_seconds": 0.00019849996897391975,
+          "element_scatter_seconds": 0.0002545999886933714,
+          "element_setup_seconds": 1.3999815564602613e-06,
+          "equivalent_plastic_strain_max": 0.0,
+          "failure_reason": null,
+          "incremental_external_work": 0.0,
+          "incremental_internal_work": 0.0,
+          "iterations": 0,
+          "last_correction_norm": 0.0,
+          "line_search_reductions": 0,
+          "line_search_seconds": 0.0,
+          "linear_solve_seconds": 0.001039199996739626,
+          "load_factor": 1.0,
+          "load_increment": 4.3219134088223754e-05,
+          "load_step_cutbacks": 0,
+          "min_line_search_factor": 1.0,
+          "plastic_dissipation_max": 0.0,
+          "reference_cache_hits": 0,
+          "reference_cache_misses": 0,
+          "relative_residual": 6.94552149127503e-10,
+          "relative_work_imbalance": 0.0,
+          "residual_history": [
+            6.945521491275031e-09
+          ],
+          "residual_initial": 0.0,
+          "residual_norm": 6.945521491275031e-09,
+          "sparse_accumulator_levels": 1,
+          "sparse_chunk_count": 1,
+          "sparse_conversion_seconds": 0.00035369995748624206,
+          "sparse_peak_chunk_bytes_estimate": 6912,
+          "sparse_peak_chunk_entries": 144,
+          "state_committed": true,
+          "step": 9,
+          "tangent_nnz": 72,
+          "work_diagnostics_available": false
+        }
+      ],
+      "state_digest": "95fbc95987fd1149907a9a29f13323abad702fa7606f0b9b99d52efbb46fa164",
+      "status": "PASS"
+    }
+  ],
+  "failure_cases": [
+    {
+      "accepted_digest_after": "40318c5df684945862e5cca036d65464089c6efb13e120905da701f8c043dc2b",
+      "accepted_digest_before": "40318c5df684945862e5cca036d65464089c6efb13e120905da701f8c043dc2b",
+      "diagnostics": {
+        "adaptive_load_step": 1,
+        "backend": "scipy.sparse.linalg.spsolve",
+        "base_load_factor": 0.0,
+        "max_cutbacks": 2,
+        "rejected_increment": 0.5,
+        "rejected_increments": 2,
+        "rejection_log": [
+          {
+            "base_load_factor": 0.0,
+            "failure_diagnostics": {
+              "adaptive_load_step": 1,
+              "backend": "scipy.sparse.linalg.spsolve",
+              "base_load_factor": 0.0,
+              "rejected_increment": 1.0,
+              "retry_increment": 0.5,
+              "rollback_verified": true,
+              "solver": "full_newton"
+            },
+            "failure_reason": "MAX_ITERATIONS",
+            "rejected_increment": 1.0,
+            "retry_increment": 0.5,
+            "rollback_before_retry": true,
+            "step": 1
+          },
+          {
+            "base_load_factor": 0.0,
+            "failure_diagnostics": {
+              "adaptive_load_step": 1,
+              "backend": "scipy.sparse.linalg.spsolve",
+              "base_load_factor": 0.0,
+              "rejected_increment": 0.5,
+              "retry_increment": 0.25,
+              "rollback_verified": true,
+              "solver": "full_newton"
+            },
+            "failure_reason": "MAX_ITERATIONS",
+            "rejected_increment": 0.5,
+            "retry_increment": 0.25,
+            "rollback_before_retry": true,
+            "step": 1
+          }
+        ],
+        "retry_increment": 0.25,
+        "rollback_verified": true,
+        "solver": "full_newton"
+      },
+      "name": "adaptive_max_cutbacks",
+      "reason": "MAX_ITERATIONS"
+    },
+    {
+      "accepted_digest_after": "40318c5df684945862e5cca036d65464089c6efb13e120905da701f8c043dc2b",
+      "accepted_digest_before": "40318c5df684945862e5cca036d65464089c6efb13e120905da701f8c043dc2b",
+      "diagnostics": {
+        "adaptive_load_step": 1,
+        "backend": "scipy.sparse.linalg.spsolve",
+        "base_load_factor": 0.0,
+        "minimum_increment": 0.75,
+        "rejected_increment": 1.0,
+        "rejected_increments": 1,
+        "rejection_log": [
+          {
+            "base_load_factor": 0.0,
+            "failure_diagnostics": {
+              "adaptive_load_step": 1,
+              "backend": "scipy.sparse.linalg.spsolve",
+              "base_load_factor": 0.0,
+              "rejected_increment": 1.0,
+              "retry_increment": 0.5,
+              "rollback_verified": true,
+              "solver": "full_newton"
+            },
+            "failure_reason": "MAX_ITERATIONS",
+            "rejected_increment": 1.0,
+            "retry_increment": 0.5,
+            "rollback_before_retry": true,
+            "step": 1
+          }
+        ],
+        "retry_increment": 0.5,
+        "rollback_verified": true,
+        "solver": "full_newton"
+      },
+      "name": "adaptive_minimum_increment",
+      "reason": "MIN_INCREMENT_REACHED"
+    }
+  ],
+  "scope": "WP01-D adaptive load-control and arc-length lifecycle baseline"
+}

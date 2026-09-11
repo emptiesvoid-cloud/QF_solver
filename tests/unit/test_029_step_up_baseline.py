@@ -67,6 +67,7 @@ def test_step_up_documents_are_present_and_explicitly_planning_only() -> None:
         "wp01-failure-retry-matrix.md",
         "wp01-gate-matrix.md",
         "wp01-c-load-control-migration.md",
+        "wp01-d-continuation-migration.md",
     }
 
     assert {path.name for path in DOCS.glob("*.md")} == expected
@@ -97,6 +98,6 @@ def test_wp01_contract_is_prospective_and_preserves_the_open_j2_geometry_decisio
     assert progress["work_packages"]["WP00"]["status"] == "CLOSED"
     assert progress["work_packages"]["WP01"] == {
         "points": 12,
-        "status": "LOAD_CONTROL_MIGRATION",
+        "status": "CONTINUATION_MIGRATION",
         "validated_points": 0,
     }

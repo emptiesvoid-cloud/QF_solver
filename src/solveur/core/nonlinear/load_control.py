@@ -10,7 +10,6 @@ from scipy.sparse import csr_matrix
 from solveur.core.dofs import DofManager
 from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear.material_state import (
-    MaterialStateSession,
     MaterialStateTable,
     commit_material_states,
     copy_material_states,
@@ -27,7 +26,9 @@ from solveur.core.nonlinear.controls import (
 from solveur.core.nonlinear.driver import (
     CompositeContributionResponse,
     ContributionResponse,
+    UnifiedContinuationController,
     UnifiedNewtonEngine,
+    continuation_retry_permitted,
 )
 from solveur.core.nonlinear.iteration import line_search_factor
 from solveur.core.nonlinear.state import NonlinearState
@@ -106,6 +107,16 @@ class NonlinearLoadControlMixin:
             load_steps=load_steps,
             max_iterations=max_iterations,
         )
+        controller = UnifiedContinuationController(
+            NonlinearState(
+                displacement=displacement,
+                load_factor=0.0,
+                material_state=copy_material_states(material_states),
+                continuation_state={"accepted_step": 0},
+            )
+        )
+        self._continuation_rejection_log: list[dict[str, object]] = []
+        self._continuation_commit_count = 0
         current_factor = 0.0
         increment = controls.initial_increment
         history: list[NonlinearStep] = []
@@ -114,17 +125,15 @@ class NonlinearLoadControlMixin:
         while current_factor < 1.0 - 1.0e-12:
             proposed = min(increment, 1.0 - current_factor)
             target_factor = current_factor + proposed
-            trial = displacement.copy()
-            state_session = MaterialStateSession(material_states)
-            trial_states = state_session.begin_trial()
+            trial_state = controller.begin_trial()
             try:
                 info = self._solve_load_step(
                     model,
                     dofs,
-                    trial,
+                    trial_state.displacement,
                     free,
                     target_factor * loads,
-                    trial_states,
+                    trial_state.material_state,
                     step + 1,
                     target_factor,
                     proposed,
@@ -137,10 +146,22 @@ class NonlinearLoadControlMixin:
                     armijo,
                     current_factor * loads,
                     max(float(np.linalg.norm(loads[free])), 1.0),
+                    commit_to_inputs=False,
                 )
             except RuntimeError as error:
-                state_session.rollback()
-                self._rejected_increments += 1
+                controller.rollback(
+                    error,
+                    path="adaptive_load_control",
+                    metadata={
+                        "base_load_factor": current_factor,
+                        "rejected_increment": proposed,
+                        "retry_increment": proposed * controls.cutback_factor,
+                    },
+                )
+                self._continuation_rejection_log = list(controller.rejection_log)
+                self._rejected_increments = controller.rejected_increments
+                if not continuation_retry_permitted(error, allow_owner_policy=True):
+                    raise
                 pending_cutbacks += 1
                 rejected = proposed
                 proposed *= controls.cutback_factor
@@ -159,20 +180,44 @@ class NonlinearLoadControlMixin:
                         diagnostics={
                             "max_cutbacks": controls.maximum_cutbacks,
                             "last_failure_reason": _failure_reason_value(error),
+                            "continuation_commit_count": controller.transaction.commit_count,
+                            "accepted_state_digest": controller.accepted_digest,
                         },
                     )
                 if proposed < controls.minimum_increment:
                     raise NumericalConvergenceError(
                         "Adaptive nonlinear load stepping reached the minimum load increment.",
                         reason=NonlinearFailureReason.MIN_INCREMENT_REACHED,
-                        diagnostics={"minimum_increment": controls.minimum_increment},
+                        diagnostics={
+                            "minimum_increment": controls.minimum_increment,
+                            "continuation_commit_count": controller.transaction.commit_count,
+                            "accepted_state_digest": controller.accepted_digest,
+                        },
                     )
                 increment = proposed
                 continue
             info = replace(info, load_step_cutbacks=pending_cutbacks)
             pending_cutbacks = 0
-            displacement[:] = trial
-            state_session.commit()
+            final_state = self._last_load_step_state
+            if final_state is None:
+                raise NumericalConvergenceError(
+                    "Adaptive load-control did not expose the unified accepted trial state.",
+                    reason=NonlinearFailureReason.STATE_CORRUPTION,
+                )
+            trial_state.displacement = final_state.displacement.copy()
+            trial_state.material_state = copy_material_states(final_state.material_state)
+            trial_state.load_factor = target_factor
+            trial_state.accepted_increment_metadata = {
+                "step": step + 1,
+                "load_increment": proposed,
+                "load_step_cutbacks": pending_cutbacks,
+            }
+            controller.commit()
+            self._continuation_commit_count = controller.transaction.commit_count
+            accepted = controller.accepted_state
+            displacement[:] = accepted.displacement
+            commit_material_states(material_states, accepted.material_state)
+            self._rejected_increments = controller.rejected_increments
             history.append(info)
             step += 1
             current_factor = target_factor
@@ -205,6 +250,8 @@ class NonlinearLoadControlMixin:
         armijo: float,
         previous_load: np.ndarray | None = None,
         reference_force_norm: float | None = None,
+        *,
+        commit_to_inputs: bool = True,
     ) -> NonlinearStep:
         """Run standard fixed load control through :class:`UnifiedNewtonEngine`.
 
@@ -300,8 +347,11 @@ class NonlinearLoadControlMixin:
             stagnation_check=False,
         )
         final_state = result.state
-        displacement[:] = final_state.displacement
-        commit_material_states(material_states, final_state.material_state)  # type: ignore[arg-type]
+        self._last_load_step_state = final_state.detached_copy()
+        final_displacement = final_state.displacement
+        if commit_to_inputs:
+            displacement[:] = final_displacement
+            commit_material_states(material_states, final_state.material_state)  # type: ignore[arg-type]
         raw = result.diagnostics["increments"][0]
         assert isinstance(raw, dict)
         final_internal = contribution.last_internal
@@ -313,7 +363,7 @@ class NonlinearLoadControlMixin:
             )
         internal_work, external_work, work_imbalance = incremental_work_diagnostics(
             base_displacement,
-            displacement,
+            final_displacement,
             base_internal,
             final_internal,
             previous_load,
