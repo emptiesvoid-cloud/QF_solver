@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP02-D-ARC-RESTART-001",
+  "work_package": "WP02-D",
+  "status": "ARC_LENGTH_RESTART",
+  "baseline_sha": "aafb164a4a20189dc27fb4c0968358d5463f13e6",
+  "implementation_sha": "reported in the final gate record; not embedded self-referentially",
+  "validated_total": 16,
+  "points_awarded": 0,
+  "owner_decisions": {
+    "OD-029-01": "OPEN; unchanged and blocks WP09 only.",
+    "OD-029-02": "CLOSED; READ_V1_WRITE_V2_BOUNDED"
+  },
+  "migration": {
+    "restore_authority": "NonlinearCheckpointSession.restore_state returns one detached accepted NonlinearState.",
+    "save_authority": "NonlinearCheckpointSession.save_state persists controller.accepted_state after commit.",
+    "specialized_kernel": "solve_arc_length_correction remains the augmented correction kernel; it does not publish accepted state.",
+    "legacy_restore_continuation": "COMPATIBILITY_DELEGATE; not used by the public arc-length route.",
+    "legacy_save": "COMPATIBILITY_DELEGATE; not used by the public arc-length route.",
+    "accepted_continuation_fields": ["accepted_step", "load_factor", "radius", "maximum_radius", "load_scale", "previous_du", "previous_dlambda"],
+    "policy_fields": ["target_load_factor", "stop_mode", "allow_load_factor_turning", "control_dof"],
+    "trial_persistence": false
+  },
+  "failure_semantics": {
+    "failed_restore": "InputValidationError or STATE_CORRUPTION before state installation",
+    "physical_arc_failure": "ARC_LENGTH_FAILURE or the existing canonical reason",
+    "checkpoint_save_failure": "CHECKPOINT_FAILURE after physical acceptance; no radius cutback and no physical rollback",
+    "minimum_radius": "Last accepted checkpoint remains authoritative"
+  },
+  "compatibility": {
+    "v1_policy": "READ_V1_WRITE_V2_BOUNDED",
+    "supported_v1": "Required accepted continuation fields present and current model proves contact-free/stateless compatibility.",
+    "incomplete_v1": "Reject explicitly; missing previous direction/history is not synthesized.",
+    "frictional_contact_restart": "NOT_CLAIMED"
+  },
+  "thresholds": {
+    "physical_path": {"relative": 1e-9, "absolute_floor": 1e-12},
+    "persisted_state": {"exact_digest": true, "relative": 1e-12, "absolute": 1e-14}
+  },
+  "tests": {
+    "wp02_d_focused": "28 passed",
+    "wp02_b_focused": "28 passed",
+    "wp02_c_focused": "25 passed",
+    "arc_length_regression": "3 passed, 27 deselected",
+    "checkpoint_regression": "10 passed",
+    "continuation_regression": "7 passed, 15 deselected",
+    "failure_regression": "21 passed",
+    "contact_regression": "11 passed",
+    "geometric_j2_targeted": "4 passed, 26 deselected",
+    "qualification_guards": "12 passed",
+    "engineering_doc_guards": "4 passed",
+    "full_suite_run": false
+  },
+  "validation": {
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "qualification_json": "PASS; 5 files",
+    "mkdocs_strict": "PASS",
+    "mypy": "15 inherited diagnostics at baseline and after WP02-D; no new diagnostics in checkpoint, solver or test files"
+  },
+  "gates": {
+    "G02-01": "PASS",
+    "G02-02": "PASS",
+    "G02-03": "PASS_BOUNDED",
+    "G02-04": "PASS_BOUNDED",
+    "G02-05": "PASS",
+    "G02-06": "PASS",
+    "G02-07": "PASS_BOUNDED",
+    "G02-08": "PASS",
+    "G02-09": "PASS",
+    "G02-10": "PASS_BOUNDED"
+  },
+  "known_limits": [
+    "WP02-E independent closure audit remains required before any WP02 points are awarded.",
+    "Frictional-contact restart is not implemented or claimed.",
+    "Checkpoint persistence remains single-process; PETSc/MPI restart is out of scope.",
+    "No numerical formulation, maturity status or 0.2.8 historical evidence changed."
+  ],
+  "numerical_formulation_changed": false,
+  "element_formulation_changed": false,
+  "maturity_changed": false,
+  "historical_evidence_changed": false
+}

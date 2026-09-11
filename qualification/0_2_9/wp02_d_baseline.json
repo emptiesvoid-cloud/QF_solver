@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP02-D-BASELINE-001",
+  "work_package": "WP02-D",
+  "status": "BASELINE_CAPTURED",
+  "source_sha": "aafb164a4a20189dc27fb4c0968358d5463f13e6",
+  "capture_mode": "DETACHED_START_SHA_TARGETED_REGRESSION",
+  "reference_records": [
+    "qualification/0_2_9/wp01_d_baseline.json",
+    "tests/unit/test_nonlinear_checkpoint.py"
+  ],
+  "targeted_commands": [
+    {
+      "command": "python -m pytest -q tests/unit/test_analysis_features.py -k arc_length",
+      "result": "3 passed, 27 deselected"
+    },
+    {
+      "command": "python -m pytest -q tests/unit/test_wp01_d_continuation.py -k arc_length",
+      "result": "7 passed, 15 deselected"
+    },
+    {
+      "command": "python -m pytest -q tests/unit/test_nonlinear_checkpoint.py",
+      "result": "10 passed"
+    }
+  ],
+  "cases": [
+    {"id": "A1", "name": "monotonic arc-length", "status": "INHERITED_WP01_D_BASELINE", "source": "arc_length_monotonic"},
+    {"id": "A2", "name": "turning-point arc-length", "status": "INHERITED_WP01_D_BASELINE", "source": "arc_length_turning_point"},
+    {"id": "A3", "name": "adaptive radius growth", "status": "INHERITED_WP01_D_BASELINE", "source": "arc_length_adaptive_radius"},
+    {"id": "A4", "name": "adaptive radius shrink", "status": "INHERITED_WP01_D_BASELINE", "source": "arc_length_rejected_step_radius_shrink"},
+    {"id": "A5", "name": "rejected step followed by retry", "status": "INHERITED_WP01_D_TARGETED_COVERAGE", "source": "tests/unit/test_wp01_d_continuation.py"},
+    {"id": "A6", "name": "repeated rejected steps", "status": "INHERITED_WP01_D_TARGETED_COVERAGE", "source": "tests/unit/test_wp01_d_continuation.py"},
+    {"id": "A7", "name": "checkpoint-enabled monotonic case", "status": "START_SHA_TARGETED", "source": "tests/unit/test_nonlinear_checkpoint.py::test_arc_length_checkpoint_restart_matches_continuous_path"},
+    {"id": "A8", "name": "checkpoint-enabled turning case", "status": "START_SHA_TARGETED_COMPATIBILITY", "source": "tests/unit/test_nonlinear_checkpoint.py"},
+    {"id": "A9", "name": "max_steps stop mode", "status": "INHERITED_WP01_D_BASELINE", "source": "arc_length_turning_point"},
+    {"id": "A10", "name": "control-DOF case", "status": "NOT_SEPARATELY_CAPTURED", "source": "prospective WP02-D coverage"},
+    {"id": "A11", "name": "minimum-radius terminal failure", "status": "INHERITED_WP01_D_TARGETED_COVERAGE", "source": "tests/unit/test_wp01_d_continuation.py"},
+    {"id": "A12", "name": "load-factor-limit failure", "status": "NOT_SEPARATELY_CAPTURED", "source": "prospective WP02-D coverage"}
+  ],
+  "numeric_data_policy": "Existing WP01-D numeric/path records are referenced, not rewritten. Cases marked NOT_SEPARATELY_CAPTURED are covered by the new WP02-D negative-path tests rather than represented by invented baseline values.",
+  "thresholds": {
+    "path_and_physical_results": {"relative": 1e-9, "absolute_floor": 1e-12},
+    "persisted_state": {"exact_digest": true}
+  },
+  "full_suite_run": false,
+  "historical_evidence_changed": false
+}

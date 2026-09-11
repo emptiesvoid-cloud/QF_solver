@@ -41,8 +41,9 @@ class NonlinearArcLengthMixin:
         tolerance: float,
         linear_method: str,
         checkpoint_session: NonlinearCheckpointSession | None = None,
-        continuation_state: dict[str, object] | None = None,
         arc_length_controls: ArcLengthControls | None = None,
+        *,
+        initial_state: NonlinearState | None = None,
     ) -> list[NonlinearStep]:
         params = model.analysis.parameters
         target_factor = float(params.get("target_load_factor", 1.0))
@@ -71,27 +72,31 @@ class NonlinearArcLengthMixin:
             if control_dof_value < 0 or control_dof_value >= dofs.ndof or control_dof_value not in set(free.tolist()):
                 raise InputValidationError("arc_length_control_dof must identify a free global DDL.")
             control_dof = control_dof_value
-        current_factor = float((continuation_state or {}).get("load_factor", 0.0))
         history: list[NonlinearStep] = []
         reference = max(float(np.linalg.norm(loads[free])), 1.0)
-        if continuation_state:
-            radius = float(continuation_state["radius"])
-            maximum_radius = float(
-                continuation_state.get(
-                    "maximum_radius",
-                    params.get("max_arc_length_radius", radius),
-                )
+        restored_state = initial_state.detached_copy() if initial_state is not None else None
+        if restored_state is not None and restored_state.continuation_state:
+            _validate_arc_continuation_state(
+                restored_state,
+                free=free,
+                target_factor=target_factor,
+                load_factor_limit=load_factor_limit,
+                stop_mode=stop_mode,
+                allow_turning=allow_turning,
+                control_dof=control_dof,
             )
-            load_scale = float(continuation_state["load_scale"])
-            previous_du = np.asarray(continuation_state["previous_du"], dtype=float)
-            previous_dlambda = float(continuation_state.get("previous_dlambda", 0.0))
-            if previous_du.shape != (free.size,) or not np.all(np.isfinite(previous_du)):
-                raise InputValidationError("Arc-length checkpoint previous displacement increment is invalid.")
-            if not np.isfinite(previous_dlambda):
-                raise InputValidationError("Arc-length checkpoint previous load increment is invalid.")
-            if not np.isfinite(radius) or radius <= 0.0 or not np.isfinite(load_scale) or load_scale <= 0.0:
-                raise InputValidationError("Arc-length checkpoint radius or load scale is invalid.")
-            step = checkpoint_session.restart_step if checkpoint_session is not None else 0
+            current_factor = float(restored_state.load_factor)
+            accepted_continuation = restored_state.continuation_state
+            radius = float(accepted_continuation["radius"])
+            maximum_radius = float(accepted_continuation["maximum_radius"])
+            load_scale = float(accepted_continuation["load_scale"])
+            previous_du = np.asarray(accepted_continuation["previous_du"], dtype=float)
+            previous_dlambda = float(accepted_continuation["previous_dlambda"])
+            step = int(accepted_continuation["accepted_step"])
+            if checkpoint_session is not None and step != checkpoint_session.restart_step:
+                raise InputValidationError("Arc-length checkpoint step and continuation state are inconsistent.")
+            displacement[:] = restored_state.displacement
+            material_states = copy_material_states(restored_state.material_state)
         else:
             radius, load_scale = self._initial_arc_length_radius(
                 model,
@@ -112,20 +117,12 @@ class NonlinearArcLengthMixin:
             previous_du = np.zeros(free.size, dtype=float)
             previous_dlambda = 0.0
             step = 0
-        if (
-            not np.isfinite(maximum_radius)
-            or maximum_radius < controls.minimum_radius
-            or maximum_radius < radius
-        ):
-            raise InputValidationError(
-                "max_arc_length_radius must be finite and at least the current arc-length radius."
-            )
-        controller = UnifiedContinuationController(
-            NonlinearState(
+            current_factor = 0.0
+            restored_state = NonlinearState(
                 displacement=displacement,
                 load_factor=current_factor,
                 material_state=copy_material_states(material_states),
-                contact_state={},
+                contact_state=(initial_state.contact_state if initial_state is not None else {}),
                 continuation_state={
                     "accepted_step": step,
                     "load_factor": current_factor,
@@ -134,9 +131,21 @@ class NonlinearArcLengthMixin:
                     "load_scale": load_scale,
                     "previous_du": previous_du.tolist(),
                     "previous_dlambda": previous_dlambda,
+                    "target_load_factor": target_factor,
+                    "stop_mode": stop_mode,
+                    "allow_load_factor_turning": allow_turning,
+                    "control_dof": control_dof,
                 },
             )
-        )
+        if (
+            not np.isfinite(maximum_radius)
+            or maximum_radius < controls.minimum_radius
+            or maximum_radius < radius
+        ):
+            raise InputValidationError(
+                "max_arc_length_radius must be finite and at least the current arc-length radius."
+            )
+        controller = UnifiedContinuationController(restored_state)
         self._continuation_rejection_log: list[dict[str, object]] = []
         self._continuation_commit_count = 0
         accepted_step = step
@@ -221,11 +230,16 @@ class NonlinearArcLengthMixin:
                     "load_scale": load_scale,
                     "previous_du": trial_previous_du.tolist(),
                     "previous_dlambda": info.load_increment,
+                    "target_load_factor": target_factor,
+                    "stop_mode": stop_mode,
+                    "allow_load_factor_turning": allow_turning,
+                    "control_dof": control_dof,
                 }
                 trial.accepted_increment_metadata = {
                     "step": step,
                     "arc_length_radius": step_radius,
                     "accepted_radius_for_next_trial": next_radius,
+                    "accepted_load_factor": trial_factor,
                 }
                 controller.commit()
                 self._continuation_commit_count = controller.transaction.commit_count
@@ -241,14 +255,6 @@ class NonlinearArcLengthMixin:
                 radius = next_radius
                 accepted_step = step
                 history.append(info)
-                if checkpoint_session is not None:
-                    checkpoint_session.save(
-                        step,
-                        current_factor,
-                        displacement,
-                        material_states,
-                        continuation_state=dict(accepted.continuation_state),
-                    )
             except NumericalConvergenceError as error:
                 controller.rollback(
                     error,
@@ -293,6 +299,7 @@ class NonlinearArcLengthMixin:
                         },
                     ) from error
                 continue
+
             except RuntimeError as error:
                 controller.rollback(
                     error,
@@ -334,8 +341,19 @@ class NonlinearArcLengthMixin:
                             "continuation_commit_count": controller.transaction.commit_count,
                             "accepted_state_digest": controller.accepted_digest,
                         },
-                    ) from error
+                ) from error
                 continue
+
+            if checkpoint_session is not None:
+                # Persistence is infrastructure after physical acceptance.
+                # A save failure must not enter the physical rollback/cutback
+                # path: the accepted controller state remains authoritative.
+                checkpoint_session.save_state(
+                    step,
+                    accepted,
+                    final=(stop_mode == "target_load" and target_reached()),
+                    migration_metadata={"continuation_kind": "arc_length"},
+                )
         return history
 
 
@@ -596,3 +614,80 @@ class NonlinearArcLengthMixin:
                 "residual_history": residual_history,
             },
         )
+
+
+def _validate_arc_continuation_state(
+    state: NonlinearState,
+    *,
+    free: np.ndarray,
+    target_factor: float,
+    load_factor_limit: float,
+    stop_mode: str,
+    allow_turning: bool,
+    control_dof: int | None,
+) -> None:
+    """Validate the accepted continuation payload before controller install."""
+
+    continuation = state.continuation_state
+    required = {
+        "accepted_step",
+        "load_factor",
+        "radius",
+        "maximum_radius",
+        "load_scale",
+        "previous_du",
+        "previous_dlambda",
+    }
+    missing = sorted(key for key in required if key not in continuation)
+    if missing:
+        raise InputValidationError(
+            "Arc-length checkpoint continuation state is incomplete: " + ", ".join(missing)
+        )
+
+    accepted_step = continuation["accepted_step"]
+    if isinstance(accepted_step, bool) or not isinstance(accepted_step, (int, np.integer)) or accepted_step < 0:
+        raise InputValidationError("Arc-length checkpoint accepted_step must be a non-negative integer.")
+
+    stored_factor = continuation["load_factor"]
+    radius = continuation["radius"]
+    maximum_radius = continuation["maximum_radius"]
+    load_scale = continuation["load_scale"]
+    previous_dlambda = continuation["previous_dlambda"]
+    values = {
+        "load_factor": stored_factor,
+        "radius": radius,
+        "maximum_radius": maximum_radius,
+        "load_scale": load_scale,
+        "previous_dlambda": previous_dlambda,
+    }
+    for name, value in values.items():
+        if isinstance(value, bool) or not isinstance(value, (int, float, np.integer, np.floating)):
+            raise InputValidationError(f"Arc-length checkpoint {name} must be a finite scalar.")
+        if not np.isfinite(float(value)):
+            raise InputValidationError(f"Arc-length checkpoint {name} must be finite.")
+    if float(radius) <= 0.0:
+        raise InputValidationError("Arc-length checkpoint radius must be positive.")
+    if float(maximum_radius) < float(radius):
+        raise InputValidationError("Arc-length checkpoint maximum_radius must be at least radius.")
+    if float(load_scale) <= 0.0:
+        raise InputValidationError("Arc-length checkpoint load_scale must be positive.")
+    if not np.isclose(float(stored_factor), state.load_factor, rtol=0.0, atol=1.0e-14):
+        raise InputValidationError("Arc-length checkpoint load factor is inconsistent with continuation state.")
+    if abs(state.load_factor) > load_factor_limit + 1.0e-12:
+        raise InputValidationError("Arc-length checkpoint load factor exceeds the configured limit.")
+
+    previous_du = np.asarray(continuation["previous_du"], dtype=float)
+    if previous_du.shape != (free.size,) or not np.all(np.isfinite(previous_du)):
+        raise InputValidationError("Arc-length checkpoint previous displacement increment is invalid.")
+
+    stored_target = continuation.get("target_load_factor")
+    if stored_target is not None and not np.isclose(float(stored_target), target_factor, rtol=0.0, atol=1.0e-14):
+        raise InputValidationError("Arc-length checkpoint target load factor is incompatible with the model.")
+    stored_stop_mode = continuation.get("stop_mode")
+    if stored_stop_mode is not None and str(stored_stop_mode).lower() != stop_mode:
+        raise InputValidationError("Arc-length checkpoint stop mode is incompatible with the model.")
+    stored_turning = continuation.get("allow_load_factor_turning")
+    if stored_turning is not None and bool(stored_turning) != allow_turning:
+        raise InputValidationError("Arc-length checkpoint turning policy is incompatible with the model.")
+    if "control_dof" in continuation and continuation["control_dof"] != control_dof:
+        raise InputValidationError("Arc-length checkpoint control DOF is incompatible with the model.")

@@ -101,17 +101,24 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                 max(1, int(params.get("max_arc_steps", max(load_steps * 4, load_steps + 1)))),
                 self.checkpoint_store,
             )
-            displacement, material_states, continuation_state = checkpoint_session.restore_continuation(
-                displacement,
-                material_states,
-                float(params.get("target_load_factor", 1.0)),
-                float(
-                    params.get(
-                        "arc_length_load_factor_limit",
-                        max(abs(float(params.get("target_load_factor", 1.0))), 1.0),
-                    )
-                ),
+            target_factor = float(params.get("target_load_factor", 1.0))
+            load_factor_limit = float(
+                params.get(
+                    "arc_length_load_factor_limit",
+                    max(abs(target_factor), 1.0),
+                )
             )
+            restored = checkpoint_session.restore_state(
+                NonlinearState(
+                    displacement=displacement,
+                    load_factor=0.0,
+                    material_state=material_states,
+                ),
+                load_factor_limit=load_factor_limit,
+                require_continuation=checkpoint_session.settings.restart_from is not None,
+            )
+            displacement = restored.displacement.copy()
+            material_states = copy_material_states(restored.material_state)
             history = self._solve_arc_length(
                 model,
                 dofs,
@@ -124,8 +131,8 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                 tolerance,
                 linear_method,
                 checkpoint_session,
-                continuation_state,
                 arc_length_controls,
+                initial_state=restored,
             )
         elif adaptive:
             checkpoint_session = NonlinearCheckpointSession.create(
