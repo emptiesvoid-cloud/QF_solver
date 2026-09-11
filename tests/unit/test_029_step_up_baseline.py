@@ -1,0 +1,66 @@
+"""Guards for the prospective 0.2.9 Unified Nonlinear Mechanics baseline."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[2]
+QUALIFICATION = ROOT / "qualification" / "0_2_9"
+DOCS = ROOT / "docs" / "verification" / "0_2_9"
+
+
+def _load(name: str) -> dict[str, object]:
+    return json.loads((QUALIFICATION / name).read_text(encoding="utf-8"))
+
+
+def test_step_up_baseline_preserves_release_identity_and_registry_boundary() -> None:
+    baseline = _load("baseline.json")
+
+    assert baseline["baseline_sha"] == "032c8602e9bb3d7033f0fd696bf0ca7d82257e10"
+    assert baseline["release_0_2_8"]["tag"] == "v0.2.8"
+    assert baseline["inherited_registry"] == {
+        "source": "qualification/0_2_8/consolidated_registry.json",
+        "QUALIFIED_BOUNDED": 32,
+        "EXPERIMENTAL": 14,
+        "NOT_QUALIFIED": 0,
+        "total": 46,
+        "boundary": "Element/analysis combinations only; mixed workflows and separate capabilities remain outside the 46 records.",
+    }
+
+
+def test_step_up_roadmap_is_frozen_at_one_hundred_points() -> None:
+    roadmap = _load("roadmap.json")
+    points = [entry["points"] for entry in roadmap["work_packages"]]
+
+    assert [entry["id"] for entry in roadmap["work_packages"]] == [f"WP{index:02d}" for index in range(15)]
+    assert sum(points) == 100
+    assert roadmap["total_points"] == 100
+    assert roadmap["frozen"] is True
+
+
+def test_step_up_requires_owner_decision_before_j2_geometry_work() -> None:
+    decisions = _load("owner_decisions.json")
+    decision = decisions["open_decisions"][0]
+
+    assert decision["id"] == "OD-029-01"
+    assert decision["status"] == "OPEN"
+    assert decision["default_without_owner_approval"] == "D"
+    assert [option["id"] for option in decision["options"]] == ["A", "B", "C", "D"]
+
+
+def test_step_up_documents_are_present_and_explicitly_planning_only() -> None:
+    expected = {
+        "README.md",
+        "architecture-baseline.md",
+        "requirements.md",
+        "gate-matrix.md",
+        "known-limitations.md",
+        "progress.md",
+        "owner-decisions.md",
+    }
+
+    assert {path.name for path in DOCS.glob("*.md")} == expected
+    assert "not a release claim" in (DOCS / "README.md").read_text(encoding="utf-8").lower()
+    assert "NOT_VALIDATED" in (DOCS / "known-limitations.md").read_text(encoding="utf-8")

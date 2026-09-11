@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "roadmap_id": "QF-SOLVER-0.2.9-ROADMAP-001",
+  "frozen": true,
+  "change_policy": "Weights and work-package boundaries require explicit owner approval to change.",
+  "work_packages": [
+    {"id": "WP00", "name": "Baseline / architecture contracts", "points": 4},
+    {"id": "WP01", "name": "Unified Nonlinear Core", "points": 12},
+    {"id": "WP02", "name": "State Transactions & Rollback", "points": 6},
+    {"id": "WP03", "name": "Newton Robustness / Adaptive Control", "points": 7},
+    {"id": "WP04", "name": "Geometric Nonlinear Qualification", "points": 12},
+    {"id": "WP05", "name": "High-order Geometric Nonlinear", "points": 5},
+    {"id": "WP06", "name": "Arc-Length & Postbuckling", "points": 8},
+    {"id": "WP07", "name": "Frictionless Contact Maturity", "points": 10},
+    {"id": "WP08", "name": "Frictional Contact", "points": 8},
+    {"id": "WP09", "name": "J2 + Geometry", "points": 8},
+    {"id": "WP10", "name": "Coupled Nonlinear Mechanics", "points": 6},
+    {"id": "WP11", "name": "Mixed PETSc/MPI Closure", "points": 6},
+    {"id": "WP12", "name": "External V&V", "points": 4},
+    {"id": "WP13", "name": "Performance / API / Diagnostics", "points": 2},
+    {"id": "WP14", "name": "Qualification / Documentation / Release", "points": 2}
+  ],
+  "total_points": 100,
+  "primary_scope": "One coherent nonlinear mechanics architecture with shared state contracts, residual/tangent assembly, Newton control, diagnostics and recovery semantics.",
+  "out_of_primary_scope": [
+    "WEDGE15", "PYRAMID5 promotion", "broad new element collection", "GPU backend", "GUI", "multiphysics", "neural operators / PINN", "broad Abaqus compatibility expansion", "distributed nonlinear mechanics", "general nonlinear dynamics"
+  ],
+  "incidental_only": ["MITC4 modal fixes", "HEX8-SRI fixes"]
+}

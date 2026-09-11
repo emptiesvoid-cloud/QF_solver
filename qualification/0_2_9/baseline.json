@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "baseline_id": "QF-SOLVER-0.2.9-STEP-UP-001",
+  "release": "0.2.9",
+  "theme": "Unified Nonlinear Mechanics",
+  "baseline_sha": "032c8602e9bb3d7033f0fd696bf0ca7d82257e10",
+  "baseline_branch": "main",
+  "release_0_2_8": {
+    "tag": "v0.2.8",
+    "status": "RELEASED_PUBLISHED_CITED",
+    "version_doi": "10.5281/zenodo.22697898",
+    "concept_doi": "10.5281/zenodo.22697897",
+    "immutability_policy": "The v0.2.8 tag, published artifacts, historical evidence and maturity records are not modified by 0.2.9 work."
+  },
+  "inherited_registry": {
+    "source": "qualification/0_2_8/consolidated_registry.json",
+    "QUALIFIED_BOUNDED": 32,
+    "EXPERIMENTAL": 14,
+    "NOT_QUALIFIED": 0,
+    "total": 46,
+    "boundary": "Element/analysis combinations only; mixed workflows and separate capabilities remain outside the 46 records."
+  },
+  "inherited_limitations": [
+    "small-strain J2 is QUALIFIED_BOUNDED only within its recorded 0.2.8 scope",
+    "geometric nonlinear analysis is RESEARCH_ONLY",
+    "frictionless penalty contact is EXPERIMENTAL_BOUNDED",
+    "mixed distributed PETSc/MPI runtime is NOT_VALIDATED",
+    "no general finite-strain plasticity, nonlinear/contact production, nonlinear HPC or general finite-sliding claim exists"
+  ],
+  "immutability": {
+    "numerical_source": "No numerical source change is made by STEP-UP.",
+    "historical_evidence": "0.2.7 and 0.2.8 historical evidence is immutable.",
+    "maturity": "Existing maturity statuses are unchanged; 0.2.9 targets are prospective only."
+  }
+}
