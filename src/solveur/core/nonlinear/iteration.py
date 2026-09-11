@@ -17,9 +17,9 @@ from solveur.core.nonlinear.driver import (
     ContributionResponse,
     UnifiedContinuationController,
     UnifiedNewtonEngine,
-    continuation_retry_permitted,
 )
 from solveur.core.nonlinear.robustness import (
+    UnifiedAdaptiveStepPolicy,
     LineSearchEvaluation,
     LineSearchResult,
     NonlinearRobustnessOptions,
@@ -356,17 +356,20 @@ def solve_adaptive_full_newton(
     rejection_log: list[dict[str, object]] = []
     current_factor = float(controller.accepted_state.load_factor)
     stored_increment = controller.accepted_state.continuation_state.get("next_increment")
-    if isinstance(stored_increment, (int, float)) and np.isfinite(float(stored_increment)) and float(stored_increment) > 0.0:
-        increment = min(controls.maximum_increment, max(controls.minimum_increment, float(stored_increment)))
-    else:
-        increment = controls.initial_increment
+    adaptive_policy = UnifiedAdaptiveStepPolicy(controls)
+    increment = adaptive_policy.initial_increment(
+        float(stored_increment)
+        if isinstance(stored_increment, (int, float))
+        else None
+    )
     accepted_step = int(controller.accepted_state.continuation_state.get("accepted_step", 0))
     total_iterations = 0
     metadata = controller.accepted_state.accepted_increment_metadata
     rejected_increments = int(metadata.get("rejected_increments", 0)) if isinstance(metadata, dict) else 0
     pending_cutbacks = 0
     while current_factor < 1.0 - 1.0e-12:
-        proposed = min(increment, 1.0 - current_factor)
+        policy_increment = increment
+        proposed = adaptive_policy.propose_increment(current_factor, policy_increment)
         target_factor = current_factor + proposed
         while True:
             trial_state = controller.begin_trial()
@@ -382,14 +385,13 @@ def solve_adaptive_full_newton(
                     robustness_options=robustness_options,
                 )
             except NumericalConvergenceError as exc:
-                controller.rollback(
+                retry_classification = controller.rollback(
                     exc,
                     path="adaptive_full_newton",
                     metadata={
                         "adaptive_load_step": accepted_step + 1,
                         "base_load_factor": current_factor,
                         "rejected_increment": proposed,
-                        "retry_increment": proposed * controls.cutback_factor,
                     },
                 )
                 rejected_increments = controller.rejected_increments
@@ -399,7 +401,21 @@ def solve_adaptive_full_newton(
                     if isinstance(exc.reason, NonlinearFailureReason)
                     else (str(exc.reason) if exc.reason is not None else type(exc).__name__)
                 )
-                retry_increment = proposed * controls.cutback_factor
+                policy_decision = adaptive_policy.on_failure(
+                    base_load_factor=current_factor,
+                    proposed_increment=proposed,
+                    failure_reason=exc.reason,
+                    retry_classification=retry_classification,
+                    rejected_count=rejected_increments,
+                    iterations=(
+                        int(exc.diagnostics["iterations"])
+                        if isinstance(exc.diagnostics.get("iterations"), int)
+                        else None
+                    ),
+                )
+                retry_increment = float(policy_decision.retry_increment or 0.0)
+                if controller.rejection_log:
+                    controller.rejection_log[-1]["retry_increment"] = retry_increment
                 failure_diagnostics = dict(exc.diagnostics)
                 failure_diagnostics.update(
                     {
@@ -422,9 +438,7 @@ def solve_adaptive_full_newton(
                         "rollback_before_retry": True,
                     }
                 )
-                if not continuation_retry_permitted(exc, allow_owner_policy=True):
-                    raise
-                if rejected_increments >= controls.maximum_cutbacks:
+                if policy_decision.decision == "TERMINAL_MAX_CUTBACKS":
                     raise NumericalConvergenceError(
                         "Adaptive Full Newton exceeded the configured maximum number of cutbacks.",
                         reason=NonlinearFailureReason.MAX_ITERATIONS,
@@ -434,9 +448,11 @@ def solve_adaptive_full_newton(
                             "rejected_increments": rejected_increments,
                             "rejection_log": rejection_log,
                             "continuation_rejection_log": controller.rejection_log,
+                            "adaptive_policy": adaptive_policy.configuration_diagnostics(),
+                            "adaptive_policy_terminal_decision": policy_decision.to_dict(),
                         },
                     ) from exc
-                if retry_increment < controls.minimum_increment:
+                if policy_decision.decision == "TERMINAL_MIN_INCREMENT":
                     raise NumericalConvergenceError(
                         "Adaptive Full Newton reached the minimum load increment.",
                         reason=NonlinearFailureReason.MIN_INCREMENT_REACHED,
@@ -446,9 +462,14 @@ def solve_adaptive_full_newton(
                             "rejected_increments": rejected_increments,
                             "rejection_log": rejection_log,
                             "continuation_rejection_log": controller.rejection_log,
+                            "adaptive_policy": adaptive_policy.configuration_diagnostics(),
+                            "adaptive_policy_terminal_decision": policy_decision.to_dict(),
                         },
                     ) from exc
+                if policy_decision.decision == "TERMINAL_NON_RETRYABLE":
+                    raise
                 proposed = retry_increment
+                policy_increment = proposed
                 target_factor = current_factor + proposed
                 increment = proposed
                 continue
@@ -478,12 +499,14 @@ def solve_adaptive_full_newton(
             trial_state.displacement = controller.accepted_state.displacement + trial_delta
             trial_state.load_factor = target_factor
             next_iterations = int(step_diagnostics["iterations"])
-            if next_iterations <= controls.grow_below_iterations:
-                next_increment = min(controls.maximum_increment, proposed * controls.growth_factor)
-            elif next_iterations >= controls.shrink_above_iterations:
-                next_increment = max(controls.minimum_increment, proposed * controls.cutback_factor)
-            else:
-                next_increment = proposed
+            policy_decision = adaptive_policy.on_accept(
+                base_load_factor=current_factor,
+                policy_increment=policy_increment,
+                proposed_increment=proposed,
+                iterations=next_iterations,
+                cutback_count=pending_cutbacks,
+            )
+            next_increment = float(policy_decision.next_increment or 0.0)
             accepted_step += 1
             trial_state.continuation_state = {
                 "accepted_step": accepted_step,
@@ -509,6 +532,7 @@ def solve_adaptive_full_newton(
                     "load_increment": proposed,
                     "load_step_cutbacks": pending_cutbacks,
                     "state_committed": True,
+                    "adaptive_policy": policy_decision.to_dict(),
                 }
             )
             history.append(step_diagnostics)
@@ -527,6 +551,7 @@ def solve_adaptive_full_newton(
         "rejection_log": rejection_log,
         "continuation_commit_count": controller.transaction.commit_count,
         "continuation_rejection_log": controller.rejection_log,
+        "adaptive_policy": adaptive_policy.configuration_diagnostics(),
         "adaptive_controls": {
             "initial_increment": controls.initial_increment,
             "minimum_increment": controls.minimum_increment,

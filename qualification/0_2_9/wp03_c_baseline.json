@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP03-C-BASELINE-001",
+  "work_package": "WP03-C",
+  "status": "EXECUTED_AT_START_SHA_WITH_KNOWN_SIGNATURE_FAILURE",
+  "baseline_sha": "e2f3e07310b4348c01ee68f764de0f986436995e",
+  "baseline_branch": "0.2.9-unified-nonlinear",
+  "scope": "Structured adaptive-policy baseline before WP03-C production edits; arc-length radius policy is excluded.",
+  "comparison_policy": {
+    "easy_case_relative": 1e-9,
+    "easy_case_absolute_floor": 1e-12,
+    "deterministic_policy": "Exact increment, retry, terminal-reason and accepted-state digest records where exposed.",
+    "full_suite": "NOT_RUN"
+  },
+  "controls": {
+    "cutback_factor": 0.5,
+    "growth_factor": 1.5,
+    "maximum_cutbacks": 25,
+    "minimum_increment_boundary": "candidate < minimum is terminal; equality is permitted by existing controls"
+  },
+  "cases": {
+    "B08_stateful_easy": {
+      "route": "NonlinearLoadControlMixin._solve_adaptive_load_steps",
+      "command": "python -c <stateful adaptive easy diagnostic harness>",
+      "status": "PASS",
+      "proposed_increments": [0.25, 0.5, 0.25],
+      "accepted_increments": [0.25, 0.5, 0.25],
+      "accepted_load_factors": [0.25, 0.75, 1.0],
+      "rejected_increments": [],
+      "next_increment_after_acceptance": [0.5, 0.75, 0.5],
+      "cutback_count": 0,
+      "rejected_total": 0,
+      "newton_iterations": [2, 1, 2],
+      "failure_reason": null,
+      "accepted_state_digest": "NOT_EXPOSED_BY_CURRENT_RESULT",
+      "material_digest": "NOT_EXPOSED_BY_CURRENT_RESULT",
+      "continuation_state": "NOT_EXPOSED_BY_CURRENT_RESULT"
+    },
+    "B08_stateless_easy": {
+      "route": "solve_adaptive_full_newton",
+      "command": "python -c <stateless adaptive easy diagnostic harness>",
+      "status": "PASS",
+      "proposed_increments": [1.0],
+      "accepted_increments": [1.0],
+      "accepted_load_factors": [1.0],
+      "rejected_increments": [],
+      "next_increment_after_acceptance": [1.0],
+      "cutback_count": 0,
+      "rejected_total": 0,
+      "newton_iterations": [2],
+      "failure_reason": null,
+      "accepted_state_digest": "NOT_EXPOSED_BY_CURRENT_RESULT"
+    },
+    "B09_stateful_forced_cutback": {
+      "route": "NonlinearLoadControlMixin._solve_adaptive_load_steps",
+      "command": "python -c <stateful one-failure injection diagnostic harness>",
+      "status": "PASS",
+      "proposed_increments": [1.0, 0.5],
+      "accepted_increments": [0.5, 0.5],
+      "accepted_load_factors": [0.5, 1.0],
+      "rejected_increments": [1.0],
+      "retry_increments": [0.5],
+      "cutback_count": 1,
+      "rejected_total": 1,
+      "newton_iterations": [2, 2],
+      "failure_reason": "MAX_ITERATIONS (injected)",
+      "accepted_state_digest_before_after_retry": "NOT_EXPOSED_BY_CURRENT_RESULT"
+    },
+    "B09_stateless_forced_cutback": {
+      "route": "solve_adaptive_full_newton",
+      "command": "python -c <stateless one-failure injection diagnostic harness>",
+      "status": "PASS",
+      "proposed_increments": [1.0, 0.5],
+      "accepted_increments": [0.5, 0.5],
+      "accepted_load_factors": [0.5, 1.0],
+      "rejected_increments": [1.0],
+      "retry_increments": [0.5],
+      "cutback_count": 1,
+      "rejected_total": 1,
+      "failure_reason": "MAX_ITERATIONS (injected)",
+      "accepted_state_digest_before_after_retry": "NOT_EXPOSED_BY_CURRENT_RESULT"
+    },
+    "B10_stateful_multiple_cutbacks": {
+      "route": "NonlinearLoadControlMixin._solve_adaptive_load_steps",
+      "command": "python -c <stateful three-failure injection diagnostic harness>",
+      "status": "PASS",
+      "proposed_increments": [1.0, 0.5, 0.25, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125],
+      "accepted_increments": [0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125],
+      "accepted_load_factors": [0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0],
+      "rejected_increments": [1.0, 0.5, 0.25],
+      "retry_increments": [0.5, 0.25, 0.125],
+      "cutback_count": 3,
+      "rejected_total": 3,
+      "failure_reason": "MAX_ITERATIONS (injected, three times)",
+      "accepted_state_digest_before_each_retry": "NOT_EXPOSED_BY_CURRENT_RESULT"
+    },
+    "B10_stateless_multiple_cutbacks": {
+      "route": "solve_adaptive_full_newton",
+      "command": "python -c <stateless three-failure injection diagnostic harness>",
+      "status": "PASS",
+      "proposed_increments": [1.0, 0.5, 0.25, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125],
+      "accepted_increments": [0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125],
+      "accepted_load_factors": [0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0],
+      "rejected_increments": [1.0, 0.5, 0.25],
+      "retry_increments": [0.5, 0.25, 0.125],
+      "cutback_count": 3,
+      "rejected_total": 3,
+      "failure_reason": "MAX_ITERATIONS (injected, three times)",
+      "accepted_state_digest_before_each_retry": "NOT_EXPOSED_BY_CURRENT_RESULT"
+    },
+    "B11_minimum_increment": {
+      "route": "solve_adaptive_full_newton and stateful adaptive policy",
+      "command": "python -c <one-failure injection with minimum increment 0.75>",
+      "status": "TERMINAL_EXPECTED",
+      "proposed_increments": [1.0],
+      "rejected_increments": [1.0],
+      "retry_increments": [0.5],
+      "minimum_increment": 0.75,
+      "candidate_boundary": "0.5 < 0.75",
+      "cutback_count": 1,
+      "rejected_total": 1,
+      "failure_reason": "MIN_INCREMENT_REACHED",
+      "accepted_state_preserved": "YES_BY_CONTROLLER_ROLLBACK"
+    },
+    "MAX_CUTBACK_TERMINAL": {
+      "route": "solve_adaptive_full_newton",
+      "command": "python -c <always-failing assembly with max_cutbacks=2>",
+      "status": "TERMINAL_EXPECTED",
+      "rejected_increments": [1.0, 0.5],
+      "retry_increments": [0.5, 0.25],
+      "cutback_count": 2,
+      "rejected_total": 2,
+      "failure_reason": "MAX_ITERATIONS",
+      "terminal_order": "after recording the Nth rejected attempt; no N+1 attempt"
+    },
+    "B16_path_dependent_restart_retry": {
+      "route": "run_adversarial_rollback_benchmark",
+      "command": "python -m pytest -q tests/unit/test_nonlinear_multielement.py::test_adversarial_rollback_retries_from_clean_committed_state",
+      "status": "PREEXISTING_FAILURE",
+      "failure": "TypeError: RejectFirstTrialSolver._solve_load_step() got an unexpected keyword argument 'commit_to_inputs'",
+      "accepted_state_digest_before_failure": "NOT_REACHED_BY_FIXTURE",
+      "retry_state_digest": "NOT_REACHED_BY_FIXTURE",
+      "classification_pending_audit": "TEST_FIXTURE_STALE versus compatibility defect; production seam audit required before fix"
+    }
+  },
+  "baseline_pytest": [
+    {
+      "command": "python -m pytest -q tests/unit/test_nonlinear_load_path.py -k adaptive",
+      "result": "11 passed, 14 deselected"
+    },
+    {
+      "command": "python -m pytest -q tests/unit/test_geometric_nonlinear_adaptive.py",
+      "result": "5 passed"
+    },
+    {
+      "command": "python -m pytest -q tests/unit/test_wp01_d_continuation.py -k adaptive",
+      "result": "4 passed, 18 deselected"
+    },
+    {
+      "command": "python -m pytest -q tests/unit/test_nonlinear_load_path.py::test_adaptive_rejection_rolls_back_displacement_and_material_state",
+      "result": "1 passed"
+    },
+    {
+      "command": "python -m pytest -q tests/unit/test_wp02_c_restart_migration.py -k adaptive_retry or deterministic_terminal_digest or rejected_adaptive",
+      "result": "3 passed, 22 deselected"
+    },
+    {
+      "command": "python -m pytest -q tests/unit/test_nonlinear_multielement.py::test_adversarial_rollback_retries_from_clean_committed_state",
+      "result": "1 failed: pre-existing commit_to_inputs signature mismatch"
+    }
+  ],
+  "integrity": {
+    "production_source_changed_during_capture": false,
+    "numerical_formulation_changed": false,
+    "element_formulation_changed": false,
+    "maturity_changed": false,
+    "full_test_suite_run": false
+  }
+}

@@ -506,6 +506,8 @@ def run_adversarial_rollback_benchmark(element_type: str = "TET4") -> dict[str, 
             armijo: float,
             previous_load: np.ndarray | None = None,
             reference_force_norm: float | None = None,
+            *,
+            commit_to_inputs: bool = True,
         ):
             self.attempts += 1
             if self.attempts == 1:
@@ -540,6 +542,7 @@ def run_adversarial_rollback_benchmark(element_type: str = "TET4") -> dict[str, 
                 armijo,
                 previous_load,
                 reference_force_norm,
+                commit_to_inputs=commit_to_inputs,
             )
 
     solver = RejectFirstTrialSolver()

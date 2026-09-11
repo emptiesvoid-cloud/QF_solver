@@ -10,11 +10,12 @@ add prospective contracts and evidence beneath this directory; historical
 0.2.8 evidence remains immutable.
 
 WP03 Newton Robustness / Adaptive Control is now in
-**STAGNATION_LINESEARCH_AUTHORITY** at 0/7 points. WP03-A freezes the current
-authority map, robustness contracts, failure and retry matrix, and 16-case
-baseline campaign. WP03-B records the targeted common stagnation/line-search
-authority implementation; adaptive and arc-length robustness consolidation
-remain future work and require Owner review before WP03-C.
+**ADAPTIVE_POLICY_AUTHORITY** at 0/7 points. WP03-A froze the authority map,
+robustness contracts, failure/retry matrix and 16-case baseline campaign.
+WP03-B recorded the common stagnation/line-search authority, and WP03-C now
+records the targeted common adaptive increment/retry policy. Arc-length
+radius robustness remains future WP03-D work and requires Owner review before
+it begins.
 
 ## Current planning status
 
@@ -29,6 +30,11 @@ remain future work and require Owner review before WP03-C.
 - OD-029-01: **OPEN**; it blocks WP09 only.
 - OD-029-02: **CLOSED** as `READ_V1_WRITE_V2_BOUNDED`; ambiguous/stateful
   contact-bearing v1 checkpoints are rejected.
+
+WP03-C preserves the accepted-state authority and all existing numerical and
+maturity boundaries. Its controlled evidence is recorded in
+`wp03_c_adaptive_policy.json`; no WP03 points are awarded before independent
+closure.
 
 WP02-A is recorded in the `wp02_*` planning records. WP02-B adds the schema-v2
 checkpoint and deterministic serialization foundation without changing
