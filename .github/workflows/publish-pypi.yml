@@ -3,6 +3,11 @@ name: Publish Python package
 on:
   workflow_dispatch:
     inputs:
+      release_tag:
+        description: "Immutable release tag to validate (v0.2.8 only)"
+        required: true
+        type: string
+        default: v0.2.8
       confirm_publish:
         description: "Confirm the intentional PyPI publication"
         required: true
@@ -16,12 +21,40 @@ jobs:
   quality:
     name: Release quality gate
     runs-on: ubuntu-latest
+    outputs:
+      release_verified: ${{ steps.verify_release.outputs.release_verified }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.release_tag }}
+          fetch-depth: 0
+          fetch-tags: true
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
           cache: pip
+      - name: Verify immutable release source
+        id: verify_release
+        env:
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          EXPECTED_TAG: v0.2.8
+          EXPECTED_COMMIT: c8f202d504fd26f66e12fbbc9a754a273ffbde07
+          EXPECTED_TREE: c8b31e72bcdd167372057b51c560b49062ebbdb4
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$RELEASE_TAG" = "$EXPECTED_TAG"
+          head_commit="$(git rev-parse HEAD)"
+          head_tree="$(git rev-parse 'HEAD^{tree}')"
+          tag_commit="$(git rev-parse "refs/tags/${RELEASE_TAG}^{commit}")"
+          test "$head_commit" = "$EXPECTED_COMMIT"
+          test "$tag_commit" = "$EXPECTED_COMMIT"
+          test "$head_tree" = "$EXPECTED_TREE"
+          package_version="$(python -c 'import tomllib; from pathlib import Path; print(tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))["project"]["version"])')"
+          test "$package_version" = "0.2.8"
+          printf 'Verified tag %s at %s with tree %s and package version %s\n' \
+            "$RELEASE_TAG" "$head_commit" "$head_tree" "$package_version"
+          echo "release_verified=true" >> "$GITHUB_OUTPUT"
       - name: Install locked standard baseline
         run: |
           python -m pip install --upgrade pip
@@ -33,19 +66,46 @@ jobs:
   build:
     needs: quality
     runs-on: ubuntu-latest
+    outputs:
+      release_verified: ${{ steps.verify_release.outputs.release_verified }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.release_tag }}
+          fetch-depth: 0
+          fetch-tags: true
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
+      - name: Verify immutable release source
+        id: verify_release
+        env:
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          EXPECTED_TAG: v0.2.8
+          EXPECTED_COMMIT: c8f202d504fd26f66e12fbbc9a754a273ffbde07
+          EXPECTED_TREE: c8b31e72bcdd167372057b51c560b49062ebbdb4
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$RELEASE_TAG" = "$EXPECTED_TAG"
+          head_commit="$(git rev-parse HEAD)"
+          head_tree="$(git rev-parse 'HEAD^{tree}')"
+          tag_commit="$(git rev-parse "refs/tags/${RELEASE_TAG}^{commit}")"
+          test "$head_commit" = "$EXPECTED_COMMIT"
+          test "$tag_commit" = "$EXPECTED_COMMIT"
+          test "$head_tree" = "$EXPECTED_TREE"
+          package_version="$(python -c 'import tomllib; from pathlib import Path; print(tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))["project"]["version"])')"
+          test "$package_version" = "0.2.8"
+          printf 'Verified tag %s at %s with tree %s and package version %s\n' \
+            "$RELEASE_TAG" "$head_commit" "$head_tree" "$package_version"
+          echo "release_verified=true" >> "$GITHUB_OUTPUT"
       - name: Build distributions
         run: |
           python -m pip install --upgrade build
           python -m build
       - name: Verify tag matches package version
         env:
-          RELEASE_TAG: ${{ github.ref_name }}
-          RELEASE_REF: ${{ github.ref }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
         run: |
           python - <<'PY'
           import tomllib
@@ -53,13 +113,8 @@ jobs:
           from packaging.version import Version
           import os
 
-          ref = os.environ["RELEASE_REF"]
-          if not ref.startswith("refs/tags/"):
-              raise SystemExit(
-                  "Publication workflow must run from a refs/tags/ ref"
-              )
           tag = os.environ["RELEASE_TAG"]
-          if not tag.startswith("v"):
+          if tag != "v0.2.8":
               raise SystemExit(f"Invalid release tag: {tag}")
           package_version = tomllib.loads(
               Path("pyproject.toml").read_text(encoding="utf-8")
@@ -87,11 +142,15 @@ jobs:
           path: dist/
 
   publish:
-    needs: build
+    needs: [quality, build]
     if: >-
+      needs.quality.result == 'success' &&
       needs.build.result == 'success' &&
-      startsWith(github.ref, 'refs/tags/') &&
+      needs.quality.outputs.release_verified == 'true' &&
+      needs.build.outputs.release_verified == 'true' &&
       github.event_name == 'workflow_dispatch' &&
+      github.ref == 'refs/heads/main' &&
+      inputs.release_tag == 'v0.2.8' &&
       inputs.confirm_publish == true
     runs-on: ubuntu-latest
     environment:
