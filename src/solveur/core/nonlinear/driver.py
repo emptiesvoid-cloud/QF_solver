@@ -429,6 +429,7 @@ class UnifiedNewtonEngine:
         assembly_failure_reason: AssemblyFailureReason | None = None,
         nonfinite_failure_reason: NonFiniteFailureReason | None = None,
         stagnation_check: bool = True,
+        accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
     ) -> UnifiedNewtonResult:
         """Solve the requested fixed load factors through one transaction lifecycle."""
 
@@ -477,6 +478,8 @@ class UnifiedNewtonEngine:
                     nonfinite_failure_reason=nonfinite_failure_reason,
                     stagnation_check=stagnation_check,
                 )
+                if accepted_state_callback is not None:
+                    accepted_state_callback(step, transaction.accepted_state.detached_copy())
                 history.append(step_result)
                 total_iterations += step_iterations
             except NumericalConvergenceError:

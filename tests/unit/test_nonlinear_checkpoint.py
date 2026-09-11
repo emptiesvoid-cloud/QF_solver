@@ -105,14 +105,38 @@ def test_nonlinear_restart_rejects_modified_physical_model(tmp_path) -> None:
         solve_model(changed)
 
 
-def test_nonlinear_checkpoint_rejects_adaptive_continuation(tmp_path) -> None:
+def test_nonlinear_adaptive_checkpoint_restart_matches_continuous(tmp_path) -> None:
     model = elastoplastic_tet4_model()
     model.analysis.parameters.update(
-        {"adaptive_load_steps": True, "checkpoint_path": str(tmp_path / "state.npz")}
+        {
+            "adaptive_load_steps": True,
+            "initial_load_increment": 0.25,
+            "min_load_increment": 0.05,
+            "max_load_increment": 0.5,
+            "checkpoint_path": str(tmp_path / "continuous.npz"),
+            "checkpoint_interval": 1,
+            "checkpoint_keep_steps": True,
+        }
     )
+    reference = solve_model(model)
+    intermediate = tmp_path / "continuous.step00000002.npz"
+    assert intermediate.is_file()
 
-    with pytest.raises(InputValidationError, match="fixed load-control"):
-        solve_model(model)
+    restarted = deepcopy(model)
+    restarted.analysis.parameters.update(
+        {
+            "checkpoint_path": str(tmp_path / "restarted.npz"),
+            "restart_from": str(intermediate),
+            "checkpoint_keep_steps": False,
+        }
+    )
+    resumed = solve_model(restarted)
+
+    np.testing.assert_allclose(resumed.displacements, reference.displacements, rtol=1.0e-12, atol=1.0e-14)
+    assert resumed.material_states == reference.material_states
+    assert resumed.solver["restart_step"] == 2
+    assert resumed.solver["history_is_partial"] is True
+    assert resumed.solver["steps"][-1]["load_factor"] == pytest.approx(1.0)
 
 
 def test_arc_length_checkpoint_restart_matches_continuous_path(tmp_path) -> None:

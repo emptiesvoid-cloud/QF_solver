@@ -350,8 +350,6 @@ class JsonSchemaAnalysisMixin:
                 errors.append("analysis.checkpoint_keep_steps must be a boolean.")
             if params.get("checkpoint_keep_steps") and "checkpoint_path" not in params:
                 errors.append("analysis.checkpoint_keep_steps requires analysis.checkpoint_path.")
-            if params.get("adaptive_load_steps") and any(key in params for key in ("checkpoint_path", "restart_from")):
-                errors.append("analysis nonlinear checkpoint/restart requires fixed load-control steps.")
         if analysis_type == "geometric_nonlinear_static":
             if "load_increments" in params:
                 self._positive_int("analysis.load_increments", params["load_increments"], errors)

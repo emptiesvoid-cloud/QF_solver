@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP02-C-BASELINE-001",
+  "work_package": "WP02-C",
+  "source_sha": "2e542d4beff9c0906f2125c62107d3f56b12ddf8",
+  "capture_mode": "DETACHED_START_SHA_TARGETED_REGRESSION",
+  "scope": "Pre-migration targeted baseline for fixed/adaptive restart work. No full repository suite was run.",
+  "case_inventory": {
+    "F1_fixed_small_strain_J2": {
+      "status": "BASELINE_TARGETED",
+      "evidence": "22 passed: J2-focused regression command"
+    },
+    "F2_fixed_modified_Newton": {
+      "status": "BASELINE_TARGETED",
+      "evidence": "1 passed, 29 deselected: modified-Newton/failure-control selection"
+    },
+    "F3_fixed_geometric_TET4": {
+      "status": "BASELINE_TARGETED",
+      "evidence": "7 passed: geometric nonlinear public tests"
+    },
+    "F4_fixed_geometric_HEX8": {
+      "status": "BASELINE_TARGETED",
+      "evidence": "geometric nonlinear public test file at the frozen start SHA"
+    },
+    "F5_fixed_penalty_contact": {
+      "status": "BASELINE_TARGETED",
+      "evidence": "11 passed: penalty/contact composition tests"
+    },
+    "A1_adaptive_J2": {
+      "status": "BASELINE_TARGETED",
+      "evidence": "1 passed, 29 deselected: adaptive load-control selection"
+    },
+    "A2_adaptive_geometric_TET4": {
+      "status": "BASELINE_TARGETED",
+      "evidence": "geometric nonlinear public test file at the frozen start SHA"
+    },
+    "A3_adaptive_geometric_HEX8": {
+      "status": "BASELINE_TARGETED",
+      "evidence": "geometric nonlinear public test file at the frozen start SHA"
+    },
+    "A4_adaptive_controlled_rejection_cutback": {
+      "status": "BASELINE_TARGETED",
+      "evidence": "20 passed: nonlinear failure-mode regression"
+    },
+    "A5_adaptive_minimum_increment_failure": {
+      "status": "BASELINE_TARGETED",
+      "evidence": "failure-mode and minimum-increment selections at the frozen start SHA"
+    }
+  },
+  "targeted_commands": {
+    "checkpoint": "python -m pytest -q tests/unit/test_nonlinear_checkpoint.py -> 10 passed",
+    "geometric": "python -m pytest -q tests/unit/test_geometric_nonlinear_public.py -> 7 passed",
+    "adaptive": "python -m pytest -q tests/unit/test_analysis_features.py -k \"adaptive_load_steps or nonlinear_adaptive\" -> 1 passed, 29 deselected",
+    "j2": "python -m pytest -q tests/unit/test_analysis_features.py tests/unit/test_total_lagrangian_j2.py -k \"von_mises or j2 or elastoplastic\" -> 22 passed, 29 deselected",
+    "contact": "python -m pytest -q tests/unit/test_nonlinear_contact_composition.py -> 11 passed",
+    "failure": "python -m pytest -q tests/unit/test_nonlinear_failure_modes.py -> 20 passed",
+    "modified_newton": "python -m pytest -q tests/unit/test_analysis_features.py -k \"modified_newton or cutback or minimum_increment\" -> 1 passed, 29 deselected"
+  },
+  "baseline_limitations": [
+    "The baseline captures targeted regression contracts and does not embed invented displacement/state vectors.",
+    "Adaptive checkpoint/restart was the known migration gap at the start SHA; its prior behavior is preserved as the WP02-C change target.",
+    "No numerical tolerance, formulation, maturity, or historical evidence baseline was changed."
+  ],
+  "full_suite_run": false
+}

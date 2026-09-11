@@ -30,6 +30,7 @@ from solveur.core.nonlinear.driver import (
     UnifiedNewtonEngine,
     continuation_retry_permitted,
 )
+from solveur.core.nonlinear.checkpoint import NonlinearCheckpointSession
 from solveur.core.nonlinear.iteration import line_search_factor
 from solveur.core.nonlinear.state import NonlinearState
 from solveur.core.nonlinear.support import _failure_reason_value
@@ -100,6 +101,9 @@ class NonlinearLoadControlMixin:
         min_alpha: float,
         max_reductions: int,
         armijo: float,
+        *,
+        checkpoint_session: NonlinearCheckpointSession | None = None,
+        initial_state: NonlinearState | None = None,
     ) -> list[NonlinearStep]:
         params = model.analysis.parameters
         controls = AdaptiveLoadControls.from_parameters(
@@ -107,21 +111,34 @@ class NonlinearLoadControlMixin:
             load_steps=load_steps,
             max_iterations=max_iterations,
         )
-        controller = UnifiedContinuationController(
-            NonlinearState(
+        starting_state = (
+            initial_state.detached_copy()
+            if initial_state is not None
+            else NonlinearState(
                 displacement=displacement,
                 load_factor=0.0,
                 material_state=copy_material_states(material_states),
                 continuation_state={"accepted_step": 0},
             )
         )
+        controller = UnifiedContinuationController(starting_state)
         self._continuation_rejection_log: list[dict[str, object]] = []
         self._continuation_commit_count = 0
-        current_factor = 0.0
-        increment = controls.initial_increment
+        current_factor = float(controller.accepted_state.load_factor)
+        step = (
+            int(checkpoint_session.restart_step)
+            if checkpoint_session is not None and checkpoint_session.restart_step > 0
+            else int(controller.accepted_state.continuation_state.get("accepted_step", 0))
+        )
+        stored_increment = controller.accepted_state.continuation_state.get("next_increment")
+        if isinstance(stored_increment, (int, float)) and np.isfinite(float(stored_increment)) and float(stored_increment) > 0.0:
+            increment = min(controls.maximum_increment, max(controls.minimum_increment, float(stored_increment)))
+        else:
+            increment = controls.initial_increment
         history: list[NonlinearStep] = []
-        step = 0
         pending_cutbacks = 0
+        metadata = controller.accepted_state.accepted_increment_metadata
+        self._rejected_increments = int(metadata.get("rejected_increments", 0)) if isinstance(metadata, dict) else 0
         while current_factor < 1.0 - 1.0e-12:
             proposed = min(increment, 1.0 - current_factor)
             target_factor = current_factor + proposed
@@ -196,7 +213,8 @@ class NonlinearLoadControlMixin:
                     )
                 increment = proposed
                 continue
-            info = replace(info, load_step_cutbacks=pending_cutbacks)
+            accepted_cutbacks = pending_cutbacks
+            info = replace(info, load_step_cutbacks=accepted_cutbacks)
             pending_cutbacks = 0
             final_state = self._last_load_step_state
             if final_state is None:
@@ -207,10 +225,23 @@ class NonlinearLoadControlMixin:
             trial_state.displacement = final_state.displacement.copy()
             trial_state.material_state = copy_material_states(final_state.material_state)
             trial_state.load_factor = target_factor
+            if info.iterations <= controls.grow_below_iterations:
+                next_increment = min(controls.maximum_increment, proposed * controls.growth_factor)
+            elif info.iterations >= controls.shrink_above_iterations:
+                next_increment = max(controls.minimum_increment, proposed * controls.cutback_factor)
+            else:
+                next_increment = proposed
+            trial_state.continuation_state = {
+                "accepted_step": step + 1,
+                "current_factor": target_factor,
+                "next_increment": next_increment,
+                "controller_policy": "adaptive_load_control_v1",
+            }
             trial_state.accepted_increment_metadata = {
                 "step": step + 1,
                 "load_increment": proposed,
-                "load_step_cutbacks": pending_cutbacks,
+                "load_step_cutbacks": accepted_cutbacks,
+                "rejected_increments": controller.rejected_increments,
             }
             controller.commit()
             self._continuation_commit_count = controller.transaction.commit_count
@@ -221,12 +252,14 @@ class NonlinearLoadControlMixin:
             history.append(info)
             step += 1
             current_factor = target_factor
-            if info.iterations <= controls.grow_below_iterations:
-                increment = min(controls.maximum_increment, proposed * controls.growth_factor)
-            elif info.iterations >= controls.shrink_above_iterations:
-                increment = max(controls.minimum_increment, proposed * controls.cutback_factor)
-            else:
-                increment = proposed
+            increment = next_increment
+            if checkpoint_session is not None:
+                checkpoint_session.save_state(
+                    step,
+                    controller.accepted_state,
+                    final=current_factor >= 1.0 - 1.0e-12,
+                    migration_metadata={"continuation_kind": "adaptive_load_control"},
+                )
         return history
 
 

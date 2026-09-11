@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
+
 import numpy as np
 
 from solveur.contact.solver import assemble_penalty_contact
 from solveur.core.dofs import DofManager
 from solveur.core.errors import InputValidationError, MeshValidationError
 from solveur.core.analyses.geometric_nonlinear_controls import GeometricNonlinearControls
+from solveur.core.nonlinear.checkpoint import NonlinearCheckpointSession, NonlinearCheckpointStore
 from solveur.core.assembly.geometric import (
     TotalLagrangianHighOrderAssembly,
     build_total_lagrangian_assembly,
@@ -21,6 +24,7 @@ from solveur.core.nonlinear.iteration import (
 )
 from solveur.core.nonlinear.controls import AdaptiveLoadControls
 from solveur.core.nonlinear.robustness import NonlinearRobustnessOptions
+from solveur.core.nonlinear.state import NonlinearState
 from solveur.core.model import FiniteElementModel
 from solveur.core.results import SolveResult
 from solveur.elements.solid.tet4_total_lagrangian_batch import TotalLagrangianTet4Assembly
@@ -30,6 +34,9 @@ from solveur.mesh.validation import MeshValidator
 
 class GeometricNonlinearStaticSolver:
     """Solve a bounded TET4 Saint-Venant-Kirchhoff dead-load problem."""
+
+    def __init__(self, checkpoint_store: NonlinearCheckpointStore | None = None) -> None:
+        self.checkpoint_store = checkpoint_store
 
     def solve(self, model: FiniteElementModel) -> SolveResult:
         self._validate_scope(model)
@@ -70,6 +77,45 @@ class GeometricNonlinearStaticSolver:
             if bool(parameters.get("adaptive_load_steps", False))
             else None
         )
+        checkpoint_session = NonlinearCheckpointSession.create(
+            model,
+            controls.load_increments,
+            self.checkpoint_store,
+        )
+        restored = checkpoint_session.restore_state(
+            NonlinearState(
+                displacement=np.zeros(dofs.ndof, dtype=float),
+                continuation_state={"accepted_step": 0} if adaptive_controls is not None else {},
+            ),
+            load_factors=(
+                [step / controls.load_increments for step in range(1, controls.load_increments + 1)]
+                if adaptive_controls is None
+                else None
+            ),
+            allow_variable_step_count=adaptive_controls is not None,
+        )
+
+        def save_fixed(local_step: int, state: NonlinearState) -> None:
+            global_step = checkpoint_session.restart_step + local_step
+            state.accepted_increment_metadata = {
+                "step": global_step,
+                "load_control": "geometric_fixed",
+            }
+            checkpoint_session.save_state(
+                global_step,
+                state,
+                final=global_step == controls.load_increments,
+                migration_metadata={"continuation_kind": "geometric_fixed_load_control"},
+            )
+
+        def save_adaptive(step: int, state: NonlinearState) -> None:
+            checkpoint_session.save_state(
+                step,
+                state,
+                final=state.load_factor >= 1.0 - 1.0e-12,
+                migration_metadata={"continuation_kind": "geometric_adaptive_load_control"},
+            )
+
         robustness_options = NonlinearRobustnessOptions.from_parameters(parameters)
         displacement, diagnostics = _newton_dead_load(
             assembly,
@@ -81,6 +127,13 @@ class GeometricNonlinearStaticSolver:
             determinant_assembly=geometric_assembly,
             adaptive_controls=adaptive_controls,
             robustness_options=robustness_options,
+            initial_state=restored,
+            target_load_factors=(
+                [step / controls.load_increments for step in range(checkpoint_session.restart_step + 1, controls.load_increments + 1)]
+                if adaptive_controls is None
+                else None
+            ),
+            accepted_state_callback=save_adaptive if adaptive_controls is not None else save_fixed,
         )
         states = geometric_assembly.element_states(displacement)
         element_results = [
@@ -99,6 +152,10 @@ class GeometricNonlinearStaticSolver:
             {
                 "load_increments": controls.load_increments,
                 "adaptive_load_steps": adaptive_controls is not None,
+                "restart_step": checkpoint_session.restart_step,
+                "history_is_partial": checkpoint_session.restart_step > 0,
+                "checkpoint_path": checkpoint_session.settings.path,
+                "checkpoint_files": checkpoint_session.files,
                 "strain_energy": geometric_assembly.strain_energy(displacement),
                 "minimum_det_f": float(np.min(states["det_f"])),
                 "scope": (
@@ -200,6 +257,9 @@ def _newton_dead_load(
     determinant_assembly: TotalLagrangianTet4Assembly | TotalLagrangianHex8Assembly | TotalLagrangianHighOrderAssembly | None = None,
     adaptive_controls: AdaptiveLoadControls | None = None,
     robustness_options: NonlinearRobustnessOptions | None = None,
+    initial_state: NonlinearState | None = None,
+    target_load_factors: list[float] | None = None,
+    accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
     if fixed.size == 0:
         raise MeshValidationError("geometric_nonlinear_static requires constrained dofs.")
@@ -212,6 +272,9 @@ def _newton_dead_load(
             tolerance=tolerance,
             max_iterations=max_iterations,
             robustness_options=robustness_options,
+            initial_state=initial_state,
+            target_load_factors=target_load_factors,
+            accepted_state_callback=accepted_state_callback,
         )
     else:
         displacement, diagnostics = solve_adaptive_full_newton(
@@ -223,6 +286,8 @@ def _newton_dead_load(
             max_iterations=max_iterations,
             controls=adaptive_controls,
             robustness_options=robustness_options,
+            initial_state=initial_state,
+            accepted_state_callback=accepted_state_callback,
         )
     determinant_source: object = determinant_assembly or assembly
     deformation_determinants = getattr(determinant_source, "deformation_determinants", None)

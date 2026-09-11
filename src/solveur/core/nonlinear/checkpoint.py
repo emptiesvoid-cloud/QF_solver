@@ -176,7 +176,16 @@ class NonlinearCheckpointStore(Protocol):
 
     def signature(self, payload: dict[str, object]) -> str: ...
 
-    def load(self, path: str | Path, **kwargs: object) -> NonlinearCheckpointV2: ...
+    def load(
+        self,
+        path: str | Path,
+        *,
+        model: FiniteElementModel | None = None,
+        expected_model_signature: str | None = None,
+        expected_legacy_model_signature: str | None = None,
+        expected_dofs: int | None = None,
+        expected_topology: dict[str, Any] | None = None,
+    ) -> NonlinearCheckpointV2: ...
 
     def save(
         self,
@@ -216,8 +225,16 @@ class NonlinearCheckpointSettings:
     def enabled(self) -> bool:
         return self.path is not None or self.restart_from is not None
 
-    def should_save(self, step: int, total_steps: int) -> bool:
-        return self.path is not None and (step % self.interval == 0 or step == total_steps)
+    def should_save(self, step: int, total_steps: int, *, final: bool = False) -> bool:
+        """Return whether an accepted step should be persisted.
+
+        Adaptive continuation does not know its final accepted-step number in
+        advance.  ``final`` lets that controller force the terminal accepted
+        state into the canonical checkpoint without changing the interval
+        semantics for fixed load control.
+        """
+
+        return self.path is not None and (step % self.interval == 0 or step == total_steps or final)
 
 
 @dataclass
@@ -230,6 +247,8 @@ class NonlinearCheckpointSession:
     total_steps: int
     restart_step: int = 0
     files: list[str] = field(default_factory=list)
+    model: FiniteElementModel | None = field(default=None, repr=False)
+    persisted_signature: str = field(default="", init=False)
 
     @classmethod
     def create(
@@ -242,7 +261,67 @@ class NonlinearCheckpointSession:
         if settings.enabled and store is None:
             raise InfrastructureError("Nonlinear checkpoint persistence is not configured.")
         signature = store.signature(_signature_payload(model)) if settings.enabled and store else ""
-        return cls(settings, store, signature, total_steps)
+        return cls(settings, store, signature, total_steps, model=model)
+
+    def restore_state(
+        self,
+        initial_state: NonlinearState,
+        *,
+        load_factors: list[float] | None = None,
+        load_factor_limit: float | None = None,
+        require_continuation: bool = False,
+        allow_variable_step_count: bool = False,
+    ) -> NonlinearState:
+        """Restore one detached accepted composite state atomically.
+
+        The store performs decoding, schema, topology and digest validation
+        before this method returns.  No caller-owned displacement or material
+        mapping is modified while a restore is being validated.
+        """
+
+        initial = initial_state.detached_copy()
+        if self.settings.restart_from is None:
+            self.restart_step = 0
+            return initial
+        if self.store is None:
+            raise InfrastructureError("Nonlinear checkpoint persistence is not configured.")
+
+        if self.model is not None:
+            checkpoint = self.store.load(
+                self.settings.restart_from,
+                model=self.model,
+                expected_legacy_model_signature=self.signature,
+                expected_dofs=int(initial.displacement.size),
+            )
+        else:
+            checkpoint = self.store.load(
+                self.settings.restart_from,
+                expected_model_signature=self.signature,
+                expected_dofs=int(initial.displacement.size),
+            )
+        checkpoint.validate(initial.displacement.size)
+        if self.model is None and checkpoint.model_signature != self.signature:
+            raise InputValidationError("Nonlinear checkpoint does not match the physical model or load path.")
+        if not allow_variable_step_count and checkpoint.completed_step > self.total_steps:
+            raise InputValidationError("Nonlinear checkpoint is beyond the requested load path.")
+
+        if load_factors is not None:
+            expected_factor = 0.0 if checkpoint.completed_step == 0 else load_factors[checkpoint.completed_step - 1]
+            if not np.isclose(checkpoint.load_factor, expected_factor, rtol=0.0, atol=1.0e-14):
+                raise InputValidationError("Nonlinear checkpoint load-factor metadata is inconsistent.")
+        if load_factor_limit is not None:
+            limit = abs(float(load_factor_limit))
+            if not np.isfinite(limit) or limit <= 0.0:
+                raise InputValidationError("Nonlinear checkpoint load-factor limit must be finite and positive.")
+            if abs(checkpoint.load_factor) > limit + 1.0e-12:
+                raise InputValidationError("Nonlinear checkpoint load factor is outside the requested continuation envelope.")
+        if require_continuation and not checkpoint.continuation_state:
+            raise InputValidationError("Nonlinear checkpoint does not contain continuation state.")
+
+        _validate_state_topology(initial.material_state, checkpoint.material_states)
+        self.restart_step = checkpoint.completed_step
+        self.persisted_signature = checkpoint.model_signature
+        return checkpoint.accepted_state.detached_copy()
 
     def restore(
         self,
@@ -250,20 +329,14 @@ class NonlinearCheckpointSession:
         material_states: MaterialStateTable,
         load_factors: list[float],
     ) -> tuple[np.ndarray, MaterialStateTable]:
-        if self.settings.restart_from is None:
-            return displacement, material_states
-        checkpoint = self.store.load(self.settings.restart_from)  # type: ignore[union-attr]
-        checkpoint.validate(displacement.size)
-        if checkpoint.model_signature != self.signature:
-            raise InputValidationError("Nonlinear checkpoint does not match the physical model or load path.")
-        if checkpoint.completed_step > self.total_steps:
-            raise InputValidationError("Nonlinear checkpoint is beyond the requested load path.")
-        expected_factor = 0.0 if checkpoint.completed_step == 0 else load_factors[checkpoint.completed_step - 1]
-        if not np.isclose(checkpoint.load_factor, expected_factor, rtol=0.0, atol=1.0e-14):
-            raise InputValidationError("Nonlinear checkpoint load-factor metadata is inconsistent.")
-        _validate_state_topology(material_states, checkpoint.material_states)
-        self.restart_step = checkpoint.completed_step
-        return checkpoint.displacement.copy(), copy_material_states(checkpoint.material_states)
+        restored = self.restore_state(
+            NonlinearState(
+                displacement=displacement,
+                material_state=material_states,
+            ),
+            load_factors=load_factors,
+        )
+        return restored.displacement.copy(), copy_material_states(restored.material_state)
 
     def restore_continuation(
         self,
@@ -274,26 +347,60 @@ class NonlinearCheckpointSession:
     ) -> tuple[np.ndarray, MaterialStateTable, dict[str, object] | None]:
         """Restore an arc-length checkpoint without assuming a fixed load path."""
 
-        if self.settings.restart_from is None:
-            return displacement, material_states, None
-        checkpoint = self.store.load(self.settings.restart_from)  # type: ignore[union-attr]
-        checkpoint.validate(displacement.size)
-        if checkpoint.model_signature != self.signature:
-            raise InputValidationError("Nonlinear checkpoint does not match the physical model or continuation path.")
-        limit = abs(float(load_factor_limit)) if load_factor_limit is not None else max(abs(target_load_factor), 1.0)
-        if not np.isfinite(limit) or limit <= 0.0:
-            raise InputValidationError("Arc-length checkpoint load-factor limit must be finite and positive.")
-        if abs(checkpoint.load_factor) > limit + 1.0e-12:
-            raise InputValidationError("Arc-length checkpoint load factor is outside the requested continuation envelope.")
-        _validate_state_topology(material_states, checkpoint.material_states)
-        if not checkpoint.continuation_state:
-            raise InputValidationError("Arc-length checkpoint does not contain continuation state.")
-        self.restart_step = checkpoint.completed_step
-        return (
-            checkpoint.displacement.copy(),
-            copy_material_states(checkpoint.material_states),
-            dict(checkpoint.continuation_state),
+        restored = self.restore_state(
+            NonlinearState(
+                displacement=displacement,
+                material_state=material_states,
+            ),
+            load_factor_limit=(
+                float(load_factor_limit)
+                if load_factor_limit is not None
+                else max(abs(target_load_factor), 1.0)
+            ),
+            require_continuation=True,
         )
+        return (
+            restored.displacement.copy(),
+            copy_material_states(restored.material_state),
+            dict(restored.continuation_state),
+        )
+
+    def save_state(
+        self,
+        step: int,
+        accepted_state: NonlinearState,
+        *,
+        final: bool = False,
+        migration_metadata: Mapping[str, Any] | None = None,
+    ) -> None:
+        """Persist one already accepted composite state as schema v2."""
+
+        if not self.settings.should_save(step, self.total_steps, final=final):
+            return
+        if self.store is None or self.settings.path is None:
+            raise InfrastructureError("Nonlinear checkpoint persistence is not configured.")
+        prepared = accepted_state.detached_copy()
+        prepared.validate()
+        topology = build_state_topology(self.model, prepared)
+        signature = (
+            model_signature_v2(self.model, topology)
+            if self.model is not None
+            else self.signature
+        )
+        checkpoint = NonlinearCheckpointV2.from_state(
+            model_signature=signature,
+            completed_step=step,
+            state=prepared,
+            state_topology=topology,
+            migration_metadata={
+                "writer": "NonlinearCheckpointSession.save_state",
+                "source_schema_version": 2,
+                **dict(migration_metadata or {}),
+            },
+        )
+        written = self.store.save(self.settings.path, checkpoint, keep_step=self.settings.keep_steps)
+        self.persisted_signature = checkpoint.model_signature
+        self.files.extend(str(path) for path in written if str(path) not in self.files)
 
     def save(
         self,
@@ -303,20 +410,15 @@ class NonlinearCheckpointSession:
         material_states: MaterialStateTable,
         continuation_state: dict[str, object] | None = None,
     ) -> None:
-        if not self.settings.should_save(step, self.total_steps):
-            return
-        checkpoint = NonlinearCheckpoint(
-            model_signature=self.signature,
-            completed_step=step,
-            load_factor=load_factor,
-            displacement=displacement.copy(),
-            material_states=copy_material_states(material_states),
-            continuation_state=dict(continuation_state or {}),
+        self.save_state(
+            step,
+            NonlinearState(
+                displacement=displacement,
+                load_factor=load_factor,
+                material_state=copy_material_states(material_states),
+                continuation_state=dict(continuation_state or {}),
+            ),
         )
-        if self.store is None or self.settings.path is None:
-            raise InfrastructureError("Nonlinear checkpoint persistence is not configured.")
-        written = self.store.save(self.settings.path, checkpoint, keep_step=self.settings.keep_steps)
-        self.files.extend(str(path) for path in written if str(path) not in self.files)
 
 
 def _signature_payload(model: FiniteElementModel) -> dict[str, object]:
@@ -400,10 +502,16 @@ def migrate_v1_checkpoint(
     expected_dofs: int | None = None,
     state_topology: dict[str, Any] | None = None,
     expected_model_signature: str | None = None,
+    expected_legacy_model_signature: str | None = None,
 ) -> NonlinearCheckpointV2:
     """Migrate a bounded v1 checkpoint without inventing contact history."""
 
     checkpoint.validate(expected_dofs)
+    if (
+        expected_legacy_model_signature is not None
+        and checkpoint.model_signature != expected_legacy_model_signature
+    ):
+        raise InputValidationError("Legacy nonlinear checkpoint does not match the physical model or load path.")
     contacts = getattr(model, "contacts", []) if model is not None else []
     if any(float(getattr(contact, "friction_coefficient", 0.0)) > 0.0 for contact in contacts):
         raise InputValidationError(
