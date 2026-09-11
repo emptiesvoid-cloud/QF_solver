@@ -3,14 +3,18 @@
 from __future__ import annotations
 
 from dataclasses import replace
-from time import perf_counter
 
 import numpy as np
 from scipy.sparse import csr_matrix
 
 from solveur.core.dofs import DofManager
 from solveur.core.errors import NumericalConvergenceError
-from solveur.core.nonlinear.material_state import MaterialStateSession, MaterialStateTable, commit_material_states
+from solveur.core.nonlinear.material_state import (
+    MaterialStateSession,
+    MaterialStateTable,
+    commit_material_states,
+    copy_material_states,
+)
 from solveur.core.model import FiniteElementModel
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.core.nonlinear.controls import (
@@ -20,9 +24,63 @@ from solveur.core.nonlinear.controls import (
     maximum_equivalent_plastic_strain,
     maximum_plastic_dissipation,
 )
+from solveur.core.nonlinear.driver import (
+    CompositeContributionResponse,
+    ContributionResponse,
+    UnifiedNewtonEngine,
+)
 from solveur.core.nonlinear.iteration import line_search_factor
+from solveur.core.nonlinear.state import NonlinearState
 from solveur.core.nonlinear.support import _failure_reason_value
 
+class _MaterialLoadControlContribution:
+    """Adapt the existing material/geometric/contact assembly to the common driver."""
+
+    name = "material"
+
+    def __init__(
+        self,
+        owner: "NonlinearLoadControlMixin",
+        model: FiniteElementModel,
+        dofs: DofManager,
+        contact_diagnostics: dict[str, object],
+        timing: dict[str, float | int],
+        material_states: MaterialStateTable,
+    ) -> None:
+        self.owner = owner
+        self.model = model
+        self.dofs = dofs
+        self.contact_diagnostics = contact_diagnostics
+        self.timing = timing
+        self.committed_material_states = copy_material_states(material_states)
+        self.first_internal: np.ndarray | None = None
+        self.last_internal: np.ndarray | None = None
+        self.last_updated_states: MaterialStateTable | None = None
+
+    def evaluate(self, state: NonlinearState) -> ContributionResponse:
+        internal, tangent, updated_states = self.owner._assemble_internal_tangent(
+            self.model,
+            self.dofs,
+            state.displacement,
+            self.committed_material_states,
+            contact_diagnostics=self.contact_diagnostics,
+            timing=self.timing,
+        )
+        values = np.asarray(internal, dtype=float)
+        if self.first_internal is None:
+            self.first_internal = values.copy()
+        self.last_internal = values.copy()
+        self.last_updated_states = copy_material_states(updated_states)
+        return ContributionResponse(
+            name=self.name,
+            internal_force=values,
+            tangent=tangent,
+            trial_state=updated_states,
+            diagnostics={
+                "contact": dict(self.contact_diagnostics),
+                "tangent_nnz": int(tangent.nnz),
+            },
+        )
 
 
 class NonlinearLoadControlMixin:
@@ -148,165 +206,179 @@ class NonlinearLoadControlMixin:
         previous_load: np.ndarray | None = None,
         reference_force_norm: float | None = None,
     ) -> NonlinearStep:
-        base_displacement = displacement.copy()
-        base_internal: np.ndarray | None = None
+        """Run standard fixed load control through :class:`UnifiedNewtonEngine`.
+
+        ``modified_newton`` reuses the same lifecycle with its historical
+        cached tangent policy; no separate global Newton loop remains.
+        """
+
         previous_load = np.zeros_like(target_load) if previous_load is None else previous_load
+        base_displacement = displacement.copy()
         force_scale = max(float(np.linalg.norm(target_load[free])), float(reference_force_norm or 0.0), 1.0)
-        residual_norm = float("inf")
-        relative = float("inf")
-        residual_history: list[float] = []
         contact_diagnostics: dict[str, object] = {}
-        total_reductions = 0
-        min_factor = 1.0
-        last_correction_norm = 0.0
-        cumulative_correction_norm = 0.0
-        initial_residual_norm = 0.0
-        assembly_seconds = 0.0
-        linear_solve_seconds = 0.0
-        line_search_seconds = 0.0
         phase_timing: dict[str, float | int] = {}
-        for iteration in range(1, max_iterations + 1):
-            phase_started = perf_counter()
-            internal, tangent, updated_states = self._assemble_internal_tangent(
-                model,
-                dofs,
-                displacement,
-                material_states,
-                contact_diagnostics=contact_diagnostics,
-                timing=phase_timing,
-            )
-            assembly_seconds += perf_counter() - phase_started
-            if base_internal is None:
-                base_internal = internal.copy()
-            residual = target_load - internal
-            residual_norm = float(np.linalg.norm(residual[free]))
-            residual_history.append(residual_norm)
-            if iteration == 1:
-                initial_residual_norm = residual_norm
-            relative = residual_norm / force_scale
-            if relative <= tolerance:
-                internal_work, external_work, work_imbalance = incremental_work_diagnostics(
-                    base_displacement, displacement, base_internal, internal, previous_load, target_load
+        contribution = _MaterialLoadControlContribution(
+            self, model, dofs, contact_diagnostics, phase_timing, material_states
+        )
+
+        def finalize_trial_state(trial: NonlinearState, composite: CompositeContributionResponse) -> None:
+            updated = contribution.last_updated_states
+            if updated is None:
+                raise NumericalConvergenceError(
+                    "Unified Newton material contribution did not provide a final trial state.",
+                    reason=NonlinearFailureReason.MATERIAL_UPDATE_FAILURE,
                 )
-                commit_material_states(material_states, updated_states)
-                return NonlinearStep(
-                    step,
-                    load_factor,
-                    iteration - 1,
-                    residual_norm,
-                    relative,
-                    total_reductions,
-                    min_factor,
-                    load_increment,
-                    maximum_equivalent_plastic_strain(updated_states),
-                    True,
-                    last_correction_norm,
-                    cumulative_correction_norm,
-                    internal_work,
-                    external_work,
-                    work_imbalance,
-                    0,
-                    True,
-                    initial_residual_norm,
-                    residual_history=tuple(residual_history),
-                    plastic_dissipation_max=maximum_plastic_dissipation(updated_states),
-                    assembly_seconds=assembly_seconds,
-                    linear_solve_seconds=linear_solve_seconds,
-                    line_search_seconds=line_search_seconds,
-                    element_setup_seconds=float(phase_timing.get("element_setup_seconds", 0.0)),
-                    element_kernel_seconds=float(phase_timing.get("element_kernel_seconds", 0.0)),
-                    element_scatter_seconds=float(phase_timing.get("element_scatter_seconds", 0.0)),
-                    sparse_conversion_seconds=float(phase_timing.get("sparse_conversion_seconds", 0.0)),
-                    contact_assembly_seconds=float(phase_timing.get("contact_assembly_seconds", 0.0)),
-                    element_kernel_calls=int(phase_timing.get("element_kernel_calls", 0)),
-                    contact_assembly_calls=int(phase_timing.get("contact_assembly_calls", 0)),
-                    element_cache_hits=int(phase_timing.get("element_cache_hits", 0)),
-                    element_cache_misses=int(phase_timing.get("element_cache_misses", 0)),
-                    reference_cache_hits=int(phase_timing.get("reference_cache_hits", 0)),
-                    reference_cache_misses=int(phase_timing.get("reference_cache_misses", 0)),
-                    sparse_chunk_count=int(phase_timing.get("sparse_chunk_count", 0)),
-                    sparse_peak_chunk_entries=int(phase_timing.get("sparse_peak_chunk_entries", 0)),
-                    sparse_peak_chunk_bytes_estimate=int(
-                        phase_timing.get("sparse_peak_chunk_bytes_estimate", 0)
-                    ),
-                    sparse_accumulator_levels=int(phase_timing.get("sparse_accumulator_levels", 0)),
-                    tangent_nnz=int(phase_timing.get("tangent_nnz", 0)),
-                    contact_active_contacts=tuple(
-                        int(index) for index in contact_diagnostics.get("active_contacts", [])
-                    ),
-                    contact_gaps=tuple(
-                        float(gap) for gap in contact_diagnostics.get("gaps", [])
-                    ),
-                    contact_tangent_nnz=int(contact_diagnostics.get("tangent_nnz", 0)),
-                    contact_master_face_indices=tuple(
-                        int(index) for index in contact_diagnostics.get("master_face_indices", [])
-                    ),
-                    contact_search_mode=(
-                        str(contact_diagnostics["search_mode"])
-                        if contact_diagnostics.get("search_mode") is not None
-                        else None
-                    ),
-                    contact_finite_sliding=bool(contact_diagnostics.get("finite_sliding", False)),
-                    contact_projection_clamped=tuple(
-                        bool(value) for value in contact_diagnostics.get("projection_clamped", [])
-                    ),
-                    contact_closest_distances=tuple(
-                        float(value) for value in contact_diagnostics.get("closest_distances", [])
-                    ),
-                    contact_projection_modes=tuple(
-                        str(value) for value in contact_diagnostics.get("projection_modes", [])
-                    ),
-                )
+            trial.material_state = copy_material_states(updated)
+
+        active_tangent = cached_tangent
+
+        def linear_solve(matrix: csr_matrix, rhs: np.ndarray):
+            nonlocal active_tangent
+            solve_matrix = matrix
             if model.analysis.method == "modified_newton":
-                if cached_tangent is None:
-                    cached_tangent = tangent[free, :][:, free]
-                active_tangent = cached_tangent
-            else:
-                active_tangent = tangent[free, :][:, free]
-            phase_started = perf_counter()
-            increment, info = self.linear_solver.solve(active_tangent, residual[free], method=linear_method)
-            linear_solve_seconds += perf_counter() - phase_started
+                if active_tangent is None:
+                    active_tangent = matrix.copy()
+                solve_matrix = active_tangent
+            try:
+                increment, info = self.linear_solver.solve(solve_matrix, rhs, method=linear_method)
+            except NumericalConvergenceError as exc:
+                raise NumericalConvergenceError(
+                    str(exc),
+                    reason=NonlinearFailureReason.LINEAR_SOLVER_FAILURE,
+                    diagnostics={"linear_method": linear_method},
+                ) from exc
             if not info.converged:
                 raise NumericalConvergenceError(
                     f"Nonlinear linearization failed with {linear_method}; residual={info.residual_norm:.6e}.",
                     reason=NonlinearFailureReason.LINEAR_SOLVER_FAILURE,
                     diagnostics={"linear_method": linear_method, "residual": info.residual_norm},
                 )
-            if model.analysis.method == "newton_line_search":
-                phase_started = perf_counter()
-                factor, reductions = line_search_factor(
-                    self._assemble_internal_tangent,
-                    model,
-                    dofs,
-                    displacement,
-                    free,
-                    target_load,
-                    material_states,
-                    increment,
-                    residual_norm,
-                    min_alpha,
-                    max_reductions,
-                    armijo,
-                )
-                line_search_seconds += perf_counter() - phase_started
-                total_reductions += reductions
-                min_factor = min(min_factor, factor)
-                applied_increment = factor * increment
-                displacement[free] += applied_increment
-            else:
-                applied_increment = increment
-                displacement[free] += applied_increment
-            last_correction_norm = float(np.linalg.norm(applied_increment))
-            cumulative_correction_norm += last_correction_norm
-        raise NumericalConvergenceError(
-            f"Nonlinear step {step} did not converge in {max_iterations} iterations; "
-            f"relative residual={relative:.6e}.",
-            reason=NonlinearFailureReason.MAX_ITERATIONS,
-            diagnostics={
-                "step": step,
-                "iterations": max_iterations,
-                "residual_initial": initial_residual_norm,
-                "residual_final": residual_norm,
-                "relative_residual": relative,
-            },
+            return increment, info.to_dict()
+
+        def line_search(
+            trial: NonlinearState,
+            free_dofs: np.ndarray,
+            correction: np.ndarray,
+            target: np.ndarray,
+            residual_norm: float,
+        ):
+            factor, reductions = line_search_factor(
+                self._assemble_internal_tangent,
+                model,
+                dofs,
+                trial.displacement,
+                free_dofs,
+                target,
+                contribution.committed_material_states,
+                correction,
+                residual_norm,
+                min_alpha,
+                max_reductions,
+                armijo,
+            )
+            updated = trial.displacement.copy()
+            updated[free_dofs] += factor * correction
+            return updated, reductions, {"factor": factor}
+
+        result = UnifiedNewtonEngine().solve(
+            initial_state=NonlinearState(
+                displacement=displacement,
+                load_factor=load_factor - load_increment,
+                material_state=copy_material_states(material_states),
+            ),
+            external_force=target_load / load_factor if abs(load_factor) > 1.0e-15 else target_load,
+            fixed=np.setdiff1d(np.arange(dofs.ndof, dtype=int), free),
+            target_load_factors=(load_factor,),
+            tolerance=tolerance,
+            max_iterations=max_iterations,
+            contributions=(contribution,),
+            linear_solve=linear_solve,
+            line_search=line_search if model.analysis.method == "newton_line_search" else None,
+            finalize_trial_state=finalize_trial_state,
+            force_scale=force_scale,
+            solver_name="nonlinear_static_unified_newton",
+            stagnation_check=False,
+        )
+        final_state = result.state
+        displacement[:] = final_state.displacement
+        commit_material_states(material_states, final_state.material_state)  # type: ignore[arg-type]
+        raw = result.diagnostics["increments"][0]
+        assert isinstance(raw, dict)
+        final_internal = contribution.last_internal
+        base_internal = contribution.first_internal
+        if final_internal is None or base_internal is None:
+            raise NumericalConvergenceError(
+                "Unified Newton did not retain final assembly diagnostics.",
+                reason=NonlinearFailureReason.INVALID_ELEMENT,
+            )
+        internal_work, external_work, work_imbalance = incremental_work_diagnostics(
+            base_displacement,
+            displacement,
+            base_internal,
+            final_internal,
+            previous_load,
+            target_load,
+        )
+        factors = tuple(float(value) for value in raw.get("line_search_factors", ()))
+        return NonlinearStep(
+            step=step,
+            load_factor=load_factor,
+            iterations=max(int(raw["iterations"]) - 1, 0),
+            residual_norm=float(raw["residual_final"]),
+            relative_residual=float(raw["relative_residual"]),
+            line_search_reductions=int(raw["line_search_iterations"]),
+            min_line_search_factor=min(factors) if factors else 1.0,
+            load_increment=load_increment,
+            equivalent_plastic_strain_max=maximum_equivalent_plastic_strain(final_state.material_state),  # type: ignore[arg-type]
+            state_committed=True,
+            last_correction_norm=float(raw["last_correction_norm"]),
+            cumulative_correction_norm=float(raw["cumulative_correction_norm"]),
+            incremental_internal_work=internal_work,
+            incremental_external_work=external_work,
+            relative_work_imbalance=work_imbalance,
+            load_step_cutbacks=0,
+            work_diagnostics_available=True,
+            residual_initial=float(raw["residual_initial"]),
+            residual_history=tuple(float(value) for value in raw["residual_history"]),
+            plastic_dissipation_max=maximum_plastic_dissipation(final_state.material_state),  # type: ignore[arg-type]
+            assembly_seconds=float(raw["assembly_seconds"]),
+            linear_solve_seconds=float(raw["linear_solve_seconds"]),
+            line_search_seconds=float(raw["line_search_seconds"]),
+            element_setup_seconds=float(phase_timing.get("element_setup_seconds", 0.0)),
+            element_kernel_seconds=float(phase_timing.get("element_kernel_seconds", 0.0)),
+            element_scatter_seconds=float(phase_timing.get("element_scatter_seconds", 0.0)),
+            sparse_conversion_seconds=float(phase_timing.get("sparse_conversion_seconds", 0.0)),
+            contact_assembly_seconds=float(phase_timing.get("contact_assembly_seconds", 0.0)),
+            element_kernel_calls=int(phase_timing.get("element_kernel_calls", 0)),
+            contact_assembly_calls=int(phase_timing.get("contact_assembly_calls", 0)),
+            element_cache_hits=int(phase_timing.get("element_cache_hits", 0)),
+            element_cache_misses=int(phase_timing.get("element_cache_misses", 0)),
+            reference_cache_hits=int(phase_timing.get("reference_cache_hits", 0)),
+            reference_cache_misses=int(phase_timing.get("reference_cache_misses", 0)),
+            sparse_chunk_count=int(phase_timing.get("sparse_chunk_count", 0)),
+            sparse_peak_chunk_entries=int(phase_timing.get("sparse_peak_chunk_entries", 0)),
+            sparse_peak_chunk_bytes_estimate=int(phase_timing.get("sparse_peak_chunk_bytes_estimate", 0)),
+            sparse_accumulator_levels=int(phase_timing.get("sparse_accumulator_levels", 0)),
+            tangent_nnz=int(phase_timing.get("tangent_nnz", 0)),
+            contact_active_contacts=tuple(int(index) for index in contact_diagnostics.get("active_contacts", [])),
+            contact_gaps=tuple(float(gap) for gap in contact_diagnostics.get("gaps", [])),
+            contact_tangent_nnz=int(contact_diagnostics.get("tangent_nnz", 0)),
+            contact_master_face_indices=tuple(
+                int(index) for index in contact_diagnostics.get("master_face_indices", [])
+            ),
+            contact_search_mode=(
+                str(contact_diagnostics["search_mode"])
+                if contact_diagnostics.get("search_mode") is not None
+                else None
+            ),
+            contact_finite_sliding=bool(contact_diagnostics.get("finite_sliding", False)),
+            contact_projection_clamped=tuple(
+                bool(value) for value in contact_diagnostics.get("projection_clamped", [])
+            ),
+            contact_closest_distances=tuple(
+                float(value) for value in contact_diagnostics.get("closest_distances", [])
+            ),
+            contact_projection_modes=tuple(
+                str(value) for value in contact_diagnostics.get("projection_modes", [])
+            ),
         )
