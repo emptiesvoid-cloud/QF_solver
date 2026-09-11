@@ -19,7 +19,13 @@ from solveur.core.nonlinear.driver import (
     UnifiedNewtonEngine,
     continuation_retry_permitted,
 )
-from solveur.core.nonlinear.robustness import NonlinearRobustnessOptions, solve_scaled_system
+from solveur.core.nonlinear.robustness import (
+    LineSearchEvaluation,
+    LineSearchResult,
+    NonlinearRobustnessOptions,
+    UnifiedNonlinearRobustnessController,
+    solve_scaled_system,
+)
 from solveur.core.nonlinear.state import NonlinearState
 from solveur.core.model import FiniteElementModel
 from scipy.sparse import bmat, csr_matrix, csc_matrix
@@ -147,6 +153,10 @@ def solve_full_newton(
             ) from exc
 
     use_line_search = robustness_options is None or robustness_options.line_search != "off"
+    robustness_controller = UnifiedNonlinearRobustnessController.from_options(
+        robustness_options,
+        line_search_enabled=use_line_search,
+    )
 
     def line_search(
         state: NonlinearState,
@@ -156,23 +166,22 @@ def solve_full_newton(
         residual_norm: float,
     ) -> tuple[np.ndarray, int, Mapping[str, object] | None]:
         try:
-            if robustness_options is None or robustness_options.line_search == "existing":
-                updated, reductions = _line_search_assembly_with_diagnostics(
-                    assembly, state.displacement, free, correction, target, residual_norm
+            result = _line_search_assembly_with_result(
+                assembly,
+                state.displacement,
+                free,
+                correction,
+                target,
+                residual_norm,
+                controller=robustness_controller,
+            )
+            updated = result.payload
+            if not isinstance(updated, np.ndarray):
+                raise NumericalConvergenceError(
+                    "Unified line search did not return a displacement trial.",
+                    reason=NonlinearFailureReason.STATE_CORRUPTION,
                 )
-            else:
-                updated, reductions = _line_search_assembly_with_diagnostics(
-                    assembly,
-                    state.displacement,
-                    free,
-                    correction,
-                    target,
-                    residual_norm,
-                    min_alpha=robustness_options.line_search_min_alpha,
-                    max_reductions=robustness_options.line_search_max_reductions,
-                    armijo=robustness_options.line_search_c,
-                )
-            return updated, reductions, None
+            return updated, result.reductions, result.to_dict()
         except NumericalConvergenceError as exc:
             raise NumericalConvergenceError(
                 str(exc), reason=exc.reason, diagnostics=dict(exc.diagnostics)
@@ -204,6 +213,7 @@ def solve_full_newton(
             failure_diagnostics=_failure_diagnostics,
             assembly_failure_reason=_assembly_failure_reason,
             nonfinite_failure_reason=_nonfinite_failure_reason,
+            robustness_controller=robustness_controller,
             accepted_state_callback=accepted_state_callback,
         )
     except NumericalConvergenceError as exc:
@@ -245,6 +255,7 @@ def solve_full_newton(
                 "linear_solve_seconds": raw["linear_solve_seconds"],
                 "line_search_seconds": raw["line_search_seconds"],
                 "linear_system_diagnostics": raw["linear_system_diagnostics"],
+                "robustness": raw.get("robustness"),
                 "robustness_options": (
                     robustness_options.to_dict() if robustness_options is not None else None
                 ),
@@ -270,6 +281,7 @@ def solve_full_newton(
         "newton_iterations": result.diagnostics["newton_iterations"],
         "final_relative_residual": result.diagnostics["final_relative_residual"],
         "increments": history,
+        "robustness_policy": result.diagnostics["robustness_policy"],
         "robustness_options": robustness_options.to_dict() if robustness_options is not None else None,
     }
 
@@ -603,33 +615,76 @@ def _line_search_assembly_with_diagnostics(
     *,
     min_alpha: float = 0.0,
     max_reductions: int = 14,
-    armijo: float = 0.0,
+    armijo: float | None = 0.0,
+    controller: UnifiedNonlinearRobustnessController | None = None,
 ) -> tuple[np.ndarray, int]:
-    """Return the accepted trial and the number of reductions used."""
-    alpha = 1.0
-    for reductions in range(max_reductions + 1):
+    """Return an accepted trial through the common policy loop.
+
+    The historical defaults are intentionally retained for this compatibility
+    helper.  The public ``solve_full_newton`` adapter supplies the public
+    default controller explicitly, so this wrapper cannot create a second
+    line-search implementation.
+    """
+    result = _line_search_assembly_with_result(
+        assembly,
+        displacement,
+        free,
+        correction,
+        target,
+        residual_norm,
+        min_alpha=min_alpha,
+        max_reductions=max_reductions,
+        armijo_c=None if armijo is None or armijo == 0.0 else armijo,
+        controller=controller,
+    )
+    if not isinstance(result.payload, np.ndarray):
+        raise NumericalConvergenceError(
+            "Common line search returned no displacement trial.",
+            reason=NonlinearFailureReason.STATE_CORRUPTION,
+            diagnostics=result.to_dict(),
+        )
+    return result.payload, result.reductions
+
+
+def _line_search_assembly_with_result(
+    assembly: NonlinearAssemblyProtocol,
+    displacement: np.ndarray,
+    free: np.ndarray,
+    correction: np.ndarray,
+    target: np.ndarray,
+    residual_norm: float,
+    *,
+    min_alpha: float = 1.0e-4,
+    max_reductions: int = 12,
+    armijo_c: float | None = None,
+    controller: UnifiedNonlinearRobustnessController | None = None,
+) -> LineSearchResult:
+    """Evaluate assembly merit values using the one common alpha policy."""
+    policy = controller or UnifiedNonlinearRobustnessController(
+        policy_source="COMPATIBILITY_ADAPTER",
+        min_alpha=min_alpha,
+        max_reductions=max_reductions,
+        armijo_c=armijo_c,
+    )
+
+    def evaluate(alpha: float) -> LineSearchEvaluation:
         trial = displacement.copy()
         trial[free] += alpha * correction
         try:
             trial_internal, _ = assembly.assemble(trial, tangent_required=False)
-        except ValueError:
-            alpha *= 0.5
-            continue
-        trial_norm = np.linalg.norm((target - trial_internal)[free])
-        accepted = (
-            trial_norm < residual_norm
-            if armijo == 0.0
-            else trial_norm <= (1.0 - armijo * alpha) * residual_norm
+        except ValueError as exc:
+            return LineSearchEvaluation(
+                merit=float("inf"),
+                payload=trial,
+                diagnostics={"assembly_rejected": True, "error": str(exc)},
+            )
+        trial_norm = float(np.linalg.norm((target - trial_internal)[free]))
+        return LineSearchEvaluation(
+            merit=trial_norm,
+            payload=trial,
         )
-        if accepted:
-            return trial, reductions
-        alpha *= 0.5
-        if alpha < min_alpha:
-            break
-    raise NumericalConvergenceError(
-        "Full Newton line search failed to reduce the residual.",
-        reason=NonlinearFailureReason.LINE_SEARCH_FAILURE,
-    )
+
+    return policy.line_search(residual_norm, evaluate)
 
 
 def line_search_factor(
@@ -646,22 +701,62 @@ def line_search_factor(
     max_reductions: int,
     armijo: float,
 ) -> tuple[float, int]:
-    """Find an Armijo factor while keeping trial assembly delegated to the driver."""
-    alpha = 1.0
-    for reductions in range(max_reductions + 1):
+    """Compatibility wrapper over the common line-search policy."""
+    result = _line_search_factor_with_result(
+        assemble,
+        model,
+        dofs,
+        displacement,
+        free,
+        target_load,
+        material_states,
+        increment,
+        residual_norm,
+        min_alpha,
+        max_reductions,
+        armijo,
+    )
+    if result.factor is None:
+        raise NumericalConvergenceError(
+            "Common Newton line search returned no accepted factor.",
+            reason=NonlinearFailureReason.LINE_SEARCH_FAILURE,
+            diagnostics=result.to_dict(),
+        )
+    return result.factor, result.reductions
+
+
+def _line_search_factor_with_result(
+    assemble: Callable[..., tuple[np.ndarray, object, MaterialStateTable]],
+    model: FiniteElementModel,
+    dofs: DofManager,
+    displacement: np.ndarray,
+    free: np.ndarray,
+    target_load: np.ndarray,
+    material_states: MaterialStateTable,
+    increment: np.ndarray,
+    residual_norm: float,
+    min_alpha: float,
+    max_reductions: int,
+    armijo: float,
+    *,
+    controller: UnifiedNonlinearRobustnessController | None = None,
+) -> LineSearchResult:
+    """Run the common policy against the stateful load-control assembly."""
+    policy = controller or UnifiedNonlinearRobustnessController(
+        policy_source="COMPATIBILITY_ADAPTER",
+        min_alpha=min_alpha,
+        max_reductions=max_reductions,
+        armijo_c=armijo,
+    )
+
+    def evaluate(alpha: float) -> LineSearchEvaluation:
         trial = displacement.copy()
         trial[free] += alpha * increment
         trial_internal, _, _ = assemble(model, dofs, trial, material_states)
         trial_norm = float(np.linalg.norm((target_load - trial_internal)[free]))
-        if trial_norm <= (1.0 - armijo * alpha) * residual_norm:
-            return alpha, reductions
-        alpha *= 0.5
-        if alpha < min_alpha:
-            break
-    raise NumericalConvergenceError(
-        "Newton line-search failed to reduce the residual.",
-        reason=NonlinearFailureReason.LINE_SEARCH_FAILURE,
-    )
+        return LineSearchEvaluation(merit=trial_norm, payload=alpha)
+
+    return policy.line_search(residual_norm, evaluate)
 
 
 def solve_arc_length_correction(

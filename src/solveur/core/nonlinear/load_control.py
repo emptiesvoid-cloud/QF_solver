@@ -31,7 +31,8 @@ from solveur.core.nonlinear.driver import (
     continuation_retry_permitted,
 )
 from solveur.core.nonlinear.checkpoint import NonlinearCheckpointSession
-from solveur.core.nonlinear.iteration import line_search_factor
+from solveur.core.nonlinear.iteration import _line_search_factor_with_result
+from solveur.core.nonlinear.robustness import UnifiedNonlinearRobustnessController
 from solveur.core.nonlinear.state import NonlinearState
 from solveur.core.nonlinear.support import _failure_reason_value
 
@@ -300,6 +301,14 @@ class NonlinearLoadControlMixin:
         contribution = _MaterialLoadControlContribution(
             self, model, dofs, contact_diagnostics, phase_timing, material_states
         )
+        robustness_controller = UnifiedNonlinearRobustnessController(
+            policy_source="PUBLIC_DEFAULT",
+            stagnation_enabled=False,
+            line_search_enabled=model.analysis.method == "newton_line_search",
+            min_alpha=min_alpha,
+            max_reductions=max_reductions,
+            armijo_c=armijo,
+        )
 
         def finalize_trial_state(trial: NonlinearState, composite: CompositeContributionResponse) -> None:
             updated = contribution.last_updated_states
@@ -342,7 +351,7 @@ class NonlinearLoadControlMixin:
             target: np.ndarray,
             residual_norm: float,
         ):
-            factor, reductions = line_search_factor(
+            line_result = _line_search_factor_with_result(
                 self._assemble_internal_tangent,
                 model,
                 dofs,
@@ -355,10 +364,18 @@ class NonlinearLoadControlMixin:
                 min_alpha,
                 max_reductions,
                 armijo,
+                controller=robustness_controller,
             )
+            factor = line_result.factor
+            if factor is None:
+                raise NumericalConvergenceError(
+                    "Common Newton line search returned no accepted factor.",
+                    reason=NonlinearFailureReason.LINE_SEARCH_FAILURE,
+                    diagnostics=line_result.to_dict(),
+                )
             updated = trial.displacement.copy()
             updated[free_dofs] += factor * correction
-            return updated, reductions, {"factor": factor}
+            return updated, line_result.reductions, line_result.to_dict()
 
         result = UnifiedNewtonEngine().solve(
             initial_state=NonlinearState(
@@ -378,6 +395,7 @@ class NonlinearLoadControlMixin:
             force_scale=force_scale,
             solver_name="nonlinear_static_unified_newton",
             stagnation_check=False,
+            robustness_controller=robustness_controller,
         )
         final_state = result.state
         self._last_load_step_state = final_state.detached_copy()

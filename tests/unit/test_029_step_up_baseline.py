@@ -50,7 +50,7 @@ def test_step_up_requires_owner_decision_before_j2_geometry_work() -> None:
     assert [option["id"] for option in decision["options"]] == ["A", "B", "C", "D"]
 
 
-def test_step_up_and_wp03_documents_are_present_and_explicitly_planning_only() -> None:
+def test_step_up_and_wp03_documents_are_present_and_status_is_explicit() -> None:
     expected = {
         "README.md",
         "architecture-baseline.md",
@@ -85,6 +85,8 @@ def test_step_up_and_wp03_documents_are_present_and_explicitly_planning_only() -
         "wp03-baseline-campaign.md",
         "wp03-gate-matrix.md",
         "wp03-implementation-plan.md",
+        "wp03-b-baseline.md",
+        "wp03-b-robustness-authority.md",
     }
 
     assert {path.name for path in DOCS.glob("*.md")} == expected
@@ -133,7 +135,7 @@ def test_wp01_contract_is_prospective_and_preserves_the_open_j2_geometry_decisio
     }
     assert progress["work_packages"]["WP03"] == {
         "points": 7,
-        "status": "CONTRACT_PHASE",
+        "status": "STAGNATION_LINESEARCH_AUTHORITY",
         "validated_points": 0,
     }
     assert progress["total_points"] == 100

@@ -14,6 +14,7 @@ from scipy.sparse import csr_matrix
 
 from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
+from solveur.core.nonlinear.robustness import UnifiedNonlinearRobustnessController
 from solveur.core.nonlinear.state import NonlinearState, NonlinearStateTransaction
 from solveur.core.nonlinear.support import _failure_reason_value
 
@@ -429,6 +430,7 @@ class UnifiedNewtonEngine:
         assembly_failure_reason: AssemblyFailureReason | None = None,
         nonfinite_failure_reason: NonFiniteFailureReason | None = None,
         stagnation_check: bool = True,
+        robustness_controller: UnifiedNonlinearRobustnessController | None = None,
         accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
     ) -> UnifiedNewtonResult:
         """Solve the requested fixed load factors through one transaction lifecycle."""
@@ -451,6 +453,11 @@ class UnifiedNewtonEngine:
         factors = tuple(float(value) for value in target_load_factors)
         if not factors or any(not np.isfinite(value) for value in factors):
             raise ValueError("Unified Newton target load factors must be finite and non-empty.")
+
+        policy = robustness_controller or UnifiedNonlinearRobustnessController(
+            stagnation_enabled=stagnation_check,
+            line_search_enabled=line_search is not None,
+        )
 
         transaction = NonlinearStateTransaction(initial_state)
         history: list[dict[str, Any]] = []
@@ -476,7 +483,7 @@ class UnifiedNewtonEngine:
                     failure_diagnostics=failure_diagnostics,
                     assembly_failure_reason=assembly_failure_reason,
                     nonfinite_failure_reason=nonfinite_failure_reason,
-                    stagnation_check=stagnation_check,
+                    robustness_controller=policy,
                 )
                 if accepted_state_callback is not None:
                     accepted_state_callback(step, transaction.accepted_state.detached_copy())
@@ -506,6 +513,7 @@ class UnifiedNewtonEngine:
                 "solver": solver_name,
                 "state_digest": accepted.digest,
                 "commit_count": transaction.commit_count,
+                "robustness_policy": policy.configuration_diagnostics(),
             },
         )
 
@@ -529,7 +537,7 @@ class UnifiedNewtonEngine:
         failure_diagnostics: FailureDiagnostics | None,
         assembly_failure_reason: AssemblyFailureReason | None,
         nonfinite_failure_reason: NonFiniteFailureReason | None,
-        stagnation_check: bool,
+        robustness_controller: UnifiedNonlinearRobustnessController,
     ) -> tuple[dict[str, Any], int]:
         trial = transaction.trial_state
         if trial is None:
@@ -547,8 +555,17 @@ class UnifiedNewtonEngine:
         line_search_seconds = 0.0
         linear_diagnostics: list[dict[str, Any]] = []
         line_search_factors: list[float] = []
+        line_search_events: list[dict[str, Any]] = []
         correction_norms: list[float] = []
         contribution_diagnostics: Mapping[str, Mapping[str, Any]] = {}
+        stagnation_diagnostics: dict[str, Any] | None = None
+
+        def add_robustness_diagnostics(details: dict[str, Any]) -> dict[str, Any]:
+            details["robustness"] = robustness_controller.configuration_diagnostics(
+                stagnation=stagnation_diagnostics,
+                line_search=line_search_events,
+            )
+            return details
 
         for iteration in range(1, max_iterations + 1):
             assembly_started = perf_counter()
@@ -564,6 +581,7 @@ class UnifiedNewtonEngine:
                 diagnostics = self._failure_diagnostics(
                     failure_diagnostics, step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
                 )
+                add_robustness_diagnostics(diagnostics)
                 diagnostics["assembly_error"] = str(exc)
                 reason = (
                     assembly_failure_reason(str(exc))
@@ -582,6 +600,7 @@ class UnifiedNewtonEngine:
                 diagnostics = self._failure_diagnostics(
                     failure_diagnostics, step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
                 )
+                add_robustness_diagnostics(diagnostics)
                 diagnostics["contribution_diagnostics"] = dict(contribution_diagnostics)
                 raise NumericalConvergenceError(
                     f"Unified Newton contribution failed at increment {step}.",
@@ -592,6 +611,7 @@ class UnifiedNewtonEngine:
                 diagnostics = self._failure_diagnostics(
                     failure_diagnostics, step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
                 )
+                add_robustness_diagnostics(diagnostics)
                 diagnostics["contribution_diagnostics"] = dict(contribution_diagnostics)
                 raise NumericalConvergenceError(
                     f"Unified Newton contribution was inadmissible at increment {step}.",
@@ -609,6 +629,7 @@ class UnifiedNewtonEngine:
                 diagnostics = self._failure_diagnostics(
                     failure_diagnostics, step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
                 )
+                add_robustness_diagnostics(diagnostics)
                 raise NumericalConvergenceError(
                     f"Unified Newton residual is non-finite at increment {step}.",
                     reason=reason,
@@ -617,6 +638,12 @@ class UnifiedNewtonEngine:
             residual_norm = float(np.linalg.norm(residual[free]))
             relative = residual_norm / scale
             residual_history.append(residual_norm)
+            stagnation_decision = robustness_controller.stagnation_decision(
+                residual_history,
+                converged=relative <= tolerance,
+                convergence_tolerance=tolerance,
+            )
+            stagnation_diagnostics = stagnation_decision.to_dict()
             if relative <= tolerance:
                 if finalize_trial_state is not None:
                     finalize_trial_state(trial, composite)
@@ -640,14 +667,19 @@ class UnifiedNewtonEngine:
                         "line_search_seconds": line_search_seconds,
                         "linear_system_diagnostics": linear_diagnostics,
                         "contribution_diagnostics": dict(contribution_diagnostics),
+                        "robustness": robustness_controller.configuration_diagnostics(
+                            stagnation=stagnation_diagnostics,
+                            line_search=line_search_events,
+                        ),
                         "state_committed": True,
                     },
                     max(iteration - 1, 0),
                 )
-            if stagnation_check and len(residual_history) >= 4 and residual_history[-1] >= residual_history[-4] * (1.0 - 1.0e-10):
+            if stagnation_decision.reason is NonlinearFailureReason.CONVERGENCE_STAGNATION:
                 diagnostics = self._failure_diagnostics(
                     failure_diagnostics, step, iteration, residual_history, relative, tolerance, line_search_iterations
                 )
+                add_robustness_diagnostics(diagnostics)
                 raise NumericalConvergenceError(
                     f"Unified Newton stagnated at increment {step}; relative residual={relative:.6e}.",
                     reason=NonlinearFailureReason.CONVERGENCE_STAGNATION,
@@ -670,6 +702,7 @@ class UnifiedNewtonEngine:
                     line_search_iterations,
                 )
                 diagnostics.update(exc.diagnostics)
+                add_robustness_diagnostics(diagnostics)
                 raise NumericalConvergenceError(
                     str(exc), reason=exc.reason, diagnostics=diagnostics
                 ) from exc
@@ -687,6 +720,7 @@ class UnifiedNewtonEngine:
                 diagnostics = self._failure_diagnostics(
                     failure_diagnostics, step, iteration, residual_history, relative, tolerance, line_search_iterations
                 )
+                add_robustness_diagnostics(diagnostics)
                 raise NumericalConvergenceError(
                     f"Unified Newton correction is non-finite at increment {step}.",
                     reason=reason,
@@ -714,12 +748,16 @@ class UnifiedNewtonEngine:
                         line_search_iterations,
                     )
                     diagnostics.update(exc.diagnostics)
+                    if isinstance(exc.diagnostics, Mapping) and exc.reason is NonlinearFailureReason.LINE_SEARCH_FAILURE:
+                        line_search_events.append(dict(exc.diagnostics))
+                    add_robustness_diagnostics(diagnostics)
                     raise NumericalConvergenceError(
                         str(exc), reason=exc.reason, diagnostics=diagnostics
                     ) from exc
                 line_search_seconds += perf_counter() - line_started
                 trial.displacement = np.array(updated, dtype=float, copy=True)
                 if line_diagnostics is not None:
+                    line_search_events.append(dict(line_diagnostics))
                     contribution_diagnostics = {
                         **dict(contribution_diagnostics),
                         "line_search": dict(line_diagnostics),
@@ -739,6 +777,7 @@ class UnifiedNewtonEngine:
             tolerance,
             line_search_iterations,
         )
+        add_robustness_diagnostics(diagnostics)
         diagnostics.update(
             {
                 "assembly_seconds": assembly_seconds,

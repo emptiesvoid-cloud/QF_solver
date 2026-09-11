@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP03-B-BASELINE-001",
+  "work_package": "WP03-B",
+  "status": "EXECUTED_AT_START_SHA_WITH_PREEXISTING_FAILURE",
+  "baseline_sha": "9a97025670f7fbb28cbe4c6e2e76eacbf9fc5714",
+  "baseline_branch": "0.2.9-unified-nonlinear",
+  "scope": "Targeted robustness and easy numerical preservation baseline before WP03-B production edits. The complete WP03-A 16-case campaign remains unchanged and is not rebaselined here.",
+  "comparison_policy": {
+    "easy_case_relative": 1e-9,
+    "easy_case_absolute_floor": 1e-12,
+    "deterministic_state": "Exact digest equality where the route is deterministic.",
+    "existing_stricter_tolerance": "Preserve the stricter existing test threshold.",
+    "full_suite": "NOT_RUN"
+  },
+  "captured_diagnostics": {
+    "displacement": "NOT_CAPTURED_BY_SELECTED_EXISTING_TESTS",
+    "load_factor": "NOT_CAPTURED_BY_SELECTED_EXISTING_TESTS",
+    "residual": "NOT_CAPTURED_BY_SELECTED_EXISTING_TESTS",
+    "reaction_equilibrium": "NOT_CAPTURED_BY_SELECTED_EXISTING_TESTS",
+    "material_state_digest": "NOT_CAPTURED_BY_SELECTED_EXISTING_TESTS",
+    "contact_diagnostics": "NOT_CAPTURED_BY_SELECTED_EXISTING_TESTS",
+    "iteration_count": "ASSERTED_BY_SELECTED_TESTS_WHERE_APPLICABLE",
+    "failure_reason": "ASSERTED_BY_SELECTED_TESTS_WHERE_APPLICABLE"
+  },
+  "groups": [
+    {
+      "ids": ["B01", "B06"],
+      "command": "python -m pytest -q tests/unit/test_nonlinear_iteration_sparse.py tests/unit/test_nonlinear_contracts.py tests/unit/test_nonlinear_composite_assembly.py",
+      "result": {"passed": 11, "failed": 0, "skipped": 0, "deselected": 0, "errors": 0},
+      "status": "PASS"
+    },
+    {
+      "ids": ["B02"],
+      "command": "python -m pytest -q tests/unit/test_nonlinear_constitutive_vv.py tests/unit/test_j2_plastic_dissipation.py tests/unit/test_nonlinear_multielement.py",
+      "result": {"passed": 35, "failed": 1, "skipped": 0, "deselected": 0, "errors": 0},
+      "status": "PREEXISTING_FAILURE",
+      "failure": {
+        "test": "tests/unit/test_nonlinear_multielement.py::test_adversarial_rollback_retries_from_clean_committed_state",
+        "exception": "TypeError",
+        "message": "RejectFirstTrialSolver._solve_load_step() got an unexpected keyword argument 'commit_to_inputs'",
+        "classification": "OUTSIDE_WP03_B_SCOPE; adaptive signature compatibility debt present at baseline"
+      },
+      "relevant_j2_control": {
+        "command": "python -m pytest -q tests/unit/test_nonlinear_constitutive_vv.py tests/unit/test_j2_plastic_dissipation.py tests/unit/test_nonlinear_multielement.py -k \"not adversarial_rollback_retries_from_clean_committed_state\"",
+        "result": {"passed": 35, "failed": 0, "skipped": 0, "deselected": 1, "errors": 0},
+        "status": "PASS"
+      }
+    },
+    {
+      "ids": ["B03", "B04"],
+      "command": "python -m pytest -q tests/unit/test_geometric_nonlinear_public.py tests/unit/test_geometric_nonlinear_controls.py tests/unit/test_geometric_nonlinear_contracts.py tests/unit/test_geometric_nonlinear_adaptive.py",
+      "result": {"passed": 27, "failed": 0, "skipped": 0, "deselected": 0, "errors": 0},
+      "status": "PASS"
+    },
+    {
+      "ids": ["B05"],
+      "command": "python -m pytest -q tests/unit/test_nonlinear_contact_composition.py tests/unit/test_frictionless_contact.py",
+      "result": {"passed": 30, "failed": 0, "skipped": 0, "deselected": 0, "errors": 0},
+      "status": "PASS"
+    },
+    {
+      "ids": ["B07", "B12", "B13", "B14"],
+      "command": "python -m pytest -q tests/unit/test_nonlinear_failure_modes.py tests/unit/test_nonlinear_failure_campaign.py tests/unit/test_nonlinear_robustness_options.py",
+      "result": {"passed": 28, "failed": 0, "skipped": 0, "deselected": 0, "errors": 0},
+      "status": "PASS"
+    }
+  ],
+  "baseline_limitations": [
+    "Selected existing tests do not expose a common structured B01-B14 diagnostic record for every requested quantity; missing values are explicitly marked rather than invented.",
+    "The adaptive rollback benchmark failure is present before WP03-B edits and is not changed or rebaselined by this record.",
+    "No production source, numerical formulation, tolerance, maturity or historical evidence was changed during baseline capture."
+  ]
+}
