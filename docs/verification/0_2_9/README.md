@@ -78,7 +78,9 @@ WP00 (4/4).
 The controlled documentation view is [WP01 Owner closure](wp01-owner-closure.md);
 the corresponding machine-readable record is
 `qualification/0_2_9/wp01_owner_closure.json`.
-WP02-D is now the **ARC_LENGTH_RESTART** phase at 0/6 points. OD-029-01
+WP02-D is now the **ARC_LENGTH_RESTART** phase at 0/6 points. The focused
+WP02-D1 remediation also passes the path-dependent material-state ownership
+checks; it does not award WP02 points. OD-029-01
 remains **OPEN** and blocks WP09 only. OD-029-02 is **CLOSED** as
 `READ_V1_WRITE_V2_BOUNDED`. This record does not promote maturity, alter
 numerical formulations or change historical WP01-A/B/C/D evidence.
@@ -86,7 +88,8 @@ numerical formulations or change historical WP01-A/B/C/D evidence.
 WP02-B established checkpoint-v2 serialization, WP02-C migrated fixed and
 adaptive restart ownership, and WP02-D migrates the public arc-length restart
 path to the accepted composite state. See the [WP02-D arc-length restart
-evidence](wp02-d-arc-length-restart.md). Final points remain pending the
+evidence](wp02-d-arc-length-restart.md) and the [WP02-D1 material-state alias
+remediation](wp02-d1-material-state-alias.md). Final points remain pending the
 independent WP02-E closure audit. The bounded v1 compatibility policy and its
 contact-bearing rejection are recorded in [OD-029-02](owner-decisions.md).
 
@@ -108,6 +111,7 @@ contact-bearing rejection are recorded in [OD-029-02](owner-decisions.md).
 - [WP02 implementation plan](wp02-implementation-plan.md)
 - [WP02-B schema-v2 foundation](wp02-b-schema-v2-foundation.md)
 - [WP02-D arc-length restart](wp02-d-arc-length-restart.md)
+- [WP02-D1 material-state alias remediation](wp02-d1-material-state-alias.md)
 
 WP01 implementation and continuation migration are closed under the recorded
 Owner decision. WP02 implementation evidence currently reaches the
