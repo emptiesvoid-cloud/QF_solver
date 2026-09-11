@@ -74,6 +74,7 @@ def test_step_up_documents_are_present_and_explicitly_planning_only() -> None:
         "wp02-failure-matrix.md",
         "wp02-gate-matrix.md",
         "wp02-implementation-plan.md",
+        "wp02-b-schema-v2-foundation.md",
     }
 
     assert {path.name for path in DOCS.glob("*.md")} == expected
@@ -117,7 +118,7 @@ def test_wp01_contract_is_prospective_and_preserves_the_open_j2_geometry_decisio
     assert closure["integrity"]["maturity_changed"] is False
     assert progress["work_packages"]["WP02"] == {
         "points": 6,
-        "status": "CONTRACT_PHASE",
+        "status": "SCHEMA_V2_FOUNDATION",
         "validated_points": 0,
     }
     assert progress["total_points"] == 100

@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from copy import deepcopy
 from dataclasses import dataclass, field
-import hashlib
-import json
 from typing import Any
 
 import numpy as np
@@ -13,6 +11,7 @@ import numpy as np
 from solveur.core.errors import NumericalConvergenceError
 from solveur.core.model import FiniteElementModel
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
+from solveur.core.nonlinear.state import deterministic_state_digest
 from solveur.elements.registry import ElementRegistry
 from solveur.elements.solid.tet10 import Tet10Element
 from solveur.materials.factory import MaterialFactory
@@ -131,9 +130,8 @@ class MaterialStateSession:
 
 
 def state_digest(state: Any) -> str:
-    """Hash nested state, including NumPy arrays, without exposing addresses."""
-    payload = json.dumps(_canonical_state(state), sort_keys=True, separators=(",", ":"))
-    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+    """Compatibility wrapper around the authoritative nonlinear digest."""
+    return deterministic_state_digest(state)
 
 
 def state_is_finite(state: Any) -> bool:
@@ -147,18 +145,6 @@ def state_is_finite(state: Any) -> bool:
     if isinstance(state, (bool, int, float, np.number)):
         return bool(np.isfinite(state))
     return True
-
-
-def _canonical_state(value: Any) -> Any:
-    if isinstance(value, dict):
-        return {str(key): _canonical_state(item) for key, item in sorted(value.items(), key=lambda item: str(item[0]))}
-    if isinstance(value, (list, tuple)):
-        return [_canonical_state(item) for item in value]
-    if hasattr(value, "tolist"):
-        return _canonical_state(value.tolist())
-    if isinstance(value, (bool, int, float, str)) or value is None:
-        return value
-    raise TypeError(f"Unsupported state value {type(value).__name__!r} for deterministic digest.")
 
 
 def _replace_state(target: Any, source: Any) -> None:
@@ -210,9 +196,10 @@ def commit_material_states(target: MaterialStateTable, source: MaterialStateTabl
 def material_states_to_dict(states: MaterialStateTable | None) -> list[dict[str, Any]]:
     """Serialize integration-point material states for result JSON."""
     rows: list[dict[str, Any]] = []
-    for element_index in sorted((states or {}).keys()):
+    table = states or {}
+    for element_index in sorted(table.keys()):
         points = []
-        for point_index, state in enumerate(states[element_index]):
+        for point_index, state in enumerate(table[element_index]):
             points.append({"index": point_index, **_jsonable_state(state)})
         rows.append({"element": element_index, "integration_points": points})
     return rows

@@ -19,16 +19,18 @@
     {
       "id": "OD-029-02",
       "title": "Legacy v1 checkpoint compatibility boundary",
-      "status": "OPEN",
-      "decision_required_before": "WP02-B implementation of v1 checkpoints containing non-empty or stateful contact topology",
+      "status": "CLOSED",
+      "decision_required_before": "WP02-B implementation",
       "question": "Should legacy schema-1 checkpoints with contact-bearing models receive a migration path despite schema 1 lacking contact state, topology and composite digests?",
+      "approved_decision": "READ_V1_WRITE_V2_BOUNDED",
+      "decision_scope": "Read contact-free v1 checkpoints and stateless-compatible penalty-contact v1 checkpoints only when compatibility is proven from the current model; reject ambiguous/stateful contact-history-dependent v1 checkpoints; never invent missing history; write v2 only.",
       "default_without_owner_approval": "Reject ambiguous contact-bearing v1 checkpoints explicitly; support bounded contact-free v1 read and v2 write.",
       "options": [
         {"id": "A", "name": "Keep bounded compatibility", "scope": "Read v1 only for contact-free/stateless-compatible cases; reject ambiguous contact-bearing v1 inputs explicitly."},
         {"id": "B", "name": "Add a legacy contact migration contract", "scope": "Define and validate an external topology/invariant source before accepting contact-bearing v1 checkpoints."},
         {"id": "C", "name": "Reject all v1 checkpoints", "scope": "Require a v2 checkpoint for every restart; this would be a deliberate compatibility break."}
       ],
-      "blocks": "Only the ambiguous contact-bearing v1 migration path; it does not block WP02-A contract phase or WP02 fixed-state work within the bounded policy."
+      "blocks": "Only the ambiguous contact-bearing v1 migration path; it does not block WP02-B bounded schema foundation or later fixed-state work within the approved policy."
     }
   ]
 }

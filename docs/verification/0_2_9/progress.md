@@ -11,7 +11,7 @@ applicable_version: 0.2.9-development
 | --- | ---: | --- |
 | WP00 | 4 | Closed |
 | WP01 | 12 | **Closed** — Owner-approved unified nonlinear core |
-| WP02 | 6 | **Contract phase** — 0/6; implementation not started |
+| WP02 | 6 | **Schema-v2 foundation** — 0/6; WP02-C/D restart migration remains |
 | WP03–WP08 | 50 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
@@ -24,17 +24,19 @@ WP01 is closed by the independent Owner decision recorded in
 bounded/research boundaries. Unified checkpoint persistence, frictional
 contact migration and adaptive penalty-contact qualification remain future
 work; inherited typing debt remains documented. OD-029-01 stays OPEN and
-blocks WP09 only. WP02 remains NOT STARTED.
+blocks WP09 only. WP02 is now in the schema-v2 foundation phase.
 
 ## WP02 current phase
 
-WP02-A freezes the prospective state, rollback and checkpoint contract at
-0/6 points. The target is schema 2 persisted state with one accepted
-`NonlinearState` authority, deterministic component/composite digests, bounded
-schema-1 read compatibility and schema-2 writes. No checkpoint implementation
-or production source was changed in WP02-A.
+WP02-A froze the prospective state, rollback and checkpoint contract at 0/6
+points. WP02-B implements the schema-v2 persistence foundation: one accepted
+`NonlinearState` authority, deterministic typed serialization,
+component/composite digest validation, topology checks, bounded schema-1
+migration and atomic canonical writes. Full solver-level fixed/adaptive and
+arc-length restart ownership remains deferred to WP02-C/WP02-D.
 
 The contract is split into the [state/checkpoint contract](wp02-state-checkpoint-contract.md),
 [compatibility matrix](wp02-compatibility-matrix.md),
-[failure matrix](wp02-failure-matrix.md), [prospective gates](wp02-gate-matrix.md)
-and [implementation decomposition](wp02-implementation-plan.md).
+[failure matrix](wp02-failure-matrix.md), [prospective gates](wp02-gate-matrix.md),
+[implementation decomposition](wp02-implementation-plan.md) and [WP02-B
+schema-v2 evidence](wp02-b-schema-v2-foundation.md).

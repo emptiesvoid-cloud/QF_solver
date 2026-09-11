@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP02-B-SCHEMA-V2-001",
+  "work_package": "WP02-B",
+  "status": "SCHEMA_V2_FOUNDATION",
+  "baseline_sha": "aaea5902d2b9b2eb49598d3c4fcbaf211500dac9",
+  "implementation_sha": "reported in the final gate record; not embedded self-referentially",
+  "owner_decision": {
+    "id": "OD-029-02",
+    "status": "CLOSED",
+    "policy": "READ_V1_WRITE_V2_BOUNDED"
+  },
+  "implementation": {
+    "checkpoint_schema_version": 2,
+    "persisted_state_authority": "One accepted NonlinearState; no trial state is persisted.",
+    "v2_writer": "solveur.io.nonlinear_checkpoint.NpzNonlinearCheckpointStore",
+    "v1_reader": "Explicit schema_version=1 detection followed by bounded in-memory migration.",
+    "serialization": "Tagged deterministic payload with dtype, shape and C-order bytes; allow_pickle=false.",
+    "digests": "deterministic_state_digest is authoritative for six components and the composite state.",
+    "topology": "DOF, material integration-point, contact entry and continuation-key topology are validated.",
+    "atomicity": "Same-directory temporary NPZ, file fsync where supported, atomic replace, optional POSIX directory sync; retained copy follows canonical success."
+  },
+  "v1_policy": {
+    "contact_free": "MIGRATE",
+    "stateless_penalty_contact": "MIGRATE_ONLY_WHEN_CURRENT_MODEL_COMPATIBILITY_IS_PROVEN",
+    "ambiguous_or_stateful_contact": "REJECT",
+    "missing_history_invented": false,
+    "new_writes": "V2"
+  },
+  "failure_semantics": {
+    "invalid_npz_or_schema": "InputValidationError",
+    "wrong_model_or_topology": "InputValidationError",
+    "digest_or_nonfinite_state": "NumericalConvergenceError: STATE_CORRUPTION",
+    "save_failure": "NumericalConvergenceError: CHECKPOINT_FAILURE",
+    "physical_cutback_on_checkpoint_failure": false
+  },
+  "tests": {
+    "wp02_b_focused": "28 passed",
+    "existing_checkpoint_and_state_targeted": "73 passed",
+    "full_suite_run": false
+  },
+  "gates": {
+    "G02-01": "PASS",
+    "G02-02": "PASS",
+    "G02-03": "PENDING_WP02_C",
+    "G02-04": "PENDING_WP02_D",
+    "G02-05": "PASS",
+    "G02-06": "PASS",
+    "G02-07": "PASS_BOUNDED",
+    "G02-08": "PASS_AT_PERSISTENCE_BOUNDARY",
+    "G02-09": "PASS_AT_STORAGE_BOUNDARY",
+    "G02-10": "PENDING_LATER_MIGRATION"
+  },
+  "known_limits": [
+    "Full fixed/adaptive solver restart ownership remains WP02-C.",
+    "Full arc-length restart migration remains WP02-D.",
+    "Frictional contact state persistence is not implemented or claimed.",
+    "Checkpoint persistence is single-process; PETSc/MPI restart is out of scope."
+  ],
+  "points_awarded": 0,
+  "validated_total": 16,
+  "numerical_formulation_changed": false,
+  "maturity_changed": false
+}

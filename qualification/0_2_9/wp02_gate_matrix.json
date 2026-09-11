@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "record_id": "QF-SOLVER-0.2.9-WP02-GATES-001",
-  "status": "PROSPECTIVE_CONTRACT_PHASE",
+  "status": "SCHEMA_V2_FOUNDATION",
   "baseline_sha": "cced3d30ac12f2e405915766c5329ac53b7b07bb",
   "thresholds": {
     "persisted_deterministic_state": {"relative": 1e-12, "absolute": 1e-14},

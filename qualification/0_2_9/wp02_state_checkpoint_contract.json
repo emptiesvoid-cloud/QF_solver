@@ -140,6 +140,6 @@
   ],
   "owner_decisions": {
     "OD-029-01": "OPEN; unchanged and blocks WP09 only.",
-    "OD-029-02": "OPEN; legacy contact-bearing v1 checkpoint compatibility boundary; non-blocking for WP02-A."
+    "OD-029-02": "CLOSED; READ_V1_WRITE_V2_BOUNDED. Contact-free and proven stateless-compatible v1 migration is allowed; ambiguous/stateful contact-bearing v1 is rejected."
   }
 }
