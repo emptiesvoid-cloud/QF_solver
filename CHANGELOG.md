@@ -1,10 +1,10 @@
 # Changelog
 
-## 0.2.8 - Unreleased
+## 0.2.8 - Released
 
-This section records the current QF Solver 0.2.8 candidate. Publication is
-`NOT_PUBLISHED_YET`; DOI status is `NOT_AVAILABLE_YET`; no release date is
-assigned.
+QF Solver 0.2.8 is published on GitHub, PyPI and Zenodo. The version DOI is
+[`10.5281/zenodo.22697898`](https://doi.org/10.5281/zenodo.22697898); the
+concept DOI is [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897).
 
 ### Added
 
@@ -20,7 +20,7 @@ assigned.
 ### Improved
 
 - The public `qf_solver` facade, optional HDF5 integration and package metadata
-  are documented for the 0.2.8 candidate.
+  are documented for the 0.2.8 release.
 - Release-surface checks keep optional `h5py` support out of the base import
   path and retain explicit errors when HDF5 is requested without its extra.
 
@@ -32,7 +32,7 @@ assigned.
   `QUALIFIED_BOUNDED` within their recorded serial scopes.
 - Mixed Newmark and harmonic evidence remains `EXPERIMENTAL_BOUNDED` within
   the documented serial model, damping, loading and timestep/frequency scope.
-- The release candidate retains prospective contracts, frozen gates, replay,
+- The release retains prospective contracts, frozen gates, replay,
   failure-case and evidence-integrity checks for the recorded workflows.
 
 ### API and packaging
@@ -41,13 +41,13 @@ assigned.
   `solveur` namespace remains a compatibility surface.
 - `read_inp(path)` remains `PROVISIONAL`, and HDF5 support remains an optional
   extra rather than a base installation requirement.
-- Candidate package metadata is aligned to version `0.2.8`; publication and
-  DOI creation remain separate owner actions.
+- Package metadata is aligned to published version `0.2.8`; the release
+  archive and DOI are recorded in `CITATION.cff`.
 
 ### Documentation
 
-- Current capability, maturity, limitation, V&V, installation and release
-  preparation pages are linked from the public documentation surface.
+- Current capability, maturity, limitation, V&V and installation pages are
+  linked from the public documentation surface.
 - Historical 0.2.7 evidence and benchmarks remain explicitly historical and
   are not reclassified as 0.2.8 mixed-HPC evidence.
 

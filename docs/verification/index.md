@@ -2,7 +2,7 @@
 doc_id: DOC-VV-000
 revision: 1.0
 status: controlled
-applicable_version: 0.2.8-development
+applicable_version: 0.2.8
 reviewer: ""
 approver: ""
 ---
@@ -11,7 +11,7 @@ approver: ""
 
 The [0.2.8 capability index](../capabilities/index.md) is the current public
 status entry point. The [V&V and maturity model](evidence-and-maturity.md)
-explains the evidence chain. The 0.2.8 development evidence summary is the
+explains the evidence chain. The 0.2.8 release evidence summary is the
 chronological entry point:
 [verification/0_2_8/README.md](0_2_8/README.md). The
 [0.2.7 summary](0_2_7/README.md) remains immutable historical evidence.
@@ -43,7 +43,7 @@ their original records and are not current release metrics.
 - [What's New](../whats-new/0.2.8.md)
 - [Known limitations](../etat/limites.md)
 
-The current candidate is `0.2.8-development` and is not published yet.
+The current published release is `0.2.8` (`v0.2.8`).
 
 Historical and intermediate pages remain directly accessible for provenance
 and are visibly labeled. The current MkDocs search configuration has no
