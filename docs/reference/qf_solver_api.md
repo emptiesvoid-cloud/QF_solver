@@ -2,7 +2,7 @@
 doc_id: DOC-REF-API-003
 revision: 1.0
 status: controlled_candidate
-applicable_version: 0.2.8-development
+applicable_version: 0.2.8
 reviewer: ""
 approver: ""
 ---
@@ -210,7 +210,7 @@ contract.
 
 For the overview and compatibility boundary, see
 [`api_stability.md`](api_stability.md). The active capability limits remain in
-the [0.2.8 consolidated registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/0b356330bdbf63ca6c0406d9a5f816bd75246764/qualification/0_2_8/consolidated_registry.json)
+the [0.2.8 consolidated registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json)
 and linked mixed-workflow/capability records.
 
 The cross-registry public orientation is maintained by the

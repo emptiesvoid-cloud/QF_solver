@@ -40,12 +40,12 @@ On this page: [Why QF Solver?](README.md#why-qf-solver) ·
 | CI validation | Windows and Linux |
 | License | Apache-2.0 |
 | Documentation | [Online documentation](https://emptiesvoid-cloud.github.io/QF_solver/) |
+| Release archive | [Zenodo v0.2.8](https://doi.org/10.5281/zenodo.22697898) |
 
 Release availability is authoritative on [PyPI](https://pypi.org/project/qf-solver/)
 and [GitHub Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases).
-This page describes the `0.2.8` release line and does not make a transient
-publication-state claim. Citation metadata, including any DOI if one is
-assigned, is authoritative in [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).
+This page describes the published `0.2.8` release line. Citation metadata is
+authoritative in [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).
 
 ## Intended use
 
@@ -63,17 +63,16 @@ python -m pip install qf-solver
 qf-solver --version
 ```
 
-To install a repository checkout (for example, the pre-publication branch
-during development):
+To install the immutable source for this release:
 
 ```bash
-git clone --branch 0.2.8-pre-publication https://github.com/emptiesvoid-cloud/QF_solver.git
+git clone --branch v0.2.8 --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git
 cd QF_solver
 python -m pip install .
 qf-solver --version
 ```
 
-Use the matching release tag or source archive when one is published. Optional
+Use the matching release tag or source archive for reproducibility. Optional
 development and integration extras are described in the
 [installation guide](https://emptiesvoid-cloud.github.io/QF_solver/getting-started/installation/).
 HDF5, PETSc, MPI and SLEPc remain optional integrations and are not required
@@ -142,11 +141,11 @@ internal paths, and mixed distributed PETSc/MPI is not validated.
 | Mixed distributed PETSc/MPI | `NOT_VALIDATED` | Architecture evidence only; no validated runtime claim. |
 | PYRAMID5 | `INTERNAL` / `RESEARCH_ONLY` | Internal feasibility path; not a supported public element. |
 
-The authoritative [0.2.8 element-analysis registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/b706795a8d7d2d8e64df4ec669e343ef1a666ead/qualification/0_2_8/consolidated_registry.json)
+The authoritative [0.2.8 element-analysis registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json)
 contains 32 `QUALIFIED_BOUNDED`, 14 `EXPERIMENTAL`, 0 `NOT_QUALIFIED` and 46
 records. Mixed workflows and separate capabilities are not added to those 46
-records. Release-specific evidence links in this page are pinned to the exact
-`0.2.8` candidate commit; project-global links may follow the project default
+records. Release-specific evidence links in this page are pinned to the
+immutable `v0.2.8` tag; project-global links may follow the project default
 branch.
 
 ## Verification and maturity
@@ -162,7 +161,7 @@ evidence, replay checks and failure cases. The maturity labels mean:
 - `INTERNAL`: not part of the supported public surface.
 
 Read the [V&V and maturity model](https://emptiesvoid-cloud.github.io/QF_solver/verification/evidence-and-maturity/)
-and the [0.2.8 verification summary pinned to the candidate commit](https://github.com/emptiesvoid-cloud/QF_solver/tree/b706795a8d7d2d8e64df4ec669e343ef1a666ead/docs/verification/0_2_8/).
+and the [0.2.8 verification summary pinned to the release tag](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.8/docs/verification/0_2_8/).
 
 ## Performance context
 
@@ -217,7 +216,9 @@ documentation and original examples are under
 [CC BY 4.0](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/LICENSE-DOCS).
 Third-party terms are listed in
 [THIRD_PARTY_LICENSES.md](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/THIRD_PARTY_LICENSES.md).
-For citation metadata, see
-the [CITATION.cff file](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).
+For QF Solver 0.2.8 specifically, cite the [version DOI](https://doi.org/10.5281/zenodo.22697898).
+The [concept DOI](https://doi.org/10.5281/zenodo.22697897) identifies the
+evolving QF Solver project. Full citation metadata is in
+[CITATION.cff](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).
 
 No claim of certification or universal physical validation is made.

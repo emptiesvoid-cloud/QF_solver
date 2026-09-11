@@ -2,22 +2,20 @@
 doc_id: DOC-START-PUB-001
 revision: 1.0
 status: controlled
-applicable_version: 0.2.8-development
+applicable_version: 0.2.8
 reviewer: ""
 approver: ""
 ---
 
 # Installation
 
-The current candidate is QF Solver `0.2.8-development`; publication has not
-occurred yet. The [central capability index](../capabilities/index.md) and
-[What's New](../whats-new/0.2.8.md) describe the current bounded public scope.
+QF Solver `0.2.8` is published on [PyPI](https://pypi.org/project/qf-solver/).
+The [central capability index](../capabilities/index.md) and
+[What's New](../whats-new/0.2.8.md) describe its bounded public scope.
 
 ## User installation
 
-Install the package when a 0.2.8 distribution is available from the package
-index. This development documentation does not claim that publication has
-already occurred:
+Install the published package from the package index:
 
 ```bash
 python -m pip install qf-solver
@@ -25,18 +23,17 @@ qf-solver --version
 ```
 
 An unqualified clone follows the repository default branch; it is not a
-release selector. For this pre-publication candidate, select the branch
-explicitly. No 0.2.8 tag is claimed here:
+release selector. Select the immutable release tag explicitly when
+reproducibility matters:
 
 ```bash
-git clone --branch 0.2.8-pre-publication --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git
+git clone --branch v0.2.8 --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git
 cd QF_solver
 python -m pip install .
 qf-solver --version
 ```
 
-An eventual tagged release should instead select its published tag explicitly;
-the default branch is not a promise that it contains this candidate.
+The default branch is not a promise that it contains a specific release.
 
 The core package requires Python 3.10 or newer. The public import is:
 

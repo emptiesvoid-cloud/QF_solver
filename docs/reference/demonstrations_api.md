@@ -2,7 +2,7 @@
 doc_id: DOC-REF-DEMO-001
 revision: 0.4
 status: draft
-applicable_version: 0.2.8-development
+applicable_version: 0.2.8
 reviewer: ""
 approver: ""
 ---

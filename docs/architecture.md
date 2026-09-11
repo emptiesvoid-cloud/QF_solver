@@ -2,7 +2,7 @@
 doc_id: DOC-ARCH-001
 revision: 2.1
 status: controlled
-applicable_version: 0.2.8-development
+applicable_version: 0.2.8
 reviewer: ""
 approver: ""
 ---

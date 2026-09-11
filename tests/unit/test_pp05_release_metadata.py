@@ -25,8 +25,8 @@ def _markdown_section(text: str, heading: str) -> str:
     return match.group(0)
 
 
-def test_028_changelog_is_structured_unreleased_and_bounded() -> None:
-    section = _markdown_section(_text("CHANGELOG.md"), "0.2.8 - Unreleased")
+def test_028_changelog_is_structured_released_and_bounded() -> None:
+    section = _markdown_section(_text("CHANGELOG.md"), "0.2.8 - Released")
     for heading in (
         "### Added",
         "### Improved",
@@ -36,52 +36,50 @@ def test_028_changelog_is_structured_unreleased_and_bounded() -> None:
         "### Known limitations",
     ):
         assert heading in section
-    assert "NOT_PUBLISHED_YET" in section
-    assert "NOT_AVAILABLE_YET" in section
+    assert "10.5281/zenodo.22697898" in section
+    assert "10.5281/zenodo.22697897" in section
     assert "NOT_VALIDATED" in section
     assert "RESEARCH_ONLY" in section
     assert "No distributed mixed" in section
-    assert not re.search(r"(?im)^## 0\.2\.8\s+-\s*(?:\d|Released)", section)
+    assert "NOT_PUBLISHED_YET" not in section
+    assert "NOT_AVAILABLE_YET" not in section
 
 
 def test_security_policy_is_durable_across_published_and_candidate_channels() -> None:
     security = _text("SECURITY.md")
     assert "Latest published release" in security
-    assert "Current `0.2.8` pre-publication candidate" in security
+    assert "Current `0.2.8` release" in security
     assert "Older releases" in security
     assert "0.2.7 = supported" not in security
     assert "best-effort basis" in security
 
 
-def test_candidate_metadata_and_citation_are_coherent() -> None:
+def test_published_metadata_and_citation_are_coherent() -> None:
     project = tomllib.loads(_text("pyproject.toml"))["project"]
     runtime = _text("src/solveur/version.py")
     citation = _text("CITATION.cff")
     assert project["version"] == "0.2.8"
     assert '__version__ = "0.2.8"' in runtime
     assert 'version: "0.2.8"' in citation
-    assert "Publication status: NOT_PUBLISHED_YET" in citation
-    assert "DOI status: NOT_AVAILABLE_YET" in citation
+    assert 'doi: "10.5281/zenodo.22697898"' in citation
+    assert "NOT_PUBLISHED_YET" not in citation
+    assert "NOT_AVAILABLE_YET" not in citation
 
     for relative in (
         "README.md",
         "CHANGELOG.md",
         "OPEN_SOURCE_READINESS.md",
         "PUBLIC_RELEASE_POLICY.md",
+        "SECURITY.md",
+        "SUPPORT.md",
     ):
         text = _text(relative)
         assert "0.2.8" in text, relative
-        if relative == "README.md":
-            assert "Release availability is authoritative" in text
-            assert "NOT_PUBLISHED_YET" not in text
-            assert "NOT_AVAILABLE_YET" not in text
-        else:
-            assert "NOT_PUBLISHED_YET" in text, relative
-            assert "NOT_AVAILABLE_YET" in text, relative
+        assert "NOT_PUBLISHED_YET" not in text, relative
+        assert "NOT_AVAILABLE_YET" not in text, relative
 
-    for relative in ("SECURITY.md", "SUPPORT.md"):
-        assert "0.2.8" in _text(relative), relative
-        assert "NOT_PUBLISHED_YET" in _text(relative), relative
+    assert "10.5281/zenodo.22697898" in _text("README.md")
+    assert "10.5281/zenodo.22697897" in _text("README.md")
 
 
 def test_public_release_policy_classifies_reviewed_evidence_and_exclusions() -> None:

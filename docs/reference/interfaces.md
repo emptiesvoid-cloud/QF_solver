@@ -2,7 +2,7 @@
 doc_id: DOC-REF-001
 revision: 0.1
 status: draft technique
-applicable_version: 0.2.8-development
+applicable_version: 0.2.8
 reviewer: ""
 approver: ""
 ---

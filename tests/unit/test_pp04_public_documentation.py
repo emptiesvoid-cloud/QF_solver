@@ -85,7 +85,7 @@ def test_current_document_metadata_and_registry_are_coherent() -> None:
         assert (DOCS / path).is_file()
 
     for path in ("index.md", "architecture.md", "reference/registre_documentaire.md"):
-        assert "applicable_version: 0.2.8-development" in _front_matter(DOCS / path)
+        assert "applicable_version: 0.2.8" in _front_matter(DOCS / path)
 
     assert re.search(r"^# QF Solver 0\.2\.8$", _text(DOCS / "index.md"), re.MULTILINE)
     assert re.search(r"^# QF Solver architecture$", _text(DOCS / "architecture.md"), re.MULTILINE)
@@ -100,7 +100,8 @@ def test_generated_status_avoids_fragile_test_count() -> None:
     status = _text(DOCS / "generated" / "status.md")
     assert "Test inventory" not in status
     assert re.search(r"full-suite test\s+inventory is recorded by the final Gate-E evidence", status)
-    assert "0.2.8-development" in status
+    assert "0.2.8-development" not in status
+    assert ">0.2.8<" in status
     assert "Mixed distributed PETSc/MPI" in status
     assert "not validated" in status
 

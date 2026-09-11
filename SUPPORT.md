@@ -7,10 +7,10 @@ Support is best-effort. QF_solver is not certified software and does not
 replace an engineer's independent model review, boundary-condition review,
 mesh-quality assessment or validation against the intended application.
 
-The latest published release is the normal support reference. The current
-`0.2.8` source candidate is still `NOT_PUBLISHED_YET`; questions about it should
-include the exact source revision when reproducibility matters. Older releases
-are supported on a best-effort basis and are not actively maintained by default.
+The latest published release, currently `0.2.8`, is the normal support
+reference. Questions should include the exact release tag or source revision
+when reproducibility matters. Older releases are supported on a best-effort
+basis and are not actively maintained by default.
 
 The project owner triages public issues and private security reports. The
 target acknowledgement time is 14 calendar days on a best-effort basis; this
