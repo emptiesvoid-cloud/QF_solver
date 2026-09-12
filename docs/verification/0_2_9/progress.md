@@ -13,7 +13,7 @@ applicable_version: 0.2.9-development
 | WP01 | 12 | **Closed** — Owner-approved unified nonlinear core |
 | WP02 | 6 | **Closed** — 6/6; independent WP02-E audit `GO_WITH_LIMITATIONS` |
 | WP03 | 7 | **Closed** — 7/7; independent WP03-E audit `GO_WITH_LIMITATIONS` |
-| WP04 | 12 | **Mechanics identities** — 0/12; bounded TET4/HEX8 identities demonstrated |
+| WP04 | 12 | **HOLD — TET4 mesh convergence diagnosed** — 0/12; G04-10 remains failed |
 | WP05–WP08 | 31 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
@@ -193,3 +193,20 @@ changed. See [the WP04-C controlled record](wp04-c-tet4-structural-qualification
 Owner direction is required before changing the frozen campaign, re-scoping
 WP04, or considering any numerical remediation. WP04-D and subsequent work
 must not start from this HOLD result.
+
+## WP04-C1 TET4 mesh diagnosis
+
+WP04-C1 preserves the WP04-C HOLD evidence in commit
+`a5c3031f6b28b00476e328daff4845a741a5c161`, reproduces M1/M2/M3 exactly,
+and extends the same benchmark with M4 nonlinear plus M4/M5 linear diagnostics.
+The linear and nonlinear tip/energy refinement changes match closely; load
+resultant/centroid, volume, orientation, and alternate body-diagonal checks
+pass. The primary diagnosis is `SLOW_TET4_DISCRETIZATION_CONVERGENCE` with
+medium confidence, with a pre-asymptotic original range. The stress sample has
+bounded discrete-volume aliasing, but it cannot explain the independently
+failing displacement and energy metrics. G04-10 remains
+`FAIL_UNDER_REMEDIATION`, both families remain `RESEARCH_ONLY`, and the
+roadmap remains 29/100. See [the WP04-C1 diagnosis](wp04-c1-tet4-mesh-diagnosis.md).
+
+The recommended next action is Owner review of a separately frozen C2
+finer-mesh requalification campaign; WP04-D remains unauthorized.

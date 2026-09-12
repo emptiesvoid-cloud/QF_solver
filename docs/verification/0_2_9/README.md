@@ -97,15 +97,18 @@ formulation change. It independently demonstrates the target-clipped retry
 improvement: five repeated effective attempts before WP03 become one rejection
 at the final SHA, while the physical result is identical.
 
-WP04 is **HOLD — TET4 mesh convergence** at 0/12. WP04-B demonstrates the bounded
+WP04 is **HOLD — diagnosed TET4 mesh convergence** at 0/12. WP04-B demonstrates the bounded
 TET4/HEX8 Total-Lagrangian StVK objectivity, affine finite-deformation patch,
 energy-gradient, consistent-tangent and accepted-path work identities. The
 frozen WP04-C TET4 structural campaign passes its small-load, equilibrium,
 load-step, replay and envelope checks, but fails G04-10 mesh convergence:
 M3-vs-M2 displacement/energy/stress differences are 16.4%/16.4%/24.3%, above
-the frozen 2%/2%/10% limits. The contract does not promote current
-`RESEARCH_ONLY` maturity; Owner direction is required before any re-scope or
-remediation.
+the frozen 2%/2%/10% limits. WP04-C1 reproduces the failure and finds matching
+linear/nonlinear refinement trends, invariant load/mesh checks, and no audited
+body-diagonal bias; the bounded diagnosis is slow TET4 discretization
+convergence/pre-asymptotic meshes. The contract does not promote current
+`RESEARCH_ONLY` maturity; Owner direction is required before any C2 requalification
+or other remediation.
 
 WP02-B established checkpoint-v2 serialization, WP02-C migrated fixed and
 adaptive restart ownership, and WP02-D migrated the public arc-length restart
@@ -149,8 +152,10 @@ recorded in [OD-029-02](owner-decisions.md).
 - [WP04 geometric qualification contract and baseline](wp04-geometric-qualification-contract.md)
 - [WP04-B mechanics identities](wp04-b-mechanics-identities.md)
 - [WP04-C TET4 structural qualification — HOLD](wp04-c-tet4-structural-qualification.md)
+- [WP04-C1 TET4 mesh diagnosis](wp04-c1-tet4-mesh-diagnosis.md)
 
 WP01 implementation and continuation migration are closed under the recorded
 Owner decision. WP02 and WP03 are closed under their independent audit
-records; WP04-C is on HOLD after its frozen TET4 mesh-convergence gate failed.
+records; WP04-C's frozen failure is on HOLD and WP04-C1 records its diagnostic
+boundary without changing G04-10.
 OD-029-01 remains open and blocks WP09; WP01 remains formulation-neutral.
