@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP04-HISTORICAL-DEBT-001",
+  "work_package": "WP04-A",
+  "source": "qualification/0_2_8/wp13_11_geometric_nonlinear_discovery/manifest.json",
+  "historical_status": "RESEARCH_ONLY",
+  "historical_scope": "TET4 homogeneous Total-Lagrangian StVK, nodal dead transverse cantilever load, 24-interval sampled proportional path.",
+  "passed": ["tangent finite difference", "final residual", "force balance", "minimum det(F)", "small-displacement limit", "path-step sensitivity", "deterministic replay", "failure contract"],
+  "supporting_only": ["Euler elastica comparison; not a 3D solid acceptance oracle", "large-displacement result; nonlinear-vs-linear difference was only 0.0199644 and did not meet the informative 0.05 discovery target"],
+  "failed": [{"gate": "energy_work", "observed_relative_error": 1.3963468382007748e-05, "prospective_gate": 1e-07, "method": "24-interval trapezoidal dead-load work over independently solved states"}],
+  "root_cause_assessment": "The historical comparison treated a finite sampled trapezoidal path integral as an exact identity and had no authoritative public accepted-state snapshots. It is not evidence that the internal energy or force formulation is wrong.",
+  "post_wp02_wp03_status": "The accepted-state transaction/controller and accepted-state callback now provide a correct runtime provenance seam. WP04-B must use detached accepted snapshots, add an energy-work refinement study, and retain local force/energy and tangent/force derivative identities.",
+  "historical_evidence_changed": false,
+  "maturity_change_authorized": false
+}

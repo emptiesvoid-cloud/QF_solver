@@ -91,6 +91,7 @@ def test_step_up_and_wp03_documents_are_present_and_status_is_explicit() -> None
         "wp03-c-adaptive-policy.md",
             "wp03-d-arc-radius-policy.md",
             "wp03-e-independent-closure.md",
+            "wp04-geometric-qualification-contract.md",
     }
 
     assert {path.name for path in DOCS.glob("*.md")} == expected
@@ -172,3 +173,26 @@ def test_wp01_contract_is_prospective_and_preserves_the_open_j2_geometry_decisio
     assert wp03_closure["validated_total"] == {"awarded": 29, "available": 100}
     assert wp03_closure["gate_status"]["G03-10"]["status"] == "PASS"
     assert wp03_closure["integrity"]["production_source_changed"] is False
+
+
+def test_wp04_contract_freezes_a_two_family_bounded_qualification_without_promotion() -> None:
+    progress = _load("progress.json")
+    contract = _load("wp04_geometric_qualification_contract.json")
+    gates = _load("wp04_gate_matrix.json")
+    baseline = _load("wp04_baseline_campaign.json")
+    debt = _load("wp04_historical_debt_assessment.json")
+
+    assert progress["work_packages"]["WP04"] == {
+        "points": 12,
+        "status": "CONTRACT_PHASE",
+        "validated_points": 0,
+    }
+    assert progress["validated_points"] == 29
+    assert contract["status"] == "CONTRACT_PHASE"
+    assert contract["target"]["families"] == ["TET4", "HEX8"]
+    assert contract["scope"]["included"][-1] == "positive deformation gradients inside the frozen envelope"
+    assert contract["integrity"]["maturity_changed"] is False
+    assert set(gates["gates"]) == {f"G04-{index:02d}" for index in range(1, 13)}
+    assert all(item["status"] == "PROSPECTIVE_NOT_DEMONSTRATED" for item in gates["gates"].values())
+    assert baseline["current_maturity"] == {"TET4": "RESEARCH_ONLY", "HEX8": "RESEARCH_ONLY"}
+    assert debt["historical_evidence_changed"] is False

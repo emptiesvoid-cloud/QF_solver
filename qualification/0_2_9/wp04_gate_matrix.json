@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP04-GATES-001",
+  "work_package": "WP04-A",
+  "status": "PROSPECTIVE_NOT_DEMONSTRATED",
+  "gates": {
+    "G04-01": {"status": "PROSPECTIVE_NOT_DEMONSTRATED", "requirement": "Formulation identity and bounded scope", "evidence": "source map plus public route-scope tests", "pass": "Implemented equations and exclusions match the frozen contract for both families.", "limitations": "None for a scope mismatch."},
+    "G04-02": {"status": "PROSPECTIVE_NOT_DEMONSTRATED", "requirement": "Rigid-body objectivity", "evidence": "translation, finite rotation, and combined motion for TET4/HEX8", "pass": "scaled energy <=1e-12 and scaled force <=1e-11; strain/stress numerically zero", "limitations": "None."},
+    "G04-03": {"status": "PROSPECTIVE_NOT_DEMONSTRATED", "requirement": "Homogeneous finite-deformation patch", "evidence": "uniaxial, shear, combined stretch/shear, rotation-plus-stretch affine states", "pass": "F, E, S, P, Cauchy stress and energy agree at relative 1e-10, absolute 1e-12", "limitations": "None."},
+    "G04-04": {"status": "PROSPECTIVE_NOT_DEMONSTRATED", "requirement": "Internal force is energy gradient", "evidence": "centered finite differences at admissible nonzero states", "pass": "relative <=1e-7 with 1e-10 absolute floor", "limitations": "None."},
+    "G04-05": {"status": "PROSPECTIVE_NOT_DEMONSTRATED", "requirement": "Consistent tangent and symmetry", "evidence": "centered force derivative at near-zero, moderate, combined and structural states", "pass": "Frobenius <=1e-6, max column <=5e-6, symmetry defect <=1e-12", "limitations": "None."},
+    "G04-06": {"status": "PROSPECTIVE_NOT_DEMONSTRATED", "requirement": "Small-displacement linear limit", "evidence": "successively reduced loads against linear static", "pass": "relative displacement/reaction error <=1e-4 at frozen smallest load", "limitations": "None."},
+    "G04-07": {"status": "PROSPECTIVE_NOT_DEMONSTRATED", "requirement": "Force and reaction equilibrium", "evidence": "all structural qualification cases", "pass": "resultant force and meaningful moment balance relative error <=1e-8", "limitations": "PASS_WITH_LIMITATIONS only where moment is not physically defined."},
+    "G04-08": {"status": "PROSPECTIVE_NOT_DEMONSTRATED", "requirement": "Accepted-path energy/work", "evidence": "detached accepted-state path and 12/24/48/96 work refinement", "pass": "finest Delta U/W relative error <=1e-6 and 96-vs-48 work change <=2e-7", "limitations": "None."},
+    "G04-09": {"status": "PROSPECTIVE_NOT_DEMONSTRATED", "requirement": "Load-step stability and replay", "evidence": "6/12/24/48 steps plus three deterministic runs", "pass": "final quantities <=1e-8 across steps; semantic replay <=1e-12 relative and 1e-14 absolute", "limitations": "None."},
+    "G04-10": {"status": "PROSPECTIVE_NOT_DEMONSTRATED", "requirement": "TET4 mesh and structural qualification", "evidence": "three meshes, energy/displacement/reaction/stress-away-from-singularity", "pass": "documented convergence with fine/medium displacement, reaction, energy <=2%; representative stress <=10%", "limitations": "None."},
+    "G04-11": {"status": "PROSPECTIVE_NOT_DEMONSTRATED", "requirement": "HEX8 mesh and structural qualification", "evidence": "three meshes, energy/displacement/reaction/stress-away-from-singularity", "pass": "documented convergence with fine/medium displacement, reaction, energy <=2%; representative stress <=10%", "limitations": "None."},
+    "G04-12": {"status": "PROSPECTIVE_NOT_DEMONSTRATED", "requirement": "Cross-family convergence and claim boundary", "evidence": "refined common 3D structural problem and public registry audit", "pass": "TET4/HEX8 refined displacement/reaction/energy <=3%, stress <=12%; no out-of-scope claim", "limitations": "PASS_WITH_LIMITATIONS only for declared stress sampling exclusions, never for a missing family."}
+  },
+  "closure_rule": "All gates must pass or meet their stated limitation eligibility for both TET4 and HEX8; independent WP04-F closure and Owner review are mandatory."
+}

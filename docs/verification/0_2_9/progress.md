@@ -13,7 +13,8 @@ applicable_version: 0.2.9-development
 | WP01 | 12 | **Closed** — Owner-approved unified nonlinear core |
 | WP02 | 6 | **Closed** — 6/6; independent WP02-E audit `GO_WITH_LIMITATIONS` |
 | WP03 | 7 | **Closed** — 7/7; independent WP03-E audit `GO_WITH_LIMITATIONS` |
-| WP04–WP08 | 43 | Not started |
+| WP04 | 12 | **Contract phase** — 0/12; bounded geometric qualification contract and baseline frozen |
+| WP05–WP08 | 31 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
 | **Validated total** | **29 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6 + WP03 7/7** |
@@ -125,6 +126,22 @@ replayed core paths; targeted geometric/contact results remain bounded and
 unchanged. The decision is `GO_WITH_LIMITATIONS`, retaining the documented
 frictional-contact, adaptive-penalty-contact, distributed and dynamics scope
 boundaries. See [the WP03-E closure record](wp03-e-independent-closure.md).
+
+## WP04-A contract phase
+
+WP04-A freezes a prospective two-family qualification contract for TET4 and
+HEX8 only: homogeneous `isotropic_3d` Total-Lagrangian StVK solids, static
+nodal dead loads, fixed displacement constraints and serial fixed/adaptive
+load control. Objectivity, affine finite-deformation patch, force/energy,
+tangent, accepted-path work refinement, small-load, equilibrium, mesh,
+cross-family and deterministic replay gates are fixed before implementation.
+
+The historical WP13-11 discovery record remains unchanged and remains
+`RESEARCH_ONLY`: its 24-sample trapezoidal energy/work comparison missed its
+discovery threshold and lacked public accepted-increment snapshots. The current
+transaction/controller callback boundary provides authoritative accepted state
+provenance for the future WP04-B harness, but WP04-A makes no completion or
+maturity claim. See [the WP04 contract](wp04-geometric-qualification-contract.md).
 
 The contract is split into the [state/checkpoint contract](wp02-state-checkpoint-contract.md),
 [compatibility matrix](wp02-compatibility-matrix.md),

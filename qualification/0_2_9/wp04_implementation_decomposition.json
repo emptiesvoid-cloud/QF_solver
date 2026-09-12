@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP04-DECOMPOSITION-001",
+  "work_package": "WP04",
+  "status": "CONTRACT_PHASE",
+  "points": 12,
+  "validated_points": 0,
+  "phases": [
+    {"id": "WP04-A", "status": "CONTRACT_PHASE", "scope": "formulation audit, historical debt, bounded scope, gates and targeted baseline"},
+    {"id": "WP04-B", "status": "NOT_STARTED", "scope": "mechanics identities: objectivity, homogeneous patch, energy gradient, tangent, accepted-path energy/work observer"},
+    {"id": "WP04-C", "status": "NOT_STARTED", "scope": "TET4 bounded structural, load-step, mesh and replay campaign"},
+    {"id": "WP04-D", "status": "NOT_STARTED", "scope": "HEX8 bounded structural, load-step, mesh and replay campaign"},
+    {"id": "WP04-E", "status": "NOT_STARTED", "scope": "cross-family convergence, public-route evidence and claim-boundary audit"},
+    {"id": "WP04-F", "status": "NOT_STARTED", "scope": "independent closure audit and Owner decision"}
+  ],
+  "award_policy": "No partial WP04 points. Both families and all frozen G04 gates require independent WP04-F closure before a 12/12 award."
+}

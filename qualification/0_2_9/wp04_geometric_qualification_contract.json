@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP04-CONTRACT-001",
+  "work_package": "WP04-A",
+  "status": "CONTRACT_PHASE",
+  "baseline_sha": "eaa3119ffdd4b5dc85659b60431cd23d23870736",
+  "branch": "0.2.9-unified-nonlinear",
+  "points": 12,
+  "validated_points": 0,
+  "validated_total": 29,
+  "target": {
+    "families": ["TET4", "HEX8"],
+    "analysis": "geometric_nonlinear_static",
+    "target_maturity": "QUALIFIED_BOUNDED_ONLY_AFTER_ALL_G04_GATES_AND_OWNER_CLOSURE",
+    "formulation": "Total Lagrangian Saint-Venant-Kirchhoff"
+  },
+  "scope": {
+    "included": [
+      "homogeneous isotropic_3d material",
+      "static equilibrium with nodal dead loads",
+      "fixed displacement boundary conditions",
+      "Full Newton or bounded adaptive load control",
+      "serial single-process execution",
+      "positive deformation gradients inside the frozen envelope"
+    ],
+    "excluded": [
+      "TET10", "HEX20", "arc-length", "postbuckling", "contact", "friction", "J2 plus geometry", "follower loads", "updated Lagrangian", "corotational formulation", "general hyperelasticity", "incompressible or near-incompressible universal claims", "nonlinear dynamics", "distributed PETSc/MPI nonlinear solve"
+    ]
+  },
+  "qualification_envelope": {
+    "poisson_ratio": {"minimum": 0.0, "maximum": 0.45, "maximum_exclusive": true},
+    "reference_mesh": {
+      "TET4": "positive orientation; minimum signed-volume-to-maximum-edge-cubed ratio >= 0.01",
+      "HEX8": "positive reference Jacobian at all 2x2x2 Gauss points; minimum scaled Jacobian >= 0.20"
+    },
+    "current_deformation": {"minimum_det_f": 0.20, "maximum_green_lagrange_frobenius": 0.30, "principal_stretch_range": [0.75, 1.30]},
+    "newton_relative_residual": 1e-9,
+    "accepted_load_control": ["fixed proportional dead-load increments", "bounded adaptive proportional dead-load increments"],
+    "claim_boundary": "Finite kinematics is demonstrated only within these strain, determinant, element-quality and loading bounds; StVK is not claimed as a universally valid large-strain material."
+  },
+  "implemented_mechanics": {
+    "deformation_gradient": "F = I + sum_a u_a outer grad_X(N_a)",
+    "right_cauchy_green": "C = F^T F",
+    "green_lagrange": "E = 0.5 * (C - I)",
+    "second_piola": "S = lambda * tr(E) * I + 2 * mu * E",
+    "first_piola": "P = F * S",
+    "internal_force": "f_int[a,i] = integral_V0 P[i,J] * dN_a/dX_J dV0",
+    "energy_density": "psi(E) = 0.5 * lambda * tr(E)^2 + mu * (E:E) = 0.5 * (S:E)",
+    "cauchy_stress": "sigma = (F * S * F^T) / det(F)",
+    "consistent_tangent": "K[a,i;b,k] = integral_V0 dN_a/dX_J * (F[i,I] C[I,J,K,L] F[k,K] + delta[i,k] S[L,J]) * dN_b/dX_L dV0",
+    "assembly": "TET4 uses constant reference gradients and volume integration; HEX8 uses 2x2x2 Gauss integration; both assemble sparse internal force/tangent and symmetrize the stored tangent."
+  },
+  "accepted_state_energy_work": {
+    "authoritative_source": "NonlinearStateTransaction accepted state and the UnifiedNewtonEngine/UnifiedContinuationController accepted-state callback boundary",
+    "public_result_limitation": "A final public SolveResult does not itself expose detached displacement snapshots for every accepted increment.",
+    "WP04_B_requirement": "Qualification harness must collect detached accepted snapshots only from the acceptance callback, never from trial/mirror state.",
+    "work_definition": "W_ext = sum_n 0.5 * (lambda_n F_ext + lambda_(n+1) F_ext)^T * (u_(n+1)-u_n); compare Delta U to refined W_ext for conservative dead loads."
+  },
+  "thresholds": {
+    "objectivity_dimensionless_energy": 1e-12,
+    "objectivity_scaled_force": 1e-11,
+    "patch_relative": 1e-10,
+    "patch_absolute": 1e-12,
+    "energy_gradient_relative": 1e-7,
+    "energy_gradient_absolute_floor": 1e-10,
+    "tangent_relative_frobenius": 1e-6,
+    "tangent_max_column_relative": 5e-6,
+    "tangent_symmetry_relative": 1e-12,
+    "small_displacement_relative": 1e-4,
+    "force_balance_relative": 1e-8,
+    "energy_work_finest_relative": 1e-6,
+    "energy_work_refinement_relative": 2e-7,
+    "load_step_relative": 1e-8,
+    "replay_relative": 1e-12,
+    "replay_absolute_floor": 1e-14
+  },
+  "load_path_policy": {
+    "levels": [6, 12, 24, 48],
+    "energy_work_quadrature_levels": [12, 24, 48, 96],
+    "accepted_path_only": true,
+    "no_post_hoc_threshold_tuning": true
+  },
+  "all_or_nothing_policy": "Both TET4 and HEX8 must close their target gates. A single-family result cannot earn partial WP04 points or a public maturity promotion.",
+  "integrity": {"production_source_changed": false, "numerical_formulation_changed": false, "maturity_changed": false, "full_test_suite_run": false},
+  "owner_decisions": {"OD-029-01": "OPEN; blocks WP09 only", "OD-029-02": "CLOSED; READ_V1_WRITE_V2_BOUNDED"}
+}
