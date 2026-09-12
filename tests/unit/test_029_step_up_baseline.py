@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Any, cast
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -92,6 +93,7 @@ def test_step_up_and_wp03_documents_are_present_and_status_is_explicit() -> None
             "wp03-d-arc-radius-policy.md",
             "wp03-e-independent-closure.md",
             "wp04-geometric-qualification-contract.md",
+            "wp04-b-mechanics-identities.md",
     }
 
     assert {path.name for path in DOCS.glob("*.md")} == expected
@@ -184,7 +186,7 @@ def test_wp04_contract_freezes_a_two_family_bounded_qualification_without_promot
 
     assert progress["work_packages"]["WP04"] == {
         "points": 12,
-        "status": "CONTRACT_PHASE",
+        "status": "MECHANICS_IDENTITIES",
         "validated_points": 0,
     }
     assert progress["validated_points"] == 29
@@ -196,3 +198,11 @@ def test_wp04_contract_freezes_a_two_family_bounded_qualification_without_promot
     assert all(item["status"] == "PROSPECTIVE_NOT_DEMONSTRATED" for item in gates["gates"].values())
     assert baseline["current_maturity"] == {"TET4": "RESEARCH_ONLY", "HEX8": "RESEARCH_ONLY"}
     assert debt["historical_evidence_changed"] is False
+
+    mechanics = cast(dict[str, Any], _load("wp04_b_mechanics_identities.json"))
+    assert mechanics["status"] == "EXECUTED_TARGETED"
+    assert mechanics["baseline_sha"] == "2cd96b6695be1e90a8cc2dff81f6534774ab04d2"
+    assert mechanics["validated_points"] == 0
+    for gate in ("G04-02", "G04-03", "G04-04", "G04-05", "G04-08"):
+        assert mechanics["gate_status"][gate]["status"] == "PASS"
+    assert mechanics["scope"]["production_source_changed"] is False

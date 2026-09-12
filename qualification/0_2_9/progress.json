@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "release": "0.2.9",
-  "status": "WP03_CLOSED",
+  "status": "WP04_MECHANICS_IDENTITIES",
   "work_packages": {
     "WP00": {"points": 4, "status": "CLOSED", "validated_points": 4},
     "WP01": {"points": 12, "status": "CLOSED", "validated_points": 12},
     "WP02": {"points": 6, "status": "CLOSED", "validated_points": 6},
     "WP03": {"points": 7, "status": "CLOSED", "validated_points": 7},
-    "WP04": {"points": 12, "status": "CONTRACT_PHASE", "validated_points": 0},
+    "WP04": {"points": 12, "status": "MECHANICS_IDENTITIES", "validated_points": 0},
     "WP05": {"points": 5, "status": "NOT_STARTED", "validated_points": 0},
     "WP06": {"points": 8, "status": "NOT_STARTED", "validated_points": 0},
     "WP07": {"points": 10, "status": "NOT_STARTED", "validated_points": 0},
@@ -21,5 +21,5 @@
   },
   "validated_points": 29,
   "total_points": 100,
-  "next_gate": "Owner review of the WP04-A Total-Lagrangian qualification contract and baseline is required before WP04-B. WP04 remains at 0/12 and the validated total remains 29/100. The target is bounded TET4/HEX8 homogeneous isotropic Total-Lagrangian StVK static dead-load qualification only; no maturity claim is changed. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
+  "next_gate": "Owner review of the WP04-B mechanics-identities evidence is required before WP04-C. WP04 remains at 0/12 and the validated total remains 29/100. G04-02 through G04-05 and G04-08 pass for the bounded TET4/HEX8 identity campaign; structural qualification gates remain pending. No maturity claim is changed. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
 }

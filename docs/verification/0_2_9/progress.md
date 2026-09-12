@@ -13,11 +13,11 @@ applicable_version: 0.2.9-development
 | WP01 | 12 | **Closed** — Owner-approved unified nonlinear core |
 | WP02 | 6 | **Closed** — 6/6; independent WP02-E audit `GO_WITH_LIMITATIONS` |
 | WP03 | 7 | **Closed** — 7/7; independent WP03-E audit `GO_WITH_LIMITATIONS` |
-| WP04 | 12 | **Contract phase** — 0/12; bounded geometric qualification contract and baseline frozen |
+| WP04 | 12 | **Mechanics identities** — 0/12; bounded TET4/HEX8 identities demonstrated |
 | WP05–WP08 | 31 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
-| **Validated total** | **29 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6 + WP03 7/7** |
+| **Validated total** | **29 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6 + WP03 7/7; WP04 remains unawarded** |
 
 WP01 is closed by the independent Owner decision recorded in
 [the WP01 closure record](wp01-owner-closure.md), based on audit SHA
@@ -139,9 +139,9 @@ cross-family and deterministic replay gates are fixed before implementation.
 The historical WP13-11 discovery record remains unchanged and remains
 `RESEARCH_ONLY`: its 24-sample trapezoidal energy/work comparison missed its
 discovery threshold and lacked public accepted-increment snapshots. The current
-transaction/controller callback boundary provides authoritative accepted state
-provenance for the future WP04-B harness, but WP04-A makes no completion or
-maturity claim. See [the WP04 contract](wp04-geometric-qualification-contract.md).
+transaction/controller callback boundary was the authoritative accepted-state
+provenance used by WP04-B, while WP04-A itself made no completion or maturity
+claim. See [the WP04 contract](wp04-geometric-qualification-contract.md).
 
 The contract is split into the [state/checkpoint contract](wp02-state-checkpoint-contract.md),
 [compatibility matrix](wp02-compatibility-matrix.md),
@@ -152,3 +152,21 @@ restart evidence](wp02-c-fixed-adaptive-restart.md), [WP02-D arc-length
 restart evidence](wp02-d-arc-length-restart.md), [WP02-D1 material-state
 ownership remediation](wp02-d1-material-state-alias.md) and the independent
 [WP02-E closure audit](wp02-e-independent-closure.md).
+
+## WP04-B mechanics identities
+
+WP04-B is the targeted mechanics-identities phase at 0/12 points. The
+qualification-only harness uses independent StVK formulas from the prescribed
+deformation gradient and the existing accepted-state callback. At the expected
+start SHA `2cd96b6695be1e90a8cc2dff81f6534774ab04d2`, its focused matrix reports
+`43 passed` and records raw JSON/NPZ evidence in
+`qualification/0_2_9/wp04_b_mechanics_identities.json` and
+`qualification/0_2_9/wp04_b_raw.npz`.
+
+Both TET4 and HEX8 pass the bounded objectivity, affine patch,
+internal-force/energy-gradient, consistent-tangent/symmetry and accepted-path
+work-refinement checks. G04-06, G04-07, G04-09, G04-10, G04-11 and G04-12 remain
+pending for later structural qualification phases. Current maturity remains
+`RESEARCH_ONLY`, historical WP13-11 evidence is unchanged, and no production
+numerical source was modified. The next permitted action is Owner review before
+WP04-C.

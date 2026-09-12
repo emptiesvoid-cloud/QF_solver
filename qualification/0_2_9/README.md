@@ -17,10 +17,13 @@ the same-model target-clipped arc retry challenge: the final policy reaches
 the unchanged physical solution with one rejection where the pre-WP03 route
 repeated the same effective radius five times.
 
-WP04 Geometric Nonlinear Qualification is now in **CONTRACT_PHASE** at 0/12.
-Its target is limited to TET4 and HEX8 homogeneous isotropic Total-Lagrangian
-Saint-Venant-Kirchhoff static dead-load execution. The prospective contract,
-historical discovery debt and targeted baseline do not promote either family.
+WP04 Geometric Nonlinear Qualification is now in **MECHANICS_IDENTITIES** at
+0/12. WP04-B independently demonstrates the bounded TET4/HEX8
+Total-Lagrangian Saint-Venant-Kirchhoff objectivity, affine patch,
+energy-gradient, tangent and accepted-path work identities. The qualification
+campaign remains incomplete, so neither family is promoted. See the controlled
+WP04-B evidence at `../docs/verification/0_2_9/wp04-b-mechanics-identities.md` and
+`wp04_b_mechanics_identities.json`.
 
 ## Current planning status
 
