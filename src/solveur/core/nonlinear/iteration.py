@@ -18,15 +18,16 @@ from solveur.core.nonlinear.driver import (
     UnifiedContinuationController,
     UnifiedNewtonEngine,
 )
+from solveur.core.nonlinear.linear_solver import NonlinearLinearSolverAdapter
 from solveur.core.nonlinear.robustness import (
     UnifiedAdaptiveStepPolicy,
     LineSearchEvaluation,
     LineSearchResult,
     NonlinearRobustnessOptions,
     UnifiedNonlinearRobustnessController,
-    solve_scaled_system,
 )
 from solveur.core.nonlinear.state import NonlinearState
+from solveur.core.nonlinear.telemetry import NonlinearTelemetryObserver
 from solveur.core.model import FiniteElementModel
 from scipy.sparse import bmat, csr_matrix, csc_matrix
 from scipy.sparse.linalg import MatrixRankWarning, spsolve
@@ -121,6 +122,7 @@ def solve_full_newton(
     initial_state: NonlinearState | None = None,
     target_load_factors: Sequence[float] | None = None,
     accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
+    telemetry_observer: NonlinearTelemetryObserver | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
     """Compatibility adapter into the authoritative unified Newton engine."""
 
@@ -131,26 +133,10 @@ def solve_full_newton(
     if external_values.shape != (assembly.ndof,) or not np.all(np.isfinite(external_values)):
         raise ValueError("Full Newton external load must be a finite vector with assembly.ndof entries.")
 
+    linear_adapter = NonlinearLinearSolverAdapter(robustness_options)
+
     def linear_solve(matrix: csr_matrix, rhs: np.ndarray) -> tuple[np.ndarray, dict[str, object] | None]:
-        try:
-            if robustness_options is None:
-                with warnings.catch_warnings():
-                    warnings.simplefilter("error", MatrixRankWarning)
-                    return spsolve(matrix, rhs), None
-            correction, diagnostics = solve_scaled_system(matrix, rhs, robustness_options)
-            return correction, diagnostics
-        except (MatrixRankWarning, ValueError) as exc:
-            raise NumericalConvergenceError(
-                "Full Newton tangent is singular.",
-                reason=NonlinearFailureReason.SINGULAR_TANGENT,
-                diagnostics={"backend_error": str(exc)},
-            ) from exc
-        except RuntimeError as exc:
-            raise NumericalConvergenceError(
-                f"Full Newton linear solver failed: {exc}",
-                reason=NonlinearFailureReason.LINEAR_SOLVER_FAILURE,
-                diagnostics={"backend_error": str(exc)},
-            ) from exc
+        return linear_adapter.solve(matrix, rhs)
 
     use_line_search = robustness_options is None or robustness_options.line_search != "off"
     robustness_controller = UnifiedNonlinearRobustnessController.from_options(
@@ -215,6 +201,7 @@ def solve_full_newton(
             nonfinite_failure_reason=_nonfinite_failure_reason,
             robustness_controller=robustness_controller,
             accepted_state_callback=accepted_state_callback,
+            telemetry_observer=telemetry_observer,
         )
     except NumericalConvergenceError as exc:
         # Preserve the legacy diagnostic envelope while the engine owns the
@@ -222,11 +209,7 @@ def solve_full_newton(
         if "solver" not in exc.diagnostics:
             exc.diagnostics["solver"] = "full_newton"
         if "backend" not in exc.diagnostics:
-            exc.diagnostics["backend"] = (
-                "scipy.sparse.linalg.splu"
-                if robustness_options is not None and robustness_options.linear_solver == "splu"
-                else "scipy.sparse.linalg.spsolve"
-            )
+            exc.diagnostics["backend"] = "scipy.sparse.linalg.spsolve"
         raise
 
     history: list[dict[str, object]] = []
@@ -241,11 +224,9 @@ def solve_full_newton(
             relative_residual=float(raw["relative_residual"]),
             tolerance=tolerance,
             solver="full_newton",
-            backend=(
-                "scipy.sparse.linalg.splu"
-                if robustness_options is not None and robustness_options.linear_solver == "splu"
-                else "scipy.sparse.linalg.spsolve"
-            ),
+            backend=str(raw["linear_system_diagnostics"][-1].get("linear_backend", "scipy.sparse.linalg.spsolve"))
+            if raw["linear_system_diagnostics"]
+            else "scipy.sparse.linalg.spsolve",
             residual_history=tuple(float(item) for item in raw_history),
             line_search_iterations=int(raw["line_search_iterations"]),
         ).to_dict()

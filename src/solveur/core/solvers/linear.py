@@ -345,7 +345,10 @@ class LinearSystemSolver:
         parameters: dict[str, Any],
     ) -> tuple[float, float]:
         if not np.all(np.isfinite(solution)):
-            raise NumericalConvergenceError(f"{method} produced a non-finite solution.")
+            kind = "nan" if np.any(np.isnan(solution)) else "inf"
+            raise NumericalConvergenceError(
+                f"{method} produced a non-finite solution.", diagnostics={"nonfinite": kind}
+            )
         product = matrix @ solution
         residual = float(np.linalg.norm(product - rhs))
         reference = max(float(np.linalg.norm(rhs)), float(np.linalg.norm(product)), 1.0)
