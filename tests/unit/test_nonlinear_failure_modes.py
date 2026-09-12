@@ -160,7 +160,7 @@ def test_full_newton_classifies_linear_backend_failure(monkeypatch: pytest.Monke
     def fail(*args, **kwargs):
         raise RuntimeError("controlled sparse factorization failure")
 
-    monkeypatch.setattr("solveur.core.nonlinear_iteration.spsolve", fail)
+    monkeypatch.setattr("solveur.core.solvers.linear.spsolve", fail)
     with pytest.raises(NumericalConvergenceError) as error:
         solve_full_newton(
             ValidAssembly(),
@@ -226,7 +226,7 @@ def test_full_newton_distinguishes_nonfinite_linear_corrections(
             return np.zeros(2), eye(2, format="csr")
 
     monkeypatch.setattr(
-        "solveur.core.nonlinear_iteration.spsolve",
+        "solveur.core.solvers.linear.spsolve",
         lambda *args, **kwargs: np.array([value, 0.0]),
     )
     with pytest.raises(NumericalConvergenceError) as error:
