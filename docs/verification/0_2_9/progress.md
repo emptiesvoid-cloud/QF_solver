@@ -253,3 +253,23 @@ and line-search trajectory match the direct reference within the frozen
 no M2/M3 run or PETSc/PyAMG dependency was added. See the [R2B controlled
 record](linear-solver-remediation-r2b.md) and
 `qualification/0_2_9/wp04_linear_solver_r2b.json`.
+
+## Linear-solver remediation master and C2R3 overnight campaign
+
+The owner-authorized C2R3 campaign at
+`20186a940ba39b03bf68ee52b8b6137c698c2a16` ran the frozen MINRES+Jacobi route
+sequentially: M2 (`48 x 24 x 24`) in one child, followed by M3
+(`64 x 32 x 32`) in a fresh child. M2 accepted two increments and terminated
+with numerical `CONVERGENCE_STAGNATION` at step 3; M3 accepted three and
+terminated with the same numerical classification at step 4. Both returned
+control normally, so neither is classified as resource failure; M3 was not
+skipped. No final M2/M3 pair exists for applying the G04-10 mesh thresholds,
+and no failing linear-solver contract event required a new forensic matrix
+capture. M4 was not run and no PETSc/AMG work was performed.
+
+The detailed chronological record is [the linear-solver remediation master]
+(linear-solver-remediation-master.md), with machine-readable evidence in
+`qualification/0_2_9/linear_solver_remediation_master.json` and flushed raw
+case telemetry/results in `qualification/0_2_9/c2r3/`. WP04 remains HOLD at
+0/12, G04-10 remains unresolved, and Owner review is required before any
+further M2/C2 resume or solver-policy change.

@@ -101,6 +101,7 @@ def test_step_up_and_wp03_documents_are_present_and_status_is_explicit() -> None
             "linear-solver-remediation-r2b.md",
             "linear-solver-remediation.md",
             "wp04-c2-m3-linear-solver-abort.md",
+            "linear-solver-remediation-master.md",
     }
 
     assert {path.name for path in DOCS.glob("*.md")} == expected

@@ -42,6 +42,13 @@ G04-10 is unresolved and no M2 run is authorized. The controlled R2B record is
 `../docs/verification/0_2_9/linear-solver-remediation-r2b.md`, with machine-
 readable evidence in `wp04_linear_solver_r2b.json`.
 
+The owner-authorized C2R3 campaign subsequently ran M2 and a fresh-process M3
+with the identical MINRES+Jacobi route. Both returned normally but terminated
+with numerical `CONVERGENCE_STAGNATION` before the final load factor, so
+G04-10 remains unresolved and no pair delta is claimed. The consolidated
+master record is `linear_solver_remediation_master.json`; live JSONL and
+terminal case records are retained under `c2r3/`.
+
 ## Current planning status
 
 - WP00: `CLOSED`, 4/4 points.

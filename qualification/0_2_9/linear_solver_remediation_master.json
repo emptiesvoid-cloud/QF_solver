@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-MASTER-001",
+  "branch": "0.2.9-unified-nonlinear",
+  "start_sha": "20186a940ba39b03bf68ee52b8b6137c698c2a16",
+  "status": "C2R3_COMPLETED_BOTH_NUMERICAL_FAILURE",
+  "scope": {
+    "campaign": "WP04-C2R3 overnight M2 and M3 MINRES requalification",
+    "m4_run": false,
+    "petsc_work": false,
+    "full_test_suite_run": false,
+    "wp04_status": "HOLD",
+    "g04_10": "UNRESOLVED_LINEAR_SOLVER_REMEDIATION",
+    "wp04_points": 0,
+    "validated_total": 29,
+    "maturity_changed": false,
+    "mechanics_formulation_changed": false,
+    "element_formulation_changed": false
+  },
+  "original_direct_route": {
+    "backend": "scipy.sparse.linalg.spsolve / SuperLU",
+    "factorization": "sparse factorization rebuilt for each Newton increment solve",
+    "profile": "py-spy sampled approximately 98-100 percent of main-thread time inside spsolve/SuperLU",
+    "aborted_m3": {
+      "pid": 25932,
+      "cpu_seconds": 29775.578,
+      "wall_seconds": 21584.007,
+      "rss_gib": 10.46,
+      "private_gib": 14.58,
+      "threads": 24,
+      "classification": "ABORTED_BY_OWNER_FOR_LINEAR_SOLVER_REMEDIATION",
+      "reason": "OWNER_ABORT_FOR_LINEAR_SOLVER_REMEDIATION"
+    }
+  },
+  "r1": {
+    "source_sha": "c4d2fd9b8bf0154bad9a30389d5ba426fe6fc7d9",
+    "implemented": ["nonlinear sparse-solver adapter", "JSONL telemetry", "DIRECT", "CG", "MINRES", "GMRES", "NONE", "JACOBI", "explicit direct fallback"],
+    "initial_strict_residual_campaign": "FAIL_PRESERVED",
+    "direct_raw_relative_residual": 7.512615895580403e-10,
+    "minres_jacobi_raw_relative_residual": 1.3406784179211412e-05,
+    "cg_jacobi_raw_relative_residual": 2.5521445752242036e-09
+  },
+  "r2": {
+    "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+    "contract": {
+      "solution_relative_difference_vs_direct": 1e-08,
+      "normwise_backward_error_eta_inf": 1e-10,
+      "physical_observables_relative": 1e-08,
+      "nonfinite": "reject",
+      "raw_residual": "recorded but not required to be lower than the direct reference"
+    },
+    "cg_sweep": [
+      {"rtol": 1e-10, "raw_relative_residual": 2.5521445752242036e-09, "backward_error": 2.4345593094701063e-15, "solution_delta": 1.263136934125695e-11, "iterations": 1939, "seconds": 4.012283799995203},
+      {"rtol": 1e-11, "raw_relative_residual": 2.561021477606342e-09, "backward_error": 2.3913202487804604e-15, "solution_delta": 1.2631294695351825e-11, "iterations": 1998, "seconds": 4.090833400026895},
+      {"rtol": 1e-12, "raw_relative_residual": 2.5613919004247475e-09, "backward_error": 2.341412350361331e-15, "solution_delta": 1.2631451590474693e-11, "iterations": 2201, "seconds": 4.515720400027931},
+      {"rtol": 1e-13, "raw_relative_residual": 2.560245634602514e-09, "backward_error": 2.3416928750841772e-15, "solution_delta": 1.2631457497865784e-11, "iterations": 2315, "seconds": 4.664493599964771}
+    ],
+    "minres_sweep": [
+      {"rtol": 1e-10, "raw_relative_residual": 1.3406784179211412e-05, "backward_error": 4.729514646552805e-12, "solution_delta": 3.3888324301384204e-07, "iterations": 1604, "seconds": 3.4907299000187777, "status": "FAIL_INITIAL_R2"},
+      {"rtol": 1e-11, "raw_relative_residual": 2.355087533668818e-06, "backward_error": 1.7486487560006215e-12, "solution_delta": 3.5379998868403373e-09, "iterations": 1629, "seconds": 3.5899714999832213},
+      {"rtol": 1e-12, "raw_relative_residual": 1.934758628543101e-06, "backward_error": 1.7040516750321025e-12, "solution_delta": 5.305458671225802e-11, "iterations": 1654, "seconds": 3.6559333999757655}
+    ],
+    "gmres_ilu": [
+      {"candidate": "A", "drop_tol": 0.0001, "fill_factor": 10.0, "restart": 50, "status": "ITERATION_LIMIT_FAILURE", "iterations": 10000, "setup_seconds": 2.5424168999888934, "setup_private_bytes": 165068800, "setup_rss_bytes": 185712640, "seconds": 188.01606980001088, "private_bytes": 187846656},
+      {"candidate": "B", "drop_tol": 1e-05, "fill_factor": 10.0, "restart": 50, "status": "ITERATION_LIMIT_FAILURE", "iterations": 10000, "setup_seconds": 2.458274300035555, "setup_private_bytes": 170192896, "setup_rss_bytes": 191053824, "seconds": 196.68780940002762, "private_bytes": 194220032}
+    ],
+    "stage_c_cg_failure": {"case": "C2-M1 nonlinear", "load_step": 4, "newton_iteration": 12, "eta_inf": 1.0895221524409612e-05, "fallback_count": 0}
+  },
+  "r2b": {
+    "source_sha": "bee8cb606a975a8714947776be489e00af8fa623",
+    "captured_failing_matrix": {"shape": [27744, 27744], "nnz": 1151694, "symmetry_defect": 6.538813369795086e-17, "spd": "NOT_PROVEN", "lambda_max": 1329687.869479092, "lambda_min": "NOT_ESTIMATED / ARPACK did not converge"},
+    "same_matrix": {
+      "direct": {"eta_inf": 5.351464074942563e-16, "solution_delta": 0.0},
+      "cg_rtol_1e-10": {"eta_inf": 1.0895221524409612e-05, "solution_delta": 0.11167950837977482, "iterations": 334},
+      "minres_rtol_1e-11": {"eta_inf": 5.539586978844418e-13, "solution_delta": 1.2292890785125705e-09, "iterations": 1731},
+      "minres_rtol_1e-12": {"eta_inf": 3.4532323474136956e-13, "solution_delta": 3.008417667805209e-11, "iterations": 1787}
+    },
+    "full_m1_minres": {"status": "PASS_STAGE_C", "rtol": 1e-11, "accepted_steps": 12, "newton_iterations": 145, "linear_solves": 133, "fallbacks": 0, "max_eta_inf": 2.3445324728241484e-12, "wall_seconds": 618.9505746, "direct_wall_seconds": 758.9268, "observed_speed_ratio": 1.22615, "peak_rss_bytes": 632733696, "direct_peak_rss_bytes": 736813056, "peak_private_bytes": 608567296, "direct_peak_private_bytes": 711041024}
+  },
+  "overnight_campaign": {
+    "source_sha": "20186a940ba39b03bf68ee52b8b6137c698c2a16",
+    "route": {"linear_solver": "MINRES", "preconditioner": "Jacobi", "rtol": 1e-11, "atol": 1e-14, "maxiter": 10000, "direct_fallback": false, "line_search": "off", "increments": 12, "newton_tolerance": 1e-10, "max_newton_iterations": 40},
+    "m2": {
+      "cells": [48, 24, 24],
+      "nodes": 30625,
+      "tet4_elements": 165888,
+      "full_dofs": 91875,
+      "free_tangent_shape": [90000, 90000],
+      "free_tangent_nnz": 3835710,
+      "status": "NUMERICAL_FAILURE",
+      "terminal_classification": "CONVERGENCE_STAGNATION",
+      "wall_seconds": 347.8730394000304,
+      "cpu_seconds": 358.1875,
+      "accepted_steps": 2,
+      "accepted_load_factors": [0.08333333333333333, 0.16666666666666666],
+      "newton_iterations": 18,
+      "linear_solves": 16,
+      "krylov": {"min": 2394, "median": 2602.0, "p95": 2620.25, "max": 2624, "total": 40843},
+      "linear_solve_time_seconds": {"total": 308.4431667999015, "median": 19.184917050006334, "p95": 21.224560399990878, "max": 21.363857899967115},
+      "max_eta_inf": 5.401027300872594e-12,
+      "max_raw_linear_relative_residual": 8.572875259673756e-06,
+      "peak_rss_bytes_telemetry": 710877184,
+      "peak_private_or_uss_bytes_telemetry": 685223936,
+      "fallback_count": 0,
+      "failure_forensics": "NONE_REQUIRED; terminal stagnation occurred before a linear-solver contract failure",
+      "accepted_state_at_terminal": "load_factor=1/6; digest recorded in m2_result.json"
+    },
+    "m3": {
+      "cells": [64, 32, 32],
+      "nodes": 70785,
+      "tet4_elements": 393216,
+      "full_dofs": 212355,
+      "free_tangent_shape": [209088, 209088],
+      "free_tangent_nnz": 9031086,
+      "status": "NUMERICAL_FAILURE",
+      "terminal_classification": "CONVERGENCE_STAGNATION",
+      "wall_seconds": 1471.8818355999538,
+      "cpu_seconds": 1530.734375,
+      "new_process_started": true,
+      "accepted_steps": 3,
+      "accepted_load_factors": [0.08333333333333333, 0.16666666666666666, 0.25],
+      "newton_iterations": 20,
+      "linear_solves": 17,
+      "krylov": {"min": 3167, "median": 3371.0, "p95": 3483.0, "max": 3527, "total": 57156},
+      "linear_solve_time_seconds": {"total": 1366.0570388998603, "median": 80.9780485999654, "p95": 84.08350011996227, "max": 84.46357219998026},
+      "max_eta_inf": 6.620529972813195e-12,
+      "max_raw_linear_relative_residual": 2.0415389357994817e-05,
+      "peak_rss_bytes_telemetry": 1490403328,
+      "peak_private_or_uss_bytes_telemetry": 1466814464,
+      "peak_working_set_bytes_external_sample": 3216179200,
+      "peak_private_bytes_external_sample": 3944767488,
+      "fallback_count": 0,
+      "failure_forensics": "NONE_REQUIRED; terminal stagnation occurred before a linear-solver contract failure",
+      "accepted_state_at_terminal": "load_factor=1/4; digest recorded in m3_result.json"
+    },
+    "pair_decision": {"both_converged": false, "m2_to_m3_deltas": "NOT_COMPUTABLE", "g04_10": "UNRESOLVED"}
+  },
+  "test_and_tooling_history": {
+    "campaigns_are_separate_and_may_overlap": true,
+    "initial_remediation": [54, 48, 48],
+    "r2": [21, 41, 27, 34, 15, 43, 6],
+    "r2_combined_scoped": 187,
+    "r2b": {"targeted": 83, "geometric_checkpoint": 104},
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "qualification_json_validation": "PASS",
+    "mkdocs_strict": "PASS",
+    "mypy": {"new_diagnostics": 0, "inherited_diagnostics": 2, "location": "linear.py"}
+  },
+  "lessons_and_promotion": {
+    "direct_superlu": "correct but poorly scalable for large nonlinear runs because repeated sparse LU factorization and fill-in dominate",
+    "cg_jacobi": "not promoted; accurate on the zero-state M1 matrix but invalid on the nonlinear step-4 tangent",
+    "gmres_ilu": "not promoted; tested local configurations hit the 10000-iteration limit",
+    "minres_jacobi": "current bounded local candidate; passed the exact CG-failing tangent and complete nonlinear M1",
+    "spd": "NOT_PROVEN",
+    "petsc_amg": "not evaluated",
+    "general_scalability_claim": "not made"
+  },
+  "references": {
+    "r1": "docs/verification/0_2_9/linear-solver-remediation.md",
+    "r2": "docs/verification/0_2_9/linear-solver-remediation-r2.md",
+    "r2b": "docs/verification/0_2_9/linear-solver-remediation-r2b.md",
+    "c2r3_results": "qualification/0_2_9/c2r3/overnight_campaign_result.json",
+    "c2r3_telemetry": ["qualification/0_2_9/c2r3/m2_telemetry.jsonl", "qualification/0_2_9/c2r3/m3_telemetry.jsonl"]
+  }
+}

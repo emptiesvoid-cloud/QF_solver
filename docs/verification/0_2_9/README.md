@@ -122,6 +122,16 @@ The full M1 MINRES run completes with zero fallbacks and direct-equivalent
 physical observables, but C2/G04-10 remains unresolved and no M2 run is
 authorized. See the [R2B controlled record](linear-solver-remediation-r2b.md).
 
+The owner-authorized C2R3 overnight campaign then runs the frozen MINRES+Jacobi
+route on M2 and, in a fresh process, M3. M2 terminates at step 3 and M3 at
+step 4 with numerical `CONVERGENCE_STAGNATION`; both processes return normally
+and neither is classified as a resource failure. Since neither case reaches
+the final load factor, G04-10 remains unresolved and no M2-to-M3 qualification
+delta is claimed. The chronological [linear-solver remediation master]
+(linear-solver-remediation-master.md) references immutable R1/R2/R2B evidence;
+raw C2R3 JSONL and result records are under
+`qualification/0_2_9/c2r3/`.
+
 WP02-B established checkpoint-v2 serialization, WP02-C migrated fixed and
 adaptive restart ownership, and WP02-D migrated the public arc-length restart
 path to the accepted composite state. The audit is recorded in the
@@ -168,6 +178,7 @@ recorded in [OD-029-02](owner-decisions.md).
 - [WP04-C2 TET4 finer-mesh requalification](wp04-c2-tet4-requalification.md)
 - [Linear-solver remediation R2](linear-solver-remediation-r2.md)
 - [Linear-solver remediation R2B](linear-solver-remediation-r2b.md)
+- [Linear-solver remediation master and C2R3 campaign](linear-solver-remediation-master.md)
 
 WP01 implementation and continuation migration are closed under the recorded
 Owner decision. WP02 and WP03 are closed under their independent audit
