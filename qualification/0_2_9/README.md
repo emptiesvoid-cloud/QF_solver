@@ -17,6 +17,11 @@ the same-model target-clipped arc retry challenge: the final policy reaches
 the unchanged physical solution with one rejection where the pre-WP03 route
 repeated the same effective radius five times.
 
+WP04 Geometric Nonlinear Qualification is now in **CONTRACT_PHASE** at 0/12.
+Its target is limited to TET4 and HEX8 homogeneous isotropic Total-Lagrangian
+Saint-Venant-Kirchhoff static dead-load execution. The prospective contract,
+historical discovery debt and targeted baseline do not promote either family.
+
 ## Current planning status
 
 - WP00: `CLOSED`, 4/4 points.
@@ -41,3 +46,11 @@ maturity or changing a numerical formulation.
 WP02-A is recorded in the `wp02_*` planning records. WP02-B adds the schema-v2
 checkpoint and deterministic serialization foundation without changing
 numerical formulations or maturity claims.
+
+WP04-A freezes the objectivity, affine finite-deformation patch, energy
+gradient, tangent, accepted-path work, small-limit, equilibrium, mesh,
+cross-family and replay gates before implementation. Historical WP13-11
+energy/work evidence is retained unchanged: its coarse 24-sample work path
+failed the old discovery threshold. WP02/WP03 now provide an authoritative
+accepted-state callback seam for a correct future refinement study, but that
+study is deliberately not claimed complete in WP04-A.

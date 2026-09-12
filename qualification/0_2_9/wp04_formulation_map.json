@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP04-FORMULATION-MAP-001",
+  "work_package": "WP04-A",
+  "implemented_formulation": "Total Lagrangian Saint-Venant-Kirchhoff finite kinematics",
+  "common_equations": {
+    "F": "I + grad_X(u)",
+    "C": "F^T F",
+    "E": "0.5 * (C-I)",
+    "S": "lambda tr(E) I + 2 mu E",
+    "P": "F S",
+    "internal_force": "integral_V0 B_P^T P dV0",
+    "material_tangent": "integral_V0 grad(N_a) : (F C4 F) : grad(N_b) dV0",
+    "geometric_tangent": "integral_V0 (grad(N_a)^T S grad(N_b)) I_3 dV0",
+    "energy": "integral_V0 [0.5 lambda tr(E)^2 + mu E:E] dV0",
+    "cauchy": "det(F)^-1 F S F^T"
+  },
+  "tet4": {
+    "implementation": ["src/solveur/elements/solid/tet4_total_lagrangian.py", "src/solveur/elements/solid/tet4_total_lagrangian_batch.py"],
+    "integration": "constant strain/gradient, reference-volume integration", 
+    "validation_boundary": "reference signed volume must exceed 1e-14; current det(F) must exceed 1e-10"
+  },
+  "hex8": {
+    "implementation": ["src/solveur/elements/solid/hex8_total_lagrangian_batch.py"],
+    "integration": "2x2x2 reference Gauss integration", 
+    "validation_boundary": "positive reference Jacobian and current det(F) must exceed 1e-10 at every integration point"
+  },
+  "route": {
+    "public_solver": "src/solveur/core/analyses/geometric_nonlinear.py::GeometricNonlinearStaticSolver",
+    "assembly_factory": "src/solveur/core/assembly/geometric.py::build_total_lagrangian_assembly",
+    "residual_convention": "solver residual is lambda F_ext - F_int - F_contact; no contact is in WP04 scope",
+    "tangent_convention": "assembled dF_int/du equals material plus initial-stress geometric contributions",
+    "scope_enforcement": "homogeneous element family/material, isotropic_3d, nodal dead loads; current implementation breadth is deliberately narrower in the WP04 claim"
+  },
+  "audit_conclusion": "Source implementation matches the documented Total-Lagrangian StVK equations. This is an implementation identity finding, not a maturity decision."
+}

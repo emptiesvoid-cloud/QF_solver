@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP04-BASELINE-001",
+  "work_package": "WP04-A",
+  "baseline_sha": "eaa3119ffdd4b5dc85659b60431cd23d23870736",
+  "status": "EXECUTED_TARGETED_BASELINE",
+  "current_maturity": {"TET4": "RESEARCH_ONLY", "HEX8": "RESEARCH_ONLY"},
+  "results": [
+    {"command": "python -m pytest -q tests/unit/test_total_lagrangian_tet4.py tests/unit/test_total_lagrangian_hex8.py tests/verification/test_tet4_total_lagrangian_vnv.py tests/verification/test_tet4_total_lagrangian_assembly_vnv.py", "result": "14 passed", "coverage": "TET4/HEX8 kernel objectivity/tangent/basic invalid state plus TET4 campaigns"},
+    {"command": "python -m pytest -q tests/unit/test_geometric_nonlinear_public.py tests/unit/test_geometric_nonlinear_controls.py tests/unit/test_geometric_nonlinear_contracts.py tests/unit/test_geometric_nonlinear_adaptive.py", "result": "27 passed", "coverage": "public route, controls, fixed/adaptive lifecycle and scope checks"},
+    {"command": "python -m pytest -q tests/unit/test_nonlinear_load_path.py -k 'geometric or load_path' tests/unit/test_nonlinear_failure_modes.py -k 'arc_length or nonfinite or failure'", "result": "29 passed, 16 deselected", "coverage": "targeted path/failure regression"}
+  ],
+  "existing_evidence": {
+    "TET4": ["rigid rotation and extension kernel tests", "finite-difference tangent test", "192-element patch/rotation assembly test", "historical 24-element discovery path"],
+    "HEX8": ["reference force/energy, rigid rotation, finite-difference tangent, distorted positive-Jacobian test"],
+    "gaps": ["no complete homogeneous finite-deformation patch campaign for both families", "no accepted-state-only energy/work refinement campaign", "no three-level TET4 and HEX8 mesh campaigns", "no cross-family qualification comparison", "no complete bounded public maturity evidence"]
+  },
+  "historical_energy_work": {"status": "FAILED_DISCOVERY_GATE", "relative_error": 1.3963468382007748e-05, "method_limit": "coarse 24-interval trapezoidal path and no authoritative public increment snapshot provenance"},
+  "baseline_blockers": ["G04-02 through G04-12 are not yet demonstrated as a complete two-family qualification campaign.", "Correct accepted-state path observation for work refinement must be added in WP04-B qualification infrastructure.", "TET4 and HEX8 mesh/cross-family campaigns are absent."],
+  "integrity": {"production_source_changed": false, "numerical_formulation_changed": false, "maturity_changed": false, "full_test_suite_run": false}
+}
