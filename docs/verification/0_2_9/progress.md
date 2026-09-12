@@ -13,7 +13,7 @@ applicable_version: 0.2.9-development
 | WP01 | 12 | **Closed** — Owner-approved unified nonlinear core |
 | WP02 | 6 | **Closed** — 6/6; independent WP02-E audit `GO_WITH_LIMITATIONS` |
 | WP03 | 7 | **Closed** — 7/7; independent WP03-E audit `GO_WITH_LIMITATIONS` |
-| WP04 | 12 | **HOLD — C2 resource limit** — 0/12; G04-10 unresolved |
+| WP04 | 12 | **HOLD — linear-solver remediation** — 0/12; G04-10 unresolved |
 | WP05–WP08 | 31 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
@@ -191,8 +191,8 @@ families remain `RESEARCH_ONLY`, and no production numerical source was
 changed. See [the WP04-C controlled record](wp04-c-tet4-structural-qualification.md).
 
 Owner direction is required before changing the frozen campaign, re-scoping
-WP04, or considering any numerical remediation. WP04-D and subsequent work
-must not start from this HOLD result.
+WP04, or resuming qualification. WP04-D and subsequent work must not start
+from this HOLD result.
 
 ## WP04-C1 TET4 mesh diagnosis
 
@@ -220,3 +220,20 @@ sparse route completed the first two linear levels but remained active on the
 private memory; the run was interrupted. No nonlinear C2 result was started.
 Therefore G04-10 is `UNRESOLVED_RESOURCE_LIMIT`, not PASS, WP04 remains 0/12,
 and Owner direction is required. See [the WP04-C2 record](wp04-c2-tet4-requalification.md).
+
+## Linear-solver remediation R1/R2
+
+The owner-aborted C2-M3 process is preserved as
+`ABORTED_BY_OWNER_FOR_LINEAR_SOLVER_REMEDIATION`; it is not classified as a
+numeric, memory or timeout failure. R1 records the original strict Krylov
+residual campaign as `FAIL_PRESERVED`. R2 adds a single nonlinear sparse-solver
+adapter with direct/CG/MINRES/GMRES dispatch, Jacobi and GMRES-only ILU
+preconditioning, scale-aware backward-error diagnostics, explicit fallback,
+and opt-in JSONL telemetry. The frozen Stage-B C2-M1 matrix is symmetric
+(`symmetry_defect = 0`): CG+Jacobi satisfies the new contract, while MINRES
+and GMRES+ILU outcomes remain recorded rather than promoted. The selected
+CG+Jacobi candidate then fails nonlinear Stage C at load step 4 with
+`eta_inf = 1.0895221524409612e-05` versus the frozen `1e-10` limit; there is
+therefore no validated iterative nonlinear backend and no M2 run. G04-10 is
+`UNRESOLVED_LINEAR_SOLVER_REMEDIATION`, WP04 remains 0/12 and 29/100, and
+current maturity remains `RESEARCH_ONLY`. See [the R2 evidence](linear-solver-remediation-r2.md).

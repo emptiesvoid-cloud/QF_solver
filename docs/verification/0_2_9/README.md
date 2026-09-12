@@ -97,7 +97,7 @@ formulation change. It independently demonstrates the target-clipped retry
 improvement: five repeated effective attempts before WP03 become one rejection
 at the final SHA, while the physical result is identical.
 
-WP04 is **HOLD — diagnosed TET4 mesh convergence** at 0/12. WP04-B demonstrates the bounded
+WP04 is **HOLD — linear-solver remediation** at 0/12. WP04-B demonstrates the bounded
 TET4/HEX8 Total-Lagrangian StVK objectivity, affine finite-deformation patch,
 energy-gradient, consistent-tangent and accepted-path work identities. The
 frozen WP04-C TET4 structural campaign passes its small-load, equilibrium,
@@ -108,7 +108,13 @@ linear/nonlinear refinement trends, invariant load/mesh checks, and no audited
 body-diagonal bias; the bounded diagnosis is slow TET4 discretization
 convergence/pre-asymptotic meshes. The contract does not promote current
 `RESEARCH_ONLY` maturity; Owner direction is required before any C2 requalification
-or other remediation.
+or other remediation. The historical C2 resource/interruption records remain
+unchanged. The subsequent R2 local remediation records the original strict
+residual failure, adds scale-aware backward-error diagnostics and bounded
+SciPy-local ILU/GMRES support, and shows Stage-B CG+Jacobi equivalence on the
+M1 zero-state matrix. The selected CG candidate fails the nonlinear M1
+backward-error contract at load step 4, so G04-10 remains unresolved and no
+M2 run or qualification promotion is claimed; see [the R2 evidence](linear-solver-remediation-r2.md).
 
 WP02-B established checkpoint-v2 serialization, WP02-C migrated fixed and
 adaptive restart ownership, and WP02-D migrated the public arc-length restart
@@ -154,6 +160,7 @@ recorded in [OD-029-02](owner-decisions.md).
 - [WP04-C TET4 structural qualification — HOLD](wp04-c-tet4-structural-qualification.md)
 - [WP04-C1 TET4 mesh diagnosis](wp04-c1-tet4-mesh-diagnosis.md)
 - [WP04-C2 TET4 finer-mesh requalification](wp04-c2-tet4-requalification.md)
+- [Linear-solver remediation R2](linear-solver-remediation-r2.md)
 
 WP01 implementation and continuation migration are closed under the recorded
 Owner decision. WP02 and WP03 are closed under their independent audit

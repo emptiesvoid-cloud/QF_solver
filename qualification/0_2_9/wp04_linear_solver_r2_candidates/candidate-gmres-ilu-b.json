@@ -1,0 +1,76 @@
+{
+  "candidate": "gmres-ilu-b",
+  "candidate_parameters": {
+    "drop_tol": 1e-05,
+    "fill_factor": 10.0,
+    "restart": 50
+  },
+  "diagnostics": {},
+  "environment": {
+    "numpy": "2.2.6",
+    "python": "3.13.1"
+  },
+  "error": "Full Newton gmres linear solver failed: gmres did not converge (iteration limit reached, info=10000).",
+  "error_diagnostics": {
+    "backend_error": "gmres did not converge (iteration limit reached, info=10000).",
+    "krylov_iterations": 10000,
+    "linear_method": "gmres",
+    "linear_solve_seconds": 194.19883629999822,
+    "preconditioner": "ilu",
+    "preconditioner_private_after_bytes": 170192896,
+    "preconditioner_private_before_bytes": 54767616,
+    "preconditioner_rss_after_bytes": 191053824,
+    "preconditioner_rss_before_bytes": 76013568,
+    "preconditioner_setup_seconds": 2.458274300035555,
+    "solver_info": 10000,
+    "symmetry_defect": 0.0
+  },
+  "matrix": {
+    "assembly": "tests.verification.test_wp04_c2_tet4_requalification._case",
+    "case": "WP04-C2-M1 zero-state linear preflight",
+    "cells": [
+      32,
+      16,
+      16
+    ],
+    "direct_reference": "spsolve computed during preparation; candidate runs are separate processes",
+    "direct_reference_solution_norm": 9.116269500822165,
+    "free_dofs": 27744,
+    "full_dofs": 28611,
+    "matrix_nnz": 1151694,
+    "matrix_shape": [
+      27744,
+      27744
+    ],
+    "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+    "symmetry_defect": 0.0
+  },
+  "memory": {
+    "peak_private_during_solve_bytes": 194220032,
+    "peak_rss_during_solve_bytes": 215719936,
+    "preconditioner_private_after_bytes": null,
+    "preconditioner_private_before_bytes": null,
+    "preconditioner_rss_after_bytes": null,
+    "preconditioner_rss_before_bytes": null,
+    "private_after_solve_bytes": 170512384,
+    "private_before_solve_bytes": 54738944,
+    "rss_after_solve_bytes": 191315968,
+    "rss_before_solve_bytes": 75919360
+  },
+  "r2_acceptance": {
+    "accepted": false,
+    "backward_error_eta_inf": null,
+    "raw_relative_residual": null,
+    "solution_relative_difference_vs_direct": null,
+    "strict_residual_contract_satisfied": false
+  },
+  "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-CANDIDATE-001",
+  "schema_version": 1,
+  "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+  "status": "SOLVER_FAILURE",
+  "timing": {
+    "linear_solve_seconds": null,
+    "preconditioner_setup_seconds": null,
+    "total_seconds": 196.68780940002762
+  }
+}

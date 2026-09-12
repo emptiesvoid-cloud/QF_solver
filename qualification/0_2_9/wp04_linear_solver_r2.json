@@ -1,0 +1,1809 @@
+{
+  "accepted_stage_c_candidates": [
+    "cg-1e-10",
+    "cg-1e-11",
+    "cg-1e-12",
+    "cg-1e-13",
+    "direct",
+    "minres-1e-11",
+    "minres-1e-12"
+  ],
+  "candidates": {
+    "cg-1e-10": {
+      "candidate": "cg-1e-10",
+      "candidate_parameters": {
+        "rtol": 1e-10
+      },
+      "diagnostics": {
+        "allow_unverified_krylov": false,
+        "assume_spd": true,
+        "backward_error_eta_inf": 2.4345593094701063e-15,
+        "backward_error_tolerance": 1e-10,
+        "fallback_reason": null,
+        "fallback_used": false,
+        "gmres_restart": 50,
+        "ilu_drop_tol": 0.0001,
+        "ilu_fill_factor": 10.0,
+        "krylov_iterations": 1939,
+        "linear_backend": "scipy.sparse.linalg.cg",
+        "linear_method": "cg",
+        "linear_relative_residual": 2.5521445752242036e-09,
+        "linear_residual_norm": 7.506307574188835e-09,
+        "linear_solve_seconds": 3.958105300029274,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "matrix_symmetric": true,
+        "post_solve_residual_contract_satisfied": true,
+        "preconditioner": "jacobi",
+        "preconditioner_private_after_bytes": 54988800,
+        "preconditioner_private_before_bytes": 54710272,
+        "preconditioner_rss_after_bytes": 75984896,
+        "preconditioner_rss_before_bytes": 75960320,
+        "preconditioner_setup_seconds": 0.006444700004067272,
+        "quadratic_energy_relative_difference": 2.44973200652763e-11,
+        "raw_relative_residual": 2.5521445752242036e-09,
+        "requested_linear_method": "cg",
+        "solution_relative_difference": 1.263136934125695e-11,
+        "symmetry_defect": 0.0,
+        "symmetry_tolerance": 1e-12
+      },
+      "environment": {
+        "numpy": "2.2.6",
+        "python": "3.13.1"
+      },
+      "error": null,
+      "error_diagnostics": {},
+      "matrix": {
+        "assembly": "tests.verification.test_wp04_c2_tet4_requalification._case",
+        "case": "WP04-C2-M1 zero-state linear preflight",
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "direct_reference": "spsolve computed during preparation; candidate runs are separate processes",
+        "direct_reference_solution_norm": 9.116269500822165,
+        "free_dofs": 27744,
+        "full_dofs": 28611,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+        "symmetry_defect": 0.0
+      },
+      "memory": {
+        "peak_private_during_solve_bytes": 56258560,
+        "peak_rss_during_solve_bytes": 77557760,
+        "preconditioner_private_after_bytes": 54988800,
+        "preconditioner_private_before_bytes": 54710272,
+        "preconditioner_rss_after_bytes": 75984896,
+        "preconditioner_rss_before_bytes": 75960320,
+        "private_after_solve_bytes": 54579200,
+        "private_before_solve_bytes": 54677504,
+        "rss_after_solve_bytes": 75759616,
+        "rss_before_solve_bytes": 75845632
+      },
+      "r2_acceptance": {
+        "accepted": true,
+        "backward_error_eta_inf": 2.4345593094701063e-15,
+        "raw_relative_residual": 2.5521445752242036e-09,
+        "solution_relative_difference_vs_direct": 1.263136934125695e-11,
+        "strict_residual_contract_satisfied": true
+      },
+      "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-CANDIDATE-001",
+      "schema_version": 1,
+      "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+      "status": "PASS_R2_EQUIVALENCE",
+      "timing": {
+        "linear_solve_seconds": 3.958105300029274,
+        "preconditioner_setup_seconds": 0.006444700004067272,
+        "total_seconds": 4.012283799995203
+      }
+    },
+    "cg-1e-11": {
+      "candidate": "cg-1e-11",
+      "candidate_parameters": {
+        "rtol": 1e-11
+      },
+      "diagnostics": {
+        "allow_unverified_krylov": false,
+        "assume_spd": true,
+        "backward_error_eta_inf": 2.3913202487804604e-15,
+        "backward_error_tolerance": 1e-10,
+        "fallback_reason": null,
+        "fallback_used": false,
+        "gmres_restart": 50,
+        "ilu_drop_tol": 0.0001,
+        "ilu_fill_factor": 10.0,
+        "krylov_iterations": 1998,
+        "linear_backend": "scipy.sparse.linalg.cg",
+        "linear_method": "cg",
+        "linear_relative_residual": 2.561021477606342e-09,
+        "linear_residual_norm": 7.532416110606889e-09,
+        "linear_solve_seconds": 4.0476384999929,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "matrix_symmetric": true,
+        "post_solve_residual_contract_satisfied": true,
+        "preconditioner": "jacobi",
+        "preconditioner_private_after_bytes": 55070720,
+        "preconditioner_private_before_bytes": 55070720,
+        "preconditioner_rss_after_bytes": 76345344,
+        "preconditioner_rss_before_bytes": 76320768,
+        "preconditioner_setup_seconds": 0.005154900019988418,
+        "quadratic_energy_relative_difference": 2.326563652103494e-11,
+        "raw_relative_residual": 2.561021477606342e-09,
+        "requested_linear_method": "cg",
+        "solution_relative_difference": 1.2631294695351825e-11,
+        "symmetry_defect": 0.0,
+        "symmetry_tolerance": 1e-12
+      },
+      "environment": {
+        "numpy": "2.2.6",
+        "python": "3.13.1"
+      },
+      "error": null,
+      "error_diagnostics": {},
+      "matrix": {
+        "assembly": "tests.verification.test_wp04_c2_tet4_requalification._case",
+        "case": "WP04-C2-M1 zero-state linear preflight",
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "direct_reference": "spsolve computed during preparation; candidate runs are separate processes",
+        "direct_reference_solution_norm": 9.116269500822165,
+        "free_dofs": 27744,
+        "full_dofs": 28611,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+        "symmetry_defect": 0.0
+      },
+      "memory": {
+        "peak_private_during_solve_bytes": 56344576,
+        "peak_rss_during_solve_bytes": 77578240,
+        "preconditioner_private_after_bytes": 55070720,
+        "preconditioner_private_before_bytes": 55070720,
+        "preconditioner_rss_after_bytes": 76345344,
+        "preconditioner_rss_before_bytes": 76320768,
+        "private_after_solve_bytes": 55103488,
+        "private_before_solve_bytes": 55009280,
+        "rss_after_solve_bytes": 76361728,
+        "rss_before_solve_bytes": 76169216
+      },
+      "r2_acceptance": {
+        "accepted": true,
+        "backward_error_eta_inf": 2.3913202487804604e-15,
+        "raw_relative_residual": 2.561021477606342e-09,
+        "solution_relative_difference_vs_direct": 1.2631294695351825e-11,
+        "strict_residual_contract_satisfied": true
+      },
+      "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-CANDIDATE-001",
+      "schema_version": 1,
+      "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+      "status": "PASS_R2_EQUIVALENCE",
+      "timing": {
+        "linear_solve_seconds": 4.0476384999929,
+        "preconditioner_setup_seconds": 0.005154900019988418,
+        "total_seconds": 4.090833400026895
+      }
+    },
+    "cg-1e-12": {
+      "candidate": "cg-1e-12",
+      "candidate_parameters": {
+        "rtol": 1e-12
+      },
+      "diagnostics": {
+        "allow_unverified_krylov": false,
+        "assume_spd": true,
+        "backward_error_eta_inf": 2.341412350361331e-15,
+        "backward_error_tolerance": 1e-10,
+        "fallback_reason": null,
+        "fallback_used": false,
+        "gmres_restart": 50,
+        "ilu_drop_tol": 0.0001,
+        "ilu_fill_factor": 10.0,
+        "krylov_iterations": 2201,
+        "linear_backend": "scipy.sparse.linalg.cg",
+        "linear_method": "cg",
+        "linear_relative_residual": 2.5613919004247475e-09,
+        "linear_residual_norm": 7.533505589484552e-09,
+        "linear_solve_seconds": 4.471583800041117,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "matrix_symmetric": true,
+        "post_solve_residual_contract_satisfied": true,
+        "preconditioner": "jacobi",
+        "preconditioner_private_after_bytes": 55214080,
+        "preconditioner_private_before_bytes": 55197696,
+        "preconditioner_rss_after_bytes": 76476416,
+        "preconditioner_rss_before_bytes": 76451840,
+        "preconditioner_setup_seconds": 0.005780600011348724,
+        "quadratic_energy_relative_difference": 1.4476572075188336e-11,
+        "raw_relative_residual": 2.5613919004247475e-09,
+        "requested_linear_method": "cg",
+        "solution_relative_difference": 1.2631451590474693e-11,
+        "symmetry_defect": 0.0,
+        "symmetry_tolerance": 1e-12
+      },
+      "environment": {
+        "numpy": "2.2.6",
+        "python": "3.13.1"
+      },
+      "error": null,
+      "error_diagnostics": {},
+      "matrix": {
+        "assembly": "tests.verification.test_wp04_c2_tet4_requalification._case",
+        "case": "WP04-C2-M1 zero-state linear preflight",
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "direct_reference": "spsolve computed during preparation; candidate runs are separate processes",
+        "direct_reference_solution_norm": 9.116269500822165,
+        "free_dofs": 27744,
+        "full_dofs": 28611,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+        "symmetry_defect": 0.0
+      },
+      "memory": {
+        "peak_private_during_solve_bytes": 56999936,
+        "peak_rss_during_solve_bytes": 78303232,
+        "preconditioner_private_after_bytes": 55214080,
+        "preconditioner_private_before_bytes": 55197696,
+        "preconditioner_rss_after_bytes": 76476416,
+        "preconditioner_rss_before_bytes": 76451840,
+        "private_after_solve_bytes": 54939648,
+        "private_before_solve_bytes": 55169024,
+        "rss_after_solve_bytes": 76288000,
+        "rss_before_solve_bytes": 76365824
+      },
+      "r2_acceptance": {
+        "accepted": true,
+        "backward_error_eta_inf": 2.341412350361331e-15,
+        "raw_relative_residual": 2.5613919004247475e-09,
+        "solution_relative_difference_vs_direct": 1.2631451590474693e-11,
+        "strict_residual_contract_satisfied": true
+      },
+      "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-CANDIDATE-001",
+      "schema_version": 1,
+      "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+      "status": "PASS_R2_EQUIVALENCE",
+      "timing": {
+        "linear_solve_seconds": 4.471583800041117,
+        "preconditioner_setup_seconds": 0.005780600011348724,
+        "total_seconds": 4.515720400027931
+      }
+    },
+    "cg-1e-13": {
+      "candidate": "cg-1e-13",
+      "candidate_parameters": {
+        "rtol": 1e-13
+      },
+      "diagnostics": {
+        "allow_unverified_krylov": false,
+        "assume_spd": true,
+        "backward_error_eta_inf": 2.3416928750841772e-15,
+        "backward_error_tolerance": 1e-10,
+        "fallback_reason": null,
+        "fallback_used": false,
+        "gmres_restart": 50,
+        "ilu_drop_tol": 0.0001,
+        "ilu_fill_factor": 10.0,
+        "krylov_iterations": 2315,
+        "linear_backend": "scipy.sparse.linalg.cg",
+        "linear_method": "cg",
+        "linear_relative_residual": 2.560245634602514e-09,
+        "linear_residual_norm": 7.530134219419158e-09,
+        "linear_solve_seconds": 4.620737999968696,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "matrix_symmetric": true,
+        "post_solve_residual_contract_satisfied": true,
+        "preconditioner": "jacobi",
+        "preconditioner_private_after_bytes": 55144448,
+        "preconditioner_private_before_bytes": 55062528,
+        "preconditioner_rss_after_bytes": 76341248,
+        "preconditioner_rss_before_bytes": 76316672,
+        "preconditioner_setup_seconds": 0.005284300015773624,
+        "quadratic_energy_relative_difference": 1.7856488241149688e-11,
+        "raw_relative_residual": 2.560245634602514e-09,
+        "requested_linear_method": "cg",
+        "solution_relative_difference": 1.2631457497865784e-11,
+        "symmetry_defect": 0.0,
+        "symmetry_tolerance": 1e-12
+      },
+      "environment": {
+        "numpy": "2.2.6",
+        "python": "3.13.1"
+      },
+      "error": null,
+      "error_diagnostics": {},
+      "matrix": {
+        "assembly": "tests.verification.test_wp04_c2_tet4_requalification._case",
+        "case": "WP04-C2-M1 zero-state linear preflight",
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "direct_reference": "spsolve computed during preparation; candidate runs are separate processes",
+        "direct_reference_solution_norm": 9.116269500822165,
+        "free_dofs": 27744,
+        "full_dofs": 28611,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+        "symmetry_defect": 0.0
+      },
+      "memory": {
+        "peak_private_during_solve_bytes": 56946688,
+        "peak_rss_during_solve_bytes": 78233600,
+        "preconditioner_private_after_bytes": 55144448,
+        "preconditioner_private_before_bytes": 55062528,
+        "preconditioner_rss_after_bytes": 76341248,
+        "preconditioner_rss_before_bytes": 76316672,
+        "private_after_solve_bytes": 55033856,
+        "private_before_solve_bytes": 55033856,
+        "rss_after_solve_bytes": 76304384,
+        "rss_before_solve_bytes": 76230656
+      },
+      "r2_acceptance": {
+        "accepted": true,
+        "backward_error_eta_inf": 2.3416928750841772e-15,
+        "raw_relative_residual": 2.560245634602514e-09,
+        "solution_relative_difference_vs_direct": 1.2631457497865784e-11,
+        "strict_residual_contract_satisfied": true
+      },
+      "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-CANDIDATE-001",
+      "schema_version": 1,
+      "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+      "status": "PASS_R2_EQUIVALENCE",
+      "timing": {
+        "linear_solve_seconds": 4.620737999968696,
+        "preconditioner_setup_seconds": 0.005284300015773624,
+        "total_seconds": 4.664493599964771
+      }
+    },
+    "direct": {
+      "candidate": "direct",
+      "candidate_parameters": {},
+      "diagnostics": {
+        "allow_unverified_krylov": false,
+        "assume_spd": false,
+        "backward_error_eta_inf": 6.542984137833509e-16,
+        "backward_error_tolerance": 1e-10,
+        "fallback_reason": null,
+        "fallback_used": false,
+        "gmres_restart": 50,
+        "ilu_drop_tol": 0.0001,
+        "ilu_fill_factor": 10.0,
+        "krylov_iterations": 1,
+        "linear_backend": "scipy.sparse.linalg.spsolve",
+        "linear_method": "direct",
+        "linear_relative_residual": 7.512615895580403e-10,
+        "linear_residual_norm": 2.2095929104648246e-09,
+        "linear_solve_seconds": 4.647526699991431,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "matrix_symmetric": true,
+        "post_solve_residual_contract_satisfied": true,
+        "preconditioner": "none",
+        "preconditioner_private_after_bytes": 55259136,
+        "preconditioner_private_before_bytes": 55259136,
+        "preconditioner_rss_after_bytes": 76521472,
+        "preconditioner_rss_before_bytes": 76521472,
+        "preconditioner_setup_seconds": 0.0009330000029876828,
+        "quadratic_energy_relative_difference": 0.0,
+        "raw_relative_residual": 7.512615895580403e-10,
+        "requested_linear_method": "direct",
+        "solution_relative_difference": 0.0,
+        "symmetry_defect": 0.0,
+        "symmetry_tolerance": 1e-12
+      },
+      "environment": {
+        "numpy": "2.2.6",
+        "python": "3.13.1"
+      },
+      "error": null,
+      "error_diagnostics": {},
+      "matrix": {
+        "assembly": "tests.verification.test_wp04_c2_tet4_requalification._case",
+        "case": "WP04-C2-M1 zero-state linear preflight",
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "direct_reference": "spsolve computed during preparation; candidate runs are separate processes",
+        "direct_reference_solution_norm": 9.116269500822165,
+        "free_dofs": 27744,
+        "full_dofs": 28611,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+        "symmetry_defect": 0.0
+      },
+      "memory": {
+        "peak_private_during_solve_bytes": 466370560,
+        "peak_rss_during_solve_bytes": 486174720,
+        "preconditioner_private_after_bytes": 55259136,
+        "preconditioner_private_before_bytes": 55259136,
+        "preconditioner_rss_after_bytes": 76521472,
+        "preconditioner_rss_before_bytes": 76521472,
+        "private_after_solve_bytes": 55058432,
+        "private_before_solve_bytes": 55234560,
+        "rss_after_solve_bytes": 76496896,
+        "rss_before_solve_bytes": 76382208
+      },
+      "r2_acceptance": {
+        "accepted": true,
+        "backward_error_eta_inf": 6.542984137833509e-16,
+        "raw_relative_residual": 7.512615895580403e-10,
+        "solution_relative_difference_vs_direct": 0.0,
+        "strict_residual_contract_satisfied": true
+      },
+      "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-CANDIDATE-001",
+      "schema_version": 1,
+      "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+      "status": "PASS_R2_EQUIVALENCE",
+      "timing": {
+        "linear_solve_seconds": 4.647526699991431,
+        "preconditioner_setup_seconds": 0.0009330000029876828,
+        "total_seconds": 4.685923799988814
+      }
+    },
+    "gmres-ilu-a": {
+      "candidate": "gmres-ilu-a",
+      "candidate_parameters": {
+        "drop_tol": 0.0001,
+        "fill_factor": 10.0,
+        "restart": 50
+      },
+      "diagnostics": {},
+      "environment": {
+        "numpy": "2.2.6",
+        "python": "3.13.1"
+      },
+      "error": "Full Newton gmres linear solver failed: gmres did not converge (iteration limit reached, info=10000).",
+      "error_diagnostics": {
+        "backend_error": "gmres did not converge (iteration limit reached, info=10000).",
+        "krylov_iterations": 10000,
+        "linear_method": "gmres",
+        "linear_solve_seconds": 185.44224289996782,
+        "preconditioner": "ilu",
+        "preconditioner_private_after_bytes": 165068800,
+        "preconditioner_private_before_bytes": 55173120,
+        "preconditioner_rss_after_bytes": 185712640,
+        "preconditioner_rss_before_bytes": 76435456,
+        "preconditioner_setup_seconds": 2.5424168999888934,
+        "solver_info": 10000,
+        "symmetry_defect": 0.0
+      },
+      "matrix": {
+        "assembly": "tests.verification.test_wp04_c2_tet4_requalification._case",
+        "case": "WP04-C2-M1 zero-state linear preflight",
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "direct_reference": "spsolve computed during preparation; candidate runs are separate processes",
+        "direct_reference_solution_norm": 9.116269500822165,
+        "free_dofs": 27744,
+        "full_dofs": 28611,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+        "symmetry_defect": 0.0
+      },
+      "memory": {
+        "peak_private_during_solve_bytes": 187846656,
+        "peak_rss_during_solve_bytes": 209297408,
+        "preconditioner_private_after_bytes": null,
+        "preconditioner_private_before_bytes": null,
+        "preconditioner_rss_after_bytes": null,
+        "preconditioner_rss_before_bytes": null,
+        "private_after_solve_bytes": 165056512,
+        "private_before_solve_bytes": 55148544,
+        "rss_after_solve_bytes": 185921536,
+        "rss_before_solve_bytes": 76345344
+      },
+      "r2_acceptance": {
+        "accepted": false,
+        "backward_error_eta_inf": null,
+        "raw_relative_residual": null,
+        "solution_relative_difference_vs_direct": null,
+        "strict_residual_contract_satisfied": false
+      },
+      "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-CANDIDATE-001",
+      "schema_version": 1,
+      "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+      "status": "SOLVER_FAILURE",
+      "timing": {
+        "linear_solve_seconds": null,
+        "preconditioner_setup_seconds": null,
+        "total_seconds": 188.01606980001088
+      }
+    },
+    "gmres-ilu-b": {
+      "candidate": "gmres-ilu-b",
+      "candidate_parameters": {
+        "drop_tol": 1e-05,
+        "fill_factor": 10.0,
+        "restart": 50
+      },
+      "diagnostics": {},
+      "environment": {
+        "numpy": "2.2.6",
+        "python": "3.13.1"
+      },
+      "error": "Full Newton gmres linear solver failed: gmres did not converge (iteration limit reached, info=10000).",
+      "error_diagnostics": {
+        "backend_error": "gmres did not converge (iteration limit reached, info=10000).",
+        "krylov_iterations": 10000,
+        "linear_method": "gmres",
+        "linear_solve_seconds": 194.19883629999822,
+        "preconditioner": "ilu",
+        "preconditioner_private_after_bytes": 170192896,
+        "preconditioner_private_before_bytes": 54767616,
+        "preconditioner_rss_after_bytes": 191053824,
+        "preconditioner_rss_before_bytes": 76013568,
+        "preconditioner_setup_seconds": 2.458274300035555,
+        "solver_info": 10000,
+        "symmetry_defect": 0.0
+      },
+      "matrix": {
+        "assembly": "tests.verification.test_wp04_c2_tet4_requalification._case",
+        "case": "WP04-C2-M1 zero-state linear preflight",
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "direct_reference": "spsolve computed during preparation; candidate runs are separate processes",
+        "direct_reference_solution_norm": 9.116269500822165,
+        "free_dofs": 27744,
+        "full_dofs": 28611,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+        "symmetry_defect": 0.0
+      },
+      "memory": {
+        "peak_private_during_solve_bytes": 194220032,
+        "peak_rss_during_solve_bytes": 215719936,
+        "preconditioner_private_after_bytes": null,
+        "preconditioner_private_before_bytes": null,
+        "preconditioner_rss_after_bytes": null,
+        "preconditioner_rss_before_bytes": null,
+        "private_after_solve_bytes": 170512384,
+        "private_before_solve_bytes": 54738944,
+        "rss_after_solve_bytes": 191315968,
+        "rss_before_solve_bytes": 75919360
+      },
+      "r2_acceptance": {
+        "accepted": false,
+        "backward_error_eta_inf": null,
+        "raw_relative_residual": null,
+        "solution_relative_difference_vs_direct": null,
+        "strict_residual_contract_satisfied": false
+      },
+      "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-CANDIDATE-001",
+      "schema_version": 1,
+      "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+      "status": "SOLVER_FAILURE",
+      "timing": {
+        "linear_solve_seconds": null,
+        "preconditioner_setup_seconds": null,
+        "total_seconds": 196.68780940002762
+      }
+    },
+    "minres-1e-10": {
+      "candidate": "minres-1e-10",
+      "candidate_parameters": {
+        "rtol": 1e-10
+      },
+      "diagnostics": {
+        "allow_unverified_krylov": false,
+        "assume_spd": false,
+        "backward_error_eta_inf": 4.729514646552805e-12,
+        "backward_error_tolerance": 1e-10,
+        "fallback_reason": null,
+        "fallback_used": false,
+        "gmres_restart": 50,
+        "ilu_drop_tol": 0.0001,
+        "ilu_fill_factor": 10.0,
+        "krylov_iterations": 1604,
+        "linear_backend": "scipy.sparse.linalg.minres",
+        "linear_method": "minres",
+        "linear_relative_residual": 1.3406784179211412e-05,
+        "linear_residual_norm": 3.9431718174151214e-05,
+        "linear_solve_seconds": 3.4476743999985047,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "matrix_symmetric": true,
+        "post_solve_residual_contract_satisfied": true,
+        "preconditioner": "jacobi",
+        "preconditioner_private_after_bytes": 55025664,
+        "preconditioner_private_before_bytes": 54943744,
+        "preconditioner_rss_after_bytes": 76230656,
+        "preconditioner_rss_before_bytes": 76206080,
+        "preconditioner_setup_seconds": 0.005732599995099008,
+        "quadratic_energy_relative_difference": 6.19867666795917e-09,
+        "raw_relative_residual": 1.3406784179211412e-05,
+        "requested_linear_method": "minres",
+        "solution_relative_difference": 3.3888324301384204e-07,
+        "symmetry_defect": 0.0,
+        "symmetry_tolerance": 1e-12
+      },
+      "environment": {
+        "numpy": "2.2.6",
+        "python": "3.13.1"
+      },
+      "error": null,
+      "error_diagnostics": {},
+      "matrix": {
+        "assembly": "tests.verification.test_wp04_c2_tet4_requalification._case",
+        "case": "WP04-C2-M1 zero-state linear preflight",
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "direct_reference": "spsolve computed during preparation; candidate runs are separate processes",
+        "direct_reference_solution_norm": 9.116269500822165,
+        "free_dofs": 27744,
+        "full_dofs": 28611,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+        "symmetry_defect": 0.0
+      },
+      "memory": {
+        "peak_private_during_solve_bytes": 57327616,
+        "peak_rss_during_solve_bytes": 78630912,
+        "preconditioner_private_after_bytes": 55025664,
+        "preconditioner_private_before_bytes": 54943744,
+        "preconditioner_rss_after_bytes": 76230656,
+        "preconditioner_rss_before_bytes": 76206080,
+        "private_after_solve_bytes": 55316480,
+        "private_before_solve_bytes": 54915072,
+        "rss_after_solve_bytes": 76222464,
+        "rss_before_solve_bytes": 76124160
+      },
+      "r2_acceptance": {
+        "accepted": false,
+        "backward_error_eta_inf": 4.729514646552805e-12,
+        "raw_relative_residual": 1.3406784179211412e-05,
+        "solution_relative_difference_vs_direct": 3.3888324301384204e-07,
+        "strict_residual_contract_satisfied": true
+      },
+      "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-CANDIDATE-001",
+      "schema_version": 1,
+      "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+      "status": "FAIL_R2_EQUIVALENCE",
+      "timing": {
+        "linear_solve_seconds": 3.4476743999985047,
+        "preconditioner_setup_seconds": 0.005732599995099008,
+        "total_seconds": 3.4907299000187777
+      }
+    },
+    "minres-1e-11": {
+      "candidate": "minres-1e-11",
+      "candidate_parameters": {
+        "rtol": 1e-11
+      },
+      "diagnostics": {
+        "allow_unverified_krylov": false,
+        "assume_spd": false,
+        "backward_error_eta_inf": 1.7486487560006215e-12,
+        "backward_error_tolerance": 1e-10,
+        "fallback_reason": null,
+        "fallback_used": false,
+        "gmres_restart": 50,
+        "ilu_drop_tol": 0.0001,
+        "ilu_fill_factor": 10.0,
+        "krylov_iterations": 1629,
+        "linear_backend": "scipy.sparse.linalg.minres",
+        "linear_method": "minres",
+        "linear_relative_residual": 2.355087533668818e-06,
+        "linear_residual_norm": 6.926728040202406e-06,
+        "linear_solve_seconds": 3.5452181000146084,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "matrix_symmetric": true,
+        "post_solve_residual_contract_satisfied": true,
+        "preconditioner": "jacobi",
+        "preconditioner_private_after_bytes": 55369728,
+        "preconditioner_private_before_bytes": 55353344,
+        "preconditioner_rss_after_bytes": 76632064,
+        "preconditioner_rss_before_bytes": 76607488,
+        "preconditioner_setup_seconds": 0.006064599961973727,
+        "quadratic_energy_relative_difference": 7.762510620036014e-11,
+        "raw_relative_residual": 2.355087533668818e-06,
+        "requested_linear_method": "minres",
+        "solution_relative_difference": 3.5379998868403373e-09,
+        "symmetry_defect": 0.0,
+        "symmetry_tolerance": 1e-12
+      },
+      "environment": {
+        "numpy": "2.2.6",
+        "python": "3.13.1"
+      },
+      "error": null,
+      "error_diagnostics": {},
+      "matrix": {
+        "assembly": "tests.verification.test_wp04_c2_tet4_requalification._case",
+        "case": "WP04-C2-M1 zero-state linear preflight",
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "direct_reference": "spsolve computed during preparation; candidate runs are separate processes",
+        "direct_reference_solution_norm": 9.116269500822165,
+        "free_dofs": 27744,
+        "full_dofs": 28611,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+        "symmetry_defect": 0.0
+      },
+      "memory": {
+        "peak_private_during_solve_bytes": 57757696,
+        "peak_rss_during_solve_bytes": 78868480,
+        "preconditioner_private_after_bytes": 55369728,
+        "preconditioner_private_before_bytes": 55353344,
+        "preconditioner_rss_after_bytes": 76632064,
+        "preconditioner_rss_before_bytes": 76607488,
+        "private_after_solve_bytes": 55652352,
+        "private_before_solve_bytes": 55308288,
+        "rss_after_solve_bytes": 76988416,
+        "rss_before_solve_bytes": 76488704
+      },
+      "r2_acceptance": {
+        "accepted": true,
+        "backward_error_eta_inf": 1.7486487560006215e-12,
+        "raw_relative_residual": 2.355087533668818e-06,
+        "solution_relative_difference_vs_direct": 3.5379998868403373e-09,
+        "strict_residual_contract_satisfied": true
+      },
+      "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-CANDIDATE-001",
+      "schema_version": 1,
+      "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+      "status": "PASS_R2_EQUIVALENCE",
+      "timing": {
+        "linear_solve_seconds": 3.5452181000146084,
+        "preconditioner_setup_seconds": 0.006064599961973727,
+        "total_seconds": 3.5899714999832213
+      }
+    },
+    "minres-1e-12": {
+      "candidate": "minres-1e-12",
+      "candidate_parameters": {
+        "rtol": 1e-12
+      },
+      "diagnostics": {
+        "allow_unverified_krylov": false,
+        "assume_spd": false,
+        "backward_error_eta_inf": 1.7040516750321025e-12,
+        "backward_error_tolerance": 1e-10,
+        "fallback_reason": null,
+        "fallback_used": false,
+        "gmres_restart": 50,
+        "ilu_drop_tol": 0.0001,
+        "ilu_fill_factor": 10.0,
+        "krylov_iterations": 1654,
+        "linear_backend": "scipy.sparse.linalg.minres",
+        "linear_method": "minres",
+        "linear_relative_residual": 1.934758628543101e-06,
+        "linear_residual_norm": 5.690466554538533e-06,
+        "linear_solve_seconds": 3.6120336999883875,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "matrix_symmetric": true,
+        "post_solve_residual_contract_satisfied": true,
+        "preconditioner": "jacobi",
+        "preconditioner_private_after_bytes": 55328768,
+        "preconditioner_private_before_bytes": 55066624,
+        "preconditioner_rss_after_bytes": 76349440,
+        "preconditioner_rss_before_bytes": 76324864,
+        "preconditioner_setup_seconds": 0.00554270000429824,
+        "quadratic_energy_relative_difference": 1.7581146337215775e-11,
+        "raw_relative_residual": 1.934758628543101e-06,
+        "requested_linear_method": "minres",
+        "solution_relative_difference": 5.3054586712258024e-11,
+        "symmetry_defect": 0.0,
+        "symmetry_tolerance": 1e-12
+      },
+      "environment": {
+        "numpy": "2.2.6",
+        "python": "3.13.1"
+      },
+      "error": null,
+      "error_diagnostics": {},
+      "matrix": {
+        "assembly": "tests.verification.test_wp04_c2_tet4_requalification._case",
+        "case": "WP04-C2-M1 zero-state linear preflight",
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "direct_reference": "spsolve computed during preparation; candidate runs are separate processes",
+        "direct_reference_solution_norm": 9.116269500822165,
+        "free_dofs": 27744,
+        "full_dofs": 28611,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+        "symmetry_defect": 0.0
+      },
+      "memory": {
+        "peak_private_during_solve_bytes": 57655296,
+        "peak_rss_during_solve_bytes": 78733312,
+        "preconditioner_private_after_bytes": 55328768,
+        "preconditioner_private_before_bytes": 55066624,
+        "preconditioner_rss_after_bytes": 76349440,
+        "preconditioner_rss_before_bytes": 76324864,
+        "private_after_solve_bytes": 55590912,
+        "private_before_solve_bytes": 55033856,
+        "rss_after_solve_bytes": 76906496,
+        "rss_before_solve_bytes": 76193792
+      },
+      "r2_acceptance": {
+        "accepted": true,
+        "backward_error_eta_inf": 1.7040516750321025e-12,
+        "raw_relative_residual": 1.934758628543101e-06,
+        "solution_relative_difference_vs_direct": 5.3054586712258024e-11,
+        "strict_residual_contract_satisfied": true
+      },
+      "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-CANDIDATE-001",
+      "schema_version": 1,
+      "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+      "status": "PASS_R2_EQUIVALENCE",
+      "timing": {
+        "linear_solve_seconds": 3.6120336999883875,
+        "preconditioner_setup_seconds": 0.00554270000429824,
+        "total_seconds": 3.6559333999757655
+      }
+    }
+  },
+  "deterministic_repeat": {
+    "candidate": "cg-1e-10",
+    "core_diagnostics_equal": true,
+    "repeat_result": {
+      "candidate": "cg-1e-10",
+      "candidate_parameters": {
+        "rtol": 1e-10
+      },
+      "diagnostics": {
+        "allow_unverified_krylov": false,
+        "assume_spd": true,
+        "backward_error_eta_inf": 2.4345593094701063e-15,
+        "backward_error_tolerance": 1e-10,
+        "fallback_reason": null,
+        "fallback_used": false,
+        "gmres_restart": 50,
+        "ilu_drop_tol": 0.0001,
+        "ilu_fill_factor": 10.0,
+        "krylov_iterations": 1939,
+        "linear_backend": "scipy.sparse.linalg.cg",
+        "linear_method": "cg",
+        "linear_relative_residual": 2.5521445752242036e-09,
+        "linear_residual_norm": 7.506307574188835e-09,
+        "linear_solve_seconds": 3.9629056999692693,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "matrix_symmetric": true,
+        "post_solve_residual_contract_satisfied": true,
+        "preconditioner": "jacobi",
+        "preconditioner_private_after_bytes": 55709696,
+        "preconditioner_private_before_bytes": 55627776,
+        "preconditioner_rss_after_bytes": 76910592,
+        "preconditioner_rss_before_bytes": 76881920,
+        "preconditioner_setup_seconds": 0.005695400002878159,
+        "quadratic_energy_relative_difference": 2.44973200652763e-11,
+        "raw_relative_residual": 2.5521445752242036e-09,
+        "requested_linear_method": "cg",
+        "solution_relative_difference": 1.263136934125695e-11,
+        "symmetry_defect": 0.0,
+        "symmetry_tolerance": 1e-12
+      },
+      "environment": {
+        "numpy": "2.2.6",
+        "python": "3.13.1"
+      },
+      "error": null,
+      "error_diagnostics": {},
+      "matrix": {
+        "assembly": "tests.verification.test_wp04_c2_tet4_requalification._case",
+        "case": "WP04-C2-M1 zero-state linear preflight",
+        "cells": [
+          32,
+          16,
+          16
+        ],
+        "direct_reference": "spsolve computed during preparation; candidate runs are separate processes",
+        "direct_reference_solution_norm": 9.116269500822165,
+        "free_dofs": 27744,
+        "full_dofs": 28611,
+        "matrix_nnz": 1151694,
+        "matrix_shape": [
+          27744,
+          27744
+        ],
+        "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+        "symmetry_defect": 0.0
+      },
+      "memory": {
+        "peak_private_during_solve_bytes": 70160384,
+        "peak_rss_during_solve_bytes": 91181056,
+        "preconditioner_private_after_bytes": 55709696,
+        "preconditioner_private_before_bytes": 55627776,
+        "preconditioner_rss_after_bytes": 76910592,
+        "preconditioner_rss_before_bytes": 76881920,
+        "private_after_solve_bytes": 55025664,
+        "private_before_solve_bytes": 55545856,
+        "rss_after_solve_bytes": 76189696,
+        "rss_before_solve_bytes": 76746752
+      },
+      "r2_acceptance": {
+        "accepted": true,
+        "backward_error_eta_inf": 2.4345593094701063e-15,
+        "raw_relative_residual": 2.5521445752242036e-09,
+        "solution_relative_difference_vs_direct": 1.263136934125695e-11,
+        "strict_residual_contract_satisfied": true
+      },
+      "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-CANDIDATE-001",
+      "schema_version": 1,
+      "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+      "status": "PASS_R2_EQUIVALENCE",
+      "timing": {
+        "linear_solve_seconds": 3.9629056999692693,
+        "preconditioner_setup_seconds": 0.005695400002878159,
+        "total_seconds": 4.008979300037026
+      }
+    }
+  },
+  "full_test_suite_run": false,
+  "g04_10": "UNRESOLVED_LINEAR_SOLVER_REMEDIATION",
+  "r2_contract": {
+    "cg_rtol_sweep": [
+      1e-10,
+      1e-11,
+      1e-12,
+      1e-13
+    ],
+    "diagnostics": {
+      "backward_error": "||A x - b||_inf / max(||A||_inf ||x||_inf + ||b||_inf, absolute_floor)",
+      "memory": "RSS before/after preconditioner and peak RSS during solve; private/USS when available",
+      "quadratic_energy": "record when the matrix is symmetric/reference-energy meaningful",
+      "raw_residual": "||A x - b||_2 / max(||b||_2, absolute_floor)"
+    },
+    "equivalence_contract": {
+      "absolute_floor": 1e-14,
+      "nonfinite_solution": "FAIL",
+      "normwise_backward_error_eta_inf": 1e-10,
+      "operational_krylov_acceptance": "backward_error_eta_inf <= normwise_backward_error_eta_inf; raw residual is diagnostic",
+      "physical_observable_relative_difference": 1e-08,
+      "raw_relative_residual": "RECORDED_DIAGNOSTIC_ONLY; not required to improve on direct",
+      "repeated_outcome": "DETERMINISTIC",
+      "solution_relative_difference_vs_direct": 1e-08,
+      "solver_reported_convergence": "REQUIRED"
+    },
+    "full_test_suite_run": false,
+    "g04_10": "UNRESOLVED_LINEAR_SOLVER_REMEDIATION",
+    "gmres_ilu_candidates": [
+      {
+        "drop_tol": 0.0001,
+        "fill_factor": 10.0,
+        "id": "A",
+        "restart": 50
+      },
+      {
+        "drop_tol": 1e-05,
+        "fill_factor": 10.0,
+        "id": "B",
+        "restart": 50
+      }
+    ],
+    "initial_strict_residual_campaign": "FAIL_PRESERVED",
+    "iterative_defaults": {
+      "atol": 1e-14,
+      "maxiter": 10000,
+      "preconditioners": [
+        "none",
+        "jacobi",
+        "ilu_gmres_only"
+      ],
+      "rtol": 1e-10
+    },
+    "minres_rtol_sweep": [
+      1e-10,
+      1e-11,
+      1e-12
+    ],
+    "production_scope": {
+      "element_formulation_changed": false,
+      "maturity_changed": false,
+      "mechanics_formulation_changed": false,
+      "petsc_dependency": false
+    },
+    "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-CONTRACT-001",
+    "schema_version": 1,
+    "scope": {
+      "cells": [
+        32,
+        16,
+        16
+      ],
+      "full_dofs": 28611,
+      "matrix": "C2-M1 zero-state reduced TET4 tangent",
+      "stage_c": "only if one Stage-B candidate satisfies this contract",
+      "stage_d": "not permitted in R2; no C2-M2 nonlinear run"
+    },
+    "selection_order": [
+      "numerical_correctness",
+      "robustness",
+      "memory",
+      "wall_time"
+    ],
+    "source_sha_before_candidates": "f7ccc9f527411e3c43c811eb2b0aa813d9cd21d6",
+    "start_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+    "status": "FROZEN_BEFORE_R2_CANDIDATES",
+    "validated_total": 29,
+    "wp04_status": "HOLD"
+  },
+  "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-001",
+  "schema_version": 1,
+  "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+  "stage_c": {
+    "cg-1e-10": {
+      "candidate": "cg-1e-10",
+      "error": "Full Newton linear correction failed its residual contract.",
+      "error_diagnostics": {
+        "backend": "scipy.sparse.linalg.cg",
+        "backward_error_eta_inf": 1.0895221524409612e-05,
+        "backward_error_tolerance": 1e-10,
+        "fallback_used": false,
+        "iterations": 12,
+        "krylov_iterations": 334,
+        "line_search_iterations": 20,
+        "linear_backend": "scipy.sparse.linalg.cg",
+        "linear_method": "cg",
+        "linear_solve_seconds": 0.7432858000393026,
+        "relative_linear_residual": 9.680696501971698e-05,
+        "relative_residual": 1.0293403443721332e-10,
+        "relative_residual_status": "COMPUTED",
+        "residual_final": 1.0293403443721332e-10,
+        "residual_history": [
+          0.2450980392156866,
+          0.2195594652493182,
+          0.20308150656137497,
+          0.19013025566595254,
+          0.17810004297468515,
+          0.16603461158650867,
+          0.16178272668499225,
+          0.14518424183865536,
+          0.13170786612654944,
+          0.06354963638464262,
+          5.469502090598282e-08,
+          1.0293403443721332e-10
+        ],
+        "residual_initial": 0.2450980392156866,
+        "residual_tolerance": 1e-10,
+        "robustness": {
+          "line_search": {
+            "armijo_c": null,
+            "enabled": true,
+            "events": [
+              {
+                "accepted": true,
+                "accepted_factor": 0.125,
+                "accepted_factors": [
+                  0.125
+                ],
+                "armijo_c": null,
+                "factor": 0.125,
+                "failure_reason": null,
+                "initial_merit": 0.2450980392156866,
+                "max_reductions": 14,
+                "merit_history": [
+                  3.051644388514411,
+                  0.7722836310856876,
+                  0.2644833392222369,
+                  0.2195594652493182
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 3,
+                "total_reductions": 3,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.125,
+                "accepted_factors": [
+                  0.125
+                ],
+                "armijo_c": null,
+                "factor": 0.125,
+                "failure_reason": null,
+                "initial_merit": 0.2195594652493182,
+                "max_reductions": 14,
+                "merit_history": [
+                  2.3351820705744837,
+                  0.6166686509880441,
+                  0.24229597441572076,
+                  0.20308150656137497
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 3,
+                "total_reductions": 3,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.125,
+                "accepted_factors": [
+                  0.125
+                ],
+                "armijo_c": null,
+                "factor": 0.125,
+                "failure_reason": null,
+                "initial_merit": 0.20308150656137497,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.7873589439440547,
+                  0.4946070551453213,
+                  0.22063870229507496,
+                  0.19013025566595254
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 3,
+                "total_reductions": 3,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.125,
+                "accepted_factors": [
+                  0.125
+                ],
+                "armijo_c": null,
+                "factor": 0.125,
+                "failure_reason": null,
+                "initial_merit": 0.19013025566595254,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.3682838328287223,
+                  0.3985201102567116,
+                  0.19984762132169875,
+                  0.17810004297468515
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 3,
+                "total_reductions": 3,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.125,
+                "accepted_factors": [
+                  0.125
+                ],
+                "armijo_c": null,
+                "factor": 0.125,
+                "failure_reason": null,
+                "initial_merit": 0.17810004297468515,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.0475897740382332,
+                  0.3225998726931573,
+                  0.18017398925146436,
+                  0.16603461158650867
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 3,
+                "total_reductions": 3,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.25,
+                "accepted_factors": [
+                  0.25
+                ],
+                "armijo_c": null,
+                "factor": 0.25,
+                "failure_reason": null,
+                "initial_merit": 0.16603461158650867,
+                "max_reductions": 14,
+                "merit_history": [
+                  0.8021216567189599,
+                  0.2623818713374212,
+                  0.16178272668499225
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 2,
+                "total_reductions": 2,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.25,
+                "accepted_factors": [
+                  0.25
+                ],
+                "armijo_c": null,
+                "factor": 0.25,
+                "failure_reason": null,
+                "initial_merit": 0.16178272668499225,
+                "max_reductions": 14,
+                "merit_history": [
+                  0.4512165638489782,
+                  0.18464877262937457,
+                  0.14518424183865536
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 2,
+                "total_reductions": 2,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.5,
+                "accepted_factors": [
+                  0.5
+                ],
+                "armijo_c": null,
+                "factor": 0.5,
+                "failure_reason": null,
+                "initial_merit": 0.14518424183865536,
+                "max_reductions": 14,
+                "merit_history": [
+                  0.2539142575934251,
+                  0.13170786612654944
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 1,
+                "total_reductions": 1,
+                "trial_diagnostics": [
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 1.0,
+                "accepted_factors": [
+                  1.0
+                ],
+                "armijo_c": null,
+                "factor": 1.0,
+                "failure_reason": null,
+                "initial_merit": 0.13170786612654944,
+                "max_reductions": 14,
+                "merit_history": [
+                  0.06354963638464262
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 0,
+                "total_reductions": 0,
+                "trial_diagnostics": [
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 1.0,
+                "accepted_factors": [
+                  1.0
+                ],
+                "armijo_c": null,
+                "factor": 1.0,
+                "failure_reason": null,
+                "initial_merit": 0.06354963638464262,
+                "max_reductions": 14,
+                "merit_history": [
+                  5.469502090598282e-08
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 0,
+                "total_reductions": 0,
+                "trial_diagnostics": [
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 1.0,
+                "accepted_factors": [
+                  1.0
+                ],
+                "armijo_c": null,
+                "factor": 1.0,
+                "failure_reason": null,
+                "initial_merit": 5.469502090598282e-08,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.0293403443721332e-10
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 0,
+                "total_reductions": 0,
+                "trial_diagnostics": [
+                  {}
+                ]
+              }
+            ],
+            "max_reductions": 14,
+            "min_alpha": 0.0,
+            "policy_id": "qf-solver-unified-robustness",
+            "policy_source": "EXPERIMENTAL_OVERRIDE",
+            "policy_version": 1
+          },
+          "policy_id": "qf-solver-unified-robustness",
+          "policy_source": "EXPERIMENTAL_OVERRIDE",
+          "policy_version": 1,
+          "stagnation": {
+            "convergence_tolerance": 1e-10,
+            "decision": "CONTINUE",
+            "final_window_residual": 1.0293403443721332e-10,
+            "initial_window_residual": 0.13170786612654944,
+            "plateau_threshold": 1e-10,
+            "policy_id": "qf-solver-unified-robustness",
+            "policy_version": 1,
+            "reason": null,
+            "relative_change": 0.9999999992184672,
+            "residual_window": [
+              0.13170786612654944,
+              0.06354963638464262,
+              5.469502090598282e-08,
+              1.0293403443721332e-10
+            ],
+            "window": [
+              0.13170786612654944,
+              0.06354963638464262,
+              5.469502090598282e-08,
+              1.0293403443721332e-10
+            ],
+            "window_size": 4
+          }
+        },
+        "solver": "full_newton",
+        "step": 4,
+        "tolerance": 1e-10
+      },
+      "memory": {
+        "peak_private_bytes": 605446144,
+        "peak_rss_bytes": 626094080,
+        "private_after_bytes": 215224320,
+        "private_before_bytes": 182951936,
+        "rss_after_bytes": 241950720,
+        "rss_before_bytes": 209899520
+      },
+      "observables": null,
+      "state": null,
+      "status": "SOLVER_FAILURE",
+      "telemetry": {
+        "direct_fallback_events": 0,
+        "events": 53,
+        "iteration_events": 48,
+        "iterative_success_events": 45,
+        "krylov_iterations": 83100,
+        "line_search_alphas": [
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.25,
+          0.25,
+          0.5,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.25,
+          0.25,
+          0.5,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.25,
+          0.25,
+          0.5,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.25,
+          0.25,
+          0.5,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "linear_solve_events": 45,
+        "path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_unified_nonlinear\\qualification\\0_2_9\\wp04_linear_solver_r2_stage_c_cg_final.jsonl"
+      },
+      "timing": {
+        "total_seconds": 218.2437018000055
+      }
+    },
+    "direct": {
+      "candidate": "direct",
+      "error": null,
+      "error_diagnostics": {},
+      "memory": {
+        "peak_private_bytes": 711041024,
+        "peak_rss_bytes": 736813056,
+        "private_after_bytes": 218677248,
+        "private_before_bytes": 183197696,
+        "rss_after_bytes": 246607872,
+        "rss_before_bytes": 210411520
+      },
+      "observables": {
+        "equilibrium": {
+          "force_relative_error": 3.552085348027768e-14,
+          "moment_relative_error": 4.505940522377961e-15,
+          "reaction_resultant_norm": 49.999999999999986
+        },
+        "maximum_green_lagrange_norm": 0.009423514082040636,
+        "maximum_principal_stretch": 1.0089023457744155,
+        "minimum_det_f": 0.992927047661092,
+        "minimum_principal_stretch": 0.9912335760094751,
+        "representative_stress_sigma_xx": 2837.843915881305,
+        "strain_energy": 4.693669347230475,
+        "tip_displacement": -0.18795714735201677
+      },
+      "state": {
+        "accepted_digests": [
+          "c76cddef68f75e334a954b57e60ff0b8a76581da8c817c4c6ad9a7f2215fae2e",
+          "4f858c7f594414edc06bf3f4d92c31b79a1bba092ff6fd8d2636af435b9a4fff",
+          "97d658c98b39e3b048646ccaf50e60a04361d2dd28a48ed3f070117afb84ffab",
+          "363b9425749c5819402c35676e20bc3c283a5263e713ea5de9e35554eb88fbc0",
+          "0d5bad5c322dfb27662a09572c5456c2c6d1b51c4e1046043692ecb1bb4b81e2",
+          "b0c74905e7b07d68bdc397ec58f2f0f6e1e2bcb5b7b3aa230ebbb7517da14526",
+          "ce982637de5c9b97da6429567f2a892355f03bfdb43bfca955f0f3fa88ef930a",
+          "a1a306183f103e422d8873975d6136750e1e6fb4eea5b1d1de815cac389d27dc",
+          "3a1181db0eee9e965e4d94abab6d6e1b53c2d5624f9a0839646ed92f9f368bff",
+          "0366212aa81c84d0cf09d0a57007ec5b736593536c551a9dc615b24808122578",
+          "1ff23b469159c2d38eac10957ad596c09f548c6c89a88ac113de6842fe6a9eca",
+          "c5245fe6a341f4110bc2ee2f48d1e80c7bbdc9ed9b5ff54809b3db8441fb0a2f"
+        ],
+        "accepted_load_factors": [
+          0.08333333333333333,
+          0.16666666666666666,
+          0.25,
+          0.3333333333333333,
+          0.4166666666666667,
+          0.5,
+          0.5833333333333334,
+          0.6666666666666666,
+          0.75,
+          0.8333333333333334,
+          0.9166666666666666,
+          1.0
+        ],
+        "accepted_steps": 12,
+        "displacement_digest": "97ee4d3657e97890c870b62268353d4c03447b6f325115e1b29aa953abf58d33",
+        "displacement_norm": 9.099964131754849,
+        "final_digest": "c5245fe6a341f4110bc2ee2f48d1e80c7bbdc9ed9b5ff54809b3db8441fb0a2f"
+      },
+      "status": "PASS_STAGE_C",
+      "telemetry": {
+        "direct_fallback_events": 0,
+        "events": 158,
+        "iteration_events": 145,
+        "iterative_success_events": 0,
+        "krylov_iterations": 133,
+        "line_search_alphas": [
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.25,
+          0.25,
+          0.5,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.25,
+          0.25,
+          0.5,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.25,
+          0.25,
+          0.5,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.25,
+          0.25,
+          0.5,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.25,
+          0.25,
+          0.5,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.25,
+          0.25,
+          0.5,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.25,
+          0.25,
+          0.5,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.25,
+          0.25,
+          0.5,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.25,
+          0.25,
+          0.5,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.25,
+          0.25,
+          0.5,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.25,
+          0.25,
+          0.5,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.125,
+          0.25,
+          0.25,
+          0.5,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "linear_solve_events": 133,
+        "path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_unified_nonlinear\\qualification\\0_2_9\\wp04_linear_solver_r2_stage_c_direct.jsonl"
+      },
+      "timing": {
+        "total_seconds": 758.9268259999808
+      }
+    }
+  },
+  "stage_c_selection": {
+    "basis": "first Stage-B candidate selected under numerical-correctness-first ordering",
+    "candidate": "cg-1e-10",
+    "m2_run": false
+  },
+  "status": "STAGE_C_ITERATIVE_FAILED",
+  "validated_total": 29,
+  "wp04_status": "HOLD"
+}

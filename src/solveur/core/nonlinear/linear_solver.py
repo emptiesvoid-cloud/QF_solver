@@ -64,7 +64,12 @@ class NonlinearLinearSolverAdapter:
                 raise NumericalConvergenceError(
                     f"Nonlinear {method} preconditioner setup failed: {exc}",
                     reason=NonlinearFailureReason.LINEAR_SOLVER_FAILURE,
-                    diagnostics={"preconditioner_setup_error": str(exc)},
+                    diagnostics={
+                        "preconditioner_setup_error": str(exc),
+                        "linear_method": method,
+                        "linear_backend": _backend_for_method(method),
+                        "backend": _backend_for_method(method),
+                    },
                 ) from exc
             preconditioner = "none"
             preconditioner_operator = None
@@ -109,7 +114,12 @@ class NonlinearLinearSolverAdapter:
             raise NumericalConvergenceError(
                 "Full Newton linear solver produced a non-finite correction.",
                 reason=reason,
-                diagnostics={"linear_method": details["method"], "fallback_used": fallback_used},
+                diagnostics={
+                    "linear_method": details["method"],
+                    "linear_backend": details["backend"],
+                    "backend": details["backend"],
+                    "fallback_used": fallback_used,
+                },
             )
         residual, relative_residual, backward_error = _residual_metrics(
             values, vector, correction, configuration["absolute_floor"]
@@ -124,6 +134,10 @@ class NonlinearLinearSolverAdapter:
                 residual, relative_residual, backward_error = _residual_metrics(
                     values, vector, correction, configuration["absolute_floor"]
                 )
+                is_krylov_result = details["method"] != "direct"
+                contract_satisfied = (
+                    not is_krylov_result or backward_error <= configuration["backward_error_tolerance"]
+                )
             if not np.all(np.isfinite(correction)) or (
                 details["method"] != "direct" and backward_error > configuration["backward_error_tolerance"]
             ):
@@ -132,10 +146,15 @@ class NonlinearLinearSolverAdapter:
                     reason=NonlinearFailureReason.LINEAR_SOLVER_FAILURE,
                     diagnostics={
                         "linear_method": method,
+                        "linear_backend": _backend_for_method(method),
+                        "backend": _backend_for_method(method),
                         "relative_linear_residual": relative_residual,
                         "residual_tolerance": configuration["residual_tolerance"],
                         "backward_error_eta_inf": backward_error,
                         "backward_error_tolerance": configuration["backward_error_tolerance"],
+                        "krylov_iterations": details.get("iterations"),
+                        "linear_solve_seconds": details.get("solve_seconds"),
+                        "fallback_used": fallback_used,
                     },
                 )
 
@@ -358,6 +377,8 @@ class NonlinearLinearSolverAdapter:
             reason=reason,
             diagnostics={
                 "linear_method": method,
+                "linear_backend": _backend_for_method(method),
+                "backend": _backend_for_method(method),
                 "symmetry_defect": symmetry_defect,
                 "backend_error": backend_error,
                 "solver_info": error.diagnostics.get("solver_info"),
@@ -373,6 +394,12 @@ def _effective_method(requested: str, symmetric: bool, assume_spd: bool) -> str:
     if requested not in {"direct", "cg", "minres", "gmres"}:
         raise ValueError(f"Unsupported nonlinear linear solver {requested!r}.")
     return requested
+
+
+def _backend_for_method(method: str) -> str:
+    """Return the public SciPy backend label for an effective method."""
+
+    return "scipy.sparse.linalg.spsolve" if method == "direct" else f"scipy.sparse.linalg.{method}"
 
 
 def _symmetry_defect(matrix: csr_matrix) -> float:

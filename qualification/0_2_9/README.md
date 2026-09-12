@@ -17,7 +17,7 @@ the same-model target-clipped arc retry challenge: the final policy reaches
 the unchanged physical solution with one rejection where the pre-WP03 route
 repeated the same effective radius five times.
 
-WP04 Geometric Nonlinear Qualification is now **HOLD — diagnosed TET4 mesh convergence**
+WP04 Geometric Nonlinear Qualification is now **HOLD — linear-solver remediation**
 at 0/12. WP04-B independently demonstrates the bounded TET4/HEX8
 Total-Lagrangian Saint-Venant-Kirchhoff objectivity, affine patch,
 energy-gradient, tangent and accepted-path work identities. WP04-C then ran a
@@ -28,7 +28,12 @@ frozen 2%/2%/10% limits. Neither family is promoted. See the controlled
 WP04-C record at `../docs/verification/0_2_9/wp04-c-tet4-structural-qualification.md` and
 `wp04_c_tet4_structural_summary.json`. WP04-C1 reproduces that failed campaign
 and finds the same slow linear/nonlinear TET4 compliance trend with invariant
-load and mesh checks; it does not change G04-10, maturity, or the roadmap.
+load and mesh checks; it does not change G04-10, maturity, or the roadmap. The
+owner-aborted C2-M3 process remains classified as an owner abort, not as a
+resource failure. R2 records the original strict residual failure, adds
+scale-aware backward-error diagnostics and bounded SciPy-local iterative
+support, and shows that the selected CG+Jacobi candidate fails nonlinear M1
+at load step 4; no M2 run or qualification promotion is claimed.
 
 ## Current planning status
 
@@ -62,3 +67,7 @@ energy/work evidence is retained unchanged: its coarse 24-sample work path
 failed the old discovery threshold. WP02/WP03 now provide an authoritative
 accepted-state callback seam for a correct future refinement study, but that
 study is deliberately not claimed complete in WP04-A.
+
+The R2 linear-solver remediation evidence is recorded in
+`wp04_linear_solver_r2.json` and the companion controlled record
+`../docs/verification/0_2_9/linear-solver-remediation-r2.md`.
