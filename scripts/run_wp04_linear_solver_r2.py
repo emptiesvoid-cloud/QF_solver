@@ -268,17 +268,96 @@ def aggregate(input_dir: Path, output_path: Path) -> None:
     for path in sorted(input_dir.glob("candidate-*.json")):
         candidates[path.stem.removeprefix("candidate-")] = json.loads(path.read_text(encoding="utf-8"))
     accepted = [name for name, row in candidates.items() if row.get("r2_acceptance", {}).get("accepted")]
+
+    def stage_summary(path: Path) -> dict[str, Any]:
+        row = json.loads(path.read_text(encoding="utf-8"))
+        telemetry_path = Path(str(row.get("telemetry", {}).get("path", path.with_suffix(".jsonl"))))
+        if not telemetry_path.is_absolute():
+            telemetry_path = ROOT / telemetry_path
+        events: list[dict[str, Any]] = []
+        if telemetry_path.exists():
+            events = [json.loads(line) for line in telemetry_path.read_text(encoding="utf-8").splitlines()]
+        iterations = [event for event in events if event.get("event") == "ITERATION"]
+        linear_iterations = [event for event in iterations if event.get("linear_method") is not None]
+        alphas = [float(event["line_search_alpha"]) for event in iterations if isinstance(event.get("line_search_alpha"), (int, float))]
+        return {
+            "candidate": row.get("candidate"),
+            "status": row.get("status"),
+            "error": row.get("error"),
+            "error_diagnostics": row.get("error_diagnostics", {}),
+            "timing": row.get("timing", {}),
+            "memory": row.get("memory", {}),
+            "observables": row.get("observables"),
+            "state": row.get("state"),
+            "telemetry": {
+                "events": len(events),
+                "iteration_events": len(iterations),
+                "linear_solve_events": len(linear_iterations),
+                "iterative_success_events": sum(
+                    event.get("linear_method") in {"cg", "minres", "gmres"} and not event.get("fallback_used", False)
+                    for event in linear_iterations
+                ),
+                "direct_fallback_events": sum(bool(event.get("fallback_used", False)) for event in linear_iterations),
+                "krylov_iterations": sum(int(event.get("krylov_iterations") or 0) for event in linear_iterations),
+                "line_search_alphas": alphas,
+                "path": str(telemetry_path),
+            },
+        }
+
+    stage_paths = sorted((ROOT / "qualification" / "0_2_9").glob("wp04_linear_solver_r2_stage_c_*.json"))
+    stage_results: dict[str, dict[str, Any]] = {}
+    for path in stage_paths:
+        summary = stage_summary(path)
+        stage_results[str(summary.get("candidate", path.stem.removeprefix("wp04_linear_solver_r2_stage_c_")))] = summary
+    repeat_path = ROOT / "qualification" / "0_2_9" / "wp04_linear_solver_r2_repeat" / "candidate-cg-1e-10.json"
+    repeat_result = json.loads(repeat_path.read_text(encoding="utf-8")) if repeat_path.exists() else None
+    repeat_reference = candidates.get("cg-1e-10")
+    repeat_core_equal = None
+    if repeat_result is not None and repeat_reference is not None:
+        core_keys = (
+            "linear_method",
+            "preconditioner",
+            "krylov_iterations",
+            "raw_relative_residual",
+            "backward_error_eta_inf",
+            "solution_relative_difference",
+            "quadratic_energy_relative_difference",
+            "fallback_used",
+        )
+        repeat_core_equal = all(
+            repeat_result.get("diagnostics", {}).get(key) == repeat_reference.get("diagnostics", {}).get(key)
+            for key in core_keys
+        )
     result = {
         "schema_version": 1,
         "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-001",
         "source_sha": START_SHA,
-        "status": "STAGE_B_CANDIDATES_RECORDED",
+        "status": (
+            "STAGE_C_ITERATIVE_VALIDATED"
+            if any(
+                key != "direct" and row.get("status") == "PASS_STAGE_C"
+                for key, row in stage_results.items()
+            )
+            else "STAGE_C_ITERATIVE_FAILED"
+            if stage_results
+            else "STAGE_B_CANDIDATES_RECORDED"
+        ),
         "r2_contract": json.loads(
             (ROOT / "qualification" / "0_2_9" / "wp04_linear_solver_r2_contract.json").read_text(encoding="utf-8")
         ),
         "candidates": candidates,
         "accepted_stage_c_candidates": accepted,
-        "stage_c": "NOT_STARTED_AUTOMATICALLY",
+        "stage_c": stage_results or "NOT_STARTED_AUTOMATICALLY",
+        "stage_c_selection": {
+            "candidate": "cg-1e-10" if "cg-1e-10" in stage_results else None,
+            "basis": "first Stage-B candidate selected under numerical-correctness-first ordering",
+            "m2_run": False,
+        },
+        "deterministic_repeat": {
+            "candidate": "cg-1e-10" if repeat_result is not None else None,
+            "core_diagnostics_equal": repeat_core_equal,
+            "repeat_result": repeat_result,
+        },
         "wp04_status": "HOLD",
         "g04_10": "UNRESOLVED_LINEAR_SOLVER_REMEDIATION",
         "validated_total": 29,
@@ -326,6 +405,10 @@ def run_stage_c(candidate: str, output_path: Path) -> None:
     displacement: np.ndarray | None = None
     diagnostics: dict[str, Any] = {}
     with JsonlNonlinearTelemetry(telemetry_path) as telemetry, _PeakSampler() as sampler:
+        def observe(event: dict[str, object]) -> None:
+            events.append(dict(event))
+            telemetry(event)
+
         try:
             displacement, diagnostics = _newton_dead_load(
                 case["assembly"],
@@ -338,7 +421,7 @@ def run_stage_c(candidate: str, output_path: Path) -> None:
                 initial_state=NonlinearState(np.zeros(case["assembly"].ndof, dtype=float)),
                 target_load_factors=[step / 12 for step in range(1, 13)],
                 accepted_state_callback=lambda _step, state: accepted.append(state.detached_copy()),
-                telemetry_observer=lambda event: events.append(dict(event)) or telemetry(event),
+                telemetry_observer=observe,
             )
         except NumericalConvergenceError as exc:
             error = str(exc)
