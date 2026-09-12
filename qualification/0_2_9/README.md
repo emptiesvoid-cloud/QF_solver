@@ -17,13 +17,16 @@ the same-model target-clipped arc retry challenge: the final policy reaches
 the unchanged physical solution with one rejection where the pre-WP03 route
 repeated the same effective radius five times.
 
-WP04 Geometric Nonlinear Qualification is now in **MECHANICS_IDENTITIES** at
-0/12. WP04-B independently demonstrates the bounded TET4/HEX8
+WP04 Geometric Nonlinear Qualification is now **HOLD — TET4 mesh convergence**
+at 0/12. WP04-B independently demonstrates the bounded TET4/HEX8
 Total-Lagrangian Saint-Venant-Kirchhoff objectivity, affine patch,
-energy-gradient, tangent and accepted-path work identities. The qualification
-campaign remains incomplete, so neither family is promoted. See the controlled
-WP04-B evidence at `../docs/verification/0_2_9/wp04-b-mechanics-identities.md` and
-`wp04_b_mechanics_identities.json`.
+energy-gradient, tangent and accepted-path work identities. WP04-C then ran a
+frozen TET4 cantilever campaign. Its small-load, force/moment balance,
+load-step, replay, envelope and failure checks pass, but its M3-vs-M2
+displacement/energy/stress mesh differences (16.4%/16.4%/24.3%) exceed the
+frozen 2%/2%/10% limits. Neither family is promoted. See the controlled
+WP04-C record at `../docs/verification/0_2_9/wp04-c-tet4-structural-qualification.md` and
+`wp04_c_tet4_structural_summary.json`.
 
 ## Current planning status
 

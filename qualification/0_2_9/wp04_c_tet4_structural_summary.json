@@ -1,0 +1,1779 @@
+{
+  "baseline_sha": "48bfa83bc517e031cdab4876970a4f511f744e35",
+  "branch": "0.2.9-unified-nonlinear",
+  "campaign_manifest": "qualification/0_2_9/wp04_c_tet4_campaign.json",
+  "campaign_manifest_status": "FROZEN_BEFORE_RESULT_EXECUTION",
+  "deterministic_replay": {
+    "comparisons": [
+      {
+        "accepted_factors_equal": true,
+        "displacement_absolute": 0.0,
+        "displacement_relative": 0.0,
+        "energy_relative": 0.0,
+        "iterations_equal": true,
+        "reaction_relative": 0.0,
+        "semantic_digest_equal": true,
+        "state_digest_equal": true,
+        "stress_relative": 0.0
+      },
+      {
+        "accepted_factors_equal": true,
+        "displacement_absolute": 0.0,
+        "displacement_relative": 0.0,
+        "energy_relative": 0.0,
+        "iterations_equal": true,
+        "reaction_relative": 0.0,
+        "semantic_digest_equal": true,
+        "state_digest_equal": true,
+        "stress_relative": 0.0
+      }
+    ],
+    "maximum_absolute": 0.0,
+    "maximum_relative": 0.0,
+    "runs": [
+      {
+        "accepted_load_factors": [
+          0.08333333333333333,
+          0.16666666666666666,
+          0.25,
+          0.3333333333333333,
+          0.4166666666666667,
+          0.5,
+          0.5833333333333334,
+          0.6666666666666666,
+          0.75,
+          0.8333333333333334,
+          0.9166666666666666,
+          1.0
+        ],
+        "accepted_state_digest": "c76d9703dbc61e94600e4d96668383550d65ba59b6d1770bfed6815819faa285",
+        "cells": [
+          16,
+          8,
+          8
+        ],
+        "dofs": 4131,
+        "elements": 6144,
+        "envelope": {
+          "maximum_green_lagrange_norm": 0.0076601460588609695,
+          "maximum_principal_stretch": 1.007307780867781,
+          "minimum_det_f": 0.9953204032824443,
+          "minimum_principal_stretch": 0.9929869288961893
+        },
+        "equilibrium": {
+          "external_moment": [
+            12.61924190274105,
+            0.0,
+            -199.82467014261687
+          ],
+          "external_resultant": [
+            0.0,
+            -50.00000000000004,
+            0.0
+          ],
+          "force_imbalance": [
+            -2.4300561562995426e-12,
+            -5.684341886080802e-14,
+            -5.329070518200751e-15
+          ],
+          "force_relative_error": 4.8614534847223086e-14,
+          "moment_imbalance": [
+            1.7763568394002505e-15,
+            -6.394884621840902e-14,
+            9.379164112033322e-13
+          ],
+          "moment_relative_error": 4.6952491717050014e-15,
+          "reaction_moment": [
+            -12.619241902741049,
+            -6.394884621840902e-14,
+            199.8246701426178
+          ],
+          "reaction_resultant": [
+            -2.4300561562995426e-12,
+            49.999999999999986,
+            -5.329070518200751e-15
+          ]
+        },
+        "final_relative_residual": 2.731016381194619e-11,
+        "intervals": 12,
+        "iteration_history": [
+          9,
+          9,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "level": "M2",
+        "load_multiplier": 1.0,
+        "loaded_face_average_displacement": [
+          -0.0035065971476634303,
+          -0.1520160721337252,
+          0.0023848380548209336
+        ],
+        "mesh_quality": {
+          "element_volume_maximum": 0.00016276041666666682,
+          "element_volume_minimum": 0.00016276041666666666,
+          "element_volume_ratio": 1.000000000000001,
+          "reference_jacobian_maximum": 0.0009765625000000009,
+          "reference_jacobian_minimum": 0.0009765625
+        },
+        "newton_iterations": 98,
+        "nodes": 1377,
+        "representative_stress_sigma_xx": 2224.4286735340856,
+        "semantic_digest": "b0880249ca6efd515fdd39806ec201ef2b1b00fe0355ab06fd1ae8f3b36e4df4",
+        "strain_energy": 3.7974457338045395,
+        "stress_contributing_elements": 80,
+        "stress_contributing_volume": 0.01302083333333334,
+        "tip_displacement": -0.15201607213372517,
+        "total_load": [
+          0.0,
+          -50.0,
+          0.0
+        ]
+      },
+      {
+        "accepted_load_factors": [
+          0.08333333333333333,
+          0.16666666666666666,
+          0.25,
+          0.3333333333333333,
+          0.4166666666666667,
+          0.5,
+          0.5833333333333334,
+          0.6666666666666666,
+          0.75,
+          0.8333333333333334,
+          0.9166666666666666,
+          1.0
+        ],
+        "accepted_state_digest": "c76d9703dbc61e94600e4d96668383550d65ba59b6d1770bfed6815819faa285",
+        "cells": [
+          16,
+          8,
+          8
+        ],
+        "dofs": 4131,
+        "elements": 6144,
+        "envelope": {
+          "maximum_green_lagrange_norm": 0.0076601460588609695,
+          "maximum_principal_stretch": 1.007307780867781,
+          "minimum_det_f": 0.9953204032824443,
+          "minimum_principal_stretch": 0.9929869288961893
+        },
+        "equilibrium": {
+          "external_moment": [
+            12.61924190274105,
+            0.0,
+            -199.82467014261687
+          ],
+          "external_resultant": [
+            0.0,
+            -50.00000000000004,
+            0.0
+          ],
+          "force_imbalance": [
+            -2.4300561562995426e-12,
+            -5.684341886080802e-14,
+            -5.329070518200751e-15
+          ],
+          "force_relative_error": 4.8614534847223086e-14,
+          "moment_imbalance": [
+            1.7763568394002505e-15,
+            -6.394884621840902e-14,
+            9.379164112033322e-13
+          ],
+          "moment_relative_error": 4.6952491717050014e-15,
+          "reaction_moment": [
+            -12.619241902741049,
+            -6.394884621840902e-14,
+            199.8246701426178
+          ],
+          "reaction_resultant": [
+            -2.4300561562995426e-12,
+            49.999999999999986,
+            -5.329070518200751e-15
+          ]
+        },
+        "final_relative_residual": 2.731016381194619e-11,
+        "intervals": 12,
+        "iteration_history": [
+          9,
+          9,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "level": "M2",
+        "load_multiplier": 1.0,
+        "loaded_face_average_displacement": [
+          -0.0035065971476634303,
+          -0.1520160721337252,
+          0.0023848380548209336
+        ],
+        "mesh_quality": {
+          "element_volume_maximum": 0.00016276041666666682,
+          "element_volume_minimum": 0.00016276041666666666,
+          "element_volume_ratio": 1.000000000000001,
+          "reference_jacobian_maximum": 0.0009765625000000009,
+          "reference_jacobian_minimum": 0.0009765625
+        },
+        "newton_iterations": 98,
+        "nodes": 1377,
+        "representative_stress_sigma_xx": 2224.4286735340856,
+        "semantic_digest": "b0880249ca6efd515fdd39806ec201ef2b1b00fe0355ab06fd1ae8f3b36e4df4",
+        "strain_energy": 3.7974457338045395,
+        "stress_contributing_elements": 80,
+        "stress_contributing_volume": 0.01302083333333334,
+        "tip_displacement": -0.15201607213372517,
+        "total_load": [
+          0.0,
+          -50.0,
+          0.0
+        ]
+      },
+      {
+        "accepted_load_factors": [
+          0.08333333333333333,
+          0.16666666666666666,
+          0.25,
+          0.3333333333333333,
+          0.4166666666666667,
+          0.5,
+          0.5833333333333334,
+          0.6666666666666666,
+          0.75,
+          0.8333333333333334,
+          0.9166666666666666,
+          1.0
+        ],
+        "accepted_state_digest": "c76d9703dbc61e94600e4d96668383550d65ba59b6d1770bfed6815819faa285",
+        "cells": [
+          16,
+          8,
+          8
+        ],
+        "dofs": 4131,
+        "elements": 6144,
+        "envelope": {
+          "maximum_green_lagrange_norm": 0.0076601460588609695,
+          "maximum_principal_stretch": 1.007307780867781,
+          "minimum_det_f": 0.9953204032824443,
+          "minimum_principal_stretch": 0.9929869288961893
+        },
+        "equilibrium": {
+          "external_moment": [
+            12.61924190274105,
+            0.0,
+            -199.82467014261687
+          ],
+          "external_resultant": [
+            0.0,
+            -50.00000000000004,
+            0.0
+          ],
+          "force_imbalance": [
+            -2.4300561562995426e-12,
+            -5.684341886080802e-14,
+            -5.329070518200751e-15
+          ],
+          "force_relative_error": 4.8614534847223086e-14,
+          "moment_imbalance": [
+            1.7763568394002505e-15,
+            -6.394884621840902e-14,
+            9.379164112033322e-13
+          ],
+          "moment_relative_error": 4.6952491717050014e-15,
+          "reaction_moment": [
+            -12.619241902741049,
+            -6.394884621840902e-14,
+            199.8246701426178
+          ],
+          "reaction_resultant": [
+            -2.4300561562995426e-12,
+            49.999999999999986,
+            -5.329070518200751e-15
+          ]
+        },
+        "final_relative_residual": 2.731016381194619e-11,
+        "intervals": 12,
+        "iteration_history": [
+          9,
+          9,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "level": "M2",
+        "load_multiplier": 1.0,
+        "loaded_face_average_displacement": [
+          -0.0035065971476634303,
+          -0.1520160721337252,
+          0.0023848380548209336
+        ],
+        "mesh_quality": {
+          "element_volume_maximum": 0.00016276041666666682,
+          "element_volume_minimum": 0.00016276041666666666,
+          "element_volume_ratio": 1.000000000000001,
+          "reference_jacobian_maximum": 0.0009765625000000009,
+          "reference_jacobian_minimum": 0.0009765625
+        },
+        "newton_iterations": 98,
+        "nodes": 1377,
+        "representative_stress_sigma_xx": 2224.4286735340856,
+        "semantic_digest": "b0880249ca6efd515fdd39806ec201ef2b1b00fe0355ab06fd1ae8f3b36e4df4",
+        "strain_energy": 3.7974457338045395,
+        "stress_contributing_elements": 80,
+        "stress_contributing_volume": 0.01302083333333334,
+        "tip_displacement": -0.15201607213372517,
+        "total_load": [
+          0.0,
+          -50.0,
+          0.0
+        ]
+      }
+    ]
+  },
+  "environment": {
+    "numpy": "2.2.6",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+    "scipy": "1.15.2"
+  },
+  "failure_sanity": {
+    "impossible_convergence": {
+      "deterministic": true,
+      "first": {
+        "message": "Unified Newton did not converge at increment 1; relative residual=1.000000e+00.",
+        "reason": "MAX_ITERATIONS",
+        "type": "NumericalConvergenceError"
+      },
+      "second": {
+        "message": "Unified Newton did not converge at increment 1; relative residual=1.000000e+00.",
+        "reason": "MAX_ITERATIONS",
+        "type": "NumericalConvergenceError"
+      }
+    },
+    "invalid_material": {
+      "deterministic": true,
+      "first": {
+        "message": "Young modulus E must be positive.",
+        "reason": null,
+        "type": "ValueError"
+      },
+      "second": {
+        "message": "Young modulus E must be positive.",
+        "reason": null,
+        "type": "ValueError"
+      }
+    },
+    "inverted_reference_geometry": {
+      "deterministic": true,
+      "first": {
+        "message": "Invalid TET4-TL reference volume at element 0: -1.666667e-01.",
+        "reason": null,
+        "type": "ValueError"
+      },
+      "second": {
+        "message": "Invalid TET4-TL reference volume at element 0: -1.666667e-01.",
+        "reason": null,
+        "type": "ValueError"
+      }
+    },
+    "nonfinite_state": {
+      "deterministic": true,
+      "first": {
+        "message": "TET4-TL displacement must be a finite vector of size 675.",
+        "reason": null,
+        "type": "ValueError"
+      },
+      "second": {
+        "message": "TET4-TL displacement must be a finite vector of size 675.",
+        "reason": null,
+        "type": "ValueError"
+      }
+    },
+    "unconstrained_model": {
+      "deterministic": true,
+      "first": {
+        "message": "geometric_nonlinear_static requires constrained dofs.",
+        "reason": null,
+        "type": "MeshValidationError"
+      },
+      "second": {
+        "message": "geometric_nonlinear_static requires constrained dofs.",
+        "reason": null,
+        "type": "MeshValidationError"
+      }
+    }
+  },
+  "gate_status": {
+    "G04-01": {
+      "reason": "WP04-A/B bounded formulation and scope remain unchanged.",
+      "status": "PASS_BOUNDED"
+    },
+    "G04-02": {
+      "reason": "WP04-B independent TET4/HEX8 objectivity evidence is retained.",
+      "status": "PASS"
+    },
+    "G04-03": {
+      "reason": "WP04-B independent TET4/HEX8 affine patch evidence is retained.",
+      "status": "PASS"
+    },
+    "G04-04": {
+      "reason": "WP04-B independent energy-gradient evidence is retained.",
+      "status": "PASS"
+    },
+    "G04-05": {
+      "reason": "WP04-B independent tangent/symmetry evidence is retained.",
+      "status": "PASS"
+    },
+    "G04-06": {
+      "reason": "TET4 small-displacement limit is demonstrated; HEX8 remains WP04-D.",
+      "status": "PASS_TET4_PENDING_HEX8"
+    },
+    "G04-07": {
+      "reason": "TET4 direct force/moment balance is demonstrated; HEX8 remains WP04-D.",
+      "status": "PASS_TET4_PENDING_HEX8"
+    },
+    "G04-08": {
+      "reason": "WP04-B accepted-state work-refinement evidence is retained.",
+      "status": "PASS"
+    },
+    "G04-09": {
+      "reason": "TET4 load-step stability and deterministic replay are demonstrated; HEX8 remains WP04-D.",
+      "status": "PASS_TET4_PENDING_HEX8"
+    },
+    "G04-10": {
+      "reason": "Frozen TET4 mesh/structural campaign metrics and envelope.",
+      "status": "FAIL"
+    },
+    "G04-11": {
+      "reason": "HEX8 structural campaign is not in WP04-C scope.",
+      "status": "PENDING_WP04_D"
+    },
+    "G04-12": {
+      "reason": "Cross-family convergence and public claim boundary are not in WP04-C scope.",
+      "status": "PENDING_WP04_E"
+    }
+  },
+  "limitations": [
+    "This is TET4-only structural evidence; HEX8 and cross-family qualification remain pending.",
+    "The supporting cantilever trend is not a beam-theory acceptance oracle.",
+    "No contact, arc-length, J2-plus-geometry, high-order, distributed or dynamics claim is made.",
+    "TET4 public maturity remains RESEARCH_ONLY pending WP04-D/E/F and Owner closure."
+  ],
+  "load_step_stability": {
+    "comparison_to_48": {
+      "12": {
+        "displacement_relative": 1.1604640494113198e-15,
+        "energy_relative": 1.1694418853620966e-15,
+        "minimum_det_f_relative": 0.0,
+        "reaction_relative": 1.0272197169172852e-15,
+        "stress_relative": 1.206156619968149e-14
+      },
+      "24": {
+        "displacement_relative": 7.002731582632599e-16,
+        "energy_relative": 1.8711070165793546e-15,
+        "minimum_det_f_relative": 0.0,
+        "reaction_relative": 7.660304026790858e-14,
+        "stress_relative": 7.972899691314883e-15
+      },
+      "6": {
+        "displacement_relative": 9.7503928058697e-16,
+        "energy_relative": 1.403330262434516e-15,
+        "minimum_det_f_relative": 0.0,
+        "reaction_relative": 8.512408733079143e-14,
+        "stress_relative": 7.564033040478223e-15
+      }
+    },
+    "maximum_relative_delta": 8.512408733079143e-14,
+    "rows": {
+      "12": {
+        "accepted_load_factors": [
+          0.08333333333333333,
+          0.16666666666666666,
+          0.25,
+          0.3333333333333333,
+          0.4166666666666667,
+          0.5,
+          0.5833333333333334,
+          0.6666666666666666,
+          0.75,
+          0.8333333333333334,
+          0.9166666666666666,
+          1.0
+        ],
+        "accepted_state_digest": "c76d9703dbc61e94600e4d96668383550d65ba59b6d1770bfed6815819faa285",
+        "cells": [
+          16,
+          8,
+          8
+        ],
+        "dofs": 4131,
+        "elements": 6144,
+        "envelope": {
+          "maximum_green_lagrange_norm": 0.0076601460588609695,
+          "maximum_principal_stretch": 1.007307780867781,
+          "minimum_det_f": 0.9953204032824443,
+          "minimum_principal_stretch": 0.9929869288961893
+        },
+        "equilibrium": {
+          "external_moment": [
+            12.61924190274105,
+            0.0,
+            -199.82467014261687
+          ],
+          "external_resultant": [
+            0.0,
+            -50.00000000000004,
+            0.0
+          ],
+          "force_imbalance": [
+            -2.4300561562995426e-12,
+            -5.684341886080802e-14,
+            -5.329070518200751e-15
+          ],
+          "force_relative_error": 4.8614534847223086e-14,
+          "moment_imbalance": [
+            1.7763568394002505e-15,
+            -6.394884621840902e-14,
+            9.379164112033322e-13
+          ],
+          "moment_relative_error": 4.6952491717050014e-15,
+          "reaction_moment": [
+            -12.619241902741049,
+            -6.394884621840902e-14,
+            199.8246701426178
+          ],
+          "reaction_resultant": [
+            -2.4300561562995426e-12,
+            49.999999999999986,
+            -5.329070518200751e-15
+          ]
+        },
+        "final_relative_residual": 2.731016381194619e-11,
+        "intervals": 12,
+        "iteration_history": [
+          9,
+          9,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "level": "M2",
+        "load_multiplier": 1.0,
+        "loaded_face_average_displacement": [
+          -0.0035065971476634303,
+          -0.1520160721337252,
+          0.0023848380548209336
+        ],
+        "mesh_quality": {
+          "element_volume_maximum": 0.00016276041666666682,
+          "element_volume_minimum": 0.00016276041666666666,
+          "element_volume_ratio": 1.000000000000001,
+          "reference_jacobian_maximum": 0.0009765625000000009,
+          "reference_jacobian_minimum": 0.0009765625
+        },
+        "newton_iterations": 98,
+        "nodes": 1377,
+        "representative_stress_sigma_xx": 2224.4286735340856,
+        "semantic_digest": "b0880249ca6efd515fdd39806ec201ef2b1b00fe0355ab06fd1ae8f3b36e4df4",
+        "strain_energy": 3.7974457338045395,
+        "stress_contributing_elements": 80,
+        "stress_contributing_volume": 0.01302083333333334,
+        "tip_displacement": -0.15201607213372517,
+        "total_load": [
+          0.0,
+          -50.0,
+          0.0
+        ]
+      },
+      "24": {
+        "accepted_load_factors": [
+          0.041666666666666664,
+          0.08333333333333333,
+          0.125,
+          0.16666666666666666,
+          0.20833333333333334,
+          0.25,
+          0.2916666666666667,
+          0.3333333333333333,
+          0.375,
+          0.4166666666666667,
+          0.4583333333333333,
+          0.5,
+          0.5416666666666666,
+          0.5833333333333334,
+          0.625,
+          0.6666666666666666,
+          0.7083333333333334,
+          0.75,
+          0.7916666666666666,
+          0.8333333333333334,
+          0.875,
+          0.9166666666666666,
+          0.9583333333333334,
+          1.0
+        ],
+        "accepted_state_digest": "18c29e9b6be8fa52c0d5d3b67e0d9ef42e8e934e19fcba141a74713b5f124ef2",
+        "cells": [
+          16,
+          8,
+          8
+        ],
+        "dofs": 4131,
+        "elements": 6144,
+        "envelope": {
+          "maximum_green_lagrange_norm": 0.007660146058860998,
+          "maximum_principal_stretch": 1.007307780867781,
+          "minimum_det_f": 0.9953204032824443,
+          "minimum_principal_stretch": 0.9929869288961892
+        },
+        "equilibrium": {
+          "external_moment": [
+            12.619241902741047,
+            0.0,
+            -199.82467014261687
+          ],
+          "external_resultant": [
+            0.0,
+            -50.00000000000004,
+            0.0
+          ],
+          "force_imbalance": [
+            1.3642420526593924e-12,
+            -4.263256414560601e-14,
+            0.0
+          ],
+          "force_relative_error": 2.7298160478464026e-14,
+          "moment_imbalance": [
+            8.881784197001252e-15,
+            4.050093593832571e-13,
+            1.1368683772161603e-13
+          ],
+          "moment_relative_error": 2.101442948283155e-15,
+          "reaction_moment": [
+            -12.619241902741038,
+            4.050093593832571e-13,
+            199.82467014261698
+          ],
+          "reaction_resultant": [
+            1.3642420526593924e-12,
+            50.0,
+            0.0
+          ]
+        },
+        "final_relative_residual": 2.7632305534971334e-11,
+        "intervals": 24,
+        "iteration_history": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "level": "M2",
+        "load_multiplier": 1.0,
+        "loaded_face_average_displacement": [
+          -0.0035065971476634316,
+          -0.15201607213372514,
+          0.0023848380548209002
+        ],
+        "mesh_quality": {
+          "element_volume_maximum": 0.00016276041666666682,
+          "element_volume_minimum": 0.00016276041666666666,
+          "element_volume_ratio": 1.000000000000001,
+          "reference_jacobian_maximum": 0.0009765625000000009,
+          "reference_jacobian_minimum": 0.0009765625
+        },
+        "newton_iterations": 173,
+        "nodes": 1377,
+        "representative_stress_sigma_xx": 2224.42867353413,
+        "semantic_digest": "e4977e10cbb674c178b5171d744d0e63e29f346915c63fbfe1bf5452c1d92d01",
+        "strain_energy": 3.797445733804542,
+        "stress_contributing_elements": 80,
+        "stress_contributing_volume": 0.01302083333333334,
+        "tip_displacement": -0.15201607213372514,
+        "total_load": [
+          0.0,
+          -50.0,
+          0.0
+        ]
+      },
+      "48": {
+        "accepted_load_factors": [
+          0.020833333333333332,
+          0.041666666666666664,
+          0.0625,
+          0.08333333333333333,
+          0.10416666666666667,
+          0.125,
+          0.14583333333333334,
+          0.16666666666666666,
+          0.1875,
+          0.20833333333333334,
+          0.22916666666666666,
+          0.25,
+          0.2708333333333333,
+          0.2916666666666667,
+          0.3125,
+          0.3333333333333333,
+          0.3541666666666667,
+          0.375,
+          0.3958333333333333,
+          0.4166666666666667,
+          0.4375,
+          0.4583333333333333,
+          0.4791666666666667,
+          0.5,
+          0.5208333333333334,
+          0.5416666666666666,
+          0.5625,
+          0.5833333333333334,
+          0.6041666666666666,
+          0.625,
+          0.6458333333333334,
+          0.6666666666666666,
+          0.6875,
+          0.7083333333333334,
+          0.7291666666666666,
+          0.75,
+          0.7708333333333334,
+          0.7916666666666666,
+          0.8125,
+          0.8333333333333334,
+          0.8541666666666666,
+          0.875,
+          0.8958333333333334,
+          0.9166666666666666,
+          0.9375,
+          0.9583333333333334,
+          0.9791666666666666,
+          1.0
+        ],
+        "accepted_state_digest": "2c5a49f5f84cbd7b1cdf45233163e473e12c44759bb5ebb47dfd5394d0c6a837",
+        "cells": [
+          16,
+          8,
+          8
+        ],
+        "dofs": 4131,
+        "elements": 6144,
+        "envelope": {
+          "maximum_green_lagrange_norm": 0.007660146058860966,
+          "maximum_principal_stretch": 1.007307780867781,
+          "minimum_det_f": 0.9953204032824443,
+          "minimum_principal_stretch": 0.9929869288961892
+        },
+        "equilibrium": {
+          "external_moment": [
+            12.619241902741047,
+            0.0,
+            -199.82467014261687
+          ],
+          "external_resultant": [
+            0.0,
+            -50.00000000000004,
+            0.0
+          ],
+          "force_imbalance": [
+            -2.4655832930875476e-12,
+            -9.237055564881302e-14,
+            5.329070518200751e-15
+          ],
+          "force_relative_error": 4.934637451199787e-14,
+          "moment_imbalance": [
+            1.7763568394002505e-15,
+            -1.9184653865522705e-13,
+            6.252776074688882e-13
+          ],
+          "moment_relative_error": 3.266607966289791e-15,
+          "reaction_moment": [
+            -12.619241902741045,
+            -1.9184653865522705e-13,
+            199.8246701426175
+          ],
+          "reaction_resultant": [
+            -2.4655832930875476e-12,
+            49.99999999999995,
+            5.329070518200751e-15
+          ]
+        },
+        "final_relative_residual": 2.7462276479150115e-11,
+        "intervals": 48,
+        "iteration_history": [
+          6,
+          7,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "level": "M2",
+        "load_multiplier": 1.0,
+        "loaded_face_average_displacement": [
+          -0.0035065971476634346,
+          -0.15201607213372506,
+          0.002384838054820912
+        ],
+        "mesh_quality": {
+          "element_volume_maximum": 0.00016276041666666682,
+          "element_volume_minimum": 0.00016276041666666666,
+          "element_volume_ratio": 1.000000000000001,
+          "reference_jacobian_maximum": 0.0009765625000000009,
+          "reference_jacobian_minimum": 0.0009765625
+        },
+        "newton_iterations": 251,
+        "nodes": 1377,
+        "representative_stress_sigma_xx": 2224.4286735341125,
+        "semantic_digest": "a5c448269c90645b860c7bd3416b1ee6a8fb26ef63783955e78badd423cdb5be",
+        "strain_energy": 3.797445733804535,
+        "stress_contributing_elements": 80,
+        "stress_contributing_volume": 0.01302083333333334,
+        "tip_displacement": -0.15201607213372503,
+        "total_load": [
+          0.0,
+          -50.0,
+          0.0
+        ]
+      },
+      "6": {
+        "accepted_load_factors": [
+          0.16666666666666666,
+          0.3333333333333333,
+          0.5,
+          0.6666666666666666,
+          0.8333333333333334,
+          1.0
+        ],
+        "accepted_state_digest": "63164c51734bd4e8fd2d7927658ae8dfd246be4539b509f17f5ae3adeada383b",
+        "cells": [
+          16,
+          8,
+          8
+        ],
+        "dofs": 4131,
+        "elements": 6144,
+        "envelope": {
+          "maximum_green_lagrange_norm": 0.007660146058860961,
+          "maximum_principal_stretch": 1.007307780867781,
+          "minimum_det_f": 0.9953204032824443,
+          "minimum_principal_stretch": 0.9929869288961892
+        },
+        "equilibrium": {
+          "external_moment": [
+            12.619241902741038,
+            0.0,
+            -199.82467014261687
+          ],
+          "external_resultant": [
+            0.0,
+            -50.00000000000004,
+            0.0
+          ],
+          "force_imbalance": [
+            1.7905676941154525e-12,
+            -7.105427357601002e-14,
+            5.329070518200751e-15
+          ],
+          "force_relative_error": 3.583969740941419e-14,
+          "moment_imbalance": [
+            3.552713678800501e-15,
+            6.927791673660977e-14,
+            -3.410605131648481e-13
+          ],
+          "moment_relative_error": 1.7382819485603935e-15,
+          "reaction_moment": [
+            -12.619241902741035,
+            6.927791673660977e-14,
+            199.82467014261653
+          ],
+          "reaction_resultant": [
+            1.7905676941154525e-12,
+            49.99999999999997,
+            5.329070518200751e-15
+          ]
+        },
+        "final_relative_residual": 2.6488561124901746e-11,
+        "intervals": 6,
+        "iteration_history": [
+          14,
+          13,
+          13,
+          13,
+          13,
+          13
+        ],
+        "level": "M2",
+        "load_multiplier": 1.0,
+        "loaded_face_average_displacement": [
+          -0.0035065971476634316,
+          -0.15201607213372514,
+          0.0023848380548207996
+        ],
+        "mesh_quality": {
+          "element_volume_maximum": 0.00016276041666666682,
+          "element_volume_minimum": 0.00016276041666666666,
+          "element_volume_ratio": 1.000000000000001,
+          "reference_jacobian_maximum": 0.0009765625000000009,
+          "reference_jacobian_minimum": 0.0009765625
+        },
+        "newton_iterations": 79,
+        "nodes": 1377,
+        "representative_stress_sigma_xx": 2224.4286735340957,
+        "semantic_digest": "0d958a3a3f8bb96731722332d9f42396e9e82a3c8c40bcdb9a9731b3d5358610",
+        "strain_energy": 3.7974457338045404,
+        "stress_contributing_elements": 80,
+        "stress_contributing_volume": 0.01302083333333334,
+        "tip_displacement": -0.15201607213372512,
+        "total_load": [
+          0.0,
+          -50.0,
+          0.0
+        ]
+      }
+    }
+  },
+  "mesh_campaign": {
+    "M1": {
+      "accepted_load_factors": [
+        0.08333333333333333,
+        0.16666666666666666,
+        0.25,
+        0.3333333333333333,
+        0.4166666666666667,
+        0.5,
+        0.5833333333333334,
+        0.6666666666666666,
+        0.75,
+        0.8333333333333334,
+        0.9166666666666666,
+        1.0
+      ],
+      "accepted_state_digest": "6ad6535dcabca6e60a7324dc7954a901bd340784b2678c6a642fb2afe27d6498",
+      "cells": [
+        8,
+        4,
+        4
+      ],
+      "dofs": 675,
+      "elements": 768,
+      "envelope": {
+        "maximum_green_lagrange_norm": 0.0051225427629308685,
+        "maximum_principal_stretch": 1.0049084882305825,
+        "minimum_det_f": 0.9972736215971093,
+        "minimum_principal_stretch": 0.9955910727625832
+      },
+      "equilibrium": {
+        "external_moment": [
+          12.645257865659751,
+          0.0,
+          -199.93885857495277
+        ],
+        "external_resultant": [
+          0.0,
+          -50.0,
+          0.0
+        ],
+        "force_imbalance": [
+          4.256150987203e-12,
+          -9.237055564881302e-14,
+          -1.4210854715202004e-14
+        ],
+        "force_relative_error": 8.514353878906298e-14,
+        "moment_imbalance": [
+          1.4210854715202004e-14,
+          -4.014566457044566e-13,
+          -2.0463630789890885e-12
+        ],
+        "moment_relative_error": 1.0409483974694899e-14,
+        "reaction_moment": [
+          -12.645257865659737,
+          -4.014566457044566e-13,
+          199.93885857495073
+        ],
+        "reaction_resultant": [
+          4.256150987203e-12,
+          49.99999999999991,
+          -1.4210854715202004e-14
+        ]
+      },
+      "final_relative_residual": 1.8254935632549613e-11,
+      "intervals": 12,
+      "iteration_history": [
+        13,
+        6,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "level": "M1",
+      "load_multiplier": 1.0,
+      "loaded_face_average_displacement": [
+        -0.001222828500945425,
+        -0.08768376207087285,
+        0.002905157313194992
+      ],
+      "mesh_quality": {
+        "element_volume_maximum": 0.0013020833333333337,
+        "element_volume_minimum": 0.0013020833333333337,
+        "element_volume_ratio": 1.0,
+        "reference_jacobian_maximum": 0.007812500000000002,
+        "reference_jacobian_minimum": 0.007812500000000002
+      },
+      "newton_iterations": 69,
+      "nodes": 225,
+      "representative_stress_sigma_xx": 1291.1114122696958,
+      "semantic_digest": "254c2dfc559843da0723aa2a573805961cdfcdd0f1ea2013c6d4b8079088d99d",
+      "strain_energy": 2.191303101105339,
+      "stress_contributing_elements": 16,
+      "stress_contributing_volume": 0.02083333333333334,
+      "tip_displacement": -0.08768376207087285,
+      "total_load": [
+        0.0,
+        -50.0,
+        0.0
+      ]
+    },
+    "M2": {
+      "accepted_load_factors": [
+        0.08333333333333333,
+        0.16666666666666666,
+        0.25,
+        0.3333333333333333,
+        0.4166666666666667,
+        0.5,
+        0.5833333333333334,
+        0.6666666666666666,
+        0.75,
+        0.8333333333333334,
+        0.9166666666666666,
+        1.0
+      ],
+      "accepted_state_digest": "c76d9703dbc61e94600e4d96668383550d65ba59b6d1770bfed6815819faa285",
+      "cells": [
+        16,
+        8,
+        8
+      ],
+      "dofs": 4131,
+      "elements": 6144,
+      "envelope": {
+        "maximum_green_lagrange_norm": 0.0076601460588609695,
+        "maximum_principal_stretch": 1.007307780867781,
+        "minimum_det_f": 0.9953204032824443,
+        "minimum_principal_stretch": 0.9929869288961893
+      },
+      "equilibrium": {
+        "external_moment": [
+          12.61924190274105,
+          0.0,
+          -199.82467014261687
+        ],
+        "external_resultant": [
+          0.0,
+          -50.00000000000004,
+          0.0
+        ],
+        "force_imbalance": [
+          -2.4300561562995426e-12,
+          -5.684341886080802e-14,
+          -5.329070518200751e-15
+        ],
+        "force_relative_error": 4.8614534847223086e-14,
+        "moment_imbalance": [
+          1.7763568394002505e-15,
+          -6.394884621840902e-14,
+          9.379164112033322e-13
+        ],
+        "moment_relative_error": 4.6952491717050014e-15,
+        "reaction_moment": [
+          -12.619241902741049,
+          -6.394884621840902e-14,
+          199.8246701426178
+        ],
+        "reaction_resultant": [
+          -2.4300561562995426e-12,
+          49.999999999999986,
+          -5.329070518200751e-15
+        ]
+      },
+      "final_relative_residual": 2.731016381194619e-11,
+      "intervals": 12,
+      "iteration_history": [
+        9,
+        9,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "level": "M2",
+      "load_multiplier": 1.0,
+      "loaded_face_average_displacement": [
+        -0.0035065971476634303,
+        -0.1520160721337252,
+        0.0023848380548209336
+      ],
+      "mesh_quality": {
+        "element_volume_maximum": 0.00016276041666666682,
+        "element_volume_minimum": 0.00016276041666666666,
+        "element_volume_ratio": 1.000000000000001,
+        "reference_jacobian_maximum": 0.0009765625000000009,
+        "reference_jacobian_minimum": 0.0009765625
+      },
+      "newton_iterations": 98,
+      "nodes": 1377,
+      "representative_stress_sigma_xx": 2224.4286735340856,
+      "semantic_digest": "b0880249ca6efd515fdd39806ec201ef2b1b00fe0355ab06fd1ae8f3b36e4df4",
+      "strain_energy": 3.7974457338045395,
+      "stress_contributing_elements": 80,
+      "stress_contributing_volume": 0.01302083333333334,
+      "tip_displacement": -0.15201607213372517,
+      "total_load": [
+        0.0,
+        -50.0,
+        0.0
+      ]
+    },
+    "M3": {
+      "accepted_load_factors": [
+        0.08333333333333333,
+        0.16666666666666666,
+        0.25,
+        0.3333333333333333,
+        0.4166666666666667,
+        0.5,
+        0.5833333333333334,
+        0.6666666666666666,
+        0.75,
+        0.8333333333333334,
+        0.9166666666666666,
+        1.0
+      ],
+      "accepted_state_digest": "92b3b07742c1ee23760692cb9a8d77bd9c6852baad87e76ca23ef70a64793a79",
+      "cells": [
+        24,
+        12,
+        12
+      ],
+      "dofs": 12675,
+      "elements": 20736,
+      "envelope": {
+        "maximum_green_lagrange_norm": 0.008752316888889894,
+        "maximum_principal_stretch": 1.0083044067259543,
+        "minimum_det_f": 0.9938290240543391,
+        "minimum_principal_stretch": 0.9918819389848781
+      },
+      "equilibrium": {
+        "external_moment": [
+          12.573390058525577,
+          0.0,
+          -199.76370324739366
+        ],
+        "external_resultant": [
+          0.0,
+          -49.99999999999983,
+          0.0
+        ],
+        "force_imbalance": [
+          -9.023892744153272e-13,
+          1.7053025658242404e-13,
+          -9.769962616701378e-15
+        ],
+        "force_relative_error": 1.8368259832215135e-14,
+        "moment_imbalance": [
+          -8.881784197001252e-15,
+          1.4921397450962104e-13,
+          -5.684341886080802e-14
+        ],
+        "moment_relative_error": 7.989720532383644e-16,
+        "reaction_moment": [
+          -12.573390058525586,
+          1.4921397450962104e-13,
+          199.7637032473936
+        ],
+        "reaction_resultant": [
+          -9.023892744153272e-13,
+          50.0,
+          -9.769962616701378e-15
+        ]
+      },
+      "final_relative_residual": 6.28610043905501e-11,
+      "intervals": 12,
+      "iteration_history": [
+        12,
+        12,
+        12,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11
+      ],
+      "level": "M3",
+      "load_multiplier": 1.0,
+      "loaded_face_average_displacement": [
+        -0.004725935052128693,
+        -0.17695610412963447,
+        0.0014678011705115633
+      ],
+      "mesh_quality": {
+        "element_volume_maximum": 4.822530864197545e-05,
+        "element_volume_minimum": 4.822530864197519e-05,
+        "element_volume_ratio": 1.0000000000000053,
+        "reference_jacobian_maximum": 0.0002893518518518527,
+        "reference_jacobian_minimum": 0.00028935185185185113
+      },
+      "newton_iterations": 135,
+      "nodes": 4225,
+      "representative_stress_sigma_xx": 2765.2001891183813,
+      "semantic_digest": "5cc92bfb51b060dee4f345b26d929e1ea12f0ccc7388815e72dba01c88fb5e0e",
+      "strain_energy": 4.419448705078838,
+      "stress_contributing_elements": 336,
+      "stress_contributing_volume": 0.016203703703703692,
+      "tip_displacement": -0.17695610412963447,
+      "total_load": [
+        0.0,
+        -50.0,
+        0.0
+      ]
+    }
+  },
+  "mesh_convergence": {
+    "fine_medium_energy_relative": 0.16379509145773455,
+    "fine_medium_reaction_relative": 3.055478863890379e-14,
+    "fine_medium_stress_relative": 0.24310580151133324,
+    "fine_medium_tip_displacement_relative": 0.1640618103457515,
+    "passes_fine_medium_limits": false,
+    "reaction_trend": {
+      "coarse_to_medium_absolute_change": 6.686669858065746e-12,
+      "medium_to_fine_absolute_change": 1.527739431945189e-12,
+      "non_oscillatory_refinement": true
+    },
+    "representative_stress_trend": {
+      "coarse_to_medium_absolute_change": 933.3172612643898,
+      "medium_to_fine_absolute_change": 540.7715155842957,
+      "non_oscillatory_refinement": true
+    },
+    "strain_energy_trend": {
+      "coarse_to_medium_absolute_change": 1.6061426326992003,
+      "medium_to_fine_absolute_change": 0.6220029712742985,
+      "non_oscillatory_refinement": true
+    },
+    "tip_displacement_trend": {
+      "coarse_to_medium_absolute_change": 0.06433231006285232,
+      "medium_to_fine_absolute_change": 0.0249400319959093,
+      "non_oscillatory_refinement": true
+    },
+    "trends_non_oscillatory": true
+  },
+  "qualification_checks": {
+    "envelope_pass": true,
+    "equilibrium_pass": true,
+    "failure_sanity_pass": true,
+    "load_step_pass": true,
+    "mesh_pass": false,
+    "replay_pass": true,
+    "small_limit_pass": true
+  },
+  "record_id": "QF-SOLVER-0.2.9-WP04-C-TET4-STRUCTURAL-001",
+  "schema_version": 1,
+  "scope": {
+    "boundary_conditions": "all translations fixed on x=0 face",
+    "element_family": "TET4",
+    "formulation": "Total-Lagrangian Saint-Venant-Kirchhoff",
+    "full_test_suite_run": false,
+    "load": "distributed nodal dead transverse load on x=L face",
+    "material": {
+      "E": 1000000.0,
+      "class": "homogeneous_isotropic_3d",
+      "nu": 0.3
+    },
+    "maturity_changed": false,
+    "numerical_formulation_changed": false,
+    "production_source_changed": false
+  },
+  "small_displacement_limit": {
+    "displacement_errors_monotone_to_linear": true,
+    "reaction_errors_within_frozen_limit": true,
+    "reference": "same TET4 mesh, zero-displacement Total-Lagrangian tangent reduced with identical fixed DOFs and dead load",
+    "rows": {
+      "0.001": {
+        "displacement_relative_error": 2.1032185690777483e-05,
+        "linear_reaction_resultant": [
+          -4.634938266523392e-13,
+          0.05000000000065802,
+          -1.3179284052977636e-12
+        ],
+        "multiplier": 0.001,
+        "nonlinear": {
+          "accepted_load_factors": [
+            0.08333333333333333,
+            0.16666666666666666,
+            0.25,
+            0.3333333333333333,
+            0.4166666666666667,
+            0.5,
+            0.5833333333333334,
+            0.6666666666666666,
+            0.75,
+            0.8333333333333334,
+            0.9166666666666666,
+            1.0
+          ],
+          "accepted_state_digest": "e3c5234777ed256fe9b5d7724b1945ef3760d05b604d1f8f82bc190cc1e243ab",
+          "cells": [
+            16,
+            8,
+            8
+          ],
+          "dofs": 4131,
+          "elements": 6144,
+          "envelope": {
+            "maximum_green_lagrange_norm": 7.663155976706283e-06,
+            "maximum_principal_stretch": 1.0000073362655708,
+            "minimum_det_f": 0.9999953383606247,
+            "minimum_principal_stretch": 0.9999930038672679
+          },
+          "equilibrium": {
+            "external_moment": [
+              0.012500119456096581,
+              0.0,
+              -0.1999999981192992
+            ],
+            "external_resultant": [
+              0.0,
+              -0.049999999999999926,
+              0.0
+            ],
+            "force_imbalance": [
+              3.689583361055071e-13,
+              7.632783294297951e-17,
+              1.734723475976807e-18
+            ],
+            "force_relative_error": 3.6895834400470153e-13,
+            "moment_imbalance": [
+              2.0816681711721685e-17,
+              4.9807380442246085e-14,
+              -2.2878920979962913e-13
+            ],
+            "moment_relative_error": 2.3414798333658906e-13,
+            "reaction_moment": [
+              -0.01250011945609656,
+              4.9807380442246085e-14,
+              0.1999999981190704
+            ],
+            "reaction_resultant": [
+              3.689583361055071e-13,
+              0.05,
+              1.734723475976807e-18
+            ]
+          },
+          "final_relative_residual": 9.947186376175934e-11,
+          "intervals": 12,
+          "iteration_history": [
+            3,
+            3,
+            3,
+            4,
+            3,
+            4,
+            5,
+            3,
+            4,
+            3,
+            4,
+            3
+          ],
+          "level": "M2",
+          "load_multiplier": 0.001,
+          "loaded_face_average_displacement": [
+            -3.7614016326889443e-08,
+            -0.00015226250434100368,
+            2.389121931588405e-06
+          ],
+          "mesh_quality": {
+            "element_volume_maximum": 0.00016276041666666682,
+            "element_volume_minimum": 0.00016276041666666666,
+            "element_volume_ratio": 1.000000000000001,
+            "reference_jacobian_maximum": 0.0009765625000000009,
+            "reference_jacobian_minimum": 0.0009765625
+          },
+          "newton_iterations": 42,
+          "nodes": 1377,
+          "representative_stress_sigma_xx": 2.232763692769847,
+          "semantic_digest": "b1da6478a9c9bceeb8ca1499dd05e634284417c3073d867f875eb2e43b2c2585",
+          "strain_energy": 3.806562361837957e-06,
+          "stress_contributing_elements": 80,
+          "stress_contributing_volume": 0.01302083333333334,
+          "tip_displacement": -0.00015226250434100368,
+          "total_load": [
+            0.0,
+            -0.05,
+            0.0
+          ]
+        },
+        "reaction_relative_error": 3.384021633463905e-11
+      },
+      "0.01": {
+        "displacement_relative_error": 0.0002103223663366053,
+        "linear_reaction_resultant": [
+          -4.652667140447875e-12,
+          0.500000000006714,
+          -1.3162360090746006e-11
+        ],
+        "multiplier": 0.01,
+        "nonlinear": {
+          "accepted_load_factors": [
+            0.08333333333333333,
+            0.16666666666666666,
+            0.25,
+            0.3333333333333333,
+            0.4166666666666667,
+            0.5,
+            0.5833333333333334,
+            0.6666666666666666,
+            0.75,
+            0.8333333333333334,
+            0.9166666666666666,
+            1.0
+          ],
+          "accepted_state_digest": "57ee475bae79a58016d4026f99332629e3570e1be8cff95c72385a4d49a0ac0b",
+          "cells": [
+            16,
+            8,
+            8
+          ],
+          "dofs": 4131,
+          "elements": 6144,
+          "envelope": {
+            "maximum_green_lagrange_norm": 7.663186384951527e-05,
+            "maximum_principal_stretch": 1.0000733606207992,
+            "minimum_det_f": 0.9999533816298903,
+            "minimum_principal_stretch": 0.9999300366220323
+          },
+          "equilibrium": {
+            "external_moment": [
+              0.12501194564941967,
+              0.0,
+              -1.999999655243852
+            ],
+            "external_resultant": [
+              0.0,
+              -0.5000000000000011,
+              0.0
+            ],
+            "force_imbalance": [
+              8.23868750998713e-13,
+              -1.5543122344752192e-15,
+              8.326672684688674e-17
+            ],
+            "force_relative_error": 8.238702213892971e-13,
+            "moment_imbalance": [
+              -1.942890293094024e-16,
+              7.788214517745473e-14,
+              -3.674838211509268e-13
+            ],
+            "moment_relative_error": 1.8745726351536115e-13,
+            "reaction_moment": [
+              -0.12501194564941986,
+              7.788214517745473e-14,
+              1.9999996552434844
+            ],
+            "reaction_resultant": [
+              8.23868750998713e-13,
+              0.49999999999999956,
+              8.326672684688674e-17
+            ]
+          },
+          "final_relative_residual": 9.835477714169108e-11,
+          "intervals": 12,
+          "iteration_history": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            5,
+            4,
+            4,
+            5,
+            4,
+            4
+          ],
+          "level": "M2",
+          "load_multiplier": 0.01,
+          "loaded_face_average_displacement": [
+            -6.895122957101277e-07,
+            -0.0015226221929520137,
+            2.389129883944191e-05
+          ],
+          "mesh_quality": {
+            "element_volume_maximum": 0.00016276041666666682,
+            "element_volume_minimum": 0.00016276041666666666,
+            "element_volume_ratio": 1.000000000000001,
+            "reference_jacobian_maximum": 0.0009765625000000009,
+            "reference_jacobian_minimum": 0.0009765625
+          },
+          "newton_iterations": 50,
+          "nodes": 1377,
+          "representative_stress_sigma_xx": 22.327512885105854,
+          "semantic_digest": "75fdfa37128402636a8e592284171e81f0edd88b8e3bd9623921fc21f7fd80a4",
+          "strain_energy": 0.00038065527704372697,
+          "stress_contributing_elements": 80,
+          "stress_contributing_volume": 0.01302083333333334,
+          "tip_displacement": -0.001522622192952014,
+          "total_load": [
+            0.0,
+            -0.5,
+            0.0
+          ]
+        },
+        "reaction_relative_error": 3.151670155901703e-11
+      },
+      "0.1": {
+        "displacement_relative_error": 0.0021032698469771968,
+        "linear_reaction_resultant": [
+          -4.624300942168702e-11,
+          5.000000000066877,
+          -1.3174128454807033e-10
+        ],
+        "multiplier": 0.1,
+        "nonlinear": {
+          "accepted_load_factors": [
+            0.08333333333333333,
+            0.16666666666666666,
+            0.25,
+            0.3333333333333333,
+            0.4166666666666667,
+            0.5,
+            0.5833333333333334,
+            0.6666666666666666,
+            0.75,
+            0.8333333333333334,
+            0.9166666666666666,
+            1.0
+          ],
+          "accepted_state_digest": "eb5dae8a0a1fbdd6f3775aa9630fa0248e83cd1dc9812e6b9e9b727411700916",
+          "cells": [
+            16,
+            8,
+            8
+          ],
+          "dofs": 4131,
+          "elements": 6144,
+          "envelope": {
+            "maximum_green_lagrange_norm": 0.0007663432831608443,
+            "maximum_principal_stretch": 1.0007333973601047,
+            "minimum_det_f": 0.9995336222301872,
+            "minimum_principal_stretch": 0.9993001663857297
+          },
+          "equilibrium": {
+            "external_moment": [
+              1.2511945813628256,
+              0.0,
+              -19.99980884773413
+            ],
+            "external_resultant": [
+              0.0,
+              -5.0,
+              0.0
+            ],
+            "force_imbalance": [
+              4.884981308350689e-13,
+              3.552713678800501e-15,
+              -5.551115123125783e-16
+            ],
+            "force_relative_error": 9.770227300378029e-14,
+            "moment_imbalance": [
+              -2.220446049250313e-16,
+              5.131450819817474e-13,
+              6.039613253960852e-14
+            ],
+            "moment_relative_error": 2.5784196971691004e-14,
+            "reaction_moment": [
+              -1.2511945813628258,
+              5.131450819817474e-13,
+              19.99980884773419
+            ],
+            "reaction_resultant": [
+              4.884981308350689e-13,
+              5.0000000000000036,
+              -5.551115123125783e-16
+            ]
+          },
+          "final_relative_residual": 9.923623443940471e-11,
+          "intervals": 12,
+          "iteration_history": [
+            5,
+            5,
+            5,
+            5,
+            6,
+            5,
+            5,
+            6,
+            5,
+            5,
+            6,
+            5
+          ],
+          "level": "M2",
+          "load_multiplier": 0.1,
+          "loaded_face_average_displacement": [
+            -3.8230453175181176e-05,
+            -0.01522574276025915,
+            0.00023891627256511866
+          ],
+          "mesh_quality": {
+            "element_volume_maximum": 0.00016276041666666682,
+            "element_volume_minimum": 0.00016276041666666666,
+            "element_volume_ratio": 1.000000000000001,
+            "reference_jacobian_maximum": 0.0009765625000000009,
+            "reference_jacobian_minimum": 0.0009765625
+          },
+          "newton_iterations": 63,
+          "nodes": 1377,
+          "representative_stress_sigma_xx": 223.2564387365739,
+          "semantic_digest": "ffd69561348044d3be77b5971b2cf314c4e5a01077156564ccc879bd9ac8a903",
+          "strain_energy": 0.03806384060630888,
+          "stress_contributing_elements": 80,
+          "stress_contributing_volume": 0.01302083333333334,
+          "tip_displacement": -0.01522574276025915,
+          "total_load": [
+            0.0,
+            -5.0,
+            0.0
+          ]
+        },
+        "reaction_relative_error": 3.099131126076339e-11
+      }
+    }
+  },
+  "status": "EXECUTED_TARGETED",
+  "tested_numerical_source_sha": "48bfa83bc517e031cdab4876970a4f511f744e35",
+  "thresholds": {
+    "equilibrium_force_moment_relative": 1e-08,
+    "load_step_final_relative": 1e-08,
+    "maximum_green_lagrange_norm": 0.3,
+    "mesh_stress_relative": 0.1,
+    "mesh_tip_reaction_energy_relative": 0.02,
+    "minimum_det_f": 0.2,
+    "principal_stretches": [
+      0.75,
+      1.3
+    ],
+    "replay_absolute": 1e-14,
+    "replay_relative": 1e-12,
+    "small_load_displacement_reaction_relative": 0.0001
+  },
+  "work_package": "WP04-C"
+}

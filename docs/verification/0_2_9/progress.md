@@ -170,3 +170,26 @@ pending for later structural qualification phases. Current maturity remains
 `RESEARCH_ONLY`, historical WP13-11 evidence is unchanged, and no production
 numerical source was modified. The next permitted action is Owner review before
 WP04-C.
+
+## WP04-C TET4 structural qualification — HOLD
+
+WP04-C froze and executed a TET4-only structural cantilever campaign at
+`48bfa83bc517e031cdab4876970a4f511f744e35`. It uses a Total-Lagrangian StVK
+TET4 `4.0 x 0.5 x 0.5` cantilever with a mesh-independent distributed nodal
+dead load, direct force/reaction and deformed-coordinate moment balance,
+accepted-state load paths, and a stress sample away from clamp/load
+singularities. Small-load linear convergence, force/moment equilibrium,
+load-step stability, deterministic replay, deformation envelope, and explicit
+failure behavior pass.
+
+The frozen G04-10 mesh gate fails: M3 versus M2 changes are 16.40618103457515%
+in loaded-face transverse displacement, 16.379509145773455% in strain energy,
+and 24.310580151133324% in representative stress, versus frozen limits of 2%,
+2%, and 10%. The convergence trend is monotone but insufficient. WP04 is
+therefore **HOLD at 0/12**, the roadmap remains **29/100**, both element
+families remain `RESEARCH_ONLY`, and no production numerical source was
+changed. See [the WP04-C controlled record](wp04-c-tet4-structural-qualification.md).
+
+Owner direction is required before changing the frozen campaign, re-scoping
+WP04, or considering any numerical remediation. WP04-D and subsequent work
+must not start from this HOLD result.

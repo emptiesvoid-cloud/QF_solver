@@ -2,13 +2,13 @@
   "schema_version": 1,
   "record_id": "QF-SOLVER-0.2.9-WP04-DECOMPOSITION-001",
   "work_package": "WP04",
-  "status": "CONTRACT_PHASE",
+  "status": "HOLD_TET4_MESH_CONVERGENCE",
   "points": 12,
   "validated_points": 0,
   "phases": [
-    {"id": "WP04-A", "status": "CONTRACT_PHASE", "scope": "formulation audit, historical debt, bounded scope, gates and targeted baseline"},
-    {"id": "WP04-B", "status": "NOT_STARTED", "scope": "mechanics identities: objectivity, homogeneous patch, energy gradient, tangent, accepted-path energy/work observer"},
-    {"id": "WP04-C", "status": "NOT_STARTED", "scope": "TET4 bounded structural, load-step, mesh and replay campaign"},
+    {"id": "WP04-A", "status": "PASS", "scope": "formulation audit, historical debt, bounded scope, gates and targeted baseline"},
+    {"id": "WP04-B", "status": "PASS", "scope": "mechanics identities: objectivity, homogeneous patch, energy gradient, tangent, accepted-path energy/work observer"},
+    {"id": "WP04-C", "status": "HOLD_G04_10_MESH_CONVERGENCE", "scope": "TET4 bounded structural, load-step, mesh and replay campaign", "result": "M3-vs-M2 displacement 16.40618103457515%, energy 16.379509145773455%, stress 24.310580151133324%; frozen limits are 2%, 2%, 10%. Owner direction is required before any re-scope or remediation."},
     {"id": "WP04-D", "status": "NOT_STARTED", "scope": "HEX8 bounded structural, load-step, mesh and replay campaign"},
     {"id": "WP04-E", "status": "NOT_STARTED", "scope": "cross-family convergence, public-route evidence and claim-boundary audit"},
     {"id": "WP04-F", "status": "NOT_STARTED", "scope": "independent closure audit and Owner decision"}
