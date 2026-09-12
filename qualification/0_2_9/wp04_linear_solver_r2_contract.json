@@ -15,6 +15,7 @@
     "solution_relative_difference_vs_direct": 1e-08,
     "normwise_backward_error_eta_inf": 1e-10,
     "physical_observable_relative_difference": 1e-08,
+    "operational_krylov_acceptance": "backward_error_eta_inf <= normwise_backward_error_eta_inf; raw residual is diagnostic",
     "absolute_floor": 1e-14,
     "nonfinite_solution": "FAIL",
     "solver_reported_convergence": "REQUIRED",
