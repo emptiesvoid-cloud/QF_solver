@@ -95,6 +95,7 @@ def test_step_up_and_wp03_documents_are_present_and_status_is_explicit() -> None
             "wp04-geometric-qualification-contract.md",
             "wp04-b-mechanics-identities.md",
             "wp04-c-tet4-structural-qualification.md",
+            "wp04-c1-tet4-mesh-diagnosis.md",
     }
 
     assert {path.name for path in DOCS.glob("*.md")} == expected
@@ -187,7 +188,7 @@ def test_wp04_contract_freezes_a_two_family_bounded_qualification_without_promot
 
     assert progress["work_packages"]["WP04"] == {
         "points": 12,
-        "status": "HOLD_TET4_MESH_CONVERGENCE",
+        "status": "HOLD_TET4_MESH_CONVERGENCE_DIAGNOSED",
         "validated_points": 0,
     }
     assert progress["validated_points"] == 29
