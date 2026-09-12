@@ -41,7 +41,7 @@
     "preconditioners": ["none", "jacobi", "ilu_gmres_only"]
   },
   "selection_order": ["numerical_correctness", "robustness", "memory", "wall_time"],
-  "source_sha_before_candidates": "f929761776730eddd8b2aa09f8a83bf871e1cd7e",
+  "source_sha_before_candidates": "f7ccc9f527411e3c43c811eb2b0aa813d9cd21d6",
   "production_scope": {
     "petsc_dependency": false,
     "mechanics_formulation_changed": false,
