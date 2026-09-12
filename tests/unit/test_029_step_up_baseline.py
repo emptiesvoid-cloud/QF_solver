@@ -94,6 +94,7 @@ def test_step_up_and_wp03_documents_are_present_and_status_is_explicit() -> None
             "wp03-e-independent-closure.md",
             "wp04-geometric-qualification-contract.md",
             "wp04-b-mechanics-identities.md",
+            "wp04-c-tet4-structural-qualification.md",
     }
 
     assert {path.name for path in DOCS.glob("*.md")} == expected
@@ -186,7 +187,7 @@ def test_wp04_contract_freezes_a_two_family_bounded_qualification_without_promot
 
     assert progress["work_packages"]["WP04"] == {
         "points": 12,
-        "status": "MECHANICS_IDENTITIES",
+        "status": "HOLD_TET4_MESH_CONVERGENCE",
         "validated_points": 0,
     }
     assert progress["validated_points"] == 29
@@ -206,3 +207,11 @@ def test_wp04_contract_freezes_a_two_family_bounded_qualification_without_promot
     for gate in ("G04-02", "G04-03", "G04-04", "G04-05", "G04-08"):
         assert mechanics["gate_status"][gate]["status"] == "PASS"
     assert mechanics["scope"]["production_source_changed"] is False
+
+    structural = cast(dict[str, Any], _load("wp04_c_tet4_structural_summary.json"))
+    assert structural["status"] == "EXECUTED_TARGETED"
+    assert structural["baseline_sha"] == "48bfa83bc517e031cdab4876970a4f511f744e35"
+    assert structural["scope"]["production_source_changed"] is False
+    assert structural["qualification_checks"]["mesh_pass"] is False
+    assert structural["gate_status"]["G04-10"]["status"] == "FAIL"
+    assert structural["gate_status"]["G04-06"]["status"] == "PASS_TET4_PENDING_HEX8"

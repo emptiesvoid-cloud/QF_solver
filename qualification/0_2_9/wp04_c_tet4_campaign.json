@@ -1,0 +1,156 @@
+{
+  "record_kind": "WP04-C_TET4_BOUNDED_STRUCTURAL_QUALIFICATION_CAMPAIGN",
+  "record_version": 1,
+  "status": "FROZEN_BEFORE_RESULT_EXECUTION",
+  "frozen_at_commit": "48bfa83bc517e031cdab4876970a4f511f744e35",
+  "scope": {
+    "element_family": "TET4",
+    "analysis": "geometric_nonlinear_static",
+    "kinematics": "total_lagrangian",
+    "material_model": "saint_venant_kirchhoff",
+    "material_class": "homogeneous_isotropic_3d",
+    "execution": "serial_single_process",
+    "load_control": "full_newton_fixed_dead_load",
+    "excluded": [
+      "HEX8",
+      "TET10",
+      "HEX20",
+      "contact",
+      "friction",
+      "arc_length",
+      "postbuckling_qualification",
+      "J2_plus_geometry",
+      "follower_loads",
+      "updated_lagrangian",
+      "corotational",
+      "general_hyperelasticity",
+      "near_incompressible_universal_claims",
+      "nonlinear_dynamics",
+      "distributed_PETSc_MPI"
+    ]
+  },
+  "benchmark": {
+    "geometry": {
+      "kind": "rectangular_cantilever_solid",
+      "length_x": 4.0,
+      "height_y": 0.5,
+      "depth_z": 0.5,
+      "origin": [0.0, 0.0, 0.0]
+    },
+    "material": {
+      "young_modulus": 1000000.0,
+      "poisson_ratio": 0.3,
+      "density": 1.0
+    },
+    "boundary_conditions": {
+      "fixed_face": "x == 0",
+      "fixed_components": ["ux", "uy", "uz"]
+    },
+    "load": {
+      "kind": "distributed_nodal_dead_load",
+      "loaded_face": "x == L",
+      "total_vector": [0.0, -50.0, 0.0],
+      "distribution": "equal_over_all_loaded_face_nodes",
+      "load_total_is_mesh_independent": true
+    },
+    "newton": {
+      "relative_tolerance": 1e-10,
+      "absolute_tolerance": 1e-12,
+      "maximum_iterations": 40,
+      "line_search": false
+    }
+  },
+  "mesh_generator": {
+    "kind": "deterministic_structured_hexahedral_cells_split_into_six_conforming_tetrahedra",
+    "coordinate_order": "x_then_y_then_z",
+    "tetrahedralization": "fixed_positive_orientation_six_tet_body_diagonal_pattern",
+    "mesh_levels": {
+      "M1": {"cells": [8, 4, 4], "expected_nodes": 225, "expected_tetrahedra": 768},
+      "M2": {"cells": [16, 8, 8], "expected_nodes": 1377, "expected_tetrahedra": 6144},
+      "M3": {"cells": [24, 12, 12], "expected_nodes": 4225, "expected_tetrahedra": 20736}
+    }
+  },
+  "qualification_envelope": {
+    "minimum_det_F": 0.2,
+    "principal_stretch_interval": [0.75, 1.3],
+    "maximum_green_lagrange_frobenius_norm": 0.3,
+    "finite_values_required": true
+  },
+  "observables": {
+    "loaded_face_average_displacement": true,
+    "loaded_face_transverse_tip_displacement": "average_uy_on_x_equals_L",
+    "total_strain_energy": true,
+    "external_resultant": true,
+    "reaction_resultant": true,
+    "external_moment_about_global_origin": true,
+    "reaction_moment_about_global_origin": true,
+    "minimum_det_F": true,
+    "maximum_green_lagrange_norm": true,
+    "principal_stretch_extrema": true,
+    "newton_iterations": true,
+    "accepted_load_factors": true,
+    "final_free_dof_residual": true,
+    "representative_cauchy_stress": "volume_weighted_sigma_xx_in_frozen_region"
+  },
+  "stress_sampling_region": {
+    "reference_coordinate_predicate": "0.40 <= x/L <= 0.60 and 0.75 <= y/H <= 0.90 and 0.25 <= z/D <= 0.75",
+    "selection": "tetrahedron_reference_centroid",
+    "quantity": "volume_weighted_cauchy_sigma_xx",
+    "singularity_exclusions": ["clamped_face", "loaded_face", "clamped_face_edges", "loaded_face_edges"],
+    "must_have_positive_contributing_volume": true
+  },
+  "campaigns": {
+    "mesh_convergence": {
+      "levels": ["M1", "M2", "M3"],
+      "load_steps": 12,
+      "fine_vs_medium_limits": {
+        "tip_displacement_relative": 0.02,
+        "reaction_relative": 0.02,
+        "strain_energy_relative": 0.02,
+        "representative_stress_relative": 0.1
+      },
+      "trend_requirement": "coarse_to_medium_to_fine trend must be recorded; oscillation is a qualification flag"
+    },
+    "small_displacement_limit": {
+      "mesh": "M2",
+      "load_multipliers": [0.1, 0.01, 0.001],
+      "linear_reference": "same_TET4_mesh_zero_displacement_total_lagrangian_tangent_reduced_with_identical_BC_and_dead_load",
+      "smallest_load_limits": {
+        "displacement_relative": 0.0001,
+        "reaction_relative": 0.0001
+      }
+    },
+    "load_step_stability": {
+      "mesh": "M2",
+      "accepted_step_counts": [6, 12, 24, 48],
+      "reference_steps": 48,
+      "relative_limit": 1e-8,
+      "absolute_floor": 1e-12
+    },
+    "replay": {
+      "mesh": "M2",
+      "load_steps": 12,
+      "runs": 3,
+      "relative_limit": 1e-12,
+      "absolute_limit": 1e-14,
+      "compare": ["displacement", "reactions", "strain_energy", "representative_stress", "accepted_load_factors", "newton_iteration_history", "det_F_extrema", "status", "semantic_digest"]
+    },
+    "failure_sanity": {
+      "cases": ["inverted_reference_tet4", "invalid_material", "unconstrained_model", "impossible_convergence", "nonfinite_state"],
+      "requirement": "explicit_deterministic_failure_without_silent_NaN_or_Inf_success"
+    }
+  },
+  "global_equilibrium": {
+    "force_relative_limit": 1e-8,
+    "moment_relative_limit": 1e-8,
+    "force_definition": "sum(applied_nodal_dead_loads) + sum(reaction_forces_at_fixed_dofs)",
+    "moment_definition": "sum(x_cross_applied_load) + sum(x_cross_reaction_force), about [0, 0, 0]"
+  },
+  "raw_evidence_contract": {
+    "summary_json": "qualification/0_2_9/wp04_c_tet4_structural_summary.json",
+    "raw_npz": "qualification/0_2_9/wp04_c_tet4_structural_raw.npz",
+    "no_object_arrays": true,
+    "must_record": ["mesh_descriptors", "loads", "BC_descriptors", "displacements", "reactions", "energies", "stress_sampling", "det_F_extrema", "accepted_load_paths", "iteration_histories", "mesh_metrics", "load_step_metrics", "replay_digests", "environment", "exact_SHA"]
+  },
+  "change_control": "This record is frozen before WP04-C result execution. Any campaign modification requires Owner review and a new record version."
+}
