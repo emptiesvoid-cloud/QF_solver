@@ -13,7 +13,7 @@ applicable_version: 0.2.9-development
 | WP01 | 12 | **Closed** — Owner-approved unified nonlinear core |
 | WP02 | 6 | **Closed** — 6/6; independent WP02-E audit `GO_WITH_LIMITATIONS` |
 | WP03 | 7 | **Closed** — 7/7; independent WP03-E audit `GO_WITH_LIMITATIONS` |
-| WP04 | 12 | **HOLD — TET4 mesh convergence diagnosed** — 0/12; G04-10 remains failed |
+| WP04 | 12 | **HOLD — C2 resource limit** — 0/12; G04-10 unresolved |
 | WP05–WP08 | 31 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
@@ -210,3 +210,13 @@ roadmap remains 29/100. See [the WP04-C1 diagnosis](wp04-c1-tet4-mesh-diagnosis.
 
 The recommended next action is Owner review of a separately frozen C2
 finer-mesh requalification campaign; WP04-D remains unauthorized.
+
+## WP04-C2 finer-mesh requalification
+
+WP04-C2 froze the same benchmark at `715bdd655601508170d60c4715a53d658890bdb2`
+with required meshes 32x16x16, 48x24x24 and 64x32x32. The unchanged direct
+sparse route completed the first two linear levels but remained active on the
+64-level preflight after at least 5,976 CPU seconds and approximately 5.42 GB
+private memory; the run was interrupted. No nonlinear C2 result was started.
+Therefore G04-10 is `UNRESOLVED_RESOURCE_LIMIT`, not PASS, WP04 remains 0/12,
+and Owner direction is required. See [the WP04-C2 record](wp04-c2-tet4-requalification.md).

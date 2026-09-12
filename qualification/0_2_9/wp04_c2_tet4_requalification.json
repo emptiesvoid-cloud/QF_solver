@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP04-C2-TET4-REQUALIFICATION-001",
+  "work_package": "WP04-C2",
+  "status": "UNRESOLVED_RESOURCE_LIMIT",
+  "contract": "qualification/0_2_9/wp04_c2_tet4_requalification_contract.json",
+  "contract_status": "FROZEN_BEFORE_RESULT_EXECUTION",
+  "start_sha": "715bdd655601508170d60c4715a53d658890bdb2",
+  "historical_wp04_c": {"status": "FAIL", "hold_sha": "a5c3031f6b28b00476e328daff4845a741a5c161"},
+  "wp04_c1_diagnosis": {"value": "SLOW_TET4_DISCRETIZATION_CONVERGENCE", "sha": "f52465b008f0171c26386a7e24824f5d1cc9d807"},
+  "benchmark_unchanged": true,
+  "linear_preflight": {
+    "levels": ["C2-M1", "C2-M2", "C2-M3"],
+    "completed_levels": ["C2-M1", "C2-M2"],
+    "incomplete_level": "C2-M3",
+    "completed_values_source": "WP04-C1 same benchmark linear M4/M5 diagnostic evidence",
+    "tip_displacement": [-0.18838258531927454, -0.1973397994637573, null],
+    "strain_energy": [4.709564632981863, 4.933494986593932, null],
+    "representative_stress_sigma_xx": [5547.193990208701, 5972.3996733157755, null],
+    "successive_relative_deltas": {"tip_displacement": [0.062393392218991275, null], "strain_energy": [0.04754799457339393, null], "representative_stress": [0.07665239107512761, null]}
+  },
+  "nonlinear": {"levels": ["C2-M1", "C2-M2", "C2-M3"], "completed_levels": [], "status": "NOT_STARTED_BECAUSE_REQUIRED_LINEAR_C2_M3_DID_NOT_COMPLETE"},
+  "resource_observation": {"private_memory_bytes_observed": 5424697344, "cpu_seconds_observed": 5976.05, "process_outcome": "user_interrupted_while_C2_M3_linear_sparse_solve_remained_active", "optional_C2_M4": "NOT_ATTEMPTED"},
+  "final_pair": null,
+  "G04-10": "UNRESOLVED_RESOURCE_LIMIT",
+  "thresholds_unchanged": {"displacement": 0.02, "reaction": 0.02, "energy": 0.02, "representative_stress": 0.1},
+  "production_source_changed": false,
+  "numerical_formulation_changed": false,
+  "maturity_changed": false,
+  "full_test_suite_run": false,
+  "limitations": ["Required C2-M3 linear preflight did not complete on the existing direct sparse route; no nonlinear C2 qualification result exists.", "The C2 decision is unresolved, not a pass or relaxed-threshold qualification.", "WP04-C original failure remains immutable."]
+}

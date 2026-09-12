@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "release": "0.2.9",
-  "status": "WP04_HOLD_TET4_MESH_CONVERGENCE_DIAGNOSED",
+  "status": "WP04_HOLD_TET4_C2_RESOURCE_LIMIT",
   "work_packages": {
     "WP00": {"points": 4, "status": "CLOSED", "validated_points": 4},
     "WP01": {"points": 12, "status": "CLOSED", "validated_points": 12},
     "WP02": {"points": 6, "status": "CLOSED", "validated_points": 6},
     "WP03": {"points": 7, "status": "CLOSED", "validated_points": 7},
-    "WP04": {"points": 12, "status": "HOLD_TET4_MESH_CONVERGENCE_DIAGNOSED", "validated_points": 0},
+    "WP04": {"points": 12, "status": "HOLD_TET4_C2_RESOURCE_LIMIT", "validated_points": 0},
     "WP05": {"points": 5, "status": "NOT_STARTED", "validated_points": 0},
     "WP06": {"points": 8, "status": "NOT_STARTED", "validated_points": 0},
     "WP07": {"points": 10, "status": "NOT_STARTED", "validated_points": 0},
@@ -21,5 +21,5 @@
   },
   "validated_points": 29,
   "total_points": 100,
-  "next_gate": "Owner direction is required after WP04-C1 diagnosed the frozen WP04-C TET4 mesh-convergence failure as slow TET4 discretization convergence/pre-asymptotic mesh range. WP04 remains at 0/12 and the validated total remains 29/100. G04-10 remains FAIL_UNDER_REMEDIATION; no maturity claim changes and WP04-D remains unauthorized. The recommended next action is an Owner-approved, separately frozen C2 finer-mesh requalification campaign, or a no-go decision for the current TET4 scope. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
+  "next_gate": "WP04-C2 was frozen and attempted, but the required 64x32x32 linear preflight remained active for at least 5,976 CPU seconds with approximately 5.42 GB private memory before user interruption. No nonlinear C2 result exists. G04-10 is UNRESOLVED_RESOURCE_LIMIT; WP04 remains 0/12 and 29/100. TET4 and HEX8 remain RESEARCH_ONLY, WP04-D is unauthorized, and Owner direction is required for a resource-capable requalification or scope decision. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
 }
