@@ -25,6 +25,7 @@ from solveur.core.nonlinear.iteration import (
 from solveur.core.nonlinear.controls import AdaptiveLoadControls
 from solveur.core.nonlinear.robustness import NonlinearRobustnessOptions
 from solveur.core.nonlinear.state import NonlinearState
+from solveur.core.nonlinear.telemetry import NonlinearTelemetryObserver
 from solveur.core.model import FiniteElementModel
 from solveur.core.results import SolveResult
 from solveur.elements.solid.tet4_total_lagrangian_batch import TotalLagrangianTet4Assembly
@@ -260,6 +261,7 @@ def _newton_dead_load(
     initial_state: NonlinearState | None = None,
     target_load_factors: list[float] | None = None,
     accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
+    telemetry_observer: NonlinearTelemetryObserver | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
     if fixed.size == 0:
         raise MeshValidationError("geometric_nonlinear_static requires constrained dofs.")
@@ -275,6 +277,7 @@ def _newton_dead_load(
             initial_state=initial_state,
             target_load_factors=target_load_factors,
             accepted_state_callback=accepted_state_callback,
+            telemetry_observer=telemetry_observer,
         )
     else:
         displacement, diagnostics = solve_adaptive_full_newton(

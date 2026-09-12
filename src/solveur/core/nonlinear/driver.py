@@ -16,6 +16,12 @@ from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.core.nonlinear.robustness import UnifiedNonlinearRobustnessController
 from solveur.core.nonlinear.state import NonlinearState, NonlinearStateTransaction
+from solveur.core.nonlinear.telemetry import (
+    NonlinearTelemetryObserver,
+    emit_telemetry,
+    process_memory_bytes,
+    telemetry_event,
+)
 from solveur.core.nonlinear.support import _failure_reason_value
 
 
@@ -432,6 +438,7 @@ class UnifiedNewtonEngine:
         stagnation_check: bool = True,
         robustness_controller: UnifiedNonlinearRobustnessController | None = None,
         accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
+        telemetry_observer: NonlinearTelemetryObserver | None = None,
     ) -> UnifiedNewtonResult:
         """Solve the requested fixed load factors through one transaction lifecycle."""
 
@@ -484,14 +491,49 @@ class UnifiedNewtonEngine:
                     assembly_failure_reason=assembly_failure_reason,
                     nonfinite_failure_reason=nonfinite_failure_reason,
                     robustness_controller=policy,
+                    telemetry_observer=telemetry_observer,
                 )
                 if accepted_state_callback is not None:
                     accepted_state_callback(step, transaction.accepted_state.detached_copy())
+                emit_telemetry(
+                    telemetry_observer,
+                    telemetry_event(
+                        "STEP_ACCEPTED",
+                        load_step=step,
+                        target_load_factor=load_factor,
+                        current_load_factor=transaction.accepted_state.load_factor,
+                        iterations=step_result["iterations"],
+                        step_wall_time_s=step_result["assembly_seconds"]
+                        + step_result["linear_solve_seconds"]
+                        + step_result["line_search_seconds"],
+                        matrix_nnz=(step_result["linear_system_diagnostics"][-1].get("matrix_nnz")
+                                    if step_result["linear_system_diagnostics"] else None),
+                        status="ACCEPTED",
+                    ),
+                )
                 history.append(step_result)
                 total_iterations += step_iterations
-            except NumericalConvergenceError:
+            except NumericalConvergenceError as exc:
                 if transaction.trial_state is not None:
                     transaction.rollback()
+                emit_telemetry(
+                    telemetry_observer,
+                    telemetry_event(
+                        "STEP_FAILED",
+                        load_step=step,
+                        target_load_factor=load_factor,
+                        current_load_factor=transaction.accepted_state.load_factor,
+                        reason=exc.reason.value if exc.reason is not None else None,
+                        residual=exc.diagnostics.get("final_relative_residual"),
+                        iteration=exc.diagnostics.get("iteration"),
+                        line_search_state=exc.diagnostics.get("line_search"),
+                        status="FAILED",
+                    ),
+                )
+                emit_telemetry(
+                    telemetry_observer,
+                    telemetry_event("SOLVE_FAILED", load_step=step, reason=exc.reason.value if exc.reason else None, status="FAILED"),
+                )
                 raise
             except (TypeError, ValueError, FloatingPointError) as exc:
                 if transaction.trial_state is not None:
@@ -503,6 +545,16 @@ class UnifiedNewtonEngine:
                 ) from exc
 
         accepted = transaction.accepted_state.detached_copy()
+        emit_telemetry(
+            telemetry_observer,
+            telemetry_event(
+                "SOLVE_COMPLETED",
+                load_step=len(factors),
+                current_load_factor=accepted.load_factor,
+                newton_iterations=total_iterations,
+                status="COMPLETED",
+            ),
+        )
         return UnifiedNewtonResult(
             state=accepted,
             diagnostics={
@@ -538,6 +590,7 @@ class UnifiedNewtonEngine:
         assembly_failure_reason: AssemblyFailureReason | None,
         nonfinite_failure_reason: NonFiniteFailureReason | None,
         robustness_controller: UnifiedNonlinearRobustnessController,
+        telemetry_observer: NonlinearTelemetryObserver | None,
     ) -> tuple[dict[str, Any], int]:
         trial = transaction.trial_state
         if trial is None:
@@ -568,6 +621,7 @@ class UnifiedNewtonEngine:
             return details
 
         for iteration in range(1, max_iterations + 1):
+            iteration_started = perf_counter()
             assembly_started = perf_counter()
             try:
                 responses = tuple(contribution.evaluate(trial) for contribution in contributions)
@@ -594,7 +648,8 @@ class UnifiedNewtonEngine:
                     diagnostics=diagnostics,
                 ) from exc
             finally:
-                assembly_seconds += perf_counter() - assembly_started
+                assembly_elapsed = perf_counter() - assembly_started
+                assembly_seconds += assembly_elapsed
 
             if composite.failure_reason is not None:
                 diagnostics = self._failure_diagnostics(
@@ -649,6 +704,35 @@ class UnifiedNewtonEngine:
                     finalize_trial_state(trial, composite)
                 trial.load_factor = load_factor
                 transaction.commit()
+                rss_bytes, private_bytes = process_memory_bytes()
+                emit_telemetry(
+                    telemetry_observer,
+                    telemetry_event(
+                        "ITERATION",
+                        load_step=step,
+                        target_load_factor=load_factor,
+                        current_load_factor=load_factor,
+                        newton_iteration=iteration,
+                        residual_norm=residual_norm,
+                        relative_residual=relative,
+                        correction_norm=0.0,
+                        line_search_alpha=1.0,
+                        line_search_iterations=0,
+                        assembly_time_s=assembly_elapsed,
+                        linear_solve_time_s=0.0,
+                        iteration_wall_time_s=perf_counter() - iteration_started,
+                        matrix_shape=None,
+                        matrix_nnz=None,
+                        linear_backend=None,
+                        linear_method=None,
+                        krylov_iterations=0,
+                        linear_relative_residual=None,
+                        fallback_used=False,
+                        RSS_bytes=rss_bytes,
+                        private_or_USS_bytes=private_bytes,
+                        status="CONVERGED",
+                    ),
+                )
                 return (
                     {
                         "increment": step,
@@ -686,11 +770,10 @@ class UnifiedNewtonEngine:
                     diagnostics=diagnostics,
                 )
 
+            reduced_tangent = composite.tangent[free, :][:, free]
             linear_started = perf_counter()
             try:
-                correction, solve_diagnostics = linear_solve(
-                    composite.tangent[free, :][:, free], residual[free]
-                )
+                correction, solve_diagnostics = linear_solve(reduced_tangent, residual[free])
             except NumericalConvergenceError as exc:
                 diagnostics = self._failure_diagnostics(
                     failure_diagnostics,
@@ -703,11 +786,41 @@ class UnifiedNewtonEngine:
                 )
                 diagnostics.update(exc.diagnostics)
                 add_robustness_diagnostics(diagnostics)
+                rss_bytes, private_bytes = process_memory_bytes()
+                emit_telemetry(
+                    telemetry_observer,
+                    telemetry_event(
+                        "ITERATION",
+                        load_step=step,
+                        target_load_factor=load_factor,
+                        current_load_factor=transaction.accepted_state.load_factor,
+                        newton_iteration=iteration,
+                        residual_norm=residual_norm,
+                        relative_residual=relative,
+                        correction_norm=None,
+                        line_search_alpha=None,
+                        line_search_iterations=line_search_iterations,
+                        assembly_time_s=assembly_elapsed,
+                        linear_solve_time_s=perf_counter() - linear_started,
+                        iteration_wall_time_s=perf_counter() - iteration_started,
+                        matrix_shape=list(reduced_tangent.shape),
+                        matrix_nnz=int(reduced_tangent.nnz),
+                        linear_backend=exc.diagnostics.get("linear_backend"),
+                        linear_method=exc.diagnostics.get("linear_method"),
+                        krylov_iterations=exc.diagnostics.get("krylov_iterations"),
+                        linear_relative_residual=exc.diagnostics.get("linear_relative_residual"),
+                        fallback_used=exc.diagnostics.get("fallback_used", False),
+                        RSS_bytes=rss_bytes,
+                        private_or_USS_bytes=private_bytes,
+                        status="LINEAR_FAILED",
+                    ),
+                )
                 raise NumericalConvergenceError(
                     str(exc), reason=exc.reason, diagnostics=diagnostics
                 ) from exc
             finally:
-                linear_solve_seconds += perf_counter() - linear_started
+                linear_elapsed = perf_counter() - linear_started
+                linear_solve_seconds += linear_elapsed
             if solve_diagnostics is not None:
                 linear_diagnostics.append(dict(solve_diagnostics))
             correction = np.asarray(correction, dtype=float)
@@ -728,6 +841,7 @@ class UnifiedNewtonEngine:
                 )
 
             before_displacement = trial.displacement[free].copy()
+            line_diagnostics: Mapping[str, Any] | None = None
             if line_search is None:
                 trial.displacement[free] += correction
                 reductions = 0
@@ -767,6 +881,39 @@ class UnifiedNewtonEngine:
                         line_search_factors.append(float(factor))
             correction_norms.append(float(np.linalg.norm(trial.displacement[free] - before_displacement)))
             line_search_iterations += int(reductions)
+            rss_bytes, private_bytes = process_memory_bytes()
+            effective_alpha = 1.0
+            if line_diagnostics is not None:
+                effective_alpha = float(line_diagnostics.get("factor", 1.0))
+            diagnostics_values = dict(solve_diagnostics or {})
+            emit_telemetry(
+                telemetry_observer,
+                telemetry_event(
+                    "ITERATION",
+                    load_step=step,
+                    target_load_factor=load_factor,
+                    current_load_factor=transaction.accepted_state.load_factor,
+                    newton_iteration=iteration,
+                    residual_norm=residual_norm,
+                    relative_residual=relative,
+                    correction_norm=correction_norms[-1],
+                    line_search_alpha=effective_alpha,
+                    line_search_iterations=reductions,
+                    assembly_time_s=assembly_elapsed,
+                    linear_solve_time_s=linear_elapsed,
+                    iteration_wall_time_s=perf_counter() - iteration_started,
+                    matrix_shape=diagnostics_values.get("matrix_shape", list(reduced_tangent.shape)),
+                    matrix_nnz=diagnostics_values.get("matrix_nnz", int(reduced_tangent.nnz)),
+                    linear_backend=diagnostics_values.get("linear_backend"),
+                    linear_method=diagnostics_values.get("linear_method"),
+                    krylov_iterations=diagnostics_values.get("krylov_iterations"),
+                    linear_relative_residual=diagnostics_values.get("linear_relative_residual"),
+                    fallback_used=diagnostics_values.get("fallback_used", False),
+                    RSS_bytes=rss_bytes,
+                    private_or_USS_bytes=private_bytes,
+                    status="ITERATION",
+                ),
+            )
 
         diagnostics = self._failure_diagnostics(
             failure_diagnostics,

@@ -20,6 +20,16 @@ from solveur.core.nonlinear.controls import AdaptiveLoadControls, ArcLengthContr
 
 _PARAMETER_KEYS = {
     "experimental_linear_solver",
+    "experimental_linear_preconditioner",
+    "experimental_linear_assume_spd",
+    "experimental_linear_rtol",
+    "experimental_linear_atol",
+    "experimental_linear_maxiter",
+    "experimental_linear_residual_tolerance",
+    "experimental_linear_absolute_floor",
+    "experimental_linear_symmetry_tolerance",
+    "experimental_linear_direct_fallback",
+    "experimental_jacobi_diagonal_floor",
     "experimental_linear_permutation",
     "experimental_system_scaling",
     "experimental_residual_scaling",
@@ -1032,6 +1042,16 @@ class NonlinearRobustnessOptions:
     """Validated, opt-in controls used only by robustness experiments."""
 
     linear_solver: str = "spsolve"
+    linear_preconditioner: str = "none"
+    linear_assume_spd: bool = False
+    linear_rtol: float = 1.0e-10
+    linear_atol: float = 1.0e-14
+    linear_maxiter: int = 10_000
+    linear_residual_tolerance: float = 1.0e-10
+    linear_absolute_floor: float = 1.0e-14
+    linear_symmetry_tolerance: float = 1.0e-12
+    linear_direct_fallback: bool = True
+    jacobi_diagonal_floor: float = 1.0e-14
     linear_permutation: str = "COLAMD"
     system_scaling: str = "none"
     residual_scaling: str = "none"
@@ -1047,6 +1067,20 @@ class NonlinearRobustnessOptions:
             return None
         options = cls(
             linear_solver=str(parameters.get("experimental_linear_solver", "spsolve")).lower(),
+            linear_preconditioner=str(parameters.get("experimental_linear_preconditioner", "none")).lower(),
+            linear_assume_spd=bool(parameters.get("experimental_linear_assume_spd", False)),
+            linear_rtol=float(cast(Any, parameters.get("experimental_linear_rtol", 1.0e-10))),
+            linear_atol=float(cast(Any, parameters.get("experimental_linear_atol", 1.0e-14))),
+            linear_maxiter=int(cast(Any, parameters.get("experimental_linear_maxiter", 10_000))),
+            linear_residual_tolerance=float(
+                cast(Any, parameters.get("experimental_linear_residual_tolerance", 1.0e-10))
+            ),
+            linear_absolute_floor=float(cast(Any, parameters.get("experimental_linear_absolute_floor", 1.0e-14))),
+            linear_symmetry_tolerance=float(
+                cast(Any, parameters.get("experimental_linear_symmetry_tolerance", 1.0e-12))
+            ),
+            linear_direct_fallback=bool(parameters.get("experimental_linear_direct_fallback", True)),
+            jacobi_diagonal_floor=float(cast(Any, parameters.get("experimental_jacobi_diagonal_floor", 1.0e-14))),
             linear_permutation=str(parameters.get("experimental_linear_permutation", "COLAMD")).upper(),
             system_scaling=str(parameters.get("experimental_system_scaling", "none")).lower(),
             residual_scaling=str(parameters.get("experimental_residual_scaling", "none")).lower(),
@@ -1059,8 +1093,22 @@ class NonlinearRobustnessOptions:
         return options
 
     def validate(self) -> None:
-        if self.linear_solver not in {"spsolve", "splu"}:
-            raise ValueError("experimental_linear_solver must be 'spsolve' or 'splu'.")
+        if self.linear_solver not in {"spsolve", "splu", "direct", "auto", "cg", "minres", "gmres"}:
+            raise ValueError("experimental_linear_solver is not a supported nonlinear linear method.")
+        if self.linear_preconditioner not in {"none", "jacobi"}:
+            raise ValueError("experimental_linear_preconditioner must be 'none' or 'jacobi'.")
+        for name, value in (
+            ("experimental_linear_rtol", self.linear_rtol),
+            ("experimental_linear_atol", self.linear_atol),
+            ("experimental_linear_residual_tolerance", self.linear_residual_tolerance),
+            ("experimental_linear_absolute_floor", self.linear_absolute_floor),
+            ("experimental_linear_symmetry_tolerance", self.linear_symmetry_tolerance),
+            ("experimental_jacobi_diagonal_floor", self.jacobi_diagonal_floor),
+        ):
+            if not isfinite(value) or value <= 0.0:
+                raise ValueError(f"{name} must be finite and positive.")
+        if self.linear_maxiter < 1:
+            raise ValueError("experimental_linear_maxiter must be positive.")
         if self.linear_permutation not in _PERMUTATIONS:
             raise ValueError("experimental_linear_permutation is not a supported SciPy permutation.")
         if self.system_scaling not in {"none", "symmetric_diagonal"}:
@@ -1081,6 +1129,16 @@ class NonlinearRobustnessOptions:
     def to_dict(self) -> dict[str, Any]:
         return {
             "linear_solver": self.linear_solver,
+            "linear_preconditioner": self.linear_preconditioner,
+            "linear_assume_spd": self.linear_assume_spd,
+            "linear_rtol": self.linear_rtol,
+            "linear_atol": self.linear_atol,
+            "linear_maxiter": self.linear_maxiter,
+            "linear_residual_tolerance": self.linear_residual_tolerance,
+            "linear_absolute_floor": self.linear_absolute_floor,
+            "linear_symmetry_tolerance": self.linear_symmetry_tolerance,
+            "linear_direct_fallback": self.linear_direct_fallback,
+            "jacobi_diagonal_floor": self.jacobi_diagonal_floor,
             "linear_permutation": self.linear_permutation,
             "system_scaling": self.system_scaling,
             "residual_scaling": self.residual_scaling,
