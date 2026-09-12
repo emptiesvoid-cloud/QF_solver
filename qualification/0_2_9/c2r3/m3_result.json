@@ -1,0 +1,202 @@
+{
+  "accepted_records": [
+    {
+      "component_digests": {
+        "accepted_increment_metadata": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "contact_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "continuation_state": "6ade9d4114d241a49aa4b0b9d5ca96beefde4b32d67f7827132ab2acbd61a222",
+        "displacement": "a65ea394c74b286b0b6206789b5e44e14549672e5f75596aeac7ed46e01adbb0",
+        "load_factor": "263803306d10fe26bee45674fc13d3c28437f549f3e842a3c0416dd9852f3b0f",
+        "material_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+      },
+      "digest": "1fdd905759ad39bafa9f829c4a85e7423da7d9dbb07501c6abd89300c83c361c",
+      "load_factor": 0.08333333333333333,
+      "step": 1
+    },
+    {
+      "component_digests": {
+        "accepted_increment_metadata": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "contact_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "continuation_state": "6ade9d4114d241a49aa4b0b9d5ca96beefde4b32d67f7827132ab2acbd61a222",
+        "displacement": "e9eca5ca355ed9f4facb75a3ed685fc8e70071f910d15e1e7d0cbbac30cf6758",
+        "load_factor": "999df7eb6e16ddf4b6f441bfed3f34faa5b9114e617f7b84db8564367a576e26",
+        "material_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+      },
+      "digest": "de3c1991d5f3df67920b7b05bb7f6b404f6f9647e25278653cd36ab8bc6742d7",
+      "load_factor": 0.16666666666666666,
+      "step": 2
+    },
+    {
+      "component_digests": {
+        "accepted_increment_metadata": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "contact_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+        "continuation_state": "6ade9d4114d241a49aa4b0b9d5ca96beefde4b32d67f7827132ab2acbd61a222",
+        "displacement": "2396f995a91638318e07f7f4886087a048cad7de8e9ac44a0b71dc768e2e64f1",
+        "load_factor": "cb941e704b0f68bcf0e5fc7df2a04e574ebadefa32351b7b609530fa08c09bd7",
+        "material_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+      },
+      "digest": "b3ef6c9c2eb7c14f7cd84ddec244fb3548719cd6fd8fc4deab7c16d737c630fc",
+      "load_factor": 0.25,
+      "step": 3
+    }
+  ],
+  "case": "C2-M3",
+  "cpu_time_s": 1530.734375,
+  "ended_timestamp": "2026-09-12T21:39:27.811917+00:00",
+  "expected_route": {
+    "atol": 1e-14,
+    "direct_fallback": false,
+    "increments": 12,
+    "line_search": "off",
+    "linear_solver": "minres",
+    "max_newton_iterations": 40,
+    "maxiter": 10000,
+    "newton_tolerance": 1e-10,
+    "preconditioner": "jacobi",
+    "rtol": 1e-11
+  },
+  "failing_system_capture": null,
+  "failure": {
+    "diagnostics": {
+      "backend": "scipy.sparse.linalg.spsolve",
+      "iterations": 9,
+      "line_search_iterations": 0,
+      "relative_residual": 1.064613218250954e-10,
+      "relative_residual_status": "COMPUTED",
+      "residual_final": 1.064613218250954e-10,
+      "residual_history": [
+        0.1262626262624994,
+        1.7540429539646691,
+        3.923652573454652e-05,
+        1.1376919695704547e-10,
+        1.0759852779647594e-10,
+        1.0565827049485559e-10,
+        1.0724293477026549e-10,
+        1.0702227596472635e-10,
+        1.064613218250954e-10
+      ],
+      "residual_initial": 0.1262626262624994,
+      "robustness": {
+        "line_search": {
+          "armijo_c": null,
+          "enabled": false,
+          "events": [],
+          "max_reductions": 12,
+          "min_alpha": 0.0001,
+          "policy_id": "qf-solver-unified-robustness",
+          "policy_source": "EXPERIMENTAL_OVERRIDE",
+          "policy_version": 1
+        },
+        "policy_id": "qf-solver-unified-robustness",
+        "policy_source": "EXPERIMENTAL_OVERRIDE",
+        "policy_version": 1,
+        "stagnation": {
+          "convergence_tolerance": 1e-10,
+          "decision": "STAGNATION",
+          "final_window_residual": 1.064613218250954e-10,
+          "initial_window_residual": 1.0565827049485559e-10,
+          "plateau_threshold": 1e-10,
+          "policy_id": "qf-solver-unified-robustness",
+          "policy_version": 1,
+          "reason": "CONVERGENCE_STAGNATION",
+          "relative_change": -0.007600458785466401,
+          "residual_window": [
+            1.0565827049485559e-10,
+            1.0724293477026549e-10,
+            1.0702227596472635e-10,
+            1.064613218250954e-10
+          ],
+          "window": [
+            1.0565827049485559e-10,
+            1.0724293477026549e-10,
+            1.0702227596472635e-10,
+            1.064613218250954e-10
+          ],
+          "window_size": 4
+        }
+      },
+      "solver": "full_newton",
+      "step": 4,
+      "tolerance": 1e-10
+    },
+    "message": "Unified Newton stagnated at increment 4; relative residual=1.064613e-10.",
+    "reason": "CONVERGENCE_STAGNATION"
+  },
+  "full_test_suite_run": false,
+  "maturity_changed": false,
+  "mechanics_formulation_changed": false,
+  "mesh_cells": [
+    64,
+    32,
+    32
+  ],
+  "observables": null,
+  "performance": {
+    "accepted_load_factors": [
+      0.08333333333333333,
+      0.16666666666666666,
+      0.25
+    ],
+    "accepted_step_count": 3,
+    "accepted_steps": [
+      1,
+      2,
+      3
+    ],
+    "fallback_count": 0,
+    "krylov_iterations": {
+      "max": 3527,
+      "median": 3371.0,
+      "min": 3167,
+      "p95": 3483.0,
+      "total": 57156
+    },
+    "line_search_alpha": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "linear_methods": [
+      "minres"
+    ],
+    "linear_solve_time_s": {
+      "max": 84.46357219998026,
+      "median": 80.9780485999654,
+      "p95": 84.08350011996227,
+      "total": 1366.0570388998603
+    },
+    "max_eta_inf": 6.620529972813195e-12,
+    "max_raw_linear_relative_residual": 2.0415389357994817e-05,
+    "peak_private_or_uss_bytes": 1115107328,
+    "peak_rss_bytes": 1137954816,
+    "total_linear_solves": 17,
+    "total_newton_iterations": 20
+  },
+  "process_end_reason": "NUMERICAL_FAILURE",
+  "production_source_changed": false,
+  "record_id": "QF-SOLVER-0.2.9-WP04-C2R3-M3",
+  "schema_version": 1,
+  "started_timestamp": "2026-09-12T21:14:55.930112+00:00",
+  "status": "NUMERICAL_FAILURE",
+  "status_path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_unified_nonlinear\\qualification\\0_2_9\\c2r3\\m3_status.json",
+  "telemetry_event_count": 25,
+  "telemetry_path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_unified_nonlinear\\qualification\\0_2_9\\c2r3\\m3_telemetry.jsonl",
+  "wall_time_s": 1471.8818355999538
+}

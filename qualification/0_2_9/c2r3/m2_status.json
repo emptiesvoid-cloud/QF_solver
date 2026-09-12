@@ -1,0 +1,23 @@
+{
+  "Newton_iteration": 10,
+  "RSS": 709672960,
+  "case": "C2-M2",
+  "elapsed_wall_time": 347.8717883999925,
+  "last_event_status": "FAILED",
+  "last_update_timestamp": "2026-09-12T21:14:54.930329+00:00",
+  "latest_Krylov_iterations": 2619,
+  "latest_eta_inf": 7.716754953388029e-13,
+  "latest_line_search_alpha": 1.0,
+  "latest_linear_solve_time": 21.1781278999988,
+  "load_step": 3,
+  "mesh": [
+    48,
+    24,
+    24
+  ],
+  "pid": 45276,
+  "private_memory": 684003328,
+  "started_timestamp": "2026-09-12T21:09:07.058546+00:00",
+  "status": "NUMERICAL_FAILURE",
+  "terminal_reason": "CONVERGENCE_STAGNATION"
+}
