@@ -379,6 +379,13 @@ def _stage_c_options(candidate: str) -> NonlinearRobustnessOptions:
             linear_rtol=1.0e-10,
             linear_direct_fallback=False,
         )
+    if candidate == "minres-1e-11":
+        return NonlinearRobustnessOptions(
+            linear_solver="minres",
+            linear_preconditioner="jacobi",
+            linear_rtol=1.0e-11,
+            linear_direct_fallback=False,
+        )
     raise ValueError(f"Unsupported Stage-C candidate {candidate!r}.")
 
 
@@ -481,6 +488,22 @@ def run_stage_c(candidate: str, output_path: Path) -> None:
                         alpha = system.get("line_search_alpha")
                         if isinstance(alpha, (int, float)):
                             line_search_alphas.append(float(alpha))
+        if total_linear_solves == 0:
+            for event in events:
+                if event.get("event") != "ITERATION" or event.get("linear_method") is None:
+                    continue
+                total_linear_solves += 1
+                method = str(event.get("linear_method"))
+                if method in {"cg", "minres", "gmres"} and not bool(event.get("fallback_used", False)):
+                    iterative_success += 1
+                    raw_krylov_iterations = event.get("krylov_iterations")
+                    if isinstance(raw_krylov_iterations, (int, float)):
+                        krylov_iterations += int(raw_krylov_iterations)
+                if bool(event.get("fallback_used", False)):
+                    direct_fallbacks += 1
+                alpha = event.get("line_search_alpha")
+                if isinstance(alpha, (int, float)):
+                    line_search_alphas.append(float(alpha))
         row["observables"] = observed
         row["state"] = {
             "displacement_digest": _array_digest(displacement),
@@ -510,7 +533,7 @@ def main() -> None:
     parser.add_argument("--input-dir", type=Path)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--aggregate", action="store_true")
-    parser.add_argument("--stage-c", choices=("direct", "cg-1e-10"))
+    parser.add_argument("--stage-c", choices=("direct", "cg-1e-10", "minres-1e-11"))
     args = parser.parse_args()
     if args.prepare is not None:
         prepare(args.prepare)

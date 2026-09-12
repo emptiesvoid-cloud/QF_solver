@@ -35,6 +35,13 @@ scale-aware backward-error diagnostics and bounded SciPy-local iterative
 support, and shows that the selected CG+Jacobi candidate fails nonlinear M1
 at load step 4; no M2 run or qualification promotion is claimed.
 
+R2B independently reproduces and captures the failing M1 tangent. Same-matrix
+MINRES+Jacobi passes the scale-aware contract, and full M1 MINRES completes
+with zero fallback and direct-equivalent observables. WP04 remains HOLD;
+G04-10 is unresolved and no M2 run is authorized. The controlled R2B record is
+`../docs/verification/0_2_9/linear-solver-remediation-r2b.md`, with machine-
+readable evidence in `wp04_linear_solver_r2b.json`.
+
 ## Current planning status
 
 - WP00: `CLOSED`, 4/4 points.
@@ -71,3 +78,6 @@ study is deliberately not claimed complete in WP04-A.
 The R2 linear-solver remediation evidence is recorded in
 `wp04_linear_solver_r2.json` and the companion controlled record
 `../docs/verification/0_2_9/linear-solver-remediation-r2.md`.
+The R2B forensic and MINRES evidence is recorded in
+`wp04_linear_solver_r2b.json` and
+`../docs/verification/0_2_9/linear-solver-remediation-r2b.md`.

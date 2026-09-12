@@ -237,3 +237,19 @@ CG+Jacobi candidate then fails nonlinear Stage C at load step 4 with
 therefore no validated iterative nonlinear backend and no M2 run. G04-10 is
 `UNRESOLVED_LINEAR_SOLVER_REMEDIATION`, WP04 remains 0/12 and 29/100, and
 current maturity remains `RESEARCH_ONLY`. See [the R2 evidence](linear-solver-remediation-r2.md).
+
+## Linear-solver remediation R2B
+
+R2B independently reproduces the CG failure at M1 load step 4, Newton
+iteration 12 and captures the failing 27,744 x 27,744 reduced system outside
+Git. Same-matrix forensics show a finite but inaccurate CG correction
+(`solution delta = 0.1116795084`, `eta_inf = 1.0895221524e-05`), while
+MINRES+Jacobi satisfies the frozen contract at `rtol=1e-11` and `1e-12`.
+The lower spectral estimate did not converge, so SPD remains `NOT_PROVEN`.
+The bounded full M1 MINRES check completes all 12 increments and 145 Newton
+iterations with zero fallbacks; physical observables, accepted load factors
+and line-search trajectory match the direct reference within the frozen
+`1e-8` physical tolerance. WP04 remains HOLD and G04-10 remains unresolved;
+no M2/M3 run or PETSc/PyAMG dependency was added. See the [R2B controlled
+record](linear-solver-remediation-r2b.md) and
+`qualification/0_2_9/wp04_linear_solver_r2b.json`.

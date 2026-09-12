@@ -116,6 +116,12 @@ M1 zero-state matrix. The selected CG candidate fails the nonlinear M1
 backward-error contract at load step 4, so G04-10 remains unresolved and no
 M2 run or qualification promotion is claimed; see [the R2 evidence](linear-solver-remediation-r2.md).
 
+R2B independently captures the failing M1 tangent and confirms that CG is
+inaccurate on that system while MINRES+Jacobi passes the same-matrix contract.
+The full M1 MINRES run completes with zero fallbacks and direct-equivalent
+physical observables, but C2/G04-10 remains unresolved and no M2 run is
+authorized. See the [R2B controlled record](linear-solver-remediation-r2b.md).
+
 WP02-B established checkpoint-v2 serialization, WP02-C migrated fixed and
 adaptive restart ownership, and WP02-D migrated the public arc-length restart
 path to the accepted composite state. The audit is recorded in the
@@ -161,6 +167,7 @@ recorded in [OD-029-02](owner-decisions.md).
 - [WP04-C1 TET4 mesh diagnosis](wp04-c1-tet4-mesh-diagnosis.md)
 - [WP04-C2 TET4 finer-mesh requalification](wp04-c2-tet4-requalification.md)
 - [Linear-solver remediation R2](linear-solver-remediation-r2.md)
+- [Linear-solver remediation R2B](linear-solver-remediation-r2b.md)
 
 WP01 implementation and continuation migration are closed under the recorded
 Owner decision. WP02 and WP03 are closed under their independent audit
