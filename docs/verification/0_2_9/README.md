@@ -97,11 +97,11 @@ formulation change. It independently demonstrates the target-clipped retry
 improvement: five repeated effective attempts before WP03 become one rejection
 at the final SHA, while the physical result is identical.
 
-WP04 is in **CONTRACT_PHASE** at 0/12. Its target is bounded Total-Lagrangian
-StVK static qualification for homogeneous TET4 and HEX8 only. The contract
-does not promote current `RESEARCH_ONLY` maturity; it records the prior
-energy/work discovery debt and requires accepted-state path refinement before
-any future closure claim.
+WP04 is in **MECHANICS_IDENTITIES** at 0/12. WP04-B demonstrates the bounded
+TET4/HEX8 Total-Lagrangian StVK objectivity, affine finite-deformation patch,
+energy-gradient, consistent-tangent and accepted-path work identities. The
+contract does not promote current `RESEARCH_ONLY` maturity; mesh, structural,
+equilibrium and cross-family qualification remain for later phases.
 
 WP02-B established checkpoint-v2 serialization, WP02-C migrated fixed and
 adaptive restart ownership, and WP02-D migrated the public arc-length restart
@@ -143,8 +143,10 @@ recorded in [OD-029-02](owner-decisions.md).
 - [WP03-D arc-length radius policy](wp03-d-arc-radius-policy.md)
 - [WP03-E independent closure audit](wp03-e-independent-closure.md)
 - [WP04 geometric qualification contract and baseline](wp04-geometric-qualification-contract.md)
+- [WP04-B mechanics identities](wp04-b-mechanics-identities.md)
 
 WP01 implementation and continuation migration are closed under the recorded
 Owner decision. WP02 and WP03 are closed under their independent audit
-records; the next permitted step is Owner review before WP04-B authorization.
+records; WP04-B is complete at the mechanics-identities phase and the next
+permitted step is Owner review before WP04-C authorization.
 OD-029-01 remains open and blocks WP09; WP01 remains formulation-neutral.
