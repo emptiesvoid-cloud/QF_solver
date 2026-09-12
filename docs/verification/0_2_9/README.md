@@ -153,6 +153,7 @@ recorded in [OD-029-02](owner-decisions.md).
 - [WP04-B mechanics identities](wp04-b-mechanics-identities.md)
 - [WP04-C TET4 structural qualification — HOLD](wp04-c-tet4-structural-qualification.md)
 - [WP04-C1 TET4 mesh diagnosis](wp04-c1-tet4-mesh-diagnosis.md)
+- [WP04-C2 TET4 finer-mesh requalification](wp04-c2-tet4-requalification.md)
 
 WP01 implementation and continuation migration are closed under the recorded
 Owner decision. WP02 and WP03 are closed under their independent audit
