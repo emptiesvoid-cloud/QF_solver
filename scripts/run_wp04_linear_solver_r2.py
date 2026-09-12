@@ -10,6 +10,7 @@ normal nonlinear solves.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 import threading
@@ -24,7 +25,7 @@ from scipy.sparse.linalg import spsolve
 from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear.linear_solver import NonlinearLinearSolverAdapter
 from solveur.core.nonlinear.robustness import NonlinearRobustnessOptions
-from solveur.core.nonlinear.telemetry import process_memory_bytes
+from solveur.core.nonlinear.telemetry import JsonlNonlinearTelemetry, process_memory_bytes
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -288,6 +289,137 @@ def aggregate(input_dir: Path, output_path: Path) -> None:
     )
 
 
+def _stage_c_options(candidate: str) -> NonlinearRobustnessOptions:
+    if candidate == "direct":
+        return NonlinearRobustnessOptions(linear_solver="direct", linear_direct_fallback=False)
+    if candidate == "cg-1e-10":
+        return NonlinearRobustnessOptions(
+            linear_solver="cg",
+            linear_preconditioner="jacobi",
+            linear_assume_spd=True,
+            linear_rtol=1.0e-10,
+            linear_direct_fallback=False,
+        )
+    raise ValueError(f"Unsupported Stage-C candidate {candidate!r}.")
+
+
+def _array_digest(value: np.ndarray) -> str:
+    return hashlib.sha256(np.ascontiguousarray(value).tobytes()).hexdigest()
+
+
+def run_stage_c(candidate: str, output_path: Path) -> None:
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
+    from solveur.core.analyses.geometric_nonlinear import _newton_dead_load
+    from solveur.core.nonlinear.state import NonlinearState
+    from tests.verification.test_wp04_c2_tet4_requalification import _case, _equilibrium, _observe
+
+    case = _case("C2-M1")
+    options = _stage_c_options(candidate)
+    accepted: list[NonlinearState] = []
+    events: list[dict[str, object]] = []
+    telemetry_path = output_path.with_suffix(".jsonl")
+    started = perf_counter()
+    before_rss, before_private = process_memory_bytes()
+    error: str | None = None
+    error_diagnostics: dict[str, Any] = {}
+    displacement: np.ndarray | None = None
+    diagnostics: dict[str, Any] = {}
+    with JsonlNonlinearTelemetry(telemetry_path) as telemetry, _PeakSampler() as sampler:
+        try:
+            displacement, diagnostics = _newton_dead_load(
+                case["assembly"],
+                case["external"],
+                case["fixed"],
+                increments=12,
+                tolerance=1.0e-10,
+                max_iterations=40,
+                robustness_options=options,
+                initial_state=NonlinearState(np.zeros(case["assembly"].ndof, dtype=float)),
+                target_load_factors=[step / 12 for step in range(1, 13)],
+                accepted_state_callback=lambda _step, state: accepted.append(state.detached_copy()),
+                telemetry_observer=lambda event: events.append(dict(event)) or telemetry(event),
+            )
+        except NumericalConvergenceError as exc:
+            error = str(exc)
+            error_diagnostics = dict(exc.diagnostics)
+        finally:
+            sleep(0.01)
+    after_rss, after_private = process_memory_bytes()
+    elapsed = perf_counter() - started
+    row: dict[str, Any] = {
+        "schema_version": 1,
+        "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-STAGE-C-001",
+        "source_sha": START_SHA,
+        "candidate": candidate,
+        "case": {"cells": [32, 16, 16], "full_dofs": 28611, "increments": 12},
+        "status": "PASS_STAGE_C" if error is None else "SOLVER_FAILURE",
+        "error": error,
+        "error_diagnostics": error_diagnostics,
+        "timing": {"total_seconds": elapsed},
+        "memory": {
+            "rss_before_bytes": before_rss,
+            "rss_after_bytes": after_rss,
+            "peak_rss_bytes": sampler.peak_rss,
+            "private_before_bytes": before_private,
+            "private_after_bytes": after_private,
+            "peak_private_bytes": sampler.peak_private,
+        },
+        "telemetry": {"path": str(telemetry_path), "events": len(events)},
+    }
+    if displacement is not None:
+        internal, _ = case["assembly"].assemble(displacement, tangent_required=False)
+        observed, _ = _observe(case, displacement)
+        observed["equilibrium"] = _equilibrium(case, displacement, internal)
+        increment_rows = diagnostics.get("increments", [])
+        total_linear_solves = 0
+        iterative_success = 0
+        direct_fallbacks = 0
+        krylov_iterations = 0
+        line_search_alphas: list[float] = []
+        newton_iterations = 0
+        if isinstance(increment_rows, list):
+            for increment in increment_rows:
+                if not isinstance(increment, dict):
+                    continue
+                newton_iterations += int(increment.get("iterations", 0))
+                systems = increment.get("linear_system_diagnostics", [])
+                if isinstance(systems, list):
+                    for system in systems:
+                        if not isinstance(system, dict):
+                            continue
+                        total_linear_solves += 1
+                        method = str(system.get("linear_method", ""))
+                        if method in {"cg", "minres", "gmres"}:
+                            iterative_success += 1
+                            krylov_iterations += int(system.get("krylov_iterations", 0))
+                        if bool(system.get("fallback_used", False)):
+                            direct_fallbacks += 1
+                        alpha = system.get("line_search_alpha")
+                        if isinstance(alpha, (int, float)):
+                            line_search_alphas.append(float(alpha))
+        row["observables"] = observed
+        row["state"] = {
+            "displacement_digest": _array_digest(displacement),
+            "displacement_norm": float(np.linalg.norm(displacement)),
+            "accepted_steps": len(accepted),
+            "accepted_load_factors": [float(state.load_factor) for state in accepted],
+            "accepted_digests": [state.digest for state in accepted],
+            "final_digest": accepted[-1].digest if accepted else None,
+        }
+        row["newton_iterations"] = newton_iterations
+        row["line_search_alphas"] = line_search_alphas
+        row["linear_solves"] = {
+            "total": total_linear_solves,
+            "iterative_success": iterative_success,
+            "direct_fallbacks": direct_fallbacks,
+            "fallback_rate": direct_fallbacks / total_linear_solves if total_linear_solves else 0.0,
+            "krylov_iterations": krylov_iterations,
+        }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(_json_safe(row), indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--prepare", type=Path)
@@ -295,6 +427,7 @@ def main() -> None:
     parser.add_argument("--input-dir", type=Path)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--aggregate", action="store_true")
+    parser.add_argument("--stage-c", choices=("direct", "cg-1e-10"))
     args = parser.parse_args()
     if args.prepare is not None:
         prepare(args.prepare)
@@ -306,6 +439,10 @@ def main() -> None:
         if args.input_dir is None or args.output is None:
             parser.error("--candidate requires --input-dir and --output")
         run_candidate(args.input_dir, args.candidate, args.output)
+    elif args.stage_c is not None:
+        if args.output is None:
+            parser.error("--stage-c requires --output")
+        run_stage_c(args.stage_c, args.output)
     else:
         parser.error("choose --prepare, --candidate or --aggregate")
 
