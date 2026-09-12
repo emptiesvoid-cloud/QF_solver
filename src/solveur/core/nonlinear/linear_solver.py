@@ -3,14 +3,17 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from time import perf_counter
 from typing import Any, cast
 
 import numpy as np
 from scipy.sparse import csr_matrix
+from scipy.sparse.linalg import LinearOperator, spilu
 
 from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.core.nonlinear.robustness import NonlinearRobustnessOptions, solve_scaled_system
+from solveur.core.nonlinear.telemetry import process_memory_bytes
 from solveur.core.solvers.linear import LinearSystemSolver
 
 
@@ -25,7 +28,14 @@ class NonlinearLinearSolverAdapter:
 
     options: NonlinearRobustnessOptions | None = None
 
-    def solve(self, matrix: csr_matrix, rhs: np.ndarray) -> tuple[np.ndarray, dict[str, object]]:
+    def solve(
+        self,
+        matrix: csr_matrix,
+        rhs: np.ndarray,
+        *,
+        reference_solution: np.ndarray | None = None,
+        allow_unverified_krylov: bool = False,
+    ) -> tuple[np.ndarray, dict[str, object]]:
         values = csr_matrix(matrix, dtype=float)
         vector = np.asarray(rhs, dtype=float)
         if values.shape[0] != values.shape[1] or vector.shape != (values.shape[0],):
@@ -40,25 +50,48 @@ class NonlinearLinearSolverAdapter:
             )
 
         configuration = self._configuration()
+        configuration["allow_unverified_krylov"] = bool(allow_unverified_krylov)
         symmetry_defect = _symmetry_defect(values)
         symmetric = symmetry_defect <= configuration["symmetry_tolerance"]
         requested = configuration["requested_method"]
         method = _effective_method(requested, symmetric, configuration["assume_spd"])
-        preconditioner = self._preconditioner(values, method, configuration)
+        try:
+            preconditioner, preconditioner_operator, preconditioner_diagnostics = self._prepare_preconditioner(
+                values, method, configuration
+            )
+        except (RuntimeError, ValueError) as exc:
+            if method == "direct" or not configuration["direct_fallback"]:
+                raise NumericalConvergenceError(
+                    f"Nonlinear {method} preconditioner setup failed: {exc}",
+                    reason=NonlinearFailureReason.LINEAR_SOLVER_FAILURE,
+                    diagnostics={"preconditioner_setup_error": str(exc)},
+                ) from exc
+            preconditioner = "none"
+            preconditioner_operator = None
+            preconditioner_diagnostics = {
+                "setup_seconds": None,
+                "rss_before_bytes": None,
+                "rss_after_bytes": None,
+                "private_before_bytes": None,
+                "private_after_bytes": None,
+                "setup_error": str(exc),
+            }
         fallback_used = False
         fallback_reason: str | None = None
         if preconditioner == "invalid_direct_fallback":
             fallback_used = True
-            fallback_reason = "Jacobi preconditioner contract was not satisfied"
+            fallback_reason = str(preconditioner_diagnostics.get("reason", "preconditioner contract was not satisfied"))
 
         try:
-            correction, details = self._solve_once(values, vector, method, preconditioner, configuration)
+            correction, details = self._solve_once(
+                values, vector, method, preconditioner, configuration, preconditioner_operator
+            )
         except NumericalConvergenceError as exc:
             if method == "direct" or not configuration["direct_fallback"]:
                 raise self._mapped_failure(exc, method, symmetry_defect) from exc
             fallback_used = True
             fallback_reason = str(exc)
-            correction, details = self._solve_once(values, vector, "direct", "none", configuration)
+            correction, details = self._solve_once(values, vector, "direct", "none", configuration, None)
 
         if not np.all(np.isfinite(correction)):
             reason = NonlinearFailureReason.NAN_DETECTED if np.any(np.isnan(correction)) else NonlinearFailureReason.INF_DETECTED
@@ -67,14 +100,17 @@ class NonlinearLinearSolverAdapter:
                 reason=reason,
                 diagnostics={"linear_method": details["method"], "fallback_used": fallback_used},
             )
-        residual, relative_residual = _relative_residual(values, vector, correction, configuration["absolute_floor"])
+        residual, relative_residual, backward_error = _residual_metrics(
+            values, vector, correction, configuration["absolute_floor"]
+        )
         is_krylov_result = details["method"] != "direct"
-        if is_krylov_result and relative_residual > configuration["residual_tolerance"]:
+        contract_satisfied = not is_krylov_result or relative_residual <= configuration["residual_tolerance"]
+        if is_krylov_result and not contract_satisfied and not allow_unverified_krylov:
             if method != "direct" and configuration["direct_fallback"] and not fallback_used:
                 fallback_used = True
                 fallback_reason = "iterative residual contract was not satisfied"
-                correction, details = self._solve_once(values, vector, "direct", "none", configuration)
-                residual, relative_residual = _relative_residual(
+                correction, details = self._solve_once(values, vector, "direct", "none", configuration, None)
+                residual, relative_residual, backward_error = _residual_metrics(
                     values, vector, correction, configuration["absolute_floor"]
                 )
             if not np.all(np.isfinite(correction)) or (
@@ -98,6 +134,8 @@ class NonlinearLinearSolverAdapter:
             "krylov_iterations": details["iterations"],
             "linear_residual_norm": residual,
             "linear_relative_residual": relative_residual,
+            "raw_relative_residual": relative_residual,
+            "backward_error_eta_inf": backward_error,
             "matrix_shape": list(values.shape),
             "matrix_nnz": int(values.nnz),
             "symmetry_defect": symmetry_defect,
@@ -106,7 +144,33 @@ class NonlinearLinearSolverAdapter:
             "assume_spd": configuration["assume_spd"],
             "fallback_used": fallback_used,
             "fallback_reason": fallback_reason,
+            "post_solve_residual_contract_satisfied": contract_satisfied,
+            "allow_unverified_krylov": allow_unverified_krylov,
+            "preconditioner_setup_seconds": preconditioner_diagnostics.get("setup_seconds"),
+            "preconditioner_rss_before_bytes": preconditioner_diagnostics.get("rss_before_bytes"),
+            "preconditioner_rss_after_bytes": preconditioner_diagnostics.get("rss_after_bytes"),
+            "preconditioner_private_before_bytes": preconditioner_diagnostics.get("private_before_bytes"),
+            "preconditioner_private_after_bytes": preconditioner_diagnostics.get("private_after_bytes"),
+            "linear_solve_seconds": details.get("solve_seconds"),
+            "gmres_restart": configuration["gmres_restart"],
+            "ilu_drop_tol": configuration["ilu_drop_tol"],
+            "ilu_fill_factor": configuration["ilu_fill_factor"],
         }
+        if reference_solution is not None:
+            reference = np.asarray(reference_solution, dtype=float)
+            if reference.shape != correction.shape or not np.all(np.isfinite(reference)):
+                raise ValueError("reference_solution must be finite and match the linear correction shape.")
+            difference = correction - reference
+            diagnostics["solution_relative_difference"] = float(
+                np.linalg.norm(difference)
+                / max(float(np.linalg.norm(reference)), float(configuration["absolute_floor"]))
+            )
+            if symmetric:
+                candidate_energy = float(correction @ (values @ correction))
+                reference_energy = float(reference @ (values @ reference))
+                diagnostics["quadratic_energy_relative_difference"] = abs(candidate_energy - reference_energy) / max(
+                    abs(reference_energy), float(configuration["absolute_floor"])
+                )
         compatibility = details.get("compatibility_diagnostics", {})
         diagnostics.update(cast(dict[str, object], compatibility))
         return np.asarray(correction, dtype=float), diagnostics
@@ -128,25 +192,79 @@ class NonlinearLinearSolverAdapter:
             "symmetry_tolerance": 1.0e-12 if options is None else options.linear_symmetry_tolerance,
             "direct_fallback": True if options is None else options.linear_direct_fallback,
             "jacobi_diagonal_floor": 1.0e-14 if options is None else options.jacobi_diagonal_floor,
+            "ilu_drop_tol": 1.0e-4 if options is None else options.ilu_drop_tol,
+            "ilu_fill_factor": 10.0 if options is None else options.ilu_fill_factor,
+            "gmres_restart": 50 if options is None else options.gmres_restart,
         }
 
-    def _preconditioner(
-        self, matrix: csr_matrix, method: str, configuration: dict[str, Any]
-    ) -> str:
+    def _prepare_preconditioner(
+        self,
+        matrix: csr_matrix,
+        method: str,
+        configuration: dict[str, Any],
+    ) -> tuple[str, LinearOperator | None, dict[str, object]]:
         requested = str(configuration["preconditioner"])
+        rss_before, private_before = process_memory_bytes()
+        started = perf_counter()
+
+        def metrics(rss_after: int | None, private_after: int | None) -> dict[str, object]:
+            return {
+                "setup_seconds": perf_counter() - started,
+                "rss_before_bytes": rss_before,
+                "rss_after_bytes": rss_after,
+                "private_before_bytes": private_before,
+                "private_after_bytes": private_after,
+            }
+
         if requested == "none":
-            return "none"
+            rss_after, private_after = process_memory_bytes()
+            return "none", None, metrics(rss_after, private_after)
         diagonal = np.asarray(matrix.diagonal(), dtype=float)
-        threshold = float(configuration["jacobi_diagonal_floor"]) * max(float(np.max(np.abs(diagonal))), 1.0)
+        threshold = float(configuration["jacobi_diagonal_floor"]) * max(
+            float(np.max(np.abs(diagonal), initial=0.0)), 1.0
+        )
         valid = bool(np.all(np.isfinite(diagonal)) and np.all(np.abs(diagonal) > threshold))
         positive_required = method in {"cg", "minres"}
         if positive_required:
             valid = valid and bool(np.all(diagonal > threshold))
+        if requested == "ilu":
+            if method != "gmres":
+                rss_after, private_after = process_memory_bytes()
+                return "invalid_direct_fallback", None, {
+                    **metrics(rss_after, private_after),
+                    "reason": "ILU is restricted to GMRES in the nonlinear adapter",
+                }
+            factor = spilu(
+                matrix.tocsc(),
+                drop_tol=float(configuration["ilu_drop_tol"]),
+                fill_factor=float(configuration["ilu_fill_factor"]),
+            )
+
+            def matvec_ilu(vector: np.ndarray) -> np.ndarray:
+                return factor.solve(vector)
+
+            operator = LinearOperator(matrix.shape, matvec=matvec_ilu, dtype=float)
+            rss_after, private_after = process_memory_bytes()
+            return "ilu", operator, metrics(rss_after, private_after)
+        if requested != "jacobi":
+            raise ValueError(f"Unsupported nonlinear preconditioner {requested!r}.")
         if valid:
-            return "jacobi"
+            inverse = 1.0 / diagonal
+
+            def matvec_jacobi(vector: np.ndarray) -> np.ndarray:
+                return inverse * vector
+
+            operator = LinearOperator(matrix.shape, matvec=matvec_jacobi, dtype=float)
+            rss_after, private_after = process_memory_bytes()
+            return "jacobi", operator, metrics(rss_after, private_after)
         if configuration["direct_fallback"]:
-            return "invalid_direct_fallback"
-        return "none"
+            rss_after, private_after = process_memory_bytes()
+            return "invalid_direct_fallback", None, {
+                **metrics(rss_after, private_after),
+                "reason": "Jacobi preconditioner contract was not satisfied",
+            }
+        rss_after, private_after = process_memory_bytes()
+        return "none", None, metrics(rss_after, private_after)
 
     def _solve_once(
         self,
@@ -155,9 +273,10 @@ class NonlinearLinearSolverAdapter:
         method: str,
         preconditioner: str,
         configuration: dict[str, Any],
+        preconditioner_operator: LinearOperator | None,
     ) -> tuple[np.ndarray, dict[str, object]]:
         if preconditioner == "invalid_direct_fallback":
-            return self._solve_once(matrix, rhs, "direct", "none", configuration)
+            return self._solve_once(matrix, rhs, "direct", "none", configuration, None)
         if self.options is not None and method == "direct" and (
             self.options.system_scaling != "none"
             or self.options.residual_scaling != "none"
@@ -169,6 +288,7 @@ class NonlinearLinearSolverAdapter:
                 "method": "direct",
                 "preconditioner": "none",
                 "iterations": 1,
+                "solve_seconds": None,
                 "compatibility_diagnostics": compatibility,
             }
         parameters = {
@@ -176,22 +296,30 @@ class NonlinearLinearSolverAdapter:
             "atol": configuration["atol"],
             "maxiter": configuration["maxiter"],
             "preconditioner": preconditioner,
+            "_preconditioner_operator": preconditioner_operator,
             # Direct sparse LU preserves its historical residual acceptance;
             # the strict 1e-10 post-solve contract is for Krylov candidates.
             "residual_failure_tolerance": (
-                max(float(configuration["residual_tolerance"]), 1.0e-7)
+                1.0e300
+                if configuration["allow_unverified_krylov"] and method != "direct"
+                else max(float(configuration["residual_tolerance"]), 1.0e-7)
                 if method == "direct"
                 else configuration["residual_tolerance"]
             ),
         }
+        if method == "gmres":
+            parameters["restart"] = configuration["gmres_restart"]
         info_solver = LinearSystemSolver()
+        started = perf_counter()
         correction, info = info_solver.solve(matrix, rhs, method=method, parameters=parameters)
+        solve_seconds = perf_counter() - started
         backend = "scipy.sparse.linalg.spsolve" if method == "direct" else f"scipy.sparse.linalg.{method}"
         return correction, {
             "backend": backend,
             "method": method,
             "preconditioner": preconditioner,
             "iterations": int(info.iterations),
+            "solve_seconds": solve_seconds,
         }
 
     @staticmethod
@@ -230,6 +358,15 @@ def _symmetry_defect(matrix: csr_matrix) -> float:
     return float(np.linalg.norm((matrix - matrix.T).data)) / scale
 
 
-def _relative_residual(matrix: csr_matrix, rhs: np.ndarray, solution: np.ndarray, absolute_floor: float) -> tuple[float, float]:
-    residual = float(np.linalg.norm(matrix @ solution - rhs))
-    return residual, residual / max(float(np.linalg.norm(rhs)), float(absolute_floor))
+def _residual_metrics(
+    matrix: csr_matrix, rhs: np.ndarray, solution: np.ndarray, absolute_floor: float
+) -> tuple[float, float, float]:
+    residual_vector = np.asarray(matrix @ solution - rhs, dtype=float)
+    residual = float(np.linalg.norm(residual_vector))
+    raw_relative = residual / max(float(np.linalg.norm(rhs)), float(absolute_floor))
+    matrix_inf = float(np.max(np.asarray(np.abs(matrix).sum(axis=1)).ravel(), initial=0.0))
+    solution_inf = float(np.max(np.abs(solution), initial=0.0))
+    rhs_inf = float(np.max(np.abs(rhs), initial=0.0))
+    denominator = max(matrix_inf * solution_inf + rhs_inf, float(absolute_floor))
+    backward_error = float(np.max(np.abs(residual_vector), initial=0.0)) / denominator
+    return residual, raw_relative, backward_error

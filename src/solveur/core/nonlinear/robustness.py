@@ -30,6 +30,9 @@ _PARAMETER_KEYS = {
     "experimental_linear_symmetry_tolerance",
     "experimental_linear_direct_fallback",
     "experimental_jacobi_diagonal_floor",
+    "experimental_ilu_drop_tol",
+    "experimental_ilu_fill_factor",
+    "experimental_gmres_restart",
     "experimental_linear_permutation",
     "experimental_system_scaling",
     "experimental_residual_scaling",
@@ -1052,6 +1055,9 @@ class NonlinearRobustnessOptions:
     linear_symmetry_tolerance: float = 1.0e-12
     linear_direct_fallback: bool = True
     jacobi_diagonal_floor: float = 1.0e-14
+    ilu_drop_tol: float = 1.0e-4
+    ilu_fill_factor: float = 10.0
+    gmres_restart: int = 50
     linear_permutation: str = "COLAMD"
     system_scaling: str = "none"
     residual_scaling: str = "none"
@@ -1081,6 +1087,9 @@ class NonlinearRobustnessOptions:
             ),
             linear_direct_fallback=bool(parameters.get("experimental_linear_direct_fallback", True)),
             jacobi_diagonal_floor=float(cast(Any, parameters.get("experimental_jacobi_diagonal_floor", 1.0e-14))),
+            ilu_drop_tol=float(cast(Any, parameters.get("experimental_ilu_drop_tol", 1.0e-4))),
+            ilu_fill_factor=float(cast(Any, parameters.get("experimental_ilu_fill_factor", 10.0))),
+            gmres_restart=int(cast(Any, parameters.get("experimental_gmres_restart", 50))),
             linear_permutation=str(parameters.get("experimental_linear_permutation", "COLAMD")).upper(),
             system_scaling=str(parameters.get("experimental_system_scaling", "none")).lower(),
             residual_scaling=str(parameters.get("experimental_residual_scaling", "none")).lower(),
@@ -1095,8 +1104,8 @@ class NonlinearRobustnessOptions:
     def validate(self) -> None:
         if self.linear_solver not in {"spsolve", "splu", "direct", "auto", "cg", "minres", "gmres"}:
             raise ValueError("experimental_linear_solver is not a supported nonlinear linear method.")
-        if self.linear_preconditioner not in {"none", "jacobi"}:
-            raise ValueError("experimental_linear_preconditioner must be 'none' or 'jacobi'.")
+        if self.linear_preconditioner not in {"none", "jacobi", "ilu"}:
+            raise ValueError("experimental_linear_preconditioner must be 'none', 'jacobi' or 'ilu'.")
         for name, value in (
             ("experimental_linear_rtol", self.linear_rtol),
             ("experimental_linear_atol", self.linear_atol),
@@ -1104,11 +1113,15 @@ class NonlinearRobustnessOptions:
             ("experimental_linear_absolute_floor", self.linear_absolute_floor),
             ("experimental_linear_symmetry_tolerance", self.linear_symmetry_tolerance),
             ("experimental_jacobi_diagonal_floor", self.jacobi_diagonal_floor),
+            ("experimental_ilu_drop_tol", self.ilu_drop_tol),
+            ("experimental_ilu_fill_factor", self.ilu_fill_factor),
         ):
             if not isfinite(value) or value <= 0.0:
                 raise ValueError(f"{name} must be finite and positive.")
         if self.linear_maxiter < 1:
             raise ValueError("experimental_linear_maxiter must be positive.")
+        if self.gmres_restart < 1:
+            raise ValueError("experimental_gmres_restart must be positive.")
         if self.linear_permutation not in _PERMUTATIONS:
             raise ValueError("experimental_linear_permutation is not a supported SciPy permutation.")
         if self.system_scaling not in {"none", "symmetric_diagonal"}:
@@ -1139,6 +1152,9 @@ class NonlinearRobustnessOptions:
             "linear_symmetry_tolerance": self.linear_symmetry_tolerance,
             "linear_direct_fallback": self.linear_direct_fallback,
             "jacobi_diagonal_floor": self.jacobi_diagonal_floor,
+            "ilu_drop_tol": self.ilu_drop_tol,
+            "ilu_fill_factor": self.ilu_fill_factor,
+            "gmres_restart": self.gmres_restart,
             "linear_permutation": self.linear_permutation,
             "system_scaling": self.system_scaling,
             "residual_scaling": self.residual_scaling,

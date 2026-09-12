@@ -225,6 +225,8 @@ class LinearSystemSolver:
         }
         if method == "gmres":
             kwargs["callback_type"] = "legacy"
+            if parameters.get("restart") is not None:
+                kwargs["restart"] = int(parameters["restart"])
         solution, info = solver(matrix, rhs, **kwargs)
         if info != 0:
             reason = "iteration limit reached" if info > 0 else "illegal input or numerical breakdown"
@@ -285,6 +287,11 @@ class LinearSystemSolver:
 
     @staticmethod
     def _preconditioner(matrix: csr_matrix, parameters: dict[str, Any]) -> LinearOperator | None:
+        supplied = parameters.get("_preconditioner_operator")
+        if supplied is not None:
+            if not isinstance(supplied, LinearOperator):
+                raise ValueError("_preconditioner_operator must be a scipy LinearOperator.")
+            return supplied
         name = str(parameters.get("preconditioner", "none")).lower()
         if name in {"none", ""}:
             return None
