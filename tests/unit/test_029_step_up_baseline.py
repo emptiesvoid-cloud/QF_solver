@@ -98,6 +98,7 @@ def test_step_up_and_wp03_documents_are_present_and_status_is_explicit() -> None
             "wp04-c1-tet4-mesh-diagnosis.md",
             "wp04-c2-tet4-requalification.md",
             "linear-solver-remediation-r2.md",
+            "linear-solver-remediation-r2b.md",
             "linear-solver-remediation.md",
             "wp04-c2-m3-linear-solver-abort.md",
     }

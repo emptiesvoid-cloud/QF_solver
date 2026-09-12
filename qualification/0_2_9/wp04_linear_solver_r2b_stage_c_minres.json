@@ -1,0 +1,96 @@
+{
+  "candidate": "minres-1e-11",
+  "case": {
+    "cells": [
+      32,
+      16,
+      16
+    ],
+    "full_dofs": 28611,
+    "increments": 12
+  },
+  "error": null,
+  "error_diagnostics": {},
+  "line_search_alphas": "see telemetry JSONL; 133 values",
+  "linear_solves": {
+    "direct_fallbacks": 0,
+    "fallback_rate": 0.0,
+    "iterative_success": 133,
+    "krylov_iterations": 218189,
+    "total": 133,
+    "iterations_min": 1627,
+    "iterations_median": 1631,
+    "iterations_p95": 1707,
+    "iterations_max": 1733,
+    "max_backward_error_eta_inf": 2.3445324728241484e-12,
+    "max_raw_relative_residual": 2.3940459721593495e-06
+  },
+  "memory": {
+    "peak_private_bytes": 608567296,
+    "peak_rss_bytes": 632733696,
+    "private_after_bytes": 218390528,
+    "private_before_bytes": 183226368,
+    "rss_after_bytes": 246038528,
+    "rss_before_bytes": 210063360
+  },
+  "newton_iterations": 145,
+  "observables": {
+    "equilibrium": {
+      "force_relative_error": 2.637480774418522e-14,
+      "moment_relative_error": 1.5799307503249015e-15,
+      "reaction_resultant_norm": 50.00000000000004
+    },
+    "maximum_green_lagrange_norm": 0.009423514082040634,
+    "maximum_principal_stretch": 1.0089023457744155,
+    "minimum_det_f": 0.992927047661092,
+    "minimum_principal_stretch": 0.9912335760094753,
+    "representative_stress_sigma_xx": 2837.843915881297,
+    "strain_energy": 4.693669347230475,
+    "tip_displacement": -0.18795714735201677
+  },
+  "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-STAGE-C-001",
+  "schema_version": 1,
+  "source_sha": "bee8cb606a975a8714947776be489e00af8fa623",
+  "state": {
+    "accepted_digests": [
+      "88c9c924ce7709e8b7dae422a6eb20812f6b2f18fd63ed046a273c9f83d24f49",
+      "bdf843222ade2de0454ee6addba60d88ae6cb0345c7aaeb4e7035edcda8a6916",
+      "0ddd790890625bdb749729359606f39ca56766b8d523e44cc66acd178b8b2e1f",
+      "f89555fd58fae5df4e3f0bc31ee4694d92a07a81cea44af463ffe272c5b3bb8b",
+      "3848788a3441434baf5df9b43f5fdea9de3d4441f0e10ce132bc7376b806c9d7",
+      "6c6156fe3bb97ffc304d1000549bca543bc35d768d0f1dfdacf5f26f03221cbb",
+      "baa91210b20054dadbbb496492304aba60f7d4f3e1fecd51308d0a675181cdfd",
+      "c07593b90446a82265bd9caf4b610a7c251719480b275d218e8c4ba7485b0abb",
+      "f314874fb3be8465ce02d94071329afef1a71eeea5c6115e4d75cff47072b110",
+      "add646c9ad4bd4ee5db750ebaed9b93ec1968a344624ce029226bd2410fe6f35",
+      "7053f5e729dac8551b37c87c39291b875bcc4112dabfeabf877dadb99a885253",
+      "53d1908a3442f6bc440d4f5277a5f867accd4739156e0a16515696a14053beef"
+    ],
+    "accepted_load_factors": [
+      0.08333333333333333,
+      0.16666666666666666,
+      0.25,
+      0.3333333333333333,
+      0.4166666666666667,
+      0.5,
+      0.5833333333333334,
+      0.6666666666666666,
+      0.75,
+      0.8333333333333334,
+      0.9166666666666666,
+      1.0
+    ],
+    "accepted_steps": 12,
+    "displacement_digest": "5e2134a3622de3295e1f289a664adeff9dff4add53163b3207546aafe5b72c70",
+    "displacement_norm": 9.099964131754849,
+    "final_digest": "53d1908a3442f6bc440d4f5277a5f867accd4739156e0a16515696a14053beef"
+  },
+  "status": "PASS_STAGE_C",
+  "telemetry": {
+    "events": 158,
+    "path": "qualification\\0_2_9\\wp04_linear_solver_r2b_stage_c_minres.jsonl"
+  },
+  "timing": {
+    "total_seconds": 618.9505745999631
+  }
+}

@@ -127,6 +127,7 @@ def test_telemetry_is_emitted_after_iterations_and_acceptance(tmp_path) -> None:
         "residual_norm",
         "matrix_nnz",
         "linear_backend",
+        "linear_backward_error_eta_inf",
         "RSS_bytes",
     ):
         assert key in iteration
