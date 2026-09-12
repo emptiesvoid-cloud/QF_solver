@@ -23,6 +23,8 @@ def test_direct_adapter_matches_scipy_correction() -> None:
     assert np.allclose(correction, spsolve(matrix, rhs), rtol=1.0e-12, atol=1.0e-14)
     assert diagnostics["linear_method"] == "direct"
     assert diagnostics["linear_relative_residual"] <= 1.0e-10
+    assert diagnostics["raw_relative_residual"] == diagnostics["linear_relative_residual"]
+    assert diagnostics["backward_error_eta_inf"] <= 1.0e-10
 
 
 def test_auto_adapter_selects_minres_without_spd_declaration() -> None:
@@ -57,6 +59,44 @@ def test_auto_adapter_selects_gmres_for_nonsymmetric_matrix() -> None:
 
     assert diagnostics["linear_method"] == "gmres"
     assert diagnostics["matrix_symmetric"] is False
+
+
+def test_gmres_ilu_reports_scale_aware_metrics_and_restart() -> None:
+    matrix = csr_matrix([[3.0, 2.0], [0.0, 1.0]])
+    rhs = np.array([1.0, 2.0])
+    reference = np.linalg.solve(matrix.toarray(), rhs)
+    options = NonlinearRobustnessOptions(
+        linear_solver="gmres",
+        linear_preconditioner="ilu",
+        linear_direct_fallback=False,
+        gmres_restart=7,
+    )
+
+    correction, diagnostics = NonlinearLinearSolverAdapter(options).solve(
+        matrix, rhs, reference_solution=reference
+    )
+
+    assert diagnostics["linear_method"] == "gmres"
+    assert diagnostics["preconditioner"] == "ilu"
+    assert diagnostics["gmres_restart"] == 7
+    assert diagnostics["preconditioner_setup_seconds"] is not None
+    assert diagnostics["linear_solve_seconds"] is not None
+    assert diagnostics["raw_relative_residual"] <= 1.0e-10
+    assert diagnostics["backward_error_eta_inf"] <= 1.0e-10
+    assert diagnostics["solution_relative_difference"] <= 1.0e-8
+    assert np.allclose(correction, reference)
+
+
+def test_ilu_is_never_used_for_minres() -> None:
+    options = NonlinearRobustnessOptions(linear_solver="minres", linear_preconditioner="ilu")
+    _, diagnostics = NonlinearLinearSolverAdapter(options).solve(
+        csr_matrix([[4.0, 1.0], [1.0, 3.0]]), np.array([1.0, 2.0])
+    )
+
+    assert diagnostics["linear_method"] == "direct"
+    assert diagnostics["preconditioner"] == "none"
+    assert diagnostics["fallback_used"] is True
+    assert "ILU is restricted to GMRES" in str(diagnostics["fallback_reason"])
 
 
 class _LinearAssembly:

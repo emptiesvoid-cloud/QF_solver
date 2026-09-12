@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-CONTRACT-001",
+  "start_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+  "status": "FROZEN_BEFORE_R2_CANDIDATES",
+  "initial_strict_residual_campaign": "FAIL_PRESERVED",
+  "scope": {
+    "matrix": "C2-M1 zero-state reduced TET4 tangent",
+    "cells": [32, 16, 16],
+    "full_dofs": 28611,
+    "stage_c": "only if one Stage-B candidate satisfies this contract",
+    "stage_d": "not permitted in R2; no C2-M2 nonlinear run"
+  },
+  "equivalence_contract": {
+    "solution_relative_difference_vs_direct": 1e-08,
+    "normwise_backward_error_eta_inf": 1e-10,
+    "physical_observable_relative_difference": 1e-08,
+    "absolute_floor": 1e-14,
+    "nonfinite_solution": "FAIL",
+    "solver_reported_convergence": "REQUIRED",
+    "repeated_outcome": "DETERMINISTIC",
+    "raw_relative_residual": "RECORDED_DIAGNOSTIC_ONLY; not required to improve on direct"
+  },
+  "diagnostics": {
+    "raw_residual": "||A x - b||_2 / max(||b||_2, absolute_floor)",
+    "backward_error": "||A x - b||_inf / max(||A||_inf ||x||_inf + ||b||_inf, absolute_floor)",
+    "quadratic_energy": "record when the matrix is symmetric/reference-energy meaningful",
+    "memory": "RSS before/after preconditioner and peak RSS during solve; private/USS when available"
+  },
+  "cg_rtol_sweep": [1e-10, 1e-11, 1e-12, 1e-13],
+  "minres_rtol_sweep": [1e-10, 1e-11, 1e-12],
+  "gmres_ilu_candidates": [
+    {"id": "A", "restart": 50, "drop_tol": 0.0001, "fill_factor": 10.0},
+    {"id": "B", "restart": 50, "drop_tol": 0.00001, "fill_factor": 10.0}
+  ],
+  "iterative_defaults": {
+    "rtol": 1e-10,
+    "atol": 1e-14,
+    "maxiter": 10000,
+    "preconditioners": ["none", "jacobi", "ilu_gmres_only"]
+  },
+  "selection_order": ["numerical_correctness", "robustness", "memory", "wall_time"],
+  "source_sha_before_candidates": "TO_BE_FILLED_AT_FREEZE_COMMIT",
+  "production_scope": {
+    "petsc_dependency": false,
+    "mechanics_formulation_changed": false,
+    "element_formulation_changed": false,
+    "maturity_changed": false
+  },
+  "wp04_status": "HOLD",
+  "g04_10": "UNRESOLVED_LINEAR_SOLVER_REMEDIATION",
+  "validated_total": 29,
+  "full_test_suite_run": false
+}
