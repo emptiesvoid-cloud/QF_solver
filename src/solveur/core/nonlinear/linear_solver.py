@@ -88,7 +88,18 @@ class NonlinearLinearSolverAdapter:
             )
         except NumericalConvergenceError as exc:
             if method == "direct" or not configuration["direct_fallback"]:
-                raise self._mapped_failure(exc, method, symmetry_defect) from exc
+                mapped = self._mapped_failure(exc, method, symmetry_defect)
+                mapped.diagnostics.update(
+                    {
+                        "preconditioner_setup_seconds": preconditioner_diagnostics.get("setup_seconds"),
+                        "preconditioner_rss_before_bytes": preconditioner_diagnostics.get("rss_before_bytes"),
+                        "preconditioner_rss_after_bytes": preconditioner_diagnostics.get("rss_after_bytes"),
+                        "preconditioner_private_before_bytes": preconditioner_diagnostics.get("private_before_bytes"),
+                        "preconditioner_private_after_bytes": preconditioner_diagnostics.get("private_after_bytes"),
+                        "preconditioner": preconditioner,
+                    }
+                )
+                raise mapped from exc
             fallback_used = True
             fallback_reason = str(exc)
             correction, details = self._solve_once(values, vector, "direct", "none", configuration, None)
@@ -104,7 +115,7 @@ class NonlinearLinearSolverAdapter:
             values, vector, correction, configuration["absolute_floor"]
         )
         is_krylov_result = details["method"] != "direct"
-        contract_satisfied = not is_krylov_result or relative_residual <= configuration["residual_tolerance"]
+        contract_satisfied = not is_krylov_result or backward_error <= configuration["backward_error_tolerance"]
         if is_krylov_result and not contract_satisfied and not allow_unverified_krylov:
             if method != "direct" and configuration["direct_fallback"] and not fallback_used:
                 fallback_used = True
@@ -114,7 +125,7 @@ class NonlinearLinearSolverAdapter:
                     values, vector, correction, configuration["absolute_floor"]
                 )
             if not np.all(np.isfinite(correction)) or (
-                details["method"] != "direct" and relative_residual > configuration["residual_tolerance"]
+                details["method"] != "direct" and backward_error > configuration["backward_error_tolerance"]
             ):
                 raise NumericalConvergenceError(
                     "Full Newton linear correction failed its residual contract.",
@@ -123,6 +134,8 @@ class NonlinearLinearSolverAdapter:
                         "linear_method": method,
                         "relative_linear_residual": relative_residual,
                         "residual_tolerance": configuration["residual_tolerance"],
+                        "backward_error_eta_inf": backward_error,
+                        "backward_error_tolerance": configuration["backward_error_tolerance"],
                     },
                 )
 
@@ -136,6 +149,7 @@ class NonlinearLinearSolverAdapter:
             "linear_relative_residual": relative_residual,
             "raw_relative_residual": relative_residual,
             "backward_error_eta_inf": backward_error,
+            "backward_error_tolerance": configuration["backward_error_tolerance"],
             "matrix_shape": list(values.shape),
             "matrix_nnz": int(values.nnz),
             "symmetry_defect": symmetry_defect,
@@ -188,6 +202,7 @@ class NonlinearLinearSolverAdapter:
             "atol": 1.0e-14 if options is None else options.linear_atol,
             "maxiter": 10_000 if options is None else options.linear_maxiter,
             "residual_tolerance": 1.0e-10 if options is None else options.linear_residual_tolerance,
+            "backward_error_tolerance": 1.0e-10 if options is None else options.linear_backward_error_tolerance,
             "absolute_floor": 1.0e-14 if options is None else options.linear_absolute_floor,
             "symmetry_tolerance": 1.0e-12 if options is None else options.linear_symmetry_tolerance,
             "direct_fallback": True if options is None else options.linear_direct_fallback,
@@ -297,21 +312,25 @@ class NonlinearLinearSolverAdapter:
             "maxiter": configuration["maxiter"],
             "preconditioner": preconditioner,
             "_preconditioner_operator": preconditioner_operator,
-            # Direct sparse LU preserves its historical residual acceptance;
-            # the strict 1e-10 post-solve contract is for Krylov candidates.
+            # The generic solver must return the candidate so this adapter can
+            # apply the R2 scale-aware backward-error contract.  Raw residual
+            # remains diagnostic; nonfinite and SciPy non-convergence errors
+            # still fail before this post-solve check.
             "residual_failure_tolerance": (
                 1.0e300
-                if configuration["allow_unverified_krylov"] and method != "direct"
+                if method != "direct"
                 else max(float(configuration["residual_tolerance"]), 1.0e-7)
-                if method == "direct"
-                else configuration["residual_tolerance"]
             ),
         }
         if method == "gmres":
             parameters["restart"] = configuration["gmres_restart"]
         info_solver = LinearSystemSolver()
         started = perf_counter()
-        correction, info = info_solver.solve(matrix, rhs, method=method, parameters=parameters)
+        try:
+            correction, info = info_solver.solve(matrix, rhs, method=method, parameters=parameters)
+        except NumericalConvergenceError as exc:
+            exc.diagnostics["solve_seconds"] = perf_counter() - started
+            raise
         solve_seconds = perf_counter() - started
         backend = "scipy.sparse.linalg.spsolve" if method == "direct" else f"scipy.sparse.linalg.{method}"
         return correction, {
@@ -341,6 +360,9 @@ class NonlinearLinearSolverAdapter:
                 "linear_method": method,
                 "symmetry_defect": symmetry_defect,
                 "backend_error": backend_error,
+                "solver_info": error.diagnostics.get("solver_info"),
+                "krylov_iterations": error.diagnostics.get("iterations"),
+                "linear_solve_seconds": error.diagnostics.get("solve_seconds"),
             },
         )
 

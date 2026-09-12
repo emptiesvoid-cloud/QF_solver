@@ -230,7 +230,10 @@ class LinearSystemSolver:
         solution, info = solver(matrix, rhs, **kwargs)
         if info != 0:
             reason = "iteration limit reached" if info > 0 else "illegal input or numerical breakdown"
-            raise NumericalConvergenceError(f"{method} did not converge ({reason}, info={info}).")
+            raise NumericalConvergenceError(
+                f"{method} did not converge ({reason}, info={info}).",
+                diagnostics={"iterations": iterations, "solver_info": int(info)},
+            )
         residual, relative = LinearSystemSolver._validated_residual_metrics(matrix, rhs, solution, method, parameters)
         LinearSystemSolver._append_final_residual(residual_history, residual)
         return solution, LinearSolveInfo(
@@ -270,7 +273,10 @@ class LinearSystemSolver:
         )
         if info != 0:
             reason = "iteration limit reached" if info > 0 else "illegal input or numerical breakdown"
-            raise NumericalConvergenceError(f"minres did not converge ({reason}, info={info}).")
+            raise NumericalConvergenceError(
+                f"minres did not converge ({reason}, info={info}).",
+                diagnostics={"iterations": iterations, "solver_info": int(info)},
+            )
         residual, relative = LinearSystemSolver._validated_residual_metrics(matrix, rhs, solution, "minres", parameters)
         LinearSystemSolver._append_final_residual(residual_history, residual)
         return solution, LinearSolveInfo(

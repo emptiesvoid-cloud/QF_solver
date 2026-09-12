@@ -26,6 +26,7 @@ _PARAMETER_KEYS = {
     "experimental_linear_atol",
     "experimental_linear_maxiter",
     "experimental_linear_residual_tolerance",
+    "experimental_linear_backward_error_tolerance",
     "experimental_linear_absolute_floor",
     "experimental_linear_symmetry_tolerance",
     "experimental_linear_direct_fallback",
@@ -1051,6 +1052,7 @@ class NonlinearRobustnessOptions:
     linear_atol: float = 1.0e-14
     linear_maxiter: int = 10_000
     linear_residual_tolerance: float = 1.0e-10
+    linear_backward_error_tolerance: float = 1.0e-10
     linear_absolute_floor: float = 1.0e-14
     linear_symmetry_tolerance: float = 1.0e-12
     linear_direct_fallback: bool = True
@@ -1081,6 +1083,9 @@ class NonlinearRobustnessOptions:
             linear_residual_tolerance=float(
                 cast(Any, parameters.get("experimental_linear_residual_tolerance", 1.0e-10))
             ),
+            linear_backward_error_tolerance=float(
+                cast(Any, parameters.get("experimental_linear_backward_error_tolerance", 1.0e-10))
+            ),
             linear_absolute_floor=float(cast(Any, parameters.get("experimental_linear_absolute_floor", 1.0e-14))),
             linear_symmetry_tolerance=float(
                 cast(Any, parameters.get("experimental_linear_symmetry_tolerance", 1.0e-12))
@@ -1110,6 +1115,7 @@ class NonlinearRobustnessOptions:
             ("experimental_linear_rtol", self.linear_rtol),
             ("experimental_linear_atol", self.linear_atol),
             ("experimental_linear_residual_tolerance", self.linear_residual_tolerance),
+            ("experimental_linear_backward_error_tolerance", self.linear_backward_error_tolerance),
             ("experimental_linear_absolute_floor", self.linear_absolute_floor),
             ("experimental_linear_symmetry_tolerance", self.linear_symmetry_tolerance),
             ("experimental_jacobi_diagonal_floor", self.jacobi_diagonal_floor),
@@ -1148,6 +1154,7 @@ class NonlinearRobustnessOptions:
             "linear_atol": self.linear_atol,
             "linear_maxiter": self.linear_maxiter,
             "linear_residual_tolerance": self.linear_residual_tolerance,
+            "linear_backward_error_tolerance": self.linear_backward_error_tolerance,
             "linear_absolute_floor": self.linear_absolute_floor,
             "linear_symmetry_tolerance": self.linear_symmetry_tolerance,
             "linear_direct_fallback": self.linear_direct_fallback,

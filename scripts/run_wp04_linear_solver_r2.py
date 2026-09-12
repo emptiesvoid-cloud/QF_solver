@@ -33,6 +33,20 @@ INPUT_FILE = "c2_m1_zero_state_reduced.npz"
 METADATA_FILE = "c2_m1_zero_state_metadata.json"
 
 
+def _json_safe(value: Any) -> Any:
+    """Convert NumPy scalar/container values without losing numeric meaning."""
+
+    if isinstance(value, np.generic):
+        return value.item()
+    if isinstance(value, np.ndarray):
+        return value.tolist()
+    if isinstance(value, dict):
+        return {str(key): _json_safe(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_json_safe(item) for item in value]
+    return value
+
+
 class _PeakSampler:
     def __init__(self, interval_seconds: float = 0.05) -> None:
         self.interval_seconds = interval_seconds
@@ -104,7 +118,7 @@ def prepare(output_dir: Path) -> None:
     metadata["direct_reference"] = "spsolve computed during preparation; candidate runs are separate processes"
     metadata["direct_reference_solution_norm"] = float(np.linalg.norm(direct))
     (output_dir / METADATA_FILE).write_text(
-        json.dumps(metadata, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8"
+        json.dumps(_json_safe(metadata), indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8"
     )
 
 
@@ -178,7 +192,9 @@ def run_candidate(input_dir: Path, name: str, output_path: Path) -> None:
                 matrix,
                 rhs,
                 reference_solution=direct,
-                allow_unverified_krylov=is_krylov,
+                # R2 diagnostic runs use the normal scale-aware adapter
+                # contract; raw residual is intentionally only recorded.
+                allow_unverified_krylov=False,
             )
         except NumericalConvergenceError as exc:
             error = str(exc)
@@ -240,7 +256,9 @@ def run_candidate(input_dir: Path, name: str, output_path: Path) -> None:
         },
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(result, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8")
+    output_path.write_text(
+        json.dumps(_json_safe(result), indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8"
+    )
 
 
 def aggregate(input_dir: Path, output_path: Path) -> None:
@@ -264,7 +282,9 @@ def aggregate(input_dir: Path, output_path: Path) -> None:
         "validated_total": 29,
         "full_test_suite_run": False,
     }
-    output_path.write_text(json.dumps(result, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8")
+    output_path.write_text(
+        json.dumps(_json_safe(result), indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8"
+    )
 
 
 def main() -> None:
