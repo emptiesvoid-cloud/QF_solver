@@ -146,6 +146,7 @@ def _candidate_options(name: str) -> tuple[NonlinearRobustnessOptions, bool, dic
         return NonlinearRobustnessOptions(
             linear_solver="cg",
             linear_preconditioner="jacobi",
+            linear_assume_spd=True,
             linear_rtol=rtol,
             linear_direct_fallback=False,
         ), True, {"rtol": rtol}
