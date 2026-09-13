@@ -76,3 +76,10 @@ included.
 
 Owner review before WP05-C/D structural execution, or integrate the next
 separately Owner-frozen child. This audit does not authorize merging WP06.
+
+## Child branch retirement
+
+After governing head `b9520aae55b6879397b8dbe9eb4fd033838bcf25` was pushed and
+verified remotely, the WP05 child head was confirmed as an ancestor and
+`origin/0.2.9-wp05-prep` was deleted. No local WP05 child branch existed, so
+no local deletion was required; both final branch-existence checks are negative.
