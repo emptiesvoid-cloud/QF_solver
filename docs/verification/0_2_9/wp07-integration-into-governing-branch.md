@@ -170,8 +170,9 @@ the sequential WP07-D structural qualification campaign. Do not merge WP06.
 
 ## Post-validation branch retirement
 
-The audit commit was pushed to `origin/0.2.9-unified-nonlinear` and verified
-at `d83425dd608765c574531b4728ed0f1d4972b108` before branch cleanup. The child
+The audit and retirement evidence commits were pushed to
+`origin/0.2.9-unified-nonlinear`; the final verified governing head for this
+integration record is `226b9e2020501aa2e97db3c7719585638ae1999e`. The child
 head is an ancestor of that governing head. No local
 `0.2.9-wp07-prep` branch existed in the integration checkout; the remote
 `0.2.9-wp07-prep` ref was deleted with the non-forcing remote delete command
