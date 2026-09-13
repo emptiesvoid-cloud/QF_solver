@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP04-F-FINAL-CLOSURE-001",
+  "work_package": "WP04-F",
+  "phase": "INDEPENDENT_FINAL_CLOSURE_AUDIT",
+  "audit_sha": "70e1bf953c8e6f37b8070e78ca97e58b21499291",
+  "branch": "0.2.9-unified-nonlinear",
+  "evidence_only": true,
+  "structural_solves_run": false,
+  "h4_run": false,
+  "petsc_run": false,
+  "full_test_suite_run": false,
+  "production_mechanics_changed": false,
+  "maturity_changed": false,
+  "original_g04_10_failure_preserved": true,
+  "scope": {
+    "material": "homogeneous isotropic_3d Saint-Venant-Kirchhoff",
+    "formulation": "Total-Lagrangian finite-kinematics static formulation",
+    "families": ["TET4", "HEX8"],
+    "loads": "static nodal dead loads / consistent boundary traction where applicable",
+    "boundary_conditions": "fixed displacement constraints",
+    "continuation": "fixed or bounded adaptive proportional dead-load control",
+    "execution": "serial single-process",
+    "poisson_ratio": "0 <= nu < 0.45",
+    "quality_controls": [
+      "positive TET4 reference orientation and quality ratio >= 0.01",
+      "positive HEX8 reference Jacobians at all 2x2x2 points",
+      "HEX8 minimum scaled Jacobian >= 0.20"
+    ],
+    "deformation_envelope": {
+      "minimum_det_f": 0.20,
+      "principal_stretch_range": [0.75, 1.30],
+      "maximum_green_lagrange_norm": 0.30
+    },
+    "excluded": [
+      "universal finite-strain material validity",
+      "contact and friction",
+      "J2 plus geometry",
+      "nonlinear dynamics",
+      "distributed MPI/PETSc qualification",
+      "reduced-integration or hourglass HEX8",
+      "TET10/HEX20 or other high-order transitive claims",
+      "follower loads",
+      "updated Lagrangian and corotational formulations"
+    ]
+  },
+  "provenance": {
+    "authority_order": [
+      "raw numeric evidence",
+      "machine-readable derived audit",
+      "controlled documentation",
+      "summary/status text"
+    ],
+    "lineage": [
+      {"phase": "WP04-A", "source_sha": "eaa3119ffdd4b5dc85659b60431cd23d23870736", "records": ["qualification/0_2_9/wp04_geometric_qualification_contract.json", "qualification/0_2_9/wp04_formulation_map.json", "qualification/0_2_9/wp04_historical_debt_assessment.json", "qualification/0_2_9/wp04_gate_matrix.json"]},
+      {"phase": "WP04-B", "source_sha": "2cd96b6695be1e90a8cc2dff81f6534774ab04d2", "records": ["qualification/0_2_9/wp04_b_mechanics_identities.json"]},
+      {"phase": "WP04-C", "source_sha": "48bfa83bc517e031cdab4876970a4f511f744e35", "records": ["qualification/0_2_9/wp04_c_tet4_campaign.json", "qualification/0_2_9/wp04_c_tet4_structural_summary.json"]},
+      {"phase": "WP04-C1/C2", "source_sha": "c4d2fd9b8bf0154bad9a30389d5ba426fe6fc7d9", "records": ["qualification/0_2_9/wp04_c1_tet4_mesh_diagnosis.json", "qualification/0_2_9/wp04_c2_tet4_requalification_contract.json", "qualification/0_2_9/wp04_c2_tet4_requalification.json", "qualification/0_2_9/wp04_c2_m3_owner_abort.json"]},
+      {"phase": "R1/R2/R2B", "source_sha": "bee8cb606a975a8714947776be489e00af8fa623", "records": ["qualification/0_2_9/wp04_linear_solver_remediation.json", "qualification/0_2_9/wp04_linear_solver_r2_contract.json", "qualification/0_2_9/wp04_linear_solver_r2.json", "qualification/0_2_9/wp04_linear_solver_r2b.json", "qualification/0_2_9/wp04_linear_solver_r2b_stage_c_cg.json", "qualification/0_2_9/wp04_linear_solver_r2b_stage_c_minres.json"]},
+      {"phase": "C2R3-C2R6", "source_sha": "2c52bf8196a7d47d14ce1784290580160de26590", "records": ["qualification/0_2_9/c2r6/floor_aware_policy.json", "qualification/0_2_9/c2r6/frozen_threshold_audit.json", "qualification/0_2_9/c2r6/campaign_result.json", "qualification/0_2_9/c2r6/m2_result.json", "qualification/0_2_9/c2r6/m3_result.json"]},
+      {"phase": "WP04-D", "source_sha": "0c23b11477140fa64b5dd2a74def3a042bfe3d8e", "records": ["qualification/0_2_9/wp04d/hex8_contract.json", "qualification/0_2_9/wp04d/hex8_campaign_result.json", "qualification/0_2_9/wp04d/g04_11_audit.json"]},
+      {"phase": "WP04-E", "source_sha": "70e1bf953c8e6f37b8070e78ca97e58b21499291", "records": ["qualification/0_2_9/wp04e/g04_12_cross_family_audit.json"]}
+    ],
+    "original_failure_preservation": {
+      "original_failure_commit": "a5c3031f6b28b00476e328daff4845a741a5c161",
+      "original_campaign_record": "qualification/0_2_9/wp04_c_tet4_campaign.json",
+      "original_summary_record": "qualification/0_2_9/wp04_c_tet4_structural_summary.json",
+      "summary_git_blob_at_original": "0138e7583c2e0ce0488c69ab8630f87118a299e6",
+      "summary_git_blob_at_audit_sha": "0138e7583c2e0ce0488c69ab8630f87118a299e6",
+      "original_gate": "FAIL",
+      "original_fine_medium_displacement": 0.1640618103457515,
+      "original_fine_medium_energy": 0.16379509145773455,
+      "original_fine_medium_stress": 0.24310580151133324,
+      "preserved": true
+    }
+  },
+  "source_audit": {
+    "production_source_changed_from_audit_sha": false,
+    "production_paths_changed": [],
+    "source_files": [
+      {"path": "src/solveur/core/analyses/geometric_nonlinear.py", "sha256": "9645a71ce5012e2a1bf20ba088cde1f53cfea0d19c33b3c7b2a1e617442a5300", "git_blob_sha": "bd505125e902b048fcaec82ab9ad7b3c65122e6d"},
+      {"path": "src/solveur/core/assembly/geometric.py", "sha256": "b81454f32f8a824725f3e0902871eb5394bb0a4d83bd4709d9dc626a3108a22c", "git_blob_sha": "01c5a054cf1d744de13f208f29ff6dc22148f3b3"},
+      {"path": "src/solveur/core/assembly/nonlinear.py", "sha256": "fb8b5cdeb990df33aa3c9758f749ac738fb0a88aef210aeb4ba6b3af772627cc", "git_blob_sha": "23914da45c8d65bf450f00abeddc50adf34233bd"},
+      {"path": "src/solveur/elements/solid/tet4_total_lagrangian.py", "sha256": "3ca06b5da5bf8af148603432dea635d7507d32ecc24bc021fb563c52bbedbf2c", "git_blob_sha": "5084c3296eb7681fd82a20d325241280d9955930"},
+      {"path": "src/solveur/elements/solid/hex8_total_lagrangian_batch.py", "sha256": "d6e524b2233a84702974518a1f2136c0bef00bc744f120041150eae78bbf1bf5", "git_blob_sha": "92ef7cea3a2ddb1929ebf19d84da47708aecb678"},
+      {"path": "src/solveur/elements/solid/common.py", "sha256": "efb267439fbea27db606b69beb71b7a22db521332231e8f2e4cf03b52cb77da5", "git_blob_sha": "bcd3f022e6230ff0e5d898a02701442fe2df0c87"}
+    ],
+    "evidence_record_digests": {
+      "qualification/0_2_9/wp04_geometric_qualification_contract.json": "ad9bad3632bb3c2937a64d8b34fb5f092b078627ec654b0ecf9679d07cfdcbb6",
+      "qualification/0_2_9/wp04_formulation_map.json": "6930057a55a8af046283ebabe3c1d4fb7f6ea9f46fbc28add68f3812d6d07666",
+      "qualification/0_2_9/wp04_historical_debt_assessment.json": "253feb75506b9dc1071a218ff7fce52dde8a5da15005203bd46bfd66261af6f7",
+      "qualification/0_2_9/wp04_gate_matrix.json": "3c73c4a74c6f977109dcb612ace60ddaf999e9481e7af295716f2067710c1fa8",
+      "qualification/0_2_9/wp04_b_mechanics_identities.json": "fd3041b0545b0e32c5e648561cf584649c480ab0c38df557ce8b782ce31c6183",
+      "qualification/0_2_9/wp04_c_tet4_campaign.json": "011d8db0b5244e567524db1b89a4b7a2f8c791527291224c0501fbc3f2f72a0e",
+      "qualification/0_2_9/wp04_c_tet4_structural_summary.json": "a9647723085ee0776bb5b04c9c5c71ff7259bc94cfd65c3f4412ee4f54c0368d",
+      "qualification/0_2_9/wp04_c1_tet4_mesh_diagnosis.json": "0935e0841f6412ea21b12ae05617b9a38d7d0153b1dc62cea6574897714d9edc",
+      "qualification/0_2_9/wp04_c2_tet4_requalification_contract.json": "ed9f8a2760a84a563bee4c4f72ca890022c527cebd9ac7cfd7ad5cc4c51da045",
+      "qualification/0_2_9/wp04_c2_tet4_requalification.json": "f95ec247beaee4adddb1db58ef7c3949a0a03342ca0fb1a7d27d5baeea11790f",
+      "qualification/0_2_9/wp04_c2_m3_owner_abort.json": "60b0ebe98e4fb55f0776044059e6b7b2b66f158be0d51379cbad513b0a7bc6b0",
+      "qualification/0_2_9/wp04_linear_solver_remediation.json": "b5f66e509a6430058f8ff0a0a44a42a28d2fb4626a49970cc571fd229c17ebbf",
+      "qualification/0_2_9/wp04_linear_solver_r2_contract.json": "19fbe91333d88ba1315ab4004856b2570f0f9996398987aa4b649052c442c12d",
+      "qualification/0_2_9/wp04_linear_solver_r2.json": "f8f8aadd344e804058c3ee67829a9f5f7362697c7fc44174aba6160522350533",
+      "qualification/0_2_9/wp04_linear_solver_r2b.json": "f18e4edc0cffdbb70bf044112f1789e41e169f7038fce55e7db869bb800feb0f",
+      "qualification/0_2_9/wp04_linear_solver_r2b_stage_c_cg.json": "02d6d5685d838eec1293fea99f8a98c9b4be08e582ca69159a6bf3eaab98974d",
+      "qualification/0_2_9/wp04_linear_solver_r2b_stage_c_minres.json": "a127461a144da7d58850ed14db91ae2d4dfebaecb182f2fedc13e1263bbf289d",
+      "qualification/0_2_9/c2r6/floor_aware_policy.json": "e1db8ce8c47f8157f8bf65322b05931eba1d960ffc1c3ead1ea9ce58884521f5",
+      "qualification/0_2_9/c2r6/frozen_threshold_audit.json": "75bcef01a7916c8350142044deb6168cb5e9d20efb04d6d8ca905f14078893ef",
+      "qualification/0_2_9/c2r6/campaign_result.json": "d107eaf45538be70236019b8f839b78f1acf4b7352d32ea0c9019a09d6f6f513",
+      "qualification/0_2_9/c2r6/m2_result.json": "a6f96381b1e67efa59e68b0ee80773bc3341b7e3fdedf86861954f6beb60713b",
+      "qualification/0_2_9/c2r6/m3_result.json": "997ffe16dc6d7832a98f101d513ffa54040295df14609b82723871b1559f97e1",
+      "qualification/0_2_9/wp04d/hex8_contract.json": "003385618fe683e1701bd03f6a53ec431395127b7823ce757d6a814bcb66d181",
+      "qualification/0_2_9/wp04d/hex8_campaign_result.json": "03438dd4988ea0bb87c6a1e1117f46d386df86e11659082488a291b684d96bb9",
+      "qualification/0_2_9/wp04d/g04_11_audit.json": "21bbbd5b1fee3a400be85aa96d21569c8ede7b1f222e0696bd3698c5af488816",
+      "qualification/0_2_9/wp04e/g04_12_cross_family_audit.json": "0d097660e960e5120b11fd896f30498aabf190945935472f078e3addb3c70944",
+      "qualification/0_2_9/wp04d/h3_raw.npz": "a595374adbabde01a1f297a6e221c73adeaf10f915dfd7f59af4b4bf455dd14b"
+    },
+    "maturity_registry_changed": false
+  },
+  "mechanics_evidence": {
+    "equations_verified": [
+      "F = I + Grad(u)",
+      "C = F^T F",
+      "E = 0.5 (C - I)",
+      "S = lambda tr(E) I + 2 mu E",
+      "P = F S",
+      "f_int = integral(B^T P) dV0",
+      "K_T = material tangent + geometric tangent",
+      "psi = 0.5 lambda tr(E)^2 + mu E:E",
+      "sigma = det(F)^-1 F S F^T"
+    ],
+    "objectivity": {
+      "thresholds": {"scaled_energy": 1e-12, "scaled_internal_force": 1e-11},
+      "TET4": {"max_scaled_energy": 5.925938290422264e-32, "max_scaled_force": 7.1452248095509635e-16, "max_abs_green_strain": 2.220446049250313e-16, "max_abs_second_piola_over_E": 3.6295752728130117e-16, "max_abs_cauchy_over_E": 3.7457698751012485e-16},
+      "HEX8": {"max_scaled_energy": 5.612207511551394e-32, "max_scaled_force": 2.750946359148772e-16, "max_abs_green_strain": 1.1102230246251564e-16, "max_abs_second_piola_over_E": 2.2151084385549996e-16, "max_abs_cauchy_over_E": 2.1297002811554107e-16}
+    },
+    "affine_patch": {
+      "thresholds": {"relative": 1e-10, "absolute": 1e-12},
+      "TET4_max_production_error": {"cauchy_stress": 2.1316282072803006e-14, "deformation_gradient": 0.0, "first_piola_stress": 1.4238610290817633e-14, "green_lagrange_strain": 1.991763972825572e-17, "second_piola_stress": 1.5321261329427476e-14, "strain_energy_density": 3.552713678800501e-15},
+      "HEX8_max_production_error": {"cauchy_stress": 2.842170943040401e-14, "deformation_gradient": 2.220446049250313e-16, "first_piola_stress": 2.842170943040401e-14, "green_lagrange_strain": 1.3877787807814457e-17, "second_piola_stress": 2.842170943040401e-14, "strain_energy_density": 3.552713678800501e-15}
+    },
+    "energy_gradient": {"threshold_relative": 1e-7, "TET4_max_selected_relative": 3.729729708567283e-09, "HEX8_max_selected_relative": 6.225887413721546e-10, "selected_fd_step": 1e-6},
+    "tangent": {"thresholds": {"frobenius": 1e-6, "maximum_column": 5e-6, "symmetry": 1e-12}, "TET4": {"max_frobenius": 6.07839709319373e-11, "max_column": 1.1757631899319535e-10, "max_symmetry": 0.0}, "HEX8": {"max_frobenius": 1.170521763198485e-10, "max_column": 1.5062326759762644e-10, "max_symmetry": 0.0}},
+    "accepted_observer": {"accepted_snapshot_count": 6, "rejected_trial_snapshot_count": 0, "snapshot_detached": true, "snapshot_mutated_by_later_trial": false},
+    "historical_work_value": 1.3963468382007748e-05,
+    "historical_work_value_changed": false,
+    "energy_work": {
+      "thresholds": {"finest_relative_error": 1e-6, "work_96_vs_48": 2e-7},
+      "TET4": {"relative_errors": {"12": 1.5462391012196775e-06, "24": 3.865604777856286e-07, "48": 9.664033915671918e-08, "96": 2.416066138923941e-08}, "work_96_vs_48": 7.247967951863676e-08},
+      "HEX8": {"relative_errors": {"12": 3.2215974619968775e-06, "24": 8.054012891577662e-07, "48": 2.013503168819744e-07, "96": 5.033743397600643e-08}, "work_96_vs_48": 1.5101242176369792e-07}
+    }
+  },
+  "structural_evidence": {
+    "common_route": {"linear_solver": "MINRES", "preconditioner": "Jacobi", "rtol": 1e-11, "atol": 1e-14, "maxiter": 10000, "direct_fallback": false, "line_search": "existing/enabled", "newton_tolerance": 1e-10, "floor_aware_termination": true, "accepted_load_steps": 12},
+    "tet4_c2r6": {
+      "M2": {"mesh": "48x24x24", "nodes": 30625, "elements": 165888, "dofs": 91875, "tip": -0.19685864781061374, "reaction": 49.9999999999999, "energy": 4.915487767084533, "stress": 3002.540859194057, "force_equilibrium": 2.271677919850833e-14, "moment_equilibrium": 1.2986843893587648e-15, "min_det_f": 0.9917813121785688, "principal_stretches": [0.99020740580251, 1.0097489329706606], "max_green_lagrange_norm": 0.010351119868140262, "accepted_steps": 12, "newton_iterations": 300, "linear_solves": 297, "fallbacks": 0, "max_eta_inf": 4.777962584217645e-12, "termination_counts": {"CONVERGED_RESIDUAL": 3, "CONVERGED_NUMERICAL_FLOOR": 9}},
+      "M3": {"mesh": "64x32x32", "nodes": 70785, "elements": 393216, "dofs": 212355, "tip": -0.2002482511318092, "reaction": 49.99999999999998, "energy": 4.999939075668591, "stress": 3068.972048649666, "force_equilibrium": 2.5505039661180956e-14, "moment_equilibrium": 7.63053276664867e-16, "min_det_f": 0.9909797199809931, "principal_stretches": [0.9893216428558, 1.0104538037144282], "max_green_lagrange_norm": 0.01111056564916684, "accepted_steps": 12, "newton_iterations": 275, "linear_solves": 272, "fallbacks": 0, "max_eta_inf": 8.106166618904346e-12, "termination_counts": {"CONVERGED_RESIDUAL": 3, "CONVERGED_NUMERICAL_FLOOR": 9}},
+      "M2_to_M3_deltas": {"displacement": 0.01692700586415766, "reaction": 1.563194018672221e-15, "energy": 0.016890467524899724, "stress": 0.02164607184507869},
+      "thresholds": {"displacement": 0.02, "reaction": 0.02, "energy": 0.02, "stress": 0.10},
+      "envelope_pass": true,
+      "equilibrium_pass": true,
+      "route_frozen": true,
+      "raw_campaign_placeholder_preserved": true,
+      "telemetry_aggregate_discrepancy": "SOLVE_COMPLETED.newton_iterations undercounts by 12 per case because FLOOR_CONVERGED events are excluded; per-iteration and STEP_ACCEPTED records agree with result totals."
+    },
+    "hex8_wp04d": {
+      "H2": {"mesh": "24x12x12", "nodes": 4225, "elements": 3456, "dofs": 12675, "tip": -0.1953490499118973, "reaction": 49.99999999999993, "energy": 4.877906362795091, "stress": 3052.383580426857, "force_equilibrium": 6.479137079435662e-14, "moment_equilibrium": 4.033649056229668e-15, "min_det_f": 0.9929134061591659, "principal_stretches": [0.9913156862131691, 1.0086274186585185], "max_green_lagrange_norm": 0.009123958690491481, "fallbacks": 0},
+      "H3": {"mesh": "32x16x16", "nodes": 9537, "elements": 8192, "dofs": 28611, "tip": -0.19933380039473436, "reaction": 49.99999999999994, "energy": 4.977170539703795, "stress": 2910.498904645881, "force_equilibrium": 2.7493855285792547e-14, "moment_equilibrium": 3.257786891417962e-15, "min_det_f": 0.9924435183210853, "principal_stretches": [0.9907111439153957, 1.0092228247131967], "max_green_lagrange_norm": 0.0095824348944902, "fallbacks": 0},
+      "H2_to_H3_deltas": {"displacement": 0.01999034019793022, "reaction": 9.224898992711293e-14, "energy": 0.019943897062970836, "stress": 0.046483239095767515},
+      "thresholds": {"displacement": 0.02, "reaction": 0.02, "energy": 0.02, "stress": 0.10},
+      "H1_replay": {"status": "PASS", "observable_relative_deltas": 0.0, "accepted_path_equal": true, "classifications_equal": true},
+      "H4": "NOT_RUN_PREDECLARED_RESCUE_NOT_TRIGGERED",
+      "envelope_pass": true,
+      "equilibrium_pass": true,
+      "route_frozen": true,
+      "small_load_support": {"displacement_error": 2.5607163831358572e-05, "reaction_error": 2.7738177407149553e-04, "limit": 1e-4, "classification": "NON_BLOCKING_SUPPORT_LIMITATION"}
+    },
+    "cross_family": {"TET4_source": "C2R6 M3", "HEX8_source": "WP04-D H3", "physical_definitions_match": true, "governing_load_resultant_and_first_moment_match": true, "deltas": {"displacement": 0.004566585385421973, "reaction": 7.105427357601005e-16, "energy": 0.004553762679948579, "stress": 0.05163720669059609}, "thresholds": {"displacement": 0.03, "reaction": 0.03, "energy": 0.03, "stress": 0.12}}
+  },
+  "gates": {
+    "G04-01": {"status": "PASS", "evidence": ["qualification/0_2_9/wp04_geometric_qualification_contract.json", "qualification/0_2_9/wp04_gate_matrix.json"], "reason": "Bounded TET4/HEX8 TL StVK scope and exclusions are explicit; no silent expansion."},
+    "G04-02": {"status": "PASS", "thresholds": {"scaled_energy": 1e-12, "scaled_force": 1e-11}, "evidence": ["qualification/0_2_9/wp04_b_mechanics_identities.json"], "reason": "Both families pass all four rigid-motion objectivity cases with margins."},
+    "G04-03": {"status": "PASS", "thresholds": {"relative": 1e-10, "absolute": 1e-12}, "evidence": ["qualification/0_2_9/wp04_b_mechanics_identities.json"], "reason": "Independent affine oracle agrees for four finite-deformation states in both families."},
+    "G04-04": {"status": "PASS", "threshold": {"relative": 1e-7}, "evidence": ["qualification/0_2_9/wp04_b_mechanics_identities.json"], "reason": "Centered finite-difference energy-gradient evidence passes selected-step limits for TET4 and HEX8."},
+    "G04-05": {"status": "PASS", "thresholds": {"frobenius": 1e-6, "maximum_column": 5e-6, "symmetry": 1e-12}, "evidence": ["qualification/0_2_9/wp04_b_mechanics_identities.json"], "reason": "Per-column tangent checks, Frobenius checks and symmetry checks pass for both families."},
+    "G04-06": {"status": "PASS_WITH_LIMITATION", "evidence": ["qualification/0_2_9/wp04_c_tet4_structural_summary.json", "qualification/0_2_9/wp04d/hex8_contract.json", "qualification/0_2_9/wp04e/g04_12_cross_family_audit.json"], "threshold": {"relative_displacement": 1e-4, "relative_reaction": 1e-4}, "TET4": {"displacement_error": 2.1032185690777483e-05, "reaction_error": 3.384021633463905e-11, "status": "PASS"}, "HEX8_support": {"displacement_error": 2.5607163831358572e-05, "reaction_error": 2.7738177407149553e-04, "status": "SUPPORT_LIMITATION"}, "reason": "The pre-result WP04-D contract explicitly defines the HEX8 small-load sequence as supporting-only and not a new gate number; the miss remains public and does not invalidate the family mesh gate."},
+    "G04-07": {"status": "PASS", "threshold": {"force": 1e-8, "moment": 1e-8}, "evidence": ["qualification/0_2_9/c2r6/m3_result.json", "qualification/0_2_9/wp04d/hex8_campaign_result.json"], "TET4": {"force": 2.5505039661180956e-14, "moment": 7.63053276664867e-16}, "HEX8": {"force": 2.7493855285792547e-14, "moment": 3.257786891417962e-15}, "reason": "Final fine-family force and moment checks pass by large margins."},
+    "G04-08": {"status": "PASS", "thresholds": {"finest_relative_error": 1e-6, "work_96_vs_48": 2e-7}, "evidence": ["qualification/0_2_9/wp04_b_mechanics_identities.json"], "reason": "Accepted-state 12/24/48/96 work refinement passes for both families; historical WP13-11 value is unchanged."},
+    "G04-09": {"status": "PASS_WITH_LIMITATION", "thresholds": {"load_step_final_difference": 1e-8, "replay_relative": 1e-12, "replay_absolute": 1e-14}, "evidence": ["qualification/0_2_9/wp04_c_tet4_structural_summary.json", "qualification/0_2_9/wp04d/hex8_campaign_result.json", "qualification/0_2_9/c2r6/frozen_threshold_audit.json"], "reason": "TET4 load-step/replay and HEX8 H1 replay are valid; the known SOLVE_COMPLETED Newton aggregate undercount is nonblocking WP15 debt because raw per-step totals are complete."},
+    "G04-10": {"status": "PASS", "thresholds": {"displacement": 0.02, "reaction": 0.02, "energy": 0.02, "stress": 0.10}, "evidence": ["qualification/0_2_9/c2r6/frozen_threshold_audit.json", "qualification/0_2_9/c2r6/m2_result.json", "qualification/0_2_9/c2r6/m3_result.json"], "reason": "Owner-approved C2R6 M2 to M3 evidence independently verifies all frozen deltas, envelope, equilibrium and route provenance; raw unresolved placeholder remains preserved."},
+    "G04-11": {"status": "PASS", "thresholds": {"displacement": 0.02, "reaction": 0.02, "energy": 0.02, "stress": 0.10}, "evidence": ["qualification/0_2_9/wp04d/hex8_contract.json", "qualification/0_2_9/wp04d/hex8_campaign_result.json", "qualification/0_2_9/wp04d/g04_11_audit.json"], "reason": "Owner-approved H2 to H3 evidence passes all frozen limits; H4 rescue was predeclared and correctly not run."},
+    "G04-12": {"status": "PASS", "thresholds": {"displacement": 0.03, "reaction": 0.03, "energy": 0.03, "stress": 0.12}, "evidence": ["qualification/0_2_9/wp04e/g04_12_cross_family_audit.json"], "reason": "The approved TET4 C2R6 M3 and HEX8 H3 records match in governing physical definitions and pass all frozen cross-family deltas."}
+  },
+  "limitations_ledger": [
+    {"id": "L04-01", "limitation": "HEX8 smallest-load reaction support error is 2.7738177407149553e-04 > 1e-4.", "blocking": false, "rationale": "WP04-D froze this as supporting-only, not a new G04-11 gate; it is retained in G04-06 as PASS_WITH_LIMITATION."},
+    {"id": "L04-02", "limitation": "TET4 C2R6 SOLVE_COMPLETED aggregate undercounts Newton iterations by 12 per case.", "blocking": false, "rationale": "Per-iteration telemetry, STEP_ACCEPTED records and result totals are complete; this is bookkeeping debt, not physical/replay corruption."},
+    {"id": "L04-03", "limitation": "MINRES+Jacobi evidence is local and bounded, not universal scalability evidence.", "blocking": false, "rationale": "Only the frozen WP04 serial route is claimed."},
+    {"id": "L04-04", "limitation": "SPD is not proven; CG remains rejected for the nonlinear route.", "blocking": false, "rationale": "The qualification route uses MINRES and makes no global SPD claim."},
+    {"id": "L04-05", "limitation": "PETSc/AMG is not qualified.", "blocking": false, "rationale": "Distributed/HPC solver qualification is outside WP04 scope."},
+    {"id": "L04-06", "limitation": "StVK claims are bounded by the stated positive-deformation envelope.", "blocking": false, "rationale": "No universal large-strain constitutive validity is claimed."},
+    {"id": "L04-07", "limitation": "No contact, plastic, dynamic or coupled nonlinear qualification is implied.", "blocking": false, "rationale": "Those combinations are explicit roadmap exclusions."},
+    {"id": "L04-08", "limitation": "No high-order element qualification is implied.", "blocking": false, "rationale": "TET10/HEX20 remain outside WP04."},
+    {"id": "L04-09", "limitation": "Qualification is serial/single-process only.", "blocking": false, "rationale": "Distributed execution is outside the frozen contract."},
+    {"id": "L04-10", "limitation": "Public maturity registry was not changed by this evidence-only audit.", "blocking": false, "rationale": "The bounded maturity recommendation is pending Owner approval and integration review."}
+  ],
+  "validation": {
+    "audit_tests": "PASS: 5 passed in 0.88s",
+    "document_registry_test": "PASS: 1 passed, 1 skipped, 17 deselected in 6.25s",
+    "ruff": "PASS: python -m ruff check tests/verification/test_wp04_f_final_closure.py",
+    "mypy": "PASS: python -m mypy tests/verification/test_wp04_f_final_closure.py; no new diagnostics",
+    "compileall": "PASS: python -m compileall -q tests/verification/test_wp04_f_final_closure.py",
+    "json_validation": "PASS: wp04f audit JSON, progress JSON and docs/document_registry.json parsed successfully",
+    "mkdocs": "PASS: python -m mkdocs build --strict -f .github/pages/mkdocs.yml --site-dir temporary isolated site"
+  },
+  "final_decision": {
+    "auditor_decision": "GO_WITH_LIMITATIONS",
+    "wp04_status": "CLOSED",
+    "wp04_points": 12,
+    "validated_total": 41,
+    "blocking_limitations": [],
+    "maturity_recommendation": "QUALIFIED_BOUNDED for TET4 and HEX8 geometric_nonlinear_static only within the frozen WP04 scope, pending Owner approval; public maturity registry remains unchanged in this audit.",
+    "owner_review_required": true,
+    "next_step": "Owner approval then sequential child-branch integration; WP05 not started."
+  }
+}

@@ -17,8 +17,10 @@ the same-model target-clipped arc retry challenge: the final policy reaches
 the unchanged physical solution with one rejection where the pre-WP03 route
 repeated the same effective radius five times.
 
-WP04 Geometric Nonlinear Qualification is now **HOLD — G04-12 cross-family pass pending Owner review**
-at 0/12. WP04-B independently demonstrates the bounded TET4/HEX8
+WP04 Geometric Nonlinear Qualification is now **CLOSED — 12/12** after the
+independent WP04-F evidence-only audit at
+`70e1bf953c8e6f37b8070e78ca97e58b21499291`, with a
+`GO_WITH_LIMITATIONS` decision. WP04-B independently demonstrates the bounded TET4/HEX8
 Total-Lagrangian Saint-Venant-Kirchhoff objectivity, affine patch,
 energy-gradient, tangent and accepted-path work identities. WP04-C then ran a
 frozen TET4 cantilever campaign. Its small-load, force/moment balance,
@@ -99,17 +101,20 @@ representative-stress deltas pass at `0.004566585385421973`,
 `0.05163720669059609`, respectively. The family-specific discrete boundary
 load representations are disclosed; the governing resultant and first moment
 match. The HEX8 small-load reaction support limitation is carried forward to
-WP04-F. The derived status is `G04-12=PASS_PENDING_OWNER_REVIEW`; WP04 remains
-at 0/12 and 29/100 with no maturity change. See
-`../docs/verification/0_2_9/wp04-e-g04-12-cross-family-closure.md` and
-`wp04e/g04_12_cross_family_audit.json`.
+WP04-F. The derived status is now `G04-12=PASS`; WP04-F independently verifies
+all twelve gates, preserves the original G04-10 failure, and raises the
+validated total to **41/100**. Public maturity remains Owner-pending and the
+registry is unchanged. See
+`../docs/verification/0_2_9/wp04-e-g04-12-cross-family-closure.md`,
+`wp04e/g04_12_cross_family_audit.json`, and
+`../docs/verification/0_2_9/wp04-f-final-closure-audit.md`.
 
 ## Current planning status
 
 - WP00: `CLOSED`, 4/4 points.
 - WP01 Unified Nonlinear Core: `CLOSED`, 12/12 points after independent
   Owner closure at audit SHA `6876d867cdd845195e8946b05329b0bc82937fdc`.
-- Validated total: `29/100`.
+- Validated total: `41/100`.
 - WP02 State Transactions & Rollback: `CLOSED`, 6/6 points after the
   independent WP02-E audit at `c4e02fbd2d1262f621f6c8d4f07ee2da89d885f5`.
   The decision is `GO_WITH_LIMITATIONS`; Owner review is required before the
@@ -118,10 +123,11 @@ at 0/12 and 29/100 with no maturity change. See
 - OD-029-02: **CLOSED** as `READ_V1_WRITE_V2_BOUNDED`; ambiguous/stateful
   contact-bearing v1 checkpoints are rejected.
 
-WP04-E is the current phase: `G04-10=PASS` and `G04-11=PASS` are Owner-approved,
-and the evidence-only G04-12 comparison is `PASS_PENDING_OWNER_REVIEW`.
-WP04 therefore remains at 0/12 and the validated total remains 29/100 pending
-the independent WP04-F combined closure audit.
+WP04-F is the completed phase: the evidence-only independent audit records
+G04-01..G04-05, G04-07..G04-08 and G04-10..G04-12 as PASS, with G04-06 and
+G04-09 as PASS_WITH_LIMITATION. WP04 is CLOSED at 12/12 and the validated
+total is 41/100. Owner approval is required before sequential child-branch
+integration; WP05 has not started.
 
 WP03-C preserves the accepted-state authority and all existing numerical and
 maturity boundaries. WP03-D adds the single `UnifiedArcLengthRadiusPolicy`,
