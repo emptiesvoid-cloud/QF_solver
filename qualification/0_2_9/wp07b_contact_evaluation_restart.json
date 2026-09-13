@@ -3,10 +3,12 @@
   "record_id": "QF-029-WP07-B-CONTACT-EVALUATION-RESTART-001",
   "gate": "WP07",
   "work_package": "WP07-B",
-  "revision": "0.1",
+  "revision": "0.2",
   "source_sha": "1b400e20685f80d4508d93a31abeca2caee129fe",
+  "owner_correction_source_sha": "cbf430543547e322eadb6c4eb559bc92bb6892ab",
   "status": "PREPARATION_ONLY",
-  "owner_status": "IMPLEMENTATION_CANDIDATE",
+  "owner_status": "IMPLEMENTATION_CANDIDATE_WITH_OWNER_CORRECTION_R1",
+  "owner_correction": "OWNER_CORRECTION_R1",
   "qualification_campaign_executed": false,
   "formal_points": "0/2",
   "wp07_points": "0/10",
@@ -47,13 +49,25 @@
     ],
     "python_object_identity_hashed": false,
     "nodal_coordinates_included": false,
-    "geometry_signature_owner": "surrounding model/checkpoint signature"
+    "geometry_signature_owner": "surrounding model/checkpoint signature",
+    "contact_digest_owns_geometry": false
   },
   "restart_contract": {
     "metadata_type": "PenaltyContactRestartMetadata",
-    "compatible": "restored accepted state + matching contact configuration digest + same model/contact parameters -> deterministic re-evaluation",
+    "compatibility_levels": {
+      "contact_only": "CONTACT_CONFIGURATION_COMPATIBLE",
+      "full_restart": "FULL_RESTART_COMPATIBLE"
+    },
+    "contact_only": "matching contact configuration digest and contact/search metadata; no restart claim",
+    "full_restart_conditions": [
+      "matching contact configuration digest",
+      "matching restored model/checkpoint signature",
+      "matching restored accepted-state digest"
+    ],
+    "model_signature_required_for_full_restart": true,
+    "accepted_state_digest_optional_for_contact_only": true,
+    "accepted_state_digest_required_for_full_restart": true,
     "incompatible": "InputValidationError; fail closed",
-    "accepted_state_digest_optional": true,
     "active_set_mid_solve": "UNSUPPORTED",
     "updated_search": "UNQUALIFIED_RESTART"
   },
@@ -88,7 +102,15 @@
     {"id": "B7", "name": "active_set_restart_unsupported", "status": "READY_TARGETED"},
     {"id": "B8", "name": "updated_search_restart_unqualified", "status": "READY_TARGETED"},
     {"id": "B9", "name": "legacy_composition_identity", "status": "READY_TARGETED"},
-    {"id": "B10", "name": "legacy_diagnostics_preserved", "status": "READY_TARGETED"}
+    {"id": "B10", "name": "legacy_diagnostics_preserved", "status": "READY_TARGETED"},
+    {"id": "R1-01", "name": "matching_full_restart_compatibility", "status": "READY_TARGETED"},
+    {"id": "R1-02", "name": "wrong_contact_digest_fail_closed", "status": "READY_TARGETED"},
+    {"id": "R1-03", "name": "wrong_model_signature_fail_closed", "status": "READY_TARGETED"},
+    {"id": "R1-04", "name": "wrong_accepted_state_digest_fail_closed", "status": "READY_TARGETED"},
+    {"id": "R1-05", "name": "missing_model_signature_fail_closed", "status": "READY_TARGETED"},
+    {"id": "R1-06", "name": "missing_accepted_state_digest_fail_closed", "status": "READY_TARGETED"},
+    {"id": "R1-07", "name": "contact_only_does_not_claim_full_restart", "status": "READY_TARGETED"},
+    {"id": "R1-08", "name": "restart_metadata_numerical_identity", "status": "READY_TARGETED"}
   ],
   "governance": {
     "production_source_changed": true,
