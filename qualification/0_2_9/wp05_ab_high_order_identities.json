@@ -1,0 +1,281 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "VNV029-WP05-AB-IDENTITIES-001",
+  "gate": "WP05-A/B",
+  "title": "TET10 and HEX20 high-order total-Lagrangian identity V&V",
+  "status": "PASS_CANDIDATE_PENDING_WP04",
+  "source_baseline_sha": "2c52bf8196a7d47d14ce1784290580160de26590",
+  "source_test_sha": "1acd25e33fa0750a2189426e71b112117779365c",
+  "branch": "0.2.9-wp05-prep",
+  "audit_date": "2026-09-13",
+  "formal_points_awarded": 0,
+  "formal_points": {
+    "WP05-A": "0/1",
+    "WP05-B": "0/1",
+    "WP05": "0/5",
+    "validated_release_total": "29/100"
+  },
+  "governance": {
+    "preparation_audit_approved": true,
+    "formal_qualification_blocked_pending_wp04": true,
+    "maturity_changed": false,
+    "owner_closeout": false,
+    "agent_a_workspace_touched": false,
+    "agent_a_processes_touched": false,
+    "merge_while_wp04_c2r6_active": false
+  },
+  "scope": {
+    "families": [
+      "TET10",
+      "HEX20"
+    ],
+    "analysis": "geometric_nonlinear_static",
+    "kinematics": "total_lagrangian_green_lagrange",
+    "constitutive_response": "isotropic_stvk_elastic_solid_material",
+    "geometry": "canonical_straight_sided_positive_reference_geometry",
+    "loads": "nodal_dead_loads_only",
+    "bounded_inputs": [
+      "one homogeneous family at a time",
+      "one isotropic_3d material",
+      "positive finite geometry"
+    ],
+    "out_of_scope": [
+      "contact",
+      "plasticity",
+      "distributed loads",
+      "mixed elements",
+      "mixed materials",
+      "external correlation",
+      "maturity promotion",
+      "curved TET10 nonlinear quadrature qualification",
+      "full regression"
+    ]
+  },
+  "frozen_protocol": {
+    "objectivity_scaled_energy": 1e-12,
+    "objectivity_scaled_force_norm": 1e-11,
+    "affine_patch_relative": 1e-10,
+    "affine_patch_absolute": 1e-12,
+    "energy_gradient_relative": 1e-7,
+    "tangent_frobenius_relative": 1e-6,
+    "tangent_max_sampled_column_relative": 5e-6,
+    "tangent_symmetry_relative": 1e-12,
+    "small_limit_displacement_relative": 1e-4,
+    "small_limit_reaction_relative": 1e-4,
+    "central_difference_step_rule": "eps**(1/3) * max(1, ||u||_inf)",
+    "central_difference_step": 6.055454452393339e-06,
+    "threshold_tuned_after_observation": false,
+    "affine_deformation_gradient": [
+      [1.04, 0.03, 0.0],
+      [0.0, 0.98, 0.02],
+      [0.0, 0.0, 1.01]
+    ],
+    "objectivity_rotations": [
+      {
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "angle_radians": 0.2
+      },
+      {
+        "axis": [
+          1.0,
+          2.0,
+          3.0
+        ],
+        "angle_radians": -0.47
+      }
+    ]
+  },
+  "oracle": {
+    "type": "independent_affine_green_lagrange_stvk",
+    "green_lagrange": "0.5*(F.T@F-I)",
+    "engineering_strain": "[E11,E22,E33,2E12,2E23,2E13]",
+    "stress": "C_isotropic@engineering_strain",
+    "energy_density": "0.5*engineering_strain@stress",
+    "production_function_reused_as_oracle": false
+  },
+  "results": {
+    "TET10": {
+      "status": "PASS_CANDIDATE_PENDING_WP04",
+      "objectivity": {
+        "status": "PASS",
+        "case_count": 2,
+        "maximum_scaled_energy": 1.356504292046578e-33,
+        "maximum_scaled_force_norm": 4.59829018596225e-17,
+        "finite_state": true
+      },
+      "affine_patch": {
+        "status": "PASS",
+        "green_lagrange_relative_error": 8.446007818039625e-17,
+        "second_piola_relative_error": 1.3752230241763959e-16,
+        "energy": 0.00022926875000000042,
+        "reference_energy": 0.0002292687500000004,
+        "energy_relative_error": 1.18223937244555e-16
+      },
+      "energy_gradient": {
+        "status": "PASS",
+        "relative_error": 4.697706350207602e-09
+      },
+      "tangent": {
+        "status": "PASS",
+        "dof_count": 30,
+        "frobenius_relative_error": 2.43364613829268e-10,
+        "maximum_sampled_column_relative_error": 3.2308277341215453e-10,
+        "sampled_dofs": [
+          0,
+          1,
+          2,
+          12,
+          13,
+          14
+        ],
+        "symmetry_relative_error": 0.0
+      },
+      "small_displacement_linear_limit": {
+        "status": "PASS",
+        "load": 1e-7,
+        "displacement_relative_error": 9.454881526882126e-06,
+        "reaction_relative_error": 8.064907277828423e-06
+      },
+      "ordering_regression": {
+        "status": "PASS",
+        "expected_gmsh_to_internal_remap": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          9,
+          8
+        ],
+        "orientation_repairs": 1,
+        "internal_connectivity": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "negative_geometry_controls": {
+        "inverted_orientation": "PASS",
+        "nonfinite_reference_node": "PASS"
+      }
+    },
+    "HEX20": {
+      "status": "PASS_CANDIDATE_PENDING_WP04",
+      "objectivity": {
+        "status": "PASS",
+        "case_count": 2,
+        "maximum_scaled_energy": 1.706667497213657e-32,
+        "maximum_scaled_force_norm": 9.991149900296587e-17,
+        "finite_state": true
+      },
+      "affine_patch": {
+        "status": "PASS",
+        "green_lagrange_relative_error": 1.4957846974277547e-16,
+        "second_piola_relative_error": 1.819774560246784e-16,
+        "energy": 0.0013756125000000024,
+        "reference_energy": 0.0013756125000000024,
+        "energy_relative_error": 0.0
+      },
+      "energy_gradient": {
+        "status": "PASS",
+        "relative_error": 9.310246079067896e-10
+      },
+      "tangent": {
+        "status": "PASS",
+        "dof_count": 60,
+        "frobenius_relative_error": 6.549800660920467e-11,
+        "maximum_sampled_column_relative_error": 8.389251707149347e-11,
+        "sampled_dofs": [
+          0,
+          1,
+          2,
+          24,
+          25,
+          26
+        ],
+        "symmetry_relative_error": 0.0
+      },
+      "small_displacement_linear_limit": {
+        "status": "PASS",
+        "load": 1e-7,
+        "displacement_relative_error": 1.9428760466840632e-07,
+        "reaction_relative_error": 2.69184150689822e-08
+      },
+      "jacobian_regression": {
+        "status": "PASS",
+        "integration_rule": "3x3x3_Gauss",
+        "integration_point_count": 27,
+        "minimum_jacobian_determinant": 0.125,
+        "all_finite_positive": true
+      },
+      "negative_geometry_controls": {
+        "nonpositive_integration_point_jacobian": "PASS",
+        "nonfinite_reference_node": "PASS"
+      }
+    }
+  },
+  "quadrature": {
+    "TET10": {
+      "default_rule": "hammer4",
+      "default_point_count": 4,
+      "diagnostic_rule": "code_aster_5",
+      "diagnostic_point_count": 5,
+      "straight_affine_energy_relative_difference": 3.546718117336649e-16,
+      "result": "PASS_BOUNDED",
+      "default_changed": false
+    },
+    "HEX20": {
+      "rule": "full_3x3x3_Gauss",
+      "point_count": 27,
+      "reduced_integration_implemented": false,
+      "hourglass_claim": false
+    },
+    "curved_tet10_nonlinear_quadrature_vv": "OPEN_FUTURE_ISSUE"
+  },
+  "negative_controls": {
+    "all_expected_rejections_pass": true,
+    "silent_repair_or_fallback": false,
+    "production_api_scope_broadened": false
+  },
+  "validation": {
+    "new_identity_tests": "15 passed",
+    "existing_tet10_hex20_route_tests": "PASS",
+    "relevant_importer_order_tests": "PASS",
+    "ruff": "PASS",
+    "mypy": "PASS_WITH_COMMAND_PYTHON_3_13",
+    "compileall": "PASS",
+    "qualification_json": "PASS",
+    "controlled_document_registry": "PASS",
+    "mkdocs": "NOT_AVAILABLE_NO_MKDOCS_CONFIG",
+    "full_test_suite_run": false
+  },
+  "source_change_policy": {
+    "production_defect_found": false,
+    "production_source_changed": false,
+    "mechanics_formulation_changed": false,
+    "element_formulation_changed": false,
+    "maturity_changed": false
+  },
+  "limitations": [
+    "Formal qualification remains blocked pending WP04 closure",
+    "No high-order structural mesh/refinement campaign",
+    "No curved/distorted TET10 nonlinear quadrature qualification",
+    "No locking, stress recovery, external correlation, contact, dynamics, J2, or mixed-mesh claim",
+    "Identity evidence does not generalize to all materials, loads, meshes, or nonlinear regimes"
+  ],
+  "next_step": "OWNER_REVIEW_WAIT_FOR_WP04_GOVERNANCE_RESOLUTION"
+}

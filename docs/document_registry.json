@@ -5626,6 +5626,21 @@
     "tests/unit/test_hex20_element.py",
     "tests/unit/test_geometric_nonlinear_public.py"
   ]
+},
+{
+  "id": "DOC-029-WP05-AB-IDENTITIES-001",
+  "path": "verification/0_2_9/wp05-ab-high-order-identities.md",
+  "title": "QF Solver 0.2.9 WP05-A/B high-order TL identity V&V",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp05_ab_high_order_identities.json"
+  ],
+  "tests": [
+    "tests/verification/test_wp05a_tet10_high_order_identity.py",
+    "tests/verification/test_wp05b_hex20_high_order_identity.py",
+    "tests/unit/test_gmsh_importer.py"
+  ]
 }
   ]
   
