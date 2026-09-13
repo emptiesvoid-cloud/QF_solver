@@ -5622,6 +5622,19 @@
     "qualification/0_2_9/wp15_telemetry_architecture.json"
   ],
   "tests": []
+},
+{
+  "id": "DOC-029-WP15A-GENERIC-TELEMETRY-CORE-001",
+  "path": "verification/0_2_9/wp15a-generic-telemetry-core.md",
+  "title": "QF Solver 0.2.9 WP15-A generic telemetry core",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp15a_generic_telemetry_core.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp15a_generic_telemetry.py"
+  ]
 }
   ]
   

@@ -11,11 +11,15 @@ approver: ""
 
 ## Status and scope
 
-This document is a preparation artifact for WP15-A. It audits the telemetry
-available at baseline 2c52bf8196a7d47d14ce1784290580160de26590 and freezes a
-prospective architecture for Owner review. No production instrumentation,
-numerical campaign, mechanics change, or solver-behaviour change is included.
-WP15 remains 0/2 and the validated total remains 29/100.
+Architecture status: OWNER_FROZEN.
+
+This document began as a preparation artifact for WP15-A. Its original
+preparation-only status is retained in the machine-readable history. Following
+Owner policy review, the event vocabulary, envelope, sequencing, durability,
+compatibility and overhead constraints are now frozen for implementation.
+No production route instrumentation, numerical campaign, mechanics change, or
+solver-behaviour change is included. WP15 remains 0/2 and the validated total
+remains 29/100.
 
 The machine-readable companion is
 [qualification/0_2_9/wp15_telemetry_architecture.json](../../../qualification/0_2_9/wp15_telemetry_architecture.json).

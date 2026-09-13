@@ -2,7 +2,7 @@
   "schema_version": 1,
   "record_type": "wp15_global_telemetry_architecture",
   "work_package": "WP15",
-  "status": "PREPARATION_ONLY_OWNER_REVIEW_REQUIRED",
+  "status": "OWNER_FROZEN",
   "source_baseline_sha": "2c52bf8196a7d47d14ce1784290580160de26590",
   "target_release": "0.2.9-preparation",
   "observed_package_version_at_baseline": "0.2.8",
@@ -13,6 +13,12 @@
     "mechanics_or_solver_behavior_changed": false,
     "formal_points": "0/2",
     "validated_total": "29/100"
+  },
+  "preparation_history": {
+    "initial_status": "PREPARATION_ONLY_OWNER_REVIEW_REQUIRED",
+    "owner_status": "OWNER_FROZEN",
+    "history_preserved": true,
+    "implementation_status": "WP15_A_IMPLEMENTATION_SEPARATE_FROM_ROUTE_INSTRUMENTATION"
   },
   "current_telemetry_components": [
     {
@@ -239,7 +245,7 @@
   },
   "timing_schema": {
     "units": "seconds from a monotonic clock",
-    "fields": ["mesh_setup_seconds", "preflight_seconds", "assembly_seconds", "factorization_setup_seconds", "linear_solve_seconds", "communication_seconds", "checkpoint_io_seconds", "postprocess_seconds", "telemetry_io_seconds", "total_analysis_seconds"],
+    "fields": ["mesh_setup_time_s", "assembly_time_s", "factorization_setup_time_s", "linear_solve_time_s", "communication_time_s", "checkpoint_io_time_s", "postprocess_time_s", "total_analysis_time_s"],
     "existing_mapping": "observatory phase names are model_setup, preflight, assembly_operator, redistribution, pc_setup, ksp_solve, communication, io, post_processing and total; WP04 nonlinear records use assembly_time_s, linear_solve_time_s, iteration_wall_time_s and step_wall_time_s.",
     "rules": ["Do not use an ambiguous time or elapsed field when a phase field is available.", "Nested scopes must not be summed as though independent; total_analysis_seconds is wall time for the complete analysis.", "Telemetry I/O is reported separately and does not become mechanics time by implication."]
   },
