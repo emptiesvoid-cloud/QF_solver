@@ -5611,6 +5611,21 @@
   "tests": [
     "tests/verification/test_028_wp13_02c3_harmonic_final.py"
   ]
+},
+{
+  "id": "DOC-029-WP04-F-001",
+  "path": "verification/0_2_9/wp04-f-final-closure-audit.md",
+  "title": "QF Solver 0.2.9 WP04-F independent geometric nonlinear closure audit",
+  "status": "owner_review_required",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp04f/wp04_final_closure_audit.json",
+    "qualification/0_2_9/wp04_geometric_qualification_contract.json",
+    "qualification/0_2_9/wp04_gate_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_wp04_f_final_closure.py"
+  ]
 }
   ]
   

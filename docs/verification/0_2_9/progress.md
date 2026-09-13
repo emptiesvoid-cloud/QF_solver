@@ -13,11 +13,11 @@ applicable_version: 0.2.9-development
 | WP01 | 12 | **Closed** — Owner-approved unified nonlinear core |
 | WP02 | 6 | **Closed** — 6/6; independent WP02-E audit `GO_WITH_LIMITATIONS` |
 | WP03 | 7 | **Closed** — 7/7; independent WP03-E audit `GO_WITH_LIMITATIONS` |
-| WP04 | 12 | **HOLD — G04-12 cross-family pass pending Owner review** — 0/12; G04-10/G04-11/G04-12 evidence recorded |
+| WP04 | 12 | **Closed — 12/12; independent WP04-F `GO_WITH_LIMITATIONS` audit** |
 | WP05–WP08 | 31 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
-| **Validated total** | **29 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6 + WP03 7/7; WP04 remains unawarded** |
+| **Validated total** | **41 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6 + WP03 7/7 + WP04 12/12** |
 
 WP01 is closed by the independent Owner decision recorded in
 [the WP01 closure record](wp01-owner-closure.md), based on audit SHA
@@ -385,3 +385,22 @@ support limitation remains explicit for WP04-F. Therefore the derived result
 is `G04-12=PASS_PENDING_OWNER_REVIEW`; WP04 remains HOLD at 0/12 and 29/100.
 See [the WP04-E record](wp04-e-g04-12-cross-family-closure.md) and
 `qualification/0_2_9/wp04e/g04_12_cross_family_audit.json`.
+
+## WP04-F independent final closure
+
+The evidence-only WP04-F audit at
+`70e1bf953c8e6f37b8070e78ca97e58b21499291` independently reconciles the
+WP04-A/B/C/C1/C2/C2R6/D/E chain. The original WP04-C G04-10 failure remains
+preserved at its original Git blob and is explicitly distinguished from the
+authorized C2R6 requalification and final bounded pass. All twelve frozen
+gates are `PASS` or `PASS_WITH_LIMITATION`: G04-06 carries the predeclared
+HEX8 small-load reaction support limitation, and G04-09 carries the nonblocking
+TET4 `SOLVE_COMPLETED` aggregate Newton undercount. No in-scope blocking
+limitation was found.
+
+The final decision is `GO_WITH_LIMITATIONS`: WP04 is **CLOSED at 12/12** and
+the validated total is **41/100**. No structural solve, H4, PETSc or full
+repository suite was run during the audit. The public maturity registry remains
+unchanged pending Owner approval and sequential child-branch integration. See
+[the WP04-F audit](wp04-f-final-closure-audit.md) and
+`qualification/0_2_9/wp04f/wp04_final_closure_audit.json`.

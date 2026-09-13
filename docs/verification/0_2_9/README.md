@@ -97,7 +97,9 @@ formulation change. It independently demonstrates the target-clipped retry
 improvement: five repeated effective attempts before WP03 become one rejection
 at the final SHA, while the physical result is identical.
 
-WP04 is **HOLD — G04-12 cross-family pass pending Owner review** at 0/12. WP04-B demonstrates the bounded
+WP04 is **CLOSED at 12/12** after the independent WP04-F evidence-only audit
+at `70e1bf953c8e6f37b8070e78ca97e58b21499291`, with
+`GO_WITH_LIMITATIONS`. WP04-B demonstrates the bounded
 TET4/HEX8 Total-Lagrangian StVK objectivity, affine finite-deformation patch,
 energy-gradient, consistent-tangent and accepted-path work identities. The
 frozen WP04-C TET4 structural campaign passes its small-load, equilibrium,
@@ -170,7 +172,13 @@ their governing physical resultant and first moment match. The HEX8 small-load
 reaction support limitation is carried forward unchanged to WP04-F. G04-12 is
 `PASS_PENDING_OWNER_REVIEW`; WP04 remains 0/12 and 29/100. See the
 [WP04-E cross-family closure](wp04-e-g04-12-cross-family-closure.md) and
-`qualification/0_2_9/wp04e/g04_12_cross_family_audit.json`.
+`qualification/0_2_9/wp04e/g04_12_cross_family_audit.json`. The WP04-F audit
+preserves the original G04-10 failure, independently verifies G04-01..G04-12,
+and raises the validated total to **41/100**. G04-06 and G04-09 retain explicit
+non-blocking limitations; the public maturity registry remains unchanged
+pending Owner approval and integration review. See
+[the WP04-F final audit](wp04-f-final-closure-audit.md) and
+`qualification/0_2_9/wp04f/wp04_final_closure_audit.json`.
 
 WP02-B established checkpoint-v2 serialization, WP02-C migrated fixed and
 adaptive restart ownership, and WP02-D migrated the public arc-length restart

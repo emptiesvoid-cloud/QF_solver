@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "release": "0.2.9",
-  "status": "WP04_HOLD_G04_12_PENDING_OWNER_REVIEW",
+  "status": "WP04_CLOSED_WP04F_GO_WITH_LIMITATIONS",
   "work_packages": {
     "WP00": {"points": 4, "status": "CLOSED", "validated_points": 4},
     "WP01": {"points": 12, "status": "CLOSED", "validated_points": 12},
     "WP02": {"points": 6, "status": "CLOSED", "validated_points": 6},
     "WP03": {"points": 7, "status": "CLOSED", "validated_points": 7},
-    "WP04": {"points": 12, "status": "HOLD_G04_12_PENDING_OWNER_REVIEW", "validated_points": 0},
+    "WP04": {"points": 12, "status": "CLOSED_GO_WITH_LIMITATIONS", "validated_points": 12},
     "WP05": {"points": 5, "status": "NOT_STARTED", "validated_points": 0},
     "WP06": {"points": 8, "status": "NOT_STARTED", "validated_points": 0},
     "WP07": {"points": 10, "status": "NOT_STARTED", "validated_points": 0},
@@ -19,7 +19,7 @@
     "WP13": {"points": 2, "status": "NOT_STARTED", "validated_points": 0},
     "WP14": {"points": 2, "status": "NOT_STARTED", "validated_points": 0}
   },
-  "validated_points": 29,
+  "validated_points": 41,
   "total_points": 100,
-  "next_gate": "WP04-E evidence-only G04-12 cross-family comparison is PASS_PENDING_OWNER_REVIEW: approved TET4 C2R6 M3 and HEX8 H3 records match in bounded geometry, material, constraints, physical resultant/moment and observable definitions; displacement, reaction, energy and representative-stress deltas pass the frozen 0.03/0.03/0.03/0.12 limits. The family-specific discrete load representations are disclosed, and the HEX8 H1 small-load reaction support limitation remains carried to WP04-F. WP04 remains HOLD at 0/12 and 29/100, with no maturity change. No structural solve, H4, PETSc/PyAMG, or full repository suite was run. See wp04e/g04_12_cross_family_audit.json and wp04-e-g04-12-cross-family-closure.md. The next gate is the independent WP04-F combined G04-01..G04-12 closure audit. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
+  "next_gate": "WP04-F is CLOSED at 12/12 with GO_WITH_LIMITATIONS from evidence-only audit SHA 70e1bf953c8e6f37b8070e78ca97e58b21499291. All G04-01..G04-12 gates are PASS or PASS_WITH_LIMITATION; the HEX8 small-load reaction support limitation and TET4 telemetry aggregate undercount remain explicit non-blocking limitations. No structural solve, H4, PETSc, or full repository suite was run. Public maturity registry remains unchanged pending Owner approval and sequential child-branch integration. The next gate is Owner approval before integration; WP05 has not started. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
 }
