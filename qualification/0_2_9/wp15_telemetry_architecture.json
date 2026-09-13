@@ -1,0 +1,328 @@
+{
+  "schema_version": 1,
+  "record_type": "wp15_global_telemetry_architecture",
+  "work_package": "WP15",
+  "status": "OWNER_FROZEN",
+  "source_baseline_sha": "2c52bf8196a7d47d14ce1784290580160de26590",
+  "target_release": "0.2.9-preparation",
+  "observed_package_version_at_baseline": "0.2.8",
+  "scope": {
+    "purpose": "Audit existing telemetry and freeze a future solver-wide monitoring design.",
+    "production_instrumentation": "NOT_PERFORMED",
+    "numerical_campaign": "NOT_PERFORMED",
+    "mechanics_or_solver_behavior_changed": false,
+    "formal_points": "0/2",
+    "validated_total": "29/100"
+  },
+  "preparation_history": {
+    "initial_status": "PREPARATION_ONLY_OWNER_REVIEW_REQUIRED",
+    "owner_status": "OWNER_FROZEN",
+    "history_preserved": true,
+    "implementation_status": "WP15_A_IMPLEMENTATION_SEPARATE_FROM_ROUTE_INSTRUMENTATION"
+  },
+  "current_telemetry_components": [
+    {
+      "module": "src/solveur/core/nonlinear/telemetry.py",
+      "symbols": ["NonlinearTelemetryObserver", "JsonlNonlinearTelemetry", "emit_telemetry", "process_memory_bytes", "telemetry_event"],
+      "event_or_data": ["arbitrary mapping with event discriminator", "RSS bytes", "USS/private bytes"],
+      "caller": ["src/solveur/core/nonlinear/iteration.py", "src/solveur/core/nonlinear/driver.py", "src/solveur/core/analyses/geometric_nonlinear.py", "WP04 C2 runners"],
+      "output_format": "append JSONL for JsonlNonlinearTelemetry; in-process mapping for callbacks",
+      "synchronous_or_buffered": "synchronous callback, write and flush per event",
+      "api_surface": "opt-in internal callback; not a solver-wide public contract",
+      "scope": "generic mechanism, WP04-shaped payloads",
+      "classification": "WRAP",
+      "evidence": ["qualification/0_2_9/c2r5/m2_canonical_telemetry.jsonl", "qualification/0_2_9/c2r3/m3_telemetry.jsonl"]
+    },
+    {
+      "module": "src/solveur/core/nonlinear/driver.py",
+      "symbols": ["UnifiedNewtonEngine.solve", "UnifiedNewtonEngine._solve_increment"],
+      "event_or_data": ["ITERATION", "STEP_ACCEPTED", "STEP_FAILED", "SOLVE_FAILED", "SOLVE_COMPLETED"],
+      "caller": ["src/solveur/core/nonlinear/iteration.py", "WP04 geometric-static helper"],
+      "output_format": "mapping delivered to the optional observer and nonlinear result diagnostics",
+      "synchronous_or_buffered": "synchronous",
+      "api_surface": "internal engine callback",
+      "scope": "nonlinear Newton lifecycle; no generic route envelope",
+      "classification": "WRAP",
+      "evidence": ["qualification/0_2_9/c2r5/m2_canonical_telemetry.jsonl"]
+    },
+    {
+      "module": "src/solveur/large/telemetry.py",
+      "symbols": ["AssemblyTelemetry", "RankPhaseTelemetry"],
+      "event_or_data": ["phase", "checkpoint", "rank-local phase markers", "rates and ETA", "RSS sample"],
+      "caller": ["src/solveur/large/assembler.py", "scripts/run_lu2_wp04_bronze.py"],
+      "output_format": "append JSONL; rank 0 progress stream plus independent per-rank marker streams",
+      "synchronous_or_buffered": "synchronous, flushed per record",
+      "api_surface": "opt-in large-model infrastructure API",
+      "scope": "WP04 assembly and MPI supervision",
+      "classification": "WP04_SPECIFIC_KEEP",
+      "evidence": ["qualification/0_2_7/wp04_telemetry_contract.json", "qualification/0_2_7/wp04_runtime/wp04_5m_progress.jsonl"]
+    },
+    {
+      "module": "src/solveur/large/memory.py",
+      "symbols": ["process_memory_snapshot"],
+      "event_or_data": ["current_rss_bytes", "peak_rss_bytes", "source"],
+      "caller": ["src/solveur/large/benchmark.py", "src/solveur/large/telemetry.py", "src/solveur/large/assembler.py"],
+      "output_format": "in-process mapping copied into benchmark/telemetry JSON",
+      "synchronous_or_buffered": "synchronous sample",
+      "api_surface": "internal helper",
+      "scope": "process RSS only; private/USS is not provided here",
+      "classification": "REUSE_AS_IS",
+      "evidence": ["qualification/0_2_7/observatory_contract.json"]
+    },
+    {
+      "module": "src/solveur/verification/observatory.py",
+      "symbols": ["make_observatory_record", "validate_observatory_record", "write_observatory_record", "compare_observatory_runs", "aggregate_rank_metrics"],
+      "event_or_data": ["canonical evidence record", "phase timings", "rank aggregation", "digests", "finite-value validation", "classification"],
+      "caller": ["benchmark/evidence runners and tests"],
+      "output_format": "canonical JSON record; SHA-256 digests; no live event stream",
+      "synchronous_or_buffered": "synchronous record construction and write",
+      "api_surface": "analysis-neutral evidence API",
+      "scope": "generic result/provenance validation, not a monitoring sink",
+      "classification": "REUSE_AS_IS",
+      "evidence": ["qualification/0_2_7/observatory_contract.json", "qualification/0_2_7/wp01_observatory_sample.json"]
+    },
+    {
+      "module": "src/solveur/core/solvers/linear.py",
+      "symbols": ["LinearSolveInfo", "LinearSystemSolver._iterative", "LinearSystemSolver._iterative_minres"],
+      "event_or_data": ["iterations", "residual_history", "relative_residual_norm", "backend", "preconditioner"],
+      "caller": ["static/modal/nonlinear linear solver paths"],
+      "output_format": "result metadata and diagnostics; callback internal to SciPy iterative solve",
+      "synchronous_or_buffered": "synchronous; per-iteration history retained in memory",
+      "api_surface": "internal solver metadata",
+      "scope": "backend-aware diagnostics without an observer protocol",
+      "classification": "GENERALIZE",
+      "evidence": ["tests/unit/test_linear_solver_comparison.py", "qualification/0_2_9/wp04_linear_solver_r2_stage_c_cg_final.json"]
+    },
+    {
+      "module": "src/solveur/core/nonlinear/linear_solver.py",
+      "symbols": ["NonlinearLinearSolverAdapter.solve", "_residual_metrics"],
+      "event_or_data": ["matrix shape/nnz", "linear method/backend", "Krylov iterations", "raw relative residual", "backward error", "fallback", "solve time", "preconditioner memory samples"],
+      "caller": ["src/solveur/core/nonlinear/iteration.py"],
+      "output_format": "nested diagnostics mapping in nonlinear iteration history/events",
+      "synchronous_or_buffered": "synchronous",
+      "api_surface": "internal adapter diagnostics",
+      "scope": "nonlinear route, but fields are candidates for generic linear events",
+      "classification": "GENERALIZE",
+      "evidence": ["qualification/0_2_9/c2r5/m2_canonical_telemetry.jsonl"]
+    },
+    {
+      "module": "src/solveur/execution/contract.py",
+      "symbols": ["ExecutionSession", "ExecutionState", "checkpoint", "recover", "fail"],
+      "event_or_data": ["lifecycle state history", "structured diagnostic", "checkpoint/recovery provenance"],
+      "caller": ["execution/recovery workflows and tests"],
+      "output_format": "in-memory state plus JSON-compatible to_dict payload",
+      "synchronous_or_buffered": "synchronous",
+      "api_surface": "generic lifecycle contract",
+      "scope": "route-neutral state coordination, not live telemetry",
+      "classification": "WRAP",
+      "evidence": ["tests/unit/test_execution_contract.py"]
+    },
+    {
+      "module": "src/solveur/core/nonlinear/checkpoint.py and src/solveur/core/analyses/dynamic_checkpoint.py",
+      "symbols": ["NonlinearCheckpointSession", "NonlinearCheckpointV2", "DynamicCheckpoint"],
+      "event_or_data": ["accepted state digest", "model signature", "completed step/time", "atomic save/restart metadata"],
+      "caller": ["nonlinear and Newmark routes"],
+      "output_format": "NPZ checkpoint with JSON metadata/digests",
+      "synchronous_or_buffered": "synchronous persistence boundary",
+      "api_surface": "route-specific checkpoint APIs",
+      "scope": "state integrity/provenance; no event sink",
+      "classification": "WRAP",
+      "evidence": ["tests/unit/test_nonlinear_checkpoint.py", "tests/unit/test_dynamic_checkpoint.py"]
+    },
+    {
+      "module": "src/solveur/execution/diagnostics.py, src/solveur/core/errors.py, src/solveur/core/audit.py, src/solveur/io/manifest.py",
+      "symbols": ["diagnostic_from_exception", "NumericalConvergenceError", "SolverAudit", "git_source_state", "runtime_fingerprint"],
+      "event_or_data": ["failure taxonomy", "solver status/audit", "source/runtime provenance", "equilibrium and matrix summaries"],
+      "caller": ["router, analysis solvers, result/evidence writers"],
+      "output_format": "exceptions, result dictionaries and JSON manifests",
+      "synchronous_or_buffered": "synchronous",
+      "api_surface": "mixed public result and internal diagnostic APIs",
+      "scope": "generic evidence inputs with route-specific gaps",
+      "classification": "REUSE_AS_IS",
+      "evidence": ["tests/unit/test_p0_numerical_safety.py", "qualification/0_2_7/observatory_contract.json"]
+    }
+  ],
+  "wp04_trace": {
+    "nonlinear_c2_path": [
+      {"stage": "runner", "location": "scripts/run_wp04_linear_solver_r2.py::run_stage_c", "operation": "construct JsonlNonlinearTelemetry, collect events in a list, and pass observe to _newton_dead_load"},
+      {"stage": "analysis_helper", "location": "src/solveur/core/analyses/geometric_nonlinear.py::_newton_dead_load", "operation": "select solve_full_newton or solve_adaptive_full_newton and forward telemetry only on the fixed/full path"},
+      {"stage": "newton_wrapper", "location": "src/solveur/core/nonlinear/iteration.py::solve_full_newton", "operation": "build NonlinearLinearSolverAdapter and forward the observer to UnifiedNewtonEngine"},
+      {"stage": "engine", "location": "src/solveur/core/nonlinear/driver.py::UnifiedNewtonEngine", "operation": "emit ITERATION, STEP_ACCEPTED, STEP_FAILED, SOLVE_FAILED and SOLVE_COMPLETED mappings"},
+      {"stage": "linear_adapter", "location": "src/solveur/core/nonlinear/linear_solver.py and src/solveur/core/solvers/linear.py", "operation": "solve reduced tangent and return backend, method, iteration, residual, backward-error and timing diagnostics to the engine"},
+      {"stage": "sink", "location": "src/solveur/core/nonlinear/telemetry.py::JsonlNonlinearTelemetry", "operation": "append one JSON object and flush immediately; the runner writes a result/status summary separately"}
+    ],
+    "large_model_path": [
+      {"stage": "runner", "location": "scripts/run_lu2_wp04_bronze.py", "operation": "create AssemblyTelemetry and RankPhaseTelemetry when explicitly enabled"},
+      {"stage": "assembler", "location": "src/solveur/large/assembler.py::PetscTET4Assembler", "operation": "emit phase and progress markers around insertion, assembly, constraints, RHS, setup and finalization"},
+      {"stage": "sink", "location": "src/solveur/large/telemetry.py", "operation": "write rank-0 progress and independent rank marker JSONL streams with flush and DEGRADED status on sink errors"},
+      {"stage": "summary", "location": "src/solveur/large/benchmark.py", "operation": "aggregate per-rank RSS and pipeline/assembly/solve timings into benchmark_large.json and a manifest"}
+    ],
+    "reusable": ["typed observer shape", "detached event mapping", "immediate flush", "finite JSON encoding with allow_nan=false", "failure-isolated callback invocation", "canonical evidence/provenance and rank aggregation", "existing backend diagnostics", "existing checkpoint digests"],
+    "tightly_coupled": ["legacy event names and mixed key casing", "WP04 phase/case fields", "fixed Newton helper access rather than public route instrumentation", "adaptive geometric path does not currently forward telemetry_observer", "no common sequence number/schema envelope", "no separate linear start/iteration/end events", "no generic modal/dynamic/contact event producer"],
+    "current_risks": ["JsonlNonlinearTelemetry opens the file before the solve and its constructor can raise; large telemetry instead degrades on open failure", "emit_telemetry isolates observer exceptions but a failed sink can drop an event without a persisted sink-health event", "the Newton driver samples process memory before emitting iteration telemetry even when no observer is installed", "current nonlinear events have no timestamp, elapsed analysis clock or monotonic sequence number"]
+  },
+  "proposed_event_model": [
+    {"event_type": "ANALYSIS_START", "decision": "ADOPT", "purpose": "Identify a run and its declared route before work begins.", "producer": "route adapter", "consumer": "console, JSONL, evidence correlator", "required_context": ["analysis_id", "analysis_type", "route", "provenance"]},
+    {"event_type": "ANALYSIS_END", "decision": "ADOPT", "purpose": "Record terminal successful or qualified completion and aggregate timings.", "producer": "route adapter", "consumer": "evidence/provenance sink", "required_context": ["status", "timings", "result digest"]},
+    {"event_type": "ANALYSIS_FAILED", "decision": "ADOPT", "purpose": "Record a terminal failure without converting it to success.", "producer": "route adapter/failure boundary", "consumer": "console, JSONL, diagnostics", "required_context": ["status", "error type/code", "message", "last finite metrics"]},
+    {"event_type": "MESH_READY", "decision": "ADOPT", "purpose": "Make mesh counts, quality status and input digest available before assembly.", "producer": "mesh/import/validation boundary", "consumer": "performance observer, V&V", "required_context": ["nodes", "elements", "dofs when known", "input digest"]},
+    {"event_type": "ASSEMBLY_START", "decision": "ADOPT", "purpose": "Start an assembly timing scope.", "producer": "analysis/assembly adapter", "consumer": "performance observer", "required_context": ["operator kind"]},
+    {"event_type": "ASSEMBLY_END", "decision": "ADOPT", "purpose": "Close assembly timing and report matrix/operator size where available.", "producer": "analysis/assembly adapter", "consumer": "performance observer, solver selection", "required_context": ["elapsed phase time", "shape/nnz when available"]},
+    {"event_type": "LINEAR_SOLVE_START", "decision": "ADOPT", "purpose": "Declare one linear system dispatch and its requested method/preconditioner.", "producer": "linear solver adapter", "consumer": "console, JSONL, performance analysis", "required_context": ["backend", "method", "matrix shape/nnz", "tolerances"]},
+    {"event_type": "LINEAR_SOLVE_ITERATION", "decision": "ADOPT_IF_BACKEND_CALLBACK", "purpose": "Observe iterative progress when the backend exposes a reliable callback.", "producer": "CG/MINRES/GMRES/PETSc adapter", "consumer": "convergence analysis", "required_context": ["iteration", "residual metrics"]},
+    {"event_type": "LINEAR_SOLVE_END", "decision": "ADOPT", "purpose": "Record convergence, final residual/backward error, iterations, fallback and elapsed time.", "producer": "linear solver adapter", "consumer": "evidence and failure classifier", "required_context": ["status", "converged", "solve time"]},
+    {"event_type": "STEP_START", "decision": "ADOPT", "purpose": "Start a nonlinear, dynamic or continuation step.", "producer": "route step controller", "consumer": "console, JSONL", "required_context": ["step", "load factor or physical time when applicable"]},
+    {"event_type": "STEP_ACCEPTED", "decision": "ADOPT", "purpose": "Publish one committed step and its state/result digest.", "producer": "route transaction boundary", "consumer": "checkpoint/evidence/console", "required_context": ["step", "status", "accepted-state digest when mutable"]},
+    {"event_type": "STEP_REJECTED", "decision": "ADOPT", "purpose": "Expose rejected/retried work without implying a solver failure or success.", "producer": "retry controller", "consumer": "robustness analysis", "required_context": ["step", "reason", "state-preserved flag"]},
+    {"event_type": "NONLINEAR_ITERATION", "decision": "ADOPT", "purpose": "Report residual, correction, line-search summary, linear diagnostics and resource samples.", "producer": "Newton/continuation adapter", "consumer": "console, JSONL, convergence analysis", "required_context": ["step", "iteration", "metrics"]},
+    {"event_type": "LINE_SEARCH_TRIAL", "decision": "ADOPT_IF_ROUTE_HAS_LINE_SEARCH", "purpose": "Record a trial alpha and finite trial metric.", "producer": "line-search adapter", "consumer": "robustness analysis", "required_context": ["step", "iteration", "alpha", "trial status"]},
+    {"event_type": "LINE_SEARCH_ACCEPTED", "decision": "ADOPT_IF_ROUTE_HAS_LINE_SEARCH", "purpose": "Record the accepted trial factor.", "producer": "line-search adapter", "consumer": "convergence analysis", "required_context": ["alpha", "metric"]},
+    {"event_type": "LINE_SEARCH_REJECTED", "decision": "ADOPT_IF_ROUTE_HAS_LINE_SEARCH", "purpose": "Record a rejected trial and its reason.", "producer": "line-search adapter", "consumer": "failure/robustness analysis", "required_context": ["alpha", "reason"]},
+    {"event_type": "CHECKPOINT", "decision": "ADOPT", "purpose": "Record durable accepted-state persistence and its digest.", "producer": "checkpoint adapter", "consumer": "restart/recovery evidence", "required_context": ["checkpoint id/path", "state digest", "step/time"]},
+    {"event_type": "CONTACT_STATE", "decision": "ADOPT_IF_CONTACT_ROUTE", "purpose": "Report active contacts and contact-state transitions without embedding contact physics in the sink.", "producer": "contact adapter", "consumer": "contact diagnostics", "required_context": ["active count", "state-change summary", "penetration metrics when finite"]},
+    {"event_type": "TIME_STEP_START", "decision": "ADOPT_IF_TRANSIENT_ROUTE", "purpose": "Start a physical-time increment and declare dt.", "producer": "dynamics adapter", "consumer": "stability/energy analysis", "required_context": ["physical time", "dt"]},
+    {"event_type": "TIME_STEP_ACCEPTED", "decision": "ADOPT_IF_TRANSIENT_ROUTE", "purpose": "Record accepted time integration and energy/residual summaries.", "producer": "dynamics adapter", "consumer": "V&V and restart evidence", "required_context": ["physical time", "dt", "energy metrics"]},
+    {"event_type": "TIME_STEP_REJECTED", "decision": "ADOPT_IF_TRANSIENT_ROUTE", "purpose": "Expose rejected time increments and retry reason.", "producer": "dynamics controller", "consumer": "stability/failure analysis", "required_context": ["physical time", "dt", "reason"]},
+    {"event_type": "MODAL_MODE_FOUND", "decision": "ADOPT_IF_MODAL_ROUTE", "purpose": "Publish each accepted eigenpair and residual quality.", "producer": "modal/eigensolver adapter", "consumer": "modal V&V and console", "required_context": ["mode index", "eigenvalue/frequency", "eigen residual"]}
+  ],
+  "common_event_envelope": {
+    "mandatory": ["schema_version", "event_type", "analysis_id", "analysis_type", "route", "sequence_number", "elapsed_time_s", "status", "metrics", "metadata"],
+    "conditional_mandatory": {
+      "LINEAR_SOLVE_*": ["solver_backend", "solver_method", "matrix metadata when available"],
+      "STEP_*": ["step"],
+      "NONLINEAR_ITERATION": ["step", "iteration"],
+      "TIME_STEP_*": ["physical_time", "dt"],
+      "MODAL_MODE_FOUND": ["mode_index", "eigenvalue or frequency"]
+    },
+    "optional": ["timestamp_utc", "iteration", "step", "load_factor", "physical_time", "dt", "solver_backend", "solver_method", "message", "error_type", "error_code", "provenance"],
+    "field_types": {
+      "schema_version": "positive integer",
+      "event_type": "enumerated string",
+      "analysis_id": "non-empty stable run identifier",
+      "analysis_type": "declared route-neutral analysis name",
+      "route": "declared implementation route",
+      "sequence_number": "non-negative integer, strictly increasing per analysis stream",
+      "elapsed_time_s": "finite monotonic clock value in seconds",
+      "status": "RUNNING, ACCEPTED, REJECTED, COMPLETED, FAILED, or DEGRADED",
+      "metrics": "object; numeric values finite or represented by null plus metric_status/reason",
+      "metadata": "object; no matrices, state arrays or unbounded payloads"
+    },
+    "rules": [
+      "timestamp_utc is provenance context and is not used as a deterministic comparison key; elapsed_time_s and sequence_number are the ordering keys.",
+      "Missing or not-computable metrics are explicit nulls with a reason; zero is never used as an availability sentinel.",
+      "All numeric payloads are finite before serialization; NaN and Infinity are rejected, never emitted.",
+      "The envelope carries digests and bounded summaries, not full state vectors or matrices.",
+      "Each analysis has one writer/sequence domain; MPI aggregation is outside the mechanics path and must preserve rank provenance.",
+      "Legacy WP04 payloads remain available through a compatibility wrapper until their consumers migrate."
+    ],
+    "provenance_minimum_for_terminal_evidence": ["source revision", "dirty state", "input/configuration/result digest", "command", "runtime fingerprint"]
+  },
+  "analysis_coverage_matrix": [
+    {"analysis_type": "linear_static", "meaningful_events": ["ANALYSIS_START", "MESH_READY", "ASSEMBLY_START", "ASSEMBLY_END", "LINEAR_SOLVE_START", "LINEAR_SOLVE_ITERATION", "LINEAR_SOLVE_END", "ANALYSIS_END", "ANALYSIS_FAILED"], "metrics": ["nodes", "elements", "dofs", "nnz", "assembly time", "setup/factorization time", "solve time", "residual", "equilibrium", "memory"], "current_state": "Result/audit and large benchmark telemetry exist; no common live observer.", "coverage": "PARTIAL"},
+    {"analysis_type": "modal", "meaningful_events": ["ANALYSIS_START", "MESH_READY", "ASSEMBLY_START", "ASSEMBLY_END", "LINEAR_SOLVE_START", "LINEAR_SOLVE_ITERATION", "LINEAR_SOLVE_END", "MODAL_MODE_FOUND", "ANALYSIS_END", "ANALYSIS_FAILED"], "metrics": ["matrix sizes/nnz", "backend", "mode index", "eigenvalue/frequency", "eigen residual", "iterations", "memory", "timing"], "current_state": "ModalResult and solver diagnostics report modes and residuals; no event producer.", "coverage": "PARTIAL"},
+    {"analysis_type": "geometric_nonlinear_static", "meaningful_events": ["ANALYSIS_START", "MESH_READY", "STEP_START", "NONLINEAR_ITERATION", "LINEAR_SOLVE_*", "LINE_SEARCH_*", "STEP_REJECTED", "STEP_ACCEPTED", "CHECKPOINT", "ANALYSIS_END", "ANALYSIS_FAILED"], "metrics": ["load factor", "residual", "correction", "alpha", "linear diagnostics", "det(F)/quality when route provides them", "memory", "phase timings"], "current_state": "Fixed full-Newton WP04 helper has an opt-in legacy observer; adaptive helper forwarding and common lifecycle are incomplete.", "coverage": "PARTIAL"},
+    {"analysis_type": "material_nonlinear_static", "meaningful_events": ["ANALYSIS_START", "MESH_READY", "STEP_START", "NONLINEAR_ITERATION", "LINEAR_SOLVE_*", "LINE_SEARCH_*", "STEP_REJECTED", "STEP_ACCEPTED", "CHECKPOINT", "ANALYSIS_END", "ANALYSIS_FAILED"], "metrics": ["load factor", "residual", "correction", "constitutive update status", "rollback digest", "memory", "timing"], "current_state": "Nonlinear state/checkpoint/result diagnostics exist, but public NonlinearStaticSolver has no telemetry observer.", "coverage": "MISSING_LIVE_EVENTS"},
+    {"analysis_type": "contact", "meaningful_events": ["ANALYSIS_START", "MESH_READY", "ASSEMBLY_*", "CONTACT_STATE", "STEP_*", "NONLINEAR_ITERATION", "LINEAR_SOLVE_*", "ANALYSIS_END", "ANALYSIS_FAILED"], "metrics": ["active contacts", "penetration/gap", "contact tangent size/nnz", "residual", "retry/rollback", "timing", "memory"], "current_state": "Contact diagnostics are route/result specific; no generic contact observer.", "coverage": "MISSING_LIVE_EVENTS"},
+    {"analysis_type": "arc_length", "meaningful_events": ["ANALYSIS_START", "MESH_READY", "STEP_START", "NONLINEAR_ITERATION", "LINEAR_SOLVE_*", "LINE_SEARCH_*", "STEP_REJECTED", "STEP_ACCEPTED", "CHECKPOINT", "ANALYSIS_END", "ANALYSIS_FAILED"], "metrics": ["arc radius", "load factor", "control displacement", "constraint residual", "branch direction", "rollback digest", "timing"], "current_state": "Arc-length diagnostics and checkpoint metadata exist, but no common live observer.", "coverage": "MISSING_LIVE_EVENTS"},
+    {"analysis_type": "transient_dynamic", "meaningful_events": ["ANALYSIS_START", "MESH_READY", "ASSEMBLY_*", "TIME_STEP_START", "TIME_STEP_ACCEPTED", "TIME_STEP_REJECTED", "CHECKPOINT", "ANALYSIS_END", "ANALYSIS_FAILED"], "metrics": ["physical time", "dt", "residual", "strain/kinetic/total energy", "energy drift", "memory", "timing"], "current_state": "Newmark history and checkpoint contracts exist; no common live observer.", "coverage": "PARTIAL"},
+    {"analysis_type": "harmonic_response", "meaningful_events": ["ANALYSIS_START", "MESH_READY", "ASSEMBLY_*", "LINEAR_SOLVE_*", "ANALYSIS_END", "ANALYSIS_FAILED"], "metrics": ["frequency", "complex response amplitude/phase", "residual", "backend", "solve time", "memory"], "current_state": "HarmonicResult carries frequency rows and solver diagnostics; no common event producer.", "coverage": "PARTIAL"}
+  ],
+  "linear_solver_schema": {
+    "start_fields": ["solver_backend", "solver_method", "preconditioner", "matrix_rows", "matrix_columns", "matrix_nnz", "rtol", "atol", "max_iterations", "problem_kind"],
+    "iteration_fields": ["iteration", "raw_residual_norm", "relative_residual", "preconditioned_residual", "backward_error_eta_inf", "elapsed_time_s"],
+    "end_fields": ["converged", "status", "iterations", "raw_residual_norm", "relative_residual", "backward_error_eta_inf", "fallback_used", "fallback_reason", "solve_time_s", "error_type", "error_code"],
+    "backend_values": ["DIRECT", "CG", "MINRES", "GMRES", "PETSC_KSP", "OTHER_DECLARED"],
+    "policy": ["method and backend are separate fields", "iteration metrics are optional only when the backend cannot expose them", "missing metrics remain null with reason", "a failed solve cannot emit a successful LINEAR_SOLVE_END"]
+  },
+  "memory_schema": {
+    "units": "bytes",
+    "peak_rss_process": "OS/process high-water resident set for the measured process scope; not a sum unless explicitly labelled as a rank aggregate.",
+    "peak_private_or_uss_process": "OS/process high-water private or USS memory for the measured process scope; null with availability reason when the platform cannot measure it.",
+    "telemetry_sample_peak_rss": "Maximum of RSS values sampled at emitted events/checkpoints in the declared observation window; not necessarily the OS high-water mark.",
+    "telemetry_sample_peak_private": "Maximum of private/USS values sampled at emitted events/checkpoints in the declared observation window; never inferred from RSS.",
+    "existing_mapping": "core/nonlinear/telemetry.process_memory_bytes provides a point RSS plus USS/private when psutil is available; large/memory.process_memory_snapshot provides current and peak RSS, with platform source, but no private/USS.",
+    "aggregation": "For MPI, preserve per-rank values, peak-per-rank and sum-of-rank peaks as distinct fields; never call the sum a process peak."
+  },
+  "timing_schema": {
+    "units": "seconds from a monotonic clock",
+    "fields": ["mesh_setup_time_s", "assembly_time_s", "factorization_setup_time_s", "linear_solve_time_s", "communication_time_s", "checkpoint_io_time_s", "postprocess_time_s", "total_analysis_time_s"],
+    "existing_mapping": "observatory phase names are model_setup, preflight, assembly_operator, redistribution, pc_setup, ksp_solve, communication, io, post_processing and total; WP04 nonlinear records use assembly_time_s, linear_solve_time_s, iteration_wall_time_s and step_wall_time_s.",
+    "rules": ["Do not use an ambiguous time or elapsed field when a phase field is available.", "Nested scopes must not be summed as though independent; total_analysis_seconds is wall time for the complete analysis.", "Telemetry I/O is reported separately and does not become mechanics time by implication."]
+  },
+  "jsonl_policy": {
+    "format": "one UTF-8 JSON object per line",
+    "append_safe": "single writer per stream; MPI uses independent rank streams or an explicitly coordinated aggregator",
+    "flush": "immediate flush after each event, preserving already written history after abort",
+    "sequence": "strictly increasing per analysis stream; gaps are detectable and must be reported by the reader",
+    "schema": "every line carries schema_version and event_type",
+    "finite_values": "allow_nan=false plus pre-serialization finite validation; non-computable metrics use null and reason",
+    "fsync": "optional policy, off by default to avoid unmeasured overhead; enable at terminal/checkpoint events for a durability-qualified run",
+    "sink_failure": "mark sink DEGRADED, issue a secondary warning/diagnostic, stop writing that sink safely, and preserve the original mechanics result or exception; never fabricate a terminal PASS",
+    "crash_abort": "already flushed lines remain valid history; an absent terminal event means INCOMPLETE/UNKNOWN, not success",
+    "compatibility": "retain legacy WP04 JSONL fields during migration and add a versioned adapter rather than changing C2R6 output in place"
+  },
+  "console_monitor_design": {
+    "mode": "text-only opt-in, rate-limited by event or wall-clock interval",
+    "stable_columns": ["analysis", "mesh", "dofs", "step", "Newton/time iteration", "load factor or physical time", "residual", "correction", "line-search alpha", "linear backend", "Krylov iterations", "backward error eta", "solve time", "RSS/private", "elapsed", "status"],
+    "behavior": ["single concise line for progress, a structured terminal line for success/failure", "no GUI and no solver decision based on console rendering", "redact paths/secrets and bound message length", "stderr or logger fallback on console sink failure"]
+  },
+  "failure_safety_policy": [
+    {"condition": "solver exception", "behavior": "best-effort ANALYSIS_FAILED with error type/code and last finite metrics; re-raise/preserve the original exception"},
+    {"condition": "KeyboardInterrupt", "behavior": "best-effort interrupted marker; re-raise KeyboardInterrupt and do not relabel as completed"},
+    {"condition": "numerical convergence failure", "behavior": "emit FAILED terminal status with last finite residual/history and explicit reason; no success event"},
+    {"condition": "nonfinite state or metric", "behavior": "fail closed, do not serialize NaN/Infinity, use null plus NOT_COMPUTABLE/NONFINITE reason only where the failure contract permits it"},
+    {"condition": "telemetry sink exception", "behavior": "isolate sink failure from mechanics, mark DEGRADED out of band, preserve the solver result/exception, and expose loss of telemetry"},
+    {"condition": "disk full or file write error", "behavior": "same degraded sink path; never swallow the original solver exception and never convert missing terminal telemetry into PASS"}
+  ],
+  "overhead_contract": {
+    "monitoring_disabled": "fast path with no event construction, no memory sampling and no sink calls beyond a cheap disabled check; current driver does not fully meet this because it samples memory around iteration emissions even when no observer is installed.",
+    "monitoring_enabled": "bounded overhead to be measured per route and sink; no percentage is frozen by this preparation artifact.",
+    "benchmark_matrix": ["OFF", "console_only", "jsonl_only", "console_and_jsonl"],
+    "benchmark_controls": ["same committed input/configuration", "same warm-up and repeat count", "same process/rank/thread settings", "separate telemetry I/O and solver timings", "report median and tail as well as event count and file size", "repeat on at least one nonlinear and one large linear route before freezing a budget"],
+    "qualification_rule": "Owner approves a measured per-route budget after the benchmark; a budget cannot be claimed from the current prototype."
+  },
+  "compatibility_plan": [
+    {"component": "NonlinearTelemetryObserver", "action": "WRAP", "reason": "Keep the callable alias and adapt legacy mappings into the common envelope."},
+    {"component": "JsonlNonlinearTelemetry", "action": "WRAP", "reason": "Preserve append/flush and C2R6 payloads; add a future sink health/sequence layer outside the legacy writer."},
+    {"component": "emit_telemetry", "action": "REUSE_AS_IS_THEN_GENERALIZE", "reason": "Retain failure isolation, but expose sink degradation instead of silently losing all diagnostics."},
+    {"component": "UnifiedNewtonEngine legacy event emission", "action": "WRAP", "reason": "Emit legacy event names unchanged while a route adapter emits generic events."},
+    {"component": "AssemblyTelemetry and RankPhaseTelemetry", "action": "WP04_SPECIFIC_KEEP", "reason": "Do not break the MPI assembly campaign; map it later through an adapter."},
+    {"component": "process_memory_bytes/process_memory_snapshot", "action": "REUSE_AS_IS", "reason": "Keep platform probes and add explicit normalized names only at the observer boundary."},
+    {"component": "Observatory records and canonical digests", "action": "REUSE_AS_IS", "reason": "Use as terminal evidence/provenance validation and rank aggregation, not as a live sink."},
+    {"component": "LinearSolveInfo and NonlinearLinearSolverAdapter diagnostics", "action": "GENERALIZE", "reason": "Map existing fields to LINEAR_SOLVE_* without forcing one backend or exception type."},
+    {"component": "ExecutionSession and checkpoint sessions", "action": "WRAP", "reason": "Publish lifecycle/checkpoint events while keeping state and file formats unchanged."},
+    {"component": "WP04 C2R scripts and outputs", "action": "WP04_SPECIFIC_KEEP", "reason": "No migration during preparation; C2R6 output compatibility is a hard constraint."}
+  ],
+  "substructure": {
+    "total_weight": "2 points",
+    "wp15_a": {
+      "points": 1,
+      "title": "Generic event/schema/observer infrastructure",
+      "scope": ["versioned envelope", "sequence validation", "observer/sink protocol", "disabled fast path", "legacy adapter", "unit tests"],
+      "pass_criteria": ["mandatory fields and finite-value rules tested", "monotonic sequence tested", "sink failure cannot change a solve", "legacy WP04 JSONL remains byte/field compatible where promised", "no numerical result change"]
+    },
+    "wp15_b": {
+      "points": 1,
+      "title": "Route instrumentation, sinks, overhead and failure qualification",
+      "scope": ["linear/modal first, then nonlinear/contact/dynamics/harmonic as explicitly selected", "console and JSONL sinks", "memory/timing normalization", "failure/abort/restart evidence", "overhead benchmark"],
+      "pass_criteria": ["route-by-route coverage matrix has runtime evidence", "failure paths retain original classification", "no NaN/Infinity or silent PASS", "crash/abort and disk-error behavior documented", "measured overhead budget approved per route", "no unsupported global coverage claim"]
+    }
+  },
+  "v_and_v_requirements": [
+    "Schema serialization, mandatory-field and duplicate/unknown-event checks",
+    "Sequence monotonicity and deterministic comparison independent of wall-clock timestamp",
+    "Finite-value/no-NaN tests and explicit not-computable metric handling",
+    "Sink failure, disk-full simulation and KeyboardInterrupt preservation",
+    "Route-specific event ordering and terminal-state invariants",
+    "Legacy WP04 C2R6 replay equivalence before and after adapter migration",
+    "OFF/console/JSONL/both overhead benchmark with identical numerical inputs",
+    "Provenance, source/runtime/configuration/result digests and crash-incomplete classification"
+  ],
+  "governance": {
+    "agent_a_workspace_touched": false,
+    "agent_a_processes_or_telemetry_touched": false,
+    "wp05_branch_touched": false,
+    "maturity_changed": false,
+    "formal_qualification": "NOT_STARTED"
+  }
+}
