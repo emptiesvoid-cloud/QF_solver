@@ -6105,6 +6105,19 @@
   "tests": [
     "tests/unit/test_wp06d_structural_limit_point_contract.py"
   ]
+},
+{
+  "id": "DOC-029-WP06E-001",
+  "path": "verification/0_2_9/wp06e-postbuckling-imperfection-contract.md",
+  "title": "QF Solver 0.2.9 WP06-E postbuckling and imperfection claim contract",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp06e_postbuckling_imperfection_contract.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp06e_postbuckling_imperfection_contract.py"
+  ]
 }
   ]
   
