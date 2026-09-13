@@ -5675,6 +5675,19 @@
   ]
 },
 {
+  "id": "DOC-029-WP07-E-CLOSURE-001",
+  "path": "verification/0_2_9/wp07e-closure-contract.md",
+  "title": "QF Solver 0.2.9 WP07-E refinement replay and Owner closure contract",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp07e_closure_contract.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp07e_closure_contract.py"
+  ]
+},
+{
   "id": "DOC-028-WP13-02C3-HARMONIC-FINAL-001",
   "path": "verification/0_2_8/wp13_02c3_harmonic_final.md",
   "title": "QF Solver 0.2.8 WP13-02C3 final mixed harmonic campaign",

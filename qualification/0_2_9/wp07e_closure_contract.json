@@ -1,0 +1,349 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-029-WP07-E-CLOSURE-001",
+  "gate": "WP07",
+  "work_package": "WP07-E",
+  "revision": "0.1",
+  "applicable_version": "0.2.9-development",
+  "status": "PREPARATION_ONLY",
+  "owner_status": "OWNER_CANDIDATE",
+  "preparation_only": true,
+  "qualification_campaign_executed": false,
+  "source_sha": "429a621b7541d599aeabe89a9edec5b4703298e0",
+  "formal_points": "0/2",
+  "wp07_points": "0/10",
+  "validated_total": "29/100",
+  "integration_train_required": true,
+  "execution_policy_status": "PENDING_GOVERNING_BRANCH_INTEGRATION",
+  "no_data_fabrication": true,
+  "required_evidence": {
+    "description": "Every required artifact is mandatory. Missing, malformed or nonfinite evidence is incomplete, never PASS.",
+    "artifacts": [
+      {
+        "id": "WP07A-CONTACT-FORMULATION-001",
+        "path": "qualification/0_2_9/wp07a_contact_formulation_contract.json",
+        "role": "contract",
+        "id_fields": ["contract_id", "record_id"],
+        "required_fields": [
+          "schema_version", "gate", "work_package", "revision", "status",
+          "source_sha", "qualification_campaign_executed", "formulation_regimes",
+          "scope_candidate", "governance"
+        ]
+      },
+      {
+        "id": "QF-029-WP07-B-CONTACT-EVALUATION-RESTART-001",
+        "path": "qualification/0_2_9/wp07b_contact_evaluation_restart.json",
+        "role": "contract",
+        "id_fields": ["record_id", "artifact_id"],
+        "required_fields": [
+          "schema_version", "gate", "work_package", "revision", "status",
+          "source_sha", "qualification_campaign_executed", "scope",
+          "contact_evaluation_contract", "rollback_contract", "configuration_digest",
+          "restart_contract", "governance"
+        ]
+      },
+      {
+        "id": "QF-029-WP07-C-CONTACT-IDENTITIES-001",
+        "path": "qualification/0_2_9/wp07c_contact_identities.json",
+        "role": "contract",
+        "id_fields": ["record_id", "artifact_id"],
+        "required_fields": [
+          "schema_version", "gate", "work_package", "revision", "status",
+          "source_sha", "qualification_campaign_executed", "scope",
+          "frozen_thresholds", "identities", "governance"
+        ]
+      },
+      {
+        "id": "QF-029-WP07-D-STRUCTURAL-VNV-001",
+        "path": "qualification/0_2_9/wp07d_structural_vnv_contract.json",
+        "role": "contract",
+        "id_fields": ["record_id", "artifact_id"],
+        "required_fields": [
+          "schema_version", "gate", "work_package", "revision", "status",
+          "source_sha", "qualification_campaign_executed", "structural_solves_run",
+          "external_solver_run", "execution_policy", "contract_separation",
+          "mesh_levels", "thresholds", "external_reference_plan", "governance"
+        ]
+      },
+      {
+        "id": "QF-029-WP07-D-STRUCTURAL-EVIDENCE-001",
+        "path": "qualification/0_2_9/wp07d_runs/manifest.json",
+        "role": "runtime",
+        "id_fields": ["artifact_id", "record_id"],
+        "required_fields": [
+          "schema_version", "artifact_id", "gate", "work_package", "status",
+          "source_sha", "qualification_campaign_executed", "provenance",
+          "execution_policy", "track_evidence", "negative_cases"
+        ]
+      },
+      {
+        "id": "QF-029-WP07-D-REFERENCE-ACTIVE-SET-001",
+        "path": "qualification/0_2_9/wp07d_runs/active_set_reference.json",
+        "role": "independent_reference",
+        "id_fields": ["artifact_id", "record_id"],
+        "required_fields": [
+          "schema_version", "artifact_id", "gate", "work_package", "status",
+          "source_sha", "provenance", "track", "independent_implementation",
+          "production_contact_routines_called", "formulation_match", "results"
+        ]
+      },
+      {
+        "id": "QF-029-WP07-D-REFERENCE-PENALTY-001",
+        "path": "qualification/0_2_9/wp07d_runs/penalty_reference.json",
+        "role": "independent_reference",
+        "id_fields": ["artifact_id", "record_id"],
+        "required_fields": [
+          "schema_version", "artifact_id", "gate", "work_package", "status",
+          "source_sha", "provenance", "track", "independent_implementation",
+          "production_contact_routines_called", "formulation_match", "results"
+        ]
+      }
+    ]
+  },
+  "track_separation": {
+    "ACTIVE_SET": {
+      "route": "linear_static",
+      "formulation": "LINEAR_ACTIVE_SET_INITIAL_SEARCH",
+      "required_checks": [
+        "open_zero_force", "closed_gap", "wrong_sign_pressure", "complementarity",
+        "equilibrium_force", "equilibrium_moment", "refinement", "replay",
+        "reference", "negative_cases", "finite", "no_silent_pass"
+      ],
+      "independent_reference_id": "QF-029-WP07-D-REFERENCE-ACTIVE-SET-001",
+      "not_applicable_policy": "A check may be NOT_APPLICABLE only with a nonempty controlled reason and only where this contract labels it optional. A required check marked NOT_APPLICABLE is not a closure PASS."
+    },
+    "PENALTY": {
+      "route": "geometric_nonlinear_static",
+      "formulation": "NONLINEAR_PENALTY_INITIAL_SEARCH",
+      "required_checks": [
+        "open_zero_force", "energy_gradient", "tangent_fd", "no_ghost_force_after_reopen",
+        "rollback", "equilibrium_force", "equilibrium_moment", "refinement",
+        "accepted_load_path", "replay", "reference", "negative_cases", "finite",
+        "no_silent_pass"
+      ],
+      "independent_reference_id": "QF-029-WP07-D-REFERENCE-PENALTY-001",
+      "not_applicable_policy": "Penalty penetration is finite by formulation and zero-gap is not required. Contact energy may be NOT_APPLICABLE only when the declared reference/measurement is invalid, with an explicit reason; the structural closure still remains bounded accordingly."
+    },
+    "UPDATED_SEARCH_FINITE_SLIDING": {
+      "route": "geometric_nonlinear_static",
+      "formulation": "UPDATED_SEARCH_FINITE_SLIDING",
+      "status": "RESEARCH_ONLY",
+      "qualified": false,
+      "tangent": "APPROXIMATE_GEOMETRIC_CONTACT_TANGENT",
+      "energy_claim": false,
+      "restart": "UNQUALIFIED_RESTART",
+      "policy": "Any attempted updated-search evidence is rejected from this closure and cannot be downgraded to a bounded pass."
+    }
+  },
+  "refinement_policy": {
+    "comparison": "M2_TO_M3",
+    "formula": "abs(M3 - M2) / max(abs(M2), abs(M3), scale_floor)",
+    "scale_floor": "max(1e-14, 64 * machine_epsilon * declared_physical_scale)",
+    "finite_required": true,
+    "missing_policy": "FAIL_CLOSED",
+    "nonfinite_policy": "FAIL_CLOSED",
+    "thresholds": {
+      "ACTIVE_SET": {
+        "selected_displacement": 0.03,
+        "reaction_resultant": 0.02,
+        "reaction_moment": 0.03,
+        "contact_resultant": 0.03,
+        "contact_region_measure": 0.1
+      },
+      "PENALTY": {
+        "selected_displacement": 0.03,
+        "reaction_resultant": 0.02,
+        "reaction_moment": 0.03,
+        "contact_resultant": 0.03,
+        "normalized_penetration": 0.05,
+        "contact_energy": 0.05
+      },
+      "optional_averaged_stress": 0.12
+    },
+    "denominators": {
+      "selected_displacement": "max(abs(M2), abs(M3), U_char, absolute_floor)",
+      "reaction_resultant": "max(norm(M2), norm(M3), F_char, absolute_floor)",
+      "reaction_moment": "max(norm(M2), norm(M3), M_char, absolute_floor)",
+      "contact_resultant": "max(norm(M2), norm(M3), F_char, absolute_floor)",
+      "contact_region_measure": "max(abs(M2), abs(M3), 1)",
+      "normalized_penetration": "max(abs(M2), abs(M3), penetration_scale, absolute_floor)",
+      "contact_energy": "max(abs(M2), abs(M3), E_char, absolute_floor)",
+      "optional_averaged_stress": "max(abs(M2), abs(M3), stress_scale, absolute_floor)"
+    },
+    "missing_observable": "FAIL_CLOSED"
+  },
+  "equilibrium_policy": {
+    "force": {
+      "expression": "norm(R_support + F_external) / max(norm(R_support), norm(F_external), F_char, absolute_floor)",
+      "threshold": 1e-8,
+      "components_required": 3
+    },
+    "moment": {
+      "expression": "norm(M_reaction_about_global_origin + M_external_about_global_origin) / max(norm(M_reaction), norm(M_external), M_char, absolute_floor)",
+      "threshold": 1e-8,
+      "components_required": 3,
+      "origin": [0.0, 0.0, 0.0]
+    },
+    "missing_policy": "FAIL_CLOSED",
+    "scalar_shortcut_allowed": false
+  },
+  "active_set_closure": {
+    "required": [
+      "open_zero_force", "closed_gap", "wrong_sign_pressure", "complementarity",
+      "equilibrium_force", "equilibrium_moment", "refinement", "replay", "reference",
+      "negative_cases", "finite", "no_silent_pass"
+    ],
+    "open_zero_force": "PASS when open contact force is zero under declared scale; open-only evidence never proves closed qualification.",
+    "closed_gap": "PASS when normalized gap <= 1e-10.",
+    "wrong_sign_pressure": "PASS when normalized wrong-sign pressure <= 1e-12.",
+    "complementarity": "PASS when normalized complementarity <= 1e-10.",
+    "failure_class": "IDENTITY_FAILURE"
+  },
+  "penalty_closure": {
+    "required": [
+      "open_zero_force", "energy_gradient", "tangent_fd", "no_ghost_force_after_reopen",
+      "rollback", "equilibrium_force", "equilibrium_moment", "refinement", "accepted_load_path",
+      "replay", "reference", "negative_cases", "finite", "no_silent_pass"
+    ],
+    "open_zero_force": "PASS when open fixed-normal penalty force is zero; zero gap is not required.",
+    "energy_gradient": "WP07-C fixed-normal identity, away from activation switching.",
+    "tangent_fd": "WP07-C fixed-normal tangent identity, away from activation switching.",
+    "no_ghost_force_after_reopen": "PASS when unload/reopen has no persistent contact force.",
+    "rollback": "PASS only when rejected/trial state and re-evaluation satisfy WP07-B digest/state rules.",
+    "failure_class": "IDENTITY_FAILURE"
+  },
+  "replay_policy": {
+    "relative_tolerance": 1e-12,
+    "absolute_floor": 1e-14,
+    "scalar_vector_formula": "abs(a-b) <= max(absolute_floor, relative_tolerance * max(abs(a), abs(b)))",
+    "required_equal_or_compatible": [
+      "final_displacement", "reaction_resultant", "reaction_moment", "contact_resultant",
+      "active_contact_qualitative_status", "active_contact_count_when_meaningful",
+      "load_history_length", "load_factor_history", "newton_iteration_counts_when_governing",
+      "terminal_classification"
+    ],
+    "exact_requirements": ["qualitative_contact_status", "history_length", "terminal_classification"],
+    "penalty_restart_metadata": ["contact_topology_digest", "model_signature", "accepted_state_digest"],
+    "missing_policy": "HOLD_REPLAY"
+  },
+  "reference_policy": {
+    "formulation_match_required": true,
+    "production_contact_routines_called": false,
+    "active_set": {
+      "method": "independently assembled KKT/unilateral reference",
+      "displacement": 0.02,
+      "reaction_resultant": 0.02,
+      "reaction_moment": 0.02,
+      "contact_resultant": 0.03,
+      "active_region_measure": 0.1
+    },
+    "penalty": {
+      "method": "independently assembled fixed-normal penalty reference",
+      "displacement": 0.02,
+      "reaction_resultant": 0.02,
+      "reaction_moment": 0.02,
+      "contact_resultant": 0.03,
+      "penetration": 0.05
+    },
+    "incompatible_policy": "HOLD_REFERENCE",
+    "threshold_policy": "Frozen before execution; a stronger analytical reference may tighten but no result-driven tuning is permitted."
+  },
+  "negative_case_policy": [
+    {
+      "case": "reversed_orientation",
+      "expected_classification": "VALIDATION_FAILURE",
+      "counts_as_structural_pass": false
+    },
+    {
+      "case": "open_no_contact",
+      "expected_classification": "PASS_OPEN_NO_CONTACT",
+      "counts_as_structural_pass": false
+    },
+    {
+      "case": "excessive_penetration",
+      "expected_classification": "CONTACT_PENETRATION_EXCESSIVE_OR_ROUTE_NATIVE_FAILURE",
+      "counts_as_structural_pass": false
+    },
+    {
+      "case": "unsupported_combination",
+      "expected_classification": "UNSUPPORTED_EXPLICIT",
+      "counts_as_structural_pass": false
+    },
+    {
+      "case": "nonfinite_observable",
+      "expected_classification": "EVIDENCE_VALIDATION_FAILURE",
+      "counts_as_structural_pass": false
+    },
+    {
+      "case": "incompatible_restart_metadata",
+      "expected_classification": "RESTART_METADATA_MISMATCH",
+      "counts_as_structural_pass": false
+    }
+  ],
+  "execution_policy_binding": {
+    "status": "PENDING_GOVERNING_BRANCH_INTEGRATION",
+    "required_runtime_fields": [
+      "governing_policy_sha", "newton_convergence_contract", "floor_aware_convergence_if_approved",
+      "linear_backend", "line_search_policy", "load_step_retry_policy"
+    ],
+    "mismatch_policy": "INVALID_EVIDENCE_UNLESS_REAUTHORIZED",
+    "physics_contract_unchanged": true
+  },
+  "decision_matrix": {
+    "precedence_high_to_low": [
+      "WP07_INCOMPLETE_EVIDENCE",
+      "WP07_FAIL_IDENTITY",
+      "WP07_FAIL_EQUILIBRIUM",
+      "WP07_HOLD_REPLAY",
+      "WP07_HOLD_STRUCTURAL_CONVERGENCE",
+      "WP07_HOLD_REFERENCE",
+      "WP07_PARTIAL_ACTIVE_SET_ONLY",
+      "WP07_PARTIAL_PENALTY_ONLY",
+      "WP07_PASS_BOUNDED"
+    ],
+    "statuses": {
+      "WP07_PASS_BOUNDED": "Both tracks satisfy their applicable identity, equilibrium, refinement, replay and compatible-reference gates within the declared bounded scope.",
+      "WP07_PARTIAL_ACTIVE_SET_ONLY": "Only the active-set track closes and the penalty track is explicitly not covered; no penalty claim is made.",
+      "WP07_PARTIAL_PENALTY_ONLY": "Only the penalty track closes and the active-set track is explicitly not covered; no active-set claim is made.",
+      "WP07_HOLD_STRUCTURAL_CONVERGENCE": "A required refinement or structural convergence gate is missing or failed.",
+      "WP07_HOLD_REFERENCE": "A required independent reference is missing, incompatible or outside its frozen limits.",
+      "WP07_HOLD_REPLAY": "A required replay/restart/state comparison is missing or failed.",
+      "WP07_FAIL_IDENTITY": "A local formulation identity, finiteness or no-silent-pass invariant failed.",
+      "WP07_FAIL_EQUILIBRIUM": "A vector force or moment equilibrium gate failed.",
+      "WP07_INCOMPLETE_EVIDENCE": "Required artifact, field, provenance or execution-policy binding is missing or malformed."
+    },
+    "no_downgrade_rule": "A failed higher-precedence gate cannot be relabeled as a limitation or partial pass."
+  },
+  "point_policy": {
+    "WP07-A": 1,
+    "WP07-B": 2,
+    "WP07-C": 2,
+    "WP07-D": 3,
+    "WP07-E": 2,
+    "total": 10,
+    "current_formal_points": "0/10",
+    "partial_points": "Not awarded unless explicitly approved by Owner for a bounded formulation claim."
+  },
+  "integration_train": [
+    "WP04 governing branch closure",
+    "integrate WP07 candidate artifacts onto the governing branch",
+    "revalidate targeted WP07 contracts and evidence paths",
+    "execute WP07-D structural evidence on the integrated code",
+    "run WP07-E closure evaluator with immutable A/B/C/D/reference artifacts",
+    "Owner records final WP07 decision and any bounded public claim"
+  ],
+  "report_builder": {
+    "path": "scripts/build_wp07e_closure.py",
+    "input": "JSON evidence map; no default or fabricated qualification values",
+    "output": "machine-readable gate matrix, observations, thresholds, limitations, final status and point recommendation",
+    "deterministic_output": true
+  },
+  "governance": {
+    "structural_solves_run": false,
+    "external_solver_run": false,
+    "production_mechanics_changed": false,
+    "contact_mechanics_changed": false,
+    "maturity_changed": false,
+    "next_step": "Wait for WP04 closure and integration train before WP07-D execution and WP07-E Owner closure."
+  }
+}
