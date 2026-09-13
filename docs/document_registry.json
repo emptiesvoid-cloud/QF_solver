@@ -5648,6 +5648,19 @@
   "tests": [
     "tests/unit/test_wp06_ab_arc_length_contract.py"
   ]
+},
+{
+  "id": "DOC-029-WP06C-001",
+  "path": "verification/0_2_9/wp06c-arc-length-predictor-corrector-identities.md",
+  "title": "QF Solver 0.2.9 WP06-C arc-length predictor, corrector and constraint identities",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp06c_arc_length_predictor_corrector_identities.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp06c_arc_length_predictor_corrector_identities.py"
+  ]
 }
   ]
   
