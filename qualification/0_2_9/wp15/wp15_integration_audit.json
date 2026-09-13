@@ -82,6 +82,10 @@
   "post_validation_branch_deletion": {
     "required_before_deletion": ["merge_validated", "remote_governing_head_verified", "child_head_ancestor_of_governing"],
     "local_child_branch_present_at_preflight": false,
-    "remote_child_branch_deletion": "PENDING_FINAL_PUSH"
+    "governing_head_verified_before_deletion": "e5989e6653aed12a8c11a4ba68c1052391945bfc",
+    "child_head_ancestor_of_governing": true,
+    "local_child_branch_deleted": "NOT_PRESENT_LOCALLY_NO_DELETION_NEEDED",
+    "remote_child_branch_deletion": "COMPLETED",
+    "remote_child_branch_exists_after_deletion": false
   }
 }
