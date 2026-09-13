@@ -232,3 +232,96 @@ metrics.
 
 WP04 remains `HOLD`, G04-10 remains unresolved, and the next step is Owner
 review before any further WP04 M2/C2 resume or other solver-policy change.
+
+## H. C2R5 canonical M2 residual-precision audit
+
+C2R5 is an Owner-authorized M2-only diagnostic at source SHA
+`571b7f64450ec556e1f9a59ecc65826cf49675d5`. It corrected the C2R3 protocol
+drift for this reproduction by using the canonical existing/enabled line
+search, while retaining MINRES + Jacobi (`rtol=1e-11`, `atol=1e-14`,
+`maxiter=10000`, fallback OFF), Newton tolerance `1e-10` and 12 target
+increments. M3 and M4 were not run.
+
+The canonical result reproduced three accepted steps and a step-4
+`LINE_SEARCH_FAILURE` at Newton iteration 26, with residual
+`1.0411047989090212e-10`. The run emitted 67 iteration events, had wall/CPU
+times `1678.3279889000114 s` / `1741.671875 s`, and no linear-solver contract
+failure. The one captured reduced system is retained outside Git at
+`C:\Users\fari\AppData\Local\Temp\qf_solver_029_c2r5_forensics\c2_m2_canonical_step4_failure.npz`:
+shape `90000 x 90000`, `3835710` nonzeros, `27394683` bytes, SHA-256
+`f94e13d6a92c7ed6203a85f9be23d7fb7d23bf7552b8081393574472cb6b1b01`.
+
+### Residual and cancellation evidence
+
+The driver computes
+`||(lambda*F_ext-F_int)_free||_2 / max(||(lambda*F_ext)_free||_2,
+force_scale,1)`. C2 supplies no additional force scale, so the captured
+step's denominator is 1.0 because its free target norm is
+`0.6666666666666664`.
+
+On free DOFs the target and internal force norms are
+`0.6666666666666664` and `0.6666666666666998`; their imbalance is
+`1.0411047989090212e-10`. The 2-norm and infinity-norm cancellation indicators
+are `12806907957.1103` and `14255843879.227219`. Five repeated normal
+reassemblies of the untouched trial were bitwise identical, with residual
+min/max/mean `1.0411047989090212e-10` and spread zero. The accepted state
+before step 4 has force/moment errors `1.324838322760566e-14` /
+`4.172828174723821e-15`; the captured step-4 trial has
+`2.4672319589855068e-14` / `2.4472628640241725e-15` against the corresponding
+target load.
+
+The local constitutive and kinematic calculations remained float64. Replacing
+only the global sum of those local contributions gave:
+
+| accumulation | normalized residual |
+| --- | ---: |
+| normal float64 | `1.0411047989090212e-10` |
+| pairwise float64 | `1.0411048963249379e-10` |
+| compensated/Kahan float64 | `1.0411048278985379e-10` |
+| platform `longdouble` | `1.0411048047789044e-10` |
+
+On the Windows environment, NumPy `longdouble` is an 8-byte float64 alias.
+None of these methods materially lowers the floor. A per-DOF
+`gamma_n*sum(abs(local))` diagnostic estimates `9.926818702066467e-13`, with
+observed/estimated ratio `104.87799063886342`; this bound covers only the
+local-contribution sum and does not prove a global-accumulation-only cause.
+
+### Same-state and line-search evidence
+
+Direct SuperLU, MINRES/Jacobi at `1e-11` and MINRES/Jacobi at `1e-12` all
+produce machine-scale corrections (`8.108503804890719e-16`,
+`8.10850383404193e-16`, `8.108503805815807e-16`) with relative correction
+`~1.42954675e-16`. Their `eta_inf` values are
+`1.148509118958703e-15`, `5.232341881338818e-13` and
+`4.999305581031921e-13`. Applying each to an isolated copy yields the same
+normal residual `1.1786672101386367e-10`; no correction materially improves
+the physical imbalance.
+
+The strict line search tested alphas
+`1, 1/2, 1/4, 1/8, 1/16, 1/32, 1/64, 1/128, 1/256, 1/512, 1/1024,
+1/2048, 1/4096, 1/8192, 1/16384`. The corresponding merits are, in order,
+`1.1786672101386367e-10`, `1.087998092674283e-10`,
+`1.0816636703227027e-10`, `1.0687095189798257e-10`,
+`1.0608807344801181e-10`, `1.0537365372983584e-10`,
+`1.0495728321429686e-10`, `1.0435852481068462e-10`,
+`1.0430259234360327e-10`, `1.0429477685691295e-10`,
+`1.041523504194613e-10`, `1.0416104471125124e-10`,
+`1.0413191293026293e-10`, `1.0412069200871767e-10` and
+`1.0411521045606017e-10`. The initial merit was
+`1.0411047989090212e-10`; every tested merit was larger. The diagnostic
+classification is therefore `LINE_SEARCH_TRUE_REJECTION`, with the overall
+problem still classified as a numerical residual floor.
+
+The C2R5 root classification is
+`NONLINEAR_RESIDUAL_NUMERICAL_FLOOR`, mechanistically bounded by strong force
+cancellation and float64 precision. It does not support an
+`R6_ACCUMULATION_PRECISION_REMEDIATION` recommendation. A future
+`R6_FLOOR_AWARE_TERMINATION_POLICY` is recommended for Owner review, but no
+mixed criterion or threshold was implemented or frozen; the R2B M1 route was
+not retroactively reclassified. The complete C2R5 record is
+`docs/verification/0_2_9/wp04-c2r5-residual-precision-audit.md` and
+`qualification/0_2_9/c2r5/residual_precision_audit.json`.
+
+WP04 remains `HOLD`, G04-10 remains `UNRESOLVED`, points remain `0/12` and the
+validated total remains `29/100`. Historical R1/R2/R2B/C2R3/C2R4 evidence is
+unchanged; no M3/M4, PETSc/PyAMG or full-suite work was performed.
