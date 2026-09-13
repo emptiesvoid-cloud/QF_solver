@@ -81,6 +81,15 @@ derived status is `PASS_CANDIDATE_PENDING_OWNER_REVIEW`. See
 `c2r6/frozen_threshold_audit.json` and
 `../docs/verification/0_2_9/wp04-c2r6-floor-aware-termination.md`.
 
+WP04-D freezes and executes the HEX8 structural contract in `wp04d/`. H1,
+H2 and H3 complete under the frozen C2R6 MINRES+Jacobi route with consistent
+face loading, equilibrium, envelope and H1 replay evidence. The H2→H3
+displacement, reaction, energy and representative-stress deltas pass the
+frozen thresholds, so `g04_11_audit.json` records `G04-11=PASS` pending Owner
+review. H4 is not run because its predeclared rescue condition is not
+triggered. G04-12 is only prepared, and the explicit small-load reaction
+support limitation is retained in the campaign result.
+
 ## Current planning status
 
 - WP00: `CLOSED`, 4/4 points.
@@ -94,6 +103,10 @@ derived status is `PASS_CANDIDATE_PENDING_OWNER_REVIEW`. See
 - OD-029-01: **OPEN**; it blocks WP09 only.
 - OD-029-02: **CLOSED** as `READ_V1_WRITE_V2_BOUNDED`; ambiguous/stateful
   contact-bearing v1 checkpoints are rejected.
+
+WP04-D is the current phase: `G04-11=PASS` is supported by the controlled
+HEX8 campaign, while G04-12 remains pending the cross-family phase. WP04
+therefore remains at 0/12 and the validated total remains 29/100.
 
 WP03-C preserves the accepted-state authority and all existing numerical and
 maturity boundaries. WP03-D adds the single `UnifiedArcLengthRadiusPolicy`,

@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "release": "0.2.9",
-  "status": "WP04_HOLD_R6_PENDING_OWNER_REVIEW",
+  "status": "WP04_HOLD_G04_12_PENDING_OWNER_REVIEW",
   "work_packages": {
     "WP00": {"points": 4, "status": "CLOSED", "validated_points": 4},
     "WP01": {"points": 12, "status": "CLOSED", "validated_points": 12},
     "WP02": {"points": 6, "status": "CLOSED", "validated_points": 6},
     "WP03": {"points": 7, "status": "CLOSED", "validated_points": 7},
-    "WP04": {"points": 12, "status": "HOLD_R6_PENDING_OWNER_REVIEW", "validated_points": 0},
+    "WP04": {"points": 12, "status": "HOLD_G04_12_PENDING_OWNER_REVIEW", "validated_points": 0},
     "WP05": {"points": 5, "status": "NOT_STARTED", "validated_points": 0},
     "WP06": {"points": 8, "status": "NOT_STARTED", "validated_points": 0},
     "WP07": {"points": 10, "status": "NOT_STARTED", "validated_points": 0},
@@ -21,5 +21,5 @@
   },
   "validated_points": 29,
   "total_points": 100,
-  "next_gate": "Historical WP04-C/C1/C2 resource and owner-abort records, R1/R2/R2B, C2R3, C2R4 and C2R5 evidence remain immutable. The completed C2R6 campaign is recovered from existing artifacts only: M2 and M3 both completed under the frozen MINRES+Jacobi route with floor-aware termination, each reached the final load factor with 12 accepted steps, and no fallback or failure capture was recorded. The nine floor-converged events in each case satisfy the frozen conjunction; the result/per-step Newton totals are authoritative despite a non-blocking SOLVE_COMPLETED aggregate undercount of 12 floor events per case. The original M2-to-M3 thresholds pass for displacement, reaction, energy and representative stress. The derived C2R6 decision is PASS_CANDIDATE_PENDING_OWNER_REVIEW; the raw runner placeholder remains preserved. WP04 remains HOLD at 0/12 and 29/100, with no maturity change. No M4, PETSc/PyAMG, or full repository suite was run. See c2r6/frozen_threshold_audit.json, c2r6/campaign_result.json and wp04-c2r6-floor-aware-termination.md. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
+  "next_gate": "WP04-D HEX8 structural evidence is complete at G04-11=PASS pending Owner review: H1/H2/H3 completed under the frozen C2R6 MINRES+Jacobi route with consistent physical loading, equilibrium and deformation-envelope checks; H2-to-H3 displacement, reaction, energy and representative-stress thresholds pass, H4 rescue was not triggered, and H1 replay is exact at the recorded observables and accepted path. G04-12 is prepared only and no cross-family decision is made. The explicit H1 small-load supporting reaction limitation remains recorded. WP04 remains HOLD at 0/12 and 29/100, with no maturity change. No M4, PETSc/PyAMG, or full repository suite was run. See wp04d/hex8_contract.json, wp04d/hex8_campaign_result.json, wp04d/g04_11_audit.json and wp04-d-hex8-structural-qualification.md. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
 }

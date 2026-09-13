@@ -13,7 +13,7 @@ applicable_version: 0.2.9-development
 | WP01 | 12 | **Closed** — Owner-approved unified nonlinear core |
 | WP02 | 6 | **Closed** — 6/6; independent WP02-E audit `GO_WITH_LIMITATIONS` |
 | WP03 | 7 | **Closed** — 7/7; independent WP03-E audit `GO_WITH_LIMITATIONS` |
-| WP04 | 12 | **HOLD — C2R6 candidate pending Owner review** — 0/12; G04-10 `PASS_CANDIDATE_PENDING_OWNER_REVIEW` |
+| WP04 | 12 | **HOLD — G04-11 HEX8 pass; G04-12 pending Owner review** — 0/12; G04-10/G04-11 evidence recorded |
 | WP05–WP08 | 31 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
@@ -333,3 +333,35 @@ four thresholds pass. The derived status is
 the validated total remains 29/100. The raw runner record’s top-level
 `UNRESOLVED` placeholder is preserved. See [the recovered C2R6 audit](wp04-c2r6-floor-aware-termination.md)
 and `qualification/0_2_9/c2r6/frozen_threshold_audit.json`.
+
+## WP04-D HEX8 structural qualification
+
+WP04-D froze and executed the same bounded Total-Lagrangian StVK cantilever
+contract for HEX8 at H1 `16x8x8`, H2 `24x12x12`, and H3 `32x16x16`. All three
+required cases completed under the exact Owner-approved C2R6 route: 12 fixed
+increments, canonical existing line search, MINRES+Jacobi with `rtol=1e-11`,
+`atol=1e-14`, `maxiter=10000`, direct fallback disabled, and floor-aware
+termination enabled. The consistent boundary-face load preserves resultant
+`[0,-50,0]` and reference moment `[12.5,0,-200]`; no equal-share load was
+used.
+
+The frozen H2→H3 deltas are displacement `0.01999034019793022`, reaction
+`9.224898992711293e-14`, energy `0.019943897062970836`, and representative
+stress `0.046483239095767515`, all within the `2%/2%/2%/10%` limits. Maximum
+force and moment equilibrium errors are `6.479137079435662e-14` and
+`4.033649056229668e-15`; the deformation envelope passes with minimum
+`det(F)=0.9924435183210853`, principal stretches
+`[0.9907111439153957,1.0092228247131967]`, and maximum
+`||E||_F=0.0095824348944902`. H1 replay has identical accepted-state digests,
+load factors, classifications and recorded observables. H4 was not run
+because H2→H3 passed, and G04-12 is limited to prepared machine-readable H3
+inputs with no cross-family decision.
+
+The H1 small-load support sequence was executed and its convergence trend is
+retained. At multiplier `0.001`, displacement error is
+`2.5607163831358572e-05`, while reaction error is
+`2.7738177407149553e-04`, above the supporting `1e-4` limit. This explicit
+support limitation is not used to alter the frozen G04-11 mesh decision and
+requires review in the combined WP04 phase. See the [WP04-D record](wp04-d-hex8-structural-qualification.md),
+`qualification/0_2_9/wp04d/hex8_campaign_result.json`, and
+`qualification/0_2_9/wp04d/g04_11_audit.json`.

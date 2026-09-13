@@ -1,0 +1,220 @@
+{
+  "audit_sha": "e01e292a36dc4f2e6bfe1cbe8a64a6b563707edf",
+  "contract_status": "FROZEN_BEFORE_RESULT_EXECUTION",
+  "direct_fallback_counts": {
+    "H1": 0,
+    "H1-replay": 0,
+    "H2": 0,
+    "H3": 0
+  },
+  "envelope": {
+    "maximum_green_lagrange_norm": 0.0095824348944902,
+    "maximum_principal_stretch": 1.0092228247131967,
+    "minimum_det_f": 0.9924435183210853,
+    "minimum_principal_stretch": 0.9907111439153957,
+    "status": true
+  },
+  "equilibrium": true,
+  "full_test_suite_run": false,
+  "g04_11": "PASS",
+  "g04_12": "INPUTS_PREPARED_ONLY",
+  "limitations": [
+    "HEX8 only; TET4 and cross-family decision remain outside this audit",
+    "H4 was predeclared but not run unless the H2->H3 pair requires an owner-authorized rescue",
+    "No maturity promotion or WP04 point award in WP04-D"
+  ],
+  "mesh_convergence": {
+    "displacement": 0.01999034019793022,
+    "energy": 0.019943897062970836,
+    "reaction": 9.224898992711293e-14,
+    "representative_sigma_xx": 0.046483239095767515,
+    "threshold_status": true
+  },
+  "physical_load": {
+    "all_case_checks": {
+      "H1": {
+        "equal_share_used": false,
+        "face_area": 0.25,
+        "loaded_node_count": 81,
+        "q4_face_weight_per_corner": [
+          0.0,
+          -0.1953125,
+          0.0
+        ],
+        "reference_moment": [
+          12.5,
+          0.0,
+          -200.0
+        ],
+        "resultant": [
+          0.0,
+          -50.0,
+          0.0
+        ],
+        "resultant_error": 0.0,
+        "resultant_relative_error": 0.0,
+        "traction": [
+          0.0,
+          -200.0,
+          0.0
+        ]
+      },
+      "H1-replay": {
+        "equal_share_used": false,
+        "face_area": 0.25,
+        "loaded_node_count": 81,
+        "q4_face_weight_per_corner": [
+          0.0,
+          -0.1953125,
+          0.0
+        ],
+        "reference_moment": [
+          12.5,
+          0.0,
+          -200.0
+        ],
+        "resultant": [
+          0.0,
+          -50.0,
+          0.0
+        ],
+        "resultant_error": 0.0,
+        "resultant_relative_error": 0.0,
+        "traction": [
+          0.0,
+          -200.0,
+          0.0
+        ]
+      },
+      "H2": {
+        "equal_share_used": false,
+        "face_area": 0.25,
+        "loaded_node_count": 169,
+        "q4_face_weight_per_corner": [
+          0.0,
+          -0.08680555555555555,
+          0.0
+        ],
+        "reference_moment": [
+          12.500000000000002,
+          0.0,
+          -199.99999999999991
+        ],
+        "resultant": [
+          0.0,
+          -49.99999999999998,
+          0.0
+        ],
+        "resultant_error": 2.1316282072803006e-14,
+        "resultant_relative_error": 4.263256414560601e-16,
+        "traction": [
+          0.0,
+          -200.0,
+          0.0
+        ]
+      },
+      "H3": {
+        "equal_share_used": false,
+        "face_area": 0.25,
+        "loaded_node_count": 289,
+        "q4_face_weight_per_corner": [
+          0.0,
+          -0.048828125,
+          0.0
+        ],
+        "reference_moment": [
+          12.5,
+          0.0,
+          -200.0
+        ],
+        "resultant": [
+          0.0,
+          -50.0,
+          0.0
+        ],
+        "resultant_error": 0.0,
+        "resultant_relative_error": 0.0,
+        "traction": [
+          0.0,
+          -200.0,
+          0.0
+        ]
+      }
+    },
+    "expected_resultant": [
+      0.0,
+      -50.0,
+      0.0
+    ]
+  },
+  "production_mechanics_changed": false,
+  "record_id": "QF-SOLVER-0.2.9-WP04-D-G04-11-AUDIT-001",
+  "replay": {
+    "accepted_load_path_equal": true,
+    "energy_relative": 0.0,
+    "reaction_relative": 0.0,
+    "status": true,
+    "stress_relative": 0.0,
+    "termination_classifications_equal": true,
+    "tip_displacement_relative": 0.0
+  },
+  "schema_version": 1,
+  "termination_routes": {
+    "H1": [
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL"
+    ],
+    "H1-replay": [
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL"
+    ],
+    "H2": [
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL"
+    ],
+    "H3": [
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL",
+      "CONVERGED_RESIDUAL"
+    ]
+  }
+}
