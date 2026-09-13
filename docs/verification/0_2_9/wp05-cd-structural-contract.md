@@ -1,6 +1,6 @@
 ---
 doc_id: DOC-029-WP05-CD-STRUCTURAL-CONTRACT-001
-revision: 0.1
+revision: 0.2
 status: controlled_candidate
 applicable_version: 0.2.9-development
 reviewer: ""
@@ -21,6 +21,15 @@ qualification result.  H2/H3 mechanical solves are intentionally not run
 while the independent Agent A WP04-C2R6 campaign is active.  No production
 source, mechanics formulation, maturity, or Owner decision was changed.
 
+### Owner correction R1
+
+The initial preparation artifact used equal force shares over all `x = L`
+nodes.  That rule is retained here as historical provenance only: it was
+Owner-rejected before any mechanical solve because it does not represent the
+same uniform quadratic-face traction across TET10 and HEX20 topologies.  The
+final contract below uses consistent equivalent nodal traction.  No prior
+mechanical result is being rewritten.
+
 ## Bounded scope
 
 The future cases are one homogeneous straight-sided family at a time:
@@ -30,6 +39,8 @@ The future cases are one homogeneous straight-sided family at a time:
 - `linear_static`/small-strain material initialization followed by the
   existing canonical geometric-static route, subject to the separately
   supplied approved nonlinear termination policy;
+- the same physical uniform traction for both families, represented by their
+  family-specific consistent equivalent nodal forces;
 - isotropic linear `SolidMaterial`, with `E = 1.0e6` and `nu = 0.30`;
 - no curved TET10 claim, reduced-integration/hourglass claim, contact,
   plasticity, mixed mesh, mixed material, distributed-load route, or external
@@ -42,15 +53,26 @@ experimental floor-aware C2R6 policy.
 ## Frozen physical benchmark
 
 The rectangular domain is `L = 4.0`, `H = 0.5`, `D = 0.5`, with volume `1.0`.
-All displacement DOFs on the `x = 0` face are fixed.  A total nodal dead load
-of `[0, -50, 0]` is applied on the `x = L` face.
+All displacement DOFs on the `x = 0` face are fixed.  The physical load is a
+uniform traction on the `x = L` face with total resultant `[0, -50, 0]`.
+The public solver still receives nodal dead loads; only this qualification
+harness performs the surface integration.
 
-Nodes on the loaded face are selected by finite-coordinate `x == L`, sorted by
-global node id, and receive equal shares of the declared total vector.  The
-resultant is checked with an explicit absolute tolerance of `1.0e-12`; this
-only accounts for floating-point summation and is not a post-result numerical
-qualification threshold.  The rule is identical for every mesh level and
-therefore keeps the physical resultant mesh-independent.
+TET10 integrates quadratic T6 boundary faces with the three-point degree-2
+triangle rule in barycentric coordinates.  HEX20 integrates quadratic Q8
+boundary faces with tensor 2x2 Gauss.  Every boundary-face contribution is
+assembled into the shared global node ids, including shared midside nodes.
+The traction is computed from the integrated end-face area, so both families
+represent the same physical load rather than the same topology-dependent
+nodal weights.  The resultant is checked with an explicit absolute tolerance
+of `1.0e-12`; this only accounts for floating-point summation.
+
+The analytical uniform-traction moment about the global origin is computed at
+the end-face centroid `(L, H/2, D/2)`.  For this benchmark it is
+`[12.5, 0.0, -200.0]`, including the requested `Mz = -200` sign.  All three
+force and all three moment components are recorded.  The moment check uses a
+predeclared scale-aware relative tolerance of `1.0e-12` with an absolute
+floor of `1.0e-12`.
 
 The structured node id is
 `i + (nx + 1) * (j + (ny + 1) * k)`, with `x` as the fastest index.  The
@@ -96,8 +118,9 @@ executed.
 
 For every generated level, the harness checked finite coordinates, indexing,
 local connectivity uniqueness, midside uniqueness/conformity, positive
-orientation/Jacobian, volume, and the load resultant.  The checks passed.  H1
-mesh generation is deterministic on repeated construction.
+orientation/Jacobian, volume, the resultant, and all three external-moment
+components.  The checks passed.  H1 mesh generation and consistent load
+assembly are deterministic on repeated construction.
 
 For TET10 the minimum H1 Hammer-4 Jacobian is `6.2499999999999924e-2` and
 the minimum H3 sampled Hammer-4 Jacobian is
@@ -110,12 +133,15 @@ HEX20 all 27 Gauss points per element are finite and positive; the minimum is
 The future result schema contains:
 
 1. mean `Y` displacement over all `x = L` face nodes;
-2. clamp reaction resultant, the sum over all `x = 0` face reaction rows;
-3. clamp reaction `Mz = sum(x*Ry - y*Rx)` about the global origin;
+2. three-component clamp reaction resultant, the sum over all `x = 0` face
+   reaction rows;
+3. three-component clamp reaction moment about the global origin;
 4. strain energy;
-5. volume/integration-point weighted Cauchy `sigma_xx` in
-   `0.40 <= x/L <= 0.60`, `0.70 <= y/H <= 0.95`, and
-   `0.20 <= z/D <= 0.80` (only finite positive integration weights count);
+5. reference-coordinate and reference-volume weighted Cauchy `sigma_xx` in
+   `0.40 <= X/L <= 0.60`, `0.70 <= Y/H <= 0.95`, and
+   `0.20 <= Z/D <= 0.80`; records must provide
+   `reference_coordinates` and positive `reference_volume_weight = w_q det(J0)`.
+   Deformed coordinates and current-volume weights are not used;
 6. minimum `det(F)`;
 7. minimum and maximum principal stretches from the singular values of `F`;
 8. maximum Frobenius norm of Green--Lagrange strain;
@@ -132,15 +158,30 @@ resultant, reaction moment, and strain energy `<= 2%`, and representative
 equilibrium relative errors `<= 1.0e-8`.  These thresholds were frozen before
 future H2/H3 results and must not be tuned after observation.
 
-H1 replay will compare the declared observables with relative difference
-`<= 1.0e-12` and an absolute floor of `1.0e-14` where applicable.  Binary state
-hash equality is not required by this contract.
+The harness `check_replay` requires every scalar above, all three components
+of the reaction resultant and moment, the accepted load-factor history, and
+the Newton iteration count.  Floating values use relative difference
+`<= 1.0e-12` with absolute floor `1.0e-14`; histories require equal length and
+elementwise tolerance; the Newton count requires exact equality.  Missing or
+non-finite values fail closed.  Binary state hash equality is not required.
+
+The harness `evaluate_equilibrium` checks vector force and vector origin
+moment residuals using relative error `<= 1.0e-8`, and records all components.
+The `evaluate_mesh_delta` helper applies the frozen H2-to-H3 thresholds for
+displacement, reaction resultant, reaction moment, energy, and representative
+stress.  Missing or non-finite observables are failures rather than skipped
+checks.
 
 ## Resource estimate
 
-The following conservative estimates include coordinate/connectivity storage,
-bounded staged triplets, and a raw tangent-entry CSR upper bound.  They are
-not measured solve memory and do not award qualification points.
+The following preparation/storage estimates include coordinate/connectivity
+storage, bounded staged triplets, and a raw tangent-entry CSR upper bound.
+`MESH_RESOURCE_ESTIMATE = AVAILABLE`; these are not measured solve memory and
+do not award qualification points.  They exclude Newton state vectors,
+assembly runtime overhead, Krylov workspace, preconditioner storage, sparse
+factorization fill-in, Python/SciPy overhead, telemetry, and process
+overhead.  Consequently `SOLVE_RESOURCE_READINESS =
+UNKNOWN_PENDING_MEASURED_H1` and no H2/H3 solve-resource claim is made.
 
 | Family | Level | Raw tangent entries (upper bound) | Rough memory |
 |---|---:|---:|---:|
@@ -163,7 +204,8 @@ The preparation harness is
 machine-readable contract/evidence schema in
 `qualification/0_2_9/wp05_cd_structural_contract.json` and can evaluate future
 precomputed solver outputs without invoking a solver.  The evidence records
-the benchmark definition, mesh counts, quality checks, load/volume checks,
+the benchmark definition, mesh counts, quality checks, consistent load/moment
+checks, reference-region policy, replay/equilibrium evaluators,
 termination-policy provenance, execution flags, and the explicit fact that
 Agent A's policy was not imported.
 

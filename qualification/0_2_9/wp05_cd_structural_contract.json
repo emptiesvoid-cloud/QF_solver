@@ -2,10 +2,11 @@
   "schema_version": "1.0",
   "evidence_id": "VNV029-WP05-CD-STRUCTURAL-CONTRACT-001",
   "document_id": "DOC-029-WP05-CD-STRUCTURAL-CONTRACT-001",
+  "contract_revision": "R1",
   "gate": "WP05-C/D",
   "status": "PREPARATION_ONLY_PENDING_WP04",
   "source_branch": "0.2.9-wp05-prep",
-  "source_start_sha": "03dc431e4cc26b4ad5ec5ba66c42038fd6fad4ba",
+  "source_start_sha": "8d92dcda02e685d1378bcb821d51fc8788bc94fd",
   "formal_points": {
     "WP05-C": "0/1",
     "WP05-D": "0/1",
@@ -19,6 +20,13 @@
     "agent_a_runtime_artifacts_touched": false,
     "maturity_changed": false,
     "solver_or_formulation_changed": false
+  },
+  "owner_correction_r1": {
+    "initial_equal_node_rule": "equal share over every x=L node",
+    "initial_rule_status": "OWNER_REJECTED_BEFORE_ANY_MECHANICAL_SOLVE",
+    "initial_rule_retained_as_history": true,
+    "reason": "topology-dependent equal nodal weights do not represent the same uniform quadratic-face traction",
+    "final_rule": "CONSISTENT_EQUIVALENT_NODAL_TRACTION"
   },
   "benchmark": {
     "geometry": {
@@ -36,8 +44,13 @@
     "load": {
       "total_nodal_dead_load": [0.0, -50.0, 0.0],
       "application_face": "x=L",
-      "distribution_rule": "equal share on sorted global ids of every x=L face node",
-      "resultant_absolute_tolerance": 1e-12
+      "physical_definition": "uniform traction on x=L face",
+      "distribution_rule": "quadratic face shape-function surface integration into shared global nodes",
+      "resultant_absolute_tolerance": 1e-12,
+      "moment_scale_aware_relative_tolerance": 1e-12,
+      "expected_external_moment_about_global_origin": [12.5, 0.0, -200.0],
+      "public_solver_receives": "nodal dead loads only",
+      "qualification_surface_integration_only": true
     },
     "node_id_rule": "i + (nx + 1) * (j + (ny + 1) * k)",
     "levels": [
@@ -50,6 +63,8 @@
     "TET10": {
       "work_package": "WP05-C",
       "quadrature": "Hammer-4",
+      "surface_face_type": "quadratic T6 triangle",
+      "surface_quadrature": "three-point degree-2 barycentric triangle rule",
       "geometry_claim": "straight-sided only",
       "subdivision": [
         [0, 1, 2, 6],
@@ -65,6 +80,8 @@
     "HEX20": {
       "work_package": "WP05-D",
       "quadrature": "full 27-point Gauss",
+      "surface_face_type": "quadratic Q8 serendipity quadrilateral",
+      "surface_quadrature": "tensor 2x2 Gauss rule",
       "reduced_integration_or_hourglass_claim": false,
       "edge_order": [[0, 1], [0, 3], [0, 4], [1, 2], [1, 5], [2, 3], [2, 6], [3, 7], [4, 5], [4, 7], [5, 6], [6, 7]]
     }
@@ -98,12 +115,37 @@
   "conservation": {
     "volume_check": "PASS within absolute tolerance 1e-12 on every generated level",
     "load_resultant_check": "PASS within absolute tolerance 1e-12 on every generated level",
-    "target_resultant": [0.0, -50.0, 0.0]
+    "load_moment_check": "PASS against centroid moment [12.5,0,-200] with predeclared scale-aware tolerance",
+    "target_resultant": [0.0, -50.0, 0.0],
+    "target_moment_about_global_origin": [12.5, 0.0, -200.0],
+    "errors_by_family_and_level": {
+      "TET10": {
+        "H1": {"resultant": 0.0, "moment": 0.0},
+        "H2": {"resultant": 7.105427357601002e-15, "moment": 2.8916994303251375e-14},
+        "H3": {"resultant": 6.394884621840902e-14, "moment": 2.5579538487363607e-13}
+      },
+      "HEX20": {
+        "H1": {"resultant": 7.105427357601002e-15, "moment": 2.842170943040401e-14},
+        "H2": {"resultant": 7.105427357601002e-15, "moment": 2.842170943040401e-14},
+        "H3": {"resultant": 2.1316282072803006e-14, "moment": 8.543149943144392e-14}
+      }
+    },
+    "cross_family_physical_load_equivalence": {
+      "status": "PASS",
+      "same_physical_uniform_traction": true,
+      "levels": {
+        "H1": {"resultant_difference": 7.105427357601002e-15, "moment_difference": 2.842170943040401e-14},
+        "H2": {"resultant_difference": 0.0, "moment_difference": 5.329070518200751e-15},
+        "H3": {"resultant_difference": 8.526512829121202e-14, "moment_difference": 3.4110214398748283e-13}
+      },
+      "qualification_wp05_e_executed": false
+    }
   },
   "observables": {
     "loaded_end_displacement": "mean Y displacement of all x=L face nodes",
     "clamp_reaction_resultant": "sum of reaction vectors on x=0 face",
-    "clamp_reaction_moment_z": "sum(x*Ry-y*Rx) on x=0 face about global origin",
+    "clamp_reaction_moment": "three-component sum of r cross reaction on x=0 face about global origin",
+    "clamp_reaction_moment_z": "compatibility scalar: z component of clamp_reaction_moment",
     "strain_energy": "finite scalar",
     "representative_cauchy_sigma_xx": {
       "normalized_region": {
@@ -111,8 +153,12 @@
         "y_over_H": [0.7, 0.95],
         "z_over_D": [0.2, 0.8]
       },
-      "weighting": "positive integration-point/volume weights",
-      "field": "Cauchy sigma_xx"
+      "coordinate_system": "reference integration-point coordinates X",
+      "weighting": "reference_volume_weight = w_q * det(J0), positive only",
+      "field": "Cauchy sigma_xx",
+      "deformed_coordinates_used": false,
+      "current_volume_weight_used": false,
+      "missing_fields_fail_closed": true
     },
     "minimum_det_F": "minimum over integration records",
     "principal_stretch_min_max": "minimum/maximum singular values of F",
@@ -130,12 +176,20 @@
     "mesh_h2_to_h3_relative": {
       "mean_end_displacement": 0.02,
       "reaction_resultant": 0.02,
-      "reaction_moment_z": 0.02,
+      "reaction_moment": 0.02,
       "strain_energy": 0.02,
       "representative_sigma_xx": 0.08
     },
     "equilibrium_relative": {"force": 1e-8, "moment": 1e-8},
-    "h1_replay": {"relative": 1e-12, "absolute_floor": 1e-14, "binary_state_hash_required": false},
+    "h1_replay": {
+      "relative": 1e-12,
+      "absolute_floor": 1e-14,
+      "vector_components": "all 3",
+      "accepted_load_factor_history": "equal length and elementwise tolerance",
+      "newton_iteration_count": "exact equality",
+      "binary_state_hash_required": false,
+      "missing_or_nonfinite": "FAIL"
+    },
     "frozen_before_h2_h3_results": true
   },
   "resource_estimates": {
@@ -150,6 +204,18 @@
       "H3": {"raw_tangent_entries": 3686400, "rough_memory_mib": 84.6484603881836}
     },
     "qualification_solve_executed": false,
+    "mesh_resource_estimate": "AVAILABLE",
+    "solve_resource_readiness": "UNKNOWN_PENDING_MEASURED_H1",
+    "excluded_from_estimate": [
+      "Newton state vectors",
+      "assembly runtime overhead",
+      "Krylov workspace",
+      "preconditioner storage",
+      "sparse factorization fill-in",
+      "Python/SciPy overhead",
+      "telemetry",
+      "process overhead"
+    ],
     "host_practicality": "mesh generation practical; H2/H3 qualification blocked pending WP04 and Agent A resource contention"
   },
   "termination_policy": {
@@ -164,6 +230,12 @@
     "h2_qualification": "NO",
     "h3_qualification": "NO",
     "wp05_e_cross_family": "NOT_EXECUTED"
+  },
+  "evaluators": {
+    "force_equilibrium": "all 3 components; R_clamp + F_external relative error <= 1e-8",
+    "moment_equilibrium": "all 3 components about global origin; M_reaction + M_external relative error <= 1e-8",
+    "h1_replay": "complete scalar/vector/load-history/Newton-count replay",
+    "h2_to_h3_mesh_delta": "all five frozen per-family observables; missing/nonfinite=FAIL"
   },
   "tests": [
     "tests/verification/test_wp05_cd_structural_harness.py",

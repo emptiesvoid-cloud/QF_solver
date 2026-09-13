@@ -63,7 +63,7 @@ class StructuralBenchmarkContract:
     mesh_thresholds: tuple[tuple[str, float], ...] = (
         ("mean_end_displacement", 0.02),
         ("reaction_resultant", 0.02),
-        ("reaction_moment_z", 0.02),
+        ("reaction_moment", 0.02),
         ("strain_energy", 0.02),
         ("representative_sigma_xx", 0.08),
     )
@@ -84,7 +84,14 @@ class StructuralBenchmarkContract:
             "material": {"E": self.young_modulus, "nu": self.poisson_ratio},
             "load": {
                 "total_nodal_dead_load": list(self.total_load),
-                "distribution": "equal per sorted x=L face node; exact resultant preserved",
+                "distribution": "CONSISTENT_EQUIVALENT_NODAL_TRACTION from uniform x=L traction",
+                "surface_quadrature": {
+                    "TET10": "quadratic T6 three-point degree-2 triangle rule",
+                    "HEX20": "quadratic Q8 tensor 2x2 Gauss rule",
+                },
+                "expected_external_moment_about_global_origin": [12.5, 0.0, -200.0],
+                "resultant_absolute_tolerance": 1.0e-12,
+                "moment_scale_aware_relative_tolerance": 1.0e-12,
             },
             "boundary": "all displacement DOFs fixed on x=0 face",
             "sampling_region_normalized": {
@@ -103,6 +110,8 @@ class StructuralBenchmarkContract:
                 "relative_tolerance": self.replay_relative_tolerance,
                 "absolute_floor": self.replay_absolute_floor,
                 "binary_state_hash_required": False,
+                "discrete_newton_iteration_count_exact": True,
+                "accepted_load_factor_history_elementwise": True,
             },
         }
 
@@ -142,6 +151,44 @@ class MeshData:
     @property
     def dofs(self) -> int:
         return 3 * self.nodes
+
+
+@dataclass(frozen=True)
+class SurfaceFace:
+    """One ordered quadratic boundary face and its corner-node key."""
+
+    node_ids: tuple[int, ...]
+    corner_ids: tuple[int, ...]
+
+
+TET10_FACE_LOCAL: tuple[tuple[int, ...], ...] = (
+    (0, 1, 2, 4, 5, 6),
+    (0, 1, 3, 4, 8, 7),
+    (0, 2, 3, 6, 9, 7),
+    (1, 2, 3, 5, 9, 8),
+)
+
+HEX20_FACE_LOCAL: tuple[tuple[int, ...], ...] = (
+    (0, 1, 2, 3, 8, 11, 13, 9),
+    (4, 5, 6, 7, 16, 18, 19, 17),
+    (0, 1, 5, 4, 8, 12, 16, 10),
+    (1, 2, 6, 5, 11, 14, 18, 12),
+    (2, 3, 7, 6, 13, 15, 19, 14),
+    (3, 0, 4, 7, 9, 10, 17, 15),
+)
+
+TRIANGLE_FACE_QUADRATURE: tuple[tuple[tuple[float, float, float], float], ...] = (
+    ((2.0 / 3.0, 1.0 / 6.0, 1.0 / 6.0), 1.0 / 6.0),
+    ((1.0 / 6.0, 2.0 / 3.0, 1.0 / 6.0), 1.0 / 6.0),
+    ((1.0 / 6.0, 1.0 / 6.0, 2.0 / 3.0), 1.0 / 6.0),
+)
+
+GAUSS_ABSCISSA = 1.0 / np.sqrt(3.0)
+QUAD_FACE_QUADRATURE: tuple[tuple[float, float, float], ...] = tuple(
+    (xi, eta, 1.0)
+    for xi in (-GAUSS_ABSCISSA, GAUSS_ABSCISSA)
+    for eta in (-GAUSS_ABSCISSA, GAUSS_ABSCISSA)
+)
 
 
 def _node_id(i: int, j: int, k: int, level: MeshLevel) -> int:
@@ -341,6 +388,100 @@ def build_mesh(
     raise ValueError(f"WP05-C/D harness supports TET10 and HEX20 only, not {family!r}.")
 
 
+def boundary_surface_faces(mesh: MeshData) -> tuple[SurfaceFace, ...]:
+    """Return unique quadratic boundary faces in deterministic order."""
+    local_faces = TET10_FACE_LOCAL if mesh.family == "TET10" else HEX20_FACE_LOCAL
+    candidates = []
+    for element in mesh.connectivity:
+        for local_face in local_faces:
+            node_ids = tuple(element[index] for index in local_face)
+            corner_count = 3 if mesh.family == "TET10" else 4
+            candidates.append(SurfaceFace(node_ids, node_ids[:corner_count]))
+    counts: dict[tuple[int, ...], int] = {}
+    for face in candidates:
+        key = tuple(sorted(face.corner_ids))
+        counts[key] = counts.get(key, 0) + 1
+    boundary = [face for face in candidates if counts[tuple(sorted(face.corner_ids))] == 1]
+    return tuple(sorted(boundary, key=lambda face: tuple(sorted(face.corner_ids))))
+
+
+def _end_surface_faces(mesh: MeshData, contract: StructuralBenchmarkContract) -> tuple[SurfaceFace, ...]:
+    return tuple(
+        face
+        for face in boundary_surface_faces(mesh)
+        if all(
+            np.isclose(mesh.coordinates[index][0], contract.length, rtol=0.0, atol=1.0e-13)
+            for index in face.corner_ids
+        )
+    )
+
+
+def _t6_shape_functions(
+    barycentric: tuple[float, float, float],
+) -> tuple[np.ndarray, np.ndarray]:
+    """Return T6 values and derivatives with respect to (l2, l3)."""
+    l1, l2, l3 = barycentric
+    values: np.ndarray = np.asarray(
+        [
+            l1 * (2.0 * l1 - 1.0),
+            l2 * (2.0 * l2 - 1.0),
+            l3 * (2.0 * l3 - 1.0),
+            4.0 * l1 * l2,
+            4.0 * l2 * l3,
+            4.0 * l3 * l1,
+        ],
+        dtype=float,
+    )
+    derivatives: np.ndarray = np.asarray(
+        [
+            (-(4.0 * l1 - 1.0), -(4.0 * l1 - 1.0)),
+            (4.0 * l2 - 1.0, 0.0),
+            (0.0, 4.0 * l3 - 1.0),
+            (4.0 * (l1 - l2), -4.0 * l2),
+            (4.0 * l3, 4.0 * l2),
+            (-4.0 * l3, 4.0 * (l1 - l3)),
+        ],
+        dtype=float,
+    )
+    return values, derivatives
+
+
+def _q8_shape_functions(
+    xi: float,
+    eta: float,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Return Q8 serendipity values and derivatives on [-1,1]^2."""
+    corners = ((-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0))
+    values = []
+    derivatives = []
+    for corner_xi, corner_eta in corners:
+        term = corner_xi * xi + corner_eta * eta - 1.0
+        values.append(0.25 * (1.0 + corner_xi * xi) * (1.0 + corner_eta * eta) * term)
+        derivatives.append(
+            (
+                0.25 * corner_xi * (1.0 + corner_eta * eta) * (term + 1.0 + corner_xi * xi),
+                0.25 * corner_eta * (1.0 + corner_xi * xi) * (term + 1.0 + corner_eta * eta),
+            )
+        )
+    values.extend(
+        (
+            0.5 * (1.0 - xi * xi) * (1.0 - eta),
+            0.5 * (1.0 + xi) * (1.0 - eta * eta),
+            0.5 * (1.0 - xi * xi) * (1.0 + eta),
+            0.5 * (1.0 - xi) * (1.0 - eta * eta),
+        )
+    )
+    derivatives.extend(
+        (
+            (-xi * (1.0 - eta), -0.5 * (1.0 - xi * xi)),
+            (0.5 * (1.0 - eta * eta), -(1.0 + xi) * eta),
+            (-xi * (1.0 + eta), 0.5 * (1.0 - xi * xi)),
+            (-0.5 * (1.0 - eta * eta), -(1.0 - xi) * eta),
+        )
+    )
+    return np.asarray(values, dtype=float), np.asarray(derivatives, dtype=float)
+
+
 def _quality_base(mesh: MeshData) -> dict[str, Any]:
     coordinates = mesh.coordinates
     valid_indices = all(0 <= index < mesh.nodes for element in mesh.connectivity for index in element)
@@ -435,13 +576,56 @@ def mesh_quality(mesh: MeshData) -> dict[str, Any]:
     raise ValueError(f"Unsupported family {mesh.family!r}.")
 
 
+def _integrated_face_shape_weights(mesh: MeshData, face: SurfaceFace) -> tuple[float, np.ndarray]:
+    """Integrate quadratic face shape functions against physical surface measure."""
+    face_coordinates = mesh.coordinates[np.asarray(face.node_ids)]
+    nodal_integrals: np.ndarray = np.zeros(len(face.node_ids), dtype=float)
+    area = 0.0
+    if mesh.family == "TET10":
+        quadrature = ((point, weight) for point, weight in TRIANGLE_FACE_QUADRATURE)
+        for point, weight in quadrature:
+            shape, derivatives = _t6_shape_functions(point)
+            tangents = derivatives.T @ face_coordinates
+            surface_jacobian = float(np.linalg.norm(np.cross(tangents[0], tangents[1])))
+            area += weight * surface_jacobian
+            nodal_integrals += weight * surface_jacobian * shape
+    elif mesh.family == "HEX20":
+        for xi, eta, weight in QUAD_FACE_QUADRATURE:
+            shape, derivatives = _q8_shape_functions(xi, eta)
+            tangents = derivatives.T @ face_coordinates
+            surface_jacobian = float(np.linalg.norm(np.cross(tangents[0], tangents[1])))
+            area += weight * surface_jacobian
+            nodal_integrals += weight * surface_jacobian * shape
+    else:
+        raise ValueError(f"Unsupported family {mesh.family!r} for quadratic face integration.")
+    if not np.isfinite(area) or area <= 0.0 or not np.isfinite(nodal_integrals).all():
+        raise ValueError("Quadratic boundary-face integration produced an invalid surface measure.")
+    return area, nodal_integrals
+
+
+def _end_surface_integration(
+    mesh: MeshData,
+    contract: StructuralBenchmarkContract,
+) -> tuple[float, dict[SurfaceFace, tuple[float, np.ndarray]]]:
+    faces = _end_surface_faces(mesh, contract)
+    if not faces:
+        raise ValueError("Cannot distribute load: x=L has no boundary faces.")
+    integrated: dict[SurfaceFace, tuple[float, np.ndarray]] = {
+        face: _integrated_face_shape_weights(mesh, face) for face in faces
+    }
+    return sum(value[0] for value in integrated.values()), integrated
+
+
 def nodal_load_vector(mesh: MeshData, contract: StructuralBenchmarkContract | None = None) -> np.ndarray:
-    """Distribute the fixed total resultant equally over sorted end-face nodes."""
+    """Assemble consistent equivalent nodal forces for uniform x=L traction."""
     contract = contract or StructuralBenchmarkContract()
-    if not mesh.end_face_nodes:
-        raise ValueError("Cannot distribute load: x=L face has no nodes.")
+    area, face_integrals = _end_surface_integration(mesh, contract)
+    traction = np.asarray(contract.total_load, dtype=float) / area
     loads: np.ndarray = np.zeros((mesh.nodes, 3), dtype=float)
-    loads[np.asarray(mesh.end_face_nodes)] = np.asarray(contract.total_load, dtype=float) / len(mesh.end_face_nodes)
+    for face, (_, nodal_integrals) in face_integrals.items():
+        loads[np.asarray(face.node_ids)] += nodal_integrals[:, None] * traction[None, :]
+    if not np.isfinite(loads).all():
+        raise ValueError("Consistent equivalent nodal traction produced non-finite loads.")
     return loads
 
 
@@ -453,6 +637,36 @@ def load_resultant(loads: np.ndarray) -> np.ndarray:
     if not np.isfinite(values).all():
         raise ValueError("Nodal loads must be finite.")
     return np.sum(values, axis=0)
+
+
+def load_moment(coordinates: np.ndarray, loads: np.ndarray) -> np.ndarray:
+    """Return the three-component external moment about the global origin."""
+    points = np.asarray(coordinates, dtype=float)
+    values = np.asarray(loads, dtype=float)
+    if points.ndim != 2 or points.shape[1] != 3 or values.shape != points.shape:
+        raise ValueError("Coordinates and loads must both have shape (nodes, 3).")
+    if not np.isfinite(points).all() or not np.isfinite(values).all():
+        raise ValueError("Coordinates and loads must be finite.")
+    return np.sum(np.cross(points, values), axis=0)
+
+
+def analytical_end_face_moment(contract: StructuralBenchmarkContract | None = None) -> np.ndarray:
+    """Return the uniform-traction resultant moment at the end-face centroid."""
+    contract = contract or StructuralBenchmarkContract()
+    centroid: np.ndarray = np.asarray((contract.length, contract.height / 2.0, contract.depth / 2.0), dtype=float)
+    return np.cross(centroid, np.asarray(contract.total_load, dtype=float))
+
+
+def _scale_aware_error(error: float, reference: np.ndarray, absolute_tolerance: float) -> dict[str, float | bool]:
+    scale = max(float(np.linalg.norm(reference)), 1.0)
+    relative_tolerance = 1.0e-12
+    allowed = max(absolute_tolerance, relative_tolerance * scale)
+    return {
+        "absolute_error": error,
+        "relative_tolerance": relative_tolerance,
+        "allowed_error": allowed,
+        "pass": bool(error <= allowed),
+    }
 
 
 def check_volume_conservation(mesh: MeshData, contract: StructuralBenchmarkContract | None = None) -> dict[str, Any]:
@@ -467,25 +681,72 @@ def check_volume_conservation(mesh: MeshData, contract: StructuralBenchmarkContr
         "target_volume": contract.volume,
         "absolute_error": error,
         "absolute_tolerance": tolerance,
-        "integration": "TET10 signed corner volumes; HEX20 full 27-point Jacobian integration",
+        "integration": "TET10 signed corner volumes; HEX20 constant straight-sided Jacobian times full-rule weight sum",
     }
 
 
 def check_load_conservation(mesh: MeshData, contract: StructuralBenchmarkContract | None = None) -> dict[str, Any]:
-    """Return an exact-resultant check suitable for contract evidence."""
+    """Check resultant and all three external-moment components."""
     contract = contract or StructuralBenchmarkContract()
-    resultant = load_resultant(nodal_load_vector(mesh, contract))
+    area, _ = _end_surface_integration(mesh, contract)
+    traction = np.asarray(contract.total_load, dtype=float) / area
+    loads = nodal_load_vector(mesh, contract)
+    resultant = load_resultant(loads)
     target: np.ndarray = np.asarray(contract.total_load, dtype=float)
-    error = float(np.linalg.norm(resultant - target))
+    resultant_error = float(np.linalg.norm(resultant - target))
+    moment = load_moment(mesh.coordinates, loads)
+    target_moment = analytical_end_face_moment(contract)
+    moment_error = float(np.linalg.norm(moment - target_moment))
     tolerance = 1.0e-12
+    moment_policy = _scale_aware_error(moment_error, target_moment, tolerance)
     return {
-        "status": "PASS" if error <= tolerance else "FAIL",
+        "status": "PASS" if resultant_error <= tolerance and moment_policy["pass"] else "FAIL",
+        "resultant_status": "PASS" if resultant_error <= tolerance else "FAIL",
+        "moment_status": "PASS" if moment_policy["pass"] else "FAIL",
+        "traction": traction.tolist(),
+        "surface_area": area,
         "resultant": resultant.tolist(),
         "target": target.tolist(),
-        "absolute_error": error,
+        "resultant_absolute_error": resultant_error,
         "absolute_tolerance": tolerance,
+        "moment": moment.tolist(),
+        "target_moment": target_moment.tolist(),
+        "moment_absolute_error": moment_error,
+        "moment_allowed_error": moment_policy["allowed_error"],
+        "moment_relative_tolerance": moment_policy["relative_tolerance"],
         "loaded_node_count": len(mesh.end_face_nodes),
-        "mesh_independent_rule": True,
+        "load_rule": "CONSISTENT_EQUIVALENT_NODAL_TRACTION",
+        "surface_quadrature": "T6 degree-2 three-point" if mesh.family == "TET10" else "Q8 tensor 2x2 Gauss",
+        "mesh_independent_physical_traction": True,
+    }
+
+
+def compare_physical_loads(
+    first_mesh: MeshData,
+    second_mesh: MeshData,
+    contract: StructuralBenchmarkContract | None = None,
+) -> dict[str, Any]:
+    """Compare physical resultant/moment invariants across two topologies."""
+    contract = contract or StructuralBenchmarkContract()
+    first_loads = nodal_load_vector(first_mesh, contract)
+    second_loads = nodal_load_vector(second_mesh, contract)
+    first_resultant = load_resultant(first_loads)
+    second_resultant = load_resultant(second_loads)
+    first_moment = load_moment(first_mesh.coordinates, first_loads)
+    second_moment = load_moment(second_mesh.coordinates, second_loads)
+    resultant_error = float(np.linalg.norm(first_resultant - second_resultant))
+    moment_error = float(np.linalg.norm(first_moment - second_moment))
+    return {
+        "status": "PASS" if resultant_error <= 1.0e-12 and moment_error <= 1.0e-10 else "FAIL",
+        "same_physical_uniform_traction": True,
+        "resultant_difference": resultant_error,
+        "moment_difference": moment_error,
+        "resultant_tolerance": 1.0e-12,
+        "moment_tolerance": 1.0e-10,
+        "first_resultant": first_resultant.tolist(),
+        "second_resultant": second_resultant.tolist(),
+        "first_moment": first_moment.tolist(),
+        "second_moment": second_moment.tolist(),
     }
 
 
@@ -498,16 +759,22 @@ def sample_region_weighted_sigma_xx(
     values: list[float] = []
     weights: list[float] = []
     for record in records:
-        point = np.asarray(record.get("coordinates"), dtype=float)
-        stress = np.asarray(record.get("cauchy_stress", record.get("stress")), dtype=float)
-        weight = float(record.get("weight", 0.0))
+        if "reference_coordinates" not in record or "reference_volume_weight" not in record:
+            raise ValueError("Stress records require reference_coordinates and reference_volume_weight.")
+        if "cauchy_stress" not in record:
+            raise ValueError("Stress records require cauchy_stress.")
+        point = np.asarray(record["reference_coordinates"], dtype=float)
+        stress = np.asarray(record["cauchy_stress"], dtype=float)
+        weight = float(record["reference_volume_weight"])
+        if point.shape != (3,) or not np.isfinite(point).all():
+            raise ValueError("reference_coordinates must be a finite vector with shape (3,).")
+        if stress.shape != (3, 3) or not np.isfinite(stress).all():
+            raise ValueError("cauchy_stress must be a finite 3x3 tensor.")
+        if not np.isfinite(weight) or weight <= 0.0:
+            raise ValueError("reference_volume_weight must be finite and positive.")
         normalized = (point[0] / contract.length, point[1] / contract.height, point[2] / contract.depth)
         inside = all(low <= coordinate <= high for coordinate, (low, high) in zip(normalized, contract.sample_region))
         if inside:
-            if stress.shape != (3, 3) or not np.isfinite(stress).all() or not np.isfinite(point).all():
-                raise ValueError("Sampled stress records must contain finite 3x3 stress tensors and coordinates.")
-            if not np.isfinite(weight) or weight <= 0.0:
-                raise ValueError("Sampled stress records require finite positive weights.")
             values.append(float(stress[0, 0]))
             weights.append(weight)
     if not weights:
@@ -527,8 +794,10 @@ def _deformation_metrics(records: Iterable[Mapping[str, Any]]) -> tuple[float, f
     stretch_values: list[float] = []
     strain_norms: list[float] = []
     for record in records:
-        deformation = np.asarray(record.get("deformation_gradient", np.eye(3)), dtype=float)
-        green = np.asarray(record.get("green_lagrange_strain", np.zeros((3, 3))), dtype=float)
+        if "deformation_gradient" not in record or "green_lagrange_strain" not in record:
+            raise ValueError("Integration-point records require deformation_gradient and green_lagrange_strain.")
+        deformation = np.asarray(record["deformation_gradient"], dtype=float)
+        green = np.asarray(record["green_lagrange_strain"], dtype=float)
         if deformation.shape != (3, 3) or green.shape != (3, 3) or not np.isfinite(deformation).all() or not np.isfinite(green).all():
             raise ValueError("Integration-point deformation records must be finite 3x3 tensors.")
         det_values.append(float(np.linalg.det(deformation)))
@@ -564,7 +833,7 @@ def extract_structural_observables(
     if not len(clamp_nodes):
         raise ValueError("The benchmark clamp face has no nodes.")
     reaction_resultant = np.sum(reaction_values[clamp_nodes], axis=0)
-    relative_moment = np.cross(mesh.coordinates[clamp_nodes], reaction_values[clamp_nodes])[:, 2]
+    reaction_moment = np.sum(np.cross(mesh.coordinates[clamp_nodes], reaction_values[clamp_nodes]), axis=0)
     increments = solver_diagnostics.get("increments")
     if not isinstance(increments, Sequence) or isinstance(increments, (str, bytes)) or not increments:
         raise ValueError("Solver diagnostics must provide a non-empty increments sequence.")
@@ -583,7 +852,8 @@ def extract_structural_observables(
     return {
         "mean_end_displacement_y": float(np.mean(values[np.asarray(mesh.end_face_nodes), 1])),
         "clamp_reaction_resultant": reaction_resultant.tolist(),
-        "clamp_reaction_moment_z": float(np.sum(relative_moment)),
+        "clamp_reaction_moment": reaction_moment.tolist(),
+        "clamp_reaction_moment_z": float(reaction_moment[2]),
         "strain_energy": float(strain_energy),
         "representative_sigma_xx": sample_region_weighted_sigma_xx(integration_records, contract),
         "minimum_det_F": minimum_det_f,
@@ -592,6 +862,171 @@ def extract_structural_observables(
         "maximum_green_lagrange_strain_norm": maximum_gl_norm,
         "accepted_load_factor_history": load_history,
         "newton_iteration_count": newton_iterations,
+    }
+
+
+def evaluate_equilibrium(
+    clamp_coordinates: np.ndarray,
+    clamp_reactions: np.ndarray,
+    external_coordinates: np.ndarray,
+    external_loads: np.ndarray,
+    force_tolerance: float = 1.0e-8,
+    moment_tolerance: float = 1.0e-8,
+) -> dict[str, Any]:
+    """Evaluate three-component force and origin-moment equilibrium."""
+    reaction_force = load_resultant(np.asarray(clamp_reactions, dtype=float))
+    external_force = load_resultant(np.asarray(external_loads, dtype=float))
+    reaction_moment = load_moment(np.asarray(clamp_coordinates, dtype=float), np.asarray(clamp_reactions, dtype=float))
+    external_moment = load_moment(np.asarray(external_coordinates, dtype=float), np.asarray(external_loads, dtype=float))
+    force_residual = reaction_force + external_force
+    moment_residual = reaction_moment + external_moment
+    force_error = float(np.linalg.norm(force_residual))
+    moment_error = float(np.linalg.norm(moment_residual))
+    force_scale = max(float(np.linalg.norm(reaction_force)), float(np.linalg.norm(external_force)), 1.0)
+    moment_scale = max(float(np.linalg.norm(reaction_moment)), float(np.linalg.norm(external_moment)), 1.0)
+    force_relative_error = force_error / force_scale
+    moment_relative_error = moment_error / moment_scale
+    return {
+        "status": "PASS" if force_relative_error <= force_tolerance and moment_relative_error <= moment_tolerance else "FAIL",
+        "force": {
+            "reaction": reaction_force.tolist(),
+            "external": external_force.tolist(),
+            "residual": force_residual.tolist(),
+            "relative_error": force_relative_error,
+            "tolerance": force_tolerance,
+            "status": "PASS" if force_relative_error <= force_tolerance else "FAIL",
+        },
+        "moment_about_global_origin": {
+            "reaction": reaction_moment.tolist(),
+            "external": external_moment.tolist(),
+            "residual": moment_residual.tolist(),
+            "relative_error": moment_relative_error,
+            "tolerance": moment_tolerance,
+            "status": "PASS" if moment_relative_error <= moment_tolerance else "FAIL",
+        },
+    }
+
+
+def _compare_replay_value(
+    first: Any,
+    second: Any,
+    relative_tolerance: float,
+    absolute_floor: float,
+) -> dict[str, Any]:
+    first_array = np.asarray(first, dtype=float)
+    second_array = np.asarray(second, dtype=float)
+    if first_array.shape != second_array.shape or not np.isfinite(first_array).all() or not np.isfinite(second_array).all():
+        return {"status": "FAIL", "reason": "SHAPE_OR_NONFINITE", "shape_first": first_array.shape, "shape_second": second_array.shape}
+    absolute = np.abs(first_array - second_array)
+    scale = np.maximum(np.maximum(np.abs(first_array), np.abs(second_array)), absolute_floor)
+    relative = absolute / scale
+    allowed = np.maximum(absolute_floor, relative_tolerance * scale)
+    return {
+        "status": "PASS" if bool(np.all(absolute <= allowed)) else "FAIL",
+        "absolute_difference": absolute.tolist(),
+        "relative_difference": relative.tolist(),
+        "allowed_absolute_difference": allowed.tolist(),
+    }
+
+
+def check_replay(
+    first: Mapping[str, Any],
+    second: Mapping[str, Any],
+    contract: StructuralBenchmarkContract | None = None,
+) -> dict[str, Any]:
+    """Check the complete H1 replay contract, including vectors/history/count."""
+    contract = contract or StructuralBenchmarkContract()
+    scalar_keys = (
+        "mean_end_displacement_y",
+        "strain_energy",
+        "representative_sigma_xx",
+        "minimum_det_F",
+        "principal_stretch_min",
+        "principal_stretch_max",
+        "maximum_green_lagrange_strain_norm",
+    )
+    vector_keys = ("clamp_reaction_resultant", "clamp_reaction_moment")
+    required = (*scalar_keys, *vector_keys, "accepted_load_factor_history", "newton_iteration_count")
+    missing = sorted({key for key in required if key not in first or key not in second})
+    if missing:
+        return {"status": "FAIL", "reason": "MISSING_REPLAY_OBSERVABLE", "missing": missing}
+    scalar_results = {
+        key: _compare_replay_value(first[key], second[key], contract.replay_relative_tolerance, contract.replay_absolute_floor)
+        for key in scalar_keys
+    }
+    vector_results = {
+        key: _compare_replay_value(first[key], second[key], contract.replay_relative_tolerance, contract.replay_absolute_floor)
+        for key in vector_keys
+    }
+    history_first = np.asarray(first["accepted_load_factor_history"], dtype=float)
+    history_second = np.asarray(second["accepted_load_factor_history"], dtype=float)
+    if history_first.ndim != 1 or history_second.ndim != 1 or history_first.shape != history_second.shape:
+        history_result = {"status": "FAIL", "reason": "HISTORY_LENGTH_OR_SHAPE_MISMATCH"}
+    else:
+        history_result = _compare_replay_value(
+            history_first,
+            history_second,
+            contract.replay_relative_tolerance,
+            contract.replay_absolute_floor,
+        )
+    count_equal = first["newton_iteration_count"] == second["newton_iteration_count"]
+    count_result = {
+        "status": "PASS" if count_equal else "FAIL",
+        "first": first["newton_iteration_count"],
+        "second": second["newton_iteration_count"],
+        "exact_equality_required": True,
+    }
+    results = (*scalar_results.values(), *vector_results.values(), history_result, count_result)
+    return {
+        "status": "PASS" if all(item["status"] == "PASS" for item in results) else "FAIL",
+        "scalar_observables": scalar_results,
+        "vector_observables": vector_results,
+        "accepted_load_factor_history": history_result,
+        "newton_iteration_count": count_result,
+        "binary_state_hash_required": False,
+    }
+
+
+def evaluate_mesh_delta(
+    h2: Mapping[str, Any],
+    h3: Mapping[str, Any],
+    contract: StructuralBenchmarkContract | None = None,
+) -> dict[str, Any]:
+    """Apply frozen H2-to-H3 thresholds and fail closed on missing values."""
+    contract = contract or StructuralBenchmarkContract()
+    value_map: tuple[tuple[str, str, str], ...] = (
+        ("mean_end_displacement", "mean_end_displacement_y", "scalar"),
+        ("reaction_resultant", "clamp_reaction_resultant", "vector"),
+        ("reaction_moment", "clamp_reaction_moment", "vector"),
+        ("strain_energy", "strain_energy", "scalar"),
+        ("representative_sigma_xx", "representative_sigma_xx", "scalar"),
+    )
+    thresholds = dict(contract.mesh_thresholds)
+    missing: list[str] = []
+    results: dict[str, Any] = {}
+    for metric, key, _kind in value_map:
+        if key not in h2 or key not in h3:
+            missing.append(metric)
+            continue
+        first = np.asarray(h2[key], dtype=float)
+        second = np.asarray(h3[key], dtype=float)
+        if first.shape != second.shape or not np.isfinite(first).all() or not np.isfinite(second).all():
+            results[metric] = {"status": "FAIL", "reason": "SHAPE_OR_NONFINITE"}
+            continue
+        denominator = max(float(np.linalg.norm(first)), float(np.linalg.norm(second)), 1.0e-14)
+        change = float(np.linalg.norm(second - first)) / denominator
+        threshold = float(thresholds[metric])
+        results[metric] = {
+            "status": "PASS" if change <= threshold else "FAIL",
+            "relative_change": change,
+            "threshold": threshold,
+        }
+    if missing:
+        return {"status": "FAIL", "reason": "MISSING_MESH_OBSERVABLE", "missing": missing, "results": results}
+    return {
+        "status": "PASS" if all(item["status"] == "PASS" for item in results.values()) else "FAIL",
+        "results": results,
+        "h2_to_h3_only": True,
     }
 
 
@@ -646,12 +1081,20 @@ def _estimate_resources_for_mesh(mesh: MeshData, assembly_chunk_size: int = 256)
         "rough_global_csr_bytes": rough_csr_bytes,
         "rough_total_bytes": total_bytes,
         "rough_total_mib": total_bytes / (1024.0**2),
+        "mesh_resource_estimate_available": True,
+        "solve_resource_readiness": "UNKNOWN_PENDING_MEASURED_H1",
+        "excluded_from_estimate": [
+            "Newton state vectors",
+            "assembly runtime overhead",
+            "Krylov workspace",
+            "preconditioner storage",
+            "sparse factorization fill-in",
+            "Python/SciPy overhead",
+            "telemetry",
+            "process overhead",
+        ],
         "qualification_solve_executed": False,
     }
-
-
-def _relative_difference(first: float, second: float, absolute_floor: float) -> float:
-    return abs(first - second) / max(abs(first), abs(second), absolute_floor)
 
 
 class StructuralQualificationRunner:
@@ -670,21 +1113,21 @@ class StructuralQualificationRunner:
         return mesh, mesh_quality(mesh)
 
     def check_replay(self, first: Mapping[str, Any], second: Mapping[str, Any]) -> dict[str, Any]:
-        keys = (
-            "mean_end_displacement_y",
-            "strain_energy",
-            "representative_sigma_xx",
-            "minimum_det_F",
-            "principal_stretch_min",
-            "principal_stretch_max",
-            "maximum_green_lagrange_strain_norm",
-        )
-        differences = {
-            key: _relative_difference(float(first[key]), float(second[key]), self.contract.replay_absolute_floor)
-            for key in keys
-        }
-        passed = all(value <= self.contract.replay_relative_tolerance for value in differences.values())
-        return {"status": "PASS" if passed else "FAIL", "relative_differences": differences}
+        return check_replay(first, second, self.contract)
+
+    def evaluate_equilibrium(
+        self,
+        clamp_coordinates: np.ndarray,
+        clamp_reactions: np.ndarray,
+        external_coordinates: np.ndarray,
+        external_loads: np.ndarray,
+    ) -> dict[str, Any]:
+        """Evaluate all force and moment components with the frozen policy."""
+        return evaluate_equilibrium(clamp_coordinates, clamp_reactions, external_coordinates, external_loads)
+
+    def evaluate_mesh_delta(self, h2: Mapping[str, Any], h3: Mapping[str, Any]) -> dict[str, Any]:
+        """Apply the frozen family-local H2-to-H3 thresholds."""
+        return evaluate_mesh_delta(h2, h3, self.contract)
 
     def evaluate_precomputed(self, observables: Mapping[str, Any]) -> dict[str, Any]:
         """Evaluate future solver output; this method does not call a solver."""
@@ -712,11 +1155,14 @@ def build_preparation_report(contract: StructuralBenchmarkContract | None = None
     contract = contract or StructuralBenchmarkContract()
     meshes: dict[str, dict[str, dict[str, Any]]] = {}
     resource_estimates: dict[str, dict[str, dict[str, Any]]] = {}
+    prepared_meshes: dict[str, dict[str, MeshData]] = {}
     for family in ("TET10", "HEX20"):
         meshes[family] = {}
         resource_estimates[family] = {}
+        prepared_meshes[family] = {}
         for level in MESH_LEVELS:
             mesh = build_mesh(family, level, contract)
+            prepared_meshes[family][level.name] = mesh
             meshes[family][level.name] = {
                 "nodes": mesh.nodes,
                 "elements": mesh.elements,
@@ -729,6 +1175,12 @@ def build_preparation_report(contract: StructuralBenchmarkContract | None = None
                 "mesh_generation_only": True,
             }
             resource_estimates[family][level.name] = _estimate_resources_for_mesh(mesh)
+    cross_family_load_checks = {
+        level.name: compare_physical_loads(
+            prepared_meshes["TET10"][level.name], prepared_meshes["HEX20"][level.name], contract
+        )
+        for level in MESH_LEVELS
+    }
     return {
         "schema_version": "1.0",
         "evidence_id": "VNV029-WP05-CD-STRUCTURAL-CONTRACT-001",
@@ -736,11 +1188,17 @@ def build_preparation_report(contract: StructuralBenchmarkContract | None = None
         "gate": "WP05-C/D",
         "formal_points": {"WP05-C": "0/1", "WP05-D": "0/1", "WP05": "0/5"},
         "validated_release_total": "29/100",
+        "owner_correction_r1": {
+            "initial_equal_node_rule": "equal share over every x=L node",
+            "initial_rule_status": "OWNER_REJECTED_BEFORE_ANY_MECHANICAL_SOLVE",
+            "final_rule": "CONSISTENT_EQUIVALENT_NODAL_TRACTION",
+        },
         "benchmark": contract.as_dict(),
         "mesh_levels": [level.__dict__ for level in MESH_LEVELS],
         "families": ["TET10", "HEX20"],
         "meshes": meshes,
         "resource_estimates": resource_estimates,
+        "cross_family_load_checks": cross_family_load_checks,
         "termination_policy": {
             "name": DEFAULT_TERMINATION_POLICY.name,
             "source": DEFAULT_TERMINATION_POLICY.source,
@@ -749,6 +1207,7 @@ def build_preparation_report(contract: StructuralBenchmarkContract | None = None
         "observables": [
             "mean_end_displacement_y",
             "clamp_reaction_resultant",
+            "clamp_reaction_moment",
             "clamp_reaction_moment_z",
             "strain_energy",
             "representative_sigma_xx",
@@ -759,6 +1218,12 @@ def build_preparation_report(contract: StructuralBenchmarkContract | None = None
             "accepted_load_factor_history",
             "newton_iteration_count",
         ],
+        "evaluators": {
+            "force_equilibrium": "evaluate_equilibrium, all 3 force components, relative error <= 1e-8",
+            "moment_equilibrium": "evaluate_equilibrium, all 3 origin-moment components, relative error <= 1e-8",
+            "h1_replay": "check_replay, complete scalar/vector/history/count contract",
+            "h2_to_h3_mesh_delta": "evaluate_mesh_delta, frozen per-family thresholds, missing/nonfinite=FAIL",
+        },
         "cross_family_candidate_thresholds": {
             "mean_end_displacement": 0.03,
             "reaction_resultant": 0.02,
