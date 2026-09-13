@@ -11,6 +11,10 @@ from typing import cast
 from solveur.core.telemetry.events import EventType, TelemetryEvent
 
 
+DIRECT_COMPOSITE_FAILURE = "DIRECT_COMPOSITE_FAILURE"
+CHILD_SINK_REPORTED_FAILURE = "CHILD_SINK_REPORTED_FAILURE"
+
+
 class HealthState(str, Enum):
     """Operational state of a telemetry sink or sink group."""
 
@@ -27,6 +31,7 @@ class SinkFailure:
     failure_message: str
     sequence_number: int | None = None
     event_type: str | None = None
+    provenance: str = DIRECT_COMPOSITE_FAILURE
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -35,6 +40,7 @@ class SinkFailure:
             "failure_message": self.failure_message,
             "sequence_number": self.sequence_number,
             "event_type": self.event_type,
+            "provenance": self.provenance,
         }
 
 
@@ -72,6 +78,7 @@ class TelemetryHealth:
         *,
         sink_identifier: str | None = None,
         event: TelemetryEvent | Mapping[str, object] | None = None,
+        provenance: str = DIRECT_COMPOSITE_FAILURE,
     ) -> None:
         """Record a failure without allowing bookkeeping to mask the solve."""
 
@@ -99,9 +106,31 @@ class TelemetryHealth:
             failure_message=failure_message,
             sequence_number=sequence_number,
             event_type=event_type,
+            provenance=provenance,
         )
         with self._lock:
             self._failures.append(failure)
+
+    def record_failure_details(
+        self,
+        failure: SinkFailure,
+        *,
+        provenance: str = CHILD_SINK_REPORTED_FAILURE,
+    ) -> None:
+        """Copy a child failure while retaining its original context."""
+
+        if not isinstance(failure, SinkFailure):
+            raise TypeError("failure must be a SinkFailure instance")
+        copied = SinkFailure(
+            sink_identifier=failure.sink_identifier,
+            failure_type=failure.failure_type,
+            failure_message=failure.failure_message,
+            sequence_number=failure.sequence_number,
+            event_type=failure.event_type,
+            provenance=provenance,
+        )
+        with self._lock:
+            self._failures.append(copied)
 
     def to_dict(self) -> dict[str, object]:
         with self._lock:
