@@ -143,6 +143,21 @@ audit](wp04-c2r6-floor-aware-termination.md) and its machine-readable
 record at `qualification/0_2_9/c2r6/frozen_threshold_audit.json`. WP04 remains
 HOLD at 0/12 and 29/100; no M4, PETSc/PyAMG or full-suite work was performed.
 
+WP04-D then froze and executed the same bounded cantilever contract for HEX8.
+H1 (`16x8x8`), H2 (`24x12x12`) and H3 (`32x16x16`) completed with the
+Owner-approved C2R6 MINRES+Jacobi route, no direct fallback, valid equilibrium
+and valid deformation envelope. The H2→H3 displacement, reaction, energy and
+representative-stress deltas pass the frozen `2%/2%/2%/10%` limits, and the
+declared H1 replay is exact at the recorded observables and accepted path.
+H4 was not run because the predeclared rescue condition was not triggered.
+The HEX8 audit records `G04-11 = PASS` pending Owner review and prepares H3
+inputs only for the later G04-12 cross-family decision. A small-load support
+limitation is recorded: the displacement trend reaches the frozen smallest
+load target, while the corresponding reaction support error remains above
+`1e-4`. No maturity or WP04 point change is made. See the [WP04-D HEX8
+record](wp04-d-hex8-structural-qualification.md) and
+`qualification/0_2_9/wp04d/g04_11_audit.json`.
+
 WP02-B established checkpoint-v2 serialization, WP02-C migrated fixed and
 adaptive restart ownership, and WP02-D migrated the public arc-length restart
 path to the accepted composite state. The audit is recorded in the
@@ -191,6 +206,7 @@ recorded in [OD-029-02](owner-decisions.md).
 - [Linear-solver remediation R2B](linear-solver-remediation-r2b.md)
 - [Linear-solver remediation master and C2R3 campaign](linear-solver-remediation-master.md)
 - [WP04-C2R6 recovered floor-aware M2/M3 audit](wp04-c2r6-floor-aware-termination.md)
+- [WP04-D HEX8 structural qualification](wp04-d-hex8-structural-qualification.md)
 
 WP01 implementation and continuation migration are closed under the recorded
 Owner decision. WP02 and WP03 are closed under their independent audit

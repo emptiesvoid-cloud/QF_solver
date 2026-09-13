@@ -1,0 +1,424 @@
+{
+  "accepted_load_factors": [
+    0.08333333333333333,
+    0.16666666666666666,
+    0.25,
+    0.3333333333333333,
+    0.4166666666666667,
+    0.5,
+    0.5833333333333334,
+    0.6666666666666666,
+    0.75,
+    0.8333333333333334,
+    0.9166666666666666,
+    1.0
+  ],
+  "accepted_state_digests": [
+    "49e545faf201d60902557c79aa2ea6dca07c611b9e0c24ba99a1569221371e27",
+    "5e5156cf05bb9a6745dc0ad4b4c1f088c71191d2d3aa6a023639bc65c1c542c7",
+    "c50892a375acd8985f24b717e96f718a966602c5db2da861a78db7a1ecf00858",
+    "f78f3cf7f4c600f275d4b03c6a6ff503a308045112708de6afd569b8b17d42cf",
+    "205e1becce7ead90df01c3b58373b0d15f87feafe8aea973e6c2a6fb8f54ee92",
+    "fd973b9430671daa37a9a4bcf0f5724508ee97aad16a729fbc2fa6436b9e9d31",
+    "b93bf844ce2e7e3bf0b54acc80427af92695343cac1c934fd9837038d2cedf68",
+    "7c5b49b074968096298555ab796ab202c00248c7694258be40eb000a2236f566",
+    "256fdaae8cd41aad0727ac87f0a00fb6bc74cd8ef9bcd3fb43f9aafb10b3532d",
+    "30734d16f485aeb4541a5b7ae48021c48b7dec6850cdbdd157813a39faf59961",
+    "5a79680d08c6ce0a5ab1f8da25a13120d6ffc8998584e06f042a182904257431",
+    "0fab18a531c0eb473892bc6ab9849fac7c481807d9514130add203049e58253d"
+  ],
+  "cpu_time_s": 122.5625,
+  "ended_timestamp": "2026-09-13T15:54:50.808117+00:00",
+  "execution_sha": "e01e292a36dc4f2e6bfe1cbe8a64a6b563707edf",
+  "failure": null,
+  "failure_system_capture": null,
+  "frozen_contract": "qualification/0_2_9/wp04d/hex8_contract.json",
+  "full_test_suite_run": false,
+  "gate": "G04-11",
+  "label": "H1-small-0.01",
+  "load_check": {
+    "equal_share_used": false,
+    "face_area": 0.25,
+    "loaded_node_count": 81,
+    "q4_face_weight_per_corner": [
+      0.0,
+      -0.1953125,
+      0.0
+    ],
+    "reference_moment": [
+      12.5,
+      0.0,
+      -200.0
+    ],
+    "resultant": [
+      0.0,
+      -50.0,
+      0.0
+    ],
+    "resultant_error": 0.0,
+    "resultant_relative_error": 0.0,
+    "traction": [
+      0.0,
+      -200.0,
+      0.0
+    ]
+  },
+  "maturity_changed": false,
+  "mesh": {
+    "dofs": 4131,
+    "element_volume_maximum": 0.0009765625000000007,
+    "element_volume_minimum": 0.000976562499999999,
+    "element_volume_ratio": 1.0000000000000018,
+    "elements": 1024,
+    "minimum_scaled_jacobian": 0.9999999999999987,
+    "nodes": 1377,
+    "orientation_failures": 0,
+    "reference_gauss_jacobian_maximum": 0.00012207031250000008,
+    "reference_gauss_jacobian_minimum": 0.00012207031249999986
+  },
+  "mesh_cells": [
+    16,
+    8,
+    8
+  ],
+  "observables": {
+    "envelope_status": true,
+    "equilibrium": {
+      "external_moment": [
+        12.5,
+        0.0,
+        -199.99997418131736
+      ],
+      "external_resultant": [
+        0.0,
+        -50.0,
+        0.0
+      ],
+      "force_imbalance": [
+        2.180505775939423e-12,
+        -49.5,
+        0.0
+      ],
+      "force_relative_error": 0.99,
+      "moment_imbalance": [
+        12.37499999999999,
+        2.649686026146014e-13,
+        -197.99997443950437
+      ],
+      "moment_relative_error": 0.990000000000001,
+      "reaction_moment": [
+        -0.1250000000000107,
+        2.649686026146014e-13,
+        1.9999997418129922
+      ],
+      "reaction_resultant": [
+        2.180505775939423e-12,
+        0.49999999999999645,
+        0.0
+      ]
+    },
+    "loaded_face_average_displacement": [
+      -5.163779406874761e-07,
+      -0.0018541410933927628,
+      -1.7504124738128755e-17
+    ],
+    "maximum_green_lagrange_norm": 8.432419735942798e-05,
+    "maximum_principal_stretch": 1.0000781788375253,
+    "minimum_det_f": 0.9999365977178651,
+    "minimum_principal_stretch": 0.9999218165114336,
+    "representative_stress_sigma_xx": 27.299599156254164,
+    "strain_energy": 0.0004635336819107732,
+    "stress_contributing_elements": 16,
+    "stress_contributing_volume": 0.015625000000000003,
+    "tip_displacement": -0.0018541410933927628
+  },
+  "performance": {
+    "accepted_load_factors": [
+      0.08333333333333333,
+      0.16666666666666666,
+      0.25,
+      0.3333333333333333,
+      0.4166666666666667,
+      0.5,
+      0.5833333333333334,
+      0.6666666666666666,
+      0.75,
+      0.8333333333333334,
+      0.9166666666666666,
+      1.0
+    ],
+    "accepted_step_count": 12,
+    "fallback_count": 0,
+    "krylov_iterations": {
+      "max": 444,
+      "median": 350.0,
+      "min": 239,
+      "p95": 443.7,
+      "total": 8661
+    },
+    "line_search_alphas": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "linear_solve_time_s": {
+      "max": 0.16755880002165213,
+      "median": 0.13704599998891354,
+      "p95": 0.16521132000198122,
+      "total": 3.3201687000109814
+    },
+    "max_eta_inf": 3.0020830385659533e-13,
+    "max_raw_linear_relative_residual": 1.1656771771218444e-07,
+    "peak_private_or_uss_process": 97890304,
+    "peak_rss_process": 124907520,
+    "telemetry_sample_peak_private": 86638592,
+    "telemetry_sample_peak_rss": 114962432,
+    "termination_counts": {
+      "CONVERGED_NUMERICAL_FLOOR": 0,
+      "CONVERGED_RESIDUAL": 12
+    },
+    "total_linear_solves": 24,
+    "total_newton_iterations": 36
+  },
+  "process_end_reason": "COMPLETED",
+  "production_mechanics_changed": false,
+  "raw_npz": {
+    "array_names": [
+      "accepted_displacements",
+      "accepted_load_factors",
+      "centroid",
+      "det_f",
+      "displacement",
+      "elements",
+      "external",
+      "fixed",
+      "green_lagrange_norm",
+      "internal_force",
+      "loaded_nodes",
+      "nodes",
+      "principal_stretches",
+      "reaction_force",
+      "reference_element_volumes",
+      "reference_gauss_determinants",
+      "reference_scaled_jacobians",
+      "stress_mask"
+    ],
+    "path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_unified_nonlinear\\qualification\\0_2_9\\wp04d\\h1_small_0p01_raw.npz",
+    "sha256": "5da8b18a09ba3b51a563fca7e3eb670856107166b4c915d8912ab6768b4c57c4",
+    "size_bytes": 518766
+  },
+  "record_id": "QF-SOLVER-0.2.9-WP04-D-H1_SMALL_0P01",
+  "reference_mesh_quality": {
+    "dofs": 4131,
+    "element_volume_maximum": 0.0009765625000000007,
+    "element_volume_minimum": 0.000976562499999999,
+    "element_volume_ratio": 1.0000000000000018,
+    "elements": 1024,
+    "minimum_scaled_jacobian": 0.9999999999999987,
+    "nodes": 1377,
+    "orientation_failures": 0,
+    "reference_gauss_jacobian_maximum": 0.00012207031250000008,
+    "reference_gauss_jacobian_minimum": 0.00012207031249999986
+  },
+  "route": {
+    "atol": 1e-14,
+    "direct_fallback": false,
+    "floor_aware_termination": true,
+    "increments": 12,
+    "line_search": "existing/enabled",
+    "linear_solver": "MINRES",
+    "maxiter": 10000,
+    "newton_tolerance": 1e-10,
+    "preconditioner": "Jacobi",
+    "rtol": 1e-11
+  },
+  "schema_version": 1,
+  "started_timestamp": "2026-09-13T15:52:48.198068+00:00",
+  "status": "PASS",
+  "status_path": "qualification/0_2_9/wp04d/h1_small_0p01_status.json",
+  "step_diagnostics": [
+    {
+      "iterations": 3,
+      "last_correction_norm": 0.0,
+      "line_search_iterations": 0,
+      "load_factor": 0.08333333333333333,
+      "relative_residual": 3.9588848736239565e-11,
+      "residual_final": 3.9588848736239565e-11,
+      "residual_initial": 0.0048828125,
+      "step": 1,
+      "termination_classification": "CONVERGED_RESIDUAL"
+    },
+    {
+      "iterations": 3,
+      "last_correction_norm": 0.0,
+      "line_search_iterations": 0,
+      "load_factor": 0.16666666666666666,
+      "relative_residual": 3.918572823397219e-11,
+      "residual_final": 3.918572823397219e-11,
+      "residual_initial": 0.004882812500072698,
+      "step": 2,
+      "termination_classification": "CONVERGED_RESIDUAL"
+    },
+    {
+      "iterations": 3,
+      "last_correction_norm": 0.0,
+      "line_search_iterations": 0,
+      "load_factor": 0.25,
+      "relative_residual": 4.077245320737259e-11,
+      "residual_final": 4.077245320737259e-11,
+      "residual_initial": 0.004882812500096128,
+      "step": 3,
+      "termination_classification": "CONVERGED_RESIDUAL"
+    },
+    {
+      "iterations": 3,
+      "last_correction_norm": 0.0,
+      "line_search_iterations": 0,
+      "load_factor": 0.3333333333333333,
+      "relative_residual": 4.1857730954553877e-11,
+      "residual_final": 4.1857730954553877e-11,
+      "residual_initial": 0.004882812500325534,
+      "step": 4,
+      "termination_classification": "CONVERGED_RESIDUAL"
+    },
+    {
+      "iterations": 3,
+      "last_correction_norm": 0.0,
+      "line_search_iterations": 0,
+      "load_factor": 0.4166666666666667,
+      "relative_residual": 4.0191174618096164e-11,
+      "residual_final": 4.0191174618096164e-11,
+      "residual_initial": 0.004882812500209983,
+      "step": 5,
+      "termination_classification": "CONVERGED_RESIDUAL"
+    },
+    {
+      "iterations": 3,
+      "last_correction_norm": 0.0,
+      "line_search_iterations": 0,
+      "load_factor": 0.5,
+      "relative_residual": 3.9881826075987095e-11,
+      "residual_final": 3.9881826075987095e-11,
+      "residual_initial": 0.004882812500057747,
+      "step": 6,
+      "termination_classification": "CONVERGED_RESIDUAL"
+    },
+    {
+      "iterations": 3,
+      "last_correction_norm": 0.0,
+      "line_search_iterations": 0,
+      "load_factor": 0.5833333333333334,
+      "relative_residual": 4.000419966260261e-11,
+      "residual_final": 4.000419966260261e-11,
+      "residual_initial": 0.004882812499961125,
+      "step": 7,
+      "termination_classification": "CONVERGED_RESIDUAL"
+    },
+    {
+      "iterations": 3,
+      "last_correction_norm": 0.0,
+      "line_search_iterations": 0,
+      "load_factor": 0.6666666666666666,
+      "relative_residual": 4.000543243365089e-11,
+      "residual_final": 4.000543243365089e-11,
+      "residual_initial": 0.004882812499932757,
+      "step": 8,
+      "termination_classification": "CONVERGED_RESIDUAL"
+    },
+    {
+      "iterations": 3,
+      "last_correction_norm": 0.0,
+      "line_search_iterations": 0,
+      "load_factor": 0.75,
+      "relative_residual": 3.923271140598369e-11,
+      "residual_final": 3.923271140598369e-11,
+      "residual_initial": 0.004882812500091864,
+      "step": 9,
+      "termination_classification": "CONVERGED_RESIDUAL"
+    },
+    {
+      "iterations": 3,
+      "last_correction_norm": 0.0,
+      "line_search_iterations": 0,
+      "load_factor": 0.8333333333333334,
+      "relative_residual": 4.250422984765644e-11,
+      "residual_final": 4.250422984765644e-11,
+      "residual_initial": 0.004882812499944485,
+      "step": 10,
+      "termination_classification": "CONVERGED_RESIDUAL"
+    },
+    {
+      "iterations": 3,
+      "last_correction_norm": 0.0,
+      "line_search_iterations": 0,
+      "load_factor": 0.9166666666666666,
+      "relative_residual": 4.025829423702613e-11,
+      "residual_final": 4.025829423702613e-11,
+      "residual_initial": 0.004882812499990753,
+      "step": 11,
+      "termination_classification": "CONVERGED_RESIDUAL"
+    },
+    {
+      "iterations": 3,
+      "last_correction_norm": 0.0,
+      "line_search_iterations": 0,
+      "load_factor": 1.0,
+      "relative_residual": 4.1892203384132436e-11,
+      "residual_final": 4.1892203384132436e-11,
+      "residual_initial": 0.004882812499763604,
+      "step": 12,
+      "termination_classification": "CONVERGED_RESIDUAL"
+    }
+  ],
+  "telemetry_event_count": 49,
+  "telemetry_path": "qualification/0_2_9/wp04d/h1_small_0p01_telemetry.jsonl",
+  "termination_classifications": [
+    "CONVERGED_RESIDUAL",
+    "CONVERGED_RESIDUAL",
+    "CONVERGED_RESIDUAL",
+    "CONVERGED_RESIDUAL",
+    "CONVERGED_RESIDUAL",
+    "CONVERGED_RESIDUAL",
+    "CONVERGED_RESIDUAL",
+    "CONVERGED_RESIDUAL",
+    "CONVERGED_RESIDUAL",
+    "CONVERGED_RESIDUAL",
+    "CONVERGED_RESIDUAL",
+    "CONVERGED_RESIDUAL"
+  ],
+  "wall_time_s": 122.61007369996514,
+  "work_package": "WP04-D"
+}

@@ -264,7 +264,7 @@ def _reference_mesh_metrics(nodes: np.ndarray, elements: np.ndarray, assembly: A
         "dofs": int(assembly.ndof),
         "element_volume_minimum": float(np.min(element_volumes)),
         "element_volume_maximum": float(np.max(element_volumes)),
-        "element_volume_ratio": float(np.max(element_volumes) / np.min(element_volumes)),
+        "element_volume_ratio": max(element_volumes) / min(element_volumes),
         "reference_gauss_jacobian_minimum": float(np.min(gauss_determinants)),
         "reference_gauss_jacobian_maximum": float(np.max(gauss_determinants)),
         "minimum_scaled_jacobian": float(np.min(scaled_jacobians)),
@@ -323,7 +323,7 @@ def _load_checks(case: Mapping[str, Any]) -> dict[str, Any]:
     return {
         "resultant": resultant.tolist(),
         "resultant_error": float(np.linalg.norm(resultant - TOTAL_RESULTANT)),
-        "resultant_relative_error": float(np.linalg.norm(resultant - TOTAL_RESULTANT) / max(np.linalg.norm(TOTAL_RESULTANT), 1.0e-12)),
+        "resultant_relative_error": float(np.linalg.norm(resultant - TOTAL_RESULTANT) / max(float(np.linalg.norm(TOTAL_RESULTANT)), 1.0e-12)),
         "reference_moment": moment.tolist(),
         "face_area": HEIGHT * DEPTH,
         "traction": SURFACE_TRACTION.tolist(),
@@ -781,7 +781,7 @@ def _run_nonlinear(
 
     raw_info: dict[str, Any] | None = None
     if write_raw and raw_arrays:
-        np.savez_compressed(raw_path, **raw_arrays)
+        np.savez_compressed(raw_path, **raw_arrays)  # type: ignore[arg-type]
         raw_info = {"path": str(raw_path), "size_bytes": int(raw_path.stat().st_size), "sha256": _sha256(raw_path), "array_names": sorted(raw_arrays)}
 
     performance = _aggregate(events)
@@ -869,7 +869,10 @@ def _relative_scalar(value: float, reference: float) -> float:
 def _relative_vector(value: Sequence[float], reference: Sequence[float]) -> float:
     current = np.asarray(value, dtype=float)
     baseline = np.asarray(reference, dtype=float)
-    return float(np.linalg.norm(current - baseline) / max(np.linalg.norm(current), np.linalg.norm(baseline), 1.0e-12))
+    return float(
+        np.linalg.norm(current - baseline)
+        / max(float(np.linalg.norm(current)), float(np.linalg.norm(baseline)), 1.0e-12)
+    )
 
 
 def _linear_reference(case: Mapping[str, Any], external: np.ndarray) -> tuple[np.ndarray, dict[str, Any]]:
@@ -906,7 +909,10 @@ def _run_small_load_checks(case: Mapping[str, Any], output: Path) -> list[dict[s
             row = {
                 "multiplier": multiplier,
                 "status": "PASS",
-                "displacement_relative_error": float(np.linalg.norm(nonlinear_displacement - linear_displacement) / max(np.linalg.norm(linear_displacement), 1.0e-12)),
+                "displacement_relative_error": float(
+                    np.linalg.norm(nonlinear_displacement - linear_displacement)
+                    / max(float(np.linalg.norm(linear_displacement)), 1.0e-12)
+                ),
                 "reaction_relative_error": _relative_vector(nonlinear_reaction, linear_eq["reaction_resultant"]),
                 "nonlinear_result": nonlinear["status_path"],
                 "linear_strain_energy": linear_observed["strain_energy"],
@@ -987,10 +993,12 @@ def _campaign(args: argparse.Namespace) -> int:
         h2 = successful["H2"].get("observables") or {}
         h3 = successful["H3"].get("observables") or {}
         pair = {
-            "displacement": _relative_scalar(h3.get("tip_displacement"), h2.get("tip_displacement")),
+            "displacement": _relative_scalar(float(h3["tip_displacement"]), float(h2["tip_displacement"])),
             "reaction": _relative_vector(h3["equilibrium"]["reaction_resultant"], h2["equilibrium"]["reaction_resultant"]),
-            "energy": _relative_scalar(h3.get("strain_energy"), h2.get("strain_energy")),
-            "representative_sigma_xx": _relative_scalar(h3.get("representative_stress_sigma_xx"), h2.get("representative_stress_sigma_xx")),
+            "energy": _relative_scalar(float(h3["strain_energy"]), float(h2["strain_energy"])),
+            "representative_sigma_xx": _relative_scalar(
+                float(h3["representative_stress_sigma_xx"]), float(h2["representative_stress_sigma_xx"])
+            ),
         }
         pair["threshold_status"] = bool(
             pair["displacement"] <= 0.02
@@ -1004,10 +1012,14 @@ def _campaign(args: argparse.Namespace) -> int:
         first = successful["H1"].get("observables") or {}
         second = successful["H1-replay"].get("observables") or {}
         replay = {
-            "tip_displacement_relative": _relative_scalar(second.get("tip_displacement"), first.get("tip_displacement")),
+            "tip_displacement_relative": _relative_scalar(
+                float(second["tip_displacement"]), float(first["tip_displacement"])
+            ),
             "reaction_relative": _relative_vector(second["equilibrium"]["reaction_resultant"], first["equilibrium"]["reaction_resultant"]),
-            "energy_relative": _relative_scalar(second.get("strain_energy"), first.get("strain_energy")),
-            "stress_relative": _relative_scalar(second.get("representative_stress_sigma_xx"), first.get("representative_stress_sigma_xx")),
+            "energy_relative": _relative_scalar(float(second["strain_energy"]), float(first["strain_energy"])),
+            "stress_relative": _relative_scalar(
+                float(second["representative_stress_sigma_xx"]), float(first["representative_stress_sigma_xx"])
+            ),
             "accepted_load_path_equal": second.get("accepted_load_factors") == first.get("accepted_load_factors"),
             "termination_classifications_equal": second.get("termination_classifications") == first.get("termination_classifications"),
         }
@@ -1027,19 +1039,20 @@ def _campaign(args: argparse.Namespace) -> int:
             if label in ("H1", "H2", "H3")
         ) and all(label in successful for label in ("H1", "H2", "H3")),
         "minimum_det_f": min(
-            [float((row.get("observables") or {}).get("minimum_det_f")) for label, row in successful.items() if label in ("H1", "H2", "H3")],
+            [float((row.get("observables") or {})["minimum_det_f"]) for label, row in successful.items() if label in ("H1", "H2", "H3")],
             default=None,
         ),
         "minimum_principal_stretch": min(
-            [float((row.get("observables") or {}).get("minimum_principal_stretch")) for label, row in successful.items() if label in ("H1", "H2", "H3")],
+            [float((row.get("observables") or {})["minimum_principal_stretch"]) for label, row in successful.items() if label in ("H1", "H2", "H3")],
             default=None,
         ),
         "maximum_principal_stretch": max(
-            [float((row.get("observables") or {}).get("maximum_principal_stretch")) for label, row in successful.items() if label in ("H1", "H2", "H3")],
+            [float((row.get("observables") or {})["maximum_principal_stretch"]) for label, row in successful.items() if label in ("H1", "H2", "H3")],
             default=None,
         ),
         "maximum_green_lagrange_norm": max(
-            [float((row.get("observables") or {}).get("maximum_green_lagrange_norm")) for label, row in successful.items() if label in ("H1", "H2", "H3")],
+            [float((row.get("observables") or {})["maximum_green_lagrange_norm"])
+             for label, row in successful.items() if label in ("H1", "H2", "H3")],
             default=None,
         ),
     }
