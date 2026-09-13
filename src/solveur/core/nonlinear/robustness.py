@@ -41,6 +41,7 @@ _PARAMETER_KEYS = {
     "experimental_line_search_min_alpha",
     "experimental_line_search_max_reductions",
     "experimental_line_search_c",
+    "experimental_floor_aware_termination",
 }
 _PERMUTATIONS = {"NATURAL", "MMD_ATA", "MMD_AT_PLUS_A", "COLAMD"}
 
@@ -48,6 +49,13 @@ ROBUSTNESS_POLICY_ID = "qf-solver-unified-robustness"
 ROBUSTNESS_POLICY_VERSION = 1
 ADAPTIVE_POLICY_ID = "qf-solver-unified-adaptive-step"
 ADAPTIVE_POLICY_VERSION = 1
+FLOOR_AWARE_POLICY_ID = "qf-solver-floor-aware-termination"
+FLOOR_AWARE_POLICY_VERSION = 1
+FLOOR_AWARE_PLATEAU_WINDOW = 4
+FLOOR_AWARE_CORRECTION_EPS_MULTIPLIER = 8.0
+FLOOR_AWARE_COMPONENT_ULP_MULTIPLIER = 4.0
+FLOOR_AWARE_EQUILIBRIUM_TOLERANCE = 1.0e-8
+FLOOR_AWARE_LINEAR_BACKWARD_ERROR_TOLERANCE = 1.0e-10
 
 
 class RobustnessPolicySource(str, Enum):
@@ -87,6 +95,73 @@ class StagnationDecision:
             "final_window_residual": self.final_window_residual,
             "relative_change": self.relative_change,
             "convergence_tolerance": self.convergence_tolerance,
+            "policy_id": self.policy_id,
+            "policy_version": self.policy_version,
+        }
+
+
+@dataclass(frozen=True)
+class FloorAwareTerminationDecision:
+    """Scale-aware secondary convergence decision.
+
+    This decision is deliberately evidence-heavy.  It is not a relaxed
+    residual tolerance: acceptance requires a finite residual inside a
+    matrix/state-resolution estimate, a four-sample stationary window, a
+    machine-scale correction, a valid linear solve, an unsuccessful merit
+    search and bounded physical equilibrium evidence.
+    """
+
+    decision: str
+    reason: str
+    relative_residual: float | None
+    convergence_tolerance: float
+    correction_norm: float | None
+    relative_correction_norm: float | None
+    machine_epsilon: float
+    correction_resolution_threshold: float
+    plateau_window: tuple[float, ...]
+    plateau_spread: float | None
+    plateau_spread_threshold: float | None
+    state_resolution_residual_estimate: float | None
+    component_ulp_residual_estimate: float | None
+    linear_backward_error: float | None
+    linear_backward_error_tolerance: float
+    line_search_improvement_available: bool | None
+    force_equilibrium: float | None
+    moment_equilibrium: float | None
+    equilibrium_tolerance: float
+    state_valid: bool
+    policy_id: str = FLOOR_AWARE_POLICY_ID
+    policy_version: int = FLOOR_AWARE_POLICY_VERSION
+
+    @property
+    def accepted(self) -> bool:
+        """Return whether the secondary convergence path accepted the state."""
+        return self.decision == "FLOOR_CONVERGED"
+
+    def to_dict(self) -> dict[str, Any]:
+        """Return deterministic, JSON-compatible floor diagnostics."""
+        return {
+            "decision": self.decision,
+            "reason": self.reason,
+            "relative_residual": self.relative_residual,
+            "convergence_tolerance": self.convergence_tolerance,
+            "correction_norm": self.correction_norm,
+            "relative_correction_norm": self.relative_correction_norm,
+            "machine_epsilon": self.machine_epsilon,
+            "correction_resolution_threshold": self.correction_resolution_threshold,
+            "plateau_window": list(self.plateau_window),
+            "plateau_spread": self.plateau_spread,
+            "plateau_spread_threshold": self.plateau_spread_threshold,
+            "state_resolution_residual_estimate": self.state_resolution_residual_estimate,
+            "component_ulp_residual_estimate": self.component_ulp_residual_estimate,
+            "linear_backward_error": self.linear_backward_error,
+            "linear_backward_error_tolerance": self.linear_backward_error_tolerance,
+            "line_search_improvement_available": self.line_search_improvement_available,
+            "force_equilibrium": self.force_equilibrium,
+            "moment_equilibrium": self.moment_equilibrium,
+            "equilibrium_tolerance": self.equilibrium_tolerance,
+            "state_valid": self.state_valid,
             "policy_id": self.policy_id,
             "policy_version": self.policy_version,
         }
@@ -726,6 +801,7 @@ class UnifiedNonlinearRobustnessController:
         min_alpha: float = 1.0e-4,
         max_reductions: int = 12,
         armijo_c: float | None = None,
+        floor_aware_termination: bool = False,
     ) -> None:
         source = policy_source.value if isinstance(policy_source, RobustnessPolicySource) else str(policy_source)
         if source not in {item.value for item in RobustnessPolicySource}:
@@ -748,6 +824,7 @@ class UnifiedNonlinearRobustnessController:
         self.min_alpha = float(min_alpha)
         self.max_reductions = int(max_reductions)
         self.armijo_c = None if armijo_c is None else float(armijo_c)
+        self.floor_aware_termination = bool(floor_aware_termination)
 
     @classmethod
     def from_options(
@@ -766,6 +843,7 @@ class UnifiedNonlinearRobustnessController:
             return cls(
                 policy_source=RobustnessPolicySource.EXPERIMENTAL_OVERRIDE,
                 line_search_enabled=False,
+                floor_aware_termination=options.floor_aware_termination,
             )
         if options.line_search == "existing":
             # Preserve the historical helper discrepancy as an explicit
@@ -776,6 +854,7 @@ class UnifiedNonlinearRobustnessController:
                 min_alpha=0.0,
                 max_reductions=14,
                 armijo_c=None,
+                floor_aware_termination=options.floor_aware_termination,
             )
         return cls(
             policy_source=RobustnessPolicySource.EXPERIMENTAL_OVERRIDE,
@@ -783,6 +862,7 @@ class UnifiedNonlinearRobustnessController:
             min_alpha=options.line_search_min_alpha,
             max_reductions=options.line_search_max_reductions,
             armijo_c=options.line_search_c,
+            floor_aware_termination=options.floor_aware_termination,
         )
 
     def configuration_diagnostics(
@@ -818,6 +898,16 @@ class UnifiedNonlinearRobustnessController:
                 "policy_id": ROBUSTNESS_POLICY_ID,
                 "policy_version": ROBUSTNESS_POLICY_VERSION,
                 "events": [dict(item) for item in line_items],
+            },
+            "floor_aware_termination": {
+                "enabled": self.floor_aware_termination,
+                "policy_id": FLOOR_AWARE_POLICY_ID,
+                "policy_version": FLOOR_AWARE_POLICY_VERSION,
+                "plateau_window": FLOOR_AWARE_PLATEAU_WINDOW,
+                "correction_eps_multiplier": FLOOR_AWARE_CORRECTION_EPS_MULTIPLIER,
+                "component_ulp_multiplier": FLOOR_AWARE_COMPONENT_ULP_MULTIPLIER,
+                "equilibrium_tolerance": FLOOR_AWARE_EQUILIBRIUM_TOLERANCE,
+                "linear_backward_error_tolerance": FLOOR_AWARE_LINEAR_BACKWARD_ERROR_TOLERANCE,
             },
         }
 
@@ -910,6 +1000,195 @@ class UnifiedNonlinearRobustnessController:
             None,
             convergence_tolerance,
         )
+
+    def floor_aware_decision(
+        self,
+        residual_history: Sequence[float],
+        *,
+        relative_residual: float,
+        convergence_tolerance: float,
+        correction: np.ndarray | None,
+        displacement: np.ndarray | None,
+        tangent: csr_matrix | None,
+        residual_scale: float,
+        linear_backward_error: float | None,
+        line_search_improvement_available: bool | None,
+        force_equilibrium: float | None,
+        moment_equilibrium: float | None,
+        state_valid: bool,
+        displacement_scale: float | None = None,
+    ) -> FloorAwareTerminationDecision:
+        """Evaluate the opt-in numerical-floor convergence conjunction.
+
+        ``residual_history`` contains normalized residuals.  The matrix and
+        displacement are the current reduced Newton system and its detached
+        trial displacement.  They are used only to estimate a reachable
+        state-resolution floor; this method never changes either object or
+        the nonlinear transaction.
+        """
+
+        epsilon = float(np.finfo(np.float64).eps)
+        try:
+            raw_history = tuple(float(value) for value in residual_history)
+        except (TypeError, ValueError):
+            raw_history = ()
+        finite_history = all(np.isfinite(value) for value in raw_history)
+        safe_history = tuple(value if np.isfinite(value) else 0.0 for value in raw_history)
+        plateau_window = safe_history[-FLOOR_AWARE_PLATEAU_WINDOW:]
+        plateau_spread = (
+            float(max(plateau_window) - min(plateau_window))
+            if plateau_window and finite_history
+            else None
+        )
+
+        try:
+            relative = float(relative_residual)
+        except (TypeError, ValueError):
+            relative = float("nan")
+        try:
+            tolerance = float(convergence_tolerance)
+        except (TypeError, ValueError):
+            tolerance = float("nan")
+        try:
+            scale = float(residual_scale)
+        except (TypeError, ValueError):
+            scale = float("nan")
+
+        correction_norm: float | None = None
+        relative_correction_norm: float | None = None
+        correction_resolution_threshold = FLOOR_AWARE_CORRECTION_EPS_MULTIPLIER * epsilon
+        relative_ulp: float | None = None
+        if correction is not None:
+            values = np.asarray(correction, dtype=float)
+            if values.ndim == 1 and np.all(np.isfinite(values)):
+                correction_norm = float(np.linalg.norm(values))
+
+        displacement_values: np.ndarray | None = None
+        if displacement is not None:
+            candidate = np.asarray(displacement, dtype=float)
+            if candidate.ndim == 1 and np.all(np.isfinite(candidate)):
+                displacement_values = candidate
+                displacement_norm = float(np.linalg.norm(candidate))
+                try:
+                    explicit_scale = float(displacement_scale) if displacement_scale is not None else 0.0
+                except (TypeError, ValueError):
+                    explicit_scale = float("nan")
+                if np.isfinite(explicit_scale):
+                    denominator = max(displacement_norm, explicit_scale, float(np.finfo(float).tiny))
+                    if correction_norm is not None:
+                        relative_correction_norm = correction_norm / denominator
+                    relative_ulp = float(np.linalg.norm(np.abs(np.spacing(candidate))) / denominator)
+                    correction_resolution_threshold = max(
+                        correction_resolution_threshold,
+                        FLOOR_AWARE_COMPONENT_ULP_MULTIPLIER * relative_ulp,
+                    )
+
+        state_resolution_residual_estimate: float | None = None
+        component_ulp_residual_estimate: float | None = None
+        if (
+            tangent is not None
+            and displacement_values is not None
+            and np.isfinite(scale)
+            and scale > 0.0
+        ):
+            matrix = csr_matrix(tangent, dtype=float)
+            if matrix.shape == (displacement_values.size, displacement_values.size) and np.all(
+                np.isfinite(matrix.data)
+            ):
+                matrix_inf = float(np.max(np.asarray(np.abs(matrix).sum(axis=1)).ravel(), initial=0.0))
+                displacement_norm = float(np.linalg.norm(displacement_values))
+                state_resolution_residual_estimate = matrix_inf * epsilon * displacement_norm / scale
+                component_ulp = np.abs(np.spacing(displacement_values))
+                component_ulp_residual_estimate = float(
+                    np.linalg.norm(matrix @ component_ulp) / scale
+                )
+
+        state_resolution_threshold: float | None = None
+        if state_resolution_residual_estimate is not None and component_ulp_residual_estimate is not None:
+            state_resolution_threshold = max(
+                state_resolution_residual_estimate,
+                component_ulp_residual_estimate,
+                FLOOR_AWARE_CORRECTION_EPS_MULTIPLIER * epsilon,
+            )
+        plateau_spread_threshold = state_resolution_threshold
+
+        try:
+            backward_error = (
+                None if linear_backward_error is None else float(linear_backward_error)
+            )
+        except (TypeError, ValueError):
+            backward_error = None
+
+        try:
+            force_value = None if force_equilibrium is None else float(force_equilibrium)
+        except (TypeError, ValueError):
+            force_value = None
+        try:
+            moment_value = None if moment_equilibrium is None else float(moment_equilibrium)
+        except (TypeError, ValueError):
+            moment_value = None
+
+        def result(decision: str, reason: str) -> FloorAwareTerminationDecision:
+            return FloorAwareTerminationDecision(
+                decision=decision,
+                reason=reason,
+                relative_residual=relative if np.isfinite(relative) else None,
+                convergence_tolerance=tolerance,
+                correction_norm=correction_norm,
+                relative_correction_norm=relative_correction_norm,
+                machine_epsilon=epsilon,
+                correction_resolution_threshold=correction_resolution_threshold,
+                plateau_window=plateau_window,
+                plateau_spread=plateau_spread,
+                plateau_spread_threshold=plateau_spread_threshold,
+                state_resolution_residual_estimate=state_resolution_residual_estimate,
+                component_ulp_residual_estimate=component_ulp_residual_estimate,
+                linear_backward_error=backward_error,
+                linear_backward_error_tolerance=FLOOR_AWARE_LINEAR_BACKWARD_ERROR_TOLERANCE,
+                line_search_improvement_available=line_search_improvement_available,
+                force_equilibrium=force_value,
+                moment_equilibrium=moment_value,
+                equilibrium_tolerance=FLOOR_AWARE_EQUILIBRIUM_TOLERANCE,
+                state_valid=bool(state_valid),
+            )
+
+        if not self.floor_aware_termination:
+            return result("REJECT", "DISABLED")
+        if not np.isfinite(relative) or not np.isfinite(tolerance) or tolerance <= 0.0:
+            return result("REJECT", "NONFINITE_RESIDUAL_OR_TOLERANCE")
+        if relative <= tolerance:
+            return result("PRIMARY_CONVERGED", "PRIMARY_RESIDUAL_CRITERION")
+        if not finite_history:
+            return result("REJECT", "NONFINITE_RESIDUAL_HISTORY")
+        if len(raw_history) < FLOOR_AWARE_PLATEAU_WINDOW:
+            return result("REJECT", "PLATEAU_HISTORY_INSUFFICIENT")
+        if state_resolution_threshold is None:
+            return result("REJECT", "STATE_RESOLUTION_UNAVAILABLE")
+        if relative > state_resolution_threshold:
+            return result("REJECT", "RESIDUAL_ABOVE_STATE_RESOLUTION")
+        if plateau_spread is None or plateau_spread > state_resolution_threshold:
+            return result("REJECT", "RESIDUAL_NOT_STATIONARY")
+        if correction_norm is None or relative_correction_norm is None:
+            return result("REJECT", "CORRECTION_UNAVAILABLE")
+        if relative_correction_norm > correction_resolution_threshold:
+            return result("REJECT", "CORRECTION_ABOVE_MACHINE_RESOLUTION")
+        if backward_error is None or not np.isfinite(backward_error):
+            return result("REJECT", "LINEAR_BACKWARD_ERROR_UNAVAILABLE")
+        if backward_error > FLOOR_AWARE_LINEAR_BACKWARD_ERROR_TOLERANCE:
+            return result("REJECT", "LINEAR_CORRECTION_NOT_VALID")
+        if line_search_improvement_available is not False:
+            return result("REJECT", "LINE_SEARCH_IMPROVEMENT_UNKNOWN_OR_AVAILABLE")
+        if not bool(state_valid):
+            return result("REJECT", "INVALID_STATE_EVIDENCE")
+        if force_value is None or not np.isfinite(force_value):
+            return result("REJECT", "FORCE_EQUILIBRIUM_UNAVAILABLE")
+        if force_value > FLOOR_AWARE_EQUILIBRIUM_TOLERANCE:
+            return result("REJECT", "FORCE_EQUILIBRIUM_UNBOUNDED")
+        if moment_value is None or not np.isfinite(moment_value):
+            return result("REJECT", "MOMENT_EQUILIBRIUM_UNAVAILABLE")
+        if moment_value > FLOOR_AWARE_EQUILIBRIUM_TOLERANCE:
+            return result("REJECT", "MOMENT_EQUILIBRIUM_UNBOUNDED")
+        return result("FLOOR_CONVERGED", "NUMERICALLY_STATIONARY_EQUILIBRIUM")
 
     # Short aliases keep the contract discoverable without introducing another
     # policy implementation.
@@ -1067,6 +1346,7 @@ class NonlinearRobustnessOptions:
     line_search_min_alpha: float = 1.0e-4
     line_search_max_reductions: int = 14
     line_search_c: float = 1.0e-4
+    floor_aware_termination: bool = False
 
     @classmethod
     def from_parameters(cls, parameters: dict[str, object]) -> "NonlinearRobustnessOptions | None":
@@ -1102,6 +1382,7 @@ class NonlinearRobustnessOptions:
             line_search_min_alpha=float(cast(Any, parameters.get("experimental_line_search_min_alpha", 1.0e-4))),
             line_search_max_reductions=int(cast(Any, parameters.get("experimental_line_search_max_reductions", 14))),
             line_search_c=float(cast(Any, parameters.get("experimental_line_search_c", 1.0e-4))),
+            floor_aware_termination=bool(parameters.get("experimental_floor_aware_termination", False)),
         )
         options.validate()
         return options
@@ -1169,6 +1450,7 @@ class NonlinearRobustnessOptions:
             "line_search_min_alpha": self.line_search_min_alpha,
             "line_search_max_reductions": self.line_search_max_reductions,
             "line_search_c": self.line_search_c,
+            "floor_aware_termination": self.floor_aware_termination,
         }
 
 
