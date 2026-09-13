@@ -87,6 +87,13 @@ uses the established nonlinear JSONL observer. A change to that legacy
 nonlinear aggregate has no WP15 integration test coverage and is not needed to
 preserve route correctness, so it was not changed opportunistically.
 
+## Child branch retirement
+
+After the governing head `e5989e6653aed12a8c11a4ba68c1052391945bfc` was pushed
+and verified remotely, the merged child head was confirmed as its ancestor.
+`origin/0.2.9-wp15-prep` was then deleted. No local WP15 child branch existed,
+so no local deletion was required; both final existence checks are negative.
+
 ## Next step
 
 The governing branch may proceed only with the next separately Owner-frozen
