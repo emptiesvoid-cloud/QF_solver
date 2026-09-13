@@ -5597,6 +5597,97 @@
   ]
 },
 {
+  "id": "DOC-029-WP07-A-READINESS-001",
+  "path": "verification/0_2_9/wp07-frictionless-contact-readiness.md",
+  "title": "QF Solver 0.2.9 WP07-A frictionless contact readiness audit",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp07_frictionless_contact_readiness.json"
+  ],
+  "tests": [
+    "tests/unit/test_frictionless_contact.py",
+    "tests/unit/test_nonlinear_contact_composition.py",
+    "tests/unit/test_contact_finite_sliding.py"
+  ]
+},
+{
+  "id": "DOC-029-WP07-A-CONTRACT-001",
+  "path": "verification/0_2_9/wp07a-contact-formulation-contract.md",
+  "title": "QF Solver 0.2.9 WP07-A contact formulation contract R1",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp07a_contact_formulation_contract.json"
+  ],
+  "tests": [
+    "tests/unit/test_frictionless_contact.py",
+    "tests/unit/test_nonlinear_contact_composition.py",
+    "tests/unit/test_contact_finite_sliding.py"
+  ]
+},
+{
+  "id": "DOC-029-WP07-B-CONTACT-EVALUATION-001",
+  "path": "verification/0_2_9/wp07b-contact-evaluation-restart.md",
+  "title": "QF Solver 0.2.9 WP07-B contact evaluation and restart semantics",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp07b_contact_evaluation_restart.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp07b_contact_evaluation_restart.py",
+    "tests/unit/test_frictionless_contact.py",
+    "tests/unit/test_nonlinear_contact_composition.py",
+    "tests/unit/test_contact_finite_sliding.py"
+  ]
+},
+{
+  "id": "DOC-029-WP07-C-CONTACT-IDENTITIES-001",
+  "path": "verification/0_2_9/wp07c-contact-identities.md",
+  "title": "QF Solver 0.2.9 WP07-C contact identities and open/close V&V",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp07c_contact_identities.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp07c_contact_identities.py",
+    "tests/unit/test_wp07b_contact_evaluation_restart.py",
+    "tests/unit/test_frictionless_contact.py",
+    "tests/unit/test_nonlinear_contact_composition.py"
+  ]
+},
+{
+  "id": "DOC-029-WP07-D-STRUCTURAL-VNV-001",
+  "path": "verification/0_2_9/wp07d-structural-vnv-contract.md",
+  "title": "QF Solver 0.2.9 WP07-D structural and external V&V contract",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp07d_structural_vnv_contract.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp07d_structural_vnv_contract.py",
+    "tests/unit/test_wp07c_contact_identities.py",
+    "tests/unit/test_frictionless_contact.py",
+    "tests/unit/test_nonlinear_contact_composition.py"
+  ]
+},
+{
+  "id": "DOC-029-WP07-E-CLOSURE-001",
+  "path": "verification/0_2_9/wp07e-closure-contract.md",
+  "title": "QF Solver 0.2.9 WP07-E refinement replay and Owner closure contract",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp07e_closure_contract.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp07e_closure_contract.py"
+  ]
+},
+{
   "id": "DOC-028-WP13-02C3-HARMONIC-FINAL-001",
   "path": "verification/0_2_8/wp13_02c3_harmonic_final.md",
   "title": "QF Solver 0.2.8 WP13-02C3 final mixed harmonic campaign",
