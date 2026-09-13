@@ -1,6 +1,6 @@
 ---
 doc_id: DOC-029-WP07-E-CLOSURE-001
-revision: 0.1
+revision: R1
 status: controlled_candidate
 applicable_version: 0.2.9-development
 reviewer: ""
@@ -16,11 +16,42 @@ is [`wp07e_closure_contract.json`](../../../qualification/0_2_9/wp07e_closure_co
 and the deterministic report builder is
 [`build_wp07e_closure.py`](../../../scripts/build_wp07e_closure.py).
 
-Source snapshot: `429a621b7541d599aeabe89a9edec5b4703298e0`<br>
-Owner status: `OWNER_CANDIDATE`<br>
+Source snapshot: `1cadaf6ab2bafe4b5da4731dc0fd06dec09bbb63`<br>
+Owner status: `PASS_PREPARATION_WITH_OWNER_CORRECTION_R1`<br>
+Correction: `OWNER_CORRECTION_R1`<br>
 WP07-E formal points: `0/2`<br>
 WP07 formal points: `0/10`
 Validated total: `29/100`
+
+## R1 derived-gate correction
+
+The original Phase-0 candidate history is preserved: it accepted a
+runtime-supplied `PASS`/`FAIL` label as a closure check. Owner Correction R1
+removes that authority. The builder now requires raw observations and derives
+each gate from those observations and the frozen thresholds below. A
+runtime/reference `reported_status` is retained only as an audit field.
+
+If a reported status disagrees with the independently derived status, the
+report records `STATUS_MISMATCH` and cannot close as a pass. A raw failure is
+still classified by its highest-precedence failure category (for example
+`WP07_HOLD_STRUCTURAL_CONVERGENCE` or `WP07_FAIL_IDENTITY`) so the failed
+gate is not hidden. A reported `FAIL` against raw passing data is incomplete.
+
+The raw runtime schema is deliberately explicit. Each active-set track must
+provide M2/M3 selected displacement, support-reaction, reaction-moment and
+contact-resultant vectors, contact-region measure and declared scales; open
+force, closed gap, pressure and `L_char`/`F_char`/`P_char`; vector equilibrium
+terms; and replay fields. The penalty track additionally provides maximum
+penetration, penetration scale, contact energy/applicability, WP07-B rollback
+digests, accepted load-path statuses and restart metadata. WP07-C numerical
+identity observations are consumed from `observed_results`, not from a status
+label. Independent references provide raw QF/reference values, scales,
+formulation-match flags and independent-implementation provenance.
+
+Every runtime and reference record must relate to the same integrated source,
+case-definition digest and R1 contract revision/digest. M2 and M3 must use the
+runtime case digest; historical A/B/C contract source SHAs may differ. Missing,
+mixed, stale or nonfinite values are `WP07_INCOMPLETE_EVIDENCE`.
 
 ## Closure inputs and fail-closed rule
 
@@ -43,6 +74,16 @@ the fields listed in the machine-readable contract. Runtime and reference
 artifacts additionally require provenance. A missing, malformed, nonfinite or
 policy-mismatched field yields `WP07_INCOMPLETE_EVIDENCE`; it is never treated
 as a passing or bounded value. No default observations are generated.
+
+The R1 synthetic suite is deliberately numerical rather than label-based:
+R1-01 exercises valid raw closure; R1-02 through R1-05 corrupt refinement,
+equilibrium, replay and reference observations while leaving reported PASS
+labels in place; R1-06 checks a wrong negative-case classification; R1-07 and
+R1-08 check missing/nonfinite raw values; R1-09 checks governing-policy SHA
+binding; R1-10 checks a stale case digest; R1-11 records a reported/derived
+status mismatch; R1-12 rejects updated-search evidence; and R1-13/R1-14
+exercise the explicit Owner-authorized exclusion rule and its anti-downgrade
+guard. These tests produce no qualification data and award no points.
 
 ## Separate formulation tracks
 

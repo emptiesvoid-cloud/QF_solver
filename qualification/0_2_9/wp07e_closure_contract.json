@@ -3,19 +3,83 @@
   "record_id": "QF-029-WP07-E-CLOSURE-001",
   "gate": "WP07",
   "work_package": "WP07-E",
-  "revision": "0.1",
+  "revision": "R1",
   "applicable_version": "0.2.9-development",
   "status": "PREPARATION_ONLY",
   "owner_status": "OWNER_CANDIDATE",
+  "owner_correction": "OWNER_CORRECTION_R1",
   "preparation_only": true,
   "qualification_campaign_executed": false,
-  "source_sha": "429a621b7541d599aeabe89a9edec5b4703298e0",
+  "source_sha": "1cadaf6ab2bafe4b5da4731dc0fd06dec09bbb63",
   "formal_points": "0/2",
   "wp07_points": "0/10",
   "validated_total": "29/100",
   "integration_train_required": true,
   "execution_policy_status": "PENDING_GOVERNING_BRANCH_INTEGRATION",
   "no_data_fabrication": true,
+  "reported_status_policy": {
+    "authoritative": false,
+    "reported_status_field": "reported_status",
+    "derived_status_field": "derived_status",
+    "disagreement": "record STATUS_MISMATCH and fail closed; raw-derived failure category remains visible",
+    "allowed_reported_values": ["PASS", "FAIL", "INCOMPLETE", "NOT_COVERED"]
+  },
+  "raw_evidence_schema": {
+    "description": "The closure builder derives gates from these observations. Labels such as PASS are non-authoritative diagnostics only.",
+    "ACTIVE_SET": {
+      "structural_level_fields": [
+        "case_definition_digest", "selected_displacement", "support_reaction_vector",
+        "reaction_moment_vector", "contact_resultant_vector", "contact_region_measure",
+        "scales"
+      ],
+      "identity_fields": [
+        "open_contact_force_vector", "closed_gap", "pressure", "L_char", "F_char", "P_char"
+      ],
+      "equilibrium_fields": [
+        "support_reaction_vector", "external_force_vector", "reaction_moment_vector",
+        "external_moment_vector", "F_char", "M_char"
+      ],
+      "replay_fields": [
+        "final_displacement", "reaction_vector", "moment_vector", "contact_resultant",
+        "active_contact_qualitative_status", "active_contact_count", "load_factor_history",
+        "terminal_classification"
+      ],
+      "optional_replay_fields": ["newton_iteration_counts"]
+    },
+    "PENALTY": {
+      "structural_level_fields": [
+        "case_definition_digest", "selected_displacement", "support_reaction_vector",
+        "reaction_moment_vector", "contact_resultant_vector", "maximum_penetration",
+        "penetration_scale", "contact_energy", "contact_energy_applicable", "scales"
+      ],
+      "identity_fields": [
+        "energy_gradient_error", "tangent_frobenius_error", "tangent_max_column_error",
+        "tangent_symmetry_error", "open_contact_force_vector", "open_force_scale",
+        "reopen_ghost_force_vector", "reopen_force_scale"
+      ],
+      "equilibrium_fields": [
+        "support_reaction_vector", "external_force_vector", "reaction_moment_vector",
+        "external_moment_vector", "F_char", "M_char"
+      ],
+      "rollback_fields": ["state_before_digest", "trial_state_digest", "state_after_reject_digest"],
+      "load_path_fields": ["step_statuses"],
+      "replay_fields": [
+        "final_displacement", "reaction_vector", "moment_vector", "contact_resultant",
+        "active_contact_qualitative_status", "active_contact_count", "load_factor_history",
+        "terminal_classification", "contact_topology_digest", "model_signature",
+        "accepted_state_digest"
+      ],
+      "optional_replay_fields": ["newton_iteration_counts"]
+    },
+    "reference_fields": [
+      "independent_implementation", "production_contact_routines_called", "formulation_match",
+      "raw_comparisons"
+    ],
+    "provenance_fields": [
+      "integrated_source_sha", "case_definition_digest", "contract_revision",
+      "contract_digest", "environment"
+    ]
+  },
   "required_evidence": {
     "description": "Every required artifact is mandatory. Missing, malformed or nonfinite evidence is incomplete, never PASS.",
     "artifacts": [
@@ -50,7 +114,7 @@
         "required_fields": [
           "schema_version", "gate", "work_package", "revision", "status",
           "source_sha", "qualification_campaign_executed", "scope",
-          "frozen_thresholds", "identities", "governance"
+          "frozen_thresholds", "identities", "observed_results", "governance"
         ]
       },
       {
@@ -84,7 +148,7 @@
         "required_fields": [
           "schema_version", "artifact_id", "gate", "work_package", "status",
           "source_sha", "provenance", "track", "independent_implementation",
-          "production_contact_routines_called", "formulation_match", "results"
+          "production_contact_routines_called", "formulation_match", "raw_comparisons"
         ]
       },
       {
@@ -95,7 +159,7 @@
         "required_fields": [
           "schema_version", "artifact_id", "gate", "work_package", "status",
           "source_sha", "provenance", "track", "independent_implementation",
-          "production_contact_routines_called", "formulation_match", "results"
+          "production_contact_routines_called", "formulation_match", "raw_comparisons"
         ]
       }
     ]
@@ -212,6 +276,21 @@
     "rollback": "PASS only when rejected/trial state and re-evaluation satisfy WP07-B digest/state rules.",
     "failure_class": "IDENTITY_FAILURE"
   },
+  "identity_thresholds": {
+    "ACTIVE_SET": {
+      "open_force": 1e-12,
+      "closed_gap": 1e-10,
+      "wrong_sign_pressure": 1e-12,
+      "complementarity": 1e-10
+    },
+    "PENALTY": {
+      "energy_gradient": 1e-7,
+      "tangent_frobenius": 1e-6,
+      "tangent_max_column": 5e-6,
+      "tangent_symmetry": 1e-12,
+      "open_force": 1e-12
+    }
+  },
   "replay_policy": {
     "relative_tolerance": 1e-12,
     "absolute_floor": 1e-14,
@@ -248,35 +327,66 @@
     "incompatible_policy": "HOLD_REFERENCE",
     "threshold_policy": "Frozen before execution; a stronger analytical reference may tighten but no result-driven tuning is permitted."
   },
+  "governing_execution_policy": {
+    "status": "PREPARATION_PLACEHOLDER",
+    "expected": {
+      "governing_policy_sha": "PENDING_GOVERNING_POLICY_SHA",
+      "newton_convergence_contract": "PENDING_GOVERNING_NEWTON_POLICY",
+      "floor_aware_convergence_if_approved": "PENDING_GOVERNING_FLOOR_AWARE_POLICY",
+      "linear_backend": "PENDING_GOVERNING_LINEAR_BACKEND",
+      "line_search_policy": "PENDING_GOVERNING_LINE_SEARCH_POLICY",
+      "load_step_retry_policy": "PENDING_GOVERNING_LOAD_STEP_RETRY_POLICY",
+      "newton_iteration_counts_required": true
+    },
+    "placeholder_policy": "The Owner replaces all placeholder values after WP04 integration before structural execution. Synthetic tests may use these exact placeholders.",
+    "boolean_is_non_authoritative": true
+  },
+  "provenance_contract": {
+    "runtime_and_references_required": [
+      "integrated_source_sha", "case_definition_digest", "contract_revision",
+      "contract_digest", "environment"
+    ],
+    "expected_contract_revision": "R1",
+    "expected_contract_digest": "WP07E_CONTRACT_DIGEST_PENDING_INTEGRATION",
+    "relationship_rules": [
+      "runtime integrated_source_sha equals every reference integrated_source_sha",
+      "runtime case_definition_digest equals every reference case_definition_digest",
+      "runtime contract_revision and contract_digest equal the closure contract",
+      "M2 and M3 case_definition_digest equal runtime case_definition_digest",
+      "reference source_sha may identify its independent implementation and need not equal the integrated QF SHA"
+    ],
+    "historical_contract_sources_may_differ": true,
+    "stale_or_mixed_policy": "WP07_INCOMPLETE_EVIDENCE"
+  },
   "negative_case_policy": [
     {
       "case": "reversed_orientation",
-      "expected_classification": "VALIDATION_FAILURE",
+      "accepted_classifications": ["VALIDATION_FAILURE"],
       "counts_as_structural_pass": false
     },
     {
       "case": "open_no_contact",
-      "expected_classification": "PASS_OPEN_NO_CONTACT",
+      "accepted_classifications": ["PASS_OPEN_NO_CONTACT"],
       "counts_as_structural_pass": false
     },
     {
       "case": "excessive_penetration",
-      "expected_classification": "CONTACT_PENETRATION_EXCESSIVE_OR_ROUTE_NATIVE_FAILURE",
+      "accepted_classifications": ["CONTACT_PENETRATION_EXCESSIVE", "ROUTE_NATIVE_FAILURE"],
       "counts_as_structural_pass": false
     },
     {
       "case": "unsupported_combination",
-      "expected_classification": "UNSUPPORTED_EXPLICIT",
+      "accepted_classifications": ["UNSUPPORTED_EXPLICIT"],
       "counts_as_structural_pass": false
     },
     {
       "case": "nonfinite_observable",
-      "expected_classification": "EVIDENCE_VALIDATION_FAILURE",
+      "accepted_classifications": ["EVIDENCE_VALIDATION_FAILURE"],
       "counts_as_structural_pass": false
     },
     {
       "case": "incompatible_restart_metadata",
-      "expected_classification": "RESTART_METADATA_MISMATCH",
+      "accepted_classifications": ["RESTART_METADATA_MISMATCH"],
       "counts_as_structural_pass": false
     }
   ],
@@ -284,7 +394,8 @@
     "status": "PENDING_GOVERNING_BRANCH_INTEGRATION",
     "required_runtime_fields": [
       "governing_policy_sha", "newton_convergence_contract", "floor_aware_convergence_if_approved",
-      "linear_backend", "line_search_policy", "load_step_retry_policy"
+      "linear_backend", "line_search_policy", "load_step_retry_policy",
+      "newton_iteration_counts_required"
     ],
     "mismatch_policy": "INVALID_EVIDENCE_UNLESS_REAUTHORIZED",
     "physics_contract_unchanged": true
