@@ -273,3 +273,16 @@ The detailed chronological record is [the linear-solver remediation master]
 case telemetry/results in `qualification/0_2_9/c2r3/`. WP04 remains HOLD at
 0/12, G04-10 remains unresolved, and Owner review is required before any
 further M2/C2 resume or solver-policy change.
+
+## WP04-C2R4 near-tolerance and protocol audit
+
+C2R4 reproduced C2R3 M2's step-3 stagnation exactly under the frozen
+line-search-off MINRES route. A single captured plateau system confirms that
+direct SuperLU and tighter MINRES both yield a machine-scale correction and
+remain above the frozen nonlinear tolerance; the result is a bounded
+`NONLINEAR_RESIDUAL_NUMERICAL_FLOOR` diagnosis, not a linear-solver failure.
+It also finds `PROTOCOL_DRIFT`: original C2 and R2B use the existing enabled
+line search, whereas C2R3 explicitly disabled it. The M2-only canonical
+line-search experiment accepts step 3, then ends at step 4 with
+`LINE_SEARCH_FAILURE` near tolerance. G04-10 remains unresolved and no
+qualification outcome changes. See [the C2R4 audit](wp04-c2r4-near-tolerance-audit.md).
