@@ -147,12 +147,19 @@ def _run_level(level: str, case_digest: str, policy: dict[str, Any]) -> dict[str
     )
     limit_index = _limit_index(factors)
     equilibrium = data.get("audit", {}).get("equilibrium", {})
+    force_error = float(equilibrium.get("force_balance_relative_error", float("inf")))
+    moment_error = float(equilibrium.get("moment_balance_relative_error", float("inf")))
     det_values = [
         float(row["det_f"])
         for row in data.get("element_results", [])
         if row.get("det_f") is not None
     ]
-    level_status = "PASS_NUMERICAL_LIMIT_POINT" if limit_index is not None else "FAIL_LIMIT_POINT_TRACKING"
+    failure_classes: list[str] = []
+    if limit_index is None:
+        failure_classes.append("LIMIT_POINT_TRACKING_FAILURE")
+    if force_error > 1.0e-8 or moment_error > 1.0e-8:
+        failure_classes.append("EQUILIBRIUM_FAILURE")
+    level_status = "PASS_NUMERICAL_LIMIT_POINT" if not failure_classes else "FAIL_" + "_AND_".join(failure_classes)
     return {
         "level": level,
         "status": level_status,
@@ -186,6 +193,7 @@ def _run_level(level: str, case_digest: str, policy: dict[str, Any]) -> dict[str
         "rejected_increments": int(solver.get("rejected_increments", 0)),
         "rejection_log": solver.get("rejection_log", []),
         "equilibrium": equilibrium,
+        "failure_classes": failure_classes,
         "strain_energy": None,
         "minimum_det_f": min(det_values) if det_values else None,
         "principal_stretches": {"value": None, "reason": "NOT_EXPOSED_BY_ROUTE_RESULT"},
@@ -233,6 +241,7 @@ def main() -> int:
         "reason": "WP06-D fail-closed sequence stops after M2 limit-point gate failure.",
         "contract_mesh_digest": "not-generated-by-formal-sequence",
     }
+    m2_failures = levels.get("M2", {}).get("failure_classes", [])
     raw = {
         "benchmark_id": BENCHMARK_ID,
         "element_formulation": ELEMENT_FORMULATION,
@@ -241,7 +250,11 @@ def main() -> int:
         "physics_contract_unchanged": True,
         "execution_policy_status": "BOUND_TO_IMPORTED_GOVERNING_POLICY",
         "levels": levels,
-        "formal_stop": "M2_LIMIT_POINT_TRACKING_FAILURE" if levels["M3"]["status"] == "NOT_RUN_AFTER_M2_FAILURE" else None,
+        "formal_stop": (
+            "M2_" + "_AND_".join(m2_failures)
+            if levels["M3"]["status"] == "NOT_RUN_AFTER_M2_FAILURE"
+            else None
+        ),
         "no_undeclared_m4": True,
         "thresholds_changed": False,
         "physics_changed": False,
@@ -260,8 +273,8 @@ def main() -> int:
         },
         "raw": raw,
         "reported_status": "FAIL_CLOSED_M2_LIMIT_POINT_TRACKING",
-        "failure_class": "LIMIT_POINT_TRACKING_FAILURE",
-        "failure_reason": "M2 converged numerically but did not exhibit the frozen first local maximum of lambda within 80 accepted steps.",
+        "failure_class": m2_failures,
+        "failure_reason": "M2 converged numerically but failed one or more frozen qualification gates; formal sequence stopped before M3.",
     }
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "wp06d_phase1_structural_raw.json").write_text(
