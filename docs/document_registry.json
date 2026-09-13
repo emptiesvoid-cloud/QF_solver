@@ -5767,6 +5767,17 @@
     "tests/unit/test_wp15b_phase1.py",
     "tests/verification/test_wp04_f_final_closure.py"
   ]
+},
+{
+  "id": "DOC-029-WP06D1-001",
+  "path": "verification/0_2_9/wp06-d1-m2-failure-diagnostic.md",
+  "title": "QF Solver 0.2.9 WP06-D1 M2 failure diagnostic",
+  "status": "controlled_evidence",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp06d1/wp06d1_m2_failure_diagnostic.json"
+  ],
+  "tests": []
 }
 ]
 }

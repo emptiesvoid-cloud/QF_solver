@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0.2.9-WP06D1-M2-FAILURE-DIAGNOSTIC-001",
+  "status": "DIAGNOSTIC_PARTIAL_STATIC_AUDIT",
+  "provenance": {
+    "repository": "emptiesvoid-cloud/QF_solver",
+    "branch": "0.2.9-wp06-prep",
+    "source_sha": "f65af19375a8379fc4b5ee5b2965e4daa6138afd",
+    "governing_imported_sha": "12b5331bcbec49e38145ba4a6263df60b8bf4575",
+    "original_phase1_sha256": "c482e54b06a4ee2a7edeb1f9e11a48d5ce4a57817a8c755708e85919406ae050"
+  },
+  "original_phase1_failure_preserved": true,
+  "static_mesh_audit": {
+    "m1_nodes": 5,
+    "m2_nodes": 14,
+    "m1_elements": 2,
+    "m2_elements": 16,
+    "m1_dofs": 15,
+    "m2_dofs": 42,
+    "m1_total_reference_volume": 0.001666666666666666,
+    "m2_total_reference_volume": 0.001666666666666666,
+    "volume_relative_difference": 2.6020852139652106e-16,
+    "parent_nodes_persist": true,
+    "positive_orientation": true,
+    "boundary_nodes": {"M1": [2, 3, 4], "M2": [2, 3, 4, 11, 12, 13]},
+    "load_node_identity": 4,
+    "load_resultant": [0.0, 0.0, -1.0],
+    "load_moment_about_origin": [0.0, 0.0, 0.0],
+    "mechanical_equivalence": "YES"
+  },
+  "original_path_audit": {
+    "m2_lambda_monotone_increasing": true,
+    "m2_lambda_increment_min": 7.926059040067979e-05,
+    "m2_lambda_increment_max": 2.4508985035655779e-04,
+    "m2_peak_approached": true,
+    "m2_max_steps_reached": true,
+    "m2_orientation_policy_observed": "single branch direction = 1",
+    "m2_monitor_definition_valid": false,
+    "m2_monitor_definition_issue": "Phase-1 runner recorded node-4 control displacement; R1 declares mean UZ over crown nodes 2,3,4",
+    "m2_reaction_vectors_available": false,
+    "stations": [
+      {"s": 0.2, "m1_lambda": 0.010932992006827734, "m2_lambda": 0.001305734790876923, "m1_q": 0.18560510807769323, "m2_q": 0.10100238361361878},
+      {"s": 0.4, "m1_lambda": 0.02045361811206919, "m2_lambda": 0.0026857597327123953, "m1_q": 0.3723166832759882, "m2_q": 0.20281596837560917},
+      {"s": 0.6, "m1_lambda": 0.028404959014210175, "m2_lambda": 0.004503001790352095, "m1_q": 0.560267757752749, "m2_q": 0.30614613129528234},
+      {"s": 0.8, "m1_lambda": 0.0341430592153996, "m2_lambda": 0.007039142719902216, "m1_q": 0.7498502336272642, "m2_q": 0.4116104799040768},
+      {"s": 1.0, "m1_lambda": 0.03478976849502496, "m2_lambda": 0.010491500758817378, "m1_q": 0.9425432135604813, "m2_q": 0.5197752410241082}
+    ]
+  },
+  "reaction_moment_audit": {
+    "m2_force_balance_from_original_summary": 2.539163526713095e-17,
+    "m2_moment_balance_from_original_summary": 2.438196359642231e-05,
+    "m2_moment_threshold": 1.0e-08,
+    "classification": "OTHER_PENDING_PER_STATE_RECONSTRUCTION",
+    "floor_classification": "NO: observed error is 2438 times the frozen threshold",
+    "per_support_node_contributions": "NOT_AVAILABLE_FROM_IMMUTABLE_RAW: full displacement states were not archived"
+  },
+  "diagnostic_reruns": {
+    "attempts": 2,
+    "usable_records": 0,
+    "variation": "DIAGNOSTIC_ONLY_EXTENDED_HORIZON",
+    "result": "NOT_COMPLETED_CHECKPOINT_READER_API_MISMATCH",
+    "m3_run": false,
+    "requalification": false
+  },
+  "conclusion": {
+    "geometry_and_refinement": "EQUIVALENT",
+    "m2_limit_point": "NOT_DEMONSTRATED; lambda strictly increases through frozen 80-step horizon",
+    "moment_failure": "REAL_QUALIFICATION_FAILURE_REMAINS_UNRESOLVED_CAUSE",
+    "confidence": "HIGH for geometry/load/path facts; LIMITED for per-node moment causality",
+    "recommended_remediation": "Owner-authorized future requalification must archive full accepted displacement states and use the declared mean-crown monitor before any causal fix",
+    "requalification_justified": false
+  }
+}
