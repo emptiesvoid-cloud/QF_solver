@@ -97,7 +97,7 @@ formulation change. It independently demonstrates the target-clipped retry
 improvement: five repeated effective attempts before WP03 become one rejection
 at the final SHA, while the physical result is identical.
 
-WP04 is **HOLD — C2R6 candidate pending Owner review** at 0/12. WP04-B demonstrates the bounded
+WP04 is **HOLD — G04-12 cross-family pass pending Owner review** at 0/12. WP04-B demonstrates the bounded
 TET4/HEX8 Total-Lagrangian StVK objectivity, affine finite-deformation patch,
 energy-gradient, consistent-tangent and accepted-path work identities. The
 frozen WP04-C TET4 structural campaign passes its small-load, equilibrium,
@@ -158,6 +158,20 @@ load target, while the corresponding reaction support error remains above
 record](wp04-d-hex8-structural-qualification.md) and
 `qualification/0_2_9/wp04d/g04_11_audit.json`.
 
+WP04-E performs the frozen G04-12 cross-family comparison using only the
+approved TET4 C2R6 M3 and HEX8 H3 evidence. Geometry, material, boundary
+conditions, physical resultant/moment and observable definitions are checked
+before comparison. The derived displacement, reaction, energy and
+representative-stress deltas are `0.004566585385421973`,
+`7.105427357601005e-16`, `0.004553762679948579` and
+`0.05163720669059609`, respectively, and pass the frozen `0.03/0.03/0.03/0.12`
+limits. The family-specific discrete load representations are disclosed while
+their governing physical resultant and first moment match. The HEX8 small-load
+reaction support limitation is carried forward unchanged to WP04-F. G04-12 is
+`PASS_PENDING_OWNER_REVIEW`; WP04 remains 0/12 and 29/100. See the
+[WP04-E cross-family closure](wp04-e-g04-12-cross-family-closure.md) and
+`qualification/0_2_9/wp04e/g04_12_cross_family_audit.json`.
+
 WP02-B established checkpoint-v2 serialization, WP02-C migrated fixed and
 adaptive restart ownership, and WP02-D migrated the public arc-length restart
 path to the accepted composite state. The audit is recorded in the
@@ -207,6 +221,7 @@ recorded in [OD-029-02](owner-decisions.md).
 - [Linear-solver remediation master and C2R3 campaign](linear-solver-remediation-master.md)
 - [WP04-C2R6 recovered floor-aware M2/M3 audit](wp04-c2r6-floor-aware-termination.md)
 - [WP04-D HEX8 structural qualification](wp04-d-hex8-structural-qualification.md)
+- [WP04-E G04-12 cross-family closure](wp04-e-g04-12-cross-family-closure.md)
 
 WP01 implementation and continuation migration are closed under the recorded
 Owner decision. WP02 and WP03 are closed under their independent audit
