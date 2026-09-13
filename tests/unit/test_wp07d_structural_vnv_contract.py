@@ -9,10 +9,15 @@ import pytest
 
 from scripts.prepare_wp07d_structural_vnv import (
     MESH_LEVELS,
+    active_set_initial_state_check,
     accumulate_constant_t3_traction,
+    actual_mesh_load_check,
     build_preflight,
     check_load_contract,
+    mesh_contract_check,
     load_contract,
+    no_contact_well_posedness_check,
+    penalty_initial_state_check,
     resultant_and_moment,
     validate_contract,
 )
@@ -97,3 +102,68 @@ def test_contract_validation_requires_all_three_levels() -> None:
 
     with pytest.raises(ValueError, match="exactly M1, M2 and M3"):
         validate_contract(contract)
+
+
+@pytest.mark.parametrize("level", MESH_LEVELS)
+def test_actual_mesh_contract_passes_for_every_declared_level(level: str) -> None:
+    result = mesh_contract_check(load_contract(), level)
+
+    assert result["status"] == "PASS"
+    assert result["finite_coordinates_and_volumes"] is True
+    assert result["positive_reference_volumes"] is True
+    assert result["deterministic_connectivity"] is True
+    assert result["master_coverage"] is True
+
+
+@pytest.mark.parametrize("level", MESH_LEVELS)
+def test_actual_mesh_load_contract_preserves_resultant_and_moment(level: str) -> None:
+    result = actual_mesh_load_check(load_contract(), level)
+
+    assert result["status"] == "PASS"
+    np.testing.assert_allclose(
+        result["resultant"],
+        [0.0, 0.0, -50000.0],
+        rtol=1.0e-12,
+        atol=result["resultant_error"]["absolute_floor"],
+    )
+    np.testing.assert_allclose(
+        result["moment_about_origin"],
+        [-12500.0, 25000.0, 0.0],
+        rtol=1.0e-12,
+        atol=result["moment_error"]["absolute_floor"],
+    )
+    assert result["resultant_error"]["relative_error"] <= 1.0e-12
+    assert result["moment_error"]["relative_error"] <= 1.0e-12
+
+
+def test_m1_no_contact_system_is_well_posed_without_contact_solve() -> None:
+    result = no_contact_well_posedness_check()
+
+    assert result["status"] == "PASS"
+    assert result["contact_solve"] is False
+    assert result["reduced_dof_count"] == 36
+    assert result["finite_matrix"] is True
+    assert result["nonzero_diagonal_count"] == result["reduced_dof_count"]
+    assert result["smallest_eigenvalue"] > result["eigenvalue_zero_tolerance"]
+    assert result["arbitrary_load_solution_finite"] is True
+
+
+def test_m1_penalty_zero_state_has_no_contact_contribution() -> None:
+    result = penalty_initial_state_check()
+
+    assert result["status"] == "PASS"
+    assert result["contact_solve"] is False
+    assert result["active_count"] == 0
+    assert result["force_norm"] == 0.0
+    assert result["tangent_nnz"] == 0
+    assert result["minimum_gap"] == pytest.approx(0.01, abs=1.0e-14)
+
+
+def test_m1_active_set_initial_state_is_empty_and_finite() -> None:
+    result = active_set_initial_state_check()
+
+    assert result["status"] == "PASS"
+    assert result["contact_solve"] is False
+    assert result["initial_active_count"] == 0
+    assert result["initial_active_set"] == []
+    assert result["minimum_initial_gap"] > 0.0

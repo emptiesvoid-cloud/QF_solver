@@ -1,6 +1,6 @@
 ---
 doc_id: DOC-029-WP07-D-STRUCTURAL-VNV-001
-revision: 0.1
+revision: 0.2
 status: controlled_candidate
 applicable_version: 0.2.9-development
 reviewer: ""
@@ -18,7 +18,8 @@ Machine-readable contract:
 [`wp07d_structural_vnv_contract.json`](../../../qualification/0_2_9/wp07d_structural_vnv_contract.json)
 
 Source snapshot: `9bce66d5cfeeae4fdd66baf6c9652049e0038d40`
-Owner status: `OWNER_FREEZE_CANDIDATE`
+Owner status: `PASS_PREPARATION_WITH_OWNER_CORRECTION_R1`
+Owner correction: `OWNER_CORRECTION_R1`
 WP07-D formal points: `0/3`
 WP07 technical candidate total: `5/10`
 WP07 formal points: `0/10`
@@ -58,22 +59,27 @@ qualification harness.
 | Dimensions | length `1.0`, width `0.5`, height `0.2` |
 | Initial clearance | `0.01` above the fixed master plane |
 | Material | isotropic 3-D, `E=1.0e6`, `nu=0.30` |
-| Body BCs | `UX=0` on `x=0`; `UY=0` on `y=0`; no body `UZ` clamp |
+| Body BCs | full clamp `UX=UY=UZ=0` on every body node with `x=0`; the earlier `y=0` `UY` symmetry is removed |
 | Master | one fixed triangle `[(0,0,0),(2,0,0),(0,1,0)]`, ordered normal `+Z` |
-| Contact | body bottom-face nodes to the fixed master triangle; frictionless |
+| Contact | all body bottom-face nodes, including clamped `x=0` nodes, to the fixed master triangle; frictionless |
 | Constraints | no MPC or RBE links |
 | Load | constant traction `[0,0,-100000]` on the full top rectangle |
 | Resultant | `[0,0,-50000]` |
 | Origin moment | `[-12500,25000,0]` |
 
-The master face orientation is checked before any future solve. The top
+The master face orientation is checked before any future solve. The full
+`x=0` clamp makes the body system independently well-posed while the contact
+set is initially empty. Bottom nodes on the clamped row are retained for
+deterministic topology; their positive initial gap and fixed displacement mean
+they cannot activate. The top
 rectangle is triangulated deterministically by the frozen TET4 boundary
 connectivity. For every top T3 face, the harness integrates the constant
 traction against the linear face shape functions, giving `traction*area/3`
 to each face node and accumulating shared-node contributions. The public
 solver receives only these nodal dead loads; no distributed-load production
 feature is introduced. The total resultant and the moment about the global
-origin are checked at every level with absolute tolerance `1e-12`.
+origin are checked at every level with relative tolerance `1e-12` and an
+absolute floor `64*machine_epsilon*max(norm(reference),1)`.
 
 This is a consistent equivalent nodal representation of the same physical
 uniform traction for both formulations. The rule is intended for future
@@ -103,6 +109,52 @@ structural contract deliberately uses TET4 only.
 | M1 | `2x2x1` | 18 | 21 | 24 | 63 | 9 | 1 | 8 | TINY |
 | M2 | `4x4x2` | 75 | 78 | 192 | 234 | 25 | 1 | 32 | LIGHT |
 | M3 | `8x8x4` | 405 | 408 | 1536 | 1224 | 81 | 1 | 128 | MODERATE |
+
+The corresponding body-only DOFs are `54/225/1215`; the corrected no-contact
+free-DOF counts after the `x=0` full clamp are `36/180/1080`. Each level has
+top and bottom physical surface area `0.5`. Every bottom slave projection is
+checked against the ordered master triangle; an outside projection fails
+closed before execution.
+
+### R1 preparation checks
+
+The corrected mesh generator was exercised without a mechanics solve. M1,
+M2 and M3 each passed the declared node/element/DOF counts, positive finite
+TET4 volumes, deterministic connectivity, top/bottom area `0.5`, bottom
+slave-node count and master-triangle coverage. The no-contact free-DOF counts
+are `36`, `180` and `1080`, respectively.
+
+The machine-readable results retain the source snapshot and record that the
+checks were captured in the intentionally dirty preparation worktree before
+this R1 commit; no runtime result files were created.
+
+The actual consistent nodal loads produced the following invariant checks:
+
+| Level | Resultant | Origin moment | Relative errors | Status |
+| --- | --- | --- | --- | --- |
+| M1 | `[0,0,-50000]` | `[-12500,25000,0]` | `0 / 0` | PASS |
+| M2 | `[0,0,-50000.00000000001]` | `[-12500.000000000002,25000.000000000004,0]` | `1.46e-16 / 1.46e-16` | PASS |
+| M3 | `[0,0,-50000.00000000001]` | `[-12500.000000000002,25000.000000000004,0]` | `1.46e-16 / 1.46e-16` | PASS |
+
+The relative tolerance is `1e-12`; the explicit machine-scale floor is
+`64*eps*max(norm(reference),1)`. These checks are frozen pre-solve
+invariants, not structural qualification results.
+
+The corrected M1 no-contact elastic system was assembled with the full
+`x=0` clamp. It has 54 body DOFs, 18 fixed DOFs and 36 reduced DOFs, 618
+finite sparse nonzeros, a nonzero reduced diagonal, and finite sparse LU
+solution for an arbitrary tiny load. Its smallest eigenvalue was
+`1233.916034554887`, above the declared numerical-zero tolerance
+`2.139799843542989e-06`; therefore
+`NO_CONTACT_SYSTEM_WELL_POSED=PASS`. This is an algebraic precheck only and
+does not run M1 contact.
+
+At zero displacement, the M1 penalty evaluation reported 0 active contacts,
+zero contact-force norm, zero contact-tangent nonzeros and a `0.01` gap for
+every slave. The active-set initial state likewise contains an empty active
+set with positive finite `0.01` gaps. The structural tangent well-posedness
+precheck is the same M1 no-contact system; no Newton or active-set contact
+solve was executed.
 
 The planning sparse orders are approximately:
 
@@ -138,10 +190,11 @@ recompute route-local active-set state, but a mid-solve checkpoint/restart is
 
 The penalty case uses `penalty=1.0e8`, penetration scale
 `F_char/penalty=5.0e-4`, and load factors
-`[0.125,0.25,0.375,0.5,0.625,0.75,0.875,1.0]`. Adaptive load steps are
-disabled for this first frozen campaign. The existing canonical
-geometric-static line-search policy is used without an experimental override;
-Newton tolerance is `1e-9` with at most 30 iterations.
+`[0.125,0.25,0.375,0.5,0.625,0.75,0.875,1.0]`. Newton termination,
+adaptive steps, linear backend and line-search details are intentionally not
+frozen here: they are supplied by the Owner-approved governing 0.2.9 policy
+after branch integration (`PENDING_GOVERNING_BRANCH_INTEGRATION`). They must
+not alter the frozen physics contract.
 
 Evidence must include the same displacement/reaction/resultant/moment
 observables, maximum and normalized penetration, fixed-normal penalty contact
@@ -197,13 +250,16 @@ not infer a contact-qualification pass.
 
 ## Reference and external-comparison protocol
 
-The primary independent comparison is a separately assembled reduced
-reference implementation on the identical TET4 mesh, nodal loads, master
-triangle, fixed normal and penalty value. It must not call the production
-contact evaluator. A Code_Aster or other external comparison may be added
-only after explicit mapping of units, geometry/nodes, BCs, load distribution,
-contact enforcement, penalty/constraint parameters, normal orientation and
-reported observables.
+The active-set primary comparison is an independently assembled small KKT /
+unilateral reference on the identical TET4 mesh and nodal load vector; it
+must not call production active-set or contact routines. The penalty primary
+comparison is an independently assembled reduced penalty reference using the
+same mesh, fixed normal, gap, penalty stiffness, load and body BCs; it must
+not call the production penalty evaluator. These are separate references and
+one does not validate the other automatically. A Code_Aster, Abaqus or other
+external comparison may be added only after explicit mapping of units,
+geometry/nodes, BCs, load distribution, contact enforcement,
+penalty/constraint parameters, normal orientation and reported observables.
 
 Displacement, reaction resultant/moment, active region/count, contact
 resultant/penetration and path/status are compared only where the formulation
@@ -228,19 +284,28 @@ The negative cases are guards, not additional structural campaign results.
 
 ## Harness and provenance
 
-`scripts/prepare_wp07d_structural_vnv.py` validates this contract and emits a
-no-solve preflight plan for the six future cases:
-`ACTIVE_SET/PENALTY × M1/M2/M3`. It provides deterministic output paths,
-immediate-flush progress policy, source SHA, dirty-status and environment
-capture, case definition provenance and placeholders for wall time, peak RSS,
-private/USS, result JSON and evidence manifest. Its execution guard keeps
-structural and external execution disabled until WP04 M3 completion.
+`scripts/prepare_wp07d_structural_vnv.py` validates this contract, generates
+the actual frozen M1/M2/M3 TET4 topology, checks orientation/load/master
+coverage, and emits a no-solve preflight plan for the six future cases:
+`ACTIVE_SET/PENALTY × M1/M2/M3`. The authorized `--prechecks` mode also
+assembles/factors only the corrected M1 no-contact elastic system and performs
+zero-state contact evaluations; it never runs a contact structural solve.
+The harness provides deterministic output paths, immediate-flush progress
+policy, source SHA, dirty-status and environment capture, case definition
+provenance and placeholders for wall time, peak RSS, private/USS, result JSON
+and evidence manifest. Its execution guard keeps structural contact and
+external execution disabled until WP04 M3 completion.
 
 The future execution must preserve the benchmark contract separately from
 the nonlinear termination policy, so a later Owner-approved policy can be
 supplied without rewriting the physics, mesh or load definition.
 
 ## Governance
+
+The original Phase-0 preparation used equal force sharing over all loaded
+nodes. That rule was rejected by the Owner before any mechanical solve and is
+retained only as history; this revision uses consistent equivalent nodal
+traction and records the correction explicitly.
 
 This artifact is a contract freeze candidate only. It does not award WP07-D
 points, promote either contact formulation, or change solver mechanics. No
@@ -254,5 +319,7 @@ WP07-D formal points: `0/3`
 WP07 points: `0/10`
 Validated total: `29/100`
 
-Next step: Owner freeze of this contract; execute M1/M2/M3 only after WP04
-M3 completion and explicit authorization.
+No-contact well-posedness and zero-state checks are executed in the R1
+preparation validation. Next step: Owner freeze of this corrected contract;
+execute M1/M2/M3 only after WP04 M3 completion, governing-policy integration
+and explicit authorization.

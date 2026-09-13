@@ -3,22 +3,61 @@
   "record_id": "QF-029-WP07-D-STRUCTURAL-VNV-001",
   "gate": "WP07",
   "work_package": "WP07-D",
-  "revision": "0.1",
+  "revision": "0.2",
   "source_sha": "9bce66d5cfeeae4fdd66baf6c9652049e0038d40",
   "status": "PREPARATION_ONLY",
-  "owner_status": "OWNER_FREEZE_CANDIDATE",
+  "owner_status": "PASS_PREPARATION_WITH_OWNER_CORRECTION_R1",
+  "owner_correction": "OWNER_CORRECTION_R1",
   "qualification_campaign_executed": false,
   "structural_solves_run": false,
   "external_solver_run": false,
   "execution_policy": {
     "structural_solves_allowed": false,
     "external_solver_allowed": false,
+    "status": "PENDING_GOVERNING_BRANCH_INTEGRATION",
     "reason": "WP07-D preparation remains blocked until WP04 M3 completion."
+  },
+  "contract_separation": {
+    "physics_contract": [
+      "geometry",
+      "mesh",
+      "material",
+      "contact topology and search scope",
+      "penalty value",
+      "uniform traction and load path",
+      "observables",
+      "qualification thresholds"
+    ],
+    "execution_policy": [
+      "Newton tolerance and convergence classification",
+      "floor-aware secondary convergence",
+      "linear backend",
+      "line-search implementation",
+      "adaptive step/retry behavior"
+    ],
+    "binding_rule": "Use the Owner-approved governing 0.2.9 execution policy after branch integration without changing the physics contract."
   },
   "formal_points": "0/3",
   "wp07_technical_candidate": "5/10",
   "wp07_formal_points": "0/10",
   "validated_total": "29/100",
+  "history": {
+    "phase_0_initial": {
+      "status": "PASS_PREPARATION_ONLY_OWNER_REJECTED",
+      "load_rule": "equal force share over every x=L node",
+      "mechanical_solve_run": false,
+      "reason": "Owner rejected equal-node loading before any mechanical result because it does not represent the same quadratic face traction across topologies."
+    },
+    "owner_correction_r1": {
+      "status": "APPLIED_PROSPECTIVELY_BEFORE_SOLVE",
+      "corrections": [
+        "full clamp on the x=0 body face",
+        "actual M1/M2/M3 mesh and load prechecks",
+        "scale-aware load invariant tolerance",
+        "governing nonlinear execution policy deferred to integration"
+      ]
+    }
+  },
   "scope": {
     "active_set": "LINEAR_ACTIVE_SET_INITIAL_SEARCH: linear_static, small displacement, frictionless node-to-triangle contact, initial/fixed face and normal, serial direct sparse",
     "penalty": "NONLINEAR_PENALTY_INITIAL_SEARCH: geometric_nonlinear_static, fixed-normal initial-search frictionless node-to-triangle penalty, existing common Full Newton route",
@@ -72,11 +111,9 @@
       "units": "consistent SI-like units"
     },
     "boundary_conditions": {
-      "body_symmetry": [
-        "UX=0 on body nodes with x=0",
-        "UY=0 on body nodes with y=0"
-      ],
-      "body_vertical_support": "contact only; no body UZ clamp",
+      "body_support": "FULL_CLAMP on every body node with x=0: UX=0, UY=0, UZ=0",
+      "removed_condition": "The earlier y=0 UY symmetry condition is removed.",
+      "body_vertical_support": "contact support on free body rows; only the x=0 full clamp supplies UZ=0 on the clamped row",
       "master": "all displacement DOFs fixed",
       "unsupported_constraints": "no MPC or RBE links"
     },
@@ -84,7 +121,9 @@
       "slave_nodes": "all body nodes on z=0.01 bottom face",
       "master_faces": [["MASTER_0", "MASTER_1", "MASTER_2"]],
       "search": "initial/fixed face and normal",
-      "friction": false
+      "friction": false,
+      "slave_node_policy": "ALL_BOTTOM_FACE_NODES_INCLUDING_CLAMPED_X0",
+      "clamped_slave_policy": "Retain x=0 bottom nodes for deterministic topology; their positive initial gap and full clamp prevent activation."
     }
   },
   "loading": {
@@ -97,9 +136,15 @@
     "top_face_triangulation": "deterministic boundary T3 faces induced by the frozen TET4 subdivision",
     "mesh_independence": "same physical traction, same total resultant and same origin moment at M1/M2/M3",
     "public_solver_input": "nodal dead loads only; no production distributed-load feature is added",
-    "load_check_tolerance_absolute": 1e-12
+    "load_check_tolerance": {
+      "resultant_relative": 1e-12,
+      "moment_relative": 1e-12,
+      "absolute_floor": "64 * machine_epsilon * max(norm(reference_vector), 1)",
+      "acceptance": "absolute vector error <= max(relative_tolerance * reference_norm, absolute_floor)"
+    }
   },
   "mesh_recipe": {
+    "generator": "scripts/prepare_wp07d_structural_vnv.py:generate_structured_tet4_mesh",
     "domain_discretization": "structured cells over the same rectangular body at every level",
     "local_hex_corner_order": ["v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7"],
     "tetra_subdivision": [
@@ -115,6 +160,49 @@
     "quality_policy": "finite coordinates, positive repaired signed volume and declared quality report before solve",
     "mesh_levels": ["M1", "M2", "M3"]
   },
+  "prechecks": {
+    "m1_no_contact": {
+      "allowed": true,
+      "contact_solve": false,
+      "required": [
+        "full x=0 clamp applied",
+        "finite reduced stiffness",
+        "nonzero reduced diagonal",
+        "smallest eigenvalue above numerical-zero tolerance",
+        "finite sparse factorization and arbitrary-load solution"
+      ]
+    },
+    "m1_penalty_zero_state": {
+      "allowed": true,
+      "contact_solve": false,
+      "required": ["zero active contacts", "zero contact force", "zero contact tangent"]
+    },
+    "m1_active_set_zero_state": {
+      "allowed": true,
+      "contact_solve": false,
+      "required": ["empty active set", "positive finite initial gaps"]
+    }
+  },
+  "owner_correction_r1_results": {
+    "status": "PASS",
+    "source_sha": "9bce66d5cfeeae4fdd66baf6c9652049e0038d40",
+    "worktree_dirty_during_check": true,
+    "execution": "mesh/load checks plus one tiny no-contact elastic factorization and zero-state algebraic contact evaluations; no contact structural solve",
+    "mesh": {
+      "M1": {"status": "PASS", "body_nodes": 18, "tet4_elements": 24, "body_dofs": 54, "no_contact_free_dofs": 36, "contact_slave_nodes": 9, "top_boundary_triangles": 8, "surface_area": 0.5, "master_coverage": true},
+      "M2": {"status": "PASS", "body_nodes": 75, "tet4_elements": 192, "body_dofs": 225, "no_contact_free_dofs": 180, "contact_slave_nodes": 25, "top_boundary_triangles": 32, "surface_area": 0.5, "master_coverage": true},
+      "M3": {"status": "PASS", "body_nodes": 405, "tet4_elements": 1536, "body_dofs": 1215, "no_contact_free_dofs": 1080, "contact_slave_nodes": 81, "top_boundary_triangles": 128, "surface_area": 0.5, "master_coverage": true}
+    },
+    "load": {
+      "tolerance": "relative 1e-12 with 64*machine_epsilon*max(norm(reference),1) floor",
+      "M1": {"status": "PASS", "resultant": [0.0, 0.0, -50000.0], "moment": [-12500.0, 25000.0, 0.0], "resultant_relative_error": 0.0, "moment_relative_error": 0.0},
+      "M2": {"status": "PASS", "resultant": [0.0, 0.0, -50000.00000000001], "moment": [-12500.000000000002, 25000.000000000004, 0.0], "resultant_relative_error": 1.4551915228366853e-16, "moment_relative_error": 1.4551915228366853e-16},
+      "M3": {"status": "PASS", "resultant": [0.0, 0.0, -50000.00000000001], "moment": [-12500.000000000002, 25000.000000000004, 0.0], "resultant_relative_error": 1.4551915228366853e-16, "moment_relative_error": 1.4551915228366853e-16}
+    },
+    "m1_no_contact_system": {"status": "PASS", "body_dof_count": 54, "fixed_dof_count": 18, "reduced_dof_count": 36, "reduced_matrix_nnz": 618, "smallest_eigenvalue": 1233.916034554887, "largest_eigenvalue": 2139799.843542989, "eigenvalue_zero_tolerance": 2.139799843542989e-06, "finite_matrix": true, "nonzero_diagonal": true, "sparse_factorization": "finite LU factorization succeeded", "finite_arbitrary_load_solution": true},
+    "m1_penalty_zero_state": {"status": "PASS", "active_count": 0, "force_norm": 0.0, "tangent_nnz": 0, "gap": 0.01, "structural_tangent_well_posed": true},
+    "m1_active_set_zero_state": {"status": "PASS", "initial_active_count": 0, "minimum_initial_gap": 0.01, "maximum_initial_gap": 0.01}
+  },
   "mesh_levels": [
     {
       "id": "M1",
@@ -122,11 +210,15 @@
       "body_nodes": 18,
       "master_nodes": 3,
       "total_nodes": 21,
+      "body_dofs": 54,
       "tet4_elements": 24,
       "dofs": 63,
+      "expected_no_contact_free_dofs": 36,
       "contact_slave_nodes": 9,
       "master_facets": 1,
       "top_boundary_triangles": 8,
+      "top_surface_area": 0.5,
+      "bottom_surface_area": 0.5,
       "active_set_augmented_matrix_dimension": 72,
       "expected_tangent_nnz_order": 1251,
       "expected_active_set_matrix_nnz_order": 1260,
@@ -139,11 +231,15 @@
       "body_nodes": 75,
       "master_nodes": 3,
       "total_nodes": 78,
+      "body_dofs": 225,
       "tet4_elements": 192,
       "dofs": 234,
+      "expected_no_contact_free_dofs": 180,
       "contact_slave_nodes": 25,
       "master_facets": 1,
       "top_boundary_triangles": 32,
+      "top_surface_area": 0.5,
+      "bottom_surface_area": 0.5,
       "active_set_augmented_matrix_dimension": 259,
       "expected_tangent_nnz_order": 6774,
       "expected_active_set_matrix_nnz_order": 6815,
@@ -156,11 +252,15 @@
       "body_nodes": 405,
       "master_nodes": 3,
       "total_nodes": 408,
+      "body_dofs": 1215,
       "tet4_elements": 1536,
       "dofs": 1224,
+      "expected_no_contact_free_dofs": 1080,
       "contact_slave_nodes": 81,
       "master_facets": 1,
       "top_boundary_triangles": 128,
+      "top_surface_area": 0.5,
+      "bottom_surface_area": 0.5,
       "active_set_augmented_matrix_dimension": 1305,
       "expected_tangent_nnz_order": 43668,
       "expected_active_set_matrix_nnz_order": 43821,
@@ -174,7 +274,7 @@
       "formulation": "LINEAR_ACTIVE_SET_INITIAL_SEARCH",
       "mesh_levels": ["M1", "M2", "M3"],
       "load_factor": 1.0,
-      "contact_behavior": "unilateral exact normal constraint; compression activates bottom slave nodes",
+      "contact_behavior": "unilateral exact normal constraint; compression may activate free bottom slave nodes; clamped x=0 slave nodes remain inactive",
       "solver": "serial direct sparse active-set/Lagrange",
       "replay": "repeat M2 identical model/load twice",
       "primary_claim": "bounded structural active-set contact response for the declared TET4 block and load",
@@ -190,10 +290,10 @@
       "penetration_scale": "F_char / penalty = 5.0e-4",
       "load_factor_history": [0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0],
       "load_increments": 8,
-      "adaptive_load_steps": false,
-      "line_search": "existing canonical geometric-static policy; no experimental override",
-      "tolerance": 1e-9,
-      "max_iterations": 30,
+      "adaptive_load_steps": "supplied by governing 0.2.9 execution policy after integration",
+      "line_search": "supplied by governing 0.2.9 execution policy; no experimental override",
+      "termination_policy": "PENDING_GOVERNING_BRANCH_INTEGRATION",
+      "linear_backend": "supplied by governing 0.2.9 execution policy",
       "checkpoint": "accepted state and WP07-B compatible metadata only; no independent penalty contact history",
       "replay": "repeat M1 identical model/load twice",
       "primary_claim": "bounded structural penalty response within the declared load, material and kinematic envelope",
@@ -279,7 +379,7 @@
   },
   "load_path_and_restart": {
     "penalty_load_factor_sequence": [0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0],
-    "penalty_adaptive_behavior": "disabled for the frozen first campaign; any future approved policy must be supplied as a separate policy artifact",
+    "penalty_adaptive_behavior": "supplied by governing 0.2.9 execution policy after integration; any policy must remain a separate artifact",
     "penalty_line_search": "existing canonical geometric-static behavior",
     "penalty_restart": "restore accepted state, validate model/contact/state digests per WP07-B, re-evaluate stateless penalty contact",
     "active_set_restart": "mid-solve restart UNSUPPORTED; fresh solve only",
@@ -287,15 +387,39 @@
   },
   "external_reference_plan": {
     "formulation_match_required": true,
-    "primary": "independent reduced reference implementation on the same declared TET4 mesh, nodal loads, fixed-normal node-to-triangle constraints and penalty value; separate assembly path required",
-    "secondary": "Code_Aster or another compatible solver only after explicit mapping of node-to-surface enforcement, normal orientation, penalty/constraint parameters, units and observables",
-    "comparison_fields": [
-      "selected displacement",
-      "reaction resultant",
-      "reaction moment",
-      "active contact region/count for active-set",
-      "contact resultant/penetration for penalty where comparable",
-      "path/status only when load control is equivalent"
+    "active_set": {
+      "primary": "independent small KKT/unilateral reference on the same TET4 mesh and nodal load vector; it must not call production active-set/contact routines",
+      "secondary": "compatible external unilateral-contact reference only after explicit enforcement mapping",
+      "comparison_fields": [
+        "selected displacement",
+        "reaction resultant",
+        "reaction moment",
+        "active contact region/count",
+        "minimum gap and normalized complementarity"
+      ]
+    },
+    "penalty": {
+      "primary": "independent reduced penalty reference using the same mesh, fixed normal, gap, penalty stiffness, nodal load vector and body BCs; it must not call production penalty evaluation",
+      "secondary": "Code_Aster/Abaqus or another compatible solver only after explicit penalty/contact mapping",
+      "comparison_fields": [
+        "selected displacement",
+        "reaction resultant",
+        "reaction moment",
+        "contact resultant",
+        "maximum penetration",
+        "contact energy where the energy definition is equivalent",
+        "load path/status only when control is equivalent"
+      ]
+    },
+    "external_mapping": [
+      "units",
+      "nodes and geometry",
+      "material",
+      "body and master BCs",
+      "consistent nodal load vector and origin moment",
+      "contact formulation and normal orientation",
+      "penalty/constraint parameters",
+      "observable definitions"
     ],
     "stress_policy": "compare only averaged, formulation-compatible regions; contact-edge stress is not a primary comparison",
     "non_equivalent_status": "EXTERNAL_REFERENCE_NOT_EQUIVALENT; do not use as qualification evidence",
@@ -335,7 +459,8 @@
   ],
   "harness": {
     "script": "scripts/prepare_wp07d_structural_vnv.py",
-    "purpose": "no-solve preflight and future deterministic case plan",
+    "purpose": "no-solve preflight, actual mesh/load checks and authorized tiny algebraic prechecks",
+    "precheck_command": "python scripts/prepare_wp07d_structural_vnv.py --prechecks",
     "planned_case_count": 6,
     "case_matrix": [
       "ACTIVE_SET M1",
@@ -350,7 +475,14 @@
     "provenance": ["source_sha", "worktree_dirty", "environment", "command", "case_definition_digest"],
     "runtime_capture": ["wall_time_s", "peak_rss_process", "peak_private_or_uss_process"],
     "artifacts": ["result_json", "evidence_manifest"],
-    "execution_guard": "structural and external execution disabled by preflight until WP04 M3 completion"
+    "phase_0_r1_checks": [
+      "actual M1/M2/M3 mesh counts, orientation, finite coordinates and master coverage",
+      "actual M1/M2/M3 consistent traction resultant and origin moment",
+      "M1 corrected no-contact reduced stiffness well-posedness",
+      "M1 penalty u=0 empty active set, zero force and zero tangent",
+      "M1 active-set initial empty active set"
+    ],
+    "execution_guard": "structural contact solves and external execution disabled by preflight until WP04 M3 completion"
   },
   "resource_estimates": {
     "status": "PLANNING_ONLY",
@@ -367,9 +499,12 @@
     "mesh_quality": ["finite coordinates", "positive TET4 orientation", "quality report", "deterministic connectivity"],
     "ACTIVE_SET": ["M1/M2/M3 solve", "contact region", "gap/pressure/complementarity", "force/moment equilibrium", "M2 replay", "compatible reference"],
     "PENALTY": ["M1/M2/M3 solve", "penetration/energy", "force/moment equilibrium", "load history/Newton status", "M1 replay", "compatible reference"],
-    "status": "PREPARED_NOT_EXECUTED"
+    "status": "PREPARED_WITH_R1_PRECHECKS; STRUCTURAL_CAMPAIGN_NOT_EXECUTED"
   },
   "governance": {
+    "owner_correction": "OWNER_CORRECTION_R1",
+    "phase_0_status": "PASS_PREPARATION_WITH_OWNER_CORRECTION_R1",
+    "no_contact_system_well_posed": "PASS_TINY_M1_PRECHECK",
     "production_mechanics_changed": false,
     "contact_mechanics_changed": false,
     "maturity_changed": false,
