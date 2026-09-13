@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from time import perf_counter
 
 import numpy as np
 from scipy.sparse import csr_matrix, diags, tril, triu
@@ -34,6 +35,9 @@ from solveur.core.analyses.modal_options import (
 )
 from solveur.core.results import ModalResult
 from solveur.core.solvers.backend import select_backend, solve_with_slepc
+from solveur.core.telemetry.events import EventStatus, EventType, MissingValueReason
+from solveur.core.telemetry.events import missing_value
+from solveur.core.telemetry.observer import TelemetryEmitter, emit_route_event_best_effort
 from solveur.mesh.validation import MeshValidator
 
 
@@ -44,11 +48,33 @@ class ModalAnalysisSolver:
         self.validator = MeshValidator()
         self.assembler = GlobalAssembler()
 
-    def solve(self, model: FiniteElementModel) -> ModalResult:
+    def solve(self, model: FiniteElementModel, *, telemetry: TelemetryEmitter | None = None) -> ModalResult:
+        run_started = perf_counter()
+        emit_route_event_best_effort(
+            telemetry,
+            EventType.ANALYSIS_START,
+            status=EventStatus.STARTED,
+            metrics=lambda: {
+                "nodes": model.node_count,
+                "elements": len(model.elements),
+                "requested_modes": model.analysis.parameters.get("modes", 6),
+            },
+        )
         report = self.validator.validate(model)
         if report.status == "FAIL":
             raise MeshValidationError("Mesh validation failed: " + "; ".join(report.errors))
         dofs = model.dof_manager()
+        emit_route_event_best_effort(
+            telemetry,
+            EventType.MESH_READY,
+            status=EventStatus.COMPLETED,
+            metrics=lambda: {
+                "nodes": model.node_count,
+                "elements": len(model.elements),
+                "dofs": dofs.ndof,
+                "mesh_status": report.status,
+            },
+        )
         parameters = model.analysis.parameters
         requested_backend = str(parameters.get("backend", "auto")).strip().lower()
         use_slepc_modal = _boolean_parameter(
@@ -58,7 +84,34 @@ class ModalAnalysisSolver:
         # This is deliberately before K/M assembly.  A SLEPc shift-invert
         # attempt can allocate a factorization much larger than K and M.
         validate_slepc_modal_scale(dofs.ndof, requested=slepc_requested)
+        assembly_started = perf_counter()
+        emit_route_event_best_effort(
+            telemetry,
+            EventType.ASSEMBLY_START,
+            status=EventStatus.STARTED,
+            metrics=lambda: {
+                "nodes": model.node_count,
+                "elements": len(model.elements),
+                "dofs": dofs.ndof,
+            },
+        )
         stiffness, mass, stiffness_assembly, mass_assembly = self.assembler.assemble_stiffness_and_mass(model, dofs)
+        assembly_seconds = perf_counter() - assembly_started
+        emit_route_event_best_effort(
+            telemetry,
+            EventType.ASSEMBLY_END,
+            status=EventStatus.COMPLETED,
+            metrics=lambda: {
+                "nodes": model.node_count,
+                "elements": len(model.elements),
+                "dofs": dofs.ndof,
+                "stiffness_matrix_rows": int(stiffness.shape[0]),
+                "stiffness_matrix_nnz": int(stiffness.nnz),
+                "mass_matrix_rows": int(mass.shape[0]),
+                "mass_matrix_nnz": int(mass.nnz),
+                "assembly_time_s": assembly_seconds,
+            },
+        )
         fixed = self.assembler.fixed_indices(model, dofs)
         reducer = DynamicDofReducer.from_system(model, dofs, mass, stiffness, fixed)
         free = reducer.free
@@ -208,6 +261,35 @@ class ModalAnalysisSolver:
             )
         frequencies = np.sqrt(values) / (2.0 * math.pi)
         full_modes = np.column_stack([reducer.expand_state(vectors[:, index]) for index in range(values.size)])
+        for index, (eigenvalue, frequency) in enumerate(zip(values, frequencies)):
+            emit_route_event_best_effort(
+                telemetry,
+                EventType.MODAL_MODE_FOUND,
+                status=EventStatus.ACCEPTED,
+                metrics=lambda index=index, eigenvalue=eigenvalue, frequency=frequency: {
+                    "dofs": dofs.ndof,
+                    "requested_modes": requested,
+                    "mode_index": index + 1,
+                    "eigenvalue": float(eigenvalue),
+                    "frequency_hz": float(frequency),
+                    "eigen_residual": diagnostics["relative_residuals"][index],
+                    "iterations": missing_value(MissingValueReason.NOT_AVAILABLE),
+                },
+                solver_backend=used_method,
+            )
+        emit_route_event_best_effort(
+            telemetry,
+            EventType.ANALYSIS_END,
+            status=EventStatus.COMPLETED,
+            metrics=lambda: {
+                "nodes": model.node_count,
+                "elements": len(model.elements),
+                "dofs": dofs.ndof,
+                "mode_count": int(values.size),
+                "assembly_time_s": assembly_seconds,
+                "total_analysis_time_s": perf_counter() - run_started,
+            },
+        )
         return ModalResult(
             status="PASS",
             eigenvalues=values,

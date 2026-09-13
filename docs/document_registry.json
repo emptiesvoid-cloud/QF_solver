@@ -5635,6 +5635,19 @@
   "tests": [
     "tests/unit/test_wp15a_generic_telemetry.py"
   ]
+},
+{
+  "id": "DOC-029-WP15B-ROUTE-INSTRUMENTATION-PHASE1-001",
+  "path": "verification/0_2_9/wp15b-route-instrumentation-phase1.md",
+  "title": "QF Solver 0.2.9 WP15-B phase 1 console and route instrumentation",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp15b_phase1_route_instrumentation.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp15b_phase1.py"
+  ]
 }
   ]
   
