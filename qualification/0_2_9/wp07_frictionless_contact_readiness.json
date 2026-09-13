@@ -1,0 +1,375 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-029-WP07-A-FRICTIONLESS-CONTACT-READINESS-001",
+  "gate": "WP07",
+  "work_package": "WP07-A",
+  "applicable_version": "0.2.9",
+  "status": "PREPARATION_ONLY",
+  "owner_status": "OWNER_REVIEW_REQUIRED",
+  "audit_sha": "2c52bf8196a7d47d14ce1784290580160de26590",
+  "created_before_wp07_campaign": true,
+  "production_source_changed": false,
+  "mechanics_changed": false,
+  "maturity_changed": false,
+  "formal_points": "0/10",
+  "validated_total": "29/100",
+  "algorithm": {
+    "linear_static": {
+      "enforcement": "active_set_lagrange_multiplier",
+      "linear_system": "reduced_structural_system_augmented_with_contact_constraint_rows",
+      "solve_backend": "scipy.sparse.linalg.spsolve",
+      "active_set_policy": "activate_when_gap_is_below_negative_tolerance; retain_only_non_tensile_active_contacts",
+      "tangent": "constraint_saddle_system; no Newton tangent is exposed by this route"
+    },
+    "nonlinear_static_and_geometric_nonlinear_static": {
+      "enforcement": "frictionless_penalty",
+      "force_definition": "p * min(g(u), 0) * c",
+      "tangent_definition": "p * outer(c, c) for penetrating contacts",
+      "driver": "common nonlinear residual/tangent contribution",
+      "state": "stateless_contact_contribution; material and continuation state remain transaction-owned",
+      "maturity": "research_or_experimental_bounded; no general contact claim"
+    },
+    "frictional_route": {
+      "implementation": "present_separate_regularized_coulomb_active_set_route",
+      "wp07_status": "OUT_OF_SCOPE_UNQUALIFIED",
+      "classification": "LEGACY_ONLY"
+    }
+  },
+  "kinematics_and_geometry": {
+    "pair_type": "node_to_triangle",
+    "master": "one ordered triangle or an explicitly supplied triangulated faceted surface",
+    "slave": "one node; a declared slave patch expands to independent point_to_surface contributions",
+    "normal": "unit cross_product normal of the selected master triangle",
+    "gap": "normal dot (slave_position - barycentric_master_projection)",
+    "projection": "exact barycentric projection when inside a compatible triangle",
+    "outside_projection": "rejected by default; closest_point clamping is opt_in for bounded updated finite_sliding",
+    "sliding": "bounded small sliding only; no surface_to_surface, mortar, self_contact or impact",
+    "orientation": "selected face ordering controls the normal sign; invalid or degenerate faces fail closed"
+  },
+  "search_policy": {
+    "initial": "deterministic nearest compatible triangular face with frozen face and normal",
+    "updated": "bounded fixed_point search recomputing geometry from the trial displacement",
+    "selection": "minimum absolute gap then face index among compatible faces",
+    "limits": "updated search iteration/tolerance are explicit parameters; no general contact search claim"
+  },
+  "implementation_inventory": [
+    {
+      "area": "input entities and contact topology",
+      "classification": "IMPLEMENTED",
+      "implementation_state": "implemented_and_unit_tested",
+      "evidence": ["src/solveur/contact/entities.py", "src/solveur/core/model.py", "src/solveur/io/contact_schema.py"]
+    },
+    {
+      "area": "master/slave geometry and projection",
+      "classification": "IMPLEMENTED",
+      "implementation_state": "implemented_and_unit_tested_in_bounded_node_to_triangle_scope",
+      "evidence": ["src/solveur/contact/entities.py:FrictionlessContact.face_geometry", "tests/unit/test_frictionless_contact.py"]
+    },
+    {
+      "area": "contact search",
+      "classification": "PARTIAL",
+      "implementation_state": "initial_search_implemented; updated_search_and_clamping_are_bounded_experimental_paths",
+      "evidence": ["src/solveur/contact/solver.py", "tests/unit/test_contact_finite_sliding.py"]
+    },
+    {
+      "area": "linear_static enforcement",
+      "classification": "IMPLEMENTED",
+      "implementation_state": "implemented_and_bounded_tested",
+      "evidence": ["src/solveur/contact/solver.py:FrictionlessActiveSetSolver", "src/solveur/core/solvers/static.py"]
+    },
+    {
+      "area": "nonlinear penalty residual/tangent",
+      "classification": "IMPLEMENTED",
+      "implementation_state": "implemented_and_composed_in_common_nonlinear_assembly; bounded evidence only",
+      "evidence": ["src/solveur/contact/solver.py:assemble_penalty_contact", "src/solveur/core/assembly/nonlinear.py", "tests/unit/test_nonlinear_contact_composition.py"]
+    },
+    {
+      "area": "contact convergence and failure reporting",
+      "classification": "PARTIAL",
+      "implementation_state": "route_native_errors_exist; no single cross_route contact convergence contract",
+      "evidence": ["src/solveur/contact/solver.py", "src/solveur/core/nonlinear/contracts.py"]
+    },
+    {
+      "area": "accepted contact state",
+      "classification": "PARTIAL",
+      "implementation_state": "frictionless_penalty_is_stateless; active_set/search history is diagnostic rather than transaction_state",
+      "evidence": ["src/solveur/core/nonlinear/state.py", "src/solveur/core/nonlinear/load_control.py", "src/solveur/core/nonlinear/checkpoint.py"]
+    },
+    {
+      "area": "checkpoint/restart contact compatibility",
+      "classification": "PARTIAL",
+      "implementation_state": "topology labels stateless contact but no active_face_or_active_set digest contract",
+      "evidence": ["src/solveur/core/nonlinear/checkpoint.py:build_state_topology", "qualification/0_2_9/architecture_decisions.json:DEBT-029-04"]
+    },
+    {
+      "area": "contact energy/work",
+      "classification": "PARTIAL",
+      "implementation_state": "penalty energy is derivable_and_historically_checked; no universal runtime energy field across enforcement branches",
+      "evidence": ["qualification/0_2_8/wp13_07_contact_bounded_v3_contract.json", "qualification/0_2_8/wp13_07_contact_bounded_v3/wp13_07_contact_v3_evidence.json"]
+    },
+    {
+      "area": "modal/buckling/dynamics/harmonic contact",
+      "classification": "MISSING",
+      "implementation_state": "unsupported_by_contact_validation_or_route_scope; explicit rejection is expected",
+      "evidence": ["src/solveur/mesh/contact_validation.py", "src/solveur/core/router.py"]
+    },
+    {
+      "area": "friction qualification",
+      "classification": "LEGACY_ONLY",
+      "implementation_state": "separate implementation exists but is outside WP07 frictionless scope and unqualified",
+      "evidence": ["src/solveur/contact/slip_root.py", "src/solveur/contact/solver.py"]
+    },
+    {
+      "area": "distributed/MPI contact performance",
+      "classification": "MISSING",
+      "implementation_state": "no WP07 distributed contact contract",
+      "evidence": ["qualification/0_2_8/wp13_07d_contact_capability_record.json"]
+    }
+  ],
+  "route_trace": {
+    "linear_static_contact": {
+      "status": "IMPLEMENTED_BOUNDED",
+      "trace": [
+        "FiniteElementModel.from_raw -> contact_schema/model contact parsing",
+        "AnalysisRouter.solve -> preflight_model",
+        "MeshValidator.validate -> frictionless_contact_errors",
+        "GlobalAssembler -> FrictionlessActiveSetSolver.solve",
+        "FrictionlessContact.face_geometry -> _ContactOperator",
+        "_solve_active_set -> sparse augmented system -> active_set update",
+        "LinearStaticSolver -> reactions/load_balance/static_equilibrium_summary -> SolveResult audit"
+      ],
+      "current_limitations": ["direct sparse route only", "no MPC/RBE combination", "no common nonlinear transaction", "bounded node_to_triangle geometry"]
+    },
+    "nonlinear_static_contact": {
+      "status": "IMPLEMENTED_BOUNDED",
+      "trace": [
+        "AnalysisRouter.solve -> NonlinearStaticSolver",
+        "UnifiedNewtonEngine -> MaterialLoadControlContribution",
+        "common nonlinear assembly -> assemble_penalty_contact",
+        "penalty residual/tangent -> linear adapter/Newton correction",
+        "NonlinearStateTransaction -> commit material/continuation state on acceptance; rollback on rejection",
+        "contact diagnostics -> load-step result"
+      ],
+      "current_limitations": ["frictionless penalty only", "contact contribution has no mutable trial state", "no general contact-state restart schema", "bounded tested scope only"]
+    },
+    "geometric_nonlinear_static_contact": {
+      "status": "PARTIAL",
+      "trace": [
+        "AnalysisRouter.solve -> GeometricNonlinearStaticSolver",
+        "TotalLagrangian assembly + _PenaltyContactAssembly",
+        "common full Newton/adaptive driver with checkpoint session",
+        "accepted state callback persists continuation/material state; penalty contact is recomputed statelessly"
+      ],
+      "current_limitations": ["route maturity is research", "no active-set contact in common geometric path", "no qualified contact restart/rollback proof"]
+    },
+    "modal_contact": {
+      "status": "UNSUPPORTED_EXPLICIT",
+      "trace": ["router/preflight or MeshValidator rejects contact combination before a modal solve"],
+      "qualification": "not applicable until a future contact-modal formulation is deliberately specified"
+    },
+    "linear_buckling_contact": {
+      "status": "UNSUPPORTED_EXPLICIT",
+      "trace": ["contact validation rejects the route before buckling solve"],
+      "qualification": "not applicable"
+    },
+    "dynamics_and_harmonic_contact": {
+      "status": "UNSUPPORTED_EXPLICIT",
+      "trace": ["contact validation rejects dynamic/harmonic contact combinations"],
+      "qualification": "not applicable"
+    }
+  },
+  "unified_core_compatibility": {
+    "residual": {"linear_static": "PARTIAL_ADAPTER", "nonlinear_penalty": "READY_TO_REUSE", "active_set_and_updated_search": "SEPARATE_LEGACY_PATH"},
+    "tangent": {"penalty": "READY_TO_REUSE", "active_set_saddle_system": "SEPARATE_LEGACY_PATH"},
+    "state_transaction": {"frictionless_penalty": "PARTIAL_ADAPTER_STATELESS", "active_set": "SEPARATE_LEGACY_PATH", "frictional": "OUT_OF_SCOPE"},
+    "rollback": {"common_nonlinear_material_and_continuation": "READY_TO_REUSE", "contact_history_or_active_face": "MISSING"},
+    "line_search": {"common_geometric_penalty": "READY_TO_REUSE", "linear_static_active_set": "NOT_APPLICABLE", "updated_search_loop": "PARTIAL_ADAPTER"},
+    "linear_adapter": {"penalty_newton": "READY_TO_REUSE", "active_set_direct_sparse": "SEPARATE_LEGACY_PATH"},
+    "checkpoint": {"stateless_contact_topology": "PARTIAL", "active_set_or_face_restart_contract": "MISSING"}
+  },
+  "state_and_failure_safety": {
+    "contact_state_fields": ["active_contacts", "gaps", "pressures_or_contact_force", "master_face_indices", "normals", "projection_mode", "search_history", "finite_sliding", "maximum_penetration"],
+    "trial_accepted_separation": "material/continuation state is transaction-owned in common nonlinear routes; frictionless penalty contact is recomputed and carries no accepted contact history",
+    "linear_static_state": "active-set state is local to one solve and is not a persisted mutable transaction",
+    "rollback": "common nonlinear transaction verifies accepted composite digest on rejected increments; no dedicated frictionless active-face/contact-history digest is committed",
+    "failed_iteration_contamination_risk": "LOW for stateless penalty contribution in the common driver; MEDIUM for active-set/updated-search integration because loops and contact diagnostics remain route-owned",
+    "failure_classes": [
+      {"class": "invalid_geometry_or_pair", "behavior": "InputValidationError before solve", "status": "IMPLEMENTED"},
+      {"class": "unsupported_route_or_combination", "behavior": "structured compatibility rejection or MeshValidationError/InputValidationError", "status": "IMPLEMENTED_BOUNDED"},
+      {"class": "singular_contact_system", "behavior": "NumericalConvergenceError with LINEAR_SOLVER_FAILURE from sparse solve", "status": "IMPLEMENTED"},
+      {"class": "nonfinite_contact_trial", "behavior": "InputValidationError or NumericalConvergenceError with NAN_DETECTED", "status": "IMPLEMENTED"},
+      {"class": "contact_update_or_active_set_nonconvergence", "behavior": "NumericalConvergenceError with CONTACT_UPDATE_FAILURE", "status": "IMPLEMENTED_BOUNDED"},
+      {"class": "excessive_penetration", "behavior": "NumericalConvergenceError with CONTACT_PENETRATION_EXCESSIVE", "status": "IMPLEMENTED_BOUNDED"}
+    ]
+  },
+  "equilibrium_and_energy": {
+    "force_equilibrium": {
+      "status": "IMPLEMENTED_AUDIT",
+      "mechanics": "residual/internal and constraint/contact force vectors are assembled and load_balance is reported",
+      "evidence": "historical v3 bounded campaign reports finite free residuals and force balance for its declared cases"
+    },
+    "moment_equilibrium": {
+      "status": "IMPLEMENTED_AUDIT",
+      "mechanics": "three_component moment balance is computed about the global origin; raw values remain visible",
+      "reference_correction": "_apply_contact_moment_transport is an audit/reference-position correction for tangential contact force; frictionless normal-only rows have no tangential correction",
+      "limitation": "no WP07 0.2.9 qualification contract currently freezes a universal contact moment policy"
+    },
+    "contact_energy_work": {
+      "status": "DERIVABLE_AND_HISTORICALLY_CHECKED_FOR_PENALTY",
+      "formula": "0.5 * penalty * penetration^2 and branchwise external work in the v3 contract",
+      "limitation": "not a common runtime observable across active-set and penalty enforcement; no general energy claim"
+    }
+  },
+  "historical_evidence": [
+    {
+      "artifact": "qualification/0_2_8/wp13_07_contact_bounded_contract.json",
+      "status": "HISTORICAL_IMMUTABLE_FAIL_ENERGY_GATE",
+      "proves": "predeclared bounded TET4 frictionless penalty scope and failure contract; v1 energy gate failed",
+      "does_not_prove": "0.2.9 qualification or any general contact route"
+    },
+    {
+      "artifact": "qualification/0_2_8/wp13_07_contact_bounded_v2_contract.json",
+      "status": "HISTORICAL_IMMUTABLE_FAIL_CONTACT_BOUNDED_CAMPAIGN",
+      "proves": "corrected branchwise energy contract and deterministic bounded evidence structure; campaign remained failed",
+      "does_not_prove": "current or general contact maturity"
+    },
+    {
+      "artifact": "qualification/0_2_8/wp13_07_contact_bounded_v3/wp13_07_contact_v3_evidence.json",
+      "status": "PASS_CONTACT_BOUNDED_OWNER_READY",
+      "proves": "two exact replays, finite residuals, penalty sensitivity, failure contract and bounded TET4 initial-search penalty evidence",
+      "does_not_prove": "surface_to_surface, friction, dynamics, MPI, general nonlinear material, or active-set/common-transaction equivalence"
+    },
+    {
+      "artifact": "qualification/0_2_8/wp13_07d_contact_capability_record.json",
+      "status": "EXPERIMENTAL_BOUNDED_OWNER_APPROVED",
+      "proves": "separate bounded capability record with explicit limitations",
+      "does_not_prove": "promotion of the 46 element-analysis records or a 0.2.9 WP07 closeout"
+    },
+    {
+      "artifact": "qualification/reviews/contact_v1_linear_static_bounded_2026-07-29.json",
+      "status": "HISTORICAL_OWNER_ACCEPTED_BOUNDED",
+      "proves": "historical linear-static bounded engineering-use decision and external/internal review record",
+      "does_not_prove": "current-version qualification without a new 0.2.9 contract and campaign"
+    },
+    {
+      "artifact": "tests/unit/test_frictionless_contact.py + tests/unit/test_nonlinear_contact_composition.py + tests/unit/test_contact_finite_sliding.py",
+      "status": "TARGETED_UNIT_EVIDENCE",
+      "proves": "geometry, KKT/active-set, penalty tangent, updated-search and fail-closed behavior in small fixtures",
+      "does_not_prove": "structural qualification, external correlation, performance or universal route coverage"
+    }
+  ],
+  "external_evidence": {
+    "historical_code_aster": "present_in_historical_review_and_campaign_assets",
+    "current_wp07_0_2_9_campaign": "NOT_RUN",
+    "comparability": "must be decided per enforcement branch; active-set constraint evidence is not automatically comparable to penalty evidence",
+    "claim_policy": "no external qualification claim is made by this readiness artifact"
+  },
+  "gap_matrix": [
+    {
+      "gap_id": "WP07-GAP-001",
+      "category": "STATE_TRANSACTION",
+      "finding": "active-set and updated-search contact state are outside the common accepted/trial transaction",
+      "implementation_state": "implemented_route_native_but_unintegrated",
+      "qualification_state": "tested_unqualified",
+      "blocking_for_wp07_closeout": true,
+      "minimal_future_evidence": "rejected/retry contact increment with accepted-state and active-face/contact digest before/after"
+    },
+    {
+      "gap_id": "WP07-GAP-002",
+      "category": "CHECKPOINT_RESTART",
+      "finding": "frictionless contact is labelled stateless, but no explicit active-set/search restart compatibility contract exists",
+      "implementation_state": "partial",
+      "qualification_state": "missing",
+      "blocking_for_wp07_closeout": true,
+      "minimal_future_evidence": "checkpoint/restart comparison for a compatible penalty path plus explicit N/A boundary for active-set history"
+    },
+    {
+      "gap_id": "WP07-GAP-003",
+      "category": "DISPATCH_CONVERGENCE",
+      "finding": "route-native contact loops have distinct convergence/error semantics",
+      "implementation_state": "implemented_route_native",
+      "qualification_state": "tested_bounded_only",
+      "blocking_for_wp07_closeout": true,
+      "minimal_future_evidence": "cross-route adversarial contract for singular, unsupported and update nonconvergence cases"
+    },
+    {
+      "gap_id": "WP07-GAP-004",
+      "category": "QUALIFICATION_EXTERNAL",
+      "finding": "historical external records are not a current 0.2.9 WP07 campaign and penalty/active-set comparability is branch-specific",
+      "implementation_state": "available_historical_assets",
+      "qualification_state": "missing_current_campaign",
+      "blocking_for_wp07_closeout": false,
+      "minimal_future_evidence": "new formulation-compatible Code_Aster comparison for the exact bounded claim"
+    },
+    {
+      "gap_id": "WP07-GAP-005",
+      "category": "SCOPE",
+      "finding": "surface-to-surface, friction, self-contact, impact, dynamics and distributed contact are not qualified",
+      "implementation_state": "missing_or_out_of_scope",
+      "qualification_state": "not_applicable_to_bounded_claim",
+      "blocking_for_wp07_closeout": false,
+      "minimal_future_evidence": "separate Owner contract; do not expand WP07 implicitly"
+    },
+    {
+      "gap_id": "WP07-GAP-006",
+      "category": "PERFORMANCE",
+      "finding": "no contact-specific scaling, memory or large-mesh contract",
+      "implementation_state": "missing",
+      "qualification_state": "missing",
+      "blocking_for_wp07_closeout": false,
+      "minimal_future_evidence": "bounded performance study after mechanics/transaction contract is frozen"
+    }
+  ],
+  "proposed_bounded_scope": {
+    "claim": "bounded frictionless node_to_triangle contact for declared static/quasi_static cases only",
+    "linear_static": "small-displacement, direct sparse active-set route, fixed or explicitly triangulated master surface, supported tested meshes and load paths",
+    "nonlinear_static": "frictionless penalty contribution in the common Newton route, only with explicit contact_mode='penalty' and documented bounded search/penetration controls",
+    "geometric_nonlinear_static": "research/experimental bounded penalty composition only; no general finite-kinematic contact maturity",
+    "explicit_exclusions": ["friction", "surface_to_surface", "mortar", "augmented_lagrangian", "self_contact", "impact", "modal_contact", "buckling_contact", "dynamic_contact", "harmonic_contact", "MPI_or_distributed_contact", "universal_penalty_or_convergence_claim"]
+  },
+  "prospective_vnv": [
+    {"id": "WP07-C01", "name": "open_contact", "oracle": "analytical positive gap and zero normal contact force", "status": "PLANNED"},
+    {"id": "WP07-C02", "name": "single_active_contact", "oracle": "gap/complementarity/KKT and force equilibrium", "status": "PLANNED"},
+    {"id": "WP07-C03", "name": "deformable_master_and_multi_contact", "oracle": "action_reaction, force/moment balance and deterministic face selection", "status": "PLANNED"},
+    {"id": "WP07-C04", "name": "open_close_reopen_path", "oracle": "accepted load history, no ghost force/energy and state separation", "status": "PLANNED"},
+    {"id": "WP07-C05", "name": "mesh_characterization", "oracle": "declared displacement/reaction/penetration/equilibrium variation over at least three levels", "status": "PLANNED"},
+    {"id": "WP07-C06", "name": "deterministic_replay", "oracle": "same classification, arrays/diagnostics within declared tolerance and identical failure code", "status": "PLANNED"},
+    {"id": "WP07-C07", "name": "fail_closed_adversarial", "oracle": "invalid geometry, singular system, unsupported combination, nonfinite and update failure reject explicitly", "status": "PLANNED"},
+    {"id": "WP07-C08", "name": "common_transaction_boundary", "oracle": "accepted/trial contact/search digest preservation through reject/retry/checkpoint", "status": "PLANNED"},
+    {"id": "WP07-C09", "name": "external_correlation", "oracle": "Code_Aster only for formulation-compatible exact branch", "status": "PLANNED_OWNER_REVIEW_REQUIRED"}
+  ],
+  "prospective_thresholds": {
+    "owner_review_required": true,
+    "gap_and_complementarity": "candidate <= 1e-10; not approved by this artifact",
+    "force_equilibrium_relative": "candidate <= 1e-8; vector norm and component audit required",
+    "moment_equilibrium_relative": "candidate <= 1e-8; all three components about global origin",
+    "replay": "candidate relative <= 1e-12 with absolute floor <= 1e-14; discrete active sets/codes exact",
+    "nonfinite": "reject NaN/Inf and never silently continue",
+    "mesh_variation": "candidate final variation <= 3%; no artificial monotonicity claim",
+    "external": "candidate tolerances must be formulation-specific and predeclared"
+  },
+  "proposed_wp07_subpackages": [
+    {"id": "WP07-A", "name": "readiness/formulation/state audit", "points": 1},
+    {"id": "WP07-B", "name": "common residual/tangent and state-transaction adapter", "points": 3},
+    {"id": "WP07-C", "name": "contact geometry/search/active-set unit V&V", "points": 2},
+    {"id": "WP07-D", "name": "linear-static structural V&V and compatible external correlation", "points": 2},
+    {"id": "WP07-E", "name": "nonlinear search/restart/rollback/replay and Owner closure", "points": 2}
+  ],
+  "validation": {
+    "existing_contact_unit_tests": "40 passed",
+    "structural_contact_vnv": "NOT_RUN_BY_POLICY",
+    "external_code_aster": "NOT_RUN_BY_POLICY",
+    "source_changes": "NONE",
+    "registry_update": "PASS_NEW_DOCUMENT_ENTRY_REGISTERED; NO_CAPABILITY_REGISTRY_PROMOTION",
+    "document_registry_entry": "PASS_ENTRY_METADATA_AND_COMPANION_EXIST",
+    "anti_forgetting": "PASS_EXISTING_CAPABILITY_REGISTRY; NO_CONTACT_PROMOTION",
+    "legacy_document_registry_consistency": "PRE_EXISTING_MISMATCH_NOT_CHANGED"
+  },
+  "limitations": [
+    "This is a 0.2.9 readiness audit, not a qualification result or maturity promotion.",
+    "Historical 0.2.8 evidence remains at its original evidence level and is not reclassified.",
+    "The older contact documentation describes the earlier V1 scope; current code includes a bounded common penalty extension, which still requires separate WP07 evidence.",
+    "No universal contact algorithm, convergence, energy, external-correlation, performance or restart claim is made."
+  ],
+  "next_step": "Owner review of WP07 scope and formulation boundaries before implementation or any heavy campaign"
+}
