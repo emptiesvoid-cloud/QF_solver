@@ -8,12 +8,13 @@ applicable_version: 0.2.9-development
 # Linear-solver remediation master record
 
 This is a chronological technical index for the 0.2.9 WP04 linear-solver
-remediation. It references the immutable R1/R2/R2B records and appends the
-owner-authorized C2R3 overnight campaign. It is not a maturity or release
-claim. The machine-readable companion is
+remediation. It references the immutable R1/R2/R2B records, appends the
+owner-authorized C2R3 overnight campaign, and records the recovered C2R6
+campaign. It is not a maturity or release claim. The machine-readable
+companion is
 `qualification/0_2_9/linear_solver_remediation_master.json`.
 
-## Scope and decision
+## Historical C2R3 scope snapshot
 
 - Branch: `0.2.9-unified-nonlinear`
 - C2R3 source SHA: `20186a940ba39b03bf68ee52b8b6137c698c2a16`
@@ -26,6 +27,10 @@ claim. The machine-readable companion is
   are not computable and G04-10 remains `UNRESOLVED`.
 - WP04 remains HOLD at 0/12 and the validated total remains 29/100. M4 was not
   run, PETSc/AMG was not evaluated, and the full repository suite was not run.
+
+The current recovered C2R6 status is recorded in section I below. It supersedes
+the C2R3 snapshot for current campaign status only; the C2R3 observations and
+raw artifacts remain immutable.
 
 ## A. Original direct route
 
@@ -325,3 +330,57 @@ not retroactively reclassified. The complete C2R5 record is
 WP04 remains `HOLD`, G04-10 remains `UNRESOLVED`, points remain `0/12` and the
 validated total remains `29/100`. Historical R1/R2/R2B/C2R3/C2R4 evidence is
 unchanged; no M3/M4, PETSc/PyAMG or full-suite work was performed.
+
+## I. C2R6 recovered floor-aware M2/M3 campaign
+
+C2R6 is recovered here from the completed files under
+`qualification/0_2_9/c2r6/`; this audit did not rerun M2 or M3. The campaign
+source SHA was `2c52bf8196a7d47d14ce1784290580160de26590` on branch
+`0.2.9-unified-nonlinear`. Both cases used the frozen MINRES/Jacobi route with
+`rtol=1e-11`, `atol=1e-14`, `maxiter=10000`, direct fallback disabled,
+existing/enabled line search, Newton tolerance `1e-10`, 12 increments, and
+floor-aware termination enabled.
+
+M2 (`48x24x24`, 165,888 TET4, 91,875 full DOFs) and M3 (`64x32x32`, 393,216
+TET4, 212,355 full DOFs) both report `COMPLETED` with process-end reason
+`COMPLETED`. Each has 12 accepted records, steps 1 through 12, load factors
+from 1/12 through 1.0, matching declared/actual telemetry counts (313/313
+and 288/288), no failure, no failing-system capture, and no direct fallback.
+The recorded worker PIDs 57564 and 30220 are no longer running.
+
+The result-level Newton totals are 300 and 275, and linear solves are 297 and
+272. Nine of the 12 accepted steps in each case use
+`CONVERGED_NUMERICAL_FLOOR`; the other three use `CONVERGED_RESIDUAL`. All
+floor events satisfy the frozen conjunction when rechecked from the existing
+records. Maximum linear backward error is `4.777962584217645e-12` for M2 and
+`8.106166618904346e-12` for M3. The telemetry `SOLVE_COMPLETED` aggregate
+Newton field is 288 and 263, exactly 12 below the result/per-step totals
+because it excludes the floor-converged events. This is recorded as a
+non-blocking bookkeeping discrepancy; no rerun was performed.
+
+Recovered final observables are:
+
+| Observable | M2 | M3 |
+| --- | ---: | ---: |
+| Tip displacement | -0.19685864781061374 | -0.2002482511318092 |
+| Reaction resultant norm | 49.9999999999999 | 49.99999999999998 |
+| Strain energy | 4.915487767084533 | 4.999939075668591 |
+| Representative `sigma_xx` | 3002.540859194057 | 3068.972048649666 |
+| Minimum `det(F)` | 0.9917813121785688 | 0.9909797199809931 |
+
+The accepted load-factor paths are identical and both cases remain inside the
+frozen deformation envelope. Applying the original frozen M2-to-M3 formula
+`abs(fine-medium)/max(abs(fine),abs(medium),1e-12)` gives displacement
+`0.01692700586415766` (limit 0.02), reaction
+`1.563194018672221e-15` (limit 0.02), energy
+`0.016890467524899724` (limit 0.02), and representative stress
+`0.02164607184507869` (limit 0.10). All four pass.
+
+The raw runner's top-level `G04-10: UNRESOLVED` is preserved as a historical
+placeholder because that runner did not calculate the pair thresholds. The
+derived controlled audit is
+`qualification/0_2_9/c2r6/frozen_threshold_audit.json` and the companion
+record is [the C2R6 recovered audit](wp04-c2r6-floor-aware-termination.md).
+The derived decision is `PASS_CANDIDATE_PENDING_OWNER_REVIEW`; WP04 remains
+`HOLD` at `0/12`, validated total remains `29/100`, and no maturity change is
+claimed. M4, PETSc/PyAMG, and the full repository suite were not run.

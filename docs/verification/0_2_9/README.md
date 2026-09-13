@@ -97,7 +97,7 @@ formulation change. It independently demonstrates the target-clipped retry
 improvement: five repeated effective attempts before WP03 become one rejection
 at the final SHA, while the physical result is identical.
 
-WP04 is **HOLD — linear-solver remediation** at 0/12. WP04-B demonstrates the bounded
+WP04 is **HOLD — C2R6 candidate pending Owner review** at 0/12. WP04-B demonstrates the bounded
 TET4/HEX8 Total-Lagrangian StVK objectivity, affine finite-deformation patch,
 energy-gradient, consistent-tangent and accepted-path work identities. The
 frozen WP04-C TET4 structural campaign passes its small-load, equilibrium,
@@ -131,6 +131,17 @@ delta is claimed. The chronological [linear-solver remediation master]
 (linear-solver-remediation-master.md) references immutable R1/R2/R2B evidence;
 raw C2R3 JSONL and result records are under
 `qualification/0_2_9/c2r3/`.
+
+C2R6 is now a completed, recovered campaign rather than a new qualification
+run. Existing M2 and M3 result/status/telemetry files both report normal
+completion under the frozen floor-aware MINRES+Jacobi route, with 12 accepted
+steps each and no fallback. Recomputed frozen M2-to-M3 deltas pass for tip
+displacement, reaction, strain energy and representative stress. The raw
+runner placeholder remains immutable; the derived decision is
+`G04-10 = PASS_CANDIDATE_PENDING_OWNER_REVIEW`. See the [C2R6 recovered
+audit](wp04-c2r6-floor-aware-termination.md) and its machine-readable
+record at `qualification/0_2_9/c2r6/frozen_threshold_audit.json`. WP04 remains
+HOLD at 0/12 and 29/100; no M4, PETSc/PyAMG or full-suite work was performed.
 
 WP02-B established checkpoint-v2 serialization, WP02-C migrated fixed and
 adaptive restart ownership, and WP02-D migrated the public arc-length restart
@@ -179,6 +190,7 @@ recorded in [OD-029-02](owner-decisions.md).
 - [Linear-solver remediation R2](linear-solver-remediation-r2.md)
 - [Linear-solver remediation R2B](linear-solver-remediation-r2b.md)
 - [Linear-solver remediation master and C2R3 campaign](linear-solver-remediation-master.md)
+- [WP04-C2R6 recovered floor-aware M2/M3 audit](wp04-c2r6-floor-aware-termination.md)
 
 WP01 implementation and continuation migration are closed under the recorded
 Owner decision. WP02 and WP03 are closed under their independent audit

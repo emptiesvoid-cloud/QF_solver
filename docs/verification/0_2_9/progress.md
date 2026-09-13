@@ -13,7 +13,7 @@ applicable_version: 0.2.9-development
 | WP01 | 12 | **Closed** — Owner-approved unified nonlinear core |
 | WP02 | 6 | **Closed** — 6/6; independent WP02-E audit `GO_WITH_LIMITATIONS` |
 | WP03 | 7 | **Closed** — 7/7; independent WP03-E audit `GO_WITH_LIMITATIONS` |
-| WP04 | 12 | **HOLD — linear-solver remediation** — 0/12; G04-10 unresolved |
+| WP04 | 12 | **HOLD — C2R6 candidate pending Owner review** — 0/12; G04-10 `PASS_CANDIDATE_PENDING_OWNER_REVIEW` |
 | WP05–WP08 | 31 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
@@ -305,3 +305,31 @@ policy, mechanics formulation or maturity status changed. A future
 not implemented or frozen. M3/M4 and qualification reruns remain prohibited.
 See [the C2R5 audit](wp04-c2r5-residual-precision-audit.md) and
 `qualification/0_2_9/c2r5/residual_precision_audit.json`.
+
+## WP04-C2R6 recovered M2/M3 campaign
+
+The C2R6 M2 and M3 outputs were recovered from disk without rerunning either
+solver process. Both cases completed under the frozen MINRES+Jacobi route with
+`rtol=1e-11`, `atol=1e-14`, `maxiter=10000`, direct fallback disabled,
+existing/enabled line search, Newton tolerance `1e-10`, 12 increments, and
+floor-aware termination enabled. M2 (`48x24x24`) and M3 (`64x32x32`) each
+contain 12 accepted records and complete matching JSONL telemetry; both ended
+normally with no failure capture and zero fallback.
+
+Each case has three primary and nine floor-aware convergences. All recorded
+floor events satisfy the frozen conjunction, with maximum linear backward
+errors `4.777962584217645e-12` (M2) and `8.106166618904346e-12` (M3). The
+accepted load-factor paths are identical and both cases remain within the
+frozen deformation envelope. Result/per-step Newton totals are 300 and 275;
+the `SOLVE_COMPLETED` telemetry aggregate is lower by 12 in each case because
+it excludes the floor-converged events. This existing bookkeeping discrepancy
+is documented and does not indicate incomplete output.
+
+Using the original frozen fine-versus-medium formula, the recovered deltas are
+1.6927005864% for tip displacement, approximately zero for reaction,
+1.6890467525% for energy, and 2.1646071845% for representative stress. All
+four thresholds pass. The derived status is
+`G04-10 = PASS_CANDIDATE_PENDING_OWNER_REVIEW`; WP04 remains HOLD at 0/12 and
+the validated total remains 29/100. The raw runner record’s top-level
+`UNRESOLVED` placeholder is preserved. See [the recovered C2R6 audit](wp04-c2r6-floor-aware-termination.md)
+and `qualification/0_2_9/c2r6/frozen_threshold_audit.json`.

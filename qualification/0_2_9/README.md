@@ -17,7 +17,7 @@ the same-model target-clipped arc retry challenge: the final policy reaches
 the unchanged physical solution with one rejection where the pre-WP03 route
 repeated the same effective radius five times.
 
-WP04 Geometric Nonlinear Qualification is now **HOLD — linear-solver remediation**
+WP04 Geometric Nonlinear Qualification is now **HOLD — C2R6 candidate pending Owner review**
 at 0/12. WP04-B independently demonstrates the bounded TET4/HEX8
 Total-Lagrangian Saint-Venant-Kirchhoff objectivity, affine patch,
 energy-gradient, tangent and accepted-path work identities. WP04-C then ran a
@@ -70,6 +70,16 @@ future floor-aware termination policy is recommended for Owner review, but no
 threshold or convergence policy was changed. M3/M4 and qualification reruns
 remain prohibited. See `c2r5/` and
 `../docs/verification/0_2_9/wp04-c2r5-residual-precision-audit.md`.
+
+C2R6 subsequently completed the frozen floor-aware M2/M3 campaign. This audit
+recovers the existing result, status and JSONL files without rerunning either
+case. Both meshes reached the final load factor with 12 accepted steps, zero
+fallbacks and complete terminal records. The original M2-to-M3 displacement,
+reaction, energy and representative-stress thresholds all pass; the raw
+runner's top-level `G04-10=UNRESOLVED` placeholder is preserved and the
+derived status is `PASS_CANDIDATE_PENDING_OWNER_REVIEW`. See
+`c2r6/frozen_threshold_audit.json` and
+`../docs/verification/0_2_9/wp04-c2r6-floor-aware-termination.md`.
 
 ## Current planning status
 
