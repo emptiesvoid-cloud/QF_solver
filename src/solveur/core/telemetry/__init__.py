@@ -11,7 +11,13 @@ from solveur.core.telemetry.events import (
     missing_value,
     validate_json_value,
 )
-from solveur.core.telemetry.health import HealthState, SinkFailure, TelemetryHealth
+from solveur.core.telemetry.health import (
+    CHILD_SINK_REPORTED_FAILURE,
+    DIRECT_COMPOSITE_FAILURE,
+    HealthState,
+    SinkFailure,
+    TelemetryHealth,
+)
 from solveur.core.telemetry.jsonl import DURABILITY_EVENT_TYPES, JsonlSink
 from solveur.core.telemetry.legacy import LegacyWP04Adapter
 from solveur.core.telemetry.observer import (
@@ -49,6 +55,8 @@ __all__ = [
     "HealthState",
     "SinkFailure",
     "TelemetryHealth",
+    "DIRECT_COMPOSITE_FAILURE",
+    "CHILD_SINK_REPORTED_FAILURE",
     "JsonlSink",
     "LegacyWP04Adapter",
     "CompositeSink",

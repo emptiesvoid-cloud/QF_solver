@@ -7,8 +7,9 @@ from pathlib import Path
 from threading import RLock
 from typing import TextIO, cast
 
-from solveur.core.telemetry.events import EventType, TelemetryEvent
+from solveur.core.telemetry.events import EventType, SequenceError, TelemetryEvent
 from solveur.core.telemetry.health import TelemetryHealth
+from solveur.core.telemetry.observer import SequenceValidator
 
 
 DURABILITY_EVENT_TYPES = frozenset(
@@ -23,9 +24,10 @@ DURABILITY_EVENT_TYPES = frozenset(
 class JsonlSink:
     """Append validated events and isolate ordinary file failures.
 
-    A single JsonlSink instance is intended for one writer and one logical
-    analysis stream. The emitter provides per-analysis sequence assignment;
-    this sink does not claim cross-process or distributed ordering.
+    A single JsonlSink instance is intended for one writer and may contain
+    interleaved analysis streams. The emitter provides per-analysis sequence
+    assignment; this sink validates fresh per-analysis streams within the
+    active session and does not claim cross-process or distributed ordering.
     """
 
     def __init__(
@@ -43,6 +45,7 @@ class JsonlSink:
         self._stream: TextIO | None = None
         self._closed = False
         self._lock = RLock()
+        self._sequence = SequenceValidator()
         try:
             self._stream = self.path.open("a", encoding="utf-8", newline="")
         except Exception as error:
@@ -76,6 +79,11 @@ class JsonlSink:
                     self._record_failure(error)
                     return
             if self._closed or self._stream is None:
+                return
+            try:
+                self._sequence.validate(event)
+            except SequenceError as error:
+                self._record_failure(error, event)
                 return
             try:
                 self._stream.write(event.to_json() + "\n")

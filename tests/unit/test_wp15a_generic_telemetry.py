@@ -9,7 +9,9 @@ from pathlib import Path
 import pytest
 
 from solveur.core.telemetry import (
+    CHILD_SINK_REPORTED_FAILURE,
     DURABILITY_EVENT_TYPES,
+    DIRECT_COMPOSITE_FAILURE,
     LINEAR_BACKENDS,
     MEMORY_FIELD_NAMES,
     TIMING_FIELD_NAMES,
@@ -25,6 +27,7 @@ from solveur.core.telemetry import (
     SequenceValidator,
     TelemetryEmitter,
     TelemetryEvent,
+    TelemetryHealth,
     TelemetryValidationError,
     missing_value,
     preserve_solver_exception,
@@ -184,6 +187,40 @@ def test_jsonl_round_trip_flushes_immediately(tmp_path: Path) -> None:
     sink.close()
 
 
+@pytest.mark.parametrize(
+    ("name", "sequence_numbers", "written_lines"),
+    [
+        ("duplicate", [0, 1, 1], 2),
+        ("skipped", [0, 2], 1),
+        ("backwards", [0, 1, 0], 2),
+    ],
+)
+def test_jsonl_rejects_invalid_per_analysis_sequences(
+    tmp_path: Path,
+    name: str,
+    sequence_numbers: list[int],
+    written_lines: int,
+) -> None:
+    path = tmp_path / f"{name}.jsonl"
+    sink = JsonlSink(path)
+    for sequence_number in sequence_numbers:
+        sink.emit(make_event(sequence_number=sequence_number))
+    assert sink.health.status == "DEGRADED"
+    assert sink.health.failures[-1].failure_type == "SequenceError"
+    assert len(path.read_text(encoding="utf-8").splitlines()) == written_lines
+    sink.close()
+
+
+def test_jsonl_accepts_independent_analysis_streams(tmp_path: Path) -> None:
+    path = tmp_path / "independent.jsonl"
+    sink = JsonlSink(path)
+    for analysis_id, sequence_number in [("A", 0), ("B", 0), ("A", 1), ("B", 1)]:
+        sink.emit(make_event(analysis_id=analysis_id, sequence_number=sequence_number))
+    assert sink.health.status == "HEALTHY"
+    assert len(path.read_text(encoding="utf-8").splitlines()) == 4
+    sink.close()
+
+
 def test_jsonl_durability_is_limited_to_owner_boundaries(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     path = tmp_path / "durable.jsonl"
     calls: list[int] = []
@@ -212,6 +249,100 @@ def test_composite_sink_continues_after_partial_failure_and_records_health() -> 
     assert composite.health.failures[0].sink_identifier == "broken"
     assert composite.health.failures[0].failure_type == "OSError"
     assert composite.health.failures[0].sequence_number == 0
+    assert composite.health.failures[0].provenance == DIRECT_COMPOSITE_FAILURE
+
+
+def test_child_open_failure_degrades_composite_and_emitter_without_duplicate_ledger(
+    tmp_path: Path,
+) -> None:
+    broken = JsonlSink(tmp_path / "missing-parent" / "events.jsonl")
+    good = MemorySink(sink_identifier="good")
+    emitter = TelemetryEmitter("open-failure", "linear_static", "linear_static", [broken, good])
+
+    assert broken.health.status == "DEGRADED"
+    assert emitter.sink.health.status == "DEGRADED"
+    assert emitter.health.status == "DEGRADED"
+    emitter.emit(EventType.ANALYSIS_START, status=EventStatus.STARTED, elapsed_time_s=0.0)
+    emitter.emit(EventType.ANALYSIS_END, status=EventStatus.COMPLETED, elapsed_time_s=1.0)
+    assert len(good.events) == 2
+    child_failures = [
+        failure
+        for failure in emitter.health.failures
+        if failure.provenance == CHILD_SINK_REPORTED_FAILURE
+    ]
+    assert len(child_failures) == 1
+    assert child_failures[0].sink_identifier == "jsonl"
+
+
+def test_child_write_failure_degrades_emitter_and_sibling_continues(tmp_path: Path) -> None:
+    class FailingStream:
+        def write(self, _value: str) -> int:
+            raise OSError("write unavailable")
+
+        def flush(self) -> None:
+            raise OSError("flush unavailable")
+
+        def close(self) -> None:
+            return None
+
+    path = tmp_path / "write-failure.jsonl"
+    broken = JsonlSink(path)
+    stream = broken._stream
+    assert stream is not None
+    stream.close()
+    broken._stream = FailingStream()  # type: ignore[assignment]
+    good = MemorySink(sink_identifier="good")
+    emitter = TelemetryEmitter("write-failure", "linear_static", "linear_static", [broken, good])
+
+    emitter.emit(EventType.ANALYSIS_START, status=EventStatus.STARTED, elapsed_time_s=0.0)
+    assert broken.health.status == "DEGRADED"
+    assert emitter.health.status == "DEGRADED"
+    assert len(good.events) == 1
+    assert path.read_text(encoding="utf-8") == ""
+
+
+def test_child_memory_capacity_failure_degrades_composite_and_emitter() -> None:
+    child = MemorySink(max_events=1)
+    emitter = TelemetryEmitter("memory-capacity", "linear_static", "linear_static", child)
+    emitter.emit(EventType.ANALYSIS_START, status=EventStatus.STARTED, elapsed_time_s=0.0)
+    emitter.emit(EventType.ANALYSIS_END, status=EventStatus.COMPLETED, elapsed_time_s=1.0)
+    assert child.health.status == "DEGRADED"
+    assert emitter.sink.health.status == "DEGRADED"
+    assert emitter.health.status == "DEGRADED"
+    assert emitter.health.failures[-1].provenance == CHILD_SINK_REPORTED_FAILURE
+    assert len(child.events) == 1
+
+
+def test_healthy_children_keep_composite_and_emitter_healthy() -> None:
+    emitter = TelemetryEmitter("healthy", "linear_static", "linear_static", [MemorySink(), MemorySink()])
+    assert emitter.health.status == "HEALTHY"
+    emitter.emit(EventType.ANALYSIS_START, status=EventStatus.STARTED, elapsed_time_s=0.0)
+    assert emitter.health.status == "HEALTHY"
+
+
+@pytest.mark.parametrize("operation", ["flush", "close"])
+def test_composite_refreshes_child_health_after_lifecycle_operations(operation: str) -> None:
+    class LifecycleSink:
+        sink_identifier = "lifecycle"
+
+        def __init__(self) -> None:
+            self.health = TelemetryHealth(self.sink_identifier)
+
+        def emit(self, _event: TelemetryEvent) -> None:
+            return None
+
+        def flush(self) -> None:
+            self.health.record_failure(OSError("flush unavailable"))
+
+        def close(self) -> None:
+            self.health.record_failure(OSError("close unavailable"))
+
+    child = LifecycleSink()
+    composite = CompositeSink((child,))
+    getattr(composite, operation)()
+    assert child.health.status == "DEGRADED"
+    assert composite.health.status == "DEGRADED"
+    assert composite.health.failures[-1].provenance == CHILD_SINK_REPORTED_FAILURE
 
 
 def test_jsonl_open_failure_is_degraded_without_raising(tmp_path: Path) -> None:

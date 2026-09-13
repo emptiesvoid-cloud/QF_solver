@@ -14,7 +14,12 @@ from solveur.core.telemetry.events import (
     SequenceError,
     TelemetryEvent,
 )
-from solveur.core.telemetry.health import TelemetryHealth
+from solveur.core.telemetry.health import (
+    CHILD_SINK_REPORTED_FAILURE,
+    DIRECT_COMPOSITE_FAILURE,
+    SinkFailure,
+    TelemetryHealth,
+)
 
 
 MetricSupplier: TypeAlias = Callable[[], Mapping[str, object]]
@@ -106,12 +111,103 @@ class CompositeSink:
         else:
             items = [(f"sink_{index}", sink) for index, sink in enumerate(sinks)]
         self._sinks = tuple((_sink_identifier(sink, identifier), sink) for identifier, sink in items)
-        self.health = health or TelemetryHealth(sink_identifier)
+        self._health = health or TelemetryHealth(sink_identifier)
         self._lock = RLock()
+        self._reported_child_failure_tokens: set[tuple[tuple[str, int], int, SinkFailure]] = set()
+        self._reported_degraded_children: set[tuple[str, int]] = set()
+        self.refresh_health()
+
+    @property
+    def health(self) -> TelemetryHealth:
+        """Return effective health after incorporating all child ledgers."""
+
+        self.refresh_health()
+        return self._health
 
     @property
     def sinks(self) -> tuple[TelemetrySink, ...]:
         return tuple(sink for _, sink in self._sinks)
+
+    @staticmethod
+    def _child_failure(raw_failure: object, identifier: str) -> SinkFailure:
+        if isinstance(raw_failure, SinkFailure):
+            return raw_failure
+        if isinstance(raw_failure, Mapping):
+            def read(name: str, default: object = None) -> object:
+                return raw_failure.get(name, default)
+        else:
+            def read(name: str, default: object = None) -> object:
+                return getattr(raw_failure, name, default)
+        failure_type = read("failure_type", "ChildHealthFailure")
+        failure_message = read("failure_message", "child sink reported a failure")
+        sequence_number = read("sequence_number")
+        event_type = read("event_type")
+        return SinkFailure(
+            sink_identifier=str(read("sink_identifier", identifier) or identifier),
+            failure_type=str(failure_type or "ChildHealthFailure"),
+            failure_message=str(failure_message or "child sink reported a failure"),
+            sequence_number=(
+                sequence_number
+                if isinstance(sequence_number, int) and not isinstance(sequence_number, bool)
+                else None
+            ),
+            event_type=str(event_type) if event_type is not None else None,
+        )
+
+    @staticmethod
+    def _child_is_degraded(child_health: object) -> bool:
+        if bool(getattr(child_health, "degraded", False)):
+            return True
+        for name in ("status", "state"):
+            value = getattr(child_health, name, None)
+            if getattr(value, "value", value) == "DEGRADED":
+                return True
+        return False
+
+    def _aggregate_child_health(self, identifier: str, sink: TelemetrySink) -> None:
+        """Mirror compatible child health once while preserving child context."""
+
+        if sink is self:
+            return
+        child_health = getattr(sink, "health", None)
+        if child_health is None:
+            return
+        child_key = (identifier, id(sink))
+        try:
+            raw_failures = getattr(child_health, "failures", ())
+            failures = tuple(raw_failures) if raw_failures is not None else ()
+            for index, raw_failure in enumerate(failures):
+                failure = self._child_failure(raw_failure, identifier)
+                token = (child_key, index, failure)
+                if token in self._reported_child_failure_tokens:
+                    continue
+                self._health.record_failure_details(
+                    failure,
+                    provenance=CHILD_SINK_REPORTED_FAILURE,
+                )
+                self._reported_child_failure_tokens.add(token)
+            if self._child_is_degraded(child_health) and not failures:
+                degraded_token = child_key
+                if degraded_token not in self._reported_degraded_children:
+                    self._health.record_failure(
+                        f"child sink {identifier} reported DEGRADED without a failure ledger",
+                        sink_identifier=identifier,
+                        provenance=CHILD_SINK_REPORTED_FAILURE,
+                    )
+                    self._reported_degraded_children.add(degraded_token)
+        except Exception as error:
+            self._health.record_failure(
+                error,
+                sink_identifier=identifier,
+                provenance=CHILD_SINK_REPORTED_FAILURE,
+            )
+
+    def refresh_health(self) -> None:
+        """Refresh effective health without allowing bookkeeping to raise."""
+
+        with self._lock:
+            for identifier, sink in self._sinks:
+                self._aggregate_child_health(identifier, sink)
 
     def emit(self, event: TelemetryEvent) -> None:
         """Deliver to every sink; one sink failure cannot stop its siblings."""
@@ -121,7 +217,15 @@ class CompositeSink:
                 try:
                     sink.emit(event)
                 except Exception as error:
-                    self.health.record_failure(error, sink_identifier=identifier, event=event)
+                    self._health.record_failure(
+                        error,
+                        sink_identifier=identifier,
+                        event=event,
+                        provenance=DIRECT_COMPOSITE_FAILURE,
+                    )
+                finally:
+                    self._aggregate_child_health(identifier, sink)
+            self.refresh_health()
 
     def flush(self) -> None:
         """Best-effort flush for all sinks."""
@@ -134,7 +238,14 @@ class CompositeSink:
                 try:
                     flush()
                 except Exception as error:
-                    self.health.record_failure(error, sink_identifier=identifier)
+                    self._health.record_failure(
+                        error,
+                        sink_identifier=identifier,
+                        provenance=DIRECT_COMPOSITE_FAILURE,
+                    )
+                finally:
+                    self._aggregate_child_health(identifier, sink)
+            self.refresh_health()
 
     def close(self) -> None:
         """Best-effort close for all sinks."""
@@ -147,7 +258,14 @@ class CompositeSink:
                 try:
                     close()
                 except Exception as error:
-                    self.health.record_failure(error, sink_identifier=identifier)
+                    self._health.record_failure(
+                        error,
+                        sink_identifier=identifier,
+                        provenance=DIRECT_COMPOSITE_FAILURE,
+                    )
+                finally:
+                    self._aggregate_child_health(identifier, sink)
+            self.refresh_health()
 
 
 class MemorySink:
