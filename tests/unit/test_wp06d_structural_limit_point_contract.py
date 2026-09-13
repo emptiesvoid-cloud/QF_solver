@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+import numpy as np
 import pytest
 
 from scripts import prepare_wp06d_structural_limit_point as guard
@@ -25,6 +26,7 @@ def test_wp06d_contract_is_phase0_and_fail_closed() -> None:
     assert contract["execution_guard"] == {
         "phase": "PHASE_0_PREPARATION",
         "structural_solves_enabled": False,
+        "reference_solver_enabled": False,
         "external_solver_enabled": False,
         "owner_authorization_required_for_phase_1": True,
         "governing_branch_integration_required": True,
@@ -73,11 +75,56 @@ def test_wp06d_mesh_series_has_exact_frozen_levels() -> None:
     ]
 
 
+@pytest.mark.parametrize(
+    ("level", "node_count", "element_count", "dof_count"),
+    [("M1", 5, 2, 15), ("M2", 14, 16, 42), ("M3", 55, 128, 165)],
+)
+def test_wp06d_refinement_generates_positive_deterministic_meshes(
+    level: str, node_count: int, element_count: int, dof_count: int
+) -> None:
+    nodes_a, elements_a = guard.generate_mesh(level)
+    nodes_b, elements_b = guard.generate_mesh(level)
+    assert nodes_a.shape == (node_count, 3)
+    assert len(elements_a) == element_count
+    assert nodes_a.size == dof_count
+    assert np.array_equal(nodes_a, nodes_b)
+    assert elements_a == elements_b
+    assert np.all(np.isfinite(nodes_a))
+    assert all(guard._signed_volume(nodes_a, element) > 0.0 for element in elements_a)
+
+
+def test_wp06d_boundary_sets_are_deterministic_and_load_node_persists() -> None:
+    expected_face_nodes = {
+        "M1": (2, 3, 4),
+        "M2": (2, 3, 4, 11, 12, 13),
+        "M3": (2, 3, 4, 11, 12, 13, 22, 23, 26, 27, 30, 31, 52, 53, 54),
+    }
+    for level in ("M1", "M2", "M3"):
+        nodes_a, _ = guard.generate_mesh(level)
+        nodes_b, _ = guard.generate_mesh(level)
+        face_a = guard.symmetry_face_nodes(nodes_a)
+        assert face_a == guard.symmetry_face_nodes(nodes_b)
+        assert face_a == expected_face_nodes[level]
+        assert 4 in face_a
+        assert face_a == tuple(sorted(face_a))
+        assert tuple(index for index in (0, 1) if index < len(nodes_a)) == (0, 1)
+
+
+@pytest.mark.parametrize("level", ["M1", "M2", "M3"])
+def test_wp06d_point_load_has_frozen_resultant_and_origin_moment(level: str) -> None:
+    nodes, _ = guard.generate_mesh(level)
+    loads, resultant, moment = guard.assemble_reference_load(nodes)
+    assert np.array_equal(np.flatnonzero(np.linalg.norm(loads, axis=1)), np.asarray([4]))
+    assert np.array_equal(resultant, guard.TARGET_RESULTANT)
+    assert np.array_equal(moment, np.zeros(3))
+
+
 def test_wp06d_load_resultant_and_origin_moment_are_mesh_independent() -> None:
     load = _contract()["benchmark"]["reference_load"]
     assert load["resultant"] == [0.0, 0.0, -1.0]
     assert load["expected_origin_moment"] == [0.0, 0.0, 0.0]
-    assert "one-third" in load["application"]
+    assert load["physical_load_region"] == "the zero-dimensional material point X=[0,0,0.25] represented by parent node 4"
+    assert load["application"].startswith("fixed geometric point load")
 
 
 def test_wp06d_thresholds_and_reference_are_predeclared() -> None:
@@ -95,6 +142,17 @@ def test_wp06d_thresholds_and_reference_are_predeclared() -> None:
     assert reference["production_arclength_routines_called"] is False
     assert reference["production_mechanics_routines_called"] is False
     assert reference["status_before_phase_1"] == "PLAN_ONLY_NO_REFERENCE_RESULT"
+
+
+def test_wp06d_path_parameter_is_cumulative_arc_measure() -> None:
+    path = _contract()["path_comparison"]
+    assert path["s0"] == 0.0
+    assert path["load_scale"] == 1.0
+    assert path["stations"] == [0.2, 0.4, 0.6, 0.8, 1.0]
+    assert "cumulative" in path["parameter"]
+    assert "s_i / s_final" in path["normalization"]
+    assert path["q_limit"] == "q at the accepted state selected by the first local maximum lambda(q)"
+    assert path["post_limit_displacement"] == "q at s_norm=1.0 minus q_limit"
 
 
 def test_wp06d_continuation_and_solver_policy_are_bounded() -> None:

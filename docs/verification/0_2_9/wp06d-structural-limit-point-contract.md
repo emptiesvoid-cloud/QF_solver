@@ -12,10 +12,10 @@ review_date: ""
 
 ## Status and execution boundary
 
-This document freezes the prospective WP06-D structural qualification
-contract. It contains no structural result and awards no point. WP06-D formal
-points remain 0/2, WP06 formal points remain 0/8, and the validated total
-remains 29/100.
+This document hardens the prospective WP06-D structural qualification
+contract under Owner correction R1. It contains no structural result and
+awards no point. WP06-D formal points remain 0/2, WP06 formal points remain
+0/8, and the validated total remains 29/100.
 
 The source baseline for this preparation is
 0297105de78a846b0424d052c5323858db23b7c5 on branch `0.2.9-wp06-prep`.
@@ -32,6 +32,11 @@ Phase 0 is fail-closed:
 
 No production mechanics, element formulation, convergence algorithm or
 arc-length implementation was changed.
+
+R0 history is preserved: the initial preparation described one-third loads on
+three crown nodes. That rule was never used in a mechanical solve and is
+Owner-rejected as the final contract. R1 freezes the physical load as a point
+load at the persistent geometric crown node 4.
 
 ## Canonical benchmark
 
@@ -65,17 +70,17 @@ M1 parent nodes are:
 M1 elements are `[0,2,3,4]` and `[1,3,2,4]`. The material is isotropic
 StVK with `E = 100.0`, `nu = 0.30` in consistent nondimensional units.
 
-Nodes 0 and 1 are fully fixed. The shared parent face (2,3,4) is the
-symmetry face and has `UY = 0`; its descendant nodes inherit that condition.
-The support and symmetry inheritance rules are topological and are resolved
-before execution.
+Nodes 0 and 1 are fully fixed point supports. The shared parent face (2,3,4)
+is the symmetry face and has `UY = 0`; every generated node in its closed
+triangle inherits that condition. No coordinate-tolerance support expansion
+is permitted.
 
-The reference load is a downward point-load representation at the three
-named crown nodes: `[0,0,-1/3]` at each of nodes 2, 3 and 4. Thus the total
-reference resultant is `[0,0,-1]`. Its moment about the global origin is
-`[0,0,0]` by the declared coordinates and symmetry. The named nodes persist
-at all refinement levels, so the physical load and its resultant are not
-changed by mesh refinement.
+The final reference load is a fixed geometric point load at parent node 4:
+`[0,0,-1]`. Node 4 persists at every refinement level, so no arbitrary equal
+share is introduced on refined nodes. The target resultant is `[0,0,-1]` and
+the target moment about the global origin `[0,0,0]`. Phase 0 assembles only
+this nodal vector and its resultant/moment; it does not assemble a tangent or
+solve a structural problem.
 
 The monitored quantity is the downward crown displacement
 `q = -mean(UZ at nodes 2,3,4)`. Secondary quantities are lambda, support
@@ -94,12 +99,15 @@ Exactly three levels are declared; no M4 is part of this contract.
 
 Each TET4 is split into four corner tetrahedra and four central tetrahedra
 using the midpoint of the `ab` edge to the midpoint of the `cd` edge as the
-central diagonal. Edge midpoints are globally keyed by sorted parent vertex
-IDs. Shared faces therefore reuse the same nodes. Zero-volume children fail
+central diagonal. At each level, all parent edges are sorted lexicographically
+by `(min(parent_id), max(parent_id))`; parent nodes remain first and one
+midpoint is appended per unique edge key. Shared edges reuse that exact node,
+and no coordinate-tolerance merge is allowed. Zero-volume children fail
 closed; negative signed children are repaired by swapping the final two
-connectivity entries and the repaired connectivity is recorded. Finite
-coordinates, positive volumes, exact counts, deterministic connectivity,
-boundary inheritance and named load nodes are mandatory preflight checks.
+connectivity entries. The same rule must be used in Phase 1. Exact counts,
+positive volumes, deterministic connectivity digest, support/symmetry/load
+boundary membership and persistent load node 4 are mandatory preflight
+checks.
 
 The primary comparison is M2 to M3. The frozen candidate limits are:
 
@@ -134,10 +142,14 @@ The required limit/reference checks are:
 - geometric envelope: `det(F) >= 0.20`, principal stretches in `[0.75,1.30]`
   and `||E_GL||_F <= 0.30`.
 
-Path stations are fixed at 20%, 40%, 60%, 80% and 100% of the accepted-path
-arclength from the pre-limit station to the declared post-limit endpoint.
-Piecewise-linear interpolation in accepted-path arclength is fixed before
-execution; endpoint-only or cherry-picked comparisons are not valid.
+Path stations are fixed at 20%, 40%, 60%, 80% and 100% of normalized
+cumulative accepted-path arc measure. With `s_0=0`,
+`s_i=s_(i-1)+sqrt(||delta_u_i||²+(load_scale*delta_lambda_i)²)` and
+`load_scale=1`, `s_norm=s_i/s_final`. Reference and QF paths are piecewise
+linearly interpolated in this parameter. `q_limit` and `lambda_limit` are the
+values at the first accepted local maximum event; `post_limit_displacement`
+is `q(s_norm=1)-q_limit`, and `post_limit_lambda` is retained as a secondary
+endpoint value. Endpoint-only or cherry-picked comparisons are not valid.
 
 ## Continuation and linear solver policy
 
@@ -172,10 +184,12 @@ augmented matrix.
 
 The primary reference is a future independent direct implementation of the
 same TET4 geometry, connectivity, StVK internal energy/tangent, BCs, load,
-monitor and spherical constraint. It must not call QF production mechanics
-or arc-length routines. A reduced shallow-arch/two-bar relation may provide
-an analytical sanity check for scale and turning direction, but cannot be
-used as a TET4 acceptance oracle.
+monitor and spherical constraint. It may use NumPy/SciPy primitives, but it
+must not import QF production arc-length routines, nonlinear continuation
+kernels, residual/tangent helpers or TET4 geometric-nonlinear element
+routines. A reduced shallow-arch/two-bar relation may provide an analytical
+sanity check for scale and turning direction, but cannot be used as a TET4
+acceptance oracle.
 
 The reference plan is currently `PLAN_ONLY_NO_REFERENCE_RESULT`.
 Formulation mapping must be `YES` before any comparison evidence can qualify.
