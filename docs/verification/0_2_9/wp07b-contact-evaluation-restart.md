@@ -16,7 +16,8 @@ Machine-readable contract: [`wp07b_contact_evaluation_restart.json`](../../../qu
 WP07-A contract: [`wp07a-contact-formulation-contract.md`](wp07a-contact-formulation-contract.md)
 
 Source snapshot: `1b400e20685f80d4508d93a31abeca2caee129fe`
-Owner status: `WP07-B_IMPLEMENTATION_CANDIDATE`
+Owner-correction source snapshot: `cbf430543547e322eadb6c4eb559bc92bb6892ab`
+Owner status: `WP07-B_IMPLEMENTATION_CANDIDATE_WITH_OWNER_CORRECTION_R1`
 WP07-B formal points: `0/2`
 Validated total: `29/100`
 
@@ -89,18 +90,33 @@ continuation transactions remain owned by the common driver.
 * penalty value and relevant contact iteration/tolerance parameters.
 
 The digest uses deterministic typed serialization and never hashes Python
-object identities. Nodal coordinates are intentionally excluded because the
-surrounding model/checkpoint signature owns physical geometry.
+object identities. Nodal coordinates are intentionally excluded: the contact
+digest does not own physical geometry. A surrounding model/checkpoint
+`model_signature` must own and validate that geometry and the other model
+inputs needed to restore the accepted state.
 
-`PenaltyContactRestartMetadata` records the contact digest, analysis/search
-configuration, state semantics and an optional accepted-state digest. A
-compatible restart requires restored accepted state, the same model/contact
-parameters and a matching digest. Metadata mismatch fails closed with
-`InputValidationError`; it is never treated as a compatible restart.
+### Owner correction R1: compatibility levels
+
+`OWNER_CORRECTION_R1` closes the restart-validation gap in the original
+candidate. `PenaltyContactRestartMetadata` now distinguishes two levels:
+
+* `CONTACT_CONFIGURATION_COMPATIBLE` proves only that the contact topology,
+  contact parameters, search settings and analysis metadata match. It does
+  not claim that a checkpoint can be resumed.
+* `FULL_RESTART_COMPATIBLE` is returned only after all three independent
+  identities match: the contact configuration digest, the restored
+  model/checkpoint signature, and the restored accepted-state digest.
+
+For a full restart, both signatures must be present in the metadata and the
+restored values must be supplied to validation. Missing, malformed or
+mismatched values fail closed with `InputValidationError`. In particular,
+`accepted_state_digest` is optional only for contact-only metadata; it is
+required for a full-restart claim. The contact digest never substitutes for
+the model signature or the restored-state digest.
 
 Active-set mid-solve restart remains `UNSUPPORTED`. Updated-search restart is
 `UNQUALIFIED_RESTART`; recomputation may be deterministic for a trial, but no
-qualification claim is made.
+qualification claim is made. These boundaries are unchanged by R1.
 
 ## Failure and compatibility policy
 
@@ -115,6 +131,10 @@ The WP07-B test set covers same-trial determinism, discarded-trial
 re-evaluation, digest determinism and sensitivity, compatible/incompatible
 restart metadata, explicit active-set/updated-search restart boundaries,
 legacy diagnostic preservation and evaluation-wrapper numerical identity.
+The R1 correction tests additionally cover matching full compatibility,
+wrong contact/model/state digests, missing required signatures, the explicit
+contact-only/full distinction and numerical identity after metadata
+validation.
 The existing contact/nonlinear tests remain part of the targeted regression.
 No structural campaign, external solver, MPI/PETSc run or full suite is part
 of this work package.

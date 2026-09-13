@@ -25,6 +25,8 @@ PENALTY_CONTACT_RESTART_SCHEMA_VERSION = 1
 PENALTY_CONTACT_STATE_SEMANTICS = "PURE_STATELESS_FROM_TRIAL_U"
 ACTIVE_SET_MIDSOLVE_RESTART = "UNSUPPORTED"
 UPDATED_SEARCH_RESTART = "UNQUALIFIED_RESTART"
+CONTACT_CONFIGURATION_COMPATIBLE = "CONTACT_CONFIGURATION_COMPATIBLE"
+FULL_RESTART_COMPATIBLE = "FULL_RESTART_COMPATIBLE"
 
 _CONTACT_PARAMETER_NAMES = (
     "contact_max_penetration",
@@ -247,6 +249,7 @@ class PenaltyContactRestartMetadata:
     analysis_type: str
     search_mode: str
     finite_sliding: bool
+    model_signature: str | None = None
     accepted_state_digest: str | None = None
     schema_version: int = PENALTY_CONTACT_RESTART_SCHEMA_VERSION
     state_semantics: str = PENALTY_CONTACT_STATE_SEMANTICS
@@ -254,11 +257,21 @@ class PenaltyContactRestartMetadata:
     def __post_init__(self) -> None:
         if self.schema_version != PENALTY_CONTACT_RESTART_SCHEMA_VERSION:
             raise InputValidationError("Unsupported penalty contact restart metadata schema version.")
-        if not self.contact_configuration_digest:
+        if not isinstance(self.contact_configuration_digest, str) or not self.contact_configuration_digest:
             raise InputValidationError("Penalty contact restart metadata requires a configuration digest.")
+        if not isinstance(self.analysis_type, str) or not self.analysis_type:
+            raise InputValidationError("Penalty contact restart metadata analysis_type is invalid.")
+        if not isinstance(self.search_mode, str) or not self.search_mode:
+            raise InputValidationError("Penalty contact restart metadata search_mode is invalid.")
         if not isinstance(self.finite_sliding, bool):
             raise InputValidationError("Penalty contact restart finite_sliding must be boolean.")
-        if self.accepted_state_digest is not None and not self.accepted_state_digest:
+        if self.model_signature is not None and (
+            not isinstance(self.model_signature, str) or not self.model_signature
+        ):
+            raise InputValidationError("Penalty contact restart model signature cannot be empty.")
+        if self.accepted_state_digest is not None and (
+            not isinstance(self.accepted_state_digest, str) or not self.accepted_state_digest
+        ):
             raise InputValidationError("Penalty contact restart accepted state digest cannot be empty.")
         if self.state_semantics != PENALTY_CONTACT_STATE_SEMANTICS:
             raise InputValidationError("Unsupported penalty contact restart state semantics.")
@@ -269,6 +282,7 @@ class PenaltyContactRestartMetadata:
         model: FiniteElementModel,
         *,
         penalty: float,
+        model_signature: str | None = None,
         accepted_state_digest: str | None = None,
     ) -> "PenaltyContactRestartMetadata":
         parameters = model.analysis.parameters
@@ -281,6 +295,7 @@ class PenaltyContactRestartMetadata:
             analysis_type=str(model.analysis.type),
             search_mode=search_mode,
             finite_sliding=finite_sliding,
+            model_signature=model_signature,
             accepted_state_digest=accepted_state_digest,
         )
 
@@ -293,6 +308,8 @@ class PenaltyContactRestartMetadata:
             "analysis_type",
             "search_mode",
             "finite_sliding",
+            "model_signature",
+            "accepted_state_digest",
             "state_semantics",
             "schema_version",
         }
@@ -304,17 +321,24 @@ class PenaltyContactRestartMetadata:
         finite_sliding = payload["finite_sliding"]
         if not isinstance(finite_sliding, bool):
             raise InputValidationError("Penalty contact restart metadata finite_sliding is invalid.")
+        model_signature = payload.get("model_signature")
+        if model_signature is not None and not isinstance(model_signature, str):
+            raise InputValidationError("Penalty contact restart model signature is invalid.")
         accepted_state_digest = payload.get("accepted_state_digest")
         if accepted_state_digest is not None and not isinstance(accepted_state_digest, str):
             raise InputValidationError("Penalty contact restart accepted state digest is invalid.")
+        string_fields = ("contact_configuration_digest", "analysis_type", "search_mode", "state_semantics")
+        if any(not isinstance(payload[name], str) for name in string_fields):
+            raise InputValidationError("Penalty contact restart metadata contains an invalid string field.")
         return cls(
-            contact_configuration_digest=str(payload["contact_configuration_digest"]),
-            analysis_type=str(payload["analysis_type"]),
-            search_mode=str(payload["search_mode"]),
+            contact_configuration_digest=cast(str, payload["contact_configuration_digest"]),
+            analysis_type=cast(str, payload["analysis_type"]),
+            search_mode=cast(str, payload["search_mode"]),
             finite_sliding=finite_sliding,
+            model_signature=model_signature,
             accepted_state_digest=accepted_state_digest,
             schema_version=schema_version,
-            state_semantics=str(payload["state_semantics"]),
+            state_semantics=cast(str, payload["state_semantics"]),
         )
 
     def to_dict(self) -> dict[str, object]:
@@ -327,11 +351,12 @@ class PenaltyContactRestartMetadata:
             "analysis_type": self.analysis_type,
             "search_mode": self.search_mode,
             "finite_sliding": self.finite_sliding,
+            "model_signature": self.model_signature,
             "accepted_state_digest": self.accepted_state_digest,
         }
 
-    def validate_compatible(self, model: FiniteElementModel, *, penalty: float) -> None:
-        """Reject a restart when semantic contact configuration changed."""
+    def validate_contact_configuration(self, model: FiniteElementModel, *, penalty: float) -> str:
+        """Validate contact-only compatibility without claiming full restart safety."""
 
         expected = type(self).from_model(model, penalty=penalty)
         if (
@@ -340,11 +365,40 @@ class PenaltyContactRestartMetadata:
             or self.analysis_type != expected.analysis_type
             or self.search_mode != expected.search_mode
             or self.finite_sliding != expected.finite_sliding
-            or self.state_semantics != expected.state_semantics
         ):
             raise InputValidationError(
                 "Penalty contact restart metadata is incompatible with the current contact configuration."
             )
+        return CONTACT_CONFIGURATION_COMPATIBLE
+
+    def validate_compatible(
+        self,
+        model: FiniteElementModel,
+        *,
+        penalty: float,
+        model_signature: str | None = None,
+        accepted_state_digest: str | None = None,
+    ) -> str:
+        """Require contact, model and restored-state identity for full restart."""
+
+        self.validate_contact_configuration(model, penalty=penalty)
+        if self.model_signature is None:
+            raise InputValidationError("Full penalty contact restart requires a model signature in metadata.")
+        if model_signature is None:
+            raise InputValidationError("Full penalty contact restart requires the restored model signature.")
+        if self.model_signature != model_signature:
+            raise InputValidationError("Penalty contact restart model signature does not match the restored model.")
+        if self.accepted_state_digest is None:
+            raise InputValidationError("Full penalty contact restart requires an accepted-state digest in metadata.")
+        if accepted_state_digest is None:
+            raise InputValidationError("Full penalty contact restart requires the restored accepted-state digest.")
+        if self.accepted_state_digest != accepted_state_digest:
+            raise InputValidationError(
+                "Penalty contact restart accepted-state digest does not match the restored accepted state."
+            )
+        if self.state_semantics != PENALTY_CONTACT_STATE_SEMANTICS:
+            raise InputValidationError("Unsupported penalty contact restart state semantics.")
+        return FULL_RESTART_COMPATIBLE
 
 
 def validate_penalty_contact_restart_metadata(
@@ -352,11 +406,18 @@ def validate_penalty_contact_restart_metadata(
     model: FiniteElementModel,
     *,
     penalty: float,
+    model_signature: str | None = None,
+    accepted_state_digest: str | None = None,
 ) -> PenaltyContactRestartMetadata:
-    """Decode and validate bounded penalty restart metadata."""
+    """Decode and validate full bounded penalty restart metadata."""
 
     metadata = PenaltyContactRestartMetadata.from_dict(payload)
-    metadata.validate_compatible(model, penalty=penalty)
+    metadata.validate_compatible(
+        model,
+        penalty=penalty,
+        model_signature=model_signature,
+        accepted_state_digest=accepted_state_digest,
+    )
     return metadata
 
 

@@ -7,7 +7,9 @@ import pytest
 
 from solveur.contact.evaluation import (
     ACTIVE_SET_MIDSOLVE_RESTART,
+    CONTACT_CONFIGURATION_COMPATIBLE,
     ContactEvaluation,
+    FULL_RESTART_COMPATIBLE,
     PenaltyContactRestartMetadata,
     UPDATED_SEARCH_RESTART,
     contact_configuration_digest,
@@ -111,12 +113,15 @@ def test_b5_compatible_penalty_restart_metadata_is_accepted() -> None:
     metadata = PenaltyContactRestartMetadata.from_model(
         model,
         penalty=1.0e6,
+        model_signature="model-001",
         accepted_state_digest="accepted-state-001",
     )
     restored = validate_penalty_contact_restart_metadata(
         metadata.to_dict(),
         model,
         penalty=1.0e6,
+        model_signature="model-001",
+        accepted_state_digest="accepted-state-001",
     )
 
     assert restored == metadata
@@ -126,10 +131,20 @@ def test_b6_incompatible_penalty_restart_metadata_fails_closed() -> None:
     model = _contact_model()
     changed = _contact_model()
     changed.contacts[0] = replace(changed.contacts[0], gap_tolerance=1.0e-8)
-    metadata = PenaltyContactRestartMetadata.from_model(model, penalty=1.0e6)
+    metadata = PenaltyContactRestartMetadata.from_model(
+        model,
+        penalty=1.0e6,
+        model_signature="model-001",
+        accepted_state_digest="accepted-state-001",
+    )
 
     with pytest.raises(InputValidationError, match="incompatible"):
-        metadata.validate_compatible(changed, penalty=1.0e6)
+        metadata.validate_compatible(
+            changed,
+            penalty=1.0e6,
+            model_signature="model-001",
+            accepted_state_digest="accepted-state-001",
+        )
 
 
 def test_b7_active_set_mid_solve_restart_remains_unsupported() -> None:
@@ -186,3 +201,140 @@ def test_b10_legacy_and_normalized_contact_diagnostics_are_both_available() -> N
         "contact_search_mode",
     ):
         assert key in evaluation.diagnostics
+
+
+def test_r1_01_matching_contact_model_and_state_digests_are_full_compatible() -> None:
+    model = _contact_model()
+    metadata = PenaltyContactRestartMetadata.from_model(
+        model,
+        penalty=1.0e6,
+        model_signature="model-001",
+        accepted_state_digest="state-001",
+    )
+
+    level = metadata.validate_compatible(
+        model,
+        penalty=1.0e6,
+        model_signature="model-001",
+        accepted_state_digest="state-001",
+    )
+
+    assert level == FULL_RESTART_COMPATIBLE
+
+
+def test_r1_02_wrong_contact_digest_fails_closed() -> None:
+    model = _contact_model()
+    metadata = PenaltyContactRestartMetadata.from_model(
+        model,
+        penalty=1.0e6,
+        model_signature="model-001",
+        accepted_state_digest="state-001",
+    )
+    payload = metadata.to_dict()
+    payload["contact_configuration_digest"] = "wrong-contact-digest"
+
+    with pytest.raises(InputValidationError, match="contact configuration"):
+        validate_penalty_contact_restart_metadata(
+            payload,
+            model,
+            penalty=1.0e6,
+            model_signature="model-001",
+            accepted_state_digest="state-001",
+        )
+
+
+def test_r1_03_wrong_model_signature_fails_closed() -> None:
+    model = _contact_model()
+    metadata = PenaltyContactRestartMetadata.from_model(
+        model,
+        penalty=1.0e6,
+        model_signature="model-001",
+        accepted_state_digest="state-001",
+    )
+
+    with pytest.raises(InputValidationError, match="model signature"):
+        metadata.validate_compatible(
+            model,
+            penalty=1.0e6,
+            model_signature="model-002",
+            accepted_state_digest="state-001",
+        )
+
+
+def test_r1_04_wrong_accepted_state_digest_fails_closed() -> None:
+    model = _contact_model()
+    metadata = PenaltyContactRestartMetadata.from_model(
+        model,
+        penalty=1.0e6,
+        model_signature="model-001",
+        accepted_state_digest="state-001",
+    )
+
+    with pytest.raises(InputValidationError, match="accepted-state digest"):
+        metadata.validate_compatible(
+            model,
+            penalty=1.0e6,
+            model_signature="model-001",
+            accepted_state_digest="state-002",
+        )
+
+
+def test_r1_05_missing_required_model_signature_fails_closed() -> None:
+    model = _contact_model()
+    metadata = PenaltyContactRestartMetadata.from_model(
+        model,
+        penalty=1.0e6,
+        accepted_state_digest="state-001",
+    )
+
+    with pytest.raises(InputValidationError, match="model signature"):
+        metadata.validate_compatible(
+            model,
+            penalty=1.0e6,
+            model_signature=None,
+            accepted_state_digest="state-001",
+        )
+
+
+def test_r1_06_missing_required_accepted_state_digest_fails_closed() -> None:
+    model = _contact_model()
+    metadata = PenaltyContactRestartMetadata.from_model(
+        model,
+        penalty=1.0e6,
+        model_signature="model-001",
+    )
+
+    with pytest.raises(InputValidationError, match="accepted-state digest"):
+        metadata.validate_compatible(
+            model,
+            penalty=1.0e6,
+            model_signature="model-001",
+            accepted_state_digest=None,
+        )
+
+
+def test_r1_07_contact_compatibility_does_not_claim_full_restart() -> None:
+    model = _contact_model()
+    metadata = PenaltyContactRestartMetadata.from_model(model, penalty=1.0e6)
+
+    assert metadata.validate_contact_configuration(model, penalty=1.0e6) == CONTACT_CONFIGURATION_COMPATIBLE
+    with pytest.raises(InputValidationError, match="requires a model signature"):
+        metadata.validate_compatible(
+            model,
+            penalty=1.0e6,
+            model_signature="model-001",
+            accepted_state_digest="state-001",
+        )
+    assert CONTACT_CONFIGURATION_COMPATIBLE != FULL_RESTART_COMPATIBLE
+
+
+def test_r1_08_restart_metadata_correction_preserves_numerical_evaluation() -> None:
+    model = _contact_model()
+    dofs, _, trial = _displacements(model)
+    before, before_tangent, _ = assemble_penalty_contact(model, dofs, trial, penalty=1.0e6)
+    after = evaluate_penalty_contact(model, dofs, trial, penalty=1.0e6)
+
+    assert np.array_equal(before, after.internal_force)
+    assert np.array_equal(before_tangent.toarray(), after.tangent.toarray())
+    assert after.details["active_contacts"] == [0]
+    assert after.details["gaps"] == [-0.1]
