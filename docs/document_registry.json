@@ -5611,6 +5611,21 @@
   "tests": [
     "tests/verification/test_028_wp13_02c3_harmonic_final.py"
   ]
+},
+{
+  "id": "DOC-029-WP05-READINESS-001",
+  "path": "verification/0_2_9/wp05-high-order-geometric-readiness.md",
+  "title": "QF Solver 0.2.9 WP05 high-order geometric readiness audit",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp05_readiness.json"
+  ],
+  "tests": [
+    "tests/unit/test_tet10_element.py",
+    "tests/unit/test_hex20_element.py",
+    "tests/unit/test_geometric_nonlinear_public.py"
+  ]
 }
   ]
   
