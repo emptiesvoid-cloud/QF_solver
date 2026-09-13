@@ -49,6 +49,17 @@ G04-10 remains unresolved and no pair delta is claimed. The consolidated
 master record is `linear_solver_remediation_master.json`; live JSONL and
 terminal case records are retained under `c2r3/`.
 
+C2R4 then reproduces the M2 near-tolerance stagnation and captures one
+step-3 plateau system outside Git. Same-state direct and tighter-MINRES
+corrections are machine scale and both remain above the frozen nonlinear
+tolerance, so the evidence is classified as a nonlinear residual numerical
+floor rather than a linear-solver failure. It also identifies that C2R3
+explicitly disabled the line search used by original C2/R2B. The one
+M2-only canonical-line-search comparison accepts step 3 but terminates at
+step 4 with `LINE_SEARCH_FAILURE`; it is a protocol diagnostic, not a
+qualification rerun. Controlled evidence is in `c2r4/` and
+`../docs/verification/0_2_9/wp04-c2r4-near-tolerance-audit.md`.
+
 ## Current planning status
 
 - WP00: `CLOSED`, 4/4 points.

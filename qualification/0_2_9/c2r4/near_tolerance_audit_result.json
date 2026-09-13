@@ -1,0 +1,1318 @@
+{
+  "canonical_line_search_m2": {
+    "accepted_records": [
+      {
+        "digest": "8bbc9f06152ce5d66248422453c827bc91d1f04146059e3d8ce45d3c9aa62f5a",
+        "load_factor": 0.08333333333333333,
+        "step": 1
+      },
+      {
+        "digest": "914d45274955a5ef34d1682e0109f9e3c845545f1463cbd7f5e60395040e6823",
+        "load_factor": 0.16666666666666666,
+        "step": 2
+      },
+      {
+        "digest": "5e7ed9762d80b6dd87a9d9b55651e70f0e4b44067b5ecd6c99465fab76efe706",
+        "load_factor": 0.25,
+        "step": 3
+      }
+    ],
+    "attempted": true,
+    "failure": {
+      "diagnostics": {
+        "accepted": false,
+        "accepted_factor": null,
+        "accepted_factors": [],
+        "armijo_c": null,
+        "backend": "scipy.sparse.linalg.minres",
+        "factor": null,
+        "failure_reason": "LINE_SEARCH_FAILURE",
+        "initial_merit": 1.0411047989090212e-10,
+        "iterations": 26,
+        "line_search_iterations": 106,
+        "max_reductions": 14,
+        "merit_history": [
+          1.1786672101386367e-10,
+          1.087998092674283e-10,
+          1.0816636703227027e-10,
+          1.0687095189798257e-10,
+          1.0608807344801181e-10,
+          1.0537365372983584e-10,
+          1.0495728321429686e-10,
+          1.0435852481068462e-10,
+          1.0430259234360327e-10,
+          1.0429477685691295e-10,
+          1.041523504194613e-10,
+          1.0416104471125124e-10,
+          1.0413191293026293e-10,
+          1.0412069200871767e-10,
+          1.0411521045606017e-10
+        ],
+        "min_alpha": 0.0,
+        "policy_id": "qf-solver-unified-robustness",
+        "policy_source": "EXPERIMENTAL_OVERRIDE",
+        "policy_version": 1,
+        "reductions": 14,
+        "relative_residual": 1.0411047989090212e-10,
+        "relative_residual_status": "COMPUTED",
+        "residual_final": 1.0411047989090212e-10,
+        "residual_history": [
+          0.16666666666660618,
+          0.14990720305978442,
+          0.13986992490864653,
+          0.1321613531274052,
+          0.1247884310880917,
+          0.1170808474367853,
+          0.11624709378736262,
+          0.10516035607099515,
+          0.09661742734809282,
+          0.0468808194733264,
+          4.857289587589149e-08,
+          1.4081481092159625e-10,
+          1.1630222470671557e-10,
+          1.0705023093399221e-10,
+          1.0541873288059534e-10,
+          1.0484399488184351e-10,
+          1.0449491770270585e-10,
+          1.0444061462929756e-10,
+          1.0442896281539054e-10,
+          1.0431435026948937e-10,
+          1.0426090325997231e-10,
+          1.0420735390999959e-10,
+          1.0413588974991863e-10,
+          1.0411839060730433e-10,
+          1.0411555549422387e-10,
+          1.0411047989090212e-10
+        ],
+        "residual_initial": 0.16666666666660618,
+        "robustness": {
+          "line_search": {
+            "armijo_c": null,
+            "enabled": true,
+            "events": [
+              {
+                "accepted": true,
+                "accepted_factor": 0.125,
+                "accepted_factors": [
+                  0.125
+                ],
+                "armijo_c": null,
+                "factor": 0.125,
+                "failure_reason": null,
+                "initial_merit": 0.16666666666660618,
+                "max_reductions": 14,
+                "merit_history": [
+                  2.2508898554233046,
+                  0.5685655371222077,
+                  0.1878859873583044,
+                  0.14990720305978442
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 3,
+                "total_reductions": 3,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.125,
+                "accepted_factors": [
+                  0.125
+                ],
+                "armijo_c": null,
+                "factor": 0.125,
+                "failure_reason": null,
+                "initial_merit": 0.14990720305978442,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.722301056507648,
+                  0.45379616890228563,
+                  0.17270739479429828,
+                  0.13986992490864653
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 3,
+                "total_reductions": 3,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.125,
+                "accepted_factors": [
+                  0.125
+                ],
+                "armijo_c": null,
+                "factor": 0.125,
+                "failure_reason": null,
+                "initial_merit": 0.13986992490864653,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.3182061577408453,
+                  0.3638035588572016,
+                  0.15769376820054729,
+                  0.1321613531274052
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 3,
+                "total_reductions": 3,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.125,
+                "accepted_factors": [
+                  0.125
+                ],
+                "armijo_c": null,
+                "factor": 0.125,
+                "failure_reason": null,
+                "initial_merit": 0.1321613531274052,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.0091173323763356,
+                  0.29298225799495925,
+                  0.1431427081315838,
+                  0.1247884310880917
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 3,
+                "total_reductions": 3,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.125,
+                "accepted_factors": [
+                  0.125
+                ],
+                "armijo_c": null,
+                "factor": 0.125,
+                "failure_reason": null,
+                "initial_merit": 0.1247884310880917,
+                "max_reductions": 14,
+                "merit_history": [
+                  0.7726057751045918,
+                  0.23704074430474795,
+                  0.129277102730508,
+                  0.1170808474367853
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 3,
+                "total_reductions": 3,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.25,
+                "accepted_factors": [
+                  0.25
+                ],
+                "armijo_c": null,
+                "factor": 0.25,
+                "failure_reason": null,
+                "initial_merit": 0.1170808474367853,
+                "max_reductions": 14,
+                "merit_history": [
+                  0.5915793812409099,
+                  0.19268241031994254,
+                  0.11624709378736262
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 2,
+                "total_reductions": 2,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.25,
+                "accepted_factors": [
+                  0.25
+                ],
+                "armijo_c": null,
+                "factor": 0.25,
+                "failure_reason": null,
+                "initial_merit": 0.11624709378736262,
+                "max_reductions": 14,
+                "merit_history": [
+                  0.33278480143788924,
+                  0.13551980554901652,
+                  0.10516035607099515
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 2,
+                "total_reductions": 2,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.5,
+                "accepted_factors": [
+                  0.5
+                ],
+                "armijo_c": null,
+                "factor": 0.5,
+                "failure_reason": null,
+                "initial_merit": 0.10516035607099515,
+                "max_reductions": 14,
+                "merit_history": [
+                  0.1872810686083693,
+                  0.09661742734809282
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 1,
+                "total_reductions": 1,
+                "trial_diagnostics": [
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 1.0,
+                "accepted_factors": [
+                  1.0
+                ],
+                "armijo_c": null,
+                "factor": 1.0,
+                "failure_reason": null,
+                "initial_merit": 0.09661742734809282,
+                "max_reductions": 14,
+                "merit_history": [
+                  0.0468808194733264
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 0,
+                "total_reductions": 0,
+                "trial_diagnostics": [
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 1.0,
+                "accepted_factors": [
+                  1.0
+                ],
+                "armijo_c": null,
+                "factor": 1.0,
+                "failure_reason": null,
+                "initial_merit": 0.0468808194733264,
+                "max_reductions": 14,
+                "merit_history": [
+                  4.857289587589149e-08
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 0,
+                "total_reductions": 0,
+                "trial_diagnostics": [
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 1.0,
+                "accepted_factors": [
+                  1.0
+                ],
+                "armijo_c": null,
+                "factor": 1.0,
+                "failure_reason": null,
+                "initial_merit": 4.857289587589149e-08,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.4081481092159625e-10
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 0,
+                "total_reductions": 0,
+                "trial_diagnostics": [
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 1.0,
+                "accepted_factors": [
+                  1.0
+                ],
+                "armijo_c": null,
+                "factor": 1.0,
+                "failure_reason": null,
+                "initial_merit": 1.4081481092159625e-10,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.1630222470671557e-10
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 0,
+                "total_reductions": 0,
+                "trial_diagnostics": [
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.5,
+                "accepted_factors": [
+                  0.5
+                ],
+                "armijo_c": null,
+                "factor": 0.5,
+                "failure_reason": null,
+                "initial_merit": 1.1630222470671557e-10,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.1704260590609084e-10,
+                  1.0705023093399221e-10
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 1,
+                "total_reductions": 1,
+                "trial_diagnostics": [
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.25,
+                "accepted_factors": [
+                  0.25
+                ],
+                "armijo_c": null,
+                "factor": 0.25,
+                "failure_reason": null,
+                "initial_merit": 1.0705023093399221e-10,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.1866655133309242e-10,
+                  1.0743263669435518e-10,
+                  1.0541873288059534e-10
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 2,
+                "total_reductions": 2,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.125,
+                "accepted_factors": [
+                  0.125
+                ],
+                "armijo_c": null,
+                "factor": 0.125,
+                "failure_reason": null,
+                "initial_merit": 1.0541873288059534e-10,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.1722251848717392e-10,
+                  1.0722435631464166e-10,
+                  1.0558129074612546e-10,
+                  1.0484399488184351e-10
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 3,
+                "total_reductions": 3,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.0625,
+                "accepted_factors": [
+                  0.0625
+                ],
+                "armijo_c": null,
+                "factor": 0.0625,
+                "failure_reason": null,
+                "initial_merit": 1.0484399488184351e-10,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.2639514794817475e-10,
+                  1.109235181317838e-10,
+                  1.0601976738291493e-10,
+                  1.0518322856823603e-10,
+                  1.0449491770270585e-10
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 4,
+                "total_reductions": 4,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.03125,
+                "accepted_factors": [
+                  0.03125
+                ],
+                "armijo_c": null,
+                "factor": 0.03125,
+                "failure_reason": null,
+                "initial_merit": 1.0449491770270585e-10,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.1697768252757495e-10,
+                  1.0836186163406346e-10,
+                  1.073821948166466e-10,
+                  1.0579999282197313e-10,
+                  1.0482327680412756e-10,
+                  1.0444061462929756e-10
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 5,
+                "total_reductions": 5,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.03125,
+                "accepted_factors": [
+                  0.03125
+                ],
+                "armijo_c": null,
+                "factor": 0.03125,
+                "failure_reason": null,
+                "initial_merit": 1.0444061462929756e-10,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.2006933243105442e-10,
+                  1.0843575779890231e-10,
+                  1.0737547025092051e-10,
+                  1.060263888964221e-10,
+                  1.0498094976655352e-10,
+                  1.0442896281539054e-10
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 5,
+                "total_reductions": 5,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.015625,
+                "accepted_factors": [
+                  0.015625
+                ],
+                "armijo_c": null,
+                "factor": 0.015625,
+                "failure_reason": null,
+                "initial_merit": 1.0442896281539054e-10,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.2948477982499143e-10,
+                  1.1275565810788681e-10,
+                  1.0687062381124744e-10,
+                  1.0628488756334889e-10,
+                  1.0520267638876266e-10,
+                  1.0453492087944603e-10,
+                  1.0431435026948937e-10
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 6,
+                "total_reductions": 6,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.015625,
+                "accepted_factors": [
+                  0.015625
+                ],
+                "armijo_c": null,
+                "factor": 0.015625,
+                "failure_reason": null,
+                "initial_merit": 1.0431435026948937e-10,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.220892873406365e-10,
+                  1.0906945016559066e-10,
+                  1.0780559421736201e-10,
+                  1.0664275325271195e-10,
+                  1.056334858375502e-10,
+                  1.0488167768145651e-10,
+                  1.0426090325997231e-10
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 6,
+                "total_reductions": 6,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.0078125,
+                "accepted_factors": [
+                  0.0078125
+                ],
+                "armijo_c": null,
+                "factor": 0.0078125,
+                "failure_reason": null,
+                "initial_merit": 1.0426090325997231e-10,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.1918018807841732e-10,
+                  1.0871802622811232e-10,
+                  1.0799296568111508e-10,
+                  1.0666705865931339e-10,
+                  1.0585087978647103e-10,
+                  1.0523016862871062e-10,
+                  1.0459403172024333e-10,
+                  1.0420735390999959e-10
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 7,
+                "total_reductions": 7,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.0009765625,
+                "accepted_factors": [
+                  0.0009765625
+                ],
+                "armijo_c": null,
+                "factor": 0.0009765625,
+                "failure_reason": null,
+                "initial_merit": 1.0420735390999959e-10,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.1898498701948522e-10,
+                  1.0853367042247008e-10,
+                  1.0819870289164411e-10,
+                  1.0681927269678237e-10,
+                  1.060444830857919e-10,
+                  1.0540743369142979e-10,
+                  1.0475003410062573e-10,
+                  1.0445596318173384e-10,
+                  1.0429511412977673e-10,
+                  1.0420922037867531e-10,
+                  1.0413588974991863e-10
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 10,
+                "total_reductions": 10,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.00048828125,
+                "accepted_factors": [
+                  0.00048828125
+                ],
+                "armijo_c": null,
+                "factor": 0.00048828125,
+                "failure_reason": null,
+                "initial_merit": 1.0413588974991863e-10,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.1911057479012726e-10,
+                  1.0907387181517964e-10,
+                  1.0815439120165689e-10,
+                  1.068470050828334e-10,
+                  1.0608513283367292e-10,
+                  1.0541419084543357e-10,
+                  1.0487311774826684e-10,
+                  1.0433746993369629e-10,
+                  1.0427874643580259e-10,
+                  1.0422854140679471e-10,
+                  1.0414433700871316e-10,
+                  1.0411839060730433e-10
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 11,
+                "total_reductions": 11,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.0001220703125,
+                "accepted_factors": [
+                  0.0001220703125
+                ],
+                "armijo_c": null,
+                "factor": 0.0001220703125,
+                "failure_reason": null,
+                "initial_merit": 1.0411839060730433e-10,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.1834678145663023e-10,
+                  1.0855828295403005e-10,
+                  1.0822683715281637e-10,
+                  1.0686494897825792e-10,
+                  1.0608938400290607e-10,
+                  1.0546322545051421e-10,
+                  1.0495091752384904e-10,
+                  1.0434874732680636e-10,
+                  1.0429690042609435e-10,
+                  1.0428774848078488e-10,
+                  1.041489116655384e-10,
+                  1.0415682486512832e-10,
+                  1.0412023894422939e-10,
+                  1.0411555549422387e-10
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 13,
+                "total_reductions": 13,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": true,
+                "accepted_factor": 0.0001220703125,
+                "accepted_factors": [
+                  0.0001220703125
+                ],
+                "armijo_c": null,
+                "factor": 0.0001220703125,
+                "failure_reason": null,
+                "initial_merit": 1.0411555549422387e-10,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.1829545195184881e-10,
+                  1.0843016099560535e-10,
+                  1.0817686031379936e-10,
+                  1.0686517925626949e-10,
+                  1.0611261805750766e-10,
+                  1.0537800785681592e-10,
+                  1.0498324439086194e-10,
+                  1.0436441410940714e-10,
+                  1.0430356522372666e-10,
+                  1.0430620023139022e-10,
+                  1.0414037534554873e-10,
+                  1.0416029820260468e-10,
+                  1.0411689910271527e-10,
+                  1.0411047989090212e-10
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 13,
+                "total_reductions": 13,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              },
+              {
+                "accepted": false,
+                "accepted_factor": null,
+                "accepted_factors": [],
+                "armijo_c": null,
+                "factor": null,
+                "failure_reason": "LINE_SEARCH_FAILURE",
+                "initial_merit": 1.0411047989090212e-10,
+                "max_reductions": 14,
+                "merit_history": [
+                  1.1786672101386367e-10,
+                  1.087998092674283e-10,
+                  1.0816636703227027e-10,
+                  1.0687095189798257e-10,
+                  1.0608807344801181e-10,
+                  1.0537365372983584e-10,
+                  1.0495728321429686e-10,
+                  1.0435852481068462e-10,
+                  1.0430259234360327e-10,
+                  1.0429477685691295e-10,
+                  1.041523504194613e-10,
+                  1.0416104471125124e-10,
+                  1.0413191293026293e-10,
+                  1.0412069200871767e-10,
+                  1.0411521045606017e-10
+                ],
+                "min_alpha": 0.0,
+                "policy_id": "qf-solver-unified-robustness",
+                "policy_source": "EXPERIMENTAL_OVERRIDE",
+                "policy_version": 1,
+                "reductions": 14,
+                "total_reductions": 14,
+                "trial_diagnostics": [
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+                  {}
+                ]
+              }
+            ],
+            "max_reductions": 14,
+            "min_alpha": 0.0,
+            "policy_id": "qf-solver-unified-robustness",
+            "policy_source": "EXPERIMENTAL_OVERRIDE",
+            "policy_version": 1
+          },
+          "policy_id": "qf-solver-unified-robustness",
+          "policy_source": "EXPERIMENTAL_OVERRIDE",
+          "policy_version": 1,
+          "stagnation": {
+            "convergence_tolerance": 1e-10,
+            "decision": "CONTINUE",
+            "final_window_residual": 1.0411047989090212e-10,
+            "initial_window_residual": 1.0413588974991863e-10,
+            "plateau_threshold": 1e-10,
+            "policy_id": "qf-solver-unified-robustness",
+            "policy_version": 1,
+            "reason": null,
+            "relative_change": 0.00024400674039980704,
+            "residual_window": [
+              1.0413588974991863e-10,
+              1.0411839060730433e-10,
+              1.0411555549422387e-10,
+              1.0411047989090212e-10
+            ],
+            "window": [
+              1.0413588974991863e-10,
+              1.0411839060730433e-10,
+              1.0411555549422387e-10,
+              1.0411047989090212e-10
+            ],
+            "window_size": 4
+          }
+        },
+        "solver": "full_newton",
+        "step": 4,
+        "tolerance": 1e-10,
+        "total_reductions": 14,
+        "trial_diagnostics": [
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {},
+          {}
+        ]
+      },
+      "message": "Nonlinear line search failed to satisfy its merit condition.",
+      "reason": "LINE_SEARCH_FAILURE"
+    },
+    "line_search": "existing",
+    "status": "NUMERICAL_FAILURE",
+    "telemetry_path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_unified_nonlinear\\qualification\\0_2_9\\c2r4\\m2_canonical_line_search_telemetry.jsonl",
+    "wall_time_s": 1267.0411474999855
+  },
+  "governance": {
+    "full_test_suite_run": false,
+    "g04_10": "UNRESOLVED",
+    "m3_run": false,
+    "m4_run": false,
+    "petsc_work": false,
+    "validated_total": "29/100",
+    "wp04_points": "0/12",
+    "wp04_status": "HOLD"
+  },
+  "m2_reproduction": {
+    "case": "C2-M2",
+    "cpu_time_s": 518.859375,
+    "expected_route": {
+      "atol": 1e-14,
+      "direct_fallback": false,
+      "increments": 12,
+      "line_search": "off",
+      "linear_solver": "minres",
+      "maxiter": 10000,
+      "newton_tolerance": 1e-10,
+      "preconditioner": "jacobi",
+      "rtol": 1e-11
+    },
+    "force_moment_at_stagnation": {
+      "force_relative_error": 3.299667940206007e-14,
+      "moment_relative_error": 8.554221404645066e-16,
+      "reaction_resultant_norm": 12.500000000000012
+    },
+    "memory": {
+      "peak_private_or_uss_process": 1890299904,
+      "peak_rss_process": 1797472256,
+      "telemetry_sample_peak_private": 732942336,
+      "telemetry_sample_peak_rss": 757993472
+    },
+    "reassembly": {
+      "max": 1.1303927985055497e-10,
+      "mean": 1.1303927985055496e-10,
+      "min": 1.1303927985055497e-10,
+      "samples": [
+        1.1303927985055497e-10,
+        1.1303927985055497e-10,
+        1.1303927985055497e-10,
+        1.1303927985055497e-10,
+        1.1303927985055497e-10
+      ],
+      "spread": 0.0
+    },
+    "root_cause_classification": "NONLINEAR_RESIDUAL_NUMERICAL_FLOOR",
+    "same_state_linear_forensics": {
+      "direct": {
+        "correction_norm": 1.3818619634389961e-15,
+        "diagnostics": {
+          "allow_unverified_krylov": false,
+          "assume_spd": false,
+          "backward_error_eta_inf": 1.0775271880246563e-15,
+          "backward_error_tolerance": 1e-10,
+          "fallback_reason": null,
+          "fallback_used": false,
+          "gmres_restart": 50,
+          "ilu_drop_tol": 0.0001,
+          "ilu_fill_factor": 10.0,
+          "krylov_iterations": 1,
+          "linear_backend": "scipy.sparse.linalg.spsolve",
+          "linear_method": "direct",
+          "linear_relative_residual": 3.2681252820139467e-15,
+          "linear_residual_norm": 3.6942652834024844e-25,
+          "linear_solve_seconds": 90.32314629998291,
+          "matrix_nnz": 3835710,
+          "matrix_shape": [
+            90000,
+            90000
+          ],
+          "matrix_symmetric": true,
+          "post_solve_residual_contract_satisfied": true,
+          "preconditioner": "none",
+          "preconditioner_private_after_bytes": 630501376,
+          "preconditioner_private_before_bytes": 630501376,
+          "preconditioner_rss_after_bytes": 656195584,
+          "preconditioner_rss_before_bytes": 655601664,
+          "preconditioner_setup_seconds": 0.009250400005839765,
+          "raw_relative_residual": 3.2681252820139467e-15,
+          "requested_linear_method": "direct",
+          "symmetry_defect": 5.915321109519236e-17,
+          "symmetry_tolerance": 1e-12
+        },
+        "residual_after": 1.1658268207656868e-10
+      },
+      "minres_rtol_1e11": {
+        "correction_norm": 1.3818619736273857e-15,
+        "diagnostics": {
+          "allow_unverified_krylov": false,
+          "assume_spd": false,
+          "backward_error_eta_inf": 5.350382631315936e-13,
+          "backward_error_tolerance": 1e-10,
+          "fallback_reason": null,
+          "fallback_used": false,
+          "gmres_restart": 50,
+          "ilu_drop_tol": 0.0001,
+          "ilu_fill_factor": 10.0,
+          "krylov_iterations": 2614,
+          "linear_backend": "scipy.sparse.linalg.minres",
+          "linear_method": "minres",
+          "linear_relative_residual": 6.755096344063512e-12,
+          "linear_residual_norm": 7.635912260540562e-22,
+          "linear_solve_seconds": 16.8064383000019,
+          "matrix_nnz": 3835710,
+          "matrix_shape": [
+            90000,
+            90000
+          ],
+          "matrix_symmetric": true,
+          "post_solve_residual_contract_satisfied": true,
+          "preconditioner": "jacobi",
+          "preconditioner_private_after_bytes": 631099392,
+          "preconditioner_private_before_bytes": 631099392,
+          "preconditioner_rss_after_bytes": 656994304,
+          "preconditioner_rss_before_bytes": 656433152,
+          "preconditioner_setup_seconds": 0.020641299954149872,
+          "quadratic_energy_relative_difference": 3.351995609766679e-25,
+          "raw_relative_residual": 6.755096344063512e-12,
+          "requested_linear_method": "minres",
+          "solution_relative_difference": 6.579841937539021e-08,
+          "symmetry_defect": 5.915321109519236e-17,
+          "symmetry_tolerance": 1e-12
+        },
+        "residual_after": 1.1658268359091935e-10
+      },
+      "minres_rtol_1e12": {
+        "correction_norm": 1.3818619636997515e-15,
+        "diagnostics": {
+          "allow_unverified_krylov": false,
+          "assume_spd": false,
+          "backward_error_eta_inf": 4.5154946437830813e-13,
+          "backward_error_tolerance": 1e-10,
+          "fallback_reason": null,
+          "fallback_used": false,
+          "gmres_restart": 50,
+          "ilu_drop_tol": 0.0001,
+          "ilu_fill_factor": 10.0,
+          "krylov_iterations": 2700,
+          "linear_backend": "scipy.sparse.linalg.minres",
+          "linear_method": "minres",
+          "linear_relative_residual": 3.72882478699135e-12,
+          "linear_residual_norm": 4.215036686104013e-22,
+          "linear_solve_seconds": 17.88607549999142,
+          "matrix_nnz": 3835710,
+          "matrix_shape": [
+            90000,
+            90000
+          ],
+          "matrix_symmetric": true,
+          "post_solve_residual_contract_satisfied": true,
+          "preconditioner": "jacobi",
+          "preconditioner_private_after_bytes": 630833152,
+          "preconditioner_private_before_bytes": 629760000,
+          "preconditioner_rss_after_bytes": 656732160,
+          "preconditioner_rss_before_bytes": 655101952,
+          "preconditioner_setup_seconds": 0.01949919998878613,
+          "quadratic_energy_relative_difference": 3.415132513375298e-25,
+          "raw_relative_residual": 3.72882478699135e-12,
+          "requested_linear_method": "minres",
+          "solution_relative_difference": 6.987000875499502e-10,
+          "symmetry_defect": 5.915321109519236e-17,
+          "symmetry_tolerance": 1e-12
+        },
+        "residual_after": 1.1658268207656868e-10
+      },
+      "relative_correction_norm": 3.2480286516044657e-16,
+      "residual_before": 1.1303927985055497e-10
+    },
+    "stagnation": {
+      "capture": {
+        "accepted_state_before_step": {
+          "component_digests": {
+            "accepted_increment_metadata": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "contact_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c",
+            "continuation_state": "6ade9d4114d241a49aa4b0b9d5ca96beefde4b32d67f7827132ab2acbd61a222",
+            "displacement": "47b83f3a38359dc9d68591d2ec1d7f0f6774ca115cb43cac028d85dc1ef39ca2",
+            "load_factor": "999df7eb6e16ddf4b6f441bfed3f34faa5b9114e617f7b84db8564367a576e26",
+            "material_state": "1640cb4767757663d6a4347b76993f47da899ec04a38b2b81ef14a0d6c05420c"
+          },
+          "digest": "46013dbedcff9d6e14207e9c01401a9de0323f0e62b9ac29f416310b4562f079",
+          "load_factor": 0.16666666666666666
+        },
+        "nnz": 3835710,
+        "path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_c2r4_forensics\\c2_m2_stagnation_step3.npz",
+        "sha256": "8c690567cc1307796fe5384d9c464e7eafd8b12a4dd96ebcaf98d9abfd43d85e",
+        "shape": [
+          90000,
+          90000
+        ],
+        "size_bytes": 27324848,
+        "trial_state": {
+          "displacement_norm": 4.254463589033866,
+          "load_factor": 0.25
+        }
+      },
+      "failure": {
+        "diagnostics": {
+          "backend": "scipy.sparse.linalg.minres",
+          "iterations": 11,
+          "line_search_iterations": 0,
+          "relative_residual": 1.1303927985055497e-10,
+          "relative_residual_status": "COMPUTED",
+          "residual_final": 1.1303927985055497e-10,
+          "residual_history": [
+            0.16666666666663305,
+            2.2517886032588104,
+            4.865715491337966e-05,
+            1.1815199562798763e-10,
+            1.1145594716410136e-10,
+            1.1575871715904298e-10,
+            1.0546047804367896e-10,
+            1.0097439446578974e-10,
+            1.1088697446065966e-10,
+            1.0421499027851933e-10,
+            1.1303927985055497e-10
+          ],
+          "residual_initial": 0.16666666666663305,
+          "robustness": {
+            "line_search": {
+              "armijo_c": null,
+              "enabled": false,
+              "events": [],
+              "max_reductions": 12,
+              "min_alpha": 0.0001,
+              "policy_id": "qf-solver-unified-robustness",
+              "policy_source": "EXPERIMENTAL_OVERRIDE",
+              "policy_version": 1
+            },
+            "policy_id": "qf-solver-unified-robustness",
+            "policy_source": "EXPERIMENTAL_OVERRIDE",
+            "policy_version": 1,
+            "stagnation": {
+              "convergence_tolerance": 1e-10,
+              "decision": "STAGNATION",
+              "final_window_residual": 1.1303927985055497e-10,
+              "initial_window_residual": 1.0097439446578974e-10,
+              "plateau_threshold": 1e-10,
+              "policy_id": "qf-solver-unified-robustness",
+              "policy_version": 1,
+              "reason": "CONVERGENCE_STAGNATION",
+              "relative_change": -0.11948460249348498,
+              "residual_window": [
+                1.0097439446578974e-10,
+                1.1088697446065966e-10,
+                1.0421499027851933e-10,
+                1.1303927985055497e-10
+              ],
+              "window": [
+                1.0097439446578974e-10,
+                1.1088697446065966e-10,
+                1.0421499027851933e-10,
+                1.1303927985055497e-10
+              ],
+              "window_size": 4
+            }
+          },
+          "solver": "full_newton",
+          "step": 3,
+          "tolerance": 1e-10
+        },
+        "message": "Unified Newton stagnated at increment 3; relative residual=1.130393e-10.",
+        "reason": "CONVERGENCE_STAGNATION"
+      },
+      "iteration": 11,
+      "load_factor": 0.25,
+      "reproduced": true,
+      "step": 3
+    },
+    "started_timestamp": "2026-09-13T02:01:39.070763+00:00",
+    "telemetry_path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_unified_nonlinear\\qualification\\0_2_9\\c2r4\\m2_reproduction_telemetry.jsonl",
+    "wall_time_s": 502.83934869995574
+  },
+  "memory_metric_contract": {
+    "historical_note": "C2R3 sampler/status/result/master values are retained unchanged; Windows PrivateMemorySize and psutil USS are distinct measures.",
+    "peak_private_or_uss_process": "maximum psutil USS/private value from the C2R4 monitor and telemetry samples",
+    "peak_rss_process": "maximum psutil process RSS from the C2R4 monitor and telemetry samples",
+    "telemetry_sample_peak_private": "maximum per-Newton telemetry private/USS sample only",
+    "telemetry_sample_peak_rss": "maximum per-Newton telemetry RSS sample only"
+  },
+  "nonlinear_residual_contract": {
+    "dimensionless_relative_residual": true,
+    "force_scale": "not supplied by the C2 route",
+    "formula": "||lambda*F_ext - F_int(u)||_2 over free DOFs",
+    "normalization": "max(||(lambda*F_ext)_free||_2, force_scale when supplied, 1.0)"
+  },
+  "protocol_audit": {
+    "c2r3_line_search": "off (explicit experimental override)",
+    "original_c2_line_search": "existing/enabled (no robustness_options supplied)",
+    "r2b_direct_line_search": "existing/enabled (default robustness option)",
+    "r2b_minres_line_search": "existing/enabled (default robustness option)",
+    "status": "PROTOCOL_DRIFT"
+  },
+  "record_id": "QF-SOLVER-0.2.9-WP04-C2R4",
+  "schema_version": 1,
+  "start_sha": "0b947bb6c1c684f71f2f7b5ab32ad8b9f9afbcc8"
+}

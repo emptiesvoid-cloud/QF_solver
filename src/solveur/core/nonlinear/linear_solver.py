@@ -28,6 +28,19 @@ class NonlinearLinearSolverAdapter:
 
     options: NonlinearRobustnessOptions | None = None
 
+    def configured_backend(self) -> str:
+        """Return the configured backend label for diagnostics before a solve.
+
+        A terminal nonlinear condition, such as residual stagnation, can be
+        detected before a new linear system is dispatched.  The failure still
+        needs to describe the adapter configured for that Newton route rather
+        than claiming the legacy direct backend.  ``auto`` deliberately stays
+        explicit because its effective method depends on the matrix.
+        """
+
+        requested = str(self._configuration()["requested_method"])
+        return "scipy.sparse.linalg.auto" if requested == "auto" else _backend_for_method(requested)
+
     def solve(
         self,
         matrix: csr_matrix,

@@ -209,7 +209,7 @@ def solve_full_newton(
         if "solver" not in exc.diagnostics:
             exc.diagnostics["solver"] = "full_newton"
         if "backend" not in exc.diagnostics:
-            exc.diagnostics["backend"] = "scipy.sparse.linalg.spsolve"
+            exc.diagnostics["backend"] = linear_adapter.configured_backend()
         raise
 
     history: list[dict[str, object]] = []
@@ -565,7 +565,6 @@ def _failure_diagnostics(
         "relative_residual_status": "COMPUTED" if relative_is_finite else "NOT_COMPUTABLE",
         "tolerance": tolerance,
         "solver": "full_newton",
-        "backend": "scipy.sparse.linalg.spsolve",
         "residual_history": tuple(residual_history),
         "line_search_iterations": line_search_iterations,
     }
