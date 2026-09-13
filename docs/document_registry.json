@@ -5622,6 +5622,32 @@
     "qualification/0_2_9/wp06_arc_length_postbuckling_readiness.json"
   ],
   "tests": []
+},
+{
+  "id": "DOC-029-WP06A-001",
+  "path": "verification/0_2_9/wp06a-arc-length-formulation-contract.md",
+  "title": "QF Solver 0.2.9 WP06-A arc-length formulation contract",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp06a_arc_length_formulation_contract.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp06_ab_arc_length_contract.py"
+  ]
+},
+{
+  "id": "DOC-029-WP06B-001",
+  "path": "verification/0_2_9/wp06b-continuation-state-rollback.md",
+  "title": "QF Solver 0.2.9 WP06-B continuation state and rollback contract",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp06b_continuation_state_rollback.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp06_ab_arc_length_contract.py"
+  ]
 }
   ]
   
