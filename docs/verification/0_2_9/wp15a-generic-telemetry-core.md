@@ -1,6 +1,6 @@
 ---
 doc_id: DOC-029-WP15A-GENERIC-TELEMETRY-CORE-001
-revision: 0.1
+revision: 0.2
 status: controlled_candidate
 applicable_version: 0.2.9a0
 reviewer: ""
@@ -90,11 +90,26 @@ sink.
 
 CompositeSink calls every sink and records ordinary sink exceptions as
 DEGRADED with sink identifier, exception type/message and event context. A
-failed sink does not stop sibling sinks. JSONL open/write/flush/fsync failures
-are recorded in the sink health ledger and stop that sink safely.
+failed sink does not stop sibling sinks. Child sink health ledgers are
+aggregated by CompositeSink after construction, emit, flush and close, so a
+degraded child is visible through both the composite and TelemetryEmitter.
+Each copied child failure retains its original context and is marked with
+CHILD_SINK_REPORTED_FAILURE; direct fan-out exceptions are marked with
+DIRECT_COMPOSITE_FAILURE. The same child ledger entry is not copied repeatedly
+on later events.
+
+JSONL open/write/flush/fsync failures are recorded in the sink health ledger
+and stop that sink safely. A child health object with no readable failure
+ledger can still degrade the parent through an explicit accounting entry;
+sinks without a health object retain exception-based isolation.
 
 JsonlSink writes one UTF-8 object per line in append mode and flushes after each
-event. Default fsync is disabled. Explicit fsync is allowed only after
+event. Within a fresh sink session it independently validates contiguous
+per-analysis sequences beginning at zero. Duplicate, skipped and backwards
+events are rejected, marked DEGRADED and never written. Independent analysis
+streams may be interleaved. Append mode is not automatic cross-process
+continuation: existing file history is not inspected to infer sequence state,
+and there is no MPI/global ordering claim. Default fsync is disabled. Explicit fsync is allowed only after
 CHECKPOINT, ANALYSIS_END or ANALYSIS_FAILED. Existing flushed history remains
 readable after an abort; absence of a terminal event is INCOMPLETE/UNKNOWN, not
 PASS.
@@ -129,7 +144,8 @@ scopes or platforms.
 
 The targeted WP15-A suite covers envelope fields and event vocabulary,
 finite/nested validation, explicit missing values, deterministic JSON,
-independent sequences, JSONL flush and durability boundaries, composite
+independent sequences, JSONL flush, durability boundaries and per-analysis
+duplicate/skip/backwards rejection, child-health aggregation, composite
 partial failure, bounded memory, original-exception preservation,
 KeyboardInterrupt semantics, disabled/lazy execution, legacy adaptation and
 linear/memory/timing schemas.
@@ -138,3 +154,12 @@ This is infrastructure evidence, not route qualification. There is no console
 sink, no broad route instrumentation, no distributed sequence contract, no
 measured overhead percentage and no maturity change in WP15-A. Those items
 remain WP15-B or Owner-review dependencies.
+
+## Owner correction history
+
+The initial WP15-A candidate was recorded at the preceding revision with
+generic sink health and emitter exposure in place, but without complete child
+ledger aggregation or an independent JsonlSink stream-order guard. Owner
+Correction R1 is recorded here as OWNER_CORRECTION_R1. It hardens only those
+two infrastructure contracts; it does not rewrite the candidate history,
+change WP04/C2R6 telemetry, instrument routes, or alter numerical behavior.
