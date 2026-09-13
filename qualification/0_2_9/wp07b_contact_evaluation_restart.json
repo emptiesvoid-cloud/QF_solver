@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-029-WP07-B-CONTACT-EVALUATION-RESTART-001",
+  "gate": "WP07",
+  "work_package": "WP07-B",
+  "revision": "0.1",
+  "source_sha": "1b400e20685f80d4508d93a31abeca2caee129fe",
+  "status": "PREPARATION_ONLY",
+  "owner_status": "IMPLEMENTATION_CANDIDATE",
+  "qualification_campaign_executed": false,
+  "formal_points": "0/2",
+  "wp07_points": "0/10",
+  "validated_total": "29/100",
+  "scope": {
+    "penalty": "NONLINEAR_PENALTY_INITIAL_SEARCH: supported static/quasi-static common Newton route, frictionless node-to-triangle, initial/fixed face and normal, serial",
+    "active_set": "LINEAR_ACTIVE_SET_INITIAL_SEARCH: route-local active-set/Lagrange state; no mid-solve restart claim",
+    "updated_search": "UPDATED_SEARCH_FINITE_SLIDING: research-only and unqualified for restart"
+  },
+  "contact_evaluation_contract": {
+    "type": "ContactEvaluation",
+    "legacy_assembly": "assemble_penalty_contact",
+    "large_array_copy": false,
+    "finite_force_and_tangent_required": true,
+    "finite_diagnostic_payload_required": true,
+    "same_trial_u_contract": "same model, parameters, dof map and trial displacement produce the same force, tangent, active contacts, gaps, faces and diagnostics",
+    "persistent_contact_state_mutated": false
+  },
+  "rollback_contract": {
+    "state_semantics": "PURE_STATELESS_FROM_TRIAL_U",
+    "sequence": ["evaluate accepted u0", "evaluate discarded trial u1", "re-evaluate u0"],
+    "required_equal_fields": ["internal_force", "tangent", "active_contacts", "gaps", "master_face_indices", "diagnostics"],
+    "transaction_object_required": false,
+    "contamination_allowed": false
+  },
+  "configuration_digest": {
+    "algorithm": "deterministic_state_digest",
+    "schema_version": 1,
+    "fields": [
+      "analysis type and method",
+      "ordered contact names and slave nodes/patch nodes",
+      "ordered master nodes and faces",
+      "gap tolerance",
+      "friction coefficient and tangential stiffness",
+      "contact mode/search mode/finite sliding",
+      "penalty value",
+      "relevant contact limits and tolerances"
+    ],
+    "python_object_identity_hashed": false,
+    "nodal_coordinates_included": false,
+    "geometry_signature_owner": "surrounding model/checkpoint signature"
+  },
+  "restart_contract": {
+    "metadata_type": "PenaltyContactRestartMetadata",
+    "compatible": "restored accepted state + matching contact configuration digest + same model/contact parameters -> deterministic re-evaluation",
+    "incompatible": "InputValidationError; fail closed",
+    "accepted_state_digest_optional": true,
+    "active_set_mid_solve": "UNSUPPORTED",
+    "updated_search": "UNQUALIFIED_RESTART"
+  },
+  "diagnostics": {
+    "stable_names": [
+      "contact_active_count",
+      "contact_minimum_gap",
+      "contact_maximum_penetration",
+      "contact_force_norm",
+      "contact_tangent_nnz",
+      "contact_search_mode"
+    ],
+    "legacy_names_preserved": true,
+    "failure_reasons_preserved": [
+      "CONTACT_PENETRATION_EXCESSIVE",
+      "CONTACT_UPDATE_FAILURE",
+      "input_validation_failure"
+    ]
+  },
+  "common_core_identity": {
+    "residual": "R_global = R_internal + R_contact - F_external",
+    "tangent": "K_global = K_internal + K_contact",
+    "numerical_policy_changed": false
+  },
+  "vnv_cases": [
+    {"id": "B1", "name": "same_u_determinism", "status": "READY_TARGETED"},
+    {"id": "B2", "name": "discarded_trial_re_evaluation", "status": "READY_TARGETED"},
+    {"id": "B3", "name": "digest_determinism", "status": "READY_TARGETED"},
+    {"id": "B4", "name": "digest_configuration_sensitivity", "status": "READY_TARGETED"},
+    {"id": "B5", "name": "compatible_restart_metadata", "status": "READY_TARGETED"},
+    {"id": "B6", "name": "incompatible_restart_fail_closed", "status": "READY_TARGETED"},
+    {"id": "B7", "name": "active_set_restart_unsupported", "status": "READY_TARGETED"},
+    {"id": "B8", "name": "updated_search_restart_unqualified", "status": "READY_TARGETED"},
+    {"id": "B9", "name": "legacy_composition_identity", "status": "READY_TARGETED"},
+    {"id": "B10", "name": "legacy_diagnostics_preserved", "status": "READY_TARGETED"}
+  ],
+  "governance": {
+    "production_source_changed": true,
+    "mechanics_changed": false,
+    "penalty_value_changed": false,
+    "activation_criterion_changed": false,
+    "newton_policy_changed": false,
+    "line_search_policy_changed": false,
+    "maturity_changed": false,
+    "heavy_solve_run": false,
+    "full_test_suite_run": false
+  }
+}
