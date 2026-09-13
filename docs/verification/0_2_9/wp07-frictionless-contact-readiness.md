@@ -33,6 +33,49 @@ assembly.
 
 WP07 remains `PREPARATION_ONLY`, `0/10` points, and `29/100` validated total.
 
+## Owner correction R1 — formulation contract freeze candidate
+
+The Owner disposition for this readiness record is
+`APPROVED_WITH_CORRECTIONS`. This revision is still preparation-only: no
+mechanical solve, qualification result, point award or maturity change has
+been made. The companion [WP07-A formulation contract R1](wp07a-contact-formulation-contract.md)
+is the controlled machine-readable contract for the corrections below.
+
+The following regimes remain deliberately separate:
+
+* `LINEAR_ACTIVE_SET_INITIAL_SEARCH`: `linear_static`, small displacement,
+  serial direct sparse active-set/Lagrange enforcement, node-to-triangle
+  unilateral normal contact, with face and normal fixed from the initial
+  geometry.
+* `NONLINEAR_PENALTY_INITIAL_SEARCH`: static or quasi-static nonlinear
+  Newton composition, frictionless node-to-triangle penalty contact, with
+  initial/fixed face and normal. Finite controlled penetration is an
+  observable; zero penetration is not a universal acceptance condition.
+* `UPDATED_SEARCH_FINITE_SLIDING`: trial-dependent face, normal and
+  projection. This remains research-only and excluded from the baseline
+  qualification candidate. The current rank-one term is classified as an
+  `APPROXIMATE_GEOMETRIC_CONTACT_TANGENT` unless all geometry derivatives are
+  proven; no consistent-tangent or energy claim is made for this regime.
+
+The initial preparation and its historical evidence are unchanged. R1
+replaces any implicit universal dimensional contact tolerance with
+scale-aware, dimensionless checks. Active-set cases must declare `L_char`,
+`F_char` and, when applicable, `P_char`, then check normalized gap, multiplier
+sign, complementarity and open-contact force separately. Penalty cases must
+measure normalized penetration against a declared reference, contact-force
+error and vector equilibrium, and use energy only where the fixed-normal
+potential is valid. Candidate values remain `OWNER_REVIEW_REQUIRED`; no
+threshold was tuned from results.
+
+For fixed-normal penalty contact, the candidate potential is
+`U_contact = 0.5 * k * min(g(u), 0)^2`; its force-gradient identity and the
+piecewise tangent `Kc = k * c ⊗ c` are ready for a future finite-difference
+test away from activation switching. Penalty contact is
+`PURE_STATELESS_FROM_TRIAL_U`: rollback restores the accepted displacement
+and re-evaluates it. Active-set and updated-search physical, algorithmic and
+diagnostic state remain route-local; a common active-face/search checkpoint
+and restart digest is not yet implemented.
+
 ## Exact algorithm inventory
 
 ### Geometry, pair type and search
@@ -54,7 +97,8 @@ ordered by absolute gap and then face index.
 The default `initial` search freezes the selected face and normal. The
 `updated` search recomputes trial geometry and repeats bounded frozen-contact
 solves until the face and displacement change stabilize. This is an
-implemented, bounded experimental search, not a general contact search.
+implemented research/experimental path, not part of the baseline qualified
+claim and not a general contact search.
 
 ### `linear_static` path
 
@@ -85,6 +129,12 @@ contribution is stateless: contact geometry and force are recomputed from the
 current trial displacement and no active face/history is committed as
 `NonlinearState.contact_state`.
 
+This exact piecewise derivative applies only to the fixed-normal initial
+search away from activation switching. In updated search, the geometry also
+depends on the trial displacement; the rank-one term therefore does not prove
+a consistent geometric tangent. That path remains
+`APPROXIMATE_GEOMETRIC_CONTACT_TANGENT` research scope, with no energy claim.
+
 The separate frictional regularized Coulomb route is implemented in the
 contact package but is outside this frictionless WP07 audit and remains
 unqualified.
@@ -95,10 +145,10 @@ unqualified.
 | --- | --- | --- | --- |
 | Residual | Constraint/saddle solve in `contact/solver.py` | Common assembly contribution | PARTIAL / READY_TO_REUSE respectively |
 | Tangent | Contact constraint rows, no Newton tangent | Consistent penalty rank-one contribution | SEPARATE LEGACY PATH / READY_TO_REUSE |
-| State transaction | Local to one solve | Material/continuation transaction; contact itself stateless | PARTIAL |
+| State transaction | Physical/algorithmic/diagnostic state local to one solve | Material/continuation transaction; contact itself stateless from trial `u` | PARTIAL |
 | Rejected increment | No common mutable transaction | Common `NonlinearStateTransaction` rollback | PARTIAL |
 | Updated search | Separate fixed-point loop | Bounded geometry recomputation in contact assembly | PARTIAL ADAPTER |
-| Checkpoint/restart | No contact checkpoint path | Topology can say `stateless`; no active-face/contact-history digest | PARTIAL / GAP |
+| Checkpoint/restart | No active-face/multiplier checkpoint contract | Stateless penalty can restore/re-evaluate from accepted `u`; no active-face/search digest | PARTIAL / GAP |
 | Line search | Not applicable | Geometric penalty can participate in common driver | READY for declared route only |
 
 The architecture debt is explicit in
@@ -202,49 +252,48 @@ it was not requalified.
 The maximum honest claim for a future WP07 qualification is:
 
 * frictionless node-to-triangle contact;
-* `linear_static` direct sparse active-set cases in small displacement;
-* `nonlinear_static` frictionless penalty composition with explicit
-  `contact_mode='penalty'` and declared search/penetration controls;
-* `geometric_nonlinear_static` only as research/experimental bounded
-  composition;
+* `linear_static` direct sparse active-set cases in small displacement, with
+  initial/fixed face and normal geometry and serial execution;
+* static or quasi-static nonlinear frictionless penalty composition with
+  explicit `contact_mode='penalty'`, initial/fixed face and normal geometry,
+  common Newton residual/tangent and serial execution;
 * declared tested meshes, geometries, load paths and penalty values only.
 
-Explicit exclusions are friction, surface-to-surface/mortar/augmented
-Lagrangian, self-contact, impact, modal/buckling/dynamic/harmonic contact,
-MPI/distributed contact and universal penalty/convergence claims.
+Updated search/finite sliding remains research-only. Explicit exclusions are
+general surface-to-surface/mortar/augmented Lagrangian, arbitrary large
+sliding, finite-sliding qualification, updated-normal qualification,
+friction, self-contact, impact, modal/buckling/dynamic/harmonic contact,
+MPI/distributed contact, and universal penalty/convergence claims.
 
 ## Prospective V&V plan — Owner review required
 
 No cases below were executed. They are the minimum future categories, not
 retroactive evidence:
 
-| Case | Purpose |
-| --- | --- |
-| Open contact | Positive analytical gap and zero normal contact force |
-| Single active contact | Gap, complementarity/KKT and force equilibrium |
-| Deformable master/multiple contacts | Action-reaction, vector force/moment balance and deterministic face selection |
-| Open-close-reopen path | No ghost force/energy and accepted load-history consistency |
-| Three-level mesh characterization | Declared displacement/reaction/penetration/equilibrium variation |
-| Deterministic replay | Same arrays/diagnostics within predeclared tolerance and same failure code |
-| Adversarial failures | Invalid geometry, singular system, unsupported combination, nonfinite state and update failure |
-| Transaction boundary | Rejected/retried increment with accepted-state and contact/search digest |
-| External comparison | Code_Aster only where the exact active-set or penalty formulation is comparable |
+| Group | Minimum cases | Intended policy |
+| --- | --- | --- |
+| Active-set A1–A5 | Open zero force; prescribed closure; scale-aware complementarity; vector force/moment equilibrium; active-set stability | No penalty potential; active/open classification and multiplier sign are checked separately |
+| Penalty P1–P7 | Open; analytical 1-DOF compression; force/potential gradient; fixed-normal tangent FD; equilibrium; open-close; rollback/re-evaluation | Finite penetration is allowed and compared against a declared reference |
+| Shared S1–S4 | Replay; three-level refinement; structural benchmark; formulation-compatible external/reference comparison | Missing/nonfinite observables fail closed |
 
-Candidate thresholds are `OWNER_REVIEW_REQUIRED`, not frozen by this audit:
-gap/complementarity `<=1e-10`, force and moment vector relative error
-`<=1e-8`, replay relative tolerance `<=1e-12` with absolute floor `1e-14`,
-and a candidate final mesh variation `<=3%`. Missing/nonfinite observables
-must fail closed; no artificial monotonicity or universal threshold is claimed.
+There is no universal dimensional contact tolerance. Candidate thresholds are
+`OWNER_REVIEW_REQUIRED`, not frozen by this audit. Active-set cases use
+declared `L_char`, `F_char` and, where needed, `P_char` to evaluate normalized
+gap, multiplier sign, complementarity and open-contact force. Penalty cases
+use normalized penetration, contact-force error, vector force/moment
+equilibrium and energy only for the fixed-normal potential. Replay uses a
+relative tolerance of `1e-12` with an absolute floor of `1e-14`; missing or
+nonfinite required observables fail closed.
 
 ## Proposed WP07 decomposition (10 points, none awarded)
 
 | Package | Scope | Points |
 | --- | --- | ---: |
-| WP07-A | Readiness, exact formulation and state audit | 1 |
-| WP07-B | Common residual/tangent and state-transaction adapter | 3 |
-| WP07-C | Geometry/search/active-set unit and invariant V&V | 2 |
-| WP07-D | Linear-static structural V&V and compatible external correlation | 2 |
-| WP07-E | Nonlinear search, restart/rollback/replay and Owner closure | 2 |
+| WP07-A | Contract/formulation freeze | 1 |
+| WP07-B | Unified contact evaluation and rollback/restart semantics | 2 |
+| WP07-C | Contact identities, tangent and open-close V&V | 2 |
+| WP07-D | Structural and compatible external V&V | 3 |
+| WP07-E | Refinement, replay and Owner closure | 2 |
 | **Total** |  | **10** |
 
 ## Governance and next step

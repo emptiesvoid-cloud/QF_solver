@@ -7,12 +7,44 @@
   "status": "PREPARATION_ONLY",
   "owner_status": "OWNER_REVIEW_REQUIRED",
   "audit_sha": "2c52bf8196a7d47d14ce1784290580160de26590",
+  "owner_correction": "OWNER_CORRECTION_R1",
+  "owner_disposition": "APPROVED_WITH_CORRECTIONS",
+  "qualification_campaign_executed": false,
   "created_before_wp07_campaign": true,
   "production_source_changed": false,
   "mechanics_changed": false,
   "maturity_changed": false,
   "formal_points": "0/10",
   "validated_total": "29/100",
+  "formulation_regimes": {
+    "LINEAR_ACTIVE_SET_INITIAL_SEARCH": {
+      "status": "BASELINE_SCOPE_CANDIDATE",
+      "analysis": "linear_static",
+      "kinematics": "small_displacement",
+      "pair": "node_to_triangle",
+      "search": "initial_fixed_face_and_fixed_normal",
+      "enforcement": "unilateral_active_set_with_lagrange_multiplier",
+      "execution": "serial_direct_sparse",
+      "claim_boundary": "only declared tested geometry/load/mesh combinations"
+    },
+    "NONLINEAR_PENALTY_INITIAL_SEARCH": {
+      "status": "BASELINE_SCOPE_CANDIDATE",
+      "analysis": "nonlinear_static_or_geometric_nonlinear_static",
+      "kinematics": "route_supported_bounded_kinematics",
+      "pair": "node_to_triangle",
+      "search": "initial_fixed_face_and_fixed_normal",
+      "enforcement": "frictionless_penalty",
+      "execution": "common_newton_residual_tangent_for_nonlinear_route",
+      "claim_boundary": "finite intentional penetration remains a controlled numerical quantity; no zero-penetration claim"
+    },
+    "UPDATED_SEARCH_FINITE_SLIDING": {
+      "status": "RESEARCH_EXCLUDED_FROM_BASELINE_QUALIFIED_CLAIM",
+      "analysis": "bounded updated-search branch",
+      "search": "trial-displacement-dependent facet/normal/projection",
+      "enforcement": "frictionless penalty only where explicitly supported",
+      "claim_boundary": "requires separate qualification; no consistent geometric tangent or energy claim"
+    }
+  },
   "algorithm": {
     "linear_static": {
       "enforcement": "active_set_lagrange_multiplier",
@@ -51,6 +83,97 @@
     "updated": "bounded fixed_point search recomputing geometry from the trial displacement",
     "selection": "minimum absolute gap then face index among compatible faces",
     "limits": "updated search iteration/tolerance are explicit parameters; no general contact search claim"
+  },
+  "complementarity_policy": {
+    "owner_review_required": true,
+    "no_universal_dimensional_threshold": true,
+    "scales": {
+      "characteristic_length": "L_char from declared geometry; positive and recorded per case",
+      "characteristic_force": "F_char from declared external-load/resultant scale; positive and recorded per case",
+      "characteristic_pressure": "P_char from declared contact-force scale when pressure is reported"
+    },
+    "LINEAR_ACTIVE_SET_INITIAL_SEARCH": {
+      "gap": "abs(g)/L_char",
+      "pressure_sign": "max(-p/P_char, 0)",
+      "complementarity": "abs(g*p)/(L_char*P_char)",
+      "open_contact_force": "norm(f_contact)/F_char",
+      "prospective_thresholds": {
+        "normalized_closed_gap": "<= 1e-10",
+        "normalized_pressure_negative_part": "<= 1e-12",
+        "normalized_complementarity_product": "<= 1e-10",
+        "normalized_open_contact_force": "<= 1e-12"
+      },
+      "status": "PROPOSED_OWNER_REVIEW"
+    },
+    "NONLINEAR_PENALTY_INITIAL_SEARCH": {
+      "penetration": "max(-g, 0)/L_char; nonzero finite penetration is allowed",
+      "reference_penetration_error": "abs(penetration_qf-penetration_ref)/L_char",
+      "contact_force_error": "norm(f_contact_qf-f_contact_ref)/F_char",
+      "equilibrium": "vector force and moment residual normalized by F_char and L_char*F_char",
+      "penalty_energy": "checked only when the fixed-normal potential is mathematically applicable",
+      "prospective_thresholds": {
+        "normalized_penetration_error": "<= 1e-8 when an independent reference exists",
+        "normalized_contact_force_error": "<= 1e-8 when an independent reference exists",
+        "force_equilibrium": "<= 1e-8",
+        "moment_equilibrium": "<= 1e-8",
+        "energy_identity": "<= 1e-8 when applicable"
+      },
+      "status": "PROPOSED_OWNER_REVIEW"
+    }
+  },
+  "tangent_policy": {
+    "fixed_normal_penalty": {
+      "identity": "Kc = penalty * n outer n (more generally penalty * c outer c)",
+      "validity": "exact piecewise derivative of the implemented penalty force away from activation switching when geometry is fixed",
+      "test": "central finite-difference force/tangent identity on open and penetrating branches with predeclared step-size policy",
+      "status": "READY_FOR_TARGETED_VNV_NOT_EXECUTED"
+    },
+    "updated_search_finite_sliding": {
+      "identity": "facet, normal and projection may depend on trial displacement",
+      "implemented_rank_one_term": "captures the local penalty row term but does not by itself demonstrate all geometry derivatives",
+      "classification": "APPROXIMATE_GEOMETRIC_CONTACT_TANGENT",
+      "consistent_tangent_claim": "not made",
+      "energy_claim": "not made without a separate proof"
+    }
+  },
+  "state_semantics": {
+    "frictionless_penalty": {
+      "classification": "PURE_STATELESS_FROM_TRIAL_U",
+      "contract": "same trial displacement, model and parameters produce the same force, tangent and diagnostics",
+      "commit": "no contact-history commit",
+      "rollback": "restore/re-evaluate from accepted displacement and verify no diagnostic contamination",
+      "checkpoint_restart": "only model/topology/stateless declaration is currently available; no active-face history claim"
+    },
+    "linear_active_set": {
+      "physical_state": "displacement and reaction/contact solution",
+      "algorithmic_state": "active set and multipliers local to one solve",
+      "diagnostic_state": "iteration history, gaps, pressures and selected face",
+      "commit": "final solve result only",
+      "rollback": "local active-set iteration restarts from its declared state; common transaction not used",
+      "checkpoint_restart": "missing dedicated active-set continuation contract"
+    },
+    "updated_search": {
+      "physical_state": "trial displacement and contact force",
+      "algorithmic_state": "selected facets, normals and search iterate",
+      "diagnostic_state": "search history and face changes",
+      "status": "research; deterministic recomputation required before qualification"
+    }
+  },
+  "energy_policy": {
+    "fixed_normal_penalty": {
+      "potential": "U_contact = 0.5 * penalty * min(g(u), 0)^2",
+      "force_identity": "f_contact = gradient(U_contact) away from the activation kink, subject to the sign convention",
+      "qualification_test": "compare independently evaluated potential gradient to runtime contact force",
+      "status": "PROPOSED_AND_READY_FOR_VNV"
+    },
+    "active_set": {
+      "potential": "NONE_CLAIMED",
+      "reason": "exact unilateral constraint enforcement is not to be represented as a penalty potential"
+    },
+    "updated_search": {
+      "potential": "NO_CLAIM",
+      "reason": "geometry-dependent facet/normal/projection derivatives and switching require a separate proof"
+    }
   },
   "implementation_inventory": [
     {
@@ -321,11 +444,18 @@
     }
   ],
   "proposed_bounded_scope": {
-    "claim": "bounded frictionless node_to_triangle contact for declared static/quasi_static cases only",
-    "linear_static": "small-displacement, direct sparse active-set route, fixed or explicitly triangulated master surface, supported tested meshes and load paths",
-    "nonlinear_static": "frictionless penalty contribution in the common Newton route, only with explicit contact_mode='penalty' and documented bounded search/penetration controls",
-    "geometric_nonlinear_static": "research/experimental bounded penalty composition only; no general finite-kinematic contact maturity",
-    "explicit_exclusions": ["friction", "surface_to_surface", "mortar", "augmented_lagrangian", "self_contact", "impact", "modal_contact", "buckling_contact", "dynamic_contact", "harmonic_contact", "MPI_or_distributed_contact", "universal_penalty_or_convergence_claim"]
+    "claim": "bounded frictionless node_to_triangle contact for declared serial static/quasi_static cases only",
+    "linear_static": "small-displacement, direct sparse active-set route, initial/fixed face and normal, fixed or explicitly triangulated master surface, supported tested meshes and load paths",
+    "nonlinear_penalty": "frictionless penalty contribution in the common Newton route, initial/fixed face and normal, explicit contact_mode='penalty' and documented bounded penetration controls",
+    "updated_search": "research-only; not part of the baseline qualified-scope candidate",
+    "geometric_nonlinear_static": "not a baseline maturity claim; at most a separate research/experimental penalty composition after an explicit Owner decision",
+    "explicit_exclusions": ["updated_normal_qualification", "finite_sliding_qualification", "friction", "surface_to_surface", "mortar", "augmented_lagrangian", "self_contact", "impact", "modal_contact", "buckling_contact", "dynamic_contact", "harmonic_contact", "MPI_or_distributed_contact", "general_industrial_contact", "universal_penalty_or_convergence_claim"]
+  },
+  "test_plan": {
+    "active_set": ["A1 open zero force", "A2 prescribed closure/exact reaction", "A3 scale-aware complementarity", "A4 vector force/moment equilibrium", "A5 active-set stability"],
+    "penalty": ["P1 open zero force", "P2 analytical 1DOF compression", "P3 force/potential gradient", "P4 fixed-normal tangent finite difference", "P5 vector force/moment equilibrium", "P6 open-close transition", "P7 rollback/re-evaluation determinism"],
+    "shared": ["S1 replay", "S2 mesh/refinement", "S3 structural benchmark", "S4 formulation-compatible external/reference correlation"],
+    "execution_status": "PREPARED_NOT_EXECUTED"
   },
   "prospective_vnv": [
     {"id": "WP07-C01", "name": "open_contact", "oracle": "analytical positive gap and zero normal contact force", "status": "PLANNED"},
@@ -340,8 +470,14 @@
   ],
   "prospective_thresholds": {
     "owner_review_required": true,
-    "gap_and_complementarity": "candidate <= 1e-10; not approved by this artifact",
-    "force_equilibrium_relative": "candidate <= 1e-8; vector norm and component audit required",
+    "no_universal_dimensional_contact_tolerance": true,
+    "active_set_normalized_gap": "candidate <= 1e-10 using declared L_char; closed/open classification is separate",
+    "active_set_pressure_sign": "candidate negative-pressure part <= 1e-12 using declared P_char",
+    "active_set_complementarity": "candidate <= 1e-10 using abs(g*p)/(L_char*P_char)",
+    "active_set_open_contact_force": "candidate <= 1e-12 using F_char",
+    "penalty_reference_penetration_error": "candidate <= 1e-8 when an independent reference exists",
+    "penalty_contact_force_error": "candidate <= 1e-8 when an independent reference exists",
+    "force_equilibrium_relative": "candidate <= 1e-8; vector norm and all components audited",
     "moment_equilibrium_relative": "candidate <= 1e-8; all three components about global origin",
     "replay": "candidate relative <= 1e-12 with absolute floor <= 1e-14; discrete active sets/codes exact",
     "nonfinite": "reject NaN/Inf and never silently continue",
@@ -349,11 +485,11 @@
     "external": "candidate tolerances must be formulation-specific and predeclared"
   },
   "proposed_wp07_subpackages": [
-    {"id": "WP07-A", "name": "readiness/formulation/state audit", "points": 1},
-    {"id": "WP07-B", "name": "common residual/tangent and state-transaction adapter", "points": 3},
-    {"id": "WP07-C", "name": "contact geometry/search/active-set unit V&V", "points": 2},
-    {"id": "WP07-D", "name": "linear-static structural V&V and compatible external correlation", "points": 2},
-    {"id": "WP07-E", "name": "nonlinear search/restart/rollback/replay and Owner closure", "points": 2}
+    {"id": "WP07-A", "name": "contract/formulation freeze", "points": 1},
+    {"id": "WP07-B", "name": "unified contact evaluation and rollback/restart semantics", "points": 2},
+    {"id": "WP07-C", "name": "contact identities, tangent and open-close V&V", "points": 2},
+    {"id": "WP07-D", "name": "structural and compatible external V&V", "points": 3},
+    {"id": "WP07-E", "name": "refinement, replay and Owner closure", "points": 2}
   ],
   "validation": {
     "existing_contact_unit_tests": "40 passed",

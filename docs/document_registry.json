@@ -5612,6 +5612,21 @@
   ]
 },
 {
+  "id": "DOC-029-WP07-A-CONTRACT-001",
+  "path": "verification/0_2_9/wp07a-contact-formulation-contract.md",
+  "title": "QF Solver 0.2.9 WP07-A contact formulation contract R1",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp07a_contact_formulation_contract.json"
+  ],
+  "tests": [
+    "tests/unit/test_frictionless_contact.py",
+    "tests/unit/test_nonlinear_contact_composition.py",
+    "tests/unit/test_contact_finite_sliding.py"
+  ]
+},
+{
   "id": "DOC-028-WP13-02C3-HARMONIC-FINAL-001",
   "path": "verification/0_2_8/wp13_02c3_harmonic_final.md",
   "title": "QF Solver 0.2.8 WP13-02C3 final mixed harmonic campaign",
