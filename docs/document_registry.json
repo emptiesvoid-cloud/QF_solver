@@ -5611,6 +5611,17 @@
   "tests": [
     "tests/verification/test_028_wp13_02c3_harmonic_final.py"
   ]
+},
+{
+  "id": "DOC-029-WP06-001",
+  "path": "verification/0_2_9/wp06-arc-length-postbuckling-readiness.md",
+  "title": "QF Solver 0.2.9 WP06 arc-length and postbuckling readiness",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp06_arc_length_postbuckling_readiness.json"
+  ],
+  "tests": []
 }
   ]
   
