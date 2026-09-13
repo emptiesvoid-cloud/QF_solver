@@ -1,6 +1,8 @@
 """WP07-B contracts for pure penalty evaluation and bounded restart metadata."""
 
+from collections.abc import Iterable
 from dataclasses import replace
+from typing import Any, cast
 
 import numpy as np
 import pytest
@@ -172,7 +174,9 @@ def test_b9_evaluation_wrapper_preserves_common_penalty_composition() -> None:
     np.testing.assert_array_equal(evaluation.internal_force, legacy_force)
     np.testing.assert_array_equal(evaluation.tangent.toarray(), legacy_tangent.toarray())
     assert evaluation.details["active_contacts"] == legacy_details["active_contacts"]
-    assert list(evaluation.details["gaps"]) == list(legacy_details["gaps"])
+    assert list(cast(Iterable[Any], evaluation.details["gaps"])) == list(
+        cast(Iterable[Any], legacy_details["gaps"])
+    )
     assert evaluation.details["contact_tangent_nnz"] == legacy_details["tangent_nnz"]
 
 

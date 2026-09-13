@@ -1,0 +1,220 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-029-WP07-INTEGRATION-001",
+  "work_package": "WP07",
+  "phase": "GOVERNING_BRANCH_INTEGRATION",
+  "status": "OWNER_REVIEW_REQUIRED",
+  "governing_branch": "0.2.9-unified-nonlinear",
+  "governing_start_sha": "fb1fc2d4d861397b4a3689bd64e7a727e1f33998",
+  "child_branch": "0.2.9-wp07-prep",
+  "child_head": "3bdcc84907a045e7815d6d5253bf4e2eed74970e",
+  "merge_base": "2c52bf8196a7d47d14ce1784290580160de26590",
+  "merge_commit_sha": "b3cba87f811441edd657f0788ade29d2a904f430",
+  "final_sha": "PENDING_POST_VALIDATION_AUDIT_COMMIT",
+  "preflight": {
+    "current_branch": "0.2.9-unified-nonlinear",
+    "governing_head_before_merge": "fb1fc2d4d861397b4a3689bd64e7a727e1f33998",
+    "working_tree_clean_before_merge": true,
+    "origin_child_head_verified": true,
+    "origin_governing_head_verified": true,
+    "merge_base_verified": true,
+    "wp06_child_touched": false
+  },
+  "merge": {
+    "strategy": "git merge --no-ff origin/0.2.9-wp07-prep",
+    "conflicts_found": false,
+    "conflict_files": [],
+    "conflicts_resolved": "NONE_REQUIRED",
+    "provenance_preserved": true
+  },
+  "source_change_audit": {
+    "production_source_changed": true,
+    "mechanics_formulation_changed": false,
+    "numerical_policy_changed": false,
+    "files_from_child": [
+      "src/solveur/contact/__init__.py",
+      "src/solveur/contact/evaluation.py",
+      "src/solveur/contact/solver.py"
+    ],
+    "integration_hygiene_fix": {
+      "file": "src/solveur/contact/evaluation.py",
+      "change": "move DofManager and FiniteElementModel imports under TYPE_CHECKING",
+      "reason": "avoid the package __init__ model/evaluation circular import on model-first imports",
+      "numerical_behavior_changed": false,
+      "validated_by": "tests/integration/test_wp07_governing_integration.py::test_wp07_contact_public_exports_are_safe_for_model_first_import"
+    },
+    "governing_protected_paths_changed": [],
+    "wp04_mechanics_paths_changed": false,
+    "wp05_contract_paths_changed": false,
+    "wp15_telemetry_paths_changed": false
+  },
+  "revalidation": {
+    "WP07-A": {
+      "status": "PASS_BOUNDED_SCOPE_CONTRACT",
+      "formal_points": "1/1",
+      "evidence": [
+        "qualification/0_2_9/wp07a_contact_formulation_contract.json",
+        "docs/verification/0_2_9/wp07a-contact-formulation-contract.md",
+        "qualification/0_2_9/wp07_frictionless_contact_readiness.json",
+        "tests/integration/test_wp07_governing_integration.py"
+      ],
+      "checks": {
+        "linear_active_set_initial_search": true,
+        "nonlinear_penalty_initial_search": true,
+        "updated_search_finite_sliding_research_only": true,
+        "friction_and_dynamics_excluded": true,
+        "serial_bounded_scope": true
+      },
+      "qualification_campaign_executed": false
+    },
+    "WP07-B": {
+      "status": "PASS_BOUNDED_EVALUATION_AND_RESTART_SEMANTICS",
+      "formal_points": "2/2",
+      "tests_passed": 18,
+      "test_file": "tests/unit/test_wp07b_contact_evaluation_restart.py",
+      "checks": {
+        "same_trial_determinism": true,
+        "discarded_trial_re_evaluation": true,
+        "configuration_digest_determinism_and_sensitivity": true,
+        "contact_only_vs_full_restart_distinguished": true,
+        "full_restart_requires_model_and_accepted_state_identity": true,
+        "active_set_mid_solve_restart_unsupported": true,
+        "updated_search_restart_unqualified": true,
+        "legacy_composition_and_diagnostics_preserved": true,
+        "persistent_penalty_contact_state_mutated": false
+      },
+      "qualification_campaign_executed": false
+    },
+    "WP07-C": {
+      "status": "PASS_BOUNDED_CONTACT_IDENTITIES",
+      "formal_points": "2/2",
+      "tests_passed": 11,
+      "test_file": "tests/unit/test_wp07c_contact_identities.py",
+      "raw_observation_record": "qualification/0_2_9/wp07c_contact_identities.json",
+      "checks": {
+        "penalty_open_force": "PASS",
+        "penalty_active_force": "PASS",
+        "penalty_energy_gradient": "PASS",
+        "penalty_tangent_finite_difference": "PASS",
+        "penalty_tangent_symmetry": "PASS",
+        "activation_boundary_declared": true,
+        "open_close_reopen_no_ghost_force": true,
+        "active_set_gap_pressure_complementarity": "PASS",
+        "active_set_force_equilibrium": "PASS",
+        "active_set_moment_equilibrium": "PASS",
+        "replay": "PASS"
+      },
+      "qualification_campaign_executed": false
+    }
+  },
+  "scope_and_state": {
+    "contact_scope_status": "PASS_BOUNDED_INITIAL_SEARCH_ONLY",
+    "active_set_status": "LINEAR_SMALL_DISPLACEMENT_INITIAL_SEARCH_ONLY",
+    "penalty_status": "NONLINEAR_FIXED_NORMAL_INITIAL_SEARCH_ONLY",
+    "updated_search_status": "RESEARCH_ONLY",
+    "finite_sliding_status": "RESEARCH_ONLY",
+    "state_rollback_status": "PASS_BOUNDED",
+    "penalty_state_semantics": "PURE_STATELESS_FROM_TRIAL_U",
+    "active_set_mid_solve_restart": "UNSUPPORTED",
+    "full_restart_identity": [
+      "contact configuration digest",
+      "restored model/checkpoint signature",
+      "restored accepted-state digest"
+    ],
+    "accepted_state_authority": [
+      "NonlinearStateTransaction",
+      "UnifiedContinuationController where continuation applies"
+    ],
+    "independent_contact_state_authority_created": false
+  },
+  "identity_results": {
+    "penalty_identities": "PASS",
+    "active_set_identities": "PASS",
+    "penalty_energy_gradient_relative_error": 1.5192447540399686e-10,
+    "penalty_tangent_frobenius_relative_error": 1.5743360213643872e-11,
+    "penalty_tangent_max_column_relative_error": 3.274180926489745e-11,
+    "penalty_tangent_symmetry_relative_error": 0.0,
+    "active_set_force_equilibrium_relative_error": 1.4210854715202004e-16,
+    "active_set_moment_equilibrium_relative_error": 2.8421709430404003e-16,
+    "thresholds_source": "qualification/0_2_9/wp07c_contact_identities.json",
+    "all_observed_identity_values_within_frozen_thresholds": true
+  },
+  "preparation_contracts": {
+    "WP07-D": {
+      "status": "PASS_CONTRACT_ONLY_STRUCTURAL_UNRUN",
+      "formal_points": "0/3",
+      "contract": "qualification/0_2_9/wp07d_structural_vnv_contract.json",
+      "structural_solves_run": false,
+      "external_solver_run": false,
+      "mesh_levels": ["M1", "M2", "M3"],
+      "thresholds_unchanged": true,
+      "execution_guard_remains_disabled": true
+    },
+    "WP07-E": {
+      "status": "PASS_FAIL_CLOSED_CONTRACT_ONLY_CLOSURE_UNRUN",
+      "formal_points": "0/2",
+      "contract": "qualification/0_2_9/wp07e_closure_contract.json",
+      "fail_closed_builder_tests_passed": 16,
+      "raw_runtime_evidence_present": false,
+      "closure_executed": false,
+      "anti_downgrade_rule_preserved": true
+    }
+  },
+  "governing_policy_binding": {
+    "bound": true,
+    "governing_sha": "b3cba87f811441edd657f0788ade29d2a904f430",
+    "governing_policy_sha_or_digest": "sha256:93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "contact_contract_digest": "sha256:93c7741ecafd72cfa20e29e323b92ea9356fb93dacaff09a8347789bad9c9ed2",
+    "state_rollback_digest": "sha256:98baa056465502bf8ea8fb701b9bf9d33d95f9c9ff6baf7a5afc38c0450b6b03",
+    "contact_formulation_digest": "sha256:efa3a42d56eb5a80cea62ca3e8ae20b7dd22d2e27b585fd9b82a0e670f2b21a8",
+    "policy_description": "C2R6 floor-aware Newton route, canonical line search, MINRES+Jacobi where applicable, current rollback/state ownership",
+    "future_runtime_binding_required": true,
+    "wp07d_execution_authorized": false,
+    "hash_algorithm": "SHA-256 over ordered path-name and file-byte records"
+  },
+  "governing_protection": {
+    "WP04": "CLOSED 12/12",
+    "WP05": "PARTIAL 2/5",
+    "WP15": "CLOSED 2/2",
+    "WP04_mechanics_changed": false,
+    "WP05_contract_drift": false,
+    "telemetry_regression": false,
+    "wp06_branch_touched": false
+  },
+  "targeted_validation": {
+    "wp07_specific": {
+      "command": "python -m pytest -q tests/unit/test_wp07b_contact_evaluation_restart.py tests/unit/test_wp07c_contact_identities.py tests/unit/test_wp07d_structural_vnv_contract.py tests/unit/test_wp07e_closure_contract.py",
+      "result": "60 passed"
+    },
+    "integration_guard": {
+      "command": "python -m pytest -q tests/integration/test_wp07_governing_integration.py",
+      "result": "4 passed"
+    },
+    "contact_and_governing_regression": {
+      "command": "targeted contact, WP04, WP05, WP15 and telemetry regression selection",
+      "result": "217 passed, 3 expected RuntimeWarning diagnostics"
+    },
+    "structural_contact_campaign": "NOT_RUN",
+    "full_repository_suite": "NOT_RUN"
+  },
+  "formal_decision": {
+    "WP07-A": "PASS 1/1",
+    "WP07-B": "PASS 2/2",
+    "WP07-C": "PASS 2/2",
+    "WP07-D": "0/3 NOT AWARDED; structural execution not run",
+    "WP07-E": "0/2 NOT AWARDED; closure not run",
+    "WP07": "PARTIAL_A_B_C_INTEGRATED 5/10",
+    "validated_total": "50/100",
+    "maturity_changed": false,
+    "recommendation": "OWNER_REVIEW_REQUIRED_BEFORE_WP07_D_STRUCTURAL_CAMPAIGN"
+  },
+  "branch_lifecycle": {
+    "merge_validated": true,
+    "remote_governing_head_verified": false,
+    "child_head_ancestor_of_governing": false,
+    "local_child_branch_exists_before_retirement": false,
+    "local_child_branch_deleted": "PENDING",
+    "remote_child_branch_deleted": "PENDING",
+    "working_tree_clean": false
+  }
+}

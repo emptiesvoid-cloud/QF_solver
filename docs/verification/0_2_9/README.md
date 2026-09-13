@@ -82,6 +82,14 @@ consistent quadratic-face traction contract and governing C2R6 policy binding
 are frozen for later execution. The validated total is **45/100**; see [the
 WP05 governing integration audit](wp05-integration-into-governing-branch.md).
 
+WP07-A/B/C are **FORMAL PASS — 5/10** after governing-branch integration of
+the Owner-frozen contact candidate. The bounded initial-search active-set and
+frictionless penalty evaluation/restart semantics and contact identities pass
+targeted revalidation. WP07-D structural execution and WP07-E raw-evidence
+closure remain unrun and unawarded; updated-search/finite-sliding contact
+remains research-only. The validated total is **50/100**; see [the WP07
+governing integration audit](wp07-integration-into-governing-branch.md).
+
 WP01 Unified Nonlinear Core is **CLOSED** at **12/12 points** following the
 independent audit at SHA
 `6876d867cdd845195e8946b05329b0bc82937fdc`. The accepted decision is

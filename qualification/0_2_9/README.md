@@ -114,7 +114,7 @@ registry is unchanged. See
 - WP00: `CLOSED`, 4/4 points.
 - WP01 Unified Nonlinear Core: `CLOSED`, 12/12 points after independent
   Owner closure at audit SHA `6876d867cdd845195e8946b05329b0bc82937fdc`.
-- Validated total: `41/100`.
+- Validated total: `50/100`.
 - WP02 State Transactions & Rollback: `CLOSED`, 6/6 points after the
   independent WP02-E audit at `c4e02fbd2d1262f621f6c8d4f07ee2da89d885f5`.
   The decision is `GO_WITH_LIMITATIONS`; Owner review is required before the
@@ -126,8 +126,8 @@ registry is unchanged. See
 WP04-F is the completed phase: the evidence-only independent audit records
 G04-01..G04-05, G04-07..G04-08 and G04-10..G04-12 as PASS, with G04-06 and
 G04-09 as PASS_WITH_LIMITATION. WP04 is CLOSED at 12/12 and the validated
-total is 41/100. Owner approval is required before sequential child-branch
-integration; WP05 has not started.
+total is 41/100. Owner approval has been recorded; subsequent WP15, WP05 and
+WP07 integration records are tracked below.
 
 WP15 is now **CLOSED — 2/2** after a non-fast-forward, validated integration
 of the Owner-frozen telemetry child branch into the governing branch. The
@@ -146,6 +146,15 @@ WP05-C/D/E remain at 0/1 each: no H2/H3 or cross-family structural solve was
 run. The validated total is **45/100**; see
 `wp05/wp05_integration_audit.json` and
 `../docs/verification/0_2_9/wp05-integration-into-governing-branch.md`.
+
+WP07-A/B/C are now **FORMAL PASS — 5/10** after the validated governing-branch
+integration of the Owner-frozen bounded contact candidate. The initial-search
+linear active-set and nonlinear frictionless penalty evaluation/restart
+semantics and contact identities pass targeted revalidation. Updated-search
+and finite-sliding contact remain research-only. WP07-D structural execution
+and WP07-E closure remain unrun and unawarded. The validated total is
+**50/100**; see `wp07/wp07_integration_audit.json` and
+`../docs/verification/0_2_9/wp07-integration-into-governing-branch.md`.
 
 WP03-C preserves the accepted-state authority and all existing numerical and
 maturity boundaries. WP03-D adds the single `UnifiedArcLengthRadiusPolicy`,

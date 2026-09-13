@@ -9,15 +9,17 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from dataclasses import dataclass
-from typing import Any, cast
+from typing import TYPE_CHECKING, Any, cast
 
 import numpy as np
 from scipy.sparse import csr_matrix
 
-from solveur.core.dofs import DofManager
 from solveur.core.errors import InputValidationError
-from solveur.core.model import FiniteElementModel
 from solveur.core.nonlinear.state import deterministic_state_digest
+
+if TYPE_CHECKING:
+    from solveur.core.dofs import DofManager
+    from solveur.core.model import FiniteElementModel
 
 
 CONTACT_EVALUATION_SCHEMA_VERSION = 1
