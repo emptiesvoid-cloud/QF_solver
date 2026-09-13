@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "record_type": "OVERNIGHT_WP05_WP07_FINAL",
+  "overnight_start_sha": "7b93e71bab06a0e58108bd2479cd46808d533b67",
+  "evidence_head_before_final_commit": "bc29788b505d685647191cb87bf056264b791d37",
+  "branch": "0.2.9-overnight-wp05-wp07",
+  "started_at": "2026-09-13T22:16:41.6333462+02:00",
+  "machine": {
+    "python": "3.13.1",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "physical_processors": 1,
+    "logical_processors": 12,
+    "total_ram_bytes": 102963109888,
+    "free_disk_bytes_at_preflight": 58775818240
+  },
+  "execution_policy": {
+    "one_solve_at_a_time": true,
+    "parallel_structural_solves": false,
+    "thresholds_changed": false,
+    "solver_settings_changed": false,
+    "wp06_touched": false,
+    "wp08_touched": false,
+    "full_repository_suite": false
+  },
+  "WP05": {
+    "C_TET10": {
+      "status": "NOT_EXECUTED_PREP_ONLY",
+      "H1": null,
+      "H2": null,
+      "H3": null,
+      "reason": "The integrated frozen harness is preparation-only and contains no structural solve entry point."
+    },
+    "D_HEX20": {
+      "status": "NOT_EXECUTED_PREP_ONLY",
+      "H1": null,
+      "H2": null,
+      "H3": null,
+      "reason": "The integrated frozen harness is preparation-only and contains no structural solve entry point."
+    },
+    "E_CROSS_FAMILY": {
+      "status": "SKIPPED_DEPENDENCY_NOT_EXECUTED",
+      "reason": "Requires valid C and D structural results."
+    },
+    "candidate_points": "0/3"
+  },
+  "WP07": {
+    "D_FRICTIONLESS_STRUCTURAL": {
+      "status": "NOT_EXECUTED_PREP_ONLY",
+      "active_set_M1": null,
+      "active_set_M2": null,
+      "active_set_M3": null,
+      "penalty_M1": null,
+      "penalty_M2": null,
+      "penalty_M3": null,
+      "preflight": {
+        "status": "PASS",
+        "structural_solves_run": false,
+        "external_solver_run": false,
+        "mesh_levels": ["M1", "M2", "M3"],
+        "resultant_relative_error_max": 1.4551915228366853e-16,
+        "moment_relative_error_max": 1.4551915228366853e-16,
+        "positive_reference_volumes": true,
+        "deterministic_connectivity": true,
+        "master_coverage": true,
+        "M1_no_contact_system": "PASS",
+        "M1_penalty_initial_state": "PASS",
+        "M1_active_set_initial_state": "PASS"
+      },
+      "reason": "WP07-D contract/preflight remains no-solve; no frozen structural execution runner is available."
+    },
+    "E_FAIL_CLOSED": {
+      "status": "SKIPPED_DEPENDENCY_NOT_EXECUTED",
+      "reason": "Requires fully passing WP07-D raw structural evidence."
+    },
+    "candidate_points": "0/5"
+  },
+  "governance": {
+    "official_total_before_owner_review": "50/100",
+    "potential_total_after_owner_review": "50/100",
+    "WP04": "CLOSED 12/12",
+    "WP05": "2/5",
+    "WP07": "5/10",
+    "WP15": "CLOSED 2/2",
+    "production_mechanics_changed": false,
+    "thresholds_changed": false,
+    "maturity_changed": false
+  },
+  "validation": {
+    "WP05_contract_tests": "52 passed",
+    "WP07_preflight": "PASS; no structural solve",
+    "targeted_structural_campaigns": "NOT_RUN",
+    "full_repository_suite": "NOT_RUN"
+  },
+  "blockers": [
+    "QUALIFICATION_EXECUTION_HARNESS_UNAVAILABLE: WP05-C/D frozen harness is preparation-only.",
+    "QUALIFICATION_EXECUTION_HARNESS_UNAVAILABLE: WP07-D contract/preflight is no-solve and has no structural execution entry point."
+  ],
+  "next_step": "Owner decision/authorization to provide or enable the already-frozen structural execution runner; do not self-merge or touch WP06."
+}
