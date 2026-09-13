@@ -5643,6 +5643,22 @@
   ]
 },
 {
+  "id": "DOC-029-WP07-C-CONTACT-IDENTITIES-001",
+  "path": "verification/0_2_9/wp07c-contact-identities.md",
+  "title": "QF Solver 0.2.9 WP07-C contact identities and open/close V&V",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp07c_contact_identities.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp07c_contact_identities.py",
+    "tests/unit/test_wp07b_contact_evaluation_restart.py",
+    "tests/unit/test_frictionless_contact.py",
+    "tests/unit/test_nonlinear_contact_composition.py"
+  ]
+},
+{
   "id": "DOC-028-WP13-02C3-HARMONIC-FINAL-001",
   "path": "verification/0_2_8/wp13_02c3_harmonic_final.md",
   "title": "QF Solver 0.2.8 WP13-02C3 final mixed harmonic campaign",
