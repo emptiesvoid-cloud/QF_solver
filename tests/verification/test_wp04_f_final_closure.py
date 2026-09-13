@@ -28,8 +28,9 @@ def test_audit_scope_and_source_freeze() -> None:
     assert audit["structural_solves_run"] is False
     assert audit["production_mechanics_changed"] is False
     assert audit["source_audit"]["production_paths_changed"] == []
+    protected_paths = [item["path"] for item in audit["source_audit"]["source_files"]]
     diff = subprocess.run(
-        ["git", "diff", "--name-only", AUDIT_SHA, "--", "src"],
+        ["git", "diff", "--name-only", AUDIT_SHA, "--", *protected_paths],
         cwd=ROOT,
         check=True,
         capture_output=True,

@@ -129,6 +129,15 @@ G04-09 as PASS_WITH_LIMITATION. WP04 is CLOSED at 12/12 and the validated
 total is 41/100. Owner approval is required before sequential child-branch
 integration; WP05 has not started.
 
+WP15 is now **CLOSED — 2/2** after a non-fast-forward, validated integration
+of the Owner-frozen telemetry child branch into the governing branch. The
+integration adds the generic event/sink core and bounded Phase-1 instrumentation
+for `linear_static` and `modal` only. It leaves geometric nonlinear routes and
+all WP04 mechanics unchanged. The C2R6 `SOLVE_COMPLETED` aggregate Newton-count
+undercount remains explicit deferred telemetry debt. The validated total is
+**43/100**; see `wp15/wp15_integration_audit.json` and
+`../docs/verification/0_2_9/wp15-integration-into-governing-branch.md`.
+
 WP03-C preserves the accepted-state authority and all existing numerical and
 maturity boundaries. WP03-D adds the single `UnifiedArcLengthRadiusPolicy`,
 preserves the specialized arc-length correction kernel and fixes the

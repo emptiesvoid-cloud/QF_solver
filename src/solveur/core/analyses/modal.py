@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import math
 from time import perf_counter
+from typing import Any, cast
 
 import numpy as np
 from scipy.sparse import csr_matrix, diags, tril, triu
@@ -251,20 +252,24 @@ class ModalAnalysisSolver:
             )
         frequencies = np.sqrt(values) / (2.0 * math.pi)
         full_modes = np.column_stack([reducer.expand_state(vectors[:, index]) for index in range(values.size)])
-        for index, (eigenvalue, frequency) in enumerate(zip(values, frequencies)):
+        telemetry_values = cast(np.ndarray[Any, Any], values)
+        telemetry_frequencies = cast(np.ndarray[Any, Any], frequencies)
+        telemetry_residuals = cast(np.ndarray[Any, Any], diagnostics["relative_residuals"])
+        for index, (eigenvalue, frequency) in enumerate(zip(telemetry_values, telemetry_frequencies)):
+            mode_metrics: dict[str, object] = {
+                "dofs": dofs.ndof,
+                "requested_modes": requested,
+                "mode_index": index + 1,
+                "eigenvalue": float(eigenvalue),
+                "frequency_hz": float(frequency),
+                "eigen_residual": telemetry_residuals[index],
+                "iterations": missing_value(MissingValueReason.NOT_AVAILABLE),
+            }
             emit_route_event_best_effort(
                 telemetry,
                 EventType.MODAL_MODE_FOUND,
                 status=EventStatus.ACCEPTED,
-                metrics=lambda index=index, eigenvalue=eigenvalue, frequency=frequency: {
-                    "dofs": dofs.ndof,
-                    "requested_modes": requested,
-                    "mode_index": index + 1,
-                    "eigenvalue": float(eigenvalue),
-                    "frequency_hz": float(frequency),
-                    "eigen_residual": diagnostics["relative_residuals"][index],
-                    "iterations": missing_value(MissingValueReason.NOT_AVAILABLE),
-                },
+                metrics=mode_metrics,
                 solver_backend=used_method,
             )
         emit_route_event_best_effort(
@@ -275,7 +280,7 @@ class ModalAnalysisSolver:
                 "nodes": model.node_count,
                 "elements": len(model.elements),
                 "dofs": dofs.ndof,
-                "mode_count": int(values.size),
+                "mode_count": int(telemetry_values.size),
                 "assembly_time_s": assembly_seconds,
                 "total_analysis_time_s": perf_counter() - run_started,
             },

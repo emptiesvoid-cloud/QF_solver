@@ -1,13 +1,14 @@
 {
   "schema_version": 1,
   "release": "0.2.9",
-  "status": "WP04_CLOSED_WP04F_GO_WITH_LIMITATIONS",
+  "status": "WP15_CLOSED_INTEGRATION_VALIDATED",
   "work_packages": {
     "WP00": {"points": 4, "status": "CLOSED", "validated_points": 4},
     "WP01": {"points": 12, "status": "CLOSED", "validated_points": 12},
     "WP02": {"points": 6, "status": "CLOSED", "validated_points": 6},
     "WP03": {"points": 7, "status": "CLOSED", "validated_points": 7},
     "WP04": {"points": 12, "status": "CLOSED_GO_WITH_LIMITATIONS", "validated_points": 12},
+    "WP15": {"points": 2, "status": "CLOSED_INTEGRATION_VALIDATED", "validated_points": 2},
     "WP05": {"points": 5, "status": "NOT_STARTED", "validated_points": 0},
     "WP06": {"points": 8, "status": "NOT_STARTED", "validated_points": 0},
     "WP07": {"points": 10, "status": "NOT_STARTED", "validated_points": 0},
@@ -19,7 +20,7 @@
     "WP13": {"points": 2, "status": "NOT_STARTED", "validated_points": 0},
     "WP14": {"points": 2, "status": "NOT_STARTED", "validated_points": 0}
   },
-  "validated_points": 41,
+  "validated_points": 43,
   "total_points": 100,
-  "next_gate": "WP04-F is CLOSED at 12/12 with GO_WITH_LIMITATIONS from evidence-only audit SHA 70e1bf953c8e6f37b8070e78ca97e58b21499291. All G04-01..G04-12 gates are PASS or PASS_WITH_LIMITATION; the HEX8 small-load reaction support limitation and TET4 telemetry aggregate undercount remain explicit non-blocking limitations. No structural solve, H4, PETSc, or full repository suite was run. Public maturity registry remains unchanged pending Owner approval and sequential child-branch integration. The next gate is Owner approval before integration; WP05 has not started. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
+  "next_gate": "WP15 is CLOSED at 2/2 after the validated non-fast-forward integration of child head f93bdb5395be513fe09cfc9b52f0b1d2cb9f32db into governing branch 0.2.9-unified-nonlinear. WP15 adds generic telemetry and bounded linear-static/modal Phase-1 instrumentation; it does not instrument geometric nonlinear routes. WP04 remains CLOSED at 12/12 with its mechanics/evidence protected. The C2R6 SOLVE_COMPLETED Newton aggregate undercount remains deferred WP15 debt. Validated total is 43/100. The next gate is the Owner-selected frozen child branch; do not merge WP06 without separate authorization. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
 }

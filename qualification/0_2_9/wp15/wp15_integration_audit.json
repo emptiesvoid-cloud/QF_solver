@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "record_type": "wp15_governing_branch_integration_audit",
+  "release": "0.2.9",
+  "branch": "0.2.9-unified-nonlinear",
+  "governing_pre_merge_sha": "67375559c1f4aba651bb081d475bd9c867fe4232",
+  "child_branch": "0.2.9-wp15-prep",
+  "child_head": "f93bdb5395be513fe09cfc9b52f0b1d2cb9f32db",
+  "merge_base": "2c52bf8196a7d47d14ce1784290580160de26590",
+  "merge_commit": "a76afd2310e28fc2eb3578200e788bf5ca8f0149",
+  "merge": {
+    "strategy": "explicit_non_fast_forward",
+    "conflicts_found": 1,
+    "conflict_files": ["docs/document_registry.json"],
+    "resolution": "Manual semantic registry union preserving governing WP04-F and WP15 candidate records."
+  },
+  "source_audit": {
+    "wp04_mechanics_changed": false,
+    "protected_paths": [
+      "src/solveur/core/analyses/geometric_nonlinear.py",
+      "src/solveur/core/assembly/geometric.py",
+      "src/solveur/core/assembly/nonlinear.py",
+      "src/solveur/elements/solid/tet4_total_lagrangian.py",
+      "src/solveur/elements/solid/hex8_total_lagrangian_batch.py",
+      "src/solveur/elements/solid/common.py"
+    ],
+    "protected_paths_changed_since_wp04f_audit": [],
+    "wp15_source_paths": [
+      "src/solveur/api/public.py",
+      "src/solveur/core/analyses/modal.py",
+      "src/solveur/core/router.py",
+      "src/solveur/core/solvers/static.py",
+      "src/solveur/core/telemetry/"
+    ]
+  },
+  "functional_scope": {
+    "wp15a_integrated": true,
+    "wp15b_integrated": true,
+    "instrumented_routes": ["linear_static", "modal"],
+    "noninstrumented_route_guard": true,
+    "geometric_nonlinear_instrumented": false,
+    "telemetry_omission_is_numerical_no_op": true,
+    "legacy_wp04_adapter_verified": true,
+    "sink_failure_isolation_verified": true
+  },
+  "wp04_protection": {
+    "status": "CLOSED_GO_WITH_LIMITATIONS",
+    "points": 12,
+    "validated_total_before_wp15": 41,
+    "c2r6_floor_aware_termination_unchanged": true,
+    "minres_jacobi_policy_unchanged": true,
+    "canonical_line_search_unchanged": true,
+    "accepted_state_authority_unchanged": true,
+    "newton_aggregate_debt": "DEFERRED",
+    "debt_rationale": "The legacy nonlinear aggregate is outside WP15 Phase-1 static/modal coverage; no telemetry-only repair is made without direct coverage."
+  },
+  "targeted_validation": {
+    "wp15_telemetry": {"command": "python -m pytest -q tests/unit/test_wp15a_generic_telemetry.py tests/unit/test_wp15b_phase1.py", "result": "47 passed"},
+    "wp04_governance": {"command": "python -m pytest -q tests/verification/test_wp04_f_final_closure.py", "result": "5 passed"},
+    "wp04_c2r6_state_api": {"command": "python -m pytest -q tests/unit/test_wp04_c2r6_floor_aware_termination.py tests/unit/test_nonlinear_state_transaction_contract.py tests/unit/test_geometric_nonlinear_public.py tests/integration/test_public_qf_solver_api.py tests/unit/test_public_api_contract.py", "result": "41 passed"},
+    "combined_targeted": {"result": "93 passed, 3 expected warning-bearing failure-fixture warnings", "scope": "WP15-A/B, WP04-F, C2R6 floor-aware termination, state transaction, geometric public route, public API"},
+    "ruff": "PASS",
+    "mypy": {"result": "PASS_WITH_INHERITED_DIAGNOSTICS", "baseline_diagnostics": 38, "final_diagnostics": 38, "new_diagnostics": 0, "module": "src/solveur/core/analyses/modal.py"},
+    "compileall": "PASS",
+    "json_validation": "PASS: docs registry plus 112 qualification JSON files",
+    "document_registry_test": "PASS: 1 passed, 1 skipped, 17 deselected",
+    "mkdocs_strict": "PASS_WITH_EXISTING_UNLISTED_PAGE_AND_NON_DOC_JSON_LINK_NOTICES",
+    "full_repository_suite_run": false
+  },
+  "governance": {
+    "wp15a_status": "PASS",
+    "wp15b_status": "PASS",
+    "wp15_status": "CLOSED_INTEGRATION_VALIDATED",
+    "wp15_points": 2,
+    "validated_total_after_wp15": 43,
+    "mechanics_formulation_changed": false,
+    "maturity_changed": false,
+    "structural_solves_run": false,
+    "h4_run": false,
+    "petsc_run": false
+  },
+  "post_validation_branch_deletion": {
+    "required_before_deletion": ["merge_validated", "remote_governing_head_verified", "child_head_ancestor_of_governing"],
+    "local_child_branch_present_at_preflight": false,
+    "remote_child_branch_deletion": "PENDING_FINAL_PUSH"
+  }
+}

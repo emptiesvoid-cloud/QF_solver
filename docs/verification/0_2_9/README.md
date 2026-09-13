@@ -69,6 +69,12 @@ does not claim distributed nonlinear mechanics.
 
 ## Current owner-closure state
 
+WP15 is **CLOSED — 2/2** following validated integration into the governing
+branch. It supplies generic telemetry plus bounded `linear_static` and `modal`
+route instrumentation only; it does not change or instrument the WP04
+geometric-nonlinear route. WP04 remains CLOSED at 12/12 and the validated total
+is **43/100**. See [the WP15 governing integration audit](wp15-integration-into-governing-branch.md).
+
 WP01 Unified Nonlinear Core is **CLOSED** at **12/12 points** following the
 independent audit at SHA
 `6876d867cdd845195e8946b05329b0bc82937fdc`. The accepted decision is
