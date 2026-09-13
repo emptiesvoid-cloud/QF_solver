@@ -1,0 +1,278 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "VNV029-WP05-READINESS-001",
+  "gate": "WP05",
+  "title": "High-order geometric-nonlinear readiness audit",
+  "status": "PREPARATION_ONLY",
+  "source_baseline_sha": "2c52bf8196a7d47d14ce1784290580160de26590",
+  "branch": "0.2.9-wp05-prep",
+  "audit_date": "2026-09-13",
+  "scope": {
+    "families": [
+      "TET10",
+      "HEX20"
+    ],
+    "analysis": "geometric_nonlinear_static",
+    "formulation_observed": "total_lagrangian_green_lagrange_stvenant_kirchhoff_elasticity",
+    "supported_bounded_inputs": [
+      "one homogeneous TET10 or HEX20 family",
+      "one isotropic_3d SolidMaterial",
+      "nodal dead loads"
+    ],
+    "explicitly_out_of_scope": [
+      "qualification or maturity promotion",
+      "mixed meshes or mixed materials",
+      "distributed-load geometric-static routes",
+      "contact, dynamics, and J2 plasticity claims",
+      "external correlation",
+      "large campaigns and full regression"
+    ]
+  },
+  "governance": {
+    "wp05_validation_points": 0,
+    "wp05_validation_points_total": 5,
+    "release_validated_total": 29,
+    "release_validated_total_max": 100,
+    "wp05_implementation_can_start_before_wp04_close": true,
+    "wp05_qualification_blocked_by_wp04": true,
+    "package_version_observation": "EXPECTED_DEVELOPMENT_BASELINE",
+    "next_step": "OWNER_REVIEW_OF_WP05_SCOPE_AND_POLICY",
+    "owner_freeze_requested": false,
+    "merge_while_wp04_c2r6_active": false
+  },
+  "route_trace": {
+    "public_api": "solve_model",
+    "router": "AnalysisRouter.solve",
+    "solver": "GeometricNonlinearStaticSolver.solve",
+    "assembly_factory": "build_total_lagrangian_assembly",
+    "high_order_assembly": "TotalLagrangianHighOrderAssembly",
+    "family_kernels": {
+      "TET10": "TotalLagrangianJ2Tet10Element",
+      "HEX20": "TotalLagrangianJ2Hex20Element"
+    },
+    "shared_kernel": "TotalLagrangianJ2Element",
+    "newton": [
+      "solve_full_newton",
+      "solve_adaptive_full_newton"
+    ],
+    "research_scopes": {
+      "TET10": "tet10-total-lagrangian-structural-research",
+      "HEX20": "hex20-total-lagrangian-structural-research"
+    }
+  },
+  "capability_matrix": {
+    "LINEAR_STATIC": {
+      "TET10": "SUPPORTED",
+      "HEX20": "SUPPORTED",
+      "verification_state": "linear evidence exists but is not high-order TL evidence"
+    },
+    "MODAL": {
+      "TET10": "SUPPORTED",
+      "HEX20": "SUPPORTED",
+      "verification_state": "consistent mass exists; no nonlinear-modal claim"
+    },
+    "TOTAL_LAGRANGIAN": {
+      "TET10": "SUPPORTED_RESEARCH",
+      "HEX20": "SUPPORTED_RESEARCH",
+      "verification_state": "implemented through common high-order assembly; direct identity V&V missing"
+    },
+    "GEOMETRIC_NONLINEAR": {
+      "TET10": "SUPPORTED_RESEARCH",
+      "HEX20": "SUPPORTED_RESEARCH",
+      "verification_state": "public small-load route smoke only"
+    },
+    "INTERNAL_FORCE": {
+      "TET10": "SUPPORTED",
+      "HEX20": "SUPPORTED",
+      "verification_state": "shared P=F*S integration; independent high-order oracle missing"
+    },
+    "CONSISTENT_TANGENT": {
+      "TET10": "SUPPORTED",
+      "HEX20": "SUPPORTED",
+      "verification_state": "combined material and geometric tangent present; finite-difference evidence missing"
+    },
+    "ENERGY": {
+      "TET10": "SUPPORTED",
+      "HEX20": "SUPPORTED",
+      "verification_state": "strain-energy path exists; energy-gradient identity unqualified"
+    },
+    "OBJECTIVITY": {
+      "TET10": "PARTIAL",
+      "HEX20": "PARTIAL",
+      "verification_state": "non-archived rigid-rotation smoke only"
+    },
+    "AFFINE_PATCH": {
+      "TET10": "PARTIAL",
+      "HEX20": "PARTIAL",
+      "verification_state": "non-archived affine smoke only; no analytical oracle"
+    },
+    "SMALL_LINEAR_LIMIT": {
+      "TET10": "PARTIAL",
+      "HEX20": "PARTIAL",
+      "verification_state": "both routes exist; controlled equivalence fixture missing"
+    },
+    "STRUCTURAL_CONVERGENCE": {
+      "TET10": "MISSING",
+      "HEX20": "MISSING",
+      "verification_state": "no qualified high-order TL refinement benchmark"
+    }
+  },
+  "element_audit": {
+    "TET10": {
+      "local_ordering": "four corner nodes followed by six edge nodes",
+      "gmsh_remap": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        8
+      ],
+      "nonlinear_quadrature": {
+        "default": "hammer4_degree_2",
+        "optional": "code_aster_5_degree_3_with_negative_centroid_weight"
+      },
+      "geometry_validation_observed": "positive corner orientation and selected TL quadrature-point Jacobians",
+      "readiness_gap": "nonlinear curved-geometry quadrature/quality sensitivity requires dedicated fixtures"
+    },
+    "HEX20": {
+      "local_ordering": "eight corners followed by twelve edge nodes; Gmsh incomplete second-order hexahedron convention",
+      "nonlinear_quadrature": "full_3x3x3_Gauss_27_points",
+      "geometry_validation_observed": "finite positive Jacobians at all 27 integration points",
+      "reduced_integration_route": false,
+      "readiness_gap": "distortion and near-incompressible locking behavior are unqualified"
+    }
+  },
+  "tangent_and_energy_audit": {
+    "kinematics": "F=I+u^T*grad(N); E=0.5*(F^T*F-I)",
+    "internal_force": "integral(P*grad(N)) with P=F*S",
+    "tangent": "combined material and geometric tangent, then symmetric assembly",
+    "state_fields": [
+      "F",
+      "Green-Lagrange strain",
+      "second Piola stress",
+      "Cauchy stress",
+      "detF"
+    ],
+    "formulation_bug_demonstrated": false,
+    "implementation_gaps": [
+      "no dedicated high-order identity fixture suite",
+      "no dedicated high-order nonlinear curved-TET10 quadrature adequacy study"
+    ],
+    "qualification_gaps": [
+      "no Owner-approved high-order TL contract",
+      "no high-order structural convergence or external-correlation evidence"
+    ]
+  },
+  "wp04_identity_reuse": {
+    "rigid_body_objectivity": "FIXTURE_ONLY_REQUIRED",
+    "affine_constant_strain_patch": "FIXTURE_ONLY_REQUIRED",
+    "energy_gradient_identity": "FIXTURE_ONLY_REQUIRED",
+    "finite_difference_tangent": "FIXTURE_ONLY_REQUIRED",
+    "tangent_symmetry": "FIXTURE_ONLY_REQUIRED",
+    "small_displacement_linear_limit": "FIXTURE_ONLY_REQUIRED",
+    "force_moment_equilibrium": "FIXTURE_ONLY_REQUIRED",
+    "energy_work_mesh_refinement": "FIXTURE_ONLY_REQUIRED",
+    "policy_note": "WP04 excluded TET10/HEX20; no threshold transfers without Owner adoption"
+  },
+  "threshold_policy": {
+    "reuse_wp04_threshold_candidate": {
+      "objectivity": {
+        "energy": 1e-12,
+        "force_norm": 1e-11
+      },
+      "affine_patch": {
+        "relative": 1e-10,
+        "absolute": 1e-12
+      },
+      "tangent_symmetry": 1e-12
+    },
+    "new_justification_required": [
+      "energy_gradient",
+      "finite_difference_tangent",
+      "small_linear_limit",
+      "force_and_moment_equilibrium",
+      "energy_work",
+      "mesh_convergence",
+      "distortion",
+      "cross_family_comparison"
+    ],
+    "post_observation_tolerance_adjustment": false
+  },
+  "executed_evidence": {
+    "targeted_tests": {
+      "command": "python -m pytest -q tests/unit/test_tet10_element.py tests/unit/test_hex20_element.py tests/unit/test_geometric_nonlinear_public.py -k 'not tet4 and not requires_six_increments and not rejects_distributed_loads'",
+      "passed": 27,
+      "deselected": 4,
+      "full_suite": false
+    },
+    "direct_readiness_smoke": {
+      "archived_qualification_evidence": false,
+      "deformation": "one affine state and one rigid z-axis rotation on a canonical straight-sided element",
+      "TET10": {
+        "affine_energy": 0.22926875000000047,
+        "rigid_energy": 3.289446898492168e-32,
+        "rigid_force_norm": 3.855185596419919e-15,
+        "tangent_symmetry_defect": 0.0,
+        "public_solve_min_detF": 0.9999993182476841
+      },
+      "HEX20": {
+        "affine_energy": 1.3756125000000026,
+        "rigid_energy": 2.8149473805666008e-30,
+        "rigid_force_norm": 4.4740786613619486e-14,
+        "tangent_symmetry_defect": 0.0,
+        "public_solve_min_detF": 0.9999999577683978
+      },
+      "interpretation": "finite readiness smoke only; not a qualified oracle or threshold source"
+    }
+  },
+  "proposed_sub_work_packages": [
+    {
+      "id": "WP05-A",
+      "points": 1,
+      "scope": "TET10 identities, integration, and orientation fixtures"
+    },
+    {
+      "id": "WP05-B",
+      "points": 1,
+      "scope": "HEX20 identities, full integration, and geometry fixtures"
+    },
+    {
+      "id": "WP05-C",
+      "points": 1,
+      "scope": "TET10 bounded structural convergence benchmark"
+    },
+    {
+      "id": "WP05-D",
+      "points": 1,
+      "scope": "HEX20 bounded structural and distortion-sensitive benchmark"
+    },
+    {
+      "id": "WP05-E",
+      "points": 1,
+      "scope": "cross-family bounded comparison and Owner review"
+    }
+  ],
+  "benchmark_design": {
+    "benchmark_A": "high-order cantilever with nodal dead end loads; declared 4x1x1, 8x2x2, and 16x4x4 base-cell refinement levels",
+    "benchmark_B": "mapped quarter-cantilever; declared 4x1x1, 8x2x1, and 16x4x2 arc/radial/thickness levels",
+    "freeze_before_execution": [
+      "mesh mappings and conversion",
+      "load sequence and stopping rules",
+      "tip displacement, reactions, reaction moment, min_detF, energy/work observables",
+      "family-specific and cross-family comparison policy"
+    ],
+    "no_benchmark_executed": true
+  },
+  "validation_limits": [
+    "No high-order total-Lagrangian external correlation",
+    "No qualification of curved TET10 nonlinear quadrature adequacy",
+    "No qualification of stress recovery, locking, contact, dynamics, J2 plasticity, mixed meshes, or mixed materials",
+    "No formulation, solver, or maturity change",
+    "No full regression or large numerical campaign"
+  ]
+}
