@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "record_type": "WP05_OVERNIGHT_CHECKPOINT",
+  "status": "NOT_EXECUTED_PREP_ONLY",
+  "source_sha": "7b93e71bab06a0e58108bd2479cd46808d533b67",
+  "branch": "0.2.9-overnight-wp05-wp07",
+  "physical_campaigns": {
+    "WP05-C": {
+      "status": "NOT_EXECUTED_PREP_ONLY",
+      "family": "TET10",
+      "H1": null,
+      "H2": null,
+      "H3": null,
+      "reason": "scripts/wp05_cd_structural_harness.py is explicitly preparation-only; StructuralQualificationRunner.evaluate_precomputed reports solver_invoked=false and no structural execution runner is present."
+    },
+    "WP05-D": {
+      "status": "NOT_EXECUTED_PREP_ONLY",
+      "family": "HEX20",
+      "H1": null,
+      "H2": null,
+      "H3": null,
+      "reason": "The integrated WP05 contract contains mesh/load/readiness preparation only; no frozen structural execution entry point is available."
+    },
+    "WP05-E": {
+      "status": "SKIPPED_DEPENDENCY_NOT_EXECUTED",
+      "reason": "Cross-family comparison requires valid WP05-C and WP05-D structural results."
+    }
+  },
+  "preparation_validation": {
+    "contract_tests": "52 passed",
+    "contract_status": "PASS",
+    "mesh_and_load_execution": "PREPARATION_ONLY",
+    "thresholds_changed": false,
+    "solver_backend_changed": false,
+    "structural_solves_run": false
+  },
+  "formal_points_candidate": {
+    "WP05-C": "0/1",
+    "WP05-D": "0/1",
+    "WP05-E": "0/1",
+    "WP05": "0/3 remaining candidates"
+  },
+  "blocker": "QUALIFICATION_EXECUTION_HARNESS_UNAVAILABLE",
+  "next_step": "Owner authorization/implementation of the already-frozen structural execution runner before any WP05 qualification claim."
+}
