@@ -18,6 +18,9 @@ from solveur.core.solvers.policy import LinearSolverPolicy, linear_execution_set
 from solveur.core.model import FiniteElementModel
 from solveur.core.results import SolveResult
 from solveur.core.solvers.backend import select_backend
+from solveur.core.telemetry.events import EventStatus, EventType, MissingValueReason
+from solveur.core.telemetry.events import missing_value
+from solveur.core.telemetry.observer import TelemetryHandle, emit_route_event_best_effort
 from solveur.mesh.validation import MeshValidator
 from solveur.post.audit import PostProcessingAuditor
 from solveur.post.stress import StressPostProcessor
@@ -33,7 +36,13 @@ class LinearStaticSolver:
         self.post = StressPostProcessor()
         self.post_auditor = PostProcessingAuditor()
 
-    def solve(self, model: FiniteElementModel, *, detail_level: str = "full") -> SolveResult:
+    def solve(
+        self,
+        model: FiniteElementModel,
+        *,
+        detail_level: str = "full",
+        telemetry: TelemetryHandle | None = None,
+    ) -> SolveResult:
         if detail_level not in {"full", "summary"}:
             raise ValueError("detail_level must be 'full' or 'summary'.")
         include_detail = detail_level == "full"
@@ -42,16 +51,65 @@ class LinearStaticSolver:
         if report.status == "FAIL":
             raise MeshValidationError("Mesh validation failed: " + "; ".join(report.errors))
         dofs = model.dof_manager()
+        emit_route_event_best_effort(
+            telemetry,
+            EventType.MESH_READY,
+            status=EventStatus.COMPLETED,
+            metrics=lambda: {
+                "nodes": model.node_count,
+                "elements": len(model.elements),
+                "dofs": dofs.ndof,
+                "mesh_status": report.status,
+            },
+        )
         assembly_started = perf_counter()
+        emit_route_event_best_effort(
+            telemetry,
+            EventType.ASSEMBLY_START,
+            status=EventStatus.STARTED,
+            metrics=lambda: {
+                "nodes": model.node_count,
+                "elements": len(model.elements),
+                "dofs": dofs.ndof,
+            },
+        )
         plan = self.assembler.prepare_plan(model, dofs)
         stiffness = self.assembler.assemble_stiffness(model, dofs, plan=plan)
         loads = self.assembler.assemble_loads(model, dofs)
         fixed = self.assembler.fixed_indices(model, dofs)
         assembly_seconds = perf_counter() - assembly_started
+        emit_route_event_best_effort(
+            telemetry,
+            EventType.ASSEMBLY_END,
+            status=EventStatus.COMPLETED,
+            metrics=lambda: {
+                "nodes": model.node_count,
+                "elements": len(model.elements),
+                "dofs": dofs.ndof,
+                "matrix_rows": int(stiffness.shape[0]),
+                "matrix_columns": int(stiffness.shape[1]),
+                "matrix_nnz": int(stiffness.nnz),
+                "assembly_time_s": assembly_seconds,
+            },
+        )
         contact_details: dict[str, object] | None = None
         solver_info: dict[str, Any]
         constraint_transform = None
         if model.contacts:
+            contact_started = perf_counter()
+            emit_route_event_best_effort(
+                telemetry,
+                EventType.LINEAR_SOLVE_START,
+                status=EventStatus.STARTED,
+                metrics=lambda: {
+                    "matrix_rows": int(stiffness.shape[0]),
+                    "matrix_columns": int(stiffness.shape[1]),
+                    "matrix_nnz": int(stiffness.nnz),
+                    "method": "frictionless_active_set",
+                    "backend": "contact_active_set",
+                },
+                solver_backend="contact_active_set",
+            )
             contact_state = FrictionlessActiveSetSolver().solve(model, dofs, stiffness, loads, fixed)
             free = np.setdiff1d(np.arange(dofs.ndof, dtype=int), fixed)
             reduced = contact_state.reduced_stiffness
@@ -65,6 +123,24 @@ class LinearStaticSolver:
                 "converged": contact_details["converged"],
                 "residual_norm": 0.0,
             }
+            emit_route_event_best_effort(
+                telemetry,
+                EventType.LINEAR_SOLVE_END,
+                status=EventStatus.COMPLETED,
+                metrics=lambda: {
+                    "matrix_rows": int(reduced.shape[0]),
+                    "matrix_columns": int(reduced.shape[1]),
+                    "matrix_nnz": int(reduced.nnz),
+                    "method": solver_info["method"],
+                    "backend": "contact_active_set",
+                    "iterations": solver_info["iterations"],
+                    "converged": solver_info["converged"],
+                    "raw_residual_norm": missing_value(MissingValueReason.NOT_COMPUTABLE),
+                    "relative_residual_norm": missing_value(MissingValueReason.NOT_COMPUTABLE),
+                    "solve_time_s": perf_counter() - contact_started,
+                },
+                solver_backend="contact_active_set",
+            )
         else:
             reduction = ConstraintReduction.from_system(
                 dofs, stiffness, loads, model.linear_constraints(), fixed
@@ -81,6 +157,20 @@ class LinearStaticSolver:
             )
             effective_method = (
                 selection.recommended_method if requested_method in LinearSolverPolicy._AUTO else requested_method
+            )
+            emit_route_event_best_effort(
+                telemetry,
+                EventType.LINEAR_SOLVE_START,
+                status=EventStatus.STARTED,
+                metrics=lambda: {
+                    "matrix_rows": int(reduced.shape[0]),
+                    "matrix_columns": int(reduced.shape[1]),
+                    "matrix_nnz": int(reduced.nnz),
+                    "method": effective_method,
+                    "backend": backend_selection.selected,
+                    "preconditioner": model.analysis.parameters.get("preconditioner", "none"),
+                },
+                solver_backend=backend_selection.selected,
             )
             linear_started = perf_counter()
             solution, info = self.linear_solver.solve(
@@ -108,6 +198,32 @@ class LinearStaticSolver:
             solver_info["execution"]["fallback_used"] = backend_selection.fallback_used
             solver_info["execution"]["linear_solve_seconds"] = perf_counter() - linear_started
             solver_info["backend"] = backend_selection.to_dict()
+            emit_route_event_best_effort(
+                telemetry,
+                EventType.LINEAR_SOLVE_END,
+                status=EventStatus.COMPLETED,
+                metrics=lambda: {
+                    "matrix_rows": int(reduced.shape[0]),
+                    "matrix_columns": int(reduced.shape[1]),
+                    "matrix_nnz": int(reduced.nnz),
+                    "method": info.method,
+                    "backend": info.backend,
+                    "preconditioner": info.preconditioner,
+                    "iterations": info.iterations,
+                    "raw_residual_norm": info.residual_norm,
+                    "relative_residual_norm": info.relative_residual_norm,
+                    "backward_error_eta_inf": missing_value(MissingValueReason.NOT_AVAILABLE),
+                    "converged": info.converged,
+                    "fallback_used": backend_selection.fallback_used,
+                    "fallback_reason": (
+                        backend_selection.reason
+                        if backend_selection.fallback_used
+                        else missing_value(MissingValueReason.NOT_APPLICABLE)
+                    ),
+                    "solve_time_s": perf_counter() - linear_started,
+                },
+                solver_backend=info.backend,
+            )
         if not np.all(np.isfinite(displacement)):
             raise NumericalConvergenceError("Linear solve produced non-finite displacements.")
         element_results = self.post.element_results(model, dofs, displacement) if include_detail else []
@@ -188,6 +304,18 @@ class LinearStaticSolver:
         solver_info["execution"]["assembly_seconds"] = assembly_seconds
         solver_info["execution"]["total_seconds"] = perf_counter() - run_started
         solver_info["execution"]["resource_estimate"] = dict(solver_info.get("selection", {}).get("resource_estimate", {}))
+        emit_route_event_best_effort(
+            telemetry,
+            EventType.ANALYSIS_END,
+            status=EventStatus.COMPLETED,
+            metrics=lambda: {
+                "nodes": model.node_count,
+                "elements": len(model.elements),
+                "dofs": dofs.ndof,
+                "assembly_time_s": assembly_seconds,
+                "total_analysis_time_s": solver_info["execution"]["total_seconds"],
+            },
+        )
         return SolveResult(
             status="PASS",
             displacements=displacement,

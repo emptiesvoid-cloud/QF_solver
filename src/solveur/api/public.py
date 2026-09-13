@@ -12,6 +12,7 @@ from solveur.core.audit import ModelInspector, SolverAudit
 from solveur.core.model import FiniteElementModel
 from solveur.core.qualification import enforce_qualification_policy, qualification_summary
 from solveur.core.router import AnalysisRouter
+from solveur.core.telemetry.observer import TelemetryEmitter
 from solveur.io.audit_markdown import AuditMarkdownWriter
 from solveur.io.csv_writer import CsvResultWriter
 from solveur.io.evidence_verifier import EvidenceBundleVerifier, EvidenceVerificationReport
@@ -144,9 +145,14 @@ def inspect_model(model: FiniteElementModel, *, detail: str = "summary") -> Solv
     return ModelInspector().inspect(model, detail=detail)
 
 
-def solve_model(model: FiniteElementModel, *, enforce_policy: bool = True) -> object:
+def solve_model(
+    model: FiniteElementModel,
+    *,
+    enforce_policy: bool = True,
+    telemetry: TelemetryEmitter | None = None,
+) -> object:
     """Validate and solve a model, enforcing its verification profile by default."""
-    result = AnalysisRouter().solve(model)
+    result = AnalysisRouter().solve(model, telemetry=telemetry)
     return enforce_qualification_policy(result, model) if enforce_policy else result
 
 
