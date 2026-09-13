@@ -1,0 +1,223 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0.2.9-WP06F-CLOSURE-CONTRACT-001",
+  "work_package": "WP06-F",
+  "phase": "PHASE_0_PREPARATION",
+  "status": "PREPARATION_ONLY_OWNER_CANDIDATE",
+  "branch": "0.2.9-wp06-prep",
+  "baseline_sha": "09504370775fda85fb6630f69cf9a6fa38e8086a",
+  "source_repository": "emptiesvoid-cloud/QF_solver",
+  "formal_points": "0/1",
+  "wp06_points": "0/8",
+  "validated_total": "29/100",
+  "required_artifact_manifest": [
+    {"id": "WP06-A-CONTRACT", "class": "A_CONTRACT_EVIDENCE", "path": "qualification/0_2_9/wp06a_arc_length_formulation_contract.json"},
+    {"id": "WP06-B-CONTRACT", "class": "B_TRANSACTION_ROLLBACK_EVIDENCE", "path": "qualification/0_2_9/wp06b_continuation_state_rollback.json"},
+    {"id": "WP06-C-EVIDENCE", "class": "C_IDENTITY_EVIDENCE", "path": "qualification/0_2_9/wp06c_arc_length_predictor_corrector_identities.json"},
+    {"id": "WP06-D-PHASE0", "class": "D_PHASE0_CONTRACT", "path": "qualification/0_2_9/wp06d_structural_limit_point_contract.json"},
+    {"id": "WP06-D-RAW", "class": "D_PHASE1_STRUCTURAL_RAW", "path": "qualification/0_2_9/wp06d_phase1_structural_raw.json"},
+    {"id": "WP06-D-REFERENCE", "class": "D_REFERENCE_RESULT", "path": "qualification/0_2_9/wp06d_reference_result.json"},
+    {"id": "WP06-D-REPLAY", "class": "D_REPLAY_RESULT", "path": "qualification/0_2_9/wp06d_replay_result.json"},
+    {"id": "WP06-E-PHASE0", "class": "E_PHASE0_CONTRACT", "path": "qualification/0_2_9/wp06e_postbuckling_imperfection_contract.json"},
+    {"id": "WP06-E-RAW", "class": "E_PHASE1_STRUCTURAL_RAW", "path": "qualification/0_2_9/wp06e_phase1_structural_raw.json"},
+    {"id": "WP06-E-REFERENCE", "class": "E_REFERENCE_RESULT", "path": "qualification/0_2_9/wp06e_reference_result.json"},
+    {"id": "WP06-E-REPLAY", "class": "E_REPLAY_RESULT", "path": "qualification/0_2_9/wp06e_replay_result.json"},
+    {"id": "WP06-F-REPORT", "class": "FINAL_WP06_CLOSURE_REPORT", "path": "docs/verification/0_2_9/wp06-final-closure-report.md"},
+    {"id": "WP06-F-CLOSURE", "class": "FINAL_WP06_CLOSURE_JSON", "path": "qualification/0_2_9/wp06f_closure_report.json"}
+  ],
+  "provenance_binding": {
+    "required_fields": [
+      "repository",
+      "branch",
+      "source_sha",
+      "contract_revision",
+      "contract_digest",
+      "case_definition_digest",
+      "solver_policy_digest",
+      "element_formulation_identity"
+    ],
+    "reference_required_fields": ["reference_implementation_digest"],
+    "repository": "emptiesvoid-cloud/QF_solver",
+    "phase1_binding": "OWNER_PROVIDED_GOVERNING_BRANCH_SHA_AND_POLICY_BINDING",
+    "phase1_same_binding_required_for": [
+      "WP06-D-RAW",
+      "WP06-D-REFERENCE",
+      "WP06-D-REPLAY",
+      "WP06-E-RAW",
+      "WP06-E-REFERENCE",
+      "WP06-E-REPLAY"
+    ],
+    "historical_contracts": "A/B/C and Phase-0 D/E may retain their historical source SHA; their identities and digests must still be recorded",
+    "reject": [
+      "wrong source SHA",
+      "wrong contract digest",
+      "wrong case-definition digest",
+      "wrong solver-policy digest",
+      "cross-branch Phase-1 evidence",
+      "cross-benchmark evidence",
+      "stale or missing provenance"
+    ]
+  },
+  "authority_order": [
+    "RAW_NUMERIC_EVIDENCE",
+    "MACHINE_DERIVED_METRICS",
+    "HUMAN_READABLE_REPORT",
+    "SUMMARY_STATUS"
+  ],
+  "raw_evidence_schema": {
+    "missing_required_value": "WP06_INCOMPLETE_EVIDENCE",
+    "nonfinite_required_value": "WP06_INCOMPLETE_EVIDENCE",
+    "d": {
+      "benchmark_id": "WP06D-TET4-MINIMAL-SNAP-THROUGH-001",
+      "mesh_digests_m1_m2_m3": "required and equal to the deterministic WP06-D R1 generator digests",
+      "load_rule": "MESH_INDEPENDENT_GEOMETRIC_POINT_LOAD",
+      "refinement_observations": ["u_monitor", "lambda_at_limit", "post_limit_monitored_displacement", "support_reaction", "strain_energy"],
+      "limit_point_observed": true,
+      "path_continues_beyond_limit": true,
+      "equilibrium_vectors": ["support_reaction", "external_force", "reaction_moment", "external_moment"],
+      "geometric_envelope": ["minimum_det_f", "principal_stretches", "maximum_green_lagrange_norm"],
+      "replay_runs": ["accepted_displacement_path", "lambda_path", "radius_history", "orientation_history", "accepted_rejected_steps", "Newton_counts", "terminal_classification"],
+      "altered_physics_retry": false,
+      "undeclared_m4": false,
+      "result_dependent_threshold_change": false
+    },
+    "e": {
+      "benchmark_id": "WP06E-TET4-IMPERFECT-COLUMN-001",
+      "route": "nonlinear_static/arc_length",
+      "element_formulation": "TET4 total_lagrangian StVK",
+      "imperfection_formula": "Z_imperfect = Z0 + alpha*(1-cos(0.5*pi*X/L))",
+      "alpha_over_l": 0.005,
+      "mode_based_substitution": false,
+      "branch_switch_claim": false,
+      "bifurcation_detection_claim": false,
+      "reference_observations": ["monitor_displacement", "load_factor", "reaction", "strain_energy"],
+      "equilibrium_vectors": ["support_reaction", "external_force", "reaction_moment", "external_moment"],
+      "geometric_envelope": ["minimum_det_f", "principal_stretches", "maximum_green_lagrange_norm"],
+      "required_observables_complete": true,
+      "replay_runs": ["accepted_path", "lambda_path", "radius_history", "orientation_history", "accepted_rejected_steps", "Newton_counts", "terminal_classification"]
+    }
+  },
+  "thresholds": {
+    "relative_delta": "abs(M3-M2)/max(abs(M2), abs(M3), scale_floor)",
+    "scale_floor": "max(1e-14, 64*machine_epsilon*declared_physical_scale)",
+    "d_refinement": {"u_monitor": 0.03, "lambda_at_limit": 0.03, "post_limit_monitored_displacement": 0.03, "support_reaction": 0.03, "strain_energy": 0.05},
+    "d_reference": {"monitor_displacement": 0.05, "lambda": 0.05, "reaction": 0.05, "energy": 0.07},
+    "e_reference": {"monitor_displacement": 0.05, "lambda": 0.05, "reaction": 0.05, "energy": 0.07},
+    "equilibrium_force": 1.0e-8,
+    "equilibrium_moment": 1.0e-8,
+    "replay_relative": 1.0e-12,
+    "replay_absolute_floor": 1.0e-14,
+    "envelope": {"minimum_det_f": 0.2, "principal_stretches": [0.75, 1.3], "maximum_green_lagrange_norm": 0.3}
+  },
+  "wp06d_closure_gates": [
+    "exact frozen benchmark and formulation",
+    "exact M1/M2/M3 mesh digests",
+    "frozen load rule",
+    "derived M2_to_M3 refinement metrics",
+    "first limit point detected",
+    "accepted path continues beyond limit point",
+    "independent reference comparison",
+    "vector force and moment equilibrium",
+    "geometric envelope",
+    "accepted-path replay",
+    "no altered-physics retry",
+    "no undeclared M4",
+    "no result-dependent threshold change"
+  ],
+  "wp06e_closure_gates": [
+    "exact benchmark ID and TET4 TL StVK route",
+    "exact explicit imperfection formula and alpha/L=0.005",
+    "no mode-based substitution",
+    "no branch-switch claim",
+    "no bifurcation-detection claim",
+    "independent reference comparison",
+    "vector force and moment equilibrium",
+    "geometric envelope",
+    "replay and required observables",
+    "provenance binding"
+  ],
+  "cross_wp_consistency_gates": [
+    "same SPHERICAL_ARC_LENGTH_CUSTOM identity",
+    "same residual/sign convention",
+    "compatible accepted/trial/rollback semantics",
+    "compatible orientation and branch-sign policy",
+    "same governing execution-policy identity for D and E",
+    "same claim vocabulary and explicit exclusions"
+  ],
+  "replay_requirements": {
+    "relative_tolerance": 1.0e-12,
+    "absolute_floor": 1.0e-14,
+    "qualitative_mismatch": "FAIL",
+    "required": ["accepted displacement path", "lambda path", "radius history", "orientation history", "accepted/rejected steps", "Newton counts when governing policy requires", "terminal classification"]
+  },
+  "reference_requirements": {
+    "independent_implementation": true,
+    "production_arclength_routines_called": false,
+    "production_continuation_kernels_called": false,
+    "production_residual_tangent_helpers_called": false,
+    "production_tet4_geometric_helpers_called": false,
+    "reference_implementation_digest_required": true,
+    "formulation_match_required": true,
+    "missing_or_mismatch": "WP06_HOLD_REFERENCE"
+  },
+  "negative_closure_cases": [
+    {"case": "artifact_missing", "expected": "WP06_INCOMPLETE_EVIDENCE"},
+    {"case": "digest_mismatch", "expected": "WP06_INVALID_EVIDENCE"},
+    {"case": "wrong_benchmark", "expected": "WP06_INVALID_EVIDENCE"},
+    {"case": "wrong_amplitude", "expected": "WP06_INVALID_EVIDENCE"},
+    {"case": "wrong_mesh", "expected": "WP06_INVALID_EVIDENCE"},
+    {"case": "wrong_load_rule", "expected": "WP06_INVALID_EVIDENCE"},
+    {"case": "wrong_solver_policy", "expected": "WP06_INVALID_EVIDENCE"},
+    {"case": "reference_missing", "expected": "WP06_HOLD_REFERENCE"},
+    {"case": "replay_mismatch", "expected": "WP06_HOLD_REPLAY"},
+    {"case": "envelope_fail", "expected": "WP06_HOLD_STRUCTURAL"},
+    {"case": "threshold_fail", "expected": "WP06_HOLD_STRUCTURAL"},
+    {"case": "summary_pass_contradicts_raw_fail", "expected": "WP06_STATUS_MISMATCH"},
+    {"case": "unsupported_branch_or_bifurcation_claim", "expected": "WP06_INVALID_EVIDENCE"},
+    {"case": "undeclared_m4", "expected": "WP06_INVALID_EVIDENCE"},
+    {"case": "production_mechanics_changed", "expected": "WP06_INVALID_EVIDENCE"}
+  ],
+  "claim_boundary": {
+    "maximum": "QF Solver 0.2.9 qualifies a bounded spherical arc-length continuation route for selected TET4 geometrically nonlinear StVK benchmarks, including limit-point traversal and imperfection-seeded continuation.",
+    "excluded": ["general postbuckling", "bifurcation detection", "branch switching", "contact postbuckling", "plastic postbuckling", "dynamic buckling", "universal element-family claim", "MPI/PETSc arc-length qualification"]
+  },
+  "final_statuses": [
+    "WP06_PASS_BOUNDED",
+    "WP06_HOLD_STRUCTURAL",
+    "WP06_HOLD_REFERENCE",
+    "WP06_HOLD_REPLAY",
+    "WP06_FAIL_EQUILIBRIUM",
+    "WP06_INVALID_EVIDENCE",
+    "WP06_INCOMPLETE_EVIDENCE",
+    "WP06_STATUS_MISMATCH"
+  ],
+  "formal_point_award": {
+    "requires_all": ["A_PASS", "B_PASS", "C_PASS", "D_PASS", "E_PASS", "F_PASS"],
+    "all_pass": "8/8",
+    "d_or_e_fail": "formal 0/8 unless Owner revises governance",
+    "phase0_award": "0/8"
+  },
+  "execution_guard": {
+    "phase": "PHASE_0_PREPARATION",
+    "structural_solve_run": false,
+    "postbuckling_solve_run": false,
+    "reference_solver_run": false,
+    "external_solver_run": false,
+    "heavy_solve_run": false,
+    "full_test_suite_run": false,
+    "phase1_requires_owner_authorization": true,
+    "governing_branch_integration_required": true
+  },
+  "governance": {
+    "wp06_a_technical": "1/1",
+    "wp06_b_technical": "1/1",
+    "wp06_c_technical": "2/2",
+    "wp06_d_formal": "0/2",
+    "wp06_e_formal": "0/1",
+    "wp06_f_formal": "0/1",
+    "wp06_points": "0/8",
+    "validated_total": "29/100",
+    "production_mechanics_changed": false,
+    "maturity_changed": false
+  }
+}
