@@ -5659,6 +5659,22 @@
   ]
 },
 {
+  "id": "DOC-029-WP07-D-STRUCTURAL-VNV-001",
+  "path": "verification/0_2_9/wp07d-structural-vnv-contract.md",
+  "title": "QF Solver 0.2.9 WP07-D structural and external V&V contract",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp07d_structural_vnv_contract.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp07d_structural_vnv_contract.py",
+    "tests/unit/test_wp07c_contact_identities.py",
+    "tests/unit/test_frictionless_contact.py",
+    "tests/unit/test_nonlinear_contact_composition.py"
+  ]
+},
+{
   "id": "DOC-028-WP13-02C3-HARMONIC-FINAL-001",
   "path": "verification/0_2_8/wp13_02c3_harmonic_final.md",
   "title": "QF Solver 0.2.8 WP13-02C3 final mixed harmonic campaign",
