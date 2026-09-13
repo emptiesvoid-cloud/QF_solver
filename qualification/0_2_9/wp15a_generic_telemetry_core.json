@@ -177,6 +177,9 @@
       "mode": "append",
       "one_event_per_line": true,
       "flush": "after every event",
+      "per_analysis_sequence_validation": "fresh session, contiguous from zero",
+      "invalid_sequence": "DEGRADE_AND_DO_NOT_WRITE",
+      "cross_process_continuation": "NOT_CLAIMED",
       "fsync_default": false,
       "fsync_boundaries": [
         "CHECKPOINT",
@@ -195,8 +198,14 @@
       "failure_type",
       "failure_message",
       "sequence_number",
-      "event_type"
+      "event_type",
+      "provenance"
     ],
+    "provenance_values": [
+      "DIRECT_COMPOSITE_FAILURE",
+      "CHILD_SINK_REPORTED_FAILURE"
+    ],
+    "child_ledger_aggregation": "after construction, emit, flush and close; append each child ledger entry once",
     "mechanics_effect": "sink failure cannot change numerical mechanics or replace a solver exception",
     "partial_failure": "other composite sinks continue where possible"
   },
@@ -294,8 +303,9 @@
       "deterministic JSON",
       "sequence streams and rejection",
       "JSONL round trip and immediate flush",
+      "JSONL duplicate/skip/backwards rejection and independent streams",
       "durability boundaries",
-      "sink health and partial composite failure",
+      "child health aggregation and partial composite failure",
       "original solver exception preservation",
       "KeyboardInterrupt preservation",
       "disabled lazy fast path",
@@ -315,5 +325,32 @@
     "linear_numerical_behavior_changed": false,
     "maturity_changed": false,
     "owner_review_required": true
+  },
+  "owner_correction_r1": {
+    "identifier": "OWNER_CORRECTION_R1",
+    "status": "IMPLEMENTED",
+    "scope": [
+      "aggregate compatible child sink health into CompositeSink and TelemetryEmitter",
+      "deduplicate copied child failure ledger entries",
+      "validate JsonlSink per-analysis contiguous sequence within a fresh sink session",
+      "reject invalid sequence events without writing them"
+    ],
+    "preserved_contracts": [
+      "immediate flush",
+      "allow_nan_false",
+      "default fsync off and boundary durability",
+      "partial sink isolation",
+      "original solver exception preservation",
+      "disabled fast path and lazy metrics",
+      "legacy WP04 adapter behavior",
+      "bounded MemorySink"
+    ],
+    "history_preserved": true,
+    "no_route_or_numerical_changes": true,
+    "ordering_limits": [
+      "no automatic append-file sequence continuation",
+      "no cross-process global ordering",
+      "no MPI global ordering"
+    ]
   }
 }
