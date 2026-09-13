@@ -5827,6 +5827,28 @@
     "tests/verification/test_wp05b_hex20_high_order_identity.py",
     "tests/verification/test_wp05_cd_structural_harness.py"
   ]
+},
+{
+  "id": "DOC-029-WP07-INTEGRATION-001",
+  "path": "verification/0_2_9/wp07-integration-into-governing-branch.md",
+  "title": "QF Solver 0.2.9 WP07 governing-branch integration audit",
+  "status": "owner_review_required",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp07/wp07_integration_audit.json",
+    "qualification/0_2_9/wp07a_contact_formulation_contract.json",
+    "qualification/0_2_9/wp07b_contact_evaluation_restart.json",
+    "qualification/0_2_9/wp07c_contact_identities.json",
+    "qualification/0_2_9/wp07d_structural_vnv_contract.json",
+    "qualification/0_2_9/wp07e_closure_contract.json"
+  ],
+  "tests": [
+    "tests/integration/test_wp07_governing_integration.py",
+    "tests/unit/test_wp07b_contact_evaluation_restart.py",
+    "tests/unit/test_wp07c_contact_identities.py",
+    "tests/unit/test_wp07d_structural_vnv_contract.py",
+    "tests/unit/test_wp07e_closure_contract.py"
+  ]
 }
   ]
   

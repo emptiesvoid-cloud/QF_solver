@@ -16,10 +16,21 @@ applicable_version: 0.2.9-development
 | WP04 | 12 | **Closed — 12/12; independent WP04-F `GO_WITH_LIMITATIONS` audit** |
 | WP15 | 2 | **Closed — 2/2; governing-branch telemetry integration validated** |
 | WP05 | 5 | **Partial — 2/5; A/B high-order identities integrated and revalidated** |
-| WP06–WP08 | 26 | Not started |
+| WP06 | 8 | Not started |
+| WP07 | 10 | **Partial — 5/10; A/B/C integrated and revalidated; D/E unrun** |
+| WP08 | 8 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
-| **Validated total** | **45 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6 + WP03 7/7 + WP04 12/12 + WP15 2/2 + WP05 A/B 2/5** |
+| **Validated total** | **50 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6 + WP03 7/7 + WP04 12/12 + WP15 2/2 + WP05 A/B 2/5 + WP07 A/B/C 5/10** |
+
+WP07-A/B/C are **FORMAL PASS — 5/10** after the non-fast-forward
+integration of child head `3bdcc84907a045e7815d6d5253bf4e2eed74970e` into the
+governing branch. The bounded initial-search active-set and nonlinear
+frictionless penalty contracts, stateless evaluation/restart semantics and
+contact identity evidence pass targeted revalidation. Updated-search and
+finite-sliding contact remain research-only. WP07-D structural contact
+execution and WP07-E closure remain unrun and unawarded. See [the WP07
+integration audit](wp07-integration-into-governing-branch.md).
 
 WP01 is closed by the independent Owner decision recorded in
 [the WP01 closure record](wp01-owner-closure.md), based on audit SHA

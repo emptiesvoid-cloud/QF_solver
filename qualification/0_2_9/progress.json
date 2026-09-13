@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "release": "0.2.9",
-  "status": "WP05_A_B_INTEGRATED",
+  "status": "WP07_A_B_C_INTEGRATED",
   "work_packages": {
     "WP00": {"points": 4, "status": "CLOSED", "validated_points": 4},
     "WP01": {"points": 12, "status": "CLOSED", "validated_points": 12},
@@ -11,7 +11,7 @@
     "WP15": {"points": 2, "status": "CLOSED_INTEGRATION_VALIDATED", "validated_points": 2},
     "WP05": {"points": 5, "status": "PARTIAL_A_B_INTEGRATED", "validated_points": 2},
     "WP06": {"points": 8, "status": "NOT_STARTED", "validated_points": 0},
-    "WP07": {"points": 10, "status": "NOT_STARTED", "validated_points": 0},
+    "WP07": {"points": 10, "status": "PARTIAL_A_B_C_INTEGRATED", "validated_points": 5},
     "WP08": {"points": 8, "status": "NOT_STARTED", "validated_points": 0},
     "WP09": {"points": 8, "status": "BLOCKED_BY_OD_029_01", "validated_points": 0},
     "WP10": {"points": 6, "status": "NOT_STARTED", "validated_points": 0},
@@ -20,7 +20,7 @@
     "WP13": {"points": 2, "status": "NOT_STARTED", "validated_points": 0},
     "WP14": {"points": 2, "status": "NOT_STARTED", "validated_points": 0}
   },
-  "validated_points": 45,
+  "validated_points": 50,
   "total_points": 100,
-  "next_gate": "WP05-A/B are formally PASS at 2/5 after the validated non-fast-forward integration of child head 2ec2cbadf05e12a9ff73d139c5513d549925b9ec. The high-order identity evidence and TET10/HEX20 structural harness contract pass targeted revalidation; H2/H3 structural solves and WP05-E cross-family work remain unrun and unawarded. Future WP05 structural execution is bound to the governing C2R6 line-search, floor-aware, MINRES+Jacobi policy digest 93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac. WP04 remains CLOSED 12/12; WP15 remains CLOSED 2/2. Validated total is 45/100. The next gate is Owner review before WP05-C/D structural execution or the next separately Owner-frozen child integration; do not merge WP06 without separate authorization. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
+  "next_gate": "WP07-A/B/C are formally PASS at 5/10 after the validated non-fast-forward integration of child head 3bdcc84907a045e7815d6d5253bf4e2eed74970e. Bounded initial-search active-set and frictionless penalty evaluation/restart semantics and contact identities pass targeted revalidation. WP07-D structural contact execution and WP07-E raw-evidence closure remain unrun and unawarded. Future WP07 structural execution is bound to the governing C2R6 nonlinear policy digest 93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac, WP07 contract digest 93c7741ecafd72cfa20e29e323b92ea9356fb93dacaff09a8347789bad9c9ed2, and current state/rollback ownership. WP04 remains CLOSED 12/12; WP05 remains PARTIAL 2/5; WP15 remains CLOSED 2/2. Validated total is 50/100. The next gate is Owner review before WP07-D structural qualification preparation or execution; do not merge WP06 without separate authorization. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
 }
