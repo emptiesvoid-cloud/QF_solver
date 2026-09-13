@@ -1,0 +1,300 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0.2.9-WP06D-STRUCTURAL-LIMIT-POINT-CONTRACT-001",
+  "work_package": "WP06-D",
+  "phase": "PHASE_0_PREPARATION",
+  "status": "CONTROLLED_CANDIDATE",
+  "branch": "0.2.9-wp06-prep",
+  "baseline_sha": "0297105de78a846b0424d052c5323858db23b7c5",
+  "source_repository": "emptiesvoid-cloud/QF_solver",
+  "formal_points": "0/2",
+  "validated_total": "29/100",
+  "benchmark": {
+    "id": "WP06D-TET4-MINIMAL-SNAP-THROUGH-001",
+    "selected": "MINIMAL_COMMON_DRIVER_TET4_SNAP_THROUGH",
+    "reference_implementation": "src/solveur/verification/robustness_arc_length_extended.py:_common_fem_snap_through_model",
+    "purpose": "Small true-FE limit-point and post-limit path benchmark; not the WP06-C algebraic toy.",
+    "formulation_scope": {
+      "analysis": "geometric_nonlinear_static",
+      "material": "Total-Lagrangian StVK elastic",
+      "kinematics": "total_lagrangian",
+      "method": "arc_length",
+      "formulation": "SPHERICAL_ARC_LENGTH_CUSTOM",
+      "execution": "serial",
+      "degrees_of_freedom": "displacement_only",
+      "load": "dead_reference_load_vector",
+      "contact": false,
+      "material_nonlinearity": false,
+      "dynamics": false,
+      "bifurcation_detection": false,
+      "branch_switching": false,
+      "finite_strain_material_claim": false,
+      "updated_configuration_friction": false,
+      "mpi_petsc": false
+    },
+    "element_family": "TET4",
+    "why_selected": "The repository already has a common-driver two-element TET4 snap-through route with a signed load-factor path, turning-point diagnostics, checkpoint/restart and rollback evidence. It exercises real FE assembly while remaining small enough for a bounded three-level contract.",
+    "geometry": {
+      "coordinate_system": "global Cartesian XYZ",
+      "nodes_m1": [
+        [-1.0, 0.0, 0.0],
+        [1.0, 0.0, 0.0],
+        [0.0, -0.05, 0.20],
+        [0.0, 0.05, 0.20],
+        [0.0, 0.0, 0.25]
+      ],
+      "elements_m1": [[0, 2, 3, 4], [1, 3, 2, 4]],
+      "reference_geometry": "M2 and M3 are conforming uniform red refinements of these two parent TET4s; coordinates are edge midpoints and the parent geometry is unchanged.",
+      "imperfection": "the nonzero crown rise is part of the frozen geometry; no result-dependent imperfection is allowed"
+    },
+    "material": {
+      "model": "isotropic StVK",
+      "young_modulus": 100.0,
+      "poisson_ratio": 0.30,
+      "units": "consistent nondimensional benchmark units"
+    },
+    "boundary_conditions": {
+      "fixed_support": "nodes 0 and 1 and all descendants of those support vertices: UX=UY=UZ=0",
+      "symmetry_face": "the shared parent face (2,3,4) and all descendants lying on that face: UY=0",
+      "support_rule": "topological parent-face inheritance, resolved deterministically before execution",
+      "no_contact": true
+    },
+    "reference_load": {
+      "resultant": [0.0, 0.0, -1.0],
+      "application": "one-third point dead load [0,0,-1/3] at each original crown node 2, 3 and 4; these named nodes persist at every refinement level",
+      "load_factor": "lambda multiplies the complete reference vector",
+      "origin": [0.0, 0.0, 0.0],
+      "expected_origin_moment": [0.0, 0.0, 0.0],
+      "load_invariance": "the three named load nodes and total resultant are unchanged by refinement"
+    },
+    "monitor": {
+      "u_monitor": "downward crown displacement q = -mean(UZ at nodes 2,3,4)",
+      "reference_coordinates": "the three original crown nodes, retained in M2/M3",
+      "secondary_observables": [
+        "lambda",
+        "support reaction vector/resultant",
+        "strain energy if available",
+        "arc_length_radius",
+        "newton_iterations",
+        "arc_length_constraint_residual",
+        "mechanical_residual"
+      ]
+    },
+    "expected_path": {
+      "pre_limit_branch": "lambda increases from zero while q follows the prescribed load direction",
+      "limit_point": "first local maximum of lambda as a function of q on the accepted path",
+      "post_limit_branch": "q continues along the selected displacement branch while lambda reverses sign of its increment",
+      "limit_point_detection": "three consecutive accepted points with positive then non-positive lambda increments, with q continuity; no exact landing on the theoretical point is required",
+      "load_factor_reversal_required": true,
+      "branch_switching": "not attempted; only the continuation branch selected by the frozen orientation policy is qualified"
+    },
+    "geometric_envelope": {
+      "minimum_det_f": 0.20,
+      "principal_stretches": [0.75, 1.30],
+      "maximum_green_lagrange_norm": 0.30
+    }
+  },
+  "mesh_series": [
+    {
+      "level": "M1",
+      "parent_cells": "two parent TET4 elements",
+      "nodes": 5,
+      "elements": 2,
+      "dofs": 15,
+      "minimum_reference_tet_volume": 0.0008333333333333333,
+      "resource_class": "TINY",
+      "expected_accepted_steps": 80,
+      "maximum_retries": 8
+    },
+    {
+      "level": "M2",
+      "parent_cells": "one conforming 8-subtet red refinement of M1",
+      "nodes": 14,
+      "elements": 16,
+      "dofs": 42,
+      "minimum_reference_tet_volume": 0.00010416666666666667,
+      "resource_class": "LIGHT",
+      "expected_accepted_steps": 80,
+      "maximum_retries": 8
+    },
+    {
+      "level": "M3",
+      "parent_cells": "two conforming 8-subtet red refinements of M1",
+      "nodes": 55,
+      "elements": 128,
+      "dofs": 165,
+      "minimum_reference_tet_volume": 0.00001302083333333333,
+      "resource_class": "LIGHT",
+      "expected_accepted_steps": 80,
+      "maximum_retries": 8
+    }
+  ],
+  "mesh_generation": {
+    "subdivision": "each TET4 becomes four corner tetrahedra plus four central tetrahedra using the deterministic diagonal joining midpoint(ab) to midpoint(cd)",
+    "global_node_policy": "edge midpoint keyed by sorted parent vertex pair; shared edges reuse one node",
+    "orientation_policy": "reject zero-volume children; if signed volume is negative, swap the final two child vertices; record the repaired connectivity",
+    "conformity": "shared parent faces use the same three edge-midpoint IDs and identical child-face sets",
+    "quality_checks": [
+      "finite coordinates",
+      "exact expected node/element/DOF counts",
+      "positive reference volume",
+      "deterministic connectivity digest",
+      "support and symmetry-face inheritance",
+      "named load nodes remain present"
+    ],
+    "m4": "NOT_DECLARED"
+  },
+  "reference_path": {
+    "expected_analytical_sanity": {
+      "type": "independent shallow-arch/two-bar sanity check",
+      "use": "diagnostic scale and turning-direction check only; not a TET4 acceptance oracle"
+    },
+    "primary": {
+      "type": "INDEPENDENT_TET4_ENERGY_PATH",
+      "implementation": "separate direct implementation of the two-parent-TET4 StVK internal energy/tangent and frozen load/BC mapping; no QF production assembly or arc-length routines",
+      "production_arclength_routines_called": false,
+      "production_mechanics_routines_called": false,
+      "formulation_mapping": "same M1/M2/M3 coordinates, TET4 connectivity, material, BC, reference load, monitor and spherical constraint",
+      "status_before_phase_1": "PLAN_ONLY_NO_REFERENCE_RESULT"
+    },
+    "reference_observables": ["q", "lambda", "support_reaction", "strain_energy"],
+    "formulation_match_required": true
+  },
+  "metrics_and_thresholds": {
+    "limit_point": {
+      "displacement_error": 0.03,
+      "lambda_error": 0.03,
+      "post_limit_path_error": 0.05
+    },
+    "mesh_m2_to_m3": {
+      "u_monitor": 0.03,
+      "lambda_at_limit": 0.03,
+      "post_limit_monitored_displacement": 0.03,
+      "support_reaction": 0.03,
+      "strain_energy": 0.05
+    },
+    "equilibrium": {
+      "force_relative": 1.0e-8,
+      "moment_relative": 1.0e-8,
+      "force_scale": 1.0,
+      "moment_scale": 2.0,
+      "origin": [0.0, 0.0, 0.0],
+      "vector_check": true
+    },
+    "scale_definitions": {
+      "L_char": 2.0,
+      "F_char": 1.0,
+      "M_char": 2.0,
+      "U_char": 1.0,
+      "energy_scale": "max(abs(reference external work at station), 1e-14)"
+    },
+    "relative_delta": "abs(M3-M2)/max(abs(M3), abs(M2), scale_floor)",
+    "scale_floor": "max(1e-14, 64*machine_epsilon*declared_physical_scale)",
+    "missing_or_nonfinite": "FAIL_CLOSED"
+  },
+  "path_comparison": {
+    "stations": [0.2, 0.4, 0.6, 0.8, 1.0],
+    "parameter": "normalized accepted-path arclength from the pre-limit reference station to the declared post-limit endpoint",
+    "interpolation": "piecewise linear in accepted-path arclength, frozen before execution",
+    "observables": ["lambda", "q", "support_reaction", "strain_energy"],
+    "no_cherry_picking": true
+  },
+  "continuation_policy": {
+    "formulation": "SPHERICAL_ARC_LENGTH_CUSTOM",
+    "initial_radius": 0.02,
+    "minimum_radius": 0.000002,
+    "maximum_radius": 0.02,
+    "growth_factor": 1.5,
+    "shrink_factor": 0.5,
+    "adaptive_radius": false,
+    "target_iteration_range": [1, 40],
+    "hard_max_iterations": 80,
+    "maximum_accepted_steps": 80,
+    "maximum_retries": 8,
+    "mechanical_tolerance": 1.0e-8,
+    "constraint_tolerance": 1.0e-8,
+    "allow_load_factor_turning": true,
+    "load_factor_limit": 5.0,
+    "orientation_policy": "target-load direction initially; previous displacement projection first; previous load increment only as tie-breaker; preserve displacement branch through lambda reversal",
+    "retry_policy": "rollback committed state before any retry; no altered-physics retry; every rejection is recorded",
+    "termination": "max_steps after the declared post-limit window; no target-load stop"
+  },
+  "linear_solver_policy": {
+    "predictor_backend": "serial_sparse_direct",
+    "corrector_backend": "serial_sparse_direct",
+    "fallback_policy": "NONE; unsupported or failed augmented solve is typed and fail-closed",
+    "cg_minres": "not valid by default for the generally nonsymmetric augmented matrix"
+  },
+  "replay_policy": {
+    "case": "M1",
+    "relative_tolerance": 1.0e-12,
+    "absolute_floor": 1.0e-14,
+    "required_matches": [
+      "accepted displacement path",
+      "lambda path",
+      "radius history",
+      "step acceptance/rejection history",
+      "orientation history",
+      "Newton iteration counts",
+      "terminal classification"
+    ],
+    "qualitative_requirements": ["finite states", "same limit-point classification", "same reversal classification"]
+  },
+  "failure_classifications": [
+    "PREDICTOR_FAILURE",
+    "CORRECTOR_FAILURE",
+    "ARC_LENGTH_CONSTRAINT_FAILURE",
+    "AUGMENTED_LINEAR_SOLVE_FAILURE",
+    "STEP_RADIUS_EXHAUSTED",
+    "LIMIT_POINT_TRACKING_FAILURE",
+    "EQUILIBRIUM_FAILURE",
+    "REFINEMENT_FAILURE",
+    "REFERENCE_MISMATCH",
+    "NONFINITE_STATE",
+    "RESOURCE_LIMIT",
+    "UNKNOWN"
+  ],
+  "phase_1_negative_controls": [
+    {"case": "singular_predictor", "expected": "PREDICTOR_FAILURE"},
+    {"case": "singular_augmented_system", "expected": "AUGMENTED_LINEAR_SOLVE_FAILURE"},
+    {"case": "nonfinite_state_or_observable", "expected": "NONFINITE_STATE"},
+    {"case": "radius_exhaustion", "expected": "STEP_RADIUS_EXHAUSTED"},
+    {"case": "equilibrium_violation", "expected": "EQUILIBRIUM_FAILURE"},
+    {"case": "mesh_or_path_threshold_failure", "expected": "REFINEMENT_FAILURE"},
+    {"case": "independent_mapping_mismatch", "expected": "REFERENCE_MISMATCH"},
+    {"case": "resource_exhaustion", "expected": "RESOURCE_LIMIT"}
+  ],
+  "execution_guard": {
+    "phase": "PHASE_0_PREPARATION",
+    "structural_solves_enabled": false,
+    "external_solver_enabled": false,
+    "owner_authorization_required_for_phase_1": true,
+    "governing_branch_integration_required": true,
+    "guard_module": "scripts/prepare_wp06d_structural_limit_point.py"
+  },
+  "evidence_requirements": {
+    "source_sha": true,
+    "dirty_status": true,
+    "environment": true,
+    "case_definition_digest": true,
+    "contract_digest": true,
+    "accepted_path": true,
+    "reference_comparison": true,
+    "no_implicit_pass": true,
+    "structural_results": "required for WP06-D formal points; absent in Phase 0"
+  },
+  "governance": {
+    "production_mechanics_changed": false,
+    "maturity_changed": false,
+    "structural_solves_run": false,
+    "external_solver_run": false,
+    "heavy_solve_run": false,
+    "full_test_suite_run": false,
+    "wp06_a_technical": "1/1",
+    "wp06_b_technical": "1/1",
+    "wp06_c_technical": "2/2",
+    "wp06_d_formal": "0/2",
+    "wp06_points": "0/8",
+    "validated_total": "29/100"
+  }
+}

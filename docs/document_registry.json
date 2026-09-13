@@ -5661,6 +5661,19 @@
   "tests": [
     "tests/unit/test_wp06c_arc_length_predictor_corrector_identities.py"
   ]
+},
+{
+  "id": "DOC-029-WP06D-001",
+  "path": "verification/0_2_9/wp06d-structural-limit-point-contract.md",
+  "title": "QF Solver 0.2.9 WP06-D structural limit-point qualification contract",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp06d_structural_limit_point_contract.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp06d_structural_limit_point_contract.py"
+  ]
 }
   ]
   
