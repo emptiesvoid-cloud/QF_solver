@@ -1,0 +1,42 @@
+{
+  "phase1_binding": {
+    "branch": "0.2.9-wp06-prep",
+    "case_definition_digest": "d90f61bd848c8c693f8bf8278e7ec82ab7b85aef61dec0c819e66de04e5cb468",
+    "contract_digest": "48243ebfed2fdb3bbb3bcd255f01e6938b2d8aafafb0f58040d5433773cda503",
+    "contract_revision": "WP06D-R1",
+    "element_formulation_identity": "TET4_TOTAL_LAGRANGIAN_STVK",
+    "governing_imported_sha": "12b5331bcbec49e38145ba4a6263df60b8bf4575",
+    "governing_policy_identity": {
+      "arc_length_termination_policy": "max_steps=80; max retries=8; no target-load stop",
+      "floor_aware_convergence_policy": "governing 0.2.9 policy identity imported; no WP06-specific override",
+      "formulation_label": "SPHERICAL_ARC_LENGTH_CUSTOM",
+      "governing_policy_sha": "12b5331bcbec49e38145ba4a6263df60b8bf4575",
+      "line_search_policy": "canonical governing policy; no alternate line-search parameters",
+      "linear_backend": "serial_sparse_direct",
+      "load_step_retry_policy": "rollback committed state; radius shrink 0.5; maximum retries 8; no altered physics",
+      "newton_convergence_contract": "mechanical residual <= 1e-8 and arc-length constraint <= 1e-8",
+      "orientation_policy": "target-load direction initially; previous displacement projection first",
+      "policy_digest": "27b9a2fb4af9c697f245a1292372ab9e2a0535f564e7c9a480b13db291dad224",
+      "residual_form": "R = lambda * F_ext - F_internal"
+    },
+    "repository": "emptiesvoid-cloud/QF_solver",
+    "solver_policy_digest": "27b9a2fb4af9c697f245a1292372ab9e2a0535f564e7c9a480b13db291dad224",
+    "source_sha": "959485edffbdceccf10246ae74ec50c3a6dc1b86"
+  },
+  "provenance": {
+    "branch": "0.2.9-wp06-prep",
+    "case_definition_digest": "d90f61bd848c8c693f8bf8278e7ec82ab7b85aef61dec0c819e66de04e5cb468",
+    "contract_digest": "48243ebfed2fdb3bbb3bcd255f01e6938b2d8aafafb0f58040d5433773cda503",
+    "contract_revision": "WP06D-R1",
+    "element_formulation_identity": "TET4_TOTAL_LAGRANGIAN_STVK",
+    "governing_imported_sha": "12b5331bcbec49e38145ba4a6263df60b8bf4575",
+    "repository": "emptiesvoid-cloud/QF_solver",
+    "solver_policy_digest": "27b9a2fb4af9c697f245a1292372ab9e2a0535f564e7c9a480b13db291dad224",
+    "source_sha": "959485edffbdceccf10246ae74ec50c3a6dc1b86"
+  },
+  "raw": null,
+  "reason": "Independent reference and replay are not executed after the required M2 structural gate fails.",
+  "record_id": "QF-0.2.9-WP06D-REPLAY-001",
+  "schema_version": 1,
+  "status": "NOT_RUN_AFTER_M2_FAILURE"
+}
