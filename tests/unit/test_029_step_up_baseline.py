@@ -106,6 +106,7 @@ def test_step_up_and_wp03_documents_are_present_and_status_is_explicit() -> None
             "wp04-c2r6-floor-aware-termination.md",
             "linear-solver-remediation-master.md",
             "wp04-d-hex8-structural-qualification.md",
+            "wp04-e-g04-12-cross-family-closure.md",
     }
 
     assert {path.name for path in DOCS.glob("*.md")} == expected

@@ -13,7 +13,7 @@ applicable_version: 0.2.9-development
 | WP01 | 12 | **Closed** — Owner-approved unified nonlinear core |
 | WP02 | 6 | **Closed** — 6/6; independent WP02-E audit `GO_WITH_LIMITATIONS` |
 | WP03 | 7 | **Closed** — 7/7; independent WP03-E audit `GO_WITH_LIMITATIONS` |
-| WP04 | 12 | **HOLD — G04-11 HEX8 pass; G04-12 pending Owner review** — 0/12; G04-10/G04-11 evidence recorded |
+| WP04 | 12 | **HOLD — G04-12 cross-family pass pending Owner review** — 0/12; G04-10/G04-11/G04-12 evidence recorded |
 | WP05–WP08 | 31 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
@@ -365,3 +365,23 @@ support limitation is not used to alter the frozen G04-11 mesh decision and
 requires review in the combined WP04 phase. See the [WP04-D record](wp04-d-hex8-structural-qualification.md),
 `qualification/0_2_9/wp04d/hex8_campaign_result.json`, and
 `qualification/0_2_9/wp04d/g04_11_audit.json`.
+
+## WP04-E G04-12 cross-family closure
+
+The evidence-only WP04-E audit compares the approved TET4 C2R6 M3 record with
+the approved HEX8 H3 record. The physical geometry, homogeneous isotropic
+StVK material, fixed face, physical load resultant and reference moment,
+displacement/reaction/energy definitions, and the reference-volume weighted
+stress region match. The family-specific discrete boundary-load
+representations are disclosed; the governing resultant and first moment are
+the frozen cross-family checks.
+
+Using the frozen `abs(a-b)/max(abs(a),abs(b),1e-12)` metric, the displacement,
+reaction, energy and representative-stress deltas are
+`0.004566585385421973`, `7.105427357601005e-16`,
+`0.004553762679948579` and `0.05163720669059609`. All four pass the frozen
+`0.03/0.03/0.03/0.12` limits. The carried HEX8 H1 small-load reaction
+support limitation remains explicit for WP04-F. Therefore the derived result
+is `G04-12=PASS_PENDING_OWNER_REVIEW`; WP04 remains HOLD at 0/12 and 29/100.
+See [the WP04-E record](wp04-e-g04-12-cross-family-closure.md) and
+`qualification/0_2_9/wp04e/g04_12_cross_family_audit.json`.

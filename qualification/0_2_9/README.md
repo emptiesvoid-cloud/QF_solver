@@ -17,7 +17,7 @@ the same-model target-clipped arc retry challenge: the final policy reaches
 the unchanged physical solution with one rejection where the pre-WP03 route
 repeated the same effective radius five times.
 
-WP04 Geometric Nonlinear Qualification is now **HOLD — C2R6 candidate pending Owner review**
+WP04 Geometric Nonlinear Qualification is now **HOLD — G04-12 cross-family pass pending Owner review**
 at 0/12. WP04-B independently demonstrates the bounded TET4/HEX8
 Total-Lagrangian Saint-Venant-Kirchhoff objectivity, affine patch,
 energy-gradient, tangent and accepted-path work identities. WP04-C then ran a
@@ -90,6 +90,20 @@ review. H4 is not run because its predeclared rescue condition is not
 triggered. G04-12 is only prepared, and the explicit small-load reaction
 support limitation is retained in the campaign result.
 
+WP04-E then performs the frozen G04-12 cross-family audit from existing
+evidence only. The approved TET4 C2R6 M3 and HEX8 H3 physical definitions are
+matched at geometry, material, constraints, physical resultant/moment and
+observable conventions. The frozen displacement, reaction, energy and
+representative-stress deltas pass at `0.004566585385421973`,
+`7.105427357601005e-16`, `0.004553762679948579` and
+`0.05163720669059609`, respectively. The family-specific discrete boundary
+load representations are disclosed; the governing resultant and first moment
+match. The HEX8 small-load reaction support limitation is carried forward to
+WP04-F. The derived status is `G04-12=PASS_PENDING_OWNER_REVIEW`; WP04 remains
+at 0/12 and 29/100 with no maturity change. See
+`../docs/verification/0_2_9/wp04-e-g04-12-cross-family-closure.md` and
+`wp04e/g04_12_cross_family_audit.json`.
+
 ## Current planning status
 
 - WP00: `CLOSED`, 4/4 points.
@@ -104,9 +118,10 @@ support limitation is retained in the campaign result.
 - OD-029-02: **CLOSED** as `READ_V1_WRITE_V2_BOUNDED`; ambiguous/stateful
   contact-bearing v1 checkpoints are rejected.
 
-WP04-D is the current phase: `G04-11=PASS` is supported by the controlled
-HEX8 campaign, while G04-12 remains pending the cross-family phase. WP04
-therefore remains at 0/12 and the validated total remains 29/100.
+WP04-E is the current phase: `G04-10=PASS` and `G04-11=PASS` are Owner-approved,
+and the evidence-only G04-12 comparison is `PASS_PENDING_OWNER_REVIEW`.
+WP04 therefore remains at 0/12 and the validated total remains 29/100 pending
+the independent WP04-F combined closure audit.
 
 WP03-C preserves the accepted-state authority and all existing numerical and
 maturity boundaries. WP03-D adds the single `UnifiedArcLengthRadiusPolicy`,
