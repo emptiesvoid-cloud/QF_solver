@@ -1,0 +1,182 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "VNV029-WP05-CD-STRUCTURAL-CONTRACT-001",
+  "document_id": "DOC-029-WP05-CD-STRUCTURAL-CONTRACT-001",
+  "gate": "WP05-C/D",
+  "status": "PREPARATION_ONLY_PENDING_WP04",
+  "source_branch": "0.2.9-wp05-prep",
+  "source_start_sha": "03dc431e4cc26b4ad5ec5ba66c42038fd6fad4ba",
+  "formal_points": {
+    "WP05-C": "0/1",
+    "WP05-D": "0/1",
+    "WP05": "0/5",
+    "validated_release_total": "29/100"
+  },
+  "governance": {
+    "qualification_execution_blocked_pending_wp04": true,
+    "agent_a_active_campaign_touched": false,
+    "agent_a_processes_touched": false,
+    "agent_a_runtime_artifacts_touched": false,
+    "maturity_changed": false,
+    "solver_or_formulation_changed": false
+  },
+  "benchmark": {
+    "geometry": {
+      "L": 4.0,
+      "H": 0.5,
+      "D": 0.5,
+      "reference_volume": 1.0
+    },
+    "material": {
+      "type": "isotropic_linear_SolidMaterial",
+      "E": 1000000.0,
+      "nu": 0.3
+    },
+    "boundary": "all displacement DOFs fixed on x=0 face",
+    "load": {
+      "total_nodal_dead_load": [0.0, -50.0, 0.0],
+      "application_face": "x=L",
+      "distribution_rule": "equal share on sorted global ids of every x=L face node",
+      "resultant_absolute_tolerance": 1e-12
+    },
+    "node_id_rule": "i + (nx + 1) * (j + (ny + 1) * k)",
+    "levels": [
+      {"name": "H1", "nx": 4, "ny": 2, "nz": 2},
+      {"name": "H2", "nx": 8, "ny": 4, "nz": 4},
+      {"name": "H3", "nx": 16, "ny": 8, "nz": 8}
+    ]
+  },
+  "families": {
+    "TET10": {
+      "work_package": "WP05-C",
+      "quadrature": "Hammer-4",
+      "geometry_claim": "straight-sided only",
+      "subdivision": [
+        [0, 1, 2, 6],
+        [0, 2, 3, 6],
+        [0, 3, 7, 6],
+        [0, 7, 4, 6],
+        [0, 4, 5, 6],
+        [0, 5, 1, 6]
+      ],
+      "orientation_policy": "swap local corners 2/3 once when signed volume is non-positive; otherwise reject",
+      "edge_order": [[0, 1], [1, 2], [2, 0], [0, 3], [1, 3], [2, 3]]
+    },
+    "HEX20": {
+      "work_package": "WP05-D",
+      "quadrature": "full 27-point Gauss",
+      "reduced_integration_or_hourglass_claim": false,
+      "edge_order": [[0, 1], [0, 3], [0, 4], [1, 2], [1, 5], [2, 3], [2, 6], [3, 7], [4, 5], [4, 7], [5, 6], [6, 7]]
+    }
+  },
+  "mesh_generation_only": {
+    "TET10": {
+      "H1": {"nodes": 225, "elements": 96, "dofs": 675, "loaded_face_nodes": 25, "volume": 1.0},
+      "H2": {"nodes": 1377, "elements": 768, "dofs": 4131, "loaded_face_nodes": 81, "volume": 1.0},
+      "H3": {"nodes": 9537, "elements": 6144, "dofs": 28611, "loaded_face_nodes": 289, "volume": 1.0}
+    },
+    "HEX20": {
+      "H1": {"nodes": 141, "elements": 16, "dofs": 423, "loaded_face_nodes": 21, "volume": 1.0},
+      "H2": {"nodes": 785, "elements": 128, "dofs": 2355, "loaded_face_nodes": 65, "volume": 1.0},
+      "H3": {"nodes": 5121, "elements": 1024, "dofs": 15363, "loaded_face_nodes": 225, "volume": 1.0}
+    }
+  },
+  "mesh_quality": {
+    "all_levels": {
+      "finite_coordinates": true,
+      "connectivity_in_range": true,
+      "unique_local_connectivity": true,
+      "unique_midside_nodes": true,
+      "positive_reference_orientation_or_27_point_jacobians": true,
+      "straight_sided_tet10": true,
+      "conforming_hex20": true
+    },
+    "tet10_min_hammer4_jacobian": {"H1": 0.062499999999999924, "H3": 0.0009765624999999896},
+    "hex20_min_27_point_jacobian": {"H1": 0.007812499999999967, "H3": 0.00012207031249999574},
+    "full_integration_hex20": true
+  },
+  "conservation": {
+    "volume_check": "PASS within absolute tolerance 1e-12 on every generated level",
+    "load_resultant_check": "PASS within absolute tolerance 1e-12 on every generated level",
+    "target_resultant": [0.0, -50.0, 0.0]
+  },
+  "observables": {
+    "loaded_end_displacement": "mean Y displacement of all x=L face nodes",
+    "clamp_reaction_resultant": "sum of reaction vectors on x=0 face",
+    "clamp_reaction_moment_z": "sum(x*Ry-y*Rx) on x=0 face about global origin",
+    "strain_energy": "finite scalar",
+    "representative_cauchy_sigma_xx": {
+      "normalized_region": {
+        "x_over_L": [0.4, 0.6],
+        "y_over_H": [0.7, 0.95],
+        "z_over_D": [0.2, 0.8]
+      },
+      "weighting": "positive integration-point/volume weights",
+      "field": "Cauchy sigma_xx"
+    },
+    "minimum_det_F": "minimum over integration records",
+    "principal_stretch_min_max": "minimum/maximum singular values of F",
+    "maximum_green_lagrange_strain_norm": "maximum Frobenius norm",
+    "accepted_load_factor_history": "finite load_factor from accepted increment diagnostics",
+    "newton_iteration_count": "sum of per-increment iteration counts"
+  },
+  "deformation_envelope": {
+    "minimum_det_F": 0.2,
+    "principal_stretches": [0.75, 1.3],
+    "maximum_green_lagrange_frobenius_norm": 0.3,
+    "universal_validity_claim": false
+  },
+  "thresholds": {
+    "mesh_h2_to_h3_relative": {
+      "mean_end_displacement": 0.02,
+      "reaction_resultant": 0.02,
+      "reaction_moment_z": 0.02,
+      "strain_energy": 0.02,
+      "representative_sigma_xx": 0.08
+    },
+    "equilibrium_relative": {"force": 1e-8, "moment": 1e-8},
+    "h1_replay": {"relative": 1e-12, "absolute_floor": 1e-14, "binary_state_hash_required": false},
+    "frozen_before_h2_h3_results": true
+  },
+  "resource_estimates": {
+    "TET10": {
+      "H1": {"raw_tangent_entries": 86400, "rough_memory_mib": 2.9787826538085938},
+      "H2": {"raw_tangent_entries": 691200, "rough_memory_mib": 16.789329528808594},
+      "H3": {"raw_tangent_entries": 5529600, "rough_memory_mib": 109.6714096069336}
+    },
+    "HEX20": {
+      "H1": {"raw_tangent_entries": 57600, "rough_memory_mib": 1.9832077026367188},
+      "H2": {"raw_tangent_entries": 460800, "rough_memory_mib": 15.857810974121094},
+      "H3": {"raw_tangent_entries": 3686400, "rough_memory_mib": 84.6484603881836}
+    },
+    "qualification_solve_executed": false,
+    "host_practicality": "mesh generation practical; H2/H3 qualification blocked pending WP04 and Agent A resource contention"
+  },
+  "termination_policy": {
+    "name": "CURRENT_CANONICAL_GEOMETRIC_STATIC",
+    "future_injection": true,
+    "agent_a_floor_aware_c2r6_imported": false
+  },
+  "execution": {
+    "h1_mesh_generation": "PASS",
+    "h1_smoke_solve": "SKIPPED_AGENT_A_ACTIVE",
+    "h1_replay": "NOT_RUN",
+    "h2_qualification": "NO",
+    "h3_qualification": "NO",
+    "wp05_e_cross_family": "NOT_EXECUTED"
+  },
+  "tests": [
+    "tests/verification/test_wp05_cd_structural_harness.py",
+    "scripts/audit_capability_registry.py --check",
+    "Ruff on harness/tests",
+    "mypy --python-version 3.13 on harness/tests",
+    "compileall on harness",
+    "JSON and document registry validation"
+  ],
+  "limitations": [
+    "qualification points remain pending WP04 governance",
+    "no H1 mechanical solve or replay while Agent A campaign is active",
+    "no external correlation",
+    "no curved TET10, reduced integration, contact, plasticity, mixed mesh/material, or distributed-load claim"
+  ]
+}
