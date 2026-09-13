@@ -84,6 +84,10 @@
   },
   "post_validation_branch_deletion": {
     "required_before_deletion": ["merge_validated", "remote_governing_head_verified", "child_head_ancestor_of_governing"],
-    "remote_child_branch_deletion": "PENDING_FINAL_PUSH"
+    "governing_head_verified_before_deletion": "b9520aae55b6879397b8dbe9eb4fd033838bcf25",
+    "child_head_ancestor_of_governing": true,
+    "local_child_branch_deleted": "NOT_PRESENT_LOCALLY_NO_DELETION_NEEDED",
+    "remote_child_branch_deletion": "COMPLETED",
+    "remote_child_branch_exists_after_deletion": false
   }
 }
