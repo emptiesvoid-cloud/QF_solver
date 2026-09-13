@@ -404,6 +404,10 @@ FailureDiagnostics = Callable[
 ]
 AssemblyFailureReason = Callable[[str], NonlinearFailureReason]
 NonFiniteFailureReason = Callable[[np.ndarray], NonlinearFailureReason]
+FloorAwareEvidence = Callable[
+    [NonlinearState, CompositeContributionResponse, np.ndarray, np.ndarray, float],
+    Mapping[str, Any],
+]
 
 
 class UnifiedNewtonEngine:
@@ -439,6 +443,7 @@ class UnifiedNewtonEngine:
         robustness_controller: UnifiedNonlinearRobustnessController | None = None,
         accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
         telemetry_observer: NonlinearTelemetryObserver | None = None,
+        floor_aware_evidence: FloorAwareEvidence | None = None,
     ) -> UnifiedNewtonResult:
         """Solve the requested fixed load factors through one transaction lifecycle."""
 
@@ -492,6 +497,7 @@ class UnifiedNewtonEngine:
                     nonfinite_failure_reason=nonfinite_failure_reason,
                     robustness_controller=policy,
                     telemetry_observer=telemetry_observer,
+                    floor_aware_evidence=floor_aware_evidence,
                 )
                 if accepted_state_callback is not None:
                     accepted_state_callback(step, transaction.accepted_state.detached_copy())
@@ -591,6 +597,7 @@ class UnifiedNewtonEngine:
         nonfinite_failure_reason: NonFiniteFailureReason | None,
         robustness_controller: UnifiedNonlinearRobustnessController,
         telemetry_observer: NonlinearTelemetryObserver | None,
+        floor_aware_evidence: FloorAwareEvidence | None,
     ) -> tuple[dict[str, Any], int]:
         trial = transaction.trial_state
         if trial is None:
@@ -610,6 +617,7 @@ class UnifiedNewtonEngine:
         line_search_factors: list[float] = []
         line_search_events: list[dict[str, Any]] = []
         correction_norms: list[float] = []
+        relative_residual_history: list[float] = []
         contribution_diagnostics: Mapping[str, Mapping[str, Any]] = {}
         stagnation_diagnostics: dict[str, Any] | None = None
 
@@ -693,6 +701,7 @@ class UnifiedNewtonEngine:
             residual_norm = float(np.linalg.norm(residual[free]))
             relative = residual_norm / scale
             residual_history.append(residual_norm)
+            relative_residual_history.append(relative)
             stagnation_decision = robustness_controller.stagnation_decision(
                 residual_history,
                 converged=relative <= tolerance,
@@ -731,6 +740,7 @@ class UnifiedNewtonEngine:
                         fallback_used=False,
                         RSS_bytes=rss_bytes,
                         private_or_USS_bytes=private_bytes,
+                        termination_classification="CONVERGED_RESIDUAL",
                         status="CONVERGED",
                     ),
                 )
@@ -740,6 +750,7 @@ class UnifiedNewtonEngine:
                         "load_factor": load_factor,
                         "iterations": iteration,
                         "relative_residual": relative,
+                        "termination_classification": "CONVERGED_RESIDUAL",
                         "residual_initial": residual_history[0],
                         "residual_final": residual_history[-1],
                         "residual_history": tuple(residual_history),
@@ -854,6 +865,8 @@ class UnifiedNewtonEngine:
                         trial, free, correction, target, residual_norm
                     )
                 except NumericalConvergenceError as exc:
+                    line_elapsed = perf_counter() - line_started
+                    line_search_seconds += line_elapsed
                     diagnostics = self._failure_diagnostics(
                         failure_diagnostics,
                         step,
@@ -866,6 +879,155 @@ class UnifiedNewtonEngine:
                     diagnostics.update(exc.diagnostics)
                     if isinstance(exc.diagnostics, Mapping) and exc.reason is NonlinearFailureReason.LINE_SEARCH_FAILURE:
                         line_search_events.append(dict(exc.diagnostics))
+                    if floor_aware_evidence is not None:
+                        evidence: Mapping[str, Any] | None
+                        try:
+                            evidence_value = floor_aware_evidence(
+                                trial,
+                                composite,
+                                external,
+                                free,
+                                load_factor,
+                            )
+                            evidence = dict(evidence_value)
+                        except Exception as evidence_error:
+                            # Qualification evidence is deliberately fail-closed;
+                            # an observer error cannot alter the physical trial.
+                            evidence = {
+                                "state_valid": False,
+                                "evidence_error": f"{type(evidence_error).__name__}: {evidence_error}",
+                            }
+                        line_search_details = exc.diagnostics if isinstance(exc.diagnostics, Mapping) else {}
+                        initial_merit = line_search_details.get("initial_merit")
+                        merit_history = line_search_details.get("merit_history", ())
+                        improvement_available: bool | None = None
+                        if isinstance(initial_merit, (int, float)) and np.isfinite(float(initial_merit)):
+                            try:
+                                finite_merits = (
+                                    float(value)
+                                    for value in merit_history
+                                    if np.isfinite(float(value))
+                                )
+                                improvement_available = any(value < float(initial_merit) for value in finite_merits)
+                            except (TypeError, ValueError):
+                                improvement_available = None
+                        floor_decision = robustness_controller.floor_aware_decision(
+                            relative_residual_history,
+                            relative_residual=relative,
+                            convergence_tolerance=tolerance,
+                            correction=correction,
+                            displacement=trial.displacement[free],
+                            tangent=reduced_tangent,
+                            residual_scale=scale,
+                            linear_backward_error=(
+                                solve_diagnostics.get("backward_error_eta_inf")
+                                if isinstance(solve_diagnostics, Mapping)
+                                else None
+                            ),
+                            line_search_improvement_available=improvement_available,
+                            force_equilibrium=evidence.get("force_equilibrium"),
+                            moment_equilibrium=evidence.get("moment_equilibrium"),
+                            state_valid=bool(evidence.get("state_valid", False)),
+                        )
+                        floor_diagnostics = floor_decision.to_dict()
+                        floor_diagnostics["evidence"] = dict(evidence)
+                        diagnostics["floor_aware"] = floor_diagnostics
+                        if floor_decision.accepted:
+                            if finalize_trial_state is not None:
+                                finalize_trial_state(trial, composite)
+                            trial.load_factor = load_factor
+                            transaction.commit()
+                            correction_norm_value = float(np.linalg.norm(correction))
+                            correction_norms.append(correction_norm_value)
+                            line_search_iterations += int(
+                                line_search_details.get("reductions", 0)
+                                if isinstance(line_search_details.get("reductions", 0), (int, float))
+                                else 0
+                            )
+                            rss_bytes, private_bytes = process_memory_bytes()
+                            emit_telemetry(
+                                telemetry_observer,
+                                telemetry_event(
+                                    "ITERATION",
+                                    load_step=step,
+                                    target_load_factor=load_factor,
+                                    current_load_factor=load_factor,
+                                    newton_iteration=iteration,
+                                    residual_norm=residual_norm,
+                                    relative_residual=relative,
+                                    correction_norm=correction_norm_value,
+                                    line_search_alpha=None,
+                                    line_search_iterations=line_search_details.get("reductions", 0),
+                                    assembly_time_s=assembly_elapsed,
+                                    linear_solve_time_s=linear_elapsed,
+                                    iteration_wall_time_s=perf_counter() - iteration_started,
+                                    matrix_shape=list(reduced_tangent.shape),
+                                    matrix_nnz=int(reduced_tangent.nnz),
+                                    linear_backend=(
+                                        solve_diagnostics.get("linear_backend")
+                                        if isinstance(solve_diagnostics, Mapping)
+                                        else None
+                                    ),
+                                    linear_method=(
+                                        solve_diagnostics.get("linear_method")
+                                        if isinstance(solve_diagnostics, Mapping)
+                                        else None
+                                    ),
+                                    krylov_iterations=(
+                                        solve_diagnostics.get("krylov_iterations")
+                                        if isinstance(solve_diagnostics, Mapping)
+                                        else None
+                                    ),
+                                    linear_relative_residual=(
+                                        solve_diagnostics.get("linear_relative_residual")
+                                        if isinstance(solve_diagnostics, Mapping)
+                                        else None
+                                    ),
+                                    linear_backward_error_eta_inf=(
+                                        solve_diagnostics.get("backward_error_eta_inf")
+                                        if isinstance(solve_diagnostics, Mapping)
+                                        else None
+                                    ),
+                                    fallback_used=(
+                                        solve_diagnostics.get("fallback_used", False)
+                                        if isinstance(solve_diagnostics, Mapping)
+                                        else False
+                                    ),
+                                    RSS_bytes=rss_bytes,
+                                    private_or_USS_bytes=private_bytes,
+                                    termination_classification="CONVERGED_NUMERICAL_FLOOR",
+                                    floor_aware=floor_diagnostics,
+                                    status="FLOOR_CONVERGED",
+                                ),
+                            )
+                            return (
+                                {
+                                    "increment": step,
+                                    "load_factor": load_factor,
+                                    "iterations": iteration,
+                                    "relative_residual": relative,
+                                    "residual_initial": residual_history[0],
+                                    "residual_final": residual_history[-1],
+                                    "residual_history": tuple(residual_history),
+                                    "line_search_iterations": line_search_iterations,
+                                    "line_search_factors": tuple(line_search_factors),
+                                    "last_correction_norm": correction_norm_value,
+                                    "cumulative_correction_norm": float(sum(correction_norms)),
+                                    "assembly_seconds": assembly_seconds,
+                                    "linear_solve_seconds": linear_solve_seconds,
+                                    "line_search_seconds": line_search_seconds,
+                                    "linear_system_diagnostics": linear_diagnostics,
+                                    "contribution_diagnostics": dict(contribution_diagnostics),
+                                    "robustness": robustness_controller.configuration_diagnostics(
+                                        stagnation=stagnation_diagnostics,
+                                        line_search=line_search_events,
+                                    ),
+                                    "floor_aware": floor_diagnostics,
+                                    "termination_classification": "CONVERGED_NUMERICAL_FLOOR",
+                                    "state_committed": True,
+                                },
+                                max(iteration - 1, 0),
+                            )
                     add_robustness_diagnostics(diagnostics)
                     raise NumericalConvergenceError(
                         str(exc), reason=exc.reason, diagnostics=diagnostics

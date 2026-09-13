@@ -17,6 +17,7 @@ from solveur.core.assembly.geometric import (
 )
 from solveur.core.nonlinear.iteration import (
     CompositeNonlinearAssembly,
+    FloorAwareEvidence,
     NonlinearAssemblyProtocol,
     _line_search_assembly,
     solve_adaptive_full_newton,
@@ -262,6 +263,7 @@ def _newton_dead_load(
     target_load_factors: list[float] | None = None,
     accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
     telemetry_observer: NonlinearTelemetryObserver | None = None,
+    floor_aware_evidence: FloorAwareEvidence | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
     if fixed.size == 0:
         raise MeshValidationError("geometric_nonlinear_static requires constrained dofs.")
@@ -278,6 +280,7 @@ def _newton_dead_load(
             target_load_factors=target_load_factors,
             accepted_state_callback=accepted_state_callback,
             telemetry_observer=telemetry_observer,
+            floor_aware_evidence=floor_aware_evidence,
         )
     else:
         displacement, diagnostics = solve_adaptive_full_newton(
@@ -291,6 +294,7 @@ def _newton_dead_load(
             robustness_options=robustness_options,
             initial_state=initial_state,
             accepted_state_callback=accepted_state_callback,
+            floor_aware_evidence=floor_aware_evidence,
         )
     determinant_source: object = determinant_assembly or assembly
     deformation_determinants = getattr(determinant_source, "deformation_determinants", None)

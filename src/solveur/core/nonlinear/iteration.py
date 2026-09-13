@@ -15,6 +15,7 @@ from solveur.core.nonlinear.contracts import NonlinearFailureReason, NonlinearIt
 from solveur.core.nonlinear.controls import AdaptiveLoadControls
 from solveur.core.nonlinear.driver import (
     ContributionResponse,
+    FloorAwareEvidence,
     UnifiedContinuationController,
     UnifiedNewtonEngine,
 )
@@ -123,6 +124,7 @@ def solve_full_newton(
     target_load_factors: Sequence[float] | None = None,
     accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
     telemetry_observer: NonlinearTelemetryObserver | None = None,
+    floor_aware_evidence: FloorAwareEvidence | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
     """Compatibility adapter into the authoritative unified Newton engine."""
 
@@ -202,6 +204,7 @@ def solve_full_newton(
             robustness_controller=robustness_controller,
             accepted_state_callback=accepted_state_callback,
             telemetry_observer=telemetry_observer,
+            floor_aware_evidence=floor_aware_evidence,
         )
     except NumericalConvergenceError as exc:
         # Preserve the legacy diagnostic envelope while the engine owns the
@@ -237,6 +240,8 @@ def solve_full_newton(
                 "line_search_seconds": raw["line_search_seconds"],
                 "linear_system_diagnostics": raw["linear_system_diagnostics"],
                 "robustness": raw.get("robustness"),
+                "termination_classification": raw.get("termination_classification", "CONVERGED_RESIDUAL"),
+                "floor_aware": raw.get("floor_aware"),
                 "robustness_options": (
                     robustness_options.to_dict() if robustness_options is not None else None
                 ),
@@ -255,6 +260,8 @@ def solve_full_newton(
                 "linear_solve_seconds": raw["linear_solve_seconds"],
                 "line_search_seconds": raw["line_search_seconds"],
                 "diagnostics": step_diagnostics,
+                "termination_classification": raw.get("termination_classification", "CONVERGED_RESIDUAL"),
+                "floor_aware": raw.get("floor_aware"),
             }
         )
     return result.state.displacement.copy(), {
@@ -299,6 +306,7 @@ def solve_adaptive_full_newton(
     robustness_options: NonlinearRobustnessOptions | None = None,
     initial_state: NonlinearState | None = None,
     accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
+    floor_aware_evidence: FloorAwareEvidence | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
     """Solve a dead-load path with deterministic cutback/retry continuation.
 
@@ -364,6 +372,7 @@ def solve_adaptive_full_newton(
                     tolerance=tolerance,
                     max_iterations=max_iterations,
                     robustness_options=robustness_options,
+                    floor_aware_evidence=floor_aware_evidence,
                 )
             except NumericalConvergenceError as exc:
                 retry_classification = controller.rollback(
