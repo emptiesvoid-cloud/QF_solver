@@ -262,7 +262,7 @@ def main() -> int:
     raw_artifact = {
         "schema_version": 1,
         "record_id": "QF-0.2.9-WP06D-PHASE1-RAW-001",
-        "status": "FAIL_CLOSED_M2_LIMIT_POINT_TRACKING",
+        "status": "FAIL_CLOSED_M2_" + "_AND_".join(m2_failures),
         "provenance": provenance,
         "phase1_binding": {**provenance, "governing_policy_identity": policy},
         "environment": {
@@ -272,7 +272,7 @@ def main() -> int:
             "git_dirty": bool(_git("status", "--porcelain")),
         },
         "raw": raw,
-        "reported_status": "FAIL_CLOSED_M2_LIMIT_POINT_TRACKING",
+        "reported_status": "FAIL_CLOSED_M2_" + "_AND_".join(m2_failures),
         "failure_class": m2_failures,
         "failure_reason": "M2 converged numerically but failed one or more frozen qualification gates; formal sequence stopped before M3.",
     }
