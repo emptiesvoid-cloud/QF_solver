@@ -7,6 +7,7 @@ from typing import Any, cast
 import numpy as np
 from scipy.sparse import csr_matrix
 from solveur.contact.entities import FrictionlessContact
+from solveur.contact.evaluation import normalized_contact_diagnostics
 from solveur.contact.slip_root import solve_active_slip_root
 from solveur.core.constraints import ConstraintReduction
 from solveur.core.dofs import DofManager
@@ -133,7 +134,7 @@ def assemble_penalty_contact(
                 "finite_sliding": finite_sliding,
             },
         )
-    return internal, tangent, {
+    details: dict[str, object] = {
         "formulation": "frictionless_penalty",
         "search_mode": search_mode,
         "finite_sliding": finite_sliding,
@@ -156,6 +157,8 @@ def assemble_penalty_contact(
         "contact_force_norm": float(np.linalg.norm(internal)),
         "tangent_nnz": int(tangent.nnz),
     }
+    details.update(normalized_contact_diagnostics(details))
+    return internal, tangent, details
 
 class FrictionlessActiveSetSolver:
     """Enforce normal contact exactly and optional regularized Coulomb friction."""
