@@ -60,6 +60,17 @@ step 4 with `LINE_SEARCH_FAILURE`; it is a protocol diagnostic, not a
 qualification rerun. Controlled evidence is in `c2r4/` and
 `../docs/verification/0_2_9/wp04-c2r4-near-tolerance-audit.md`.
 
+C2R5 reran only canonical M2 with the existing line search enabled and
+reproduced the step-4 `LINE_SEARCH_FAILURE` at
+`1.0411047989090212e-10`. Direct, tighter MINRES, repeated reassembly,
+pairwise, compensated and platform-longdouble accumulation diagnostics all
+support a bounded `NONLINEAR_RESIDUAL_NUMERICAL_FLOOR` diagnosis with strong
+force cancellation; no accumulation-only remediation was demonstrated. A
+future floor-aware termination policy is recommended for Owner review, but no
+threshold or convergence policy was changed. M3/M4 and qualification reruns
+remain prohibited. See `c2r5/` and
+`../docs/verification/0_2_9/wp04-c2r5-residual-precision-audit.md`.
+
 ## Current planning status
 
 - WP00: `CLOSED`, 4/4 points.

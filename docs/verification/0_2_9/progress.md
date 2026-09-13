@@ -286,3 +286,22 @@ line search, whereas C2R3 explicitly disabled it. The M2-only canonical
 line-search experiment accepts step 3, then ends at step 4 with
 `LINE_SEARCH_FAILURE` near tolerance. G04-10 remains unresolved and no
 qualification outcome changes. See [the C2R4 audit](wp04-c2r4-near-tolerance-audit.md).
+
+## WP04-C2R5 residual precision audit
+
+C2R5 reran only M2 with the canonical existing/enabled line search and the
+frozen MINRES/Jacobi route. It reproduced three accepted steps followed by
+step-4 `LINE_SEARCH_FAILURE` at Newton iteration 26 and residual
+`1.0411047989090212e-10`. The exact failing state is captured outside Git.
+Direct and tighter MINRES corrections are machine-scale; five repeated normal
+reassemblies are bitwise identical; and pairwise, compensated and platform
+`longdouble` accumulation remain at the same residual order. Force/internal
+force cancellation is large while accepted/trial force and moment balance are
+near machine scale. The bounded classification is
+`NONLINEAR_RESIDUAL_NUMERICAL_FLOOR` with mechanism
+`FORCE_CANCELLATION_AND_FLOAT64_PRECISION_LIMIT`. No threshold, convergence
+policy, mechanics formulation or maturity status changed. A future
+`R6_FLOOR_AWARE_TERMINATION_POLICY` is recommended for Owner review; it was
+not implemented or frozen. M3/M4 and qualification reruns remain prohibited.
+See [the C2R5 audit](wp04-c2r5-residual-precision-audit.md) and
+`qualification/0_2_9/c2r5/residual_precision_audit.json`.

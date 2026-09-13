@@ -3,7 +3,7 @@
   "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-MASTER-001",
   "branch": "0.2.9-unified-nonlinear",
   "start_sha": "20186a940ba39b03bf68ee52b8b6137c698c2a16",
-  "status": "C2R3_COMPLETED_BOTH_NUMERICAL_FAILURE",
+  "status": "C2R5_COMPLETED_CANONICAL_M2_FLOOR_DIAGNOSIS",
   "scope": {
     "campaign": "WP04-C2R3 overnight M2 and M3 MINRES requalification",
     "m4_run": false,
@@ -135,6 +135,71 @@
     },
     "pair_decision": {"both_converged": false, "m2_to_m3_deltas": "NOT_COMPUTABLE", "g04_10": "UNRESOLVED"}
   },
+  "c2r5": {
+    "source_sha": "571b7f64450ec556e1f9a59ecc65826cf49675d5",
+    "scope": "canonical M2 only; no M3, M4, PETSc, PyAMG or threshold change",
+    "route": {
+      "linear_solver": "MINRES",
+      "preconditioner": "Jacobi",
+      "rtol": 1e-11,
+      "atol": 1e-14,
+      "maxiter": 10000,
+      "direct_fallback": false,
+      "line_search": "existing/enabled",
+      "newton_tolerance": 1e-10,
+      "increments": 12
+    },
+    "reproduction": {
+      "status": "REPRODUCED",
+      "accepted_steps": 3,
+      "failure_step": 4,
+      "failure_newton_iteration": 26,
+      "failure_reason": "LINE_SEARCH_FAILURE",
+      "residual": 1.0411047989090212e-10,
+      "wall_seconds": 1678.3279889000114,
+      "cpu_seconds": 1741.671875
+    },
+    "captured_system": {
+      "path_outside_git": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_c2r5_forensics\\c2_m2_canonical_step4_failure.npz",
+      "shape": [90000, 90000],
+      "nnz": 3835710,
+      "size_bytes": 27394683,
+      "sha256": "f94e13d6a92c7ed6203a85f9be23d7fb7d23bf7552b8081393574472cb6b1b01"
+    },
+    "force_cancellation": {
+      "target_norm_2": 0.6666666666666664,
+      "internal_norm_2": 0.6666666666666998,
+      "imbalance_norm_2": 1.0411047989090212e-10,
+      "indicator_2": 12806907957.1103,
+      "target_norm_inf": 0.026666666666666665,
+      "internal_norm_inf": 0.026666666668667273,
+      "imbalance_norm_inf": 3.7411558226341235e-12,
+      "indicator_inf": 14255843879.227219
+    },
+    "precision_diagnostics": {
+      "float64": 1.0411047989090212e-10,
+      "pairwise": 1.0411048963249379e-10,
+      "compensated_kahan": 1.0411048278985379e-10,
+      "longdouble_platform_value": 1.0411048047789044e-10,
+      "longdouble_dtype": "float64 (8-byte platform alias)",
+      "reassembly_spread": 0.0
+    },
+    "rounding_error_bound": {
+      "estimated_float64_floor": 9.926818702066467e-13,
+      "observed_to_estimated_ratio": 104.87799063886342
+    },
+    "same_state_linear_forensics": {
+      "direct": {"correction_norm": 8.108503804890719e-16, "eta_inf": 1.148509118958703e-15, "residual_after": 1.1786672101386367e-10},
+      "minres_1e-11": {"correction_norm": 8.10850383404193e-16, "eta_inf": 5.232341881338818e-13, "solution_delta": 2.768139786132888e-08, "residual_after": 1.1786672101386367e-10},
+      "minres_1e-12": {"correction_norm": 8.108503805815807e-16, "eta_inf": 4.999305581031921e-13, "solution_delta": 2.972290615437137e-10, "residual_after": 1.1786672101386367e-10}
+    },
+    "line_search": {"classification": "LINE_SEARCH_TRUE_REJECTION", "tested_alphas": 15, "initial_merit": 1.0411047989090212e-10, "smallest_merit_delta": 4.7305651580512374e-15},
+    "classification": "NONLINEAR_RESIDUAL_NUMERICAL_FLOOR",
+    "mechanism": "FORCE_CANCELLATION_AND_FLOAT64_PRECISION_LIMIT",
+    "recommended_next_remediation": "R6_FLOOR_AWARE_TERMINATION_POLICY",
+    "policy_status": "diagnostic only; no mixed criterion implemented or frozen",
+    "memory": {"peak_rss_process": 1897238528, "peak_private_or_uss_process": 1891807232, "telemetry_sample_peak_rss": 760750080, "telemetry_sample_peak_private": 735080448}
+  },
   "test_and_tooling_history": {
     "campaigns_are_separate_and_may_overlap": true,
     "initial_remediation": [54, 48, 48],
@@ -161,6 +226,8 @@
     "r2": "docs/verification/0_2_9/linear-solver-remediation-r2.md",
     "r2b": "docs/verification/0_2_9/linear-solver-remediation-r2b.md",
     "c2r3_results": "qualification/0_2_9/c2r3/overnight_campaign_result.json",
-    "c2r3_telemetry": ["qualification/0_2_9/c2r3/m2_telemetry.jsonl", "qualification/0_2_9/c2r3/m3_telemetry.jsonl"]
+    "c2r3_telemetry": ["qualification/0_2_9/c2r3/m2_telemetry.jsonl", "qualification/0_2_9/c2r3/m3_telemetry.jsonl"],
+    "c2r5": "qualification/0_2_9/c2r5/residual_precision_audit.json",
+    "c2r5_document": "docs/verification/0_2_9/wp04-c2r5-residual-precision-audit.md"
   }
 }
