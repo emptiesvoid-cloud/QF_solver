@@ -1,0 +1,192 @@
+{
+  "record_id": "QF-SOLVER-0.2.9-WP04-C2R6-FROZEN-THRESHOLD-AUDIT",
+  "schema_version": 1,
+  "audit_type": "existing_evidence_only",
+  "source_sha": "2c52bf8196a7d47d14ce1784290580160de26590",
+  "branch": "0.2.9-unified-nonlinear",
+  "no_rerun": true,
+  "campaign_result": "qualification/0_2_9/c2r6/campaign_result.json",
+  "campaign_result_sha256": "D107EAF45538BE70236019B8F839B78F1ACF4B7352D32EA0C9019A09D6F6F513",
+  "raw_campaign_top_level_g04_10": "UNRESOLVED",
+  "raw_campaign_top_level_note": "Runner placeholder; the M2-to-M3 frozen-threshold pair audit is derived here without rerunning either case.",
+  "route": {
+    "linear_solver": "MINRES",
+    "preconditioner": "Jacobi",
+    "rtol": 1e-11,
+    "atol": 1e-14,
+    "maxiter": 10000,
+    "direct_fallback": false,
+    "line_search": "existing/enabled",
+    "newton_tolerance": 1e-10,
+    "increments": 12,
+    "floor_aware_termination": true
+  },
+  "output_completeness": {
+    "m2": {
+      "result_status": "COMPLETED",
+      "process_end_reason": "COMPLETED",
+      "failure": null,
+      "accepted_records": 12,
+      "telemetry_declared": 313,
+      "telemetry_lines": 313,
+      "iteration_events": 300,
+      "step_accepted_events": 12,
+      "steps": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "terminal_reason": null,
+      "pid": 57564,
+      "pid_running": false,
+      "result_file_sha256": "A6F96381B1E67EFA59E68B0EE80773BC3341B7E3FDEDF86861954F6BEB60713B",
+      "status_file_sha256": "BBDD64DC03BEE331CB5C92BB4FEA69E72D8976C0C03480F979A18FBCB989272B",
+      "telemetry_file_sha256": "B0AF0B8BAF97E26987BBC4FB9CBA3D1ACBFF55A2740BB8F8F5BF0E3FA7053E6E"
+    },
+    "m3": {
+      "result_status": "COMPLETED",
+      "process_end_reason": "COMPLETED",
+      "failure": null,
+      "accepted_records": 12,
+      "telemetry_declared": 288,
+      "telemetry_lines": 288,
+      "iteration_events": 275,
+      "step_accepted_events": 12,
+      "steps": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "terminal_reason": null,
+      "pid": 30220,
+      "pid_running": false,
+      "result_file_sha256": "997FFE16DC6D7832A98F101D513FFA54040295DF14609B82723871B1559F97E1",
+      "status_file_sha256": "1EBDABF626F6D71F6D597E006E3C8CB2B2812B2CBA98694E7CDC39EBEB312249",
+      "telemetry_file_sha256": "1B1670DA997EB5D3A25571B625193FBDBF71C4A2EE7B02A24C437741336B04E6"
+    }
+  },
+  "floor_acceptance_audit": {
+    "m2": {
+      "primary_convergences": 3,
+      "floor_convergences": 9,
+      "all_floor_contract_checks": true,
+      "max_eta_inf": 4.777962584217645e-12
+    },
+    "m3": {
+      "primary_convergences": 3,
+      "floor_convergences": 9,
+      "all_floor_contract_checks": true,
+      "max_eta_inf": 8.106166618904346e-12
+    }
+  },
+  "observables": {
+    "m2": {
+      "mesh": [48, 24, 24],
+      "nodes": 30625,
+      "tet4_elements": 165888,
+      "full_dofs": 91875,
+      "reduced_matrix_shape": [90000, 90000],
+      "reduced_matrix_nnz": 3835710,
+      "tip_displacement": -0.19685864781061374,
+      "reaction_resultant_norm": 49.9999999999999,
+      "strain_energy": 4.915487767084533,
+      "representative_sigma_xx": 3002.540859194057,
+      "force_equilibrium_relative": 2.271677919850833e-14,
+      "moment_equilibrium_relative": 1.2986843893587648e-15,
+      "min_det_f": 0.9917813121785688,
+      "min_principal_stretch": 0.99020740580251,
+      "max_principal_stretch": 1.0097489329706606,
+      "max_green_lagrange_norm": 0.010351119868140262,
+      "accepted_step_iterations": [12, 12, 18, 26, 26, 24, 29, 30, 32, 28, 31, 32],
+      "wall_time_s": 6561.611706099997,
+      "cpu_time_s": 6734.125,
+      "peak_rss_bytes": 1863077888,
+      "peak_private_or_uss_bytes": 1842630656,
+      "total_newton_iterations": 300,
+      "total_linear_solves": 297,
+      "krylov_iterations": {
+        "min": 2433,
+        "median": 2608.0,
+        "p95": 2657.2,
+        "max": 2669,
+        "total": 758992
+      },
+      "linear_solve_time_s": {
+        "total": 5634.779802800447,
+        "median": 18.948871099972166,
+        "p95": 20.9881912800367,
+        "max": 24.318283799977507
+      }
+    },
+    "m3": {
+      "mesh": [64, 32, 32],
+      "nodes": 70785,
+      "tet4_elements": 393216,
+      "full_dofs": 212355,
+      "reduced_matrix_shape": [209088, 209088],
+      "reduced_matrix_nnz": 9031086,
+      "tip_displacement": -0.2002482511318092,
+      "reaction_resultant_norm": 49.99999999999998,
+      "strain_energy": 4.999939075668591,
+      "representative_sigma_xx": 3068.972048649666,
+      "force_equilibrium_relative": 2.5505039661180956e-14,
+      "moment_equilibrium_relative": 7.63053276664867e-16,
+      "min_det_f": 0.9909797199809931,
+      "min_principal_stretch": 0.9893216428558,
+      "max_principal_stretch": 1.0104538037144282,
+      "max_green_lagrange_norm": 0.01111056564916684,
+      "accepted_step_iterations": [12, 12, 12, 23, 24, 30, 30, 24, 33, 24, 26, 25],
+      "wall_time_s": 24582.4253989,
+      "cpu_time_s": 25544.53125,
+      "peak_rss_bytes": 4226035712,
+      "peak_private_or_uss_bytes": 4210405376,
+      "total_newton_iterations": 275,
+      "total_linear_solves": 272,
+      "krylov_iterations": {
+        "min": 3230,
+        "median": 3428.5,
+        "p95": 3478.45,
+        "max": 3512,
+        "total": 919018
+      },
+      "linear_solve_time_s": {
+        "total": 22439.1158515008,
+        "median": 81.7618525500293,
+        "p95": 88.4322452599852,
+        "max": 96.59845719998702
+      }
+    }
+  },
+  "mesh_pair_thresholds": {
+    "definition": "abs(fine-medium)/max(abs(fine),abs(medium),1e-12)",
+    "displacement_tip_proxy": {
+      "value": 0.01692700586415766,
+      "limit": 0.02,
+      "pass": true
+    },
+    "reaction_resultant_norm": {
+      "value": 1.563194018672221e-15,
+      "limit": 0.02,
+      "pass": true
+    },
+    "strain_energy": {
+      "value": 0.016890467524899724,
+      "limit": 0.02,
+      "pass": true
+    },
+    "representative_stress_sigma_xx": {
+      "value": 0.02164607184507869,
+      "limit": 0.1,
+      "pass": true
+    },
+    "all_pass": true
+  },
+  "path": {
+    "m2_load_factors_equal_m3": true,
+    "m2_digest_count": 12,
+    "m3_digest_count": 12,
+    "m2_m3_accepted_step_counts_equal": true,
+    "m2_m3_floor_contracts_pass": true
+  },
+  "telemetry_aggregate_note": "SOLVE_COMPLETED.newton_iterations undercounts by 12 in each case because it excludes FLOOR_CONVERGED events; exact per-iteration lines and STEP_ACCEPTED sums agree with result.performance totals (M2 300, M3 275). This is a non-blocking telemetry aggregate discrepancy in existing evidence; no rerun was performed.",
+  "decision": "PASS_CANDIDATE_PENDING_OWNER_REVIEW",
+  "wp04_status": "HOLD",
+  "wp04_points": "0/12",
+  "validated_total": 29,
+  "m4_run": false,
+  "petsc_work": false,
+  "full_test_suite_run": false,
+  "maturity_changed": false
+}

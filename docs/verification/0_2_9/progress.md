@@ -13,11 +13,12 @@ applicable_version: 0.2.9-development
 | WP01 | 12 | **Closed** — Owner-approved unified nonlinear core |
 | WP02 | 6 | **Closed** — 6/6; independent WP02-E audit `GO_WITH_LIMITATIONS` |
 | WP03 | 7 | **Closed** — 7/7; independent WP03-E audit `GO_WITH_LIMITATIONS` |
-| WP04 | 12 | **HOLD — linear-solver remediation** — 0/12; G04-10 unresolved |
+| WP04 | 12 | **Closed — 12/12; independent WP04-F `GO_WITH_LIMITATIONS` audit** |
+| WP15 | 2 | **Closed — 2/2; governing-branch telemetry integration validated** |
 | WP05–WP08 | 31 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
-| **Validated total** | **29 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6 + WP03 7/7; WP04 remains unawarded** |
+| **Validated total** | **43 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6 + WP03 7/7 + WP04 12/12 + WP15 2/2** |
 
 WP01 is closed by the independent Owner decision recorded in
 [the WP01 closure record](wp01-owner-closure.md), based on audit SHA
@@ -305,3 +306,102 @@ policy, mechanics formulation or maturity status changed. A future
 not implemented or frozen. M3/M4 and qualification reruns remain prohibited.
 See [the C2R5 audit](wp04-c2r5-residual-precision-audit.md) and
 `qualification/0_2_9/c2r5/residual_precision_audit.json`.
+
+## WP04-C2R6 recovered M2/M3 campaign
+
+The C2R6 M2 and M3 outputs were recovered from disk without rerunning either
+solver process. Both cases completed under the frozen MINRES+Jacobi route with
+`rtol=1e-11`, `atol=1e-14`, `maxiter=10000`, direct fallback disabled,
+existing/enabled line search, Newton tolerance `1e-10`, 12 increments, and
+floor-aware termination enabled. M2 (`48x24x24`) and M3 (`64x32x32`) each
+contain 12 accepted records and complete matching JSONL telemetry; both ended
+normally with no failure capture and zero fallback.
+
+Each case has three primary and nine floor-aware convergences. All recorded
+floor events satisfy the frozen conjunction, with maximum linear backward
+errors `4.777962584217645e-12` (M2) and `8.106166618904346e-12` (M3). The
+accepted load-factor paths are identical and both cases remain within the
+frozen deformation envelope. Result/per-step Newton totals are 300 and 275;
+the `SOLVE_COMPLETED` telemetry aggregate is lower by 12 in each case because
+it excludes the floor-converged events. This existing bookkeeping discrepancy
+is documented and does not indicate incomplete output.
+
+Using the original frozen fine-versus-medium formula, the recovered deltas are
+1.6927005864% for tip displacement, approximately zero for reaction,
+1.6890467525% for energy, and 2.1646071845% for representative stress. All
+four thresholds pass. The derived status is
+`G04-10 = PASS_CANDIDATE_PENDING_OWNER_REVIEW`; WP04 remains HOLD at 0/12 and
+the validated total remains 29/100. The raw runner record’s top-level
+`UNRESOLVED` placeholder is preserved. See [the recovered C2R6 audit](wp04-c2r6-floor-aware-termination.md)
+and `qualification/0_2_9/c2r6/frozen_threshold_audit.json`.
+
+## WP04-D HEX8 structural qualification
+
+WP04-D froze and executed the same bounded Total-Lagrangian StVK cantilever
+contract for HEX8 at H1 `16x8x8`, H2 `24x12x12`, and H3 `32x16x16`. All three
+required cases completed under the exact Owner-approved C2R6 route: 12 fixed
+increments, canonical existing line search, MINRES+Jacobi with `rtol=1e-11`,
+`atol=1e-14`, `maxiter=10000`, direct fallback disabled, and floor-aware
+termination enabled. The consistent boundary-face load preserves resultant
+`[0,-50,0]` and reference moment `[12.5,0,-200]`; no equal-share load was
+used.
+
+The frozen H2→H3 deltas are displacement `0.01999034019793022`, reaction
+`9.224898992711293e-14`, energy `0.019943897062970836`, and representative
+stress `0.046483239095767515`, all within the `2%/2%/2%/10%` limits. Maximum
+force and moment equilibrium errors are `6.479137079435662e-14` and
+`4.033649056229668e-15`; the deformation envelope passes with minimum
+`det(F)=0.9924435183210853`, principal stretches
+`[0.9907111439153957,1.0092228247131967]`, and maximum
+`||E||_F=0.0095824348944902`. H1 replay has identical accepted-state digests,
+load factors, classifications and recorded observables. H4 was not run
+because H2→H3 passed, and G04-12 is limited to prepared machine-readable H3
+inputs with no cross-family decision.
+
+The H1 small-load support sequence was executed and its convergence trend is
+retained. At multiplier `0.001`, displacement error is
+`2.5607163831358572e-05`, while reaction error is
+`2.7738177407149553e-04`, above the supporting `1e-4` limit. This explicit
+support limitation is not used to alter the frozen G04-11 mesh decision and
+requires review in the combined WP04 phase. See the [WP04-D record](wp04-d-hex8-structural-qualification.md),
+`qualification/0_2_9/wp04d/hex8_campaign_result.json`, and
+`qualification/0_2_9/wp04d/g04_11_audit.json`.
+
+## WP04-E G04-12 cross-family closure
+
+The evidence-only WP04-E audit compares the approved TET4 C2R6 M3 record with
+the approved HEX8 H3 record. The physical geometry, homogeneous isotropic
+StVK material, fixed face, physical load resultant and reference moment,
+displacement/reaction/energy definitions, and the reference-volume weighted
+stress region match. The family-specific discrete boundary-load
+representations are disclosed; the governing resultant and first moment are
+the frozen cross-family checks.
+
+Using the frozen `abs(a-b)/max(abs(a),abs(b),1e-12)` metric, the displacement,
+reaction, energy and representative-stress deltas are
+`0.004566585385421973`, `7.105427357601005e-16`,
+`0.004553762679948579` and `0.05163720669059609`. All four pass the frozen
+`0.03/0.03/0.03/0.12` limits. The carried HEX8 H1 small-load reaction
+support limitation remains explicit for WP04-F. Therefore the derived result
+is `G04-12=PASS_PENDING_OWNER_REVIEW`; WP04 remains HOLD at 0/12 and 29/100.
+See [the WP04-E record](wp04-e-g04-12-cross-family-closure.md) and
+`qualification/0_2_9/wp04e/g04_12_cross_family_audit.json`.
+
+## WP04-F independent final closure
+
+The evidence-only WP04-F audit at
+`70e1bf953c8e6f37b8070e78ca97e58b21499291` independently reconciles the
+WP04-A/B/C/C1/C2/C2R6/D/E chain. The original WP04-C G04-10 failure remains
+preserved at its original Git blob and is explicitly distinguished from the
+authorized C2R6 requalification and final bounded pass. All twelve frozen
+gates are `PASS` or `PASS_WITH_LIMITATION`: G04-06 carries the predeclared
+HEX8 small-load reaction support limitation, and G04-09 carries the nonblocking
+TET4 `SOLVE_COMPLETED` aggregate Newton undercount. No in-scope blocking
+limitation was found.
+
+The final decision is `GO_WITH_LIMITATIONS`: WP04 is **CLOSED at 12/12** and
+the validated total is **41/100**. No structural solve, H4, PETSc or full
+repository suite was run during the audit. The public maturity registry remains
+unchanged pending Owner approval and sequential child-branch integration. See
+[the WP04-F audit](wp04-f-final-closure-audit.md) and
+`qualification/0_2_9/wp04f/wp04_final_closure_audit.json`.

@@ -1,13 +1,14 @@
 {
   "schema_version": 1,
   "release": "0.2.9",
-  "status": "WP04_HOLD_LINEAR_SOLVER_REMEDIATION",
+  "status": "WP15_CLOSED_INTEGRATION_VALIDATED",
   "work_packages": {
     "WP00": {"points": 4, "status": "CLOSED", "validated_points": 4},
     "WP01": {"points": 12, "status": "CLOSED", "validated_points": 12},
     "WP02": {"points": 6, "status": "CLOSED", "validated_points": 6},
     "WP03": {"points": 7, "status": "CLOSED", "validated_points": 7},
-    "WP04": {"points": 12, "status": "HOLD_LINEAR_SOLVER_REMEDIATION", "validated_points": 0},
+    "WP04": {"points": 12, "status": "CLOSED_GO_WITH_LIMITATIONS", "validated_points": 12},
+    "WP15": {"points": 2, "status": "CLOSED_INTEGRATION_VALIDATED", "validated_points": 2},
     "WP05": {"points": 5, "status": "NOT_STARTED", "validated_points": 0},
     "WP06": {"points": 8, "status": "NOT_STARTED", "validated_points": 0},
     "WP07": {"points": 10, "status": "NOT_STARTED", "validated_points": 0},
@@ -19,7 +20,7 @@
     "WP13": {"points": 2, "status": "NOT_STARTED", "validated_points": 0},
     "WP14": {"points": 2, "status": "NOT_STARTED", "validated_points": 0}
   },
-  "validated_points": 29,
+  "validated_points": 43,
   "total_points": 100,
-  "next_gate": "The historical WP04-C/C1/C2 resource and owner-abort records remain immutable. R1 strict Krylov residual evidence remains FAIL_PRESERVED. R2 adds normwise backward-error diagnostics and SciPy-local ILU/GMRES support; R2B independently captures the failing CG tangent, establishes bounded MINRES+Jacobi correctness on M1, and records zero-fallback direct-equivalent M1 behavior. The owner-authorized C2R3 campaign then runs M2 and a fresh-process M3 with identical MINRES+Jacobi settings; M2 terminates at step 3 and M3 at step 4 with numerical CONVERGENCE_STAGNATION, not resource failure. C2R4 reproduces M2 step-3 stagnation exactly, proves that both a direct and tighter MINRES correction are machine-scale and remain above the frozen nonlinear tolerance, and identifies line-search protocol drift: the canonical existing-line-search M2 comparison instead accepts step 3 then reaches LINE_SEARCH_FAILURE at step 4. C2R5 reruns only canonical M2, reproduces the step-4 failure at 1.0411047989090212e-10, and records deterministic reassembly, force cancellation, same-state direct/MINRES corrections and accumulation diagnostics consistent with NONLINEAR_RESIDUAL_NUMERICAL_FLOOR. A future floor-aware termination policy is recommended for Owner review; no threshold or convergence policy has changed. No M2-to-M3 qualification pair converged, so G04-10 remains UNRESOLVED_LINEAR_SOLVER_REMEDIATION; WP04 remains 0/12 and 29/100. TET4 and HEX8 remain RESEARCH_ONLY. See linear_solver_remediation_master.json, c2r3/, c2r4/ and c2r5/ for controlled results. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
+  "next_gate": "WP15 is CLOSED at 2/2 after the validated non-fast-forward integration of child head f93bdb5395be513fe09cfc9b52f0b1d2cb9f32db into governing branch 0.2.9-unified-nonlinear. WP15 adds generic telemetry and bounded linear-static/modal Phase-1 instrumentation; it does not instrument geometric nonlinear routes. WP04 remains CLOSED at 12/12 with its mechanics/evidence protected. The C2R6 SOLVE_COMPLETED Newton aggregate undercount remains deferred WP15 debt. Validated total is 43/100. The next gate is the Owner-selected frozen child branch; do not merge WP06 without separate authorization. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
 }

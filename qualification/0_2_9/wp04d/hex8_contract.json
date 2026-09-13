@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP04-D-HEX8-CONTRACT-001",
+  "work_package": "WP04-D",
+  "gate": "G04-11",
+  "status": "FROZEN_BEFORE_RESULT_EXECUTION",
+  "frozen_from_sha": "0c23b11477140fa64b5dd2a74def3a042bfe3d8e",
+  "branch": "0.2.9-unified-nonlinear",
+  "phase": "PHASE_0_CONTRACT_FREEZE",
+  "result_execution_started": false,
+  "target": {
+    "family": "HEX8",
+    "analysis": "geometric_nonlinear_static",
+    "maturity_claim": "RESEARCH_ONLY_UNTIL_WP04_F_AND_OWNER_CLOSURE",
+    "formulation": "Total Lagrangian Saint-Venant-Kirchhoff",
+    "integration": "full 2x2x2 Gauss",
+    "route": "Full Newton with bounded fixed-load increments"
+  },
+  "scope": {
+    "included": [
+      "homogeneous isotropic_3d material",
+      "static equilibrium",
+      "nodal dead load assembled from consistent HEX8/Q4 boundary-face traction",
+      "full translational fixation on the x=0 face",
+      "serial single-process execution",
+      "positive-deformation states inside the frozen qualification envelope"
+    ],
+    "excluded": [
+      "TET4 qualification",
+      "TET10",
+      "HEX20",
+      "reduced integration",
+      "hourglass control",
+      "contact",
+      "friction",
+      "J2 plus geometry",
+      "arc-length and postbuckling",
+      "follower loads",
+      "updated Lagrangian",
+      "corotational formulation",
+      "nonlinear dynamics",
+      "distributed PETSc/MPI nonlinear solve",
+      "maturity promotion"
+    ]
+  },
+  "physical_problem": {
+    "geometry": {"length": 4.0, "height": 0.5, "depth": 0.5},
+    "material": {"model": "homogeneous isotropic_3d StVK", "young_modulus": 1000000.0, "poisson_ratio": 0.3},
+    "boundary_conditions": "all translational DOFs fixed for nodes on x=0",
+    "load": {
+      "type": "dead surface traction converted to consistent Q4 face nodal loads",
+      "resultant": [0.0, -50.0, 0.0],
+      "loaded_boundary": "x=L face",
+      "traction": [0.0, -200.0, 0.0],
+      "face_rule": "for each boundary Q4 face, integrate constant traction over the reference face; each corner receives traction*face_area/4, then accumulate shared nodes",
+      "equal_share_load_forbidden": true,
+      "reference_origin": [0.0, 0.0, 0.0]
+    }
+  },
+  "mesh_sequence": {
+    "H1": {"cells": [16, 8, 8], "nodes": 1377, "elements": 1024, "dofs": 4131, "storage": {"nodes": "float64[n,3]", "connectivity": "int64[m,8]"}},
+    "H2": {"cells": [24, 12, 12], "nodes": 4225, "elements": 3456, "dofs": 12675, "storage": {"nodes": "float64[n,3]", "connectivity": "int64[m,8]"}},
+    "H3": {"cells": [32, 16, 16], "nodes": 9537, "elements": 8192, "dofs": 28611, "storage": {"nodes": "float64[n,3]", "connectivity": "int64[m,8]"}},
+    "H4": {"cells": [48, 24, 24], "nodes": 30625, "elements": 27648, "dofs": 91875, "storage": {"nodes": "float64[n,3]", "connectivity": "int64[m,8]"}, "status": "PREDECLARED_RESCUE_ONLY"}
+  },
+  "mesh_policy": {
+    "conforming_structured_hex8": true,
+    "node_ordering": "x-major, then y, then z; local HEX8 signs (-,-,-),(+,-,-),(+,+,-),(-,+,-),(-,-,+),(+,-,+),(+,+,+),(-,+,+)",
+    "orientation": "positive reference Jacobian at every 2x2x2 Gauss point; reject invalid orientation",
+    "quality": {"minimum_scaled_jacobian": 0.2, "all_reference_gauss_jacobians_positive": true},
+    "physical_load_total_invariant": true,
+    "h4_rescue_rule": "H4 may be run only if H2->H3 fails the frozen thresholds, the evidence indicates slow discretization convergence rather than mechanics/nonlinear failure, and the predeclared rule is accepted; no additional mesh may be invented."
+  },
+  "observables": {
+    "tip_displacement": "mean y displacement of all nodes on x=L face, same physical definition as TET4 G04-10",
+    "reaction": "reaction resultant vector and norm with TET4 sign convention",
+    "strain_energy": "accepted-state Total-Lagrangian StVK integrated strain energy",
+    "representative_stress": "reference-volume weighted sigma_xx over 0.40<=X/L<=0.60, 0.75<=Y/H<=0.90, 0.25<=Z/D<=0.75",
+    "equilibrium": "external plus reaction resultant and moment about the frozen global origin using physical nodal coordinates",
+    "paths": ["accepted load factors", "Newton iteration counts", "termination classification", "line-search alpha", "linear backward error"]
+  },
+  "thresholds": {
+    "mesh_h2_to_h3": {"displacement_relative": 0.02, "reaction_relative": 0.02, "energy_relative": 0.02, "representative_sigma_xx_relative": 0.1},
+    "mesh_h3_to_h4_if_authorized": {"displacement_relative": 0.02, "reaction_relative": 0.02, "energy_relative": 0.02, "representative_sigma_xx_relative": 0.1},
+    "equilibrium_force_relative": 1e-8,
+    "equilibrium_moment_relative": 1e-8,
+    "small_load_displacement_relative": 1e-4,
+    "small_load_reaction_relative": 1e-4,
+    "relative_denominator_floor": 1e-12,
+    "replay_relative": 1e-12,
+    "replay_absolute": 1e-14,
+    "deformation_min_det_f": 0.2,
+    "principal_stretch_range": [0.75, 1.3],
+    "maximum_green_lagrange_frobenius": 0.3
+  },
+  "solver_contract": {
+    "newton_tolerance": 1e-10,
+    "load_increments": 12,
+    "line_search": "existing/enabled",
+    "linear_solver": "MINRES",
+    "preconditioner": "Jacobi",
+    "linear_rtol": 1e-11,
+    "linear_atol": 1e-14,
+    "linear_maxiter": 10000,
+    "direct_fallback": false,
+    "floor_aware_termination": true,
+    "policy_source": "owner-approved C2R6 exact policy; no changes permitted in WP04-D",
+    "accepted_state_authority": "UnifiedContinuationController + NonlinearStateTransaction",
+    "checkpoint_failure_isolation": true
+  },
+  "replay_contract": {
+    "case": "H1",
+    "independent_runs": 2,
+    "compare": ["final displacement", "reaction", "energy", "representative stress", "accepted load path", "termination classifications"],
+    "relative_tolerance": 1e-12,
+    "absolute_tolerance": 1e-14,
+    "heavy_mesh_duplicate_replay": false
+  },
+  "small_load_contract": {
+    "reference_mesh": "H1",
+    "load_multipliers": [0.1, 0.01, 0.001],
+    "linear_reference": "same HEX8 mesh, material, BCs and consistent Q4 face load scaled by the multiplier",
+    "smallest_load_displacement_relative": 0.0001,
+    "smallest_load_reaction_relative": 0.0001
+  },
+  "failure_classification": ["FORMULATION_FAILURE", "LINEAR_SOLVER_FAILURE", "NONLINEAR_GLOBALIZATION_FAILURE", "NUMERICAL_FLOOR", "RESOURCE_LIMIT", "DISCRETIZATION_CONVERGENCE", "ENVELOPE_VIOLATION", "UNKNOWN"],
+  "artifacts": {
+    "contract": "qualification/0_2_9/wp04d/hex8_contract.json",
+    "campaign_result": "qualification/0_2_9/wp04d/hex8_campaign_result.json",
+    "audit": "qualification/0_2_9/wp04d/g04_11_audit.json",
+    "report": "docs/verification/0_2_9/wp04-d-hex8-structural-qualification.md",
+    "raw_policy": "result JSON and NPZ arrays contain no object arrays; telemetry is immediate-flush JSONL"
+  },
+  "governance": {
+    "wp04_points_awarded": "0/12",
+    "validated_total": 29,
+    "wp04_phase": "HEX8_STRUCTURAL_QUALIFICATION",
+    "g04_11_requires": ["H1/H2/H3 required cases complete", "frozen load and route preserved", "equilibrium and envelope pass", "H2->H3 or authorized H3->H4 convergence pass", "finite observables", "no unauthorized policy drift"],
+    "g04_12": "INPUTS_PREPARED_ONLY; no cross-family gate decision in WP04-D",
+    "production_mechanics_changed": false,
+    "maturity_changed": false,
+    "full_test_suite_run": false,
+    "OD-029-01": "OPEN; blocks WP09 only",
+    "OD-029-02": "CLOSED; READ_V1_WRITE_V2_BOUNDED"
+  }
+}

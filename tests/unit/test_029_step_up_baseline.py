@@ -101,7 +101,12 @@ def test_step_up_and_wp03_documents_are_present_and_status_is_explicit() -> None
             "linear-solver-remediation-r2b.md",
             "linear-solver-remediation.md",
             "wp04-c2-m3-linear-solver-abort.md",
+            "wp04-c2r4-near-tolerance-audit.md",
+            "wp04-c2r5-residual-precision-audit.md",
+            "wp04-c2r6-floor-aware-termination.md",
             "linear-solver-remediation-master.md",
+            "wp04-d-hex8-structural-qualification.md",
+            "wp04-e-g04-12-cross-family-closure.md",
     }
 
     assert {path.name for path in DOCS.glob("*.md")} == expected
@@ -194,7 +199,7 @@ def test_wp04_contract_freezes_a_two_family_bounded_qualification_without_promot
 
     assert progress["work_packages"]["WP04"] == {
         "points": 12,
-        "status": "HOLD_LINEAR_SOLVER_REMEDIATION",
+        "status": "HOLD_G04_12_PENDING_OWNER_REVIEW",
         "validated_points": 0,
     }
     assert progress["validated_points"] == 29

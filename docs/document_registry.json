@@ -5624,6 +5624,32 @@
   "tests": []
 },
 {
+  "id": "DOC-029-WP04-F-001",
+  "path": "verification/0_2_9/wp04-f-final-closure-audit.md",
+  "title": "QF Solver 0.2.9 WP04-F independent geometric nonlinear closure audit",
+  "status": "owner_review_required",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp04f/wp04_final_closure_audit.json",
+    "qualification/0_2_9/wp04_geometric_qualification_contract.json",
+    "qualification/0_2_9/wp04_gate_matrix.json"
+  ],
+  "tests": [
+    "tests/verification/test_wp04_f_final_closure.py"
+  ]
+},
+{
+  "id": "DOC-029-WP15-TELEMETRY-ARCHITECTURE-001",
+  "path": "verification/0_2_9/wp15-global-telemetry-architecture.md",
+  "title": "QF Solver 0.2.9 WP15 global telemetry architecture",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp15_telemetry_architecture.json"
+  ],
+  "tests": []
+},
+{
   "id": "DOC-029-WP06A-001",
   "path": "verification/0_2_9/wp06a-arc-length-formulation-contract.md",
   "title": "QF Solver 0.2.9 WP06-A arc-length formulation contract",
@@ -5700,7 +5726,47 @@
   "tests": [
     "tests/unit/test_wp06f_closure_contract.py"
   ]
-}
+},
+{
+  "id": "DOC-029-WP15A-GENERIC-TELEMETRY-CORE-001",
+  "path": "verification/0_2_9/wp15a-generic-telemetry-core.md",
+  "title": "QF Solver 0.2.9 WP15-A generic telemetry core",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp15a_generic_telemetry_core.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp15a_generic_telemetry.py"
   ]
-  
+},
+{
+  "id": "DOC-029-WP15B-ROUTE-INSTRUMENTATION-PHASE1-001",
+  "path": "verification/0_2_9/wp15b-route-instrumentation-phase1.md",
+  "title": "QF Solver 0.2.9 WP15-B phase 1 console and route instrumentation",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp15b_phase1_route_instrumentation.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp15b_phase1.py"
+  ]
+},
+{
+  "id": "DOC-029-WP15-INTEGRATION-001",
+  "path": "verification/0_2_9/wp15-integration-into-governing-branch.md",
+  "title": "QF Solver 0.2.9 WP15 governing-branch integration audit",
+  "status": "owner_review_required",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp15/wp15_integration_audit.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp15a_generic_telemetry.py",
+    "tests/unit/test_wp15b_phase1.py",
+    "tests/verification/test_wp04_f_final_closure.py"
+  ]
+}
+]
 }

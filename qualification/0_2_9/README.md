@@ -17,8 +17,10 @@ the same-model target-clipped arc retry challenge: the final policy reaches
 the unchanged physical solution with one rejection where the pre-WP03 route
 repeated the same effective radius five times.
 
-WP04 Geometric Nonlinear Qualification is now **HOLD — linear-solver remediation**
-at 0/12. WP04-B independently demonstrates the bounded TET4/HEX8
+WP04 Geometric Nonlinear Qualification is now **CLOSED — 12/12** after the
+independent WP04-F evidence-only audit at
+`70e1bf953c8e6f37b8070e78ca97e58b21499291`, with a
+`GO_WITH_LIMITATIONS` decision. WP04-B independently demonstrates the bounded TET4/HEX8
 Total-Lagrangian Saint-Venant-Kirchhoff objectivity, affine patch,
 energy-gradient, tangent and accepted-path work identities. WP04-C then ran a
 frozen TET4 cantilever campaign. Its small-load, force/moment balance,
@@ -71,12 +73,48 @@ threshold or convergence policy was changed. M3/M4 and qualification reruns
 remain prohibited. See `c2r5/` and
 `../docs/verification/0_2_9/wp04-c2r5-residual-precision-audit.md`.
 
+C2R6 subsequently completed the frozen floor-aware M2/M3 campaign. This audit
+recovers the existing result, status and JSONL files without rerunning either
+case. Both meshes reached the final load factor with 12 accepted steps, zero
+fallbacks and complete terminal records. The original M2-to-M3 displacement,
+reaction, energy and representative-stress thresholds all pass; the raw
+runner's top-level `G04-10=UNRESOLVED` placeholder is preserved and the
+derived status is `PASS_CANDIDATE_PENDING_OWNER_REVIEW`. See
+`c2r6/frozen_threshold_audit.json` and
+`../docs/verification/0_2_9/wp04-c2r6-floor-aware-termination.md`.
+
+WP04-D freezes and executes the HEX8 structural contract in `wp04d/`. H1,
+H2 and H3 complete under the frozen C2R6 MINRES+Jacobi route with consistent
+face loading, equilibrium, envelope and H1 replay evidence. The H2→H3
+displacement, reaction, energy and representative-stress deltas pass the
+frozen thresholds, so `g04_11_audit.json` records `G04-11=PASS` pending Owner
+review. H4 is not run because its predeclared rescue condition is not
+triggered. G04-12 is only prepared, and the explicit small-load reaction
+support limitation is retained in the campaign result.
+
+WP04-E then performs the frozen G04-12 cross-family audit from existing
+evidence only. The approved TET4 C2R6 M3 and HEX8 H3 physical definitions are
+matched at geometry, material, constraints, physical resultant/moment and
+observable conventions. The frozen displacement, reaction, energy and
+representative-stress deltas pass at `0.004566585385421973`,
+`7.105427357601005e-16`, `0.004553762679948579` and
+`0.05163720669059609`, respectively. The family-specific discrete boundary
+load representations are disclosed; the governing resultant and first moment
+match. The HEX8 small-load reaction support limitation is carried forward to
+WP04-F. The derived status is now `G04-12=PASS`; WP04-F independently verifies
+all twelve gates, preserves the original G04-10 failure, and raises the
+validated total to **41/100**. Public maturity remains Owner-pending and the
+registry is unchanged. See
+`../docs/verification/0_2_9/wp04-e-g04-12-cross-family-closure.md`,
+`wp04e/g04_12_cross_family_audit.json`, and
+`../docs/verification/0_2_9/wp04-f-final-closure-audit.md`.
+
 ## Current planning status
 
 - WP00: `CLOSED`, 4/4 points.
 - WP01 Unified Nonlinear Core: `CLOSED`, 12/12 points after independent
   Owner closure at audit SHA `6876d867cdd845195e8946b05329b0bc82937fdc`.
-- Validated total: `29/100`.
+- Validated total: `41/100`.
 - WP02 State Transactions & Rollback: `CLOSED`, 6/6 points after the
   independent WP02-E audit at `c4e02fbd2d1262f621f6c8d4f07ee2da89d885f5`.
   The decision is `GO_WITH_LIMITATIONS`; Owner review is required before the
@@ -84,6 +122,21 @@ remain prohibited. See `c2r5/` and
 - OD-029-01: **OPEN**; it blocks WP09 only.
 - OD-029-02: **CLOSED** as `READ_V1_WRITE_V2_BOUNDED`; ambiguous/stateful
   contact-bearing v1 checkpoints are rejected.
+
+WP04-F is the completed phase: the evidence-only independent audit records
+G04-01..G04-05, G04-07..G04-08 and G04-10..G04-12 as PASS, with G04-06 and
+G04-09 as PASS_WITH_LIMITATION. WP04 is CLOSED at 12/12 and the validated
+total is 41/100. Owner approval is required before sequential child-branch
+integration; WP05 has not started.
+
+WP15 is now **CLOSED — 2/2** after a non-fast-forward, validated integration
+of the Owner-frozen telemetry child branch into the governing branch. The
+integration adds the generic event/sink core and bounded Phase-1 instrumentation
+for `linear_static` and `modal` only. It leaves geometric nonlinear routes and
+all WP04 mechanics unchanged. The C2R6 `SOLVE_COMPLETED` aggregate Newton-count
+undercount remains explicit deferred telemetry debt. The validated total is
+**43/100**; see `wp15/wp15_integration_audit.json` and
+`../docs/verification/0_2_9/wp15-integration-into-governing-branch.md`.
 
 WP03-C preserves the accepted-state authority and all existing numerical and
 maturity boundaries. WP03-D adds the single `UnifiedArcLengthRadiusPolicy`,
