@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-029-WP06F-001
-revision: 0.1
-status: controlled_candidate
+revision: 0.2
+status: owner_correction_r1_candidate
 applicable_version: 0.2.9-development
 reviewer: ""
 approver: ""
@@ -23,6 +23,10 @@ mechanics changed.
 The machine-readable source is
 `qualification/0_2_9/wp06f_closure_contract.json`; the preparation-only
 checker is `scripts/check_wp06_closure.py`.
+
+This revision records `OWNER_CORRECTION_R1`. The checker now derives every
+decision from the controlled A/B/C/D/E identities and raw track artefacts; it
+does not use a payload-provided identity as its authority.
 
 ## Required evidence manifest
 
@@ -54,9 +58,31 @@ Every Phase-1 artifact must bind repository, branch, source SHA, contract
 revision/digest, case-definition digest, solver-policy digest and
 element/formulation identity. Reference artifacts additionally require their
 independent implementation digest. D and E Phase-1 artifacts must share the
-Owner-provided governing branch/policy binding. Historical A/B/C and Phase-0
-D/E artifacts may retain their original source SHA, but their identity and
+Owner-provided governing branch/source/policy binding. Each D or E track also
+has to match the digest of its controlled Phase-0 contract and its controlled
+benchmark definition. The D raw, reference and replay artefacts must carry
+the same exact M1/M2/M3 mesh-digest map. Historical A/B/C and Phase-0 D/E
+artifacts may retain their original source SHA, but their identity and
 digests remain mandatory.
+
+Each D mesh entry is a lowercase SHA-256 digest keyed exactly by `M1`, `M2`
+and `M3`; the checker rejects identifiers or incomplete maps.
+
+The Phase-1 binding records the governing policy SHA and the actual Newton,
+floor-aware, linear-backend, line-search, retry and arc-length termination
+policy identities. These fields are required even while the governing WP04
+integration remains pending; a boolean policy-match claim is not sufficient.
+
+The checker anchors formulation, residual/sign convention, orientation policy,
+state owner/schema, load rule, retry policy, element identity, benchmark IDs,
+imperfection formula and claim exclusions by reading the controlled A/B/C/D/E
+JSON files. A set of Phase-1 artefacts that is internally consistent but uses
+a different formulation identity is invalid.
+
+The D and E raw records also carry the controlled continuation state-owner,
+state-schema, rollback-contract, backend and termination identities. This
+keeps the accepted/trial/rollback semantics tied to WP06-B rather than to a
+free-form Phase-1 payload.
 
 The authority order is strict:
 
@@ -97,6 +123,9 @@ Both limits are `1e-8`. Refinement uses
 `abs(M3-M2)/max(abs(M2),abs(M3),scale_floor)` with the frozen D thresholds in
 the JSON contract. Missing or non-finite raw values are incomplete evidence.
 
+Only D receives the frozen M2-to-M3 refinement calculation. The checker uses
+`thresholds.d_refinement` for D and never imposes that schema on E.
+
 ## WP06-E closure gates
 
 The E track closes only when every gate passes independently:
@@ -111,9 +140,17 @@ The E track closes only when every gate passes independently:
 - complete required observations and replay;
 - full Phase-1 provenance binding.
 
+E has no D-style refinement requirement in this contract. Its structural
+evidence is evaluated for exact route/imperfection identity, envelope,
+observables, equilibrium and replay; a synthetic D refinement block cannot
+become an accidental E gate.
+
 The reference must not call QF production arc-length, continuation,
-residual/tangent or TET4 geometric-nonlinear routines. Missing or mismatched
-reference evidence is `WP06_HOLD_REFERENCE`.
+residual/tangent or TET4 geometric-nonlinear routines. The checker derives D
+errors using `thresholds.d_reference` and E errors using
+`thresholds.e_reference`; the two tables are separate even when their current
+candidate values happen to coincide. Missing or mismatched reference evidence
+is `WP06_HOLD_REFERENCE`.
 
 ## Cross-WP consistency and replay
 
@@ -122,10 +159,13 @@ residual/sign convention, accepted/trial/rollback semantics, orientation
 policy, claim vocabulary and governing execution-policy identity for D/E.
 Inconsistency fails closure; tracks are not averaged.
 
-D and E replay compare accepted displacement/path, lambda, radius, orientation,
+D and E replay are read from the dedicated `WP06-D-REPLAY` and
+`WP06-E-REPLAY` artefacts. Each must contain two raw runs. The checker derives
+comparison of accepted displacement/path, lambda, radius, orientation,
 accepted/rejected steps, Newton counts where required and terminal
 classification with relative tolerance `1e-12` and absolute floor `1e-14`.
-Qualitative path differences fail even when the final endpoint is close.
+A `replay_pass: true` field without those raw runs is incomplete evidence;
+qualitative path differences fail even when the final endpoint is close.
 
 ## Public claim boundary
 
@@ -151,4 +191,3 @@ mesh/load/policy mismatches, refinement, equilibrium, reference, replay,
 envelope, unsupported claims, undeclared M4, non-finite data and unexpected
 production changes. The checker is not a structural runner and defaults to
 the Phase-0 no-execution guard.
-
