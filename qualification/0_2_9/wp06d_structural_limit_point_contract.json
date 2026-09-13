@@ -3,7 +3,7 @@
   "record_id": "QF-0.2.9-WP06D-STRUCTURAL-LIMIT-POINT-CONTRACT-001",
   "work_package": "WP06-D",
   "phase": "PHASE_0_PREPARATION",
-  "status": "CONTROLLED_CANDIDATE",
+  "status": "OWNER_CORRECTION_R1_CANDIDATE",
   "branch": "0.2.9-wp06-prep",
   "baseline_sha": "0297105de78a846b0424d052c5323858db23b7c5",
   "source_repository": "emptiesvoid-cloud/QF_solver",
@@ -34,6 +34,10 @@
     },
     "element_family": "TET4",
     "why_selected": "The repository already has a common-driver two-element TET4 snap-through route with a signed load-factor path, turning-point diagnostics, checkpoint/restart and rollback evidence. It exercises real FE assembly while remaining small enough for a bounded three-level contract.",
+    "revision_history": {
+      "phase_0_r0": "Three named crown nodes each received one-third of the resultant; this was preparation-only and no mechanical solve used it.",
+      "owner_correction_r1": "The final frozen rule is a fixed geometric point load at parent node 4, so refined levels do not receive arbitrary equal shares. This correction also freezes mesh descendants and path coordinates before results."
+    },
     "geometry": {
       "coordinate_system": "global Cartesian XYZ",
       "nodes_m1": [
@@ -54,18 +58,20 @@
       "units": "consistent nondimensional benchmark units"
     },
     "boundary_conditions": {
-      "fixed_support": "nodes 0 and 1 and all descendants of those support vertices: UX=UY=UZ=0",
+      "fixed_support": "the two geometric support points, parent nodes 0 and 1 only: UX=UY=UZ=0; no new node is created at a point support",
       "symmetry_face": "the shared parent face (2,3,4) and all descendants lying on that face: UY=0",
       "support_rule": "topological parent-face inheritance, resolved deterministically before execution",
       "no_contact": true
     },
     "reference_load": {
       "resultant": [0.0, 0.0, -1.0],
-      "application": "one-third point dead load [0,0,-1/3] at each original crown node 2, 3 and 4; these named nodes persist at every refinement level",
+      "application": "fixed geometric point load [0,0,-1] at the original crown node 4; node 4 persists at every refinement level and no refined node receives an arbitrary share",
+      "physical_load_region": "the zero-dimensional material point X=[0,0,0.25] represented by parent node 4",
+      "nodal_equivalent_rule": "evaluate the fixed point-load shape-function representation at the persistent parent node; unit weight at node 4 and zero elsewhere",
       "load_factor": "lambda multiplies the complete reference vector",
       "origin": [0.0, 0.0, 0.0],
       "expected_origin_moment": [0.0, 0.0, 0.0],
-      "load_invariance": "the three named load nodes and total resultant are unchanged by refinement"
+      "load_invariance": "the named geometric load point and total resultant are unchanged by refinement"
     },
     "monitor": {
       "u_monitor": "downward crown displacement q = -mean(UZ at nodes 2,3,4)",
@@ -131,9 +137,17 @@
   ],
   "mesh_generation": {
     "subdivision": "each TET4 becomes four corner tetrahedra plus four central tetrahedra using the deterministic diagonal joining midpoint(ab) to midpoint(cd)",
-    "global_node_policy": "edge midpoint keyed by sorted parent vertex pair; shared edges reuse one node",
+    "global_node_policy": "collect all parent edges, sort edge keys lexicographically, append one midpoint per unique sorted edge, and reuse it globally",
+    "node_order": "parent nodes first; then new edge midpoints in lexicographic (min_parent_id,max_parent_id) order at each refinement level",
     "orientation_policy": "reject zero-volume children; if signed volume is negative, swap the final two child vertices; record the repaired connectivity",
     "conformity": "shared parent faces use the same three edge-midpoint IDs and identical child-face sets",
+    "duplicate_node_merge": "exactly one node per sorted parent-edge key; no coordinate-tolerance merge is permitted",
+    "boundary_descendants": {
+      "fixed_support": "only persistent point IDs 0 and 1",
+      "symmetry_face": "all generated nodes whose reference coordinate lies in the closed triangle (2,3,4), using barycentric coordinates with tolerance 1e-14",
+      "load_region": "persistent point ID 4 only",
+      "ordering": "all boundary ID lists are strictly ascending"
+    },
     "quality_checks": [
       "finite coordinates",
       "exact expected node/element/DOF counts",
@@ -144,6 +158,18 @@
     ],
     "m4": "NOT_DECLARED"
   },
+  "load_assembly_contract": {
+    "rule": "MESH_INDEPENDENT_GEOMETRIC_POINT_LOAD",
+    "target_resultant": [0.0, 0.0, -1.0],
+    "target_moment_about_origin": [0.0, 0.0, 0.0],
+    "force_scale": 1.0,
+    "moment_scale": 2.0,
+    "relative_error": "norm(actual-target)/max(norm(target), declared_scale, absolute_floor)",
+    "absolute_floor": "max(1e-14, 64*machine_epsilon*declared_scale)",
+    "phase_0_check": "assemble nodal load vector and resultant/moment only; no stiffness, residual or solve",
+    "required_levels": ["M1", "M2", "M3"],
+    "required_status": "PASS only when each level is independently within 1e-12"
+  },
   "reference_path": {
     "expected_analytical_sanity": {
       "type": "independent shallow-arch/two-bar sanity check",
@@ -151,9 +177,15 @@
     },
     "primary": {
       "type": "INDEPENDENT_TET4_ENERGY_PATH",
-      "implementation": "separate direct implementation of the two-parent-TET4 StVK internal energy/tangent and frozen load/BC mapping; no QF production assembly or arc-length routines",
+      "implementation": "separate direct implementation of the two-parent-TET4 StVK internal energy/tangent and frozen load/BC mapping; NumPy/SciPy primitives are permitted",
       "production_arclength_routines_called": false,
       "production_mechanics_routines_called": false,
+      "prohibited_dependencies": [
+        "QF production arc-length routines",
+        "QF production nonlinear continuation kernels",
+        "QF production residual/tangent assembly helpers",
+        "QF production TET4 geometric-nonlinear element routines"
+      ],
       "formulation_mapping": "same M1/M2/M3 coordinates, TET4 connectivity, material, BC, reference load, monitor and spherical constraint",
       "status_before_phase_1": "PLAN_ONLY_NO_REFERENCE_RESULT"
     },
@@ -194,9 +226,25 @@
   },
   "path_comparison": {
     "stations": [0.2, 0.4, 0.6, 0.8, 1.0],
-    "parameter": "normalized accepted-path arclength from the pre-limit reference station to the declared post-limit endpoint",
+    "parameter": "normalized cumulative accepted-path arc measure",
+    "s0": 0.0,
+    "arc_measure": "s_i = s_(i-1) + sqrt(norm(delta_u_i)^2 + (load_scale*delta_lambda_i)^2)",
+    "load_scale": 1.0,
+    "normalization": "s_norm_i = s_i / s_final",
+    "comparison_interval": "from the first accepted pre-limit state through the declared post-limit endpoint",
     "interpolation": "piecewise linear in accepted-path arclength, frozen before execution",
     "observables": ["lambda", "q", "support_reaction", "strain_energy"],
+    "q_limit": "q at the accepted state selected by the first local maximum lambda(q)",
+    "lambda_limit": "lambda at the same accepted limit-point state",
+    "post_limit_displacement": "q at s_norm=1.0 minus q_limit",
+    "post_limit_lambda": "lambda at s_norm=1.0, retained as a secondary endpoint observable",
+    "refinement_observable_sources": {
+      "u_monitor": "q at s_norm=1.0",
+      "lambda_at_limit": "lambda_limit event",
+      "post_limit_monitored_displacement": "post_limit_displacement",
+      "support_reaction": "reaction vector at s_norm=1.0",
+      "strain_energy": "energy at s_norm=1.0"
+    },
     "no_cherry_picking": true
   },
   "continuation_policy": {
@@ -267,6 +315,7 @@
   "execution_guard": {
     "phase": "PHASE_0_PREPARATION",
     "structural_solves_enabled": false,
+    "reference_solver_enabled": false,
     "external_solver_enabled": false,
     "owner_authorization_required_for_phase_1": true,
     "governing_branch_integration_required": true,
