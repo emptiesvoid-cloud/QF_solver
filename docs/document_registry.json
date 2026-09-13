@@ -5663,6 +5663,21 @@
   "tests": [
     "tests/unit/test_wp15b_phase1.py"
   ]
+},
+{
+  "id": "DOC-029-WP15-INTEGRATION-001",
+  "path": "verification/0_2_9/wp15-integration-into-governing-branch.md",
+  "title": "QF Solver 0.2.9 WP15 governing-branch integration audit",
+  "status": "owner_review_required",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp15/wp15_integration_audit.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp15a_generic_telemetry.py",
+    "tests/unit/test_wp15b_phase1.py",
+    "tests/verification/test_wp04_f_final_closure.py"
+  ]
 }
   ]
   
