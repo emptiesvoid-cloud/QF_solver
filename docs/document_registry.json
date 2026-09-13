@@ -5641,6 +5641,19 @@
     "tests/verification/test_wp05b_hex20_high_order_identity.py",
     "tests/unit/test_gmsh_importer.py"
   ]
+},
+{
+  "id": "DOC-029-WP05-CD-STRUCTURAL-CONTRACT-001",
+  "path": "verification/0_2_9/wp05-cd-structural-contract.md",
+  "title": "QF Solver 0.2.9 WP05-C/D TET10 and HEX20 structural benchmark contract",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp05_cd_structural_contract.json"
+  ],
+  "tests": [
+    "tests/verification/test_wp05_cd_structural_harness.py"
+  ]
 }
   ]
   
