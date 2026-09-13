@@ -19,6 +19,7 @@ from solveur.core.telemetry.health import (
     TelemetryHealth,
 )
 from solveur.core.telemetry.jsonl import DURABILITY_EVENT_TYPES, JsonlSink
+from solveur.core.telemetry.console import ConsoleSink, LIFECYCLE_EVENTS
 from solveur.core.telemetry.legacy import LegacyWP04Adapter
 from solveur.core.telemetry.observer import (
     CompositeSink,
@@ -28,6 +29,7 @@ from solveur.core.telemetry.observer import (
     TelemetryEmitter,
     TelemetrySink,
     emit_analysis_failed_best_effort,
+    emit_route_event_best_effort,
     preserve_solver_exception,
 )
 from solveur.core.telemetry.schemas import (
@@ -58,6 +60,8 @@ __all__ = [
     "DIRECT_COMPOSITE_FAILURE",
     "CHILD_SINK_REPORTED_FAILURE",
     "JsonlSink",
+    "ConsoleSink",
+    "LIFECYCLE_EVENTS",
     "LegacyWP04Adapter",
     "CompositeSink",
     "MemorySink",
@@ -66,6 +70,7 @@ __all__ = [
     "TelemetryEmitter",
     "TelemetrySink",
     "emit_analysis_failed_best_effort",
+    "emit_route_event_best_effort",
     "preserve_solver_exception",
     "LINEAR_BACKENDS",
     "LINEAR_SOLVER_FIELDS",

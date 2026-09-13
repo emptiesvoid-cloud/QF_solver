@@ -13,12 +13,22 @@ from solveur.compatibility import preflight_model
 from solveur.compatibility.preflight import CompatibilityError
 from solveur.core.errors import MeshValidationError
 from solveur.mesh.validation import MeshValidator
+from solveur.core.telemetry.observer import TelemetryEmitter, emit_analysis_failed_best_effort
 
 
 class AnalysisRouter:
     """Route one model to the solver matching its analysis settings."""
 
-    def solve(self, model: FiniteElementModel) -> object:
+    def solve(self, model: FiniteElementModel, *, telemetry: TelemetryEmitter | None = None) -> object:
+        """Solve a model and preserve the original exception after failure telemetry."""
+
+        try:
+            return self._solve(model, telemetry=telemetry)
+        except BaseException as error:
+            emit_analysis_failed_best_effort(telemetry, error)
+            raise
+
+    def _solve(self, model: FiniteElementModel, *, telemetry: TelemetryEmitter | None = None) -> object:
         if not isinstance(model.analysis, AnalysisSettings):
             model.analysis = AnalysisSettings.from_raw(model.analysis)
         model.analysis.validate()
@@ -33,9 +43,9 @@ class AnalysisRouter:
                 raise MeshValidationError("Mesh validation failed: " + "; ".join(legacy_report.errors)) from exc
             raise MeshValidationError(exc.result.message) from exc
         if model.analysis.type == "linear_static":
-            return LinearStaticSolver().solve(model)
+            return LinearStaticSolver().solve(model, telemetry=telemetry)
         if model.analysis.type == "modal":
-            return ModalAnalysisSolver().solve(model)
+            return ModalAnalysisSolver().solve(model, telemetry=telemetry)
         if model.analysis.type == "nonlinear_static":
             from solveur.io.nonlinear_checkpoint import NpzNonlinearCheckpointStore
 

@@ -1,0 +1,236 @@
+{
+  "schema_version": 1,
+  "record_type": "wp15b_phase1_route_instrumentation",
+  "status": "WP15_B_PHASE1_PASS_CANDIDATE",
+  "owner_status": "OWNER_REVIEW_REQUIRED",
+  "work_package": "WP15-B",
+  "source_baseline_sha": "52bc6a543bbecd62bb8d43112a05e3b21696fdc5",
+  "branch": "0.2.9-wp15-prep",
+  "formal_points": "0/1",
+  "wp15_points": "0/2",
+  "validated_total": "29/100",
+  "scope": {
+    "phase": "phase1_bounded_route_instrumentation",
+    "production_infrastructure_changed": true,
+    "mechanics_changed": false,
+    "convergence_policy_changed": false,
+    "linear_numerics_changed": false,
+    "modal_numerics_changed": false,
+    "active_wp04_path_changed": false,
+    "heavy_solve_run": false,
+    "overhead_campaign_run": false,
+    "maturity_changed": false
+  },
+  "console_sink": {
+    "implemented": true,
+    "format": "text_only",
+    "configurable_stream": true,
+    "profiles": [
+      "linear_static",
+      "modal",
+      "nonlinear"
+    ],
+    "rate_limiting": {
+      "modes": [
+        "event_count_every_n",
+        "minimum_display_interval_seconds"
+      ],
+      "display_only": true,
+      "canonical_event_retention_affected": false,
+      "lifecycle_events_always_visible": [
+        "ANALYSIS_START",
+        "ANALYSIS_END",
+        "ANALYSIS_FAILED",
+        "STEP_ACCEPTED",
+        "STEP_REJECTED",
+        "CHECKPOINT"
+      ]
+    },
+    "missing_value_rendering": "dash_or_NA_controlled_reason"
+  },
+  "route_instrumentation": {
+    "linear_static": {
+      "status": "INSTRUMENTED",
+      "events": [
+        "ANALYSIS_START",
+        "MESH_READY",
+        "ASSEMBLY_START",
+        "ASSEMBLY_END",
+        "LINEAR_SOLVE_START",
+        "LINEAR_SOLVE_END",
+        "ANALYSIS_END",
+        "ANALYSIS_FAILED"
+      ],
+      "metrics": [
+        "nodes",
+        "elements",
+        "dofs",
+        "matrix_rows",
+        "matrix_columns",
+        "matrix_nnz",
+        "backend",
+        "method",
+        "preconditioner",
+        "iterations",
+        "raw_residual_norm",
+        "relative_residual_norm",
+        "backward_error_eta_inf",
+        "converged",
+        "fallback_used",
+        "fallback_reason",
+        "assembly_time_s",
+        "solve_time_s",
+        "total_analysis_time_s"
+      ],
+      "unavailable_metric_policy": "explicit_missing_value_token"
+    },
+    "modal": {
+      "status": "INSTRUMENTED",
+      "events": [
+        "ANALYSIS_START",
+        "MESH_READY",
+        "ASSEMBLY_START",
+        "ASSEMBLY_END",
+        "MODAL_MODE_FOUND",
+        "ANALYSIS_END",
+        "ANALYSIS_FAILED"
+      ],
+      "per_mode_metrics": [
+        "mode_index",
+        "eigenvalue",
+        "frequency_hz",
+        "eigen_residual",
+        "iterations",
+        "solver_backend"
+      ],
+      "unavailable_metric_policy": "explicit_missing_value_token"
+    },
+    "geometric_nonlinear_static": {
+      "status": "BRIDGE_ONLY",
+      "active_producer_changed": false,
+      "adapter": "LegacyWP04Adapter"
+    },
+    "other_routes": {
+      "status": "NOT_INSTRUMENTED_IN_PHASE1",
+      "routes": [
+        "material_nonlinear_static",
+        "contact",
+        "arc_length",
+        "transient_dynamic",
+        "harmonic_response"
+      ]
+    }
+  },
+  "result_invariance": {
+    "linear_static_off_on": "PASS",
+    "modal_off_on": "PASS",
+    "fixture_scope": "tiny_deterministic_TET4",
+    "mechanical_outputs_changed": false,
+    "exact_fields_checked": [
+      "displacements",
+      "eigenvalues",
+      "frequencies_hz",
+      "status",
+      "method",
+      "node_count"
+    ]
+  },
+  "failure_safety": {
+    "route_failure_event": "best_effort_ANALYSIS_FAILED_then_original_exception_re_raise",
+    "console_sink_failure": "DEGRADED_and_sibling_continues",
+    "jsonl_sink_failure": "DEGRADED_and_sibling_continues",
+    "no_silent_pass": true,
+    "no_nonfinite_json": true,
+    "mechanics_affected_by_sink_failure": false
+  },
+  "fanout": {
+    "topology": [
+      "TelemetryEmitter",
+      "CompositeSink",
+      "JsonlSink",
+      "ConsoleSink",
+      "MemorySink_test_observer"
+    ],
+    "partial_failure_isolation": "PASS",
+    "jsonl_canonical_events_dropped_by_console_rate_limit": false
+  },
+  "legacy_wp04_bridge": {
+    "adapter": "LegacyWP04Adapter",
+    "active_wp04_producer_changed": false,
+    "legacy_events_tested": [
+      "ITERATION",
+      "STEP_ACCEPTED",
+      "STEP_FAILED",
+      "SOLVE_FAILED",
+      "SOLVE_COMPLETED"
+    ],
+    "sinks_tested": [
+      "MemorySink",
+      "JsonlSink",
+      "ConsoleSink"
+    ],
+    "result": "PASS"
+  },
+  "disabled_fast_path": {
+    "telemetry_disabled": [
+      "no_event_construction",
+      "no_serialization",
+      "no_sink_fanout",
+      "no_console_render",
+      "no_telemetry_only_memory_sampling",
+      "no_lazy_metric_supplier_evaluation"
+    ],
+    "result": "PASS"
+  },
+  "overhead_harness": {
+    "prepared": true,
+    "script": "scripts/benchmark_wp15b_overhead.py",
+    "executed": false,
+    "threshold_frozen": false,
+    "modes": [
+      "OFF",
+      "CONSOLE_ONLY",
+      "JSONL_ONLY",
+      "CONSOLE_PLUS_JSONL"
+    ],
+    "measurements": [
+      "wall_time_s",
+      "cpu_time_s",
+      "peak_rss_process",
+      "peak_private_or_uss_process",
+      "event_count",
+      "jsonl_bytes",
+      "console_event_count",
+      "sink_degradation_status"
+    ],
+    "design": "repeated_identical_runs_with_runtime_provenance"
+  },
+  "targeted_verification": {
+    "test_file": "tests/unit/test_wp15b_phase1.py",
+    "classes": [
+      "ConsoleSink rendering and stable profiles",
+      "display-only rate limiting",
+      "lifecycle visibility",
+      "linear_static event sequence",
+      "modal event sequence and missing iteration value",
+      "OFF/ON result invariance",
+      "disabled fast path",
+      "console and JSONL failure isolation",
+      "LegacyWP04Adapter bridge",
+      "original route exception preservation"
+    ],
+    "heavy_solve_run": false,
+    "full_suite": false
+  },
+  "governance": {
+    "wp15a_formal_points": "0/1",
+    "wp15b_formal_points": "0/1",
+    "wp15_points": "0/2",
+    "validated_total": "29/100",
+    "owner_review_required": true,
+    "agent_a_touched": false,
+    "wp04_c2r6_touched": false,
+    "no_maturity_change": true,
+    "next_step": "Owner review; defer nonlinear active-path integration and measured overhead qualification until Agent A campaign completes"
+  }
+}

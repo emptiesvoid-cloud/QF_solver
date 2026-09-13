@@ -417,6 +417,48 @@ class TelemetryEmitter:
             self.sink.close()
 
 
+def emit_route_event_best_effort(
+    emitter: TelemetryEmitter | None,
+    event_type: EventType | str,
+    *,
+    status: EventStatus | str,
+    metrics: Mapping[str, object] | MetricSupplier | None = None,
+    metadata: Mapping[str, object] | None = None,
+    elapsed_time_s: float | None = None,
+    timestamp: str | None = None,
+    step: int | None = None,
+    iteration: int | None = None,
+    load_factor: float | None = None,
+    physical_time: float | None = None,
+    solver_backend: str | None = None,
+    message: str | None = None,
+) -> None:
+    """Emit route telemetry without allowing observability to alter a solve."""
+
+    if emitter is None or not emitter.enabled:
+        return
+    try:
+        emitter.emit(
+            event_type,
+            status=status,
+            metrics=metrics,
+            metadata=metadata,
+            elapsed_time_s=elapsed_time_s,
+            timestamp=timestamp,
+            step=step,
+            iteration=iteration,
+            load_factor=load_factor,
+            physical_time=physical_time,
+            solver_backend=solver_backend,
+            message=message,
+        )
+    except Exception as error:
+        try:
+            emitter.health.record_failure(error, sink_identifier="emitter")
+        except Exception:
+            pass
+
+
 def emit_analysis_failed_best_effort(
     emitter: TelemetryEmitter | None,
     error: BaseException,
