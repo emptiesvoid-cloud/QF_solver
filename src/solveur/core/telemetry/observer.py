@@ -347,6 +347,7 @@ class TelemetryEmitter:
             sink_items = sinks
         self.sink = CompositeSink(sink_items)
         self._started = monotonic()
+        self._context: tuple[str, str] | None = None
         self._lock = RLock()
 
     @property
@@ -371,15 +372,62 @@ class TelemetryEmitter:
     ) -> TelemetryEvent | None:
         """Emit one event, evaluating lazy metrics only when enabled."""
 
+        return self._emit_with_context(
+            self.analysis_type,
+            self.route,
+            event_type,
+            status=status,
+            metrics=metrics,
+            metadata=metadata,
+            elapsed_time_s=elapsed_time_s,
+            timestamp=timestamp,
+            step=step,
+            iteration=iteration,
+            load_factor=load_factor,
+            physical_time=physical_time,
+            solver_backend=solver_backend,
+            message=message,
+        )
+
+    def _emit_with_context(
+        self,
+        analysis_type: str,
+        route: str,
+        event_type: EventType | str,
+        *,
+        status: EventStatus | str,
+        metrics: Mapping[str, object] | MetricSupplier | None = None,
+        metadata: Mapping[str, object] | None = None,
+        elapsed_time_s: float | None = None,
+        timestamp: str | None = None,
+        step: int | None = None,
+        iteration: int | None = None,
+        load_factor: float | None = None,
+        physical_time: float | None = None,
+        solver_backend: str | None = None,
+        message: str | None = None,
+        binding_metadata: Mapping[str, object] | None = None,
+    ) -> TelemetryEvent | None:
+        """Construct one event with an immutable stream context."""
+
         if not self.enabled:
             return None
         with self._lock:
+            context = (analysis_type, route)
+            if self._context is None:
+                self._context = context
+            elif self._context != context:
+                raise ValueError(
+                    "Telemetry context cannot change within one analysis stream: "
+                    f"expected {self._context!r}, got {context!r}."
+                )
             if callable(metrics):
                 measured_metrics = metrics()
             else:
                 measured_metrics = {} if metrics is None else metrics
             combined_metadata = dict(self._metadata)
             combined_metadata.update(metadata or {})
+            combined_metadata.update(binding_metadata or {})
             sequence_number = self._sequence.next(self.analysis_id)
             try:
                 elapsed = monotonic() - self._started if elapsed_time_s is None else elapsed_time_s
@@ -387,8 +435,8 @@ class TelemetryEmitter:
                     schema_version=1,
                     event_type=event_type,
                     analysis_id=self.analysis_id,
-                    analysis_type=self.analysis_type,
-                    route=self.route,
+                    analysis_type=analysis_type,
+                    route=route,
                     sequence_number=sequence_number,
                     elapsed_time_s=elapsed,
                     status=status,
@@ -408,6 +456,14 @@ class TelemetryEmitter:
             self.sink.emit(event)
             return event
 
+    def bind_route(self, analysis_type: str, route: str) -> BoundTelemetryEmitter:
+        """Return a view bound to the route selected by the analysis router."""
+
+        with self._lock:
+            if self._context is None:
+                self._context = (analysis_type, route)
+        return BoundTelemetryEmitter(self, analysis_type=analysis_type, route=route)
+
     def flush(self) -> None:
         if self.enabled:
             self.sink.flush()
@@ -417,8 +473,81 @@ class TelemetryEmitter:
             self.sink.close()
 
 
+class BoundTelemetryEmitter:
+    """Route-bound view that prevents caller context from mislabelling events."""
+
+    def __init__(self, source: TelemetryEmitter, *, analysis_type: str, route: str) -> None:
+        self._source = source
+        self.analysis_id = source.analysis_id
+        self.analysis_type = analysis_type
+        self.route = route
+        self._binding_metadata: dict[str, object] = {
+            "telemetry_route_binding": {
+                "source": "AnalysisRouter",
+                "actual_analysis_type": analysis_type,
+                "actual_route": route,
+                "caller_analysis_type": source.analysis_type,
+                "caller_route": source.route,
+                "caller_context_mismatch": (
+                    source.analysis_type != analysis_type or source.route != route
+                ),
+            }
+        }
+
+    @property
+    def enabled(self) -> bool:
+        return self._source.enabled
+
+    @property
+    def health(self) -> TelemetryHealth:
+        return self._source.health
+
+    def emit(
+        self,
+        event_type: EventType | str,
+        *,
+        status: EventStatus | str,
+        metrics: Mapping[str, object] | MetricSupplier | None = None,
+        metadata: Mapping[str, object] | None = None,
+        elapsed_time_s: float | None = None,
+        timestamp: str | None = None,
+        step: int | None = None,
+        iteration: int | None = None,
+        load_factor: float | None = None,
+        physical_time: float | None = None,
+        solver_backend: str | None = None,
+        message: str | None = None,
+    ) -> TelemetryEvent | None:
+        return self._source._emit_with_context(
+            self.analysis_type,
+            self.route,
+            event_type,
+            status=status,
+            metrics=metrics,
+            metadata=metadata,
+            elapsed_time_s=elapsed_time_s,
+            timestamp=timestamp,
+            step=step,
+            iteration=iteration,
+            load_factor=load_factor,
+            physical_time=physical_time,
+            solver_backend=solver_backend,
+            message=message,
+            binding_metadata=self._binding_metadata,
+        )
+
+    def flush(self) -> None:
+        self._source.flush()
+
+    def close(self) -> None:
+        self._source.close()
+
+
+TelemetryHandle: TypeAlias = TelemetryEmitter | BoundTelemetryEmitter
+
+
 def emit_route_event_best_effort(
-    emitter: TelemetryEmitter | None,
+    emitter: TelemetryHandle | None,
     event_type: EventType | str,
     *,
     status: EventStatus | str,
@@ -460,7 +589,7 @@ def emit_route_event_best_effort(
 
 
 def emit_analysis_failed_best_effort(
-    emitter: TelemetryEmitter | None,
+    emitter: TelemetryHandle | None,
     error: BaseException,
     *,
     message: str = "solver exception preserved",
@@ -484,7 +613,7 @@ def emit_analysis_failed_best_effort(
 
 
 @contextmanager
-def preserve_solver_exception(emitter: TelemetryEmitter | None) -> Iterator[None]:
+def preserve_solver_exception(emitter: TelemetryHandle | None) -> Iterator[None]:
     """Emit best-effort failure telemetry and re-raise the original exception."""
 
     try:

@@ -20,7 +20,7 @@ from solveur.core.results import SolveResult
 from solveur.core.solvers.backend import select_backend
 from solveur.core.telemetry.events import EventStatus, EventType, MissingValueReason
 from solveur.core.telemetry.events import missing_value
-from solveur.core.telemetry.observer import TelemetryEmitter, emit_route_event_best_effort
+from solveur.core.telemetry.observer import TelemetryHandle, emit_route_event_best_effort
 from solveur.mesh.validation import MeshValidator
 from solveur.post.audit import PostProcessingAuditor
 from solveur.post.stress import StressPostProcessor
@@ -41,18 +41,12 @@ class LinearStaticSolver:
         model: FiniteElementModel,
         *,
         detail_level: str = "full",
-        telemetry: TelemetryEmitter | None = None,
+        telemetry: TelemetryHandle | None = None,
     ) -> SolveResult:
         if detail_level not in {"full", "summary"}:
             raise ValueError("detail_level must be 'full' or 'summary'.")
         include_detail = detail_level == "full"
         run_started = perf_counter()
-        emit_route_event_best_effort(
-            telemetry,
-            EventType.ANALYSIS_START,
-            status=EventStatus.STARTED,
-            metrics=lambda: {"nodes": model.node_count, "elements": len(model.elements)},
-        )
         report = self.validator.validate(model)
         if report.status == "FAIL":
             raise MeshValidationError("Mesh validation failed: " + "; ".join(report.errors))

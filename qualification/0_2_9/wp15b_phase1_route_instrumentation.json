@@ -1,8 +1,12 @@
 {
   "schema_version": 1,
   "record_type": "wp15b_phase1_route_instrumentation",
-  "status": "WP15_B_PHASE1_PASS_CANDIDATE",
-  "owner_status": "OWNER_REVIEW_REQUIRED",
+  "status": "WP15_B_PHASE1_PASS_CANDIDATE_WITH_OWNER_CORRECTION_R1",
+  "owner_status": "OWNER_CORRECTION_R1_IMPLEMENTED_OWNER_REVIEW_REQUIRED",
+  "history": [
+    "WP15_B_PHASE1_PASS_CANDIDATE",
+    "OWNER_CORRECTION_R1"
+  ],
   "work_package": "WP15-B",
   "source_baseline_sha": "52bc6a543bbecd62bb8d43112a05e3b21696fdc5",
   "branch": "0.2.9-wp15-prep",
@@ -49,6 +53,12 @@
     "missing_value_rendering": "dash_or_NA_controlled_reason"
   },
   "route_instrumentation": {
+    "phase1_route_binding": {
+      "source": "AnalysisRouter",
+      "canonical_context": "model.analysis.type_and_actual_dispatch_route",
+      "caller_context_can_mislabel_route": false,
+      "mismatch_behavior": "normalize_canonical_context_and_record_telemetry_route_binding"
+    },
     "linear_static": {
       "status": "INSTRUMENTED",
       "events": [
@@ -143,6 +153,48 @@
     "no_nonfinite_json": true,
     "mechanics_affected_by_sink_failure": false
   },
+  "lifecycle_contract": {
+    "start_owner": "AnalysisRouter_for_phase1_instrumented_routes",
+    "failure_owner": "AnalysisRouter_for_phase1_instrumented_routes",
+    "success_stream": [
+      "ANALYSIS_START",
+      "ANALYSIS_END"
+    ],
+    "failure_stream": [
+      "ANALYSIS_START",
+      "ANALYSIS_FAILED"
+    ],
+    "terminal_event_uniqueness": true,
+    "preflight_failure_excludes": [
+      "MESH_READY",
+      "ASSEMBLY_START"
+    ],
+    "non_instrumented_routes_receive_generic_events": false
+  },
+  "owner_correction_r1": {
+    "identifier": "OWNER_CORRECTION_R1",
+    "scope": [
+      "bind canonical event provenance to model analysis and actual phase1 dispatch",
+      "move phase1 ANALYSIS_START ownership to AnalysisRouter",
+      "emit one best-effort terminal ANALYSIS_FAILED at the phase1 router boundary",
+      "suppress new generic events for non-instrumented routes"
+    ],
+    "preserved": [
+      "ConsoleSink",
+      "rate limiting",
+      "JsonlSink",
+      "health aggregation",
+      "sequence validation",
+      "failure isolation",
+      "disabled fast path",
+      "OFF_ON_result_invariance",
+      "LegacyWP04Adapter",
+      "overhead_harness"
+    ],
+    "mechanics_changed": false,
+    "active_wp04_path_changed": false,
+    "numerical_policy_changed": false
+  },
   "fanout": {
     "topology": [
       "TelemetryEmitter",
@@ -231,6 +283,7 @@
     "agent_a_touched": false,
     "wp04_c2r6_touched": false,
     "no_maturity_change": true,
-    "next_step": "Owner review; defer nonlinear active-path integration and measured overhead qualification until Agent A campaign completes"
+    "owner_correction_r1": "IMPLEMENTED",
+    "next_step": "Owner freeze review of WP15-B Phase 1"
   }
 }

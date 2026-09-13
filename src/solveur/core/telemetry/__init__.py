@@ -22,6 +22,7 @@ from solveur.core.telemetry.jsonl import DURABILITY_EVENT_TYPES, JsonlSink
 from solveur.core.telemetry.console import ConsoleSink, LIFECYCLE_EVENTS
 from solveur.core.telemetry.legacy import LegacyWP04Adapter
 from solveur.core.telemetry.observer import (
+    BoundTelemetryEmitter,
     CompositeSink,
     MemorySink,
     SequenceGenerator,
@@ -64,6 +65,7 @@ __all__ = [
     "LIFECYCLE_EVENTS",
     "LegacyWP04Adapter",
     "CompositeSink",
+    "BoundTelemetryEmitter",
     "MemorySink",
     "SequenceGenerator",
     "SequenceValidator",

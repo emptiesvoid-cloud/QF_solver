@@ -13,7 +13,16 @@ from solveur.compatibility import preflight_model
 from solveur.compatibility.preflight import CompatibilityError
 from solveur.core.errors import MeshValidationError
 from solveur.mesh.validation import MeshValidator
-from solveur.core.telemetry.observer import TelemetryEmitter, emit_analysis_failed_best_effort
+from solveur.core.telemetry.events import EventStatus, EventType
+from solveur.core.telemetry.observer import (
+    TelemetryEmitter,
+    TelemetryHandle,
+    emit_analysis_failed_best_effort,
+    emit_route_event_best_effort,
+)
+
+
+PHASE1_INSTRUMENTED_ROUTES = frozenset({"linear_static", "modal"})
 
 
 class AnalysisRouter:
@@ -22,13 +31,34 @@ class AnalysisRouter:
     def solve(self, model: FiniteElementModel, *, telemetry: TelemetryEmitter | None = None) -> object:
         """Solve a model and preserve the original exception after failure telemetry."""
 
+        if not isinstance(model.analysis, AnalysisSettings):
+            model.analysis = AnalysisSettings.from_raw(model.analysis)
+        actual_route = model.analysis.type
+        route_telemetry = (
+            telemetry.bind_route(actual_route, actual_route)
+            if telemetry is not None and actual_route in PHASE1_INSTRUMENTED_ROUTES
+            else None
+        )
+        if route_telemetry is not None:
+            start_metrics: dict[str, object] = {
+                "nodes": model.node_count,
+                "elements": len(model.elements),
+            }
+            if actual_route == "modal":
+                start_metrics["requested_modes"] = model.analysis.parameters.get("modes", 6)
+            emit_route_event_best_effort(
+                route_telemetry,
+                EventType.ANALYSIS_START,
+                status=EventStatus.STARTED,
+                metrics=start_metrics,
+            )
         try:
-            return self._solve(model, telemetry=telemetry)
+            return self._solve(model, telemetry=route_telemetry)
         except BaseException as error:
-            emit_analysis_failed_best_effort(telemetry, error)
+            emit_analysis_failed_best_effort(route_telemetry, error)
             raise
 
-    def _solve(self, model: FiniteElementModel, *, telemetry: TelemetryEmitter | None = None) -> object:
+    def _solve(self, model: FiniteElementModel, *, telemetry: TelemetryHandle | None = None) -> object:
         if not isinstance(model.analysis, AnalysisSettings):
             model.analysis = AnalysisSettings.from_raw(model.analysis)
         model.analysis.validate()
