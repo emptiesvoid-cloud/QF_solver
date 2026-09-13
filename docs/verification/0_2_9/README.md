@@ -73,7 +73,14 @@ WP15 is **CLOSED — 2/2** following validated integration into the governing
 branch. It supplies generic telemetry plus bounded `linear_static` and `modal`
 route instrumentation only; it does not change or instrument the WP04
 geometric-nonlinear route. WP04 remains CLOSED at 12/12 and the validated total
-is **43/100**. See [the WP15 governing integration audit](wp15-integration-into-governing-branch.md).
+was **43/100**. See [the WP15 governing integration audit](wp15-integration-into-governing-branch.md).
+
+WP05-A/B are **FORMAL PASS — 2/5** after governing-tree revalidation of the
+TET10/HEX20 bounded identity campaign. WP05-C/D/E remain unawarded: no
+high-order H2/H3 or cross-family structural solve was run. The corrected
+consistent quadratic-face traction contract and governing C2R6 policy binding
+are frozen for later execution. The validated total is **45/100**; see [the
+WP05 governing integration audit](wp05-integration-into-governing-branch.md).
 
 WP01 Unified Nonlinear Core is **CLOSED** at **12/12 points** following the
 independent audit at SHA

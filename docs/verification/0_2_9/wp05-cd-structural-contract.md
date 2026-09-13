@@ -9,11 +9,11 @@ approver: ""
 
 # WP05-C/D — TET10 and HEX20 structural benchmark contract
 
-**Preparation status:** `PREPARATION_ONLY_PENDING_WP04`
+**Preparation status:** `PREPARATION_VALIDATED_PENDING_STRUCTURAL_EXECUTION`
 
-**Formal points:** `WP05-C 0/1`, `WP05-D 0/1`, `WP05 0/5`
+**Formal points:** `WP05-C 0/1`, `WP05-D 0/1`, `WP05 2/5`
 
-**Validated release total:** `29/100`
+**Validated release total:** `45/100`
 
 This document freezes the prospective bounded structural benchmark for the
 quadratic solid families.  It is a contract and mesh-quality record, not a
@@ -37,8 +37,8 @@ The future cases are one homogeneous straight-sided family at a time:
 - `TET10` for WP05-C, using the current Hammer-4 default;
 - `HEX20` for WP05-D, using full 27-point Gauss integration;
 - `linear_static`/small-strain material initialization followed by the
-  existing canonical geometric-static route, subject to the separately
-  supplied approved nonlinear termination policy;
+  existing canonical geometric-static route under the Owner-approved C2R6
+  governing nonlinear policy;
 - the same physical uniform traction for both families, represented by their
   family-specific consistent equivalent nodal forces;
 - isotropic linear `SolidMaterial`, with `E = 1.0e6` and `nu = 0.30`;
@@ -46,9 +46,12 @@ The future cases are one homogeneous straight-sided family at a time:
   plasticity, mixed mesh, mixed material, distributed-load route, or external
   correlation is included here.
 
-The benchmark contract is deliberately independent from nonlinear termination:
-the harness accepts a future policy object and does not import Agent A's
-experimental floor-aware C2R6 policy.
+Future structural execution is bound to governing SHA
+`12b5331bcbec49e38145ba4a6263df60b8bf4575` and policy digest
+`93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac`:
+canonical existing line search, floor-aware termination, MINRES plus Jacobi,
+`rtol=1e-11`, `atol=1e-14`, `maxiter=10000`, and no direct fallback. This
+integration does not authorize an H1/H2/H3 structural run or any policy change.
 
 ## Frozen physical benchmark
 

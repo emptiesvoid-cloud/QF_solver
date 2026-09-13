@@ -3,21 +3,23 @@
   "evidence_id": "VNV029-WP05-AB-IDENTITIES-001",
   "gate": "WP05-A/B",
   "title": "TET10 and HEX20 high-order total-Lagrangian identity V&V",
-  "status": "PASS_CANDIDATE_PENDING_WP04",
+  "status": "FORMAL_PASS_AFTER_GOVERNING_INTEGRATION",
   "source_baseline_sha": "2c52bf8196a7d47d14ce1784290580160de26590",
   "source_test_sha": "1acd25e33fa0750a2189426e71b112117779365c",
   "branch": "0.2.9-wp05-prep",
   "audit_date": "2026-09-13",
-  "formal_points_awarded": 0,
+  "formal_points_awarded": 2,
   "formal_points": {
-    "WP05-A": "0/1",
-    "WP05-B": "0/1",
-    "WP05": "0/5",
-    "validated_release_total": "29/100"
+    "WP05-A": "1/1",
+    "WP05-B": "1/1",
+    "WP05": "2/5",
+    "validated_release_total": "45/100"
   },
   "governance": {
     "preparation_audit_approved": true,
-    "formal_qualification_blocked_pending_wp04": true,
+    "formal_qualification_blocked_pending_wp04": false,
+    "governing_integration_revalidated": true,
+    "governing_integration_sha": "2f1de58ebb9395f05d722dfa411222774787a881",
     "maturity_changed": false,
     "owner_closeout": false,
     "agent_a_workspace_touched": false,
@@ -99,7 +101,7 @@
   },
   "results": {
     "TET10": {
-      "status": "PASS_CANDIDATE_PENDING_WP04",
+      "status": "FORMAL_PASS_AFTER_GOVERNING_INTEGRATION",
       "objectivity": {
         "status": "PASS",
         "case_count": 2,
@@ -174,7 +176,7 @@
       }
     },
     "HEX20": {
-      "status": "PASS_CANDIDATE_PENDING_WP04",
+      "status": "FORMAL_PASS_AFTER_GOVERNING_INTEGRATION",
       "objectivity": {
         "status": "PASS",
         "case_count": 2,

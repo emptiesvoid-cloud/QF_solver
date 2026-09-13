@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "record_type": "wp05_governing_branch_integration_audit",
+  "release": "0.2.9",
+  "branch": "0.2.9-unified-nonlinear",
+  "governing_pre_merge_sha": "12b5331bcbec49e38145ba4a6263df60b8bf4575",
+  "child_branch": "0.2.9-wp05-prep",
+  "child_head": "2ec2cbadf05e12a9ff73d139c5513d549925b9ec",
+  "merge_base": "2c52bf8196a7d47d14ce1784290580160de26590",
+  "merge_commit": "2f1de58ebb9395f05d722dfa411222774787a881",
+  "merge": {
+    "strategy": "explicit_non_fast_forward",
+    "conflicts_found": 1,
+    "conflict_files": ["docs/document_registry.json"],
+    "resolution": "Manual semantic registry union preserving governing WP04-F/WP15 and WP05 controlled records."
+  },
+  "identity_revalidation": {
+    "status": "PASS",
+    "command": "python -m pytest -q tests/verification/test_wp05a_tet10_high_order_identity.py tests/verification/test_wp05b_hex20_high_order_identity.py tests/verification/test_wp05_cd_structural_harness.py tests/unit/test_tet10_element.py tests/unit/test_hex20_element.py",
+    "result": "60 passed",
+    "tet10": "PASS",
+    "hex20": "PASS"
+  },
+  "targeted_validation": {
+    "combined_result": "141 passed, 3 expected warning-bearing failure-fixture warnings",
+    "scope": "WP05 A/B identities, C/D readiness, TET10/HEX20 element tests, WP04-F, C2R6 termination/state, WP15 telemetry/lifecycle, public API contract",
+    "ruff": "PASS",
+    "mypy": "PASS: no issues in 5 WP05 harness/identity source files",
+    "compileall": "PASS",
+    "json_validation": "PASS: docs registry plus 116 qualification JSON files",
+    "document_registry_test": "PASS: 1 passed, 1 skipped, 17 deselected",
+    "mkdocs_strict": "PASS_WITH_EXISTING_UNLISTED_PAGE_AND_NON_DOC_JSON_LINK_NOTICES",
+    "full_repository_suite_run": false
+  },
+  "contract_validation": {
+    "structural_solves_run": false,
+    "h2_h3_solves_run": false,
+    "mesh_levels": {"H1": [4, 2, 2], "H2": [8, 4, 4], "H3": [16, 8, 8]},
+    "mesh_generator_deterministic": true,
+    "positive_jacobians_and_orientation": "PASS",
+    "reference_volume": "PASS",
+    "consistent_traction_contract": "PASS",
+    "rejected_equal_share_rule_preserved": true,
+    "load_resultant": [0.0, -50.0, 0.0],
+    "load_moment_about_origin": [12.5, 0.0, -200.0],
+    "stress_region": "reference coordinates 0.40<=X/L<=0.60, 0.70<=Y/H<=0.95, 0.20<=Z/D<=0.80; reference-volume weighted sigma_xx",
+    "replay_contract": "PASS",
+    "equilibrium_contract": "PASS",
+    "thresholds_preserved": true
+  },
+  "governing_policy_binding": {
+    "policy_source_sha": "12b5331bcbec49e38145ba4a6263df60b8bf4575",
+    "policy_code_digest_sha256": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "canonical_line_search": "existing",
+    "floor_aware_termination": true,
+    "linear_backend": "MINRES",
+    "preconditioner": "Jacobi",
+    "rtol": 1e-11,
+    "atol": 1e-14,
+    "maxiter": 10000,
+    "direct_fallback": false,
+    "structural_execution_authorized_by_this_integration": false
+  },
+  "protection": {
+    "wp04_status": "CLOSED_GO_WITH_LIMITATIONS",
+    "wp04_points": 12,
+    "wp15_status": "CLOSED_INTEGRATION_VALIDATED",
+    "wp15_points": 2,
+    "wp04_mechanics_changed": false,
+    "telemetry_regression": false,
+    "child_production_source_paths": []
+  },
+  "governance": {
+    "wp05_a": {"status": "PASS", "points": "1/1"},
+    "wp05_b": {"status": "PASS", "points": "1/1"},
+    "wp05_c": {"status": "PENDING_STRUCTURAL_EXECUTION", "points": "0/1"},
+    "wp05_d": {"status": "PENDING_STRUCTURAL_EXECUTION", "points": "0/1"},
+    "wp05_e": {"status": "PENDING_CROSS_FAMILY_STRUCTURAL_EXECUTION", "points": "0/1"},
+    "wp05_points": "2/5",
+    "validated_total": "45/100",
+    "maturity_changed": false,
+    "full_repository_suite_run": false,
+    "petsc_run": false
+  },
+  "post_validation_branch_deletion": {
+    "required_before_deletion": ["merge_validated", "remote_governing_head_verified", "child_head_ancestor_of_governing"],
+    "remote_child_branch_deletion": "PENDING_FINAL_PUSH"
+  }
+}

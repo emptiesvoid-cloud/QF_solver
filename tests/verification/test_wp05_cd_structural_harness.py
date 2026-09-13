@@ -36,15 +36,20 @@ def test_frozen_structural_contract_values() -> None:
     assert dict(contract.equilibrium_thresholds) == {"force_relative_error": 1.0e-8, "moment_relative_error": 1.0e-8}
 
 
-def test_machine_readable_contract_is_valid_and_preparation_only() -> None:
+def test_machine_readable_contract_is_valid_and_pending_structural_execution() -> None:
     record = json.loads(CONTRACT_JSON.read_text(encoding="utf-8"))
     assert record["evidence_id"] == "VNV029-WP05-CD-STRUCTURAL-CONTRACT-001"
     assert record["contract_revision"] == "R1"
     assert record["source_start_sha"] == "8d92dcda02e685d1378bcb821d51fc8788bc94fd"
-    assert record["status"] == "PREPARATION_ONLY_PENDING_WP04"
+    assert record["status"] == "PREPARATION_VALIDATED_PENDING_STRUCTURAL_EXECUTION"
     assert record["execution"]["h2_qualification"] == "NO"
     assert record["execution"]["h3_qualification"] == "NO"
     assert record["governance"]["solver_or_formulation_changed"] is False
+    assert record["termination_policy"]["canonical_line_search"] == "existing"
+    assert record["termination_policy"]["floor_aware_termination"] is True
+    assert record["termination_policy"]["linear_backend"] == "MINRES"
+    assert record["termination_policy"]["preconditioner"] == "Jacobi"
+    assert record["termination_policy"]["direct_fallback"] is False
 
 
 def test_frozen_benchmark_mesh_levels_and_counts() -> None:

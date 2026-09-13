@@ -15,10 +15,11 @@ applicable_version: 0.2.9-development
 | WP03 | 7 | **Closed** — 7/7; independent WP03-E audit `GO_WITH_LIMITATIONS` |
 | WP04 | 12 | **Closed — 12/12; independent WP04-F `GO_WITH_LIMITATIONS` audit** |
 | WP15 | 2 | **Closed — 2/2; governing-branch telemetry integration validated** |
-| WP05–WP08 | 31 | Not started |
+| WP05 | 5 | **Partial — 2/5; A/B high-order identities integrated and revalidated** |
+| WP06–WP08 | 26 | Not started |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
-| **Validated total** | **43 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6 + WP03 7/7 + WP04 12/12 + WP15 2/2** |
+| **Validated total** | **45 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6 + WP03 7/7 + WP04 12/12 + WP15 2/2 + WP05 A/B 2/5** |
 
 WP01 is closed by the independent Owner decision recorded in
 [the WP01 closure record](wp01-owner-closure.md), based on audit SHA

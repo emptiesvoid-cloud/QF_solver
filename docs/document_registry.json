@@ -5698,7 +5698,7 @@
   "id": "DOC-029-WP05-AB-IDENTITIES-001",
   "path": "verification/0_2_9/wp05-ab-high-order-identities.md",
   "title": "QF Solver 0.2.9 WP05-A/B high-order TL identity V&V",
-  "status": "controlled_candidate",
+  "status": "owner_review_required",
   "requirements": [],
   "examples": [
     "qualification/0_2_9/wp05_ab_high_order_identities.json"
@@ -5719,6 +5719,21 @@
     "qualification/0_2_9/wp05_cd_structural_contract.json"
   ],
   "tests": [
+    "tests/verification/test_wp05_cd_structural_harness.py"
+  ]
+},
+{
+  "id": "DOC-029-WP05-INTEGRATION-001",
+  "path": "verification/0_2_9/wp05-integration-into-governing-branch.md",
+  "title": "QF Solver 0.2.9 WP05 governing-branch integration audit",
+  "status": "owner_review_required",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp05/wp05_integration_audit.json"
+  ],
+  "tests": [
+    "tests/verification/test_wp05a_tet10_high_order_identity.py",
+    "tests/verification/test_wp05b_hex20_high_order_identity.py",
     "tests/verification/test_wp05_cd_structural_harness.py"
   ]
 }

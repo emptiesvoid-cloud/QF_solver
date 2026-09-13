@@ -4,17 +4,19 @@
   "document_id": "DOC-029-WP05-CD-STRUCTURAL-CONTRACT-001",
   "contract_revision": "R1",
   "gate": "WP05-C/D",
-  "status": "PREPARATION_ONLY_PENDING_WP04",
+  "status": "PREPARATION_VALIDATED_PENDING_STRUCTURAL_EXECUTION",
   "source_branch": "0.2.9-wp05-prep",
   "source_start_sha": "8d92dcda02e685d1378bcb821d51fc8788bc94fd",
   "formal_points": {
     "WP05-C": "0/1",
     "WP05-D": "0/1",
-    "WP05": "0/5",
-    "validated_release_total": "29/100"
+    "WP05": "2/5",
+    "validated_release_total": "45/100"
   },
   "governance": {
-    "qualification_execution_blocked_pending_wp04": true,
+    "qualification_execution_blocked_pending_wp04": false,
+    "structural_execution_authorized_by_this_integration": false,
+    "next_step": "OWNER_REVIEW_BEFORE_WP05_C_D_STRUCTURAL_EXECUTION",
     "agent_a_active_campaign_touched": false,
     "agent_a_processes_touched": false,
     "agent_a_runtime_artifacts_touched": false,
@@ -219,9 +221,19 @@
     "host_practicality": "mesh generation practical; H2/H3 qualification blocked pending WP04 and Agent A resource contention"
   },
   "termination_policy": {
-    "name": "CURRENT_CANONICAL_GEOMETRIC_STATIC",
-    "future_injection": true,
-    "agent_a_floor_aware_c2r6_imported": false
+    "name": "GOVERNING_WP04_C2R6_GEOMETRIC_STATIC",
+    "policy_source_sha": "12b5331bcbec49e38145ba4a6263df60b8bf4575",
+    "policy_code_digest_sha256": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "canonical_line_search": "existing",
+    "floor_aware_termination": true,
+    "linear_backend": "MINRES",
+    "preconditioner": "Jacobi",
+    "linear_rtol": 1e-11,
+    "linear_atol": 1e-14,
+    "linear_maxiter": 10000,
+    "direct_fallback": false,
+    "future_injection": false,
+    "binding_frozen_by_governing_integration": true
   },
   "execution": {
     "h1_mesh_generation": "PASS",
