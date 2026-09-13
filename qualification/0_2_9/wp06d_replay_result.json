@@ -21,7 +21,7 @@
     },
     "repository": "emptiesvoid-cloud/QF_solver",
     "solver_policy_digest": "27b9a2fb4af9c697f245a1292372ab9e2a0535f564e7c9a480b13db291dad224",
-    "source_sha": "959485edffbdceccf10246ae74ec50c3a6dc1b86"
+    "source_sha": "9c6148dc6c03e2a648f747aac1d63351bdbc315d"
   },
   "provenance": {
     "branch": "0.2.9-wp06-prep",
@@ -32,7 +32,7 @@
     "governing_imported_sha": "12b5331bcbec49e38145ba4a6263df60b8bf4575",
     "repository": "emptiesvoid-cloud/QF_solver",
     "solver_policy_digest": "27b9a2fb4af9c697f245a1292372ab9e2a0535f564e7c9a480b13db291dad224",
-    "source_sha": "959485edffbdceccf10246ae74ec50c3a6dc1b86"
+    "source_sha": "9c6148dc6c03e2a648f747aac1d63351bdbc315d"
   },
   "raw": null,
   "reason": "Independent reference and replay are not executed after the required M2 structural gate fails.",
