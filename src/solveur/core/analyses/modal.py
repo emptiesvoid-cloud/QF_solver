@@ -37,7 +37,7 @@ from solveur.core.results import ModalResult
 from solveur.core.solvers.backend import select_backend, solve_with_slepc
 from solveur.core.telemetry.events import EventStatus, EventType, MissingValueReason
 from solveur.core.telemetry.events import missing_value
-from solveur.core.telemetry.observer import TelemetryEmitter, emit_route_event_best_effort
+from solveur.core.telemetry.observer import TelemetryHandle, emit_route_event_best_effort
 from solveur.mesh.validation import MeshValidator
 
 
@@ -48,18 +48,8 @@ class ModalAnalysisSolver:
         self.validator = MeshValidator()
         self.assembler = GlobalAssembler()
 
-    def solve(self, model: FiniteElementModel, *, telemetry: TelemetryEmitter | None = None) -> ModalResult:
+    def solve(self, model: FiniteElementModel, *, telemetry: TelemetryHandle | None = None) -> ModalResult:
         run_started = perf_counter()
-        emit_route_event_best_effort(
-            telemetry,
-            EventType.ANALYSIS_START,
-            status=EventStatus.STARTED,
-            metrics=lambda: {
-                "nodes": model.node_count,
-                "elements": len(model.elements),
-                "requested_modes": model.analysis.parameters.get("modes", 6),
-            },
-        )
         report = self.validator.validate(model)
         if report.status == "FAIL":
             raise MeshValidationError("Mesh validation failed: " + "; ".join(report.errors))

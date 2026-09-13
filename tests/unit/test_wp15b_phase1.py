@@ -5,12 +5,14 @@ from __future__ import annotations
 import io
 import json
 from pathlib import Path
+from unittest.mock import patch
 
 import numpy as np
 import pytest
 
 from solveur.api import solve_model
 from solveur.core.model import FiniteElementModel
+from solveur.core.router import AnalysisRouter
 from solveur.core.telemetry import (
     ConsoleSink,
     EventStatus,
@@ -239,3 +241,73 @@ def test_route_failure_preserves_original_exception_and_emits_analysis_failed() 
     assert sink.events[-1].event_type is EventType.ANALYSIS_FAILED
     assert sink.events[-1].status is EventStatus.FAILED
     assert json.loads(sink.events[-1].to_json())["event_type"] == "ANALYSIS_FAILED"
+
+
+@pytest.mark.parametrize(
+    ("analysis", "actual_route"),
+    [
+        ("linear_static", "linear_static"),
+        ({"type": "modal", "method": "eigh", "modes": 2}, "modal"),
+    ],
+)
+def test_router_binds_canonical_provenance_to_actual_route(
+    analysis: str | dict[str, object],
+    actual_route: str,
+) -> None:
+    sink = MemorySink()
+    caller_context = "modal" if actual_route == "linear_static" else "linear_static"
+    emitter = TelemetryEmitter("provenance", caller_context, caller_context, sink)
+    result = solve_model(_tet4_model(analysis), telemetry=emitter)
+    assert result.status == "PASS"
+    assert sink.events
+    assert all(event.analysis_type == actual_route for event in sink.events)
+    assert all(event.route == actual_route for event in sink.events)
+    binding = sink.events[0].metadata["telemetry_route_binding"]
+    assert binding["caller_context_mismatch"] is True
+    assert binding["actual_route"] == actual_route
+
+
+@pytest.mark.parametrize(
+    "analysis",
+    [
+        "linear_static",
+        {"type": "modal", "method": "eigh", "modes": 2},
+    ],
+)
+def test_instrumented_preflight_failure_has_one_start_and_one_failure(
+    analysis: str | dict[str, object],
+) -> None:
+    sink = MemorySink()
+    emitter = TelemetryEmitter("preflight-failure", "wrong", "wrong", sink)
+    model = _tet4_model(analysis)
+    model.nodes[0, 0] = np.nan
+    with pytest.raises(Exception) as caught:
+        solve_model(model, telemetry=emitter)
+    assert caught.value.__class__.__name__ == "MeshValidationError"
+    event_names = [event.event_type.value for event in sink.events]
+    assert event_names == ["ANALYSIS_START", "ANALYSIS_FAILED"]
+    assert sink.events[0].status is EventStatus.STARTED
+    assert sink.events[1].status is EventStatus.FAILED
+    assert sink.events[1].metadata["telemetry_route_binding"]["actual_route"] in {
+        "linear_static",
+        "modal",
+    }
+
+
+@pytest.mark.parametrize("route", ["geometric_nonlinear_static", "nonlinear_static"])
+def test_non_instrumented_routes_receive_no_phase1_generic_events(route: str) -> None:
+    sink = MemorySink()
+    emitter = TelemetryEmitter("not-instrumented", "linear_static", "linear_static", sink)
+    model = _tet4_model(route)
+    router = AnalysisRouter()
+    with patch.object(router, "_solve", return_value=object()):
+        router.solve(model, telemetry=emitter)
+    assert sink.events == ()
+
+
+def test_stream_context_cannot_change_after_first_event() -> None:
+    emitter = TelemetryEmitter("context", "linear_static", "linear_static", MemorySink())
+    emitter.emit(EventType.ANALYSIS_START, status=EventStatus.STARTED)
+    bound = emitter.bind_route("modal", "modal")
+    with pytest.raises(ValueError, match="context cannot change"):
+        bound.emit(EventType.ANALYSIS_END, status=EventStatus.COMPLETED)
