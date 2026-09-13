@@ -10,7 +10,7 @@
   "child_head": "3bdcc84907a045e7815d6d5253bf4e2eed74970e",
   "merge_base": "2c52bf8196a7d47d14ce1784290580160de26590",
   "merge_commit_sha": "b3cba87f811441edd657f0788ade29d2a904f430",
-  "final_sha": "PENDING_RETIREMENT_EVIDENCE_COMMIT",
+  "final_sha": "226b9e2020501aa2e97db3c7719585638ae1999e",
   "preflight": {
     "current_branch": "0.2.9-unified-nonlinear",
     "governing_head_before_merge": "fb1fc2d4d861397b4a3689bd64e7a727e1f33998",
@@ -211,12 +211,12 @@
   "branch_lifecycle": {
     "merge_validated": true,
     "remote_governing_head_verified": true,
-    "remote_governing_head": "d83425dd608765c574531b4728ed0f1d4972b108",
+    "remote_governing_head": "226b9e2020501aa2e97db3c7719585638ae1999e",
     "child_head_ancestor_of_governing": true,
     "local_child_branch_exists_before_retirement": false,
     "local_child_branch_deleted": "NOT_PRESENT_LOCALLY",
     "remote_child_branch_deleted": true,
     "remote_child_ref_verified_absent": true,
-    "working_tree_clean": false
+    "working_tree_clean": true
   }
 }
