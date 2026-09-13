@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-029-WP05-AB-IDENTITIES-001
 revision: 0.1
-status: controlled_candidate
+status: owner_review_required
 applicable_version: 0.2.9-development
 reviewer: ""
 approver: ""
@@ -9,15 +9,15 @@ approver: ""
 
 # WP05-A/B — TET10 and HEX20 high-order TL identity V&V
 
-**Campaign status:** `PASS_CANDIDATE_PENDING_WP04`
+**Campaign status:** `FORMAL_PASS_AFTER_GOVERNING_INTEGRATION`
 
-**Formal WP05-A points:** `0/1`
+**Formal WP05-A points:** `1/1`
 
-**Formal WP05-B points:** `0/1`
+**Formal WP05-B points:** `1/1`
 
-**WP05 total:** `0/5`
+**WP05 total:** `2/5`
 
-**Validated release total:** `29/100`
+**Validated release total:** `45/100`
 **Source tested:** `1acd25e33fa0750a2189426e71b112117779365c`
 
 This record is the bounded WP05-A/B prequalification campaign requested after
@@ -197,12 +197,12 @@ threshold was retuned after observing a result.
 
 The two families have finite, reproducible identity evidence for this exact
 bounded fixture and pass every frozen check.  This supports
-`PASS_CANDIDATE_PENDING_WP04`, not formal closure.  Remaining qualification
+formal bounded identity closure for WP05-A/B. Remaining qualification
 work includes high-order structural/refinement evidence, curved/distorted
 geometry behavior, independent Owner policy adoption, and any externally
 comparable evidence that the Owner later requires.  TET10/HEX20 code
 availability, identity PASS, and this candidate record do not generalize to
 all materials, loads, meshes, or nonlinear regimes.
 
-**Next step:** Owner review of this evidence; wait for WP04 governance
-resolution before any WP05-A/B point award or formal qualification.
+**Next step:** Owner review before WP05-C/D structural execution. This result
+does not award the three structural/cross-family points.

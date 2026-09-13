@@ -3,7 +3,7 @@
   "evidence_id": "VNV029-WP05-READINESS-001",
   "gate": "WP05",
   "title": "High-order geometric-nonlinear readiness audit",
-  "status": "PREPARATION_ONLY",
+  "status": "A_B_FORMAL_PASS_C_D_E_PENDING",
   "source_baseline_sha": "2c52bf8196a7d47d14ce1784290580160de26590",
   "branch": "0.2.9-wp05-prep",
   "audit_date": "2026-09-13",
@@ -29,14 +29,14 @@
     ]
   },
   "governance": {
-    "wp05_validation_points": 0,
+    "wp05_validation_points": 2,
     "wp05_validation_points_total": 5,
-    "release_validated_total": 29,
+    "release_validated_total": 45,
     "release_validated_total_max": 100,
     "wp05_implementation_can_start_before_wp04_close": true,
-    "wp05_qualification_blocked_by_wp04": true,
+    "wp05_qualification_blocked_by_wp04": false,
     "package_version_observation": "EXPECTED_DEVELOPMENT_BASELINE",
-    "next_step": "OWNER_REVIEW_OF_WP05_SCOPE_AND_POLICY",
+    "next_step": "OWNER_REVIEW_BEFORE_WP05_C_D_STRUCTURAL_EXECUTION",
     "owner_freeze_requested": false,
     "merge_while_wp04_c2r6_active": false
   },

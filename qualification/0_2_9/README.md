@@ -138,6 +138,15 @@ undercount remains explicit deferred telemetry debt. The validated total is
 **43/100**; see `wp15/wp15_integration_audit.json` and
 `../docs/verification/0_2_9/wp15-integration-into-governing-branch.md`.
 
+WP05-A/B are now **FORMAL PASS — 2/5** after the governing integration and
+targeted revalidation of TET10/HEX20 identity evidence. The historical
+equal-share load rule remains rejected; future structural work is bound to
+consistent quadratic-face traction and the current C2R6 governing policy.
+WP05-C/D/E remain at 0/1 each: no H2/H3 or cross-family structural solve was
+run. The validated total is **45/100**; see
+`wp05/wp05_integration_audit.json` and
+`../docs/verification/0_2_9/wp05-integration-into-governing-branch.md`.
+
 WP03-C preserves the accepted-state authority and all existing numerical and
 maturity boundaries. WP03-D adds the single `UnifiedArcLengthRadiusPolicy`,
 preserves the specialized arc-length correction kernel and fixes the

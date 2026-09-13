@@ -9,7 +9,7 @@ approver: ""
 
 # WP05 — High-order geometric-nonlinear readiness audit
 
-**Status:** `PREPARATION_ONLY`
+**Status:** `A_B_FORMAL_PASS_C_D_E_PENDING`
 
 **Source baseline:** `2c52bf8196a7d47d14ce1784290580160de26590`
 
@@ -39,11 +39,11 @@ availability is not a qualification claim.
 WP04 currently has its own TET4/HEX8 contract and deliberately excludes
 TET10/HEX20.  WP05 can develop isolated fixtures and harnesses before WP04
 closes, because it shares the generic TL kernel rather than the active WP04
-campaign artifacts.  Formal WP05 qualification remains blocked until both an
-Owner-approved high-order contract exists and the governing geometric-static
-baseline has been closed or superseded by an approved successor.  In
-particular, no WP04 floor-aware termination policy may be copied into WP05
-without an Owner decision.
+campaign artifacts. WP04 is now closed and the Owner-frozen WP05 contract is
+integrated into the governing branch. WP05-A/B identity evidence is formally
+awarded after merged-tree revalidation; WP05-C/D/E remain unawarded until
+structural execution. Future structural execution is bound by the separate
+governed C2R6 policy record rather than by a copied or retuned policy.
 
 ## Route traceability
 
