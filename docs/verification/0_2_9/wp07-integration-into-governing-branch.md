@@ -167,3 +167,12 @@ at `12/12`, WP05 remains partial at `2/5`, and WP15 remains closed at `2/2`.
 WP07 remains bounded to the declared initial-search contact regimes and is
 not a public maturity promotion. Owner review is required before preparing
 the sequential WP07-D structural qualification campaign. Do not merge WP06.
+
+## Post-validation branch retirement
+
+The audit commit was pushed to `origin/0.2.9-unified-nonlinear` and verified
+at `d83425dd608765c574531b4728ed0f1d4972b108` before branch cleanup. The child
+head is an ancestor of that governing head. No local
+`0.2.9-wp07-prep` branch existed in the integration checkout; the remote
+`0.2.9-wp07-prep` ref was deleted with the non-forcing remote delete command
+and verified absent. The WP06 remote ref remained untouched.
