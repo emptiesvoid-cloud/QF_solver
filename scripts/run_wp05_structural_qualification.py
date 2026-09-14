@@ -65,6 +65,29 @@ def _git_sha() -> str:
     return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
 
 
+def _git_branch() -> str:
+    return subprocess.check_output(["git", "branch", "--show-current"], cwd=ROOT, text=True).strip()
+
+
+def _policy_digest(contract: StructuralBenchmarkContract) -> str:
+    value = {
+        "linear_solver": "minres",
+        "linear_preconditioner": "jacobi",
+        "linear_rtol": 1.0e-11,
+        "linear_atol": 1.0e-14,
+        "linear_maxiter": 10_000,
+        "linear_direct_fallback": False,
+        "line_search": "existing",
+        "floor_aware_termination": True,
+        "tolerance": 1.0e-10,
+        "load_increments": 12,
+        "contract_digest": _sha256(CONTRACT_JSON),
+        "mesh_thresholds": dict(contract.mesh_thresholds),
+    }
+    encoded = json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
 def _model(family: str, level: str, contract: StructuralBenchmarkContract) -> tuple[FiniteElementModel, Any, np.ndarray, np.ndarray]:
     mesh = build_mesh(family, level, contract)
     loads = nodal_load_vector(mesh, contract)
@@ -196,6 +219,10 @@ def run_case(family: str, level: str, output: Path) -> dict[str, Any]:
     payload: dict[str, Any] = {
         "status": "RUNNING",
         "source_sha": _git_sha(),
+        "branch_at_capture": _git_branch(),
+        "evidence_schema_version": 2,
+        "contract_sha256": _sha256(CONTRACT_JSON),
+        "governing_policy_digest": _policy_digest(contract),
         "contract_path": str(CONTRACT_JSON.relative_to(ROOT)).replace("\\", "/"),
         "family": family,
         "mesh_level": level,
