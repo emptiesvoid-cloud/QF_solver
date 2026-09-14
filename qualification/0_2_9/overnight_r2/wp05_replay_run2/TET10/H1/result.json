@@ -1,0 +1,85 @@
+{
+  "branch_at_capture": "0.2.9-overnight-wp05-wp07",
+  "contract_path": "qualification/0_2_9/wp05_cd_structural_contract.json",
+  "contract_sha256": "e8ce5ed095bf3f142b64d5a5838682c638478a5a92c8330a10af88584f52d680",
+  "cpu_time_s": 89.6875,
+  "dof_count": 675,
+  "element_count": 96,
+  "error": "'qualification\\\\0_2_9\\\\overnight_r2\\\\wp05_replay_run2\\\\TET10\\\\H1\\\\raw.npz' is not in the subpath of 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_unified_nonlinear'",
+  "evidence_schema_version": 2,
+  "family": "TET10",
+  "governing_policy_digest": "895d3c932278c0207b207318216c263a427636d57738bef730917fdc7d9b0ef5",
+  "load_check": {
+    "absolute_tolerance": 1e-12,
+    "load_rule": "CONSISTENT_EQUIVALENT_NODAL_TRACTION",
+    "loaded_node_count": 25,
+    "mesh_independent_physical_traction": true,
+    "moment": [
+      12.5,
+      0.0,
+      -200.0
+    ],
+    "moment_absolute_error": 0.0,
+    "moment_allowed_error": 2.0039024427351746e-10,
+    "moment_relative_tolerance": 1e-12,
+    "moment_status": "PASS",
+    "resultant": [
+      0.0,
+      -50.0,
+      0.0
+    ],
+    "resultant_absolute_error": 0.0,
+    "resultant_status": "PASS",
+    "status": "PASS",
+    "surface_area": 0.24999999999999997,
+    "surface_quadrature": "T6 degree-2 three-point",
+    "target": [
+      0.0,
+      -50.0,
+      0.0
+    ],
+    "target_moment": [
+      12.5,
+      0.0,
+      -200.0
+    ],
+    "traction": [
+      0.0,
+      -200.00000000000003,
+      0.0
+    ]
+  },
+  "mesh_level": "H1",
+  "mesh_quality": {
+    "connectivity_in_range": true,
+    "element_count": 96,
+    "end_face_node_count": 25,
+    "end_face_nodes_sorted": true,
+    "expected_nodes_per_element": 10,
+    "finite_coordinates": true,
+    "finite_positive_hammer4_jacobians": true,
+    "maximum_midpoint_error": 0.0,
+    "minimum_hammer4_jacobian": 0.062499999999999924,
+    "minimum_signed_volume": 0.010416666666666666,
+    "positive_reference_orientation": true,
+    "quadrature": "Hammer-4",
+    "straight_sided": true,
+    "subdivision": "Freudenthal six-tet pattern; swap local corners 2/3 only when signed volume is non-positive",
+    "unique_local_connectivity": true,
+    "unique_midside_nodes": true
+  },
+  "node_count": 225,
+  "solver_route": "geometric_nonlinear_static / MINRES + Jacobi / canonical line search / floor-aware termination",
+  "source_sha": "51836d6ab0c5793ffd9b83562d4ef4230eee6704",
+  "started_at": "2026-09-14T04:36:51.739083+00:00",
+  "status": "FAILED",
+  "terminal_classification": "ValueError",
+  "thresholds": {
+    "mean_end_displacement": 0.02,
+    "reaction_moment": 0.02,
+    "reaction_resultant": 0.02,
+    "representative_sigma_xx": 0.08,
+    "strain_energy": 0.02
+  },
+  "wall_time_s": 89.83174980001058
+}

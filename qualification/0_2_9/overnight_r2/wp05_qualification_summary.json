@@ -1,0 +1,382 @@
+{
+  "branch": "0.2.9-overnight-wp05-wp07",
+  "contract_path": "qualification/0_2_9/wp05_cd_structural_contract.json",
+  "contract_sha256": "e8ce5ed095bf3f142b64d5a5838682c638478a5a92c8330a10af88584f52d680",
+  "contract_thresholds": {
+    "equilibrium_relative": {
+      "force": 1e-08,
+      "moment": 1e-08
+    },
+    "frozen_before_h2_h3_results": true,
+    "h1_replay": {
+      "absolute_floor": 1e-14,
+      "accepted_load_factor_history": "equal length and elementwise tolerance",
+      "binary_state_hash_required": false,
+      "missing_or_nonfinite": "FAIL",
+      "newton_iteration_count": "exact equality",
+      "relative": 1e-12,
+      "vector_components": "all 3"
+    },
+    "mesh_h2_to_h3_relative": {
+      "mean_end_displacement": 0.02,
+      "reaction_moment": 0.02,
+      "reaction_resultant": 0.02,
+      "representative_sigma_xx": 0.08,
+      "strain_energy": 0.02
+    }
+  },
+  "created_at": "2026-09-14T04:44:51.890878+00:00",
+  "final_source_sha": "8dd1445f685187ee3ffd1373d966cc5f37272bd8",
+  "formal_candidate_points": {
+    "WP05": "3/5 candidate",
+    "WP05-C": "0/1",
+    "WP05-D": "1/1",
+    "WP05-E": "0/1"
+  },
+  "full_repository_suite_run": false,
+  "governing_policy_digest": "895d3c932278c0207b207318216c263a427636d57738bef730917fdc7d9b0ef5",
+  "hex20": {
+    "envelope": {
+      "detF_minimum": 0.2,
+      "green_lagrange_norm_maximum": 0.3,
+      "principal_stretch_range": [
+        0.75,
+        1.3
+      ],
+      "status": "PASS"
+    },
+    "equilibrium": {
+      "force_threshold": 1e-08,
+      "moment_threshold": 1e-08,
+      "status": "PASS"
+    },
+    "fallback_count": 0,
+    "family": "HEX20",
+    "h2_to_h3": {
+      "checks": {
+        "displacement": {
+          "delta": 0.005642082627287971,
+          "status": true,
+          "threshold": 0.02
+        },
+        "energy": {
+          "delta": 0.005636870399785539,
+          "status": true,
+          "threshold": 0.02
+        },
+        "moment": {
+          "delta": 1.489680188872357e-05,
+          "status": true,
+          "threshold": 0.02
+        },
+        "reaction": {
+          "delta": 1.3183679596492911e-14,
+          "status": true,
+          "threshold": 0.02
+        },
+        "stress": {
+          "delta": 0.00012722357711540038,
+          "status": true,
+          "threshold": 0.08
+        }
+      },
+      "status": "PASS"
+    },
+    "mesh_records": {
+      "H1": {
+        "dof_count": 423,
+        "element_count": 16,
+        "node_count": 141,
+        "observables": {
+          "displacement": -0.1996119577533075,
+          "energy": 4.983671699041345,
+          "envelope": true,
+          "force_equilibrium": 1.4142920772464067e-13,
+          "maximum_green_lagrange_norm": 0.007808703553123798,
+          "maximum_principal_stretch": 1.0072311316653335,
+          "minimum_detF": 0.9942398108570628,
+          "minimum_principal_stretch": 0.9927729297805952,
+          "moment": [
+            -12.499999999999915,
+            2.2026824808563106e-12,
+            199.69861013713208
+          ],
+          "moment_equilibrium": 1.4016763746862653e-14,
+          "reaction": [
+            7.062794793455396e-12,
+            49.999999999999645,
+            3.552713678800501e-14
+          ],
+          "stress": 3008.639709294692
+        },
+        "path": "qualification/0_2_9/overnight_r2/wp05_runs/HEX20/H1/result.json",
+        "source_sha": "4bfee7df268aff62298fb2ce44815a95bcf7b0b6",
+        "status": "PASS",
+        "wall_time_s": 106.48885349999182
+      },
+      "H2": {
+        "dof_count": 2355,
+        "element_count": 128,
+        "node_count": 785,
+        "observables": {
+          "displacement": -0.20327597279203746,
+          "energy": 5.075298804697008,
+          "envelope": true,
+          "force_equilibrium": 2.118370886501824e-14,
+          "maximum_green_lagrange_norm": 0.009288764786266515,
+          "maximum_principal_stretch": 1.0084776576158208,
+          "minimum_detF": 0.9935200587228559,
+          "minimum_principal_stretch": 0.9914345127798792,
+          "moment": [
+            -12.500000000000004,
+            -5.861977570020827e-13,
+            199.68901490200125
+          ],
+          "moment_equilibrium": 5.7709167244697365e-15,
+          "reaction": [
+            -1.0587086762825493e-12,
+            49.999999999999964,
+            1.4210854715202004e-14
+          ],
+          "stress": 3594.660511791428
+        },
+        "path": "qualification/0_2_9/overnight_r2/wp05_runs/HEX20/H2/result.json",
+        "source_sha": "51836d6ab0c5793ffd9b83562d4ef4230eee6704",
+        "status": "PASS",
+        "wall_time_s": 881.4571980999899
+      },
+      "H3": {
+        "dof_count": 15363,
+        "element_count": 1024,
+        "node_count": 5121,
+        "observables": {
+          "displacement": -0.20442938024683538,
+          "energy": 5.10406978458417,
+          "envelope": true,
+          "force_equilibrium": 8.625561539439178e-15,
+          "maximum_green_lagrange_norm": 0.00984075991924316,
+          "maximum_principal_stretch": 1.0095384792168094,
+          "minimum_detF": 0.9926472205684468,
+          "minimum_principal_stretch": 0.9903916934158953,
+          "moment": [
+            -12.49999999999993,
+            -3.028688411177427e-13,
+            199.68603435187947
+          ],
+          "moment_equilibrium": 1.6499264481451553e-15,
+          "reaction": [
+            -4.1033842990145786e-13,
+            49.99999999999999,
+            1.2967404927621828e-13
+          ],
+          "stress": 3594.203186222602
+        },
+        "path": "qualification/0_2_9/overnight_r2/wp05_runs/HEX20/H3/result.json",
+        "source_sha": "51836d6ab0c5793ffd9b83562d4ef4230eee6704",
+        "status": "PASS",
+        "wall_time_s": 7414.883252799977
+      }
+    },
+    "replay": {
+      "absolute_floor": 1e-14,
+      "accepted_load_factors_exact": true,
+      "first_path": "qualification/0_2_9/overnight_r2/wp05_runs/HEX20/H1/result.json",
+      "newton_iteration_count_exact": true,
+      "observable_relative_deltas": {
+        "displacement": 0.0,
+        "energy": 0.0,
+        "moment": 0.0,
+        "reaction": 0.0,
+        "stress": 0.0
+      },
+      "raw_displacement_and_reaction_exact": true,
+      "relative_tolerance": 1e-12,
+      "second_path": "qualification/0_2_9/overnight_r2/wp05_replay_run3/HEX20/H1/result.json",
+      "status": "PASS"
+    },
+    "route": "geometric_nonlinear_static / MINRES + Jacobi / canonical line search / floor-aware termination"
+  },
+  "official_total_before_owner_review": "50/100",
+  "potential_total_after_owner_review": "51/100",
+  "previous_hold_paths": [
+    "qualification/0_2_9/overnight/overnight_wp05_wp07_final.json",
+    "docs/verification/0_2_9/overnight-wp05-wp07-final-report.md"
+  ],
+  "previous_hold_preserved": true,
+  "production_mechanics_changed": false,
+  "record_id": "QF-029-WP05-OVERNIGHT-R2-QUALIFICATION-001",
+  "schema_version": 1,
+  "tet10": {
+    "envelope": {
+      "detF_minimum": 0.2,
+      "green_lagrange_norm_maximum": 0.3,
+      "principal_stretch_range": [
+        0.75,
+        1.3
+      ],
+      "status": "PASS"
+    },
+    "equilibrium": {
+      "force_threshold": 1e-08,
+      "moment_threshold": 1e-08,
+      "status": "PASS"
+    },
+    "fallback_count": 0,
+    "family": "TET10",
+    "h2_to_h3": {
+      "checks": {
+        "displacement": {
+          "delta": 0.00776329330247684,
+          "status": true,
+          "threshold": 0.02
+        },
+        "energy": {
+          "delta": 0.007758755105272209,
+          "status": true,
+          "threshold": 0.02
+        },
+        "moment": {
+          "delta": 2.2899772874957313e-05,
+          "status": true,
+          "threshold": 0.02
+        },
+        "reaction": {
+          "delta": 4.392471805100369e-14,
+          "status": true,
+          "threshold": 0.02
+        },
+        "stress": {
+          "delta": 0.11604713189563029,
+          "status": false,
+          "threshold": 0.08
+        }
+      },
+      "status": "FAIL"
+    },
+    "mesh_records": {
+      "H1": {
+        "dof_count": 675,
+        "element_count": 96,
+        "node_count": 225,
+        "observables": {
+          "displacement": -0.19777257387941677,
+          "energy": 4.937747437515823,
+          "envelope": true,
+          "force_equilibrium": 5.14436866325808e-14,
+          "maximum_green_lagrange_norm": 0.007746961715231873,
+          "maximum_principal_stretch": 1.006922103556734,
+          "minimum_detF": 0.9948506492613204,
+          "minimum_principal_stretch": 0.9929931857709949,
+          "moment": [
+            -12.513613051671669,
+            1.0587086762825493e-12,
+            199.7043379107001
+          ],
+          "moment_equilibrium": 1.3704827657168669e-14,
+          "reaction": [
+            2.5721647034515627e-12,
+            50.00000000000001,
+            7.105427357601002e-15
+          ],
+          "stress": 2657.6209811626504
+        },
+        "path": "qualification/0_2_9/overnight_r2/wp05_runs/TET10/H1/result.json",
+        "source_sha": "4bfee7df268aff62298fb2ce44815a95bcf7b0b6",
+        "status": "PASS",
+        "wall_time_s": 91.84337670000969
+      },
+      "H2": {
+        "dof_count": 4131,
+        "element_count": 768,
+        "node_count": 1377,
+        "observables": {
+          "displacement": -0.2026153277742002,
+          "energy": 5.058806063896235,
+          "envelope": true,
+          "force_equilibrium": 4.6403064927141526e-14,
+          "maximum_green_lagrange_norm": 0.00923672686624996,
+          "maximum_principal_stretch": 1.0082471359880052,
+          "minimum_detF": 0.9938786564902389,
+          "minimum_principal_stretch": 0.9918344651674486,
+          "moment": [
+            -12.502060571751258,
+            -1.0480505352461478e-13,
+            199.69085879404275
+          ],
+          "moment_equilibrium": 1.382057596361234e-15,
+          "reaction": [
+            -2.319922032256727e-12,
+            50.000000000000014,
+            -2.4868995751603507e-14
+          ],
+          "stress": 3594.1376393840114
+        },
+        "path": "qualification/0_2_9/overnight_r2/wp05_runs/TET10/H2/result.json",
+        "source_sha": "6d6ac1e33b4ac8cd51556be48a768b296a29ba6c",
+        "status": "PASS",
+        "wall_time_s": 785.9929697000189
+      },
+      "H3": {
+        "dof_count": 28611,
+        "element_count": 6144,
+        "node_count": 9537,
+        "observables": {
+          "displacement": -0.20420059690047945,
+          "energy": 5.098363013959323,
+          "envelope": true,
+          "force_equilibrium": 3.5472026982732825e-15,
+          "maximum_green_lagrange_norm": 0.009946090306884701,
+          "maximum_principal_stretch": 1.0089589016467366,
+          "minimum_detF": 0.9930055411045948,
+          "minimum_principal_stretch": 0.9910049492062943,
+          "moment": [
+            -12.500386284513866,
+            -2.3803181647963356e-13,
+            199.68659383034824
+          ],
+          "moment_equilibrium": 1.1993326418233177e-15,
+          "reaction": [
+            -1.2967404927621828e-13,
+            49.99999999999994,
+            1.2079226507921703e-13
+          ],
+          "stress": 3177.0482746953658
+        },
+        "path": "qualification/0_2_9/overnight_r2/wp05_runs/TET10/H3/result.json",
+        "source_sha": "6d6ac1e33b4ac8cd51556be48a768b296a29ba6c",
+        "status": "PASS",
+        "wall_time_s": 7099.175346400007
+      }
+    },
+    "replay": {
+      "absolute_floor": 1e-14,
+      "accepted_load_factors_exact": true,
+      "first_path": "qualification/0_2_9/overnight_r2/wp05_runs/TET10/H1/result.json",
+      "newton_iteration_count_exact": true,
+      "observable_relative_deltas": {
+        "displacement": 0.0,
+        "energy": 0.0,
+        "moment": 0.0,
+        "reaction": 0.0,
+        "stress": 0.0
+      },
+      "raw_displacement_and_reaction_exact": true,
+      "relative_tolerance": 1e-12,
+      "second_path": "qualification/0_2_9/overnight_r2/wp05_replay_run3/TET10/H1/result.json",
+      "status": "PASS"
+    },
+    "route": "geometric_nonlinear_static / MINRES + Jacobi / canonical line search / floor-aware termination"
+  },
+  "thresholds_changed": false,
+  "wp05_e": {
+    "reason": "WP05-C failed the frozen H2-to-H3 stress threshold; cross-family execution is dependency-blocked.",
+    "status": "NOT_RUN",
+    "thresholds": {
+      "displacement": 0.03,
+      "energy": 0.03,
+      "moment": 0.03,
+      "reaction": 0.02,
+      "stress": 0.1
+    }
+  }
+}

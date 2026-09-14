@@ -1,0 +1,81 @@
+{
+  "contract_path": "qualification/0_2_9/wp05_cd_structural_contract.json",
+  "cpu_time_s": 0.265625,
+  "dof_count": 675,
+  "element_count": 96,
+  "error": "experimental_linear_solver must be 'spsolve' or 'splu'.",
+  "family": "TET10",
+  "load_check": {
+    "absolute_tolerance": 1e-12,
+    "load_rule": "CONSISTENT_EQUIVALENT_NODAL_TRACTION",
+    "loaded_node_count": 25,
+    "mesh_independent_physical_traction": true,
+    "moment": [
+      12.5,
+      0.0,
+      -200.0
+    ],
+    "moment_absolute_error": 0.0,
+    "moment_allowed_error": 2.0039024427351746e-10,
+    "moment_relative_tolerance": 1e-12,
+    "moment_status": "PASS",
+    "resultant": [
+      0.0,
+      -50.0,
+      0.0
+    ],
+    "resultant_absolute_error": 0.0,
+    "resultant_status": "PASS",
+    "status": "PASS",
+    "surface_area": 0.24999999999999997,
+    "surface_quadrature": "T6 degree-2 three-point",
+    "target": [
+      0.0,
+      -50.0,
+      0.0
+    ],
+    "target_moment": [
+      12.5,
+      0.0,
+      -200.0
+    ],
+    "traction": [
+      0.0,
+      -200.00000000000003,
+      0.0
+    ]
+  },
+  "mesh_level": "H1",
+  "mesh_quality": {
+    "connectivity_in_range": true,
+    "element_count": 96,
+    "end_face_node_count": 25,
+    "end_face_nodes_sorted": true,
+    "expected_nodes_per_element": 10,
+    "finite_coordinates": true,
+    "finite_positive_hammer4_jacobians": true,
+    "maximum_midpoint_error": 0.0,
+    "minimum_hammer4_jacobian": 0.062499999999999924,
+    "minimum_signed_volume": 0.010416666666666666,
+    "positive_reference_orientation": true,
+    "quadrature": "Hammer-4",
+    "straight_sided": true,
+    "subdivision": "Freudenthal six-tet pattern; swap local corners 2/3 only when signed volume is non-positive",
+    "unique_local_connectivity": true,
+    "unique_midside_nodes": true
+  },
+  "node_count": 225,
+  "solver_route": "geometric_nonlinear_static / MINRES + Jacobi / canonical line search / floor-aware termination",
+  "source_sha": "4bfee7df268aff62298fb2ce44815a95bcf7b0b6",
+  "started_at": "2026-09-13T20:25:35.602336+00:00",
+  "status": "FAILED",
+  "terminal_classification": "ValueError",
+  "thresholds": {
+    "mean_end_displacement": 0.02,
+    "reaction_moment": 0.02,
+    "reaction_resultant": 0.02,
+    "representative_sigma_xx": 0.08,
+    "strain_energy": 0.02
+  },
+  "wall_time_s": 0.2953886999748647
+}

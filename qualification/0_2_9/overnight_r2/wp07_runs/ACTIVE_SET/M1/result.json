@@ -1,0 +1,271 @@
+{
+  "completed_at": "2026-09-13T20:38:56.486877+00:00",
+  "contract_path": "qualification/0_2_9/wp07d_structural_vnv_contract.json",
+  "dof_count": 63,
+  "element_count": 24,
+  "expected_moment": [
+    -12500.0,
+    25000.0,
+    0.0
+  ],
+  "expected_resultant": [
+    0.0,
+    0.0,
+    -50000.0
+  ],
+  "mesh_level": "M1",
+  "node_count": 21,
+  "raw_npz": "qualification/0_2_9/overnight_r2/wp07_runs/ACTIVE_SET/M1/raw.npz",
+  "raw_sha256": "286eb0d328885b670b7b309758396cbc66d1b233fee1e934a40070a2ed041b96",
+  "route": "ACTIVE_SET",
+  "solver": {
+    "contact": {
+      "active_contact_count": 0,
+      "contacts": [
+        {
+          "active": false,
+          "closest_distance": 0.01,
+          "complementarity": 0.0,
+          "gap": 0.01,
+          "index": 0,
+          "initial_gap": 0.01,
+          "master_face_count": 1,
+          "master_face_index": 0,
+          "master_nodes": [
+            18,
+            19,
+            20
+          ],
+          "name": "wp07d_master",
+          "normal": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "pressure": 0.0,
+          "projection_clamped": false,
+          "projection_mode": "exact_node_to_triangle",
+          "slave_node": 0
+        }
+      ],
+      "converged": true,
+      "convergence": {
+        "backend": "scipy.sparse.linalg.spsolve",
+        "complementarity_max": 0.0,
+        "converged": true,
+        "iterations": 1,
+        "reason": "ACTIVE_SET_STABLE",
+        "relative_residual": 0.0,
+        "residual_final": 0.0,
+        "residual_initial": 0.0,
+        "solver": "contact_active_set"
+      },
+      "history": [
+        {
+          "active_contacts": [],
+          "iteration": 1,
+          "min_gap": 0.0,
+          "min_pressure": 0.0,
+          "proposed_contacts": []
+        }
+      ],
+      "iteration_count": 1,
+      "method": "lagrange_active_set"
+    },
+    "converged": true,
+    "execution": {
+      "assembly_seconds": 0.003174100012984127,
+      "resource_estimate": {},
+      "total_seconds": 0.11390199995366856
+    },
+    "iterations": 1,
+    "load_assembly": {
+      "contributions": [
+        {
+          "dof": "UZ",
+          "index": 0,
+          "moment_about_origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "node": 9,
+          "nonzero_dof_count": 1,
+          "resultant": [
+            0.0,
+            0.0,
+            -4166.666666666667
+          ],
+          "type": "nodal",
+          "vector_norm": 4166.666666666667
+        },
+        {
+          "dof": "UZ",
+          "index": 1,
+          "moment_about_origin": [
+            0.0,
+            3125.0,
+            0.0
+          ],
+          "node": 10,
+          "nonzero_dof_count": 1,
+          "resultant": [
+            0.0,
+            0.0,
+            -6250.0
+          ],
+          "type": "nodal",
+          "vector_norm": 6250.0
+        },
+        {
+          "dof": "UZ",
+          "index": 2,
+          "moment_about_origin": [
+            0.0,
+            2083.3333333333335,
+            0.0
+          ],
+          "node": 11,
+          "nonzero_dof_count": 1,
+          "resultant": [
+            0.0,
+            0.0,
+            -2083.3333333333335
+          ],
+          "type": "nodal",
+          "vector_norm": 2083.3333333333335
+        },
+        {
+          "dof": "UZ",
+          "index": 3,
+          "moment_about_origin": [
+            -1562.5,
+            0.0,
+            0.0
+          ],
+          "node": 12,
+          "nonzero_dof_count": 1,
+          "resultant": [
+            0.0,
+            0.0,
+            -6250.0
+          ],
+          "type": "nodal",
+          "vector_norm": 6250.0
+        },
+        {
+          "dof": "UZ",
+          "index": 4,
+          "moment_about_origin": [
+            -3125.0000000000005,
+            6250.000000000001,
+            0.0
+          ],
+          "node": 13,
+          "nonzero_dof_count": 1,
+          "resultant": [
+            0.0,
+            0.0,
+            -12500.000000000002
+          ],
+          "type": "nodal",
+          "vector_norm": 12500.000000000002
+        },
+        {
+          "dof": "UZ",
+          "index": 5,
+          "moment_about_origin": [
+            -1562.5,
+            6250.0,
+            0.0
+          ],
+          "node": 14,
+          "nonzero_dof_count": 1,
+          "resultant": [
+            0.0,
+            0.0,
+            -6250.0
+          ],
+          "type": "nodal",
+          "vector_norm": 6250.0
+        },
+        {
+          "dof": "UZ",
+          "index": 6,
+          "moment_about_origin": [
+            -1041.6666666666667,
+            0.0,
+            0.0
+          ],
+          "node": 15,
+          "nonzero_dof_count": 1,
+          "resultant": [
+            0.0,
+            0.0,
+            -2083.3333333333335
+          ],
+          "type": "nodal",
+          "vector_norm": 2083.3333333333335
+        },
+        {
+          "dof": "UZ",
+          "index": 7,
+          "moment_about_origin": [
+            -3125.0,
+            3125.0,
+            0.0
+          ],
+          "node": 16,
+          "nonzero_dof_count": 1,
+          "resultant": [
+            0.0,
+            0.0,
+            -6250.0
+          ],
+          "type": "nodal",
+          "vector_norm": 6250.0
+        },
+        {
+          "dof": "UZ",
+          "index": 8,
+          "moment_about_origin": [
+            -2083.3333333333335,
+            4166.666666666667,
+            0.0
+          ],
+          "node": 17,
+          "nonzero_dof_count": 1,
+          "resultant": [
+            0.0,
+            0.0,
+            -4166.666666666667
+          ],
+          "type": "nodal",
+          "vector_norm": 4166.666666666667
+        }
+      ],
+      "distributed_load_count": 0,
+      "load_vector_count": 0,
+      "moment_about_origin": [
+        -12500.000000000002,
+        25000.000000000004,
+        0.0
+      ],
+      "nodal_load_count": 9,
+      "resultant": [
+        0.0,
+        0.0,
+        -50000.0
+      ]
+    },
+    "method": "lagrange_active_set",
+    "multipoint_constraints": {
+      "strategy": "not_applicable_for_contact"
+    },
+    "residual_norm": 0.0
+  },
+  "source_sha": "4bfee7df268aff62298fb2ce44815a95bcf7b0b6",
+  "started_at": "2026-09-13T20:38:56.256346+00:00",
+  "status": "PASS",
+  "wall_time_s": 0.23055020003812388
+}
