@@ -1,0 +1,455 @@
+{
+  "absolute_difference": 339.32078429891726,
+  "boundary_sensitivity": {
+    "basis": "The frozen region is X/L 0.40-0.60, while the clamp is X=0 and load face is X=L.",
+    "clamp_sensitivity": "NO",
+    "load_boundary_sensitivity": "NO",
+    "local_stress_concentration": "YES_BOUNDED_GRADIENT_NOT_SINGULARITY"
+  },
+  "branch": "0.2.9-overnight-wp05-wp07",
+  "classification": {
+    "alternatives_rejected": {
+      "production_mechanics_defect": true,
+      "quadrature_weighting_defect": true,
+      "serialization_defect": true,
+      "stress_measure_extraction_defect": true
+    },
+    "dominant_cause": "G_EXPECTED_DISCRETIZATION_CONVERGENCE_SLOWER_THAN_FROZEN_STRESS_GATE compounded by C mesh-location sampling",
+    "explanation": "The positive, correctly normalized HEX20 quadrature samples are not nested between H2 and H3. The fixed region's weighted normalized-Y centroid shifts from 0.80556 to 0.84028, and sigma_xx has a strong bounded bending gradient in Y.",
+    "failure_classification": "MESH_LOCATION_SAMPLING_EFFECT"
+  },
+  "contract_path": "qualification/0_2_9/wp05_cd_structural_contract.json",
+  "contract_sha256": "e8ce5ed095bf3f142b64d5a5838682c638478a5a92c8330a10af88584f52d680",
+  "correction_applied": false,
+  "created_at": "2026-09-14T05:12:39.730058+00:00",
+  "defect_location": "NONE_IN_CURRENT_FROZEN_OBSERVABLE; earlier centroid-proxy defect is already preserved and corrected separately",
+  "defect_proven": false,
+  "frozen_stress_threshold": 0.08,
+  "full_repository_suite_run": false,
+  "h2": {
+    "distribution": {
+      "analytic_region_volume": 0.03,
+      "boundary_distances": {
+        "minimum_distance_to_clamp_x0": 1.7499999999999996,
+        "minimum_distance_to_loaded_face_xL": 1.7499999999999996
+      },
+      "element_count_region": 16,
+      "highest_contribution_element": {
+        "element_index": 59,
+        "reference_coordinates": [
+          1.8244804489655266,
+          0.41887988775861806,
+          0.18749999999999997
+        ],
+        "reference_weight": 0.004075038580246916,
+        "weighted_contribution": 14.350463006183832,
+        "weighted_sigma_xx": 3521.552673328139
+      },
+      "integration_point_count_region": 96,
+      "integration_point_count_total": 3456,
+      "level": "H2",
+      "normalized_coordinate_weighted_centroid": [
+        0.49999999999999994,
+        0.8055555555555556,
+        0.5
+      ],
+      "reference_coordinate_range": {
+        "x": [
+          1.7499999999999996,
+          2.2500000000000004
+        ],
+        "y": [
+          0.36091229182759266,
+          0.4375
+        ],
+        "z": [
+          0.11091229182759269,
+          0.3890877081724073
+        ]
+      },
+      "region_weight": 0.028838734567901255,
+      "region_weight_error_vs_analytic_volume": -0.0011612654320987438,
+      "sigma_xx": {
+        "max": 4045.042399247303,
+        "mean_unweighted": 2779.3622672126535,
+        "median_unweighted": 2645.97878620984,
+        "min": 1834.3857830805523,
+        "q01_unweighted": 1834.385783080677,
+        "q99_unweighted": 4045.0423992472406,
+        "std_unweighted": 670.357661264497,
+        "weighted_mean": 2914.8233075483017,
+        "weighted_y_correlation": 0.9044693718669916,
+        "weighted_y_slope": 9754.54470760967
+      },
+      "top_contributions": [
+        {
+          "element_index": 59,
+          "reference_coordinates": [
+            1.8244804489655266,
+            0.41887988775861806,
+            0.18749999999999997
+          ],
+          "reference_weight": 0.004075038580246916,
+          "weighted_contribution": 14.350463006183832,
+          "weighted_sigma_xx": 3521.552673328139
+        },
+        {
+          "element_index": 91,
+          "reference_coordinates": [
+            1.8244804489655269,
+            0.4188798877586181,
+            0.31250000000000006
+          ],
+          "reference_weight": 0.004075038580246916,
+          "weighted_contribution": 14.350463006183666,
+          "weighted_sigma_xx": 3521.5526733280985
+        },
+        {
+          "element_index": 60,
+          "reference_coordinates": [
+            2.175519551034473,
+            0.4188798877586182,
+            0.18750000000000006
+          ],
+          "reference_weight": 0.004075038580246919,
+          "weighted_contribution": 11.962810245108276,
+          "weighted_sigma_xx": 2935.6311626339043
+        },
+        {
+          "element_index": 92,
+          "reference_coordinates": [
+            2.175519551034473,
+            0.4188798877586181,
+            0.3125
+          ],
+          "reference_weight": 0.004075038580246919,
+          "weighted_contribution": 11.962810245107804,
+          "weighted_sigma_xx": 2935.6311626337883
+        },
+        {
+          "element_index": 123,
+          "reference_coordinates": [
+            1.8244804489655269,
+            0.4188798877586182,
+            0.3890877081724073
+          ],
+          "reference_weight": 0.001131955161179701,
+          "weighted_contribution": 3.9863748305134674,
+          "weighted_sigma_xx": 3521.6720301526325
+        },
+        {
+          "element_index": 27,
+          "reference_coordinates": [
+            1.824480448965527,
+            0.4188798877586182,
+            0.1109122918275927
+          ],
+          "reference_weight": 0.001131955161179698,
+          "weighted_contribution": 3.9863748305133946,
+          "weighted_sigma_xx": 3521.6720301525766
+        },
+        {
+          "element_index": 83,
+          "reference_coordinates": [
+            1.8244804489655269,
+            0.3609122918275927,
+            0.31249999999999994
+          ],
+          "reference_weight": 0.0015673225308641971,
+          "weighted_contribution": 3.5768751390652715,
+          "weighted_sigma_xx": 2282.1563964202305
+        },
+        {
+          "element_index": 51,
+          "reference_coordinates": [
+            1.8244804489655273,
+            0.3609122918275927,
+            0.18749999999999997
+          ],
+          "reference_weight": 0.0015673225308641978,
+          "weighted_contribution": 3.576875139065214,
+          "weighted_sigma_xx": 2282.156396420193
+        },
+        {
+          "element_index": 28,
+          "reference_coordinates": [
+            2.1755195510344727,
+            0.4188798877586181,
+            0.11091229182759274
+          ],
+          "reference_weight": 0.0011319551611797005,
+          "weighted_contribution": 3.3229032074626024,
+          "weighted_sigma_xx": 2935.5431393585773
+        },
+        {
+          "element_index": 124,
+          "reference_coordinates": [
+            2.1755195510344723,
+            0.418879887758618,
+            0.3890877081724072
+          ],
+          "reference_weight": 0.0011319551611797013,
+          "weighted_contribution": 3.322903207462562,
+          "weighted_sigma_xx": 2935.5431393585395
+        }
+      ],
+      "top_one_percent_element_contribution_fraction": 0.17071727900323155,
+      "top_ten_percent_element_contribution_fraction": 0.34143455800646116
+    },
+    "independent_recomputation": {
+      "absolute_production_vs_independent": 0.0,
+      "enumeration_max_absolute_difference": 4.547473508864641e-13,
+      "independent_raw_recompute_value": 2914.8233075483017,
+      "jacobian_determinant_max": 0.000976562500000001,
+      "jacobian_determinant_min": 0.0009765624999999998,
+      "jacobian_positive": true,
+      "level": "H2",
+      "permuted_enumeration_value": 2914.823307548302,
+      "production_extractor_value": 2914.8233075483017,
+      "quadrature_weight_rule_max_error": 2.7755575615628914e-15,
+      "raw_npz_sha256": "055adadb7f3012ec295a6674a37e546a2f3d8c92a7ad29e531991598bff25348",
+      "reverse_enumeration_value": 2914.8233075483017,
+      "total_reference_volume": 1.0000000000000004
+    },
+    "representative_stress": 2914.8233075483017
+  },
+  "h3": {
+    "distribution": {
+      "analytic_region_volume": 0.03,
+      "boundary_distances": {
+        "minimum_distance_to_clamp_x0": 1.6249999999999996,
+        "minimum_distance_to_loaded_face_xL": 1.625
+      },
+      "element_count_region": 72,
+      "highest_contribution_element": {
+        "element_index": 743,
+        "reference_coordinates": [
+          1.8749999999999998,
+          0.40624999999999994,
+          0.34375
+        ],
+        "reference_weight": 0.0009765625000000007,
+        "weighted_contribution": 3.09573734580429,
+        "weighted_sigma_xx": 3170.0350421035905
+      },
+      "integration_point_count_region": 840,
+      "integration_point_count_total": 27648,
+      "level": "H3",
+      "normalized_coordinate_weighted_centroid": [
+        0.49999999999999994,
+        0.8402777777777778,
+        0.5000000000000001
+      ],
+      "reference_coordinate_range": {
+        "x": [
+          1.6249999999999996,
+          2.375
+        ],
+        "y": [
+          0.3679561459137963,
+          0.46875
+        ],
+        "z": [
+          0.11795614591379633,
+          0.3820438540862036
+        ]
+      },
+      "region_weight": 0.030647183641975325,
+      "region_weight_error_vs_analytic_volume": 0.0006471836419753262,
+      "sigma_xx": {
+        "max": 5002.428665684948,
+        "mean_unweighted": 3186.252690972939,
+        "median_unweighted": 3117.339943578789,
+        "min": 1810.8783067197169,
+        "q01_unweighted": 1811.6243058332227,
+        "q99_unweighted": 5001.963090146885,
+        "std_unweighted": 788.8281297874241,
+        "weighted_mean": 3254.144091847219,
+        "weighted_y_correlation": 0.8570066410601664,
+        "weighted_y_slope": 9773.127850401084
+      },
+      "top_contributions": [
+        {
+          "element_index": 743,
+          "reference_coordinates": [
+            1.8749999999999998,
+            0.40624999999999994,
+            0.34375
+          ],
+          "reference_weight": 0.0009765625000000007,
+          "weighted_contribution": 3.09573734580429,
+          "weighted_sigma_xx": 3170.0350421035905
+        },
+        {
+          "element_index": 359,
+          "reference_coordinates": [
+            1.8750000000000004,
+            0.40625000000000006,
+            0.15625
+          ],
+          "reference_weight": 0.0009765625000000002,
+          "weighted_contribution": 3.0957373458042508,
+          "weighted_sigma_xx": 3170.035042103552
+        },
+        {
+          "element_index": 487,
+          "reference_coordinates": [
+            1.875,
+            0.40625,
+            0.21874999999999997
+          ],
+          "reference_weight": 0.0009765625000000007,
+          "weighted_contribution": 3.0957283917492457,
+          "weighted_sigma_xx": 3170.0258731512254
+        },
+        {
+          "element_index": 615,
+          "reference_coordinates": [
+            1.8750000000000004,
+            0.40625,
+            0.28125
+          ],
+          "reference_weight": 0.0009765625000000004,
+          "weighted_contribution": 3.095728391749226,
+          "weighted_sigma_xx": 3170.0258731512063
+        },
+        {
+          "element_index": 375,
+          "reference_coordinates": [
+            1.8749999999999998,
+            0.4594399438793091,
+            0.15625
+          ],
+          "reference_weight": 0.00070529513888889,
+          "weighted_contribution": 3.0161237745968084,
+          "weighted_sigma_xx": 4276.399493336022
+        },
+        {
+          "element_index": 759,
+          "reference_coordinates": [
+            1.8749999999999998,
+            0.45943994387930903,
+            0.34374999999999994
+          ],
+          "reference_weight": 0.0007052951388888901,
+          "weighted_contribution": 3.016123774596782,
+          "weighted_sigma_xx": 4276.3994933359845
+        },
+        {
+          "element_index": 503,
+          "reference_coordinates": [
+            1.875,
+            0.45943994387930914,
+            0.21875000000000003
+          ],
+          "reference_weight": 0.0007052951388888902,
+          "weighted_contribution": 3.0160478322388493,
+          "weighted_sigma_xx": 4276.291818755874
+        },
+        {
+          "element_index": 631,
+          "reference_coordinates": [
+            1.875,
+            0.4594399438793091,
+            0.2812499999999999
+          ],
+          "reference_weight": 0.00070529513888889,
+          "weighted_contribution": 3.016047832238807,
+          "weighted_sigma_xx": 4276.291818755816
+        },
+        {
+          "element_index": 616,
+          "reference_coordinates": [
+            2.1249999999999996,
+            0.4062499999999999,
+            0.28125
+          ],
+          "reference_weight": 0.0009765625000000007,
+          "weighted_contribution": 2.7275486900120556,
+          "weighted_sigma_xx": 2793.009858572343
+        },
+        {
+          "element_index": 488,
+          "reference_coordinates": [
+            2.1250000000000004,
+            0.40625000000000006,
+            0.21875000000000008
+          ],
+          "reference_weight": 0.0009765625000000007,
+          "weighted_contribution": 2.7275486900119335,
+          "weighted_sigma_xx": 2793.009858572218
+        }
+      ],
+      "top_one_percent_element_contribution_fraction": 0.031041075226852864,
+      "top_ten_percent_element_contribution_fraction": 0.24513374616047837
+    },
+    "independent_recomputation": {
+      "absolute_production_vs_independent": 0.0,
+      "enumeration_max_absolute_difference": 4.547473508864641e-13,
+      "independent_raw_recompute_value": 3254.144091847219,
+      "jacobian_determinant_max": 0.0001220703125000004,
+      "jacobian_determinant_min": 0.00012207031249999973,
+      "jacobian_positive": true,
+      "level": "H3",
+      "permuted_enumeration_value": 3254.1440918472194,
+      "production_extractor_value": 3254.144091847219,
+      "quadrature_weight_rule_max_error": 5.995204332975845e-15,
+      "raw_npz_sha256": "f643427a53dbc41d27ade322c9b207d417aeb5265e2e2c61da57f3649c9f23ff",
+      "reverse_enumeration_value": 3254.1440918472194,
+      "total_reference_volume": 1.0000000000000002
+    },
+    "representative_stress": 3254.144091847219
+  },
+  "h4": {
+    "diagnostic_run": false,
+    "reason": "Existing raw invariants and spatial distribution localize the cause; no qualification decision requires H4.",
+    "result": "NOT_RUN"
+  },
+  "observable_definition": {
+    "coordinate_system": "reference integration-point coordinates X",
+    "current_volume_weight_used": false,
+    "deformed_coordinates_used": false,
+    "field": "Cauchy sigma_xx",
+    "missing_fields_fail_closed": true,
+    "normalized_region": {
+      "x_over_L": [
+        0.4,
+        0.6
+      ],
+      "y_over_H": [
+        0.7,
+        0.95
+      ],
+      "z_over_D": [
+        0.2,
+        0.8
+      ]
+    },
+    "weighting": "reference_volume_weight = w_q * det(J0), positive only"
+  },
+  "observable_implementation_path": {
+    "aggregation": "scripts/wp05_cd_structural_harness.py:sample_region_weighted_sigma_xx",
+    "delta_checker": "scripts/build_wp05_overnight_audit.py:_relative",
+    "production_fields": "src/solveur/elements/solid/total_lagrangian_j2.py:TotalLagrangianJ2Element.integration_point_results",
+    "qualification_mapping": "scripts/run_wp05_structural_qualification.py:_integration_records"
+  },
+  "original_failure_preserved": true,
+  "original_result_path": "qualification/0_2_9/overnight_r2_corrected/wp05_runs/HEX20/H2-H3/result.json",
+  "original_stress_delta": 0.10427343557067302,
+  "original_wp05d_result": "FAIL_CLOSED",
+  "post_correction_h2_h3_stress_delta": 0.10427343557067302,
+  "production_mechanics_changed": false,
+  "record_id": "QF-029-WP05D-HEX20-STRESS-FORENSICS-001",
+  "relative_difference": 0.10427343557067302,
+  "replay": {
+    "h1_value": 3124.6455480128734,
+    "newton_count_equal": true,
+    "path_equal": true,
+    "replay_value": 3124.6455480128734,
+    "status": "PASS"
+  },
+  "repository_sha": "e1a0edc9f6f03156e10d67a410594f31eb333a1e",
+  "thresholds_changed": false,
+  "wp05d_status": "FAIL_CLOSED",
+  "wp05e_status": "NOT_RUN_DEPENDENCY_BLOCKED"
+}
