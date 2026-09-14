@@ -303,7 +303,7 @@ def main() -> int:
     parser.add_argument("--mesh", choices=tuple(level.name for level in MESH_LEVELS), required=True)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args()
-    result = run_case(args.family, args.mesh, args.output)
+    result = run_case(args.family, args.mesh, args.output.resolve())
     print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False))
     return 0 if result["status"] == "PASS" else 1
 
