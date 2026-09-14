@@ -12,11 +12,11 @@ from typing import Any
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNS = ROOT / "qualification" / "0_2_9" / "overnight_r2" / "wp05_runs"
-REPLAYS = ROOT / "qualification" / "0_2_9" / "overnight_r2" / "wp05_replay_run3"
+RUNS = ROOT / "qualification" / "0_2_9" / "overnight_r2_corrected" / "wp05_runs"
+REPLAYS = ROOT / "qualification" / "0_2_9" / "overnight_r2_corrected" / "wp05_replay_run3"
 CONTRACT = ROOT / "qualification" / "0_2_9" / "wp05_cd_structural_contract.json"
-OUT = ROOT / "qualification" / "0_2_9" / "overnight_r2"
-DOC = ROOT / "docs" / "verification" / "0_2_9" / "overnight-wp05-r2-checkpoint.md"
+OUT = ROOT / "qualification" / "0_2_9" / "overnight_r2_corrected"
+DOC = ROOT / "docs" / "verification" / "0_2_9" / "overnight-wp05-r2-corrected-checkpoint.md"
 
 MESH_THRESHOLDS = {
     "displacement": 0.02,
@@ -95,7 +95,11 @@ def _replay_audit(family: str) -> dict[str, Any]:
 
 def _cross_audit(tet: dict[str, Any], hex20: dict[str, Any]) -> dict[str, Any]:
     # Deliberately not evaluated: WP05-E is conditional on both C and D PASS.
-    return {"status": "NOT_RUN", "reason": "WP05-C failed the frozen H2-to-H3 stress threshold; cross-family execution is dependency-blocked.", "thresholds": CROSS_THRESHOLDS}
+    if tet["h2_to_h3"]["status"] == "PASS" and hex20["h2_to_h3"]["status"] == "PASS":
+        reason = "WP05-E is eligible for the frozen cross-family comparison; this corrected checkpoint does not execute it."
+    else:
+        reason = "WP05-E is dependency-blocked because at least one frozen WP05-C/D family campaign failed."
+    return {"status": "NOT_RUN", "reason": reason, "thresholds": CROSS_THRESHOLDS}
 
 
 def main() -> int:
@@ -105,7 +109,7 @@ def main() -> int:
     hex20 = _mesh_audit("HEX20")
     summary: dict[str, Any] = {
         "schema_version": 1,
-        "record_id": "QF-029-WP05-OVERNIGHT-R2-QUALIFICATION-001",
+        "record_id": "QF-029-WP05-OVERNIGHT-R2-CORRECTED-QUALIFICATION-002",
         "created_at": datetime.now(timezone.utc).isoformat(),
         "branch": subprocess.check_output(["git", "branch", "--show-current"], cwd=ROOT, text=True).strip(),
         "final_source_sha": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
@@ -113,12 +117,15 @@ def main() -> int:
         "previous_hold_paths": ["qualification/0_2_9/overnight/overnight_wp05_wp07_final.json", "docs/verification/0_2_9/overnight-wp05-wp07-final-report.md"],
         "contract_path": str(CONTRACT.relative_to(ROOT)).replace("\\", "/"),
         "contract_sha256": contract_digest,
-        "governing_policy_digest": "895d3c932278c0207b207318216c263a427636d57738bef730917fdc7d9b0ef5",
+        "governing_policy_digest": {
+            "TET10": _read(RUNS / "TET10" / "H3" / "result.json")["governing_policy_digest"],
+            "HEX20": _read(RUNS / "HEX20" / "H3" / "result.json")["governing_policy_digest"],
+        },
         "contract_thresholds": contract["thresholds"],
         "tet10": tet,
         "hex20": hex20,
         "wp05_e": _cross_audit(tet, hex20),
-        "formal_candidate_points": {"WP05-C": "0/1", "WP05-D": "1/1", "WP05-E": "0/1", "WP05": "3/5 candidate"},
+        "formal_candidate_points": {"WP05-C": "1/1 candidate", "WP05-D": "0/1", "WP05-E": "0/1", "WP05": "3/5 candidate"},
         "official_total_before_owner_review": "50/100",
         "potential_total_after_owner_review": "51/100",
         "production_mechanics_changed": False,
@@ -138,7 +145,8 @@ def _markdown(summary: dict[str, Any]) -> str:
     def row(audit: dict[str, Any], name: str) -> str:
         item = audit["h2_to_h3"]["checks"][name]
         return f"| {name} | {item['delta']:.15g} | {item['threshold']:.15g} | {item['status']} |"
-    return f"""# WP05 overnight structural qualification checkpoint (R2)\n\nThis checkpoint was derived from the flushed raw records under `qualification/0_2_9/overnight_r2/`. The previous HOLD record remains immutable and is referenced, not rewritten. No production mechanics, thresholds, meshes, loads, or solver settings were changed.\n\n## Execution status\n\n- Branch: `{summary['branch']}`\n- Final tooling SHA: `{summary['final_source_sha']}`\n- Contract SHA-256: `{summary['contract_sha256']}`\n- Governing policy digest: `{summary['governing_policy_digest']}`\n- Route: MINRES + Jacobi, canonical line search, floor-aware termination, 12 increments, no direct fallback\n- Previous HOLD preserved: **YES**\n\n## WP05-C — TET10\n\nH1, H2 and H3 completed. H1 replay completed with exact recorded displacement/reaction arrays, load path and Newton count. The frozen H2→H3 checks are: **{tet['h2_to_h3']['status']}**.\n\n| Observable | H2→H3 relative delta | Frozen limit | Result |\n|---|---:|---:|---|\n{row(tet, 'displacement')}\n{row(tet, 'reaction')}\n{row(tet, 'moment')}\n{row(tet, 'energy')}\n{row(tet, 'stress')}\n\nThe representative stress delta is above the frozen 8% limit, so WP05-C is **FAIL_CLOSED**. This is preserved as qualification evidence; no rescue threshold or mesh was introduced.\n\n## WP05-D — HEX20\n\nH1, H2 and H3 completed. H1 replay passed. The frozen H2→H3 checks are: **{hex20['h2_to_h3']['status']}**. All five observable limits, equilibrium limits, and the deformation envelope pass. WP05-D is **PASS_CANDIDATE** pending Owner review.\n\n## WP05-E\n\n**NOT_RUN / dependency-blocked.** The frozen contract permits cross-family execution only when both WP05-C and WP05-D pass. Since WP05-C failed its stress limit, no cross-family result is claimed.\n\n## Governance\n\n- WP05 candidate points: C `0/1`, D `1/1`, E `0/1`; no official points awarded.\n- Official total remains `50/100` pending Owner review; potential total from this campaign is `51/100`.\n- Structural solves were run only for the declared WP05-C/D meshes and H1 replays.\n- Full repository suite: **NO**.\n- WP06/WP08: untouched.\n\n"""
+    policy = summary["governing_policy_digest"]
+    return f"""# WP05 overnight structural qualification checkpoint (corrected observables)\n\nThis checkpoint was derived from completed, preserved solver outputs under `qualification/0_2_9/overnight_r2/` and re-extracted into `qualification/0_2_9/overnight_r2_corrected/`. The earlier checkpoint remains immutable and is superseded for qualification observables because it used an element-centroid stress proxy. No production mechanics, thresholds, meshes, loads, solver settings, or completed displacement fields were changed.\n\n## Execution status\n\n- Branch: `{summary['branch']}`\n- Final tooling SHA: `{summary['final_source_sha']}`\n- Contract SHA-256: `{summary['contract_sha256']}`\n- Governing policy digests retained from completed solves: TET10 `{policy['TET10']}`, HEX20 `{policy['HEX20']}`\n- Route: MINRES + Jacobi, canonical line search, floor-aware termination, 12 increments, no direct fallback\n- Previous HOLD preserved: **YES**\n- Corrected stress observable: reference integration-point coordinates, positive reference-volume weights `w_q det(J0)`, production Cauchy stress\n\n## Harness correction\n\nThe first WP05 result records remain at their original paths and are not overwritten. Their stress field was labeled `FROZEN_CENTROID_REGION`; that is not the frozen WP05 integration-point contract. The corrected records use production quadrature fields and map the same quadrature points through the production TET10/HEX20 shape functions. The original solver displacement, reactions, solver diagnostics, load path, and energy are retained.\n\n## WP05-C — TET10\n\nH1, H2 and H3 completed. H1 replay completed with exact recorded displacement/reaction arrays, load path and Newton count. The corrected frozen H2→H3 checks are: **{tet['h2_to_h3']['status']}**.\n\n| Observable | H2→H3 relative delta | Frozen limit | Result |\n|---|---:|---:|---|\n{row(tet, 'displacement')}\n{row(tet, 'reaction')}\n{row(tet, 'moment')}\n{row(tet, 'energy')}\n{row(tet, 'stress')}\n\nThe corrected representative stress delta is within the frozen 8% limit. TET10 equilibrium, envelope, and replay evidence also pass. WP05-C is **PASS_CANDIDATE** pending Owner review.\n\n## WP05-D — HEX20\n\nH1, H2 and H3 completed. H1 replay passed after the same corrected extraction. The corrected frozen H2→H3 checks are: **{hex20['h2_to_h3']['status']}**. The representative stress delta is above the frozen 8% limit (`{hex20['h2_to_h3']['checks']['stress']['delta']:.15g}`), so WP05-D is **FAIL_CLOSED**. This is a result of the frozen observable and threshold; no rescue threshold or mesh was introduced.\n\n## WP05-E\n\n**NOT_RUN / dependency-blocked.** The frozen contract permits cross-family execution only when both WP05-C and WP05-D pass. Since corrected WP05-D fails its stress limit, no cross-family result is claimed.\n\n## Governance\n\n- WP05 candidate points: C `1/1`, D `0/1`, E `0/1`; no official points awarded.\n- Official total remains `50/100` pending Owner review; potential total from this campaign is `51/100`.\n- Structural solver runs were not repeated; corrected evidence is a qualification-only postprocessing of completed H1/H2/H3 outputs and H1 replays.\n- Full repository suite: **NO**.\n- WP06/WP08: untouched.\n\n"""
 
 
 if __name__ == "__main__":

@@ -38,9 +38,12 @@ from scripts.wp05_cd_structural_harness import (
     check_load_conservation,
     mesh_quality,
     nodal_load_vector,
+    sample_region_weighted_sigma_xx,
 )
 from solveur.core.analyses.geometric_nonlinear import _newton_dead_load
 from solveur.core.model import FiniteElementModel
+from solveur.elements.solid.hex20 import Hex20Element
+from solveur.elements.solid.tet10 import Tet10Element
 
 
 DEFAULT_OUTPUT = ROOT / "qualification" / "0_2_9" / "overnight_r2" / "wp05_runs"
@@ -119,9 +122,55 @@ def _model(family: str, level: str, contract: StructuralBenchmarkContract) -> tu
     return model, mesh, loads, fixed_nodes
 
 
+def _integration_records(assembly: Any, displacement: np.ndarray) -> list[dict[str, Any]]:
+    """Return the frozen reference-coordinate integration-point observables.
+
+    The production assembly already owns the constitutive and kinematic
+    evaluation.  This qualification-only adapter adds the reference physical
+    location and reference-volume weight required by the WP05 stress contract;
+    it deliberately does not create an element-level centroid proxy.
+    """
+    records: list[dict[str, Any]] = []
+    family = str(assembly.element_type)
+    for element_index, kernel in enumerate(assembly._kernels):
+        element_nodes = assembly.elements[element_index]
+        coordinates = assembly.nodes[element_nodes]
+        local = displacement[assembly.element_dofs[element_index]]
+        points = kernel.integration_point_results(coordinates, local)
+        if family == "TET10":
+            natural_points = [point for point, _ in kernel._rule()]
+            shape_functions = [Tet10Element.shape_functions(point) for point in natural_points]
+        elif family == "HEX20":
+            natural_points = list(Hex20Element.integration_points)
+            shape_functions = [Hex20Element.shape_functions(point) for point in natural_points]
+        else:
+            raise ValueError(f"Unsupported WP05 integration-record family {family!r}.")
+        reference_data = kernel._cached_reference_data(coordinates)
+        if len(points) != len(shape_functions) or len(points) != len(reference_data):
+            raise ValueError("Production integration data and qualification sampling data differ.")
+        for point, shape, (measure, _) in zip(points, shape_functions, reference_data, strict=True):
+            reference_coordinates = np.asarray(shape, dtype=float) @ coordinates
+            records.append(
+                {
+                    "element_index": element_index,
+                    "integration_point_index": int(point["index"]),
+                    "natural_coordinates": np.asarray(natural_points[int(point["index"])], dtype=float).tolist(),
+                    "reference_coordinates": reference_coordinates.tolist(),
+                    "reference_volume_weight": float(measure),
+                    "deformation_gradient": point["deformation_gradient"],
+                    "green_lagrange_strain": point["green_lagrange_strain"],
+                    "second_piola_stress": point["second_piola_stress"],
+                    "cauchy_stress": point["cauchy_stress"],
+                    "det_f": float(point["det_f"]),
+                }
+            )
+    return records
+
+
 def _observables(model: FiniteElementModel, mesh: Any, loads: np.ndarray, fixed_nodes: np.ndarray, displacement: np.ndarray) -> tuple[dict[str, Any], dict[str, np.ndarray]]:
     from solveur.core.assembly.geometric import build_total_lagrangian_assembly
 
+    contract = StructuralBenchmarkContract()
     assembly = build_total_lagrangian_assembly(model)
     internal, _ = assembly.assemble(displacement, tangent_required=False)
     fixed = np.concatenate([3 * fixed_nodes + component for component in range(3)]).astype(int)
@@ -134,39 +183,27 @@ def _observables(model: FiniteElementModel, mesh: Any, loads: np.ndarray, fixed_
     reaction_resultant = np.sum(reaction_vectors, axis=0)
     external_moment = np.sum(np.cross(deformed, external_vectors), axis=0)
     reaction_moment = np.sum(np.cross(deformed, reaction_vectors), axis=0)
-    element_states = assembly.element_states(displacement)
-    centroids = np.asarray([np.mean(mesh.coordinates[list(nodes)], axis=0) for nodes in mesh.connectivity])
-    region = (
-        (centroids[:, 0] / 4.0 >= 0.40) & (centroids[:, 0] / 4.0 <= 0.60)
-        & (centroids[:, 1] / 0.5 >= 0.70) & (centroids[:, 1] / 0.5 <= 0.95)
-        & (centroids[:, 2] / 0.5 >= 0.20) & (centroids[:, 2] / 0.5 <= 0.80)
-    )
-    stress_region_status = "FROZEN_CENTROID_REGION"
-    if not np.any(region):
-        # The coarsest H1 mesh has no element centroid in the frozen volume
-        # even though its integration points cover it.  Keep H1 executable as
-        # a preflight and mark its centroid proxy explicitly; H2/H3 use the
-        # frozen region without this proxy.
-        distance = np.sum((centroids - np.array([2.0, 0.4125, 0.25])) ** 2, axis=1)
-        region[np.argmin(distance)] = True
-        stress_region_status = "H1_CENTROID_PROXY_SUPPORT_ONLY"
     volumes = []
     det_values: list[float] = []
     stretch_values: list[np.ndarray] = []
     green_values: list[float] = []
-    stress_values = []
-    for index, kernel in enumerate(assembly._kernels):
-        local = displacement[assembly.element_dofs[index]]
-        points = kernel.integration_point_results(mesh.coordinates[assembly.elements[index]], local)
-        volumes.append(sum(float(point["weight"]) for point in points))
-        for point in points:
-            deformation = np.asarray(point["deformation_gradient"], dtype=float)
-            det_values.append(float(point["det_f"]))
-            stretch_values.append(np.linalg.svd(deformation, compute_uv=False))
-            green_values.append(float(np.linalg.norm(np.asarray(point["green_lagrange_strain"], dtype=float))))
-        stress_values.append(float(element_states["cauchy_stress"][index, 0, 0]))
-    volumes_array = np.asarray(volumes, dtype=float)
-    representative_stress = float(np.dot(volumes_array[region], np.asarray(stress_values)[region]) / np.sum(volumes_array[region]))
+    records = _integration_records(assembly, displacement)
+    for record in records:
+        deformation = np.asarray(record["deformation_gradient"], dtype=float)
+        det_values.append(float(record["det_f"]))
+        stretch_values.append(np.linalg.svd(deformation, compute_uv=False))
+        green_values.append(float(np.linalg.norm(np.asarray(record["green_lagrange_strain"], dtype=float))))
+        volumes.append(float(record["reference_volume_weight"]))
+    representative_stress = sample_region_weighted_sigma_xx(records, contract)
+    stress_region_records = [
+        record
+        for record in records
+        if (
+            contract.sample_region[0][0] <= float(record["reference_coordinates"][0]) / contract.length <= contract.sample_region[0][1]
+            and contract.sample_region[1][0] <= float(record["reference_coordinates"][1]) / contract.height <= contract.sample_region[1][1]
+            and contract.sample_region[2][0] <= float(record["reference_coordinates"][2]) / contract.depth <= contract.sample_region[2][1]
+        )
+    ]
     tip = np.mean(displacement[np.asarray(mesh.end_face_nodes) * 3 + 1])
     force_imbalance = external_resultant + reaction_resultant
     moment_imbalance = external_moment + reaction_moment
@@ -178,7 +215,9 @@ def _observables(model: FiniteElementModel, mesh: Any, loads: np.ndarray, fixed_
         "reaction_moment": reaction_moment.tolist(),
         "strain_energy": float(assembly.strain_energy(displacement)),
         "representative_sigma_xx": representative_stress,
-        "stress_region_status": stress_region_status,
+        "stress_region_status": "FROZEN_INTEGRATION_POINT_REFERENCE_VOLUME",
+        "stress_region_integration_point_count": len(stress_region_records),
+        "stress_region_reference_volume": float(sum(float(record["reference_volume_weight"]) for record in stress_region_records)),
         "minimum_detF": float(np.min(det_values)),
         "minimum_principal_stretch": float(np.min(stretch_values)),
         "maximum_principal_stretch": float(np.max(stretch_values)),
@@ -203,6 +242,13 @@ def _observables(model: FiniteElementModel, mesh: Any, loads: np.ndarray, fixed_
         "detF": np.asarray(det_values, dtype=np.float64),
         "principal_stretches": np.asarray(stretch_values, dtype=np.float64),
         "green_lagrange_norm": np.asarray(green_values, dtype=np.float64),
+        "integration_reference_coordinates": np.asarray(
+            [record["reference_coordinates"] for record in records], dtype=np.float64
+        ),
+        "integration_volume_weights": np.asarray(volumes, dtype=np.float64),
+        "integration_cauchy_stress": np.asarray(
+            [record["cauchy_stress"] for record in records], dtype=np.float64
+        ),
     }
     return observed, arrays
 
