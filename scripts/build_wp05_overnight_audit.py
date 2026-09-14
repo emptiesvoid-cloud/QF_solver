@@ -14,6 +14,8 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 RUNS = ROOT / "qualification" / "0_2_9" / "overnight_r2_corrected" / "wp05_runs"
 REPLAYS = ROOT / "qualification" / "0_2_9" / "overnight_r2_corrected" / "wp05_replay_run3"
+ORIGINAL_RUNS = ROOT / "qualification" / "0_2_9" / "overnight_r2" / "wp05_runs"
+ORIGINAL_REPLAYS = ROOT / "qualification" / "0_2_9" / "overnight_r2" / "wp05_replay_run3"
 CONTRACT = ROOT / "qualification" / "0_2_9" / "wp05_cd_structural_contract.json"
 OUT = ROOT / "qualification" / "0_2_9" / "overnight_r2_corrected"
 DOC = ROOT / "docs" / "verification" / "0_2_9" / "overnight-wp05-r2-corrected-checkpoint.md"
@@ -93,6 +95,60 @@ def _replay_audit(family: str) -> dict[str, Any]:
     return {"status": "PASS" if status else "FAIL", "first_path": str((RUNS / family / "H1" / "result.json").relative_to(ROOT)).replace("\\", "/"), "second_path": str((REPLAYS / family / "H1" / "result.json").relative_to(ROOT)).replace("\\", "/"), "observable_relative_deltas": observable_deltas, "raw_displacement_and_reaction_exact": raw_equal, "accepted_load_factors_exact": path_equal, "newton_iteration_count_exact": count_equal, "relative_tolerance": 1.0e-12, "absolute_floor": 1.0e-14}
 
 
+def _correction_audit() -> dict[str, Any]:
+    """Prove the corrected extraction did not alter completed solver output."""
+    rows: list[dict[str, Any]] = []
+    common_arrays = (
+        "coordinates",
+        "connectivity",
+        "loads",
+        "displacement",
+        "reactions",
+        "detF",
+        "principal_stretches",
+        "green_lagrange_norm",
+    )
+    stable_fields = ("source_sha", "accepted_load_factors", "newton_iterations", "fallback_count", "solver_diagnostics")
+    for root_name, original_root, corrected_root in (
+        ("wp05_runs", ORIGINAL_RUNS, RUNS),
+        ("wp05_replay_run3", ORIGINAL_REPLAYS, REPLAYS),
+    ):
+        for path in sorted(original_root.glob("*/H*/result.json")):
+            corrected = corrected_root / path.relative_to(original_root)
+            old_payload = _read(path)
+            new_payload = _read(corrected)
+            old_raw_path = ROOT / str(old_payload["raw_npz"])
+            new_raw_path = ROOT / str(new_payload["raw_npz"])
+            with np.load(old_raw_path, allow_pickle=False) as old_raw, np.load(new_raw_path, allow_pickle=False) as new_raw:
+                arrays_equal = all(np.array_equal(old_raw[name], new_raw[name]) for name in common_arrays)
+            fields_equal = all(old_payload.get(name) == new_payload.get(name) for name in stable_fields)
+            rows.append(
+                {
+                    "original_result": str(path.relative_to(ROOT)).replace("\\", "/"),
+                    "corrected_result": str(corrected.relative_to(ROOT)).replace("\\", "/"),
+                    "original_result_preserved": path.is_file(),
+                    "original_raw_preserved": old_raw_path.is_file(),
+                    "common_raw_arrays_exact": arrays_equal,
+                    "solver_fields_exact": fields_equal,
+                    "original_stress_method": old_payload.get("observables", {}).get("stress_region_status"),
+                    "corrected_stress_method": new_payload.get("observables", {}).get("stress_region_status"),
+                }
+            )
+    return {
+        "status": "PASS" if all(
+            item["original_result_preserved"]
+            and item["original_raw_preserved"]
+            and item["common_raw_arrays_exact"]
+            and item["solver_fields_exact"]
+            for item in rows
+        ) else "FAIL",
+        "original_summary_preserved": (ROOT / "qualification/0_2_9/overnight_r2/wp05_qualification_summary.json").is_file(),
+        "original_checkpoint_preserved": (ROOT / "docs/verification/0_2_9/overnight-wp05-r2-checkpoint.md").is_file(),
+        "rows": rows,
+        "correction_scope": "qualification-only stress observable extraction; no solver rerun or mechanics change",
+    }
+
+
 def _cross_audit(tet: dict[str, Any], hex20: dict[str, Any]) -> dict[str, Any]:
     # Deliberately not evaluated: WP05-E is conditional on both C and D PASS.
     if tet["h2_to_h3"]["status"] == "PASS" and hex20["h2_to_h3"]["status"] == "PASS":
@@ -124,6 +180,7 @@ def main() -> int:
         "contract_thresholds": contract["thresholds"],
         "tet10": tet,
         "hex20": hex20,
+        "observable_correction_audit": _correction_audit(),
         "wp05_e": _cross_audit(tet, hex20),
         "formal_candidate_points": {"WP05-C": "1/1 candidate", "WP05-D": "0/1", "WP05-E": "0/1", "WP05": "3/5 candidate"},
         "official_total_before_owner_review": "50/100",
