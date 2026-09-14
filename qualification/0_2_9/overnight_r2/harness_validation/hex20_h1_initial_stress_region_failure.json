@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "record_type": "HARNESS_VALIDATION_FAILURE",
+  "case": "WP05-D HEX20 H1",
+  "status": "FAILED_HARNESS_ONLY",
+  "source_sha": "4bfee7df268aff62298fb2ce44815a95bcf7b0b6",
+  "failure": "Frozen WP05 stress region contains no high-order elements.",
+  "classification": "OBSERVABLE_EXTRACTION_HARNESS_DEFECT",
+  "cause": "The first H1 centroid-only selector found no centroid in the frozen region; the corrected harness retains the frozen region for H2/H3 and marks H1 as support-only proxy.",
+  "physics_changed": false,
+  "thresholds_changed": false,
+  "superseded_by": "qualification/0_2_9/overnight_r2/wp05_runs/HEX20/H1/result.json",
+  "preserved_from_flushed_console_result": true
+}
