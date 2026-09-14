@@ -6142,7 +6142,20 @@
     "qualification/0_2_9/wp06d1/wp06d1_m2_failure_diagnostic.json"
   ],
   "tests": []
-}
-  ]
-  
+},
+{
+  "id": "DOC-029-WP06D1-REMEDIATION-001",
+    "path": "verification/0_2_9/wp06-premerge-remediation.md",
+    "title": "QF Solver 0.2.9 WP06-D1 pre-merge remediation preparation",
+    "status": "controlled_candidate",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp06_premerge_remediation.json"
+    ],
+    "tests": [
+      "tests/unit/test_wp06_premerge_tools.py",
+      "tests/verification/test_wp04_f_final_closure.py"
+    ]
+  }
+]
 }

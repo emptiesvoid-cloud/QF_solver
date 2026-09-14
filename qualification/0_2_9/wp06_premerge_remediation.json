@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0.2.9-WP06-PREMERGE-REMEDIATION-001",
+  "work_package": "WP06-D1",
+  "status": "PREPARED_FOR_OWNER_AUTHORIZED_REQUALIFICATION",
+  "original_phase1_failure_preserved": true,
+  "immutable_artifacts": [
+    "qualification/0_2_9/wp06d_phase1_structural_raw.json",
+    "qualification/0_2_9/wp06d1/wp06d1_m2_failure_diagnostic.json"
+  ],
+  "monitor": {
+    "status": "FIXED_IN_PREPARATION_TOOLING",
+    "definition": "-mean(UZ at frozen crown nodes)",
+    "crown_node_set": [2, 3, 4],
+    "ordering": "ascending declared tuple",
+    "single_node_fallback": false,
+    "historical_raw_runner_value_preserved": true
+  },
+  "checkpoint_reader": {
+    "status": "FIXED_BY_READ_ONLY_COMPATIBILITY_ADAPTER",
+    "current_api": "NpzNonlinearCheckpointStore.load(path, model=optional, expected_dofs=optional)",
+    "supported_schemas": [1, 2],
+    "invalid_or_incomplete": "FAIL_CLOSED",
+    "solver_state_mutated_by_read": false,
+    "legacy_keyword_mismatch_regression": true
+  },
+  "accepted_state_archiving": {
+    "ready": true,
+    "lossless_displacement": true,
+    "fields": [
+      "step",
+      "lambda",
+      "accepted_displacement",
+      "mean_crown_uz",
+      "reaction_resultant",
+      "reaction_moment",
+      "residual_norm",
+      "arc_length_constraint_value",
+      "newton_iterations",
+      "cutbacks_retries",
+      "terminal_classification",
+      "state_digest"
+    ],
+    "missing_value_policy": "null plus explicit reason"
+  },
+  "independent_equilibrium_reconstruction": {
+    "force_ready": true,
+    "moment_ready": true,
+    "origin": [0.0, 0.0, 0.0],
+    "threshold": 1.0e-8,
+    "uses_original_summary_field": false
+  },
+  "wp04_fingerprint_drift": {
+    "classification": "INHERITED_TEST_EXPECTATION_DRIFT",
+    "production_changed": false,
+    "historical_audit_revision_validated": true
+  },
+  "future_requalification": {
+    "harness_ready": true,
+    "owner_authorization_required": true,
+    "m3_requires_m1_m2_pass": true,
+    "structural_solves_run": false,
+    "extended_horizon_run": false
+  },
+  "governance": {
+    "physics_changed": false,
+    "thresholds_changed": false,
+    "maturity_changed": false,
+    "qualification_points_awarded": "0/8"
+  }
+}
