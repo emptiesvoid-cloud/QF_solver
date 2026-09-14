@@ -5,7 +5,7 @@ This checkpoint was derived from the flushed raw records under `qualification/0_
 ## Execution status
 
 - Branch: `0.2.9-overnight-wp05-wp07`
-- Final tooling SHA: `8dd1445f685187ee3ffd1373d966cc5f37272bd8`
+- Final tooling SHA: `8db3514f684fb6f03b44af4d868580e19b14120e`
 - Contract SHA-256: `e8ce5ed095bf3f142b64d5a5838682c638478a5a92c8330a10af88584f52d680`
 - Governing policy digest: `895d3c932278c0207b207318216c263a427636d57738bef730917fdc7d9b0ef5`
 - Route: MINRES + Jacobi, canonical line search, floor-aware termination, 12 increments, no direct fallback

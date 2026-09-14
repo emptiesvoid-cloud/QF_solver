@@ -25,8 +25,8 @@
       "strain_energy": 0.02
     }
   },
-  "created_at": "2026-09-14T04:44:51.890878+00:00",
-  "final_source_sha": "8dd1445f685187ee3ffd1373d966cc5f37272bd8",
+  "created_at": "2026-09-14T04:45:24.959456+00:00",
+  "final_source_sha": "8db3514f684fb6f03b44af4d868580e19b14120e",
   "formal_candidate_points": {
     "WP05": "3/5 candidate",
     "WP05-C": "0/1",
