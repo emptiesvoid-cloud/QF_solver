@@ -209,6 +209,37 @@ def _proposed_active(
     return tuple(index for index in proposed if index not in tensile)
 
 
+def _select_active_set_transition(
+    active: tuple[int, ...],
+    proposed: tuple[int, ...],
+    visited: set[tuple[int, ...]],
+) -> tuple[tuple[int, ...], str]:
+    """Choose a deterministic non-repeating active-set transition.
+
+    The normal complementarity rule remains the authority for convergence.  If
+    its simultaneous update would revisit an active set, apply a Bland-style
+    one-contact pivot in stable index order.  This only changes the path after
+    a detected cycle; it does not relax the gap/pressure tolerances or accept
+    an unconverged set.
+    """
+
+    if proposed not in visited:
+        return proposed, "ACTIVE_SET_UPDATE"
+    current = set(active)
+    target = set(proposed)
+    pivots = sorted((target - current) | (current - target))
+    for index in pivots:
+        candidate = set(current)
+        if index in candidate:
+            candidate.remove(index)
+        else:
+            candidate.add(index)
+        transition = tuple(sorted(candidate))
+        if transition not in visited:
+            return transition, "ACTIVE_SET_CYCLE_BROKEN"
+    return proposed, "ACTIVE_SET_CYCLE_REPEATED"
+
+
 def _friction_system(
     stiffness: csr_matrix,
     loads: np.ndarray,
