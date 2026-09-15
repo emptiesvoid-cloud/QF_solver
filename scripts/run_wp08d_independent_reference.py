@@ -448,40 +448,60 @@ def _normal_set(model: Mapping[str, Any], load: np.ndarray) -> tuple[int, ...]:
     raise RuntimeError("Independent normal active set did not converge.")
 
 
-def _solve_slip_root(
+def _solve_hybrid_root(
     model: Mapping[str, Any],
     load: np.ndarray,
     active: tuple[int, ...],
     references: np.ndarray,
+    observed_states: tuple[str, ...],
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray, tuple[str, ...], np.ndarray, np.ndarray, dict[str, Any]]:
-    zero_states = tuple("open" for _ in model["slave_nodes"])
-    zero_forces: np.ndarray = np.zeros((len(model["slave_nodes"]), 2), dtype=float)
-    probe, probe_multipliers = _solve_kkt(model, load, active, zero_states, zero_forces, references)
-    probe_pressures = _pressures(active, probe_multipliers, len(zero_states))
-    closed = tuple(index for index in active if probe_pressures[index] > FRICTION_TOLERANCE)
-    if not closed:
-        raise RuntimeError("Independent slip root has no compressed frictional contacts.")
+    """Resolve the direct iteration's fixed stick/slip classification independently.
+
+    The direct return map is allowed to identify a stable tangential mode but
+    can fail to contract its forces.  This reference uses that observed mode
+    only as a fixed candidate: stick pairs remain elastic KKT contributions,
+    while the nonlinear unknown vector contains only the slip pairs.  It does
+    not enumerate modes and does not call a production contact routine.
+    """
+
+    count = len(model["slave_nodes"])
+    zero_forces: np.ndarray = np.zeros((count, 2), dtype=float)
+    active_set = set(active)
+    if any(observed_states[index] not in {"stick", "slip"} for index in active):
+        raise RuntimeError("Independent hybrid root received an undefined closed-contact state.")
+    if any(observed_states[index] != "open" for index in range(count) if index not in active_set):
+        raise RuntimeError("Independent hybrid root received a non-open state outside the normal set.")
+
+    states = tuple(observed_states[index] if index in active_set else "open" for index in range(count))
+    stick = tuple(index for index in active if states[index] == "stick")
+    slip = tuple(index for index in active if states[index] == "slip")
+    if not slip:
+        raise RuntimeError("Independent hybrid root requires at least one observed slip contact.")
+
+    probe, probe_multipliers = _solve_kkt(model, load, active, states, zero_forces, references)
+    probe_pressures = _pressures(active, probe_multipliers, count)
+    if any(probe_pressures[index] <= FRICTION_TOLERANCE for index in active):
+        raise RuntimeError("Independent hybrid root has a non-compressed active contact.")
     tangent_rows = np.asarray(model["tangent_rows"], dtype=float)
 
     def solve_for(vector: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         forces: np.ndarray = np.zeros_like(zero_forces)
-        forces[list(closed)] = np.asarray(vector, dtype=float).reshape(len(closed), 2)
-        states = tuple("slip" if index in closed else "open" for index in range(len(zero_states)))
+        forces[list(slip)] = np.asarray(vector, dtype=float).reshape(len(slip), 2)
         displacement, multipliers = _solve_kkt(model, load, active, states, forces, references)
-        return displacement, multipliers, _pressures(active, multipliers, len(zero_states)), forces
+        return displacement, multipliers, _pressures(active, multipliers, count), forces
 
     initial: list[float] = []
-    for index in closed:
+    for index in slip:
         trial = TANGENTIAL_STIFFNESS * (tangent_rows[index] @ probe - references[index])
         norm = float(np.linalg.norm(trial))
         if norm <= FRICTION_TOLERANCE:
-            raise RuntimeError("Independent slip root has undefined trial direction.")
+            raise RuntimeError("Independent hybrid root has undefined slip trial direction.")
         initial.extend((FRICTION_COEFFICIENT * probe_pressures[index] * trial / norm).tolist())
 
     def residual(vector: np.ndarray) -> np.ndarray:
         displacement, _multipliers, pressures, _forces = solve_for(vector)
         values: list[float] = []
-        for position, index in enumerate(closed):
+        for position, index in enumerate(slip):
             trial = TANGENTIAL_STIFFNESS * (tangent_rows[index] @ displacement - references[index])
             norm = float(np.linalg.norm(trial))
             if norm <= FRICTION_TOLERANCE or pressures[index] <= 0.0:
@@ -508,21 +528,36 @@ def _solve_slip_root(
         residual_norm = float(np.linalg.norm(residual(vector), ord=np.inf))
         root_method = "least_squares"
         if not fallback.success or not np.isfinite(residual_norm) or residual_norm > residual_limit:
-            raise RuntimeError(f"Independent active-slip root failed: residual={residual_norm:.3e}.")
+            raise RuntimeError(f"Independent hybrid stick/slip root failed: residual={residual_norm:.3e}.")
     displacement, multipliers, pressures, forces = solve_for(vector)
     gaps = _gaps(model, displacement)
     tangential_displacements = np.asarray([row @ displacement for row in tangent_rows], dtype=float)
     next_references = np.asarray(references, dtype=float).copy()
-    for index in closed:
+    for index in slip:
         next_references[index] = tangential_displacements[index] - forces[index] / TANGENTIAL_STIFFNESS
-    states = tuple("slip" if index in closed else ("stick" if index in active else "open") for index in range(len(zero_states)))
     post_active = _proposed_active(active, gaps, pressures)
+    if post_active != active:
+        raise RuntimeError("Independent hybrid root changed the normal active set.")
+    for index in stick:
+        trial = TANGENTIAL_STIFFNESS * (tangential_displacements[index] - references[index])
+        limit = FRICTION_COEFFICIENT * pressures[index]
+        if float(np.linalg.norm(trial)) > limit + FRICTION_TOLERANCE:
+            raise RuntimeError("Independent hybrid root stick contact exceeded the Coulomb limit.")
+    for position, index in enumerate(slip):
+        trial = TANGENTIAL_STIFFNESS * (tangential_displacements[index] - references[index])
+        norm = float(np.linalg.norm(trial))
+        limit = FRICTION_COEFFICIENT * pressures[index]
+        force = vector[2 * position : 2 * position + 2]
+        if norm <= FRICTION_TOLERANCE or limit <= 0.0 or not np.isclose(float(np.linalg.norm(force)), limit, rtol=1.0e-8, atol=FRICTION_TOLERANCE):
+            raise RuntimeError("Independent hybrid root slip contact failed Coulomb consistency.")
     diagnostics = {
-        "strategy": "active_slip_root",
-        "closed_frictional_contacts": list(closed),
-        "open_frictional_contacts": [index for index in range(len(zero_states)) if index not in active],
-        "tangential_unknown_dimension": 2 * len(closed),
-        "root_evaluations": int(hybrid.nfev),
+        "strategy": "hybrid_stick_slip_root",
+        "closed_frictional_contacts": list(active),
+        "stick_frictional_contacts": list(stick),
+        "slip_frictional_contacts": list(slip),
+        "open_frictional_contacts": [index for index in range(count) if index not in active],
+        "tangential_unknown_dimension": 2 * len(slip),
+        "root_evaluations": int(hybrid.nfev if root_method == "hybr" else fallback.nfev),
         "root_method": root_method,
         "root_residual_inf": residual_norm,
         "post_root_normal_active_contacts": list(post_active),
@@ -588,7 +623,7 @@ def _solve_increment(
         states = next_states
         forces = next_forces
     active = _normal_set(model, load)
-    root = _solve_slip_root(model, load, active, references)
+    root = _solve_hybrid_root(model, load, active, references, states)
     displacement, multipliers, pressures, root_states, root_forces, next_references, diagnostics = root
     gaps = _gaps(model, displacement)
     if _proposed_active(active, gaps, pressures) != active:
@@ -604,7 +639,7 @@ def _solve_increment(
         "forces": root_forces,
         "references": next_references,
         "history": history,
-        "strategy": "active_slip_root",
+        "strategy": "hybrid_stick_slip_root",
         "root_diagnostics": diagnostics,
     }
 
