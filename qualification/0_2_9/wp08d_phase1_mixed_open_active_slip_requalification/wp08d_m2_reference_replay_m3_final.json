@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "case": "WP08-D-M2-REFERENCE-REPLAY-CONDITIONAL-M3",
+  "start_sha": "0510e6fbc70e61454304b88b2b64662e2f87d5bb",
+  "final_sha": "RECORDED_AS_FINAL_BRANCH_HEAD_AFTER_EVIDENCE_COMMIT",
+  "reference_harness_commit_sha": "163b879",
+  "remote_sha_before_push": "0510e6fbc70e61454304b88b2b64662e2f87d5bb",
+  "branch": "0.2.9-wp08d-m1-phase1",
+  "governing_branch": "0.2.9-unified-nonlinear",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "source_import": {
+    "status": "PASS",
+    "package_path": "checkout/src/solveur",
+    "user_site_package_used": false
+  },
+  "accepted_m2_production": {
+    "status": "PASS_ACCEPTED_EVIDENCE_UNCHANGED",
+    "result_path": "qualification/0_2_9/wp08d_phase1_mixed_open_active_slip_requalification/run/M2/result.json",
+    "manifest_path": "qualification/0_2_9/wp08d_phase1_mixed_open_active_slip_requalification/run/M2/manifest.json",
+    "mesh": "M2",
+    "subdivision": [4, 2, 2],
+    "nodes": 49,
+    "elements": 96,
+    "dofs": 147,
+    "accepted_increments": 7,
+    "fallback_count": 0,
+    "active_contacts": [3, 7, 11],
+    "contact_states": ["open", "open", "open", "slip", "open", "open", "open", "slip", "open", "open", "open", "slip"],
+    "observables": {
+      "selected_displacement": 0.02038862858975972,
+      "reaction_resultant": [149.9999999999918, -4.497735517361434e-12, 1000.0000000000219],
+      "reaction_moment": [499.7151517659029, -922.911777039385, -74.99999999999986],
+      "normal_contact_resultant": [0.0, 0.0, 159.2740962921638],
+      "tangential_contact_resultant": [-45.58885196713809, 14.242411706027575, 0.0],
+      "cumulative_local_dissipation": 0.15362300134578014,
+      "force_balance_relative_error": 2.359249378146216e-14,
+      "moment_balance_relative_error": 4.591631339243615e-14
+    }
+  },
+  "load_path_provenance_audit": {
+    "status": "BLOCKING_DRIFT_DETECTED",
+    "contract_declared_path": [[1.0, 0.0], [1.0, 0.25], [1.0, 0.75], [1.0, 1.0], [1.0, 1.25], [1.0, 0.25], [1.0, -0.5]],
+    "accepted_production_path": [[1.0, 1.0], [1.0, 0.25], [1.0, 0.75], [1.0, 1.0], [1.0, 1.25], [1.0, 0.25], [1.0, -0.5]],
+    "first_increment_difference": {
+      "contract_tangential_factor": 0.0,
+      "accepted_production_tangential_factor": 1.0
+    },
+    "source_location": "scripts/wp08d_phase1_common.py::_load_vector_from_contract",
+    "interpretation": "The accepted production artifact and the frozen contract do not describe the same first increment. No contract or production runner change was made in this task."
+  },
+  "m2_independent_reference": {
+    "status": "FAIL_CLOSED",
+    "classification": "CONTRACT_OR_RUNNER_PROVENANCE_DRIFT",
+    "contract_path_run": {
+      "result_path": "qualification/0_2_9/wp08d_phase1_mixed_open_active_slip_requalification/independent_reference/M2_frozen_contract_fail_closed_final/result.json",
+      "manifest_path": "qualification/0_2_9/wp08d_phase1_mixed_open_active_slip_requalification/independent_reference/M2_frozen_contract_fail_closed_final/manifest.json",
+      "accepted_increments": 4,
+      "failure_increment": 5,
+      "failure_message": "Independent active-slip root failed: residual=3.290e+00.",
+      "fallback_count": 0,
+      "active_contacts_at_last_accepted_increment": [3, 7, 11],
+      "production_contact_routines_called": false,
+      "raw_artifacts_complete_for_failure": true
+    },
+    "actual_production_path_diagnostic": {
+      "status": "PASS_DIAGNOSTIC_ONLY",
+      "result_path": "qualification/0_2_9/wp08d_phase1_mixed_open_active_slip_requalification/independent_reference/M2_actual_production_route_final/result.json",
+      "accepted_increments": 7,
+      "fallback_count": 0,
+      "active_contacts": [3, 7, 11],
+      "checks": {
+        "finite": true,
+        "seven_accepted_increments": true,
+        "force_equilibrium": true,
+        "moment_equilibrium": true,
+        "open_contacts_zero_force": true,
+        "reference_deltas": true,
+        "active_set_matches_production": true,
+        "production_contact_routines_called": false
+      },
+      "deltas_vs_accepted_production": {
+        "displacement": 1.871823614985938e-15,
+        "reaction": 6.922019268456612e-14,
+        "moment": 1.0894988544267448e-13,
+        "normal_contact": 2.7908840535884967e-13,
+        "tangential_contact": 2.3464181598261106e-13,
+        "dissipation": 1.0063503174962524e-13
+      },
+      "interpretation": "This confirms independent equation/mechanics agreement for the route actually executed, but it cannot satisfy the frozen-contract reference gate while the first-increment provenance drift remains unresolved."
+    }
+  },
+  "m2_replay": {
+    "status": "NOT_RUN_FAIL_CLOSED_REFERENCE_DEPENDENCY",
+    "reason": "Frozen-contract independent reference did not PASS; replay was not executed."
+  },
+  "m2_decision": {
+    "status": "FAIL_CLOSED",
+    "qualified": false,
+    "formal_points": "0/2",
+    "owner_review_required": true
+  },
+  "m3": {
+    "production": "NOT_RUN",
+    "reference": "NOT_RUN",
+    "replay": "NOT_RUN",
+    "status": "NOT_RUN_REFERENCE_FAIL_CLOSED"
+  },
+  "validation": {
+    "targeted_pytest": "PASS — 17 passed",
+    "ruff": "PASS — python -m ruff check scripts/run_wp08d_independent_reference.py",
+    "mypy": "PASS — python -m mypy scripts/run_wp08d_independent_reference.py",
+    "compileall": "PASS",
+    "json_validation": "PASS",
+    "mkdocs": "NOT_RUN — repository has no mkdocs.yml (mkdocs strict unavailable)"
+  },
+  "governance": {
+    "production_mechanics_changed": "YES — prior Owner-authorized stick-predictor fix already present; NO mechanics change in this task",
+    "thresholds_changed": "NO",
+    "fallback_changed": "NO",
+    "wp05_touched": "NO",
+    "wp06_touched": "NO",
+    "h4_touched": "NO",
+    "full_test_suite_run": "NO",
+    "wp08_formal_points": "0/8",
+    "next_step": "Owner review of contract/runner first-increment provenance before any replay or M3 authorization"
+  }
+}
