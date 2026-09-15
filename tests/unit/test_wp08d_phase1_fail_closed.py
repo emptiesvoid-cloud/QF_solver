@@ -7,8 +7,8 @@ from pathlib import Path
 import pytest
 
 from scripts.wp08d_phase1_common import (
+    AUTHORIZED_INTEGRATION_BRANCH,
     PHASE1_AUTHORIZATION_TOKEN,
-    REQUIRED_BRANCH,
     REQUIRED_GOVERNING_SHA,
     require_phase1_authorization,
 )
@@ -34,8 +34,9 @@ def test_authorization_contract_fields_are_explicit(tmp_path: Path) -> None:
     path.write_text(
         "{"
         f'"authorization": "{PHASE1_AUTHORIZATION_TOKEN}", '
+        f'"governing_base_sha": "{REQUIRED_GOVERNING_SHA}", '
         f'"governing_sha": "{REQUIRED_GOVERNING_SHA}", '
-        f'"branch": "{REQUIRED_BRANCH}", '
+        f'"branch": "{AUTHORIZED_INTEGRATION_BRANCH}", '
         '"scope": "WP08-D_PHASE1_STRUCTURAL_EXECUTION", "meshes": ["M1"]}',
         encoding="utf-8",
     )
