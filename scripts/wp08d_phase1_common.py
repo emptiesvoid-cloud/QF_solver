@@ -231,6 +231,16 @@ class Phase1Progress:
 class Phase1Telemetry:
     """Immediate-flush JSONL telemetry with a Phase-1 event alias."""
 
+    _EVENT_ALIASES = {
+        "RUN_START": "ANALYSIS_START",
+        "RUN_END": "ANALYSIS_END",
+        "RUN_FAILED": "ANALYSIS_FAILED",
+        "HEARTBEAT": "CHECKPOINT",
+        "NEWTON_START": "NONLINEAR_ITERATION",
+        "KRYLOV_PROGRESS": "LINEAR_SOLVE_ITERATION",
+        "STEP_END": "STEP_ACCEPTED",
+    }
+
     def __init__(self, path: Path, *, analysis_id: str, mesh: str) -> None:
         from solveur.core.telemetry.events import EventStatus
         from solveur.core.telemetry.jsonl import JsonlSink
@@ -247,6 +257,7 @@ class Phase1Telemetry:
         self._event_status = EventStatus
 
     def emit(self, phase1_event: str, event_type: str, *, status: str = "INFO", **values: object) -> None:
+        event_type = self._EVENT_ALIASES.get(event_type, event_type)
         self._emitter.emit(
             event_type,
             status=status,
