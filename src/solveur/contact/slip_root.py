@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Callable
+from typing import Any, Callable, Mapping
 
 import numpy as np
 from scipy.optimize import least_squares, root
@@ -12,6 +12,7 @@ from scipy.sparse import csr_matrix
 from solveur.core.constraints import ConstraintReduction
 from solveur.core.dofs import DofManager
 from solveur.core.errors import NumericalConvergenceError
+from solveur.contact.support import _select_active_set_transition
 
 
 @dataclass(frozen=True)
@@ -35,6 +36,7 @@ SolveActiveSet = Callable[[ConstraintReduction, list[Any], tuple[int, ...]], tup
 Pressures = Callable[[tuple[int, ...], np.ndarray, int], np.ndarray]
 ProposedActive = Callable[[list[Any], tuple[int, ...], np.ndarray, np.ndarray], tuple[int, ...]]
 TangentialForce = Callable[[list[Any], np.ndarray, int], np.ndarray]
+ContactTrace = Callable[[str, Mapping[str, object]], None]
 
 
 def solve_active_slip_root(
@@ -50,6 +52,7 @@ def solve_active_slip_root(
     pressures_for: Pressures,
     proposed_active: ProposedActive,
     tangential_force: TangentialForce,
+    trace: ContactTrace | None = None,
 ) -> ActiveSlipSolution:
     """Resolve active-slip forces while retaining exact normal constraints.
 
@@ -58,7 +61,17 @@ def solve_active_slip_root(
     saddle system, so the pressure-dependent Coulomb limit remains coupled to
     the deformable structure.
     """
-    active = _normal_active_set(dofs, stiffness, loads, fixed, operators, solve_active_set, pressures_for, proposed_active)
+    active = _normal_active_set(
+        dofs,
+        stiffness,
+        loads,
+        fixed,
+        operators,
+        solve_active_set,
+        pressures_for,
+        proposed_active,
+        trace=trace,
+    )
     rough = tuple(index for index in active if operators[index].has_friction)
     if not rough:
         raise NumericalConvergenceError("Active-slip fallback requires one closed frictional contact.")
@@ -323,16 +336,47 @@ def _normal_active_set(
     solve_active_set: SolveActiveSet,
     pressures_for: Pressures,
     proposed_active: ProposedActive,
+    *,
+    trace: ContactTrace | None = None,
 ) -> tuple[int, ...]:
     """Find a stable normal active set before solving the slip unknowns."""
     reduction = ConstraintReduction.from_system(dofs, stiffness, loads, [], fixed)
     active: tuple[int, ...] = ()
-    for _ in range(25):
+    visited: set[tuple[int, ...]] = {active}
+    for iteration in range(1, 26):
         displacement, multipliers = solve_active_set(reduction, operators, active)
         gaps = np.asarray([operator.gap(displacement) for operator in operators])
         pressures = pressures_for(active, multipliers, len(operators))
         proposed = proposed_active(operators, active, gaps, pressures)
+        transition_cause = "ACTIVE_SET_STABLE" if proposed == active else "ACTIVE_SET_UPDATE"
+        if proposed != active:
+            next_active, transition_cause = _select_active_set_transition(active, proposed, visited)
+        else:
+            next_active = active
+        if trace is not None:
+            trace(
+                "normal_active_set",
+                {
+                    "iteration": iteration,
+                    "active_contacts": list(active),
+                    "proposed_contacts": list(proposed),
+                    "next_active_contacts": list(next_active),
+                    "min_gap": float(np.min(gaps, initial=0.0)),
+                    "min_pressure": float(np.min(pressures, initial=0.0)),
+                    "convergence_cause": transition_cause,
+                },
+            )
         if proposed == active:
             return active
-        active = proposed
-    raise NumericalConvergenceError("Normal contact set did not converge before the active-slip fallback.")
+        active = next_active
+        visited.add(active)
+    raise NumericalConvergenceError(
+        "Normal contact set did not converge before the active-slip fallback.",
+        diagnostics={
+            "strategy": "active_slip_root_normal_active_set",
+            "iteration": 25,
+            "active_contacts": list(active),
+            "cause": "ACTIVE_SET_MAX_ITERATIONS",
+            "visited_active_sets": len(visited),
+        },
+    )

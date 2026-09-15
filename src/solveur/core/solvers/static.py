@@ -110,7 +110,14 @@ class LinearStaticSolver:
                 },
                 solver_backend="contact_active_set",
             )
-            contact_state = FrictionlessActiveSetSolver().solve(model, dofs, stiffness, loads, fixed)
+            contact_state = FrictionlessActiveSetSolver().solve(
+                model,
+                dofs,
+                stiffness,
+                loads,
+                fixed,
+                telemetry=telemetry,
+            )
             free = np.setdiff1d(np.arange(dofs.ndof, dtype=int), fixed)
             reduced = contact_state.reduced_stiffness
             displacement = contact_state.displacement
