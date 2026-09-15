@@ -245,6 +245,37 @@ updated search, finite sliding, general nonlinear friction, global
 pressure-coupled tangent consistency, global energy decomposition, external
 solver correlation and automatic official point attribution.
 
+## Owner direct-inspection package
+
+The Owner HOLD requested a reviewable state without any solve rerun. The
+inspection target is exactly
+`123c46eb6900647679c4b96350dafd4d05efa355`; the evidence snapshot
+`bba9f7bc54ccd804824b58cb3e8684dc185fe8a7` is its ancestor, and the two
+intervening commits alter this report only.
+
+The direct-inspection package consists of:
+
+- `qualification/0_2_9/wp08_closure/wp08_owner_review_inspection.json`:
+  SHA chain, exact closure JSON hashes, M1/M2/M3 manifest re-hashes and
+  source-level reference-import audit;
+- `qualification/0_2_9/wp08e_closure/wp08e_closure_integrity_manifest.json`:
+  hashes for the E closure record and both checkpoint files, plus the accepted
+  step-4 and terminal-step-7 consistency facts;
+- `qualification/0_2_9/wp08e_closure/restart/accepted_step4.json` and
+  `restart/resumed_final.json`: the raw persisted contact states;
+- `scripts/run_wp08d_m1_independent_reference.py`,
+  `scripts/run_wp08d_independent_reference.py` and
+  `scripts/wp08d_independent_kkt_reference.py`: source reviewed for direct
+  production-contact imports.
+
+The static import audit found no `solveur.contact` import in any independent
+M1/M2/M3 reference runner or KKT reference module. M1 imports the generic
+Phase-1 helper for telemetry and file writing; that helper’s lazy imports are
+`solveur.core.telemetry` and production imports live only in a distinct
+production-run function, not in the independent reference execution path.
+The M1/M2/M3 result and manifest artifacts also each declare
+`production_contact_routines_called=false`.
+
 ## Validation
 
 The local-source targeted validation completed as follows:

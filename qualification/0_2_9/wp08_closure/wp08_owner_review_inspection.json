@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "artifact_id": "QF-SOLVER-0.2.9-WP08-OWNER-INSPECTION-001",
+  "status": "PASS_READY_FOR_OWNER_DIRECT_INSPECTION",
+  "review_target": {
+    "branch": "0.2.9-wp08d-m1-phase1",
+    "source_tree_sha": "123c46eb6900647679c4b96350dafd4d05efa355",
+    "working_tree_clean_at_inspection": true,
+    "remote_governing_head_unchanged": "7916d37a32af405fb5d710f56693c572f43aa298"
+  },
+  "provenance_chain": {
+    "evidence_snapshot_sha": "bba9f7bc54ccd804824b58cb3e8684dc185fe8a7",
+    "documentation_commit_1": "dad7733de1553f0af2c6eab110222d3b53e85f0a",
+    "documentation_commit_2": "123c46eb6900647679c4b96350dafd4d05efa355",
+    "evidence_snapshot_is_ancestor_of_review_target": true,
+    "changes_between_snapshot_and_review_target": [
+      "docs/verification/0_2_9/wp08e-closure-report.md only"
+    ]
+  },
+  "closure_artifacts": {
+    "wp08e_final_json": {
+      "status": "PASS",
+      "sha256": "55fe584850498c08a73b3145f5102b31fbae5385ba7220aa799de6abde665fbd"
+    },
+    "wp08_abcd_final_json": {
+      "status": "PASS_CANDIDATE_OWNER_REVIEW_REQUIRED",
+      "sha256": "790f7e4878cecb0be118fd06db3ccc400d28b35534539c4381e221553ab49ad4"
+    },
+    "wp08e_integrity_manifest": "PASS",
+    "checkpoint_restart_comparison": {
+      "restarted_from_step": 4,
+      "resumed_steps": 3,
+      "maximum_displacement_delta": 0.0,
+      "cumulative_dissipation_delta": 0.0
+    }
+  },
+  "wp08d_manifest_rehash": {
+    "M1_production": "PASS",
+    "M1_independent_reference": "PASS",
+    "M1_replay": "PASS",
+    "M2_production": "PASS",
+    "M2_independent_reference": "PASS",
+    "M2_replay": "PASS",
+    "M3_production": "PASS",
+    "M3_independent_reference": "PASS",
+    "M3_replay": "PASS"
+  },
+  "independent_reference_source_audit": {
+    "M1": {
+      "runner": "scripts/run_wp08d_m1_independent_reference.py",
+      "runner_sha256": "a6a6d502cabf1ec455e27951260227c8184ddfa96988da4105bd6f4a88253e9c",
+      "direct_production_contact_import": false,
+      "reference_module": "scripts/wp08d_independent_kkt_reference.py",
+      "reference_module_sha256": "7cca3d40d5964c2d053aedb405d6ff66fdb852c8a256b9ace5ba75c937ff5bba",
+      "result_and_manifest_declaration": "production_contact_routines_called=false"
+    },
+    "M2": {
+      "runner": "scripts/run_wp08d_independent_reference.py",
+      "runner_sha256": "2d7ec2564b50f905f81b674b14be38bfa552fd061ce1a003c30f58352bfceae9",
+      "direct_production_contact_import": false,
+      "reference_module": "local NumPy TET4/KKT/Coulomb implementation in runner",
+      "result_and_manifest_declaration": "production_contact_routines_called=false; source_package=INDEPENDENT_NO_SOLVEUR_CONTACT_IMPORT"
+    },
+    "M3": {
+      "runner": "scripts/run_wp08d_independent_reference.py",
+      "runner_sha256": "2d7ec2564b50f905f81b674b14be38bfa552fd061ce1a003c30f58352bfceae9",
+      "direct_production_contact_import": false,
+      "reference_module": "local NumPy TET4/KKT/Coulomb implementation in runner",
+      "result_and_manifest_declaration": "production_contact_routines_called=false; source_package=INDEPENDENT_NO_SOLVEUR_CONTACT_IMPORT"
+    }
+  },
+  "production_mechanics_changed_by_this_inspection": false,
+  "thresholds_changed_by_this_inspection": false,
+  "structural_solves_run_by_this_inspection": false,
+  "formal_points": {
+    "WP08": "0/8",
+    "official_total": "50/100"
+  },
+  "next_step": "Owner may now inspect the cited files and make an explicit 8/8 or 0/8 point decision without rerunning M2 or M3."
+}
