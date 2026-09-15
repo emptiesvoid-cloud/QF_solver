@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "pre_remediation_sha": "6ebbf92c961ae12d8198045a469b11fe866a7af0",
+  "remediation_source_sha": "78179c793950c79e00877c9346bb5a69891d5cf7",
+  "remediation_integration_sha": "4b891aea040bc900d290fe3cc3de696126656ee7",
+  "final_sha": null,
+  "final_sha_note": "Resolved by the final evidence commit and verified against REMOTE_HEAD in the completion report.",
+  "remote_head": null,
+  "branch": "0.2.9-wp08d-m1-phase1",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "corrected_m1": {
+    "production": {
+      "status": "PASS",
+      "accepted_increments": "7/7",
+      "fallback_count": 0,
+      "force_equilibrium_relative_error": 4.8074305725478e-15,
+      "moment_equilibrium_relative_error": 7.806091302554032e-15,
+      "contact_state": ["open", "open", "open", "open"],
+      "active_contact_count": 0,
+      "qualification_claim": "PHASE1_EXECUTION_EVIDENCE_NOT_FORMAL_WP08_CLOSURE",
+      "artifacts": "qualification/0_2_9/wp08d_phase1_mixed_open_active_slip/M1"
+    },
+    "reference": {
+      "status": "PASS_REFERENCE",
+      "implementation": "independent_numpy_kkt_return_map",
+      "force_equilibrium_relative_error": 6.2477991893329175e-15,
+      "moment_equilibrium_relative_error": 1.1073971008993349e-14,
+      "deltas_vs_production": {
+        "displacement": 4.683194093724405e-15,
+        "reaction": 2.9124602944169367e-15,
+        "moment": 3.4278894313603834e-15,
+        "dissipation": 0.0,
+        "normal_contact": 0.0,
+        "tangential_contact": 0.0
+      },
+      "artifacts": "qualification/0_2_9/wp08d_phase1_mixed_open_active_slip/independent_reference/M1"
+    },
+    "replay": {
+      "status": "PASS",
+      "terminal_status_equal": true,
+      "mesh_identity_equal": true,
+      "numeric_checks": {
+        "selected_displacement": true,
+        "cumulative_local_dissipation": true,
+        "force_balance_relative_error": true,
+        "moment_balance_relative_error": true
+      },
+      "artifacts": "qualification/0_2_9/wp08d_phase1_mixed_open_active_slip/replay/M1"
+    }
+  },
+  "corrected_m2": {
+    "status": "FAIL_CLOSED",
+    "accepted_increments": "2/7",
+    "rejected_increment": 3,
+    "failure_classification": "NumericalConvergenceError",
+    "failure_message": "Frictional contact active set did not converge with direct or active-slip root iterations.",
+    "direct_active_set_limit": 25,
+    "mixed_subset_telemetry": {
+      "normal_active_set": [3, 7, 11],
+      "closed_frictional_subset": [3, 7, 11],
+      "open_frictional_subset": [0, 1, 2, 4, 5, 6, 8, 9, 10],
+      "tangential_unknown_dimension": 6,
+      "post_root_normal_set": [3, 7, 11],
+      "post_root_normal_set_status": "STABLE_ON_ATTEMPTS; FINAL_ROOT_FAILURE_ON_STEP_3",
+      "rollback_performed": true,
+      "root_failure_cause": "ROOT_SOLVE_FAILURE"
+    },
+    "telemetry_event_count": 109,
+    "artifacts": {
+      "manifest": "qualification/0_2_9/wp08d_phase1_mixed_open_active_slip/M2/manifest.json",
+      "progress": "qualification/0_2_9/wp08d_phase1_mixed_open_active_slip/M2/progress.json",
+      "telemetry": "qualification/0_2_9/wp08d_phase1_mixed_open_active_slip/M2/telemetry.jsonl",
+      "console_log": "qualification/0_2_9/wp08d_phase1_mixed_open_active_slip/M2/console.log",
+      "console_error_log": "qualification/0_2_9/wp08d_phase1_mixed_open_active_slip/M2/console.err.log"
+    },
+    "artifact_hashes": {
+      "manifest.json": "d2d3322f1a5a840d6ef261b6f3e146a9e578b64943af2c160898a7fa2a30c15b",
+      "progress.json": "112b402b4730e568bd61bcde764909642a718bd6bac965f7c8864c0cd8cc0de3",
+      "telemetry.jsonl": "15cbc837474e166bae26afc31ab08971c93d22b0a02b870704cf67f6d3fda0cf",
+      "console.log": "8a9a51aeb6e0dd45c06e8db16ff3388ed7005745ce1291de906b9de2c23a9fb2",
+      "console.err.log": "8c89e61cf9ec6d576cab7d2876d5fb7fdd076f91250629cb4259743b62e47eba"
+    }
+  },
+  "m3_status": "NOT_RUN_OWNER_REVIEW_REQUIRED",
+  "production_mechanics_changed": true,
+  "thresholds_changed": false,
+  "full_test_suite_run": false,
+  "wp05_touched": false,
+  "wp06_touched": false,
+  "h4_touched": false,
+  "wp08d_formal_points": "0/2",
+  "wp08_formal_points": "0/8",
+  "final_status": "OWNER_REVIEW_REQUIRED_BEFORE_M3"
+}

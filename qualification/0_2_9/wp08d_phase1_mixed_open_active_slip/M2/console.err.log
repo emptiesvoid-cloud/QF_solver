@@ -1,0 +1,1 @@
+RUN_FAILED type=NumericalConvergenceError error=Frictional contact active set did not converge with direct or active-slip root iterations.
