@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pytest
 
+import scripts.wp08d_phase1_common as phase1_common
 from scripts.wp08d_phase1_common import (
     AUTHORIZED_INTEGRATION_BRANCH,
     PHASE1_AUTHORIZATION_TOKEN,
@@ -29,7 +30,17 @@ def test_incomplete_authorization_is_rejected(tmp_path: Path) -> None:
         require_phase1_authorization(path, mesh="M1")
 
 
-def test_authorization_contract_fields_are_explicit(tmp_path: Path) -> None:
+def test_authorization_contract_fields_are_explicit(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Validate the payload independently of the branch running the test."""
+    monkeypatch.setattr(
+        phase1_common,
+        "git_state",
+        lambda _root=None: {
+            "branch": AUTHORIZED_INTEGRATION_BRANCH,
+            "head": REQUIRED_GOVERNING_SHA,
+            "dirty": False,
+        },
+    )
     path = tmp_path / "authorization.json"
     path.write_text(
         "{"
