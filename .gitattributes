@@ -3,6 +3,7 @@ qualification/0_2_9/wp08d_phase1/M2/** -text
 qualification/0_2_9/wp08d_phase1_mixed_open_active_slip_step2_reconstruction/** -text
 qualification/0_2_9/wp08d_phase1_mixed_open_active_slip_step2_local_source/** -text
 qualification/0_2_9/wp08d_phase1_mixed_open_active_slip_requalification/** -text
+qualification/0_2_9/wp08d_phase1_contract_aligned_m2/** -text
 qualification/0_2_7/external_oracles/wedge6/decks/calculix/*.inp binary
 qualification/0_2_7/external_oracles/wedge6/results/*.dat binary
 qualification/0_2_7/external_oracles/wedge6/results/*.frd binary
