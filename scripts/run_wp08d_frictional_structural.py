@@ -13,7 +13,9 @@ from pathlib import Path
 import sys
 
 if __package__ in {None, ""}:
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    _repository_root = Path(__file__).resolve().parents[1]
+    sys.path.insert(0, str(_repository_root))
+    sys.path.insert(0, str(_repository_root / "src"))
 
 from scripts.wp08d_phase1_common import (
     ARTIFACT_ROOT,
