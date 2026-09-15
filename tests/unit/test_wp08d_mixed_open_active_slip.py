@@ -189,7 +189,7 @@ def test_failed_hybrid_root_does_not_commit_references(monkeypatch) -> None:
     """A failed hybrid candidate leaves the caller's committed references intact."""
     fixture = _root_fixture(monkeypatch, [(0, 1, 2), (0, 1, 2)], count=3)
     dofs, stiffness, operators, solve_active_set, pressures_for, proposed_active, tangential_force, _ = fixture
-    references = np.arange(6.0, dtype=float).reshape(3, 2)
+    references: np.ndarray = np.arange(6.0, dtype=float).reshape(3, 2)
     original = references.copy()
 
     class FailedRoot:
