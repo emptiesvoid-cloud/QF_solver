@@ -1,4 +1,4 @@
-"""Independent diagnostic enumeration of WP08-D M2 step-3 stick/slip modes.
+"""Independent diagnostic enumeration of WP08-D M2 stick/slip modes.
 
 This module is deliberately self-contained: it creates the frozen M2 TET4
 mesh, assembles linear elasticity, applies the exact fixed normal constraints,
@@ -22,6 +22,8 @@ from scipy.optimize import least_squares
 
 
 M2_SUBDIVISION = (4, 2, 2)
+CONTRACT_RELATIVE_PATH = Path("qualification/0_2_9/wp08d_structural_reference_contract.json")
+CONTRACT_DIGEST = "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a"
 LENGTH = 2.0
 WIDTH = 1.0
 HEIGHT = 0.5
@@ -40,7 +42,7 @@ class IndependentM2Problem:
     """Frozen free-DOF system and explicit contact rows for one diagnostic."""
 
     stiffness: np.ndarray
-    load_step3: np.ndarray
+    load_vector: np.ndarray
     normal_rows: np.ndarray
     tangent_rows: np.ndarray
     slave_z_rows: np.ndarray
@@ -165,19 +167,40 @@ def _surface_load(nodes: np.ndarray, top_faces: Iterable[tuple[int, int, int]], 
     return vector
 
 
-def _checkpoint_state(path: Path) -> Mapping[str, Any]:
+def _checkpoint_state(path: Path, *, target_step: int) -> Mapping[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     state = payload.get("committed_contact_state") if isinstance(payload, Mapping) else None
     required = {"step", "displacement", "multipliers", "gaps", "pressures", "active_contacts", "tangential_states", "tangential_forces", "slip_references"}
-    if not isinstance(state, Mapping) or not required.issubset(state) or state.get("step") != 2:
-        raise ValueError("The input is not a complete committed WP08-D M2 step-2 checkpoint.")
+    expected_step = target_step - 1
+    if not isinstance(state, Mapping) or not required.issubset(state) or state.get("step") != expected_step:
+        raise ValueError(f"The input is not a complete committed WP08-D M2 step-{expected_step} checkpoint.")
     return state
 
 
-def build_problem(checkpoint: Path) -> IndependentM2Problem:
-    """Assemble the frozen independent M2 step-3 KKT data from checkpoint evidence."""
+def _frozen_load_factors(target_step: int) -> tuple[float, float]:
+    """Read the requested frozen load row without importing solver code."""
 
-    state = _checkpoint_state(checkpoint)
+    if target_step <= 1:
+        raise ValueError("A stick/slip diagnostic requires a target step after a committed checkpoint.")
+    contract_path = Path(__file__).resolve().parents[1] / CONTRACT_RELATIVE_PATH
+    payload = json.loads(contract_path.read_text(encoding="utf-8"))
+    if canonical_json_digest(payload) != CONTRACT_DIGEST:
+        raise RuntimeError("WP08-D contract digest mismatch in independent diagnostic.")
+    path = payload.get("friction", {}).get("load_path", []) if isinstance(payload, Mapping) else []
+    if not isinstance(path, list) or target_step > len(path) or not isinstance(path[target_step - 1], Mapping):
+        raise ValueError("Requested target step is absent from the frozen WP08-D load path.")
+    row = path[target_step - 1]
+    normal_factor = float(row["normal_factor"])
+    tangential_factor = float(row["tangential_factor"])
+    if not np.isfinite(normal_factor) or not np.isfinite(tangential_factor):
+        raise ValueError("Frozen load factors must be finite.")
+    return normal_factor, tangential_factor
+
+
+def build_problem(checkpoint: Path, *, target_step: int = 3) -> IndependentM2Problem:
+    """Assemble independent M2 KKT data for one frozen target load step."""
+
+    state = _checkpoint_state(checkpoint, target_step=target_step)
     nodes, elements, top_faces, slave_nodes, fixed_body = _m2_mesh()
     ndof = 3 * len(nodes)
     stiffness: np.ndarray = np.zeros((ndof, ndof), dtype=float)
@@ -189,7 +212,8 @@ def build_problem(checkpoint: Path) -> IndependentM2Problem:
     free = np.setdiff1d(np.arange(ndof, dtype=int), fixed)
     normal = _surface_load(nodes, top_faces, np.asarray((0.0, 0.0, -1000.0)))
     tangent = _surface_load(nodes, top_faces, np.asarray((300.0, 0.0, 0.0)))
-    step3_load = (normal + 0.75 * tangent)[free]
+    normal_factor, tangential_factor = _frozen_load_factors(target_step)
+    load_vector = (normal_factor * normal + tangential_factor * tangent)[free]
     normal_rows = np.zeros((len(ACTIVE_CONTACTS), free.size), dtype=float)
     tangent_rows = np.zeros((len(ACTIVE_CONTACTS), 2, free.size), dtype=float)
     slave_z_rows = np.zeros((len(slave_nodes), free.size), dtype=float)
@@ -204,7 +228,7 @@ def build_problem(checkpoint: Path) -> IndependentM2Problem:
         tangent_rows[position, 1, free_lookup[3 * node + 1]] = 1.0
     return IndependentM2Problem(
         stiffness=stiffness[np.ix_(free, free)],
-        load_step3=step3_load,
+        load_vector=load_vector,
         normal_rows=normal_rows,
         tangent_rows=tangent_rows,
         slave_z_rows=slave_z_rows,
@@ -233,7 +257,7 @@ def _solve_fixed_mode(problem: IndependentM2Problem, label: str) -> dict[str, An
     stick_positions = tuple(index for index, state in enumerate(label) if state == "S")
     slip_positions = tuple(index for index, state in enumerate(label) if state == "K")
     stiffness = problem.stiffness.copy()
-    rhs_base = problem.load_step3.copy()
+    rhs_base = problem.load_vector.copy()
     for position in stick_positions:
         contact = ACTIVE_CONTACTS[position]
         rows = problem.tangent_rows[position]
@@ -340,16 +364,22 @@ def _solve_fixed_mode(problem: IndependentM2Problem, label: str) -> dict[str, An
     }
 
 
-def enumerate_modes(checkpoint: Path, *, input_provenance: str = "UNSPECIFIED") -> dict[str, Any]:
-    """Enumerate and independently test all fixed step-3 stick/slip masks."""
+def enumerate_modes(
+    checkpoint: Path,
+    *,
+    target_step: int = 3,
+    input_provenance: str = "UNSPECIFIED",
+) -> dict[str, Any]:
+    """Enumerate and independently test all fixed stick/slip masks for one step."""
 
-    state = _checkpoint_state(checkpoint)
-    problem = build_problem(checkpoint)
+    state = _checkpoint_state(checkpoint, target_step=target_step)
+    problem = build_problem(checkpoint, target_step=target_step)
     candidates = [_solve_fixed_mode(problem, label) for label in mode_labels()]
     admissible = [candidate["mode"] for candidate in candidates if candidate["status"] == "ADMISSIBLE"]
+    normal_factor, tangential_factor = _frozen_load_factors(target_step)
     return {
         "schema_version": 1,
-        "kind": "WP08D_M2_STEP3_INDEPENDENT_STICK_SLIP_MODE_ENUMERATION",
+        "kind": "WP08D_M2_INDEPENDENT_STICK_SLIP_MODE_ENUMERATION",
         "qualification_claim": "DIAGNOSTIC_ONLY_NO_FORMAL_WP08D_CREDIT",
         "production_contact_implementation_called": False,
         "checkpoint": {
@@ -358,7 +388,7 @@ def enumerate_modes(checkpoint: Path, *, input_provenance: str = "UNSPECIFIED") 
             "step": state["step"],
             "input_provenance": input_provenance,
         },
-        "frozen_parameters": {"mesh": "M2", "step": 3, "active_contacts": list(ACTIVE_CONTACTS), "gap_tolerance": GAP_TOLERANCE, "friction_tolerance": FRICTION_TOLERANCE, "friction_coefficient": FRICTION_COEFFICIENT, "tangential_stiffness": TANGENTIAL_STIFFNESS},
+        "frozen_parameters": {"mesh": "M2", "checkpoint_step": state["step"], "target_step": target_step, "normal_factor": normal_factor, "tangential_factor": tangential_factor, "active_contacts": list(ACTIVE_CONTACTS), "gap_tolerance": GAP_TOLERANCE, "friction_tolerance": FRICTION_TOLERANCE, "friction_coefficient": FRICTION_COEFFICIENT, "tangential_stiffness": TANGENTIAL_STIFFNESS},
         "candidate_modes": candidates,
         "admissible_modes": admissible,
         "admissible_mode_count": len(admissible),
@@ -370,13 +400,18 @@ def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--checkpoint", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--target-step", type=int, default=3)
     parser.add_argument("--input-provenance", default="UNSPECIFIED")
     return parser.parse_args()
 
 
 def main() -> int:
     args = _parse_args()
-    result = enumerate_modes(args.checkpoint, input_provenance=args.input_provenance)
+    result = enumerate_modes(
+        args.checkpoint,
+        target_step=args.target_step,
+        input_provenance=args.input_provenance,
+    )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("w", encoding="utf-8", newline="\n") as stream:
         stream.write(json.dumps(result, indent=2, sort_keys=True))
