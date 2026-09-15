@@ -18,6 +18,7 @@ WP08D_EVIDENCE_ROOT = QUALIFICATION_ROOT / "wp08d_phase1_hybrid_stick_slip_refer
 GOVERNING_BASE_SHA = "7b93e71bab06a0e58108bd2479cd46808d533b67"
 POLICY_DIGEST = "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
 CONTRACT_DIGEST = "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a"
+REMEDIATION_SHA = "794de436c13364c16aa85b2ae2c9e7bb09957829"
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -177,6 +178,10 @@ def run(output_dir: Path) -> dict[str, Any]:
         "status": "PASS_CANDIDATE_OWNER_REVIEW_REQUIRED" if all_pass else "FAIL_CLOSED",
         "authorized_base_sha": GOVERNING_BASE_SHA,
         "execution_sha": source_sha,
+        "remediation_sha": REMEDIATION_SHA,
+        "evidence_commit_sha": None,
+        "final_sha": None,
+        "remote_head": "NOT_PUSHED",
         "branch": branch,
         "contract_digest": CONTRACT_DIGEST,
         "policy_digest": POLICY_DIGEST,

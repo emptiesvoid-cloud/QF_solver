@@ -21,6 +21,7 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 EVIDENCE_ROOT = REPOSITORY_ROOT / "qualification" / "0_2_9" / "wp08d_phase1_hybrid_stick_slip_reference_replay"
 FROZEN_HISTORY = [[0.0, 1.0], [0.2, 1.0], [1.0, 1.0], [0.2, 1.0], [-0.2, 1.0], [-1.0, 1.0], [0.0, 1.0]]
 AUTHORIZED_BASE_SHA = "7b93e71bab06a0e58108bd2479cd46808d533b67"
+REMEDIATION_SHA = "794de436c13364c16aa85b2ae2c9e7bb09957829"
 CONTRACT_DIGEST = "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a"
 POLICY_DIGEST = "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
 
@@ -194,6 +195,10 @@ def run(output_dir: Path) -> dict[str, Any]:
         "authorized_base_sha": AUTHORIZED_BASE_SHA,
         "execution_sha": _git_value("rev-parse", "HEAD"),
         "branch": _git_value("branch", "--show-current"),
+        "remediation_sha": REMEDIATION_SHA,
+        "evidence_commit_sha": None,
+        "final_sha": None,
+        "remote_head": "NOT_PUSHED",
         "contract_digest": CONTRACT_DIGEST,
         "policy_digest": POLICY_DIGEST,
         "replay_checks": replay_checks,
