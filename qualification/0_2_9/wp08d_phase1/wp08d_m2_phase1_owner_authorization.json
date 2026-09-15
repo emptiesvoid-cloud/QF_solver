@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "authorization": "OWNER_AUTHORIZED_WP08D_PHASE1_EXECUTION",
+  "scope": "WP08-D_PHASE1_STRUCTURAL_EXECUTION",
+  "branch": "0.2.9-wp08d-m1-phase1",
+  "governing_base_sha": "28cf9dd1886b72c6c7c9fc720dc778eddfce4441",
+  "governing_sha": "51bc7ab964d3514b1219a083fc023dac9657bd8b",
+  "runner_sha": "6683af19818bffe4771e21677cca47f3f440e6e1",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "authorization_scope": {
+    "mesh": "M2",
+    "meshes": ["M2"],
+    "production_solve": true,
+    "independent_reference": false,
+    "replay": false,
+    "M1": false,
+    "M3": false,
+    "H4": false,
+    "WP05": false,
+    "WP06": false,
+    "WP07": false
+  },
+  "production_mechanics_changed": false,
+  "thresholds_changed": false,
+  "solver_parameters_changed": false,
+  "fallback_changed": false,
+  "formal_points_before_review": {
+    "WP08D": "0/2",
+    "WP08": "0/8"
+  }
+}
