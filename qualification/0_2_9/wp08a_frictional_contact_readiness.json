@@ -1,0 +1,269 @@
+{
+  "schema_version": 1,
+  "artifact_id": "QF-SOLVER-0.2.9-WP08A-READINESS-001",
+  "work_package": "WP08-A",
+  "status": "PREPARATION_ONLY",
+  "source_sha": "2c52bf8196a7d47d14ce1784290580160de26590",
+  "branch": "0.2.9-wp08-prep",
+  "repository": "emptiesvoid-cloud/QF_solver",
+  "points": {
+    "available": 8,
+    "awarded": 0
+  },
+  "validated_total": 29,
+  "maturity_change": false,
+  "execution_constraints": {
+    "structural_solves_run": false,
+    "external_solver_run": false,
+    "heavy_solve_run": false,
+    "full_test_suite_run": false,
+    "production_mechanics_changed": false,
+    "contact_mechanics_changed": false
+  },
+  "implementation_map": {
+    "friction_formulation": {
+      "value": "regularized Coulomb extension on the serial direct normal Lagrange active-set solver",
+      "source": [
+        "src/solveur/contact/entities.py::FrictionlessContact",
+        "src/solveur/contact/solver.py::FrictionlessActiveSetSolver"
+      ]
+    },
+    "normal_formulation": {
+      "value": "node-to-triangle unilateral signed-gap contact with fixed initial face/normal for friction",
+      "source": [
+        "src/solveur/contact/entities.py::FrictionlessContact.face_geometry",
+        "src/solveur/contact/support.py::_proposed_active"
+      ]
+    },
+    "tangential_law": {
+      "value": "elastic tangential predictor followed by projection to mu*max(pressure, 0)",
+      "source": "src/solveur/contact/support.py::_friction_update"
+    },
+    "regularization": {
+      "value": "positive per-contact tangential_stiffness elastic predictor; not a smooth universal regularization",
+      "source": [
+        "src/solveur/contact/support.py::_friction_system",
+        "src/solveur/contact/support.py::_friction_update"
+      ]
+    },
+    "stick_criterion": "trial tangential force norm <= Coulomb limit + contact_friction_tolerance, with prior-slip hysteresis",
+    "slip_criterion": "otherwise project the trial force to the Coulomb limit and update slip_reference",
+    "friction_coefficient_source": "FrictionlessContact.friction_coefficient, validated by ContactSchemaValidator for JSON input",
+    "tangential_state_variables": [
+      "per-contact two-component slip_references",
+      "local tangential force and displacement",
+      "open/stick/slip label"
+    ],
+    "state_owner": "FrictionlessActiveSetSolver._solve_with_friction",
+    "rollback_owner": "StateTransaction around the committed slip-reference array",
+    "commit_point": "after a load increment converges, before the next load increment",
+    "search_mode_support": "initial only for frictional contact; updated explicitly rejected",
+    "finite_sliding_support": "frictionless common penalty only; frictional finite sliding rejected",
+    "tangent_type": {
+      "open": "CONSISTENT_ZERO_CONTRIBUTION",
+      "stick": "SEMI_CONSISTENT_BRANCH_LOCAL",
+      "slip": "APPROXIMATE_GLOBAL_WITH_FROZEN_BRANCH_ROOT_JACOBIAN",
+      "transition": "UNKNOWN_NONSMOOTH",
+      "updated_search": "UNQUALIFIED"
+    },
+    "dissipation_tracking": "cumulative_local_dissipation from slip-reference work; internal positivity only",
+    "restart_support": "NOT_QUALIFIED for friction-specific accepted state",
+    "diagnostics_available": [
+      "method",
+      "gap",
+      "pressure",
+      "active_contact_count",
+      "tangential_state",
+      "tangential_force",
+      "tangential_displacement",
+      "friction_limit",
+      "tangential_stiffness",
+      "normal and tangent basis",
+      "iteration history",
+      "convergence reason",
+      "cumulative_local_dissipation"
+    ]
+  },
+  "route_matrix": [
+    {
+      "route": "linear_static",
+      "frictionless_active_set": "IMPLEMENTED",
+      "frictionless_penalty": "UNSUPPORTED_ROUTE_LEVEL",
+      "frictional": "IMPLEMENTED_BOUNDED",
+      "maturity": "RESEARCH_EXPERIMENTAL"
+    },
+    {
+      "route": "geometric_nonlinear_static",
+      "frictionless_active_set": "UNSUPPORTED",
+      "frictionless_penalty": "IMPLEMENTED_BOUNDED",
+      "frictional": "UNSUPPORTED_EXPLICIT"
+    },
+    {
+      "route": "nonlinear_static_material_branches",
+      "frictionless_active_set": "UNSUPPORTED",
+      "frictionless_penalty": "IMPLEMENTED_BOUNDED_WHEN_ROUTE_SCOPE_PERMITS",
+      "frictional": "UNSUPPORTED_EXPLICIT"
+    },
+    {
+      "route": "combined_material_geometric_nonlinear",
+      "frictionless_active_set": "PARTIAL",
+      "frictionless_penalty": "PARTIAL",
+      "frictional": "UNSUPPORTED"
+    },
+    {
+      "route": "transient_dynamic",
+      "frictionless_active_set": "UNSUPPORTED",
+      "frictionless_penalty": "UNSUPPORTED",
+      "frictional": "UNSUPPORTED"
+    },
+    {
+      "route": "modal",
+      "frictionless_active_set": "UNSUPPORTED",
+      "frictionless_penalty": "UNSUPPORTED",
+      "frictional": "UNSUPPORTED"
+    },
+    {
+      "route": "linear_buckling",
+      "frictionless_active_set": "UNSUPPORTED",
+      "frictionless_penalty": "UNSUPPORTED",
+      "frictional": "UNSUPPORTED"
+    },
+    {
+      "route": "harmonic",
+      "frictionless_active_set": "UNSUPPORTED",
+      "frictionless_penalty": "UNSUPPORTED",
+      "frictional": "UNSUPPORTED"
+    }
+  ],
+  "state_transaction_audit": {
+    "friction_state": "slip_references are copied for trial iteration and committed per converged static load increment",
+    "trial_mutation": "local copies only; beginning-of-increment committed references remain frozen during iterations",
+    "rollback": "NumericalConvergenceError path calls StateTransaction.rollback and protects committed state with a digest",
+    "common_nonlinear_state_used": false,
+    "rejected_trial_digest_proof": "MISSING",
+    "restart_serialization": "MISSING",
+    "qualification_status": "PARTIAL"
+  },
+  "coulomb_law": {
+    "pressure_sign": "normal Lagrange multiplier is mapped to positive compression pressure",
+    "trial_force": "k_t * (relative_tangent - slip_reference)",
+    "limit": "mu * max(pressure, 0)",
+    "stick": "trial norm inside the limit, subject to tolerance and prior-slip hysteresis",
+    "slip": "radial projection to the limit and slip-reference update",
+    "activation": "normal active-set signed-gap criterion",
+    "mu_zero": "selects frictionless path",
+    "positive_mu_without_tangential_stiffness": "explicit InputValidationError",
+    "negative_or_nonfinite_mu": "rejected by JSON input schema; direct dataclass construction remains a validation boundary",
+    "zero_pressure": "zero Coulomb limit; undefined active-slip direction fails closed through numerical error path",
+    "opening": "zero tangential force and retained slip reference",
+    "reversal": "covered in tiny analytical/load-history evidence, not general structural qualification",
+    "small_increment": "tolerance/hysteresis classified, no dedicated transition V&V"
+  },
+  "tangent_audit": {
+    "open": "CONSISTENT_ZERO_CONTRIBUTION",
+    "stick": "SEMI_CONSISTENT",
+    "slip": "APPROXIMATE",
+    "transition": "UNKNOWN_NONSMOOTH",
+    "updated_search": "UNQUALIFIED",
+    "basis": "no independent global tangent finite-difference qualification exists in the current evidence"
+  },
+  "energy_dissipation": {
+    "dissipation_status": "INTERNAL_POSITIVE_WORK_CHECK_ONLY",
+    "energy_status": "PARTIAL_NOT_QUALIFIED",
+    "tracked_quantity": "cumulative_local_dissipation",
+    "recoverable_regularization_energy": "NOT_SEPARATELY_EXPOSED",
+    "irreversible_friction_dissipation": "LOCAL_WORK_PROXY_ONLY",
+    "global_identity": "NOT_ESTABLISHED"
+  },
+  "restart": {
+    "fresh_recomputation": "AVAILABLE_WITH_SAME_INPUTS",
+    "accepted_state_restart": "NOT_QUALIFIED",
+    "mid_newton_restart": "UNSUPPORTED",
+    "minimum_future_state": [
+      "ordered contact topology and face orientation",
+      "friction coefficient and tangential stiffness",
+      "gap/search/tolerance settings",
+      "accepted displacement and load factor",
+      "per-contact tangential slip references",
+      "qualitative branch state where required",
+      "model/load-path signature and deterministic digest"
+    ]
+  },
+  "existing_evidence": {
+    "targeted_command": "python -m pytest -q tests/unit/test_frictional_contact.py tests/verification/test_frictional_contact_vnv.py tests/unit/test_frictionless_contact.py",
+    "targeted_result": "27 passed in 3.98s",
+    "structural_campaigns_run": false,
+    "external_campaigns_run": false,
+    "historical_scope": "experimental/internal; external harness has non-identical formulation mapping"
+  },
+  "gaps": {
+    "critical": [
+      "frictional contact is not integrated with the common nonlinear driver",
+      "no qualified accepted-state friction restart",
+      "no injected-failure digest proof for rejected friction trial",
+      "no independent formulation-matched structural reference for both formulations"
+    ],
+    "major": [
+      "global tangent FD/analytical V&V",
+      "separate regularization energy and irreversible dissipation identity",
+      "structural stick-slip/reversal/open-reclose and multi-contact evidence",
+      "zero-pressure, direct-construction coefficient and nonfinite diagnostics tests",
+      "mesh refinement and compatible external/reference comparison",
+      "normalized public state/diagnostic schema"
+    ],
+    "minor": [
+      "broader geometry-family survey",
+      "route-level telemetry",
+      "boundary tolerance documentation"
+    ]
+  },
+  "proposed_wp08_split": [
+    {"id": "WP08-A", "points": 1, "scope": "formulation/input/state contract"},
+    {"id": "WP08-B", "points": 2, "scope": "stick-slip identities, open-reclose, rollback"},
+    {"id": "WP08-C", "points": 2, "scope": "tangent and energy/dissipation V&V"},
+    {"id": "WP08-D", "points": 2, "scope": "structural and independent reference qualification"},
+    {"id": "WP08-E", "points": 1, "scope": "replay, restart, negative controls and closure"}
+  ],
+  "prospective_bounded_scope": [
+    "linear_static only",
+    "small displacement and small/moderate tangential motion",
+    "node-to-triangle fixed initial face/normal",
+    "serial direct sparse execution",
+    "exact normal Lagrange active set",
+    "per-contact mu >= 0 and positive tangential stiffness for positive mu",
+    "elastic tangential predictor and Coulomb projection",
+    "homogeneous material scope inherited from the selected static route"
+  ],
+  "explicit_exclusions": [
+    "frictional common nonlinear/geometric production routes",
+    "updated-search and finite-sliding friction",
+    "surface-to-surface/mortar/segment-to-segment contact",
+    "large sliding and rotating normals",
+    "transient, harmonic, modal and buckling frictional contact",
+    "MPI/PETSc distributed frictional mechanics",
+    "friction-specific checkpoint/restart until state serialization is qualified",
+    "universal smooth tangent, energy or dissipation claims",
+    "external equivalence with incompatible reference formulations"
+  ],
+  "future_negative_controls": [
+    "negative_friction_coefficient",
+    "nonfinite_friction_coefficient",
+    "positive_friction_without_tangential_stiffness",
+    "opening_after_stick",
+    "stick_to_slip",
+    "slip_to_stick_or_reversal",
+    "rejected_trial_rollback",
+    "zero_normal_pressure",
+    "updated_search_friction_rejection",
+    "restart_missing_tangential_state",
+    "reversed_master_orientation",
+    "nonfinite_required_diagnostic"
+  ],
+  "governance": {
+    "wp08_formal": "0/8",
+    "validated_total": 29,
+    "maturity_change": false,
+    "registry_status": "experimental/research; no promotion",
+    "next_step": "Owner review of WP08 readiness; no implementation before review"
+  }
+}
