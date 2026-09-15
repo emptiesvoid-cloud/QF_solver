@@ -33,6 +33,8 @@ class ActiveSlipSolution:
     history: list[dict[str, object]]
     closed_frictional_contacts: tuple[int, ...]
     open_frictional_contacts: tuple[int, ...]
+    stick_frictional_contacts: tuple[int, ...]
+    slip_frictional_contacts: tuple[int, ...]
     max_complementarity: float
 
 
@@ -58,6 +60,7 @@ def solve_active_slip_root(
     proposed_active: ProposedActive,
     tangential_force: TangentialForce,
     trace: ContactTrace | None = None,
+    observed_tangential_states: tuple[str, ...] | None = None,
 ) -> ActiveSlipSolution:
     """Resolve active-slip forces while retaining exact normal constraints.
 
@@ -93,6 +96,7 @@ def solve_active_slip_root(
             tangential_force=tangential_force,
             trace=trace,
             consistency_iteration=consistency_iteration,
+            observed_tangential_states=observed_tangential_states,
         )
         post_root_active = proposed_active(operators, active, solution.gaps, solution.pressures)
         history_entry = solution.history[-1]
@@ -121,7 +125,7 @@ def solve_active_slip_root(
                         "transition_cause": transition_cause,
                         "closed_frictional_contacts": list(solution.closed_frictional_contacts),
                         "open_frictional_contacts": list(solution.open_frictional_contacts),
-                        "tangential_unknown_dimension": 2 * len(solution.closed_frictional_contacts),
+                        "tangential_unknown_dimension": 2 * len(solution.slip_frictional_contacts),
                     },
                 )
             if next_active in visited_active:
@@ -141,7 +145,14 @@ def solve_active_slip_root(
             active = next_active
             continue
 
-        _validate_post_root_state(solution, operators, active, slip_references)
+        _validate_post_root_state(
+            solution,
+            operators,
+            active,
+            slip_references,
+            tolerance=tolerance,
+            expected_tangential_states=observed_tangential_states,
+        )
         if trace is not None:
             trace(
                 "post_root_normal_set_stable",
@@ -152,7 +163,7 @@ def solve_active_slip_root(
                     "convergence_cause": "POST_ROOT_NORMAL_SET_STABLE",
                     "closed_frictional_contacts": list(solution.closed_frictional_contacts),
                     "open_frictional_contacts": list(solution.open_frictional_contacts),
-                    "tangential_unknown_dimension": 2 * len(solution.closed_frictional_contacts),
+                    "tangential_unknown_dimension": 2 * len(solution.slip_frictional_contacts),
                     "max_complementarity": solution.max_complementarity,
                 },
             )
@@ -187,6 +198,7 @@ def _solve_active_slip_on_active_set(
     tangential_force: TangentialForce,
     trace: ContactTrace | None,
     consistency_iteration: int,
+    observed_tangential_states: tuple[str, ...] | None,
 ) -> ActiveSlipSolution:
     """Solve only the closed, frictional tangential unknowns for one normal set."""
     zero_force_probe: np.ndarray = np.zeros((len(operators), 2), dtype=float)
@@ -218,19 +230,80 @@ def _solve_active_slip_on_active_set(
                 "cause": "NO_COMPRESSED_FRICTIONAL_CONTACT",
             },
         )
+    if observed_tangential_states is None:
+        # Preserve the historical direct-root API for existing unit fixtures.
+        # The production solver always supplies the direct iteration's state
+        # classification, which is required for the hybrid route below.
+        slip_frictional = closed_frictional
+        stick_frictional: tuple[int, ...] = ()
+    else:
+        if len(observed_tangential_states) != len(operators):
+            raise NumericalConvergenceError(
+                "Active-slip root received an incomplete direct tangential-state classification.",
+                reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+                diagnostics={
+                    "strategy": "active_slip_hybrid_root",
+                    "active_contacts": list(active),
+                    "cause": "MISSING_DIRECT_STATE_CLASSIFICATION",
+                },
+            )
+        active_frictional = set(closed_frictional)
+        invalid = [
+            index
+            for index in active_frictional
+            if observed_tangential_states[index] not in {"stick", "slip"}
+        ]
+        if invalid:
+            raise NumericalConvergenceError(
+                "Active-slip root received an invalid direct tangential-state classification.",
+                reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+                diagnostics={
+                    "strategy": "active_slip_hybrid_root",
+                    "active_contacts": list(active),
+                    "invalid_contacts": invalid,
+                    "observed_tangential_states": list(observed_tangential_states),
+                    "cause": "INVALID_DIRECT_STATE_CLASSIFICATION",
+                },
+            )
+        slip_frictional = tuple(
+            index for index in closed_frictional if observed_tangential_states[index] == "slip"
+        )
+        stick_frictional = tuple(
+            index for index in closed_frictional if observed_tangential_states[index] == "stick"
+        )
+        if not slip_frictional:
+            raise NumericalConvergenceError(
+                "Active-slip hybrid root requires at least one observed slip contact.",
+                reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+                diagnostics={
+                    "strategy": "active_slip_hybrid_root",
+                    "active_contacts": list(active),
+                    "closed_frictional_contacts": list(closed_frictional),
+                    "stick_frictional_contacts": list(stick_frictional),
+                    "cause": "NO_OBSERVED_SLIP_CONTACT",
+                },
+            )
     if trace is not None:
         trace(
-            "active_slip_mixed_subset",
+            "active_slip_hybrid_subset" if observed_tangential_states is not None else "active_slip_mixed_subset",
             {
                 "iteration": consistency_iteration,
                 "active_contacts": list(active),
                 "closed_frictional_contacts": list(closed_frictional),
+                "stick_frictional_contacts": list(stick_frictional),
+                "slip_frictional_contacts": list(slip_frictional),
                 "open_frictional_contacts": list(open_frictional),
-                "tangential_unknown_dimension": 2 * len(closed_frictional),
+                "tangential_unknown_dimension": 2 * len(slip_frictional),
                 "compression_valid": {
                     str(index): float(probe_pressures[index]) > operators[index].tolerance for index in active
                 },
-                "convergence_cause": "MIXED_OPEN_ACTIVE_SUBSET",
+                "observed_tangential_states": (
+                    list(observed_tangential_states) if observed_tangential_states is not None else None
+                ),
+                "convergence_cause": (
+                    "HYBRID_STICK_SLIP_SUBSET" if observed_tangential_states is not None
+                    else "MIXED_OPEN_ACTIVE_SUBSET"
+                ),
             },
         )
 
@@ -238,11 +311,24 @@ def _solve_active_slip_on_active_set(
         vector: np.ndarray,
     ) -> tuple[np.ndarray, np.ndarray, ConstraintReduction, np.ndarray, np.ndarray]:
         forces: np.ndarray = np.zeros((len(operators), 2), dtype=float)
-        forces[list(closed_frictional)] = vector.reshape(len(closed_frictional), 2)
+        forces[list(slip_frictional)] = vector.reshape(len(slip_frictional), 2)
+        effective_stiffness = stiffness
+        effective_loads = np.asarray(loads, dtype=float).copy()
+        for index in stick_frictional:
+            operator = operators[index]
+            for component, direction in enumerate(operator.tangential_vectors):
+                effective_stiffness = effective_stiffness + csr_matrix(
+                    operator.tangential_stiffness * np.outer(direction, direction)
+                )
+                effective_loads += operator.tangential_stiffness * slip_references[index, component] * direction
+        for index in slip_frictional:
+            operator = operators[index]
+            for component, direction in enumerate(operator.tangential_vectors):
+                effective_loads -= forces[index, component] * direction
         reduction = ConstraintReduction.from_system(
             dofs,
-            stiffness,
-            loads - tangential_force(operators, forces, dofs.ndof),
+            effective_stiffness,
+            effective_loads,
             [],
             fixed,
         )
@@ -251,7 +337,7 @@ def _solve_active_slip_on_active_set(
         pressures = pressures_for(active, multipliers, len(operators))
         return displacement, multipliers, reduction, gaps, pressures
 
-    zero_force: np.ndarray = np.zeros(2 * len(closed_frictional), dtype=float)
+    zero_force: np.ndarray = np.zeros(2 * len(slip_frictional), dtype=float)
     displacement, _, _, _, pressures = solve_closed_for(zero_force)
     displacement_sensitivity, pressure_sensitivity = _active_slip_response_sensitivities(
         solve_closed_for,
@@ -260,7 +346,7 @@ def _solve_active_slip_on_active_set(
         pressures,
     )
     initial_force: list[float] = []
-    for index in closed_frictional:
+    for index in slip_frictional:
         operator = operators[index]
         trial = operator.tangential_stiffness * (
             operator.tangential_displacement(displacement) - slip_references[index]
@@ -273,14 +359,14 @@ def _solve_active_slip_on_active_set(
     def residual(vector: np.ndarray) -> np.ndarray:
         response, _, _, _, response_pressures = solve_closed_for(vector)
         values: list[float] = []
-        for position, index in enumerate(closed_frictional):
+        for position, index in enumerate(slip_frictional):
             operator = operators[index]
             trial = operator.tangential_stiffness * (
                 operator.tangential_displacement(response) - slip_references[index]
             )
             norm = float(np.linalg.norm(trial))
             if norm <= tolerance or response_pressures[index] <= 0.0:
-                return np.full(2 * len(closed_frictional), 1.0e12, dtype=float)
+                return np.full(2 * len(slip_frictional), 1.0e12, dtype=float)
             target = operator.friction_coefficient * response_pressures[index] * trial / norm
             values.extend((vector[2 * position: 2 * position + 2] - target).tolist())
         return np.asarray(values, dtype=float)
@@ -288,9 +374,9 @@ def _solve_active_slip_on_active_set(
     def consistent_jacobian(vector: np.ndarray) -> np.ndarray:
         """Differentiate the frozen active-slip residual exactly by superposition."""
         response, _, _, _, response_pressures = solve_closed_for(vector)
-        size = 2 * len(closed_frictional)
+        size = 2 * len(slip_frictional)
         jacobian = np.eye(size, dtype=float)
-        for position, index in enumerate(closed_frictional):
+        for position, index in enumerate(slip_frictional):
             operator = operators[index]
             pressure = float(response_pressures[index])
             trial = operator.tangential_stiffness * (
@@ -339,13 +425,17 @@ def _solve_active_slip_on_active_set(
         raise NumericalConvergenceError(f"Active-slip root residual is too large: {residual_norm:.3e}.")
     displacement, multipliers, reduction, gaps, pressures = solve_closed_for(solution)
     forces: np.ndarray = np.zeros((len(operators), 2), dtype=float)
-    forces[list(closed_frictional)] = solution.reshape(len(closed_frictional), 2)
+    forces[list(slip_frictional)] = solution.reshape(len(slip_frictional), 2)
+    for index in stick_frictional:
+        forces[index] = operators[index].tangential_stiffness * (
+            operators[index].tangential_displacement(displacement) - slip_references[index]
+        )
     states = tuple(
         "slip"
-        if index in closed_frictional
+        if index in slip_frictional
         else (
             "stick"
-            if index in active and operators[index].has_friction
+            if index in stick_frictional
             else ("frictionless" if index in active else "open")
         )
         for index in range(len(operators))
@@ -354,7 +444,7 @@ def _solve_active_slip_on_active_set(
         [operator.tangential_displacement(displacement) for operator in operators], dtype=float
     )
     references = np.asarray(slip_references, dtype=float).copy()
-    for index in closed_frictional:
+    for index in slip_frictional:
         references[index] = tangential_displacements[index] - forces[index] / operators[index].tangential_stiffness
     max_complementarity = float(np.max(np.abs(gaps * pressures), initial=0.0))
     history = [
@@ -365,8 +455,13 @@ def _solve_active_slip_on_active_set(
             "proposed_contacts": list(active),
             "tangential_states": list(states),
             "closed_frictional_contacts": list(closed_frictional),
+            "stick_frictional_contacts": list(stick_frictional),
+            "slip_frictional_contacts": list(slip_frictional),
             "open_frictional_contacts": list(open_frictional),
-            "tangential_unknown_dimension": 2 * len(closed_frictional),
+            "tangential_unknown_dimension": 2 * len(slip_frictional),
+            "observed_tangential_states": (
+                list(observed_tangential_states) if observed_tangential_states is not None else None
+            ),
             "min_gap": float(np.min(gaps, initial=0.0)),
             "min_pressure": float(np.min(pressures, initial=0.0)),
             "tangential_force_change": residual_norm,
@@ -388,6 +483,8 @@ def _solve_active_slip_on_active_set(
         history,
         closed_frictional,
         open_frictional,
+        stick_frictional,
+        slip_frictional,
         max_complementarity,
     )
 
@@ -397,6 +494,9 @@ def _validate_post_root_state(
     operators: list[Any],
     active: tuple[int, ...],
     slip_references: np.ndarray,
+    *,
+    tolerance: float,
+    expected_tangential_states: tuple[str, ...] | None,
 ) -> None:
     """Fail closed unless the root result is a finite, complementary mixed state."""
     if not (
@@ -451,6 +551,58 @@ def _validate_post_root_state(
                     reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
                     diagnostics={"cause": "OPEN_CONTACT_STATE_INVALID", "contact": index},
                 )
+        if operator.has_friction and index in active:
+            state = solution.states[index]
+            pressure_limit = operator.friction_coefficient * max(pressure, 0.0)
+            tangential_force = np.asarray(solution.forces[index], dtype=float)
+            trial = operator.tangential_stiffness * (
+                operator.tangential_displacement(solution.displacement) - slip_references[index]
+            )
+            trial_norm = float(np.linalg.norm(trial))
+            force_norm = float(np.linalg.norm(tangential_force))
+            if expected_tangential_states is not None and state != expected_tangential_states[index]:
+                raise NumericalConvergenceError(
+                    "Active-slip hybrid root changed the observed tangential state.",
+                    reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+                    diagnostics={
+                        "cause": "TANGENTIAL_STATE_CHANGED",
+                        "contact": index,
+                        "observed_state": expected_tangential_states[index],
+                        "root_state": state,
+                    },
+                )
+            if state == "stick":
+                if force_norm > pressure_limit + max(operator.tolerance, tolerance):
+                    raise NumericalConvergenceError(
+                        "Active-slip hybrid stick contact left the Coulomb cone.",
+                        reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+                        diagnostics={
+                            "cause": "STICK_CONE_ADMISSIBILITY_FAILURE",
+                            "contact": index,
+                            "tangential_force_norm": force_norm,
+                            "friction_limit": pressure_limit,
+                        },
+                    )
+            elif state == "slip":
+                if trial_norm <= max(operator.tolerance, tolerance) or pressure <= 0.0:
+                    raise NumericalConvergenceError(
+                        "Active-slip hybrid slip direction is undefined.",
+                        reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+                        diagnostics={"cause": "SLIP_DIRECTION_INVALID", "contact": index},
+                    )
+                target = pressure_limit * trial / trial_norm
+                admissibility_error = float(np.linalg.norm(tangential_force - target))
+                if admissibility_error > tolerance * max(float(np.linalg.norm(target)), 1.0):
+                    raise NumericalConvergenceError(
+                        "Active-slip hybrid slip cone/alignment check failed.",
+                        reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+                        diagnostics={
+                            "cause": "SLIP_CONE_ALIGNMENT_FAILURE",
+                            "contact": index,
+                            "admissibility_error": admissibility_error,
+                            "friction_limit": pressure_limit,
+                        },
+                    )
     tolerance = max((float(operator.tolerance) for operator in operators), default=0.0)
     if max_scaled_complementarity > tolerance:
         raise NumericalConvergenceError(

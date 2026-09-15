@@ -500,6 +500,7 @@ class FrictionlessActiveSetSolver:
             )
         except NumericalConvergenceError as error:
             direct_error = error
+            direct_diagnostics = dict(error.diagnostics or {})
             if telemetry is not None:
                 emit_route_event_best_effort(
                     telemetry,
@@ -531,6 +532,9 @@ class FrictionlessActiveSetSolver:
                     proposed_active=_proposed_active,
                     tangential_force=_tangential_contact_force,
                     trace=_contact_trace(telemetry, step=step, strategy="active_slip_root"),
+                    observed_tangential_states=tuple(
+                        direct_diagnostics.get("tangential_states", [])
+                    ) if direct_diagnostics.get("tangential_states") else None,
                 )
                 return _FrictionIncrementState(
                     root_state.displacement,
@@ -547,7 +551,6 @@ class FrictionlessActiveSetSolver:
                     _dissipation_increment(slip_references, root_state.references, root_state.forces),
                 )
             except NumericalConvergenceError as root_error:
-                direct_diagnostics = dict(direct_error.diagnostics) if direct_error is not None else {}
                 root_diagnostics = dict(root_error.diagnostics or {})
                 if telemetry is not None:
                     emit_route_event_best_effort(
@@ -600,6 +603,7 @@ class FrictionlessActiveSetSolver:
         states: tuple[str, ...] = tuple("open" for _ in operators)
         tangential_forces: np.ndarray = np.zeros((len(operators), 2), dtype=float)
         history: list[dict[str, object]] = []
+        last_next_states = states
         # The reference is the committed state at the beginning of the load
         # increment.  It must remain frozen while equilibrium is iterated;
         # only the converged return mapping can commit a new reference.
@@ -619,6 +623,7 @@ class FrictionlessActiveSetSolver:
                 operators, active, displacement, pressures, references, states
             )
             next_states = _seed_stick_states(next_states, proposed, operators)
+            last_next_states = next_states
             force_delta = float(np.linalg.norm(next_forces - tangential_forces))
             reference_delta = float(np.linalg.norm(next_references - references))
             force_scale = max(float(np.linalg.norm(next_forces)), 1.0)
@@ -683,6 +688,8 @@ class FrictionlessActiveSetSolver:
                 "strategy": strategy,
                 "iteration": max_iterations,
                 "active_contacts": list(active),
+                "tangential_states": list(last_next_states),
+                "tangential_forces": tangential_forces.tolist(),
                 "cause": "ACTIVE_SET_MAX_ITERATIONS",
                 "visited_active_sets": len(visited),
             },
