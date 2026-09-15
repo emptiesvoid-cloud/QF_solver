@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "authorization": "OWNER_AUTHORIZED_WP08D_PHASE1_EXECUTION",
+  "authorization_basis": "Owner authorized the limited hybrid stick/slip production remediation and one contract-aligned M2 requalification.",
+  "scope": "WP08-D_PHASE1_STRUCTURAL_EXECUTION",
+  "status": "AUTHORIZED_HYBRID_STICK_SLIP_M2_REQUALIFICATION_ONLY",
+  "branch": "0.2.9-wp08d-m1-phase1",
+  "owner_required_base_sha": "48b8059b9b626601f9cfdff7afbc1f7c4e520279",
+  "pre_remediation_remote_head": "48b8059b9b626601f9cfdff7afbc1f7c4e520279",
+  "governing_base_sha": "28cf9dd1886b72c6c7c9fc720dc778eddfce4441",
+  "governing_sha": "7ab01136173216d2c3cb8dd3d6418a239b2215d2",
+  "runner_sha": "7ab01136173216d2c3cb8dd3d6418a239b2215d2",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "authorization_scope": {
+    "mesh": "M2",
+    "meshes": ["M2"],
+    "production_solve": true,
+    "independent_reference": true,
+    "replay": true,
+    "M1": false,
+    "M2": true,
+    "M3": false,
+    "H4": false,
+    "WP05": false,
+    "WP06": false,
+    "WP07": false,
+    "full_test_suite": false
+  },
+  "mechanics_change_authorized": true,
+  "mechanics_scope": "hybrid stick/slip root using direct iteration observed classification; stick elastic KKT contributions and slip-only root unknowns",
+  "thresholds_changed": false,
+  "solver_parameters_changed": false,
+  "fallback_changed": false,
+  "contract_changed": false,
+  "formal_points_before_review": {
+    "WP08D": "0/2",
+    "WP08": "0/8"
+  }
+}
