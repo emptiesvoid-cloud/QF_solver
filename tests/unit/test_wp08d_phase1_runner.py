@@ -57,9 +57,11 @@ def test_jsonl_telemetry_envelope_flushes_without_solver(tmp_path: Path) -> None
     telemetry = common.Phase1Telemetry(path, analysis_id="test-phase1", mesh="M1")
     telemetry.emit("RUN_START", "ANALYSIS_START", status="STARTED", elapsed=0.0)
     telemetry.emit("MESH_READY", "MESH_READY", status="COMPLETED", increment=0, elapsed=0.01)
+    telemetry.emit("HEARTBEAT", "HEARTBEAT", status="RUNNING", increment=1, elapsed=0.02)
+    telemetry.emit("RUN_END", "RUN_END", status="COMPLETED", elapsed=0.03)
     telemetry.close()
     rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
-    assert [row["metrics"]["phase1_event"] for row in rows] == ["RUN_START", "MESH_READY"]
+    assert [row["metrics"]["phase1_event"] for row in rows] == ["RUN_START", "MESH_READY", "HEARTBEAT", "RUN_END"]
     assert all(row["metadata"]["mesh"] == "M1" for row in rows)
 
 
