@@ -1,0 +1,9 @@
+{
+  "elapsed_time_s": 0.10080769995693117,
+  "error_message": "Independent active-slip root failed: residual=3.290e+00.",
+  "error_type": "RuntimeError",
+  "mesh": "M2",
+  "phase": "RUN_FAILED",
+  "schema_version": 1,
+  "status": "FAILED"
+}

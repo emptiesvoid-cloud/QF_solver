@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "campaign": "WP08-D M2 hybrid stick/slip root requalification",
+  "required_base_sha": "48b8059b9b626601f9cfdff7afbc1f7c4e520279",
+  "remote_governing_head_before_push": "48b8059b9b626601f9cfdff7afbc1f7c4e520279",
+  "remediation_commit": "b11726c6d7318762c3a892821f9fd3ca0a8a5eaf",
+  "test_commit": "7ab01136173216d2c3cb8dd3d6418a239b2215d2",
+  "execution_authorization_commit": "fea6863cb3997bc29d333a20e5d03b0667cff51b",
+  "post_validation_source_sha": "624e5ba6759a296efba24ca4f5b1b7bc1c4b8238",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "production_mechanics_changed": true,
+  "mechanics_scope": "Hybrid stick/slip root driven by direct-iteration state classification; stick contacts contribute elastic KKT terms and only observed slip contacts are root unknowns; post-root normal-set and cone admissibility checks are fail-closed.",
+  "thresholds_changed": false,
+  "mesh_changed": false,
+  "loads_changed": false,
+  "material_changed": false,
+  "mu_changed": false,
+  "kt_changed": false,
+  "tolerances_changed": false,
+  "iteration_limit_changed": false,
+  "backend_changed": false,
+  "fallback_changed": false,
+  "contract_changed": false,
+  "production": {
+    "status": "PASS_CANDIDATE",
+    "raw_terminal_status": "COMPLETED",
+    "raw_terminal_classification": "PASS",
+    "accepted_increments": 7,
+    "fallback_count": 0,
+    "active_set_by_increment": {
+      "1": [3, 7, 11],
+      "2": [3, 7, 11],
+      "3": [3, 7, 11],
+      "4": [3, 7, 11],
+      "5": [3, 7, 11],
+      "6": [3, 7, 11],
+      "7": [3, 7, 11]
+    },
+    "tangential_states_by_increment": {
+      "1": ["open", "open", "open", "slip", "open", "open", "open", "slip", "open", "open", "open", "slip"],
+      "2": ["open", "open", "open", "stick", "open", "open", "open", "stick", "open", "open", "open", "stick"],
+      "3": ["open", "open", "open", "stick", "open", "open", "open", "stick", "open", "open", "open", "stick"],
+      "4": ["open", "open", "open", "stick", "open", "open", "open", "stick", "open", "open", "open", "stick"],
+      "5": ["open", "open", "open", "stick", "open", "open", "open", "stick", "open", "open", "open", "slip"],
+      "6": ["open", "open", "open", "stick", "open", "open", "open", "stick", "open", "open", "open", "stick"],
+      "7": ["open", "open", "open", "slip", "open", "open", "open", "slip", "open", "open", "open", "slip"]
+    },
+    "step5_hybrid": {
+      "normal_active_set": [3, 7, 11],
+      "observed_states": {"3": "stick", "7": "stick", "11": "slip"},
+      "stick_contacts": [3, 7],
+      "slip_contacts": [11],
+      "open_frictional_contacts": [0, 1, 2, 4, 5, 6, 8, 9, 10],
+      "tangential_unknown_dimension": 2,
+      "post_root_normal_set": [3, 7, 11],
+      "post_root_normal_set_unchanged": true,
+      "max_complementarity": 2.1828783600599047e-14,
+      "stick_cone_admissibility": "PASS",
+      "slip_cone_alignment": "PASS",
+      "open_contact_zero_force_and_reference_unchanged": "PASS",
+      "finite_state": "PASS",
+      "forensic_ssk_residual_inf": 2.2752821848825988e-10,
+      "forensic_ssk_residual_source": "qualification/0_2_9/wp08d_phase1_contract_aligned_m2/wp08d_m2_step5_hybrid_mode_forensic.json"
+    },
+    "equilibrium": {
+      "force_balance_relative_error": 2.5698104088128976e-14,
+      "moment_balance_relative_error": 4.504766104249868e-14,
+      "finite_observables": true
+    },
+    "artifact_root": "qualification/0_2_9/wp08d_phase1_hybrid_stick_slip_requalification/production/M2",
+    "manifest_status": "HASHES_VERIFIED"
+  },
+  "independent_reference": {
+    "status": "FAIL_CLOSED",
+    "terminal_classification": "REFERENCE_FAILURE",
+    "accepted_increments": 4,
+    "failure_step": 5,
+    "failure_message": "Independent active-slip root failed: residual=3.290e+00.",
+    "production_contact_routines_called": false,
+    "artifact_root": "qualification/0_2_9/wp08d_phase1_hybrid_stick_slip_requalification/independent_reference/M2",
+    "manifest_status": "HASHES_VERIFIED"
+  },
+  "replay": {
+    "status": "NOT_RUN_REFERENCE_FAILED",
+    "reason": "Fail-closed dependency: independent M2 reference did not pass."
+  },
+  "m2_decision": "FAIL_CLOSED_REFERENCE",
+  "m3_status": "NOT_RUN_OWNER_REVIEW_REQUIRED",
+  "formal_status": {
+    "WP08D": "0/2",
+    "WP08": "0/8",
+    "qualification_claim": "NO_FORMAL_POINT_CLAIM"
+  },
+  "validation": {
+    "targeted_tests": "PASS: 49 passed",
+    "ruff": "PASS",
+    "mypy": "PASS: 3 files, no issues",
+    "compileall": "PASS",
+    "json_validation": "PASS: production/reference JSON, JSONL and manifest hashes; raw.npz readable",
+    "git_diff_check": "PASS",
+    "full_test_suite": "NO"
+  },
+  "next_step": "Owner review of the independent-reference failure before any further remediation or M3 authorization."
+}
