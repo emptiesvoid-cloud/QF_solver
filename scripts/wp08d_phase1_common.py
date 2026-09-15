@@ -13,6 +13,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 from time import perf_counter
 from typing import Any, Mapping
 
@@ -34,6 +35,30 @@ def repository_root() -> Path:
     """Return the repository root from this script's location."""
 
     return Path(__file__).resolve().parents[1]
+
+
+def ensure_workspace_source_import() -> Path:
+    """Select this checkout's ``src`` package before an authorized solve.
+
+    A direct ``python scripts/...`` invocation otherwise permits a globally
+    installed package with the same name to shadow the reviewed checkout.  The
+    runner therefore inserts the local source tree before importing any solver
+    module and fails closed if a different package is already loaded.
+    """
+
+    source = repository_root() / "src"
+    package = source / "solveur"
+    if not package.is_dir():
+        raise RuntimeError("WP08-D runner cannot locate the checkout source package.")
+    loaded = sys.modules.get("solveur")
+    if loaded is not None:
+        loaded_file = Path(str(getattr(loaded, "__file__", ""))).resolve()
+        if source not in loaded_file.parents:
+            raise RuntimeError("WP08-D runner refuses a preloaded non-checkout solveur package.")
+    source_text = str(source)
+    if source_text not in sys.path:
+        sys.path.insert(0, source_text)
+    return source
 
 
 def canonical_json_digest(value: object) -> str:
@@ -374,6 +399,7 @@ def build_production_model(
 ) -> Any:
     """Build the frozen production model lazily for an authorized future run."""
 
+    ensure_workspace_source_import()
     from scripts.prepare_wp08d_structural_reference import generate_mesh
     from solveur.core.model import FiniteElementModel
 
@@ -536,6 +562,7 @@ def execute_phase1(
         mesh=mesh_name,
         diagnostic_load_step_limit=diagnostic_load_step_limit,
     )
+    source_root = ensure_workspace_source_import()
     from solveur.api.public import solve_model
 
     preflight = build_preflight(mesh_name)
@@ -610,7 +637,12 @@ def execute_phase1(
             write_console(console_log, "STEP_END increment=%d status=ACCEPTED" % increment)
         result_payload.update({
             "schema_version": 1,
-            "phase1": {"mesh": mesh_name.upper(), "authorization": authorization, "preflight": preflight},
+            "phase1": {
+                "mesh": mesh_name.upper(),
+                "authorization": authorization,
+                "preflight": preflight,
+                "source_package_path": str(source_root),
+            },
             "observables": extract_observables(result),
             "equilibrium": (result_payload.get("audit", {}) or {}).get("equilibrium", {}),
             "contact": contact_payload,

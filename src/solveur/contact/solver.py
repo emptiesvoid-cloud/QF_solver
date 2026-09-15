@@ -32,6 +32,7 @@ from solveur.contact.support import (
     _positive_float,
     _positive_int,
     _pressures,
+    _reseed_stick_predictor_after_normal_set_change,
     _proposed_active,
     _select_active_set_transition,
     _search_mode,
@@ -637,6 +638,8 @@ class FrictionlessActiveSetSolver:
             transition_cause = "ACTIVE_SET_STABLE" if proposed == active else "ACTIVE_SET_UPDATE"
             if proposed != active:
                 next_active, transition_cause = _select_active_set_transition(active, proposed, visited)
+                next_states = _reseed_stick_predictor_after_normal_set_change(next_states, next_active, operators)
+                history[-1]["tangential_predictor"] = "STICK_RESEEDED_AFTER_NORMAL_SET_CHANGE"
             else:
                 next_active = active
             history[-1]["transition_cause"] = transition_cause

@@ -370,6 +370,35 @@ def _seed_stick_states(
     return tuple(updated)
 
 
+def _reseed_stick_predictor_after_normal_set_change(
+    states: tuple[str, ...],
+    active: tuple[int, ...],
+    operators: list[_ContactOperator],
+) -> tuple[str, ...]:
+    """Re-evaluate retained friction pairs from their elastic stick tangent.
+
+    A normal-set change invalidates the tangential equilibrium used to classify
+    the preceding trial.  In particular, a pair that was provisionally marked
+    ``slip`` while a soon-to-open neighbour was constrained can lie strictly
+    inside the Coulomb cone after that neighbour is removed.  Re-seed every
+    newly evaluated closed frictional pair as ``stick`` for the next KKT
+    solve; the unchanged return map immediately restores ``slip`` whenever
+    that elastic trial is outside the cone.  This does not alter material,
+    tolerances, loads, or the accepted-state transaction.
+    """
+
+    refreshed = list(states)
+    active_set = set(active)
+    for index, operator in enumerate(operators):
+        if index not in active_set:
+            refreshed[index] = "open"
+        elif operator.has_friction:
+            refreshed[index] = "stick"
+        else:
+            refreshed[index] = "frictionless"
+    return tuple(refreshed)
+
+
 def _tangential_contact_force(operators: list[_ContactOperator], forces: np.ndarray, size: int) -> np.ndarray:
     """Map local tangential contact forces to full nodal force space."""
     result: np.ndarray = np.zeros(size, dtype=float)
@@ -472,10 +501,12 @@ def _contact_convergence_diagnostics(
     active_gaps = [abs(float(gaps[index])) for index in active]
     complementarity = [abs(float(gaps[index] * pressures[index])) for index in range(len(gaps))]
     final_residual = max(active_gaps or [0.0])
+    initial_value = history[0].get("min_gap", 0.0) if history else 0.0
+    residual_initial = float(initial_value) if isinstance(initial_value, (int, float, np.floating)) else 0.0
     return {
         "converged": True,
         "iterations": len(history),
-        "residual_initial": float(history[0].get("min_gap", 0.0)) if history else 0.0,
+        "residual_initial": residual_initial,
         "residual_final": final_residual,
         "relative_residual": final_residual,
         "solver": "contact_active_set",
