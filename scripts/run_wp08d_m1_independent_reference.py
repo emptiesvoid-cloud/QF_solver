@@ -266,7 +266,9 @@ def run(production_result: Path, output_dir: Path) -> dict[str, Any]:
     production_displacement = _production_displacement_vector(production)
     production_observables = production.get("observables", {})
     reference_observables = {
-        "selected_displacement": float(np.max(np.linalg.norm(final_displacement.reshape((-1, 3)), axis=1))),
+        # The governing production result defines this observable as the
+        # maximum absolute displacement component, not the maximum nodal norm.
+        "selected_displacement": float(np.max(np.abs(final_displacement))),
         "reaction_resultant": reaction_resultant.tolist(),
         "reaction_moment": reaction_moment.tolist(),
         "normal_contact_resultant": [0.0, 0.0, 0.0],
