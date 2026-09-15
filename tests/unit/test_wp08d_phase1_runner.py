@@ -102,8 +102,23 @@ def test_diagnostic_prefix_preserves_the_frozen_first_two_load_steps() -> None:
     )
 
     assert len(model.analysis.parameters["contact_load_history"]) == 2
-    assert model.analysis.parameters["contact_load_history"][0] != model.analysis.parameters["contact_load_history"][1]
+    first, second = model.analysis.parameters["contact_load_history"]
+    assert any(value == 0.0 for value in first)
+    assert first != second
     assert model.analysis.parameters["contact_emit_step_checkpoints"] is True
+
+
+def test_runner_load_history_is_derived_exactly_from_the_frozen_contract() -> None:
+    model = common.build_production_model("M2")
+    history = model.analysis.parameters["contact_load_history"]
+    contract = common.read_contract()["friction"]["load_path"]
+    loads = model.loads
+
+    assert len(history) == len(contract) == 7
+    for row, frozen in zip(history, contract, strict=True):
+        for factor, load in zip(row, loads, strict=True):
+            expected = frozen["tangential_factor"] if load.dof in {"UX", "UY"} else frozen["normal_factor"]
+            assert factor == expected
 
 
 def test_accepted_step_telemetry_materializes_a_hashable_checkpoint(tmp_path: Path) -> None:
