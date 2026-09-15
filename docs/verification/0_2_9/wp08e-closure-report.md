@@ -122,6 +122,42 @@ displacement difference `0.0` and cumulative local dissipation difference
 steps 5, 6 and 7. A terminal checkpoint is not accepted as a continuation
 source; only a non-terminal accepted checkpoint can be used for restart.
 
+## Explicit transition: historical M2 failure to M2/M3 pass evidence
+
+The final candidate is not based on silently replacing a failed result. The
+failure and the subsequent correction are both retained as separate evidence
+generations:
+
+| Generation | Source/evidence commit | Result | Meaning |
+| --- | --- | --- | --- |
+| Contract-aligned M2 failure | `624e5ba6759a296efba24ca4f5b1b7bc1c4b8238` / recorded by `45eadb3d9d2c8bc5649c81ec01d351be53e015dc` | `FAIL_CLOSED` at increment 5 | The frozen route reached active set `[3,7,11]`; the hybrid active-slip root failed and rollback was performed. No replay or M3 was allowed. |
+| Production hybrid remediation | `b11726c6d7318762c3a892821f9fd3ca0a8a5eaf` | production candidate recovered | Stick contacts contribute elastic KKT terms; only observed slip contacts enter the hybrid root. Thresholds, loads, mesh and fallback policy were unchanged. |
+| Reference alignment and M2 closure | `5fe0451a21ac33de9ddaca6b480748238ac04779` / evidence `ab64fc5bc9373bb7c12e96d7259cc148a1fe1d8b` | `M2 PASS_REFERENCE`, replay `PASS`, 7/7 | The independent reference was corrected to represent the observed SSK hybrid mode while remaining independent of production contact routines. |
+| M3 authorized closure | authorization `7761692203060879366594052ab122415bdab274` / evidence `4f972b5db98cc9313bf0129adaeaa0b218da5375` | production, reference and replay `PASS`, 7/7 | M3 was run only after M2 reference and replay passed. |
+| Provenance clarification | `7916d37a32af405fb5d710f56693c572f43aa298` | audit correction | The distinction between execution SHA, evidence SHA, contract digest and policy digest was made explicit. |
+
+The old failure remains available in
+`docs/verification/0_2_9/wp08d-hybrid-stick-slip-m1-m2-report.md` and the
+contract-aligned artifacts. The new M2 evidence is in
+`qualification/0_2_9/wp08d_phase1_hybrid_stick_slip_reference_replay/`, and
+the M3 evidence is in the same evidence root under `production/M3`,
+`independent_reference/M3` and `replay/M3`.
+
+The transition is therefore:
+
+```text
+M2 old = FAIL_CLOSED
+  -> preserve failure and rollback evidence
+  -> remediate the actual hybrid stick/slip implementation/reference path
+  -> rerun independent reference and replay on the frozen inputs
+M2 new = PASS_REFERENCE + PASS replay, 7/7
+  -> authorize M3
+M3 new = PASS production + PASS_REFERENCE + PASS replay, 7/7
+```
+
+No threshold relaxation, result overwrite, silent fallback or retroactive
+point assignment occurred.
+
 ## A→D closure audit
 
 The existing bounded evidence was checked without rewriting historical
