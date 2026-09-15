@@ -251,9 +251,18 @@ class Phase1Telemetry:
         self._emitter = TelemetryEmitter(
             analysis_id=analysis_id,
             analysis_type="linear_static",
-            route="wp08d_phase1",
+            # The router binds the production static route to
+            # ("linear_static", "linear_static").  Keep the Phase-1 label in
+            # metadata while using the governed route identity so internal
+            # solver events are not rejected by context validation.
+            route="linear_static",
             sinks=(self._sink,),
-            metadata={"mesh": mesh, "contract_digest": CONTRACT_DIGEST, "policy_digest": POLICY_DIGEST},
+            metadata={
+                "mesh": mesh,
+                "phase1_route": "wp08d_phase1",
+                "contract_digest": CONTRACT_DIGEST,
+                "policy_digest": POLICY_DIGEST,
+            },
         )
         self._event_status = EventStatus
 
