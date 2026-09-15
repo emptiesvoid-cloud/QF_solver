@@ -465,38 +465,105 @@ def execute_phase1(mesh_name: str, output_dir: Path, authorization_file: Path | 
     case_dir.mkdir(parents=True, exist_ok=True)
     progress = Phase1Progress(case_dir / "progress.json")
     telemetry = Phase1Telemetry(case_dir / "telemetry.jsonl", analysis_id=f"WP08D-{mesh_name.upper()}", mesh=mesh_name.upper())
+    console_log = None
+    console_error = None
+    try:
+        console_log = (case_dir / "console.log").open("a", encoding="utf-8", newline="")
+        console_error = (case_dir / "console.err.log").open("a", encoding="utf-8", newline="")
+    except OSError:
+        # Console capture is evidence plumbing only.  A filesystem problem in
+        # this optional sink must not change the numerical route.
+        if console_log is not None:
+            console_log.close()
+        console_log = None
+        console_error = None
+
+    def write_console(stream: Any, message: str) -> None:
+        """Best-effort, immediate-flush console evidence."""
+
+        if stream is None:
+            return
+        try:
+            stream.write(message.rstrip("\n") + "\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+        except OSError:
+            pass
+
     started = perf_counter()
     progress.update(status="RUNNING", phase="RUN_START", mesh=mesh_name.upper(), elapsed_time_s=0.0)
     telemetry.emit("RUN_START", "ANALYSIS_START", status="STARTED", elapsed=0.0)
+    write_console(console_log, "RUN_START mesh=%s" % mesh_name.upper())
     try:
         model = build_production_model(mesh_name)
         progress.update(status="RUNNING", phase="MESH_READY", mesh=mesh_name.upper(), elapsed_time_s=perf_counter() - started)
         telemetry.emit("MESH_READY", "MESH_READY", status="COMPLETED", elapsed=perf_counter() - started)
+        write_console(console_log, "MESH_READY mesh=%s" % mesh_name.upper())
         telemetry.emit("ASSEMBLY_START", "ASSEMBLY_START", status="STARTED", elapsed=perf_counter() - started)
+        write_console(console_log, "ASSEMBLY_START mesh=%s" % mesh_name.upper())
         result = solve_model(model, enforce_policy=False, telemetry=telemetry._emitter)
         result_payload = result.to_dict()
+        contact_payload = (result_payload.get("solver", {}) or {}).get("contact", {}) or {}
+        load_steps = contact_payload.get("load_steps", []) if isinstance(contact_payload, Mapping) else []
+        for step_detail in load_steps if isinstance(load_steps, list) else []:
+            if not isinstance(step_detail, Mapping):
+                continue
+            increment = int(step_detail.get("step", 0))
+            telemetry.emit(
+                "STEP_END",
+                "STEP_END",
+                status="ACCEPTED",
+                increment=increment,
+                active_set_iterations=int(step_detail.get("iteration_count", 0)),
+                linear_solver="serial_direct_contact_kkt",
+                preconditioner="not_applicable",
+                krylov_iterations={"value": None, "reason": "NOT_APPLICABLE"},
+                raw_linear_relative_residual={"value": None, "reason": "NOT_COMPUTABLE"},
+                backward_error_eta_inf={"value": None, "reason": "NOT_COMPUTABLE"},
+                accepted=True,
+                rejected=False,
+                elapsed=perf_counter() - started,
+            )
+            write_console(console_log, "STEP_END increment=%d status=ACCEPTED" % increment)
         result_payload.update({
             "schema_version": 1,
             "phase1": {"mesh": mesh_name.upper(), "authorization": authorization, "preflight": preflight},
             "observables": extract_observables(result),
             "equilibrium": (result_payload.get("audit", {}) or {}).get("equilibrium", {}),
-            "contact": (result_payload.get("solver", {}) or {}).get("contact", {}),
+            "contact": contact_payload,
             "terminal_classification": "PASS",
             "qualification_claim": "PHASE1_EXECUTION_EVIDENCE_NOT_FORMAL_WP08_CLOSURE",
         })
         write_json(case_dir / "result.json", result_payload)
         observables = result_payload["observables"]
+        contract = read_contract()
+        load_path = contract.get("friction", {}).get("load_path", [])
+        load_factors = np.asarray(
+            [[float(item["normal_factor"]), float(item["tangential_factor"])] for item in load_path],
+            dtype=float,
+        )
+        accepted_state_digests = np.asarray(
+            [
+                hashlib.sha256(
+                    json.dumps(_jsonable(item), sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+                ).hexdigest()
+                for item in load_steps
+                if isinstance(item, Mapping)
+            ],
+            dtype=str,
+        )
         np.savez_compressed(
             case_dir / "raw.npz",
             displacements=np.asarray(result.displacements, dtype=float),
             contact_forces=np.asarray(observables["tangential_contact_resultant"], dtype=float),
             contact_pressures=np.asarray(observables["contact_pressures"], dtype=float),
             contact_states=np.asarray(observables["contact_states"], dtype=str),
-            load_factors=np.asarray([1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0], dtype=float),
-            accepted_state_digests=np.asarray([], dtype=str),
+            load_factors=load_factors,
+            accepted_state_digests=accepted_state_digests,
         )
         progress.update(status="COMPLETED", phase="RUN_END", mesh=mesh_name.upper(), elapsed_time_s=perf_counter() - started)
         telemetry.emit("RUN_END", "ANALYSIS_END", status="COMPLETED", elapsed=perf_counter() - started)
+        write_console(console_log, "RUN_END status=COMPLETED")
         write_manifest(
             case_dir,
             mesh_name=mesh_name,
@@ -509,9 +576,27 @@ def execute_phase1(mesh_name: str, output_dir: Path, authorization_file: Path | 
     except BaseException as error:
         progress.update(status="FAILED", phase="RUN_FAILED", error_type=type(error).__name__, error_message=str(error), elapsed_time_s=perf_counter() - started)
         telemetry.emit("RUN_FAILED", "ANALYSIS_FAILED", status="FAILED", error_type=type(error).__name__, error_message=str(error), elapsed=perf_counter() - started)
+        write_console(console_error, "RUN_FAILED type=%s error=%s" % (type(error).__name__, str(error)))
+        try:
+            write_manifest(
+                case_dir,
+                mesh_name=mesh_name,
+                terminal_status="FAILED",
+                terminal_classification=type(error).__name__,
+                qualification_claim="PHASE1_EXECUTION_EVIDENCE_NOT_FORMAL_WP08_CLOSURE",
+                frozen_parameters={"load_increments": 7, "backend": "serial_direct", "fallback": "disabled"},
+            )
+        except BaseException:
+            pass
         raise
     finally:
         telemetry.close()
+        for stream in (console_log, console_error):
+            if stream is not None:
+                try:
+                    stream.close()
+                except OSError:
+                    pass
 
 
 def dry_run(mesh_name: str, output_dir: Path) -> dict[str, Any]:
