@@ -21,6 +21,24 @@ No M2 or M3 structural solve was relaunched by this task. The previously
 authorized M2/M3 production, independent-reference and replay artifacts were
 consumed read-only and their manifests were re-hashed.
 
+## Provenance
+
+```text
+AUTHORIZED_BASE_SHA = 7b93e71bab06a0e58108bd2479cd46808d533b67
+REMEDIATION_SHA = 794de436c13364c16aa85b2ae2c9e7bb09957829
+EXECUTION_SHA = 794de436c13364c16aa85b2ae2c9e7bb09957829
+EVIDENCE_COMMIT_SHA = PENDING_LOCAL_EVIDENCE_COMMIT
+FINAL_SHA = PENDING_LOCAL_EVIDENCE_COMMIT
+REMOTE_HEAD = NOT_PUSHED
+BRANCH = 0.2.9-wp08d-m1-phase1
+```
+
+`REMEDIATION_SHA` identifies the local implementation commit that was tested;
+`EXECUTION_SHA` is the exact source revision used for the WP08-E run. The
+evidence commit and final SHA are intentionally resolved only after the
+generated artifacts are committed. No remote head is asserted because no
+push was requested.
+
 ## WP08-E evidence
 
 The controlled seven-step local history was solved once without interruption.
@@ -101,4 +119,3 @@ compileall = PASS
 JSON validation = PASS
 git diff --check = PASS
 ```
-
