@@ -1,0 +1,11 @@
+RUN_START mesh=M2
+MESH_READY mesh=M2
+ASSEMBLY_START mesh=M2
+STEP_END increment=1 status=ACCEPTED
+STEP_END increment=2 status=ACCEPTED
+STEP_END increment=3 status=ACCEPTED
+STEP_END increment=4 status=ACCEPTED
+STEP_END increment=5 status=ACCEPTED
+STEP_END increment=6 status=ACCEPTED
+STEP_END increment=7 status=ACCEPTED
+RUN_END status=COMPLETED
