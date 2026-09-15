@@ -5964,6 +5964,36 @@
     "tests/unit/test_wp08d_phase1_fail_closed.py",
     "tests/unit/test_wp08d_structural_reference_contract.py"
   ]
+},
+{
+  "id": "DOC-029-WP08E-001",
+  "path": "verification/0_2_9/wp08e-closure-report.md",
+  "title": "QF Solver 0.2.9 WP08-E accepted-state closure",
+  "status": "owner_approved_with_limitations",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp08e_closure/wp08e_closure_final.json",
+    "qualification/0_2_9/wp08e_closure/wp08e_closure_integrity_manifest.json",
+    "qualification/0_2_9/wp08_closure/wp08_owner_review_inspection.json"
+  ],
+  "tests": [
+    "tests/unit/test_frictional_contact.py"
+  ]
+},
+{
+  "id": "DOC-029-WP08-OWNER-002",
+  "path": "verification/0_2_9/wp08-owner-approval.md",
+  "title": "QF Solver 0.2.9 WP08 Owner approval and retained limitations",
+  "status": "owner_approved_with_limitations",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp08_closure/wp08_owner_approval.json",
+    "qualification/0_2_9/wp08_closure/wp08abcd_closure_final.json",
+    "qualification/0_2_9/wp08e_closure/wp08e_closure_final.json"
+  ],
+  "tests": [
+    "tests/unit/test_frictional_contact.py"
+  ]
 }
   ]
   
