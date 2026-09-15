@@ -114,6 +114,8 @@
     "full_test_suite_run": false,
     "next_step": "OWNER_REVIEW_REQUIRED_BEFORE_M2"
   },
-  "final_sha": "SET_ON_FINAL_EVIDENCE_COMMIT",
-  "remote_governing_head": "SET_AFTER_EVIDENCE_PUSH"
+  "evidence_commit_sha": "9771073ec226f1bc4ffc319501cd8adc3cdd09d2",
+  "remote_governing_head_at_evidence_commit": "9771073ec226f1bc4ffc319501cd8adc3cdd09d2",
+  "final_sha": null,
+  "final_sha_resolution": "git rev-parse origin/0.2.9-unified-nonlinear at handoff"
 }
