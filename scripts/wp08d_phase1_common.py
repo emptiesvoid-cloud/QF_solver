@@ -21,6 +21,7 @@ import numpy as np
 
 REQUIRED_GOVERNING_SHA = "28cf9dd1886b72c6c7c9fc720dc778eddfce4441"
 REQUIRED_BRANCH = "0.2.9-wp08d-phase1-runner"
+AUTHORIZED_INTEGRATION_BRANCH = "0.2.9-wp08d-m1-phase1"
 CONTRACT_RELATIVE_PATH = Path("qualification/0_2_9/wp08d_structural_reference_contract.json")
 POLICY_DIGEST = "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
 CONTRACT_DIGEST = "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a"
@@ -105,7 +106,7 @@ def verify_branch_provenance(root: Path | None = None) -> dict[str, object]:
 
     repo = root or repository_root()
     state = git_state(repo)
-    if state["branch"] != REQUIRED_BRANCH:
+    if state["branch"] not in {REQUIRED_BRANCH, AUTHORIZED_INTEGRATION_BRANCH}:
         raise RuntimeError(f"Unexpected Phase-1 branch: {state['branch']!r}.")
     if state["dirty"]:
         raise RuntimeError("Phase-1 runner working tree is not clean.")
@@ -280,11 +281,24 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
         raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
     required = {
         "authorization": PHASE1_AUTHORIZATION_TOKEN,
-        "governing_sha": REQUIRED_GOVERNING_SHA,
-        "branch": REQUIRED_BRANCH,
+        "governing_base_sha": REQUIRED_GOVERNING_SHA,
         "scope": "WP08-D_PHASE1_STRUCTURAL_EXECUTION",
     }
     if any(payload.get(key) != value for key, value in required.items()):
+        raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
+    state = git_state()
+    if state["branch"] != payload.get("branch"):
+        raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
+    governing_sha = payload.get("governing_sha")
+    if not isinstance(governing_sha, str) or len(governing_sha) != 40:
+        raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
+    is_merged_governing_ancestor = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", governing_sha, str(state["head"])],
+        cwd=repository_root(),
+        check=False,
+        capture_output=True,
+    ).returncode == 0
+    if not is_merged_governing_ancestor:
         raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
     return payload
 
