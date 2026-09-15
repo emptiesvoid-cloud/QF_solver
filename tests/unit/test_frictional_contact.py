@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from solveur.core.errors import InputValidationError
+from solveur.core.errors import InputValidationError, MeshValidationError
 from solveur.core.solver import LinearStaticSolver
 from solveur.io.json_reader import JsonModelReader
 
@@ -126,3 +126,105 @@ def test_constant_normal_pressure_ramp_is_independent_of_the_contact_step_count(
 
     for response in responses[1:]:
         assert response == pytest.approx(responses[0], abs=1.0e-12)
+
+
+def test_frictional_contact_accepted_state_restart_matches_uninterrupted_path(tmp_path, monkeypatch) -> None:
+    data = _model(horizontal_load=200.0, vertical_load=-200.0)
+    data["analysis"]["contact_load_history"] = [
+        [0.0, 1.0], [0.2, 1.0], [1.0, 1.0], [0.2, 1.0],
+        [-0.2, 1.0], [-1.0, 1.0], [0.0, 1.0],
+    ]
+    uninterrupted = LinearStaticSolver().solve(JsonModelReader().from_dict(data))
+
+    checkpoint = tmp_path / "friction_step4.json"
+    interrupted_data = {**data, "analysis": {**data["analysis"], "contact_checkpoint_path": str(checkpoint)}}
+    from solveur.contact.solver import FrictionlessActiveSetSolver
+
+    original = FrictionlessActiveSetSolver._solve_friction_increment
+
+    def stop_before_step_five(*args, **kwargs):
+        if kwargs.get("step") == 5:
+            raise RuntimeError("test interruption after accepted step four")
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(FrictionlessActiveSetSolver, "_solve_friction_increment", staticmethod(stop_before_step_five))
+    with pytest.raises(RuntimeError, match="accepted step four"):
+        LinearStaticSolver().solve(JsonModelReader().from_dict(interrupted_data))
+    assert checkpoint.is_file()
+    monkeypatch.undo()
+
+    resumed_data = {
+        **data,
+        "analysis": {
+            **data["analysis"],
+            "contact_checkpoint_path": str(checkpoint),
+            "contact_restart_from": str(checkpoint),
+        },
+    }
+    resumed = LinearStaticSolver().solve(JsonModelReader().from_dict(resumed_data))
+    assert resumed.displacements == pytest.approx(uninterrupted.displacements, abs=1.0e-12)
+    assert resumed.solver["contact"]["restart"]["restarted_from_step"] == 4
+    assert resumed.solver["contact"]["restart"]["accepted_steps_written"] == 3
+    assert resumed.solver["contact"]["cumulative_local_dissipation"] == pytest.approx(
+        uninterrupted.solver["contact"]["cumulative_local_dissipation"], abs=1.0e-12
+    )
+
+
+def test_frictional_contact_restart_rejects_tampered_checkpoint(tmp_path, monkeypatch) -> None:
+    data = _model(horizontal_load=200.0, vertical_load=-200.0)
+    data["analysis"]["contact_load_history"] = [
+        [0.0, 1.0], [0.2, 1.0], [1.0, 1.0], [0.2, 1.0],
+        [-0.2, 1.0], [-1.0, 1.0], [0.0, 1.0],
+    ]
+    checkpoint = tmp_path / "friction_step4.json"
+    from solveur.contact.solver import FrictionlessActiveSetSolver
+
+    original = FrictionlessActiveSetSolver._solve_friction_increment
+
+    def stop_before_step_five(*args, **kwargs):
+        if kwargs.get("step") == 5:
+            raise RuntimeError("test interruption")
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(FrictionlessActiveSetSolver, "_solve_friction_increment", staticmethod(stop_before_step_five))
+    with pytest.raises(RuntimeError):
+        LinearStaticSolver().solve(
+            JsonModelReader().from_dict(
+                {**data, "analysis": {**data["analysis"], "contact_checkpoint_path": str(checkpoint)}}
+            )
+        )
+    monkeypatch.undo()
+    payload = checkpoint.read_text(encoding="utf-8").replace("\"model_signature\": \"", "\"model_signature\": \"tampered-")
+    checkpoint.write_text(payload, encoding="utf-8")
+    resumed = {
+        **data,
+        "analysis": {
+            **data["analysis"],
+            "contact_restart_from": str(checkpoint),
+        },
+    }
+    with pytest.raises(InputValidationError, match="does not match"):
+        LinearStaticSolver().solve(JsonModelReader().from_dict(resumed))
+
+
+def test_frictional_contact_restart_missing_checkpoint_fails_closed() -> None:
+    data = _model(horizontal_load=2.0, vertical_load=-200.0)
+    data["analysis"]["contact_restart_from"] = "missing-friction-checkpoint.json"
+    with pytest.raises(InputValidationError, match="checkpoint is unreadable"):
+        LinearStaticSolver().solve(JsonModelReader().from_dict(data))
+
+
+def test_frictional_contact_negative_and_nonfinite_coefficients_fail_closed() -> None:
+    for value in (-0.1, float("nan"), float("inf")):
+        data = _model(horizontal_load=2.0, vertical_load=-200.0)
+        data["contacts"][0]["friction_coefficient"] = value
+        with pytest.raises(InputValidationError, match="non-negative finite"):
+            JsonModelReader().from_dict(data)
+
+
+def test_updated_search_with_friction_is_explicitly_unsupported() -> None:
+    data = _model(horizontal_load=2.0, vertical_load=-200.0)
+    data["analysis"]["contact_search_mode"] = "updated"
+    model = JsonModelReader().from_dict(data)
+    with pytest.raises(MeshValidationError, match="Updated contact search is not yet available with frictional contact"):
+        LinearStaticSolver().solve(model)
