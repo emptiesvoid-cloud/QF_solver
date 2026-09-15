@@ -381,9 +381,23 @@ def _load_vector_from_contract(
                 continue
             loads.append({"node": node, "dof": dof, "value": value})
             component_factors.append(factor_name)
-    rows = []
-    for increment in (1.0, 0.25, 0.75, 1.0, 1.25, 0.25, -0.5):
-        rows.append([increment if factor == "tangential_factor" else 1.0 for factor in component_factors])
+    contract_path = read_contract().get("friction", {}).get("load_path", [])
+    if not isinstance(contract_path, list) or not contract_path:
+        raise RuntimeError("WP08-D frozen friction load path is unavailable.")
+    rows: list[list[float]] = []
+    for step, factors in enumerate(contract_path, start=1):
+        if not isinstance(factors, Mapping):
+            raise RuntimeError(f"WP08-D frozen load-path row {step} is invalid.")
+        try:
+            normal_factor = float(factors["normal_factor"])
+            tangential_factor = float(factors["tangential_factor"])
+        except (KeyError, TypeError, ValueError) as error:
+            raise RuntimeError(f"WP08-D frozen load-path row {step} has invalid factors.") from error
+        if not np.isfinite(normal_factor) or not np.isfinite(tangential_factor):
+            raise RuntimeError(f"WP08-D frozen load-path row {step} has non-finite factors.")
+        rows.append(
+            [tangential_factor if factor == "tangential_factor" else normal_factor for factor in component_factors]
+        )
     if diagnostic_load_step_limit is not None:
         if not 1 <= diagnostic_load_step_limit <= len(rows):
             raise ValueError("diagnostic_load_step_limit must select a frozen prefix of the load path.")
