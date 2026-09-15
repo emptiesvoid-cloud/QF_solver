@@ -1,6 +1,9 @@
 {
   "schema_version": 1,
   "record_type": "WP08D_M2_ACTIVE_SET_REMEDIATION",
+  "branch": "0.2.9-wp08d-m1-phase1",
+  "audit_base_commit": "7e46335f0f24de1943a951d561f70359ec6c36cd",
+  "final_audit_commit": "31780a4974d2ebaf0b9dbeed4c23a6e2d9f42363",
   "historical_m2": {
     "status": "FAIL_CLOSED",
     "classification": "NumericalConvergenceError",

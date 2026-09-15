@@ -7,6 +7,11 @@ robustness limitation identified by the archived WP08-D M2 run. It does not
 reclassify or overwrite the original M2 evidence, and it does not authorize a
 new M2 or M3 solve.
 
+Controlled branch: `0.2.9-wp08d-m1-phase1`.
+The remediation was based on the preserved forensic-review commit
+`7e46335f0f24de1943a951d561f70359ec6c36cd`; final audit commit:
+`31780a4974d2ebaf0b9dbeed4c23a6e2d9f42363`.
+
 Historical evidence remains:
 
 - `M2_STATUS = FAIL_CLOSED`;
