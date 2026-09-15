@@ -1,0 +1,126 @@
+{
+  "authorized_base_sha": "7b93e71bab06a0e58108bd2479cd46808d533b67",
+  "branch": "0.2.9-wp08d-m1-phase1",
+  "candidate_points": {
+    "WP08": "8/8",
+    "WP08-A": "1/1",
+    "WP08-B": "2/2",
+    "WP08-C": "2/2",
+    "WP08-D": "2/2",
+    "WP08-E": "1/1"
+  },
+  "component_status": {
+    "WP08-A": "PASS_CANDIDATE_WITH_LIMITATIONS",
+    "WP08-B": "PASS_CANDIDATE_WITH_LIMITATIONS",
+    "WP08-C": "PASS_CANDIDATE_WITH_LIMITATIONS",
+    "WP08-D": "PASS_CANDIDATE_WITH_LIMITATIONS",
+    "WP08-E": "PASS_CANDIDATE"
+  },
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "evidence": {
+    "A": {
+      "exists": true,
+      "path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08d_m1_phase1\\qualification\\0_2_9\\wp08a_frictional_contact_readiness.json",
+      "policy_digest": true,
+      "status": "PREPARATION_ONLY",
+      "status_accepted": true,
+      "work_package": true
+    },
+    "B": {
+      "exists": true,
+      "path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08d_m1_phase1\\qualification\\0_2_9\\wp08b_frictional_identities_rollback.json",
+      "policy_digest": true,
+      "status": "PASS_CANDIDATE_WITH_LIMITATIONS",
+      "status_accepted": true,
+      "work_package": true
+    },
+    "C": {
+      "exists": true,
+      "path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08d_m1_phase1\\qualification\\0_2_9\\wp08c_friction_tangent_dissipation.json",
+      "policy_digest": true,
+      "status": "PASS_CANDIDATE_WITH_LIMITATIONS",
+      "status_accepted": true,
+      "work_package": true
+    },
+    "D": {
+      "checks": {
+        "M1_contract_digest": true,
+        "M1_production": true,
+        "M1_reference": true,
+        "M1_replay": true,
+        "M2_production": true,
+        "M2_reference": true,
+        "M2_replay": true,
+        "M3_production": true,
+        "M3_reference": true,
+        "M3_replay": true,
+        "contract_digest": true,
+        "manifests": true,
+        "policy_digest": true,
+        "production_reference_independence": true
+      },
+      "limitations": [
+        "M2/M3 are consumed as already-authorized evidence; no new structural solve is run by this closure audit.",
+        "Formal points remain pending Owner review."
+      ],
+      "m2_source_sha": "5fe0451a21ac33de9ddaca6b480748238ac04779",
+      "m3_authorization_commit": "7761692203060879366594052ab122415bdab274",
+      "manifest_checks": {
+        "M1_production": true,
+        "M1_reference": true,
+        "M1_replay": true,
+        "M2_production": true,
+        "M2_reference": true,
+        "M2_replay": true,
+        "M3_production": true,
+        "M3_reference": true,
+        "M3_replay": true
+      },
+      "status": "PASS_CANDIDATE_WITH_LIMITATIONS",
+      "work_package": "WP08-D"
+    },
+    "E": {
+      "negative_controls": {
+        "missing_restart_state": "PASS_FAIL_CLOSED",
+        "negative_mu": "PASS_FAIL_CLOSED",
+        "nonfinite_mu": "PASS_FAIL_CLOSED",
+        "updated_search_friction": "PASS_FAIL_CLOSED"
+      },
+      "path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08d_m1_phase1\\qualification\\0_2_9\\wp08e_closure\\wp08e_closure_final.json",
+      "replay_checks": {
+        "M2": true,
+        "M3": true
+      },
+      "restart": {
+        "accepted_checkpoint": "qualification\\0_2_9\\wp08e_closure\\restart\\accepted_step4.json",
+        "cumulative_dissipation_delta": 0.0,
+        "displacement_max_abs_delta": 0.0,
+        "restarted_from_step": 4,
+        "resumed_checkpoint": "qualification\\0_2_9\\wp08e_closure\\restart\\resumed_final.json",
+        "resumed_steps": 3,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "status_accepted": true,
+      "work_package": "WP08-E"
+    }
+  },
+  "evidence_commit_sha": null,
+  "execution_sha": "3c386b87bd60f3ed20d979f67c8b42da8f41b8c1",
+  "fallback_changed": false,
+  "final_sha": null,
+  "full_test_suite_run": false,
+  "mechanics_scope": "authorized friction mechanics plus accepted-state checkpoint persistence/validation",
+  "next_step": "Owner review and explicit point attribution; do not self-merge or self-award.",
+  "official_points_before_owner_review": "0/8",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "production_mechanics_changed": true,
+  "remediation_sha": "794de436c13364c16aa85b2ae2c9e7bb09957829",
+  "remote_head": "NOT_PUSHED",
+  "schema_version": 1,
+  "solver_parameters_changed": false,
+  "status": "PASS_CANDIDATE_OWNER_REVIEW_REQUIRED",
+  "structural_solves_run_by_closure": false,
+  "thresholds_changed": false,
+  "work_package": "WP08"
+}
