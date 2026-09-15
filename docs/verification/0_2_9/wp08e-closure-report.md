@@ -1,6 +1,6 @@
 ---
 doc_id: DOC-029-WP08E-001
-revision: 0.1
+revision: 0.2
 status: candidate_pending_owner_review
 applicable_version: 0.2.9-development
 reviewer: ""
@@ -8,6 +8,18 @@ approver: ""
 ---
 
 # WP08-E — bounded closure, replay and accepted-state restart
+
+## Executive summary
+
+WP08-E is technically complete within the deliberately bounded
+`linear_static` frictional-contact route. The implementation now persists a
+signed accepted contact state, rejects stale or tampered checkpoints before a
+resume, and demonstrates that a stop after an accepted increment can be
+continued to the same terminal result as an uninterrupted run.
+
+The A→D audit closes the existing WP08 evidence chain. The resulting
+technical candidate is `8/8`, but this is not an official score: all formal
+points remain `0/8` until the Owner explicitly reviews and attributes them.
 
 ## Scope
 
@@ -21,23 +33,47 @@ No M2 or M3 structural solve was relaunched by this task. The previously
 authorized M2/M3 production, independent-reference and replay artifacts were
 consumed read-only and their manifests were re-hashed.
 
-## Provenance
+## Provenance and source identity
 
 ```text
 AUTHORIZED_BASE_SHA = 7b93e71bab06a0e58108bd2479cd46808d533b67
 REMEDIATION_SHA = 794de436c13364c16aa85b2ae2c9e7bb09957829
-EXECUTION_SHA = 794de436c13364c16aa85b2ae2c9e7bb09957829
-EVIDENCE_COMMIT_SHA = PENDING_LOCAL_EVIDENCE_COMMIT
-FINAL_SHA = PENDING_LOCAL_EVIDENCE_COMMIT
-REMOTE_HEAD = NOT_PUSHED
+EXECUTION_SHA = 3c386b87bd60f3ed20d979f67c8b42da8f41b8c1
+EVIDENCE_COMMIT_SHA = bba9f7bc54ccd804824b58cb3e8684dc185fe8a7
+FINAL_SHA = bba9f7bc54ccd804824b58cb3e8684dc185fe8a7
+REMOTE_HEAD = 7916d37a32af405fb5d710f56693c572f43aa298
 BRANCH = 0.2.9-wp08d-m1-phase1
 ```
 
-`REMEDIATION_SHA` identifies the local implementation commit that was tested;
-`EXECUTION_SHA` is the exact source revision used for the WP08-E run. The
-evidence commit and final SHA are intentionally resolved only after the
-generated artifacts are committed. No remote head is asserted because no
-push was requested.
+`REMEDIATION_SHA` identifies the local implementation commit. `EXECUTION_SHA`
+is the exact source revision used for the final WP08-E and A→D audit runs.
+`EVIDENCE_COMMIT_SHA` and `FINAL_SHA` identify the local evidence snapshot
+containing the generated JSON and checkpoints. `REMOTE_HEAD` is unchanged
+because no push was requested. The older M1/M2/M3 structural artifacts retain
+their own execution and authorization SHAs and are not relabeled as if they
+had been rerun by this task.
+
+## Implementation delivered
+
+The accepted-state restart contract is implemented in:
+
+- `src/solveur/contact/restart.py`: schema versioning, physical-model/load
+  path signature, atomic JSON writes, shape/finite/state validation, and
+  fail-closed checkpoint loading;
+- `src/solveur/contact/solver.py`: checkpoint after each accepted increment,
+  restart from the last accepted step, restoration of slip references and
+  cumulative local dissipation, and restart metadata in result details;
+- `tests/unit/test_frictional_contact.py`: uninterrupted-vs-resumed equality,
+  tamper rejection, missing-checkpoint rejection, invalid-friction rejection,
+  and updated-search rejection;
+- `scripts/run_wp08e_closure.py`: bounded executable E closure pack;
+- `scripts/run_wp08abcd_closure.py`: read-only A→D evidence and manifest audit.
+
+The checkpoint records the model/load-path digest, completed accepted step,
+slip references, tangential forces, displacement, normal state, multipliers,
+gaps, pressures, tangential states, active contacts and cumulative
+dissipation. Volatile output paths are excluded from the physical signature;
+all physical inputs remain bound to the digest.
 
 ## WP08-E evidence
 
@@ -67,6 +103,25 @@ Negative controls all fail closed:
 The machine-readable result is
 `qualification/0_2_9/wp08e_closure/wp08e_closure_final.json`.
 
+### E execution sequence
+
+The closure runner performed the following bounded sequence:
+
+1. Solve the seven-step frozen local history without interruption.
+2. Repeat it with a controlled stop at step 5, after the checkpoint for
+   accepted step 4 had been flushed.
+3. Load and validate that checkpoint in a fresh solver instance.
+4. Continue steps 5–7 and compare the terminal state with the uninterrupted
+   run.
+5. Execute negative controls and verify typed fail-closed behavior.
+6. Re-hash the existing M2 and M3 replay manifests.
+
+The restart comparison is exact at recorded precision: maximum absolute
+displacement difference `0.0` and cumulative local dissipation difference
+`0.0`. The resumed run wrote three accepted-step records, corresponding to
+steps 5, 6 and 7. A terminal checkpoint is not accepted as a continuation
+source; only a non-terminal accepted checkpoint can be used for restart.
+
 ## A→D closure audit
 
 The existing bounded evidence was checked without rewriting historical
@@ -85,6 +140,48 @@ WP08-D checks include M1, M2 and M3 production evidence, independent
 references, replay comparisons, contract/policy digest consistency, and all
 available manifests. The independent references are verified as not calling
 production contact routines.
+
+### A — formulation, input and state contract
+
+The evidence freezes the supported route as serial/direct `linear_static`,
+small displacement, node-to-triangle contact, fixed initial face/normal,
+positive `mu` and positive tangential stiffness. It explicitly excludes
+updated-search friction, finite sliding, common nonlinear friction, dynamics,
+MPI/PETSc and unqualified restart behavior. This supports candidate `1/1`
+only inside that bounded scope.
+
+### B — identities, transitions and rollback
+
+The evidence covers open, stick, slip, zero-pressure safety, Coulomb radius,
+slip direction, reversal and transactional rollback. The historical
+zero-pressure `0/0` defect remains recorded as R0; the Owner-authorized R1
+guard is preserved. This supports candidate `2/2` with the documented
+direct-dataclass validation limitation.
+
+### C — tangent and dissipation V&V
+
+The evidence verifies the fixed-branch stick tangent, sampled finite
+differences, fixed-pressure slip Jacobian, nonsmooth transition
+classification, stick energy gradient and non-negative local work proxy. It
+does not claim a pressure-coupled global tangent or a complete global energy
+decomposition. This supports candidate `2/2` as a bounded result, not a
+universal friction claim.
+
+### D — structural, independent-reference and replay evidence
+
+The audit found the required M1, M2 and M3 production/reference/replay
+artifacts. Each required manifest re-hashed successfully. M1, M2 and M3
+references report pass classifications, replay comparisons report `PASS`,
+contract and policy digests match, and the independent implementations state
+that production contact routines were not called. This supports candidate
+`2/2`, subject to Owner review and the exact execution SHAs retained in the
+source artifacts.
+
+### E — closure
+
+WP08-E adds the missing accepted-state continuation proof and negative
+controls. Its candidate contribution is `1/1`; it does not upgrade the scope
+to mid-Newton restart or general nonlinear restart.
 
 ## Governance
 
@@ -107,6 +204,11 @@ FINAL_STATUS = PASS_CANDIDATE_OWNER_REVIEW_REQUIRED
 NEXT_STEP = Owner review and explicit point attribution; do not self-merge
 ```
 
+The following claims remain out of scope: mid-Newton restart, frictional
+updated search, finite sliding, general nonlinear friction, global
+pressure-coupled tangent consistency, global energy decomposition, external
+solver correlation and automatic official point attribution.
+
 ## Validation
 
 The local-source targeted validation completed as follows:
@@ -117,5 +219,6 @@ Ruff = PASS
 mypy = PASS, 4 source files
 compileall = PASS
 JSON validation = PASS
+manifest/hash validation = PASS
 git diff --check = PASS
 ```
