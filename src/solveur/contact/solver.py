@@ -401,21 +401,34 @@ class FrictionlessActiveSetSolver:
             )
             if telemetry is not None:
                 strategy = str(final.history[-1].get("strategy", "direct")) if final.history else "direct"
+                metrics: dict[str, object] = {
+                    "phase": "contact_increment",
+                    "accepted": True,
+                    "rejected": False,
+                    "active_set_iterations": len(final.history),
+                    "active_contact_count": len(final.active),
+                    "strategy": strategy,
+                    "convergence_cause": "ACTIVE_SET_STABLE",
+                }
+                if model.analysis.parameters.get("contact_emit_step_checkpoints", False):
+                    metrics["committed_contact_state"] = {
+                        "step": step,
+                        "displacement": final.displacement.tolist(),
+                        "multipliers": final.multipliers.tolist(),
+                        "gaps": final.gaps.tolist(),
+                        "pressures": final.pressures.tolist(),
+                        "active_contacts": list(final.active),
+                        "tangential_states": list(final.states),
+                        "tangential_forces": final.tangential_forces.tolist(),
+                        "slip_references": final.slip_references.tolist(),
+                    }
                 emit_route_event_best_effort(
                     telemetry,
                     EventType.STEP_ACCEPTED,
                     status=EventStatus.ACCEPTED,
                     step=step,
                     solver_backend="contact_active_set",
-                    metrics={
-                        "phase": "contact_increment",
-                        "accepted": True,
-                        "rejected": False,
-                        "active_set_iterations": len(final.history),
-                        "active_contact_count": len(final.active),
-                        "strategy": strategy,
-                        "convergence_cause": "ACTIVE_SET_STABLE",
-                    },
+                    metrics=metrics,
                 )
         if final is None:
             raise NumericalConvergenceError(

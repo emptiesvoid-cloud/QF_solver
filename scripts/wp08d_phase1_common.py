@@ -312,7 +312,12 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
     return payload
 
 
-def require_phase1_authorization(path: Path | None, *, mesh: str) -> dict[str, Any]:
+def require_phase1_authorization(
+    path: Path | None,
+    *,
+    mesh: str,
+    diagnostic_load_step_limit: int | None = None,
+) -> dict[str, Any]:
     """Require a traceable Owner authorization before any solve is imported."""
 
     if path is None or not path.is_file():
@@ -321,10 +326,18 @@ def require_phase1_authorization(path: Path | None, *, mesh: str) -> dict[str, A
     allowed_meshes = payload.get("meshes", ["M1", "M2", "M3"])
     if not isinstance(allowed_meshes, list) or str(mesh).upper() not in {str(item).upper() for item in allowed_meshes}:
         raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
+    scope = payload.get("authorization_scope", {})
+    if diagnostic_load_step_limit is not None:
+        if not isinstance(scope, Mapping) or scope.get("diagnostic_load_step_limit") != diagnostic_load_step_limit:
+            raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
     return payload
 
 
-def _load_vector_from_contract(mesh: Any) -> tuple[list[dict[str, Any]], list[list[float]]]:
+def _load_vector_from_contract(
+    mesh: Any,
+    *,
+    diagnostic_load_step_limit: int | None = None,
+) -> tuple[list[dict[str, Any]], list[list[float]]]:
     """Construct frozen consistent nodal loads for the future production route."""
 
     from scripts.prepare_wp08d_structural_reference import consistent_surface_traction, load_contract
@@ -346,17 +359,26 @@ def _load_vector_from_contract(mesh: Any) -> tuple[list[dict[str, Any]], list[li
     rows = []
     for increment in (1.0, 0.25, 0.75, 1.0, 1.25, 0.25, -0.5):
         rows.append([increment if factor == "tangential_factor" else 1.0 for factor in component_factors])
+    if diagnostic_load_step_limit is not None:
+        if not 1 <= diagnostic_load_step_limit <= len(rows):
+            raise ValueError("diagnostic_load_step_limit must select a frozen prefix of the load path.")
+        rows = rows[:diagnostic_load_step_limit]
     return loads, rows
 
 
-def build_production_model(mesh_name: str) -> Any:
+def build_production_model(
+    mesh_name: str,
+    *,
+    diagnostic_load_step_limit: int | None = None,
+    emit_step_checkpoints: bool = False,
+) -> Any:
     """Build the frozen production model lazily for an authorized future run."""
 
     from scripts.prepare_wp08d_structural_reference import generate_mesh
     from solveur.core.model import FiniteElementModel
 
     mesh = generate_mesh(frozen_mesh_level(mesh_name))
-    loads, load_history = _load_vector_from_contract(mesh)
+    loads, load_history = _load_vector_from_contract(mesh, diagnostic_load_step_limit=diagnostic_load_step_limit)
     fixed = [{"node": node, "dofs": ["UX", "UY", "UZ"]} for node in mesh.fixed_body_nodes + mesh.master_nodes]
     contacts = [
         {
@@ -384,6 +406,7 @@ def build_production_model(mesh_name: str) -> Any:
             "contact_friction_tolerance": 1.0e-9,
             "contact_load_history": load_history,
             "contact_search_mode": "initial",
+            "contact_emit_step_checkpoints": emit_step_checkpoints,
         },
     )
 
@@ -463,10 +486,56 @@ def write_manifest(
     return manifest
 
 
-def execute_phase1(mesh_name: str, output_dir: Path, authorization_file: Path | None) -> dict[str, Any]:
+def _write_step_checkpoints_from_telemetry(case_dir: Path) -> list[Path]:
+    """Materialize immutable accepted-step states already flushed to JSONL."""
+
+    telemetry_path = case_dir / "telemetry.jsonl"
+    if not telemetry_path.is_file():
+        return []
+    checkpoints: list[Path] = []
+    for line in telemetry_path.read_text(encoding="utf-8").splitlines():
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if event.get("event_type") != "STEP_ACCEPTED":
+            continue
+        metrics = event.get("metrics", {})
+        if not isinstance(metrics, Mapping):
+            continue
+        state = metrics.get("committed_contact_state")
+        if not isinstance(state, Mapping):
+            continue
+        step = state.get("step")
+        if not isinstance(step, int) or step <= 0:
+            continue
+        checkpoint = {
+            "schema_version": 1,
+            "case": "WP08-D-PHASE1-ACCEPTED-STEP-CHECKPOINT",
+            "mesh": event.get("metadata", {}).get("mesh"),
+            "event_sequence": event.get("sequence_number"),
+            "committed_contact_state": dict(state),
+        }
+        path = case_dir / f"checkpoint_step_{step:03d}.json"
+        write_json(path, checkpoint)
+        checkpoints.append(path)
+    return checkpoints
+
+
+def execute_phase1(
+    mesh_name: str,
+    output_dir: Path,
+    authorization_file: Path | None,
+    *,
+    diagnostic_load_step_limit: int | None = None,
+) -> dict[str, Any]:
     """Execute one future Phase-1 case only after explicit Owner authorization."""
 
-    authorization = require_phase1_authorization(authorization_file, mesh=mesh_name)
+    authorization = require_phase1_authorization(
+        authorization_file,
+        mesh=mesh_name,
+        diagnostic_load_step_limit=diagnostic_load_step_limit,
+    )
     from solveur.api.public import solve_model
 
     preflight = build_preflight(mesh_name)
@@ -504,7 +573,11 @@ def execute_phase1(mesh_name: str, output_dir: Path, authorization_file: Path | 
     telemetry.emit("RUN_START", "ANALYSIS_START", status="STARTED", elapsed=0.0)
     write_console(console_log, "RUN_START mesh=%s" % mesh_name.upper())
     try:
-        model = build_production_model(mesh_name)
+        model = build_production_model(
+            mesh_name,
+            diagnostic_load_step_limit=diagnostic_load_step_limit,
+            emit_step_checkpoints=True,
+        )
         progress.update(status="RUNNING", phase="MESH_READY", mesh=mesh_name.upper(), elapsed_time_s=perf_counter() - started)
         telemetry.emit("MESH_READY", "MESH_READY", status="COMPLETED", elapsed=perf_counter() - started)
         write_console(console_log, "MESH_READY mesh=%s" % mesh_name.upper())
@@ -512,6 +585,7 @@ def execute_phase1(mesh_name: str, output_dir: Path, authorization_file: Path | 
         write_console(console_log, "ASSEMBLY_START mesh=%s" % mesh_name.upper())
         result = solve_model(model, enforce_policy=False, telemetry=telemetry._emitter)
         result_payload = result.to_dict()
+        checkpoints = _write_step_checkpoints_from_telemetry(case_dir)
         contact_payload = (result_payload.get("solver", {}) or {}).get("contact", {}) or {}
         load_steps = contact_payload.get("load_steps", []) if isinstance(contact_payload, Mapping) else []
         for step_detail in load_steps if isinstance(load_steps, list) else []:
@@ -547,6 +621,8 @@ def execute_phase1(mesh_name: str, output_dir: Path, authorization_file: Path | 
         observables = result_payload["observables"]
         contract = read_contract()
         load_path = contract.get("friction", {}).get("load_path", [])
+        if diagnostic_load_step_limit is not None:
+            load_path = load_path[:diagnostic_load_step_limit]
         load_factors = np.asarray(
             [[float(item["normal_factor"]), float(item["tangential_factor"])] for item in load_path],
             dtype=float,
@@ -579,10 +655,17 @@ def execute_phase1(mesh_name: str, output_dir: Path, authorization_file: Path | 
             terminal_status="COMPLETED",
             terminal_classification="PASS",
             qualification_claim="PHASE1_EXECUTION_EVIDENCE_NOT_FORMAL_WP08_CLOSURE",
-            frozen_parameters={"load_increments": 7, "backend": "serial_direct", "fallback": "disabled"},
+            frozen_parameters={
+                "load_increments": len(load_path),
+                "backend": "serial_direct",
+                "fallback": "disabled",
+                "diagnostic_load_step_limit": diagnostic_load_step_limit,
+                "accepted_step_checkpoints": [path.name for path in checkpoints],
+            },
         )
         return result_payload
     except BaseException as error:
+        checkpoints = _write_step_checkpoints_from_telemetry(case_dir)
         progress.update(status="FAILED", phase="RUN_FAILED", error_type=type(error).__name__, error_message=str(error), elapsed_time_s=perf_counter() - started)
         telemetry.emit("RUN_FAILED", "ANALYSIS_FAILED", status="FAILED", error_type=type(error).__name__, error_message=str(error), elapsed=perf_counter() - started)
         write_console(console_error, "RUN_FAILED type=%s error=%s" % (type(error).__name__, str(error)))
@@ -593,7 +676,13 @@ def execute_phase1(mesh_name: str, output_dir: Path, authorization_file: Path | 
                 terminal_status="FAILED",
                 terminal_classification=type(error).__name__,
                 qualification_claim="PHASE1_EXECUTION_EVIDENCE_NOT_FORMAL_WP08_CLOSURE",
-                frozen_parameters={"load_increments": 7, "backend": "serial_direct", "fallback": "disabled"},
+                frozen_parameters={
+                    "load_increments": diagnostic_load_step_limit or 7,
+                    "backend": "serial_direct",
+                    "fallback": "disabled",
+                    "diagnostic_load_step_limit": diagnostic_load_step_limit,
+                    "accepted_step_checkpoints": [path.name for path in checkpoints],
+                },
             )
         except BaseException:
             pass
