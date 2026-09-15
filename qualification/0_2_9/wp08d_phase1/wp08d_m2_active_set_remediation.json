@@ -12,6 +12,7 @@
   },
   "remediation": {
     "implementation_commit": "653b1e8879ed33b9e03939d72167a1d6ab831399",
+    "final_telemetry_test_commit": "25c3ab2fbbc0cded420b91d3a4428c1cc23e25ac",
     "scope": [
       "deterministic one-contact pivot after repeated active-set signature",
       "visited active-set diagnostics",
@@ -27,7 +28,7 @@
   "m1_regression": {
     "status": "PASS",
     "qualification_claim": "NO_DIAGNOSTIC_REGRESSION_ONLY",
-    "output_directory": "C:\\Users\\fari\\AppData\\Local\\Temp\\wp08d_m1_active_set_fix_regression\\M1",
+    "output_directory": "C:\\Users\\fari\\AppData\\Local\\Temp\\wp08d_m1_active_set_fix_regression_final\\M1",
     "mesh": "M1",
     "load_increments": 7,
     "accepted_increments": 7,
@@ -38,22 +39,23 @@
     "displacements_equal_to_existing_m1": true,
     "telemetry": {
       "contact_state_events": 7,
-      "step_accepted_events": 7,
+      "step_accepted_events": 14,
+      "internal_contact_step_accepted_events": 7,
       "step_rejected_events": 0,
       "convergence_cause_present": true
     },
     "regression_artifact_hashes": {
       "console.err.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "console.log": "5053abbff0d1590f9edb75eed86b879c822ccaebf2732fd0a22e43d169964f68",
-      "manifest.json": "4e7da563a8b6b7fb73083689168e216181633b88fdd4764538fc136a6262efc3",
-      "progress.json": "d2c0179c5e1928f7696e5a522a858a771e6ac77bb0aa1b517be6dcc852d60dd9",
+      "manifest.json": "452d0cecb07973774fecc990132ecd3bcf4e0b142f9520c8090d155ca62cccd0",
+      "progress.json": "26f44e50fe475e3130984b3367e938689032d8e3dcd9a7e89325603f54b49ed2",
       "raw.npz": "6026d60ae660f97a09733b3ee31072fe027de6ac8e942bd7c6604f9669c5da00",
-      "result.json": "f265a778ce4a0c3c57bfabfaf2196baf75b8fc2e64224ebc4c52f5fe300770a3",
-      "telemetry.jsonl": "30e1c9d41062dfda914a732870adfe71cdc33cfaf4fba043d3ba191d3c287525"
+      "result.json": "83ce1282a257a10b6b5f54262778e852051924373ce89044279b016cc59a4ee6",
+      "telemetry.jsonl": "8a1b0b61ae28dfc7b558687b33fbb4cce0a2de72a5b17219bbed9328e5e55737"
     }
   },
   "validation": {
-    "targeted_tests": "53 passed",
+    "targeted_tests": "54 passed",
     "ruff": "PASS",
     "compileall": "PASS",
     "mypy": "ONE_INHERITED_DIAGNOSTIC_IN_SUPPORT_PY",
