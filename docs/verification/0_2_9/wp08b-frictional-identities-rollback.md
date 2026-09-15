@@ -12,10 +12,15 @@ approver: ""
 **Status:** `PASS_CANDIDATE_WITH_LIMITATIONS` — technical evidence only; no
 WP08 point is awarded and no structural qualification claim is made.
 
-**Evidence source:** `20c6d82e18bdf90fa3c3b0b2098339e399026439` on
-`0.2.9-wp08-prep`, repository `emptiesvoid-cloud/QF_solver`. The R1 working
-change is the owner-authorized narrow correction in
+**Historical evidence source:** `20c6d82e18bdf90fa3c3b0b2098339e399026439`
+on `0.2.9-wp08-prep`, repository `emptiesvoid-cloud/QF_solver`. The R1
+working change is the owner-authorized narrow correction in
 `src/solveur/contact/support.py::_friction_update`.
+
+The controlled reconstruction carries this historical result on
+`0.2.9-wp08-controlled-integration` from governing base
+`7b93e71bab06a0e58108bd2479cd46808d533b67`; the historical result is not
+silently represented as a fresh structural qualification.
 
 ## Immutable R0/R1 history
 

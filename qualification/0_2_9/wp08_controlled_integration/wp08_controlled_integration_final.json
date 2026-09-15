@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "audit_id": "QF-SOLVER-0.2.9-WP08-CONTROLLED-INTEGRATION-001",
+  "audit": "WP08_CONTROLLED_RECONSTRUCTION_AND_REVALIDATION",
+  "baseline": {
+    "governing_sha": "7b93e71bab06a0e58108bd2479cd46808d533b67",
+    "expected_source_sha": "502dd1f7b1f19f37e1929ae9a6107ee1a4f9e514",
+    "actual_source_sha": "7712af3f0755260cd2bc588e2c45ea7da241b60f",
+    "merge_base": "2c52bf8196a7d47d14ce1784290580160de26590"
+  },
+  "controlled_branch": {
+    "name": "0.2.9-wp08-controlled-integration",
+    "base_sha": "7b93e71bab06a0e58108bd2479cd46808d533b67",
+    "controlled_port_commit": "604d3a4a6d533c3b12642c0d00b0fa75e9cd033f",
+    "controlled_final_sha": null,
+    "controlled_final_sha_note": "reported from git after the final audit commit; not embedded to avoid a self-referential record",
+    "merge_to_governing": false,
+    "h4_started": false,
+    "wp06_touched": false,
+    "full_test_suite_run": false
+  },
+  "history_selection": {
+    "base_to_actual_path_count": 133,
+    "base_to_actual_status_counts": {
+      "added": 12,
+      "deleted": 100,
+      "modified": 21
+    },
+    "whole_divergent_history_imported": false,
+    "expected_to_actual_diff_paths": [
+      "docs/document_registry.json",
+      "docs/verification/0_2_9/wp08d-structural-reference-contract.md",
+      "qualification/0_2_9/wp08d_structural_reference_contract.json",
+      "scripts/prepare_wp08d_structural_reference.py",
+      "tests/unit/test_wp08d_structural_reference_contract.py"
+    ],
+    "actual_source_commit_parent": "502dd1f7b1f19f37e1929ae9a6107ee1a4f9e514",
+    "expected_source_commit_parent": "d8da1caede03463971a748a46c5d416069eceb24"
+  },
+  "files_and_classification": [
+    {
+      "path": "docs/document_registry.json",
+      "classification": "documentation_registry_only"
+    },
+    {
+      "path": "docs/verification/0_2_9/wp08a-frictional-contact-readiness.md",
+      "classification": "documentation_only"
+    },
+    {
+      "path": "docs/verification/0_2_9/wp08b-frictional-identities-rollback.md",
+      "classification": "documentation_only"
+    },
+    {
+      "path": "docs/verification/0_2_9/wp08c-friction-tangent-dissipation.md",
+      "classification": "documentation_only"
+    },
+    {
+      "path": "docs/verification/0_2_9/wp08d-structural-reference-contract.md",
+      "classification": "documentation_only_preparation"
+    },
+    {
+      "path": "qualification/0_2_9/wp08a_frictional_contact_readiness.json",
+      "classification": "qualification_metadata_preparation"
+    },
+    {
+      "path": "qualification/0_2_9/wp08b_frictional_identities_rollback.json",
+      "classification": "qualification_evidence_metadata"
+    },
+    {
+      "path": "qualification/0_2_9/wp08c_friction_tangent_dissipation.json",
+      "classification": "qualification_evidence_metadata"
+    },
+    {
+      "path": "qualification/0_2_9/wp08d_structural_reference_contract.json",
+      "classification": "qualification_contract_preparation_only"
+    },
+    {
+      "path": "scripts/prepare_wp08d_structural_reference.py",
+      "classification": "audit_tool_only"
+    },
+    {
+      "path": "src/solveur/contact/support.py",
+      "classification": "PRODUCTION_CONTACT_FRICTION_MECHANICS_CHANGE"
+    },
+    {
+      "path": "tests/unit/test_wp08b_frictional_identities_rollback.py",
+      "classification": "test_only"
+    },
+    {
+      "path": "tests/unit/test_wp08c_friction_tangent_dissipation.py",
+      "classification": "test_only"
+    },
+    {
+      "path": "tests/unit/test_wp08d_structural_reference_contract.py",
+      "classification": "test_only"
+    }
+  ],
+  "production_contact_patch": {
+    "files": ["src/solveur/contact/support.py"],
+    "function": "_friction_update",
+    "authorized_scope": [
+      "finite guard for trial_norm and limit",
+      "explicit trial_norm == 0.0 on the existing slip branch",
+      "eliminate 0/0 NaN propagation",
+      "raise NumericalConvergenceError with NAN_DETECTED for invalid state"
+    ],
+    "unauthorized_mechanics_changed": false,
+    "newton_policy_changed": false,
+    "linear_backend_changed": false,
+    "fallback_policy_changed": false,
+    "contact_search_changed": false,
+    "active_set_changed": false,
+    "penalty_changed": false,
+    "loads_or_bcs_changed": false,
+    "observables_changed": false,
+    "qualification_thresholds_changed": false,
+    "rollback_policy_changed": false
+  },
+  "contract_and_policy": {
+    "contract_payload_unchanged_outside_provenance_metadata": true,
+    "wp08d_status": "PREPARATION_ONLY",
+    "wp08d_structural_results_generated": false,
+    "governing_policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "governing_policy_source": "docs/verification/0_2_9/wp07-integration-into-governing-branch.md",
+    "wp08d_contract_digest_algorithm": "SHA-256 canonical JSON with sorted keys and compact separators",
+    "wp08d_contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+    "historical_wp08d_contract_blob_digest": "f1af8d2b8135e423926ab11ee0eb50c7527a29afc16d9534cf8f1f014f54b5c9",
+    "thresholds_changed": false,
+    "policy_changed": false
+  },
+  "provenance_rebinding": {
+    "rebound": true,
+    "controlled_source_sha_role": "controlled_reconstruction_port_commit",
+    "controlled_source_sha": "604d3a4a6d533c3b12642c0d00b0fa75e9cd033f",
+    "historical_sources_preserved": {
+      "wp08a": "2c52bf8196a7d47d14ce1784290580160de26590",
+      "wp08b": "20c6d82e18bdf90fa3c3b0b2098339e399026439",
+      "wp08c": "d8da1caede03463971a748a46c5d416069eceb24",
+      "wp08d": "502dd1f7b1f19f37e1929ae9a6107ee1a4f9e514"
+    },
+    "old_source_values_explicitly_labeled_historical": true,
+    "evidence_silently_rewritten": false
+  },
+  "targeted_revalidation": {
+    "pytest_command_scope": [
+      "tests/unit/test_wp08b_frictional_identities_rollback.py",
+      "tests/unit/test_wp08c_friction_tangent_dissipation.py",
+      "tests/unit/test_wp08d_structural_reference_contract.py",
+      "tests/unit/test_wp08_contract.py",
+      "tests/unit/test_frictional_contact.py",
+      "tests/verification/test_frictional_contact_vnv.py"
+    ],
+    "pytest_result": "46 passed in 6.97s",
+    "ruff": "PASS",
+    "mypy_new_wp08_scope": "PASS with --follow-imports=skip",
+    "mypy_inherited_diagnostic": {
+      "status": "INHERITED_NOT_INTRODUCED",
+      "path": "src/solveur/contact/support.py",
+      "line": 447,
+      "message": "Argument 1 to float has incompatible type object",
+      "present_on_governing_base": true,
+      "not_fixed_due_to_authorized_patch_scope": true
+    },
+    "compileall": "PASS",
+    "json_validation": "PASS",
+    "document_registry_validation": "PASS",
+    "git_diff_check": "PASS",
+    "test_only_type_annotation_change": {
+      "path": "tests/unit/test_wp08c_friction_tangent_dissipation.py",
+      "purpose": "remove a new mypy diagnostic without changing numerical behavior"
+    }
+  },
+  "gate_status": {
+    "wp08a": "PASS_TECHNICAL_CANDIDATE_REVALIDATED",
+    "wp08b": "PASS_CANDIDATE_WITH_LIMITATIONS_REVALIDATED",
+    "wp08c": "PASS_CANDIDATE_WITH_LIMITATIONS_REVALIDATED",
+    "wp08d": "PREPARATION_ONLY_REVALIDATED",
+    "wp08_formal_points": "0/8",
+    "formal_qualification": "NOT_PERFORMED",
+    "owner_review_required": true
+  },
+  "governance": {
+    "production_mechanics_changed": true,
+    "mechanics_change_is_exactly_authorized_contact_patch": true,
+    "maturity_changed": false,
+    "wp06_touched": false,
+    "h4_status": "NOT_STARTED",
+    "merge_to_governing": "NOT_PERFORMED",
+    "next_step": "Owner review before any merge or WP08-D structural execution"
+  },
+  "final_status": "READY_FOR_OWNER_REVIEW"
+}

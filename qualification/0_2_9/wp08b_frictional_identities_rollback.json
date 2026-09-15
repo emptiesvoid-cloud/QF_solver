@@ -4,8 +4,24 @@
   "gate": "WP08",
   "work_package": "WP08-B",
   "status": "PASS_CANDIDATE_WITH_LIMITATIONS",
-  "source_sha": "20c6d82e18bdf90fa3c3b0b2098339e399026439",
-  "branch": "0.2.9-wp08-prep",
+  "source_sha": "604d3a4a6d533c3b12642c0d00b0fa75e9cd033f",
+  "historical_source_sha": "20c6d82e18bdf90fa3c3b0b2098339e399026439",
+  "historical_branch": "0.2.9-wp08-prep",
+  "source_sha_role": "controlled_reconstruction_port_commit",
+  "branch": "0.2.9-wp08-controlled-integration",
+  "controlled_provenance": {
+    "governing_base_sha": "7b93e71bab06a0e58108bd2479cd46808d533b67",
+    "governing_policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "historical_evidence_not_rerun": true,
+    "revalidation_status": "PASS_CONTROLLED_SCOPE_REVALIDATED"
+  },
+  "controlled_revalidation": {
+    "status": "PASS_CONTROLLED_SCOPE_REVALIDATED",
+    "tested_port_commit": "604d3a4a6d533c3b12642c0d00b0fa75e9cd033f",
+    "targeted_tests": "46 passed",
+    "structural_solves_run": false,
+    "historical_evidence_preserved": true
+  },
   "history": [
     {
       "revision": "R0",

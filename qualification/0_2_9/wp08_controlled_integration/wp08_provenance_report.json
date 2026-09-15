@@ -150,7 +150,38 @@
     ],
     "base_actual_diff_verified": true
   },
-  "provenance_status": "PRE_PORT_AUDIT_PASS_PENDING_CONTROLLED_COMMIT_AND_REVALIDATION",
+  "controlled_port_commit": "604d3a4a6d533c3b12642c0d00b0fa75e9cd033f",
+  "digest_reconciliation": {
+    "hash_algorithm": "SHA-256",
+    "wp08d_contract_canonical_json_sha256": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+    "historical_wp08d_contract_blob_sha256": "f1af8d2b8135e423926ab11ee0eb50c7527a29afc16d9534cf8f1f014f54b5c9",
+    "controlled_wp08a_json_sha256": "788a15d43be26e180054be2de399c0ac611eca117dcc07c267869f1294649c06",
+    "controlled_wp08b_json_sha256": "d2fb35f53c75713912b10a3ace1f0e85bad0f8a99d401382b42b3c31a4e5fd79",
+    "controlled_wp08c_json_sha256": "ac456457cc587fdd75721601b651da78f3aacf4168fb1c172f776313e7d62750",
+    "controlled_wp08d_json_sha256": "8594062ae97ccec15d8f12fab62c5edf32806bbe2aff808db16c706be9219344",
+    "governing_policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "governing_policy_source": "docs/verification/0_2_9/wp07-integration-into-governing-branch.md"
+  },
+  "controlled_revalidation": {
+    "targeted_pytest": "46 passed",
+    "ruff": "PASS",
+    "mypy_new_wp08_scope": "PASS with --follow-imports=skip",
+    "mypy_inherited_diagnostic": "src/solveur/contact/support.py:447 pre-existing on governing base; not changed by authorized mechanics patch",
+    "compileall": "PASS",
+    "json_validation": "PASS",
+    "git_diff_check": "PASS",
+    "contract_payload_unchanged_outside_provenance_metadata": true,
+    "structural_solves_run": false,
+    "h4_run": false,
+    "wp06_touched": false,
+    "full_test_suite_run": false
+  },
+  "additional_test_only_change": {
+    "path": "tests/unit/test_wp08c_friction_tangent_dissipation.py",
+    "change": "type annotation for an existing ndarray local to remove a new mypy diagnostic",
+    "numerical_behavior_changed": false
+  },
+  "provenance_status": "PASS_CONTROLLED_PORT_REVALIDATED_PENDING_OWNER_REVIEW",
   "merge_to_governing": "NOT_PERFORMED",
   "h4_status": "NOT_STARTED",
   "wp06_touched": false,
