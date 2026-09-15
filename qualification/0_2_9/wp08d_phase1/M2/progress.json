@@ -1,0 +1,8 @@
+{
+  "elapsed_time_s": 0.16300449997652322,
+  "error_message": "Frictional contact active set did not converge with direct or active-slip root iterations.",
+  "error_type": "NumericalConvergenceError",
+  "phase": "RUN_FAILED",
+  "schema_version": 1,
+  "status": "FAILED"
+}
