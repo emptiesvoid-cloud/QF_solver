@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "audit_id": "QF-SOLVER-0.2.9-WP08-AUTHORIZED-MERGE-001",
+  "governing_base_sha": "7b93e71bab06a0e58108bd2479cd46808d533b67",
+  "controlled_source_sha": "94ce29e8fd5348eff4db3752183a50e0a7da0673",
+  "owner_decision_commit": "b874f06dc8371f191032d63d93e94c9e014d0ad9",
+  "merge_candidate_sha": "37d22719bbbb11d8af012cf75245224cd97a5184",
+  "merge_candidate_parents": [
+    "7b93e71bab06a0e58108bd2479cd46808d533b67",
+    "b874f06dc8371f191032d63d93e94c9e014d0ad9"
+  ],
+  "owner_authorizes_contact_mechanics_change": true,
+  "mechanics_scope": {
+    "classification": "PRODUCTION_CONTACT_FRICTION_MECHANICS_CHANGE",
+    "file": "src/solveur/contact/support.py",
+    "function": "_friction_update",
+    "authorized_operations": [
+      "finite guards",
+      "trial_norm == 0.0 slip handling",
+      "0/0 NaN prevention",
+      "typed NumericalConvergenceError for invalid state"
+    ],
+    "unapproved_mechanics_changed": false
+  },
+  "diff_scope": {
+    "production_paths_changed": ["src/solveur/contact/support.py"],
+    "wp06_paths_changed": [],
+    "thresholds_changed": false,
+    "solver_parameters_changed": false,
+    "fallback_policy_changed": false,
+    "divergent_history_imported": false
+  },
+  "provenance": {
+    "rebound": true,
+    "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+    "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "wp08_artifacts_source_role": "controlled_reconstruction_sha_94ce29e8",
+    "wp08d_status": "PREPARATION_ONLY"
+  },
+  "targeted_validation": {
+    "wp08_tests": "46 passed in 9.00s",
+    "frictionless_regression": "19 passed in 2.01s",
+    "ruff": "PASS",
+    "mypy_new_wp08_scope": "PASS",
+    "mypy_inherited_support_diagnostic": {
+      "path": "src/solveur/contact/support.py",
+      "line": 447,
+      "status": "INHERITED_IDENTICAL_TO_GOVERNING_BASE"
+    },
+    "compileall": "PASS",
+    "json_validation": "PASS",
+    "git_diff_check": "PASS",
+    "working_tree_clean_before_report": true,
+    "full_test_suite": "NO"
+  },
+  "gate_status": {
+    "wp08_a": "PASS_TECHNICAL_CANDIDATE_REVALIDATED",
+    "wp08_b": "PASS_CANDIDATE_WITH_LIMITATIONS_REVALIDATED",
+    "wp08_c": "PASS_CANDIDATE_WITH_LIMITATIONS_REVALIDATED",
+    "wp08_d": "PREPARATION_ONLY",
+    "wp08_formal_points": "0/8",
+    "h4_status": "NOT_STARTED",
+    "wp06_touched": false
+  },
+  "local_finalization": {
+    "governing_fast_forward_authorized": true,
+    "governing_fast_forward_old_sha": "7b93e71bab06a0e58108bd2479cd46808d533b67",
+    "governing_fast_forward_target": "POST_MERGE_REPORT_COMMIT",
+    "push": "NOT_PERFORMED",
+    "branch_deletion": "NOT_PERFORMED"
+  },
+  "final_status": "MERGED_LOCALLY_PENDING_PUSH_AND_WP08D_STRUCTURAL_QUALIFICATION"
+}
