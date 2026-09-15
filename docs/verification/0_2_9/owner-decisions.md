@@ -1,11 +1,33 @@
 ---
 doc_id: DOC-029-007
-revision: 0.1
-status: planning
+revision: 0.2
+status: controlled
 applicable_version: 0.2.9-development
 ---
 
 # 0.2.9 Owner decision log
+
+## WP08 closure decision
+
+**Status:** CLOSED — `APPROVED_WITH_LIMITATIONS`.
+
+The Owner accepted WP08-A, WP08-B, WP08-C, WP08-D and WP08-E, awarded
+**8/8 official points** to WP08, and authorized the official-ledger update,
+reviewed-lineage merge and governing push. The official roadmap total moves
+from **50/100** to **58/100**.
+
+The approval applies only to the serial/direct `linear_static`
+frictional-contact route under small displacement with fixed initial
+search/face/normal and positive friction coefficient and tangential stiffness.
+It excludes frictional updated search, finite sliding, general nonlinear
+friction, mid-Newton or general nonlinear restart, global pressure-coupled
+tangent consistency, complete global energy decomposition, external-solver
+correlation, MPI/PETSc and dynamics claims.
+
+The reviewed package, direct-inspection artifact and detailed retained
+limitations are recorded in [the WP08 Owner approval](wp08-owner-approval.md).
+Historical FAIL_CLOSED evidence and all execution SHAs remain preserved. No
+M1/M2/M3 solve or raw evidence is regenerated or overwritten by this decision.
 
 ## WP01 closure decision
 

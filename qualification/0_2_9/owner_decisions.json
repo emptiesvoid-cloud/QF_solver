@@ -1,5 +1,47 @@
 {
   "schema_version": 1,
+  "closed_decisions": [
+    {
+      "id": "OD-029-WP08-01",
+      "title": "WP08 frictional-contact closure",
+      "status": "CLOSED_APPROVED_WITH_LIMITATIONS",
+      "owner_review_status": "PASS",
+      "accepted_work_items": ["WP08-A", "WP08-B", "WP08-C", "WP08-D", "WP08-E"],
+      "approved_points": 8,
+      "official_total_before": 50,
+      "official_total_after": 58,
+      "reviewed_package_sha": "340a9be695d562dcfd75b5178bc641964795a9fa",
+      "review_source_tree_sha": "123c46eb6900647679c4b96350dafd4d05efa355",
+      "authorizations": {
+        "governing_push": true,
+        "official_ledger_update": true,
+        "merge_reviewed_lineage_only": true
+      },
+      "historical_failures_preserved": true,
+      "m1_m2_m3_evidence_regeneration_or_overwrite": false,
+      "limitations": [
+        "serial/direct linear_static frictional-contact route only",
+        "small displacement",
+        "fixed initial search, face and normal",
+        "positive friction coefficient and tangential stiffness",
+        "no frictional updated search",
+        "no finite sliding",
+        "no general nonlinear-friction qualification",
+        "no mid-Newton restart",
+        "no general nonlinear restart capability",
+        "no global pressure-coupled tangent-consistency claim",
+        "no complete global energy-decomposition claim",
+        "no external-solver correlation claim",
+        "no MPI/PETSc or dynamics qualification from WP08"
+      ],
+      "evidence": [
+        "qualification/0_2_9/wp08_closure/wp08abcd_closure_final.json",
+        "qualification/0_2_9/wp08e_closure/wp08e_closure_final.json",
+        "qualification/0_2_9/wp08_closure/wp08_owner_review_inspection.json",
+        "qualification/0_2_9/wp08_closure/wp08_owner_approval.json"
+      ]
+    }
+  ],
   "open_decisions": [
     {
       "id": "OD-029-01",

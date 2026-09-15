@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-029-006
-revision: 0.1
-status: planning
+revision: 0.2
+status: controlled
 applicable_version: 0.2.9-development
 ---
 
@@ -18,10 +18,10 @@ applicable_version: 0.2.9-development
 | WP05 | 5 | **Partial — 2/5; A/B high-order identities integrated and revalidated** |
 | WP06 | 8 | Not started |
 | WP07 | 10 | **Partial — 5/10; A/B/C integrated and revalidated; D/E unrun** |
-| WP08 | 8 | Not started |
+| WP08 | 8 | **Closed — 8/8; Owner-approved with limitations** |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
-| **Validated total** | **50 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6 + WP03 7/7 + WP04 12/12 + WP15 2/2 + WP05 A/B 2/5 + WP07 A/B/C 5/10** |
+| **Validated total** | **58 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6 + WP03 7/7 + WP04 12/12 + WP15 2/2 + WP05 A/B 2/5 + WP07 A/B/C 5/10 + WP08 A–E 8/8** |
 
 WP07-A/B/C are **FORMAL PASS — 5/10** after the non-fast-forward
 integration of child head `3bdcc84907a045e7815d6d5253bf4e2eed74970e` into the
@@ -31,6 +31,25 @@ contact identity evidence pass targeted revalidation. Updated-search and
 finite-sliding contact remain research-only. WP07-D structural contact
 execution and WP07-E closure remain unrun and unawarded. See [the WP07
 integration audit](wp07-integration-into-governing-branch.md).
+
+## WP08 closure
+
+The Owner has approved WP08-A through WP08-E at **8/8**, bringing the
+official validated total to **58/100**. The reviewed evidence is the frozen
+WP08 A–D closure, WP08-E accepted-state restart closure, and direct Owner
+inspection package; see the [Owner approval](wp08-owner-approval.md),
+[WP08-E closure report](wp08e-closure-report.md), and
+[inspection record](../../../qualification/0_2_9/wp08_closure/wp08_owner_review_inspection.json).
+Historical FAIL_CLOSED evidence and its execution SHAs remain preserved; this
+decision neither reruns nor overwrites M1/M2/M3 evidence.
+
+The approved claim is bounded to the serial/direct `linear_static`
+frictional-contact route with small displacement, fixed initial search/face/
+normal, and positive friction coefficient and tangential stiffness. It makes
+no claim for frictional updated search, finite sliding, general nonlinear
+friction, mid-Newton or general nonlinear restart, global pressure-coupled
+tangent consistency, complete global energy decomposition, external-solver
+correlation, MPI/PETSc, or dynamics.
 
 WP01 is closed by the independent Owner decision recorded in
 [the WP01 closure record](wp01-owner-closure.md), based on audit SHA

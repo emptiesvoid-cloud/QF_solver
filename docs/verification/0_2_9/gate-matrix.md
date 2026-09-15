@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-029-004
-revision: 0.1
-status: planning
+revision: 0.2
+status: controlled
 applicable_version: 0.2.9-development
 ---
 
@@ -17,7 +17,7 @@ applicable_version: 0.2.9-development
 | WP05 | High-order geometric bounded evidence | TET10/HEX20 experimental target only |
 | WP06 | Arc-length branch/failure/replay evidence | Experimental target only |
 | WP07 | Bounded frictionless contact gate matrix | Bounded target only if all gates pass |
-| WP08 | Friction state/dissipation/reversal evidence | Experimental target only |
+| WP08 | Owner-approved A–E closure, integrity manifests and retained limitations | Bounded serial/direct `linear_static` frictional-contact scope only |
 | WP09 | Approved formulation plus mechanical V&V | Owner-decision dependent |
 | WP10 | Coupled-state, equilibrium and failure evidence | At most evidence-supported bounded scope |
 | WP11 | Linear-static mixed PETSc/MPI closure evidence | No nonlinear distributed claim |
