@@ -185,6 +185,27 @@ def _reaction_and_moment(nodes: np.ndarray, fixed: np.ndarray, stiffness: np.nda
     return np.sum(vectors, axis=0), np.sum(np.cross(nodes, vectors), axis=0)
 
 
+def _production_displacement_vector(payload: dict[str, Any]) -> np.ndarray:
+    """Decode the production result's explicit node/DOF displacement records."""
+
+    vector: np.ndarray = np.zeros(48, dtype=float)
+    rows = payload.get("displacements", [])
+    if not isinstance(rows, list):
+        raise ValueError("Production displacement evidence is not a list.")
+    for row in rows:
+        if not isinstance(row, dict):
+            raise ValueError("Production displacement evidence contains a non-object row.")
+        node = int(row["node"])
+        dofs = row.get("dofs")
+        if not isinstance(dofs, dict):
+            raise ValueError("Production displacement row has no DOF mapping.")
+        for offset, name in enumerate(("UX", "UY", "UZ")):
+            vector[3 * node + offset] = float(dofs[name])
+    if not np.all(np.isfinite(vector)):
+        raise ValueError("Production displacement evidence is non-finite.")
+    return vector
+
+
 def _relative_delta(left: np.ndarray | float, right: np.ndarray | float) -> float:
     left_array = np.asarray(left, dtype=float)
     right_array = np.asarray(right, dtype=float)
@@ -241,7 +262,7 @@ def run(production_result: Path, output_dir: Path) -> dict[str, Any]:
     )
     slave_nodes = (1, 2, 4, 5)
     gaps = np.asarray([INITIAL_CLEARANCE + final_displacement[3 * node + 2] for node in slave_nodes], dtype=float)
-    production_displacement = np.asarray(production["displacements"], dtype=float).reshape(-1)
+    production_displacement = _production_displacement_vector(production)
     production_observables = production.get("observables", {})
     reference_observables = {
         "selected_displacement": float(np.max(np.linalg.norm(final_displacement.reshape((-1, 3)), axis=1))),
