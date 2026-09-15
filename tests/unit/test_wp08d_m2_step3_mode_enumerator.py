@@ -14,6 +14,10 @@ def _checkpoint() -> Path:
     return Path("qualification/0_2_9/wp08d_phase1_mixed_open_active_slip_step2_reconstruction/M2/checkpoint_step_002.json")
 
 
+def _step4_checkpoint() -> Path:
+    return Path("qualification/0_2_9/wp08d_phase1_contract_aligned_m2/run/M2/checkpoint_step_004.json")
+
+
 def test_enumerator_covers_every_mask_without_a_production_contact_import() -> None:
     assert diagnostic.mode_labels() == ("SSS", "SSK", "SKS", "SKK", "KSS", "KSK", "KKS", "KKK")
     assert "solveur.contact" not in inspect.getsource(diagnostic)
@@ -24,6 +28,15 @@ def test_independent_mode_enumerator_finds_unique_stick_solution() -> None:
 
     assert report["production_contact_implementation_called"] is False
     assert report["admissible_modes"] == ["SSS"]
+    assert report["admissible_mode_count"] == 1
+
+
+def test_independent_mode_enumerator_finds_the_contractual_step5_hybrid_mode() -> None:
+    report = diagnostic.enumerate_modes(_step4_checkpoint(), target_step=5)
+
+    assert report["checkpoint"]["step"] == 4
+    assert report["frozen_parameters"]["tangential_factor"] == 1.25
+    assert report["admissible_modes"] == ["SSK"]
     assert report["admissible_mode_count"] == 1
 
 
