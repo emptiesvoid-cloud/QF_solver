@@ -5914,6 +5914,22 @@
     "tests/verification/test_frictional_contact_vnv.py",
     "tests/unit/test_frictionless_contact.py"
   ]
+},
+{
+  "id": "DOC-029-WP08-CONTROLLED-001",
+  "path": "verification/0_2_9/wp08-controlled-integration-review.md",
+  "title": "QF Solver 0.2.9 WP08 controlled reconstruction and revalidation",
+  "status": "ready_for_owner_review",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp08_controlled_integration/wp08_provenance_report.json",
+    "qualification/0_2_9/wp08_controlled_integration/wp08_controlled_integration_final.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp08b_frictional_identities_rollback.py",
+    "tests/unit/test_wp08c_friction_tangent_dissipation.py",
+    "tests/unit/test_wp08d_structural_reference_contract.py"
+  ]
 }
   ]
   

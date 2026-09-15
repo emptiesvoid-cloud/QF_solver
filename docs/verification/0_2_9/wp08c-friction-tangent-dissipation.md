@@ -13,10 +13,15 @@ approver: ""
 only; no WP08 point is awarded and no structural or external qualification is
 claimed.
 
-**Source:** `d8da1caede03463971a748a46c5d416069eceb24` on
+**Historical source:** `d8da1caede03463971a748a46c5d416069eceb24` on
 `0.2.9-wp08-prep`, repository `emptiesvoid-cloud/QF_solver`. The source
 includes the owner-authorized WP08-B R1 zero-pressure bugfix; this WP08-C
 artifact does not modify production mechanics.
+
+The controlled reconstruction carries this historical result on
+`0.2.9-wp08-controlled-integration` from governing base
+`7b93e71bab06a0e58108bd2479cd46808d533b67`; no structural qualification is
+claimed without a controlled re-execution.
 
 ## Frozen scope and thresholds
 

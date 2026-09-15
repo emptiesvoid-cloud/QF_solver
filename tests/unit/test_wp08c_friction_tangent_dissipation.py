@@ -168,7 +168,7 @@ def test_stick_force_finite_difference_matches_fixed_branch_for_three_steps() ->
     analytic = KT * np.vstack(
         (operator.tangential_vectors[0][columns], operator.tangential_vectors[1][columns])
     )
-    base = np.zeros(operator.vector.size, dtype=float)
+    base: np.ndarray = np.zeros(operator.vector.size, dtype=float)
     base[dofs.index(3, "UX")] = 0.001
     errors: list[tuple[float, float]] = []
 

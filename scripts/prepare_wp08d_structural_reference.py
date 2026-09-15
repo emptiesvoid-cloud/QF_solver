@@ -17,7 +17,11 @@ from solveur.core.assembly.assembler import GlobalAssembler
 from solveur.core.model import FiniteElementModel
 
 
-SOURCE_SHA = "502dd1f7b1f19f37e1929ae9a6107ee1a4f9e514"
+SOURCE_SHA = "604d3a4a6d533c3b12642c0d00b0fa75e9cd033f"
+HISTORICAL_SOURCE_SHA = "502dd1f7b1f19f37e1929ae9a6107ee1a4f9e514"
+CONTROLLED_BRANCH = "0.2.9-wp08-controlled-integration"
+GOVERNING_BASE_SHA = "7b93e71bab06a0e58108bd2479cd46808d533b67"
+GOVERNING_POLICY_DIGEST = "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
 LENGTH = 2.0
 WIDTH = 1.0
 HEIGHT = 0.5
@@ -392,6 +396,10 @@ def phase0_report() -> dict[str, Any]:
     return {
         "artifact_id": "QF-SOLVER-0.2.9-WP08D-001",
         "source_sha": SOURCE_SHA,
+        "historical_source_sha": HISTORICAL_SOURCE_SHA,
+        "branch": CONTROLLED_BRANCH,
+        "governing_base_sha": GOVERNING_BASE_SHA,
+        "governing_policy_digest": GOVERNING_POLICY_DIGEST,
         "status": "PREPARATION_ONLY",
         "structural_solves_enabled": False,
         "external_solver_enabled": False,

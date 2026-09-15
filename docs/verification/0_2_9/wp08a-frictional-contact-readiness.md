@@ -12,8 +12,13 @@ approver: ""
 **Status:** `PREPARATION_ONLY` — no WP08 point is awarded and no structural
 qualification claim is made.
 
-**Audit source:** `2c52bf8196a7d47d14ce1784290580160de26590` on
+**Historical audit source:** `2c52bf8196a7d47d14ce1784290580160de26590` on
 `0.2.9-wp08-prep`, repository `emptiesvoid-cloud/QF_solver`.
+
+**Controlled reconstruction:** this record is carried on
+`0.2.9-wp08-controlled-integration` from governing base
+`7b93e71bab06a0e58108bd2479cd46808d533b67`; the historical evidence was not
+silently regenerated.
 
 This record audits the implementation that is actually present on the
 pre-integration baseline. Existing documentation and historical V&V records
