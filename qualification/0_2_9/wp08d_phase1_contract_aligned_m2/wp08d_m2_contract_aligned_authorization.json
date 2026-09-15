@@ -1,0 +1,22 @@
+{
+  "authorization": "OWNER_AUTHORIZED_WP08D_PHASE1_EXECUTION",
+  "authorization_basis": "Owner authorized correction of the contract/runner provenance drift and required M2 requalification.",
+  "authorization_scope": {
+    "independent_reference": false,
+    "m1": false,
+    "m3": false,
+    "qualification_credit": false,
+    "replay": false
+  },
+  "branch": "0.2.9-wp08d-m1-phase1",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "governing_base_sha": "28cf9dd1886b72c6c7c9fc720dc778eddfce4441",
+  "governing_sha": "d4a4414e94fdf97904e6333152b9be5f2f623960",
+  "meshes": [
+    "M2"
+  ],
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "runner_sha": "d4a4414e94fdf97904e6333152b9be5f2f623960",
+  "scope": "WP08-D_PHASE1_STRUCTURAL_EXECUTION",
+  "status": "AUTHORIZED_CONTRACT_ALIGNED_M2_REQUALIFICATION_ONLY"
+}
