@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "artifact_id": "QF-SOLVER-0.2.9-WP08D-PHASE1-SCHEMA",
+  "status": "PREPARATION_ONLY",
+  "structural_solves_run": false,
+  "reference_solves_run": false,
+  "replay_run": false,
+  "directories": {
+    "M1": ["result.json", "progress.json", "telemetry.jsonl", "raw.npz", "manifest.json"],
+    "M2": ["result.json", "progress.json", "telemetry.jsonl", "raw.npz", "manifest.json"],
+    "M3": ["result.json", "progress.json", "telemetry.jsonl", "raw.npz", "manifest.json"],
+    "independent_reference/M1": ["result.json", "progress.json", "telemetry.jsonl", "raw.npz", "manifest.json"],
+    "replay/M1": ["result.json", "progress.json", "telemetry.jsonl", "raw.npz", "manifest.json"]
+  },
+  "result_required_fields": [
+    "schema_version", "status", "mesh", "provenance", "terminal_classification",
+    "observables", "equilibrium", "contact", "solver", "qualification_claim"
+  ],
+  "progress_required_fields": ["schema_version", "status", "phase", "mesh", "elapsed_time_s"],
+  "telemetry_required_envelope": [
+    "schema_version", "event_type", "analysis_id", "analysis_type", "route",
+    "sequence_number", "elapsed_time_s", "status", "metrics", "metadata"
+  ],
+  "raw_npz_required_fields": [
+    "displacements", "contact_forces", "contact_pressures", "contact_states",
+    "load_factors", "accepted_state_digests"
+  ],
+  "manifest_required_fields": [
+    "schema_version", "case", "governing_sha", "runner_sha", "contract_digest",
+    "policy_digest", "mesh", "route", "frozen_parameters", "files",
+    "terminal_status", "terminal_classification", "qualification_claim"
+  ],
+  "terminal_classifications": [
+    "PASS", "FAIL_CLOSED", "INVALID_CONTRACT", "LINEAR_SOLVER_FAILURE",
+    "CONTACT_UPDATE_FAILURE", "NONFINITE_STATE", "RESOURCE_LIMIT", "UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED"
+  ],
+  "qualification_claim": "NO_PHASE1_EXECUTION_IN_THIS_FREEZE"
+}
