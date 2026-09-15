@@ -5930,6 +5930,22 @@
     "tests/unit/test_wp08c_friction_tangent_dissipation.py",
     "tests/unit/test_wp08d_structural_reference_contract.py"
   ]
+},
+{
+  "id": "DOC-029-WP08-AUTHORIZED-MERGE-001",
+  "path": "verification/0_2_9/wp08-authorized-merge-report.md",
+  "title": "QF Solver 0.2.9 WP08 authorized local merge report",
+  "status": "merged_locally_pending_structural_requalification",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp08_controlled_integration/wp08_authorized_merge_final.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp08b_frictional_identities_rollback.py",
+    "tests/unit/test_wp08c_friction_tangent_dissipation.py",
+    "tests/unit/test_wp08d_structural_reference_contract.py",
+    "tests/unit/test_frictionless_contact.py"
+  ]
 }
   ]
   
