@@ -1,0 +1,1230 @@
+{
+  "accepted": true,
+  "active_contacts": [
+    3,
+    7,
+    11
+  ],
+  "contact_states": [
+    "open",
+    "open",
+    "open",
+    "slip",
+    "open",
+    "open",
+    "open",
+    "slip",
+    "open",
+    "open",
+    "open",
+    "slip"
+  ],
+  "displacement": [
+    -0.0016677310785825647,
+    0.00012140068921954442,
+    -0.0039795931004148535,
+    -0.002181850455096732,
+    0.00038832202569792423,
+    -0.009645313851761048,
+    -0.0021266057231855403,
+    0.0005651245742736704,
+    -0.015299588996613716,
+    -0.0018417570194413254,
+    0.0006753039536838991,
+    -0.02,
+    -0.0018328584078018692,
+    0.0001795576130276701,
+    -0.003821153978807215,
+    -0.0024715690313943635,
+    0.0004070900455756659,
+    -0.00941075442854816,
+    -0.0024216453544441316,
+    0.0006010242910823093,
+    -0.015139031918058998,
+    -0.002092700391151465,
+    0.000754277108181237,
+    -0.019999999999999987,
+    -0.0019599534375847696,
+    0.0002601603173276816,
+    -0.0035647596342823613,
+    -0.0027771596706133174,
+    0.00041663962639396036,
+    -0.00909639924033082,
+    -0.002767146406081961,
+    0.0006115875659528681,
+    -0.014945354750609789,
+    -0.0023972787589015524,
+    0.0007985192653050599,
+    -0.020000000000000007,
+    0.0003043934973677721,
+    0.00011319776287928212,
+    -0.0038417663395025337,
+    0.0004053209618895627,
+    0.00029770840315035104,
+    -0.009622306989658564,
+    0.0004569156727155257,
+    0.0004843071202519395,
+    -0.01535343953103344,
+    0.0005336852260022018,
+    0.0006541550508910309,
+    -0.02026745390071671,
+    0.00010297880413327379,
+    7.83483687889058e-05,
+    -0.003619376044299951,
+    0.00013889034320735714,
+    0.00028855816767542087,
+    -0.009356991502811574,
+    0.00021930714192172531,
+    0.0005167557152009617,
+    -0.015177022032408916,
+    0.0003222513179464937,
+    0.0007298019043363024,
+    -0.020217500007772074,
+    -6.679166442167782e-05,
+    8.303629023775233e-05,
+    -0.003293048076504528,
+    -0.00015195719063461607,
+    0.0002656816535542609,
+    -0.008997879065756196,
+    -6.647036667575957e-05,
+    0.0005216177525972417,
+    -0.014964651102105514,
+    6.384210149697986e-05,
+    0.0007717080211896471,
+    -0.020181479110761066,
+    0.0023391860372065395,
+    0.00017897109603345315,
+    -0.003959759325358791,
+    0.0030985516179421976,
+    0.00021404952600156965,
+    -0.009682146287433078,
+    0.003110671003374956,
+    0.0003903903430646937,
+    -0.015440432371400973,
+    0.003080687476395082,
+    0.0005878806549659525,
+    -0.020430133647239127,
+    0.0019368770617526996,
+    -4.322340838964703e-05,
+    -0.0037453964874349147,
+    0.002797640602911657,
+    0.00015686414735644716,
+    -0.009419002114016979,
+    0.00292480869205968,
+    0.0004247365929274909,
+    -0.015252746669126079,
+    0.0029068732765524545,
+    0.0006699809524208169,
+    -0.02036149123093111,
+    0.0016012104885202688,
+    -0.0001772427675667182,
+    -0.00340313180594396,
+    0.0024614834174109005,
+    8.264820552221364e-05,
+    -0.0090409150055481,
+    0.0026801492850824205,
+    0.000421484689082759,
+    -0.015028052392474992,
+    0.0026912830800587696,
+    0.0007218698773192114,
+    -0.02030941059371493
+  ],
+  "gaps": [
+    0.016020406899585147,
+    0.010354686148238952,
+    0.004700411003386284,
+    0.0,
+    0.016178846021192787,
+    0.01058924557145184,
+    0.004860968081941003,
+    1.3877787807814457e-17,
+    0.01643524036571764,
+    0.010903600759669181,
+    0.005054645249390212,
+    -6.938893903907228e-18
+  ],
+  "history": [
+    {
+      "active_contacts": [],
+      "iteration": 1,
+      "min_gap": -0.02016434649178325,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        2,
+        3,
+        6,
+        7,
+        10,
+        11
+      ],
+      "slip_reference_change": 0.0,
+      "strategy": "direct",
+      "tangential_force_change": 0.0,
+      "tangential_states": [
+        "open",
+        "open",
+        "stick",
+        "stick",
+        "open",
+        "open",
+        "stick",
+        "stick",
+        "open",
+        "open",
+        "stick",
+        "stick"
+      ]
+    },
+    {
+      "active_contacts": [
+        2,
+        3,
+        6,
+        7,
+        10,
+        11
+      ],
+      "iteration": 2,
+      "min_gap": -1.734723475976807e-17,
+      "min_pressure": -696.7890012432277,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.0008953682073710366,
+      "strategy": "direct",
+      "tangential_force_change": 0.0,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "stick",
+        "open",
+        "open",
+        "open",
+        "stick",
+        "open",
+        "open",
+        "open",
+        "stick"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 3,
+      "min_gap": -1.734723475976807e-17,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 4.5575547903792204e-05,
+      "strategy": "direct",
+      "tangential_force_change": 31.376680420601573,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 4,
+      "min_gap": -1.734723475976807e-17,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.0011685477636347048,
+      "strategy": "direct",
+      "tangential_force_change": 22.708728809940325,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 5,
+      "min_gap": -1.0408340855860843e-17,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.0018896399262970864,
+      "strategy": "direct",
+      "tangential_force_change": 55.86781047943347,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 6,
+      "min_gap": -6.938893903907228e-18,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.005281438647005218,
+      "strategy": "direct",
+      "tangential_force_change": 65.79643286488513,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 7,
+      "min_gap": -1.3877787807814457e-17,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.0030451107753728763,
+      "strategy": "direct",
+      "tangential_force_change": 67.70940397986914,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 8,
+      "min_gap": -1.3877787807814457e-17,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.005563794246884308,
+      "strategy": "direct",
+      "tangential_force_change": 67.97939817187067,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 9,
+      "min_gap": 0.0,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.0030728246848513614,
+      "strategy": "direct",
+      "tangential_force_change": 68.01846436160822,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 10,
+      "min_gap": -1.734723475976807e-17,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.005569125635997869,
+      "strategy": "direct",
+      "tangential_force_change": 68.0248378818077,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 11,
+      "min_gap": -3.469446951953614e-18,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.0030735240983300375,
+      "strategy": "direct",
+      "tangential_force_change": 68.02577098803832,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 12,
+      "min_gap": -1.3877787807814457e-17,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.005569275547992764,
+      "strategy": "direct",
+      "tangential_force_change": 68.02597330778035,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 13,
+      "min_gap": -2.7755575615628914e-17,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.003073546322910747,
+      "strategy": "direct",
+      "tangential_force_change": 68.02600238177304,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 14,
+      "min_gap": -6.938893903907228e-18,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.005569280529814992,
+      "strategy": "direct",
+      "tangential_force_change": 68.02600933049659,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 15,
+      "min_gap": -3.469446951953614e-18,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.0030735470862103286,
+      "strategy": "direct",
+      "tangential_force_change": 68.02601032293131,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 16,
+      "min_gap": -2.7755575615628914e-17,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.005569280702915706,
+      "strategy": "direct",
+      "tangential_force_change": 68.02601056620557,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 17,
+      "min_gap": -1.0408340855860843e-17,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.0030735471129304166,
+      "strategy": "direct",
+      "tangential_force_change": 68.02601060089256,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 18,
+      "min_gap": 3.469446951953614e-18,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.005569280708991485,
+      "strategy": "direct",
+      "tangential_force_change": 68.02601060944554,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 19,
+      "min_gap": -6.938893903907228e-18,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.003073547113869785,
+      "strategy": "direct",
+      "tangential_force_change": 68.02601061066437,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 20,
+      "min_gap": -1.0408340855860843e-17,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.005569280709205201,
+      "strategy": "direct",
+      "tangential_force_change": 68.02601061096553,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 21,
+      "min_gap": 0.0,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.003073547113902823,
+      "strategy": "direct",
+      "tangential_force_change": 68.02601061100877,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 22,
+      "min_gap": -3.469446951953614e-18,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.005569280709212729,
+      "strategy": "direct",
+      "tangential_force_change": 68.0260106110192,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 23,
+      "min_gap": -1.3877787807814457e-17,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.003073547113904003,
+      "strategy": "direct",
+      "tangential_force_change": 68.02601061102078,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 24,
+      "min_gap": -1.3877787807814457e-17,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.0055692807092129915,
+      "strategy": "direct",
+      "tangential_force_change": 68.02601061102096,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 25,
+      "min_gap": 0.0,
+      "min_pressure": 0.0,
+      "proposed_contacts": [
+        3,
+        7,
+        11
+      ],
+      "slip_reference_change": 0.0030735471139040397,
+      "strategy": "direct",
+      "tangential_force_change": 68.02601061102101,
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "closed_frictional_contacts": [
+        3,
+        7,
+        11
+      ],
+      "iteration": 24,
+      "open_frictional_contacts": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10
+      ],
+      "post_root_normal_active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "root_evaluations": 24,
+      "root_method": "hybr",
+      "root_residual_inf": 4.759570515489031e-11,
+      "strategy": "active_slip_root",
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ],
+      "tangential_unknown_dimension": 6
+    }
+  ],
+  "increment": 2,
+  "iteration_count": 26,
+  "local_dissipation_increment": 0.02396571180166376,
+  "multipliers": [
+    -46.342696289512645,
+    -93.59397216134639,
+    -42.22011149171812
+  ],
+  "normal_factor": 1.0,
+  "observables": {
+    "active_contact_count": 3,
+    "contact_pressures": [
+      0.0,
+      0.0,
+      0.0,
+      46.342696289512645,
+      0.0,
+      0.0,
+      0.0,
+      93.59397216134639,
+      0.0,
+      0.0,
+      0.0,
+      42.22011149171812
+    ],
+    "contact_states": [
+      "open",
+      "open",
+      "open",
+      "slip",
+      "open",
+      "open",
+      "open",
+      "slip",
+      "open",
+      "open",
+      "open",
+      "slip"
+    ],
+    "cumulative_local_dissipation": 0.1327966405427828,
+    "force_balance_relative_error": 4.635734301805481e-14,
+    "minimum_slave_gap": -6.938893903907228e-18,
+    "moment_balance_relative_error": 0.000947064471558612,
+    "normal_contact_resultant": [
+      0.0,
+      0.0,
+      182.15677994257715
+    ],
+    "reaction_moment": [
+      499.6517670836127,
+      -1040.0356079837434,
+      37.50000000000112
+    ],
+    "reaction_resultant": [
+      -74.99999999999761,
+      1.9735324485736783e-12,
+      999.9999999999536
+    ],
+    "selected_displacement": 0.020430133647239127,
+    "tangential_contact_resultant": [
+      -51.78039919039817,
+      17.41164581855104,
+      0.0
+    ],
+    "tangential_forces": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0
+      ],
+      [
+        -12.994010095438627,
+        4.944066806152834
+      ],
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0
+      ],
+      [
+        -26.656924768403496,
+        8.820045812534369
+      ],
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0
+      ],
+      [
+        -12.129464326556047,
+        3.6475331998638367
+      ]
+    ]
+  },
+  "pressures": [
+    0.0,
+    0.0,
+    0.0,
+    46.342696289512645,
+    0.0,
+    0.0,
+    0.0,
+    93.59397216134639,
+    0.0,
+    0.0,
+    0.0,
+    42.22011149171812
+  ],
+  "slip_references": [
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      -0.0018287630093458867,
+      0.0006703598868777463
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      -0.002066043466383061,
+      0.0007454570623687026
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      -0.0023851492945749964,
+      0.000794871732105196
+    ]
+  ],
+  "status": "ACCEPTED",
+  "strategy": "active_slip_root",
+  "tangential_factor": 0.25,
+  "tangential_forces": [
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      -12.994010095438627,
+      4.944066806152834
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      -26.656924768403496,
+      8.820045812534369
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      -12.129464326556047,
+      3.6475331998638367
+    ]
+  ]
+}

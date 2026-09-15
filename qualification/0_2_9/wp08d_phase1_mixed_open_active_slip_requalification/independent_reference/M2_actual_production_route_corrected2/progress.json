@@ -1,0 +1,9 @@
+{
+  "elapsed_time_s": 0.01441309996880591,
+  "error_message": "shape mismatch: value array of shape (147,) could not be broadcast to indexing result of shape (108,)",
+  "error_type": "ValueError",
+  "mesh": "M2",
+  "phase": "RUN_FAILED",
+  "schema_version": 1,
+  "status": "FAILED"
+}
