@@ -1,0 +1,40 @@
+{
+  "case": "WP08-D-M2-PHASE1",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "files": [
+    {
+      "relative_path": "console.err.log",
+      "sha256": "8c89e61cf9ec6d576cab7d2876d5fb7fdd076f91250629cb4259743b62e47eba",
+      "size_bytes": 139
+    },
+    {
+      "relative_path": "console.log",
+      "sha256": "8a9a51aeb6e0dd45c06e8db16ff3388ed7005745ce1291de906b9de2c23a9fb2",
+      "size_bytes": 60
+    },
+    {
+      "relative_path": "progress.json",
+      "sha256": "d541798de9a28c2b0f683d38560ac9bf270610d76fc96a1ce30422498b867da2",
+      "size_bytes": 272
+    },
+    {
+      "relative_path": "telemetry.jsonl",
+      "sha256": "e16848f315c631688b21387d5e048991977fca8274379a59b7792e3d542524c2",
+      "size_bytes": 6757
+    }
+  ],
+  "frozen_parameters": {
+    "backend": "serial_direct",
+    "fallback": "disabled",
+    "load_increments": 7
+  },
+  "governing_sha": "28cf9dd1886b72c6c7c9fc720dc778eddfce4441",
+  "mesh": "M2",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "qualification_claim": "PHASE1_EXECUTION_EVIDENCE_NOT_FORMAL_WP08_CLOSURE",
+  "route": "linear_static_node_to_triangle_lagrange_active_set_regularized_coulomb",
+  "runner_sha": "d47287944906610eaac751871796de34df4b7d44",
+  "schema_version": 1,
+  "terminal_classification": "NumericalConvergenceError",
+  "terminal_status": "FAILED"
+}
