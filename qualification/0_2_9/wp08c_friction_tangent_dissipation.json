@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "document_id": "DOC-029-WP08C-001",
+  "gate": "WP08",
+  "work_package": "WP08-C",
+  "status": "PASS_CANDIDATE_WITH_LIMITATIONS",
+  "source_sha": "d8da1caede03463971a748a46c5d416069eceb24",
+  "branch": "0.2.9-wp08-prep",
+  "scope": {
+    "route": "linear_static",
+    "analysis": "small_displacement",
+    "backend": "serial_direct",
+    "contact": "node_to_triangle",
+    "normal_formulation": "lagrange_active_set",
+    "search": "initial_fixed_face_normal",
+    "tangential_law": "regularized_coulomb",
+    "updated_search": "RESEARCH_ONLY",
+    "structural_campaign": false,
+    "external_solver": false
+  },
+  "frozen_thresholds": {
+    "stick_analytical_frobenius": 1.0e-12,
+    "stick_analytical_max_column": 1.0e-12,
+    "stick_symmetry": 1.0e-14,
+    "stick_fd_frobenius": 1.0e-7,
+    "stick_fd_max_column": 5.0e-7,
+    "slip_fd_frobenius": 1.0e-6,
+    "slip_fd_max_column": 5.0e-6,
+    "stick_energy_gradient": 1.0e-7,
+    "dissipation_floor": -1.0e-14,
+    "replay_relative": 1.0e-12,
+    "absolute_floor": 1.0e-14,
+    "required_values_finite": true
+  },
+  "stick_tangent": {
+    "formula": "K_t = sum_i k_t * outer(v_i, v_i)",
+    "analytical_frobenius_error": 0.0,
+    "analytical_max_column_error": 0.0,
+    "symmetry_error": 0.0,
+    "status": "PASS",
+    "finite_difference": {
+      "steps": [1.0e-4, 1.0e-6, 1.0e-8],
+      "frobenius_errors": [0.0, 1.504877098319886e-14, 1.6480333556215981e-12],
+      "max_column_errors": [0.0, 2.128217602148652e-14, 2.330671122763306e-12],
+      "status": "PASS"
+    }
+  },
+  "open_branch": {
+    "force": [0.0, 0.0],
+    "tangent_nnz": 0,
+    "reference_retained": true,
+    "status": "PASS"
+  },
+  "slip_tangent": {
+    "formula": "(mu*p/norm(trial)) * (I - outer(n_t,n_t)) * k_t",
+    "pressure": 100.0,
+    "friction_limit": 50.0,
+    "finite_difference": {
+      "steps": [1.0e-5, 1.0e-7, 1.0e-9],
+      "frobenius_errors": [4.3081326635943776e-7, 3.485598546029158e-11, 9.051499343873175e-10],
+      "max_column_errors": [6.449809695613153e-7, 5.3010924197445456e-11, 1.622194685464252e-9],
+      "status": "PASS"
+    },
+    "classification": "LOCAL_CONSISTENT_FIXED_PRESSURE",
+    "root_jacobian_comparison": {
+      "status": "NOT_DIRECTLY_EXPOSED",
+      "reason": "nested solve_active_slip_root consistent_jacobian is not returned as a local public matrix",
+      "global_claim": "NOT_MADE"
+    }
+  },
+  "pressure_coupling": {
+    "local_friction_update": "FROZEN_OMITTED",
+    "root_fallback": "INCLUDES_PRESSURE_SENSITIVITY_TERM",
+    "global_tangent_qualification": "NOT_QUALIFIED"
+  },
+  "transition": {
+    "cases": [
+      {"id": "strict_stick", "trial_norm": 10.0, "limit": 50.0, "state": "stick", "force_norm": 10.0},
+      {"id": "near_boundary_stick", "trial_norm": 49.99999, "limit": 50.0, "state": "stick", "force_norm": 49.99999},
+      {"id": "boundary", "trial_norm": 50.0, "limit": 50.0, "state": "stick", "force_norm": 50.0},
+      {"id": "just_above_boundary", "trial_norm": 50.000009999999996, "limit": 50.0, "state": "slip", "force_norm": 50.0},
+      {"id": "strict_slip", "trial_norm": 100.0, "limit": 50.0, "state": "slip", "force_norm": 50.0}
+    ],
+    "force_continuity": "PASS_SAMPLED",
+    "tangent_classification": "NONSMOOTH"
+  },
+  "zero_pressure": {
+    "state": "slip",
+    "force": [0.0, 0.0],
+    "tangent_nnz": 0,
+    "reference_recentered": true,
+    "classification": "DEGENERATE_NOT_QUALIFIED"
+  },
+  "dissipation": {
+    "implementation": "sum(forces * (current_reference - previous_reference))",
+    "sign_convention": "positive force dot positive slip-reference increment",
+    "energy_scale": 1.0,
+    "increments": [0.0, 0.0, 7.25, 2.5, 4.0, 8.0, 4.5],
+    "cumulative": [0.0, 0.0, 7.25, 9.75, 13.75, 21.75, 26.25],
+    "all_finite": true,
+    "stick": 0.0,
+    "first_slip": 7.25,
+    "continued_slip": [2.5, 4.0],
+    "reversal": [2.5, 4.0, 8.0, 4.5],
+    "zero_pressure_free_slip": 0.0,
+    "open": 0.0,
+    "cumulative_monotonic": true,
+    "status": "PASS_LOCAL_WORK_PROXY"
+  },
+  "stick_energy": {
+    "formula": "0.5 * k_t * norm(u_t - s_ref)^2",
+    "gradient_formula": "k_t * (u_t - s_ref)",
+    "steps": [1.0e-4, 1.0e-6, 1.0e-8],
+    "relative_errors": [3.9720546451956367e-16, 7.732181583938453e-14, 7.365257932457724e-12],
+    "status": "PASS"
+  },
+  "negative_and_finiteness": {
+    "nan_pressure": "TYPED_FAIL_CLOSED_NAN_DETECTED",
+    "positive_inf_pressure": "TYPED_FAIL_CLOSED_NAN_DETECTED",
+    "nan_slip_reference": "TYPED_FAIL_CLOSED_NAN_DETECTED",
+    "zero_trial_slip": "WP08B_R1_PASS",
+    "negative_mu_public_json": "EXISTING_SCHEMA_REJECTS",
+    "nonfinite_mu_public_json": "EXISTING_SCHEMA_REJECTS",
+    "direct_mu_construction": "SEPARATE_UNQUALIFIED_GAP",
+    "invalid_tangential_stiffness": "EXISTING_REJECTION_TEST"
+  },
+  "classification": {
+    "open": "CONSISTENT_ZERO_BRANCH",
+    "stick": "LOCAL_CONSISTENT_FIXED_BRANCH",
+    "slip": "LOCAL_CONSISTENT_FIXED_PRESSURE",
+    "transition": "NONSMOOTH_NOT_DIFFERENTIABILITY_QUALIFIED",
+    "updated_search": "UNQUALIFIED_RESEARCH_ONLY",
+    "energy_decomposition": "NOT_QUALIFIED",
+    "restart": "NOT_QUALIFIED"
+  },
+  "validation": {
+    "wp08c_tests": "13 passed",
+    "wp08b_regressions": "17 passed",
+    "friction_contact_cheap_tests": "27 passed",
+    "production_mechanics_changed": false,
+    "contact_mechanics_changed": false,
+    "maturity_changed": false,
+    "structural_solves_run": false,
+    "external_solver_run": false,
+    "heavy_solve_run": false,
+    "full_test_suite_run": false
+  },
+  "limitations": [
+    "no pressure-coupled global tangent qualification",
+    "transition tangent is nonsmooth and unqualified",
+    "global energy/dissipation decomposition is not established",
+    "zero-pressure branch remains degenerate/not differentiated",
+    "friction restart, structural refinement and external correlation are out of scope",
+    "direct dataclass mu validation bypass remains unqualified"
+  ]
+}

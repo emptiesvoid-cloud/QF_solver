@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "document_id": "DOC-029-WP08B-001",
+  "gate": "WP08",
+  "work_package": "WP08-B",
+  "status": "PASS_CANDIDATE_WITH_LIMITATIONS",
+  "source_sha": "20c6d82e18bdf90fa3c3b0b2098339e399026439",
+  "branch": "0.2.9-wp08-prep",
+  "history": [
+    {
+      "revision": "R0",
+      "status": "FAIL_REAL_BUG",
+      "location": "src/solveur/contact/support.py::_friction_update",
+      "trigger": {
+        "prior_state": "slip",
+        "pressure": 0.0,
+        "trial_norm": 0.0
+      },
+      "observed_before_fix": {
+        "projection": "0/0",
+        "force": "NaN",
+        "slip_reference": "NaN",
+        "serialization": "non-finite value"
+      }
+    },
+    {
+      "revision": "R1",
+      "status": "BUGFIX_AND_REQUALIFICATION",
+      "change_class": "OWNER_AUTHORIZED_BUGFIX_ONLY",
+      "scope": "exact zero trial norm on the existing slip branch plus finite-state guard"
+    }
+  ],
+  "scope": {
+    "route": "linear_static",
+    "analysis": "small_displacement",
+    "search": "initial_fixed_face_normal",
+    "contact": "node_to_triangle",
+    "backend": "serial_direct",
+    "states": ["open", "frictionless", "stick", "slip"],
+    "updated_search": "RESEARCH_ONLY"
+  },
+  "bugfix": {
+    "location": "src/solveur/contact/support.py::_friction_update",
+    "zero_pressure_semantics": {
+      "limit": "mu * max(pressure, 0)",
+      "slip_state_preserved": true,
+      "tangential_force": [0.0, 0.0],
+      "reference_update": "current relative tangential displacement",
+      "stick_tangent_added": false
+    },
+    "nonfinite_guard": {
+      "error_type": "NumericalConvergenceError",
+      "reason": "NAN_DETECTED",
+      "arbitrary_sanitization": false
+    }
+  },
+  "frozen_thresholds": {
+    "force_identity_relative": 1.0e-12,
+    "absolute_floor": 1.0e-14,
+    "coulomb_radius_relative": 1.0e-12,
+    "direction_cosine_error": 1.0e-12,
+    "replay_relative": 1.0e-12,
+    "rollback_digest": "EXACT",
+    "required_values_finite": true
+  },
+  "zero_pressure_cases": [
+    {
+      "case_id": "WP08B-R1-A",
+      "prior_state": "slip",
+      "pressure": 0.0,
+      "relative_displacement": [0.0, 0.0],
+      "state": "slip",
+      "force": [0.0, 0.0],
+      "reference": [0.0, 0.0],
+      "finite": true,
+      "result": "PASS"
+    },
+    {
+      "case_id": "WP08B-R1-B",
+      "prior_state": "slip",
+      "pressure": 0.0,
+      "relative_displacement": [0.1375, 0.0],
+      "state": "slip",
+      "force": [0.0, 0.0],
+      "reference": [0.1375, 0.0],
+      "finite": true,
+      "result": "PASS"
+    },
+    {
+      "case_id": "WP08B-R1-C",
+      "prior_state": "slip",
+      "pressure": 0.0,
+      "relative_displacement": [-0.1375, 0.0],
+      "state": "slip",
+      "force": [0.0, 0.0],
+      "reference": [-0.1375, 0.0],
+      "finite": true,
+      "result": "PASS"
+    },
+    {
+      "case_id": "WP08B-R1-D",
+      "free_pressure": 0.0,
+      "return_pressure": 100.0,
+      "free_state": "slip",
+      "return_state": "stick",
+      "free_force": [0.0, 0.0],
+      "return_force": [0.0, 0.0],
+      "artificial_stored_force": false,
+      "result": "PASS"
+    }
+  ],
+  "identity_evidence": {
+    "open_normal_force_zero": "PASS_EXISTING_CONTACT_VNV",
+    "open_tangential_force_zero": "PASS",
+    "stick_force_identity_error": 0.0,
+    "stick_force_identity": "PASS",
+    "stick_reference_unchanged": true,
+    "slip_coulomb_radius_error": 0.0,
+    "slip_direction_error": 0.0,
+    "slip_coulomb_cap": 50.0,
+    "slip_direction": "aligned_with_trial",
+    "slip_reference_update_error": 0.0,
+    "transition_sequence": ["stick", "stick", "slip", "slip", "slip", "slip", "slip"],
+    "reversal_force_sequence": [0.0, 36.36363636363637, 50.0, -50.0, -50.0, -50.0, 50.0],
+    "nondegenerate_invariance": "PASS"
+  },
+  "rollback_evidence": {
+    "transaction_type": "StateTransaction",
+    "injected_failure_reason": "CONTACT_UPDATE_FAILURE",
+    "committed_before_digest": "c7a542a4ab9c7a0afbc6f7f741e71ecca582c23b4a62dffa543dcd5ab2866097",
+    "trial_discarded": true,
+    "committed_after_rollback_digest": "c7a542a4ab9c7a0afbc6f7f741e71ecca582c23b4a62dffa543dcd5ab2866097",
+    "rollback_digest_exact": true,
+    "commit_then_rejected_retry": "PASS",
+    "reevaluation_deterministic": true,
+    "trial_contamination": false
+  },
+  "negative_and_boundary_evidence": {
+    "nonfinite_state": {
+      "classification": "NumericalConvergenceError",
+      "reason": "NAN_DETECTED",
+      "result": "PASS"
+    },
+    "negative_mu_public_json": "REJECTED_BY_EXISTING_SCHEMA",
+    "nonfinite_mu_public_json": "REJECTED_BY_EXISTING_SCHEMA",
+    "negative_mu_direct_dataclass": "SEPARATE_UNQUALIFIED_VALIDATION_GAP",
+    "nonfinite_mu_direct_dataclass": "SEPARATE_UNQUALIFIED_VALIDATION_GAP",
+    "friction_restart": "NOT_QUALIFIED"
+  },
+  "validation": {
+    "targeted_wp08b_tests": "17 passed",
+    "existing_frictional_and_cheap_vnv": "27 passed",
+    "affected_contact_regressions": "PASS",
+    "structural_solves_run": false,
+    "external_solver_run": false,
+    "heavy_solve_run": false,
+    "full_test_suite_run": false,
+    "production_mechanics_changed": true,
+    "contact_mechanics_changed": true,
+    "convergence_policy_changed": false,
+    "linear_numerics_changed": false,
+    "maturity_changed": false
+  },
+  "limitations": [
+    "direct FrictionlessContact construction can bypass schema-level mu validation",
+    "friction-specific accepted-state restart remains not qualified",
+    "no structural, mesh-refinement or external friction qualification",
+    "updated-search friction remains research-only and unqualified"
+  ]
+}
