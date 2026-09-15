@@ -3,8 +3,11 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
 
 from solveur.contact.support import _select_active_set_transition
+from solveur.contact.solver import FrictionlessActiveSetSolver
+from solveur.core.errors import NumericalConvergenceError
 from solveur.core.telemetry import EventType, MemorySink, TelemetryEmitter
 from solveur.core.solver import LinearStaticSolver
 from solveur.io.json_reader import JsonModelReader
@@ -59,6 +62,37 @@ def test_friction_route_emits_active_set_cause_and_step_outcome() -> None:
     assert result.status == "PASS"
     contact_events = [event for event in sink.events if event.event_type is EventType.CONTACT_STATE]
     assert contact_events
+    assert all(event.step is not None for event in contact_events)
+    assert all(event.iteration is not None for event in contact_events)
+    assert all("active_contacts" in event.metrics for event in contact_events)
     assert all("convergence_cause" in event.metrics for event in contact_events)
     assert any(event.event_type is EventType.STEP_ACCEPTED for event in sink.events)
     assert any(event.metrics.get("strategy") == "active_slip_root" for event in contact_events)
+
+
+def test_failed_increment_emits_cause_and_rollback(monkeypatch: pytest.MonkeyPatch) -> None:
+    sink = MemorySink()
+    telemetry = TelemetryEmitter("wp08d-remediation-failure", "linear_static", "linear_static", sink)
+
+    def fail_increment(*_args, **_kwargs):
+        raise NumericalConvergenceError(
+            "forced active-set failure",
+            diagnostics={
+                "strategy": "direct_then_active_slip_root",
+                "iteration": 25,
+                "active_contacts": [0, 1],
+                "cause": "ACTIVE_SET_MAX_ITERATIONS",
+            },
+        )
+
+    monkeypatch.setattr(FrictionlessActiveSetSolver, "_solve_friction_increment", staticmethod(fail_increment))
+
+    with pytest.raises(NumericalConvergenceError, match="forced active-set failure"):
+        LinearStaticSolver().solve(_strongly_coupled_friction_model(), telemetry=telemetry)
+
+    rejected = [event for event in sink.events if event.event_type is EventType.STEP_REJECTED]
+    assert len(rejected) == 1
+    assert rejected[0].step == 1
+    assert rejected[0].metrics["active_set_iterations"] == 25
+    assert rejected[0].metrics["convergence_cause"] == "ACTIVE_SET_MAX_ITERATIONS"
+    assert rejected[0].metrics["rollback_performed"] is True
