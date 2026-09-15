@@ -262,14 +262,31 @@ def _friction_update(
         trial = operator.tangential_stiffness * (relative - slip_references[index])
         trial_norm = float(np.linalg.norm(trial))
         limit = operator.friction_coefficient * max(float(pressures[index]), 0.0)
+        if not np.isfinite(trial_norm) or not np.isfinite(limit):
+            raise NumericalConvergenceError(
+                "Frictional contact update produced a non-finite trial state.",
+                reason=NonlinearFailureReason.NAN_DETECTED,
+            )
         remains_sliding = prior_states[index] == "slip" and trial_norm >= limit - operator.tolerance
         if trial_norm <= limit + operator.tolerance and not remains_sliding:
             states.append("stick")
             forces[index] = trial
         else:
             states.append("slip")
-            forces[index] = limit * trial / trial_norm
-            next_references[index] = relative - forces[index] / operator.tangential_stiffness
+            if trial_norm == 0.0:
+                # A previously sliding contact can remain on the slip branch
+                # at zero Coulomb capacity.  There is no direction to project
+                # and 0/0 must not leak into the physical state.
+                forces[index] = 0.0
+                next_references[index] = relative
+            else:
+                forces[index] = limit * trial / trial_norm
+                next_references[index] = relative - forces[index] / operator.tangential_stiffness
+        if not np.all(np.isfinite(forces[index])) or not np.all(np.isfinite(next_references[index])):
+            raise NumericalConvergenceError(
+                "Frictional contact update produced non-finite state.",
+                reason=NonlinearFailureReason.NAN_DETECTED,
+            )
     return tuple(states), forces, relative_displacements, next_references
 
 

@@ -5849,6 +5849,87 @@
     "tests/unit/test_wp07d_structural_vnv_contract.py",
     "tests/unit/test_wp07e_closure_contract.py"
   ]
+},
+{
+  "id": "DOC-029-WP08A-001",
+  "path": "verification/0_2_9/wp08a-frictional-contact-readiness.md",
+  "title": "QF Solver 0.2.9 WP08-A frictional-contact readiness audit",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp08a_frictional_contact_readiness.json"
+  ],
+  "tests": [
+    "tests/unit/test_frictional_contact.py",
+    "tests/verification/test_frictional_contact_vnv.py"
+  ]
+},
+{
+  "id": "DOC-029-WP08B-001",
+  "path": "verification/0_2_9/wp08b-frictional-identities-rollback.md",
+  "title": "QF Solver 0.2.9 WP08-B frictional identities and rollback",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp08b_frictional_identities_rollback.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp08b_frictional_identities_rollback.py",
+    "tests/unit/test_frictional_contact.py",
+    "tests/verification/test_frictional_contact_vnv.py",
+    "tests/unit/test_frictionless_contact.py"
+  ]
+},
+{
+  "id": "DOC-029-WP08C-001",
+  "path": "verification/0_2_9/wp08c-friction-tangent-dissipation.md",
+  "title": "QF Solver 0.2.9 WP08-C friction tangent and dissipation V&V",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp08c_friction_tangent_dissipation.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp08c_friction_tangent_dissipation.py",
+    "tests/unit/test_wp08b_frictional_identities_rollback.py",
+    "tests/unit/test_frictional_contact.py",
+    "tests/verification/test_frictional_contact_vnv.py",
+    "tests/unit/test_frictionless_contact.py"
+  ]
+},
+{
+  "id": "DOC-029-WP08D-001",
+  "path": "verification/0_2_9/wp08d-structural-reference-contract.md",
+  "title": "QF Solver 0.2.9 WP08-D frictional structural and independent-reference contract",
+  "status": "controlled_candidate",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp08d_structural_reference_contract.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp08d_structural_reference_contract.py",
+    "tests/unit/test_wp08c_friction_tangent_dissipation.py",
+    "tests/unit/test_wp08b_frictional_identities_rollback.py",
+    "tests/unit/test_frictional_contact.py",
+    "tests/verification/test_frictional_contact_vnv.py",
+    "tests/unit/test_frictionless_contact.py"
+  ]
+},
+{
+  "id": "DOC-029-WP08-CONTROLLED-001",
+  "path": "verification/0_2_9/wp08-controlled-integration-review.md",
+  "title": "QF Solver 0.2.9 WP08 controlled reconstruction and revalidation",
+  "status": "ready_for_owner_review",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp08_controlled_integration/wp08_provenance_report.json",
+    "qualification/0_2_9/wp08_controlled_integration/wp08_controlled_integration_final.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp08b_frictional_identities_rollback.py",
+    "tests/unit/test_wp08c_friction_tangent_dissipation.py",
+    "tests/unit/test_wp08d_structural_reference_contract.py"
+  ]
 }
   ]
   
