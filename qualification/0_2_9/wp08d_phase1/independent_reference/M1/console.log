@@ -1,0 +1,4 @@
+RUN_START independent_reference=M1
+RUN_END status=PASS
+RUN_START independent_reference=M1
+RUN_END status=PASS

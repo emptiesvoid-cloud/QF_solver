@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "case": "WP08-D-M1-PHASE1",
+  "branch": "0.2.9-wp08d-m1-phase1",
+  "governing_sha_after_runner_merge": "d2a333a6427de1ce02e7719b4eca5b8ef0eb5bab",
+  "runner_sha": "6683af19818bffe4771e21677cca47f3f440e6e1",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "authorization": {
+    "file": "qualification/0_2_9/wp08d_phase1/wp08d_m1_phase1_owner_authorization.json",
+    "scope": "M1_ONLY",
+    "production_solve": true,
+    "independent_reference": true,
+    "replay": true,
+    "M2": false,
+    "M3": false,
+    "H4": false,
+    "thresholds_changed": false,
+    "mechanics_changed": false
+  },
+  "mesh": {
+    "level": "M1",
+    "subdivision": [2, 1, 1],
+    "nodes": 16,
+    "elements": 12,
+    "element_family": "TET4",
+    "dofs": 48,
+    "load_increments": 7
+  },
+  "production": {
+    "status": "PASS",
+    "terminal_classification": "PASS",
+    "qualification_claim": "PHASE1_EXECUTION_EVIDENCE_NOT_FORMAL_WP08_CLOSURE",
+    "equilibrium": {
+      "force_relative_error": 4.8074305725478e-15,
+      "moment_relative_error": 7.806091302554032e-15
+    },
+    "contact_checks": {
+      "status": "PASS_OPEN_NO_CONTACT",
+      "active_contact_count": 0,
+      "states": ["open", "open", "open", "open"],
+      "minimum_slave_gap": 0.002968439216367153,
+      "pressure_nonnegative": true,
+      "complementarity_max": 0.0,
+      "cumulative_dissipation": 0.0,
+      "stick_slip_exercised": false
+    },
+    "accepted_increments": 7,
+    "fallback_count": 0,
+    "result_file": "qualification/0_2_9/wp08d_phase1/M1/result.json",
+    "raw_file": "qualification/0_2_9/wp08d_phase1/M1/raw.npz",
+    "telemetry_file": "qualification/0_2_9/wp08d_phase1/M1/telemetry.jsonl",
+    "telemetry_status": "COMPLETE_WRAPPER_AND_STEP_EVENTS_INTERNAL_ROUTE_EVENTS_MISSING_IN_PRIMARY",
+    "runner_sha_at_execution": "e2c7f1b8c576be478890d03b39524e96c3ab86a0"
+  },
+  "independent_reference": {
+    "status": "PASS",
+    "terminal_classification": "PASS_REFERENCE",
+    "implementation": "independent_numpy_kkt_return_map",
+    "production_contact_routines_called": false,
+    "equilibrium": {
+      "force_relative_error": 6.247799189332917e-15,
+      "moment_relative_error": 1.1073971008993349e-14
+    },
+    "deltas_vs_production": {
+      "full_displacement": 4.322414648920085e-15,
+      "selected_displacement": 0.0,
+      "reaction": 2.9124602944169367e-15,
+      "moment": 3.4278894313603834e-15,
+      "normal_contact": 0.0,
+      "tangential_contact": 0.0,
+      "dissipation": 0.0
+    },
+    "load_increments": 7,
+    "result_file": "qualification/0_2_9/wp08d_phase1/independent_reference/M1/result.json",
+    "raw_file": "qualification/0_2_9/wp08d_phase1/independent_reference/M1/raw.npz",
+    "manifest_file": "qualification/0_2_9/wp08d_phase1/independent_reference/M1/manifest.json",
+    "prior_extractor_artifact_preserved": "qualification/0_2_9/wp08d_phase1/independent_reference/M1_pre_observable_fix/"
+  },
+  "replay": {
+    "status": "PASS",
+    "checker_status": "PASS",
+    "relative_tolerance": 1e-12,
+    "absolute_floor": 1e-14,
+    "accepted_increments": 7,
+    "terminal_status_equal": true,
+    "numeric_observables_equal": true,
+    "result_file": "qualification/0_2_9/wp08d_phase1/replay/M1/result.json",
+    "raw_file": "qualification/0_2_9/wp08d_phase1/replay/M1/raw.npz",
+    "telemetry_file": "qualification/0_2_9/wp08d_phase1/replay/M1/telemetry.jsonl",
+    "telemetry_status": "ROUTE_EVENTS_PRESENT"
+  },
+  "artifact_requirements": {
+    "production": ["result.json", "progress.json", "telemetry.jsonl", "raw.npz", "manifest.json", "console.log", "console.err.log"],
+    "independent_reference": ["result.json", "progress.json", "telemetry.jsonl", "raw.npz", "manifest.json", "console.log"],
+    "replay": ["result.json", "progress.json", "telemetry.jsonl", "raw.npz", "manifest.json", "console.log", "console.err.log"]
+  },
+  "formal_status": {
+    "M1_phase1": "COMPLETED_WITH_TELEMETRY_LIMITATION",
+    "WP08D": "PREPARATION_ONLY_PHASE1_EVIDENCE",
+    "WP08D_formal_points": "0/2",
+    "WP08_formal_points": "0/8",
+    "M2": "NOT_RUN",
+    "M3": "NOT_RUN",
+    "H4": "NOT_RUN"
+  },
+  "governance": {
+    "production_mechanics_changed": false,
+    "thresholds_changed": false,
+    "solver_parameters_changed": false,
+    "fallback_changed": false,
+    "WP05_touched": false,
+    "WP06_touched": false,
+    "full_test_suite_run": false,
+    "next_step": "OWNER_REVIEW_REQUIRED_BEFORE_M2"
+  },
+  "final_sha": "SET_ON_FINAL_EVIDENCE_COMMIT",
+  "remote_governing_head": "SET_AFTER_EVIDENCE_PUSH"
+}
