@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "status": "INVALID_CONTRACT",
+  "work_package": "WP07-D",
+  "governing_branch": "0.2.9-unified-nonlinear",
+  "required_governing_sha": "a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe",
+  "verified_remote_governing_sha": "a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe",
+  "execution_sha": "a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe",
+  "branch": "0.2.9-wp07d-qualification",
+  "timestamp_utc": "2026-09-15",
+  "machine": {
+    "computer": "DESKTOP-76HKPPA",
+    "os": "Microsoft Windows 10 Entreprise 10.0.19045",
+    "cpu": "AMD Ryzen 5 5500",
+    "logical_cpus": 12,
+    "physical_cores": 6,
+    "ram_gb": 95.89,
+    "python": "3.13.1"
+  },
+  "contract": {
+    "path": "qualification/0_2_9/wp07d_structural_vnv_contract.json",
+    "expected_digest": "93c7741ecafd72cfa20e29e323b92ea9356fb93dacaff09a8347789bad9c9ed2",
+    "provenance_digest_verified_against": "qualification/0_2_9/wp07/wp07_integration_audit.json",
+    "contract_file_sha256": "a31f32d45bfa65f5aaaac62034cdc94cfafae3d59a7fbc1ce8ce8489d7cae3e9",
+    "status": "PREPARATION_ONLY",
+    "structural_solves_allowed": false,
+    "execution_policy_status": "PENDING_GOVERNING_BRANCH_INTEGRATION",
+    "wp07d_execution_authorized_in_provenance": false,
+    "penalty_termination_policy": "PENDING_GOVERNING_BRANCH_INTEGRATION",
+    "penalty_linear_backend": "supplied by governing 0.2.9 execution policy",
+    "blocking_reason": "The frozen WP07-D contract at the required SHA is a preparation-only contract and explicitly disables structural execution; its governing execution policy is still pending. Running would require inventing or overriding contract data."
+  },
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "route_coverage": {
+    "ACTIVE_SET": {"required": true, "executed": false},
+    "PENALTY": {"required": true, "executed": false}
+  },
+  "mesh_coverage": {"M1": "NOT_RUN", "M2": "NOT_RUN", "M3": "NOT_RUN"},
+  "structural_solves_run": false,
+  "external_solver_run": false,
+  "wp07e_run": false,
+  "production_mechanics_changed": false,
+  "thresholds_changed": false,
+  "solver_parameters_changed": false,
+  "fallback_changed": false,
+  "validation": {
+    "targeted_contract_tests": "19 passed",
+    "json_validation": "PASS",
+    "full_repository_suite": "NOT_RUN",
+    "git_diff_check": "PENDING_AUDIT_COMMIT"
+  },
+  "failed_gates": [
+    "EXECUTION_CONTRACT_NOT_FROZEN",
+    "STRUCTURAL_SOLVES_EXPLICITLY_DISABLED_BY_CONTRACT",
+    "GOVERNING_PENALTY_POLICY_PENDING"
+  ],
+  "wp07d_candidate_points": "0/3",
+  "wp07_official_points": "5/10",
+  "official_total": "58/100",
+  "wp07e_status": "NOT_RUN_DEPENDENCY_INVALID_CONTRACT",
+  "evidence_commit_sha": null,
+  "final_sha": null,
+  "remote_head": "a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe",
+  "next_step": "Owner must provide an executable WP07-D contract/policy binding before any structural solve; preserve this fail-closed preflight."
+}
