@@ -92,3 +92,50 @@ def test_replay_checker_is_evidence_only() -> None:
     result = common.replay_comparison(left, right)
     assert result["status"] == "PASS"
     assert result["structural_solve_performed"] is False
+
+
+def test_diagnostic_prefix_preserves_the_frozen_first_two_load_steps() -> None:
+    model = common.build_production_model(
+        "M2",
+        diagnostic_load_step_limit=2,
+        emit_step_checkpoints=True,
+    )
+
+    assert len(model.analysis.parameters["contact_load_history"]) == 2
+    assert model.analysis.parameters["contact_load_history"][0] != model.analysis.parameters["contact_load_history"][1]
+    assert model.analysis.parameters["contact_emit_step_checkpoints"] is True
+
+
+def test_accepted_step_telemetry_materializes_a_hashable_checkpoint(tmp_path: Path) -> None:
+    telemetry = tmp_path / "telemetry.jsonl"
+    telemetry.write_text(
+        json.dumps(
+            {
+                "event_type": "STEP_ACCEPTED",
+                "sequence_number": 12,
+                "metadata": {"mesh": "M2"},
+                "metrics": {
+                    "committed_contact_state": {
+                        "step": 2,
+                        "displacement": [0.0, 1.0],
+                        "multipliers": [2.0],
+                        "gaps": [0.0],
+                        "pressures": [3.0],
+                        "active_contacts": [3, 7, 11],
+                        "tangential_states": ["slip"],
+                        "tangential_forces": [[1.0, 0.0]],
+                        "slip_references": [[0.1, 0.2]],
+                    }
+                },
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    checkpoints = common._write_step_checkpoints_from_telemetry(tmp_path)
+
+    assert [path.name for path in checkpoints] == ["checkpoint_step_002.json"]
+    payload = json.loads(checkpoints[0].read_text(encoding="utf-8"))
+    assert payload["event_sequence"] == 12
+    assert payload["committed_contact_state"]["active_contacts"] == [3, 7, 11]

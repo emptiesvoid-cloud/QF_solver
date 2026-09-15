@@ -34,6 +34,7 @@ def _parser() -> argparse.ArgumentParser:
     modes.add_argument("--execute-phase1", action="store_true")
     parser.add_argument("--authorization-file", type=Path)
     parser.add_argument("--output-dir", type=Path, default=repository_root() / ARTIFACT_ROOT)
+    parser.add_argument("--diagnostic-load-step-limit", type=int)
     return parser
 
 
@@ -44,10 +45,17 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     try:
         if args.dry_run:
+            if args.diagnostic_load_step_limit is not None:
+                raise RuntimeError("A diagnostic load-step limit requires --execute-phase1 authorization.")
             report = dry_run(args.mesh, args.output_dir)
             print(f"DRY_RUN_ONLY mesh={report['mesh']} output={args.output_dir}")
             return 0
-        execute_phase1(args.mesh, args.output_dir, args.authorization_file)
+        execute_phase1(
+            args.mesh,
+            args.output_dir,
+            args.authorization_file,
+            diagnostic_load_step_limit=args.diagnostic_load_step_limit,
+        )
         print(f"PHASE1_COMPLETED mesh={args.mesh} output={args.output_dir}")
         return 0
     except RuntimeError as error:
