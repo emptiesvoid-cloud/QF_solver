@@ -21,6 +21,7 @@ import numpy as np
 if __package__ in {None, ""}:
     _repository_root = Path(__file__).resolve().parents[1]
     sys.path.insert(0, str(_repository_root))
+    sys.path.insert(0, str(_repository_root / "src"))
 
 from scripts.wp08d_independent_kkt_reference import KktReferenceProblem, solve_kkt_return_map
 from scripts.wp08d_phase1_common import (
