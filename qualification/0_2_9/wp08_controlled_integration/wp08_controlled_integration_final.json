@@ -151,6 +151,7 @@
       "tests/verification/test_frictional_contact_vnv.py"
     ],
     "pytest_result": "46 passed in 6.97s",
+    "additional_frictionless_contact_regression": "19 passed in 1.79s",
     "ruff": "PASS",
     "mypy_new_wp08_scope": "PASS with --follow-imports=skip",
     "mypy_inherited_diagnostic": {

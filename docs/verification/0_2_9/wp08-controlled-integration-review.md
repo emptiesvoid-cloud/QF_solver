@@ -90,6 +90,9 @@ regression set:
 
 `46 passed in 6.97s`
 
+The additional focused frictionless-contact regression set also passed:
+`19 passed in 1.79s`.
+
 Additional results:
 
 - Ruff: `PASS`.

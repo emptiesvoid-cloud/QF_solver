@@ -164,6 +164,7 @@
   },
   "controlled_revalidation": {
     "targeted_pytest": "46 passed",
+    "additional_frictionless_contact_regression": "19 passed",
     "ruff": "PASS",
     "mypy_new_wp08_scope": "PASS with --follow-imports=skip",
     "mypy_inherited_diagnostic": "src/solveur/contact/support.py:447 pre-existing on governing base; not changed by authorized mechanics patch",
