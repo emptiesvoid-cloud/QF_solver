@@ -5946,6 +5946,24 @@
     "tests/unit/test_wp08d_structural_reference_contract.py",
     "tests/unit/test_frictionless_contact.py"
   ]
+},
+{
+  "id": "DOC-029-WP08D-PHASE1-001",
+  "path": "verification/0_2_9/wp08d-phase1-runner-freeze.md",
+  "title": "QF Solver 0.2.9 WP08-D Phase-1 execution runner freeze",
+  "status": "preparation_only",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp08d_phase1/wp08d_phase1_artifact_schema.json",
+    "qualification/0_2_9/wp08d_phase1/wp08d_phase1_summary.json",
+    "qualification/0_2_9/wp08d_phase1/wp08d_phase1_runner_freeze.json"
+  ],
+  "tests": [
+    "tests/unit/test_wp08d_phase1_runner.py",
+    "tests/unit/test_wp08d_independent_reference.py",
+    "tests/unit/test_wp08d_phase1_fail_closed.py",
+    "tests/unit/test_wp08d_structural_reference_contract.py"
+  ]
 }
   ]
   
