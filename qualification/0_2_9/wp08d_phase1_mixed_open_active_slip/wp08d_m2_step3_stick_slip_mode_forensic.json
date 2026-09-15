@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "governing_sha": "a4e04a0fc5ff69c0fb682049bcb97eb10aba5025",
+  "m2_evidence_sha": "a4e04a0fc5ff69c0fb682049bcb97eb10aba5025",
+  "branch": "0.2.9-wp08d-m2-step3-mode-forensic",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "m2_manifest_hashes": "PASS",
+  "m2_artifacts": {
+    "manifest": "qualification/0_2_9/wp08d_phase1_mixed_open_active_slip/M2/manifest.json",
+    "progress": "qualification/0_2_9/wp08d_phase1_mixed_open_active_slip/M2/progress.json",
+    "telemetry": "qualification/0_2_9/wp08d_phase1_mixed_open_active_slip/M2/telemetry.jsonl",
+    "result_json": "ABSENT_BY_FAIL_CLOSED_RUN",
+    "raw_npz": "ABSENT_BY_FAIL_CLOSED_RUN",
+    "telemetry_event_count": 109
+  },
+  "step2_state_available": false,
+  "step2_state_status": "BLOCKED_MISSING_COMMITTED_STEP2_STATE",
+  "step2_observed_summary": {
+    "accepted": true,
+    "normal_active_set_observed": [3, 7, 11],
+    "stick_slip_labels_observed": true,
+    "slip_reference_change_values_observed": true,
+    "tangential_force_change_values_observed": true,
+    "committed_slip_reference_vectors": "MISSING",
+    "committed_tangential_force_vectors": "MISSING",
+    "committed_displacement_vector": "MISSING",
+    "complete_committed_state_snapshot": "MISSING"
+  },
+  "mode_enumeration_run": false,
+  "modes": {
+    "SSS": "NOT_RUN_BLOCKED",
+    "SSK": "NOT_RUN_BLOCKED",
+    "SKS": "NOT_RUN_BLOCKED",
+    "SKK": "NOT_RUN_BLOCKED",
+    "KSS": "NOT_RUN_BLOCKED",
+    "KSK": "NOT_RUN_BLOCKED",
+    "KKS": "NOT_RUN_BLOCKED",
+    "KKK": "NOT_RUN_BLOCKED"
+  },
+  "admissible_mode_count": null,
+  "post_root_normal_set": "NOT_EVALUATED; telemetry observation only was [3,7,11]",
+  "final_classification": "BLOCKED_MISSING_COMMITTED_STEP2_STATE",
+  "production_mechanics_changed": false,
+  "thresholds_changed": false,
+  "structural_solves_run": false,
+  "wp08d_formal_points": "0/2",
+  "wp08_formal_points": "0/8",
+  "next_step": "OWNER REVIEW ONLY. NO SOLVER CHANGE. Archive a complete committed step-2 state before any enumeration."
+}
