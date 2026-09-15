@@ -4,12 +4,12 @@ from __future__ import annotations
 
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass
-from typing import Any, cast
 import numpy as np
 from scipy.sparse import csr_matrix
 from solveur.contact.entities import FrictionlessContact
 from solveur.contact.evaluation import normalized_contact_diagnostics
 from solveur.contact.slip_root import solve_active_slip_root
+from solveur.contact.restart import checkpoint_paths, load_contact_checkpoint, save_contact_checkpoint
 from solveur.core.constraints import ConstraintReduction
 from solveur.core.dofs import DofManager
 from solveur.core.errors import InputValidationError, NumericalConvergenceError
@@ -331,7 +331,21 @@ class FrictionlessActiveSetSolver:
         limited to the direct, small-model contact scope.
         """
         path = _contact_load_path(model, dofs, loads)
-        slip_references: np.ndarray = np.zeros((len(operators), 2), dtype=float)
+        checkpoint_path, restart_path = checkpoint_paths(model.analysis.parameters)
+        restart = None
+        if restart_path is not None:
+            restart = load_contact_checkpoint(
+                restart_path,
+                model=model,
+                dofs=dofs,
+                load_path=path,
+                contact_count=len(operators),
+            )
+        slip_references: np.ndarray = (
+            np.asarray(restart["slip_references"], dtype=float).copy()
+            if restart is not None
+            else np.zeros((len(operators), 2), dtype=float)
+        )
         step_details: list[dict[str, object]] = []
         final: _FrictionIncrementState | None = None
         state_transaction = StateTransaction(np.asarray(slip_references, dtype=float).copy())
@@ -339,7 +353,9 @@ class FrictionlessActiveSetSolver:
         tolerance = _positive_float(
             model.analysis.parameters.get("contact_friction_tolerance", 1.0e-9), "contact_friction_tolerance"
         )
-        for step, step_loads in enumerate(path, start=1):
+        start_step = int(restart["completed_step"]) if restart is not None else 0
+        cumulative_dissipation = float(restart["cumulative_dissipation"]) if restart is not None else 0.0
+        for step, step_loads in enumerate(path[start_step:], start=start_step + 1):
             if telemetry is not None:
                 emit_route_event_best_effort(
                     telemetry,
@@ -389,6 +405,7 @@ class FrictionlessActiveSetSolver:
             state_transaction.trial = np.asarray(final.slip_references, dtype=float).copy()
             state_transaction.commit()
             slip_references = np.asarray(state_transaction.committed, dtype=float).copy()
+            cumulative_dissipation += float(final.dissipation_increment)
             step_details.append(
                 {
                     "step": step,
@@ -400,6 +417,16 @@ class FrictionlessActiveSetSolver:
                     "local_dissipation_increment": final.dissipation_increment,
                 }
             )
+            if checkpoint_path is not None:
+                save_contact_checkpoint(
+                    checkpoint_path,
+                    model=model,
+                    dofs=dofs,
+                    load_path=path,
+                    completed_step=step,
+                    state=final,
+                    cumulative_dissipation=cumulative_dissipation,
+                )
             if telemetry is not None:
                 strategy = str(final.history[-1].get("strategy", "direct")) if final.history else "direct"
                 metrics: dict[str, object] = {
@@ -451,10 +478,14 @@ class FrictionlessActiveSetSolver:
         details["convergence"] = _contact_convergence_diagnostics(
             final.history, final.gaps, final.pressures, final.active
         )
-        cumulative_dissipation = 0.0
-        for item in step_details:
-            cumulative_dissipation += float(cast(Any, item["local_dissipation_increment"]))
         details["cumulative_local_dissipation"] = cumulative_dissipation
+        details["restart"] = {
+            "checkpoint_enabled": checkpoint_path is not None,
+            "checkpoint_path": str(checkpoint_path) if checkpoint_path is not None else None,
+            "restart_from": str(restart_path) if restart_path is not None else None,
+            "restarted_from_step": start_step,
+            "accepted_steps_written": len(step_details),
+        }
         normal_force = _contact_force(operators, final.active, final.multipliers, dofs.ndof)
         friction_force = _tangential_contact_force(operators, final.tangential_forces, dofs.ndof)
         return ContactSolveState(
