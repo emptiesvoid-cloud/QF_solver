@@ -1,0 +1,74 @@
+{
+  "authorized_base_sha": "a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe",
+  "branch_at_capture": "codex/wp05d-formal-requalification",
+  "candidate_contract_sha256": "b5c05bc59d70ea53fdb0b480f4734c0dd53451b75c889e16e750c9fc6e7c12da",
+  "comparison": {
+    "independent_reference_sigma_xx": 3114.8532844264123,
+    "independent_reference_volume": 0.030000000000000075,
+    "production_candidate_reference_volume": 0.030000000000000075,
+    "production_candidate_sigma_xx": 3114.8532844264123,
+    "sigma_relative_error": 0.0,
+    "sigma_relative_tolerance": 1e-10,
+    "status": "PASS",
+    "volume_absolute_error": 0.0,
+    "volume_absolute_tolerance": 1e-12
+  },
+  "completed_at": "2026-09-16T14:51:23.010761+00:00",
+  "execution_sha": "72282a6ca6e6574a32c6182eccb001d9816febbc",
+  "formal_claim": true,
+  "governing_policy_code_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "historical_contract_sha256": "e8ce5ed095bf3f142b64d5a5838682c638478a5a92c8330a10af88584f52d680",
+  "independence_claim": {
+    "imports_production_solver": false,
+    "imports_production_stress_window": false,
+    "uses_raw_coordinates_connectivity_displacement_only": true
+  },
+  "mesh_level": "H1",
+  "production_result_sha256": "001f7a701fcd5adcaba61a8c7db7d90db27e37b353212ce8d54c008ab1b5def0",
+  "reference_implementation": "scripts/wp05d_hex20_independent_reference.py",
+  "reference_observables": {
+    "expected_reference_volume": 0.03,
+    "geometry": {
+      "D": 0.5,
+      "H": 0.5,
+      "L": 4.0,
+      "reference_volume": 1.0
+    },
+    "independence": {
+      "imports_production_solver": false,
+      "imports_production_stress_window": false,
+      "uses_raw_coordinates_connectivity_displacement_only": true
+    },
+    "intersected_element_count": 4,
+    "material": {
+      "E": 1000000.0,
+      "nu": 0.3
+    },
+    "maximum_affine_mapping_error": 1.7763568394002505e-15,
+    "method": "INDEPENDENT_NUMPY_HEX20_CLIPPED_WINDOW_GAUSS_5",
+    "physical_window": {
+      "high": [
+        2.4,
+        0.475,
+        0.4
+      ],
+      "low": [
+        1.6,
+        0.35,
+        0.1
+      ]
+    },
+    "quadrature_order_per_axis": 5,
+    "quadrature_point_count": 500,
+    "reference_volume": 0.030000000000000075,
+    "reference_volume_absolute_error": 7.632783294297951e-17,
+    "representative_sigma_xx": 3114.8532844264123,
+    "source_raw_sha256": "df0ecfcdcc39dc093ed7ae70779572e5ae936e82088549267400fd018ec6f48f",
+    "status": "PASS"
+  },
+  "remediation_sha": "817b5d098b280fbd0b7fa2938c3204d859f20b0c",
+  "run_kind": "INDEPENDENT_OBSERVABLE_REFERENCE",
+  "source_raw_sha256": "df0ecfcdcc39dc093ed7ae70779572e5ae936e82088549267400fd018ec6f48f",
+  "source_sha": "72282a6ca6e6574a32c6182eccb001d9816febbc",
+  "status": "PASS"
+}

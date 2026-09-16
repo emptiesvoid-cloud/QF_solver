@@ -40,6 +40,40 @@
         "qualification/0_2_9/wp08_closure/wp08_owner_review_inspection.json",
         "qualification/0_2_9/wp08_closure/wp08_owner_approval.json"
       ]
+    },
+    {
+      "id": "OD-029-WP05-CDE-01",
+      "title": "Bounded WP05-C/D/E qualification and cross-family closure",
+      "status": "CLOSED_APPROVED_WITH_LIMITATIONS",
+      "owner_review_status": "PASS",
+      "accepted_work_items": ["WP05-C", "WP05-D", "WP05-E"],
+      "approved_points": 3,
+      "official_total_before": 58,
+      "official_total_after_local_integration": 61,
+      "reviewed_execution_sha": "72282a6ca6e6574a32c6182eccb001d9816febbc",
+      "authorizations": {
+        "local_governing_integration": true,
+        "official_ledger_update_in_local_integration": true,
+        "governing_push": false,
+        "external_solver_correlation_now": false
+      },
+      "external_solver_comparison": "DEFERRED_TO_FUTURE_VV; NO_CODE_ASTER_OR_OTHER_SOLVER_CORRELATION_CLAIM",
+      "historical_failures_preserved": true,
+      "limitations": [
+        "bounded TET10 and straight-sided affine HEX20 cantilever H1/H2/H3 cases only",
+        "WP05-E stress comparison uses the historical common representative_sigma_xx observable only",
+        "HEX20 clipped-window stress is not compared across families",
+        "different integration-point populations and sampled reference volumes are disclosed",
+        "no general element-family interchangeability or stress-field equivalence claim",
+        "external-solver correlation is deferred to future V&V"
+      ],
+      "evidence": [
+        "docs/verification/0_2_9/wp05-c-tet10-formal-requalification.md",
+        "docs/verification/0_2_9/wp05d-owner-validation-review.md",
+        "docs/verification/0_2_9/wp05-e-cross-family-closure.md",
+        "docs/verification/0_2_9/wp05-cde-owner-integration.md",
+        "qualification/0_2_9/wp05cde_integration/wp05_cde_integration_audit.json"
+      ]
     }
   ],
   "open_decisions": [
