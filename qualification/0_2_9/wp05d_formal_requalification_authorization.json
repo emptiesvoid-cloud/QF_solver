@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "authorization_id": "VNV029-WP05-D-FORMAL-REQUALIFICATION-AUTH-001",
+  "recorded_at": "2026-09-16T16:39:03.7989498+02:00",
+  "owner_authorizes_formal_requalification": true,
+  "authorized_base_sha": "a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe",
+  "remediation_sha": "817b5d098b280fbd0b7fa2938c3204d859f20b0c",
+  "authorized_scope": {
+    "family": "HEX20",
+    "levels": ["H1", "H2", "H3"],
+    "observable": "EXACT_REFERENCE_WINDOW_CLIPPED_HEX20_TENSOR_GAUSS_5",
+    "production_execution": true,
+    "independent_reference": true,
+    "replay": true,
+    "all_frozen_gates": true
+  },
+  "prohibitions": {
+    "threshold_changes": false,
+    "physical_input_changes": false,
+    "solver_parameter_changes": false,
+    "fallback_policy_changes": false,
+    "production_mechanics_changes": false,
+    "overwrite_historical_fail_closed_evidence": false,
+    "run_wp05e_automatically": false
+  },
+  "candidate_contract_sha256": "b5c05bc59d70ea53fdb0b480f4734c0dd53451b75c889e16e750c9fc6e7c12da",
+  "historical_contract_sha256": "e8ce5ed095bf3f142b64d5a5838682c638478a5a92c8330a10af88584f52d680",
+  "frozen_policy_code_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "expected_runtime_policy_binding_digest": "895d3c932278c0207b207318216c263a427636d57738bef730917fdc7d9b0ef5",
+  "historical_formal_status": "WP05D_FORMAL_STATUS=FAIL_CLOSED",
+  "starting_official_total": "58/100",
+  "authorization_basis": "Explicit Owner authorization in the current conversation after read-only audit PASS of diagnostic H1/H2/H3 replay.",
+  "required_stop_condition": "If any provenance, configuration, independent-reference, replay, equilibrium, envelope, or threshold gate fails, classify FAIL_CLOSED and do not award points."
+}
