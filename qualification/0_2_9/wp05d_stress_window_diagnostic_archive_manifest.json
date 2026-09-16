@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "archive_id": "VNV029-WP05-D-STRESS-WINDOW-DIAGNOSTIC-ARCHIVE-001",
+  "archive_status": "PASS",
+  "source_relative_path": "qualification/0_2_9/wp05d_stress_window_replay",
+  "archive_absolute_path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp05d_stress_window_diagnostic_archive_20260916",
+  "source_sha_at_execution": "9c1fd8303d1340b5655a409cc637b7e253002557",
+  "run_kind": "DIAGNOSTIC_REPLAY",
+  "formal_claim": false,
+  "historical_evidence_overwritten": false,
+  "files": [
+    {
+      "path": "replay_summary.json",
+      "size_bytes": 1435271,
+      "sha256": "2d9544aa8f1cbe5298e2aa5171b03ff2d6bbb84e6169133b9d3091296207f0a6"
+    },
+    {
+      "path": "HEX20/H1/raw.npz",
+      "size_bytes": 36078,
+      "sha256": "df0ecfcdcc39dc093ed7ae70779572e5ae936e82088549267400fd018ec6f48f"
+    },
+    {
+      "path": "HEX20/H1/result.json",
+      "size_bytes": 427645,
+      "sha256": "a750cf3be93dde1c0d342d51c6dddd6434036be7ebb4fa1828791e6e38ea6a8e"
+    },
+    {
+      "path": "HEX20/H2/raw.npz",
+      "size_bytes": 303127,
+      "sha256": "055adadb7f3012ec295a6674a37e546a2f3d8c92a7ad29e531991598bff25348"
+    },
+    {
+      "path": "HEX20/H2/result.json",
+      "size_bytes": 439001,
+      "sha256": "6adc6ea3333ee52c837d06c76d58ec857de1d9a73f6086916deb779482c4060e"
+    },
+    {
+      "path": "HEX20/H3/raw.npz",
+      "size_bytes": 2519104,
+      "sha256": "1c51bd2e8df0a94dae6f10f70d435667e6f29478cd57d44c7448270afd808444"
+    },
+    {
+      "path": "HEX20/H3/result.json",
+      "size_bytes": 439936,
+      "sha256": "696cae17ef3e157eeefd6b46388861ed4395cd5fca6921b8316e4b89677f2b3f"
+    }
+  ],
+  "next_step": "Use a separate clean formal output directory; never overwrite this archive."
+}
