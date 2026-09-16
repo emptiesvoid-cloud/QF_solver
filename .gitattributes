@@ -32,4 +32,6 @@ results_large/** export-ignore
 site/** export-ignore
 output/** export-ignore
 VNV-*/** export-ignore
+qualification/0_2_9/wp05_cd_stress_window_remediation_candidate.json text eol=lf
+docs/verification/0_2_9/wp05d-owner-validation-review.md text eol=lf
 qualification/vnv/** export-ignore

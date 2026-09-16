@@ -27,7 +27,7 @@ def test_wp05cde_integration_records_owner_scope_and_score() -> None:
     owner = cast(dict[str, Any], audit["owner_decision"])
     governance = cast(dict[str, Any], audit["governance"])
 
-    assert audit["status"] == "LOCAL_INTEGRATION_ACCEPTED_WITH_LIMITATIONS"
+    assert audit["status"] == "LOCAL_GOVERNING_INTEGRATION_COMPLETE_UNPUSHED"
     assert owner["status"] == "APPROVED_WITH_LIMITATIONS"
     assert owner["wp05e_acceptance"].startswith("ACCEPT 1/1 CANDIDATE")
     assert scores["wp05c"] == scores["wp05d"] == scores["wp05e"] == "1/1"

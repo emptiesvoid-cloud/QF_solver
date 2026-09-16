@@ -6031,7 +6031,7 @@
   "id": "DOC-029-WP05-CDE-OWNER-INTEGRATION-001",
   "path": "verification/0_2_9/wp05-cde-owner-integration.md",
   "title": "QF Solver 0.2.9 WP05-C/D/E Owner-approved bounded integration",
-  "status": "owner_approved_with_limitations_local_unpushed",
+  "status": "owner_approved_with_limitations_local_governing_unpushed",
   "requirements": [],
   "examples": [
     "qualification/0_2_9/wp05cde_integration/wp05_cde_integration_audit.json",
