@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "VNV029-WP05-D-STRESS-WINDOW-REMEDIATION-CANDIDATE-001",
+  "status": "CANDIDATE_REQUIRES_OWNER_APPROVAL_NO_QUALIFICATION_EXECUTION",
+  "scope": "WP05-D HEX20 representative Cauchy sigma_xx observable only",
+  "supersedes": null,
+  "preserves_historical_formal_evidence": true,
+  "historical_status": "WP05D_FORMAL_STATUS=FAIL_CLOSED",
+  "reason": "The frozen point-membership region samples different quadrature populations across H2 and H3.",
+  "physical_inputs": {
+    "geometry": {"L": 4.0, "H": 0.5, "D": 0.5, "reference_volume": 1.0},
+    "material": {"E": 1000000.0, "nu": 0.3},
+    "boundary": "all displacement DOFs fixed on x=0 face",
+    "load": "unchanged consistent equivalent nodal traction",
+    "mesh_levels": [
+      {"name": "H1", "nx": 4, "ny": 2, "nz": 2},
+      {"name": "H2", "nx": 8, "ny": 4, "nz": 4},
+      {"name": "H3", "nx": 16, "ny": 8, "nz": 8}
+    ]
+  },
+  "observable": {
+    "field": "Cauchy sigma_xx",
+    "coordinate_system": "reference physical coordinates X",
+    "normalized_region": {
+      "x_over_L": [0.4, 0.6],
+      "y_over_H": [0.7, 0.95],
+      "z_over_D": [0.2, 0.8]
+    },
+    "expected_reference_volume": 0.03,
+    "weighting": "reference volume only",
+    "region_realization": "intersect each straight-sided HEX20 cell with the physical box, then integrate the intersected subcell",
+    "quadrature": "tensor Gauss-Legendre order 5 per axis on each clipped subcell",
+    "deformed_coordinates_used": false,
+    "current_volume_weight_used": false,
+    "non_affine_hex20_geometry": "REJECT"
+  },
+  "unchanged_qualification_policy": {
+    "h2_to_h3_representative_sigma_xx_relative_limit": 0.08,
+    "other_thresholds": "unchanged from VNV029-WP05-CD-STRUCTURAL-CONTRACT-001",
+    "solver_parameters": "unchanged",
+    "fallback_policy": "unchanged"
+  },
+  "required_before_any_formal_claim": [
+    "explicit Owner approval of this new observable contract",
+    "new contract digest and provenance binding",
+    "targeted implementation and analytical partition-invariance tests",
+    "H1/H2/H3 production execution from frozen physical inputs",
+    "independent observable reference",
+    "replay and full fail-closed gate evaluation"
+  ],
+  "prohibited_interpretations": [
+    "The candidate does not alter the historical H2-to-H3 FAIL_CLOSED result.",
+    "The candidate does not award WP05-D points.",
+    "The candidate does not authorize a structural solve."
+  ]
+}
