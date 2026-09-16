@@ -75,12 +75,14 @@ route instrumentation only; it does not change or instrument the WP04
 geometric-nonlinear route. WP04 remains CLOSED at 12/12 and the validated total
 was **43/100**. See [the WP15 governing integration audit](wp15-integration-into-governing-branch.md).
 
-WP05-A/B are **FORMAL PASS — 2/5** after governing-tree revalidation of the
-TET10/HEX20 bounded identity campaign. WP05-C/D/E remain unawarded: no
-high-order H2/H3 or cross-family structural solve was run. The corrected
-consistent quadratic-face traction contract and governing C2R6 policy binding
-are frozen for later execution. The validated total is **45/100**; see [the
-WP05 governing integration audit](wp05-integration-into-governing-branch.md).
+WP05-A/B/C/D/E are now **CLOSED — 5/5 WITH LIMITATIONS** after Owner-approved
+integration of the TET10 and HEX20 H1/H2/H3 evidence and the bounded H3
+cross-family closure. The common historical stress observable passes the
+declared 10% cross-family limit; this is not a general field-equivalence
+claim. External correlation against Code_Aster or another solver is deferred
+to future V&V and is not claimed. Local validated total is **61/100**; the
+remote governing branch remains at 58/100 until push. See the [WP05-C/D/E
+integration audit](wp05-cde-owner-integration.md).
 
 WP07-A/B/C are **FORMAL PASS — 5/10** after governing-branch integration of
 the Owner-frozen contact candidate. The bounded initial-search active-set and

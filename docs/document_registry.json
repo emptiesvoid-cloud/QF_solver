@@ -5994,6 +5994,54 @@
   "tests": [
     "tests/unit/test_frictional_contact.py"
   ]
+},
+{
+  "id": "DOC-029-WP05-C-REQUALIFICATION-001",
+  "path": "verification/0_2_9/wp05-c-tet10-formal-requalification.md",
+  "title": "QF Solver 0.2.9 WP05-C TET10 formal structural requalification",
+  "status": "owner_approved_with_limitations",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp05c_formal_requalification/TET10/H1/result.json",
+    "qualification/0_2_9/wp05c_formal_requalification/TET10/H2/result.json",
+    "qualification/0_2_9/wp05c_formal_requalification/TET10/H3/result.json",
+    "qualification/0_2_9/wp05c_formal_requalification_replay/TET10/H1/result.json"
+  ],
+  "tests": [
+    "tests/verification/test_wp05e_cross_family.py",
+    "tests/verification/test_wp05cde_integration.py"
+  ]
+},
+{
+  "id": "DOC-029-WP05-E-CROSS-FAMILY-001",
+  "path": "verification/0_2_9/wp05-e-cross-family-closure.md",
+  "title": "QF Solver 0.2.9 WP05-E TET10/HEX20 cross-family closure",
+  "status": "owner_approved_with_limitations",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp05e/wp05e_cross_family_audit.json",
+    "qualification/0_2_9/wp05cde_integration/wp05_cde_integration_audit.json"
+  ],
+  "tests": [
+    "tests/verification/test_wp05e_cross_family.py",
+    "tests/verification/test_wp05cde_integration.py"
+  ]
+},
+{
+  "id": "DOC-029-WP05-CDE-OWNER-INTEGRATION-001",
+  "path": "verification/0_2_9/wp05-cde-owner-integration.md",
+  "title": "QF Solver 0.2.9 WP05-C/D/E Owner-approved bounded integration",
+  "status": "owner_approved_with_limitations_local_unpushed",
+  "requirements": [],
+  "examples": [
+    "qualification/0_2_9/wp05cde_integration/wp05_cde_integration_audit.json",
+    "qualification/0_2_9/owner_decisions.json",
+    "qualification/0_2_9/progress.json"
+  ],
+  "tests": [
+    "tests/verification/test_wp05cde_integration.py",
+    "tests/verification/test_wp05e_cross_family.py"
+  ]
 }
   ]
   

@@ -7,6 +7,29 @@ applicable_version: 0.2.9-development
 
 # 0.2.9 Owner decision log
 
+## WP05-C/D/E bounded closure decision
+
+**Status:** CLOSED — `APPROVED_WITH_LIMITATIONS`; local integrated WP05 score
+**5/5**, local validated total **61/100** (58/100 before integration).
+
+The Owner authorized integration of the passed WP05-C TET10 structural
+campaign, accepted WP05-D at 1/1 within its documented HEX20 scope, and
+accepted WP05-E at 1/1 candidate after the WP05-C/D evidence was integrated.
+The cross-family stress gate is specific to the common historical
+`representative_sigma_xx` observable. The HEX20-only clipped-window stress
+value is excluded from E.
+
+The Owner directs that Code_Aster or another external-solver comparison be
+performed later. That correlation is deferred future V&V, not claimed by this
+bounded closure. No general element-family or stress-field equivalence is
+asserted. Historical WP05-D `FAIL_CLOSED` evidence remains preserved.
+
+This decision updates the local integration ledger only. No push was
+authorized or performed; the remote governing total remains **58/100** until
+publication. The evidence, comparisons and retained limitations are recorded
+in the [WP05-C/D/E integration audit](wp05-cde-owner-integration.md) and
+`qualification/0_2_9/wp05cde_integration/wp05_cde_integration_audit.json`.
+
 ## WP08 closure decision
 
 **Status:** CLOSED — `APPROVED_WITH_LIMITATIONS`.

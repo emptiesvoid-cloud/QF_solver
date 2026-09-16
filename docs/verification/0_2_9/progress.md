@@ -15,13 +15,31 @@ applicable_version: 0.2.9-development
 | WP03 | 7 | **Closed** — 7/7; independent WP03-E audit `GO_WITH_LIMITATIONS` |
 | WP04 | 12 | **Closed — 12/12; independent WP04-F `GO_WITH_LIMITATIONS` audit** |
 | WP15 | 2 | **Closed — 2/2; governing-branch telemetry integration validated** |
-| WP05 | 5 | **Partial — 2/5; A/B high-order identities integrated and revalidated** |
+| WP05 | 5 | **Closed — 5/5, bounded with limitations; C/D structural qualification and E cross-family closure accepted** |
 | WP06 | 8 | Not started |
 | WP07 | 10 | **Partial — 5/10; A/B/C integrated and revalidated; D/E unrun** |
 | WP08 | 8 | **Closed — 8/8; Owner-approved with limitations** |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
-| **Validated total** | **58 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6 + WP03 7/7 + WP04 12/12 + WP15 2/2 + WP05 A/B 2/5 + WP07 A/B/C 5/10 + WP08 A–E 8/8** |
+| **Validated total (local integration)** | **61 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6 + WP03 7/7 + WP04 12/12 + WP15 2/2 + WP05 A–E 5/5 + WP07 A/B/C 5/10 + WP08 A–E 8/8** |
+
+The local WP05-C/D/E integration is based on governing SHA
+`a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe`. It awards three additional
+bounded points, moving the local total from 58/100 to 61/100. The governing
+remote has not been pushed and remains at 58/100. See the [WP05-C/D/E Owner
+integration audit](wp05-cde-owner-integration.md).
+
+## WP05 bounded closure
+
+WP05-C TET10 H1/H2/H3, WP05-D HEX20 H1/H2/H3, and the evidence-only WP05-E
+H3 cross-family comparison are accepted within their frozen benchmark and
+observable scope. Historical WP05-D `FAIL_CLOSED` evidence remains preserved.
+WP05-E uses the historical common `representative_sigma_xx`; the HEX20-only
+clipped-window value is not substituted. The observed 5.2784% stress
+agreement is not a general stress-field equivalence claim. Code_Aster or
+another external-solver comparison is deferred to future V&V and remains
+explicitly unclaimed. See the [WP05-C report](wp05-c-tet10-formal-requalification.md),
+[WP05-D Owner review](wp05d-owner-validation-review.md), and [WP05-E closure](wp05-e-cross-family-closure.md).
 
 WP07-A/B/C are **FORMAL PASS — 5/10** after the non-fast-forward
 integration of child head `3bdcc84907a045e7815d6d5253bf4e2eed74970e` into the
