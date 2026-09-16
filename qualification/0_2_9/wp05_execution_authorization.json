@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "record_type": "wp05_structural_execution_authorization",
+  "release": "0.2.9",
+  "campaign": "WP05-C/D/E",
+  "authorization_basis": "explicit_owner_instruction_in_current_task",
+  "owner_instruction": "Ok on lance ca",
+  "structural_solves_allowed": true,
+  "allowed_order": [
+    "WP05-C:TET10:H1,H2,H3",
+    "WP05-D:HEX20:H1,H2,H3",
+    "WP05-E:cross-family:H3-only-if-C-and-D-pass"
+  ],
+  "governing_branch": "0.2.9-unified-nonlinear",
+  "authorized_governing_sha": "a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe",
+  "contract_path": "qualification/0_2_9/wp05_cd_structural_contract.json",
+  "contract_sha256": "e8ce5ed095bf3f142b64d5a5838682c638478a5a92c8330a10af88584f52d680",
+  "policy_digest": "895d3c932278c0207b207318216c263a427636d57738bef730917fdc7d9b0ef5",
+  "production_mechanics_changes_allowed": false,
+  "thresholds_changes_allowed": false,
+  "mesh_changes_allowed": false,
+  "loads_material_bc_changes_allowed": false,
+  "fallback_changes_allowed": false,
+  "full_repository_suite_allowed": false,
+  "single_cpu_required": true,
+  "official_points_update_allowed": false,
+  "owner_review_required_after_evidence": true
+}
