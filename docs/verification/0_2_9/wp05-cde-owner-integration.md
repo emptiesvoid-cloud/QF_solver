@@ -21,8 +21,9 @@ externe est donc différée ; aucune corrélation externe n’est revendiquée.
 | WP05-E | Comparaison inter-familles H3 ; cinq métriques dans les seuils ; décision Owner ACCEPT | 1/1 |
 | **WP05** | **Clôture bornée avec limitations** | **5/5** |
 
-Le total de branche après intégration locale est **61/100**. L’intégration est
-un fast-forward local depuis la base governing autorisée
+Le total de branche après intégration locale est **61/100**. La branche locale
+`0.2.9-unified-nonlinear` a été fast-forwardée jusqu’à
+`a61cb0bc96a14e3a44aa4fd8458a28b82c87e462`, depuis la base governing autorisée
 `a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe`. Le remote n’a pas été modifié :
 `origin/0.2.9-unified-nonlinear` reste à cette base et son total publié reste
 58/100 jusqu’au push. Aucun push n’a été effectué dans cette étape.

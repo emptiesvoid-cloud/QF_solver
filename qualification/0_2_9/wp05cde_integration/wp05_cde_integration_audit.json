@@ -2,14 +2,15 @@
   "schema_version": "1.0",
   "evidence_id": "VNV029-WP05-CDE-OWNER-INTEGRATION-001",
   "release": "0.2.9",
-  "status": "LOCAL_INTEGRATION_ACCEPTED_WITH_LIMITATIONS",
+  "status": "LOCAL_GOVERNING_INTEGRATION_COMPLETE_UNPUSHED",
   "integration": {
-    "mode": "LOCAL_FAST_FORWARD_CANDIDATE",
+    "mode": "LOCAL_FAST_FORWARD_COMPLETE_UNPUSHED",
     "governing_branch": "0.2.9-unified-nonlinear",
     "authorized_base_sha": "a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe",
     "execution_sha": "72282a6ca6e6574a32c6182eccb001d9816febbc",
     "source_branch": "codex/wp05d-formal-requalification",
-    "evidence_commit_sha": "PENDING_LOCAL_COMMIT",
+    "evidence_commit_sha": "a61cb0bc96a14e3a44aa4fd8458a28b82c87e462",
+    "local_governing_head_after_fast_forward": "a61cb0bc96a14e3a44aa4fd8458a28b82c87e462",
     "remote_head_before": "a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe",
     "remote_head_after": "a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe",
     "push_performed": false
