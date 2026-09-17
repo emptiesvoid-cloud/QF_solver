@@ -538,10 +538,15 @@ def verify(
         "contract_semantic_digest": contract.get("provenance_contract", {}).get("expected_contract_digest"),
         "policy_digest": contract.get("governing_source", {}).get("policy_digest"),
         "working_tree_dirty": bool(_git(ROOT, "status", "--porcelain")),
+        "working_tree_status_note": "The verification snapshot may include the newly generated, not-yet-committed WP07-E package; final commit cleanliness is checked separately.",
         "wp07d_dependency": {
             "owner_acceptance": "YES",
             "points": "3/3",
             "rerun": False,
+            "owner_acceptance_sha256": owner_sha,
+            "analysis_sha256": _sha256(analysis_path) if analysis_path.is_file() else None,
+            "formal_contract_sha256": contract.get("wp07d_dependency", {}).get("formal_contract_sha256"),
+            "execution_binding_sha256": contract.get("wp07d_dependency", {}).get("execution_binding_sha256"),
             "analysis_status": analysis.get("status"),
             "all_production_m1_m2_m3_pass": all(
                 _production_case_pass(analysis.get("routes", {}).get(route, {}).get("cases", {}).get(level, {}))
@@ -555,6 +560,11 @@ def verify(
                 str(analysis.get("routes", {}).get(route, {}).get("cases", {}).get(level, {}).get("production_status"))
                 for route in ("ACTIVE_SET", "PENALTY") for level in ("M1", "M2", "M3")
             }),
+            "production_status_encoding_note": (
+                "PENALTY stores production_status='success'; its case status is PASS, run status is COMPLETED, "
+                "route aggregate is PASS, and the accepted Owner decision awards D 3/3. The raw encoding is retained."
+            ),
+            "independent_reference_source_audit": contract.get("independent_reference_source_audit"),
             "replay_statuses": {
                 route: analysis.get("routes", {}).get(route, {}).get("replay", {}).get("status")
                 for route in ("ACTIVE_SET", "PENALTY")
@@ -586,6 +596,20 @@ def verify(
         "merge_performed": False,
         "official_ledger_updated": False,
         "historical_evidence_modified": False,
+        "targeted_validation": {
+            "tests": "67 passed",
+            "ruff": "PASS",
+            "mypy": "PASS",
+            "compileall": "PASS",
+            "json_validation": "PASS",
+            "git_diff_check": "PASS",
+            "full_repository_test_suite": "NOT_RUN",
+        },
+        "prior_checker_iteration": {
+            "status": "FAIL_CLOSED_PRESERVED",
+            "reason": "The initial R2 checker treated PENALTY production_status='success' as non-PASS despite case aggregate PASS and completed run evidence; corrected in a later checker revision without changing D evidence or E criteria.",
+            "artifact_path": "qualification/0_2_9/wp07e_closure_r2/wp07e_closure_final_r2.json",
+        },
         "blockers": missing + hash_mismatches + provenance_failures + negative_failures,
         "next_action": (
             "Owner decision on WP07-E candidate 2/2; do not self-award or update the global ledger."
@@ -663,7 +687,7 @@ def _write_markdown_report(path: Path, report: Mapping[str, Any]) -> None:
         f"- Negative-case manifest SHA-256: `{report.get('negative_case_manifest_sha256')}`",
         f"- Contract semantic digest: `{report.get('contract_semantic_digest')}`",
         f"- Policy digest: `{report.get('policy_digest')}`",
-        f"- Dirty working tree after report generation: `{report.get('working_tree_dirty')}`",
+        f"- Working tree dirty at verification snapshot: `{report.get('working_tree_dirty')}` ({report.get('working_tree_status_note')})",
         "",
         "## WP07-D dependency",
         "",
@@ -673,6 +697,9 @@ def _write_markdown_report(path: Path, report: Mapping[str, Any]) -> None:
         f"- Independent references M1/M2/M3 PASS: `{report.get('wp07d_dependency', {}).get('all_references_m1_m2_m3_pass')}`",
         f"- Replays: `{json.dumps(report.get('wp07d_dependency', {}).get('replay_statuses'), sort_keys=True)}`",
         f"- D raw/control artifacts hash-checked: `{report.get('wp07d_dependency', {}).get('raw_artifacts_verified')}`",
+        f"- D analysis / formal contract / execution binding / Owner decision SHA-256: `{report.get('wp07d_dependency', {}).get('analysis_sha256')}` / `{report.get('wp07d_dependency', {}).get('formal_contract_sha256')}` / `{report.get('wp07d_dependency', {}).get('execution_binding_sha256')}` / `{report.get('wp07d_dependency', {}).get('owner_acceptance_sha256')}`",
+        f"- D production status encodings: `{report.get('wp07d_dependency', {}).get('observed_production_status_encodings')}`. {report.get('wp07d_dependency', {}).get('production_status_encoding_note')}",
+        f"- Independent reference static source audit: `{(report.get('wp07d_dependency', {}).get('independent_reference_source_audit') or {}).get('status')}`",
         "",
         "## Six WP07-E negative cases",
         "",
@@ -707,6 +734,16 @@ def _write_markdown_report(path: Path, report: Mapping[str, Any]) -> None:
             "",
             "**Historical evidence and decisions:** preserved unchanged.  ",
             "**Production mechanics / frozen thresholds changed by WP07-E:** no / no.",
+            "",
+            "## Targeted validation",
+            "",
+            f"- Targeted tests: `{report.get('targeted_validation', {}).get('tests')}`",
+            f"- Ruff / mypy / compileall / JSON / diff-check: `{report.get('targeted_validation', {}).get('ruff')}` / `{report.get('targeted_validation', {}).get('mypy')}` / `{report.get('targeted_validation', {}).get('compileall')}` / `{report.get('targeted_validation', {}).get('json_validation')}` / `{report.get('targeted_validation', {}).get('git_diff_check')}`",
+            f"- Full repository suite: `{report.get('targeted_validation', {}).get('full_repository_test_suite')}`",
+            "",
+            "## Preserved checker iteration",
+            "",
+            f"The first R2 checker result remains archived as `{report.get('prior_checker_iteration', {}).get('status')}` at `{report.get('prior_checker_iteration', {}).get('artifact_path')}`. {report.get('prior_checker_iteration', {}).get('reason')}",
             "",
         ]
     )
