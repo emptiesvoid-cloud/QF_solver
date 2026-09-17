@@ -9,6 +9,7 @@ import hashlib
 import json
 import subprocess
 from pathlib import Path
+from collections.abc import Sequence
 from typing import Any
 
 
@@ -89,15 +90,81 @@ def _is_ancestor(root: Path, ancestor: str, descendant: str) -> bool:
     return result.returncode == 0
 
 
-def _static_imports(path: Path) -> list[str]:
-    tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+def _imports_in(nodes: Sequence[ast.AST]) -> list[str]:
     imports: set[str] = set()
-    for node in ast.walk(tree):
+    for root in nodes:
+        for node in ast.walk(root):
+            if isinstance(node, ast.Import):
+                imports.update(alias.name for alias in node.names)
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                imports.add(node.module)
+    return sorted(imports)
+
+
+def _module_imports(nodes: Sequence[ast.AST]) -> list[str]:
+    imports: set[str] = set()
+    for node in nodes:
         if isinstance(node, ast.Import):
             imports.update(alias.name for alias in node.names)
         elif isinstance(node, ast.ImportFrom) and node.module:
             imports.add(node.module)
     return sorted(imports)
+
+
+def _source_import_audit(reference: Path, helpers: list[Path]) -> dict[str, Any]:
+    reference_tree = ast.parse(reference.read_text(encoding="utf-8"), filename=str(reference))
+    module_imports = _module_imports(reference_tree.body)
+    helper_roots: dict[Path, set[str]] = {path: set() for path in helpers}
+    for node in reference_tree.body:
+        if not isinstance(node, ast.ImportFrom) or not node.module:
+            continue
+        for helper in helpers:
+            if node.module == f"scripts.{helper.stem}":
+                helper_roots[helper].update(alias.name for alias in node.names)
+
+    audit: dict[str, Any] = {
+        reference.name: {"module_level_imports": module_imports, "reachable_helper_function_imports": []}
+    }
+    for helper, roots in helper_roots.items():
+        tree = ast.parse(helper.read_text(encoding="utf-8"), filename=str(helper))
+        definitions = {
+            node.name: node
+            for node in tree.body
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+        }
+        reachable: set[str] = set()
+        pending = [name for name in roots if name in definitions]
+        while pending:
+            name = pending.pop()
+            if name in reachable:
+                continue
+            reachable.add(name)
+            definition = definitions[name]
+            pending.extend(
+                node.func.id
+                for node in ast.walk(definition)
+                if isinstance(node, ast.Call)
+                and isinstance(node.func, ast.Name)
+                and node.func.id in definitions
+                and node.func.id not in reachable
+            )
+        module_level_imports = _module_imports(tree.body)
+        reachable_imports = _imports_in([definitions[name] for name in sorted(reachable)])
+        audit[helper.name] = {
+            "module_level_imports": module_level_imports,
+            "reachable_helper_functions": sorted(reachable),
+            "reachable_helper_function_imports": reachable_imports,
+        }
+    return audit
+
+
+def _is_forbidden_production_import(module: str) -> bool:
+    return (
+        module == "solveur.contact"
+        or module.startswith("solveur.contact.")
+        or module == "solveur.core.analyses"
+        or module.startswith("solveur.core.analyses.")
+    )
 
 
 def _digest_contract(contract: dict[str, Any]) -> str:
@@ -246,18 +313,13 @@ def freeze(d_source_root: Path, owner_acceptance_source: Path) -> tuple[Path, Pa
         d_root / "scripts/prepare_wp07d_structural_vnv.py",
         d_root / "scripts/wp07d_execution_binding.py",
     ]
-    reference_import_audit = {
-        path.name: _static_imports(path)
-        for path in [independent_reference, *reference_helpers]
-    }
+    reference_import_audit = _source_import_audit(independent_reference, reference_helpers)
     forbidden_imports = sorted(
         f"{filename}:{module}"
-        for filename, modules in reference_import_audit.items()
+        for filename, details in reference_import_audit.items()
+        for modules in (details.get("module_level_imports", []), details.get("reachable_helper_function_imports", []))
         for module in modules
-        if module == "solveur.contact"
-        or module.startswith("solveur.contact.")
-        or module == "solveur.core.analyses"
-        or module.startswith("solveur.core.analyses.")
+        if _is_forbidden_production_import(module)
     )
     if forbidden_imports:
         raise RuntimeError(
