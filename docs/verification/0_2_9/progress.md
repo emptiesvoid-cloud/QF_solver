@@ -16,7 +16,7 @@ applicable_version: 0.2.9-development
 | WP04 | 12 | **Closed — 12/12; independent WP04-F `GO_WITH_LIMITATIONS` audit** |
 | WP15 | 2 | **Closed — 2/2; governing-branch telemetry integration validated** |
 | WP05 | 5 | **Closed — 5/5, bounded with limitations; C/D structural qualification and E cross-family closure accepted** |
-| WP06 | 8 | Not started |
+| WP06 | 8 | Preparation integrated locally; formal qualification not started (0/8); historical D failure preserved |
 | WP07 | 10 | **Partial — 5/10; A/B/C integrated and revalidated; D/E unrun** |
 | WP08 | 8 | **Closed — 8/8; Owner-approved with limitations** |
 | WP09 | 8 | Blocked by OD-029-01 |
