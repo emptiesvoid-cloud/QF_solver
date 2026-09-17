@@ -92,6 +92,22 @@ def _expected_negative_cases(contract: Mapping[str, Any]) -> dict[str, set[str]]
     return cases
 
 
+def _production_case_pass(case: Mapping[str, Any]) -> bool:
+    return (
+        case.get("status") == "PASS"
+        and case.get("production_status") in {"PASS", "success"}
+        and case.get("production_run_status") == "COMPLETED"
+    )
+
+
+def _reference_case_pass(case: Mapping[str, Any]) -> bool:
+    return (
+        case.get("status") == "PASS"
+        and case.get("reference_status") == "PASS"
+        and case.get("reference_run_status") == "COMPLETED"
+    )
+
+
 def _status_from_checks(
     *, missing: list[str], hash_mismatches: list[str], provenance_failures: list[str], negative_failures: list[str],
 ) -> tuple[str, str]:
@@ -273,7 +289,7 @@ def _analysis_link_checks(analysis: Mapping[str, Any], d_root: Path, binding: Ma
                     continue
                 if artifact_hashes.get(rel) != expected:
                     errors.append(f"analysis-linked hash is not present in R2 manifest: {rel}")
-            if case.get("status") != "PASS" or case.get("production_status") != "PASS" or case.get("reference_status") != "PASS":
+            if not _production_case_pass(case) or not _reference_case_pass(case):
                 errors.append(f"D production/reference case is not PASS: {route}/{level}")
             if case.get("problems"):
                 errors.append(f"D case has recorded problems: {route}/{level}")
@@ -528,13 +544,17 @@ def verify(
             "rerun": False,
             "analysis_status": analysis.get("status"),
             "all_production_m1_m2_m3_pass": all(
-                analysis.get("routes", {}).get(route, {}).get("cases", {}).get(level, {}).get("production_status") == "PASS"
+                _production_case_pass(analysis.get("routes", {}).get(route, {}).get("cases", {}).get(level, {}))
                 for route in ("ACTIVE_SET", "PENALTY") for level in ("M1", "M2", "M3")
             ),
             "all_references_m1_m2_m3_pass": all(
-                analysis.get("routes", {}).get(route, {}).get("cases", {}).get(level, {}).get("reference_status") == "PASS"
+                _reference_case_pass(analysis.get("routes", {}).get(route, {}).get("cases", {}).get(level, {}))
                 for route in ("ACTIVE_SET", "PENALTY") for level in ("M1", "M2", "M3")
             ),
+            "observed_production_status_encodings": sorted({
+                str(analysis.get("routes", {}).get(route, {}).get("cases", {}).get(level, {}).get("production_status"))
+                for route in ("ACTIVE_SET", "PENALTY") for level in ("M1", "M2", "M3")
+            }),
             "replay_statuses": {
                 route: analysis.get("routes", {}).get(route, {}).get("replay", {}).get("status")
                 for route in ("ACTIVE_SET", "PENALTY")
