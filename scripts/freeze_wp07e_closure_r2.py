@@ -77,6 +77,18 @@ def _git_is_clean(root: Path, pathspec: str) -> bool:
     return not status
 
 
+def _is_ancestor(root: Path, ancestor: str, descendant: str) -> bool:
+    result = subprocess.run(
+        ["git", "-C", str(root), "merge-base", "--is-ancestor", ancestor, descendant],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode not in (0, 1):
+        raise RuntimeError(f"git ancestry check failed: {result.stderr.strip()}")
+    return result.returncode == 0
+
+
 def _static_imports(path: Path) -> list[str]:
     tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
     imports: set[str] = set()
@@ -114,8 +126,9 @@ def freeze(d_source_root: Path, owner_acceptance_source: Path) -> tuple[Path, Pa
     owner_source = owner_acceptance_source.resolve(strict=True)
     if R2_DIR.exists():
         raise FileExistsError(f"Refusing to overwrite existing WP07-E R2 package: {R2_DIR}")
-    if _git(ROOT, "rev-parse", "HEAD") != EXPECTED_GOVERNING_SHA:
-        raise RuntimeError("WP07-E R2 must be frozen from the reviewed governing base SHA.")
+    root_head = _git(ROOT, "rev-parse", "HEAD")
+    if not _is_ancestor(ROOT, EXPECTED_GOVERNING_SHA, root_head):
+        raise RuntimeError("WP07-E R2 branch is not descended from the reviewed governing base SHA.")
     if _git(d_root, "rev-parse", "HEAD") != EXPECTED_D_SHA:
         raise RuntimeError("WP07-D evidence checkout is not at the accepted execution SHA.")
     if not _git_is_clean(d_root, "src"):
