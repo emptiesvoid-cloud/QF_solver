@@ -323,10 +323,6 @@ def _verify_negative_cases(
     observed_runner_source_hash = hashlib.sha256(runner_blob).hexdigest()
     if manifest.get("runner_script_sha256") != observed_runner_source_hash:
         failures.append("runner source hash does not match its execution commit")
-    if not Path(__file__).is_file() or _sha256(Path(__file__).resolve()) != hashlib.sha256(
-        _git_bytes(ROOT, "show", f"{expected_runner_sha}:scripts/verify_wp07e_closure_r2.py")
-    ).hexdigest():
-        failures.append("closure checker source differs from the pinned execution commit")
     cases = _expected_negative_cases(contract)
     entries = manifest.get("cases") if isinstance(manifest, Mapping) else None
     if not isinstance(entries, list):
@@ -433,8 +429,12 @@ def verify(
     )
     if ancestor_check.returncode != 0:
         raise ValueError("Pinned negative-case runner SHA is not an ancestor of the current E branch HEAD.")
+    checker_source = Path(__file__).resolve()
+    checker_sha256 = _sha256(checker_source)
+    if hashlib.sha256(_git_bytes(ROOT, "show", f"{current_head}:scripts/verify_wp07e_closure_r2.py")).hexdigest() != checker_sha256:
+        raise ValueError("Closure checker source is not committed at the verification HEAD.")
     contract_errors = _verify_contract(
-        contract,
+        contract_path,
         binding,
         ROOT / "qualification/0_2_9/wp07e_closure_contract.json",
     )
@@ -509,6 +509,8 @@ def verify(
         "work_package": "WP07-E",
         "branch": _git(ROOT, "branch", "--show-current"),
         "execution_sha": expected_runner_sha,
+        "checker_execution_sha": current_head,
+        "checker_source_sha256": checker_sha256,
         "head_at_verification": current_head,
         "governing_branch": contract.get("governing_source", {}).get("branch"),
         "governing_sha": contract.get("governing_source", {}).get("sha"),
@@ -633,6 +635,7 @@ def _write_markdown_report(path: Path, report: Mapping[str, Any]) -> None:
         "",
         f"- E branch / HEAD at verification: `{report.get('branch')}` / `{report.get('head_at_verification')}`",
         f"- Negative-case runner execution SHA: `{report.get('execution_sha')}`",
+        f"- Closure checker SHA / source SHA-256: `{report.get('checker_execution_sha')}` / `{report.get('checker_source_sha256')}`",
         f"- Governing branch / SHA: `{report.get('governing_branch')}` / `{report.get('governing_sha')}`",
         f"- Accepted D execution SHA: `{report.get('d_execution_sha')}`",
         f"- Contract SHA-256: `{report.get('contract_file_sha256')}`",
