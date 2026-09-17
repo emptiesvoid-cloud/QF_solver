@@ -738,7 +738,7 @@ def _write_markdown_report(path: Path, report: Mapping[str, Any]) -> None:
             "",
             "The global total is intentionally not changed: the available Owner and local integrated ledgers report different baselines and require separate reconciliation.",
             "",
-            "**Historical evidence and decisions:** preserved unchanged.  ",
+            "**Historical evidence and decisions:** preserved unchanged.",
             "**Production mechanics / frozen thresholds changed by WP07-E:** no / no.",
             "",
             "## Targeted validation",
