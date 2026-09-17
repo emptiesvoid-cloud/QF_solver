@@ -7,6 +7,8 @@ import math
 from scripts.verify_wp07e_closure_r2 import (
     _expected_negative_cases,
     _finite,
+    _production_case_pass,
+    _reference_case_pass,
     _status_from_checks,
 )
 
@@ -81,3 +83,16 @@ def test_wp07e_contract_requires_exact_six_negative_cases() -> None:
         "nonfinite_observable",
         "incompatible_restart_metadata",
     }
+
+
+def test_wp07d_accepted_penalty_status_encoding_is_not_misclassified() -> None:
+    case = {
+        "status": "PASS",
+        "production_status": "success",
+        "production_run_status": "COMPLETED",
+        "reference_status": "PASS",
+        "reference_run_status": "COMPLETED",
+    }
+    assert _production_case_pass(case)
+    assert _reference_case_pass(case)
+    assert not _production_case_pass({**case, "production_status": "failed"})
