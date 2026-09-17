@@ -66,7 +66,7 @@ D is reused from its accepted R1 evidence; no structural rerun was performed.
 
 The global total is intentionally not changed: the available Owner and local integrated ledgers report different baselines and require separate reconciliation.
 
-**Historical evidence and decisions:** preserved unchanged.  
+**Historical evidence and decisions:** preserved unchanged.
 **Production mechanics / frozen thresholds changed by WP07-E:** no / no.
 
 ## Targeted validation
