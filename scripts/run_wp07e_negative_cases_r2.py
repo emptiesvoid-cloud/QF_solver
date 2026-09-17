@@ -68,17 +68,20 @@ def _load_d_modules(source_root: Path) -> dict[str, Any]:
     )
     if clean_check.returncode != 0:
         raise RuntimeError("Tracked WP07-D production source has local modifications.")
-    d_root = str(source_root.resolve())
+    d_root = source_root.resolve()
+    d_src = d_root / "src"
+    if not d_src.is_dir():
+        raise RuntimeError(f"The accepted WP07-D checkout has no src package directory: {d_src}")
     current = sys.modules.get("solveur")
     if current is not None:
         module_file = getattr(current, "__file__", None)
         if not isinstance(module_file, str):
             raise RuntimeError("The already-loaded solveur package has no concrete source path.")
         module_path = Path(module_file).resolve()
-        if not module_path.is_relative_to(source_root.resolve()):
+        if not module_path.is_relative_to(d_src):
             raise RuntimeError(f"A different solveur package is already loaded: {module_path}")
-    elif d_root not in sys.path:
-        sys.path.insert(0, d_root)
+    elif str(d_src) not in sys.path:
+        sys.path.insert(0, str(d_src))
 
     from solveur.contact.evaluation import (  # noqa: PLC0415
         PenaltyContactRestartMetadata,
