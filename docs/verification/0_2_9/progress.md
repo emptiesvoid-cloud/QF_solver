@@ -16,7 +16,7 @@ applicable_version: 0.2.9-development
 | WP04 | 12 | **Closed — 12/12; independent WP04-F `GO_WITH_LIMITATIONS` audit** |
 | WP15 | 2 | **Closed — 2/2; governing-branch telemetry integration validated** |
 | WP05 | 5 | **Closed — 5/5, bounded with limitations; C/D structural qualification and E cross-family closure accepted** |
-| WP06 | 8 | **Owner accepted A/B/C — 4/8 with limitations**; D R2 execution not authorized; historical D failure preserved |
+| WP06 | 8 | **Owner accepted A/B/C — 4/8 with limitations**; R2 guard hardened, but contract/runner absent and execution not authorized; historical D failure preserved |
 | WP07 | 10 | **Owner accepted — 10/10 with bounded limitations; A–E closed** |
 | WP08 | 8 | **Closed — 8/8; Owner-approved with limitations** |
 | WP09 | 8 | Blocked by OD-029-01 |
@@ -76,6 +76,10 @@ failure remains untouched. R2 execution is not ready: it still needs a frozen
 current-source contract and exact Owner authorization. The safety regression
 selection passed 145 tests; no structural solve was run. See the
 [WP06-D R2 safety preparation](wp06d-r2-runner-safety-preparation.md).
+The standalone R2 authorization helper has since been hardened to query Git
+provenance directly and to constrain contracts, grants and output paths. It is
+not yet invoked by a dedicated R2 runner; no R2 contract is frozen and D
+execution remains unauthorized. See the [guard hardening audit](wp06d-r2-guard-hardening.md).
 
 ## WP08 closure
 

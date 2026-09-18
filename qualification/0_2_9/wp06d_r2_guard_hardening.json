@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0.2.9-WP06D-R2-GUARD-HARDENING-001",
+  "status": "PREPARATION_ONLY_GUARD_HARDENED",
+  "provenance": {
+    "repository": "emptiesvoid-cloud/QF_solver",
+    "branch": "codex/wp06-score-requalification",
+    "guard_implementation_sha": "e5b821af2b2a93aade2d7d8119b5dc2494e50892",
+    "governing_branch_sha": "915d0d4e8a8df462d7928f77b96f4480f53fbae7",
+    "governing_remote_updated": false
+  },
+  "owner_ledger": {
+    "WP06_ABC_OFFICIAL_POINTS": "4/8",
+    "GLOBAL_OFFICIAL_TOTAL_LOCAL": "70/100",
+    "WP06D_R2_EXECUTION_AUTHORIZED": false
+  },
+  "historical_r1": {
+    "M2_STATUS": "FAIL_CLOSED",
+    "accepted_steps": 80,
+    "lambda_turning_demonstrated": false,
+    "moment_equilibrium_relative_error": 2.438196359642231e-05,
+    "moment_equilibrium_threshold": 1e-8,
+    "moment_error_to_gate_ratio": 2438.196359642231,
+    "monitor_mismatch": {
+      "contract": "negative mean UZ over crown nodes 2, 3, 4",
+      "runner": "single node-4 control displacement",
+      "impact": "declared observable not recorded; mechanical-path impact not established"
+    },
+    "full_accepted_displacement_states_in_authoritative_raw": false,
+    "per_state_moment_cause": "UNRESOLVED",
+    "limit_point_helper_contract_match": false,
+    "historical_evidence_rewritten": false
+  },
+  "guard_changes": {
+    "queries_git_root_branch_head_dirty_state": true,
+    "rejects_caller_provenance_mismatch": true,
+    "requires_committed_contract": true,
+    "requires_external_owner_grant": true,
+    "requires_contract_revision": "WP06D-R2",
+    "restricts_output_to_new_wp06d_r2_runs_child": true,
+    "rejects_output_reuse_or_symlink": true,
+    "integrated_into_r2_runner": false
+  },
+  "verification": {
+    "test_command": "python -m pytest -q tests/unit/test_wp06_premerge_tools.py tests/unit/test_wp06d_structural_limit_point_contract.py",
+    "tests_passed": 30,
+    "failures": 0,
+    "ruff": "PASS",
+    "mypy": "PASS — 2 files",
+    "compileall": "PASS",
+    "json_validation": "PASS",
+    "documentation_generation_tests_passed": 17,
+    "documentation_generation_tests_skipped": 2,
+    "git_diff_check": "PASS",
+    "full_repository_suite": "NOT_RUN"
+  },
+  "governance": {
+    "structural_solves_run": false,
+    "reference_solves_run": false,
+    "replay_run": false,
+    "production_mechanics_changed": false,
+    "thresholds_changed": false,
+    "WP06D_formal_points": "0/2",
+    "R2_contract": "NOT_CREATED",
+    "R2_runner": "NOT_CREATED",
+    "historical_failures_preserved": true,
+    "merge": "NOT_PERFORMED",
+    "push": "NOT_PERFORMED"
+  },
+  "next_gate": "Prepare a bound WP06-D R2 contract and dedicated checkpointed runner; obtain separate explicit Owner authorization before any structural solve."
+}
