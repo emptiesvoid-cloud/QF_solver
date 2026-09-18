@@ -156,16 +156,22 @@ def test_phase1_guard_rejects_missing_r2_contract_before_execution(tmp_path) -> 
     assert not (tmp_path / "new-run").exists()
 
 
-def test_phase1_guard_binds_owner_grant_and_refuses_existing_output(tmp_path) -> None:
+def _phase1_git_fixture(tmp_path):
     import hashlib
     import json
+    import subprocess
 
-    contract_path = tmp_path / "contract.json"
-    authorization_path = tmp_path / "owner.json"
-    output_root = tmp_path / "run"
-    source_sha = "a" * 40
-    branch = "codex/wp06-score-requalification"
+    repo = tmp_path / "repository"
+    repo.mkdir()
+    subprocess.run(["git", "init", "--quiet"], cwd=repo, check=True)
+    subprocess.run(["git", "checkout", "--quiet", "-b", "wp06d-r2-test"], cwd=repo, check=True)
+    subprocess.run(["git", "config", "user.name", "WP06 test"], cwd=repo, check=True)
+    subprocess.run(["git", "config", "user.email", "wp06-test@example.invalid"], cwd=repo, check=True)
+
+    contract_path = repo / "qualification" / "0_2_9" / "wp06d_r2_execution_contract.json"
+    contract_path.parent.mkdir(parents=True)
     contract = {
+        "contract_revision": "WP06D-R2",
         "phase": "PHASE_1_EXECUTION",
         "status": "FROZEN_FOR_EXECUTION",
         "solver_policy_digest": "b" * 64,
@@ -173,9 +179,20 @@ def test_phase1_guard_binds_owner_grant_and_refuses_existing_output(tmp_path) ->
     }
     contract_bytes = (json.dumps(contract, sort_keys=True) + "\n").encode("utf-8")
     contract_path.write_bytes(contract_bytes)
+    subprocess.run(["git", "add", str(contract_path.relative_to(repo))], cwd=repo, check=True)
+    subprocess.run(["git", "commit", "--quiet", "-m", "freeze WP06-D R2 test contract"], cwd=repo, check=True)
+
+    source_sha = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=repo, check=True, capture_output=True, text=True
+    ).stdout.strip()
+    branch = subprocess.run(
+        ["git", "branch", "--show-current"], cwd=repo, check=True, capture_output=True, text=True
+    ).stdout.strip()
+    authorization_path = tmp_path / "owner-grant.json"
     authorization = {
         "status": "AUTHORIZED",
         "owner_authorized": True,
+        "contract_revision": "WP06D-R2",
         "branch": branch,
         "source_sha": source_sha,
         "contract_sha256": hashlib.sha256(contract_bytes).hexdigest(),
@@ -184,27 +201,41 @@ def test_phase1_guard_binds_owner_grant_and_refuses_existing_output(tmp_path) ->
         "m3_conditional_on_m1_m2_reference_replay": True,
     }
     authorization_path.write_text(json.dumps(authorization), encoding="utf-8")
+    return {
+        "repo": repo,
+        "contract_path": contract_path,
+        "authorization_path": authorization_path,
+        "output_root": repo / "qualification" / "0_2_9" / "wp06d_r2_runs" / "test-run",
+        "source_sha": source_sha,
+        "branch": branch,
+        "authorization": authorization,
+    }
 
+
+def test_phase1_guard_binds_owner_grant_and_refuses_existing_output(tmp_path) -> None:
+    fixture = _phase1_git_fixture(tmp_path)
     result = validate_phase1_authorization(
-        contract_path=contract_path,
-        authorization_path=authorization_path,
-        output_root=output_root,
-        source_sha=source_sha,
-        branch=branch,
+        contract_path=fixture["contract_path"],
+        authorization_path=fixture["authorization_path"],
+        output_root=fixture["output_root"],
+        source_sha=fixture["source_sha"],
+        branch=fixture["branch"],
         working_tree_clean=True,
     )
     assert result["status"] == "AUTHORIZED_PREFLIGHT_PASS"
+    assert result["source_sha"] == fixture["source_sha"]
+    assert result["branch"] == fixture["branch"]
     assert result["authorized_levels"] == ["M1", "M2", "M3"]
-    assert not output_root.exists()
+    assert not fixture["output_root"].exists()
 
-    output_root.mkdir()
+    fixture["output_root"].mkdir(parents=True)
     with pytest.raises(FileExistsError, match="Refusing to reuse or overwrite"):
         validate_phase1_authorization(
-            contract_path=contract_path,
-            authorization_path=authorization_path,
-            output_root=output_root,
-            source_sha=source_sha,
-            branch=branch,
+            contract_path=fixture["contract_path"],
+            authorization_path=fixture["authorization_path"],
+            output_root=fixture["output_root"],
+            source_sha=fixture["source_sha"],
+            branch=fixture["branch"],
             working_tree_clean=True,
         )
 
@@ -219,46 +250,69 @@ def test_phase1_guard_binds_owner_grant_and_refuses_existing_output(tmp_path) ->
     ],
 )
 def test_phase1_guard_rejects_provenance_drift(tmp_path, mutation: str, message: str) -> None:
-    import hashlib
     import json
 
-    contract_path = tmp_path / "contract.json"
-    authorization_path = tmp_path / "owner.json"
-    source_sha = "a" * 40
-    branch = "codex/wp06-score-requalification"
-    contract = {
-        "phase": "PHASE_1_EXECUTION",
-        "status": "FROZEN_FOR_EXECUTION",
-        "solver_policy_digest": "c" * 64,
-        "execution_guard": {"structural_solves_enabled": True},
-    }
-    contract_path.write_text(json.dumps(contract), encoding="utf-8")
-    authorization = {
-        "status": "AUTHORIZED",
-        "owner_authorized": True,
-        "branch": branch,
-        "source_sha": source_sha,
-        "contract_sha256": hashlib.sha256(contract_path.read_bytes()).hexdigest(),
-        "solver_policy_digest": contract["solver_policy_digest"],
-        "authorized_levels": ["M1", "M2", "M3"],
-        "m3_conditional_on_m1_m2_reference_replay": True,
-    }
+    fixture = _phase1_git_fixture(tmp_path)
+    authorization = fixture["authorization"]
     if mutation == "sha":
         authorization["source_sha"] = "d" * 40
     elif mutation == "branch":
         authorization["branch"] = "wrong-branch"
     elif mutation == "digest":
         authorization["contract_sha256"] = "e" * 64
-    authorization_path.write_text(json.dumps(authorization), encoding="utf-8")
+    elif mutation == "dirty":
+        (fixture["repo"] / "untracked.txt").write_text("dirty", encoding="utf-8")
+    fixture["authorization_path"].write_text(json.dumps(authorization), encoding="utf-8")
 
     with pytest.raises(PermissionError, match=message):
         validate_phase1_authorization(
-            contract_path=contract_path,
-            authorization_path=authorization_path,
-            output_root=tmp_path / "new-run",
-            source_sha=source_sha,
-            branch=branch,
-            working_tree_clean=(mutation != "dirty"),
+            contract_path=fixture["contract_path"],
+            authorization_path=fixture["authorization_path"],
+            output_root=fixture["output_root"],
+            source_sha=fixture["source_sha"],
+            branch=fixture["branch"],
+            working_tree_clean=True,
+        )
+
+
+def test_phase1_guard_rejects_caller_supplied_git_state_that_disagrees_with_repository(tmp_path) -> None:
+    fixture = _phase1_git_fixture(tmp_path)
+    with pytest.raises(PermissionError, match="supplied source_sha does not match Git HEAD"):
+        validate_phase1_authorization(
+            contract_path=fixture["contract_path"],
+            authorization_path=fixture["authorization_path"],
+            output_root=fixture["output_root"],
+            source_sha="f" * 40,
+            branch=fixture["branch"],
+            working_tree_clean=True,
+        )
+
+
+def test_phase1_guard_rejects_owner_grant_inside_repository(tmp_path) -> None:
+    fixture = _phase1_git_fixture(tmp_path)
+    in_repo_grant = fixture["repo"] / "owner-grant.json"
+    in_repo_grant.write_text("{}", encoding="utf-8")
+    with pytest.raises(PermissionError, match="outside the repository"):
+        validate_phase1_authorization(
+            contract_path=fixture["contract_path"],
+            authorization_path=in_repo_grant,
+            output_root=fixture["output_root"],
+            source_sha=fixture["source_sha"],
+            branch=fixture["branch"],
+            working_tree_clean=True,
+        )
+
+
+def test_phase1_guard_rejects_output_outside_dedicated_wp06d_root(tmp_path) -> None:
+    fixture = _phase1_git_fixture(tmp_path)
+    with pytest.raises(PermissionError, match="new child of qualification"):
+        validate_phase1_authorization(
+            contract_path=fixture["contract_path"],
+            authorization_path=fixture["authorization_path"],
+            output_root=tmp_path / "outside-run",
+            source_sha=fixture["source_sha"],
+            branch=fixture["branch"],
+            working_tree_clean=True,
         )
 
 
