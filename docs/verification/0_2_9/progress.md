@@ -16,7 +16,7 @@ applicable_version: 0.2.9-development
 | WP04 | 12 | **Closed — 12/12; independent WP04-F `GO_WITH_LIMITATIONS` audit** |
 | WP15 | 2 | **Closed — 2/2; governing-branch telemetry integration validated** |
 | WP05 | 5 | **Closed — 5/5, bounded with limitations; C/D structural qualification and E cross-family closure accepted** |
-| WP06 | 8 | Preparation only; formal qualification not started (0/8); historical D failure preserved; stale prep branch audited—not for merge |
+| WP06 | 8 | A/B/C technical candidates; formal qualification not started (0/8); historical D failure preserved; current-source revalidation underway |
 | WP07 | 10 | **Owner accepted — 10/10 with bounded limitations; A–E closed** |
 | WP08 | 8 | **Closed — 8/8; Owner-approved with limitations** |
 | WP09 | 8 | Blocked by OD-029-01 |
@@ -57,19 +57,6 @@ audit](wp07-integration-into-governing-branch.md).
 
 The frozen roadmap declares 100 total points, and its listed package weights
 sum to 100. No package weights were changed.
-
-## WP06 current audit
-
-WP06 remains **PREPARATION ONLY — 0/8**. The D1 structural record is
-`FAIL_CLOSED`: M2 reached 80 accepted steps but did not demonstrate the frozen
-limit point and missed the moment-equilibrium gate. The original monitor also
-recorded node 4 rather than the frozen mean of crown nodes 2/3/4, and the raw
-package lacks full displacement vectors needed to reconstruct support moments.
-Preparation tooling for corrected monitoring and state archival is already on
-the governing branch. The remote `0.2.9-wp06-prep` branch is stale and its
-whole-tree diff would remove current WP05/WP07/WP08 evidence; do not merge it.
-See the [WP06 current audit](wp06-current-audit.md). No new structural solve is
-authorized by that audit.
 
 ## WP08 closure
 
