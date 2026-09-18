@@ -6194,6 +6194,17 @@
       "tests/unit/test_wp02_d_arc_length_restart.py",
       "tests/unit/test_wp03_d_arc_radius_policy.py"
     ]
+  },
+  {
+    "id": "DOC-029-WP06-ABC-OWNER-DECISION",
+    "path": "verification/0_2_9/wp06-abc-owner-decision.md",
+    "title": "QF Solver 0.2.9 WP06-A/B/C Owner acceptance and point award",
+    "status": "controlled_evidence",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp06_abc_owner_decision.json"
+    ],
+    "tests": []
   }
 ]
 }

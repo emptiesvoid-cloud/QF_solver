@@ -79,15 +79,22 @@ WP05-A/B/C/D/E are **CLOSED — 5/5 WITH LIMITATIONS** after Owner-approved
 integration of the bounded TET10 and HEX20 H1/H2/H3 evidence and H3
 cross-family closure. External correlation against Code_Aster or another
 solver is deferred to future V&V and is not claimed. Together with the later
-Owner-approved WP07 closure, the current validated ledger is **66/100**. See
+Owner-approved WP07 closure, the validated ledger at that checkpoint was
+**66/100**. See
 the [WP05-C/D/E integration audit](wp05-cde-owner-integration.md).
 
 WP07-A/B/C/D/E are **OWNER-ACCEPTED — 10/10 WITH LIMITATIONS**. D R1 received
 3/3; E R2 received 2/2, reusing the accepted D evidence without rerunning D.
-Updated-search and finite-sliding contact remain research-only. The current
-validated ledger is **66/100**; see the [WP07-E Owner acceptance](wp07e-owner-acceptance-r2.md),
+Updated-search and finite-sliding contact remain research-only. The ledger at
+WP07 closure was **66/100**; see the [WP07-E Owner acceptance](wp07e-owner-acceptance-r2.md),
 [WP07-E closure audit](wp07e-closure-owner-review-r2-final.md), and [WP07
 governing integration audit](wp07-integration-into-governing-branch.md).
+
+WP06-A/B/C are now Owner-accepted for **4/8**: A 1/1; B 1/1 with limitations;
+C 2/2 within bounded algebraic/toy scope. This raises the current local
+consolidated ledger to **70/100**. WP06-D R2 structural execution remains
+unauthorized, and the historical D1 M2 `FAIL_CLOSED` is preserved. The
+decision is recorded in [the WP06 Owner decision](wp06-abc-owner-decision.md).
 
 WP01 Unified Nonlinear Core is **CLOSED** at **12/12 points** following the
 independent audit at SHA

@@ -140,6 +140,44 @@
         "no frictional updated-search or finite-sliding qualification",
         "no WP06 or general nonlinear contact qualification"
       ]
+    },
+    {
+      "id": "OD-029-WP06-ABC-01",
+      "title": "WP06-A/B/C partial Owner acceptance and point award",
+      "decision_date": "2026-09-18",
+      "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "accepted_work_items": ["WP06-A", "WP06-B", "WP06-C"],
+      "approved_points": 4,
+      "points_by_work_item": {"WP06-A": "1/1", "WP06-B": "1/1", "WP06-C": "2/2"},
+      "wp06_points_before": "0/8",
+      "wp06_points_after": "4/8",
+      "global_official_total_before": "66/100",
+      "global_official_total_after": "70/100",
+      "limitations_accepted": {"WP06-B": true, "WP06-C_bounded_scope": true},
+      "authorizations": {
+        "official_wp06_abc_award": true,
+        "local_ledger_update": true,
+        "governing_merge": false,
+        "governing_push": false,
+        "wp06d_r2_structural_execution": false
+      },
+      "historical_wp06d1_m2_fail_closed_preserved": true,
+      "structural_solves_run_by_this_decision": false,
+      "reviewed_revalidation_execution_sha": "915d0d4e8a8df462d7928f77b96f4480f53fbae7",
+      "decision_context_head": "c2fb99ecebd236bdd382ab39976589eb1bb5057c",
+      "evidence": [
+        "docs/verification/0_2_9/wp06-abc-current-revalidation.md",
+        "qualification/0_2_9/wp06_abc_revalidation_r1.json",
+        "qualification/0_2_9/wp06_abc_revalidation_r1/targeted-tests.xml",
+        "docs/verification/0_2_9/wp06-abc-owner-decision.md",
+        "qualification/0_2_9/wp06_abc_owner_decision.json"
+      ],
+      "limitations": [
+        "WP06-A does not claim equivalence to Crisfield or Riks methods",
+        "WP06-B does not qualify structural restart suffixes or distributed/MPI continuation/restart",
+        "WP06-C is limited to algebraic/toy identity and policy evidence, not structural postbuckling",
+        "WP06-D1 historical M2 FAIL_CLOSED remains unchanged"
+      ]
     }
   ],
   "ledger_reconciliation": {

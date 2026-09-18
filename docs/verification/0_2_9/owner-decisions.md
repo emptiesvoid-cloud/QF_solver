@@ -128,3 +128,27 @@ or finite-sliding claim.
 Evidence: [WP07-E Owner acceptance](wp07e-owner-acceptance-r2.md), [R2
 closure audit](wp07e-closure-owner-review-r2-final.md), and the machine-readable
 award in `qualification/0_2_9/owner_decisions.json`.
+
+## WP06-A/B/C partial closure decision
+
+**Status:** CLOSED for the accepted A/B/C scope — `APPROVED_WITH_LIMITATIONS`.
+
+On 2026-09-18, the Owner accepted WP06-A at **1/1**, WP06-B at **1/1** with
+limitations, and WP06-C at **2/2** within its bounded scope. WP06 therefore
+receives **4/8 official points**, and the consolidated official ledger moves
+from **66/100** to **70/100**. This is a branch-local ledger update on
+`codex/wp06-score-requalification`; it has not been merged or pushed to the
+governing branch.
+
+The accepted evidence supports the bounded formulation/route, continuation
+state/rollback and algebraic/toy identity claims only. WP06-B does not claim
+structural restart suffix or distributed/MPI restart qualification. WP06-C
+does not claim structural postbuckling qualification. Historical WP06-D1 M2
+`FAIL_CLOSED` evidence remains unchanged.
+
+The Owner explicitly **did not authorize WP06-D R2 structural execution**.
+No D solve, replay, merge, or push was performed by this decision. Any future
+D execution requires its own frozen current-source contract/runner and a
+separate explicit Owner authorization. The immutable decision and its
+revalidation evidence are recorded in [the WP06 A/B/C Owner decision](wp06-abc-owner-decision.md)
+and `qualification/0_2_9/wp06_abc_owner_decision.json`.
