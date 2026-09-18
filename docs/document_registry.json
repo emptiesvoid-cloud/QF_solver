@@ -6205,6 +6205,20 @@
       "qualification/0_2_9/wp06_abc_owner_decision.json"
     ],
     "tests": []
+  },
+  {
+    "id": "DOC-029-WP06D-R2-GUARD-HARDENING",
+    "path": "verification/0_2_9/wp06d-r2-guard-hardening.md",
+    "title": "QF Solver 0.2.9 WP06-D R2 execution-guard hardening audit",
+    "status": "controlled_evidence",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp06d_r2_guard_hardening.json"
+    ],
+    "tests": [
+      "tests/unit/test_wp06_premerge_tools.py",
+      "tests/unit/test_wp06d_structural_limit_point_contract.py"
+    ]
   }
 ]
 }
