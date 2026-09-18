@@ -9,8 +9,33 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 from typing import Any
+
+
+def _git(cwd: Path, *args: str) -> str:
+    """Read Git state from disk rather than trusting execution-caller values."""
+
+    try:
+        completed = subprocess.run(
+            ["git", *args],
+            cwd=cwd,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise PermissionError("Unable to independently inspect WP06-D Git provenance.") from exc
+    return completed.stdout.strip()
+
+
+def _is_relative_to(path: Path, parent: Path) -> bool:
+    try:
+        path.relative_to(parent)
+    except ValueError:
+        return False
+    return True
 
 
 def build_requalification_plan() -> dict[str, Any]:
@@ -23,6 +48,8 @@ def build_requalification_plan() -> dict[str, Any]:
         "legacy_r1_runner": "QUARANTINED_STALE_MONITOR_AND_SHARED_OUTPUT_PATHS",
         "r2_contract": "REQUIRED_NOT_CREATED",
         "r2_owner_authorization": "REQUIRED_NOT_PRESENT",
+        "provenance_validation": "GUARD_QUERIES_GIT_BRANCH_HEAD_AND_DIRTY_STATE",
+        "owner_grant_storage": "EXTERNAL_TO_REPOSITORY",
         "levels": ["M1", "M2", "M3"],
         "m3_gate": "M3 runs only after M1 and M2 pass all frozen gates",
         "monitor": "mean crown UZ at frozen nodes (2,3,4)",
@@ -61,17 +88,49 @@ def validate_phase1_authorization(
 
     contract_file = Path(contract_path)
     authorization_file = Path(authorization_path)
-    destination = Path(output_root)
+    destination_input = Path(output_root)
     if not contract_file.is_file():
         raise PermissionError("No frozen WP06-D Phase-1 R2 execution contract is present.")
     if not authorization_file.is_file():
         raise PermissionError("No explicit Owner authorization artifact is present.")
-    if not working_tree_clean:
-        raise PermissionError("WP06-D execution requires a clean working tree.")
-    if not source_sha or not branch:
-        raise PermissionError("WP06-D execution provenance is incomplete.")
-    if destination.exists():
+
+    contract_file = contract_file.resolve()
+    authorization_file = authorization_file.resolve()
+    try:
+        repo_root = Path(_git(contract_file.parent, "rev-parse", "--show-toplevel")).resolve()
+        contract_relative = contract_file.relative_to(repo_root)
+    except (OSError, ValueError, PermissionError) as exc:
+        raise PermissionError("WP06-D contract is not inside a discoverable Git worktree.") from exc
+
+    if not destination_input.is_absolute():
+        destination_input = repo_root / destination_input
+
+    actual_branch = _git(repo_root, "branch", "--show-current")
+    actual_source_sha = _git(repo_root, "rev-parse", "HEAD")
+    actual_dirty = bool(_git(repo_root, "status", "--porcelain=v1", "--untracked-files=all"))
+    if not actual_branch or branch != actual_branch:
+        raise PermissionError("WP06-D supplied branch does not match the current Git branch.")
+    if not source_sha or source_sha != actual_source_sha:
+        raise PermissionError("WP06-D supplied source_sha does not match Git HEAD.")
+
+    if _is_relative_to(authorization_file, repo_root):
+        raise PermissionError("Owner authorization must be supplied outside the repository.")
+
+    frozen_output_root = (repo_root / "qualification" / "0_2_9" / "wp06d_r2_runs").resolve()
+    if destination_input.is_symlink():
+        raise PermissionError("WP06-D output path must not be a symbolic link.")
+    destination = destination_input.resolve()
+    if not _is_relative_to(destination, frozen_output_root) or destination == frozen_output_root:
+        raise PermissionError("WP06-D output must be a new child of qualification/0_2_9/wp06d_r2_runs.")
+    if destination.exists() or destination.is_symlink():
         raise FileExistsError(f"Refusing to reuse or overwrite WP06-D evidence directory: {destination}")
+
+    if not working_tree_clean or actual_dirty:
+        raise PermissionError("WP06-D execution requires a clean working tree.")
+    try:
+        _git(repo_root, "ls-files", "--error-unmatch", contract_relative.as_posix())
+    except PermissionError as exc:
+        raise PermissionError("WP06-D execution contract must be committed at Git HEAD.") from exc
 
     try:
         contract = json.loads(contract_file.read_text(encoding="utf-8"))
@@ -83,7 +142,8 @@ def validate_phase1_authorization(
 
     execution = contract.get("execution_guard", {})
     if (
-        contract.get("phase") != "PHASE_1_EXECUTION"
+        contract.get("contract_revision") != "WP06D-R2"
+        or contract.get("phase") != "PHASE_1_EXECUTION"
         or contract.get("status") != "FROZEN_FOR_EXECUTION"
         or not isinstance(execution, dict)
         or execution.get("structural_solves_enabled") is not True
@@ -96,8 +156,9 @@ def validate_phase1_authorization(
     required_authorization = {
         "status": "AUTHORIZED",
         "owner_authorized": True,
-        "branch": branch,
-        "source_sha": source_sha,
+        "contract_revision": "WP06D-R2",
+        "branch": actual_branch,
+        "source_sha": actual_source_sha,
         "contract_sha256": contract_digest,
         "solver_policy_digest": policy_digest,
         "authorized_levels": expected_levels,
@@ -108,11 +169,16 @@ def validate_phase1_authorization(
             raise PermissionError(f"WP06-D Owner authorization mismatch for {key}.")
     if not isinstance(policy_digest, str) or len(policy_digest) != 64:
         raise PermissionError("WP06-D frozen solver policy digest is missing or malformed.")
+    try:
+        int(policy_digest, 16)
+    except ValueError as exc:
+        raise PermissionError("WP06-D frozen solver policy digest is not hexadecimal.") from exc
 
     return {
         "status": "AUTHORIZED_PREFLIGHT_PASS",
-        "branch": branch,
-        "source_sha": source_sha,
+        "branch": actual_branch,
+        "source_sha": actual_source_sha,
+        "repo_root": str(repo_root),
         "contract_sha256": contract_digest,
         "solver_policy_digest": policy_digest,
         "authorized_levels": expected_levels,
