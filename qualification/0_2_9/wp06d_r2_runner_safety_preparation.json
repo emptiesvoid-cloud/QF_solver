@@ -5,6 +5,7 @@
   "provenance": {
     "branch": "codex/wp06-score-requalification",
     "base_head": "915d0d4e8a8df462d7928f77b96f4480f53fbae7",
+    "evidence_commit_sha": "85045a7",
     "working_tree_dirty": true,
     "tree_state_note": "The verification runs used the recorded base HEAD plus the working-tree changes; this package records those changes and classifies the failed initial JUnit separately."
   },
