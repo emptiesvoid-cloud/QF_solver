@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0.2.9-WP06-ABC-CURRENT-REVALIDATION-R1",
+  "status": "READY_FOR_OWNER_REVIEW",
+  "provenance": {
+    "repository": "emptiesvoid-cloud/QF_solver",
+    "branch": "codex/wp06-score-requalification",
+    "execution_sha": "915d0d4e8a8df462d7928f77b96f4480f53fbae7",
+    "governing_base_sha": "915d0d4e8a8df462d7928f77b96f4480f53fbae7",
+    "historical_candidate_source_sha": "03166e98a9a0b8cc7978c7ad2a370e441aefdc1e",
+    "listed_source_files_unchanged_since_candidate": true,
+    "structural_policy_binding": "NOT_APPLICABLE_TO_LOCAL_A_B_C_REVALIDATION; REQUIRED_FOR_D_E_EXECUTION"
+  },
+  "candidate_awards": {
+    "WP06A": {"status": "PASS_CANDIDATE", "candidate_points": "1/1", "official_points": "0/1"},
+    "WP06B": {"status": "PASS_CANDIDATE_WITH_LIMITATIONS", "candidate_points": "1/1", "official_points": "0/1"},
+    "WP06C": {"status": "PASS_CANDIDATE", "candidate_points": "2/2", "official_points": "0/2"},
+    "WP06_ABC_CANDIDATE_POINTS": "4/8",
+    "WP06_OFFICIAL_POINTS": "0/8",
+    "OWNER_ACCEPTANCE": "PENDING"
+  },
+  "contract_sha256": {
+    "qualification/0_2_9/wp06a_arc_length_formulation_contract.json": "50096d772860af9f9fef6ccda644524070e21173e69aac2ac70717f5c822ac67",
+    "qualification/0_2_9/wp06b_continuation_state_rollback.json": "b870c9cb855e333865025c7cf2039ed8baa24f856424e0cb01d552d9e32b680e",
+    "qualification/0_2_9/wp06c_arc_length_predictor_corrector_identities.json": "1d280932f293a850ee74c49c260b5510ee37b9b1bf17a5639fec009cd8167590"
+  },
+  "source_file_sha256": {
+    "src/solveur/core/nonlinear/solver.py": "a620ffeff3f9264cdecd84fe738887cf393a17f1636423e60e8d0d937c2cbd49",
+    "src/solveur/core/nonlinear/arc_length.py": "cce92d854220a9f87d9f87f56a7cc7c308a46e19667170b321603df1450b8581",
+    "src/solveur/core/nonlinear/iteration.py": "2c4edab775156396ad1e8ee1e93d1d48f6f869f45c9cae79b9a2e7d2fae1f14c",
+    "src/solveur/core/nonlinear/controls.py": "fba31e50165bf2f215d5a8ee7eecd789ec22d05911ff575e93e9875bc360e638",
+    "src/solveur/core/nonlinear/robustness.py": "f91399bfd68d1cc756757eb12409e2edfe6c92e14f01d20f99fb84c1b622247b",
+    "src/solveur/core/nonlinear/driver.py": "8e701eddb0a9f53c04522885091d3683f169c11fc5112b09a517430eeeb38d1f",
+    "src/solveur/core/nonlinear/state.py": "76fb0fb540d0088c38bce25da498447bda805ad75961634a0d55c1b07567ebf9",
+    "src/solveur/core/nonlinear/checkpoint.py": "df55f81b2ce85484c848d366ccfe01f0dfbea130ca55a333b7585c1af222c907"
+  },
+  "verification": {
+    "command": "python -m pytest -q --junitxml=qualification/0_2_9/wp06_abc_revalidation_r1/targeted-tests.xml tests/unit/test_wp06_ab_arc_length_contract.py tests/unit/test_wp06c_arc_length_predictor_corrector_identities.py tests/unit/test_wp01_d_continuation.py tests/unit/test_wp02_d_arc_length_restart.py tests/unit/test_wp02_d1_arc_length_material_state.py tests/unit/test_wp03_d_arc_radius_policy.py",
+    "tests_passed": 118,
+    "failures": 0,
+    "errors": 0,
+    "junit_xml_sha256": "b60384dcf05a9fce640322d02c7d45e7c211798e53dab7a48e1a2681ec8683de",
+    "full_suite": "NOT_RUN"
+  },
+  "governance": {
+    "production_mechanics_changed": false,
+    "thresholds_changed": false,
+    "structural_solves_run": false,
+    "historical_WP06_D_FAIL_CLOSED_preserved": true,
+    "global_official_total": "66/100"
+  },
+  "limitations": [
+    "WP06-B structural restart suffix is not qualified",
+    "WP06-C evidence is algebraic/toy and is not structural postbuckling qualification",
+    "no MPI/PETSc or distributed continuation qualification",
+    "WP06-D requalification requires a current contract/policy binding and explicit Owner execution authorization"
+  ],
+  "next_gate": "Owner review for the bounded A/B/C candidate 4/8; separately prepare and bind WP06-D R2 before requesting authorization for any structural solve."
+}

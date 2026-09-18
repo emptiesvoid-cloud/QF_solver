@@ -5,7 +5,11 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from scripts.prepare_wp06d_requalification import build_requalification_plan, require_owner_authorization
+from scripts.prepare_wp06d_requalification import (
+    build_requalification_plan,
+    require_owner_authorization,
+    validate_phase1_authorization,
+)
 from scripts.wp06_premerge_tools import (
     CROWN_NODE_SET,
     archive_accepted_state,
@@ -131,7 +135,139 @@ def test_independent_balance_reconstructs_force_and_moment_vectors() -> None:
 def test_requalification_plan_is_guarded_and_m3_is_gated() -> None:
     plan = build_requalification_plan()
     assert plan["execution"] == "PREPARED_NOT_EXECUTED"
+    assert plan["current_r1_execution_contract"] == "PHASE_0_PREPARATION_ONLY"
+    assert plan["legacy_r1_runner"] == "QUARANTINED_STALE_MONITOR_AND_SHARED_OUTPUT_PATHS"
     assert plan["levels"] == ["M1", "M2", "M3"]
     assert "M1 and M2 pass" in plan["m3_gate"]
     with pytest.raises(PermissionError):
         require_owner_authorization(False)
+
+
+def test_phase1_guard_rejects_missing_r2_contract_before_execution(tmp_path) -> None:
+    with pytest.raises(PermissionError, match="No frozen WP06-D Phase-1 R2 execution contract"):
+        validate_phase1_authorization(
+            contract_path=tmp_path / "missing-contract.json",
+            authorization_path=tmp_path / "missing-owner-grant.json",
+            output_root=tmp_path / "new-run",
+            source_sha="a" * 40,
+            branch="codex/wp06-score-requalification",
+            working_tree_clean=True,
+        )
+    assert not (tmp_path / "new-run").exists()
+
+
+def test_phase1_guard_binds_owner_grant_and_refuses_existing_output(tmp_path) -> None:
+    import hashlib
+    import json
+
+    contract_path = tmp_path / "contract.json"
+    authorization_path = tmp_path / "owner.json"
+    output_root = tmp_path / "run"
+    source_sha = "a" * 40
+    branch = "codex/wp06-score-requalification"
+    contract = {
+        "phase": "PHASE_1_EXECUTION",
+        "status": "FROZEN_FOR_EXECUTION",
+        "solver_policy_digest": "b" * 64,
+        "execution_guard": {"structural_solves_enabled": True},
+    }
+    contract_bytes = (json.dumps(contract, sort_keys=True) + "\n").encode("utf-8")
+    contract_path.write_bytes(contract_bytes)
+    authorization = {
+        "status": "AUTHORIZED",
+        "owner_authorized": True,
+        "branch": branch,
+        "source_sha": source_sha,
+        "contract_sha256": hashlib.sha256(contract_bytes).hexdigest(),
+        "solver_policy_digest": contract["solver_policy_digest"],
+        "authorized_levels": ["M1", "M2", "M3"],
+        "m3_conditional_on_m1_m2_reference_replay": True,
+    }
+    authorization_path.write_text(json.dumps(authorization), encoding="utf-8")
+
+    result = validate_phase1_authorization(
+        contract_path=contract_path,
+        authorization_path=authorization_path,
+        output_root=output_root,
+        source_sha=source_sha,
+        branch=branch,
+        working_tree_clean=True,
+    )
+    assert result["status"] == "AUTHORIZED_PREFLIGHT_PASS"
+    assert result["authorized_levels"] == ["M1", "M2", "M3"]
+    assert not output_root.exists()
+
+    output_root.mkdir()
+    with pytest.raises(FileExistsError, match="Refusing to reuse or overwrite"):
+        validate_phase1_authorization(
+            contract_path=contract_path,
+            authorization_path=authorization_path,
+            output_root=output_root,
+            source_sha=source_sha,
+            branch=branch,
+            working_tree_clean=True,
+        )
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    [
+        ("dirty", "clean working tree"),
+        ("sha", "source_sha"),
+        ("branch", "branch"),
+        ("digest", "contract_sha256"),
+    ],
+)
+def test_phase1_guard_rejects_provenance_drift(tmp_path, mutation: str, message: str) -> None:
+    import hashlib
+    import json
+
+    contract_path = tmp_path / "contract.json"
+    authorization_path = tmp_path / "owner.json"
+    source_sha = "a" * 40
+    branch = "codex/wp06-score-requalification"
+    contract = {
+        "phase": "PHASE_1_EXECUTION",
+        "status": "FROZEN_FOR_EXECUTION",
+        "solver_policy_digest": "c" * 64,
+        "execution_guard": {"structural_solves_enabled": True},
+    }
+    contract_path.write_text(json.dumps(contract), encoding="utf-8")
+    authorization = {
+        "status": "AUTHORIZED",
+        "owner_authorized": True,
+        "branch": branch,
+        "source_sha": source_sha,
+        "contract_sha256": hashlib.sha256(contract_path.read_bytes()).hexdigest(),
+        "solver_policy_digest": contract["solver_policy_digest"],
+        "authorized_levels": ["M1", "M2", "M3"],
+        "m3_conditional_on_m1_m2_reference_replay": True,
+    }
+    if mutation == "sha":
+        authorization["source_sha"] = "d" * 40
+    elif mutation == "branch":
+        authorization["branch"] = "wrong-branch"
+    elif mutation == "digest":
+        authorization["contract_sha256"] = "e" * 64
+    authorization_path.write_text(json.dumps(authorization), encoding="utf-8")
+
+    with pytest.raises(PermissionError, match=message):
+        validate_phase1_authorization(
+            contract_path=contract_path,
+            authorization_path=authorization_path,
+            output_root=tmp_path / "new-run",
+            source_sha=source_sha,
+            branch=branch,
+            working_tree_clean=(mutation != "dirty"),
+        )
+
+
+def test_legacy_r1_runner_entrypoint_is_quarantined(monkeypatch, capsys) -> None:
+    from scripts import run_wp06d_phase1
+
+    def forbidden_solve(*args, **kwargs):
+        raise AssertionError("quarantined runner must not reach a structural solve")
+
+    monkeypatch.setattr(run_wp06d_phase1, "_run_level", forbidden_solve)
+    assert run_wp06d_phase1.main() == 2
+    assert '"status": "BLOCKED_STALE_R1_RUNNER"' in capsys.readouterr().out

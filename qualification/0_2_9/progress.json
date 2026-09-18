@@ -10,7 +10,7 @@
     "WP04": {"points": 12, "status": "CLOSED_GO_WITH_LIMITATIONS", "validated_points": 12},
     "WP15": {"points": 2, "status": "CLOSED_INTEGRATION_VALIDATED", "validated_points": 2},
     "WP05": {"points": 5, "status": "CLOSED_BOUNDED_WITH_LIMITATIONS", "validated_points": 5},
-    "WP06": {"points": 8, "status": "PREPARATION_ONLY_FORMAL_QUALIFICATION_NOT_STARTED", "validated_points": 0},
+    "WP06": {"points": 8, "status": "A_B_C_REVALIDATED_OWNER_REVIEW_PENDING", "validated_points": 0, "candidate_points": 4},
     "WP07": {"points": 10, "status": "OWNER_ACCEPTED_A_TO_E_BOUNDED_WITH_LIMITATIONS", "validated_points": 10},
     "WP08": {"points": 8, "status": "CLOSED_OWNER_APPROVED_WITH_LIMITATIONS", "validated_points": 8},
     "WP09": {"points": 8, "status": "BLOCKED_BY_OD_029_01", "validated_points": 0},
@@ -22,5 +22,5 @@
   },
   "validated_points": 66,
   "total_points": 100,
-  "next_gate": "WP07-D and WP07-E are Owner-accepted at 3/3 and 2/2 respectively; WP07 is 10/10 with bounded limitations. The consolidated validated ledger is 66/100: prior 61/100 included WP05 5/5 and WP07 5/10, then WP07-D +3 and WP07-E +2. The earlier Owner-stated 61/100 after D used a 58/100 pre-WP05 baseline; this is reconciled without double counting. WP07-E reused accepted D evidence and did not rerun D. The frozen roadmap declares 100 points and its package weights sum to 100; no weights were changed. WP06 remains preparation-only at 0/8: current-source revalidation of A/B/C candidate evidence is the next work; historical D1 M2 FAIL_CLOSED is preserved. Any new structural requalification requires a freshly bound contract/policy and explicit execution authorization. WP04 remains CLOSED 12/12; WP15 remains CLOSED 2/2. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
+  "next_gate": "WP07-D and WP07-E are Owner-accepted at 3/3 and 2/2 respectively; WP07 is 10/10 with bounded limitations. The consolidated validated ledger is 66/100: prior 61/100 included WP05 5/5 and WP07 5/10, then WP07-D +3 and WP07-E +2. The earlier Owner-stated 61/100 after D used a 58/100 pre-WP05 baseline; this is reconciled without double counting. WP07-E reused accepted D evidence and did not rerun D. The frozen roadmap declares 100 points and its package weights sum to 100; no weights were changed. WP06-A/B/C current-source revalidation is complete as a 4/8 candidate; official WP06 remains 0/8 pending Owner review. Historical D1 M2 FAIL_CLOSED is preserved. The stale R1 D runner is quarantined after finding the wrong monitor and shared output paths; no R2 execution contract or Owner grant exists. Next, prepare and review a current-source WP06-D R2 contract and checkpoint-complete runner, then request separate execution authorization. WP04 remains CLOSED 12/12; WP15 remains 2/2. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
 }
