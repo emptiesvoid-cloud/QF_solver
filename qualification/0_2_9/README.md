@@ -114,7 +114,7 @@ registry is unchanged. See
 - WP00: `CLOSED`, 4/4 points.
 - WP01 Unified Nonlinear Core: `CLOSED`, 12/12 points after independent
   Owner closure at audit SHA `6876d867cdd845195e8946b05329b0bc82937fdc`.
-- Validated total: `50/100`.
+- Validated total at the latest Owner decision (2026-09-18): `70/100`.
 - WP02 State Transactions & Rollback: `CLOSED`, 6/6 points after the
   independent WP02-E audit at `c4e02fbd2d1262f621f6c8d4f07ee2da89d885f5`.
   The decision is `GO_WITH_LIMITATIONS`; Owner review is required before the
@@ -141,18 +141,26 @@ undercount remains explicit deferred telemetry debt. The validated total is
 WP05-A/B/C/D/E are **CLOSED — 5/5 WITH LIMITATIONS** after Owner-approved
 integration of the bounded TET10 and HEX20 structural evidence and the H3
 cross-family audit. External correlation with Code_Aster or another solver is
-deferred and remains unclaimed. The consolidated validated total after the
-later WP07 D/E Owner awards is **66/100**. See
+deferred and remains unclaimed. The consolidated validated total at the
+subsequent WP07 D/E Owner-award checkpoint was **66/100**. See
 `wp05cde_integration/wp05_cde_integration_audit.json` and
 `../docs/verification/0_2_9/wp05-cde-owner-integration.md`.
 
 WP07-A/B/C/D/E are **OWNER-ACCEPTED — 10/10 WITH LIMITATIONS**. D R1 received
 3/3 and E R2 received 2/2; E reused the accepted D artifacts, with no D
 structural rerun. Updated-search and finite-sliding contact remain
-research-only. The consolidated validated total is **66/100**. See
+research-only. The consolidated validated total at WP07 closure was
+**66/100**. See
 `wp07e_closure_r2/wp07e_owner_acceptance_r2.json`,
 `wp07e_closure_r2/wp07e_closure_final_r2_owner_review.json`, and
 `../docs/verification/0_2_9/wp07e-owner-acceptance-r2.md`.
+
+WP06-A/B/C have now been Owner-accepted for **4/8**: A 1/1, B 1/1 with
+limitations, and C 2/2 within bounded algebraic/toy scope. The current
+consolidated official total is **70/100**. WP06-D R2 structural execution is
+explicitly not authorized, and historical D1 M2 `FAIL_CLOSED` remains intact.
+See `wp06_abc_owner_decision.json` and
+`../docs/verification/0_2_9/wp06-abc-owner-decision.md`.
 
 WP03-C preserves the accepted-state authority and all existing numerical and
 maturity boundaries. WP03-D adds the single `UnifiedArcLengthRadiusPolicy`,

@@ -16,12 +16,12 @@ applicable_version: 0.2.9-development
 | WP04 | 12 | **Closed — 12/12; independent WP04-F `GO_WITH_LIMITATIONS` audit** |
 | WP15 | 2 | **Closed — 2/2; governing-branch telemetry integration validated** |
 | WP05 | 5 | **Closed — 5/5, bounded with limitations; C/D structural qualification and E cross-family closure accepted** |
-| WP06 | 8 | A/B/C revalidated as a 4/8 candidate, Owner review pending; official 0/8; historical D failure preserved |
+| WP06 | 8 | **Owner accepted A/B/C — 4/8 with limitations**; D R2 execution not authorized; historical D failure preserved |
 | WP07 | 10 | **Owner accepted — 10/10 with bounded limitations; A–E closed** |
 | WP08 | 8 | **Closed — 8/8; Owner-approved with limitations** |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
-| **Validated total (consolidated ledger)** | **66 / 100** | **Includes WP05 5/5, WP07 10/10 and WP08 8/8** |
+| **Validated total (consolidated ledger)** | **70 / 100** | **Includes WP05 5/5, WP06 A/B/C 4/8, WP07 10/10 and WP08 8/8** |
 
 The Owner-approved WP05-C/D/E integration adds 3 bounded points to the
 58/100 pre-integration ledger, producing 61/100. WP07-D then added 3 points
@@ -58,13 +58,16 @@ audit](wp07-integration-into-governing-branch.md).
 The frozen roadmap declares 100 total points, and its listed package weights
 sum to 100. No package weights were changed.
 
-WP06-A/B/C have been revalidated against the current governing source with 118
-focused continuation, rollback/restart and identity tests passing. They form a
-**4/8 candidate** (A 1/1, B 1/1, C 2/2) pending Owner review; the official
-WP06 score remains **0/8**. This evidence is limited to source/formulation
-audit, state/restart behavior and algebraic/toy identities. It does not
-qualify a structural postbuckling path. The historical WP06-D1 M2 `FAIL_CLOSED`
-is preserved. See the [WP06-A/B/C revalidation package](wp06-abc-current-revalidation.md).
+WP06-A/B/C were revalidated against the current governing source with 118
+focused continuation, rollback/restart and identity tests passing. The Owner
+accepted A at 1/1, B at 1/1 with limitations, and C at 2/2 within its bounded
+algebraic/toy scope. WP06 is now **4/8 officially** and the consolidated
+ledger is **70/100**. The evidence remains limited to source/formulation
+audit, state/restart behavior and algebraic/toy identities; it does not
+qualify a structural postbuckling path. The Owner explicitly did **not**
+authorize WP06-D R2 structural execution. Historical WP06-D1 M2
+`FAIL_CLOSED` is preserved. See the [WP06-A/B/C revalidation package](wp06-abc-current-revalidation.md)
+and [Owner decision record](wp06-abc-owner-decision.md).
 
 The stale WP06-D R1 runner is now quarantined: it used the node-specific
 control DOF rather than the frozen mean-crown monitor and targeted shared R1
@@ -77,8 +80,8 @@ selection passed 145 tests; no structural solve was run. See the
 ## WP08 closure
 
 The Owner has approved WP08-A through WP08-E at **8/8**. Together with the
-accepted WP05 5/5 and WP07 10/10 closures, the current consolidated validated
-total is **66/100**. The reviewed evidence is the frozen
+accepted WP05 5/5 and WP07 10/10 closures, the consolidated total at that
+checkpoint was **66/100**, before the subsequent WP06 A/B/C award. The reviewed evidence is the frozen
 WP08 A–D closure, WP08-E accepted-state restart closure, and direct Owner
 inspection package; see the [Owner approval](wp08-owner-approval.md),
 [WP08-E closure report](wp08e-closure-report.md), and
