@@ -1,7 +1,8 @@
-"""Run the bounded WP06-D Phase-1 campaign and archive raw evidence.
+"""Historical WP06-D R1 runner, quarantined from direct execution.
 
-This runner deliberately stops the formal sequence after the first required
-gate failure.  It does not alter solver parameters or create a rescue mesh.
+This runner is not valid for the current governing source: it uses the old
+single-node monitor and writes into shared R1 evidence paths. Use a separately
+frozen, checkpointed R2 runner after Owner authorization instead.
 """
 
 from __future__ import annotations
@@ -17,7 +18,7 @@ import numpy as np
 
 from solveur.api.public import solve_model
 from solveur.core.model import FiniteElementModel
-from prepare_wp06d_structural_limit_point import generate_mesh, symmetry_face_nodes
+from scripts.prepare_wp06d_structural_limit_point import generate_mesh, symmetry_face_nodes
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -217,7 +218,7 @@ def _provenance(source_sha: str, contract_digest: str, case_digest: str, policy_
     }
 
 
-def main() -> int:
+def _legacy_main_r1() -> int:
     source_sha = _git("rev-parse", "HEAD")
     contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
     contract_digest = hashlib.sha256(CONTRACT_PATH.read_bytes()).hexdigest()
@@ -298,6 +299,25 @@ def main() -> int:
     )
     print(json.dumps({"status": raw_artifact["status"], "levels": {k: v["status"] for k, v in levels.items()}}, sort_keys=True))
     return 0
+
+
+def main() -> int:
+    """Fail closed rather than run the stale R1 campaign or overwrite evidence."""
+
+    print(
+        json.dumps(
+            {
+                "status": "BLOCKED_STALE_R1_RUNNER",
+                "structural_solves_run": False,
+                "reason": (
+                    "The R1 runner uses an obsolete single-node monitor and shared output paths. "
+                    "A frozen R2 contract, exact Owner authorization, and a checkpointed runner are required."
+                ),
+            },
+            sort_keys=True,
+        )
+    )
+    return 2
 
 
 if __name__ == "__main__":

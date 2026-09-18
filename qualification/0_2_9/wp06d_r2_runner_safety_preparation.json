@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0.2.9-WP06D-R2-RUNNER-SAFETY-PREP-001",
+  "status": "PHASE_0_PREPARATION_ONLY",
+  "provenance": {
+    "branch": "codex/wp06-score-requalification",
+    "base_head": "915d0d4e8a8df462d7928f77b96f4480f53fbae7",
+    "working_tree_dirty": true,
+    "tree_state_note": "The verification runs used the recorded base HEAD plus the working-tree changes; this package records those changes and classifies the failed initial JUnit separately."
+  },
+  "wp06_score": {
+    "candidate_points": "4/8",
+    "official_points": "0/8",
+    "global_official_total": "66/100",
+    "owner_acceptance": "PENDING"
+  },
+  "historical_wp06d_r1": {
+    "status": "FAIL_CLOSED",
+    "m1": "PASS",
+    "m2_accepted_steps": 80,
+    "m2_limit_point_gate": "FAIL_NO_LOAD_FACTOR_TURNING_DEMONSTRATED",
+    "m2_moment_equilibrium_relative_error": 2.438196359642231e-05,
+    "moment_equilibrium_threshold": 1e-08,
+    "m3": "NOT_RUN",
+    "raw_evidence_modified": false
+  },
+  "runner_audit": {
+    "legacy_r1_entrypoint": "QUARANTINED",
+    "legacy_monitor": "ARC_LENGTH_CONTROL_DOF_NOT_FROZEN_MEAN_CROWN",
+    "legacy_output_paths_shared_with_historical_r1": true,
+    "normal_entrypoint_status": "BLOCKED_STALE_R1_RUNNER",
+    "normal_entrypoint_runs_solver": false,
+    "normal_entrypoint_writes_files": false
+  },
+  "execution_guard": {
+    "validator_added": true,
+    "requires_frozen_r2_contract": true,
+    "requires_exact_owner_grant": true,
+    "binds_branch_source_contract_and_policy": true,
+    "requires_clean_worktree": true,
+    "refuses_existing_output_directory": true,
+    "tested_with_synthetic_fixtures_only": true,
+    "queries_git_state_itself": false,
+    "invoked_by_phase1_runner": false,
+    "effective_execution_gate": false
+  },
+  "verification": {
+    "targeted_tests_passed": 145,
+    "targeted_tests_failed": 0,
+    "junit_path": "qualification/0_2_9/wp06_abc_revalidation_r1/wp06d-guard-targeted-tests-r2.xml",
+    "junit_sha256": "82abf7c1d5b1c2a5b62e12b905a52b3107493cfbdac51137d425967c849a1692",
+    "superseded_junit_attempt": {
+      "path": "qualification/0_2_9/wp06_abc_revalidation_r1/wp06d-guard-targeted-tests.xml",
+      "sha256": "fe9bcf59fa2165d43985506dbf60cbd6dd9e51df82e8db32a2b35786a53c5711",
+      "tests": 145,
+      "passed": 144,
+      "failed": 1,
+      "failure": "test_legacy_r1_runner_entrypoint_is_quarantined: import path ModuleNotFoundError",
+      "classification": "SUPERSEDED_INITIAL_TEST_FAILURE_IMPORT_FIXED",
+      "preserved": true,
+      "used_as_pass_evidence": false
+    },
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "documentation_generation_tests": {
+      "reported_result": "17 passed, 2 skipped",
+      "machine_readable_output": "NOT_RETAINED",
+      "independently_verifiable_from_package": false
+    },
+    "full_repository_suite": "NOT_RUN"
+  },
+  "governance": {
+    "structural_solves_run": false,
+    "reference_solves_run": false,
+    "replay_run": false,
+    "production_mechanics_changed": false,
+    "thresholds_changed": false,
+    "wp06d_r2_contract": "NOT_CREATED_NOT_FROZEN",
+    "wp06d_owner_execution_authorization": "NOT_PRESENT",
+    "historical_failures_preserved": true
+  },
+  "next_gate": "Prepare and review a current-source WP06-D R2 contract and checkpoint-complete runner; obtain separate Owner execution authorization before any structural solve. M3 remains gated on all earlier D gates."
+}

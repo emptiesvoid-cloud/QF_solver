@@ -16,7 +16,7 @@ applicable_version: 0.2.9-development
 | WP04 | 12 | **Closed — 12/12; independent WP04-F `GO_WITH_LIMITATIONS` audit** |
 | WP15 | 2 | **Closed — 2/2; governing-branch telemetry integration validated** |
 | WP05 | 5 | **Closed — 5/5, bounded with limitations; C/D structural qualification and E cross-family closure accepted** |
-| WP06 | 8 | A/B/C technical candidates; formal qualification not started (0/8); historical D failure preserved; current-source revalidation underway |
+| WP06 | 8 | A/B/C revalidated as a 4/8 candidate, Owner review pending; official 0/8; historical D failure preserved |
 | WP07 | 10 | **Owner accepted — 10/10 with bounded limitations; A–E closed** |
 | WP08 | 8 | **Closed — 8/8; Owner-approved with limitations** |
 | WP09 | 8 | Blocked by OD-029-01 |
@@ -57,6 +57,22 @@ audit](wp07-integration-into-governing-branch.md).
 
 The frozen roadmap declares 100 total points, and its listed package weights
 sum to 100. No package weights were changed.
+
+WP06-A/B/C have been revalidated against the current governing source with 118
+focused continuation, rollback/restart and identity tests passing. They form a
+**4/8 candidate** (A 1/1, B 1/1, C 2/2) pending Owner review; the official
+WP06 score remains **0/8**. This evidence is limited to source/formulation
+audit, state/restart behavior and algebraic/toy identities. It does not
+qualify a structural postbuckling path. The historical WP06-D1 M2 `FAIL_CLOSED`
+is preserved. See the [WP06-A/B/C revalidation package](wp06-abc-current-revalidation.md).
+
+The stale WP06-D R1 runner is now quarantined: it used the node-specific
+control DOF rather than the frozen mean-crown monitor and targeted shared R1
+output paths. Its command entry point is fail-closed; the historical raw
+failure remains untouched. R2 execution is not ready: it still needs a frozen
+current-source contract and exact Owner authorization. The safety regression
+selection passed 145 tests; no structural solve was run. See the
+[WP06-D R2 safety preparation](wp06d-r2-runner-safety-preparation.md).
 
 ## WP08 closure
 
