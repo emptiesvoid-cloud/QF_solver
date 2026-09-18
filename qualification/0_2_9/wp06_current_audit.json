@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0.2.9-WP06-CURRENT-AUDIT-001",
+  "audit_date": "2026-09-18",
+  "status": "PREPARATION_AUDITED_FORMAL_QUALIFICATION_NOT_STARTED",
+  "provenance": {
+    "governing_branch": "0.2.9-unified-nonlinear",
+    "governing_sha_before_audit_commit": "51e8d09c23a2f5ecaf61251cb308e025752b6d6b",
+    "remote_preparation_branch": "origin/0.2.9-wp06-prep",
+    "remote_preparation_sha": "b405b6c54d2f3505bc0b5a876ec4f5bf9914cfba",
+    "merge_base": "12b5331bcbec49e38145ba4a6263df60b8bf4575"
+  },
+  "branch_audit": {
+    "main_commits_ahead_from_merge_base": 134,
+    "prep_branch_commits_ahead_from_merge_base": 16,
+    "whole_tree_changed_paths": 525,
+    "whole_tree_insertions": 138,
+    "whole_tree_deletions": 2601375,
+    "wp06_scope_matches_governing_tree_except_document_registry": true,
+    "prep_branch_unique_src_changes": false,
+    "merge_recommendation": "DO_NOT_MERGE_STALE_TREE"
+  },
+  "qualification": {
+    "formal_status": "NOT_QUALIFIED",
+    "official_points": "0/8",
+    "historical_phase1_status": "FAIL_CLOSED_M2_LIMIT_POINT_TRACKING_FAILURE_AND_EQUILIBRIUM_FAILURE",
+    "m1_status": "PASS_LOCAL_LIMIT_POINT_OBSERVED",
+    "m2_status": "FAIL_CLOSED",
+    "m2_accepted_steps": "80/80",
+    "m2_limit_point_demonstrated": false,
+    "m2_lambda_monotone_increasing": true,
+    "m2_force_balance": 2.539163526713095e-17,
+    "m2_moment_balance": 2.438196359642231e-05,
+    "m2_moment_limit": 1e-8,
+    "m2_monitor_contract_valid": false,
+    "m2_monitor_actual": "node-4 control displacement",
+    "m2_monitor_required": "negative mean UZ over crown nodes [2,3,4]",
+    "m2_full_accepted_displacement_archived": false,
+    "diagnostic_reruns_usable": 0,
+    "diagnostic_reruns_attempted": 2,
+    "m3_status": "NOT_RUN_AFTER_M2_FAILURE"
+  },
+  "evidence_sha256": {
+    "qualification/0_2_9/wp06d_phase1_structural_raw.json": "c482e54b06a4ee2a7edeb1f9e11a48d5ce4a57817a8c755708e85919406ae050",
+    "qualification/0_2_9/wp06d1/wp06d1_m2_failure_diagnostic.json": "247e6c7f058566cf60c1fa8e31f3b146203db5c0f8146068b3bd9a76dcc8a2e0",
+    "qualification/0_2_9/wp06_premerge_remediation.json": "0b04aa80c688bf2bc5064281ad12b24985c9f2257e1079b8dc921ef44f9137da"
+  },
+  "validation": {
+    "wp06_focused_and_wp04_f_regression_tests": "92 passed",
+    "wp07_ledger_and_closure_tests": "11 passed",
+    "full_repository_suite": "NOT_RUN",
+    "structural_solves_run": false,
+    "production_mechanics_changed": false,
+    "thresholds_changed": false
+  },
+  "ledger": {
+    "wp06_points": "0/8",
+    "global_validated_total": "66/100"
+  },
+  "next_gate": "Rebind the WP06 execution contract and policy to the current governing SHA; obtain explicit execution authorization before any structural requalification. M3 is blocked until M1/M2 and all required reference/replay/equilibrium gates pass."
+}

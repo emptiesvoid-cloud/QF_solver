@@ -74,8 +74,89 @@
         "docs/verification/0_2_9/wp05-cde-owner-integration.md",
         "qualification/0_2_9/wp05cde_integration/wp05_cde_integration_audit.json"
       ]
+    },
+    {
+      "id": "OD-029-WP07-D-R1-01",
+      "title": "WP07-D formal R1 requalification acceptance",
+      "decision_date": "2026-09-17",
+      "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "owner_review_status": "PASS_REPLAY_VERIFIED",
+      "accepted_work_items": ["WP07-D"],
+      "approved_points": 3,
+      "wp07_points_before": "5/10",
+      "wp07_points_after": "8/10",
+      "consolidated_ledger_before": 61,
+      "consolidated_ledger_after": 64,
+      "owner_stated_total_after": 61,
+      "owner_stated_total_basis": "58/100 pre-local-WP05-C/D/E baseline plus WP07-D 3/3; the consolidated ledger already included WP05-C/D/E +3.",
+      "execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "formal_contract_sha256": "b923f560a0d6719ee149ea31f912f46b6b7d32600df1cd7b80bf70a40562d7d7",
+      "execution_binding_sha256": "ef223ee40ed1d4d9b1c60a20c2ee2958ea4e37acd8c0265058a4a12218fcf52d",
+      "analysis_sha256": "1a81e261eec99e201b6266a41dd87a8f452880dab4105b9a940087ab9e8854ab",
+      "owner_acceptance_sha256_as_bound_by_wp07e": "17837563364304d41ecb9ec4308f455d673f06bd533dc588f7f9daaf85b434dc",
+      "evidence": [
+        "qualification/0_2_9/wp07e_closure_r2/d_r1_evidence_manifest.json",
+        "qualification/0_2_9/wp07e_closure_r2/wp07e_closure_final_r2_owner_review.json"
+      ],
+      "wp07e_status_at_decision": "NOT_YET_ACCEPTED"
+    },
+    {
+      "id": "OD-029-WP07-E-R2-01",
+      "title": "WP07-E R2 evidence closure acceptance",
+      "decision_date": "2026-09-18",
+      "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "owner_review_status": "ACCEPTED",
+      "accepted_work_items": ["WP07-E"],
+      "approved_points": 2,
+      "wp07_points_before": "8/10",
+      "wp07_points_after": "10/10",
+      "consolidated_ledger_before": 64,
+      "consolidated_ledger_after": 66,
+      "evidence_package_status": "COMPLETE",
+      "checker_status": "PASS",
+      "negative_cases_passed": 6,
+      "targeted_tests_passed": 67,
+      "wp07d_rerun": false,
+      "evidence_package_commit_before_acceptance": "667c34abcd56a0f703eb6aa6eb48c1c95f3f2317",
+      "owner_acceptance_record_commit": "51e8d09c23a2f5ecaf61251cb308e025752b6d6b",
+      "owner_acceptance_record_sha256": "f48c58696cd36982521fb2b9270ff3e1e2292b1fb5dfcba4defc4dd02cf1faa2",
+      "closure_candidate_sha256": "8ef56a5446632be3e25b218dbe25e7b2b903bb3dd01f0b6f1732ed9c9633b5",
+      "contract_sha256": "2a6292b3c90a645c752ad388f0c62dc6aa735d1e42225a3dd96333c1bbafcd88",
+      "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+      "authorizations": {
+        "owner_accepts_wp07e": true,
+        "owner_awards_wp07e_points": "2/2",
+        "official_wp07_ledger_update": true,
+        "governing_push": true
+      },
+      "evidence": [
+        "docs/verification/0_2_9/wp07e-owner-acceptance-r2.md",
+        "qualification/0_2_9/wp07e_closure_r2/wp07e_owner_acceptance_r2.json",
+        "qualification/0_2_9/wp07e_closure_r2/wp07e_closure_final_r2_owner_review.json"
+      ],
+      "historical_failures_preserved": true,
+      "limitations": [
+        "bounded routes and frozen cases only",
+        "no frictional updated-search or finite-sliding qualification",
+        "no WP06 or general nonlinear contact qualification"
+      ]
     }
   ],
+  "ledger_reconciliation": {
+    "reconciled_on": "2026-09-18",
+    "prior_committed_total": 61,
+    "prior_wp07_points": "5/10",
+    "wp05_points_already_in_prior_total": "5/5",
+    "wp07d_award": 3,
+    "total_after_wp07d": 64,
+    "wp07e_award": 2,
+    "reconciled_validated_total": 66,
+    "declared_total_points": 100,
+    "frozen_roadmap_allocations_sum": 100,
+    "weight_changes": false,
+    "allocation_mismatch_status": "CONSISTENT",
+    "explanation": "The earlier Owner-stated 61/100 after D used a 58/100 pre-WP05 baseline; the consolidated local ledger already included WP05-C/D/E +3. The frozen roadmap package allocations sum to the declared 100 points. No points are double counted."
+  },
   "open_decisions": [
     {
       "id": "OD-029-01",

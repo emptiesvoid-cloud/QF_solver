@@ -16,18 +16,22 @@ applicable_version: 0.2.9-development
 | WP04 | 12 | **Closed — 12/12; independent WP04-F `GO_WITH_LIMITATIONS` audit** |
 | WP15 | 2 | **Closed — 2/2; governing-branch telemetry integration validated** |
 | WP05 | 5 | **Closed — 5/5, bounded with limitations; C/D structural qualification and E cross-family closure accepted** |
-| WP06 | 8 | Preparation integrated locally; formal qualification not started (0/8); historical D failure preserved |
-| WP07 | 10 | **Partial — 5/10; A/B/C integrated and revalidated; D/E unrun** |
+| WP06 | 8 | Preparation only; formal qualification not started (0/8); historical D failure preserved; stale prep branch audited—not for merge |
+| WP07 | 10 | **Owner accepted — 10/10 with bounded limitations; A–E closed** |
 | WP08 | 8 | **Closed — 8/8; Owner-approved with limitations** |
 | WP09 | 8 | Blocked by OD-029-01 |
 | WP10–WP14 | 20 | Not started |
-| **Validated total (local integration)** | **61 / 100** | **WP00 4/4 + WP01 12/12 + WP02 6/6 + WP03 7/7 + WP04 12/12 + WP15 2/2 + WP05 A–E 5/5 + WP07 A/B/C 5/10 + WP08 A–E 8/8** |
+| **Validated total (consolidated ledger)** | **66 / 100** | **Includes WP05 5/5, WP07 10/10 and WP08 8/8** |
 
-The local WP05-C/D/E integration is based on governing SHA
-`a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe`. It awards three additional
-bounded points, moving the local total from 58/100 to 61/100. The governing
-remote has not been pushed and remains at 58/100. See the [WP05-C/D/E Owner
-integration audit](wp05-cde-owner-integration.md).
+The Owner-approved WP05-C/D/E integration adds 3 bounded points to the
+58/100 pre-integration ledger, producing 61/100. WP07-D then added 3 points
+(61→64 in the consolidated ledger), and WP07-E added 2 (64→66). The earlier
+Owner-stated 61/100 after D used the 58/100 pre-WP05 baseline; the 3-point
+difference is the already accepted local WP05-C/D/E award, not duplicated
+credit. The governing branch is pushed at
+`51e8d09c23a2f5ecaf61251cb308e025752b6d6b`. See the [WP05-C/D/E Owner
+integration audit](wp05-cde-owner-integration.md) and [WP07 score-ledger
+reconciliation](owner-decisions.md#wp07-d-and-wp07-e-closure-and-score-ledger-reconciliation).
 
 ## WP05 bounded closure
 
@@ -41,19 +45,37 @@ another external-solver comparison is deferred to future V&V and remains
 explicitly unclaimed. See the [WP05-C report](wp05-c-tet10-formal-requalification.md),
 [WP05-D Owner review](wp05d-owner-validation-review.md), and [WP05-E closure](wp05-e-cross-family-closure.md).
 
-WP07-A/B/C are **FORMAL PASS — 5/10** after the non-fast-forward
-integration of child head `3bdcc84907a045e7815d6d5253bf4e2eed74970e` into the
-governing branch. The bounded initial-search active-set and nonlinear
-frictionless penalty contracts, stateless evaluation/restart semantics and
-contact identity evidence pass targeted revalidation. Updated-search and
-finite-sliding contact remain research-only. WP07-D structural contact
-execution and WP07-E closure remain unrun and unawarded. See [the WP07
-integration audit](wp07-integration-into-governing-branch.md).
+WP07 is **OWNER-ACCEPTED — 10/10 WITH LIMITATIONS**. A/B/C remain formally
+accepted; D R1 was awarded 3/3 after production/reference gates and authorized
+replays passed; E R2 was awarded 2/2 after the fail-closed checker accepted
+all six negative cases and the D evidence dependencies. D was not rerun for
+E. The accepted scope remains bounded to the frozen routes and evidence;
+updated-search and finite-sliding contact remain research-only. See the
+[WP07-E Owner acceptance](wp07e-owner-acceptance-r2.md), [WP07-E closure
+audit](wp07e-closure-owner-review-r2-final.md), and [WP07 integration
+audit](wp07-integration-into-governing-branch.md).
+
+The frozen roadmap declares 100 total points, and its listed package weights
+sum to 100. No package weights were changed.
+
+## WP06 current audit
+
+WP06 remains **PREPARATION ONLY — 0/8**. The D1 structural record is
+`FAIL_CLOSED`: M2 reached 80 accepted steps but did not demonstrate the frozen
+limit point and missed the moment-equilibrium gate. The original monitor also
+recorded node 4 rather than the frozen mean of crown nodes 2/3/4, and the raw
+package lacks full displacement vectors needed to reconstruct support moments.
+Preparation tooling for corrected monitoring and state archival is already on
+the governing branch. The remote `0.2.9-wp06-prep` branch is stale and its
+whole-tree diff would remove current WP05/WP07/WP08 evidence; do not merge it.
+See the [WP06 current audit](wp06-current-audit.md). No new structural solve is
+authorized by that audit.
 
 ## WP08 closure
 
-The Owner has approved WP08-A through WP08-E at **8/8**, bringing the
-official validated total to **58/100**. The reviewed evidence is the frozen
+The Owner has approved WP08-A through WP08-E at **8/8**. Together with the
+accepted WP05 5/5 and WP07 10/10 closures, the current consolidated validated
+total is **66/100**. The reviewed evidence is the frozen
 WP08 A–D closure, WP08-E accepted-state restart closure, and direct Owner
 inspection package; see the [Owner approval](wp08-owner-approval.md),
 [WP08-E closure report](wp08e-closure-report.md), and

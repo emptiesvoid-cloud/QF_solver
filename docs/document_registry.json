@@ -6156,6 +6156,25 @@
       "tests/unit/test_wp06_premerge_tools.py",
       "tests/verification/test_wp04_f_final_closure.py"
     ]
+  },
+  {
+    "id": "DOC-029-WP06-CURRENT-AUDIT-001",
+    "path": "verification/0_2_9/wp06-current-audit.md",
+    "title": "QF Solver 0.2.9 WP06 current-state and stale-branch audit",
+    "status": "controlled_evidence",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp06_current_audit.json"
+    ],
+    "tests": [
+      "tests/unit/test_wp06_ab_arc_length_contract.py",
+      "tests/unit/test_wp06_premerge_tools.py",
+      "tests/unit/test_wp06c_arc_length_predictor_corrector_identities.py",
+      "tests/unit/test_wp06d_structural_limit_point_contract.py",
+      "tests/unit/test_wp06e_postbuckling_imperfection_contract.py",
+      "tests/unit/test_wp06f_closure_contract.py",
+      "tests/verification/test_wp04_f_final_closure.py"
+    ]
   }
 ]
 }
