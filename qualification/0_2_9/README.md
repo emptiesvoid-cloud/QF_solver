@@ -141,19 +141,18 @@ undercount remains explicit deferred telemetry debt. The validated total is
 WP05-A/B/C/D/E are **CLOSED — 5/5 WITH LIMITATIONS** after Owner-approved
 integration of the bounded TET10 and HEX20 structural evidence and the H3
 cross-family audit. External correlation with Code_Aster or another solver is
-deferred and remains unclaimed. The local validated total is **61/100**;
-the remote governing branch remains at 58/100 until push. See
+deferred and remains unclaimed. The consolidated validated total after the
+later WP07 D/E Owner awards is **66/100**. See
 `wp05cde_integration/wp05_cde_integration_audit.json` and
 `../docs/verification/0_2_9/wp05-cde-owner-integration.md`.
 
-WP07-A/B/C are now **FORMAL PASS — 5/10** after the validated governing-branch
-integration of the Owner-frozen bounded contact candidate. The initial-search
-linear active-set and nonlinear frictionless penalty evaluation/restart
-semantics and contact identities pass targeted revalidation. Updated-search
-and finite-sliding contact remain research-only. WP07-D structural execution
-and WP07-E closure remain unrun and unawarded. The validated total is
-**50/100**; see `wp07/wp07_integration_audit.json` and
-`../docs/verification/0_2_9/wp07-integration-into-governing-branch.md`.
+WP07-A/B/C/D/E are **OWNER-ACCEPTED — 10/10 WITH LIMITATIONS**. D R1 received
+3/3 and E R2 received 2/2; E reused the accepted D artifacts, with no D
+structural rerun. Updated-search and finite-sliding contact remain
+research-only. The consolidated validated total is **66/100**. See
+`wp07e_closure_r2/wp07e_owner_acceptance_r2.json`,
+`wp07e_closure_r2/wp07e_closure_final_r2_owner_review.json`, and
+`../docs/verification/0_2_9/wp07e-owner-acceptance-r2.md`.
 
 WP03-C preserves the accepted-state authority and all existing numerical and
 maturity boundaries. WP03-D adds the single `UnifiedArcLengthRadiusPolicy`,

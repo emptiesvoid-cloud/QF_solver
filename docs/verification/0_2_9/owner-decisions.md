@@ -99,3 +99,32 @@ checkpoints only when compatibility is proven from the current model. Any
 ambiguous, stateful or contact-history-dependent v1 checkpoint is rejected
 explicitly. Missing history is never invented, and all new writes use schema
 2. The implementation record is [WP02-B schema-v2 foundation](wp02-b-schema-v2-foundation.md).
+
+## WP07-D and WP07-E closure and score-ledger reconciliation
+
+**Status:** CLOSED — Owner accepted WP07-D at **3/3** and WP07-E at **2/2**;
+WP07 is **10/10 with bounded limitations**.
+
+WP07-D R1 was accepted on 2026-09-17 as `PASS_REPLAY_VERIFIED`. WP07-E R2
+was separately accepted on 2026-09-18 after the complete fail-closed evidence
+package passed its checker, including all six required negative cases. E
+reused the accepted D R1 package; D was not rerun. The immutable E candidate
+record remains `PASS_CANDIDATE`; the separate Owner acceptance artifact is
+the authority for the official 2/2 award.
+
+The ledger arithmetic is reconciled as follows: the committed pre-D ledger was
+61/100 and already included WP05 at 5/5 and WP07 at 5/10. D adds 3 points,
+yielding 64/100 and WP07 8/10; E adds 2, yielding **66/100** and WP07
+**10/10**. The earlier Owner-stated 61/100 after D used a 58/100 baseline
+before the local WP05 +3 integration. This is a baseline difference, not
+duplicated credit.
+
+The frozen roadmap declares 100 total points, and its package allocations
+also sum to 100. This ledger update does not change the frozen weights.
+WP07 limitations remain those in the accepted
+R2 contract: bounded routes and frozen cases only; no general updated-search
+or finite-sliding claim.
+
+Evidence: [WP07-E Owner acceptance](wp07e-owner-acceptance-r2.md), [R2
+closure audit](wp07e-closure-owner-review-r2-final.md), and the machine-readable
+award in `qualification/0_2_9/owner_decisions.json`.

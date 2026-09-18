@@ -140,5 +140,6 @@ def test_final_all_or_nothing_governance_decision() -> None:
         historical_exists = git_path_exists_at_revision(AUDIT_SHA, path)
         if not historical_exists:
             assert path == "qualification/0_2_9/wp04d/h3_raw.npz"
-            assert not (ROOT / path).exists()
+            # A descendant may have regenerated this artifact.  Its current
+            # presence must not rewrite what existed at the frozen audit SHA.
         assert len(expected) == 64

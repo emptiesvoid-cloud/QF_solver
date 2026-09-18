@@ -56,14 +56,35 @@ def test_wp05cde_cross_family_gates_and_external_limit_are_explicit() -> None:
     assert "DEFERRED_TO_FUTURE_VALIDATION" in owner["external_solver_comparison"]
 
 
-def test_wp05cde_score_matches_release_progress_ledger() -> None:
+def test_release_ledger_includes_wp05_and_wp07_owner_awards() -> None:
     audit = _load(AUDIT)
     progress = _load(QUALIFICATION / "progress.json")
+    owner_decisions = _load(QUALIFICATION / "owner_decisions.json")
+    roadmap = _load(QUALIFICATION / "roadmap.json")
+    decisions = cast(list[dict[str, Any]], owner_decisions["closed_decisions"])
+    wp07d = next(item for item in decisions if item["id"] == "OD-029-WP07-D-R1-01")
+    wp07e = next(item for item in decisions if item["id"] == "OD-029-WP07-E-R2-01")
 
-    assert progress["validated_points"] == audit["scores"]["validated_total_after_local_integration"]
+    wp05_total = audit["scores"]["validated_total_after_local_integration"]
+    assert wp05_total == 61
+    assert wp07d["consolidated_ledger_before"] == wp05_total
+    assert wp07d["consolidated_ledger_after"] == 64
+    assert wp07e["consolidated_ledger_before"] == wp07d["consolidated_ledger_after"]
+    assert wp07e["consolidated_ledger_after"] == 66
+    assert progress["validated_points"] == wp07e["consolidated_ledger_after"]
+    roadmap_allocation_sum = sum(
+        item["points"] for item in roadmap["work_packages"]
+    )
+    assert roadmap_allocation_sum == roadmap["total_points"] == 100
+    assert owner_decisions["ledger_reconciliation"]["frozen_roadmap_allocations_sum"] == roadmap_allocation_sum
+    assert owner_decisions["ledger_reconciliation"]["allocation_mismatch_status"] == "CONSISTENT"
     wp05 = cast(dict[str, Any], progress["work_packages"]["WP05"])
     assert wp05["validated_points"] == 5
     assert wp05["status"] == "CLOSED_BOUNDED_WITH_LIMITATIONS"
+    wp07 = cast(dict[str, Any], progress["work_packages"]["WP07"])
+    assert wp07["validated_points"] == 10
+    assert wp07["status"] == "OWNER_ACCEPTED_A_TO_E_BOUNDED_WITH_LIMITATIONS"
+    assert progress["total_points"] == 100
 
 
 def test_wp05cde_raw_archives_match_frozen_manifest() -> None:
