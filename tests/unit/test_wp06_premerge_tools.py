@@ -168,13 +168,60 @@ def _phase1_git_fixture(tmp_path):
     subprocess.run(["git", "config", "user.name", "WP06 test"], cwd=repo, check=True)
     subprocess.run(["git", "config", "user.email", "wp06-test@example.invalid"], cwd=repo, check=True)
 
+    policy_path = repo / "src" / "solver_policy.py"
+    policy_path.parent.mkdir(parents=True)
+    policy_path.write_text("POLICY = 'frozen'\n", encoding="utf-8")
+    parent_contract_path = repo / "qualification" / "0_2_9" / "wp06d_structural_limit_point_contract.json"
+    parent_contract_path.parent.mkdir(parents=True)
+    parent_contract_path.write_text('{"contract_revision":"WP06D-R1"}\n', encoding="utf-8")
+    subprocess.run(
+        ["git", "add", "src/solver_policy.py", "qualification/0_2_9/wp06d_structural_limit_point_contract.json"],
+        cwd=repo,
+        check=True,
+    )
+    subprocess.run(["git", "commit", "--quiet", "-m", "freeze test policy source"], cwd=repo, check=True)
+    policy_source_sha = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=repo, check=True, capture_output=True, text=True
+    ).stdout.strip()
+    policy_file_hashes = {
+        "src/solver_policy.py": hashlib.sha256(
+            subprocess.check_output(
+                ["git", "show", f"{policy_source_sha}:src/solver_policy.py"], cwd=repo
+            )
+        ).hexdigest()
+    }
+    policy_digest = hashlib.sha256(
+        json.dumps(policy_file_hashes, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+    parent_contract_blob = subprocess.check_output(
+        ["git", "show", f"{policy_source_sha}:qualification/0_2_9/wp06d_structural_limit_point_contract.json"],
+        cwd=repo,
+    )
+    parent_contract_oid = subprocess.run(
+        ["git", "rev-parse", f"{policy_source_sha}:qualification/0_2_9/wp06d_structural_limit_point_contract.json"],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+
     contract_path = repo / "qualification" / "0_2_9" / "wp06d_r2_execution_contract.json"
-    contract_path.parent.mkdir(parents=True)
+    contract_path.parent.mkdir(parents=True, exist_ok=True)
     contract = {
         "contract_revision": "WP06D-R2",
         "phase": "PHASE_1_EXECUTION",
         "status": "FROZEN_FOR_EXECUTION",
-        "solver_policy_digest": "b" * 64,
+        "provenance": {"governing_policy_source_sha": policy_source_sha},
+        "parent_r1": {
+            "contract_path": "qualification/0_2_9/wp06d_structural_limit_point_contract.json",
+            "contract_sha256_at_execution": hashlib.sha256(parent_contract_blob).hexdigest(),
+            "contract_git_blob_at_governing_source": parent_contract_oid,
+        },
+        "solver_policy_binding": {
+            "source_sha": policy_source_sha,
+            "source_file_sha256": policy_file_hashes,
+            "policy_digest": policy_digest,
+        },
         "execution_guard": {"structural_solves_enabled": True},
     }
     contract_bytes = (json.dumps(contract, sort_keys=True) + "\n").encode("utf-8")
@@ -185,6 +232,10 @@ def _phase1_git_fixture(tmp_path):
     source_sha = subprocess.run(
         ["git", "rev-parse", "HEAD"], cwd=repo, check=True, capture_output=True, text=True
     ).stdout.strip()
+    contract_blob = subprocess.check_output(
+        ["git", "show", f"{source_sha}:qualification/0_2_9/wp06d_r2_execution_contract.json"],
+        cwd=repo,
+    )
     branch = subprocess.run(
         ["git", "branch", "--show-current"], cwd=repo, check=True, capture_output=True, text=True
     ).stdout.strip()
@@ -195,8 +246,10 @@ def _phase1_git_fixture(tmp_path):
         "contract_revision": "WP06D-R2",
         "branch": branch,
         "source_sha": source_sha,
-        "contract_sha256": hashlib.sha256(contract_bytes).hexdigest(),
-        "solver_policy_digest": contract["solver_policy_digest"],
+        "contract_sha256": hashlib.sha256(contract_blob).hexdigest(),
+        "policy_source_sha": policy_source_sha,
+        "solver_policy_digest": policy_digest,
+        "authorized_operations": ["PRODUCTION_STRUCTURAL", "INDEPENDENT_REFERENCE", "REPLAY"],
         "authorized_levels": ["M1", "M2", "M3"],
         "m3_conditional_on_m1_m2_reference_replay": True,
     }
@@ -298,6 +351,33 @@ def test_phase1_guard_rejects_owner_grant_inside_repository(tmp_path) -> None:
             authorization_path=in_repo_grant,
             output_root=fixture["output_root"],
             source_sha=fixture["source_sha"],
+            branch=fixture["branch"],
+            working_tree_clean=True,
+        )
+
+
+def test_phase1_guard_rejects_solver_policy_change_after_frozen_source(tmp_path) -> None:
+    import json
+    import subprocess
+
+    fixture = _phase1_git_fixture(tmp_path)
+    policy_path = fixture["repo"] / "src" / "solver_policy.py"
+    policy_path.write_text("POLICY = 'changed after freeze'\n", encoding="utf-8")
+    subprocess.run(["git", "add", "src/solver_policy.py"], cwd=fixture["repo"], check=True)
+    subprocess.run(["git", "commit", "--quiet", "-m", "change frozen policy file"], cwd=fixture["repo"], check=True)
+    current_head = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=fixture["repo"], check=True, capture_output=True, text=True
+    ).stdout.strip()
+    authorization = fixture["authorization"]
+    authorization["source_sha"] = current_head
+    fixture["authorization_path"].write_text(json.dumps(authorization), encoding="utf-8")
+
+    with pytest.raises(PermissionError, match="execution source differs from frozen policy"):
+        validate_phase1_authorization(
+            contract_path=fixture["contract_path"],
+            authorization_path=fixture["authorization_path"],
+            output_root=fixture["output_root"],
+            source_sha=current_head,
             branch=fixture["branch"],
             working_tree_clean=True,
         )

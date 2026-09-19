@@ -11,6 +11,7 @@ import hashlib
 import json
 import subprocess
 from pathlib import Path
+from pathlib import PurePosixPath
 from typing import Any
 
 
@@ -30,6 +31,114 @@ def _git(cwd: Path, *args: str) -> str:
     return completed.stdout.strip()
 
 
+def _git_bytes(cwd: Path, *args: str) -> bytes:
+    """Read exact committed blob bytes, independent of checkout line endings."""
+
+    try:
+        completed = subprocess.run(
+            ["git", *args], cwd=cwd, check=True, capture_output=True
+        )
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise PermissionError("Unable to independently inspect committed WP06-D bytes.") from exc
+    return completed.stdout
+
+
+def _sha256(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def _validate_policy_binding(repo_root: Path, contract: dict[str, Any], head: str) -> tuple[str, str]:
+    """Recompute the frozen policy digest from exact Git blobs in its source commit."""
+
+    binding = contract.get("solver_policy_binding")
+    if not isinstance(binding, dict):
+        raise PermissionError("WP06-D contract has no independently verifiable solver policy binding.")
+    source_sha = binding.get("source_sha")
+    file_hashes = binding.get("source_file_sha256")
+    expected_digest = binding.get("policy_digest")
+    if not isinstance(source_sha, str) or len(source_sha) != 40:
+        raise PermissionError("WP06-D policy source SHA is missing or malformed.")
+    try:
+        int(source_sha, 16)
+    except ValueError as exc:
+        raise PermissionError("WP06-D policy source SHA is not hexadecimal.") from exc
+    try:
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", source_sha, head],
+            cwd=repo_root,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise PermissionError("WP06-D policy source is not an ancestor of the execution HEAD.") from exc
+    if not isinstance(file_hashes, dict) or not file_hashes:
+        raise PermissionError("WP06-D policy source file digest map is missing.")
+    observed: dict[str, str] = {}
+    for raw_path, expected_hash in sorted(file_hashes.items()):
+        if not isinstance(raw_path, str) or not isinstance(expected_hash, str) or len(expected_hash) != 64:
+            raise PermissionError("WP06-D policy file digest entry is malformed.")
+        path = PurePosixPath(raw_path)
+        if path.is_absolute() or ".." in path.parts or not path.parts or "\\" in raw_path or ":" in raw_path:
+            raise PermissionError("WP06-D policy source paths must be safe repository-relative paths.")
+        try:
+            int(expected_hash, 16)
+            blob = _git_bytes(repo_root, "show", f"{source_sha}:{path.as_posix()}")
+        except (ValueError, PermissionError) as exc:
+            raise PermissionError(f"WP06-D policy source blob is unavailable: {raw_path}") from exc
+        observed[raw_path] = _sha256(blob)
+        if observed[raw_path] != expected_hash:
+            raise PermissionError(f"WP06-D policy source digest mismatch for {raw_path}.")
+        execution_blob = _git_bytes(repo_root, "show", f"{head}:{path.as_posix()}")
+        if _sha256(execution_blob) != expected_hash:
+            raise PermissionError(f"WP06-D execution source differs from frozen policy for {raw_path}.")
+    canonical = json.dumps(observed, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
+    digest = _sha256(canonical)
+    if expected_digest != digest:
+        raise PermissionError("WP06-D solver policy digest does not match the committed source blobs.")
+    return source_sha, digest
+
+
+def _validate_parent_contract_binding(repo_root: Path, contract: dict[str, Any], head: str) -> None:
+    """Verify the R1 parent contract by its exact governing Git blob."""
+
+    parent = contract.get("parent_r1")
+    if not isinstance(parent, dict):
+        raise PermissionError("WP06-D R2 contract has no immutable R1 parent binding.")
+    provenance = contract.get("provenance")
+    governing_sha = (
+        provenance.get("governing_policy_source_sha") if isinstance(provenance, dict) else None
+    )
+    raw_path = parent.get("contract_path")
+    expected_sha256 = parent.get("contract_sha256_at_execution")
+    expected_blob_oid = parent.get("contract_git_blob_at_governing_source")
+    if not isinstance(governing_sha, str) or len(governing_sha) != 40:
+        raise PermissionError("WP06-D R1 parent governing source SHA is missing or malformed.")
+    try:
+        int(governing_sha, 16)
+    except ValueError as exc:
+        raise PermissionError("WP06-D R1 parent governing source SHA is not hexadecimal.") from exc
+    if not isinstance(raw_path, str) or not isinstance(expected_sha256, str) or not isinstance(expected_blob_oid, str):
+        raise PermissionError("WP06-D R1 parent contract digest binding is incomplete.")
+    path = PurePosixPath(raw_path)
+    if path.is_absolute() or ".." in path.parts or "\\" in raw_path or ":" in raw_path:
+        raise PermissionError("WP06-D R1 parent contract path is not a safe repository-relative path.")
+    try:
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", governing_sha, head],
+            cwd=repo_root,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        blob = _git_bytes(repo_root, "show", f"{governing_sha}:{path.as_posix()}")
+        blob_oid = _git(repo_root, "rev-parse", f"{governing_sha}:{path.as_posix()}")
+    except (OSError, subprocess.CalledProcessError, PermissionError) as exc:
+        raise PermissionError("WP06-D R1 parent contract blob is unavailable or not ancestral.") from exc
+    if _sha256(blob) != expected_sha256 or blob_oid != expected_blob_oid:
+        raise PermissionError("WP06-D R1 parent contract digest does not match its governing Git blob.")
+
+
 def _is_relative_to(path: Path, parent: Path) -> bool:
     try:
         path.relative_to(parent)
@@ -46,7 +155,11 @@ def build_requalification_plan() -> dict[str, Any]:
         "owner_authorization_required": True,
         "current_r1_execution_contract": "PHASE_0_PREPARATION_ONLY",
         "legacy_r1_runner": "QUARANTINED_STALE_MONITOR_AND_SHARED_OUTPUT_PATHS",
-        "r2_contract": "REQUIRED_NOT_CREATED",
+        "r2_contract": "PREPARATION_ONLY_OWNER_REVIEW_DRAFTED",
+        "r2_q_continuity_interpretation": "OWNER_APPROVED_FOR_EXPLORATION_ONLY_NOT_FORMAL_CONTRACT_ACCEPTANCE",
+        "r2_static_contract_audit": "OWNER_DECISION_REQUIRED_FOR_SYMMETRY_COMPONENT_AND_MOMENT_CONFIGURATION",
+        "independent_reference": "STVK_TET4_ELEMENT_AND_GLOBAL_ASSEMBLY_KERNELS_IMPLEMENTED_NO_PATH_SOLVER",
+        "r2_runner": "NOT_CREATED",
         "r2_owner_authorization": "REQUIRED_NOT_PRESENT",
         "provenance_validation": "GUARD_QUERIES_GIT_BRANCH_HEAD_AND_DIRTY_STATE",
         "owner_grant_storage": "EXTERNAL_TO_REPOSITORY",
@@ -150,8 +263,12 @@ def validate_phase1_authorization(
     ):
         raise PermissionError("WP06-D contract is not frozen and enabled for Phase-1 structural execution.")
 
-    contract_digest = hashlib.sha256(contract_file.read_bytes()).hexdigest()
-    policy_digest = contract.get("solver_policy_digest")
+    contract_blob = _git_bytes(repo_root, "show", f"HEAD:{contract_relative.as_posix()}")
+    contract_digest = _sha256(contract_blob)
+    _validate_parent_contract_binding(repo_root, contract, actual_source_sha)
+    policy_source_sha, policy_digest = _validate_policy_binding(
+        repo_root, contract, actual_source_sha
+    )
     expected_levels = ["M1", "M2", "M3"]
     required_authorization = {
         "status": "AUTHORIZED",
@@ -160,20 +277,15 @@ def validate_phase1_authorization(
         "branch": actual_branch,
         "source_sha": actual_source_sha,
         "contract_sha256": contract_digest,
+        "policy_source_sha": policy_source_sha,
         "solver_policy_digest": policy_digest,
+        "authorized_operations": ["PRODUCTION_STRUCTURAL", "INDEPENDENT_REFERENCE", "REPLAY"],
         "authorized_levels": expected_levels,
         "m3_conditional_on_m1_m2_reference_replay": True,
     }
     for key, expected in required_authorization.items():
         if authorization.get(key) != expected:
             raise PermissionError(f"WP06-D Owner authorization mismatch for {key}.")
-    if not isinstance(policy_digest, str) or len(policy_digest) != 64:
-        raise PermissionError("WP06-D frozen solver policy digest is missing or malformed.")
-    try:
-        int(policy_digest, 16)
-    except ValueError as exc:
-        raise PermissionError("WP06-D frozen solver policy digest is not hexadecimal.") from exc
-
     return {
         "status": "AUTHORIZED_PREFLIGHT_PASS",
         "branch": actual_branch,
