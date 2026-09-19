@@ -4,7 +4,7 @@
   "package": "corotational_small_strain_j2",
   "status": "IMPLEMENTATION_CANDIDATE_OWNER_REVIEW_REQUIRED",
   "governing_base_sha": "03c35eb7a634a57e5c29d95555316cfb2701d2ad",
-  "source_sha": "0b9501ce2091a146aa895d77b24828114265e84b",
+  "source_sha": "0c32751970356db7a90098293da84e14a9832e0a",
   "owner_decision": "OD-029-01 option A selected for implementation; formal closure pending",
   "formal_requalification_authorized": false,
   "official_points": "0/8",
