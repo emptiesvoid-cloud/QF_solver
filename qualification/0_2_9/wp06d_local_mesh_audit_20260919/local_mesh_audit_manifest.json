@@ -1,0 +1,37 @@
+{
+  "algorithm": "sha256",
+  "files": [
+    {
+      "path": "qualification/0_2_9/wp06d_local_mesh_audit_20260919/local_mesh_audit.json",
+      "sha256": "d92bf8615690b9089b68f59b21dd3df0cce1530902f9f85662d7601da2fb6117",
+      "size_bytes": 10886
+    },
+    {
+      "path": "qualification/0_2_9/wp06d_local_mesh_audit_20260919/local_mesh_audit.md",
+      "sha256": "caa19f81f561974432ae4b706b61689a76584dbc1cdf7127cf0735bdb7892348",
+      "size_bytes": 1635
+    },
+    {
+      "path": "scripts/wp06d_local_mesh_audit.py",
+      "sha256": "dadea67c6336dbf87d99942bbc5368d1672649f49f4cfac99d165a5461f9dfa5",
+      "size_bytes": 20952
+    },
+    {
+      "path": "qualification/0_2_9/wp06d_local_mesh_audit_20260919/rise_span_0_05_M1_local_axial.npz",
+      "sha256": "15508102aa56d91367a798949f225f32232099ec05881f6b10a2f1d6ce8712eb",
+      "size_bytes": 30943
+    },
+    {
+      "path": "qualification/0_2_9/wp06d_local_mesh_audit_20260919/rise_span_0_05_M2_local_axial.npz",
+      "sha256": "33bf39732fb0ab3cccd51e8c0f5ce390554cf4619f7fdf6c16584f7674b4eb73",
+      "size_bytes": 49162
+    },
+    {
+      "path": "qualification/0_2_9/wp06d_local_mesh_audit_20260919/rise_span_0_05_M3_local_axial.npz",
+      "sha256": "3841c5092de8855a19bd4f61b5097940931f3bfa36e59a3c02a9dd01d0468fac",
+      "size_bytes": 87256
+    }
+  ],
+  "manifest_excludes_itself": true,
+  "schema_version": 1
+}
