@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import cast
+
 import numpy as np
 
 from solveur.elements.shell.mitc4 import MITC4Element, ShellMaterial
@@ -171,7 +173,10 @@ class StressPostProcessor:
         """Average element-side recovered quantities onto connected nodes."""
         contributions: dict[int, list[dict[str, object]]] = {node: [] for node in range(model.node_count)}
         for result in element_results:
-            for item in result.get("nodal_results", []):
+            nodal_results = result.get("nodal_results", [])
+            if not isinstance(nodal_results, list):
+                continue
+            for item in nodal_results:
                 if isinstance(item, dict) and "node" in item:
                     contributions[int(item["node"])].append(item)
         rows: list[dict[str, object]] = []
@@ -267,7 +272,7 @@ class StressPostProcessor:
                         "first_piola_stress": raw["first_piola_stress"],
                     }
                 )
-        weights = np.asarray([float(point["weight"]) for point in points], dtype=float)
+        weights = np.asarray([float(cast(float, point["weight"])) for point in points], dtype=float)
         normalized = weights / max(float(np.sum(weights)), np.finfo(float).eps)
         strain = sum(normalized[i] * np.asarray(point["strain"], dtype=float) for i, point in enumerate(points))
         stress = sum(normalized[i] * np.asarray(point["stress"], dtype=float) for i, point in enumerate(points))
@@ -275,7 +280,10 @@ class StressPostProcessor:
             "model": f"{result_label}_corotational" if result_label == "corotational_j2" else f"{result_label}_green_lagrange",
             "kinematics": "corotational_small_strain" if result_label == "corotational_j2" else "green_lagrange_second_piola",
             "equivalent_plastic_strain": float(
-                sum(normalized[i] * float(point.get("equivalent_plastic_strain", 0.0)) for i, point in enumerate(points))
+                sum(
+                    normalized[i] * float(cast(float, point.get("equivalent_plastic_strain", 0.0)))
+                    for i, point in enumerate(points)
+                )
             ),
         }
         result = _solid_result(strain, stress, aggregate_state)
@@ -434,7 +442,7 @@ class StressPostProcessor:
         membrane_strain = strains.Bm @ local_u
         curvature = strains.Bb @ local_u
         shear_strain = strains.Bs @ local_u
-        coupling = getattr(material, "coupling_matrix", np.zeros((3, 3), dtype=float))
+        coupling = np.asarray(getattr(material, "coupling_matrix", np.zeros((3, 3), dtype=float)), dtype=float)
         membrane_force = material.membrane_matrix @ membrane_strain + coupling @ curvature
         bending_moment = coupling.T @ membrane_strain + material.bending_matrix @ curvature
         shear_force = material.shear_matrix @ shear_strain
@@ -513,7 +521,7 @@ class StressPostProcessor:
         membrane_strain = strains["membrane"]
         curvature = strains["curvature"]
         shear_strain = strains["shear"]
-        coupling = getattr(material, "coupling_matrix", np.zeros((3, 3), dtype=float))
+        coupling = np.asarray(getattr(material, "coupling_matrix", np.zeros((3, 3), dtype=float)), dtype=float)
         membrane_force = material.membrane_matrix @ membrane_strain + coupling @ curvature
         bending_moment = coupling.T @ membrane_strain + material.bending_matrix @ curvature
         shear_force = material.shear_matrix @ shear_strain

@@ -316,7 +316,7 @@ def assemble_internal_tangent(
                 reason=reason,
                 diagnostics={"element_index": element_index, "element_type": definition.type},
             ) from error
-        if timing is not None and reference_cache_before is not None:
+        if timing is not None and reference_cache_before is not None and callable(reference_cache_info):
             reference_cache_after = dict(reference_cache_info())
             timing["reference_cache_hits"] = int(timing["reference_cache_hits"]) + (
                 int(reference_cache_after.get("hits", 0))
