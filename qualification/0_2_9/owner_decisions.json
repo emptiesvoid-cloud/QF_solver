@@ -178,6 +178,39 @@
         "WP06-C is limited to algebraic/toy identity and policy evidence, not structural postbuckling",
         "WP06-D1 historical M2 FAIL_CLOSED remains unchanged"
       ]
+    },
+    {
+      "id": "OD-029-WP06-D-EXP-01",
+      "title": "WP06-D bounded experimental continuation acceptance",
+      "decision_date": "2026-09-19",
+      "status": "CLOSED_OWNER_ACCEPTED_EXPERIMENTAL_WITH_LIMITATIONS",
+      "accepted_work_items": ["WP06-D diagnostic local-axial continuation"],
+      "approved_points": 0,
+      "formal_points_awarded": "0/2",
+      "wp06_points_before": "4/8",
+      "wp06_points_after": "4/8",
+      "global_official_total_before": "70/100",
+      "global_official_total_after": "70/100",
+      "experimental_bounded_acceptance": true,
+      "formal_limit_point_claim": false,
+      "historical_wp06d1_m2_fail_closed_preserved": true,
+      "production_mechanics_changed": false,
+      "thresholds_changed": false,
+      "independent_nonlinear_path_solve": false,
+      "production_solver_replay": false,
+      "evidence": [
+        "docs/verification/0_2_9/wp06d-local-axial-diagnostic-requalification.md",
+        "docs/verification/0_2_9/wp06d-owner-bounded-experimental-decision.md",
+        "qualification/0_2_9/wp06d_owner_bounded_experimental_decision.json",
+        "qualification/0_2_9/wp06d_local_axial_diagnostic_20260919/evidence_replay.json"
+      ],
+      "limitations": [
+        "bounded experimental continuation only",
+        "no limit point detected",
+        "no formal postbuckling or bifurcation claim",
+        "local axial refinement only; transverse section remains 4x4",
+        "no independent nonlinear path solve or second production FEM replay"
+      ]
     }
   ],
   "ledger_reconciliation": {
