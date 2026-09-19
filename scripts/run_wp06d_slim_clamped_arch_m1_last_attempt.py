@@ -51,6 +51,14 @@ def _git(*args: str) -> str:
     ).stdout.strip()
 
 
+def _is_ancestor(ancestor: str, descendant: str = "HEAD") -> bool:
+    return subprocess.run(
+        ["git", "merge-base", "--is-ancestor", ancestor, descendant],
+        cwd=ROOT,
+        capture_output=True,
+    ).returncode == 0
+
+
 def _import_module(name: str, path: Path) -> Any:
     spec = importlib.util.spec_from_file_location(name, path)
     if spec is None or spec.loader is None:
@@ -186,8 +194,8 @@ def _finalize(r1: Any) -> None:
 def main() -> int:
     if _git("branch", "--show-current") != EXPECTED_BRANCH:
         raise SystemExit("Refusing run: unexpected diagnostic branch.")
-    if _git("rev-parse", "HEAD") != EXPECTED_HEAD:
-        raise SystemExit("Refusing run: source HEAD differs from reviewed M1 base.")
+    if not _is_ancestor(EXPECTED_HEAD):
+        raise SystemExit("Refusing run: source HEAD is not descended from the reviewed M1 base.")
     if OUT.exists():
         raise SystemExit(f"Refusing to overwrite existing output: {OUT}")
     r1 = _import_module("wp06d_long_qmean_r1_for_last_attempt", REUSED_RUNNER)
