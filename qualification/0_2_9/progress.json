@@ -10,7 +10,7 @@
     "WP04": {"points": 12, "status": "CLOSED_GO_WITH_LIMITATIONS", "validated_points": 12},
     "WP15": {"points": 2, "status": "CLOSED_INTEGRATION_VALIDATED", "validated_points": 2},
     "WP05": {"points": 5, "status": "CLOSED_BOUNDED_WITH_LIMITATIONS", "validated_points": 5},
-    "WP06": {"points": 8, "status": "OWNER_ACCEPTED_A_B_C_WITH_LIMITATIONS_D_NOT_AUTHORIZED", "validated_points": 4, "candidate_points": 4, "owner_accepted_points": 4, "owner_decision_id": "OD-029-WP06-ABC-01"},
+    "WP06": {"points": 8, "status": "OWNER_ACCEPTED_A_B_C_D_EXPERIMENTAL_BOUNDED_WITH_LIMITATIONS", "validated_points": 4, "candidate_points": 4, "owner_accepted_points": 4, "owner_decision_id": "OD-029-WP06-D-EXP-01"},
     "WP07": {"points": 10, "status": "OWNER_ACCEPTED_A_TO_E_BOUNDED_WITH_LIMITATIONS", "validated_points": 10},
     "WP08": {"points": 8, "status": "CLOSED_OWNER_APPROVED_WITH_LIMITATIONS", "validated_points": 8},
     "WP09": {"points": 8, "status": "BLOCKED_BY_OD_029_01", "validated_points": 0},
@@ -22,5 +22,5 @@
   },
   "validated_points": 70,
   "total_points": 100,
-  "next_gate": "WP06-A/B/C have been Owner-accepted for 4/8 with the bounded limitations recorded in OD-029-WP06-ABC-01; the consolidated official ledger is 70/100. WP06-D R2 structural execution is explicitly NOT AUTHORIZED. Historical WP06-D1 M2 FAIL_CLOSED remains preserved. The standalone R2 authorization helper now queries Git state itself but is not integrated into a dedicated R2 runner; no R2 execution contract is frozen. Any future D work first requires a frozen current-source R2 contract and checkpoint-complete runner, then a separate explicit Owner execution authorization. No D solve is authorized by the A/B/C award. WP07-D and WP07-E remain Owner-accepted at 3/3 and 2/2; WP07 is 10/10 with bounded limitations. The prior consolidated 66/100 ledger included WP05 5/5 and WP07 10/10; WP06 A/B/C adds 4 points, with no double counting. The frozen roadmap remains 100 points; no weights changed. WP04 remains CLOSED 12/12; WP15 remains 2/2. OD-029-01 remains OPEN and blocks WP09 only; OD-029-02 is CLOSED as READ_V1_WRITE_V2_BOUNDED."
+  "next_gate": "WP06-A/B/C remain Owner-accepted for 4/8. The Owner now accepts the local-axial M2/M3 result as EXPERIMENTAL_BOUNDED only; no WP06-D formal points are awarded. M2/M3 production paths, independent observable recomputation and evidence replay are recorded, but no limit point was detected, no independent nonlinear path solve ran, and no second production FEM replay ran. Historical R1 M2 FAIL_CLOSED remains preserved. WP06-E/F remain blocked for formal closure. WP07 remains 10/10; WP05 5/5; WP04 12/12; WP15 2/2. OD-029-01 remains OPEN and blocks WP09 only; roadmap weights remain 100."
 }
