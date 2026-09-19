@@ -562,9 +562,20 @@ def test_inspect_model_returns_white_box_audit_without_solving():
     data = audit.to_dict()
     assert data["mesh_status"] == "PASS"
     assert data["ndof"] == 12
-    assert data["dof_map"][0]["dofs"]["UX"] == 0
-    assert data["element_dofs"][0]["global_dof_indices"] == list(range(12))
-    assert data["element_audits"][0]["global_dof_indices"] == list(range(12))
-    assert data["element_audits"][0]["matrices"][0]["rank_estimate"] > 0
+    assert data["detail"] == "summary"
+    assert data["dof_map"] == []
+    assert data["element_dofs"] == []
+    assert data["element_audits"] == []
+    assert data["diagnostic"]["automatic_checks"]["PASS"] > 0
+    assert data["diagnostic"]["element_quality"]["TET4"]["count"] == 1
     assert data["matrices"][0]["name"] == "stiffness"
-    assert {check["name"] for check in data["checks"]} >= {"mesh_validation", "boundary_has_fixed_dofs"}
+    assert data["checks"] == []
+
+
+def test_inspect_model_diagnostic_keeps_aggregates_without_pass_dump():
+    data = inspect_model(valid_tet4_model(), detail="diagnostic").to_dict()
+    assert data["detail"] == "diagnostic"
+    assert data["element_audits"] == []
+    assert data["diagnostic"]["element_quality"]["TET4"]["corner_quality"]["mean"] > 0.0
+    assert "stiffness" in data["diagnostic"]["matrix_stats"]
+    assert data["diagnostic"]["worst_n"]["corner_quality"]
