@@ -9,7 +9,13 @@ from typing import Any
 import numpy as np
 from scipy.sparse import spmatrix
 
-from solveur.core.audit_checks import AuditCheck, build_audit_checks
+from solveur.core.audit_checks import (
+    AuditCheck,
+    _element_checks,
+    _post_result_checks,
+    build_audit_checks,
+    check_status_counts,
+)
 from solveur.core.dofs import DofManager
 from solveur.core.model import FiniteElementModel
 from solveur.elements.registry import ElementRegistry
@@ -18,6 +24,18 @@ from solveur.mesh.quality import MeshQuality
 from solveur.mesh.validation import MeshReport
 from solveur.mesh.validation import MeshValidator
 from solveur.core.qualification import qualification_metadata
+
+
+AUDIT_DETAILS = ("summary", "diagnostic", "values")
+DEFAULT_DIAGNOSTIC_WORST_N = 10
+DEFAULT_AUDIT_SIZE_WARNING_ROWS = 100_000
+
+
+def validate_audit_detail(detail: str) -> str:
+    """Validate and return one of the public audit serialization levels."""
+    if detail not in AUDIT_DETAILS:
+        raise ValueError(f"Unsupported audit detail {detail!r}; expected one of {AUDIT_DETAILS}.")
+    return detail
 
 
 @dataclass(frozen=True)
@@ -225,10 +243,19 @@ class SolverAudit:
     checks: list[AuditCheck] = field(default_factory=list)
     notes: list[str] = field(default_factory=list)
     qualification: dict[str, Any] = field(default_factory=dict)
+    detail: str = "summary"
+    diagnostic: dict[str, Any] = field(default_factory=dict)
 
     @classmethod
-    def partial(cls, model: FiniteElementModel, report: MeshReport) -> "SolverAudit":
+    def partial(
+        cls,
+        model: FiniteElementModel,
+        report: MeshReport,
+        *,
+        detail: str = "summary",
+    ) -> "SolverAudit":
         """Build an audit for invalid models without assembling matrices."""
+        detail = validate_audit_detail(detail)
         return cls(
             analysis=model.analysis.type,
             method=model.analysis.method,
@@ -251,6 +278,7 @@ class SolverAudit:
             ),
             notes=["Model audit stopped before assembly because mesh validation failed."],
             qualification=qualification_metadata(model),
+            detail=detail,
         )
 
     @classmethod
@@ -272,15 +300,112 @@ class SolverAudit:
         include_values: bool = False,
         include_element_audits: bool = True,
         include_element_dofs: bool = True,
+        include_indices: bool = True,
         notes: list[str] | None = None,
+        detail: str = "values",
+        max_worst: int = DEFAULT_DIAGNOSTIC_WORST_N,
+        compact_serialization: bool = False,
+        values_warning_rows: int = DEFAULT_AUDIT_SIZE_WARNING_ROWS,
     ) -> "SolverAudit":
         """Build an audit from validated model data and assembled arrays."""
-        boundary = _boundary_summary(fixed, free)
+        detail = validate_audit_detail(detail)
+        if max_worst < 1:
+            raise ValueError("max_worst must be at least 1.")
+        if values_warning_rows < 0:
+            raise ValueError("values_warning_rows must be non-negative.")
+        compact = compact_serialization or detail in {"summary", "diagnostic"}
+        boundary = _boundary_summary(fixed, free, include_indices=include_indices and not compact)
         matrix_audits = [MatrixAudit.from_sparse(name, matrix) for name, matrix in (matrices or {}).items()]
-        element_audits = (
-            _element_audits(model, dofs, include_values=include_values) if include_element_audits else []
-        )
+        element_diagnostic: dict[str, Any] = {}
+        if include_element_audits:
+            element_audits, element_diagnostic = _build_element_audits(
+                model,
+                dofs,
+                include_values=include_values,
+                detail=detail,
+                max_worst=max_worst,
+            )
+        else:
+            element_audits = []
         equilibrium_data = dict(equilibrium or {})
+        vector_data = [
+            _vector_summary(
+                name,
+                vector,
+                include_values=(include_values or detail == "values") and not compact,
+            )
+            for name, vector in (vectors or {}).items()
+        ]
+        load_data = (
+            _load_assembly_summary(load_assembly or {})
+            if compact
+            else dict(load_assembly or {})
+        )
+        compact_post_results: list[dict[str, Any]] = []
+        post_issue_checks: list[AuditCheck] = []
+        post_check_counts = {"PASS": 0, "WARNING": 0, "FAIL": 0}
+        for post_result in post_results or []:
+            result_checks = _post_result_checks(post_result)
+            for check in result_checks:
+                if check.status in post_check_counts:
+                    post_check_counts[check.status] += 1
+            if any(check.status != "PASS" for check in result_checks):
+                compact_post_results.append(post_result)
+                post_issue_checks.extend(check for check in result_checks if check.status != "PASS")
+        global_checks = build_audit_checks(
+            analysis=model.analysis.type,
+            report=report,
+            boundary=boundary,
+            matrices=matrix_audits,
+            elements=[],
+            equilibrium=equilibrium_data,
+            post_results=(post_results or []) if detail == "values" and not compact else [],
+        )
+        checks = build_audit_checks(
+            analysis=model.analysis.type,
+            report=report,
+            boundary=boundary,
+            matrices=matrix_audits,
+            elements=element_audits,
+            equilibrium=equilibrium_data,
+            post_results=(post_results or []) if detail == "values" and not compact else [],
+        )
+        if compact:
+            checks.extend(post_issue_checks)
+        diagnostic = dict(element_diagnostic)
+        size_estimate = estimate_audit_rows(
+            element_count=len(model.elements),
+            post_result_count=len(post_results or []),
+            contribution_count=len((load_assembly or {}).get("contributions", [])),
+            detail=detail,
+        )
+        size_warning = None
+        if detail == "values" and size_estimate > values_warning_rows:
+            size_warning = (
+                f"detail='values' est estime a {size_estimate:,} lignes/controles, "
+                f"au-dessus du seuil configurable {values_warning_rows:,}; "
+                "utiliser detail='diagnostic' pour l'audit humain."
+            )
+        if detail == "values" and size_warning:
+            diagnostic["export_size_estimate"] = size_estimate
+            diagnostic["export_size_warning"] = size_warning
+        if detail in {"summary", "diagnostic"}:
+            counts = check_status_counts(global_checks)
+            element_counts = element_diagnostic.get("element_check_counts", {})
+            for status in ("PASS", "WARNING", "FAIL"):
+                counts[status] += int(element_counts.get(status, 0))
+                counts[status] += int(post_check_counts.get(status, 0))
+            diagnostic["automatic_checks"] = counts
+            diagnostic["post_check_counts"] = post_check_counts
+            diagnostic["equilibrium"] = _equilibrium_diagnostic(equilibrium_data)
+            diagnostic["issue_checks"] = [
+                check.to_dict() for check in checks if check.status != "PASS"
+            ]
+            diagnostic["matrix_stats"] = _matrix_diagnostic(matrix_audits)
+            diagnostic["result_stats"] = _result_diagnostic(post_results or [])
+            diagnostic["residual_stats"] = _residual_diagnostic(solver_selection or {})
+            diagnostic["residual_stats"].update(_vector_residual_diagnostic(vector_data))
+            diagnostic["post_result_count"] = len(post_results or [])
         return cls(
             analysis=model.analysis.type,
             method=method or model.analysis.method,
@@ -293,30 +418,30 @@ class SolverAudit:
             mesh_details=dict(report.details),
             element_types=_element_type_counts(model),
             material_names=sorted(model.materials),
-            dof_map=_dof_map(dofs),
-            element_dofs=_element_dofs(model, dofs) if include_element_dofs else [],
+            dof_map=_dof_map(dofs) if not compact else [],
+            element_dofs=_element_dofs(model, dofs) if include_element_dofs and not compact else [],
             boundary=boundary,
-            vectors=[_vector_summary(name, vector) for name, vector in (vectors or {}).items()],
-            load_assembly=dict(load_assembly or {}),
+            vectors=vector_data,
+            load_assembly=load_data,
             matrices=matrix_audits,
             element_audits=element_audits,
-            post_results=list(post_results or []),
+            post_results=list(post_results or []) if not compact else compact_post_results,
             equilibrium=equilibrium_data,
             solver_selection=dict(solver_selection or {}),
-            checks=build_audit_checks(
-                analysis=model.analysis.type,
-                report=report,
-                boundary=boundary,
-                matrices=matrix_audits,
-                elements=element_audits,
-                equilibrium=equilibrium_data,
-                post_results=post_results or [],
-            ),
-            notes=list(notes or []),
+            checks=checks if not compact else [check for check in checks if check.status != "PASS"],
+            notes=[*(notes or []), size_warning] if size_warning else list(notes or []),
             qualification=qualification_metadata(model),
+            detail=detail,
+            diagnostic=diagnostic,
         )
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self, *, detail: str | None = None) -> dict[str, Any]:
+        selected_detail = validate_audit_detail(detail or self.detail)
+        if selected_detail != "values":
+            return _compact_audit_dict(self, selected_detail)
+        return self._to_values_dict()
+
+    def _to_values_dict(self) -> dict[str, Any]:
         return {
             "version": 1,
             "purpose": "white_box_solver_audit",
@@ -344,7 +469,194 @@ class SolverAudit:
             "checks": [check.to_dict() for check in self.checks],
             "notes": self.notes,
             "qualification": self.qualification,
+            "detail": self.detail,
+            "diagnostic": self.diagnostic,
         }
+
+
+def _compact_audit_dict(audit: SolverAudit, detail: str) -> dict[str, Any]:
+    """Serialize an existing audit without rebuilding exhaustive PASS rows."""
+    element_audits: list[ElementAudit] = []
+    element_check_counts = {"PASS": 0, "WARNING": 0, "FAIL": 0}
+    by_type: dict[str, dict[str, Any]] = {}
+    worst: dict[str, list[dict[str, Any]]] = {
+        "corner_quality": [],
+        "signed_corner_volume": [],
+        "matrix_condition_estimate": [],
+    }
+    for element in audit.element_audits:
+        element_checks = _element_checks(element)
+        for check in element_checks:
+            if check.status in element_check_counts:
+                element_check_counts[check.status] += 1
+        if any(check.status != "PASS" for check in element_checks):
+            element_audits.append(element)
+        _update_element_diagnostic(by_type, worst, element, max_worst=DEFAULT_DIAGNOSTIC_WORST_N)
+
+    compact_post_results: list[dict[str, Any]] = []
+    post_check_counts = {"PASS": 0, "WARNING": 0, "FAIL": 0}
+    post_issue_checks: list[AuditCheck] = []
+    for result in audit.post_results:
+        result_checks = _post_result_checks(result)
+        for check in result_checks:
+            if check.status in post_check_counts:
+                post_check_counts[check.status] += 1
+        issues = [check for check in result_checks if check.status != "PASS"]
+        if issues:
+            compact_post_results.append(result)
+            post_issue_checks.extend(issues)
+
+    base_checks = [check for check in audit.checks if check.status != "PASS"]
+    for check in post_issue_checks:
+        if check not in base_checks:
+            base_checks.append(check)
+    existing_compact = audit.detail != "values" and bool(audit.diagnostic)
+    if audit.detail == "values":
+        counts = check_status_counts(audit.checks)
+    else:
+        counts = dict(audit.diagnostic.get("automatic_checks", check_status_counts(audit.checks)))
+    element_quality = (
+        audit.diagnostic.get("element_quality", {})
+        if existing_compact
+        else {key: _finalize_element_type_stats(value) for key, value in by_type.items()}
+    )
+    worst_data = audit.diagnostic.get("worst_n", worst) if existing_compact else worst
+    element_counts_data = (
+        audit.diagnostic.get("element_check_counts", element_check_counts)
+        if existing_compact
+        else element_check_counts
+    )
+    result_stats = audit.diagnostic.get("result_stats", {}) if existing_compact else _result_diagnostic(audit.post_results)
+    residual_stats = (
+        audit.diagnostic.get("residual_stats", {})
+        if existing_compact
+        else _residual_diagnostic(audit.solver_selection)
+    )
+    if not existing_compact:
+        residual_stats.update(_vector_residual_diagnostic(audit.vectors))
+    diagnostic = dict(audit.diagnostic)
+    diagnostic.update(
+        {
+            "automatic_checks": counts,
+            "element_audit_count": audit.diagnostic.get("element_audit_count", len(audit.element_audits)),
+            "retained_issue_element_count": audit.diagnostic.get(
+                "retained_issue_element_count", len(element_audits)
+            ),
+            "element_check_counts": element_counts_data,
+            "element_quality": element_quality,
+            "worst_n": worst_data,
+            "issue_checks": [check.to_dict() for check in base_checks],
+            "matrix_stats": audit.diagnostic.get("matrix_stats", _matrix_diagnostic(audit.matrices)),
+            "result_stats": result_stats,
+            "residual_stats": residual_stats,
+            "post_result_count": audit.diagnostic.get("post_result_count", len(audit.post_results)),
+            "equilibrium": _equilibrium_diagnostic(audit.equilibrium),
+        }
+    )
+    data = {
+        "version": 1,
+        "purpose": "white_box_solver_audit",
+        "analysis": audit.analysis,
+        "method": audit.method,
+        "node_count": audit.node_count,
+        "element_count": audit.element_count,
+        "ndof": audit.ndof,
+        "mesh_status": audit.mesh_status,
+        "mesh_errors": audit.mesh_errors,
+        "mesh_warnings": audit.mesh_warnings,
+        "mesh_details": audit.mesh_details,
+        "element_types": audit.element_types,
+        "material_names": audit.material_names,
+        "dof_map": [],
+        "element_dofs": [],
+        "boundary": _compact_boundary(audit.boundary),
+        "vectors": [_compact_vector(item) for item in audit.vectors],
+        "load_assembly": _compact_load_assembly(audit.load_assembly),
+        "matrices": [matrix.to_dict() for matrix in audit.matrices],
+        "element_audits": [element.to_dict() for element in element_audits],
+        "post_results": compact_post_results,
+        "equilibrium": _compact_equilibrium(audit.equilibrium),
+        "solver_selection": audit.solver_selection,
+        "checks": [check.to_dict() for check in base_checks],
+        "notes": audit.notes,
+        "qualification": audit.qualification,
+        "detail": detail,
+        "diagnostic": diagnostic,
+    }
+    return data
+
+
+def _compact_boundary(boundary: dict[str, Any]) -> dict[str, Any]:
+    return {
+        key: boundary[key]
+        for key in ("fixed_dof_count", "free_dof_count")
+        if key in boundary
+    }
+
+
+def _compact_vector(vector: dict[str, Any]) -> dict[str, Any]:
+    return {key: value for key, value in vector.items() if key != "nonzero_entries"}
+
+
+def _compact_load_assembly(load_assembly: dict[str, Any]) -> dict[str, Any]:
+    return _load_assembly_summary(load_assembly)
+
+
+def _compact_equilibrium(equilibrium: dict[str, Any]) -> dict[str, Any]:
+    keys = (
+        "sign_convention",
+        "load_factor",
+        "free_residual_norm",
+        "free_relative_residual",
+        "fixed_reaction_norm",
+        "ground_spring_reaction_norm",
+        "external_load_norm",
+        "internal_force_norm",
+        "displacement_norm",
+        "external_work_at_final_load",
+        "secant_internal_energy",
+        "linear_energy_identity_relative_error",
+        "external_resultant",
+        "reaction_resultant",
+        "force_imbalance",
+        "force_balance_relative_error",
+        "external_moment_about_origin",
+        "reaction_moment_about_origin",
+        "moment_imbalance_about_origin",
+        "moment_balance_relative_error",
+    )
+    result = {key: equilibrium[key] for key in keys if key in equilibrium}
+    constraints = equilibrium.get("constraint_forces")
+    if isinstance(constraints, dict):
+        result["constraint_forces"] = {
+            key: constraints[key]
+            for key in (
+                "equation_count",
+                "constraint_violation_norm",
+                "constraint_violation_max_abs",
+                "equilibrium_relative_error",
+                "global_force_closure_relative_error",
+                "global_moment_closure_relative_error",
+            )
+            if key in constraints
+        }
+    return result
+
+
+def estimate_audit_rows(
+    *,
+    element_count: int,
+    post_result_count: int = 0,
+    contribution_count: int = 0,
+    detail: str = "values",
+) -> int:
+    """Estimate serialized audit rows before materializing an export."""
+    detail = validate_audit_detail(detail)
+    if detail == "summary":
+        return 80
+    if detail == "diagnostic":
+        return 140 + min(element_count, DEFAULT_DIAGNOSTIC_WORST_N * 3)
+    return 120 + (9 * element_count) + post_result_count + contribution_count
 
 
 def _element_type_counts(model: FiniteElementModel) -> dict[str, int]:
@@ -378,46 +690,237 @@ def _element_dofs(model: FiniteElementModel, dofs: DofManager) -> list[dict[str,
     return entries
 
 
-def _element_audits(model: FiniteElementModel, dofs: DofManager, *, include_values: bool = False) -> list[ElementAudit]:
+def _build_element_audits(
+    model: FiniteElementModel,
+    dofs: DofManager,
+    *,
+    include_values: bool,
+    detail: str,
+    max_worst: int,
+) -> tuple[list[ElementAudit], dict[str, Any]]:
+    """Build exhaustive values or compact issue/worst-element audit data."""
+    if detail == "values":
+        return (
+            [
+                _make_element_audit(
+                    model,
+                    dofs,
+                    index,
+                    definition,
+                    include_values=True,
+                    compact=False,
+                )
+                for index, definition in enumerate(model.elements)
+            ],
+            {},
+        )
+
     audits: list[ElementAudit] = []
+    check_counts = {"PASS": 0, "WARNING": 0, "FAIL": 0}
+    by_type: dict[str, dict[str, Any]] = {}
+    worst: dict[str, list[dict[str, Any]]] = {
+        "corner_quality": [],
+        "signed_corner_volume": [],
+        "matrix_condition_estimate": [],
+    }
     for index, definition in enumerate(model.elements):
-        spec = ElementRegistry.get(definition.type)
-        material_data = model.materials[definition.material]
-        coords = model.nodes[list(definition.nodes)]
-        material = MaterialFactory.create(material_data, coordinates=coords)
-        element = spec.factory(material)
-        global_dofs: list[int] = []
-        for node in definition.nodes:
-            global_dofs.extend(dofs.node_indices(node, spec.dofs))
-        local_stiffness = element.stiffness(coords)
-        matrices = [MatrixAudit.from_array("local_stiffness", local_stiffness, include_values=include_values)]
-        vectors: list[dict[str, Any]] = []
-        if model.analysis.type == "modal" and hasattr(element, "mass"):
-            matrices.append(MatrixAudit.from_array("local_mass", element.mass(coords), include_values=include_values))
-        if model.analysis.type == "nonlinear_static" and hasattr(element, "internal_force_and_tangent"):
-            local_u: np.ndarray = np.zeros(len(global_dofs), dtype=float)
-            local_internal, local_tangent = element.internal_force_and_tangent(coords, local_u)
-            matrices.append(
-                MatrixAudit.from_array("initial_local_tangent", local_tangent, include_values=include_values)
-            )
-            vectors.append(_vector_summary("initial_local_internal_force", local_internal))
-        audits.append(
-            ElementAudit(
-                index=index,
-                type=definition.type,
-                nodes=[int(node) for node in definition.nodes],
-                material=definition.material,
-                material_data=_material_summary(material_data),
-                dofs_per_node=list(spec.dofs),
-                global_dof_indices=global_dofs,
-                geometry=_geometry_summary(definition.type, coords),
-                local_dofs=_local_dof_map(definition.nodes, spec.dofs, dofs),
-                assembly_entries=_assembly_entries(local_stiffness, global_dofs) if include_values else [],
-                matrices=matrices,
-                vectors=vectors,
+        audit = _make_element_audit(
+            model,
+            dofs,
+            index,
+            definition,
+            include_values=False,
+            compact=True,
+        )
+        element_checks = _element_checks(audit)
+        for check in element_checks:
+            if check.status in check_counts:
+                check_counts[check.status] += 1
+        if any(check.status != "PASS" for check in element_checks):
+            audits.append(audit)
+        _update_element_diagnostic(by_type, worst, audit, max_worst=max_worst)
+
+    return audits, {
+        "element_audit_count": len(model.elements),
+        "retained_issue_element_count": len(audits),
+        "element_check_counts": check_counts,
+        "element_quality": {key: _finalize_element_type_stats(value) for key, value in by_type.items()},
+        "worst_n": worst,
+    }
+
+
+def _make_element_audit(
+    model: FiniteElementModel,
+    dofs: DofManager,
+    index: int,
+    definition: Any,
+    *,
+    include_values: bool,
+    compact: bool,
+) -> ElementAudit:
+    spec = ElementRegistry.get(definition.type)
+    material_data = model.materials[definition.material]
+    coords = model.nodes[list(definition.nodes)]
+    material = MaterialFactory.create(material_data, coordinates=coords)
+    element = spec.factory(material)
+    global_dofs: list[int] = []
+    for node in definition.nodes:
+        global_dofs.extend(dofs.node_indices(node, spec.dofs))
+    local_stiffness = element.stiffness(coords)
+    matrices = [MatrixAudit.from_array("local_stiffness", local_stiffness, include_values=include_values)]
+    vectors: list[dict[str, Any]] = []
+    if model.analysis.type == "modal" and hasattr(element, "mass"):
+        matrices.append(MatrixAudit.from_array("local_mass", element.mass(coords), include_values=include_values))
+    if model.analysis.type == "nonlinear_static" and hasattr(element, "internal_force_and_tangent"):
+        local_u: np.ndarray = np.zeros(len(global_dofs), dtype=float)
+        local_internal, local_tangent = element.internal_force_and_tangent(coords, local_u)
+        matrices.append(
+            MatrixAudit.from_array("initial_local_tangent", local_tangent, include_values=include_values)
+        )
+        vectors.append(
+            _vector_summary(
+                "initial_local_internal_force",
+                local_internal,
+                include_values=include_values,
             )
         )
-    return audits
+    return ElementAudit(
+        index=index,
+        type=definition.type,
+        nodes=[int(node) for node in definition.nodes],
+        material=definition.material,
+        material_data=_material_summary(material_data),
+        dofs_per_node=list(spec.dofs),
+        global_dof_indices=global_dofs,
+        geometry=_geometry_summary(definition.type, coords),
+        local_dofs=[] if compact else _local_dof_map(definition.nodes, spec.dofs, dofs),
+        assembly_entries=_assembly_entries(local_stiffness, global_dofs) if include_values else [],
+        matrices=matrices,
+        vectors=vectors,
+    )
+
+
+def _empty_metric() -> dict[str, Any]:
+    return {"count": 0, "finite_count": 0, "min": None, "max": None, "mean": None, "sum": 0.0}
+
+
+def _update_metric(metric: dict[str, Any], value: Any) -> None:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return
+    if not np.isfinite(number):
+        return
+    metric["count"] = int(metric["count"]) + 1
+    metric["finite_count"] = int(metric["finite_count"]) + 1
+    metric["sum"] = float(metric["sum"]) + number
+    metric["min"] = number if metric["min"] is None else min(float(metric["min"]), number)
+    metric["max"] = number if metric["max"] is None else max(float(metric["max"]), number)
+
+
+def _finalize_metric(metric: dict[str, Any]) -> dict[str, Any]:
+    count = int(metric["count"])
+    return {
+        "count": count,
+        "finite_count": int(metric["finite_count"]),
+        "min": metric["min"],
+        "max": metric["max"],
+        "mean": (float(metric["sum"]) / count) if count else None,
+    }
+
+
+def _update_element_diagnostic(
+    by_type: dict[str, dict[str, Any]],
+    worst: dict[str, list[dict[str, Any]]],
+    audit: ElementAudit,
+    *,
+    max_worst: int,
+) -> None:
+    summary = by_type.setdefault(
+        audit.type,
+        {
+            "count": 0,
+            "signed_corner_volume": _empty_metric(),
+            "corner_quality": _empty_metric(),
+            "edge_length_min": _empty_metric(),
+            "edge_length_max": _empty_metric(),
+            "matrices": {},
+        },
+    )
+    summary["count"] += 1
+    geometry = audit.geometry
+    _update_metric(summary["signed_corner_volume"], geometry.get("signed_corner_volume"))
+    _update_metric(summary["corner_quality"], geometry.get("corner_quality"))
+    _update_metric(summary["edge_length_min"], geometry.get("edge_length_min"))
+    _update_metric(summary["edge_length_max"], geometry.get("edge_length_max"))
+    element_context = {
+        "index": audit.index,
+        "type": audit.type,
+        "nodes": audit.nodes,
+    }
+    if "corner_quality" in geometry:
+        _offer_worst(worst["corner_quality"], {**element_context, "value": geometry["corner_quality"]}, max_worst)
+    if "signed_corner_volume" in geometry:
+        _offer_worst(
+            worst["signed_corner_volume"],
+            {**element_context, "value": geometry["signed_corner_volume"]},
+            max_worst,
+        )
+    for matrix in audit.matrices:
+        matrix_stats = summary["matrices"].setdefault(
+            matrix.name,
+            {
+                "count": 0,
+                "data_norm": _empty_metric(),
+                "symmetry_relative_error": _empty_metric(),
+                "condition_estimate": _empty_metric(),
+            },
+        )
+        matrix_stats["count"] += 1
+        _update_metric(matrix_stats["data_norm"], matrix.data_norm)
+        _update_metric(matrix_stats["symmetry_relative_error"], matrix.symmetry_relative_error)
+        if matrix.condition_estimate is not None:
+            _update_metric(matrix_stats["condition_estimate"], matrix.condition_estimate)
+            _offer_worst(
+                worst["matrix_condition_estimate"],
+                {
+                    **element_context,
+                    "matrix": matrix.name,
+                    "value": matrix.condition_estimate,
+                },
+                max_worst,
+                reverse=True,
+            )
+
+
+def _offer_worst(
+    values: list[dict[str, Any]],
+    entry: dict[str, Any],
+    max_worst: int,
+    *,
+    reverse: bool = False,
+) -> None:
+    try:
+        float(entry["value"])
+    except (TypeError, ValueError):
+        return
+    values.append(entry)
+    values.sort(key=lambda item: float(item["value"]), reverse=reverse)
+    del values[max_worst:]
+
+
+def _finalize_element_type_stats(by_type: dict[str, Any]) -> dict[str, Any]:
+    finalized: dict[str, Any] = {"count": by_type["count"]}
+    for key in ("signed_corner_volume", "corner_quality", "edge_length_min", "edge_length_max"):
+        finalized[key] = _finalize_metric(by_type[key])
+    matrices: dict[str, Any] = {}
+    for name, matrix in by_type["matrices"].items():
+        matrices[name] = {
+            "count": matrix["count"],
+            **{key: _finalize_metric(value) for key, value in matrix.items() if key != "count"},
+        }
+    finalized["matrices"] = matrices
+    return finalized
 
 
 def _material_summary(data: dict[str, Any]) -> dict[str, Any]:
@@ -519,26 +1022,161 @@ def _quad_area(coords: np.ndarray) -> float:
     return float(first + second)
 
 
-def _boundary_summary(fixed: np.ndarray, free: np.ndarray) -> dict[str, Any]:
-    return {
+def _boundary_summary(
+    fixed: np.ndarray,
+    free: np.ndarray,
+    *,
+    include_indices: bool = True,
+) -> dict[str, Any]:
+    summary: dict[str, Any] = {
         "fixed_dof_count": int(fixed.size),
         "free_dof_count": int(free.size),
-        "fixed_indices": [int(index) for index in fixed.tolist()],
-        "free_indices": [int(index) for index in free.tolist()],
     }
+    if include_indices:
+        summary.update(
+            {
+                "fixed_indices": [int(index) for index in fixed.tolist()],
+                "free_indices": [int(index) for index in free.tolist()],
+            }
+        )
+    return summary
 
 
-def _vector_summary(name: str, vector: np.ndarray) -> dict[str, Any]:
+def _vector_summary(
+    name: str,
+    vector: np.ndarray,
+    *,
+    include_values: bool = False,
+) -> dict[str, Any]:
     values = np.asarray(vector, dtype=float).ravel()
     nonzero = np.flatnonzero(np.abs(values) > 1.0e-30)
-    return {
+    summary = {
         "name": name,
         "size": int(values.size),
         "norm": float(np.linalg.norm(values)),
         "max_abs": float(np.max(np.abs(values))) if values.size else 0.0,
         "nonzero_count": int(nonzero.size),
-        "nonzero_entries": [{"index": int(index), "value": float(values[index])} for index in nonzero],
     }
+    if include_values:
+        summary["nonzero_entries"] = [
+            {"index": int(index), "value": float(values[index])} for index in nonzero
+        ]
+    return summary
+
+
+def _load_assembly_summary(load_assembly: dict[str, Any]) -> dict[str, Any]:
+    """Keep load totals while omitting per-element contribution dumps."""
+    summary: dict[str, Any] = {}
+    for key in (
+        "nodal_load_count",
+        "distributed_load_count",
+        "resultant",
+        "moment_about_origin",
+    ):
+        if key in load_assembly:
+            summary[key] = load_assembly[key]
+    contributions = load_assembly.get("contributions", [])
+    summary["contribution_count"] = len(contributions) if isinstance(contributions, list) else 0
+    if isinstance(contributions, list):
+        summary["contribution_types"] = sorted(
+            {str(item.get("type", "")) for item in contributions if isinstance(item, dict)}
+        )
+    return summary
+
+
+def _equilibrium_diagnostic(equilibrium: dict[str, Any]) -> dict[str, Any]:
+    """Select equilibrium observables needed for compact human review."""
+    keys = (
+        "free_relative_residual",
+        "force_balance_relative_error",
+        "moment_balance_relative_error",
+        "linear_energy_identity_relative_error",
+        "external_load_norm",
+        "internal_force_norm",
+    )
+    result = {key: equilibrium[key] for key in keys if key in equilibrium}
+    constraints = equilibrium.get("constraint_forces")
+    if isinstance(constraints, dict):
+        result["constraint_forces"] = {
+            key: constraints[key]
+            for key in (
+                "equation_count",
+                "constraint_violation_norm",
+                "constraint_violation_max_abs",
+                "equilibrium_relative_error",
+                "global_force_closure_relative_error",
+                "global_moment_closure_relative_error",
+            )
+            if key in constraints
+        }
+    return result
+
+
+def _matrix_diagnostic(matrices: list[MatrixAudit]) -> dict[str, Any]:
+    summary: dict[str, Any] = {}
+    for matrix in matrices:
+        summary[matrix.name] = {
+            "count": 1,
+            "data_norm": _finalize_metric(_metric_from_values([matrix.data_norm])),
+            "symmetry_relative_error": _finalize_metric(
+                _metric_from_values([matrix.symmetry_relative_error])
+            ),
+            "condition_estimate": _finalize_metric(
+                _metric_from_values([matrix.condition_estimate])
+            ),
+        }
+    return summary
+
+
+def _metric_from_values(values: list[Any]) -> dict[str, float | int | None]:
+    metric = _empty_metric()
+    for value in values:
+        _update_metric(metric, value)
+    return metric
+
+
+def _result_diagnostic(results: list[dict[str, Any]]) -> dict[str, Any]:
+    numeric_keys = {
+        "von_mises",
+        "equivalent_plastic_strain",
+        "calculation_displacement_norm",
+        "strain_energy_density",
+        "stress_norm",
+    }
+    metrics: dict[str, dict[str, float | int | None]] = {}
+    for result in results:
+        for key in numeric_keys:
+            if key in result and np.isscalar(result[key]):
+                metrics.setdefault(key, _empty_metric())
+                _update_metric(metrics[key], result[key])
+        for key in ("strain", "stress", "principal_stress", "principal_strain"):
+            if key in result:
+                values = np.asarray(result[key], dtype=float).ravel()
+                metrics.setdefault(key, _empty_metric())
+                for value in values:
+                    _update_metric(metrics[key], value)
+    return {key: _finalize_metric(value) for key, value in metrics.items()}
+
+
+def _residual_diagnostic(solver_selection: dict[str, Any]) -> dict[str, Any]:
+    history = solver_selection.get("residual_history", [])
+    if not isinstance(history, list):
+        return {}
+    return {"residual_history": _finalize_metric(_metric_from_values(history))}
+
+
+def _vector_residual_diagnostic(vectors: list[dict[str, Any]]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for vector in vectors:
+        name = str(vector.get("name", "")).lower()
+        if "residual" not in name:
+            continue
+        result[str(vector.get("name", "residual"))] = {
+            key: vector[key]
+            for key in ("size", "norm", "max_abs", "nonzero_count")
+            if key in vector
+        }
+    return result
 
 
 def static_equilibrium_summary(
@@ -630,13 +1268,18 @@ class ModelInspector:
     def __init__(self) -> None:
         self.validator = MeshValidator()
 
-    def inspect(self, model: FiniteElementModel, *, detail: str = "summary") -> SolverAudit:
-        if detail not in {"summary", "values"}:
-            raise ValueError(f"Unsupported audit detail {detail!r}.")
+    def inspect(
+        self,
+        model: FiniteElementModel,
+        *,
+        detail: str = "summary",
+        values_warning_rows: int = DEFAULT_AUDIT_SIZE_WARNING_ROWS,
+    ) -> SolverAudit:
+        detail = validate_audit_detail(detail)
         include_values = detail == "values"
         report = self.validator.validate(model)
         if report.status == "FAIL":
-            return SolverAudit.partial(model, report)
+            return SolverAudit.partial(model, report, detail=detail)
         dofs = model.dof_manager()
         from solveur.core.assembly.assembler import GlobalAssembler
 
@@ -680,5 +1323,10 @@ class ModelInspector:
             load_assembly=assembler.last_load_diagnostics,
             matrices=matrices,
             include_values=include_values,
+            include_element_dofs=detail == "values",
+            include_indices=detail == "values",
+            detail=detail,
+            compact_serialization=detail != "values",
+            values_warning_rows=values_warning_rows,
             notes=notes,
         )

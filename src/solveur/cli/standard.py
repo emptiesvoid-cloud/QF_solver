@@ -52,8 +52,9 @@ def command_solve(args: argparse.Namespace) -> int:
             png=args.png,
             show=False,
         )
-    print(f"SOLVE STATUS: {result.status}")
-    print(f"RUN VERDICT: {result.run_verdict.value}")
+    print(f"SOLVE STATUS: {getattr(result, 'status', 'UNKNOWN')}")
+    run_verdict = getattr(result, "run_verdict", None)
+    print(f"RUN VERDICT: {getattr(run_verdict, 'value', run_verdict)}")
     print(f"output: {args.output}")
     if args.audit_md is not None:
         print(f"audit markdown: {args.audit_md}")
@@ -88,7 +89,11 @@ def command_check_mesh(args: argparse.Namespace) -> int:
 def command_inspect(args: argparse.Namespace) -> int:
     model = load_model(args.input)
     apply_verification_profile(model, args.verification_profile)
-    audit = inspect_model(model, detail=args.detail)
+    audit = inspect_model(
+        model,
+        detail=args.detail,
+        values_warning_rows=args.values_warning_rows,
+    )
     data = audit.to_dict()
     if args.output is None and args.markdown is None:
         print(json.dumps(data, indent=2))
@@ -97,7 +102,13 @@ def command_inspect(args: argparse.Namespace) -> int:
         print(f"AUDIT STATUS: {audit.mesh_status}")
         print(f"output: {args.output}")
     if args.markdown is not None:
-        save_audit_markdown(audit, args.markdown)
+        save_audit_markdown(
+            audit,
+            args.markdown,
+            detail=args.detail,
+            max_pass_rows=args.max_pass_rows,
+            values_warning_rows=args.values_warning_rows,
+        )
         print(f"AUDIT STATUS: {audit.mesh_status}")
         print(f"markdown: {args.markdown}")
     gate_code = audit_gate_exit_code(audit, args.audit_gate)
@@ -115,8 +126,9 @@ def command_evidence(args: argparse.Namespace) -> int:
     apply_verification_profile(model, args.verification_profile)
     result = solve_model(model, enforce_policy=False)
     paths = save_evidence(model, result, args.output, input_path=args.input)
-    print(f"EVIDENCE STATUS: {result.status}")
-    print(f"RUN VERDICT: {result.run_verdict.value}")
+    print(f"EVIDENCE STATUS: {getattr(result, 'status', 'UNKNOWN')}")
+    run_verdict = getattr(result, "run_verdict", None)
+    print(f"RUN VERDICT: {getattr(run_verdict, 'value', run_verdict)}")
     print(f"evidence directory: {args.output}")
     print(f"qualification summary: {paths['qualification_summary']}")
     return qualification_exit_code(result, model)
@@ -161,10 +173,11 @@ def qualification_exit_code(result: object, model: object) -> int:
 
 def mesh_profile_exit_code(report: object, model: object) -> int:
     """Apply warning policy to a mesh-only command."""
-    if report.status == "FAIL":
+    report_status = str(getattr(report, "status", "FAIL"))
+    if report_status == "FAIL":
         return int(ExitCode.INPUT_OR_MESH)
     profile = verification_profile(getattr(model, "verification_profile", "engineering"))
-    if report.status == "WARNING" and profile.fail_on_warning:
+    if report_status == "WARNING" and profile.fail_on_warning:
         print(f"QUALIFICATION GATE: FAIL mesh warning rejected by profile={profile.name}")
         return int(ExitCode.QUALIFICATION_REJECTED)
     return int(ExitCode.ACCEPTED)
@@ -172,11 +185,16 @@ def mesh_profile_exit_code(report: object, model: object) -> int:
 
 def apply_verification_profile(model: object, profile: str | None) -> None:
     if profile is not None:
-        model.verification_profile = verification_profile(profile).name
+        setattr(model, "verification_profile", verification_profile(profile).name)
 
 
 def _surface_quads(model: object) -> object:
-    quads = [element.nodes for element in model.elements if element.type == "MITC4"]
+    elements = getattr(model, "elements", [])
+    quads = [
+        getattr(element, "nodes", [])
+        for element in elements
+        if getattr(element, "type", "") == "MITC4"
+    ]
     if quads:
         return np.asarray(quads, dtype=int)
     raise ValueError("PNG export currently supports MITC4 surface elements only.")

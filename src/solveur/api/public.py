@@ -140,9 +140,24 @@ def check_mesh(model: FiniteElementModel) -> MeshReport:
     return MeshValidator().validate(model)
 
 
-def inspect_model(model: FiniteElementModel, *, detail: str = "summary") -> SolverAudit:
-    """Return a white-box audit of dofs, matrices, loads and constraints."""
-    return ModelInspector().inspect(model, detail=detail)
+def inspect_model(
+    model: FiniteElementModel,
+    *,
+    detail: str = "summary",
+    values_warning_rows: int = 100_000,
+) -> SolverAudit:
+    """Return a white-box audit at ``summary``, ``diagnostic`` or ``values`` detail.
+
+    ``summary`` is the compact human-facing default, ``diagnostic`` adds
+    aggregates and worst-N context, and ``values`` preserves the exhaustive
+    forensic serialization. ``values_warning_rows`` controls the explicit
+    size warning attached to an exhaustive audit.
+    """
+    return ModelInspector().inspect(
+        model,
+        detail=detail,
+        values_warning_rows=values_warning_rows,
+    )
 
 
 def solve_model(
@@ -261,9 +276,26 @@ def run_mitc4_validation(output_dir: str | Path, *, quick: bool = False) -> dict
     return Mitc4ValidationCampaign(output_dir, quick=quick).run()
 
 
-def save_audit_markdown(result_or_audit: object, path: str | Path) -> None:
-    """Save a white-box audit or audited result as a Markdown report."""
-    AuditMarkdownWriter().write(result_or_audit, path)
+def save_audit_markdown(
+    result_or_audit: object,
+    path: str | Path,
+    *,
+    detail: str = "summary",
+    max_pass_rows: int | None = None,
+    values_warning_rows: int = 100_000,
+) -> None:
+    """Save a white-box audit as Markdown without changing the audit object.
+
+    ``max_pass_rows`` only limits ordinary PASS rows in the Markdown export;
+    WARNING and FAIL rows are always retained. ``values_warning_rows`` controls
+    the explicit size warning for exhaustive Markdown output.
+    """
+    AuditMarkdownWriter(values_warning_rows=values_warning_rows).write(
+        result_or_audit,
+        path,
+        detail=detail,
+        max_pass_rows=max_pass_rows,
+    )
 
 
 def save_result_csv(result: object, directory: str | Path, model: FiniteElementModel | None = None) -> dict[str, Path]:
