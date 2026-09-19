@@ -32,7 +32,7 @@ class LinearSolveInfo:
     termination_reason: str = "converged"
     direct_refinement_iterations: int = 0
 
-    def to_dict(self) -> dict[str, float | int | str | bool | list[float]]:
+    def to_dict(self) -> dict[str, float | int | str | bool | list[float] | None]:
         return {
             "method": self.method,
             "iterations": self.iterations,
