@@ -367,6 +367,32 @@ def main() -> int:
     campaign["status"] = "PASS_CANDIDATE" if previous_pass else "FAIL_CLOSED"
     campaign["working_tree_at_end"] = _git("status", "--short")
     (output / "campaign.json").write_text(json.dumps(campaign, indent=2, default=_json_default, allow_nan=False), encoding="utf-8")
+    manifest_rows = []
+    for path in sorted(output.rglob("*")):
+        if not path.is_file() or path.name in {"campaign.json", "manifest.json"}:
+            continue
+        manifest_rows.append(
+            {
+                "path": str(path.relative_to(output)),
+                "sha256": _sha256(path),
+                "bytes": path.stat().st_size,
+            }
+        )
+    (output / "manifest.json").write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "execution_sha": campaign["execution_sha"],
+                "contract_sha256": campaign["contract_sha256"],
+                "files": manifest_rows,
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    campaign["manifest_sha256"] = _sha256(output / "manifest.json")
+    campaign["artifact_count"] = len(manifest_rows)
+    (output / "campaign.json").write_text(json.dumps(campaign, indent=2, default=_json_default, allow_nan=False), encoding="utf-8")
     lines = [
         "# WP09 formal requalification campaign",
         "",
