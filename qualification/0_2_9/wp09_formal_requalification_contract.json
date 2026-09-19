@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-029-WP09-FORMAL-REQUALIFICATION-R1",
+  "work_item": "WP09",
+  "package": "corotational_small_strain_j2",
+  "status": "FROZEN_EXECUTION_CONTRACT",
+  "governing_branch": "0.2.9-unified-nonlinear",
+  "governing_base_sha": "03c35eb7a634a57e5c29d95555316cfb2701d2ad",
+  "authorized_source_sha": "399a76e8c686c713512a51d6bf58932b082de488",
+  "owner_authorization": {
+    "formal_m1": true,
+    "future_m2_m3": true,
+    "authorization_scope": "execute sequentially; later stages remain gated by prior PASS",
+    "official_points_awarded": false
+  },
+  "formulation": {
+    "kinematics": "corotational_j2",
+    "decomposition": "F = R U",
+    "local_strain": "U - I",
+    "constitutive_model": "additive small-strain von Mises J2 with isotropic hardening",
+    "force_measure": "P = R sigma_local",
+    "state_transport": "tensorial committed state between corotated frames",
+    "tangent": "central_difference_internal_force_at_fixed_committed_state",
+    "solver_method": "newton_raphson",
+    "policy_enforcement": true
+  },
+  "material": {
+    "type": "von_mises_elastoplastic_3d",
+    "E": 1000.0,
+    "nu": 0.3,
+    "yield_stress": 0.02,
+    "hardening_modulus": 10.0
+  },
+  "path": {
+    "load_path": [0.25, 0.5, 0.75, 1.0],
+    "load_steps": 4,
+    "max_iterations": 40,
+    "tolerance": 1e-7,
+    "corotational_max_local_strain": 0.05,
+    "adaptive_load_steps": false,
+    "contact": false,
+    "dynamics": false,
+    "follower_loads": false
+  },
+  "stages": {
+    "M1": {
+      "role": "baseline bounded structural qualification",
+      "families": ["TET4", "HEX8"],
+      "cells": [1],
+      "required": ["production", "independent_component_reference", "deterministic_replay", "envelope", "equilibrium"]
+    },
+    "M2": {
+      "role": "intermediate mesh sensitivity",
+      "families": ["TET4", "HEX8"],
+      "cells": [2],
+      "requires": "M1 PASS"
+    },
+    "M3": {
+      "role": "fine mesh sensitivity and closure",
+      "families": ["TET4", "HEX8"],
+      "cells": [4],
+      "requires": "M1 PASS and M2 PASS"
+    }
+  },
+  "gates": {
+    "finite_required": true,
+    "production_status": "PASS",
+    "force_equilibrium_relative_max": 1e-8,
+    "moment_equilibrium_relative_max": 1e-8,
+    "free_residual_relative_max": 1e-7,
+    "minimum_det_f": 1e-10,
+    "maximum_local_strain_norm": 0.05,
+    "replay_relative_tolerance": 1e-12,
+    "replay_absolute_tolerance": 1e-14,
+    "mesh_comparison": {
+      "selected_displacement_relative_max": 0.05,
+      "reaction_relative_max": 0.05,
+      "energy_relative_max": 0.05,
+      "von_mises_relative_max": 0.10,
+      "missing_observable": "FAIL_CLOSED"
+    }
+  },
+  "reference": {
+    "implementation": "independent NumPy module with no production imports",
+    "scope": "material-point and affine-element recomputation",
+    "not_claimed": "independent global FEM/Newton solve",
+    "required_relative_max": 1e-11,
+    "required_absolute_max": 1e-10
+  },
+  "provenance": {
+    "contract_digest_computed_before_execution": true,
+    "raw_artifacts_hashed": true,
+    "historical_code_aster_preflights": "diagnostic_only; excluded from formal evidence",
+    "merge": false,
+    "push": false
+  },
+  "formal_points": {
+    "wp09": "0/8",
+    "award_policy": "Owner review required after all gates; runner cannot award points"
+  }
+}
