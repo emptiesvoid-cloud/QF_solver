@@ -1,0 +1,444 @@
+{
+  "benchmark": {
+    "current_m1": "64x4x4",
+    "load_patch": "top surface, full width, length 0.25, resultant [0,0,-1]",
+    "rise": 0.1,
+    "section_depth": 0.025,
+    "section_width": 0.1,
+    "span": 2.0,
+    "supports": "full end faces x=+/-1, all translations fixed"
+  },
+  "global_gates": {
+    "all_manifold": true,
+    "all_positive_volume": true,
+    "all_quality_pass": true,
+    "all_reference_loads_pass": true,
+    "all_rigid_modes_removed": true,
+    "nested_M1_M2_M3": true
+  },
+  "limitations": [
+    "No structural solve, independent path solve, replay, or score update was performed.",
+    "M2/M3 are local axial diagnostics, not formal 3-D mesh convergence levels.",
+    "Cross-section subdivision remains 4x4 at all local levels.",
+    "A formal contract must decide whether this reduced scope is acceptable or require local transverse refinement."
+  ],
+  "local_refinement_policy": {
+    "M1": "base cells",
+    "M2": "focus cells split 2x; cross-section remains 4x4",
+    "M3": "focus cells split 4x and transition cells split 2x; cross-section remains 4x4",
+    "focus": "base x cells 0:8, 20:44, 56:64; end bearings and crown/load window",
+    "maximum_axial_size_jump": "2:1",
+    "scope_warning": "This is local axial refinement only; transverse section resolution is unchanged.",
+    "transition": "base x cells 8, 19, 44, 55"
+  },
+  "mesh_levels": [
+    {
+      "analytic_volume": 0.005000000000000001,
+      "base_subdivisions_xyz": [
+        64,
+        4,
+        4
+      ],
+      "classification": "AXIAL_LOCAL_REFINEMENT_DIAGNOSTIC_ONLY",
+      "crown_patch_area": 0.025002563245047193,
+      "crown_patch_triangle_count": 64,
+      "dofs": 4875,
+      "focus_cells_base": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63
+      ],
+      "generated_cells_x": 64,
+      "generated_nodes": 1625,
+      "left_support_nodes": 25,
+      "level": "M1",
+      "load_force_error": 2.220446049250313e-16,
+      "load_moment_error": 1.9702969556872903e-18,
+      "load_moment_reference_origin": [
+        5.421010862427522e-19,
+        -3.903127820947816e-18,
+        0.0
+      ],
+      "load_resultant": [
+        0.0,
+        0.0,
+        -0.9999999999999998
+      ],
+      "max_axial_size_jump": 2.0,
+      "maximum_tet_condition_number": 14.833336680992916,
+      "mesh_npz_bytes": 30943,
+      "mesh_npz_path": "qualification/0_2_9/wp06d_local_mesh_audit_20260919/rise_span_0_05_M1_local_axial.npz",
+      "mesh_npz_sha256": "15508102aa56d91367a798949f225f32232099ec05881f6b10a2f1d6ce8712eb",
+      "mesh_volume": 0.005,
+      "minimum_tet_quality": 0.3507200220595467,
+      "minimum_tet_volume": 8.138020833333322e-07,
+      "negative_orientation_elements": 0,
+      "no_solve_status": "PASS_GEOMETRY_LOAD_TOPOLOGY_AUDIT_ONLY",
+      "nonmanifold_faces": 0,
+      "q_monitor": {
+        "mapping": "physical coordinate, not inherited node number",
+        "node_ids": [
+          809,
+          814,
+          819
+        ],
+        "physical_coordinates": [
+          [
+            0.0,
+            -0.025,
+            0.1125
+          ],
+          [
+            0.0,
+            0.0,
+            0.1125
+          ],
+          [
+            0.0,
+            0.025,
+            0.1125
+          ]
+        ]
+      },
+      "quality_status": "PASS",
+      "relative_volume_error": 1.7347234759768068e-16,
+      "right_support_nodes": 25,
+      "rigid_body_mode_restriction_rank": 6,
+      "six_rigid_modes_removed": true,
+      "tet4_elements": 6144,
+      "transition_cells_base": [
+        8,
+        19,
+        44,
+        55
+      ],
+      "x_coordinate_count": 65,
+      "zero_volume_elements": 0
+    },
+    {
+      "analytic_volume": 0.005000000000000001,
+      "base_subdivisions_xyz": [
+        64,
+        4,
+        4
+      ],
+      "classification": "AXIAL_LOCAL_REFINEMENT_DIAGNOSTIC_ONLY",
+      "crown_patch_area": 0.025002593753223227,
+      "crown_patch_triangle_count": 128,
+      "dofs": 7875,
+      "focus_cells_base": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63
+      ],
+      "generated_cells_x": 104,
+      "generated_nodes": 2625,
+      "left_support_nodes": 25,
+      "level": "M2",
+      "load_force_error": 4.440892098500626e-16,
+      "load_moment_error": 1.3576899789286212e-18,
+      "load_moment_reference_origin": [
+        -1.6263032587282567e-19,
+        -2.710505431213761e-18,
+        0.0
+      ],
+      "load_resultant": [
+        0.0,
+        0.0,
+        -1.0000000000000004
+      ],
+      "max_axial_size_jump": 2.0,
+      "maximum_tet_condition_number": 14.583970044512593,
+      "mesh_npz_bytes": 49162,
+      "mesh_npz_path": "qualification/0_2_9/wp06d_local_mesh_audit_20260919/rise_span_0_05_M2_local_axial.npz",
+      "mesh_npz_sha256": "33bf39732fb0ab3cccd51e8c0f5ce390554cf4619f7fdf6c16584f7674b4eb73",
+      "mesh_volume": 0.004999999999999999,
+      "minimum_tet_quality": 0.35682862086344425,
+      "minimum_tet_volume": 4.0690104166666606e-07,
+      "negative_orientation_elements": 0,
+      "no_solve_status": "PASS_GEOMETRY_LOAD_TOPOLOGY_AUDIT_ONLY",
+      "nonmanifold_faces": 0,
+      "q_monitor": {
+        "mapping": "physical coordinate, not inherited node number",
+        "node_ids": [
+          1309,
+          1314,
+          1319
+        ],
+        "physical_coordinates": [
+          [
+            0.0,
+            -0.025,
+            0.1125
+          ],
+          [
+            0.0,
+            0.0,
+            0.1125
+          ],
+          [
+            0.0,
+            0.025,
+            0.1125
+          ]
+        ]
+      },
+      "quality_status": "PASS",
+      "relative_volume_error": 3.4694469519536137e-16,
+      "right_support_nodes": 25,
+      "rigid_body_mode_restriction_rank": 6,
+      "six_rigid_modes_removed": true,
+      "tet4_elements": 9984,
+      "transition_cells_base": [
+        8,
+        19,
+        44,
+        55
+      ],
+      "x_coordinate_count": 105,
+      "zero_volume_elements": 0
+    },
+    {
+      "analytic_volume": 0.005000000000000001,
+      "base_subdivisions_xyz": [
+        64,
+        4,
+        4
+      ],
+      "classification": "AXIAL_LOCAL_REFINEMENT_DIAGNOSTIC_ONLY",
+      "crown_patch_area": 0.025002601380242826,
+      "crown_patch_triangle_count": 256,
+      "dofs": 14175,
+      "focus_cells_base": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63
+      ],
+      "generated_cells_x": 188,
+      "generated_nodes": 4725,
+      "left_support_nodes": 25,
+      "level": "M3",
+      "load_force_error": 8.881784197001252e-16,
+      "load_moment_error": 1.79021650783406e-18,
+      "load_moment_reference_origin": [
+        1.3552527156068805e-19,
+        3.577867169202165e-18,
+        0.0
+      ],
+      "load_resultant": [
+        0.0,
+        0.0,
+        -1.0000000000000009
+      ],
+      "max_axial_size_jump": 2.0,
+      "maximum_tet_condition_number": 14.557149487149067,
+      "mesh_npz_bytes": 87256,
+      "mesh_npz_path": "qualification/0_2_9/wp06d_local_mesh_audit_20260919/rise_span_0_05_M3_local_axial.npz",
+      "mesh_npz_sha256": "3841c5092de8855a19bd4f61b5097940931f3bfa36e59a3c02a9dd01d0468fac",
+      "mesh_volume": 0.005,
+      "minimum_tet_quality": 0.3054263496473785,
+      "minimum_tet_volume": 2.0345052083333303e-07,
+      "negative_orientation_elements": 0,
+      "no_solve_status": "PASS_GEOMETRY_LOAD_TOPOLOGY_AUDIT_ONLY",
+      "nonmanifold_faces": 0,
+      "q_monitor": {
+        "mapping": "physical coordinate, not inherited node number",
+        "node_ids": [
+          2359,
+          2364,
+          2369
+        ],
+        "physical_coordinates": [
+          [
+            0.0,
+            -0.025,
+            0.1125
+          ],
+          [
+            0.0,
+            0.0,
+            0.1125
+          ],
+          [
+            0.0,
+            0.025,
+            0.1125
+          ]
+        ]
+      },
+      "quality_status": "PASS",
+      "relative_volume_error": 1.7347234759768068e-16,
+      "right_support_nodes": 25,
+      "rigid_body_mode_restriction_rank": 6,
+      "six_rigid_modes_removed": true,
+      "tet4_elements": 18048,
+      "transition_cells_base": [
+        8,
+        19,
+        44,
+        55
+      ],
+      "x_coordinate_count": 189,
+      "zero_volume_elements": 0
+    }
+  ],
+  "nestedness": {
+    "M1_in_M2": true,
+    "M1_in_M3": true,
+    "M2_in_M3": true
+  },
+  "provenance": {
+    "branch": "codex/wp06-score-requalification",
+    "head": "504c952287295cd525f1c4183b3c2764c5294b38",
+    "numpy": "2.2.6",
+    "python": "3.13.1",
+    "script_sha256": "dadea67c6336dbf87d99942bbc5368d1672649f49f4cfac99d165a5461f9dfa5",
+    "working_tree_dirty": true
+  },
+  "record_id": "QF-0.2.9-WP06D-LOCAL-MESH-AUDIT-001",
+  "schema_version": 1,
+  "status": "PREPARATION_ONLY_NO_STRUCTURAL_SOLVE",
+  "uniform_comparison": [
+    {
+      "dof_ratio_local_over_uniform": 1.0,
+      "dof_reduction_percent": 0.0,
+      "level": "M1",
+      "local_dofs": 4875,
+      "local_tet4": 6144,
+      "uniform_dofs": 4875,
+      "uniform_reference": "M1_current_64x4x4",
+      "uniform_tet4": 6144
+    },
+    {
+      "dof_ratio_local_over_uniform": 0.25122021246052256,
+      "dof_reduction_percent": 74.87797875394774,
+      "level": "M2",
+      "local_dofs": 7875,
+      "local_tet4": 9984,
+      "uniform_dofs": 31347,
+      "uniform_reference": "M2_uniform_128x8x8",
+      "uniform_tet4": 49152
+    },
+    {
+      "dof_ratio_local_over_uniform": 0.06361665746637406,
+      "dof_reduction_percent": 93.6383342533626,
+      "level": "M3",
+      "local_dofs": 14175,
+      "local_tet4": 18048,
+      "uniform_dofs": 222819,
+      "uniform_reference": "M3_uniform_256x16x16",
+      "uniform_tet4": 393216
+    }
+  ]
+}
