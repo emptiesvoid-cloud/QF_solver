@@ -361,10 +361,10 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
         kinematics = str(params.get("kinematics", "small_strain")).lower()
         if kinematics == "small_strain":
             return
-        if kinematics not in {"total_lagrangian", "total_lagrangian_j2"}:
+        if kinematics not in {"total_lagrangian", "total_lagrangian_j2", "corotational_j2"}:
             raise InputValidationError(
                 "nonlinear_static kinematics must be 'small_strain', 'total_lagrangian' "
-                "or 'total_lagrangian_j2'."
+                "'total_lagrangian_j2' or 'corotational_j2'."
             )
         if model.analysis.method == "modified_newton":
             raise InputValidationError(
@@ -386,7 +386,7 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
         }
         expected_material = (
             "von_mises_elastoplastic_3d"
-            if kinematics == "total_lagrangian_j2"
+            if kinematics in {"total_lagrangian_j2", "corotational_j2"}
             else "isotropic_3d"
         )
         if material_types != {expected_material}:

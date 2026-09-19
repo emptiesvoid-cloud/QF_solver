@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "work_item": "WP09",
+  "package": "corotational_small_strain_j2",
+  "status": "IMPLEMENTATION_CANDIDATE_OWNER_REVIEW_REQUIRED",
+  "governing_base_sha": "03c35eb7a634a57e5c29d95555316cfb2701d2ad",
+  "source_sha": null,
+  "owner_decision": "OD-029-01 option A selected for implementation; formal closure pending",
+  "formal_requalification_authorized": false,
+  "official_points": "0/8",
+  "implementation": {
+    "kinematics_parameter": "corotational_j2",
+    "decomposition": "F = R U",
+    "local_strain": "U - I",
+    "constitutive_model": "additive small-strain von Mises J2",
+    "spatial_force_measure": "P = R sigma_local",
+    "tangent": "central_difference_internal_force_at_fixed_committed_state",
+    "state_transport": "tensorial committed state transported between corotated frames",
+    "transaction_semantics": "existing nonlinear trial/commit/rollback semantics"
+  },
+  "bounds": {
+    "corotational_max_local_strain_parameter": "corotational_max_local_strain",
+    "default_frobenius_limit": 0.05,
+    "determinant_lower_guard": 1e-10,
+    "violation_behavior": "controlled failure; no clipping"
+  },
+  "supported_families": ["TET4", "TET10", "HEX8", "HEX20"],
+  "initial_formal_candidate_families": ["TET4", "HEX8"],
+  "solver_scope": {
+    "nonlinear_method": "newton_raphson_full",
+    "contact": false,
+    "dynamics": false,
+    "mpi_petsc": false,
+    "finite_sliding": false,
+    "follower_loads": false,
+    "multiplicative_plasticity": false
+  },
+  "required_gates": [
+    "rigid_rotation_objectivity",
+    "independent_tangent_finite_difference",
+    "state_transport",
+    "trial_state_immutability_and_rollback",
+    "bounded_tet4_hex8_structural_solves",
+    "load_step_and_mesh_sensitivity",
+    "independent_reference_or_observable_recomputation",
+    "replay_and_provenance"
+  ],
+  "historical_path_preserved": {
+    "green_lagrange_parameter": "total_lagrangian_j2",
+    "replacement": false,
+    "evidence_mixing_without_label": false
+  },
+  "limitations": [
+    "large rigid rotations with small local strains only",
+    "not finite-strain multiplicative plasticity",
+    "not general large-local-strain plasticity",
+    "not contact, dynamics, MPI/PETSc, or external-solver correlation",
+    "not a general postbuckling or bifurcation qualification"
+  ],
+  "evidence": {
+    "targeted_test_file": "tests/unit/test_corotational_j2.py",
+    "structural_solves": "not a formal qualification campaign",
+    "independent_reference": "not run",
+    "replay": "not run"
+  }
+}

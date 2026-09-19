@@ -22,8 +22,27 @@ from solveur.elements.solid.total_lagrangian_j2 import (
     TotalLagrangianJ2Tet10Element,
     TotalLagrangianJ2Tet4Element,
 )
+from solveur.elements.solid.corotational_j2 import (
+    CorotationalJ2Hex8Element,
+    CorotationalJ2Hex20Element,
+    CorotationalJ2Tet10Element,
+    CorotationalJ2Tet4Element,
+)
 from solveur.elements.solid.tet10 import Tet10Element
 from solveur.materials.factory import MaterialFactory
+
+
+def _corotational_strain_limit(model: FiniteElementModel, kinematics: str) -> float:
+    """Read the local-strain bound only for the opt-in corotational route."""
+    if kinematics != "corotational_j2":
+        return 0.05
+    try:
+        limit = float(model.analysis.parameters.get("corotational_max_local_strain", 0.05))
+    except (TypeError, ValueError) as error:
+        raise InputValidationError("corotational_max_local_strain must be a positive finite value.") from error
+    if not np.isfinite(limit) or limit <= 0.0:
+        raise InputValidationError("corotational_max_local_strain must be a positive finite value.")
+    return limit
 
 
 @dataclass(frozen=True)
@@ -53,6 +72,7 @@ class NonlinearAssemblyPlan:
     ndof: int
     kinematics: str
     nonlinear_quadrature: str
+    corotational_strain_limit: float
     elements: tuple[NonlinearAssemblyElement, ...]
 
     def matches(self, model: FiniteElementModel, dofs: DofManager) -> bool:
@@ -61,6 +81,7 @@ class NonlinearAssemblyPlan:
         quadrature = str(
             model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")
         ).lower()
+        strain_limit = _corotational_strain_limit(model, kinematics)
         return (
             self.model_token == id(model)
             and self.dofs_token == id(dofs)
@@ -69,6 +90,7 @@ class NonlinearAssemblyPlan:
             and len(self.elements) == len(model.elements)
             and self.kinematics == kinematics
             and self.nonlinear_quadrature == quadrature
+            and self.corotational_strain_limit == strain_limit
         )
 
 
@@ -78,8 +100,27 @@ def _create_nonlinear_element(
     element_type: str,
     finite_kinematics: str,
     nonlinear_quadrature: str,
+    corotational_strain_limit: float,
 ) -> object:
     """Create one nonlinear kernel while keeping formulation dispatch local."""
+    if finite_kinematics == "corotational_j2":
+        element_class = {
+            "TET4": CorotationalJ2Tet4Element,
+            "TET10": CorotationalJ2Tet10Element,
+            "HEX8": CorotationalJ2Hex8Element,
+            "HEX20": CorotationalJ2Hex20Element,
+        }.get(element_type)
+        if element_class is None:
+            raise InputValidationError(
+                "corotational_j2 supports TET4, TET10, HEX8 and HEX20."
+            )
+        if element_type == "TET10":
+            return element_class(
+                material,
+                nonlinear_quadrature=nonlinear_quadrature,
+                max_corotational_strain=corotational_strain_limit,
+            )
+        return element_class(material, max_corotational_strain=corotational_strain_limit)
     if finite_kinematics in {"total_lagrangian", "total_lagrangian_j2"}:
         element_class = {
             "TET4": TotalLagrangianJ2Tet4Element,
@@ -108,6 +149,7 @@ def build_nonlinear_assembly_plan(
     nonlinear_quadrature = str(
         model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")
     ).lower()
+    corotational_strain_limit = _corotational_strain_limit(model, finite_kinematics)
     material_cache: dict[str, object] = {}
     entries: list[NonlinearAssemblyElement] = []
     for definition in model.elements:
@@ -138,6 +180,7 @@ def build_nonlinear_assembly_plan(
                     str(definition.type),
                     finite_kinematics,
                     nonlinear_quadrature,
+                    corotational_strain_limit,
                 ),
             )
         )
@@ -148,6 +191,7 @@ def build_nonlinear_assembly_plan(
         ndof=dofs.ndof,
         kinematics=finite_kinematics,
         nonlinear_quadrature=nonlinear_quadrature,
+        corotational_strain_limit=corotational_strain_limit,
         elements=tuple(entries),
     )
 
@@ -197,6 +241,7 @@ def assemble_internal_tangent(
     internal = np.zeros(dofs.ndof, dtype=float)
     updated_states: MaterialStateTable = {}
     finite_kinematics = str(model.analysis.parameters.get("kinematics", "small_strain")).lower()
+    corotational_strain_limit = _corotational_strain_limit(model, finite_kinematics)
     for element_index, definition in enumerate(model.elements):
         setup_started = perf_counter()
         prepared = plan.elements[element_index] if plan is not None else None
@@ -216,6 +261,7 @@ def assemble_internal_tangent(
                 str(definition.type),
                 finite_kinematics,
                 str(model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")),
+                corotational_strain_limit,
             )
             coords = model.nodes[list(definition.nodes)]
             edofs = np.asarray(

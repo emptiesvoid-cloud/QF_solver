@@ -20,6 +20,12 @@ from solveur.elements.solid.total_lagrangian_j2 import (
     TotalLagrangianJ2Tet10Element,
     TotalLagrangianJ2Tet4Element,
 )
+from solveur.elements.solid.corotational_j2 import (
+    CorotationalJ2Hex8Element,
+    CorotationalJ2Hex20Element,
+    CorotationalJ2Tet10Element,
+    CorotationalJ2Tet4Element,
+)
 from solveur.materials.factory import MaterialFactory
 from solveur.materials.beam import BeamSectionMaterial
 from solveur.materials.laminate import LaminateShellMaterial
@@ -71,6 +77,9 @@ class StressPostProcessor:
             material = MaterialFactory.create(model.materials[definition.material], coordinates=coords)
             states = (material_states or {}).get(index)
             kinematics = str(model.analysis.parameters.get("kinematics", "small_strain")).lower()
+            corotational_strain_limit = float(
+                model.analysis.parameters.get("corotational_max_local_strain", 0.05)
+            )
             if (
                 kinematics in {"total_lagrangian", "total_lagrangian_j2"}
                 and definition.type in {"TET4", "TET10", "HEX8", "HEX20"}
@@ -89,6 +98,27 @@ class StressPostProcessor:
                             model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")
                         ),
                         result_label=kinematics,
+                    )
+                )
+            elif (
+                kinematics == "corotational_j2"
+                and definition.type in {"TET4", "TET10", "HEX8", "HEX20"}
+                and isinstance(material, SolidConstitutiveMaterial)
+            ):
+                results.append(
+                    self._total_lagrangian_j2_result(
+                        index,
+                        definition.type,
+                        definition.nodes,
+                        material,
+                        coords,
+                        local_u,
+                        states,
+                        nonlinear_quadrature=str(
+                            model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")
+                        ),
+                        result_label=kinematics,
+                        corotational_strain_limit=corotational_strain_limit,
                     )
                 )
             elif definition.type == "TET4" and isinstance(material, SolidConstitutiveMaterial):
@@ -166,21 +196,37 @@ class StressPostProcessor:
         *,
         nonlinear_quadrature: str = "hammer4",
         result_label: str = "total_lagrangian_j2",
+        corotational_strain_limit: float = 0.05,
     ) -> dict[str, object]:
-        """Recover objective Green-Lagrange/J2 fields for the research path."""
-        element_class = {
-            "TET4": TotalLagrangianJ2Tet4Element,
-            "TET10": TotalLagrangianJ2Tet10Element,
-            "HEX8": TotalLagrangianJ2Hex8Element,
-            "HEX20": TotalLagrangianJ2Hex20Element,
-        }[element_type]
-        if element_type == "TET10":
-            element = element_class(
-                material,
-                nonlinear_quadrature=nonlinear_quadrature,
-            )
+        """Recover objective finite-kinematic J2 fields for a research path."""
+        if result_label == "corotational_j2":
+            element_class = {
+                "TET4": CorotationalJ2Tet4Element,
+                "TET10": CorotationalJ2Tet10Element,
+                "HEX8": CorotationalJ2Hex8Element,
+                "HEX20": CorotationalJ2Hex20Element,
+            }[element_type]
         else:
-            element = element_class(material)
+            element_class = {
+                "TET4": TotalLagrangianJ2Tet4Element,
+                "TET10": TotalLagrangianJ2Tet10Element,
+                "HEX8": TotalLagrangianJ2Hex8Element,
+                "HEX20": TotalLagrangianJ2Hex20Element,
+            }[element_type]
+        if element_type == "TET10":
+            if result_label == "corotational_j2":
+                element = element_class(
+                    material,
+                    nonlinear_quadrature=nonlinear_quadrature,
+                    max_corotational_strain=corotational_strain_limit,
+                )
+            else:
+                element = element_class(material, nonlinear_quadrature=nonlinear_quadrature)
+        else:
+            if result_label == "corotational_j2":
+                element = element_class(material, max_corotational_strain=corotational_strain_limit)
+            else:
+                element = element_class(material)
         raw_points = element.integration_point_results(coords, local_u, states)
         points: list[dict[str, object]] = []
         for raw in raw_points:
@@ -210,26 +256,39 @@ class StressPostProcessor:
                     "det_f": raw["det_f"],
                 }
             )
+            if result_label == "corotational_j2":
+                points[-1].update(
+                    {
+                        "corotation": raw["corotation"],
+                        "right_stretch": raw["right_stretch"],
+                        "corotational_strain": raw["corotational_strain"],
+                        "corotational_strain_norm": raw["corotational_strain_norm"],
+                        "local_stress": raw["local_stress"],
+                        "first_piola_stress": raw["first_piola_stress"],
+                    }
+                )
         weights = np.asarray([float(point["weight"]) for point in points], dtype=float)
         normalized = weights / max(float(np.sum(weights)), np.finfo(float).eps)
         strain = sum(normalized[i] * np.asarray(point["strain"], dtype=float) for i, point in enumerate(points))
         stress = sum(normalized[i] * np.asarray(point["stress"], dtype=float) for i, point in enumerate(points))
         aggregate_state: dict[str, object] = {
-            "model": f"{result_label}_green_lagrange",
-            "kinematics": "green_lagrange_second_piola",
+            "model": f"{result_label}_corotational" if result_label == "corotational_j2" else f"{result_label}_green_lagrange",
+            "kinematics": "corotational_small_strain" if result_label == "corotational_j2" else "green_lagrange_second_piola",
             "equivalent_plastic_strain": float(
                 sum(normalized[i] * float(point.get("equivalent_plastic_strain", 0.0)) for i, point in enumerate(points))
             ),
         }
         result = _solid_result(strain, stress, aggregate_state)
-        result["kinematics"] = "green_lagrange_second_piola"
+        result["kinematics"] = (
+            "corotational_small_strain" if result_label == "corotational_j2" else "green_lagrange_second_piola"
+        )
         result["von_mises"] = Tet4Element.von_mises(stress)
         return {
             "element": index,
             "type": (
                 f"{element_type}_TOTAL_LAGRANGIAN_J2"
                 if result_label == "total_lagrangian_j2"
-                else f"{element_type}_TOTAL_LAGRANGIAN"
+                else f"{element_type}_COROTATIONAL_J2"
             ),
             "location": "integration_average",
             **result,
