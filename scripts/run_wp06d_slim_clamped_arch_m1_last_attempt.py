@@ -198,6 +198,7 @@ def main() -> int:
         raise SystemExit("Refusing run: source HEAD is not descended from the reviewed M1 base.")
     if OUT.exists():
         raise SystemExit(f"Refusing to overwrite existing output: {OUT}")
+    execution_head = _git("rev-parse", "HEAD")
     r1 = _import_module("wp06d_long_qmean_r1_for_last_attempt", REUSED_RUNNER)
     r1.OUT = OUT
     r1.MESH_DIR = MESH_DIR
@@ -206,7 +207,7 @@ def main() -> int:
     r1.BASE_RUNNER = BASE_RUNNER
     r1.MESH_GENERATOR = MESH_GENERATOR
     r1.EXPECTED_BRANCH = EXPECTED_BRANCH
-    r1.EXPECTED_HEAD = EXPECTED_HEAD
+    r1.EXPECTED_HEAD = execution_head
     original_prepare_base = r1._prepare_base
     r1._prepare_base = lambda: _prepare_base(r1, original_prepare_base)
     try:
