@@ -145,7 +145,9 @@ def _metrics(result: Any, *, elapsed_seconds: float) -> dict[str, Any]:
         "plastic_dissipation_max": max(dissipation_values, default=0.0),
         "min_det_f": min(det_values, default=float("nan")),
         "max_local_strain_norm": max(local_strain_values, default=float("nan")),
-        "accepted_steps": sum(1 for step in steps if str(step.get("status", "")).upper() == "ACCEPTED"),
+        # Solver history entries are accepted once the result is PASS; the
+        # serialized step DTO intentionally has no status/accepted flag.
+        "accepted_steps": len(steps) if str(result.status) == "PASS" else 0,
         "step_count": len(steps),
         "newton_iterations": sum(int(step.get("iterations", 0)) for step in steps),
         "rejected_increments": int(result.solver.get("rejected_increments", 0)),
