@@ -370,7 +370,12 @@ class NonlinearArcLengthMixin:
         linear_method: str,
     ) -> tuple[float, float]:
         _, tangent, _ = self._assemble_internal_tangent(model, dofs, displacement, material_states)
-        predictor, info = self.linear_solver.solve(tangent[free, :][:, free], loads[free], method=linear_method)
+        predictor, info = self.linear_solver.solve(
+            tangent[free, :][:, free],
+            loads[free],
+            method=linear_method,
+            parameters=model.analysis.parameters,
+        )
         if not info.converged:
             raise NumericalConvergenceError(
                 "Arc-length predictor solve did not converge.",
@@ -399,7 +404,12 @@ class NonlinearArcLengthMixin:
         if abs(remaining) <= 1.0e-12:
             return radius
         _, tangent, _ = self._assemble_internal_tangent(model, dofs, displacement, material_states)
-        predictor, info = self.linear_solver.solve(tangent[free, :][:, free], loads[free], method=linear_method)
+        predictor, info = self.linear_solver.solve(
+            tangent[free, :][:, free],
+            loads[free],
+            method=linear_method,
+            parameters=model.analysis.parameters,
+        )
         if not info.converged:
             raise NumericalConvergenceError(
                 "Arc-length target-radius solve did not converge.",
@@ -444,7 +454,12 @@ class NonlinearArcLengthMixin:
         )
         assembly_seconds += perf_counter() - phase_started
         phase_started = perf_counter()
-        predictor, info = self.linear_solver.solve(tangent[free, :][:, free], loads[free], method=linear_method)
+        predictor, info = self.linear_solver.solve(
+            tangent[free, :][:, free],
+            loads[free],
+            method=linear_method,
+            parameters=model.analysis.parameters,
+        )
         linear_solve_seconds += perf_counter() - phase_started
         if not info.converged:
             raise NumericalConvergenceError(

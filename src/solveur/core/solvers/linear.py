@@ -30,6 +30,7 @@ class LinearSolveInfo:
     relative_residual_norm: float = 0.0
     tolerance: float | None = None
     termination_reason: str = "converged"
+    direct_refinement_iterations: int = 0
 
     def to_dict(self) -> dict[str, float | int | str | bool | list[float]]:
         return {
@@ -44,6 +45,7 @@ class LinearSolveInfo:
             "relative_residual_norm": self.relative_residual_norm,
             "tolerance": self.tolerance,
             "termination_reason": self.termination_reason,
+            "direct_refinement_iterations": self.direct_refinement_iterations,
         }
 
 
@@ -146,7 +148,17 @@ class LinearSystemSolver:
                 raise NumericalConvergenceError("Direct sparse solve failed because the matrix is singular.") from exc
             except (FloatingPointError, RuntimeError, ValueError) as exc:
                 raise NumericalConvergenceError(f"Direct sparse solve failed: {exc}") from exc
-            residual, relative = self._validated_residual_metrics(matrix, rhs, solution, normalized, parameters)
+            solution, refinement_iterations = self._refine_direct_solution(matrix, rhs, solution, parameters)
+            try:
+                residual, relative = self._validated_residual_metrics(matrix, rhs, solution, normalized, parameters)
+            except NumericalConvergenceError as exc:
+                exc.diagnostics.update(
+                    {
+                        "direct_refinement_enabled": refinement_iterations > 0,
+                        "direct_refinement_iterations": refinement_iterations,
+                    }
+                )
+                raise
             initial = float(np.linalg.norm(np.asarray(rhs, dtype=float)))
             return solution, LinearSolveInfo(
                 normalized,
@@ -157,6 +169,7 @@ class LinearSystemSolver:
                 initial_residual_norm=initial,
                 relative_residual_norm=relative,
                 tolerance=_reported_tolerance(normalized, parameters),
+                direct_refinement_iterations=refinement_iterations,
             )
         if normalized in {"cg", "conjugate_gradient"}:
             return self._iterative(cg, matrix, rhs, "cg", parameters)
@@ -337,6 +350,73 @@ class LinearSystemSolver:
             history.append(float(residual))
 
     @staticmethod
+    def _refine_direct_solution(
+        matrix: csr_matrix,
+        rhs: np.ndarray,
+        solution: np.ndarray,
+        parameters: dict[str, Any],
+    ) -> tuple[np.ndarray, int]:
+        """Optionally improve a direct solution without changing its gate.
+
+        This is an opt-in R&D aid for ill-conditioned sparse tangents.  It
+        never relaxes the residual threshold: the final candidate still goes
+        through ``_validated_residual_metrics`` unchanged.  With the default
+        of zero iterations the legacy direct path is bit-for-bit unchanged.
+        """
+        raw_steps = parameters.get("experimental_direct_refinement_steps", 0)
+        if isinstance(raw_steps, bool) or not isinstance(raw_steps, (int, np.integer)):
+            raise ValueError("experimental_direct_refinement_steps must be a non-negative integer.")
+        steps = int(raw_steps)
+        if steps < 0:
+            raise ValueError("experimental_direct_refinement_steps must be non-negative.")
+        if steps == 0:
+            return solution, 0
+        limit = float(parameters.get("residual_failure_tolerance", 1.0e-7))
+        current = np.asarray(solution, dtype=float).copy()
+        _, relative = LinearSystemSolver._raw_residual_metrics(matrix, rhs, current)
+        if relative <= limit:
+            return current, 0
+        performed = 0
+        for _ in range(steps):
+            correction_rhs = np.asarray(rhs, dtype=float) - matrix @ current
+            try:
+                with warnings.catch_warnings():
+                    warnings.simplefilter("error", MatrixRankWarning)
+                    correction = np.asarray(spsolve(matrix, correction_rhs), dtype=float)
+            except MatrixRankWarning as exc:
+                raise NumericalConvergenceError(
+                    "Direct iterative refinement failed because the matrix is singular.",
+                    diagnostics={"direct_refinement_iterations": performed},
+                ) from exc
+            except (FloatingPointError, RuntimeError, ValueError) as exc:
+                raise NumericalConvergenceError(
+                    f"Direct iterative refinement failed: {exc}",
+                    diagnostics={"direct_refinement_iterations": performed},
+                ) from exc
+            if not np.all(np.isfinite(correction)):
+                raise NumericalConvergenceError(
+                    "Direct iterative refinement produced a non-finite correction.",
+                    diagnostics={"direct_refinement_iterations": performed + 1},
+                )
+            current += correction
+            performed += 1
+            _, relative = LinearSystemSolver._raw_residual_metrics(matrix, rhs, current)
+            if relative <= limit:
+                break
+        return current, performed
+
+    @staticmethod
+    def _raw_residual_metrics(
+        matrix: csr_matrix,
+        rhs: np.ndarray,
+        solution: np.ndarray,
+    ) -> tuple[float, float]:
+        product = matrix @ solution
+        residual = float(np.linalg.norm(product - rhs))
+        reference = max(float(np.linalg.norm(rhs)), float(np.linalg.norm(product)), 1.0)
+        return residual, residual / reference
+
+    @staticmethod
     def _validated_residual(
         matrix: csr_matrix,
         rhs: np.ndarray,
@@ -363,15 +443,35 @@ class LinearSystemSolver:
                 f"{method} produced a non-finite solution.", diagnostics={"nonfinite": kind}
             )
         product = matrix @ solution
-        residual = float(np.linalg.norm(product - rhs))
-        reference = max(float(np.linalg.norm(rhs)), float(np.linalg.norm(product)), 1.0)
-        relative = residual / reference
+        residual, relative = LinearSystemSolver._raw_residual_metrics(matrix, rhs, solution)
         limit = float(parameters.get("residual_failure_tolerance", 1.0e-7))
         if not np.isfinite(residual) or not np.isfinite(relative):
             raise NumericalConvergenceError(f"{method} produced a non-finite residual.")
         if relative > limit:
+            rhs_inf = float(np.max(np.abs(rhs), initial=0.0))
+            solution_inf = float(np.max(np.abs(solution), initial=0.0))
+            product_inf = float(np.max(np.abs(product), initial=0.0))
+            matrix_inf = float(np.max(np.asarray(np.abs(matrix).sum(axis=1)).ravel(), initial=0.0))
+            backward_denominator = matrix_inf * solution_inf + rhs_inf
+            backward_error = (
+                float(np.max(np.abs(product - rhs), initial=0.0)) / backward_denominator
+                if backward_denominator > 0.0
+                else float("inf")
+            )
             raise NumericalConvergenceError(
-                f"{method} residual is abnormal: relative={relative:.6e}, allowed={limit:.6e}."
+                f"{method} residual is abnormal: relative={relative:.6e}, allowed={limit:.6e}.",
+                diagnostics={
+                    "matrix_shape": list(matrix.shape),
+                    "matrix_nnz": int(matrix.nnz),
+                    "matrix_inf_norm": matrix_inf,
+                    "rhs_inf_norm": rhs_inf,
+                    "solution_inf_norm": solution_inf,
+                    "product_inf_norm": product_inf,
+                    "residual_norm": residual,
+                    "relative_residual": relative,
+                    "residual_failure_tolerance": limit,
+                    "backward_error_eta_inf": backward_error,
+                },
             )
         return residual, relative
 
