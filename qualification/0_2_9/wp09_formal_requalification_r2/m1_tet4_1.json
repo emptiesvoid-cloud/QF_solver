@@ -1,0 +1,10 @@
+{
+  "family": "TET4",
+  "cells": 1,
+  "label": "m1",
+  "execution_sha": "d9d34b1b4f2c904772f2afabcc8b3332b7a6d0ad",
+  "status": "FAIL_EXCEPTION",
+  "exception_type": "NumericalConvergenceError",
+  "exception": "Nonlinear element 1 update failed: Corotational small-strain bound exceeded: ||U-I||_F=5.477916e-02 > 5.000000e-02.",
+  "elapsed_seconds": 0.46401380002498627
+}
