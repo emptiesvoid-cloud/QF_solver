@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "campaign.json",
+      "sha256": "77d32763bb7e5403a586ff2514043abc8266afa75821164c13067d2f5fbffbe6",
+      "bytes": 39259
+    },
+    {
+      "path": "independent_reference\\report.md",
+      "sha256": "43cf898b848914f9b8c047149f7ccd6dca3a423729fe51c75e440c68392406cb",
+      "bytes": 569
+    },
+    {
+      "path": "independent_reference\\summary.json",
+      "sha256": "aadb28c10727e37cfe889571aaa6fa2b685a3d34627c0b3052c65d903131937e",
+      "bytes": 55618
+    },
+    {
+      "path": "independent_reference_stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "independent_reference_stdout.log",
+      "sha256": "1001dbca36343273e47fcaaeee002fc972823ebcda5171df75da3d302f1e5743",
+      "bytes": 1852
+    },
+    {
+      "path": "replay\\m1_hex8.json",
+      "sha256": "0a0ab1f67c55619c377446a8b4cda76af2fa565df245a417c1179753927dafd8",
+      "bytes": 91675725
+    },
+    {
+      "path": "replay\\m2_hex8.json",
+      "sha256": "6beef3f9614cae6743b20bd882fbccd5b176a1ecd600ec22bf28c238544171d1",
+      "bytes": 136634642
+    },
+    {
+      "path": "replay\\m3_hex8.json",
+      "sha256": "8354d9f83955dc9df43948db68ebaa0d0c624063d6fdf74f7ad3fdc82e7e9aff",
+      "bytes": 194792357
+    }
+  ]
+}
