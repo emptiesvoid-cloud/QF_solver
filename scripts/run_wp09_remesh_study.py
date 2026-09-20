@@ -1,9 +1,9 @@
-"""Run a diagnostic 3-D remeshing study for the bounded WP09 route.
+"""Run the HEX8-only diagnostic refinement study for the bounded WP09 route.
 
 This study is deliberately separate from the frozen formal contract.  It uses
-the accepted bounded load scale of 25 percent, compares isotropic H1/H2/H3
-meshes, and records mesh quality, DOFs, structural observables, and refinement
-delays without awarding formal points.
+the accepted bounded load scale of 25 percent, compares isotropic H1/H2/H3/H4
+meshes for HEX8 only, and records mesh quality, DOFs, structural observables,
+and refinement deltas without awarding formal points.
 """
 
 from __future__ import annotations
@@ -26,8 +26,8 @@ from solveur.api import solve_model  # noqa: E402
 from solveur.mesh.validation import MeshValidator  # noqa: E402
 
 
-FAMILIES = ("TET4", "HEX8")
-LEVELS = (1, 2, 4)
+FAMILIES = ("HEX8",)
+LEVELS = (1, 2, 4, 8)
 LOAD_SCALE = 0.25
 LOAD_STEPS = (0.25, 0.5, 0.75, 1.0)
 LOCAL_STRAIN_LIMIT = 0.05
@@ -260,7 +260,7 @@ def main() -> int:
         "local_strain_limit": LOCAL_STRAIN_LIMIT,
         "material": MATERIAL,
         "levels": [f"{n}x{n}x{n}" for n in LEVELS],
-        "mesh_generation": "structured isotropic 3-D unit cube; HEX8 or five positive TET4 per brick",
+        "mesh_generation": "structured isotropic 3-D unit cube; one HEX8 per brick",
         "families": {},
     }
     for family in FAMILIES:
@@ -285,7 +285,7 @@ def main() -> int:
         encoding="utf-8",
     )
     report = [
-        "# WP09 isotropic 3-D remesh study",
+        "# WP09 HEX8 isotropic 3-D refinement study",
         "",
         f"Status: `{summary['status']}`",
         f"Load scale: `{LOAD_SCALE}`",
