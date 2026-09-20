@@ -28,7 +28,7 @@ from solveur.mesh.validation import MeshValidator  # noqa: E402
 
 
 FAMILIES = ("HEX8",)
-LEVELS = (8,)
+LEVELS = (7,)
 LOAD_SCALE = 0.25
 LOAD_STEPS = (0.25, 0.5, 0.75, 1.0)
 LOCAL_STRAIN_LIMIT = 0.05
@@ -249,7 +249,7 @@ def main() -> int:
     parser.add_argument(
         "--output",
         type=Path,
-        default=ROOT / "qualification" / "0_2_9" / "wp09_hex8_accuracy_remediation_r2",
+        default=ROOT / "qualification" / "0_2_9" / "wp09_hex8_accuracy_remediation_r3",
     )
     args = parser.parse_args()
     output = args.output.resolve()
