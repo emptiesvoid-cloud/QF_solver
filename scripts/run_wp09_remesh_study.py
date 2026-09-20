@@ -3,9 +3,8 @@
 This study is deliberately separate from the frozen formal contract.  It uses
 the accepted bounded load scale of 25 percent, compares isotropic H1/H2/H3/H4
 meshes for HEX8 only, and records mesh quality, DOFs, structural observables,
-and refinement deltas without awarding formal points. H1-H4 evidence is
-already archived; this extension executes the additional 5×5×5 and 6×6×6
-levels.
+and refinement deltas without awarding formal points. H1-H6 evidence is
+already archived; this extension executes the additional 7×7×7 level.
 """
 
 from __future__ import annotations
@@ -29,7 +28,7 @@ from solveur.mesh.validation import MeshValidator  # noqa: E402
 
 
 FAMILIES = ("HEX8",)
-LEVELS = (5, 6)
+LEVELS = (7,)
 LOAD_SCALE = 0.25
 LOAD_STEPS = (0.25, 0.5, 0.75, 1.0)
 LOCAL_STRAIN_LIMIT = 0.05
@@ -246,7 +245,7 @@ def _comparison(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", type=Path, default=ROOT / "qualification" / "0_2_9" / "wp09_hex8_extended_refinement_r1")
+    parser.add_argument("--output", type=Path, default=ROOT / "qualification" / "0_2_9" / "wp09_hex8_extended_refinement_r2")
     args = parser.parse_args()
     output = args.output.resolve()
     if output.exists() and any(output.iterdir()):
