@@ -264,7 +264,8 @@ def main() -> int:
         "families": {},
     }
     for family in FAMILIES:
-        print(f"START {family} H1/H2/H3", flush=True)
+        labels = "/".join(f"H{index}" for index, _ in enumerate(LEVELS, start=1))
+        print(f"START {family} {labels}", flush=True)
         rows = [_run(family, n, output) for n in LEVELS]
         summary["families"][family] = {
             "rows": rows,
