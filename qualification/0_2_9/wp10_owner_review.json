@@ -1,0 +1,31 @@
+{
+  "work_package": "WP10",
+  "status": "READY_FOR_OWNER_REVIEW",
+  "candidate_points": "PENDING_OWNER",
+  "official_points": "0/6",
+  "execution_sha": "9749236abf4acb0b04c98a8985e3480edad78a6a",
+  "runner_commit": "854815894f7ecc76cbdcbaf0c7f6a520087db028",
+  "contract_source_sha": "854815894f7ecc76cbdcbaf0c7f6a520087db028",
+  "contract_sha256": "5a3fa40224ed745d9ee807bdb78613d8ddf28901ed7cd554a39a3ecf46163eb5",
+  "m1": {"production": "PASS_CANDIDATE", "reference": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION"},
+  "m2": {"production": "PASS_CANDIDATE", "reference": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION"},
+  "m3": {"replay": "PASS_REPLAY", "max_final_displacement_abs_diff": 0.0},
+  "tests": {"targeted": "34 passed", "full_suite": "NOT_RUN"},
+  "production_mechanics_changed": false,
+  "thresholds_changed": false,
+  "independent_reference_scope": "contact gap and penalty recomputation; not an independent global FEM/Newton solve",
+  "limitations": [
+    "HEX8 only",
+    "one-element benchmark without mesh convergence",
+    "frictionless penalty contact with fixed initial search",
+    "no friction, finite sliding, updated search, MPI/PETSc or dynamics",
+    "no independent global FEM solve or Code_Aster coupled correlation",
+    "no general finite-strain plasticity claim"
+  ],
+  "owner_decision": {
+    "accept_m1": "PENDING",
+    "accept_m2": "PENDING",
+    "accept_m3_replay": "PENDING",
+    "award_points": "PENDING"
+  }
+}

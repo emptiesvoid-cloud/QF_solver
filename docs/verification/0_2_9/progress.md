@@ -21,7 +21,7 @@ applicable_version: 0.2.9-development
 | WP07 | 10 | **Owner accepted — 10/10 with bounded limitations; A–E closed** |
 | WP08 | 8 | **Closed — 8/8; Owner-approved with limitations** |
 | WP09 | 8 | **Owner accepted — 8/8; HEX8-only bounded corotational J2 with limitations** |
-| WP10 | 6 | **Preparation started — coupled HEX8 J2 + frictionless contact; no execution authorized** |
+| WP10 | 6 | **Ready for Owner review — bounded HEX8 coupled J2 + frictionless contact; M1/M2/M3 evidence complete** |
 | WP11–WP14 | 14 | Not started |
 | **Validated total (consolidated ledger)** | **78 / 100** | **Includes WP05 5/5, WP06 A/B/C 4/8, WP07 10/10, WP08 8/8 and WP09 HEX8 8/8** |
 
