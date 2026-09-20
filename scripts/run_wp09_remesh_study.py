@@ -1,9 +1,11 @@
-"""Run the HEX8-only diagnostic refinement study for the bounded WP09 route.
+"""Run the extended HEX8-only diagnostic refinement study for bounded WP09.
 
 This study is deliberately separate from the frozen formal contract.  It uses
 the accepted bounded load scale of 25 percent, compares isotropic H1/H2/H3/H4
 meshes for HEX8 only, and records mesh quality, DOFs, structural observables,
-and refinement deltas without awarding formal points.
+and refinement deltas without awarding formal points. H1-H4 evidence is
+already archived; this extension executes the additional 5×5×5 and 6×6×6
+levels.
 """
 
 from __future__ import annotations
@@ -27,7 +29,7 @@ from solveur.mesh.validation import MeshValidator  # noqa: E402
 
 
 FAMILIES = ("HEX8",)
-LEVELS = (1, 2, 4, 8)
+LEVELS = (5, 6)
 LOAD_SCALE = 0.25
 LOAD_STEPS = (0.25, 0.5, 0.75, 1.0)
 LOCAL_STRAIN_LIMIT = 0.05
@@ -244,7 +246,7 @@ def _comparison(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", type=Path, default=ROOT / "qualification" / "0_2_9" / "wp09_remesh_study_r1")
+    parser.add_argument("--output", type=Path, default=ROOT / "qualification" / "0_2_9" / "wp09_hex8_extended_refinement_r1")
     args = parser.parse_args()
     output = args.output.resolve()
     if output.exists() and any(output.iterdir()):
@@ -264,8 +266,8 @@ def main() -> int:
         "families": {},
     }
     for family in FAMILIES:
-        labels = "/".join(f"H{index}" for index, _ in enumerate(LEVELS, start=1))
-        print(f"START {family} {labels}", flush=True)
+        labels = "/".join(f"{n}x{n}x{n}" for n in LEVELS)
+        print(f"START {family} levels={labels}", flush=True)
         rows = [_run(family, n, output) for n in LEVELS]
         summary["families"][family] = {
             "rows": rows,
