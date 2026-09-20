@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "execution_sha": "a968a5857da7f1758e79827b78322e15edbadca5",
+  "files": [
+    {
+      "path": "hex8_7x7x7.json",
+      "sha256": "39f722779d95cf1f24f0ce1bc88dfc9c12ca75bc81f4fdf4fa707c94b252ad73",
+      "bytes": 91742484
+    },
+    {
+      "path": "summary.json",
+      "sha256": "e2fbd4327b16efa662ca10b6180b8f560901df8098b12bfefe4b0f57f4c072b3",
+      "bytes": 115960432
+    }
+  ]
+}
