@@ -114,12 +114,13 @@ registry is unchanged. See
 - WP00: `CLOSED`, 4/4 points.
 - WP01 Unified Nonlinear Core: `CLOSED`, 12/12 points after independent
   Owner closure at audit SHA `6876d867cdd845195e8946b05329b0bc82937fdc`.
-- Validated total at the latest Owner decision (2026-09-18): `70/100`.
+- Validated total at the latest Owner decision (2026-09-20): `78/100`.
 - WP02 State Transactions & Rollback: `CLOSED`, 6/6 points after the
   independent WP02-E audit at `c4e02fbd2d1262f621f6c8d4f07ee2da89d885f5`.
   The decision is `GO_WITH_LIMITATIONS`; Owner review is required before the
   independent WP03-E closure audit.
-- OD-029-01: **OPEN**; it blocks WP09 only.
+- OD-029-01: **CLOSED for the bounded HEX8-only WP09 scope**; TET4, HEX20 and
+  broader J2-plus-geometry claims remain outside the accepted scope.
 - OD-029-02: **CLOSED** as `READ_V1_WRITE_V2_BOUNDED`; ambiguous/stateful
   contact-bearing v1 checkpoints are rejected.
 

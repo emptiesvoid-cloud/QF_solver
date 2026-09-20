@@ -19,9 +19,9 @@ applicable_version: 0.2.9-development
 | WP06 | 8 | **Owner accepted A/B/C — 4/8 with limitations; D accepted as experimental bounded evidence only**; no formal D points; historical D failure preserved |
 | WP07 | 10 | **Owner accepted — 10/10 with bounded limitations; A–E closed** |
 | WP08 | 8 | **Closed — 8/8; Owner-approved with limitations** |
-| WP09 | 8 | Blocked by OD-029-01 |
+| WP09 | 8 | **Owner accepted — 8/8; HEX8-only bounded corotational J2 with limitations** |
 | WP10–WP14 | 20 | Not started |
-| **Validated total (consolidated ledger)** | **70 / 100** | **Includes WP05 5/5, WP06 A/B/C 4/8, WP07 10/10 and WP08 8/8** |
+| **Validated total (consolidated ledger)** | **78 / 100** | **Includes WP05 5/5, WP06 A/B/C 4/8, WP07 10/10, WP08 8/8 and WP09 HEX8 8/8** |
 
 The Owner-approved WP05-C/D/E integration adds 3 bounded points to the
 58/100 pre-integration ledger, producing 61/100. WP07-D then added 3 points
