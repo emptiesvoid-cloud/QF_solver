@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "contract_sha256": "c2439513909cc7c640c96878ad6673b8b0377fea15cb16d269df43adae128b0d",
+  "files": [
+    {
+      "path": "campaign.json",
+      "sha256": "025f3970e01c6df325ba7e7d3ca895919a776acd3beb4068e57eab4d28eb380c",
+      "bytes": 4556
+    },
+    {
+      "path": "m1_hex8.json",
+      "sha256": "892ac3aac71663d2207ee63b65c2eb2a2f83a456bb514e8fe4c1356e04724b61",
+      "bytes": 91675786
+    },
+    {
+      "path": "m2_hex8.json",
+      "sha256": "27e26201fdcdd0dd10b483100ad083bd72ff76de5d740d9985218d30e08aec79",
+      "bytes": 136634706
+    },
+    {
+      "path": "m3_hex8.json",
+      "sha256": "0caea15984de0050e2adcab3967bc9488d07f603d73c11f4269530376e08276f",
+      "bytes": 194792413
+    }
+  ]
+}

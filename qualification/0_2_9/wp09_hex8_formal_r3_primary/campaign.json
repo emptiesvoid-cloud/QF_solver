@@ -1,0 +1,101 @@
+{
+  "status": "PASS_PRIMARY_CANDIDATE",
+  "classification": "PROSPECTIVE_PRIMARY_EVIDENCE",
+  "contract_path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp09_hex8_formal_r3\\qualification\\0_2_9\\wp09_hex8_formal_r3_contract.json",
+  "contract_sha256": "c2439513909cc7c640c96878ad6673b8b0377fea15cb16d269df43adae128b0d",
+  "execution_sha": "bb86e8a0a2b6b30945a610a8fb7770bae88beea5",
+  "branch": "codex/wp09-hex8-formal-r3",
+  "governing_base_sha": "03c35eb7a634a57e5c29d95555316cfb2701d2ad",
+  "policy": {
+    "frozen_policy_code_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "runtime_policy_binding_digest": "895d3c932278c0207b207318216c263a427636d57738bef730917fdc7d9b0ef5",
+    "persist_in_every_primary_artifact": true
+  },
+  "machine": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1"
+  },
+  "working_tree_at_start": "",
+  "stages": {
+    "M1": {
+      "status": "PASS",
+      "path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp09_hex8_formal_r3\\qualification\\0_2_9\\wp09_hex8_formal_r3_primary\\m1_hex8.json",
+      "sha256": "892ac3aac71663d2207ee63b65c2eb2a2f83a456bb514e8fe4c1356e04724b61",
+      "metrics": {
+        "status": "PASS",
+        "node_count": 512,
+        "element_count": 343,
+        "dof_count": 1536,
+        "selected_displacement": 0.02032819041322444,
+        "reaction_norm": 0.24999999995620076,
+        "energy": 0.0019750043565815614,
+        "von_mises_max": 0.2952288249837135,
+        "equivalent_plastic_strain_max": 0.0324328361837369,
+        "plastic_dissipation_max": 0.005842493057214933,
+        "min_det_f": 0.9977698527775136,
+        "max_local_strain_norm": 0.040081853408573155,
+        "accepted_steps": 4,
+        "newton_iterations": 20,
+        "rejected_increments": 0,
+        "free_relative_residual": 5.540812125998602e-10,
+        "force_balance_relative_error": 4.379924201179654e-11,
+        "moment_balance_relative_error": 3.096041085032002e-11,
+        "elapsed_seconds": 1147.7500620000064
+      }
+    },
+    "M2": {
+      "status": "PASS",
+      "path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp09_hex8_formal_r3\\qualification\\0_2_9\\wp09_hex8_formal_r3_primary\\m2_hex8.json",
+      "sha256": "27e26201fdcdd0dd10b483100ad083bd72ff76de5d740d9985218d30e08aec79",
+      "metrics": {
+        "status": "PASS",
+        "node_count": 729,
+        "element_count": 512,
+        "dof_count": 2187,
+        "selected_displacement": 0.021230343966417212,
+        "reaction_norm": 0.24999999996730418,
+        "energy": 0.002093817249147815,
+        "von_mises_max": 0.3105744828392777,
+        "equivalent_plastic_strain_max": 0.0341434529557562,
+        "plastic_dissipation_max": 0.00644219774568127,
+        "min_det_f": 0.9977076168675253,
+        "max_local_strain_norm": 0.04219397595692801,
+        "accepted_steps": 4,
+        "newton_iterations": 20,
+        "rejected_increments": 0,
+        "free_relative_residual": 5.156625968710628e-10,
+        "force_balance_relative_error": 3.269637339598436e-11,
+        "moment_balance_relative_error": 2.30932960953401e-11,
+        "elapsed_seconds": 1744.624930000049
+      }
+    },
+    "M3": {
+      "status": "PASS",
+      "path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp09_hex8_formal_r3\\qualification\\0_2_9\\wp09_hex8_formal_r3_primary\\m3_hex8.json",
+      "sha256": "0caea15984de0050e2adcab3967bc9488d07f603d73c11f4269530376e08276f",
+      "metrics": {
+        "status": "PASS",
+        "node_count": 1000,
+        "element_count": 729,
+        "dof_count": 3000,
+        "selected_displacement": 0.021897995446470694,
+        "reaction_norm": 0.24999999997779923,
+        "energy": 0.0021872382555426255,
+        "von_mises_max": 0.32243677472830096,
+        "equivalent_plastic_strain_max": 0.035491742204963636,
+        "plastic_dissipation_max": 0.00693544606293484,
+        "min_det_f": 0.9976577423464089,
+        "max_local_strain_norm": 0.043858720616027996,
+        "accepted_steps": 4,
+        "newton_iterations": 20,
+        "rejected_increments": 0,
+        "free_relative_residual": 5.397144734866607e-10,
+        "force_balance_relative_error": 2.2200935542316556e-11,
+        "moment_balance_relative_error": 1.5703908424909593e-11,
+        "elapsed_seconds": 2437.1062381000957
+      }
+    }
+  },
+  "formal_points": "0/8",
+  "working_tree_at_end": "?? qualification/0_2_9/wp09_hex8_formal_r3_primary/"
+}
