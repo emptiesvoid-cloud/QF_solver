@@ -1,10 +1,10 @@
-"""Run the extended HEX8-only diagnostic refinement study for bounded WP09.
+"""Run a strict-tolerance HEX8 equilibrium diagnostic for bounded WP09.
 
-This study is deliberately separate from the frozen formal contract.  It uses
-the accepted bounded load scale of 25 percent, compares isotropic H1/H2/H3/H4
-meshes for HEX8 only, and records mesh quality, DOFs, structural observables,
-and refinement deltas without awarding formal points. H1-H7 evidence is
-already archived; this extension executes the additional 9×9×9 level.
+This study is deliberately separate from the frozen formal contract.  It
+repeats only the diagnostic 9×9×9 HEX8 level from the extended refinement
+study, using a stricter solver tolerance to test whether the observed
+equilibrium miss is a termination-tolerance effect. It records the numerical
+result without changing production mechanics, frozen gates, or formal points.
 """
 
 from __future__ import annotations
@@ -32,6 +32,7 @@ LEVELS = (9,)
 LOAD_SCALE = 0.25
 LOAD_STEPS = (0.25, 0.5, 0.75, 1.0)
 LOCAL_STRAIN_LIMIT = 0.05
+SOLVER_TOLERANCE = 1.0e-9
 MATERIAL = {
     "type": "von_mises_elastoplastic_3d",
     "E": 1000.0,
@@ -132,7 +133,7 @@ def _model(family: str, n: int):
             "method": "newton_raphson",
             "load_path": list(LOAD_STEPS),
             "max_iterations": 40,
-            "tolerance": 1.0e-7,
+            "tolerance": SOLVER_TOLERANCE,
             "parameters": {
                 "kinematics": "corotational_j2",
                 "corotational_max_local_strain": LOCAL_STRAIN_LIMIT,
@@ -245,7 +246,11 @@ def _comparison(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", type=Path, default=ROOT / "qualification" / "0_2_9" / "wp09_hex8_extended_refinement_r3")
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=ROOT / "qualification" / "0_2_9" / "wp09_hex8_accuracy_remediation_r1",
+    )
     args = parser.parse_args()
     output = args.output.resolve()
     if output.exists() and any(output.iterdir()):
@@ -259,6 +264,7 @@ def main() -> int:
         "load_scale": LOAD_SCALE,
         "load_path": list(LOAD_STEPS),
         "local_strain_limit": LOCAL_STRAIN_LIMIT,
+        "solver_tolerance": SOLVER_TOLERANCE,
         "material": MATERIAL,
         "levels": [f"{n}x{n}x{n}" for n in LEVELS],
         "mesh_generation": "structured isotropic 3-D unit cube; one HEX8 per brick",
