@@ -215,7 +215,7 @@ def _relative(left: float, right: float) -> float:
 
 def _comparison(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     comparisons = []
-    for coarse, fine in zip(rows, rows[1:], strict=True):
+    for coarse, fine in zip(rows, rows[1:]):
         c = coarse["metrics"]
         f = fine["metrics"]
         if c.get("status") != "PASS" or f.get("status") != "PASS":
