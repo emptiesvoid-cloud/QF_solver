@@ -218,11 +218,24 @@ def _comparison(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     for coarse, fine in zip(rows, rows[1:], strict=True):
         c = coarse["metrics"]
         f = fine["metrics"]
+        if c.get("status") != "PASS" or f.get("status") != "PASS":
+            comparisons.append(
+                {
+                    "from": coarse["level"],
+                    "to": fine["level"],
+                    "status": "NOT_COMPARABLE_FAILED_LEVEL",
+                    "relative_deltas": {},
+                    "coarse_status": c.get("status"),
+                    "fine_status": f.get("status"),
+                }
+            )
+            continue
         names = ("selected_displacement", "reaction_norm", "energy", "von_mises_max", "equivalent_plastic_strain_max")
         comparisons.append(
             {
                 "from": coarse["level"],
                 "to": fine["level"],
+                "status": "PASS_COMPARABLE",
                 "relative_deltas": {name: _relative(float(c[name]), float(f[name])) for name in names},
             }
         )
