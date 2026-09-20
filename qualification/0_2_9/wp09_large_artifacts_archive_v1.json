@@ -1,0 +1,22 @@
+{
+  "archive_id": "WP09-LARGE-ARTIFACTS-V1",
+  "archive_path_local": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp09_large_artifacts_v1.tar.gz",
+  "archive_sha256": "ced46ee39acD373d63172cb89a29a8e0176d14e93e4e2985c13f7ff57b38867a",
+  "archive_created": "2026-09-20",
+  "storage_policy": "local_external_archive_until_post_release_WP16",
+  "git_policy": "large_raw_artifacts_are_not_committed",
+  "source_lineage": "0.2.9-unified-nonlinear",
+  "included_roots": [
+    "qualification/0_2_9/wp09_hex8_accuracy_remediation_r1",
+    "qualification/0_2_9/wp09_hex8_accuracy_remediation_r2",
+    "qualification/0_2_9/wp09_hex8_accuracy_remediation_r3",
+    "qualification/0_2_9/wp09_hex8_extended_refinement_r1",
+    "qualification/0_2_9/wp09_hex8_extended_refinement_r2",
+    "qualification/0_2_9/wp09_hex8_extended_refinement_r3",
+    "qualification/0_2_9/wp09_hex8_formal_r2_evidence",
+    "qualification/0_2_9/wp09_hex8_formal_r3_evidence",
+    "qualification/0_2_9/wp09_hex8_formal_r3_primary",
+    "qualification/0_2_9/wp09_hex8_refinement_r1"
+  ],
+  "verification": "recompute SHA-256 before any external publication or Owner review"
+}

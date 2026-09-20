@@ -15,6 +15,7 @@ applicable_version: 0.2.9-development
 | WP03 | 7 | **Closed** — 7/7; independent WP03-E audit `GO_WITH_LIMITATIONS` |
 | WP04 | 12 | **Closed — 12/12; independent WP04-F `GO_WITH_LIMITATIONS` audit** |
 | WP15 | 2 | **Closed — 2/2; governing-branch telemetry integration validated** |
+| WP16 | 0 | **Post-release operational step — external archive/Git LFS migration for large evidence** |
 | WP05 | 5 | **Closed — 5/5, bounded with limitations; C/D structural qualification and E cross-family closure accepted** |
 | WP06 | 8 | **Owner accepted A/B/C — 4/8 with limitations; D accepted as experimental bounded evidence only**; no formal D points; historical D failure preserved |
 | WP07 | 10 | **Owner accepted — 10/10 with bounded limitations; A–E closed** |
@@ -57,6 +58,12 @@ audit](wp07-integration-into-governing-branch.md).
 
 The frozen roadmap declares 100 total points, and its listed package weights
 sum to 100. No package weights were changed.
+
+WP16 is an operational post-release step with zero qualification points. It
+will publish or migrate large raw evidence outside ordinary Git history,
+preserve SHA-256 manifests and restore reproducibility without changing any
+solver result or qualification decision. The current WP09 raw archive is
+`qualification/0_2_9/wp09_large_artifacts_archive_v1.json`.
 
 WP06-A/B/C were revalidated against the current governing source with 118
 focused continuation, rollback/restart and identity tests passing. The Owner

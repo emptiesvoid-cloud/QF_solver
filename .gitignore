@@ -1,85 +1,18 @@
-# Python caches
-__pycache__/
-*.py[cod]
-
-# Test and lint caches
-.pytest_cache/
-.ruff_cache/
-.mypy_cache/
-.hypothesis/
-.coverage
-coverage*.json
-coverage*.xml
-htmlcov/
-schema-coverage.json
-
-# Editable/install metadata
-*.egg-info/
-build/
-dist/
-release_dist/
-release_dist_022/
-site/
-.docs-cache/
-
-output/
-git_history_audit.json
-release_readiness.json
-release_archive_audit.json
-
-# Generated solver outputs
-results/
-results_large/
-datasets/public_3d/
-datasets/public_volumetric/
-qualification/0_2_6/public_volumetric_tet10_cases/
-qualification/0_2_6/public_volumetric_tet10_runtime/
-VNV-*/
-qualification/vnv/**
-!qualification/studies/mitc4_stable_package_2026-08-21/
-!qualification/studies/mitc4_stable_package_2026-08-21/study.json
-qualification/0_2_6/tl_stress_campaign/tl_stress_campaign.json
-qualification/0_2_6/tl_failure_isolation/tl_failure_isolation.json
-qualification/0_2_6/tl_robustness_fix/tl_robustness_fix.json
-qualification/0_2_6/tl_boundary_study/tl_boundary_study.json
-qualification/0_2_6/tl_robustness_rnd/**/tl_boundary_study.json
-qualification/0_2_6/tl_final_rescue/
-qualification/0_2_6/tl_robustness_rnd/*.json
-qualification/0_2_6/tl_robustness_rnd/baseline/
-!qualification/0_2_6/tl_robustness_rnd/tl_robustness_rnd_summary.json
-qualification/evidence/
-qualification/maturity_evidence_*/
-tmp/
-docs/generated/
-docs/assets/generated/
-docs/latex/qf_solver_manual*.tex
-*.h5
-*.hdf5
-*.npz
-
-# Local virtual environments and IDE state
-.venv/
-.ci-repro-venv/
-venv/
-.idea/
-.vscode/
-playwright-report/
-test-results/
-public_release_audit.json
-
-# Local 0.2.4 release-preparation outputs
-.tmp_release_final_024/
-.tmp_release_readiness_024/
-.tmp_release_readiness_targeted.json
-.tmp_rqg08_probe/
-.tmp_smoke_final/
-.tmp_smoke_final_2/
-
-# Local 0.2.5 release-candidate outputs and verification checkout
-.tmp_release_readiness_025/
-.tmp_smoke_install_025/
-.tmp_candidate_checkout_025/
-
-# Local TL physical branch diagnostic outputs
-.tmp_tl_physical_branch_validation/
-.tmp_tl_rescue_optimization/
+# Generated WP09 raw FEM outputs are archived externally and referenced by SHA-256.
+qualification/0_2_9/wp09_hex8_accuracy_remediation_r1/hex8_*.json
+qualification/0_2_9/wp09_hex8_accuracy_remediation_r1/summary.json
+qualification/0_2_9/wp09_hex8_accuracy_remediation_r2/hex8_*.json
+qualification/0_2_9/wp09_hex8_accuracy_remediation_r2/summary.json
+qualification/0_2_9/wp09_hex8_accuracy_remediation_r3/hex8_*.json
+qualification/0_2_9/wp09_hex8_accuracy_remediation_r3/summary.json
+qualification/0_2_9/wp09_hex8_extended_refinement_r1/hex8_*.json
+qualification/0_2_9/wp09_hex8_extended_refinement_r1/summary.json
+qualification/0_2_9/wp09_hex8_extended_refinement_r2/hex8_*.json
+qualification/0_2_9/wp09_hex8_extended_refinement_r2/summary.json
+qualification/0_2_9/wp09_hex8_extended_refinement_r3/hex8_*.json
+qualification/0_2_9/wp09_hex8_extended_refinement_r3/summary.json
+qualification/0_2_9/wp09_hex8_formal_r2_evidence/replay/m*_hex8.json
+qualification/0_2_9/wp09_hex8_formal_r3_evidence/replay/m*_hex8.json
+qualification/0_2_9/wp09_hex8_formal_r3_primary/m*_hex8.json
+qualification/0_2_9/wp09_hex8_refinement_r1/hex8_*.json
+qualification/0_2_9/wp09_hex8_refinement_r1/summary.json

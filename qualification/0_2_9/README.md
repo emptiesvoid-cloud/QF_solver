@@ -123,6 +123,9 @@ registry is unchanged. See
   broader J2-plus-geometry claims remain outside the accepted scope.
 - OD-029-02: **CLOSED** as `READ_V1_WRITE_V2_BOUNDED`; ambiguous/stateful
   contact-bearing v1 checkpoints are rejected.
+- WP16 is a zero-point post-release operational step for external storage or
+  Git LFS migration of large raw qualification artifacts; manifests and
+  hashes remain in Git.
 
 WP04-F is the completed phase: the evidence-only independent audit records
 G04-01..G04-05, G04-07..G04-08 and G04-10..G04-12 as PASS, with G04-06 and
