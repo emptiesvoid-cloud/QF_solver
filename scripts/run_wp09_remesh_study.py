@@ -173,6 +173,13 @@ def _run(family: str, n: int, output: Path) -> dict[str, Any]:
     started = time.perf_counter()
     model = _model(family, n)
     quality = MeshValidator().validate(model)
+    mesh_payload = {
+        "nodes": model.nodes,
+        "elements": [
+            {"type": element.type, "nodes": list(element.nodes), "material": element.material}
+            for element in model.elements
+        ],
+    }
     row: dict[str, Any] = {
         "family": family,
         "level": f"{n}x{n}x{n}",
@@ -181,7 +188,7 @@ def _run(family: str, n: int, output: Path) -> dict[str, Any]:
         "dofs": int(model.dof_manager().ndof),
         "quality": quality.to_dict(),
         "mesh_sha256": hashlib.sha256(
-            json.dumps({"nodes": model.nodes, "elements": model.elements}, sort_keys=True, default=_json_default).encode()
+            json.dumps(mesh_payload, sort_keys=True, default=_json_default).encode()
         ).hexdigest(),
     }
     try:
