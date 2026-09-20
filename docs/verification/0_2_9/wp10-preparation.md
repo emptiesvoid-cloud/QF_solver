@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-029-WP10-PREP
 revision: 1.0
-status: preparation-only
+status: frozen-execution
 applicable_version: 0.2.9-development
 ---
 
@@ -17,9 +17,9 @@ new contract and must not reuse either result as a coupled qualification.
 ```text
 BASE_SHA = 04d1f1a60dcb4435c925cf5f788302da698aaf0e
 BRANCH = codex/wp10-preparation
-WP10_STATUS = PREPARATION_ONLY
+WP10_STATUS = FROZEN_EXECUTION
 WP10_OFFICIAL_POINTS = 0/6
-STRUCTURAL_SOLVES_RUN = NO
+STRUCTURAL_SOLVES_RUN = AUTHORIZED_BOUNDED_HEX8_ONLY
 PRODUCTION_MECHANICS_CHANGED = NO
 THRESHOLDS_CHANGED = NO
 ```
@@ -41,7 +41,8 @@ be substituted for a coupled result.
 
 ## Proposed evidence gates
 
-These are proposals for Owner review, not executable thresholds yet:
+These gates are frozen for this bounded execution. They do not expand the
+accepted WP07/WP09 scopes:
 
 1. M1 — coupled no-contact baseline: HEX8 corotational J2 with contact
    disabled/open; compare equilibrium, energy, deformation envelope and
@@ -69,7 +70,5 @@ plastic state, replay status and failure classification.
 
 ## Next step
 
-Freeze the exact benchmark, appuis, load path, HEX8 hierarchy, constitutive
-observable set, contact observable set, equilibrium convention and reference
-scope. Then obtain Owner authorization for one M1 execution before any M2 or
-M3 run.
+The contract is now frozen on the runner SHA recorded in the machine-readable
+contract. M3 remains dependency-gated on passing M1/M2 references.

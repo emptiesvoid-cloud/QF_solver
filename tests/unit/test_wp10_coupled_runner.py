@@ -26,6 +26,6 @@ def test_wp10_contract_is_preparation_only() -> None:
             encoding="utf-8"
         )
     )
-    assert contract["status"] == "PREPARATION_ONLY"
-    assert contract["structural_solves_allowed"] is False
+    assert contract["status"] == "FROZEN_EXECUTION"
+    assert contract["structural_solves_allowed"] is True
     assert contract["official_points"] == "0/6"

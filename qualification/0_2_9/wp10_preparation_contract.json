@@ -1,11 +1,11 @@
 {
   "work_package": "WP10",
   "title": "Coupled nonlinear mechanics",
-  "status": "PREPARATION_ONLY",
-  "source_sha": "04d1f1a60dcb4435c925cf5f788302da698aaf0e",
+  "status": "FROZEN_EXECUTION",
+  "source_sha": "854815894f7ecc76cbdcbaf0c7f6a520087db028",
   "branch": "codex/wp10-preparation",
   "official_points": "0/6",
-  "structural_solves_allowed": false,
+  "structural_solves_allowed": true,
   "production_mechanics_changed": false,
   "thresholds_changed": false,
   "dependencies": {
@@ -29,11 +29,11 @@
     ]
   },
   "proposed_gates": [
-    {"id": "M1", "name": "coupled_no_contact_baseline", "execution_authorized": false},
-    {"id": "M2", "name": "coupled_frictionless_contact_path", "execution_authorized": false},
-    {"id": "M3", "name": "fresh_process_replay_and_independent_evidence", "execution_authorized": false}
+    {"id": "M1", "name": "coupled_no_contact_baseline", "execution_authorized": true},
+    {"id": "M2", "name": "coupled_frictionless_contact_path", "execution_authorized": true},
+    {"id": "M3", "name": "fresh_process_replay_and_independent_evidence", "execution_authorized": true, "dependency": "M1_AND_M2_REFERENCE_PASS"}
   ],
   "reference_policy": "independent material/contact recomputation; never import production routines; never claim an independent global FEM solve",
   "fail_closed": true,
-  "next_gate": "OWNER_FREEZE_BENCHMARK_AND_AUTHORIZE_M1"
+  "next_gate": "OWNER_REVIEW_AFTER_M1_M2_M3"
 }
