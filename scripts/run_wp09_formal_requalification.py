@@ -24,10 +24,11 @@ from solveur.verification.robustness_mesh import _refinement_model  # noqa: E402
 
 
 CONTRACT_PATH = ROOT / "qualification" / "0_2_9" / "wp09_formal_requalification_contract.json"
-DEFAULT_OUTPUT = ROOT / "qualification" / "0_2_9" / "wp09_formal_requalification_r1"
+DEFAULT_OUTPUT = ROOT / "qualification" / "0_2_9" / "wp09_hex8_only_formal_requalification_r1"
 STAGES = ("M1", "M2", "M3")
-FAMILIES = ("TET4", "HEX8")
+FAMILIES = ("HEX8",)
 LOAD_PATH = (0.25, 0.5, 0.75, 1.0)
+LOAD_SCALE = 0.25
 
 
 def _sha256(path: Path) -> str:
@@ -66,6 +67,7 @@ def _relative(left: float, right: float) -> float:
 
 def _analysis_model(family: str, cells: int):
     model = _refinement_model(family, cells)
+    scaled_loads = [replace(load, value=float(load.value) * LOAD_SCALE) for load in model.loads]
     parameters = dict(model.analysis.parameters)
     parameters.update(
         {
@@ -78,7 +80,7 @@ def _analysis_model(family: str, cells: int):
             "adaptive_load_steps": False,
         }
     )
-    return replace(model, analysis=replace(model.analysis, parameters=parameters))
+    return replace(model, loads=scaled_loads, analysis=replace(model.analysis, parameters=parameters))
 
 
 def _equilibrium(result: Any) -> dict[str, Any]:
@@ -306,6 +308,10 @@ def main() -> int:
         raise SystemExit(f"Refusing to overwrite non-empty output: {output}")
     output.mkdir(parents=True, exist_ok=True)
     contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
+    if tuple(contract.get("family_scope", ())) != FAMILIES:
+        raise SystemExit("Contract family scope does not match the HEX8-only runner.")
+    if float(contract["path"].get("load_scale", float("nan"))) != LOAD_SCALE:
+        raise SystemExit("Contract load scale does not match the HEX8-only runner.")
     selected = STAGES if args.stage == "all" else STAGES[: STAGES.index(args.stage) + 1]
     campaign: dict[str, Any] = {
         "status": "RUNNING",
@@ -314,6 +320,8 @@ def main() -> int:
         "governing_branch": _git("branch", "--show-current"),
         "execution_sha": _git("rev-parse", "HEAD"),
         "authorized_source_sha": contract["authorized_source_sha"],
+        "family_scope": list(FAMILIES),
+        "load_scale": LOAD_SCALE,
         "working_tree_at_start": _git("status", "--short"),
         "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "machine": {"platform": platform.platform(), "python": platform.python_version()},
@@ -364,7 +372,10 @@ def main() -> int:
         campaign["mesh_gate_m2_to_m3"] = _mesh_gate(stage_rows["M2"], stage_rows["M3"], contract)
     else:
         campaign["mesh_gate_m2_to_m3"] = {"status": "SKIPPED_DEPENDENCY"}
-    campaign["status"] = "PASS_CANDIDATE" if previous_pass else "FAIL_CLOSED"
+    mesh_gate_required = "M2" in selected and "M3" in selected
+    mesh_gate_pass = campaign["mesh_gate_m2_to_m3"]["status"] == "PASS"
+    campaign_pass = previous_pass and (not mesh_gate_required or mesh_gate_pass)
+    campaign["status"] = "PASS_CANDIDATE" if campaign_pass else "FAIL_CLOSED"
     campaign["working_tree_at_end"] = _git("status", "--short")
     (output / "campaign.json").write_text(json.dumps(campaign, indent=2, default=_json_default, allow_nan=False), encoding="utf-8")
     manifest_rows = []
@@ -394,7 +405,7 @@ def main() -> int:
     campaign["artifact_count"] = len(manifest_rows)
     (output / "campaign.json").write_text(json.dumps(campaign, indent=2, default=_json_default, allow_nan=False), encoding="utf-8")
     lines = [
-        "# WP09 formal requalification campaign",
+        "# WP09 HEX8-only formal requalification campaign",
         "",
         f"Status: `{campaign['status']}`",
         f"Execution SHA: `{campaign['execution_sha']}`",

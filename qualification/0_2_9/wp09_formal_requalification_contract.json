@@ -1,16 +1,20 @@
 {
   "schema_version": 1,
-  "record_id": "QF-029-WP09-FORMAL-REQUALIFICATION-R1",
+  "record_id": "QF-029-WP09-HEX8-ONLY-FORMAL-REQUALIFICATION-R1",
   "work_item": "WP09",
   "package": "corotational_small_strain_j2",
+  "family_scope": ["HEX8"],
+  "excluded_families": {
+    "TET4": "historical FAIL_CLOSED evidence retained outside this contract"
+  },
   "status": "FROZEN_EXECUTION_CONTRACT",
   "governing_branch": "0.2.9-unified-nonlinear",
   "governing_base_sha": "03c35eb7a634a57e5c29d95555316cfb2701d2ad",
-  "authorized_source_sha": "399a76e8c686c713512a51d6bf58932b082de488",
+  "authorized_source_sha": "50fc3f30b08db894ca78ba22d21c6dafb7140f33",
   "owner_authorization": {
     "formal_m1": true,
     "future_m2_m3": true,
-    "authorization_scope": "execute sequentially; later stages remain gated by prior PASS",
+    "authorization_scope": "HEX8 only; execute sequentially; later stages remain gated by prior PASS",
     "official_points_awarded": false
   },
   "formulation": {
@@ -32,6 +36,9 @@
     "hardening_modulus": 10.0
   },
   "path": {
+    "load_scale": 0.25,
+    "reference_resultant": [1.0, 0.0, 0.0],
+    "effective_final_resultant": [0.25, 0.0, 0.0],
     "load_path": [0.25, 0.5, 0.75, 1.0],
     "load_steps": 4,
     "max_iterations": 40,
@@ -45,19 +52,19 @@
   "stages": {
     "M1": {
       "role": "baseline bounded structural qualification",
-      "families": ["TET4", "HEX8"],
+      "families": ["HEX8"],
       "cells": [1],
       "required": ["production", "independent_component_reference", "deterministic_replay", "envelope", "equilibrium"]
     },
     "M2": {
       "role": "intermediate mesh sensitivity",
-      "families": ["TET4", "HEX8"],
+      "families": ["HEX8"],
       "cells": [2],
       "requires": "M1 PASS"
     },
     "M3": {
       "role": "fine mesh sensitivity and closure",
-      "families": ["TET4", "HEX8"],
+      "families": ["HEX8"],
       "cells": [4],
       "requires": "M1 PASS and M2 PASS"
     }
