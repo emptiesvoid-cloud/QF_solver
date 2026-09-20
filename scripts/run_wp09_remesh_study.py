@@ -1,10 +1,10 @@
 """Run a strict-tolerance HEX8 equilibrium diagnostic for bounded WP09.
 
 This study is deliberately separate from the frozen formal contract.  It
-repeats only the diagnostic 9×9×9 HEX8 level from the extended refinement
-study, using a stricter solver tolerance to test whether the observed
-equilibrium miss is a termination-tolerance effect. It records the numerical
-result without changing production mechanics, frozen gates, or formal points.
+repeats one extended HEX8 level using a stricter solver tolerance to test
+whether the observed equilibrium miss is a termination-tolerance effect. It
+records the numerical result without changing production mechanics, frozen
+gates, or formal points.
 """
 
 from __future__ import annotations
@@ -28,7 +28,7 @@ from solveur.mesh.validation import MeshValidator  # noqa: E402
 
 
 FAMILIES = ("HEX8",)
-LEVELS = (9,)
+LEVELS = (8,)
 LOAD_SCALE = 0.25
 LOAD_STEPS = (0.25, 0.5, 0.75, 1.0)
 LOCAL_STRAIN_LIMIT = 0.05
@@ -249,7 +249,7 @@ def main() -> int:
     parser.add_argument(
         "--output",
         type=Path,
-        default=ROOT / "qualification" / "0_2_9" / "wp09_hex8_accuracy_remediation_r1",
+        default=ROOT / "qualification" / "0_2_9" / "wp09_hex8_accuracy_remediation_r2",
     )
     args = parser.parse_args()
     output = args.output.resolve()
