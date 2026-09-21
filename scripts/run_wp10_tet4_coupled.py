@@ -159,6 +159,8 @@ def run_case(case: str, output: Path) -> dict[str, Any]:
     record = {
         "case": case.upper(),
         "status": "PASS_CANDIDATE" if compact["status"] == "PASS" else "FAIL_CLOSED",
+        "execution_sha": _git_sha(),
+        "runner_sha": json.loads(CONTRACT.read_text(encoding="utf-8"))["source_sha"],
         "source_sha": _git_sha(),
         "contract_sha256": _sha256(CONTRACT),
         "policy_digest": POLICY_DIGEST,
