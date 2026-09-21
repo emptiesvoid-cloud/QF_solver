@@ -43,7 +43,7 @@
     {
       "id": "DISK-FREE",
       "status": "PASS",
-      "detail": "free=32358838272 bytes"
+      "detail": "free=32489684992 bytes"
     },
     {
       "id": "CHUNK-SIZE",

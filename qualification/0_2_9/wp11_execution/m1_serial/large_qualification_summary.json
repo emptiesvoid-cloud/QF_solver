@@ -55,7 +55,7 @@
       {
         "id": "DISK-FREE",
         "status": "PASS",
-        "detail": "free=32358838272 bytes"
+        "detail": "free=32489684992 bytes"
       },
       {
         "id": "CHUNK-SIZE",
@@ -108,7 +108,7 @@
     {
       "id": "READINESS-DISK-FREE",
       "status": "PASS",
-      "detail": "free=32358838272 bytes"
+      "detail": "free=32489684992 bytes"
     },
     {
       "id": "READINESS-CHUNK-SIZE",
@@ -167,14 +167,14 @@
       "source": null,
       "validated_input_sha256": null
     },
-    "load_time_seconds": 0.004407700151205063,
-    "solve_pipeline_time_seconds": 0.013063999824225903,
-    "assembly_time_seconds": 0.0025880001485347748,
-    "solve_time_seconds": 0.0027848000172525644,
+    "load_time_seconds": 0.004200599854812026,
+    "solve_pipeline_time_seconds": 0.013015200151130557,
+    "assembly_time_seconds": 0.002463800134137273,
+    "solve_time_seconds": 0.0028521998319774866,
     "estimated_core_memory_bytes": 576,
     "memory_telemetry": {
-      "python_tracemalloc_current_bytes": 146657,
-      "python_tracemalloc_peak_bytes": 287119,
+      "python_tracemalloc_current_bytes": 146575,
+      "python_tracemalloc_peak_bytes": 287167,
       "process_current_rss_before_bytes": null,
       "process_current_rss_after_bytes": null,
       "process_peak_rss_bytes": null,
@@ -187,10 +187,10 @@
       "rank_telemetry": [
         {
           "rank": 0,
-          "load_time_seconds": 0.004407700151205063,
-          "solve_pipeline_time_seconds": 0.013063999824225903,
-          "python_tracemalloc_current_bytes": 146657,
-          "python_tracemalloc_peak_bytes": 287119,
+          "load_time_seconds": 0.004200599854812026,
+          "solve_pipeline_time_seconds": 0.013015200151130557,
+          "python_tracemalloc_current_bytes": 146575,
+          "python_tracemalloc_peak_bytes": 287167,
           "process_current_rss_before_bytes": null,
           "process_current_rss_after_bytes": null,
           "process_peak_rss_bytes": null,
@@ -212,8 +212,8 @@
     "artifact_policy": {
       "displacement_output": "displacements.h5",
       "file_backed_displacements": true,
-      "json_files_checked": 4,
-      "largest_json_bytes": 2843,
+      "json_files_checked": 6,
+      "largest_json_bytes": 6092,
       "monolithic_displacements_in_json": false,
       "offending_json_files": []
     },
@@ -266,20 +266,20 @@
           "role": "benchmark",
           "path": "benchmark_large.json",
           "status": "PASS",
-          "expected_size_bytes": 3067,
-          "actual_size_bytes": 3067,
-          "expected_sha256": "afb3bffd7a3e1a9a70178031eea58198ddcb9a59ebf05aa08f67ba11d818d1ca",
-          "actual_sha256": "afb3bffd7a3e1a9a70178031eea58198ddcb9a59ebf05aa08f67ba11d818d1ca",
+          "expected_size_bytes": 3066,
+          "actual_size_bytes": 3066,
+          "expected_sha256": "70655f550d725ac4308aff2faf05ea654b47d48c06879a658d9167312486363e",
+          "actual_sha256": "70655f550d725ac4308aff2faf05ea654b47d48c06879a658d9167312486363e",
           "message": ""
         },
         {
           "role": "benchmark_markdown",
           "path": "benchmark_large.md",
           "status": "PASS",
-          "expected_size_bytes": 624,
-          "actual_size_bytes": 624,
-          "expected_sha256": "0e5ee639db70467338bf4f6c4054f1123e362d7dd747457530c116527c18aba4",
-          "actual_sha256": "0e5ee639db70467338bf4f6c4054f1123e362d7dd747457530c116527c18aba4",
+          "expected_size_bytes": 626,
+          "actual_size_bytes": 626,
+          "expected_sha256": "7707a8a2d4191eece689c3718275e6ea0aefc1f8932f8c594375d068276a89de",
+          "actual_sha256": "7707a8a2d4191eece689c3718275e6ea0aefc1f8932f8c594375d068276a89de",
           "message": ""
         },
         {
@@ -308,8 +308,8 @@
           "status": "PASS",
           "expected_size_bytes": 2274,
           "actual_size_bytes": 2274,
-          "expected_sha256": "3b82d1531db732e227c8ba3a316b8de93f592751ccf607643a7611582460ace9",
-          "actual_sha256": "3b82d1531db732e227c8ba3a316b8de93f592751ccf607643a7611582460ace9",
+          "expected_sha256": "a74ce5750d45477ec58088f33ae5b317aabcce8e3f871825c7fb464cb6f6c6a7",
+          "actual_sha256": "a74ce5750d45477ec58088f33ae5b317aabcce8e3f871825c7fb464cb6f6c6a7",
           "message": ""
         },
         {
@@ -318,8 +318,8 @@
           "status": "PASS",
           "expected_size_bytes": 1420,
           "actual_size_bytes": 1420,
-          "expected_sha256": "8461f22cf3bd45160379be6f876c37731f8ea7580ae22060650bfe1c68481b44",
-          "actual_sha256": "8461f22cf3bd45160379be6f876c37731f8ea7580ae22060650bfe1c68481b44",
+          "expected_sha256": "e927a7832e8e8c601e898d3dfe4ca8d51423cb3aa9604249687ddaeb9afcd58b",
+          "actual_sha256": "e927a7832e8e8c601e898d3dfe4ca8d51423cb3aa9604249687ddaeb9afcd58b",
           "message": ""
         }
       ]

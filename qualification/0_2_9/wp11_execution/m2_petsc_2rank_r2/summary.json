@@ -24,8 +24,8 @@
       ]
     ],
     "matrix_format": "baij",
-    "setup_time_seconds": 0.002701182005694136,
-    "iteration_time_seconds": 0.0004554309998638928,
+    "setup_time_seconds": 0.0018531649984652176,
+    "iteration_time_seconds": 0.0002876940125133842,
     "automatic_petsc_options": {},
     "explicit_petsc_options": {},
     "preconditioner_diagnostics": {
@@ -61,8 +61,8 @@
     "restart_source": null,
     "initial_guess_norm": 0.0
   },
-  "assembly_time_seconds": 0.002323456996236928,
-  "solve_time_seconds": 0.003156613005558029,
+  "assembly_time_seconds": 0.0015567700029350817,
+  "solve_time_seconds": 0.002140859010978602,
   "estimated_core_memory_bytes": 576,
   "audit_status": "PASS",
   "mpi": {

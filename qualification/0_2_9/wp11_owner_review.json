@@ -5,9 +5,9 @@
   "official_points": "0/6",
   "branch": "codex/wp11-qualification",
   "base_sha": "04d1f1a60dcb4435c925cf5f788302da698aaf0e",
-  "runner_sha": "b3bec329f1a37af8ed5d0594dbeefb10b47310b9",
-  "execution_sha": "a374b190eced5c005c95dd189edd755318ae7cf6",
-  "contract_sha256": "67290876f9e9e3e1a8551fd1a3250c33ea5a9c483edefcc9835bccd110abc297",
+  "runner_sha": "b3bec329b4ae6a4c3f3f3e8ef9d221fd12fea13c",
+  "execution_sha": "f9bb50f8f1fe8d6920a81ebe61f1730214a469e0",
+  "contract_sha256": "37876e3da02b1ca9a97ee535d8e2026131cc61900f3d478a578d9398ff0eb0d6",
   "docker_image": "ghcr.io/fenics/dolfinx/dolfinx@sha256:2ae4bfbc0d9077268880faf04c72750528bee986c94ab223a2c159969bd56fa8",
   "m1": {
     "status": "PASS_CANDIDATE",
@@ -24,19 +24,25 @@
   "m3": {
     "status": "PASS_REPLAY",
     "fresh_process": true,
-    "m2_source_sha": "a374b190eced5c005c95dd189edd755318ae7cf6",
-    "m3_source_sha": "a374b190eced5c005c95dd189edd755318ae7cf6",
-    "m2_contract_sha256": "67290876f9e9e3e1a8551fd1a3250c33ea5a9c483edefcc9835bccd110abc297",
-    "m3_contract_sha256": "67290876f9e9e3e1a8551fd1a3250c33ea5a9c483edefcc9835bccd110abc297",
+    "m2_source_sha": "f9bb50f8f1fe8d6920a81ebe61f1730214a469e0",
+    "m3_source_sha": "f9bb50f8f1fe8d6920a81ebe61f1730214a469e0",
+    "m2_contract_sha256": "37876e3da02b1ca9a97ee535d8e2026131cc61900f3d478a578d9398ff0eb0d6",
+    "m3_contract_sha256": "37876e3da02b1ca9a97ee535d8e2026131cc61900f3d478a578d9398ff0eb0d6",
     "m2_m3_observable_comparison": {
       "m1_m2_max_abs_diff": 3.308722450212111e-24,
       "m1_m2_max_relative_diff": 6.422498112526624e-16,
       "m2_m3_max_abs_diff": 0.0,
       "m2_m3_max_relative_diff": 0.0
     },
+    "deterministic_fields_equal": true,
+    "non_deterministic_fields_excluded": [
+      "setup_time_seconds",
+      "iteration_time_seconds",
+      "assembly_time_seconds",
+      "solve_time_seconds"
+    ],
     "m2_status": "PASS",
-    "m3_status": "PASS",
-    "deterministic_fields_equal": true
+    "m3_status": "PASS"
   },
   "m1_m2_comparison": {
     "m1_m2_max_abs_diff": 3.308722450212111e-24,
@@ -44,7 +50,7 @@
     "m2_m3_max_abs_diff": 0.0,
     "m2_m3_max_relative_diff": 0.0
   },
-  "tests": "49 passed, 1 skipped",
+  "tests": "49 passed, 1 skipped (executed)",
   "production_mechanics_changed": false,
   "thresholds_changed": false,
   "strong_scaling_claim": false,

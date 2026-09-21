@@ -22,9 +22,9 @@ constitue pas encore une preuve de scalabilité forte ou faible.
 ```text
 BRANCH = codex/wp11-qualification
 BASE_SHA = 04d1f1a60dcb4435c925cf5f788302da698aaf0e
-RUNNER_SHA = b3bec329f1a37af8ed5d0594dbeefb10b47310b9
-EXECUTION_SHA = a374b190eced5c005c95dd189edd755318ae7cf6
-CONTRACT_SHA256 = 67290876f9e9e3e1a8551fd1a3250c33ea5a9c483edefcc9835bccd110abc297
+RUNNER_SHA = b3bec329b4ae6a4c3f3f3e8ef9d221fd12fea13c
+EXECUTION_SHA = f9bb50f8f1fe8d6920a81ebe61f1730214a469e0
+CONTRACT_SHA256 = 37876e3da02b1ca9a97ee535d8e2026131cc61900f3d478a578d9398ff0eb0d6
 DOCKER_IMAGE = ghcr.io/fenics/dolfinx/dolfinx@sha256:2ae4bfbc0d9077268880faf04c72750528bee986c94ab223a2c159969bd56fa8
 MPI_RANKS = 2
 PETSC = 3.25.1

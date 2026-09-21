@@ -1,8 +1,8 @@
 {
   "status": "PASS",
-  "source_sha": "a374b190eced5c005c95dd189edd755318ae7cf6",
-  "runner_sha": "b3bec329f1a37af8ed5d0594dbeefb10b47310b9",
-  "contract_sha256": "67290876f9e9e3e1a8551fd1a3250c33ea5a9c483edefcc9835bccd110abc297",
+  "source_sha": "f9bb50f8f1fe8d6920a81ebe61f1730214a469e0",
+  "runner_sha": "b3bec329b4ae6a4c3f3f3e8ef9d221fd12fea13c",
+  "contract_sha256": "37876e3da02b1ca9a97ee535d8e2026131cc61900f3d478a578d9398ff0eb0d6",
   "docker_image": "ghcr.io/fenics/dolfinx/dolfinx@sha256:2ae4bfbc0d9077268880faf04c72750528bee986c94ab223a2c159969bd56fa8",
   "mpi_rank_count": 2,
   "files": [
@@ -13,13 +13,13 @@
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m1_serial/benchmark/benchmark_large.json",
-      "sha256": "afb3bffd7a3e1a9a70178031eea58198ddcb9a59ebf05aa08f67ba11d818d1ca",
-      "size_bytes": 3067
+      "sha256": "70655f550d725ac4308aff2faf05ea654b47d48c06879a658d9167312486363e",
+      "size_bytes": 3066
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m1_serial/benchmark/benchmark_large.md",
-      "sha256": "0e5ee639db70467338bf4f6c4054f1123e362d7dd747457530c116527c18aba4",
-      "size_bytes": 624
+      "sha256": "7707a8a2d4191eece689c3718275e6ea0aefc1f8932f8c594375d068276a89de",
+      "size_bytes": 626
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m1_serial/benchmark/displacements.h5",
@@ -28,7 +28,7 @@
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m1_serial/benchmark/evidence_manifest.json",
-      "sha256": "7dd6e9d2aaa591fd646f147517bbcce106553e4e6145589022adef88881a200a",
+      "sha256": "e3236b25d6581cc40f26999402734d196a67b8494eb436936d1c329c6b888b87",
       "size_bytes": 6092
     },
     {
@@ -38,37 +38,37 @@
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m1_serial/benchmark/runtime_environment.json",
-      "sha256": "3b82d1531db732e227c8ba3a316b8de93f592751ccf607643a7611582460ace9",
+      "sha256": "a74ce5750d45477ec58088f33ae5b317aabcce8e3f871825c7fb464cb6f6c6a7",
       "size_bytes": 2274
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m1_serial/benchmark/summary.json",
-      "sha256": "8461f22cf3bd45160379be6f876c37731f8ea7580ae22060650bfe1c68481b44",
+      "sha256": "e927a7832e8e8c601e898d3dfe4ca8d51423cb3aa9604249687ddaeb9afcd58b",
       "size_bytes": 1420
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m1_serial/evidence_manifest.json",
-      "sha256": "848eb4d90d01dd479e7d74bd1b9b8536729d3d6e1ca8c287885df2b905e32a50",
+      "sha256": "1ab0ee6a8ed96ab0fbae16e8458f9957712e33dc58af0fc25b30fee438a142ef",
       "size_bytes": 7301
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m1_serial/large_qualification_summary.json",
-      "sha256": "c935ae647be72ab3d6655a2ec31f97c093327b3a4cb09db9dcdfd0e43273151c",
-      "size_bytes": 10912
+      "sha256": "8bd466699c840267c36e1a11ce22935add8724b95d4cd8fdcb012e6cb4b2b6be",
+      "size_bytes": 10911
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m1_serial/large_qualification_summary.md",
-      "sha256": "f9fe4cceb7b8cb97c6a9b80d398f9077525561011964cf4b59feb24abd3b428a",
+      "sha256": "40e9f946499bf8ca7d08b4a1fda0d96cd349bc8730850e38f4e07d1c176aa8fc",
       "size_bytes": 1381
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m1_serial/large_readiness.json",
-      "sha256": "aa318b29a65ec973d41b9546062f88a408c572579d75c1323c30422fec889cbf",
+      "sha256": "c474876368d94c678980d74f9b0c70a0311bb8fba8c4aeb404492a3ed60b6f21",
       "size_bytes": 1309
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m1_serial/large_readiness.md",
-      "sha256": "b05c861946c5664f926332dcb076e32c2aaeb84f33fd440c67c9c6b746d0f50a",
+      "sha256": "d281e517798ec624a6ed5bf80d73c5787567a75b827a6ec91c6ca1665ad45a78",
       "size_bytes": 671
     },
     {
@@ -78,7 +78,7 @@
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m1_serial/runtime_environment.json",
-      "sha256": "3937c5b4d1216ea4072b71fa61a5684d9eb11d8882f88458c59be1f23255e2a0",
+      "sha256": "2740bea6198918368522ee52114207ae6f5e0aed55b571c74faf6d724eab1fec",
       "size_bytes": 1996
     },
     {
@@ -273,13 +273,13 @@
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m2_petsc_2rank_r2/summary.json",
-      "sha256": "2178a06e952d79835a531b00d952debf7f8d7c69884e3048897d2a602431586c",
-      "size_bytes": 2044
+      "sha256": "32dc0966cce6c1458243cec7c5ed73d8dfb203b5a1f1ae03e588b62ce84fc783",
+      "size_bytes": 2046
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m2_petsc_2rank_r2/wp11_mpi_result.json",
-      "sha256": "439696b11072b684ff5f528ab3ee3306c197201c260aaac98e292fecbb8000f3",
-      "size_bytes": 2719
+      "sha256": "bef0c449799c75283b1684c37adcdd8a3cab788bc425f8fb754e5e930f576986",
+      "size_bytes": 2721
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m3_replay_2rank/large_readiness.json",
@@ -318,18 +318,23 @@
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m3_replay_2rank_r1/summary.json",
-      "sha256": "75b8f809bcea8e35bb390f58e56e6c4b5444011c1ba2867071ed1ddf0efe4912",
-      "size_bytes": 2046
+      "sha256": "0387707c82caffd7283645342a08863280410fae5a9add42f2348ee7ee6ad16c",
+      "size_bytes": 2044
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m3_replay_2rank_r1/wp11_mpi_result.json",
-      "sha256": "acae38e4242265aa3a32e952b107ae33f2cabfe7fc6ed8ad28a9cdf5062ef35d",
-      "size_bytes": 2721
+      "sha256": "0b98688fe82572fbd346c6eace41ca95bbf7f05f95db7a5592e2f43f3e1c5938",
+      "size_bytes": 2719
     },
     {
       "path": "qualification/0_2_9/wp11_execution/m3_replay_audit.json",
-      "sha256": "011dcfa607e964b6f4b2a6853478c1c17573c979764ef8b0224d585ac938d92b",
+      "sha256": "3528efa46c6eee50e4d474841d63f4a291243d0eec8f4549526ad96a4daea004",
       "size_bytes": 837
+    },
+    {
+      "path": "qualification/0_2_9/wp11_execution/targeted_tests_result.json",
+      "sha256": "821ffcb20462833a509573a5bf69079103ab655bfed656902c3710002cf772f7",
+      "size_bytes": 431
     }
   ]
 }

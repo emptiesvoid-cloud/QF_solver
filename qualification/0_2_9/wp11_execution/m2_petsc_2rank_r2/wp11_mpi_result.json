@@ -4,8 +4,8 @@
   "mpi_rank_count": 2,
   "target_dofs": 24,
   "actual_dofs": 24,
-  "source_sha": "a374b190eced5c005c95dd189edd755318ae7cf6",
-  "contract_sha256": "67290876f9e9e3e1a8551fd1a3250c33ea5a9c483edefcc9835bccd110abc297",
+  "source_sha": "f9bb50f8f1fe8d6920a81ebe61f1730214a469e0",
+  "contract_sha256": "37876e3da02b1ca9a97ee535d8e2026131cc61900f3d478a578d9398ff0eb0d6",
   "docker_image_digest": "sha256:2ae4bfbc0d9077268880faf04c72750528bee986c94ab223a2c159969bd56fa8",
   "summary": {
     "analysis": "linear_static",
@@ -33,8 +33,8 @@
         ]
       ],
       "matrix_format": "baij",
-      "setup_time_seconds": 0.002701182005694136,
-      "iteration_time_seconds": 0.0004554309998638928,
+      "setup_time_seconds": 0.0018531649984652176,
+      "iteration_time_seconds": 0.0002876940125133842,
       "automatic_petsc_options": {},
       "explicit_petsc_options": {},
       "preconditioner_diagnostics": {
@@ -70,8 +70,8 @@
       "restart_source": null,
       "initial_guess_norm": 0.0
     },
-    "assembly_time_seconds": 0.002323456996236928,
-    "solve_time_seconds": 0.003156613005558029,
+    "assembly_time_seconds": 0.0015567700029350817,
+    "solve_time_seconds": 0.002140859010978602,
     "estimated_core_memory_bytes": 576,
     "audit_status": "PASS",
     "mpi": {
