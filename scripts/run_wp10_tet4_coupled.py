@@ -148,6 +148,7 @@ def _compact_result(result: Any, model: FiniteElementModel, slave: int) -> dict[
             (row["relative_residual"] for row in compact_steps), default=0.0
         ),
         "max_peeq": max((row["equivalent_plastic_strain_max"] for row in compact_steps), default=0.0),
+        "fallback_count": sum(1 for step in steps if bool(step.get("fallback_used", False))),
     }
 
 
@@ -169,6 +170,8 @@ def run_case(case: str, output: Path) -> dict[str, Any]:
         "contact": "frictionless_penalty_initial_search" if with_contact else "disabled",
         "frozen_inputs": {"load_path": list(LOAD_PATH), "penalty": PENALTY, "plane_x": PLANE_X},
         "result": compact,
+        "fallback_count": int(compact["fallback_count"]),
+        "fallback_evidence": "per-step fallback_used field; zero when no step reports fallback",
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(record, indent=2), encoding="utf-8")
@@ -212,6 +215,7 @@ def independent_reference(primary: Path, output: Path) -> dict[str, Any]:
         "contract_sha256": record["contract_sha256"],
         "element_type": ELEMENT_TYPE,
         "independence": "contact gap and penalty recomputation; not an independent global FEM solve",
+        "coverage": "final saved displacement state; production contact gaps are retained for every step",
         "rows": rows,
     }
     output.parent.mkdir(parents=True, exist_ok=True)
