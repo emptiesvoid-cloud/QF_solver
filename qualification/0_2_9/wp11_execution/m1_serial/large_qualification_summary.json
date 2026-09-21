@@ -1,0 +1,330 @@
+{
+  "status": "PASS",
+  "target_dofs": 24,
+  "actual_dofs": 24,
+  "dimensions": {
+    "nx": 1,
+    "ny": 1,
+    "nz": 1
+  },
+  "node_count": 8,
+  "element_count": 6,
+  "backend": "scipy",
+  "readiness": {
+    "status": "PASS",
+    "target_dofs": 24,
+    "backend": "scipy",
+    "memory_budget_bytes": null,
+    "dimensions": {
+      "nx": 1,
+      "ny": 1,
+      "nz": 1
+    },
+    "sizing": {
+      "node_count": 8,
+      "element_count": 6,
+      "ndof": 24,
+      "model_arrays_bytes": 624,
+      "displacement_bytes": 192,
+      "scipy_sparse_upper_bound_bytes": 21552,
+      "petsc_rule_of_thumb_bytes": 46896,
+      "chunk_triplet_bytes_at_default_chunk": 20736,
+      "recommended_free_disk_bytes": 3264
+    },
+    "checks": [
+      {
+        "id": "DEP-H5PY",
+        "status": "PASS",
+        "detail": "h5py available"
+      },
+      {
+        "id": "DEP-MPI4PY",
+        "status": "PASS",
+        "detail": "mpi4py available"
+      },
+      {
+        "id": "DEP-PETSC4PY",
+        "status": "PASS",
+        "detail": "petsc4py not required for selected backend"
+      },
+      {
+        "id": "BACKEND-SCALE",
+        "status": "PASS",
+        "detail": "SciPy allowed for ndof=24"
+      },
+      {
+        "id": "DISK-FREE",
+        "status": "PASS",
+        "detail": "free=32358838272 bytes"
+      },
+      {
+        "id": "CHUNK-SIZE",
+        "status": "PASS",
+        "detail": "chunk_size=4096"
+      },
+      {
+        "id": "MULTI-MILLION-GATE",
+        "status": "PASS",
+        "detail": "not applicable below 2000000 target dofs"
+      }
+    ]
+  },
+  "readiness_report": {
+    "json": "qualification\\0_2_9\\wp11_execution\\m1_serial\\large_readiness.json",
+    "markdown": "qualification\\0_2_9\\wp11_execution\\m1_serial\\large_readiness.md"
+  },
+  "runtime_environment": "runtime_environment.json",
+  "model_path": "qualification\\0_2_9\\wp11_execution\\m1_serial\\qualification_model.h5",
+  "benchmark_dir": "qualification\\0_2_9\\wp11_execution\\m1_serial\\benchmark",
+  "benchmark_summary": "qualification\\0_2_9\\wp11_execution\\m1_serial\\benchmark\\benchmark_large.json",
+  "evidence_manifest": "qualification\\0_2_9\\wp11_execution\\m1_serial\\benchmark\\evidence_manifest.json",
+  "qualification_manifest": "qualification\\0_2_9\\wp11_execution\\m1_serial\\evidence_manifest.json",
+  "checks": [
+    {
+      "id": "LRG-READINESS-PASS",
+      "status": "PASS",
+      "detail": "readiness=PASS"
+    },
+    {
+      "id": "READINESS-DEP-H5PY",
+      "status": "PASS",
+      "detail": "h5py available"
+    },
+    {
+      "id": "READINESS-DEP-MPI4PY",
+      "status": "PASS",
+      "detail": "mpi4py available"
+    },
+    {
+      "id": "READINESS-DEP-PETSC4PY",
+      "status": "PASS",
+      "detail": "petsc4py not required for selected backend"
+    },
+    {
+      "id": "READINESS-BACKEND-SCALE",
+      "status": "PASS",
+      "detail": "SciPy allowed for ndof=24"
+    },
+    {
+      "id": "READINESS-DISK-FREE",
+      "status": "PASS",
+      "detail": "free=32358838272 bytes"
+    },
+    {
+      "id": "READINESS-CHUNK-SIZE",
+      "status": "PASS",
+      "detail": "chunk_size=4096"
+    },
+    {
+      "id": "READINESS-MULTI-MILLION-GATE",
+      "status": "PASS",
+      "detail": "not applicable below 2000000 target dofs"
+    },
+    {
+      "id": "LRG-TARGET-DOFS",
+      "status": "PASS",
+      "detail": "actual_dofs=24, target_dofs=24"
+    },
+    {
+      "id": "LRG-BENCHMARK-PASS",
+      "status": "PASS",
+      "detail": "status=PASS"
+    },
+    {
+      "id": "LRG-AUDIT-PASS",
+      "status": "PASS",
+      "detail": "audit=PASS"
+    },
+    {
+      "id": "LRG-EVIDENCE-PASS",
+      "status": "PASS",
+      "detail": "evidence=PASS"
+    },
+    {
+      "id": "LRG-FILE-BACKED-DISPLACEMENTS",
+      "status": "PASS",
+      "detail": "displacements.h5"
+    },
+    {
+      "id": "LRG-NO-DISPLACEMENT-JSON",
+      "status": "PASS",
+      "detail": "offenders=[]"
+    }
+  ],
+  "benchmark": {
+    "status": "PASS",
+    "input": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp11_qualification\\qualification\\0_2_9\\wp11_execution\\m1_serial\\qualification_model.h5",
+    "node_count": 8,
+    "element_count": 6,
+    "ndof": 24,
+    "backend": "scipy",
+    "chunk_size": 4096,
+    "matrix_format": "baij",
+    "partition_strategy": "serial",
+    "partition_details": null,
+    "restart": {
+      "used": false,
+      "source": null,
+      "validated_input_sha256": null
+    },
+    "load_time_seconds": 0.004407700151205063,
+    "solve_pipeline_time_seconds": 0.013063999824225903,
+    "assembly_time_seconds": 0.0025880001485347748,
+    "solve_time_seconds": 0.0027848000172525644,
+    "estimated_core_memory_bytes": 576,
+    "memory_telemetry": {
+      "python_tracemalloc_current_bytes": 146657,
+      "python_tracemalloc_peak_bytes": 287119,
+      "process_current_rss_before_bytes": null,
+      "process_current_rss_after_bytes": null,
+      "process_peak_rss_bytes": null,
+      "process_peak_rss_sum_bytes": 0,
+      "process_memory_source": "unavailable",
+      "rank_count": 1
+    },
+    "mpi": {
+      "size": 1,
+      "rank_telemetry": [
+        {
+          "rank": 0,
+          "load_time_seconds": 0.004407700151205063,
+          "solve_pipeline_time_seconds": 0.013063999824225903,
+          "python_tracemalloc_current_bytes": 146657,
+          "python_tracemalloc_peak_bytes": 287119,
+          "process_current_rss_before_bytes": null,
+          "process_current_rss_after_bytes": null,
+          "process_peak_rss_bytes": null,
+          "process_memory_source": "unavailable"
+        }
+      ]
+    },
+    "partitioned_input": {
+      "enabled": false,
+      "local_element_count": 6,
+      "local_compact_node_count": 8
+    },
+    "input_fingerprint": {
+      "path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp11_qualification\\qualification\\0_2_9\\wp11_execution\\m1_serial\\qualification_model.h5",
+      "size_bytes": 27536,
+      "sha256": "cf2b3381c47333ba097a1538a6085a05cbe13eca350bf79f28593460fdea916c"
+    },
+    "runtime_environment": "runtime_environment.json",
+    "artifact_policy": {
+      "displacement_output": "displacements.h5",
+      "file_backed_displacements": true,
+      "json_files_checked": 4,
+      "largest_json_bytes": 2843,
+      "monolithic_displacements_in_json": false,
+      "offending_json_files": []
+    },
+    "solver": {
+      "method": "cg",
+      "iterations": 7,
+      "residual_norm": 1.1494271893241288e-12,
+      "converged": true,
+      "preconditioner": "jacobi",
+      "residual_history": [
+        375.6433822576712,
+        72.19176387678665,
+        33.533743996735694,
+        28.002827593493066,
+        16.925093786589496,
+        5.102674868300566,
+        1.1494271893241288e-12
+      ],
+      "backend": "scipy",
+      "initial_residual_norm": 500.0,
+      "relative_residual_norm": 2.2988543786482575e-15,
+      "tolerance": 1e-12,
+      "termination_reason": "converged"
+    },
+    "audit_status": "PASS",
+    "output_files": {
+      "summary": "summary.json",
+      "audit_large": "audit_large.json",
+      "displacements": "displacements.h5"
+    },
+    "evidence_manifest": "qualification\\0_2_9\\wp11_execution\\m1_serial\\benchmark\\evidence_manifest.json",
+    "evidence_verification": {
+      "status": "PASS",
+      "manifest_path": "qualification\\0_2_9\\wp11_execution\\m1_serial\\benchmark\\evidence_manifest.json",
+      "checked_file_count": 7,
+      "errors": [],
+      "warnings": [],
+      "files": [
+        {
+          "role": "audit_large",
+          "path": "audit_large.json",
+          "status": "PASS",
+          "expected_size_bytes": 2843,
+          "actual_size_bytes": 2843,
+          "expected_sha256": "c6ad054e168461f60c0a49c867c0563b511f9eaa2269c34260350d5d398c901e",
+          "actual_sha256": "c6ad054e168461f60c0a49c867c0563b511f9eaa2269c34260350d5d398c901e",
+          "message": ""
+        },
+        {
+          "role": "benchmark",
+          "path": "benchmark_large.json",
+          "status": "PASS",
+          "expected_size_bytes": 3067,
+          "actual_size_bytes": 3067,
+          "expected_sha256": "afb3bffd7a3e1a9a70178031eea58198ddcb9a59ebf05aa08f67ba11d818d1ca",
+          "actual_sha256": "afb3bffd7a3e1a9a70178031eea58198ddcb9a59ebf05aa08f67ba11d818d1ca",
+          "message": ""
+        },
+        {
+          "role": "benchmark_markdown",
+          "path": "benchmark_large.md",
+          "status": "PASS",
+          "expected_size_bytes": 624,
+          "actual_size_bytes": 624,
+          "expected_sha256": "0e5ee639db70467338bf4f6c4054f1123e362d7dd747457530c116527c18aba4",
+          "actual_sha256": "0e5ee639db70467338bf4f6c4054f1123e362d7dd747457530c116527c18aba4",
+          "message": ""
+        },
+        {
+          "role": "displacements",
+          "path": "displacements.h5",
+          "status": "PASS",
+          "expected_size_bytes": 12208,
+          "actual_size_bytes": 12208,
+          "expected_sha256": "f5eb7a06498204b7e8b46badd3ae8a885a3994599472c48c3780d51c4a66cd27",
+          "actual_sha256": "f5eb7a06498204b7e8b46badd3ae8a885a3994599472c48c3780d51c4a66cd27",
+          "message": ""
+        },
+        {
+          "role": "input_fingerprint",
+          "path": "input_fingerprint.json",
+          "status": "PASS",
+          "expected_size_bytes": 267,
+          "actual_size_bytes": 267,
+          "expected_sha256": "9da749180a35cebd80fd8702f5bc881937682a6ab732ad64737c4e55b57ac7d3",
+          "actual_sha256": "9da749180a35cebd80fd8702f5bc881937682a6ab732ad64737c4e55b57ac7d3",
+          "message": ""
+        },
+        {
+          "role": "runtime_environment",
+          "path": "runtime_environment.json",
+          "status": "PASS",
+          "expected_size_bytes": 2274,
+          "actual_size_bytes": 2274,
+          "expected_sha256": "3b82d1531db732e227c8ba3a316b8de93f592751ccf607643a7611582460ace9",
+          "actual_sha256": "3b82d1531db732e227c8ba3a316b8de93f592751ccf607643a7611582460ace9",
+          "message": ""
+        },
+        {
+          "role": "summary",
+          "path": "summary.json",
+          "status": "PASS",
+          "expected_size_bytes": 1420,
+          "actual_size_bytes": 1420,
+          "expected_sha256": "8461f22cf3bd45160379be6f876c37731f8ea7580ae22060650bfe1c68481b44",
+          "actual_sha256": "8461f22cf3bd45160379be6f876c37731f8ea7580ae22060650bfe1c68481b44",
+          "message": ""
+        }
+      ]
+    }
+  },
+  "summary_path": "qualification\\0_2_9\\wp11_execution\\m1_serial\\large_qualification_summary.json",
+  "markdown_path": "qualification\\0_2_9\\wp11_execution\\m1_serial\\large_qualification_summary.md"
+}

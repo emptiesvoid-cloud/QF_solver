@@ -1,0 +1,99 @@
+{
+  "status": "PASS",
+  "backend": "petsc",
+  "mpi_rank_count": 2,
+  "target_dofs": 24,
+  "actual_dofs": 24,
+  "source_sha": "a374b190eced5c005c95dd189edd755318ae7cf6",
+  "contract_sha256": "67290876f9e9e3e1a8551fd1a3250c33ea5a9c483edefcc9835bccd110abc297",
+  "docker_image_digest": "sha256:2ae4bfbc0d9077268880faf04c72750528bee986c94ab223a2c159969bd56fa8",
+  "summary": {
+    "analysis": "linear_static",
+    "node_count": 8,
+    "element_count": 6,
+    "ndof": 24,
+    "backend": "petsc",
+    "solver": {
+      "method": "cg",
+      "preconditioner": "gamg",
+      "preconditioner_subtype": null,
+      "iterations": 7,
+      "residual_norm": 1.9690961052303745e-26,
+      "converged": true,
+      "mpi_size": 2,
+      "distributed": true,
+      "ownership_ranges": [
+        [
+          0,
+          12
+        ],
+        [
+          12,
+          24
+        ]
+      ],
+      "matrix_format": "baij",
+      "setup_time_seconds": 0.0018035200046142563,
+      "iteration_time_seconds": 0.00029361901397351176,
+      "automatic_petsc_options": {},
+      "explicit_petsc_options": {},
+      "preconditioner_diagnostics": {
+        "ksp_type": "cg",
+        "pc_type": "gamg",
+        "pc_mg_levels": 2,
+        "matrix_global_size": [
+          24,
+          24
+        ],
+        "matrix_local_size": [
+          12,
+          12
+        ],
+        "matrix_ownership_range": [
+          0,
+          12
+        ],
+        "matrix_info": {
+          "block_size": 1.0,
+          "nz_allocated": 414.0,
+          "nz_used": 414.0,
+          "nz_unneeded": 0.0,
+          "memory": 0.0,
+          "assemblies": 2.0,
+          "mallocs": 0.0,
+          "fill_ratio_given": 0.0,
+          "fill_ratio_needed": 0.0,
+          "factor_mallocs": 0.0
+        }
+      },
+      "restart_used": false,
+      "restart_source": null,
+      "initial_guess_norm": 0.0
+    },
+    "assembly_time_seconds": 0.002486766010406427,
+    "solve_time_seconds": 0.002097139018587768,
+    "estimated_core_memory_bytes": 576,
+    "audit_status": "PASS",
+    "mpi": {
+      "size": 2,
+      "distributed_assembly": true,
+      "element_partition": "contiguous",
+      "input_arrays_replicated_per_rank": true,
+      "boundary_arrays_distributed": false,
+      "local_fixed_dof_count": null,
+      "local_load_count": null,
+      "local_fixed_dof_counts": null,
+      "local_load_counts": null,
+      "partitioned_hdf5_input": false,
+      "global_connectivity_replicated": true,
+      "global_nodes_replicated": true,
+      "displacement_gathered_on_root_only": true,
+      "displacement_mpi_io": false
+    }
+  },
+  "output_files": {
+    "summary": "summary.json",
+    "audit_large": "audit_large.json",
+    "displacements": "displacements.h5"
+  }
+}

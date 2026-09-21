@@ -1,0 +1,67 @@
+{
+  "work_package": "WP11",
+  "status": "READY_FOR_OWNER_REVIEW",
+  "candidate_points": "PENDING_OWNER",
+  "official_points": "0/6",
+  "branch": "codex/wp11-qualification",
+  "base_sha": "04d1f1a60dcb4435c925cf5f788302da698aaf0e",
+  "runner_sha": "b3bec329f1a37af8ed5d0594dbeefb10b47310b9",
+  "execution_sha": "a374b190eced5c005c95dd189edd755318ae7cf6",
+  "contract_sha256": "67290876f9e9e3e1a8551fd1a3250c33ea5a9c483edefcc9835bccd110abc297",
+  "docker_image": "ghcr.io/fenics/dolfinx/dolfinx@sha256:2ae4bfbc0d9077268880faf04c72750528bee986c94ab223a2c159969bd56fa8",
+  "m1": {
+    "status": "PASS_CANDIDATE",
+    "backend": "scipy",
+    "actual_dofs": 24
+  },
+  "m2": {
+    "status": "PASS_CANDIDATE",
+    "backend": "petsc",
+    "mpi_ranks": 2,
+    "actual_dofs": 24,
+    "residual_norm": 1.9690961052303745e-26
+  },
+  "m3": {
+    "status": "PASS_REPLAY",
+    "fresh_process": true,
+    "m2_source_sha": "a374b190eced5c005c95dd189edd755318ae7cf6",
+    "m3_source_sha": "a374b190eced5c005c95dd189edd755318ae7cf6",
+    "m2_contract_sha256": "67290876f9e9e3e1a8551fd1a3250c33ea5a9c483edefcc9835bccd110abc297",
+    "m3_contract_sha256": "67290876f9e9e3e1a8551fd1a3250c33ea5a9c483edefcc9835bccd110abc297",
+    "m2_m3_observable_comparison": {
+      "m1_m2_max_abs_diff": 3.308722450212111e-24,
+      "m1_m2_max_relative_diff": 6.422498112526624e-16,
+      "m2_m3_max_abs_diff": 0.0,
+      "m2_m3_max_relative_diff": 0.0
+    },
+    "m2_status": "PASS",
+    "m3_status": "PASS",
+    "deterministic_fields_equal": true
+  },
+  "m1_m2_comparison": {
+    "m1_m2_max_abs_diff": 3.308722450212111e-24,
+    "m1_m2_max_relative_diff": 6.422498112526624e-16,
+    "m2_m3_max_abs_diff": 0.0,
+    "m2_m3_max_relative_diff": 0.0
+  },
+  "tests": "49 passed, 1 skipped",
+  "production_mechanics_changed": false,
+  "thresholds_changed": false,
+  "strong_scaling_claim": false,
+  "weak_scaling_claim": false,
+  "limitations": [
+    "small 24-DOF smoke qualification only",
+    "TET4 static path only",
+    "input arrays replicated per rank",
+    "no partitioned HDF5 input",
+    "no strong/weak scaling claim",
+    "no dynamics/contact/friction",
+    "no external FEM solver correlation"
+  ],
+  "owner_decision": {
+    "accept_m1": "PENDING",
+    "accept_m2": "PENDING",
+    "accept_m3": "PENDING",
+    "award_points": "PENDING"
+  }
+}
