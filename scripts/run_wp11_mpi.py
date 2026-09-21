@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -20,6 +21,9 @@ DOCKER_IMAGE_DIGEST = "sha256:2ae4bfbc0d9077268880faf04c72750528bee986c94ab223a2
 
 
 def _git_sha() -> str:
+    explicit = os.environ.get("QF_WP11_EXECUTION_SHA")
+    if explicit:
+        return explicit
     return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
 
 
