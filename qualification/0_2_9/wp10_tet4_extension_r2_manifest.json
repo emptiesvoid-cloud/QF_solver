@@ -1,0 +1,28 @@
+{
+  "manifest_status": "PASS",
+  "contract_sha256": "e86f7c6f2c6e6f4b46b004dd54e847fa197c72a2d62acaf621a53dd2346df7c1",
+  "artifacts": {
+    "m1_primary.json": "ff37c6cf1d2e80907c9983c88a6d2f7a1b93206f44e001b5ff1174c704427a68",
+    "m1_reference.json": "ad6feaec38f90c420c5b543301f311b638b04b64ec7037bda1486ae15443770d",
+    "m2_primary.json": "acc04cb804137894c5a4cf26ed52e6748ffb956a7862b215820c6bae8331a0f5",
+    "m2_reference.json": "03aae729698693eef77145564cb0b5fb17e6daa8025890e271bf4ebf10f2d9d1",
+    "m3_replay_r2.json": "acc04cb804137894c5a4cf26ed52e6748ffb956a7862b215820c6bae8331a0f5",
+    "m3_reference_r2.json": "03aae729698693eef77145564cb0b5fb17e6daa8025890e271bf4ebf10f2d9d1",
+    "m3_replay_process_manifest.json": "f2fb97083905351cb1c32d72af42aabe1cf8bd5683511841044a6b3d56912b39"
+  },
+  "replay": {
+    "pid": 55896,
+    "return_code": 0,
+    "source_sha": "4a8afdb0b3cf9c8a48202b850aed400737e387db",
+    "fresh_process": true,
+    "primary_matches_m2": true,
+    "reference_matches_m2": true
+  },
+  "reference_coverage": "final saved displacement state; production contact gaps retained for every step",
+  "fallback_count": {
+    "m1": 0,
+    "m2": 0,
+    "m3": 0,
+    "basis": "explicit per-step fallback_used field in the extension runner output"
+  }
+}
