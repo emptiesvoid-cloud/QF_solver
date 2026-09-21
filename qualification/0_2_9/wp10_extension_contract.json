@@ -4,7 +4,7 @@
   "title": "Coupled nonlinear mechanics element-family extensions",
   "status": "PREPARATION_ONLY",
   "branch": "codex/wp10-extension-preparation",
-  "source_sha": "8b86bd7f8b56a5327a31ce98757fe98e4c75a0c1",
+  "source_sha": "08f267bbc9f23c24229d3cb61ae34ed0377c9953",
   "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
   "runner": "scripts/run_wp10_tet4_coupled.py",
   "base_wp10_scope": {
