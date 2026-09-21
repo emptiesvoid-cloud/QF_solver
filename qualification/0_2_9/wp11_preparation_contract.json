@@ -3,7 +3,7 @@
   "title": "PETSc/MPI mixed large-scale closure",
   "revision": "R1_PREPARATION",
   "status": "PREPARATION_ONLY",
-  "source_sha": "PENDING_CONTRACT_COMMIT",
+  "source_sha": "055a4377bc2d5a0e260c01c0a909ce914e400405",
   "branch": "codex/wp11-qualification",
   "official_points": "0/6",
   "production_mechanics_changed": false,
