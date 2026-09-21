@@ -69,5 +69,8 @@
     "accept_m2": "PENDING",
     "accept_m3": "PENDING",
     "award_points": "PENDING"
-  }
+  },
+  "evidence_commit_sha": "6ec88ca384120ae1ec495344809e03ba66c24b7b",
+  "working_tree_tracked_clean": true,
+  "active_processes": "NONE"
 }
