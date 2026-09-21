@@ -3,7 +3,9 @@
   "title": "Coupled nonlinear mechanics",
   "status": "FROZEN_EXECUTION",
   "source_sha": "854815894f7ecc76cbdcbaf0c7f6a520087db028",
-  "branch": "codex/wp10-preparation",
+  "branch": "codex/wp10-provenance-requalification",
+  "contract_revision": "R1_PROSPECTIVE_PROVENANCE_REBIND",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
   "official_points": "0/6",
   "structural_solves_allowed": true,
   "production_mechanics_changed": false,
@@ -15,7 +17,7 @@
   "bounded_scope": {
     "element": "HEX8",
     "material": "bounded_corotational_J2",
-    "contact": "frictionless_active_set",
+    "contact": "frictionless_penalty_initial_search",
     "execution": "serial_cpu",
     "small_local_strain_bound": "retain_WP09_bound",
     "initial_search": "fixed",
@@ -30,7 +32,7 @@
   },
   "proposed_gates": [
     {"id": "M1", "name": "coupled_no_contact_baseline", "execution_authorized": true},
-    {"id": "M2", "name": "coupled_frictionless_contact_path", "execution_authorized": true},
+    {"id": "M2", "name": "coupled_frictionless_penalty_initial_search_path", "execution_authorized": true},
     {"id": "M3", "name": "fresh_process_replay_and_independent_evidence", "execution_authorized": true, "dependency": "M1_AND_M2_REFERENCE_PASS"}
   ],
   "reference_policy": "independent material/contact recomputation; never import production routines; never claim an independent global FEM solve",
