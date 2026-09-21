@@ -4,7 +4,7 @@
   "title": "Bounded coupled corotational-J2 HEX20 extension",
   "status": "PREPARATION_ONLY",
   "branch": "codex/wp10-hex20-extension",
-  "source_sha": "c3af0eaa2ab49397c06f7201dcd77c9ca9517f1a",
+  "source_sha": "832fd3fd4f678cc27a41d0ae6631ca907f79bd94",
   "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
   "base_scope": {
     "element": "HEX8",
