@@ -208,7 +208,12 @@ def independent_reference(primary: Path, output: Path) -> dict[str, Any]:
                 "gap_absolute_error": abs(gap - production_gap),
             }
         ]
-        passed = bool(step["contact_active_contacts"]) and rows[0]["gap_absolute_error"] <= 1.0e-12
+        expected_active = gap < 0.0
+        observed_active = bool(step["contact_active_contacts"])
+        passed = (
+            observed_active == expected_active
+            and rows[0]["gap_absolute_error"] <= 1.0e-12
+        )
     reference = {
         "status": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION" if passed else "FAIL_CLOSED",
         "source_sha": record["source_sha"],
