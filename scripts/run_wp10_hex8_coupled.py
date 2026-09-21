@@ -28,6 +28,7 @@ from solveur.verification.robustness_mesh import _refinement_model
 
 
 CONTRACT = ROOT / "qualification" / "0_2_9" / "wp10_preparation_contract.json"
+POLICY_DIGEST = "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
 PLANE_X = 1.02
 PENALTY = 1.0e6
 LOAD_PATH = (0.1, 0.2, 0.3, 0.5)
@@ -154,6 +155,7 @@ def run_case(case: str, output: Path) -> dict[str, Any]:
         "status": "PASS_CANDIDATE" if compact["status"] == "PASS" else "FAIL_CLOSED",
         "source_sha": _git_sha(),
         "contract_sha256": _sha256(CONTRACT),
+        "policy_digest": POLICY_DIGEST,
         "kinematics": "corotational_j2",
         "contact": "frictionless_penalty_initial_search" if with_contact else "disabled",
         "frozen_inputs": {"load_path": list(LOAD_PATH), "penalty": PENALTY, "plane_x": PLANE_X},
