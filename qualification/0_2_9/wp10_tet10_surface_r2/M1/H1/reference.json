@@ -1,0 +1,40 @@
+{
+  "status": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION",
+  "mode": "M1",
+  "level": "H1",
+  "source_sha": "3356dabb38ff4f660dfc905aa75da3e3a6f7c863",
+  "runner_sha": "8a2797c6d5b9559d7704ff8581edbb068daa3ecc",
+  "contract_sha256": "9cf4c1b8c8bb7ea3a5af2581e2181e56f7c048de43f07d336065c4f728e70bda",
+  "element_type": "TET10",
+  "independence": "JSON/numpy observable recomputation only; no production contact or FEM/Newton import",
+  "coverage": "finite displacements, integrated load resultant, and final contact gap/active state for M2",
+  "finite_displacements": true,
+  "load_resultant_error_norm": 5.551115123125783e-17,
+  "rows": [
+    {
+      "step": 1,
+      "expected_active": false,
+      "observed_active": false
+    },
+    {
+      "step": 2,
+      "expected_active": false,
+      "observed_active": false
+    },
+    {
+      "step": 3,
+      "expected_active": false,
+      "observed_active": false
+    },
+    {
+      "step": 4,
+      "expected_active": false,
+      "observed_active": false
+    },
+    {
+      "step": 5,
+      "expected_active": false,
+      "observed_active": false
+    }
+  ]
+}
