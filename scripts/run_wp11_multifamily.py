@@ -48,10 +48,13 @@ CONTAINER_IMAGE_DIGEST = (
 )
 
 
-def _source_sha() -> str:
+def _source_sha(contract: Path) -> str:
     explicit = os.environ.get("QF_WP11_EXECUTION_SHA")
     if explicit:
         return explicit
+    declared = json.loads(contract.read_text(encoding="utf-8")).get("source_sha")
+    if isinstance(declared, str) and declared and not declared.startswith("TO_BE_"):
+        return declared
     return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
 
 
@@ -112,7 +115,7 @@ def _base_payload(
         "actual_dofs": int(model.dof_manager().ndof),
         "model_fingerprint": model_fingerprint(model),
         "displacement_fingerprint": displacement_fingerprint(displacement),
-        "source_sha": _source_sha(),
+        "source_sha": _source_sha(contract),
         "contract_sha256": _contract_sha(contract),
         "observables": observables,
         "residual_tolerance": RESIDUAL_TOLERANCE,
