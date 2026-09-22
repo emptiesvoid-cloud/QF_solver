@@ -1,0 +1,123 @@
+{
+  "work_package": "WP10-TET10-SURFACE-R2",
+  "status": "READY_FOR_OWNER_REVIEW",
+  "branch": "codex/wp10-tet10-surface-r1",
+  "authorized_base_sha": "cfec576ed44e8c68469ba45613ecbd46792ce7ff",
+  "execution_sha": "3356dabb38ff4f660dfc905aa75da3e3a6f7c863",
+  "runner_sha": "8a2797c6d5b9559d7704ff8581edbb068daa3ecc",
+  "reference_sha": "72da44492402939557f29ba72734cd5fad62e30f",
+  "contract_sha256": "9cf4c1b8c8bb7ea3a5af2581e2181e56f7c048de43f07d336065c4f728e70bda",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "hash_basis": "sha256 of canonical Git index blob bytes; manifest excluded from self-hash",
+  "production_mechanics_changed_in_r2": "NO",
+  "thresholds_changed_in_r2": "NO",
+  "full_test_suite": "NO",
+  "targeted_tests": {
+    "status": "PASS",
+    "passed": 39,
+    "failures": 0,
+    "errors": 0,
+    "junit": {
+      "path": "qualification/0_2_9/wp10_tet10_surface_r2/qa/targeted_tests.xml",
+      "git_blob": "debfeb13ffc06cbe28413b9cf3ca35829ada967e",
+      "sha256": "48650087fb288c6295da24b96a1e5a12a6b385f6a552043dcc31f0e84f368bbb"
+    }
+  },
+  "source_files": [
+    {
+      "path": "qualification/0_2_9/wp10_tet10_surface_r2_contract.json",
+      "git_blob": "26338cabadcb4d26f845991190af9a3039f4681f",
+      "sha256": "9cf4c1b8c8bb7ea3a5af2581e2181e56f7c048de43f07d336065c4f728e70bda"
+    },
+    {
+      "path": "scripts/run_wp10_tet10_surface_r2.py",
+      "git_blob": "3f9471ff037af4b6f376922124dab3d7b2274e4b",
+      "sha256": "94f03b85fc8d5617dbd67faa067f9fe71758fca1ba671a8b7c190744f2ccf696"
+    },
+    {
+      "path": "scripts/verify_wp10_tet10_r2_observables.py",
+      "git_blob": "9103214aaaa7c266b7d9afedb29d53c4b8257d25",
+      "sha256": "b7989b2762b3d125b2e72a002cd2625957eed18d1fe3876adf4e59b36e1eb27a"
+    },
+    {
+      "path": "scripts/verify_wp10_tet10_r2_replay.py",
+      "git_blob": "d294a23fd7c454e58209a8b94cdf6df8353433b6",
+      "sha256": "1f731277dd2b8210c7013b458f9ffbe1a5ee0737e5c0116804e6ec4f03502c05"
+    },
+    {
+      "path": "tests/unit/test_wp10_tet10_surface_r2.py",
+      "git_blob": "3f428eb0d32098479061c8a6332aad11af543774",
+      "sha256": "85f22b467bb3026a190d4a0723694cea7322f75c75e1bd76d2e1a0c4c758e495"
+    }
+  ],
+  "evidence_files": [
+    {
+      "path": "qualification/0_2_9/wp10_tet10_surface_r2/M1/H1/primary.json",
+      "git_blob": "f3967e92a5dd6af5f643e80832d59ab1d0860cb6",
+      "sha256": "bc3aff2ce578b4738d573d6b90664dd3a815f737d357863c6efd57fa7e726440"
+    },
+    {
+      "path": "qualification/0_2_9/wp10_tet10_surface_r2/M1/H1/reference.json",
+      "git_blob": "2581f52fa6753b0acc50755c83c8aa5c651ea51b",
+      "sha256": "a5f054b86d0bfc53e609da38895ee714b4d026c3c66fd07efb1a63daa38b3eb6"
+    },
+    {
+      "path": "qualification/0_2_9/wp10_tet10_surface_r2/M1/H2/primary.json",
+      "git_blob": "e754727777c5e94e5a259a534fbfe7c54d67aac7",
+      "sha256": "48c0a7f02cdcf7815c2ff300c1b85d493e7cd6b9c636716e7bcfb050670cfef0"
+    },
+    {
+      "path": "qualification/0_2_9/wp10_tet10_surface_r2/M1/H2/reference.json",
+      "git_blob": "c7d433ccc34827025b62dea9151c4931670e5a25",
+      "sha256": "3ef084eceffd900c62d2a40c8c013840ab7ca955ca5dadb359d7ee776d0f5b0b"
+    },
+    {
+      "path": "qualification/0_2_9/wp10_tet10_surface_r2/M1/H3/primary.json",
+      "git_blob": "e73a5fc438ab17ab7c7175932d37faa92bc4def5",
+      "sha256": "58bdf276b1f76dc40927d632aab5d3a4e8957eead415ad05b6829132fd3ea1ee"
+    },
+    {
+      "path": "qualification/0_2_9/wp10_tet10_surface_r2/M1/H3/reference.json",
+      "git_blob": "425e3e259f3c30057118121c79b8fad8de4a65ec",
+      "sha256": "10fe9cd039d37cf11b799cbe4ef3f1f1871dc5dc89eeaffda94bbcdae28271f5"
+    },
+    {
+      "path": "qualification/0_2_9/wp10_tet10_surface_r2/M2/H3/primary.json",
+      "git_blob": "6b598636bd25ae75b42ce5747b0c7117282bdf3e",
+      "sha256": "471677349f78682b0f1a47f5f982f7e032ac06fb87d50c3cd444ee8f1ca14207"
+    },
+    {
+      "path": "qualification/0_2_9/wp10_tet10_surface_r2/M2/H3/reference.json",
+      "git_blob": "78c3c1d588e35e4c3e5cbc032fa116c087aaf46e",
+      "sha256": "693e3e32f470455c371e026035e018ec5c6b87724fe20708cafbed3c1a35248e"
+    },
+    {
+      "path": "qualification/0_2_9/wp10_tet10_surface_r2/M3/primary_replay.json",
+      "git_blob": "6b598636bd25ae75b42ce5747b0c7117282bdf3e",
+      "sha256": "471677349f78682b0f1a47f5f982f7e032ac06fb87d50c3cd444ee8f1ca14207"
+    },
+    {
+      "path": "qualification/0_2_9/wp10_tet10_surface_r2/M3/replay_audit.json",
+      "git_blob": "a674ab8b653589b0839a1539d2c359308d9b2a08",
+      "sha256": "3d57b485233132e04c5b845f9257aef944644c2266614b9f0e207a577b106ad4"
+    }
+  ],
+  "statuses": {
+    "m1_h1": "PASS_CANDIDATE_WITH_INDEPENDENT_RECOMPUTATION",
+    "m1_h2": "PASS_CANDIDATE_WITH_INDEPENDENT_RECOMPUTATION",
+    "m1_h3": "PASS_CANDIDATE_WITH_INDEPENDENT_RECOMPUTATION",
+    "m2_production": "PASS_CANDIDATE",
+    "m2_reference": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION",
+    "m3_replay": "PASS_REPLAY"
+  },
+  "formal_points": "PENDING_OWNER_REVIEW",
+  "limitations": [
+    "TET10 bounded corotational J2 scope only",
+    "x-only M1 hierarchy; no isotropic mesh-convergence claim",
+    "M2 is bounded node-to-triangle frictionless penalty contact with initial search",
+    "reference is an independent observable recomputation, not an independent global FEM/Newton solve",
+    "no friction, finite sliding, dynamics, MPI/PETSc, or external solver correlation claim",
+    "equilibrium values are recorded observations; R2 does not define an additional equilibrium threshold gate",
+    "historical R1 evidence remains preserved and is not overwritten"
+  ]
+}

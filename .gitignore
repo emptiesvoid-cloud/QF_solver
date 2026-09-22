@@ -1,4 +1,5 @@
 # Generated WP09 raw FEM outputs are archived externally and referenced by SHA-256.
+__pycache__/
 qualification/0_2_9/wp09_hex8_accuracy_remediation_r1/hex8_*.json
 qualification/0_2_9/wp09_hex8_accuracy_remediation_r1/summary.json
 qualification/0_2_9/wp09_hex8_accuracy_remediation_r2/hex8_*.json

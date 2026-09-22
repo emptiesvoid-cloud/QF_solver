@@ -20,9 +20,22 @@ applicable_version: 0.2.9-development
 | WP06 | 8 | **Owner accepted A/B/C — 4/8 with limitations; D accepted as experimental bounded evidence only**; no formal D points; historical D failure preserved |
 | WP07 | 10 | **Owner accepted — 10/10 with bounded limitations; A–E closed** |
 | WP08 | 8 | **Closed — 8/8; Owner-approved with limitations** |
-| WP09 | 8 | **Owner accepted — 8/8; HEX8-only bounded corotational J2 with limitations** |
-| WP10–WP14 | 20 | Not started |
-| **Validated total (consolidated ledger)** | **78 / 100** | **Includes WP05 5/5, WP06 A/B/C 4/8, WP07 10/10, WP08 8/8 and WP09 HEX8 8/8** |
+| WP09 | 8 | **Closed — Owner accepted 8/8; HEX8-only bounded corotational J2 with limitations** |
+| WP10 | 6 | **Closed — Owner accepted 6/6; bounded TET4/HEX8/HEX20/TET10 coupled evidence with limitations** |
+| WP11–WP14 | 12 | Not started |
+| **Validated total (consolidated ledger)** | **84 / 100** | **Includes WP05 5/5, WP06 4/8, WP07 10/10, WP08 8/8, WP09 8/8 and WP10 6/6** |
+
+## Current administrative closure
+
+On 2026-09-22 the Owner accepted WP09 HEX8 R3 at 8/8 and WP10 at 6/6
+within the explicitly bounded multi-family scope. WP10 covers the recorded
+TET4, HEX8, HEX20 and TET10 evidence; it does not claim unrestricted
+finite-strain behavior, frictional/finite-sliding contact, dynamics, MPI/PETSc,
+or external-solver correlation. The TET10 M2 moment-balance value is retained
+as an accepted limitation because no equilibrium threshold was frozen in the
+R2 contract. The reconciled local machine ledger is therefore 84/100.
+The governing push remains a separate publication step and does not change
+the evidence or the decision.
 
 The Owner-approved WP05-C/D/E integration adds 3 bounded points to the
 58/100 pre-integration ledger, producing 61/100. WP07-D then added 3 points
@@ -131,8 +144,9 @@ WP01 is closed by the independent Owner decision recorded in
 `GO_WITH_LIMITATIONS`, with G01/G05/G06/G07/G10 retaining their documented
 bounded/research boundaries. Unified checkpoint persistence, frictional
 contact migration and adaptive penalty-contact qualification remain future
-work; inherited typing debt remains documented. OD-029-01 stays OPEN and
-blocks WP09 only. WP02 is closed by the independent audit; Owner review is
+work; inherited typing debt remains documented. At that historical checkpoint,
+OD-029-01 was still OPEN and blocked WP09 only; it was subsequently closed by
+the Owner decision recorded above. WP02 is closed by the independent audit; Owner review is
 required before WP04 authorization.
 
 ## WP02 closure

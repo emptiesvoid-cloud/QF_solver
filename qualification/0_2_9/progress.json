@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "release": "0.2.9",
-  "status": "WP05_WP07_WP08_CLOSED_WP06_PARTIALLY_ACCEPTED",
+  "status": "WP05_WP07_WP08_WP09_WP10_CLOSED_WP06_PARTIALLY_ACCEPTED",
   "work_packages": {
     "WP00": {"points": 4, "status": "CLOSED", "validated_points": 4},
     "WP01": {"points": 12, "status": "CLOSED", "validated_points": 12},
@@ -13,14 +13,14 @@
     "WP06": {"points": 8, "status": "OWNER_ACCEPTED_A_B_C_D_EXPERIMENTAL_BOUNDED_WITH_LIMITATIONS", "validated_points": 4, "candidate_points": 4, "owner_accepted_points": 4, "owner_decision_id": "OD-029-WP06-D-EXP-01"},
     "WP07": {"points": 10, "status": "OWNER_ACCEPTED_A_TO_E_BOUNDED_WITH_LIMITATIONS", "validated_points": 10},
     "WP08": {"points": 8, "status": "CLOSED_OWNER_APPROVED_WITH_LIMITATIONS", "validated_points": 8},
-    "WP09": {"points": 8, "status": "BLOCKED_BY_OD_029_01", "validated_points": 0},
-    "WP10": {"points": 6, "status": "NOT_STARTED", "validated_points": 0},
+    "WP09": {"points": 8, "status": "OWNER_ACCEPTED_HEX8_BOUNDED_WITH_LIMITATIONS", "validated_points": 8, "owner_accepted_points": 8, "owner_decision_id": "OD-029-WP09-HEX8-R3-01"},
+    "WP10": {"points": 6, "status": "OWNER_ACCEPTED_MULTI_FAMILY_BOUNDED_WITH_LIMITATIONS", "validated_points": 6, "candidate_points": 6, "owner_accepted_points": 6, "owner_decision_id": "OD-029-WP10-BOUNDED-CLOSURE-01"},
     "WP11": {"points": 6, "status": "NOT_STARTED", "validated_points": 0},
     "WP12": {"points": 4, "status": "NOT_STARTED", "validated_points": 0},
-    "WP13": {"points": 2, "status": "NOT_STARTED", "validated_points": 0},
-    "WP14": {"points": 2, "status": "NOT_STARTED", "validated_points": 0}
+    "WP13": {"points": 1, "status": "NOT_STARTED", "validated_points": 0},
+    "WP14": {"points": 1, "status": "NOT_STARTED", "validated_points": 0}
   },
-  "validated_points": 70,
+  "validated_points": 84,
   "total_points": 100,
-  "next_gate": "WP06-A/B/C remain Owner-accepted for 4/8. The Owner now accepts the local-axial M2/M3 result as EXPERIMENTAL_BOUNDED only; no WP06-D formal points are awarded. M2/M3 production paths, independent observable recomputation and evidence replay are recorded, but no limit point was detected, no independent nonlinear path solve ran, and no second production FEM replay ran. Historical R1 M2 FAIL_CLOSED remains preserved. WP06-E/F remain blocked for formal closure. WP07 remains 10/10; WP05 5/5; WP04 12/12; WP15 2/2. OD-029-01 remains OPEN and blocks WP09 only; roadmap weights remain 100."
+  "next_gate": "WP11–WP14 remain not started. WP06 remains 4/8 with experimental bounded D evidence only; historical R1 FAIL_CLOSED is preserved. WP05, WP07, WP08, WP09 and WP10 are Owner-accepted within their declared bounded limitations. WP16 remains a post-release zero-point archival step. Governing push of the reconciled local lineage remains pending explicit publication authorization."
 }

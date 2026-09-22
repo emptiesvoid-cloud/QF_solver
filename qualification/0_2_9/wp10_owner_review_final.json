@@ -1,0 +1,95 @@
+{
+  "work_package": "WP10",
+  "review_type": "OWNER_REVIEW_PREPARATION",
+  "status": "READY_FOR_OWNER_REVIEW_PENDING_LEDGER_AND_PUSH_AUTHORIZATION",
+  "branch": "0.2.9-unified-nonlinear",
+  "local_head": "def63ca4341de32498c3debb709822ee1f8eccb9",
+  "remote_head": "04d1f1a60dcb4435c925cf5f788302da698aaf0e",
+  "local_ahead_of_remote": 38,
+  "remote_ahead_of_local": 0,
+  "working_tree": "CLEAN",
+  "active_wp10_processes": "NONE",
+  "provenance": {
+    "authorized_base_sha": "cfec576ed44e8c68469ba45613ecbd46792ce7ff",
+    "r2_execution_sha": "3356dabb38ff4f660dfc905aa75da3e3a6f7c863",
+    "r2_runner_sha": "8a2797c6d5b9559d7704ff8581edbb068daa3ecc",
+    "r2_reference_sha": "72da44492402939557f29ba72734cd5fad62e30f",
+    "r2_contract_sha256": "9cf4c1b8c8bb7ea3a5af2581e2181e56f7c048de43f07d336065c4f728e70bda",
+    "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "production_mechanics_changed_in_r2": false,
+    "thresholds_changed_in_r2": false
+  },
+  "results": {
+    "m1_h1": "PASS_CANDIDATE_WITH_INDEPENDENT_RECOMPUTATION",
+    "m1_h2": "PASS_CANDIDATE_WITH_INDEPENDENT_RECOMPUTATION",
+    "m1_h3": "PASS_CANDIDATE_WITH_INDEPENDENT_RECOMPUTATION",
+    "m2_production": "PASS_CANDIDATE",
+    "m2_reference": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION",
+    "m3_original_replay": "PASS_REPLAY_WITHOUT_PROCESS_MANIFEST",
+    "m3_process_verified_replay": "PASS_REPLAY"
+  },
+  "m3_process_verified": {
+    "branch": "0.2.9-unified-nonlinear",
+    "execution_sha": "def63ca4341de32498c3debb709822ee1f8eccb9",
+    "child_pid": 29160,
+    "exit_code": 0,
+    "result_status": "PASS_CANDIDATE",
+    "result_contract_sha256": "9cf4c1b8c8bb7ea3a5af2581e2181e56f7c048de43f07d336065c4f728e70bda",
+    "replay_checker": "PASS_REPLAY",
+    "replay_displacement_max_abs": 0.0,
+    "replay_load_path_max_abs": 0.0,
+    "replay_contact_gaps_max_abs": 0.0,
+    "replay_equilibrium_max_abs": 0.0,
+    "replay_envelope_max_abs": 0.0
+  },
+  "artifact_hashes": {
+    "failed_first_attempt": {
+      "primary_replay_sha256": "fa23bc9fd43d61e54564a27109a8825c080f0f2f32889df02409270e839132a6",
+      "process_manifest_sha256": "c475dab0d2d762aec79e0fe7dd8cd5d969f6fb658fd0dc194718d64b8466ae28",
+      "replay_audit_sha256": "9183a4cfb2319c2e2431d5b848337773f1c9d43fdfd493bb90791c92d2ea69e3"
+    },
+    "canonical_success": {
+      "primary_replay_sha256": "15e851fed6dabe1e562dcf4ede7f0f0cabab220231d8983f7fcab3ca38f4cdfc87",
+      "process_manifest_sha256": "4edb2d1c270eaf07551cc316f4736198dd06ea8334d0ae4ce1e89830aa74c467",
+      "replay_audit_sha256": "ca8ee1c1f56ab49b6c669f0ec90c9f88a694bb2a6d1a1ef42483cc4be545039e",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "historical_provenance_failure": {
+    "status": "PRESERVED_FAIL_CLOSED",
+    "cause": "CRLF working-tree bytes changed the raw contract hash while Git blob content remained unchanged",
+    "numerical_impact": "NONE_DEMONSTRATED",
+    "path": "qualification/0_2_9/wp10_tet10_surface_r2/M3/process_verified/"
+  },
+  "equilibrium_limitation": {
+    "m2_force_balance_relative_error": 7.52190064511669e-09,
+    "m2_moment_balance_relative_error": 7.96706507124153e-05,
+    "contract_equilibrium_gate": "NOT_DEFINED",
+    "owner_acceptance_required": true
+  },
+  "ledger": {
+    "machine_progress_path": "qualification/0_2_9/progress.json",
+    "machine_wp09_points": "0/8",
+    "machine_wp10_points": "0/6",
+    "machine_total": "70/100",
+    "documentation_progress_path": "docs/verification/0_2_9/progress.md",
+    "documentation_wp09_points": "8/8",
+    "documentation_wp10_status": "READY_FOR_OWNER_REVIEW",
+    "documentation_total": "78/100",
+    "owner_decision_record_for_wp10": "ABSENT",
+    "reconciliation_status": "PENDING_OWNER_DECISION"
+  },
+  "candidate_points": "PENDING_OWNER_SCORE_ALLOCATION",
+  "official_points": "0/6_UNCHANGED",
+  "owner_decisions_required": {
+    "accept_wp10_scope": "PENDING",
+    "accept_m2_moment_limitation_without_contract_gate": "PENDING",
+    "award_wp10_points": "PENDING",
+    "reconcile_wp09_and_global_ledger": "PENDING",
+    "authorize_governing_push": "PENDING"
+  },
+  "push_status": "NOT_PERFORMED",
+  "historical_evidence_preserved": true,
+  "full_test_suite": "NO"
+}

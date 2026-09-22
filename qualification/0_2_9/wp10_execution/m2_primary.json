@@ -1,0 +1,118 @@
+{
+  "case": "M2",
+  "status": "PASS_CANDIDATE",
+  "source_sha": "9749236abf4acb0b04c98a8985e3480edad78a6a",
+  "contract_sha256": "5a3fa40224ed745d9ee807bdb78613d8ddf28901ed7cd554a39a3ecf46163eb5",
+  "kinematics": "corotational_j2",
+  "contact": "frictionless_penalty_initial_search",
+  "frozen_inputs": {
+    "load_path": [
+      0.1,
+      0.2,
+      0.3,
+      0.5
+    ],
+    "penalty": 1000000.0,
+    "plane_x": 1.02
+  },
+  "result": {
+    "status": "PASS",
+    "node_count": 11,
+    "element_count": 1,
+    "dof_count": 33,
+    "slave_node": 1,
+    "slave_ux_dof": 3,
+    "displacements": [
+      0.0,
+      0.0,
+      0.0,
+      0.01999956216121213,
+      0.011354760646017686,
+      0.011354760646014794,
+      -0.0018979715433559128,
+      -0.00017343288670967119,
+      0.0009865994371071162,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0018979715433740303,
+      0.0009865994370984272,
+      -0.00017343288668333104,
+      -0.004651724300653991,
+      0.00808826231984595,
+      0.008088262319851398,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "steps": [
+      {
+        "step": 1,
+        "load_factor": 0.1,
+        "relative_residual": 1.0563215643102086e-10,
+        "iterations": 4,
+        "contact_gaps": [
+          -4.846109226339101e-07
+        ],
+        "contact_active_contacts": [
+          0
+        ],
+        "equivalent_plastic_strain_max": 0.013865671897951687
+      },
+      {
+        "step": 2,
+        "load_factor": 0.2,
+        "relative_residual": 1.6363150493883025e-09,
+        "iterations": 4,
+        "contact_gaps": [
+          -4.7440335678924916e-07
+        ],
+        "contact_active_contacts": [
+          0
+        ],
+        "equivalent_plastic_strain_max": 0.013882088326885712
+      },
+      {
+        "step": 3,
+        "load_factor": 0.3,
+        "relative_residual": 4.940463231806637e-08,
+        "iterations": 4,
+        "contact_gaps": [
+          -4.606257975672823e-07
+        ],
+        "contact_active_contacts": [
+          0
+        ],
+        "equivalent_plastic_strain_max": 0.013929156575780557
+      },
+      {
+        "step": 4,
+        "load_factor": 0.5,
+        "relative_residual": 4.709215637875478e-10,
+        "iterations": 5,
+        "contact_gaps": [
+          -4.378387878888057e-07
+        ],
+        "contact_active_contacts": [
+          0
+        ],
+        "equivalent_plastic_strain_max": 0.014176226544088757
+      }
+    ],
+    "final_displacement_norm": 0.028627498768933588,
+    "max_relative_residual": 4.940463231806637e-08,
+    "max_peeq": 0.014176226544088757
+  }
+}
