@@ -1,0 +1,44 @@
+{
+  "id": "OD-029-WP11-MULTIFAMILY-R2-01",
+  "title": "WP11 bounded multi-family PETSc/MPI closure acceptance",
+  "decision_date": "2026-09-22",
+  "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+  "owner_review_status": "PASS",
+  "accepted_work_items": ["WP11-TET4", "WP11-HEX8", "WP11-TET10", "WP11-HEX20"],
+  "approved_points": 6,
+  "wp11_points_before": "0/6",
+  "wp11_points_after": "6/6",
+  "global_official_total_before": "84/100",
+  "global_official_total_after": "90/100",
+  "owner_accepts_wp11_scope": true,
+  "authorizations": {
+    "official_wp11_ledger_update": true,
+    "governing_push": false,
+    "merge": false
+  },
+  "provenance": {
+    "branch": "codex/wp11-qualification",
+    "final_head": "32b1fcb12a14f405ddd3760b17e83813d1002f5a",
+    "source_sha": "f122032cbac77b98137b61f27907ba28755a250a",
+    "runner_sha": "f122032cbac77b98137b61f27907ba28755a250a",
+    "contract_commit": "2e6a1238e70124e8236c75ced2adf2b168fc67ed",
+    "contract_sha256": "308e531be35c680d35e4532720e1b6185cf4eff4891acad14308c39225a330c2",
+    "audit_status": "PASS_CANDIDATE",
+    "working_tree_clean": true
+  },
+  "evidence": [
+    "docs/verification/0_2_9/wp11-multifamily-provenance-owner-review.md",
+    "qualification/0_2_9/wp11_multifamily_provenance_owner_review.json",
+    "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/"
+  ],
+  "limitations": [
+    "bounded linear static one-element cases",
+    "root-side assembly with replicated input",
+    "no strong-scaling or weak-scaling claim",
+    "no dynamics, contact or friction qualification",
+    "reference is independent observable recomputation, not an independent global FEM solve",
+    "no external FEM solver correlation",
+    "no cross-family physical-equivalence claim"
+  ],
+  "historical_evidence_preserved": true
+}
