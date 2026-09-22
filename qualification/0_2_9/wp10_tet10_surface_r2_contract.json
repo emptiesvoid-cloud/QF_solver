@@ -1,0 +1,58 @@
+{
+  "work_package": "WP10-TET10-SURFACE-R2",
+  "parent": "WP10",
+  "title": "Bounded TET10 consistent-traction M1/M2/M3 qualification",
+  "status": "R2_EXECUTION_AUTHORIZED",
+  "branch": "codex/wp10-tet10-surface-r1",
+  "authorized_base_sha": "cfec576ed44e8c68469ba45613ecbd46792ce7ff",
+  "runner_sha": "PENDING_RUNNER_COMMIT",
+  "reference_sha": "PENDING_REFERENCE_COMMIT",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "element": "TET10",
+  "kinematics": "bounded_corotational_j2",
+  "material": {
+    "E": 1000.0,
+    "nu": 0.3,
+    "yield_stress": 0.02,
+    "hardening_modulus": 10.0
+  },
+  "m1": {
+    "levels": {"H1": {"cells_x": 1}, "H2": {"cells_x": 2}, "H3": {"cells_x": 4}},
+    "contact": "disabled"
+  },
+  "m2": {
+    "level": "H3",
+    "contact": "frictionless_penalty_initial_search",
+    "plane_x": 1.02,
+    "penalty": 1000000.0,
+    "slave_selection": "first x=1 mesh node",
+    "finite_sliding": false,
+    "reference_scope": "final displacement/contact observable recomputation; not an independent global FEM solve"
+  },
+  "m3": {
+    "type": "fresh_process_replay_of_M2",
+    "requires": ["M2 production PASS", "M2 independent reference PASS"],
+    "comparison": ["status", "displacements", "load path", "contact gaps", "active contacts", "equilibrium", "envelope"]
+  },
+  "load": {
+    "application": "consistent_quadratic_surface_traction",
+    "boundary": "all unique TET10 faces with all x coordinates equal to 1",
+    "direction": [1.0, 0.0, 0.0],
+    "reference_resultant": [0.25, 0.0, 0.0],
+    "load_path": [0.2, 0.4, 0.6, 0.8, 1.0]
+  },
+  "solver": {
+    "max_iterations": 60,
+    "tolerance": 1.0e-7,
+    "corotational_max_local_strain": 0.05,
+    "fallback": "unchanged_governing_policy"
+  },
+  "fail_closed": true,
+  "limitations": [
+    "HEX/TET4/TET10 generalization is not claimed",
+    "x-only M1 hierarchy; no isotropic mesh-convergence claim",
+    "M2 is bounded node-to-triangle penalty contact with initial search",
+    "no friction, finite sliding, dynamics, MPI/PETSc, or external solver correlation claim",
+    "official points remain pending Owner review"
+  ]
+}
