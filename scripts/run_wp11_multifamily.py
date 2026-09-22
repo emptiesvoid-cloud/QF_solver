@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import platform
 import subprocess
 import sys
 import time
@@ -62,6 +63,40 @@ def _contract_sha(path: Path) -> str:
     import hashlib
 
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _declared_contract_value(contract: Path, key: str) -> str:
+    value = json.loads(contract.read_text(encoding="utf-8")).get(key)
+    if not isinstance(value, str) or not value or value.startswith("TO_BE_"):
+        raise RuntimeError(f"Contract field {key!r} is not frozen.")
+    return value
+
+
+def _runtime_versions(backend: str) -> dict[str, Any]:
+    versions: dict[str, Any] = {
+        "python": platform.python_version(),
+        "numpy": np.__version__,
+        "scipy": __import__("scipy").__version__,
+        "mpi4py": None,
+        "mpi_library": None,
+        "petsc4py": None,
+        "petsc": None,
+    }
+    if backend == "petsc":
+        import mpi4py
+        from mpi4py import MPI
+        import petsc4py
+        from petsc4py import PETSc
+
+        versions.update(
+            {
+                "mpi4py": mpi4py.__version__,
+                "mpi_library": MPI.Get_library_version().strip(),
+                "petsc4py": petsc4py.__version__,
+                "petsc": ".".join(str(value) for value in PETSc.Sys.getVersion()),
+            }
+        )
+    return versions
 
 
 def _write_result(
@@ -116,10 +151,13 @@ def _base_payload(
         "model_fingerprint": model_fingerprint(model),
         "displacement_fingerprint": displacement_fingerprint(displacement),
         "source_sha": _source_sha(contract),
+        "runner_sha": _declared_contract_value(contract, "runner_sha"),
         "contract_sha256": _contract_sha(contract),
         "observables": observables,
         "residual_tolerance": RESIDUAL_TOLERANCE,
         "container_image_digest": CONTAINER_IMAGE_DIGEST if backend == "petsc" else "local-python-runtime",
+        "runtime_versions": _runtime_versions(backend),
+        "command": list(sys.argv),
         "elapsed_seconds": float(time.perf_counter() - started),
         "production_mechanics_changed": False,
         "thresholds_changed": False,
