@@ -130,11 +130,15 @@ def main() -> int:
         raw = json.loads(path.read_text(encoding="utf-8"))
         recomputed, errors = _recompute(raw)
         declared = dict(raw.get("metrics", {}))
+        declared_equilibrium = dict(declared.get("equilibrium", {}))
         comparisons = {
             name: {
-                "declared": float(declared.get(name, float("nan"))),
+                "declared": float(declared.get(name, declared_equilibrium.get(name, float("nan")))),
                 "recomputed": float(value),
-                "absolute_error": abs(float(declared.get(name, float("nan"))) - float(value)),
+                "absolute_error": abs(
+                    float(declared.get(name, declared_equilibrium.get(name, float("nan"))))
+                    - float(value)
+                ),
             }
             for name, value in recomputed.items()
         }

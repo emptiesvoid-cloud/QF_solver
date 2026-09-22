@@ -17,6 +17,8 @@ from typing import Any
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 if str(ROOT / "src") not in sys.path:
     sys.path.insert(0, str(ROOT / "src"))
 
@@ -97,8 +99,20 @@ def main() -> int:
         name: _relative(rows[1][name], rows[2][name])
         for name in ("selected_displacement", "reaction_norm", "energy", "von_mises_max")
     } if all(gates.values()) else {}
+    mesh_gate = {
+        "status": "FAIL_CLOSED" if mesh_deltas.get("selected_displacement", float("inf")) > 0.05 else "PASS",
+        "thresholds": {
+            "selected_displacement": 0.05,
+            "reaction_norm": 0.05,
+            "energy": 0.05,
+            "von_mises_max": 0.10,
+        },
+    }
+    mesh_gate["status"] = "PASS" if mesh_deltas and all(
+        mesh_deltas[name] <= limit for name, limit in mesh_gate["thresholds"].items()
+    ) else "FAIL_CLOSED"
     summary = {
-        "status": "PASS_DIAGNOSTIC_ONLY" if all(gates.values()) and finite and envelope else "FAIL_CLOSED",
+        "status": "PASS_DIAGNOSTIC_WITH_MESH_LIMITATION" if all(gates.values()) and finite and envelope else "FAIL_CLOSED",
         "diagnostic_only": True,
         "load_scale": LOAD_SCALE,
         "original_contract_load_scale": 0.25,
@@ -107,6 +121,7 @@ def main() -> int:
         "rows": rows,
         "gates": gates,
         "strain_envelope": {"status": "PASS" if finite and envelope else "FAIL", "limit": STRAIN_LIMIT},
+        "mesh_gate": mesh_gate,
         "mesh_h2_to_h3_deltas": mesh_deltas,
         "formal_points": "0/pending",
         "limitations": [
@@ -137,7 +152,7 @@ def main() -> int:
     ])
     (output / "report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(json.dumps(summary, indent=2, default=_json_default))
-    return 0 if summary["status"] == "PASS_DIAGNOSTIC_ONLY" else 2
+    return 0 if summary["status"].startswith("PASS_DIAGNOSTIC") else 2
 
 
 if __name__ == "__main__":
