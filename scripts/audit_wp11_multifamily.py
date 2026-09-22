@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -27,15 +28,30 @@ def _load(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _git(repo_root: Path, *arguments: str) -> str:
+    return subprocess.check_output(["git", *arguments], cwd=repo_root, text=True).strip()
+
+
 def _relative_difference(left: np.ndarray, right: np.ndarray) -> float:
     return float(np.max(np.abs(left - right)) / max(float(np.max(np.abs(left))), 1.0))
 
 
 def audit(root: Path, contract_path: Path, report_json: Path, report_md: Path) -> dict[str, Any]:
+    root = root.resolve()
+    contract_path = contract_path.resolve()
     contract = _load(contract_path)
     contract_sha = _sha256(contract_path)
+    repo_root = Path(__file__).resolve().parents[1]
+    current_branch = _git(repo_root, "branch", "--show-current")
+    current_head = _git(repo_root, "rev-parse", "HEAD")
+    worktree_status = _git(repo_root, "status", "--porcelain")
+    contract_commit = _git(repo_root, "log", "-1", "--format=%H", "--", str(contract_path.relative_to(repo_root)))
     errors: list[str] = []
     warnings: list[str] = []
+    if current_branch != contract.get("branch"):
+        errors.append(f"checkout branch {current_branch!r} != contract branch {contract.get('branch')!r}")
+    if worktree_status:
+        errors.append("working tree is not clean")
     if contract.get("status") != "FROZEN":
         errors.append(f"contract status is {contract.get('status')!r}, not FROZEN")
     if contract.get("source_sha", "").startswith("TO_BE_"):
@@ -143,6 +159,10 @@ def audit(root: Path, contract_path: Path, report_json: Path, report_md: Path) -
         "work_package": "WP11",
         "revision": contract.get("revision"),
         "contract_sha256": contract_sha,
+        "contract_commit": contract_commit,
+        "repository_branch": current_branch,
+        "repository_head": current_head,
+        "working_tree_clean": not bool(worktree_status),
         "source_sha": contract.get("source_sha"),
         "runner_sha": contract.get("runner_sha"),
         "families": families,
