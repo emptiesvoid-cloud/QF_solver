@@ -98,7 +98,11 @@ def _mesh(nx: int, ny: int, nz: int) -> tuple[np.ndarray, list[list[int]], list[
     coordinates: list[tuple[float, float, float]] = []
 
     def node_id(point: np.ndarray | tuple[float, float, float]) -> int:
-        key = tuple(round(float(value), 14) for value in point)
+        key = (
+            round(float(point[0]), 14),
+            round(float(point[1]), 14),
+            round(float(point[2]), 14),
+        )
         if key not in node_ids:
             node_ids[key] = len(coordinates)
             coordinates.append(key)
@@ -168,7 +172,7 @@ def _model(cells: tuple[int, int, int]) -> tuple[FiniteElementModel, dict[str, A
     nodes, elements, loaded_faces = _mesh(nx, ny, nz)
     contributions, load_audit = _consistent_face_loads(nodes, loaded_faces, LOAD_SCALE)
     fixed_nodes = np.flatnonzero(np.isclose(nodes[:, 0], 0.0))
-    loads = [
+    loads: list[dict[str, Any]] = [
         {"node": int(node), "dof": "UX", "value": float(value)}
         for node, value in sorted(contributions.items())
         if abs(value) > 1.0e-16
@@ -193,7 +197,8 @@ def _model(cells: tuple[int, int, int]) -> tuple[FiniteElementModel, dict[str, A
         },
     )
     expected = LOAD_SCALE
-    if not np.isclose(sum(loads_item["value"] for loads_item in loads), expected, rtol=0.0, atol=1.0e-12):
+    total_nodal_load = sum(float(loads_item["value"]) for loads_item in loads)
+    if not bool(np.isclose(total_nodal_load, expected, rtol=0.0, atol=1.0e-12)):
         raise ValueError("Consistent QUAD8 traction did not preserve the total resultant.")
     return model, {"load": load_audit, "loaded_face_count": len(loaded_faces), "load_node_count": len(loads)}
 

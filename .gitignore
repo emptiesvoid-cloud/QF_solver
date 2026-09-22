@@ -27,3 +27,10 @@ qualification/0_2_9/wp09_hex20_extension/campaign.md
 qualification/0_2_9/wp09_hex20_extension/reference_stdout.log
 qualification/0_2_9/wp09_hex20_extension/reference_stderr.log
 qualification/0_2_9/wp09_hex20_extension/manifest.json
+
+# WP09 HEX20 R2 raw solves are retained in the local/external evidence archive.
+qualification/0_2_9/wp09_hex20_r2_consistent_traction/h*_hex20.json
+qualification/0_2_9/wp09_hex20_r2_consistent_traction/campaign.json
+qualification/0_2_9/wp09_hex20_r2_consistent_traction/campaign.md
+qualification/0_2_9/wp09_hex20_r2_consistent_traction/reference_stdout.log
+qualification/0_2_9/wp09_hex20_r2_consistent_traction/reference_stderr.log
