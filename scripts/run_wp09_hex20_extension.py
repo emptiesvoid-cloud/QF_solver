@@ -144,6 +144,13 @@ def _run_one(cells: int, output: Path, label: str) -> dict[str, Any]:
             "policy_code_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
             "mesh_quality": quality.to_dict(),
             "metrics": metrics,
+            "observable_source": {
+                "displacements": result.to_dict()["displacements"],
+                "solver_steps": result.solver.get("steps", []),
+                "element_results": result.element_results,
+                "material_states": result.material_states,
+                "equilibrium": _equilibrium(result),
+            },
             "result": result.to_dict(),
         }
         raw_path.write_text(json.dumps(raw, indent=2, default=_json_default, allow_nan=False), encoding="utf-8")

@@ -32,15 +32,25 @@ def _finite(value: Any) -> bool:
         return False
 
 
+def _json_safe(value: Any) -> Any:
+    if isinstance(value, float) and not np.isfinite(value):
+        return None
+    if isinstance(value, dict):
+        return {key: _json_safe(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_json_safe(item) for item in value]
+    return value
+
+
 def _recompute(raw: dict[str, Any]) -> tuple[dict[str, float], list[str]]:
-    result = raw.get("result", {})
+    result = raw.get("observable_source", raw.get("result", {}))
     displacement_rows = result.get("displacements", [])
     displacement_values = [
         float(value)
         for row in displacement_rows
         for value in dict(row.get("dofs", {})).values()
     ]
-    steps = list(result.get("solver", {}).get("steps", []))
+    steps = list(result.get("solver_steps", result.get("solver", {}).get("steps", [])))
     element_results = list(result.get("element_results", []))
     serialized_states = result.get("material_states", [])
     if isinstance(serialized_states, dict):
@@ -51,7 +61,7 @@ def _recompute(raw: dict[str, Any]) -> tuple[dict[str, float], list[str]]:
             for element in serialized_states
             for state in element.get("integration_points", [])
         ]
-    equilibrium = dict(result.get("audit", {}).get("equilibrium", {}))
+    equilibrium = dict(result.get("equilibrium", result.get("audit", {}).get("equilibrium", {})))
     reaction = np.asarray(equilibrium.get("reaction_resultant", []), dtype=float)
     point_rows = [
         point
@@ -112,7 +122,11 @@ def main() -> int:
     output_dir = args.output.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     rows: list[dict[str, Any]] = []
-    for path in sorted(input_dir.glob("h*_hex20.json")):
+    for path in sorted(
+        input_dir / f"h{number}_hex20.json"
+        for number in (1, 2, 3)
+        if (input_dir / f"h{number}_hex20.json").exists()
+    ):
         raw = json.loads(path.read_text(encoding="utf-8"))
         recomputed, errors = _recompute(raw)
         declared = dict(raw.get("metrics", {}))
@@ -154,7 +168,9 @@ def main() -> int:
             "does not solve FEM/Newton independently",
         ],
     }
-    (output_dir / "summary.json").write_text(json.dumps(summary, indent=2, allow_nan=False), encoding="utf-8")
+    (output_dir / "summary.json").write_text(
+        json.dumps(_json_safe(summary), indent=2, allow_nan=False), encoding="utf-8"
+    )
     lines = [
         "# WP09 HEX20 independent observable recomputation",
         "",
