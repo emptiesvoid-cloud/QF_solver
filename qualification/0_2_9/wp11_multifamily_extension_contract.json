@@ -1,10 +1,10 @@
 {
   "work_package": "WP11",
   "title": "Bounded PETSc/MPI multi-family static extension",
-  "revision": "R2_FROZEN",
+  "revision": "R2_PROVENANCE_REBOUND",
   "status": "FROZEN",
-  "source_sha": "d62e80f295f71ac898df0c38c8c962d63f2a0a21",
-  "runner_sha": "d62e80f295f71ac898df0c38c8c962d63f2a0a21",
+  "source_sha": "f122032cbac77b98137b61f27907ba28755a250a",
+  "runner_sha": "f122032cbac77b98137b61f27907ba28755a250a",
   "branch": "codex/wp11-qualification",
   "official_points": "0/6_PENDING_OWNER",
   "production_mechanics_changed": false,
@@ -60,7 +60,9 @@
     "MPI implementation and rank count",
     "per-family M1/M2/M3 result hashes",
     "independent recomputation hashes",
-    "fresh-process replay manifest"
+    "fresh-process replay manifest",
+    "per-result runner SHA",
+    "per-result Python/NumPy/SciPy/PETSc/MPI runtime versions"
   ],
   "fail_closed": true,
   "next_gate": "OWNER_REVIEW_AFTER_ALL_FAMILIES_M1_M2_M3_REFERENCE_AND_REPLAY"
