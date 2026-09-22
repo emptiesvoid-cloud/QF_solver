@@ -64,7 +64,7 @@ def _relative(left: float, right: float) -> float:
     return abs(left - right) / max(abs(left), abs(right), 1.0e-14)
 
 
-def _model(cells: int):
+def _model(cells: int, *, load_scale: float = LOAD_SCALE):
     model = _refinement_model(FAMILY, cells)
     parameters = dict(model.analysis.parameters)
     parameters.update(
@@ -80,7 +80,7 @@ def _model(cells: int):
     )
     return replace(
         model,
-        loads=[replace(load, value=float(load.value) * LOAD_SCALE) for load in model.loads],
+        loads=[replace(load, value=float(load.value) * load_scale) for load in model.loads],
         analysis=replace(model.analysis, parameters=parameters),
     )
 
