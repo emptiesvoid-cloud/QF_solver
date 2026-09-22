@@ -94,7 +94,7 @@ def audit(root: Path, contract_path: Path, report_json: Path, report_md: Path) -
                 if not isinstance(runtime, dict):
                     errors.append(f"{family} {phase}: runtime versions are missing")
                 else:
-                    required_runtime = ("python", "numpy", "scipy")
+                    required_runtime: tuple[str, ...] = ("python", "numpy", "scipy")
                     if phase in ("M2", "M3"):
                         required_runtime += ("mpi4py", "mpi_library", "petsc4py", "petsc")
                     for runtime_name in required_runtime:
