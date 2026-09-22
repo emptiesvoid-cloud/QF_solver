@@ -70,8 +70,22 @@ def audit(root: Path, contract_path: Path, report_json: Path, report_md: Path) -
                     errors.append(f"{family} {phase}: DOF count mismatch")
                 if payload.get("source_sha") != contract.get("source_sha"):
                     errors.append(f"{family} {phase}: source SHA mismatch")
+                if payload.get("runner_sha") != contract.get("runner_sha"):
+                    errors.append(f"{family} {phase}: runner SHA missing or mismatched")
                 if payload.get("contract_sha256") != contract_sha:
                     errors.append(f"{family} {phase}: contract SHA mismatch")
+                runtime = payload.get("runtime_versions")
+                if not isinstance(runtime, dict):
+                    errors.append(f"{family} {phase}: runtime versions are missing")
+                else:
+                    required_runtime = ("python", "numpy", "scipy")
+                    if phase in ("M2", "M3"):
+                        required_runtime += ("mpi4py", "mpi_library", "petsc4py", "petsc")
+                    for runtime_name in required_runtime:
+                        if not runtime.get(runtime_name):
+                            errors.append(f"{family} {phase}: runtime field {runtime_name!r} is missing")
+                if not isinstance(payload.get("command"), list) or not payload.get("command"):
+                    errors.append(f"{family} {phase}: invocation command is missing")
                 if payload.get("fallback_count") != 0:
                     errors.append(f"{family} {phase}: fallback was reported")
                 if float(payload.get("observables", {}).get("free_residual_relative_l2", np.inf)) > residual_tolerance:
