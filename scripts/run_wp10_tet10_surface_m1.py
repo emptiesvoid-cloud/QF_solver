@@ -180,6 +180,47 @@ def _compact_result(result: Any, model: FiniteElementModel) -> dict[str, object]
         }
         for index, step in enumerate(steps)
     ]
+    audit = payload.get("audit", {})
+    equilibrium_raw = audit.get("equilibrium", {}) if isinstance(audit, dict) else {}
+    equilibrium_keys = (
+        "free_relative_residual",
+        "force_balance_relative_error",
+        "moment_balance_relative_error",
+        "external_resultant",
+        "reaction_resultant",
+        "external_moment_about_origin",
+        "reaction_moment_about_origin",
+        "force_imbalance",
+        "moment_imbalance_about_origin",
+    )
+    equilibrium = {
+        key: equilibrium_raw[key]
+        for key in equilibrium_keys
+        if isinstance(equilibrium_raw, dict) and key in equilibrium_raw
+    }
+    det_f_values: list[float] = []
+    principal_stretches: list[float] = []
+    local_strain_norms: list[float] = []
+    for element_result in payload.get("element_results", []):
+        if not isinstance(element_result, dict):
+            continue
+        for point in element_result.get("integration_points", []):
+            if not isinstance(point, dict):
+                continue
+            if "det_f" in point:
+                det_f_values.append(float(point["det_f"]))
+            if "right_stretch" in point:
+                stretch = np.asarray(point["right_stretch"], dtype=float)
+                principal_stretches.extend(float(value) for value in np.linalg.eigvalsh(stretch))
+            if "corotational_strain_norm" in point:
+                local_strain_norms.append(float(point["corotational_strain_norm"]))
+    envelope = {
+        "min_det_f": min(det_f_values) if det_f_values else None,
+        "min_principal_stretch": min(principal_stretches) if principal_stretches else None,
+        "max_principal_stretch": max(principal_stretches) if principal_stretches else None,
+        "max_corotational_strain_norm": max(local_strain_norms) if local_strain_norms else None,
+        "integration_point_count": len(det_f_values),
+    }
     return {
         "status": str(result.status),
         "element_type": ELEMENT_TYPE,
@@ -196,6 +237,8 @@ def _compact_result(result: Any, model: FiniteElementModel) -> dict[str, object]
             (row["equivalent_plastic_strain_max"] for row in compact_steps),
             default=0.0,
         ),
+        "equilibrium": equilibrium,
+        "envelope": envelope,
         "fallback_count": sum(1 for row in compact_steps if row["fallback_used"]),
         "accepted_step_count": sum(1 for row in compact_steps if row["accepted"]),
     }
