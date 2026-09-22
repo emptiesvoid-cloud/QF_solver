@@ -5,7 +5,7 @@
   "status": "R2_EXECUTION_AUTHORIZED",
   "branch": "codex/wp10-tet10-surface-r1",
   "authorized_base_sha": "cfec576ed44e8c68469ba45613ecbd46792ce7ff",
-  "runner_sha": "72da44492402939557f29ba72734cd5fad62e30f",
+  "runner_sha": "8a2797c6d5b9559d7704ff8581edbb068daa3ecc",
   "reference_sha": "72da44492402939557f29ba72734cd5fad62e30f",
   "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
   "element": "TET10",
