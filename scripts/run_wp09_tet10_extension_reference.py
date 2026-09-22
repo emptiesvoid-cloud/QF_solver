@@ -45,7 +45,16 @@ def _states(material_states: Any) -> list[dict[str, Any]]:
 
 def _recompute(raw: dict[str, Any]) -> dict[str, float]:
     source = raw["observable_source"]
-    displacements = np.asarray(source["displacements"], dtype=float)
+    serialized_displacements = source["displacements"]
+    if serialized_displacements and isinstance(serialized_displacements[0], dict):
+        displacement_values = [
+            float(value)
+            for row in serialized_displacements
+            for value in dict(row.get("dofs", {})).values()
+        ]
+        displacements = np.asarray(displacement_values, dtype=float)
+    else:
+        displacements = np.asarray(serialized_displacements, dtype=float)
     steps = source["solver_steps"]
     element_results = source["element_results"]
     point_rows = [point for element in element_results for point in element.get("integration_points", [])]
@@ -78,12 +87,14 @@ def _recompute(raw: dict[str, Any]) -> dict[str, float]:
 
 def _compare(raw: dict[str, Any]) -> dict[str, Any]:
     declared = raw["metrics"]
+    declared_equilibrium = declared.get("equilibrium", {})
     recomputed = _recompute(raw)
     fields = tuple(recomputed)
     comparisons: dict[str, dict[str, float]] = {}
     errors: list[str] = []
     for field in fields:
-        left = float(declared[field])
+        declared_value = declared.get(field, declared_equilibrium.get(field, float("nan")))
+        left = float(declared_value)
         right = float(recomputed[field])
         absolute_error = abs(left - right)
         relative_error = _relative(left, right)
@@ -106,7 +117,9 @@ def main() -> int:
             rows.append({"source": stage, "status": "FAIL_CLOSED_MISSING", "errors": ["missing_raw"]})
             continue
         raw = json.loads(source.read_text(encoding="utf-8"))
-        comparison = _compare(raw) if raw.get("status") == "PASS" else {"status": "FAIL_CLOSED", "errors": ["production_not_pass"]}
+        metrics = raw.get("metrics", {})
+        production_status = metrics.get("status") if isinstance(metrics, dict) else None
+        comparison = _compare(raw) if production_status == "PASS" else {"status": "FAIL_CLOSED", "errors": ["production_not_pass"]}
         rows.append({
             "source": stage,
             "source_sha256": _sha256(source),
