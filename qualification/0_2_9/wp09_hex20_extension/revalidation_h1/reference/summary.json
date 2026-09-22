@@ -1,0 +1,83 @@
+{
+  "status": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION",
+  "classification": "INDEPENDENT_OBSERVABLE_RECOMPUTATION_NOT_GLOBAL_FEM_SOLVE",
+  "source_scope": "HEX20",
+  "rows": [
+    {
+      "source": "h1_hex20.json",
+      "source_sha256": "a805de6520f18484cad7a2657149ac7a632137a6532c23d612659d68d79955b6",
+      "family": "HEX20",
+      "cells": 1,
+      "status": "PASS",
+      "errors": [],
+      "mismatches": [],
+      "comparisons": {
+        "selected_displacement": {
+          "declared": 0.023364281927760702,
+          "recomputed": 0.023364281927760702,
+          "absolute_error": 0.0
+        },
+        "displacement_norm": {
+          "declared": 0.07216350138007416,
+          "recomputed": 0.07216350138007416,
+          "absolute_error": 0.0
+        },
+        "reaction_norm": {
+          "declared": 0.24999999997484096,
+          "recomputed": 0.24999999997484096,
+          "absolute_error": 0.0
+        },
+        "energy": {
+          "declared": 0.0027789250731633805,
+          "recomputed": 0.0027789250731633805,
+          "absolute_error": 0.0
+        },
+        "von_mises_max": {
+          "declared": 0.19121539981094557,
+          "recomputed": 0.19121539981094557,
+          "absolute_error": 0.0
+        },
+        "equivalent_plastic_strain_max": {
+          "declared": 0.03401828317190875,
+          "recomputed": 0.03401828317190875,
+          "absolute_error": 0.0
+        },
+        "plastic_dissipation_max": {
+          "declared": 0.006398993764789201,
+          "recomputed": 0.006398993764789201,
+          "absolute_error": 0.0
+        },
+        "min_det_f": {
+          "declared": 0.9978457407224772,
+          "recomputed": 0.9978457407224772,
+          "absolute_error": 0.0
+        },
+        "max_local_strain_norm": {
+          "declared": 0.042021229093770526,
+          "recomputed": 0.042021229093770526,
+          "absolute_error": 0.0
+        },
+        "free_relative_residual": {
+          "declared": 4.2076158268297584e-10,
+          "recomputed": 4.2076158268297584e-10,
+          "absolute_error": 0.0
+        },
+        "force_balance_relative_error": {
+          "declared": 2.515904192609339e-11,
+          "recomputed": 2.515904192609339e-11,
+          "absolute_error": 0.0
+        },
+        "moment_balance_relative_error": {
+          "declared": 1.7738987168754236e-11,
+          "recomputed": 1.7738987168754236e-11,
+          "absolute_error": 0.0
+        }
+      }
+    }
+  ],
+  "production_imports": [],
+  "limitations": [
+    "recomputes observables from raw result JSON",
+    "does not solve FEM/Newton independently"
+  ]
+}

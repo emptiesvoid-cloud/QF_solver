@@ -17,3 +17,13 @@ qualification/0_2_9/wp09_hex8_formal_r3_evidence/replay/m*_hex8.json
 qualification/0_2_9/wp09_hex8_formal_r3_primary/m*_hex8.json
 qualification/0_2_9/wp09_hex8_refinement_r1/hex8_*.json
 qualification/0_2_9/wp09_hex8_refinement_r1/summary.json
+
+# WP09 HEX20 extension raw solves remain in the local evidence archive.
+qualification/0_2_9/wp09_hex20_extension/h*_hex20.json
+qualification/0_2_9/wp09_hex20_extension/load_window_020/h*_load020.json
+qualification/0_2_9/wp09_hex20_extension/revalidation_h1/h1_hex20.json
+qualification/0_2_9/wp09_hex20_extension/campaign.json
+qualification/0_2_9/wp09_hex20_extension/campaign.md
+qualification/0_2_9/wp09_hex20_extension/reference_stdout.log
+qualification/0_2_9/wp09_hex20_extension/reference_stderr.log
+qualification/0_2_9/wp09_hex20_extension/manifest.json
