@@ -1,0 +1,39 @@
+{
+  "contract_revision": "R2_FROZEN",
+  "contract_sha256": "03e1cef371ffa53916715a75702e82f840ba8736435313e0fedcfc898012ddc1",
+  "element_family": "HEX8",
+  "errors": [],
+  "independent_fem_solve": false,
+  "kind": "independent_observable_recomputation",
+  "observables": {
+    "displacement_inf": 2.134240362811792e-08,
+    "displacement_l2": 4.6489163931040784e-08,
+    "dof_count": 24,
+    "energy": 1.067120181405896e-05,
+    "finite": true,
+    "fixed_dof_count": 12,
+    "free_residual_inf": 2.2737367544323206e-13,
+    "free_residual_l2": 4.074329122781663e-13,
+    "free_residual_relative_l2": 8.148658245563325e-16,
+    "load_l2": 500.0,
+    "reaction_inf": 500.0000000000001,
+    "reaction_l2": 1122.9314568081807
+  },
+  "production_imports": false,
+  "relative_comparison_errors": {
+    "displacement_inf": 0.0,
+    "displacement_l2": 0.0,
+    "dof_count": 0.0,
+    "energy": 3.3881317890172014e-21,
+    "fixed_dof_count": 0.0,
+    "free_residual_inf": 5.684341886080802e-14,
+    "free_residual_l2": 2.383784813736349e-14,
+    "free_residual_relative_l2": 4.7675696274727046e-17,
+    "load_l2": 0.0,
+    "reaction_inf": 0.0,
+    "reaction_l2": 2.0248223884431801e-16
+  },
+  "result_path": "qualification\\0_2_9\\wp11_multifamily_extension\\HEX8\\M1\\result.json",
+  "result_sha256": "1d043eb372454f43fc34c3a162a3aebc565d6ab30b6106f94c4fa81418cda3a4",
+  "status": "PASS"
+}

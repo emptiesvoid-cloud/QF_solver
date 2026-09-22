@@ -1,0 +1,39 @@
+{
+  "contract_revision": "R2_FROZEN",
+  "contract_sha256": "03e1cef371ffa53916715a75702e82f840ba8736435313e0fedcfc898012ddc1",
+  "element_family": "TET4",
+  "errors": [],
+  "independent_fem_solve": false,
+  "kind": "independent_observable_recomputation",
+  "observables": {
+    "displacement_inf": 7.428571428571429e-08,
+    "displacement_l2": 7.428571428571429e-08,
+    "dof_count": 12,
+    "energy": 3.7142857142857143e-05,
+    "finite": true,
+    "fixed_dof_count": 9,
+    "free_residual_inf": 0.0,
+    "free_residual_l2": 0.0,
+    "free_residual_relative_l2": 0.0,
+    "load_l2": 1000.0,
+    "reaction_inf": 1000.0,
+    "reaction_l2": 1732.0508075688772
+  },
+  "production_imports": false,
+  "relative_comparison_errors": {
+    "displacement_inf": 0.0,
+    "displacement_l2": 0.0,
+    "dof_count": 0.0,
+    "energy": 0.0,
+    "fixed_dof_count": 0.0,
+    "free_residual_inf": 0.0,
+    "free_residual_l2": 0.0,
+    "free_residual_relative_l2": 0.0,
+    "load_l2": 0.0,
+    "reaction_inf": 0.0,
+    "reaction_l2": 0.0
+  },
+  "result_path": "qualification\\0_2_9\\wp11_multifamily_extension\\TET4\\M1\\result.json",
+  "result_sha256": "7ee747666d8afb249f2c30ed1212b00dc4f05e9de1c403cb4ca54352f375321e",
+  "status": "PASS"
+}
