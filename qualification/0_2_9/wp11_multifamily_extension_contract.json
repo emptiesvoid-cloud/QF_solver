@@ -1,0 +1,67 @@
+{
+  "work_package": "WP11",
+  "title": "Bounded PETSc/MPI multi-family static extension",
+  "revision": "R2_PREPARATION",
+  "status": "PREPARATION_ONLY",
+  "source_sha": "TO_BE_FROZEN_AFTER_CODE_COMMIT",
+  "runner_sha": "TO_BE_FROZEN_AFTER_CODE_COMMIT",
+  "branch": "codex/wp11-qualification",
+  "official_points": "0/6_PENDING_OWNER",
+  "production_mechanics_changed": false,
+  "thresholds_changed": false,
+  "scope": {
+    "families": ["TET4", "HEX8", "TET10", "HEX20"],
+    "problem": "linear_static_homogeneous_single_element",
+    "loads": "total UZ load -1000 distributed over the x=1 face nodes",
+    "material": "isotropic E=210e9, nu=0.30, density=7800",
+    "m1": "serial SciPy standard global assembly",
+    "m2": "PETSc/MPI two-rank run in the pinned container",
+    "m3": "fresh-process replay of M2",
+    "assembly": "root-side global assembly with replicated input",
+    "reference": "file-backed NumPy observable recomputation only",
+    "excluded": [
+      "mesh convergence",
+      "strong scaling",
+      "weak scaling",
+      "dynamics",
+      "contact",
+      "friction",
+      "finite sliding",
+      "large partitioned input",
+      "external FEM solver correlation",
+      "cross-family result equivalence"
+    ]
+  },
+  "families": {
+    "TET4": {"geometry": "unit_tetrahedron", "nodes": 4, "elements": 1, "dofs": 12},
+    "HEX8": {"geometry": "unit_cube", "nodes": 8, "elements": 1, "dofs": 24},
+    "TET10": {"geometry": "unit_tetrahedron_with_edge_nodes", "nodes": 10, "elements": 1, "dofs": 30},
+    "HEX20": {"geometry": "unit_cube_with_edge_nodes", "nodes": 20, "elements": 1, "dofs": 60}
+  },
+  "gates": {
+    "finite_observables": true,
+    "free_residual_relative_l2_max": 1e-10,
+    "m1_m2_displacement_relative_max": 1e-10,
+    "m3_exact_fingerprint_match": true,
+    "fallback_count": 0,
+    "required_families": ["TET4", "HEX8", "TET10", "HEX20"]
+  },
+  "runtime": {
+    "container_image": "ghcr.io/fenics/dolfinx/dolfinx@sha256:2ae4bfbc0d9077268880faf04c72750528bee986c94ab223a2c159969bd56fa8",
+    "mpi_ranks": 2,
+    "petsc_preconditioner": "gamg",
+    "fallback": "none"
+  },
+  "provenance_requirements": [
+    "contract SHA-256",
+    "authorized source SHA",
+    "authorized runner SHA",
+    "container image digest",
+    "MPI implementation and rank count",
+    "per-family M1/M2/M3 result hashes",
+    "independent recomputation hashes",
+    "fresh-process replay manifest"
+  ],
+  "fail_closed": true,
+  "next_gate": "OWNER_REVIEW_AFTER_ALL_FAMILIES_M1_M2_M3_REFERENCE_AND_REPLAY"
+}
