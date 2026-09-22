@@ -19,6 +19,7 @@ reste inchangée.
 | Exécution initiale | `681b1e131143e54c960e96aa0020f99144aca558` |
 | Diagnostic charge 0,20 | `69b082d3330e76b14d850035535d97537f2de86b` |
 | Tête locale après correctifs outillage | `1e0d4f58ee7dcc1bb512a7d2540e8ad452b208d5` |
+| Commit d’évidence | `2afb4e81e981d41e45610231afd5046d52f4d5b5` |
 | Contrat SHA-256 | `8a694acbab56c711c6b9961e57efb0fce4841b847e2dc7cf9ee28ee7f02eb0c9` |
 | Policy digest | `93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac` |
 | Push / merge | non effectués |
