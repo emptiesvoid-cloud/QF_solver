@@ -1,0 +1,14 @@
+{
+  "case": "M1-H1",
+  "status": "FAIL_CLOSED",
+  "level": "H1",
+  "cells_x": 1,
+  "execution_sha": "acd6a5f4c8541ffcfdcde7e5be26cb0fdafcc52f",
+  "contract_sha256": "c6d6cd9d1a0a869443eb9ae5d7b8e03283f7fa46c37dc72287206fc0d16b11a8",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "element_type": "TET10",
+  "error_type": "InputValidationError",
+  "error": "nonlinear_static kinematics must be 'small_strain', 'total_lagrangian' or 'total_lagrangian_j2'.",
+  "m2_allowed": false,
+  "m3_allowed": false
+}
