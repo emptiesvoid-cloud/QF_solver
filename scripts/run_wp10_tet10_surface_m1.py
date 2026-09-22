@@ -14,7 +14,7 @@ import hashlib
 import json
 import subprocess
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 
@@ -143,8 +143,8 @@ def _model(cells: int) -> tuple[FiniteElementModel, dict[str, object]]:
 def _load_metadata(model: FiniteElementModel) -> dict[str, object]:
     dofs = model.dof_manager()
     integrator = DistributedLoadIntegrator()
-    resultant = np.zeros(3, dtype=float)
-    moment = np.zeros(3, dtype=float)
+    resultant: np.ndarray = np.zeros(3, dtype=float)
+    moment: np.ndarray = np.zeros(3, dtype=float)
     contributions: list[dict[str, object]] = []
     for index, load in enumerate(model.distributed_loads):
         integrated = integrator.integrate_sparse(model, dofs, load, index)
@@ -252,7 +252,7 @@ def run_level(level: str, output: Path) -> dict[str, object]:
             "surface_load": surface_metadata,
             "load_balance": load_metadata,
             "result": compact,
-            "fallback_count": int(compact["fallback_count"]),
+            "fallback_count": int(cast(int, compact["fallback_count"])),
             "fallback_evidence": "per-step fallback_used field",
         }
     except Exception as exc:  # evidence must remain fail-closed

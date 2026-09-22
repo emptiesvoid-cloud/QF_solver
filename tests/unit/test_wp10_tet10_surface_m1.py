@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import cast
 
 import numpy as np
 import pytest
@@ -43,6 +44,6 @@ def test_surface_load_face_discovery_is_unique() -> None:
 
     nodes, elements = mesh_refinement_mesh("TET10", 4)
     loads, metadata = _boundary_surface_loads(nodes, elements)
-    assert len(loads) == metadata["face_count"] == 2
+    assert len(loads) == cast(int, metadata["face_count"]) == 2
     assert len({(item["element"], item["face"]) for item in loads}) == 2
-    assert np.isfinite(float(metadata["traction_magnitude"]))
+    assert np.isfinite(cast(float, metadata["traction_magnitude"]))
