@@ -1,0 +1,96 @@
+{
+  "schema": "wp12-r3.6-diverse-correlation-summary-v1",
+  "work_package": "WP12",
+  "revision": "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION_R3",
+  "status": "PASS_WITH_LIMITATIONS",
+  "case_count": 144,
+  "pass_candidate_count": 144,
+  "failed_count": 0,
+  "not_started_count": 0,
+  "independent_audit": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "case_count": 144,
+    "pass_count": 144,
+    "error_count": 0,
+    "audit_path": "qualification/0_2_9/wp12_external_vv_r3_6_diverse_r3_audit.json",
+    "audit_sha256": "550e83f6eaad7b9d1a6adf1e4a57529a85e3850f88ea61ab2280d769997211ae"
+  },
+  "coverage": {
+    "families": {
+      "TET4": 36,
+      "HEX8": 36,
+      "TET10": 36,
+      "HEX20": 36
+    },
+    "geometries": {
+      "l_section_beam": 48,
+      "perforated_prism": 48,
+      "stepped_cantilever": 48
+    },
+    "meshes_per_geometry": ["H1", "H2", "H3"],
+    "loads": ["axial_x", "transverse_y", "transverse_z", "combined_xyz"],
+    "cases_per_family_geometry_pair": 12,
+    "refinement": "longitudinal_only"
+  },
+  "maxima_across_cases": {
+    "displacement_relative_l2": 9.776104e-13,
+    "displacement_relative_linf": 1.041071e-12,
+    "reaction_relative_l2": 1.048708e-12,
+    "reaction_relative_linf": 9.845147e-13,
+    "strain_energy_from_external_work_relative": 1.250508e-12,
+    "qf_free_residual_relative_l2": 2.410894e-13,
+    "qf_force_equilibrium_relative": 7.085696e-13,
+    "aster_force_equilibrium_relative": 2.688119e-15,
+    "qf_moment_equilibrium_relative": 5.666505e-13,
+    "aster_moment_equilibrium_relative": 1.32509e-15,
+    "fixed_displacement_abs_max": 3.769675e-23
+  },
+  "gates": {
+    "relative_observable_and_equilibrium_limit": 1e-8,
+    "fixed_displacement_abs_max": 1e-12
+  },
+  "execution": {
+    "solver": "Code_Aster 18.1.0",
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "fresh_container_per_case": true,
+    "cpu_per_container": 1,
+    "mpi": false,
+    "sequential": true,
+    "nonzero_exit_count": 0,
+    "execution_window_utc": ["2026-09-23T16:32:21Z", "2026-09-23T16:47:04Z"]
+  },
+  "provenance": {
+    "branch": "codex/wp12-expanded-correlation",
+    "contract_path": "qualification/0_2_9/wp12_external_vv_r3_6_diverse_r3_contract.json",
+    "contract_sha256": "45c73fdb2ad6e47138a535f9bbb5c38ccfac98b57d91a32eb3617d4595cc58a3",
+    "execution_sha": "3c82280a829acb4252b72a832b7b69618fe79dcb",
+    "runner_sha": "3dee54a3b525c3c5f6c67d49b7c4ad12f0127fc6",
+    "model_builder_sha": "69dbcb8c887456e0e1686bed605a6e80189a3273",
+    "auditor_sha": "69dbcb8c887456e0e1686bed605a6e80189a3273",
+    "contract_builder_sha": "3dee54a3b525c3c5f6c67d49b7c4ad12f0127fc6",
+    "manifest_path": "qualification/0_2_9/wp12_external_vv_r3_6_diverse_r3_manifest.json",
+    "manifest_sha256": "274cf786495729b5664c2f77b0f130420d11b611014af110cff228e3243e4d92",
+    "raw_summary_sha256": "44a2f413ee47df572a5c90ba8572ea2ccafd6e46d4217a7870c64984f3ac3884",
+    "manifested_raw_file_count": 2452
+  },
+  "validation": {
+    "targeted_tests": "29 passed",
+    "compileall": "PASS",
+    "git_diff_check": "PASS",
+    "ruff": "NOT_RUN_TOOL_UNAVAILABLE",
+    "mypy": "NOT_RUN_TOOL_UNAVAILABLE",
+    "full_repository_suite": "NOT_RUN"
+  },
+  "limitations": [
+    "same-mesh FEM solver correlation, not experimental validation or an independent physical benchmark",
+    "homogeneous isotropic 3D small-strain linear-static elasticity only",
+    "TET4, HEX8, TET10, and HEX20 only; no wedge, pyramid, shell, or beam family",
+    "H1/H2/H3 refine only the longitudinal direction; no isotropic or asymptotic mesh-convergence claim",
+    "no stress-field comparison, material/geometric nonlinearity, contact, friction, dynamics, buckling, continuation, or MPI/PETSc claim",
+    "R3.6 is supplemental; official WP12 points and global ledger unchanged"
+  ],
+  "official_points_changed": false,
+  "ledger_changed": false,
+  "push_performed": false,
+  "merge_performed": false
+}
