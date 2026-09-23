@@ -85,9 +85,13 @@ def _decode_aster_identifier(identifier: str) -> int:
 
 def _decode_aster_node_name(identifier: str) -> int:
     match = re.fullmatch(r"N([1-9]\d*)", identifier)
-    if match is None:
-        raise ValueError(f"invalid Code_Aster node identifier: {identifier!r}")
-    return int(match.group(1)) - 1
+    if match is not None:
+        return int(match.group(1)) - 1
+    compact_prefixes = "ABCDEFGHIJKLMOPQRSTUVWXYZ"  # N remains unambiguous for legacy N<number> identifiers.
+    compact_suffixes = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    if len(identifier) == 2 and identifier[0] in compact_prefixes and identifier[1] in compact_suffixes:
+        return compact_prefixes.index(identifier[0]) * len(compact_suffixes) + compact_suffixes.index(identifier[1])
+    raise ValueError(f"invalid Code_Aster node identifier: {identifier!r}")
 
 
 def _audit_mesh_text(path: Path, family: str, coordinates: np.ndarray, connectivity: np.ndarray) -> list[str]:
@@ -161,8 +165,15 @@ def _audit_comm_text(path: Path, loads: np.ndarray, material: dict[str, Any], ca
         errors.append("Code_Aster command does not identify this case or perform MECA_STATIQUE")
     observed: dict[tuple[int, int], float] = {}
     force_dof = {"FX": 0, "FY": 1, "FZ": 2}
-    for node_text, component, value_text in re.findall(r'NOEUD="N([1-9]\d*)"\s*,\s*(FX|FY|FZ)=([-+0-9.eE]+)', text):
-        observed[(int(node_text) - 1, force_dof[component])] = float(value_text)
+    for node_name, component, value_text in re.findall(
+        r'NOEUD="([A-Z][A-Z0-9]*)"\s*,\s*(FX|FY|FZ)=([-+0-9.eE]+)', text
+    ):
+        try:
+            node = _decode_aster_node_name(node_name)
+        except ValueError:
+            errors.append(f"Code_Aster nodal load uses an invalid node identifier: {node_name!r}")
+            continue
+        observed[(node, force_dof[component])] = float(value_text)
     expected = {
         (node, axis): float(value)
         for node, vector in enumerate(loads)
