@@ -6250,6 +6250,22 @@
     "tests": [
       "tests/unit/test_wp12_code_aster_multifamily.py"
     ]
+  },
+  {
+    "id": "DOC-029-WP12-EXTERNAL-VV-R3-5-RESULTS",
+    "path": "verification/0_2_9/wp12-expanded-correlation-r3_5-results.md",
+    "title": "QF Solver 0.2.9 WP12 R3.5 expanded Code_Aster correlation results",
+    "status": "controlled_evidence",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp12_external_vv_r3_5_expanded_contract.json",
+      "qualification/0_2_9/wp12_external_vv_r3_5_expanded_audit.json",
+      "qualification/0_2_9/wp12_external_vv_r3_5_expanded_manifest.json"
+    ],
+    "tests": [
+      "tests/unit/test_wp12_expanded_models.py",
+      "tests/unit/test_wp12_expanded_correlation_io.py"
+    ]
   }
 ]
 }
