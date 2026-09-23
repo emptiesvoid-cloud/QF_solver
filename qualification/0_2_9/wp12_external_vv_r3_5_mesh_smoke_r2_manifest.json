@@ -1,0 +1,24 @@
+{
+  "files": {
+    "preflight.json": {
+      "sha256": "d17d6736e5349470b6381bde7cedfa78150afd9179738099e57a476eb7a95d0c",
+      "size_bytes": 609
+    },
+    "tet4_slender_beam_h3_combined_xyz/model_inputs.npz": {
+      "sha256": "2bfc2e61e1657c8634c6864883c1bd05b8e40437de921bda0f4be60ae047266a",
+      "size_bytes": 1059
+    },
+    "tet4_slender_beam_h3_combined_xyz/qf_result.npz": {
+      "sha256": "da690064280d35665712b9f42969809f6b277707783f4517c695b2239709205e",
+      "size_bytes": 526
+    },
+    "tet4_slender_beam_h3_combined_xyz/qf_stiffness.npz": {
+      "sha256": "8e41a7f38b25d5254f97dd9eb60b14d70032bdfa3fae50c3dfdab7a25e31afcc",
+      "size_bytes": 2913
+    },
+    "tet4_slender_beam_h3_combined_xyz/smoke_failure.json": {
+      "sha256": "091c10887299b59c0d7cb7f86efe1dfd68a93814c487736ac5637e61c1a5d67c",
+      "size_bytes": 154
+    }
+  }
+}
