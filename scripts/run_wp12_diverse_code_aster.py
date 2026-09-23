@@ -33,15 +33,60 @@ def _git(repo_root: Path, *args: str) -> str:
 
 def _verify_prior_attempts(contract: dict[str, Any], repo_root: Path) -> None:
     attempts = contract.get("supersedes_failed_attempts")
-    if not isinstance(attempts, list) or len(attempts) != 2:
-        raise CampaignError("R3.6 R2 must bind both preserved failed attempts.")
+    revision = str(contract.get("revision", ""))
     expected_ids = {"r3_6_attempt1_serializer_recursion", "r3_6_r1_force_node_label"}
+    if revision.endswith("_R3"):
+        expected_ids.add("r3_6_r2_preflight_builder_source_mismatch")
+    if not isinstance(attempts, list) or len(attempts) != len(expected_ids):
+        raise CampaignError("R3.6 contract must bind every preserved prior attempt.")
     if {row.get("attempt_id") for row in attempts if isinstance(row, dict)} != expected_ids:
         raise CampaignError("R3.6 R2 prior-attempt lineage is incomplete or unexpected.")
 
     for attempt in attempts:
         if not isinstance(attempt, dict):
             raise CampaignError("R3.6 R2 prior-attempt record is malformed.")
+        if attempt.get("attempt_id") == "r3_6_r2_preflight_builder_source_mismatch":
+            contract_path = (repo_root / str(attempt.get("contract_path", ""))).resolve()
+            audit_path = (repo_root / str(attempt.get("preflight_audit_path", ""))).resolve()
+            if repo_root not in contract_path.parents or repo_root not in audit_path.parents:
+                raise CampaignError("R3.6 R2 preflight-lineage path is invalid.")
+            if (
+                not contract_path.is_file()
+                or engine.sha256_file(contract_path) != attempt.get("contract_sha256")
+                or not audit_path.is_file()
+                or engine.sha256_file(audit_path) != attempt.get("preflight_audit_sha256")
+            ):
+                raise CampaignError("R3.6 R2 preflight-lineage hash mismatch.")
+            preflight_record = engine.load_json(audit_path)
+            prior_contract = engine.load_json(contract_path)
+            raw_root = (repo_root / str(preflight_record.get("r2_raw_root", ""))).resolve()
+            manifest_path = (repo_root / str(preflight_record.get("r2_manifest_path", ""))).resolve()
+            raw_audit_path = (repo_root / str(preflight_record.get("r2_audit_path", ""))).resolve()
+            if any(repo_root not in path.parents for path in (raw_root, manifest_path, raw_audit_path)):
+                raise CampaignError("R3.6 R2 preflight output path is invalid.")
+            if (
+                prior_contract.get("revision") != "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION_R2"
+                or preflight_record.get("attempt_id") != attempt.get("attempt_id")
+                or preflight_record.get("audit_status") != "FAIL_CLOSED_PREFLIGHT"
+                or preflight_record.get("contract_sha256") != attempt.get("contract_sha256")
+                or preflight_record.get("contract_commit_sha") != attempt.get("contract_commit_sha")
+                or _git(repo_root, "log", "-1", "--format=%H", "--", str(attempt.get("contract_path")))
+                != attempt.get("contract_commit_sha")
+                or preflight_record.get("runner_sha") != prior_contract.get("runner_sha")
+                or preflight_record.get("runner_sha") != attempt.get("runner_sha")
+                or preflight_record.get("process_exit_code") != 1
+                or preflight_record.get("execution_boundary", {}).get("cases_started") != 0
+                or preflight_record.get("execution_boundary", {}).get("code_aster_process_started") is not False
+                or preflight_record.get("execution_boundary", {}).get("docker_runtime_probe_started") is not False
+                or preflight_record.get("execution_boundary", {}).get("raw_output_created") is not False
+                or preflight_record.get("failure") != "CampaignError: Frozen contract_builder_sha differs from tracked source commit."
+                or raw_root.exists()
+                or manifest_path.exists()
+                or raw_audit_path.exists()
+            ):
+                raise CampaignError("R3.6 R2 preflight failure record is inconsistent with local outputs.")
+            continue
+
         paths: dict[str, Path] = {}
         for field in ("contract_path", "manifest_path", "audit_path", "summary_path", "raw_root"):
             relative = Path(str(attempt.get(field, "")))
@@ -159,6 +204,7 @@ def preflight(contract_path: Path, repo_root: Path) -> tuple[dict[str, Any], lis
         "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION",
         "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION_R1",
         "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION_R2",
+        "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION_R3",
     }:
         raise CampaignError("Contract revision is not WP12 R3.6 diverse topology.")
     if contract.get("status") != "FROZEN" or contract.get("execution_authorized") is not True:
@@ -167,7 +213,7 @@ def preflight(contract_path: Path, repo_root: Path) -> tuple[dict[str, Any], lis
         raise CampaignError("R3.6 fail-closed/overwrite policy is invalid.")
     if contract["revision"].endswith("_R1") and contract.get("supersedes_failed_attempt", {}).get("code_aster_process_started") is not False:
         raise CampaignError("R3.6 R1 is missing the preserved pre-solver failure lineage.")
-    if contract["revision"].endswith("_R2"):
+    if contract["revision"].endswith(("_R2", "_R3")):
         _verify_prior_attempts(contract, repo_root)
 
     expected_branch = str(contract.get("branch", ""))
@@ -185,11 +231,24 @@ def preflight(contract_path: Path, repo_root: Path) -> tuple[dict[str, Any], lis
     if subprocess.run(["git", "diff", "--quiet", base, "HEAD", "--", "src/"], cwd=repo_root, check=False).returncode:
         raise CampaignError("R3.6 preparation changed production source.")
 
+    revision = str(contract["revision"])
+    builder_paths = {
+        "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION": "scripts/freeze_wp12_diverse_contract.py",
+        "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION_R1": "scripts/freeze_wp12_diverse_contract.py",
+        "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION_R2": "scripts/freeze_wp12_diverse_r2_contract.py",
+        "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION_R3": "scripts/freeze_wp12_diverse_r3_contract.py",
+    }
+    expected_builder_path = builder_paths[revision]
+    recorded_builder_path = contract.get("contract_builder_path")
+    if revision.endswith(("_R2", "_R3")) and recorded_builder_path != expected_builder_path:
+        raise CampaignError("Frozen R3.6 contract must record its exact contract-builder source path.")
+    if recorded_builder_path is not None and recorded_builder_path != expected_builder_path:
+        raise CampaignError("Frozen R3.6 contract-builder path differs from the revision policy.")
     source_paths = {
         "runner_sha": "scripts/run_wp12_diverse_code_aster.py",
         "model_builder_sha": "scripts/wp12_diverse_models.py",
         "auditor_sha": "scripts/audit_wp12_expanded_code_aster.py",
-        "contract_builder_sha": "scripts/freeze_wp12_diverse_contract.py",
+        "contract_builder_sha": expected_builder_path,
     }
     for field, relative_path in source_paths.items():
         latest = _git(repo_root, "log", "-1", "--format=%H", "--", relative_path)

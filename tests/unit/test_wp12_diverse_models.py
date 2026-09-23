@@ -242,5 +242,5 @@ def test_r36_serializer_does_not_recurse_when_installed_as_runner_callback(diver
 
 
 def test_r36_r2_runner_fails_closed_without_both_prior_attempts(tmp_path) -> None:
-    with pytest.raises(diverse_runner.CampaignError, match="bind both preserved failed attempts"):
+    with pytest.raises(diverse_runner.CampaignError, match="bind every preserved prior attempt"):
         diverse_runner._verify_prior_attempts({}, tmp_path)
