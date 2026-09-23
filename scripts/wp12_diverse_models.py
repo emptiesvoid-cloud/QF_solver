@@ -15,6 +15,8 @@ import numpy as np
 from solveur.core.model import FiniteElementModel
 from solveur.large.multifamily import assemble_linear_system
 
+from scripts.run_wp12_expanded_code_aster import _comm_text as _r3_comm_text
+from scripts.run_wp12_expanded_code_aster import _mesh_text as _r3_mesh_text
 from scripts.wp12_expanded_models import (
     FAMILIES,
     LOADS,
@@ -190,13 +192,9 @@ def _compact_aster_node_labels(text: str) -> str:
 
 def code_aster_mesh_text(case: ExpandedCase) -> str:
     """Serialize this prospective catalog case within ASTER's 80-column limit."""
-    from scripts.run_wp12_expanded_code_aster import _mesh_text
-
-    return _compact_aster_node_labels(_mesh_text(case))
+    return _compact_aster_node_labels(_r3_mesh_text(case))
 
 
 def code_aster_command_text(case: ExpandedCase) -> str:
     """Serialize matching compact node references in the ASTER command file."""
-    from scripts.run_wp12_expanded_code_aster import _comm_text
-
-    return _compact_aster_node_labels(_comm_text(case))
+    return _compact_aster_node_labels(_r3_comm_text(case))

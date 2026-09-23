@@ -26,6 +26,7 @@ from scripts.audit_wp12_expanded_code_aster import (
     _audit_mesh_text,
     _decode_aster_node_name,
 )
+from scripts import run_wp12_expanded_code_aster as r3_runner
 from scripts.wp12_expanded_models import MATERIAL
 from solveur.elements.solid.hex8 import Hex8Element
 from solveur.elements.solid.tet4 import Tet4Element
@@ -151,3 +152,20 @@ def test_compact_aster_serialization_round_trips_in_independent_auditor(diverse_
             MATERIAL,
             case.case_id,
         ) == []
+
+
+def test_r36_serializer_does_not_recurse_when_installed_as_runner_callback(diverse_cases) -> None:
+    case = next(
+        row for row in diverse_cases
+        if row.family == "TET4" and row.geometry == "l_section_beam" and row.mesh == "H1"
+    )
+    original_mesh_text = r3_runner._mesh_text
+    original_comm_text = r3_runner._comm_text
+    r3_runner._mesh_text = code_aster_mesh_text
+    r3_runner._comm_text = code_aster_command_text
+    try:
+        assert "TETRA4" in code_aster_mesh_text(case)
+        assert "MECA_STATIQUE" in code_aster_command_text(case)
+    finally:
+        r3_runner._mesh_text = original_mesh_text
+        r3_runner._comm_text = original_comm_text

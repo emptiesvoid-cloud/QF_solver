@@ -26,13 +26,17 @@ from scripts.wp12_diverse_models import (  # noqa: E402
 
 BRANCH = "codex/wp12-expanded-correlation"
 BASE_SHA = "b591a4c145d7139467281ab67d0b32fec68276e0"
-CONTRACT_PATH = Path("qualification/0_2_9/wp12_external_vv_r3_6_diverse_contract.json")
-OUTPUT_ROOT = "qualification/0_2_9/wp12_external_vv_r3_6_diverse_raw"
-MANIFEST_PATH = "qualification/0_2_9/wp12_external_vv_r3_6_diverse_manifest.json"
-AUDIT_PATH = "qualification/0_2_9/wp12_external_vv_r3_6_diverse_audit.json"
+CONTRACT_PATH = Path("qualification/0_2_9/wp12_external_vv_r3_6_diverse_r1_contract.json")
+OUTPUT_ROOT = "qualification/0_2_9/wp12_external_vv_r3_6_diverse_r1_raw"
+MANIFEST_PATH = "qualification/0_2_9/wp12_external_vv_r3_6_diverse_r1_manifest.json"
+AUDIT_PATH = "qualification/0_2_9/wp12_external_vv_r3_6_diverse_r1_audit.json"
 R3_5_CONTRACT = Path("qualification/0_2_9/wp12_external_vv_r3_5_expanded_contract.json")
 R3_5_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_5_expanded_audit.json")
 R3_5_MANIFEST = Path("qualification/0_2_9/wp12_external_vv_r3_5_expanded_manifest.json")
+R3_6_ATTEMPT1_CONTRACT = Path("qualification/0_2_9/wp12_external_vv_r3_6_diverse_contract.json")
+R3_6_ATTEMPT1_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_6_diverse_attempt1_audit.json")
+R3_6_ATTEMPT1_MANIFEST = Path("qualification/0_2_9/wp12_external_vv_r3_6_diverse_manifest.json")
+R3_6_ATTEMPT1_SUMMARY = Path("qualification/0_2_9/wp12_external_vv_r3_6_diverse_raw/wp12_expanded_summary.json")
 IMAGE_ID = "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435"
 
 GATES = {
@@ -96,6 +100,77 @@ def _verify_r3_5_predecessor() -> dict[str, Any]:
     }
 
 
+def _verify_failed_r3_6_attempt1() -> dict[str, Any]:
+    contract_path = ROOT / R3_6_ATTEMPT1_CONTRACT
+    audit_path = ROOT / R3_6_ATTEMPT1_AUDIT
+    manifest_path = ROOT / R3_6_ATTEMPT1_MANIFEST
+    summary_path = ROOT / R3_6_ATTEMPT1_SUMMARY
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    audit = json.loads(audit_path.read_text(encoding="utf-8"))
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    if contract.get("revision") != "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION":
+        raise RuntimeError("R3.6 attempt-1 contract identity mismatch.")
+    if (
+        audit.get("audit_status") != "FAIL_CLOSED"
+        or audit.get("case_count") != 144
+        or audit.get("case_pass_count") != 0
+        or audit.get("contract_sha256") != _sha256(R3_6_ATTEMPT1_CONTRACT)
+        or audit.get("manifest_sha256") != _sha256(R3_6_ATTEMPT1_MANIFEST)
+    ):
+        raise RuntimeError("R3.6 attempt-1 independent fail-closed audit is missing or inconsistent.")
+    if (
+        summary.get("status") != "FAIL_CLOSED"
+        or summary.get("case_count") != 144
+        or summary.get("attempted_case_count") != 1
+        or summary.get("candidate_cases_passed") != 0
+        or summary.get("not_started_case_count") != 143
+        or summary.get("contract_sha256") != _sha256(R3_6_ATTEMPT1_CONTRACT)
+        or summary.get("execution_aborted_on_error") is not True
+    ):
+        raise RuntimeError("R3.6 attempt-1 execution summary is missing or inconsistent.")
+    first_id = "tet4_l_section_beam_h1_axial_x"
+    first = summary.get("cases", {}).get(first_id, {})
+    if first.get("status") != "FAIL_CLOSED_EXECUTION" or first.get("error") != "RecursionError: maximum recursion depth exceeded":
+        raise RuntimeError("R3.6 attempt-1 failure is not the expected pre-solver serializer recursion.")
+    case_root = summary_path.parent / first_id
+    if any((case_root / name).exists() for name in ("process.json", "aster_raw.json", "container.cid", "telemetry.jsonl")):
+        raise RuntimeError("R3.6 attempt-1 unexpectedly contains a Code_Aster process/raw result.")
+
+    output_root = summary_path.parent
+    actual_files = {
+        path.relative_to(output_root).as_posix()
+        for path in output_root.rglob("*")
+        if path.is_file() and path.name != "manifest.json"
+    }
+    entries = manifest.get("files", {})
+    if actual_files != set(entries):
+        raise RuntimeError("R3.6 attempt-1 manifest file set differs from preserved local outputs.")
+    for relative, entry in entries.items():
+        path = output_root / relative
+        if not path.is_file() or path.stat().st_size != entry.get("size_bytes") or _sha256(path.relative_to(ROOT)) != entry.get("sha256"):
+            raise RuntimeError(f"R3.6 attempt-1 manifest integrity mismatch: {relative}")
+    return {
+        "revision": contract["revision"],
+        "contract_path": R3_6_ATTEMPT1_CONTRACT.as_posix(),
+        "contract_sha256": _sha256(R3_6_ATTEMPT1_CONTRACT),
+        "manifest_path": R3_6_ATTEMPT1_MANIFEST.as_posix(),
+        "manifest_sha256": _sha256(R3_6_ATTEMPT1_MANIFEST),
+        "audit_path": R3_6_ATTEMPT1_AUDIT.as_posix(),
+        "audit_sha256": _sha256(R3_6_ATTEMPT1_AUDIT),
+        "summary_path": R3_6_ATTEMPT1_SUMMARY.as_posix(),
+        "summary_sha256": _sha256(R3_6_ATTEMPT1_SUMMARY),
+        "status": "FAIL_CLOSED_EXECUTION",
+        "classification": "TOOLING_SERIALIZER_RECURSION_BEFORE_ANY_CODE_ASTER_PROCESS",
+        "attempted_cases": 1,
+        "completed_cases": 0,
+        "remaining_cases": 143,
+        "code_aster_process_started": False,
+        "raw_evidence_reused": False,
+        "historical_attempt_preserved": True,
+    }
+
+
 def build_contract() -> dict[str, Any]:
     if _git("branch", "--show-current") != BRANCH:
         raise RuntimeError(f"Must freeze on isolated branch {BRANCH}.")
@@ -137,7 +212,7 @@ def build_contract() -> dict[str, Any]:
 
     return {
         "work_package": "WP12",
-        "revision": "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION",
+        "revision": "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION_R1",
         "status": "FROZEN",
         "frozen_utc": datetime.now(timezone.utc).isoformat(),
         "branch": BRANCH,
@@ -209,6 +284,7 @@ def build_contract() -> dict[str, Any]:
         "full_repository_test_suite": False,
         "cases": cases,
         "extends_campaign": predecessor,
+        "supersedes_failed_attempt": _verify_failed_r3_6_attempt1(),
         "limitations": [
             "bounded homogeneous isotropic 3D small-strain linear-static elasticity only",
             "only TET4, HEX8, TET10, and HEX20; no wedge, pyramid, shell, or beam element family",

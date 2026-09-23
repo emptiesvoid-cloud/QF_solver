@@ -70,12 +70,17 @@ def preflight(contract_path: Path, repo_root: Path) -> tuple[dict[str, Any], lis
     contract_path, repo_root = contract_path.resolve(), repo_root.resolve()
     contract = engine.load_json(contract_path)
     engine.validate_external_configuration(contract)
-    if contract.get("revision") != "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION":
+    if contract.get("revision") not in {
+        "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION",
+        "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION_R1",
+    }:
         raise CampaignError("Contract revision is not WP12 R3.6 diverse topology.")
     if contract.get("status") != "FROZEN" or contract.get("execution_authorized") is not True:
         raise CampaignError("R3.6 contract is not frozen and execution-authorized.")
     if contract.get("abort_on_execution_failure") is not True or contract.get("output_overwrite_allowed") is not False:
         raise CampaignError("R3.6 fail-closed/overwrite policy is invalid.")
+    if contract["revision"].endswith("_R1") and contract.get("supersedes_failed_attempt", {}).get("code_aster_process_started") is not False:
+        raise CampaignError("R3.6 R1 is missing the preserved pre-solver failure lineage.")
 
     expected_branch = str(contract.get("branch", ""))
     if _git(repo_root, "branch", "--show-current") != expected_branch:
@@ -213,7 +218,7 @@ def execute(contract_path: Path, repo_root: Path) -> dict[str, Any]:
     }
     summary = {
         "work_package": "WP12",
-        "campaign": "R3.6 diverse-topology same-mesh linear-static Code_Aster correlation",
+        "campaign": f"{contract['revision']} diverse-topology same-mesh linear-static Code_Aster correlation",
         "status": "PASS_CANDIDATE_WITH_LIMITATIONS" if passed == len(cases) else "FAIL_CLOSED",
         "case_count": len(cases),
         "attempted_case_count": len(results),
