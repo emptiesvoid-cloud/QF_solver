@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "record_type": "wp13_wp14_ledger_reconciliation_addendum",
+  "baseline_sha": "9c4048dc1909520e3933f86b2b62a9bfd6562c2c",
+  "current_earned_total": {
+    "machine_progress": "94/100",
+    "documentation_summary": "94/100",
+    "owner_decision_record": "94/100",
+    "status": "CONSISTENT"
+  },
+  "historical_totals": ["70/100", "78/100", "84/100", "90/100"],
+  "historical_totals_are_current_conflict": false,
+  "allocation": {
+    "frozen_roadmap": {"WP13": 2, "WP14": 2, "WP15": null, "sum": 100},
+    "current_ledger": {"WP13": 1, "WP14": 1, "WP15": 2, "sum": 100},
+    "explicit_owner_transfer_record_found": false,
+    "owner_reconciliation_claims_no_weight_changes": true,
+    "allocation_status": "HOLD_UNRECONCILED"
+  },
+  "qualification_execution": "NOT_RUN_MISSING_FROZEN_CONTRACTS",
+  "roadmap_or_ledger_modified": false,
+  "next_action": "Owner must reconcile package allocation and freeze prospective WP13/WP14 execution contracts."
+}
