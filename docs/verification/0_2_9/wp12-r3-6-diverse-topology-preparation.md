@@ -61,7 +61,7 @@ Références officielles : [syntaxe ASTER et limite de 80 caractères](https://c
 
 ## Vérifications effectuées
 
-- `tests/unit/test_wp12_diverse_models.py` : **8 passed**.
+- `tests/unit/test_wp12_diverse_models.py` : **9 passed**.
 - `tests/unit/test_wp12_diverse_campaign.py` : **2 passed**; includes unchanged
   R3.5 gates and rejection of a preparation-only contract before Docker probe.
 - Non-régression WP12 ciblée : **26 passed** (`test_wp12_expanded_models.py`,
@@ -80,6 +80,32 @@ Références officielles : [syntaxe ASTER et limite de 80 caractères](https://c
   un manifeste actualisé après chaque cas. L’auditeur indépendant revalide les
   noms compacts et recalcule les observables depuis les données brutes.
 
+## Incident de runner — tentative initiale préservée
+
+La première exécution du contrat R3.6 s’est arrêtée au premier cas avant tout
+lancement Code_Aster : le callback de sérialisation R3.6 avait remplacé le
+sérialiseur R3.5 qu’il appelait, causant une récursion. Aucun `process.json`,
+`aster_raw.json`, `container.cid` ou `telemetry.jsonl` n’a été créé ; aucun
+solve Code_Aster n’a démarré. Le résumé reste `FAIL_CLOSED`, 0/144 réussis,
+1 cas tenté et 143 non démarrés. L’audit indépendant confirme `FAIL_CLOSED`.
+
+Cette preuve n’est ni effacée ni réutilisée comme résultat numérique. Le
+manifeste/audit de la tentative sont conservés et hashés. Le correctif capture
+les sérialiseurs de base avant tout remplacement temporaire, avec un test de
+régression qui reproduit l’installation du callback. La reprise utilise un
+nouveau contrat R3.6-R1 et un nouveau répertoire brut ; l’ancien chemin n’est
+pas réutilisé.
+
+Provenance de la tentative 1 : execution SHA
+`c11d8456d5cbe460ae53436f425e48fd6b87d164` ; contract SHA-256
+`8cd36e25f82d3c25383d38c470792a1e4e2b219de40e3a978c1f3d8ff2377ad3` ; résumé
+local SHA-256
+`314d5f0604360250826f674d11347cdef72d85ccbca2b4019cd3ccc152852122` ;
+manifest SHA-256
+`6247a921134d9df9b4090e4e85a9fed060bd6bee59394d65f323a70baf463b58` ;
+audit indépendant SHA-256
+`759aa335c50aed7410d98d7ed7ae39901ec415ba64b56d47ee22d0346eec9dce`.
+
 ## Limites et statut de preuve
 
 Les 144 cas sont un catalogue déterministe et testé, pas 144 corrélations
@@ -88,8 +114,9 @@ de maillage ne peut être revendiqué pour R3.6 à ce stade. Aucune mécanique d
 production, aucun seuil et aucun ledger n’ont été modifiés. R3.5 et ses preuves
 restent intacts.
 
-**Prochaine étape :** geler le contrat prospectif R3.6 (catalogue exact,
-provenance, gates et stockage), puis exécuter la campagne séquentielle autorisée
-par l’objectif Owner d’élargir les corrélations. Une éventuelle réussite sera
-une preuve supplémentaire de corrélation linéaire bornée, sans attribution
-automatique de points WP12.
+**Prochaine étape :** geler une révision R3.6-R1 prospective sur un nouveau
+chemin de sortie, explicitement liée à la tentative tooling FAIL_CLOSED ; puis
+préflight et exécuter la campagne séquentielle autorisée par l’objectif Owner
+d’élargir les corrélations. Une éventuelle réussite sera une preuve
+supplémentaire de corrélation linéaire bornée, sans attribution automatique de
+points WP12.
