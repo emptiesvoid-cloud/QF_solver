@@ -79,3 +79,6 @@ qualification/0_2_9/wp09_hex20_r2_consistent_traction/campaign.json
 qualification/0_2_9/wp09_hex20_r2_consistent_traction/campaign.md
 qualification/0_2_9/wp09_hex20_r2_consistent_traction/reference_stdout.log
 qualification/0_2_9/wp09_hex20_r2_consistent_traction/reference_stderr.log
+
+# WP12 R4 gallery raw case outputs stay local; version only the manifest and summaries.
+qualification/0_2_9/wp12_external_vv_r4_gallery_raw/
