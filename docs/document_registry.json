@@ -6219,6 +6219,22 @@
       "tests/unit/test_wp06_premerge_tools.py",
       "tests/unit/test_wp06d_structural_limit_point_contract.py"
     ]
+  },
+  {
+    "id": "DOC-029-WP12-EXTERNAL-VV-R2-OWNER-REVIEW",
+    "path": "verification/0_2_9/wp12-external-vv-r2-owner-review.md",
+    "title": "QF Solver 0.2.9 WP12 Code_Aster R2 external correlation Owner review",
+    "status": "controlled_evidence",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp12_external_vv_r2_contract.json",
+      "qualification/0_2_9/wp12_external_vv_r2_final.json",
+      "qualification/0_2_9/wp12_external_vv_r2_audit.json",
+      "qualification/0_2_9/wp12_external_vv_r2/manifest.json"
+    ],
+    "tests": [
+      "tests/unit/test_wp12_code_aster_multifamily.py"
+    ]
   }
 ]
 }
