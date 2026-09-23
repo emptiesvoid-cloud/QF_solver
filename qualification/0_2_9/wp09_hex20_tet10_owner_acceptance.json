@@ -1,0 +1,38 @@
+{
+  "decision_id": "OD-029-WP09-EXTENSIONS-01",
+  "decision_date": "2026-09-23",
+  "status": "ACCEPTED_WITH_LIMITATIONS_NON_SCORING",
+  "owner_accepts_hex20": true,
+  "owner_accepts_hex20_limitations": true,
+  "owner_accepts_tet10": true,
+  "owner_accepts_tet10_limitations": true,
+  "official_wp09_points": "8/8",
+  "ledger_impact": "NONE",
+  "governing_base_sha": "3e4f79161c0484563387a55d3de9c19c5389f9b3",
+  "hex20_branch_head": "85bb719980705d8c7214ab56ab331c6a52aeae63",
+  "hex20_execution_sha": "eea9b3b4f8e6e4b8bcce4626c7f301911aeb4f7e",
+  "tet10_branch_head": "7257eb86155a4a9aa115fdbd9982cb22625b5152",
+  "tet10_execution_sha": "338a75eaced8866b87f935ee5d7753a4bf8cc473",
+  "tet10_reference_remediation_sha": "404e35b55155f6bb5d1c116fda362831750609f3",
+  "raw_hash_verification": {
+    "hex20": "PASS_READ_ONLY_AT_SOURCE_WORKTREE",
+    "tet10": "PASS_READ_ONLY_AT_SOURCE_WORKTREE",
+    "raw_primary_files_committed": false,
+    "manifests_and_reports_committed": true
+  },
+  "historical_evidence": {
+    "tet10_initial_reference_failure": "PRESERVED",
+    "structural_solves_rerun_for_acceptance": false,
+    "production_mechanics_changed": false,
+    "thresholds_changed": false
+  },
+  "limitations": [
+    "bounded corotational J2 scope",
+    "family-specific HEX20/TET10 extensions",
+    "independent observable recomputation, not an independent global FEM solve",
+    "no external solver correlation",
+    "no general finite-strain plasticity claim",
+    "no contact/friction, dynamics, MPI/PETSc qualification",
+    "full repository test suite not run"
+  ]
+}
