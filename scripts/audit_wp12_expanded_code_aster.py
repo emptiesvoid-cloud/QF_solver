@@ -66,6 +66,14 @@ def _expected_aster_type(family: str) -> str:
     return {"TET4": "TETRA4", "TET10": "TETRA10", "HEX8": "HEXA8", "HEX20": "HEXA20"}[family]
 
 
+def _case_expected_material(case_contract: dict[str, Any], contract: dict[str, Any]) -> dict[str, Any]:
+    """Resolve a case-level material override, falling back for legacy contracts."""
+    material = case_contract.get("material", contract.get("material", {}))
+    if not isinstance(material, dict):
+        raise ValueError("Frozen case material must be a JSON object.")
+    return material
+
+
 def _aster_to_canonical_order(family: str) -> tuple[int, ...]:
     if family == "HEX20":
         aster_order: tuple[int, ...] = (0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 9, 10, 12, 14, 15, 16, 18, 19, 17)
@@ -299,7 +307,8 @@ def _audit_case(
         errors.append("Code_Aster displacement/reaction shape mismatch")
 
     material = case.get("material", {})
-    if material != contract.get("material"):
+    expected_material = _case_expected_material(case_contract, contract)
+    if material != expected_material:
         errors.append("raw case material differs from frozen contract")
     actual_fingerprint = _canonical_model_hash(family, coordinates, connectivity, fixed, loads, material)
     if actual_fingerprint != case_contract.get("model_fingerprint") or case.get("model_fingerprint") != actual_fingerprint:
@@ -377,7 +386,14 @@ def _audit_case(
     if (case_root / f"{case_id}.mail").is_file():
         errors.extend(_audit_mesh_text(case_root / f"{case_id}.mail", family, coordinates, connectivity))
     if (case_root / f"{case_id}.comm").is_file():
-        errors.extend(_audit_comm_text(case_root / f"{case_id}.comm", loads.reshape(-1, 3), material, case_id))
+        errors.extend(
+            _audit_comm_text(
+                case_root / f"{case_id}.comm",
+                loads.reshape(-1, 3),
+                expected_material,
+                case_id,
+            )
+        )
 
     metrics: dict[str, float] = {}
     if not errors:
