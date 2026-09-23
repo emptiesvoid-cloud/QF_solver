@@ -22,5 +22,5 @@
   },
   "validated_points": 90,
   "total_points": 100,
-  "next_gate": "WP12–WP14 remain not started. WP06 remains 4/8 with experimental bounded D evidence only; historical R1 FAIL_CLOSED is preserved. WP05, WP07, WP08, WP09, WP10 and WP11 are Owner-accepted within their declared bounded limitations. WP16 remains a post-release zero-point archival step. Governing push of the reconciled local lineage remains pending explicit publication authorization."
+  "next_gate": "WP12–WP14 remain not started. WP06 remains 4/8 with experimental bounded D evidence only; historical R1 FAIL_CLOSED is preserved. WP05, WP07, WP08, WP09, WP10 and WP11 are Owner-accepted within their declared bounded limitations. WP16 remains a post-release zero-point archival step. Governing-branch publication is an administrative synchronization step and does not change qualification points or evidence."
 }

@@ -38,8 +38,8 @@ finite-strain behavior, frictional/finite-sliding contact, dynamics, MPI/PETSc,
 or external-solver correlation. The TET10 M2 moment-balance value is retained
 as an accepted limitation because no equilibrium threshold was frozen in the
 R2 contract. The reconciled local machine ledger is therefore 90/100.
-The governing push remains a separate publication step and does not change
-the evidence or the decision.
+The governing push is an administrative publication step separate from the
+evidence decision; it does not change the evidence or the awarded points.
 
 The Owner-approved WP05-C/D/E integration adds 3 bounded points to the
 58/100 pre-integration ledger, producing 61/100. WP07-D then added 3 points
