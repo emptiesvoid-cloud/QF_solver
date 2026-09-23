@@ -40,6 +40,10 @@ qualification/0_2_9/wp09_tet10_r2_consistent_traction/reference_stderr.log
 qualification/0_2_9/wp09_tet4_consistent_traction_study_r1/*_tet4_primary.json
 qualification/0_2_9/wp09_tet4_consistent_traction_study_r1/*_tet4_replay.json
 qualification/0_2_9/wp09_tet4_consistent_traction_study_r1/*.log
+qualification/0_2_9/wp09_tet4_consistent_traction_study_r1/
+qualification/0_2_9/wp09_tet4_consistent_traction_study_r2/*_tet4_primary.json
+qualification/0_2_9/wp09_tet4_consistent_traction_study_r2/*_tet4_replay.json
+qualification/0_2_9/wp09_tet4_consistent_traction_study_r2/*.log
 
 # WP09 HEX20 R2 raw solves are retained in the local/external evidence archive.
 qualification/0_2_9/wp09_hex20_r2_consistent_traction/h*_hex20.json

@@ -32,8 +32,8 @@ from solveur.loads.integration import DistributedLoadIntegrator  # noqa: E402
 from solveur.mesh.topology import TET4_FACES  # noqa: E402
 from solveur.mesh.validation import MeshValidator  # noqa: E402
 
-CONTRACT_PATH = ROOT / "qualification" / "0_2_9" / "wp09_tet4_consistent_traction_study_contract.json"
-DEFAULT_OUTPUT = ROOT / "qualification" / "0_2_9" / "wp09_tet4_consistent_traction_study_r1"
+CONTRACT_PATH = ROOT / "qualification" / "0_2_9" / "wp09_tet4_consistent_traction_study_r2_contract.json"
+DEFAULT_OUTPUT = ROOT / "qualification" / "0_2_9" / "wp09_tet4_consistent_traction_study_r2"
 POLICY_CODE_DIGEST = "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
 RUNTIME_POLICY_DIGEST = "895d3c932278c0207b207318216c263a427636d57738bef730917fdc7d9b0ef5"
 LOAD_SCALE = 0.25
@@ -286,7 +286,7 @@ def _metrics(result: Any, elapsed: float) -> dict[str, Any]:
 def _gate(row: dict[str, Any], contract: dict[str, Any]) -> tuple[bool, list[str]]:
     gates = contract["gates"]
     failures: list[str] = []
-    if row.get("status") != gates["production_status"]:
+    if row.get("status") != gates["primary_status"]:
         failures.append("production_status")
     for field in ("selected_displacement", "reaction_norm", "energy", "von_mises_max", "min_det_f", "max_local_strain_norm"):
         if not _finite(row.get(field)):

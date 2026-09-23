@@ -7,7 +7,7 @@ from pathlib import Path
 
 import numpy as np
 
-from scripts.run_wp09_tet4_consistent_traction_study import CONTRACT_PATH, LEVELS, _load_balance, _mesh, _model
+from scripts.run_wp09_tet4_consistent_traction_study import CONTRACT_PATH, LEVELS, _gate, _load_balance, _mesh, _model
 from scripts.run_wp09_tet4_consistent_traction_reference import _displacement_vector
 from solveur.mesh.validation import MeshValidator
 
@@ -71,6 +71,30 @@ def test_reference_recomputes_canonical_nodal_displacement_serialization() -> No
         {"node": 1, "dofs": {"UX": 4.0, "UY": 5.0, "UZ": -6.0}},
     ]
     assert np.array_equal(_displacement_vector(rows), [1.0, -2.0, 3.0, 4.0, 5.0, -6.0])
+
+
+def test_contract_structural_gate_schema_is_consumed_by_runner() -> None:
+    import json
+
+    contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
+    row = {
+        "status": "PASS",
+        "selected_displacement": 0.01,
+        "reaction_norm": 0.25,
+        "energy": 0.001,
+        "von_mises_max": 0.02,
+        "min_det_f": 0.99,
+        "max_local_strain_norm": 0.02,
+        "accepted_steps": 4,
+        "rejected_increments": 0,
+        "fallback_count": 0,
+        "equilibrium": {
+            "free_relative_residual": 1.0e-10,
+            "force_balance_relative_error": 1.0e-10,
+            "moment_balance_relative_error": 1.0e-10,
+        },
+    }
+    assert _gate(row, contract) == (True, [])
 
 
 def test_frozen_study_contract_binds_runner_and_preserves_history() -> None:
