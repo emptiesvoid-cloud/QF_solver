@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "work_package": "WP11",
+  "title": "R2 M3 post-hoc Docker process-event attestation",
+  "attestation_type": "POSTHOC_EXTERNAL_PROCESS_ATTESTATION",
+  "audit_time_utc": "2026-09-23T10:37:55Z",
+  "audit_checkout": {
+    "branch": "codex/wp11-qualification",
+    "head_before_addendum": "a6e70ca0f772b8a1ea6c4f450ef324107b104e74",
+    "working_tree_was_clean": true
+  },
+  "frozen_contract": {
+    "path": "qualification/0_2_9/wp11_multifamily_extension_contract.json",
+    "sha256": "308e531be35c680d35e4532720e1b6185cf4eff4891acad14308c39225a330c2",
+    "commit": "2e6a1238e70124e8236c75ced2adf2b168fc67ed",
+    "requires_policy_digest": false,
+    "policy_digest_in_m3_results": false,
+    "policy_digest_conclusion": "Not a frozen-contract violation; no digest was retroactively invented or added. Recommend prospective capture in future runs."
+  },
+  "authorized_execution": {
+    "source_sha": "f122032cbac77b98137b61f27907ba28755a250a",
+    "runner_sha": "f122032cbac77b98137b61f27907ba28755a250a",
+    "container_image": "ghcr.io/fenics/dolfinx/dolfinx@sha256:2ae4bfbc0d9077268880faf04c72750528bee986c94ab223a2c159969bd56fa8",
+    "mpi_rank_count": 2,
+    "result_directory_bind_source": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp11_qualification",
+    "result_directory_bind_target": "/workspace"
+  },
+  "docker_event_query": {
+    "source": "local Docker daemon retained container events",
+    "queried_posthoc": true,
+    "since_utc": "2026-09-22T19:59:00Z",
+    "until_utc": "2026-09-22T20:00:00Z",
+    "image_filter": "ghcr.io/fenics/dolfinx/dolfinx@sha256:2ae4bfbc0d9077268880faf04c72750528bee986c94ab223a2c159969bd56fa8",
+    "correlation_method": "chronological serial-order correlation between M3 result start times and non-overlapping container start/die events",
+    "correlation_strength": "SUPPORTING_NOT_EXPLICIT_ID_BINDING",
+    "limitations": [
+      "M3 result JSON does not record Docker container ID.",
+      "Docker events do not record the family label or family-specific output directory.",
+      "Family mapping is inferred from serial order and timestamps, not cryptographically/directly joined.",
+      "This post-hoc attestation is weaker than a prospective process manifest emitted by the runner."
+    ]
+  },
+  "m3_runs": [
+    {
+      "family": "TET4",
+      "phase": "M3",
+      "result_path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/TET4/M3/result.json",
+      "result_sha256": "2f7517e4d733ffa5c8d529595895f46f758f12e19ac7ac2723369b1190994e93",
+      "result_started_utc": "2026-09-22T19:59:18.757125Z",
+      "result_process_id_in_container": 9,
+      "result_status": "PASS",
+      "result_fresh_process": true,
+      "result_source_sha": "f122032cbac77b98137b61f27907ba28755a250a",
+      "result_runner_sha": "f122032cbac77b98137b61f27907ba28755a250a",
+      "result_contract_sha256": "308e531be35c680d35e4532720e1b6185cf4eff4891acad14308c39225a330c2",
+      "docker_container_id": "5788bce52e169ebc3143ddf248d207e029faa4a6f1ca491c68719001e4105ae1",
+      "docker_name": "recursing_mestorf",
+      "docker_start_time_nano": 1790107157775623128,
+      "docker_die_time_nano": 1790107158991845153,
+      "docker_exit_code": 0,
+      "family_binding": "INFERRED_BY_SERIAL_ORDER_AND_TIME"
+    },
+    {
+      "family": "HEX8",
+      "phase": "M3",
+      "result_path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/HEX8/M3/result.json",
+      "result_sha256": "b863fab0f8333ec3fee11afa7d00d83ced7ee6a8802637208c3e0362d80a5ad2",
+      "result_started_utc": "2026-09-22T19:59:20.406057Z",
+      "result_process_id_in_container": 8,
+      "result_status": "PASS",
+      "result_fresh_process": true,
+      "result_source_sha": "f122032cbac77b98137b61f27907ba28755a250a",
+      "result_runner_sha": "f122032cbac77b98137b61f27907ba28755a250a",
+      "result_contract_sha256": "308e531be35c680d35e4532720e1b6185cf4eff4891acad14308c39225a330c2",
+      "docker_container_id": "b036ae0fc5480730f6238e132e2090d8f5168e07320dd643b5967202f0f6dd73",
+      "docker_name": "hopeful_varahamihira",
+      "docker_start_time_nano": 1790107159416291131,
+      "docker_die_time_nano": 1790107160642927623,
+      "docker_exit_code": 0,
+      "family_binding": "INFERRED_BY_SERIAL_ORDER_AND_TIME"
+    },
+    {
+      "family": "TET10",
+      "phase": "M3",
+      "result_path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/TET10/M3/result.json",
+      "result_sha256": "78958000b2595f8c0bfab38956581089cb0e38c6673a206ae8a254ebce8842b1",
+      "result_started_utc": "2026-09-22T19:59:22.048453Z",
+      "result_process_id_in_container": 9,
+      "result_status": "PASS",
+      "result_fresh_process": true,
+      "result_source_sha": "f122032cbac77b98137b61f27907ba28755a250a",
+      "result_runner_sha": "f122032cbac77b98137b61f27907ba28755a250a",
+      "result_contract_sha256": "308e531be35c680d35e4532720e1b6185cf4eff4891acad14308c39225a330c2",
+      "docker_container_id": "52cf9a0e40465ef185d7bca118297faec940c80588b96696c696fbcfa6c8a6fa",
+      "docker_name": "modest_stonebraker",
+      "docker_start_time_nano": 1790107161067980045,
+      "docker_die_time_nano": 1790107162307683000,
+      "docker_exit_code": 0,
+      "family_binding": "INFERRED_BY_SERIAL_ORDER_AND_TIME"
+    },
+    {
+      "family": "HEX20",
+      "phase": "M3",
+      "result_path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/HEX20/M3/result.json",
+      "result_sha256": "ede8d28e23e8112eb6ba3b1a6f5d2d35d99ba40876ded8c44cea1169eae811e6",
+      "result_started_utc": "2026-09-22T19:59:23.708475Z",
+      "result_process_id_in_container": 8,
+      "result_status": "PASS",
+      "result_fresh_process": true,
+      "result_source_sha": "f122032cbac77b98137b61f27907ba28755a250a",
+      "result_runner_sha": "f122032cbac77b98137b61f27907ba28755a250a",
+      "result_contract_sha256": "308e531be35c680d35e4532720e1b6185cf4eff4891acad14308c39225a330c2",
+      "docker_container_id": "3745570d3d0865f11d99430b87d990b2a4ffc0f5fd17a16e51b436141615d3ea",
+      "docker_name": "determined_montalcini",
+      "docker_start_time_nano": 1790107162698419694,
+      "docker_die_time_nano": 1790107163957251633,
+      "docker_exit_code": 0,
+      "family_binding": "INFERRED_BY_SERIAL_ORDER_AND_TIME"
+    }
+  ],
+  "source_diff_interpretation": {
+    "comparison_base_sha": "04d1f1a60dcb4435c925cf5f788302da698aaf0e",
+    "execution_source_sha": "f122032cbac77b98137b61f27907ba28755a250a",
+    "source_paths_changed": [
+      {
+        "status": "A",
+        "path": "src/solveur/large/multifamily.py"
+      }
+    ],
+    "classification": "new_bounded_production_route_added_no_preexisting_solver_kernel_modified",
+    "qualified_wording": "Pre-existing mechanics kernels were not modified; a new bounded multi-family assembly/model/linear-solve route was added."
+  },
+  "governance": {
+    "owner_decision_id": "OD-029-WP11-MULTIFAMILY-R2-01",
+    "owner_decision_status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+    "wp11_points_after_existing_decision": "6/6",
+    "global_total_after_existing_decision": "90/100 local ledger",
+    "decision_or_points_changed_by_addendum": false,
+    "historical_results_modified": false,
+    "solves_rerun": false,
+    "push_performed": false,
+    "merge_performed": false
+  },
+  "attestation_conclusion": "Supporting post-hoc evidence of four sequential fresh Docker containers with exit code 0. Family mapping is temporal/serial-order correlation, not direct container-ID binding in M3 records. No contract violation for absent policy_digest. Existing Owner decision and score unchanged."
+}

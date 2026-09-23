@@ -6219,6 +6219,22 @@
       "tests/unit/test_wp06_premerge_tools.py",
       "tests/unit/test_wp06d_structural_limit_point_contract.py"
     ]
+  },
+  {
+    "id": "DOC-029-WP11-M3-PROCESS-ATTESTATION",
+    "path": "verification/0_2_9/wp11-m3-process-attestation.md",
+    "title": "QF Solver 0.2.9 WP11 R2 M3 post-hoc Docker process-event attestation",
+    "status": "controlled_evidence",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp11_m3_process_attestation.json",
+      "qualification/0_2_9/wp11_multifamily_extension_contract.json",
+      "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/TET4/M3/result.json",
+      "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/HEX8/M3/result.json",
+      "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/TET10/M3/result.json",
+      "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/HEX20/M3/result.json"
+    ],
+    "tests": []
   }
 ]
 }
