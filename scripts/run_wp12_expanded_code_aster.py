@@ -82,6 +82,42 @@ def _runtime_command(command: str) -> str:
     return RUNTIME_PROBE.rsplit(" && ", 1)[0] + " && " + command
 
 
+def validate_external_configuration(contract: dict[str, Any]) -> tuple[int, int]:
+    """Validate duplicated frozen resource fields before constructing cases."""
+
+    external = contract.get("external_solver")
+    if not isinstance(external, dict):
+        raise CampaignError("Frozen external_solver block is missing")
+    timeout = contract.get("timeout_seconds")
+    memory = contract.get("memory_limit_mb")
+    if (
+        isinstance(timeout, bool)
+        or not isinstance(timeout, int)
+        or timeout <= 0
+        or isinstance(memory, bool)
+        or not isinstance(memory, int)
+        or memory <= 0
+        or external.get("timeout_seconds") != timeout
+        or external.get("memory_limit_mb") != memory
+    ):
+        raise CampaignError("Root and external_solver timeout/memory fields are missing or inconsistent")
+    if (
+        external.get("name") != "Code_Aster"
+        or external.get("version") != contract.get("code_aster_version")
+        or external.get("image") != IMAGE
+        or external.get("image_id") != contract.get("code_aster_image_id")
+        or external.get("modelisation") != "3D"
+        or external.get("fresh_container_per_case") is not True
+        or external.get("cpu_limit") != 1
+        or external.get("mpi") is not False
+        or external.get("action") != "make_etude"
+    ):
+        raise CampaignError("Frozen Code_Aster image/action/resource configuration is inconsistent")
+    if contract.get("code_aster_image") != IMAGE:
+        raise CampaignError("Code_Aster image digest differs from the runner pin")
+    return timeout, memory
+
+
 def _aster_node_order(family: str) -> tuple[int, ...]:
     if family == "HEX20":
         return (0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 9, 10, 12, 14, 15, 16, 18, 19, 17)
@@ -195,6 +231,7 @@ def _manifest(output_root: Path, manifest_path: Path) -> None:
 def preflight(contract_path: Path, repo_root: Path) -> tuple[dict[str, Any], list[ExpandedCase]]:
     contract_path, repo_root = contract_path.resolve(), repo_root.resolve()
     contract = load_json(contract_path)
+    validate_external_configuration(contract)
     expected_branch = contract.get("branch")
     if contract.get("status") != "FROZEN" or contract.get("execution_authorized") is not True:
         raise CampaignError("R3 contract is not frozen and execution-authorized")
@@ -243,8 +280,6 @@ def preflight(contract_path: Path, repo_root: Path) -> tuple[dict[str, Any], lis
             raise CampaignError(f"Generated input differs from frozen R3 case: {case.case_id}")
     if contract.get("case_count") != len(catalog) or set(contract.get("families", [])) != set(FAMILIES):
         raise CampaignError("Frozen case count/family coverage differs from generated matrix")
-    if contract.get("code_aster_image") != IMAGE:
-        raise CampaignError("Code_Aster image digest differs from the runner pin")
     output_root = (repo_root / contract["output_root"]).resolve()
     manifest_path = (repo_root / contract["manifest_path"]).resolve()
     if repo_root not in manifest_path.parents:

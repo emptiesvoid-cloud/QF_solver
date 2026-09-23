@@ -2,6 +2,7 @@
 # WP12 R3 expanded raw Code_Aster runs remain local; version the sibling manifest/reports.
 qualification/0_2_9/wp12_external_vv_r3_expanded_raw/
 qualification/0_2_9/wp12_external_vv_r3_1_expanded_raw/
+qualification/0_2_9/wp12_external_vv_r3_2_expanded_raw/
 __pycache__/
 qualification/0_2_9/wp09_hex8_accuracy_remediation_r1/hex8_*.json
 qualification/0_2_9/wp09_hex8_accuracy_remediation_r1/summary.json

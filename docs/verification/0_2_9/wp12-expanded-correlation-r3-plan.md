@@ -48,16 +48,19 @@ evidence fails closed. Thresholds cannot be retuned after results.
   comparison and equilibrium metrics using NumPy/SciPy only; it imports no QF
   solver code or campaign runner.
 - Large per-case raw output stays in the ignored local directory
-  `qualification/0_2_9/wp12_external_vv_r3_1_expanded_raw/`. A versioned sibling
+  `qualification/0_2_9/wp12_external_vv_r3_2_expanded_raw/`. A versioned sibling
   SHA-256 manifest and concise reports remain in Git.
 
 ## Preflight revision history
 
 The first frozen R3 contract is preserved but was rejected by the execution
 preflight because it omitted root-level Code_Aster image fields required by
-the runner. No structural solve started and no campaign output was created.
-The corrected R3.1 contract is frozen separately; the rejected contract and
-its SHA-256 remain historical and are not overwritten or used for execution.
+the runner. No structural solve started. R3.1 passed preflight but its first
+case exposed missing root-level timeout/memory aliases after 144 QF primary
+linear solves and before any Code_Aster process started. Those cases are
+preserved as `FAIL_CLOSED`; no correlation is claimed. R3.2 validates all
+duplicated runtime fields in preflight and is frozen under new contract and
+output paths. Neither earlier contract or evidence is overwritten.
 
 ## Scope boundary
 
