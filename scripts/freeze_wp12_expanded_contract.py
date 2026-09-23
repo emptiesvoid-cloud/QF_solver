@@ -45,8 +45,9 @@ R3_4_MANIFEST = Path("qualification/0_2_9/wp12_external_vv_r3_4_expanded_manifes
 R3_4_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_4_execution_audit.json")
 R3_4_FULL_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_4_expanded_audit.json")
 R3_5_SMOKE_ATTEMPT_1_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_attempt_audit.json")
-R3_5_SMOKE_REPORT = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r2.json")
-R3_5_SMOKE_MANIFEST = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r2_manifest.json")
+R3_5_SMOKE_ATTEMPT_2_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_attempt_2_audit.json")
+R3_5_SMOKE_REPORT = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r3.json")
+R3_5_SMOKE_MANIFEST = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r3_manifest.json")
 
 
 def _git(*args: str) -> str:
@@ -134,6 +135,14 @@ def build_contract() -> dict[str, Any]:
         )
     ):
         raise RuntimeError("Preserved R3.5 smoke attempt 1 is missing or inconsistent.")
+    smoke_attempt_2 = json.loads((ROOT / R3_5_SMOKE_ATTEMPT_2_AUDIT).read_text(encoding="utf-8"))
+    if (
+        smoke_attempt_2.get("audit_status") != "FAIL_CLOSED_DIAGNOSTIC_HARNESS"
+        or smoke_attempt_2.get("code_aster_process_count") != 0
+        or smoke_attempt_2.get("manifest_sha256")
+        != _sha256(Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r2_manifest.json"))
+    ):
+        raise RuntimeError("Preserved R3.5 smoke attempt 2 is missing or inconsistent.")
     smoke = json.loads((ROOT / R3_5_SMOKE_REPORT).read_text(encoding="utf-8"))
     if (
         smoke.get("status") != "PASS_DIAGNOSTIC_ONLY"
@@ -204,6 +213,22 @@ def build_contract() -> dict[str, Any]:
             "case_pass_count": smoke.get("case_pass_count"),
             "formal_correlation_evidence": False,
         },
+        "superseded_diagnostic_smoke_attempts": [
+            {
+                "attempt": 1,
+                "audit_path": R3_5_SMOKE_ATTEMPT_1_AUDIT.as_posix(),
+                "audit_sha256": _sha256(R3_5_SMOKE_ATTEMPT_1_AUDIT),
+                "manifest_sha256": smoke_attempt_1.get("manifest_sha256"),
+                "status": smoke_attempt_1.get("audit_status"),
+            },
+            {
+                "attempt": 2,
+                "audit_path": R3_5_SMOKE_ATTEMPT_2_AUDIT.as_posix(),
+                "audit_sha256": _sha256(R3_5_SMOKE_ATTEMPT_2_AUDIT),
+                "manifest_sha256": smoke_attempt_2.get("manifest_sha256"),
+                "status": smoke_attempt_2.get("audit_status"),
+            },
+        ],
         "case_count": len(cases),
         "code_aster_version": "18.1.0",
         "code_aster_image": IMAGE,

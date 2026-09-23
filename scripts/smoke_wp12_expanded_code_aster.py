@@ -36,9 +36,9 @@ from scripts.wp12_expanded_models import FAMILIES, build_case  # noqa: E402
 BRANCH = "codex/wp12-expanded-correlation"
 BASE_SHA = "c5e842d5e589358633221ecd9f29c2ff1ef003aa"
 PARENT_CONTRACT = Path("qualification/0_2_9/wp12_external_vv_r3_4_expanded_contract.json")
-OUTPUT_ROOT = Path("qualification/0_2_9/wp12_external_vv_r3_5_smoke_r2_raw")
-REPORT_PATH = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r2.json")
-MANIFEST_PATH = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r2_manifest.json")
+OUTPUT_ROOT = Path("qualification/0_2_9/wp12_external_vv_r3_5_smoke_r3_raw")
+REPORT_PATH = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r3.json")
+MANIFEST_PATH = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r3_manifest.json")
 SMOKE_CONTRACT_MARKER = "DIAGNOSTIC_ONLY_NO_FROZEN_144_CASE_CONTRACT"
 
 
@@ -73,8 +73,10 @@ def _preflight(contract: dict[str, Any]) -> dict[str, Any]:
     if probe.returncode != 0 or not version.startswith(f"code_aster {contract['code_aster_version']} "):
         raise RuntimeError("Pinned Code_Aster runtime/import preflight failed")
     return {
+        "branch": BRANCH,
         "source_sha": _git("rev-parse", "HEAD"),
         "execution_sha": _git("rev-parse", "HEAD"),
+        "contract_sha256": SMOKE_CONTRACT_MARKER,
         "runner_sha": _git("log", "-1", "--format=%H", "--", "scripts/run_wp12_expanded_code_aster.py"),
         "smoke_runner_sha": _git("log", "-1", "--format=%H", "--", "scripts/smoke_wp12_expanded_code_aster.py"),
         "code_aster_image_id": image.stdout.strip(),
