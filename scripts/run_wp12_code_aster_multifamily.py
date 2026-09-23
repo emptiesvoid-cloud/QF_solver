@@ -33,6 +33,7 @@ model_fingerprint = _multifamily.model_fingerprint
 
 FAMILIES = tuple(SUPPORTED_WP11_FAMILIES)
 EXPECTED_DOFS = {"TET4": 12, "HEX8": 24, "TET10": 30, "HEX20": 60}
+EXPECTED_NODES = {"TET4": 4, "HEX8": 8, "TET10": 10, "HEX20": 20}
 ASTER_TYPES = {"TET4": "TETRA4", "HEX8": "HEXA8", "TET10": "TETRA10", "HEX20": "HEXA20"}
 ASTER_NODE_ORDER = {
     "TET4": tuple(range(4)),
@@ -132,6 +133,15 @@ def _load_frozen_inputs(repo_root: Path, contract: dict[str, Any]) -> dict[str, 
         if model_fingerprint(model) != result_payload.get("model_fingerprint"):
             raise WP12PreflightError(f"{family}: reconstructed input does not match WP11 model fingerprint.")
         frozen_family = contract["families"][family]
+        if (
+            frozen_family.get("element_type") != family
+            or frozen_family.get("aster_element_type") != ASTER_TYPES[family]
+            or frozen_family.get("nodes") != EXPECTED_NODES[family]
+            or frozen_family.get("elements") != 1
+            or frozen_family.get("dofs") != EXPECTED_DOFS[family]
+            or tuple(frozen_family.get("aster_local_node_order", ())) != ASTER_NODE_ORDER[family]
+        ):
+            raise WP12PreflightError(f"{family}: frozen element type/dimensions/Code_Aster node order mismatch.")
         if frozen_family.get("model_fingerprint") != result_payload.get("model_fingerprint"):
             raise WP12PreflightError(f"{family}: WP12 contract model fingerprint differs from accepted WP11 M1.")
         system = assemble_linear_system(model)
@@ -199,6 +209,37 @@ def preflight(contract_path: Path, repo_root: Path) -> dict[str, Any]:
         raise WP12PreflightError("WP12 contract family coverage/order mismatch.")
     if contract.get("code_aster_image") != CODE_ASTER_IMAGE:
         raise WP12PreflightError("WP12 Code_Aster image digest differs from the runner pin.")
+    external = contract.get("external_solver", {})
+    if not isinstance(external, dict):
+        raise WP12PreflightError("WP12 external_solver configuration must be an object.")
+    if (
+        external.get("name") != "Code_Aster"
+        or external.get("version") != contract.get("code_aster_version")
+        or external.get("image") != contract.get("code_aster_image")
+        or external.get("image_id") != contract.get("code_aster_image_id")
+        or external.get("entrypoint") != CODE_ASTER_RUNNER
+        or external.get("timeout_seconds") != contract.get("timeout_seconds")
+        or external.get("memory_limit_mb") != contract.get("memory_limit_mb")
+        or external.get("action") != contract.get("code_aster_action")
+        or external.get("mpi") is not False
+        or external.get("cpu_limit") != 1
+        or external.get("fresh_container_per_family") is not True
+        or contract.get("code_aster_action") != "make_etude"
+    ):
+        raise WP12PreflightError("WP12 Code_Aster runtime/action/resource configuration is inconsistent.")
+    qf_reference = contract.get("qf_reference", {})
+    if not isinstance(qf_reference, dict):
+        raise WP12PreflightError("WP12 qf_reference provenance must be an object.")
+    if (
+        qf_reference.get("source_sha") != contract.get("wp11_source_sha")
+        or qf_reference.get("owner_acceptance_path") != contract.get("wp11_owner_acceptance_path")
+        or qf_reference.get("owner_acceptance_sha256") != contract.get("wp11_owner_acceptance_sha256")
+        or qf_reference.get("owner_manifest_path") != contract.get("wp11_owner_manifest_path")
+        or qf_reference.get("owner_manifest_sha256") != contract.get("wp11_owner_manifest_sha256")
+        or qf_reference.get("contract_path") != contract.get("wp11_contract_path")
+        or qf_reference.get("contract_sha256") != contract.get("wp11_contract_sha256")
+    ):
+        raise WP12PreflightError("WP11 input provenance fields disagree within the frozen WP12 contract.")
     if _git(repo_root, "branch", "--show-current") != contract.get("branch"):
         raise WP12PreflightError("Current branch differs from frozen WP12 branch.")
     if _git(repo_root, "status", "--porcelain"):
@@ -372,15 +413,16 @@ def aster_export_text(family: str, timeout_seconds: int, memory_limit_mb: int) -
 
     return "\n".join(
         (
+            "P actions make_etude",
             f"P time_limit {int(timeout_seconds)}",
             f"P memory_limit {int(memory_limit_mb)}",
             "P ncpus 1",
             "P mpi_nbcpu 1",
-            "P no-mpi",
+            "P mpi_nbnoeud 1",
             f"F comm /work/{family}.comm D 1",
             f"F mail /work/{family}.mail D 20",
             f"F mess /work/{family}.mess R 6",
-            f"F result /work/{family}.result R 8",
+            f"F resu /work/{family}.resu R 8",
             "",
         )
     )
@@ -488,7 +530,7 @@ def _run_aster(work: Path, family: str, timeout_s: int, image_id: str) -> dict[s
         "fresh_container_process": True,
         "container_cpu_limit": 1,
         "solver_mpi_disabled": True,
-        "telemetry_events": event_count,
+        "telemetry_events": event_count + 1,
     }
     write_json(work / "process.json", metadata)
     emit("RUN_END", status="COMPLETED" if exit_code == 0 else "FAILED", exit_code=exit_code)
@@ -620,12 +662,13 @@ def execute(contract_path: Path, repo_root: Path) -> dict[str, Any]:
         family_results[family] = record
         _write_manifest(output_root)
 
-    passed = all(family_results[family]["status"] == "PASS" for family in FAMILIES)
+    passed_count = sum(family_results[family]["status"] == "PASS" for family in FAMILIES)
+    passed = passed_count == len(FAMILIES)
     summary = {
         "work_package": "WP12",
         "campaign": "WP11 accepted linear-static one-element family correlation against Code_Aster",
         "status": "PASS_CANDIDATE" if passed else "FAIL_CLOSED",
-        "candidate_points": "4/4" if passed else "0/4_PENDING_REVIEW",
+        "candidate_points": f"{passed_count}/4",
         "official_points": "0/4",
         "branch": readiness["branch"],
         "branch_base_sha": readiness["branch_base_sha"],

@@ -62,6 +62,11 @@ fail-closed auditor does not import the WP12 runner or QF solver; it checks the
 frozen deck against contract data and recomputes every metric from the raw
 arrays.
 
+The `.export` uses the documented `make_etude` action and standard Code_Aster
+file roles/units (`comm` 1, ASTER `mail` 20, `mess` 6, `resu` 8). The mesh is
+deliberately ASTER-mail format, not MED. The export syntax follows the official
+[Code_Aster launch documentation](https://code-aster.org/doc/v17/manuals/man_u/u1/u1.04.00/notions_generales.html#1-4-fichier-export).
+
 The runner invocation was reviewed against the pinned image before freezing:
 `run_aster --version` reports Code_Aster 18.1.0 and the image's `run_aster`
 wrapper initializes the required profile. A plain system `python3` in this

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import numpy as np
@@ -15,7 +16,7 @@ from scripts.run_wp12_code_aster_multifamily import (
     relative_l2,
     relative_linf,
 )
-from scripts.audit_wp12_code_aster_multifamily import recompute_metrics
+from scripts.audit_wp12_code_aster_multifamily import _validate_manifest, recompute_metrics
 
 
 @pytest.mark.parametrize("family", FAMILIES)
@@ -45,6 +46,28 @@ def test_hex20_aster_connectivity_uses_code_aster_edge_order() -> None:
     assert element_line == "M1 N1 N2 N3 N4 N5 N6 N7 N8 N9 N12 N14 N10 N11 N13 N15 N16 N17 N19 N20 N18"
 
 
+def test_frozen_contract_provenance_runtime_and_family_order_are_coherent() -> None:
+    contract_path = Path(__file__).resolve().parents[2] / "qualification/0_2_9/wp12_external_vv_contract.json"
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    external = contract["external_solver"]
+    reference = contract["qf_reference"]
+
+    assert tuple(contract["families"]) == FAMILIES
+    assert contract["code_aster_action"] == external["action"] == "make_etude"
+    assert contract["code_aster_image"] == external["image"]
+    assert contract["code_aster_image_id"] == external["image_id"]
+    assert contract["timeout_seconds"] == external["timeout_seconds"]
+    assert contract["memory_limit_mb"] == external["memory_limit_mb"]
+    assert contract["wp11_source_sha"] == reference["source_sha"]
+    assert contract["wp11_owner_acceptance_sha256"] == reference["owner_acceptance_sha256"]
+    assert contract["wp11_owner_manifest_sha256"] == reference["owner_manifest_sha256"]
+    assert contract["wp11_contract_sha256"] == reference["contract_sha256"]
+    for family in FAMILIES:
+        spec = contract["families"][family]
+        assert tuple(spec["aster_local_node_order"]) == ASTER_NODE_ORDER[family]
+        assert spec["dofs"] == 3 * spec["nodes"]
+
+
 def test_aster_comm_preserves_total_nodal_load_without_equal_share_redefinition() -> None:
     loads = np.zeros(24, dtype=float)
     loads[2] = -1000.0
@@ -70,13 +93,34 @@ def test_generated_code_aster_deck_is_valid_python_syntax() -> None:
 def test_run_aster_export_binds_mesh_and_single_cpu_without_mpi() -> None:
     export = aster_export_text("HEX8", timeout_seconds=900, memory_limit_mb=4096)
 
+    assert "P actions make_etude" in export
     assert "P ncpus 1" in export
     assert "P mpi_nbcpu 1" in export
-    assert "P no-mpi" in export
+    assert "P mpi_nbnoeud 1" in export
     assert "F comm /work/HEX8.comm D 1" in export
     assert "F mail /work/HEX8.mail D 20" in export
     assert "F mess /work/HEX8.mess R 6" in export
-    assert "F result /work/HEX8.result R 8" in export
+    assert "F resu /work/HEX8.resu R 8" in export
+    assert "F result " not in export
+    assert "P no-mpi" not in export
+
+
+def test_manifest_rejects_unlisted_or_stale_files(tmp_path) -> None:
+    from scripts.run_wp12_code_aster_multifamily import write_json
+
+    listed = tmp_path / "listed.txt"
+    listed.write_text("frozen\n", encoding="utf-8")
+    digest = wp12_runner.sha256_file(listed)
+    write_json(
+        tmp_path / "manifest.json",
+        {"files": {"listed.txt": {"sha256": digest, "size_bytes": listed.stat().st_size}}},
+    )
+    assert _validate_manifest(tmp_path) == []
+
+    (tmp_path / "unlisted.txt").write_text("extra\n", encoding="utf-8")
+    errors = _validate_manifest(tmp_path)
+    assert len(errors) == 1
+    assert "unlisted=['unlisted.txt']" in errors[0]
 
 
 def test_external_execution_uses_official_run_aster_entrypoint_and_records_fresh_process(
@@ -119,6 +163,11 @@ def test_external_execution_uses_official_run_aster_entrypoint_and_records_fresh
     assert result["fresh_container_process"] is True
     assert result["container_id"] == "a" * 64
     assert result["image_id"] == "sha256:" + "b" * 64
+    telemetry = [json.loads(line) for line in (tmp_path / "telemetry.jsonl").read_text(encoding="utf-8").splitlines()]
+    process_record = json.loads((tmp_path / "process.json").read_text(encoding="utf-8"))
+    assert telemetry[0]["event"] == "RUN_START"
+    assert telemetry[-1]["event"] == "RUN_END"
+    assert process_record["telemetry_events"] == len(telemetry)
 
 
 def test_independent_recomputation_uses_all_fixed_nodes_and_checks_full_fields() -> None:

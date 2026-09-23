@@ -19,6 +19,8 @@ import numpy as np
 
 
 FAMILIES = ("TET4", "HEX8", "TET10", "HEX20")
+EXPECTED_NODES = {"TET4": 4, "HEX8": 8, "TET10": 10, "HEX20": 20}
+EXPECTED_DOFS = {"TET4": 12, "HEX8": 24, "TET10": 30, "HEX20": 60}
 ASTER_TYPES = {"TET4": "TETRA4", "HEX8": "HEXA8", "TET10": "TETRA10", "HEX20": "HEXA20"}
 ASTER_NODE_ORDER = {
     "TET4": tuple(range(4)),
@@ -207,15 +209,16 @@ FIN()
 def _expected_export(family: str, contract: dict[str, Any]) -> str:
     return "\n".join(
         (
+            "P actions make_etude",
             f"P time_limit {int(contract['timeout_seconds'])}",
             f"P memory_limit {int(contract['memory_limit_mb'])}",
             "P ncpus 1",
             "P mpi_nbcpu 1",
-            "P no-mpi",
+            "P mpi_nbnoeud 1",
             f"F comm /work/{family}.comm D 1",
             f"F mail /work/{family}.mail D 20",
             f"F mess /work/{family}.mess R 6",
-            f"F result /work/{family}.result R 8",
+            f"F resu /work/{family}.resu R 8",
             "",
         )
     )
@@ -239,6 +242,15 @@ def _validate_manifest(root: Path) -> list[str]:
             errors.append(f"manifest file missing: {relative}")
         elif sha256_file(path) != record.get("sha256") or path.stat().st_size != record.get("size_bytes"):
             errors.append(f"manifest hash/size mismatch: {relative}")
+    actual_files = {
+        path.relative_to(root).as_posix()
+        for path in root.rglob("*")
+        if path.is_file() and path.name != "manifest.json"
+    }
+    if actual_files != set(manifest):
+        missing = sorted(actual_files - set(manifest))
+        stale = sorted(set(manifest) - actual_files)
+        errors.append(f"manifest file coverage mismatch: unlisted={missing}, missing={stale}")
     return errors
 
 
@@ -276,8 +288,26 @@ def _load_family_input(repo_root: Path, output_root: Path, contract: dict[str, A
         errors.append(f"{family}: WP11 model fingerprint mismatch")
     coordinates = np.asarray(spec["coordinates"], dtype=np.float64)
     dof_count = 3 * len(coordinates)
+    if (
+        spec.get("element_type") != family
+        or spec.get("aster_element_type") != ASTER_TYPES[family]
+        or spec.get("nodes") != EXPECTED_NODES[family]
+        or spec.get("elements") != 1
+        or spec.get("dofs") != EXPECTED_DOFS[family]
+        or dof_count != EXPECTED_DOFS[family]
+    ):
+        errors.append(f"{family}: frozen element family/dimensions mismatch")
+    if tuple(spec.get("aster_local_node_order", ())) != ASTER_NODE_ORDER[family]:
+        errors.append(f"{family}: frozen QF-to-Code_Aster local node permutation mismatch")
     if result.get("actual_nodes") != len(coordinates) or result.get("actual_dofs") != dof_count:
         errors.append(f"{family}: WP11 result dimensions differ from frozen WP12 geometry")
+    connectivity = np.asarray(spec.get("connectivity", ()), dtype=np.int64)
+    if connectivity.shape != (EXPECTED_NODES[family],) or not np.array_equal(
+        np.sort(connectivity), np.arange(EXPECTED_NODES[family], dtype=np.int64)
+    ):
+        errors.append(f"{family}: frozen connectivity is not a one-element node permutation")
+    if coordinates.shape != (EXPECTED_NODES[family], 3) or not np.all(np.isfinite(coordinates)):
+        errors.append(f"{family}: frozen coordinate array has invalid shape or non-finite entries")
     if "fixed.npy" in arrays and not np.array_equal(
         np.asarray(arrays["fixed.npy"], dtype=np.int64), np.asarray(spec["fixed_dofs"], dtype=np.int64)
     ):
@@ -302,6 +332,40 @@ def audit(contract_path: Path, output_root: Path, repo_root: Path) -> dict[str, 
     contract = load_json(contract_path)
     errors = _validate_manifest(output_root)
     families: dict[str, Any] = {}
+    external = contract.get("external_solver", {})
+    if not isinstance(external, dict):
+        external = {}
+        errors.append("WP12 contract external_solver must be an object")
+    if (
+        external.get("name") != "Code_Aster"
+        or external.get("version") != contract.get("code_aster_version")
+        or external.get("image") != contract.get("code_aster_image")
+        or external.get("image_id") != contract.get("code_aster_image_id")
+        or external.get("timeout_seconds") != contract.get("timeout_seconds")
+        or external.get("memory_limit_mb") != contract.get("memory_limit_mb")
+        or external.get("action") != contract.get("code_aster_action")
+        or not isinstance(external.get("entrypoint"), str)
+        or external.get("entrypoint", "").split("/")[-1] != "run_aster"
+        or external.get("mpi") is not False
+        or external.get("cpu_limit") != 1
+        or external.get("fresh_container_per_family") is not True
+        or contract.get("code_aster_action") != "make_etude"
+    ):
+        errors.append("WP12 contract Code_Aster action/runtime/resource fields are inconsistent")
+    qf_reference = contract.get("qf_reference", {})
+    if not isinstance(qf_reference, dict):
+        qf_reference = {}
+        errors.append("WP12 contract qf_reference must be an object")
+    if (
+        qf_reference.get("source_sha") != contract.get("wp11_source_sha")
+        or qf_reference.get("owner_acceptance_path") != contract.get("wp11_owner_acceptance_path")
+        or qf_reference.get("owner_acceptance_sha256") != contract.get("wp11_owner_acceptance_sha256")
+        or qf_reference.get("owner_manifest_path") != contract.get("wp11_owner_manifest_path")
+        or qf_reference.get("owner_manifest_sha256") != contract.get("wp11_owner_manifest_sha256")
+        or qf_reference.get("contract_path") != contract.get("wp11_contract_path")
+        or qf_reference.get("contract_sha256") != contract.get("wp11_contract_sha256")
+    ):
+        errors.append("WP11 input provenance fields disagree within frozen WP12 contract")
 
     owner_path = safe_path(repo_root, contract["wp11_owner_acceptance_path"])
     wp11_manifest_path = safe_path(repo_root, contract["wp11_owner_manifest_path"])
@@ -417,6 +481,7 @@ def audit(contract_path: Path, output_root: Path, repo_root: Path) -> dict[str, 
                 or process.get("container_cpu_limit") != 1
                 or process.get("solver_mpi_disabled") is not True
                 or not isinstance(process.get("host_process_id"), int)
+                or external.get("entrypoint") not in command
                 or not any(str(item).endswith("/bin/run_aster") for item in command)
                 or f"{family}.export" not in command
                 or "--no-mpi" not in command
@@ -424,8 +489,37 @@ def audit(contract_path: Path, output_root: Path, repo_root: Path) -> dict[str, 
             ):
                 family_errors.append("Code_Aster process provenance/resource constraints mismatch")
             cid_path = family_root / "container.cid"
-            if cid_path.is_file() and not re.fullmatch(r"[0-9a-f]{64}", cid_path.read_text(encoding="ascii").strip()):
-                family_errors.append("invalid Docker container ID record")
+            cid = cid_path.read_text(encoding="ascii").strip() if cid_path.is_file() else ""
+            if not re.fullmatch(r"[0-9a-f]{64}", cid) or cid != process.get("container_id"):
+                family_errors.append("Docker container ID is invalid or disagrees with process metadata")
+            telemetry_path = family_root / "telemetry.jsonl"
+            telemetry_rows: list[dict[str, Any]] = []
+            if telemetry_path.is_file():
+                try:
+                    parsed_rows = [json.loads(line) for line in telemetry_path.read_text(encoding="utf-8").splitlines()]
+                    if any(not isinstance(row, dict) for row in parsed_rows):
+                        raise ValueError("telemetry row is not a JSON object")
+                    telemetry_rows = parsed_rows
+                except (OSError, ValueError, json.JSONDecodeError) as exc:
+                    family_errors.append(f"invalid telemetry JSONL: {exc}")
+            if telemetry_rows:
+                elapsed_values = [row.get("elapsed_seconds") for row in telemetry_rows]
+                elapsed_is_numeric = all(isinstance(value, (int, float)) for value in elapsed_values)
+                numeric_elapsed = [float(value) for value in elapsed_values if isinstance(value, (int, float))]
+                elapsed_is_finite_monotone = elapsed_is_numeric and all(
+                    np.isfinite(value) for value in numeric_elapsed
+                ) and all(right >= left for left, right in zip(numeric_elapsed, numeric_elapsed[1:], strict=False))
+                if (
+                    telemetry_rows[0].get("event") != "RUN_START"
+                    or telemetry_rows[-1].get("event") != "RUN_END"
+                    or any(row.get("family") != family for row in telemetry_rows)
+                    or process.get("telemetry_events") != len(telemetry_rows)
+                    or not elapsed_is_finite_monotone
+                    or telemetry_rows[-1].get("exit_code") != process.get("exit_code")
+                ):
+                    family_errors.append("telemetry lifecycle/count/timing does not match process metadata")
+            else:
+                family_errors.append("telemetry has no parseable lifecycle events")
 
         metrics: dict[str, float] = {}
         comparisons: dict[str, Any] = {}
@@ -451,6 +545,53 @@ def audit(contract_path: Path, output_root: Path, repo_root: Path) -> dict[str, 
                 }
         except (KeyError, TypeError, ValueError) as exc:
             family_errors.append(f"metric recomputation failed: {exc}")
+
+        comparison_path = family_root / "comparison.json"
+        recorded: dict[str, Any] = {}
+        if comparison_path.is_file():
+            try:
+                recorded = load_json(comparison_path)
+            except (OSError, ValueError, json.JSONDecodeError) as exc:
+                family_errors.append(f"invalid comparison record: {exc}")
+        if recorded:
+            if (
+                recorded.get("family") != family
+                or recorded.get("execution_sha") != summary.get("execution_sha")
+                or recorded.get("contract_sha256") != sha256_file(contract_path)
+                or recorded.get("runner_sha") != contract.get("runner_sha")
+                or recorded.get("raw") != raw
+                or recorded.get("process") != process
+            ):
+                family_errors.append("comparison record provenance/raw/process does not match primary artifacts")
+            recorded_metrics = recorded.get("metrics", {})
+            if not isinstance(recorded_metrics, dict):
+                family_errors.append("recorded comparison metrics must be an object")
+                recorded_metrics = {}
+            for name, expected_value in metrics.items():
+                actual_value = recorded_metrics.get(name)
+                if (
+                    not isinstance(actual_value, (int, float))
+                    or not np.isfinite(actual_value)
+                    or not np.isclose(float(actual_value), expected_value, rtol=1.0e-14, atol=0.0)
+                ):
+                    family_errors.append(f"recorded comparison metric differs from independent recomputation: {name}")
+            recorded_gates = recorded.get("comparisons", {})
+            if not isinstance(recorded_gates, dict):
+                family_errors.append("recorded comparison gates must be an object")
+                recorded_gates = {}
+            if set(recorded_gates) != set(comparisons):
+                family_errors.append("recorded comparison gate coverage differs from the frozen gate set")
+            else:
+                for name, gate in comparisons.items():
+                    previous = recorded_gates[name]
+                    if (
+                        not isinstance(previous, dict)
+                        or previous.get("limit") != gate["limit"]
+                        or previous.get("status") != gate["status"]
+                        or not isinstance(previous.get("value"), (int, float))
+                        or not np.isclose(float(previous["value"]), gate["value"], rtol=1.0e-14, atol=0.0)
+                    ):
+                        family_errors.append(f"recorded gate differs from independent recomputation: {name}")
 
         record_status = "PASS_CANDIDATE" if not family_errors and comparisons and all(
             item["status"] == "PASS" for item in comparisons.values()
