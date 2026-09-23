@@ -1,0 +1,39 @@
+{
+  "audit_status": "FAIL_CLOSED",
+  "branch": "codex/wp12-expanded-correlation",
+  "campaign_revision": "R3.3_EXPANDED_144_CASE_LINEAR_STATIC_CORRELATION",
+  "case_count": 144,
+  "completed_case_count": 20,
+  "completed_failure_count": 20,
+  "completed_pass_count": 0,
+  "code_aster_exit_code_counts": {
+    "6": 20
+  },
+  "code_aster_mesh_read_diagnostic_count": 21,
+  "code_aster_raw_result_count": 0,
+  "contract_path": "qualification/0_2_9/wp12_external_vv_r3_3_expanded_contract.json",
+  "contract_sha256": "b7d732a74ff064a44d8bc83558986d6650d96d7c2b5bc4de97594f17f128a0ae",
+  "execution_sha": "f14d1eee623bfc991ed38e0aa3bd8164e0a1746e",
+  "failure_classification": "CODE_ASTER_NATIVE_MESH_IDENTIFIER_REJECTED_BEFORE_MECA_STATIQUE",
+  "failure_diagnostic": "MODELISA7_81 at mesh line 5: an identifier was expected; the purely numeric node name was rejected. Code_Aster then raised MODELISA_1 while reading the mesh and exited with code 6.",
+  "freeze_commit_sha": "c344879781136e32964dae9f6bfd97950a41efa2",
+  "interrupted_case_count": 1,
+  "interrupted_case_id": "tet4_rectangular_beam_h3_axial_x",
+  "interrupted_case_status": "RUNNING_RECORD_AT_OPERATOR_INTERRUPTION; no process.json or aster_raw.json was written",
+  "manifest_entry_count": 337,
+  "manifest_hash_audit": "PASS; all 337 listed files exist with matching size and SHA-256; no missing or extra files",
+  "manifest_path": "qualification/0_2_9/wp12_external_vv_r3_3_expanded_manifest.json",
+  "manifest_sha256": "e6e0e4cceb901170806c44ac0dfe7eaf091044f8a76db5b584fbe175c5ee6552",
+  "not_started_case_count": 123,
+  "official_points_changed": false,
+  "production_mechanics_changed": false,
+  "runner_sha": "c344879781136e32964dae9f6bfd97950a41efa2",
+  "thresholds_changed": false,
+  "worktree_at_audit": "R3.3 contract/runner commits preserved; R3.3 partial raw artifacts are locally ignored and covered by the sibling manifest",
+  "notes": [
+    "The execution was stopped after the repeated mesh-reader failure was established; no threshold or solver setting was altered.",
+    "The 20 completed cases failed before Code_Aster entered MECA_STATIQUE; the interrupted 21st case has the same mesh-reader diagnostic in its preserved log.",
+    "The independent R3.3 full-campaign auditor was not run because its required 144-case campaign summary does not exist. This partial execution audit is not a correlation result.",
+    "R3.3 output is not reused by the next prospective campaign."
+  ]
+}
