@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "study_id": "QF-029-WP09-HEX20-EXTENSION-STUDY-R1",
+  "contract_sha256": "8a694acbab56c711c6b9961e57efb0fce4841b847e2dc7cf9ee28ee7f02eb0c9",
+  "authorized_base_sha": "3e4f79161c0484563387a55d3de9c19c5389f9b3",
+  "raw_artifacts_local_archive": [
+    {
+      "path": "qualification/0_2_9/wp09_hex20_extension/h1_hex20.json",
+      "sha256": "c8678a558010b4b34610492e07977f331577212826fa12824a5950a25e92e63f"
+    },
+    {
+      "path": "qualification/0_2_9/wp09_hex20_extension/h1_replay_hex20.json",
+      "sha256": "68602d98d27fa0c6e1b482fade35019c6f3c4b9ddb421ff0d0545e7836ba609f"
+    },
+    {
+      "path": "qualification/0_2_9/wp09_hex20_extension/h2_hex20.json",
+      "sha256": "7019cf80137f5d8bd8aa2de22e27332a34fab59301ffa8d18857015b4bbeacff"
+    },
+    {
+      "path": "qualification/0_2_9/wp09_hex20_extension/load_window_020/h1_hex20_load020.json",
+      "sha256": "4f1a1ff7923308709db616d80c5e917a8c43c0b83caa1547747e3906a2fc7501"
+    },
+    {
+      "path": "qualification/0_2_9/wp09_hex20_extension/load_window_020/h2_hex20_load020.json",
+      "sha256": "bb8af4fa0866172be5f111a6d2b1f238e30176f5739e8d030d7354fa6d5132c7"
+    },
+    {
+      "path": "qualification/0_2_9/wp09_hex20_extension/load_window_020/h3_hex20_load020.json",
+      "sha256": "016cce85a14e6c1d7cb723581190e21174fb56dac24db29df93b55819355d6b4"
+    },
+    {
+      "path": "qualification/0_2_9/wp09_hex20_extension/revalidation_h1/h1_hex20.json",
+      "sha256": "a805de6520f18484cad7a2657149ac7a632137a6532c23d612659d68d79955b6"
+    }
+  ],
+  "derived_evidence": [
+    {
+      "path": "qualification/0_2_9/wp09_hex20_extension/independent_reference/summary.json",
+      "sha256": "53a1a730871fd334d1ce31155808af7910f44a25df66944ad06d70bda3e37980"
+    },
+    {
+      "path": "qualification/0_2_9/wp09_hex20_extension/load_window_020/summary.json",
+      "sha256": "794453bf8ae41ef59c6099bb4ce4f9f0fa67c2feec148bb758ef5363957c7e69"
+    },
+    {
+      "path": "qualification/0_2_9/wp09_hex20_extension/revalidation_h1/reference/summary.json",
+      "sha256": "c73d3084083c74a85a5c1eeb0e3e008fea21404744f31f77acc2498db49749c9"
+    }
+  ],
+  "raw_artifact_policy": "keep locally in the evidence archive; version code, reports and manifests",
+  "working_tree_at_manifest_generation": "generated artifacts intentionally excluded from Git"
+}

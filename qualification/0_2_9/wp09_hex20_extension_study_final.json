@@ -1,0 +1,116 @@
+{
+  "study_id": "QF-029-WP09-HEX20-EXTENSION-STUDY-R1",
+  "branch": "codex/wp09-hex20-extension",
+  "authorized_base_sha": "3e4f79161c0484563387a55d3de9c19c5389f9b3",
+  "initial_execution_sha": "681b1e131143e54c960e96aa0020f99144aca558",
+  "load_window_diagnostic_sha": "69b082d3330e76b14d850035535d97537f2de86b",
+  "tooling_fix_head_before_evidence_commit": "1e0d4f58ee7dcc1bb512a7d2540e8ad452b208d5",
+  "evidence_commit_sha": "2afb4e81e981d41e45610231afd5046d52f4d5b5",
+  "remote_head": "NOT_PUSHED",
+  "contract_sha256": "8a694acbab56c711c6b9961e57efb0fce4841b847e2dc7cf9ee28ee7f02eb0c9",
+  "policy_code_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "production_mechanics_changed": false,
+  "thresholds_changed": false,
+  "official_wp09_hex8_points": "8/8 unchanged",
+  "hex20_extension_points": "0/pending_owner_review",
+  "contract_load_scale_025": {
+    "status": "FAIL_CLOSED",
+    "H1": {
+      "status": "PASS",
+      "cells": 1,
+      "nodes": 20,
+      "elements": 1,
+      "dofs": 60,
+      "accepted_steps": 4,
+      "max_local_strain_norm": 0.042021229093770526,
+      "min_det_f": 0.9978457407224772,
+      "free_relative_residual": 4.2076158268297584e-10,
+      "elapsed_seconds": 31.837935799998377,
+      "raw_sha256": "c8678a558010b4b34610492e07977f331577212826fa12824a5950a25e92e63f"
+    },
+    "H2": {
+      "status": "FAIL_CLOSED",
+      "cells": 2,
+      "nodes": 32,
+      "elements": 2,
+      "dofs": 96,
+      "failure": "NumericalConvergenceError: Corotational small-strain bound exceeded",
+      "observed_local_strain_norm": 0.05089862,
+      "limit": 0.05,
+      "raw_sha256": "7019cf80137f5d8bd8aa2de22e27332a34fab59301ffa8d18857015b4bbeacff"
+    },
+    "H3": "NOT_RUN_DEPENDENCY_FAILURE",
+    "subincrement_diagnostics": {
+      "8_increments_observed_norm": 0.05089939,
+      "16_increments_observed_norm": 0.05088234,
+      "conclusion": "step subdivision does not remove the bound exceedance"
+    }
+  },
+  "lower_load_diagnostic_020": {
+    "status": "PASS_DIAGNOSTIC_WITH_MESH_LIMITATION",
+    "formal": false,
+    "H1": {
+      "status": "PASS",
+      "nodes": 20,
+      "elements": 1,
+      "dofs": 60,
+      "max_local_strain_norm": 0.03300842137385946,
+      "min_det_f": 0.9982726642901711,
+      "free_relative_residual": 2.1550590108525354e-10,
+      "elapsed_seconds": 31.618606200001523,
+      "raw_sha256": "4f1a1ff7923308709db616d80c5e917a8c43c0b83caa1547747e3906a2fc7501"
+    },
+    "H2": {
+      "status": "PASS",
+      "nodes": 32,
+      "elements": 2,
+      "dofs": 96,
+      "max_local_strain_norm": 0.04032905373687753,
+      "min_det_f": 0.9980898946115533,
+      "free_relative_residual": 2.8900523418943144e-11,
+      "elapsed_seconds": 67.43772379999791,
+      "raw_sha256": "bb8af4fa0866172be5f111a6d2b1f238e30176f5739e8d030d7354fa6d5132c7"
+    },
+    "H3": {
+      "status": "PASS",
+      "nodes": 44,
+      "elements": 3,
+      "dofs": 132,
+      "max_local_strain_norm": 0.047403681367363774,
+      "min_det_f": 0.99826065683861,
+      "free_relative_residual": 3.6388993430046653e-10,
+      "elapsed_seconds": 94.41821970000092,
+      "raw_sha256": "016cce85a14e6c1d7cb723581190e21174fb56dac24db29df93b55819355d6b4"
+    },
+    "mesh_h2_to_h3": {
+      "status": "FAIL_CLOSED",
+      "selected_displacement_delta": 0.1087361797745023,
+      "reaction_delta": 4.758943239497074e-11,
+      "energy_delta": 0.0876717427846366,
+      "von_mises_delta": 0.03762818562951062,
+      "thresholds": {
+        "selected_displacement": 0.05,
+        "reaction": 0.05,
+        "energy": 0.05,
+        "von_mises": 0.1
+      }
+    }
+  },
+  "independent_observable_recomputation": {
+    "initial_campaign_status": "FAIL_CLOSED",
+    "reason": "H2 has no completed raw solve under the frozen 0.25 contract",
+    "h1_tooling_revalidation_status": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION",
+    "h1_revalidation_sha256": "c73d3084083c74a85a5c1eeb0e3e008fea21404744f31f77acc2498db49749c9",
+    "classification": "observable_recomputation_not_independent_global_fem_solve"
+  },
+  "targeted_validation": {
+    "wp09_hex20_tests": "3 passed",
+    "hex20_existing_tests": "9 passed",
+    "combined_targeted_tests": "12 passed",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "full_repository_suite": "NOT_RUN"
+  },
+  "final_status": "HEX20_EXTENSION_DIAGNOSTIC_ONLY_NOT_FORMALLY_QUALIFIED",
+  "next_step": "Owner may choose a new prospective HEX20 contract with an explicitly smaller load window and a mesh hierarchy that satisfies the frozen convergence gates; do not alter the current contract retroactively."
+}

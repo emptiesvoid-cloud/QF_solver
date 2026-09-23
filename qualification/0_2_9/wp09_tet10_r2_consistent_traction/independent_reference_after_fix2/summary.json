@@ -1,0 +1,270 @@
+{
+  "status": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION",
+  "classification": "INDEPENDENT_OBSERVABLE_RECOMPUTATION_NOT_GLOBAL_FEM_SOLVE",
+  "source_scope": "TET10",
+  "rows": [
+    {
+      "source": "h1_tet10.json",
+      "source_sha256": "e1d305ad82be89d8fe5d8aa7cd4a2b52d52a34ab851c3b8aee43af0fc4bc9dff",
+      "family": "TET10",
+      "cells": [
+        1,
+        1,
+        1
+      ],
+      "status": "PASS",
+      "errors": [],
+      "comparisons": {
+        "selected_displacement": {
+          "declared": 0.023896337330145997,
+          "recomputed": 0.023896337330145997,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "displacement_norm": {
+          "declared": 0.06757750248530676,
+          "recomputed": 0.06757750248530676,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "reaction_norm": {
+          "declared": 0.25000000000127165,
+          "recomputed": 0.25000000000127165,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "energy": {
+          "declared": 0.002414349214157651,
+          "recomputed": 0.002414349214157651,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "von_mises_max": {
+          "declared": 0.25129988121159114,
+          "recomputed": 0.25129988121159114,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "equivalent_plastic_strain_max": {
+          "declared": 0.028089460625049918,
+          "recomputed": 0.028089460625049918,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "plastic_dissipation_max": {
+          "declared": 0.0044564677751380965,
+          "recomputed": 0.0044564677751380965,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "min_det_f": {
+          "declared": 0.9993599454351811,
+          "recomputed": 0.9993599454351811,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "max_local_strain_norm": {
+          "declared": 0.03472180814787696,
+          "recomputed": 0.03472180814787696,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "free_relative_residual": {
+          "declared": 3.430435550267009e-11,
+          "recomputed": 3.430435550267009e-11,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "force_balance_relative_error": {
+          "declared": 1.2717053846914369e-12,
+          "recomputed": 1.2717053846914369e-12,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "moment_balance_relative_error": {
+          "declared": 8.471978072727788e-13,
+          "recomputed": 8.471978072727788e-13,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        }
+      }
+    },
+    {
+      "source": "h2_tet10.json",
+      "source_sha256": "3b3b96506e3ee97f8e541ce4f28968f3fe54d7262c0f4d7b7442d82c247c44ea",
+      "family": "TET10",
+      "cells": [
+        2,
+        2,
+        2
+      ],
+      "status": "PASS",
+      "errors": [],
+      "comparisons": {
+        "selected_displacement": {
+          "declared": 0.0204079174977965,
+          "recomputed": 0.0204079174977965,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "displacement_norm": {
+          "declared": 0.1341285943170146,
+          "recomputed": 0.1341285943170146,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "reaction_norm": {
+          "declared": 0.2500000000113671,
+          "recomputed": 0.2500000000113671,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "energy": {
+          "declared": 0.002575283112975539,
+          "recomputed": 0.002575283112975539,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "von_mises_max": {
+          "declared": 0.2719888293182871,
+          "recomputed": 0.2719888293182871,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "equivalent_plastic_strain_max": {
+          "declared": 0.027201595401259566,
+          "recomputed": 0.027201595401259566,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "plastic_dissipation_max": {
+          "declared": 0.004194727000404243,
+          "recomputed": 0.004194727000404243,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "min_det_f": {
+          "declared": 0.999381577831181,
+          "recomputed": 0.999381577831181,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "max_local_strain_norm": {
+          "declared": 0.03362469262877269,
+          "recomputed": 0.03362469262877269,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "free_relative_residual": {
+          "declared": 1.2946013603822222e-10,
+          "recomputed": 1.2946013603822222e-10,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "force_balance_relative_error": {
+          "declared": 1.1367185204762277e-11,
+          "recomputed": 1.1367185204762277e-11,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "moment_balance_relative_error": {
+          "declared": 7.873208230946334e-12,
+          "recomputed": 7.873208230946334e-12,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        }
+      }
+    },
+    {
+      "source": "h3_tet10.json",
+      "source_sha256": "879de3995bf6712de4606dcda4973cbfd9d2fcebeae6cf41f4e2fd11ba772379",
+      "family": "TET10",
+      "cells": [
+        3,
+        3,
+        3
+      ],
+      "status": "PASS",
+      "errors": [],
+      "comparisons": {
+        "selected_displacement": {
+          "declared": 0.020282093426834288,
+          "recomputed": 0.020282093426834288,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "displacement_norm": {
+          "declared": 0.21998485655848657,
+          "recomputed": 0.21998485655848657,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "reaction_norm": {
+          "declared": 0.2500000000274518,
+          "recomputed": 0.2500000000274518,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "energy": {
+          "declared": 0.002655021289764639,
+          "recomputed": 0.002655021289764639,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "von_mises_max": {
+          "declared": 0.2594223664104602,
+          "recomputed": 0.2594223664104602,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "equivalent_plastic_strain_max": {
+          "declared": 0.027339828712625608,
+          "recomputed": 0.027339828712625608,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "plastic_dissipation_max": {
+          "declared": 0.004234372484375461,
+          "recomputed": 0.004234372484375461,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "min_det_f": {
+          "declared": 0.9992652873637274,
+          "recomputed": 0.9992652873637274,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "max_local_strain_norm": {
+          "declared": 0.033790617604358086,
+          "recomputed": 0.033790617604358086,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "free_relative_residual": {
+          "declared": 1.0956399065845687e-10,
+          "recomputed": 1.0956399065845687e-10,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "force_balance_relative_error": {
+          "declared": 2.7451763113962252e-11,
+          "recomputed": 2.7451763113962252e-11,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "moment_balance_relative_error": {
+          "declared": 1.941499874205939e-11,
+          "recomputed": 1.941499874205939e-11,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        }
+      }
+    }
+  ],
+  "production_imports": [],
+  "limitations": [
+    "recomputes observables from raw result JSON",
+    "does not solve FEM/Newton independently"
+  ]
+}
