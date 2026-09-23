@@ -28,6 +28,16 @@ ASTER_NODE_ORDER = {
     "TET10": tuple(range(10)),
     "HEX20": (0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 9, 10, 12, 14, 15, 16, 18, 19, 17),
 }
+CODE_ASTER_PROFILE = (
+    "/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-"
+    "owafurl325k3dbxls3s645zyfmvakxsg"
+)
+CODE_ASTER_RUNNER = f"{CODE_ASTER_PROFILE}/bin/run_aster"
+SPACK_ROOT = "/opt/spack/opt/spack/linux-zen"
+CODE_ASTER_IMAGE = (
+    "simvia/code_aster@sha256:"
+    "4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435"
+)
 INPUT_NAMES = ("result.json", "displacement.npy", "fixed.npy", "loads.npy", "stiffness.npy")
 DEFAULT_CONTRACT = Path("qualification/0_2_9/wp12_external_vv_contract.json")
 DEFAULT_OUTPUT = Path("qualification/0_2_9/wp12_external_vv")
@@ -55,6 +65,27 @@ def safe_path(root: Path, relative: str) -> Path:
     if resolved != resolved_root and resolved_root not in resolved.parents:
         raise ValueError(f"Path escapes repository root: {relative}")
     return resolved
+
+
+def _expected_runtime_shell(runtime: dict[str, Any], solver_command: str) -> str:
+    if (
+        runtime.get("shell") != "/bin/bash"
+        or runtime.get("profile_script") != f"{CODE_ASTER_PROFILE}/share/aster/profile.sh"
+        or runtime.get("spack_root") != SPACK_ROOT
+        or runtime.get("python_site_packages_pattern") != "*/lib/python3.11/site-packages"
+        or runtime.get("shared_library_directory_names") != ["lib", "lib64"]
+        or runtime.get("login_shell") is not True
+    ):
+        raise ValueError("WP12 runtime bootstrap differs from the verified Code_Aster image setup")
+    return (
+        f"export RUNASTER_ROOT={CODE_ASTER_PROFILE}; "
+        f"source {runtime['profile_script']}; "
+        f"export PYTHONPATH=$(find {runtime['spack_root']} -type d -path "
+        f"'{runtime['python_site_packages_pattern']}' | paste -sd: -):${{PYTHONPATH:-}}; "
+        f"export LD_LIBRARY_PATH=$(find {runtime['spack_root']} -type d "
+        r"\( -name lib -o -name lib64 \) | paste -sd: -):${LD_LIBRARY_PATH:-}; "
+        f"{solver_command}"
+    )
 
 
 def relative_l2(actual: np.ndarray, expected: np.ndarray) -> float:
@@ -336,6 +367,10 @@ def audit(contract_path: Path, output_root: Path, repo_root: Path) -> dict[str, 
     if not isinstance(external, dict):
         external = {}
         errors.append("WP12 contract external_solver must be an object")
+    runtime_bootstrap = external.get("runtime_bootstrap", {})
+    if not isinstance(runtime_bootstrap, dict):
+        runtime_bootstrap = {}
+        errors.append("WP12 contract runtime_bootstrap must be an object")
     if (
         external.get("name") != "Code_Aster"
         or external.get("version") != contract.get("code_aster_version")
@@ -352,6 +387,10 @@ def audit(contract_path: Path, output_root: Path, repo_root: Path) -> dict[str, 
         or contract.get("code_aster_action") != "make_etude"
     ):
         errors.append("WP12 contract Code_Aster action/runtime/resource fields are inconsistent")
+    try:
+        _expected_runtime_shell(runtime_bootstrap, f"{CODE_ASTER_RUNNER} --version")
+    except (KeyError, TypeError, ValueError) as exc:
+        errors.append(f"WP12 contract Code_Aster runtime bootstrap is invalid: {exc}")
     qf_reference = contract.get("qf_reference", {})
     if not isinstance(qf_reference, dict):
         qf_reference = {}
@@ -471,6 +510,9 @@ def audit(contract_path: Path, output_root: Path, repo_root: Path) -> dict[str, 
                 family_errors.append(f"invalid process metadata: {exc}")
         if process:
             command = process.get("command", [])
+            expected_runtime_shell = _expected_runtime_shell(
+                runtime_bootstrap, f"{CODE_ASTER_RUNNER} {family}.export --no-mpi"
+            )
             if (
                 process.get("family") != family
                 or process.get("image") != contract.get("code_aster_image")
@@ -481,10 +523,15 @@ def audit(contract_path: Path, output_root: Path, repo_root: Path) -> dict[str, 
                 or process.get("container_cpu_limit") != 1
                 or process.get("solver_mpi_disabled") is not True
                 or not isinstance(process.get("host_process_id"), int)
-                or external.get("entrypoint") not in command
-                or not any(str(item).endswith("/bin/run_aster") for item in command)
-                or f"{family}.export" not in command
-                or "--no-mpi" not in command
+                or process.get("solver_entrypoint") != external.get("entrypoint")
+                or process.get("python_runtime_import_smoke") != "PASS"
+                or process.get("runtime_shell_command") != expected_runtime_shell
+                or not command
+                or command[command.index("--entrypoint") + 1] != runtime_bootstrap.get("shell")
+                or command[command.index(CODE_ASTER_IMAGE) + 1] != "-lc"
+                or command[-1] != expected_runtime_shell
+                or f"{family}.export" not in expected_runtime_shell
+                or "--no-mpi" not in expected_runtime_shell
                 or "--cpus=1" not in command
             ):
                 family_errors.append("Code_Aster process provenance/resource constraints mismatch")

@@ -16,7 +16,7 @@ from scripts.run_wp12_code_aster_multifamily import (
     relative_l2,
     relative_linf,
 )
-from scripts.audit_wp12_code_aster_multifamily import _validate_manifest, recompute_metrics
+from scripts.audit_wp12_code_aster_multifamily import _expected_runtime_shell, _validate_manifest, recompute_metrics
 
 
 @pytest.mark.parametrize("family", FAMILIES)
@@ -105,6 +105,26 @@ def test_run_aster_export_binds_mesh_and_single_cpu_without_mpi() -> None:
     assert "P no-mpi" not in export
 
 
+def test_profiled_runtime_bootstrap_is_shared_by_runner_and_independent_auditor() -> None:
+    runtime = {
+        "shell": "/bin/bash",
+        "login_shell": True,
+        "profile_script": f"{wp12_runner.CODE_ASTER_PROFILE}/share/aster/profile.sh",
+        "spack_root": wp12_runner.SPACK_ROOT,
+        "python_site_packages_pattern": "*/lib/python3.11/site-packages",
+        "shared_library_directory_names": ["lib", "lib64"],
+    }
+    solver_command = f"{wp12_runner.CODE_ASTER_RUNNER} TET4.export --no-mpi"
+
+    command = wp12_runner._runtime_shell_command(runtime, solver_command)
+
+    assert command == _expected_runtime_shell(runtime, solver_command)
+    assert "source " + runtime["profile_script"] in command
+    assert "PYTHONPATH=$(find " + runtime["spack_root"] in command
+    assert "LD_LIBRARY_PATH=$(find " + runtime["spack_root"] in command
+    assert solver_command in command
+
+
 def test_manifest_rejects_unlisted_or_stale_files(tmp_path) -> None:
     from scripts.run_wp12_code_aster_multifamily import write_json
 
@@ -142,6 +162,15 @@ def test_external_execution_uses_official_run_aster_entrypoint_and_records_fresh
         cid.write_text("a" * 64, encoding="ascii")
         return CompletedProcess()
 
+    runtime_bootstrap = {
+        "shell": "/bin/bash",
+        "login_shell": True,
+        "profile_script": f"{wp12_runner.CODE_ASTER_PROFILE}/share/aster/profile.sh",
+        "spack_root": wp12_runner.SPACK_ROOT,
+        "python_site_packages_pattern": "*/lib/python3.11/site-packages",
+        "shared_library_directory_names": ["lib", "lib64"],
+    }
+
     monkeypatch.setattr(wp12_runner.shutil, "which", lambda name: "docker.exe")
     monkeypatch.setattr(wp12_runner.subprocess, "Popen", fake_popen)
     monkeypatch.setattr(
@@ -152,14 +181,18 @@ def test_external_execution_uses_official_run_aster_entrypoint_and_records_fresh
         ),
     )
 
-    result = wp12_runner._run_aster(tmp_path, "TET4", 900, "sha256:" + "b" * 64)
+    result = wp12_runner._run_aster(tmp_path, "TET4", 900, "sha256:" + "b" * 64, runtime_bootstrap)
     command = captured["command"]
 
-    assert command[command.index("--entrypoint") + 1] == wp12_runner.CODE_ASTER_RUNNER
-    assert command[command.index(wp12_runner.CODE_ASTER_IMAGE) + 1] == "TET4.export"
+    assert command[command.index("--entrypoint") + 1] == "/bin/bash"
+    assert command[command.index(wp12_runner.CODE_ASTER_IMAGE) + 1] == "-lc"
+    assert command[-1] == result["runtime_shell_command"]
+    assert "source " + runtime_bootstrap["profile_script"] in command[-1]
+    assert "mpi4py" not in command[-1]  # The import smoke runs only during preflight.
+    assert f"{wp12_runner.CODE_ASTER_RUNNER} TET4.export --no-mpi" in command[-1]
     assert "--cpus=1" in command
-    assert "--no-mpi" in command
-    assert "python3" not in command
+    assert result["solver_entrypoint"] == wp12_runner.CODE_ASTER_RUNNER
+    assert result["python_runtime_import_smoke"] == "PASS"
     assert result["fresh_container_process"] is True
     assert result["container_id"] == "a" * 64
     assert result["image_id"] == "sha256:" + "b" * 64

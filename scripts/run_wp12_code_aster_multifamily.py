@@ -55,6 +55,7 @@ CODE_ASTER_PROFILE = (
     "owafurl325k3dbxls3s645zyfmvakxsg"
 )
 CODE_ASTER_RUNNER = f"{CODE_ASTER_PROFILE}/bin/run_aster"
+SPACK_ROOT = "/opt/spack/opt/spack/linux-zen"
 INPUT_NAMES = ("result.json", "displacement.npy", "fixed.npy", "loads.npy", "stiffness.npy")
 
 
@@ -91,6 +92,29 @@ def _git(repo_root: Path, *args: str) -> str:
 
 def _manifest_key(family: str, filename: str) -> str:
     return f"{family}\\M1\\{filename}"
+
+
+def _runtime_shell_command(runtime: dict[str, Any], command: str) -> str:
+    """Build the pinned image's profiled Spack environment without invoking a solver."""
+
+    if (
+        runtime.get("shell") != "/bin/bash"
+        or runtime.get("profile_script") != f"{CODE_ASTER_PROFILE}/share/aster/profile.sh"
+        or runtime.get("spack_root") != SPACK_ROOT
+        or runtime.get("python_site_packages_pattern") != "*/lib/python3.11/site-packages"
+        or runtime.get("shared_library_directory_names") != ["lib", "lib64"]
+        or runtime.get("login_shell") is not True
+    ):
+        raise WP12PreflightError("WP12 Code_Aster runtime bootstrap differs from the validated image setup.")
+    return (
+        f"export RUNASTER_ROOT={CODE_ASTER_PROFILE}; "
+        f"source {runtime['profile_script']}; "
+        f"export PYTHONPATH=$(find {runtime['spack_root']} -type d -path "
+        f"'{runtime['python_site_packages_pattern']}' | paste -sd: -):${{PYTHONPATH:-}}; "
+        f"export LD_LIBRARY_PATH=$(find {runtime['spack_root']} -type d "
+        r"\( -name lib -o -name lib64 \) | paste -sd: -):${LD_LIBRARY_PATH:-}; "
+        f"{command}"
+    )
 
 
 def _load_frozen_inputs(repo_root: Path, contract: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -227,6 +251,14 @@ def preflight(contract_path: Path, repo_root: Path) -> dict[str, Any]:
         or contract.get("code_aster_action") != "make_etude"
     ):
         raise WP12PreflightError("WP12 Code_Aster runtime/action/resource configuration is inconsistent.")
+    runtime_bootstrap = external.get("runtime_bootstrap")
+    if not isinstance(runtime_bootstrap, dict):
+        raise WP12PreflightError("WP12 Code_Aster runtime bootstrap is missing.")
+    runtime_probe_shell = _runtime_shell_command(
+        runtime_bootstrap,
+        "python3 -c 'import mpi4py, numpy; import code_aster.Commands' && "
+        f"{CODE_ASTER_RUNNER} --version",
+    )
     qf_reference = contract.get("qf_reference", {})
     if not isinstance(qf_reference, dict):
         raise WP12PreflightError("WP12 qf_reference provenance must be an object.")
@@ -299,7 +331,7 @@ def preflight(contract_path: Path, repo_root: Path) -> dict[str, Any]:
     if image.returncode != 0 or image.stdout.strip() != expected_image_id:
         raise WP12PreflightError("Local Code_Aster image is absent or has an unexpected immutable image ID.")
     version = subprocess.run(
-        [docker, "run", "--rm", "--entrypoint", CODE_ASTER_RUNNER, CODE_ASTER_IMAGE, "--version"],
+        [docker, "run", "--rm", "--entrypoint", runtime_bootstrap["shell"], CODE_ASTER_IMAGE, "-lc", runtime_probe_shell],
         cwd=repo_root,
         capture_output=True,
         text=True,
@@ -451,10 +483,13 @@ def relative_linf(actual: np.ndarray, expected: np.ndarray) -> float:
     return float(np.max(np.abs(np.asarray(actual) - np.asarray(expected)), initial=0.0) / denominator)
 
 
-def _run_aster(work: Path, family: str, timeout_s: int, image_id: str) -> dict[str, Any]:
+def _run_aster(
+    work: Path, family: str, timeout_s: int, image_id: str, runtime_bootstrap: dict[str, Any]
+) -> dict[str, Any]:
     docker = shutil.which("docker")
     if docker is None:
         raise WP12PreflightError("Docker CLI disappeared after preflight.")
+    runtime_shell = _runtime_shell_command(runtime_bootstrap, f"{CODE_ASTER_RUNNER} {family}.export --no-mpi")
     command = [
         docker,
         "run",
@@ -467,10 +502,10 @@ def _run_aster(work: Path, family: str, timeout_s: int, image_id: str) -> dict[s
         "--workdir",
         "/work",
         "--entrypoint",
-        CODE_ASTER_RUNNER,
+        runtime_bootstrap["shell"],
         CODE_ASTER_IMAGE,
-        f"{family}.export",
-        "--no-mpi",
+        "-lc",
+        runtime_shell,
     ]
     start = time.perf_counter()
     started_utc = datetime.now(timezone.utc).isoformat()
@@ -508,8 +543,9 @@ def _run_aster(work: Path, family: str, timeout_s: int, image_id: str) -> dict[s
     elapsed = time.perf_counter() - start
     container_id_path = work / "container.cid"
     container_id = container_id_path.read_text(encoding="ascii").strip() if container_id_path.is_file() else None
+    runtime_probe_shell = _runtime_shell_command(runtime_bootstrap, f"{CODE_ASTER_RUNNER} --version")
     runtime_probe = subprocess.run(
-        [docker, "run", "--rm", "--entrypoint", CODE_ASTER_RUNNER, CODE_ASTER_IMAGE, "--version"],
+        [docker, "run", "--rm", "--entrypoint", runtime_bootstrap["shell"], CODE_ASTER_IMAGE, "-lc", runtime_probe_shell],
         cwd=work,
         capture_output=True,
         text=True,
@@ -521,6 +557,9 @@ def _run_aster(work: Path, family: str, timeout_s: int, image_id: str) -> dict[s
         "image_id": image_id,
         "runtime_version": runtime_probe.stdout.strip() if runtime_probe.returncode == 0 else None,
         "command": command,
+        "runtime_shell_command": runtime_shell,
+        "solver_entrypoint": CODE_ASTER_RUNNER,
+        "python_runtime_import_smoke": "PASS" if runtime_probe.returncode == 0 else "FAIL",
         "host_process_id": process.pid,
         "container_id": container_id,
         "exit_code": exit_code,
@@ -590,6 +629,7 @@ def execute(contract_path: Path, repo_root: Path) -> dict[str, Any]:
                 family,
                 int(contract["timeout_seconds"]),
                 str(readiness["code_aster_image_id"]),
+                contract["external_solver"]["runtime_bootstrap"],
             )
             raw = load_json(work / "aster_raw.json")
             if raw.get("status") != "PASS" or raw.get("family") != family:

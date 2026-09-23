@@ -67,11 +67,28 @@ file roles/units (`comm` 1, ASTER `mail` 20, `mess` 6, `resu` 8). The mesh is
 deliberately ASTER-mail format, not MED. The export syntax follows the official
 [Code_Aster launch documentation](https://code-aster.org/doc/v17/manuals/man_u/u1/u1.04.00/notions_generales.html#1-4-fichier-export).
 
-The runner invocation was reviewed against the pinned image before freezing:
-`run_aster --version` reports Code_Aster 18.1.0 and the image's `run_aster`
-wrapper initializes the required profile. A plain system `python3` in this
-image cannot import `code_aster`; therefore direct `python3 case.comm` is not
-an acceptable solver invocation and is explicitly excluded.
+## Launcher audit and preserved R1 outcome
+
+The first frozen R1 execution is preserved at
+`qualification/0_2_9/wp12_external_vv/`; its manifest and summary remain
+immutable. All four family processes exited during runtime startup with the
+same diagnostic, `No module named mpi4py`. No Code_Aster command file produced
+a raw result, so this is a launch-environment failure, not a numerical family
+failure and not correlation evidence. R1 remains `FAIL_CLOSED` and is not
+rewritten or reused as a passing attempt.
+
+Inspection of the pinned image showed that `run_aster` sources its own
+`profile.sh`, but `mpi4py` is installed in a separate Spack site-packages tree
+that the profile does not add to `PYTHONPATH`. The corrected R2 preflight now
+imports `mpi4py`, NumPy and `code_aster.Commands` using the same shell bootstrap
+as the solver launch, then checks the pinned runtime version. The R2 launch
+still invokes the official `run_aster` entrypoint and adds no solver/MPI
+parallelism; it only makes the pinned image's Python and shared-library
+dependencies discoverable. The bootstrap was smoke-tested without a structural
+solve before R2 was frozen.
+
+A plain system `python3 case.comm` is explicitly excluded: it does not establish
+the Code_Aster runtime environment and is not an acceptable solver invocation.
 
 ## Plan audit / limitations
 
