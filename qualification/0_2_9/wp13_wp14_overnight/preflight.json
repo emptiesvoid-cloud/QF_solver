@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "audit_id": "WP13-WP14-OVERNIGHT-PREFLIGHT-2026-09-23",
+  "timestamp": "2026-09-23T22:42:34+02:00",
+  "baseline": {
+    "branch": "0.2.9-unified-nonlinear",
+    "required_sha": "9c4048dc1909520e3933f86b2b62a9bfd6562c2c",
+    "local_sha": "9c4048dc1909520e3933f86b2b62a9bfd6562c2c",
+    "remote_sha": "9c4048dc1909520e3933f86b2b62a9bfd6562c2c",
+    "isolated_branch": "codex/wp13-wp14-overnight"
+  },
+  "working_tree_clean_before_record": true,
+  "active_wp13_wp14_process": false,
+  "wp13": {
+    "status": "HOLD_FROZEN_CONTRACT_MISSING",
+    "contract_found": false,
+    "campaign_run": false,
+    "basis": [
+      "0.2.9 gate matrix requires prospective frozen package contract and gates",
+      "architecture baseline records no frozen nonlinear performance characterization contract"
+    ]
+  },
+  "wp14": {
+    "status": "HOLD_FROZEN_RELEASE_GATES_MISSING",
+    "contract_found": false,
+    "release_checks_run": false,
+    "owner_approval_required_by_gate_matrix": true
+  },
+  "ledger_allocation": {
+    "frozen_roadmap": {"WP13": 2, "WP14": 2, "WP15": null, "total": 100},
+    "current_machine_and_progress_docs": {"WP13": 1, "WP14": 1, "WP15": 2, "total": 100},
+    "discrepancy": true,
+    "owner_revision_found": false,
+    "modified": false
+  },
+  "tests_or_solves_run": false,
+  "full_test_suite_run": false,
+  "production_mechanics_changed": false,
+  "thresholds_or_contracts_changed": false,
+  "official_points_awarded": false,
+  "merge_or_push": false,
+  "final_status": "HOLD_OWNER_DECISIONS_REQUIRED",
+  "next_action": "Freeze prospective WP13 and WP14 contracts and reconcile point allocations before any execution."
+}
