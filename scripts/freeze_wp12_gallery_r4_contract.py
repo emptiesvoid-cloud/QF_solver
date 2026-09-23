@@ -43,7 +43,8 @@ def _verify_prior_campaign() -> dict[str, Any]:
     old_manifest = engine.load_json(ROOT / R3_MANIFEST)
     if (
         old_contract.get("case_count") != 144
-        or old_summary.get("candidate_cases_passed") != 144
+        or old_summary.get("status") != "PASS_WITH_LIMITATIONS"
+        or old_summary.get("pass_candidate_count") != 144
         or old_audit.get("audit_status") != "PASS_WITH_LIMITATIONS"
         or old_audit.get("case_pass_count") != 144
     ):

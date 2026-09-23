@@ -77,7 +77,8 @@ def _verify_prior_r36(contract: dict[str, Any], repo_root: Path) -> dict[str, An
     old_audit = engine.load_json(paths["audit_path"])
     if (
         old_contract.get("case_count") != 144
-        or old_summary.get("candidate_cases_passed") != 144
+        or old_summary.get("status") != "PASS_WITH_LIMITATIONS"
+        or old_summary.get("pass_candidate_count") != 144
         or old_audit.get("audit_status") != "PASS_WITH_LIMITATIONS"
         or old_audit.get("case_pass_count") != 144
     ):
