@@ -44,8 +44,9 @@ R3_4_CONTRACT = Path("qualification/0_2_9/wp12_external_vv_r3_4_expanded_contrac
 R3_4_MANIFEST = Path("qualification/0_2_9/wp12_external_vv_r3_4_expanded_manifest.json")
 R3_4_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_4_execution_audit.json")
 R3_4_FULL_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_4_expanded_audit.json")
-R3_5_SMOKE_REPORT = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke.json")
-R3_5_SMOKE_MANIFEST = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_manifest.json")
+R3_5_SMOKE_ATTEMPT_1_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_attempt_audit.json")
+R3_5_SMOKE_REPORT = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r2.json")
+R3_5_SMOKE_MANIFEST = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r2_manifest.json")
 
 
 def _git(*args: str) -> str:
@@ -124,6 +125,15 @@ def build_contract() -> dict[str, Any]:
     r3_4_execution_sha = str(r3_4_audit.get("execution_sha", ""))
     if _git("rev-parse", f"{r3_4_execution_sha}^") != r3_4_contract.get("freeze_commit_sha"):
         raise RuntimeError("R3.4 execution SHA does not immediately follow its recorded freeze commit.")
+    smoke_attempt_1 = json.loads((ROOT / R3_5_SMOKE_ATTEMPT_1_AUDIT).read_text(encoding="utf-8"))
+    if (
+        smoke_attempt_1.get("audit_status") != "FAIL_CLOSED_DIAGNOSTIC_HARNESS"
+        or smoke_attempt_1.get("code_aster_process_count") != 0
+        or smoke_attempt_1.get("manifest_sha256") != _sha256(
+            Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_manifest.json")
+        )
+    ):
+        raise RuntimeError("Preserved R3.5 smoke attempt 1 is missing or inconsistent.")
     smoke = json.loads((ROOT / R3_5_SMOKE_REPORT).read_text(encoding="utf-8"))
     if (
         smoke.get("status") != "PASS_DIAGNOSTIC_ONLY"
@@ -178,7 +188,7 @@ def build_contract() -> dict[str, Any]:
         "execution_authorized": True,
         "abort_on_execution_failure": True,
         "execution_authorization": {
-            "basis": "Owner request to substantially increase external correlation coverage after acceptance of the WP12 R2 perimeter; fresh reruns preserved R3.2 truncation, R3.3 numeric-name rejection, and R3.4 nodal-load identifier failure before preparing this revision.",
+            "basis": "Owner request to substantially increase external correlation coverage after acceptance of the WP12 R2 perimeter; fresh reruns preserved R3.2 truncation, R3.3 numeric-name rejection, R3.4 nodal-load identifier failure, and a pre-freeze smoke harness failure before preparing this revision.",
             "scope": "144 sequential same-mesh QF Solver SciPy direct versus Code_Aster 18.1 serial linear-static correlations. Use Code_Aster native node IDs N1, N2, ... for mesh and nodal-load cards; use short bijective alphabetic element IDs A..Z, AA... to keep every .mail record at or below 80 columns. Abort on the first execution exception; one CPU per Code_Aster container; no nonlinear runs, no ledger change, no merge, no push.",
         },
         "pre_execution_mesh_smoke": {
