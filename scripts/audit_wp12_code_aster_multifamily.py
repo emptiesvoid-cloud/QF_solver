@@ -278,7 +278,7 @@ def recompute_metrics(
     """Recompute external-correlation observables without solver imports."""
 
     qf_u = np.asarray(qf_displacement, dtype=np.float64).reshape(-1, 3)
-    aster_u = np.asarray(aster_displacement, dtype=np.float64)
+    aster_u: np.ndarray = np.asarray(aster_displacement, dtype=np.float64)
     aster_r = np.asarray(aster_reaction, dtype=np.float64)
     qf_f = np.asarray(qf_loads, dtype=np.float64).reshape(-1, 3)
     qf_k = np.asarray(qf_stiffness, dtype=np.float64)
@@ -325,7 +325,10 @@ def recompute_metrics(
 
 
 def _expected_mail(family: str, spec: dict[str, Any]) -> str:
-    coordinates = np.asarray(spec["coordinates"], dtype=np.float64)
+    coordinate_array = np.asarray(spec["coordinates"], dtype=np.float64)
+    if coordinate_array.ndim != 2 or coordinate_array.shape[1] != 3:
+        raise ValueError(f"{family}: frozen coordinates must have shape (nodes, 3)")
+    coordinates: list[list[float]] = coordinate_array.tolist()
     connectivity = np.asarray(spec["connectivity"], dtype=np.int64)
     lines = ["TITRE", f"WP12 external correlation {family}", "FINSF", "COOR_3D"]
     lines.extend(
