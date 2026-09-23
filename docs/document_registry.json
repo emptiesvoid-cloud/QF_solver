@@ -6235,6 +6235,21 @@
     "tests": [
       "tests/unit/test_wp12_code_aster_multifamily.py"
     ]
+  },
+  {
+    "id": "DOC-029-WP12-EXTERNAL-VV-INDEPENDENT-AUDIT",
+    "path": "verification/0_2_9/wp12-external-vv-independent-audit.md",
+    "title": "QF Solver 0.2.9 WP12 independent plan and raw-evidence audit",
+    "status": "controlled_evidence",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp12_external_vv_independent_audit.json",
+      "qualification/0_2_9/wp12_external_vv_r2_contract.json",
+      "qualification/0_2_9/wp12_external_vv_r2/manifest.json"
+    ],
+    "tests": [
+      "tests/unit/test_wp12_code_aster_multifamily.py"
+    ]
   }
 ]
 }
