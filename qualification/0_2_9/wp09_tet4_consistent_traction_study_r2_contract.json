@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-029-WP09-TET4-CONSISTENT-TRACTION-DIAGNOSTIC-R2",
+  "revision": 1,
+  "supersedes": {
+    "contract_path": "qualification/0_2_9/wp09_tet4_consistent_traction_study_contract.json",
+    "contract_sha256": "35c5d08a05ac4b830d5175b933301733be7faa6886cb879fab13296129c43e0b",
+    "contract_commit": "78ae76d55d9c1474c15adb6838c7cf92d70b4fc2",
+    "reason": "R1 orchestration expected gates.production_status while its contract declared gates.primary_status; H1 raw primary completed, then campaign orchestration stopped before gate/replay."
+  },
+  "work_item": "WP09",
+  "scope": "TET4-only diagnostic extension study; not formal qualification and not score-bearing",
+  "status": "FROZEN_PROSPECTIVE_DIAGNOSTIC_CONTRACT",
+  "governing_source_branch": "0.2.9-unified-nonlinear",
+  "governing_base_sha": "cf832937404a14bb780778e2c0f6adc3efbfcc59",
+  "study_branch": "codex/wp09-tet4-extension-study",
+  "frozen_runner_commit": "e3b987dfddbc519b30b6e7e67d2890c83f0f5943",
+  "runner_path": "scripts/run_wp09_tet4_consistent_traction_study.py",
+  "runner_sha256": "bc053494b263255805cd613c00bdea0a78be82ea2c02d4415be63c967334a87f",
+  "policy_code_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "runtime_policy_digest": "895d3c932278c0207b207318216c263a427636d57738bef730917fdc7d9b0ef5",
+  "authorization": {
+    "owner_authorizes_isolated_tet4_diagnostic": true,
+    "formal_wp09_tet4_requalification": false,
+    "official_points_awarded": false,
+    "governing_merge": false,
+    "push": false,
+    "production_mechanics_changes": false,
+    "threshold_changes": false
+  },
+  "formulation": {
+    "element_family": "TET4",
+    "kinematics": "corotational_j2",
+    "local_strain_measure": "corotational stretch U minus identity; Frobenius norm",
+    "constitutive_model": "additive small-strain von Mises J2 with isotropic hardening",
+    "tangent": "central_difference_internal_force_at_fixed_committed_state",
+    "solver_method": "newton_raphson",
+    "contact": "disabled"
+  },
+  "geometry_and_boundary_conditions": {
+    "domain": "unit cube [0,1] x [0,1] x [0,1]",
+    "fixed_boundary": "all UX/UY/UZ at x=0",
+    "loaded_boundary": "all exterior TET4 triangular faces at x=1",
+    "transverse_conditions": "unconstrained except rigid-body restraint implied by fixed x=0 face"
+  },
+  "material": {
+    "type": "von_mises_elastoplastic_3d",
+    "E": 1000.0,
+    "nu": 0.3,
+    "yield_stress": 0.02,
+    "hardening_modulus": 10.0
+  },
+  "path": {
+    "load_scale": 0.25,
+    "load_path": [0.25, 0.5, 0.75, 1.0],
+    "load_steps": 4,
+    "max_iterations": 40,
+    "tolerance": 1e-9,
+    "corotational_max_local_strain": 0.05,
+    "adaptive_load_steps": false,
+    "fallback": "disabled_by_frozen_governing_policy"
+  },
+  "load_definition": {
+    "type": "consistent_surface_traction",
+    "face_interpolation": "linear TRI3 faces of TET4",
+    "quadrature": "frozen production triangular-face integration rule",
+    "coordinate_system": "global",
+    "direction": "+UX",
+    "total_resultant": [0.25, 0.0, 0.0],
+    "expected_moment_about_origin": [0.0, 0.125, -0.125],
+    "equal_share_nodal_load": false,
+    "independent_analytic_resultant_moment_check": true
+  },
+  "mesh_hierarchy": {
+    "family": "TET4",
+    "refinement": "structured 3-D unit-cube grid; each hexahedral cell split into five TET4 elements using frozen runner templates",
+    "levels": [
+      {"stage": "H1", "cells": [1, 1, 1], "expected_nodes": 8, "expected_elements": 5, "expected_dofs": 24, "raw_filename": "h1_tet4_primary.json"},
+      {"stage": "H2", "cells": [2, 2, 2], "expected_nodes": 27, "expected_elements": 40, "expected_dofs": 81, "raw_filename": "h2_tet4_primary.json"},
+      {"stage": "H3", "cells": [3, 3, 3], "expected_nodes": 64, "expected_elements": 135, "expected_dofs": 192, "raw_filename": "h3_tet4_primary.json"}
+    ],
+    "execution_order": "H1 then H2 then H3, sequentially; each mesh is an independent diagnostic solve and a failure at one level does not suppress later levels",
+    "mesh_gate": "H2_to_H3_only_when_both_primary_results_pass"
+  },
+  "gates": {
+    "primary_status": "PASS",
+    "accepted_steps": 4,
+    "rejected_increments": 0,
+    "fallback_count": 0,
+    "free_residual_relative_max": 1e-7,
+    "force_equilibrium_relative_max": 1e-8,
+    "moment_equilibrium_relative_max": 1e-8,
+    "minimum_det_f": 1e-10,
+    "maximum_local_strain_norm": 0.05,
+    "replay_relative_tolerance": 1e-12,
+    "load_resultant_absolute_error_max": 1e-12,
+    "load_moment_absolute_error_max": 1e-12,
+    "mesh_comparison": {
+      "selected_displacement_relative_max": 0.05,
+      "reaction_relative_max": 0.05,
+      "energy_relative_max": 0.05,
+      "von_mises_relative_max": 0.10
+    },
+    "failure_behavior": "Preserve raw failure, continue to next independent mesh, do not replay failed primary, do not relax any gate."
+  },
+  "reference": {
+    "script": "scripts/run_wp09_tet4_consistent_traction_reference.py",
+    "reference_sha256": "8d50078d682e3f47d38f76929578d39d095a690b3e024ab3fb3a8df08cd21336",
+    "classification": "independent_observable_recomputation_not_global_fem_solve",
+    "required_for_each_successful_primary": true,
+    "production_solver_imports": false
+  },
+  "replay": {
+    "required_for_each_primary_passing_structural_gates": true,
+    "execution": "fresh Python process, same frozen runner, contract, mesh, material, BCs, and load",
+    "relative_tolerance": 1e-12
+  },
+  "superseded_r1_primary": {
+    "path": "qualification/0_2_9/wp09_tet4_consistent_traction_study_r1/h1_tet4_primary.json",
+    "sha256": "602387bc91b1ffa3e006c7a626809f46276b2bb6acbd3958c95a669408e6c45d",
+    "execution_sha": "78ae76d55d9c1474c15adb6838c7cf92d70b4fc2",
+    "classification": "PASS_RAW_PRIMARY_ORCHESTRATION_ABORTED_BEFORE_GATE_AND_REPLAY_NOT_REUSED_IN_R2"
+  },
+  "historical_evidence": {
+    "formal_tet4_failure": {
+      "path": "qualification/0_2_9/wp09_formal_requalification_r2/m1_tet4_1.json",
+      "sha256": "d74ee9f76c188206338f87a4d5b4cad5a9581990a0f8795bd74f863cc5f3f949",
+      "classification": "historical_fail_closed_preserved_not_overwritten"
+    },
+    "remesh_nodal_load_diagnostic": [
+      {"path": "qualification/0_2_9/wp09_remesh_study_r2/tet4_1x1x1.json", "sha256": "afd582b2e46b7f3ff0098216441184977238dfc1149e597d7eddf9e9ad7444ed"},
+      {"path": "qualification/0_2_9/wp09_remesh_study_r2/tet4_2x2x2.json", "sha256": "d80da9a71a92235d31fc195e64d0cd3ca74026b9245d26ed16a30ccd0ac45705"},
+      {"path": "qualification/0_2_9/wp09_remesh_study_r2/tet4_4x4x4.json", "sha256": "fabf441a8e67622870b4efc84d2fd7e7efa30201458e63670b6aa93c828d5433"}
+    ],
+    "comparability_note": "The historical remesh diagnostic declares four nodal loads and zero distributed loads. It is preserved but is not load-equivalent to this consistent surface-traction study."
+  },
+  "formal_status": {
+    "wp09_hex8_official_points": "8/8 unchanged",
+    "wp09_hex20_and_tet10_extensions": "Owner accepted with limitations; no new extension points assigned here",
+    "wp09_tet4_status": "diagnostic_only_pending_separate_owner_review",
+    "wp09_official_points_change": false,
+    "global_ledger_change": false
+  },
+  "limitations": [
+    "TET4 family only",
+    "bounded corotational small-strain J2 only",
+    "diagnostic benchmark is a unit-cube coupon and is not general element-family qualification",
+    "no global independent FEM/Newton reference solve",
+    "no external-solver correlation",
+    "no contact, friction, finite sliding, dynamic, MPI, or PETSc claims",
+    "no automatic WP09 score attribution"
+  ]
+}

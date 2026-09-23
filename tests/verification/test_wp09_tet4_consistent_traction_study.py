@@ -110,9 +110,11 @@ def test_frozen_study_contract_binds_runner_and_preserves_history() -> None:
     assert contract["reference"]["reference_sha256"] == reference_hash
     assert contract["mesh_hierarchy"]["execution_order"].startswith("H1 then H2 then H3")
     assert contract["load_definition"]["equal_share_nodal_load"] is False
-    for item in contract["historical_evidence"]["remesh_equal_share_diagnostic"]:
+    for item in contract["historical_evidence"]["remesh_nodal_load_diagnostic"]:
         actual = hashlib.sha256(Path(item["path"]).read_bytes()).hexdigest()
         assert len(item["sha256"]) == 64
         assert actual == item["sha256"]
     historical_failure = contract["historical_evidence"]["formal_tet4_failure"]
     assert hashlib.sha256(Path(historical_failure["path"]).read_bytes()).hexdigest() == historical_failure["sha256"]
+    superseded = contract["superseded_r1_primary"]
+    assert hashlib.sha256(Path(superseded["path"]).read_bytes()).hexdigest() == superseded["sha256"]
