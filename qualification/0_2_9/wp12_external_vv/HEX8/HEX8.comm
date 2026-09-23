@@ -1,0 +1,44 @@
+# coding=utf-8
+import json
+import numpy as np
+from code_aster.Commands import *
+
+DEBUT(CODE="OUI", ERREUR=_F(ALARME="EXCEPTION"))
+mesh = LIRE_MAILLAGE(FORMAT="ASTER", UNITE=20)
+model = AFFE_MODELE(MAILLAGE=mesh, AFFE=_F(GROUP_MA="SOLID", PHENOMENE="MECANIQUE", MODELISATION="3D"))
+material = DEFI_MATERIAU(ELAS=_F(E=210000000000, NU=0.29999999999999999))
+field = AFFE_MATERIAU(MAILLAGE=mesh, AFFE=_F(GROUP_MA="SOLID", MATER=material))
+boundary = AFFE_CHAR_MECA(MODELE=model, DDL_IMPO=_F(GROUP_NO="ROOT", DX=0.0, DY=0.0, DZ=0.0))
+force = AFFE_CHAR_MECA(MODELE=model, FORCE_NODALE=(
+    _F(NOEUD="N2", FZ=-250),
+    _F(NOEUD="N3", FZ=-250),
+    _F(NOEUD="N6", FZ=-250),
+    _F(NOEUD="N7", FZ=-250)
+))
+result = MECA_STATIQUE(MODELE=model, CHAM_MATER=field, EXCIT=(_F(CHARGE=boundary), _F(CHARGE=force)))
+result = CALC_CHAMP(reuse=result, RESULTAT=result, FORCE=("REAC_NODA",))
+depl = result.getField("DEPL", 1)
+reac = result.getField("REAC_NODA", 1)
+displacement = np.zeros((8, 3), dtype=float)
+reaction = np.zeros((8, 3), dtype=float)
+for node in range(8):
+    group = "QF%03d" % node
+    for component, name in enumerate(("DX", "DY", "DZ")):
+        values, _ = depl.getValuesWithDescription(name, [group])
+        if len(values) != 1:
+            raise RuntimeError("Expected one displacement value for " + group)
+        displacement[node, component] = float(values[0])
+        values, _ = reac.getValuesWithDescription(name, [group])
+        if len(values) != 1:
+            raise RuntimeError("Expected one reaction value for " + group)
+        reaction[node, component] = float(values[0])
+with open("/work/aster_raw.json", "w", encoding="utf-8") as stream:
+    json.dump({
+        "status": "PASS",
+        "family": "HEX8",
+        "element_type": "HEXA8",
+        "modelisation": "3D",
+        "displacement": displacement.tolist(),
+        "reaction": reaction.tolist(),
+    }, stream, indent=2, allow_nan=False)
+FIN()
