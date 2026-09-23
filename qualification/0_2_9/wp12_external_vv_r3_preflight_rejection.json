@@ -1,0 +1,13 @@
+{
+  "contract_path": "qualification/0_2_9/wp12_external_vv_r3_expanded_contract.json",
+  "contract_sha256": "f1ff473a7c53368cee1e22408b5a34c44165bc3f089d638ac24654f0de6604e2",
+  "preflight_head_sha": "7cf7faf9f7f83a9a67b7fbd5a5d950572ac4fc6d",
+  "preflight_status": "FAIL_CLOSED_CONTRACT_FIELD_MISMATCH",
+  "observed_error": "Code_Aster image digest differs from the runner pin",
+  "structural_solves_started": false,
+  "campaign_output_created": false,
+  "r2_evidence_modified": false,
+  "thresholds_changed": false,
+  "production_source_changed": false,
+  "resolution": "Preserve this frozen contract and record; create a new R3.1 contract with the required root-level pinned Code_Aster image/version fields."
+}

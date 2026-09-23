@@ -215,6 +215,22 @@ def _audit_case(
         errors.append("contract SHA-256 mismatch")
     if result.get("model_fingerprint") != actual_fingerprint:
         errors.append("result model fingerprint mismatch")
+    if coordinates.shape == (node_count, 3) and loads.shape == (dof_count,):
+        nodal_loads = loads.reshape(-1, 3)
+        applied_resultant = np.sum(nodal_loads, axis=0)
+        applied_moment = np.sum(np.cross(coordinates, nodal_loads), axis=0)
+        declared_resultant = np.asarray(case_contract["resultant_N"], dtype=np.float64)
+        declared_moment = np.asarray(case_contract["load_moment_origin_Nm"], dtype=np.float64)
+        if not np.allclose(applied_resultant, declared_resultant, rtol=1e-12, atol=1e-10):
+            errors.append("raw nodal loads do not preserve the frozen traction resultant")
+        if not np.allclose(applied_moment, declared_moment, rtol=1e-12, atol=1e-10):
+            errors.append("raw nodal loads do not preserve the frozen traction moment")
+        loaded_nodes = np.flatnonzero(np.any(nodal_loads != 0.0, axis=1))
+        distal_x = float(case_contract["dimensions_m"][0])
+        if not loaded_nodes.size or not np.allclose(coordinates[loaded_nodes, 0], distal_x, rtol=0.0, atol=1e-12):
+            errors.append("equivalent nodal traction is not confined to the frozen distal face")
+        if not np.isclose(float(case.get("load_area_m2", np.nan)), float(case_contract["load_area_m2"]), rtol=1e-12, atol=1e-12):
+            errors.append("raw load area differs from the frozen case contract")
     if result.get("status") != "PASS_CANDIDATE":
         errors.append(f"runner case status is {result.get('status')}, not PASS_CANDIDATE")
 

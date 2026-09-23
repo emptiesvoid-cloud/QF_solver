@@ -26,9 +26,9 @@ from scripts.wp12_expanded_models import (  # noqa: E402
     case_catalog,
 )
 
-CONTRACT_PATH = Path("qualification/0_2_9/wp12_external_vv_r3_expanded_contract.json")
-OUTPUT_ROOT = "qualification/0_2_9/wp12_external_vv_r3_expanded_raw"
-MANIFEST_PATH = "qualification/0_2_9/wp12_external_vv_r3_expanded_manifest.json"
+CONTRACT_PATH = Path("qualification/0_2_9/wp12_external_vv_r3_1_expanded_contract.json")
+OUTPUT_ROOT = "qualification/0_2_9/wp12_external_vv_r3_1_expanded_raw"
+MANIFEST_PATH = "qualification/0_2_9/wp12_external_vv_r3_1_expanded_manifest.json"
 BRANCH = "codex/wp12-expanded-correlation"
 BASE_SHA = "c5e842d5e589358633221ecd9f29c2ff1ef003aa"
 IMAGE = "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435"
@@ -78,7 +78,7 @@ def build_contract() -> dict[str, Any]:
         )
     return {
         "work_package": "WP12",
-        "revision": "R3_EXPANDED_144_CASE_LINEAR_STATIC_CORRELATION",
+        "revision": "R3_1_EXPANDED_144_CASE_LINEAR_STATIC_CORRELATION",
         "status": "FROZEN",
         "frozen_utc": datetime.now(timezone.utc).isoformat(),
         "branch": BRANCH,
@@ -94,6 +94,9 @@ def build_contract() -> dict[str, Any]:
             "scope": "144 sequential same-mesh QF Solver SciPy direct versus Code_Aster 18.1 serial linear-static correlations; one CPU per Code_Aster container; no nonlinear runs, no ledger change, no merge, no push.",
         },
         "case_count": len(cases),
+        "code_aster_version": "18.1.0",
+        "code_aster_image": IMAGE,
+        "code_aster_image_id": IMAGE_ID,
         "families": list(FAMILIES),
         "geometry_catalog_m": {name: list(values) for name, values in GEOMETRIES.items()},
         "mesh_catalog_cells": {name: list(values) for name, values in MESHES.items()},
