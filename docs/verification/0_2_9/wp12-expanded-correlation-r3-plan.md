@@ -48,8 +48,9 @@ evidence fails closed. Thresholds cannot be retuned after results.
   comparison and equilibrium metrics using NumPy/SciPy only; it imports no QF
   solver code or campaign runner.
 - Large per-case raw output stays in the ignored local directory
-  `qualification/0_2_9/wp12_external_vv_r3_2_expanded_raw/`. A versioned sibling
-  SHA-256 manifest and concise reports remain in Git.
+  `qualification/0_2_9/wp12_external_vv_r3_3_expanded_raw/`. A versioned sibling
+  SHA-256 manifest and concise reports remain in Git. R3.2 raw output remains
+  separate in its original local archive.
 
 ## Preflight revision history
 
@@ -61,6 +62,25 @@ linear solves and before any Code_Aster process started. Those cases are
 preserved as `FAIL_CLOSED`; no correlation is claimed. R3.2 validates all
 duplicated runtime fields in preflight and is frozen under new contract and
 output paths. Neither earlier contract or evidence is overwritten.
+
+## R3.2 result and R3.3 correction
+
+The independent R3.2 audit found 132/144 candidate cases and failed closed on
+12 HEX20 H3 cases. These were Code_Aster input/import failures, not numerical
+solver divergences. The `.mail` serializer emitted an 81-character HEX20
+connectivity record; Code_Aster's official mesh-file specification limits a
+line to 80 characters and ignores content after column 80. The final node
+identifier was therefore truncated. The R3.2 contract, raw results, manifest,
+and audit remain preserved without reinterpretation.
+
+R3.3 changes only the external mesh identifier serialization to numeric node
+names, adds a regression gate that checks every generated mesh line is at most
+80 characters and every HEX20 connectivity record retains all 20 nodes, and
+uses a new contract, execution root, and manifest. It prospectively reruns the
+entire 144-case matrix so all correlations share one corrected execution SHA.
+The solver mechanics, meshes, loads, material, boundary conditions, image,
+and numerical gates are unchanged. R3.2 results are not overwritten or mixed
+into R3.3.
 
 ## Scope boundary
 

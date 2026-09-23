@@ -87,7 +87,7 @@ def _audit_mesh_text(path: Path, family: str, coordinates: np.ndarray, connectiv
         if len(parsed_coordinates) != len(coordinates):
             errors.append("Code_Aster mesh node count differs from raw input arrays")
         else:
-            if [name for name, _ in parsed_coordinates] != [f"N{index + 1}" for index in range(len(coordinates))]:
+            if [name for name, _ in parsed_coordinates] != [str(index + 1) for index in range(len(coordinates))]:
                 errors.append("Code_Aster mesh node names/order differ from raw input arrays")
             if not np.array_equal(np.asarray([row for _, row in parsed_coordinates]), coordinates):
                 errors.append("Code_Aster mesh coordinates differ from raw input arrays")
@@ -100,14 +100,14 @@ def _audit_mesh_text(path: Path, family: str, coordinates: np.ndarray, connectiv
             parts = line.split()
             if not parts or not re.fullmatch(r"M\d+", parts[0]):
                 continue
-            parsed_elements.append([int(name[1:]) - 1 for name in parts[1:]])
+            parsed_elements.append([int(name) - 1 for name in parts[1:]])
         permutation = _aster_to_canonical_order(family)
         canonical = np.asarray([[row[permutation[index]] for index in range(len(permutation))] for row in parsed_elements], dtype=np.int64)
         if canonical.shape != connectivity.shape or not np.array_equal(canonical, connectivity):
             errors.append("Code_Aster mesh connectivity differs from raw input arrays")
         root_start = lines.index("ROOT", element_end + 1) + 1
         root_end = lines.index("FINSF", root_start)
-        root_nodes = np.asarray([int(name[1:]) - 1 for name in lines[root_start:root_end]], dtype=np.int64)
+        root_nodes = np.asarray([int(name) - 1 for name in lines[root_start:root_end]], dtype=np.int64)
         expected_root = np.flatnonzero(np.isclose(coordinates[:, 0], 0.0, rtol=0.0, atol=1e-12))
         if not np.array_equal(root_nodes, expected_root):
             errors.append("Code_Aster root boundary group differs from raw coordinates")
@@ -129,7 +129,7 @@ def _audit_comm_text(path: Path, loads: np.ndarray, material: dict[str, Any], ca
         errors.append("Code_Aster command does not identify this case or perform MECA_STATIQUE")
     observed: dict[tuple[int, int], float] = {}
     force_dof = {"FX": 0, "FY": 1, "FZ": 2}
-    for node_text, component, value_text in re.findall(r'NOEUD="N(\d+)"\s*,\s*(FX|FY|FZ)=([-+0-9.eE]+)', text):
+    for node_text, component, value_text in re.findall(r'NOEUD="(\d+)"\s*,\s*(FX|FY|FZ)=([-+0-9.eE]+)', text):
         observed[(int(node_text) - 1, force_dof[component])] = float(value_text)
     expected = {
         (node, axis): float(value)

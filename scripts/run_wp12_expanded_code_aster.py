@@ -124,24 +124,29 @@ def _aster_node_order(family: str) -> tuple[int, ...]:
     return tuple(range({"TET4": 4, "HEX8": 8, "TET10": 10}[family]))
 
 
+def _aster_node_name(index: int) -> str:
+    """Use numeric Aster node names to keep every mesh record below 80 columns."""
+    return str(index + 1)
+
+
 def _mesh_text(case: ExpandedCase) -> str:
     coordinates = np.asarray(case.model.nodes, dtype=np.float64)
     lines = ["TITRE", f"WP12 R3 {case.case_id}", "FINSF", "COOR_3D"]
-    lines.extend(f"N{i + 1} {x:.17g} {y:.17g} {z:.17g}" for i, (x, y, z) in enumerate(coordinates))
+    lines.extend(f"{_aster_node_name(i)} {x:.17g} {y:.17g} {z:.17g}" for i, (x, y, z) in enumerate(coordinates))
     lines.extend(["FINSF", ASTER_TYPES[case.family]])
     order = _aster_node_order(case.family)
     for element_index, element in enumerate(case.connectivity):
         ordered = [int(element[index]) for index in order]
-        lines.append(f"M{element_index + 1} " + " ".join(f"N{node + 1}" for node in ordered))
+        lines.append(f"M{element_index + 1} " + " ".join(_aster_node_name(node) for node in ordered))
     lines.extend(["FINSF", "GROUP_MA", "SOLID"])
     lines.extend(f"M{index + 1}" for index in range(len(case.connectivity)))
     lines.append("FINSF")
     root_nodes = np.flatnonzero(np.isclose(coordinates[:, 0], 0.0, rtol=0.0, atol=1.0e-12))
     if root_nodes.size == 0:
         raise CampaignError(f"{case.case_id}: root group is empty")
-    lines.extend(["GROUP_NO", "ROOT", *(f"N{node + 1}" for node in root_nodes), "FINSF"])
+    lines.extend(["GROUP_NO", "ROOT", *(_aster_node_name(int(node)) for node in root_nodes), "FINSF"])
     for index in range(len(coordinates)):
-        lines.extend(["GROUP_NO", f"QF{index:05d}", f"N{index + 1}", "FINSF"])
+        lines.extend(["GROUP_NO", f"QF{index:05d}", _aster_node_name(index), "FINSF"])
     lines.append("FIN")
     return "\n".join(lines) + "\n"
 
@@ -153,7 +158,7 @@ def _comm_text(case: ExpandedCase) -> str:
         for axis, (force_name, _) in enumerate(COMPONENTS):
             value = float(values[axis])
             if value != 0.0:
-                terms.append(f'_F(NOEUD="N{node + 1}", {force_name}={value:.17g})')
+                terms.append(f'_F(NOEUD="{_aster_node_name(node)}", {force_name}={value:.17g})')
     if not terms:
         raise CampaignError(f"{case.case_id}: generated load vector is empty")
     force_text = ",\n    ".join(terms)

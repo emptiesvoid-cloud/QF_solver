@@ -27,6 +27,16 @@ def test_code_aster_inputs_represent_exact_generated_qf_mesh_and_loads(tmp_path:
         assert comm_errors == []
 
 
+def test_code_aster_mesh_records_stay_within_the_80_column_format_limit() -> None:
+    for family in FAMILIES:
+        case = build_case(family, "slender_beam", "H3", "combined_xyz")
+        lines = _mesh_text(case).splitlines()
+        mesh_records = [line for line in lines if line.startswith("M") and len(line.split()) > 1]
+        assert max(map(len, lines)) <= 80
+        assert len(mesh_records) == len(case.connectivity)
+        assert all(len(line.split()) == case.connectivity.shape[1] + 1 for line in mesh_records)
+
+
 def test_all_frozen_load_vectors_have_the_same_declared_resultant_magnitude() -> None:
     for resultant in LOADS.values():
         assert np.isclose(np.linalg.norm(resultant), 1000.0, rtol=1e-14, atol=1e-12)
