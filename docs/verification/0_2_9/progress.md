@@ -22,18 +22,22 @@ applicable_version: 0.2.9-development
 | WP08 | 8 | **Closed — 8/8; Owner-approved with limitations** |
 | WP09 | 8 | **Closed — Owner accepted 8/8; HEX8-only bounded corotational J2 with limitations** |
 | WP10 | 6 | **Closed — Owner accepted 6/6; bounded TET4/HEX8/HEX20/TET10 coupled evidence with limitations** |
-| WP11–WP14 | 12 | Not started |
-| **Validated total (consolidated ledger)** | **84 / 100** | **Includes WP05 5/5, WP06 4/8, WP07 10/10, WP08 8/8, WP09 8/8 and WP10 6/6** |
+| WP11 | 6 | **Closed — Owner accepted 6/6; bounded TET4/HEX8/TET10/HEX20 PETSc/MPI evidence with limitations** |
+| WP12–WP14 | 6 | Not started |
+| **Validated total (consolidated ledger)** | **90 / 100** | **Includes WP05 5/5, WP06 4/8, WP07 10/10, WP08 8/8, WP09 8/8, WP10 6/6 and WP11 6/6** |
 
 ## Current administrative closure
 
-On 2026-09-22 the Owner accepted WP09 HEX8 R3 at 8/8 and WP10 at 6/6
-within the explicitly bounded multi-family scope. WP10 covers the recorded
+On 2026-09-22 the Owner accepted WP09 HEX8 R3 at 8/8, WP10 at 6/6 and WP11
+at 6/6 within their explicitly bounded scopes. WP11 covers TET4, HEX8,
+TET10 and HEX20 through serial SciPy M1, two-rank PETSc/MPI M2,
+fresh-process M3 replay and independent observable recomputation. It makes
+no scaling or external-solver correlation claim. WP10 covers the recorded
 TET4, HEX8, HEX20 and TET10 evidence; it does not claim unrestricted
 finite-strain behavior, frictional/finite-sliding contact, dynamics, MPI/PETSc,
 or external-solver correlation. The TET10 M2 moment-balance value is retained
 as an accepted limitation because no equilibrium threshold was frozen in the
-R2 contract. The reconciled local machine ledger is therefore 84/100.
+R2 contract. The reconciled local machine ledger is therefore 90/100.
 The governing push remains a separate publication step and does not change
 the evidence or the decision.
 

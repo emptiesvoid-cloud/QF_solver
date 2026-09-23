@@ -1,0 +1,39 @@
+{
+  "contract_revision": "R2_FROZEN",
+  "contract_sha256": "03e1cef371ffa53916715a75702e82f840ba8736435313e0fedcfc898012ddc1",
+  "element_family": "HEX8",
+  "errors": [],
+  "independent_fem_solve": false,
+  "kind": "independent_observable_recomputation",
+  "observables": {
+    "displacement_inf": 2.134240362811791e-08,
+    "displacement_l2": 4.648916393104076e-08,
+    "dof_count": 24,
+    "energy": 1.0671201814058862e-05,
+    "finite": true,
+    "fixed_dof_count": 12,
+    "free_residual_inf": 9.29389898374211e-12,
+    "free_residual_l2": 1.5414572475245604e-11,
+    "free_residual_relative_l2": 3.0829144950491205e-14,
+    "load_l2": 500.0,
+    "reaction_inf": 500.00000000000557,
+    "reaction_l2": 1122.9314568081754
+  },
+  "production_imports": false,
+  "relative_comparison_errors": {
+    "displacement_inf": 0.0,
+    "displacement_l2": 0.0,
+    "dof_count": 0.0,
+    "energy": 0.0,
+    "fixed_dof_count": 0.0,
+    "free_residual_inf": 1.0214490925699177e-13,
+    "free_residual_l2": 5.049424693789223e-14,
+    "free_residual_relative_l2": 1.0098849387578522e-16,
+    "load_l2": 0.0,
+    "reaction_inf": 1.1368683772161475e-16,
+    "reaction_l2": 0.0
+  },
+  "result_path": "qualification\\0_2_9\\wp11_multifamily_extension\\HEX8\\M2\\result.json",
+  "result_sha256": "079afaae364f0f98e4a6e02c4529a68e193aba0e7e94a9515a8ae1418dcb2f61",
+  "status": "PASS"
+}

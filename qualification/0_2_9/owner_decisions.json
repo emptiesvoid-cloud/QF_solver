@@ -282,6 +282,38 @@
         "no friction, finite sliding, dynamics, MPI/PETSc or external solver correlation claim",
         "independent reference is observable recomputation, not an independent global FEM/Newton solve"
       ]
+    },
+    {
+      "id": "OD-029-WP11-MULTIFAMILY-R2-01",
+      "title": "WP11 bounded multi-family PETSc/MPI closure acceptance",
+      "decision_date": "2026-09-22",
+      "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "accepted_work_items": ["WP11-TET4", "WP11-HEX8", "WP11-TET10", "WP11-HEX20"],
+      "approved_points": 6,
+      "wp11_points_before": "0/6",
+      "wp11_points_after": "6/6",
+      "global_official_total_before": "84/100",
+      "global_official_total_after": "90/100",
+      "owner_accepts_wp11_scope": true,
+      "authorizations": {
+        "official_wp11_ledger_update": true,
+        "governing_push": false,
+        "merge": false
+      },
+      "evidence": [
+        "docs/verification/0_2_9/wp11-owner-acceptance-r2.md",
+        "qualification/0_2_9/wp11_owner_acceptance_r2.json",
+        "qualification/0_2_9/wp11_multifamily_provenance_owner_review.json"
+      ],
+      "limitations": [
+        "bounded linear static one-element cases",
+        "root-side assembly with replicated input",
+        "no strong/weak scaling claim",
+        "no dynamics, contact or friction qualification",
+        "reference is observable recomputation, not an independent global FEM solve",
+        "no external FEM solver correlation",
+        "no cross-family result-equivalence claim"
+      ]
     }
   ],
   "ledger_reconciliation": {
@@ -299,16 +331,18 @@
     "allocation_mismatch_status": "CONSISTENT",
     "explanation": "The earlier Owner-stated 61/100 after D used a 58/100 pre-WP05 baseline; the consolidated local ledger already included WP05-C/D/E +3. The frozen roadmap package allocations sum to the declared 100 points. No points are double counted.",
     "current_reconciled_on": "2026-09-22",
-    "current_official_total": "84/100",
+    "current_official_total": "90/100",
     "current_awards": {
       "WP09": "8/8",
-      "WP10": "6/6"
+      "WP10": "6/6",
+      "WP11": "6/6"
     },
     "current_owner_decision_ids": [
       "OD-029-WP09-HEX8-R3-01",
-      "OD-029-WP10-BOUNDED-CLOSURE-01"
+      "OD-029-WP10-BOUNDED-CLOSURE-01",
+      "OD-029-WP11-MULTIFAMILY-R2-01"
     ],
-    "current_explanation": "The Owner subsequently accepted WP09 HEX8 R3 at 8/8 and WP10 bounded multi-family evidence at 6/6. The current official local total is therefore 84/100; no historical evidence was overwritten."
+    "current_explanation": "The Owner subsequently accepted WP09 HEX8 R3 at 8/8, WP10 bounded multi-family evidence at 6/6 and WP11 bounded multi-family PETSc/MPI evidence at 6/6. The current official local total is therefore 90/100; no historical evidence was overwritten."
   },
   "open_decisions": [
     {

@@ -16,6 +16,19 @@ qualification/0_2_9/wp09_hex8_formal_r2_evidence/replay/m*_hex8.json
 qualification/0_2_9/wp09_hex8_formal_r3_evidence/replay/m*_hex8.json
 qualification/0_2_9/wp09_hex8_formal_r3_primary/m*_hex8.json
 qualification/0_2_9/wp09_hex8_refinement_r1/hex8_*.json
+
+# WP11 raw execution files remain local/external and are referenced by manifests.
+qualification/0_2_9/wp11_execution/m1_serial/
+qualification/0_2_9/wp11_execution/m2_petsc_1rank/
+qualification/0_2_9/wp11_execution/m2_petsc_2rank/
+qualification/0_2_9/wp11_execution/m2_petsc_2rank_r1/
+qualification/0_2_9/wp11_execution/m2_petsc_2rank_r2/
+qualification/0_2_9/wp11_execution/m3_replay_2rank/
+qualification/0_2_9/wp11_execution/m3_replay_2rank_r1/
+qualification/0_2_9/wp11_execution/m3_replay_audit.json
+qualification/0_2_9/wp11_execution/wp11_manifest.json
+**/__pycache__/
+*.pyc
 qualification/0_2_9/wp09_hex8_refinement_r1/summary.json
 
 # WP09 HEX20 extension raw solves remain in the local evidence archive.

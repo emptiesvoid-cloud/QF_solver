@@ -1,0 +1,39 @@
+{
+  "contract_revision": "R2_FROZEN",
+  "contract_sha256": "03e1cef371ffa53916715a75702e82f840ba8736435313e0fedcfc898012ddc1",
+  "element_family": "TET10",
+  "errors": [],
+  "independent_fem_solve": false,
+  "kind": "independent_observable_recomputation",
+  "observables": {
+    "displacement_inf": 4.5896654827122695e-07,
+    "displacement_l2": 5.216733850973098e-07,
+    "dof_count": 30,
+    "energy": 0.0002294832741356081,
+    "finite": true,
+    "fixed_dof_count": 18,
+    "free_residual_inf": 6.669344450592414e-10,
+    "free_residual_l2": 1.087775658855193e-09,
+    "free_residual_relative_l2": 1.087775658855193e-12,
+    "load_l2": 1000.0,
+    "reaction_inf": 1857.0023879765674,
+    "reaction_l2": 3585.709523312296
+  },
+  "production_imports": false,
+  "relative_comparison_errors": {
+    "displacement_inf": 0.0,
+    "displacement_l2": 0.0,
+    "dof_count": 0.0,
+    "energy": 5.421010862427522e-20,
+    "fixed_dof_count": 0.0,
+    "free_residual_inf": 5.663478698039586e-13,
+    "free_residual_l2": 4.806434868902676e-13,
+    "free_residual_relative_l2": 4.80643486890106e-16,
+    "load_l2": 0.0,
+    "reaction_inf": 1.2244124020270306e-16,
+    "reaction_l2": 0.0
+  },
+  "result_path": "qualification\\0_2_9\\wp11_multifamily_extension\\TET10\\M2\\result.json",
+  "result_sha256": "7d8227f5af5fcaa864d89eab697d77a65caccf8b6e93bbbf7d05f34c8cb023c6",
+  "status": "PASS"
+}

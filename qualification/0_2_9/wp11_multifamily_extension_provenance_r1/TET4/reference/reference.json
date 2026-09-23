@@ -1,0 +1,39 @@
+{
+  "contract_revision": "R2_PROVENANCE_REBOUND",
+  "contract_sha256": "308e531be35c680d35e4532720e1b6185cf4eff4891acad14308c39225a330c2",
+  "element_family": "TET4",
+  "errors": [],
+  "independent_fem_solve": false,
+  "kind": "independent_observable_recomputation",
+  "observables": {
+    "displacement_inf": 7.428571428571429e-08,
+    "displacement_l2": 7.428571428571429e-08,
+    "dof_count": 12,
+    "energy": 3.7142857142857143e-05,
+    "finite": true,
+    "fixed_dof_count": 9,
+    "free_residual_inf": 2.2270247261043053e-14,
+    "free_residual_l2": 2.2270247261043053e-14,
+    "free_residual_relative_l2": 2.2270247261043053e-17,
+    "load_l2": 1000.0,
+    "reaction_inf": 1000.0,
+    "reaction_l2": 1732.0508075688772
+  },
+  "production_imports": false,
+  "relative_comparison_errors": {
+    "displacement_inf": 0.0,
+    "displacement_l2": 0.0,
+    "dof_count": 0.0,
+    "energy": 0.0,
+    "fixed_dof_count": 0.0,
+    "free_residual_inf": 0.0,
+    "free_residual_l2": 0.0,
+    "free_residual_relative_l2": 0.0,
+    "load_l2": 0.0,
+    "reaction_inf": 0.0,
+    "reaction_l2": 0.0
+  },
+  "result_path": "qualification\\0_2_9\\wp11_multifamily_extension_provenance_r1\\TET4\\M2\\result.json",
+  "result_sha256": "acaa3662bce60d959c84cc7d12e38281e16fefafba02852163450dee128ea3c2",
+  "status": "PASS"
+}
