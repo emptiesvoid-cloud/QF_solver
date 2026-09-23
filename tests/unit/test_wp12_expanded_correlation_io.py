@@ -3,12 +3,15 @@
 from __future__ import annotations
 
 import ast
+import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 
+from scripts import run_wp12_expanded_code_aster as runner
 from scripts.audit_wp12_expanded_code_aster import _audit_comm_text, _audit_mesh_text
-from scripts.run_wp12_expanded_code_aster import IMAGE, _comm_text, _mesh_text, validate_external_configuration
+from scripts.run_wp12_expanded_code_aster import IMAGE, _aster_node_name, _comm_text, _mesh_text, validate_external_configuration
 from scripts.wp12_expanded_models import FAMILIES, LOADS, MATERIAL, build_case
 
 
@@ -31,10 +34,20 @@ def test_code_aster_mesh_records_stay_within_the_80_column_format_limit() -> Non
     for family in FAMILIES:
         case = build_case(family, "slender_beam", "H3", "combined_xyz")
         lines = _mesh_text(case).splitlines()
-        mesh_records = [line for line in lines if line.startswith("M") and len(line.split()) > 1]
+        coordinate_start = lines.index("COOR_3D") + 1
+        coordinate_end = lines.index("FINSF", coordinate_start)
+        node_records = lines[coordinate_start:coordinate_end]
+        element_start = lines.index("HEXA20") + 1 if family == "HEX20" else lines.index(
+            {"TET4": "TETRA4", "HEX8": "HEXA8", "TET10": "TETRA10"}[family]
+        ) + 1
+        element_end = lines.index("FINSF", element_start)
+        mesh_records = lines[element_start:element_end]
         assert max(map(len, lines)) <= 80
+        assert [line.split()[0] for line in node_records] == [_aster_node_name(i) for i in range(len(case.model.nodes))]
         assert len(mesh_records) == len(case.connectivity)
         assert all(len(line.split()) == case.connectivity.shape[1] + 1 for line in mesh_records)
+        assert _aster_node_name(25) == "Z"
+        assert _aster_node_name(26) == "AA"
 
 
 def test_all_frozen_load_vectors_have_the_same_declared_resultant_magnitude() -> None:
@@ -86,3 +99,45 @@ def test_external_resource_contract_is_validated_before_case_execution() -> None
         assert "timeout/memory" in str(exc)
     else:
         raise AssertionError("Missing root resource field must fail closed")
+
+
+def test_campaign_stops_after_first_execution_exception(tmp_path: Path, monkeypatch) -> None:
+    contract_path = tmp_path / "contract.json"
+    contract_path.write_text(
+        json.dumps(
+            {
+                "output_root": "raw",
+                "manifest_path": "manifest.json",
+                "runner_sha": "runner",
+                "model_builder_sha": "builder",
+                "auditor_sha": "auditor",
+                "contract_builder_sha": "freezer",
+                "limitations": [],
+            }
+        ),
+        encoding="utf-8",
+    )
+    cases = [SimpleNamespace(case_id="first", family="TET4"), SimpleNamespace(case_id="second", family="HEX8")]
+    readiness = {
+        "branch": "test",
+        "execution_sha": "execution",
+        "contract_sha256": "contract-hash",
+        "code_aster_image_id": "image-id",
+        "code_aster_runtime_version": "code_aster test",
+    }
+    executed: list[str] = []
+
+    def fake_run(case, case_path, contract, preflight_result):
+        executed.append(case.case_id)
+        raise runner.CampaignError("simulated external execution failure")
+
+    monkeypatch.setattr(runner, "preflight", lambda contract, root: (readiness, cases))
+    monkeypatch.setattr(runner, "_run_case", fake_run)
+
+    summary = runner.execute(contract_path, tmp_path)
+
+    assert executed == ["first"]
+    assert summary["status"] == "FAIL_CLOSED"
+    assert summary["attempted_case_count"] == 1
+    assert summary["not_started_case_count"] == 1
+    assert summary["execution_aborted_on_error"] is True

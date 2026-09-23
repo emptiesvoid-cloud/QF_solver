@@ -47,8 +47,8 @@ evidence fails closed. Thresholds cannot be retuned after results.
   manifest, parses the Code_Aster mesh and force cards, and recomputes
   comparison and equilibrium metrics using NumPy/SciPy only; it imports no QF
   solver code or campaign runner.
-- Large per-case raw output stays in the ignored local directory
-  `qualification/0_2_9/wp12_external_vv_r3_3_expanded_raw/`. A versioned sibling
+- Large per-case raw output stays in the ignored local directory for the
+  active frozen revision. A versioned sibling
   SHA-256 manifest and concise reports remain in Git. R3.2 raw output remains
   separate in its original local archive.
 
@@ -63,7 +63,7 @@ preserved as `FAIL_CLOSED`; no correlation is claimed. R3.2 validates all
 duplicated runtime fields in preflight and is frozen under new contract and
 output paths. Neither earlier contract or evidence is overwritten.
 
-## R3.2 result and R3.3 correction
+## R3.2–R3.3 findings and R3.4 correction
 
 The independent R3.2 audit found 132/144 candidate cases and failed closed on
 12 HEX20 H3 cases. These were Code_Aster input/import failures, not numerical
@@ -73,14 +73,19 @@ line to 80 characters and ignores content after column 80. The final node
 identifier was therefore truncated. The R3.2 contract, raw results, manifest,
 and audit remain preserved without reinterpretation.
 
-R3.3 changes only the external mesh identifier serialization to numeric node
-names, adds a regression gate that checks every generated mesh line is at most
-80 characters and every HEX20 connectivity record retains all 20 nodes, and
-uses a new contract, execution root, and manifest. It prospectively reruns the
-entire 144-case matrix so all correlations share one corrected execution SHA.
-The solver mechanics, meshes, loads, material, boundary conditions, image,
-and numerical gates are unchanged. R3.2 results are not overwritten or mixed
-into R3.3.
+R3.3 then attempted a full prospective run using numeric node identifiers.
+Code_Aster rejected the first node token as an invalid identifier before
+`MECA_STATIQUE`. Twenty cases recorded exit code 6, one case was interrupted
+with the same parser diagnostic, and 123 cases were not started. The complete
+partial raw tree is hash-manifested; no R3.3 correlation is claimed.
+
+R3.4 uses short alphabetic-prefixed node names (`N1`, `N2`, …), keeps all
+records within the 80-column format limit, and stops at the first execution
+error so a systemic input problem cannot waste the remaining campaign. A new
+contract, output root, and manifest are used for a fresh 144-case rerun. The
+solver mechanics, meshes, loads, material, boundary conditions, image, and
+numerical gates remain unchanged. R2, R3.2, and R3.3 evidence are preserved
+and never mixed into R3.4.
 
 ## Scope boundary
 

@@ -74,6 +74,15 @@ def _aster_to_canonical_order(family: str) -> tuple[int, ...]:
     return tuple(aster_order.index(index) for index in range(len(aster_order)))
 
 
+def _decode_aster_identifier(identifier: str) -> int:
+    if not re.fullmatch(r"[A-Z]+", identifier):
+        raise ValueError(f"invalid alphabetic Code_Aster identifier: {identifier!r}")
+    value = 0
+    for character in identifier:
+        value = value * 26 + ord(character) - ord("A") + 1
+    return value - 1
+
+
 def _audit_mesh_text(path: Path, family: str, coordinates: np.ndarray, connectivity: np.ndarray) -> list[str]:
     errors: list[str] = []
     lines = path.read_text(encoding="ascii").splitlines()
@@ -87,7 +96,11 @@ def _audit_mesh_text(path: Path, family: str, coordinates: np.ndarray, connectiv
         if len(parsed_coordinates) != len(coordinates):
             errors.append("Code_Aster mesh node count differs from raw input arrays")
         else:
-            if [name for name, _ in parsed_coordinates] != [str(index + 1) for index in range(len(coordinates))]:
+            try:
+                node_ids = [_decode_aster_identifier(name) for name, _ in parsed_coordinates]
+            except ValueError:
+                node_ids = []
+            if node_ids != list(range(len(coordinates))):
                 errors.append("Code_Aster mesh node names/order differ from raw input arrays")
             if not np.array_equal(np.asarray([row for _, row in parsed_coordinates]), coordinates):
                 errors.append("Code_Aster mesh coordinates differ from raw input arrays")
@@ -96,18 +109,30 @@ def _audit_mesh_text(path: Path, family: str, coordinates: np.ndarray, connectiv
             errors.append("Code_Aster mesh element type differs from raw model family")
         element_end = lines.index("FINSF", element_type_index + 1)
         parsed_elements = []
+        parsed_element_ids = []
         for line in lines[element_type_index + 1 : element_end]:
             parts = line.split()
-            if not parts or not re.fullmatch(r"M\d+", parts[0]):
+            if not parts:
                 continue
-            parsed_elements.append([int(name) - 1 for name in parts[1:]])
+            try:
+                parsed_element_ids.append(_decode_aster_identifier(parts[0]))
+                parsed_elements.append([_decode_aster_identifier(name) for name in parts[1:]])
+            except ValueError:
+                errors.append("Code_Aster mesh contains an invalid alphabetic node/element identifier")
+        if parsed_element_ids != list(range(len(connectivity))):
+            errors.append("Code_Aster element names/order differ from raw input connectivity")
         permutation = _aster_to_canonical_order(family)
         canonical = np.asarray([[row[permutation[index]] for index in range(len(permutation))] for row in parsed_elements], dtype=np.int64)
         if canonical.shape != connectivity.shape or not np.array_equal(canonical, connectivity):
             errors.append("Code_Aster mesh connectivity differs from raw input arrays")
         root_start = lines.index("ROOT", element_end + 1) + 1
         root_end = lines.index("FINSF", root_start)
-        root_nodes = np.asarray([int(name) - 1 for name in lines[root_start:root_end]], dtype=np.int64)
+        root_names = lines[root_start:root_end]
+        try:
+            root_nodes = np.asarray([_decode_aster_identifier(name) for name in root_names], dtype=np.int64)
+        except ValueError:
+            errors.append("Code_Aster root group contains an invalid alphabetic node identifier")
+            root_nodes = np.asarray([], dtype=np.int64)
         expected_root = np.flatnonzero(np.isclose(coordinates[:, 0], 0.0, rtol=0.0, atol=1e-12))
         if not np.array_equal(root_nodes, expected_root):
             errors.append("Code_Aster root boundary group differs from raw coordinates")
@@ -129,8 +154,8 @@ def _audit_comm_text(path: Path, loads: np.ndarray, material: dict[str, Any], ca
         errors.append("Code_Aster command does not identify this case or perform MECA_STATIQUE")
     observed: dict[tuple[int, int], float] = {}
     force_dof = {"FX": 0, "FY": 1, "FZ": 2}
-    for node_text, component, value_text in re.findall(r'NOEUD="(\d+)"\s*,\s*(FX|FY|FZ)=([-+0-9.eE]+)', text):
-        observed[(int(node_text) - 1, force_dof[component])] = float(value_text)
+    for node_text, component, value_text in re.findall(r'NOEUD="([A-Z]+)"\s*,\s*(FX|FY|FZ)=([-+0-9.eE]+)', text):
+        observed[(_decode_aster_identifier(node_text), force_dof[component])] = float(value_text)
     expected = {
         (node, axis): float(value)
         for node, vector in enumerate(loads)

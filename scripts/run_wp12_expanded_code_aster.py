@@ -125,8 +125,17 @@ def _aster_node_order(family: str) -> tuple[int, ...]:
 
 
 def _aster_node_name(index: int) -> str:
-    """Use numeric Aster node names to keep every mesh record below 80 columns."""
-    return str(index + 1)
+    """Encode a compact alphabetic identifier valid in the native Aster mesh format."""
+    value = index + 1
+    label = ""
+    while value:
+        value, remainder = divmod(value - 1, 26)
+        label = chr(ord("A") + remainder) + label
+    return label
+
+
+def _aster_element_name(index: int) -> str:
+    return _aster_node_name(index)
 
 
 def _mesh_text(case: ExpandedCase) -> str:
@@ -137,9 +146,9 @@ def _mesh_text(case: ExpandedCase) -> str:
     order = _aster_node_order(case.family)
     for element_index, element in enumerate(case.connectivity):
         ordered = [int(element[index]) for index in order]
-        lines.append(f"M{element_index + 1} " + " ".join(_aster_node_name(node) for node in ordered))
+        lines.append(f"{_aster_element_name(element_index)} " + " ".join(_aster_node_name(node) for node in ordered))
     lines.extend(["FINSF", "GROUP_MA", "SOLID"])
-    lines.extend(f"M{index + 1}" for index in range(len(case.connectivity)))
+    lines.extend(_aster_element_name(index) for index in range(len(case.connectivity)))
     lines.append("FINSF")
     root_nodes = np.flatnonzero(np.isclose(coordinates[:, 0], 0.0, rtol=0.0, atol=1.0e-12))
     if root_nodes.size == 0:
@@ -240,6 +249,8 @@ def preflight(contract_path: Path, repo_root: Path) -> tuple[dict[str, Any], lis
     expected_branch = contract.get("branch")
     if contract.get("status") != "FROZEN" or contract.get("execution_authorized") is not True:
         raise CampaignError("R3 contract is not frozen and execution-authorized")
+    if contract.get("abort_on_execution_failure") is not True:
+        raise CampaignError("Frozen R3 contract must require fail-fast behavior for execution errors")
     if _git(repo_root, "branch", "--show-current") != expected_branch:
         raise CampaignError("Current branch differs from the frozen R3 branch")
     if _git(repo_root, "status", "--porcelain"):
@@ -589,7 +600,10 @@ def execute(contract_path: Path, repo_root: Path) -> dict[str, Any]:
             },
         )
         _manifest(output_root, repo_root / contract["manifest_path"])
+        if result.get("status") == "FAIL_CLOSED_EXECUTION":
+            break
     passed = sum(result.get("status") == "PASS_CANDIDATE" for result in results.values())
+    execution_aborted = len(results) < len(cases)
     family_summary = {
         family: {
             "cases": sum(result.get("family") == family for result in results.values()),
@@ -603,6 +617,9 @@ def execute(contract_path: Path, repo_root: Path) -> dict[str, Any]:
         "campaign": "R3 expanded same-mesh linear-static Code_Aster correlation",
         "status": "PASS_CANDIDATE_WITH_LIMITATIONS" if passed == len(cases) else "FAIL_CLOSED",
         "case_count": len(cases),
+        "attempted_case_count": len(results),
+        "not_started_case_count": len(cases) - len(results),
+        "execution_aborted_on_error": execution_aborted,
         "candidate_cases_passed": passed,
         "official_points_changed": False,
         "branch": readiness["branch"],
@@ -632,6 +649,7 @@ def render_summary(summary: dict[str, Any]) -> str:
         f"Status: **{summary['status']}**",
         "",
         f"Cases: {summary['candidate_cases_passed']}/{summary['case_count']} PASS_CANDIDATE",
+        f"Attempted: {summary['attempted_case_count']}; not started: {summary['not_started_case_count']}; aborted on execution error: {summary['execution_aborted_on_error']}",
         "",
         "| Family | Cases | PASS | FAIL/HOLD |",
         "|---|---:|---:|---:|",

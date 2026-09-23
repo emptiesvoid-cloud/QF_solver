@@ -27,9 +27,9 @@ from scripts.wp12_expanded_models import (  # noqa: E402
     case_catalog,
 )
 
-CONTRACT_PATH = Path("qualification/0_2_9/wp12_external_vv_r3_3_expanded_contract.json")
-OUTPUT_ROOT = "qualification/0_2_9/wp12_external_vv_r3_3_expanded_raw"
-MANIFEST_PATH = "qualification/0_2_9/wp12_external_vv_r3_3_expanded_manifest.json"
+CONTRACT_PATH = Path("qualification/0_2_9/wp12_external_vv_r3_4_expanded_contract.json")
+OUTPUT_ROOT = "qualification/0_2_9/wp12_external_vv_r3_4_expanded_raw"
+MANIFEST_PATH = "qualification/0_2_9/wp12_external_vv_r3_4_expanded_manifest.json"
 BRANCH = "codex/wp12-expanded-correlation"
 BASE_SHA = "c5e842d5e589358633221ecd9f29c2ff1ef003aa"
 IMAGE = "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435"
@@ -37,6 +37,9 @@ IMAGE_ID = "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4
 R3_2_CONTRACT = Path("qualification/0_2_9/wp12_external_vv_r3_2_expanded_contract.json")
 R3_2_MANIFEST = Path("qualification/0_2_9/wp12_external_vv_r3_2_expanded_manifest.json")
 R3_2_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_2_expanded_audit.json")
+R3_3_CONTRACT = Path("qualification/0_2_9/wp12_external_vv_r3_3_expanded_contract.json")
+R3_3_MANIFEST = Path("qualification/0_2_9/wp12_external_vv_r3_3_expanded_manifest.json")
+R3_3_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_3_execution_audit.json")
 
 
 def _git(*args: str) -> str:
@@ -73,6 +76,27 @@ def build_contract() -> dict[str, Any]:
     parent_contract = json.loads((ROOT / R3_2_CONTRACT).read_text(encoding="utf-8"))
     if parent_contract.get("revision") != "R3_2_EXPANDED_144_CASE_LINEAR_STATIC_CORRELATION":
         raise RuntimeError("Preserved R3.2 contract identity is inconsistent.")
+    r3_3_contract = json.loads((ROOT / R3_3_CONTRACT).read_text(encoding="utf-8"))
+    r3_3_audit = json.loads((ROOT / R3_3_AUDIT).read_text(encoding="utf-8"))
+    if (
+        r3_3_contract.get("revision") != "R3_3_EXPANDED_144_CASE_LINEAR_STATIC_CORRELATION"
+        or r3_3_contract.get("status") != "FROZEN"
+        or r3_3_audit.get("audit_status") != "FAIL_CLOSED"
+        or r3_3_audit.get("case_count") != 144
+        or r3_3_audit.get("completed_case_count") != 20
+        or r3_3_audit.get("completed_failure_count") != 20
+        or r3_3_audit.get("completed_pass_count") != 0
+        or r3_3_audit.get("interrupted_case_count") != 1
+        or r3_3_audit.get("not_started_case_count") != 123
+        or r3_3_audit.get("contract_sha256") != _sha256(R3_3_CONTRACT)
+        or r3_3_audit.get("manifest_sha256") != _sha256(R3_3_MANIFEST)
+        or r3_3_audit.get("manifest_entry_count") != 337
+        or r3_3_audit.get("manifest_hash_audit") != "PASS; all 337 listed files exist with matching size and SHA-256; no missing or extra files"
+    ):
+        raise RuntimeError("Preserved R3.3 interrupted fail-closed evidence is missing or inconsistent.")
+    r3_3_execution_sha = str(r3_3_audit.get("execution_sha", ""))
+    if _git("rev-parse", f"{r3_3_execution_sha}^") != r3_3_contract.get("freeze_commit_sha"):
+        raise RuntimeError("R3.3 execution SHA does not immediately follow its recorded freeze commit.")
 
     cases = []
     for case in case_catalog():
@@ -96,7 +120,7 @@ def build_contract() -> dict[str, Any]:
         )
     return {
         "work_package": "WP12",
-        "revision": "R3_3_EXPANDED_144_CASE_LINEAR_STATIC_CORRELATION",
+        "revision": "R3_4_EXPANDED_144_CASE_LINEAR_STATIC_CORRELATION",
         "status": "FROZEN",
         "frozen_utc": datetime.now(timezone.utc).isoformat(),
         "branch": BRANCH,
@@ -107,9 +131,10 @@ def build_contract() -> dict[str, Any]:
         "auditor_sha": _source_commit("scripts/audit_wp12_expanded_code_aster.py"),
         "contract_builder_sha": _source_commit("scripts/freeze_wp12_expanded_contract.py"),
         "execution_authorized": True,
+        "abort_on_execution_failure": True,
         "execution_authorization": {
-            "basis": "Owner request to substantially increase external correlation coverage after acceptance of the WP12 R2 perimeter; prospective full-matrix rerun after R3.2 exposed Code_Aster mesh-record truncation in 12 HEX20 H3 inputs.",
-            "scope": "144 sequential same-mesh QF Solver SciPy direct versus Code_Aster 18.1 serial linear-static correlations using numeric Code_Aster mesh identifiers so every .mail line respects the documented 80-column limit; one CPU per Code_Aster container; no nonlinear runs, no ledger change, no merge, no push.",
+            "basis": "Owner request to substantially increase external correlation coverage after acceptance of the WP12 R2 perimeter; full fresh rerun after R3.2 exposed an 80-column mesh-record truncation and R3.3 exposed rejection of numeric-only node identifiers.",
+            "scope": "144 sequential same-mesh QF Solver SciPy direct versus Code_Aster 18.1 serial linear-static correlations using compact bijective alphabetic node and element identifiers (A..Z, AA...) so native-format names are valid and every .mail line respects the documented 80-column limit; abort the campaign on the first execution exception; one CPU per Code_Aster container; no nonlinear runs, no ledger change, no merge, no push.",
         },
         "case_count": len(cases),
         "code_aster_version": "18.1.0",
@@ -198,8 +223,23 @@ def build_contract() -> dict[str, Any]:
             "same discrete mesh, material, boundary conditions, and consistent nodal force vector are supplied to both solvers",
             "no stress-field comparison, material nonlinearity, geometric nonlinearity, contact, friction, dynamics, buckling, continuation, or MPI/PETSc claim",
             "correlation between two FEM implementations is not experimental validation",
-            "this supplemental R3.3 campaign does not alter existing WP12 R2 results, R3.2 failures, Owner decisions, points, or global ledger",
+            "this supplemental R3.4 campaign does not alter existing WP12 R2 results, R3.2 or R3.3 failures, Owner decisions, points, or global ledger",
         ],
+        "supersedes_failed_attempt": {
+            "revision": "R3.3",
+            "contract_path": R3_3_CONTRACT.as_posix(),
+            "contract_sha256": _sha256(R3_3_CONTRACT),
+            "execution_sha": r3_3_execution_sha,
+            "manifest_path": R3_3_MANIFEST.as_posix(),
+            "manifest_sha256": _sha256(R3_3_MANIFEST),
+            "audit_path": R3_3_AUDIT.as_posix(),
+            "audit_sha256": _sha256(R3_3_AUDIT),
+            "audit_status": r3_3_audit.get("audit_status"),
+            "completed_failures": r3_3_audit.get("completed_failure_count"),
+            "interrupted_cases": r3_3_audit.get("interrupted_case_count"),
+            "raw_evidence_reused": False,
+            "historical_results_preserved": True,
+        },
     }
 
 
