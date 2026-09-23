@@ -39,6 +39,13 @@ CODE_ASTER_IMAGE = (
     "4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435"
 )
 INPUT_NAMES = ("result.json", "displacement.npy", "fixed.npy", "loads.npy", "stiffness.npy")
+RUNTIME_IMPORT_SMOKE = ["mpi4py", "numpy", "code_aster.Commands"]
+RUNTIME_IMPORT_SMOKE_COMMAND = "python3 -c 'import mpi4py, numpy; import code_aster.Commands'"
+R2_REVISION = "R2_PROSPECTIVE_RUNTIME_BOOTSTRAP_REMEDIATION"
+R2_AUTHORIZATION_SCOPE = (
+    "Four serial Code_Aster linear-static correlations only; no QF M1/M2/M3 rerun, no merge, no push, no ledger "
+    "award; R2 changes runtime bootstrap and prior-attempt provenance checks only"
+)
 DEFAULT_CONTRACT = Path("qualification/0_2_9/wp12_external_vv_contract.json")
 DEFAULT_OUTPUT = Path("qualification/0_2_9/wp12_external_vv")
 DEFAULT_AUDIT = Path("qualification/0_2_9/wp12_external_vv_audit.json")
@@ -74,6 +81,7 @@ def _expected_runtime_shell(runtime: dict[str, Any], solver_command: str) -> str
         or runtime.get("spack_root") != SPACK_ROOT
         or runtime.get("python_site_packages_pattern") != "*/lib/python3.11/site-packages"
         or runtime.get("shared_library_directory_names") != ["lib", "lib64"]
+        or runtime.get("required_import_smoke") != RUNTIME_IMPORT_SMOKE
         or runtime.get("login_shell") is not True
     ):
         raise ValueError("WP12 runtime bootstrap differs from the verified Code_Aster image setup")
@@ -86,6 +94,163 @@ def _expected_runtime_shell(runtime: dict[str, Any], solver_command: str) -> str
         r"\( -name lib -o -name lib64 \) | paste -sd: -):${LD_LIBRARY_PATH:-}; "
         f"{solver_command}"
     )
+
+
+def _audit_prior_attempt(contract: dict[str, Any], repo_root: Path) -> tuple[dict[str, Any] | None, list[str]]:
+    """Independently verify the immutable, pre-solve R1 launcher failure."""
+
+    prior = contract.get("prior_attempt")
+    if prior is None:
+        if contract.get("revision") == R2_REVISION:
+            return None, ["R2 contract does not bind the immutable R1 attempt"]
+        return None, []
+    errors: list[str] = []
+    if not isinstance(prior, dict) or prior.get("attempt") != "R1":
+        return None, ["prior-attempt binding must identify R1"]
+    if prior.get("classification") != "FAIL_CLOSED_LAUNCHER_RUNTIME_IMPORT_FAILURE":
+        errors.append("R1 failure classification differs from the frozen prior-attempt binding")
+    try:
+        record_path = safe_path(repo_root, str(prior.get("record_path", "")))
+        r1_contract_path = safe_path(repo_root, str(prior.get("contract_path", "")))
+        output_root = safe_path(repo_root, str(prior.get("output_root", "")))
+        r2_output = safe_path(repo_root, str(contract.get("output_root", "")))
+    except ValueError as exc:
+        return None, [str(exc)]
+    if r2_output == output_root or output_root in r2_output.parents or r2_output in output_root.parents:
+        errors.append("R1 and R2 output roots are not disjoint")
+    summary_path = output_root / "wp12_summary.json"
+    manifest_path = output_root / "manifest.json"
+    required_hashes = (
+        ("R1 failure record", record_path, "record_sha256"),
+        ("R1 contract", r1_contract_path, "contract_sha256"),
+        ("R1 summary", summary_path, "summary_sha256"),
+        ("R1 manifest", manifest_path, "manifest_sha256"),
+    )
+    for label, path, key in required_hashes:
+        if not path.is_file() or sha256_file(path) != prior.get(key):
+            errors.append(f"{label} missing or SHA-256 mismatch")
+    if not manifest_path.is_file():
+        return None, errors
+    try:
+        files = load_json(manifest_path).get("files")
+        if not isinstance(files, dict):
+            raise ValueError("R1 manifest has no file map")
+        actual = {
+            path.relative_to(output_root).as_posix()
+            for path in output_root.rglob("*")
+            if path.is_file() and path.name != "manifest.json"
+        }
+        if actual != set(files):
+            errors.append("R1 manifest does not cover the exact archived file set")
+        for relative, entry in files.items():
+            try:
+                path = safe_path(output_root, str(relative))
+            except ValueError as exc:
+                errors.append(str(exc))
+                continue
+            if (
+                not isinstance(entry, dict)
+                or not path.is_file()
+                or sha256_file(path) != entry.get("sha256")
+                or path.stat().st_size != entry.get("size_bytes")
+            ):
+                errors.append(f"R1 archived file hash/size mismatch: {relative}")
+    except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
+        errors.append(f"R1 manifest invalid: {exc}")
+        files = {}
+    if any(path.name == "aster_raw.json" for path in output_root.rglob("*")):
+        errors.append("R1 failure archive unexpectedly contains a Code_Aster raw result")
+    try:
+        record = load_json(record_path)
+        summary = load_json(summary_path)
+        r1_contract = load_json(r1_contract_path)
+        if contract.get("revision") == R2_REVISION:
+            authorization = contract.get("execution_authorization", {})
+            if (
+                contract.get("output_root") != "qualification/0_2_9/wp12_external_vv_r2"
+                or not isinstance(authorization, dict)
+                or authorization.get("scope") != R2_AUTHORIZATION_SCOPE
+            ):
+                errors.append("R2 revision/output/authorization scope is not the frozen prospective scope")
+            r1_comparable = json.loads(json.dumps(r1_contract))
+            r2_comparable = json.loads(json.dumps(contract))
+            for document in (r1_comparable, r2_comparable):
+                for key in ("revision", "runner_sha", "auditor_sha", "output_root", "prior_attempt"):
+                    document.pop(key, None)
+                document.get("external_solver", {}).pop("runtime_bootstrap", None)
+                document.get("execution_authorization", {}).pop("scope", None)
+            if r1_comparable != r2_comparable:
+                errors.append("R2 changed a frozen R1 model, load, gate, solver, or limitation field")
+        if (
+            record.get("classification") != prior.get("classification")
+            or record.get("numerical_failure") is not False
+            or record.get("correlation_claim") is not False
+            or record.get("contract_sha256") != prior.get("contract_sha256")
+            or record.get("summary_sha256") != prior.get("summary_sha256")
+            or record.get("raw_manifest_sha256") != prior.get("manifest_sha256")
+            or summary.get("status") != "FAIL_CLOSED"
+            or summary.get("candidate_points") != "0/4"
+            or summary.get("official_points") != "0/4"
+            or summary.get("execution_sha") != record.get("execution_sha")
+            or summary.get("contract_sha256") != prior.get("contract_sha256")
+            or r1_contract.get("status") != "FROZEN"
+            or r1_contract.get("revision") != "R1_PROSPECTIVE_CODE_ASTER_STATIC_FAMILY_MATRIX"
+            or summary.get("runner_sha") != r1_contract.get("runner_sha")
+            or set(record.get("families", {})) != set(FAMILIES)
+            or set(summary.get("families", {})) != set(FAMILIES)
+        ):
+            errors.append("R1 failure record and summary are inconsistent")
+        for family in FAMILIES:
+            failure = record["families"][family]
+            family_summary = summary["families"][family]
+            process = family_summary.get("process", {})
+            if (
+                failure.get("exit_code") != 1
+                or failure.get("aster_raw_json_present") is not False
+                or family_summary.get("status") != "FAIL_CLOSED_EXECUTION"
+                or process.get("exit_code") != 1
+                or process.get("host_process_id") != failure.get("host_process_id")
+            ):
+                errors.append(f"R1 {family} process/failure evidence drifted")
+            if (output_root / family / "aster_raw.json").exists():
+                errors.append(f"R1 {family} has an unexpected raw solve result")
+        try:
+            subprocess.check_output(
+                ["git", "cat-file", "-e", f"{record.get('execution_sha')}^{{commit}}"],
+                cwd=repo_root,
+                stderr=subprocess.DEVNULL,
+            )
+            subprocess.check_output(
+                ["git", "cat-file", "-e", f"{r1_contract.get('runner_sha')}^{{commit}}"],
+                cwd=repo_root,
+                stderr=subprocess.DEVNULL,
+            )
+            if subprocess.run(
+                [
+                    "git",
+                    "merge-base",
+                    "--is-ancestor",
+                    str(r1_contract.get("runner_sha")),
+                    str(record.get("execution_sha")),
+                ],
+                cwd=repo_root,
+                check=False,
+            ).returncode != 0:
+                errors.append("R1 runner SHA is not an ancestor of its recorded execution SHA")
+        except subprocess.CalledProcessError:
+            errors.append("R1 execution or runner SHA is not a resolvable Git commit")
+        prior_audit = {
+            "status": "PASS" if not errors else "FAIL_CLOSED",
+            "record_sha256": sha256_file(record_path) if record_path.is_file() else None,
+            "contract_sha256": sha256_file(r1_contract_path) if r1_contract_path.is_file() else None,
+            "summary_sha256": sha256_file(summary_path) if summary_path.is_file() else None,
+            "manifest_sha256": sha256_file(manifest_path) if manifest_path.is_file() else None,
+            "manifest_entries": len(files),
+        }
+        return prior_audit, errors
+    except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
+        errors.append(f"R1 failure/summary records invalid: {exc}")
+        return None, errors
 
 
 def relative_l2(actual: np.ndarray, expected: np.ndarray) -> float:
@@ -362,6 +527,8 @@ def audit(contract_path: Path, output_root: Path, repo_root: Path) -> dict[str, 
     repo_root = repo_root.resolve()
     contract = load_json(contract_path)
     errors = _validate_manifest(output_root)
+    prior_attempt_audit, prior_attempt_errors = _audit_prior_attempt(contract, repo_root)
+    errors.extend(prior_attempt_errors)
     families: dict[str, Any] = {}
     external = contract.get("external_solver", {})
     if not isinstance(external, dict):
@@ -513,6 +680,10 @@ def audit(contract_path: Path, output_root: Path, repo_root: Path) -> dict[str, 
             expected_runtime_shell = _expected_runtime_shell(
                 runtime_bootstrap, f"{CODE_ASTER_RUNNER} {family}.export --no-mpi"
             )
+            expected_runtime_probe_shell = _expected_runtime_shell(
+                runtime_bootstrap,
+                f"{RUNTIME_IMPORT_SMOKE_COMMAND} && {CODE_ASTER_RUNNER} --version",
+            )
             if (
                 process.get("family") != family
                 or process.get("image") != contract.get("code_aster_image")
@@ -525,6 +696,7 @@ def audit(contract_path: Path, output_root: Path, repo_root: Path) -> dict[str, 
                 or not isinstance(process.get("host_process_id"), int)
                 or process.get("solver_entrypoint") != external.get("entrypoint")
                 or process.get("python_runtime_import_smoke") != "PASS"
+                or process.get("runtime_probe_shell_command") != expected_runtime_probe_shell
                 or process.get("runtime_shell_command") != expected_runtime_shell
                 or not command
                 or command[command.index("--entrypoint") + 1] != runtime_bootstrap.get("shell")
@@ -671,6 +843,7 @@ def audit(contract_path: Path, output_root: Path, repo_root: Path) -> dict[str, 
         "execution_sha": summary.get("execution_sha"),
         "runner_sha": contract.get("runner_sha"),
         "manifest_sha256": sha256_file(output_root / "manifest.json") if (output_root / "manifest.json").is_file() else None,
+        "prior_attempt_audit": prior_attempt_audit,
         "families": families,
         "errors": errors,
         "limitations": contract.get("limitations", []),

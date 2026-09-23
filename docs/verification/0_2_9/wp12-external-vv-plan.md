@@ -77,6 +77,13 @@ a raw result, so this is a launch-environment failure, not a numerical family
 failure and not correlation evidence. R1 remains `FAIL_CLOSED` and is not
 rewritten or reused as a passing attempt.
 
+The R2 contract and both independent controls bind the R1 failure record,
+contract, summary and complete 66-entry output manifest by SHA-256. Before any
+R2 solve they re-verify every archived file, confirm all four processes failed
+before producing `aster_raw.json`, check that the R1 execution/runner commits
+are resolvable, and compare every non-remediation contract field against R1.
+R1 and R2 use disjoint output roots; R2 cannot overwrite the historical run.
+
 Inspection of the pinned image showed that `run_aster` sources its own
 `profile.sh`, but `mpi4py` is installed in a separate Spack site-packages tree
 that the profile does not add to `PYTHONPATH`. The corrected R2 preflight now

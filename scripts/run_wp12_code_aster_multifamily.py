@@ -57,6 +57,13 @@ CODE_ASTER_PROFILE = (
 CODE_ASTER_RUNNER = f"{CODE_ASTER_PROFILE}/bin/run_aster"
 SPACK_ROOT = "/opt/spack/opt/spack/linux-zen"
 INPUT_NAMES = ("result.json", "displacement.npy", "fixed.npy", "loads.npy", "stiffness.npy")
+RUNTIME_IMPORT_SMOKE = ["mpi4py", "numpy", "code_aster.Commands"]
+RUNTIME_IMPORT_SMOKE_COMMAND = "python3 -c 'import mpi4py, numpy; import code_aster.Commands'"
+R2_REVISION = "R2_PROSPECTIVE_RUNTIME_BOOTSTRAP_REMEDIATION"
+R2_AUTHORIZATION_SCOPE = (
+    "Four serial Code_Aster linear-static correlations only; no QF M1/M2/M3 rerun, no merge, no push, no ledger "
+    "award; R2 changes runtime bootstrap and prior-attempt provenance checks only"
+)
 
 
 class WP12PreflightError(RuntimeError):
@@ -94,6 +101,162 @@ def _manifest_key(family: str, filename: str) -> str:
     return f"{family}\\M1\\{filename}"
 
 
+def _safe_repo_path(repo_root: Path, relative: str) -> Path:
+    root = repo_root.resolve()
+    if not isinstance(relative, str) or not relative:
+        raise WP12PreflightError("WP12 evidence path must be a non-empty repository-relative string.")
+    candidate = Path(relative)
+    if candidate.is_absolute():
+        raise WP12PreflightError(f"WP12 evidence path must be repository-relative: {relative}")
+    resolved = (root / candidate).resolve()
+    if resolved == root or root not in resolved.parents:
+        raise WP12PreflightError(f"WP12 evidence path escapes repository root: {relative}")
+    return resolved
+
+
+def _validate_prior_attempt(repo_root: Path, contract: dict[str, Any]) -> dict[str, Any] | None:
+    prior = contract.get("prior_attempt")
+    if prior is None:
+        if contract.get("revision") == R2_REVISION:
+            raise WP12PreflightError("WP12 R2 must bind the immutable R1 launch-failure evidence.")
+        return None
+    if not isinstance(prior, dict) or prior.get("attempt") != "R1":
+        raise WP12PreflightError("WP12 prior-attempt binding must identify R1.")
+    if prior.get("classification") != "FAIL_CLOSED_LAUNCHER_RUNTIME_IMPORT_FAILURE":
+        raise WP12PreflightError("WP12 R1 failure classification has drifted.")
+
+    record_path = _safe_repo_path(repo_root, prior.get("record_path", ""))
+    contract_path = _safe_repo_path(repo_root, prior.get("contract_path", ""))
+    output_root = _safe_repo_path(repo_root, prior.get("output_root", ""))
+    if not record_path.is_file() or sha256_file(record_path) != prior.get("record_sha256"):
+        raise WP12PreflightError("WP12 R1 launch-failure record is missing or has changed.")
+    if not contract_path.is_file() or sha256_file(contract_path) != prior.get("contract_sha256"):
+        raise WP12PreflightError("WP12 frozen R1 contract is missing or has changed.")
+    if not output_root.is_dir():
+        raise WP12PreflightError("WP12 R1 output archive is missing.")
+    r2_output = _safe_repo_path(repo_root, str(contract.get("output_root", "")))
+    if r2_output == output_root or output_root in r2_output.parents or r2_output in output_root.parents:
+        raise WP12PreflightError("WP12 R1 and R2 output roots must be disjoint.")
+
+    summary_path = output_root / "wp12_summary.json"
+    manifest_path = output_root / "manifest.json"
+    if not summary_path.is_file() or sha256_file(summary_path) != prior.get("summary_sha256"):
+        raise WP12PreflightError("WP12 R1 summary is missing or has changed.")
+    if not manifest_path.is_file() or sha256_file(manifest_path) != prior.get("manifest_sha256"):
+        raise WP12PreflightError("WP12 R1 output manifest is missing or has changed.")
+
+    manifest = load_json(manifest_path).get("files")
+    if not isinstance(manifest, dict):
+        raise WP12PreflightError("WP12 R1 manifest has no file map.")
+    actual_files = {
+        path.relative_to(output_root).as_posix()
+        for path in output_root.rglob("*")
+        if path.is_file() and path.name != "manifest.json"
+    }
+    if actual_files != set(manifest):
+        raise WP12PreflightError("WP12 R1 manifest does not cover the exact archived file set.")
+    for relative, entry in manifest.items():
+        path = _safe_repo_path(output_root, str(relative))
+        if (
+            not isinstance(entry, dict)
+            or not path.is_file()
+            or sha256_file(path) != entry.get("sha256")
+            or path.stat().st_size != entry.get("size_bytes")
+        ):
+            raise WP12PreflightError(f"WP12 R1 archived file failed hash/size verification: {relative}")
+    if any(path.name == "aster_raw.json" for path in output_root.rglob("*")):
+        raise WP12PreflightError("WP12 R1 unexpectedly contains a Code_Aster raw result; its failure record drifted.")
+
+    r1_record = load_json(record_path)
+    r1_summary = load_json(summary_path)
+    r1_contract = load_json(contract_path)
+    if contract.get("revision") == R2_REVISION:
+        expected_r2_output = "qualification/0_2_9/wp12_external_vv_r2"
+        authorization = contract.get("execution_authorization", {})
+        if (
+            contract.get("output_root") != expected_r2_output
+            or not isinstance(authorization, dict)
+            or authorization.get("scope") != R2_AUTHORIZATION_SCOPE
+        ):
+            raise WP12PreflightError("WP12 R2 revision/output/authorization scope is not the frozen prospective scope.")
+        r1_comparable = json.loads(json.dumps(r1_contract))
+        r2_comparable = json.loads(json.dumps(contract))
+        for document in (r1_comparable, r2_comparable):
+            for key in ("revision", "runner_sha", "auditor_sha", "output_root", "prior_attempt"):
+                document.pop(key, None)
+            document.get("external_solver", {}).pop("runtime_bootstrap", None)
+            document.get("execution_authorization", {}).pop("scope", None)
+        if r1_comparable != r2_comparable:
+            raise WP12PreflightError("WP12 R2 changed a frozen R1 model, load, gate, solver, or limitation field.")
+    if (
+        r1_record.get("classification") != prior["classification"]
+        or r1_record.get("numerical_failure") is not False
+        or r1_record.get("correlation_claim") is not False
+        or r1_record.get("contract_sha256") != prior["contract_sha256"]
+        or r1_record.get("summary_sha256") != prior["summary_sha256"]
+        or r1_record.get("raw_manifest_sha256") != prior["manifest_sha256"]
+        or r1_summary.get("status") != "FAIL_CLOSED"
+        or r1_summary.get("candidate_points") != "0/4"
+        or r1_summary.get("official_points") != "0/4"
+        or r1_summary.get("execution_sha") != r1_record.get("execution_sha")
+        or r1_summary.get("contract_sha256") != prior["contract_sha256"]
+        or r1_contract.get("status") != "FROZEN"
+        or r1_contract.get("revision") != "R1_PROSPECTIVE_CODE_ASTER_STATIC_FAMILY_MATRIX"
+        or r1_summary.get("runner_sha") != r1_contract.get("runner_sha")
+        or set(r1_record.get("families", {})) != set(FAMILIES)
+        or set(r1_summary.get("families", {})) != set(FAMILIES)
+    ):
+        raise WP12PreflightError("WP12 R1 failure record and summary are inconsistent.")
+    for family in FAMILIES:
+        failure = r1_record["families"][family]
+        result = r1_summary["families"][family]
+        process = result.get("process", {})
+        if (
+            failure.get("exit_code") != 1
+            or failure.get("aster_raw_json_present") is not False
+            or result.get("status") != "FAIL_CLOSED_EXECUTION"
+            or process.get("exit_code") != 1
+            or process.get("host_process_id") != failure.get("host_process_id")
+        ):
+            raise WP12PreflightError(f"WP12 R1 {family} failure classification/process evidence drifted.")
+        if (output_root / family / "aster_raw.json").exists():
+            raise WP12PreflightError(f"WP12 R1 {family} unexpectedly has a raw solve result.")
+    try:
+        subprocess.check_output(
+            ["git", "cat-file", "-e", f"{r1_record.get('execution_sha')}^{{commit}}"],
+            cwd=repo_root,
+            stderr=subprocess.DEVNULL,
+        )
+        subprocess.check_output(
+            ["git", "cat-file", "-e", f"{r1_contract.get('runner_sha')}^{{commit}}"],
+            cwd=repo_root,
+            stderr=subprocess.DEVNULL,
+        )
+        if subprocess.run(
+            [
+                "git",
+                "merge-base",
+                "--is-ancestor",
+                str(r1_contract.get("runner_sha")),
+                str(r1_record.get("execution_sha")),
+            ],
+            cwd=repo_root,
+            check=False,
+        ).returncode != 0:
+            raise WP12PreflightError("WP12 R1 runner SHA is not an ancestor of its recorded execution SHA.")
+    except subprocess.CalledProcessError as exc:
+        raise WP12PreflightError("WP12 R1 execution/runner SHA is not a resolvable Git commit.") from exc
+    return {
+        "status": "PASS_IMMUTABLE_FAILURE_PRESERVED",
+        "record_sha256": sha256_file(record_path),
+        "contract_sha256": sha256_file(contract_path),
+        "summary_sha256": sha256_file(summary_path),
+        "manifest_sha256": sha256_file(manifest_path),
+        "manifest_entries": len(manifest),
+        "family_failures": list(FAMILIES),
+    }
+
+
 def _runtime_shell_command(runtime: dict[str, Any], command: str) -> str:
     """Build the pinned image's profiled Spack environment without invoking a solver."""
 
@@ -103,6 +266,7 @@ def _runtime_shell_command(runtime: dict[str, Any], command: str) -> str:
         or runtime.get("spack_root") != SPACK_ROOT
         or runtime.get("python_site_packages_pattern") != "*/lib/python3.11/site-packages"
         or runtime.get("shared_library_directory_names") != ["lib", "lib64"]
+        or runtime.get("required_import_smoke") != RUNTIME_IMPORT_SMOKE
         or runtime.get("login_shell") is not True
     ):
         raise WP12PreflightError("WP12 Code_Aster runtime bootstrap differs from the validated image setup.")
@@ -227,6 +391,7 @@ def _load_frozen_inputs(repo_root: Path, contract: dict[str, Any]) -> dict[str, 
 def preflight(contract_path: Path, repo_root: Path) -> dict[str, Any]:
     contract_path = contract_path.resolve()
     contract = load_json(contract_path)
+    prior_attempt_audit = _validate_prior_attempt(repo_root, contract)
     if contract.get("status") != "FROZEN" or contract.get("execution_authorized") is not True:
         raise WP12PreflightError("WP12 contract is not frozen and execution-authorized.")
     if tuple(contract.get("families", {}).keys()) != FAMILIES:
@@ -256,8 +421,7 @@ def preflight(contract_path: Path, repo_root: Path) -> dict[str, Any]:
         raise WP12PreflightError("WP12 Code_Aster runtime bootstrap is missing.")
     runtime_probe_shell = _runtime_shell_command(
         runtime_bootstrap,
-        "python3 -c 'import mpi4py, numpy; import code_aster.Commands' && "
-        f"{CODE_ASTER_RUNNER} --version",
+        f"{RUNTIME_IMPORT_SMOKE_COMMAND} && {CODE_ASTER_RUNNER} --version",
     )
     qf_reference = contract.get("qf_reference", {})
     if not isinstance(qf_reference, dict):
@@ -354,6 +518,7 @@ def preflight(contract_path: Path, repo_root: Path) -> dict[str, Any]:
         "code_aster_image_id": image.stdout.strip(),
         "code_aster_runtime_version": version.stdout.strip(),
         "output_path_absent": True,
+        "prior_attempt_audit": prior_attempt_audit,
     }
 
 
@@ -543,7 +708,10 @@ def _run_aster(
     elapsed = time.perf_counter() - start
     container_id_path = work / "container.cid"
     container_id = container_id_path.read_text(encoding="ascii").strip() if container_id_path.is_file() else None
-    runtime_probe_shell = _runtime_shell_command(runtime_bootstrap, f"{CODE_ASTER_RUNNER} --version")
+    runtime_probe_shell = _runtime_shell_command(
+        runtime_bootstrap,
+        f"{RUNTIME_IMPORT_SMOKE_COMMAND} && {CODE_ASTER_RUNNER} --version",
+    )
     runtime_probe = subprocess.run(
         [docker, "run", "--rm", "--entrypoint", runtime_bootstrap["shell"], CODE_ASTER_IMAGE, "-lc", runtime_probe_shell],
         cwd=work,
@@ -558,6 +726,7 @@ def _run_aster(
         "runtime_version": runtime_probe.stdout.strip() if runtime_probe.returncode == 0 else None,
         "command": command,
         "runtime_shell_command": runtime_shell,
+        "runtime_probe_shell_command": runtime_probe_shell,
         "solver_entrypoint": CODE_ASTER_RUNNER,
         "python_runtime_import_smoke": "PASS" if runtime_probe.returncode == 0 else "FAIL",
         "host_process_id": process.pid,
@@ -758,7 +927,15 @@ def main() -> int:
             result = preflight(contract_path, repo_root)
         print(json.dumps(result, indent=2, sort_keys=True))
         return 0
-    except (WP12PreflightError, OSError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:
+    except (
+        WP12PreflightError,
+        OSError,
+        ValueError,
+        KeyError,
+        TypeError,
+        RuntimeError,
+        subprocess.SubprocessError,
+    ) as exc:
         print(f"WP12_FAIL_CLOSED: {type(exc).__name__}: {exc}")
         return 2
 

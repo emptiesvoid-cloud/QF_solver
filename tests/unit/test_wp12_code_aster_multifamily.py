@@ -7,6 +7,7 @@ import numpy as np
 import pytest
 
 import scripts.run_wp12_code_aster_multifamily as wp12_runner
+import scripts.audit_wp12_code_aster_multifamily as wp12_auditor
 from scripts.run_wp12_code_aster_multifamily import (
     ASTER_NODE_ORDER,
     FAMILIES,
@@ -68,6 +69,57 @@ def test_frozen_contract_provenance_runtime_and_family_order_are_coherent() -> N
         assert spec["dofs"] == 3 * spec["nodes"]
 
 
+def test_r2_preserves_r1_numerical_contract_and_verifies_failure_archive() -> None:
+    repo_root = Path(__file__).resolve().parents[2]
+    r1 = json.loads((repo_root / "qualification/0_2_9/wp12_external_vv_contract.json").read_text(encoding="utf-8"))
+    r2 = json.loads(
+        (repo_root / "qualification/0_2_9/wp12_external_vv_r2_contract.json").read_text(encoding="utf-8")
+    )
+    numerical_fields = (
+        "wp11_source_sha",
+        "code_aster_version",
+        "code_aster_image",
+        "code_aster_image_id",
+        "timeout_seconds",
+        "memory_limit_mb",
+        "code_aster_action",
+        "material",
+        "scope",
+        "families",
+        "gates",
+        "candidate_point_proposal",
+        "limitations",
+        "fail_closed",
+        "thresholds_frozen_before_execution",
+        "post_result_threshold_retuning_allowed",
+        "output_overwrite_allowed",
+        "full_repository_test_suite",
+    )
+    assert all(r1[field] == r2[field] for field in numerical_fields)
+    assert r1["output_root"] != r2["output_root"]
+    assert r2["prior_attempt"]["attempt"] == "R1"
+    assert r2["external_solver"]["runtime_bootstrap"]["required_import_smoke"] == [
+        "mpi4py",
+        "numpy",
+        "code_aster.Commands",
+    ]
+
+    prior_audit = wp12_runner._validate_prior_attempt(repo_root, r2)
+
+    assert prior_audit is not None
+    assert prior_audit["status"] == "PASS_IMMUTABLE_FAILURE_PRESERVED"
+    assert prior_audit["manifest_entries"] == 66
+    independent_prior_audit, errors = wp12_auditor._audit_prior_attempt(r2, repo_root)
+    assert errors == []
+    assert independent_prior_audit is not None
+    assert independent_prior_audit["status"] == "PASS"
+
+    corrupted_binding = json.loads(json.dumps(r2))
+    corrupted_binding["prior_attempt"]["manifest_sha256"] = "0" * 64
+    _, errors = wp12_auditor._audit_prior_attempt(corrupted_binding, repo_root)
+    assert any("R1 manifest" in error for error in errors)
+
+
 def test_aster_comm_preserves_total_nodal_load_without_equal_share_redefinition() -> None:
     loads = np.zeros(24, dtype=float)
     loads[2] = -1000.0
@@ -113,6 +165,7 @@ def test_profiled_runtime_bootstrap_is_shared_by_runner_and_independent_auditor(
         "spack_root": wp12_runner.SPACK_ROOT,
         "python_site_packages_pattern": "*/lib/python3.11/site-packages",
         "shared_library_directory_names": ["lib", "lib64"],
+        "required_import_smoke": ["mpi4py", "numpy", "code_aster.Commands"],
     }
     solver_command = f"{wp12_runner.CODE_ASTER_RUNNER} TET4.export --no-mpi"
 
@@ -123,6 +176,14 @@ def test_profiled_runtime_bootstrap_is_shared_by_runner_and_independent_auditor(
     assert "PYTHONPATH=$(find " + runtime["spack_root"] in command
     assert "LD_LIBRARY_PATH=$(find " + runtime["spack_root"] in command
     assert solver_command in command
+    probe_command = wp12_runner._runtime_shell_command(
+        runtime, f"{wp12_runner.RUNTIME_IMPORT_SMOKE_COMMAND} && {solver_command}"
+    )
+    assert wp12_runner.RUNTIME_IMPORT_SMOKE_COMMAND in probe_command
+
+    invalid_runtime = dict(runtime, required_import_smoke=["numpy"])
+    with pytest.raises(wp12_runner.WP12PreflightError, match="runtime bootstrap"):
+        wp12_runner._runtime_shell_command(invalid_runtime, solver_command)
 
 
 def test_manifest_rejects_unlisted_or_stale_files(tmp_path) -> None:
@@ -169,6 +230,7 @@ def test_external_execution_uses_official_run_aster_entrypoint_and_records_fresh
         "spack_root": wp12_runner.SPACK_ROOT,
         "python_site_packages_pattern": "*/lib/python3.11/site-packages",
         "shared_library_directory_names": ["lib", "lib64"],
+        "required_import_smoke": ["mpi4py", "numpy", "code_aster.Commands"],
     }
 
     monkeypatch.setattr(wp12_runner.shutil, "which", lambda name: "docker.exe")
@@ -188,11 +250,12 @@ def test_external_execution_uses_official_run_aster_entrypoint_and_records_fresh
     assert command[command.index(wp12_runner.CODE_ASTER_IMAGE) + 1] == "-lc"
     assert command[-1] == result["runtime_shell_command"]
     assert "source " + runtime_bootstrap["profile_script"] in command[-1]
-    assert "mpi4py" not in command[-1]  # The import smoke runs only during preflight.
+    assert "mpi4py" not in command[-1]  # The import smoke is a separate runtime probe.
     assert f"{wp12_runner.CODE_ASTER_RUNNER} TET4.export --no-mpi" in command[-1]
     assert "--cpus=1" in command
     assert result["solver_entrypoint"] == wp12_runner.CODE_ASTER_RUNNER
     assert result["python_runtime_import_smoke"] == "PASS"
+    assert wp12_runner.RUNTIME_IMPORT_SMOKE_COMMAND in result["runtime_probe_shell_command"]
     assert result["fresh_container_process"] is True
     assert result["container_id"] == "a" * 64
     assert result["image_id"] == "sha256:" + "b" * 64
