@@ -86,15 +86,25 @@ def main() -> int:
     for stage in ("h1", "h2", "h3"):
         path = args.input / f"{stage}_tet4_primary.json"
         if not path.exists():
-            rows.append({"source": path.name, "status": "NOT_RUN_OR_MISSING", "sha256": None, "failures": ["missing_raw"]})
+            rows.append({"source": path.name, "status": "FAIL_CLOSED_MISSING_RAW", "sha256": None, "failures": ["missing_raw"]})
             continue
         raw = json.loads(path.read_text(encoding="utf-8"))
         if raw.get("status") != "PASS":
-            rows.append({"source": path.name, "sha256": _sha256(path), "status": "BLOCKED_UPSTREAM_PRIMARY_FAILURE", "failures": [raw.get("failure", raw.get("status"))]})
+            rows.append({"source": path.name, "sha256": _sha256(path), "status": "REFERENCE_NOT_RUN_PRIMARY_FAILED", "failures": [raw.get("failure", raw.get("status"))]})
             continue
         comparison = _compare(raw)
         rows.append({"source": path.name, "sha256": _sha256(path), "family": raw.get("family"), "stage": raw.get("stage"), **comparison})
-    status = "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION" if rows and all(row["status"] == "PASS" for row in rows) else "FAIL_CLOSED_OR_INCOMPLETE"
+    has_missing = any(row["status"] == "FAIL_CLOSED_MISSING_RAW" for row in rows)
+    has_primary_failure = any(row["status"] == "REFERENCE_NOT_RUN_PRIMARY_FAILED" for row in rows)
+    all_available_pass = bool(rows) and not has_missing and all(
+        row["status"] in {"PASS", "REFERENCE_NOT_RUN_PRIMARY_FAILED"} for row in rows
+    )
+    if all_available_pass and has_primary_failure:
+        status = "PASS_FOR_SUCCESSFUL_PRIMARY_RESULTS_WITH_PRIMARY_FAILURES_PRESERVED"
+    elif all_available_pass:
+        status = "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION"
+    else:
+        status = "FAIL_CLOSED_OR_INCOMPLETE"
     summary = {
         "status": status,
         "classification": "INDEPENDENT_OBSERVABLE_RECOMPUTATION_NOT_GLOBAL_FEM_SOLVE",

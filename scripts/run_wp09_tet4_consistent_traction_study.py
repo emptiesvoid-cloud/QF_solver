@@ -337,9 +337,6 @@ def _verify_frozen_contract(contract: dict[str, Any]) -> dict[str, Any]:
         raise RuntimeError(f"Working tree is not clean; refusing structural study: {dirty}")
     head = _git("rev-parse", "HEAD")
     runner_commit = contract["frozen_runner_commit"]
-    if _git("merge-base", "--is-ancestor", runner_commit, "HEAD") != "":
-        # git merge-base --is-ancestor normally prints nothing; return-code checked below instead.
-        pass
     ancestor = subprocess.run(["git", "merge-base", "--is-ancestor", runner_commit, "HEAD"], cwd=ROOT, check=False)
     if ancestor.returncode != 0:
         raise RuntimeError("Frozen runner commit is not an ancestor of execution HEAD.")
@@ -411,7 +408,7 @@ def _single_stage(stage: str, label: str, output: Path, contract: dict[str, Any]
         return 2
 
 
-def _run_child(stage: str, label: str, output: Path, contract: dict[str, Any]) -> dict[str, Any]:
+def _run_child(stage: str, label: str, output: Path) -> dict[str, Any]:
     command = [sys.executable, str(Path(__file__).resolve()), "--single-stage", stage, "--label", label, "--output", str(output)]
     started = time.perf_counter()
     process = subprocess.Popen(command, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
@@ -477,9 +474,9 @@ def _campaign(output: Path, contract: dict[str, Any]) -> int:
     _write_json(output / "campaign.json", campaign)
     primaries: dict[str, dict[str, Any]] = {}
     for stage, cells in LEVELS:
-        primary = _run_child(stage, "primary", output, contract)
+        primary = _run_child(stage, "primary", output)
         passed, failures = _gate(primary.get("metrics") or {}, contract)
-        replay = _run_child(stage, "replay", output, contract) if passed else {"status": "SKIPPED_DEPENDENCY"}
+        replay = _run_child(stage, "replay", output) if passed else {"status": "SKIPPED_PRIMARY_GATE_FAILURE"}
         replay_gate = _replay_gate(primary["metrics"], replay["metrics"], contract) if passed and replay.get("status") == "PASS" else {"status": "SKIPPED_DEPENDENCY" if not passed else "FAIL_CLOSED"}
         stage_status = "PASS" if passed and replay_gate["status"] == "PASS" else "FAIL_CLOSED"
         campaign["stages"][stage] = {
@@ -495,21 +492,18 @@ def _campaign(output: Path, contract: dict[str, Any]) -> int:
         }
         if stage_status == "PASS":
             primaries[stage] = primary["metrics"]
-        else:
-            campaign["stopped_after"] = stage
-            _write_json(output / "campaign.json", campaign)
-            break
         _write_json(output / "campaign.json", campaign)
 
-    if all(campaign["stages"].get(stage, {}).get("status") == "PASS" for stage, _ in LEVELS):
+    if all(stage in primaries for stage in ("H2", "H3")):
         campaign["mesh_gate_h2_to_h3"] = _mesh_gate(primaries["H2"], primaries["H3"], contract)
     else:
         campaign["mesh_gate_h2_to_h3"] = {"status": "SKIPPED_DEPENDENCY"}
     campaign["independent_observable_recomputation"] = _run_reference(output)
     reference_pass = campaign["independent_observable_recomputation"].get("status") == "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION"
+    all_stage_pass = all(campaign["stages"].get(stage, {}).get("status") == "PASS" for stage, _ in LEVELS)
     campaign["status"] = (
         "PASS_CANDIDATE_DIAGNOSTIC_ONLY"
-        if campaign["mesh_gate_h2_to_h3"]["status"] == "PASS" and reference_pass
+        if all_stage_pass and campaign["mesh_gate_h2_to_h3"]["status"] == "PASS" and reference_pass
         else "FAIL_CLOSED_DIAGNOSTIC"
     )
     campaign["completed_utc"] = datetime.now(timezone.utc).isoformat()
