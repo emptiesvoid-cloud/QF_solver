@@ -1,15 +1,17 @@
 {
   "schema_version": 1,
   "record_id": "QF-029-WP09-TET4-CONSISTENT-TRACTION-DIAGNOSTIC-R1",
+  "revision": 3,
+  "supersedes_pre_execution_contract_commit": "e4c403dffc7e64271298ab36a656e02f95c8c938",
   "work_item": "WP09",
   "scope": "TET4-only diagnostic extension study; not formal qualification and not score-bearing",
   "status": "FROZEN_PROSPECTIVE_DIAGNOSTIC_CONTRACT",
   "governing_source_branch": "0.2.9-unified-nonlinear",
   "governing_base_sha": "cf832937404a14bb780778e2c0f6adc3efbfcc59",
   "study_branch": "codex/wp09-tet4-extension-study",
-  "frozen_runner_commit": "5562fd0eca0607877ef7abbf7248b1b076ed1684",
+  "frozen_runner_commit": "5db249cc803e0398f85e003434f3a1168dac6285",
   "runner_path": "scripts/run_wp09_tet4_consistent_traction_study.py",
-  "runner_sha256": "e0daa25891e7a263c35783d9fa78f1946dc20734b76e144d6814a4bc30ceff66",
+  "runner_sha256": "2f1c2a1c62a3ad3c8f30188ec84bf7c8fa91d3216a19ccbe74a573b4b6b9ddfa",
   "policy_code_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
   "runtime_policy_digest": "895d3c932278c0207b207318216c263a427636d57738bef730917fdc7d9b0ef5",
   "authorization": {
@@ -98,6 +100,7 @@
   },
   "reference": {
     "script": "scripts/run_wp09_tet4_consistent_traction_reference.py",
+    "reference_sha256": "8d50078d682e3f47d38f76929578d39d095a690b3e024ab3fb3a8df08cd21336",
     "classification": "independent_observable_recomputation_not_global_fem_solve",
     "required_for_each_successful_primary": true,
     "production_solver_imports": false
