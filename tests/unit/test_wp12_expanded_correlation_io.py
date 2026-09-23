@@ -11,7 +11,14 @@ import numpy as np
 
 from scripts import run_wp12_expanded_code_aster as runner
 from scripts.audit_wp12_expanded_code_aster import _audit_comm_text, _audit_mesh_text
-from scripts.run_wp12_expanded_code_aster import IMAGE, _aster_node_name, _comm_text, _mesh_text, validate_external_configuration
+from scripts.run_wp12_expanded_code_aster import (
+    IMAGE,
+    _aster_element_name,
+    _aster_node_name,
+    _comm_text,
+    _mesh_text,
+    validate_external_configuration,
+)
 from scripts.wp12_expanded_models import FAMILIES, LOADS, MATERIAL, build_case
 
 
@@ -46,8 +53,9 @@ def test_code_aster_mesh_records_stay_within_the_80_column_format_limit() -> Non
         assert [line.split()[0] for line in node_records] == [_aster_node_name(i) for i in range(len(case.model.nodes))]
         assert len(mesh_records) == len(case.connectivity)
         assert all(len(line.split()) == case.connectivity.shape[1] + 1 for line in mesh_records)
-        assert _aster_node_name(25) == "Z"
-        assert _aster_node_name(26) == "AA"
+        assert _aster_node_name(25) == "N26"
+        assert _aster_element_name(25) == "Z"
+        assert _aster_element_name(26) == "AA"
 
 
 def test_all_frozen_load_vectors_have_the_same_declared_resultant_magnitude() -> None:

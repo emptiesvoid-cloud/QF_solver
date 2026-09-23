@@ -27,9 +27,9 @@ from scripts.wp12_expanded_models import (  # noqa: E402
     case_catalog,
 )
 
-CONTRACT_PATH = Path("qualification/0_2_9/wp12_external_vv_r3_4_expanded_contract.json")
-OUTPUT_ROOT = "qualification/0_2_9/wp12_external_vv_r3_4_expanded_raw"
-MANIFEST_PATH = "qualification/0_2_9/wp12_external_vv_r3_4_expanded_manifest.json"
+CONTRACT_PATH = Path("qualification/0_2_9/wp12_external_vv_r3_5_expanded_contract.json")
+OUTPUT_ROOT = "qualification/0_2_9/wp12_external_vv_r3_5_expanded_raw"
+MANIFEST_PATH = "qualification/0_2_9/wp12_external_vv_r3_5_expanded_manifest.json"
 BRANCH = "codex/wp12-expanded-correlation"
 BASE_SHA = "c5e842d5e589358633221ecd9f29c2ff1ef003aa"
 IMAGE = "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435"
@@ -40,6 +40,12 @@ R3_2_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_2_expanded_audit.json
 R3_3_CONTRACT = Path("qualification/0_2_9/wp12_external_vv_r3_3_expanded_contract.json")
 R3_3_MANIFEST = Path("qualification/0_2_9/wp12_external_vv_r3_3_expanded_manifest.json")
 R3_3_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_3_execution_audit.json")
+R3_4_CONTRACT = Path("qualification/0_2_9/wp12_external_vv_r3_4_expanded_contract.json")
+R3_4_MANIFEST = Path("qualification/0_2_9/wp12_external_vv_r3_4_expanded_manifest.json")
+R3_4_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_4_execution_audit.json")
+R3_4_FULL_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_4_expanded_audit.json")
+R3_5_SMOKE_REPORT = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke.json")
+R3_5_SMOKE_MANIFEST = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_manifest.json")
 
 
 def _git(*args: str) -> str:
@@ -97,6 +103,44 @@ def build_contract() -> dict[str, Any]:
     r3_3_execution_sha = str(r3_3_audit.get("execution_sha", ""))
     if _git("rev-parse", f"{r3_3_execution_sha}^") != r3_3_contract.get("freeze_commit_sha"):
         raise RuntimeError("R3.3 execution SHA does not immediately follow its recorded freeze commit.")
+    r3_4_contract = json.loads((ROOT / R3_4_CONTRACT).read_text(encoding="utf-8"))
+    r3_4_audit = json.loads((ROOT / R3_4_AUDIT).read_text(encoding="utf-8"))
+    r3_4_full_audit = json.loads((ROOT / R3_4_FULL_AUDIT).read_text(encoding="utf-8"))
+    if (
+        r3_4_contract.get("revision") != "R3_4_EXPANDED_144_CASE_LINEAR_STATIC_CORRELATION"
+        or r3_4_audit.get("audit_status") != "FAIL_CLOSED"
+        or r3_4_audit.get("case_count") != 144
+        or r3_4_audit.get("attempted_case_count") != 1
+        or r3_4_audit.get("case_pass_count") != 0
+        or r3_4_audit.get("not_started_case_count") != 143
+        or r3_4_audit.get("contract_sha256") != _sha256(R3_4_CONTRACT)
+        or r3_4_audit.get("manifest_sha256") != _sha256(R3_4_MANIFEST)
+        or r3_4_audit.get("manifest_entry_count") != 20
+        or r3_4_audit.get("independent_audit_sha256") != _sha256(R3_4_FULL_AUDIT)
+        or r3_4_full_audit.get("audit_status") != "FAIL_CLOSED"
+        or r3_4_full_audit.get("case_pass_count") != 0
+    ):
+        raise RuntimeError("Preserved R3.4 first-case fail-closed evidence is missing or inconsistent.")
+    r3_4_execution_sha = str(r3_4_audit.get("execution_sha", ""))
+    if _git("rev-parse", f"{r3_4_execution_sha}^") != r3_4_contract.get("freeze_commit_sha"):
+        raise RuntimeError("R3.4 execution SHA does not immediately follow its recorded freeze commit.")
+    smoke = json.loads((ROOT / R3_5_SMOKE_REPORT).read_text(encoding="utf-8"))
+    if (
+        smoke.get("status") != "PASS_DIAGNOSTIC_ONLY"
+        or smoke.get("case_count") != 4
+        or smoke.get("case_pass_count") != 4
+        or smoke.get("not_started_case_count") != 0
+        or set(smoke.get("families", [])) != set(FAMILIES)
+        or subprocess.run(
+            ["git", "cat-file", "-e", f"{smoke.get('source_sha', '')}^{{commit}}"], cwd=ROOT, check=False
+        ).returncode != 0
+        or smoke.get("runner_sha") != _source_commit("scripts/run_wp12_expanded_code_aster.py")
+        or smoke.get("smoke_runner_sha") != _source_commit("scripts/smoke_wp12_expanded_code_aster.py")
+        or {case.get("family") for case in smoke.get("cases", []) if case.get("status") == "PASS_SMOKE_ONLY"} != set(FAMILIES)
+        or smoke.get("threshold_source_contract_sha256") != _sha256(R3_4_CONTRACT)
+        or smoke.get("manifest_sha256") != _sha256(R3_5_SMOKE_MANIFEST)
+    ):
+        raise RuntimeError("R3.5 diagnostic mesh smoke is incomplete, stale, or not independently hash-bound.")
 
     cases = []
     for case in case_catalog():
@@ -120,21 +164,35 @@ def build_contract() -> dict[str, Any]:
         )
     return {
         "work_package": "WP12",
-        "revision": "R3_4_EXPANDED_144_CASE_LINEAR_STATIC_CORRELATION",
+        "revision": "R3_5_EXPANDED_144_CASE_LINEAR_STATIC_CORRELATION",
         "status": "FROZEN",
         "frozen_utc": datetime.now(timezone.utc).isoformat(),
         "branch": BRANCH,
         "branch_base_sha": BASE_SHA,
         "freeze_commit_sha": head,
         "runner_sha": _source_commit("scripts/run_wp12_expanded_code_aster.py"),
+        "smoke_runner_sha": _source_commit("scripts/smoke_wp12_expanded_code_aster.py"),
         "model_builder_sha": _source_commit("scripts/wp12_expanded_models.py"),
         "auditor_sha": _source_commit("scripts/audit_wp12_expanded_code_aster.py"),
         "contract_builder_sha": _source_commit("scripts/freeze_wp12_expanded_contract.py"),
         "execution_authorized": True,
         "abort_on_execution_failure": True,
         "execution_authorization": {
-            "basis": "Owner request to substantially increase external correlation coverage after acceptance of the WP12 R2 perimeter; full fresh rerun after R3.2 exposed an 80-column mesh-record truncation and R3.3 exposed rejection of numeric-only node identifiers.",
-            "scope": "144 sequential same-mesh QF Solver SciPy direct versus Code_Aster 18.1 serial linear-static correlations using compact bijective alphabetic node and element identifiers (A..Z, AA...) so native-format names are valid and every .mail line respects the documented 80-column limit; abort the campaign on the first execution exception; one CPU per Code_Aster container; no nonlinear runs, no ledger change, no merge, no push.",
+            "basis": "Owner request to substantially increase external correlation coverage after acceptance of the WP12 R2 perimeter; fresh reruns preserved R3.2 truncation, R3.3 numeric-name rejection, and R3.4 nodal-load identifier failure before preparing this revision.",
+            "scope": "144 sequential same-mesh QF Solver SciPy direct versus Code_Aster 18.1 serial linear-static correlations. Use Code_Aster native node IDs N1, N2, ... for mesh and nodal-load cards; use short bijective alphabetic element IDs A..Z, AA... to keep every .mail record at or below 80 columns. Abort on the first execution exception; one CPU per Code_Aster container; no nonlinear runs, no ledger change, no merge, no push.",
+        },
+        "pre_execution_mesh_smoke": {
+            "status": smoke.get("status"),
+            "report_path": R3_5_SMOKE_REPORT.as_posix(),
+            "report_sha256": _sha256(R3_5_SMOKE_REPORT),
+            "manifest_path": R3_5_SMOKE_MANIFEST.as_posix(),
+            "manifest_sha256": _sha256(R3_5_SMOKE_MANIFEST),
+            "source_sha": smoke.get("source_sha"),
+            "runner_sha": smoke.get("runner_sha"),
+            "smoke_runner_sha": smoke.get("smoke_runner_sha"),
+            "case_count": smoke.get("case_count"),
+            "case_pass_count": smoke.get("case_pass_count"),
+            "formal_correlation_evidence": False,
         },
         "case_count": len(cases),
         "code_aster_version": "18.1.0",
@@ -223,20 +281,22 @@ def build_contract() -> dict[str, Any]:
             "same discrete mesh, material, boundary conditions, and consistent nodal force vector are supplied to both solvers",
             "no stress-field comparison, material nonlinearity, geometric nonlinearity, contact, friction, dynamics, buckling, continuation, or MPI/PETSc claim",
             "correlation between two FEM implementations is not experimental validation",
-            "this supplemental R3.4 campaign does not alter existing WP12 R2 results, R3.2 or R3.3 failures, Owner decisions, points, or global ledger",
+            "this supplemental R3.5 campaign does not alter existing WP12 R2 results, R3.2, R3.3, or R3.4 failures, Owner decisions, points, or global ledger",
         ],
         "supersedes_failed_attempt": {
-            "revision": "R3.3",
-            "contract_path": R3_3_CONTRACT.as_posix(),
-            "contract_sha256": _sha256(R3_3_CONTRACT),
-            "execution_sha": r3_3_execution_sha,
-            "manifest_path": R3_3_MANIFEST.as_posix(),
-            "manifest_sha256": _sha256(R3_3_MANIFEST),
-            "audit_path": R3_3_AUDIT.as_posix(),
-            "audit_sha256": _sha256(R3_3_AUDIT),
-            "audit_status": r3_3_audit.get("audit_status"),
-            "completed_failures": r3_3_audit.get("completed_failure_count"),
-            "interrupted_cases": r3_3_audit.get("interrupted_case_count"),
+            "revision": "R3.4",
+            "contract_path": R3_4_CONTRACT.as_posix(),
+            "contract_sha256": _sha256(R3_4_CONTRACT),
+            "execution_sha": r3_4_execution_sha,
+            "manifest_path": R3_4_MANIFEST.as_posix(),
+            "manifest_sha256": _sha256(R3_4_MANIFEST),
+            "audit_path": R3_4_AUDIT.as_posix(),
+            "audit_sha256": _sha256(R3_4_AUDIT),
+            "independent_audit_path": R3_4_FULL_AUDIT.as_posix(),
+            "independent_audit_sha256": _sha256(R3_4_FULL_AUDIT),
+            "audit_status": r3_4_audit.get("audit_status"),
+            "attempted_cases": r3_4_audit.get("attempted_case_count"),
+            "not_started_cases": r3_4_audit.get("not_started_case_count"),
             "raw_evidence_reused": False,
             "historical_results_preserved": True,
         },

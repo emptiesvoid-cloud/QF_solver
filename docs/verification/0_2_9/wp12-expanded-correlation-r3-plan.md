@@ -63,7 +63,7 @@ preserved as `FAIL_CLOSED`; no correlation is claimed. R3.2 validates all
 duplicated runtime fields in preflight and is frozen under new contract and
 output paths. Neither earlier contract or evidence is overwritten.
 
-## R3.2–R3.3 findings and R3.4 correction
+## R3.2–R3.4 findings and R3.5 correction
 
 The independent R3.2 audit found 132/144 candidate cases and failed closed on
 12 HEX20 H3 cases. These were Code_Aster input/import failures, not numerical
@@ -79,13 +79,21 @@ Code_Aster rejected the first node token as an invalid identifier before
 with the same parser diagnostic, and 123 cases were not started. The complete
 partial raw tree is hash-manifested; no R3.3 correlation is claimed.
 
-R3.4 uses short alphabetic-prefixed node names (`N1`, `N2`, …), keeps all
-records within the 80-column format limit, and stops at the first execution
-error so a systemic input problem cannot waste the remaining campaign. A new
-contract, output root, and manifest are used for a fresh 144-case rerun. The
-solver mechanics, meshes, loads, material, boundary conditions, image, and
-numerical gates remain unchanged. R2, R3.2, and R3.3 evidence are preserved
-and never mixed into R3.4.
+R3.4 used compact alphabetic names. Code_Aster accepted the mesh but rejected
+those labels in `FORCE_NODALE/NOEUD`, where its parser expected the native
+`N`-prefixed integer form. The first case stopped before `MECA_STATIQUE`; the
+fail-fast runner left the other 143 cases unstarted. This is an input-format
+failure, not a numerical disagreement.
+
+R3.5 uses `N1`, `N2`, … for nodes and force-card references, and one-character
+alphabetic element IDs (`A`…`Z`, then `AA`…) to preserve the 80-column limit.
+Regression tests cover all four H3 element families and stop-on-execution-error
+behavior. Before freezing, a four-family Code_Aster H3 diagnostic smoke checks
+mesh import, force application, and solve completion; it is not formal
+correlation evidence. R3.5 then uses a new contract, output root, and manifest
+for a fresh 144-case run. The solver mechanics, mesh topology, loads, material,
+boundary conditions, image, and numerical gates are unchanged. R2 and all
+failed R3 revisions are preserved and never mixed into R3.5.
 
 ## Scope boundary
 

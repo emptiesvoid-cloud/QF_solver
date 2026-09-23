@@ -83,6 +83,13 @@ def _decode_aster_identifier(identifier: str) -> int:
     return value - 1
 
 
+def _decode_aster_node_name(identifier: str) -> int:
+    match = re.fullmatch(r"N([1-9]\d*)", identifier)
+    if match is None:
+        raise ValueError(f"invalid Code_Aster node identifier: {identifier!r}")
+    return int(match.group(1)) - 1
+
+
 def _audit_mesh_text(path: Path, family: str, coordinates: np.ndarray, connectivity: np.ndarray) -> list[str]:
     errors: list[str] = []
     lines = path.read_text(encoding="ascii").splitlines()
@@ -97,7 +104,7 @@ def _audit_mesh_text(path: Path, family: str, coordinates: np.ndarray, connectiv
             errors.append("Code_Aster mesh node count differs from raw input arrays")
         else:
             try:
-                node_ids = [_decode_aster_identifier(name) for name, _ in parsed_coordinates]
+                node_ids = [_decode_aster_node_name(name) for name, _ in parsed_coordinates]
             except ValueError:
                 node_ids = []
             if node_ids != list(range(len(coordinates))):
@@ -116,7 +123,7 @@ def _audit_mesh_text(path: Path, family: str, coordinates: np.ndarray, connectiv
                 continue
             try:
                 parsed_element_ids.append(_decode_aster_identifier(parts[0]))
-                parsed_elements.append([_decode_aster_identifier(name) for name in parts[1:]])
+                parsed_elements.append([_decode_aster_node_name(name) for name in parts[1:]])
             except ValueError:
                 errors.append("Code_Aster mesh contains an invalid alphabetic node/element identifier")
         if parsed_element_ids != list(range(len(connectivity))):
@@ -129,7 +136,7 @@ def _audit_mesh_text(path: Path, family: str, coordinates: np.ndarray, connectiv
         root_end = lines.index("FINSF", root_start)
         root_names = lines[root_start:root_end]
         try:
-            root_nodes = np.asarray([_decode_aster_identifier(name) for name in root_names], dtype=np.int64)
+            root_nodes = np.asarray([_decode_aster_node_name(name) for name in root_names], dtype=np.int64)
         except ValueError:
             errors.append("Code_Aster root group contains an invalid alphabetic node identifier")
             root_nodes = np.asarray([], dtype=np.int64)
@@ -154,8 +161,8 @@ def _audit_comm_text(path: Path, loads: np.ndarray, material: dict[str, Any], ca
         errors.append("Code_Aster command does not identify this case or perform MECA_STATIQUE")
     observed: dict[tuple[int, int], float] = {}
     force_dof = {"FX": 0, "FY": 1, "FZ": 2}
-    for node_text, component, value_text in re.findall(r'NOEUD="([A-Z]+)"\s*,\s*(FX|FY|FZ)=([-+0-9.eE]+)', text):
-        observed[(_decode_aster_identifier(node_text), force_dof[component])] = float(value_text)
+    for node_text, component, value_text in re.findall(r'NOEUD="N([1-9]\d*)"\s*,\s*(FX|FY|FZ)=([-+0-9.eE]+)', text):
+        observed[(int(node_text) - 1, force_dof[component])] = float(value_text)
     expected = {
         (node, axis): float(value)
         for node, vector in enumerate(loads)

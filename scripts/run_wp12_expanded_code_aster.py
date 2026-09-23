@@ -125,17 +125,17 @@ def _aster_node_order(family: str) -> tuple[int, ...]:
 
 
 def _aster_node_name(index: int) -> str:
-    """Encode a compact alphabetic identifier valid in the native Aster mesh format."""
+    """Use the N-prefixed integer form consumed by Code_Aster nodal load cards."""
+    return f"N{index + 1}"
+
+
+def _aster_element_name(index: int) -> str:
     value = index + 1
     label = ""
     while value:
         value, remainder = divmod(value - 1, 26)
         label = chr(ord("A") + remainder) + label
     return label
-
-
-def _aster_element_name(index: int) -> str:
-    return _aster_node_name(index)
 
 
 def _mesh_text(case: ExpandedCase) -> str:
