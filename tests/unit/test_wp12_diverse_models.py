@@ -27,6 +27,7 @@ from scripts.audit_wp12_expanded_code_aster import (
     _decode_aster_node_name,
 )
 from scripts import run_wp12_expanded_code_aster as r3_runner
+from scripts import run_wp12_diverse_code_aster as diverse_runner
 from scripts.wp12_expanded_models import MATERIAL
 from solveur.elements.solid.hex8 import Hex8Element
 from solveur.elements.solid.tet4 import Tet4Element
@@ -122,9 +123,9 @@ def test_highest_diverse_meshes_respect_code_aster_mail_record_width(diverse_cas
             assert all(len(name) == 2 and name[0].isalpha() for name in node_names)
 
             command_text = code_aster_command_text(case)
-            force_node_names = set(re.findall(r'NOEUD="([A-Z][0-9A-Z])"', command_text))
-            assert force_node_names <= set(node_names)
-            assert not re.search(r'NOEUD="N[0-9]+"', command_text)
+            force_group_indices = {int(value) for value in re.findall(r'GROUP_NO="QF([0-9]{5})"', command_text)}
+            assert force_group_indices <= set(range(len(case.model.nodes)))
+            assert 'NOEUD=' not in command_text
 
 
 def test_compact_aster_serialization_round_trips_in_independent_auditor(diverse_cases, tmp_path) -> None:
@@ -154,6 +155,75 @@ def test_compact_aster_serialization_round_trips_in_independent_auditor(diverse_
         ) == []
 
 
+def test_independent_auditor_remains_compatible_with_legacy_noeud_commands(diverse_cases, tmp_path) -> None:
+    case = next(
+        row for row in diverse_cases
+        if row.family == "TET4" and row.geometry == "l_section_beam" and row.mesh == "H1" and row.load_case == "axial_x"
+    )
+    mesh_path = tmp_path / "legacy.mail"
+    comm_path = tmp_path / "legacy.comm"
+    mesh_path.write_text(r3_runner._mesh_text(case), encoding="ascii")
+    comm_path.write_text(r3_runner._comm_text(case), encoding="utf-8")
+    assert _audit_mesh_text(
+        mesh_path,
+        case.family,
+        np.asarray(case.model.nodes, dtype=np.float64),
+        np.asarray(case.connectivity, dtype=np.int64),
+    ) == []
+    assert _audit_comm_text(comm_path, case.system.loads.reshape(-1, 3), MATERIAL, case.case_id) == []
+
+
+def test_independent_auditor_rejects_invalid_or_duplicate_qf_load_groups(diverse_cases, tmp_path) -> None:
+    case = next(
+        row for row in diverse_cases
+        if row.family == "TET4" and row.geometry == "l_section_beam" and row.mesh == "H1" and row.load_case == "axial_x"
+    )
+    command_path = tmp_path / "loads.comm"
+    command = code_aster_command_text(case)
+    command_path.write_text(command, encoding="utf-8")
+    assert _audit_comm_text(command_path, case.system.loads.reshape(-1, 3), MATERIAL, case.case_id) == []
+
+    first_group = re.search(r'GROUP_NO="QF([0-9]{5})"', command)
+    assert first_group is not None
+    invalid = command[: first_group.start(1)] + "99999" + command[first_group.end(1) :]
+    command_path.write_text(invalid, encoding="utf-8")
+    assert any("differ from the frozen QF nodal load vector" in error for error in _audit_comm_text(
+        command_path, case.system.loads.reshape(-1, 3), MATERIAL, case.case_id
+    ))
+
+    first_factor = re.search(r'_F\(GROUP_NO="QF[0-9]{5}"[^)]*\)', command)
+    assert first_factor is not None
+    duplicated = command.replace(first_factor.group(0), first_factor.group(0) + ",\n    " + first_factor.group(0), 1)
+    command_path.write_text(duplicated, encoding="utf-8")
+    assert any("duplicated" in error or "differ from the frozen" in error for error in _audit_comm_text(
+        command_path, case.system.loads.reshape(-1, 3), MATERIAL, case.case_id
+    ))
+
+
+def test_independent_auditor_checks_qf_mesh_groups_are_singletons_for_correct_nodes(diverse_cases, tmp_path) -> None:
+    case = next(
+        row for row in diverse_cases
+        if row.family == "TET4" and row.geometry == "l_section_beam" and row.mesh == "H1"
+    )
+    mesh_path = tmp_path / f"{case.case_id}.mail"
+    mesh = code_aster_mesh_text(case)
+    mesh_path.write_text(mesh, encoding="ascii")
+    assert _audit_mesh_text(
+        mesh_path,
+        case.family,
+        np.asarray(case.model.nodes, dtype=np.float64),
+        np.asarray(case.connectivity, dtype=np.int64),
+    ) == []
+
+    mesh_path.write_text(mesh.replace("GROUP_NO\nQF00000\nA0\nFINSF", "GROUP_NO\nQF00000\nA1\nFINSF", 1), encoding="ascii")
+    assert any("QF group does not contain" in error for error in _audit_mesh_text(
+        mesh_path,
+        case.family,
+        np.asarray(case.model.nodes, dtype=np.float64),
+        np.asarray(case.connectivity, dtype=np.int64),
+    ))
+
+
 def test_r36_serializer_does_not_recurse_when_installed_as_runner_callback(diverse_cases) -> None:
     case = next(
         row for row in diverse_cases
@@ -169,3 +239,8 @@ def test_r36_serializer_does_not_recurse_when_installed_as_runner_callback(diver
     finally:
         r3_runner._mesh_text = original_mesh_text
         r3_runner._comm_text = original_comm_text
+
+
+def test_r36_r2_runner_fails_closed_without_both_prior_attempts(tmp_path) -> None:
+    with pytest.raises(diverse_runner.CampaignError, match="bind both preserved failed attempts"):
+        diverse_runner._verify_prior_attempts({}, tmp_path)

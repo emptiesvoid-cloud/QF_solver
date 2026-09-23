@@ -196,5 +196,27 @@ def code_aster_mesh_text(case: ExpandedCase) -> str:
 
 
 def code_aster_command_text(case: ExpandedCase) -> str:
-    """Serialize matching compact node references in the ASTER command file."""
-    return _compact_aster_node_labels(_r3_comm_text(case))
+    """Address nodal forces through the mesh's singleton QF groups.
+
+    Code_Aster's FORCE_NODALE/NOEUD parser expects its integer-style node
+    identifiers. The diverse mesh intentionally uses compact alphabetic node
+    names to respect the ASTER mesh-record width, so map each generated N<n>
+    reference to the already-defined singleton GROUP_NO QF<n-1> instead.
+    This changes only the addressing syntax, never the frozen load values.
+    """
+    text = _r3_comm_text(case)
+    replacements = 0
+
+    def replace_node_reference(match: re.Match[str]) -> str:
+        nonlocal replacements
+        node_index = int(match.group(1)) - 1
+        if node_index < 0 or node_index >= len(case.model.nodes) or node_index > 99_999:
+            raise ValueError(f"Invalid singleton QF node-group index: {node_index}")
+        replacements += 1
+        return f'GROUP_NO="QF{node_index:05d}"'
+
+    text = re.sub(r'NOEUD="N([1-9][0-9]*)"', replace_node_reference, text)
+    expected_terms = int(np.count_nonzero(np.asarray(case.system.loads) != 0.0))
+    if replacements != expected_terms or "NOEUD=" in text:
+        raise ValueError("Code_Aster command did not map every frozen nodal force to one QF group")
+    return text

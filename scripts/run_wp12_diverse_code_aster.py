@@ -31,6 +31,91 @@ def _git(repo_root: Path, *args: str) -> str:
     return subprocess.check_output(["git", *args], cwd=repo_root, text=True).strip()
 
 
+def _verify_prior_attempts(contract: dict[str, Any], repo_root: Path) -> None:
+    attempts = contract.get("supersedes_failed_attempts")
+    if not isinstance(attempts, list) or len(attempts) != 2:
+        raise CampaignError("R3.6 R2 must bind both preserved failed attempts.")
+    expected_ids = {"r3_6_attempt1_serializer_recursion", "r3_6_r1_force_node_label"}
+    if {row.get("attempt_id") for row in attempts if isinstance(row, dict)} != expected_ids:
+        raise CampaignError("R3.6 R2 prior-attempt lineage is incomplete or unexpected.")
+
+    for attempt in attempts:
+        if not isinstance(attempt, dict):
+            raise CampaignError("R3.6 R2 prior-attempt record is malformed.")
+        paths: dict[str, Path] = {}
+        for field in ("contract_path", "manifest_path", "audit_path", "summary_path", "raw_root"):
+            relative = Path(str(attempt.get(field, "")))
+            resolved = (repo_root / relative).resolve()
+            if not relative.parts or repo_root not in resolved.parents:
+                raise CampaignError(f"R3.6 R2 prior-attempt path is invalid: {field}")
+            paths[field] = resolved
+        for field in ("contract_path", "manifest_path", "audit_path", "summary_path"):
+            path = paths[field]
+            digest_field = f"{field.removesuffix('_path')}_sha256"
+            if not path.is_file() or engine.sha256_file(path) != attempt.get(digest_field):
+                raise CampaignError(f"R3.6 R2 prior-attempt hash mismatch: {field}")
+
+        prior_contract = engine.load_json(paths["contract_path"])
+        prior_manifest = engine.load_json(paths["manifest_path"])
+        prior_audit = engine.load_json(paths["audit_path"])
+        prior_summary = engine.load_json(paths["summary_path"])
+        if (
+            prior_audit.get("audit_status") != "FAIL_CLOSED"
+            or prior_audit.get("case_count") != 144
+            or prior_audit.get("case_pass_count") != 0
+            or prior_audit.get("contract_sha256") != attempt.get("contract_sha256")
+            or prior_audit.get("manifest_sha256") != attempt.get("manifest_sha256")
+            or prior_summary.get("status") != "FAIL_CLOSED"
+            or prior_summary.get("candidate_cases_passed") != 0
+            or prior_summary.get("contract_sha256") != attempt.get("contract_sha256")
+            or prior_contract.get("revision") != attempt.get("revision")
+        ):
+            raise CampaignError("R3.6 R2 prior-attempt failure classification is inconsistent.")
+
+        entries = prior_manifest.get("files")
+        if not isinstance(entries, dict) or not entries:
+            raise CampaignError("R3.6 R2 prior-attempt manifest is empty or invalid.")
+        raw_root = paths["raw_root"]
+        actual = {
+            path.relative_to(raw_root).as_posix()
+            for path in raw_root.rglob("*")
+            if path.is_file()
+        }
+        if actual != set(entries):
+            raise CampaignError("R3.6 R2 prior-attempt raw file set differs from its manifest.")
+        for relative, entry in entries.items():
+            path = raw_root / relative
+            if (
+                not path.is_file()
+                or path.stat().st_size != entry.get("size_bytes")
+                or engine.sha256_file(path) != entry.get("sha256")
+            ):
+                raise CampaignError(f"R3.6 R2 prior-attempt raw hash mismatch: {relative}")
+
+        first_case_id = "tet4_l_section_beam_h1_axial_x"
+        first = prior_summary.get("cases", {}).get(first_case_id, {})
+        if attempt["attempt_id"] == "r3_6_attempt1_serializer_recursion":
+            if (
+                prior_summary.get("attempted_case_count") != 1
+                or prior_summary.get("not_started_case_count") != 143
+                or "RecursionError" not in first.get("error", "")
+            ):
+                raise CampaignError("R3.6 attempt-1 lineage is not the preserved pre-solver failure.")
+            case_root = raw_root / first_case_id
+            if any((case_root / name).exists() for name in ("process.json", "container.cid", "aster_raw.json")):
+                raise CampaignError("R3.6 attempt-1 unexpectedly contains Code_Aster process evidence.")
+        else:
+            process = engine.load_json(raw_root / first_case_id / "process.json")
+            if (
+                prior_summary.get("attempted_case_count") != 1
+                or prior_summary.get("not_started_case_count") != 143
+                or first.get("status") != "FAIL_CLOSED_EXECUTION"
+                or process.get("exit_code") != 2
+                or (raw_root / first_case_id / "aster_raw.json").exists()
+            ):
+                raise CampaignError("R3.6 R1 lineage is not the preserved Code_Aster input failure.")
+
+
 def _case_record(case: Any) -> dict[str, Any]:
     return {
         "case_id": case.case_id,
@@ -73,6 +158,7 @@ def preflight(contract_path: Path, repo_root: Path) -> tuple[dict[str, Any], lis
     if contract.get("revision") not in {
         "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION",
         "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION_R1",
+        "R3_6_DIVERSE_TOPOLOGY_144_CASE_LINEAR_STATIC_CORRELATION_R2",
     }:
         raise CampaignError("Contract revision is not WP12 R3.6 diverse topology.")
     if contract.get("status") != "FROZEN" or contract.get("execution_authorized") is not True:
@@ -81,6 +167,8 @@ def preflight(contract_path: Path, repo_root: Path) -> tuple[dict[str, Any], lis
         raise CampaignError("R3.6 fail-closed/overwrite policy is invalid.")
     if contract["revision"].endswith("_R1") and contract.get("supersedes_failed_attempt", {}).get("code_aster_process_started") is not False:
         raise CampaignError("R3.6 R1 is missing the preserved pre-solver failure lineage.")
+    if contract["revision"].endswith("_R2"):
+        _verify_prior_attempts(contract, repo_root)
 
     expected_branch = str(contract.get("branch", ""))
     if _git(repo_root, "branch", "--show-current") != expected_branch:

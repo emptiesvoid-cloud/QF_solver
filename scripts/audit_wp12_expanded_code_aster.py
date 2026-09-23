@@ -147,6 +147,34 @@ def _audit_mesh_text(path: Path, family: str, coordinates: np.ndarray, connectiv
         expected_root = np.flatnonzero(np.isclose(coordinates[:, 0], 0.0, rtol=0.0, atol=1e-12))
         if not np.array_equal(root_nodes, expected_root):
             errors.append("Code_Aster root boundary group differs from raw coordinates")
+
+        # R3.5 and R3.6 define one singleton QF group per node. R3.6 uses
+        # these groups to address FORCE_NODALE without relying on compact
+        # alphabetic labels in Code_Aster's NOEUD parser.
+        qf_groups: dict[int, list[int]] = {}
+        for group_index, line in enumerate(lines):
+            if line != "GROUP_NO" or group_index + 1 >= len(lines):
+                continue
+            group_name = lines[group_index + 1]
+            match = re.fullmatch(r"QF([0-9]+)", group_name)
+            if match is None:
+                continue
+            node_start = group_index + 2
+            try:
+                node_end = lines.index("FINSF", node_start)
+                members = [_decode_aster_node_name(name) for name in lines[node_start:node_end]]
+            except (ValueError, IndexError):
+                errors.append(f"Code_Aster singleton node group is malformed: {group_name}")
+                continue
+            node_index = int(match.group(1))
+            if node_index in qf_groups:
+                errors.append(f"Code_Aster singleton node group is duplicated: {group_name}")
+            qf_groups[node_index] = members
+        if qf_groups:
+            if set(qf_groups) != set(range(len(coordinates))):
+                errors.append("Code_Aster QF singleton groups do not cover the complete node range")
+            if any(members != [node] for node, members in qf_groups.items()):
+                errors.append("Code_Aster QF group does not contain its corresponding single node")
     except (ValueError, IndexError, TypeError) as exc:
         errors.append(f"Code_Aster mesh cannot be parsed: {type(exc).__name__}: {exc}")
     return errors
@@ -165,22 +193,50 @@ def _audit_comm_text(path: Path, loads: np.ndarray, material: dict[str, Any], ca
         errors.append("Code_Aster command does not identify this case or perform MECA_STATIQUE")
     observed: dict[tuple[int, int], float] = {}
     force_dof = {"FX": 0, "FY": 1, "FZ": 2}
-    for node_name, component, value_text in re.findall(
-        r'NOEUD="([A-Z][A-Z0-9]*)"\s*,\s*(FX|FY|FZ)=([-+0-9.eE]+)', text
-    ):
-        try:
-            node = _decode_aster_node_name(node_name)
-        except ValueError:
-            errors.append(f"Code_Aster nodal load uses an invalid node identifier: {node_name!r}")
+    force_region = text.split("FORCE_NODALE=(", maxsplit=1)
+    if len(force_region) != 2:
+        errors.append("Code_Aster command has no FORCE_NODALE factor list")
+        force_text = ""
+    else:
+        force_text = force_region[1].split("\n))", maxsplit=1)[0]
+    factor_pattern = re.compile(
+        r'_F\(\s*(?:NOEUD="(?P<node>[A-Z][A-Z0-9]*)"|GROUP_NO="QF(?P<group>[0-9]+)")'
+        r'\s*,\s*(?P<component>FX|FY|FZ)=(?P<value>[-+0-9.eE]+)'
+    )
+    factors = list(factor_pattern.finditer(force_text))
+    if len(re.findall(r"_F\(", force_text)) != len(factors):
+        errors.append("Code_Aster FORCE_NODALE contains an unsupported or malformed factor")
+    for factor in factors:
+        node_name = factor.group("node")
+        if node_name is not None:
+            try:
+                node = _decode_aster_node_name(node_name)
+            except ValueError:
+                errors.append(f"Code_Aster nodal load uses an invalid node identifier: {node_name!r}")
+                continue
+        else:
+            node = int(factor.group("group"))
+        component = factor.group("component")
+        key = (node, force_dof[component])
+        if key in observed:
+            errors.append(f"Code_Aster nodal force term is duplicated for node/DOF {key}")
             continue
-        observed[(node, force_dof[component])] = float(value_text)
+        try:
+            value = float(factor.group("value"))
+        except ValueError:
+            errors.append(f"Code_Aster nodal force has an invalid value for node/DOF {key}")
+            continue
+        if not np.isfinite(value):
+            errors.append(f"Code_Aster nodal force is non-finite for node/DOF {key}")
+            continue
+        observed[key] = value
     expected = {
         (node, axis): float(value)
         for node, vector in enumerate(loads)
         for axis, value in enumerate(vector)
         if float(value) != 0.0
     }
-    if set(observed) != set(expected) or any(observed[key] != expected[key] for key in expected):
+    if len(factors) != len(expected) or set(observed) != set(expected) or any(observed[key] != expected[key] for key in expected):
         errors.append("Code_Aster nodal force terms differ from the frozen QF nodal load vector")
     return errors
 
