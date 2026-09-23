@@ -36,9 +36,18 @@ def _states(value: Any) -> list[dict[str, Any]]:
     return []
 
 
+def _displacement_vector(value: Any) -> np.ndarray:
+    if isinstance(value, list) and value and isinstance(value[0], dict):
+        return np.asarray(
+            [float(component) for row in value for component in dict(row.get("dofs", {})).values()],
+            dtype=float,
+        )
+    return np.asarray(value, dtype=float)
+
+
 def _recompute(raw: dict[str, Any]) -> dict[str, float]:
     source = raw["observable_source"]
-    displacement = np.asarray(source["displacements"], dtype=float)
+    displacement = _displacement_vector(source["displacements"])
     elements = source["element_results"]
     points = [point for element in elements for point in element.get("integration_points", [])]
     states = _states(source.get("material_states"))

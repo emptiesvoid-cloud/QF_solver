@@ -8,6 +8,7 @@ from pathlib import Path
 import numpy as np
 
 from scripts.run_wp09_tet4_consistent_traction_study import CONTRACT_PATH, LEVELS, _load_balance, _mesh, _model
+from scripts.run_wp09_tet4_consistent_traction_reference import _displacement_vector
 from solveur.mesh.validation import MeshValidator
 
 
@@ -64,14 +65,25 @@ def test_independent_observable_checker_has_no_production_imports() -> None:
     assert imported <= {"__future__", "argparse", "hashlib", "json", "pathlib", "typing", "numpy"}
 
 
+def test_reference_recomputes_canonical_nodal_displacement_serialization() -> None:
+    rows = [
+        {"node": 0, "dofs": {"UX": 1.0, "UY": -2.0, "UZ": 3.0}},
+        {"node": 1, "dofs": {"UX": 4.0, "UY": 5.0, "UZ": -6.0}},
+    ]
+    assert np.array_equal(_displacement_vector(rows), [1.0, -2.0, 3.0, 4.0, 5.0, -6.0])
+
+
 def test_frozen_study_contract_binds_runner_and_preserves_history() -> None:
     contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
     runner = Path(contract["runner_path"])
     runner_hash = hashlib.sha256(runner.read_bytes()).hexdigest()
+    reference = Path(contract["reference"]["script"])
+    reference_hash = hashlib.sha256(reference.read_bytes()).hexdigest()
     assert contract["status"] == "FROZEN_PROSPECTIVE_DIAGNOSTIC_CONTRACT"
     assert contract["authorization"]["owner_authorizes_isolated_tet4_diagnostic"] is True
     assert contract["authorization"]["formal_wp09_tet4_requalification"] is False
     assert contract["runner_sha256"] == runner_hash
+    assert contract["reference"]["reference_sha256"] == reference_hash
     assert contract["mesh_hierarchy"]["execution_order"].startswith("H1 then H2 then H3")
     assert contract["load_definition"]["equal_share_nodal_load"] is False
     for item in contract["historical_evidence"]["remesh_equal_share_diagnostic"]:

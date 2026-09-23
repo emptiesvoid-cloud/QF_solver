@@ -343,6 +343,9 @@ def _verify_frozen_contract(contract: dict[str, Any]) -> dict[str, Any]:
     runner_path = ROOT / contract["runner_path"]
     if _sha256(runner_path) != contract["runner_sha256"]:
         raise RuntimeError("Runner SHA-256 differs from the frozen contract.")
+    reference_path = ROOT / contract["reference"]["script"]
+    if _sha256(reference_path) != contract["reference"]["reference_sha256"]:
+        raise RuntimeError("Independent observable checker SHA-256 differs from the frozen contract.")
     base = contract["governing_base_sha"]
     src_check = subprocess.run(["git", "diff", "--quiet", base, "HEAD", "--", "src"], cwd=ROOT, check=False)
     if src_check.returncode != 0:
