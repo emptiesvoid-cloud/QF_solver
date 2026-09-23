@@ -1,0 +1,84 @@
+{
+  "files": {
+    "preflight.json": {
+      "sha256": "199026e141314172acdb5452830f422ee0fc17a8fa506c3c6456304d7760d88c",
+      "size_bytes": 493
+    },
+    "progress.json": {
+      "sha256": "e6ce0856a771ee522dbc7ec72783cb068d447acb7c2df1c40f4ae4468585b037",
+      "size_bytes": 303
+    },
+    "tet4_l_section_beam_h1_axial_x/case.json": {
+      "sha256": "c3634fb143d4cb4e365620851fd53ae93498c7b18d5d82f35d8fde8fc147d248",
+      "size_bytes": 1415
+    },
+    "tet4_l_section_beam_h1_axial_x/container.cid": {
+      "sha256": "e5a2d8919ba8834eb1d10ca2a3ebeb5e3b384e94cddb0d9612e66b9956ce2d4f",
+      "size_bytes": 64
+    },
+    "tet4_l_section_beam_h1_axial_x/model_inputs.npz": {
+      "sha256": "280b4b193de5defe38e27537fec38d0883d3286e51a676b8d1e0d002e6850b68",
+      "size_bytes": 1128
+    },
+    "tet4_l_section_beam_h1_axial_x/process.json": {
+      "sha256": "6213af1b373a3601f01da06949f94d4f537baa0e68bfd79403a679ff7015e992",
+      "size_bytes": 2878
+    },
+    "tet4_l_section_beam_h1_axial_x/progress.json": {
+      "sha256": "ffd909b72b69f82897d501e448a5b5f2b1adcd6f2d57049b4175bfe70df01901",
+      "size_bytes": 236
+    },
+    "tet4_l_section_beam_h1_axial_x/qf_result.npz": {
+      "sha256": "7c4f673db1c9fd757539bf15806ae677f24bc76f01bfec78543d9b482bb5ff12",
+      "size_bytes": 445
+    },
+    "tet4_l_section_beam_h1_axial_x/qf_stiffness.npz": {
+      "sha256": "7f9f8f87ee93efffdcec530d350922d78f19ddd06866702ca4d7a1b20f549711",
+      "size_bytes": 3724
+    },
+    "tet4_l_section_beam_h1_axial_x/result.json": {
+      "sha256": "025307dcc82062fbc229eebc8469b5fba244cfe69ced1677e0397ff4727dc65b",
+      "size_bytes": 599
+    },
+    "tet4_l_section_beam_h1_axial_x/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "tet4_l_section_beam_h1_axial_x/stdout.log": {
+      "sha256": "d592faf1d0acc7110a9d27820cd22d84804c83364aafc55f313c5793ba7d5628",
+      "size_bytes": 18385
+    },
+    "tet4_l_section_beam_h1_axial_x/telemetry.jsonl": {
+      "sha256": "8654d83c62b823ff56db1df37cef5026dc7c17ece64dcd32dbfd0949015f404e",
+      "size_bytes": 1974
+    },
+    "tet4_l_section_beam_h1_axial_x/tet4_l_section_beam_h1_axial_x.comm": {
+      "sha256": "afd9112863bfe122533a7d03895ddb0f77c4b74a621313f1ad57de837696bfe1",
+      "size_bytes": 2260
+    },
+    "tet4_l_section_beam_h1_axial_x/tet4_l_section_beam_h1_axial_x.export": {
+      "sha256": "029a27eab3a3be5c5bad57fbd09fc2b58021d64e1eaaf17d9a704862786a0e59",
+      "size_bytes": 311
+    },
+    "tet4_l_section_beam_h1_axial_x/tet4_l_section_beam_h1_axial_x.mail": {
+      "sha256": "469aa62e665b7815b91c88d585c30c4d6ee8f5a5c8ee98c81a1300665045d43e",
+      "size_bytes": 1919
+    },
+    "tet4_l_section_beam_h1_axial_x/tet4_l_section_beam_h1_axial_x.mess": {
+      "sha256": "7cbbcd041971786f5af6d23bc59e4e9b8c5dd9dfa92187a731be04931caab346",
+      "size_bytes": 13509
+    },
+    "tet4_l_section_beam_h1_axial_x/tet4_l_section_beam_h1_axial_x.resu": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "wp12_expanded_summary.json": {
+      "sha256": "6344699b5c4e756f613ad0b4a19ef0ceb108f70936af5d483f6332c73950a704",
+      "size_bytes": 3430
+    },
+    "wp12_expanded_summary.md": {
+      "sha256": "342332bc851752b15b49770733c16c965734874b6a695e78a31a0670c86ebb50",
+      "size_bytes": 1300
+    }
+  }
+}
