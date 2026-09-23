@@ -114,5 +114,5 @@ WP12 R2, ses décisions Owner, les points officiels et le ledger restent inchang
 - Tests ciblés WP12 : `10 passed`.
 - `compileall` sur runner, auditeur, builder de contrat, smoke et générateur de modèles : PASS.
 - Parsing JSON du contrat, de l’audit et du manifeste : PASS.
-- `git diff --check` : PASS.
+- Vérification whitespace du commit (`git -c core.whitespace=cr-at-eol show --check HEAD`) : PASS; les JSON générés sous Windows sont conservés en CRLF.
 - Suite complète : non exécutée.
