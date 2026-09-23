@@ -62,6 +62,8 @@ Références officielles : [syntaxe ASTER et limite de 80 caractères](https://c
 ## Vérifications effectuées
 
 - `tests/unit/test_wp12_diverse_models.py` : **8 passed**.
+- `tests/unit/test_wp12_diverse_campaign.py` : **2 passed**; includes unchanged
+  R3.5 gates and rejection of a preparation-only contract before Docker probe.
 - Non-régression WP12 ciblée : **26 passed** (`test_wp12_expanded_models.py`,
   `test_wp12_expanded_correlation_io.py`, `test_wp12_code_aster_multifamily.py`).
 - Ruff sur les fichiers concernés : PASS.
@@ -73,6 +75,10 @@ Références officielles : [syntaxe ASTER et limite de 80 caractères](https://c
   indépendant.
 - L’image Code_Aster épinglée est disponible localement ; aucun conteneur de
   calcul n’a été démarré pour R3.6.
+- Le runner R3.6 impose un contrat gelé, une provenance Git propre, les mêmes
+  seuils R3.5, une exécution séquentielle mono-CPU, l’absence d’écrasement et
+  un manifeste actualisé après chaque cas. L’auditeur indépendant revalide les
+  noms compacts et recalcule les observables depuis les données brutes.
 
 ## Limites et statut de preuve
 
@@ -82,8 +88,8 @@ de maillage ne peut être revendiqué pour R3.6 à ce stade. Aucune mécanique d
 production, aucun seuil et aucun ledger n’ont été modifiés. R3.5 et ses preuves
 restent intacts.
 
-**Prochaine étape :** geler un contrat prospectif R3.6 (catalogue exact,
-provenance, gates et stockage), puis lancer la campagne séquentielle après
-autorisation de cette exécution. Une éventuelle réussite sera une preuve
-supplémentaire de corrélation linéaire bornée, sans attribution automatique de
-points WP12.
+**Prochaine étape :** geler le contrat prospectif R3.6 (catalogue exact,
+provenance, gates et stockage), puis exécuter la campagne séquentielle autorisée
+par l’objectif Owner d’élargir les corrélations. Une éventuelle réussite sera
+une preuve supplémentaire de corrélation linéaire bornée, sans attribution
+automatique de points WP12.
