@@ -36,9 +36,9 @@ from scripts.wp12_expanded_models import FAMILIES, build_case  # noqa: E402
 BRANCH = "codex/wp12-expanded-correlation"
 BASE_SHA = "c5e842d5e589358633221ecd9f29c2ff1ef003aa"
 PARENT_CONTRACT = Path("qualification/0_2_9/wp12_external_vv_r3_4_expanded_contract.json")
-OUTPUT_ROOT = Path("qualification/0_2_9/wp12_external_vv_r3_5_smoke_r3_raw")
-REPORT_PATH = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r3.json")
-MANIFEST_PATH = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r3_manifest.json")
+OUTPUT_ROOT = Path("qualification/0_2_9/wp12_external_vv_r3_5_smoke_attempt4_raw")
+REPORT_PATH = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_attempt4.json")
+MANIFEST_PATH = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_attempt4_manifest.json")
 SMOKE_CONTRACT_MARKER = "DIAGNOSTIC_ONLY_NO_FROZEN_144_CASE_CONTRACT"
 
 
@@ -152,7 +152,7 @@ def main() -> int:
             break
     passed = sum(result.get("status") == "PASS_SMOKE_ONLY" for result in results)
     summary = {
-        "campaign": "WP12 R3.5 four-family H3 serializer/input smoke attempt 2",
+        "campaign": "WP12 R3.5 four-family H3 serializer/input smoke attempt 4",
         "status": "PASS_DIAGNOSTIC_ONLY" if passed == len(FAMILIES) else "FAIL_CLOSED",
         "formal_correlation_evidence": False,
         "source_sha": readiness["source_sha"],

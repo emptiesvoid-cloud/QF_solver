@@ -46,8 +46,10 @@ R3_4_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_4_execution_audit.jso
 R3_4_FULL_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_4_expanded_audit.json")
 R3_5_SMOKE_ATTEMPT_1_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_attempt_audit.json")
 R3_5_SMOKE_ATTEMPT_2_AUDIT = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_attempt_2_audit.json")
-R3_5_SMOKE_REPORT = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r3.json")
-R3_5_SMOKE_MANIFEST = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r3_manifest.json")
+R3_5_SUPERSEDED_SMOKE_REPORT = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r3.json")
+R3_5_SUPERSEDED_SMOKE_MANIFEST = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r3_manifest.json")
+R3_5_SMOKE_REPORT = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_attempt4.json")
+R3_5_SMOKE_MANIFEST = Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_attempt4_manifest.json")
 
 
 def _git(*args: str) -> str:
@@ -143,9 +145,19 @@ def build_contract() -> dict[str, Any]:
         != _sha256(Path("qualification/0_2_9/wp12_external_vv_r3_5_mesh_smoke_r2_manifest.json"))
     ):
         raise RuntimeError("Preserved R3.5 smoke attempt 2 is missing or inconsistent.")
+    superseded_smoke = json.loads((ROOT / R3_5_SUPERSEDED_SMOKE_REPORT).read_text(encoding="utf-8"))
+    if (
+        superseded_smoke.get("status") != "PASS_DIAGNOSTIC_ONLY"
+        or superseded_smoke.get("campaign") != "WP12 R3.5 four-family H3 serializer/input smoke attempt 2"
+        or superseded_smoke.get("case_count") != 4
+        or superseded_smoke.get("case_pass_count") != 4
+        or superseded_smoke.get("manifest_sha256") != _sha256(R3_5_SUPERSEDED_SMOKE_MANIFEST)
+    ):
+        raise RuntimeError("Preserved R3.5 diagnostic smoke with stale attempt label is missing or inconsistent.")
     smoke = json.loads((ROOT / R3_5_SMOKE_REPORT).read_text(encoding="utf-8"))
     if (
         smoke.get("status") != "PASS_DIAGNOSTIC_ONLY"
+        or smoke.get("campaign") != "WP12 R3.5 four-family H3 serializer/input smoke attempt 4"
         or smoke.get("case_count") != 4
         or smoke.get("case_pass_count") != 4
         or smoke.get("not_started_case_count") != 0
@@ -227,6 +239,15 @@ def build_contract() -> dict[str, Any]:
                 "audit_sha256": _sha256(R3_5_SMOKE_ATTEMPT_2_AUDIT),
                 "manifest_sha256": smoke_attempt_2.get("manifest_sha256"),
                 "status": smoke_attempt_2.get("audit_status"),
+            },
+            {
+                "attempt": 3,
+                "report_path": R3_5_SUPERSEDED_SMOKE_REPORT.as_posix(),
+                "report_sha256": _sha256(R3_5_SUPERSEDED_SMOKE_REPORT),
+                "manifest_path": R3_5_SUPERSEDED_SMOKE_MANIFEST.as_posix(),
+                "manifest_sha256": _sha256(R3_5_SUPERSEDED_SMOKE_MANIFEST),
+                "status": superseded_smoke.get("status"),
+                "exclusion_reason": "The four-family execution passed, but its campaign label incorrectly says attempt 2; preserved unchanged and excluded in favor of the correctly labelled attempt 4 smoke.",
             },
         ],
         "case_count": len(cases),
