@@ -6235,6 +6235,82 @@
       "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/HEX20/M3/result.json"
     ],
     "tests": []
+  },
+  {
+    "id": "DOC-029-WP12-EXTERNAL-VV-R2-OWNER-REVIEW",
+    "path": "verification/0_2_9/wp12-external-vv-r2-owner-review.md",
+    "title": "QF Solver 0.2.9 WP12 Code_Aster R2 external correlation Owner review",
+    "status": "controlled_evidence",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp12_external_vv_r2_contract.json",
+      "qualification/0_2_9/wp12_external_vv_r2_final.json",
+      "qualification/0_2_9/wp12_external_vv_r2_audit.json",
+      "qualification/0_2_9/wp12_external_vv_r2/manifest.json"
+    ],
+    "tests": [
+      "tests/unit/test_wp12_code_aster_multifamily.py"
+    ]
+  },
+  {
+    "id": "DOC-029-WP12-EXTERNAL-VV-INDEPENDENT-AUDIT",
+    "path": "verification/0_2_9/wp12-external-vv-independent-audit.md",
+    "title": "QF Solver 0.2.9 WP12 independent plan and raw-evidence audit",
+    "status": "controlled_evidence",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp12_external_vv_independent_audit.json",
+      "qualification/0_2_9/wp12_external_vv_r2_contract.json",
+      "qualification/0_2_9/wp12_external_vv_r2/manifest.json"
+    ],
+    "tests": [
+      "tests/unit/test_wp12_code_aster_multifamily.py"
+    ]
+  },
+  {
+    "id": "DOC-029-WP12-EXTERNAL-VV-R3-5-RESULTS",
+    "path": "verification/0_2_9/wp12-expanded-correlation-r3_5-results.md",
+    "title": "QF Solver 0.2.9 WP12 R3.5 expanded Code_Aster correlation results",
+    "status": "controlled_evidence",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp12_external_vv_r3_5_expanded_contract.json",
+      "qualification/0_2_9/wp12_external_vv_r3_5_expanded_audit.json",
+      "qualification/0_2_9/wp12_external_vv_r3_5_expanded_manifest.json"
+    ],
+    "tests": [
+      "tests/unit/test_wp12_expanded_models.py",
+      "tests/unit/test_wp12_expanded_correlation_io.py"
+    ]
+  },
+  {
+    "id": "DOC-029-WP12-R4-GALLERY-RESULTS",
+    "path": "verification/0_2_9/wp12-expanded-correlation-r4-gallery-results.md",
+    "title": "QF Solver 0.2.9 WP12 R4 expanded Code_Aster model-gallery correlation",
+    "status": "controlled_evidence",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp12_external_vv_r4_gallery_contract.json",
+      "qualification/0_2_9/wp12_external_vv_r4_gallery_manifest.json",
+      "qualification/0_2_9/wp12_external_vv_r4_gallery_audit.json",
+      "qualification/0_2_9/wp12_external_vv_r4_gallery_summary.json"
+    ],
+    "tests": [
+      "tests/integration/test_wp12_gallery_r4.py"
+    ]
+  },
+  {
+    "id": "DOC-029-WP12-OWNER-ACCEPTANCE-R2",
+    "path": "verification/0_2_9/wp12-owner-acceptance-r2.md",
+    "title": "QF Solver 0.2.9 WP12 Owner acceptance of bounded external correlation",
+    "status": "controlled_evidence",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp12_owner_acceptance_r2.json",
+      "qualification/0_2_9/wp12_external_vv_r2_final.json",
+      "qualification/0_2_9/wp12_external_vv_r4_gallery_audit.json"
+    ],
+    "tests": []
   }
 ]
 }

@@ -1,0 +1,8 @@
+{
+  "elapsed_seconds": 5.728497900003276,
+  "event": "RUN_END",
+  "exit_code": 1,
+  "family": "TET10",
+  "status": "FAILED",
+  "timestamp_utc": "2026-09-23T08:06:23.539245+00:00"
+}

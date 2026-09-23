@@ -1,0 +1,10 @@
+/opt/spack/opt/spack/linux-zen/python-3.11.14-b46uatqeae4oxf3zlavoyghidvlm47wc/bin/python3: No module named mpi4py
+
+EXECUTION_CODE_ASTER_EXIT_10=1
+
+
+
+------------------------------------------------------------
+--- DIAGNOSTIC JOB : <F>_ABNORMAL_ABORT
+------------------------------------------------------------
+

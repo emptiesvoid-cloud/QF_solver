@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "release": "0.2.9",
-  "status": "WP05_WP07_WP08_WP09_WP10_WP11_CLOSED_WP06_PARTIALLY_ACCEPTED",
+  "status": "WP05_WP07_WP08_WP09_WP10_WP11_WP12_CLOSED_WP06_PARTIALLY_ACCEPTED",
   "work_packages": {
     "WP00": {"points": 4, "status": "CLOSED", "validated_points": 4},
     "WP01": {"points": 12, "status": "CLOSED", "validated_points": 12},
@@ -16,11 +16,11 @@
     "WP09": {"points": 8, "status": "OWNER_ACCEPTED_HEX8_BOUNDED_WITH_LIMITATIONS", "validated_points": 8, "owner_accepted_points": 8, "owner_decision_id": "OD-029-WP09-HEX8-R3-01"},
     "WP10": {"points": 6, "status": "OWNER_ACCEPTED_MULTI_FAMILY_BOUNDED_WITH_LIMITATIONS", "validated_points": 6, "candidate_points": 6, "owner_accepted_points": 6, "owner_decision_id": "OD-029-WP10-BOUNDED-CLOSURE-01"},
     "WP11": {"points": 6, "status": "OWNER_ACCEPTED_MULTI_FAMILY_BOUNDED_WITH_LIMITATIONS", "validated_points": 6, "candidate_points": 6, "owner_accepted_points": 6, "owner_decision_id": "OD-029-WP11-MULTIFAMILY-R2-01"},
-    "WP12": {"points": 4, "status": "NOT_STARTED", "validated_points": 0},
+    "WP12": {"points": 4, "status": "OWNER_ACCEPTED_BOUNDED_CODE_ASTER_CORRELATION_WITH_LIMITATIONS", "validated_points": 4, "candidate_points": 4, "owner_accepted_points": 4, "owner_decision_id": "OD-029-WP12-CODE-ASTER-R2-01"},
     "WP13": {"points": 1, "status": "NOT_STARTED", "validated_points": 0},
     "WP14": {"points": 1, "status": "NOT_STARTED", "validated_points": 0}
   },
-  "validated_points": 90,
+  "validated_points": 94,
   "total_points": 100,
-  "next_gate": "WP12–WP14 remain not started. WP06 remains 4/8 with experimental bounded D evidence only; historical R1 FAIL_CLOSED is preserved. WP05, WP07, WP08, WP09, WP10 and WP11 are Owner-accepted within their declared bounded limitations. WP16 remains a post-release zero-point archival step. Governing-branch publication is an administrative synchronization step and does not change qualification points or evidence."
+  "next_gate": "WP13 and WP14 remain not started. WP06 remains 4/8 with experimental bounded D evidence only; historical R1 FAIL_CLOSED is preserved. WP05, WP07, WP08, WP09, WP10, WP11 and WP12 are Owner-accepted within their declared bounded limitations. WP16 remains a post-release zero-point archival step for large raw evidence."
 }

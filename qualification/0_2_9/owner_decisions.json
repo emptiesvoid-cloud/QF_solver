@@ -314,6 +314,60 @@
         "no external FEM solver correlation",
         "no cross-family result-equivalence claim"
       ]
+    },
+    {
+      "id": "OD-029-WP12-CODE-ASTER-R2-01",
+      "title": "WP12 bounded Code_Aster external-correlation acceptance",
+      "decision_date": "2026-09-23",
+      "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "owner_review_status": "ACCEPTED",
+      "accepted_work_items": ["WP12-R2-TET4", "WP12-R2-HEX8", "WP12-R2-TET10", "WP12-R2-HEX20"],
+      "approved_points": 4,
+      "wp12_points_before": "0/4",
+      "wp12_points_after": "4/4",
+      "global_official_total_before": "90/100",
+      "global_official_total_after": "94/100",
+      "owner_accepts_wp12_r2_external_correlation": true,
+      "owner_accepts_wp12_limitations": true,
+      "r4_supplemental_case_count": 864,
+      "r4_supplemental_case_pass_count": 864,
+      "authorizations": {
+        "official_wp12_ledger_update": true,
+        "governing_integration": true,
+        "governing_push": true
+      },
+      "r2_manifest_verification": {
+        "declared_files": 74,
+        "verified_files": 74,
+        "mismatches": 0
+      },
+      "r4_raw_evidence": {
+        "file_count": 14692,
+        "bytes": 243014078,
+        "local_only_ignored_by_git": true,
+        "external_archive_deferred_to_wp16": true
+      },
+      "evidence": [
+        "docs/verification/0_2_9/wp12-external-vv-r2-owner-review.md",
+        "qualification/0_2_9/wp12_external_vv_r2_contract.json",
+        "qualification/0_2_9/wp12_external_vv_r2_final.json",
+        "qualification/0_2_9/wp12_external_vv_r2_audit.json",
+        "qualification/0_2_9/wp12_external_vv_r2/manifest.json",
+        "docs/verification/0_2_9/wp12-expanded-correlation-r4-gallery-results.md",
+        "qualification/0_2_9/wp12_external_vv_r4_gallery_manifest.json",
+        "qualification/0_2_9/wp12_external_vv_r4_gallery_audit.json",
+        "qualification/0_2_9/wp12_external_vv_r4_gallery_summary.json"
+      ],
+      "historical_failures_preserved": true,
+      "solver_campaign_rerun_for_owner_decision": false,
+      "limitations": [
+        "same-mesh numerical correlation, not experimental validation",
+        "bounded frozen linear-static cases and observables only",
+        "R4 H1/H2/H3 hierarchy refines only the longitudinal direction",
+        "no general mesh-convergence, stress-field equivalence, nonlinear, contact, friction, dynamics, buckling, MPI or scaling claim",
+        "independent audit recomputes observables and is not a second global FEM/Newton solve",
+        "R4 raw gallery is local pending the planned WP16 archive"
+      ]
     }
   ],
   "ledger_reconciliation": {
@@ -330,19 +384,21 @@
     "weight_changes": false,
     "allocation_mismatch_status": "CONSISTENT",
     "explanation": "The earlier Owner-stated 61/100 after D used a 58/100 pre-WP05 baseline; the consolidated local ledger already included WP05-C/D/E +3. The frozen roadmap package allocations sum to the declared 100 points. No points are double counted.",
-    "current_reconciled_on": "2026-09-22",
-    "current_official_total": "90/100",
+    "current_reconciled_on": "2026-09-23",
+    "current_official_total": "94/100",
     "current_awards": {
       "WP09": "8/8",
       "WP10": "6/6",
-      "WP11": "6/6"
+      "WP11": "6/6",
+      "WP12": "4/4"
     },
     "current_owner_decision_ids": [
       "OD-029-WP09-HEX8-R3-01",
       "OD-029-WP10-BOUNDED-CLOSURE-01",
-      "OD-029-WP11-MULTIFAMILY-R2-01"
+      "OD-029-WP11-MULTIFAMILY-R2-01",
+      "OD-029-WP12-CODE-ASTER-R2-01"
     ],
-    "current_explanation": "The Owner subsequently accepted WP09 HEX8 R3 at 8/8, WP10 bounded multi-family evidence at 6/6 and WP11 bounded multi-family PETSc/MPI evidence at 6/6. The current official local total is therefore 90/100; no historical evidence was overwritten."
+    "current_explanation": "The Owner accepted WP09 HEX8 R3 at 8/8, WP10 bounded multi-family evidence at 6/6, WP11 bounded multi-family PETSc/MPI evidence at 6/6, and WP12 bounded Code_Aster external correlation at 4/4. The current official total is 94/100; WP12 R4 is supplemental evidence and all historical failures remain preserved."
   },
   "open_decisions": [
     {

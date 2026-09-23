@@ -1,0 +1,203 @@
+{
+  "work_package": "WP12",
+  "revision": "R2_PROSPECTIVE_RUNTIME_BOOTSTRAP_REMEDIATION",
+  "status": "FROZEN",
+  "frozen_date": "2026-09-23",
+  "governing_branch": "0.2.9-unified-nonlinear",
+  "branch": "codex/wp12-external-vv",
+  "branch_base_sha": "48eadcbde3cfcf8b15f6cd2335afa3df17d8de37",
+  "runner_sha": "c4a772cd14921ca0b243c71b99a0f94f0ca210e8",
+  "auditor_sha": "c6626976d72a77fcf1233ea6c41b1f998be0e5bb",
+  "execution_authorized": true,
+  "execution_authorization": {
+    "basis": "User request for complete WP12 execution, necessary calculations, and preparation through Owner review",
+    "scope": "Four serial Code_Aster linear-static correlations only; no QF M1/M2/M3 rerun, no merge, no push, no ledger award; R2 changes runtime bootstrap and prior-attempt provenance checks only"
+  },
+  "prior_attempt": {
+    "attempt": "R1",
+    "classification": "FAIL_CLOSED_LAUNCHER_RUNTIME_IMPORT_FAILURE",
+    "record_path": "qualification/0_2_9/wp12_external_vv_r1_launch_failure.json",
+    "record_sha256": "306f3f7373818d3ea48cd4c3be6f32a7f9892ac5c8ee39bff22078df7c7171fc",
+    "contract_path": "qualification/0_2_9/wp12_external_vv_contract.json",
+    "contract_sha256": "7be23ae98a8032f8cda85075c860d2cacb24bbfd6065273cd4b1a558475938f4",
+    "output_root": "qualification/0_2_9/wp12_external_vv",
+    "summary_sha256": "baa7d90063196979457b4146b315c14e7b88ba3e5cabac2671de5d158016f0bd",
+    "manifest_sha256": "a39817051b90333689e206edfbdbbea4d5d2d9504a4edf9dc72cd11376bb9e1a",
+    "remediation": "The pinned image's run_aster profile omitted Spack site-packages containing mpi4py from PYTHONPATH. R2 sources the profile and adds the pinned image's Spack Python/library paths, then smoke-tests required imports before any solve."
+  },
+  "wp11_source_sha": "f122032cbac77b98137b61f27907ba28755a250a",
+  "wp11_owner_acceptance_path": "qualification/0_2_9/wp11_owner_acceptance_r2.json",
+  "wp11_owner_acceptance_sha256": "b4b2add48e4aba8dad3a4c094193b9a846aa6fac966e85896f853972a40db3d4",
+  "wp11_owner_manifest_path": "qualification/0_2_9/wp11_multifamily_provenance_owner_review.json",
+  "wp11_owner_manifest_sha256": "a08beb548c5a1a6666b95d660367b80fc0e2a5b8981c4a34b8a695e271f3e035",
+  "wp11_contract_path": "qualification/0_2_9/wp11_multifamily_extension_contract.json",
+  "wp11_contract_sha256": "308e531be35c680d35e4532720e1b6185cf4eff4891acad14308c39225a330c2",
+  "code_aster_version": "18.1.0",
+  "code_aster_image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+  "code_aster_image_id": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+  "timeout_seconds": 900,
+  "memory_limit_mb": 4096,
+  "code_aster_action": "make_etude",
+  "qf_reference": {
+    "accepted_work_package": "WP11",
+    "source_sha": "f122032cbac77b98137b61f27907ba28755a250a",
+    "owner_acceptance_id": "OD-029-WP11-MULTIFAMILY-R2-01",
+    "owner_acceptance_path": "qualification/0_2_9/wp11_owner_acceptance_r2.json",
+    "owner_acceptance_sha256": "b4b2add48e4aba8dad3a4c094193b9a846aa6fac966e85896f853972a40db3d4",
+    "owner_manifest_path": "qualification/0_2_9/wp11_multifamily_provenance_owner_review.json",
+    "owner_manifest_sha256": "a08beb548c5a1a6666b95d660367b80fc0e2a5b8981c4a34b8a695e271f3e035",
+    "contract_path": "qualification/0_2_9/wp11_multifamily_extension_contract.json",
+    "contract_sha256": "308e531be35c680d35e4532720e1b6185cf4eff4891acad14308c39225a330c2",
+    "evidence_root": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1",
+    "baseline_phase": "M1",
+    "baseline_backend": "serial SciPy",
+    "reference_policy": "The accepted WP11 M1 result is reused read-only; no QF solver execution is part of WP12."
+  },
+  "external_solver": {
+    "name": "Code_Aster",
+    "version": "18.1.0",
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "image_id": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "entrypoint": "/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster",
+    "modelisation": "3D",
+    "fresh_container_per_family": true,
+    "mpi": false,
+    "cpu_limit": 1,
+    "timeout_seconds": 900,
+    "memory_limit_mb": 4096,
+    "action": "make_etude",
+    "runtime_bootstrap": {
+      "shell": "/bin/bash",
+      "login_shell": true,
+      "profile_script": "/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh",
+      "spack_root": "/opt/spack/opt/spack/linux-zen",
+      "python_site_packages_pattern": "*/lib/python3.11/site-packages",
+      "shared_library_directory_names": ["lib", "lib64"],
+      "required_import_smoke": ["mpi4py", "numpy", "code_aster.Commands"]
+    }
+  },
+  "material": {
+    "E": 210000000000.0,
+    "nu": 0.3,
+    "units": "SI",
+    "density_note": "WP11 records density 7800 kg/m^3; the present static cases apply no inertia or body-force load, so density is not activated in either solve."
+  },
+  "scope": {
+    "problem": "homogeneous, one-element, small-strain linear static elasticity",
+    "common_boundary_condition": "all translational DOFs fixed on the x=0 node set",
+    "common_load_resultant_N": [0.0, 0.0, -1000.0],
+    "load_definition": "exact frozen WP11 M1 nodal load vector; tetrahedral x=1 set is one vertex, not a face traction",
+    "same_mesh": true,
+    "stress_comparison": false,
+    "cross_family_physical_equivalence_claim": false
+  },
+  "output_root": "qualification/0_2_9/wp12_external_vv_r2",
+  "families": {
+    "TET4": {
+      "element_type": "TET4", "aster_element_type": "TETRA4", "nodes": 4, "elements": 1, "dofs": 12,
+      "model_fingerprint": "616a50157a4073619d1432196c8c2a0d9e5570b82bc472ac2d9556c4b56e547c",
+      "coordinates": [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]],
+      "connectivity": [0, 1, 2, 3], "aster_local_node_order": [0, 1, 2, 3],
+      "fixed_dofs": [0, 1, 2, 6, 7, 8, 9, 10, 11], "fixed_dof_count": 9, "loaded_nodes": [1],
+      "nodal_loads": [{"node": 1, "dof": "UZ", "value": -1000.0}],
+      "m1_file_hashes": {
+        "result.json": "4d52b0a1cf54aac789ed4e2ffd7d570b3607c6216bfa0c35b0c4fb981c4bee09",
+        "displacement.npy": "7f91e998555f5e09cb13cdb5e38bc7661a5b02c2c874a3c4ac0b62855bc76505",
+        "fixed.npy": "13fcf4c3e34ae28922d1d4687e2b46430e17313d14191234086a8a3d7d5e38b9",
+        "loads.npy": "84367d447048a6d1c280e51167da21c3b7c8efed632257d0e96aa782b7a3e525",
+        "stiffness.npy": "1b428e1b425fc63cc3d9b769c24b8075157dd41522de4a7b27d0fba50f196b28"
+      }
+    },
+    "HEX8": {
+      "element_type": "HEX8", "aster_element_type": "HEXA8", "nodes": 8, "elements": 1, "dofs": 24,
+      "model_fingerprint": "cd4d8a9e513f1327201734a6a053da659752c0f8f1e7873c9cd3680c7195fadb",
+      "coordinates": [[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1]],
+      "connectivity": [0, 1, 2, 3, 4, 5, 6, 7], "aster_local_node_order": [0, 1, 2, 3, 4, 5, 6, 7],
+      "fixed_dofs": [0, 1, 2, 9, 10, 11, 12, 13, 14, 21, 22, 23], "fixed_dof_count": 12,
+      "loaded_nodes": [1, 2, 5, 6],
+      "nodal_loads": [
+        {"node": 1, "dof": "UZ", "value": -250.0}, {"node": 2, "dof": "UZ", "value": -250.0},
+        {"node": 5, "dof": "UZ", "value": -250.0}, {"node": 6, "dof": "UZ", "value": -250.0}
+      ],
+      "m1_file_hashes": {
+        "result.json": "7c5c7c9b38388cdcc1eccae300778759180b2de22db122a256dd7890d0dd4a44",
+        "displacement.npy": "2da9e21a748a22dc091cbb8f0e3357d0571a1e6a43231d9744773f9e860123ed",
+        "fixed.npy": "429a5a0d56f10be9c06d6ee1976229aca9348f21961ccac12d7ef80937000279",
+        "loads.npy": "7d7fe48713382d2dcfa93510628133f30a526056943e8497f526982e64777c73",
+        "stiffness.npy": "d0a137063361220a1b4061de5547f02227fce70ff72e0fd0622064a55a0d23bf"
+      }
+    },
+    "TET10": {
+      "element_type": "TET10", "aster_element_type": "TETRA10", "nodes": 10, "elements": 1, "dofs": 30,
+      "model_fingerprint": "15d1cb9d0ca07e4ba91175ba2edfebe3366d97a54cefa207b7023a331cad0941",
+      "coordinates": [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1], [0.5, 0, 0], [0.5, 0.5, 0], [0, 0.5, 0], [0, 0, 0.5], [0.5, 0, 0.5], [0, 0.5, 0.5]],
+      "connectivity": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "aster_local_node_order": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      "fixed_dofs": [0, 1, 2, 6, 7, 8, 9, 10, 11, 18, 19, 20, 21, 22, 23, 27, 28, 29],
+      "fixed_dof_count": 18, "loaded_nodes": [1],
+      "nodal_loads": [{"node": 1, "dof": "UZ", "value": -1000.0}],
+      "m1_file_hashes": {
+        "result.json": "c1e5fcb9150e37a7523ae8f902f3ca96ff008f5cdd58aa46205c5816b7f1dbc8",
+        "displacement.npy": "a899e705b10265fd18e9fb696717559b9d004f2e76e9cb9af1b4346c5f710b77",
+        "fixed.npy": "e363b905afdbda970486b93f7b3333f5ca79e31319daa289602b9b2884b13294",
+        "loads.npy": "8f2c8615eed030fb56d3797ac97ac08530bb90c7d561e067bbc712784ae6612c",
+        "stiffness.npy": "ee62177f501bfe0bba11937a2300f822228c50afe9b0304591d53ed99bc9dd40"
+      }
+    },
+    "HEX20": {
+      "element_type": "HEX20", "aster_element_type": "HEXA20", "nodes": 20, "elements": 1, "dofs": 60,
+      "model_fingerprint": "4b0c26ce400cc071eeb24782965fc2c996b295acb687a9858e499200c78108a7",
+      "coordinates": [[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1], [0.5, 0, 0], [0, 0.5, 0], [0, 0, 0.5], [1, 0.5, 0], [1, 0, 0.5], [0.5, 1, 0], [1, 1, 0.5], [0, 1, 0.5], [0.5, 0, 1], [0, 0.5, 1], [1, 0.5, 1], [0.5, 1, 1]],
+      "connectivity": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+      "aster_local_node_order": [0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 9, 10, 12, 14, 15, 16, 18, 19, 17],
+      "fixed_dofs": [0, 1, 2, 9, 10, 11, 12, 13, 14, 21, 22, 23, 27, 28, 29, 30, 31, 32, 45, 46, 47, 51, 52, 53],
+      "fixed_dof_count": 24, "loaded_nodes": [1, 2, 5, 6, 11, 12, 14, 18],
+      "nodal_loads": [
+        {"node": 1, "dof": "UZ", "value": -125.0}, {"node": 2, "dof": "UZ", "value": -125.0},
+        {"node": 5, "dof": "UZ", "value": -125.0}, {"node": 6, "dof": "UZ", "value": -125.0},
+        {"node": 11, "dof": "UZ", "value": -125.0}, {"node": 12, "dof": "UZ", "value": -125.0},
+        {"node": 14, "dof": "UZ", "value": -125.0}, {"node": 18, "dof": "UZ", "value": -125.0}
+      ],
+      "m1_file_hashes": {
+        "result.json": "9940f5b8c5810b8f55b3ceeab153d870e56e4277318857f55287e5610c06687c",
+        "displacement.npy": "eb7cd2f2d6edf47a14da3259c6a0b3b0444d52dcfa9c01a1d104e7ae556463f0",
+        "fixed.npy": "c3c6c35aa1bc639804df5c6cd64f53afa37b866859e41ede1778f1828706cfec",
+        "loads.npy": "708e6f07453ef3d77fd882f7ee6e64299f0aff478f5541f53ad37034e91d108e",
+        "stiffness.npy": "40ea45bf2a8db980d4f176085ef8c38bcfe05fde04bd7c52868f7c2103987c82"
+      }
+    }
+  },
+  "gates": {
+    "displacement_relative_l2": 1e-8,
+    "displacement_relative_linf": 1e-8,
+    "reaction_relative_l2": 1e-8,
+    "reaction_relative_linf": 1e-8,
+    "strain_energy_from_external_work_relative": 1e-8,
+    "qf_force_equilibrium_relative": 1e-8,
+    "aster_force_equilibrium_relative": 1e-8,
+    "qf_moment_equilibrium_relative": 1e-8,
+    "aster_moment_equilibrium_relative": 1e-8,
+    "fixed_displacement_abs_max": 1e-12
+  },
+  "candidate_point_proposal": {
+    "TET4": "1/4", "HEX8": "1/4", "TET10": "1/4", "HEX20": "1/4",
+    "status": "PROPOSED_CANDIDATE_ALLOCATION_PENDING_OWNER",
+    "official_points_awarded_by_runner": "0/4"
+  },
+  "limitations": [
+    "one homogeneous one-element static elastic case per listed family only",
+    "Code_Aster correlation applies only to the exact WP11 M1 mesh, material, fixed DOFs and nodal load vector",
+    "TET4 and TET10 apply the resultant at the single x=1 vertex; this is not a face-load test",
+    "HEX20 uses the explicit QF-to-Code_Aster local connectivity permutation frozen above",
+    "no mesh-convergence, stress-field equivalence or cross-family equivalence claim",
+    "no WP04/WP05 geometric nonlinearity, WP06 arc length, WP07/WP08 contact or friction correlation",
+    "no WP09/WP10 J2 or coupled nonlinear correlation",
+    "no dynamics, MPI/PETSc, scaling or general solver validation claim",
+    "the Code_Aster run is a separate external FEM solve but shares the frozen mathematical model and is not experimental validation"
+  ],
+  "fail_closed": true,
+  "thresholds_frozen_before_execution": true,
+  "post_result_threshold_retuning_allowed": false,
+  "output_overwrite_allowed": false,
+  "full_repository_test_suite": false,
+  "next_gate": "OWNER_REVIEW_AFTER_ALL_FAMILIES_PASS_AND_INDEPENDENT_RAW_AUDIT"
+}

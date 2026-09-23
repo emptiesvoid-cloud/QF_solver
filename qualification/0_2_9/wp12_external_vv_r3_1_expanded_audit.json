@@ -1,0 +1,1176 @@
+{
+  "audit_status": "FAIL_CLOSED",
+  "campaign": "R3 expanded Code_Aster same-mesh correlation",
+  "case_count": 144,
+  "case_pass_count": 0,
+  "cases": {
+    "hex20_rectangular_beam_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h1_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_rectangular_beam_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h1_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_rectangular_beam_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h1_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_rectangular_beam_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h1_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_rectangular_beam_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h2_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_rectangular_beam_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h2_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_rectangular_beam_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h2_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_rectangular_beam_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h2_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_rectangular_beam_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h3_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_rectangular_beam_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h3_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_rectangular_beam_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h3_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_rectangular_beam_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h3_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_short_block_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h1_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_short_block_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h1_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_short_block_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h1_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_short_block_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h1_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_short_block_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h2_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_short_block_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h2_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_short_block_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h2_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_short_block_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h2_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_short_block_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h3_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_short_block_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h3_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_short_block_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h3_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_short_block_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h3_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_slender_beam_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h1_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_slender_beam_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h1_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_slender_beam_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h1_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_slender_beam_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h1_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_slender_beam_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h2_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_slender_beam_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h2_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_slender_beam_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h2_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_slender_beam_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h2_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_slender_beam_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h3_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_slender_beam_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h3_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_slender_beam_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h3_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_slender_beam_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h3_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_rectangular_beam_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h1_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_rectangular_beam_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h1_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_rectangular_beam_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h1_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_rectangular_beam_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h1_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_rectangular_beam_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h2_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_rectangular_beam_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h2_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_rectangular_beam_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h2_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_rectangular_beam_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h2_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_rectangular_beam_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h3_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_rectangular_beam_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h3_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_rectangular_beam_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h3_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_rectangular_beam_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h3_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_short_block_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h1_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_short_block_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h1_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_short_block_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h1_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_short_block_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h1_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_short_block_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h2_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_short_block_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h2_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_short_block_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h2_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_short_block_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h2_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_short_block_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h3_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_short_block_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h3_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_short_block_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h3_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_short_block_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h3_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_slender_beam_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h1_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_slender_beam_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h1_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_slender_beam_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h1_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_slender_beam_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h1_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_slender_beam_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h2_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_slender_beam_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h2_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_slender_beam_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h2_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_slender_beam_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h2_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_slender_beam_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h3_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_slender_beam_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h3_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_slender_beam_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h3_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_slender_beam_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h3_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_rectangular_beam_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h1_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_rectangular_beam_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h1_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_rectangular_beam_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h1_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_rectangular_beam_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h1_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_rectangular_beam_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h2_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_rectangular_beam_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h2_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_rectangular_beam_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h2_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_rectangular_beam_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h2_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_rectangular_beam_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h3_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_rectangular_beam_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h3_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_rectangular_beam_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h3_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_rectangular_beam_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h3_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_short_block_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h1_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_short_block_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h1_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_short_block_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h1_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_short_block_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h1_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_short_block_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h2_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_short_block_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h2_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_short_block_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h2_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_short_block_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h2_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_short_block_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h3_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_short_block_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h3_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_short_block_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h3_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_short_block_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h3_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_slender_beam_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h1_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_slender_beam_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h1_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_slender_beam_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h1_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_slender_beam_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h1_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_slender_beam_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h2_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_slender_beam_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h2_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_slender_beam_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h2_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_slender_beam_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h2_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_slender_beam_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h3_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_slender_beam_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h3_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_slender_beam_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h3_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_slender_beam_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h3_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_rectangular_beam_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h1_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_rectangular_beam_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h1_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_rectangular_beam_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h1_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_rectangular_beam_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h1_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_rectangular_beam_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h2_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_rectangular_beam_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h2_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_rectangular_beam_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h2_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_rectangular_beam_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h2_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_rectangular_beam_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h3_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_rectangular_beam_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h3_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_rectangular_beam_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h3_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_rectangular_beam_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h3_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_short_block_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h1_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_short_block_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h1_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_short_block_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h1_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_short_block_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h1_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_short_block_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h2_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_short_block_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h2_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_short_block_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h2_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_short_block_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h2_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_short_block_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h3_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_short_block_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h3_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_short_block_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h3_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_short_block_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h3_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_slender_beam_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h1_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_slender_beam_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h1_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_slender_beam_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h1_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_slender_beam_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h1_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_slender_beam_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h2_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_slender_beam_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h2_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_slender_beam_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h2_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_slender_beam_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h2_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_slender_beam_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h3_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_slender_beam_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h3_combined_xyz\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_slender_beam_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h3_transverse_y\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_slender_beam_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h3_transverse_z\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    }
+  },
+  "contract_sha256": "e3baff6bb56004ff609ab9519b2d2b5352114d6999176dad246c4e6349ec0137",
+  "errors": [
+    "tet4_slender_beam_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h1_axial_x\\\\process.json'",
+    "tet4_slender_beam_h1_axial_x: summary status differs from independent audit",
+    "tet4_slender_beam_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h1_transverse_y\\\\process.json'",
+    "tet4_slender_beam_h1_transverse_y: summary status differs from independent audit",
+    "tet4_slender_beam_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h1_transverse_z\\\\process.json'",
+    "tet4_slender_beam_h1_transverse_z: summary status differs from independent audit",
+    "tet4_slender_beam_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h1_combined_xyz\\\\process.json'",
+    "tet4_slender_beam_h1_combined_xyz: summary status differs from independent audit",
+    "tet4_slender_beam_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h2_axial_x\\\\process.json'",
+    "tet4_slender_beam_h2_axial_x: summary status differs from independent audit",
+    "tet4_slender_beam_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h2_transverse_y\\\\process.json'",
+    "tet4_slender_beam_h2_transverse_y: summary status differs from independent audit",
+    "tet4_slender_beam_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h2_transverse_z\\\\process.json'",
+    "tet4_slender_beam_h2_transverse_z: summary status differs from independent audit",
+    "tet4_slender_beam_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h2_combined_xyz\\\\process.json'",
+    "tet4_slender_beam_h2_combined_xyz: summary status differs from independent audit",
+    "tet4_slender_beam_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h3_axial_x\\\\process.json'",
+    "tet4_slender_beam_h3_axial_x: summary status differs from independent audit",
+    "tet4_slender_beam_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h3_transverse_y\\\\process.json'",
+    "tet4_slender_beam_h3_transverse_y: summary status differs from independent audit",
+    "tet4_slender_beam_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h3_transverse_z\\\\process.json'",
+    "tet4_slender_beam_h3_transverse_z: summary status differs from independent audit",
+    "tet4_slender_beam_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_slender_beam_h3_combined_xyz\\\\process.json'",
+    "tet4_slender_beam_h3_combined_xyz: summary status differs from independent audit",
+    "tet4_rectangular_beam_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h1_axial_x\\\\process.json'",
+    "tet4_rectangular_beam_h1_axial_x: summary status differs from independent audit",
+    "tet4_rectangular_beam_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h1_transverse_y\\\\process.json'",
+    "tet4_rectangular_beam_h1_transverse_y: summary status differs from independent audit",
+    "tet4_rectangular_beam_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h1_transverse_z\\\\process.json'",
+    "tet4_rectangular_beam_h1_transverse_z: summary status differs from independent audit",
+    "tet4_rectangular_beam_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h1_combined_xyz\\\\process.json'",
+    "tet4_rectangular_beam_h1_combined_xyz: summary status differs from independent audit",
+    "tet4_rectangular_beam_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h2_axial_x\\\\process.json'",
+    "tet4_rectangular_beam_h2_axial_x: summary status differs from independent audit",
+    "tet4_rectangular_beam_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h2_transverse_y\\\\process.json'",
+    "tet4_rectangular_beam_h2_transverse_y: summary status differs from independent audit",
+    "tet4_rectangular_beam_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h2_transverse_z\\\\process.json'",
+    "tet4_rectangular_beam_h2_transverse_z: summary status differs from independent audit",
+    "tet4_rectangular_beam_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h2_combined_xyz\\\\process.json'",
+    "tet4_rectangular_beam_h2_combined_xyz: summary status differs from independent audit",
+    "tet4_rectangular_beam_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h3_axial_x\\\\process.json'",
+    "tet4_rectangular_beam_h3_axial_x: summary status differs from independent audit",
+    "tet4_rectangular_beam_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h3_transverse_y\\\\process.json'",
+    "tet4_rectangular_beam_h3_transverse_y: summary status differs from independent audit",
+    "tet4_rectangular_beam_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h3_transverse_z\\\\process.json'",
+    "tet4_rectangular_beam_h3_transverse_z: summary status differs from independent audit",
+    "tet4_rectangular_beam_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_rectangular_beam_h3_combined_xyz\\\\process.json'",
+    "tet4_rectangular_beam_h3_combined_xyz: summary status differs from independent audit",
+    "tet4_short_block_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h1_axial_x\\\\process.json'",
+    "tet4_short_block_h1_axial_x: summary status differs from independent audit",
+    "tet4_short_block_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h1_transverse_y\\\\process.json'",
+    "tet4_short_block_h1_transverse_y: summary status differs from independent audit",
+    "tet4_short_block_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h1_transverse_z\\\\process.json'",
+    "tet4_short_block_h1_transverse_z: summary status differs from independent audit",
+    "tet4_short_block_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h1_combined_xyz\\\\process.json'",
+    "tet4_short_block_h1_combined_xyz: summary status differs from independent audit",
+    "tet4_short_block_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h2_axial_x\\\\process.json'",
+    "tet4_short_block_h2_axial_x: summary status differs from independent audit",
+    "tet4_short_block_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h2_transverse_y\\\\process.json'",
+    "tet4_short_block_h2_transverse_y: summary status differs from independent audit",
+    "tet4_short_block_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h2_transverse_z\\\\process.json'",
+    "tet4_short_block_h2_transverse_z: summary status differs from independent audit",
+    "tet4_short_block_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h2_combined_xyz\\\\process.json'",
+    "tet4_short_block_h2_combined_xyz: summary status differs from independent audit",
+    "tet4_short_block_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h3_axial_x\\\\process.json'",
+    "tet4_short_block_h3_axial_x: summary status differs from independent audit",
+    "tet4_short_block_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h3_transverse_y\\\\process.json'",
+    "tet4_short_block_h3_transverse_y: summary status differs from independent audit",
+    "tet4_short_block_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h3_transverse_z\\\\process.json'",
+    "tet4_short_block_h3_transverse_z: summary status differs from independent audit",
+    "tet4_short_block_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet4_short_block_h3_combined_xyz\\\\process.json'",
+    "tet4_short_block_h3_combined_xyz: summary status differs from independent audit",
+    "hex8_slender_beam_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h1_axial_x\\\\process.json'",
+    "hex8_slender_beam_h1_axial_x: summary status differs from independent audit",
+    "hex8_slender_beam_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h1_transverse_y\\\\process.json'",
+    "hex8_slender_beam_h1_transverse_y: summary status differs from independent audit",
+    "hex8_slender_beam_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h1_transverse_z\\\\process.json'",
+    "hex8_slender_beam_h1_transverse_z: summary status differs from independent audit",
+    "hex8_slender_beam_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h1_combined_xyz\\\\process.json'",
+    "hex8_slender_beam_h1_combined_xyz: summary status differs from independent audit",
+    "hex8_slender_beam_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h2_axial_x\\\\process.json'",
+    "hex8_slender_beam_h2_axial_x: summary status differs from independent audit",
+    "hex8_slender_beam_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h2_transverse_y\\\\process.json'",
+    "hex8_slender_beam_h2_transverse_y: summary status differs from independent audit",
+    "hex8_slender_beam_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h2_transverse_z\\\\process.json'",
+    "hex8_slender_beam_h2_transverse_z: summary status differs from independent audit",
+    "hex8_slender_beam_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h2_combined_xyz\\\\process.json'",
+    "hex8_slender_beam_h2_combined_xyz: summary status differs from independent audit",
+    "hex8_slender_beam_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h3_axial_x\\\\process.json'",
+    "hex8_slender_beam_h3_axial_x: summary status differs from independent audit",
+    "hex8_slender_beam_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h3_transverse_y\\\\process.json'",
+    "hex8_slender_beam_h3_transverse_y: summary status differs from independent audit",
+    "hex8_slender_beam_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h3_transverse_z\\\\process.json'",
+    "hex8_slender_beam_h3_transverse_z: summary status differs from independent audit",
+    "hex8_slender_beam_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_slender_beam_h3_combined_xyz\\\\process.json'",
+    "hex8_slender_beam_h3_combined_xyz: summary status differs from independent audit",
+    "hex8_rectangular_beam_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h1_axial_x\\\\process.json'",
+    "hex8_rectangular_beam_h1_axial_x: summary status differs from independent audit",
+    "hex8_rectangular_beam_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h1_transverse_y\\\\process.json'",
+    "hex8_rectangular_beam_h1_transverse_y: summary status differs from independent audit",
+    "hex8_rectangular_beam_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h1_transverse_z\\\\process.json'",
+    "hex8_rectangular_beam_h1_transverse_z: summary status differs from independent audit",
+    "hex8_rectangular_beam_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h1_combined_xyz\\\\process.json'",
+    "hex8_rectangular_beam_h1_combined_xyz: summary status differs from independent audit",
+    "hex8_rectangular_beam_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h2_axial_x\\\\process.json'",
+    "hex8_rectangular_beam_h2_axial_x: summary status differs from independent audit",
+    "hex8_rectangular_beam_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h2_transverse_y\\\\process.json'",
+    "hex8_rectangular_beam_h2_transverse_y: summary status differs from independent audit",
+    "hex8_rectangular_beam_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h2_transverse_z\\\\process.json'",
+    "hex8_rectangular_beam_h2_transverse_z: summary status differs from independent audit",
+    "hex8_rectangular_beam_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h2_combined_xyz\\\\process.json'",
+    "hex8_rectangular_beam_h2_combined_xyz: summary status differs from independent audit",
+    "hex8_rectangular_beam_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h3_axial_x\\\\process.json'",
+    "hex8_rectangular_beam_h3_axial_x: summary status differs from independent audit",
+    "hex8_rectangular_beam_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h3_transverse_y\\\\process.json'",
+    "hex8_rectangular_beam_h3_transverse_y: summary status differs from independent audit",
+    "hex8_rectangular_beam_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h3_transverse_z\\\\process.json'",
+    "hex8_rectangular_beam_h3_transverse_z: summary status differs from independent audit",
+    "hex8_rectangular_beam_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_rectangular_beam_h3_combined_xyz\\\\process.json'",
+    "hex8_rectangular_beam_h3_combined_xyz: summary status differs from independent audit",
+    "hex8_short_block_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h1_axial_x\\\\process.json'",
+    "hex8_short_block_h1_axial_x: summary status differs from independent audit",
+    "hex8_short_block_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h1_transverse_y\\\\process.json'",
+    "hex8_short_block_h1_transverse_y: summary status differs from independent audit",
+    "hex8_short_block_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h1_transverse_z\\\\process.json'",
+    "hex8_short_block_h1_transverse_z: summary status differs from independent audit",
+    "hex8_short_block_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h1_combined_xyz\\\\process.json'",
+    "hex8_short_block_h1_combined_xyz: summary status differs from independent audit",
+    "hex8_short_block_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h2_axial_x\\\\process.json'",
+    "hex8_short_block_h2_axial_x: summary status differs from independent audit",
+    "hex8_short_block_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h2_transverse_y\\\\process.json'",
+    "hex8_short_block_h2_transverse_y: summary status differs from independent audit",
+    "hex8_short_block_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h2_transverse_z\\\\process.json'",
+    "hex8_short_block_h2_transverse_z: summary status differs from independent audit",
+    "hex8_short_block_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h2_combined_xyz\\\\process.json'",
+    "hex8_short_block_h2_combined_xyz: summary status differs from independent audit",
+    "hex8_short_block_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h3_axial_x\\\\process.json'",
+    "hex8_short_block_h3_axial_x: summary status differs from independent audit",
+    "hex8_short_block_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h3_transverse_y\\\\process.json'",
+    "hex8_short_block_h3_transverse_y: summary status differs from independent audit",
+    "hex8_short_block_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h3_transverse_z\\\\process.json'",
+    "hex8_short_block_h3_transverse_z: summary status differs from independent audit",
+    "hex8_short_block_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex8_short_block_h3_combined_xyz\\\\process.json'",
+    "hex8_short_block_h3_combined_xyz: summary status differs from independent audit",
+    "tet10_slender_beam_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h1_axial_x\\\\process.json'",
+    "tet10_slender_beam_h1_axial_x: summary status differs from independent audit",
+    "tet10_slender_beam_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h1_transverse_y\\\\process.json'",
+    "tet10_slender_beam_h1_transverse_y: summary status differs from independent audit",
+    "tet10_slender_beam_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h1_transverse_z\\\\process.json'",
+    "tet10_slender_beam_h1_transverse_z: summary status differs from independent audit",
+    "tet10_slender_beam_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h1_combined_xyz\\\\process.json'",
+    "tet10_slender_beam_h1_combined_xyz: summary status differs from independent audit",
+    "tet10_slender_beam_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h2_axial_x\\\\process.json'",
+    "tet10_slender_beam_h2_axial_x: summary status differs from independent audit",
+    "tet10_slender_beam_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h2_transverse_y\\\\process.json'",
+    "tet10_slender_beam_h2_transverse_y: summary status differs from independent audit",
+    "tet10_slender_beam_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h2_transverse_z\\\\process.json'",
+    "tet10_slender_beam_h2_transverse_z: summary status differs from independent audit",
+    "tet10_slender_beam_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h2_combined_xyz\\\\process.json'",
+    "tet10_slender_beam_h2_combined_xyz: summary status differs from independent audit",
+    "tet10_slender_beam_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h3_axial_x\\\\process.json'",
+    "tet10_slender_beam_h3_axial_x: summary status differs from independent audit",
+    "tet10_slender_beam_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h3_transverse_y\\\\process.json'",
+    "tet10_slender_beam_h3_transverse_y: summary status differs from independent audit",
+    "tet10_slender_beam_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h3_transverse_z\\\\process.json'",
+    "tet10_slender_beam_h3_transverse_z: summary status differs from independent audit",
+    "tet10_slender_beam_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_slender_beam_h3_combined_xyz\\\\process.json'",
+    "tet10_slender_beam_h3_combined_xyz: summary status differs from independent audit",
+    "tet10_rectangular_beam_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h1_axial_x\\\\process.json'",
+    "tet10_rectangular_beam_h1_axial_x: summary status differs from independent audit",
+    "tet10_rectangular_beam_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h1_transverse_y\\\\process.json'",
+    "tet10_rectangular_beam_h1_transverse_y: summary status differs from independent audit",
+    "tet10_rectangular_beam_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h1_transverse_z\\\\process.json'",
+    "tet10_rectangular_beam_h1_transverse_z: summary status differs from independent audit",
+    "tet10_rectangular_beam_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h1_combined_xyz\\\\process.json'",
+    "tet10_rectangular_beam_h1_combined_xyz: summary status differs from independent audit",
+    "tet10_rectangular_beam_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h2_axial_x\\\\process.json'",
+    "tet10_rectangular_beam_h2_axial_x: summary status differs from independent audit",
+    "tet10_rectangular_beam_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h2_transverse_y\\\\process.json'",
+    "tet10_rectangular_beam_h2_transverse_y: summary status differs from independent audit",
+    "tet10_rectangular_beam_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h2_transverse_z\\\\process.json'",
+    "tet10_rectangular_beam_h2_transverse_z: summary status differs from independent audit",
+    "tet10_rectangular_beam_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h2_combined_xyz\\\\process.json'",
+    "tet10_rectangular_beam_h2_combined_xyz: summary status differs from independent audit",
+    "tet10_rectangular_beam_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h3_axial_x\\\\process.json'",
+    "tet10_rectangular_beam_h3_axial_x: summary status differs from independent audit",
+    "tet10_rectangular_beam_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h3_transverse_y\\\\process.json'",
+    "tet10_rectangular_beam_h3_transverse_y: summary status differs from independent audit",
+    "tet10_rectangular_beam_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h3_transverse_z\\\\process.json'",
+    "tet10_rectangular_beam_h3_transverse_z: summary status differs from independent audit",
+    "tet10_rectangular_beam_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_rectangular_beam_h3_combined_xyz\\\\process.json'",
+    "tet10_rectangular_beam_h3_combined_xyz: summary status differs from independent audit",
+    "tet10_short_block_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h1_axial_x\\\\process.json'",
+    "tet10_short_block_h1_axial_x: summary status differs from independent audit",
+    "tet10_short_block_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h1_transverse_y\\\\process.json'",
+    "tet10_short_block_h1_transverse_y: summary status differs from independent audit",
+    "tet10_short_block_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h1_transverse_z\\\\process.json'",
+    "tet10_short_block_h1_transverse_z: summary status differs from independent audit",
+    "tet10_short_block_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h1_combined_xyz\\\\process.json'",
+    "tet10_short_block_h1_combined_xyz: summary status differs from independent audit",
+    "tet10_short_block_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h2_axial_x\\\\process.json'",
+    "tet10_short_block_h2_axial_x: summary status differs from independent audit",
+    "tet10_short_block_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h2_transverse_y\\\\process.json'",
+    "tet10_short_block_h2_transverse_y: summary status differs from independent audit",
+    "tet10_short_block_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h2_transverse_z\\\\process.json'",
+    "tet10_short_block_h2_transverse_z: summary status differs from independent audit",
+    "tet10_short_block_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h2_combined_xyz\\\\process.json'",
+    "tet10_short_block_h2_combined_xyz: summary status differs from independent audit",
+    "tet10_short_block_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h3_axial_x\\\\process.json'",
+    "tet10_short_block_h3_axial_x: summary status differs from independent audit",
+    "tet10_short_block_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h3_transverse_y\\\\process.json'",
+    "tet10_short_block_h3_transverse_y: summary status differs from independent audit",
+    "tet10_short_block_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h3_transverse_z\\\\process.json'",
+    "tet10_short_block_h3_transverse_z: summary status differs from independent audit",
+    "tet10_short_block_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\tet10_short_block_h3_combined_xyz\\\\process.json'",
+    "tet10_short_block_h3_combined_xyz: summary status differs from independent audit",
+    "hex20_slender_beam_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h1_axial_x\\\\process.json'",
+    "hex20_slender_beam_h1_axial_x: summary status differs from independent audit",
+    "hex20_slender_beam_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h1_transverse_y\\\\process.json'",
+    "hex20_slender_beam_h1_transverse_y: summary status differs from independent audit",
+    "hex20_slender_beam_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h1_transverse_z\\\\process.json'",
+    "hex20_slender_beam_h1_transverse_z: summary status differs from independent audit",
+    "hex20_slender_beam_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h1_combined_xyz\\\\process.json'",
+    "hex20_slender_beam_h1_combined_xyz: summary status differs from independent audit",
+    "hex20_slender_beam_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h2_axial_x\\\\process.json'",
+    "hex20_slender_beam_h2_axial_x: summary status differs from independent audit",
+    "hex20_slender_beam_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h2_transverse_y\\\\process.json'",
+    "hex20_slender_beam_h2_transverse_y: summary status differs from independent audit",
+    "hex20_slender_beam_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h2_transverse_z\\\\process.json'",
+    "hex20_slender_beam_h2_transverse_z: summary status differs from independent audit",
+    "hex20_slender_beam_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h2_combined_xyz\\\\process.json'",
+    "hex20_slender_beam_h2_combined_xyz: summary status differs from independent audit",
+    "hex20_slender_beam_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h3_axial_x\\\\process.json'",
+    "hex20_slender_beam_h3_axial_x: summary status differs from independent audit",
+    "hex20_slender_beam_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h3_transverse_y\\\\process.json'",
+    "hex20_slender_beam_h3_transverse_y: summary status differs from independent audit",
+    "hex20_slender_beam_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h3_transverse_z\\\\process.json'",
+    "hex20_slender_beam_h3_transverse_z: summary status differs from independent audit",
+    "hex20_slender_beam_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_slender_beam_h3_combined_xyz\\\\process.json'",
+    "hex20_slender_beam_h3_combined_xyz: summary status differs from independent audit",
+    "hex20_rectangular_beam_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h1_axial_x\\\\process.json'",
+    "hex20_rectangular_beam_h1_axial_x: summary status differs from independent audit",
+    "hex20_rectangular_beam_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h1_transverse_y\\\\process.json'",
+    "hex20_rectangular_beam_h1_transverse_y: summary status differs from independent audit",
+    "hex20_rectangular_beam_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h1_transverse_z\\\\process.json'",
+    "hex20_rectangular_beam_h1_transverse_z: summary status differs from independent audit",
+    "hex20_rectangular_beam_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h1_combined_xyz\\\\process.json'",
+    "hex20_rectangular_beam_h1_combined_xyz: summary status differs from independent audit",
+    "hex20_rectangular_beam_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h2_axial_x\\\\process.json'",
+    "hex20_rectangular_beam_h2_axial_x: summary status differs from independent audit",
+    "hex20_rectangular_beam_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h2_transverse_y\\\\process.json'",
+    "hex20_rectangular_beam_h2_transverse_y: summary status differs from independent audit",
+    "hex20_rectangular_beam_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h2_transverse_z\\\\process.json'",
+    "hex20_rectangular_beam_h2_transverse_z: summary status differs from independent audit",
+    "hex20_rectangular_beam_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h2_combined_xyz\\\\process.json'",
+    "hex20_rectangular_beam_h2_combined_xyz: summary status differs from independent audit",
+    "hex20_rectangular_beam_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h3_axial_x\\\\process.json'",
+    "hex20_rectangular_beam_h3_axial_x: summary status differs from independent audit",
+    "hex20_rectangular_beam_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h3_transverse_y\\\\process.json'",
+    "hex20_rectangular_beam_h3_transverse_y: summary status differs from independent audit",
+    "hex20_rectangular_beam_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h3_transverse_z\\\\process.json'",
+    "hex20_rectangular_beam_h3_transverse_z: summary status differs from independent audit",
+    "hex20_rectangular_beam_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_rectangular_beam_h3_combined_xyz\\\\process.json'",
+    "hex20_rectangular_beam_h3_combined_xyz: summary status differs from independent audit",
+    "hex20_short_block_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h1_axial_x\\\\process.json'",
+    "hex20_short_block_h1_axial_x: summary status differs from independent audit",
+    "hex20_short_block_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h1_transverse_y\\\\process.json'",
+    "hex20_short_block_h1_transverse_y: summary status differs from independent audit",
+    "hex20_short_block_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h1_transverse_z\\\\process.json'",
+    "hex20_short_block_h1_transverse_z: summary status differs from independent audit",
+    "hex20_short_block_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h1_combined_xyz\\\\process.json'",
+    "hex20_short_block_h1_combined_xyz: summary status differs from independent audit",
+    "hex20_short_block_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h2_axial_x\\\\process.json'",
+    "hex20_short_block_h2_axial_x: summary status differs from independent audit",
+    "hex20_short_block_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h2_transverse_y\\\\process.json'",
+    "hex20_short_block_h2_transverse_y: summary status differs from independent audit",
+    "hex20_short_block_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h2_transverse_z\\\\process.json'",
+    "hex20_short_block_h2_transverse_z: summary status differs from independent audit",
+    "hex20_short_block_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h2_combined_xyz\\\\process.json'",
+    "hex20_short_block_h2_combined_xyz: summary status differs from independent audit",
+    "hex20_short_block_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h3_axial_x\\\\process.json'",
+    "hex20_short_block_h3_axial_x: summary status differs from independent audit",
+    "hex20_short_block_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h3_transverse_y\\\\process.json'",
+    "hex20_short_block_h3_transverse_y: summary status differs from independent audit",
+    "hex20_short_block_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h3_transverse_z\\\\process.json'",
+    "hex20_short_block_h3_transverse_z: summary status differs from independent audit",
+    "hex20_short_block_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_1_expanded_raw\\\\hex20_short_block_h3_combined_xyz\\\\process.json'",
+    "hex20_short_block_h3_combined_xyz: summary status differs from independent audit"
+  ],
+  "limitations": [
+    "bounded homogeneous isotropic 3D small-strain linear-static elasticity only",
+    "only TET4, HEX8, TET10, and HEX20 are covered; no wedge, pyramid, shell, or beam family",
+    "three simple rectangular block geometries, three low-to-moderate structured mesh sizes, and four prescribed distal-face traction directions",
+    "mesh labels H1/H2/H3 define model diversity only; no mesh-convergence or asymptotic accuracy claim",
+    "same discrete mesh, material, boundary conditions, and consistent nodal force vector are supplied to both solvers",
+    "no stress-field comparison, material nonlinearity, geometric nonlinearity, contact, friction, dynamics, buckling, continuation, or MPI/PETSc claim",
+    "correlation between two FEM implementations is not experimental validation",
+    "this supplemental R3 campaign does not alter existing WP12 R2 results, Owner decisions, points, or global ledger"
+  ],
+  "manifest_sha256": "8d2f29a40d0bbd956836c1a67e0767605a57fa4982538f0c4f6e6b03dd189327",
+  "official_points_changed": false,
+  "work_package": "WP12"
+}

@@ -1,0 +1,280 @@
+{
+  "files": {
+    "hex20_slender_beam_h3_combined_xyz/aster_raw.json": {
+      "sha256": "fd7c71386d5cc19588fba3d79a7f0edc97e8a3aa2b0d6db4b2d9602468af79ec",
+      "size_bytes": 9919
+    },
+    "hex20_slender_beam_h3_combined_xyz/case.json": {
+      "sha256": "7ca84ef300a42e148c3c239a3eb168a6e8379b90ac0a777260013125788b35dd",
+      "size_bytes": 1459
+    },
+    "hex20_slender_beam_h3_combined_xyz/container.cid": {
+      "sha256": "fcc51e40a4f173d8e986910efe54892a28403ed7b945f3a0e4b54aa3c17bb72f",
+      "size_bytes": 64
+    },
+    "hex20_slender_beam_h3_combined_xyz/hex20_slender_beam_h3_combined_xyz.comm": {
+      "sha256": "5ad41da0197903b252287aa1b59f281e3debe395ace777a7f11091a13f1078e3",
+      "size_bytes": 3562
+    },
+    "hex20_slender_beam_h3_combined_xyz/hex20_slender_beam_h3_combined_xyz.export": {
+      "sha256": "5199b2157aa654cc4c7482e3c040e59c1a331460f25e4d824f7939d74bd7a283",
+      "size_bytes": 327
+    },
+    "hex20_slender_beam_h3_combined_xyz/hex20_slender_beam_h3_combined_xyz.mail": {
+      "sha256": "6a402b84d5146239ccd65c4944efec7924c6739e17405bc4853c891a3045485f",
+      "size_bytes": 2568
+    },
+    "hex20_slender_beam_h3_combined_xyz/hex20_slender_beam_h3_combined_xyz.mess": {
+      "sha256": "4fa429104aa71387370638a1800c20bd38dd3f044809529afa728916fc37ab02",
+      "size_bytes": 25505
+    },
+    "hex20_slender_beam_h3_combined_xyz/hex20_slender_beam_h3_combined_xyz.resu": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "hex20_slender_beam_h3_combined_xyz/model_inputs.npz": {
+      "sha256": "ed63c4d99791e8f30ebdf0591be712de7fdb3282812704da2c78619bb2979a2e",
+      "size_bytes": 1277
+    },
+    "hex20_slender_beam_h3_combined_xyz/process.json": {
+      "sha256": "e09687ea54197db0dbfa8f486f5a8b9b9803dcd721e0dd8b1cc2e1fb5d11f086",
+      "size_bytes": 2908
+    },
+    "hex20_slender_beam_h3_combined_xyz/progress.json": {
+      "sha256": "720223b94f152a33c4affa50e851f5b92c2c32f274da4db9dfb9b41650ccf73d",
+      "size_bytes": 244
+    },
+    "hex20_slender_beam_h3_combined_xyz/qf_result.npz": {
+      "sha256": "343a8c03df6ac21c9beb059d6e7e69ecb0d1c32bf42412503e5183eea539f418",
+      "size_bytes": 1150
+    },
+    "hex20_slender_beam_h3_combined_xyz/qf_stiffness.npz": {
+      "sha256": "789cff8559e4888d85a22e7d29edd1344ba828bf54794d6409c8a8404f587f2e",
+      "size_bytes": 30047
+    },
+    "hex20_slender_beam_h3_combined_xyz/result.json": {
+      "sha256": "08e22cadaccb219d03572c77adc1001bde78ac0b39e9178f1d076def5d281491",
+      "size_bytes": 5796
+    },
+    "hex20_slender_beam_h3_combined_xyz/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "hex20_slender_beam_h3_combined_xyz/stdout.log": {
+      "sha256": "f61895df7fbb3089870a82084f37be0bd8b97dc832b5b437d3da32c1df0bb6c7",
+      "size_bytes": 31494
+    },
+    "hex20_slender_beam_h3_combined_xyz/telemetry.jsonl": {
+      "sha256": "3add99af9c0bfc2d53128fddc19dcce96dda5346aa13ed1b3036148475f7ec56",
+      "size_bytes": 2012
+    },
+    "hex8_slender_beam_h3_combined_xyz/aster_raw.json": {
+      "sha256": "753155ec16508d4181b3633631a6c396e94e8a2c12ea98aecce1ec9c845c522e",
+      "size_bytes": 3510
+    },
+    "hex8_slender_beam_h3_combined_xyz/case.json": {
+      "sha256": "6ee458f984fac10bc35f34edae829798ed65f2250e72ea8982b148efafba07a6",
+      "size_bytes": 1455
+    },
+    "hex8_slender_beam_h3_combined_xyz/container.cid": {
+      "sha256": "fff68b2f481931964fb0bb55b78fc993e0371f9c11ca57815a979ab7ca44271a",
+      "size_bytes": 64
+    },
+    "hex8_slender_beam_h3_combined_xyz/hex8_slender_beam_h3_combined_xyz.comm": {
+      "sha256": "422fe103e344257669102d87f1862d2304631b6eec725ddb8c6cc245fcbb5806",
+      "size_bytes": 2634
+    },
+    "hex8_slender_beam_h3_combined_xyz/hex8_slender_beam_h3_combined_xyz.export": {
+      "sha256": "3b41a4cd50e8459d2c42da136ed3d1f9ec9ccbc059c5b0a49f0d1152cb1bd940",
+      "size_bytes": 323
+    },
+    "hex8_slender_beam_h3_combined_xyz/hex8_slender_beam_h3_combined_xyz.mail": {
+      "sha256": "60075cc64bc59d042a9683494bbf6fa68d58490759750b8b43865b2d195a5002",
+      "size_bytes": 967
+    },
+    "hex8_slender_beam_h3_combined_xyz/hex8_slender_beam_h3_combined_xyz.mess": {
+      "sha256": "8f97fd41cd267af07a47b5a6c8c06e6406a9d40bf6765de5458b9a4996d4e024",
+      "size_bytes": 23018
+    },
+    "hex8_slender_beam_h3_combined_xyz/hex8_slender_beam_h3_combined_xyz.resu": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "hex8_slender_beam_h3_combined_xyz/model_inputs.npz": {
+      "sha256": "14003b9436cb2549bf83dbd4d21030559c9160e4f69c18bc0e202048af44a01b",
+      "size_bytes": 992
+    },
+    "hex8_slender_beam_h3_combined_xyz/process.json": {
+      "sha256": "7535f12b0de293d7ad61469bc4c7810813e5d554a3a49d21cea3ddadaa402a9f",
+      "size_bytes": 2901
+    },
+    "hex8_slender_beam_h3_combined_xyz/progress.json": {
+      "sha256": "c234e9763637d22278e86f20b9d3e8405ffcc58151d874786b72adf116d583c3",
+      "size_bytes": 242
+    },
+    "hex8_slender_beam_h3_combined_xyz/qf_result.npz": {
+      "sha256": "70f4c13acd34f91f449d88f0a1e67349ab1be0feadf0d8336657cad871f5d4d7",
+      "size_bytes": 513
+    },
+    "hex8_slender_beam_h3_combined_xyz/qf_stiffness.npz": {
+      "sha256": "1fa729c04c176eb863edcf1c1162d625e012fc403b3ce6a930a556c9a5160b82",
+      "size_bytes": 4651
+    },
+    "hex8_slender_beam_h3_combined_xyz/result.json": {
+      "sha256": "fdcd435b93d715df29a6ad43e076e1c83ed9bfc405c7402dcee15226e6a51a4a",
+      "size_bytes": 5794
+    },
+    "hex8_slender_beam_h3_combined_xyz/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "hex8_slender_beam_h3_combined_xyz/stdout.log": {
+      "sha256": "cb6082739e06562030e8f03636c826657a2d5138e3079e622a0609b401c9d674",
+      "size_bytes": 28075
+    },
+    "hex8_slender_beam_h3_combined_xyz/telemetry.jsonl": {
+      "sha256": "e4b45021e43aa21ec0a350231b507a0838dabd3a10853e78777e51958591c35a",
+      "size_bytes": 2004
+    },
+    "preflight.json": {
+      "sha256": "fdbb8868654bc8f088454446f02bfdff765237c988b57fb67c7e057c85beb8c6",
+      "size_bytes": 726
+    },
+    "tet10_slender_beam_h3_combined_xyz/aster_raw.json": {
+      "sha256": "0e3c2ef8baac277fe0ca15b62422e0da98a0a2f3ba64129fedb1b4f28f3a87e0",
+      "size_bytes": 14696
+    },
+    "tet10_slender_beam_h3_combined_xyz/case.json": {
+      "sha256": "600db641ea20c8305fb48b7823efa2103238088d06adbc74303de0dbbbbc6950",
+      "size_bytes": 1444
+    },
+    "tet10_slender_beam_h3_combined_xyz/container.cid": {
+      "sha256": "c4231b0bda268960fc338ed211d0af28cdb3ea6eebf15eb38cb11c30a3c98639",
+      "size_bytes": 64
+    },
+    "tet10_slender_beam_h3_combined_xyz/model_inputs.npz": {
+      "sha256": "10f9bd11ff734fcc9a937ea102fb983efab5fd8368deb467a43380a67beb4f71",
+      "size_bytes": 1517
+    },
+    "tet10_slender_beam_h3_combined_xyz/process.json": {
+      "sha256": "b6fc781d709def51a32bf5af15070cae14a834c9f11c58f7f6bdc93216a75928",
+      "size_bytes": 2908
+    },
+    "tet10_slender_beam_h3_combined_xyz/progress.json": {
+      "sha256": "27b4a97a8c158463db597cbc58d51e5007151a0f46e76406a0550ed0e7f6fa8f",
+      "size_bytes": 244
+    },
+    "tet10_slender_beam_h3_combined_xyz/qf_result.npz": {
+      "sha256": "472f8abb177dfa272d0fc72c60df4881098a0dde0e50f9c43d03b8d2a14d30d6",
+      "size_bytes": 1666
+    },
+    "tet10_slender_beam_h3_combined_xyz/qf_stiffness.npz": {
+      "sha256": "058443b936738e4db0b8989b3916af603ad721e6bbdd8906281fe908a6fd8146",
+      "size_bytes": 31749
+    },
+    "tet10_slender_beam_h3_combined_xyz/result.json": {
+      "sha256": "67648daff01f298599ba5adfd97844e4923c0ee7444cf15e846f1b47898e1142",
+      "size_bytes": 5776
+    },
+    "tet10_slender_beam_h3_combined_xyz/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "tet10_slender_beam_h3_combined_xyz/stdout.log": {
+      "sha256": "61f02a614cbd80a67f931e84a76db995b35cec6dd4e3b57116aae897a3e55131",
+      "size_bytes": 29565
+    },
+    "tet10_slender_beam_h3_combined_xyz/telemetry.jsonl": {
+      "sha256": "1ca09a1a76f69f0277829c52f2959287e821c093f078726171122cd391ca75d2",
+      "size_bytes": 2014
+    },
+    "tet10_slender_beam_h3_combined_xyz/tet10_slender_beam_h3_combined_xyz.comm": {
+      "sha256": "44e5f46b7dbe2f11e02e7cb39233e7d8d29491f808017f8126cf39faa5ec890e",
+      "size_bytes": 3028
+    },
+    "tet10_slender_beam_h3_combined_xyz/tet10_slender_beam_h3_combined_xyz.export": {
+      "sha256": "d3ef4fc230d50cd3628f9c6120d132c067754e08fa3284e0522780eeb957009e",
+      "size_bytes": 327
+    },
+    "tet10_slender_beam_h3_combined_xyz/tet10_slender_beam_h3_combined_xyz.mail": {
+      "sha256": "325d9af6984cd579b5e931b6e7f57694807535833d1be78014e23fbe739a9533",
+      "size_bytes": 4327
+    },
+    "tet10_slender_beam_h3_combined_xyz/tet10_slender_beam_h3_combined_xyz.mess": {
+      "sha256": "31fcc6078c65347820ee8b0fb6f884695b2f544936db3918cc675c956bc58ece",
+      "size_bytes": 24110
+    },
+    "tet10_slender_beam_h3_combined_xyz/tet10_slender_beam_h3_combined_xyz.resu": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "tet4_slender_beam_h3_combined_xyz/aster_raw.json": {
+      "sha256": "b958bbce294385cf732e298aa91961d537dd81e4d95edd05ce0fdb8965bff7db",
+      "size_bytes": 3552
+    },
+    "tet4_slender_beam_h3_combined_xyz/case.json": {
+      "sha256": "0eb5932915cdd5ec044153c53836ce8acd36bdc56e3c05ef74e8d3c7b0685017",
+      "size_bytes": 1444
+    },
+    "tet4_slender_beam_h3_combined_xyz/container.cid": {
+      "sha256": "5b5f5f587b320e25d56b9ceb3db7903fd827ab970b0e27f41faf3eb161624b49",
+      "size_bytes": 64
+    },
+    "tet4_slender_beam_h3_combined_xyz/model_inputs.npz": {
+      "sha256": "2bfc2e61e1657c8634c6864883c1bd05b8e40437de921bda0f4be60ae047266a",
+      "size_bytes": 1059
+    },
+    "tet4_slender_beam_h3_combined_xyz/process.json": {
+      "sha256": "5e8b9d3743cd67992fd71b8a13f0ef12fee4c1fe052bcd1ff70aa6af500cf7ec",
+      "size_bytes": 2901
+    },
+    "tet4_slender_beam_h3_combined_xyz/progress.json": {
+      "sha256": "40f4b05b9b0c78bee3aa9f21d91f8baa73be7d8b0b42be14be8679e2e8db5597",
+      "size_bytes": 242
+    },
+    "tet4_slender_beam_h3_combined_xyz/qf_result.npz": {
+      "sha256": "da690064280d35665712b9f42969809f6b277707783f4517c695b2239709205e",
+      "size_bytes": 526
+    },
+    "tet4_slender_beam_h3_combined_xyz/qf_stiffness.npz": {
+      "sha256": "8e41a7f38b25d5254f97dd9eb60b14d70032bdfa3fae50c3dfdab7a25e31afcc",
+      "size_bytes": 2913
+    },
+    "tet4_slender_beam_h3_combined_xyz/result.json": {
+      "sha256": "20fd7cd4494a1051a62fb1b2ae2d38abe290a845c0936ee969e607bc0883330e",
+      "size_bytes": 5769
+    },
+    "tet4_slender_beam_h3_combined_xyz/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "tet4_slender_beam_h3_combined_xyz/stdout.log": {
+      "sha256": "2ce8f6fc87c44d17d991bce571fe28717f29fdfce4355c8c3e24b31de7f801a6",
+      "size_bytes": 28094
+    },
+    "tet4_slender_beam_h3_combined_xyz/telemetry.jsonl": {
+      "sha256": "01e1ac7776ddb5b50c98a531ca35be5752130f94459dc42a284ada91f0b0f21a",
+      "size_bytes": 2003
+    },
+    "tet4_slender_beam_h3_combined_xyz/tet4_slender_beam_h3_combined_xyz.comm": {
+      "sha256": "022209e1611e7821b4bdb2bb1575cf6b1d1380e1271a76942b7f99f9db0aa00a",
+      "size_bytes": 2629
+    },
+    "tet4_slender_beam_h3_combined_xyz/tet4_slender_beam_h3_combined_xyz.export": {
+      "sha256": "fab010adf893142ecbf560cc3b80281f73ee05ebb941d4a1c90d753ddaa70799",
+      "size_bytes": 323
+    },
+    "tet4_slender_beam_h3_combined_xyz/tet4_slender_beam_h3_combined_xyz.mail": {
+      "sha256": "74b12f908a94d117352dd41361824fd7973c62c877c6f6c691df7d5928ad722c",
+      "size_bytes": 1272
+    },
+    "tet4_slender_beam_h3_combined_xyz/tet4_slender_beam_h3_combined_xyz.mess": {
+      "sha256": "7e027ac327e6c20d785511d2c1ba42eb99e95259a00b5bbeb026a043d12cdba2",
+      "size_bytes": 23042
+    },
+    "tet4_slender_beam_h3_combined_xyz/tet4_slender_beam_h3_combined_xyz.resu": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  }
+}

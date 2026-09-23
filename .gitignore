@@ -1,4 +1,19 @@
 # Generated WP09 raw FEM outputs are archived externally and referenced by SHA-256.
+# WP12 R3 expanded raw Code_Aster runs remain local; version the sibling manifest/reports.
+qualification/0_2_9/wp12_external_vv_r3_expanded_raw/
+qualification/0_2_9/wp12_external_vv_r3_1_expanded_raw/
+qualification/0_2_9/wp12_external_vv_r3_2_expanded_raw/
+qualification/0_2_9/wp12_external_vv_r3_3_expanded_raw/
+qualification/0_2_9/wp12_external_vv_r3_4_expanded_raw/
+qualification/0_2_9/wp12_external_vv_r3_5_expanded_raw/
+qualification/0_2_9/wp12_external_vv_r3_6_diverse_raw/
+qualification/0_2_9/wp12_external_vv_r3_6_diverse_r1_raw/
+qualification/0_2_9/wp12_external_vv_r3_6_diverse_r2_raw/
+qualification/0_2_9/wp12_external_vv_r3_6_diverse_r3_raw/
+qualification/0_2_9/wp12_external_vv_r3_5_smoke_raw/
+qualification/0_2_9/wp12_external_vv_r3_5_smoke_r2_raw/
+qualification/0_2_9/wp12_external_vv_r3_5_smoke_r3_raw/
+qualification/0_2_9/wp12_external_vv_r3_5_smoke_attempt4_raw/
 __pycache__/
 qualification/0_2_9/wp09_hex8_accuracy_remediation_r1/hex8_*.json
 qualification/0_2_9/wp09_hex8_accuracy_remediation_r1/summary.json
@@ -64,3 +79,6 @@ qualification/0_2_9/wp09_hex20_r2_consistent_traction/campaign.json
 qualification/0_2_9/wp09_hex20_r2_consistent_traction/campaign.md
 qualification/0_2_9/wp09_hex20_r2_consistent_traction/reference_stdout.log
 qualification/0_2_9/wp09_hex20_r2_consistent_traction/reference_stderr.log
+
+# WP12 R4 gallery raw case outputs stay local; version only the manifest and summaries.
+qualification/0_2_9/wp12_external_vv_r4_gallery_raw/

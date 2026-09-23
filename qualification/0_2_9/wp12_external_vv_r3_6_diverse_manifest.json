@@ -1,0 +1,40 @@
+{
+  "files": {
+    "preflight.json": {
+      "sha256": "cb5db5b9d73d9fd882e12cd5dd3a13b50acd81d099b6df935afa086c14582f37",
+      "size_bytes": 493
+    },
+    "progress.json": {
+      "sha256": "177d118c4807a7b653c458939782ae0bca646bada0475b49cee08ea44529290f",
+      "size_bytes": 303
+    },
+    "tet4_l_section_beam_h1_axial_x/case.json": {
+      "sha256": "aa91fec3529c2dd049198f36713280993cab23c0e840120e87d9fb684e166406",
+      "size_bytes": 1415
+    },
+    "tet4_l_section_beam_h1_axial_x/model_inputs.npz": {
+      "sha256": "280b4b193de5defe38e27537fec38d0883d3286e51a676b8d1e0d002e6850b68",
+      "size_bytes": 1128
+    },
+    "tet4_l_section_beam_h1_axial_x/qf_result.npz": {
+      "sha256": "7c4f673db1c9fd757539bf15806ae677f24bc76f01bfec78543d9b482bb5ff12",
+      "size_bytes": 445
+    },
+    "tet4_l_section_beam_h1_axial_x/qf_stiffness.npz": {
+      "sha256": "7f9f8f87ee93efffdcec530d350922d78f19ddd06866702ca4d7a1b20f549711",
+      "size_bytes": 3724
+    },
+    "tet4_l_section_beam_h1_axial_x/result.json": {
+      "sha256": "9a49f8a335d479de748b0cd8476f07b368487ba283d7b87877c25e414fce578c",
+      "size_bytes": 421
+    },
+    "wp12_expanded_summary.json": {
+      "sha256": "314d5f0604360250826f674d11347cdef72d85ccbca2b4019cd3ccc152852122",
+      "size_bytes": 3197
+    },
+    "wp12_expanded_summary.md": {
+      "sha256": "342332bc851752b15b49770733c16c965734874b6a695e78a31a0670c86ebb50",
+      "size_bytes": 1300
+    }
+  }
+}

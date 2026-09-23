@@ -1,0 +1,73 @@
+{
+  "schema": "qf.wp12.owner-acceptance.v1",
+  "decision_id": "OD-029-WP12-CODE-ASTER-R2-01",
+  "decision_date": "2026-09-23",
+  "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+  "accepted_scope": "WP12 R2 bounded same-mesh linear-static external correlation with Code_Aster 18.1 for TET4, HEX8, TET10, and HEX20",
+  "owner_decisions": {
+    "accepts_wp12_r2_external_correlation": true,
+    "accepts_wp12_limitations": true,
+    "awards_wp12_points": "4/4",
+    "authorizes_ledger_update": true,
+    "authorizes_governing_integration": true,
+    "authorizes_governing_push": true
+  },
+  "points": {
+    "wp12_before": "0/4",
+    "wp12_after": "4/4",
+    "global_before": "90/100",
+    "global_after": "94/100"
+  },
+  "provenance": {
+    "governing_branch": "0.2.9-unified-nonlinear",
+    "governing_sha_before_integration": "754664836c0e30232d38b31e21c3d98e4b3092bd",
+    "r2_contract_sha256": "f6154660635670c026354429894c9c7a6f7fa6d8bd6849edf44717a4bd43824a",
+    "r2_manifest_sha256": "7a912a795bd57db6505ae100dd77a8480d3bf41a1229fd39644c298b294c4e8c",
+    "r2_audit_sha256": "0be63ce3f98e7e785f0cdff8fda94b4495d4d95f5ae0ee50c5809ad181acbdcf",
+    "r2_final_sha256": "f81b09b5007f9b761ced253e5e7a81003211441d29a75c1939ea9efb24c8cb96",
+    "r4_execution_sha": "c3c52449eb41e9b5a79e98f35b4bdb5591ba6980",
+    "r4_contract_sha256": "7588d0962776e02fe4ffba83ccc1611afbb5d606bd502c51d8f544954bc48ef2",
+    "r4_manifest_sha256": "02b4c6a799835dd6908a2ea297d11ad86d27e22947fdb778ab44af7403a9980d",
+    "r4_audit_sha256": "50ba73ec784452931b000ca750f4885c1eb63acb3510ffb4d8296b7e0db0a8c5",
+    "r4_evidence_commit": "fe93a6a64caa04c13c4e8c63d05f61bb711687ac"
+  },
+  "r2_manifest_verification": {
+    "declared_files": 74,
+    "verified_files": 74,
+    "mismatches": 0
+  },
+  "r4_supplementary_evidence": {
+    "audit_status": "PASS_WITH_LIMITATIONS",
+    "cases": 864,
+    "passed": 864,
+    "cumulative_with_r3_6": 1008,
+    "manifested_raw_files": 14692,
+    "manifested_raw_bytes": 243014078,
+    "raw_evidence_location": "local_only_ignored_by_git",
+    "raw_archive": "deferred_to_WP16",
+    "score_effect": "supplementary_only"
+  },
+  "limitations": [
+    "same-mesh numerical correlation, not experimental validation",
+    "R2 is bounded to its frozen linear-static cases and observables",
+    "R4 H1/H2/H3 hierarchy refines only the longitudinal direction",
+    "no general mesh-convergence or stress-field equivalence claim",
+    "no nonlinear, contact, friction, dynamics, buckling, MPI, or scaling claim",
+    "independent audit recomputes observables and is not a second global FEM/Newton solve",
+    "R4 raw gallery remains local until the planned WP16 archive"
+  ],
+  "historical_failures_preserved": true,
+  "solver_campaign_rerun_for_owner_decision": false,
+  "full_repository_test_suite_run": false,
+  "evidence": [
+    "qualification/0_2_9/wp12_external_vv_r2_contract.json",
+    "qualification/0_2_9/wp12_external_vv_r2_final.json",
+    "qualification/0_2_9/wp12_external_vv_r2_audit.json",
+    "qualification/0_2_9/wp12_external_vv_r2/manifest.json",
+    "docs/verification/0_2_9/wp12-expanded-correlation-r4-gallery-results.md",
+    "qualification/0_2_9/wp12_external_vv_r4_gallery_contract.json",
+    "qualification/0_2_9/wp12_external_vv_r4_gallery_manifest.json",
+    "qualification/0_2_9/wp12_external_vv_r4_gallery_audit.json",
+    "qualification/0_2_9/wp12_external_vv_r4_gallery_summary.json"
+  ]
+}
