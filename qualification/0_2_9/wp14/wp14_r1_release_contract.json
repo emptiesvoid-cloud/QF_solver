@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-029-WP14-RELEASE-QUALIFICATION-R1",
+  "revision": "R1",
+  "status": "FROZEN_PROSPECTIVE",
+  "applicable_scope": "0.2.9-development release qualification; not a public release authorization",
+  "baseline": {
+    "branch": "0.2.9-unified-nonlinear",
+    "source_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+    "contract_freeze_branch": "codex/wp14-release-qualification"
+  },
+  "score_context": {
+    "owner_allocation_decision": "OD-029-WP13-R2.1-01",
+    "active_allocation": {"WP13": 1, "WP14": 1, "WP15": 2},
+    "official_total_before_wp14": "95/100",
+    "wp14_official_points_before_review": "0/1",
+    "candidate_points_if_all_gates_pass": "1/1",
+    "owner_award_required": true
+  },
+  "purpose": "Audit the consolidated qualification ledger and claims, execute the repository's existing release-quality, engineering, documentation, packaging, and public-source gates, and prepare an immutable Owner-review dossier.",
+  "scope": {
+    "included": [
+      "Validate 0.2.9 progress ledger, Owner decisions, active point allocation, and progress documentation consistency.",
+      "Review public claims against the versioned bounded qualification evidence and preserve all recorded limitations.",
+      "Run the local Windows/Python 3.13 equivalent of the repository quality workflow and the complete engineering/documentation verification jobs where supported.",
+      "Validate documentation registry/build, source archive, package build/install surface, and release-source hygiene."
+    ],
+    "excluded_owner_gates": [
+      "Awarding WP14 points or modifying the official ledger.",
+      "Changing the public package version, release date, changelog release section, or citation version.",
+      "Creating/pushing a release tag, publishing to PyPI/GitHub/Zenodo, or merging this branch.",
+      "Claiming unexecuted operating-system/Python matrix results or external-platform CI results."
+    ],
+    "production_mechanics_changes_allowed": false,
+    "solver_threshold_changes_allowed": false,
+    "historical_evidence_rewrite_allowed": false
+  },
+  "frozen_gates": [
+    {
+      "id": "WP14-G01-PROVENANCE",
+      "acceptance": "The candidate is based on the exact governing SHA; the contract and execution SHAs are resolvable; the final evidence commit has a clean tree; all evidence hashes match.",
+      "failure_behavior": "FAIL_CLOSED"
+    },
+    {
+      "id": "WP14-G02-LEDGER",
+      "acceptance": "progress.json, progress.md, owner_decisions.json and the Owner-confirmed active allocation agree: 95/100 before WP14, WP14=0/1, active WP13/WP14/WP15 allocation=1/1/2, total allocation=100. The frozen historical roadmap is not rewritten.",
+      "failure_behavior": "FAIL_CLOSED"
+    },
+    {
+      "id": "WP14-G03-CLAIMS-AND-REGISTRY",
+      "acceptance": "The current capability/qualification registries and public-facing claims do not promote candidate, experimental, bounded, or unvalidated scopes beyond their Owner-accepted evidence; registry/document references resolve; limitations and historical failures remain visible.",
+      "failure_behavior": "FAIL_CLOSED"
+    },
+    {
+      "id": "WP14-G04-STANDARD-QUALITY",
+      "acceptance": "Run the quality.yml standard-baseline commands on the available Windows/Python 3.13 environment: Ruff, progressive mypy, unit+integration tests excluding benchmark/large/evidence with branch coverage >=80%, P0 coverage check, compileall, and both quick-verification commands. Record unavailable matrix legs separately as NOT_RUN, never PASS.",
+      "commands": [
+        "python -m ruff check src/qf_solver src/solveur tests scripts",
+        "python -m mypy src/solveur/core/errors.py src/solveur/core/qualification.py src/solveur/io/manifest.py src/solveur/verification/traceability.py",
+        "python -m pytest tests/unit tests/integration -m 'not benchmark and not large and not evidence' --cov=solveur --cov-branch --cov-fail-under=80 --cov-report=json:coverage.json --cov-report=xml:coverage.xml",
+        "python -m coverage run --rcfile=.coveragerc-p0 -m pytest tests/unit/test_traceability.py",
+        "python -m coverage json --rcfile=.coveragerc-p0 -o coverage-p0.json",
+        "python scripts/check_p0_coverage.py coverage.json coverage-p0.json",
+        "python -m compileall -q src scripts tests qf_solver.py main_solveur.py mitc4_solver.py",
+        "python qf_solver.py verify --quick",
+        "python mitc4_solver.py verify --quick"
+      ],
+      "failure_behavior": "FAIL_CLOSED"
+    },
+    {
+      "id": "WP14-G05-ENGINEERING",
+      "acceptance": "Run the existing quality.yml engineering job: full MITC4 verification and verify-all --profile engineering. Do not weaken or skip a failing gate.",
+      "commands": ["python qf_solver.py verify", "python qf_solver.py verify-all --profile engineering"],
+      "failure_behavior": "FAIL_CLOSED"
+    },
+    {
+      "id": "WP14-G06-DOCUMENTATION",
+      "acceptance": "Run controlled meshed benchmark tests, engineering documentation generation, documentation tests with evidence enabled, strict MkDocs build, and packaging integration tests using the repository's declared workflow commands.",
+      "commands": [
+        "python -m pytest -m benchmark",
+        "python scripts/build_docs.py --profile engineering",
+        "python -m pytest tests/documentation",
+        "mkdocs build --strict -f .github/pages/mkdocs.yml",
+        "python -m pytest tests/documentation/test_docs_generation.py -q",
+        "python -m pytest tests/integration/test_packaging.py -q"
+      ],
+      "environment": {"QF_SOLVER_RUN_EVIDENCE": "1"},
+      "failure_behavior": "FAIL_CLOSED"
+    },
+    {
+      "id": "WP14-G07-PACKAGE-AND-PUBLIC-SOURCE",
+      "acceptance": "Build wheel and sdist without publishing; inspect package metadata/content; run public-source, release-archive, and history hygiene audits. Actual release tag/readiness remains OWNER_GATED and is not created by this campaign.",
+      "commands": [
+        "python -m build --wheel --sdist --outdir <external-temp-directory>",
+        "python scripts/audit_public_release.py --output <external-temp-directory>/public-source-audit.json",
+        "python scripts/audit_release_archive.py --output <external-temp-directory>/archive-audit.json"
+      ],
+      "failure_behavior": "FAIL_CLOSED"
+    },
+    {
+      "id": "WP14-G08-PLATFORM-MATRIX",
+      "acceptance": "Only claim platform legs actually executed. The committed GitHub Actions matrix is Windows/Ubuntu x Python 3.10/3.13; CI on this exact WP14 candidate is not inferred from a local Windows run.",
+      "failure_behavior": "NOT_RUN_REMAINS_NOT_RUN"
+    },
+    {
+      "id": "WP14-G09-RELEASE-AUTHORITY",
+      "acceptance": "No tag, publication, governing merge, push, or official point award occurs. These remain explicit Owner decisions after reviewing the dossier.",
+      "failure_behavior": "STOP_BEFORE_PUBLICATION"
+    }
+  ],
+  "required_evidence": [
+    "contract SHA-256 and contract-freeze commit",
+    "execution SHA and evidence commit SHA",
+    "per-command argv, UTC start/end, exit code, concise result, and output SHA-256",
+    "machine-readable gate summary and human-readable audit report",
+    "ledger/Owner-decision consistency audit",
+    "public claims and qualification-scope review",
+    "wheel/sdist hashes and package metadata inspection",
+    "working-tree state and production-source diff summary",
+    "explicit list of platform legs not executed and Owner-only release actions"
+  ],
+  "final_status_rule": {
+    "pass_candidate": "All locally executable gates pass, the ledger/claims/provenance audits pass, and platform/publication limitations are explicit.",
+    "hold": "Any required local gate fails, evidence is missing, provenance/hash differs, ledger conflicts, or a claim exceeds its evidence.",
+    "official_award": "Never derived by this runner; requires explicit Owner decision."
+  }
+}

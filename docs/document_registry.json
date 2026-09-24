@@ -6311,6 +6311,21 @@
       "qualification/0_2_9/wp12_external_vv_r4_gallery_audit.json"
     ],
     "tests": []
+  },
+  {
+    "id": "DOC-029-WP14-R1-CONTRACT",
+    "path": "verification/0_2_9/wp14-r1-release-qualification-contract.md",
+    "title": "QF Solver 0.2.9 WP14 R1 release qualification contract",
+    "status": "controlled",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp14/wp14_r1_release_contract.json",
+      "qualification/0_2_9/progress.json",
+      "qualification/0_2_9/owner_decisions.json"
+    ],
+    "tests": [
+      "tests/unit/test_wp14_release_contract_r1.py"
+    ]
   }
 ]
 }
