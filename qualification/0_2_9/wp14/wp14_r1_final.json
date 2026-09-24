@@ -1,0 +1,251 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-029-WP14-RELEASE-QUALIFICATION-R1",
+  "revision": "R1",
+  "final_status": "HOLD_OWNER_REVIEW",
+  "scope": "0.2.9-development release qualification; not a public release authorization",
+  "provenance": {
+    "governing_branch": "0.2.9-unified-nonlinear",
+    "governing_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+    "governing_remote_sha_at_review": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+    "qualification_branch": "WP14 release qualification branch (local, unpushed)",
+    "contract_freeze_sha": "2b27b1bc7d26f5e599c68465b7f13e80f06528a8",
+    "execution_source_sha": "2b27b1bc7d26f5e599c68465b7f13e80f06528a8",
+    "contract_sha256": "f34d6db9d2a3fbd882ae182b9986c2fc7a9e48ce98e77645aa2f6af3b91aa6ac",
+    "evidence_commit_sha": "RECORDED_IN_FINAL_HANDOFF_AFTER_COMMIT",
+    "production_source_changed_from_governing": false,
+    "solver_thresholds_changed": false,
+    "historical_evidence_rewritten": false,
+    "worktree_clean_after_generated_output_preservation": true,
+    "wp14_branch_pushed": false,
+    "governing_branch_pushed_by_this_qualification": false,
+    "merge_performed": false
+  },
+  "environment": {
+    "platform": "Windows 10 Enterprise x64",
+    "python": "3.13.1",
+    "executed_matrix_leg": "Windows/Python 3.13",
+    "unexecuted_matrix_legs": [
+      "Windows/Python 3.10",
+      "Ubuntu/Python 3.10",
+      "Ubuntu/Python 3.13",
+      "GitHub Actions on the WP14 candidate"
+    ]
+  },
+  "ledger": {
+    "active_allocation_decision": "OD-029-WP13-R2.1-01",
+    "active_allocation": {
+      "WP13": 1,
+      "WP14": 1,
+      "WP15": 2
+    },
+    "official_total_before_wp14": "95/100",
+    "wp14_official_points": "0/1",
+    "official_total_after_execution": "95/100",
+    "owner_award_required": true,
+    "ledger_modified": false
+  },
+  "gates": {
+    "WP14-G01-PROVENANCE": {
+      "status": "PASS",
+      "details": "Exact governing SHA, prospective contract freeze, execution SHA, and clean worktree verified; final evidence commit is reported in the handoff because a commit cannot embed its own SHA."
+    },
+    "WP14-G02-LEDGER": {
+      "status": "PASS",
+      "details": "Machine ledger, progress documentation, Owner decision, and active 1/1/2 allocation agree at 95/100 before WP14; historical roadmap was not rewritten."
+    },
+    "WP14-G03-CLAIMS-AND-REGISTRY": {
+      "status": "FAIL",
+      "details": "Capability registry passes, but public-document/release audits find source claims and references that do not meet the frozen public-surface hygiene gates."
+    },
+    "WP14-G04-STANDARD-QUALITY": {
+      "status": "FAIL",
+      "details": "Ruff and the standard unit/integration suite fail. Mypy, P0 coverage, compileall, and quick checks pass."
+    },
+    "WP14-G05-ENGINEERING": {
+      "status": "FAIL",
+      "details": "Full MITC4 verification passes; verify-all engineering profile has 31 failing tests."
+    },
+    "WP14-G06-DOCUMENTATION": {
+      "status": "FAIL",
+      "details": "Engineering documentation generation fails on missing WP04-F reviewer metadata; documentation test suite has one failing audit-verdict assertion."
+    },
+    "WP14-G07-PACKAGE-AND-PUBLIC-SOURCE": {
+      "status": "FAIL",
+      "details": "Wheel and sdist build/install, but public-source, archive, and reachable-history hygiene gates fail. Built package metadata remains 0.2.8."
+    },
+    "WP14-G08-PLATFORM-MATRIX": {
+      "status": "NOT_RUN",
+      "details": "Only local Windows/Python 3.13 was executed; other workflow matrix legs and candidate CI were not inferred."
+    },
+    "WP14-G09-RELEASE-AUTHORITY": {
+      "status": "OWNER_GATED",
+      "details": "No tag, publication, merge, push, package-version change, or score award was performed."
+    }
+  },
+  "quality_results": {
+    "ruff": {
+      "status": "FAIL",
+      "diagnostics": 22,
+      "baseline_comparison": "All diagnostic files were unchanged from the governing source at execution."
+    },
+    "mypy_progressive": {
+      "status": "PASS",
+      "files_checked": 4
+    },
+    "standard_unit_integration": {
+      "status": "FAIL",
+      "passed": 2912,
+      "failed": 23,
+      "deselected": 107,
+      "warnings": 5,
+      "coverage_percent": 85.74,
+      "duration_seconds": 2516.2
+    },
+    "p0_traceability": {
+      "status": "PASS",
+      "passed": 37,
+      "skipped": 2,
+      "error_module_coverage_percent": 100.0,
+      "traceability_module_coverage_percent": 92.16
+    },
+    "compileall": {
+      "status": "PASS"
+    },
+    "quick_verification": {
+      "qf_solver": "PASS",
+      "mitc4_compatibility": "PASS"
+    },
+    "engineering": {
+      "mitc4_verification": "PASS",
+      "verify_all": "FAIL",
+      "passed": 3278,
+      "failed": 31,
+      "skipped": 14,
+      "deselected": 187,
+      "warnings": 13,
+      "duration_seconds": 3502.16
+    },
+    "controlled_benchmarks": {
+      "status": "PASS_WITH_SKIP",
+      "passed": 23,
+      "skipped": 1,
+      "deselected": 3535,
+      "duration_seconds": 583.85
+    },
+    "documentation_generation": {
+      "status": "FAIL",
+      "failure": "DOC-029-WP04-F-001 lacks reviewer metadata; no reviewer value was fabricated."
+    },
+    "documentation_tests": {
+      "status": "FAIL",
+      "passed": 42,
+      "failed": 1,
+      "skipped": 6,
+      "duration_seconds": 1278.87,
+      "failing_test": "test_pack_page_counts_and_project_audit_verdict"
+    },
+    "targeted_docs_generation_tests": {
+      "status": "PASS_WITH_SKIP",
+      "passed": 17,
+      "skipped": 2
+    },
+    "mkdocs_strict": {
+      "status": "PASS_WITH_INFORMATIONAL_NOTICES",
+      "warnings": 0,
+      "errors": 0,
+      "missing_reference_notices": 31,
+      "navigation_notice_groups": 1
+    },
+    "packaging_integration": {
+      "status": "PASS",
+      "passed": 13
+    },
+    "package_build_and_install": {
+      "status": "PASS_WITH_VERSION_LIMITATION",
+      "wheel": {
+        "filename": "qf_solver-0.2.8-py3-none-any.whl",
+        "sha256": "e1ce85539406e0abb3f7d95b1d157cbf8ed357de49215447064d5a53b7be98b1"
+      },
+      "sdist": {
+        "filename": "qf_solver-0.2.8.tar.gz",
+        "sha256": "cf881b2c805f3c1b4ac4af678e3f152cbbdb3d32bcf0223b986784c7a280f8fd"
+      },
+      "isolated_target_install_import": "PASS",
+      "publication": "NOT_PERFORMED"
+    },
+    "public_source_audit": {
+      "status": "FAIL",
+      "scanned_files": 4292,
+      "findings": 5540,
+      "distinct_affected_files": 276,
+      "finding_groups": {
+        "workstation_or_environment_paths": 5354,
+        "workflow_references": 185,
+        "email_pattern": 1
+      }
+    },
+    "release_archive_audit": {
+      "status": "FAIL",
+      "scanned_files": 5409,
+      "findings": 5538
+    },
+    "git_history_audit": {
+      "status": "WARNING",
+      "reachable_commits": 2161,
+      "findings": 1351,
+      "finding_groups": {
+        "identity_markers": 1335,
+        "sensitive_path_markers": 16
+      }
+    },
+    "release_readiness": {
+      "status": "NOT_READY",
+      "passed_checks": 4,
+      "failed_checks": 4,
+      "clean_worktree_check": "PASS",
+      "release_tag_check": "OWNER_GATED_FAIL"
+    }
+  },
+  "generated_artifacts": {
+    "preserved_external_to_worktree": true,
+    "file_count": 2399,
+    "bytes": 4943733265,
+    "historical_wp04_c1_result_mutation": "captured externally and restored to the committed blob; not adopted as evidence"
+  },
+  "failures_requiring_triage": {
+    "standard_quality": [
+      "test_029_step_up_baseline: 4 assertions expect superseded governance and early ledger state",
+      "test_architecture_rules: 21 Python source files exceed frozen size budgets",
+      "test_f4_unit_test_quality: negative-assertion contract mismatch",
+      "test_frictional_contact_family_survey: 2 cases fail during contact active-slip convergence",
+      "test_public_document_audit and test_public_release_audit: public-tree path/claim findings",
+      "test_release_readiness: public hygiene gate failures",
+      "test_review_vocabulary: controlled terms missing or mismatched in published sources",
+      "test_schema_core_edge_paths: expected validation message not produced",
+      "test_wp01_c_unified_newton: replay diagnostic digest differs",
+      "test_wp06_ab_arc_length_contract: 4 zero/oriented predictor cases raise AttributeError on missing model analysis",
+      "test_wp13_00: frozen WP13 guard detects changed 0.2.7 tree"
+    ],
+    "engineering_additional": [
+      "WP04-C: 3 mesh displacement/energy/stress convergence assertions fail",
+      "WP04-D/E: raw-array reproducibility and source-hash assertions fail",
+      "WP05-C/E: release-ledger/provenance assertions fail",
+      "WP09-TET4: frozen-study runner/provenance assertion fails"
+    ]
+  },
+  "owner_review": {
+    "wp14_candidate_points": "0/1",
+    "wp14_official_points": "0/1",
+    "official_total": "95/100",
+    "decisions_requested": [
+      "Authorize or reject a controlled public-surface remediation plan without rewriting historical evidence.",
+      "Decide how to handle reachable-history identity/path findings; no history rewrite was performed.",
+      "Assign triage ownership for the 23 standard and 31 engineering failures; no failing test was suppressed.",
+      "Provide or authorize the missing WP04-F reviewer metadata; none was invented.",
+      "If a 0.2.9 release is intended, separately authorize package-version/changelog/citation/tag changes and publication steps."
+    ],
+    "no_implicit_score_award": true
+  },
+  "external_evidence_log_directory_is_not_embedded": true
+}
