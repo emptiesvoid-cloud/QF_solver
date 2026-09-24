@@ -25,6 +25,7 @@ from solveur.mesh.gmsh_importer import GmshModelImporter
 CONTRACT_RELATIVE_PATH = Path("qualification/0_2_9/wp13_r2_multifamily/wp13_r2_execution_contract.json")
 RAW_OUTPUT_RELATIVE_PATH = Path("qualification/0_2_9/wp13_r2_multifamily/raw")
 EXPECTED_BRANCH = "codex/wp13-r2-multifamily"
+EXPECTED_POLICY_DIGEST = "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
 
 
 class J2MultiFamilyPerformanceCampaign:
@@ -316,10 +317,16 @@ def _capture_execution_metadata() -> dict[str, object]:
         raise RuntimeError(f"WP13 R2 frozen contract is missing: {contract_path}.")
     contract_bytes = contract_path.read_bytes()
     contract = json.loads(contract_bytes)
+    if contract.get("contract_id") != "QF-029-WP13-EXEC-002":
+        raise RuntimeError("WP13 R2 contract ID does not match this runner.")
     if contract.get("status") != "FROZEN_EXECUTION_PROTOCOL":
         raise RuntimeError("WP13 R2 contract is not frozen.")
     if contract.get("execution_branch") != branch:
         raise RuntimeError("WP13 R2 contract branch does not match the active branch.")
+    if contract.get("policy_digest") != EXPECTED_POLICY_DIGEST:
+        raise RuntimeError("WP13 R2 solver policy digest does not match the approved frozen policy.")
+    if contract.get("raw_output_path") != RAW_OUTPUT_RELATIVE_PATH.as_posix():
+        raise RuntimeError("WP13 R2 contract raw output path does not match the runner.")
     if contract.get("pre_contract_sha") != parent:
         raise RuntimeError("WP13 R2 HEAD is not the commit immediately following the bound implementation SHA.")
     source_hashes = contract.get("source_sha256")
