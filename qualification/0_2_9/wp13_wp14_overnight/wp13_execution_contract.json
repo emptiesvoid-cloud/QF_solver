@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-029-WP13-EXEC-001",
+  "release": "0.2.9",
+  "work_package": "WP13",
+  "status": "FROZEN_EXECUTION_PROTOCOL",
+  "authorized_scope": "WP13 only; execution and evidence preparation, not Owner score award, ledger mutation, merge, or push",
+  "governing_branch": "0.2.9-unified-nonlinear",
+  "required_governing_sha": "9c4048dc1909520e3933f86b2b62a9bfd6562c2c",
+  "pre_contract_branch": "codex/wp13-wp14-overnight",
+  "pre_contract_head": "ec9826c8e34ee1076e611892d302815c683e3866",
+  "execution_binding": "Run only from the commit that adds this frozen contract; record that exact commit as EXECUTION_SHA before execution and in all result summaries.",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "scope": {
+    "api": "Verify the existing public qf_solver facade, documented stability classification, critical signatures, compatibility imports, minimal workflow, and documented input/serialization rejection behavior.",
+    "diagnostics": "Verify the existing summary/diagnostic/values audit levels, preservation of WARNING/FAIL rows, Markdown pass-row limiting, and configurable large-values warning behavior.",
+    "performance": "Run the existing bounded J2 nonlinear performance characterization once for its declared TET4 and TET10 cases; record runtime/resource/solver observables as measurements only."
+  },
+  "commands": {
+    "targeted_tests": [
+      "python -m pytest tests/unit/test_public_api_contract.py tests/unit/test_audit_detail_levels.py tests/unit/test_nonlinear_performance.py"
+    ],
+    "bounded_performance_campaign": "python -c \"from solveur.verification.j2_performance import J2NonlinearPerformanceCampaign; result = J2NonlinearPerformanceCampaign(r'qualification/0_2_9/wp13_wp14_overnight/wp13_performance').run(); print(result['status'])\""
+  },
+  "gates": {
+    "api": "The targeted public API contract test module exits 0; its checked-in exact export/signature/compatibility/workflow/rejection assertions remain unchanged.",
+    "diagnostics": "The targeted audit-detail test module exits 0; checked-in expectations for summary/diagnostic/values and WARNING/FAIL retention remain unchanged.",
+    "campaign_harness": "The targeted nonlinear performance harness test exits 0; no code or solver thresholds are altered.",
+    "bounded_performance_cases": "The existing campaign returns PASS_INTERNAL for exactly TET4 and TET10, with finite positive elapsed times, finite memory counts, finite residual metrics, and its existing per-case status PASS. Existing campaign-internal numerical checks are authoritative and unchanged.",
+    "performance_thresholds": "No elapsed-time, memory, speedup, scaling, or cross-machine threshold is defined by this contract. Timing and memory are observational only.",
+    "evidence_integrity": "Record execution SHA, contract SHA-256, policy digest, exact commands, runtime/machine metadata, output paths, and SHA-256 hashes. Preserve raw campaign outputs; do not overwrite prior evidence."
+  },
+  "failure_cases": [
+    "Public API test failure or changed documented export/signature is a WP13 FAIL; preserve test output.",
+    "Diagnostic test failure or suppression of WARNING/FAIL evidence is a WP13 FAIL; preserve test output.",
+    "Missing Gmsh/runtime dependency, campaign exception, non-PASS_INTERNAL campaign status, missing family, non-finite result, or missing evidence is FAIL_CLOSED; do not substitute another model or relax an assertion.",
+    "Any source/policy/contract digest mismatch or dirty execution checkout is FAIL_CLOSED before running."
+  ],
+  "execution_policy": {
+    "serial_single_process": true,
+    "production_mechanics_changes_allowed": false,
+    "threshold_or_policy_changes_allowed": false,
+    "full_repository_test_suite": false,
+    "wp14_execution": false,
+    "wp05_wp12_wp15_wp16_changes": false,
+    "merge_or_push": false,
+    "official_ledger_update_or_point_award": false
+  },
+  "limitations": [
+    "The bounded performance campaign is not a performance benchmark suitable for cross-machine ranking or a scaling claim.",
+    "Coverage is limited to the existing small cyclic J2 TET4/TET10 campaign and tested API/audit contracts.",
+    "This does not qualify all solver methods, element families, large models, parallel execution, or production use.",
+    "The current progress ledger assigns WP13 one point while the frozen roadmap assigns two; this campaign will not resolve that allocation discrepancy or award points."
+  ],
+  "frozen_before_results": true
+}
