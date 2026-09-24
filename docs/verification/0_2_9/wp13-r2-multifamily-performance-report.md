@@ -38,8 +38,8 @@ Le pic mémoire est `tracemalloc` (allocations Python), pas le RSS. Les temps ne
 - Contrat R2 initial conservé : son premier lancement a échoué au chargement Python (`ModuleNotFoundError`) avant création du répertoire brut ou tout solve. R2.1 a ajouté uniquement le bootstrap `src/`, rebindi les hashes, puis lancé la même campagne sans changer les cas ou paramètres.
 - Le runner a vérifié branche, arbre propre, SHA parent, policy digest, hashes sources et chemin brut. Environnement : Windows 10, Python 3.13.1, NumPy 2.2.6, Gmsh 4.15.2, 6 cœurs physiques / 12 logiques.
 
-Contrat : [`wp13_r2_1_execution_contract.json`](../../../qualification/0_2_9/wp13_r2_multifamily/wp13_r2_1_execution_contract.json)  
-Registre d’exécution : [`wp13_r2_execution_record.json`](../../../qualification/0_2_9/wp13_r2_multifamily/wp13_r2_execution_record.json)  
+Contrat : [`wp13_r2_1_execution_contract.json`](../../../qualification/0_2_9/wp13_r2_multifamily/wp13_r2_1_execution_contract.json)
+Registre d’exécution : [`wp13_r2_execution_record.json`](../../../qualification/0_2_9/wp13_r2_multifamily/wp13_r2_execution_record.json)
 Manifeste SHA-256 brut : [`wp13_r2_raw_evidence_manifest.json`](../../../qualification/0_2_9/wp13_r2_multifamily/wp13_r2_raw_evidence_manifest.json)
 
 Les 18 fichiers bruts (résultats, setups, maillages et rapports d’import) totalisent 99,611,184 octets (~95.0 MiB) et restent dans le répertoire local ignoré `qualification/0_2_9/wp13_r2_multifamily/raw/`. Le manifeste versionné contient taille et SHA-256 de chaque fichier. Aucun service d’archive externe ou sauvegarde n’est configuré pour ce dossier.
