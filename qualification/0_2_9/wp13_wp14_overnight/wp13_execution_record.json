@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "record_type": "wp13_execution_record",
+  "release": "0.2.9",
+  "status": "PASS_CANDIDATE_WITH_LIMITATIONS",
+  "work_package": "WP13",
+  "branch": "codex/wp13-wp14-overnight",
+  "governing_branch": "0.2.9-unified-nonlinear",
+  "governing_sha": "9c4048dc1909520e3933f86b2b62a9bfd6562c2c",
+  "execution_sha": "f08800b5d80f3640cef5e15dd9df1be1e90962f7",
+  "contract_id": "QF-029-WP13-EXEC-001",
+  "contract_path": "qualification/0_2_9/wp13_wp14_overnight/wp13_execution_contract.json",
+  "contract_sha256": "5d9faa73032c8d2441003e31ad13b1d49292b9a4a2a2aead86ab3b8168c43305",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "executed_at_local_date": "2026-09-24",
+  "environment": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "processor_reported_by_platform": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "physical_cpu_count": 6,
+    "logical_cpu_count": 12,
+    "ram_total_bytes": 102963109888,
+    "python": "3.13.1",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "gmsh": "4.15.2",
+    "pytest": "8.4.1",
+    "matplotlib": "3.10.3"
+  },
+  "targeted_tests": {
+    "command": "python -m pytest tests/unit/test_public_api_contract.py tests/unit/test_audit_detail_levels.py tests/unit/test_nonlinear_performance.py",
+    "exit_code": 0,
+    "result": "11 passed in 2.61s",
+    "test_modules": [
+      "tests/unit/test_public_api_contract.py",
+      "tests/unit/test_audit_detail_levels.py",
+      "tests/unit/test_nonlinear_performance.py"
+    ],
+    "preliminary_noncanonical_duplicate": "The same modules were first run with an extra -q option (11 passed); the exact contract command above was then run and is the authoritative result."
+  },
+  "performance_campaign": {
+    "campaign_id": "VNV-J2-NONLINEAR-PERFORMANCE-006",
+    "status": "PASS_INTERNAL",
+    "command": "python -c \"from solveur.verification.j2_performance import J2NonlinearPerformanceCampaign; result = J2NonlinearPerformanceCampaign(r'qualification/0_2_9/wp13_wp14_overnight/wp13_performance').run(); print(result['status'])\"",
+    "result_path": "qualification/0_2_9/wp13_wp14_overnight/wp13_performance/summary.json",
+    "report_path": "qualification/0_2_9/wp13_wp14_overnight/wp13_performance/report.md",
+    "timings_are_observational_only": true,
+    "scalability_claim": false,
+    "cases": [
+      {
+        "element_type": "TET4",
+        "status": "PASS",
+        "nodes": 68,
+        "elements": 140,
+        "dofs": 204,
+        "integration_point_state_count": 140,
+        "elapsed_seconds": 8.837794799997937,
+        "peak_python_tracemalloc_bytes": 5945507,
+        "increments": 24,
+        "newton_iterations": 33,
+        "maximum_relative_residual": 4.061176704145706e-9,
+        "final_relative_residual": 4.061176704145706e-9,
+        "residual_samples": 57
+      },
+      {
+        "element_type": "TET10",
+        "status": "PASS",
+        "nodes": 341,
+        "elements": 140,
+        "dofs": 1023,
+        "integration_point_state_count": 560,
+        "elapsed_seconds": 35.61400689999573,
+        "peak_python_tracemalloc_bytes": 12967703,
+        "increments": 24,
+        "newton_iterations": 33,
+        "maximum_relative_residual": 7.493738437623695e-9,
+        "final_relative_residual": 3.088014774646989e-9,
+        "residual_samples": 57
+      }
+    ]
+  },
+  "source_integrity": {
+    "production_src_diff_from_governing_sha": "NONE",
+    "production_mechanics_changed": false,
+    "thresholds_or_policy_changed": false,
+    "full_test_suite_run": false,
+    "wp05_wp12_wp15_wp16_touched": false
+  },
+  "governance": {
+    "official_points_awarded": 0,
+    "ledger_modified": false,
+    "merge_performed": false,
+    "push_performed": false,
+    "wp14_run": false,
+    "allocation_note": "The current progress ledger lists WP13 as 1 point; the frozen roadmap lists 2. No point value is claimed or awarded pending Owner ledger reconciliation."
+  },
+  "limitations": [
+    "Small cyclic J2 TET4/TET10 characterization only.",
+    "Elapsed time is solve-only after mesh import; memory is Python tracemalloc peak, not process RSS.",
+    "No timing threshold, speedup, scaling, HPC, cross-machine, or release-performance claim.",
+    "The existing performance campaign persists setup meshes and aggregate result metrics, but not full displacement fields or a complete solver-result object; full-state independent recomputation is therefore outside this evidence package.",
+    "No claim for all public APIs, all diagnostics, all element families, or all solver methods beyond the explicitly tested scope."
+  ],
+  "evidence_manifest_path": "qualification/0_2_9/wp13_wp14_overnight/wp13_evidence_manifest.json"
+}
