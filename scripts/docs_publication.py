@@ -207,8 +207,7 @@ class DocumentationPublisher:
             metadata = read_document_metadata(self.docs / item["path"])
             if (
                 item.get("status") in {"controlled", "approved", "accepted_for_release_0_2_3"}
-                and str(metadata.get("reviewer", "")).strip()
-                and str(metadata.get("approver", "")).strip()
+                and _has_nonempty_review_metadata(metadata)
             ):
                 reviewed_documents.append(str(item["id"]))
         owner_review_status = "PASS" if len(reviewed_documents) == len(active_documents) else "BLOCKED"
@@ -467,6 +466,17 @@ def read_document_metadata(path: Path) -> dict[str, Any]:
     return metadata
 
 
+def _has_nonempty_review_metadata(metadata: dict[str, Any]) -> bool:
+    """Check metadata completeness only; this does not assert Owner authorization."""
+
+    reviewer = metadata.get("reviewer")
+    approver = metadata.get("approver")
+    return (
+        isinstance(reviewer, str)
+        and bool(reviewer.strip())
+        and isinstance(approver, str)
+        and bool(approver.strip())
+    )
 def normalize_document_status(status: str) -> str:
     """Map descriptive page states to the controlled lifecycle vocabulary."""
     normalized = status.strip().lower()

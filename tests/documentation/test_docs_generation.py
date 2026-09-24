@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from html.parser import HTMLParser
 from pathlib import Path
+from typing import Any
 from urllib.parse import unquote, urlparse
 
 import numpy as np
@@ -15,6 +16,7 @@ from scripts.docs_assets import DocumentationAssetBuilder
 from scripts.docs_models import upgrade_tet4_to_tet10
 from scripts.docs_publication import (
     DocumentationPublisher,
+    _has_nonempty_review_metadata,
     is_generated_document,
     normalize_document_status,
     read_document_metadata,
@@ -268,6 +270,68 @@ def test_every_controlled_page_is_registered_with_consistent_review_fields() -> 
                 assert (ROOT / reference).is_file(), reference
 
 
+@pytest.mark.parametrize("missing_field", ("revision", "applicable_version", "reviewer", "approver"))
+def test_document_registry_requires_all_r1_metadata_fields(
+    tmp_path: Path, missing_field: str
+) -> None:
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    generated = docs / "generated"
+    generated.mkdir()
+    metadata = {
+        "doc_id": "DOC-TEST-STRICT-001",
+        "revision": "1",
+        "applicable_version": "0.2.9",
+        "reviewer": "Reviewer Name",
+        "approver": "Approver Name",
+        "status": "controlled",
+    }
+    metadata.pop(missing_field)
+    yaml_lines = [f"{key}: {json.dumps(value)}" for key, value in metadata.items()]
+    (docs / "controlled.md").write_text(
+        "---\n" + "\n".join(yaml_lines) + "\n---\n# Controlled\n",
+        encoding="utf-8",
+    )
+    (docs / "document_registry.json").write_text(
+        json.dumps(
+            {
+                "documents": [
+                    {
+                        "id": "DOC-TEST-STRICT-001",
+                        "path": "controlled.md",
+                        "title": "Strict metadata fixture",
+                        "status": "controlled",
+                        "requirements": [],
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    publisher = object.__new__(DocumentationPublisher)
+    publisher.root = tmp_path
+    publisher.docs = docs
+    publisher.generated = generated
+
+    with pytest.raises(ValueError, match=f"no '{missing_field}' metadata"):
+        publisher._document_registry()
+
+
+@pytest.mark.parametrize(
+    "metadata",
+    (
+        {},
+        {"reviewer": "", "approver": "Owner"},
+        {"reviewer": "Reviewer", "approver": "   "},
+        {"reviewer": None, "approver": "Owner"},
+    ),
+)
+def test_empty_review_fields_are_not_owner_approval_metadata(metadata: dict[str, Any]) -> None:
+    assert _has_nonempty_review_metadata(metadata) is False
+
+
+def test_complete_review_metadata_is_not_itself_an_owner_decision() -> None:
+    assert _has_nonempty_review_metadata({"reviewer": "Reviewer", "approver": "Approver"}) is True
 def test_owner_reviewed_document_normalizes_to_controlled() -> None:
     assert normalize_document_status("owner_reviewed") == "controlled"
 
@@ -402,5 +466,4 @@ def test_complete_formulation_pages_are_registered() -> None:
         assert relative_path in registered_paths
         for fragment in required_fragments:
             assert fragment in content
-
 
