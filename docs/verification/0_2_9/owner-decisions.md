@@ -152,3 +152,24 @@ D execution requires its own frozen current-source contract/runner and a
 separate explicit Owner authorization. The immutable decision and its
 revalidation evidence are recorded in [the WP06 A/B/C Owner decision](wp06-abc-owner-decision.md)
 and `qualification/0_2_9/wp06_abc_owner_decision.json`.
+
+## WP13 R2.1 bounded multi-family characterization
+
+**Status:** CLOSED — Owner accepted WP13 R2.1 at **1/1** with limitations.
+The official total moves from **94/100 to 95/100**.
+
+The Owner accepts the recorded TET4/TET10/HEX8/HEX20 performance, API, and
+diagnostics characterization within its frozen contract. The active scoring
+allocation is confirmed as WP13=1, WP14=1, WP15=2, totaling 100 points. This
+explicit reduced allocation supersedes the original WP13/WP14 weights for
+current scorekeeping; the original frozen roadmap itself remains preserved
+unchanged as historical evidence.
+
+This award is not a comparative performance benchmark or solver ranking.
+The recorded memory metric is `tracemalloc`, not process RSS; there is no mesh
+convergence, scaling, HPC, cross-machine, external-solver, or independent
+global FEM/Newton claim. The R2 raw artifacts remain local and Git-ignored
+pending the planned WP16 archive. The archived targeted test result is
+**21 passed**; no full repository suite was run for this decision. No
+qualification solve was rerun. The decision record is
+`qualification/0_2_9/wp13_r2_multifamily/wp13_owner_acceptance_r2_1.json`.

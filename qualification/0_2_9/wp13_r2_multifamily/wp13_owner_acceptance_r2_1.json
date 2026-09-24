@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "decision_id": "OD-029-WP13-R2.1-01",
+  "decision_date": "2026-09-24",
+  "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+  "reviewed_branch": "codex/wp13-r2-multifamily",
+  "reviewed_head": "d4f95233b340cb7e30807161fce37e2027e5680e",
+  "contract_id": "QF-029-WP13-EXEC-003",
+  "contract_sha256": "8ff91f880f2979198d23b23b7f98b3df0d8a698e33124b454849e86d43896499",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "execution_record_sha256": "debd0617bcf5c7269aa1c2a1bbeb69fe55317e291259e89beddfa432fc70bab9",
+  "raw_manifest_sha256": "218f46655ed48d242fc6ee32ad7033bebe3ccd955f80db46550b496860578c56",
+  "owner_decision": {
+    "accepts_wp13_r2_1_bounded_characterization": true,
+    "accepts_documented_limitations": true,
+    "awarded_points": "1/1",
+    "official_total_before": "94/100",
+    "official_total_after": "95/100",
+    "authorizes_governing_integration": true,
+    "authorizes_ledger_update": true,
+    "authorizes_push": false
+  },
+  "active_allocation_revision": {
+    "owner_confirmed": true,
+    "WP13": 1,
+    "WP14": 1,
+    "WP15": 2,
+    "total_points": 100,
+    "historical_frozen_roadmap_preserved": true,
+    "note": "This active scoring allocation is the Owner-confirmed reduced weighting already represented in progress.json; the original frozen roadmap remains preserved as a historical baseline."
+  },
+  "test_evidence": {
+    "archived_result": "21 passed in 3.57s",
+    "rerun_during_owner_integration": false,
+    "full_suite_run": false
+  },
+  "limitations": [
+    "bounded local performance characterization only; not a comparative performance benchmark or solver ranking",
+    "recorded memory is tracemalloc allocation peak, not process RSS",
+    "no mesh-convergence, scaling, HPC, cross-machine, precision, or external-solver claim",
+    "R2 raw artifacts remain local and Git-ignored pending the planned WP16 external archive",
+    "the independent evidence checks do not constitute an independent global FEM/Newton solve"
+  ],
+  "evidence": [
+    "docs/verification/0_2_9/wp13-r2-multifamily-performance-report.md",
+    "qualification/0_2_9/wp13_r2_multifamily/wp13_r2_1_execution_contract.json",
+    "qualification/0_2_9/wp13_r2_multifamily/wp13_r2_execution_record.json",
+    "qualification/0_2_9/wp13_r2_multifamily/wp13_r2_raw_evidence_manifest.json"
+  ],
+  "historical_failures_preserved": true,
+  "solver_campaign_rerun_for_owner_decision": false
+}

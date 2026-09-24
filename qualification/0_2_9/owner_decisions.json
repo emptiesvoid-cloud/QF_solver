@@ -368,6 +368,58 @@
         "independent audit recomputes observables and is not a second global FEM/Newton solve",
         "R4 raw gallery is local pending the planned WP16 archive"
       ]
+    },
+    {
+      "id": "OD-029-WP13-R2.1-01",
+      "title": "WP13 bounded multi-family performance/API/diagnostics acceptance",
+      "decision_date": "2026-09-24",
+      "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "owner_review_status": "ACCEPTED",
+      "accepted_work_items": ["WP13-R2.1-TET4", "WP13-R2.1-TET10", "WP13-R2.1-HEX8", "WP13-R2.1-HEX20"],
+      "approved_points": 1,
+      "wp13_points_before": "0/1",
+      "wp13_points_after": "1/1",
+      "global_official_total_before": "94/100",
+      "global_official_total_after": "95/100",
+      "owner_accepts_wp13_r2_1_bounded_characterization": true,
+      "owner_accepts_wp13_limitations": true,
+      "authorizations": {
+        "official_wp13_ledger_update": true,
+        "governing_integration": true,
+        "governing_push": false
+      },
+      "active_allocation_revision": {
+        "status": "OWNER_CONFIRMED",
+        "allocations": {"WP13": 1, "WP14": 1, "WP15": 2},
+        "total_points": 100,
+        "original_frozen_roadmap_preserved": true,
+        "scope": "active score allocation only; package technical scopes are unchanged"
+      },
+      "contract_id": "QF-029-WP13-EXEC-003",
+      "contract_sha256": "8ff91f880f2979198d23b23b7f98b3df0d8a698e33124b454849e86d43896499",
+      "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+      "execution_sha": "1fc52758d53e1caa4434b22f453fb03fa40f6266",
+      "reviewed_evidence_head": "d4f95233b340cb7e30807161fce37e2027e5680e",
+      "execution_record_sha256": "debd0617bcf5c7269aa1c2a1bbeb69fe55317e291259e89beddfa432fc70bab9",
+      "raw_manifest_sha256": "218f46655ed48d242fc6ee32ad7033bebe3ccd955f80db46550b496860578c56",
+      "archived_targeted_tests": "21 passed in 3.57s",
+      "full_repository_suite_run": false,
+      "historical_failures_preserved": true,
+      "solver_campaign_rerun_for_owner_decision": false,
+      "evidence": [
+        "docs/verification/0_2_9/wp13-r2-multifamily-performance-report.md",
+        "qualification/0_2_9/wp13_r2_multifamily/wp13_r2_1_execution_contract.json",
+        "qualification/0_2_9/wp13_r2_multifamily/wp13_r2_execution_record.json",
+        "qualification/0_2_9/wp13_r2_multifamily/wp13_r2_raw_evidence_manifest.json",
+        "qualification/0_2_9/wp13_r2_multifamily/wp13_owner_acceptance_r2_1.json"
+      ],
+      "limitations": [
+        "bounded local performance characterization, not a comparative benchmark or solver ranking",
+        "memory is tracemalloc allocation peak, not process RSS",
+        "no mesh-convergence, scaling, HPC, cross-machine, precision, or external-solver claim",
+        "raw artifacts remain local and Git-ignored pending WP16 external archive",
+        "independent checks are not an independent global FEM/Newton solve"
+      ]
     }
   ],
   "ledger_reconciliation": {
@@ -384,21 +436,30 @@
     "weight_changes": false,
     "allocation_mismatch_status": "CONSISTENT",
     "explanation": "The earlier Owner-stated 61/100 after D used a 58/100 pre-WP05 baseline; the consolidated local ledger already included WP05-C/D/E +3. The frozen roadmap package allocations sum to the declared 100 points. No points are double counted.",
-    "current_reconciled_on": "2026-09-23",
-    "current_official_total": "94/100",
+    "current_reconciled_on": "2026-09-24",
+    "current_official_total": "95/100",
     "current_awards": {
       "WP09": "8/8",
       "WP10": "6/6",
       "WP11": "6/6",
-      "WP12": "4/4"
+      "WP12": "4/4",
+      "WP13": "1/1"
     },
     "current_owner_decision_ids": [
       "OD-029-WP09-HEX8-R3-01",
       "OD-029-WP10-BOUNDED-CLOSURE-01",
       "OD-029-WP11-MULTIFAMILY-R2-01",
-      "OD-029-WP12-CODE-ASTER-R2-01"
+      "OD-029-WP12-CODE-ASTER-R2-01",
+      "OD-029-WP13-R2.1-01"
     ],
-    "current_explanation": "The Owner accepted WP09 HEX8 R3 at 8/8, WP10 bounded multi-family evidence at 6/6, WP11 bounded multi-family PETSc/MPI evidence at 6/6, and WP12 bounded Code_Aster external correlation at 4/4. The current official total is 94/100; WP12 R4 is supplemental evidence and all historical failures remain preserved."
+    "current_explanation": "The Owner accepted WP09 HEX8 R3 at 8/8, WP10 bounded multi-family evidence at 6/6, WP11 bounded multi-family PETSc/MPI evidence at 6/6, WP12 bounded Code_Aster external correlation at 4/4, and WP13 R2.1 bounded multi-family characterization at 1/1. The current official total is 95/100. The Owner-confirmed active scoring allocation is WP13=1, WP14=1, WP15=2; the original frozen roadmap is retained unchanged as historical evidence. WP12 R4 remains supplemental and all historical failures remain preserved.",
+    "active_allocation_revision": {
+      "owner_decision_id": "OD-029-WP13-R2.1-01",
+      "status": "OWNER_CONFIRMED",
+      "allocations": {"WP13": 1, "WP14": 1, "WP15": 2},
+      "total_points": 100,
+      "original_frozen_roadmap_preserved": true
+    }
   },
   "open_decisions": [
     {

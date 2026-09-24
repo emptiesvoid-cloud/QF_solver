@@ -24,9 +24,9 @@ applicable_version: 0.2.9-development
 | WP10 | 6 | **Closed — Owner accepted 6/6; bounded TET4/HEX8/HEX20/TET10 coupled evidence with limitations** |
 | WP11 | 6 | **Closed — Owner accepted 6/6; bounded TET4/HEX8/TET10/HEX20 PETSc/MPI evidence with limitations** |
 | WP12 | 4 | **Owner accepted — 4/4 bounded Code_Aster correlation with limitations** |
-| WP13 | 1 | Not started |
+| WP13 | 1 | **Owner accepted — 1/1; bounded multi-family performance/API/diagnostics characterization with limitations** |
 | WP14 | 1 | Not started |
-| **Validated total (consolidated ledger)** | **94 / 100** | **Includes WP05 5/5, WP06 4/8, WP07 10/10, WP08 8/8, WP09 8/8, WP10 6/6, WP11 6/6 and WP12 4/4** |
+| **Validated total (consolidated ledger)** | **95 / 100** | **Includes WP05 5/5, WP06 4/8, WP07 10/10, WP08 8/8, WP09 8/8, WP10 6/6, WP11 6/6, WP12 4/4 and WP13 1/1** |
 
 ## Current administrative closure
 
@@ -48,6 +48,17 @@ WP12 does not claim experimental validation, general mesh convergence,
 nonlinear correlation, or a second independent FEM/Newton solve. The decision
 and accepted limitations are recorded in
 [the WP12 Owner decision](wp12-owner-acceptance-r2.md).
+
+On 2026-09-24 the Owner accepted WP13 R2.1 at **1/1** as a bounded local
+multi-family performance/API/diagnostics characterization, moving the active
+ledger from **94/100 to 95/100**. The active score allocation is the explicitly
+Owner-confirmed reduced allocation WP13=1, WP14=1, WP15=2 (100 points total);
+the original frozen roadmap is preserved as historical evidence. WP13 makes
+no comparative performance, ranking, scaling, mesh-convergence, or external
+solver claim. Its raw campaign artifacts remain local and Git-ignored pending
+WP16. See the [WP13 R2.1 report](wp13-r2-multifamily-performance-report.md)
+and the machine-readable Owner decision at
+`qualification/0_2_9/wp13_r2_multifamily/wp13_owner_acceptance_r2_1.json`.
 
 The Owner-approved WP05-C/D/E integration adds 3 bounded points to the
 58/100 pre-integration ledger, producing 61/100. WP07-D then added 3 points
