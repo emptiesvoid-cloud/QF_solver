@@ -3,8 +3,13 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import sys
 
-from solveur.verification.j2_multifamily_performance import J2MultiFamilyPerformanceCampaign
+# This repository uses a src/ layout; make direct script execution work from
+# the repository checkout without relying on an editable installation.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+
+from solveur.verification.j2_multifamily_performance import J2MultiFamilyPerformanceCampaign  # noqa: E402
 
 
 def main() -> int:

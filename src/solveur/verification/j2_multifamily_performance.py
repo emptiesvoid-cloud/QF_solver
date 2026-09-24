@@ -22,7 +22,7 @@ from solveur.io.json_writer import JsonResultWriter
 from solveur.io.manifest import write_json_file
 from solveur.mesh.gmsh_importer import GmshModelImporter
 
-CONTRACT_RELATIVE_PATH = Path("qualification/0_2_9/wp13_r2_multifamily/wp13_r2_execution_contract.json")
+CONTRACT_RELATIVE_PATH = Path("qualification/0_2_9/wp13_r2_multifamily/wp13_r2_1_execution_contract.json")
 RAW_OUTPUT_RELATIVE_PATH = Path("qualification/0_2_9/wp13_r2_multifamily/raw")
 EXPECTED_BRANCH = "codex/wp13-r2-multifamily"
 EXPECTED_POLICY_DIGEST = "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
@@ -317,8 +317,8 @@ def _capture_execution_metadata() -> dict[str, object]:
         raise RuntimeError(f"WP13 R2 frozen contract is missing: {contract_path}.")
     contract_bytes = contract_path.read_bytes()
     contract = json.loads(contract_bytes)
-    if contract.get("contract_id") != "QF-029-WP13-EXEC-002":
-        raise RuntimeError("WP13 R2 contract ID does not match this runner.")
+    if contract.get("contract_id") != "QF-029-WP13-EXEC-003":
+        raise RuntimeError("WP13 R2.1 contract ID does not match this runner.")
     if contract.get("status") != "FROZEN_EXECUTION_PROTOCOL":
         raise RuntimeError("WP13 R2 contract is not frozen.")
     if contract.get("execution_branch") != branch:
