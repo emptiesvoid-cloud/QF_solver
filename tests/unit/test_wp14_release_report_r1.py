@@ -34,6 +34,15 @@ def test_wp14_final_record_fails_closed_on_release_gates() -> None:
     assert gates["WP14-G09-RELEASE-AUTHORITY"]["status"] == "OWNER_GATED"
 
 
+def test_wp14_candidate_branch_push_is_separate_from_qualification_and_merge() -> None:
+    provenance = json.loads(RECORD.read_text(encoding="utf-8"))["provenance"]
+
+    assert provenance["wp14_branch_pushed"] is True
+    assert provenance["wp14_branch_pushed_during_qualification"] is False
+    assert provenance["post_qualification_push_sha"] == "3e41cbc315b6790279199ef3251e6d3122a60c12"
+    assert provenance["merge_performed"] is False
+
+
 def test_wp14_committed_review_artifacts_do_not_embed_workstation_paths() -> None:
     text = RECORD.read_text(encoding="utf-8")
     report = (ROOT / "docs" / "verification" / "0_2_9" / "wp14-r1-release-qualification-report.md").read_text(encoding="utf-8")
