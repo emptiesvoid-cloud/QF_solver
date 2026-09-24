@@ -52,7 +52,8 @@
     "frozen_contract_commands_indexed": 20,
     "raw_logs_tracked_in_git": false,
     "status": "HASHED_WITH_TIMESTAMP_SOURCE_DISCLOSED",
-    "timestamp_limitation": "Explicit UTC process markers are used when preserved; otherwise start/end fields are the output file creation and last-write times, not guaranteed process boundaries."
+    "timestamp_limitation": "Explicit UTC process markers are used when preserved; otherwise start/end fields are the output file creation and last-write times, not guaranteed process boundaries.",
+    "post_manifest_audit_ref_sha": "c289e56c85e5ccc4c14b5127dc1a82c56da8b878"
   },
   "gates": {
     "WP14-G01-PROVENANCE": {
@@ -81,7 +82,7 @@
     },
     "WP14-G07-PACKAGE-AND-PUBLIC-SOURCE": {
       "status": "FAIL",
-      "details": "Wheel and sdist build/install, but public-source, archive, and reachable-history hygiene gates fail. Built package metadata remains 0.2.8. The archive audit is tied to the recorded evidence snapshot; later commits only attest and index the review dossier."
+      "details": "Wheel and sdist build/install, but current public-source (4293 files/5538 findings), archive (5413 files/5538 findings), and reachable-history hygiene gates fail. Built package metadata remains 0.2.8."
     },
     "WP14-G08-PLATFORM-MATRIX": {
       "status": "NOT_RUN",
@@ -185,36 +186,41 @@
     },
     "public_source_audit": {
       "status": "FAIL",
-      "scanned_files": 4292,
-      "findings": 5540,
-      "distinct_affected_files": 276,
+      "scanned_files": 4293,
+      "findings": 5538,
+      "distinct_affected_files": 275,
       "finding_groups": {
-        "workstation_or_environment_paths": 5354,
+        "workstation_paths": 2676,
+        "private_environment_paths": 2676,
         "workflow_references": 185,
-        "email_pattern": 1
-      }
+        "private_email": 1
+      },
+      "audited_ref_sha": "c289e56c85e5ccc4c14b5127dc1a82c56da8b878"
     },
     "release_archive_audit": {
       "status": "FAIL",
-      "scanned_files": 5412,
-      "findings": 5540,
-      "audited_ref_sha": "3e41cbc315b6790279199ef3251e6d3122a60c12"
+      "scanned_files": 5413,
+      "findings": 5538,
+      "audited_ref_sha": "c289e56c85e5ccc4c14b5127dc1a82c56da8b878"
     },
     "git_history_audit": {
       "status": "WARNING",
-      "reachable_commits": 2161,
-      "findings": 1351,
+      "reachable_commits": 2164,
+      "findings": 1354,
       "finding_groups": {
-        "identity_markers": 1335,
+        "identity_markers": 1338,
         "sensitive_path_markers": 16
-      }
+      },
+      "audited_ref_sha": "c289e56c85e5ccc4c14b5127dc1a82c56da8b878"
     },
     "release_readiness": {
       "status": "NOT_READY",
       "passed_checks": 4,
       "failed_checks": 4,
       "clean_worktree_check": "PASS",
-      "release_tag_check": "OWNER_GATED_FAIL"
+      "release_tag_check": "OWNER_GATED_FAIL",
+      "audited_ref_sha": "c289e56c85e5ccc4c14b5127dc1a82c56da8b878",
+      "output_sha256": "0402eaa8e6b9ebcd06f821fba3c46a55ae1663d20b68cce82eda4b81d02e6084"
     }
   },
   "generated_artifacts": {

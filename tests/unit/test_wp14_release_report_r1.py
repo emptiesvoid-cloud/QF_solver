@@ -33,6 +33,9 @@ def test_wp14_final_record_fails_closed_on_release_gates() -> None:
     assert gates["WP14-G07-PACKAGE-AND-PUBLIC-SOURCE"]["status"] == "FAIL"
     assert gates["WP14-G08-PLATFORM-MATRIX"]["status"] == "NOT_RUN"
     assert gates["WP14-G09-RELEASE-AUTHORITY"]["status"] == "OWNER_GATED"
+    assert report["quality_results"]["public_source_audit"]["scanned_files"] == 4293
+    assert report["quality_results"]["release_archive_audit"]["scanned_files"] == 5413
+    assert report["quality_results"]["release_readiness"]["status"] == "NOT_READY"
 
 
 def test_wp14_candidate_branch_push_is_separate_from_qualification_and_merge() -> None:

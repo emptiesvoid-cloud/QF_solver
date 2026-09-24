@@ -235,10 +235,30 @@
       "generated_output": {"file": "git-history-audit-final.json", "bytes": 217073, "sha256": "38859e1d343b79630e0d199decb4b513dce7173219cc538131d911663d55ee0f"}
     }
   ],
+  "post_manifest_readiness_audit": {
+    "audited_ref_sha": "c289e56c85e5ccc4c14b5127dc1a82c56da8b878",
+    "status": "NOT_READY",
+    "passed_checks": 4,
+    "failed_checks": 4,
+    "observed_tool_exit_code": 1,
+    "output_artifact": {
+      "file": "release-readiness-postmanifest.json",
+      "bytes": 4730221,
+      "sha256": "0402eaa8e6b9ebcd06f821fba3c46a55ae1663d20b68cce82eda4b81d02e6084",
+      "created_utc": "2026-09-24T10:41:59.0818265Z",
+      "last_write_utc": "2026-09-24T10:41:59.0878251Z"
+    },
+    "nested_audits": {
+      "public_source": {"status": "FAIL", "scanned_files": 4293, "findings": 5538, "affected_paths": 275},
+      "release_archive": {"status": "FAIL", "scanned_files": 5413, "findings": 5538},
+      "git_history": {"status": "WARNING", "reachable_commits": 2164, "findings": 1354, "identity_markers": 1338, "sensitive_path_markers": 16}
+    },
+    "timestamp_limitation": "The external JSON file timestamps are recorded; exact process-boundary timestamps for this readiness command were not instrumented."
+  },
   "coverage_notes": [
     "The standard suite and engineering verify-all results failed; no failed tests were removed or reclassified.",
     "For long commands without explicit wrapper markers, timestamps are only the output-file creation and last-write interval. They are not asserted to be exact process start/end times.",
     "Raw logs and multi-megabyte audit JSON remain in the external local evidence store; they are not part of the Git branch.",
-    "The archive/history/readiness audits were conducted on nearby report-only snapshots; their exact scan SHA is listed where available and final post-attestation checks are recorded in the owner handoff."
+    "The post-manifest readiness audit captures source, archive, history and clean-worktree status for the exact audited ref above. This versioned record adds only the audit summary; its external JSON is hash-bound here."
   ]
 }

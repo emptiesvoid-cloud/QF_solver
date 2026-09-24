@@ -72,10 +72,10 @@ MERGE_OR_TAG_OR_PUBLICATION = NO
 | Profil engineering | FAIL | 3 278 passés, 31 échoués, 14 ignorés, 187 désélectionnés. MITC4 seul passe. |
 | Génération docs engineering | FAIL | `DOC-029-WP04-F-001` n’a pas de métadonnée reviewer ; aucune valeur n’a été inventée. |
 | Tests documentation | FAIL | 42 passés, 1 échoué, 6 ignorés. Le test du verdict PDF attend `0 finding`, alors que l’audit de confidentialité trouve des problèmes. |
-| Audit arbre public | FAIL | 4 292 fichiers parcourus, 5 540 constats dans 276 fichiers : chemins de poste/environnement, références de flux internes et un marqueur d’adresse. Les extraits et adresses ne sont pas recopiés ici. |
-| Audit archive Git | FAIL | 5 412 fichiers examinés, 5 540 constats sur le snapshot d'évidence `3e41cbc3`; les commits ultérieurs indexent seulement le dossier de revue. |
-| Audit historique Git | WARNING | 2 161 commits accessibles, 1 351 marqueurs d’identité/chemin. Aucun historique n’a été réécrit. |
-| Readiness globale | NOT_READY | Les contrôles de gouvernance, licence, changelog et worktree propre passent ; hygiène publique, archive, historique et version/tag ne passent pas. |
+| Audit arbre public | FAIL | 4 293 fichiers parcourus, 5 538 constats dans 275 fichiers : chemins de poste/environnement, références de flux internes et un marqueur d’adresse. Les extraits et adresses ne sont pas recopiés ici. |
+| Audit archive Git | FAIL | 5 413 fichiers examinés, 5 538 constats sur le snapshot `c289e56c`; les commits ultérieurs ne changent que le record et le rapport d'audit. |
+| Audit historique Git | WARNING | 2 164 commits accessibles, 1 354 marqueurs d’identité/chemin. Aucun historique n’a été réécrit. |
+| Readiness globale | NOT_READY | Vérifiée sur `c289e56c`: 4 contrôles passent et 4 échouent; hygiène publique, archive, historique et version/tag ne passent pas. |
 
 La suite standard révèle également des échecs de contact frictionnel, de
 contrat arc-length WP06, de diagnostic Newton WP01, de validation de schéma,
