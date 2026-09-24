@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "manifest_type": "wp13_r2_local_raw_evidence",
+  "status": "PASS_HASHES_COMPUTED_AFTER_COMPLETION",
+  "execution_sha": "1fc52758d53e1caa4434b22f453fb03fa40f6266",
+  "contract_id": "QF-029-WP13-EXEC-003",
+  "contract_path": "qualification/0_2_9/wp13_r2_multifamily/wp13_r2_1_execution_contract.json",
+  "contract_sha256": "8ff91f880f2979198d23b23b7f98b3df0d8a698e33124b454849e86d43896499",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "raw_root": "qualification/0_2_9/wp13_r2_multifamily/raw",
+  "raw_root_ignored_by_git": true,
+  "raw_total_bytes": 99611184,
+  "families_and_sequence": ["TET4", "TET10", "HEX8", "HEX20"],
+  "files": [
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/HEX20/import_report.json", "size_bytes": 1342, "sha256": "8ad540843068419dac6eb095fed879a40e06ec30468b949798d21ad9a52c5ac2"},
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/HEX20/mesh.msh", "size_bytes": 11773, "sha256": "029d0b42817dc62c54672b6d1680476433c3b9a84f901cd8455b8ceb579603c8"},
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/HEX20/result.json", "size_bytes": 32253644, "sha256": "d4c7544649fc347db0a5bbc97e72005c2f755cbbfd0b05e7a861dc6948fa94ca"},
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/HEX20/setup.json", "size_bytes": 1948, "sha256": "ec923b734e9ce1382d7a1870bfde2bdfae2e4d944d70f149f671c868da5de27e"},
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/HEX8/import_report.json", "size_bytes": 1337, "sha256": "25441c3b62cc6fb7f1dad37f7e3e627daac751dcdc38e6ec5fdfe3411db21bf4"},
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/HEX8/mesh.msh", "size_bytes": 5238, "sha256": "b93bbcc8472f056cfb289c4d341914c5d644d617c84273866f717abb370ea8f2"},
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/HEX8/result.json", "size_bytes": 6965821, "sha256": "224fd3797875dfe940a94e552186c6afb7c72d497af3aef5fcb6eabe72cea201"},
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/HEX8/setup.json", "size_bytes": 1947, "sha256": "d6de6bdf05102ca0b4218f9ac235d3ee8a70ed0cd56b68b7cf9754cdd0069811"},
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/report.md", "size_bytes": 795, "sha256": "4e88ba21943cf96a21e0e2fe7dd8a7f3b8badf2243e6ce90b7b7773437b4d448"},
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/summary.json", "size_bytes": 7992, "sha256": "28a34e9bc32a138df1bbc42e2e60d3e9a0f9bdc0a223f403abf4dd20a14bc519"},
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/TET10/import_report.json", "size_bytes": 1722, "sha256": "b8e968a00d26133199ab85a61ef8fa641ff6e9c41b8d85a173187af49296c78b"},
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/TET10/mesh.msh", "size_bytes": 23257, "sha256": "96918ff0e56f10a2d3ba298bd05168eee848292327b32c5a098fe5486316f053"},
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/TET10/result.json", "size_bytes": 49255813, "sha256": "caa959cdf4149fbd1dad31fac7a57cad03ea9e810a7519f464046b89c8583af8"},
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/TET10/setup.json", "size_bytes": 1948, "sha256": "1c3a334d5b78c70eec19ce1590d182323708cad8ee834a68fc544bc62709bd02"},
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/TET4/import_report.json", "size_bytes": 1719, "sha256": "6871960774dc1200348c3896e8b7ca0d0c426564c00615b62a204d6fbd3249f9"},
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/TET4/mesh.msh", "size_bytes": 8081, "sha256": "3e9420fcb428fc6eecc09c9107e1084c0e82580185df74e5dd9784e643a95e10"},
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/TET4/result.json", "size_bytes": 11064860, "sha256": "c7d5741033d5fb58a93bda841978b2df8a1e8e4e646e1f40115a79e32c89195d"},
+    {"path": "qualification/0_2_9/wp13_r2_multifamily/raw/TET4/setup.json", "size_bytes": 1947, "sha256": "fe3ef7851932af959f6da8cf4a16aeb76a9219975c51224a37f4a8f1eb6f4869"}
+  ],
+  "preservation": {
+    "wp13_r1_outputs_modified": false,
+    "full_raw_results_in_git": false,
+    "external_archive_service_configured": false,
+    "note": "Raw data remain in the local ignored directory. The manifest is versioned, but this is not an external archive or backup."
+  },
+  "historical_preflight_attempt": {
+    "contract_id": "QF-029-WP13-EXEC-002",
+    "outcome": "FAILED_BEFORE_CAMPAIGN_IMPORT",
+    "process_exit_code": 1,
+    "error": "ModuleNotFoundError: No module named 'solveur.verification.j2_multifamily_performance'",
+    "solves_run": false,
+    "output_created": false,
+    "superseded_by": "QF-029-WP13-EXEC-003"
+  }
+}
