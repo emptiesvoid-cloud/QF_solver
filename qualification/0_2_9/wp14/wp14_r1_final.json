@@ -8,7 +8,7 @@
     "governing_branch": "0.2.9-unified-nonlinear",
     "governing_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
     "governing_remote_sha_at_review": "b2485f98260c7ca9892997eefa3a327637d83cd3",
-    "qualification_branch": "WP14 release qualification branch (local, unpushed)",
+    "qualification_branch": "WP14 release qualification branch",
     "contract_freeze_sha": "2b27b1bc7d26f5e599c68465b7f13e80f06528a8",
     "execution_source_sha": "2b27b1bc7d26f5e599c68465b7f13e80f06528a8",
     "contract_sha256": "f34d6db9d2a3fbd882ae182b9986c2fc7a9e48ce98e77645aa2f6af3b91aa6ac",
@@ -47,6 +47,13 @@
     "owner_award_required": true,
     "ledger_modified": false
   },
+  "command_evidence_manifest": {
+    "path": "qualification/0_2_9/wp14/wp14_r1_command_manifest.json",
+    "frozen_contract_commands_indexed": 20,
+    "raw_logs_tracked_in_git": false,
+    "status": "HASHED_WITH_TIMESTAMP_SOURCE_DISCLOSED",
+    "timestamp_limitation": "Explicit UTC process markers are used when preserved; otherwise start/end fields are the output file creation and last-write times, not guaranteed process boundaries."
+  },
   "gates": {
     "WP14-G01-PROVENANCE": {
       "status": "PASS",
@@ -74,7 +81,7 @@
     },
     "WP14-G07-PACKAGE-AND-PUBLIC-SOURCE": {
       "status": "FAIL",
-      "details": "Wheel and sdist build/install, but public-source, archive, and reachable-history hygiene gates fail. Built package metadata remains 0.2.8."
+      "details": "Wheel and sdist build/install, but public-source, archive, and reachable-history hygiene gates fail. Built package metadata remains 0.2.8. The archive audit is tied to the recorded evidence snapshot; later commits only attest and index the review dossier."
     },
     "WP14-G08-PLATFORM-MATRIX": {
       "status": "NOT_RUN",
@@ -82,7 +89,7 @@
     },
     "WP14-G09-RELEASE-AUTHORITY": {
       "status": "OWNER_GATED",
-      "details": "No tag, publication, merge, push, package-version change, or score award was performed."
+      "details": "No tag, publication, governing merge, package-version change, ledger update, or score award was performed. The qualification branch was pushed only after the run on the Owner's explicit later request; that transport action is not a release or merge authorization."
     }
   },
   "quality_results": {
@@ -189,8 +196,9 @@
     },
     "release_archive_audit": {
       "status": "FAIL",
-      "scanned_files": 5409,
-      "findings": 5538
+      "scanned_files": 5412,
+      "findings": 5540,
+      "audited_ref_sha": "3e41cbc315b6790279199ef3251e6d3122a60c12"
     },
     "git_history_audit": {
       "status": "WARNING",

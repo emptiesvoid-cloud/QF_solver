@@ -1,0 +1,244 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-029-WP14-RELEASE-QUALIFICATION-R1",
+  "execution_source_sha": "2b27b1bc7d26f5e599c68465b7f13e80f06528a8",
+  "contract_sha256": "f34d6db9d2a3fbd882ae182b9986c2fc7a9e48ce98e77645aa2f6af3b91aa6ac",
+  "log_storage": {
+    "status": "LOCAL_EXTERNAL_ARCHIVE",
+    "raw_logs_in_git": false,
+    "note": "The listed files are preserved outside the worktree. Their basenames, byte lengths and SHA-256 values are versioned here; filesystem timestamps are not represented as exact process boundaries unless the log contains explicit START_UTC/END_UTC markers."
+  },
+  "commands": [
+    {
+      "id": "G04-RUFF",
+      "argv": ["python", "-m", "ruff", "check", "src/qf_solver", "src/solveur", "tests", "scripts"],
+      "exit_code": 1,
+      "result": "FAIL: 22 diagnostics; diagnostic files unchanged from governing baseline.",
+      "start_utc": "2026-09-24T10:01:28.4204691Z",
+      "end_utc": "2026-09-24T10:01:28.6583711Z",
+      "time_source": "explicit log markers",
+      "output": {"file": "ruff-final.log", "bytes": 8155, "sha256": "06846c7e9a3e441c90206997693e2a2faf72512d6485a7a1ba2f7eeb6ac7fec2"}
+    },
+    {
+      "id": "G04-MYPY",
+      "argv": ["python", "-m", "mypy", "src/solveur/core/errors.py", "src/solveur/core/qualification.py", "src/solveur/io/manifest.py", "src/solveur/verification/traceability.py"],
+      "exit_code": 0,
+      "result": "PASS: no issues in four files.",
+      "start_utc": "2026-09-24T10:01:28.6623553Z",
+      "end_utc": "2026-09-24T10:01:30.7602497Z",
+      "time_source": "explicit log markers",
+      "output": {"file": "mypy-final.log", "bytes": 145, "sha256": "7cca3dcbf470fcb6a455ebe6ce7e06dd260739890beb4e386b1ddb31522d19b2"}
+    },
+    {
+      "id": "G04-STANDARD-SUITE",
+      "argv": ["python", "-m", "pytest", "tests/unit", "tests/integration", "-m", "not benchmark and not large and not evidence", "--cov=solveur", "--cov-branch", "--cov-fail-under=80", "--cov-report=json:coverage.json", "--cov-report=xml:coverage.xml"],
+      "exit_code": 1,
+      "result": "FAIL: 2912 passed, 23 failed, 107 deselected, 5 warnings; branch coverage 85.74%; 2516.20 s.",
+      "start_utc": "2026-09-24T07:18:23.0795327Z",
+      "end_utc": "2026-09-24T08:00:00.2102982Z",
+      "time_source": "log file creation/last-write timestamps; not process-boundary instrumentation",
+      "output": {"file": "standard-suite.log", "bytes": 155863, "sha256": "6ae277c2ddc69ab3e40bcfc70f25b71e5620e30b274217186d5ada5646efe0e1"}
+    },
+    {
+      "id": "G04-P0-COVERAGE-RUN",
+      "argv": ["python", "-m", "coverage", "run", "--rcfile=.coveragerc-p0", "-m", "pytest", "tests/unit/test_traceability.py"],
+      "exit_code": 0,
+      "result": "PASS: 37 passed, 2 skipped.",
+      "start_utc": "2026-09-24T10:02:06.1423199Z",
+      "end_utc": "2026-09-24T10:02:10.6767427Z",
+      "time_source": "explicit log markers",
+      "output": {"file": "p0-final-tests.log", "bytes": 582, "sha256": "55770fee5df81add4f234079d741ba3764df3440c6849bf67961612075cb76df"}
+    },
+    {
+      "id": "G04-P0-COVERAGE-JSON",
+      "argv": ["python", "-m", "coverage", "json", "--rcfile=.coveragerc-p0", "-o", "coverage-p0.json"],
+      "exit_code": 0,
+      "result": "PASS: coverage JSON generated.",
+      "start_utc": "2026-09-24T10:02:10.6801796Z",
+      "end_utc": "2026-09-24T10:02:20.8618962Z",
+      "time_source": "explicit log markers",
+      "output": {"file": "p0-final-json.log", "bytes": 208, "sha256": "b5b8445f35553b9dbbf15bfea4c25ef87bf20f0844da3cbd1080e2bcadb3b021"},
+      "generated_output": {"file": "coverage-p0-final.json", "bytes": 3586521, "sha256": "c545f4353b9a9777ac5b2d25dc8367a31fc9e243fe08d2ad051a1036f8d3088b"}
+    },
+    {
+      "id": "G04-P0-COVERAGE-CHECK",
+      "argv": ["python", "scripts/check_p0_coverage.py", "coverage.json", "coverage-p0.json"],
+      "exit_code": 0,
+      "result": "PASS: errors.py 100.00%; traceability.py 92.16%.",
+      "start_utc": "2026-09-24T10:02:20.8630785Z",
+      "end_utc": "2026-09-24T10:02:21.0156359Z",
+      "time_source": "explicit log markers",
+      "output": {"file": "p0-final-check.log", "bytes": 204, "sha256": "09573bf7fe2d789ba36f6014701bbefeb6bd3368712443545021237ad929b142"}
+    },
+    {
+      "id": "G04-COMPILEALL",
+      "argv": ["python", "-m", "compileall", "-q", "src", "scripts", "tests", "qf_solver.py", "main_solveur.py", "mitc4_solver.py"],
+      "exit_code": 0,
+      "result": "PASS.",
+      "start_utc": "2026-09-24T10:01:30.7617421Z",
+      "end_utc": "2026-09-24T10:01:31.4143482Z",
+      "time_source": "explicit log markers",
+      "output": {"file": "compileall-final.log", "bytes": 101, "sha256": "b1aaf6b9db27d745c2a68c3da6ab2a26c2b24b22519f827db82ff1f561dd5e57"}
+    },
+    {
+      "id": "G04-QF-VERIFY-QUICK",
+      "argv": ["python", "qf_solver.py", "verify", "--quick"],
+      "exit_code": 0,
+      "result": "PASS.",
+      "start_utc": "2026-09-24T10:01:31.4152323Z",
+      "end_utc": "2026-09-24T10:01:33.0811612Z",
+      "time_source": "explicit log markers",
+      "output": {"file": "qf-verify-quick-final.log", "bytes": 2271, "sha256": "c0b95ee6547d6d1b82f6e0a1c91dec9d44a6a6bc6fce3c540ff2e2decb244df3"}
+    },
+    {
+      "id": "G04-MITC4-VERIFY-QUICK",
+      "argv": ["python", "mitc4_solver.py", "verify", "--quick"],
+      "exit_code": 0,
+      "result": "PASS.",
+      "start_utc": "2026-09-24T10:01:33.0823514Z",
+      "end_utc": "2026-09-24T10:01:34.2024512Z",
+      "time_source": "explicit log markers",
+      "output": {"file": "mitc4-verify-quick-final.log", "bytes": 2359, "sha256": "4514b47fd1c585f44d21561e12bad58e6240b6237e7243c9c77554813c40ee5a"}
+    },
+    {
+      "id": "G05-MITC4-VERIFY",
+      "argv": ["python", "qf_solver.py", "verify"],
+      "exit_code": 0,
+      "result": "PASS: all mechanical verification checks passed.",
+      "start_utc": "2026-09-24T08:02:27.6451918Z",
+      "end_utc": "2026-09-24T08:02:27.6521937Z",
+      "time_source": "log file creation/last-write timestamps; command-boundary markers absent",
+      "output": {"file": "engineering-verify.log", "bytes": 2319, "sha256": "67803445c25113e249d0b7c9eb6554771a7cb72d92d985cc0985c9404a9c8ccb"}
+    },
+    {
+      "id": "G05-VERIFY-ALL-ENGINEERING",
+      "argv": ["python", "qf_solver.py", "verify-all", "--profile", "engineering"],
+      "exit_code": 1,
+      "result": "FAIL: 3278 passed, 31 failed, 14 skipped, 187 deselected, 13 warnings; 3502.16 s.",
+      "start_utc": "2026-09-24T08:02:42.7031074Z",
+      "end_utc": "2026-09-24T09:01:00.6956640Z",
+      "time_source": "log file creation/last-write timestamps; command-boundary markers absent",
+      "output": {"file": "engineering-verify-all.log", "bytes": 157212, "sha256": "726eac65619d1964cf2b6af73750befa8511b628216cc10db26ec79aad9726c5"}
+    },
+    {
+      "id": "G06-CONTROLLED-BENCHMARKS",
+      "argv": ["python", "-m", "pytest", "-m", "benchmark"],
+      "exit_code": 0,
+      "result": "PASS_WITH_SKIP: 23 passed, 1 skipped, 3535 deselected; 583.85 s.",
+      "start_utc": "2026-09-24T09:01:33.7557044Z",
+      "end_utc": "2026-09-24T09:11:13.9793989Z",
+      "time_source": "log file creation/last-write timestamps; command-boundary markers absent",
+      "output": {"file": "benchmark-tests.log", "bytes": 1505, "sha256": "2476a70a012cf209cd440e1b1c3b87fddef11deae08c2a26499b6e5dad605ed9"}
+    },
+    {
+      "id": "G06-DOCS-ENGINEERING-GENERATION",
+      "argv": ["python", "scripts/build_docs.py", "--profile", "engineering"],
+      "exit_code": 1,
+      "result": "FAIL: required reviewer metadata absent for DOC-029-WP04-F-001; none fabricated.",
+      "start_utc": "2026-09-24T09:17:51.2110781Z",
+      "end_utc": "2026-09-24T09:17:51.2530786Z",
+      "time_source": "log file creation/last-write timestamps; command-boundary markers absent",
+      "output": {"file": "build-docs-engineering.log", "bytes": 57, "sha256": "55134b986df89f9381d90b08b6c8ddfc1ffee2541b3ca9b87b8109d52b1968c4"}
+    },
+    {
+      "id": "G06-DOCUMENTATION-TESTS",
+      "argv": ["python", "-m", "pytest", "tests/documentation"],
+      "environment": {"QF_SOLVER_RUN_EVIDENCE": "1"},
+      "exit_code": 1,
+      "result": "FAIL: 42 passed, 1 failed, 6 skipped; 1278.87 s. Failure is the audit-PDF verdict assertion.",
+      "start_utc": "2026-09-24T09:18:11.7067120Z",
+      "end_utc": "2026-09-24T09:39:29.0801367Z",
+      "time_source": "log file creation/last-write timestamps; command-boundary markers absent",
+      "output": {"file": "documentation-tests.log", "bytes": 2614, "sha256": "dc05da76b289247c73205f19f9a54f4cef912bfc3f33c1e83a615a5989a5b8ac"}
+    },
+    {
+      "id": "G06-MKDOCS-STRICT",
+      "argv": ["mkdocs", "build", "--strict", "-f", ".github/pages/mkdocs.yml"],
+      "exit_code": 0,
+      "result": "PASS_WITH_INFORMATIONAL_NOTICES: zero warnings/errors; 31 missing-reference notices and one navigation notice group.",
+      "start_utc": "2026-09-24T09:40:01.5030831Z",
+      "end_utc": "2026-09-24T09:40:14.0306541Z",
+      "time_source": "log file creation/last-write timestamps; command-boundary markers absent",
+      "output": {"file": "mkdocs-strict.log", "bytes": 43920, "sha256": "428b1421d8d9cca3e676d00b806a190e32b6d669f4d8f225127d6ebbd27f7c2e"}
+    },
+    {
+      "id": "G06-DOCS-GENERATION-TARGETED",
+      "argv": ["python", "-m", "pytest", "tests/documentation/test_docs_generation.py", "-q"],
+      "exit_code": 0,
+      "result": "PASS_WITH_SKIP: 17 passed, 2 skipped.",
+      "start_utc": "2026-09-24T09:39:49.4708876Z",
+      "end_utc": "2026-09-24T09:39:49.4748916Z",
+      "time_source": "log file creation/last-write timestamps; command-boundary markers absent",
+      "output": {"file": "docs-generation-targeted.log", "bytes": 112, "sha256": "ae6f12f8ce7af9fdda44f91d413de0f20ea82322351212b47d0633819ee9dc41"}
+    },
+    {
+      "id": "G06-PACKAGING-INTEGRATION",
+      "argv": ["python", "-m", "pytest", "tests/integration/test_packaging.py", "-q"],
+      "exit_code": 0,
+      "result": "PASS: 13 passed.",
+      "start_utc": "2026-09-24T09:40:44.4590346Z",
+      "end_utc": "2026-09-24T09:40:44.4642289Z",
+      "time_source": "log file creation/last-write timestamps; command-boundary markers absent",
+      "output": {"file": "packaging-integration.log", "bytes": 102, "sha256": "5ced808dbfe887e75a87c3eaa02cc5ec4833d81f5fe2dd8a41cb18c9dd17e7af"}
+    },
+    {
+      "id": "G07-BUILD-WHEEL-SDIST",
+      "argv": ["python", "-m", "build", "--wheel", "--sdist", "--outdir", "<external-evidence-directory>"],
+      "exit_code": 0,
+      "result": "PASS: wheel and sdist built; package metadata is 0.2.8, not releasable as 0.2.9.",
+      "start_utc": "2026-09-24T09:41:26.6308018Z",
+      "end_utc": "2026-09-24T09:41:46.8602171Z",
+      "time_source": "log file creation/last-write timestamps; command-boundary markers absent",
+      "output": {"file": "package-build.log", "bytes": 185595, "sha256": "a37d0291310fc1b0057520fbb6277d712d99fc3ce3bbaaa291816dc3d1c8d889"}
+    },
+    {
+      "id": "SUPPLEMENTAL-INSTALL-CHECK",
+      "argv": ["python", "-m", "pip", "install", "--target", "<external-install-directory>", "<wheel>"],
+      "exit_code": 0,
+      "result": "PASS: isolated target install and imports; installed distribution metadata is 0.2.8.",
+      "start_utc": "2026-09-24T09:42:08.2082557Z",
+      "end_utc": "2026-09-24T09:42:12.6194361Z",
+      "time_source": "log file creation/last-write timestamps; command-boundary markers absent",
+      "output": {"file": "package-install-check.log", "bytes": 182, "sha256": "86377fbbe5ce832cadf797bbc90f0c911827a276722e6469ce03e28539c91fad"}
+    },
+    {
+      "id": "G07-PUBLIC-SOURCE-AUDIT",
+      "argv": ["python", "scripts/audit_public_release.py", "--output", "<external-evidence-directory>/public-source-audit.json"],
+      "exit_code": 1,
+      "result": "FAIL: 4292 files, 5540 findings in 276 files.",
+      "start_utc": "2026-09-24T10:05:38.6252340Z",
+      "end_utc": "2026-09-24T10:06:25.8499967Z",
+      "time_source": "explicit log markers",
+      "output": {"file": "public-source-audit-report-safe.log", "bytes": 157, "sha256": "3b7c79504aebd827b4647124d9fad6fb8c85e998290aff889a222a1c46836951"},
+      "generated_output": {"file": "public-source-audit-report-safe.json", "bytes": 1990873, "sha256": "e809f0382b5cd0320a46b650b4c2e1b3635f401250e680ea4a0150ec5e5c9bc9"}
+    },
+    {
+      "id": "G07-RELEASE-ARCHIVE-AUDIT",
+      "argv": ["python", "scripts/audit_release_archive.py", "--ref", "HEAD", "--output", "<external-evidence-directory>/archive-audit.json"],
+      "scope_sha": "3e41cbc315b6790279199ef3251e6d3122a60c12",
+      "exit_code": 1,
+      "result": "FAIL: 5412 files, 5540 findings; report-only branch-attestation commit followed this audit.",
+      "start_utc": "2026-09-24T10:17:51.0957685Z",
+      "end_utc": "2026-09-24T10:17:51.0987696Z",
+      "time_source": "output JSON file creation/last-write timestamps; command-boundary markers absent",
+      "output": {"file": "release-archive-audit-final.json", "bytes": 2363348, "sha256": "854ab0224cab8c9aabab9dd529dbe636be0f00bef0fb91927506e37026e11f62"}
+    },
+    {
+      "id": "SUPPLEMENTAL-GIT-HISTORY-AUDIT",
+      "argv": ["python", "scripts/audit_git_history.py", "--output", "<external-evidence-directory>/git-history-audit.json"],
+      "exit_code": 1,
+      "result": "WARNING: 2161 reachable commits, 1351 identity/path findings; history was not rewritten.",
+      "start_utc": "2026-09-24T10:07:34.1031884Z",
+      "end_utc": "2026-09-24T10:07:34.6007987Z",
+      "time_source": "explicit log markers",
+      "output": {"file": "git-history-audit-final.log", "bytes": 159, "sha256": "4c0661e104858847a351e754379d849ff7eb593eed941d20658fba9afc7cb44c"},
+      "generated_output": {"file": "git-history-audit-final.json", "bytes": 217073, "sha256": "38859e1d343b79630e0d199decb4b513dce7173219cc538131d911663d55ee0f"}
+    }
+  ],
+  "coverage_notes": [
+    "The standard suite and engineering verify-all results failed; no failed tests were removed or reclassified.",
+    "For long commands without explicit wrapper markers, timestamps are only the output-file creation and last-write interval. They are not asserted to be exact process start/end times.",
+    "Raw logs and multi-megabyte audit JSON remain in the external local evidence store; they are not part of the Git branch.",
+    "The archive/history/readiness audits were conducted on nearby report-only snapshots; their exact scan SHA is listed where available and final post-attestation checks are recorded in the owner handoff."
+  ]
+}

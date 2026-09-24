@@ -6335,6 +6335,7 @@
     "requirements": [],
     "examples": [
       "qualification/0_2_9/wp14/wp14_r1_final.json",
+      "qualification/0_2_9/wp14/wp14_r1_command_manifest.json",
       "qualification/0_2_9/wp14/wp14_r1_release_contract.json",
       "qualification/0_2_9/progress.json",
       "qualification/0_2_9/owner_decisions.json"
