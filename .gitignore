@@ -82,3 +82,7 @@ qualification/0_2_9/wp09_hex20_r2_consistent_traction/reference_stderr.log
 
 # WP12 R4 gallery raw case outputs stay local; version only the manifest and summaries.
 qualification/0_2_9/wp12_external_vv_r4_gallery_raw/
+
+# WP13 R2 full per-case nonlinear performance results are local raw evidence;
+# version the compact execution record, hashes, report, contract, and tests.
+qualification/0_2_9/wp13_r2_multifamily/raw/

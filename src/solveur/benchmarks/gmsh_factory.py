@@ -13,6 +13,83 @@ from solveur.core.errors import InfrastructureError, MeshValidationError
 class BenchmarkMeshFactory:
     """Generate small reviewable MSH 4.1 meshes with named physical groups."""
 
+    def box_hexa(
+        self,
+        path: str | Path,
+        *,
+        length: float,
+        width: float,
+        height: float,
+        cells: tuple[int, int, int],
+        order: int = 1,
+        anchors: bool = False,
+        binary: bool = False,
+    ) -> Path:
+        """Generate a structured, axis-aligned HEX8 or incomplete HEX20 block."""
+        gmsh = _gmsh()
+        target = _target(path)
+        if min(length, width, height) <= 0.0:
+            raise ValueError("Hexahedral benchmark dimensions must be positive.")
+        if len(cells) != 3 or any(int(value) != value or int(value) <= 0 for value in cells):
+            raise ValueError("Hexahedral benchmark cells must be three positive integers.")
+        if order not in {1, 2}:
+            raise ValueError("Hexahedral benchmark order must be 1 (HEX8) or 2 (HEX20).")
+        divisions = tuple(int(value) for value in cells)
+
+        gmsh.initialize(["qf_solver_benchmark", "-nopopup"])
+        try:
+            _options(gmsh)
+            gmsh.model.add("qf_solver_structured_hexa_block")
+            volume = gmsh.model.occ.addBox(0.0, 0.0, 0.0, length, width, height)
+            gmsh.model.occ.synchronize()
+            surfaces = [
+                tag for dimension, tag in gmsh.model.getBoundary([(3, volume)], oriented=False) if dimension == 2
+            ]
+            x_min = min(surfaces, key=lambda tag: gmsh.model.occ.getCenterOfMass(2, tag)[0])
+            x_max = max(surfaces, key=lambda tag: gmsh.model.occ.getCenterOfMass(2, tag)[0])
+            _physical(gmsh, 3, [volume], "domain")
+            _physical(gmsh, 2, [x_min], "x_min")
+            _physical(gmsh, 2, [x_max], "x_max")
+
+            # Gmsh's entity bounding boxes include a small geometric tolerance.
+            tolerance = 1.0e-6 * max(length, width, height, 1.0)
+            for _, curve in gmsh.model.getEntities(1):
+                xmin, ymin, zmin, xmax, ymax, zmax = gmsh.model.getBoundingBox(1, curve)
+                spans = np.asarray((xmax - xmin, ymax - ymin, zmax - zmin), dtype=float)
+                active_axes = np.flatnonzero(spans > tolerance)
+                if active_axes.size != 1:
+                    raise MeshValidationError(f"Unable to classify structured hexa curve {curve}.")
+                axis = int(active_axes[0])
+                gmsh.model.mesh.setTransfiniteCurve(curve, divisions[axis] + 1)
+            for surface in surfaces:
+                gmsh.model.mesh.setTransfiniteSurface(surface)
+                gmsh.model.mesh.setRecombine(2, surface)
+            gmsh.model.mesh.setTransfiniteVolume(volume)
+
+            if anchors:
+                points = [tag for _, tag in gmsh.model.getEntities(0)]
+                _physical(gmsh, 0, [_nearest_point(gmsh, points, (0.0, 0.0, 0.0))], "anchor_origin")
+                _physical(gmsh, 0, [_nearest_point(gmsh, points, (0.0, width, 0.0))], "anchor_xy")
+
+            gmsh.model.mesh.generate(3)
+            if order == 2:
+                gmsh.option.setNumber("Mesh.SecondOrderIncomplete", 1)
+                gmsh.model.mesh.setOrder(2)
+                gmsh.model.mesh.optimize("HighOrder")
+
+            element_types, _, _ = gmsh.model.mesh.getElements(3)
+            expected_nodes = 8 if order == 1 else 20
+            properties = [gmsh.model.mesh.getElementProperties(int(tag)) for tag in element_types]
+            if not properties or any(
+                "hexahedron" not in str(item[0]).lower() or int(item[3]) != expected_nodes for item in properties
+            ):
+                observed = [(str(item[0]), int(item[3])) for item in properties]
+                raise MeshValidationError(f"Expected only HEX{expected_nodes} volume elements; observed {observed}.")
+            _write(gmsh, target, binary=binary)
+            return target
+        finally:
+            gmsh.finalize()
+
     def box_tetra(
         self,
         path: str | Path,
@@ -23,6 +100,7 @@ class BenchmarkMeshFactory:
         mesh_size: float,
         order: int = 1,
         anchors: bool = False,
+        include_anchor_x: bool = True,
         binary: bool = False,
     ) -> Path:
         gmsh = _gmsh()
@@ -46,7 +124,8 @@ class BenchmarkMeshFactory:
             if anchors:
                 points = [tag for _, tag in gmsh.model.getEntities(0)]
                 _physical(gmsh, 0, [_nearest_point(gmsh, points, (0.0, 0.0, 0.0))], "anchor_origin")
-                _physical(gmsh, 0, [_nearest_point(gmsh, points, (length, 0.0, 0.0))], "anchor_x")
+                if include_anchor_x:
+                    _physical(gmsh, 0, [_nearest_point(gmsh, points, (length, 0.0, 0.0))], "anchor_x")
                 _physical(gmsh, 0, [_nearest_point(gmsh, points, (0.0, width, 0.0))], "anchor_xy")
             gmsh.option.setNumber("Mesh.MeshSizeMin", mesh_size)
             gmsh.option.setNumber("Mesh.MeshSizeMax", mesh_size)
@@ -274,7 +353,9 @@ class BenchmarkMeshFactory:
             _physical(gmsh, 3, [volume_entity], "domain")
             for offset, (name, element_type, connectivity) in enumerate(faces, start=10):
                 entity = gmsh.model.addDiscreteEntity(2, offset)
-                gmsh.model.mesh.addElementsByType(entity, element_type, [100 + offset], [node + 1 for node in connectivity])
+                gmsh.model.mesh.addElementsByType(
+                    entity, element_type, [100 + offset], [node + 1 for node in connectivity]
+                )
                 _physical(gmsh, 2, [entity], name)
             point_entity = gmsh.model.addDiscreteEntity(0, 20)
             gmsh.model.mesh.addElementsByType(point_entity, 15, [200], [5])
