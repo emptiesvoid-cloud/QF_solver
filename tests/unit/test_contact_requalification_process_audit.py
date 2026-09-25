@@ -289,15 +289,11 @@ def test_wp07_replay_audit_rejects_tampered_fail_closed_evidence(tmp_path: Path)
         )
 
 
-def test_wp07_contact_r2_1_binding_discloses_inherited_wp07_source_changes() -> None:
+def test_wp07_contact_r2_1_binding_rejects_unbound_source_mechanics_change() -> None:
     binding = wp07_binding.load_binding(wp07_binding.CONTACT_REQUAL_R2_BINDING_PATH)
 
-    wp07_binding.validate_binding(binding)
-
-    assert (
-        binding["source_lineage_disclosure"]["source_contains_wp07_candidate_changes_since_governing_base"]
-        is True
-    )
+    with pytest.raises(ValueError, match="production-source lineage differs"):
+        wp07_binding.validate_binding(binding)
 
 
 def test_wp07_contact_r2_3_replay_gate_path_is_relative_and_uses_fresh_roots() -> None:
