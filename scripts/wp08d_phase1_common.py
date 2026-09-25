@@ -33,6 +33,7 @@ CONTACT_REQUALIFICATION_CONTRACT_SHA256 = (
     "f759bea7665e905bd672d8bb2a7f08381322bbaf54b8e8531a6d07d6ef0f5eab"
 )
 CONTACT_REQUALIFICATION_OWNER_TOKEN = "OWNER_AUTHORIZED_WP07_WP08_CONTACT_REQUALIFICATION"
+CONTACT_REQUALIFICATION_REQUIRED_BRANCH = "codex/contact-active-set-remediation"
 UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED = "UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED"
 PHASE1_AUTHORIZATION_TOKEN = "OWNER_AUTHORIZED_WP08D_PHASE1_EXECUTION"
 ARTIFACT_ROOT = Path("qualification/0_2_9/wp08d_phase1")
@@ -351,7 +352,7 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
             "owner_authorized": True,
             "work_package": "WP08-D",
             "scope": "WP08-D_CONTACT_MECHANICS_REQUALIFICATION",
-            "branch": REQUIRED_BRANCH,
+            "branch": CONTACT_REQUALIFICATION_REQUIRED_BRANCH,
             "execution_sha": state["head"],
             "requalification_contract_sha256": CONTACT_REQUALIFICATION_CONTRACT_SHA256,
             "parent_contract_digest": CONTRACT_DIGEST,
@@ -359,7 +360,7 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
             "governing_base_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
             "working_tree_clean": True,
         }
-        if state["branch"] != REQUIRED_BRANCH or state["dirty"] or any(
+        if state["branch"] != CONTACT_REQUALIFICATION_REQUIRED_BRANCH or state["dirty"] or any(
             payload.get(key) != value for key, value in required_fields.items()
         ):
             raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)

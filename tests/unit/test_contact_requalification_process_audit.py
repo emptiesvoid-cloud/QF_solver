@@ -12,6 +12,7 @@ import pytest
 
 from scripts import run_wp08d_contact_requalification as wp08_campaign
 from scripts import wp07d_execution_binding as wp07_binding
+from scripts import wp08d_phase1_common as wp08_common
 
 
 def _sha256(path: Path) -> str:
@@ -111,6 +112,39 @@ def test_wp08_authorization_paths_use_linked_worktree_git_dir(
     assert ".git" not in owner_path.parts
     assert owner_path.name.endswith("a" * 40 + ".json")
     assert "_m1_replay_authorization.json" in case_path.name
+
+
+def test_wp08_source_requalification_auth_uses_its_frozen_branch(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    state = {
+        **wp08_common.git_state(),
+        "branch": wp08_common.CONTACT_REQUALIFICATION_REQUIRED_BRANCH,
+        "dirty": False,
+    }
+    assert state["branch"] != wp08_common.REQUIRED_BRANCH
+    payload = {
+        "authorization": wp08_common.CONTACT_REQUALIFICATION_OWNER_TOKEN,
+        "owner_authorized": True,
+        "work_package": "WP08-D",
+        "scope": "WP08-D_CONTACT_MECHANICS_REQUALIFICATION",
+        "branch": wp08_common.CONTACT_REQUALIFICATION_REQUIRED_BRANCH,
+        "execution_sha": state["head"],
+        "requalification_contract_sha256": wp08_common.CONTACT_REQUALIFICATION_CONTRACT_SHA256,
+        "parent_contract_digest": wp08_common.CONTRACT_DIGEST,
+        "policy_digest": wp08_common.POLICY_DIGEST,
+        "governing_base_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+        "working_tree_clean": True,
+        "execution_kind": "PRIMARY_PRODUCTION",
+        "structural_solves_allowed": True,
+        "independent_references_allowed": False,
+        "replay_allowed": False,
+    }
+    authorization_path = tmp_path / "wp08-owner-authorization.json"
+    authorization_path.write_text(json.dumps(payload), encoding="utf-8")
+    monkeypatch.setattr(wp08_common, "git_state", lambda: state)
+
+    assert wp08_common._authorization_payload(authorization_path) == payload
 
 
 def _wp07_gate(root: Path) -> dict[str, Any]:
