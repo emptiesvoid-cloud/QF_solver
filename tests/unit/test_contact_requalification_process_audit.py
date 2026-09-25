@@ -96,6 +96,23 @@ def test_wp08_campaign_process_audit_rejects_wrong_order_and_overlap(
     assert any("overlap" in error for error in audit["errors"])
 
 
+def test_wp08_authorization_paths_use_linked_worktree_git_dir(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    metadata_dir = tmp_path / "common-git-dir" / "worktrees" / "campaign"
+    metadata_dir.mkdir(parents=True)
+    monkeypatch.setattr(wp08_campaign, "_git", lambda *args: str(metadata_dir))
+
+    owner_path = wp08_campaign._owner_authorization_path("a" * 40)
+    case_path = wp08_campaign._case_authorization_path("a" * 40, "M1", "REPLAY")
+
+    assert owner_path.parent == metadata_dir.resolve()
+    assert case_path.parent == metadata_dir.resolve()
+    assert ".git" not in owner_path.parts
+    assert owner_path.name.endswith("a" * 40 + ".json")
+    assert "_m1_replay_authorization.json" in case_path.name
+
+
 def _wp07_gate(root: Path) -> dict[str, Any]:
     run_root = Path("qualification/0_2_9/wp07d_contact_requalification_r2/runs")
     routes = wp07_binding.EXPECTED_ROUTES

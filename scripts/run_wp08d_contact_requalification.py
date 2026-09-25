@@ -49,6 +49,22 @@ def _git(*args: str) -> str:
     return completed.stdout.strip()
 
 
+def _git_dir() -> Path:
+    """Resolve the actual Git metadata directory, including linked worktrees."""
+
+    return Path(_git("rev-parse", "--absolute-git-dir")).resolve()
+
+
+def _owner_authorization_path(execution_sha: str) -> Path:
+    return _git_dir() / f"wp08_contact_requalification_owner_authorization_{execution_sha}.json"
+
+
+def _case_authorization_path(execution_sha: str, mesh: str, execution_kind: str) -> Path:
+    return _git_dir() / (
+        f"wp08_contact_requalification_{execution_sha}_{mesh.lower()}_{execution_kind.lower()}_authorization.json"
+    )
+
+
 def _json(path: Path) -> dict[str, Any]:
     value = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(value, dict):
@@ -152,10 +168,10 @@ def _validate(contract: dict[str, Any], authorization: dict[str, Any], output: P
         raise PermissionError("WP08-D output must use the frozen, dedicated requalification evidence root.")
     replay_auth_meshes = tuple(contract.get("campaign", {}).get("replay_meshes", []))
     expected_auth_paths = [
-        ROOT / ".git" / f"wp08_contact_requalification_{mesh}_primary_production_authorization.json"
+        _case_authorization_path(execution_sha, mesh, "PRIMARY_PRODUCTION")
         for mesh in MESHES
     ] + [
-        ROOT / ".git" / f"wp08_contact_requalification_{mesh}_replay_authorization.json"
+        _case_authorization_path(execution_sha, mesh, "REPLAY")
         for mesh in replay_auth_meshes
     ]
     existing_auth = [str(path) for path in expected_auth_paths if path.exists()]
@@ -357,7 +373,7 @@ def _run(output: Path, owner_authorization_path: Path, execution_sha: str) -> di
             "owner_decision_sha256": owner_decision["sha256"],
             "authorization_scope": {"diagnostic_load_step_limit": None},
         }
-        path = ROOT / ".git" / f"wp08_contact_requalification_{mesh}_{execution_kind.lower()}_authorization.json"
+        path = _case_authorization_path(execution_sha, mesh, execution_kind)
         if path.exists():
             raise FileExistsError(f"Refusing to overwrite prior WP08-D case authorization: {path}")
         _write_json(path, payload)
@@ -538,8 +554,8 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     try:
         if args.issue_owner_authorization:
-            git_dir = Path(_git("rev-parse", "--absolute-git-dir"))
-            auth_path = git_dir / "wp08_contact_requalification_owner_authorization.json"
+            execution_sha = _git("rev-parse", "HEAD")
+            auth_path = _owner_authorization_path(execution_sha)
             record = _issue_owner_authorization(auth_path)
             print(json.dumps({"status": record["status"], "execution_sha": record["execution_sha"], "authorization_path": str(auth_path)}, indent=2))
             return 0
