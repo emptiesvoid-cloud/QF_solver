@@ -11,6 +11,7 @@ from typing import Any
 import pytest
 
 from scripts import run_wp08d_contact_requalification as wp08_campaign
+from scripts import run_wp07d_contact_requalification_r2 as wp07_campaign
 from scripts import run_wp07d_structural as wp07_structural
 from scripts import wp07d_execution_binding as wp07_binding
 from scripts import wp08d_phase1_common as wp08_common
@@ -224,6 +225,15 @@ def test_wp07_contact_r2_1_binding_discloses_inherited_wp07_source_changes() -> 
         binding["source_lineage_disclosure"]["source_contains_wp07_candidate_changes_since_governing_base"]
         is True
     )
+
+
+def test_wp07_contact_r2_2_replay_gate_path_is_relative_and_uses_fresh_roots() -> None:
+    expected_gate = wp07_binding.CONTACT_REQUAL_R2_REPLAY_GATE_PATH.relative_to(wp07_binding.ROOT)
+
+    assert wp07_campaign.REPLAY_GATE == expected_gate
+    assert wp07_campaign.RUN_ROOT == wp07_binding.CONTACT_REQUAL_R2_RUN_ROOT
+    assert wp07_campaign.AUTH_ROOT == wp07_binding.CONTACT_REQUAL_R2_AUTH_ROOT
+    assert expected_gate.as_posix().endswith("replay_authorization_gate_r2_2.json")
 
 
 def test_wp07_penalty_summary_telemetry_is_explicitly_post_solve() -> None:

@@ -94,11 +94,11 @@ CONTACT_REQUAL_R2_REPLAY_GATE_PATH = (
     / "qualification"
     / "0_2_9"
     / "wp07d_contact_requalification_r2"
-    / "replay_authorization_gate_r2_1.json"
+    / "replay_authorization_gate_r2_2.json"
 )
-CONTACT_REQUAL_R2_RUN_ROOT = Path("qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_1")
+CONTACT_REQUAL_R2_RUN_ROOT = Path("qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_2")
 CONTACT_REQUAL_R2_AUTH_ROOT = Path(
-    "qualification/0_2_9/wp07d_contact_requalification_r2/authorizations_r2_1"
+    "qualification/0_2_9/wp07d_contact_requalification_r2/authorizations_r2_2"
 )
 UNAUTHORIZED_EXECUTION = "WP07D_UNAUTHORIZED_EXECUTION_FAIL_CLOSED"
 EXPECTED_ROUTES = ("ACTIVE_SET", "PENALTY")

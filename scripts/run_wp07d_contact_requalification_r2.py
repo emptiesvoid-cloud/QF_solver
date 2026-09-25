@@ -43,9 +43,9 @@ from scripts.wp07d_execution_binding import (  # noqa: E402
 ARTIFACT_ROOT = Path("qualification/0_2_9/wp07d_contact_requalification_r2")
 RUN_ROOT = CONTACT_REQUAL_R2_RUN_ROOT
 AUTH_ROOT = CONTACT_REQUAL_R2_AUTH_ROOT
-REPLAY_GATE = CONTACT_REQUAL_R2_REPLAY_GATE_PATH
-FINAL_REPORT = ARTIFACT_ROOT / "analysis_final_r2_1.json"
-PROGRESS = ARTIFACT_ROOT / "progress_r2_1.json"
+REPLAY_GATE = CONTACT_REQUAL_R2_REPLAY_GATE_PATH.relative_to(ROOT)
+FINAL_REPORT = ARTIFACT_ROOT / "analysis_final_r2_2.json"
+PROGRESS = ARTIFACT_ROOT / "progress_r2_2.json"
 
 
 def _utc_now() -> str:
