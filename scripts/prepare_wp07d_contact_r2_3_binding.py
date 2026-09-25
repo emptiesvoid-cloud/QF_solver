@@ -10,11 +10,16 @@ from __future__ import annotations
 import hashlib
 import json
 import subprocess
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from scripts.wp07d_execution_binding import (
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.wp07d_execution_binding import (  # noqa: E402
     CONTACT_REQUAL_R2_2_BINDING_PATH,
     CONTACT_REQUAL_R2_3_BINDING_PATH,
     CONTACT_REQUAL_R2_3_CONTRACT_PATH,
@@ -25,7 +30,6 @@ from scripts.wp07d_execution_binding import (
     _file_sha256,
 )
 
-ROOT = Path(__file__).resolve().parents[1]
 BASE_SHA = "b2485f98260c7ca9892997eefa3a327637d83cd3"
 POLICY_DIGEST = "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
 PREVIOUS_EXECUTION_SHA = "7541ff9701511d6dc692b98d3dd578288cce4550"
@@ -66,6 +70,13 @@ def build() -> dict[str, Any]:
         raise PermissionError("R2.3 freeze preparation requires a clean source checkout.")
     head = str(_git("rev-parse", "HEAD"))
     _git("merge-base", "--is-ancestor", PREVIOUS_EXECUTION_SHA, head)
+    correction_commits = {
+        str(_git("rev-list", "-1", head, "--", source_path))
+        for source_path in EXPECTED_INCREMENTAL_SOURCE_PATHS
+    }
+    if len(correction_commits) != 1:
+        raise ValueError(f"The four R2.3 source changes must share one correction commit: {correction_commits}")
+    correction_commit = correction_commits.pop()
     incremental_paths = str(
         _git("diff", "--name-only", PREVIOUS_EXECUTION_SHA, head, "--", "src")
     ).splitlines()
@@ -102,7 +113,7 @@ def build() -> dict[str, Any]:
     contract["source_identity"] = {
         "authorized_base_sha": BASE_SHA,
         "previous_execution_sha": PREVIOUS_EXECUTION_SHA,
-        "source_correction_commit": head,
+        "source_correction_commit": correction_commit,
         "execution_sha_semantics": "Exact final R2.3 freeze commit is supplied in each generated per-case authorization and runner process manifest.",
         "execution_branch": "codex/wp07d-penalty-r2-5",
     }
@@ -121,7 +132,7 @@ def build() -> dict[str, Any]:
         "failure_behavior": "If no canonical or supplemental candidate satisfies the unchanged merit rule, preserve the original fail-closed line-search failure.",
     }
     contract["mechanics_requalification"]["additional_change"] = {
-        "change_commit": head,
+        "change_commit": correction_commit,
         "classification": "CONTACT_EVENT_AWARE_GLOBALIZATION_CORRECTION",
         "changed_production_paths": EXPECTED_INCREMENTAL_SOURCE_PATHS,
         "mechanics_changed": True,
@@ -191,7 +202,7 @@ def build() -> dict[str, Any]:
             },
             "previous_source_correction": {
                 "execution_sha": PREVIOUS_EXECUTION_SHA,
-                "corrected_source_commit": head,
+                "corrected_source_commit": correction_commit,
                 "failure_status": "FAIL_CLOSED_PENALTY_LINE_SEARCH_FAILURE",
             },
             "source_correction": {
@@ -201,7 +212,7 @@ def build() -> dict[str, Any]:
                 "acceptance_criterion_changed": False,
                 "contact_residual_or_tangent_law_changed": False,
                 "thresholds_or_physical_inputs_changed": False,
-                "commit": head,
+                "commit": correction_commit,
             },
             "source_correction_addendum": {
                 "path": ADDENDUM_PATH.as_posix(),
@@ -217,7 +228,7 @@ def build() -> dict[str, Any]:
                 "production_source_diff_sha256_since_governing_base": hashlib.sha256(base_diff).hexdigest(),
                 "requalification_adds_mechanics_change": True,
                 "source_contains_wp07_candidate_changes_since_governing_base": True,
-                "source_correction_commit": head,
+                "source_correction_commit": correction_commit,
                 "source_correction_classification": "CONTACT_EVENT_AWARE_GLOBALIZATION_CORRECTION",
             },
             "invariants": {
@@ -237,7 +248,7 @@ def build() -> dict[str, Any]:
     _write_new(CONTACT_REQUAL_R2_3_BINDING_PATH, binding)
     return {
         "status": "PASS_R2_3_CONTRACT_AND_BINDING_PREPARED_NO_SOLVES_RUN",
-        "source_correction_commit": head,
+        "source_correction_commit": correction_commit,
         "contract_sha256": contract_sha,
         "owner_decision_sha256": owner_sha,
         "binding_sha256": _file_sha256(CONTACT_REQUAL_R2_3_BINDING_PATH),
