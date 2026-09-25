@@ -31,7 +31,7 @@ REQUIRED_BRANCH = "codex/contact-active-set-remediation"
 MESHES = ("M1", "M2", "M3")
 OWNER_TOKEN = "OWNER_AUTHORIZED_WP07_WP08_CONTACT_REQUALIFICATION"
 OWNER_DECISION_PATH = ROOT / "qualification/0_2_9/wp07d_contact_requalification_r2/owner_execution_decision.json"
-DEFAULT_OUTPUT_ROOT = ROOT / "qualification/0_2_9/wp08d_contact_requalification_r1_runs/raw_retry_1"
+DEFAULT_OUTPUT_ROOT = ROOT / "qualification/0_2_9/wp08d_contact_requalification_r1_runs/raw_retry_2"
 
 
 def _sha256(path: Path) -> str:

@@ -76,7 +76,11 @@ FORMAL_REBIND_R1_ARTIFACT_ID = "QF-029-WP07-D-EXECUTION-BINDING-FORMAL-REBIND-R1
 FORMAL_REBIND_R1_TOKEN = "OWNER_AUTHORIZED_WP07D_FORMAL_REBIND_R1"
 CONTACT_REQUAL_R2_ARTIFACT_ID = "QF-029-WP07-D-EXECUTION-BINDING-CONTACT-R2-001"
 CONTACT_REQUAL_R2_BINDING_PATH = (
-    ROOT / "qualification" / "0_2_9" / "wp07d_contact_requalification_r2" / "execution_binding.json"
+    ROOT
+    / "qualification"
+    / "0_2_9"
+    / "wp07d_contact_requalification_r2"
+    / "execution_binding_r2_1.json"
 )
 CONTACT_REQUAL_R2_CONTRACT_PATH = (
     ROOT / "qualification" / "0_2_9" / "wp07d_contact_requalification_r2" / "contact_requalification_contract.json"
@@ -86,7 +90,15 @@ CONTACT_REQUAL_R2_OWNER_DECISION_PATH = (
 )
 CONTACT_REQUAL_R2_TOKEN = "OWNER_AUTHORIZED_WP07D_CONTACT_REQUALIFICATION_R2"
 CONTACT_REQUAL_R2_REPLAY_GATE_PATH = (
-    ROOT / "qualification" / "0_2_9" / "wp07d_contact_requalification_r2" / "replay_authorization_gate.json"
+    ROOT
+    / "qualification"
+    / "0_2_9"
+    / "wp07d_contact_requalification_r2"
+    / "replay_authorization_gate_r2_1.json"
+)
+CONTACT_REQUAL_R2_RUN_ROOT = Path("qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_1")
+CONTACT_REQUAL_R2_AUTH_ROOT = Path(
+    "qualification/0_2_9/wp07d_contact_requalification_r2/authorizations_r2_1"
 )
 UNAUTHORIZED_EXECUTION = "WP07D_UNAUTHORIZED_EXECUTION_FAIL_CLOSED"
 EXPECTED_ROUTES = ("ACTIVE_SET", "PENALTY")
@@ -907,8 +919,8 @@ def _validate_contact_r2_replay_gate(
         raise PermissionError("WP07-D contact R2 replay gate lacks complete M1/M2/M3 coverage.")
     run_root = Path(str(gate.get("run_root", "")))
     auth_root = Path(str(gate.get("authorization_root", "")))
-    expected_run_root = Path("qualification/0_2_9/wp07d_contact_requalification_r2/runs")
-    expected_auth_root = Path("qualification/0_2_9/wp07d_contact_requalification_r2/authorizations")
+    expected_run_root = CONTACT_REQUAL_R2_RUN_ROOT
+    expected_auth_root = CONTACT_REQUAL_R2_AUTH_ROOT
     if run_root != expected_run_root or auth_root != expected_auth_root:
         raise PermissionError("WP07-D contact R2 replay gate uses an unexpected artifact root.")
     _validate_contact_r2_process_evidence(gate, root=root, run_root=run_root)

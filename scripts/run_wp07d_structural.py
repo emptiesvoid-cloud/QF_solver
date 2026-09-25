@@ -107,6 +107,59 @@ def _sanitize_known_nonfinite_result_diagnostics(
     return sanitized, unresolved
 
 
+def _emit_post_solve_nonlinear_summary(monitor: Any, diagnostics: Mapping[str, Any]) -> dict[str, Any]:
+    """Emit truthful per-increment telemetry when this solver API has no live observer hook."""
+
+    increments = diagnostics.get("increments")
+    if not isinstance(increments, list):
+        return {"mode": "POST_SOLVE_SUMMARY_UNAVAILABLE", "increment_count": 0, "newton_iterations": 0}
+
+    total_iterations = 0
+    emitted = 0
+    for index, increment in enumerate(increments, start=1):
+        if not isinstance(increment, Mapping):
+            continue
+        step_value = increment.get("increment", index)
+        step = step_value if isinstance(step_value, int) and not isinstance(step_value, bool) else index
+        iteration_value = increment.get("iterations", 0)
+        iterations = (
+            iteration_value
+            if isinstance(iteration_value, int) and not isinstance(iteration_value, bool)
+            else 0
+        )
+        total_iterations += iterations
+        load_factor = increment.get("load_factor")
+        residual = increment.get("relative_residual")
+        monitor.observe_nonlinear(
+            {
+                "event": "ITERATION",
+                "load_step": step,
+                "newton_iteration": iterations,
+                "target_load_factor": load_factor,
+                "relative_residual": residual,
+                "telemetry_sampling": "POST_SOLVE_INCREMENT_SUMMARY",
+            },
+            source="runner_post_solve_summary",
+        )
+        monitor.observe_nonlinear(
+            {
+                "event": "STEP_ACCEPTED",
+                "load_step": step,
+                "current_load_factor": load_factor,
+                "iterations": iterations,
+                "relative_residual": residual,
+                "telemetry_sampling": "POST_SOLVE_INCREMENT_SUMMARY",
+            },
+            source="runner_post_solve_summary",
+        )
+        emitted += 1
+    return {
+        "mode": "POST_SOLVE_INCREMENT_SUMMARY",
+        "increment_count": emitted,
+        "newton_iterations": total_iterations,
+    }
+
+
 def _git(*arguments: str) -> str:
     completed = subprocess.run(["git", *arguments], cwd=ROOT, check=True, capture_output=True, text=True)
     return completed.stdout.strip()
@@ -609,10 +662,9 @@ def execute(
                     "dofs": dofs.ndof,
                 },
             )
-            result = GeometricNonlinearStaticSolver().solve(
-                model,
-                telemetry_observer=monitor.observe_nonlinear,
-            )
+            monitor.set_progress(phase="SOLVE", telemetry_mode="HEARTBEAT_WITH_POST_SOLVE_INCREMENT_SUMMARY")
+            result = GeometricNonlinearStaticSolver().solve(model)
+            telemetry_summary = _emit_post_solve_nonlinear_summary(monitor, result.solver)
         monitor.set_progress(phase="POSTPROCESSING")
         raw_path = output / "result.json"
         payload = result.to_dict()
@@ -633,6 +685,8 @@ def execute(
             payload["wp07d_contract_provenance"] = contract_identity
             payload["wp07d_contract_provenance"]["owner_decision"] = binding["owner_decision"]
         payload["wp07d_execution_kind"] = execution_kind
+        if route == "PENALTY":
+            payload["wp07d_runner_telemetry"] = telemetry_summary
         monitor.set_progress(phase="RESULT_ARCHIVE")
         sanitized_values, unresolved_values = _sanitize_known_nonfinite_result_diagnostics(payload)
         serialization_diagnostic: dict[str, Any] | None = None
@@ -697,6 +751,9 @@ def execute(
         "telemetry_file": "telemetry.jsonl",
         "telemetry_file_sha256": _file_sha256(output / "telemetry.jsonl"),
         "telemetry_status": monitor.telemetry_status,
+        "telemetry_sampling_mode": (
+            "LIVE_SOLVER_EVENTS" if route == "ACTIVE_SET" else "HEARTBEAT_WITH_POST_SOLVE_INCREMENT_SUMMARY"
+        ),
         "progress_file": "progress.json",
         "progress_file_sha256": _file_sha256(output / "progress.json"),
         "heartbeat_interval_seconds": heartbeat_interval,

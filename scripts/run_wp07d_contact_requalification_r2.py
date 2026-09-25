@@ -21,7 +21,10 @@ if str(ROOT) not in sys.path:
 
 from scripts.wp07d_execution_binding import (  # noqa: E402
     CONTACT_REQUAL_R2_BINDING_PATH,
+    CONTACT_REQUAL_R2_AUTH_ROOT,
     CONTACT_REQUAL_R2_OWNER_DECISION_PATH,
+    CONTACT_REQUAL_R2_RUN_ROOT,
+    CONTACT_REQUAL_R2_REPLAY_GATE_PATH,
     CONTACT_REQUAL_R2_TOKEN,
     EXPECTED_LEVELS,
     EXPECTED_ROUTES,
@@ -38,10 +41,11 @@ from scripts.wp07d_execution_binding import (  # noqa: E402
 )
 
 ARTIFACT_ROOT = Path("qualification/0_2_9/wp07d_contact_requalification_r2")
-RUN_ROOT = ARTIFACT_ROOT / "runs"
-AUTH_ROOT = ARTIFACT_ROOT / "authorizations"
-REPLAY_GATE = ARTIFACT_ROOT / "replay_authorization_gate.json"
-FINAL_REPORT = ARTIFACT_ROOT / "analysis_final.json"
+RUN_ROOT = CONTACT_REQUAL_R2_RUN_ROOT
+AUTH_ROOT = CONTACT_REQUAL_R2_AUTH_ROOT
+REPLAY_GATE = CONTACT_REQUAL_R2_REPLAY_GATE_PATH
+FINAL_REPORT = ARTIFACT_ROOT / "analysis_final_r2_1.json"
+PROGRESS = ARTIFACT_ROOT / "progress_r2_1.json"
 
 
 def _utc_now() -> str:
@@ -196,7 +200,7 @@ def _invoke(label: str, command: list[str], output: Path, *, execution_sha: str,
 
 def _progress(phase: str, statuses: Mapping[str, Any]) -> None:
     _write_json(
-        ROOT / ARTIFACT_ROOT / "progress.json",
+        ROOT / PROGRESS,
         {"status": "RUNNING", "phase": phase, "updated_utc": _utc_now(), "case_statuses": dict(statuses)},
         overwrite=True,
     )
@@ -217,7 +221,7 @@ def run_campaign(execution_sha: str) -> dict[str, Any]:
         ROOT / AUTH_ROOT,
         ROOT / REPLAY_GATE,
         ROOT / FINAL_REPORT,
-        ROOT / ARTIFACT_ROOT / "progress.json",
+        ROOT / PROGRESS,
     )
     existing = [path.as_posix() for path in reserved_outputs if path.exists()]
     if existing:
@@ -400,7 +404,7 @@ def run_campaign(execution_sha: str) -> dict[str, Any]:
         raise FileExistsError(f"Refusing to overwrite final WP07-D R2 report: {FINAL_REPORT}")
     analysis.write_new(ROOT / FINAL_REPORT, final)
     _write_json(
-        ROOT / ARTIFACT_ROOT / "progress.json",
+        ROOT / PROGRESS,
         {"status": final.get("status"), "phase": "RUN_END", "updated_utc": _utc_now(), "case_statuses": statuses},
         overwrite=True,
     )

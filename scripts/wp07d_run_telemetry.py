@@ -289,8 +289,10 @@ class WP07DRunMonitor:
     def set_progress(self, **values: Any) -> None:
         self._progress.set_progress(**values)
 
-    def observe_nonlinear(self, event: Mapping[str, object]) -> None:
-        """Adapt the solver's established nonlinear observer to the WP15 envelope."""
+    def observe_nonlinear(
+        self, event: Mapping[str, object], *, source: str = "geometric_nonlinear_observer"
+    ) -> None:
+        """Adapt live observer events or explicitly identified summaries to the WP15 envelope."""
 
         raw_name = event.get("event")
         event_name = raw_name if isinstance(raw_name, str) else "ITERATION"
@@ -330,7 +332,7 @@ class WP07DRunMonitor:
             step=step,
             iteration=iteration,
             load_factor=load_factor,
-            metadata={"source": "geometric_nonlinear_observer", "source_event": event_name},
+            metadata={"source": source, "source_event": event_name},
         )
 
     def __enter__(self) -> WP07DRunMonitor:

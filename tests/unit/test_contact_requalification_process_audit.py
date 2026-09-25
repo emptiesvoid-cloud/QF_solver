@@ -11,6 +11,7 @@ from typing import Any
 import pytest
 
 from scripts import run_wp08d_contact_requalification as wp08_campaign
+from scripts import run_wp07d_structural as wp07_structural
 from scripts import wp07d_execution_binding as wp07_binding
 from scripts import wp08d_phase1_common as wp08_common
 
@@ -148,7 +149,7 @@ def test_wp08_source_requalification_auth_uses_its_frozen_branch(
 
 
 def _wp07_gate(root: Path) -> dict[str, Any]:
-    run_root = Path("qualification/0_2_9/wp07d_contact_requalification_r2/runs")
+    run_root = wp07_binding.CONTACT_REQUAL_R2_RUN_ROOT
     routes = wp07_binding.EXPECTED_ROUTES
     levels = wp07_binding.EXPECTED_LEVELS
     expected_order = [
@@ -205,10 +206,69 @@ def _wp07_gate(root: Path) -> dict[str, Any]:
 
 def test_wp07_replay_gate_requires_hash_bound_serial_process_manifests(tmp_path: Path) -> None:
     gate = _wp07_gate(tmp_path)
-    run_root = Path("qualification/0_2_9/wp07d_contact_requalification_r2/runs")
+    run_root = wp07_binding.CONTACT_REQUAL_R2_RUN_ROOT
 
     wp07_binding._validate_contact_r2_process_evidence(gate, root=tmp_path, run_root=run_root)
 
     gate["sequential_process_order"].reverse()
     with pytest.raises(PermissionError, match="process order"):
         wp07_binding._validate_contact_r2_process_evidence(gate, root=tmp_path, run_root=run_root)
+
+
+def test_wp07_contact_r2_1_binding_discloses_inherited_wp07_source_changes() -> None:
+    binding = wp07_binding.load_binding(wp07_binding.CONTACT_REQUAL_R2_BINDING_PATH)
+
+    wp07_binding.validate_binding(binding)
+
+    assert (
+        binding["source_lineage_disclosure"]["source_contains_wp07_candidate_changes_since_governing_base"]
+        is True
+    )
+
+
+def test_wp07_penalty_summary_telemetry_is_explicitly_post_solve() -> None:
+    class RecordingMonitor:
+        def __init__(self) -> None:
+            self.events: list[tuple[dict[str, object], str]] = []
+
+        def observe_nonlinear(self, event: dict[str, object], *, source: str) -> None:
+            self.events.append((event, source))
+
+    monitor = RecordingMonitor()
+    summary = wp07_structural._emit_post_solve_nonlinear_summary(
+        monitor,
+        {
+            "increments": [
+                {"increment": 1, "iterations": 3, "load_factor": 0.5, "relative_residual": 1.0e-11},
+                {"increment": 2, "iterations": 4, "load_factor": 1.0, "relative_residual": 2.0e-12},
+            ]
+        },
+    )
+
+    assert summary == {
+        "mode": "POST_SOLVE_INCREMENT_SUMMARY",
+        "increment_count": 2,
+        "newton_iterations": 7,
+    }
+    assert len(monitor.events) == 4
+    assert {source for _, source in monitor.events} == {"runner_post_solve_summary"}
+    assert [event["event"] for event, _ in monitor.events] == [
+        "ITERATION",
+        "STEP_ACCEPTED",
+        "ITERATION",
+        "STEP_ACCEPTED",
+    ]
+
+
+def test_wp07_penalty_summary_reports_missing_increment_diagnostics() -> None:
+    class RecordingMonitor:
+        def observe_nonlinear(self, event: dict[str, object], *, source: str) -> None:
+            raise AssertionError("No summary event is expected without increment diagnostics.")
+
+    summary = wp07_structural._emit_post_solve_nonlinear_summary(RecordingMonitor(), {})
+
+    assert summary == {
+        "mode": "POST_SOLVE_SUMMARY_UNAVAILABLE",
+        "increment_count": 0,
+        "newton_iterations": 0,
+    }

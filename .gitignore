@@ -91,5 +91,14 @@ qualification/0_2_9/wp13_r2_multifamily/raw/
 # locally; version compact reports and hash manifests separately.
 qualification/0_2_9/wp07d_contact_requalification_r2/runs/
 qualification/0_2_9/wp07d_contact_requalification_r2/authorizations/
+qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_1/
+qualification/0_2_9/wp07d_contact_requalification_r2/authorizations_r2_1/
+qualification/0_2_9/wp07d_contact_requalification_r2/analysis_final.json
+qualification/0_2_9/wp07d_contact_requalification_r2/progress.json
+qualification/0_2_9/wp07d_contact_requalification_r2/replay_authorization_gate.json
+qualification/0_2_9/wp07d_contact_requalification_r2/analysis_final_r2_1.json
+qualification/0_2_9/wp07d_contact_requalification_r2/progress_r2_1.json
+qualification/0_2_9/wp07d_contact_requalification_r2/replay_authorization_gate_r2_1.json
 qualification/0_2_9/wp08d_contact_requalification_r1_runs/raw/
 qualification/0_2_9/wp08d_contact_requalification_r1_runs/raw_retry_1/
+qualification/0_2_9/wp08d_contact_requalification_r1_runs/raw_retry_2/

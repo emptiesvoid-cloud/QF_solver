@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "artifact_id": "QF-029-WP07-D-EXECUTION-BINDING-CONTACT-R2-001",
+  "binding_revision": "R2.1_TOOLING_PROVENANCE_REPAIR",
+  "supersedes": {
+    "path": "qualification/0_2_9/wp07d_contact_requalification_r2/execution_binding.json",
+    "sha256": "6466472b977559408cf5a8b2cea68c4834440abdcf6ea654614cad0c087fe96b"
+  },
+  "status": "FROZEN_FAIL_CLOSED_PER_CASE_AUTHORIZATION_REQUIRED",
+  "extends_binding": {
+    "path": "qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_execution_binding_formal_rebind_r1.json",
+    "sha256": "ef223ee40ed1d4d9b1c60a20c2ee2958ea4e37acd8c0265058a4a12218fcf52d"
+  },
+  "requalification_contract": {
+    "path": "qualification/0_2_9/wp07d_contact_requalification_r2/contact_requalification_contract.json",
+    "sha256": "7045a9e2afb7d84c033ae1b4e473a0e6fd5c5efa02880f0d70c0262eb9c247e0"
+  },
+  "owner_decision": {
+    "path": "qualification/0_2_9/wp07d_contact_requalification_r2/owner_execution_decision.json",
+    "sha256": "e6de753a7a433da9f56ee724c74e389126dda79e278cf02ebce20509aabb0a24"
+  },
+  "governing": {
+    "authorized_base_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+    "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
+  },
+  "authorization": {
+    "required": true,
+    "token": "OWNER_AUTHORIZED_WP07D_CONTACT_REQUALIFICATION_R2",
+    "structural_solves_allowed": false,
+    "independent_references_allowed": false,
+    "replay_allowed": false,
+    "wp07e_allowed": false
+  },
+  "invariants": {
+    "production_mechanics_changed": true,
+    "thresholds_changed": false,
+    "mesh_changed": false,
+    "loads_changed": false,
+    "contact_parameters_changed": false,
+    "fallback_policy_changed": false
+  },
+  "source_lineage_disclosure": {
+    "authorized_governing_base_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+    "changed_production_source_paths_since_governing_base": [
+      "src/solveur/contact/slip_root.py",
+      "src/solveur/contact/solver.py"
+    ],
+    "production_source_diff_sha256_since_governing_base": "43cdff84e5030518b6cc8fc821e0c2fc9db6a936bb82228b8a015989939492dc",
+    "requalification_adds_mechanics_change": true,
+    "formal_campaign_scope": "Requalify the current corrected source only; no governing-branch credit is inferred.",
+    "source_contains_wp07_candidate_changes_since_governing_base": true
+  },
+  "execution_sha": "BOUND_AFTER_R2_1_TOOLING_FREEZE_COMMIT"
+}
