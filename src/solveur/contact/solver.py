@@ -57,6 +57,72 @@ class ContactSolveState:
     applied_loads: np.ndarray
 
 
+def _surface_lumped_patch_weights(contact: FrictionlessContact, nodes: np.ndarray) -> np.ndarray:
+    """Compute normalized tributary-area weights for an explicit slave patch."""
+
+    if contact.slave_patch_nodes is None or contact.slave_patch_faces is None:
+        raise InputValidationError(
+            "surface_lumped penalty integration requires slave_nodes and slave_patch_faces."
+        )
+    slave_nodes = contact.slave_nodes
+    slave_set = set(slave_nodes)
+    if not slave_set or len(slave_set) != len(slave_nodes):
+        raise InputValidationError("A surface-lumped slave patch must contain unique slave nodes.")
+    tributary = {node: 0.0 for node in slave_nodes}
+    patch_area = 0.0
+    seen_faces: set[tuple[int, int, int]] = set()
+    for face in contact.slave_patch_faces:
+        if len(face) != 3 or len(set(face)) != 3 or any(node not in slave_set for node in face):
+            raise InputValidationError("Slave patch faces must be unique-node triangles within the slave patch.")
+        ordered_face = sorted(face)
+        canonical_face = (ordered_face[0], ordered_face[1], ordered_face[2])
+        if canonical_face in seen_faces:
+            raise InputValidationError("A surface-lumped slave patch must not repeat a face.")
+        seen_faces.add(canonical_face)
+        if any(node < 0 or node >= len(nodes) for node in face):
+            raise InputValidationError("A slave patch face references a nonexistent node.")
+        triangle = np.asarray(nodes[list(face)], dtype=float)
+        area = 0.5 * float(np.linalg.norm(np.cross(triangle[1] - triangle[0], triangle[2] - triangle[0])))
+        if not np.isfinite(area) or area <= 1.0e-14:
+            raise InputValidationError("Slave patch faces must have finite positive area.")
+        patch_area += area
+        for node in face:
+            tributary[node] += area / 3.0
+    if not np.isfinite(patch_area) or patch_area <= 1.0e-14:
+        raise InputValidationError("A surface-lumped slave patch must have positive total area.")
+    weights = np.asarray([tributary[node] / patch_area for node in slave_nodes], dtype=float)
+    if (
+        not np.all(np.isfinite(weights))
+        or np.any(weights <= 0.0)
+        or not np.isclose(float(np.sum(weights)), 1.0, rtol=1.0e-12, atol=1.0e-14)
+    ):
+        raise InputValidationError("Every slave patch node must have a positive normalized tributary weight.")
+    return weights
+
+
+def _penalty_contact_integration_weights(
+    model: FiniteElementModel,
+    expanded_contacts: list[FrictionlessContact],
+    integration: str,
+) -> np.ndarray:
+    """Return the frozen per-contact integration weights in solver order."""
+
+    if integration == "nodal":
+        return np.ones(len(expanded_contacts), dtype=float)
+    if integration != "surface_lumped":
+        raise InputValidationError("contact_penalty_integration must be 'nodal' or 'surface_lumped'.")
+    weights: list[float] = []
+    for patch in model.contacts:
+        patch_weights = _surface_lumped_patch_weights(patch, model.nodes)
+        expanded = patch.expanded_slave_contacts()
+        if len(expanded) != len(patch_weights):
+            raise InputValidationError("Surface-lumped weights do not match the expanded slave patch.")
+        weights.extend(float(weight) for weight in patch_weights)
+    if len(weights) != len(expanded_contacts):
+        raise InputValidationError("Surface-lumped weights do not match the assembled contact set.")
+    return np.asarray(weights, dtype=float)
+
+
 def assemble_penalty_contact(
     model: FiniteElementModel,
     dofs: DofManager,
@@ -102,6 +168,9 @@ def assemble_penalty_contact(
             raise InputValidationError("contact_max_penetration must be finite and positive when configured.")
     reference = values if search_mode == "updated" else None
     contacts = _expanded_contacts(model.contacts)
+    integration = str(model.analysis.parameters.get("contact_penalty_integration", "nodal")).lower()
+    integration_weights = _penalty_contact_integration_weights(model, contacts, integration)
+    effective_penalties = penalty * integration_weights
     operators = [
         _operator(contact, model.nodes, dofs, reference, finite_sliding=finite_sliding)
         for contact in contacts
@@ -118,10 +187,11 @@ def assemble_penalty_contact(
         if gap >= 0.0:
             continue
         active.append(index)
-        internal += penalty * gap * operator.vector
+        local_penalty = float(effective_penalties[index])
+        internal += local_penalty * gap * operator.vector
         support = np.flatnonzero(operator.vector)
         local_vector = operator.vector[support]
-        block = penalty * np.outer(local_vector, local_vector)
+        block = local_penalty * np.outer(local_vector, local_vector)
         local_rows, local_cols = np.nonzero(block)
         rows.extend(support[local_rows].tolist())
         cols.extend(support[local_cols].tolist())
@@ -147,6 +217,9 @@ def assemble_penalty_contact(
         "search_mode": search_mode,
         "finite_sliding": finite_sliding,
         "penalty": float(penalty),
+        "penalty_integration": integration,
+        "penalty_integration_weights": integration_weights.tolist(),
+        "effective_penalties": effective_penalties.tolist(),
         "active_contacts": active,
         "gaps": gaps,
         "master_face_indices": [int(operator.master_face_index) for operator in operators],

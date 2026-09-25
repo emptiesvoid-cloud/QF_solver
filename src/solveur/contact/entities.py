@@ -40,6 +40,7 @@ class FrictionlessContact:
     tangential_stiffness: float | None = None
     master_faces: tuple[tuple[int, int, int], ...] | None = None
     slave_patch_nodes: tuple[int, ...] | None = None
+    slave_patch_faces: tuple[tuple[int, int, int], ...] | None = None
 
     @property
     def slave_nodes(self) -> tuple[int, ...]:
