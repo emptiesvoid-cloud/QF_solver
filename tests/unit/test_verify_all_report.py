@@ -12,6 +12,7 @@ from solveur.cli import verification
 
 def test_verify_all_writes_pass_report(monkeypatch, tmp_path: Path) -> None:
     report_path = tmp_path / "verify_all.json"
+    monkeypatch.setattr(verification, "_verify_all_checkout_root", lambda: (tmp_path, []))
     monkeypatch.setattr(verification, "_verify_all_commands", lambda _profile, _scope: [["first"], ["second"]])
     monkeypatch.setattr(verification.subprocess, "run", lambda *_args, **_kwargs: SimpleNamespace(returncode=0))
 
@@ -27,6 +28,7 @@ def test_verify_all_writes_pass_report(monkeypatch, tmp_path: Path) -> None:
 def test_verify_all_writes_failure_report(monkeypatch, tmp_path: Path) -> None:
     report_path = tmp_path / "verify_all.json"
     codes = iter((0, 1))
+    monkeypatch.setattr(verification, "_verify_all_checkout_root", lambda: (tmp_path, []))
     monkeypatch.setattr(verification, "_verify_all_commands", lambda _profile, _scope: [["first"], ["bad"]])
     monkeypatch.setattr(verification.subprocess, "run", lambda *_args, **_kwargs: SimpleNamespace(returncode=next(codes)))
 
