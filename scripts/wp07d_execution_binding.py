@@ -75,6 +75,7 @@ HISTORICAL_PREPARATION_CONTRACT_SHA256 = (
 FORMAL_REBIND_R1_ARTIFACT_ID = "QF-029-WP07-D-EXECUTION-BINDING-FORMAL-REBIND-R1-001"
 FORMAL_REBIND_R1_TOKEN = "OWNER_AUTHORIZED_WP07D_FORMAL_REBIND_R1"
 CONTACT_REQUAL_R2_ARTIFACT_ID = "QF-029-WP07-D-EXECUTION-BINDING-CONTACT-R2-001"
+CONTACT_REQUAL_R2_2_ARTIFACT_ID = "QF-029-WP07-D-EXECUTION-BINDING-CONTACT-R2-002"
 CONTACT_REQUAL_R2_BINDING_PATH = (
     ROOT
     / "qualification"
@@ -99,6 +100,23 @@ CONTACT_REQUAL_R2_REPLAY_GATE_PATH = (
 CONTACT_REQUAL_R2_RUN_ROOT = Path("qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_3")
 CONTACT_REQUAL_R2_AUTH_ROOT = Path(
     "qualification/0_2_9/wp07d_contact_requalification_r2/authorizations_r2_3"
+)
+CONTACT_REQUAL_R2_2_BINDING_PATH = (
+    ROOT / "qualification" / "0_2_9" / "wp07d_contact_requalification_r2" / "execution_binding_r2_2.json"
+)
+CONTACT_REQUAL_R2_2_REPLAY_GATE_PATH = (
+    ROOT / "qualification" / "0_2_9" / "wp07d_contact_requalification_r2" / "replay_authorization_gate_r2_4.json"
+)
+CONTACT_REQUAL_R2_2_RUN_ROOT = Path("qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_4")
+CONTACT_REQUAL_R2_2_AUTH_ROOT = Path(
+    "qualification/0_2_9/wp07d_contact_requalification_r2/authorizations_r2_4"
+)
+CONTACT_REQUAL_R2_2_ARTIFACT_ROOT = Path("qualification/0_2_9/wp07d_contact_requalification_r2")
+CONTACT_REQUAL_R2_2_ROOT_CAUSE_REPORT_PATH = (
+    ROOT / "docs" / "verification" / "0_2_9" / "wp07-d-surface-lumped-penalty-remediation.md"
+)
+CONTACT_REQUAL_R2_ARTIFACT_IDS = frozenset(
+    {CONTACT_REQUAL_R2_ARTIFACT_ID, CONTACT_REQUAL_R2_2_ARTIFACT_ID}
 )
 UNAUTHORIZED_EXECUTION = "WP07D_UNAUTHORIZED_EXECUTION_FAIL_CLOSED"
 EXPECTED_ROUTES = ("ACTIVE_SET", "PENALTY")
@@ -175,6 +193,38 @@ def _load_json(path: Path) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise ValueError(f"{path.name} must contain an object.")
     return value
+
+
+def contact_requalification_profile(artifact_id: str) -> dict[str, Any]:
+    """Return immutable output paths for a specific WP07-D contact revision."""
+
+    if artifact_id == CONTACT_REQUAL_R2_ARTIFACT_ID:
+        return {
+            "binding_path": CONTACT_REQUAL_R2_BINDING_PATH,
+            "run_root": CONTACT_REQUAL_R2_RUN_ROOT,
+            "authorization_root": CONTACT_REQUAL_R2_AUTH_ROOT,
+            "replay_gate_path": CONTACT_REQUAL_R2_REPLAY_GATE_PATH,
+            "artifact_root": CONTACT_REQUAL_R2_2_ARTIFACT_ROOT,
+            "final_report": CONTACT_REQUAL_R2_2_ARTIFACT_ROOT / "analysis_final_r2_3.json",
+            "progress": CONTACT_REQUAL_R2_2_ARTIFACT_ROOT / "progress_r2_3.json",
+            "replay_gate_artifact_id": "QF-029-WP07-D-CONTACT-R2-PRE-REPLAY-GATE-001",
+            "final_report_artifact_id": "QF-029-WP07-D-CONTACT-R2-FINAL-ANALYSIS-001",
+            "authorization_revision": "R2",
+        }
+    if artifact_id == CONTACT_REQUAL_R2_2_ARTIFACT_ID:
+        return {
+            "binding_path": CONTACT_REQUAL_R2_2_BINDING_PATH,
+            "run_root": CONTACT_REQUAL_R2_2_RUN_ROOT,
+            "authorization_root": CONTACT_REQUAL_R2_2_AUTH_ROOT,
+            "replay_gate_path": CONTACT_REQUAL_R2_2_REPLAY_GATE_PATH,
+            "artifact_root": CONTACT_REQUAL_R2_2_ARTIFACT_ROOT,
+            "final_report": CONTACT_REQUAL_R2_2_ARTIFACT_ROOT / "analysis_final_r2_4.json",
+            "progress": CONTACT_REQUAL_R2_2_ARTIFACT_ROOT / "progress_r2_4.json",
+            "replay_gate_artifact_id": "QF-029-WP07-D-CONTACT-R2-2-PRE-REPLAY-GATE-001",
+            "final_report_artifact_id": "QF-029-WP07-D-CONTACT-R2-2-FINAL-ANALYSIS-001",
+            "authorization_revision": "R2.2",
+        }
+    raise ValueError(f"Unknown WP07-D contact requalification revision: {artifact_id!r}.")
 
 
 def _validate_focused_local_comparison_baseline(
@@ -340,7 +390,8 @@ def load_binding(path: Path = BINDING_PATH) -> dict[str, Any]:
     """Load the execution binding without applying defaults."""
 
     raw = _load_json(path)
-    if raw.get("artifact_id") != CONTACT_REQUAL_R2_ARTIFACT_ID:
+    artifact_id = raw.get("artifact_id")
+    if artifact_id not in CONTACT_REQUAL_R2_ARTIFACT_IDS:
         return raw
     parent_ref = raw.get("extends_binding")
     if not isinstance(parent_ref, Mapping) or not isinstance(parent_ref.get("path"), str):
@@ -372,8 +423,12 @@ def load_binding(path: Path = BINDING_PATH) -> dict[str, Any]:
     hydrated = dict(parent)
     hydrated.update(
         {
-            "artifact_id": CONTACT_REQUAL_R2_ARTIFACT_ID,
+            "artifact_id": artifact_id,
+            "binding_revision": raw.get("binding_revision"),
             "status": raw.get("status"),
+            "execution_artifacts": raw.get("execution_artifacts"),
+            "source_correction": raw.get("source_correction"),
+            "source_correction_addendum": raw.get("source_correction_addendum"),
             "owner_decision": {
                 "contract_rebind_authorized": True,
                 "file_sha256": owner_ref.get("sha256"),
@@ -415,7 +470,7 @@ def formal_contract_identity(
 ) -> dict[str, Any] | None:
     """Return the SHA-pinned formal contract identity for the formal R1 binding."""
 
-    if binding.get("artifact_id") not in {FORMAL_REBIND_R1_ARTIFACT_ID, CONTACT_REQUAL_R2_ARTIFACT_ID}:
+    if binding.get("artifact_id") not in {FORMAL_REBIND_R1_ARTIFACT_ID, *CONTACT_REQUAL_R2_ARTIFACT_IDS}:
         return None
     reference = binding.get("formal_contract")
     if not isinstance(reference, Mapping) or not isinstance(reference.get("path"), str):
@@ -729,7 +784,7 @@ def _validate_formal_replay_gate(
 ) -> None:
     """Require a raw-evidence-backed, SHA-pinned route gate before a replay solve."""
 
-    if binding.get("artifact_id") == CONTACT_REQUAL_R2_ARTIFACT_ID:
+    if binding.get("artifact_id") in CONTACT_REQUAL_R2_ARTIFACT_IDS:
         _validate_contact_r2_replay_gate(
             authorization,
             binding,
@@ -869,7 +924,9 @@ def _validate_contact_r2_replay_gate(
 ) -> None:
     """Validate the R2 replay gate against raw M1/M2/M3 production/reference evidence."""
 
-    relative_gate = CONTACT_REQUAL_R2_REPLAY_GATE_PATH.relative_to(ROOT).as_posix()
+    artifact_id = str(binding.get("artifact_id", ""))
+    profile = contact_requalification_profile(artifact_id)
+    relative_gate = Path(profile["replay_gate_path"]).relative_to(ROOT).as_posix()
     if authorization.get("replay_gate_path") != relative_gate:
         raise PermissionError("WP07-D contact R2 replay authorization names the wrong gate.")
     gate_path = (root / relative_gate).resolve()
@@ -884,10 +941,10 @@ def _validate_contact_r2_replay_gate(
     decision = binding.get("owner_decision", {})
     requalification = binding.get("source_requalification", {})
     if (
-        gate.get("artifact_id") != "QF-029-WP07-D-CONTACT-R2-PRE-REPLAY-GATE-001"
+        gate.get("artifact_id") != profile["replay_gate_artifact_id"]
         or gate.get("status") != "PASS_REPLAY_GATES_EVALUATED"
         or gate.get("execution_sha") != execution_sha
-        or gate.get("binding_path") != CONTACT_REQUAL_R2_BINDING_PATH.relative_to(ROOT).as_posix()
+        or gate.get("binding_path") != binding_path.resolve().relative_to(root.resolve()).as_posix()
         or gate.get("binding_file_sha256") != _file_sha256(binding_path)
         or not isinstance(identity, Mapping)
         or gate.get("formal_contract_provenance", {}).get("file_sha256") != identity.get("file_sha256")
@@ -919,8 +976,8 @@ def _validate_contact_r2_replay_gate(
         raise PermissionError("WP07-D contact R2 replay gate lacks complete M1/M2/M3 coverage.")
     run_root = Path(str(gate.get("run_root", "")))
     auth_root = Path(str(gate.get("authorization_root", "")))
-    expected_run_root = CONTACT_REQUAL_R2_RUN_ROOT
-    expected_auth_root = CONTACT_REQUAL_R2_AUTH_ROOT
+    expected_run_root = Path(profile["run_root"])
+    expected_auth_root = Path(profile["authorization_root"])
     if run_root != expected_run_root or auth_root != expected_auth_root:
         raise PermissionError("WP07-D contact R2 replay gate uses an unexpected artifact root.")
     _validate_contact_r2_process_evidence(gate, root=root, run_root=run_root)
@@ -1113,7 +1170,7 @@ def validate_formal_requalification_authorization(
 ) -> None:
     """Validate one SHA-bound Owner authorization for a formal R1 case."""
 
-    if binding.get("artifact_id") == CONTACT_REQUAL_R2_ARTIFACT_ID:
+    if binding.get("artifact_id") in CONTACT_REQUAL_R2_ARTIFACT_IDS:
         identity = formal_contract_identity(binding, root=root)
         owner_reference = binding.get("owner_decision")
         source_reference = binding.get("source_requalification")
@@ -1128,6 +1185,7 @@ def validate_formal_requalification_authorization(
             "route": route,
             "mesh": mesh,
             "execution_kind": execution_kind,
+            "binding_path": binding_path.resolve().relative_to(root.resolve()).as_posix(),
             "binding_file_sha256": _file_sha256(binding_path),
             "formal_contract_file_sha256": identity["file_sha256"],
             "owner_decision_file_sha256": owner_reference["file_sha256"],
@@ -1224,13 +1282,18 @@ def _canonical_sha256(value: Any) -> str:
 
 
 def _validate_contact_requalification_r2_binding(binding: Mapping[str, Any], *, root: Path) -> None:
+    artifact_id = str(binding.get("artifact_id", ""))
+    if artifact_id not in CONTACT_REQUAL_R2_ARTIFACT_IDS:
+        raise ValueError("Unexpected WP07-D contact requalification binding identity.")
+    profile = contact_requalification_profile(artifact_id)
+    binding_relative_path = Path(profile["binding_path"]).relative_to(ROOT).as_posix()
     if (
-        binding.get("artifact_id") != CONTACT_REQUAL_R2_ARTIFACT_ID
+        binding.get("artifact_id") != artifact_id
         or binding.get("status") != "FROZEN_FAIL_CLOSED_PER_CASE_AUTHORIZATION_REQUIRED"
-        or binding.get("_binding_path") != CONTACT_REQUAL_R2_BINDING_PATH.relative_to(ROOT).as_posix()
+        or binding.get("_binding_path") != binding_relative_path
     ):
-        raise ValueError("WP07-D contact R2 binding identity or fail-closed status is invalid.")
-    descriptor_path = (root / CONTACT_REQUAL_R2_BINDING_PATH.relative_to(ROOT)).resolve()
+        raise ValueError("WP07-D contact requalification binding identity or fail-closed status is invalid.")
+    descriptor_path = (root / binding_relative_path).resolve()
     if not descriptor_path.is_relative_to(root.resolve()) or not descriptor_path.is_file():
         raise ValueError("WP07-D contact R2 execution binding file is missing.")
     descriptor = _load_json(descriptor_path)
@@ -1323,15 +1386,65 @@ def _validate_contact_requalification_r2_binding(binding: Mapping[str, Any], *, 
         capture_output=True,
     ).stdout
     lineage = binding.get("source_lineage_disclosure", {})
+    expected_source_paths = (
+        ["src/solveur/contact/slip_root.py", "src/solveur/contact/solver.py"]
+        if artifact_id == CONTACT_REQUAL_R2_ARTIFACT_ID
+        else [
+            "src/solveur/contact/entities.py",
+            "src/solveur/contact/slip_root.py",
+            "src/solveur/contact/solver.py",
+            "src/solveur/core/model.py",
+        ]
+    )
     if (
         hashlib.sha256(source_diff).hexdigest()
         != lineage.get("production_source_diff_sha256_since_governing_base")
         or lineage.get("authorized_governing_base_sha") != governing["authorized_base_sha"]
         or lineage.get("changed_production_source_paths_since_governing_base")
-        != ["src/solveur/contact/slip_root.py", "src/solveur/contact/solver.py"]
+        != expected_source_paths
         or lineage.get("requalification_adds_mechanics_change") is not True
     ):
-        raise ValueError("WP07-D contact R2 production-source lineage differs from the reviewed correction.")
+        raise ValueError("WP07-D contact requalification production-source lineage differs from the reviewed correction.")
+    if artifact_id == CONTACT_REQUAL_R2_2_ARTIFACT_ID:
+        expected_parent = {
+            "path": CONTACT_REQUAL_R2_BINDING_PATH.relative_to(ROOT).as_posix(),
+            "sha256": _file_sha256(CONTACT_REQUAL_R2_BINDING_PATH),
+        }
+        supersedes = descriptor.get("supersedes", {})
+        correction = descriptor.get("source_correction", {})
+        addendum = descriptor.get("source_correction_addendum", {})
+        addendum_path = (root / str(addendum.get("path", ""))).resolve()
+        artifacts = descriptor.get("execution_artifacts", {})
+        correction_commit = correction.get("commit")
+        if (
+            descriptor.get("binding_revision") != "R2.2_SURFACE_LUMPED_CONTRACT_IMPLEMENTATION_FIX"
+            or supersedes != expected_parent
+            or correction.get("classification") != "FROZEN_CONTRACT_IMPLEMENTATION_DEFECT"
+            or correction.get("route") != "PENALTY"
+            or correction.get("required_integration") != "surface_lumped"
+            or correction.get("preserves_default_nodal_route") is not True
+            or not isinstance(correction_commit, str)
+            or _git("rev-parse", "--verify", f"{correction_commit}^{{commit}}") != correction_commit
+            or subprocess.run(
+                ["git", "merge-base", "--is-ancestor", correction_commit, execution_sha],
+                cwd=root,
+                check=False,
+                capture_output=True,
+            ).returncode
+            or addendum.get("path")
+            != CONTACT_REQUAL_R2_2_ROOT_CAUSE_REPORT_PATH.relative_to(ROOT).as_posix()
+            or not addendum_path.is_relative_to(root.resolve())
+            or not addendum_path.is_file()
+            or _file_sha256(addendum_path) != addendum.get("sha256")
+            or artifacts.get("run_root") != Path(profile["run_root"]).as_posix()
+            or artifacts.get("authorization_root") != Path(profile["authorization_root"]).as_posix()
+            or artifacts.get("replay_gate_path")
+            != Path(profile["replay_gate_path"]).relative_to(ROOT).as_posix()
+            or lineage.get("source_correction_commit") != correction_commit
+            or lineage.get("source_correction_classification")
+            != "FROZEN_CONTRACT_IMPLEMENTATION_DEFECT"
+        ):
+            raise ValueError("WP07-D contact R2.2 source correction binding is malformed or out of scope.")
     if binding.get("routes") != _load_json(parent_path).get("routes"):
         raise ValueError("WP07-D contact R2 changed a frozen route or replay-level definition.")
     if binding.get("mesh_definition") != _load_json(parent_path).get("mesh_definition"):
@@ -1356,7 +1469,7 @@ def validate_binding(binding: Mapping[str, Any], *, root: Path = ROOT) -> None:
     """Reject any binding that changes frozen physics or bypasses authorization."""
 
     binding_id = binding.get("artifact_id")
-    if binding_id == CONTACT_REQUAL_R2_ARTIFACT_ID:
+    if binding_id in CONTACT_REQUAL_R2_ARTIFACT_IDS:
         _validate_contact_requalification_r2_binding(binding, root=root)
         return
     if binding_id == FORMAL_REBIND_R1_ARTIFACT_ID:

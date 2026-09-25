@@ -296,6 +296,43 @@ def test_wp07_contact_r2_1_binding_rejects_unbound_source_mechanics_change() -> 
         wp07_binding.validate_binding(binding)
 
 
+def test_wp07_contact_r2_2_binding_prospectively_binds_surface_lumped_fix() -> None:
+    binding = wp07_binding.load_binding(wp07_binding.CONTACT_REQUAL_R2_2_BINDING_PATH)
+
+    wp07_binding.validate_binding(binding)
+
+    assert binding["artifact_id"] == wp07_binding.CONTACT_REQUAL_R2_2_ARTIFACT_ID
+    assert binding["binding_revision"] == "R2.2_SURFACE_LUMPED_CONTRACT_IMPLEMENTATION_FIX"
+    assert binding["source_correction"]["classification"] == "FROZEN_CONTRACT_IMPLEMENTATION_DEFECT"
+    assert binding["source_correction"]["required_integration"] == "surface_lumped"
+    assert binding["invariants"]["frozen_physics_contract_changed"] is False
+    assert binding["invariants"]["thresholds_changed"] is False
+    assert binding["routes"]["PENALTY"]["penalty_integration"] == "surface_lumped"
+    assert binding["source_requalification"]["sha256"] == "7045a9e2afb7d84c033ae1b4e473a0e6fd5c5efa02880f0d70c0262eb9c247e0"
+
+    old_binding = wp07_binding.load_binding(wp07_binding.CONTACT_REQUAL_R2_BINDING_PATH)
+    assert wp07_binding.formal_contract_identity(binding) == wp07_binding.formal_contract_identity(old_binding)
+    assert binding["routes"] == old_binding["routes"]
+    assert binding["mesh_definition"] == old_binding["mesh_definition"]
+
+    profile = wp07_binding.contact_requalification_profile(binding["artifact_id"])
+    assert profile["run_root"] == Path("qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_4")
+    assert profile["authorization_root"] == Path(
+        "qualification/0_2_9/wp07d_contact_requalification_r2/authorizations_r2_4"
+    )
+    assert profile["replay_gate_path"].name == "replay_authorization_gate_r2_4.json"
+
+
+def test_wp07_contact_revision_profile_keeps_historical_r2_outputs_separate() -> None:
+    old = wp07_binding.contact_requalification_profile(wp07_binding.CONTACT_REQUAL_R2_ARTIFACT_ID)
+    new = wp07_binding.contact_requalification_profile(wp07_binding.CONTACT_REQUAL_R2_2_ARTIFACT_ID)
+
+    assert old["run_root"] == wp07_binding.CONTACT_REQUAL_R2_RUN_ROOT
+    assert old["authorization_root"] == wp07_binding.CONTACT_REQUAL_R2_AUTH_ROOT
+    assert old["run_root"] != new["run_root"]
+    assert old["authorization_root"] != new["authorization_root"]
+
+
 def test_wp07_contact_r2_3_replay_gate_path_is_relative_and_uses_fresh_roots() -> None:
     expected_gate = wp07_binding.CONTACT_REQUAL_R2_REPLAY_GATE_PATH.relative_to(wp07_binding.ROOT)
 

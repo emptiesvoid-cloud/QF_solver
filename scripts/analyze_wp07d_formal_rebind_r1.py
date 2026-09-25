@@ -24,8 +24,10 @@ from scripts.prepare_wp07d_structural_vnv import (  # noqa: E402
 from scripts.wp07d_execution_binding import (  # noqa: E402
     EXPECTED_LEVELS,
     EXPECTED_ROUTES,
+    CONTACT_REQUAL_R2_ARTIFACT_IDS,
     FORMAL_REBIND_R1_BINDING_PATH,
     _file_sha256,
+    contact_requalification_profile,
     formal_contract_identity,
     load_binding,
     load_contract_for_binding,
@@ -588,6 +590,18 @@ def build_pre_replay_report(
 ) -> dict[str, Any]:
     binding = load_binding(binding_path)
     validate_binding(binding)
+    profile: dict[str, Any] | None = None
+    if binding.get("artifact_id") in CONTACT_REQUAL_R2_ARTIFACT_IDS:
+        profile = contact_requalification_profile(str(binding["artifact_id"]))
+        global ARTIFACT_ROOT, RUN_ROOT, AUTH_ROOT
+        global PRE_REPLAY_REPORT, FINAL_REPORT, REPLAY_GATE_PATH, ACTIVE_BINDING_PATH
+        ARTIFACT_ROOT = Path(profile["artifact_root"])
+        RUN_ROOT = Path(profile["run_root"])
+        AUTH_ROOT = Path(profile["authorization_root"])
+        PRE_REPLAY_REPORT = Path(profile["replay_gate_path"]).relative_to(ROOT)
+        FINAL_REPORT = Path(profile["final_report"])
+        REPLAY_GATE_PATH = PRE_REPLAY_REPORT
+        ACTIVE_BINDING_PATH = binding_path.resolve()
     contract = load_contract_for_binding(binding)
     identity = formal_contract_identity(binding)
     if identity is None:
@@ -614,8 +628,8 @@ def build_pre_replay_report(
     report: dict[str, Any] = {
         "schema_version": 1,
         "artifact_id": (
-            "QF-029-WP07-D-CONTACT-R2-PRE-REPLAY-GATE-001"
-            if binding.get("artifact_id") == "QF-029-WP07-D-EXECUTION-BINDING-CONTACT-R2-001"
+            str(profile["replay_gate_artifact_id"])
+            if profile is not None
             else "QF-029-WP07-D-FORMAL-REBIND-R1-PRE-REPLAY-ANALYSIS-001"
         ),
         "status": "PASS_REPLAY_GATES_EVALUATED" if any(
@@ -636,7 +650,7 @@ def build_pre_replay_report(
         "wp07e_run": False,
         "formal_points_awarded": 0,
     }
-    if binding.get("artifact_id") == "QF-029-WP07-D-EXECUTION-BINDING-CONTACT-R2-001":
+    if binding.get("artifact_id") in CONTACT_REQUAL_R2_ARTIFACT_IDS:
         report["requalification_contract_sha256"] = binding["source_requalification"]["sha256"]
         report["run_root"] = RUN_ROOT.as_posix()
         report["authorization_root"] = AUTH_ROOT.as_posix()
@@ -774,6 +788,11 @@ def _replay_comparison(route: str, level: str, binding: Mapping[str, Any]) -> di
 def build_final_report(binding_path: Path = FORMAL_REBIND_R1_BINDING_PATH) -> dict[str, Any]:
     pre = build_pre_replay_report(binding_path)
     binding = load_binding(binding_path)
+    profile = (
+        contact_requalification_profile(str(binding["artifact_id"]))
+        if binding.get("artifact_id") in CONTACT_REQUAL_R2_ARTIFACT_IDS
+        else None
+    )
     identity = formal_contract_identity(binding)
     assert identity is not None
     routes: dict[str, Any] = {}
@@ -792,8 +811,8 @@ def build_final_report(binding_path: Path = FORMAL_REBIND_R1_BINDING_PATH) -> di
     return {
         "schema_version": 1,
         "artifact_id": (
-            "QF-029-WP07-D-CONTACT-R2-FINAL-ANALYSIS-001"
-            if binding.get("artifact_id") == "QF-029-WP07-D-EXECUTION-BINDING-CONTACT-R2-001"
+            str(profile["final_report_artifact_id"])
+            if profile is not None
             else "QF-029-WP07-D-FORMAL-REBIND-R1-FINAL-ANALYSIS-001"
         ),
         "status": "READY_FOR_OWNER_REVIEW" if all_pass else "FAIL_CLOSED_OR_INCOMPLETE",
@@ -809,7 +828,7 @@ def build_final_report(binding_path: Path = FORMAL_REBIND_R1_BINDING_PATH) -> di
         "wp07_official_points": "unchanged pending Owner review",
         "global_official_total": "unchanged; ledger not modified",
         "production_mechanics_changed_by_this_rebind": binding.get("artifact_id")
-        == "QF-029-WP07-D-EXECUTION-BINDING-CONTACT-R2-001",
+        in CONTACT_REQUAL_R2_ARTIFACT_IDS,
         "thresholds_changed": False,
         "full_repository_test_suite_run": False,
         "wp07e_run": False,
