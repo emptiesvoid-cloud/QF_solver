@@ -85,6 +85,55 @@ class CompositeNonlinearAssembly:
             raise ValueError("Composite nonlinear assembly produced non-finite values.")
         return internal, tangent
 
+    def diagnostics_snapshot(self) -> dict[str, object]:
+        """Collect read-only snapshots exposed by stateful assembly components."""
+
+        components: list[dict[str, object]] = []
+        for index, component in enumerate(self.components):
+            snapshot = getattr(component, "diagnostics_snapshot", None)
+            if not callable(snapshot):
+                continue
+            try:
+                values = snapshot()
+            except Exception as exc:  # Observability must not affect the solve.
+                components.append(
+                    {
+                        "index": index,
+                        "component": type(component).__name__,
+                        "telemetry_error": f"{type(exc).__name__}: {exc}",
+                    }
+                )
+                continue
+            if isinstance(values, Mapping):
+                components.append(
+                    {
+                        "index": index,
+                        "component": type(component).__name__,
+                        "diagnostics": dict(values),
+                    }
+                )
+        return {"components": components} if components else {}
+
+    def line_search_activation_factors(
+        self, displacement: np.ndarray, direction: np.ndarray
+    ) -> tuple[float, ...]:
+        """Merge exact branch-transition factors supplied by components."""
+
+        factors: set[float] = set()
+        for component in self.components:
+            provider = getattr(component, "line_search_activation_factors", None)
+            if not callable(provider):
+                continue
+            try:
+                values = provider(displacement, direction)
+            except Exception:
+                continue  # Candidate generation is advisory, never solve-critical.
+            for value in values if isinstance(values, (list, tuple)) else ():
+                factor = float(value)
+                if np.isfinite(factor) and 0.0 < factor < 1.0:
+                    factors.add(factor)
+        return tuple(sorted(factors))
+
 
 class _AssemblyContribution:
     """Compatibility adapter from the legacy force/tangent assembly contract."""
@@ -680,6 +729,17 @@ def _line_search_assembly_with_result(
         max_reductions=max_reductions,
         armijo_c=armijo_c,
     )
+    base_diagnostics = _assembly_diagnostics_snapshot(assembly)
+    direction = np.zeros_like(displacement)
+    direction[free] = correction
+    activation_factors: tuple[float, ...] = ()
+    activation_provider = getattr(assembly, "line_search_activation_factors", None)
+    if callable(activation_provider):
+        try:
+            activation_factors = tuple(activation_provider(displacement, direction))
+        except Exception:
+            activation_factors = ()  # Candidate generation is diagnostic-only.
+    supplemental_alphas = _contact_event_refinement_alphas(activation_factors, policy)
 
     def evaluate(alpha: float) -> LineSearchEvaluation:
         trial = displacement.copy()
@@ -693,12 +753,79 @@ def _line_search_assembly_with_result(
                 diagnostics={"assembly_rejected": True, "error": str(exc)},
             )
         trial_norm = float(np.linalg.norm((target - trial_internal)[free]))
+        trial_diagnostics = _assembly_diagnostics_snapshot(assembly)
+        diagnostics: dict[str, object] = {"alpha": float(alpha)}
+        if activation_factors:
+            diagnostics["contact_activation_factor_summary"] = {
+                "count": len(activation_factors),
+                "minimum": min(activation_factors),
+                "median": float(np.median(activation_factors)),
+                "maximum": max(activation_factors),
+            }
+        if base_diagnostics:
+            diagnostics["base_assembly"] = base_diagnostics
+        if trial_diagnostics:
+            diagnostics["trial_assembly"] = trial_diagnostics
         return LineSearchEvaluation(
             merit=trial_norm,
             payload=trial,
+            diagnostics=diagnostics if len(diagnostics) > 1 else {},
         )
 
-    return policy.line_search(residual_norm, evaluate)
+    return policy.line_search(
+        residual_norm,
+        evaluate,
+        supplemental_alphas=supplemental_alphas,
+    )
+
+
+def _contact_event_refinement_alphas(
+    activation_factors: Sequence[float],
+    policy: UnifiedNonlinearRobustnessController,
+) -> tuple[float, ...]:
+    """Generate bounded merit probes around a predicted penalty activation."""
+
+    roots = sorted(
+        {
+            float(value)
+            for value in activation_factors
+            if np.isfinite(float(value)) and 0.0 < float(value) < 1.0
+        }
+    )
+    if not roots:
+        return ()
+    standard = [
+        0.5**reductions
+        for reductions in range(policy.max_reductions + 1)
+        if 0.5**reductions >= policy.min_alpha
+    ]
+    if not standard:
+        return ()
+    representative_roots = sorted({roots[0], roots[len(roots) // 2], roots[-1]})
+    candidates: set[float] = set()
+    fractions = (0.75, 0.5, 0.25, 0.125, 0.0625, 0.03125, 0.015625)
+    for root in representative_roots:
+        upper = min((value for value in standard if value > root), default=None)
+        if upper is None:
+            continue
+        for fraction in fractions:
+            candidates.add(root + (upper - root) * fraction)
+        if root >= policy.min_alpha:
+            candidates.add(root)
+    return tuple(sorted(candidates, reverse=True))
+
+
+def _assembly_diagnostics_snapshot(assembly: NonlinearAssemblyProtocol) -> dict[str, object]:
+    """Read optional assembly diagnostics without making them solver-critical."""
+
+    snapshot = getattr(assembly, "diagnostics_snapshot", None)
+    if not callable(snapshot):
+        return {}
+    try:
+        values = snapshot()
+    except Exception as exc:  # Observability must not affect the solve.
+        return {"telemetry_error": f"{type(exc).__name__}: {exc}"}
+    return dict(values) if isinstance(values, Mapping) else {}
 
 
 def line_search_factor(
@@ -754,6 +881,7 @@ def _line_search_factor_with_result(
     armijo: float,
     *,
     controller: UnifiedNonlinearRobustnessController | None = None,
+    evaluation_diagnostics: Callable[[float], Mapping[str, object]] | None = None,
 ) -> LineSearchResult:
     """Run the common policy against the stateful load-control assembly."""
     policy = controller or UnifiedNonlinearRobustnessController(
@@ -768,7 +896,13 @@ def _line_search_factor_with_result(
         trial[free] += alpha * increment
         trial_internal, _, _ = assemble(model, dofs, trial, material_states)
         trial_norm = float(np.linalg.norm((target_load - trial_internal)[free]))
-        return LineSearchEvaluation(merit=trial_norm, payload=alpha)
+        diagnostics: Mapping[str, object] = {}
+        if evaluation_diagnostics is not None:
+            try:
+                diagnostics = evaluation_diagnostics(alpha)
+            except Exception as exc:  # Telemetry must never change solver decisions.
+                diagnostics = {"telemetry_error": f"{type(exc).__name__}: {exc}"}
+        return LineSearchEvaluation(merit=trial_norm, payload=alpha, diagnostics=diagnostics)
 
     return policy.line_search(residual_norm, evaluate)
 

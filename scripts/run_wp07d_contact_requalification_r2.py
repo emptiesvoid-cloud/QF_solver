@@ -20,7 +20,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.wp07d_execution_binding import (  # noqa: E402
-    CONTACT_REQUAL_R2_BINDING_PATH,
+    CONTACT_REQUAL_R2_3_BINDING_PATH,
     CONTACT_REQUAL_R2_TOKEN,
     EXPECTED_LEVELS,
     EXPECTED_ROUTES,
@@ -77,7 +77,8 @@ def _validate_frozen_source(execution_sha: str, binding_path: Path) -> tuple[dic
         raise PermissionError("WP07-D contact R2 formal contract identity is unavailable.")
     owner_path = (ROOT / str(binding["owner_decision"]["path"])).resolve()
     decision = _read(owner_path)
-    if _git("branch", "--show-current") != "codex/contact-active-set-remediation":
+    expected_branch = binding.get("execution_branch") or "codex/contact-active-set-remediation"
+    if _git("branch", "--show-current") != expected_branch:
         raise PermissionError("WP07-D contact R2 execution is on the wrong branch.")
     if _git("rev-parse", "HEAD") != execution_sha:
         raise PermissionError("WP07-D contact R2 exact execution SHA changed.")
@@ -116,7 +117,11 @@ def _authorization(
         "artifact_id": f"QF-029-WP07-D-CONTACT-{revision}-AUTH-{kind}-{route}-{mesh}",
         "status": "OWNER_AUTHORIZED_FROZEN_CASE",
         "token": CONTACT_REQUAL_R2_TOKEN,
-        "authorization_basis": "OWNER_EXPLICIT_M1_M2_M3_WP07_WP08_REQUALIFICATION_REQUEST",
+        "authorization_basis": (
+            "OWNER_EXPLICIT_WP07D_CONTACT_R2_3_REQUALIFICATION_REQUEST"
+            if binding.get("artifact_id") == "QF-029-WP07-D-EXECUTION-BINDING-CONTACT-R2-003"
+            else "OWNER_EXPLICIT_M1_M2_M3_WP07_WP08_REQUALIFICATION_REQUEST"
+        ),
         "authorized_base_sha": binding["governing"]["authorized_base_sha"],
         "execution_sha": execution_sha,
         "binding_path": binding_path.resolve().relative_to(ROOT).as_posix(),
@@ -222,7 +227,7 @@ def _case_status(path: Path, route: str, kind: str) -> str:
 
 def run_campaign(
     execution_sha: str,
-    binding_path: Path = CONTACT_REQUAL_R2_BINDING_PATH,
+    binding_path: Path = CONTACT_REQUAL_R2_3_BINDING_PATH,
 ) -> dict[str, Any]:
     binding_path = binding_path.resolve()
     profile = contact_requalification_profile(_read(binding_path).get("artifact_id", ""))
@@ -436,7 +441,7 @@ def run_campaign(
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--execution-sha", required=True)
-    parser.add_argument("--binding", type=Path, default=CONTACT_REQUAL_R2_BINDING_PATH)
+    parser.add_argument("--binding", type=Path, default=CONTACT_REQUAL_R2_3_BINDING_PATH)
     args = parser.parse_args(argv)
     try:
         report = run_campaign(args.execution_sha, args.binding)

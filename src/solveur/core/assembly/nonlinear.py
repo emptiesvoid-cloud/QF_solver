@@ -434,14 +434,23 @@ def assemble_internal_tangent(
         if contact_diagnostics is not None:
             contact_diagnostics.update(
                 {
-                    "search_mode": details.get("search_mode"),
-                    "active_contacts": list(details.get("active_contacts", [])),
-                    "gaps": list(details.get("gaps", [])),
-                    "master_face_indices": list(details.get("master_face_indices", [])),
-                    "penalty": details.get("penalty"),
-                    "maximum_penetration": details.get("maximum_penetration", 0.0),
-                    "tangent_nnz": details.get("tangent_nnz", int(contact_tangent.nnz)),
-                    "finite_sliding": details.get("finite_sliding", False),
+                "search_mode": details.get("search_mode"),
+                "active_contacts": list(details.get("active_contacts", [])),
+                "gaps": list(details.get("gaps", [])),
+                "master_face_indices": list(details.get("master_face_indices", [])),
+                "penalty": details.get("penalty"),
+                "penalty_integration": details.get("penalty_integration"),
+                "penalty_integration_weights": list(
+                    details.get("penalty_integration_weights", [])
+                ),
+                "effective_penalties": list(details.get("effective_penalties", [])),
+                "slave_node_count": details.get("slave_node_count", 0),
+                "maximum_penetration": details.get("maximum_penetration", 0.0),
+                "minimum_gap": details.get("minimum_gap", 0.0),
+                "contact_force_norm": details.get("contact_force_norm", 0.0),
+                "tangent_nnz": details.get("tangent_nnz", int(contact_tangent.nnz)),
+                "active_penetrations": list(details.get("active_penetrations", [])),
+                "finite_sliding": details.get("finite_sliding", False),
                     "projection_clamped": list(details.get("projection_clamped", [])),
                     "closest_distances": list(details.get("closest_distances", [])),
                     "projection_modes": list(details.get("projection_modes", [])),

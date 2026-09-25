@@ -362,6 +362,88 @@ def test_t03b_29_stateful_factor_wrapper_and_result_share_common_policy() -> Non
     ) == (1.0, 0)
 
 
+def test_t03b_line_search_observer_is_additive_and_cannot_change_acceptance() -> None:
+    def assemble(model, dofs, displacement, material_states):
+        del model, dofs, material_states
+        return np.asarray(displacement, dtype=float), None, {}
+
+    baseline = _line_search_factor_with_result(
+        assemble,
+        object(),
+        object(),
+        np.zeros(1),
+        np.asarray([0]),
+        np.asarray([1.0]),
+        {},
+        np.asarray([1.0]),
+        1.0,
+        1.0e-4,
+        12,
+        1.0e-4,
+    )
+    observed_alphas: list[float] = []
+
+    def observe(alpha: float) -> dict[str, object]:
+        observed_alphas.append(alpha)
+        return {"alpha": alpha, "active_contacts": [2], "minimum_gap": -0.01}
+
+    observed = _line_search_factor_with_result(
+        assemble,
+        object(),
+        object(),
+        np.zeros(1),
+        np.asarray([0]),
+        np.asarray([1.0]),
+        {},
+        np.asarray([1.0]),
+        1.0,
+        1.0e-4,
+        12,
+        1.0e-4,
+        evaluation_diagnostics=observe,
+    )
+
+    assert observed.factor == baseline.factor == 1.0
+    assert observed.merit_history == baseline.merit_history == (0.0,)
+    assert observed.reductions == baseline.reductions == 0
+    assert observed_alphas == [1.0]
+    assert observed.trial_diagnostics == (
+        {"alpha": 1.0, "active_contacts": [2], "minimum_gap": -0.01},
+    )
+
+
+def test_t03b_line_search_observer_failure_is_nonintrusive() -> None:
+    def assemble(model, dofs, displacement, material_states):
+        del model, dofs, material_states
+        return np.asarray(displacement, dtype=float), None, {}
+
+    def broken_observer(alpha: float) -> dict[str, object]:
+        del alpha
+        raise RuntimeError("telemetry unavailable")
+
+    result = _line_search_factor_with_result(
+        assemble,
+        object(),
+        object(),
+        np.zeros(1),
+        np.asarray([0]),
+        np.asarray([1.0]),
+        {},
+        np.asarray([1.0]),
+        1.0,
+        1.0e-4,
+        12,
+        1.0e-4,
+        evaluation_diagnostics=broken_observer,
+    )
+
+    assert result.factor == 1.0
+    assert result.merit_history == (0.0,)
+    assert result.trial_diagnostics[0]["telemetry_error"] == (
+        "RuntimeError: telemetry unavailable"
+    )
+
+
 def test_t03b_30_compatibility_helpers_have_no_second_policy_loop() -> None:
     helper_sources = [
         inspect.getsource(_line_search_assembly_with_diagnostics),

@@ -247,6 +247,73 @@ class _PenaltyContactAssembly:
         self.last_details = details
         return internal, tangent if tangent_required else None
 
+    def diagnostics_snapshot(self) -> dict[str, object]:
+        """Expose the latest penalty state for passive Newton line-search audit."""
+
+        if not self.last_details:
+            return {}
+        active = self.last_details.get("active_contacts", [])
+        gaps = self.last_details.get("gaps", [])
+        weights = self.last_details.get("penalty_integration_weights", [])
+        effective = self.last_details.get("effective_penalties", [])
+        active_values = [int(value) for value in active] if isinstance(active, list) else []
+        gap_values = [float(value) for value in gaps] if isinstance(gaps, list) else []
+        weight_values = [float(value) for value in weights] if isinstance(weights, list) else []
+        effective_values = [float(value) for value in effective] if isinstance(effective, list) else []
+        finite_gaps = [value for value in gap_values if np.isfinite(value)]
+        negative_gaps = [value for value in finite_gaps if value < 0.0]
+        return {
+            "search_mode": self.last_details.get("search_mode"),
+            "finite_sliding": self.last_details.get("finite_sliding", False),
+            "penalty": self.last_details.get("penalty"),
+            "penalty_integration": self.last_details.get("penalty_integration"),
+            "slave_node_count": self.last_details.get("slave_node_count", len(gap_values)),
+            "gap_count": len(gap_values),
+            "negative_gap_count": len(negative_gaps),
+            "minimum_gap": min(finite_gaps) if finite_gaps else None,
+            "maximum_gap": max(finite_gaps) if finite_gaps else None,
+            "maximum_penetration": self.last_details.get("maximum_penetration", 0.0),
+            "contact_force_norm": self.last_details.get("contact_force_norm", 0.0),
+            "tangent_nnz": self.last_details.get("tangent_nnz", 0),
+            "active_count": len(active_values),
+            "active_contacts_preview": active_values[:16],
+            "active_contacts_truncated": len(active_values) > 16,
+            "weight_sum": float(sum(weight_values)),
+            "effective_penalty_min": min(effective_values) if effective_values else None,
+            "effective_penalty_max": max(effective_values) if effective_values else None,
+            "effective_penalty_sum": float(sum(effective_values)),
+        }
+
+    def line_search_activation_factors(
+        self, displacement: np.ndarray, direction: np.ndarray
+    ) -> tuple[float, ...]:
+        """Predict fixed-search gap-zero events along a Newton correction."""
+
+        if str(self.model.analysis.parameters.get("contact_search_mode", "initial")).lower() != "initial":
+            return ()
+        penalty = float(self.model.analysis.parameters.get("contact_penalty", 1.0e6))
+        _, _, base = assemble_penalty_contact(
+            self.model, self.dofs, displacement, penalty=penalty
+        )
+        _, _, endpoint = assemble_penalty_contact(
+            self.model, self.dofs, displacement + direction, penalty=penalty
+        )
+        base_gaps = base.get("gaps", [])
+        endpoint_gaps = endpoint.get("gaps", [])
+        if not isinstance(base_gaps, list) or not isinstance(endpoint_gaps, list):
+            return ()
+        if len(base_gaps) != len(endpoint_gaps):
+            return ()
+        factors: list[float] = []
+        for start, finish in zip(base_gaps, endpoint_gaps, strict=True):
+            start_gap = float(start)
+            finish_gap = float(finish)
+            if start_gap >= 0.0 and finish_gap < 0.0:
+                factor = start_gap / (start_gap - finish_gap)
+                if np.isfinite(factor) and 0.0 < factor < 1.0:
+                    factors.append(factor)
+        return tuple(factors)
+
 
 def _newton_dead_load(
     assembly: NonlinearAssemblyProtocol,

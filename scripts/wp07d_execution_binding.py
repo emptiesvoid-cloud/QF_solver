@@ -76,6 +76,7 @@ FORMAL_REBIND_R1_ARTIFACT_ID = "QF-029-WP07-D-EXECUTION-BINDING-FORMAL-REBIND-R1
 FORMAL_REBIND_R1_TOKEN = "OWNER_AUTHORIZED_WP07D_FORMAL_REBIND_R1"
 CONTACT_REQUAL_R2_ARTIFACT_ID = "QF-029-WP07-D-EXECUTION-BINDING-CONTACT-R2-001"
 CONTACT_REQUAL_R2_2_ARTIFACT_ID = "QF-029-WP07-D-EXECUTION-BINDING-CONTACT-R2-002"
+CONTACT_REQUAL_R2_3_ARTIFACT_ID = "QF-029-WP07-D-EXECUTION-BINDING-CONTACT-R2-003"
 CONTACT_REQUAL_R2_BINDING_PATH = (
     ROOT
     / "qualification"
@@ -111,12 +112,38 @@ CONTACT_REQUAL_R2_2_RUN_ROOT = Path("qualification/0_2_9/wp07d_contact_requalifi
 CONTACT_REQUAL_R2_2_AUTH_ROOT = Path(
     "qualification/0_2_9/wp07d_contact_requalification_r2/authorizations_r2_4"
 )
+CONTACT_REQUAL_R2_3_BINDING_PATH = (
+    ROOT / "qualification" / "0_2_9" / "wp07d_contact_requalification_r2" / "execution_binding_r2_3.json"
+)
+CONTACT_REQUAL_R2_3_CONTRACT_PATH = (
+    ROOT
+    / "qualification"
+    / "0_2_9"
+    / "wp07d_contact_requalification_r2"
+    / "contact_requalification_contract_r2_3.json"
+)
+CONTACT_REQUAL_R2_3_OWNER_DECISION_PATH = (
+    ROOT
+    / "qualification"
+    / "0_2_9"
+    / "wp07d_contact_requalification_r2"
+    / "owner_execution_decision_r2_3.json"
+)
+CONTACT_REQUAL_R2_3_REPLAY_GATE_PATH = Path(
+    "qualification/0_2_9/wp07d_contact_requalification_r2/replay_authorization_gate_r2_5.json"
+)
+CONTACT_REQUAL_R2_3_RUN_ROOT = Path(
+    "qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_5"
+)
+CONTACT_REQUAL_R2_3_AUTH_ROOT = Path(
+    "qualification/0_2_9/wp07d_contact_requalification_r2/authorizations_r2_5"
+)
 CONTACT_REQUAL_R2_2_ARTIFACT_ROOT = Path("qualification/0_2_9/wp07d_contact_requalification_r2")
 CONTACT_REQUAL_R2_2_ROOT_CAUSE_REPORT_PATH = (
     ROOT / "docs" / "verification" / "0_2_9" / "wp07-d-surface-lumped-penalty-remediation.md"
 )
 CONTACT_REQUAL_R2_ARTIFACT_IDS = frozenset(
-    {CONTACT_REQUAL_R2_ARTIFACT_ID, CONTACT_REQUAL_R2_2_ARTIFACT_ID}
+    {CONTACT_REQUAL_R2_ARTIFACT_ID, CONTACT_REQUAL_R2_2_ARTIFACT_ID, CONTACT_REQUAL_R2_3_ARTIFACT_ID}
 )
 UNAUTHORIZED_EXECUTION = "WP07D_UNAUTHORIZED_EXECUTION_FAIL_CLOSED"
 EXPECTED_ROUTES = ("ACTIVE_SET", "PENALTY")
@@ -223,6 +250,19 @@ def contact_requalification_profile(artifact_id: str) -> dict[str, Any]:
             "replay_gate_artifact_id": "QF-029-WP07-D-CONTACT-R2-2-PRE-REPLAY-GATE-001",
             "final_report_artifact_id": "QF-029-WP07-D-CONTACT-R2-2-FINAL-ANALYSIS-001",
             "authorization_revision": "R2.2",
+        }
+    if artifact_id == CONTACT_REQUAL_R2_3_ARTIFACT_ID:
+        return {
+            "binding_path": CONTACT_REQUAL_R2_3_BINDING_PATH,
+            "run_root": CONTACT_REQUAL_R2_3_RUN_ROOT,
+            "authorization_root": CONTACT_REQUAL_R2_3_AUTH_ROOT,
+            "replay_gate_path": ROOT / CONTACT_REQUAL_R2_3_REPLAY_GATE_PATH,
+            "artifact_root": CONTACT_REQUAL_R2_3_BINDING_PATH.parent,
+            "final_report": CONTACT_REQUAL_R2_3_BINDING_PATH.parent / "analysis_final_r2_5.json",
+            "progress": CONTACT_REQUAL_R2_3_BINDING_PATH.parent / "progress_r2_5.json",
+            "replay_gate_artifact_id": "QF-029-WP07-D-CONTACT-R2-3-PRE-REPLAY-GATE-001",
+            "final_report_artifact_id": "QF-029-WP07-D-CONTACT-R2-3-FINAL-ANALYSIS-001",
+            "authorization_revision": "R2.3",
         }
     raise ValueError(f"Unknown WP07-D contact requalification revision: {artifact_id!r}.")
 
@@ -425,6 +465,7 @@ def load_binding(path: Path = BINDING_PATH) -> dict[str, Any]:
         {
             "artifact_id": artifact_id,
             "binding_revision": raw.get("binding_revision"),
+            "execution_branch": raw.get("execution_branch"),
             "status": raw.get("status"),
             "execution_artifacts": raw.get("execution_artifacts"),
             "source_correction": raw.get("source_correction"),
@@ -1310,21 +1351,36 @@ def _validate_contact_requalification_r2_binding(binding: Mapping[str, Any], *, 
     contract_path = (root / str(contract_ref.get("path", ""))).resolve()
     decision_ref = descriptor.get("owner_decision", {})
     decision_path = (root / str(decision_ref.get("path", ""))).resolve()
+    expected_contract_sha = (
+        "7045a9e2afb7d84c033ae1b4e473a0e6fd5c5efa02880f0d70c0262eb9c247e0"
+        if artifact_id != CONTACT_REQUAL_R2_3_ARTIFACT_ID
+        else contract_ref.get("sha256")
+    )
+    expected_decision_sha = (
+        "e6de753a7a433da9f56ee724c74e389126dda79e278cf02ebce20509aabb0a24"
+        if artifact_id != CONTACT_REQUAL_R2_3_ARTIFACT_ID
+        else decision_ref.get("sha256")
+    )
     if (
         not contract_path.is_relative_to(root.resolve())
         or not contract_path.is_file()
         or _file_sha256(contract_path) != contract_ref.get("sha256")
-        or contract_ref.get("sha256") != "7045a9e2afb7d84c033ae1b4e473a0e6fd5c5efa02880f0d70c0262eb9c247e0"
+        or contract_ref.get("sha256") != expected_contract_sha
         or not decision_path.is_relative_to(root.resolve())
         or not decision_path.is_file()
         or _file_sha256(decision_path) != decision_ref.get("sha256")
-        or decision_ref.get("sha256") != "e6de753a7a433da9f56ee724c74e389126dda79e278cf02ebce20509aabb0a24"
+        or decision_ref.get("sha256") != expected_decision_sha
     ):
         raise ValueError("WP07-D contact R2 addendum or Owner decision hash mismatch.")
     contract = _load_json(contract_path)
     decision = _load_json(decision_path)
+    expected_contract_id = (
+        "QF-029-WP07-D-CONTACT-MECHANICS-REQUALIFICATION-R2-001"
+        if artifact_id != CONTACT_REQUAL_R2_3_ARTIFACT_ID
+        else "QF-029-WP07-D-CONTACT-MECHANICS-REQUALIFICATION-R2-3-001"
+    )
     if (
-        contract.get("artifact_id") != "QF-029-WP07-D-CONTACT-MECHANICS-REQUALIFICATION-R2-001"
+        contract.get("artifact_id") != expected_contract_id
         or contract.get("status") != "FROZEN_FOR_SHA_BOUND_OWNER_AUTHORIZED_REQUALIFICATION"
         or contract.get("governing", {}).get("base_sha") != "b2485f98260c7ca9892997eefa3a327637d83cd3"
         or contract.get("governing", {}).get("policy_digest")
@@ -1386,16 +1442,26 @@ def _validate_contact_requalification_r2_binding(binding: Mapping[str, Any], *, 
         capture_output=True,
     ).stdout
     lineage = binding.get("source_lineage_disclosure", {})
-    expected_source_paths = (
-        ["src/solveur/contact/slip_root.py", "src/solveur/contact/solver.py"]
-        if artifact_id == CONTACT_REQUAL_R2_ARTIFACT_ID
-        else [
+    if artifact_id == CONTACT_REQUAL_R2_3_ARTIFACT_ID:
+        changed_source_paths = subprocess.run(
+            ["git", "diff", "--name-only", governing["authorized_base_sha"], execution_sha, "--", "src"],
+            cwd=root,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.splitlines()
+        expected_source_paths = changed_source_paths
+    else:
+        expected_source_paths = (
+            ["src/solveur/contact/slip_root.py", "src/solveur/contact/solver.py"]
+            if artifact_id == CONTACT_REQUAL_R2_ARTIFACT_ID
+            else [
             "src/solveur/contact/entities.py",
             "src/solveur/contact/slip_root.py",
             "src/solveur/contact/solver.py",
             "src/solveur/core/model.py",
-        ]
-    )
+            ]
+        )
     if (
         hashlib.sha256(source_diff).hexdigest()
         != lineage.get("production_source_diff_sha256_since_governing_base")
@@ -1445,6 +1511,81 @@ def _validate_contact_requalification_r2_binding(binding: Mapping[str, Any], *, 
             != "FROZEN_CONTRACT_IMPLEMENTATION_DEFECT"
         ):
             raise ValueError("WP07-D contact R2.2 source correction binding is malformed or out of scope.")
+    if artifact_id == CONTACT_REQUAL_R2_3_ARTIFACT_ID:
+        expected_parent = {
+            "path": CONTACT_REQUAL_R2_2_BINDING_PATH.relative_to(ROOT).as_posix(),
+            "sha256": _file_sha256(CONTACT_REQUAL_R2_2_BINDING_PATH),
+        }
+        supersedes = descriptor.get("supersedes", {})
+        correction = descriptor.get("source_correction", {})
+        previous = descriptor.get("previous_source_correction", {})
+        addendum = descriptor.get("source_correction_addendum", {})
+        addendum_path = (root / str(addendum.get("path", ""))).resolve()
+        artifacts = descriptor.get("execution_artifacts", {})
+        correction_commit = correction.get("commit")
+        expected_incremental_source_paths = [
+            "src/solveur/core/analyses/geometric_nonlinear.py",
+            "src/solveur/core/assembly/nonlinear.py",
+            "src/solveur/core/nonlinear/iteration.py",
+            "src/solveur/core/nonlinear/robustness.py",
+        ]
+        incremental_paths = subprocess.run(
+            [
+                "git",
+                "diff",
+                "--name-only",
+                str(previous.get("execution_sha", "")),
+                execution_sha,
+                "--",
+                "src",
+            ],
+            cwd=root,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.splitlines()
+        contract_method = contract.get("contact_event_line_search", {})
+        if (
+            descriptor.get("binding_revision") != "R2.3_CONTACT_EVENT_LINE_SEARCH_REQUALIFICATION"
+            or descriptor.get("execution_branch") != "codex/wp07d-penalty-r2-5"
+            or supersedes != expected_parent
+            or previous.get("execution_sha") != "7541ff9701511d6dc692b98d3dd578288cce4550"
+            or previous.get("failure_status") != "FAIL_CLOSED_PENALTY_LINE_SEARCH_FAILURE"
+            or incremental_paths != expected_incremental_source_paths
+            or correction.get("classification") != "CONTACT_EVENT_AWARE_GLOBALIZATION_CORRECTION"
+            or correction.get("route") != "PENALTY"
+            or correction.get("acceptance_criterion_changed") is not False
+            or correction.get("contact_residual_or_tangent_law_changed") is not False
+            or correction.get("thresholds_or_physical_inputs_changed") is not False
+            or correction.get("commit") != previous.get("corrected_source_commit")
+            or correction.get("candidate_sampling")
+            != "After canonical backtracking fails, evaluate bounded trial factors around predicted fixed-search gap-zero events using the same merit acceptance rule."
+            or not isinstance(correction_commit, str)
+            or _git("rev-parse", "--verify", f"{correction_commit}^{{commit}}") != correction_commit
+            or subprocess.run(
+                ["git", "merge-base", "--is-ancestor", correction_commit, execution_sha],
+                cwd=root,
+                check=False,
+                capture_output=True,
+            ).returncode
+            or artifacts.get("run_root") != Path(profile["run_root"]).as_posix()
+            or artifacts.get("authorization_root") != Path(profile["authorization_root"]).as_posix()
+            or artifacts.get("replay_gate_path")
+            != Path(profile["replay_gate_path"]).relative_to(ROOT).as_posix()
+            or addendum.get("path") != "docs/verification/0_2_9/wp07-d-contact-event-line-search-remediation-r2-3.md"
+            or not addendum_path.is_relative_to(root.resolve())
+            or not addendum_path.is_file()
+            or _file_sha256(addendum_path) != addendum.get("sha256")
+            or contract.get("mechanics_requalification", {}).get("additional_change", {}).get("addendum_sha256")
+            != addendum.get("sha256")
+            or contract_method.get("status") != "FROZEN_BOUNDED_SUPPLEMENTAL_TRIALS"
+            or contract_method.get("canonical_backtracking_runs_first") is not True
+            or contract_method.get("supplemental_trials_only_after_canonical_failure") is not True
+            or contract_method.get("same_merit_acceptance_rule") is not True
+            or contract_method.get("contact_law_unchanged") is not True
+            or contract_method.get("max_supplemental_alphas_per_iteration") != 24
+        ):
+            raise ValueError("WP07-D contact R2.3 line-search correction binding is malformed or out of scope.")
     if binding.get("routes") != _load_json(parent_path).get("routes"):
         raise ValueError("WP07-D contact R2 changed a frozen route or replay-level definition.")
     if binding.get("mesh_definition") != _load_json(parent_path).get("mesh_definition"):

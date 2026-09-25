@@ -193,6 +193,7 @@ class LineSearchResult:
     failure_reason: NonlinearFailureReason | None = None
     payload: object | None = None
     trial_diagnostics: tuple[Mapping[str, Any], ...] = ()
+    supplemental_trials: int = 0
     policy_id: str = ROBUSTNESS_POLICY_ID
     policy_version: int = ROBUSTNESS_POLICY_VERSION
 
@@ -213,6 +214,7 @@ class LineSearchResult:
             "policy_source": self.policy_source,
             "failure_reason": self.failure_reason.value if self.failure_reason is not None else None,
             "trial_diagnostics": [dict(item) for item in self.trial_diagnostics],
+            "supplemental_trials": self.supplemental_trials,
             "policy_id": self.policy_id,
             "policy_version": self.policy_version,
         }
@@ -1201,6 +1203,7 @@ class UnifiedNonlinearRobustnessController:
         evaluate: Callable[[float], LineSearchEvaluation | tuple[object, ...] | float],
         *,
         raise_on_failure: bool = True,
+        supplemental_alphas: Sequence[float] = (),
     ) -> LineSearchResult:
         """Run the one common alpha=1, halve-until-accepted policy loop."""
         initial = float(initial_merit)
@@ -1236,11 +1239,37 @@ class UnifiedNonlinearRobustnessController:
                 self._raise_line_search_failure(result)
             return result
 
+        standard_candidates: list[tuple[float, int, str, int]] = []
         alpha = 1.0
+        for reductions in range(self.max_reductions + 1):
+            if alpha < self.min_alpha:
+                break
+            standard_candidates.append((alpha, reductions, "canonical_backtracking", 0))
+            alpha *= 0.5
+        standard_alpha_set = {candidate[0] for candidate in standard_candidates}
+        supplemental_candidates: list[tuple[float, int, str, int]] = []
+        seen_supplemental: set[float] = set()
+        for alpha_value in supplemental_alphas:
+            candidate_alpha = float(alpha_value)
+            if (
+                not np.isfinite(candidate_alpha)
+                or candidate_alpha <= 0.0
+                or candidate_alpha > 1.0
+                or candidate_alpha < self.min_alpha
+                or candidate_alpha in standard_alpha_set
+                or candidate_alpha in seen_supplemental
+            ):
+                continue
+            seen_supplemental.add(candidate_alpha)
+            supplemental_candidates.append(
+                (candidate_alpha, self.max_reductions, "contact_event_refinement", len(supplemental_candidates) + 1)
+            )
+        candidates = standard_candidates + supplemental_candidates
         merits: list[float] = []
         trial_diagnostics: list[Mapping[str, Any]] = []
         last_payload: object | None = None
-        for reductions in range(self.max_reductions + 1):
+        supplemental_count = 0
+        for alpha, reductions, candidate_phase, supplemental_index in candidates:
             try:
                 evaluation = self._coerce_evaluation(evaluate(alpha))
             except (ValueError, FloatingPointError) as exc:
@@ -1250,7 +1279,16 @@ class UnifiedNonlinearRobustnessController:
                 )
             merit = float(evaluation.merit)
             merits.append(merit)
-            trial_diagnostics.append(dict(evaluation.diagnostics))
+            evaluation_diagnostics = dict(evaluation.diagnostics)
+            if candidate_phase != "canonical_backtracking":
+                evaluation_diagnostics.update(
+                    {
+                        "candidate_phase": candidate_phase,
+                        "supplemental_trial": supplemental_index,
+                    }
+                )
+                supplemental_count += 1
+            trial_diagnostics.append(evaluation_diagnostics)
             last_payload = evaluation.payload
             if np.isfinite(merit):
                 if self.armijo_c is None:
@@ -1271,16 +1309,14 @@ class UnifiedNonlinearRobustnessController:
                         policy_source=self.policy_source,
                         payload=last_payload,
                         trial_diagnostics=tuple(trial_diagnostics),
+                        supplemental_trials=supplemental_count,
                     )
                     return result
-            alpha *= 0.5
-            if alpha < self.min_alpha:
-                break
 
         result = LineSearchResult(
             accepted=False,
             factor=None,
-            reductions=max(len(merits) - 1, 0),
+            reductions=max(len(standard_candidates) - 1, 0),
             merit_history=tuple(merits),
             accepted_factors=(),
             initial_merit=initial,
@@ -1291,6 +1327,7 @@ class UnifiedNonlinearRobustnessController:
             failure_reason=NonlinearFailureReason.LINE_SEARCH_FAILURE,
             payload=None,
             trial_diagnostics=tuple(trial_diagnostics),
+            supplemental_trials=supplemental_count,
         )
         if raise_on_failure:
             self._raise_line_search_failure(result)
