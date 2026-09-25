@@ -149,59 +149,102 @@ def test_wp08_source_requalification_auth_uses_its_frozen_branch(
     assert wp08_common._authorization_payload(authorization_path) == payload
 
 
-def _wp07_gate(root: Path) -> dict[str, Any]:
+def _wp07_gate(root: Path, *, failed_primary_routes: tuple[str, ...] = ()) -> dict[str, Any]:
     run_root = wp07_binding.CONTACT_REQUAL_R2_RUN_ROOT
     routes = wp07_binding.EXPECTED_ROUTES
     levels = wp07_binding.EXPECTED_LEVELS
+    reference_keys = [
+        f"{route}/{level}"
+        for route in routes
+        if route not in failed_primary_routes
+        for level in levels
+    ]
     expected_order = [
         f"{route}/{level}/PRIMARY_PRODUCTION" for route in routes for level in levels
-    ] + [f"{route}/{level}/INDEPENDENT_REFERENCE" for route in routes for level in levels]
+    ] + [f"{key}/INDEPENDENT_REFERENCE" for key in reference_keys]
     gate: dict[str, Any] = {
         "execution_sha": "e" * 40,
         "sequential_process_order": expected_order,
         "production_process_manifests": {},
         "reference_process_manifests": {},
+        "routes": {
+            route: {
+                "cases": {
+                    level: {
+                        "production_status": "FAIL_CLOSED" if route in failed_primary_routes else "PASS"
+                    }
+                    for level in levels
+                }
+            }
+            for route in routes
+        },
     }
     start = datetime(2026, 9, 25, tzinfo=timezone.utc)
     sequence = 0
-    for role, kind, folder in (
-        ("production", "PRIMARY_PRODUCTION", "primary"),
-        ("reference", "INDEPENDENT_REFERENCE", "reference"),
+    for role, kind, folder, role_keys in (
+        (
+            "production",
+            "PRIMARY_PRODUCTION",
+            "primary",
+            [f"{route}/{level}" for route in routes for level in levels],
+        ),
+        ("reference", "INDEPENDENT_REFERENCE", "reference", reference_keys),
     ):
-        for route in routes:
-            for level in levels:
-                case_dir = root / run_root / route / level / folder
-                case_dir.mkdir(parents=True)
-                stdout = case_dir / "runner.stdout.log"
-                stderr = case_dir / "runner.stderr.log"
-                stdout.write_text(f"out-{sequence}\n", encoding="utf-8")
-                stderr.write_text(f"err-{sequence}\n", encoding="utf-8")
-                label = f"{route}/{level}/{kind}"
-                process = {
-                    "case": label,
-                    "route": route,
-                    "mesh": level,
-                    "execution_kind": kind,
-                    "execution_sha": gate["execution_sha"],
-                    "command": ["python", "runner.py", "--case", label],
-                    "started_utc": (start + timedelta(seconds=sequence * 3)).isoformat().replace("+00:00", "Z"),
-                    "ended_utc": (start + timedelta(seconds=sequence * 3 + 2)).isoformat().replace("+00:00", "Z"),
-                    "pid": 7000 + sequence,
-                    "exit_code": 0,
-                    "invocation_error": None,
-                    "stdout_sha256": _sha256(stdout),
-                    "stderr_sha256": _sha256(stderr),
-                }
-                manifest_path = case_dir / "runner_process.json"
-                manifest_path.write_text(json.dumps(process, sort_keys=True) + "\n", encoding="utf-8")
-                key = f"{route}/{level}"
-                gate[f"{role}_process_manifests"][key] = {
-                    "path": (run_root / route / level / folder / "runner_process.json").as_posix(),
-                    "sha256": _sha256(manifest_path),
-                    "pid": process["pid"],
-                    "exit_code": 0,
-                }
-                sequence += 1
+        for key in role_keys:
+            route, level = key.split("/")
+            case_dir = root / run_root / route / level / folder
+            case_dir.mkdir(parents=True)
+            stdout = case_dir / "runner.stdout.log"
+            stderr = case_dir / "runner.stderr.log"
+            stdout.write_text(f"out-{sequence}\n", encoding="utf-8")
+            stderr.write_text(f"err-{sequence}\n", encoding="utf-8")
+            label = f"{route}/{level}/{kind}"
+            failed = kind == "PRIMARY_PRODUCTION" and route in failed_primary_routes
+            process = {
+                "case": label,
+                "route": route,
+                "mesh": level,
+                "execution_kind": kind,
+                "execution_sha": gate["execution_sha"],
+                "command": ["python", "runner.py", "--case", label],
+                "started_utc": (start + timedelta(seconds=sequence * 3)).isoformat().replace("+00:00", "Z"),
+                "ended_utc": (start + timedelta(seconds=sequence * 3 + 2)).isoformat().replace("+00:00", "Z"),
+                "pid": 7000 + sequence,
+                "exit_code": 1 if failed else 0,
+                "invocation_error": None,
+                "stdout_sha256": _sha256(stdout),
+                "stderr_sha256": _sha256(stderr),
+            }
+            if failed:
+                failure_path = case_dir / "failure.json"
+                failure_path.write_text(
+                    json.dumps(
+                        {
+                            "status": "FAIL_CLOSED",
+                            "route": route,
+                            "mesh": level,
+                            "execution_sha": gate["execution_sha"],
+                            "execution_kind": kind,
+                            "terminal_classification": "STRUCTURAL_SOLVE_EXCEPTION",
+                            "fallback_used": False,
+                        },
+                        sort_keys=True,
+                    )
+                    + "\n",
+                    encoding="utf-8",
+                )
+                process["failure_evidence_file"] = "failure.json"
+                process["failure_evidence_sha256"] = _sha256(failure_path)
+            manifest_path = case_dir / "runner_process.json"
+            manifest_path.write_text(json.dumps(process, sort_keys=True) + "\n", encoding="utf-8")
+            key = f"{route}/{level}"
+            gate[f"{role}_process_manifests"][key] = {
+                "path": (run_root / route / level / folder / "runner_process.json").as_posix(),
+                "sha256": _sha256(manifest_path),
+                "pid": process["pid"],
+                "exit_code": process["exit_code"],
+            }
+            sequence += 1
     return gate
 
 
@@ -216,6 +259,36 @@ def test_wp07_replay_gate_requires_hash_bound_serial_process_manifests(tmp_path:
         wp07_binding._validate_contact_r2_process_evidence(gate, root=tmp_path, run_root=run_root)
 
 
+def test_wp07_replay_audit_allows_independent_route_failures(tmp_path: Path) -> None:
+    gate = _wp07_gate(tmp_path, failed_primary_routes=("PENALTY",))
+
+    wp07_binding._validate_contact_r2_process_evidence(
+        gate, root=tmp_path, run_root=wp07_binding.CONTACT_REQUAL_R2_RUN_ROOT
+    )
+
+    assert set(gate["reference_process_manifests"]) == {
+        f"ACTIVE_SET/{level}" for level in wp07_binding.EXPECTED_LEVELS
+    }
+
+
+def test_wp07_replay_audit_rejects_tampered_fail_closed_evidence(tmp_path: Path) -> None:
+    gate = _wp07_gate(tmp_path, failed_primary_routes=("PENALTY",))
+    failure = (
+        tmp_path
+        / wp07_binding.CONTACT_REQUAL_R2_RUN_ROOT
+        / "PENALTY"
+        / "M1"
+        / "primary"
+        / "failure.json"
+    )
+    failure.write_text('{"status":"PASS"}\n', encoding="utf-8")
+
+    with pytest.raises(PermissionError, match="failure evidence"):
+        wp07_binding._validate_contact_r2_process_evidence(
+            gate, root=tmp_path, run_root=wp07_binding.CONTACT_REQUAL_R2_RUN_ROOT
+        )
+
+
 def test_wp07_contact_r2_1_binding_discloses_inherited_wp07_source_changes() -> None:
     binding = wp07_binding.load_binding(wp07_binding.CONTACT_REQUAL_R2_BINDING_PATH)
 
@@ -227,13 +300,13 @@ def test_wp07_contact_r2_1_binding_discloses_inherited_wp07_source_changes() -> 
     )
 
 
-def test_wp07_contact_r2_2_replay_gate_path_is_relative_and_uses_fresh_roots() -> None:
+def test_wp07_contact_r2_3_replay_gate_path_is_relative_and_uses_fresh_roots() -> None:
     expected_gate = wp07_binding.CONTACT_REQUAL_R2_REPLAY_GATE_PATH.relative_to(wp07_binding.ROOT)
 
     assert wp07_campaign.REPLAY_GATE == expected_gate
     assert wp07_campaign.RUN_ROOT == wp07_binding.CONTACT_REQUAL_R2_RUN_ROOT
     assert wp07_campaign.AUTH_ROOT == wp07_binding.CONTACT_REQUAL_R2_AUTH_ROOT
-    assert expected_gate.as_posix().endswith("replay_authorization_gate_r2_2.json")
+    assert expected_gate.as_posix().endswith("replay_authorization_gate_r2_3.json")
 
 
 def test_wp07_penalty_summary_telemetry_is_explicitly_post_solve() -> None:

@@ -44,8 +44,8 @@ ARTIFACT_ROOT = Path("qualification/0_2_9/wp07d_contact_requalification_r2")
 RUN_ROOT = CONTACT_REQUAL_R2_RUN_ROOT
 AUTH_ROOT = CONTACT_REQUAL_R2_AUTH_ROOT
 REPLAY_GATE = CONTACT_REQUAL_R2_REPLAY_GATE_PATH.relative_to(ROOT)
-FINAL_REPORT = ARTIFACT_ROOT / "analysis_final_r2_2.json"
-PROGRESS = ARTIFACT_ROOT / "progress_r2_2.json"
+FINAL_REPORT = ARTIFACT_ROOT / "analysis_final_r2_3.json"
+PROGRESS = ARTIFACT_ROOT / "progress_r2_3.json"
 
 
 def _utc_now() -> str:
@@ -194,6 +194,10 @@ def _invoke(label: str, command: list[str], output: Path, *, execution_sha: str,
         "stdout_sha256": _file_sha256(stdout_path),
         "stderr_sha256": _file_sha256(stderr_path),
     }
+    failure_path = output / "failure.json"
+    if failure_path.is_file():
+        record["failure_evidence_file"] = failure_path.name
+        record["failure_evidence_sha256"] = _file_sha256(failure_path)
     _write_json(output / "runner_process.json", record)
     return record
 

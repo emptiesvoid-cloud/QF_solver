@@ -94,11 +94,11 @@ CONTACT_REQUAL_R2_REPLAY_GATE_PATH = (
     / "qualification"
     / "0_2_9"
     / "wp07d_contact_requalification_r2"
-    / "replay_authorization_gate_r2_2.json"
+    / "replay_authorization_gate_r2_3.json"
 )
-CONTACT_REQUAL_R2_RUN_ROOT = Path("qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_2")
+CONTACT_REQUAL_R2_RUN_ROOT = Path("qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_3")
 CONTACT_REQUAL_R2_AUTH_ROOT = Path(
-    "qualification/0_2_9/wp07d_contact_requalification_r2/authorizations_r2_2"
+    "qualification/0_2_9/wp07d_contact_requalification_r2/authorizations_r2_3"
 )
 UNAUTHORIZED_EXECUTION = "WP07D_UNAUTHORIZED_EXECUTION_FAIL_CLOSED"
 EXPECTED_ROUTES = ("ACTIVE_SET", "PENALTY")
@@ -972,26 +972,54 @@ def _validate_contact_r2_replay_gate(
 def _validate_contact_r2_process_evidence(
     gate: Mapping[str, Any], *, root: Path, run_root: Path
 ) -> None:
-    """Require hash-bound, non-overlapping child-process records before replay."""
+    """Require hash-bound, non-overlapping process records before replay.
+
+    Every production process is required. A reference process is required only
+    when its corresponding production case passed and therefore authorized a
+    reference run. A failed primary remains admissible engineering evidence
+    only when its nonzero exit is bound to an explicit fail-closed result.
+    """
 
     process_maps = {
         "production": gate.get("production_process_manifests"),
         "reference": gate.get("reference_process_manifests"),
     }
-    expected_keys = [f"{route}/{level}" for route in EXPECTED_ROUTES for level in EXPECTED_LEVELS]
+    production_keys = [f"{route}/{level}" for route in EXPECTED_ROUTES for level in EXPECTED_LEVELS]
+    route_summaries = gate.get("routes")
+    if not isinstance(route_summaries, Mapping):
+        raise PermissionError("WP07-D contact R2 process audit is missing route summaries.")
+    reference_keys: list[str] = []
+    for route in EXPECTED_ROUTES:
+        route_summary = route_summaries.get(route)
+        cases = route_summary.get("cases") if isinstance(route_summary, Mapping) else None
+        if not isinstance(cases, Mapping):
+            raise PermissionError(f"WP07-D contact R2 process audit is missing {route} case summaries.")
+        for level in EXPECTED_LEVELS:
+            case = cases.get(level)
+            if not isinstance(case, Mapping):
+                raise PermissionError(f"WP07-D contact R2 process audit is missing {route}/{level} summary.")
+            primary_status = case.get("production_status")
+            if primary_status == "PASS":
+                reference_keys.append(f"{route}/{level}")
+            elif primary_status not in {"MISSING", "FAIL_CLOSED", "FAIL_CLOSED_PROCESS_EXIT"}:
+                raise PermissionError(
+                    f"WP07-D contact R2 has an invalid primary status for {route}/{level}: {primary_status!r}."
+                )
     expected_order = [
         f"{route}/{level}/PRIMARY_PRODUCTION" for route in EXPECTED_ROUTES for level in EXPECTED_LEVELS
     ] + [
-        f"{route}/{level}/INDEPENDENT_REFERENCE" for route in EXPECTED_ROUTES for level in EXPECTED_LEVELS
+        f"{key}/INDEPENDENT_REFERENCE" for key in reference_keys
     ]
     if gate.get("sequential_process_order") != expected_order:
         raise PermissionError("WP07-D contact R2 process order is incomplete or not strictly phase-sequential.")
 
     intervals: list[tuple[datetime, datetime, str]] = []
+    expected_by_role = {"production": production_keys, "reference": reference_keys}
     for role, kind in (("production", "PRIMARY_PRODUCTION"), ("reference", "INDEPENDENT_REFERENCE")):
         manifests = process_maps[role]
+        expected_keys = expected_by_role[role]
         if not isinstance(manifests, Mapping) or set(manifests) != set(expected_keys):
-            raise PermissionError(f"WP07-D contact R2 {role} process manifests lack exact M1/M2/M3 route coverage.")
+            raise PermissionError(f"WP07-D contact R2 {role} process manifests have unexpected route/level coverage.")
         folder = "primary" if role == "production" else "reference"
         for key in expected_keys:
             route, level = key.split("/")
@@ -1014,14 +1042,39 @@ def _validate_contact_r2_process_evidence(
                 or record.get("mesh") != level
                 or record.get("execution_kind") != kind
                 or record.get("execution_sha") != gate.get("execution_sha")
-                or record.get("exit_code") != 0
                 or record.get("invocation_error") is not None
-                or manifest.get("exit_code") != 0
                 or manifest.get("pid") != record.get("pid")
                 or not isinstance(record.get("pid"), int)
                 or record["pid"] <= 0
             ):
                 raise PermissionError(f"WP07-D contact R2 process record failed identity/exit checks for {label}.")
+            exit_code = record.get("exit_code")
+            if exit_code not in {0, 1} or manifest.get("exit_code") != exit_code:
+                raise PermissionError(f"WP07-D contact R2 process exit code is invalid for {label}.")
+            failure_path = manifest_path.parent / "failure.json"
+            if exit_code == 0:
+                if record.get("failure_evidence_file") is not None or failure_path.exists():
+                    raise PermissionError(f"WP07-D contact R2 successful process has contradictory failure evidence for {label}.")
+            else:
+                if (
+                    record.get("failure_evidence_file") != "failure.json"
+                    or not isinstance(record.get("failure_evidence_sha256"), str)
+                    or not failure_path.is_file()
+                    or _file_sha256(failure_path) != record.get("failure_evidence_sha256")
+                ):
+                    raise PermissionError(f"WP07-D contact R2 nonzero process lacks hash-bound failure evidence for {label}.")
+                failure = _load_json(failure_path)
+                if (
+                    failure.get("status") != "FAIL_CLOSED"
+                    or failure.get("route") != route
+                    or failure.get("mesh") != level
+                    or failure.get("execution_sha") != gate.get("execution_sha")
+                    or failure.get("execution_kind") != kind
+                    or not isinstance(failure.get("terminal_classification"), str)
+                    or not failure["terminal_classification"]
+                    or (kind == "PRIMARY_PRODUCTION" and failure.get("fallback_used") is not False)
+                ):
+                    raise PermissionError(f"WP07-D contact R2 failure evidence identity/status mismatch for {label}.")
             command = record.get("command")
             if not isinstance(command, list) or not command or not all(isinstance(item, str) for item in command):
                 raise PermissionError(f"WP07-D contact R2 process command is missing for {label}.")
