@@ -107,6 +107,11 @@ python .\qf_solver.py verify-all --profile engineering --json-report .\results\v
 python .\scripts\build_docs.py --profile engineering
 ```
 
+La commande verify-all est réservée au checkout Git complet utilisé pour le
+développement et la CI. Elle s’appuie sur scripts/, tests/ et les lanceurs à la
+racine ; depuis un paquet installé, elle signale cette limite avant tout
+sous-processus.
+
 La CI conserve cette baseline sur les changements pousses : elle protege les
 regressions entre zones qui ne seraient pas visibles dans un controle local.
 Elle ne dicte pas le rythme des iterations locales.

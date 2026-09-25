@@ -93,13 +93,43 @@ def command_verify_contact(args: argparse.Namespace) -> int:
     return int(ExitCode.ACCEPTED if summary["status"] == "PASS_INTERNAL" else ExitCode.QUALIFICATION_REJECTED)
 
 
+VERIFY_ALL_CHECKOUT_PATHS = (
+    ".git",
+    "pyproject.toml",
+    "src/solveur",
+    "scripts",
+    "tests",
+    "qf_solver.py",
+    "main_solveur.py",
+    "mitc4_solver.py",
+    "qualification/campaign.json",
+    "scripts/check_p0_coverage.py",
+)
+
+
+def _verify_all_missing_checkout_paths(root: Path) -> list[str]:
+    """List repository files required by the developer-only verify-all runner."""
+
+    return [relative for relative in VERIFY_ALL_CHECKOUT_PATHS if not (root / relative).exists()]
+
+
 def command_verify_all(args: argparse.Namespace) -> int:
+    root = project_root()
+    missing = _verify_all_missing_checkout_paths(root)
+    if missing:
+        print(
+            "VERIFY-ALL UNSUPPORTED: this developer command requires a complete Git source checkout; "
+            "it is not available from an installed package."
+        )
+        print(f"Missing checkout paths: {', '.join(missing)}")
+        return int(ExitCode.INPUT_OR_MESH)
+
     profile = verification_profile(args.profile)
     commands = _verify_all_commands(profile.name, args.scope)
     records: list[dict[str, Any]] = []
     for index, command in enumerate(commands, start=1):
         print("VERIFY-ALL RUN:", " ".join(command))
-        completed = subprocess.run(command, cwd=project_root(), check=False)
+        completed = subprocess.run(command, cwd=root, check=False)
         records.append({"index": index, "command": command, "return_code": completed.returncode})
         if completed.returncode != 0:
             print(f"VERIFY-ALL FAIL: {' '.join(command)} returned {completed.returncode}")

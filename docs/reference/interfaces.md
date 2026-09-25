@@ -37,6 +37,11 @@ profil, le scope, chaque commande executee et son code de retour. Le rapport
 est ecrit egalement si une commande echoue, afin de rendre la campagne
 rejouable et auditable hors du flux console.
 
+La commande verify-all sert au développement et à la CI depuis un checkout Git
+complet. Elle utilise les chemins du dépôt sous scripts/, tests/ et les lanceurs
+à la racine. Wheel et sdist omettent ces outils ; depuis un paquet installé,
+verify-all signale la limite avant de démarrer un sous-processus.
+
 La forme module `python -m solveur.cli.main` est portable apres installation
 du package, ou depuis ce checkout avec `PYTHONPATH=src`. Depuis un checkout
 source sans installation, utiliser `python qf_solver.py` afin d'identifier

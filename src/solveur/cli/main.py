@@ -325,7 +325,10 @@ class SolverCli:
         verify_contact.add_argument("--json-report", type=Path, default=None)
         verify_contact.set_defaults(func=verification_cli.command_verify_contact)
 
-        verify_all = sub.add_parser("verify-all", help="run project quality and verification commands")
+        verify_all = sub.add_parser(
+            "verify-all",
+            help="run repository checks from a complete Git source checkout (developer/CI only)",
+        )
         verify_all.add_argument("--profile", choices=PROFILES, default="engineering")
         verify_all.add_argument("--scope", choices=QUALIFICATION_SCOPES, default="tet4-linear-static")
         verify_all.add_argument("--json-report", type=Path, default=None)

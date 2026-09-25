@@ -51,6 +51,42 @@ def test_contact_and_verification_all_commands_cover_success_and_error_codes(mon
     assert verification.command_verify_all(Namespace(profile="engineering", scope="scope", json_report=None)) == 0
 
 
+def test_verify_all_rejects_installed_package_before_starting_subprocesses(
+    monkeypatch, tmp_path: Path, capsys
+) -> None:
+    monkeypatch.setattr(verification, "project_root", lambda: tmp_path)
+
+    def unexpected_call(*_args, **_kwargs):
+        raise AssertionError("verify-all must stop before running checkout-dependent subprocesses")
+
+    monkeypatch.setattr(verification.subprocess, "run", unexpected_call)
+    monkeypatch.setattr(verification, "_verify_all_commands", unexpected_call)
+
+    status = verification.command_verify_all(
+        Namespace(profile="engineering", scope="scope", json_report=None)
+    )
+
+    captured = capsys.readouterr()
+    assert status == int(ExitCode.INPUT_OR_MESH)
+    assert "VERIFY-ALL UNSUPPORTED" in captured.out
+    assert "installed package" in captured.out
+    assert "scripts" in captured.out
+
+
+def test_verify_all_checkout_preflight_accepts_complete_git_checkout(tmp_path: Path) -> None:
+    for relative in verification.VERIFY_ALL_CHECKOUT_PATHS:
+        path = tmp_path / relative
+        if relative == ".git":
+            path.mkdir()
+        elif relative in {"src/solveur", "scripts", "tests"}:
+            path.mkdir(parents=True)
+        else:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("fixture", encoding="utf-8")
+
+    assert verification._verify_all_missing_checkout_paths(tmp_path) == []
+
+
 def test_readiness_promotion_owner_and_qualification_commands(monkeypatch, tmp_path: Path) -> None:
     readiness = SimpleNamespace(
         status="PASS",
