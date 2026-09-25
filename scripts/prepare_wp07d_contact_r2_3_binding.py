@@ -141,9 +141,9 @@ def build() -> dict[str, Any]:
         "addendum_path": ADDENDUM_PATH.as_posix(),
         "addendum_sha256": _file_sha256(ROOT / ADDENDUM_PATH),
     }
-    contract["governance"]["line_search_acceptance_criteria_changed"] = False
-    contract["governance"]["line_search_trial_generation_changed"] = True
-    contract["governance"]["solver_policy_digest_role"] = "Existing digest binds frozen configured policy values; R2.3 source and contract hashes bind the supplemental trial-generation implementation."
+    contract["governing"]["line_search_acceptance_criteria_changed"] = False
+    contract["governing"]["line_search_trial_generation_changed"] = True
+    contract["governing"]["solver_policy_digest_role"] = "Existing digest binds frozen configured policy values; R2.3 source and contract hashes bind the supplemental trial-generation implementation."
 
     owner_decision = {
         "schema_version": 1,
