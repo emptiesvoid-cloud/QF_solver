@@ -1,0 +1,135 @@
+{
+  "artifact_id": "QF-029-WP07-D-CONTACT-MECHANICS-REQUALIFICATION-R2-3-001",
+  "authorization": {
+    "authorization_record_path": "qualification/0_2_9/wp07d_contact_requalification_r2/owner_execution_authorization.json",
+    "exact_execution_sha_required": true,
+    "owner_decision_path": "qualification/0_2_9/wp07d_contact_requalification_r2/owner_execution_decision.json",
+    "per_case_authorization_required": true,
+    "unauthorized_execution": "FAIL_CLOSED"
+  },
+  "contact_event_line_search": {
+    "candidate_sampling": "bounded factors between each representative event factor and the nearest larger canonical backtracking factor, plus the event factor itself when admissible",
+    "canonical_backtracking_runs_first": true,
+    "contact_law_unchanged": true,
+    "event": "predicted zero crossing of a fixed-search normal gap along the current Newton correction",
+    "failure_behavior": "If no canonical or supplemental candidate satisfies the unchanged merit rule, preserve the original fail-closed line-search failure.",
+    "fractions": [
+      0.75,
+      0.5,
+      0.25,
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625
+    ],
+    "max_supplemental_alphas_per_iteration": 24,
+    "representative_event_factors": "minimum, median, and maximum unique predicted factors",
+    "same_merit_acceptance_rule": true,
+    "search_scope": "fixed initial search only",
+    "status": "FROZEN_BOUNDED_SUPPLEMENTAL_TRIALS",
+    "supplemental_trials_only_after_canonical_failure": true
+  },
+  "failure_policy": "Preserve each failed case; continue independent primary cases sequentially; block only dependent reference/replay and final candidate gates.",
+  "formal_points_awarded": 0,
+  "frozen_contract_digests": {
+    "loading_canonical_sha256": "49542d56c83e0c998018e3d9c7345cbe6639fee1fd41e1d274a7c62ee5c2c630",
+    "mesh_levels_canonical_sha256": "73292d7eced225d2face253bcf679a8f3a80fd7839222e1aba1671a7ec5407d0",
+    "physical_benchmark_canonical_sha256": "5cb3bd6d3fe1e96142e93acb75e665a45149d6235ebba88216b5da7b683e5b83",
+    "thresholds_canonical_sha256": "6c2f3ed1767868b65e123181a79f13c86acd6d4162cab35e54df9e10d0aabd89"
+  },
+  "full_repository_test_suite": false,
+  "governing": {
+    "base_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+    "contact_mechanics_remediation_commit": "4066b5ad4ac4595de64e9948f62a91140697b06",
+    "line_search_acceptance_criteria_changed": false,
+    "line_search_trial_generation_changed": true,
+    "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "solver_policy_digest_role": "Existing digest binds frozen configured policy values; R2.3 source and contract hashes bind the supplemental trial-generation implementation.",
+    "source_before_requalification_freeze": "066359bb9f2a21f0234b69376053239427d40afb"
+  },
+  "mechanics_requalification": {
+    "additional_change": {
+      "addendum_path": "docs/verification/0_2_9/wp07-d-contact-event-line-search-remediation-r2-3.md",
+      "addendum_sha256": "a9e9b18cc9f5dbea54173016e9a8a5bf48f19bca5a015c4b45a4cb5559c0b135",
+      "change_commit": "73aa2f5b854252414c5a069a492a168da4b1461c",
+      "changed_production_paths": [
+        "src/solveur/core/analyses/geometric_nonlinear.py",
+        "src/solveur/core/assembly/nonlinear.py",
+        "src/solveur/core/nonlinear/iteration.py",
+        "src/solveur/core/nonlinear/robustness.py"
+      ],
+      "classification": "CONTACT_EVENT_AWARE_GLOBALIZATION_CORRECTION",
+      "description": "Adds read-only penalty-contact snapshots and bounded trial-factor probes around predicted fixed-search gap activation after canonical backtracking fails. The contact residual/tangent law, physical inputs, thresholds, convergence/failure criteria, linear backend, and fallback policy are unchanged.",
+      "mechanics_changed": true,
+      "route": "PENALTY"
+    },
+    "backend_or_fallback_policy_changed": false,
+    "change_commit": "4066b5ad4ac4595de64e9948f62a91140697b06",
+    "changed_production_paths": [
+      "src/solveur/contact/slip_root.py",
+      "src/solveur/contact/solver.py"
+    ],
+    "description": "Requalify the existing bounded routes on the source containing the coupled normal/friction active-set recovery. This is a production mechanics change and is not represented as tooling-only.",
+    "loads_or_boundary_conditions_changed": false,
+    "material_or_geometry_changed": false,
+    "mechanics_changed": true,
+    "mesh_hierarchy_changed": false,
+    "solver_thresholds_changed": false
+  },
+  "parent": {
+    "execution_binding_path": "qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_execution_binding_formal_rebind_r1.json",
+    "execution_binding_sha256": "ef223ee40ed1d4d9b1c60a20c2ee2958ea4e37acd8c0265058a4a12218fcf52d",
+    "formal_contract_path": "qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_formal_requalification_contract_r1.json",
+    "formal_contract_sha256": "b923f560a0d6719ee149ea31f912f46b6b7d32600df1cd7b80bf70a40562d7d7",
+    "owner_decision_path": "qualification/0_2_9/wp07d_formal_rebind_r1/owner_decision.json",
+    "owner_decision_sha256": "f5d19dcaeafb1a3592bda6ffa54d24a2f602f8d5eb06ce21f9d0013a1c7b57f8",
+    "preservation": "All R1 files and historical R1 results remain unchanged; the R2 authorization does not retroactively certify them."
+  },
+  "revision": "0.2.9-WP07D-CONTACT-R2.3",
+  "schema_version": 1,
+  "scope": {
+    "excluded": [
+      "WP07-E",
+      "external solver",
+      "MPI/PETSc",
+      "updated search",
+      "finite sliding",
+      "score award",
+      "ledger update",
+      "merge",
+      "push",
+      "tag",
+      "release"
+    ],
+    "independent_reference_cases": "Independent formulation-matched reference for each primary case that passes.",
+    "mesh_levels": [
+      "M1",
+      "M2",
+      "M3"
+    ],
+    "primary_cases": "Fresh production execution for both routes at all three frozen levels.",
+    "replay_cases": {
+      "ACTIVE_SET": "M2 only, as frozen in the parent R1 contract.",
+      "PENALTY": "M1 only, as frozen in the parent R1 contract."
+    },
+    "routes": [
+      "ACTIVE_SET",
+      "PENALTY"
+    ],
+    "work_package": "WP07-D"
+  },
+  "source_identity": {
+    "authorized_base_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+    "execution_branch": "codex/wp07d-penalty-r2-5",
+    "execution_sha_semantics": "Exact final R2.3 freeze commit is supplied in each generated per-case authorization and runner process manifest.",
+    "previous_execution_sha": "7541ff9701511d6dc692b98d3dd578288cce4550",
+    "source_correction_commit": "73aa2f5b854252414c5a069a492a168da4b1461c"
+  },
+  "source_sha_semantics": "The exact executable source SHA is supplied by the per-case authorization after this contract, binding, tests, and runner are committed.",
+  "status": "FROZEN_FOR_SHA_BOUND_OWNER_AUTHORIZED_REQUALIFICATION",
+  "supersedes": {
+    "classification": "HISTORICAL_R2_2_FAIL_CLOSED_PRESERVED",
+    "path": "qualification/0_2_9/wp07d_contact_requalification_r2/contact_requalification_contract.json",
+    "sha256": "7045a9e2afb7d84c033ae1b4e473a0e6fd5c5efa02880f0d70c0262eb9c247e0"
+  }
+}

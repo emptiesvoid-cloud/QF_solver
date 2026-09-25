@@ -1,0 +1,87 @@
+{
+  "artifact_id": "QF-029-WP07-D-EXECUTION-BINDING-CONTACT-R2-003",
+  "authorization": {
+    "independent_references_allowed": false,
+    "replay_allowed": false,
+    "required": true,
+    "structural_solves_allowed": false,
+    "token": "OWNER_AUTHORIZED_WP07D_CONTACT_REQUALIFICATION_R2",
+    "wp07e_allowed": false
+  },
+  "binding_revision": "R2.3_CONTACT_EVENT_LINE_SEARCH_REQUALIFICATION",
+  "execution_artifacts": {
+    "authorization_root": "qualification/0_2_9/wp07d_contact_requalification_r2/authorizations_r2_5",
+    "replay_gate_path": "qualification/0_2_9/wp07d_contact_requalification_r2/replay_authorization_gate_r2_5.json",
+    "run_root": "qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_5"
+  },
+  "execution_branch": "codex/wp07d-penalty-r2-5",
+  "execution_sha": "BOUND_IN_PER_CASE_AUTHORIZATIONS_TO_FINAL_R2_3_FREEZE_COMMIT",
+  "execution_sha_semantics": "Exact final freeze commit SHA is generated into each case authorization and process manifest.",
+  "extends_binding": {
+    "path": "qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_execution_binding_formal_rebind_r1.json",
+    "sha256": "ef223ee40ed1d4d9b1c60a20c2ee2958ea4e37acd8c0265058a4a12218fcf52d"
+  },
+  "governing": {
+    "authorized_base_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+    "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
+  },
+  "invariants": {
+    "contact_parameters_changed": false,
+    "fallback_policy_changed": false,
+    "frozen_physics_contract_changed": false,
+    "loads_changed": false,
+    "mesh_changed": false,
+    "production_mechanics_changed": true,
+    "thresholds_changed": false
+  },
+  "owner_decision": {
+    "path": "qualification/0_2_9/wp07d_contact_requalification_r2/owner_execution_decision_r2_3.json",
+    "sha256": "1a615078ab1a5e043533f7948f9b3a44b6b6feb7d94158eaa1e2787a75188dfb"
+  },
+  "previous_source_correction": {
+    "corrected_source_commit": "73aa2f5b854252414c5a069a492a168da4b1461c",
+    "execution_sha": "7541ff9701511d6dc692b98d3dd578288cce4550",
+    "failure_status": "FAIL_CLOSED_PENALTY_LINE_SEARCH_FAILURE"
+  },
+  "requalification_contract": {
+    "path": "qualification/0_2_9/wp07d_contact_requalification_r2/contact_requalification_contract_r2_3.json",
+    "sha256": "8b3f53c55b08859cbada2668f6e6506f08acb1981a690f62074cac0b4082bf78"
+  },
+  "schema_version": 1,
+  "source_correction": {
+    "acceptance_criterion_changed": false,
+    "candidate_sampling": "After canonical backtracking fails, evaluate bounded trial factors around predicted fixed-search gap-zero events using the same merit acceptance rule.",
+    "classification": "CONTACT_EVENT_AWARE_GLOBALIZATION_CORRECTION",
+    "commit": "73aa2f5b854252414c5a069a492a168da4b1461c",
+    "contact_residual_or_tangent_law_changed": false,
+    "route": "PENALTY",
+    "thresholds_or_physical_inputs_changed": false
+  },
+  "source_correction_addendum": {
+    "path": "docs/verification/0_2_9/wp07-d-contact-event-line-search-remediation-r2-3.md",
+    "sha256": "a9e9b18cc9f5dbea54173016e9a8a5bf48f19bca5a015c4b45a4cb5559c0b135"
+  },
+  "source_lineage_disclosure": {
+    "authorized_governing_base_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+    "changed_production_source_paths_since_governing_base": [
+      "src/solveur/contact/entities.py",
+      "src/solveur/contact/slip_root.py",
+      "src/solveur/contact/solver.py",
+      "src/solveur/core/analyses/geometric_nonlinear.py",
+      "src/solveur/core/assembly/nonlinear.py",
+      "src/solveur/core/model.py",
+      "src/solveur/core/nonlinear/iteration.py",
+      "src/solveur/core/nonlinear/robustness.py"
+    ],
+    "production_source_diff_sha256_since_governing_base": "b6590bab4734acbe397cc7190758fb461903db3b3a1b14d5f4446ff1866525e5",
+    "requalification_adds_mechanics_change": true,
+    "source_contains_wp07_candidate_changes_since_governing_base": true,
+    "source_correction_classification": "CONTACT_EVENT_AWARE_GLOBALIZATION_CORRECTION",
+    "source_correction_commit": "73aa2f5b854252414c5a069a492a168da4b1461c"
+  },
+  "status": "FROZEN_FAIL_CLOSED_PER_CASE_AUTHORIZATION_REQUIRED",
+  "supersedes": {
+    "path": "qualification/0_2_9/wp07d_contact_requalification_r2/execution_binding_r2_2.json",
+    "sha256": "65a6b2b353926708de37681495f3395d9622507c9a7eb1254c0eb8668b5d4854"
+  }
+}
