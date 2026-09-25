@@ -8,7 +8,7 @@ import numpy as np
 from scipy.sparse import csr_matrix
 from solveur.contact.entities import FrictionlessContact
 from solveur.contact.evaluation import normalized_contact_diagnostics
-from solveur.contact.slip_root import solve_active_slip_root
+from solveur.contact.slip_root import solve_active_slip_root, solve_coupled_contact_projection
 from solveur.contact.restart import checkpoint_paths, load_contact_checkpoint, save_contact_checkpoint
 from solveur.core.constraints import ConstraintReduction
 from solveur.core.dofs import DofManager
@@ -600,19 +600,86 @@ class FrictionlessActiveSetSolver:
                             "active_set_iteration": int(root_diagnostics.get("iteration", 0) or 0),
                         },
                     )
-                raise NumericalConvergenceError(
-                    "Frictional contact active set did not converge with direct or active-slip root iterations.",
-                    reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
-                    diagnostics={
-                        "step": step,
-                        "strategy": "direct_then_active_slip_root",
-                        "cause": "DIRECT_AND_ACTIVE_SLIP_ROOT_FAILED",
-                        "direct_error": str(direct_error) if direct_error is not None else "direct_failed",
-                        "direct_diagnostics": direct_diagnostics,
-                        "active_slip_root_error": str(root_error),
-                        "active_slip_root_diagnostics": root_diagnostics,
-                    },
-                ) from root_error
+                try:
+                    coupled_state = solve_coupled_contact_projection(
+                        dofs,
+                        stiffness,
+                        loads,
+                        fixed,
+                        operators,
+                        slip_references,
+                        tolerance,
+                        solve_active_set=_solve_active_set,
+                        pressures_for=_pressures,
+                        proposed_active=_proposed_active,
+                        tangential_force=_tangential_contact_force,
+                        trace=_contact_trace(telemetry, step=step, strategy="coupled_contact_projection"),
+                    )
+                    if telemetry is not None:
+                        emit_route_event_best_effort(
+                            telemetry,
+                            EventType.CONTACT_STATE,
+                            status=EventStatus.RUNNING,
+                            step=step,
+                            solver_backend="contact_active_set",
+                            metrics={
+                                "phase": "coupled_contact_projection_accepted",
+                                "strategy": "coupled_contact_projection",
+                                "active_contacts": list(coupled_state.active),
+                                "tangential_states": list(coupled_state.states),
+                                "closed_frictional_contacts": list(coupled_state.closed_frictional_contacts),
+                                "stick_frictional_contacts": list(coupled_state.stick_frictional_contacts),
+                                "slip_frictional_contacts": list(coupled_state.slip_frictional_contacts),
+                                "max_complementarity": coupled_state.max_complementarity,
+                            },
+                        )
+                    return _FrictionIncrementState(
+                        coupled_state.displacement,
+                        coupled_state.multipliers,
+                        coupled_state.reduction,
+                        coupled_state.gaps,
+                        coupled_state.pressures,
+                        coupled_state.active,
+                        coupled_state.states,
+                        coupled_state.forces,
+                        coupled_state.tangential_displacements,
+                        coupled_state.references,
+                        coupled_state.history,
+                        _dissipation_increment(slip_references, coupled_state.references, coupled_state.forces),
+                    )
+                except NumericalConvergenceError as coupled_error:
+                    coupled_diagnostics = dict(coupled_error.diagnostics or {})
+                    if telemetry is not None:
+                        emit_route_event_best_effort(
+                            telemetry,
+                            EventType.CONTACT_STATE,
+                            status=EventStatus.RUNNING,
+                            step=step,
+                            solver_backend="contact_active_set",
+                            message=str(coupled_error),
+                            metrics={
+                                "phase": "coupled_contact_projection_failure",
+                                "strategy": "coupled_contact_projection",
+                                "convergence_cause": str(
+                                    coupled_diagnostics.get("cause", "COUPLED_CONTACT_FAILURE")
+                                ),
+                            },
+                        )
+                    raise NumericalConvergenceError(
+                        "Frictional contact failed in the direct, frozen-mode, and coupled-projection routes.",
+                        reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+                        diagnostics={
+                            "step": step,
+                            "strategy": "direct_then_active_slip_then_coupled_projection",
+                            "cause": "ALL_FRICTIONAL_CONTACT_ROUTES_FAILED",
+                            "direct_error": str(direct_error) if direct_error is not None else "direct_failed",
+                            "direct_diagnostics": direct_diagnostics,
+                            "active_slip_root_error": str(root_error),
+                            "active_slip_root_diagnostics": root_diagnostics,
+                            "coupled_projection_error": str(coupled_error),
+                            "coupled_projection_diagnostics": coupled_diagnostics,
+                        },
+                    ) from coupled_error
 
     @staticmethod
     def _iterate_friction_increment(

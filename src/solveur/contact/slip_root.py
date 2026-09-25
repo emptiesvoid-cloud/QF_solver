@@ -1,4 +1,4 @@
-"""Small nonlinear fallback for strongly coupled regularized Coulomb slip."""
+"""Nonlinear fallbacks for coupled normal contact and regularized Coulomb slip."""
 
 from __future__ import annotations
 
@@ -183,6 +183,300 @@ def solve_active_slip_root(
     )
 
 
+def solve_coupled_contact_projection(
+    dofs: DofManager,
+    stiffness: csr_matrix,
+    loads: np.ndarray,
+    fixed: np.ndarray,
+    operators: list[Any],
+    slip_references: np.ndarray,
+    tolerance: float,
+    *,
+    solve_active_set: SolveActiveSet,
+    pressures_for: Pressures,
+    proposed_active: ProposedActive,
+    tangential_force: TangentialForce,
+    trace: ContactTrace | None = None,
+    maximum_enumerated_contacts: int = 8,
+) -> ActiveSlipSolution:
+    """Solve normal complementarity and the full Coulomb projection together.
+
+    This bounded recovery route is used only after the direct iteration and
+    frozen-mode active-slip root have failed.  For each deterministic normal
+    active-set candidate, the nonlinear unknown includes both tangential force
+    components of every active frictional contact.  Projection onto the
+    pressure-dependent Coulomb disk selects stick or slip from the current
+    trial displacement; mode labels are not inherited from a stale iterate.
+
+    The exhaustive normal-set search is deliberately capped.  Larger contact
+    systems keep the existing fail-closed outcome rather than paying an
+    exponential search cost or accepting an uncertified set.
+    """
+    contact_count = len(operators)
+    if contact_count > maximum_enumerated_contacts:
+        raise NumericalConvergenceError(
+            "Coupled frictional contact search exceeds its deterministic contact-count limit.",
+            reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+            diagnostics={
+                "strategy": "coupled_contact_projection",
+                "cause": "COUPLED_SEARCH_CONTACT_LIMIT_EXCEEDED",
+                "contact_count": contact_count,
+                "maximum_enumerated_contacts": maximum_enumerated_contacts,
+            },
+        )
+
+    try:
+        seed_active = _normal_active_set(
+            dofs,
+            stiffness,
+            loads,
+            fixed,
+            operators,
+            solve_active_set,
+            pressures_for,
+            proposed_active,
+            trace=trace,
+        )
+    except NumericalConvergenceError:
+        # Candidate enumeration is complete for the declared bounded set, so
+        # a seed is only an ordering hint and is not a convergence authority.
+        seed_active = ()
+
+    candidates = [
+        tuple(index for index in range(contact_count) if mask & (1 << index))
+        for mask in range(1 << contact_count)
+    ]
+    seed = set(seed_active)
+    candidates.sort(key=lambda candidate: (len(set(candidate) ^ seed), candidate))
+    rejected: list[dict[str, object]] = []
+
+    for candidate_index, active in enumerate(candidates, start=1):
+        try:
+            solution = _solve_coupled_projection_on_active_set(
+                dofs,
+                stiffness,
+                loads,
+                fixed,
+                operators,
+                active,
+                slip_references,
+                tolerance,
+                solve_active_set=solve_active_set,
+                pressures_for=pressures_for,
+                tangential_force=tangential_force,
+            )
+            _validate_post_root_state(
+                solution,
+                operators,
+                active,
+                slip_references,
+                tolerance=tolerance,
+                expected_tangential_states=None,
+            )
+        except NumericalConvergenceError as error:
+            rejected.append(
+                {
+                    "active_contacts": list(active),
+                    "error": str(error),
+                    "diagnostics": dict(error.diagnostics or {}),
+                }
+            )
+            if trace is not None:
+                trace(
+                    "coupled_contact_candidate_rejected",
+                    {
+                        "candidate_index": candidate_index,
+                        "candidate_count": len(candidates),
+                        "active_contacts": list(active),
+                        "cause": str((error.diagnostics or {}).get("cause", "CANDIDATE_INVALID")),
+                    },
+                )
+            continue
+
+        if trace is not None:
+            trace(
+                "coupled_contact_candidate_accepted",
+                {
+                    "candidate_index": candidate_index,
+                    "candidate_count": len(candidates),
+                    "active_contacts": list(active),
+                    "states": list(solution.states),
+                    "closed_frictional_contacts": list(solution.closed_frictional_contacts),
+                    "stick_frictional_contacts": list(solution.stick_frictional_contacts),
+                    "slip_frictional_contacts": list(solution.slip_frictional_contacts),
+                    "max_complementarity": solution.max_complementarity,
+                },
+            )
+        return solution
+
+    raise NumericalConvergenceError(
+        "No admissible normal active set satisfies the coupled friction projection.",
+        reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+        diagnostics={
+            "strategy": "coupled_contact_projection",
+            "cause": "COUPLED_ACTIVE_SET_SEARCH_EXHAUSTED",
+            "candidate_count": len(candidates),
+            "rejected_candidate_count": len(rejected),
+            "rejected_candidates": rejected,
+        },
+    )
+
+
+def _solve_coupled_projection_on_active_set(
+    dofs: DofManager,
+    stiffness: csr_matrix,
+    loads: np.ndarray,
+    fixed: np.ndarray,
+    operators: list[Any],
+    active: tuple[int, ...],
+    slip_references: np.ndarray,
+    tolerance: float,
+    *,
+    solve_active_set: SolveActiveSet,
+    pressures_for: Pressures,
+    tangential_force: TangentialForce,
+) -> ActiveSlipSolution:
+    """Solve all active tangential-force components on one normal set."""
+    frictional = tuple(index for index in active if operators[index].has_friction)
+    vector_size = 2 * len(frictional)
+
+    def solve_for(vector: np.ndarray) -> tuple[np.ndarray, np.ndarray, ConstraintReduction, np.ndarray, np.ndarray, np.ndarray]:
+        forces: np.ndarray = np.zeros((len(operators), 2), dtype=float)
+        if frictional:
+            forces[list(frictional)] = np.asarray(vector, dtype=float).reshape(len(frictional), 2)
+        effective_loads = np.asarray(loads, dtype=float) - tangential_force(operators, forces, dofs.ndof)
+        reduction = ConstraintReduction.from_system(dofs, stiffness, effective_loads, [], fixed)
+        displacement, multipliers = solve_active_set(reduction, operators, active)
+        gaps = np.asarray([operator.gap(displacement) for operator in operators], dtype=float)
+        pressures = np.asarray(pressures_for(active, multipliers, len(operators)), dtype=float)
+        return displacement, multipliers, reduction, gaps, pressures, forces
+
+    def projected_trial(displacement: np.ndarray, pressures: np.ndarray) -> np.ndarray:
+        projected: np.ndarray = np.zeros((len(operators), 2), dtype=float)
+        for index in frictional:
+            operator = operators[index]
+            trial = operator.tangential_stiffness * (
+                operator.tangential_displacement(displacement) - slip_references[index]
+            )
+            trial_norm = float(np.linalg.norm(trial))
+            limit = operator.friction_coefficient * max(float(pressures[index]), 0.0)
+            if trial_norm <= limit or trial_norm == 0.0:
+                projected[index] = trial
+            else:
+                projected[index] = limit * trial / trial_norm
+        return projected
+
+    def residual(vector: np.ndarray) -> np.ndarray:
+        displacement, _, _, _, pressures, _ = solve_for(vector)
+        forces = np.asarray(vector, dtype=float).reshape(len(frictional), 2)
+        target = projected_trial(displacement, pressures)[list(frictional)]
+        return (forces - target).ravel()
+
+    zero: np.ndarray = np.zeros(vector_size, dtype=float)
+    displacement, _, _, _, pressures, _ = solve_for(zero)
+    initial = projected_trial(displacement, pressures)[list(frictional)].ravel()
+    if vector_size:
+        root_result = root(residual, initial, method="hybr", options={"xtol": tolerance})
+        vector = np.asarray(root_result.x, dtype=float)
+        strategy = "coupled_coulomb_projection_root"
+        evaluations = int(root_result.nfev)
+        residual_norm = float(np.linalg.norm(residual(vector))) if np.all(np.isfinite(vector)) else float("inf")
+        residual_limit = tolerance * max(float(np.linalg.norm(vector)), 1.0)
+        if not root_result.success or not np.isfinite(residual_norm) or residual_norm > residual_limit:
+            try:
+                vector, evaluations, residual_norm = _semismooth_newton_solution(
+                    residual, initial, tolerance
+                )
+                strategy = "coupled_coulomb_projection_semismooth_newton"
+            except NumericalConvergenceError:
+                vector, evaluations, residual_norm = _globalized_slip_solution(
+                    residual, initial, tolerance
+                )
+                strategy = "coupled_coulomb_projection_least_squares"
+        residual_limit = tolerance * max(float(np.linalg.norm(vector)), 1.0)
+        if not np.isfinite(residual_norm) or residual_norm > residual_limit:
+            raise NumericalConvergenceError(
+                "Coupled Coulomb projection residual exceeds its frozen tolerance.",
+                reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+                diagnostics={
+                    "cause": "COUPLED_TANGENTIAL_RESIDUAL_TOO_LARGE",
+                    "active_contacts": list(active),
+                    "residual_norm": residual_norm,
+                    "residual_limit": residual_limit,
+                },
+            )
+    else:
+        vector = zero
+        strategy = "coupled_coulomb_projection_no_frictional_contacts"
+        evaluations = 1
+        residual_norm = 0.0
+
+    displacement, multipliers, reduction, gaps, pressures, forces = solve_for(vector)
+    tangential_displacements = np.asarray(
+        [operator.tangential_displacement(displacement) for operator in operators], dtype=float
+    )
+    references = np.asarray(slip_references, dtype=float).copy()
+    states: list[str] = []
+    stick: list[int] = []
+    slip: list[int] = []
+    closed: list[int] = []
+    opened: list[int] = []
+    for index, operator in enumerate(operators):
+        if index not in active:
+            states.append("open")
+            if operator.has_friction:
+                opened.append(index)
+            continue
+        if not operator.has_friction:
+            states.append("frictionless")
+            continue
+        if float(pressures[index]) > operator.tolerance:
+            closed.append(index)
+        trial = operator.tangential_stiffness * (tangential_displacements[index] - slip_references[index])
+        trial_norm = float(np.linalg.norm(trial))
+        limit = operator.friction_coefficient * max(float(pressures[index]), 0.0)
+        if trial_norm <= limit + operator.tolerance:
+            states.append("stick")
+            stick.append(index)
+        else:
+            states.append("slip")
+            slip.append(index)
+            references[index] = tangential_displacements[index] - forces[index] / operator.tangential_stiffness
+
+    max_complementarity = float(np.max(np.abs(gaps * pressures), initial=0.0))
+    return ActiveSlipSolution(
+        displacement,
+        multipliers,
+        reduction,
+        gaps,
+        pressures,
+        active,
+        tuple(states),
+        forces,
+        tangential_displacements,
+        references,
+        [
+            {
+                "iteration": evaluations,
+                "strategy": strategy,
+                "active_contacts": list(active),
+                "proposed_contacts": list(active),
+                "tangential_states": list(states),
+                "closed_frictional_contacts": closed,
+                "stick_frictional_contacts": stick,
+                "slip_frictional_contacts": slip,
+                "open_frictional_contacts": opened,
+                "tangential_unknown_dimension": vector_size,
+                "tangential_force_residual": residual_norm,
+                "max_complementarity": max_complementarity,
+            }
+        ],
+        tuple(closed),
+        tuple(opened),
+        tuple(stick),
+        tuple(slip),
+        max_complementarity,
+    )
 def _solve_active_slip_on_active_set(
     dofs: DofManager,
     stiffness: csr_matrix,
@@ -584,15 +878,21 @@ def _validate_post_root_state(
                         },
                     )
             elif state == "slip":
-                if trial_norm <= max(operator.tolerance, tolerance) or pressure <= 0.0:
+                if trial_norm <= max(operator.tolerance, tolerance):
                     raise NumericalConvergenceError(
                         "Active-slip hybrid slip direction is undefined.",
                         reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
                         diagnostics={"cause": "SLIP_DIRECTION_INVALID", "contact": index},
                     )
-                target = pressure_limit * trial / trial_norm
-                admissibility_error = float(np.linalg.norm(tangential_force - target))
-                if admissibility_error > tolerance * max(float(np.linalg.norm(target)), 1.0):
+                if pressure <= 0.0:
+                    # At zero compression the Coulomb disk collapses to the
+                    # origin. Sliding can still update its reference, but has
+                    # no nonzero direction/traction to align with.
+                    admissibility_error = force_norm
+                else:
+                    target = pressure_limit * trial / trial_norm
+                    admissibility_error = float(np.linalg.norm(tangential_force - target))
+                if admissibility_error > tolerance * max(pressure_limit, 1.0):
                     raise NumericalConvergenceError(
                         "Active-slip hybrid slip cone/alignment check failed.",
                         reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
