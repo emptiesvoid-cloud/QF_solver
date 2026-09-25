@@ -38,9 +38,13 @@ est ecrit egalement si une commande echoue, afin de rendre la campagne
 rejouable et auditable hors du flux console.
 
 La commande verify-all sert au développement et à la CI depuis un checkout Git
-complet. Elle utilise les chemins du dépôt sous scripts/, tests/ et les lanceurs
-à la racine. Wheel et sdist omettent ces outils ; depuis un paquet installé,
-verify-all signale la limite avant de démarrer un sous-processus.
+complet. Le préflight exige que le module CLI importé soit le fichier sous
+src/solveur du checkout, vérifie les types des chemins attendus et fait confirmer
+la racine par Git. Wheel et sdist omettent les scripts, tests et lanceurs requis :
+un module provenant d'un paquet installé est donc refusé avant tout
+sous-processus. Un checkout incomplet ou un faux marqueur .git ne démarre aucune
+commande de vérification et n'écrit aucun rapport ; seul le contrôle Git de
+métadonnées peut être exécuté pour invalider un faux checkout.
 
 La forme module `python -m solveur.cli.main` est portable apres installation
 du package, ou depuis ce checkout avec `PYTHONPATH=src`. Depuis un checkout

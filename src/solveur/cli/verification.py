@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from solveur.paths import project_root
-
 import argparse
 import subprocess
 import sys
@@ -106,22 +104,77 @@ VERIFY_ALL_CHECKOUT_PATHS = (
     "scripts/check_p0_coverage.py",
 )
 
+VERIFY_ALL_CHECKOUT_DIRECTORIES = frozenset({"src/solveur", "scripts", "tests"})
+
 
 def _verify_all_missing_checkout_paths(root: Path) -> list[str]:
-    """List repository files required by the developer-only verify-all runner."""
+    """List required checkout entries that are absent or have the wrong type."""
 
-    return [relative for relative in VERIFY_ALL_CHECKOUT_PATHS if not (root / relative).exists()]
+    missing: list[str] = []
+    for relative in VERIFY_ALL_CHECKOUT_PATHS:
+        path = root / relative
+        if relative == ".git":
+            valid = path.is_dir() or path.is_file()
+        elif relative in VERIFY_ALL_CHECKOUT_DIRECTORIES:
+            valid = path.is_dir()
+        else:
+            valid = path.is_file()
+        if not valid:
+            missing.append(relative)
+    return missing
+
+
+def _verify_all_checkout_root() -> tuple[Path | None, list[str]]:
+    """Accept only this CLI module inside a complete, real Git source checkout.
+
+    Installed distributions are rejected from their module location before any
+    subprocess is started. For source checkouts, one bounded Git metadata probe
+    confirms that the checkout root is genuine before verify-all commands run.
+    """
+
+    module_path = Path(__file__).resolve()
+    root = module_path.parents[3]
+    expected_module_path = (root / "src" / "solveur" / "cli" / "verification.py").resolve()
+    if module_path != expected_module_path:
+        return None, ["CLI module is not loaded from this checkout's src/solveur tree"]
+
+    missing = _verify_all_missing_checkout_paths(root)
+    if missing:
+        return None, missing
+
+    try:
+        git_probe = subprocess.run(
+            ["git", "-C", str(root), "rev-parse", "--show-toplevel"],
+            cwd=root,
+            capture_output=True,
+            check=False,
+            text=True,
+            timeout=5,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return None, ["Git metadata probe failed; no verification commands were started"]
+
+    if git_probe.returncode != 0:
+        return None, [".git does not identify a valid Git working tree"]
+
+    try:
+        git_root = Path(git_probe.stdout.strip()).resolve()
+    except (OSError, RuntimeError):
+        return None, ["Git returned an invalid working-tree root"]
+    if git_root != root:
+        return None, ["imported CLI module and Git working-tree root do not match"]
+
+    return root, []
 
 
 def command_verify_all(args: argparse.Namespace) -> int:
-    root = project_root()
-    missing = _verify_all_missing_checkout_paths(root)
-    if missing:
+    root, failures = _verify_all_checkout_root()
+    if root is None:
         print(
-            "VERIFY-ALL UNSUPPORTED: this developer command requires a complete Git source checkout; "
-            "it is not available from an installed package."
+            "VERIFY-ALL UNSUPPORTED: this developer command requires its CLI module "
+            "to be imported from a complete, valid Git source checkout."
         )
-        print(f"Missing checkout paths: {', '.join(missing)}")
+        print(f"Checkout validation: {'; '.join(failures)}")
         return int(ExitCode.INPUT_OR_MESH)
 
     profile = verification_profile(args.profile)

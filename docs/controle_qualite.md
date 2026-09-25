@@ -108,9 +108,12 @@ python .\scripts\build_docs.py --profile engineering
 ```
 
 La commande verify-all est réservée au checkout Git complet utilisé pour le
-développement et la CI. Elle s’appuie sur scripts/, tests/ et les lanceurs à la
-racine ; depuis un paquet installé, elle signale cette limite avant tout
-sous-processus.
+développement et la CI. Le préflight dérive la racine depuis le fichier CLI
+effectivement importé, exige que ce fichier soit sous src/solveur du checkout,
+vérifie le type des chemins requis, puis demande à Git de confirmer la racine.
+Un paquet installé est refusé avant tout sous-processus ; un faux marqueur .git
+peut déclencher uniquement la sonde Git de métadonnées, jamais les commandes
+de vérification ni l’écriture du rapport.
 
 La CI conserve cette baseline sur les changements pousses : elle protege les
 regressions entre zones qui ne seraient pas visibles dans un controle local.
