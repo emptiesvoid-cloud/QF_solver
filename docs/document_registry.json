@@ -6311,6 +6311,25 @@
       "qualification/0_2_9/wp12_external_vv_r4_gallery_audit.json"
     ],
     "tests": []
+  },
+  {
+    "id": "DOC-029-CONTACT-ACTIVE-SET-REQUAL-001",
+    "path": "verification/0_2_9/contact-active-set-remediation.md",
+    "title": "QF Solver 0.2.9 frictional contact active-set remediation and WP07/WP08 reopening",
+    "status": "controlled_evidence",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/contact_robustness_requalification/contact_active_set_remediation_r1.json",
+      "qualification/0_2_9/contact_robustness_requalification/diagnostic_survey_r1/summary.json",
+      "qualification/0_2_9/contact_robustness_requalification/diagnostic_survey_r1/vnv_manifest.json",
+      "qualification/0_2_9/contact_robustness_requalification/targeted_contact_regression_r1.xml"
+    ],
+    "tests": [
+      "tests/unit/test_frictional_contact_family_survey.py",
+      "tests/unit/test_frictional_contact_structural_limit.py",
+      "tests/unit/test_frictionless_contact.py",
+      "tests/integration/test_wp07_governing_integration.py"
+    ]
   }
 ]
 }

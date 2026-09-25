@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-029-CONTACT-ACTIVE-SET-REMEDIATION-R1",
+  "status": "PASS_INTERNAL_DIAGNOSTIC_ONLY",
+  "provenance": {
+    "governing_branch": "0.2.9-unified-nonlinear",
+    "governing_base_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+    "remediation_branch": "codex/contact-active-set-remediation",
+    "remediation_sha": "4066b5ad4ac4595de64e9948f62a91140697b06a",
+    "execution_sha": "4066b5ad4ac4595de64e9948f62a91140697b06a",
+    "survey_source_clean_at_execution": true,
+    "survey_manifest": "qualification/0_2_9/contact_robustness_requalification/diagnostic_survey_r1/vnv_manifest.json",
+    "formal_contract_sha256": null,
+    "formal_contract_status": "NOT_FROZEN_FOR_REQUALIFICATION"
+  },
+  "root_cause": {
+    "classification": "STALE_FROZEN_TANGENTIAL_MODE_CAUSES_NORMAL_ACTIVE_SET_CYCLE",
+    "baseline_command": "py -3.13 -m pytest -q tests/unit/test_frictional_contact_family_survey.py",
+    "baseline_result": "2 failed in 3.81s",
+    "case": "faceted_ramp_patch-L1",
+    "direct_route": {
+      "status": "FAIL_ACTIVE_SET_MAX_ITERATIONS",
+      "iteration_limit": 12,
+      "terminal_active_contacts": [0, 2],
+      "terminal_tangential_states": ["slip", "slip", "stick"],
+      "visited_active_set_count": 5
+    },
+    "frozen_mode_root_route": {
+      "status": "FAIL_POST_ROOT_NORMAL_SET_CYCLE",
+      "cycle": [[0, 1, 2], [0, 1], [0, 1, 2]],
+      "failure_cause": "ACTIVE_SET_CYCLE_REPEATED"
+    },
+    "mechanics_interpretation": "The root inherited stick/slip labels from a different direct iterate while changing the normal active set. Contact 2 had to slide in the coupled admissible solution; freezing it as stick changed pressure/gap response and caused the repeated normal set."
+  },
+  "correction": {
+    "production_mechanics_changed": true,
+    "files": [
+      "src/solveur/contact/slip_root.py",
+      "src/solveur/contact/solver.py"
+    ],
+    "tests_added": [
+      "tests/unit/test_frictional_contact_family_survey.py::test_ramp_cycle_is_recovered_by_coupled_normal_and_friction_projection",
+      "tests/unit/test_frictional_contact_family_survey.py::test_coupled_projection_search_fails_closed_above_contact_limit"
+    ],
+    "fallback_chain_changed": true,
+    "fallback_order": [
+      "existing_direct_route",
+      "existing_frozen_mode_active_slip_root",
+      "new_bounded_coupled_coulomb_projection"
+    ],
+    "normal_active_set_search": "deterministic exhaustive candidates, stopping at first fully admissible set",
+    "maximum_enumerated_contact_operators": 8,
+    "above_limit_behavior": "FAIL_CLOSED",
+    "thresholds_changed": false,
+    "loads_or_boundary_conditions_changed": false,
+    "material_or_friction_parameters_changed": false,
+    "iteration_limits_changed": false,
+    "solver_backend_changed": false,
+    "historical_evidence_modified": false
+  },
+  "diagnostic_survey": {
+    "campaign_id": "VNV-CONTACT-FRICTION-FAMILIES-004",
+    "status": "PASS_INTERNAL",
+    "geometry_families": 3,
+    "mesh_levels_each": 3,
+    "all_seven_gates_pass": true,
+    "maximum_absolute_gap_m": 9.159339953157541e-16,
+    "maximum_coulomb_cone_excess_n": 1.4210854715202004e-14,
+    "faceted_ramp_l1": {
+      "active_contacts": [0, 1, 2],
+      "states": ["slip", "slip", "slip"],
+      "pressures_n": [197.5282974147008, 159.37026229508697, 76.43795836880946],
+      "friction_limits_n": [79.01131896588032, 63.74810491803479, 30.575183347523787],
+      "tangential_force_norms_n": [79.01131896588032, 63.74810491803479, 30.575183347523787],
+      "gaps_m": [0.0, 0.0, 0.0],
+      "accepted_route": "coupled_coulomb_projection_root"
+    },
+    "evidence_files": [
+      {
+        "path": "qualification/0_2_9/contact_robustness_requalification/diagnostic_survey_r1/summary.json",
+        "sha256": "3f374c751f01b4b4fb931a639f3821e0272893b6f572353538a42f54724fac0b"
+      },
+      {
+        "path": "qualification/0_2_9/contact_robustness_requalification/diagnostic_survey_r1/report.md",
+        "sha256": "db3262b25110e65b2f028208341f27a434d9c41423cfd16b7ab51d72020f5710"
+      },
+      {
+        "path": "qualification/0_2_9/contact_robustness_requalification/diagnostic_survey_r1/frictional_contact_family_survey.png",
+        "sha256": "271c4a3debca67265b592380063736f36665448984b2ac649e2f4c2f052649ff"
+      },
+      {
+        "path": "qualification/0_2_9/contact_robustness_requalification/diagnostic_survey_r1/vnv_manifest.json",
+        "sha256": "55cf70ca771afb405b725bf0c87f44b89ff4f86cc1f70c12f42b9baf14bbb2f3"
+      }
+    ]
+  },
+  "verification": {
+    "targeted_command": "py -3.13 -m pytest -q tests/unit/test_frictional_contact_family_survey.py tests/unit/test_frictional_contact_structural_limit.py tests/unit/test_frictional_contact.py tests/unit/test_frictionless_contact.py tests/unit/test_wp08b_frictional_identities_rollback.py tests/unit/test_wp08c_friction_tangent_dissipation.py tests/unit/test_wp08d_active_set_remediation.py tests/unit/test_wp08d_mixed_open_active_slip.py tests/integration/test_wp07_governing_integration.py --junitxml=qualification/0_2_9/contact_robustness_requalification/targeted_contact_regression_r1.xml",
+    "targeted_tests": {
+      "passed": 81,
+      "failed": 0,
+      "errors": 0,
+      "junit_sha256": "263167477f8435e61e6695e5a97039f26176a6a38aabf29fe3f54aa44492ed10"
+    },
+    "ruff": "PASS",
+    "mypy": "PASS — 3 source/test files",
+    "compileall": "PASS",
+    "git_diff_check": "PASS_AT_REMEDIATION_SOURCE_COMMIT_BEFORE_BYTE_PRESERVING_RAW_EVIDENCE_ARCHIVE",
+    "roadmap_governance_tests": {
+      "command": "py -3.13 -m pytest -q tests/verification/test_wp05cde_integration.py tests/unit/test_wp13_owner_acceptance.py tests/unit/test_f3_public_claims.py tests/unit/test_f5_packaging_compatibility.py tests/unit/test_f6_numerical_performance_regression.py tests/documentation/test_docs_generation.py",
+      "passed": 40,
+      "skipped": 2,
+      "failed": 0,
+      "staged_evidence_diff_check": "PASS_WITH_CRLF_AWARE_WHITESPACE_RULES; RAW_BYTES_UNCHANGED",
+      "generated_registry_view": "NOT_REGENERATED_BLOCKED_BY_PREEXISTING_WP04F_REVIEWER_METADATA"
+    },
+    "full_repository_test_suite": "NOT_RUN",
+    "formal_wp07_campaigns": "NOT_RUN",
+    "formal_wp08_m1_m2_m3_reference_replay": "NOT_RUN"
+  },
+  "roadmap_and_ledger": {
+    "wp07_requalification_status": "OPEN_SCOPED_FRICTIONLESS_REGRESSION_REVIEW",
+    "wp07_prior_owner_award": "10/10 — preserved",
+    "wp08_requalification_status": "OPEN_FRICTIONAL_CONTACT_REQUALIFICATION_PENDING_FROZEN_CONTRACT_AND_EXECUTION_AUTHORIZATION",
+    "wp08_prior_owner_award": "8/8 — preserved",
+    "official_global_total_before": "95/100",
+    "official_global_total_after": "95/100",
+    "score_changes": false,
+    "next_formal_gate": "Complete the scoped WP07 frictionless regression review. Freeze a prospective WP08 requalification contract on the remediation SHA and obtain the execution authorization required by its runner."
+  },
+  "limitations": [
+    "Internal diagnostic survey only; not a formal WP08 score qualification.",
+    "No independent global FEM/Newton solve or new external-solver correlation was run.",
+    "Coupled active-set enumeration is bounded to at most eight contact operators; larger systems fail closed through this recovery route.",
+    "WP07/WP08 prior Owner decisions and historical evidence remain unchanged until formal requalification and a separate Owner decision."
+  ]
+}

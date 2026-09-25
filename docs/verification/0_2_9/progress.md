@@ -18,8 +18,8 @@ applicable_version: 0.2.9-development
 | WP16 | 0 | **Post-release operational step — external archive/Git LFS migration for large evidence** |
 | WP05 | 5 | **Closed — 5/5, bounded with limitations; C/D structural qualification and E cross-family closure accepted** |
 | WP06 | 8 | **Owner accepted A/B/C — 4/8 with limitations; D accepted as experimental bounded evidence only**; no formal D points; historical D failure preserved |
-| WP07 | 10 | **Owner accepted — 10/10 with bounded limitations; A–E closed** |
-| WP08 | 8 | **Closed — 8/8; Owner-approved with limitations** |
+| WP07 | 10 | **Previously Owner-accepted — 10/10 with bounded limitations; reopened for scoped regression review after contact remediation** |
+| WP08 | 8 | **Previously Owner-accepted — 8/8 with limitations; reopened for frictional-contact requalification on the remediation source** |
 | WP09 | 8 | **Closed — Owner accepted 8/8; HEX8-only bounded corotational J2 with limitations** |
 | WP10 | 6 | **Closed — Owner accepted 6/6; bounded TET4/HEX8/HEX20/TET10 coupled evidence with limitations** |
 | WP11 | 6 | **Closed — Owner accepted 6/6; bounded TET4/HEX8/TET10/HEX20 PETSc/MPI evidence with limitations** |
@@ -160,6 +160,38 @@ no claim for frictional updated search, finite sliding, general nonlinear
 friction, mid-Newton or general nonlinear restart, global pressure-coupled
 tangent consistency, complete global energy decomposition, external-solver
 correlation, MPI/PETSc, or dynamics.
+
+## Contact-mechanics requalification (2026-09-25)
+
+A reproduced `faceted_ramp_patch-L1` failure exposed a real robustness defect
+in the bounded frictional-contact fallback chain: tangential stick/slip labels
+from a prior iterate were held fixed while the normal active set changed,
+causing a repeated normal-set cycle. The correction adds a bounded coupled
+Coulomb-projection recovery route after the existing direct and frozen-mode
+routes fail. It does not change thresholds, materials, loads, geometry,
+contact/search definitions, solver backend, or existing iteration limits.
+
+The correction is on isolated branch `codex/contact-active-set-remediation`
+at `4066b5ad4ac4595de64e9948f62a91140697b06a`. The focused contact and
+governing-integration selection passed 81 tests; Ruff, targeted mypy,
+compileall, and diff-check passed. The three-family/three-level diagnostic
+survey passed its seven internal gates. These results are diagnostic and
+regression evidence, not formal WP07/WP08 qualification.
+
+WP07's prior 10/10 Owner award and WP08's prior 8/8 award remain preserved as
+historical decisions; this update does not revoke points or rewrite evidence.
+WP07 is reopened for a scoped frictionless-regression review because it shares
+the contact system, although the new fallback is frictional-only and the
+targeted frictionless regressions pass. WP08 is reopened for formal
+frictional-contact requalification because the production fallback chain has
+changed. No formal M1/M2/M3, independent-reference, or replay campaign has run
+on the remediation source. Before WP08 execution, freeze a prospective
+source-bound contract and obtain the execution authorization required by its
+runner. The active score remains 95/100 until a separate Owner decision.
+
+See the [contact active-set remediation report](contact-active-set-remediation.md)
+and machine-readable record at
+`qualification/0_2_9/contact_robustness_requalification/contact_active_set_remediation_r1.json`.
 
 WP01 is closed by the independent Owner decision recorded in
 [the WP01 closure record](wp01-owner-closure.md), based on audit SHA

@@ -1,0 +1,365 @@
+{
+  "campaign_id": "VNV-CONTACT-FRICTION-FAMILIES-004",
+  "checks": [
+    {
+      "limit": 3,
+      "name": "three_geometry_families",
+      "operation": "greater_equal",
+      "status": "PASS",
+      "value": 3
+    },
+    {
+      "limit": 3,
+      "name": "three_mesh_levels_each",
+      "operation": "greater_equal",
+      "status": "PASS",
+      "value": 3
+    },
+    {
+      "limit": true,
+      "name": "finite_response",
+      "operation": "equals",
+      "status": "PASS",
+      "value": true
+    },
+    {
+      "limit": 1e-09,
+      "name": "maximum_gap",
+      "operation": "less_equal",
+      "status": "PASS",
+      "value": 9.159339953157541e-16
+    },
+    {
+      "limit": 1e-08,
+      "name": "maximum_coulomb_cone_excess",
+      "operation": "less_equal",
+      "status": "PASS",
+      "value": 1.4210854715202004e-14
+    },
+    {
+      "limit": true,
+      "name": "stick_or_slip_only",
+      "operation": "equals",
+      "status": "PASS",
+      "value": true
+    },
+    {
+      "limit": true,
+      "name": "sliding_branch_exercised",
+      "operation": "equals",
+      "status": "PASS",
+      "value": true
+    }
+  ],
+  "families": {
+    "deformable_tet4_two_slaves": {
+      "finite_response": true,
+      "id": "deformable_tet4_two_slaves",
+      "levels": [
+        {
+          "contacts": [
+            {
+              "friction_limit_n": 710.1296445494755,
+              "gap_m": -2.7755575615628914e-17,
+              "state": "stick",
+              "tangential_force_n": 208.74636904009955
+            },
+            {
+              "friction_limit_n": 708.3011598554049,
+              "gap_m": -2.220446049250313e-16,
+              "state": "stick",
+              "tangential_force_n": 179.03242980880546
+            }
+          ],
+          "elements": 384,
+          "family": "deformable_tet4_two_slaves",
+          "finite_response": true,
+          "id": "deformable_tet4_two_slaves-L1",
+          "maximum_abs_gap_m": 2.220446049250313e-16,
+          "maximum_cone_excess_n": -501.38327550937595,
+          "mesh_level_count": 1,
+          "nodes": 128,
+          "states": [
+            "stick"
+          ]
+        },
+        {
+          "contacts": [
+            {
+              "friction_limit_n": 713.808468597561,
+              "gap_m": -1.3877787807814457e-17,
+              "state": "stick",
+              "tangential_force_n": 207.25783986256647
+            },
+            {
+              "friction_limit_n": 712.0208431956261,
+              "gap_m": -1.1102230246251565e-16,
+              "state": "stick",
+              "tangential_force_n": 181.6174737593911
+            }
+          ],
+          "elements": 576,
+          "family": "deformable_tet4_two_slaves",
+          "finite_response": true,
+          "id": "deformable_tet4_two_slaves-L2",
+          "maximum_abs_gap_m": 1.1102230246251565e-16,
+          "maximum_cone_excess_n": -506.5506287349946,
+          "mesh_level_count": 1,
+          "nodes": 178,
+          "states": [
+            "stick"
+          ]
+        },
+        {
+          "contacts": [
+            {
+              "friction_limit_n": 751.5523310328767,
+              "gap_m": 5.551115123125783e-17,
+              "state": "stick",
+              "tangential_force_n": 200.68343572265937
+            },
+            {
+              "friction_limit_n": 749.373959508714,
+              "gap_m": 9.159339953157541e-16,
+              "state": "stick",
+              "tangential_force_n": 189.57012466487092
+            }
+          ],
+          "elements": 3072,
+          "family": "deformable_tet4_two_slaves",
+          "finite_response": true,
+          "id": "deformable_tet4_two_slaves-L3",
+          "maximum_abs_gap_m": 9.159339953157541e-16,
+          "maximum_cone_excess_n": -550.8688953102173,
+          "mesh_level_count": 1,
+          "nodes": 732,
+          "states": [
+            "stick"
+          ]
+        }
+      ],
+      "maximum_abs_gap_m": 9.159339953157541e-16,
+      "maximum_cone_excess_n": -501.38327550937595,
+      "mesh_level_count": 3,
+      "states": [
+        "stick"
+      ]
+    },
+    "dual_stop_corner": {
+      "finite_response": true,
+      "id": "dual_stop_corner",
+      "levels": [
+        {
+          "contacts": [
+            {
+              "friction_limit_n": 9.523809523809524,
+              "gap_m": 0.0,
+              "state": "slip",
+              "tangential_force_n": 9.523809523809522
+            },
+            {
+              "friction_limit_n": 76.19047619047619,
+              "gap_m": 0.0,
+              "state": "slip",
+              "tangential_force_n": 76.19047619047619
+            }
+          ],
+          "elements": 0,
+          "family": "dual_stop_corner",
+          "finite_response": true,
+          "id": "dual_stop_corner-L1",
+          "maximum_abs_gap_m": 0.0,
+          "maximum_cone_excess_n": 0.0,
+          "mesh_level_count": 1,
+          "nodes": 5,
+          "states": [
+            "slip"
+          ]
+        },
+        {
+          "contacts": [
+            {
+              "friction_limit_n": 9.523809523809524,
+              "gap_m": 0.0,
+              "state": "slip",
+              "tangential_force_n": 9.523809523809522
+            },
+            {
+              "friction_limit_n": 76.19047619047619,
+              "gap_m": 0.0,
+              "state": "slip",
+              "tangential_force_n": 76.19047619047619
+            }
+          ],
+          "elements": 0,
+          "family": "dual_stop_corner",
+          "finite_response": true,
+          "id": "dual_stop_corner-L2",
+          "maximum_abs_gap_m": 0.0,
+          "maximum_cone_excess_n": 0.0,
+          "mesh_level_count": 1,
+          "nodes": 10,
+          "states": [
+            "slip"
+          ]
+        },
+        {
+          "contacts": [
+            {
+              "friction_limit_n": 9.523809523809524,
+              "gap_m": 0.0,
+              "state": "slip",
+              "tangential_force_n": 9.523809523809522
+            },
+            {
+              "friction_limit_n": 76.19047619047619,
+              "gap_m": 0.0,
+              "state": "slip",
+              "tangential_force_n": 76.19047619047619
+            }
+          ],
+          "elements": 0,
+          "family": "dual_stop_corner",
+          "finite_response": true,
+          "id": "dual_stop_corner-L3",
+          "maximum_abs_gap_m": 0.0,
+          "maximum_cone_excess_n": 0.0,
+          "mesh_level_count": 1,
+          "nodes": 17,
+          "states": [
+            "slip"
+          ]
+        }
+      ],
+      "maximum_abs_gap_m": 0.0,
+      "maximum_cone_excess_n": 0.0,
+      "mesh_level_count": 3,
+      "states": [
+        "slip"
+      ]
+    },
+    "faceted_ramp_patch": {
+      "finite_response": true,
+      "id": "faceted_ramp_patch",
+      "levels": [
+        {
+          "contacts": [
+            {
+              "friction_limit_n": 79.01131896588032,
+              "gap_m": 0.0,
+              "state": "slip",
+              "tangential_force_n": 79.01131896588032
+            },
+            {
+              "friction_limit_n": 63.74810491803479,
+              "gap_m": 0.0,
+              "state": "slip",
+              "tangential_force_n": 63.74810491803479
+            },
+            {
+              "friction_limit_n": 30.575183347523787,
+              "gap_m": 0.0,
+              "state": "slip",
+              "tangential_force_n": 30.575183347523787
+            }
+          ],
+          "elements": 0,
+          "family": "faceted_ramp_patch",
+          "finite_response": true,
+          "id": "faceted_ramp_patch-L1",
+          "maximum_abs_gap_m": 0.0,
+          "maximum_cone_excess_n": 0.0,
+          "mesh_level_count": 1,
+          "nodes": 11,
+          "states": [
+            "slip"
+          ]
+        },
+        {
+          "contacts": [
+            {
+              "friction_limit_n": 79.01131896588033,
+              "gap_m": -2.7755575615628914e-17,
+              "state": "slip",
+              "tangential_force_n": 79.01131896588035
+            },
+            {
+              "friction_limit_n": 63.74810491803479,
+              "gap_m": 0.0,
+              "state": "slip",
+              "tangential_force_n": 63.74810491803479
+            },
+            {
+              "friction_limit_n": 30.575183347523787,
+              "gap_m": 0.0,
+              "state": "slip",
+              "tangential_force_n": 30.57518334752378
+            }
+          ],
+          "elements": 0,
+          "family": "faceted_ramp_patch",
+          "finite_response": true,
+          "id": "faceted_ramp_patch-L2",
+          "maximum_abs_gap_m": 2.7755575615628914e-17,
+          "maximum_cone_excess_n": 1.4210854715202004e-14,
+          "mesh_level_count": 1,
+          "nodes": 24,
+          "states": [
+            "slip"
+          ]
+        },
+        {
+          "contacts": [
+            {
+              "friction_limit_n": 79.01131896588033,
+              "gap_m": -2.7755575615628914e-17,
+              "state": "slip",
+              "tangential_force_n": 79.01131896588035
+            },
+            {
+              "friction_limit_n": 63.74810491803479,
+              "gap_m": 0.0,
+              "state": "slip",
+              "tangential_force_n": 63.74810491803479
+            },
+            {
+              "friction_limit_n": 30.575183347523787,
+              "gap_m": 0.0,
+              "state": "slip",
+              "tangential_force_n": 30.575183347523787
+            }
+          ],
+          "elements": 0,
+          "family": "faceted_ramp_patch",
+          "finite_response": true,
+          "id": "faceted_ramp_patch-L3",
+          "maximum_abs_gap_m": 2.7755575615628914e-17,
+          "maximum_cone_excess_n": 1.4210854715202004e-14,
+          "mesh_level_count": 1,
+          "nodes": 68,
+          "states": [
+            "slip"
+          ]
+        }
+      ],
+      "maximum_abs_gap_m": 2.7755575615628914e-17,
+      "maximum_cone_excess_n": 1.4210854715202004e-14,
+      "mesh_level_count": 3,
+      "states": [
+        "slip"
+      ]
+    }
+  },
+  "geometry_family_count": 3,
+  "limitations": [
+    "The survey does not prove surface-to-surface contact, large sliding or dynamic contact.",
+    "External correlation remains limited to the separately archived controlled slip case."
+  ],
+  "maturity": "experimental",
+  "mesh_policy": {
+    "mesh_level_count_per_family": 3,
+    "required_for_promotion": 3,
+    "status": "PASS_INTERNAL"
+  },
+  "status": "PASS_INTERNAL"
+}

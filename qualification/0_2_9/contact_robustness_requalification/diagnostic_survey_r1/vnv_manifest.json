@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "study_id": "VNV-CONTACT-FRICTION-FAMILIES-004",
+  "generated_utc": "2026-09-25T14:44:54.702674Z",
+  "source": {
+    "repository": ".",
+    "revision": "4066b5ad4ac4595de64e9948f62a91140697b06a",
+    "dirty": false
+  },
+  "command": [
+    "scripts/run_frictional_contact_family_survey.py",
+    "--output",
+    "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_contact_survey_coupled_projection_r1_20260925"
+  ],
+  "runtime": {
+    "python": {
+      "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "C:\\Python313\\python.exe"
+    },
+    "platform": {
+      "system": "Windows",
+      "release": "10",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+    },
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "matplotlib": "3.10.3",
+      "h5py": "3.14.0",
+      "mpi4py": "4.1.0",
+      "petsc4py": null
+    },
+    "blas": {
+      "name": "scipy-openblas",
+      "version": "0.3.29",
+      "configuration": "OpenBLAS 0.3.29  USE64BITINT DYNAMIC_ARCH NO_AFFINITY Haswell MAX_THREADS=24"
+    },
+    "parallel_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "PETSC_ARCH": null
+    }
+  },
+  "files": [
+    {
+      "role": "figure",
+      "path": "frictional_contact_family_survey.png",
+      "size_bytes": 54708,
+      "sha256": "271c4a3debca67265b592380063736f36665448984b2ac649e2f4c2f052649ff"
+    },
+    {
+      "role": "owner_review_report",
+      "path": "report.md",
+      "size_bytes": 719,
+      "sha256": "db3262b25110e65b2f028208341f27a434d9c41423cfd16b7ab51d72020f5710"
+    },
+    {
+      "role": "normalized_results",
+      "path": "summary.json",
+      "size_bytes": 10778,
+      "sha256": "3f374c751f01b4b4fb931a639f3821e0272893b6f572353538a42f54724fac0b"
+    }
+  ]
+}

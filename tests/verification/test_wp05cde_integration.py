@@ -71,7 +71,9 @@ def test_release_ledger_includes_wp05_and_wp07_owner_awards() -> None:
     assert wp07d["consolidated_ledger_after"] == 64
     assert wp07e["consolidated_ledger_before"] == wp07d["consolidated_ledger_after"]
     assert wp07e["consolidated_ledger_after"] == 66
-    assert progress["validated_points"] == wp07e["consolidated_ledger_after"]
+    # The Owner decision records the historical WP07-E checkpoint; the active
+    # consolidated ledger includes later WP09-WP13 awards.
+    assert progress["validated_points"] >= wp07e["consolidated_ledger_after"]
     roadmap_allocation_sum = sum(
         item["points"] for item in roadmap["work_packages"]
     )
@@ -84,6 +86,14 @@ def test_release_ledger_includes_wp05_and_wp07_owner_awards() -> None:
     wp07 = cast(dict[str, Any], progress["work_packages"]["WP07"])
     assert wp07["validated_points"] == 10
     assert wp07["status"] == "OWNER_ACCEPTED_A_TO_E_BOUNDED_WITH_LIMITATIONS"
+    assert wp07["prior_owner_award_preserved"] is True
+    assert wp07["requalification_status"] == "OPEN_SCOPED_FRICTIONLESS_REGRESSION_REVIEW"
+    wp08 = cast(dict[str, Any], progress["work_packages"]["WP08"])
+    assert wp08["validated_points"] == 8
+    assert wp08["prior_owner_award_preserved"] is True
+    assert wp08["requalification_status"] == (
+        "OPEN_FRICTIONAL_CONTACT_REQUALIFICATION_PENDING_FROZEN_CONTRACT_AND_EXECUTION_AUTHORIZATION"
+    )
     assert progress["total_points"] == 100
 
 
