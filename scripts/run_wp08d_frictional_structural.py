@@ -35,6 +35,12 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--authorization-file", type=Path)
     parser.add_argument("--output-dir", type=Path, default=repository_root() / ARTIFACT_ROOT)
     parser.add_argument("--diagnostic-load-step-limit", type=int)
+    parser.add_argument(
+        "--execution-kind",
+        choices=("PRIMARY_PRODUCTION", "REPLAY"),
+        default="PRIMARY_PRODUCTION",
+        help="Select the separately authorized primary solve or deterministic replay.",
+    )
     return parser
 
 
@@ -54,9 +60,10 @@ def main(argv: list[str] | None = None) -> int:
             args.mesh,
             args.output_dir,
             args.authorization_file,
+            execution_kind=args.execution_kind,
             diagnostic_load_step_limit=args.diagnostic_load_step_limit,
         )
-        print(f"PHASE1_COMPLETED mesh={args.mesh} output={args.output_dir}")
+        print(f"PHASE1_COMPLETED kind={args.execution_kind} mesh={args.mesh} output={args.output_dir}")
         return 0
     except RuntimeError as error:
         if str(error) == UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED:

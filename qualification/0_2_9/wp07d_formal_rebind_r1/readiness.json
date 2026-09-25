@@ -1,0 +1,122 @@
+{
+  "artifact_id": "QF-029-WP07-D-FORMAL-REBIND-R1-READINESS-001",
+  "binding_file_sha256": "ef223ee40ed1d4d9b1c60a20c2ee2958ea4e37acd8c0265058a4a12218fcf52d",
+  "binding_path": "qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_execution_binding_formal_rebind_r1.json",
+  "execution_guard": "WP07D_UNAUTHORIZED_EXECUTION_FAIL_CLOSED",
+  "formal_contract_sha256": "b923f560a0d6719ee149ea31f912f46b6b7d32600df1cd7b80bf70a40562d7d7",
+  "formal_points_awarded": 0,
+  "independent_references_run": false,
+  "owner_decision_sha256": "f5d19dcaeafb1a3592bda6ffa54d24a2f602f8d5eb06ce21f9d0013a1c7b57f8",
+  "planned_cases": [
+    {
+      "axis_fraction_counts": null,
+      "case_id": "WP07D-ACTIVE_SET-M1",
+      "independent_reference": "NOT_RUN",
+      "load_status": "PASS",
+      "mesh": "M1",
+      "mesh_cell_counts": [
+        8,
+        8,
+        4
+      ],
+      "mesh_status": "PASS",
+      "replay": "NOT_RUN",
+      "route": "ACTIVE_SET",
+      "structural_solve": "NOT_RUN"
+    },
+    {
+      "axis_fraction_counts": null,
+      "case_id": "WP07D-ACTIVE_SET-M2",
+      "independent_reference": "NOT_RUN",
+      "load_status": "PASS",
+      "mesh": "M2",
+      "mesh_cell_counts": [
+        16,
+        16,
+        8
+      ],
+      "mesh_status": "PASS",
+      "replay": "NOT_RUN",
+      "route": "ACTIVE_SET",
+      "structural_solve": "NOT_RUN"
+    },
+    {
+      "axis_fraction_counts": [
+        33,
+        17,
+        17
+      ],
+      "case_id": "WP07D-ACTIVE_SET-M3",
+      "independent_reference": "NOT_RUN",
+      "load_status": "PASS",
+      "mesh": "M3",
+      "mesh_cell_counts": [
+        32,
+        16,
+        16
+      ],
+      "mesh_status": "PASS",
+      "replay": "NOT_RUN",
+      "route": "ACTIVE_SET",
+      "structural_solve": "NOT_RUN"
+    },
+    {
+      "axis_fraction_counts": null,
+      "case_id": "WP07D-PENALTY-M1",
+      "independent_reference": "NOT_RUN",
+      "load_status": "PASS",
+      "mesh": "M1",
+      "mesh_cell_counts": [
+        8,
+        8,
+        4
+      ],
+      "mesh_status": "PASS",
+      "replay": "NOT_RUN",
+      "route": "PENALTY",
+      "structural_solve": "NOT_RUN"
+    },
+    {
+      "axis_fraction_counts": null,
+      "case_id": "WP07D-PENALTY-M2",
+      "independent_reference": "NOT_RUN",
+      "load_status": "PASS",
+      "mesh": "M2",
+      "mesh_cell_counts": [
+        16,
+        16,
+        8
+      ],
+      "mesh_status": "PASS",
+      "replay": "NOT_RUN",
+      "route": "PENALTY",
+      "structural_solve": "NOT_RUN"
+    },
+    {
+      "axis_fraction_counts": [
+        33,
+        17,
+        17
+      ],
+      "case_id": "WP07D-PENALTY-M3",
+      "independent_reference": "NOT_RUN",
+      "load_status": "PASS",
+      "mesh": "M3",
+      "mesh_cell_counts": [
+        32,
+        16,
+        16
+      ],
+      "mesh_status": "PASS",
+      "replay": "NOT_RUN",
+      "route": "PENALTY",
+      "structural_solve": "NOT_RUN"
+    }
+  ],
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "replay_run": false,
+  "schema_version": 1,
+  "source_sha": "e886f2123227f25bc2168e7c281bb3c9bb16d9e3",
+  "status": "PASS_READY_FOR_FREEZE_COMMIT_AND_PER_CASE_AUTHORIZATION",
+  "structural_solves_run": false
+}

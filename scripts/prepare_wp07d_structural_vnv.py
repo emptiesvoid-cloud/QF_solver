@@ -9,6 +9,7 @@ import platform
 import subprocess
 import sys
 from dataclasses import dataclass
+from fractions import Fraction
 from pathlib import Path
 from typing import Any
 
@@ -40,6 +41,71 @@ BASE_CELLS = {
     "M2": (4, 4, 2),
     "M3": (8, 8, 4),
 }
+
+
+def local_contact_refinement_axis_fractions() -> dict[str, tuple[float, ...]]:
+    """Return the frozen nested local-contact-refinement coordinate arrays."""
+
+    x_values = {Fraction(index, 16) for index in range(17)}
+    for interval in (3, 4):
+        x_values.update(
+            Fraction(interval, 16) + Fraction(subdivision, 80)
+            for subdivision in range(1, 5)
+        )
+    z_values = {Fraction(index, 8) for index in range(9)}
+    z_values.update(Fraction(subdivision, 40) for subdivision in range(1, 5))
+    return {
+        "x": tuple(float(value) for value in sorted(x_values)),
+        "y": tuple(float(Fraction(index, 16)) for index in range(17)),
+        "z": tuple(float(value) for value in sorted(z_values)),
+    }
+
+
+def focused_local_contact_refinement_axis_fractions() -> dict[str, tuple[float, ...]]:
+    """Return the exact nested focused-contact refinement coordinate arrays."""
+
+    x_values = {Fraction(index, 16) for index in range(17)}
+    for interval in range(2, 6):
+        x_values.update(
+            Fraction(interval, 16) + Fraction(subdivision, 80)
+            for subdivision in range(1, 5)
+        )
+    z_values = {Fraction(index, 8) for index in range(9)}
+    for interval in (0, 7):
+        z_values.update(
+            Fraction(interval, 8) + Fraction(subdivision, 40)
+            for subdivision in range(1, 5)
+        )
+    return {
+        "x": tuple(float(value) for value in sorted(x_values)),
+        "y": tuple(float(Fraction(index, 16)) for index in range(17)),
+        "z": tuple(float(value) for value in sorted(z_values)),
+    }
+
+
+def _validated_axis_fractions(
+    values: tuple[tuple[float, ...], tuple[float, ...], tuple[float, ...]],
+) -> tuple[tuple[float, ...], tuple[float, ...], tuple[float, ...]]:
+    """Validate exact normalized axes used by the immutable mesh bindings."""
+
+    if not isinstance(values, tuple) or len(values) != 3:
+        raise ValueError("TET4 axis fractions must define X, Y and Z coordinate arrays.")
+    normalized: list[tuple[float, ...]] = []
+    for axis in values:
+        try:
+            coordinates = tuple(float(value) for value in axis)
+        except (TypeError, ValueError) as error:
+            raise ValueError("TET4 axis fractions must be numeric sequences.") from error
+        if (
+            len(coordinates) < 2
+            or not all(math.isfinite(value) for value in coordinates)
+            or coordinates[0] != 0.0
+            or coordinates[-1] != 1.0
+            or any(right <= left for left, right in zip(coordinates, coordinates[1:]))
+        ):
+            raise ValueError("TET4 axis fractions must be strictly increasing from exactly zero to one.")
+        normalized.append(coordinates)
+    return (normalized[0], normalized[1], normalized[2])
 
 
 @dataclass(frozen=True)
@@ -94,13 +160,47 @@ def generate_structured_tet4_mesh(
     *,
     lower: np.ndarray = BODY_LOWER,
     upper: np.ndarray = BODY_UPPER,
+    cell_counts: tuple[int, int, int] | None = None,
+    axis_fractions: tuple[tuple[float, ...], tuple[float, ...], tuple[float, ...]] | None = None,
 ) -> StructuredTet4Mesh:
-    """Generate the frozen structured six-TET-per-cell mesh without solving."""
+    """Generate the frozen six-TET-per-cell mesh without solving.
+
+    Optional subdivisions and normalized axis fractions are execution-binding
+    inputs used by source-bound WP07 requalification. The default path retains
+    the historical preparation mesh exactly.
+    """
 
     try:
-        nx, ny, nz = BASE_CELLS[level]
+        default_counts = BASE_CELLS[level]
     except KeyError as exc:
         raise ValueError(f"Unknown WP07-D mesh level {level!r}.") from exc
+    counts = tuple(int(value) for value in (cell_counts or default_counts))
+    if len(counts) != 3 or any(value <= 0 for value in counts):
+        raise ValueError("WP07-D cell_counts must contain three positive integers.")
+    nx, ny, nz = counts
+    if axis_fractions is None:
+        axes: tuple[tuple[float, ...], tuple[float, ...], tuple[float, ...]] = (
+            tuple(index / nx for index in range(nx + 1)),
+            tuple(index / ny for index in range(ny + 1)),
+            tuple(index / nz for index in range(nz + 1)),
+        )
+    else:
+        if len(axis_fractions) != 3:
+            raise ValueError("WP07-D axis_fractions must define x, y, and z arrays.")
+        axes = (
+            tuple(float(value) for value in axis_fractions[0]),
+            tuple(float(value) for value in axis_fractions[1]),
+            tuple(float(value) for value in axis_fractions[2]),
+        )
+        for axis, expected_count, name in zip(axes, counts, ("x", "y", "z"), strict=True):
+            if (
+                len(axis) != expected_count + 1
+                or not np.all(np.isfinite(axis))
+                or not np.isclose(axis[0], 0.0, rtol=0.0, atol=1.0e-14)
+                or not np.isclose(axis[-1], 1.0, rtol=0.0, atol=1.0e-14)
+                or np.any(np.diff(axis) <= 0.0)
+            ):
+                raise ValueError(f"WP07-D {name}-axis fractions are invalid for the requested cell count.")
     lower = np.asarray(lower, dtype=float)
     upper = np.asarray(upper, dtype=float)
     if lower.shape != (3,) or upper.shape != (3,) or not np.all(np.isfinite([lower, upper])):
@@ -114,9 +214,9 @@ def generate_structured_tet4_mesh(
     nodes = np.array(
         [
             [
-                lower[0] + (upper[0] - lower[0]) * i / nx,
-                lower[1] + (upper[1] - lower[1]) * j / ny,
-                lower[2] + (upper[2] - lower[2]) * k / nz,
+                lower[0] + (upper[0] - lower[0]) * axes[0][i],
+                lower[1] + (upper[1] - lower[1]) * axes[1][j],
+                lower[2] + (upper[2] - lower[2]) * axes[2][k],
             ]
             for k in range(nz + 1)
             for j in range(ny + 1)
@@ -192,11 +292,17 @@ def _master_barycentric(point: np.ndarray, triangle: np.ndarray) -> np.ndarray:
     return np.array([1.0 - xi_eta[0] - xi_eta[1], xi_eta[0], xi_eta[1]])
 
 
-def mesh_contract_check(contract: dict[str, Any], level: str) -> dict[str, Any]:
+def mesh_contract_check(
+    contract: dict[str, Any],
+    level: str,
+    *,
+    cell_counts: tuple[int, int, int] | None = None,
+    axis_fractions: tuple[tuple[float, ...], tuple[float, ...], tuple[float, ...]] | None = None,
+) -> dict[str, Any]:
     """Validate actual frozen mesh topology and fixed master coverage."""
 
-    mesh = generate_structured_tet4_mesh(level)
-    replay = generate_structured_tet4_mesh(level)
+    mesh = generate_structured_tet4_mesh(level, cell_counts=cell_counts, axis_fractions=axis_fractions)
+    replay = generate_structured_tet4_mesh(level, cell_counts=cell_counts, axis_fractions=axis_fractions)
     expected = next(item for item in contract["mesh_levels"] if item["id"] == level)
     expected_body_nodes = int(expected["body_nodes"])
     expected_elements = int(expected["tet4_elements"])
@@ -374,10 +480,16 @@ def _scale_aware_load_error(actual: np.ndarray, expected: np.ndarray, relative_t
     }
 
 
-def actual_mesh_load_check(contract: dict[str, Any], level: str) -> dict[str, Any]:
+def actual_mesh_load_check(
+    contract: dict[str, Any],
+    level: str,
+    *,
+    cell_counts: tuple[int, int, int] | None = None,
+    axis_fractions: tuple[tuple[float, ...], tuple[float, ...], tuple[float, ...]] | None = None,
+) -> dict[str, Any]:
     """Integrate the frozen top boundary of a real generated mesh."""
 
-    mesh = generate_structured_tet4_mesh(level)
+    mesh = generate_structured_tet4_mesh(level, cell_counts=cell_counts, axis_fractions=axis_fractions)
     load = check_load_contract(
         mesh.nodes,
         mesh.top_faces,

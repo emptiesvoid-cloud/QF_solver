@@ -26,6 +26,13 @@ AUTHORIZED_INTEGRATION_BRANCH = "0.2.9-wp08d-m1-phase1"
 CONTRACT_RELATIVE_PATH = Path("qualification/0_2_9/wp08d_structural_reference_contract.json")
 POLICY_DIGEST = "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
 CONTRACT_DIGEST = "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a"
+CONTACT_REQUALIFICATION_CONTRACT_PATH = Path(
+    "qualification/0_2_9/wp08d_contact_requalification_r1.json"
+)
+CONTACT_REQUALIFICATION_CONTRACT_SHA256 = (
+    "f759bea7665e905bd672d8bb2a7f08381322bbaf54b8e8531a6d07d6ef0f5eab"
+)
+CONTACT_REQUALIFICATION_OWNER_TOKEN = "OWNER_AUTHORIZED_WP07_WP08_CONTACT_REQUALIFICATION"
 UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED = "UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED"
 PHASE1_AUTHORIZATION_TOKEN = "OWNER_AUTHORIZED_WP08D_PHASE1_EXECUTION"
 ARTIFACT_ROOT = Path("qualification/0_2_9/wp08d_phase1")
@@ -313,6 +320,57 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
         raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED) from error
     if not isinstance(payload, dict):
         raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
+    if payload.get("authorization") == CONTACT_REQUALIFICATION_OWNER_TOKEN:
+        requalification_contract = repository_root() / CONTACT_REQUALIFICATION_CONTRACT_PATH
+        if (
+            not requalification_contract.is_file()
+            or file_sha256(requalification_contract) != CONTACT_REQUALIFICATION_CONTRACT_SHA256
+        ):
+            raise RuntimeError("WP08-D contact requalification contract hash mismatch.")
+        # Also re-check the parent contract through the historical loader. Its
+        # preparation-only status remains unchanged; this separate frozen
+        # source-requalification record supplies the narrowly scoped authority.
+        read_contract()
+        execution_kind = payload.get("execution_kind")
+        expected_flags = {
+            "PRIMARY_PRODUCTION": (True, False, False),
+            "REPLAY": (True, False, True),
+        }
+        if (
+            execution_kind not in expected_flags
+            or (
+                payload.get("structural_solves_allowed"),
+                payload.get("independent_references_allowed"),
+                payload.get("replay_allowed"),
+            )
+            != expected_flags[execution_kind]
+        ):
+            raise RuntimeError("WP08-D requalification authorization has an invalid execution class.")
+        state = git_state()
+        required_fields = {
+            "owner_authorized": True,
+            "work_package": "WP08-D",
+            "scope": "WP08-D_CONTACT_MECHANICS_REQUALIFICATION",
+            "branch": REQUIRED_BRANCH,
+            "execution_sha": state["head"],
+            "requalification_contract_sha256": CONTACT_REQUALIFICATION_CONTRACT_SHA256,
+            "parent_contract_digest": CONTRACT_DIGEST,
+            "policy_digest": POLICY_DIGEST,
+            "governing_base_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+            "working_tree_clean": True,
+        }
+        if state["branch"] != REQUIRED_BRANCH or state["dirty"] or any(
+            payload.get(key) != value for key, value in required_fields.items()
+        ):
+            raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
+        if subprocess.run(
+            ["git", "merge-base", "--is-ancestor", "b2485f98260c7ca9892997eefa3a327637d83cd3", str(state["head"])],
+            cwd=repository_root(),
+            check=False,
+            capture_output=True,
+        ).returncode:
+            raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
+        return payload
     required = {
         "authorization": PHASE1_AUTHORIZATION_TOKEN,
         "governing_base_sha": REQUIRED_GOVERNING_SHA,
@@ -341,6 +399,7 @@ def require_phase1_authorization(
     path: Path | None,
     *,
     mesh: str,
+    execution_kind: str = "PRIMARY_PRODUCTION",
     diagnostic_load_step_limit: int | None = None,
 ) -> dict[str, Any]:
     """Require a traceable Owner authorization before any solve is imported."""
@@ -350,6 +409,11 @@ def require_phase1_authorization(
     payload = _authorization_payload(path)
     allowed_meshes = payload.get("meshes", ["M1", "M2", "M3"])
     if not isinstance(allowed_meshes, list) or str(mesh).upper() not in {str(item).upper() for item in allowed_meshes}:
+        raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
+    if payload.get("authorization") == CONTACT_REQUALIFICATION_OWNER_TOKEN and (
+        payload.get("mesh") != str(mesh).upper()
+        or payload.get("execution_kind") != execution_kind
+    ):
         raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
     scope = payload.get("authorization_scope", {})
     if diagnostic_load_step_limit is not None:
@@ -567,6 +631,7 @@ def execute_phase1(
     output_dir: Path,
     authorization_file: Path | None,
     *,
+    execution_kind: str = "PRIMARY_PRODUCTION",
     diagnostic_load_step_limit: int | None = None,
 ) -> dict[str, Any]:
     """Execute one future Phase-1 case only after explicit Owner authorization."""
@@ -574,8 +639,11 @@ def execute_phase1(
     authorization = require_phase1_authorization(
         authorization_file,
         mesh=mesh_name,
+        execution_kind=execution_kind,
         diagnostic_load_step_limit=diagnostic_load_step_limit,
     )
+    if authorization_file is None:
+        raise RuntimeError("Authorized WP08-D execution requires an authorization file path.")
     source_root = ensure_workspace_source_import()
     from solveur.api.public import solve_model
 
@@ -653,6 +721,7 @@ def execute_phase1(
             "schema_version": 1,
             "phase1": {
                 "mesh": mesh_name.upper(),
+                "execution_kind": execution_kind,
                 "authorization": authorization,
                 "preflight": preflight,
                 "source_package_path": str(source_root),
@@ -705,10 +774,26 @@ def execute_phase1(
                 "load_increments": len(load_path),
                 "backend": "serial_direct",
                 "fallback": "disabled",
+                "execution_kind": execution_kind,
+                "requalification_contract_sha256": authorization.get("requalification_contract_sha256"),
+                "parent_contract_digest": authorization.get("parent_contract_digest"),
                 "diagnostic_load_step_limit": diagnostic_load_step_limit,
                 "accepted_step_checkpoints": [path.name for path in checkpoints],
             },
         )
+        manifest_path = case_dir / "manifest.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        if authorization.get("authorization") == CONTACT_REQUALIFICATION_OWNER_TOKEN:
+            manifest.update(
+                {
+                    "execution_sha": authorization.get("execution_sha"),
+                    "execution_kind": execution_kind,
+                    "requalification_contract_sha256": authorization.get("requalification_contract_sha256"),
+                    "parent_contract_digest": authorization.get("parent_contract_digest"),
+                    "owner_authorization_sha256": file_sha256(authorization_file),
+                }
+            )
+            write_json(manifest_path, manifest)
         return result_payload
     except BaseException as error:
         checkpoints = _write_step_checkpoints_from_telemetry(case_dir)
@@ -726,10 +811,26 @@ def execute_phase1(
                     "load_increments": diagnostic_load_step_limit or 7,
                     "backend": "serial_direct",
                     "fallback": "disabled",
+                    "execution_kind": execution_kind,
+                    "requalification_contract_sha256": authorization.get("requalification_contract_sha256"),
+                    "parent_contract_digest": authorization.get("parent_contract_digest"),
                     "diagnostic_load_step_limit": diagnostic_load_step_limit,
                     "accepted_step_checkpoints": [path.name for path in checkpoints],
                 },
             )
+            manifest_path = case_dir / "manifest.json"
+            if manifest_path.is_file() and authorization.get("authorization") == CONTACT_REQUALIFICATION_OWNER_TOKEN:
+                manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+                manifest.update(
+                    {
+                        "execution_sha": authorization.get("execution_sha"),
+                        "execution_kind": execution_kind,
+                        "requalification_contract_sha256": authorization.get("requalification_contract_sha256"),
+                        "parent_contract_digest": authorization.get("parent_contract_digest"),
+                        "owner_authorization_sha256": file_sha256(authorization_file),
+                    }
+                )
+                write_json(manifest_path, manifest)
         except BaseException:
             pass
         raise

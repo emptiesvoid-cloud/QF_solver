@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "artifact_id": "QF-029-WP07-D-CONTACT-MECHANICS-REQUALIFICATION-R2-001",
+  "revision": "0.2.9-WP07D-CONTACT-R2",
+  "status": "FROZEN_FOR_SHA_BOUND_OWNER_AUTHORIZED_REQUALIFICATION",
+  "source_sha_semantics": "The exact executable source SHA is supplied by the per-case authorization after this contract, binding, tests, and runner are committed.",
+  "governing": {
+    "base_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+    "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "source_before_requalification_freeze": "066359bb9f2a21f0234b69376053239427d40afb",
+    "contact_mechanics_remediation_commit": "4066b5ad4ac4595de64e9948f62a91140697b06"
+  },
+  "parent": {
+    "formal_contract_path": "qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_formal_requalification_contract_r1.json",
+    "formal_contract_sha256": "b923f560a0d6719ee149ea31f912f46b6b7d32600df1cd7b80bf70a40562d7d7",
+    "execution_binding_path": "qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_execution_binding_formal_rebind_r1.json",
+    "execution_binding_sha256": "ef223ee40ed1d4d9b1c60a20c2ee2958ea4e37acd8c0265058a4a12218fcf52d",
+    "owner_decision_path": "qualification/0_2_9/wp07d_formal_rebind_r1/owner_decision.json",
+    "owner_decision_sha256": "f5d19dcaeafb1a3592bda6ffa54d24a2f602f8d5eb06ce21f9d0013a1c7b57f8",
+    "preservation": "All R1 files and historical R1 results remain unchanged; the R2 authorization does not retroactively certify them."
+  },
+  "scope": {
+    "work_package": "WP07-D",
+    "routes": ["ACTIVE_SET", "PENALTY"],
+    "mesh_levels": ["M1", "M2", "M3"],
+    "primary_cases": "Fresh production execution for both routes at all three frozen levels.",
+    "independent_reference_cases": "Independent formulation-matched reference for each primary case that passes.",
+    "replay_cases": {
+      "ACTIVE_SET": "M2 only, as frozen in the parent R1 contract.",
+      "PENALTY": "M1 only, as frozen in the parent R1 contract."
+    },
+    "excluded": ["WP07-E", "external solver", "MPI/PETSc", "updated search", "finite sliding", "score award", "ledger update", "merge", "push", "tag", "release"]
+  },
+  "mechanics_requalification": {
+    "change_commit": "4066b5ad4ac4595de64e9948f62a91140697b06",
+    "changed_production_paths": [
+      "src/solveur/contact/slip_root.py",
+      "src/solveur/contact/solver.py"
+    ],
+    "description": "Requalify the existing bounded routes on the source containing the coupled normal/friction active-set recovery. This is a production mechanics change and is not represented as tooling-only.",
+    "mechanics_changed": true,
+    "material_or_geometry_changed": false,
+    "loads_or_boundary_conditions_changed": false,
+    "solver_thresholds_changed": false,
+    "mesh_hierarchy_changed": false,
+    "backend_or_fallback_policy_changed": false
+  },
+  "frozen_contract_digests": {
+    "thresholds_canonical_sha256": "6c2f3ed1767868b65e123181a79f13c86acd6d4162cab35e54df9e10d0aabd89",
+    "physical_benchmark_canonical_sha256": "5cb3bd6d3fe1e96142e93acb75e665a45149d6235ebba88216b5da7b683e5b83",
+    "loading_canonical_sha256": "49542d56c83e0c998018e3d9c7345cbe6639fee1fd41e1d274a7c62ee5c2c630",
+    "mesh_levels_canonical_sha256": "73292d7eced225d2face253bcf679a8f3a80fd7839222e1aba1671a7ec5407d0"
+  },
+  "authorization": {
+    "owner_decision_path": "qualification/0_2_9/wp07d_contact_requalification_r2/owner_execution_decision.json",
+    "authorization_record_path": "qualification/0_2_9/wp07d_contact_requalification_r2/owner_execution_authorization.json",
+    "exact_execution_sha_required": true,
+    "per_case_authorization_required": true,
+    "unauthorized_execution": "FAIL_CLOSED"
+  },
+  "failure_policy": "Preserve each failed case; continue independent primary cases sequentially; block only dependent reference/replay and final candidate gates.",
+  "formal_points_awarded": 0,
+  "full_repository_test_suite": false
+}

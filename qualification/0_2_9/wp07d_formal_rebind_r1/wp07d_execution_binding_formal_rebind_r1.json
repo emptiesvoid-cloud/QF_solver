@@ -1,0 +1,271 @@
+{
+  "artifact_id": "QF-029-WP07-D-EXECUTION-BINDING-FORMAL-REBIND-R1-001",
+  "authorization": {
+    "independent_references_allowed": false,
+    "replay_allowed": false,
+    "required": true,
+    "structural_solves_allowed": false,
+    "token": "OWNER_AUTHORIZED_WP07D_FORMAL_REBIND_R1",
+    "wp07e_allowed": false
+  },
+  "formal_contract": {
+    "base_contract_path": "qualification/0_2_9/wp07d_structural_vnv_contract.json",
+    "base_contract_sha256": "a31f32d45bfa65f5aaaac62034cdc94cfafae3d59a7fbc1ce8ce8489d7cae3e9",
+    "file_sha256": "b923f560a0d6719ee149ea31f912f46b6b7d32600df1cd7b80bf70a40562d7d7",
+    "owner_decision_path": "qualification/0_2_9/wp07d_formal_rebind_r1/owner_decision.json",
+    "owner_decision_sha256": "f5d19dcaeafb1a3592bda6ffa54d24a2f602f8d5eb06ce21f9d0013a1c7b57f8",
+    "path": "qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_formal_requalification_contract_r1.json",
+    "record_id": "QF-029-WP07-D-STRUCTURAL-VNV-FORMAL-REBIND-R1-001",
+    "revision": "0.2.9-WP07D-FORMAL-REBIND-R1"
+  },
+  "generated_from_head": "e886f2123227f25bc2168e7c281bb3c9bb16d9e3",
+  "governing": {
+    "authorized_base_sha": "a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe",
+    "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "policy_id": "qf-solver-floor-aware-termination",
+    "policy_version": 1
+  },
+  "invariants": {
+    "contact_parameters_changed": false,
+    "penalty_integration_changed": true,
+    "fallback_policy_changed": false,
+    "loads_changed": false,
+    "mesh_changed": true,
+    "production_mechanics_changed": false,
+    "thresholds_changed": false
+  },
+  "mesh_definition": {
+    "axis_fractions_by_level": {
+      "M3": {
+        "x": [
+          0.0,
+          0.0625,
+          0.125,
+          0.1375,
+          0.15,
+          0.1625,
+          0.175,
+          0.1875,
+          0.2,
+          0.2125,
+          0.225,
+          0.2375,
+          0.25,
+          0.2625,
+          0.275,
+          0.2875,
+          0.3,
+          0.3125,
+          0.325,
+          0.3375,
+          0.35,
+          0.3625,
+          0.375,
+          0.4375,
+          0.5,
+          0.5625,
+          0.625,
+          0.6875,
+          0.75,
+          0.8125,
+          0.875,
+          0.9375,
+          1.0
+        ],
+        "y": [
+          0.0,
+          0.0625,
+          0.125,
+          0.1875,
+          0.25,
+          0.3125,
+          0.375,
+          0.4375,
+          0.5,
+          0.5625,
+          0.625,
+          0.6875,
+          0.75,
+          0.8125,
+          0.875,
+          0.9375,
+          1.0
+        ],
+        "z": [
+          0.0,
+          0.025,
+          0.05,
+          0.075,
+          0.1,
+          0.125,
+          0.25,
+          0.375,
+          0.5,
+          0.625,
+          0.75,
+          0.875,
+          0.9,
+          0.925,
+          0.95,
+          0.975,
+          1.0
+        ]
+      }
+    },
+    "cell_counts_by_level": {
+      "M1": [
+        8,
+        8,
+        4
+      ],
+      "M2": [
+        16,
+        16,
+        8
+      ],
+      "M3": [
+        32,
+        16,
+        16
+      ]
+    },
+    "coordinate_grading_exponent": 1.5,
+    "family": "TET4",
+    "graded_axes": [
+      "x",
+      "z"
+    ],
+    "levels": [
+      "M1",
+      "M2",
+      "M3"
+    ],
+    "local_refinement": {
+      "x_interval_fractions": [
+        [
+          0.125,
+          0.375
+        ]
+      ],
+      "x_subdivisions_per_interval": 5,
+      "y_refinement": "none; retain 16-cell resolution",
+      "z_interval_fractions": [
+        [
+          0.0,
+          0.125
+        ],
+        [
+          0.875,
+          1.0
+        ]
+      ],
+      "z_subdivisions_per_interval": 5
+    },
+    "mesh_distribution_changed": true,
+    "nested_in_m2": true,
+    "physical_bounds_preserved": true,
+    "topology": "frozen six-TET structured-cell pattern",
+    "ungraded_axis": "y"
+  },
+  "owner_decision": {
+    "contract_rebind_authorized": true,
+    "file_sha256": "f5d19dcaeafb1a3592bda6ffa54d24a2f602f8d5eb06ce21f9d0013a1c7b57f8",
+    "formal_wp07d_requalification_authorized": true,
+    "path": "qualification/0_2_9/wp07d_formal_rebind_r1/owner_decision.json",
+    "push_merge_ledger_update_authorized": false,
+    "wp07e_authorized": false
+  },
+  "preparation_contract": {
+    "file_sha256": "a31f32d45bfa65f5aaaac62034cdc94cfafae3d59a7fbc1ce8ce8489d7cae3e9",
+    "path": "qualification/0_2_9/wp07d_structural_vnv_contract.json",
+    "preserved_preparation_only": true,
+    "provenance_digest": "93c7741ecafd72cfa20e29e323b92ea9356fb93dacaff09a8347789bad9c9ed2",
+    "revision": "0.2"
+  },
+  "reference_policy": {
+    "active_set": "independent TET4 KKT/unilateral implementation, independently assembles the raised mesh coordinates and grading; no production contact imports",
+    "external_solver_allowed": false,
+    "penalty": "independent TET4 fixed-normal penalty implementation with separately recomputed tributary weights on the raised mesh; no production contact imports"
+  },
+  "remediation": {
+    "authorized": true,
+    "basis": "Owner accepts the experiment diagnostically and explicitly authorizes a new formal requalification contract.",
+    "changes_production_mechanics": false,
+    "formal_status": "FRESH_REQUALIFICATION_REQUIRED",
+    "scope": "FORMAL_WP07D_CONTRACT_REBIND_TO_FOCUSED_LOCAL_M3_HIERARCHY"
+  },
+  "routes": {
+    "ACTIVE_SET": {
+      "analysis_type": "linear_static",
+      "fallback_allowed": false,
+      "finite_sliding": false,
+      "formulation": "LINEAR_ACTIVE_SET_INITIAL_SEARCH_FOCUSED_LOCAL_REFINEMENT_R1",
+      "mesh_levels": [
+        "M1",
+        "M2",
+        "M3"
+      ],
+      "replay_level": "M2",
+      "updated_search": false
+    },
+    "PENALTY": {
+      "adaptive_load_steps": false,
+      "analysis_type": "geometric_nonlinear_static",
+      "fallback_allowed": false,
+      "finite_sliding": false,
+      "floor_aware_termination": true,
+      "formulation": "NONLINEAR_PENALTY_INITIAL_SEARCH_SURFACE_LUMPED_FOCUSED_LOCAL_REFINEMENT_R1",
+      "line_search": "existing",
+      "linear_atol": 1e-14,
+      "linear_direct_fallback": false,
+      "linear_maxiter": 10000,
+      "linear_preconditioner": "jacobi",
+      "linear_rtol": 1e-11,
+      "linear_solver": "minres",
+      "load_factors": [
+        0.125,
+        0.25,
+        0.375,
+        0.5,
+        0.625,
+        0.75,
+        0.875,
+        1.0
+      ],
+      "load_increments": 8,
+      "max_newton_iterations": 100,
+      "mesh_levels": [
+        "M1",
+        "M2",
+        "M3"
+      ],
+      "newton_tolerance": 1e-10,
+      "penalty_integration": "surface_lumped",
+      "penalty_interpretation": "global_slave_patch_stiffness",
+      "reference_surface_measure": "triangular_reference_tributary_area",
+      "replay_level": "M1",
+      "updated_search": false
+    }
+  },
+  "schema_version": 1,
+  "source_lineage_disclosure": {
+    "authorized_governing_base_sha": "a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe",
+    "changed_production_source_paths_since_governing_base": [
+      "src/solveur/contact/entities.py",
+      "src/solveur/contact/evaluation.py",
+      "src/solveur/contact/solver.py",
+      "src/solveur/core/analyses/geometric_nonlinear.py",
+      "src/solveur/core/model.py",
+      "src/solveur/core/nonlinear/iteration.py",
+      "src/solveur/io/contact_schema.py",
+      "src/solveur/io/model_writer.py"
+    ],
+    "formal_campaign_scope": "requalify the exact current candidate source; do not infer governing-branch credit",
+    "production_source_diff_sha256_since_governing_base": "adfbe2166535a2d4c4f265c754434c2b749857124348f8cac20acfdd6d9ae302",
+    "rebind_commit_adds_production_mechanics_changes": false,
+    "source_contains_wp07_candidate_changes_since_governing_base": true,
+    "source_snapshot_at_rebind_sha": "e886f2123227f25bc2168e7c281bb3c9bb16d9e3"
+  },
+  "status": "FROZEN_READY_FOR_SHA_BOUND_PER_CASE_AUTHORIZATION",
+  "work_package": "WP07-D"
+}

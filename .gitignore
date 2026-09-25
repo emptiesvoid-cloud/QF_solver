@@ -86,3 +86,15 @@ qualification/0_2_9/wp12_external_vv_r4_gallery_raw/
 # WP13 R2 full per-case nonlinear performance results are local raw evidence;
 # version the compact execution record, hashes, report, contract, and tests.
 qualification/0_2_9/wp13_r2_multifamily/raw/
+
+# Raw WP07/WP08 contact-mechanics requalification process outputs are kept
+# locally; version compact reports and hash manifests separately.
+qualification/0_2_9/wp07d_contact_requalification_r2/runs/
+qualification/0_2_9/wp07d_contact_requalification_r2/authorizations/
+qualification/0_2_9/wp08d_contact_requalification_r1_runs/raw/
+
+# Raw WP07/WP08 contact-mechanics requalification process outputs are kept
+# locally; version compact reports and hash manifests separately.
+qualification/0_2_9/wp07d_contact_requalification_r2/runs/
+qualification/0_2_9/wp07d_contact_requalification_r2/authorizations/
+qualification/0_2_9/wp08d_contact_requalification_r1_runs/raw/
