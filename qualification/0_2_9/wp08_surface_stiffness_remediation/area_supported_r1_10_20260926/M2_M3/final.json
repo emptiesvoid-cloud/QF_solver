@@ -1,0 +1,488 @@
+{
+  "artifact_id": "QF-029-WP08-AREA-SUPPORTED-CONTACT-DIAGNOSTIC-R1.10",
+  "case_status": {
+    "M2/slip_target": "PASS_DIAGNOSTIC_GATES",
+    "M2/stick_target": "PASS_DIAGNOSTIC_GATES",
+    "M3/slip_target": "PASS_DIAGNOSTIC_GATES",
+    "M3/stick_target": "PASS_DIAGNOSTIC_GATES"
+  },
+  "contract_sha256": "a988e5b04769c2c064a9a9846133db17892b39d932d8a818026b85f1891f4242",
+  "execution_binding_sha256": "3b27170d36e79a30ccafb6da075a9f659bb16c4cc676234a9b7dc13dcac552dc",
+  "external_solver_correlation_run": false,
+  "formal_replay_run": false,
+  "formal_wp08_qualification": false,
+  "full_test_suite_run": false,
+  "independent_global_fem_reference_run": false,
+  "m2_all_case_gates_pass": true,
+  "m3_all_case_gates_pass": true,
+  "m3_started": true,
+  "mesh_convergence_status": "NOT_CLASSIFIED_NO_FROZEN_THRESHOLD",
+  "parent_contract_sha256": "67efb97074cb8cb1c5f442045b1c0e209b6413d676ad61568fb554586e2ee7f0",
+  "points_awarded": false,
+  "postprocessing_error": null,
+  "processes": [
+    {
+      "case": "stick_target",
+      "command": [
+        "C:\\Users\\fari\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "-B",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\\scripts\\run_wp08_area_supported_m2_m3_diagnostic_r1_10.py",
+        "--worker",
+        "--output-root",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\\qualification\\0_2_9\\wp08_surface_stiffness_remediation\\area_supported_r1_10_20260926",
+        "--mesh",
+        "M2",
+        "--case",
+        "stick_target",
+        "--execution-binding-sha256",
+        "3b27170d36e79a30ccafb6da075a9f659bb16c4cc676234a9b7dc13dcac552dc"
+      ],
+      "contract_sha256": "a988e5b04769c2c064a9a9846133db17892b39d932d8a818026b85f1891f4242",
+      "elapsed_seconds": 5.763644899998326,
+      "ended_utc": "2026-09-26T19:55:25.915408+00:00",
+      "execution_binding_sha256": "3b27170d36e79a30ccafb6da075a9f659bb16c4cc676234a9b7dc13dcac552dc",
+      "execution_kind": "EXPERIMENTAL_MESH_REFINEMENT_DIAGNOSTIC",
+      "exit_code": 0,
+      "mesh": "M2",
+      "parent_contract_sha256": "67efb97074cb8cb1c5f442045b1c0e209b6413d676ad61568fb554586e2ee7f0",
+      "pid": 42600,
+      "raw_path": "M2_M3/M2/stick_target/raw.npz",
+      "raw_sha256": "9634700c8bc4767374fb89bc603fc4f32f1427f87e61d73f6f65e28d100b7b69",
+      "result_path": "M2_M3/M2/stick_target/result.json",
+      "result_sha256": "47fffac3acadf197da504630204c52cded2247ad565ec7957aba5898788192cf",
+      "started_utc": "2026-09-26T19:55:20.151282+00:00",
+      "stderr_path": "_process_logs/M2_stick_target.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "_process_logs/M2_stick_target.stdout.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "telemetry_path": "M2_M3/M2/stick_target/telemetry.jsonl",
+      "telemetry_sha256": "84133ef3c9700c8ed6f4096a69bbc383d6fecf57a06e61c5b8fb1994b49cec37"
+    },
+    {
+      "case": "slip_target",
+      "command": [
+        "C:\\Users\\fari\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "-B",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\\scripts\\run_wp08_area_supported_m2_m3_diagnostic_r1_10.py",
+        "--worker",
+        "--output-root",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\\qualification\\0_2_9\\wp08_surface_stiffness_remediation\\area_supported_r1_10_20260926",
+        "--mesh",
+        "M2",
+        "--case",
+        "slip_target",
+        "--execution-binding-sha256",
+        "3b27170d36e79a30ccafb6da075a9f659bb16c4cc676234a9b7dc13dcac552dc"
+      ],
+      "contract_sha256": "a988e5b04769c2c064a9a9846133db17892b39d932d8a818026b85f1891f4242",
+      "elapsed_seconds": 3.50214340002276,
+      "ended_utc": "2026-09-26T19:55:29.487185+00:00",
+      "execution_binding_sha256": "3b27170d36e79a30ccafb6da075a9f659bb16c4cc676234a9b7dc13dcac552dc",
+      "execution_kind": "EXPERIMENTAL_MESH_REFINEMENT_DIAGNOSTIC",
+      "exit_code": 0,
+      "mesh": "M2",
+      "parent_contract_sha256": "67efb97074cb8cb1c5f442045b1c0e209b6413d676ad61568fb554586e2ee7f0",
+      "pid": 30880,
+      "raw_path": "M2_M3/M2/slip_target/raw.npz",
+      "raw_sha256": "87cc25d772442625b9372f7e7f240067bee1f31dd61cbabb3bc6913b5cb03648",
+      "result_path": "M2_M3/M2/slip_target/result.json",
+      "result_sha256": "df6f1187392be81099fd5cc4a293ec22047228881133b601d73c50d4f39cceea",
+      "started_utc": "2026-09-26T19:55:25.985266+00:00",
+      "stderr_path": "_process_logs/M2_slip_target.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "_process_logs/M2_slip_target.stdout.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "telemetry_path": "M2_M3/M2/slip_target/telemetry.jsonl",
+      "telemetry_sha256": "3604aa47654a0f20cc1648cec9fa1be0d3dbfc04b34114a2967beab993f01a88"
+    },
+    {
+      "case": "stick_target",
+      "command": [
+        "C:\\Users\\fari\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "-B",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\\scripts\\run_wp08_area_supported_m2_m3_diagnostic_r1_10.py",
+        "--worker",
+        "--output-root",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\\qualification\\0_2_9\\wp08_surface_stiffness_remediation\\area_supported_r1_10_20260926",
+        "--mesh",
+        "M3",
+        "--case",
+        "stick_target",
+        "--execution-binding-sha256",
+        "3b27170d36e79a30ccafb6da075a9f659bb16c4cc676234a9b7dc13dcac552dc"
+      ],
+      "contract_sha256": "a988e5b04769c2c064a9a9846133db17892b39d932d8a818026b85f1891f4242",
+      "elapsed_seconds": 7.248921600054018,
+      "ended_utc": "2026-09-26T19:55:36.805546+00:00",
+      "execution_binding_sha256": "3b27170d36e79a30ccafb6da075a9f659bb16c4cc676234a9b7dc13dcac552dc",
+      "execution_kind": "EXPERIMENTAL_MESH_REFINEMENT_DIAGNOSTIC",
+      "exit_code": 0,
+      "mesh": "M3",
+      "parent_contract_sha256": "67efb97074cb8cb1c5f442045b1c0e209b6413d676ad61568fb554586e2ee7f0",
+      "pid": 33744,
+      "raw_path": "M2_M3/M3/stick_target/raw.npz",
+      "raw_sha256": "a4fe0fe48c054f2ee97c00b4cd9788d9462ce1eac53505a93c28d5aeff3baaf8",
+      "result_path": "M2_M3/M3/stick_target/result.json",
+      "result_sha256": "5eba8069d253f7533bdb09db12d3b85d8b302d33d8a2dee1121fff2cb3169269",
+      "started_utc": "2026-09-26T19:55:29.555987+00:00",
+      "stderr_path": "_process_logs/M3_stick_target.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "_process_logs/M3_stick_target.stdout.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "telemetry_path": "M2_M3/M3/stick_target/telemetry.jsonl",
+      "telemetry_sha256": "00c183155852b803054d444ece3f05737b5c693db16f15a274222972267f5cd8"
+    },
+    {
+      "case": "slip_target",
+      "command": [
+        "C:\\Users\\fari\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "-B",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\\scripts\\run_wp08_area_supported_m2_m3_diagnostic_r1_10.py",
+        "--worker",
+        "--output-root",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\\qualification\\0_2_9\\wp08_surface_stiffness_remediation\\area_supported_r1_10_20260926",
+        "--mesh",
+        "M3",
+        "--case",
+        "slip_target",
+        "--execution-binding-sha256",
+        "3b27170d36e79a30ccafb6da075a9f659bb16c4cc676234a9b7dc13dcac552dc"
+      ],
+      "contract_sha256": "a988e5b04769c2c064a9a9846133db17892b39d932d8a818026b85f1891f4242",
+      "elapsed_seconds": 14.18805259995861,
+      "ended_utc": "2026-09-26T19:55:51.338549+00:00",
+      "execution_binding_sha256": "3b27170d36e79a30ccafb6da075a9f659bb16c4cc676234a9b7dc13dcac552dc",
+      "execution_kind": "EXPERIMENTAL_MESH_REFINEMENT_DIAGNOSTIC",
+      "exit_code": 0,
+      "mesh": "M3",
+      "parent_contract_sha256": "67efb97074cb8cb1c5f442045b1c0e209b6413d676ad61568fb554586e2ee7f0",
+      "pid": 13116,
+      "raw_path": "M2_M3/M3/slip_target/raw.npz",
+      "raw_sha256": "303155ed2635300888824f7bfd2e45e737bfd374b0c49431a794e294207ec5ab",
+      "result_path": "M2_M3/M3/slip_target/result.json",
+      "result_sha256": "e7d377f87b0e9b7d7f8377936cee390eae1b8fbd6c9a3825fe87e65a13fc2e86",
+      "started_utc": "2026-09-26T19:55:37.150276+00:00",
+      "stderr_path": "_process_logs/M3_slip_target.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "_process_logs/M3_slip_target.stdout.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "telemetry_path": "M2_M3/M3/slip_target/telemetry.jsonl",
+      "telemetry_sha256": "66ebd74a6ca2e04cdb699ebe18d20366275dbd280f6470ef2c1ce4ead49daeec"
+    }
+  ],
+  "production_mechanics_changed": true,
+  "refinement_diagnostics": {
+    "slip_target/M1_to_M2": {
+      "active_area_fraction": {
+        "from": 1.0,
+        "to": 1.0
+      },
+      "active_area_m2": {
+        "from": 0.5,
+        "to": 0.5
+      },
+      "active_node_count": {
+        "from": 4,
+        "to": 9
+      },
+      "active_support_affine_rank": {
+        "from": 2,
+        "to": 2
+      },
+      "case": "slip_target",
+      "classification": "DESCRIPTIVE_ONLY_NO_FROZEN_MESH_CONVERGENCE_THRESHOLD",
+      "common_node_displacement": {
+        "absolute_l2_m": 0.0019912642252065717,
+        "common_node_count": 12,
+        "relative_l2": 0.24883231842042378
+      },
+      "force_balance_relative_error": {
+        "from": 6.310546343615487e-16,
+        "to": 3.1015454074037094e-15
+      },
+      "from": "M1",
+      "max_friction_utilization": {
+        "from": 1.000000000000027,
+        "to": 1.0000000000104527
+      },
+      "moment_balance_relative_error": {
+        "from": 1.3986094807074423e-15,
+        "to": 1.1353288849690342e-14
+      },
+      "normal_contact_resultant_relative_delta": {
+        "absolute_l2": 1.2088387914866416,
+        "relative_l2": 0.001388690881975668
+      },
+      "reaction_moment_relative_delta": {
+        "absolute_l2": 0.00031717856960492425,
+        "relative_l2": 6.539246350315708e-07
+      },
+      "reaction_resultant_relative_delta": {
+        "absolute_l2": 2.7176875184847306e-12,
+        "relative_l2": 2.4783176924521903e-15
+      },
+      "reported_dissipation": {
+        "from": 0.6183386719629466,
+        "to": 0.8306158657548035
+      },
+      "solver_residual_norm": {
+        "from": 0.0,
+        "to": 0.0
+      },
+      "stick_slip_state_counts": {
+        "from": {
+          "open": 0,
+          "slip": 4,
+          "stick": 0,
+          "unknown": 0
+        },
+        "to": {
+          "open": 0,
+          "slip": 9,
+          "stick": 0,
+          "unknown": 0
+        }
+      },
+      "tangential_contact_resultant_relative_delta": {
+        "absolute_l2": 0.6343571335719578,
+        "relative_l2": 0.002429297323031544
+      },
+      "to": "M2"
+    },
+    "slip_target/M2_to_M3": {
+      "active_area_fraction": {
+        "from": 1.0,
+        "to": 0.875
+      },
+      "active_area_m2": {
+        "from": 0.5,
+        "to": 0.43749999999999994
+      },
+      "active_node_count": {
+        "from": 9,
+        "to": 20
+      },
+      "active_support_affine_rank": {
+        "from": 2,
+        "to": 2
+      },
+      "case": "slip_target",
+      "classification": "DESCRIPTIVE_ONLY_NO_FROZEN_MESH_CONVERGENCE_THRESHOLD",
+      "common_node_displacement": {
+        "absolute_l2_m": 0.004784928704893529,
+        "common_node_count": 45,
+        "relative_l2": 0.24540932251268058
+      },
+      "force_balance_relative_error": {
+        "from": 3.1015454074037094e-15,
+        "to": 2.2175160530488483e-14
+      },
+      "from": "M2",
+      "max_friction_utilization": {
+        "from": 1.0000000000104527,
+        "to": 1.0000000008530632
+      },
+      "moment_balance_relative_error": {
+        "from": 1.1353288849690342e-14,
+        "to": 6.093563246417483e-14
+      },
+      "normal_contact_resultant_relative_delta": {
+        "absolute_l2": 10.051595464647221,
+        "relative_l2": 0.011415267595925642
+      },
+      "reaction_moment_relative_delta": {
+        "absolute_l2": 0.0021727708601868693,
+        "relative_l2": 4.479580680456388e-06
+      },
+      "reaction_resultant_relative_delta": {
+        "absolute_l2": 2.0981191593272793e-11,
+        "relative_l2": 1.913319981810432e-14
+      },
+      "reported_dissipation": {
+        "from": 0.8306158657548035,
+        "to": 1.1254941680197057
+      },
+      "solver_residual_norm": {
+        "from": 0.0,
+        "to": 0.0
+      },
+      "stick_slip_state_counts": {
+        "from": {
+          "open": 0,
+          "slip": 9,
+          "stick": 0,
+          "unknown": 0
+        },
+        "to": {
+          "open": 0,
+          "slip": 20,
+          "stick": 0,
+          "unknown": 0
+        }
+      },
+      "tangential_contact_resultant_relative_delta": {
+        "absolute_l2": 4.345541680688449,
+        "relative_l2": 0.016451206398307626
+      },
+      "to": "M3"
+    },
+    "stick_target/M1_to_M2": {
+      "active_area_fraction": {
+        "from": 1.0,
+        "to": 1.0
+      },
+      "active_area_m2": {
+        "from": 0.5,
+        "to": 0.5
+      },
+      "active_node_count": {
+        "from": 4,
+        "to": 9
+      },
+      "active_support_affine_rank": {
+        "from": 2,
+        "to": 2
+      },
+      "case": "stick_target",
+      "classification": "DESCRIPTIVE_ONLY_NO_FROZEN_MESH_CONVERGENCE_THRESHOLD",
+      "common_node_displacement": {
+        "absolute_l2_m": 1.8923088738394598e-05,
+        "common_node_count": 12,
+        "relative_l2": 0.016518081261647458
+      },
+      "force_balance_relative_error": {
+        "from": 1.480251038287193e-16,
+        "to": 7.418554344289611e-16
+      },
+      "from": "M1",
+      "max_friction_utilization": {
+        "from": 0.6354424961640035,
+        "to": 0.6386849471039341
+      },
+      "moment_balance_relative_error": {
+        "from": 2.532639552472515e-16,
+        "to": 1.7386979464187624e-15
+      },
+      "normal_contact_resultant_relative_delta": {
+        "absolute_l2": 4.990047282795786,
+        "relative_l2": 0.005740391861656248
+      },
+      "reaction_moment_relative_delta": {
+        "absolute_l2": 0.0005931394407330349,
+        "relative_l2": 1.8403366501640582e-06
+      },
+      "reaction_resultant_relative_delta": {
+        "absolute_l2": 6.197786400043194e-13,
+        "relative_l2": 6.129216278315447e-16
+      },
+      "reported_dissipation": {
+        "from": 7.495814610664769e-05,
+        "to": 1.4834070107272332e-05
+      },
+      "solver_residual_norm": {
+        "from": 0.0,
+        "to": 0.0
+      },
+      "stick_slip_state_counts": {
+        "from": {
+          "open": 0,
+          "slip": 0,
+          "stick": 4,
+          "unknown": 0
+        },
+        "to": {
+          "open": 0,
+          "slip": 0,
+          "stick": 9,
+          "unknown": 0
+        }
+      },
+      "tangential_contact_resultant_relative_delta": {
+        "absolute_l2": 1.1862788824318982,
+        "relative_l2": 0.008145652803323437
+      },
+      "to": "M2"
+    },
+    "stick_target/M2_to_M3": {
+      "active_area_fraction": {
+        "from": 1.0,
+        "to": 1.0
+      },
+      "active_area_m2": {
+        "from": 0.5,
+        "to": 0.49999999999999994
+      },
+      "active_node_count": {
+        "from": 9,
+        "to": 25
+      },
+      "active_support_affine_rank": {
+        "from": 2,
+        "to": 2
+      },
+      "case": "stick_target",
+      "classification": "DESCRIPTIVE_ONLY_NO_FROZEN_MESH_CONVERGENCE_THRESHOLD",
+      "common_node_displacement": {
+        "absolute_l2_m": 2.0499485931187424e-05,
+        "common_node_count": 45,
+        "relative_l2": 0.009725839361464502
+      },
+      "force_balance_relative_error": {
+        "from": 7.418554344289611e-16,
+        "to": 2.992095751343177e-15
+      },
+      "from": "M2",
+      "max_friction_utilization": {
+        "from": 0.6386849471039341,
+        "to": 0.6411554173724376
+      },
+      "moment_balance_relative_error": {
+        "from": 1.7386979464187624e-15,
+        "to": 2.4326501271225046e-15
+      },
+      "normal_contact_resultant_relative_delta": {
+        "absolute_l2": 2.1277075176392373,
+        "relative_l2": 0.002441670783102954
+      },
+      "reaction_moment_relative_delta": {
+        "absolute_l2": 0.0003072122666109736,
+        "relative_l2": 9.531886370792024e-07
+      },
+      "reaction_resultant_relative_delta": {
+        "absolute_l2": 2.465063641152552e-12,
+        "relative_l2": 2.437791046869644e-15
+      },
+      "reported_dissipation": {
+        "from": 1.4834070107272332e-05,
+        "to": 3.339746454190176e-06
+      },
+      "solver_residual_norm": {
+        "from": 0.0,
+        "to": 0.0
+      },
+      "stick_slip_state_counts": {
+        "from": {
+          "open": 0,
+          "slip": 0,
+          "stick": 9,
+          "unknown": 0
+        },
+        "to": {
+          "open": 0,
+          "slip": 0,
+          "stick": 25,
+          "unknown": 0
+        }
+      },
+      "tangential_contact_resultant_relative_delta": {
+        "absolute_l2": 0.6144245307419116,
+        "relative_l2": 0.0042109076244322904
+      },
+      "to": "M3"
+    }
+  },
+  "source_bundle_sha256": "a6703a15b73991c2950688c545a4e371d51b72e0d969dc0d42d33bf613515e04",
+  "source_head": "bec629bddaea9f9821f38fb19cdd9f14ad77ce15",
+  "status": "M2_M3_DIAGNOSTIC_CASES_PASS_REFINEMENT_UNCLASSIFIED",
+  "thresholds_changed": false
+}
