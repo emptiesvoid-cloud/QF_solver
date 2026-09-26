@@ -46,6 +46,13 @@ CONTACT_REQUALIFICATION_R2_BASE_SHA = "cd69958909aabcd74649b92fde768a1a0422ed52"
 CONTACT_REQUALIFICATION_R2_OWNER_DECISION_PATH = Path(
     "qualification/0_2_9/wp08d_contact_requalification_r2_owner_decision.json"
 )
+CONTACT_REQUALIFICATION_R2_1_CONTRACT_PATH = Path(
+    "qualification/0_2_9/wp08d_contact_requalification_r2_1_contract.json"
+)
+CONTACT_REQUALIFICATION_R2_1_CONTRACT_SHA256 = (
+    "a9b82f19f1fc0dc27ac2ed97320a06e958c4adb4f96b4510bbf35c494316519d"
+)
+CONTACT_REQUALIFICATION_R2_1_OWNER_TOKEN = "OWNER_AUTHORIZED_WP08D_CONTACT_R2_1_REQUALIFICATION"
 UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED = "UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED"
 PHASE1_AUTHORIZATION_TOKEN = "OWNER_AUTHORIZED_WP08D_PHASE1_EXECUTION"
 ARTIFACT_ROOT = Path("qualification/0_2_9/wp08d_phase1")
@@ -384,14 +391,33 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
         ).returncode:
             raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
         return payload
-    if payload.get("authorization") == CONTACT_REQUALIFICATION_R2_OWNER_TOKEN:
+    if payload.get("authorization") in {
+        CONTACT_REQUALIFICATION_R2_OWNER_TOKEN,
+        CONTACT_REQUALIFICATION_R2_1_OWNER_TOKEN,
+    }:
         root = repository_root()
-        requalification_contract = root / CONTACT_REQUALIFICATION_R2_CONTRACT_PATH
+        is_r2_1 = payload.get("authorization") == CONTACT_REQUALIFICATION_R2_1_OWNER_TOKEN
+        contract_relative_path = (
+            CONTACT_REQUALIFICATION_R2_1_CONTRACT_PATH
+            if is_r2_1
+            else CONTACT_REQUALIFICATION_R2_CONTRACT_PATH
+        )
+        contract_sha256 = (
+            CONTACT_REQUALIFICATION_R2_1_CONTRACT_SHA256
+            if is_r2_1
+            else CONTACT_REQUALIFICATION_R2_CONTRACT_SHA256
+        )
+        expected_scope = (
+            "WP08-D_CONTACT_MECHANICS_REQUALIFICATION_R2_1"
+            if is_r2_1
+            else "WP08-D_CONTACT_MECHANICS_REQUALIFICATION_R2"
+        )
+        requalification_contract = root / contract_relative_path
         if (
             not requalification_contract.is_file()
-            or file_sha256(requalification_contract) != CONTACT_REQUALIFICATION_R2_CONTRACT_SHA256
+            or file_sha256(requalification_contract) != contract_sha256
         ):
-            raise RuntimeError("WP08-D R2 contact requalification contract hash mismatch.")
+            raise RuntimeError("WP08-D source-bound contact requalification contract hash mismatch.")
         contract = json.loads(requalification_contract.read_text(encoding="utf-8"))
         read_contract()
         decision_ref = contract.get("owner_decision", {})
@@ -423,10 +449,10 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
         required_fields = {
             "owner_authorized": True,
             "work_package": "WP08-D",
-            "scope": "WP08-D_CONTACT_MECHANICS_REQUALIFICATION_R2",
+            "scope": expected_scope,
             "branch": CONTACT_REQUALIFICATION_R2_REQUIRED_BRANCH,
             "execution_sha": state["head"],
-            "requalification_contract_sha256": CONTACT_REQUALIFICATION_R2_CONTRACT_SHA256,
+            "requalification_contract_sha256": contract_sha256,
             "parent_contract_digest": CONTRACT_DIGEST,
             "policy_digest": POLICY_DIGEST,
             "governing_base_sha": CONTACT_REQUALIFICATION_R2_BASE_SHA,
@@ -465,12 +491,12 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
             raise RuntimeError("WP08-D R2 Owner authorization record is missing or hash-mismatched.")
         owner_authorization = json.loads(owner_path.read_text(encoding="utf-8"))
         if (
-            owner_authorization.get("authorization") != CONTACT_REQUALIFICATION_R2_OWNER_TOKEN
+            owner_authorization.get("authorization") != payload.get("authorization")
             or owner_authorization.get("owner_authorized") is not True
             or owner_authorization.get("branch") != state["branch"]
             or owner_authorization.get("execution_sha") != state["head"]
             or owner_authorization.get("requalification_contract_sha256")
-            != CONTACT_REQUALIFICATION_R2_CONTRACT_SHA256
+            != contract_sha256
             or owner_authorization.get("owner_decision_sha256") != decision_ref.get("sha256")
             or owner_authorization.get("meshes") != ["M1", "M2", "M3"]
             or owner_authorization.get("replay_meshes") != ["M1"]
@@ -550,6 +576,7 @@ def require_phase1_authorization(
     if payload.get("authorization") in {
         CONTACT_REQUALIFICATION_OWNER_TOKEN,
         CONTACT_REQUALIFICATION_R2_OWNER_TOKEN,
+        CONTACT_REQUALIFICATION_R2_1_OWNER_TOKEN,
     } and (
         payload.get("mesh") != str(mesh).upper()
         or payload.get("execution_kind") != execution_kind
@@ -926,6 +953,7 @@ def execute_phase1(
         if authorization.get("authorization") in {
             CONTACT_REQUALIFICATION_OWNER_TOKEN,
             CONTACT_REQUALIFICATION_R2_OWNER_TOKEN,
+            CONTACT_REQUALIFICATION_R2_1_OWNER_TOKEN,
         }:
             manifest.update(
                 {
@@ -965,6 +993,7 @@ def execute_phase1(
             if manifest_path.is_file() and authorization.get("authorization") in {
                 CONTACT_REQUALIFICATION_OWNER_TOKEN,
                 CONTACT_REQUALIFICATION_R2_OWNER_TOKEN,
+                CONTACT_REQUALIFICATION_R2_1_OWNER_TOKEN,
             }:
                 manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
                 manifest.update(

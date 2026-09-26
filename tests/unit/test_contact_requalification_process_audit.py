@@ -129,21 +129,44 @@ def test_wp08_r2_profile_is_separate_and_keeps_r1_default() -> None:
     assert wp08_campaign.REQUIRED_BRANCH == "codex/wp08d-contact-r2-requalification"
     assert wp08_campaign.OWNER_TOKEN == "OWNER_AUTHORIZED_WP08D_CONTACT_R2_REQUALIFICATION"
 
+    wp08_campaign._activate_revision("r2.1")
+
+    assert wp08_campaign.PROFILE_REVISION == "R2.1"
+    assert wp08_campaign.CONTRACT_PATH.name == "wp08d_contact_requalification_r2_1_contract.json"
+    assert wp08_campaign.DEFAULT_OUTPUT_ROOT.name == "raw_r2_attempt_02"
+    assert wp08_campaign.REQUIRED_BRANCH == "codex/wp08d-contact-r2-requalification"
+    assert wp08_campaign.OWNER_TOKEN == "OWNER_AUTHORIZED_WP08D_CONTACT_R2_1_REQUALIFICATION"
+
     wp08_campaign._activate_revision("r1")
     assert wp08_campaign.CONTRACT_PATH == r1_contract
     assert wp08_campaign.DEFAULT_OUTPUT_ROOT == r1_output
     assert wp08_campaign.PROFILE_REVISION == "R1"
 
 
+@pytest.mark.parametrize(
+    ("revision", "token", "constant_name"),
+    [
+        ("R2", wp08_common.CONTACT_REQUALIFICATION_R2_OWNER_TOKEN, "CONTACT_REQUALIFICATION_R2_CONTRACT_SHA256"),
+        (
+            "R2.1",
+            wp08_common.CONTACT_REQUALIFICATION_R2_1_OWNER_TOKEN,
+            "CONTACT_REQUALIFICATION_R2_1_CONTRACT_SHA256",
+        ),
+    ],
+)
 def test_wp08_r2_authorization_rejects_unfrozen_contract_hash(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    revision: str,
+    token: str,
+    constant_name: str,
 ) -> None:
-    payload = {"authorization": wp08_common.CONTACT_REQUALIFICATION_R2_OWNER_TOKEN}
-    authorization_path = tmp_path / "r2-authorization.json"
+    payload = {"authorization": token}
+    authorization_path = tmp_path / f"{revision.lower()}-authorization.json"
     authorization_path.write_text(json.dumps(payload), encoding="utf-8")
-    monkeypatch.setattr(wp08_common, "CONTACT_REQUALIFICATION_R2_CONTRACT_SHA256", "0" * 64)
+    monkeypatch.setattr(wp08_common, constant_name, "0" * 64)
 
-    with pytest.raises(RuntimeError, match="R2 contact requalification contract hash mismatch"):
+    with pytest.raises(RuntimeError, match="source-bound contact requalification contract hash mismatch"):
         wp08_common._authorization_payload(authorization_path)
 
 

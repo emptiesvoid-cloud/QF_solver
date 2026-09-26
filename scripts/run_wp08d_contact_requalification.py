@@ -38,6 +38,10 @@ R2_OUTPUT_ROOT = ROOT / "qualification/0_2_9/wp08d_contact_requalification_r2_ru
 R2_BRANCH = "codex/wp08d-contact-r2-requalification"
 R2_OWNER_TOKEN = "OWNER_AUTHORIZED_WP08D_CONTACT_R2_REQUALIFICATION"
 R2_CONTRACT_SHA256 = "5f15a945cb8c173ccaf6b10ae65e4958751886f533dbb5e6c5782694a3f5ac2f"
+R2_1_CONTRACT_PATH = ROOT / "qualification/0_2_9/wp08d_contact_requalification_r2_1_contract.json"
+R2_1_OUTPUT_ROOT = ROOT / "qualification/0_2_9/wp08d_contact_requalification_r2_runs/raw_r2_attempt_02"
+R2_1_OWNER_TOKEN = "OWNER_AUTHORIZED_WP08D_CONTACT_R2_1_REQUALIFICATION"
+R2_1_CONTRACT_SHA256 = "a9b82f19f1fc0dc27ac2ed97320a06e958c4adb4f96b4510bbf35c494316519d"
 PROFILE_REVISION = "R1"
 
 
@@ -86,15 +90,21 @@ def _activate_revision(revision: str) -> None:
         REQUIRED_BRANCH = "codex/contact-active-set-remediation"
         PROFILE_REVISION = "R1"
         return
-    if revision != "r2":
+    if revision not in {"r2", "r2.1"}:
         raise ValueError(f"Unsupported WP08-D contact requalification revision: {revision}")
-    CONTRACT_PATH = R2_CONTRACT_PATH
     GOVERNING_BASE_SHA = "cd69958909aabcd74649b92fde768a1a0422ed52"
     OWNER_DECISION_PATH = R2_OWNER_DECISION_PATH
-    OWNER_TOKEN = R2_OWNER_TOKEN
-    DEFAULT_OUTPUT_ROOT = R2_OUTPUT_ROOT
     REQUIRED_BRANCH = R2_BRANCH
-    PROFILE_REVISION = "R2"
+    if revision == "r2":
+        CONTRACT_PATH = R2_CONTRACT_PATH
+        OWNER_TOKEN = R2_OWNER_TOKEN
+        DEFAULT_OUTPUT_ROOT = R2_OUTPUT_ROOT
+        PROFILE_REVISION = "R2"
+    else:
+        CONTRACT_PATH = R2_1_CONTRACT_PATH
+        OWNER_TOKEN = R2_1_OWNER_TOKEN
+        DEFAULT_OUTPUT_ROOT = R2_1_OUTPUT_ROOT
+        PROFILE_REVISION = "R2.1"
 
 
 def _json(path: Path) -> dict[str, Any]:
@@ -107,8 +117,12 @@ def _json(path: Path) -> dict[str, Any]:
 def _validate(contract: dict[str, Any], authorization: dict[str, Any], output: Path) -> str:
     if contract.get("status") != "FROZEN_FOR_OWNER_AUTHORIZED_REQUALIFICATION":
         raise PermissionError("WP08-D requalification contract is not frozen.")
-    if PROFILE_REVISION == "R2" and _sha256(CONTRACT_PATH) != R2_CONTRACT_SHA256:
-        raise PermissionError("WP08-D R2 contract differs from its frozen SHA-256.")
+    expected_contract_sha = {
+        "R2": R2_CONTRACT_SHA256,
+        "R2.1": R2_1_CONTRACT_SHA256,
+    }.get(PROFILE_REVISION)
+    if expected_contract_sha is not None and _sha256(CONTRACT_PATH) != expected_contract_sha:
+        raise PermissionError(f"WP08-D {PROFILE_REVISION} contract differs from its frozen SHA-256.")
     parent = _json(PARENT_CONTRACT_PATH)
     canonical_parent = json.dumps(
         parent, sort_keys=True, separators=(",", ":"), ensure_ascii=False
@@ -146,7 +160,7 @@ def _validate(contract: dict[str, Any], authorization: dict[str, Any], output: P
         raise PermissionError("The recorded Owner decision does not authorize exactly this WP08-D scope.")
     if (
         authorization.get("token") != OWNER_TOKEN
-        or (PROFILE_REVISION == "R2" and authorization.get("authorization") != OWNER_TOKEN)
+        or (PROFILE_REVISION in {"R2", "R2.1"} and authorization.get("authorization") != OWNER_TOKEN)
         or authorization.get("owner_authorized") is not True
     ):
         raise PermissionError("Explicit Owner execution authorization is missing.")
@@ -234,8 +248,12 @@ def _issue_owner_authorization(path: Path) -> dict[str, Any]:
     """Materialize the current explicit Owner decision against the frozen HEAD."""
 
     contract = _json(CONTRACT_PATH)
-    if PROFILE_REVISION == "R2" and _sha256(CONTRACT_PATH) != R2_CONTRACT_SHA256:
-        raise PermissionError("WP08-D R2 contract differs from its frozen SHA-256.")
+    expected_contract_sha = {
+        "R2": R2_CONTRACT_SHA256,
+        "R2.1": R2_1_CONTRACT_SHA256,
+    }.get(PROFILE_REVISION)
+    if expected_contract_sha is not None and _sha256(CONTRACT_PATH) != expected_contract_sha:
+        raise PermissionError(f"WP08-D {PROFILE_REVISION} contract differs from its frozen SHA-256.")
     decision_ref = contract.get("owner_decision", {})
     if (
         contract.get("status") != "FROZEN_FOR_OWNER_AUTHORIZED_REQUALIFICATION"
@@ -411,7 +429,7 @@ def _run(output: Path, owner_authorization_path: Path, execution_sha: str) -> di
             "scope": (
                 "WP08-D_CONTACT_MECHANICS_REQUALIFICATION"
                 if PROFILE_REVISION == "R1"
-                else "WP08-D_CONTACT_MECHANICS_REQUALIFICATION_R2"
+                else f"WP08-D_CONTACT_MECHANICS_REQUALIFICATION_{PROFILE_REVISION.replace('.', '_')}"
             ),
             "branch": REQUIRED_BRANCH,
             "execution_sha": execution_sha,
@@ -607,7 +625,7 @@ def _run(output: Path, owner_authorization_path: Path, execution_sha: str) -> di
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--revision", choices=("r1", "r2"), default="r1")
+    parser.add_argument("--revision", choices=("r1", "r2", "r2.1"), default="r1")
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--owner-authorization", type=Path)
     mode.add_argument("--issue-owner-authorization", action="store_true")
