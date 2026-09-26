@@ -296,10 +296,13 @@ def test_wp07_contact_r2_1_binding_rejects_unbound_source_mechanics_change() -> 
         wp07_binding.validate_binding(binding)
 
 
-def test_wp07_contact_r2_2_binding_prospectively_binds_surface_lumped_fix() -> None:
+def test_wp07_contact_r2_2_binding_is_preserved_but_stale_on_current_source() -> None:
     binding = wp07_binding.load_binding(wp07_binding.CONTACT_REQUAL_R2_2_BINDING_PATH)
 
-    wp07_binding.validate_binding(binding)
+    # R2.2 is historical evidence. Later R2.3 changed the production source,
+    # so its old source-diff binding must fail closed at the current HEAD.
+    with pytest.raises(ValueError, match="production-source lineage differs"):
+        wp07_binding.validate_binding(binding)
 
     assert binding["artifact_id"] == wp07_binding.CONTACT_REQUAL_R2_2_ARTIFACT_ID
     assert binding["binding_revision"] == "R2.2_SURFACE_LUMPED_CONTRACT_IMPLEMENTATION_FIX"
