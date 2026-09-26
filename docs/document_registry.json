@@ -6344,6 +6344,17 @@
     ]
   },
   {
+    "id": "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-RESULTS",
+    "path": "verification/0_2_9/wp08-area-supported-contact-r1-13-final-report.md",
+    "title": "WP08 R1.13 area-supported contact results for Owner review",
+    "status": "owner_review_candidate",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_final_audit.json"
+    ],
+    "tests": []
+  },
+  {
     "id": "DOC-029-WP07-D-R2.5-OWNER-ACCEPTANCE-001",
     "path": "verification/0_2_9/wp07d-r2-5-owner-acceptance.md",
     "title": "QF Solver 0.2.9 WP07-D R2.5 Owner acceptance with limitations",
