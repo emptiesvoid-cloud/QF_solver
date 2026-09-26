@@ -138,6 +138,7 @@ def _source_inventory() -> dict[str, str]:
             "tests/unit/test_wp08d_phase1_runner.py",
             "tests/unit/test_wp08d_independent_reference.py",
             "tests/unit/test_wp08_area_supported_r1_11_optimizer_runner.py",
+            "tests/unit/test_wp08_area_supported_r1_13_runner.py",
         )
     )
     if any(not path.is_file() for path in files):
@@ -348,16 +349,42 @@ def _contract(
         "production_mechanics_changed_for_this_benchmark": True,
         "contact_mechanics_revision": os.environ.get(
             "QF_WP08_CONTACT_MECHANICS_REVISION",
-            "R1.7 post-root tangential reclassification and zero-pressure-open semantics; R1.8 bounded normal-complementarity correction; R1.9 maximum per-contact scaled-residual gate; R1.10 analytic coupled-projection Jacobian and bounded refinement from the best finite candidate",
+            (
+                "R1.7 post-root tangential reclassification and zero-pressure-open semantics; "
+                "R1.8 bounded normal-complementarity correction; R1.9 maximum per-contact scaled-residual gate; "
+                "R1.10 analytic coupled-projection Jacobian and bounded refinement; R1.11 tighter internal optimizer stopping; "
+                "R1.13 consistent pressure-normalized residual/Jacobian/merit for active-slip globalization"
+                if CAMPAIGN_REVISION == "R1.13"
+                else "R1.7 post-root tangential reclassification and zero-pressure-open semantics; R1.8 bounded normal-complementarity correction; R1.9 maximum per-contact scaled-residual gate; R1.10 analytic coupled-projection Jacobian and bounded refinement from the best finite candidate"
+            ),
         ),
-        "solver_implementation_revision": "support-local sparse rank-one stick assembly; frozen stick matrix and analytic Jacobian for slip roots; deterministic seed tried before the unchanged enumeration cap; coupled-root complementarity proposals update the normal active set with cycle detection; coupled projection convergence is gated by the maximum per-contact normalized residual, with existing semismooth/globalized refinement used when needed",
+        "solver_implementation_revision": (
+            "support-local sparse rank-one stick assembly; frozen stick matrix and analytic Jacobian for slip roots; "
+            "deterministic seed tried before the unchanged enumeration cap; coupled-root complementarity proposals update "
+            "the normal active set with cycle detection; active-slip semismooth/globalized refinement uses a consistent "
+            "pressure-normalized residual/Jacobian and L2 Armijo merit in R1.13, while convergence remains gated by the "
+            "maximum per-contact normalized residual"
+            if CAMPAIGN_REVISION == "R1.13"
+            else "support-local sparse rank-one stick assembly; frozen stick matrix and analytic Jacobian for slip roots; deterministic seed tried before the unchanged enumeration cap; coupled-root complementarity proposals update the normal active set with cycle detection; coupled projection convergence is gated by the maximum per-contact normalized residual, with existing semismooth/globalized refinement used when needed"
+        ),
         "implementation_scope": os.environ.get(
             "QF_WP08_IMPLEMENTATION_SCOPE",
-            "algorithmic contact correction in slip_root.py only; R1.10 uses the exact piecewise coupled-projection Jacobian including pressure-dependent residual scaling, retries from the best finite root candidate, and applies safeguarded semismooth polishing only within the unused portion of the pre-existing, unchanged 30-iteration budget; the per-contact physical 1e-9 gate, 25-iteration active-set limit, enumeration guard, fallback policy, geometry, mesh, material, loads, boundary conditions, contact area weights, and kappa are unchanged",
+            (
+                "algorithmic contact correction in slip_root.py: R1.10 bounded coupled-projection refinement; "
+                "R1.13 aligns active-slip Newton direction, Jacobian, and Armijo merit with the same pressure-normalized residual; "
+                "strict maximum per-contact physical 1e-9 acceptance gate remains unchanged. Geometry, meshes, material, loads, "
+                "boundary conditions, contact area weights, kappa, iteration budgets, enumeration guard, and fallback policy are unchanged."
+                if CAMPAIGN_REVISION == "R1.13"
+                else "algorithmic contact correction in slip_root.py only; R1.10 uses the exact piecewise coupled-projection Jacobian including pressure-dependent residual scaling, retries from the best finite root candidate, and applies safeguarded semismooth polishing only within the unused portion of the pre-existing, unchanged 30-iteration budget; the per-contact physical 1e-9 gate, 25-iteration active-set limit, enumeration guard, fallback policy, geometry, mesh, material, loads, boundary conditions, contact area weights, and kappa are unchanged"
+            ),
         ),
         "optimizer_stopping_policy": os.environ.get(
             "QF_WP08_OPTIMIZER_POLICY",
-            "R1.10 optimizer tolerances remain equal to the solver-provided physical tolerance.",
+            (
+                "R1.13 changes only the nonlinear merit/Jacobian pairing; no optimizer tolerance or physical acceptance threshold changed."
+                if CAMPAIGN_REVISION == "R1.13"
+                else "R1.10 optimizer tolerances remain equal to the solver-provided physical tolerance."
+            ),
         ),
         "previous_revision": {
             "revision": "R1.9",
@@ -452,7 +479,7 @@ def _contract(
         "m2_m3_authorized": owner_authorized,
         "full_test_suite": False,
     }
-    if CAMPAIGN_REVISION == "R1.11":
+    if CAMPAIGN_REVISION in {"R1.11", "R1.13"}:
         prior_root = ROOT / "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926"
         prior_files = (
             "contract.json",
@@ -484,6 +511,68 @@ def _contract(
             "path": forensic_path.relative_to(ROOT).as_posix(),
             "sha256": _sha(forensic_path),
             "classification": "STEP7_SLIP_FAILURE_DIAGNOSTIC_PRESERVED_NO_RERUN",
+        }
+    if CAMPAIGN_REVISION == "R1.13":
+        r1_11_root = ROOT / "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_11_optimizer_20260926"
+        r1_11_m1 = r1_11_root / "final.json"
+        r1_11_m23 = r1_11_root / "M2_M3/final.json"
+        if not r1_11_m1.is_file() or not r1_11_m23.is_file():
+            raise FileNotFoundError("R1.13 requires the preserved R1.11 M1/M2/M3 evidence.")
+        r1_11_m1_payload = json.loads(r1_11_m1.read_text(encoding="utf-8"))
+        r1_11_m23_payload = json.loads(r1_11_m23.read_text(encoding="utf-8"))
+        expected_m1 = "M1_DIAGNOSTIC_PASS_M2_M3_READY"
+        expected_cases = {
+            "M2/stick_target": "PASS_DIAGNOSTIC_GATES",
+            "M2/slip_target": "PASS_DIAGNOSTIC_GATES",
+            "M3/stick_target": "PASS_DIAGNOSTIC_GATES",
+            "M3/slip_target": "PASS_DIAGNOSTIC_GATES",
+        }
+        if r1_11_m1_payload.get("status") != expected_m1 or r1_11_m23_payload.get("case_status") != expected_cases:
+            raise RuntimeError("Preserved R1.11 M1/M2/M3 predecessor classifications differ from the expected record.")
+        r1_11_files = (r1_11_m1, r1_11_m23)
+        contract["previous_revision"] = {
+            "revision": "R1.11",
+            "status": "M1_M2_M3_DIAGNOSTIC_CASES_PASS_REFINEMENT_UNCLASSIFIED",
+            "files": [
+                {
+                    "path": path.relative_to(ROOT).as_posix(),
+                    "sha256": _sha(path),
+                    "size_bytes": path.stat().st_size,
+                }
+                for path in r1_11_files
+            ],
+            "preserved_without_rewrite": True,
+        }
+
+        r1_12_root = ROOT / "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_12_m4_slip_20260927"
+        r1_12_audit = r1_12_root / "m4_final_audit_r1_12.json"
+        r1_12_contract = r1_12_root / "contract.json"
+        if not r1_12_audit.is_file() or not r1_12_contract.is_file():
+            raise FileNotFoundError("R1.13 requires the preserved R1.12 M4 failure audit and contract.")
+        audit = json.loads(r1_12_audit.read_text(encoding="utf-8"))
+        if audit.get("status") != "FAIL_CLOSED_NUMERICAL" or audit.get("provenance", {}).get("execution_sha") != "0f9e31e61987e9a8f1ccd154f242dc4071f536cb":
+            raise RuntimeError("R1.12 predecessor is not the expected preserved numerical failure.")
+        verified_artifacts = []
+        for relative, expected_sha in sorted(audit.get("artifact_hashes", {}).items()):
+            path = r1_12_root / relative
+            if not path.is_file() or _sha(path) != expected_sha:
+                raise RuntimeError(f"Preserved R1.12 artifact hash mismatch: {relative}")
+            verified_artifacts.append(
+                {"path": relative, "sha256": expected_sha, "size_bytes": path.stat().st_size}
+            )
+        if _sha(r1_12_contract) != audit.get("provenance", {}).get("contract_sha256"):
+            raise RuntimeError("R1.12 contract SHA differs from its final audit.")
+        contract["intervening_m4_diagnostic"] = {
+            "revision": "R1.12",
+            "status": "FAIL_CLOSED_NUMERICAL",
+            "classification": audit.get("numerical_diagnostics", {}).get("failure_classification"),
+            "execution_sha": audit["provenance"]["execution_sha"],
+            "contract_path": r1_12_contract.relative_to(ROOT).as_posix(),
+            "contract_sha256": _sha(r1_12_contract),
+            "audit_path": r1_12_audit.relative_to(ROOT).as_posix(),
+            "audit_sha256": _sha(r1_12_audit),
+            "verified_artifacts": verified_artifacts,
+            "preserved_without_rewrite": True,
         }
     return contract, inventory, source_digest
 

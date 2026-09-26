@@ -323,6 +323,11 @@ def prepare_r1_10_amendment(
                     if CAMPAIGN_REVISION == "R1.11"
                     else []
                 ),
+                *(
+                    ["R1.13 active-slip globalization uses a pressure-normalized residual/Jacobian pair and matching L2 Armijo merit; strict maximum per-contact gate unchanged"]
+                    if CAMPAIGN_REVISION == "R1.13"
+                    else []
+                ),
             ],
             "thresholds_or_search_cap_changed": False,
             "regression_tests": [
@@ -330,6 +335,7 @@ def prepare_r1_10_amendment(
                 "tests/unit/test_wp08_area_supported_m1_runner_r1_10.py",
                 "tests/unit/test_wp08_area_supported_m2_m3_runner_r1_10.py",
                 "tests/unit/test_wp08_area_supported_r1_11_optimizer_runner.py",
+                "tests/unit/test_wp08_area_supported_r1_13_runner.py",
             ],
         },
         "unchanged": {
@@ -351,7 +357,11 @@ def prepare_r1_10_amendment(
         },
         "optimizer_stopping_policy": os.environ.get(
             "QF_WP08_OPTIMIZER_POLICY",
-            "R1.10 optimizer tolerances remain equal to the solver-provided physical tolerance.",
+            (
+                "R1.13 changed only the active-slip residual/Jacobian/merit pairing; internal optimizer tolerances and the physical per-contact acceptance gate are unchanged."
+                if CAMPAIGN_REVISION == "R1.13"
+                else "R1.10 optimizer tolerances remain equal to the solver-provided physical tolerance."
+            ),
         ),
         "execution": {
             "authorized_attempts": 1,
@@ -488,6 +498,7 @@ def _source_inventory() -> dict[str, str]:
             "tests/unit/test_wp08d_phase1_runner.py",
             "tests/unit/test_wp08d_independent_reference.py",
             "tests/unit/test_wp08_area_supported_r1_11_optimizer_runner.py",
+            "tests/unit/test_wp08_area_supported_r1_13_runner.py",
         )
     )
     if any(not path.is_file() for path in files):

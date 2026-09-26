@@ -6332,6 +6332,18 @@
     ]
   },
   {
+    "id": "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-001",
+    "path": "verification/0_2_9/wp08-area-supported-contact-r1-13-normalized-merit.md",
+    "title": "WP08 area-supported contact R1.13 normalized active-slip globalization diagnostic contract",
+    "status": "controlled_candidate_contract",
+    "requirements": [],
+    "examples": [],
+    "tests": [
+      "tests/unit/test_wp08_area_supported_r1_13_runner.py",
+      "tests/unit/test_wp08d_mixed_open_active_slip.py"
+    ]
+  },
+  {
     "id": "DOC-029-WP07-D-R2.5-OWNER-ACCEPTANCE-001",
     "path": "verification/0_2_9/wp07d-r2-5-owner-acceptance.md",
     "title": "QF Solver 0.2.9 WP07-D R2.5 Owner acceptance with limitations",
