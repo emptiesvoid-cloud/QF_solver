@@ -46,6 +46,11 @@ ContactTrace = Callable[[str, Mapping[str, object]], None]
 _ACTIVE_SET_ITERATION_LIMIT = 25
 
 
+def _l2_residual_merit(_vector: np.ndarray, values: np.ndarray) -> float:
+    """Return the Euclidean merit of the residual used by a Newton direction."""
+    return float(np.linalg.norm(np.asarray(values, dtype=float)))
+
+
 def _scale_contact_residual_jacobian(
     physical_jacobian: np.ndarray,
     physical_residual: np.ndarray,
@@ -759,6 +764,7 @@ def _solve_coupled_projection_on_active_set(
                     tolerance,
                     jacobian=projection_jacobian,
                     convergence_measure=maximum_contact_residual,
+                    line_search_merit=_l2_residual_merit,
                 )
                 strategy = "coupled_coulomb_projection_semismooth_newton"
             except NumericalConvergenceError as semismooth_error:
@@ -778,9 +784,12 @@ def _solve_coupled_projection_on_active_set(
                     tolerance,
                     objective_residual=residual,
                     objective_jacobian=projection_jacobian,
+                    refinement_residual=residual,
                     refinement_jacobian=projection_jacobian,
                     refinement_iteration_limit=remaining_refinement_iterations,
                     convergence_measure=maximum_contact_residual,
+                    refinement_convergence_measure=maximum_contact_residual,
+                    refinement_line_search_merit=_l2_residual_merit,
                     diagnostic_context=refinement_failure_context,
                 )
                 strategy = "coupled_coulomb_projection_least_squares"
@@ -1213,6 +1222,10 @@ def _solve_active_slip_on_active_set(
     def maximum_contact_residual(vector: np.ndarray, values: np.ndarray) -> float:
         return contact_residual_data(vector, values)[2]
 
+    def scaled_maximum_contact_residual(_vector: np.ndarray, values: np.ndarray) -> float:
+        pairs = np.asarray(values, dtype=float).reshape((-1, 2))
+        return float(np.max(np.linalg.norm(pairs, axis=1), initial=0.0))
+
     def refinement_failure_context(vector: np.ndarray) -> Mapping[str, object]:
         values = residual(vector)
         _, details, maximum = contact_residual_data(vector, values)
@@ -1280,11 +1293,12 @@ def _solve_active_slip_on_active_set(
         semismooth_seed = solution if np.all(np.isfinite(solution)) else initial
         try:
             solution, evaluations, residual_norm = _semismooth_newton_solution(
-                residual,
+                scaled_residual,
                 semismooth_seed,
                 tolerance,
-                jacobian=consistent_jacobian,
-                convergence_measure=maximum_contact_residual,
+                jacobian=scaled_jacobian,
+                convergence_measure=scaled_maximum_contact_residual,
+                line_search_merit=_l2_residual_merit,
             )
             strategy = "active_slip_consistent_newton"
         except NumericalConvergenceError as semismooth_error:
@@ -1304,9 +1318,12 @@ def _solve_active_slip_on_active_set(
                 tolerance,
                 objective_residual=scaled_residual,
                 objective_jacobian=scaled_jacobian,
-                refinement_jacobian=consistent_jacobian,
+                refinement_residual=scaled_residual,
+                refinement_jacobian=scaled_jacobian,
                 refinement_iteration_limit=remaining_refinement_iterations,
                 convergence_measure=maximum_contact_residual,
+                refinement_convergence_measure=scaled_maximum_contact_residual,
+                refinement_line_search_merit=_l2_residual_merit,
                 diagnostic_context=refinement_failure_context,
             )
             strategy = "active_slip_least_squares"
@@ -1580,6 +1597,7 @@ def _semismooth_newton_solution(
     *,
     jacobian: Callable[[np.ndarray], np.ndarray] | None = None,
     convergence_measure: Callable[[np.ndarray, np.ndarray], float] | None = None,
+    line_search_merit: Callable[[np.ndarray, np.ndarray], float] | None = None,
     max_iterations: int = 30,
 ) -> tuple[np.ndarray, int, float]:
     """Apply a safeguarded Newton step to the frozen active-slip equations.
@@ -1587,8 +1605,9 @@ def _semismooth_newton_solution(
     The contact status and the slip direction branch are fixed by the outer
     active-set loop. On that branch, the caller can provide a consistent
     algorithmic Jacobian. A forward-difference generalized Jacobian remains a
-    deterministic fallback. Armijo backtracking rejects a step that would
-    increase the residual.
+    deterministic fallback. The convergence gate can remain a strict
+    per-contact maximum while Armijo uses a smooth merit matching the residual
+    and Jacobian used to compute the Newton direction.
     """
     vector = np.asarray(initial, dtype=float).copy()
     evaluations = 0
@@ -1601,10 +1620,15 @@ def _semismooth_newton_solution(
             if convergence_measure is not None and np.isfinite(norm)
             else norm
         )
+        merit = (
+            float(line_search_merit(vector, values))
+            if line_search_merit is not None and np.isfinite(norm)
+            else measure
+        )
         limit = tolerance if convergence_measure is not None else tolerance * max(float(np.linalg.norm(vector)), 1.0)
         if measure <= limit:
             return vector, evaluations, norm
-        if not np.isfinite(norm) or not np.isfinite(measure):
+        if not np.isfinite(norm) or not np.isfinite(measure) or not np.isfinite(merit):
             raise NumericalConvergenceError(
                 "Active-slip semi-smooth Newton encountered a non-finite residual.",
                 diagnostics={
@@ -1664,7 +1688,12 @@ def _semismooth_newton_solution(
                 if convergence_measure is not None and np.isfinite(candidate_norm)
                 else candidate_norm
             )
-            if candidate_measure <= (1.0 - 1.0e-4 * scale) * measure:
+            candidate_merit = (
+                float(line_search_merit(candidate, candidate_values))
+                if line_search_merit is not None and np.isfinite(candidate_norm)
+                else candidate_measure
+            )
+            if np.isfinite(candidate_merit) and candidate_merit <= (1.0 - 1.0e-4 * scale) * merit:
                 vector = candidate
                 accepted = True
                 break
@@ -1677,6 +1706,8 @@ def _semismooth_newton_solution(
                     "iterations": iteration + 1,
                     "last_candidate": vector.tolist(),
                     "last_convergence_measure": measure,
+                    "last_line_search_merit": merit,
+                    "evaluations": evaluations,
                 },
             )
     raise NumericalConvergenceError(
@@ -1740,9 +1771,12 @@ def _globalized_slip_solution(
     *,
     objective_residual: Callable[[np.ndarray], np.ndarray] | None = None,
     objective_jacobian: Callable[[np.ndarray], np.ndarray] | None = None,
+    refinement_residual: Callable[[np.ndarray], np.ndarray] | None = None,
     refinement_jacobian: Callable[[np.ndarray], np.ndarray] | None = None,
     refinement_iteration_limit: int = 30,
     convergence_measure: Callable[[np.ndarray, np.ndarray], float] | None = None,
+    refinement_convergence_measure: Callable[[np.ndarray, np.ndarray], float] | None = None,
+    refinement_line_search_merit: Callable[[np.ndarray, np.ndarray], float] | None = None,
     diagnostic_context: Callable[[np.ndarray], Mapping[str, object]] | None = None,
 ) -> tuple[np.ndarray, int, float]:
     """Use a trust-region least-squares step when a raw root iteration fails.
@@ -1794,11 +1828,12 @@ def _globalized_slip_solution(
     ):
         try:
             solution, refinement_evaluations, _ = _semismooth_newton_solution(
-                residual,
+                refinement_residual or residual,
                 solution,
                 tolerance,
                 jacobian=refinement_jacobian,
-                convergence_measure=convergence_measure,
+                convergence_measure=refinement_convergence_measure or convergence_measure,
+                line_search_merit=refinement_line_search_merit,
                 max_iterations=refinement_iteration_limit,
             )
             residual_values = np.asarray(residual(solution), dtype=float)
@@ -1811,6 +1846,7 @@ def _globalized_slip_solution(
                 converged = np.isfinite(scaled_measure) and scaled_measure <= tolerance
         except NumericalConvergenceError as error:
             refinement_error = str(error)
+            refinement_evaluations = int((error.diagnostics or {}).get("evaluations", 0))
 
     if not result.success or not np.isfinite(residual_norm) or not converged:
         context = dict(diagnostic_context(solution)) if diagnostic_context is not None and finite_solution else {}

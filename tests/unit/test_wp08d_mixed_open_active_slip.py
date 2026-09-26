@@ -770,6 +770,82 @@ def test_semismooth_solver_does_not_stop_on_only_global_relative_residual() -> N
     assert raw_residual_norm <= tolerance
 
 
+def test_scaled_slip_refinement_uses_matching_residual_and_jacobian(monkeypatch) -> None:
+    """The normalized contact merit must be refined with its own derivative."""
+    matrix = np.asarray(
+        [[-0.08739775366568914, 0.6684116844696272], [-1.4968212720814258, 1.5411632845820922]]
+    )
+    quadratic = np.asarray(
+        [[0.021441604166023615, 0.018689769454366307], [-0.9774482404816495, 0.3054613781119793]]
+    )
+    offset = np.asarray([-0.1024887028119101, 1.3617941863753222])
+    scale_gradient = np.asarray(
+        [[1.7204913306088159, -1.1857118055080196], [-2.4523692656401352, -0.8668181830947422]]
+    )
+    initial = np.asarray([0.15433243617459347, -0.30904671729073335])
+
+    def physical_residual(vector: np.ndarray) -> np.ndarray:
+        return matrix @ vector + quadratic @ np.asarray([vector[0] ** 2, vector[0] * vector[1]]) + offset
+
+    def physical_jacobian(vector: np.ndarray) -> np.ndarray:
+        derivative = np.asarray([[2.0 * vector[0], 0.0], [vector[1], vector[0]]])
+        return matrix + quadratic @ derivative
+
+    def scaled_residual(vector: np.ndarray) -> np.ndarray:
+        return physical_residual(vector) / np.exp(scale_gradient @ vector)
+
+    def scaled_jacobian(vector: np.ndarray) -> np.ndarray:
+        scales = np.exp(scale_gradient @ vector)
+        normalized = physical_residual(vector) / scales
+        return physical_jacobian(vector) / scales[:, None] - np.diag(normalized) @ scale_gradient
+
+    def physical_gate(vector: np.ndarray, values: np.ndarray) -> float:
+        return float(np.max(np.abs(values / np.exp(scale_gradient @ vector))))
+
+    def scaled_gate(_vector: np.ndarray, values: np.ndarray) -> float:
+        return float(np.max(np.abs(values)))
+
+    # The old pairing computes a physical Newton step but backtracks against a
+    # pressure-scaled gate. At this deterministic point no allowed backtrack
+    # decreases that mismatched merit.
+    with pytest.raises(NumericalConvergenceError, match="line search could not reduce"):
+        slip_root._semismooth_newton_solution(
+            physical_residual,
+            initial,
+            1.0e-9,
+            jacobian=physical_jacobian,
+            convergence_measure=physical_gate,
+        )
+
+    def stopped_optimizer(_fun, vector, **_kwargs):
+        return SimpleNamespace(
+            x=np.asarray(vector, dtype=float).copy(),
+            success=True,
+            status=3,
+            message="synthetic xtol termination before the physical gate",
+            nfev=1,
+            cost=0.0,
+            optimality=1.0,
+            grad=np.ones_like(vector),
+        )
+
+    monkeypatch.setattr(slip_root, "least_squares", stopped_optimizer)
+    solution, _, _ = slip_root._globalized_slip_solution(
+        physical_residual,
+        initial,
+        1.0e-9,
+        objective_residual=scaled_residual,
+        objective_jacobian=scaled_jacobian,
+        refinement_residual=scaled_residual,
+        refinement_jacobian=scaled_jacobian,
+        convergence_measure=physical_gate,
+        refinement_convergence_measure=scaled_gate,
+        refinement_line_search_merit=lambda _vector, values: float(np.linalg.norm(values)),
+    )
+
+    assert physical_gate(solution, physical_residual(solution)) <= 1.0e-9
+
+
 def test_scaled_contact_residual_jacobian_includes_pressure_dependent_scale() -> None:
     """The trust-region Jacobian differentiates both force residual and its scale."""
     operator = SimpleNamespace(friction_coefficient=0.5)

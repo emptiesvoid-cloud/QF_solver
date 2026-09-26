@@ -185,3 +185,33 @@ tree as clean at execution. SHA-256 values:
 The V&V manifest hash above is the SHA-256 of the archived manifest file; its
 own file list intentionally hashes the three survey outputs and excludes the
 manifest itself.
+
+## R1.13 candidate: normalized active-slip Newton refinement
+
+The prospective R1.12 M4 slip attempt is preserved as a numerical failure:
+the least-squares optimizer stopped on `xtol` while the maximum per-contact
+scaled residual remained `1.0519e-8`, above the frozen `1e-9` acceptance gate;
+its subsequent semismooth line search failed. The optimizer's success flag was
+not treated as physical convergence.
+
+Code inspection found a globalization mismatch that can explain this
+stagnation: the refinement formed its Newton direction from the physical
+residual/Jacobian, but tested Armijo decrease using a pressure-normalized
+per-contact residual. Those are different nonlinear systems when contact
+pressure changes with tangential force. The candidate correction now forms the
+semismooth direction from the normalized residual and its pressure-scale-aware
+Jacobian, while retaining the strict maximum per-contact `1e-9` gate. Armijo
+globalization uses the L2 norm of that same normalized residual; it does not
+replace or relax the acceptance gate. The coupled-projection path uses the
+same consistent merit/Jacobian pairing.
+
+A deterministic variable-scale regression reproduces the mismatch: the
+physical Newton direction fails the normalized line search, while the
+normalized system converges to its frozen gate. This isolates the algorithmic
+inconsistency but is not a replay of M4's full nonlinear state. The focused
+contact test selection reports
+`74 passed`; targeted mypy and compileall pass, and `git diff --check` is clean.
+Ruff was unavailable in this environment. No structural campaign was run on
+this candidate source, so this is not an M4 pass or a WP08 requalification.
+The R1.12 failure remains immutable; any new structural execution requires a
+new prospective contract and source binding.
