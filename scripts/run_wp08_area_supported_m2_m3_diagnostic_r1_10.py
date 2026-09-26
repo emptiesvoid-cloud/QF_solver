@@ -17,7 +17,7 @@ import platform
 import subprocess
 import sys
 from time import perf_counter
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 from numpy.typing import NDArray
@@ -45,18 +45,34 @@ from scripts.prepare_wp08_area_supported_benchmark import (  # noqa: E402
     _surface_geometry,
 )
 
-ARTIFACT_ID = "QF-029-WP08-AREA-SUPPORTED-CONTACT-DIAGNOSTIC-R1.10"
+CAMPAIGN_REVISION = os.environ.get("QF_WP08_CAMPAIGN_REVISION", "R1.10")
+ARTIFACT_ID = os.environ.get(
+    "QF_WP08_ARTIFACT_ID", "QF-029-WP08-AREA-SUPPORTED-CONTACT-DIAGNOSTIC-R1.10"
+)
 POLICY_DIGEST_CONTEXT = "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
+M1_OUTPUT_ROOT_REL = Path(
+    os.environ.get(
+        "QF_WP08_M1_OUTPUT_ROOT_REL",
+        "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926",
+    )
+)
 CONTRACT_REL = Path(
-    "qualification/0_2_9/wp08_surface_stiffness_remediation/"
-    "area_supported_r1_10_20260926/contract_r1_10_contact_requalification.json"
+    os.environ.get(
+        "QF_WP08_M2M3_CONTRACT_REL",
+        "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/contract_r1_10_contact_requalification.json",
+    )
 )
 FREEZE_BINDING_REL = Path(
-    "qualification/0_2_9/wp08_surface_stiffness_remediation/"
-    "area_supported_r1_10_20260926/freeze_binding_r1_10_contact_requalification.json"
+    os.environ.get(
+        "QF_WP08_M2M3_BINDING_REL",
+        "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/freeze_binding_r1_10_contact_requalification.json",
+    )
 )
 M1_CONTRACT_DOCUMENT_REL = Path(
-    "docs/verification/0_2_9/wp08-area-supported-contact-requalification-r1-10.md"
+    os.environ.get(
+        "QF_WP08_CONTRACT_DOCUMENT_REL",
+        "docs/verification/0_2_9/wp08-area-supported-contact-requalification-r1-10.md",
+    )
 )
 R1_9_EXPECTED_FILE_HASHES = {
     "contract.json": "54e034808586c71ee58616edbd395ab933450989865d0d35d21a63f2efe85962",
@@ -262,8 +278,8 @@ def prepare_r1_10_amendment(
         "m2_m3_cases": historical_m2_m3["case_status"],
     }
 
-    if parent_contract_path.resolve() != (ROOT / "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/contract.json").resolve():
-        raise RuntimeError("R1.10 M1 artifacts are not in the predeclared campaign output root.")
+    if parent_contract_path.resolve() != (ROOT / M1_OUTPUT_ROOT_REL / "contract.json").resolve():
+        raise RuntimeError(f"{CAMPAIGN_REVISION} M1 artifacts are not in the predeclared campaign output root.")
     amendment_path = ROOT / CONTRACT_REL
     binding_path = ROOT / FREEZE_BINDING_REL
     if amendment_path.exists() or binding_path.exists():
@@ -275,7 +291,7 @@ def prepare_r1_10_amendment(
     amendment = {
         "schema": "qf.wp08.area_supported_contact_campaign_amendment.v1",
         "artifact_id": ARTIFACT_ID,
-        "status": "FROZEN_R1_10_PROSPECTIVE_CONTACT_DIAGNOSTIC",
+        "status": f"FROZEN_{CAMPAIGN_REVISION}_PROSPECTIVE_CONTACT_DIAGNOSTIC",
         "frozen_utc": _utc(),
         "contract_document": M1_CONTRACT_DOCUMENT_REL.as_posix(),
         "contract_document_sha256": _sha(document_path),
@@ -302,12 +318,18 @@ def prepare_r1_10_amendment(
                 "piecewise analytic coupled-projection Jacobian including pressure-dependent residual normalization",
                 "best-finite-candidate continuation for active-slip root/semismooth attempts",
                 "bounded safeguarded semismooth refinement from the trust-region best candidate",
+                *(
+                    ["stricter internal least-squares stopping tolerances; physical residual gate unchanged"]
+                    if CAMPAIGN_REVISION == "R1.11"
+                    else []
+                ),
             ],
             "thresholds_or_search_cap_changed": False,
             "regression_tests": [
                 "tests/unit/test_wp08d_mixed_open_active_slip.py",
                 "tests/unit/test_wp08_area_supported_m1_runner_r1_10.py",
                 "tests/unit/test_wp08_area_supported_m2_m3_runner_r1_10.py",
+                "tests/unit/test_wp08_area_supported_r1_11_optimizer_runner.py",
             ],
         },
         "unchanged": {
@@ -322,9 +344,15 @@ def prepare_r1_10_amendment(
             "contact_count_guard": True,
             "solver_backend": True,
             "fallback_policy": True,
-            "tolerances_and_diagnostic_gates": True,
+            "tolerances_and_diagnostic_gates": CAMPAIGN_REVISION != "R1.11",
+            "physical_tolerance_and_diagnostic_gates": True,
+            "optimizer_termination_tolerances_changed": CAMPAIGN_REVISION == "R1.11",
             "refinement_convergence_thresholds": None,
         },
+        "optimizer_stopping_policy": os.environ.get(
+            "QF_WP08_OPTIMIZER_POLICY",
+            "R1.10 optimizer tolerances remain equal to the solver-provided physical tolerance.",
+        ),
         "execution": {
             "authorized_attempts": 1,
             "output_root": output.relative_to(ROOT).as_posix(),
@@ -347,7 +375,7 @@ def prepare_r1_10_amendment(
         "owner_authorization": {
             "execution_authorized": True,
             "recorded_from": "Owner instruction: freeze the runner and launch execution; explicit green light.",
-            "scope": "One serial prospective R1.10 M1/M2/M3 diagnostic campaign with conditional progression; no formal qualification or point award.",
+            "scope": f"One serial prospective {CAMPAIGN_REVISION} M1/M2/M3 diagnostic campaign with conditional progression; no formal qualification or point award.",
         },
         "formal_wp08_qualification": False,
         "wp08_points_awarded": False,
@@ -360,7 +388,7 @@ def prepare_r1_10_amendment(
     freeze_binding: dict[str, Any] = {
         "schema": "qf.wp08.area_supported_contact_campaign_freeze_binding.v1",
         "artifact_id": ARTIFACT_ID,
-            "status": "FROZEN_R1_10_BEFORE_M2_M3_EXECUTION",
+            "status": f"FROZEN_{CAMPAIGN_REVISION}_BEFORE_M2_M3_EXECUTION",
         "frozen_utc": _utc(),
         "contract_path": CONTRACT_REL.as_posix(),
         "contract_sha256": amendment_sha,
@@ -459,6 +487,7 @@ def _source_inventory() -> dict[str, str]:
             "tests/unit/test_wp08_area_supported_m4_runner.py",
             "tests/unit/test_wp08d_phase1_runner.py",
             "tests/unit/test_wp08d_independent_reference.py",
+            "tests/unit/test_wp08_area_supported_r1_11_optimizer_runner.py",
         )
     )
     if any(not path.is_file() for path in files):
@@ -515,8 +544,8 @@ def _contract(output: Path) -> tuple[dict[str, Any], str]:
         raise RuntimeError("R1.10 amendment freeze-binding digest mismatch.")
     if binding.get("contract_sha256") != contract_sha:
         raise RuntimeError("R1.10 amendment hash differs from its freeze binding.")
-    if amendment.get("status") != "FROZEN_R1_10_PROSPECTIVE_CONTACT_DIAGNOSTIC":
-        raise RuntimeError("Unexpected R1.10 contact-campaign amendment status.")
+    if amendment.get("status") != f"FROZEN_{CAMPAIGN_REVISION}_PROSPECTIVE_CONTACT_DIAGNOSTIC":
+        raise RuntimeError(f"Unexpected {CAMPAIGN_REVISION} contact-campaign amendment status.")
     if binding.get("parent_contract_sha256") != amendment.get("parent_contract_sha256"):
         raise RuntimeError("Parent contract binding mismatch.")
     if binding.get("parent_freeze_binding_sha256") != amendment.get("parent_freeze_binding_sha256"):
@@ -773,7 +802,7 @@ def _worker(mesh: str, case: str, output: Path, expected_binding_sha: str) -> in
     started = perf_counter()
     result_path = case_dir / "result.json"
     try:
-        result = solve_model(model, enforce_policy=False, telemetry=telemetry)
+        result = cast(Any, solve_model(model, enforce_policy=False, telemetry=telemetry))
         elapsed = perf_counter() - started
         payload = result.to_dict()
         diagnostic, decoded = _diagnostic_gates(payload, mesh, case, body, slave_nodes, area_by_node)
@@ -893,7 +922,9 @@ def _make_execution_binding(output: Path, *, owner_authorized: bool) -> dict[str
     if source_digest != contract["provenance_anchor"]["m1_source_bundle_sha256"]:
         raise RuntimeError("Source tree no longer matches the R1.10 M1 execution source bundle.")
     _write_json(output / "execution_source_manifest.json", inventory)
-    test_path = ROOT / "tests/unit/test_wp08_area_supported_m2_m3_runner_r1_10.py"
+    test_path = ROOT / os.environ.get(
+        "QF_WP08_RUNNER_TEST_REL", "tests/unit/test_wp08_area_supported_m2_m3_runner_r1_10.py"
+    )
     binding: dict[str, Any] = {
         "schema": "qf.wp08.area_supported_contact_campaign_execution_binding.v1",
         "artifact_id": ARTIFACT_ID,
@@ -921,7 +952,7 @@ def _make_execution_binding(output: Path, *, owner_authorized: bool) -> dict[str
         },
         "owner_authorization": {
             "authorized": True,
-            "scope": "Run M2 and M3 stick_target/slip_target sequentially under the frozen R1.10 campaign; M3 only after both M2 cases pass; no formal qualification or point award.",
+            "scope": f"Run M2 and M3 stick_target/slip_target sequentially under the frozen {CAMPAIGN_REVISION} campaign; M3 only after both M2 cases pass; no formal qualification or point award.",
             "recorded_from": "Explicit Owner instruction: freeze the runner and launch execution; green light.",
             "recorded_utc": _utc(),
         },

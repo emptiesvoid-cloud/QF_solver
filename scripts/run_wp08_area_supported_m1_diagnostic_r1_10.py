@@ -17,7 +17,7 @@ from pathlib import Path
 import subprocess
 import sys
 from time import perf_counter
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 
@@ -44,9 +44,15 @@ from scripts.prepare_wp08_area_supported_benchmark import (  # noqa: E402
 )
 
 POLICY_DIGEST_CONTEXT = "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
-ARTIFACT_ID = "QF-029-WP08-AREA-SUPPORTED-CONTACT-DIAGNOSTIC-R1.10"
+CAMPAIGN_REVISION = os.environ.get("QF_WP08_CAMPAIGN_REVISION", "R1.10")
+ARTIFACT_ID = os.environ.get(
+    "QF_WP08_ARTIFACT_ID", "QF-029-WP08-AREA-SUPPORTED-CONTACT-DIAGNOSTIC-R1.10"
+)
 CONTRACT_DOCUMENT_REL = Path(
-    "docs/verification/0_2_9/wp08-area-supported-contact-requalification-r1-10.md"
+    os.environ.get(
+        "QF_WP08_CONTRACT_DOCUMENT_REL",
+        "docs/verification/0_2_9/wp08-area-supported-contact-requalification-r1-10.md",
+    )
 )
 M1_LOAD_STEPS = [
     {"normal_factor": 0.25, "tangential_factor": 0.0},
@@ -131,6 +137,7 @@ def _source_inventory() -> dict[str, str]:
             "tests/unit/test_wp08_area_supported_m4_runner.py",
             "tests/unit/test_wp08d_phase1_runner.py",
             "tests/unit/test_wp08d_independent_reference.py",
+            "tests/unit/test_wp08_area_supported_r1_11_optimizer_runner.py",
         )
     )
     if any(not path.is_file() for path in files):
@@ -311,6 +318,7 @@ def _contract(
     contract = {
         "schema": "qf.wp08.area_supported_contact_diagnostic_contract.v1",
         "artifact_id": ARTIFACT_ID,
+        "campaign_revision": CAMPAIGN_REVISION,
         "status": "FROZEN_EXPERIMENTAL_M1_M2_M3_DIAGNOSTIC_NOT_FORMAL",
         "contract_document_path": CONTRACT_DOCUMENT_REL.as_posix(),
         "contract_document_sha256": _sha(contract_document),
@@ -325,19 +333,32 @@ def _contract(
             "execution_authorized": owner_authorized,
             "authorization_required_for_freeze": True,
             "recorded_from": (
-                "Explicit Owner authorization recorded at R1.10 freeze time."
+                f"Explicit Owner authorization recorded at {CAMPAIGN_REVISION} freeze time."
                 if owner_authorized
-                else "PENDING; no R1.10 structural execution is authorized by this draft."
+                else f"PENDING; no {CAMPAIGN_REVISION} structural execution is authorized by this draft."
             ),
-            "scope": "One serial R1.10 M1/M2/M3 diagnostic campaign; no formal qualification or point award.",
+            "scope": (
+                f"One serial {CAMPAIGN_REVISION} M1/M2/M3 diagnostic campaign; "
+                "no formal qualification or point award."
+            ),
         },
         "scope": "Serial stick-target and slip-target diagnostic solves on M1, M2, then M3; stop after any failed gate, with M3 only if both M2 cases pass.",
         "formal_wp08_qualification": False,
         "points_awarded": False,
         "production_mechanics_changed_for_this_benchmark": True,
-        "contact_mechanics_revision": "R1.7 post-root tangential reclassification and zero-pressure-open semantics; R1.8 bounded normal-complementarity correction; R1.9 maximum per-contact scaled-residual gate; R1.10 analytic coupled-projection Jacobian and bounded refinement from the best finite candidate",
+        "contact_mechanics_revision": os.environ.get(
+            "QF_WP08_CONTACT_MECHANICS_REVISION",
+            "R1.7 post-root tangential reclassification and zero-pressure-open semantics; R1.8 bounded normal-complementarity correction; R1.9 maximum per-contact scaled-residual gate; R1.10 analytic coupled-projection Jacobian and bounded refinement from the best finite candidate",
+        ),
         "solver_implementation_revision": "support-local sparse rank-one stick assembly; frozen stick matrix and analytic Jacobian for slip roots; deterministic seed tried before the unchanged enumeration cap; coupled-root complementarity proposals update the normal active set with cycle detection; coupled projection convergence is gated by the maximum per-contact normalized residual, with existing semismooth/globalized refinement used when needed",
-        "implementation_scope": "algorithmic contact correction in slip_root.py only; R1.10 uses the exact piecewise coupled-projection Jacobian including pressure-dependent residual scaling, retries from the best finite root candidate, and applies safeguarded semismooth polishing only within the unused portion of the pre-existing, unchanged 30-iteration budget; the per-contact physical 1e-9 gate, 25-iteration active-set limit, enumeration guard, fallback policy, geometry, mesh, material, loads, boundary conditions, contact area weights, and kappa are unchanged",
+        "implementation_scope": os.environ.get(
+            "QF_WP08_IMPLEMENTATION_SCOPE",
+            "algorithmic contact correction in slip_root.py only; R1.10 uses the exact piecewise coupled-projection Jacobian including pressure-dependent residual scaling, retries from the best finite root candidate, and applies safeguarded semismooth polishing only within the unused portion of the pre-existing, unchanged 30-iteration budget; the per-contact physical 1e-9 gate, 25-iteration active-set limit, enumeration guard, fallback policy, geometry, mesh, material, loads, boundary conditions, contact area weights, and kappa are unchanged",
+        ),
+        "optimizer_stopping_policy": os.environ.get(
+            "QF_WP08_OPTIMIZER_POLICY",
+            "R1.10 optimizer tolerances remain equal to the solver-provided physical tolerance.",
+        ),
         "previous_revision": {
             "revision": "R1.9",
             "status": "M1_M2_PASS_M3_SLIP_FAIL_CLOSED",
@@ -431,13 +452,46 @@ def _contract(
         "m2_m3_authorized": owner_authorized,
         "full_test_suite": False,
     }
+    if CAMPAIGN_REVISION == "R1.11":
+        prior_root = ROOT / "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926"
+        prior_files = (
+            "contract.json",
+            "contract_r1_10_contact_requalification.json",
+            "final.json",
+            "M2_M3/final.json",
+        )
+        if any(not (prior_root / relative).is_file() for relative in prior_files):
+            raise FileNotFoundError("R1.11 requires the preserved R1.10 M1/M2/M3 evidence set.")
+        historical_r1_9 = contract.pop("previous_revision")
+        contract["historical_revision_r1_9"] = historical_r1_9
+        contract["previous_revision"] = {
+            "revision": "R1.10",
+            "status": "M1_M2_M3_DIAGNOSTIC_PASS_M4_SLIP_STEP7_FAIL_CLOSED",
+            "files": [
+                {
+                    "path": relative,
+                    "sha256": _sha(prior_root / relative),
+                    "size_bytes": (prior_root / relative).stat().st_size,
+                }
+                for relative in prior_files
+            ],
+            "preserved_without_rewrite": True,
+        }
+        forensic_path = ROOT / "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_m4_slip_forensic_r2_20260926/forensic_review.json"
+        if not forensic_path.is_file():
+            raise FileNotFoundError("R1.11 requires the preserved R1.10 M4 slip forensic report.")
+        contract["related_m4_forensic_evidence"] = {
+            "path": forensic_path.relative_to(ROOT).as_posix(),
+            "sha256": _sha(forensic_path),
+            "classification": "STEP7_SLIP_FAILURE_DIAGNOSTIC_PRESERVED_NO_RERUN",
+        }
     return contract, inventory, source_digest
 
 
 def freeze(output: Path, *, owner_authorized: bool = False) -> int:
     output = output.resolve()
     if not owner_authorized:
-        raise PermissionError("R1.10 freeze requires explicit Owner authorization for this new mechanics revision.")
+        raise PermissionError(f"{CAMPAIGN_REVISION} freeze requires explicit Owner authorization for this mechanics revision.")
     if output.exists():
         raise FileExistsError(f"Refusing to overwrite frozen evidence directory: {output}")
     output.mkdir(parents=True, exist_ok=False)
@@ -453,7 +507,7 @@ def freeze(output: Path, *, owner_authorized: bool = False) -> int:
         "source_manifest_canonical_sha256": _canonical_sha(inventory),
         "source_bundle_sha256": source_digest,
         "git": contract["git"],
-        "status": "FROZEN_R1_10_CONTACT_CAMPAIGN_DIAGNOSTIC",
+        "status": f"FROZEN_{CAMPAIGN_REVISION}_CONTACT_CAMPAIGN_DIAGNOSTIC",
     }
     _write_json(output / "freeze_binding.json", binding)
     print(json.dumps(binding, indent=2, sort_keys=True))
@@ -510,7 +564,7 @@ def _worker(case: str, output: Path, expected_contract_sha: str) -> int:
     result_path = case_dir / "result.json"
     try:
         model = build_m1_model(case)
-        result = solve_model(model, enforce_policy=False, telemetry=telemetry)
+        result = cast(Any, solve_model(model, enforce_policy=False, telemetry=telemetry))
         elapsed = perf_counter() - started_perf
         payload = result.to_dict()
         contact = payload.get("solver", {}).get("contact", {})
@@ -560,7 +614,7 @@ def _worker(case: str, output: Path, expected_contract_sha: str) -> int:
             {
                 "artifact_id": ARTIFACT_ID,
                 "case": case,
-                "execution_kind": "EXPERIMENTAL_M1_M2_M3_CONTACT_DIAGNOSTIC_R1_10",
+                "execution_kind": f"EXPERIMENTAL_M1_M2_M3_CONTACT_DIAGNOSTIC_{CAMPAIGN_REVISION}",
                 "formal_wp08_qualification": False,
                 "points_awarded": False,
                 "contract_sha256": contract_sha,
@@ -658,7 +712,7 @@ def _invoke(output: Path, case: str, contract_sha: str) -> dict[str, Any]:
         exit_code = child.wait()
     record = {
         "case": case,
-        "execution_kind": "EXPERIMENTAL_M1_M2_M3_CONTACT_DIAGNOSTIC_R1_10",
+        "execution_kind": f"EXPERIMENTAL_M1_M2_M3_CONTACT_DIAGNOSTIC_{CAMPAIGN_REVISION}",
         "pid": child.pid,
         "command": command,
         "started_utc": started,
