@@ -1,0 +1,188 @@
+{
+  "artifact_id": "QF-029-WP08-AREA-SUPPORTED-CONTACT-DIAGNOSTIC-R1.10",
+  "boundary_conditions": {
+    "fixed_face": "x=0, all body face nodes, UX/UY/UZ",
+    "master_nodes": "all four rigid metadata nodes fixed in UX/UY/UZ",
+    "slave_face": "complete x=2 body boundary face; no slave node is fixed"
+  },
+  "contact": {
+    "friction_coefficient": 0.3,
+    "initial_gap_m": 0.0005,
+    "kappa_N_per_m3": 2666700.0,
+    "master_normal": [
+      -1.0,
+      0.0,
+      0.0
+    ],
+    "master_plane_x_m": 2.0005,
+    "normal_route": "existing fixed-search node-to-triangle",
+    "search_mode": "initial",
+    "tangential_law": "reference T3 tributary area, K_i=kappa*A_i, no redistribution"
+  },
+  "contact_mechanics_revision": "R1.7 post-root tangential reclassification and zero-pressure-open semantics; R1.8 bounded normal-complementarity correction; R1.9 maximum per-contact scaled-residual gate; R1.10 analytic coupled-projection Jacobian and bounded refinement from the best finite candidate",
+  "contract_document_path": "docs/verification/0_2_9/wp08-area-supported-contact-requalification-r1-10.md",
+  "contract_document_sha256": "92283ce7ce962640e9e7cd7f4fe0a76f37ec6387deca8e54947347f4c9844907",
+  "formal_wp08_qualification": false,
+  "frozen_utc": "2026-09-26T19:52:24.064695+00:00",
+  "full_test_suite": false,
+  "geometry_m": {
+    "height_z": 0.5,
+    "length_x": 2.0,
+    "width_y": 1.0
+  },
+  "git": {
+    "branch": "codex/wp08-area-contact-r1-10-candidate",
+    "head": "0bf33ccc2df717172bebc0a5fa23f99db7e99cb1",
+    "porcelain_status": "?? qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/"
+  },
+  "governing_policy_enforced": false,
+  "historical_revision_r1_6": {
+    "contract_sha256": "64915350e85c55b9920ff46916cade62bbe27f56ee1cbffdcd2cb59f74412526",
+    "final_sha256": "693ec8bc0c94466c39daab38f01f608bb5f674caa4f61164d613ff522abbeb1e",
+    "m3_slip_failure_sha256": "af9594aaf3434b63e129bcdce623a12983ced1c028dd4124bcfd0b21e87daee7",
+    "preserved_without_rewrite": true,
+    "source_bundle_sha256": "1a9614b3669d37f83cb4e6dfd2c91f4a45df3d8c89496399cc6f8f9ac736f142"
+  },
+  "historical_revision_r1_7": {
+    "contract_sha256": "45485b3107eb62d0e10e14cf56279dbafb76e37f76c29bdc9cc62dc583a00e09",
+    "execution_binding_sha256": "87ded663cc20b8aade614fa908aa1c051f015813a5a10bc84c68479be0ecbf0d",
+    "final_sha256": "6c6ef2679909926c2aea5187e8fc01fc9d0b98259864e80ed8f83eee183b9b80",
+    "m2_m3_contract_sha256": "71d0e3d3e37423b6a918a431b152aa8e2493be07d5bbdeb22de61907d6269916",
+    "m3_slip_failure_cause": "step 8: direct set cycled; active-slip scaled residual 1.500134741e-09 exceeded 1e-9; coupled seed was attempted but rejected because contact 3 had negative gap while omitted from the normal active set",
+    "m3_slip_failure_sha256": "04b2a9d1d47f60270af7ccd8cf72cb87e59df58865a655e488c474b6756679f9",
+    "preserved_without_rewrite": true,
+    "source_bundle_sha256": "e32b6a3c969a1c81404cbde63f3678ce3f2d8c33f750ba09ccc43678d3108797"
+  },
+  "historical_revision_r1_8": {
+    "m1_contract_sha256": "36a22027493c54c16c660bf9d1ef2ef6cac8f4fcc185334dacacf3e8416ff0b3",
+    "m1_final_sha256": "1016530a89b471a3a52bedca4499ec71a378407e779e7d906e36b185fa67230d",
+    "m2_m3_contract_sha256": "9a445acdfaea7a4edea709fc7458f791a0fa7a153e57badac0fa8b8c38786104",
+    "m2_m3_final_sha256": "0e39832b0ec6df63d49a74bc69fdd552ea29fd05482af903faa53dc7e271786a",
+    "m3_slip_failure_sha256": "f2eb4698778bf01e002425cbed873a078e122bba0dbcbe4bccb5577a493446b0",
+    "preserved_without_rewrite": true
+  },
+  "implementation_scope": "algorithmic contact correction in slip_root.py only; R1.10 uses the exact piecewise coupled-projection Jacobian including pressure-dependent residual scaling, retries from the best finite root candidate, and applies safeguarded semismooth polishing only within the unused portion of the pre-existing, unchanged 30-iteration budget; the per-contact physical 1e-9 gate, 25-iteration active-set limit, enumeration guard, fallback policy, geometry, mesh, material, loads, boundary conditions, contact area weights, and kappa are unchanged",
+  "load_path": {
+    "cases": {
+      "slip_target": {
+        "tangential_resultant_N": 450.0
+      },
+      "stick_target": {
+        "tangential_resultant_N": 150.0
+      }
+    },
+    "normal_ramp_then_tangential_ramp": true,
+    "normal_resultant_N": [
+      1000.0,
+      0.0,
+      0.0
+    ],
+    "steps": [
+      {
+        "normal_factor": 0.25,
+        "tangential_factor": 0.0
+      },
+      {
+        "normal_factor": 0.5,
+        "tangential_factor": 0.0
+      },
+      {
+        "normal_factor": 0.75,
+        "tangential_factor": 0.0
+      },
+      {
+        "normal_factor": 1.0,
+        "tangential_factor": 0.0
+      },
+      {
+        "normal_factor": 1.0,
+        "tangential_factor": 0.25
+      },
+      {
+        "normal_factor": 1.0,
+        "tangential_factor": 0.5
+      },
+      {
+        "normal_factor": 1.0,
+        "tangential_factor": 0.75
+      },
+      {
+        "normal_factor": 1.0,
+        "tangential_factor": 1.0
+      }
+    ],
+    "tangential_direction": [
+      0.0,
+      1.0,
+      0.0
+    ]
+  },
+  "m2_m3_authorized": true,
+  "material": {
+    "poisson_ratio": 0.3,
+    "type": "isotropic_linear_elastic",
+    "young_modulus_Pa": 1000000.0
+  },
+  "mesh": {
+    "element": "TET4",
+    "level": "M1",
+    "subdivision": {
+      "nx": 2,
+      "ny": 1,
+      "nz": 1
+    }
+  },
+  "owner_authorization": {
+    "authorization_required_for_freeze": true,
+    "execution_authorized": true,
+    "recorded_from": "Explicit Owner authorization recorded at R1.10 freeze time.",
+    "scope": "One serial R1.10 M1/M2/M3 diagnostic campaign; no formal qualification or point award."
+  },
+  "points_awarded": false,
+  "policy_digest_context_only": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "predeclared_m1_diagnostic_gates": {
+    "accepted_load_steps_per_case": 8,
+    "both_solves_converged": true,
+    "failure_action": "record evidence and stop; do not run M2/M3",
+    "slip_target_terminal_states": "all slip",
+    "stick_target_terminal_states": "all stick",
+    "terminal_active_area_fraction": 1.0,
+    "terminal_active_slave_nodes": "all 4 M1 slave nodes",
+    "terminal_active_support_affine_rank": 2
+  },
+  "predeclared_m2_m3_execution_gates": {
+    "accepted_load_steps_per_case": 8,
+    "active_support_affine_rank": 2,
+    "all_cases_sequential": true,
+    "both_m1_cases_required_before_m2": true,
+    "both_m2_cases_required_before_m3": true,
+    "failure_action": "preserve artifacts and stop downstream cases; no retry, no parameter change",
+    "mesh_refinement_classification": "DESCRIPTIVE_ONLY_NO_FROZEN_CONVERGENCE_THRESHOLD",
+    "terminal_stick_or_slip_state_must_match_case": true
+  },
+  "previous_revision": {
+    "m1_contract_sha256": "54e034808586c71ee58616edbd395ab933450989865d0d35d21a63f2efe85962",
+    "m1_final_sha256": "d077a53d7782335d2aafe84bba26500d4779992c436b5bcc3b7e04c37d8182f9",
+    "m1_source_bundle_sha256": "5c7c00b67f5ba0afffb75c94528ce761dcca6aa567b8df3e35c7b7f194f98499",
+    "m2_m3_contract_sha256": "c6d24175d521f52ee14f985f373eef57b196771fa6e7f9366e92d56e6980a210",
+    "m2_m3_execution_binding_sha256": "d5dd9310ed7b28ea4f4821d0136e9a040c935bb7b36f60f4cc2d38063cbb89d8",
+    "m2_m3_final_sha256": "34e5258db7dce78fe11de4d9e11fc585a68e7db2f80b3f2385e40ef4bf656974",
+    "m2_m3_runner_sha256": "8a7402e813714bd038e0d3feebe6267377c06cba911b9567489722253f15da58",
+    "m3_slip_failure_cause": "M3 slip step 8: direct active-set cycled at its unchanged 25-iteration limit; the active-slip candidate stopped on xtol with maximum scaled residual 1.5001347413695734e-9 > 1e-9; after the normal set changed from 15 to 20 contacts, the coupled candidate stopped on xtol at 2.144076198589106e-9 > 1e-9 and the unchanged enumeration guard prevented wider search",
+    "m3_slip_failure_sha256": "ce824e409e4dc27722e122173c1aff17666d745bc3425f51173e7bd0561f5ffe",
+    "m3_slip_telemetry_sha256": "b97a03cf5c26629a846f6b034f3fbd1f71a617d00ea71f8216539fd3b53d6fcf",
+    "preserved_without_rewrite": true,
+    "revision": "R1.9",
+    "status": "M1_M2_PASS_M3_SLIP_FAIL_CLOSED"
+  },
+  "production_mechanics_changed_for_this_benchmark": true,
+  "reference_and_replay": "NOT_RUN_IN_THIS_DIAGNOSTIC_CAMPAIGN; no independent global FEM reference or formal replay claim",
+  "schema": "qf.wp08.area_supported_contact_diagnostic_contract.v1",
+  "scope": "Serial stick-target and slip-target diagnostic solves on M1, M2, then M3; stop after any failed gate, with M3 only if both M2 cases pass.",
+  "solver_implementation_revision": "support-local sparse rank-one stick assembly; frozen stick matrix and analytic Jacobian for slip roots; deterministic seed tried before the unchanged enumeration cap; coupled-root complementarity proposals update the normal active set with cycle detection; coupled projection convergence is gated by the maximum per-contact normalized residual, with existing semismooth/globalized refinement used when needed",
+  "source_bundle_sha256": "a6703a15b73991c2950688c545a4e371d51b72e0d969dc0d42d33bf613515e04",
+  "source_file_count": 977,
+  "source_manifest": "source_file_manifest.json",
+  "status": "FROZEN_EXPERIMENTAL_M1_M2_M3_DIAGNOSTIC_NOT_FORMAL",
+  "thresholds_changed": false
+}
