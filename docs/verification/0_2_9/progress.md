@@ -15,7 +15,7 @@ applicable_version: 0.2.9-development
 | WP03 | 7 | **Closed** — 7/7; independent WP03-E audit `GO_WITH_LIMITATIONS` |
 | WP04 | 12 | **Closed — 12/12; independent WP04-F `GO_WITH_LIMITATIONS` audit** |
 | WP15 | 2 | **Closed — 2/2; governing-branch telemetry integration validated** |
-| WP16 | 0 | **Post-release operational step — external archive/Git LFS migration for large evidence** |
+| WP16 | 0 | **Post-debug / post-release operational step — durable external archive for large raw evidence; Git LFS is optional and not assumed** |
 | WP05 | 5 | **Closed — 5/5, bounded with limitations; C/D structural qualification and E cross-family closure accepted** |
 | WP06 | 8 | **Owner accepted A/B/C — 4/8 with limitations; D accepted as experimental bounded evidence only**; no formal D points; historical D failure preserved |
 | WP07 | 10 | **Previously Owner-accepted — 10/10 with bounded limitations; reopened for scoped regression review after contact remediation** |
@@ -112,11 +112,42 @@ large WP07-D raw evidence remains local pending WP16. See the
 The frozen roadmap declares 100 total points, and its listed package weights
 sum to 100. No package weights were changed.
 
-WP16 is an operational post-release step with zero qualification points. It
-will publish or migrate large raw evidence outside ordinary Git history,
-preserve SHA-256 manifests and restore reproducibility without changing any
-solver result or qualification decision. The current WP09 raw archive is
-`qualification/0_2_9/wp09_large_artifacts_archive_v1.json`.
+### WP16 — external archive for large qualification evidence (0 points)
+
+WP16 is explicitly **deferred until the active WP07/WP08 debugging and
+qualification work is complete**, and is a post-release operational task with
+zero qualification points. It must not interrupt, move, or delete evidence
+while those debugging campaigns are in progress.
+
+The storage boundary is:
+
+- Keep source code, tests, contracts, compact reports, and small provenance /
+  integrity manifests in Git.
+- Keep large raw solver outputs and replay bundles out of the installable
+  package and ordinary Git history. `pip install` must never download these
+  evidence bundles, either directly or as an implicit post-install action.
+- After debugging, copy the immutable raw bundles to durable,
+  organization-controlled external object storage. The exact provider and
+  access policy remain to be selected; no upload is authorized or performed
+  by this roadmap entry.
+- Version a compact manifest in Git containing the archive identifier and
+  location, access classification, source/execution SHAs, contract and policy
+  digests, relative file paths, byte sizes, SHA-256 hashes, and restore/
+  verification instructions. Provide an explicit on-demand fetch/verify path
+  only if needed; ordinary installation and tests must not fetch archives.
+- Preserve local copies until the external copy passes full hash verification
+  and a restore/read-back check. Do not remove local raw evidence before that
+  gate passes.
+- Treat Git LFS as an option to evaluate separately, not the default archive
+  design. Any Git-history rewrite or removal of already-pushed evidence needs
+  a separate Owner-approved preservation and migration plan.
+
+The existing WP09 archive record,
+`qualification/0_2_9/wp09_large_artifacts_archive_v1.json`, points to a local
+temporary archive and is **not yet a durable external archive**. WP16 will
+close only after the destination is selected and the manifest, hashes, access,
+and restore check are verified. This storage work does not change solver
+results, qualification decisions, or score allocation.
 
 WP06-A/B/C were revalidated against the current governing source with 118
 focused continuation, rollback/restart and identity tests passing. The Owner
