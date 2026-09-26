@@ -55,9 +55,18 @@ The raw fields point to a mesh-resolved physical transition, rather than another
 - The applied slip load is `450 N`, while `μ=0.3`. The measured contact normal resultant is about `870.5 N` in M2 and `880.5 N` in M3, so the aggregate Coulomb capacity is only about `261.1–264.2 N`. The resulting excess tangential load is roughly `186–189 N`, which the clamped body must carry through structural shear/bending.
 - In M2, the common contact nodes on the `y=1 m` edge remain barely closed: their pressures are only about `2.26`, `6.09` and `7.62` (versus much larger interior values). In M3, all five nodes on that edge are open, with positive gaps about `0.364–0.383 mm`. This removes `0.0625 m²` (`12.5%`) of the nominal patch.
 - Recomputing the common-body-node displacement difference gives `4.785 mm`, dominated by the `UY` component (`4.525 mm`). The three common nodes on the opening edge each move about `1.26 mm` differently between M2 and M3. Contact force resultants change much less, because the newly opened edge carried little normal pressure in M2.
+- The signed reaction partition closes the force balance without a sign anomaly:
+
+  | Mesh | Fixed master reaction UX / UY (N) | Clamped-base reaction UX / UY (N) |
+  |---|---:|---:|
+  | M1 | `−869.279 / −260.711` | `−130.721 / −189.289` |
+  | M2 | `−870.488 / −261.052` | `−129.512 / −188.948` |
+  | M3 | `−880.540 / −264.127` | `−119.460 / −185.873` |
+
+  In each case the master reaction matches the contact resultant with opposite sign, and base plus master reactions balance the applied `[1000, 450, 0] N`. Thus contact transmits the Coulomb-limited portion while the clamp carries the remaining tangential demand.
 - The surface regularization is correctly mesh-normalized in these records: `κ × A = 2,666,700 × 0.5 = 1,333,350 N/m` at M1, M2 and M3. In the production friction update, the tangential stiffness contributes to the stick trial/linearization; fully slipping contacts transmit the Coulomb-capped force. Changing `κ` after seeing this result is therefore not a justified remedy for the observed all-slip displacement shift.
 
-This is strong evidence that M2 under-resolves the edge-opening transition and that the cantilever response remains mesh-sensitive. It does **not** prove the continuum solution is converged or prove the contact algorithm defect-free. No solver defect has been demonstrated by these six runs; a finer prospective level (for example M4, `16×8×8`, 6,144 TET4 and 4,143 total DOFs) is the next useful diagnostic to determine whether the opening edge and displacement field stabilize. M4 was not in the R1.10 authorization and was not run.
+This is strong evidence that M2 under-resolves the edge-opening transition and that the cantilever response remains mesh-sensitive. Low-order TET4 bending resolution is also a plausible contributor (M3 has only four cells across each transverse dimension), but is not isolated by this campaign. The force/reaction signs and equilibrium are coherent; these runs do not prove the continuum solution converged or prove the algorithm defect-free. No solver defect has been demonstrated by these six runs. A finer prospective level (for example M4, `16×8×8`, 6,144 TET4 and 4,143 total DOFs) is the next useful diagnostic to determine whether the opening edge and displacement field stabilize. M4 was not in the R1.10 authorization and was not run.
 
 ## Refinement comparison
 

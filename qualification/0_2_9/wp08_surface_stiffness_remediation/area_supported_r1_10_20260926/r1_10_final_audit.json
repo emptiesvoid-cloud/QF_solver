@@ -234,13 +234,18 @@
       "M3_contact_normal_resultant_N": 880.539626441596,
       "M3_contact_tangential_resultant_norm_N": 264.1618879640524,
       "M3_aggregate_coulomb_capacity_N": 264.1618879324788,
+      "M1_fixed_base_reaction_UY_N": -189.2888231853982,
+      "M2_fixed_base_reaction_UY_N": -188.9484700094341,
+      "M3_fixed_base_reaction_UY_N": -185.8726044902594,
+      "M3_fixed_master_reaction_UY_N": -264.1273955097627,
       "M3_contact_nodes_at_y_1m": "5/5 open",
       "M3_open_edge_gap_range_m": [0.0003638866, 0.0003830843],
       "M3_active_area_fraction": 0.875,
       "M2_to_M3_common_body_node_displacement_difference_l2_m": 0.004784928704893529,
       "M2_to_M3_common_body_node_UY_difference_l2_m": 0.00452527231430287,
       "integrated_tangential_stiffness_all_levels_N_per_m": 1333350.0,
-      "external_load_over_contact_coulomb_capacity": "approximately 186-189 N residual tangential demand"
+      "external_load_over_contact_coulomb_capacity": "approximately 186-189 N residual tangential demand; fixed-base/master reaction partition closes it",
+      "TET4_bending_underresolution": "plausible but not isolated; M3 has four cells across each transverse dimension"
     },
     "recommended_next_diagnostic": "Prospectively freeze and, after Owner authorization, run M4 at 16x8x8 with unchanged geometry/material/load/BC/friction/stiffness; inspect contact edge topology and M3-to-M4 displacement/resultant changes. Do not retune kappa to chase the all-slip displacement delta.",
     "M4_run": false
