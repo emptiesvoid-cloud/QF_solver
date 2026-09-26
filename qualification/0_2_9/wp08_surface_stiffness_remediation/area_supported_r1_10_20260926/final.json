@@ -1,0 +1,71 @@
+{
+  "artifact_id": "QF-029-WP08-AREA-SUPPORTED-CONTACT-DIAGNOSTIC-R1.10",
+  "cases": {
+    "slip_target": "PASS_DIAGNOSTIC_GATES",
+    "stick_target": "PASS_DIAGNOSTIC_GATES"
+  },
+  "contract_sha256": "67efb97074cb8cb1c5f442045b1c0e209b6413d676ad61568fb554586e2ee7f0",
+  "formal_wp08_qualification": false,
+  "full_test_suite_run": false,
+  "independent_reference_run": false,
+  "m2_m3_authorized": true,
+  "m2_m3_run": false,
+  "points_awarded": false,
+  "processes": [
+    {
+      "case": "stick_target",
+      "command": [
+        "C:\\Users\\fari\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "-B",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\\scripts\\run_wp08_area_supported_m1_diagnostic_r1_10.py",
+        "--worker",
+        "--output-root",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\\qualification\\0_2_9\\wp08_surface_stiffness_remediation\\area_supported_r1_10_20260926",
+        "--case",
+        "stick_target",
+        "--contract-sha256",
+        "67efb97074cb8cb1c5f442045b1c0e209b6413d676ad61568fb554586e2ee7f0"
+      ],
+      "contract_sha256": "67efb97074cb8cb1c5f442045b1c0e209b6413d676ad61568fb554586e2ee7f0",
+      "elapsed_seconds": 2.464044400025159,
+      "ended_utc": "2026-09-26T19:53:36.226181+00:00",
+      "execution_kind": "EXPERIMENTAL_M1_M2_M3_CONTACT_DIAGNOSTIC_R1_10",
+      "exit_code": 0,
+      "pid": 36484,
+      "started_utc": "2026-09-26T19:53:33.762531+00:00",
+      "stderr_path": "_process_logs/stick_target.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "_process_logs/stick_target.stdout.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "slip_target",
+      "command": [
+        "C:\\Users\\fari\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "-B",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\\scripts\\run_wp08_area_supported_m1_diagnostic_r1_10.py",
+        "--worker",
+        "--output-root",
+        "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\\qualification\\0_2_9\\wp08_surface_stiffness_remediation\\area_supported_r1_10_20260926",
+        "--case",
+        "slip_target",
+        "--contract-sha256",
+        "67efb97074cb8cb1c5f442045b1c0e209b6413d676ad61568fb554586e2ee7f0"
+      ],
+      "contract_sha256": "67efb97074cb8cb1c5f442045b1c0e209b6413d676ad61568fb554586e2ee7f0",
+      "elapsed_seconds": 2.630950100021437,
+      "ended_utc": "2026-09-26T19:53:38.876340+00:00",
+      "execution_kind": "EXPERIMENTAL_M1_M2_M3_CONTACT_DIAGNOSTIC_R1_10",
+      "exit_code": 0,
+      "pid": 34716,
+      "started_utc": "2026-09-26T19:53:36.245826+00:00",
+      "stderr_path": "_process_logs/slip_target.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "_process_logs/slip_target.stdout.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "replay_run": false,
+  "source_bundle_sha256": "a6703a15b73991c2950688c545a4e371d51b72e0d969dc0d42d33bf613515e04",
+  "status": "M1_DIAGNOSTIC_PASS_M2_M3_READY"
+}

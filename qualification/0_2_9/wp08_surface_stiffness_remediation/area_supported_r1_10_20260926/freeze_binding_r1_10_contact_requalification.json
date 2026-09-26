@@ -1,0 +1,33 @@
+{
+  "artifact_id": "QF-029-WP08-AREA-SUPPORTED-CONTACT-DIAGNOSTIC-R1.10",
+  "contract_document_path": "docs/verification/0_2_9/wp08-area-supported-contact-requalification-r1-10.md",
+  "contract_document_sha256": "92283ce7ce962640e9e7cd7f4fe0a76f37ec6387deca8e54947347f4c9844907",
+  "contract_path": "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/contract_r1_10_contact_requalification.json",
+  "contract_sha256": "a988e5b04769c2c064a9a9846133db17892b39d932d8a818026b85f1891f4242",
+  "formal_wp08_qualification": false,
+  "freeze_binding_sha256": "6dbcca9a4d2010359f1e530b3d9277388adf1e26143acfce3ca708a292fcb04a",
+  "frozen_utc": "2026-09-26T19:54:06.393194+00:00",
+  "m1_cases": {
+    "slip_target": {
+      "process_manifest_sha256": "3c144a9f8ec835ef9af36f8a2b1822b33e9bd27253207a691ebc95c8c67f11b5",
+      "progress_sha256": "95ae9d6a9ab1f1b212e466aa5f5fcbdd1a96158a873c1bb03c45463a9e92c5c4",
+      "raw_npz_sha256": "fce03e7b8d2981ab802b05d0b8c7e4b88b9696ffa24a3591e725532daccf1f76",
+      "result_sha256": "fe28edc114572d2e51580d9b05b92d6394f7be32cf199f2499dc00e3839df281",
+      "telemetry_sha256": "5e7991d9814d9944ff554c0be43a489eace27ce002cf6096513df8cf0878564c"
+    },
+    "stick_target": {
+      "process_manifest_sha256": "0d1a3269cb8c925dbd2f6429f359cab5962a85d73d232af997b31e7384a6f448",
+      "progress_sha256": "f3621a65c45908479568527ba59ec5fe28efe131bda1adcc877b697a9a1bd153",
+      "raw_npz_sha256": "02d899b9d1d0cb842e2ff55b6a294b168daed9145cb37f3748c8e1545203a35a",
+      "result_sha256": "2e43fb8d0fcc2cd8053e09043c13607d1969f054d0aa5eaa3f57f180a6ab0b05",
+      "telemetry_sha256": "88abeef10b2f53f627ccdd527a43adc83a7a61e6f1b9a053c9f1625b11b251d5"
+    }
+  },
+  "m1_final_sha256": "1639caaa3ea19a27338ce48ac616030191c88aff90ad69ccae19559166adf897",
+  "owner_execution_authorization": true,
+  "parent_contract_sha256": "67efb97074cb8cb1c5f442045b1c0e209b6413d676ad61568fb554586e2ee7f0",
+  "parent_freeze_binding_sha256": "472dd3db8a15f74dafa06136f724b8ebb7dbae0df0159bb71089949beab51cbd",
+  "points_awarded": false,
+  "schema": "qf.wp08.area_supported_contact_campaign_freeze_binding.v1",
+  "status": "FROZEN_R1_10_BEFORE_M2_M3_EXECUTION"
+}
