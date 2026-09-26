@@ -214,6 +214,11 @@ def contact_configuration_payload(
                 ),
             }
         )
+        if contact.tangential_stiffness_mode != "nodal":
+            # Keep legacy nodal digests byte-compatible; opt-in surface laws
+            # must bind their mode/topology so restart cannot mix the laws.
+            contacts[-1]["tangential_stiffness_mode"] = contact.tangential_stiffness_mode
+            contacts[-1]["slave_patch_faces"] = [list(face) for face in (contact.slave_patch_faces or ())]
     contact_parameters: dict[str, object] = {
         "contact_mode": str(parameters.get("contact_mode", "")).lower(),
         "contact_search_mode": search_mode,
@@ -267,9 +272,7 @@ class PenaltyContactRestartMetadata:
             raise InputValidationError("Penalty contact restart metadata search_mode is invalid.")
         if not isinstance(self.finite_sliding, bool):
             raise InputValidationError("Penalty contact restart finite_sliding must be boolean.")
-        if self.model_signature is not None and (
-            not isinstance(self.model_signature, str) or not self.model_signature
-        ):
+        if self.model_signature is not None and (not isinstance(self.model_signature, str) or not self.model_signature):
             raise InputValidationError("Penalty contact restart model signature cannot be empty.")
         if self.accepted_state_digest is not None and (
             not isinstance(self.accepted_state_digest, str) or not self.accepted_state_digest

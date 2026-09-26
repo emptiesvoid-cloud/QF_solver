@@ -6,6 +6,10 @@ from pathlib import Path
 from typing import Any
 
 from solveur.core.model import FiniteElementModel
+from solveur.contact.entities import FrictionlessContact
+from solveur.core.constraints import LinearConstraint
+from solveur.core.rbe import Rbe2Definition, Rbe3Definition
+from solveur.elements.discrete import ConcentratedMass, SpringDefinition
 from solveur.io.manifest import write_json_file
 from solveur.loads.entities import BodyLoad, EdgeLoad, GravityLoad, LineLoad, SurfaceLoad
 
@@ -46,7 +50,7 @@ def model_to_dict(model: FiniteElementModel) -> dict[str, Any]:
     }
 
 
-def _spring(spring: object) -> dict[str, Any]:
+def _spring(spring: SpringDefinition) -> dict[str, Any]:
     item: dict[str, Any] = {
         "node_a": spring.node_a,
         "dofs": list(spring.dofs),
@@ -60,7 +64,7 @@ def _spring(spring: object) -> dict[str, Any]:
     return item
 
 
-def _concentrated_mass(mass: object) -> dict[str, Any]:
+def _concentrated_mass(mass: ConcentratedMass) -> dict[str, Any]:
     item: dict[str, Any] = {
         "node": mass.node,
         "mass": mass.mass,
@@ -71,18 +75,15 @@ def _concentrated_mass(mass: object) -> dict[str, Any]:
     return item
 
 
-def _constraint(constraint: object) -> dict[str, Any]:
+def _constraint(constraint: LinearConstraint) -> dict[str, Any]:
     return {
         "name": constraint.name,
         "value": constraint.value,
-        "terms": [
-            {"node": term.node, "dof": term.dof, "coefficient": term.coefficient}
-            for term in constraint.terms
-        ],
+        "terms": [{"node": term.node, "dof": term.dof, "coefficient": term.coefficient} for term in constraint.terms],
     }
 
 
-def _rbe2(definition: object) -> dict[str, Any]:
+def _rbe2(definition: Rbe2Definition) -> dict[str, Any]:
     return {
         "name": definition.name,
         "master": definition.master,
@@ -91,7 +92,7 @@ def _rbe2(definition: object) -> dict[str, Any]:
     }
 
 
-def _rbe3(definition: object) -> dict[str, Any]:
+def _rbe3(definition: Rbe3Definition) -> dict[str, Any]:
     return {
         "name": definition.name,
         "reference": definition.reference,
@@ -101,7 +102,7 @@ def _rbe3(definition: object) -> dict[str, Any]:
     }
 
 
-def _contact(contact: object) -> dict[str, Any]:
+def _contact(contact: FrictionlessContact) -> dict[str, Any]:
     slave_patch_nodes = getattr(contact, "slave_patch_nodes", None)
     result = {
         "name": contact.name,
@@ -117,6 +118,11 @@ def _contact(contact: object) -> dict[str, Any]:
         result["master_faces"] = [list(face) for face in contact.master_faces]
     if contact.friction_coefficient:
         result["friction_coefficient"] = contact.friction_coefficient
+        result["tangential_stiffness"] = contact.tangential_stiffness
+    if contact.slave_patch_faces is not None:
+        result["slave_patch_faces"] = [list(face) for face in contact.slave_patch_faces]
+    if contact.tangential_stiffness_mode != "nodal":
+        result["tangential_stiffness_mode"] = contact.tangential_stiffness_mode
         result["tangential_stiffness"] = contact.tangential_stiffness
     return result
 

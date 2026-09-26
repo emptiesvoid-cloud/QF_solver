@@ -671,6 +671,32 @@ class FrictionlessActiveSetSolver:
                             "active_contacts": list(root_diagnostics.get("active_contacts", [])),
                             "convergence_cause": str(root_diagnostics.get("cause", "ROOT_SOLVE_FAILURE")),
                             "active_set_iteration": int(root_diagnostics.get("iteration", 0) or 0),
+                            **{
+                                key: root_diagnostics[key]
+                                for key in (
+                                    "contact",
+                                    "observed_state",
+                                    "root_state",
+                                    "normal_pressure",
+                                    "active_normal_constraint",
+                                    "tangential_force_norm",
+                                    "friction_limit",
+                                    "trial_norm",
+                                    "admissibility_error",
+                                    "admissibility_limit",
+                                    "tolerance",
+                                    "trial_vector",
+                                    "tangential_force_vector",
+                                    "target_tangential_force",
+                                    "tangential_basis",
+                                    "contact_residuals",
+                                    "worst_contact",
+                                    "max_scaled_contact_residual",
+                                    "residual_norm",
+                                    "gap",
+                                )
+                                if key in root_diagnostics
+                            },
                         },
                     )
                 try:
@@ -736,6 +762,20 @@ class FrictionlessActiveSetSolver:
                                 "convergence_cause": str(
                                     coupled_diagnostics.get("cause", "COUPLED_CONTACT_FAILURE")
                                 ),
+                                **{
+                                    key: coupled_diagnostics[key]
+                                    for key in (
+                                        "contact",
+                                        "normal_pressure",
+                                        "tangential_force_norm",
+                                        "state_tolerance",
+                                        "gap",
+                                        "tangential_force",
+                                        "active_contacts",
+                                        "maximum_enumerated_contacts",
+                                    )
+                                    if key in coupled_diagnostics
+                                },
                             },
                         )
                     raise NumericalConvergenceError(

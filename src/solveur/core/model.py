@@ -201,9 +201,7 @@ def _parse_spring(item: dict[str, Any]) -> SpringDefinition:
         stiffness=tuple(tuple(float(value) for value in row) for row in matrix),
         coordinate_system=str(item.get("coordinate_system", "global")).lower(),
         orientation=(
-            tuple(tuple(float(value) for value in row) for row in orientation)
-            if orientation is not None
-            else None
+            tuple(tuple(float(value) for value in row) for row in orientation) if orientation is not None else None
         ),
     )
 
@@ -214,11 +212,7 @@ def _parse_mass(item: dict[str, Any]) -> ConcentratedMass:
         node=int(item["node"]),
         mass=float(item["mass"]),
         center_of_mass=tuple(float(value) for value in item.get("center_of_mass", (0.0, 0.0, 0.0))),
-        inertia=(
-            tuple(tuple(float(value) for value in row) for row in inertia)
-            if inertia is not None
-            else None
-        ),
+        inertia=(tuple(tuple(float(value) for value in row) for row in inertia) if inertia is not None else None),
     )
 
 
@@ -311,4 +305,5 @@ def _parse_contact(item: dict[str, Any]) -> FrictionlessContact:
         tangential_stiffness=(
             float(item["tangential_stiffness"]) if item.get("tangential_stiffness") is not None else None
         ),
+        tangential_stiffness_mode=str(item.get("tangential_stiffness_mode", "nodal")),
     )

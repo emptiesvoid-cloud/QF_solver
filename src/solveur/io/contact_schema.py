@@ -32,6 +32,8 @@ class ContactSchemaValidator:
                     "gap_tolerance",
                     "friction_coefficient",
                     "tangential_stiffness",
+                    "tangential_stiffness_mode",
+                    "slave_patch_faces",
                 },
                 errors,
             )
@@ -80,7 +82,9 @@ class ContactSchemaValidator:
                                 errors.append(f"{face_path} duplicates an earlier master face.")
                             seen.add(marker)
                         self._validate_face(face, face_path, slave_nodes, node_count, errors)
-            if "gap_tolerance" in item and (not is_number(item["gap_tolerance"]) or float(item["gap_tolerance"]) <= 0.0):
+            if "gap_tolerance" in item and (
+                not is_number(item["gap_tolerance"]) or float(item["gap_tolerance"]) <= 0.0
+            ):
                 errors.append(f"{path}.gap_tolerance must be a positive finite number.")
             coefficient = item.get("friction_coefficient", 0.0)
             coefficient_value = float(cast(Any, coefficient)) if is_number(coefficient) else 0.0
@@ -98,6 +102,33 @@ class ContactSchemaValidator:
                 errors.append(f"{path}.tangential_stiffness must be a positive finite number when supplied.")
             if "name" in item and not isinstance(item["name"], str):
                 errors.append(f"{path}.name must be a string.")
+            mode = item.get("tangential_stiffness_mode", "nodal")
+            if mode not in ("nodal", "surface"):
+                errors.append(f"{path}.tangential_stiffness_mode must be nodal or surface; line is unsupported.")
+            if mode == "surface" and not is_number(item.get("tangential_stiffness")):
+                errors.append(f"{path}.tangential_stiffness is required for surface mode.")
+            if mode == "surface" and "slave_patch_faces" not in item:
+                errors.append(f"{path}.slave_patch_faces is required for surface mode.")
+            if "slave_patch_faces" in item:
+                faces = item["slave_patch_faces"]
+                if not has_slave_nodes:
+                    errors.append(f"{path}.slave_patch_faces requires slave_nodes.")
+                if not isinstance(faces, list) or not faces:
+                    errors.append(f"{path}.slave_patch_faces must contain nonempty triangular faces.")
+                else:
+                    seen_slave_faces: set[tuple[int, ...]] = set()
+                    for face in faces:
+                        if (
+                            not isinstance(face, list)
+                            or len(face) != 3
+                            or not all(is_int(n) and 0 <= n < node_count for n in face)
+                        ):
+                            errors.append(f"{path}.slave_patch_faces requires valid integer triangles.")
+                            continue
+                        slave_marker = tuple(sorted(int(n) for n in face))
+                        if len(set(face)) != 3 or slave_marker in seen_slave_faces:
+                            errors.append(f"{path}.slave_patch_faces has repeated nodes or faces.")
+                        seen_slave_faces.add(slave_marker)
 
     @staticmethod
     def _validate_face(value: Any, path: str, slave_nodes: set[int], node_count: int, errors: list[str]) -> None:

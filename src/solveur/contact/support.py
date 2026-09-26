@@ -35,6 +35,9 @@ class _ContactOperator:
     projection_clamped: bool
     closest_distance: float
     projection_mode: str
+    tangential_stiffness_mode: str = "nodal"
+    reference_slave_area: float | None = None
+    declared_tangential_stiffness: float | None = None
 
     @property
     def has_friction(self) -> bool:
@@ -61,6 +64,22 @@ class _FrictionIncrementState:
     slip_references: np.ndarray
     history: list[dict[str, object]]
     dissipation_increment: float
+
+
+def _sparse_rank_one(vector: np.ndarray, factor: float) -> csr_matrix:
+    """Build ``factor * vector * vector.T`` from its nonzero support only."""
+    values = np.asarray(vector, dtype=float).reshape(-1)
+    support = np.flatnonzero(values)
+    if support.size == 0 or factor == 0.0:
+        return csr_matrix((values.size, values.size), dtype=float)
+
+    local_values = values[support]
+    entries = (float(factor) * np.multiply.outer(local_values, local_values)).ravel()
+    rows = np.repeat(support, support.size)
+    columns = np.tile(support, support.size)
+    result = csr_matrix((entries, (rows, columns)), shape=(values.size, values.size))
+    result.eliminate_zeros()
+    return result
 
 
 def _expanded_contacts(contacts: list[FrictionlessContact]) -> list[FrictionlessContact]:
@@ -97,9 +116,7 @@ def _operator(
         _relative_vector(contact.slave_node, geometry.master_nodes, dofs, tangent_one, barycentric),
         _relative_vector(contact.slave_node, geometry.master_nodes, dofs, tangent_two, barycentric),
     )
-    stiffness = contact.tangential_stiffness
-    if contact.friction_coefficient > 0.0 and (stiffness is None or stiffness <= 0.0):
-        raise InputValidationError("Frictional contact requires a positive tangential_stiffness.")
+    stiffness, reference_area = contact.tangential_regularization(nodes)
     return _ContactOperator(
         name=contact.name or f"contact_slave_{contact.slave_node}",
         vector=vector,
@@ -117,6 +134,9 @@ def _operator(
         projection_clamped=geometry.projection_clamped,
         closest_distance=float(geometry.closest_distance),
         projection_mode=geometry.projection_mode,
+        tangential_stiffness_mode=contact.tangential_stiffness_mode,
+        reference_slave_area=reference_area,
+        declared_tangential_stiffness=contact.tangential_stiffness,
     )
 
 
@@ -145,9 +165,7 @@ def _finite_sliding(model: FiniteElementModel) -> bool:
     if not isinstance(value, bool):
         raise InputValidationError("contact_finite_sliding must be a boolean.")
     if value and any(contact.friction_coefficient > 0.0 for contact in model.contacts):
-        raise InputValidationError(
-            "contact_finite_sliding is currently available for frictionless contact only."
-        )
+        raise InputValidationError("contact_finite_sliding is currently available for frictionless contact only.")
     return value
 
 
@@ -258,8 +276,8 @@ def _friction_system(
             continue
         if states[index] == "stick":
             for vector, reference in zip(operator.tangential_vectors, slip_references[index]):
-                effective_stiffness = effective_stiffness + csr_matrix(
-                    operator.tangential_stiffness * np.outer(vector, vector)
+                effective_stiffness = effective_stiffness + _sparse_rank_one(
+                    vector, operator.tangential_stiffness
                 )
                 effective_loads += operator.tangential_stiffness * reference * vector
         elif states[index] == "slip":
@@ -342,9 +360,7 @@ def _contact_load_path(model: FiniteElementModel, dofs: DofManager, loads: np.nd
     result: list[np.ndarray] = []
     for index, row in enumerate(history):
         if not isinstance(row, list) or len(row) != len(model.loads):
-            raise InputValidationError(
-                f"contact_load_history[{index}] must contain {len(model.loads)} finite factors."
-            )
+            raise InputValidationError(f"contact_load_history[{index}] must contain {len(model.loads)} finite factors.")
         vector = np.zeros(dofs.ndof, dtype=float)
         for factor, load in zip(row, model.loads):
             if not isinstance(factor, (int, float)) or not np.isfinite(float(factor)):
@@ -478,6 +494,16 @@ def _details(
                     "friction_limit": friction_limit,
                     "friction_coefficient": operator.friction_coefficient,
                     "tangential_stiffness": operator.tangential_stiffness,
+                }
+            )
+        if operator.tangential_stiffness_mode == "surface":
+            row.update(
+                {
+                    "tangential_stiffness_mode": "surface",
+                    "reference_slave_area": operator.reference_slave_area,
+                    "declared_tangential_stiffness": operator.declared_tangential_stiffness,
+                    "declared_tangential_stiffness_unit": "N/m^3",
+                    "effective_tangential_stiffness_unit": "N/m",
                 }
             )
         rows.append(row)

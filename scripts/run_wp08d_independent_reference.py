@@ -33,7 +33,7 @@ FROZEN_LOAD_PATH = (
     (1.0, 0.25),
     (1.0, -0.5),
 )
-MESH_SUBDIVISIONS = {"M2": (4, 2, 2), "M3": (8, 4, 4)}
+MESH_SUBDIVISIONS = {"M1": (2, 1, 1), "M2": (4, 2, 2), "M3": (8, 4, 4)}
 LENGTH = 2.0
 WIDTH = 1.0
 HEIGHT = 0.5
@@ -182,6 +182,11 @@ def _mesh(mesh_name: str) -> dict[str, Any]:
         for face, count in sorted(boundary_counts.items())
         if count == 1 and np.allclose(nodes[list(face), 2], TOP_Z, rtol=0.0, atol=1.0e-14)
     )
+    bottom_faces = tuple(
+        face
+        for face, count in sorted(boundary_counts.items())
+        if count == 1 and np.allclose(nodes[list(face), 2], INITIAL_CLEARANCE, rtol=0.0, atol=1.0e-14)
+    )
     slave_nodes = tuple(_node_index(i, j, 0, nx, ny) for j in range(ny + 1) for i in range(1, nx + 1))
     fixed_body = tuple(_node_index(0, j, k, nx, ny) for k in range(nz + 1) for j in range(ny + 1))
     fixed_nodes = tuple(sorted((*fixed_body, len(body), len(body) + 1, len(body) + 2, len(body) + 3)))
@@ -191,6 +196,7 @@ def _mesh(mesh_name: str) -> dict[str, Any]:
         "nodes": nodes,
         "elements": tuple(elements),
         "top_faces": top_faces,
+        "bottom_faces": bottom_faces,
         "slave_nodes": slave_nodes,
         "fixed_nodes": fixed_nodes,
         "node_count": len(nodes),
@@ -227,15 +233,22 @@ def _tet_stiffness(coordinates: np.ndarray) -> np.ndarray:
             ),
             dtype=float,
         )
-    volume = abs(
-        float(
-            np.linalg.det(
-                np.column_stack(
-                    (coordinates[1] - coordinates[0], coordinates[2] - coordinates[0], coordinates[3] - coordinates[0])
+    volume = (
+        abs(
+            float(
+                np.linalg.det(
+                    np.column_stack(
+                        (
+                            coordinates[1] - coordinates[0],
+                            coordinates[2] - coordinates[0],
+                            coordinates[3] - coordinates[0],
+                        )
+                    )
                 )
             )
         )
-    ) / 6.0
+        / 6.0
+    )
     return volume * (b_matrix.T @ _elasticity_matrix() @ b_matrix)
 
 
@@ -273,7 +286,7 @@ def _contact_basis(node: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     # face-1 basis is retained for deterministic open-contact observables.
     if float(node[1]) <= 0.5 * float(node[0]) + 1.0e-14:
         return np.asarray((1.0, 0.0, 0.0)), np.asarray((0.0, 1.0, 0.0))
-    return np.asarray((2.0**-0.5, 2.0**-0.5, 0.0)), np.asarray((-2.0**-0.5, 2.0**-0.5, 0.0))
+    return np.asarray((2.0**-0.5, 2.0**-0.5, 0.0)), np.asarray((-(2.0**-0.5), 2.0**-0.5, 0.0))
 
 
 def _master_projection(node: np.ndarray) -> tuple[tuple[int, int, int], np.ndarray]:
@@ -284,13 +297,38 @@ def _master_projection(node: np.ndarray) -> tuple[tuple[int, int, int], np.ndarr
     return (0, 2, 3), np.asarray((1.0 - y, x, y - x), dtype=float)
 
 
-def _model(mesh_name: str) -> dict[str, Any]:
+def _model(mesh_name: str, *, surface_stiffness_density: float | None = None) -> dict[str, Any]:
     mesh = _mesh(mesh_name)
     full_stiffness = _assemble_stiffness(mesh)
     fixed = np.asarray([3 * node + component for node in mesh["fixed_nodes"] for component in range(3)], dtype=int)
     free = np.setdiff1d(np.arange(int(mesh["ndof"]), dtype=int), fixed)
     free_lookup = {int(value): index for index, value in enumerate(free)}
     slave_nodes = tuple(mesh["slave_nodes"])
+    tangential_stiffness: np.ndarray = np.full(len(slave_nodes), TANGENTIAL_STIFFNESS, dtype=float)
+    slave_reference_areas: np.ndarray = np.zeros(len(slave_nodes), dtype=float)
+    if surface_stiffness_density is not None:
+        if (
+            isinstance(surface_stiffness_density, bool)
+            or not np.isfinite(surface_stiffness_density)
+            or surface_stiffness_density <= 0.0
+        ):
+            raise ValueError("Independent surface stiffness density must be finite and positive.")
+        # Independent T3 area integration: do not import the production
+        # reference-area helper or contact implementation.
+        area_by_vertex: dict[int, float] = {}
+        coordinates = np.asarray(mesh["nodes"], dtype=float)
+        for face in mesh["bottom_faces"]:
+            triangle = coordinates[list(face)]
+            face_area = 0.5 * float(np.linalg.norm(np.cross(triangle[1] - triangle[0], triangle[2] - triangle[0])))
+            if not np.isfinite(face_area) or face_area <= 0.0:
+                raise ValueError("Independent reference found an invalid bottom T3 face.")
+            for node in face:
+                area_by_vertex[node] = area_by_vertex.get(node, 0.0) + face_area / 3.0
+        for position, node in enumerate(slave_nodes):
+            if node not in area_by_vertex:
+                raise ValueError("Independent surface reference found a slave node without tributary area.")
+            slave_reference_areas[position] = area_by_vertex[node]
+            tangential_stiffness[position] = surface_stiffness_density * area_by_vertex[node]
     normal_rows = np.zeros((len(slave_nodes), free.size), dtype=float)
     tangent_rows = np.zeros((len(slave_nodes), 2, free.size), dtype=float)
     normal_full_rows: np.ndarray = np.zeros((len(slave_nodes), int(mesh["ndof"])), dtype=float)
@@ -310,7 +348,9 @@ def _model(mesh_name: str) -> dict[str, Any]:
             for name_component in range(3):
                 full_vector[3 * node + name_component] += basis[component][name_component]
                 for master_node, weight in zip(master_face, barycentric):
-                    full_vector[3 * (len(mesh["nodes"]) - 4 + master_node) + name_component] -= weight * basis[component][name_component]
+                    full_vector[3 * (len(mesh["nodes"]) - 4 + master_node) + name_component] -= (
+                        weight * basis[component][name_component]
+                    )
             tangent_full_rows[contact, component] = full_vector
             tangent_rows[contact, component] = full_vector[np.asarray(free, dtype=int)]
         normal_rows[contact] = normal_full_rows[contact, np.asarray(free, dtype=int)]
@@ -331,7 +371,15 @@ def _model(mesh_name: str) -> dict[str, Any]:
         "normal_full_rows": normal_full_rows,
         "tangent_full_rows": tangent_full_rows,
         "tangent_bases": tangent_bases,
+        "tangential_stiffness_by_contact": tangential_stiffness,
+        "surface_stiffness_density": surface_stiffness_density,
+        "slave_reference_areas": slave_reference_areas,
     }
+
+
+def _contact_tangential_stiffness(model: Mapping[str, Any], index: int) -> float:
+    values = model.get("tangential_stiffness_by_contact")
+    return TANGENTIAL_STIFFNESS if values is None else float(np.asarray(values, dtype=float)[index])
 
 
 def _solve_kkt(
@@ -347,10 +395,11 @@ def _solve_kkt(
     tangents = np.asarray(model["tangent_rows"], dtype=float)
     for index in active:
         if states[index] == "stick":
+            tangential_stiffness = _contact_tangential_stiffness(model, index)
             for component in range(2):
                 row = tangents[index, component]
-                stiffness += TANGENTIAL_STIFFNESS * np.outer(row, row)
-                rhs += TANGENTIAL_STIFFNESS * references[index, component] * row
+                stiffness += tangential_stiffness * np.outer(row, row)
+                rhs += tangential_stiffness * references[index, component] * row
         elif states[index] == "slip":
             for component in range(2):
                 rhs -= forces[index, component] * tangents[index, component]
@@ -378,10 +427,11 @@ def _proposed_active(active: tuple[int, ...], gaps: np.ndarray, pressures: np.nd
     proposed = tuple(
         index
         for index, gap in enumerate(gaps)
-        if gap < -GAP_TOLERANCE
-        or (index in active and gap <= GAP_TOLERANCE and pressures[index] >= -GAP_TOLERANCE)
+        if gap < -GAP_TOLERANCE or (index in active and gap <= GAP_TOLERANCE and pressures[index] >= -GAP_TOLERANCE)
     )
-    return tuple(index for index in proposed if index not in {index for index in active if pressures[index] < -GAP_TOLERANCE})
+    return tuple(
+        index for index in proposed if index not in {index for index in active if pressures[index] < -GAP_TOLERANCE}
+    )
 
 
 def _friction_update(
@@ -398,11 +448,12 @@ def _friction_update(
     next_references = np.asarray(references, dtype=float).copy()
     states: list[str] = []
     for index in range(len(forces)):
+        tangential_stiffness = _contact_tangential_stiffness(model, index)
         relative[index] = rows[index] @ displacement
         if index not in active:
             states.append("open")
             continue
-        trial = TANGENTIAL_STIFFNESS * (relative[index] - references[index])
+        trial = tangential_stiffness * (relative[index] - references[index])
         trial_norm = float(np.linalg.norm(trial))
         limit = FRICTION_COEFFICIENT * max(float(pressures[index]), 0.0)
         if not np.isfinite(trial_norm) or not np.isfinite(limit):
@@ -418,7 +469,7 @@ def _friction_update(
                 next_references[index] = relative[index]
             else:
                 forces[index] = limit * trial / trial_norm
-                next_references[index] = relative[index] - forces[index] / TANGENTIAL_STIFFNESS
+                next_references[index] = relative[index] - forces[index] / tangential_stiffness
     if not np.all(np.isfinite(forces)) or not np.all(np.isfinite(next_references)):
         raise FloatingPointError("Independent reference produced non-finite friction state.")
     return tuple(states), forces, relative, next_references
@@ -492,7 +543,7 @@ def _solve_hybrid_root(
 
     initial: list[float] = []
     for index in slip:
-        trial = TANGENTIAL_STIFFNESS * (tangent_rows[index] @ probe - references[index])
+        trial = _contact_tangential_stiffness(model, index) * (tangent_rows[index] @ probe - references[index])
         norm = float(np.linalg.norm(trial))
         if norm <= FRICTION_TOLERANCE:
             raise RuntimeError("Independent hybrid root has undefined slip trial direction.")
@@ -502,7 +553,9 @@ def _solve_hybrid_root(
         displacement, _multipliers, pressures, _forces = solve_for(vector)
         values: list[float] = []
         for position, index in enumerate(slip):
-            trial = TANGENTIAL_STIFFNESS * (tangent_rows[index] @ displacement - references[index])
+            trial = _contact_tangential_stiffness(model, index) * (
+                tangent_rows[index] @ displacement - references[index]
+            )
             norm = float(np.linalg.norm(trial))
             if norm <= FRICTION_TOLERANCE or pressures[index] <= 0.0:
                 return np.full(len(vector), 1.0e12, dtype=float)
@@ -534,21 +587,27 @@ def _solve_hybrid_root(
     tangential_displacements = np.asarray([row @ displacement for row in tangent_rows], dtype=float)
     next_references = np.asarray(references, dtype=float).copy()
     for index in slip:
-        next_references[index] = tangential_displacements[index] - forces[index] / TANGENTIAL_STIFFNESS
+        next_references[index] = tangential_displacements[index] - forces[index] / _contact_tangential_stiffness(
+            model, index
+        )
     post_active = _proposed_active(active, gaps, pressures)
     if post_active != active:
         raise RuntimeError("Independent hybrid root changed the normal active set.")
     for index in stick:
-        trial = TANGENTIAL_STIFFNESS * (tangential_displacements[index] - references[index])
+        trial = _contact_tangential_stiffness(model, index) * (tangential_displacements[index] - references[index])
         limit = FRICTION_COEFFICIENT * pressures[index]
         if float(np.linalg.norm(trial)) > limit + FRICTION_TOLERANCE:
             raise RuntimeError("Independent hybrid root stick contact exceeded the Coulomb limit.")
     for position, index in enumerate(slip):
-        trial = TANGENTIAL_STIFFNESS * (tangential_displacements[index] - references[index])
+        trial = _contact_tangential_stiffness(model, index) * (tangential_displacements[index] - references[index])
         norm = float(np.linalg.norm(trial))
         limit = FRICTION_COEFFICIENT * pressures[index]
         force = vector[2 * position : 2 * position + 2]
-        if norm <= FRICTION_TOLERANCE or limit <= 0.0 or not np.isclose(float(np.linalg.norm(force)), limit, rtol=1.0e-8, atol=FRICTION_TOLERANCE):
+        if (
+            norm <= FRICTION_TOLERANCE
+            or limit <= 0.0
+            or not np.isclose(float(np.linalg.norm(force)), limit, rtol=1.0e-8, atol=FRICTION_TOLERANCE)
+        ):
             raise RuntimeError("Independent hybrid root slip contact failed Coulomb consistency.")
     diagnostics = {
         "strategy": "hybrid_stick_slip_root",
@@ -605,7 +664,11 @@ def _solve_increment(
                 "min_pressure": float(np.min(pressures)),
             }
         )
-        if proposed == active and states == next_states and force_delta <= FRICTION_TOLERANCE * max(float(np.linalg.norm(next_forces)), 1.0):
+        if (
+            proposed == active
+            and states == next_states
+            and force_delta <= FRICTION_TOLERANCE * max(float(np.linalg.norm(next_forces)), 1.0)
+        ):
             return {
                 "displacement": displacement,
                 "multipliers": multipliers,
@@ -628,7 +691,14 @@ def _solve_increment(
     gaps = _gaps(model, displacement)
     if _proposed_active(active, gaps, pressures) != active:
         raise RuntimeError("Independent root result changed the normal active set.")
-    history.append({"iteration": diagnostics["root_evaluations"], **diagnostics, "active_contacts": list(active), "tangential_states": list(root_states)})
+    history.append(
+        {
+            "iteration": diagnostics["root_evaluations"],
+            **diagnostics,
+            "active_contacts": list(active),
+            "tangential_states": list(root_states),
+        }
+    )
     return {
         "displacement": displacement,
         "multipliers": multipliers,
@@ -650,7 +720,14 @@ def _full_displacement(model: Mapping[str, Any], displacement: np.ndarray) -> np
     return result
 
 
-def _reaction_and_moment(model: Mapping[str, Any], displacement: np.ndarray, multipliers: np.ndarray, active: tuple[int, ...], forces: np.ndarray, load: np.ndarray) -> tuple[np.ndarray, np.ndarray, float, float]:
+def _reaction_and_moment(
+    model: Mapping[str, Any],
+    displacement: np.ndarray,
+    multipliers: np.ndarray,
+    active: tuple[int, ...],
+    forces: np.ndarray,
+    load: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray, float, float]:
     full_displacement = _full_displacement(model, displacement)
     external = np.asarray(load, dtype=float).copy()
     if external.size != int(model["ndof"]):
@@ -673,15 +750,21 @@ def _reaction_and_moment(model: Mapping[str, Any], displacement: np.ndarray, mul
     moment = np.sum(np.cross(nodes, fixed_vectors), axis=0)
     expected_reaction = -np.sum(external.reshape((-1, 3)), axis=0)
     expected_moment = -np.sum(np.cross(nodes, external.reshape((-1, 3))), axis=0)
-    force_error = float(np.linalg.norm(reaction - expected_reaction) / max(float(np.linalg.norm(expected_reaction)), 1.0e-14))
+    force_error = float(
+        np.linalg.norm(reaction - expected_reaction) / max(float(np.linalg.norm(expected_reaction)), 1.0e-14)
+    )
     contact_moment_correction: np.ndarray = np.zeros(3, dtype=float)
     for index in range(len(forces)):
         basis = model["tangent_bases"][index]
-        force = forces[index, 0] * np.asarray(basis[0], dtype=float) + forces[index, 1] * np.asarray(basis[1], dtype=float)
+        force = forces[index, 0] * np.asarray(basis[0], dtype=float) + forces[index, 1] * np.asarray(
+            basis[1], dtype=float
+        )
         contact_moment_correction -= INITIAL_CLEARANCE * np.cross(np.asarray((0.0, 0.0, 1.0)), force)
     raw_moment_imbalance = moment - expected_moment
     corrected_moment_imbalance = raw_moment_imbalance + contact_moment_correction
-    moment_error = float(np.linalg.norm(corrected_moment_imbalance) / max(float(np.linalg.norm(expected_moment)), 1.0e-14))
+    moment_error = float(
+        np.linalg.norm(corrected_moment_imbalance) / max(float(np.linalg.norm(expected_moment)), 1.0e-14)
+    )
     return reaction, moment, force_error, moment_error
 
 
@@ -758,7 +841,16 @@ def _deltas(reference: Mapping[str, Any], production: Mapping[str, Any]) -> dict
     return {name: _relative_delta(reference.get(key), production.get(key)) for name, key in keys.items()}
 
 
-def _manifest(case_dir: Path, mesh_name: str, terminal_status: str, terminal_classification: str, qualification_claim: str, branch: str, sha: str, production_result: Path) -> dict[str, Any]:
+def _manifest(
+    case_dir: Path,
+    mesh_name: str,
+    terminal_status: str,
+    terminal_classification: str,
+    qualification_claim: str,
+    branch: str,
+    sha: str,
+    production_result: Path,
+) -> dict[str, Any]:
     files = []
     for path in sorted(case_dir.iterdir()):
         if path.is_file() and path.name != "manifest.json":
@@ -782,12 +874,20 @@ def _manifest(case_dir: Path, mesh_name: str, terminal_status: str, terminal_cla
     return manifest
 
 
-def run(mesh_name: str, production_result: Path, output_dir: Path) -> dict[str, Any]:
+def run(
+    mesh_name: str,
+    production_result: Path,
+    output_dir: Path,
+    *,
+    surface_stiffness_density: float | None = None,
+    campaign_contract_sha256: str | None = None,
+    source_bundle_sha256: str | None = None,
+) -> dict[str, Any]:
     if mesh_name not in MESH_SUBDIVISIONS:
-        raise ValueError("Independent reference supports only M2 and M3.")
+        raise ValueError("Independent reference supports only M1, M2 and M3.")
     production = _load_production(production_result)
     branch, sha = _git_state(Path(__file__).resolve().parents[1])
-    model = _model(mesh_name)
+    model = _model(mesh_name, surface_stiffness_density=surface_stiffness_density)
     output_dir.mkdir(parents=True, exist_ok=True)
     telemetry_path = output_dir / "telemetry.jsonl"
     progress_path = output_dir / "progress.json"
@@ -798,8 +898,20 @@ def run(mesh_name: str, production_result: Path, output_dir: Path) -> dict[str, 
     _append_console(console_path, f"RUN_START independent_reference={mesh_name}")
     _emit(telemetry_path, "RUN_START", started=started, status="STARTED", mesh=mesh_name, phase="assembly")
     _progress(progress_path, status="RUNNING", phase="RUN_START", mesh=mesh_name, elapsed_time_s=0.0)
-    _emit(telemetry_path, "MESH_READY", started=started, status="COMPLETED", mesh=mesh_name, phase="mesh_ready", nodes=model["node_count"], elements=model["element_count"], dofs=model["ndof"])
-    _progress(progress_path, status="RUNNING", phase="MESH_READY", mesh=mesh_name, elapsed_time_s=perf_counter() - started)
+    _emit(
+        telemetry_path,
+        "MESH_READY",
+        started=started,
+        status="COMPLETED",
+        mesh=mesh_name,
+        phase="mesh_ready",
+        nodes=model["node_count"],
+        elements=model["element_count"],
+        dofs=model["ndof"],
+    )
+    _progress(
+        progress_path, status="RUNNING", phase="MESH_READY", mesh=mesh_name, elapsed_time_s=perf_counter() - started
+    )
     _emit(telemetry_path, "ASSEMBLY_START", started=started, status="STARTED", mesh=mesh_name, phase="assembly")
     references: np.ndarray = np.zeros((len(model["slave_nodes"]), 2), dtype=float)
     final: dict[str, Any] | None = None
@@ -808,9 +920,23 @@ def run(mesh_name: str, production_result: Path, output_dir: Path) -> dict[str, 
     cumulative_dissipation = 0.0
     try:
         for step, (normal_factor, tangential_factor) in enumerate(FROZEN_LOAD_PATH, start=1):
-            load = normal_factor * np.asarray(model["normal_load"]) + tangential_factor * np.asarray(model["tangent_load"])
-            load_full = normal_factor * np.asarray(model["normal_load_full"]) + tangential_factor * np.asarray(model["tangent_load_full"])
-            _emit(telemetry_path, "STEP_START", started=started, status="STARTED", mesh=mesh_name, step=step, increment=step, phase="contact_increment", load_norm=float(np.linalg.norm(load)))
+            load = normal_factor * np.asarray(model["normal_load"]) + tangential_factor * np.asarray(
+                model["tangent_load"]
+            )
+            load_full = normal_factor * np.asarray(model["normal_load_full"]) + tangential_factor * np.asarray(
+                model["tangent_load_full"]
+            )
+            _emit(
+                telemetry_path,
+                "STEP_START",
+                started=started,
+                status="STARTED",
+                mesh=mesh_name,
+                step=step,
+                increment=step,
+                phase="contact_increment",
+                load_norm=float(np.linalg.norm(load)),
+            )
             result = _solve_increment(model, load, references)
             previous_references = references.copy()
             references = np.asarray(result["references"], dtype=float).copy()
@@ -840,23 +966,74 @@ def run(mesh_name: str, production_result: Path, output_dir: Path) -> dict[str, 
                 "observables": observables,
             }
             step_results.append(step_detail)
-            accepted_hashes.append(hashlib.sha256(json.dumps(_jsonable(step_detail), sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest())
+            accepted_hashes.append(
+                hashlib.sha256(
+                    json.dumps(_jsonable(step_detail), sort_keys=True, separators=(",", ":")).encode("utf-8")
+                ).hexdigest()
+            )
             _write_json(output_dir / f"accepted_step_{step:03d}.json", step_detail)
-            _emit(telemetry_path, "STEP_END", started=started, status="ACCEPTED", mesh=mesh_name, step=step, increment=step, phase="contact_increment", active_contacts=list(result["active"]), active_set_iterations=len(result["history"]), linear_solver="numpy_dense_kkt", preconditioner="not_applicable", linear_residual=0.0, backward_error_eta_inf=None, accepted=True, rejected=False)
-            _progress(progress_path, status="RUNNING", phase="STEP_END", mesh=mesh_name, step=step, total_steps=len(FROZEN_LOAD_PATH), latest_status="ACCEPTED", elapsed_time_s=perf_counter() - started)
+            _emit(
+                telemetry_path,
+                "STEP_END",
+                started=started,
+                status="ACCEPTED",
+                mesh=mesh_name,
+                step=step,
+                increment=step,
+                phase="contact_increment",
+                active_contacts=list(result["active"]),
+                active_set_iterations=len(result["history"]),
+                linear_solver="numpy_dense_kkt",
+                preconditioner="not_applicable",
+                linear_residual=0.0,
+                backward_error_eta_inf=None,
+                accepted=True,
+                rejected=False,
+            )
+            _progress(
+                progress_path,
+                status="RUNNING",
+                phase="STEP_END",
+                mesh=mesh_name,
+                step=step,
+                total_steps=len(FROZEN_LOAD_PATH),
+                latest_status="ACCEPTED",
+                elapsed_time_s=perf_counter() - started,
+            )
         assert final is not None
-        final_load = np.asarray(model["normal_load_full"]) + FROZEN_LOAD_PATH[-1][1] * np.asarray(model["tangent_load_full"])
+        final_load = np.asarray(model["normal_load_full"]) + FROZEN_LOAD_PATH[-1][1] * np.asarray(
+            model["tangent_load_full"]
+        )
         observables = _reference_observables(model, final, final_load)
         production_observables = _production_observables(production)
         deltas = _deltas(observables, production_observables)
         checks = {
-            "finite": bool(np.isfinite(np.asarray(final["displacement"])).all() and np.isfinite(np.asarray(final["gaps"])).all() and np.isfinite(np.asarray(final["pressures"])).all() and np.isfinite(np.asarray(final["forces"])).all()),
+            "finite": bool(
+                np.isfinite(np.asarray(final["displacement"])).all()
+                and np.isfinite(np.asarray(final["gaps"])).all()
+                and np.isfinite(np.asarray(final["pressures"])).all()
+                and np.isfinite(np.asarray(final["forces"])).all()
+            ),
             "seven_accepted_increments": len(step_results) == 7,
             "force_equilibrium": float(observables["force_balance_relative_error"]) <= 1.0e-8,
             "moment_equilibrium": float(observables["moment_balance_relative_error"]) <= 1.0e-8,
             "contact_states_finite": all(state in {"open", "stick", "slip"} for state in final["states"]),
-            "open_contacts_zero_force": all(np.linalg.norm(final["forces"][index]) == 0.0 for index, state in enumerate(final["states"]) if state == "open"),
-            "reference_deltas": all(value <= limit for value, limit in ((deltas["displacement"], 0.02), (deltas["reaction"], 0.02), (deltas["moment"], 0.02), (deltas["normal_contact"], 0.03), (deltas["tangential_contact"], 0.03), (deltas["dissipation"], 0.05))),
+            "open_contacts_zero_force": all(
+                np.linalg.norm(final["forces"][index]) == 0.0
+                for index, state in enumerate(final["states"])
+                if state == "open"
+            ),
+            "reference_deltas": all(
+                value <= limit
+                for value, limit in (
+                    (deltas["displacement"], 0.02),
+                    (deltas["reaction"], 0.02),
+                    (deltas["moment"], 0.02),
+                    (deltas["normal_contact"], 0.03),
+                    (deltas["tangential_contact"], 0.03),
+                    (deltas["dissipation"], 0.05),
+                )
+            ),
             "active_set_matches_production": list(final["active"]) == _production_active_contacts(production),
             "terminal_production_pass": production.get("status") == "PASS",
         }
@@ -871,31 +1048,106 @@ def run(mesh_name: str, production_result: Path, output_dir: Path) -> dict[str, 
             "element_count": int(model["element_count"]),
             "ndof": int(model["ndof"]),
             "reference_implementation": "independent_numpy_dense_kkt_return_map",
+            "tangential_stiffness_mode": "surface" if surface_stiffness_density is not None else "nodal",
+            "surface_stiffness_density_N_per_m3": surface_stiffness_density,
+            "slave_reference_areas_m2": model["slave_reference_areas"].tolist(),
+            "effective_tangential_stiffness_N_per_m": model["tangential_stiffness_by_contact"].tolist(),
             "production_contact_routines_called": False,
-            "load_path": [{"increment": index, "normal_factor": normal, "tangential_factor": tangential} for index, (normal, tangential) in enumerate(FROZEN_LOAD_PATH, start=1)],
+            "load_path": [
+                {"increment": index, "normal_factor": normal, "tangential_factor": tangential}
+                for index, (normal, tangential) in enumerate(FROZEN_LOAD_PATH, start=1)
+            ],
             "step_results": step_results,
             "observables": observables,
             "deltas_vs_production": deltas,
             "checks": checks,
             "fallback_count": 0,
             "active_set_history": [item["history"] for item in step_results],
-            "provenance": {"branch": branch, "source_sha": sha, "contract_digest": CONTRACT_DIGEST, "policy_digest": POLICY_DIGEST, "production_result": str(production_result.resolve()), "source_package": "INDEPENDENT_NO_SOLVEUR_CONTACT_IMPORT"},
+            "provenance": {
+                "branch": branch,
+                "git_head_at_run": sha,
+                "source_bundle_sha256": source_bundle_sha256,
+                "campaign_contract_sha256": campaign_contract_sha256,
+                "parent_contract_digest": CONTRACT_DIGEST,
+                "policy_digest": POLICY_DIGEST,
+                "production_result": str(production_result.resolve()),
+                "source_package": "INDEPENDENT_NO_SOLVEUR_CONTACT_IMPORT",
+            },
             "qualification_claim": "INDEPENDENT_REFERENCE_ONLY_NOT_FORMAL_WP08D_CLOSURE",
         }
         full_final = _full_displacement(model, np.asarray(final["displacement"]))
-        np.savez_compressed(output_dir / "raw.npz", displacement=full_final.reshape((-1, 3)), contact_forces=np.asarray(final["forces"]), contact_pressures=np.asarray(final["pressures"]), contact_states=np.asarray(final["states"], dtype=str), load_factors=np.asarray(FROZEN_LOAD_PATH, dtype=float), accepted_state_digests=np.asarray(accepted_hashes, dtype=str))
+        np.savez_compressed(
+            output_dir / "raw.npz",
+            displacement=full_final.reshape((-1, 3)),
+            contact_forces=np.asarray(final["forces"]),
+            contact_pressures=np.asarray(final["pressures"]),
+            contact_states=np.asarray(final["states"], dtype=str),
+            load_factors=np.asarray(FROZEN_LOAD_PATH, dtype=float),
+            accepted_state_digests=np.asarray(accepted_hashes, dtype=str),
+        )
         _write_json(output_dir / "result.json", payload)
-        _emit(telemetry_path, "RUN_END", started=started, status="COMPLETED" if status == "PASS" else "FAILED", mesh=mesh_name, phase="RUN_END", terminal_status=status)
-        _progress(progress_path, status="COMPLETED" if status == "PASS" else "FAILED", phase="RUN_END", mesh=mesh_name, terminal_classification=payload["terminal_classification"], elapsed_time_s=perf_counter() - started)
+        _emit(
+            telemetry_path,
+            "RUN_END",
+            started=started,
+            status="COMPLETED" if status == "PASS" else "FAILED",
+            mesh=mesh_name,
+            phase="RUN_END",
+            terminal_status=status,
+        )
+        _progress(
+            progress_path,
+            status="COMPLETED" if status == "PASS" else "FAILED",
+            phase="RUN_END",
+            mesh=mesh_name,
+            terminal_classification=payload["terminal_classification"],
+            elapsed_time_s=perf_counter() - started,
+        )
         _append_console(console_path, f"RUN_END status={status}")
-        manifest = _manifest(output_dir, mesh_name, "COMPLETED", str(payload["terminal_classification"]), str(payload["qualification_claim"]), branch, sha, production_result)
-        manifest.update({"node_count": int(model["node_count"]), "element_count": int(model["element_count"]), "ndof": int(model["ndof"]), "fallback_count": 0})
+        manifest = _manifest(
+            output_dir,
+            mesh_name,
+            "COMPLETED",
+            str(payload["terminal_classification"]),
+            str(payload["qualification_claim"]),
+            branch,
+            sha,
+            production_result,
+        )
+        manifest.update(
+            {
+                "node_count": int(model["node_count"]),
+                "element_count": int(model["element_count"]),
+                "ndof": int(model["ndof"]),
+                "fallback_count": 0,
+                "campaign_contract_sha256": campaign_contract_sha256,
+                "source_bundle_sha256": source_bundle_sha256,
+                "surface_stiffness_density_N_per_m3": surface_stiffness_density,
+            }
+        )
         _write_json(output_dir / "manifest.json", manifest)
         return payload
     except Exception as error:
         _append_console(error_path, f"REFERENCE_FAIL_CLOSED: {type(error).__name__}: {error}")
-        _emit(telemetry_path, "RUN_FAILED", started=started, status="FAILED", mesh=mesh_name, phase="RUN_FAILED", error_type=type(error).__name__, error_message=str(error))
-        _progress(progress_path, status="FAILED", phase="RUN_FAILED", mesh=mesh_name, error_type=type(error).__name__, error_message=str(error), elapsed_time_s=perf_counter() - started)
+        _emit(
+            telemetry_path,
+            "RUN_FAILED",
+            started=started,
+            status="FAILED",
+            mesh=mesh_name,
+            phase="RUN_FAILED",
+            error_type=type(error).__name__,
+            error_message=str(error),
+        )
+        _progress(
+            progress_path,
+            status="FAILED",
+            phase="RUN_FAILED",
+            mesh=mesh_name,
+            error_type=type(error).__name__,
+            error_message=str(error),
+            elapsed_time_s=perf_counter() - started,
+        )
         _append_console(console_path, f"RUN_END status=FAIL_CLOSED error={type(error).__name__}")
         if final is None:
             failure_displacement: np.ndarray = np.zeros(int(model["ndof"]), dtype=float)
@@ -918,12 +1170,26 @@ def run(mesh_name: str, production_result: Path, output_dir: Path) -> dict[str, 
             "element_count": int(model["element_count"]),
             "ndof": int(model["ndof"]),
             "reference_implementation": "independent_numpy_dense_kkt_return_map",
+            "tangential_stiffness_mode": "surface" if surface_stiffness_density is not None else "nodal",
+            "surface_stiffness_density_N_per_m3": surface_stiffness_density,
+            "slave_reference_areas_m2": model["slave_reference_areas"].tolist(),
+            "effective_tangential_stiffness_N_per_m": model["tangential_stiffness_by_contact"].tolist(),
             "production_contact_routines_called": False,
-            "load_path": [{"increment": index, "normal_factor": normal, "tangential_factor": tangential} for index, (normal, tangential) in enumerate(FROZEN_LOAD_PATH, start=1)],
+            "load_path": [
+                {"increment": index, "normal_factor": normal, "tangential_factor": tangential}
+                for index, (normal, tangential) in enumerate(FROZEN_LOAD_PATH, start=1)
+            ],
             "accepted_step_count": len(step_results),
             "accepted_steps": step_results,
             "fallback_count": 0,
-            "provenance": {"branch": branch, "source_sha": sha, "contract_digest": CONTRACT_DIGEST, "policy_digest": POLICY_DIGEST, "production_result": str(production_result.resolve()), "source_package": "INDEPENDENT_NO_SOLVEUR_CONTACT_IMPORT"},
+            "provenance": {
+                "branch": branch,
+                "source_sha": sha,
+                "contract_digest": CONTRACT_DIGEST,
+                "policy_digest": POLICY_DIGEST,
+                "production_result": str(production_result.resolve()),
+                "source_package": "INDEPENDENT_NO_SOLVEUR_CONTACT_IMPORT",
+            },
             "qualification_claim": "INDEPENDENT_REFERENCE_ONLY_NOT_FORMAL_WP08D_CLOSURE",
         }
         np.savez_compressed(
@@ -936,20 +1202,50 @@ def run(mesh_name: str, production_result: Path, output_dir: Path) -> dict[str, 
             accepted_state_digests=np.asarray(accepted_hashes, dtype=str),
         )
         _write_json(output_dir / "result.json", failure_payload)
-        failure_manifest = _manifest(output_dir, mesh_name, "FAILED", "REFERENCE_FAILURE", str(failure_payload["qualification_claim"]), branch, sha, production_result)
-        failure_manifest.update({"node_count": int(model["node_count"]), "element_count": int(model["element_count"]), "ndof": int(model["ndof"]), "fallback_count": 0, "accepted_step_count": len(step_results)})
+        failure_manifest = _manifest(
+            output_dir,
+            mesh_name,
+            "FAILED",
+            "REFERENCE_FAILURE",
+            str(failure_payload["qualification_claim"]),
+            branch,
+            sha,
+            production_result,
+        )
+        failure_manifest.update(
+            {
+                "node_count": int(model["node_count"]),
+                "element_count": int(model["element_count"]),
+                "ndof": int(model["ndof"]),
+                "fallback_count": 0,
+                "campaign_contract_sha256": campaign_contract_sha256,
+                "source_bundle_sha256": source_bundle_sha256,
+                "surface_stiffness_density_N_per_m3": surface_stiffness_density,
+                "accepted_step_count": len(step_results),
+            }
+        )
         _write_json(output_dir / "manifest.json", failure_manifest)
         raise
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--mesh", choices=("M2", "M3"), required=True)
+    parser.add_argument("--mesh", choices=("M1", "M2", "M3"), required=True)
     parser.add_argument("--production-result", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--surface-stiffness-density", type=float)
+    parser.add_argument("--campaign-contract-sha256")
+    parser.add_argument("--source-bundle-sha256")
     args = parser.parse_args(argv)
     try:
-        payload = run(args.mesh, args.production_result, args.output_dir)
+        payload = run(
+            args.mesh,
+            args.production_result,
+            args.output_dir,
+            surface_stiffness_density=args.surface_stiffness_density,
+            campaign_contract_sha256=args.campaign_contract_sha256,
+            source_bundle_sha256=args.source_bundle_sha256,
+        )
     except Exception as error:
         print(f"WP08D_INDEPENDENT_REFERENCE_FAIL_CLOSED: {error}", file=sys.stderr)
         return 3

@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+import pytest
 
 from scripts import run_wp08d_independent_reference as structural_reference
 from scripts.wp08d_independent_kkt_reference import (
@@ -44,11 +45,7 @@ def test_reference_module_has_no_solver_package_or_production_contact_imports() 
     for path in (REFERENCE, STRUCTURAL_REFERENCE):
         tree = ast.parse(path.read_text(encoding="utf-8"))
         imports = [node for node in ast.walk(tree) if isinstance(node, (ast.Import, ast.ImportFrom))]
-        imported_names = {
-            alias.name
-            for node in imports
-            for alias in node.names
-        }
+        imported_names = {alias.name for node in imports for alias in node.names}
         assert not any(name.startswith("solveur") for name in imported_names)
 
 
@@ -80,6 +77,25 @@ def test_structural_reference_resolves_frozen_m2_path_and_observed_hybrid_mode()
     assert tuple(mixed_step["states"][index] for index in mixed_step["active"]) == ("stick", "stick", "slip")
     assert mixed_step["root_diagnostics"]["tangential_unknown_dimension"] == 2
     assert np.all(np.isfinite(np.asarray(mixed_step["forces"], dtype=float)))
+
+
+@pytest.mark.parametrize(
+    ("mesh_name", "expected_eligible_area"),
+    [("M1", 1.5), ("M2", 1.75), ("M3", 1.875)],
+)
+def test_independent_surface_reference_integrates_tributary_areas_without_production_imports(
+    mesh_name: str,
+    expected_eligible_area: float,
+) -> None:
+    kappa = 2_666_700.0
+    model = structural_reference._model(mesh_name, surface_stiffness_density=kappa)
+    areas = np.asarray(model["slave_reference_areas"], dtype=float)
+    stiffnesses = np.asarray(model["tangential_stiffness_by_contact"], dtype=float)
+    assert np.sum(areas) == pytest.approx(expected_eligible_area)
+    assert np.sum(stiffnesses) == pytest.approx(kappa * expected_eligible_area)
+    assert np.allclose(stiffnesses, kappa * areas, rtol=0.0, atol=1.0e-9)
+    legacy = structural_reference._model(mesh_name)
+    assert np.all(legacy["tangential_stiffness_by_contact"] == structural_reference.TANGENTIAL_STIFFNESS)
 
 
 def test_independent_reference_reaches_a_finite_sliding_return_map() -> None:

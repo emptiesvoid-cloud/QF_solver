@@ -54,9 +54,7 @@ def _sha256(path: Path) -> str:
 
 
 def _git(*args: str) -> str:
-    completed = subprocess.run(
-        ["git", *args], cwd=ROOT, check=True, capture_output=True, text=True
-    )
+    completed = subprocess.run(["git", *args], cwd=ROOT, check=True, capture_output=True, text=True)
     return completed.stdout.strip()
 
 
@@ -67,7 +65,9 @@ def _git_dir() -> Path:
 
 
 def _owner_authorization_path(execution_sha: str) -> Path:
-    return _git_dir() / f"wp08_contact_requalification_{PROFILE_REVISION.lower()}_owner_authorization_{execution_sha}.json"
+    return (
+        _git_dir() / f"wp08_contact_requalification_{PROFILE_REVISION.lower()}_owner_authorization_{execution_sha}.json"
+    )
 
 
 def _case_authorization_path(execution_sha: str, mesh: str, execution_kind: str) -> Path:
@@ -84,7 +84,9 @@ def _activate_revision(revision: str) -> None:
     if revision == "r1":
         CONTRACT_PATH = ROOT / "qualification/0_2_9/wp08d_contact_requalification_r1.json"
         GOVERNING_BASE_SHA = "b2485f98260c7ca9892997eefa3a327637d83cd3"
-        OWNER_DECISION_PATH = ROOT / "qualification/0_2_9/wp07d_contact_requalification_r2/owner_execution_decision.json"
+        OWNER_DECISION_PATH = (
+            ROOT / "qualification/0_2_9/wp07d_contact_requalification_r2/owner_execution_decision.json"
+        )
         OWNER_TOKEN = "OWNER_AUTHORIZED_WP07_WP08_CONTACT_REQUALIFICATION"
         DEFAULT_OUTPUT_ROOT = ROOT / "qualification/0_2_9/wp08d_contact_requalification_r1_runs/raw_retry_2"
         REQUIRED_BRANCH = "codex/contact-active-set-remediation"
@@ -124,9 +126,7 @@ def _validate(contract: dict[str, Any], authorization: dict[str, Any], output: P
     if expected_contract_sha is not None and _sha256(CONTRACT_PATH) != expected_contract_sha:
         raise PermissionError(f"WP08-D {PROFILE_REVISION} contract differs from its frozen SHA-256.")
     parent = _json(PARENT_CONTRACT_PATH)
-    canonical_parent = json.dumps(
-        parent, sort_keys=True, separators=(",", ":"), ensure_ascii=False
-    ).encode("utf-8")
+    canonical_parent = json.dumps(parent, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     if hashlib.sha256(canonical_parent).hexdigest() != PARENT_CONTRACT_DIGEST:
         raise PermissionError("The frozen WP08-D parent contract digest changed.")
     if contract.get("parent_contract", {}).get("canonical_sha256") != PARENT_CONTRACT_DIGEST:
@@ -152,9 +152,8 @@ def _validate(contract: dict[str, Any], authorization: dict[str, Any], output: P
         or decisions.get("OWNER_AUTHORIZES_WP08D_M1_M2_M3_REQUALIFICATION") is not True
         or decisions.get("OWNER_AUTHORIZES_WP08D_INDEPENDENT_REFERENCES") is not True
         or decisions.get("OWNER_AUTHORIZES_WP08D_CONTRACT_REQUIRED_REPLAY") is not True
-        or decisions.get(
-            "OWNER_AUTHORIZES_WP07E_OR_WP08E" if PROFILE_REVISION == "R1" else "OWNER_AUTHORIZES_WP08E"
-        ) is not False
+        or decisions.get("OWNER_AUTHORIZES_WP07E_OR_WP08E" if PROFILE_REVISION == "R1" else "OWNER_AUTHORIZES_WP08E")
+        is not False
         or decisions.get("OWNER_AWARDS_POINTS") is not False
     ):
         raise PermissionError("The recorded Owner decision does not authorize exactly this WP08-D scope.")
@@ -203,11 +202,14 @@ def _validate(contract: dict[str, Any], authorization: dict[str, Any], output: P
         {},
     )
     remediation_sha = mechanics.get("change_commit")
-    if not isinstance(remediation_sha, str) or subprocess.run(
-        ["git", "merge-base", "--is-ancestor", remediation_sha, execution_sha],
-        cwd=ROOT,
-        check=False,
-    ).returncode:
+    if (
+        not isinstance(remediation_sha, str)
+        or subprocess.run(
+            ["git", "merge-base", "--is-ancestor", remediation_sha, execution_sha],
+            cwd=ROOT,
+            check=False,
+        ).returncode
+    ):
         raise PermissionError("WP08-D execution source does not contain the authorized contact-mechanics correction.")
     source_diff = subprocess.run(
         ["git", "diff", "--binary", GOVERNING_BASE_SHA, execution_sha, "--", "src"],
@@ -224,19 +226,18 @@ def _validate(contract: dict[str, Any], authorization: dict[str, Any], output: P
         raise PermissionError("WP08-D production-source diff differs from the reviewed contact remediation lineage.")
     if authorization.get("meshes") != list(MESHES):
         raise PermissionError("Owner authorization must name exactly M1, M2, and M3.")
-    if authorization.get("include_independent_references") is not True or authorization.get("include_replays") is not True:
+    if (
+        authorization.get("include_independent_references") is not True
+        or authorization.get("include_replays") is not True
+    ):
         raise PermissionError("Reference and replay execution are not explicitly authorized.")
     if output.exists() and any(output.iterdir()):
         raise FileExistsError(f"Refusing to overwrite non-empty output directory: {output}")
     if output.resolve() != DEFAULT_OUTPUT_ROOT.resolve():
         raise PermissionError("WP08-D output must use the frozen, dedicated requalification evidence root.")
     replay_auth_meshes = tuple(contract.get("campaign", {}).get("replay_meshes", []))
-    expected_auth_paths = [
-        _case_authorization_path(execution_sha, mesh, "PRIMARY_PRODUCTION")
-        for mesh in MESHES
-    ] + [
-        _case_authorization_path(execution_sha, mesh, "REPLAY")
-        for mesh in replay_auth_meshes
+    expected_auth_paths = [_case_authorization_path(execution_sha, mesh, "PRIMARY_PRODUCTION") for mesh in MESHES] + [
+        _case_authorization_path(execution_sha, mesh, "REPLAY") for mesh in replay_auth_meshes
     ]
     existing_auth = [str(path) for path in expected_auth_paths if path.exists()]
     if existing_auth:
@@ -268,9 +269,8 @@ def _issue_owner_authorization(path: Path) -> dict[str, Any]:
         decisions.get("OWNER_AUTHORIZES_WP08D_M1_M2_M3_REQUALIFICATION") is not True
         or decisions.get("OWNER_AUTHORIZES_WP08D_INDEPENDENT_REFERENCES") is not True
         or decisions.get("OWNER_AUTHORIZES_WP08D_CONTRACT_REQUIRED_REPLAY") is not True
-        or decisions.get(
-            "OWNER_AUTHORIZES_WP07E_OR_WP08E" if PROFILE_REVISION == "R1" else "OWNER_AUTHORIZES_WP08E"
-        ) is not False
+        or decisions.get("OWNER_AUTHORIZES_WP07E_OR_WP08E" if PROFILE_REVISION == "R1" else "OWNER_AUTHORIZES_WP08E")
+        is not False
         or decisions.get("OWNER_AWARDS_POINTS") is not False
     ):
         raise PermissionError("Owner decision does not authorize exactly the frozen WP08-D scope.")
@@ -335,16 +335,12 @@ def _utc_now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
 
-def _audit_process_sequence(records: list[dict[str, Any]]) -> dict[str, Any]:
+def _audit_process_sequence(records: list[dict[str, Any]], *, root: Path | None = None) -> dict[str, Any]:
     """Verify every child invocation and prove the actual campaign order is serial."""
 
-    expected_rank = {
-        f"WP08D-{mesh}-PRIMARY_PRODUCTION": index for index, mesh in enumerate(MESHES)
-    }
+    expected_rank = {f"WP08D-{mesh}-PRIMARY_PRODUCTION": index for index, mesh in enumerate(MESHES)}
     offset = len(expected_rank)
-    expected_rank.update(
-        {f"WP08D-{mesh}-INDEPENDENT_REFERENCE": offset + index for index, mesh in enumerate(MESHES)}
-    )
+    expected_rank.update({f"WP08D-{mesh}-INDEPENDENT_REFERENCE": offset + index for index, mesh in enumerate(MESHES)})
     expected_rank["WP08D-M1-REPLAY"] = offset + len(MESHES)
     expected_labels = [
         *(f"WP08D-{mesh}-PRIMARY_PRODUCTION" for mesh in MESHES),
@@ -355,6 +351,15 @@ def _audit_process_sequence(records: list[dict[str, Any]]) -> dict[str, Any]:
     intervals: list[tuple[datetime, datetime, str]] = []
     ranks: list[int] = []
     seen: set[str] = set()
+    seen_log_paths: set[Path] = set()
+    artifact_dirs: list[Path] = []
+    resolved_root = (ROOT if root is None else root).resolve()
+    for candidate in records:
+        manifest_value = candidate.get("process_manifest")
+        if isinstance(manifest_value, str):
+            candidate_path = (resolved_root / manifest_value).resolve()
+            if candidate_path.is_relative_to(resolved_root):
+                artifact_dirs.append(candidate_path.parent)
     for item in records:
         label = str(item.get("case", ""))
         if label not in expected_rank or label in seen:
@@ -366,8 +371,8 @@ def _audit_process_sequence(records: list[dict[str, Any]]) -> dict[str, Any]:
         if not isinstance(relative, str):
             errors.append(f"missing process manifest path: {label}")
             continue
-        path = (ROOT / relative).resolve()
-        if not path.is_relative_to(ROOT.resolve()) or not path.is_file() or _sha256(path) != item.get("sha256"):
+        path = (resolved_root / relative).resolve()
+        if not path.is_relative_to(resolved_root) or not path.is_file() or _sha256(path) != item.get("sha256"):
             errors.append(f"process manifest path/hash mismatch: {label}")
             continue
         record = _read_if_object(path)
@@ -383,10 +388,22 @@ def _audit_process_sequence(records: list[dict[str, Any]]) -> dict[str, Any]:
         ):
             errors.append(f"process identity/exit check failed: {label}")
             continue
-        for filename, field in (("runner.stdout.log", "stdout_sha256"), ("runner.stderr.log", "stderr_sha256")):
-            log = path.parent / filename
-            if not log.is_file() or _sha256(log) != record.get(field):
-                errors.append(f"process log hash mismatch: {label}/{filename}")
+        for path_field, hash_field in (("stdout_path", "stdout_sha256"), ("stderr_path", "stderr_sha256")):
+            relative_log = record.get(path_field)
+            if not isinstance(relative_log, str):
+                errors.append(f"process log path missing: {label}/{path_field}")
+                continue
+            log = (resolved_root / relative_log).resolve()
+            duplicate_log = log in seen_log_paths
+            seen_log_paths.add(log)
+            if (
+                not log.is_relative_to(resolved_root)
+                or any(log.is_relative_to(artifact_dir.resolve()) for artifact_dir in artifact_dirs)
+                or duplicate_log
+                or not log.is_file()
+                or _sha256(log) != record.get(hash_field)
+            ):
+                errors.append(f"process log path/hash mismatch: {label}/{path_field}")
         try:
             started = datetime.fromisoformat(str(record["started_utc"]).replace("Z", "+00:00"))
             ended = datetime.fromisoformat(str(record["ended_utc"]).replace("Z", "+00:00"))
@@ -419,6 +436,7 @@ def _run(output: Path, owner_authorization_path: Path, execution_sha: str) -> di
     owner_decision = contract["owner_decision"]
     replay_meshes = tuple(contract.get("campaign", {}).get("replay_meshes", []))
     process_records: list[dict[str, Any]] = []
+    process_log_root = output / "_process_logs"
 
     def case_authorization(mesh: str, execution_kind: str) -> Path:
         is_solve = execution_kind in {"PRIMARY_PRODUCTION", "REPLAY"}
@@ -475,16 +493,20 @@ def _run(output: Path, owner_authorization_path: Path, execution_sha: str) -> di
 
     def invoke(label: str, command: list[str], output_dir: Path) -> dict[str, Any]:
         output_dir.mkdir(parents=True, exist_ok=True)
-        stdout_path = output_dir / "runner.stdout.log"
-        stderr_path = output_dir / "runner.stderr.log"
+        process_log_root.mkdir(parents=True, exist_ok=True)
+        # Keep wrapper stdout/stderr outside child artifact directories: the
+        # child writes its own manifest before this wrapper can finalize logs.
+        stdout_path = process_log_root / f"{label}.stdout.log"
+        stderr_path = process_log_root / f"{label}.stderr.log"
         started = _utc_now()
         process: subprocess.Popen[str] | None = None
         error: str | None = None
         exit_code: int | None = None
         try:
-            with stdout_path.open("x", encoding="utf-8", newline="") as stdout, stderr_path.open(
-                "x", encoding="utf-8", newline=""
-            ) as stderr:
+            with (
+                stdout_path.open("x", encoding="utf-8", newline="") as stdout,
+                stderr_path.open("x", encoding="utf-8", newline="") as stderr,
+            ):
                 process = subprocess.Popen(command, cwd=ROOT, stdout=stdout, stderr=stderr, text=True)
                 exit_code = process.wait()
         except Exception as exception:  # preserve invocation failure separately from numerical status
@@ -500,14 +522,26 @@ def _run(output: Path, owner_authorization_path: Path, execution_sha: str) -> di
             "pid": process.pid if process is not None else None,
             "exit_code": exit_code,
             "invocation_error": error,
+            "stdout_path": stdout_path.relative_to(ROOT).as_posix(),
+            "stderr_path": stderr_path.relative_to(ROOT).as_posix(),
             "stdout_sha256": _sha256(stdout_path) if stdout_path.is_file() else None,
             "stderr_sha256": _sha256(stderr_path) if stderr_path.is_file() else None,
         }
         _write_json(output_dir / "process.json", record)
-        process_records.append({"case": label, "process_manifest": (output_dir / "process.json").relative_to(ROOT).as_posix(), "sha256": _sha256(output_dir / "process.json"), "pid": record["pid"], "exit_code": exit_code})
+        process_records.append(
+            {
+                "case": label,
+                "process_manifest": (output_dir / "process.json").relative_to(ROOT).as_posix(),
+                "sha256": _sha256(output_dir / "process.json"),
+                "pid": record["pid"],
+                "exit_code": exit_code,
+            }
+        )
         return record
 
-    def checkpoint(phase: str, production_state: dict[str, Any], references_state: dict[str, Any], replay_state: dict[str, Any]) -> None:
+    def checkpoint(
+        phase: str, production_state: dict[str, Any], references_state: dict[str, Any], replay_state: dict[str, Any]
+    ) -> None:
         _write_json(
             output / "progress.json",
             {
@@ -527,20 +561,22 @@ def _run(output: Path, owner_authorization_path: Path, execution_sha: str) -> di
         command = [
             sys.executable,
             str(ROOT / "scripts/run_wp08d_frictional_structural.py"),
-            "--mesh", mesh,
+            "--mesh",
+            mesh,
             "--execute-phase1",
-            "--execution-kind", "PRIMARY_PRODUCTION",
-            "--authorization-file", str(authorization_path),
-            "--output-dir", str(case_dir),
+            "--execution-kind",
+            "PRIMARY_PRODUCTION",
+            "--authorization-file",
+            str(authorization_path),
+            "--output-dir",
+            str(case_dir),
         ]
         process = invoke(f"WP08D-{mesh}-PRIMARY_PRODUCTION", command, case_dir)
         result_path = case_dir / mesh / "result.json"
         result = _read_if_object(result_path) or {}
         result["process_exit_code"] = process["exit_code"]
         result["terminal_classification"] = (
-            result.get("terminal_classification")
-            if process["exit_code"] == 0
-            else "FAIL_CLOSED_PROCESS_EXIT"
+            result.get("terminal_classification") if process["exit_code"] == 0 else "FAIL_CLOSED_PROCESS_EXIT"
         )
         production[mesh] = result
         if result_path.is_file():
@@ -559,8 +595,10 @@ def _run(output: Path, owner_authorization_path: Path, execution_sha: str) -> di
         command = [
             sys.executable,
             str(ROOT / "scripts" / script),
-            "--production-result", str(prod_path),
-            "--output-dir", str(ref_path),
+            "--production-result",
+            str(prod_path),
+            "--output-dir",
+            str(ref_path),
         ]
         if mesh != "M1":
             command.extend(["--mesh", mesh])
@@ -582,7 +620,10 @@ def _run(output: Path, owner_authorization_path: Path, execution_sha: str) -> di
             replays[mesh] = {"status": "NOT_REQUIRED_BY_FROZEN_CONTRACT"}
             comparisons[mesh] = {"status": "NOT_REQUIRED_BY_FROZEN_CONTRACT"}
             continue
-        if production[mesh].get("terminal_classification") != "PASS" or references[mesh].get("status") not in {"PASS", "PASS_REFERENCE"}:
+        if production[mesh].get("terminal_classification") != "PASS" or references[mesh].get("status") not in {
+            "PASS",
+            "PASS_REFERENCE",
+        }:
             replays[mesh] = {"status": "NOT_RUN_DEPENDENCY_NOT_PASS"}
             comparisons[mesh] = {"status": "NOT_RUN_DEPENDENCY_NOT_PASS"}
             checkpoint(f"REPLAY_{mesh}_SKIPPED", production, references, replays)
@@ -592,11 +633,15 @@ def _run(output: Path, owner_authorization_path: Path, execution_sha: str) -> di
         command = [
             sys.executable,
             str(ROOT / "scripts/run_wp08d_frictional_structural.py"),
-            "--mesh", mesh,
+            "--mesh",
+            mesh,
             "--execute-phase1",
-            "--execution-kind", "REPLAY",
-            "--authorization-file", str(authorization_path),
-            "--output-dir", str(replay_dir),
+            "--execution-kind",
+            "REPLAY",
+            "--authorization-file",
+            str(authorization_path),
+            "--output-dir",
+            str(replay_dir),
         ]
         process = invoke(f"WP08D-{mesh}-REPLAY", command, replay_dir)
         replay = _read_if_object(replay_dir / mesh / "result.json") or {}
@@ -604,7 +649,27 @@ def _run(output: Path, owner_authorization_path: Path, execution_sha: str) -> di
         replays[mesh] = replay
         if (replay_dir / mesh / "result.json").is_file():
             bind_sidecar(replay_dir / mesh, mesh, "REPLAY")
-        comparisons[mesh] = replay_comparison(production[mesh], replay)
+        primary_raw_path = output / mesh / "production" / mesh / "raw.npz"
+        replay_raw_path = replay_dir / mesh / "raw.npz"
+        raw_primary: dict[str, Any] | None = None
+        raw_replay: dict[str, Any] | None = None
+        if primary_raw_path.is_file() and replay_raw_path.is_file():
+            try:
+                import numpy as np
+
+                with np.load(primary_raw_path, allow_pickle=False) as archive:
+                    raw_primary = {key: archive[key].copy() for key in archive.files}
+                with np.load(replay_raw_path, allow_pickle=False) as archive:
+                    raw_replay = {key: archive[key].copy() for key in archive.files}
+            except (OSError, ValueError):
+                raw_primary = None
+                raw_replay = None
+        comparisons[mesh] = replay_comparison(
+            production[mesh],
+            replay,
+            raw_reference=raw_primary,
+            raw_replay=raw_replay,
+        )
         if process["exit_code"] != 0:
             comparisons[mesh] = {
                 **comparisons[mesh],
@@ -623,6 +688,94 @@ def _run(output: Path, owner_authorization_path: Path, execution_sha: str) -> di
     }
 
 
+def qualification_status(campaign: dict[str, Any], refinement: dict[str, Any], process_audit: dict[str, Any]) -> str:
+    """A converged campaign is not qualification without all refinement gates."""
+    required_gates = {
+        "selected_displacement",
+        "reaction_resultant",
+        "reaction_moment",
+        "normal_contact_resultant",
+        "tangential_contact_resultant",
+        "active_contact_region_measure",
+        "stick_slip_region_measure",
+        "cumulative_dissipation",
+    }
+    gates = refinement.get("gates", {})
+    passing_refinement = (
+        refinement.get("status") == "PASS"
+        and isinstance(gates, dict)
+        and required_gates.issubset(gates)
+        and all(isinstance(gates[key], dict) and gates[key].get("status") == "PASS" for key in required_gates)
+    )
+    passing_execution = all(
+        campaign.get("production", {}).get(mesh, {}).get("terminal_classification") == "PASS"
+        and campaign.get("independent_reference", {}).get(mesh, {}).get("status") in {"PASS", "PASS_REFERENCE"}
+        for mesh in MESHES
+    )
+    replay_meshes = campaign.get("replay_meshes_required")
+    passing_replay = (
+        isinstance(replay_meshes, list)
+        and bool(replay_meshes)
+        and all(campaign.get("replay_comparison", {}).get(mesh, {}).get("status") == "PASS" for mesh in replay_meshes)
+    )
+    return (
+        "PASS_CANDIDATE"
+        if passing_execution and passing_replay and passing_refinement and process_audit.get("status") == "PASS"
+        else "FAIL_CLOSED_OR_INCOMPLETE"
+    )
+
+
+def frozen_refinement_report(production: dict[str, Any], contract: dict[str, Any]) -> dict[str, Any]:
+    """Do not invent absent scale/region definitions for historical contracts.
+
+    A future surface campaign must prospectively freeze explicit definitions
+    and serialize its region measurements. Existing R1/R2/R2.1 lack this
+    binding; they therefore cannot be promoted by a new execution summary.
+    """
+    from scripts.wp08d_refinement_metrics import evaluate_refinement_gate
+
+    definition = contract.get("refinement_gate_definition")
+    if not isinstance(definition, dict) or definition.get("status") != "FROZEN":
+        return {"status": "HOLD", "reason": "REFINEMENT_DEFINITIONS_NOT_FROZEN", "gates": {}}
+    observables = {
+        "selected_displacement": "selected_displacement",
+        "reaction_resultant": "reaction_resultant",
+        "reaction_moment": "reaction_moment",
+        "normal_contact_resultant": "normal_contact_resultant",
+        "tangential_contact_resultant": "tangential_contact_resultant",
+        "cumulative_dissipation": "cumulative_local_dissipation",
+    }
+    try:
+        thresholds = _json(PARENT_CONTRACT_PATH)["refinement_contract"]["thresholds"]
+        if definition["thresholds"] != thresholds:
+            raise ValueError("refinement thresholds differ from frozen parent")
+        scales = definition["characteristic_scales"]
+        gates = {
+            name: evaluate_refinement_gate(
+                name,
+                production["M2"]["observables"][key],
+                production["M3"]["observables"][key],
+                characteristic_scale=scales[name],
+                threshold=thresholds[name],
+            )
+            for name, key in observables.items()
+        }
+        for name in ("active_contact_region_measure", "stick_slip_region_measure"):
+            # Region semantics must be explicitly bound to the same frozen
+            # definition; a nodal count is not an area-region measurement.
+            regions = [production[mesh]["region_measures"] for mesh in ("M2", "M3")]
+            if any(r.get("definition_sha256") != definition["region_definition_sha256"] for r in regions):
+                raise ValueError("region definition binding mismatch")
+            if any(r.get("surface_resolution_status") != "AREA_SUPPORTED_NODAL_PATCH" for r in regions):
+                raise ValueError("active surface patch is not resolved")
+            gates[name] = evaluate_refinement_gate(
+                name, regions[0][name], regions[1][name], characteristic_scale=scales[name], threshold=thresholds[name]
+            )
+        return {"status": "PASS" if all(g["status"] == "PASS" for g in gates.values()) else "FAIL", "gates": gates}
+    except (KeyError, TypeError, ValueError) as error:
+        return {"status": "FAIL_CLOSED", "reason": str(error), "gates": {}}
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--revision", choices=("r1", "r2", "r2.1"), default="r1")
@@ -637,7 +790,16 @@ def main(argv: list[str] | None = None) -> int:
             execution_sha = _git("rev-parse", "HEAD")
             auth_path = _owner_authorization_path(execution_sha)
             record = _issue_owner_authorization(auth_path)
-            print(json.dumps({"status": record["status"], "execution_sha": record["execution_sha"], "authorization_path": str(auth_path)}, indent=2))
+            print(
+                json.dumps(
+                    {
+                        "status": record["status"],
+                        "execution_sha": record["execution_sha"],
+                        "authorization_path": str(auth_path),
+                    },
+                    indent=2,
+                )
+            )
             return 0
         contract = _json(CONTRACT_PATH)
         authorization = _json(args.owner_authorization.resolve())
@@ -645,20 +807,11 @@ def main(argv: list[str] | None = None) -> int:
         execution_sha = _validate(contract, authorization, output)
         output.mkdir(parents=True, exist_ok=True)
         campaign = _run(output, args.owner_authorization.resolve(), execution_sha)
-        all_pass = all(
-            campaign["production"].get(mesh, {}).get("terminal_classification") == "PASS"
-            and campaign["independent_reference"].get(mesh, {}).get("status") in {"PASS", "PASS_REFERENCE"}
-            for mesh in MESHES
-        )
-        all_pass = all_pass and all(
-            campaign["replay_comparison"].get(mesh, {}).get("status") == "PASS"
-            for mesh in campaign["replay_meshes_required"]
-        )
         process_audit = _audit_process_sequence(campaign["sequential_process_manifests"])
-        all_pass = all_pass and process_audit["status"] == "PASS"
+        refinement = frozen_refinement_report(campaign["production"], contract)
         summary = {
             "artifact_id": f"QF-029-WP08-D-CONTACT-MECHANICS-REQUALIFICATION-{PROFILE_REVISION}-RESULT",
-            "status": "PASS_CANDIDATE" if all_pass else "FAIL_CLOSED_OR_INCOMPLETE",
+            "status": qualification_status(campaign, refinement, process_audit),
             "execution_sha": execution_sha,
             "branch": REQUIRED_BRANCH,
             "contract_sha256": _sha256(CONTRACT_PATH),
@@ -667,6 +820,7 @@ def main(argv: list[str] | None = None) -> int:
             "owner_authorization_sha256": _sha256(args.owner_authorization.resolve()),
             "campaign": campaign,
             "process_audit": process_audit,
+            "refinement": refinement,
             "official_points_awarded": 0,
             "wp08e_run": False,
         }
@@ -675,7 +829,11 @@ def main(argv: list[str] | None = None) -> int:
             output / "progress.json",
             {"status": summary["status"], "phase": "RUN_END", "updated_utc": _utc_now()},
         )
-        print(json.dumps({"status": summary["status"], "execution_sha": execution_sha, "output_root": str(output)}, indent=2))
+        print(
+            json.dumps(
+                {"status": summary["status"], "execution_sha": execution_sha, "output_root": str(output)}, indent=2
+            )
+        )
         return 0 if summary["status"] == "PASS_CANDIDATE" else 3
     except Exception as error:
         print(f"WP08D_REQUALIFICATION_FAIL_CLOSED: {type(error).__name__}: {error}", file=sys.stderr)

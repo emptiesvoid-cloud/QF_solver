@@ -74,7 +74,7 @@ def test_artifact_schema_declares_all_phase1_outputs() -> None:
     assert payload["qualification_claim"] == "NO_PHASE1_EXECUTION_IN_THIS_FREEZE"
 
 
-def test_replay_checker_is_evidence_only() -> None:
+def test_replay_checker_is_evidence_only_and_rejects_summary_only_payloads() -> None:
     left = {
         "status": "PASS",
         "solver": {},
@@ -90,7 +90,8 @@ def test_replay_checker_is_evidence_only() -> None:
     }
     right = dict(left)
     result = common.replay_comparison(left, right)
-    assert result["status"] == "PASS"
+    assert result["status"] == "FAIL_CLOSED"
+    assert result["reason"] == "MISSING_REPLAY_FIELDS"
     assert result["structural_solve_performed"] is False
 
 

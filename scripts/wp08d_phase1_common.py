@@ -26,20 +26,12 @@ AUTHORIZED_INTEGRATION_BRANCH = "0.2.9-wp08d-m1-phase1"
 CONTRACT_RELATIVE_PATH = Path("qualification/0_2_9/wp08d_structural_reference_contract.json")
 POLICY_DIGEST = "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
 CONTRACT_DIGEST = "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a"
-CONTACT_REQUALIFICATION_CONTRACT_PATH = Path(
-    "qualification/0_2_9/wp08d_contact_requalification_r1.json"
-)
-CONTACT_REQUALIFICATION_CONTRACT_SHA256 = (
-    "f759bea7665e905bd672d8bb2a7f08381322bbaf54b8e8531a6d07d6ef0f5eab"
-)
+CONTACT_REQUALIFICATION_CONTRACT_PATH = Path("qualification/0_2_9/wp08d_contact_requalification_r1.json")
+CONTACT_REQUALIFICATION_CONTRACT_SHA256 = "f759bea7665e905bd672d8bb2a7f08381322bbaf54b8e8531a6d07d6ef0f5eab"
 CONTACT_REQUALIFICATION_OWNER_TOKEN = "OWNER_AUTHORIZED_WP07_WP08_CONTACT_REQUALIFICATION"
 CONTACT_REQUALIFICATION_REQUIRED_BRANCH = "codex/contact-active-set-remediation"
-CONTACT_REQUALIFICATION_R2_CONTRACT_PATH = Path(
-    "qualification/0_2_9/wp08d_contact_requalification_r2_contract.json"
-)
-CONTACT_REQUALIFICATION_R2_CONTRACT_SHA256 = (
-    "5f15a945cb8c173ccaf6b10ae65e4958751886f533dbb5e6c5782694a3f5ac2f"
-)
+CONTACT_REQUALIFICATION_R2_CONTRACT_PATH = Path("qualification/0_2_9/wp08d_contact_requalification_r2_contract.json")
+CONTACT_REQUALIFICATION_R2_CONTRACT_SHA256 = "5f15a945cb8c173ccaf6b10ae65e4958751886f533dbb5e6c5782694a3f5ac2f"
 CONTACT_REQUALIFICATION_R2_OWNER_TOKEN = "OWNER_AUTHORIZED_WP08D_CONTACT_R2_REQUALIFICATION"
 CONTACT_REQUALIFICATION_R2_REQUIRED_BRANCH = "codex/wp08d-contact-r2-requalification"
 CONTACT_REQUALIFICATION_R2_BASE_SHA = "cd69958909aabcd74649b92fde768a1a0422ed52"
@@ -49,9 +41,7 @@ CONTACT_REQUALIFICATION_R2_OWNER_DECISION_PATH = Path(
 CONTACT_REQUALIFICATION_R2_1_CONTRACT_PATH = Path(
     "qualification/0_2_9/wp08d_contact_requalification_r2_1_contract.json"
 )
-CONTACT_REQUALIFICATION_R2_1_CONTRACT_SHA256 = (
-    "a9b82f19f1fc0dc27ac2ed97320a06e958c4adb4f96b4510bbf35c494316519d"
-)
+CONTACT_REQUALIFICATION_R2_1_CONTRACT_SHA256 = "a9b82f19f1fc0dc27ac2ed97320a06e958c4adb4f96b4510bbf35c494316519d"
 CONTACT_REQUALIFICATION_R2_1_OWNER_TOKEN = "OWNER_AUTHORIZED_WP08D_CONTACT_R2_1_REQUALIFICATION"
 UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED = "UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED"
 PHASE1_AUTHORIZATION_TOKEN = "OWNER_AUTHORIZED_WP08D_PHASE1_EXECUTION"
@@ -162,12 +152,15 @@ def verify_branch_provenance(root: Path | None = None) -> dict[str, object]:
         raise RuntimeError(f"Unexpected Phase-1 branch: {state['branch']!r}.")
     if state["dirty"]:
         raise RuntimeError("Phase-1 runner working tree is not clean.")
-    is_descendant = subprocess.run(
-        ["git", "merge-base", "--is-ancestor", REQUIRED_GOVERNING_SHA, str(state["head"])],
-        cwd=repo,
-        check=False,
-        capture_output=True,
-    ).returncode == 0
+    is_descendant = (
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", REQUIRED_GOVERNING_SHA, str(state["head"])],
+            cwd=repo,
+            check=False,
+            capture_output=True,
+        ).returncode
+        == 0
+    )
     if not is_descendant:
         raise RuntimeError("Phase-1 runner HEAD is not based on the required governing SHA.")
     return {
@@ -206,7 +199,11 @@ def build_preflight(name: str, *, root: Path | None = None) -> dict[str, Any]:
         raise RuntimeError("WP08-D mesh preflight failed finite/positive-volume checks.")
     if not mesh_report["master_projection_coverage"]:
         raise RuntimeError("WP08-D mesh preflight failed master-face coverage.")
-    if any(loads[key]["resultant"]["status"] != "PASS" or loads[key]["moment"]["status"] != "PASS" for key in loads if key in {"normal", "tangential"}):
+    if any(
+        loads[key]["resultant"]["status"] != "PASS" or loads[key]["moment"]["status"] != "PASS"
+        for key in loads
+        if key in {"normal", "tangential"}
+    ):
         raise RuntimeError("WP08-D load preflight failed resultant or moment checks.")
     expected_level = next(item for item in contract["mesh_levels"] if item["id"] == level.name)
     for key, expected in (
@@ -379,8 +376,10 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
             "governing_base_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
             "working_tree_clean": True,
         }
-        if state["branch"] != CONTACT_REQUALIFICATION_REQUIRED_BRANCH or state["dirty"] or any(
-            payload.get(key) != value for key, value in required_fields.items()
+        if (
+            state["branch"] != CONTACT_REQUALIFICATION_REQUIRED_BRANCH
+            or state["dirty"]
+            or any(payload.get(key) != value for key, value in required_fields.items())
         ):
             raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
         if subprocess.run(
@@ -398,14 +397,10 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
         root = repository_root()
         is_r2_1 = payload.get("authorization") == CONTACT_REQUALIFICATION_R2_1_OWNER_TOKEN
         contract_relative_path = (
-            CONTACT_REQUALIFICATION_R2_1_CONTRACT_PATH
-            if is_r2_1
-            else CONTACT_REQUALIFICATION_R2_CONTRACT_PATH
+            CONTACT_REQUALIFICATION_R2_1_CONTRACT_PATH if is_r2_1 else CONTACT_REQUALIFICATION_R2_CONTRACT_PATH
         )
         contract_sha256 = (
-            CONTACT_REQUALIFICATION_R2_1_CONTRACT_SHA256
-            if is_r2_1
-            else CONTACT_REQUALIFICATION_R2_CONTRACT_SHA256
+            CONTACT_REQUALIFICATION_R2_1_CONTRACT_SHA256 if is_r2_1 else CONTACT_REQUALIFICATION_R2_CONTRACT_SHA256
         )
         expected_scope = (
             "WP08-D_CONTACT_MECHANICS_REQUALIFICATION_R2_1"
@@ -413,10 +408,7 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
             else "WP08-D_CONTACT_MECHANICS_REQUALIFICATION_R2"
         )
         requalification_contract = root / contract_relative_path
-        if (
-            not requalification_contract.is_file()
-            or file_sha256(requalification_contract) != contract_sha256
-        ):
+        if not requalification_contract.is_file() or file_sha256(requalification_contract) != contract_sha256:
             raise RuntimeError("WP08-D source-bound contact requalification contract hash mismatch.")
         contract = json.loads(requalification_contract.read_text(encoding="utf-8"))
         read_contract()
@@ -458,8 +450,10 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
             "governing_base_sha": CONTACT_REQUALIFICATION_R2_BASE_SHA,
             "working_tree_clean": True,
         }
-        if state["branch"] != CONTACT_REQUALIFICATION_R2_REQUIRED_BRANCH or state["dirty"] or any(
-            payload.get(key) != value for key, value in required_fields.items()
+        if (
+            state["branch"] != CONTACT_REQUALIFICATION_R2_REQUIRED_BRANCH
+            or state["dirty"]
+            or any(payload.get(key) != value for key, value in required_fields.items())
         ):
             raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
         expected_kind_flags = {
@@ -495,8 +489,7 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
             or owner_authorization.get("owner_authorized") is not True
             or owner_authorization.get("branch") != state["branch"]
             or owner_authorization.get("execution_sha") != state["head"]
-            or owner_authorization.get("requalification_contract_sha256")
-            != contract_sha256
+            or owner_authorization.get("requalification_contract_sha256") != contract_sha256
             or owner_authorization.get("owner_decision_sha256") != decision_ref.get("sha256")
             or owner_authorization.get("meshes") != ["M1", "M2", "M3"]
             or owner_authorization.get("replay_meshes") != ["M1"]
@@ -516,12 +509,15 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
             raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
         mechanics = contract.get("source_requalification", {})
         change_commit = mechanics.get("change_commit")
-        if not isinstance(change_commit, str) or subprocess.run(
-            ["git", "merge-base", "--is-ancestor", change_commit, str(state["head"])],
-            cwd=root,
-            check=False,
-            capture_output=True,
-        ).returncode:
+        if (
+            not isinstance(change_commit, str)
+            or subprocess.run(
+                ["git", "merge-base", "--is-ancestor", change_commit, str(state["head"])],
+                cwd=root,
+                check=False,
+                capture_output=True,
+            ).returncode
+        ):
             raise RuntimeError("WP08-D R2 execution source lacks the frozen mechanics correction.")
         source_diff = subprocess.run(
             ["git", "diff", "--binary", CONTACT_REQUALIFICATION_R2_BASE_SHA, str(state["head"]), "--", "src"],
@@ -529,9 +525,7 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
             check=True,
             capture_output=True,
         ).stdout
-        if hashlib.sha256(source_diff).hexdigest() != mechanics.get(
-            "source_diff_sha256_since_source_baseline"
-        ):
+        if hashlib.sha256(source_diff).hexdigest() != mechanics.get("source_diff_sha256_since_source_baseline"):
             raise RuntimeError("WP08-D R2 source mechanics diff does not match its frozen digest.")
         return payload
     required = {
@@ -547,12 +541,15 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
     governing_sha = payload.get("governing_sha")
     if not isinstance(governing_sha, str) or len(governing_sha) != 40:
         raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
-    is_merged_governing_ancestor = subprocess.run(
-        ["git", "merge-base", "--is-ancestor", governing_sha, str(state["head"])],
-        cwd=repository_root(),
-        check=False,
-        capture_output=True,
-    ).returncode == 0
+    is_merged_governing_ancestor = (
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", governing_sha, str(state["head"])],
+            cwd=repository_root(),
+            check=False,
+            capture_output=True,
+        ).returncode
+        == 0
+    )
     if not is_merged_governing_ancestor:
         raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
     return payload
@@ -577,10 +574,7 @@ def require_phase1_authorization(
         CONTACT_REQUALIFICATION_OWNER_TOKEN,
         CONTACT_REQUALIFICATION_R2_OWNER_TOKEN,
         CONTACT_REQUALIFICATION_R2_1_OWNER_TOKEN,
-    } and (
-        payload.get("mesh") != str(mesh).upper()
-        or payload.get("execution_kind") != execution_kind
-    ):
+    } and (payload.get("mesh") != str(mesh).upper() or payload.get("execution_kind") != execution_kind):
         raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
     scope = payload.get("authorization_scope", {})
     if diagnostic_load_step_limit is not None:
@@ -606,7 +600,11 @@ def _load_vector_from_contract(
     loads: list[dict[str, Any]] = []
     component_factors: list[str] = []
     for node in range(mesh.level.body_node_count):
-        for dof, index, factor_name in (("UX", 0, "tangential_factor"), ("UY", 1, "tangential_factor"), ("UZ", 2, "normal_factor")):
+        for dof, index, factor_name in (
+            ("UX", 0, "tangential_factor"),
+            ("UY", 1, "tangential_factor"),
+            ("UZ", 2, "normal_factor"),
+        ):
             value = float(by_node[node, index])
             if value == 0.0:
                 continue
@@ -682,6 +680,36 @@ def build_production_model(
     )
 
 
+def build_surface_candidate_model(mesh_name: str, *, tangential_surface_stiffness: float) -> Any:
+    """Prepare an experimental model, never execute or rebind old evidence.
+
+    Kappa is explicit in N/m^3, not a conversion of historical K_t in N/m.
+    The frozen nodal builder remains unchanged. Surface areas use reference
+    T3 area/3; the excluded clamped row is not redistributed.
+    """
+    from dataclasses import replace
+    from scripts.prepare_wp08d_structural_reference import generate_mesh
+
+    if (
+        isinstance(tangential_surface_stiffness, bool)
+        or not np.isfinite(tangential_surface_stiffness)
+        or tangential_surface_stiffness <= 0.0
+    ):
+        raise ValueError("surface stiffness must be explicit, finite and positive in N/m^3")
+    model = build_production_model(mesh_name)
+    mesh = generate_mesh(frozen_mesh_level(mesh_name))
+    model.contacts = [
+        replace(
+            contact,
+            tangential_stiffness_mode="surface",
+            tangential_stiffness=float(tangential_surface_stiffness),
+            slave_patch_faces=mesh.bottom_faces,
+        )
+        for contact in model.contacts
+    ]
+    return model
+
+
 def extract_observables(result: Any) -> dict[str, Any]:
     """Extract contract-shaped observables from a completed production result."""
 
@@ -716,9 +744,15 @@ def extract_observables(result: Any) -> dict[str, Any]:
         "active_contact_count": int(contact.get("active_contact_count", 0)) if isinstance(contact, dict) else 0,
         "contact_states": states,
         "contact_pressures": pressures,
-        "cumulative_local_dissipation": float(contact.get("cumulative_local_dissipation", 0.0)) if isinstance(contact, dict) else 0.0,
-        "force_balance_relative_error": float(equilibrium.get("force_balance_relative_error", 0.0)) if isinstance(equilibrium, dict) else 0.0,
-        "moment_balance_relative_error": float(equilibrium.get("moment_balance_relative_error", 0.0)) if isinstance(equilibrium, dict) else 0.0,
+        "cumulative_local_dissipation": float(contact.get("cumulative_local_dissipation", 0.0))
+        if isinstance(contact, dict)
+        else 0.0,
+        "force_balance_relative_error": float(equilibrium.get("force_balance_relative_error", 0.0))
+        if isinstance(equilibrium, dict)
+        else 0.0,
+        "moment_balance_relative_error": float(equilibrium.get("moment_balance_relative_error", 0.0))
+        if isinstance(equilibrium, dict)
+        else 0.0,
     }
 
 
@@ -818,7 +852,9 @@ def execute_phase1(
     case_dir = output_dir / str(mesh_name).upper()
     case_dir.mkdir(parents=True, exist_ok=True)
     progress = Phase1Progress(case_dir / "progress.json")
-    telemetry = Phase1Telemetry(case_dir / "telemetry.jsonl", analysis_id=f"WP08D-{mesh_name.upper()}", mesh=mesh_name.upper())
+    telemetry = Phase1Telemetry(
+        case_dir / "telemetry.jsonl", analysis_id=f"WP08D-{mesh_name.upper()}", mesh=mesh_name.upper()
+    )
     console_log = None
     console_error = None
     try:
@@ -854,7 +890,9 @@ def execute_phase1(
             diagnostic_load_step_limit=diagnostic_load_step_limit,
             emit_step_checkpoints=True,
         )
-        progress.update(status="RUNNING", phase="MESH_READY", mesh=mesh_name.upper(), elapsed_time_s=perf_counter() - started)
+        progress.update(
+            status="RUNNING", phase="MESH_READY", mesh=mesh_name.upper(), elapsed_time_s=perf_counter() - started
+        )
         telemetry.emit("MESH_READY", "MESH_READY", status="COMPLETED", elapsed=perf_counter() - started)
         write_console(console_log, "MESH_READY mesh=%s" % mesh_name.upper())
         telemetry.emit("ASSEMBLY_START", "ASSEMBLY_START", status="STARTED", elapsed=perf_counter() - started)
@@ -884,21 +922,23 @@ def execute_phase1(
                 elapsed=perf_counter() - started,
             )
             write_console(console_log, "STEP_END increment=%d status=ACCEPTED" % increment)
-        result_payload.update({
-            "schema_version": 1,
-            "phase1": {
-                "mesh": mesh_name.upper(),
-                "execution_kind": execution_kind,
-                "authorization": authorization,
-                "preflight": preflight,
-                "source_package_path": str(source_root),
-            },
-            "observables": extract_observables(result),
-            "equilibrium": (result_payload.get("audit", {}) or {}).get("equilibrium", {}),
-            "contact": contact_payload,
-            "terminal_classification": "PASS",
-            "qualification_claim": "PHASE1_EXECUTION_EVIDENCE_NOT_FORMAL_WP08_CLOSURE",
-        })
+        result_payload.update(
+            {
+                "schema_version": 1,
+                "phase1": {
+                    "mesh": mesh_name.upper(),
+                    "execution_kind": execution_kind,
+                    "authorization": authorization,
+                    "preflight": preflight,
+                    "source_package_path": str(source_root),
+                },
+                "observables": extract_observables(result),
+                "equilibrium": (result_payload.get("audit", {}) or {}).get("equilibrium", {}),
+                "contact": contact_payload,
+                "terminal_classification": "PASS",
+                "qualification_claim": "PHASE1_EXECUTION_EVIDENCE_NOT_FORMAL_WP08_CLOSURE",
+            }
+        )
         write_json(case_dir / "result.json", result_payload)
         observables = result_payload["observables"]
         contract = read_contract()
@@ -912,7 +952,9 @@ def execute_phase1(
         accepted_state_digests = np.asarray(
             [
                 hashlib.sha256(
-                    json.dumps(_jsonable(item), sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+                    json.dumps(_jsonable(item), sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode(
+                        "utf-8"
+                    )
                 ).hexdigest()
                 for item in load_steps
                 if isinstance(item, Mapping)
@@ -928,7 +970,9 @@ def execute_phase1(
             load_factors=load_factors,
             accepted_state_digests=accepted_state_digests,
         )
-        progress.update(status="COMPLETED", phase="RUN_END", mesh=mesh_name.upper(), elapsed_time_s=perf_counter() - started)
+        progress.update(
+            status="COMPLETED", phase="RUN_END", mesh=mesh_name.upper(), elapsed_time_s=perf_counter() - started
+        )
         telemetry.emit("RUN_END", "ANALYSIS_END", status="COMPLETED", elapsed=perf_counter() - started)
         write_console(console_log, "RUN_END status=COMPLETED")
         write_manifest(
@@ -968,8 +1012,21 @@ def execute_phase1(
         return result_payload
     except BaseException as error:
         checkpoints = _write_step_checkpoints_from_telemetry(case_dir)
-        progress.update(status="FAILED", phase="RUN_FAILED", error_type=type(error).__name__, error_message=str(error), elapsed_time_s=perf_counter() - started)
-        telemetry.emit("RUN_FAILED", "ANALYSIS_FAILED", status="FAILED", error_type=type(error).__name__, error_message=str(error), elapsed=perf_counter() - started)
+        progress.update(
+            status="FAILED",
+            phase="RUN_FAILED",
+            error_type=type(error).__name__,
+            error_message=str(error),
+            elapsed_time_s=perf_counter() - started,
+        )
+        telemetry.emit(
+            "RUN_FAILED",
+            "ANALYSIS_FAILED",
+            status="FAILED",
+            error_type=type(error).__name__,
+            error_message=str(error),
+            elapsed=perf_counter() - started,
+        )
         write_console(console_error, "RUN_FAILED type=%s error=%s" % (type(error).__name__, str(error)))
         try:
             write_manifest(
@@ -1046,29 +1103,303 @@ def dry_run(mesh_name: str, output_dir: Path) -> dict[str, Any]:
     return result
 
 
-def replay_comparison(reference: Mapping[str, Any], replay: Mapping[str, Any]) -> dict[str, Any]:
-    """Compare two already-produced payloads without running either model."""
+def _replay_tree_equal(
+    expected: Any,
+    observed: Any,
+    *,
+    path: str,
+    mismatches: list[str],
+    rtol: float,
+    atol: float,
+) -> bool:
+    """Compare JSON-shaped evidence recursively and reject non-finite values."""
 
-    required = ("status", "solver", "node_count", "element_count", "ndof")
+    if isinstance(expected, Mapping):
+        if not isinstance(observed, Mapping):
+            mismatches.append(path)
+            return False
+        expected_keys, observed_keys = set(expected), set(observed)
+        if expected_keys != observed_keys:
+            mismatches.append(f"{path}.__keys__")
+            return False
+        return all(
+            _replay_tree_equal(
+                expected[key],
+                observed[key],
+                path=f"{path}.{key}",
+                mismatches=mismatches,
+                rtol=rtol,
+                atol=atol,
+            )
+            for key in sorted(expected_keys)
+        )
+    if isinstance(expected, list):
+        if not isinstance(observed, list) or len(expected) != len(observed):
+            mismatches.append(path)
+            return False
+        return all(
+            _replay_tree_equal(
+                left,
+                right,
+                path=f"{path}[{index}]",
+                mismatches=mismatches,
+                rtol=rtol,
+                atol=atol,
+            )
+            for index, (left, right) in enumerate(zip(expected, observed, strict=True))
+        )
+    if isinstance(expected, bool) or isinstance(observed, bool):
+        equal = type(expected) is type(observed) and expected == observed
+    elif isinstance(expected, (int, float)) and isinstance(observed, (int, float)):
+        equal = bool(
+            np.isfinite(float(expected))
+            and np.isfinite(float(observed))
+            and np.isclose(float(expected), float(observed), rtol=rtol, atol=atol)
+        )
+    else:
+        equal = type(expected) is type(observed) and expected == observed
+    if not equal:
+        mismatches.append(path)
+    return equal
+
+
+def _replay_raw_equal(
+    primary: Mapping[str, Any] | None,
+    replay: Mapping[str, Any] | None,
+    *,
+    rtol: float,
+    atol: float,
+) -> tuple[bool, list[str]]:
+    required = {
+        "displacements",
+        "contact_forces",
+        "contact_pressures",
+        "contact_states",
+        "load_factors",
+        "accepted_state_digests",
+    }
+    if not isinstance(primary, Mapping) or not isinstance(replay, Mapping):
+        return False, ["raw_npz"]
+    if set(primary) != required or set(replay) != required:
+        return False, ["raw_npz.__keys__"]
+    mismatches: list[str] = []
+    for key in sorted(required):
+        try:
+            left = np.asarray(primary[key])
+            right = np.asarray(replay[key])
+        except (TypeError, ValueError):
+            mismatches.append(f"raw_npz.{key}")
+            continue
+        if left.shape != right.shape:
+            mismatches.append(f"raw_npz.{key}.__shape__")
+        elif left.size == 0 or right.size == 0:
+            mismatches.append(f"raw_npz.{key}.__empty__")
+        elif key in {"contact_states", "accepted_state_digests"}:
+            if left.dtype.kind not in "US" or right.dtype.kind not in "US" or not np.array_equal(left, right):
+                mismatches.append(f"raw_npz.{key}")
+        elif left.dtype.kind not in "iuf" or right.dtype.kind not in "iuf":
+            mismatches.append(f"raw_npz.{key}.__numeric_type__")
+        elif left.dtype.kind in "iuf" and right.dtype.kind in "iuf":
+            if (
+                not np.all(np.isfinite(left))
+                or not np.all(np.isfinite(right))
+                or not np.allclose(left, right, rtol=rtol, atol=atol)
+            ):
+                mismatches.append(f"raw_npz.{key}")
+        elif not np.array_equal(left, right):
+            mismatches.append(f"raw_npz.{key}")
+    return not mismatches, mismatches
+
+
+def replay_comparison(
+    reference: Mapping[str, Any],
+    replay: Mapping[str, Any],
+    *,
+    raw_reference: Mapping[str, Any] | None = None,
+    raw_replay: Mapping[str, Any] | None = None,
+    rtol: float = 1.0e-12,
+    atol: float = 1.0e-14,
+) -> dict[str, Any]:
+    """Compare complete existing result/raw evidence without running a model.
+
+    The comparison intentionally fails closed if full displacement, contract
+    observables, contact/load-step state, source binding, or the six frozen NPZ
+    arrays are missing. ``execution_kind`` is the sole expected provenance
+    difference between the primary and replay records.
+    """
+
+    required = (
+        "status",
+        "run_verdict",
+        "terminal_classification",
+        "method",
+        "solver",
+        "node_count",
+        "element_count",
+        "ndof",
+        "displacements",
+        "observables",
+        "contact",
+        "phase1",
+    )
     missing = [key for key in required if key not in reference or key not in replay]
     if missing:
-        return {"status": "FAIL_CLOSED", "reason": "MISSING_REPLAY_FIELDS", "missing": missing}
-    same_status = reference.get("status") == replay.get("status")
-    same_mesh = all(reference.get(key) == replay.get(key) for key in ("node_count", "element_count", "ndof"))
-    ref_observables = reference.get("observables", {})
-    replay_observables = replay.get("observables", {})
-    numeric_checks: dict[str, bool] = {}
-    if isinstance(ref_observables, Mapping) and isinstance(replay_observables, Mapping):
-        for key in ("selected_displacement", "cumulative_local_dissipation", "force_balance_relative_error", "moment_balance_relative_error"):
-            if key in ref_observables and key in replay_observables:
-                numeric_checks[key] = bool(
-                    np.isclose(float(ref_observables[key]), float(replay_observables[key]), rtol=1.0e-12, atol=1.0e-14)
+        return {
+            "status": "FAIL_CLOSED",
+            "reason": "MISSING_REPLAY_FIELDS",
+            "missing": missing,
+            "structural_solve_performed": False,
+        }
+    if not np.isfinite(rtol) or not np.isfinite(atol) or rtol < 0.0 or atol < 0.0:
+        return {
+            "status": "FAIL_CLOSED",
+            "reason": "INVALID_REPLAY_TOLERANCE",
+            "structural_solve_performed": False,
+        }
+
+    mismatches: list[str] = []
+    for key in (
+        "status",
+        "run_verdict",
+        "terminal_classification",
+        "method",
+        "node_count",
+        "element_count",
+        "ndof",
+    ):
+        _replay_tree_equal(reference[key], replay[key], path=key, mismatches=mismatches, rtol=rtol, atol=atol)
+    if reference.get("status") != "PASS" or reference.get("terminal_classification") != "PASS":
+        mismatches.append("primary_not_pass")
+    if replay.get("status") != "PASS" or replay.get("terminal_classification") != "PASS":
+        mismatches.append("replay_not_pass")
+
+    for side, payload in (("primary", reference["solver"]), ("replay", replay["solver"])):
+        if not isinstance(payload, Mapping) or not {"method", "converged"}.issubset(payload):
+            mismatches.append(f"{side}.solver.__required_fields__")
+    if isinstance(reference["solver"], Mapping) and isinstance(replay["solver"], Mapping):
+        for key in ("method", "converged"):
+            if key not in reference["solver"] or key not in replay["solver"]:
+                continue
+            _replay_tree_equal(
+                reference["solver"][key],
+                replay["solver"][key],
+                path=f"solver.{key}",
+                mismatches=mismatches,
+                rtol=rtol,
+                atol=atol,
+            )
+        if reference["solver"].get("converged") is not True or replay["solver"].get("converged") is not True:
+            mismatches.append("solver.not_converged")
+
+    for path, left, right in (
+        ("displacements", reference["displacements"], replay["displacements"]),
+        ("observables", reference["observables"], replay["observables"]),
+    ):
+        if not isinstance(left, Mapping) and path == "observables":
+            mismatches.append(path)
+        else:
+            _replay_tree_equal(
+                left,
+                right,
+                path=path,
+                mismatches=mismatches,
+                rtol=rtol,
+                atol=atol,
+            )
+
+    observable_fields = {
+        "selected_displacement",
+        "reaction_resultant",
+        "reaction_moment",
+        "normal_contact_resultant",
+        "tangential_contact_resultant",
+        "active_contact_count",
+        "contact_states",
+        "contact_pressures",
+        "cumulative_local_dissipation",
+        "force_balance_relative_error",
+        "moment_balance_relative_error",
+    }
+    for side, payload in (("primary", reference["observables"]), ("replay", replay["observables"])):
+        if not isinstance(payload, Mapping) or not observable_fields.issubset(payload):
+            mismatches.append(f"{side}.observables.__required_fields__")
+
+    contact_fields = (
+        "method",
+        "converged",
+        "active_contact_count",
+        "contacts",
+        "load_steps",
+        "history",
+        "slip_references",
+        "cumulative_local_dissipation",
+    )
+    contact_payloads = (("primary", reference["contact"]), ("replay", replay["contact"]))
+    for side, payload in contact_payloads:
+        if not isinstance(payload, Mapping) or any(field not in payload for field in contact_fields):
+            mismatches.append(f"{side}.contact.__required_fields__")
+    if isinstance(reference["contact"], Mapping) and isinstance(replay["contact"], Mapping):
+        for key in contact_fields:
+            if key in reference["contact"] and key in replay["contact"]:
+                _replay_tree_equal(
+                    reference["contact"][key],
+                    replay["contact"][key],
+                    path=f"contact.{key}",
+                    mismatches=mismatches,
+                    rtol=rtol,
+                    atol=atol,
                 )
-    observable_match = all(numeric_checks.values()) if numeric_checks else False
+
+    phase_primary = reference["phase1"]
+    phase_replay = replay["phase1"]
+    if not isinstance(phase_primary, Mapping) or not isinstance(phase_replay, Mapping):
+        mismatches.append("phase1")
+    else:
+        for key in ("mesh", "preflight", "source_package_path"):
+            if key not in phase_primary or key not in phase_replay:
+                mismatches.append(f"phase1.{key}.__missing__")
+            else:
+                _replay_tree_equal(
+                    phase_primary[key],
+                    phase_replay[key],
+                    path=f"phase1.{key}",
+                    mismatches=mismatches,
+                    rtol=rtol,
+                    atol=atol,
+                )
+        auth_primary = phase_primary.get("authorization")
+        auth_replay = phase_replay.get("authorization")
+        if not isinstance(auth_primary, Mapping) or not isinstance(auth_replay, Mapping):
+            mismatches.append("phase1.authorization")
+        else:
+            for key in (
+                "execution_sha",
+                "requalification_contract_sha256",
+                "parent_contract_digest",
+                "policy_digest",
+                "governing_base_sha",
+                "owner_decision_sha256",
+            ):
+                if key not in auth_primary or key not in auth_replay or auth_primary.get(key) != auth_replay.get(key):
+                    mismatches.append(f"phase1.authorization.{key}")
+            if auth_primary.get("execution_kind") != "PRIMARY_PRODUCTION":
+                mismatches.append("phase1.authorization.primary_execution_kind")
+            if auth_replay.get("execution_kind") != "REPLAY":
+                mismatches.append("phase1.authorization.replay_execution_kind")
+
+    raw_match, raw_mismatches = _replay_raw_equal(raw_reference, raw_replay, rtol=rtol, atol=atol)
+    mismatches.extend(raw_mismatches)
     return {
-        "status": "PASS" if same_status and same_mesh and observable_match else "FAIL_CLOSED",
+        "status": "PASS" if not mismatches else "FAIL_CLOSED",
         "terminal_status_equal": reference.get("status") == replay.get("status"),
-        "mesh_identity_equal": same_mesh,
-        "numeric_checks": numeric_checks,
+        "mesh_identity_equal": all(
+            reference.get(key) == replay.get(key) for key in ("node_count", "element_count", "ndof")
+        ),
+        "full_displacement_compared": "displacements" in reference and "displacements" in replay,
+        "contract_observables_compared": True,
+        "contact_load_history_compared": isinstance(reference.get("contact"), Mapping)
+        and isinstance(replay.get("contact"), Mapping),
+        "raw_npz_compared": raw_match,
+        "mismatches": sorted(set(mismatches)),
         "structural_solve_performed": False,
     }

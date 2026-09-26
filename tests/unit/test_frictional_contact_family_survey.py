@@ -72,44 +72,45 @@ def test_ramp_cycle_is_recovered_by_coupled_normal_and_friction_projection(monke
         assert row["tangential_force_norm"] == pytest.approx(row["friction_limit"], rel=1.0e-10, abs=1.0e-8)
 
 
-def test_coupled_projection_search_fails_closed_above_contact_limit(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_coupled_projection_tries_large_seed_before_blocking_enumeration(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     class Contact:
         has_friction = True
 
         def gap(self, _displacement: np.ndarray) -> float:
             return 0.0
 
-    fake_reduction = SimpleNamespace(matrix=csr_matrix(np.eye(1)), rhs=np.zeros(1))
-    monkeypatch.setattr(
-        slip_root.ConstraintReduction,
-        "from_system",
-        staticmethod(lambda *_args, **_kwargs: fake_reduction),
-    )
-    operators = [Contact() for _ in range(9)]
+    operators = [Contact() for _ in range(25)]
+    seed_active = tuple(range(15))
+    attempted: list[tuple[int, ...]] = []
 
-    def solve_active_set(_reduction: object, _operators: list[Contact], active: tuple[int, ...]):
-        return np.zeros(1), np.zeros(len(active))
+    monkeypatch.setattr(slip_root, "_normal_active_set", lambda *_args, **_kwargs: seed_active)
 
-    def pressures_for(active: tuple[int, ...], _multipliers: np.ndarray, count: int) -> np.ndarray:
-        return np.asarray([1.0 if index in active else 0.0 for index in range(count)])
+    def reject_seed(*args: object, **_kwargs: object) -> None:
+        attempted.append(tuple(args[5]))
+        raise NumericalConvergenceError("synthetic inadmissible seed")
 
-    def proposed_active(_operators: list[Contact], _active: tuple[int, ...], _gaps: np.ndarray, _pressures: np.ndarray):
-        return tuple(range(len(operators)))
+    monkeypatch.setattr(slip_root, "_solve_coupled_projection_on_active_set", reject_seed)
 
-    with pytest.raises(NumericalConvergenceError, match="contact-count limit") as captured:
+    with pytest.raises(NumericalConvergenceError, match="exhaustive search exceeds") as captured:
         slip_root.solve_coupled_contact_projection(
             cast(Any, SimpleNamespace(ndof=1)),
             csr_matrix(np.eye(1)),
             np.zeros(1),
             np.array([], dtype=int),
             operators,
-            np.zeros((9, 2)),
+            np.zeros((25, 2)),
             1.0e-9,
-            solve_active_set=solve_active_set,
-            pressures_for=pressures_for,
-            proposed_active=proposed_active,
+            solve_active_set=cast(Any, lambda *_args: None),
+            pressures_for=cast(Any, lambda *_args: None),
+            proposed_active=cast(Any, lambda *_args: None),
             tangential_force=cast(Any, lambda *_args: np.zeros(1)),
         )
 
+    assert attempted == [seed_active]
     assert captured.value.diagnostics is not None
-    assert captured.value.diagnostics["cause"] == "COUPLED_SEED_CONTACT_LIMIT_EXCEEDED"
+    assert captured.value.diagnostics["cause"] == "COUPLED_SEARCH_CONTACT_LIMIT_EXCEEDED"
+    assert captured.value.diagnostics["attempted_candidate_count"] == 1
+    assert captured.value.diagnostics["seed_frictional_contact_count"] == 15
+    assert captured.value.diagnostics["contact_count"] == 25
