@@ -117,3 +117,11 @@ qualification/0_2_9/wp08d_contact_requalification_r1_runs/raw_retry_2/
 # WP08-D contact requalification raw process outputs stay local; keep compact
 # contracts, reports, and integrity manifests in Git.
 qualification/0_2_9/wp08d_contact_requalification_r2_runs/
+
+# WP08 area-supported R1.10 raw per-case outputs stay local; keep contracts,
+# final summaries, process bindings, and compact integrity records versionable.
+qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M1/
+qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/
+qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M2/
+qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M3/
+qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/_process_logs/

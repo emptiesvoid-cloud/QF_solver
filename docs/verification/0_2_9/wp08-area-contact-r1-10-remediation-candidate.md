@@ -91,16 +91,28 @@ normalization, demonstrate correction of an `xtol`-stopped candidate that is
 above the physical gate, and confirm that a stalled correction remains
 fail-closed.
 
-## Required next gate
+## Owner authorization and runner readiness
 
-Before any structural execution, freeze a prospective R1.10 contract and
-source/runner bindings on this candidate. It must preserve the R1.9 benchmark
-definition and thresholds, run fresh M1 then M2 then M3 stick/slip cases
-sequentially, preserve the historical R1.9 failure, and stop on the first
-failed gate. R1.9's execution authorization does not authorize R1.10.
+The Owner subsequently gave explicit authorization to freeze the R1.10
+runner and execute one serial M1/M2/M3 campaign. The prospective runner copies
+the R1.10 source into versioned runner files, binds a dedicated source
+inventory, verifies the immutable R1.9 failure bundle by SHA-256, and stops
+downstream cases at the first failed gate. Raw per-case outputs are excluded
+from Git while compact contracts, manifests, and final summaries remain
+versionable.
+
+Runner-specific tests and targeted mechanics tests were executed after the
+runner correction: 96 passed. Ruff, mypy on `slip_root.py`, compileall, and the
+12-file R1.9 hash audit passed. The full repository test suite was not run.
+
+At the point this preparation note is committed, no R1.10 contract has yet
+been frozen and no R1.10 structural solve has started. The next operation is
+to commit this runner freeze, create the unique R1.10 output binding, then run
+M1; M2 and M3 may proceed only when their preceding frozen gates pass.
 
 ```text
-R1_10_CONTRACT = NOT_FROZEN
-R1_10_STRUCTURAL_AUTHORIZATION = NOT_GRANTED
-NEXT_STEP = OWNER_AUTHORIZATION_FOR_PROSPECTIVE_R1_10_EXECUTION
+R1_10_OWNER_AUTHORIZATION = GRANTED_FOR_ONE_SERIAL_PROSPECTIVE_CAMPAIGN
+R1_10_CONTRACT = NOT_FROZEN_AT_REPORT_TIME
+R1_10_STRUCTURAL_EXECUTION = NOT_STARTED_AT_REPORT_TIME
+NEXT_STEP = COMMIT_RUNNER_FREEZE_THEN_CREATE_CONTRACT_AND_START_M1
 ```
