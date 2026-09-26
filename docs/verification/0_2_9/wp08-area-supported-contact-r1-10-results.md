@@ -47,6 +47,18 @@ All cases converged in eight load steps, retained a rank-2 active support and re
 
 The M3 slip case is especially important: it passed the frozen diagnostic gate, but only 20 of 25 slave nodes remained active (area `0.4375` of nominal `0.5 m²`). This is not silently upgraded to full-patch contact or convergence evidence.
 
+### Post-run diagnosis of the slip discrepancy
+
+The raw fields point to a mesh-resolved physical transition, rather than another active-slip root failure:
+
+- The mesh levels are small TET4 models: M1 `2×1×1` cells / 12 elements / 60 total DOFs; M2 `4×2×2` / 96 elements / 147 DOFs; M3 `8×4×4` / 768 elements / 687 DOFs.
+- The applied slip load is `450 N`, while `μ=0.3`. The measured contact normal resultant is about `870.5 N` in M2 and `880.5 N` in M3, so the aggregate Coulomb capacity is only about `261.1–264.2 N`. The resulting excess tangential load is roughly `186–189 N`, which the clamped body must carry through structural shear/bending.
+- In M2, the common contact nodes on the `y=1 m` edge remain barely closed: their pressures are only about `2.26`, `6.09` and `7.62` (versus much larger interior values). In M3, all five nodes on that edge are open, with positive gaps about `0.364–0.383 mm`. This removes `0.0625 m²` (`12.5%`) of the nominal patch.
+- Recomputing the common-body-node displacement difference gives `4.785 mm`, dominated by the `UY` component (`4.525 mm`). The three common nodes on the opening edge each move about `1.26 mm` differently between M2 and M3. Contact force resultants change much less, because the newly opened edge carried little normal pressure in M2.
+- The surface regularization is correctly mesh-normalized in these records: `κ × A = 2,666,700 × 0.5 = 1,333,350 N/m` at M1, M2 and M3. In the production friction update, the tangential stiffness contributes to the stick trial/linearization; fully slipping contacts transmit the Coulomb-capped force. Changing `κ` after seeing this result is therefore not a justified remedy for the observed all-slip displacement shift.
+
+This is strong evidence that M2 under-resolves the edge-opening transition and that the cantilever response remains mesh-sensitive. It does **not** prove the continuum solution is converged or prove the contact algorithm defect-free. No solver defect has been demonstrated by these six runs; a finer prospective level (for example M4, `16×8×8`, 6,144 TET4 and 4,143 total DOFs) is the next useful diagnostic to determine whether the opening edge and displacement field stabilize. M4 was not in the R1.10 authorization and was not run.
+
 ## Refinement comparison
 
 Values are descriptive comparisons over common nodes; the frozen R1.10 contract defines no mesh-convergence threshold, so these are **not** contract PASS/FAIL gates.

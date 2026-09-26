@@ -221,6 +221,30 @@
       "active_area_fraction": 0.875
     }
   },
+  "post_run_root_cause_assessment": {
+    "classification": "MESH_RESOLVED_EDGE_OPENING_AND_CANTILEVER_SLIP_SENSITIVITY; NO_SOLVER_DEFECT_DEMONSTRATED",
+    "confidence": "STRONG_FOR_OBSERVED_M2_TO_M3_CONTACT_TOPOLOGY_CHANGE; NOT_A_CONTINUUM_CONVERGENCE_PROOF",
+    "evidence": {
+      "slip_load_N": 450.0,
+      "friction_coefficient": 0.3,
+      "M2_contact_normal_resultant_N": 870.4880309769488,
+      "M2_contact_tangential_resultant_norm_N": 261.14640929309456,
+      "M2_aggregate_coulomb_capacity_N": 261.14640929308464,
+      "M2_contact_nodes_at_y_1m": "3/3 active with low pressure 2.257-7.615",
+      "M3_contact_normal_resultant_N": 880.539626441596,
+      "M3_contact_tangential_resultant_norm_N": 264.1618879640524,
+      "M3_aggregate_coulomb_capacity_N": 264.1618879324788,
+      "M3_contact_nodes_at_y_1m": "5/5 open",
+      "M3_open_edge_gap_range_m": [0.0003638866, 0.0003830843],
+      "M3_active_area_fraction": 0.875,
+      "M2_to_M3_common_body_node_displacement_difference_l2_m": 0.004784928704893529,
+      "M2_to_M3_common_body_node_UY_difference_l2_m": 0.00452527231430287,
+      "integrated_tangential_stiffness_all_levels_N_per_m": 1333350.0,
+      "external_load_over_contact_coulomb_capacity": "approximately 186-189 N residual tangential demand"
+    },
+    "recommended_next_diagnostic": "Prospectively freeze and, after Owner authorization, run M4 at 16x8x8 with unchanged geometry/material/load/BC/friction/stiffness; inspect contact edge topology and M3-to-M4 displacement/resultant changes. Do not retune kappa to chase the all-slip displacement delta.",
+    "M4_run": false
+  },
   "validation": {
     "targeted_contact_tests_before_execution": "96 passed",
     "ruff_before_execution": "PASS",
