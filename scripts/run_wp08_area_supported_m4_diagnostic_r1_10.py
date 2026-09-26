@@ -81,6 +81,7 @@ SOURCE_TESTS = (
     "tests/unit/test_wp08d_mixed_open_active_slip.py",
     "tests/unit/test_wp08d_phase1_runner.py",
     "tests/unit/test_wp08_area_supported_m4_r1_10_runner.py",
+    "tests/unit/test_wp08_area_supported_m4_slip_forensic_r2_runner.py",
 )
 
 
@@ -266,7 +267,9 @@ def _parent_evidence() -> dict[str, Any]:
     additions = set(current).difference(m2_manifest)
     expected_additions = {
         "scripts/run_wp08_area_supported_m4_diagnostic_r1_10.py",
+        "scripts/run_wp08_area_supported_m4_slip_forensic_r2.py",
         "tests/unit/test_wp08_area_supported_m4_r1_10_runner.py",
+        "tests/unit/test_wp08_area_supported_m4_slip_forensic_r2_runner.py",
     }
     if additions != expected_additions or set(m2_manifest).difference(current):
         raise RuntimeError(f"Unexpected source inventory delta since R1.10 M2/M3: {sorted(additions)}")
