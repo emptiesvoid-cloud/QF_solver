@@ -5,10 +5,14 @@ from __future__ import annotations
 import importlib
 import json
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any, cast
 
+import numpy as np
 import pytest
+from scipy.sparse import csr_matrix
 
+from solveur.contact import slip_root
 from solveur.core.errors import NumericalConvergenceError
 from solveur.core.solvers.static import LinearStaticSolver
 from solveur.io.json_reader import JsonModelReader
@@ -68,23 +72,44 @@ def test_ramp_cycle_is_recovered_by_coupled_normal_and_friction_projection(monke
         assert row["tangential_force_norm"] == pytest.approx(row["friction_limit"], rel=1.0e-10, abs=1.0e-8)
 
 
-def test_coupled_projection_search_fails_closed_above_contact_limit() -> None:
-    from solveur.contact.slip_root import solve_coupled_contact_projection
+def test_coupled_projection_search_fails_closed_above_contact_limit(monkeypatch: pytest.MonkeyPatch) -> None:
+    class Contact:
+        has_friction = True
+
+        def gap(self, _displacement: np.ndarray) -> float:
+            return 0.0
+
+    fake_reduction = SimpleNamespace(matrix=csr_matrix(np.eye(1)), rhs=np.zeros(1))
+    monkeypatch.setattr(
+        slip_root.ConstraintReduction,
+        "from_system",
+        staticmethod(lambda *_args, **_kwargs: fake_reduction),
+    )
+    operators = [Contact() for _ in range(9)]
+
+    def solve_active_set(_reduction: object, _operators: list[Contact], active: tuple[int, ...]):
+        return np.zeros(1), np.zeros(len(active))
+
+    def pressures_for(active: tuple[int, ...], _multipliers: np.ndarray, count: int) -> np.ndarray:
+        return np.asarray([1.0 if index in active else 0.0 for index in range(count)])
+
+    def proposed_active(_operators: list[Contact], _active: tuple[int, ...], _gaps: np.ndarray, _pressures: np.ndarray):
+        return tuple(range(len(operators)))
 
     with pytest.raises(NumericalConvergenceError, match="contact-count limit") as captured:
-        solve_coupled_contact_projection(
-            cast(Any, None),
-            cast(Any, None),
-            cast(Any, None),
-            cast(Any, None),
-            [object() for _ in range(9)],
-            cast(Any, None),
+        slip_root.solve_coupled_contact_projection(
+            cast(Any, SimpleNamespace(ndof=1)),
+            csr_matrix(np.eye(1)),
+            np.zeros(1),
+            np.array([], dtype=int),
+            operators,
+            np.zeros((9, 2)),
             1.0e-9,
-            solve_active_set=cast(Any, lambda *_args: (None, None)),
-            pressures_for=cast(Any, lambda *_args: None),
-            proposed_active=lambda *_args: (),
-            tangential_force=cast(Any, lambda *_args: None),
+            solve_active_set=solve_active_set,
+            pressures_for=pressures_for,
+            proposed_active=proposed_active,
+            tangential_force=cast(Any, lambda *_args: np.zeros(1)),
         )
 
     assert captured.value.diagnostics is not None
-    assert captured.value.diagnostics["cause"] == "COUPLED_SEARCH_CONTACT_LIMIT_EXCEEDED"
+    assert captured.value.diagnostics["cause"] == "COUPLED_SEED_CONTACT_LIMIT_EXCEEDED"

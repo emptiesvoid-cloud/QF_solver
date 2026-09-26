@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import ast
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 
@@ -51,23 +52,34 @@ def test_reference_module_has_no_solver_package_or_production_contact_imports() 
         assert not any(name.startswith("solveur") for name in imported_names)
 
 
-def test_structural_reference_resolves_observed_hybrid_stick_slip_mode() -> None:
+def test_structural_reference_resolves_frozen_m2_path_and_observed_hybrid_mode() -> None:
     model = structural_reference._model("M2")
-    references = np.zeros((len(model["slave_nodes"]), 2), dtype=float)
-    for normal_factor, tangential_factor in structural_reference.FROZEN_LOAD_PATH[:4]:
+    references: np.ndarray = np.zeros((len(model["slave_nodes"]), 2), dtype=float)
+    expected_load_path = (
+        (1.0, 0.0),
+        (1.0, 0.25),
+        (1.0, 0.75),
+        (1.0, 1.0),
+        (1.0, 1.25),
+        (1.0, 0.25),
+        (1.0, -0.5),
+    )
+    assert structural_reference.FROZEN_LOAD_PATH == expected_load_path
+    accepted_steps: list[dict[str, Any]] = []
+    for normal_factor, tangential_factor in structural_reference.FROZEN_LOAD_PATH:
         load = normal_factor * np.asarray(model["normal_load"]) + tangential_factor * np.asarray(model["tangent_load"])
         accepted = structural_reference._solve_increment(model, load, references)
         references = np.asarray(accepted["references"], dtype=float)
+        accepted_steps.append(accepted)
 
-    normal_factor, tangential_factor = structural_reference.FROZEN_LOAD_PATH[4]
-    load = normal_factor * np.asarray(model["normal_load"]) + tangential_factor * np.asarray(model["tangent_load"])
-    result = structural_reference._solve_increment(model, load, references)
-
-    assert result["strategy"] == "hybrid_stick_slip_root"
-    assert tuple(result["active"]) == (3, 7, 11)
-    assert tuple(result["states"][index] for index in result["active"]) == ("stick", "stick", "slip")
-    assert result["root_diagnostics"]["tangential_unknown_dimension"] == 2
-    assert np.all(np.isfinite(np.asarray(result["forces"], dtype=float)))
+    assert len(accepted_steps) == 7
+    assert all(np.all(np.isfinite(np.asarray(step["displacement"], dtype=float))) for step in accepted_steps)
+    mixed_step = accepted_steps[4]
+    assert mixed_step["strategy"] == "hybrid_stick_slip_root"
+    assert tuple(mixed_step["active"]) == (3, 7, 11)
+    assert tuple(mixed_step["states"][index] for index in mixed_step["active"]) == ("stick", "stick", "slip")
+    assert mixed_step["root_diagnostics"]["tangential_unknown_dimension"] == 2
+    assert np.all(np.isfinite(np.asarray(mixed_step["forces"], dtype=float)))
 
 
 def test_independent_reference_reaches_a_finite_sliding_return_map() -> None:

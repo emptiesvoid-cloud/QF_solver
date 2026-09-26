@@ -174,6 +174,80 @@ def test_hybrid_ssk_uses_two_stick_contacts_and_one_slip_unknown(monkeypatch) ->
     assert event["tangential_unknown_dimension"] == 2
 
 
+def test_coupled_projection_tries_seed_set_for_twelve_operators(monkeypatch) -> None:
+    """A valid three-contact seed is attempted without enumerating 2^12 sets."""
+    active_seed = (3, 7, 11)
+    fixture = _root_fixture(monkeypatch, [active_seed, active_seed], count=12)
+    dofs, stiffness, operators, solve_active_set, pressures_for, proposed_active, tangential_force, _ = fixture
+    events: list[tuple[str, dict[str, object]]] = []
+
+    solution = slip_root.solve_coupled_contact_projection(
+        dofs,
+        stiffness,
+        np.zeros(2),
+        np.array([], dtype=int),
+        operators,
+        np.zeros((12, 2)),
+        1.0e-10,
+        solve_active_set=solve_active_set,
+        pressures_for=pressures_for,
+        proposed_active=proposed_active,
+        tangential_force=tangential_force,
+        trace=lambda phase, values: events.append((phase, dict(values))),
+    )
+
+    assert solution.active == active_seed
+    assert solution.states == tuple("stick" if index in active_seed else "open" for index in range(12))
+    assert solution.history[-1]["tangential_unknown_dimension"] == 6
+    force_residual = solution.history[-1]["tangential_force_residual"]
+    assert isinstance(force_residual, (int, float))
+    assert force_residual <= 1.0e-10
+    assert np.all(solution.forces[[index for index in range(12) if index not in active_seed]] == 0.0)
+    accepted = [values for phase, values in events if phase == "coupled_contact_candidate_accepted"]
+    assert len(accepted) == 1
+    assert accepted[0]["candidate_index"] == 1
+    assert accepted[0]["candidate_count"] == 2**12
+
+
+def test_coupled_projection_fails_closed_after_rejected_large_seed(monkeypatch) -> None:
+    """A rejected seed above the search cap must not trigger exponential enumeration."""
+    active_seed = (3, 7, 11)
+    fixture = _root_fixture(monkeypatch, [active_seed, active_seed], count=12)
+    dofs, stiffness, operators, solve_active_set, pressures_for, proposed_active, tangential_force, _ = fixture
+    attempted: list[tuple[int, ...]] = []
+
+    def reject_seed(*args, **_kwargs):
+        active = tuple(args[5])
+        attempted.append(active)
+        raise NumericalConvergenceError(
+            "synthetic inadmissible seed",
+            diagnostics={"cause": "SYNTHETIC_SEED_REJECTED"},
+        )
+
+    monkeypatch.setattr(slip_root, "_solve_coupled_projection_on_active_set", reject_seed)
+
+    with pytest.raises(NumericalConvergenceError, match="exceeds its deterministic contact-count limit") as captured:
+        slip_root.solve_coupled_contact_projection(
+            dofs,
+            stiffness,
+            np.zeros(2),
+            np.array([], dtype=int),
+            operators,
+            np.zeros((12, 2)),
+            1.0e-10,
+            solve_active_set=solve_active_set,
+            pressures_for=pressures_for,
+            proposed_active=proposed_active,
+            tangential_force=tangential_force,
+        )
+
+    assert attempted == [active_seed]
+    assert captured.value.diagnostics is not None
+    assert captured.value.diagnostics["cause"] == "COUPLED_SEARCH_CONTACT_LIMIT_EXCEEDED"
+    assert captured.value.diagnostics["attempted_candidate_count"] == 1
+    assert captured.value.diagnostics["seed_candidate_rejection"]["active_contacts"] == [3, 7, 11]
+
+
 def test_hybrid_root_rejects_invalid_observed_state_classification(monkeypatch) -> None:
     """A hybrid root cannot silently reinterpret an active contact state."""
     with pytest.raises(NumericalConvergenceError, match="invalid direct tangential-state"):

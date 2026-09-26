@@ -208,23 +208,13 @@ def solve_coupled_contact_projection(
     pressure-dependent Coulomb disk selects stick or slip from the current
     trial displacement; mode labels are not inherited from a stale iterate.
 
-    The exhaustive normal-set search is deliberately capped.  Larger contact
-    systems keep the existing fail-closed outcome rather than paying an
-    exponential search cost or accepting an uncertified set.
+    The exhaustive normal-set search is deliberately capped.  A larger
+    contact system may still accept its normal-only seed set, but only after
+    the coupled friction residual and every normal/tangential admissibility
+    check pass.  If that seed is inadmissible, the route fails closed rather
+    than paying an exponential search cost.
     """
     contact_count = len(operators)
-    if contact_count > maximum_enumerated_contacts:
-        raise NumericalConvergenceError(
-            "Coupled frictional contact search exceeds its deterministic contact-count limit.",
-            reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
-            diagnostics={
-                "strategy": "coupled_contact_projection",
-                "cause": "COUPLED_SEARCH_CONTACT_LIMIT_EXCEEDED",
-                "contact_count": contact_count,
-                "maximum_enumerated_contacts": maximum_enumerated_contacts,
-            },
-        )
-
     try:
         seed_active = _normal_active_set(
             dofs,
@@ -242,15 +232,25 @@ def solve_coupled_contact_projection(
         # a seed is only an ordering hint and is not a convergence authority.
         seed_active = ()
 
-    candidates = [
-        tuple(index for index in range(contact_count) if mask & (1 << index))
-        for mask in range(1 << contact_count)
-    ]
-    seed = set(seed_active)
-    candidates.sort(key=lambda candidate: (len(set(candidate) ^ seed), candidate))
-    rejected: list[dict[str, object]] = []
+    seed_frictional = tuple(index for index in seed_active if operators[index].has_friction)
+    if len(seed_frictional) > maximum_enumerated_contacts:
+        raise NumericalConvergenceError(
+            "Coupled frictional seed set exceeds its deterministic contact-count limit.",
+            reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+            diagnostics={
+                "strategy": "coupled_contact_projection",
+                "cause": "COUPLED_SEED_CONTACT_LIMIT_EXCEEDED",
+                "contact_count": contact_count,
+                "seed_active_contacts": list(seed_active),
+                "seed_frictional_contact_count": len(seed_frictional),
+                "maximum_coupled_frictional_contacts": maximum_enumerated_contacts,
+            },
+        )
 
-    for candidate_index, active in enumerate(candidates, start=1):
+    rejected: list[dict[str, object]] = []
+    candidate_count = 1 << contact_count
+
+    def try_candidate(active: tuple[int, ...], candidate_index: int) -> ActiveSlipSolution | None:
         try:
             solution = _solve_coupled_projection_on_active_set(
                 dofs,
@@ -286,19 +286,19 @@ def solve_coupled_contact_projection(
                     "coupled_contact_candidate_rejected",
                     {
                         "candidate_index": candidate_index,
-                        "candidate_count": len(candidates),
+                        "candidate_count": candidate_count,
                         "active_contacts": list(active),
                         "cause": str((error.diagnostics or {}).get("cause", "CANDIDATE_INVALID")),
                     },
                 )
-            continue
+            return None
 
         if trace is not None:
             trace(
                 "coupled_contact_candidate_accepted",
                 {
                     "candidate_index": candidate_index,
-                    "candidate_count": len(candidates),
+                    "candidate_count": candidate_count,
                     "active_contacts": list(active),
                     "states": list(solution.states),
                     "closed_frictional_contacts": list(solution.closed_frictional_contacts),
@@ -308,6 +308,39 @@ def solve_coupled_contact_projection(
                 },
             )
         return solution
+
+    seed_solution = try_candidate(seed_active, candidate_index=1)
+    if seed_solution is not None:
+        return seed_solution
+
+    if contact_count > maximum_enumerated_contacts:
+        raise NumericalConvergenceError(
+            "Coupled frictional contact exhaustive search exceeds its deterministic contact-count limit after the seed set was rejected.",
+            reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+            diagnostics={
+                "strategy": "coupled_contact_projection",
+                "cause": "COUPLED_SEARCH_CONTACT_LIMIT_EXCEEDED",
+                "contact_count": contact_count,
+                "maximum_enumerated_contacts": maximum_enumerated_contacts,
+                "seed_active_contacts": list(seed_active),
+                "seed_candidate_rejection": rejected[0] if rejected else None,
+                "attempted_candidate_count": 1,
+            },
+        )
+
+    candidates = [
+        tuple(index for index in range(contact_count) if mask & (1 << index))
+        for mask in range(candidate_count)
+    ]
+    seed = set(seed_active)
+    candidates.sort(key=lambda candidate: (len(set(candidate) ^ seed), candidate))
+
+    for candidate_index, active in enumerate(candidates, start=1):
+        if active == seed_active:
+            continue
+        solution = try_candidate(active, candidate_index)
+        if solution is not None:
+            return solution
 
     raise NumericalConvergenceError(
         "No admissible normal active set satisfies the coupled friction projection.",
