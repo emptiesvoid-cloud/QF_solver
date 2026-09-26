@@ -101,6 +101,14 @@ contact remain research-only. See the [WP07-E Owner acceptance](wp07e-owner-acce
 [WP07 integration audit](wp07-integration-into-governing-branch.md), and
 [WP07-D R2.5 Owner acceptance](wp07d-r2-5-owner-acceptance.md).
 
+After the evidence decision, the Owner separately authorized integration and
+push. The reviewed lineage was fast-forwarded to `0.2.9-unified-nonlinear`,
+and `origin/0.2.9-unified-nonlinear` was verified at
+`7b079efa84529eadb19b155920342c54dcc9fb4e`. This did not change WP07 or the
+global score. WP08 remains open for its own prospective requalification; the
+large WP07-D raw evidence remains local pending WP16. See the
+[WP07 R2.5 integration record](wp07-r2-5-integration-record.md).
+
 The frozen roadmap declares 100 total points, and its listed package weights
 sum to 100. No package weights were changed.
 

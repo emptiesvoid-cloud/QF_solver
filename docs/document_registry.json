@@ -6346,6 +6346,21 @@
     "tests": [
       "tests/unit/test_wp07d_replay_gate_status_normalization.py"
     ]
+  },
+  {
+    "id": "DOC-029-WP07-R2.5-INTEGRATION-001",
+    "path": "verification/0_2_9/wp07-r2-5-integration-record.md",
+    "title": "QF Solver 0.2.9 WP07 R2.5 authorized governing integration and push record",
+    "status": "controlled_evidence",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp07d_contact_requalification_r2/wp07_r2_5_integration_record.json",
+      "qualification/0_2_9/owner_decisions.json",
+      "qualification/0_2_9/progress.json"
+    ],
+    "tests": [
+      "tests/unit/test_wp07d_replay_gate_status_normalization.py"
+    ]
   }
 ]
 }

@@ -474,6 +474,52 @@
         "raw execution evidence remains local pending WP16 archival",
         "this decision does not qualify WP08 or award additional WP07 points"
       ]
+    },
+    {
+      "id": "OD-029-WP07-R2.5-INTEGRATION-01",
+      "title": "Separate Owner authorization to integrate and push the reviewed 0.2.9 lineage",
+      "decision_date": "2026-09-26",
+      "status": "CLOSED_INTEGRATED_AND_PUSHED",
+      "owner_authorization": true,
+      "authorization_scope": "Fast-forward the reviewed local 0.2.9-unified-nonlinear lineage to the governing branch and push it to origin; preserve historical evidence and score decisions.",
+      "governing_branch": "0.2.9-unified-nonlinear",
+      "source_branch": "codex/wp07d-penalty-r2-5",
+      "governing_head_before_integration": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+      "accepted_source_head": "624701020c24cab70382ba0e549af7504d21a813",
+      "post_integration_targeted_test_commit": "7b079efa84529eadb19b155920342c54dcc9fb4e",
+      "integration_method": "fast-forward followed by a test-only corrective commit; no force push",
+      "initial_remote_head_verified": "7b079efa84529eadb19b155920342c54dcc9fb4e",
+      "remote_verification": "git fetch confirmed origin/0.2.9-unified-nonlinear matched the pushed head; zero ahead/behind divergence at verification",
+      "targeted_tests": "118 passed",
+      "ruff": "PASS",
+      "compileall": "PASS",
+      "git_diff_check": "PASS",
+      "full_repository_test_suite_run": false,
+      "production_source_changed_after_wp07d_execution_sha": false,
+      "wp07_points_before": "10/10",
+      "wp07_points_after": "10/10",
+      "wp08_points_preserved": "8/8 historical award; frictional-contact requalification remains open",
+      "global_official_total_before": "95/100",
+      "global_official_total_after": "95/100",
+      "raw_evidence": {
+        "file_count": 99,
+        "bytes": 3949086874,
+        "versioned_or_pushed": false,
+        "status": "PRESERVED_LOCAL_PENDING_WP16_ARCHIVE",
+        "worktree": "C:/Users/fari/AppData/Local/Temp/qf_solver_wp07d_contact_r2_5_20260925",
+        "relative_path": "qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_5"
+      },
+      "limitations": [
+        "WP07 R2.5 acceptance adds no points and preserves the existing WP07 award",
+        "WP08 is not qualified by the WP07 decision and remains open for prospective requalification",
+        "raw R2.5 evidence remains local until WP16 archival",
+        "the historical R2.2 binding and its provenance evidence remain unchanged"
+      ],
+      "evidence": [
+        "docs/verification/0_2_9/wp07-r2-5-integration-record.md",
+        "qualification/0_2_9/wp07d_contact_requalification_r2/wp07_r2_5_integration_record.json",
+        "docs/verification/0_2_9/wp07d-r2-5-owner-acceptance.md"
+      ]
     }
   ],
   "ledger_reconciliation": {
