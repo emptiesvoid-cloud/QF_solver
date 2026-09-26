@@ -11,7 +11,7 @@
     "WP15": {"points": 2, "status": "CLOSED_INTEGRATION_VALIDATED", "validated_points": 2},
     "WP05": {"points": 5, "status": "CLOSED_BOUNDED_WITH_LIMITATIONS", "validated_points": 5},
     "WP06": {"points": 8, "status": "OWNER_ACCEPTED_A_B_C_D_EXPERIMENTAL_BOUNDED_WITH_LIMITATIONS", "validated_points": 4, "candidate_points": 4, "owner_accepted_points": 4, "owner_decision_id": "OD-029-WP06-D-EXP-01"},
-    "WP07": {"points": 10, "status": "OWNER_ACCEPTED_A_TO_E_BOUNDED_WITH_LIMITATIONS", "validated_points": 10, "prior_owner_award_preserved": true, "requalification_status": "OPEN_SCOPED_FRICTIONLESS_REGRESSION_REVIEW", "requalification_source_sha": "4066b5ad4ac4595de64e9948f62a91140697b06a"},
+    "WP07": {"points": 10, "status": "OWNER_ACCEPTED_A_TO_E_BOUNDED_WITH_LIMITATIONS", "validated_points": 10, "prior_owner_award_preserved": true, "requalification_status": "OWNER_ACCEPTED_R2_5_SCOPED_REQUALIFICATION_WITH_LIMITATIONS", "requalification_source_sha": "3c749f30f95a53b4eaadb2159accb4349e6d7ee7", "requalification_decision_id": "OD-029-WP07-D-R2.5-01", "requalification_evidence": "qualification/0_2_9/wp07d_contact_requalification_r2/wp07d_r2_5_owner_acceptance.json"},
     "WP08": {"points": 8, "status": "CLOSED_OWNER_APPROVED_WITH_LIMITATIONS", "validated_points": 8, "prior_owner_award_preserved": true, "requalification_status": "OPEN_FRICTIONAL_CONTACT_REQUALIFICATION_PENDING_FROZEN_CONTRACT_AND_EXECUTION_AUTHORIZATION", "requalification_source_sha": "4066b5ad4ac4595de64e9948f62a91140697b06a"},
     "WP09": {"points": 8, "status": "OWNER_ACCEPTED_HEX8_BOUNDED_WITH_LIMITATIONS", "validated_points": 8, "owner_accepted_points": 8, "owner_decision_id": "OD-029-WP09-HEX8-R3-01"},
     "WP10": {"points": 6, "status": "OWNER_ACCEPTED_MULTI_FAMILY_BOUNDED_WITH_LIMITATIONS", "validated_points": 6, "candidate_points": 6, "owner_accepted_points": 6, "owner_decision_id": "OD-029-WP10-BOUNDED-CLOSURE-01"},
@@ -30,11 +30,14 @@
     "root_cause": "STALE_FROZEN_TANGENTIAL_MODE_CAUSES_NORMAL_ACTIVE_SET_CYCLE",
     "targeted_tests_passed": 81,
     "diagnostic_survey_status": "PASS_INTERNAL_NOT_FORMAL_QUALIFICATION",
-    "wp07": "OPEN_SCOPED_FRICTIONLESS_REGRESSION_REVIEW",
+    "wp07": "OWNER_ACCEPTED_R2_5_SCOPED_REQUALIFICATION_WITH_LIMITATIONS",
     "wp08": "OPEN_FRICTIONAL_CONTACT_REQUALIFICATION_PENDING_FROZEN_CONTRACT_AND_EXECUTION_AUTHORIZATION",
     "prior_owner_awards_preserved": {"WP07": "10/10", "WP08": "8/8"},
     "official_points_changed": false,
-    "formal_wp07_wp08_campaigns_run": false
+    "formal_wp07_campaign_run": true,
+    "formal_wp08_campaign_run": false,
+    "wp07_requalification_branch": "codex/wp07d-penalty-r2-5",
+    "wp07_requalification_execution_sha": "3c749f30f95a53b4eaadb2159accb4349e6d7ee7"
   },
-  "next_gate": "WP07 scoped frictionless-regression review and prospective WP08 frictional-contact contract/runner authorization on the contact remediation source. WP14 remains not started. WP06 remains 4/8 with experimental bounded D evidence only; historical R1 FAIL_CLOSED is preserved. Prior WP07 10/10 and WP08 8/8 Owner awards are preserved pending any new Owner decision. WP16 remains a post-release zero-point archival step for large raw evidence."
+  "next_gate": "Prospective WP08 frictional-contact requalification: freeze and bind the current-source contract, then execute only with its required Owner authorization. WP07 scoped R2.5 requalification is Owner-accepted without score change. WP14 remains not started. WP06 remains 4/8 with experimental bounded D evidence only; historical R1 FAIL_CLOSED is preserved. Prior WP07 10/10 and WP08 8/8 Owner awards are preserved. WP16 remains a post-release zero-point archival step for large raw evidence."
 }

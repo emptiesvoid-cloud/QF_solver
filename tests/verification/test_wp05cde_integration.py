@@ -87,7 +87,9 @@ def test_release_ledger_includes_wp05_and_wp07_owner_awards() -> None:
     assert wp07["validated_points"] == 10
     assert wp07["status"] == "OWNER_ACCEPTED_A_TO_E_BOUNDED_WITH_LIMITATIONS"
     assert wp07["prior_owner_award_preserved"] is True
-    assert wp07["requalification_status"] == "OPEN_SCOPED_FRICTIONLESS_REGRESSION_REVIEW"
+    assert wp07["requalification_status"] == "OWNER_ACCEPTED_R2_5_SCOPED_REQUALIFICATION_WITH_LIMITATIONS"
+    assert wp07["requalification_decision_id"] == "OD-029-WP07-D-R2.5-01"
+    assert wp07["requalification_source_sha"] == "3c749f30f95a53b4eaadb2159accb4349e6d7ee7"
     wp08 = cast(dict[str, Any], progress["work_packages"]["WP08"])
     assert wp08["validated_points"] == 8
     assert wp08["prior_owner_award_preserved"] is True

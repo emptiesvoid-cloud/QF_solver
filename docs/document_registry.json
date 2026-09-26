@@ -6330,6 +6330,22 @@
       "tests/unit/test_frictionless_contact.py",
       "tests/integration/test_wp07_governing_integration.py"
     ]
+  },
+  {
+    "id": "DOC-029-WP07-D-R2.5-OWNER-ACCEPTANCE-001",
+    "path": "verification/0_2_9/wp07d-r2-5-owner-acceptance.md",
+    "title": "QF Solver 0.2.9 WP07-D R2.5 Owner acceptance with limitations",
+    "status": "controlled_evidence",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp07d_contact_requalification_r2/wp07d_r2_5_owner_acceptance.json",
+      "qualification/0_2_9/wp07d_contact_requalification_r2/analysis_final_r2_5.json",
+      "qualification/0_2_9/wp07d_contact_requalification_r2/replay_gate_normalization_r2_5.json",
+      "qualification/0_2_9/wp07d_contact_requalification_r2/replay_authorization_gate_r2_5.json"
+    ],
+    "tests": [
+      "tests/unit/test_wp07d_replay_gate_status_normalization.py"
+    ]
   }
 ]
 }

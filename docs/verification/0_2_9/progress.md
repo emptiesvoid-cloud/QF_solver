@@ -86,11 +86,20 @@ WP07 is **OWNER-ACCEPTED — 10/10 WITH LIMITATIONS**. A/B/C remain formally
 accepted; D R1 was awarded 3/3 after production/reference gates and authorized
 replays passed; E R2 was awarded 2/2 after the fail-closed checker accepted
 all six negative cases and the D evidence dependencies. D was not rerun for
-E. The accepted scope remains bounded to the frozen routes and evidence;
-updated-search and finite-sliding contact remain research-only. See the
-[WP07-E Owner acceptance](wp07e-owner-acceptance-r2.md), [WP07-E closure
-audit](wp07e-closure-owner-review-r2-final.md), and [WP07 integration
-audit](wp07-integration-into-governing-branch.md).
+E. A later, scoped WP07-D R2.5 requalification was also accepted by the Owner
+on 2026-09-26; it preserves the existing 10/10 award and adds no points. It
+records the ACTIVE_SET and PENALTY M1/M2/M3 candidate evidence, independent
+observable recomputations, and the two authorized replays only. The PENALTY/M1
+`run_verdict=WARNING` (converged, residual `1.8185441495457156e-11`, maturity
+`research`) remains visible as a limitation; it was not relabeled or used to
+weaken a frozen gate. The independent references are observable
+recomputations, not independent global FEM/Newton solves. Raw R2.5 evidence
+remains local pending the planned WP16 archive. The accepted scope remains
+bounded to the frozen routes and evidence; updated-search and finite-sliding
+contact remain research-only. See the [WP07-E Owner acceptance](wp07e-owner-acceptance-r2.md),
+[WP07-E closure audit](wp07e-closure-owner-review-r2-final.md),
+[WP07 integration audit](wp07-integration-into-governing-branch.md), and
+[WP07-D R2.5 Owner acceptance](wp07d-r2-5-owner-acceptance.md).
 
 The frozen roadmap declares 100 total points, and its listed package weights
 sum to 100. No package weights were changed.
@@ -180,14 +189,12 @@ regression evidence, not formal WP07/WP08 qualification.
 
 WP07's prior 10/10 Owner award and WP08's prior 8/8 award remain preserved as
 historical decisions; this update does not revoke points or rewrite evidence.
-WP07 is reopened for a scoped frictionless-regression review because it shares
-the contact system, although the new fallback is frictional-only and the
-targeted frictionless regressions pass. WP08 is reopened for formal
-frictional-contact requalification because the production fallback chain has
-changed. No formal M1/M2/M3, independent-reference, or replay campaign has run
-on the remediation source. Before WP08 execution, freeze a prospective
-source-bound contract and obtain the execution authorization required by its
-runner. The active score remains 95/100 until a separate Owner decision.
+WP07's scoped regression review on the remediation lineage is closed by the
+R2.5 Owner decision above. WP08 remains reopened for formal frictional-contact
+requalification because the production fallback chain has changed; its R2.5
+formal qualification is not claimed by the WP07 decision. Before WP08
+execution, freeze a prospective source-bound contract and obtain the execution
+authorization required by its runner. The active score remains 95/100.
 
 See the [contact active-set remediation report](contact-active-set-remediation.md)
 and machine-readable record at

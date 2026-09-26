@@ -420,6 +420,60 @@
         "raw artifacts remain local and Git-ignored pending WP16 external archive",
         "independent checks are not an independent global FEM/Newton solve"
       ]
+    },
+    {
+      "id": "OD-029-WP07-D-R2.5-01",
+      "title": "WP07-D R2.5 scoped contact requalification evidence acceptance",
+      "decision_date": "2026-09-26",
+      "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "owner_review_status": "ACCEPTED",
+      "accepted_work_items": ["WP07-D R2.3/R2.5 scoped requalification evidence"],
+      "incremental_points_awarded": 0,
+      "wp07_points_before": "10/10",
+      "wp07_points_after": "10/10",
+      "global_official_total_before": "95/100",
+      "global_official_total_after": "95/100",
+      "existing_wp07_owner_award_preserved": true,
+      "owner_accepts_r2_5_evidence_package": true,
+      "owner_accepts_penalty_m1_warning_as_disclosed_limitation": true,
+      "warning": {
+        "case": "PENALTY/M1",
+        "run_verdict": "WARNING",
+        "solver_converged": true,
+        "final_relative_residual": 1.8185441495457156e-11,
+        "maturity": "research",
+        "reclassified": false
+      },
+      "execution_sha": "3c749f30f95a53b4eaadb2159accb4349e6d7ee7",
+      "contract_sha256": "8b3f53c55b08859cbada2668f6e6506f08acb1981a690f62074cac0b4082bf78",
+      "execution_binding_sha256": "55a24836c4369fc4f94ec02a0a430fe5d098fa5c46e71aa814ea1399b23683dc",
+      "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+      "analysis_sha256": "2176eb503ab5aa609d5903be292111cc23eeefe83c9bdaf803c7bb39e7236abd",
+      "normalized_replay_gate_sha256": "7bd9f01ac94fd9c8e884ebbae94450eefa01958676e79b87cca57a9a57f1a926",
+      "historical_failures_preserved": true,
+      "wp07e_rerun": false,
+      "wp08e_rerun": false,
+      "full_repository_test_suite_run": false,
+      "authorizations": {
+        "owner_accepts_r2_5_evidence": true,
+        "official_points_changed": false,
+        "governing_merge": false,
+        "governing_push": false
+      },
+      "evidence": [
+        "docs/verification/0_2_9/wp07d-r2-5-owner-acceptance.md",
+        "qualification/0_2_9/wp07d_contact_requalification_r2/wp07d_r2_5_owner_acceptance.json",
+        "qualification/0_2_9/wp07d_contact_requalification_r2/analysis_final_r2_5.json",
+        "qualification/0_2_9/wp07d_contact_requalification_r2/replay_gate_normalization_r2_5.json",
+        "qualification/0_2_9/wp07d_contact_requalification_r2/replay_authorization_gate_r2_5.json"
+      ],
+      "limitations": [
+        "bounded WP07-D routes, meshes and frozen observables only",
+        "independent references are observable recomputations, not independent global FEM/Newton solves",
+        "PENALTY/M1 warning and research maturity remain disclosed",
+        "raw execution evidence remains local pending WP16 archival",
+        "this decision does not qualify WP08 or award additional WP07 points"
+      ]
     }
   ],
   "ledger_reconciliation": {

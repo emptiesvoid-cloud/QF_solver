@@ -1,0 +1,30 @@
+{
+  "artifact_id": "QF-029-WP07-D-CONTACT-R2.3-AUTH-INDEPENDENT_REFERENCE-ACTIVE_SET-M2",
+  "authorization_basis": "OWNER_EXPLICIT_WP07D_CONTACT_R2_3_REQUALIFICATION_REQUEST",
+  "authorized_base_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+  "binding_file_sha256": "55a24836c4369fc4f94ec02a0a430fe5d098fa5c46e71aa814ea1399b23683dc",
+  "binding_path": "qualification/0_2_9/wp07d_contact_requalification_r2/execution_binding_r2_3.json",
+  "coordinate_grading_exponent": 1.5,
+  "execution_kind": "INDEPENDENT_REFERENCE",
+  "execution_sha": "3c749f30f95a53b4eaadb2159accb4349e6d7ee7",
+  "formal_contract_file_sha256": "b923f560a0d6719ee149ea31f912f46b6b7d32600df1cd7b80bf70a40562d7d7",
+  "independent_references_allowed": true,
+  "mesh": "M2",
+  "mesh_axis_fractions": null,
+  "mesh_cell_counts": [
+    16,
+    16,
+    8
+  ],
+  "owner_decision_file_sha256": "1a615078ab1a5e043533f7948f9b3a44b6b6feb7d94158eaa1e2787a75188dfb",
+  "owner_decision_path": "qualification/0_2_9/wp07d_contact_requalification_r2/owner_execution_decision_r2_3.json",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "replay_allowed": false,
+  "route": "ACTIVE_SET",
+  "schema_version": 1,
+  "source_requalification_contract_file_sha256": "8b3f53c55b08859cbada2668f6e6506f08acb1981a690f62074cac0b4082bf78",
+  "status": "OWNER_AUTHORIZED_FROZEN_CASE",
+  "structural_solves_allowed": false,
+  "token": "OWNER_AUTHORIZED_WP07D_CONTACT_REQUALIFICATION_R2",
+  "wp07e_allowed": false
+}
