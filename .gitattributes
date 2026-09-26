@@ -35,3 +35,5 @@ VNV-*/** export-ignore
 qualification/0_2_9/wp05_cd_stress_window_remediation_candidate.json text eol=lf
 docs/verification/0_2_9/wp05d-owner-validation-review.md text eol=lf
 qualification/vnv/** export-ignore
+# Keep this campaign's captured Windows process logs byte-exact for hash verification.
+qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/_process_logs/*.log binary

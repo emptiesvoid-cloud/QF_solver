@@ -1,0 +1,138 @@
+{
+  "schema": "qf.wp08.area_supported_contact_m4_final_audit.v1",
+  "artifact_id": "QF-029-WP08-AREA-SUPPORTED-CONTACT-DIAGNOSTIC-R1.10-M4",
+  "classification": "EXPERIMENTAL_EXECUTION_PARTIAL_FAIL_CLOSED",
+  "provenance": {
+    "branch": "codex/wp08-area-contact-r1-10-candidate",
+    "source_head": "5aeab8733164fb26bbb167f1000212388392bb5d",
+    "freeze_metadata_head": "36d1d379e4a22d8d420da55dc0410a1fcac24304",
+    "runner_path": "scripts/run_wp08_area_supported_m4_diagnostic_r1_10.py",
+    "runner_sha256": "dce70eb021344d42c420d693a25f835681ea5b13c8da08b917d34bc82bc80541",
+    "contract_sha256": "79073a5199a2832a3c546f77c5e3a98d48d7fd38b6f69c1fb3a237a40fffa0dd",
+    "execution_binding_sha256": "1a28e12326d321457975529d5861d15045e947b1b5aa9507a238cb791b49ee14",
+    "source_bundle_sha256": "b740589aea985fb1768e5676963d68138dcc898ba8f21dcc45e0bc7946c85fb7",
+    "freeze_utc": "2026-09-26T20:42:42.610982Z",
+    "execution_started_utc": "2026-09-26T20:43:45.206498Z",
+    "execution_ended_utc": "2026-09-26T20:45:52.109695Z"
+  },
+  "frozen_scope": {
+    "mesh": "M4_TET4_16x8x8",
+    "elements": 6144,
+    "body_nodes": 1377,
+    "body_dofs": 4131,
+    "total_dofs_with_master_metadata": 4143,
+    "cases_sequential": ["stick_target", "slip_target_if_stick_passes"],
+    "accepted_step_gate": 8,
+    "friction_root_tolerance": 1e-9,
+    "attempts_per_case": 1,
+    "parent_m1_m2_m3_rerun": false,
+    "formal_wp08_qualification": false
+  },
+  "results": {
+    "stick_target": {
+      "process_exit_code": 0,
+      "pid": 41532,
+      "started_utc": "2026-09-26T20:43:45.206498Z",
+      "ended_utc": "2026-09-26T20:44:36.418213Z",
+      "elapsed_seconds": 51.211350700003095,
+      "result_status": "WARNING",
+      "run_verdict": "WARNING",
+      "diagnostic_status": "PASS_DIAGNOSTIC_GATES",
+      "warning": "Experimental contact maturity under engineering verification profile; retained as WARNING.",
+      "steps_accepted": 8,
+      "steps_rejected": 0,
+      "active_slave_nodes": 81,
+      "slave_nodes_total": 81,
+      "active_area_m2": 0.49999999999999994,
+      "active_area_fraction": 1.0,
+      "active_support_affine_rank": 2,
+      "terminal_state": "stick",
+      "solver_converged": true,
+      "force_balance_relative_error": 6.3498165563174736e-15,
+      "moment_balance_relative_error": 2.4092289071644135e-14,
+      "fallback_count": null,
+      "fallback_count_claimed_zero": false,
+      "result_sha256": "6dca2f01cddc12deb30c3255f40cf074da9c299585a7ce44021b67188aa9d362",
+      "raw_npz_sha256": "92eaef99350b1b09b063b5659e6a34d7c2a5670d0bb87ea7916fd7b247f105f7",
+      "telemetry_sha256": "2107dd135ab01df1ee02c5186ba72569d1ab6086762ff801ea30e8b0880fc78a",
+      "process_manifest_sha256": "1bbb0cb77d6466e202c25fd65067f8c608be9f5339f6e4e013ecb43ddd4bbf6c"
+    },
+    "slip_target": {
+      "process_exit_code": 1,
+      "pid": 44052,
+      "started_utc": "2026-09-26T20:44:39.249234Z",
+      "ended_utc": "2026-09-26T20:45:52.109695Z",
+      "elapsed_seconds": 72.86086600000272,
+      "status": "FAIL_CLOSED",
+      "failure_step": 7,
+      "accepted_steps_before_failure": 6,
+      "rejected_steps": 1,
+      "failure_type": "NumericalConvergenceError",
+      "failure_message": "Frictional contact failed in the direct, frozen-mode, and coupled-projection routes.",
+      "active_slip_residual": 1.5037868322441332e-7,
+      "active_slip_tolerance": 1e-9,
+      "active_slip_cause": "GLOBALIZED_SLIP_RESIDUAL_NOT_CONVERGED",
+      "coupled_search_cause": "COUPLED_SEARCH_CONTACT_LIMIT_EXCEEDED",
+      "coupled_search_contact_operators": 81,
+      "coupled_search_max_enumerated_contacts": 8,
+      "failure_sha256": "acf5c531efc5ee40cd41686e31ca06a15e0d7df2f7be16b24a1704b082e5e2f0",
+      "telemetry_sha256": "95db722c0be8b3acba0c53102f45490469ee85738667627fe3a92c91527c83aa",
+      "stderr_sha256": "a2c8c663a4a346c51b67587ff80c8c0da9340eb1d6e3b68a120db559bd106818",
+      "process_manifest_sha256": "b668d3168f983723909ad0b8948044e3e7e59556f66921e3d8638bbba5e3bb72"
+    }
+  },
+  "descriptive_stick_refinement_comparison": {
+    "classification": "DESCRIPTIVE_ONLY_NO_FROZEN_MESH_THRESHOLD",
+    "M3_to_M4": {
+      "common_body_nodes": 225,
+      "displacement_relative_l2": 0.006446224884529561,
+      "displacement_absolute_l2_m": 2.955170973160418e-5,
+      "normal_contact_resultant_relative_l2": 0.0010388018465909304,
+      "normal_contact_resultant_absolute_l2_N": 0.9061684032752737,
+      "tangential_contact_resultant_relative_l2": 0.0015207148442563934,
+      "tangential_contact_resultant_absolute_l2_N": 0.22202986955281798,
+      "active_area_fraction_M3": 1.0,
+      "active_area_fraction_M4": 1.0,
+      "slip_case_comparison_available": false
+    }
+  },
+  "artifact_hashes": {
+    "M4/final.json": "d63d0cf49dfe542495890d814642e775e5f47ed7ca10ef90aa6cc8d4e2f71f16",
+    "M4/progress.json": "4dfb07938c7cd0c2d600446d807e206fc471be8e5eaf42dc9f09250078268537",
+    "contract.json": "79073a5199a2832a3c546f77c5e3a98d48d7fd38b6f69c1fb3a237a40fffa0dd",
+    "execution_binding.json": "708bae8952f7f074d98fe48435a9973715f745a337c33b9da1273940c1adba37",
+    "source_manifest.json": "81a3ed3eb3219fdcc3b0df67b2223b534cf1fb716b410b3cf1893fddad33764a",
+    "freeze_record.json": "9efd0eba19b51538caf721c94baaaea9ccc7bf9d95adb1540ce338d23ceef926",
+    "stick_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stick_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "slip_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "validation": {
+    "targeted_tests_before_execution": "3 passed",
+    "python_compile": "PASS",
+    "git_diff_check": "PASS",
+    "telemetry_jsonl_parse": "PASS",
+    "telemetry_event_counts": {
+      "stick_target": 74,
+      "slip_target": 102
+    },
+    "ruff": "NOT_RUN_TOOL_UNAVAILABLE",
+    "full_test_suite": "NOT_RUN",
+    "processes_active_at_audit": false
+  },
+  "governance": {
+    "production_mechanics_changed_by_m4_runner": false,
+    "thresholds_changed": false,
+    "wp08_formal_qualification": false,
+    "points_awarded": false,
+    "formal_replay": false,
+    "independent_global_fem_reference": false,
+    "push_or_merge": false,
+    "status": "EXPERIMENTAL_EXECUTION_PARTIAL_FAIL_CLOSED"
+  },
+  "raw_artifacts_policy": {
+    "case_raw_npz_and_case_telemetry": "LOCAL_IGNORED_BY_GIT; hashes recorded above",
+    "preserved": true,
+    "deleted_or_rewritten": false
+  }
+}
