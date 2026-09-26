@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "artifact_id": "QF-029-WP08-D-OWNER-EXECUTION-DECISION-CONTACT-R2-001",
+  "decision_date": "2026-09-26",
+  "status": "AUTHORIZED_FOR_SOURCE_BOUND_REQUALIFICATION",
+  "authorization_basis": "Owner's explicit instruction in this task to freeze the current WP08-D contact candidate and proceed, together with the previously recorded authorization for WP08-D M1/M2/M3, independent references, and contract-required replay.",
+  "prior_owner_decision": {
+    "path": "qualification/0_2_9/wp07d_contact_requalification_r2/owner_execution_decision.json",
+    "sha256": "e6de753a7a433da9f56ee724c74e389126dda79e278cf02ebce20509aabb0a24"
+  },
+  "decisions": {
+    "OWNER_AUTHORIZES_WP08D_M1_M2_M3_REQUALIFICATION": true,
+    "OWNER_AUTHORIZES_WP08D_INDEPENDENT_REFERENCES": true,
+    "OWNER_AUTHORIZES_WP08D_CONTRACT_REQUIRED_REPLAY": true,
+    "OWNER_AUTHORIZES_WP08E": false,
+    "OWNER_AWARDS_POINTS": false,
+    "OWNER_AUTHORIZES_LEDGER_UPDATE": false,
+    "OWNER_AUTHORIZES_MERGE_OR_PUSH": false
+  },
+  "conditions": [
+    "Execute sequentially on one CPU; no parallel structural solves.",
+    "Preserve all historical failures, decisions, and raw evidence unchanged.",
+    "Use the frozen parent physics contract without changing geometry, mesh, material, loads, thresholds, tolerances, backend, or physical contact parameters.",
+    "Bind this requalification to the exact clean execution HEAD and the current source diff.",
+    "Run independent references only for primary cases that pass.",
+    "Run only the M1 replay required by the frozen parent contract, and only after primary and reference gates pass.",
+    "Do not execute WP08-E, award points, update the ledger, merge, push, tag, or release."
+  ],
+  "execution_sha": "BOUND_AFTER_CONTRACT_AND_RUNNER_FREEZE",
+  "qualification_claim": "Execution authorization only; no formal WP08 points are awarded by this decision."
+}

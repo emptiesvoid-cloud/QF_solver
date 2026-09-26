@@ -32,6 +32,13 @@ MESHES = ("M1", "M2", "M3")
 OWNER_TOKEN = "OWNER_AUTHORIZED_WP07_WP08_CONTACT_REQUALIFICATION"
 OWNER_DECISION_PATH = ROOT / "qualification/0_2_9/wp07d_contact_requalification_r2/owner_execution_decision.json"
 DEFAULT_OUTPUT_ROOT = ROOT / "qualification/0_2_9/wp08d_contact_requalification_r1_runs/raw_retry_2"
+R2_CONTRACT_PATH = ROOT / "qualification/0_2_9/wp08d_contact_requalification_r2_contract.json"
+R2_OWNER_DECISION_PATH = ROOT / "qualification/0_2_9/wp08d_contact_requalification_r2_owner_decision.json"
+R2_OUTPUT_ROOT = ROOT / "qualification/0_2_9/wp08d_contact_requalification_r2_runs/raw_r2"
+R2_BRANCH = "codex/wp08d-contact-r2-requalification"
+R2_OWNER_TOKEN = "OWNER_AUTHORIZED_WP08D_CONTACT_R2_REQUALIFICATION"
+R2_CONTRACT_SHA256 = "5f15a945cb8c173ccaf6b10ae65e4958751886f533dbb5e6c5782694a3f5ac2f"
+PROFILE_REVISION = "R1"
 
 
 def _sha256(path: Path) -> str:
@@ -56,13 +63,38 @@ def _git_dir() -> Path:
 
 
 def _owner_authorization_path(execution_sha: str) -> Path:
-    return _git_dir() / f"wp08_contact_requalification_owner_authorization_{execution_sha}.json"
+    return _git_dir() / f"wp08_contact_requalification_{PROFILE_REVISION.lower()}_owner_authorization_{execution_sha}.json"
 
 
 def _case_authorization_path(execution_sha: str, mesh: str, execution_kind: str) -> Path:
     return _git_dir() / (
-        f"wp08_contact_requalification_{execution_sha}_{mesh.lower()}_{execution_kind.lower()}_authorization.json"
+        f"wp08_contact_requalification_{PROFILE_REVISION.lower()}_{execution_sha}_{mesh.lower()}_{execution_kind.lower()}_authorization.json"
     )
+
+
+def _activate_revision(revision: str) -> None:
+    """Select a versioned execution profile without changing historical R1 defaults."""
+
+    global CONTRACT_PATH, GOVERNING_BASE_SHA, OWNER_DECISION_PATH, OWNER_TOKEN
+    global DEFAULT_OUTPUT_ROOT, REQUIRED_BRANCH, PROFILE_REVISION
+    if revision == "r1":
+        CONTRACT_PATH = ROOT / "qualification/0_2_9/wp08d_contact_requalification_r1.json"
+        GOVERNING_BASE_SHA = "b2485f98260c7ca9892997eefa3a327637d83cd3"
+        OWNER_DECISION_PATH = ROOT / "qualification/0_2_9/wp07d_contact_requalification_r2/owner_execution_decision.json"
+        OWNER_TOKEN = "OWNER_AUTHORIZED_WP07_WP08_CONTACT_REQUALIFICATION"
+        DEFAULT_OUTPUT_ROOT = ROOT / "qualification/0_2_9/wp08d_contact_requalification_r1_runs/raw_retry_2"
+        REQUIRED_BRANCH = "codex/contact-active-set-remediation"
+        PROFILE_REVISION = "R1"
+        return
+    if revision != "r2":
+        raise ValueError(f"Unsupported WP08-D contact requalification revision: {revision}")
+    CONTRACT_PATH = R2_CONTRACT_PATH
+    GOVERNING_BASE_SHA = "cd69958909aabcd74649b92fde768a1a0422ed52"
+    OWNER_DECISION_PATH = R2_OWNER_DECISION_PATH
+    OWNER_TOKEN = R2_OWNER_TOKEN
+    DEFAULT_OUTPUT_ROOT = R2_OUTPUT_ROOT
+    REQUIRED_BRANCH = R2_BRANCH
+    PROFILE_REVISION = "R2"
 
 
 def _json(path: Path) -> dict[str, Any]:
@@ -75,6 +107,8 @@ def _json(path: Path) -> dict[str, Any]:
 def _validate(contract: dict[str, Any], authorization: dict[str, Any], output: Path) -> str:
     if contract.get("status") != "FROZEN_FOR_OWNER_AUTHORIZED_REQUALIFICATION":
         raise PermissionError("WP08-D requalification contract is not frozen.")
+    if PROFILE_REVISION == "R2" and _sha256(CONTRACT_PATH) != R2_CONTRACT_SHA256:
+        raise PermissionError("WP08-D R2 contract differs from its frozen SHA-256.")
     parent = _json(PARENT_CONTRACT_PATH)
     canonical_parent = json.dumps(
         parent, sort_keys=True, separators=(",", ":"), ensure_ascii=False
@@ -83,7 +117,10 @@ def _validate(contract: dict[str, Any], authorization: dict[str, Any], output: P
         raise PermissionError("The frozen WP08-D parent contract digest changed.")
     if contract.get("parent_contract", {}).get("canonical_sha256") != PARENT_CONTRACT_DIGEST:
         raise PermissionError("The requalification contract does not bind the frozen WP08-D contract.")
-    if contract.get("governing", {}).get("base_sha") != GOVERNING_BASE_SHA:
+    governing_base = contract.get("governing", {}).get(
+        "base_sha" if PROFILE_REVISION == "R1" else "source_baseline_sha"
+    )
+    if governing_base != GOVERNING_BASE_SHA:
         raise PermissionError("Unexpected governing base in WP08-D requalification contract.")
     if contract.get("governing", {}).get("policy_digest") != POLICY_DIGEST:
         raise PermissionError("Unexpected governing policy digest.")
@@ -101,11 +138,17 @@ def _validate(contract: dict[str, Any], authorization: dict[str, Any], output: P
         or decisions.get("OWNER_AUTHORIZES_WP08D_M1_M2_M3_REQUALIFICATION") is not True
         or decisions.get("OWNER_AUTHORIZES_WP08D_INDEPENDENT_REFERENCES") is not True
         or decisions.get("OWNER_AUTHORIZES_WP08D_CONTRACT_REQUIRED_REPLAY") is not True
-        or decisions.get("OWNER_AUTHORIZES_WP07E_OR_WP08E") is not False
+        or decisions.get(
+            "OWNER_AUTHORIZES_WP07E_OR_WP08E" if PROFILE_REVISION == "R1" else "OWNER_AUTHORIZES_WP08E"
+        ) is not False
         or decisions.get("OWNER_AWARDS_POINTS") is not False
     ):
         raise PermissionError("The recorded Owner decision does not authorize exactly this WP08-D scope.")
-    if authorization.get("token") != OWNER_TOKEN or authorization.get("owner_authorized") is not True:
+    if (
+        authorization.get("token") != OWNER_TOKEN
+        or (PROFILE_REVISION == "R2" and authorization.get("authorization") != OWNER_TOKEN)
+        or authorization.get("owner_authorized") is not True
+    ):
         raise PermissionError("Explicit Owner execution authorization is missing.")
     if authorization.get("status") != "OWNER_AUTHORIZED_EXACT_SOURCE_REQUALIFICATION":
         raise PermissionError("WP08-D exact-source Owner authorization has an invalid status.")
@@ -141,7 +184,11 @@ def _validate(contract: dict[str, Any], authorization: dict[str, Any], output: P
         check=False,
     ).returncode:
         raise PermissionError("Execution source is not descended from the governing base.")
-    remediation_sha = contract.get("mechanics_requalification", {}).get("change_commit")
+    mechanics = contract.get(
+        "mechanics_requalification" if PROFILE_REVISION == "R1" else "source_requalification",
+        {},
+    )
+    remediation_sha = mechanics.get("change_commit")
     if not isinstance(remediation_sha, str) or subprocess.run(
         ["git", "merge-base", "--is-ancestor", remediation_sha, execution_sha],
         cwd=ROOT,
@@ -154,9 +201,12 @@ def _validate(contract: dict[str, Any], authorization: dict[str, Any], output: P
         check=True,
         capture_output=True,
     ).stdout
-    if hashlib.sha256(source_diff).hexdigest() != contract.get("mechanics_requalification", {}).get(
+    expected_source_diff = mechanics.get(
         "source_diff_sha256_since_governing_base"
-    ):
+        if PROFILE_REVISION == "R1"
+        else "source_diff_sha256_since_source_baseline"
+    )
+    if hashlib.sha256(source_diff).hexdigest() != expected_source_diff:
         raise PermissionError("WP08-D production-source diff differs from the reviewed contact remediation lineage.")
     if authorization.get("meshes") != list(MESHES):
         raise PermissionError("Owner authorization must name exactly M1, M2, and M3.")
@@ -184,6 +234,8 @@ def _issue_owner_authorization(path: Path) -> dict[str, Any]:
     """Materialize the current explicit Owner decision against the frozen HEAD."""
 
     contract = _json(CONTRACT_PATH)
+    if PROFILE_REVISION == "R2" and _sha256(CONTRACT_PATH) != R2_CONTRACT_SHA256:
+        raise PermissionError("WP08-D R2 contract differs from its frozen SHA-256.")
     decision_ref = contract.get("owner_decision", {})
     if (
         contract.get("status") != "FROZEN_FOR_OWNER_AUTHORIZED_REQUALIFICATION"
@@ -198,7 +250,9 @@ def _issue_owner_authorization(path: Path) -> dict[str, Any]:
         decisions.get("OWNER_AUTHORIZES_WP08D_M1_M2_M3_REQUALIFICATION") is not True
         or decisions.get("OWNER_AUTHORIZES_WP08D_INDEPENDENT_REFERENCES") is not True
         or decisions.get("OWNER_AUTHORIZES_WP08D_CONTRACT_REQUIRED_REPLAY") is not True
-        or decisions.get("OWNER_AUTHORIZES_WP07E_OR_WP08E") is not False
+        or decisions.get(
+            "OWNER_AUTHORIZES_WP07E_OR_WP08E" if PROFILE_REVISION == "R1" else "OWNER_AUTHORIZES_WP08E"
+        ) is not False
         or decisions.get("OWNER_AWARDS_POINTS") is not False
     ):
         raise PermissionError("Owner decision does not authorize exactly the frozen WP08-D scope.")
@@ -215,7 +269,8 @@ def _issue_owner_authorization(path: Path) -> dict[str, Any]:
         raise PermissionError("WP08-D exact execution source is outside the governing lineage.")
     record = {
         "schema_version": 1,
-        "artifact_id": "QF-029-WP08-D-OWNER-EXECUTION-AUTHORIZATION-CONTACT-R1-001",
+        "artifact_id": f"QF-029-WP08-D-OWNER-EXECUTION-AUTHORIZATION-CONTACT-{PROFILE_REVISION}-001",
+        "authorization": OWNER_TOKEN,
         "status": "OWNER_AUTHORIZED_EXACT_SOURCE_REQUALIFICATION",
         "token": OWNER_TOKEN,
         "owner_authorized": True,
@@ -339,7 +394,7 @@ def _audit_process_sequence(records: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def _run(output: Path, owner_authorization_path: Path, execution_sha: str) -> dict[str, Any]:
-    from scripts.wp08d_phase1_common import CONTACT_REQUALIFICATION_OWNER_TOKEN, replay_comparison
+    from scripts.wp08d_phase1_common import replay_comparison
 
     owner_authorization = _json(owner_authorization_path)
     contract = _json(CONTRACT_PATH)
@@ -350,10 +405,14 @@ def _run(output: Path, owner_authorization_path: Path, execution_sha: str) -> di
     def case_authorization(mesh: str, execution_kind: str) -> Path:
         is_solve = execution_kind in {"PRIMARY_PRODUCTION", "REPLAY"}
         payload = {
-            "authorization": CONTACT_REQUALIFICATION_OWNER_TOKEN,
+            "authorization": OWNER_TOKEN,
             "owner_authorized": True,
             "work_package": "WP08-D",
-            "scope": "WP08-D_CONTACT_MECHANICS_REQUALIFICATION",
+            "scope": (
+                "WP08-D_CONTACT_MECHANICS_REQUALIFICATION"
+                if PROFILE_REVISION == "R1"
+                else "WP08-D_CONTACT_MECHANICS_REQUALIFICATION_R2"
+            ),
             "branch": REQUIRED_BRANCH,
             "execution_sha": execution_sha,
             "requalification_contract_sha256": _sha256(CONTRACT_PATH),
@@ -368,6 +427,7 @@ def _run(output: Path, owner_authorization_path: Path, execution_sha: str) -> di
             "independent_references_allowed": False,
             "replay_allowed": execution_kind == "REPLAY",
             "owner_authorization_sha256": _sha256(owner_authorization_path),
+            "owner_authorization_path": str(owner_authorization_path.resolve()),
             "owner_authorization_basis": owner_authorization.get("authorization_basis"),
             "owner_decision_path": owner_decision["path"],
             "owner_decision_sha256": owner_decision["sha256"],
@@ -547,12 +607,14 @@ def _run(output: Path, owner_authorization_path: Path, execution_sha: str) -> di
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--revision", choices=("r1", "r2"), default="r1")
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--owner-authorization", type=Path)
     mode.add_argument("--issue-owner-authorization", action="store_true")
-    parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
+    parser.add_argument("--output-root", type=Path)
     args = parser.parse_args(argv)
     try:
+        _activate_revision(args.revision)
         if args.issue_owner_authorization:
             execution_sha = _git("rev-parse", "HEAD")
             auth_path = _owner_authorization_path(execution_sha)
@@ -561,7 +623,7 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         contract = _json(CONTRACT_PATH)
         authorization = _json(args.owner_authorization.resolve())
-        output = args.output_root.resolve()
+        output = (args.output_root or DEFAULT_OUTPUT_ROOT).resolve()
         execution_sha = _validate(contract, authorization, output)
         output.mkdir(parents=True, exist_ok=True)
         campaign = _run(output, args.owner_authorization.resolve(), execution_sha)
@@ -577,7 +639,7 @@ def main(argv: list[str] | None = None) -> int:
         process_audit = _audit_process_sequence(campaign["sequential_process_manifests"])
         all_pass = all_pass and process_audit["status"] == "PASS"
         summary = {
-            "artifact_id": "QF-029-WP08-D-CONTACT-MECHANICS-REQUALIFICATION-R1-RESULT",
+            "artifact_id": f"QF-029-WP08-D-CONTACT-MECHANICS-REQUALIFICATION-{PROFILE_REVISION}-RESULT",
             "status": "PASS_CANDIDATE" if all_pass else "FAIL_CLOSED_OR_INCOMPLETE",
             "execution_sha": execution_sha,
             "branch": REQUIRED_BRANCH,

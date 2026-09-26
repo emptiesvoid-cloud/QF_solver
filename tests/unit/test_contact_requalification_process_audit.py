@@ -116,6 +116,37 @@ def test_wp08_authorization_paths_use_linked_worktree_git_dir(
     assert "_m1_replay_authorization.json" in case_path.name
 
 
+def test_wp08_r2_profile_is_separate_and_keeps_r1_default() -> None:
+    wp08_campaign._activate_revision("r1")
+    r1_contract = wp08_campaign.CONTRACT_PATH
+    r1_output = wp08_campaign.DEFAULT_OUTPUT_ROOT
+
+    wp08_campaign._activate_revision("r2")
+
+    assert wp08_campaign.PROFILE_REVISION == "R2"
+    assert wp08_campaign.CONTRACT_PATH.name == "wp08d_contact_requalification_r2_contract.json"
+    assert wp08_campaign.DEFAULT_OUTPUT_ROOT.name == "raw_r2"
+    assert wp08_campaign.REQUIRED_BRANCH == "codex/wp08d-contact-r2-requalification"
+    assert wp08_campaign.OWNER_TOKEN == "OWNER_AUTHORIZED_WP08D_CONTACT_R2_REQUALIFICATION"
+
+    wp08_campaign._activate_revision("r1")
+    assert wp08_campaign.CONTRACT_PATH == r1_contract
+    assert wp08_campaign.DEFAULT_OUTPUT_ROOT == r1_output
+    assert wp08_campaign.PROFILE_REVISION == "R1"
+
+
+def test_wp08_r2_authorization_rejects_unfrozen_contract_hash(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    payload = {"authorization": wp08_common.CONTACT_REQUALIFICATION_R2_OWNER_TOKEN}
+    authorization_path = tmp_path / "r2-authorization.json"
+    authorization_path.write_text(json.dumps(payload), encoding="utf-8")
+    monkeypatch.setattr(wp08_common, "CONTACT_REQUALIFICATION_R2_CONTRACT_SHA256", "0" * 64)
+
+    with pytest.raises(RuntimeError, match="R2 contact requalification contract hash mismatch"):
+        wp08_common._authorization_payload(authorization_path)
+
+
 def test_wp08_source_requalification_auth_uses_its_frozen_branch(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

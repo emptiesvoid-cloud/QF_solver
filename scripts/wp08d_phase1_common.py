@@ -34,6 +34,18 @@ CONTACT_REQUALIFICATION_CONTRACT_SHA256 = (
 )
 CONTACT_REQUALIFICATION_OWNER_TOKEN = "OWNER_AUTHORIZED_WP07_WP08_CONTACT_REQUALIFICATION"
 CONTACT_REQUALIFICATION_REQUIRED_BRANCH = "codex/contact-active-set-remediation"
+CONTACT_REQUALIFICATION_R2_CONTRACT_PATH = Path(
+    "qualification/0_2_9/wp08d_contact_requalification_r2_contract.json"
+)
+CONTACT_REQUALIFICATION_R2_CONTRACT_SHA256 = (
+    "5f15a945cb8c173ccaf6b10ae65e4958751886f533dbb5e6c5782694a3f5ac2f"
+)
+CONTACT_REQUALIFICATION_R2_OWNER_TOKEN = "OWNER_AUTHORIZED_WP08D_CONTACT_R2_REQUALIFICATION"
+CONTACT_REQUALIFICATION_R2_REQUIRED_BRANCH = "codex/wp08d-contact-r2-requalification"
+CONTACT_REQUALIFICATION_R2_BASE_SHA = "cd69958909aabcd74649b92fde768a1a0422ed52"
+CONTACT_REQUALIFICATION_R2_OWNER_DECISION_PATH = Path(
+    "qualification/0_2_9/wp08d_contact_requalification_r2_owner_decision.json"
+)
 UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED = "UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED"
 PHASE1_AUTHORIZATION_TOKEN = "OWNER_AUTHORIZED_WP08D_PHASE1_EXECUTION"
 ARTIFACT_ROOT = Path("qualification/0_2_9/wp08d_phase1")
@@ -372,6 +384,130 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
         ).returncode:
             raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
         return payload
+    if payload.get("authorization") == CONTACT_REQUALIFICATION_R2_OWNER_TOKEN:
+        root = repository_root()
+        requalification_contract = root / CONTACT_REQUALIFICATION_R2_CONTRACT_PATH
+        if (
+            not requalification_contract.is_file()
+            or file_sha256(requalification_contract) != CONTACT_REQUALIFICATION_R2_CONTRACT_SHA256
+        ):
+            raise RuntimeError("WP08-D R2 contact requalification contract hash mismatch.")
+        contract = json.loads(requalification_contract.read_text(encoding="utf-8"))
+        read_contract()
+        decision_ref = contract.get("owner_decision", {})
+        decision_path = root / CONTACT_REQUALIFICATION_R2_OWNER_DECISION_PATH
+        if (
+            contract.get("status") != "FROZEN_FOR_OWNER_AUTHORIZED_REQUALIFICATION"
+            or contract.get("parent_contract", {}).get("canonical_sha256") != CONTRACT_DIGEST
+            or contract.get("governing", {}).get("policy_digest") != POLICY_DIGEST
+            or contract.get("governing", {}).get("source_baseline_sha") != CONTACT_REQUALIFICATION_R2_BASE_SHA
+            or contract.get("governing", {}).get("branch") != CONTACT_REQUALIFICATION_R2_REQUIRED_BRANCH
+            or decision_ref.get("path") != CONTACT_REQUALIFICATION_R2_OWNER_DECISION_PATH.as_posix()
+            or decision_ref.get("sha256") != file_sha256(decision_path)
+        ):
+            raise RuntimeError("WP08-D R2 frozen contract or Owner decision binding is invalid.")
+        decision = json.loads(decision_path.read_text(encoding="utf-8"))
+        decisions = decision.get("decisions", {})
+        if (
+            decision.get("status") != "AUTHORIZED_FOR_SOURCE_BOUND_REQUALIFICATION"
+            or decisions.get("OWNER_AUTHORIZES_WP08D_M1_M2_M3_REQUALIFICATION") is not True
+            or decisions.get("OWNER_AUTHORIZES_WP08D_INDEPENDENT_REFERENCES") is not True
+            or decisions.get("OWNER_AUTHORIZES_WP08D_CONTRACT_REQUIRED_REPLAY") is not True
+            or decisions.get("OWNER_AUTHORIZES_WP08E") is not False
+            or decisions.get("OWNER_AWARDS_POINTS") is not False
+            or decisions.get("OWNER_AUTHORIZES_LEDGER_UPDATE") is not False
+            or decisions.get("OWNER_AUTHORIZES_MERGE_OR_PUSH") is not False
+        ):
+            raise RuntimeError("WP08-D R2 Owner decision does not authorize exactly the frozen scope.")
+        state = git_state(root)
+        required_fields = {
+            "owner_authorized": True,
+            "work_package": "WP08-D",
+            "scope": "WP08-D_CONTACT_MECHANICS_REQUALIFICATION_R2",
+            "branch": CONTACT_REQUALIFICATION_R2_REQUIRED_BRANCH,
+            "execution_sha": state["head"],
+            "requalification_contract_sha256": CONTACT_REQUALIFICATION_R2_CONTRACT_SHA256,
+            "parent_contract_digest": CONTRACT_DIGEST,
+            "policy_digest": POLICY_DIGEST,
+            "governing_base_sha": CONTACT_REQUALIFICATION_R2_BASE_SHA,
+            "working_tree_clean": True,
+        }
+        if state["branch"] != CONTACT_REQUALIFICATION_R2_REQUIRED_BRANCH or state["dirty"] or any(
+            payload.get(key) != value for key, value in required_fields.items()
+        ):
+            raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
+        expected_kind_flags = {
+            "PRIMARY_PRODUCTION": (True, False, False),
+            "REPLAY": (True, False, True),
+        }
+        execution_kind = payload.get("execution_kind")
+        if (
+            execution_kind not in expected_kind_flags
+            or (
+                payload.get("structural_solves_allowed"),
+                payload.get("independent_references_allowed"),
+                payload.get("replay_allowed"),
+            )
+            != expected_kind_flags[execution_kind]
+            or payload.get("mesh") not in {"M1", "M2", "M3"}
+            or payload.get("meshes") != ["M1", "M2", "M3"]
+        ):
+            raise RuntimeError("WP08-D R2 case authorization has an invalid scope.")
+        owner_path_value = payload.get("owner_authorization_path")
+        owner_path = Path(owner_path_value).resolve() if isinstance(owner_path_value, str) else None
+        git_dir = Path(_git(root, "rev-parse", "--absolute-git-dir")).resolve()
+        if (
+            owner_path is None
+            or owner_path.parent != git_dir
+            or not owner_path.is_file()
+            or file_sha256(owner_path) != payload.get("owner_authorization_sha256")
+        ):
+            raise RuntimeError("WP08-D R2 Owner authorization record is missing or hash-mismatched.")
+        owner_authorization = json.loads(owner_path.read_text(encoding="utf-8"))
+        if (
+            owner_authorization.get("authorization") != CONTACT_REQUALIFICATION_R2_OWNER_TOKEN
+            or owner_authorization.get("owner_authorized") is not True
+            or owner_authorization.get("branch") != state["branch"]
+            or owner_authorization.get("execution_sha") != state["head"]
+            or owner_authorization.get("requalification_contract_sha256")
+            != CONTACT_REQUALIFICATION_R2_CONTRACT_SHA256
+            or owner_authorization.get("owner_decision_sha256") != decision_ref.get("sha256")
+            or owner_authorization.get("meshes") != ["M1", "M2", "M3"]
+            or owner_authorization.get("replay_meshes") != ["M1"]
+            or owner_authorization.get("include_independent_references") is not True
+            or owner_authorization.get("include_replays") is not True
+            or owner_authorization.get("wp08e_allowed") is not False
+            or owner_authorization.get("points_awarded") is not False
+            or owner_authorization.get("merge_or_push_allowed") is not False
+        ):
+            raise RuntimeError("WP08-D R2 Owner authorization does not match its frozen scope.")
+        if subprocess.run(
+            ["git", "merge-base", "--is-ancestor", CONTACT_REQUALIFICATION_R2_BASE_SHA, str(state["head"])],
+            cwd=root,
+            check=False,
+            capture_output=True,
+        ).returncode:
+            raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
+        mechanics = contract.get("source_requalification", {})
+        change_commit = mechanics.get("change_commit")
+        if not isinstance(change_commit, str) or subprocess.run(
+            ["git", "merge-base", "--is-ancestor", change_commit, str(state["head"])],
+            cwd=root,
+            check=False,
+            capture_output=True,
+        ).returncode:
+            raise RuntimeError("WP08-D R2 execution source lacks the frozen mechanics correction.")
+        source_diff = subprocess.run(
+            ["git", "diff", "--binary", CONTACT_REQUALIFICATION_R2_BASE_SHA, str(state["head"]), "--", "src"],
+            cwd=root,
+            check=True,
+            capture_output=True,
+        ).stdout
+        if hashlib.sha256(source_diff).hexdigest() != mechanics.get(
+            "source_diff_sha256_since_source_baseline"
+        ):
+            raise RuntimeError("WP08-D R2 source mechanics diff does not match its frozen digest.")
+        return payload
     required = {
         "authorization": PHASE1_AUTHORIZATION_TOKEN,
         "governing_base_sha": REQUIRED_GOVERNING_SHA,
@@ -411,7 +547,10 @@ def require_phase1_authorization(
     allowed_meshes = payload.get("meshes", ["M1", "M2", "M3"])
     if not isinstance(allowed_meshes, list) or str(mesh).upper() not in {str(item).upper() for item in allowed_meshes}:
         raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
-    if payload.get("authorization") == CONTACT_REQUALIFICATION_OWNER_TOKEN and (
+    if payload.get("authorization") in {
+        CONTACT_REQUALIFICATION_OWNER_TOKEN,
+        CONTACT_REQUALIFICATION_R2_OWNER_TOKEN,
+    } and (
         payload.get("mesh") != str(mesh).upper()
         or payload.get("execution_kind") != execution_kind
     ):
@@ -784,7 +923,10 @@ def execute_phase1(
         )
         manifest_path = case_dir / "manifest.json"
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        if authorization.get("authorization") == CONTACT_REQUALIFICATION_OWNER_TOKEN:
+        if authorization.get("authorization") in {
+            CONTACT_REQUALIFICATION_OWNER_TOKEN,
+            CONTACT_REQUALIFICATION_R2_OWNER_TOKEN,
+        }:
             manifest.update(
                 {
                     "execution_sha": authorization.get("execution_sha"),
@@ -820,7 +962,10 @@ def execute_phase1(
                 },
             )
             manifest_path = case_dir / "manifest.json"
-            if manifest_path.is_file() and authorization.get("authorization") == CONTACT_REQUALIFICATION_OWNER_TOKEN:
+            if manifest_path.is_file() and authorization.get("authorization") in {
+                CONTACT_REQUALIFICATION_OWNER_TOKEN,
+                CONTACT_REQUALIFICATION_R2_OWNER_TOKEN,
+            }:
                 manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
                 manifest.update(
                     {
