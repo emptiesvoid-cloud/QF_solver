@@ -838,6 +838,9 @@ def test_globalized_solution_polishes_xtol_candidate_against_physical_gate(monke
     def stopped_least_squares(function, initial, **kwargs):
         observed["initial"] = np.asarray(initial).copy()
         observed["jacobian"] = kwargs.get("jac")
+        observed["xtol"] = kwargs.get("xtol")
+        observed["ftol"] = kwargs.get("ftol")
+        observed["gtol"] = kwargs.get("gtol")
         assert function(optimizer_candidate)[0] == pytest.approx(-1.5e-9)
         return SimpleNamespace(
             success=True,
@@ -845,6 +848,9 @@ def test_globalized_solution_polishes_xtol_candidate_against_physical_gate(monke
             status=3,
             x=optimizer_candidate.copy(),
             nfev=1,
+            cost=1.125e-18,
+            optimality=1.5e-9,
+            grad=np.asarray([1.5e-9]),
         )
 
     monkeypatch.setattr(slip_root, "least_squares", stopped_least_squares)
@@ -858,6 +864,9 @@ def test_globalized_solution_polishes_xtol_candidate_against_physical_gate(monke
     )
 
     assert observed["jacobian"] is not None
+    assert 0.0 < observed["xtol"] < tolerance
+    assert observed["ftol"] == observed["xtol"]
+    assert observed["gtol"] == observed["xtol"]
     assert solution == pytest.approx(target, abs=1.0e-15)
     assert evaluations > 1
     assert residual_norm <= tolerance
@@ -894,6 +903,10 @@ def test_globalized_solution_keeps_xtol_candidate_fail_closed_if_polish_stalls(m
     assert diagnostics["cause"] == "GLOBALIZED_SLIP_RESIDUAL_NOT_CONVERGED"
     assert diagnostics["scaled_contact_residual"] == pytest.approx(2.0e-9)
     assert diagnostics["optimizer_message"] == "`xtol` termination condition is satisfied."
+    assert diagnostics["optimizer_xtol"] < tolerance
+    assert diagnostics["optimizer_cost"] is None
+    assert diagnostics["optimizer_optimality"] is None
+    assert diagnostics["optimizer_gradient_inf_norm"] is None
     assert diagnostics["refinement_error"] is not None
     assert diagnostics["worst_contact"] == 3
 

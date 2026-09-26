@@ -1752,14 +1752,23 @@ def _globalized_slip_solution(
     trust-region globalization can reduce it even when the local hybrid
     Newton approximation is poorly scaled by structural compliance.
     """
+    # Optimizer termination is not the physical contact-equation acceptance
+    # gate checked below. In particular, an ``xtol`` stop at the physical
+    # tolerance can happen while individual contact equations remain outside
+    # that gate. Ask the optimizer to continue beyond the physical tolerance,
+    # down to a conservative floating-point floor, without changing acceptance.
+    optimizer_tolerance = max(
+        32.0 * np.finfo(float).eps,
+        min(float(tolerance) * 1.0e-3, 1.0e-12),
+    )
     result = least_squares(
         objective_residual or residual,
         initial,
         method="trf",
         jac=objective_jacobian or "2-point",
-        xtol=tolerance,
-        ftol=tolerance,
-        gtol=tolerance,
+        xtol=optimizer_tolerance,
+        ftol=optimizer_tolerance,
+        gtol=optimizer_tolerance,
         max_nfev=500,
         x_scale="jac",
     )
@@ -1805,6 +1814,29 @@ def _globalized_slip_solution(
 
     if not result.success or not np.isfinite(residual_norm) or not converged:
         context = dict(diagnostic_context(solution)) if diagnostic_context is not None and finite_solution else {}
+        optimizer_gradient = getattr(result, "grad", None)
+        optimizer_gradient_array = (
+            np.asarray(optimizer_gradient, dtype=float)
+            if optimizer_gradient is not None
+            else np.asarray([], dtype=float)
+        )
+        optimizer_gradient_inf_norm = (
+            float(np.linalg.norm(optimizer_gradient_array, ord=np.inf))
+            if optimizer_gradient_array.size and np.all(np.isfinite(optimizer_gradient_array))
+            else None
+        )
+        optimizer_cost_raw = getattr(result, "cost", None)
+        optimizer_cost = (
+            float(optimizer_cost_raw)
+            if optimizer_cost_raw is not None and np.isfinite(optimizer_cost_raw)
+            else None
+        )
+        optimizer_optimality_raw = getattr(result, "optimality", None)
+        optimizer_optimality = (
+            float(optimizer_optimality_raw)
+            if optimizer_optimality_raw is not None and np.isfinite(optimizer_optimality_raw)
+            else None
+        )
         raise NumericalConvergenceError(
             "Active-slip globalized least-squares fallback failed: "
             f"{result.message}; residual={residual_norm:.3e}.",
@@ -1817,6 +1849,12 @@ def _globalized_slip_solution(
                 "optimizer_message": str(result.message),
                 "optimizer_nfev": int(result.nfev),
                 "optimizer_success": bool(result.success),
+                "optimizer_xtol": optimizer_tolerance,
+                "optimizer_ftol": optimizer_tolerance,
+                "optimizer_gtol": optimizer_tolerance,
+                "optimizer_cost": optimizer_cost,
+                "optimizer_optimality": optimizer_optimality,
+                "optimizer_gradient_inf_norm": optimizer_gradient_inf_norm,
                 "refinement_evaluations": refinement_evaluations,
                 "refinement_error": refinement_error,
                 "refinement_iteration_limit": refinement_iteration_limit,
