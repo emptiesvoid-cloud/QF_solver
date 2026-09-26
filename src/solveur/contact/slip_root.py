@@ -46,6 +46,68 @@ ContactTrace = Callable[[str, Mapping[str, object]], None]
 _ACTIVE_SET_ITERATION_LIMIT = 25
 
 
+def _scale_contact_residual_jacobian(
+    physical_jacobian: np.ndarray,
+    physical_residual: np.ndarray,
+    contacts: tuple[int, ...],
+    operators: list[Any],
+    pressures: np.ndarray,
+    pressure_sensitivity: np.ndarray,
+) -> np.ndarray:
+    """Differentiate the per-contact scaled residual, including its pressure scale."""
+    jacobian = np.asarray(physical_jacobian, dtype=float)
+    residual = np.asarray(physical_residual, dtype=float).reshape((-1, 2))
+    pressure_values = np.asarray(pressures, dtype=float)
+    sensitivities = np.asarray(pressure_sensitivity, dtype=float)
+    if jacobian.shape != (2 * len(contacts), 2 * len(contacts)):
+        raise NumericalConvergenceError("Contact residual Jacobian has an inconsistent shape.")
+    if residual.shape != (len(contacts), 2) or sensitivities.shape != (len(operators), 2 * len(contacts)):
+        raise NumericalConvergenceError("Contact residual scaling data has an inconsistent shape.")
+
+    scaled = jacobian.copy()
+    for position, index in enumerate(contacts):
+        operator = operators[index]
+        pressure = max(float(pressure_values[index]), 0.0)
+        friction_limit = float(operator.friction_coefficient) * pressure
+        force_scale = max(friction_limit, 1.0)
+        scale_sensitivity: np.ndarray = np.zeros(2 * len(contacts), dtype=float)
+        if pressure_values[index] > 0.0 and friction_limit > 1.0:
+            scale_sensitivity = float(operator.friction_coefficient) * sensitivities[index]
+        rows = slice(2 * position, 2 * position + 2)
+        scaled[rows, :] = (
+            jacobian[rows, :] / force_scale
+            - np.outer(residual[position], scale_sensitivity) / force_scale**2
+        )
+    return scaled
+
+
+def _best_residual_seed(
+    primary: np.ndarray,
+    diagnostics: Mapping[str, object],
+    residual: Callable[[np.ndarray], np.ndarray],
+    convergence_measure: Callable[[np.ndarray, np.ndarray], float],
+) -> np.ndarray:
+    """Keep the best finite root/Newton iterate without weakening its gate."""
+    best = np.asarray(primary, dtype=float).copy()
+
+    def measure(vector: np.ndarray) -> float:
+        values = np.asarray(residual(vector), dtype=float)
+        if not np.all(np.isfinite(values)):
+            return float("inf")
+        value = float(convergence_measure(vector, values))
+        return value if np.isfinite(value) else float("inf")
+
+    best_measure = measure(best)
+    candidate_value = diagnostics.get("last_candidate")
+    if candidate_value is not None:
+        candidate = np.asarray(candidate_value, dtype=float)
+        if candidate.shape == best.shape and np.all(np.isfinite(candidate)):
+            candidate_measure = measure(candidate)
+            if candidate_measure < best_measure:
+                best = candidate.copy()
+    return best
+
+
 def _post_root_tangential_modes(
     solution: ActiveSlipSolution,
     operators: list[Any],
@@ -612,11 +674,75 @@ def _solve_coupled_projection_on_active_set(
         pairs = np.asarray(scaled_values, dtype=float).reshape((-1, 2))
         return float(np.max(np.linalg.norm(pairs, axis=1), initial=0.0))
 
+    def refinement_failure_context(vector: np.ndarray) -> Mapping[str, object]:
+        physical, scaled, details = contact_residual_data(vector)
+        return {
+            "physical_residual_norm": float(np.linalg.norm(physical)),
+            "maximum_scaled_contact_residual": maximum_contact_residual(vector, scaled),
+            "contact_residuals": details,
+        }
+
     zero: np.ndarray = np.zeros(vector_size, dtype=float)
     displacement, _, _, _, pressures, _ = solve_for(zero)
+    displacement_sensitivity: np.ndarray = np.empty((len(displacement), vector_size), dtype=float)
+    pressure_sensitivity: np.ndarray = np.empty((len(operators), vector_size), dtype=float)
+    for column in range(vector_size):
+        unit_force = zero.copy()
+        unit_force[column] = 1.0
+        response, _, _, _, response_pressures, _ = solve_for(unit_force)
+        displacement_sensitivity[:, column] = response - displacement
+        pressure_sensitivity[:, column] = response_pressures - pressures
+
+    def projection_jacobian(vector: np.ndarray) -> np.ndarray:
+        """Return the piecewise-consistent Jacobian of the coupled projection."""
+        response, _, _, _, response_pressures, _ = solve_for(vector)
+        forces = np.asarray(vector, dtype=float).reshape((len(frictional), 2))
+        physical = forces - projected_trial(response, response_pressures)[list(frictional)]
+        jacobian = np.eye(vector_size, dtype=float)
+        for position, index in enumerate(frictional):
+            operator = operators[index]
+            pressure = max(float(response_pressures[index]), 0.0)
+            trial = operator.tangential_stiffness * (
+                operator.tangential_displacement(response) - slip_references[index]
+            )
+            trial_norm = float(np.linalg.norm(trial))
+            trial_sensitivity = operator.tangential_stiffness * np.vstack(
+                tuple(direction @ displacement_sensitivity for direction in operator.tangential_vectors)
+            )
+            target_sensitivity: np.ndarray
+            if pressure <= operator.tolerance:
+                target_sensitivity = np.zeros((2, vector_size), dtype=float)
+            elif trial_norm <= operator.friction_coefficient * pressure:
+                target_sensitivity = trial_sensitivity
+            elif trial_norm > 0.0:
+                direction = trial / trial_norm
+                projector = (np.eye(2, dtype=float) - np.outer(direction, direction)) / trial_norm
+                target_sensitivity = operator.friction_coefficient * (
+                    np.outer(direction, pressure_sensitivity[index])
+                    + pressure * projector @ trial_sensitivity
+                )
+            else:
+                target_sensitivity = np.zeros((2, vector_size), dtype=float)
+            rows = slice(2 * position, 2 * position + 2)
+            jacobian[rows, :] -= target_sensitivity
+        return _scale_contact_residual_jacobian(
+            jacobian,
+            physical.ravel(),
+            frictional,
+            operators,
+            response_pressures,
+            pressure_sensitivity,
+        )
+
     initial = projected_trial(displacement, pressures)[list(frictional)].ravel()
     if vector_size:
-        root_result = root(residual, initial, method="hybr", options={"xtol": tolerance})
+        root_result = root(
+            residual,
+            initial,
+            jac=projection_jacobian,
+            method="hybr",
+            options={"xtol": tolerance},
+        )
         vector = np.asarray(root_result.x, dtype=float)
         strategy = "coupled_coulomb_projection_root"
         evaluations = int(root_result.nfev)
@@ -631,16 +757,31 @@ def _solve_coupled_projection_on_active_set(
                     residual,
                     vector,
                     tolerance,
+                    jacobian=projection_jacobian,
                     convergence_measure=maximum_contact_residual,
                 )
                 strategy = "coupled_coulomb_projection_semismooth_newton"
-            except NumericalConvergenceError:
+            except NumericalConvergenceError as semismooth_error:
+                vector = _best_residual_seed(
+                    vector,
+                    semismooth_error.diagnostics or {},
+                    residual,
+                    maximum_contact_residual,
+                )
+                remaining_refinement_iterations = max(
+                    0,
+                    30 - int((semismooth_error.diagnostics or {}).get("iterations", 0)),
+                )
                 vector, evaluations, residual_norm = _globalized_slip_solution(
                     residual,
                     vector,
                     tolerance,
                     objective_residual=residual,
+                    objective_jacobian=projection_jacobian,
+                    refinement_jacobian=projection_jacobian,
+                    refinement_iteration_limit=remaining_refinement_iterations,
                     convergence_measure=maximum_contact_residual,
+                    diagnostic_context=refinement_failure_context,
                 )
                 strategy = "coupled_coulomb_projection_least_squares"
         physical_residual, scaled_values, contact_residuals = contact_residual_data(vector)
@@ -1072,6 +1213,15 @@ def _solve_active_slip_on_active_set(
     def maximum_contact_residual(vector: np.ndarray, values: np.ndarray) -> float:
         return contact_residual_data(vector, values)[2]
 
+    def refinement_failure_context(vector: np.ndarray) -> Mapping[str, object]:
+        values = residual(vector)
+        _, details, maximum = contact_residual_data(vector, values)
+        return {
+            "physical_residual_norm": float(np.linalg.norm(values)),
+            "maximum_scaled_contact_residual": maximum,
+            "contact_residuals": details,
+        }
+
     def consistent_jacobian(vector: np.ndarray) -> np.ndarray:
         """Differentiate the frozen active-slip residual exactly by superposition."""
         response, _, _, _, response_pressures = solve_closed_for(vector)
@@ -1098,6 +1248,20 @@ def _solve_active_slip_on_active_set(
             jacobian[rows, :] -= target_sensitivity
         return jacobian
 
+    def scaled_jacobian(vector: np.ndarray) -> np.ndarray:
+        """Differentiate the scaled residual used by the trust-region objective."""
+        values = residual(vector)
+        physical_jacobian = consistent_jacobian(vector)
+        pressures = pressures_for_residual(vector, values)
+        return _scale_contact_residual_jacobian(
+            physical_jacobian,
+            values,
+            slip_frictional,
+            operators,
+            pressures,
+            pressure_sensitivity,
+        )
+
     initial = np.asarray(initial_force, dtype=float)
     root_result = root(
         residual,
@@ -1113,22 +1277,37 @@ def _solve_active_slip_on_active_set(
     residual_norm = float(np.linalg.norm(root_values))
     root_scaled_norm = maximum_contact_residual(solution, root_values) if np.isfinite(residual_norm) else float("inf")
     if not root_result.success or not np.isfinite(residual_norm) or root_scaled_norm > tolerance:
+        semismooth_seed = solution if np.all(np.isfinite(solution)) else initial
         try:
             solution, evaluations, residual_norm = _semismooth_newton_solution(
                 residual,
-                initial,
+                semismooth_seed,
                 tolerance,
                 jacobian=consistent_jacobian,
                 convergence_measure=maximum_contact_residual,
             )
             strategy = "active_slip_consistent_newton"
-        except NumericalConvergenceError:
+        except NumericalConvergenceError as semismooth_error:
+            solution = _best_residual_seed(
+                semismooth_seed,
+                semismooth_error.diagnostics or {},
+                residual,
+                maximum_contact_residual,
+            )
+            remaining_refinement_iterations = max(
+                0,
+                30 - int((semismooth_error.diagnostics or {}).get("iterations", 0)),
+            )
             solution, evaluations, residual_norm = _globalized_slip_solution(
                 residual,
-                initial,
+                solution,
                 tolerance,
                 objective_residual=scaled_residual,
+                objective_jacobian=scaled_jacobian,
+                refinement_jacobian=consistent_jacobian,
+                refinement_iteration_limit=remaining_refinement_iterations,
                 convergence_measure=maximum_contact_residual,
+                diagnostic_context=refinement_failure_context,
             )
             strategy = "active_slip_least_squares"
     final_values = residual(solution)
@@ -1401,6 +1580,7 @@ def _semismooth_newton_solution(
     *,
     jacobian: Callable[[np.ndarray], np.ndarray] | None = None,
     convergence_measure: Callable[[np.ndarray, np.ndarray], float] | None = None,
+    max_iterations: int = 30,
 ) -> tuple[np.ndarray, int, float]:
     """Apply a safeguarded Newton step to the frozen active-slip equations.
 
@@ -1412,7 +1592,7 @@ def _semismooth_newton_solution(
     """
     vector = np.asarray(initial, dtype=float).copy()
     evaluations = 0
-    for _ in range(30):
+    for iteration in range(max_iterations):
         values = np.asarray(residual(vector), dtype=float)
         evaluations += 1
         norm = float(np.linalg.norm(values)) if np.all(np.isfinite(values)) else float("inf")
@@ -1425,7 +1605,14 @@ def _semismooth_newton_solution(
         if measure <= limit:
             return vector, evaluations, norm
         if not np.isfinite(norm) or not np.isfinite(measure):
-            raise NumericalConvergenceError("Active-slip semi-smooth Newton encountered a non-finite residual.")
+            raise NumericalConvergenceError(
+                "Active-slip semi-smooth Newton encountered a non-finite residual.",
+                diagnostics={
+                    "cause": "SEMISMOOTH_NONFINITE_RESIDUAL",
+                    "iterations": iteration + 1,
+                    "last_candidate": vector.tolist(),
+                },
+            )
 
         if jacobian is None:
             matrix, jacobian_evaluations = _residual_jacobian(residual, vector, values)
@@ -1433,14 +1620,35 @@ def _semismooth_newton_solution(
             matrix = np.asarray(jacobian(vector), dtype=float)
             jacobian_evaluations = 1
             if matrix.shape != (len(vector), len(vector)) or not np.all(np.isfinite(matrix)):
-                raise NumericalConvergenceError("Active-slip consistent Jacobian is invalid.")
+                raise NumericalConvergenceError(
+                    "Active-slip consistent Jacobian is invalid.",
+                    diagnostics={
+                        "cause": "SEMISMOOTH_INVALID_JACOBIAN",
+                        "iterations": iteration + 1,
+                        "last_candidate": vector.tolist(),
+                    },
+                )
         evaluations += jacobian_evaluations
         try:
             step = np.linalg.solve(matrix, -values)
         except np.linalg.LinAlgError as error:
-            raise NumericalConvergenceError("Active-slip semi-smooth Newton Jacobian is singular.") from error
+            raise NumericalConvergenceError(
+                "Active-slip semi-smooth Newton Jacobian is singular.",
+                diagnostics={
+                    "cause": "SEMISMOOTH_SINGULAR_JACOBIAN",
+                    "iterations": iteration + 1,
+                    "last_candidate": vector.tolist(),
+                },
+            ) from error
         if not np.all(np.isfinite(step)):
-            raise NumericalConvergenceError("Active-slip semi-smooth Newton produced a non-finite step.")
+            raise NumericalConvergenceError(
+                "Active-slip semi-smooth Newton produced a non-finite step.",
+                diagnostics={
+                    "cause": "SEMISMOOTH_NONFINITE_STEP",
+                    "iterations": iteration + 1,
+                    "last_candidate": vector.tolist(),
+                },
+            )
 
         accepted = False
         scale = 1.0
@@ -1462,8 +1670,23 @@ def _semismooth_newton_solution(
                 break
             scale *= 0.5
         if not accepted:
-            raise NumericalConvergenceError("Active-slip semi-smooth Newton line search could not reduce the residual.")
-    raise NumericalConvergenceError("Active-slip semi-smooth Newton reached its iteration limit.")
+            raise NumericalConvergenceError(
+                "Active-slip semi-smooth Newton line search could not reduce the residual.",
+                diagnostics={
+                    "cause": "SEMISMOOTH_LINE_SEARCH_FAILED",
+                    "iterations": iteration + 1,
+                    "last_candidate": vector.tolist(),
+                    "last_convergence_measure": measure,
+                },
+            )
+    raise NumericalConvergenceError(
+        "Active-slip semi-smooth Newton reached its iteration limit.",
+        diagnostics={
+            "cause": "SEMISMOOTH_ITERATION_LIMIT",
+            "iterations": max_iterations,
+            "last_candidate": vector.tolist(),
+        },
+    )
 
 
 def _residual_jacobian(
@@ -1516,7 +1739,11 @@ def _globalized_slip_solution(
     tolerance: float,
     *,
     objective_residual: Callable[[np.ndarray], np.ndarray] | None = None,
+    objective_jacobian: Callable[[np.ndarray], np.ndarray] | None = None,
+    refinement_jacobian: Callable[[np.ndarray], np.ndarray] | None = None,
+    refinement_iteration_limit: int = 30,
     convergence_measure: Callable[[np.ndarray, np.ndarray], float] | None = None,
+    diagnostic_context: Callable[[np.ndarray], Mapping[str, object]] | None = None,
 ) -> tuple[np.ndarray, int, float]:
     """Use a trust-region least-squares step when a raw root iteration fails.
 
@@ -1529,6 +1756,7 @@ def _globalized_slip_solution(
         objective_residual or residual,
         initial,
         method="trf",
+        jac=objective_jacobian or "2-point",
         xtol=tolerance,
         ftol=tolerance,
         gtol=tolerance,
@@ -1547,7 +1775,36 @@ def _globalized_slip_solution(
             float(convergence_measure(solution, residual_values)) if finite_solution else float("inf")
         )
         converged = np.isfinite(scaled_measure) and scaled_measure <= tolerance
+    refinement_error: str | None = None
+    refinement_evaluations = 0
+    if (
+        finite_solution
+        and np.isfinite(residual_norm)
+        and not converged
+        and refinement_iteration_limit > 0
+    ):
+        try:
+            solution, refinement_evaluations, _ = _semismooth_newton_solution(
+                residual,
+                solution,
+                tolerance,
+                jacobian=refinement_jacobian,
+                convergence_measure=convergence_measure,
+                max_iterations=refinement_iteration_limit,
+            )
+            residual_values = np.asarray(residual(solution), dtype=float)
+            residual_norm = float(np.linalg.norm(residual_values))
+            if convergence_measure is None:
+                scaled_measure = None
+                converged = residual_norm <= tolerance * max(float(np.linalg.norm(solution)), 1.0)
+            else:
+                scaled_measure = float(convergence_measure(solution, residual_values))
+                converged = np.isfinite(scaled_measure) and scaled_measure <= tolerance
+        except NumericalConvergenceError as error:
+            refinement_error = str(error)
+
     if not result.success or not np.isfinite(residual_norm) or not converged:
+        context = dict(diagnostic_context(solution)) if diagnostic_context is not None and finite_solution else {}
         raise NumericalConvergenceError(
             "Active-slip globalized least-squares fallback failed: "
             f"{result.message}; residual={residual_norm:.3e}.",
@@ -1558,9 +1815,15 @@ def _globalized_slip_solution(
                 "tolerance": tolerance,
                 "optimizer_status": int(result.status),
                 "optimizer_message": str(result.message),
+                "optimizer_nfev": int(result.nfev),
+                "optimizer_success": bool(result.success),
+                "refinement_evaluations": refinement_evaluations,
+                "refinement_error": refinement_error,
+                "refinement_iteration_limit": refinement_iteration_limit,
+                **context,
             },
         )
-    return solution, int(result.nfev), residual_norm
+    return solution, int(result.nfev) + refinement_evaluations, residual_norm
 
 
 def _normal_active_set(

@@ -770,6 +770,198 @@ def test_semismooth_solver_does_not_stop_on_only_global_relative_residual() -> N
     assert raw_residual_norm <= tolerance
 
 
+def test_scaled_contact_residual_jacobian_includes_pressure_dependent_scale() -> None:
+    """The trust-region Jacobian differentiates both force residual and its scale."""
+    operator = SimpleNamespace(friction_coefficient=0.5)
+    physical_jacobian = np.asarray([[2.0, -0.25], [0.5, 3.0]])
+    physical_residual = np.asarray([0.2, -0.1])
+    pressure = 4.0
+    pressure_sensitivity = np.asarray([[0.3, -0.2]])
+
+    jacobian = slip_root._scale_contact_residual_jacobian(
+        physical_jacobian,
+        physical_residual,
+        (0,),
+        [operator],
+        np.asarray([pressure]),
+        pressure_sensitivity,
+    )
+
+    def scaled_at(vector: np.ndarray) -> np.ndarray:
+        raw = physical_residual + physical_jacobian @ vector
+        current_pressure = pressure + pressure_sensitivity[0] @ vector
+        scale = max(operator.friction_coefficient * current_pressure, 1.0)
+        return raw / scale
+
+    step = 1.0e-6
+    finite_difference = np.column_stack(
+        tuple(
+            (scaled_at(np.eye(2)[column] * step) - scaled_at(-np.eye(2)[column] * step)) / (2.0 * step)
+            for column in range(2)
+        )
+    )
+    assert jacobian == pytest.approx(finite_difference, rel=1.0e-8, abs=1.0e-10)
+
+
+def test_failed_semismooth_attempt_preserves_its_best_finite_seed() -> None:
+    """A later fallback starts from the best admissible iterate already found."""
+    def residual(vector: np.ndarray) -> np.ndarray:
+        return np.asarray(vector, dtype=float) - 1.0
+
+    def measure(_vector: np.ndarray, values: np.ndarray) -> float:
+        return float(np.linalg.norm(values))
+
+    improved = slip_root._best_residual_seed(
+        np.asarray([1.5]),
+        {"last_candidate": [1.1]},
+        residual,
+        measure,
+    )
+    regressed = slip_root._best_residual_seed(
+        np.asarray([1.1]),
+        {"last_candidate": [1.5]},
+        residual,
+        measure,
+    )
+
+    assert improved == pytest.approx([1.1])
+    assert regressed == pytest.approx([1.1])
+
+
+def test_globalized_solution_polishes_xtol_candidate_against_physical_gate(monkeypatch) -> None:
+    """An optimizer stop above the frozen residual gate is refined, never accepted as-is."""
+    target = np.asarray([1.0])
+    tolerance = 1.0e-9
+    optimizer_candidate = np.asarray([1.0 - 1.5e-9])
+    observed: dict[str, object] = {}
+
+    def stopped_least_squares(function, initial, **kwargs):
+        observed["initial"] = np.asarray(initial).copy()
+        observed["jacobian"] = kwargs.get("jac")
+        assert function(optimizer_candidate)[0] == pytest.approx(-1.5e-9)
+        return SimpleNamespace(
+            success=True,
+            message="`xtol` termination condition is satisfied.",
+            status=3,
+            x=optimizer_candidate.copy(),
+            nfev=1,
+        )
+
+    monkeypatch.setattr(slip_root, "least_squares", stopped_least_squares)
+    solution, evaluations, residual_norm = slip_root._globalized_slip_solution(
+        lambda vector: vector - target,
+        optimizer_candidate,
+        tolerance,
+        objective_jacobian=lambda _vector: np.eye(1),
+        refinement_jacobian=lambda _vector: np.eye(1),
+        convergence_measure=lambda _vector, values: float(np.linalg.norm(values)),
+    )
+
+    assert observed["jacobian"] is not None
+    assert solution == pytest.approx(target, abs=1.0e-15)
+    assert evaluations > 1
+    assert residual_norm <= tolerance
+
+
+def test_globalized_solution_keeps_xtol_candidate_fail_closed_if_polish_stalls(monkeypatch) -> None:
+    """An unsuccessful local correction remains a failure with residual evidence."""
+    tolerance = 1.0e-9
+    candidate = np.asarray([2.0])
+
+    monkeypatch.setattr(
+        slip_root,
+        "least_squares",
+        lambda *_args, **_kwargs: SimpleNamespace(
+            success=True,
+            message="`xtol` termination condition is satisfied.",
+            status=3,
+            x=candidate.copy(),
+            nfev=1,
+        ),
+    )
+    with pytest.raises(NumericalConvergenceError) as captured:
+        slip_root._globalized_slip_solution(
+            lambda _vector: np.asarray([2.0e-9]),
+            candidate,
+            tolerance,
+            objective_jacobian=lambda _vector: np.eye(1),
+            refinement_jacobian=lambda _vector: np.eye(1),
+            convergence_measure=lambda _vector, values: float(np.linalg.norm(values)),
+            diagnostic_context=lambda _vector: {"worst_contact": 3},
+        )
+
+    diagnostics = captured.value.diagnostics or {}
+    assert diagnostics["cause"] == "GLOBALIZED_SLIP_RESIDUAL_NOT_CONVERGED"
+    assert diagnostics["scaled_contact_residual"] == pytest.approx(2.0e-9)
+    assert diagnostics["optimizer_message"] == "`xtol` termination condition is satisfied."
+    assert diagnostics["refinement_error"] is not None
+    assert diagnostics["worst_contact"] == 3
+
+
+@pytest.mark.parametrize("tangential_stiffness", [2.0, 2.5], ids=["stick", "slip"])
+def test_coupled_projection_jacobian_matches_frozen_branch_finite_difference(
+    monkeypatch, tangential_stiffness: float
+) -> None:
+    """The analytic coupled Jacobian matches the stick and slip residual branches."""
+    context: dict[str, tuple[int, ...]] = {"active": (0,)}
+    operator = _FakeOperator(0, context)
+    operator.tangential_stiffness = tangential_stiffness
+    dofs = SimpleNamespace(ndof=2)
+    stiffness = csr_matrix(np.eye(2))
+    monkeypatch.setattr(
+        slip_root.ConstraintReduction,
+        "from_system",
+        staticmethod(lambda _dofs, _stiffness, rhs, *_args: SimpleNamespace(rhs=np.asarray(rhs, dtype=float))),
+    )
+
+    def solve_active_set(reduction, _operators, _active):
+        rhs = np.asarray(reduction.rhs, dtype=float)
+        displacement = np.asarray([0.15, 0.05]) + np.asarray([0.4 * rhs[0], 0.3 * rhs[1]])
+        multiplier = np.asarray([4.0 + 0.2 * rhs[0] - 0.1 * rhs[1]])
+        return displacement, multiplier
+
+    def pressures_for(_active, multipliers, count):
+        values = np.zeros(count, dtype=float)
+        values[0] = multipliers[0]
+        return values
+
+    def tangential_force(_operators, forces, _size):
+        return np.asarray(forces[0], dtype=float)
+
+    class StopAfterJacobianCheck(Exception):
+        pass
+
+    def inspect_root(function, initial, *, jac, **_kwargs):
+        vector = np.asarray(initial, dtype=float)
+        analytic = jac(vector)
+        step = 1.0e-6
+        finite_difference = np.column_stack(
+            tuple(
+                (function(vector + np.eye(2)[column] * step) - function(vector - np.eye(2)[column] * step))
+                / (2.0 * step)
+                for column in range(2)
+            )
+        )
+        assert analytic == pytest.approx(finite_difference, rel=2.0e-6, abs=2.0e-8)
+        raise StopAfterJacobianCheck
+
+    monkeypatch.setattr(slip_root, "root", inspect_root)
+    with pytest.raises(StopAfterJacobianCheck):
+        slip_root._solve_coupled_projection_on_active_set(
+            dofs,
+            stiffness,
+            np.asarray([2.0, 0.3]),
+            np.array([], dtype=int),
+            [operator],
+            (0,),
+            np.zeros((1, 2)),
+            1.0e-9,
+            solve_active_set=solve_active_set,
+            pressures_for=pressures_for,
+            tangential_force=tangential_force,
+        )
+
+
 def test_hybrid_root_rejects_invalid_observed_state_classification(monkeypatch) -> None:
     """A hybrid root cannot silently reinterpret an active contact state."""
     with pytest.raises(NumericalConvergenceError, match="invalid direct tangential-state"):
