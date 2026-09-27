@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "status": "RECOVERED_POST_HOC_HASH_VERIFIED",
+  "purpose": "Make exact historical inputs referenced by frozen WP04-E and WP09 checks available without adding raw records to Git.",
+  "archive_subdirectory": "0_2_9/wp14/r23_engineering_source_evidence",
+  "archive_root_environment_variable": "QF_SOLVER_EVIDENCE_ARCHIVE_ROOT",
+  "archive_root_default_relative_to_repository_parent": "qf_solver_evidence_archive",
+  "provenance_note": "Each payload was copied byte-for-byte from a surviving local worktree after matching the frozen expected SHA-256. The donor checkout HEAD identifies only the recovery location; it is not asserted to be the execution SHA. No missing bytes were reconstructed and no historical contract, result, or threshold was rewritten.",
+  "files": [
+    {
+      "repository_path": "qualification/0_2_9/c2r6/frozen_threshold_audit.json",
+      "archive_path": "qualification/0_2_9/c2r6/frozen_threshold_audit.json",
+      "sha256": "75bcef01a7916c8350142044deb6168cb5e9d20efb04d6d8ca905f14078893ef",
+      "size_bytes": 6809,
+      "recovered_from_worktree": "qf_solver_029_wp09_hex20_extension",
+      "recovery_checkout_head": "85bb719980705d8c7214ab56ab331c6a52aeae63"
+    },
+    {
+      "repository_path": "qualification/0_2_9/c2r6/campaign_result.json",
+      "archive_path": "qualification/0_2_9/c2r6/campaign_result.json",
+      "sha256": "d107eaf45538be70236019b8f839b78f1acf4b7352d32ea0c9019a09d6f6f513",
+      "size_bytes": 42755,
+      "recovered_from_worktree": "qf_solver_029_wp09_formal",
+      "recovery_checkout_head": "596af304a3c075a3204b2c45fada4d6c402a15e2"
+    },
+    {
+      "repository_path": "qualification/0_2_9/c2r6/m3_result.json",
+      "archive_path": "qualification/0_2_9/c2r6/m3_result.json",
+      "sha256": "997ffe16dc6d7832a98f101d513ffa54040295df14609b82723871b1559f97e1",
+      "size_bytes": 18482,
+      "recovered_from_worktree": "qf_solver_029_wp09_formal",
+      "recovery_checkout_head": "596af304a3c075a3204b2c45fada4d6c402a15e2"
+    },
+    {
+      "repository_path": "qualification/0_2_9/wp04d/g04_11_audit.json",
+      "archive_path": "qualification/0_2_9/wp04d/g04_11_audit.json",
+      "sha256": "21bbbd5b1fee3a400be85aa96d21569c8ede7b1f222e0696bd3698c5af488816",
+      "size_bytes": 5469,
+      "recovered_from_worktree": "qf_solver_029_wp09_formal",
+      "recovery_checkout_head": "596af304a3c075a3204b2c45fada4d6c402a15e2"
+    },
+    {
+      "repository_path": "qualification/0_2_9/wp04d/hex8_campaign_result.json",
+      "archive_path": "qualification/0_2_9/wp04d/hex8_campaign_result.json",
+      "sha256": "03438dd4988ea0bb87c6a1e1117f46d386df86e11659082488a291b684d96bb9",
+      "size_bytes": 69731,
+      "recovered_from_worktree": "qf_solver_029_wp09_formal",
+      "recovery_checkout_head": "596af304a3c075a3204b2c45fada4d6c402a15e2"
+    },
+    {
+      "repository_path": "qualification/0_2_9/wp04d/h3_result.json",
+      "archive_path": "qualification/0_2_9/wp04d/h3_result.json",
+      "sha256": "cae8d513fbab6209ed8a88d59b331ee247e356882e5c26643def6308457f0a0e",
+      "size_bytes": 13999,
+      "recovered_from_worktree": "qf_solver_029_wp09_formal",
+      "recovery_checkout_head": "596af304a3c075a3204b2c45fada4d6c402a15e2"
+    },
+    {
+      "repository_path": "qualification/0_2_9/wp09_tet4_consistent_traction_study_r1/h1_tet4_primary.json",
+      "archive_path": "qualification/0_2_9/wp09_tet4_consistent_traction_study_r1/h1_tet4_primary.json",
+      "sha256": "602387bc91b1ffa3e006c7a626809f46276b2bb6acbd3958c95a669408e6c45d",
+      "size_bytes": 530043,
+      "recovered_from_worktree": "qf_solver_029_wp09_tet4_extension_study",
+      "recovery_checkout_head": "11b1b12aaa4f1eff2b144b2bc73c630aa027ac14"
+    }
+  ]
+}

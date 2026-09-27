@@ -10,6 +10,7 @@ import numpy as np
 from scripts.run_wp09_tet4_consistent_traction_study import CONTRACT_PATH, LEVELS, _gate, _load_balance, _mesh, _model
 from scripts.run_wp09_tet4_consistent_traction_reference import _displacement_vector
 from solveur.mesh.validation import MeshValidator
+from tests.helpers.recovered_evidence import load_verified_evidence_bytes
 
 
 def test_tet4_structured_hierarchy_has_expected_counts_and_positive_volumes() -> None:
@@ -117,4 +118,7 @@ def test_frozen_study_contract_binds_runner_and_preserves_history() -> None:
     historical_failure = contract["historical_evidence"]["formal_tet4_failure"]
     assert hashlib.sha256(Path(historical_failure["path"]).read_bytes()).hexdigest() == historical_failure["sha256"]
     superseded = contract["superseded_r1_primary"]
-    assert hashlib.sha256(Path(superseded["path"]).read_bytes()).hexdigest() == superseded["sha256"]
+    superseded_bytes = load_verified_evidence_bytes(
+        superseded["path"], superseded["sha256"]
+    )
+    assert hashlib.sha256(superseded_bytes).hexdigest() == superseded["sha256"]

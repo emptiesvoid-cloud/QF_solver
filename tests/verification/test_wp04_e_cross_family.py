@@ -8,6 +8,8 @@ import math
 from pathlib import Path
 from typing import Any, cast
 
+from tests.helpers.recovered_evidence import load_verified_evidence_bytes
+
 
 ROOT = Path(__file__).resolve().parents[2]
 QUALIFICATION = ROOT / "qualification" / "0_2_9"
@@ -18,6 +20,11 @@ def _load(relative_path: str) -> dict[str, Any]:
         dict[str, Any],
         json.loads((QUALIFICATION / relative_path).read_text(encoding="utf-8")),
     )
+
+
+def _load_frozen_source(relative_path: str, expected_sha256: str) -> dict[str, Any]:
+    payload = load_verified_evidence_bytes(relative_path, expected_sha256)
+    return cast(dict[str, Any], json.loads(payload))
 
 
 def _delta(first: float, second: float) -> float:
@@ -48,9 +55,18 @@ def test_g04_12_is_evidence_only_and_preserves_governance_boundary() -> None:
 
 def test_g04_12_recomputes_all_frozen_deltas_from_governing_source_records() -> None:
     audit = _load("wp04e/g04_12_cross_family_audit.json")
-    tet_audit = _load("c2r6/frozen_threshold_audit.json")
-    tet_campaign = _load("c2r6/campaign_result.json")
-    hex_campaign = _load("wp04d/hex8_campaign_result.json")
+    sources = cast(dict[str, Any], audit["sources"])
+    tet_audit_source = cast(dict[str, Any], sources["tet4"])
+    hex8_source = cast(dict[str, Any], sources["hex8"])
+    tet_audit = _load_frozen_source(
+        tet_audit_source["audit_path"], tet_audit_source["audit_sha256"]
+    )
+    tet_campaign = _load_frozen_source(
+        tet_audit_source["campaign_path"], tet_audit_source["campaign_sha256"]
+    )
+    hex_campaign = _load_frozen_source(
+        hex8_source["campaign_path"], hex8_source["campaign_sha256"]
+    )
 
     tet_audit_observables = cast(dict[str, Any], tet_audit["observables"])
     tet_campaign_cases = cast(dict[str, Any], tet_campaign["cases"])
@@ -136,9 +152,8 @@ def test_g04_12_source_file_hashes_and_carried_limitation_are_bound() -> None:
             ("campaign_path", "campaign_sha256"),
             ("case_result_path", "case_result_sha256"),
         ):
-            path = ROOT / source[path_key]
-            assert path.is_file()
-            assert hashlib.sha256(path.read_bytes()).hexdigest() == source[hash_key].lower()
+            payload = load_verified_evidence_bytes(source[path_key], source[hash_key])
+            assert hashlib.sha256(payload).hexdigest() == source[hash_key].lower()
 
     limitation = cast(list[dict[str, Any]], audit["carried_limitations"])[0]
     assert limitation["id"] == "HEX8_SMALL_LOAD_REACTION_SUPPORT"
