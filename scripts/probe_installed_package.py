@@ -14,7 +14,10 @@ from pathlib import Path
 
 
 def probe(mapping_path: Path, version: str, output: Path) -> dict:
-    # Imports take place in a fresh, isolated interpreter after wheel install.
+    # Fresh safe-path interpreter; declared system/user dependencies may be visible.
+    safe_path = bool(getattr(sys.flags, "safe_path", False))
+    if not safe_path or sys.prefix == sys.base_prefix:
+        raise ValueError("The installed probe requires a separate venv and safe-path mode.")
     import qf_solver
     import solveur
     from solveur.cli import main as cli
@@ -24,14 +27,16 @@ def probe(mapping_path: Path, version: str, output: Path) -> dict:
     if distribution.version != version:
         raise ValueError("Installed distribution version mismatch.")
     package_origin = Path(solveur.__file__).resolve()
-    if not package_origin.is_relative_to(Path(sys.prefix).resolve()):
-        raise ValueError("QF Solver was imported outside the installed environment.")
+    for module in (solveur, qf_solver, verification, cli):
+        if not Path(module.__file__).resolve().is_relative_to(Path(sys.prefix).resolve()):
+            raise ValueError("QF Solver was imported outside the installed environment.")
     mapping = json.loads(mapping_path.read_text(encoding="utf-8"))
     verified = []
     for row in mapping:
         if row["path"].startswith("src/"):
-            path = Path(str(distribution.locate_file(row["path"].removeprefix("src/")))).resolve(strict=True)
-            if not path.is_relative_to(Path(sys.prefix).resolve()) or path.is_symlink():
+            candidate = Path(str(distribution.locate_file(row["path"].removeprefix("src/"))))
+            path = candidate.resolve(strict=True)
+            if not path.is_relative_to(Path(sys.prefix).resolve()) or candidate.is_symlink():
                 raise ValueError("An installed source escaped the environment.")
             payload = path.read_bytes()
             if hashlib.sha256(payload).hexdigest() != row["sha256"] or len(payload) != row["bytes"]:
@@ -71,8 +76,9 @@ def probe(mapping_path: Path, version: str, output: Path) -> dict:
               "cli_smoke": cli_checks, "verify_all_exit_code": code,
               "verify_all_output": text.getvalue(), "report_created": False,
               "python_subprocess_audit_events": events,
-              "trace_scope": "PYTHON_AUDIT_HOOK_NOT_SYSTEM_WIDE_OS_TRACE",
-              "dependency_isolation": "SYSTEM_SITE_PACKAGES_ALLOWED_QF_ORIGIN_AND_BYTES_VERIFIED",
+              "trace_scope": "PYTHON_AUDIT_HOOK_DURING_CLI_CHECKS_NOT_SYSTEM_WIDE_OS_TRACE",
+              "dependency_isolation": "SYSTEM_AND_USER_SITE_DEPENDENCIES_ALLOWED_QF_ORIGIN_AND_BYTES_VERIFIED",
+              "safe_path": safe_path,
               "runtime_versions": {name: importlib.metadata.version(name) for name in ("numpy", "scipy", "matplotlib", "pip")}}
     output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     return result

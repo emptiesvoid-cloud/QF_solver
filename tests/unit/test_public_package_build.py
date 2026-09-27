@@ -11,7 +11,9 @@ from pathlib import Path
 import pytest
 
 from scripts.git_tools import git_run
-from scripts.verify_public_package import REQUIRED_TOOLS, archive_payloads, digest, frozen_inputs, verify_archives
+from scripts.verify_public_package import (
+    REQUIRED_TOOLS, archive_payloads, digest, frozen_inputs, installed_probe_command, verify_archives,
+)
 
 
 def _archives(root: Path, selected: dict[str, bytes], *, extra: str | None = None, version: str = "0.2.8") -> None:
@@ -115,6 +117,21 @@ def test_source_archive_symlink_is_rejected(tmp_path: Path) -> None:
         archive.addfile(info)
     with pytest.raises(ValueError, match="non-regular"):
         archive_payloads(path, wheel=False)
+
+
+def test_probe_uses_safe_path_without_hiding_declared_dependency_sites(tmp_path: Path) -> None:
+    command = installed_probe_command(tmp_path / "python", tmp_path / "probe.py", tmp_path / "mapping.json",
+                                      "0.2.8", tmp_path / "result.json")
+    assert command[:3] == [str(tmp_path / "python"), "-P", str(tmp_path / "probe.py")]
+    assert "-I" not in command
+    assert command[-2:] == ["--output", str(tmp_path / "result.json")]
+
+
+def test_audit_runner_requires_safe_path_capability(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr("scripts.verify_public_package.sys.version_info", (3, 10))
+    with pytest.raises(ValueError, match="Python 3.11"):
+        installed_probe_command(tmp_path / "python", tmp_path / "probe.py", tmp_path / "mapping.json",
+                                "0.2.8", tmp_path / "result.json")
 
 
 @pytest.fixture

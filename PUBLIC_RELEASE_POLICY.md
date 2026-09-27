@@ -140,12 +140,15 @@ archives. It rejects undeclared payloads, missing resources, path aliases,
 symlinks, and package-version mismatches. Generated build metadata is explicitly
 distinguished from selected source inputs.
 
-Installation uses a separate venv, `--no-index` and `--no-deps`. System dependency
-packages may be visible; this is not full dependency isolation. Every installed
+Installation uses a separate venv, `--no-index` and `--no-deps`. System and user
+dependency sites may be visible; this is not full dependency isolation. Every installed
 QF source file must match its bound SHA-256. The three installed CLI launchers are
 smoke-tested without solving. Fresh interpreter probes check that installed
 `verify-all` is refused with exit code 2, both outside a checkout and with a real
-checkout as the current directory. They record Python subprocess audit events;
+checkout as the current directory. The audit runner requires Python 3.11+ for
+`-P` safe-path mode, excluding the script directory and cwd from import search
+without hiding the declared dependency sites. Package Python support is not
+changed. They record Python subprocess audit events during the CLI checks;
 this is not a system-wide OS trace. No verification campaign is authorized.
 
 Each command records its actual argv, working directory, PID, UTC endpoints,

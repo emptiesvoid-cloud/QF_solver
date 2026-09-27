@@ -213,6 +213,19 @@ def run_command(command: list[str], cwd: Path, logs: Path, records: list[dict[st
         raise ValueError(f"Candidate command {number} returned {record['exit_code']} instead of {expected}; raw logs preserved.")
 
 
+def installed_probe_command(python: Path, probe: Path, mapping: Path, version: str, output: Path) -> list[str]:
+    """Keep source/cwd out of sys.path while permitting declared dependency sites.
+
+    Full interpreter isolation would hide the configured dependency sites.
+    QF origin and byte identities are checked independently by the probe.
+    This audit runner requires Python 3.11+; package support is unchanged.
+    """
+    if sys.version_info < (3, 11):
+        raise ValueError("The package audit runner requires Python 3.11+ for safe-path probes.")
+    return [str(python), "-P", str(probe), "--mapping", str(mapping),
+            "--version", version, "--output", str(output)]
+
+
 def run_candidate(root: Path, contract_path: Path, output: Path) -> dict[str, Any]:
     root = root.resolve(strict=True)
     output = output.resolve()
@@ -255,8 +268,8 @@ def run_candidate(root: Path, contract_path: Path, output: Path) -> dict[str, An
         run_command([str(console_directory / ("qf-solver.exe" if os.name == "nt" else "qf-solver")), "--help"], neutral, logs, records)
         probe = root / "scripts" / "probe_installed_package.py"
         for label, cwd in (("outside_checkout", neutral), ("inside_checkout", root)):
-            run_command([str(python), "-I", str(probe), "--mapping", str(output / "source_mapping.json"),
-                         "--version", contract["package_version"], "--output", str(output / f"{label}_probe.json")], cwd, logs, records)
+            run_command(installed_probe_command(python, probe, output / "source_mapping.json",
+                        contract["package_version"], output / f"{label}_probe.json"), cwd, logs, records)
         result.update({"status": "PASS_CANDIDATE_PACKAGE_ONLY", "package_check": packages,
                        "probes": [json.loads((output / f"{label}_probe.json").read_text()) for label in ("outside_checkout", "inside_checkout")],
                        "limitations": contract["limitations"]})
