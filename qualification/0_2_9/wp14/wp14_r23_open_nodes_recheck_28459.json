@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "record_type": "WP14_R23_FROZEN_OPEN_NODE_RECHECK",
+  "branch": "codex/wp14-remediation-clean",
+  "execution_sha": "28459d726ec00676519821836dbd136a86d5b2ba",
+  "worktree_was_clean_before_run": true,
+  "scope": "Only the 13 previously listed open R1 engineering/public/evidence test nodes; no full suite.",
+  "command": "python -m pytest <13 exact node IDs from the preserved WP14 R2.3.1 engineering-failure triage> -q",
+  "duration_seconds": 603.82,
+  "passed": 3,
+  "failed": 10,
+  "skipped": 0,
+  "test_results": [
+    {
+      "node": "tests/integration/test_packaging.py::test_maintained_sources_use_only_qf_solver_brand",
+      "status": "PASS"
+    },
+    {
+      "node": "tests/unit/test_architecture_rules.py::test_python_source_files_stay_within_product_or_frozen_evidence_budgets",
+      "status": "FAIL",
+      "observed": "39 files exceed their applicable source-line budgets; src/solveur/contact/slip_root.py is 1955 lines against 700"
+    },
+    {
+      "node": "tests/unit/test_frictional_contact_family_survey.py::test_family_survey_exercises_three_geometries_and_sliding",
+      "status": "PASS"
+    },
+    {
+      "node": "tests/unit/test_frictional_contact_family_survey.py::test_family_survey_writes_machine_readable_and_visual_evidence",
+      "status": "PASS"
+    },
+    {
+      "node": "tests/unit/test_public_document_audit.py::test_public_document_audit_passes_without_web_delivery_or_internal_paths",
+      "status": "FAIL",
+      "observed": "Current whole-tree audit status is FAIL"
+    },
+    {
+      "node": "tests/unit/test_public_document_audit.py::test_controlled_public_document_audit_record_matches_current_classification",
+      "status": "FAIL",
+      "observed": "Current audit status is FAIL; historical 0.2.7 record remains PASS and unchanged"
+    },
+    {
+      "node": "tests/unit/test_public_release_audit.py::test_current_public_release_candidates_are_clean",
+      "status": "FAIL",
+      "observed": "Whole-tree public-source scan reports findings"
+    },
+    {
+      "node": "tests/unit/test_public_release_audit.py::test_current_git_archive_excludes_runtime_and_private_evidence_trees",
+      "status": "FAIL",
+      "observed": "Whole-tree archive scan reports findings"
+    },
+    {
+      "node": "tests/unit/test_review_vocabulary.py::test_published_sources_use_controlled_review_vocabulary",
+      "status": "FAIL",
+      "observed_paths": [
+        "docs/reference/audit_detail_modes.md",
+        "docs/verification/0_2_9/wp06f-closure-contract.md",
+        "qualification/0_2_9/wp06f_closure_contract.json",
+        "src/solveur/api/public.py",
+        "src/solveur/core/audit.py"
+      ]
+    },
+    {
+      "node": "tests/verification/test_wp04_c_tet4_structural.py::test_c05_mesh_displacement_convergence",
+      "status": "FAIL",
+      "observed_delta": 0.1640618103457515,
+      "frozen_limit": 0.02
+    },
+    {
+      "node": "tests/verification/test_wp04_c_tet4_structural.py::test_c07_mesh_energy_convergence",
+      "status": "FAIL",
+      "observed_delta": 0.16379509145773455,
+      "frozen_limit": 0.02
+    },
+    {
+      "node": "tests/verification/test_wp04_c_tet4_structural.py::test_c08_mesh_representative_stress_convergence",
+      "status": "FAIL",
+      "observed_delta": 0.24310580151133324,
+      "frozen_limit": 0.1
+    },
+    {
+      "node": "tests/verification/test_wp04_d_hex8_structural.py::test_raw_hex8_arrays_are_reproducible_and_do_not_use_object_arrays",
+      "status": "FAIL",
+      "observed": "qualification/0_2_9/wp04d/h1_raw.npz is absent; expected historical SHA-256 021fb16a46f369452f5aa0a8e913c1bd345eb3128df3cb5c5a1edce63805ab2d and size 510642 bytes"
+    }
+  ],
+  "persistent_qualification_artifacts_modified": false,
+  "wp04c_calculation_note": "The three WP04-C assertions use their test module's in-memory frozen campaign recomputation; write_evidence() was not invoked.",
+  "active_test_process_after_completion": false,
+  "solver_mechanics_changed": false,
+  "thresholds_changed": false,
+  "ledger_changed": false,
+  "wp14_official_points": "0/1",
+  "global_official_total": "95/100",
+  "full_repository_suite": "NOT_RUN",
+  "conclusion": "HOLD; preserve numerical failures and missing historical bytes. Public-scope changes, budget exceptions/refactors affecting frozen mechanics, or any threshold change require a separately authorized prospective decision."
+}
