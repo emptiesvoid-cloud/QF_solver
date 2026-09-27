@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "record_type": "WP14_SELECTIVE_VALIDATED_FIXES_INTEGRATION",
+  "status": "SELECTIVE_FIXES_VALIDATED_WP14_STILL_HOLD",
+  "integration": {
+    "target_branch": "0.2.9-unified-nonlinear",
+    "target_base_sha": "da1ed3d08c5a61d033e3b492f76ac34432bc2f08",
+    "staging_branch": "codex/wp14-validated-fixes",
+    "staging_head_before_this_record": "c778e721ea8386c6215d8d7510245ba559d9035c",
+    "remote_push_performed": false,
+    "production_mechanics_changed": false,
+    "thresholds_changed": false,
+    "official_ledger_changed": false,
+    "wp14_official_points": "0/1",
+    "global_official_total": "95/100"
+  },
+  "ported_changes": [
+    {
+      "source_commit": "c202c228",
+      "integration_commit": "99bda7815f6ee79c80bcf8d9d0fd409949e67b0d",
+      "scope": "targeted WP01/WP05/WP06/release-readiness regression assertions"
+    },
+    {
+      "source_commit": "6d5365c1",
+      "integration_commit": "f5102c55",
+      "scope": "release-readiness gate-state assertions"
+    },
+    {
+      "source_commit": "f3431405",
+      "integration_commit": "b31bacc7",
+      "scope": "WP14 metadata completeness; non-empty text is distinguished from blank or non-string reviewer/approver fields"
+    },
+    {
+      "source_commit": "7e576ccf",
+      "integration_commit": "f3dc19e2",
+      "scope": "restore 18 expected zero-byte historical WP13/CalculiX placeholders"
+    },
+    {
+      "source_commit": "6315c81d",
+      "integration_commit": "b1f10af7",
+      "scope": "hash-pinned external archive resolver and exact WP04-E/WP09 evidence tests; stale source-branch triage report intentionally excluded"
+    },
+    {
+      "source_commit": "170d42c6",
+      "integration_commit": "21d67e00",
+      "scope": "guard verify-all to complete Git source checkouts"
+    },
+    {
+      "source_commit": "ab3253fe",
+      "integration_commit": "dd1221f2",
+      "scope": "verify source module identity and Git checkout-root identity before verify-all subprocesses"
+    },
+    {
+      "source_commit": "734a20e4",
+      "integration_commit": "c778e721",
+      "scope": "isolate verify-all report tests from the Git preflight"
+    },
+    {
+      "source_commit": "local_reconciliation",
+      "integration_commit": "6db4f774",
+      "scope": "align the historical WP05-CDE integration test with the current Owner-accepted experimental WP08 R1.13 ledger status"
+    }
+  ],
+  "validation": {
+    "recovered_evidence_tests": "17 passed",
+    "targeted_regression_batch_initial": "55 passed, 1 failed, 2 skipped; failure was a stale WP08 ledger-status expectation",
+    "stale_assertion_followup": "1 passed in 0.48s; the entire 55-test batch was not rerun after this single expectation correction",
+    "verify_all_cli_tests": "11 passed in 2.06s",
+    "ruff": "PASS, Ruff 0.15.20, scoped changed Python files",
+    "compileall": "PASS, scoped changed Python files",
+    "recovered_evidence_manifest_json": "PASS",
+    "git_diff_check": "PASS",
+    "full_repository_suite": "NOT_RUN"
+  },
+  "evidence_and_scope": {
+    "external_archive_required_for_wp04e_wp09_evidence_tests": true,
+    "external_archive_hash_checks": "PASS through targeted evidence tests",
+    "large_raw_evidence_added_to_git": false,
+    "solver_runs": "NONE",
+    "wp05e_rebind_changes": "NOT_PORTED; outside this WP14 correction tranche",
+    "remaining_wp14_gates": "OPEN; no release qualification or WP14 closure claimed",
+    "historical_failures_rewritten": false
+  },
+  "limitations": [
+    "The targeted regression batch was not rerun in full after correcting its one stale ledger expectation.",
+    "The CLI boundary tests validate the current source guard; no package rebuild or public-scope scan was performed in this integration.",
+    "Remaining WP14 engineering, documentation, evidence, and release-governance gates remain open and require their own remediation and evidence."
+  ]
+}
