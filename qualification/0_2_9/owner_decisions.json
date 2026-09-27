@@ -520,6 +520,49 @@
         "qualification/0_2_9/wp07d_contact_requalification_r2/wp07_r2_5_integration_record.json",
         "docs/verification/0_2_9/wp07d-r2-5-owner-acceptance.md"
       ]
+    },
+    {
+      "id": "OD-029-WP08-AREA-R1.13-01",
+      "title": "WP08 R1.13 area-supported contact accepted as experimental evidence",
+      "decision_date": "2026-09-27",
+      "status": "CLOSED_OWNER_ACCEPTED_EXPERIMENTAL_WITH_LIMITATIONS",
+      "owner_review_status": "ACCEPTED_EXPERIMENTAL_WITH_LIMITATIONS",
+      "owner_accepts_experimental_evidence": true,
+      "owner_accepts_limitations": true,
+      "accepted_scope": "Six R1.13 diagnostic cases: stick/slip on M1/M2/M3; each passed its per-case diagnostic gates and accepted 8/8 load steps.",
+      "execution_sha": "b5dde151ff827f140e0431c3cf45a4c18871d5cd",
+      "pre_decision_evidence_report_commit": "dc538b86bc5f1064c59201c627158640682f501c",
+      "final_audit_sha256": "c152a2cc0c27b91c1a14da9a27e78ce75a058a6f98a46259b153b108f8e03354",
+      "m1_contract_sha256": "a81c9b07d9bfc457c8ef5ab48cfd9dcc1f4eab8430f6fc04136889c3229c790a",
+      "m2_m3_contract_sha256": "08c568984bd63f66bc7cf30be5407b190ac351cec6f3543f11cb839d09322b4f",
+      "incremental_points_awarded": 0,
+      "wp08_points_before": "8/8",
+      "wp08_points_after": "8/8",
+      "global_official_total_before": "95/100",
+      "global_official_total_after": "95/100",
+      "formal_wp08_requalification": false,
+      "authorizations": {
+        "owner_accepts_r1_13_experimental_evidence": true,
+        "official_score_changed": false,
+        "governing_merge": false,
+        "governing_push": false
+      },
+      "historical_r1_12_m4_failure_preserved": true,
+      "evidence": [
+        "docs/verification/0_2_9/wp08-area-supported-contact-r1-13-owner-decision.md",
+        "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_owner_decision.json",
+        "docs/verification/0_2_9/wp08-area-supported-contact-r1-13-final-report.md",
+        "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_final_audit.json"
+      ],
+      "limitations": [
+        "R1.13 is experimental bounded evidence, not formal WP08 qualification",
+        "slip displacement mesh deltas are 24.883% for M1-to-M2 and 24.541% for M2-to-M3; no mesh-convergence claim",
+        "M3 slip active contact area fraction is 0.875",
+        "independent global FEM/Newton reference, replay and external-solver correlation were not run",
+        "fallback count is not exposed; no zero-fallback claim",
+        "historical R1.12 M4 FAIL_CLOSED_NUMERICAL remains preserved and unreclassified",
+        "prior WP08 official 8/8 award is preserved; no new points or score change"
+      ]
     }
   ],
   "ledger_reconciliation": {

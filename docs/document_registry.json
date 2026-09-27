@@ -6346,10 +6346,22 @@
   {
     "id": "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-RESULTS",
     "path": "verification/0_2_9/wp08-area-supported-contact-r1-13-final-report.md",
-    "title": "WP08 R1.13 area-supported contact results for Owner review",
-    "status": "owner_review_candidate",
+    "title": "WP08 R1.13 area-supported contact results accepted experimentally with limitations",
+    "status": "owner_accepted_experimental_with_limitations",
     "requirements": [],
     "examples": [
+      "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_final_audit.json"
+    ],
+    "tests": []
+  },
+  {
+    "id": "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-OWNER-DECISION",
+    "path": "verification/0_2_9/wp08-area-supported-contact-r1-13-owner-decision.md",
+    "title": "WP08 R1.13 Owner acceptance as experimental evidence with limitations",
+    "status": "owner_accepted_experimental_with_limitations",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_owner_decision.json",
       "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_final_audit.json"
     ],
     "tests": []

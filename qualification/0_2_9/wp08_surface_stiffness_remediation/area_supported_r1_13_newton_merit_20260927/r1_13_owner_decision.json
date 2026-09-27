@@ -1,0 +1,52 @@
+{
+  "decision_id": "OD-029-WP08-AREA-R1.13-01",
+  "decision_date": "2026-09-27",
+  "status": "CLOSED_OWNER_ACCEPTED_EXPERIMENTAL_WITH_LIMITATIONS",
+  "owner_accepts_experimental_evidence": true,
+  "owner_accepts_limitations": true,
+  "accepted_scope": {
+    "execution_sha": "b5dde151ff827f140e0431c3cf45a4c18871d5cd",
+    "cases": [
+      "M1/stick_target",
+      "M1/slip_target",
+      "M2/stick_target",
+      "M2/slip_target",
+      "M3/stick_target",
+      "M3/slip_target"
+    ],
+    "all_six_per_case_diagnostic_gates_passed": true,
+    "accepted_load_steps_per_case": "8/8",
+    "formal_wp08_qualification": false
+  },
+  "limitations": {
+    "slip_displacement_mesh_delta_m1_to_m2": 0.24883231842042378,
+    "slip_displacement_mesh_delta_m2_to_m3": 0.24540932269554774,
+    "slip_m3_active_area_fraction": 0.875,
+    "mesh_convergence_claim": false,
+    "independent_global_fem_reference": "NOT_RUN",
+    "solver_replay": "NOT_RUN",
+    "external_solver_correlation": "NOT_RUN",
+    "fallback_count": "NOT_EXPOSED_NO_ZERO_FALLBACK_CLAIM",
+    "historical_r1_12_m4": "FAIL_CLOSED_NUMERICAL_PRESERVED_NOT_RECLASSIFIED"
+  },
+  "score_and_governance": {
+    "wp08_official_points_before": "8/8",
+    "wp08_official_points_after": "8/8",
+    "prior_wp08_award_preserved": true,
+    "incremental_points_awarded": 0,
+    "global_official_total_before": "95/100",
+    "global_official_total_after": "95/100",
+    "ledger_changed": false,
+    "governing_merge_authorized": false,
+    "governing_push_authorized": false
+  },
+  "provenance": {
+    "branch": "codex/wp08-area-contact-r1-13",
+    "execution_sha": "b5dde151ff827f140e0431c3cf45a4c18871d5cd",
+    "pre_decision_evidence_report_commit": "dc538b86bc5f1064c59201c627158640682f501c",
+    "final_audit_path": "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_final_audit.json",
+    "final_audit_sha256": "c152a2cc0c27b91c1a14da9a27e78ce75a058a6f98a46259b153b108f8e03354",
+    "m1_contract_sha256": "a81c9b07d9bfc457c8ef5ab48cfd9dcc1f4eab8430f6fc04136889c3229c790a",
+    "m2_m3_contract_sha256": "08c568984bd63f66bc7cf30be5407b190ac351cec6f3543f11cb839d09322b4f"
+  }
+}

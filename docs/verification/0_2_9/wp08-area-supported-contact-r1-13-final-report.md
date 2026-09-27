@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-RESULTS
 revision: 1.0
-status: owner_review_candidate
+status: owner_accepted_experimental_with_limitations
 applicable_version: 0.2.9-development
 ---
 
@@ -114,12 +114,12 @@ policy was not enforced by this diagnostic runner. The R1.11 M1/M2/M3 results
 are historical context, not substitutes for R1.13 evidence. R1.12 M4 remains
 `FAIL_CLOSED_NUMERICAL` and is not reclassified by these M1/M2/M3 results.
 
-## Owner decision requested
+## Owner decision
 
-Review the six passing per-case diagnostic gates and explicitly decide whether
-this bounded, mesh-sensitive evidence is acceptable as an experimental
-contact-route candidate. Do not infer formal WP08 closure, mesh convergence,
-zero fallbacks, independent-solver validation, or a resolution of the R1.12
-M4 failure from this report.
+The Owner accepted the evidence as experimental with limitations on
+2026-09-27. This does not imply formal WP08 requalification, mesh convergence,
+zero fallbacks, independent-solver validation, or resolution of the R1.12 M4
+failure. See the [Owner decision](wp08-area-supported-contact-r1-13-owner-decision.md)
+and its [machine-readable record](../../../qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_owner_decision.json).
 
 Machine-readable audit: `qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_final_audit.json`.

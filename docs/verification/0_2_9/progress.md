@@ -19,7 +19,7 @@ applicable_version: 0.2.9-development
 | WP05 | 5 | **Closed — 5/5, bounded with limitations; C/D structural qualification and E cross-family closure accepted** |
 | WP06 | 8 | **Owner accepted A/B/C — 4/8 with limitations; D accepted as experimental bounded evidence only**; no formal D points; historical D failure preserved |
 | WP07 | 10 | **Previously Owner-accepted — 10/10 with bounded limitations; reopened for scoped regression review after contact remediation** |
-| WP08 | 8 | **Previously Owner-accepted — 8/8 with limitations; reopened for frictional-contact requalification on the remediation source** |
+| WP08 | 8 | **Prior 8/8 preserved; R1.13 accepted experimentally with limitations; formal frictional-contact requalification remains unestablished** |
 | WP09 | 8 | **Closed — Owner accepted 8/8; HEX8-only bounded corotational J2 with limitations** |
 | WP10 | 6 | **Closed — Owner accepted 6/6; bounded TET4/HEX8/HEX20/TET10 coupled evidence with limitations** |
 | WP11 | 6 | **Closed — Owner accepted 6/6; bounded TET4/HEX8/TET10/HEX20 PETSc/MPI evidence with limitations** |
@@ -238,6 +238,22 @@ authorization required by its runner. The active score remains 95/100.
 See the [contact active-set remediation report](contact-active-set-remediation.md)
 and machine-readable record at
 `qualification/0_2_9/contact_robustness_requalification/contact_active_set_remediation_r1.json`.
+
+### WP08 R1.13 experimental acceptance (2026-09-27)
+
+The Owner accepts the R1.13 area-supported contact results as experimental
+evidence with limitations. The acceptance covers only the six stick/slip
+diagnostic cases on M1/M2/M3; all passed their per-case gates and accepted
+8/8 load increments. It does not establish formal WP08 requalification or
+change the prior WP08 award of 8/8 or the global total of 95/100.
+
+Slip displacement remains mesh-sensitive (24.883% M1→M2 and 24.541% M2→M3),
+and M3 slip active area is 0.875. No mesh-convergence or zero-fallback claim
+is made; the fallback count is not exposed. No independent global FEM/Newton
+reference, solver replay or external-solver correlation was run. Historical
+R1.12 M4 `FAIL_CLOSED_NUMERICAL` is preserved and not reclassified. See the
+[Owner decision](wp08-area-supported-contact-r1-13-owner-decision.md) and
+[R1.13 diagnostic report](wp08-area-supported-contact-r1-13-final-report.md).
 
 WP01 is closed by the independent Owner decision recorded in
 [the WP01 closure record](wp01-owner-closure.md), based on audit SHA
