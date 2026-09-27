@@ -98,6 +98,7 @@ include = ["qf_solver*", "solveur*"]
 
 [tool.setuptools.data-files]
 examples = ["examples/*.json"]
+"examples/vnv_026_g06" = ["examples/vnv_026_g06/*.json"]
 qualification = [
   "qualification/benchmarks.json",
   "qualification/campaign.json",

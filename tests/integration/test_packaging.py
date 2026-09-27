@@ -97,6 +97,7 @@ def test_runtime_distribution_excludes_repository_only_trees():
     data_files = data["tool"]["setuptools"]["data-files"]
     assert set(data_files) == {
         "examples",
+        "examples/vnv_026_g06",
         "qualification",
         "qualification/0_2_7",
         "qualification/0_2_8",
@@ -106,6 +107,8 @@ def test_runtime_distribution_excludes_repository_only_trees():
         "qualification/element_analysis_matrix.json",
         "qualification/technical_content_coverage.json",
     } <= set(data_files["qualification"])
+    assert data_files["examples/vnv_026_g06"] == ["examples/vnv_026_g06/*.json"]
+    assert len(list((PROJECT_ROOT / "examples/vnv_026_g06").glob("*.json"))) == 4
     assert set(data_files["qualification/0_2_8"]) == {
         "qualification/0_2_8/consolidated_registry.json",
         "qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json",

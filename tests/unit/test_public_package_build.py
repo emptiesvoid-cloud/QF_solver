@@ -64,6 +64,17 @@ def test_changed_installed_module_is_not_a_matching_archive(tmp_path: Path, sele
         verify_archives(tmp_path / "dist", selected, "0.2.8")
 
 
+def test_nested_example_is_required_in_both_archives(tmp_path: Path, selected: dict[str, bytes]) -> None:
+    selected["examples/vnv_026_g06/hex8_mesh_01.json"] = b'{"mesh": "fixture"}'
+    _archives(tmp_path / "dist", selected)
+    assert verify_archives(tmp_path / "dist", selected, "0.2.8")["status"] == "PASS"
+    with zipfile.ZipFile(tmp_path / "dist/qf_solver-0.2.8-py3-none-any.whl", "w") as archive:
+        archive.writestr("qf_solver/__init__.py", selected["src/qf_solver/__init__.py"])
+        archive.writestr("qf_solver-0.2.8.dist-info/METADATA", "Version: 0.2.8\n")
+    with pytest.raises(ValueError, match="examples/vnv_026_g06/hex8_mesh_01.json"):
+        verify_archives(tmp_path / "dist", selected, "0.2.8")
+
+
 def test_wrong_package_version_fails_closed(tmp_path: Path, selected: dict[str, bytes]) -> None:
     _archives(tmp_path / "dist", selected, version="9.9.9")
     with pytest.raises(ValueError, match="version mismatch"):

@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "record_type": "PRESERVED_PACKAGE_CANDIDATE_R1_FAILURE",
+  "status": "FAIL_CLOSED_CANDIDATE_BUILD",
+  "source_sha": "f111a06064370cb325a2d20a6cbd101aaa699a08",
+  "execution_sha": "fadd426fa1b583ddabf792828b231a630c6a851c",
+  "contract": "qualification/0_2_9/wp14/wp14_public_package_candidate_20260927_r1_contract.json",
+  "contract_sha256": "cd0ddeb5cf759b57338b0ffa2972a45c94d106ee29bd7b5e9e1630ef89649836",
+  "archive_root_environment": "QF_SOLVER_EVIDENCE_ARCHIVE_ROOT",
+  "archive_subdirectory": "0_2_9/wp14/package_candidate_20260927_r1",
+  "raw_records": [
+    {
+      "path": "result.json",
+      "bytes": 1176,
+      "sha256": "61b5a7ab47c2a193156ed66602df00590eef92a32bf539c81c2697c8af13d318"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 1220,
+      "sha256": "c8481f6b1e378f9ff398dd5c69bd9f5cf8fc34733352ba76f4351a78021b5dbb"
+    },
+    {
+      "path": "source_mapping.json",
+      "bytes": 136105,
+      "sha256": "b2e96afca0a1cd5ebef1a58893f219d4f269905b213f26851c19bed48215ff33"
+    },
+    {
+      "path": "commands.json",
+      "bytes": 1087,
+      "sha256": "f9443473d5637dbe6958838bc97889fd6a9f6ab8ca5b67f60beddded1f28ba55"
+    }
+  ],
+  "root_cause": "Four selected nested example mesh JSON files are included by MANIFEST.in in the sdist but were not declared in setuptools data-files for the wheel.",
+  "missing_wheel_resources": [
+    "examples/vnv_026_g06/hex8_mesh_01.json",
+    "examples/vnv_026_g06/hex8_mesh_02.json",
+    "examples/vnv_026_g06/hex8_mesh_04.json",
+    "examples/vnv_026_g06/hex8_mesh_08.json"
+  ],
+  "build_command_exit_code": 0,
+  "archive_content_gate": "FAIL",
+  "source_and_binary_strict_scans": "PASS",
+  "installed_venv_checks": "NOT_RUN_DEPENDENCY_CONTENT_GATE",
+  "remediation": "Add explicit examples/vnv_026_g06 data-files coverage, enforce it in tests, then prospectively freeze R2 before building in a distinct output directory.",
+  "historical_evidence_changed": false,
+  "solver_numeric_behavior_changed": false,
+  "numeric_thresholds_changed": false,
+  "publication_performed": false,
+  "wp14_official_points": "0/1",
+  "global_official_total": "95/100"
+}
