@@ -563,6 +563,33 @@
         "historical R1.12 M4 FAIL_CLOSED_NUMERICAL remains preserved and unreclassified",
         "prior WP08 official 8/8 award is preserved; no new points or score change"
       ]
+    },
+    {
+      "id": "OD-029-WP08-AREA-R1.13-INTEGRATION-01",
+      "title": "Owner authorization to integrate and push WP08 R1.13 experimental lineage",
+      "decision_date": "2026-09-27",
+      "status": "CLOSED_INTEGRATED_AND_PUSHED",
+      "owner_authorization": true,
+      "authorization_scope": "Fast-forward the reviewed codex/wp08-area-contact-r1-13 lineage into 0.2.9-unified-nonlinear and push; preserve historical evidence and score decisions.",
+      "governing_branch": "0.2.9-unified-nonlinear",
+      "source_branch": "codex/wp08-area-contact-r1-13",
+      "governing_head_before_integration": "cd69958909aabcd74649b92fde768a1a0422ed52",
+      "accepted_source_head": "d96b91e8ecd5781e0bff4803e256a0976bd6a4db",
+      "integration_method": "fast-forward; no force push",
+      "initial_pushed_head_verified_after_fetch": "d96b91e8ecd5781e0bff4803e256a0976bd6a4db",
+      "wp08_points_before": "8/8",
+      "wp08_points_after": "8/8",
+      "global_official_total_before": "95/100",
+      "global_official_total_after": "95/100",
+      "incremental_points_awarded": 0,
+      "formal_wp08_requalification": false,
+      "historical_r1_12_m4_failure_preserved": true,
+      "earlier_r1_13_evidence_decision_rewritten": false,
+      "evidence": [
+        "docs/verification/0_2_9/wp08-area-contact-r1-13-integration-record.md",
+        "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_integration_record.json",
+        "docs/verification/0_2_9/wp08-area-supported-contact-r1-13-owner-decision.md"
+      ]
     }
   ],
   "ledger_reconciliation": {

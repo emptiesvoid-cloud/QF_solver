@@ -6396,6 +6396,19 @@
     "tests": [
       "tests/unit/test_wp07d_replay_gate_status_normalization.py"
     ]
+  },
+  {
+    "id": "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-INTEGRATION",
+    "path": "verification/0_2_9/wp08-area-contact-r1-13-integration-record.md",
+    "title": "WP08 R1.13 Owner-authorized governing integration and push record",
+    "status": "controlled_evidence",
+    "requirements": [],
+    "examples": [
+      "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_integration_record.json",
+      "qualification/0_2_9/owner_decisions.json",
+      "qualification/0_2_9/progress.json"
+    ],
+    "tests": []
   }
 ]
 }

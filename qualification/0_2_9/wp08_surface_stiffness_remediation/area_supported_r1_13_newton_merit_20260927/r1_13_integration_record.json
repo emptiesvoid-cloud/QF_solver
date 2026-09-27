@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "decision_id": "OD-029-WP08-AREA-R1.13-INTEGRATION-01",
+  "recorded_on": "2026-09-27",
+  "status": "CLOSED_INTEGRATED_AND_PUSHED",
+  "owner_authorization": true,
+  "authorization_context": "Explicit follow-up Owner instruction to merge and push after experimental acceptance",
+  "governing_branch": "0.2.9-unified-nonlinear",
+  "source_branch": "codex/wp08-area-contact-r1-13",
+  "governing_head_before_integration": "cd69958909aabcd74649b92fde768a1a0422ed52",
+  "accepted_source_head": "d96b91e8ecd5781e0bff4803e256a0976bd6a4db",
+  "integration_method": "fast_forward",
+  "force_push": false,
+  "initial_pushed_head": "d96b91e8ecd5781e0bff4803e256a0976bd6a4db",
+  "remote_head_verified_after_fetch": "d96b91e8ecd5781e0bff4803e256a0976bd6a4db",
+  "historical_acceptance_record_rewritten": false,
+  "wp08_status": "8/8 prior official award preserved; R1.13 experimental only",
+  "wp08_formal_requalification_established": false,
+  "incremental_points_awarded": 0,
+  "global_official_total_before": "95/100",
+  "global_official_total_after": "95/100",
+  "solver_rerun_during_integration": false,
+  "full_test_suite_run": false,
+  "raw_untracked_campaign_files": "Preserved in source worktree; not staged or deleted by integration",
+  "archived_log_whitespace": "Trailing whitespace in historical stderr logs preserved to maintain raw evidence integrity",
+  "limitations": [
+    "R1.13 remains experimental bounded evidence, not formal WP08 requalification",
+    "slip displacement mesh deltas are 24.883% for M1-to-M2 and 24.541% for M2-to-M3; no mesh-convergence claim",
+    "independent global FEM reference, solver replay, and external-solver correlation were not run",
+    "fallback count is not exposed; no zero-fallback claim",
+    "historical R1.12 M4 FAIL_CLOSED_NUMERICAL remains preserved and unreclassified"
+  ],
+  "evidence": [
+    "docs/verification/0_2_9/wp08-area-supported-contact-r1-13-owner-decision.md",
+    "docs/verification/0_2_9/wp08-area-supported-contact-r1-13-final-report.md",
+    "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_owner_decision.json",
+    "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_final_audit.json"
+  ]
+}
