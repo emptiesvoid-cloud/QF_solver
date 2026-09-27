@@ -84,9 +84,11 @@ def test_release_readiness_supports_direct_script_execution(tmp_path) -> None:
 
 
 def test_release_audit_commands_create_nested_output_directories(tmp_path) -> None:
+    # This tests export and exit-code fidelity, not release acceptance; the
+    # separate current-tree tests still require the scanners to return PASS.
     cases = (
-        ("audit_public_release.py", {"PASS": 0}),
-        ("audit_release_archive.py", {"PASS": 0}),
+        ("audit_public_release.py", {"PASS": 0, "FAIL": 1}),
+        ("audit_release_archive.py", {"PASS": 0, "FAIL": 1}),
         ("audit_git_history.py", {"PASS": 0, "WARNING": 1}),
         ("release_readiness.py", {"READY": 0, "NOT_READY": 4}),
     )

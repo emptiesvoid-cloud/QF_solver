@@ -250,7 +250,23 @@ def test_t29_replayed_failure_has_identical_reason_and_diagnostic_digest() -> No
                 tolerance=1.0e-8,
                 max_iterations=3,
             )
-        return error.value.to_dict()
+        record = error.value.to_dict()
+        diagnostics = record["diagnostics"]
+        assert isinstance(diagnostics, dict)
+        # Timing and process-memory telemetry are observations, not part of the
+        # deterministic numerical failure identity.
+        for key in ("linear_solve_seconds", "preconditioner_setup_seconds"):
+            value = diagnostics.pop(key)
+            assert isinstance(value, (int, float)) and np.isfinite(value) and value >= 0
+        for key in (
+            "preconditioner_rss_before_bytes",
+            "preconditioner_rss_after_bytes",
+            "preconditioner_private_before_bytes",
+            "preconditioner_private_after_bytes",
+        ):
+            value = diagnostics.pop(key)
+            assert value is None or (isinstance(value, int) and value >= 0)
+        return record
 
     assert run() == run()
 

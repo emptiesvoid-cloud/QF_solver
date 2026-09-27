@@ -21,8 +21,10 @@ class _PredictorAdapter:
     def __init__(self, predictor: np.ndarray) -> None:
         self.predictor = np.asarray(predictor, dtype=float)
 
-    def solve(self, matrix: csr_matrix, rhs: np.ndarray, *, method: str) -> tuple[np.ndarray, object]:
-        del matrix, rhs, method
+    def solve(
+        self, matrix: csr_matrix, rhs: np.ndarray, *, method: str, parameters: object | None = None
+    ) -> tuple[np.ndarray, object]:
+        del matrix, rhs, method, parameters
         return self.predictor.copy(), SimpleNamespace(converged=True)
 
 
@@ -68,7 +70,7 @@ def test_wp06a_initial_radius_is_finite_for_zero_and_oriented_predictors(
 ) -> None:
     probe = _ArcLengthRadiusProbe(predictor)
     radius, scale = probe._initial_arc_length_radius(
-        None,
+        SimpleNamespace(analysis=SimpleNamespace(parameters={})),
         None,
         np.zeros(1),
         np.array([0]),

@@ -74,6 +74,9 @@ def test_release_ledger_includes_wp05_and_wp07_owner_awards() -> None:
     # The Owner decision records the historical WP07-E checkpoint; the active
     # consolidated ledger includes later WP09-WP13 awards.
     assert progress["validated_points"] >= wp07e["consolidated_ledger_after"]
+    assert progress["validated_points"] == sum(
+        int(item["validated_points"]) for item in progress["work_packages"].values()
+    )
     roadmap_allocation_sum = sum(
         item["points"] for item in roadmap["work_packages"]
     )
