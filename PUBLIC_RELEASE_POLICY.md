@@ -104,3 +104,56 @@ publish internal working instructions, local execution context, private model
 data or machine configuration. URLs created for documentation, packages or
 releases must point only to reviewed public content and must be added to the
 release checklist before publication.
+
+## Prospective Package Selection
+
+The engineering evidence repository and an installable package are distinct
+scopes. A preparation plan may select source, examples, package metadata and
+specific reviewed qualification records. Every selected file must map to an
+exact Git blob, size and SHA-256; required build/data inputs must be covered.
+Run `python -m scripts.plan_public_package --contract <preparation-contract>`
+to inspect that mapping and apply the existing strict scans to selected bytes.
+This command is read-only: it does not stage, build, publish, or update a ledger.
+
+A successful preparation scan does not close the whole-repository release
+gates. A separate prospective execution contract must bind the updated source
+before staging, building and checking wheel/sdist bytes and installed commands.
+The existing package version remains authoritative; a preparation plan is not
+permission to announce a new release or to change that version.
+
+Unselected engineering records and historical failures remain intact. The
+package selection does not make committed Git history private. No history
+rewrite, broad gate waiver, tag, upload or Owner score attribution follows
+from this plan.
+
+### Candidate build verification
+
+`scripts/verify_public_package.py` executes a separately committed
+`FROZEN_CANDIDATE_BUILD` contract, not the preparation plan. The contract binds
+an exact source commit, all build/probe/scan tools, the selection and exclusions,
+and the unchanged package version. A clean execution checkout and a new external
+output directory are required. Existing outputs are never reused or overwritten.
+
+The tool materializes only the selected Git blobs, builds wheel and sdist, scans
+both with the existing strict rules, and checks every selected byte against the
+archives. It rejects undeclared payloads, missing resources, path aliases,
+symlinks, and package-version mismatches. Generated build metadata is explicitly
+distinguished from selected source inputs.
+
+Installation uses a separate venv, `--no-index` and `--no-deps`. System dependency
+packages may be visible; this is not full dependency isolation. Every installed
+QF source file must match its bound SHA-256. The three installed CLI launchers are
+smoke-tested without solving. Fresh interpreter probes check that installed
+`verify-all` is refused with exit code 2, both outside a checkout and with a real
+checkout as the current directory. They record Python subprocess audit events;
+this is not a system-wide OS trace. No verification campaign is authorized.
+
+Each command records its actual argv, working directory, PID, UTC endpoints,
+exit code, and hashed stdout/stderr. The manifest binds the binaries, source
+mapping, command records, probes and logs. Generated build trees and the venv
+are not treated as immutable evidence inputs. Large outputs remain external.
+
+`PASS_CANDIDATE_PACKAGE_ONLY` means that this selected installable package
+satisfies its candidate checks. It does not convert the historical whole-repo
+publication failures to PASS, certify the full documentation collection,
+recover missing historical raw evidence, close WP14, or authorize publication.

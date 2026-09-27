@@ -19,9 +19,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-ROOT = Path(__file__).resolve().parents[1]
-LOCAL_SOURCE = ROOT / "src"
-sys.path.insert(0, str(LOCAL_SOURCE))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 import numpy as np
 from threadpoolctl import threadpool_info, threadpool_limits
@@ -33,6 +31,8 @@ from solveur.core.model import FiniteElementModel
 from solveur.io.nonlinear_checkpoint import NpzNonlinearCheckpointStore
 
 
+ROOT = Path(__file__).resolve().parents[1]
+LOCAL_SOURCE = ROOT / "src"
 MESH_ROOT = ROOT / "qualification" / "0_2_9" / "wp06d_candidate_mesh_audit_20260918"
 OUT = ROOT / "qualification" / "0_2_9" / "wp06d_low_strain_exploratory_20260918_normalized_dof_r1"
 GEOMETRIES = (("rise_span_0_05", 0.05), ("rise_span_0_025", 0.025))

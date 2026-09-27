@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "classification": "OWNER_AUTHORIZED_TERMINOLOGY_ONLY_MIGRATION",
+  "basis": "Explicit Owner instruction to migrate archive terminology as well as maintained sources",
+  "original_source_sha": "0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba",
+  "git_history_rewrite": false,
+  "historical_execution_digests_rebound": false,
+  "numerical_thresholds_changed": false,
+  "historical_numerical_results_changed": false,
+  "owner_points_changed": false,
+  "files": [
+    {
+      "path": "docs/verification/0_2_9/wp06f-closure-contract.md",
+      "original_git_blob": "e56cfb2f01beef312ab508553877b99ea0d5828a",
+      "original_sha256": "45f919ba237957cad473959fd86b0dd9d1e4c8a2009856407b088802378df866",
+      "migrated_sha256": "8e389f0987fbeb346aea4a6e32f124fd428d9c5a4e326a2411e49e3e9c7869cb",
+      "transformation": "REPORT_LABEL_ONLY"
+    },
+    {
+      "path": "qualification/0_2_9/wp06f_closure_contract.json",
+      "original_git_blob": "2ad3abe454b138107f8230a9f12b6161df0a905a",
+      "original_sha256": "b9379d24e255343020428ee840fdc5afe724a6bf4cee4190975ea2aad178843d",
+      "migrated_sha256": "6bd5228ed76748173579e2d378a8319b8f91c840ced0ebcd572167e269012875",
+      "transformation": "AUTHORITY_ORDER_INDEX_2_LABEL_ONLY",
+      "new_label": "ANALYZER_REPORT"
+    }
+  ],
+  "limitations": [
+    "Current files are terminology-migrated copies, not byte-identical originals.",
+    "Prior execution and contract digests still designate the original Git blobs.",
+    "No threshold, execution guard, authority rank, result or score is revised.",
+    "Any future formal use must bind the exact revised file digest prospectively."
+  ]
+}

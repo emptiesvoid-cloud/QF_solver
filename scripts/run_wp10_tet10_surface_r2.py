@@ -17,9 +17,8 @@ from typing import Any, cast
 
 import numpy as np
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
-sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from solveur.api import solve_model
 from solveur.contact.entities import FrictionlessContact
@@ -28,6 +27,7 @@ from solveur.core.model import FiniteElementModel
 from scripts import run_wp10_tet10_surface_m1 as base
 
 
+ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = ROOT / "qualification" / "0_2_9" / "wp10_tet10_surface_r2_contract.json"
 ELEMENT_TYPE = base.ELEMENT_TYPE
 POLICY_DIGEST = base.POLICY_DIGEST

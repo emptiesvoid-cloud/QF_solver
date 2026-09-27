@@ -217,7 +217,7 @@ refactoring automatique.
 
 ## Garde-Fous
 
-- Aucun fichier Python sous `src/solveur`, `src/solveur/compat/mitc4` ou `tests` ne depasse 700 lignes.
+- L'objectif de maintenance est de 700 lignes par fichier Python sous `src/solveur`, `scripts` et `tests`. Un depassement, y compris au-dela de 1 000 ou 2 000 lignes, est inventorie comme dette non bloquante, sans plafond arbitraire. Les controles de dependances, de syntaxe et de comportement restent obligatoires.
 - `src/solveur/elements` ne depend pas de `solveur/io`, `solveur/cli` ou
   `solveur/api`.
 - `src/solveur/core` ne depend pas de `solveur/cli` ou `solveur/api`.

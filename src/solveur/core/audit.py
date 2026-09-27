@@ -384,7 +384,7 @@ class SolverAudit:
             size_warning = (
                 f"detail='values' est estime a {size_estimate:,} lignes/controles, "
                 f"au-dessus du seuil configurable {values_warning_rows:,}; "
-                "utiliser detail='diagnostic' pour l'audit humain."
+                "utiliser detail='diagnostic' pour l'analyseur."
             )
         if detail == "values" and size_warning:
             diagnostic["export_size_estimate"] = size_estimate
@@ -1085,7 +1085,7 @@ def _load_assembly_summary(load_assembly: dict[str, Any]) -> dict[str, Any]:
 
 
 def _equilibrium_diagnostic(equilibrium: dict[str, Any]) -> dict[str, Any]:
-    """Select equilibrium observables needed for compact human review."""
+    """Select equilibrium observables needed for a compact analyzer report."""
     keys = (
         "free_relative_residual",
         "force_balance_relative_error",

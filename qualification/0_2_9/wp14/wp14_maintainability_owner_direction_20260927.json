@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "terminology_direction_status": "SUPERSEDED_BY_EXPLICIT_ARCHIVE_MIGRATION_INSTRUCTION",
+  "terminology_direction_superseded_by": "qualification/0_2_9/wp14/wp14_analyzer_terminology_migration_20260927.json",
+  "record_id": "QF-029-WP14-MAINTAINABILITY-DIRECTION-20260927",
+  "record_type": "OWNER_DIRECTION_IMPLEMENTATION_NOT_RELEASE_ACCEPTANCE",
+  "recorded_date": "2026-09-27",
+  "basis": "Explicit Owner instruction in the current task",
+  "source_base_sha": "0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba",
+  "maintainability": {
+    "line_target": 700,
+    "hard_line_limit": null,
+    "exceeding_1000_or_2000_lines_is_allowed": true,
+    "all_exceedances_must_remain_visible": true,
+    "historical_budget_values_are_reference_counts_only": true,
+    "syntax_dependency_and_behavior_checks_remain_mandatory": true,
+    "classification": "PROSPECTIVE_NON_NUMERICAL_POLICY_CHANGE"
+  },
+  "review_terminology": {
+    "maintained_terms": ["analyse Owner", "Owner review", "owner_analysis", "owner_review"],
+    "strict_lexical_control_retained": true,
+    "historical_records_preserved_by_exact_hash": true,
+    "analysis_does_not_equal_acceptance": true,
+    "empty_reviewer_or_approver_does_not_equal_approval": true
+  },
+  "numeric_thresholds_changed": false,
+  "numerical_solver_behavior_changed": false,
+  "historical_failure_results_reclassified": false,
+  "wp14_release_acceptance": "NOT_GRANTED_BY_THIS_DIRECTION",
+  "wp14_official_points": "0/1",
+  "global_official_total": "95/100",
+  "merge_authorized_by_this_record": false,
+  "push_authorized_by_this_record": false,
+  "publication_authorized_by_this_record": false
+}

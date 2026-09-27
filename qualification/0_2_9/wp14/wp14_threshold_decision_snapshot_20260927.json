@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "record_type": "WP14_THRESHOLD_DECISION_SUPPORT_READ_ONLY_ANALYSIS",
+  "analysis_date_utc": "2026-09-27",
+  "status": "ANALYSIS_COMPLETE_NOT_OWNER_APPROVED",
+  "provenance": {
+    "branch": "codex/wp14-remediation-clean",
+    "inspected_head": "0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba",
+    "tree_clean_before_report_creation": true,
+    "prior_recheck_execution_sha": "28459d726ec00676519821836dbd136a86d5b2ba",
+    "prior_recheck_record_sha256": "813357ac845f2d672be15869d8f6ec870d55a8e699e635bff9ffdfa5bf7085c6",
+    "wp04f_closure_record_sha256": "3bb1bbf9e0e0d9252bec3bc28d64174546484a913c19b7d926aafa61620c7533",
+    "local_governing_sha": "28459d726ec00676519821836dbd136a86d5b2ba",
+    "observed_remote_tracking_sha": "da1ed3d08c5a61d033e3b492f76ac34432bc2f08",
+    "remote_fetch_performed": false,
+    "raw_command_log_or_process_manifest_created": false,
+    "capture_basis": "Tool outputs from deterministic read-only functions, Git queries, file inventories and SHA-256 checks; not a prospective qualification execution."
+  },
+  "prior_recheck": {
+    "nodes": 13,
+    "passed": 3,
+    "failed": 10,
+    "duration_seconds": 603.82,
+    "full_suite": false,
+    "wp04c_note": "Prior recheck recomputed the frozen original WP04-C campaign in memory; this analysis did not rerun it."
+  },
+  "architecture": {
+    "default_limit_physical_lines": 700,
+    "violations": 39,
+    "violations_by_root": {"src": 9, "scripts": 26, "tests": 4},
+    "largest_product_example": {"path": "src/solveur/contact/slip_root.py", "lines": 1955, "limit": 700},
+    "recommendation": "Keep the active-source guard; behavior-preserving refactor plus individually justified immutable-source exceptions, not a global limit increase."
+  },
+  "publication_scans_before_report_creation": {
+    "source": {"status": "FAIL", "scanned_files": 4456, "findings": 5866},
+    "git_archive_head": {"status": "FAIL", "files": 5602, "findings": 5866},
+    "findings_by_identifier": {"internal_workflow": 243, "workstation_path": 2811, "private_environment": 2811, "private_email": 1},
+    "findings_by_root": {"docs": 73, "qualification": 5762, "scripts": 26, "src": 1, "tests": 4},
+    "counting_note": "One line may trigger more than one identifier. Finding count is not the number of independent software defects.",
+    "credential_markers_found_in_scanned_scope": 0,
+    "git_history_scanned": false,
+    "documentation_subchecks": {"public_source_hygiene": "FAIL", "controlled_review_vocabulary": "FAIL", "web_delivery_retired": "PASS", "internal_paths_not_tracked": "PASS"}
+  },
+  "vocabulary": {
+    "status": "FAIL_CURRENT_BROAD_SUBSTRING_RULE",
+    "offender_paths": ["docs/reference/audit_detail_modes.md", "docs/verification/0_2_9/wp06f-closure-contract.md", "qualification/0_2_9/wp06f_closure_contract.json", "src/solveur/api/public.py", "src/solveur/core/audit.py"],
+    "finding": "Current occurrences describe readability or a report type, not a demonstrated false Owner acceptance."
+  },
+  "tet4": {
+    "original_campaign": {
+      "status": "FAIL_PRESERVED",
+      "medium_mesh": [16, 8, 8],
+      "fine_mesh": [24, 12, 12],
+      "relative_denominator": "max(abs(medium),1e-12)",
+      "deltas": {"displacement": 0.1640618103457515, "energy": 0.16379509145773455, "stress": 0.24310580151133324}
+    },
+    "c2r6_used_by_existing_wp04f_closure": {
+      "medium_mesh": [48, 24, 24],
+      "fine_mesh": [64, 32, 32],
+      "relative_denominator": "max(abs(fine),abs(medium),1e-12)",
+      "deltas": {"displacement": 0.01692700586415766, "energy": 0.016890467524899724, "stress": 0.02164607184507869},
+      "thresholds": {"displacement": 0.02, "energy": 0.02, "stress": 0.10},
+      "all_three_metrics_pass": true,
+      "fresh_structural_execution_in_this_analysis": false,
+      "complete_historical_telemetry_reaudit_performed": false
+    },
+    "recommendation": "Keep numerical thresholds. Separate historical-failure preservation checks from active C2R6 qualification integrity checks."
+  },
+  "recovered_archive": {"manifest_entries_rehashed": 7, "matched": 7, "historical_bytes_regenerated": false},
+  "hex8_raw_evidence": {
+    "status": "HOLD_MISSING_BYTES",
+    "absent_checkout_files": ["h1_raw.npz", "h1_replay_raw.npz", "h2_raw.npz", "h3_raw.npz"],
+    "first_expected_sha256": "021fb16a46f369452f5aa0a8e913c1bd345eb3128df3cb5c5a1edce63805ab2d",
+    "first_expected_size_bytes": 510642,
+    "h1_and_h3_present_as_git_blobs_at_wp04f_audit_sha": false,
+    "wp04f_audit_sha": "70e1bf953c8e6f37b8070e78ca97e58b21499291",
+    "exhaustive_archive_search_repeated_in_this_analysis": false
+  },
+  "documentation_current_inventory": {
+    "registry_sha256": "5878f85bffeabf31374ddfc85eaea9d1146da3f8e5413ef3813812bcbb68dabc",
+    "registered_documents": 436,
+    "metadata_parse_errors": 13,
+    "parseable_documents_missing_one_or_more_required_keys": 13,
+    "required_key_missing_counts_in_parseable_documents": {"reviewer": 13, "approver": 13, "applicable_version": 1},
+    "incomplete_review_metadata_documents_in_selected_statuses_among_parseable_documents": 76,
+    "counting_note": "Incomplete-review counts may overlap missing-key counts and exclude unparseable documents. These fresh counts replace neither historical inventory bytes nor Owner decisions."
+  },
+  "actions_in_this_analysis": {
+    "new_structural_solves": 0,
+    "pytest_run": false,
+    "static_scans_run": true,
+    "production_source_modified": false,
+    "tests_modified": false,
+    "thresholds_modified": false,
+    "ledger_modified": false,
+    "commit_merge_push_performed": false,
+    "files_authored": ["wp14_threshold_decision_and_10_failures_20260927.md", "wp14_threshold_decision_snapshot_20260927.json"]
+  },
+  "governance": {"wp14_status": "HOLD", "wp14_official_points": "0/1", "global_official_total": "95/100", "package_version_observed": "0.2.8", "owner_award_inferred": false}
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "record_status": "HISTORICAL_CHECKPOINT_SUPERSEDED_FOR_VOCABULARY_AND_RUFF",
+  "superseded_by": "qualification/0_2_9/wp14/wp14_analyzer_and_lint_corrections_20260927.json",
+  "record_type": "LOCAL_TARGETED_IMPLEMENTATION_CHECKS_NOT_FORMAL_QUALIFICATION",
+  "branch": "codex/wp14-remediation-clean",
+  "base_head": "0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba",
+  "execution_source": "MODIFIED_UNCOMMITTED_WORKTREE",
+  "maintainability": {
+    "status": "PASS_WITH_MAINTENANCE_DEBT",
+    "target_lines": 700,
+    "hard_line_limit": null,
+    "scanned_files": 1593,
+    "oversized_files": 48,
+    "errors": []
+  },
+  "vocabulary_status": "PASS_WITH_EXACT_HASH_HISTORICAL_CLASSIFICATION",
+  "pytest": {
+    "status": "PASS",
+    "passed": 64,
+    "warnings": 1,
+    "elapsed_seconds": 9.22,
+    "scope": "SEVEN_TARGETED_MODULES"
+  },
+  "ruff_targeted": "PASS",
+  "ruff_global": {"status": "FAIL", "diagnostics": 23, "by_code": {"E402": 20, "F401": 2, "F841": 1}},
+  "mypy": {"status": "PASS", "checked_new_scripts": 3, "follow_imports": "silent", "global_claim": false},
+  "compileall_targeted": "PASS",
+  "numeric_ast_equivalence": {
+    "status": "PASS",
+    "scope": ["src/solveur/api/public.py", "src/solveur/core/audit.py"],
+    "allowed_differences": ["DOCSTRINGS", "ONE_AUDIT_PRESENTATION_MESSAGE"]
+  },
+  "package_plan": {
+    "contract_sha256": "cd58d1fe159bb5b6ed872975ab2747d79c4668d47994c42e0b924fe266b3b326",
+    "selected_files": 551,
+    "immutable_baseline_status": "FAIL_CLOSED_PREPARATION",
+    "immutable_baseline_vocabulary_findings": 2,
+    "missing_package_inputs": [],
+    "corrected_worktree_scan_status": "PASS",
+    "corrected_worktree_scan_findings": 0,
+    "corrected_worktree_evidence_class": "UNFROZEN_PREVIEW_ONLY",
+    "package_version": "0.2.8",
+    "formal_execution_authorized": false,
+    "publication_performed": false,
+    "whole_repository_gates_changed": false
+  },
+  "initial_snapshot_sha256": "09650c1a2861250542413d88c6df52bd92ce752d310c081ebf9734e24039ed09",
+  "numeric_thresholds_changed": false,
+  "numeric_solver_behavior_changed": false,
+  "historical_failure_results_reclassified": false,
+  "full_test_suite_run": false,
+  "structural_qualification_campaigns_rerun": false,
+  "json_validation": "PASS",
+  "git_diff_check": "PASS",
+  "wp14_status": "HOLD",
+  "wp14_official_points": "0/1",
+  "global_official_total": "95/100",
+  "merge": "NOT_PERFORMED",
+  "push": "NOT_PERFORMED",
+  "next_step": "Resolve remaining global failures and missing evidence; freeze a new source-bound package execution before qualification."
+}

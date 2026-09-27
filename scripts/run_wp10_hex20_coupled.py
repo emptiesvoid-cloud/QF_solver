@@ -6,11 +6,11 @@ import argparse
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import run_wp10_tet4_coupled as base
 
+ROOT = Path(__file__).resolve().parents[1]
 base.ELEMENT_TYPE = "HEX20"
 base.CONTRACT = ROOT / "qualification" / "0_2_9" / "wp10_hex20_extension_contract.json"
 

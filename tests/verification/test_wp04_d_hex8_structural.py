@@ -3,12 +3,15 @@
 from __future__ import annotations
 
 import hashlib
+from io import BytesIO
 import json
 import math
 from pathlib import Path
 from typing import Any, cast
 
 import numpy as np
+
+from tests.helpers.historical_arrays import load_historical_array_bytes
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -145,8 +148,12 @@ def test_raw_hex8_arrays_are_reproducible_and_do_not_use_object_arrays() -> None
     campaign = _load("hex8_campaign_result.json")
     labels = {"h1_raw.npz": "H1", "h1_replay_raw.npz": "H1-replay", "h2_raw.npz": "H2", "h3_raw.npz": "H3"}
     for name, shapes in expected_shapes.items():
-        path = EVIDENCE / name
-        with np.load(path, allow_pickle=False) as arrays:
+        raw_info = campaign["cases"][labels[name]]["raw_npz"]
+        payload = load_historical_array_bytes(
+            f"qualification/0_2_9/wp04d/{name}", raw_info["sha256"], raw_info["size_bytes"], root=ROOT,
+        )
+        with np.load(BytesIO(payload), allow_pickle=False) as arrays:
+            assert set(arrays.files) == set(raw_info["array_names"])
             for key, shape in shapes.items():
                 assert arrays[key].shape == shape
             for key in arrays.files:
@@ -154,9 +161,8 @@ def test_raw_hex8_arrays_are_reproducible_and_do_not_use_object_arrays() -> None
                 if np.issubdtype(arrays[key].dtype, np.number):
                     assert np.all(np.isfinite(arrays[key]))
 
-        raw_info = campaign["cases"][labels[name]]["raw_npz"]
-        assert hashlib.sha256(path.read_bytes()).hexdigest() == raw_info["sha256"]
-        assert path.stat().st_size == raw_info["size_bytes"]
+        assert hashlib.sha256(payload).hexdigest() == raw_info["sha256"]
+        assert len(payload) == raw_info["size_bytes"]
 
 
 def test_hex8_telemetry_is_immediate_flush_jsonl_with_no_fallbacks() -> None:

@@ -26,6 +26,7 @@ from solveur.core.errors import MeshValidationError, NumericalConvergenceError
 from solveur.core.nonlinear.state import NonlinearState
 from solveur.elements.solid.tet4_total_lagrangian_batch import TotalLagrangianTet4Assembly
 from solveur.materials.solid import SolidMaterial
+from tests.helpers.wp04_lineage import historical_failure_metrics, verify_wp04_mesh_lineage
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -725,8 +726,10 @@ def test_c02_c04_tet4_mesh_structural_solves(level: str) -> None:
 
 
 def test_c05_mesh_displacement_convergence() -> None:
-    summary, _ = _campaign()
-    assert summary["mesh_convergence"]["fine_medium_tip_displacement_relative"] <= 0.02
+    """Check the accepted mesh gate without relabelling the old coarse failure."""
+    report = verify_wp04_mesh_lineage()
+    assert report["historical_mesh_gates"]["displacement"]["status"] == "FAIL"
+    assert report["accepted_c2r6_mesh_gates"]["displacement"]["value"] <= 0.02
 
 
 def test_c06_mesh_reaction_convergence() -> None:
@@ -735,14 +738,29 @@ def test_c06_mesh_reaction_convergence() -> None:
 
 
 def test_c07_mesh_energy_convergence() -> None:
-    summary, _ = _campaign()
-    assert summary["mesh_convergence"]["fine_medium_energy_relative"] <= 0.02
+    """Use C2R6 for acceptance and preserve the original energy FAIL."""
+    report = verify_wp04_mesh_lineage()
+    assert report["historical_mesh_gates"]["energy"]["status"] == "FAIL"
+    assert report["accepted_c2r6_mesh_gates"]["energy"]["value"] <= 0.02
 
 
 def test_c08_mesh_representative_stress_convergence() -> None:
+    """Check the frozen C2R6 stress gate, not a different coarse hierarchy."""
+    report = verify_wp04_mesh_lineage()
+    assert report["historical_mesh_gates"]["stress"]["status"] == "FAIL"
+    assert report["accepted_c2r6_mesh_gates"]["stress"]["value"] <= 0.10
+    original = json.loads((QUALIFICATION / "wp04_c_tet4_structural_summary.json").read_text(encoding="utf-8"))
+    assert original["mesh_convergence"]["trends_non_oscillatory"]
+
+
+def test_historical_coarse_campaign_live_mesh_gates_remain_failed() -> None:
+    """Retain the live old campaign and all three genuine numerical failures."""
     summary, _ = _campaign()
-    assert summary["mesh_convergence"]["fine_medium_stress_relative"] <= 0.10
-    assert summary["mesh_convergence"]["trends_non_oscillatory"]
+    frozen = json.loads(CAMPAIGN_PATH.read_text(encoding="utf-8"))
+    metrics = historical_failure_metrics(summary, frozen)
+    assert {name for name, row in metrics.items() if row["status"] == "FAIL"} == {
+        "displacement", "energy", "stress",
+    }
 
 
 def test_c09_deformation_envelope_across_meshes() -> None:

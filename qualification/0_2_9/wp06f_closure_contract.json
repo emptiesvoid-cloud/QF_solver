@@ -75,7 +75,7 @@
   "authority_order": [
     "RAW_NUMERIC_EVIDENCE",
     "MACHINE_DERIVED_METRICS",
-    "HUMAN_READABLE_REPORT",
+    "ANALYZER_REPORT",
     "SUMMARY_STATUS"
   ],
   "raw_evidence_schema": {

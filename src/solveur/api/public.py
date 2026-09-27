@@ -148,7 +148,7 @@ def inspect_model(
 ) -> SolverAudit:
     """Return a white-box audit at ``summary``, ``diagnostic`` or ``values`` detail.
 
-    ``summary`` is the compact human-facing default, ``diagnostic`` adds
+    ``summary`` is the compact analyzer-facing default, ``diagnostic`` adds
     aggregates and worst-N context, and ``values`` preserves the exhaustive
     forensic serialization. ``values_warning_rows`` controls the explicit
     size warning attached to an exhaustive audit.

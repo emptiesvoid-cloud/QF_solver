@@ -1,0 +1,92 @@
+"""Check only installed imports and the verify-all refusal, never launch solves."""
+
+from __future__ import annotations
+
+import argparse
+import contextlib
+import hashlib
+import importlib.metadata
+import io
+import json
+import os
+import sys
+from pathlib import Path
+
+
+def probe(mapping_path: Path, version: str, output: Path) -> dict:
+    # Imports take place in a fresh, isolated interpreter after wheel install.
+    import qf_solver
+    import solveur
+    from solveur.cli import main as cli
+    from solveur.cli import verification
+
+    distribution = importlib.metadata.distribution("qf-solver")
+    if distribution.version != version:
+        raise ValueError("Installed distribution version mismatch.")
+    package_origin = Path(solveur.__file__).resolve()
+    if not package_origin.is_relative_to(Path(sys.prefix).resolve()):
+        raise ValueError("QF Solver was imported outside the installed environment.")
+    mapping = json.loads(mapping_path.read_text(encoding="utf-8"))
+    verified = []
+    for row in mapping:
+        if row["path"].startswith("src/"):
+            path = Path(str(distribution.locate_file(row["path"].removeprefix("src/")))).resolve(strict=True)
+            if not path.is_relative_to(Path(sys.prefix).resolve()) or path.is_symlink():
+                raise ValueError("An installed source escaped the environment.")
+            payload = path.read_bytes()
+            if hashlib.sha256(payload).hexdigest() != row["sha256"] or len(payload) != row["bytes"]:
+                raise ValueError(f"Installed bytes mismatch: {row['path']}")
+            verified.append(row["path"])
+    events = []
+
+    def audit(event: str, arguments: tuple) -> None:
+        if event == "subprocess.Popen" or event in ("os.system", "os.posix_spawn", "os.spawn"):
+            events.append({"event": event, "arguments": repr(arguments)})
+
+    sys.addaudithook(audit)
+    cli_checks = []
+    for command in (["--version"], ["--help"]):
+        text = io.StringIO()
+        with contextlib.redirect_stdout(text), contextlib.redirect_stderr(text):
+            try:
+                code = cli.main(command)
+            except SystemExit as exc:
+                code = exc.code
+        if code not in (0, None):
+            raise ValueError("The installed CLI smoke check failed.")
+        cli_checks.append({"arguments": command, "exit_code": code or 0, "output": text.getvalue()})
+    requested = output.with_suffix(".verify_all_report.json")
+    if requested.exists() or output.exists():
+        raise ValueError("Probe outputs already exist.")
+    text = io.StringIO()
+    with contextlib.redirect_stdout(text), contextlib.redirect_stderr(text):
+        code = cli.main(["verify-all", "--json-report", str(requested)])
+    if code != 2 or "VERIFY-ALL UNSUPPORTED" not in text.getvalue() or events or requested.exists():
+        raise ValueError("The installed verify-all boundary failed.")
+    result = {"status": "PASS", "pid": os.getpid(), "cwd": str(Path.cwd()),
+              "python_prefix": sys.prefix, "solveur_origin": str(package_origin),
+              "qf_solver_origin": str(Path(qf_solver.__file__).resolve()),
+              "verification_origin": str(Path(verification.__file__).resolve()),
+              "verified_installed_sources": len(verified), "version": distribution.version,
+              "cli_smoke": cli_checks, "verify_all_exit_code": code,
+              "verify_all_output": text.getvalue(), "report_created": False,
+              "python_subprocess_audit_events": events,
+              "trace_scope": "PYTHON_AUDIT_HOOK_NOT_SYSTEM_WIDE_OS_TRACE",
+              "dependency_isolation": "SYSTEM_SITE_PACKAGES_ALLOWED_QF_ORIGIN_AND_BYTES_VERIFIED",
+              "runtime_versions": {name: importlib.metadata.version(name) for name in ("numpy", "scipy", "matplotlib", "pip")}}
+    output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    return result
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--mapping", type=Path, required=True)
+    parser.add_argument("--version", required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args()
+    print(json.dumps(probe(args.mapping, args.version, args.output), indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

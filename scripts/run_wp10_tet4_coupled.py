@@ -18,8 +18,7 @@ from typing import Any
 
 import numpy as np
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from solveur.api import solve_model
 from solveur.contact.entities import FrictionlessContact
@@ -27,6 +26,7 @@ from solveur.core.model import FiniteElementModel
 from solveur.verification.robustness_mesh import _refinement_model
 
 
+ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = ROOT / "qualification" / "0_2_9" / "wp10_extension_contract.json"
 POLICY_DIGEST = "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
 ELEMENT_TYPE = "TET4"

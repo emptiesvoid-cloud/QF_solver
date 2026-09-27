@@ -16,7 +16,7 @@ save_audit_markdown(audit, "audit.md", detail="diagnostic")
 
 | Niveau | Usage | Contenu |
 | --- | --- | --- |
-| `summary` | lecture humaine par defaut | synthese, compteurs PASS/WARNING/FAIL, maillage/DDL/materiaux, matrices globales, equilibre, tous les WARNING/FAIL ; les PASS elementaires sont omis |
+| `summary` | rapport analyseur par defaut | synthese, compteurs PASS/WARNING/FAIL, maillage/DDL/materiaux, matrices globales, equilibre, tous les WARNING/FAIL ; les PASS elementaires sont omis |
 | `diagnostic` | analyse recommandee | `summary` plus agregats min/max/moyenne, statistiques par type d'element, matrices, contraintes, resultats/stresses, residus et worst-N |
 | `values` | debug/forensic | representation exhaustive historique, incluant DDL locaux, entrees d'assemblage, matrices et controles individuels |
 

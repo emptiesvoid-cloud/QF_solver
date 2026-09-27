@@ -16,9 +16,11 @@ except ModuleNotFoundError:  # Python 3.10 compatibility.
 try:
     from scripts.audit_public_release import audit_public_release
     from scripts.git_tools import git_command
+    from scripts.review_vocabulary import review_vocabulary_audit
 except ModuleNotFoundError:
     from audit_public_release import audit_public_release  # type: ignore[no-redef]
     from git_tools import git_command  # type: ignore[no-redef]
+    from review_vocabulary import review_vocabulary_audit  # type: ignore[no-redef]
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -208,21 +210,8 @@ def _publication_candidates(root: Path) -> list[str]:
 
 def _review_vocabulary_offenders(root: Path, tracked: Sequence[str]) -> list[str]:
     """Find generic review labels in tracked text documents and source files."""
-    suffixes = {".cff", ".json", ".md", ".py", ".rst", ".tex", ".toml", ".txt", ".yaml", ".yml"}
-    forbidden_terms = ("h" + "uman", "h" + "umain")
-    exempt_prefixes = (
-        "qualification/evidence/",
-        "qualification/maturity_evidence_",
-        "docs/generated/",
-    )
-    offenders: list[str] = []
-    for relative in tracked:
-        path = root / relative
-        if path.suffix.lower() not in suffixes or relative.startswith(exempt_prefixes):
-            continue
-        if any(term in _read_text(path).casefold() for term in forbidden_terms):
-            offenders.append(relative)
-    return offenders
+    report = review_vocabulary_audit(root, tracked)
+    return sorted(set(report["offenders"] + report["integrity_errors"]))
 
 
 def _check(identifier: str, passed: bool, detail: str) -> dict[str, str]:

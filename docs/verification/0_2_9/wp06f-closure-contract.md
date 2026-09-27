@@ -88,7 +88,7 @@ The authority order is strict:
 
 1. raw numeric evidence;
 2. machine-readable derived metrics;
-3. human-readable report;
+3. analyzer report;
 4. summary status.
 
 A report or summary saying `PASS` cannot override a failed raw observation.

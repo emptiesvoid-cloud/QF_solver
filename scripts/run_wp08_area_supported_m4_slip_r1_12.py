@@ -150,7 +150,7 @@ def _verify_process_logs(root: Path, record: dict[str, Any]) -> dict[str, Any]:
 def _r1_11_parent_evidence() -> dict[str, Any]:
     root = ROOT / R1_11_ROOT_REL
     contract_path = _require_file(root / "contract.json")
-    contract = _json(contract_path)
+    _json(contract_path)
     if _sha(contract_path) != R1_11_CONTRACT_SHA256:
         raise RuntimeError("R1.11 M1 contract digest differs from the expected frozen contract.")
     m1_final_path = _require_file(root / "final.json")

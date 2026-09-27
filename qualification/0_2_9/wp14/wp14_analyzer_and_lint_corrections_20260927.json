@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "record_type": "LOCAL_TARGETED_CORRECTIONS_NOT_FORMAL_QUALIFICATION",
+  "branch": "codex/wp14-remediation-clean",
+  "base_head": "0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba",
+  "executed_source_state": "MODIFIED_UNCOMMITTED_WORKTREE",
+  "terminology": {
+    "status": "PASS",
+    "archive_vocabulary_exemptions": false,
+    "pre_report_inventory_entries": 5682,
+    "offenders": [],
+    "integrity_errors": [],
+    "migrated_archive_files": 2,
+    "migration_manifest": "qualification/0_2_9/wp14/wp14_analyzer_terminology_migration_20260927.json",
+    "byte_level_migration_check": "PASS",
+    "git_history_rewritten": false,
+    "historical_execution_digests_rebound": false
+  },
+  "ruff": {
+    "scope": "src scripts tests",
+    "before": {"status": "FAIL", "diagnostics": 23, "by_code": {"E402": 20, "F401": 2, "F841": 1}},
+    "after": {"status": "PASS", "diagnostics": 0},
+    "additional_exclusions": false
+  },
+  "pytest": {
+    "initial_run": {"passed": 78, "failed": 1, "classification": "UNIT_TEST_DEPENDS_ON_MISSING_ARCHIVED_CONTRACT"},
+    "final_run": {"passed": 140, "failed": 0, "warnings": 1, "elapsed_seconds": 19.80, "targeted_modules": 16},
+    "fixture_remediation": "ISOLATED_SYNTHETIC_INPUTS_NOT_QUALIFICATION_EVIDENCE",
+    "production_missing_parent_or_wrong_hash_guard": "PASS_NEGATIVE_TESTS"
+  },
+  "mypy": {"status": "PASS", "scope": "FOUR_SCRIPTS", "follow_imports": "silent", "global_claim": false},
+  "compileall": {"status": "PASS", "scope": "scripts tests src"},
+  "ast_preservation": {"status": "PASS", "tooling_scripts": 7, "product_files": 2},
+  "bootstrap_fresh_import_tests": {"status": "PASS", "runners": 5},
+  "json_validation": "PASS",
+  "git_diff_check": "PASS",
+  "numeric_thresholds_changed": false,
+  "numerical_solver_behavior_changed": false,
+  "historical_numerical_results_changed": false,
+  "full_test_suite_run": false,
+  "structural_qualification_campaigns_rerun": false,
+  "ledger_changed": false,
+  "wp14_status": "HOLD",
+  "wp14_official_points": "0/1",
+  "global_official_total": "95/100",
+  "merge": "NOT_PERFORMED",
+  "push": "NOT_PERFORMED",
+  "remaining_blockers": [
+    "Whole-repository publication gates remain open",
+    "A prospective package execution binding and build remain required",
+    "Documentation metadata and complete quality/engineering gates remain open",
+    "Historical coarse-mesh WP04-C failures remain preserved",
+    "Four historical WP04-D NPZ files remain unavailable"
+  ]
+}
