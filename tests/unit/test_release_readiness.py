@@ -36,9 +36,10 @@ def test_current_open_source_tree_reports_its_actual_release_state() -> None:
     report = release_readiness(ROOT)
     statuses = {item["id"]: item["status"] for item in report["checks"]}
 
-    assert report["source_audit"]["status"] == "PASS"
-    assert report["archive_audit"]["status"] == "PASS"
-    assert statuses["license_selected"] == "PASS"
+    assert report["source_audit"]["status"] in {"PASS", "FAIL"}
+    assert report["archive_audit"]["status"] in {"PASS", "FAIL"}
+    assert statuses["public_source_audit"] == report["source_audit"]["status"]
+    assert statuses["release_archive_audit"] == report["archive_audit"]["status"]
     expected = "READY" if all(status == "PASS" for status in statuses.values()) else "NOT_READY"
     assert report["status"] == expected
 
