@@ -97,8 +97,9 @@ def test_release_ledger_includes_wp05_and_wp07_owner_awards() -> None:
     assert wp08["validated_points"] == 8
     assert wp08["prior_owner_award_preserved"] is True
     assert wp08["requalification_status"] == (
-        "OPEN_FRICTIONAL_CONTACT_REQUALIFICATION_PENDING_FROZEN_CONTRACT_AND_EXECUTION_AUTHORIZATION"
+        "EXPERIMENTAL_R1_13_ACCEPTED_WITH_LIMITATIONS_FORMAL_REQUALIFICATION_NOT_ESTABLISHED"
     )
+    assert wp08["experimental_r1_13_decision_id"] == "OD-029-WP08-AREA-R1.13-01"
     assert progress["total_points"] == 100
 
 
