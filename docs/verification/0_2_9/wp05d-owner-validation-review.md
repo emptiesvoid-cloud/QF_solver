@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-2A4F65E59B90199B"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # Dossier de validation Owner — WP05-D HEX20
 
 **Objet :** permettre la revue et la décision Owner sur la requalification formelle WP05-D.  

@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-5CA77EE225EA161F"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP04-C — TET4 bounded structural qualification
 
 Status: **HOLD — G04-10 does not meet the frozen mesh-convergence gate**.

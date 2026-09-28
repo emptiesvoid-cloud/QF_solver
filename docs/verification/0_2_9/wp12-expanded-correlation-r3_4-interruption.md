@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-1AFCF058B1D7FEC3"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP12 R3.4 expanded correlation — fail-fast execution record
 
 ## Outcome

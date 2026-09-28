@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-003E7D78D9FABED1"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP12 R3.5 pre-freeze smoke — harness attempt 2 preserved
 
 The second diagnostic smoke attempt is `FAIL_CLOSED_DIAGNOSTIC_HARNESS`, not a Code_Aster result. It attempted only `tet4_slender_beam_h3_combined_xyz` and failed because the wrapper supplied `execution_sha` but omitted `contract_sha256`. As in attempt 1, the shared runner completed one QF linear solve and wrote the three QF model/result files, then raised `KeyError` while creating case provenance. No Code_Aster container or external solver process was started; three families remain unattempted.

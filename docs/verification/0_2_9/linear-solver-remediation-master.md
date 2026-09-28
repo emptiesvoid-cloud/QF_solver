@@ -3,6 +3,8 @@ doc_id: DOC-029-020
 revision: 0.1
 status: controlled-evidence
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # Linear-solver remediation master record

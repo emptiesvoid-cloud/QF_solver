@@ -5,6 +5,8 @@ status: owner_decision_required
 applicable_version: 0.2.9-development
 reviewer: ""
 approver: ""
+reviewer: ""
+approver: ""
 ---
 
 # WP08 — final Owner review decision

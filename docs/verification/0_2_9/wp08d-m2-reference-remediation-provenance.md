@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-980897CA585C2FCC"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08-D M2 independent-reference remediation — provenance closure
 
 ## Root cause

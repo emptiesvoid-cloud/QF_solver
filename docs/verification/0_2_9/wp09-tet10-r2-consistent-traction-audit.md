@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-5238EF27241177D0"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP09 TET10 R2 — audit de l’extension par traction cohérente
 
 ## Verdict

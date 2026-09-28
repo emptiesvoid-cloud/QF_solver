@@ -3,6 +3,8 @@ doc_id: DOC-029-WP01-OWNER-CLOSURE-001
 revision: 1.0
 status: controlled
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP01 Owner closure — Unified Nonlinear Core

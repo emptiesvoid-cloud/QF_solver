@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-4BE65E2C6E989246"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP12 R3 — Expanded external-correlation campaign
 
 ## Purpose

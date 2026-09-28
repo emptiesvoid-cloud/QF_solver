@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-96142C24DC5A3289"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08-D M2 step-5 hybrid stick/slip forensic
 
 This is an independent diagnostic based on the committed contract-aligned M2

@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-49274751FBBD0FE5"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP07-E closure — Owner review R2
 
 **Status:** `FAIL_CLOSED`

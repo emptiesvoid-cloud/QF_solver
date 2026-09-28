@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-1E238FCF6978D4CB"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP09 HEX20 R2 — audit de la requalification par traction cohérente
 
 ## Verdict

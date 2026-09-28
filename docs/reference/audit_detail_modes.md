@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-0A3756894A80B76B"
+revision: "0.1"
+status: "controlled_candidate"
+applicable_version: "0.2.x"
+reviewer: ""
+approver: ""
+---
 # Niveaux de detail des audits
 
 Les audits blancs du solveur exposent trois niveaux explicites. Le niveau

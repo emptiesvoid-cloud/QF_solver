@@ -3,6 +3,8 @@ doc_id: DOC-029-WP09-OWNER-R3
 revision: 1.0
 status: owner-approved
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP09 Owner acceptance — HEX8 R3

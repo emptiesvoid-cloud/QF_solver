@@ -2,6 +2,9 @@
 doc_id: DOC-029-WP10-OWNER-REVIEW-R1
 revision: 1.0
 status: ready-for-owner-review
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
 ---
 
 # WP10 Owner review R1 — provenance-corrected bounded coupled mechanics

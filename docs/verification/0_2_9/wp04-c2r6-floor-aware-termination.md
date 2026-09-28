@@ -1,8 +1,11 @@
 ---
-doc_id: DOC-029-021
+doc_id: "DOC-MARKDOWN-0816DAE4F4858096"
 revision: 0.1
 status: controlled-evidence
 applicable_version: 0.2.9-development
+legacy_doc_id: "DOC-029-021"
+reviewer: ""
+approver: ""
 ---
 
 # WP04-C2R6 recovered M2/M3 frozen-threshold audit

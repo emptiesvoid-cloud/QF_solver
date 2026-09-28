@@ -3,6 +3,8 @@ doc_id: DOC-029-WP03-008
 revision: 0.1
 status: implementation_migration
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP03-B — unified stagnation and line-search authority

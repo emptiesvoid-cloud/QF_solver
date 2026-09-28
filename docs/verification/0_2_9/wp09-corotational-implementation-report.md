@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-FB1F1B3B52FC140B"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP09 corotational J2 implementation report
 
 ## Status

@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-252DCAD9FF732B00"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08 area-supported contact R1.10 — M4 diagnostic results
 
 ## Verdict

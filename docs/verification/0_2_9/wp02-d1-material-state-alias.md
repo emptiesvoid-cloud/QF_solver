@@ -3,6 +3,8 @@ doc_id: DOC-029-014
 revision: 0.1
 status: controlled_candidate
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP02-D1 — arc-length restart material-state ownership

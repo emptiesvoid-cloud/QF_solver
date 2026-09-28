@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-00E701DD8A361435"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP13 R2.1 — caractérisation J2 TET4/TET10/HEX8/HEX20
 
 ## Résultat

@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-6A51864D0C7EE8A9"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP12 R3.6-R1 — fail-closed execution record
 
 ## Outcome

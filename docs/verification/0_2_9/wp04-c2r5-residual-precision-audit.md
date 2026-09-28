@@ -3,6 +3,8 @@ doc_id: DOC-029-021
 revision: 0.1
 status: controlled-evidence
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP04-C2R5 — residual precision and near-floor termination forensics

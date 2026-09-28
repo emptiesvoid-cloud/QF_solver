@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-3DEB44BCAAFE0129"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP09 — étude d’extension HEX20
 
 ## Verdict

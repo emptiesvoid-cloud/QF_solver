@@ -3,6 +3,8 @@ doc_id: DOC-029-WP04-B-001
 revision: 0.1
 status: executed-targeted-evidence
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP04-B — geometric nonlinear mechanics identities

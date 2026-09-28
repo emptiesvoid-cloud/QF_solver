@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-985FA2B071C38525"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP04-C2R4 — near-tolerance stagnation and protocol audit
 
 **Audit SHA:** `0b947bb6c1c684f71f2f7b5ab32ad8b9f9afbcc8`  

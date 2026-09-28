@@ -2,6 +2,9 @@
 doc_id: DOC-029-WP10-EXT-PREPARATION
 revision: 1.0
 status: preparation-only
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
 ---
 
 # WP10-EXT — extension par famille d’éléments

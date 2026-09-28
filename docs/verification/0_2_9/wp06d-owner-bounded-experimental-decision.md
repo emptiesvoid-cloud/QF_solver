@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-5DF18261CAF54F5F"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP06-D Owner decision — bounded experimental scope
 
 **Decision ID:** `OD-029-WP06-D-EXP-01`

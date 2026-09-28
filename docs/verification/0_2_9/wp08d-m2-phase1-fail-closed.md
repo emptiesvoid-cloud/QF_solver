@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-AEE6E03534FFFB22"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08-D M2 Phase-1 — fail-closed evidence
 
 The authorised M2 production run was executed once on commit `d47287944906610eaac751871796de34df4b7d44`. It ended fail-closed with `NumericalConvergenceError`: the frictional contact active set did not converge with direct or active-slip root iterations.

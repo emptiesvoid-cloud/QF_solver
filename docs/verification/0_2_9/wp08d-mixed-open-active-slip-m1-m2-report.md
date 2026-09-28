@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-8D5033ECD86DA69B"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08-D mixed open / active-slip M1–M2 requalification
 
 ## Scope and provenance

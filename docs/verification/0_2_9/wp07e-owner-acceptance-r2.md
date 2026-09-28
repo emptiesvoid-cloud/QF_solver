@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-90902BA17DE20A2A"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP07-E Owner acceptance — R2
 
 Date: 2026-09-18

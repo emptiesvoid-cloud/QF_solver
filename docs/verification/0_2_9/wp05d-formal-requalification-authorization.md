@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-AE1A89C93DDFEDD4"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP05-D formal requalification authorization
 
 The Owner explicitly authorizes a formal WP05-D HEX20 requalification after

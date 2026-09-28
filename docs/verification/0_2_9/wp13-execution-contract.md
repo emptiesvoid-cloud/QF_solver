@@ -3,6 +3,8 @@ doc_id: DOC-029-WP13-EXEC-001
 revision: 0.1
 status: frozen_execution_protocol
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP13 execution contract — bounded performance, API and diagnostics

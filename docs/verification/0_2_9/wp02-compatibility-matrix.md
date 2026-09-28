@@ -3,6 +3,8 @@ doc_id: DOC-029-WP02-002
 revision: 1.0
 status: prospective_contract
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP02-A compatibility matrix

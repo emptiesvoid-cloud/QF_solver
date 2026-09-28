@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-C2C4A5AD9488165D"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP10 TET10 surface R1 — evidence remediation and M1 requalification
 
 ## Verdict

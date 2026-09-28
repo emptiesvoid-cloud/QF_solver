@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-68F5908CA26955A2"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP14 — addendum de recontrôle G03/G04/G05
 
 ## Conclusion

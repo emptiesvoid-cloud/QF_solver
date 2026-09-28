@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-6F5A98672AC6A69C"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08-D mixed open / active-slip remediation
 
 ## Status

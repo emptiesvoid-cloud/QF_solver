@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-CC87385CE4F50A1D"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08-D M2 requalification after stick-predictor remediation
 
 The authorized M2 production requalification completed with the checkout

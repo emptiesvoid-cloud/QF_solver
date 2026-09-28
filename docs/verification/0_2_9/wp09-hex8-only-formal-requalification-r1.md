@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-0569E34CB1DBB4DC"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP09 HEX8-only formal requalification — R1
 
 ## Contract and provenance

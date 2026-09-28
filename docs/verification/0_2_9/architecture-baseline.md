@@ -3,6 +3,8 @@ doc_id: DOC-029-002
 revision: 0.1
 status: planning
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # 0.2.9 nonlinear architecture baseline

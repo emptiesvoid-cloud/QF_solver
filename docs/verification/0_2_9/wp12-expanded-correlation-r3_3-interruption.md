@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-05395B5A8EADF9AE"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP12 R3.3 expanded correlation — interrupted fail-closed attempt
 
 ## Outcome

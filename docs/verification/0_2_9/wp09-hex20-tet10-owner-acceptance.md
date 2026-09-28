@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-00EBB9D0E14AE3B2"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP09 — Owner acceptance HEX20 and TET10 extensions
 
 ## Decision

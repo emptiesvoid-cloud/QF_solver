@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-5C7BD80F008612C5"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08-D M2 contract-aligned requalification
 
 The WP08-D Phase-1 runner now derives every load-history factor directly from

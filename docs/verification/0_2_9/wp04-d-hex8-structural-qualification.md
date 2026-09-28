@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-BC81DDC1450AA19D"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP04-D — HEX8 structural qualification contract
 
 Status: `PHASE 1 — EXECUTED; G04-11 PASS PENDING OWNER REVIEW`

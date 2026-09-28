@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-0117EF65BE21AD0F"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08-D contact requalification R2.1 — execution report
 
 ## Verdict

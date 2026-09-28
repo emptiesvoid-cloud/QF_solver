@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-71CB709181648FF7"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP06-D local-axial diagnostic requalification
 
 ## Conclusion

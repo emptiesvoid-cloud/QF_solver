@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-B27BF993026C81A9"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP07-E closure — Owner review R2
 
 **Status:** `PASS_CANDIDATE`

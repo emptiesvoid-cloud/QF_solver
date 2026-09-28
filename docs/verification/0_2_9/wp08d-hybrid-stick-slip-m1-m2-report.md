@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-E2C1B7F4855D021A"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08-D hybrid stick/slip M2 requalification
 
 ## Scope and provenance

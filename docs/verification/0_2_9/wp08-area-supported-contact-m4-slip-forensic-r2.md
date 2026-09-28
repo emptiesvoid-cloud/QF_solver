@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-0899492B7E98D924"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08 area-supported contact — M4 slip forensic R2
 
 This is a single, prospective forensic reproduction of the R1.10 M4

@@ -2,6 +2,9 @@
 doc_id: DOC-029-WP11-PREPARATION
 revision: 1.0
 status: preparation-only
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
 ---
 
 # WP11 — plan de qualification PETSc/MPI

@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-C93FC0719705100E"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP10 TET10 surface-traction R1 — final M1 reexecution
 
 ## Decision scope

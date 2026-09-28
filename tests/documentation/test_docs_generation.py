@@ -448,6 +448,22 @@ def test_dynamic_owner_metadata_matches_recorded_review_decisions() -> None:
 
 def test_document_lifecycle_statuses_are_preserved() -> None:
     for status in (
+        "controlled_audit",
+        "closed",
+        "planning",
+        "implementation_foundation",
+        "implementation_migration",
+        "prospective_contract",
+        "evidence",
+        "executed_targeted_evidence",
+        "frozen_execution",
+        "frozen_execution_protocol",
+        "hold",
+        "owner_approved",
+        "owner_decision_required",
+        "candidate_for_owner_review",
+        "audit_addendum",
+        "preflight_hold",
         "controlled_release",
         "controlled_evidence",
         "ready_for_owner_review",
@@ -466,6 +482,21 @@ def test_document_lifecycle_statuses_are_preserved() -> None:
         "verified_development_external_correlation",
     ):
         assert normalize_document_status(status) == status
+
+
+def test_historical_document_status_aliases_normalize_without_downgrading() -> None:
+    aliases = {
+        "controlled-audit": "controlled_audit",
+        "controlled-evidence": "controlled_evidence",
+        "executed-targeted-evidence": "executed_targeted_evidence",
+        "frozen-execution": "frozen_execution",
+        "owner-approved": "owner_approved",
+        "preparation-only": "preparation_only",
+        "prospective-contract": "prospective_contract",
+        "ready-for-owner-review": "ready_for_owner_review",
+    }
+    for source, expected in aliases.items():
+        assert normalize_document_status(source) == expected
 
 
 def test_qualification_build_requires_controlled_source(monkeypatch: pytest.MonkeyPatch) -> None:

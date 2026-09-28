@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-C10DF8F54099268A"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP07-D — correction de l’intégration pénalité `surface_lumped`
 
 ## Résumé

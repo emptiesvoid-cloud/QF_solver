@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-1B0A8BB56026916B"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP13 R2 — extension de caractérisation J2 à quatre familles
 
 ## Objet

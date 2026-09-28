@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-85029457D1452687"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08-D M3 — production, independent reference, and replay
 
 ## Authorized scope

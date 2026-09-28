@@ -3,6 +3,8 @@ doc_id: DOC-029-WP10-OWNER-REVIEW
 revision: 1.0
 status: ready-for-owner-review
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP10 Owner review — bounded HEX8 coupled mechanics

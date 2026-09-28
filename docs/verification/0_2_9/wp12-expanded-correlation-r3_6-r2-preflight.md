@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-D84878542E3CC229"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP12 R3.6-R2 — preflight blocked before execution
 
 The frozen R3.6-R2 contract was not executed. Its preflight failed before any Docker runtime probe or Code_Aster case started because the runner checked the legacy contract-builder source path instead of the R2 builder path recorded by the contract.

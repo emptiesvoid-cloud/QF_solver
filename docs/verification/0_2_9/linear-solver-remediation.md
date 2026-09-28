@@ -3,6 +3,8 @@ doc_id: DOC-029-LINEAR-SOLVER-REMEDIATION-001
 revision: 1.0
 status: hold
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # Linear-solver remediation — initial local validation

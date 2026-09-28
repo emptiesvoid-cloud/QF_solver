@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-C579FC0777A82C7D"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08-D M2 active-set remediation
 
 ## Scope

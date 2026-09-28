@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-C25DF46D7623326B"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP12 R3.6 — préparation de corrélations sur topologies diverses
 
 **Statut : `PREPARATION_ONLY_NOT_EXECUTED`**  

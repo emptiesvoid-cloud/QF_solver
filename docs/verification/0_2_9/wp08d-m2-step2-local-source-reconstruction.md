@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-4B75C063F950A9F5"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08-D M2 step-2 local-source reconstruction
 
 The prior step-2 diagnostic is reconstructed with the runner configured to

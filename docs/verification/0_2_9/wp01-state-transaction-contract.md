@@ -3,6 +3,8 @@ doc_id: DOC-029-WP01-003
 revision: 0.1
 status: prospective_contract
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP01 accepted-increment state transaction contract

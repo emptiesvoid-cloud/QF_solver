@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-0B606A780DE5253F"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08-D M2 step-3 stick/slip mode forensic
 
 ## Result

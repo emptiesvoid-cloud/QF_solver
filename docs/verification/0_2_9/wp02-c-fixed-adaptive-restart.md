@@ -3,6 +3,8 @@ doc_id: DOC-029-012
 revision: 0.1
 status: controlled
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP02-C — fixed and adaptive restart migration

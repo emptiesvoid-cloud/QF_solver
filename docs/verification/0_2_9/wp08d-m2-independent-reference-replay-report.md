@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-F392917BD6D711EC"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08-D M2 — independent hybrid reference and replay
 
 ## Scope

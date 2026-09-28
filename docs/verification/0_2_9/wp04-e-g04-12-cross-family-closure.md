@@ -3,6 +3,8 @@ doc_id: DOC-029-028
 revision: 0.1
 status: controlled-audit
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP04-E — G04-12 TET4/HEX8 cross-family closure

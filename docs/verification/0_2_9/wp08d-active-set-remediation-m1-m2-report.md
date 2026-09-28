@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-A7FEB474A84087B0"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08-D active-set remediation — corrected M1/M2 report
 
 ## Decision

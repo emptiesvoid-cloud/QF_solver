@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-569AB6F273F0224A"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08 area-supported contact — prospective R1.9 diagnostic
 
 ## Purpose and status

@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-841D753B6DC53C82"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP05-D stress-window remediation — Owner decision
 
 `OWNER_REVIEW_STATUS = APPROVED_WITH_LIMITATIONS`

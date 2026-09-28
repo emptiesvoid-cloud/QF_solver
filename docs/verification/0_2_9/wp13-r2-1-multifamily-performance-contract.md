@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-2D87085E985EB38F"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP13 R2.1 — contrat d’exécution multi-familles
 
 Le contrat R2 initial (`QF-029-WP13-EXEC-002`) est conservé sans modification. Sa première invocation du runner s’est arrêtée avant la campagne avec `ModuleNotFoundError: solveur`, car le lancement direct ne plaçait pas le répertoire `src/` dans le chemin Python. **Aucun maillage de campagne, solve, ou résultat brut n’a été créé.** Le répertoire de sortie R2 était absent après cet arrêt.

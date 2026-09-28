@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-625169A6DE54F958"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP08 area-supported contact — R1.11 optimizer-stop candidate
 
 ## Purpose and status

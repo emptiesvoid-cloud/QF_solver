@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-2DA5CCB146368151"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP09 — bounded corotational small-strain J2 candidate
 
 Status: implementation candidate; not formally qualified and not awarded points.

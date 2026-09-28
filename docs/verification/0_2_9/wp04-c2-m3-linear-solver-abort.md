@@ -3,6 +3,8 @@ doc_id: DOC-029-WP04-C2-M3-ABORT-001
 revision: 1.0
 status: evidence
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP04-C2 M3 — owner-aborted linear-solver remediation record

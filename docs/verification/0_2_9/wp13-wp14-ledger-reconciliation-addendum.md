@@ -3,6 +3,8 @@ doc_id: DOC-029-WP13-WP14-LEDGER-ADDENDUM-001
 revision: 0.1
 status: audit_addendum
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP13/WP14 ledger reconciliation addendum

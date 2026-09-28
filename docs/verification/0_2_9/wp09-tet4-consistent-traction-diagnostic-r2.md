@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-4288ACDB3E36D55C"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP09 TET4 — consistent-traction diagnostic R2
 
 ## Conclusion

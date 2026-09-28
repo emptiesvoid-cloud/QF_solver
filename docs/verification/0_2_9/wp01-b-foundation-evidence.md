@@ -3,6 +3,8 @@ doc_id: DOC-029-WP01-007
 revision: 0.1
 status: implementation_foundation
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP01-B Unified Nonlinear Core foundation evidence

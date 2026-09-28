@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-EFFC2A7394CA4C38"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP09 isotropic 3-D remesh study — diagnostic analysis
 
 ## Scope

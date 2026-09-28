@@ -1,3 +1,11 @@
+---
+doc_id: "DOC-MARKDOWN-511245EB5F3743E0"
+revision: "0.1"
+status: "controlled_evidence"
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
 # WP09 HEX8 refinement and equilibrium-accuracy remediation
 
 ## Conclusion
