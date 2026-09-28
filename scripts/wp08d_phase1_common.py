@@ -12,12 +12,24 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import subprocess
 import sys
 from time import perf_counter
 from typing import Any, Mapping
 
 import numpy as np
+
+from scripts.git_tools import git_command, git_run
+
+
+# Resolve Git while the process environment is intact. Some test and campaign
+# subprocesses deliberately replace PATH; provenance checks must still use the
+# same executable resolved for this checkout.
+try:
+    git_command()
+except FileNotFoundError:
+    # Keep importing non-execution helpers possible when Git is unavailable;
+    # git_run will fail closed if a Git-backed operation is later requested.
+    pass
 
 
 REQUIRED_GOVERNING_SHA = "28cf9dd1886b72c6c7c9fc720dc778eddfce4441"
@@ -123,13 +135,7 @@ def read_contract(root: Path | None = None) -> dict[str, Any]:
 
 
 def _git(root: Path, *arguments: str) -> str:
-    completed = subprocess.run(
-        ["git", *arguments],
-        cwd=root,
-        check=True,
-        capture_output=True,
-        text=True,
-    )
+    completed = git_run(arguments, cwd=root, check=True, text=True)
     return completed.stdout.strip()
 
 
@@ -153,11 +159,9 @@ def verify_branch_provenance(root: Path | None = None) -> dict[str, object]:
     if state["dirty"]:
         raise RuntimeError("Phase-1 runner working tree is not clean.")
     is_descendant = (
-        subprocess.run(
-            ["git", "merge-base", "--is-ancestor", REQUIRED_GOVERNING_SHA, str(state["head"])],
+        git_run(
+            ["merge-base", "--is-ancestor", REQUIRED_GOVERNING_SHA, str(state["head"])],
             cwd=repo,
-            check=False,
-            capture_output=True,
         ).returncode
         == 0
     )
@@ -382,11 +386,9 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
             or any(payload.get(key) != value for key, value in required_fields.items())
         ):
             raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
-        if subprocess.run(
-            ["git", "merge-base", "--is-ancestor", "b2485f98260c7ca9892997eefa3a327637d83cd3", str(state["head"])],
+        if git_run(
+            ["merge-base", "--is-ancestor", "b2485f98260c7ca9892997eefa3a327637d83cd3", str(state["head"])],
             cwd=repository_root(),
-            check=False,
-            capture_output=True,
         ).returncode:
             raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
         return payload
@@ -500,30 +502,25 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
             or owner_authorization.get("merge_or_push_allowed") is not False
         ):
             raise RuntimeError("WP08-D R2 Owner authorization does not match its frozen scope.")
-        if subprocess.run(
-            ["git", "merge-base", "--is-ancestor", CONTACT_REQUALIFICATION_R2_BASE_SHA, str(state["head"])],
+        if git_run(
+            ["merge-base", "--is-ancestor", CONTACT_REQUALIFICATION_R2_BASE_SHA, str(state["head"])],
             cwd=root,
-            check=False,
-            capture_output=True,
         ).returncode:
             raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
         mechanics = contract.get("source_requalification", {})
         change_commit = mechanics.get("change_commit")
         if (
             not isinstance(change_commit, str)
-            or subprocess.run(
-                ["git", "merge-base", "--is-ancestor", change_commit, str(state["head"])],
+            or git_run(
+                ["merge-base", "--is-ancestor", change_commit, str(state["head"])],
                 cwd=root,
-                check=False,
-                capture_output=True,
             ).returncode
         ):
             raise RuntimeError("WP08-D R2 execution source lacks the frozen mechanics correction.")
-        source_diff = subprocess.run(
-            ["git", "diff", "--binary", CONTACT_REQUALIFICATION_R2_BASE_SHA, str(state["head"]), "--", "src"],
+        source_diff = git_run(
+            ["diff", "--binary", CONTACT_REQUALIFICATION_R2_BASE_SHA, str(state["head"]), "--", "src"],
             cwd=root,
             check=True,
-            capture_output=True,
         ).stdout
         if hashlib.sha256(source_diff).hexdigest() != mechanics.get("source_diff_sha256_since_source_baseline"):
             raise RuntimeError("WP08-D R2 source mechanics diff does not match its frozen digest.")
@@ -542,11 +539,9 @@ def _authorization_payload(path: Path) -> dict[str, Any]:
     if not isinstance(governing_sha, str) or len(governing_sha) != 40:
         raise RuntimeError(UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED)
     is_merged_governing_ancestor = (
-        subprocess.run(
-            ["git", "merge-base", "--is-ancestor", governing_sha, str(state["head"])],
+        git_run(
+            ["merge-base", "--is-ancestor", governing_sha, str(state["head"])],
             cwd=repository_root(),
-            check=False,
-            capture_output=True,
         ).returncode
         == 0
     )

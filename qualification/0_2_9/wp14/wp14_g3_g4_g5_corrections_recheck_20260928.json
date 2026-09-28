@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "record_type": "WP14_G3_G4_G5_CORRECTIONS_RECHECK",
+  "status": "G4_G5_PASS_G3_WHOLE_REPOSITORY_FAIL_WP14_HOLD",
+  "recorded_at": "2026-09-28",
+  "provenance": {
+    "branch": "0.2.9-unified-nonlinear",
+    "head": "72784718f442531fc4901a09d4f3b3e298a0b1d0",
+    "execution_basis": "MODIFIED_WORKTREE_AT_HEAD_NOT_FROZEN_OR_COMMITTED",
+    "tracked_modified_files_before_this_report": 21,
+    "untracked_files_before_this_report": 0,
+    "working_tree_clean": false,
+    "formal_wp14_qualification": false,
+    "commit_merge_push_tag_or_publication": false
+  },
+  "gates": {
+    "G03": {
+      "whole_repository_public_document_scan": {
+        "status": "FAIL",
+        "tracked_files_scanned": 4490,
+        "finding_count": 5879,
+        "findings_by_identifier": {
+          "private_environment": 2811,
+          "workstation_path": 2811,
+          "internal_workflow": 253,
+          "private_email": 4
+        },
+        "report_path": "TEMP:qf_wp14_postfix_audits_20260927/public_documents.json",
+        "report_sha256": "2322FEAE242E444DC726819C5A7A062BCC17F54186F161AC922657C16B96219D"
+      },
+      "whole_repository_public_release_scan": {
+        "status": "FAIL",
+        "files_scanned": 4490,
+        "finding_count": 5879,
+        "findings_by_identifier": {
+          "private_environment": 2811,
+          "workstation_path": 2811,
+          "internal_workflow": 253,
+          "private_email": 4
+        },
+        "report_path": "TEMP:qf_wp14_postfix_audits_20260927/public_release.json",
+        "report_sha256": "62F6F21B254A143DAC8A336FD9733CE3B17C4CBCC4293370A1D4211705FB406E"
+      },
+      "whole_repository_archive_scan": {
+        "status": "FAIL",
+        "paths_scanned": 5636,
+        "finding_count": 5881,
+        "findings_by_identifier": {
+          "workstation_path": 2812,
+          "private_environment": 2811,
+          "internal_workflow": 253,
+          "private_email": 4,
+          "legacy_brand": 1
+        },
+        "report_path": "TEMP:qf_wp14_postfix_audits_20260927/release_archive.json",
+        "report_sha256": "7F0B1E3E932A616325521C83AC20FFB2C9F3FC8C5938CB8FE295A61EF106F56C"
+      },
+      "selected_public_package_worktree_preview": {
+        "status": "PASS_PREPARATION_WORKTREE_PREVIEW",
+        "evidence_kind": "CURRENT_BYTES_PREVIEW_NOT_FORMAL_EXECUTION",
+        "preparation_baseline_sha": "0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba",
+        "preparation_contract_sha256": "cd58d1fe159bb5b6ed872975ab2747d79c4668d47994c42e0b924fe266b3b326",
+        "selected_files": 551,
+        "strict_scan_findings": 0,
+        "mapping_sha256": "b7d193e096eca85019d307213cebc40f49aa138ca62ecbac3986c6ab29788331",
+        "changed_or_new_selected_files": [
+          "pyproject.toml",
+          "requirements/baseline-standard.txt",
+          "src/solveur/api/public.py",
+          "src/solveur/benchmarks/gmsh_factory.py",
+          "src/solveur/core/audit.py",
+          "src/solveur/io/model_writer.py"
+        ],
+        "missing_package_inputs": [],
+        "package_build_or_install_performed": false,
+        "formal_execution_authorized": false,
+        "whole_repository_gates_waived": false
+      },
+      "conclusion": "The selected public-source preview is clean, but it is preparation-only. The engineering repository and its default archive remain FAIL; no whole-repository findings were deleted or waived."
+    },
+    "G04": {
+      "status": "PASS_FOR_EXECUTED_SOURCE_SCOPED_COVERAGE_PROFILE",
+      "command_profile": "pytest --cov=src/solveur --cov-branch --cov-fail-under=84 --ignore=tests/documentation -m 'not benchmark and not large and not evidence'",
+      "execution_timestamp_from_junit": "2026-09-28T02:04:40.592129+02:00",
+      "selected_tests": 3675,
+      "passed": 3639,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 36,
+      "deselected": 192,
+      "warnings": 14,
+      "duration_seconds": 4772.431,
+      "coverage_percent": 86.18986069223035,
+      "coverage_required_percent": 84,
+      "p0_coverage_check": {
+        "status": "PASS",
+        "solveur/core/errors.py": 100.0,
+        "solveur/verification/traceability.py": 92.16
+      },
+      "artifacts": {
+        "coverage_json": {
+          "path": "TEMP:qf_wp14_g4_final_after_wp08fix_20260928/coverage.json",
+          "sha256": "D239FACF119C12B448C67055E396A2D252CDD20F8277E8FEB1C9047B8740F02C"
+        },
+        "junit_xml": {
+          "path": "TEMP:qf_wp14_g4_final_after_wp08fix_20260928/junit.xml",
+          "sha256": "CCD2A20B11521312577C09AD230D6293302D2550417603FE3BA1C57280DA00ED"
+        },
+        "pytest_log": {
+          "path": "TEMP:qf_wp14_g4_final_after_wp08fix_20260928/pytest.log",
+          "sha256": "8A53870B73267DF468FF1430CED232C551BA637452F0D976317A076E89D82822"
+        }
+      },
+      "limitations": [
+        "This is the configured test profile, not every optional, benchmark, large, evidence, or documentation test.",
+        "The warning set includes the advisory source-size objective and expected warning/deprecation records; no threshold was relaxed.",
+        "The run used the modified worktree at the stated HEAD and is not a clean-commit release attestation."
+      ]
+    },
+    "G05": {
+      "status": "PASS_ENGINEERING_VERIFY_ALL_PROFILE",
+      "execution_timestamp_recorded": "2026-09-28T01:52:41.211611+02:00",
+      "verify_all_command_count": 5,
+      "passed_commands": 5,
+      "nonzero_command_exits": 0,
+      "pytest_summary": {
+        "passed": 3639,
+        "skipped": 36,
+        "deselected": 192,
+        "warnings": 14,
+        "duration_seconds": 3727.30
+      },
+      "artifacts": {
+        "verify_all_json": {
+          "path": "TEMP:qf_wp14_g5_verify_all_r4_20260928/verify_all.json",
+          "sha256": "9539196E81559259B22F2377C5A847313D8EA9752D0AD9E6D7481491C0F5345B"
+        },
+        "verify_all_log": {
+          "path": "TEMP:qf_wp14_g5_verify_all_r4_20260928/verify_all.log",
+          "sha256": "B66E9027F4D85B558C5E102C89525CDFB3A2C11E528D1E0F35C9C7BD3B09EE53"
+        }
+      },
+      "commands": [
+        "pytest -m 'not benchmark and not large and not evidence'",
+        "compileall",
+        "qf_solver.py verify --quick",
+        "mitc4_solver.py verify --quick",
+        "qf_solver.py verify-tet10"
+      ]
+    }
+  },
+  "other_checks": {
+    "ruff": "PASS",
+    "targeted_mypy": "PASS: scripts.wp07d_execution_binding, scripts.wp08d_phase1_common",
+    "compileall": "PASS",
+    "git_diff_check": "PASS",
+    "recovered_r23_json_evidence": {
+      "verified": "7/7",
+      "manifest_path": "qualification/0_2_9/wp14/wp14_r23_recovered_evidence_manifest.json",
+      "manifest_sha256": "C1F6136F031288438D94FD00FA9A4C8A8D4A429D11AEE9C576E0C85EC8CE8836",
+      "storage": "LOCAL_TEMP_EVIDENCE_ARCHIVE_NOT_DURABLE_EXTERNAL_ARCHIVE"
+    },
+    "wp04d_original_npz": {
+      "status": "MISSING_NOT_RECONSTRUCTED",
+      "files": ["h1_raw.npz", "h1_replay_raw.npz", "h2_raw.npz", "h3_raw.npz"],
+      "impact": "R10 remains blocked; no replacement bytes were represented as originals."
+    },
+    "active_wp14_test_or_solver_processes_after_completion": "NONE_FOUND"
+  },
+  "remaining_wp14_blockers": {
+    "G03": "Whole-repository and default archive scans still FAIL. A current-byte selected-package preview passes but has not been frozen prospectively or built/installed/attested.",
+    "G06": "Previously inventoried documentary metadata gaps remain: 63 missing required fields and 87 incomplete review records; no reviewer/approver identity was invented.",
+    "G07": "No current selected wheel/sdist build and install/CLI attestation was performed; prior package version evidence remains 0.2.8, not a 0.2.9 release claim.",
+    "G08": "Platform matrix not executed.",
+    "G09": "Owner release governance remains pending; no tag or publication.",
+    "R10": "Four original WP04-D HEX8 NPZ files remain unavailable."
+  },
+  "governance": {
+    "wp14_status": "HOLD",
+    "wp14_official_points": "0/1",
+    "global_official_total": "95/100",
+    "ledger_changed": false,
+    "numerical_thresholds_changed": false,
+    "solver_numerical_mechanics_changed": false,
+    "production_source_changes_present": true,
+    "production_source_change_scope": [
+      "Gmsh benchmark input validation occurs before optional backend import.",
+      "Model/contact writer serializes optional contact fields with backward-compatible defaults.",
+      "No constitutive, nonlinear, contact-solver, threshold, or fallback policy change in this correction lot."
+    ],
+    "formal_qualification_solve_rerun": false,
+    "historical_failures_or_owner_decisions_rewritten": false,
+    "commit_merge_push_tag_or_publication": false
+  },
+  "next_actions": [
+    "After the corrected source is committed/frozen, request or record the Owner decision for the selected public-package boundary.",
+    "Build the selected wheel/sdist prospectively, verify source mapping and hashes, then test install/import/CLI behavior and archive scans.",
+    "Close G06 only with valid documentary metadata; do not fabricate reviewer/approver approval.",
+    "Keep the original whole-repository G03 FAIL evidence and resolve R10 only if the original NPZ bytes are recovered with exact hashes, otherwise define a prospective replacement evidence campaign.",
+    "Run G08 platform checks and obtain the separate G09 release decision before any WP14 score or release claim."
+  ]
+}

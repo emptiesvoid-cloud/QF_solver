@@ -8,8 +8,12 @@ import math
 from pathlib import Path
 from typing import Any, cast
 
+import pytest
+
 from scripts.wp05_cd_structural_harness import check_replay, evaluate_mesh_delta
 
+
+pytestmark = pytest.mark.evidence
 
 ROOT = Path(__file__).resolve().parents[2]
 QUALIFICATION = ROOT / "qualification" / "0_2_9"

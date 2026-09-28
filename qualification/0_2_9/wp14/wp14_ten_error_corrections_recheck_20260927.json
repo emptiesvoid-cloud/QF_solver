@@ -39,7 +39,7 @@
       "--tb=short"
     ],
     "environment": {
-      "QF_SOLVER_EVIDENCE_ARCHIVE_ROOT": "C:/Users/fari/Documents/projet/SAFRAN/qf_solver_evidence_archive"
+      "QF_SOLVER_EVIDENCE_ARCHIVE_ROOT": "<redacted-local-evidence-archive-root>"
     },
     "passed": 5,
     "failed": 5,
@@ -364,5 +364,14 @@
     "Build and inspect the actually selected source archive/wheel/sdist, attest install/import/CLI behavior and retain the old whole-repository FAIL evidence.",
     "Recover the four original NPZ bytes and validate their original hashes; if unavailable, keep R10 HOLD and request a distinct prospective replacement evidence campaign with new hashes, never claim the old bytes were recovered.",
     "Run the complete required release gates only after the final source/contract freeze; the ten-node recheck and 195 targeted tests do not close all WP14 gates."
+  ],
+  "provenance_redactions": [
+    {
+      "field": "current_recheck.environment.QF_SOLVER_EVIDENCE_ARCHIVE_ROOT",
+      "replacement": "<redacted-local-evidence-archive-root>",
+      "reason": "Remove a workstation-local path and organization identifier from the tracked report without changing test outcomes or numerical evidence.",
+      "pre_redaction_sha256": "5a5b7ec873ed71ab090088f31497ddb0de881fcfddfd1dd5b5de1065a581d2ed",
+      "pre_redaction_git_blob": "233e8321df3f074263e0a4a10fd8ad7231a51db9"
+    }
   ]
 }

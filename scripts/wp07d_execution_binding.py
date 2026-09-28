@@ -17,6 +17,17 @@ import subprocess
 import sys
 from typing import Any, Mapping, cast
 
+from scripts.git_tools import git_command, git_run
+
+
+# Bind provenance checks to an absolute Git executable before a runner or test
+# changes PATH. Import remains available without Git; Git-backed operations
+# then fail closed through git_run.
+try:
+    git_command()
+except FileNotFoundError:
+    pass
+
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -151,9 +162,7 @@ EXPECTED_LEVELS = ("M1", "M2", "M3")
 
 
 def _git(*arguments: str) -> str:
-    completed = subprocess.run(
-        ["git", *arguments], cwd=ROOT, check=True, capture_output=True, text=True
-    )
+    completed = git_run(arguments, cwd=ROOT, check=True, text=True)
     return completed.stdout.strip()
 
 

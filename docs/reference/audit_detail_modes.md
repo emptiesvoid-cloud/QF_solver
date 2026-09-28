@@ -8,7 +8,7 @@ export Markdown.
 ## API Python
 
 ```python
-from solveur.api import inspect_model, save_audit_markdown
+from qf_solver import inspect_model, save_audit_markdown
 
 audit = inspect_model(model, detail="diagnostic")
 save_audit_markdown(audit, "audit.md", detail="diagnostic")

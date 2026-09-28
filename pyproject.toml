@@ -49,7 +49,8 @@ test = [
   "h5py>=3.10",
   "psutil>=5.9",
   "jsonschema>=4.26,<5",
-  "PyYAML>=6.0"
+  "PyYAML>=6.0",
+  "threadpoolctl>=3.5"
 ]
 dev = [
   "pytest>=8",
@@ -62,7 +63,8 @@ dev = [
   "ruff>=0.6",
   "mypy>=1.16",
   "hypothesis>=6.135",
-  "PyYAML>=6.0"
+  "PyYAML>=6.0",
+  "threadpoolctl>=3.5"
 ]
 large = [
   "h5py>=3.10",

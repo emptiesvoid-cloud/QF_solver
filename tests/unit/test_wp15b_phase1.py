@@ -11,6 +11,7 @@ import numpy as np
 import pytest
 
 from solveur.api import solve_model
+from solveur.core.errors import MeshValidationError
 from solveur.core.model import FiniteElementModel
 from solveur.core.router import AnalysisRouter
 from solveur.core.telemetry import (
@@ -236,7 +237,7 @@ def test_route_failure_preserves_original_exception_and_emits_analysis_failed() 
     emitter = TelemetryEmitter("failed-route", "linear_static", "linear_static", sink)
     model = _tet4_model("linear_static")
     model.nodes[0, 0] = np.nan
-    with pytest.raises(Exception):
+    with pytest.raises(MeshValidationError):
         solve_model(model, telemetry=emitter)
     assert sink.events[-1].event_type is EventType.ANALYSIS_FAILED
     assert sink.events[-1].status is EventStatus.FAILED
@@ -281,9 +282,8 @@ def test_instrumented_preflight_failure_has_one_start_and_one_failure(
     emitter = TelemetryEmitter("preflight-failure", "wrong", "wrong", sink)
     model = _tet4_model(analysis)
     model.nodes[0, 0] = np.nan
-    with pytest.raises(Exception) as caught:
+    with pytest.raises(MeshValidationError):
         solve_model(model, telemetry=emitter)
-    assert caught.value.__class__.__name__ == "MeshValidationError"
     event_names = [event.event_type.value for event in sink.events]
     assert event_names == ["ANALYSIS_START", "ANALYSIS_FAILED"]
     assert sink.events[0].status is EventStatus.STARTED

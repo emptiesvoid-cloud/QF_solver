@@ -6,6 +6,7 @@ psutil==7.0.0
 h5py==3.14.0
 pytest==8.4.1
 pytest-cov==6.2.1
+threadpoolctl==3.6.0
 tomli==2.2.1 ; python_version < "3.11"
 coverage==7.9.2
 ruff==0.15.20

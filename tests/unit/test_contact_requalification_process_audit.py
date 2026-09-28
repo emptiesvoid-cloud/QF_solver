@@ -30,11 +30,13 @@ def _wp08_process_records(root: Path) -> list[dict[str, Any]]:
     ]
     start = datetime(2026, 9, 25, tzinfo=timezone.utc)
     records: list[dict[str, Any]] = []
+    process_log_root = root / "_process_logs"
+    process_log_root.mkdir(parents=True)
     for index, label in enumerate(labels):
         folder = root / "qualification" / "campaign" / f"case-{index}"
         folder.mkdir(parents=True)
-        stdout = folder / "runner.stdout.log"
-        stderr = folder / "runner.stderr.log"
+        stdout = process_log_root / f"case-{index}.stdout.log"
+        stderr = process_log_root / f"case-{index}.stderr.log"
         stdout.write_text(f"stdout-{index}\n", encoding="utf-8")
         stderr.write_text(f"stderr-{index}\n", encoding="utf-8")
         process = {
@@ -45,7 +47,9 @@ def _wp08_process_records(root: Path) -> list[dict[str, Any]]:
             "pid": 5000 + index,
             "exit_code": 0,
             "invocation_error": None,
+            "stdout_path": stdout.relative_to(root).as_posix(),
             "stdout_sha256": _sha256(stdout),
+            "stderr_path": stderr.relative_to(root).as_posix(),
             "stderr_sha256": _sha256(stderr),
         }
         manifest = folder / "process.json"
@@ -199,8 +203,20 @@ def test_wp08_source_requalification_auth_uses_its_frozen_branch(
     authorization_path = tmp_path / "wp08-owner-authorization.json"
     authorization_path.write_text(json.dumps(payload), encoding="utf-8")
     monkeypatch.setattr(wp08_common, "git_state", lambda: state)
+    monkeypatch.setenv("PATH", "")
 
     assert wp08_common._authorization_payload(authorization_path) == payload
+
+
+def test_wp07_wp08_git_provenance_uses_resolved_executable_after_path_change(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("PATH", "")
+
+    wp08_state = wp08_common.git_state()
+    wp07_head = wp07_binding._git("rev-parse", "HEAD")
+
+    assert wp08_state["head"] == wp07_head
 
 
 def _wp07_gate(root: Path, *, failed_primary_routes: tuple[str, ...] = ()) -> dict[str, Any]:

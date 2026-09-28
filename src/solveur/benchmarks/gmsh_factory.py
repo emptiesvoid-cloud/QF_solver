@@ -26,8 +26,6 @@ class BenchmarkMeshFactory:
         binary: bool = False,
     ) -> Path:
         """Generate a structured, axis-aligned HEX8 or incomplete HEX20 block."""
-        gmsh = _gmsh()
-        target = _target(path)
         if min(length, width, height) <= 0.0:
             raise ValueError("Hexahedral benchmark dimensions must be positive.")
         if len(cells) != 3 or any(int(value) != value or int(value) <= 0 for value in cells):
@@ -35,6 +33,10 @@ class BenchmarkMeshFactory:
         if order not in {1, 2}:
             raise ValueError("Hexahedral benchmark order must be 1 (HEX8) or 2 (HEX20).")
         divisions = tuple(int(value) for value in cells)
+        # Reject invalid input before loading the optional mesh backend. This
+        # keeps API validation deterministic even in a minimal installation.
+        gmsh = _gmsh()
+        target = _target(path)
 
         gmsh.initialize(["qf_solver_benchmark", "-nopopup"])
         try:

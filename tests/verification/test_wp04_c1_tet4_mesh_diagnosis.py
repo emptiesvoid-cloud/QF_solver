@@ -373,10 +373,11 @@ def test_c1_alternate_body_diagonal_is_a_bounded_bias_audit() -> None:
         assert _rel(alternate["tip_displacement"], original["tip_displacement"]) <= 1.0e-8
 
 
-def test_c1_write_controlled_diagnostic_evidence() -> None:
-    json_path, npz_path = write_evidence()
-    assert json_path == DIAGNOSIS_JSON
-    assert npz_path == DIAGNOSIS_NPZ
+def test_c1_write_controlled_diagnostic_evidence(tmp_path: Path) -> None:
+    """Exercise evidence serialization without overwriting tracked campaign outputs."""
+    json_path, npz_path = write_evidence(tmp_path)
+    assert json_path == tmp_path / DIAGNOSIS_JSON.name
+    assert npz_path == tmp_path / DIAGNOSIS_NPZ.name
     assert json_path.is_file()
     assert npz_path.is_file()
 

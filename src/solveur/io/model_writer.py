@@ -104,6 +104,7 @@ def _rbe3(definition: Rbe3Definition) -> dict[str, Any]:
 
 def _contact(contact: FrictionlessContact) -> dict[str, Any]:
     slave_patch_nodes = getattr(contact, "slave_patch_nodes", None)
+    master_faces = getattr(contact, "master_faces", None)
     result = {
         "name": contact.name,
         "gap_tolerance": contact.gap_tolerance,
@@ -112,17 +113,19 @@ def _contact(contact: FrictionlessContact) -> dict[str, Any]:
         result["slave_node"] = contact.slave_node
     else:
         result["slave_nodes"] = list(slave_patch_nodes)
-    if contact.master_faces is None:
+    if master_faces is None:
         result["master_nodes"] = list(contact.master_nodes)
     else:
-        result["master_faces"] = [list(face) for face in contact.master_faces]
-    if contact.friction_coefficient:
+        result["master_faces"] = [list(face) for face in master_faces]
+    if getattr(contact, "friction_coefficient", 0.0):
         result["friction_coefficient"] = contact.friction_coefficient
         result["tangential_stiffness"] = contact.tangential_stiffness
-    if contact.slave_patch_faces is not None:
-        result["slave_patch_faces"] = [list(face) for face in contact.slave_patch_faces]
-    if contact.tangential_stiffness_mode != "nodal":
-        result["tangential_stiffness_mode"] = contact.tangential_stiffness_mode
+    slave_patch_faces = getattr(contact, "slave_patch_faces", None)
+    if slave_patch_faces is not None:
+        result["slave_patch_faces"] = [list(face) for face in slave_patch_faces]
+    tangential_stiffness_mode = getattr(contact, "tangential_stiffness_mode", "nodal")
+    if tangential_stiffness_mode != "nodal":
+        result["tangential_stiffness_mode"] = tangential_stiffness_mode
         result["tangential_stiffness"] = contact.tangential_stiffness
     return result
 

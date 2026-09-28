@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any, cast
 
 import numpy as np
+import pytest
 
 from tests.helpers.historical_arrays import load_historical_array_bytes
 
@@ -138,7 +139,9 @@ def test_h1_replay_matches_required_observables_and_accepted_path() -> None:
     assert first["accepted_load_factors"] == second["accepted_load_factors"]
 
 
+@pytest.mark.evidence
 def test_raw_hex8_arrays_are_reproducible_and_do_not_use_object_arrays() -> None:
+    """Verify original arrays only when the optional hash-bound evidence is available."""
     expected_shapes = {
         "h1_raw.npz": {"nodes": (1377, 3), "elements": (1024, 8), "displacement": (4131,)},
         "h1_replay_raw.npz": {"nodes": (1377, 3), "elements": (1024, 8), "displacement": (4131,)},
