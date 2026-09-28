@@ -132,8 +132,13 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements/baseline-standard.txt
           python -m pip install -e . --no-deps
-      - name: Fetch frozen WP04-F source revision
+      - name: Fetch frozen WP04-C and WP04-F source revisions
         run: |
+          git fetch --no-tags origin 0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba
+          git cat-file -e 0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba^{commit}
+          git cat-file -e 0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba:qualification/0_2_9/wp04f/wp04_final_closure_audit.json
+          git cat-file -e 0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba:qualification/0_2_9/wp04_c_tet4_campaign.json
+          git cat-file -e 0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba:qualification/0_2_9/wp04_c_tet4_structural_summary.json
           git fetch --no-tags origin 70e1bf953c8e6f37b8070e78ca97e58b21499291
           git cat-file -e 70e1bf953c8e6f37b8070e78ca97e58b21499291^{commit}
           git cat-file -e 70e1bf953c8e6f37b8070e78ca97e58b21499291:src/solveur/core/analyses/geometric_nonlinear.py
