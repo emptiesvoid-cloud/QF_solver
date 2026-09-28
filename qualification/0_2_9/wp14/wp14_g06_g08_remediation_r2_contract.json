@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-029-WP14-G06-G08-REMEDIATION-R2",
+  "revision": "R2",
+  "status": "FROZEN_PROSPECTIVE",
+  "scope": "Documentation registry/build remediation and exact GitHub Actions platform-matrix verification only; does not close WP14 or award points.",
+  "provenance": {
+    "governing_branch": "0.2.9-unified-nonlinear",
+    "governing_base_sha": "99e0bd4b65ce43ad41a369768a4c8fe78dd7cfbb",
+    "candidate_branch": "codex/wp14-g06-g08-remediation",
+    "implementation_source_sha": "49659d3ec1a2727c4673bb3e66a01b71baa07624",
+    "contract_freeze_commit_rule": "The Git commit containing this contract is the contract-freeze SHA and is recorded in the execution record."
+  },
+  "change_policy": {
+    "allowed": [
+      "Documentation front matter and lifecycle metadata required by the registered-document schema.",
+      "Documentation publisher review-metadata denominator and lifecycle-status normalization.",
+      "Targeted documentation tests and evidence records for G06/G08."
+    ],
+    "prohibited": [
+      "Solver or production mechanics changes.",
+      "Numerical thresholds, qualification criteria, package version, release claims, or ledger changes.",
+      "Fabricating reviewer, approver, Owner, or approval data.",
+      "Rewriting historical numerical evidence or reclassifying prior gate failures."
+    ]
+  },
+  "g06_documentation": {
+    "acceptance": "All six frozen documentation commands complete with exit code 0 on the exact candidate source; registered Markdown parses, includes all four required schema fields, and its normalized lifecycle status matches the registry.",
+    "required_metadata_fields": ["revision", "applicable_version", "reviewer", "approver"],
+    "review_metadata_interpretation": "Non-empty reviewer/approver values measure metadata completeness only. They do not establish an Owner decision. Draft, candidate, preparation, pending-review, and superseded records are not counted as already reviewed.",
+    "frozen_preflight_snapshot": {
+      "registered_documents": 436,
+      "active_documents_excluding_superseded": 431,
+      "documents_missing_yaml_or_required_fields": 0,
+      "registry_status_mismatches": 0,
+      "review_scope_documents": 100,
+      "review_scope_metadata_complete": 19,
+      "review_scope_metadata_incomplete": 81
+    },
+    "commands": [
+      {"argv": ["python", "-m", "pytest", "-m", "benchmark"], "env": {}},
+      {"argv": ["python", "scripts/build_docs.py", "--profile", "engineering"], "env": {}},
+      {"argv": ["python", "-m", "pytest", "tests/documentation"], "env": {"QF_SOLVER_RUN_EVIDENCE": "1"}},
+      {"argv": ["mkdocs", "build", "--strict", "-f", ".github/pages/mkdocs.yml"], "env": {}},
+      {"argv": ["python", "-m", "pytest", "tests/documentation/test_docs_generation.py", "-q"], "env": {}},
+      {"argv": ["python", "-m", "pytest", "tests/integration/test_packaging.py", "-q"], "env": {}}
+    ],
+    "failure_behavior": "FAIL_CLOSED; preserve logs and artifacts; do not weaken criteria."
+  },
+  "g08_platform_matrix": {
+    "workflow": ".github/workflows/quality.yml",
+    "required_job": "standard-baseline",
+    "matrix": {
+      "operating_systems": ["ubuntu-latest", "windows-latest"],
+      "python_versions": ["3.10", "3.13"],
+      "required_legs": [
+        "ubuntu-latest / Python 3.10",
+        "ubuntu-latest / Python 3.13",
+        "windows-latest / Python 3.10",
+        "windows-latest / Python 3.13"
+      ]
+    },
+    "acceptance": "Every required standard-baseline leg must complete on the exact candidate commit and report success. Local Windows/Python 3.13 results do not imply any other leg passed.",
+    "workflow_dispatch_or_push_required": true,
+    "failure_behavior": "NOT_RUN remains NOT_RUN; any failed or missing leg blocks G08 PASS."
+  },
+  "governance": {
+    "wp14_closure": false,
+    "official_points_awarded_by_runner": false,
+    "ledger_update": false,
+    "merge_or_release": false,
+    "historical_failures_preserved": true
+  }
+}
