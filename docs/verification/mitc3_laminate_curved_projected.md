@@ -4,8 +4,9 @@ revision: 0.2
 status: owner_accepted_experimental
 applicable_version: 0.2.0-alpha
 owner_review: accepted_for_v020_alpha
-reviewer: ""
-approver: ""
+reviewer: Quentin Farinazzo
+approver: Quentin Farinazzo
+review_date: "2026-08-09"
 ---
 
 # MITC3+ multicouche courbe a orientation projetee

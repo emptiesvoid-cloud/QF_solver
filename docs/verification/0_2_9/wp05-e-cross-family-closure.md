@@ -1,3 +1,12 @@
+---
+doc_id: DOC-029-WP05-E-CROSS-FAMILY-001
+revision: 1.0
+status: owner_approved_with_limitations
+applicable_version: 0.2.9-development
+reviewer: Owner
+approver: Owner
+---
+
 # WP05-E — comparaison inter-familles TET10 / HEX20
 
 **Résultat : `PASS — OWNER_ACCEPTED_WITH_LIMITATIONS` — 1/1 point WP05-E dans l’intégration locale.**

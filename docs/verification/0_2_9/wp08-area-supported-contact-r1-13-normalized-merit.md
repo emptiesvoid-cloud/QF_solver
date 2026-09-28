@@ -3,6 +3,8 @@ doc_id: DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-001
 revision: 1.0
 status: controlled_candidate_contract
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP08 area-supported contact R1.13 — normalized active-slip globalization

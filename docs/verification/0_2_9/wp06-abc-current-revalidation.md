@@ -3,6 +3,8 @@ doc_id: DOC-029-WP06-ABC-REVALIDATION-R1
 revision: 1.0
 status: ready_for_owner_review
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP06-A/B/C current-source revalidation R1

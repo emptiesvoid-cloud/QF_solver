@@ -3,6 +3,8 @@ doc_id: DOC-029-CONTACT-ACTIVE-SET-REQUAL-001
 revision: 0.1
 status: controlled_evidence
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # Frictional contact active-set remediation and WP07/WP08 reopening

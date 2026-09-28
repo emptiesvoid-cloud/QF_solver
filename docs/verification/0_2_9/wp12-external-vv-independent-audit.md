@@ -3,6 +3,8 @@ doc_id: DOC-029-WP12-EXTERNAL-VV-INDEPENDENT-AUDIT
 revision: 1.0
 status: controlled_evidence
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP12 external V&V — independent plan and evidence audit

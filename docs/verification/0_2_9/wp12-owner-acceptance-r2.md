@@ -1,3 +1,12 @@
+---
+doc_id: DOC-029-WP12-OWNER-ACCEPTANCE-R2
+revision: 1.0
+status: controlled_evidence
+applicable_version: 0.2.9-development
+reviewer: Owner
+approver: Owner
+---
+
 # WP12 Owner acceptance — bounded Code_Aster correlation
 
 Decision date: 2026-09-23

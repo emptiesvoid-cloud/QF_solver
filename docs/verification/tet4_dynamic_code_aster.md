@@ -3,8 +3,9 @@ doc_id: DOC-VNV-TET4-DYNAMICS-CODEASTER-TETRA4-020
 revision: 0.1
 status: owner_accepted
 applicable_version: ">=0.3.0"
-reviewer: ""
-approver: ""
+reviewer: Quentin Farinazzo
+approver: Quentin Farinazzo
+review_date: "2026-08-02"
 ---
 
 # Correlation dynamique TET4 et Code_Aster TETRA4

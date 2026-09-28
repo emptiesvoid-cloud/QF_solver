@@ -3,8 +3,9 @@ doc_id: DOC-VNV-MITC3-DYNAMICS-CODEASTER-DKT-017
 revision: 0.1
 status: owner_accepted_with_recommendations
 applicable_version: ">=0.3.0"
-reviewer: ""
-approver: ""
+reviewer: Quentin Farinazzo
+approver: Quentin Farinazzo
+review_date: "2026-08-02"
 ---
 
 # Correlation dynamique MITC3+ et Code_Aster DKT

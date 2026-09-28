@@ -17,6 +17,7 @@ from scripts.docs_models import upgrade_tet4_to_tet10
 from scripts.docs_publication import (
     DocumentationPublisher,
     _has_nonempty_review_metadata,
+    _review_scope_documents,
     is_generated_document,
     normalize_document_status,
     read_document_metadata,
@@ -236,35 +237,93 @@ def test_every_controlled_page_is_registered_with_consistent_review_fields() -> 
     identifiers = [str(entry["id"]) for entry in entries]
     assert paths == controlled_markdown_paths()
     assert len(identifiers) == len(set(identifiers))
+    reviewer_expectations = {
+        **{
+            identifier: "Owner"
+            for identifier in {
+                "DOC-OWNER-BACKEND-022-001",
+                "DOC-HEX8-023-003",
+                "DOC-HEX20-023-003",
+                "DOC-029-WP05-C-REQUALIFICATION-001",
+                "DOC-029-WP05-E-CROSS-FAMILY-001",
+                "DOC-029-WP05-CDE-OWNER-INTEGRATION-001",
+                "DOC-029-WP06-ABC-OWNER-DECISION",
+                "DOC-029-WP08E-001",
+                "DOC-029-WP08-OWNER-002",
+                "DOC-029-WP12-OWNER-ACCEPTANCE-R2",
+                "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-RESULTS",
+                "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-OWNER-DECISION",
+                "DOC-029-WP07-D-R2.5-OWNER-ACCEPTANCE-001",
+                "DOC-029-WP07-R2.5-INTEGRATION-001",
+                "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-INTEGRATION",
+            }
+        },
+        **{
+            identifier: "Quentin Farinazzo"
+            for identifier in {
+                "DOC-VV-OWNER-PAGES-001",
+                "DOC-COMP-007",
+                "DOC-VNV-MITC4-LAMINATE-DYN-001",
+                "DOC-VV-CODEASTER-OWNER-2026-08-14",
+                "DOC-VNV-MITC3-DYNAMICS-CODEASTER-DKT-017",
+                "DOC-VNV-TET10-DYNAMICS-CODEASTER-TETRA10-018",
+                "DOC-VNV-TET4-DYNAMICS-CODEASTER-TETRA4-020",
+                "DOC-VNV-BEAM2-TRANSVERSE-DYNAMICS-CODEASTER-POUDE-019",
+                "DOC-VNV-MITC3-CURVED-PROJECTED-001",
+            }
+        },
+    }
+    approver_expectations = {
+        **{
+            identifier: "Owner"
+            for identifier in {
+                "DOC-OWNER-BACKEND-022-001",
+                "DOC-HEX8-023-003",
+                "DOC-HEX20-023-003",
+                "DOC-029-WP05-C-REQUALIFICATION-001",
+                "DOC-029-WP05-E-CROSS-FAMILY-001",
+                "DOC-029-WP05-CDE-OWNER-INTEGRATION-001",
+                "DOC-029-WP06-ABC-OWNER-DECISION",
+                "DOC-029-WP08E-001",
+                "DOC-029-WP08-OWNER-002",
+                "DOC-029-WP12-OWNER-ACCEPTANCE-R2",
+                "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-RESULTS",
+                "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-OWNER-DECISION",
+                "DOC-029-WP07-D-R2.5-OWNER-ACCEPTANCE-001",
+                "DOC-029-WP07-R2.5-INTEGRATION-001",
+                "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-INTEGRATION",
+            }
+        },
+        **{
+            identifier: "Quentin Farinazzo"
+            for identifier in {
+                "DOC-VV-CODEASTER-OWNER-2026-08-14",
+                "DOC-VNV-MITC3-DYNAMICS-CODEASTER-DKT-017",
+                "DOC-VNV-TET10-DYNAMICS-CODEASTER-TETRA10-018",
+                "DOC-VNV-TET4-DYNAMICS-CODEASTER-TETRA4-020",
+                "DOC-VNV-BEAM2-TRANSVERSE-DYNAMICS-CODEASTER-POUDE-019",
+                "DOC-VNV-MITC3-CURVED-PROJECTED-001",
+            }
+        },
+    }
+    review_dates = {
+        "DOC-VV-OWNER-PAGES-001": "2026-08-02",
+        "DOC-VNV-MITC3-DYNAMICS-CODEASTER-DKT-017": "2026-08-02",
+        "DOC-VNV-TET10-DYNAMICS-CODEASTER-TETRA10-018": "2026-08-02",
+        "DOC-VNV-TET4-DYNAMICS-CODEASTER-TETRA4-020": "2026-08-02",
+        "DOC-VNV-BEAM2-TRANSVERSE-DYNAMICS-CODEASTER-POUDE-019": "2026-08-02",
+        "DOC-VNV-MITC3-CURVED-PROJECTED-001": "2026-08-09",
+    }
     for entry in entries:
         metadata = read_document_metadata(DOCS / entry["path"])
         assert metadata["doc_id"] == entry["id"]
         assert normalize_document_status(str(metadata["status"])) == entry["status"]
+        assert {"revision", "applicable_version", "reviewer", "approver"}.issubset(metadata)
         assert set(entry.get("requirements", [])).issubset(requirement_ids)
-        if entry["id"] in {
-            "DOC-OWNER-BACKEND-022-001",
-            "DOC-HEX8-023-003",
-            "DOC-HEX20-023-003",
-        }:
-            assert metadata["reviewer"] == "Owner"
-        elif entry["id"] in {
-            "DOC-VV-OWNER-PAGES-001",
-            "DOC-COMP-007",
-            "DOC-VNV-MITC4-LAMINATE-DYN-001",
-            "DOC-VV-CODEASTER-OWNER-2026-08-14",
-        }:
-            assert metadata["reviewer"] == "Quentin Farinazzo"
-            if entry["id"] == "DOC-VV-OWNER-PAGES-001":
-                assert metadata["review_date"] == "2026-08-02"
-        else:
-            assert metadata["reviewer"] == ""
-        if entry["id"] not in {
-            "DOC-VV-CODEASTER-OWNER-2026-08-14",
-            "DOC-OWNER-BACKEND-022-001",
-            "DOC-HEX8-023-003",
-            "DOC-HEX20-023-003",
-        }:
-            assert metadata["approver"] == ""
+        assert metadata["reviewer"] == reviewer_expectations.get(entry["id"], "")
+        assert metadata["approver"] == approver_expectations.get(entry["id"], "")
+        if entry["id"] in review_dates:
+            assert metadata["review_date"] == review_dates[entry["id"]]
         for reference in (*entry.get("examples", []), *entry.get("tests", [])):
             if "/" in reference:
                 assert (ROOT / reference).is_file(), reference
@@ -336,6 +395,57 @@ def test_owner_reviewed_document_normalizes_to_controlled() -> None:
     assert normalize_document_status("owner_reviewed") == "controlled"
 
 
+def test_legacy_and_extended_document_statuses_normalize_to_registry_values() -> None:
+    assert normalize_document_status("approved_with_limitations") == "owner_approved_with_limitations"
+    assert normalize_document_status("owner_correction_r1_candidate") == "controlled_candidate"
+
+
+def test_review_metadata_scope_excludes_unreviewed_lifecycle_states() -> None:
+    documents = [
+        {"id": "controlled", "status": "controlled"},
+        {"id": "accepted", "status": "owner_accepted_experimental"},
+        {"id": "candidate", "status": "controlled_candidate"},
+        {"id": "evidence", "status": "controlled_evidence"},
+        {"id": "pending", "status": "ready_for_owner_review"},
+        {"id": "superseded", "status": "superseded"},
+        {"id": "draft", "status": "draft"},
+    ]
+
+    assert [item["id"] for item in _review_scope_documents(documents)] == ["controlled", "accepted"]
+
+
+def test_dynamic_owner_metadata_matches_recorded_review_decisions() -> None:
+    dynamic_review = json.loads(
+        (ROOT / "qualification" / "reviews" / "owner_review_linear_dynamics_2026-08-02.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    curved_review = json.loads(
+        (ROOT / "qualification" / "reviews" / "mitc3_laminate_curved_projected_2026-08-09.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    registry = json.loads((DOCS / "document_registry.json").read_text(encoding="utf-8"))
+    documents = {item["id"]: item for item in registry["documents"]}
+    dynamic_ids = (
+        "DOC-VNV-MITC3-DYNAMICS-CODEASTER-DKT-017",
+        "DOC-VNV-TET10-DYNAMICS-CODEASTER-TETRA10-018",
+        "DOC-VNV-TET4-DYNAMICS-CODEASTER-TETRA4-020",
+        "DOC-VNV-BEAM2-TRANSVERSE-DYNAMICS-CODEASTER-POUDE-019",
+    )
+
+    for identifier in dynamic_ids:
+        metadata = read_document_metadata(DOCS / documents[identifier]["path"])
+        assert metadata["reviewer"] == dynamic_review["owner"]
+        assert metadata["approver"] == dynamic_review["owner"]
+        assert metadata["review_date"] == dynamic_review["decision_date"]
+
+    curved_metadata = read_document_metadata(DOCS / documents["DOC-VNV-MITC3-CURVED-PROJECTED-001"]["path"])
+    assert curved_metadata["reviewer"] == curved_review["signature"]["name"]
+    assert curved_metadata["approver"] == curved_review["signature"]["name"]
+    assert curved_metadata["review_date"] == curved_review["decision_date"]
+
+
 def test_document_lifecycle_statuses_are_preserved() -> None:
     for status in (
         "controlled_release",
@@ -344,8 +454,15 @@ def test_document_lifecycle_statuses_are_preserved() -> None:
         "owner_accepted",
         "owner_accepted_experimental",
         "owner_accepted_with_recommendations",
+        "owner_accepted_experimental_with_limitations",
+        "owner_approved_with_limitations",
+        "owner_approved_with_limitations_local_governing_unpushed",
         "accepted_for_release_0_2_3",
         "controlled_candidate",
+        "controlled_candidate_contract",
+        "merged_locally_pending_structural_requalification",
+        "phase_0_preparation",
+        "preparation_only",
         "verified_development_external_correlation",
     ):
         assert normalize_document_status(status) == status
@@ -466,4 +583,3 @@ def test_complete_formulation_pages_are_registered() -> None:
         assert relative_path in registered_paths
         for fragment in required_fragments:
             assert fragment in content
-

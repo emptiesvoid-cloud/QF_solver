@@ -21,6 +21,20 @@ from solveur.version import DISPLAY_NAME, __version__
 
 
 GENERATED_DOCUMENT_PREFIXES = ("verification/0_2_6/",)
+_REVIEW_METADATA_REQUIRED_STATUSES = frozenset(
+    {
+        "controlled",
+        "controlled_release",
+        "approved",
+        "accepted_for_release_0_2_3",
+        "owner_accepted",
+        "owner_accepted_experimental",
+        "owner_accepted_with_recommendations",
+        "owner_accepted_experimental_with_limitations",
+        "owner_approved_with_limitations",
+        "owner_approved_with_limitations_local_governing_unpushed",
+    }
+)
 
 
 def is_generated_document(relative_path: str) -> bool:
@@ -199,18 +213,17 @@ class DocumentationPublisher:
             formula_rows,
         )
 
-        active_documents = [
-            item for item in document_registry["documents"] if item.get("status") != "superseded"
-        ]
+        active_documents = [item for item in document_registry["documents"] if item.get("status") != "superseded"]
+        review_scope_documents = _review_scope_documents(active_documents)
         reviewed_documents = []
-        for item in active_documents:
+        missing_review_metadata = []
+        for item in review_scope_documents:
             metadata = read_document_metadata(self.docs / item["path"])
-            if (
-                item.get("status") in {"controlled", "approved", "accepted_for_release_0_2_3"}
-                and _has_nonempty_review_metadata(metadata)
-            ):
+            if _has_nonempty_review_metadata(metadata):
                 reviewed_documents.append(str(item["id"]))
-        owner_review_status = "PASS" if len(reviewed_documents) == len(active_documents) else "BLOCKED"
+            else:
+                missing_review_metadata.append(str(item["id"]))
+        owner_review_status = "PASS" if not missing_review_metadata else "BLOCKED"
         source_status = (
             "PASS"
             if self.source_state["revision"] not in {"uncommitted", "unknown"} and not self.source_state["dirty"]
@@ -218,7 +231,11 @@ class DocumentationPublisher:
         )
         blockers = []
         if owner_review_status != "PASS":
-            blockers.append(f"Owner review incomplete: {len(reviewed_documents)}/{len(active_documents)} documents")
+            blockers.append(
+                "Review metadata incomplete: "
+                f"{len(reviewed_documents)}/{len(review_scope_documents)} review-scope documents; "
+                "draft, candidate, preparation, pending-review, and superseded records are not counted as reviewed."
+            )
         if source_status != "PASS":
             blockers.append("approved clean Git revision unavailable")
         payload = {
@@ -231,7 +248,14 @@ class DocumentationPublisher:
             "owner_review": {
                 "status": owner_review_status,
                 "reviewed_documents": len(reviewed_documents),
+                "review_scope_documents": len(review_scope_documents),
                 "active_documents": len(active_documents),
+                "excluded_from_review_scope_documents": len(active_documents) - len(review_scope_documents),
+                "documents_missing_metadata": missing_review_metadata,
+                "interpretation": (
+                    "Reviewer/approver fields measure metadata completeness only; they do not establish "
+                    "Owner authorization or an Owner decision."
+                ),
             },
             "source_baseline": {"status": source_status, **self.source_state},
             "blockers": blockers,
@@ -248,10 +272,10 @@ class DocumentationPublisher:
                     "controle automatique bloquant",
                 ),
                 (
-                    "Owner review",
-                    f"{len(reviewed_documents)}/{len(active_documents)}",
+                    "Review metadata",
+                    f"{len(reviewed_documents)}/{len(review_scope_documents)} (active: {len(active_documents)})",
                     owner_review_status,
-                    "reviewer et approver non pre-remplis",
+                    "completude des champs uniquement; decision Owner distincte",
                 ),
                 (
                     "Baseline source",
@@ -477,6 +501,22 @@ def _has_nonempty_review_metadata(metadata: dict[str, Any]) -> bool:
         and isinstance(approver, str)
         and bool(approver.strip())
     )
+
+
+def _review_scope_documents(documents: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Return lifecycle records that assert controlled or accepted review status.
+
+    Drafts, candidates, preparation records, superseded records, and documents
+    explicitly awaiting review are not treated as already reviewed.
+    """
+
+    return [
+        item
+        for item in documents
+        if str(item.get("status", "")).strip().lower() in _REVIEW_METADATA_REQUIRED_STATUSES
+    ]
+
+
 def normalize_document_status(status: str) -> str:
     """Map descriptive page states to the controlled lifecycle vocabulary."""
     normalized = status.strip().lower()
@@ -487,17 +527,28 @@ def normalize_document_status(status: str) -> str:
         "approved",
         "superseded",
         "controlled_candidate",
+        "controlled_candidate_contract",
         "owner_accepted",
         "owner_accepted_experimental",
         "owner_accepted_with_recommendations",
+        "owner_accepted_experimental_with_limitations",
+        "owner_approved_with_limitations",
+        "owner_approved_with_limitations_local_governing_unpushed",
         "owner_review_required",
         "accepted_for_release_0_2_3",
         "ready_for_owner_review",
         "verified_development_external_correlation",
+        "merged_locally_pending_structural_requalification",
+        "preparation_only",
+        "phase_0_preparation",
     }:
         return normalized
     if normalized == "owner_reviewed":
         return "controlled"
+    if normalized == "approved_with_limitations":
+        return "owner_approved_with_limitations"
+    if normalized == "owner_correction_r1_candidate":
+        return "controlled_candidate"
     return "draft"
 
 

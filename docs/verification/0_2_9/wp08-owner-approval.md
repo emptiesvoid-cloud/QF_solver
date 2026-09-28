@@ -3,6 +3,8 @@ doc_id: DOC-029-WP08-OWNER-002
 revision: 1.0
 status: approved_with_limitations
 applicable_version: 0.2.9
+reviewer: Owner
+approver: Owner
 ---
 
 # WP08 Owner approval

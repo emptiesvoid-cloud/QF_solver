@@ -1,3 +1,12 @@
+---
+doc_id: DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-INTEGRATION
+revision: 1.0
+status: controlled_evidence
+applicable_version: 0.2.9-development
+reviewer: Owner
+approver: Owner
+---
+
 # WP08 R1.13 governing integration record
 
 **Status:** fast-forwarded and pushed after explicit Owner authorization on

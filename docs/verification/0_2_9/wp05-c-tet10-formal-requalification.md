@@ -1,3 +1,12 @@
+---
+doc_id: DOC-029-WP05-C-REQUALIFICATION-001
+revision: 1.0
+status: owner_approved_with_limitations
+applicable_version: 0.2.9-development
+reviewer: Owner
+approver: Owner
+---
+
 # WP05-C — requalification structurelle TET10
 
 **Statut intégré : `PASS_WITH_LIMITATIONS` — 1/1 point WP05-C.**

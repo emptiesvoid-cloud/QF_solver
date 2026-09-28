@@ -1,3 +1,12 @@
+---
+doc_id: DOC-029-WP07-D-R2.5-OWNER-ACCEPTANCE-001
+revision: 1.0
+status: controlled_evidence
+applicable_version: 0.2.9-development
+reviewer: Owner
+approver: Owner
+---
+
 # WP07-D R2.5 Owner acceptance
 
 **Decision:** accepted with limitations on 2026-09-26. This records the

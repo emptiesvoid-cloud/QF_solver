@@ -1,3 +1,12 @@
+---
+doc_id: DOC-029-WP07-R2.5-INTEGRATION-001
+revision: 1.0
+status: controlled_evidence
+applicable_version: 0.2.9-development
+reviewer: Owner
+approver: Owner
+---
+
 # WP07 R2.5 governing integration and push record
 
 **Status:** integrated and pushed after separate Owner authorization on

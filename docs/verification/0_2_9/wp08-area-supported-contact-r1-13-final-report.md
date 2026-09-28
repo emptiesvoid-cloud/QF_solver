@@ -3,6 +3,8 @@ doc_id: DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-RESULTS
 revision: 1.0
 status: owner_accepted_experimental_with_limitations
 applicable_version: 0.2.9-development
+reviewer: Owner
+approver: Owner
 ---
 
 # WP08 area-supported contact R1.13 — results for Owner review

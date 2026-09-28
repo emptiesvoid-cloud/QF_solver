@@ -3,6 +3,8 @@ doc_id: DOC-029-WP06D-R2-RUNNER-SAFETY-PREP
 revision: 1.0
 status: phase_0_preparation
 applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP06-D R2 runner safety preparation

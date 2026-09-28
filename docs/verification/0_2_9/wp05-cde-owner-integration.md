@@ -1,3 +1,12 @@
+---
+doc_id: DOC-029-WP05-CDE-OWNER-INTEGRATION-001
+revision: 1.0
+status: owner_approved_with_limitations_local_governing_unpushed
+applicable_version: 0.2.9-development
+reviewer: Owner
+approver: Owner
+---
+
 # WP05-C/D/E — intégration Owner bornée
 
 **Décision : `APPROVED_WITH_LIMITATIONS`.** Les preuves WP05-C, WP05-D et

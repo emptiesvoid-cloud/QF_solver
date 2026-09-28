@@ -1,3 +1,12 @@
+---
+doc_id: DOC-029-WP06D1-REMEDIATION-001
+revision: 1.0
+status: controlled_candidate
+applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
+---
+
 # WP06 pre-merge remediation preparation
 
 Status: `PREPARED_FOR_OWNER_AUTHORIZED_REQUALIFICATION`

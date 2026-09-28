@@ -2,6 +2,9 @@
 doc_id: DOC-029-WP11-M3-PROCESS-ATTESTATION
 revision: 1.0
 status: controlled_evidence
+applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
 ---
 
 # WP11 R2 M3 process-event attestation

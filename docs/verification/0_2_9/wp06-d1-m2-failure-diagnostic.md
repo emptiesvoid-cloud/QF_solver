@@ -1,3 +1,12 @@
+---
+doc_id: DOC-029-WP06D1-001
+revision: 1.0
+status: controlled_evidence
+applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
+---
+
 # WP06-D1 — M2 failure diagnostic
 
 This diagnostic preserves the immutable Phase-1 artifact

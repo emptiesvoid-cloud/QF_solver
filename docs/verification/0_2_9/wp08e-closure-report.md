@@ -1,13 +1,18 @@
 ---
 doc_id: DOC-029-WP08E-001
 revision: 0.2
-status: candidate_pending_owner_review
+status: owner_approved_with_limitations
 applicable_version: 0.2.9-development
-reviewer: ""
-approver: ""
+reviewer: Owner
+approver: Owner
 ---
 
 # WP08-E — bounded closure, replay and accepted-state restart
+
+> Subsequent disposition: decision `OD-029-WP08-01` records Owner acceptance of
+> WP08-A through WP08-E with limitations. This lifecycle note updates the
+> document metadata only; the candidate results and historical evidence below
+> are unchanged.
 
 ## Executive summary
 

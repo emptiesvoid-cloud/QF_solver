@@ -1,3 +1,12 @@
+---
+doc_id: DOC-029-WP08D-PHASE1-001
+revision: 1.0
+status: preparation_only
+applicable_version: 0.2.9-development
+reviewer: ""
+approver: ""
+---
+
 # QF Solver 0.2.9 — WP08-D Phase-1 runner freeze
 
 ## Scope
@@ -57,4 +66,3 @@ WP08D_FORMAL_STATUS = PREPARATION_ONLY
 WP08_FORMAL_POINTS = 0/8
 NEXT_STEP = OWNER AUTHORIZATION REQUIRED FOR ONE M1 PHASE-1 EXECUTION
 ```
-
