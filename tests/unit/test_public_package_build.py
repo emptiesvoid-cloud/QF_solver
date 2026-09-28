@@ -4,6 +4,9 @@ from __future__ import annotations
 
 import io
 import json
+import os
+import subprocess
+import sys
 import tarfile
 import zipfile
 from pathlib import Path
@@ -122,14 +125,53 @@ def test_source_archive_symlink_is_rejected(tmp_path: Path) -> None:
 def test_probe_uses_safe_path_without_hiding_declared_dependency_sites(tmp_path: Path) -> None:
     command = installed_probe_command(tmp_path / "python", tmp_path / "probe.py", tmp_path / "mapping.json",
                                       "0.2.8", tmp_path / "result.json")
-    assert command[:3] == [str(tmp_path / "python"), "-P", str(tmp_path / "probe.py")]
+    if sys.version_info >= (3, 11):
+        assert command[:3] == [str(tmp_path / "python"), "-P", str(tmp_path / "probe.py")]
+    else:
+        assert command[0:2] == [str(tmp_path / "python"), "-c"]
     assert "-I" not in command
     assert command[-2:] == ["--output", str(tmp_path / "result.json")]
 
 
-def test_audit_runner_requires_safe_path_capability(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_python310_safe_path_bootstrap_excludes_checkout_and_cwd_but_keeps_dependencies(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    checkout = tmp_path / "checkout"
+    scripts = checkout / "scripts"
+    scripts.mkdir(parents=True)
+    probe = scripts / "probe.py"
+    probe.write_text(
+        "import json, sys\n"
+        "from pathlib import Path\n"
+        "Path(sys.argv[sys.argv.index('--output') + 1]).write_text("
+        "json.dumps({'sys_path': sys.path, 'cwd': str(Path.cwd()), 'probe': __file__}))\n",
+        encoding="utf-8",
+    )
+    dependency_site = tmp_path / "declared-dependencies"
+    dependency_site.mkdir()
+    outside = tmp_path / "outside"
+    outside.mkdir()
     monkeypatch.setattr("scripts.verify_public_package.sys.version_info", (3, 10))
-    with pytest.raises(ValueError, match="Python 3.11"):
+
+    for index, cwd in enumerate((checkout, outside)):
+        output = tmp_path / f"probe-{index}.json"
+        command = installed_probe_command(Path(sys.executable), probe, tmp_path / "mapping.json",
+                                          "0.2.8", output)
+        environment = os.environ.copy()
+        environment["PYTHONPATH"] = str(dependency_site)
+        completed = subprocess.run(command, cwd=cwd, env=environment, capture_output=True, text=True, check=False)
+
+        assert completed.returncode == 0, completed.stderr
+        observed = json.loads(output.read_text(encoding="utf-8"))
+        paths = [Path(entry).resolve() for entry in observed["sys_path"] if entry]
+        assert str(dependency_site.resolve()) in {str(path) for path in paths}
+        assert all(checkout.resolve() not in (path, *path.parents) for path in paths)
+        assert all(cwd.resolve() not in (path, *path.parents) for path in paths)
+
+
+def test_audit_runner_rejects_unsupported_interpreters(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr("scripts.verify_public_package.sys.version_info", (3, 9))
+    with pytest.raises(ValueError, match="Python 3.10"):
         installed_probe_command(tmp_path / "python", tmp_path / "probe.py", tmp_path / "mapping.json",
                                 "0.2.8", tmp_path / "result.json")
 

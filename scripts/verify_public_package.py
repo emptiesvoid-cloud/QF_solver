@@ -213,17 +213,41 @@ def run_command(command: list[str], cwd: Path, logs: Path, records: list[dict[st
         raise ValueError(f"Candidate command {number} returned {record['exit_code']} instead of {expected}; raw logs preserved.")
 
 
-def installed_probe_command(python: Path, probe: Path, mapping: Path, version: str, output: Path) -> list[str]:
-    """Keep source/cwd out of sys.path while permitting declared dependency sites.
+_PORTABLE_SAFE_PATH_BOOTSTRAP = "\n".join((
+    "import sys",
+    "from pathlib import Path",
+    "probe = Path(sys.argv[1]).resolve(strict=True)",
+    "checkout = probe.parent.parent.resolve(strict=True)",
+    "cwd = Path.cwd().resolve()",
+    "blocked = (checkout, cwd)",
+    "def allowed(entry):",
+    "    if not entry:",
+    "        return False",
+    "    candidate = Path(entry).resolve()",
+    "    return not any(candidate == parent or parent in candidate.parents for parent in blocked)",
+    "sys.path[:] = [entry for entry in sys.path if allowed(entry)]",
+    "del sys.argv[1]",
+    "sys.argv[0] = str(probe)",
+    "namespace = {'__name__': '__main__', '__file__': str(probe)}",
+    "exec(compile(probe.read_bytes(), str(probe), 'exec'), namespace)",
+))
 
-    Full interpreter isolation would hide the configured dependency sites.
-    QF origin and byte identities are checked independently by the probe.
-    This audit runner requires Python 3.11+; package support is unchanged.
+
+def installed_probe_command(python: Path, probe: Path, mapping: Path, version: str, output: Path) -> list[str]:
+    """Exclude checkout/cwd imports while retaining declared dependency paths.
+
+    Python 3.11+'s ``-P`` provides safe-path startup. Python 3.10 uses a ``-c``
+    bootstrap that removes the checkout and current directory from ``sys.path``
+    before executing the probe, without enabling isolated mode or hiding site
+    packages. The probe independently verifies its import origin and source
+    bytes in either mode.
     """
-    if sys.version_info < (3, 11):
-        raise ValueError("The package audit runner requires Python 3.11+ for safe-path probes.")
-    return [str(python), "-P", str(probe), "--mapping", str(mapping),
-            "--version", version, "--output", str(output)]
+    arguments = ["--mapping", str(mapping), "--version", version, "--output", str(output)]
+    if sys.version_info >= (3, 11):
+        return [str(python), "-P", str(probe), *arguments]
+    if sys.version_info < (3, 10):
+        raise ValueError("The package audit runner requires Python 3.10+ for safe-path probes.")
+    return [str(python), "-c", _PORTABLE_SAFE_PATH_BOOTSTRAP, str(probe), *arguments]
 
 
 def run_candidate(root: Path, contract_path: Path, output: Path) -> dict[str, Any]:

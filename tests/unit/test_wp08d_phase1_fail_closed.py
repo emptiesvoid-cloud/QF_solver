@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -31,7 +32,7 @@ def test_incomplete_authorization_is_rejected(tmp_path: Path) -> None:
 
 
 def test_authorization_contract_fields_are_explicit(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    """Validate the payload independently of the branch running the test."""
+    """Validate payload fields with a separately simulated positive ancestry check."""
     monkeypatch.setattr(
         phase1_common,
         "git_state",
@@ -41,6 +42,7 @@ def test_authorization_contract_fields_are_explicit(tmp_path: Path, monkeypatch:
             "dirty": False,
         },
     )
+    monkeypatch.setattr(phase1_common, "git_run", lambda *_args, **_kwargs: SimpleNamespace(returncode=0))
     path = tmp_path / "authorization.json"
     path.write_text(
         "{"
@@ -54,3 +56,27 @@ def test_authorization_contract_fields_are_explicit(tmp_path: Path, monkeypatch:
     payload = require_phase1_authorization(path, mesh="M1")
     assert payload["scope"] == "WP08-D_PHASE1_STRUCTURAL_EXECUTION"
 
+
+def test_authorization_rejects_unverified_governing_ancestry(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        phase1_common,
+        "git_state",
+        lambda _root=None: {
+            "branch": AUTHORIZED_INTEGRATION_BRANCH,
+            "head": REQUIRED_GOVERNING_SHA,
+            "dirty": False,
+        },
+    )
+    monkeypatch.setattr(phase1_common, "git_run", lambda *_args, **_kwargs: SimpleNamespace(returncode=1))
+    path = tmp_path / "authorization.json"
+    path.write_text(
+        "{"
+        f'"authorization": "{PHASE1_AUTHORIZATION_TOKEN}", '
+        f'"governing_base_sha": "{REQUIRED_GOVERNING_SHA}", '
+        f'"governing_sha": "{REQUIRED_GOVERNING_SHA}", '
+        f'"branch": "{AUTHORIZED_INTEGRATION_BRANCH}", '
+        '"scope": "WP08-D_PHASE1_STRUCTURAL_EXECUTION", "meshes": ["M1"]}',
+        encoding="utf-8",
+    )
+    with pytest.raises(RuntimeError, match="UNAUTHORIZED_PHASE1_EXECUTION_FAIL_CLOSED"):
+        require_phase1_authorization(path, mesh="M1")

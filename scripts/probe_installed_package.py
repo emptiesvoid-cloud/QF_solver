@@ -13,9 +13,23 @@ import sys
 from pathlib import Path
 
 
+def _safe_path_is_active() -> bool:
+    if bool(getattr(sys.flags, "safe_path", False)):
+        return True
+    checkout = Path(__file__).resolve().parents[1]
+    cwd = Path.cwd().resolve()
+    for entry in sys.path:
+        if not entry:
+            return False
+        candidate = Path(entry).resolve()
+        if any(candidate == parent or parent in candidate.parents for parent in (checkout, cwd)):
+            return False
+    return True
+
+
 def probe(mapping_path: Path, version: str, output: Path) -> dict:
-    # Fresh safe-path interpreter; declared system/user dependencies may be visible.
-    safe_path = bool(getattr(sys.flags, "safe_path", False))
+    # Native -P on 3.11+, or the audited path-sanitizing bootstrap on 3.10.
+    safe_path = _safe_path_is_active()
     if not safe_path or sys.prefix == sys.base_prefix:
         raise ValueError("The installed probe requires a separate venv and safe-path mode.")
     import qf_solver
