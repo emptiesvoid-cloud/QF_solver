@@ -78,7 +78,7 @@ jobs:
   engineering-campaign:
     name: Full engineering campaign
     runs-on: ubuntu-latest
-    needs: standard-baseline
+    needs: [standard-baseline, wp14-recovered-evidence]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -92,10 +92,77 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements/baseline-standard.txt
           python -m pip install -e . --no-deps
+      - name: Fetch frozen WP04-F source revision
+        run: |
+          git fetch --no-tags origin 70e1bf953c8e6f37b8070e78ca97e58b21499291
+          git cat-file -e 70e1bf953c8e6f37b8070e78ca97e58b21499291^{commit}
+          git cat-file -e 70e1bf953c8e6f37b8070e78ca97e58b21499291:src/solveur/core/analyses/geometric_nonlinear.py
+      - name: Restore verified WP14 recovered evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: wp14-r23-recovered-evidence
+          path: ${{ runner.temp }}/qf_solver_evidence_archive
       - name: Full MITC4 benchmarks
         run: python qf_solver.py verify
       - name: Engineering profile
+        env:
+          QF_SOLVER_EVIDENCE_ARCHIVE_ROOT: ${{ runner.temp }}/qf_solver_evidence_archive
+          QF_SOLVER_RUN_RECOVERED_EVIDENCE: "1"
         run: python qf_solver.py verify-all --profile engineering
+
+  wp14-recovered-evidence:
+    name: WP14 recovered evidence / targeted checks
+    runs-on: ubuntu-latest
+    needs: standard-baseline
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Install locked standard baseline
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements/baseline-standard.txt
+          python -m pip install -e . --no-deps
+      - name: Fetch frozen WP04-F source revision
+        run: |
+          git fetch --no-tags origin 70e1bf953c8e6f37b8070e78ca97e58b21499291
+          git cat-file -e 70e1bf953c8e6f37b8070e78ca97e58b21499291^{commit}
+          git cat-file -e 70e1bf953c8e6f37b8070e78ca97e58b21499291:src/solveur/core/analyses/geometric_nonlinear.py
+      - name: Download and verify recovered evidence archive
+        run: |
+          archive="$RUNNER_TEMP/wp14-r23-engineering-source-evidence.zip"
+          curl --fail --location --retry 3 \
+            "https://drive.google.com/uc?export=download&id=1ly_pVCeeyW7MfsHxgBKjL3DM0UeHawv9" \
+            --output "$archive"
+          python scripts/prepare_wp14_recovered_evidence.py \
+            --archive "$archive" \
+            --archive-root "$RUNNER_TEMP/qf_solver_evidence_archive"
+          echo "QF_SOLVER_EVIDENCE_ARCHIVE_ROOT=$RUNNER_TEMP/qf_solver_evidence_archive" >> "$GITHUB_ENV"
+      - name: Run the nine previously failing evidence checks
+        env:
+          QF_SOLVER_RUN_RECOVERED_EVIDENCE: "1"
+        run: >-
+          python -m pytest -p no:cacheprovider -q
+          tests/verification/test_wp04_c_tet4_structural.py::test_c05_mesh_displacement_convergence
+          tests/verification/test_wp04_c_tet4_structural.py::test_c07_mesh_energy_convergence
+          tests/verification/test_wp04_c_tet4_structural.py::test_c08_mesh_representative_stress_convergence
+          tests/verification/test_wp04_e_cross_family.py::test_g04_12_recomputes_all_frozen_deltas_from_governing_source_records
+          tests/verification/test_wp04_e_cross_family.py::test_g04_12_source_file_hashes_and_carried_limitation_are_bound
+          tests/verification/test_wp04_f_final_closure.py::test_audit_scope_and_source_freeze
+          tests/verification/test_wp04_f_final_closure.py::test_original_failure_and_wp04b_metrics_are_preserved
+          tests/verification/test_wp04_f_final_closure.py::test_final_all_or_nothing_governance_decision
+          tests/verification/test_wp09_tet4_consistent_traction_study.py::test_frozen_study_contract_binds_runner_and_preserves_history
+      - name: Upload verified recovered evidence for the full engineering job
+        uses: actions/upload-artifact@v4
+        with:
+          name: wp14-r23-recovered-evidence
+          path: ${{ runner.temp }}/qf_solver_evidence_archive
+          if-no-files-found: error
+          retention-days: 3
 
   documentation-evidence:
     name: Documentation evidence / ubuntu-latest
