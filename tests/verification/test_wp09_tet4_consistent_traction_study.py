@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 from scripts.run_wp09_tet4_consistent_traction_study import CONTRACT_PATH, LEVELS, _gate, _load_balance, _mesh, _model
 from scripts.run_wp09_tet4_consistent_traction_reference import _displacement_vector
@@ -98,6 +99,7 @@ def test_contract_structural_gate_schema_is_consumed_by_runner() -> None:
     assert _gate(row, contract) == (True, [])
 
 
+@pytest.mark.evidence
 def test_frozen_study_contract_binds_runner_and_preserves_history() -> None:
     contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
     runner = Path(contract["runner_path"])

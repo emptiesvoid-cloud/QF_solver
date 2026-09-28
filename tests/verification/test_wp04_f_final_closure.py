@@ -6,10 +6,13 @@ import json
 import subprocess
 from pathlib import Path
 
+import pytest
+
 
 ROOT = Path(__file__).resolve().parents[2]
 AUDIT = ROOT / "qualification/0_2_9/wp04f/wp04_final_closure_audit.json"
 AUDIT_SHA = "70e1bf953c8e6f37b8070e78ca97e58b21499291"
+pytestmark = pytest.mark.evidence
 
 
 def load(path: Path) -> dict:

@@ -73,9 +73,15 @@ def load_verified_evidence_bytes(
         archive_base.relative_to(archive_root.resolve())
     except ValueError as exc:
         raise RecoveredEvidenceError("Archive subdirectory escapes its root") from exc
-    archived_path = (archive_base / Path(*relative_archive_path.parts)).resolve(
-        strict=True
-    )
+    try:
+        archived_path = (archive_base / Path(*relative_archive_path.parts)).resolve(
+            strict=True
+        )
+    except FileNotFoundError as exc:
+        raise RecoveredEvidenceError(
+            f"Archived evidence is unavailable for {normalized_repo_path}; "
+            "provide the controlled archive with QF_SOLVER_EVIDENCE_ARCHIVE_ROOT"
+        ) from exc
     try:
         archived_path.relative_to(archive_base)
     except ValueError as exc:

@@ -8,11 +8,14 @@ import math
 from pathlib import Path
 from typing import Any, cast
 
+import pytest
+
 from tests.helpers.recovered_evidence import load_verified_evidence_bytes
 
 
 ROOT = Path(__file__).resolve().parents[2]
 QUALIFICATION = ROOT / "qualification" / "0_2_9"
+pytestmark = pytest.mark.evidence
 
 
 def _load(relative_path: str) -> dict[str, Any]:

@@ -725,6 +725,7 @@ def test_c02_c04_tet4_mesh_structural_solves(level: str) -> None:
     assert np.all(np.isfinite(row["displacement"]))
 
 
+@pytest.mark.evidence
 def test_c05_mesh_displacement_convergence() -> None:
     """Check the accepted mesh gate without relabelling the old coarse failure."""
     report = verify_wp04_mesh_lineage()
@@ -737,6 +738,7 @@ def test_c06_mesh_reaction_convergence() -> None:
     assert summary["mesh_convergence"]["fine_medium_reaction_relative"] <= 0.02
 
 
+@pytest.mark.evidence
 def test_c07_mesh_energy_convergence() -> None:
     """Use C2R6 for acceptance and preserve the original energy FAIL."""
     report = verify_wp04_mesh_lineage()
@@ -744,6 +746,7 @@ def test_c07_mesh_energy_convergence() -> None:
     assert report["accepted_c2r6_mesh_gates"]["energy"]["value"] <= 0.02
 
 
+@pytest.mark.evidence
 def test_c08_mesh_representative_stress_convergence() -> None:
     """Check the frozen C2R6 stress gate, not a different coarse hierarchy."""
     report = verify_wp04_mesh_lineage()

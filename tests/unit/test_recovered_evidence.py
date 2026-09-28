@@ -84,6 +84,24 @@ def test_rejects_changed_archived_bytes(tmp_path: Path) -> None:
         )
 
 
+def test_reports_missing_archived_payload_as_unavailable(tmp_path: Path) -> None:
+    manifest, archive, digest = _fixture(tmp_path, b"missing")
+    archived_path = (
+        archive
+        / "0_2_9/wp14/r23_engineering_source_evidence"
+        / "qualification/0_2_9/example.json"
+    )
+    archived_path.unlink()
+
+    with pytest.raises(RecoveredEvidenceError, match="Archived evidence is unavailable"):
+        load_verified_evidence_bytes(
+            "qualification/0_2_9/example.json",
+            digest,
+            manifest_path=manifest,
+            archive_root=archive,
+        )
+
+
 def test_rejects_archive_path_traversal(tmp_path: Path) -> None:
     manifest, archive, digest = _fixture(tmp_path, b"evidence")
     data = json.loads(manifest.read_text(encoding="utf-8"))
