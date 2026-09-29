@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "contract_id": "QF-029-WP14-G03-BOUNDED-PUBLIC-SURFACES-R4.2",
-  "revision": "R4.2",
+  "contract_id": "QF-029-WP14-G03-BOUNDED-PUBLIC-SURFACES-R4.3",
+  "revision": "R4.3",
   "status": "FROZEN_CANDIDATE_BUILD",
-  "source_sha": "c3651f8fc2ad77ffccf556f4d856d193b73cbfb2",
-  "scope": "Prospective strict scan and candidate-package verification for the explicitly selected public installable package sources plus tracked documentation scan inputs under docs/. The whole engineering repository is not scanned or waived.",
+  "source_sha": "42105f06e03cbdfd74cbe1b54e0d67c28fbfed3a",
+  "scope": "Prospective strict scan and candidate-package verification for the explicitly selected public installable package sources plus documentation files in the public MkDocs surface. The controlled 0.2.9 verification archive remains versioned but is excluded from both public serving and this public-surface scan. The whole engineering repository is not scanned or waived.",
   "provenance": {
     "governing_branch": "0.2.9-unified-nonlinear",
     "governing_base_sha": "6ca976bfd317157c67d58f42b262a15cc8fd3b1f",
     "candidate_branch": "codex/wp14-g03-g06-g08-remediation",
-    "source_sha": "c3651f8fc2ad77ffccf556f4d856d193b73cbfb2",
+    "source_sha": "42105f06e03cbdfd74cbe1b54e0d67c28fbfed3a",
     "freeze_rule": "This contract must be committed after source_sha. The source/package/docs/tool inputs are immutable for this execution; evidence-only descendant commits are allowed only if those bound inputs remain byte-identical."
   },
   "selection": {
@@ -64,6 +64,9 @@
     "include_prefixes": [
       "docs/"
     ],
+    "exclude_prefixes": [
+      "docs/verification/0_2_9/"
+    ],
     "suffixes": [
       ".cff",
       ".cfg",
@@ -85,8 +88,16 @@
       ".yaml",
       ".yml"
     ],
-    "frozen_preflight_file_count": 951,
-    "interpretation": "Scan every tracked text/PDF file under docs/ with one of the explicitly enumerated suffixes, including generated and historical documentation artifacts. Binary images, meshes, and numerical datasets are out of this text scan."
+    "frozen_preflight_file_count": 745,
+    "frozen_excluded_file_count": 206,
+    "interpretation": "Scan tracked text/PDF files that remain in the public docs/ surface after the matching MkDocs exclusion. Keep the controlled docs/verification/0_2_9/ archive in Git, but do not serve or scan it as public documentation. Binary images, meshes, and numerical datasets are out of this text scan."
+  },
+  "documentation_publication_policy": {
+    "config_path": ".github/pages/mkdocs.yml",
+    "config_sha256": "5ae533f6769de62ce66c1d2d9f58aea94b1ff20f9a030d90bcc2bc1a6a1563d5",
+    "excluded_source_prefix": "docs/verification/0_2_9/",
+    "mkdocs_exclude_pattern": "verification/0_2_9/**",
+    "reason": "The archived MkDocs build produced 206 pages from this controlled qualification archive although none of them was in the published nav. All 75 R4.2 strict-scan findings were in this directory. Preserve the source evidence in Git; exclude it from public site output and public-surface scanning. G06 review metadata remains a separate gate and is not waived."
   },
   "package_version": "0.2.8",
   "tool_bindings": {
@@ -98,7 +109,7 @@
     "scripts/review_vocabulary.py": "28af00eab2a09fdcb94bf3c4682230dcaaca9b519aeb0867d96b67d4589ad3aa",
     "scripts/verify_public_package.py": "dea7069acaa82c13cf106d3b3f7f43549080d49c0b9ec22a8bc037810db19a16"
   },
-  "scope_scan_tool_sha256": "37e1d1d1c5499963fce8bebfa2cf032d6aa3f579124742d4dc1909df48a8f206",
+  "scope_scan_tool_sha256": "fa2a39d03b2f14bfcbbaf725c7c9f25fe84b117a2824f3355765c0fa8c26d616",
   "package_build_allowed": true,
   "publication_allowed": false,
   "structural_solves_allowed": false,
@@ -108,19 +119,20 @@
     "Exactly the selected package source set is scanned using the existing strict scanner with no historical vocabulary waiver.",
     "Every selected package input required by pyproject.toml is present and hashed.",
     "Every selected package input is verified in both the built sdist and wheel; the installed candidate is probed without dependency installation or index access.",
-    "All 951 preflight-selected documentation text/PDF files under docs/ are scanned by the same strict content scanner; source paths, Git blobs, byte counts, and SHA-256 values are recorded.",
+    "All 745 preflight-selected public documentation text/PDF files are scanned by the same strict content scanner; the 206 excluded archive files are counted and bound to the frozen MkDocs exclusion policy. Scanned source paths, Git blobs, byte counts, and SHA-256 values are recorded.",
     "Both bounded surfaces must have zero findings for PASS_BOUNDED_PUBLIC_SURFACES. Any difference or missing input is FAIL_CLOSED."
   ],
   "limitations": [
     "This is a bounded public-surface result, not a whole-repository G03 pass and not a waiver of historical whole-repository findings.",
     "The package metadata remains 0.2.8; this contract makes no release 0.2.9 claim.",
+    "The 0.2.9 controlled verification archive remains tracked in Git but is intentionally not served as public documentation; the separate G06 review-metadata gate remains unchanged.",
     "The documentation scan does not inspect image pixels or binary meshes/data files, and is not a rendered-layout review.",
     "No release publication, tag, merge, push, ledger update, points, numerical solve, or WP14 closure is authorized.",
     "The separate G06 reviewer/approver completeness blocker and G08 matrix evidence are reported independently."
   ],
   "prior_scope_reference": {
     "path": "qualification/0_2_9/wp14/wp14_public_package_candidate_20260927_r3_contract.json",
-    "status": "PRESERVED_HISTORICAL_SCOPE; R4 adds a separately scanned docs/ surface and rebinds the selected package to the prospective R4 source."
+    "status": "PRESERVED_HISTORICAL_SCOPE; R4 adds a separately scanned public documentation surface and prospectively binds the package/document publication inputs."
   },
   "predecessor_freezes": [
     {
@@ -132,6 +144,11 @@
       "commit": "23cb1d17f2a488e1e5509fb37af4cdd52c91109f",
       "contract_sha256": "5a106bf814244014db6f896c9e9504f52cc153cd07ca6961f112bbf596e2b9ce",
       "disposition": "SUPERSEDED_BEFORE_SCAN; Windows CreateProcess rejected the oversized Git argv used for frozen-input comparison. The failure occurred before scanning content, writing a report, or building a package. R4.2 compares frozen Git tree entries without an oversized path argument."
+    },
+    {
+      "commit": "1c58960ea4dd62f1b5fffccc663fb6db4259131c",
+      "contract_sha256": "089d510ef238ba5e7efc094344be558c67f2611e654462f49430579ab375928c",
+      "disposition": "R4.2 VALID BROAD SOURCE SCAN; package candidate passed, while 75 source-document findings were observed. The archived MkDocs manifest then confirmed all 66 finding paths were generated into 206 unlinked 0.2.9 pages. R4.3 keeps that record and corrects only the public serving boundary; no source evidence is deleted or rewritten."
     }
   ]
 }
