@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "contract_id": "QF-029-WP14-G03-BOUNDED-PUBLIC-SURFACES-R4.1",
-  "revision": "R4.1",
+  "contract_id": "QF-029-WP14-G03-BOUNDED-PUBLIC-SURFACES-R4.2",
+  "revision": "R4.2",
   "status": "FROZEN_CANDIDATE_BUILD",
-  "source_sha": "32d64da0623768d0aad6ab14ee778c4c54eeb5fa",
+  "source_sha": "c3651f8fc2ad77ffccf556f4d856d193b73cbfb2",
   "scope": "Prospective strict scan and candidate-package verification for the explicitly selected public installable package sources plus tracked documentation scan inputs under docs/. The whole engineering repository is not scanned or waived.",
   "provenance": {
     "governing_branch": "0.2.9-unified-nonlinear",
     "governing_base_sha": "6ca976bfd317157c67d58f42b262a15cc8fd3b1f",
     "candidate_branch": "codex/wp14-g03-g06-g08-remediation",
-    "source_sha": "32d64da0623768d0aad6ab14ee778c4c54eeb5fa",
+    "source_sha": "c3651f8fc2ad77ffccf556f4d856d193b73cbfb2",
     "freeze_rule": "This contract must be committed after source_sha. The source/package/docs/tool inputs are immutable for this execution; evidence-only descendant commits are allowed only if those bound inputs remain byte-identical."
   },
   "selection": {
@@ -98,7 +98,7 @@
     "scripts/review_vocabulary.py": "28af00eab2a09fdcb94bf3c4682230dcaaca9b519aeb0867d96b67d4589ad3aa",
     "scripts/verify_public_package.py": "dea7069acaa82c13cf106d3b3f7f43549080d49c0b9ec22a8bc037810db19a16"
   },
-  "scope_scan_tool_sha256": "d2c0f9e49d1d3ddc51f03baeb0482438a8a265faf5473022935f375302003efe",
+  "scope_scan_tool_sha256": "37e1d1d1c5499963fce8bebfa2cf032d6aa3f579124742d4dc1909df48a8f206",
   "package_build_allowed": true,
   "publication_allowed": false,
   "structural_solves_allowed": false,
@@ -122,9 +122,16 @@
     "path": "qualification/0_2_9/wp14/wp14_public_package_candidate_20260927_r3_contract.json",
     "status": "PRESERVED_HISTORICAL_SCOPE; R4 adds a separately scanned docs/ surface and rebinds the selected package to the prospective R4 source."
   },
-  "predecessor_freeze": {
-    "commit": "f24e1f9abf55deba7601ffb69673801d23fe336c",
-    "contract_sha256": "f0daa7dee800e9748a992140b07adc0e5f54bf96656cb6de4da8107045bcde06",
-    "disposition": "SUPERSEDED_BEFORE_SCAN; preflight showed source_sha was nested under provenance rather than present at the top level required by both frozen runners. No scan or package build began under that contract."
-  }
+  "predecessor_freezes": [
+    {
+      "commit": "f24e1f9abf55deba7601ffb69673801d23fe336c",
+      "contract_sha256": "f0daa7dee800e9748a992140b07adc0e5f54bf96656cb6de4da8107045bcde06",
+      "disposition": "SUPERSEDED_BEFORE_SCAN; preflight showed source_sha was nested under provenance rather than present at the top level required by both frozen runners. No scan or package build began under that contract."
+    },
+    {
+      "commit": "23cb1d17f2a488e1e5509fb37af4cdd52c91109f",
+      "contract_sha256": "5a106bf814244014db6f896c9e9504f52cc153cd07ca6961f112bbf596e2b9ce",
+      "disposition": "SUPERSEDED_BEFORE_SCAN; Windows CreateProcess rejected the oversized Git argv used for frozen-input comparison. The failure occurred before scanning content, writing a report, or building a package. R4.2 compares frozen Git tree entries without an oversized path argument."
+    }
+  ]
 }
