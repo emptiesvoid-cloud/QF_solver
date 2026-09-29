@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "record_type": "WP14_G06_R2_2_OWNER_DECISION_ATTRIBUTION_ERRATUM",
+  "recorded_date": "2026-09-29",
+  "status": "ERRATUM_POLICY_SHA256_REFERENCE_CORRECTED",
+  "original_record": {
+    "path": "qualification/0_2_9/wp14/wp14_g06_r2_2_owner_decision_attribution_2026_09_29.json",
+    "sha256": "f26aa2023ed7a7be0056296ecec46f97e72b6f1eff833e8dd3eb790b7d7f3e1c",
+    "preserved_without_modification": true
+  },
+  "correction": {
+    "json_pointer": "/applies_to/policy_sha256",
+    "previously_recorded_value": "f956adae4b99719ae3dd45c5cf91506da964857cae2a568e892e3660e5c9fd5",
+    "verified_value": "f9562adae4b99719ae3dd45c5cf91506da964857cae2a568e892e3660e5c9fd5",
+    "basis": {
+      "policy_path": "qualification/0_2_9/wp14/wp14_g06_review_scope_r2_2_policy.json",
+      "policy_file_sha256": "f9562adae4b99719ae3dd45c5cf91506da964857cae2a568e892e3660e5c9fd5",
+      "execution_record_path": "qualification/0_2_9/wp14/wp14_g06_review_scope_r2_2_execution.json",
+      "execution_record_policy_sha256": "f9562adae4b99719ae3dd45c5cf91506da964857cae2a568e892e3660e5c9fd5",
+      "execution_record_attribution_sha256": "f26aa2023ed7a7be0056296ecec46f97e72b6f1eff833e8dd3eb790b7d7f3e1c"
+    }
+  },
+  "effect": {
+    "owner_role_attribution_changed": false,
+    "owner_policy_decision_changed": false,
+    "frozen_policy_changed": false,
+    "acceptance_criteria_changed": false,
+    "execution_results_changed": false,
+    "points_or_ledger_changed": false,
+    "release_authorized": false
+  },
+  "limitations": [
+    "This erratum corrects only a transcribed digest reference; the original record remains preserved and its Git history remains available.",
+    "Owner attribution is based on the user's statement in the Codex conversation. It is not a digital signature or an independent review."
+  ]
+}
