@@ -1,8 +1,9 @@
 {
   "schema_version": 1,
-  "contract_id": "QF-029-WP14-G03-BOUNDED-PUBLIC-SURFACES-R4",
-  "revision": "R4",
+  "contract_id": "QF-029-WP14-G03-BOUNDED-PUBLIC-SURFACES-R4.1",
+  "revision": "R4.1",
   "status": "FROZEN_CANDIDATE_BUILD",
+  "source_sha": "32d64da0623768d0aad6ab14ee778c4c54eeb5fa",
   "scope": "Prospective strict scan and candidate-package verification for the explicitly selected public installable package sources plus tracked documentation scan inputs under docs/. The whole engineering repository is not scanned or waived.",
   "provenance": {
     "governing_branch": "0.2.9-unified-nonlinear",
@@ -120,5 +121,10 @@
   "prior_scope_reference": {
     "path": "qualification/0_2_9/wp14/wp14_public_package_candidate_20260927_r3_contract.json",
     "status": "PRESERVED_HISTORICAL_SCOPE; R4 adds a separately scanned docs/ surface and rebinds the selected package to the prospective R4 source."
+  },
+  "predecessor_freeze": {
+    "commit": "f24e1f9abf55deba7601ffb69673801d23fe336c",
+    "contract_sha256": "f0daa7dee800e9748a992140b07adc0e5f54bf96656cb6de4da8107045bcde06",
+    "disposition": "SUPERSEDED_BEFORE_SCAN; preflight showed source_sha was nested under provenance rather than present at the top level required by both frozen runners. No scan or package build began under that contract."
   }
 }
