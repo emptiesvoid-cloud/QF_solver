@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "attestation_id": "OD-029-WP14-G06-R2.2-OWNER-DECISION-ATTRIBUTION-2026-09-29",
+  "recorded_date": "2026-09-29",
+  "status": "OWNER_DECISION_ATTRIBUTION_RECORDED",
+  "attestation_source": {
+    "channel": "Codex conversation",
+    "date": "2026-09-29",
+    "statement": "La personne qui a pris la décision, c'est moi (le Owner).",
+    "signature_claimed": false
+  },
+  "applies_to": {
+    "policy_path": "qualification/0_2_9/wp14/wp14_g06_review_scope_r2_2_policy.json",
+    "policy_sha256": "f956adae4b99719ae3dd45c5cf91506da964857cae2a568e892e3660e5c9fd5",
+    "decision_field": "provenance.owner_policy_confirmation",
+    "decision_scope": "Treat controlled and controlled_release as document-control lifecycle states with a visible non-blocking metadata backlog; retain explicit approval/acceptance states in Owner-review metadata readiness."
+  },
+  "attribution": {
+    "decision_maker_role": "Owner",
+    "identity_basis": "User statement in the Codex conversation",
+    "personal_name_supplied": false,
+    "independence": "OWNER_DECISION_SELF_ATTESTED_NON_INDEPENDENT"
+  },
+  "effect": {
+    "attributes_existing_owner_decision": true,
+    "changes_frozen_policy": false,
+    "changes_acceptance_criteria": false,
+    "changes_execution_results": false,
+    "changes_points_or_ledger": false,
+    "authorizes_release": false
+  },
+  "limitations": [
+    "This record attributes the decision to the Owner role based on the conversation; it is not a digital signature.",
+    "The policy and its execution freeze remain byte-identical; this attribution record is supplemental evidence.",
+    "The Owner self-attestation is not an independent review."
+  ]
+}

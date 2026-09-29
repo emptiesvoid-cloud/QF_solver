@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-029-WP14-G06-REVIEW-SCOPE-R2.2-EXECUTION",
+  "overall_status": "PASS_WITH_LIMITATIONS",
+  "provenance": {
+    "branch": "codex/wp14-g03-g06-g08-remediation",
+    "execution_sha": "a4a64123ec38304f2d1aa02bc3cd0617d31bbb5c",
+    "execution_freeze_commit": "a4a64123ec38304f2d1aa02bc3cd0617d31bbb5c",
+    "policy_path": "qualification/0_2_9/wp14/wp14_g06_review_scope_r2_2_policy.json",
+    "policy_sha256": "f9562adae4b99719ae3dd45c5cf91506da964857cae2a568e892e3660e5c9fd5",
+    "parent_contract_path": "qualification/0_2_9/wp14/wp14_g06_g08_remediation_r2_1_contract.json",
+    "parent_contract_sha256": "d378e500726f31486e89aec2229c7ff18a6fff1ac952a9b843db269ef73e1e02",
+    "working_tree_clean_at_execution_start": true,
+    "all_six_commands_used_exact_freeze_sha": true,
+    "production_mechanics_changed_by_execution": false,
+    "historical_r2_1_policy_and_execution_overwritten": false
+  },
+  "owner_decision_attribution": {
+    "status": "OWNER_DECISION_ATTRIBUTION_RECORDED_AFTER_EXECUTION",
+    "record_path": "qualification/0_2_9/wp14/wp14_g06_r2_2_owner_decision_attribution_2026_09_29.json",
+    "record_sha256": "f26aa2023ed7a7be0056296ecec46f97e72b6f1eff833e8dd3eb790b7d7f3e1c",
+    "decision_field": "provenance.owner_policy_confirmation",
+    "decision_maker_role": "Owner",
+    "personal_name_supplied": false,
+    "digital_signature_claimed": false,
+    "interpretation": "This supplemental attestation attributes the already frozen R2.2 scope decision to the Owner. It does not alter the policy, execution freeze, criteria, results, or historical records."
+  },
+  "g06": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "registry_schema_status": "PASS_ARCHIVED_PREFLIGHT_AND_TARGETED_TESTS",
+    "owner_review_metadata_scope": {
+      "documents": 22,
+      "complete": 22,
+      "incomplete": 0,
+      "basis": "R2.2 post-attestation preflight observation plus exact-freeze documentation tests",
+      "wp09_identity_attestation_path": "qualification/0_2_9/wp09_owner_acceptance_r3_identity_attestation_2026_09_29.json",
+      "wp09_identity_attestation_sha256": "0615441c0f82813991f46d81e38a741cf7cbca5d879c601e158bdebdd51595ac",
+      "interpretation": "The WP09 decision-maker is attributed to the Owner role by self-attestation. This is not an independent review or a digital signature; the original decision record and technical verdict are unchanged."
+    },
+    "document_control_metadata_backlog": {
+      "documents": 89,
+      "missing_reviewer": 86,
+      "missing_approver": 89,
+      "gate_effect": "ADVISORY_NON_BLOCKING",
+      "interpretation": "The backlog remains visible; controlled lifecycle states do not assert an Owner approval under the frozen R2.2 policy."
+    },
+    "commands": [
+      {
+        "id": "G06-C1",
+        "argv": ["python", "-m", "pytest", "-m", "benchmark"],
+        "started_utc": "2026-09-29T08:11:37.5256892Z",
+        "ended_utc": "2026-09-29T08:21:36.9867023Z",
+        "exit_code": 0,
+        "summary": "23 passed, 1 skipped, 3929 deselected in 596.33s",
+        "log_path": "qualification/0_2_9/wp14/g06_g08_r2_2/logs/01-pytest-benchmark.log",
+        "log_size_bytes": 1714,
+        "log_sha256": "8605c591256e66751e520a62700092956776638ac8c71a7ed8b3efefc374450a"
+      },
+      {
+        "id": "G06-C2",
+        "argv": ["python", "scripts/build_docs.py", "--profile", "engineering"],
+        "started_utc": "2026-09-29T08:21:52.5987244Z",
+        "ended_utc": "2026-09-29T08:28:29.9875517Z",
+        "exit_code": 0,
+        "summary": "700 artifacts generated; campaign=PASS",
+        "log_path": "qualification/0_2_9/wp14/g06_g08_r2_2/logs/02-build-docs.log",
+        "log_size_bytes": 291,
+        "log_sha256": "de1e1db7d79f12d6d014847f2a3bbf26358ca929598d26694dc51b495fff93a1"
+      },
+      {
+        "id": "G06-C3",
+        "argv": ["python", "-m", "pytest", "tests/documentation"],
+        "env": {"QF_SOLVER_RUN_EVIDENCE": "1"},
+        "started_utc": "2026-09-29T08:33:17.4317495Z",
+        "ended_utc": "2026-09-29T08:34:13.4240407Z",
+        "exit_code": 0,
+        "summary": "62 passed, 6 skipped in 51.93s",
+        "log_path": "qualification/0_2_9/wp14/g06_g08_r2_2/logs/03-pytest-documentation.log",
+        "log_size_bytes": 1434,
+        "log_sha256": "d7f67c6e38d1ffe6c84d519b8ed23109c5be7a1cfcbe0b964dd308cd7d6b1748"
+      },
+      {
+        "id": "G06-C4",
+        "argv": ["mkdocs", "build", "--strict", "-f", ".github/pages/mkdocs.yml"],
+        "env": {"PATH": "fresh external R2.2 documentation venv Scripts first"},
+        "environment": {
+          "python": "3.13.1",
+          "mkdocs": "1.6.1",
+          "mkdocs_material": "9.7.7",
+          "setup_log_path": "qualification/0_2_9/wp14/g06_g08_r2_2/logs/mkdocs-environment-setup.log",
+          "setup_log_sha256": "f35c6211389831b5d623baf840963717f57d5fcd94ad91061c01ce63c0a19854"
+        },
+        "started_utc": "2026-09-29T08:37:58.9015055Z",
+        "ended_utc": "2026-09-29T08:38:08.0446983Z",
+        "exit_code": 0,
+        "summary": "Strict build completed in 8.33s; 4 INFO events, 0 WARNING events, 0 ERROR events. The INFO output listed 486 unlinked page paths; these remained informational and strict mode returned 0.",
+        "log_path": "qualification/0_2_9/wp14/g06_g08_r2_2/logs/04-mkdocs-strict.log",
+        "log_size_bytes": 25146,
+        "log_sha256": "54cd1b0192849e9ad4f11ff77c56cce9f37a78b9610bc6fa0883ea9cc58b011a"
+      },
+      {
+        "id": "G06-C5",
+        "argv": ["python", "-m", "pytest", "tests/documentation/test_docs_generation.py", "-q"],
+        "started_utc": "2026-09-29T08:43:55.4910774Z",
+        "ended_utc": "2026-09-29T08:43:59.7776575Z",
+        "exit_code": 0,
+        "summary": "36 passed, 2 skipped in 2.10s",
+        "log_path": "qualification/0_2_9/wp14/g06_g08_r2_2/logs/05-docs-generation-targeted.log",
+        "log_size_bytes": 203,
+        "log_sha256": "36e239c6526a7efe06f70336c09cbcf82e14ab65b37402f583ff7f4b7a06fde0"
+      },
+      {
+        "id": "G06-C6",
+        "argv": ["python", "-m", "pytest", "tests/integration/test_packaging.py", "-q"],
+        "started_utc": "2026-09-29T08:44:21.0381488Z",
+        "ended_utc": "2026-09-29T08:44:37.5826712Z",
+        "exit_code": 0,
+        "summary": "13 passed in 14.58s",
+        "log_path": "qualification/0_2_9/wp14/g06_g08_r2_2/logs/06-packaging-targeted.log",
+        "log_size_bytes": 193,
+        "log_sha256": "814a74805605b97f24481d845d680e3346c0a3185d17e8e29c11c5c5834da72a"
+      }
+    ],
+    "non_qualifying_capture_attempts": [
+      {
+        "command_under_attempt": ["python", "-m", "pytest", "tests/documentation/test_docs_generation.py", "-q"],
+        "started_utc": "2026-09-29T08:43:19.2378536Z",
+        "ended_utc": "2026-09-29T08:43:19.3883057Z",
+        "capture_log_path": "qualification/0_2_9/wp14/g06_g08_r2_2/logs/05-docs-generation-capture-wrapper-error.log",
+        "capture_log_size_bytes": 90,
+        "capture_log_sha256": "24e3c0669d7acacf099386c92a897014e2e3d3811a87a219314f4f7dd5e1d431",
+        "launcher_observation": "Tee-Object rejected the -LiteralPath and -Append parameter combination with a parameter-set binding error.",
+        "pytest_execution_state": "UNKNOWN_NOT_VERIFIABLE_FROM_CAPTURE",
+        "gate_credit": false,
+        "handling": "Preserved as non-probative; only the subsequent C5 run with a corrected capture wrapper is counted."
+      }
+    ],
+    "documentation_environment_setup": {
+      "status": "PASS",
+      "started_utc": "2026-09-29T08:36:33.9788163Z",
+      "ended_utc": "2026-09-29T08:37:16.9327172Z",
+      "exit_code": 0,
+      "python": "3.13.1",
+      "baseline_requirements": "requirements/baseline-docs.txt",
+      "declared_docs_extra_bounds": ["mkdocs>=1.6,<2", "mkdocs-material>=9.5,<10"],
+      "log_path": "qualification/0_2_9/wp14/g06_g08_r2_2/logs/mkdocs-environment-setup.log",
+      "log_size_bytes": 11580,
+      "log_sha256": "f35c6211389831b5d623baf840963717f57d5fcd94ad91061c01ce63c0a19854"
+    },
+    "generated_output_archives": [
+      {
+        "scope": "Pre-run snapshot of tracked generated docs outputs",
+        "external_location": "C:/Users/fari/AppData/Local/Temp/wp14_g06_g08_r2_2_a4a64123/pre-run-snapshot",
+        "versioned_manifest_path": "qualification/0_2_9/wp14/g06_g08_r2_2/pre-run-snapshot-manifest.csv",
+        "file_count": 511,
+        "total_bytes": 59438901,
+        "manifest_sha256": "80db66652885d7882064d9fbcaaa30ba8ba39ec06e55fe43ff71abad1ef74940",
+        "restoration_verification": "All 511 files were restored to their pre-run bytes; zero hash/size mismatches."
+      },
+      {
+        "scope": "C2 engineering documentation build outputs",
+        "external_location": "C:/Users/fari/AppData/Local/Temp/wp14_g06_g08_r2_2_a4a64123/post-build-output",
+        "versioned_manifest_path": "qualification/0_2_9/wp14/g06_g08_r2_2/post-build-output-manifest.csv",
+        "file_count": 701,
+        "total_bytes": 2428462654,
+        "manifest_sha256": "475840950de8b91a53d75d15d5d157983717159fd9a1321e59de8db0fa1447f4"
+      },
+      {
+        "scope": "C3 documentation pytest generated outputs",
+        "external_location": "C:/Users/fari/AppData/Local/Temp/wp14_g06_g08_r2_2_a4a64123/post-c3-output",
+        "versioned_manifest_path": "qualification/0_2_9/wp14/g06_g08_r2_2/post-c3-output-manifest.csv",
+        "file_count": 27,
+        "total_bytes": 6171318,
+        "manifest_sha256": "08be118c3e062aab9f4acf9d69e88550a4c639067facfbfb61d92e5ff6cf60de"
+      },
+      {
+        "scope": "C4 MkDocs generated site",
+        "external_location": "C:/Users/fari/AppData/Local/Temp/wp14_g06_g08_r2_2_a4a64123/post-c4-site",
+        "versioned_manifest_path": "qualification/0_2_9/wp14/g06_g08_r2_2/post-c4-site-manifest.csv",
+        "file_count": 1129,
+        "total_bytes": 128115701,
+        "manifest_sha256": "60b00b921f0c884b51bcd3ce078b0f7fe85ba9d345d58ca822e5aecc838e1220"
+      }
+    ],
+    "workspace_restoration": {
+      "generated_untracked_outputs_archived_before_removal": true,
+      "tracked_generated_outputs_match_pre_run_snapshot": true,
+      "source_and_script_inputs_match_execution_freeze": true,
+      "test_commands_left_untracked_outputs_after_cleanup": false
+    }
+  },
+  "g08": {
+    "status": "NOT_RUN",
+    "workflow": ".github/workflows/quality.yml",
+    "required_job": "standard-baseline",
+    "required_legs": [
+      "ubuntu-latest / Python 3.10",
+      "ubuntu-latest / Python 3.13",
+      "windows-latest / Python 3.10",
+      "windows-latest / Python 3.13"
+    ],
+    "workflow_run_id": null,
+    "tested_sha": null,
+    "reason": "G08 requires the exact candidate SHA on all four GitHub Actions legs; this R2.2 record is the local G06 execution only."
+  },
+  "other_wp14_gates": {
+    "g03_whole_repository": "FAIL_RETAINED; no whole-repository waiver",
+    "g03_bounded_public_surface": "PENDING_R4.4_FREEZE_AND_SCAN",
+    "g04_g05": "PRIOR_TARGETED_RECHECK_RECORDED; not rerun by this G06 execution",
+    "g09": "OWNER_GATED_NOT_RUN",
+    "full_repository_verify_all": "NOT_RUN"
+  },
+  "governance": {
+    "wp14_global_status": "HOLD",
+    "wp14_official_points": "0/1",
+    "global_official_total": "95/100",
+    "points_awarded": false,
+    "ledger_updated": false,
+    "merge_or_release_authorized_by_this_record": false,
+    "historical_failures_reclassified": false
+  },
+  "limitations": [
+    "The 89-document controlled-lifecycle metadata backlog remains visible as an advisory cleanup backlog; only the frozen 22-document approval/acceptance review scope is counted complete.",
+    "The WP09 Owner identity record is a role-based self-attestation without a personal name, digital signature, or independent review; its original decision record is unchanged.",
+    "The documentation environment setup and six G06 commands were executed on Windows with Python 3.13.1. The separate G08 cross-platform workflow matrix remains pending.",
+    "The MkDocs output listed 486 unlinked page paths at INFO level. Strict mode returned 0 and the log contains no WARNING or ERROR events; the INFO diagnostics remain disclosed.",
+    "Large generated artifacts remain outside Git; the versioned per-file manifests preserve their byte counts and SHA-256 values."
+  ]
+}
