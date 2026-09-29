@@ -60,7 +60,18 @@ def test_wp14_g06_r22_policy_is_prospective_and_binds_its_evidence() -> None:
     assert hashlib.sha256(parent.read_bytes()).hexdigest() == policy["provenance"]["parent_contract"]["sha256"]
     for correction in policy["evidence_based_metadata_reconciliation"]:
         source = root / correction["direct_source"]["path"]
-        assert hashlib.sha256(source.read_bytes()).hexdigest() == correction["direct_source"]["sha256"]
+        source_bytes = source.read_bytes()
+        # The frozen R2.2 direct-source hashes were captured on Windows, while
+        # GitHub Actions also checks out these Markdown files with LF endings.
+        # Accept only line-ending variants of the same bytes so the binding is
+        # portable without changing the frozen policy or its recorded digest.
+        normalized_lf = source_bytes.replace(b"\r\n", b"\n")
+        normalized_crlf = normalized_lf.replace(b"\n", b"\r\n")
+        source_hashes = {
+            hashlib.sha256(candidate).hexdigest()
+            for candidate in (source_bytes, normalized_lf, normalized_crlf)
+        }
+        assert correction["direct_source"]["sha256"] in source_hashes
 
     incomplete = policy["preflight_observation_before_wp09_self_attestation"]["owner_review_metadata_incomplete"]
     assert [item["document_id"] for item in incomplete] == ["DOC-029-WP09-OWNER-R3"]
