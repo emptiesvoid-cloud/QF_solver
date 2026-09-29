@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "attestation_id": "OD-029-WP09-HEX8-R3-IDENTITY-ATTESTATION-2026-09-29",
+  "recorded_date": "2026-09-29",
+  "status": "OWNER_SELF_ATTESTATION_RECORDED",
+  "attestation_source": {
+    "channel": "Codex conversation",
+    "date": "2026-09-29",
+    "statement": "La personne qui a pris la décision, c'est moi (le Owner).",
+    "signature_claimed": false
+  },
+  "attribution": {
+    "decision_maker_role": "Owner",
+    "reviewer_metadata": "Owner",
+    "approver_metadata": "Owner",
+    "independence": "SELF_REVIEW_NON_INDEPENDENT",
+    "personal_name_supplied": false
+  },
+  "applies_to": {
+    "decision_id": "OD-029-WP09-HEX8-R3",
+    "decision_date": "2026-09-20",
+    "decision_record_path": "qualification/0_2_9/wp09_owner_acceptance_r3.json",
+    "decision_record_sha256": "f0f5c56254ec9a3e2d04a1f7986b1b6572d95e06d027b0525125d7a440fcf8c0",
+    "decision_document_path": "docs/verification/0_2_9/wp09-owner-acceptance-r3.md",
+    "decision_document_sha256_before_metadata_update": "04171de77e9dd18a5af911e233fde7755d3ab7480a66c73f3db735e5f269e008"
+  },
+  "effect": {
+    "fills_reviewer_and_approver_metadata": true,
+    "changes_original_decision": false,
+    "changes_technical_verdict": false,
+    "changes_points_or_ledger": false,
+    "authorizes_merge_or_push": false,
+    "authorizes_release": false
+  },
+  "limitations": [
+    "The Owner attested to the role-based identity only; no personal name was supplied in this message.",
+    "This is a self-attestation and is not an independent review or cryptographic signature.",
+    "The original decision JSON and its recorded technical scope remain unchanged."
+  ]
+}
