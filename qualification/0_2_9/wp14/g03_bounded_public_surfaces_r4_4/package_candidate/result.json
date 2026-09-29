@@ -1,0 +1,141 @@
+{
+  "status": "PASS_CANDIDATE_PACKAGE_ONLY",
+  "source_sha": "a4a64123ec38304f2d1aa02bc3cd0617d31bbb5c",
+  "execution_sha": "a40f2183a9e9cf2765989578a069ee5bdf23efd8",
+  "contract_sha256": "2b2021f8cce337f22989ad52566ee0f32042d4c8e346308066445ec398c2bf61",
+  "started_utc": "2026-09-29T09:06:37.168330+00:00",
+  "whole_repository_gates_changed": false,
+  "publication_performed": false,
+  "structural_solves_run": false,
+  "ledger_changed": false,
+  "release_version_claim": false,
+  "runtime": {
+    "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+    "executable": "C:\\Python313\\python.exe",
+    "build": "1.5.0",
+    "setuptools": "82.0.1",
+    "wheel": "0.47.0"
+  },
+  "package_check": {
+    "status": "PASS",
+    "wheel": "qf_solver-0.2.8-py3-none-any.whl",
+    "sdist": "qf_solver-0.2.8.tar.gz",
+    "selected_files": 551,
+    "wheel_modules": 473,
+    "scans": {
+      "wheel": {
+        "status": "PASS",
+        "scanned_files": 551,
+        "findings": []
+      },
+      "sdist": {
+        "status": "PASS",
+        "scanned_files": 559,
+        "findings": []
+      }
+    },
+    "binaries": [
+      {
+        "path": "qf_solver-0.2.8-py3-none-any.whl",
+        "bytes": 1509979,
+        "sha256": "54c46f62f58cf0ea3881df829c03d448fb46e69b445462d2850c8640748987b5"
+      },
+      {
+        "path": "qf_solver-0.2.8.tar.gz",
+        "bytes": 1138039,
+        "sha256": "bc12d778c8b55489261d14a19a74996786b282ce238badd30769706b92f3ff12"
+      }
+    ]
+  },
+  "probes": [
+    {
+      "status": "PASS",
+      "pid": 3068,
+      "cwd": "C:\\Users\\fari\\AppData\\Local\\Temp\\wp14_g03_r4_4_a40f2183\\package-candidate\\outside_checkout",
+      "python_prefix": "C:\\Users\\fari\\AppData\\Local\\Temp\\wp14_g03_r4_4_a40f2183\\package-candidate\\installed_env",
+      "solveur_origin": "C:\\Users\\fari\\AppData\\Local\\Temp\\wp14_g03_r4_4_a40f2183\\package-candidate\\installed_env\\Lib\\site-packages\\solveur\\__init__.py",
+      "qf_solver_origin": "C:\\Users\\fari\\AppData\\Local\\Temp\\wp14_g03_r4_4_a40f2183\\package-candidate\\installed_env\\Lib\\site-packages\\qf_solver\\__init__.py",
+      "verification_origin": "C:\\Users\\fari\\AppData\\Local\\Temp\\wp14_g03_r4_4_a40f2183\\package-candidate\\installed_env\\Lib\\site-packages\\solveur\\cli\\verification.py",
+      "verified_installed_sources": 473,
+      "version": "0.2.8",
+      "cli_smoke": [
+        {
+          "arguments": [
+            "--version"
+          ],
+          "exit_code": 0,
+          "output": "QF_solver 0.2.8\n"
+        },
+        {
+          "arguments": [
+            "--help"
+          ],
+          "exit_code": 0,
+          "output": "usage: QF_solver [-h] [--version] [--debug]\n                 {solve,check-mesh,inspect,evidence,import-mesh,benchmarks,benchmark,vnv-compare,vnv-import-benchmark,convert-model,inspect-large,solve-large,generate-large-tet4-block,benchmark-large,large-campaign,large-preconditioners,large-scaling-report,petsc-profile-report,petsc-tuning-report,postprocess-large,large-readiness,qualify-large,verify-large,verify-evidence,verify,verify-tet10,verify-hex8,verify-hex8-campaign,verify-hex8-external,verify-contact,verify-all,qualification-readiness,maturity-promotion,owner-review-check,qualify,release-vv,methods} ...\n\nQF_solver finite element solver CLI.\n\npositional arguments:\n  {solve,check-mesh,inspect,evidence,import-mesh,benchmarks,benchmark,vnv-compare,vnv-import-benchmark,convert-model,inspect-large,solve-large,generate-large-tet4-block,benchmark-large,large-campaign,large-preconditioners,large-scaling-report,petsc-profile-report,petsc-tuning-report,postprocess-large,large-readiness,qualify-large,verify-large,verify-evidence,verify,verify-tet10,verify-hex8,verify-hex8-campaign,verify-hex8-external,verify-contact,verify-all,qualification-readiness,maturity-promotion,owner-review-check,qualify,release-vv,methods}\n    solve               solve a JSON finite element model\n    check-mesh          validate a JSON model mesh\n    inspect             write a white-box audit for a JSON model\n    evidence            solve a model and write a reproducible evidence bundle\n    import-mesh         import a Gmsh MSH 4.1 mesh and companion setup\n    benchmarks          list controlled meshed mechanical benchmarks\n    benchmark           run one controlled meshed benchmark\n    vnv-compare         compare normalized QF_solver and reference results and\n                        write a Markdown study\n    vnv-import-benchmark\n                        create a V&V study with PNG and VTU evidence from a\n                        controlled benchmark\n    convert-model       convert JSON model to large HDF5/NPZ format\n    inspect-large       write an aggregated audit for a large model\n    solve-large         solve a large-scale linear static TET4 model\n    generate-large-tet4-block\n                        generate a structured large TET4 block\n    benchmark-large     solve a large model and write benchmark evidence\n    large-campaign      plan or execute a multi-size large TET4 campaign\n    large-preconditioners\n                        compare PETSc preconditioners on one model\n    large-scaling-report\n                        analyze completed strong/weak scaling runs\n    petsc-profile-report\n                        parse and compare PETSc log_view profiles\n    petsc-tuning-report\n                        compare PETSc tuning runs across topologies\n    postprocess-large   recover TET4 fields by checkpointed bounded-memory\n                        chunks\n    large-readiness     check dependencies and sizing before a large TET4 run\n    qualify-large       generate, solve and verify a large TET4 case\n    verify-large        verify a completed large qualification evidence\n                        directory\n    verify-evidence     verify an evidence bundle manifest\n    verify              run existing MITC4 verification\n    verify-tet10        run analytical TET10 mechanical verification\n    verify-hex8         run analytical HEX8 mechanical verification\n    verify-hex8-campaign\n                        run the internal HEX8 V&V campaign\n    verify-hex8-external\n                        run the HEX8/CalculiX C3D8 correlation\n    verify-contact      run the internal V1 normal and frictional contact\n                        studies\n    verify-all          run repository checks from a complete Git source\n                        checkout (developer/CI only)\n    qualification-readiness\n                        check requirement traceability for one scope\n    maturity-promotion  audit evidence readiness for the controlled maturity-\n                        promotion plan\n    owner-review-check  validate one Owner/external review record without\n                        changing maturity\n    qualify             run a qualification campaign manifest\n    release-vv          build the release-level verification and validation\n                        readiness package\n    methods             list available analysis methods\n\noptions:\n  -h, --help            show this help message and exit\n  --version             show program's version number and exit\n  --debug               show Python tracebacks for diagnostic use\n"
+        }
+      ],
+      "verify_all_exit_code": 2,
+      "verify_all_output": "VERIFY-ALL UNSUPPORTED: this developer command requires its CLI module to be imported from a complete, valid Git source checkout.\nCheckout validation: CLI module is not loaded from this checkout's src/solveur tree\n",
+      "report_created": false,
+      "python_subprocess_audit_events": [],
+      "trace_scope": "PYTHON_AUDIT_HOOK_DURING_CLI_CHECKS_NOT_SYSTEM_WIDE_OS_TRACE",
+      "dependency_isolation": "SYSTEM_AND_USER_SITE_DEPENDENCIES_ALLOWED_QF_ORIGIN_AND_BYTES_VERIFIED",
+      "safe_path": true,
+      "runtime_versions": {
+        "numpy": "2.2.6",
+        "scipy": "1.15.2",
+        "matplotlib": "3.10.3",
+        "pip": "24.3.1"
+      }
+    },
+    {
+      "status": "PASS",
+      "pid": 19692,
+      "cwd": "C:\\Users\\fari\\AppData\\Local\\Temp\\wp14_g03_g06_g08_20260929",
+      "python_prefix": "C:\\Users\\fari\\AppData\\Local\\Temp\\wp14_g03_r4_4_a40f2183\\package-candidate\\installed_env",
+      "solveur_origin": "C:\\Users\\fari\\AppData\\Local\\Temp\\wp14_g03_r4_4_a40f2183\\package-candidate\\installed_env\\Lib\\site-packages\\solveur\\__init__.py",
+      "qf_solver_origin": "C:\\Users\\fari\\AppData\\Local\\Temp\\wp14_g03_r4_4_a40f2183\\package-candidate\\installed_env\\Lib\\site-packages\\qf_solver\\__init__.py",
+      "verification_origin": "C:\\Users\\fari\\AppData\\Local\\Temp\\wp14_g03_r4_4_a40f2183\\package-candidate\\installed_env\\Lib\\site-packages\\solveur\\cli\\verification.py",
+      "verified_installed_sources": 473,
+      "version": "0.2.8",
+      "cli_smoke": [
+        {
+          "arguments": [
+            "--version"
+          ],
+          "exit_code": 0,
+          "output": "QF_solver 0.2.8\n"
+        },
+        {
+          "arguments": [
+            "--help"
+          ],
+          "exit_code": 0,
+          "output": "usage: QF_solver [-h] [--version] [--debug]\n                 {solve,check-mesh,inspect,evidence,import-mesh,benchmarks,benchmark,vnv-compare,vnv-import-benchmark,convert-model,inspect-large,solve-large,generate-large-tet4-block,benchmark-large,large-campaign,large-preconditioners,large-scaling-report,petsc-profile-report,petsc-tuning-report,postprocess-large,large-readiness,qualify-large,verify-large,verify-evidence,verify,verify-tet10,verify-hex8,verify-hex8-campaign,verify-hex8-external,verify-contact,verify-all,qualification-readiness,maturity-promotion,owner-review-check,qualify,release-vv,methods} ...\n\nQF_solver finite element solver CLI.\n\npositional arguments:\n  {solve,check-mesh,inspect,evidence,import-mesh,benchmarks,benchmark,vnv-compare,vnv-import-benchmark,convert-model,inspect-large,solve-large,generate-large-tet4-block,benchmark-large,large-campaign,large-preconditioners,large-scaling-report,petsc-profile-report,petsc-tuning-report,postprocess-large,large-readiness,qualify-large,verify-large,verify-evidence,verify,verify-tet10,verify-hex8,verify-hex8-campaign,verify-hex8-external,verify-contact,verify-all,qualification-readiness,maturity-promotion,owner-review-check,qualify,release-vv,methods}\n    solve               solve a JSON finite element model\n    check-mesh          validate a JSON model mesh\n    inspect             write a white-box audit for a JSON model\n    evidence            solve a model and write a reproducible evidence bundle\n    import-mesh         import a Gmsh MSH 4.1 mesh and companion setup\n    benchmarks          list controlled meshed mechanical benchmarks\n    benchmark           run one controlled meshed benchmark\n    vnv-compare         compare normalized QF_solver and reference results and\n                        write a Markdown study\n    vnv-import-benchmark\n                        create a V&V study with PNG and VTU evidence from a\n                        controlled benchmark\n    convert-model       convert JSON model to large HDF5/NPZ format\n    inspect-large       write an aggregated audit for a large model\n    solve-large         solve a large-scale linear static TET4 model\n    generate-large-tet4-block\n                        generate a structured large TET4 block\n    benchmark-large     solve a large model and write benchmark evidence\n    large-campaign      plan or execute a multi-size large TET4 campaign\n    large-preconditioners\n                        compare PETSc preconditioners on one model\n    large-scaling-report\n                        analyze completed strong/weak scaling runs\n    petsc-profile-report\n                        parse and compare PETSc log_view profiles\n    petsc-tuning-report\n                        compare PETSc tuning runs across topologies\n    postprocess-large   recover TET4 fields by checkpointed bounded-memory\n                        chunks\n    large-readiness     check dependencies and sizing before a large TET4 run\n    qualify-large       generate, solve and verify a large TET4 case\n    verify-large        verify a completed large qualification evidence\n                        directory\n    verify-evidence     verify an evidence bundle manifest\n    verify              run existing MITC4 verification\n    verify-tet10        run analytical TET10 mechanical verification\n    verify-hex8         run analytical HEX8 mechanical verification\n    verify-hex8-campaign\n                        run the internal HEX8 V&V campaign\n    verify-hex8-external\n                        run the HEX8/CalculiX C3D8 correlation\n    verify-contact      run the internal V1 normal and frictional contact\n                        studies\n    verify-all          run repository checks from a complete Git source\n                        checkout (developer/CI only)\n    qualification-readiness\n                        check requirement traceability for one scope\n    maturity-promotion  audit evidence readiness for the controlled maturity-\n                        promotion plan\n    owner-review-check  validate one Owner/external review record without\n                        changing maturity\n    qualify             run a qualification campaign manifest\n    release-vv          build the release-level verification and validation\n                        readiness package\n    methods             list available analysis methods\n\noptions:\n  -h, --help            show this help message and exit\n  --version             show program's version number and exit\n  --debug               show Python tracebacks for diagnostic use\n"
+        }
+      ],
+      "verify_all_exit_code": 2,
+      "verify_all_output": "VERIFY-ALL UNSUPPORTED: this developer command requires its CLI module to be imported from a complete, valid Git source checkout.\nCheckout validation: CLI module is not loaded from this checkout's src/solveur tree\n",
+      "report_created": false,
+      "python_subprocess_audit_events": [],
+      "trace_scope": "PYTHON_AUDIT_HOOK_DURING_CLI_CHECKS_NOT_SYSTEM_WIDE_OS_TRACE",
+      "dependency_isolation": "SYSTEM_AND_USER_SITE_DEPENDENCIES_ALLOWED_QF_ORIGIN_AND_BYTES_VERIFIED",
+      "safe_path": true,
+      "runtime_versions": {
+        "numpy": "2.2.6",
+        "scipy": "1.15.2",
+        "matplotlib": "3.10.3",
+        "pip": "24.3.1"
+      }
+    }
+  ],
+  "limitations": [
+    "This is a bounded public-surface result, not a whole-repository G03 pass and not a waiver of historical whole-repository findings.",
+    "The package metadata remains 0.2.8; this contract makes no release 0.2.9 claim.",
+    "The 0.2.9 controlled verification archive remains tracked in Git but is intentionally not served as public documentation; the separate G06 review-metadata gate remains unchanged.",
+    "The documentation scan does not inspect image pixels or binary meshes/data files, and is not a rendered-layout review.",
+    "No release publication, tag, merge, push, ledger update, points, numerical solve, or WP14 closure is authorized.",
+    "The separate G06 reviewer/approver completeness blocker and G08 matrix evidence are reported independently."
+  ],
+  "ended_utc": "2026-09-29T09:07:24.660773+00:00"
+}

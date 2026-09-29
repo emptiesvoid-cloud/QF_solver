@@ -45,3 +45,7 @@ qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_m4_s
 # Preserve WP14 R2.2 command logs and generated-output manifests byte-exactly.
 qualification/0_2_9/wp14/g06_g08_r2_2/logs/*.log binary
 qualification/0_2_9/wp14/g06_g08_r2_2/*-manifest.csv binary
+# Keep captured Windows evidence bytes intact and treat CRLF as line endings during diff checks.
+qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/** whitespace=cr-at-eol
+qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/*.log binary
+qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/package_candidate/logs/*.log binary

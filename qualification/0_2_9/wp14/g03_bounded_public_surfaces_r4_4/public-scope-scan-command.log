@@ -1,0 +1,6 @@
+START_UTC=2026-09-29T09:05:13.9514642Z
+ARGV=python scripts/audit_wp14_public_scope.py --root . --contract qualification/0_2_9/wp14/wp14_g03_bounded_public_surfaces_r4_4_contract.json --output C:\Users\fari\AppData\Local\Temp\wp14_g03_r4_4_a40f2183\public-scope-scan.json
+HEAD=a40f2183a9e9cf2765989578a069ee5bdf23efd8
+{"status": "PASS_BOUNDED_PUBLIC_SURFACES", "package_files": 551, "package_findings": 0, "documentation_files": 745, "documentation_findings": 0, "report": "C:\\Users\\fari\\AppData\\Local\\Temp\\wp14_g03_r4_4_a40f2183\\public-scope-scan.json"}
+EXIT_CODE=0
+END_UTC=2026-09-29T09:05:55.4370740Z
