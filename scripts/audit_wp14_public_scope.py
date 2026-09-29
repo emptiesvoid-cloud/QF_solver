@@ -75,10 +75,25 @@ def select_document_paths(
         or len(suffixes) != len(set(suffix.lower() for suffix in suffixes))
     ):
         raise ValueError("Documentation scope must enumerate unique supported scan suffixes.")
+    excluded_prefixes = selection.get("exclude_prefixes", [])
+    if (
+        not isinstance(excluded_prefixes, list)
+        or any(
+            not isinstance(prefix, str)
+            or not prefix.startswith("docs/")
+            or not prefix.endswith("/")
+            or ".." in Path(prefix).parts
+            for prefix in excluded_prefixes
+        )
+        or len(excluded_prefixes) != len(set(excluded_prefixes))
+    ):
+        raise ValueError("Documentation exclusions must use unique canonical docs/ prefixes only.")
     allowed = {suffix.lower() for suffix in suffixes}
     candidates = sorted(
         path for path in tree
-        if path.startswith(tuple(prefixes)) and Path(path).suffix.lower() in allowed
+        if path.startswith(tuple(prefixes))
+        and not path.startswith(tuple(excluded_prefixes))
+        and Path(path).suffix.lower() in allowed
     )
     if not candidates:
         raise ValueError("The frozen documentation scope selected no tracked files.")
@@ -89,6 +104,27 @@ def select_document_paths(
         "forbid_prefixes": [],
     }
     return select_paths(tree, exact_scope)
+
+
+def validate_documentation_publication_policy(
+    selection: dict[str, Any], policy: dict[str, Any], config_payload: bytes,
+) -> None:
+    """Bind the excluded source prefix to the frozen MkDocs publication policy."""
+    source_prefix = policy.get("excluded_source_prefix")
+    pattern = policy.get("mkdocs_exclude_pattern")
+    config_path = policy.get("config_path")
+    if (
+        not isinstance(source_prefix, str)
+        or not source_prefix.startswith("docs/")
+        or not source_prefix.endswith("/")
+        or not isinstance(pattern, str)
+        or not isinstance(config_path, str)
+        or source_prefix != selection.get("exclude_prefixes", [None])[0]
+        or pattern != source_prefix.removeprefix("docs/") + "**"
+        or b"exclude_docs: |" not in config_payload
+        or pattern.encode("utf-8") not in config_payload
+    ):
+        raise ValueError("The documentation scan exclusion is not bound to the frozen MkDocs policy.")
 
 
 def _mapping(
@@ -169,12 +205,31 @@ def audit_frozen_public_scope(root: Path, contract_path: Path, output_path: Path
 
     source_tree = git_tree(root, source)
     package_paths = select_paths(source_tree, contract["selection"])
-    docs_paths = select_document_paths(source_tree, contract["documentation_selection"])
+    documentation_selection = contract["documentation_selection"]
+    all_docs_paths = select_document_paths(
+        source_tree, {**documentation_selection, "exclude_prefixes": []},
+    )
+    docs_paths = select_document_paths(source_tree, documentation_selection)
+    publication_policy = contract.get("documentation_publication_policy", {})
+    publication_config_path = publication_policy.get("config_path")
+    if not isinstance(publication_config_path, str) or publication_config_path not in source_tree:
+        raise ValueError("The frozen public documentation configuration is missing.")
+    publication_config_payload = git_run(
+        ["cat-file", "blob", source_tree[publication_config_path][1]], cwd=root, check=True,
+    ).stdout
+    if sha256(publication_config_payload) != publication_policy.get("config_sha256"):
+        raise ValueError("The frozen MkDocs configuration hash does not match the contract.")
+    validate_documentation_publication_policy(
+        documentation_selection, publication_policy, publication_config_payload,
+    )
+    excluded_docs_count = len(all_docs_paths) - len(docs_paths)
     bound_paths = sorted(set([
         *package_paths,
         *docs_paths,
+        *[path for path in all_docs_paths if path.startswith(tuple(documentation_selection["exclude_prefixes"]))],
         *contract["tool_bindings"],
         "scripts/audit_wp14_public_scope.py",
+        publication_config_path,
     ]))
     execution_tree = git_tree(root, head)
     changed_after_source = changed_bound_paths(source_tree, execution_tree, bound_paths)
@@ -219,6 +274,9 @@ def audit_frozen_public_scope(root: Path, contract_path: Path, output_path: Path
             },
             "tracked_documentation_text_and_pdf": {
                 "file_count": len(docs_mapping),
+                "excluded_from_publication_file_count": excluded_docs_count,
+                "excluded_from_publication_prefixes": documentation_selection["exclude_prefixes"],
+                "publication_policy": publication_policy,
                 "scope": contract["documentation_selection"],
                 "mapping": docs_mapping,
                 "strict_scan": _redact_findings(docs_scan),

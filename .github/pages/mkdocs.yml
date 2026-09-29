@@ -10,6 +10,11 @@ repo_url: https://github.com/emptiesvoid-cloud/QF_solver
 docs_dir: ../../docs
 site_dir: ../../site
 
+# Keep the controlled 0.2.9 qualification archive in Git, but do not serve it
+# as public documentation. It is not part of the published navigation.
+exclude_docs: |
+  verification/0_2_9/**
+
 theme:
   name: material
   language: en
