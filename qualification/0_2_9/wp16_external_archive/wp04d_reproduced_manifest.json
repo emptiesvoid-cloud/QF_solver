@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "status": "LOCAL_ARCHIVE_VERIFIED_PENDING_REMOTE",
+  "source_relative_root": "qualification/0_2_9",
+  "file_count": 31,
+  "uncompressed_bytes": 8724153,
+  "archive": {
+    "name": "wp04d_reproduced.zip",
+    "size_bytes": 7886032,
+    "sha256": "a5f63df37713ec3bf2540ae0920fbf271229bca1adc61115a9fde22aa2690244"
+  },
+  "files": [
+    {
+      "path": "wp04d/g04_11_audit.json",
+      "size_bytes": 5469,
+      "sha256": "21bbbd5b1fee3a400be85aa96d21569c8ede7b1f222e0696bd3698c5af488816"
+    },
+    {
+      "path": "wp04d/h1_raw.npz",
+      "size_bytes": 510642,
+      "sha256": "021fb16a46f369452f5aa0a8e913c1bd345eb3128df3cb5c5a1edce63805ab2d"
+    },
+    {
+      "path": "wp04d/h1_replay_raw.npz",
+      "size_bytes": 510642,
+      "sha256": "021fb16a46f369452f5aa0a8e913c1bd345eb3128df3cb5c5a1edce63805ab2d"
+    },
+    {
+      "path": "wp04d/h1_replay_result.json",
+      "size_bytes": 13847,
+      "sha256": "e047367d62177ccb33f15a4d8fc5ae8eefee64f39b9db4fed2c99028e73f5843"
+    },
+    {
+      "path": "wp04d/h1_replay_status.json",
+      "size_bytes": 692,
+      "sha256": "f5ce9288ff72feeaf69d0ea3268535030f3d6769aa1f38c2169a4ccf132b44f4"
+    },
+    {
+      "path": "wp04d/h1_replay_telemetry.jsonl",
+      "size_bytes": 109855,
+      "sha256": "40d43046544734546e1eb93c02ba362072a5ee3ee4a83342cb8465d9fdfd80de"
+    },
+    {
+      "path": "wp04d/h1_result.json",
+      "size_bytes": 14885,
+      "sha256": "a357a5acbd9eeaa734b8a7bdc5f0149a62a72e62ee86f63e50b718755aa5462d"
+    },
+    {
+      "path": "wp04d/h1_small_0p001_raw.npz",
+      "size_bytes": 521619,
+      "sha256": "ef5c530891dfca9ebbcdf7eb1f5bc3768705277c53c16791a6ecaa5fbdf4f6ed"
+    },
+    {
+      "path": "wp04d/h1_small_0p001_result.json",
+      "size_bytes": 12615,
+      "sha256": "49c6bd43c859ee4843acb94d538a20b85159e4894b77f77e579f51aba8bbdd4d"
+    },
+    {
+      "path": "wp04d/h1_small_0p001_status.json",
+      "size_bytes": 703,
+      "sha256": "a8e8e64c8280df5a51a0a8095efd313c06984294d859d2b670188106c237dc66"
+    },
+    {
+      "path": "wp04d/h1_small_0p001_telemetry.jsonl",
+      "size_bytes": 32217,
+      "sha256": "edcaf46b669736142a1f9eac85c87ffbc8a27eeecf526b72f87f89befb1d8695"
+    },
+    {
+      "path": "wp04d/h1_small_0p01_raw.npz",
+      "size_bytes": 518766,
+      "sha256": "5da8b18a09ba3b51a563fca7e3eb670856107166b4c915d8912ab6768b4c57c4"
+    },
+    {
+      "path": "wp04d/h1_small_0p01_result.json",
+      "size_bytes": 12527,
+      "sha256": "9e459dfcb0b282a82f4b3aa3364eeb43df94181426b7d55717fd774d1067e120"
+    },
+    {
+      "path": "wp04d/h1_small_0p01_status.json",
+      "size_bytes": 700,
+      "sha256": "19e041b17061da1e4aa884d342c96e8dfc26f82dab52983a88dd630e7c88fca9"
+    },
+    {
+      "path": "wp04d/h1_small_0p01_telemetry.jsonl",
+      "size_bytes": 32123,
+      "sha256": "178028c0afda4ceb247399acde868890cf61e304d95c4b09c60dd1aca0467fbb"
+    },
+    {
+      "path": "wp04d/h1_small_0p1_raw.npz",
+      "size_bytes": 510457,
+      "sha256": "990f4c5b009394dea729bf2a37c3df39fa8d66783dda5d47891dff7ca2c0a709"
+    },
+    {
+      "path": "wp04d/h1_small_0p1_result.json",
+      "size_bytes": 12851,
+      "sha256": "a68528abecb1681458b7a99236df174b73c316cb018a7b11a5e0d1bc03e985ee"
+    },
+    {
+      "path": "wp04d/h1_small_0p1_status.json",
+      "size_bytes": 699,
+      "sha256": "dd49ec09c250166306f18420ea70d33720b55f613a64691a528c37acd19016d9"
+    },
+    {
+      "path": "wp04d/h1_small_0p1_telemetry.jsonl",
+      "size_bytes": 51655,
+      "sha256": "c49c48cf77c44c6822f57e473425a48b30402005dc95916e5b57f064e725f09c"
+    },
+    {
+      "path": "wp04d/h1_status.json",
+      "size_bytes": 679,
+      "sha256": "7b1a037dd5e944c6f7a109ce8f979a6e1eacc0ed205cd0f2358313521892ca07"
+    },
+    {
+      "path": "wp04d/h1_telemetry.jsonl",
+      "size_bytes": 108823,
+      "sha256": "d29295f661f4784a448e0858f1a94ff6e29c429171ce9f6abc253d6d4f5d925f"
+    },
+    {
+      "path": "wp04d/h2_raw.npz",
+      "size_bytes": 1635806,
+      "sha256": "cdaf20e269e379e52d9888a618bad6b5bd8d7ca98dc20adbef1a7d54a1aaf3ee"
+    },
+    {
+      "path": "wp04d/h2_result.json",
+      "size_bytes": 14064,
+      "sha256": "1c8d23ccd6ca9ad17efce222b7b5f20ad431cd4c1cb78c2ea30b0b134cd49c28"
+    },
+    {
+      "path": "wp04d/h2_status.json",
+      "size_bytes": 683,
+      "sha256": "a6d9246d85c3c422e114e1481a2952ac32ac7fcb002ff4ab8624f842bdd38f6c"
+    },
+    {
+      "path": "wp04d/h2_telemetry.jsonl",
+      "size_bytes": 119149,
+      "sha256": "572f371e22ab61c80f7bb69ee49e4fc5cc6d9991697bf21a6ea38fe3c9b5bcc0"
+    },
+    {
+      "path": "wp04d/h3_raw.npz",
+      "size_bytes": 3761002,
+      "sha256": "a595374adbabde01a1f297a6e221c73adeaf10f915dfd7f59af4b4bf455dd14b"
+    },
+    {
+      "path": "wp04d/h3_result.json",
+      "size_bytes": 14007,
+      "sha256": "e95c228e061795145866773da6a6af23093d61295d8edef23debd10341f76a39"
+    },
+    {
+      "path": "wp04d/h3_status.json",
+      "size_bytes": 682,
+      "sha256": "3b729a56b1df4aa12966d97df16bf66695017b74ed9d30149999b97bfb4fae4e"
+    },
+    {
+      "path": "wp04d/h3_telemetry.jsonl",
+      "size_bytes": 119056,
+      "sha256": "ef7c4d484df59780357dfa085f977b56f08e228e574c5150f94d18039948f087"
+    },
+    {
+      "path": "wp04d/hex8_campaign_result.json",
+      "size_bytes": 69778,
+      "sha256": "38c1f73ba93db00915ba44466be7ecb38f8bc2c736957ed2741e9d5223efbf88"
+    },
+    {
+      "path": "wp04d/hex8_contract.json",
+      "size_bytes": 7460,
+      "sha256": "003385618fe683e1701bd03f6a53ec431395127b7823ce757d6a814bcb66d181"
+    }
+  ],
+  "selected_roots": [
+    "wp04d"
+  ]
+}

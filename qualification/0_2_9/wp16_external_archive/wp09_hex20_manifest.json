@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "status": "LOCAL_ARCHIVE_VERIFIED_PENDING_REMOTE",
+  "source_relative_root": "qualification/0_2_9",
+  "file_count": 30,
+  "uncompressed_bytes": 159722418,
+  "archive": {
+    "name": "wp09_hex20.zip",
+    "size_bytes": 14916935,
+    "sha256": "7e2f46b80e5ba018e63385e1e99c78dbbe6c31a1df6c7f1f78f47e6a2b50365e"
+  },
+  "files": [
+    {
+      "path": "wp09_hex20_extension/campaign.json",
+      "size_bytes": 5223,
+      "sha256": "2f50e1aaeb54f7a8ea9d06f0e94053c394f84d070fd2f420d40f9354d3d622b0"
+    },
+    {
+      "path": "wp09_hex20_extension/campaign.md",
+      "size_bytes": 700,
+      "sha256": "68e028c905314d05e943d90665e67021509bc8ae78b131f31bb89c8bdc345de4"
+    },
+    {
+      "path": "wp09_hex20_extension/h1_hex20.json",
+      "size_bytes": 1752576,
+      "sha256": "c8678a558010b4b34610492e07977f331577212826fa12824a5950a25e92e63f"
+    },
+    {
+      "path": "wp09_hex20_extension/h1_replay_hex20.json",
+      "size_bytes": 1752578,
+      "sha256": "68602d98d27fa0c6e1b482fade35019c6f3c4b9ddb421ff0d0545e7836ba609f"
+    },
+    {
+      "path": "wp09_hex20_extension/h2_hex20.json",
+      "size_bytes": 376,
+      "sha256": "7019cf80137f5d8bd8aa2de22e27332a34fab59301ffa8d18857015b4bbeacff"
+    },
+    {
+      "path": "wp09_hex20_extension/independent_reference/report.md",
+      "size_bytes": 340,
+      "sha256": "346aab9f2f64d2459819fe3ecf2ca6fed6a01da7737ca372941a862607552830"
+    },
+    {
+      "path": "wp09_hex20_extension/independent_reference/summary.json",
+      "size_bytes": 5321,
+      "sha256": "53a1a730871fd334d1ce31155808af7910f44a25df66944ad06d70bda3e37980"
+    },
+    {
+      "path": "wp09_hex20_extension/load_window_020/h1_hex20_load020.json",
+      "size_bytes": 1752406,
+      "sha256": "4f1a1ff7923308709db616d80c5e917a8c43c0b83caa1547747e3906a2fc7501"
+    },
+    {
+      "path": "wp09_hex20_extension/load_window_020/h2_hex20_load020.json",
+      "size_bytes": 3441203,
+      "sha256": "bb8af4fa0866172be5f111a6d2b1f238e30176f5739e8d030d7354fa6d5132c7"
+    },
+    {
+      "path": "wp09_hex20_extension/load_window_020/h3_hex20_load020.json",
+      "size_bytes": 5137483,
+      "sha256": "016cce85a14e6c1d7cb723581190e21174fb56dac24db29df93b55819355d6b4"
+    },
+    {
+      "path": "wp09_hex20_extension/load_window_020/report.md",
+      "size_bytes": 614,
+      "sha256": "421b25f80339677e4f8e4e92c48a774f873512bcab213c42c7ad5644813fe0e9"
+    },
+    {
+      "path": "wp09_hex20_extension/load_window_020/summary.json",
+      "size_bytes": 5084,
+      "sha256": "794453bf8ae41ef59c6099bb4ce4f9f0fa67c2feec148bb758ef5363957c7e69"
+    },
+    {
+      "path": "wp09_hex20_extension/manifest.json",
+      "size_bytes": 984,
+      "sha256": "c43786f850f80ea9778684840c4d7381068afb2fe72c8a091b56e9b6e179f902"
+    },
+    {
+      "path": "wp09_hex20_extension/reference_stderr.log",
+      "size_bytes": 978,
+      "sha256": "7e31ac1df2efd036c0fa8d9c520c78ed7e88af26d09501d6344867de67e8ff62"
+    },
+    {
+      "path": "wp09_hex20_extension/reference_stdout.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp09_hex20_extension/revalidation_h1/h1_hex20.json",
+      "size_bytes": 2061430,
+      "sha256": "a805de6520f18484cad7a2657149ac7a632137a6532c23d612659d68d79955b6"
+    },
+    {
+      "path": "wp09_hex20_extension/revalidation_h1/reference/report.md",
+      "size_bytes": 324,
+      "sha256": "6d961179ea00b4e6740f3732360bb1fc4a18ced401f8ffbf8fb2b65421ea7684"
+    },
+    {
+      "path": "wp09_hex20_extension/revalidation_h1/reference/summary.json",
+      "size_bytes": 2687,
+      "sha256": "c73d3084083c74a85a5c1eeb0e3e008fea21404744f31f77acc2498db49749c9"
+    },
+    {
+      "path": "wp09_hex20_r2_consistent_traction/campaign.json",
+      "size_bytes": 16371,
+      "sha256": "d6d1ae51769189b68e0fd8a42de7bde8abdfeb3b533b19879a1953588d3dbcb0"
+    },
+    {
+      "path": "wp09_hex20_r2_consistent_traction/campaign.md",
+      "size_bytes": 556,
+      "sha256": "ee4d475390ef82a753e1d6a88f6d3e8d373ed56da27801e39bb11595b418ce38"
+    },
+    {
+      "path": "wp09_hex20_r2_consistent_traction/h1_hex20.json",
+      "size_bytes": 2063146,
+      "sha256": "e288249cad1cdd4a18bc10aa023c60721a9d6c7c94c29c956e7275764c8f9f6c"
+    },
+    {
+      "path": "wp09_hex20_r2_consistent_traction/h1_replay_hex20.json",
+      "size_bytes": 2063157,
+      "sha256": "4ef7871d8f091c5bdef8d7d193d98fce8dbad9b2a9866d8e3c472e1da12571b4"
+    },
+    {
+      "path": "wp09_hex20_r2_consistent_traction/h2_hex20.json",
+      "size_bytes": 15988078,
+      "sha256": "563b8c8ccd11d219a7ef29a7b87017797ddbcca13142a3c4f20601f60e87f5dd"
+    },
+    {
+      "path": "wp09_hex20_r2_consistent_traction/h2_replay_hex20.json",
+      "size_bytes": 15988073,
+      "sha256": "56efaba972ce980f4cf7f15104bd2c26c91e5b63f1959e6b2632db214b1108d6"
+    },
+    {
+      "path": "wp09_hex20_r2_consistent_traction/h3_hex20.json",
+      "size_bytes": 53837414,
+      "sha256": "e9c43cd3527aa9f7c17b38a33f1cdd07f41c906c21441e4e18eaec7fe3ac95d2"
+    },
+    {
+      "path": "wp09_hex20_r2_consistent_traction/h3_replay_hex20.json",
+      "size_bytes": 53837429,
+      "sha256": "1214065fe67d90bb30bf3ae0c789bb4e3828f266e8409cd59b9c8db0c83e5a7c"
+    },
+    {
+      "path": "wp09_hex20_r2_consistent_traction/independent_reference/report.md",
+      "size_bytes": 400,
+      "sha256": "50cdf9aea263c7a6cb9552253082396e7c512669a66c6993da69e376af1f9f9e"
+    },
+    {
+      "path": "wp09_hex20_r2_consistent_traction/independent_reference/summary.json",
+      "size_bytes": 7487,
+      "sha256": "7b8dc1924d99f434aca0ea755351d887c8aef9f9e2dde6e3f770c008ed74c8e4"
+    },
+    {
+      "path": "wp09_hex20_r2_consistent_traction/reference_stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp09_hex20_r2_consistent_traction/reference_stdout.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "selected_roots": [
+    "wp09_hex20_extension",
+    "wp09_hex20_r2_consistent_traction"
+  ]
+}

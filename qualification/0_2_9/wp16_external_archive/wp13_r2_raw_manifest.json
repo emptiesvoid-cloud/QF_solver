@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "status": "LOCAL_ARCHIVE_VERIFIED_PENDING_REMOTE",
+  "source_relative_root": "qualification/0_2_9/wp13_r2_multifamily/raw",
+  "file_count": 18,
+  "uncompressed_bytes": 99611184,
+  "archive": {
+    "name": "wp13-r2-raw.zip",
+    "size_bytes": 8353651,
+    "sha256": "36287d3b6b7cf46c43e6a1ba5c1abf0ffadeb2e3af92f5f70fc2d51782a95563"
+  },
+  "files": [
+    {
+      "path": "HEX20/import_report.json",
+      "size_bytes": 1342,
+      "sha256": "8ad540843068419dac6eb095fed879a40e06ec30468b949798d21ad9a52c5ac2"
+    },
+    {
+      "path": "HEX20/mesh.msh",
+      "size_bytes": 11773,
+      "sha256": "029d0b42817dc62c54672b6d1680476433c3b9a84f901cd8455b8ceb579603c8"
+    },
+    {
+      "path": "HEX20/result.json",
+      "size_bytes": 32253644,
+      "sha256": "d4c7544649fc347db0a5bbc97e72005c2f755cbbfd0b05e7a861dc6948fa94ca"
+    },
+    {
+      "path": "HEX20/setup.json",
+      "size_bytes": 1948,
+      "sha256": "ec923b734e9ce1382d7a1870bfde2bdfae2e4d944d70f149f671c868da5de27e"
+    },
+    {
+      "path": "HEX8/import_report.json",
+      "size_bytes": 1337,
+      "sha256": "25441c3b62cc6fb7f1dad37f7e3e627daac751dcdc38e6ec5fdfe3411db21bf4"
+    },
+    {
+      "path": "HEX8/mesh.msh",
+      "size_bytes": 5238,
+      "sha256": "b93bbcc8472f056cfb289c4d341914c5d644d617c84273866f717abb370ea8f2"
+    },
+    {
+      "path": "HEX8/result.json",
+      "size_bytes": 6965821,
+      "sha256": "224fd3797875dfe940a94e552186c6afb7c72d497af3aef5fcb6eabe72cea201"
+    },
+    {
+      "path": "HEX8/setup.json",
+      "size_bytes": 1947,
+      "sha256": "d6de6bdf05102ca0b4218f9ac235d3ee8a70ed0cd56b68b7cf9754cdd0069811"
+    },
+    {
+      "path": "TET10/import_report.json",
+      "size_bytes": 1722,
+      "sha256": "b8e968a00d26133199ab85a61ef8fa641ff6e9c41b8d85a173187af49296c78b"
+    },
+    {
+      "path": "TET10/mesh.msh",
+      "size_bytes": 23257,
+      "sha256": "96918ff0e56f10a2d3ba298bd05168eee848292327b32c5a098fe5486316f053"
+    },
+    {
+      "path": "TET10/result.json",
+      "size_bytes": 49255813,
+      "sha256": "caa959cdf4149fbd1dad31fac7a57cad03ea9e810a7519f464046b89c8583af8"
+    },
+    {
+      "path": "TET10/setup.json",
+      "size_bytes": 1948,
+      "sha256": "1c3a334d5b78c70eec19ce1590d182323708cad8ee834a68fc544bc62709bd02"
+    },
+    {
+      "path": "TET4/import_report.json",
+      "size_bytes": 1719,
+      "sha256": "6871960774dc1200348c3896e8b7ca0d0c426564c00615b62a204d6fbd3249f9"
+    },
+    {
+      "path": "TET4/mesh.msh",
+      "size_bytes": 8081,
+      "sha256": "3e9420fcb428fc6eecc09c9107e1084c0e82580185df74e5dd9784e643a95e10"
+    },
+    {
+      "path": "TET4/result.json",
+      "size_bytes": 11064860,
+      "sha256": "c7d5741033d5fb58a93bda841978b2df8a1e8e4e646e1f40115a79e32c89195d"
+    },
+    {
+      "path": "TET4/setup.json",
+      "size_bytes": 1947,
+      "sha256": "fe3ef7851932af959f6da8cf4a16aeb76a9219975c51224a37f4a8f1eb6f4869"
+    },
+    {
+      "path": "report.md",
+      "size_bytes": 795,
+      "sha256": "4e88ba21943cf96a21e0e2fe7dd8a7f3b8badf2243e6ce90b7b7773437b4d448"
+    },
+    {
+      "path": "summary.json",
+      "size_bytes": 7992,
+      "sha256": "28a34e9bc32a138df1bbc42e2e60d3e9a0f9bdc0a223f403abf4dd20a14bc519"
+    }
+  ]
+}

@@ -1,0 +1,1272 @@
+{
+  "schema_version": 1,
+  "status": "LOCAL_ARCHIVE_VERIFIED_PENDING_REMOTE",
+  "source_relative_root": "qualification/0_2_9",
+  "file_count": 251,
+  "uncompressed_bytes": 195997323,
+  "archive": {
+    "name": "wp08d_r1.zip",
+    "size_bytes": 10011168,
+    "sha256": "7f3ff0f8bc78f6db5a2d99cea846510ebdcf20c9d601e13a4d3edf5f48dffbed"
+  },
+  "files": [
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw/M1/production/process.json",
+      "size_bytes": 1153,
+      "sha256": "347fb96bd3aa46bc55aeb15df13ceace29389a8b20f60bf25351694bc1d57c0e"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw/M1/production/runner.stderr.log",
+      "size_bytes": 43,
+      "sha256": "b1eb76b8907d31cf1ffc99b4e5edc3c6962e1d6c90f3952452f132be9f051174"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw/M1/production/runner.stdout.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw/M2/production/process.json",
+      "size_bytes": 1153,
+      "sha256": "fd325fe63bdab9c4b3dc7a3de0298ca5d835e11e9339210bf479edabb0571293"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw/M2/production/runner.stderr.log",
+      "size_bytes": 43,
+      "sha256": "b1eb76b8907d31cf1ffc99b4e5edc3c6962e1d6c90f3952452f132be9f051174"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw/M2/production/runner.stdout.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw/M3/production/process.json",
+      "size_bytes": 1153,
+      "sha256": "3e9558cd8e24ec956df7c05999c1e984bad91fd5166d99fd2e043a8d2da04b79"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw/M3/production/runner.stderr.log",
+      "size_bytes": 43,
+      "sha256": "b1eb76b8907d31cf1ffc99b4e5edc3c6962e1d6c90f3952452f132be9f051174"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw/M3/production/runner.stdout.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw/progress.json",
+      "size_bytes": 111,
+      "sha256": "411d33cbd2de6d793d06a6c94e9331a19a4dcf356810aac2e42b5326b5649d8b"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw/wp08d_requalification_summary.json",
+      "size_bytes": 3536,
+      "sha256": "9e4e0c35cc72f1afe57e5566cc0f14fbd49b5affc246ec6b93477fdc4d2366d9"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/independent_reference/console.log",
+      "size_bytes": 55,
+      "sha256": "3f28e158e8eceaea1e89de0af23e0a054be8c0a32b173cee5792040a9609818c"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/independent_reference/manifest.json",
+      "size_bytes": 2067,
+      "sha256": "d9ffa23f40e9652291faad6a02da9dcd4ce12f55b5d61f62f1a1a5c964519731"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/independent_reference/process.json",
+      "size_bytes": 1037,
+      "sha256": "e1af20b3f8140cabcb25b372a9e34ed8f111534af8aba8829298d82eb3a90a0a"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/independent_reference/progress.json",
+      "size_bytes": 131,
+      "sha256": "e8d03f8149b9d023ed5b91f093d09e29d448c9e079832b6b02200d89b30c5be0"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/independent_reference/raw.npz",
+      "size_bytes": 2051,
+      "sha256": "6a029467815f74f9c82d500103a2f5467b9f0d23ce5393b33ceca13565116efd"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/independent_reference/requalification_binding.json",
+      "size_bytes": 638,
+      "sha256": "9b0221fa664432241c308b051ec0e95748e2009667521409f02ad3d127befcc9"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/independent_reference/result.json",
+      "size_bytes": 18377,
+      "sha256": "36da5e846ed864ca42ed43eb78c5352dcfaaba7fc370ccf9e951fedc8c259c00"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/independent_reference/runner.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/independent_reference/runner.stdout.log",
+      "size_bytes": 22,
+      "sha256": "e4dab5ec5cba7816cc893b19cf6decfc5ff42022f003118a286782b233d95a92"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/independent_reference/telemetry.jsonl",
+      "size_bytes": 11144,
+      "sha256": "e430bf5adbd079fb5306446269cba9b815d1390b0066f802a46a4fedb34e78ec"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/M1/checkpoint_step_001.json",
+      "size_bytes": 1899,
+      "sha256": "31c88b5b6d85d351ca964130978335a3317b5e48966fd9de749335e9d81f4dfe"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/M1/checkpoint_step_002.json",
+      "size_bytes": 1895,
+      "sha256": "78c233a82fea5b1f05baeb7403150958545a610ba2b0d2e9d30ff5966c3ccfea"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/M1/checkpoint_step_003.json",
+      "size_bytes": 1896,
+      "sha256": "bb81eb321a694ccf47a1638087d069686b6f12d9a0b61677d94fc1df81d62efc"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/M1/checkpoint_step_004.json",
+      "size_bytes": 1898,
+      "sha256": "06c565b6dea622d789d6907d8264c4aefc9504d02ffd12d8459c1fd1cb44dba6"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/M1/checkpoint_step_005.json",
+      "size_bytes": 1899,
+      "sha256": "dea80bdd789bd1f3c96eaaa7de93f280cd034768dd43fd114813a7ace020e2dd"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/M1/checkpoint_step_006.json",
+      "size_bytes": 1895,
+      "sha256": "2884c10c9b6094be2bce76c196e33c9b31d89e623aeb71d0df814f3e367ba752"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/M1/checkpoint_step_007.json",
+      "size_bytes": 1899,
+      "sha256": "2247611cbcf7e77641e903244f6981aa89515ff3e660a19bd97d36a20ab41f80"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/M1/console.err.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/M1/console.log",
+      "size_bytes": 344,
+      "sha256": "5053abbff0d1590f9edb75eed86b879c822ccaebf2732fd0a22e43d169964f68"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/M1/manifest.json",
+      "size_bytes": 3886,
+      "sha256": "2074a854fd6b0a6378c90630c7e899c1f90bb99d984f2ee281f6e396a1ea8c4f"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/M1/progress.json",
+      "size_bytes": 129,
+      "sha256": "364c153fa86d6b762f86d7690366a17ea98ec1ae899e79caf3408c57e9c20e41"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/M1/raw.npz",
+      "size_bytes": 1939,
+      "sha256": "028ccea4ad4b479ea4e448767b6f2eedbbab5cf149d539eaebea4c3d49036557"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/M1/requalification_binding.json",
+      "size_bytes": 635,
+      "sha256": "81961164798071488a1b6829045a9138026c987cdcda4b0803853a1cdfacca2d"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/M1/result.json",
+      "size_bytes": 655688,
+      "sha256": "74e4aab15af0b9facc73cfe3943f0f91c3d76b09415108dc1f84c14e11de1045"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/M1/telemetry.jsonl",
+      "size_bytes": 39812,
+      "sha256": "a3b4772ded66532668a162652d1b4840bc2414e25a555565d60be6b286be4cca"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/process.json",
+      "size_bytes": 1161,
+      "sha256": "6148a2225f7a6a6c55ca65e2553ec3ce77d7ccbe507ede0cdf561b4a2a07f72f"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/runner.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/production/runner.stdout.log",
+      "size_bytes": 224,
+      "sha256": "784ab402ae6694d4205585d7e8fae0bc7e3e76be72004f81d0c3518e7a6978fd"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/M1/checkpoint_step_001.json",
+      "size_bytes": 1899,
+      "sha256": "31c88b5b6d85d351ca964130978335a3317b5e48966fd9de749335e9d81f4dfe"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/M1/checkpoint_step_002.json",
+      "size_bytes": 1895,
+      "sha256": "78c233a82fea5b1f05baeb7403150958545a610ba2b0d2e9d30ff5966c3ccfea"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/M1/checkpoint_step_003.json",
+      "size_bytes": 1896,
+      "sha256": "bb81eb321a694ccf47a1638087d069686b6f12d9a0b61677d94fc1df81d62efc"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/M1/checkpoint_step_004.json",
+      "size_bytes": 1898,
+      "sha256": "06c565b6dea622d789d6907d8264c4aefc9504d02ffd12d8459c1fd1cb44dba6"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/M1/checkpoint_step_005.json",
+      "size_bytes": 1899,
+      "sha256": "dea80bdd789bd1f3c96eaaa7de93f280cd034768dd43fd114813a7ace020e2dd"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/M1/checkpoint_step_006.json",
+      "size_bytes": 1895,
+      "sha256": "2884c10c9b6094be2bce76c196e33c9b31d89e623aeb71d0df814f3e367ba752"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/M1/checkpoint_step_007.json",
+      "size_bytes": 1899,
+      "sha256": "2247611cbcf7e77641e903244f6981aa89515ff3e660a19bd97d36a20ab41f80"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/M1/console.err.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/M1/console.log",
+      "size_bytes": 344,
+      "sha256": "5053abbff0d1590f9edb75eed86b879c822ccaebf2732fd0a22e43d169964f68"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/M1/manifest.json",
+      "size_bytes": 3862,
+      "sha256": "9479c09c047b5eadec85ae8c7cf04ad262b821b4594f67b5eefdf04ce8a06346"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/M1/progress.json",
+      "size_bytes": 129,
+      "sha256": "cfdaf78c99799e4f7ef4c0cc065bac2b7d9a884b3f03794b4fe2deebd96aec18"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/M1/raw.npz",
+      "size_bytes": 1939,
+      "sha256": "028ccea4ad4b479ea4e448767b6f2eedbbab5cf149d539eaebea4c3d49036557"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/M1/requalification_binding.json",
+      "size_bytes": 623,
+      "sha256": "005ec23f8dc52a17cf809d41dd79a7b6d0ff191f3b8a48029e9e06e8a9145f12"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/M1/result.json",
+      "size_bytes": 655663,
+      "sha256": "eb3c0c135bedf032149df2bd0f4a9b761595f0641ddbaee326fc5c681d6e86e9"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/M1/telemetry.jsonl",
+      "size_bytes": 39815,
+      "sha256": "007f59d3c41df4b2344c330cf59cc2af684b30dd77b23b66b9200eb533b39b9c"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/process.json",
+      "size_bytes": 1121,
+      "sha256": "575d065a9e8a3367f2dc9bb68e0cf604800ebb3176ceee84413db03791f9d010"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/runner.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M1/replay/runner.stdout.log",
+      "size_bytes": 208,
+      "sha256": "05fc5079eafeb9a631d6b8bbd794676a3e9ef92021786d27d2974d64d36bf5d0"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/accepted_step_001.json",
+      "size_bytes": 22964,
+      "sha256": "22fa43b6f08f32d0e27950631da1913609c7fe371425a3f0efc39155dc92a045"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/accepted_step_002.json",
+      "size_bytes": 9166,
+      "sha256": "0412d4d50baa81ed0943cfcd88272cd210bb6fad0d0da49f9ecda59220a1715b"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/accepted_step_003.json",
+      "size_bytes": 9231,
+      "sha256": "1eebe36a1bbaed35392e5fbd8ccda03ea292899e4e8acf7d4802f49f0a431540"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/accepted_step_004.json",
+      "size_bytes": 9187,
+      "sha256": "a31ecec1e298ea27bfe715fd1556ee4e2993a8e36e4d11d1de7eb28566ac0521"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/accepted_step_005.json",
+      "size_bytes": 22868,
+      "sha256": "a6dd4c68e605beb9f457b884dc45e541bd15193b9f2fc216bf1bbb90b778f092"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/accepted_step_006.json",
+      "size_bytes": 9240,
+      "sha256": "b02d09b1583822b4a50a2b7d5d8055fc51c1c35f3ac390c13b0c8486bf6cbe74"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/accepted_step_007.json",
+      "size_bytes": 22943,
+      "sha256": "6f948212b30d4014f1a66168a7861f0365012dc2e97fc0c71152e147ca67eea9"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/console.err.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/console.log",
+      "size_bytes": 55,
+      "sha256": "ce9c3248457acccd87825f4b057673ee36b81945e10fd6cd2264aed709934572"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/manifest.json",
+      "size_bytes": 3388,
+      "sha256": "d388a4502d718582f66189b81c470be1ed202d15b8011ecc74e97ab5035c9dc8"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/process.json",
+      "size_bytes": 1058,
+      "sha256": "106fb7fc6c8c6a0befad1bf012bdbe638a6d490630387494d87dc839aba21397"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/progress.json",
+      "size_bytes": 177,
+      "sha256": "5aa59e3ae0691daf7e1db7b3fe50907416cd8cb6a81d250373de313895ff1f04"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/raw.npz",
+      "size_bytes": 2740,
+      "sha256": "6dea635fd02510984a98b64ffd8c5311fe022efd47f60f707eb2947ce6dce52f"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/requalification_binding.json",
+      "size_bytes": 638,
+      "sha256": "902599c78e829d6aa6ecfc4d94d4097b4e480ee120dd33487e89166a14b5a013"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/result.json",
+      "size_bytes": 196821,
+      "sha256": "0fb07ba2ed854a2cc08a0b5f67e4f7476d94b800160daaf10b2da2b93f67f439"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/runner.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/runner.stdout.log",
+      "size_bytes": 42,
+      "sha256": "8ac612dcfdb07536805e0b248c4b3b09a8785bca7a7950ea8fff76a18de04fbf"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/independent_reference/telemetry.jsonl",
+      "size_bytes": 7479,
+      "sha256": "64f7d7608c384178c225dfea5f6070f17ff71cf0b174392336a4a238e40da002"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/M2/checkpoint_step_001.json",
+      "size_bytes": 5955,
+      "sha256": "90e41a765d2b4d7a5579f315905587541dfc4218754c01d1798c2aced05a11ad"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/M2/checkpoint_step_002.json",
+      "size_bytes": 5970,
+      "sha256": "f1a50ead8c3d55149d15416157f72de020f5d44ad005226f9544107066f0775b"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/M2/checkpoint_step_003.json",
+      "size_bytes": 5980,
+      "sha256": "691b588d3b7ccf901bc5837fcfd3447ad23ff0de93e799fb987182cc76595c90"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/M2/checkpoint_step_004.json",
+      "size_bytes": 5962,
+      "sha256": "d6384e4411a0f31fb987579a7758feece076c5680dce54ce00be05d0a4f864c5"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/M2/checkpoint_step_005.json",
+      "size_bytes": 5958,
+      "sha256": "64dff09aea25350bc3a85ab8f15af53dff9ef4b7283bf5262b77636744c46a23"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/M2/checkpoint_step_006.json",
+      "size_bytes": 5966,
+      "sha256": "e67b1ef9452052ce2fd6804f71ea3d8f71f4f71736064da8bedbdf69351f02ed"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/M2/checkpoint_step_007.json",
+      "size_bytes": 5970,
+      "sha256": "631bb6b63df3f9acb18907ed255cd1d9c3299790342edb27744ee3adeeac1f46"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/M2/console.err.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/M2/console.log",
+      "size_bytes": 344,
+      "sha256": "967692013f64adfb04d0a7232775840a8ab3548ffe6cbc653ccb749f5f69e7fe"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/M2/manifest.json",
+      "size_bytes": 3888,
+      "sha256": "e1e494c50840b4d71c78f84a0fb4b3f1b359ff6088e3810f52bd213be72669a6"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/M2/progress.json",
+      "size_bytes": 129,
+      "sha256": "c63665dc41cd4084b6cd4720d0141481631d6e649dce2d3d19b6a88adf98ad38"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/M2/raw.npz",
+      "size_bytes": 2675,
+      "sha256": "2692228a58c671eb5b4368c4c6dacb223a041295a5079f27ec91b604f06beadd"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/M2/requalification_binding.json",
+      "size_bytes": 635,
+      "sha256": "36ae516968776f3174ce52173c4b7885e43343f34b9db916356e83e34534fde5"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/M2/result.json",
+      "size_bytes": 4706386,
+      "sha256": "7027695b7414b8c788b1208bf2d02f65dd7b2bfa128fb3ad228cd5fbba6bd24c"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/M2/telemetry.jsonl",
+      "size_bytes": 174976,
+      "sha256": "356b6c7156705eebf7f47a0e38cf3b0304681d048c342e5f1d223a7ee723e6e7"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/process.json",
+      "size_bytes": 1161,
+      "sha256": "ff1e79875779751d8628eb9c007e356623d7db043f0c16effe70a8605487b6b6"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/runner.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M2/production/runner.stdout.log",
+      "size_bytes": 224,
+      "sha256": "7b7795fab7b545599195a24694720bd95abb3845a74dcfeb684ac2a0a77cdaee"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/accepted_step_001.json",
+      "size_bytes": 56282,
+      "sha256": "11159048c104394f5f3ee06a05bd236440c68c1689344c8dbbca460596990442"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/accepted_step_002.json",
+      "size_bytes": 34525,
+      "sha256": "ca42096c3799c3f279b5a2284da8a12a3d42e1c2d15c7a845de4eaae1900b06f"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/accepted_step_003.json",
+      "size_bytes": 34519,
+      "sha256": "b57ed0beb7e95f7a0079ef9ebfe948ea86807c0ef1794027e31ad8f3fec2b0a8"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/accepted_step_004.json",
+      "size_bytes": 34535,
+      "sha256": "64cb67829b244c13201867633171f65c467b4a680f80297a4dfffed474fede7c"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/accepted_step_005.json",
+      "size_bytes": 34495,
+      "sha256": "56768eb9b2d5183906e23db7d7fbfff70a859541104bb7370b3e3171a2b5fe3c"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/accepted_step_006.json",
+      "size_bytes": 34525,
+      "sha256": "272203eeaaa8a72c286e0b106f2c8e6dbec28a217a28532576f53722b7a5e50e"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/accepted_step_007.json",
+      "size_bytes": 56125,
+      "sha256": "7fb4ee3e422ae1a8c0e2052ee9caa1e5c727ebf703b55e777a140f08b0024578"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/console.err.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/console.log",
+      "size_bytes": 55,
+      "sha256": "8215a94c4d25dea2457b48425f5fcf846026620db732c5a49e2dbf13f1d505c4"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/manifest.json",
+      "size_bytes": 3394,
+      "sha256": "bd565c37608ff94a1ef6730c2f945fb0a7cf4853348e150f293393b8a412c948"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/process.json",
+      "size_bytes": 1058,
+      "sha256": "9bf4fccdf4803ba15f8eb0dcd273620a8b53c1cd46836e02513b3a2cff0e550a"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/progress.json",
+      "size_bytes": 176,
+      "sha256": "e0d9e8198ba85fe5051477063bd35c8ad7ef7bbbf0e6ed1974eb0f473f801320"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/raw.npz",
+      "size_bytes": 6563,
+      "sha256": "854b1615799772c886b6564b42c3acfe5414a33b775a151292fc275cb3a629e9"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/requalification_binding.json",
+      "size_bytes": 638,
+      "sha256": "1b511c2da59fa5b6caa1d129f27a2b9c0d798b8e6b8c959a4af8961903cf08ca"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/result.json",
+      "size_bytes": 472153,
+      "sha256": "49cb649f2bef5e6b3935905d667bcd2f606bc9d9fa3aa624d0c7d268cec05169"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/runner.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/runner.stdout.log",
+      "size_bytes": 42,
+      "sha256": "d8cc3360ce45e074b6b327d52a9b52bf69a265e256721a91f68ac6b8e54d44f0"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/independent_reference/telemetry.jsonl",
+      "size_bytes": 7519,
+      "sha256": "ded1ce777bbdbc92ffc08d49f27353875ee9342e09958c890dfc28c7d8d75eb0"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/M3/checkpoint_step_001.json",
+      "size_bytes": 24986,
+      "sha256": "3693a71077c9324b5cbc66fa5ba5392804522ed5fc37742abcdca985b0b89ada"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/M3/checkpoint_step_002.json",
+      "size_bytes": 24998,
+      "sha256": "9fa17a2e8ea26e4d72fe614a43481ffab5c42cacc621a5b0f26905a1bab1cfa8"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/M3/checkpoint_step_003.json",
+      "size_bytes": 25001,
+      "sha256": "508591c136efd9e2044cd5f63497d505fbcc477454deb052fdada87eab7578f3"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/M3/checkpoint_step_004.json",
+      "size_bytes": 24997,
+      "sha256": "b2a202f4ce380b0fe452f2d7ae9e30023d2c4e12a3a4844ed879b15b88d254a1"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/M3/checkpoint_step_005.json",
+      "size_bytes": 24988,
+      "sha256": "eca7f783c10d51065141a963c35186109453da3639031ecc9d6b5e96ffe761e7"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/M3/checkpoint_step_006.json",
+      "size_bytes": 24998,
+      "sha256": "59c4dba4a5592d20c10c0a8366ea0ce2068a36f69b72c2e118b571af1a80871c"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/M3/checkpoint_step_007.json",
+      "size_bytes": 25025,
+      "sha256": "a3932c5b7c1d92370a24cff2d48e0feb53ad8f240160997d677031268e6fba79"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/M3/console.err.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/M3/console.log",
+      "size_bytes": 344,
+      "sha256": "f4546475940011a64f0e1b1e5281cf2ed334185767275122b16a21fa0abc17e7"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/M3/manifest.json",
+      "size_bytes": 3896,
+      "sha256": "c758cf8e5254b3376ad34b0f8fb3782d3c5bc9c635da9179024f5330860fce14"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/M3/progress.json",
+      "size_bytes": 127,
+      "sha256": "5662252c604e393d24869eecc93cee2364937658b862834404dff3d2722bc4e6"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/M3/raw.npz",
+      "size_bytes": 6491,
+      "sha256": "744398eb7f37bd863008f826aa9eb406ad77645bbf4d4c69e14b3b2a77b2d597"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/M3/requalification_binding.json",
+      "size_bytes": 635,
+      "sha256": "43cd1d22baefe5873beb7ea678c7bf825cad3100660276812d1f023d81aad15f"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/M3/result.json",
+      "size_bytes": 36858504,
+      "sha256": "9dcc8c657f61bfbd8c5f47bd69dc7f2d41494db0cac5cf1ae048376fa04e96d1"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/M3/telemetry.jsonl",
+      "size_bytes": 281334,
+      "sha256": "372936cc037d083b6eb07540fb1e0e4beaf8ffccf3ed691360cf7c8635374427"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/process.json",
+      "size_bytes": 1161,
+      "sha256": "398c2ff6d018d4cfeda9a7b5921d4e7c4e1f5505903907a23db632203754ec32"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/runner.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/M3/production/runner.stdout.log",
+      "size_bytes": 224,
+      "sha256": "52ff6bcbc369aa01960fd94d52bbbaa6b61027e9231ba446fdaceb28c499894a"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/progress.json",
+      "size_bytes": 100,
+      "sha256": "deaf5ad54352c18b9f8266756f994140fb92e9c9f9acccbc79c039d47fd76e9f"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_1/wp08d_requalification_summary.json",
+      "size_bytes": 53170832,
+      "sha256": "40a6e421e7663251423017d1d2e490c6da32f601496d22d893bfb0b361b7304e"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/independent_reference/console.log",
+      "size_bytes": 55,
+      "sha256": "3f28e158e8eceaea1e89de0af23e0a054be8c0a32b173cee5792040a9609818c"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/independent_reference/manifest.json",
+      "size_bytes": 2067,
+      "sha256": "4fc7628279959cb56c7cf8d0375b304835e9a74f58d55dde1162318ebf8ddd44"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/independent_reference/process.json",
+      "size_bytes": 1037,
+      "sha256": "a4d483ba71268a18b59c4ad236f81beb07bf8514196bc56e3ea8ce3ba65a250b"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/independent_reference/progress.json",
+      "size_bytes": 130,
+      "sha256": "6c3bff875bda08d244cfa12aea6dcf6f039cd3b52289f07da995eaa0e080ee57"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/independent_reference/raw.npz",
+      "size_bytes": 2051,
+      "sha256": "6a029467815f74f9c82d500103a2f5467b9f0d23ce5393b33ceca13565116efd"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/independent_reference/requalification_binding.json",
+      "size_bytes": 638,
+      "sha256": "057907c5037c61f4f8e798a749337c878aa6aead2a9c6fc3bab9b580626eeb1f"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/independent_reference/result.json",
+      "size_bytes": 18377,
+      "sha256": "96086de33ad2db74986bb0426a9ab6698530d6071864c5975d48c4d45ce5bed4"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/independent_reference/runner.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/independent_reference/runner.stdout.log",
+      "size_bytes": 22,
+      "sha256": "e4dab5ec5cba7816cc893b19cf6decfc5ff42022f003118a286782b233d95a92"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/independent_reference/telemetry.jsonl",
+      "size_bytes": 11143,
+      "sha256": "9ff37a799a5d648597aa62f3be0dbc5206b72c09f4bd26e1f2136dd6cc04a45d"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/M1/checkpoint_step_001.json",
+      "size_bytes": 1899,
+      "sha256": "31c88b5b6d85d351ca964130978335a3317b5e48966fd9de749335e9d81f4dfe"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/M1/checkpoint_step_002.json",
+      "size_bytes": 1895,
+      "sha256": "78c233a82fea5b1f05baeb7403150958545a610ba2b0d2e9d30ff5966c3ccfea"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/M1/checkpoint_step_003.json",
+      "size_bytes": 1896,
+      "sha256": "bb81eb321a694ccf47a1638087d069686b6f12d9a0b61677d94fc1df81d62efc"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/M1/checkpoint_step_004.json",
+      "size_bytes": 1898,
+      "sha256": "06c565b6dea622d789d6907d8264c4aefc9504d02ffd12d8459c1fd1cb44dba6"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/M1/checkpoint_step_005.json",
+      "size_bytes": 1899,
+      "sha256": "dea80bdd789bd1f3c96eaaa7de93f280cd034768dd43fd114813a7ace020e2dd"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/M1/checkpoint_step_006.json",
+      "size_bytes": 1895,
+      "sha256": "2884c10c9b6094be2bce76c196e33c9b31d89e623aeb71d0df814f3e367ba752"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/M1/checkpoint_step_007.json",
+      "size_bytes": 1899,
+      "sha256": "2247611cbcf7e77641e903244f6981aa89515ff3e660a19bd97d36a20ab41f80"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/M1/console.err.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/M1/console.log",
+      "size_bytes": 344,
+      "sha256": "5053abbff0d1590f9edb75eed86b879c822ccaebf2732fd0a22e43d169964f68"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/M1/manifest.json",
+      "size_bytes": 3886,
+      "sha256": "778d8ce8b4d84b0cd77df612283ef73e46b5a1f6db1af964ed5d7ce476039ad1"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/M1/progress.json",
+      "size_bytes": 130,
+      "sha256": "43583cb9b099fadc824da5750c920b25acb8dcaf30b7c894de8e9a55940dc341"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/M1/raw.npz",
+      "size_bytes": 1939,
+      "sha256": "028ccea4ad4b479ea4e448767b6f2eedbbab5cf149d539eaebea4c3d49036557"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/M1/requalification_binding.json",
+      "size_bytes": 635,
+      "sha256": "97002dbb9791ffb532bf77412ab26fc0ca8a42ab1ef75266665c0754a55bdd63"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/M1/result.json",
+      "size_bytes": 655689,
+      "sha256": "7579e310ba3b0042c50a2d3a9bbaec1b671de61f3763d6ab35848b8e7f3bf74f"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/M1/telemetry.jsonl",
+      "size_bytes": 39827,
+      "sha256": "03936ef1e2a681ebd3e051587bf121935e28117171359e187acb4e6b5785a1a7"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/process.json",
+      "size_bytes": 1161,
+      "sha256": "ac781c0c18a0c7ecf56570f2edd3c56451749f47e98dcd304b5ea42f1ba7b754"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/runner.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/production/runner.stdout.log",
+      "size_bytes": 224,
+      "sha256": "9e34e28bc060da4557c44fbe673d7badcbc3009d75681aff6c0d66466e768a33"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/M1/checkpoint_step_001.json",
+      "size_bytes": 1899,
+      "sha256": "31c88b5b6d85d351ca964130978335a3317b5e48966fd9de749335e9d81f4dfe"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/M1/checkpoint_step_002.json",
+      "size_bytes": 1895,
+      "sha256": "78c233a82fea5b1f05baeb7403150958545a610ba2b0d2e9d30ff5966c3ccfea"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/M1/checkpoint_step_003.json",
+      "size_bytes": 1896,
+      "sha256": "bb81eb321a694ccf47a1638087d069686b6f12d9a0b61677d94fc1df81d62efc"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/M1/checkpoint_step_004.json",
+      "size_bytes": 1898,
+      "sha256": "06c565b6dea622d789d6907d8264c4aefc9504d02ffd12d8459c1fd1cb44dba6"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/M1/checkpoint_step_005.json",
+      "size_bytes": 1899,
+      "sha256": "dea80bdd789bd1f3c96eaaa7de93f280cd034768dd43fd114813a7ace020e2dd"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/M1/checkpoint_step_006.json",
+      "size_bytes": 1895,
+      "sha256": "2884c10c9b6094be2bce76c196e33c9b31d89e623aeb71d0df814f3e367ba752"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/M1/checkpoint_step_007.json",
+      "size_bytes": 1899,
+      "sha256": "2247611cbcf7e77641e903244f6981aa89515ff3e660a19bd97d36a20ab41f80"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/M1/console.err.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/M1/console.log",
+      "size_bytes": 344,
+      "sha256": "5053abbff0d1590f9edb75eed86b879c822ccaebf2732fd0a22e43d169964f68"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/M1/manifest.json",
+      "size_bytes": 3862,
+      "sha256": "1139652bb7f6b0455f12f6d3356733582e2a500a19a46e2af5216a5880d4daea"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/M1/progress.json",
+      "size_bytes": 130,
+      "sha256": "c9b075fb7fc7aa0125fabb850c0bc334d0a66e5307bbe717b42d9aa7ea76fae8"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/M1/raw.npz",
+      "size_bytes": 1939,
+      "sha256": "028ccea4ad4b479ea4e448767b6f2eedbbab5cf149d539eaebea4c3d49036557"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/M1/requalification_binding.json",
+      "size_bytes": 623,
+      "sha256": "23c1708b93bba3dc5c1a9384863514e14320043b1f2b58944a911064b2b48a86"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/M1/result.json",
+      "size_bytes": 655662,
+      "sha256": "9a53a9921a5716db639ec55b16508c6128792696572d935694f8f3c78504174d"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/M1/telemetry.jsonl",
+      "size_bytes": 39822,
+      "sha256": "810170d12b713a5d88aa948c266025c6a1fcec2d2727619d22a5ed22f04702d4"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/process.json",
+      "size_bytes": 1120,
+      "sha256": "6afc813f6f926f81361f843985e73f27723041e921b1da4c408face6b0088895"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/runner.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M1/replay/runner.stdout.log",
+      "size_bytes": 208,
+      "sha256": "63ba3fd79c4191435da45db9cbae994aea10541b8bf68e0c76448b9d21ac0726"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/accepted_step_001.json",
+      "size_bytes": 22964,
+      "sha256": "22fa43b6f08f32d0e27950631da1913609c7fe371425a3f0efc39155dc92a045"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/accepted_step_002.json",
+      "size_bytes": 9166,
+      "sha256": "0412d4d50baa81ed0943cfcd88272cd210bb6fad0d0da49f9ecda59220a1715b"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/accepted_step_003.json",
+      "size_bytes": 9231,
+      "sha256": "1eebe36a1bbaed35392e5fbd8ccda03ea292899e4e8acf7d4802f49f0a431540"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/accepted_step_004.json",
+      "size_bytes": 9187,
+      "sha256": "a31ecec1e298ea27bfe715fd1556ee4e2993a8e36e4d11d1de7eb28566ac0521"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/accepted_step_005.json",
+      "size_bytes": 22868,
+      "sha256": "a6dd4c68e605beb9f457b884dc45e541bd15193b9f2fc216bf1bbb90b778f092"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/accepted_step_006.json",
+      "size_bytes": 9240,
+      "sha256": "b02d09b1583822b4a50a2b7d5d8055fc51c1c35f3ac390c13b0c8486bf6cbe74"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/accepted_step_007.json",
+      "size_bytes": 22943,
+      "sha256": "6f948212b30d4014f1a66168a7861f0365012dc2e97fc0c71152e147ca67eea9"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/console.err.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/console.log",
+      "size_bytes": 55,
+      "sha256": "ce9c3248457acccd87825f4b057673ee36b81945e10fd6cd2264aed709934572"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/manifest.json",
+      "size_bytes": 3388,
+      "sha256": "e4fd767ef2e72e674e153a57efba7eec4f0c2e8d6751db2d3833e493611d0b3c"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/process.json",
+      "size_bytes": 1058,
+      "sha256": "fc844ae8e8f2e000ea8d484b0360a1154ce2204101194af321ae8150edc17f0b"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/progress.json",
+      "size_bytes": 177,
+      "sha256": "587a01a44fa270138c1176cc5c996922d76f24aaac66cf02961397f241562faa"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/raw.npz",
+      "size_bytes": 2740,
+      "sha256": "6dea635fd02510984a98b64ffd8c5311fe022efd47f60f707eb2947ce6dce52f"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/requalification_binding.json",
+      "size_bytes": 638,
+      "sha256": "968aff1a0e5f547e1cd9e5346941f5e0412b78088309aa10f22a5dd7239c4b2f"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/result.json",
+      "size_bytes": 196821,
+      "sha256": "3741d1681a6a0640ca941291906feaea44e17d1d2a9c0d742c18cf1a1cd7ffc0"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/runner.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/runner.stdout.log",
+      "size_bytes": 42,
+      "sha256": "8ac612dcfdb07536805e0b248c4b3b09a8785bca7a7950ea8fff76a18de04fbf"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/independent_reference/telemetry.jsonl",
+      "size_bytes": 7471,
+      "sha256": "c7d17c78018f869624a1b42831e723839fe8b57e530ab057510740a2851807dd"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/M2/checkpoint_step_001.json",
+      "size_bytes": 5955,
+      "sha256": "90e41a765d2b4d7a5579f315905587541dfc4218754c01d1798c2aced05a11ad"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/M2/checkpoint_step_002.json",
+      "size_bytes": 5970,
+      "sha256": "f1a50ead8c3d55149d15416157f72de020f5d44ad005226f9544107066f0775b"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/M2/checkpoint_step_003.json",
+      "size_bytes": 5980,
+      "sha256": "691b588d3b7ccf901bc5837fcfd3447ad23ff0de93e799fb987182cc76595c90"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/M2/checkpoint_step_004.json",
+      "size_bytes": 5962,
+      "sha256": "d6384e4411a0f31fb987579a7758feece076c5680dce54ce00be05d0a4f864c5"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/M2/checkpoint_step_005.json",
+      "size_bytes": 5958,
+      "sha256": "64dff09aea25350bc3a85ab8f15af53dff9ef4b7283bf5262b77636744c46a23"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/M2/checkpoint_step_006.json",
+      "size_bytes": 5966,
+      "sha256": "e67b1ef9452052ce2fd6804f71ea3d8f71f4f71736064da8bedbdf69351f02ed"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/M2/checkpoint_step_007.json",
+      "size_bytes": 5970,
+      "sha256": "631bb6b63df3f9acb18907ed255cd1d9c3299790342edb27744ee3adeeac1f46"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/M2/console.err.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/M2/console.log",
+      "size_bytes": 344,
+      "sha256": "967692013f64adfb04d0a7232775840a8ab3548ffe6cbc653ccb749f5f69e7fe"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/M2/manifest.json",
+      "size_bytes": 3888,
+      "sha256": "6e12f321809547e8fadac810a14dcaffad9f6befcb29da5afb7117e11934069a"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/M2/progress.json",
+      "size_bytes": 129,
+      "sha256": "f5257881588a780641cb7cb09dd4444e5d01a362db44c8641f95ec43774d9d30"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/M2/raw.npz",
+      "size_bytes": 2675,
+      "sha256": "2692228a58c671eb5b4368c4c6dacb223a041295a5079f27ec91b604f06beadd"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/M2/requalification_binding.json",
+      "size_bytes": 635,
+      "sha256": "dc8f582d28faafc740a49804105002d1e758048708b45c3abcc80e9248baf219"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/M2/result.json",
+      "size_bytes": 4706386,
+      "sha256": "bdbf855bce3415cdb1777044e5e92369b3d9549ab40f53de3a27227e847515f4"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/M2/telemetry.jsonl",
+      "size_bytes": 174979,
+      "sha256": "946983e8a322b758b5cf92fe9f3852a9295f7e15cf631e5d912d97e8dfee9c00"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/process.json",
+      "size_bytes": 1161,
+      "sha256": "bb1f3ec1417607262e997fc68280b9e478727f60978a6096c944b20cf73d725b"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/runner.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M2/production/runner.stdout.log",
+      "size_bytes": 224,
+      "sha256": "fbc3c72245f803a6fe95e7209a5d8a93375b6f9c0534ca0909152ae43f6515a2"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/accepted_step_001.json",
+      "size_bytes": 56282,
+      "sha256": "11159048c104394f5f3ee06a05bd236440c68c1689344c8dbbca460596990442"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/accepted_step_002.json",
+      "size_bytes": 34525,
+      "sha256": "ca42096c3799c3f279b5a2284da8a12a3d42e1c2d15c7a845de4eaae1900b06f"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/accepted_step_003.json",
+      "size_bytes": 34519,
+      "sha256": "b57ed0beb7e95f7a0079ef9ebfe948ea86807c0ef1794027e31ad8f3fec2b0a8"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/accepted_step_004.json",
+      "size_bytes": 34535,
+      "sha256": "64cb67829b244c13201867633171f65c467b4a680f80297a4dfffed474fede7c"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/accepted_step_005.json",
+      "size_bytes": 34495,
+      "sha256": "56768eb9b2d5183906e23db7d7fbfff70a859541104bb7370b3e3171a2b5fe3c"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/accepted_step_006.json",
+      "size_bytes": 34525,
+      "sha256": "272203eeaaa8a72c286e0b106f2c8e6dbec28a217a28532576f53722b7a5e50e"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/accepted_step_007.json",
+      "size_bytes": 56125,
+      "sha256": "7fb4ee3e422ae1a8c0e2052ee9caa1e5c727ebf703b55e777a140f08b0024578"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/console.err.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/console.log",
+      "size_bytes": 55,
+      "sha256": "8215a94c4d25dea2457b48425f5fcf846026620db732c5a49e2dbf13f1d505c4"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/manifest.json",
+      "size_bytes": 3394,
+      "sha256": "6519aa678053cb5b69ad09a0723dd83cc95140d11fbff3ed8d76e58e56e8ed85"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/process.json",
+      "size_bytes": 1058,
+      "sha256": "1a433c3825be03224c25d85a376bf2812508306d14fff7ab32c628ac1fa41d58"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/progress.json",
+      "size_bytes": 175,
+      "sha256": "32a2ede9cfb23b3a111278d049dc5869455e52bbc37696ea21a5d1250c571e4b"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/raw.npz",
+      "size_bytes": 6563,
+      "sha256": "854b1615799772c886b6564b42c3acfe5414a33b775a151292fc275cb3a629e9"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/requalification_binding.json",
+      "size_bytes": 638,
+      "sha256": "5b63d00879a4a46b45ff05ca13f6790bacc409b5518a6dd8a9452e6a1f64da63"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/result.json",
+      "size_bytes": 472153,
+      "sha256": "8ccc6234da9e1b4a3ef3c4626939ced2ad2321a3f9ec86922bf3574003c059f6"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/runner.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/runner.stdout.log",
+      "size_bytes": 42,
+      "sha256": "d8cc3360ce45e074b6b327d52a9b52bf69a265e256721a91f68ac6b8e54d44f0"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/independent_reference/telemetry.jsonl",
+      "size_bytes": 7515,
+      "sha256": "a1da6d1a6fa9d3b02c3b1ee35151927ccdcb708bf66486e3697f6b2626fd42ce"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/M3/checkpoint_step_001.json",
+      "size_bytes": 24986,
+      "sha256": "3693a71077c9324b5cbc66fa5ba5392804522ed5fc37742abcdca985b0b89ada"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/M3/checkpoint_step_002.json",
+      "size_bytes": 24998,
+      "sha256": "9fa17a2e8ea26e4d72fe614a43481ffab5c42cacc621a5b0f26905a1bab1cfa8"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/M3/checkpoint_step_003.json",
+      "size_bytes": 25001,
+      "sha256": "508591c136efd9e2044cd5f63497d505fbcc477454deb052fdada87eab7578f3"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/M3/checkpoint_step_004.json",
+      "size_bytes": 24997,
+      "sha256": "b2a202f4ce380b0fe452f2d7ae9e30023d2c4e12a3a4844ed879b15b88d254a1"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/M3/checkpoint_step_005.json",
+      "size_bytes": 24988,
+      "sha256": "eca7f783c10d51065141a963c35186109453da3639031ecc9d6b5e96ffe761e7"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/M3/checkpoint_step_006.json",
+      "size_bytes": 24998,
+      "sha256": "59c4dba4a5592d20c10c0a8366ea0ce2068a36f69b72c2e118b571af1a80871c"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/M3/checkpoint_step_007.json",
+      "size_bytes": 25025,
+      "sha256": "a3932c5b7c1d92370a24cff2d48e0feb53ad8f240160997d677031268e6fba79"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/M3/console.err.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/M3/console.log",
+      "size_bytes": 344,
+      "sha256": "f4546475940011a64f0e1b1e5281cf2ed334185767275122b16a21fa0abc17e7"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/M3/manifest.json",
+      "size_bytes": 3896,
+      "sha256": "bb9b19a979f4d2e8ab10cfa527f819141afee221f68a9e91f9ac4496ef65eed5"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/M3/progress.json",
+      "size_bytes": 128,
+      "sha256": "abd9a67dc1c5669539567d87b8dd69d859b0840bbbce104960491527bcd13aff"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/M3/raw.npz",
+      "size_bytes": 6491,
+      "sha256": "744398eb7f37bd863008f826aa9eb406ad77645bbf4d4c69e14b3b2a77b2d597"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/M3/requalification_binding.json",
+      "size_bytes": 635,
+      "sha256": "33e2bb069fad73e327fba963dc6ef55a8f1dd6350727abf80c4388d958cf642e"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/M3/result.json",
+      "size_bytes": 36858504,
+      "sha256": "a3b7116288f968fc9d35badd9695f41dac47c89be022c31bd4353e1a16f35fe2"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/M3/telemetry.jsonl",
+      "size_bytes": 281357,
+      "sha256": "6e038ad5feae87733c45f5b2e7092c54b1cd64127282e891a89542cfb6ec649d"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/process.json",
+      "size_bytes": 1161,
+      "sha256": "ab9599241c9bc454f8d2aee00f89cb0146289e39896ee861cd736706d644ab85"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/runner.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/M3/production/runner.stdout.log",
+      "size_bytes": 224,
+      "sha256": "0a12b49402b6dfcf6121a5832f0e6f802288dcccf9abd4cabab58f33d71ab3d5"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/progress.json",
+      "size_bytes": 100,
+      "sha256": "cfcc16736a2f3eb17e190543132b79f89abf86398187415bf0257983f99ab1a7"
+    },
+    {
+      "path": "wp08d_contact_requalification_r1_runs/raw_retry_2/wp08d_requalification_summary.json",
+      "size_bytes": 53170831,
+      "sha256": "3211f1cb873cb69616547bef4fa9610039370cdafff71fd6eb877bd39ca9aed8"
+    }
+  ],
+  "selected_roots": [
+    "wp08d_contact_requalification_r1_runs"
+  ]
+}

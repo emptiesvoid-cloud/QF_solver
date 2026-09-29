@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "status": "LOCAL_ARCHIVE_VERIFIED_PENDING_REMOTE",
+  "source_relative_root": "qualification/0_2_9",
+  "file_count": 32,
+  "uncompressed_bytes": 51308333,
+  "archive": {
+    "name": "wp09-v1-surviving-tracked-reconstruction.zip",
+    "size_bytes": 3926535,
+    "sha256": "6796c3283d3fc058b64089c0e992721988361d7004716c3fe133ce086bb6198a"
+  },
+  "files": [
+    {
+      "path": "wp09_hex8_accuracy_remediation_r1/manifest.json",
+      "size_bytes": 412,
+      "sha256": "53abbd405cce68fbef3d4462d3a8d2338f61291ecb243718e012462604c83a7b"
+    },
+    {
+      "path": "wp09_hex8_accuracy_remediation_r1/report.md",
+      "size_bytes": 375,
+      "sha256": "5019380119fbad3f8d047e8e458c2dfaf15e963b3c954ad753d7fa4e9c9dcc8f"
+    },
+    {
+      "path": "wp09_hex8_accuracy_remediation_r2/manifest.json",
+      "size_bytes": 412,
+      "sha256": "a093716aba4ba195a2f58307abe2bf0b30a516b6a38ed0f97520735db22fb18d"
+    },
+    {
+      "path": "wp09_hex8_accuracy_remediation_r2/report.md",
+      "size_bytes": 374,
+      "sha256": "27d7a07d1097466788fdd2ebadeb51adf96f43c2d1f10a9732247b9dd731131f"
+    },
+    {
+      "path": "wp09_hex8_accuracy_remediation_r3/manifest.json",
+      "size_bytes": 411,
+      "sha256": "c483bf934fb197aaaac6a016961d3dad3721a366ea9f5fac0b98582ced1b60dd"
+    },
+    {
+      "path": "wp09_hex8_accuracy_remediation_r3/report.md",
+      "size_bytes": 374,
+      "sha256": "8df18d94d9e5a5e6ba2621f5ed65b31192d24b6ff5a99e74c2c2aabeb845dc86"
+    },
+    {
+      "path": "wp09_hex8_extended_refinement_r1/hex8_5x5x5.json",
+      "size_bytes": 32225412,
+      "sha256": "d22b82a80ccedc3ca79f2bd13ea03bd5cb8af206ed5df31ab260d547e62b2f28"
+    },
+    {
+      "path": "wp09_hex8_extended_refinement_r1/manifest.json",
+      "size_bytes": 565,
+      "sha256": "46c12ae4ab1a84c761c797156ac17f60608ac7e085c65387ce6b46e20853a687"
+    },
+    {
+      "path": "wp09_hex8_extended_refinement_r1/report.md",
+      "size_bytes": 651,
+      "sha256": "c5714f7624c47786700770f9858358cb9aa98d6071ecfb701dddc705d8ac000e"
+    },
+    {
+      "path": "wp09_hex8_extended_refinement_r2/manifest.json",
+      "size_bytes": 411,
+      "sha256": "5f0b73015188c83280e1ca95c8e7d6adc8641381d1232ffae92f77e88acb108f"
+    },
+    {
+      "path": "wp09_hex8_extended_refinement_r2/report.md",
+      "size_bytes": 374,
+      "sha256": "69c13f8cbbb74fa2e9aecb6654595a57e439069ad25cb16d6a703da37ff636a7"
+    },
+    {
+      "path": "wp09_hex8_extended_refinement_r3/manifest.json",
+      "size_bytes": 412,
+      "sha256": "a9d3563dd998078563c260e713200cc47602bbc45ea04c770a0afb27a215d912"
+    },
+    {
+      "path": "wp09_hex8_extended_refinement_r3/report.md",
+      "size_bytes": 375,
+      "sha256": "0a1ecead9d83fcef176731d04fc84907668283d5e8c4c1c5a521061d4bc6e6cd"
+    },
+    {
+      "path": "wp09_hex8_formal_r2_evidence/campaign.json",
+      "size_bytes": 37968,
+      "sha256": "b2b72f509f24f29c19f3b7b887f9853c60ab345ab04dbeaf9318420198686274"
+    },
+    {
+      "path": "wp09_hex8_formal_r2_evidence/campaign.md",
+      "size_bytes": 607,
+      "sha256": "0e44efd870d4f779f1ea580ea86bae9be1ca650e1a40465c40639a23b721cdac"
+    },
+    {
+      "path": "wp09_hex8_formal_r2_evidence/independent_reference/report.md",
+      "size_bytes": 553,
+      "sha256": "f0951f2d7f65aa0353edb6a5a59db50b623c7a17cd45687b192e8671f0f1bbc0"
+    },
+    {
+      "path": "wp09_hex8_formal_r2_evidence/independent_reference/summary.json",
+      "size_bytes": 53503,
+      "sha256": "75a2abe62ff70147a7ad406ff8b955b64725613f60f16f25fe7913c13566b58d"
+    },
+    {
+      "path": "wp09_hex8_formal_r2_evidence/independent_reference_stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp09_hex8_formal_r2_evidence/independent_reference_stdout.log",
+      "size_bytes": 1794,
+      "sha256": "f9e6c3190b049b85d0a230a86adbb8a69daa8d05332bf87af8e7a00b8bcf7ba1"
+    },
+    {
+      "path": "wp09_hex8_formal_r2_evidence/manifest.json",
+      "size_bytes": 1338,
+      "sha256": "3dbc5f7ab29bb05ab3b0b234ff22e33466a2ade3580de194770cf6b0b70f513d"
+    },
+    {
+      "path": "wp09_hex8_formal_r3_evidence/independent_reference/report.md",
+      "size_bytes": 553,
+      "sha256": "9ce5bad8607235dc942e2fed3ecb2667b73973a082469a26ae4485ecb237a1cc"
+    },
+    {
+      "path": "wp09_hex8_formal_r3_evidence/independent_reference/summary.json",
+      "size_bytes": 53602,
+      "sha256": "cf869535eebab1ea847856228e45cf24ccb95bf80447e4c5dc4059213bbc2fac"
+    },
+    {
+      "path": "wp09_hex8_formal_r3_evidence/independent_reference_stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp09_hex8_formal_r3_evidence/independent_reference_stdout.log",
+      "size_bytes": 1794,
+      "sha256": "e36b408a8574c37e69fb8c35bc014dbe2ac1379f078b7cea171e641c210b84c9"
+    },
+    {
+      "path": "wp09_hex8_formal_r3_primary/campaign.json",
+      "size_bytes": 4456,
+      "sha256": "cc3db737e4ac1934df00b4f84e3f863f9fe23a4cbe94e02bc3d92e69333014a2"
+    },
+    {
+      "path": "wp09_hex8_formal_r3_primary/manifest.json",
+      "size_bytes": 734,
+      "sha256": "26ae64bc2cc46aba6776499a5d1be8b5f2c10d6635a6b5b96c21a3311b99ddd5"
+    },
+    {
+      "path": "wp09_hex8_formal_r3_primary/report.md",
+      "size_bytes": 369,
+      "sha256": "471442860f8dffe8795c3d3936c53b7858dda05be520579080055ae0a465977b"
+    },
+    {
+      "path": "wp09_hex8_refinement_r1/hex8_1x1x1.json",
+      "size_bytes": 292984,
+      "sha256": "ad1b297633fca7defba627f777aaa2c0a5edc7490890ff2abdb24b653235daf2"
+    },
+    {
+      "path": "wp09_hex8_refinement_r1/hex8_2x2x2.json",
+      "size_bytes": 2096966,
+      "sha256": "7cd9bdbf9b57e01fceaf989401ad5be549222a2b92cdf3c8cff2702fad97bc17"
+    },
+    {
+      "path": "wp09_hex8_refinement_r1/hex8_4x4x4.json",
+      "size_bytes": 16528502,
+      "sha256": "64fd374d2d7cacde2d9eef9ef0fad8cb720c3d028182b314682d27a40e1b3daf"
+    },
+    {
+      "path": "wp09_hex8_refinement_r1/manifest.json",
+      "size_bytes": 871,
+      "sha256": "ca87b7dff00bc7f915507276137fc8fe853582729e39414bbb802dafecd5efcb"
+    },
+    {
+      "path": "wp09_hex8_refinement_r1/report.md",
+      "size_bytes": 1181,
+      "sha256": "8362db9042b3ef54a804d3e5cf69a8af3e788ff109eaa9111c6ce907c625bc5c"
+    }
+  ],
+  "selected_roots": [
+    "wp09_hex8_accuracy_remediation_r1",
+    "wp09_hex8_accuracy_remediation_r2",
+    "wp09_hex8_accuracy_remediation_r3",
+    "wp09_hex8_extended_refinement_r1",
+    "wp09_hex8_extended_refinement_r2",
+    "wp09_hex8_extended_refinement_r3",
+    "wp09_hex8_formal_r2_evidence",
+    "wp09_hex8_formal_r3_evidence",
+    "wp09_hex8_formal_r3_primary",
+    "wp09_hex8_refinement_r1"
+  ]
+}
