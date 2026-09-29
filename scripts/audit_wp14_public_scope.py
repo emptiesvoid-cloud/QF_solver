@@ -46,6 +46,15 @@ def git_tree(root: Path, revision: str) -> dict[str, tuple[str, str]]:
     return result
 
 
+def changed_bound_paths(
+    source_tree: dict[str, tuple[str, str]],
+    execution_tree: dict[str, tuple[str, str]],
+    bound_paths: Sequence[str],
+) -> list[str]:
+    """Compare frozen path entries without building an oversized Git argv."""
+    return sorted(path for path in bound_paths if source_tree.get(path) != execution_tree.get(path))
+
+
 def select_document_paths(
     tree: dict[str, tuple[str, str]], selection: dict[str, Any],
 ) -> list[str]:
@@ -167,10 +176,8 @@ def audit_frozen_public_scope(root: Path, contract_path: Path, output_path: Path
         *contract["tool_bindings"],
         "scripts/audit_wp14_public_scope.py",
     ]))
-    changed_after_source = git_run(
-        ["diff", "--name-only", source, head, "--", *bound_paths],
-        cwd=root, check=True, text=True,
-    ).stdout.splitlines()
+    execution_tree = git_tree(root, head)
+    changed_after_source = changed_bound_paths(source_tree, execution_tree, bound_paths)
     if changed_after_source:
         raise ValueError(f"Frozen public-surface inputs changed after source: {changed_after_source}")
     package_payloads, package_mapping = _mapping(root, source_tree, package_paths)
