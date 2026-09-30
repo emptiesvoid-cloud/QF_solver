@@ -253,6 +253,7 @@
     "The GitHub CI ran on the PR head with a tree identical to the merged source, not on the later evidence and ledger commits.",
     "Wheel and sdist binaries remain outside Git with their hashes recorded; no fresh remote archive readback was performed.",
     "WP04-D reproduced NPZ files do not establish provenance of the four original historical files.",
-    "G09 Owner release and score decisions remain open."
+    "G09 Owner release and score decisions remain open.",
+    "The pre-existing controlled docs/verification/0_2_9/progress.md is a frozen bound input and remains at its source bytes; this current Owner dossier supersedes its earlier summary without rewriting it."
   ]
 }
