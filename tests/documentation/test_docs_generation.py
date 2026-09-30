@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from html.parser import HTMLParser
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any
 from urllib.parse import unquote, urlparse
 
@@ -17,6 +18,7 @@ from scripts.docs_models import upgrade_tet4_to_tet10
 from scripts.docs_publication import (
     DocumentationPublisher,
     _has_nonempty_review_metadata,
+    _missing_review_metadata_fields,
     _review_scope_documents,
     is_generated_document,
     normalize_document_status,
@@ -256,7 +258,12 @@ def test_every_controlled_page_is_registered_with_consistent_review_fields() -> 
                 "DOC-029-WP07-D-R2.5-OWNER-ACCEPTANCE-001",
                 "DOC-029-WP07-R2.5-INTEGRATION-001",
                 "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-INTEGRATION",
+                "DOC-029-WP09-OWNER-R3",
             }
+        },
+        **{
+            identifier: "Quentin Farinazzo"
+            for identifier in {"DOC-HEX8-023-002", "DOC-HEX20-023-002"}
         },
         **{
             identifier: "Quentin Farinazzo"
@@ -292,6 +299,7 @@ def test_every_controlled_page_is_registered_with_consistent_review_fields() -> 
                 "DOC-029-WP07-D-R2.5-OWNER-ACCEPTANCE-001",
                 "DOC-029-WP07-R2.5-INTEGRATION-001",
                 "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-INTEGRATION",
+                "DOC-029-WP09-OWNER-R3",
             }
         },
         **{
@@ -307,6 +315,9 @@ def test_every_controlled_page_is_registered_with_consistent_review_fields() -> 
         },
     }
     review_dates = {
+        "DOC-HEX8-023-002": "2026-08-24",
+        "DOC-HEX20-023-002": "2026-08-24",
+        "DOC-029-WP09-OWNER-R3": "2026-09-20",
         "DOC-VV-OWNER-PAGES-001": "2026-08-02",
         "DOC-VNV-MITC3-DYNAMICS-CODEASTER-DKT-017": "2026-08-02",
         "DOC-VNV-TET10-DYNAMICS-CODEASTER-TETRA10-018": "2026-08-02",
@@ -391,6 +402,146 @@ def test_empty_review_fields_are_not_owner_approval_metadata(metadata: dict[str,
 
 def test_complete_review_metadata_is_not_itself_an_owner_decision() -> None:
     assert _has_nonempty_review_metadata({"reviewer": "Reviewer", "approver": "Approver"}) is True
+
+
+@pytest.mark.parametrize(
+    ("metadata", "expected"),
+    (
+        ({}, ["reviewer", "approver"]),
+        ({"reviewer": "Reviewer", "approver": ""}, ["approver"]),
+        ({"reviewer": " ", "approver": "Approver"}, ["reviewer"]),
+        ({"reviewer": "Reviewer", "approver": "Approver"}, []),
+    ),
+)
+def test_review_metadata_gap_report_names_only_missing_fields(
+    metadata: dict[str, Any], expected: list[str]
+) -> None:
+    assert _missing_review_metadata_fields(metadata) == expected
+
+
+def test_review_readiness_emits_actionable_metadata_gap_records(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    docs = tmp_path / "docs"
+    generated = docs / "generated"
+    generated.mkdir(parents=True)
+    (docs / "document_registry.json").write_text(
+        json.dumps(
+            {
+                "documents": [
+                    {
+                        "id": "DOC-MISSING-APPROVER",
+                        "path": "missing_approver.md",
+                        "status": "controlled",
+                    },
+                    {
+                        "id": "DOC-COMPLETE",
+                        "path": "complete.md",
+                        "status": "owner_accepted",
+                    },
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    (docs / "missing_approver.md").write_text(
+        '---\ndoc_id: DOC-MISSING-APPROVER\nreviewer: "Reviewer A"\napprover: ""\n---\n',
+        encoding="utf-8",
+    )
+    (docs / "complete.md").write_text(
+        '---\ndoc_id: DOC-COMPLETE\nreviewer: "Reviewer B"\napprover: "Approver B"\n---\n',
+        encoding="utf-8",
+    )
+    qualification = tmp_path / "qualification"
+    qualification.mkdir()
+    (qualification / "requirements.json").write_text('{"requirements": []}', encoding="utf-8")
+    (qualification / "formulas.json").write_text('{"formulas": []}', encoding="utf-8")
+
+    class StubFormulaRegistry:
+        formulas: dict[str, Any] = {}
+
+        def __init__(self, _path: Path) -> None:
+            pass
+
+        def validate(self, _formula_ids: list[str], _requirement_ids: set[str]) -> SimpleNamespace:
+            return SimpleNamespace(status="PASS", issues=[], covered_count=0, requested_count=0)
+
+    monkeypatch.setattr("scripts.docs_publication.FormulaRegistry", StubFormulaRegistry)
+    publisher = object.__new__(DocumentationPublisher)
+    publisher.root = tmp_path
+    publisher.docs = docs
+    publisher.generated = generated
+    publisher.source_state = {"revision": "frozen-sha", "dirty": False}
+    publisher._review_readiness()
+
+    report = json.loads((generated / "review_readiness.json").read_text(encoding="utf-8"))
+    owner_review = report["owner_review"]
+    assert report["status"] == "PASS"
+    assert owner_review["status"] == "PASS"
+    assert owner_review["metadata_complete_documents"] == 1
+    assert owner_review["review_scope_documents"] == 1
+    assert owner_review["documents_missing_metadata"] == []
+    assert owner_review["missing_metadata_field_counts"] == {"reviewer": 0, "approver": 0}
+    assert report["review_metadata_backlog"]["status"] == "ADVISORY"
+    assert report["review_metadata_backlog"]["documents_with_missing_metadata"] == 1
+    assert report["review_metadata_backlog"]["missing_field_counts"] == {"reviewer": 0, "approver": 1}
+    assert report["review_metadata_backlog"]["details"] == [
+        {
+            "id": "DOC-MISSING-APPROVER",
+            "path": "missing_approver.md",
+            "status": "controlled",
+            "missing_fields": ["approver"],
+        }
+    ]
+
+
+def test_review_readiness_blocks_explicit_approval_status_with_incomplete_metadata(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    docs = tmp_path / "docs"
+    generated = docs / "generated"
+    generated.mkdir(parents=True)
+    (docs / "document_registry.json").write_text(
+        json.dumps(
+            {
+                "documents": [
+                    {"id": "DOC-CONTROLLED", "path": "controlled.md", "status": "controlled"},
+                    {"id": "DOC-OWNER-ACCEPTED", "path": "accepted.md", "status": "owner_accepted"},
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    (docs / "controlled.md").write_text('---\nreviewer: ""\napprover: ""\n---\n', encoding="utf-8")
+    (docs / "accepted.md").write_text('---\nreviewer: "Owner"\napprover: ""\n---\n', encoding="utf-8")
+    qualification = tmp_path / "qualification"
+    qualification.mkdir()
+    (qualification / "requirements.json").write_text('{"requirements": []}', encoding="utf-8")
+    (qualification / "formulas.json").write_text('{"formulas": []}', encoding="utf-8")
+
+    class StubFormulaRegistry:
+        formulas: dict[str, Any] = {}
+
+        def __init__(self, _path: Path) -> None:
+            pass
+
+        def validate(self, _formula_ids: list[str], _requirement_ids: set[str]) -> SimpleNamespace:
+            return SimpleNamespace(status="PASS", issues=[], covered_count=0, requested_count=0)
+
+    monkeypatch.setattr("scripts.docs_publication.FormulaRegistry", StubFormulaRegistry)
+    publisher = object.__new__(DocumentationPublisher)
+    publisher.root = tmp_path
+    publisher.docs = docs
+    publisher.generated = generated
+    publisher.source_state = {"revision": "frozen-sha", "dirty": False}
+    publisher._review_readiness()
+
+    report = json.loads((generated / "review_readiness.json").read_text(encoding="utf-8"))
+    assert report["status"] == "BLOCKED"
+    assert report["owner_review"]["documents_missing_metadata"] == ["DOC-OWNER-ACCEPTED"]
+    assert report["review_metadata_backlog"]["details"][0]["id"] == "DOC-CONTROLLED"
+
+
 def test_owner_reviewed_document_normalizes_to_controlled() -> None:
     assert normalize_document_status("owner_reviewed") == "controlled"
 
@@ -403,7 +554,11 @@ def test_legacy_and_extended_document_statuses_normalize_to_registry_values() ->
 def test_review_metadata_scope_excludes_unreviewed_lifecycle_states() -> None:
     documents = [
         {"id": "controlled", "status": "controlled"},
+        {"id": "controlled-release", "status": "controlled_release"},
         {"id": "accepted", "status": "owner_accepted_experimental"},
+        {"id": "approved", "status": "approved"},
+        {"id": "future-release-acceptance", "status": "accepted_for_release_0_2_9"},
+        {"id": "accepted-with-limits", "status": "owner_accepted_with_limitations"},
         {"id": "candidate", "status": "controlled_candidate"},
         {"id": "evidence", "status": "controlled_evidence"},
         {"id": "pending", "status": "ready_for_owner_review"},
@@ -411,7 +566,12 @@ def test_review_metadata_scope_excludes_unreviewed_lifecycle_states() -> None:
         {"id": "draft", "status": "draft"},
     ]
 
-    assert [item["id"] for item in _review_scope_documents(documents)] == ["controlled", "accepted"]
+    assert [item["id"] for item in _review_scope_documents(documents)] == [
+        "accepted",
+        "approved",
+        "future-release-acceptance",
+        "accepted-with-limits",
+    ]
 
 
 def test_dynamic_owner_metadata_matches_recorded_review_decisions() -> None:

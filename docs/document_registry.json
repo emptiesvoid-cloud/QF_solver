@@ -7952,6 +7952,22 @@
       "requirements": [],
       "examples": [],
       "tests": []
+    },
+    {
+      "id": "DOC-029-WP16-EXTERNAL-ARCHIVE-001",
+      "path": "verification/0_2_9/wp16-external-evidence-archive.md",
+      "title": "0.2.9 WP16 — off-Git evidence archive, first verified tranche",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp16_external_archive/drive_catalog_2026_09_29.json",
+        "qualification/0_2_9/wp16_external_archive/wp04d_digest_equivalent_reproductions_2026_09_29.json",
+        "qualification/0_2_9/wp16_external_archive/owner_bounded_acceptance_2026_09_29.json"
+      ],
+      "tests": [
+        "scripts/wp16_external_archive.py",
+        "tests/unit/test_wp16_external_archive.py"
+      ]
     }
   ]
 }

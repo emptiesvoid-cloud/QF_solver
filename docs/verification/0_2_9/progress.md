@@ -17,7 +17,7 @@ approver: ""
 | WP03 | 7 | **Closed** — 7/7; independent WP03-E audit `GO_WITH_LIMITATIONS` |
 | WP04 | 12 | **Closed — 12/12; independent WP04-F `GO_WITH_LIMITATIONS` audit** |
 | WP15 | 2 | **Closed — 2/2; governing-branch telemetry integration validated** |
-| WP16 | 0 | **Post-debug / post-release operational step — durable external archive for large raw evidence; Git LFS is optional and not assumed** |
+| WP16 | 0 | **Owner accepted the selected external-archive tranche and rolling retention rule with limitations; WP16 remains open for remainder inventory and storage-governance actions** |
 | WP05 | 5 | **Closed — 5/5, bounded with limitations; C/D structural qualification and E cross-family closure accepted** |
 | WP06 | 8 | **Owner accepted A/B/C — 4/8 with limitations; D accepted as experimental bounded evidence only**; no formal D points; historical D failure preserved |
 | WP07 | 10 | **Previously Owner-accepted — 10/10 with bounded limitations; reopened for scoped regression review after contact remediation** |
@@ -27,7 +27,7 @@ approver: ""
 | WP11 | 6 | **Closed — Owner accepted 6/6; bounded TET4/HEX8/TET10/HEX20 PETSc/MPI evidence with limitations** |
 | WP12 | 4 | **Owner accepted — 4/4 bounded Code_Aster correlation with limitations** |
 | WP13 | 1 | **Owner accepted — 1/1; bounded multi-family performance/API/diagnostics characterization with limitations** |
-| WP14 | 1 | Not started |
+| WP14 | 1 | **In progress — HOLD, 0/1; bounded G03 package scan is only a candidate, while G04/G05/G06/G08/G09 remain open or gated** |
 | **Validated total (consolidated ledger)** | **95 / 100** | **Includes WP05 5/5, WP06 4/8, WP07 10/10, WP08 8/8, WP09 8/8, WP10 6/6, WP11 6/6, WP12 4/4 and WP13 1/1** |
 
 ## Current administrative closure
@@ -45,7 +45,8 @@ R2 contract. On 2026-09-23 the Owner accepted WP12 R2 at 4/4 for bounded
 same-mesh linear-static correlation with Code_Aster 18.1, moving the
 consolidated ledger from 90/100 to 94/100. The R4 gallery adds 864/864
 supplementary passing comparisons (1,008 cumulative with R3.6); its 14,692
-raw files remain local and ignored by Git pending the WP16 external archive.
+raw files now have a verified off-Git Drive copy, while the local source copy
+remains preserved. See the WP16 archive record for its bounded scope.
 WP12 does not claim experimental validation, general mesh convergence,
 nonlinear correlation, or a second independent FEM/Newton solve. The decision
 and accepted limitations are recorded in
@@ -57,8 +58,8 @@ ledger from **94/100 to 95/100**. The active score allocation is the explicitly
 Owner-confirmed reduced allocation WP13=1, WP14=1, WP15=2 (100 points total);
 the original frozen roadmap is preserved as historical evidence. WP13 makes
 no comparative performance, ranking, scaling, mesh-convergence, or external
-solver claim. Its raw campaign artifacts remain local and Git-ignored pending
-WP16. See the [WP13 R2.1 report](wp13-r2-multifamily-performance-report.md)
+solver claim. Its raw campaign artifacts now have a verified off-Git Drive
+copy; the local source remains preserved. See the [WP13 R2.1 report](wp13-r2-multifamily-performance-report.md)
 and the machine-readable Owner decision at
 `qualification/0_2_9/wp13_r2_multifamily/wp13_owner_acceptance_r2_1.json`.
 
@@ -96,7 +97,8 @@ observable recomputations, and the two authorized replays only. The PENALTY/M1
 `research`) remains visible as a limitation; it was not relabeled or used to
 weaken a frozen gate. The independent references are observable
 recomputations, not independent global FEM/Newton solves. Raw R2.5 evidence
-remains local pending the planned WP16 archive. The accepted scope remains
+now has a verified off-Git Drive copy, while the local source remains
+preserved. The accepted scope remains
 bounded to the frozen routes and evidence; updated-search and finite-sliding
 contact remain research-only. See the [WP07-E Owner acceptance](wp07e-owner-acceptance-r2.md),
 [WP07-E closure audit](wp07e-closure-owner-review-r2-final.md),
@@ -108,18 +110,24 @@ push. The reviewed lineage was fast-forwarded to `0.2.9-unified-nonlinear`,
 and `origin/0.2.9-unified-nonlinear` was verified at
 `7b079efa84529eadb19b155920342c54dcc9fb4e`. This did not change WP07 or the
 global score. WP08 remains open for its own prospective requalification; the
-large WP07-D raw evidence remains local pending WP16. See the
-[WP07 R2.5 integration record](wp07-r2-5-integration-record.md).
+large WP07-D raw evidence now has a verified off-Git Drive copy; its original
+local evidence remains preserved pending the remaining WP16 inventory. The
+Owner has accepted the bounded tranche and retention rule with limitations.
+See the
+[WP07 R2.5 integration record](wp07-r2-5-integration-record.md) and
+[WP16 archive record](wp16-external-evidence-archive.md).
 
 The frozen roadmap declares 100 total points, and its listed package weights
 sum to 100. No package weights were changed.
 
 ### WP16 — external archive for large qualification evidence (0 points)
 
-WP16 is explicitly **deferred until the active WP07/WP08 debugging and
-qualification work is complete**, and is a post-release operational task with
-zero qualification points. It must not interrupt, move, or delete evidence
-while those debugging campaigns are in progress.
+The Owner accepted the bounded 0.2.9 WP16 archive and rolling retention rule
+on 2026-09-29, ahead of the next WP14 validation/integration. This changes
+the operational sequence, not the
+zero-point weight, any solver verdict, or the WP14 HOLD. It must not interrupt,
+move, or delete evidence while debugging campaigns are in progress. This
+0.2.9 archive task is distinct from the 0.2.7 WP16 1M-DOF qualification.
 
 The storage boundary is:
 
@@ -128,10 +136,10 @@ The storage boundary is:
 - Keep large raw solver outputs and replay bundles out of the installable
   package and ordinary Git history. `pip install` must never download these
   evidence bundles, either directly or as an implicit post-install action.
-- After debugging, copy the immutable raw bundles to durable,
-  organization-controlled external object storage. The exact provider and
-  access policy remain to be selected; no upload is authorized or performed
-  by this roadmap entry.
+- Copy immutable raw bundles to the Owner-designated Google Drive folder only.
+  Folder use is an operational boundary; it does not itself narrow the Google
+  connection's account-level permissions. Do not claim that an upload is
+  durable and verified until its downloaded bytes and restoration pass.
 - Version a compact manifest in Git containing the archive identifier and
   location, access classification, source/execution SHAs, contract and policy
   digests, relative file paths, byte sizes, SHA-256 hashes, and restore/
@@ -146,10 +154,23 @@ The storage boundary is:
 
 The existing WP09 archive record,
 `qualification/0_2_9/wp09_large_artifacts_archive_v1.json`, points to a local
-temporary archive and is **not yet a durable external archive**. WP16 will
-close only after the destination is selected and the manifest, hashes, access,
-and restore check are verified. This storage work does not change solver
-results, qualification decisions, or score allocation.
+temporary archive whose original bytes remain absent; WP16 has not recovered
+that V1 tar. A distinct new ZIP of its 32 surviving Git-tracked files was
+uploaded, downloaded, hash-checked, and fully restored; it is explicitly a
+reconstruction and does not satisfy the original V1 digest or prove its raw
+members. A selected 12-bundle evidence tranche across the named surviving
+WP07-D, WP08-D, WP09, WP04-D, WP12, and WP13 donor worktrees now has recorded
+Drive readback and restore checks. The four WP04-D reproduced NPZs match all
+four recorded historical sizes and SHA-256 digests, but original-file
+provenance remains absent and no historical result was reclassified. WP16
+remains open pending the remainder inventory and storage-governance
+actions; the selected tranche and rolling retention rule are Owner-accepted,
+but the historical V1 archive remains unavailable. The targeted Drive folder currently
+holds 1,399,236,630 bytes across 55 files; this is not the account-wide quota.
+See the
+[WP16 archive record](wp16-external-evidence-archive.md) for coverage and
+limits. This storage work does not change solver results, qualification
+decisions, or score allocation.
 
 WP06-A/B/C were revalidated against the current governing source with 118
 focused continuation, rollback/restart and identity tests passing. The Owner

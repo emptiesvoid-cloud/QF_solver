@@ -1,0 +1,385 @@
+{
+  "schema_version": 1,
+  "work_package": "0.2.9-WP16-EXTERNAL-EVIDENCE-ARCHIVE",
+  "status": "OWNER_ACCEPTED_BOUNDED_ARCHIVE_WITH_LIMITATIONS_WP16_REMAINS_OPEN",
+  "owner_decision": {
+    "path": "qualification/0_2_9/wp16_external_archive/owner_bounded_acceptance_2026_09_29.json",
+    "decision": "ACCEPT_BOUNDED_ARCHIVE_WITH_LIMITATIONS",
+    "wp16_closed": false,
+    "qualification_points_awarded": 0,
+    "wp14_global_status": "HOLD"
+  },
+  "drive_folder_id": "1Aye0b1kcfK4Vm2gc01OaiIbZL9XdgHel",
+  "drive_folder_url": "https://drive.google.com/drive/folders/1Aye0b1kcfK4Vm2gc01OaiIbZL9XdgHel",
+  "access_classification": "OWNER_DESIGNATED_FOLDER_OPERATION_ONLY; FOLDER_OWNER_ONLY; 40_OF_41_PREEXISTING_FILES_OWNER_ONLY_AT_PRIOR_CHECK; ALL_14_NEW_FILES_OWNER_ONLY_AT_2026-09-29_CHECK; ONE_WP14_SOURCE_ARCHIVE_ANYONE_WITH_LINK_READER_REQUIRED_BY_CURRENT_UNAUTHENTICATED_CI_FETCH; CONNECTOR_SCOPE_NOT_ATTESTED",
+  "download_policy": "EXPLICIT_ON_DEMAND_ONLY; NEVER_DURING_PIP_INSTALL_OR_ORDINARY_TESTS",
+  "source_policy": "NO_RAW_SOURCE_REMOVED; NO_HISTORICAL_VERDICT_RECLASSIFIED",
+  "bundles": [
+    {
+      "id": "WP07D_R2_TO_R2_4_HISTORY_RAW",
+      "historical_verdict": "MIXED_R2_TO_R2_4_HISTORY_NOT_RECLASSIFIED",
+      "source_checkout_head": "73aa2f5b854252414c5a069a492a168da4b1461c",
+      "source_checkout_head_meaning": "SURVIVING_COPY_LOCATION_NOT_A_SINGLE_EXECUTION_SHA",
+      "source_relative_root": "qualification/0_2_9",
+      "manifest_path": "qualification/0_2_9/wp16_external_archive/wp07d_r2_history_raw_manifest.json",
+      "manifest_sha256": "5db46b4ee72fa26e910ead9eb175b09c151f7f42ebf2e8261777e2b2ea4783c3",
+      "selected_roots": 5,
+      "file_count": 293,
+      "uncompressed_bytes": 17198829455,
+      "archive": {"name": "wp07d-r2-history-raw.zip", "size_bytes": 914863559, "sha256": "e89e19ddc175bb9b520e6b84d9a0c5803c691e076e04791576a1f98db27a66e6"},
+      "remote_manifest_file_id": "1bo0wTaQaJyDhvlQF4Iqs3iVV2L9h9pCT",
+      "remote_parts_receipt_file_id": "1Bp606GJEhssShSs-VmASLRQU4g7MzOKG",
+      "parts_receipt_sha256": "9404b3016ec8e3dd4014f0460be717d3012804d80b45fdfbeace352b6d8ecc10",
+      "remote_parts": [
+        {"name": "wp07d-r2-history-raw.zip.part0001", "id": "1HT2xlJ3A3cI7HIsg0Xdedz1XF-LTl0jK", "size_bytes": 67108864, "sha256": "0f878ced1c59d674d10c4d664be4875c81e12fd8026072420957d0f6b6c3dc9f"},
+        {"name": "wp07d-r2-history-raw.zip.part0002", "id": "193BeGaPI0UjwG24bz7KmLoO3x4Q6zP7u", "size_bytes": 67108864, "sha256": "90e89e25758ac68f3799bc3f7dd4d9d1ef638a012058fae6272b0a92a1347632"},
+        {"name": "wp07d-r2-history-raw.zip.part0003", "id": "1GplNS8hdl_Pdlf5JNHbw8HyCHq-n0Qr5", "size_bytes": 67108864, "sha256": "4978c5a4d72f20e073f4283e7cdcba550b944dbf603f97368bb1c407b72c4954"},
+        {"name": "wp07d-r2-history-raw.zip.part0004", "id": "1hSgt2qG-3G6RdLMcAVQcGQBxGNcS6Jjd", "size_bytes": 67108864, "sha256": "4c118fd4690fa224ea3ccca420636aa817e497f204cc292afdda6aadbce4a375"},
+        {"name": "wp07d-r2-history-raw.zip.part0005", "id": "1Rhv6kwFE8Ulp1G83clbDiTeO_PEfUQvi", "size_bytes": 67108864, "sha256": "20f86712e5c46d7346801551f7dbe6d576243958e99bdb7e34349785b2039fcf"},
+        {"name": "wp07d-r2-history-raw.zip.part0006", "id": "1N65gN-W-8RZLBIt7DST-vj5mxngYP-fe", "size_bytes": 67108864, "sha256": "13a8eaf3c793773d51b571ebfb129154bc039234bec31335fd44e7f1f9426946"},
+        {"name": "wp07d-r2-history-raw.zip.part0007", "id": "1FcBfG2mWwn-aVXWTBeF_4IIO5-sLEbgf", "size_bytes": 67108864, "sha256": "bee42d03f4412ff03cc41db31224db10f26f33bfe2163468fbfab031d8577ff7"},
+        {"name": "wp07d-r2-history-raw.zip.part0008", "id": "1ZYBuyWh-jlCPnOLEypmllJcy0xg9zA0E", "size_bytes": 67108864, "sha256": "0fc741cd40cb5707ea6602ef58d8806c32044e38f86d7fc98429818abdf0d8cf"},
+        {"name": "wp07d-r2-history-raw.zip.part0009", "id": "1wfMcKH2yQuaDBvve6upKP-ERH_9Pikdb", "size_bytes": 67108864, "sha256": "13a7917b190c5905f0dcc04cc19dc477a88526103ae743914d4ebd26066a3576"},
+        {"name": "wp07d-r2-history-raw.zip.part0010", "id": "1O9eUfFagUccujeuprV2WUot-I4-VuR2x", "size_bytes": 67108864, "sha256": "3079431581d1ea4cef93f7528f7c22d5373ada66754a055d395c4e618ef3b776"},
+        {"name": "wp07d-r2-history-raw.zip.part0011", "id": "1DkSWWNKvASdpHiofmAZLaJgRVhsf6Bi-", "size_bytes": 67108864, "sha256": "12b52841975b9a032b4027a05a92deb78cceae07c3e558012bc77dc67e853472"},
+        {"name": "wp07d-r2-history-raw.zip.part0012", "id": "1D3ubogTZLnBA6xkxpxjrwXh4TSHjRkfT", "size_bytes": 67108864, "sha256": "5b8198d8467935257dcfbb871eaa2ca6d1e503ef0e78b0c187924283e4c20a11"},
+        {"name": "wp07d-r2-history-raw.zip.part0013", "id": "1E4OYW5FXKtexRflrXWrM-wRs-SUd22QS", "size_bytes": 67108864, "sha256": "9ad32399049de198ad3a4237c89758f7bc64d648fce12221dae55e3e201e9223"},
+        {"name": "wp07d-r2-history-raw.zip.part0014", "id": "1HO_FUBfxXXmk9bJI0eVtjMVOuidytbsD", "size_bytes": 42448327, "sha256": "2f3a35297ef4f41384fa679e497ccde78f637bcaf1d0c80df54891ecbbc74f7b"}
+      ],
+      "readback": "ALL_14_REMOTE_PARTS_AND_TWO_METADATA_FILES_SHA256_MATCH; REASSEMBLED_ARCHIVE_AND_293_MEMBERS_VERIFIED; FULL_17_2_GB_RESTORE_VERIFIED"
+    },
+    {
+      "id": "WP07D_R2_5_RAW",
+      "historical_verdict": "OWNER_ACCEPTED_BOUNDED_WITH_DISCLOSED_PENALTY_M1_WARNING",
+      "execution_sha": "3c749f30f95a53b4eaadb2159accb4349e6d7ee7",
+      "contract_sha256": "8b3f53c55b08859cbada2668f6e6506f08acb1981a690f62074cac0b4082bf78",
+      "binding_sha256": "55a24836c4369fc4f94ec02a0a430fe5d098fa5c46e71aa814ea1399b23683dc",
+      "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+      "source_relative_root": "qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_5",
+      "manifest_path": "qualification/0_2_9/wp16_external_archive/wp07d_r2_5_raw_manifest.json",
+      "manifest_sha256": "3739cda64f5b20f99666cee8c669fd517d51480070bf202ed80e08e9737b4ec6",
+      "file_count": 99,
+      "uncompressed_bytes": 3949086874,
+      "archive": {"name": "wp07d-r2-5-raw.zip", "size_bytes": 222039833, "sha256": "4599aba5b56831bd30ee53804e1a9fa275b8b0857c3fcc083194f4930d8c36f2"},
+      "remote_manifest_file_id": "11zjFazejZ1K8YZs0GLLdGbMIem0gqBPf",
+      "remote_parts_receipt_file_id": "1M4pMRzWxrw1NaASBk32eONbWAtOCMswM",
+      "parts_receipt_sha256": "e77220507ba76af4758e643265524d703f3aed37d6a045b578586a41eb48a986",
+      "remote_parts": [
+        {"name": "wp07d-r2-5-raw.zip.part0001", "id": "14eiy5uV0KdqPumKyzD0ijSYg06VNb-dI", "size_bytes": 67108864, "sha256": "b285125afeae2e304d5f135f95c502dea77cac7c946812e913e02d3dcdcc8feb"},
+        {"name": "wp07d-r2-5-raw.zip.part0002", "id": "1YV0R4qHy96NNjF273Yuqyo94MBVSSYls", "size_bytes": 67108864, "sha256": "87e18120b95f2a5ca76af722d4426ecfac22a737f8a541b9bda26096898f8bdb"},
+        {"name": "wp07d-r2-5-raw.zip.part0003", "id": "1GhmdWUo3XquB6KBhk3006diXsWhvkNZH", "size_bytes": 67108864, "sha256": "a58581bb30a9041416b99aac86acf642cebbf15c0f150aa3f6a0a2ed72990258"},
+        {"name": "wp07d-r2-5-raw.zip.part0004", "id": "1Q3bNdGodzkjiYOurnewYZ9TZVxRM1dbt", "size_bytes": 20713241, "sha256": "ba53d0316b57f817fc4fb42cf445ab335c88f8872ee66d6bdca87e6900db048e"}
+      ],
+      "readback": "ALL_REMOTE_FILES_SHA256_MATCH_LOCAL; REASSEMBLED_ARCHIVE_AND_99_MEMBERS_VERIFIED; FULL_RESTORE_VERIFIED"
+    },
+    {
+      "id": "WP08D_R2_RAW",
+      "historical_verdict": "HOLD_FAIL_CLOSED_REFINEMENT_DEFINITION_AND_EVIDENCE_LIMITATIONS",
+      "execution_sha": "dda753f5cc61925f776e3a9486a84dc448aac7be",
+      "contract_sha256": "a9b82f19f1fc0dc27ac2ed97320a06e958c4adb4f96b4510bbf35c494316519d",
+      "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+      "source_relative_root": "qualification/0_2_9/wp08d_contact_requalification_r2_runs",
+      "manifest_path": "qualification/0_2_9/wp16_external_archive/wp08d_r2_raw_manifest.json",
+      "manifest_sha256": "fca79c6fb47f6f23ba0522b2e1270bc634be5bbb20b4b880f950aaaeff5adecc",
+      "file_count": 131,
+      "uncompressed_bytes": 98005150,
+      "archive": {"name": "wp08d-r2-raw.zip", "size_bytes": 5000902, "sha256": "51c972e45a87e8c4783a54d46f7e5e187df6c817c6e7743a8e7c1b24c06363ff"},
+      "remote_archive_file_id": "1x0nBKotnULCEDiFysI-AzVxTl7UQ5fSc",
+      "remote_manifest_file_id": "1SfKhOXBzZGRLyDZAgoxqVq8Y0TJLrclE",
+      "readback": "ARCHIVE_AND_MANIFEST_SHA256_MATCH; ALL_131_MEMBERS_AND_FULL_RESTORE_VERIFIED"
+    },
+    {
+      "id": "WP08_AREA_SUPPORTED_R1_10_RAW",
+      "historical_verdict": "HISTORICAL_DIAGNOSTIC_PRESERVED_NO_NEW_QUALIFICATION_CLAIM",
+      "source_checkout_head": "d96b91e8ecd5781e0bff4803e256a0976bd6a4db",
+      "source_checkout_head_meaning": "SURVIVING_COPY_LOCATION_NOT_A_SINGLE_EXECUTION_SHA",
+      "source_relative_root": "qualification/0_2_9",
+      "manifest_path": "qualification/0_2_9/wp16_external_archive/wp08_area_r1_10_manifest.json",
+      "manifest_sha256": "2d4fb833d4181d6847dd85816109094328dd0ca3f9c2e417fc46c2bc2fa6bbe5",
+      "selected_roots": 2,
+      "file_count": 73,
+      "uncompressed_bytes": 382579508,
+      "archive": {
+        "name": "wp08_area_r1_10.zip",
+        "size_bytes": 19580256,
+        "sha256": "cbee25f4e74b57cf12ea024aaad7065b8c1a7242e3acfb3d42f81184e1614df1"
+      },
+      "remote_archive_file_id": "1VL0H97ssGYdhIeUDhFLNuiVE9d_Ogubz",
+      "remote_manifest_file_id": "1-ZI84qyUwwzYD5ES5nzwE7_--1F_GBpo",
+      "readback": "ARCHIVE_AND_MANIFEST_SHA256_MATCH; ALL_73_MEMBERS_AND_FULL_RESTORE_VERIFIED"
+    },
+    {
+      "id": "WP08D_R1_HISTORICAL_RAW",
+      "historical_verdict": "HISTORICAL_REQUALIFICATION_FILES_PRESERVED_NO_VERDICT_CHANGE",
+      "source_checkout_head": "73aa2f5b854252414c5a069a492a168da4b1461c",
+      "source_checkout_head_meaning": "SURVIVING_COPY_LOCATION_NOT_A_SINGLE_EXECUTION_SHA",
+      "source_relative_root": "qualification/0_2_9",
+      "manifest_path": "qualification/0_2_9/wp16_external_archive/wp08d_r1_manifest.json",
+      "manifest_sha256": "b8e6bbe009515dec9e9163ad5fbf5bfa30732daec717d0025e0065b6ce1a09e6",
+      "selected_roots": 1,
+      "file_count": 251,
+      "uncompressed_bytes": 195997323,
+      "archive": {
+        "name": "wp08d_r1.zip",
+        "size_bytes": 10011168,
+        "sha256": "7f3ff0f8bc78f6db5a2d99cea846510ebdcf20c9d601e13a4d3edf5f48dffbed"
+      },
+      "remote_archive_file_id": "10h0ssmANigWpUEL2HC2IJ6qRy_frecxM",
+      "remote_manifest_file_id": "1OwAQNuZ45XvjXg-g3yJKo_t1LLH-QBMx",
+      "readback": "ARCHIVE_AND_MANIFEST_SHA256_MATCH; ALL_251_MEMBERS_AND_FULL_RESTORE_VERIFIED"
+    },
+    {
+      "id": "WP09_HEX20_RAW",
+      "historical_verdict": "HISTORICAL_EVIDENCE_PRESERVED_NO_VERDICT_CHANGE",
+      "source_checkout_head": "85bb719980705d8c7214ab56ab331c6a52aeae63",
+      "source_checkout_head_meaning": "SURVIVING_COPY_LOCATION_NOT_A_SINGLE_EXECUTION_SHA",
+      "source_relative_root": "qualification/0_2_9",
+      "manifest_path": "qualification/0_2_9/wp16_external_archive/wp09_hex20_manifest.json",
+      "manifest_sha256": "7e018bbc0f9ea0228ec532e37afa9069c80bdae6a7da4fd1bb6c00f3766daeb2",
+      "selected_roots": 2,
+      "file_count": 30,
+      "uncompressed_bytes": 159722418,
+      "archive": {
+        "name": "wp09_hex20.zip",
+        "size_bytes": 14916935,
+        "sha256": "7e2f46b80e5ba018e63385e1e99c78dbbe6c31a1df6c7f1f78f47e6a2b50365e"
+      },
+      "remote_archive_file_id": "1GSrTUZCznx7q-O-k-YgtR50u6KaOhiRo",
+      "remote_manifest_file_id": "1kSfUAztj3wov3R7n1G1vV9eMDWNLQeXA",
+      "readback": "ARCHIVE_AND_MANIFEST_SHA256_MATCH; ALL_30_MEMBERS_AND_FULL_RESTORE_VERIFIED"
+    },
+    {
+      "id": "WP09_TET10_R2_RAW",
+      "historical_verdict": "HISTORICAL_STUDY_PRESERVED_NO_VERDICT_CHANGE",
+      "source_checkout_head": "7257eb86155a4a9aa115fdbd9982cb22625b5152",
+      "source_checkout_head_meaning": "SURVIVING_COPY_LOCATION_NOT_A_SINGLE_EXECUTION_SHA",
+      "source_relative_root": "qualification/0_2_9",
+      "manifest_path": "qualification/0_2_9/wp16_external_archive/wp09_tet10_manifest.json",
+      "manifest_sha256": "32414f42d704a47ae27fc5354dd53b70610eec04f583771d8308edc2e748b38f",
+      "selected_roots": 1,
+      "file_count": 14,
+      "uncompressed_bytes": 165516367,
+      "archive": {
+        "name": "wp09_tet10.zip",
+        "size_bytes": 15112377,
+        "sha256": "6f87318195f4fc67e60b55b97e77501f53afbdacde38f4b5e4798394c69bc9e4"
+      },
+      "remote_archive_file_id": "1zltkxfl6qVtmnJUbCFONfzByq-WY2CjV",
+      "remote_manifest_file_id": "11PJraNzIPhzAExD-lV2GXQEqG9XQvejt",
+      "readback": "ARCHIVE_AND_MANIFEST_SHA256_MATCH; ALL_14_MEMBERS_AND_FULL_RESTORE_VERIFIED"
+    },
+    {
+      "id": "WP09_TET4_R1_R2_RAW",
+      "historical_verdict": "HISTORICAL_STUDY_PRESERVED_NO_VERDICT_CHANGE",
+      "source_checkout_head": "11b1b12aaa4f1eff2b144b2bc73c630aa027ac14",
+      "source_checkout_head_meaning": "SURVIVING_COPY_LOCATION_NOT_A_SINGLE_EXECUTION_SHA",
+      "source_relative_root": "qualification/0_2_9",
+      "manifest_path": "qualification/0_2_9/wp16_external_archive/wp09_tet4_manifest.json",
+      "manifest_sha256": "b8bb694c03c598a98ed72cb76fc03363c9acb6ad8d029e71f8b48baa1ec0e242",
+      "selected_roots": 2,
+      "file_count": 26,
+      "uncompressed_bytes": 35358736,
+      "archive": {
+        "name": "wp09_tet4.zip",
+        "size_bytes": 2676632,
+        "sha256": "3a4227009c074cf465ec60cf7c3d8872d5fc516123e657968a9b0f84c0ce39ec"
+      },
+      "remote_archive_file_id": "1nAu_f1p6H6aB1UWbvDN3hlsqQzVZaP53",
+      "remote_manifest_file_id": "1Cj9vosVsgZnsagCmsgudo33aPNU7HAXG",
+      "readback": "ARCHIVE_AND_MANIFEST_SHA256_MATCH; ALL_26_MEMBERS_AND_FULL_RESTORE_VERIFIED"
+    },
+    {
+      "id": "WP04D_REPRODUCED_NPZ_AND_RECORDS",
+      "historical_verdict": "REPRODUCED_FILES_NOT_HISTORICAL_ORIGINALS",
+      "source_checkout_head": "e01e292a36dc4f2e6bfe1cbe8a64a6b563707edf",
+      "source_checkout_head_meaning": "HISTORICAL_REEXECUTION_SOURCE_SHA; NPZ_FILES_ARE_REPRODUCTIONS_NOT_ORIGINALS",
+      "source_relative_root": "qualification/0_2_9",
+      "manifest_path": "qualification/0_2_9/wp16_external_archive/wp04d_reproduced_manifest.json",
+      "manifest_sha256": "7f4a227453bc4c0ae1268b4f2cd2e545ffba236010462b2e09db6b37c7475ae5",
+      "selected_roots": 1,
+      "file_count": 31,
+      "uncompressed_bytes": 8724153,
+      "archive": {
+        "name": "wp04d_reproduced.zip",
+        "size_bytes": 7886032,
+        "sha256": "a5f63df37713ec3bf2540ae0920fbf271229bca1adc61115a9fde22aa2690244"
+      },
+      "remote_archive_file_id": "1iS2Jcl2pzid2YZ3DDxYucTioHr2CfODN",
+      "remote_manifest_file_id": "1t7SNoeaztjNuZaQxi0Yg4reWB5yYsd20",
+      "readback": "ARCHIVE_AND_MANIFEST_SHA256_MATCH; ALL_31_MEMBERS_AND_FULL_RESTORE_VERIFIED"
+    },
+    {
+      "id": "WP12_R3_DIAGNOSTIC_HISTORY_RAW",
+      "historical_verdict": "MIXED_DIAGNOSTIC_HISTORY_NOT_RECLASSIFIED",
+      "source_checkout_head": "fe93a6a64caa04c13c4e8c63d05f61bb711687ac",
+      "source_checkout_head_meaning": "SURVIVING_COPY_LOCATION_NOT_A_SINGLE_EXECUTION_SHA",
+      "source_relative_root": "qualification/0_2_9",
+      "manifest_path": "qualification/0_2_9/wp16_external_archive/wp12_r3_history_raw_manifest.json",
+      "manifest_sha256": "8fe68c6b57629613a51ca7d16d26ef8ef43d79f51ef51d18633b6911b1e8c324",
+      "selected_roots": 12,
+      "file_count": 8890,
+      "uncompressed_bytes": 53491469,
+      "archive": {"name": "wp12-r3-history-raw.zip", "size_bytes": 26046944, "sha256": "c3729c11c8f0423ee2481a89342c1e5b56fac165c07af71f99538fd5cbbebf65"},
+      "remote_archive_file_id": "1a-kXdUlA3q22cOt8wUa4hOACJzPcNHrE",
+      "remote_manifest_file_id": "1BEtVPfSVNZ0w1PvBG0oZdjAbULhPcl5F",
+      "readback": "ARCHIVE_AND_MANIFEST_SHA256_MATCH; ALL_8890_MEMBERS_AND_FULL_RESTORE_VERIFIED"
+    },
+    {
+      "id": "WP12_R4_GALLERY_RAW",
+      "historical_verdict": "PASS_WITH_LIMITATIONS",
+      "execution_sha": "c3c52449eb41e9b5a79e98f35b4bdb5591ba6980",
+      "contract_sha256": "7588d0962776e02fe4ffba83ccc1611afbb5d606bd502c51d8f544954bc48ef2",
+      "source_relative_root": "qualification/0_2_9/wp12_external_vv_r4_gallery_raw",
+      "manifest_path": "qualification/0_2_9/wp16_external_archive/wp12_r4_gallery_raw_manifest.json",
+      "manifest_sha256": "f0fbeb06606fc9b8396cbb27c250fa541d6abc828bd88c663fe778b7faeeb5b0",
+      "file_count": 14692,
+      "uncompressed_bytes": 243014078,
+      "archive": {"name": "wp12-r4-gallery-raw.zip", "size_bytes": 141280982, "sha256": "2d4cab94950a866a2f1507779adb2e933bb3fd1a7f58da1ab7c842c1d8be9e10"},
+      "remote_manifest_file_id": "1qRNcv5A0EdaLKoFuKpr_afw_0HJycvG1",
+      "remote_parts_receipt_file_id": "1fAjDquQZeYaX5C3FzBRUEa8I68UCA18Y",
+      "parts_receipt_sha256": "385a3d9e2bd60c7964b075a294fc134022fcc5dc27936880b44a235afe434cd5",
+      "remote_parts": [
+        {"name": "wp12-r4-gallery-raw.zip.part0001", "id": "1jeaPetu3n8IF3gbU6ZIEnTPhexcdscp0", "size_bytes": 67108864, "sha256": "78dee77a4b352111cbc9a05c4daab0d857e89a2c590c0f473abf1fca9d815e84"},
+        {"name": "wp12-r4-gallery-raw.zip.part0002", "id": "12d5PjJsz6AJYq7GXqve4rJFN8NhUOkJu", "size_bytes": 67108864, "sha256": "89141e4f0057dc63e2ef2863fd0261bd505016a61b2d6c9bb801377a978c632b"},
+        {"name": "wp12-r4-gallery-raw.zip.part0003", "id": "1eK24k6cb1SSGtFHRImacRGNXMVCpiooO", "size_bytes": 7063254, "sha256": "04a743ca4354359e312710be1c46acc18acbf0a11ed34ac6424edfe9911493f4"}
+      ],
+      "readback": "ALL_REMOTE_FILES_SHA256_MATCH_LOCAL; REASSEMBLED_ARCHIVE_AND_14692_MEMBERS_VERIFIED; FULL_RESTORE_VERIFIED"
+    },
+    {
+      "id": "WP13_R2_RAW",
+      "historical_verdict": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "execution_sha": "1fc52758d53e1caa4434b22f453fb03fa40f6266",
+      "contract_sha256": "8ff91f880f2979198d23b23b7f98b3df0d8a698e33124b454849e86d43896499",
+      "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+      "source_relative_root": "qualification/0_2_9/wp13_r2_multifamily/raw",
+      "manifest_path": "qualification/0_2_9/wp16_external_archive/wp13_r2_raw_manifest.json",
+      "manifest_sha256": "e96ee1d906862a8e4ae1b1428c2adcc83b43c7a9ed7f4bde9f6b50249e703e83",
+      "file_count": 18,
+      "uncompressed_bytes": 99611184,
+      "archive": {"name": "wp13-r2-raw.zip", "size_bytes": 8353651, "sha256": "36287d3b6b7cf46c43e6a1ba5c1abf0ffadeb2e3af92f5f70fc2d51782a95563"},
+      "remote_archive_file_id": "1Mow7EBjA-aK6dkSpCWIN08B_1H33AFbK",
+      "remote_manifest_file_id": "1ZgE1vXpK8nxS0vqKQ1rEIvp_DEwfZRbN",
+      "readback": "ARCHIVE_AND_MANIFEST_SHA256_MATCH; ALL_18_MEMBERS_AND_FULL_RESTORE_VERIFIED; 18_OF_18_HISTORICAL_FILE_HASHES_MATCH"
+    }
+  ],
+  "existing_wp14_source_archive": {
+    "drive_file_id": "1ly_pVCeeyW7MfsHxgBKjL3DM0UeHawv9",
+    "sha256": "0393475ea1e78dcae2725b4dfcd649a6353c7094a6735efbfe16033a5df58a42",
+    "size_bytes": 68318,
+    "frozen_manifest_sha256": "c1f6136f031288438d94fd00fa9a4c8a8d4a429d11aee9c576e0c85ec8ce8836",
+    "readback": "REMOTE_SHA256_MATCHES_FROZEN_EXPECTATION; SEVEN_FILES_RESTORED_AND_VERIFIED",
+    "access_exception": "ANYONE_WITH_LINK_READER; CURRENT_QUALITY_WORKFLOW_FETCHES_THIS_FILE_WITH_UNAUTHENTICATED_CURL"
+  },
+  "existing_wp14_older_ci_archive": {
+    "drive_file_id": "1hHRO8PgHN6lFlLR7xicA5V6bTpdbGFua",
+    "source_run_id": 36480728483,
+    "sha256": "bde224aeae13ab39e7e7b5485c5df276f658eab5b7db7293ad6957be98cecba1",
+    "size_bytes": 70457,
+    "readback": "REMOTE_SHA256_VERIFIED; SEVEN_MEMBERS_MATCH_FROZEN_WP14_MANIFEST"
+  },
+  "latest_wp14_ci_artifacts": {
+    "repository": "emptiesvoid-cloud/QF_solver",
+    "run_id": 36552758385,
+    "head_branch": "codex/wp14-g03-g06-g08-remediation",
+    "head_sha": "d4decf99ab5bfe96a54f17835b35e6eb8c5c49cc",
+    "readback": "ALL_SIX_DRIVE_DOWNLOADS_MATCH_GITHUB_ARTIFACT_DIGEST_AND_BYTE_COUNT",
+    "artifacts": [
+      {
+        "name": "wp14-r23-recovered-evidence",
+        "github_artifact_id": 11028671096,
+        "drive_file_id": "1zrJYA1c8NDUpYEAuZz7SAy_iYw3CnCU6",
+        "size_bytes": 70457,
+        "sha256": "dcadbd007dc63513395c76ee7c5b83e079dc23dfffcf44baf8ad4fb55e44863d",
+        "github_expires_at_utc": "2026-10-02T10:48:47Z",
+        "contents": "SEVEN_MEMBERS_MATCH_FROZEN_WP14_MANIFEST; ZERO_EXTRA_MEMBERS"
+      },
+      {
+        "name": "fem-documentation-evidence",
+        "github_artifact_id": 11029038955,
+        "drive_file_id": "13jj8nXpEsgwwq45TTmjmRcBvwddUSjm2",
+        "size_bytes": 40384,
+        "sha256": "c31c52c266a79e6e8b5e46bd69933240496349bd79efe364d93f88ef086e70f1",
+        "github_expires_at_utc": "2026-12-28T09:59:55Z",
+        "contents": "docs_manifest.json; review_readiness.json"
+      },
+      {
+        "name": "coverage-windows-latest-py3.10",
+        "github_artifact_id": 11028264472,
+        "drive_file_id": "1cC3vPLPfm29pwkuAoo2QiIFYOgVNTXjY",
+        "size_bytes": 493898,
+        "sha256": "403ce1885c5ff4cbc96976891649aa90feb75141efb67e85c08748641239e73b",
+        "github_expires_at_utc": "2026-12-28T09:59:55Z",
+        "contents": "coverage.json; coverage-p0.json; coverage.xml"
+      },
+      {
+        "name": "coverage-windows-latest-py3.13",
+        "github_artifact_id": 11027983834,
+        "drive_file_id": "1DIdi213rtwxJGMShoektUQ1vE2JJGiqH",
+        "size_bytes": 493899,
+        "sha256": "c640bb336a212d6594f4f6c6f47ae3df3e67a7df33e0bd891a1ee437a5efac86",
+        "github_expires_at_utc": "2026-12-28T09:59:55Z",
+        "contents": "coverage.json; coverage-p0.json; coverage.xml"
+      },
+      {
+        "name": "coverage-ubuntu-latest-py3.13",
+        "github_artifact_id": 11027893284,
+        "drive_file_id": "1InrQMms_NZGxYd4Kv7CH2C4SEwfkwyBo",
+        "size_bytes": 493550,
+        "sha256": "80e0653235c39e85dc83a5a78ea3740e60969552bc7de7f717803ff67af8c430",
+        "github_expires_at_utc": "2026-12-28T09:59:55Z",
+        "contents": "coverage.json; coverage-p0.json; coverage.xml"
+      },
+      {
+        "name": "coverage-ubuntu-latest-py3.10",
+        "github_artifact_id": 11027883918,
+        "drive_file_id": "1K_mctHv32guQlenvnOQjSs8TQ3eI8Tvh",
+        "size_bytes": 493549,
+        "sha256": "994a8d2740e20f1b2135e9f7dd8048657ad5f996a7dec1f2600b95db8c797340",
+        "github_expires_at_utc": "2026-12-28T09:59:55Z",
+        "contents": "coverage.json; coverage-p0.json; coverage.xml"
+      }
+    ]
+  },
+  "supplemental_reconstructions": [
+    {
+      "id": "WP09_V1_SURVIVING_TRACKED_FILES_RECONSTRUCTION",
+      "source_record": "qualification/0_2_9/wp09_large_artifacts_archive_v1.json",
+      "source_checkout_head": "a61427a57b92b72619e16d7dc752b6a73012b2dd",
+      "classification": "NEW_ARCHIVE_OF_32_SURVIVING_GIT_TRACKED_FILES_NOT_THE_ORIGINAL_V1_TARBALL",
+      "historical_original_sha256": "ced46ee39acd373d63172cb89a29a8e0176d14e93e4e2985c13f7ff57b38867a",
+      "file_count": 32,
+      "uncompressed_bytes": 51308333,
+      "manifest_path": "docs/verification/0_2_9/wp09-v1-surviving-tracked-reconstruction-manifest.json",
+      "manifest_sha256": "b0b7f69ac018a91629990ad3e9bfb1e380446620ea3b3608cb320bdb528f12c9",
+      "archive": {
+        "name": "wp09-v1-surviving-tracked-reconstruction.zip",
+        "size_bytes": 3926535,
+        "sha256": "6796c3283d3fc058b64089c0e992721988361d7004716c3fe133ce086bb6198a"
+      },
+      "remote_archive_file_id": "1aiMbw08Ys2EWE2NJ_a8DqVCStLT3kZ95",
+      "remote_manifest_file_id": "1RJX2y0FCq4wu9Oyot2QaG0U5JvsgRGgm",
+      "readback": "BOTH_REMOTE_FILES_SIZE_AND_SHA256_MATCH; ALL_32_MEMBERS_VERIFIED; FULL_RESTORE_VERIFIED",
+      "limitation": "The historical V1 tarball bytes and any untracked raw files it may have contained remain unavailable. This reconstruction does not replace the V1 digest or requalify WP09."
+    }
+  ],
+  "wp04d_digest_equivalence_record": {
+    "path": "qualification/0_2_9/wp16_external_archive/wp04d_digest_equivalent_reproductions_2026_09_29.json",
+    "size_bytes": 2560,
+    "sha256": "80af52fcef014bb16a5222178f56c619ff7ced373e13c7995a57131c3cef4709",
+    "finding": "FOUR_LATER_REPRODUCTIONS_MATCH_ALL_FOUR_RECORDED_HISTORICAL_SIZES_AND_SHA256; ORIGINAL_FILE_PROVENANCE_NOT_RECOVERED",
+    "historical_status_reclassified": false
+  },
+  "storage_snapshot_2026_09_29": {
+    "direct_file_count": 55,
+    "sum_direct_file_size_bytes": 1399236630,
+    "scope": "THIS_OWNER_DESIGNATED_FOLDER_ONLY; DOES_NOT_ATTEST_ACCOUNT_QUOTA_OR_OTHER_GOOGLE_STORAGE"
+  },
+  "not_closed_by_this_catalog": [
+    "Historical WP09 V1 local tarball remains absent; the supplemental reconstruction is a new archive of surviving Git-tracked files, not recovered original bytes or a substitute for unknown raw members.",
+    "A bounded inventory of the named surviving WP07-D, WP08-D, WP09, WP04-D, WP12, and WP13 donor worktrees is represented by the selected bundles; ignored Python cache residue is not campaign evidence. This does not certify every historical worktree or all local storage.",
+    "The current folder listing has 55 direct files. The folder itself is Owner-only; a prior metadata check found 40 of the 41 pre-existing files Owner-only, and a fresh metadata check found all 14 newly added files Owner-only. The existing WP14 source archive remains anyone-with-link reader because CI fetches it without authentication; changing this requires an authenticated CI design or explicit Owner acceptance.",
+    "Google Drive retention policy, backup redundancy, and connector-wide OAuth scope were not independently attested; point-in-time ACL metadata is not a continuous guarantee.",
+    "The latest CI ZIPs are copied bytes, not an attestation that every CI log or future run is preserved; the GitHub source SHA is different from this WP16 worktree HEAD.",
+    "WP14 remains HOLD at 0/1 and the official total remains 95/100; no release or package-version decision is made."
+  ]
+}

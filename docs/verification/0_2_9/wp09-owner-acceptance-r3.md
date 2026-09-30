@@ -3,8 +3,10 @@ doc_id: DOC-029-WP09-OWNER-R3
 revision: 1.0
 status: owner-approved
 applicable_version: 0.2.9-development
-reviewer: ""
-approver: ""
+reviewer: "Owner"
+approver: "Owner"
+review_date: 2026-09-20
+identity_attestation: "qualification/0_2_9/wp09_owner_acceptance_r3_identity_attestation_2026_09_29.json"
 ---
 
 # WP09 Owner acceptance — HEX8 R3
@@ -19,6 +21,16 @@ This decision does not qualify TET4, HEX20, general finite-strain plasticity,
 or a global independent FEM/Newton solve. Code_Aster correlation was not run
 and is not claimed. Future element families require separate contracts and
 qualification evidence.
+
+## Identity attribution addendum
+
+On 2026-09-29, the Owner self-attested in the project conversation that they
+were the person who made decision `OD-029-WP09-HEX8-R3` dated 2026-09-20. The
+frontmatter records the role `Owner` for reviewer and approver; no personal
+name or independent review is claimed. The bound attestation is recorded at
+`qualification/0_2_9/wp09_owner_acceptance_r3_identity_attestation_2026_09_29.json`.
+This attribution does not change the original decision, technical verdict,
+scope, points, or ledger.
 
 ## Decision
 

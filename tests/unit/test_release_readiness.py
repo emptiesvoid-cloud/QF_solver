@@ -13,7 +13,7 @@ from scripts.git_tools import git_command
 
 
 ROOT = Path(__file__).resolve().parents[2]
-_RELEASE_AUDIT_SUBPROCESS_TIMEOUT = 180
+_RELEASE_AUDIT_SUBPROCESS_TIMEOUT = 300
 
 
 def _read_subprocess_report(output: Path, completed: subprocess.CompletedProcess[str]) -> dict[str, object]:
@@ -69,12 +69,9 @@ def test_release_readiness_supports_direct_script_execution(tmp_path) -> None:
         capture_output=True,
         check=False,
         env=_audit_subprocess_environment(),
-        # The direct readiness audit scans the complete public tree and is
-        # noticeably slower on Windows runners, especially on Python 3.13.
-        # The audit scans the full public tree and Git archive.  On a loaded
-        # Windows CI worker the subprocess can exceed 90 seconds without
-        # being hung; keep a finite, documented guard with room for that
-        # bounded workload.
+        # The audit scans the full public tree, Git archive, and reachable
+        # history. On Windows/Python 3.10 CI workers it can exceed three
+        # minutes without hanging; retain a finite guard for that workload.
         timeout=_RELEASE_AUDIT_SUBPROCESS_TIMEOUT,
     )
 

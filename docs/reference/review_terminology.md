@@ -31,6 +31,22 @@ la decision sont la meme personne. Il doit rester declare comme non
 independant. `independent_review` designe une revue par une personne distincte
 et tracee.
 
+## Statuts de controle documentaire et decisions Owner
+
+`controlled` et `controlled_release` indiquent qu'un document est gere dans le
+registre de configuration. Ces statuts ne prouvent pas, a eux seuls, qu'une
+revue Owner a eu lieu et ne declenchent donc pas le controle de completude des
+metadonnees de decision Owner. Les champs manquants restent signales dans un
+backlog documentaire non bloquant.
+
+Les statuts `approved`, `accepted_for_release_*`, `owner_approved*` et
+`owner_accepted*` expriment une approbation ou une acceptation et restent dans
+le perimetre du controle de metadonnees Owner. La presence de champs non vides
+ne suffit toujours pas a prouver l'identite, la date, le perimetre et la
+decision : ces elements doivent etre rattaches a un dossier de preuve direct.
+Cette distinction s'applique prospectivement et ne reclassifie aucun resultat
+historique.
+
 ## Schema V&V
 
 Les nouveaux rapports V&V emploient la cle `owner_decision` et le schema de

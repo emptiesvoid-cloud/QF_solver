@@ -4,8 +4,9 @@ revision: 0.2
 status: accepted_for_release_0_2_3
 applicable_version: 0.2.3a0
 date: 2026-08-24
-reviewer: ""
+reviewer: "Quentin Farinazzo"
 approver: "Owner"
+review_date: 2026-08-24
 ---
 
 # Gate de release 0.2.3 alpha - chaine HEX8 complete

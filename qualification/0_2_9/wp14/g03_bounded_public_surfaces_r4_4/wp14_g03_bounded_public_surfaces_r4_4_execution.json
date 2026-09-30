@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-029-WP14-G03-BOUNDED-PUBLIC-SURFACES-R4.4-EXECUTION",
+  "overall_status": "PASS_WITH_LIMITATIONS",
+  "provenance": {
+    "branch": "codex/wp14-g03-g06-g08-remediation",
+    "source_sha": "a4a64123ec38304f2d1aa02bc3cd0617d31bbb5c",
+    "contract_commit": "a40f2183a9e9cf2765989578a069ee5bdf23efd8",
+    "execution_sha": "a40f2183a9e9cf2765989578a069ee5bdf23efd8",
+    "contract_path": "qualification/0_2_9/wp14/wp14_g03_bounded_public_surfaces_r4_4_contract.json",
+    "contract_sha256": "2b2021f8cce337f22989ad52566ee0f32042d4c8e346308066445ec398c2bf61",
+    "g06_execution_path": "qualification/0_2_9/wp14/wp14_g06_review_scope_r2_2_execution.json",
+    "g06_owner_decision_attribution_path": "qualification/0_2_9/wp14/wp14_g06_r2_2_owner_decision_attribution_2026_09_29.json",
+    "r4_3_preserved": true,
+    "whole_repository_scope_or_threshold_changed": false
+  },
+  "bounded_public_surface_scan": {
+    "status": "PASS_BOUNDED_PUBLIC_SURFACES",
+    "started_utc": "2026-09-29T09:05:14.127600+00:00",
+    "ended_utc": "2026-09-29T09:05:55.417331+00:00",
+    "package_source_files": 551,
+    "package_findings": 0,
+    "public_document_files": 745,
+    "public_document_findings": 0,
+    "excluded_controlled_archive_files": 206,
+    "whole_repository_scanned": false,
+    "publication_performed": false,
+    "report": {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/public-scope-scan.json",
+      "bytes": 396294,
+      "sha256": "af117481543e5d64a17a420382355eb060120d2f4ab6a0faccf763c38c19800a"
+    },
+    "command_log": {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/public-scope-scan-command.log",
+      "bytes": 616,
+      "sha256": "11b3362af9213c595a9678bfc9608f5d92e2346cb0f90e9ffd591660534643cd"
+    }
+  },
+  "candidate_package": {
+    "status": "PASS_CANDIDATE_PACKAGE_ONLY",
+    "package_version": "0.2.8",
+    "release_version_claim": false,
+    "started_utc": "2026-09-29T09:06:37.168330+00:00",
+    "ended_utc": "2026-09-29T09:07:24.660773+00:00",
+    "runtime": {
+      "python": "3.13.1",
+      "build": "1.5.0",
+      "setuptools": "82.0.1",
+      "wheel": "0.47.0"
+    },
+    "selected_package_files": 551,
+    "wheel_modules": 473,
+    "wheel_scan": {"status": "PASS", "scanned_files": 551, "findings": 0},
+    "sdist_scan": {"status": "PASS", "scanned_files": 559, "findings": 0},
+    "binaries": [
+      {
+        "name": "qf_solver-0.2.8-py3-none-any.whl",
+        "external_path": "C:/Users/fari/AppData/Local/Temp/wp14_g03_r4_4_a40f2183/package-candidate/dist/qf_solver-0.2.8-py3-none-any.whl",
+        "bytes": 1509979,
+        "sha256": "54c46f62f58cf0ea3881df829c03d448fb46e69b445462d2850c8640748987b5"
+      },
+      {
+        "name": "qf_solver-0.2.8.tar.gz",
+        "external_path": "C:/Users/fari/AppData/Local/Temp/wp14_g03_r4_4_a40f2183/package-candidate/dist/qf_solver-0.2.8.tar.gz",
+        "bytes": 1138039,
+        "sha256": "bc12d778c8b55489261d14a19a74996786b282ce238badd30769706b92f3ff12"
+      }
+    ],
+    "probes": [
+      {
+        "location": "outside_checkout",
+        "status": "PASS",
+        "verified_installed_sources": 473,
+        "version": "0.2.8",
+        "installed_import_origins_verified": true
+      },
+      {
+        "location": "inside_checkout",
+        "status": "PASS",
+        "verified_installed_sources": 473,
+        "version": "0.2.8",
+        "installed_import_origins_verified": true
+      }
+    ],
+    "commands": {
+      "count": 9,
+      "exit_codes": [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      "record_path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/package_candidate/commands.json",
+      "record_sha256": "28bf616c913b0ef0e2618d3e84a7b52ef7cc855f2ff568fc3b2eaa64e88ccc3a"
+    },
+    "candidate_output_manifest": {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/package_candidate/manifest.json",
+      "sha256": "a8ccdb3170369e60db59b78fd45f6c04381ec699127a7624ca2342345a3390a3",
+      "listed_file_count": 26,
+      "listed_total_bytes": 3025609,
+      "verified_hash_mismatches": 0,
+      "scope_note": "The runner manifest covers its result, package records, command logs, and dist artifacts; it intentionally does not enumerate the selected_source staging tree or installed_env directory."
+    },
+    "versioned_records": [
+      {"path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/package_candidate/result.json", "bytes": 15344, "sha256": "498948f33812dd78c6b89386c3574b293f11425f00835055657466543313305d"},
+      {"path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/package_candidate/source_mapping.json", "bytes": 136105, "sha256": "26f646af3aece1a0ca3dee81681c2ca501972c6b4640334690591d45a4ecea52"},
+      {"path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/package_candidate/package_check.json", "bytes": 713, "sha256": "3b01995327bea28710d5675db8244e0855137bf4dba4a2814088ab428f4e55cb"},
+      {"path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/package_candidate/outside_checkout_probe.json", "bytes": 6379, "sha256": "dce8d015e3f085a4e509ecde1936cb3aaaa600c27023f3ef310a30bea01921e9"},
+      {"path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/package_candidate/inside_checkout_probe.json", "bytes": 6346, "sha256": "71b2d46f96764f197eb6338a4e1430ff8363114d599054c23436b1bddbee3808"},
+      {"path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/package-candidate-command.log", "bytes": 15849, "sha256": "fdae4213da9d3203f96fc2167309c764241c44e9c3d20a193ba1df9daf4e011e"}
+    ],
+    "external_output_root": "C:/Users/fari/AppData/Local/Temp/wp14_g03_r4_4_a40f2183/package-candidate",
+    "publication_performed": false,
+    "third_party_dependency_resolution_or_installation_performed": false,
+    "candidate_wheel_installed_for_probe_with_no_deps_and_no_index": true
+  },
+  "observed_warnings": [
+    {
+      "source": "sdist/wheel build stderr",
+      "message_class": "No previously-included __pycache__ or .pyc files matched the source distribution include rules.",
+      "gate_effect": "NON_BLOCKING; build command exit code 0 and archive scans passed."
+    },
+    {
+      "source": "compatibility console entry-point stderr",
+      "message_class": "solveur-ef and mitc4-solver emitted deprecation notices directing new workflows to qf-solver.",
+      "gate_effect": "NON_BLOCKING; both launchers returned exit code 0. The notices remain in the preserved command logs."
+    }
+  ],
+  "scope_and_governance": {
+    "bounded_public_surface_status": "PASS_BOUNDED_PUBLIC_SURFACES",
+    "g03_whole_repository_status": "FAIL_RETAINED",
+    "whole_repository_gate_waiver": false,
+    "thresholds_changed": false,
+    "structural_solves_run": false,
+    "ledger_changed": false,
+    "points_awarded": false,
+    "publication_performed": false,
+    "wp14_global_status": "HOLD",
+    "wp14_official_points": "0/1",
+    "global_official_total": "95/100"
+  },
+  "g08": {
+    "status": "NOT_RUN",
+    "required_job": "standard-baseline",
+    "required_legs": [
+      "ubuntu-latest / Python 3.10",
+      "ubuntu-latest / Python 3.13",
+      "windows-latest / Python 3.10",
+      "windows-latest / Python 3.13"
+    ],
+    "tested_sha": null,
+    "workflow_run_id": null
+  },
+  "limitations": [
+    "The source/document scan is limited to the 551 selected package inputs and 745 public documentation files; it is not a full-repository G03 pass. The separate whole-repository G03 FAIL remains unchanged.",
+    "The 206 controlled 0.2.9 archive documents remain tracked but are excluded from public serving and this bounded scan; binary assets are outside the text/PDF scan.",
+    "The built metadata remains 0.2.8; no release 0.2.9 claim or publication was made.",
+    "The installed probe venv allows system-site dependencies. It verifies QF Solver origins and 473 installed source identities, but does not attest to isolation of every dependency.",
+    "The wheel and sdist remain in the external candidate output folder; only their hashes and package records are versioned. The runner manifest intentionally omits its staging tree and installed venv.",
+    "G08's four-platform GitHub Actions matrix and the Owner-gated G09 decision remain outstanding. WP14 stays HOLD."
+  ]
+}
