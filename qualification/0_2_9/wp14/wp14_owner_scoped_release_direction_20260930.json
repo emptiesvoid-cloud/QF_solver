@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "decision_id": "OD-029-WP14-SCOPED-REVIEW-2026-09-30",
+  "recorded_date": "2026-09-30",
+  "decision_source": {
+    "channel": "Codex conversation",
+    "role": "Owner (self-attested by the user)",
+    "independent_digital_signature": false
+  },
+  "reviewed_report": {
+    "path": "qualification/0_2_9/wp14/wp14_owner_review_readiness_2026_09_30_r4_5.md",
+    "sha256": "355792c1b8acf9f5dcd8a18fb9fd2c5230b43a149063cbaf40165e88427a91d3"
+  },
+  "decisions": {
+    "G03": {
+      "status": "OWNER_ACCEPTED_BOUNDED_PUBLIC_SURFACES_ONLY",
+      "scope": "The R4.5 selected installable-package sources and selected public documentation, not the whole repository.",
+      "historical_whole_repository_failures_preserved": true,
+      "historical_failures_deferred_for_later_reconstruction_not_reclassified": true
+    },
+    "G06": {
+      "status": "OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "scope": "The R2.2 Owner-review documentation scope (22/22).",
+      "advisory_backlog_preserved": true,
+      "owner_role_attestation_is_not_independent_signature": true
+    },
+    "G08": {
+      "status": "OWNER_ACCEPTED_FOR_TESTED_SOURCE_TREE",
+      "tested_sha": "c36df868464d0cd4de0a5c982652aec21640667a",
+      "merged_sha": "d37ab32e4f7ba0b9688ef78711453200486056f0",
+      "matching_tree": "3e8b0d527f9aaeeb5b28bad926e1271b9e9b538c",
+      "workflow_run": "https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/36707249001",
+      "later_commits_not_claimed_as_ci_tested": true
+    },
+    "G09": {
+      "status": "RELEASE_PREPARATION_AUTHORIZED_NOT_CLOSED",
+      "intended_tag": "v0.2.9",
+      "sequence": "Align release metadata on the integration branch, requalify changed bounded inputs and the final CI source, merge to main, then tag the verified main commit.",
+      "pypi_publication_authorized": false
+    }
+  },
+  "official_wp14": {
+    "status": "HOLD",
+    "validated_points": 0,
+    "validated_total": 95,
+    "points_awarded_by_this_decision": false
+  },
+  "limitations": [
+    "The R4.5 package candidate is version 0.2.8 and does not qualify a future 0.2.9 artifact.",
+    "Changes to bounded source or public-documentation inputs require a prospective rebind and fresh verification.",
+    "This decision does not erase historical FAIL records or constitute a release or WP14 closure."
+  ]
+}
