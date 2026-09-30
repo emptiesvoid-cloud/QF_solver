@@ -1,3 +1,12 @@
+---
+doc_id: DOC-029-WP16-EXTERNAL-ARCHIVE-001
+revision: "0.1"
+status: controlled_evidence
+applicable_version: "0.2.9"
+reviewer: ""
+approver: ""
+---
+
 # 0.2.9 WP16 — off-Git evidence archive, first verified tranche
 
 WP16 has zero qualification points. On 2026-09-29 the Owner advanced this
