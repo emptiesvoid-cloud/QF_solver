@@ -35,7 +35,8 @@ def _bundle(tmp_path: Path) -> tuple[Path, Path, Path, dict]:
 def test_pack_verify_restore_and_parts(tmp_path: Path) -> None:
     source, archive, manifest_path, manifest = _bundle(tmp_path)
     assert manifest["status"] == "LOCAL_ARCHIVE_VERIFIED_PENDING_REMOTE"
-    assert manifest["uncompressed_bytes"] == 19
+    expected_bytes = sum(path.stat().st_size for path in source.rglob("*") if path.is_file())
+    assert manifest["uncompressed_bytes"] == expected_bytes
     assert json.loads(manifest_path.read_text(encoding="utf-8")) == manifest
     verify(archive, manifest)
     with pytest.raises(ArchiveError, match="overwrite"):
