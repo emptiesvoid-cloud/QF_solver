@@ -72,8 +72,9 @@ physical validation or certification.
 
 ## Release and roadmap
 
-The source currently identifies as `0.2.8`; no 0.2.8 tag or publication is
-claimed by this documentation update. See the [public roadmap](reference/feuille_de_route.md)
+The development source identifies as `0.2.9`, but WP14 remains `HOLD` and
+`v0.2.9` has not been tagged or published. The current published release is
+`0.2.8` as linked above. See the [public roadmap](reference/feuille_de_route.md)
 for product-level next steps. Historical qualification records remain
 available for provenance and are labelled as historical in their own pages.
 

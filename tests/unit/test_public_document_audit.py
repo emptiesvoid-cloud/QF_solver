@@ -18,8 +18,8 @@ def test_whole_repository_document_audit_keeps_the_unresolved_public_hygiene_gat
     # This is the R1 whole-repository gate, not the separately selected R3
     # package scan. Preserve the known HOLD instead of implying a clean release.
     assert report["status"] == "FAIL"
-    assert report["audit_id"] == "QF-PUBLIC-DOC-AUDIT-028-001"
-    assert report["release"]["version"] == "0.2.8"
+    assert report["audit_id"] == "QF-PUBLIC-DOC-AUDIT-029-001"
+    assert report["release"]["version"] == "0.2.9"
     assert report["classification"]["public_generated_documentation"]["count"] > 0
     assert report["public_release_audit"]["status"] == "FAIL"
     assert report["public_release_audit"]["finding_count"] > 0
@@ -36,8 +36,8 @@ def test_controlled_public_document_audit_record_matches_current_classification(
     assert record["audit_id"] == "QF-PUBLIC-DOC-AUDIT-027-001"
     assert record["release"]["version"] == "0.2.7a0"
     assert record["status"] == "PASS"
-    assert current["audit_id"] == "QF-PUBLIC-DOC-AUDIT-028-001"
-    assert current["release"]["version"] == "0.2.8"
+    assert current["audit_id"] == "QF-PUBLIC-DOC-AUDIT-029-001"
+    assert current["release"]["version"] == "0.2.9"
     assert current["status"] == "FAIL"
     assert current["classification"]["public_source_documentation"]["count"] >= record["classification"]["public_source_documentation"]["count"]
     assert current["public_release_audit"]["scanned_files"] >= record["public_release_audit"]["scanned_files"]

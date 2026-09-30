@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.9 - In preparation (not released)
+
+- The integrated source candidate includes WP14 owner-review preparation and
+  WP16 bounded external-evidence handling. WP14 remains `HOLD` pending
+  qualification of the integrated source and public package.
+- Historical failures and the published `0.2.8` citation remain unchanged.
+  No `v0.2.9` tag, release archive, DOI or PyPI publication is claimed.
+
 ## 0.2.8 - Released
 
 QF Solver 0.2.8 is published on GitHub, PyPI and Zenodo. The version DOI is
