@@ -1,0 +1,2304 @@
+running egg_info
+creating src\qf_solver.egg-info
+writing src\qf_solver.egg-info\PKG-INFO
+writing dependency_links to src\qf_solver.egg-info\dependency_links.txt
+writing entry points to src\qf_solver.egg-info\entry_points.txt
+writing requirements to src\qf_solver.egg-info\requires.txt
+writing top-level names to src\qf_solver.egg-info\top_level.txt
+writing manifest file 'src\qf_solver.egg-info\SOURCES.txt'
+reading manifest file 'src\qf_solver.egg-info\SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+adding license file 'LICENSE'
+adding license file 'LICENSE-DOCS'
+adding license file 'NOTICE'
+adding license file 'THIRD_PARTY_LICENSES.md'
+writing manifest file 'src\qf_solver.egg-info\SOURCES.txt'
+running sdist
+running egg_info
+writing src\qf_solver.egg-info\PKG-INFO
+writing dependency_links to src\qf_solver.egg-info\dependency_links.txt
+writing entry points to src\qf_solver.egg-info\entry_points.txt
+writing requirements to src\qf_solver.egg-info\requires.txt
+writing top-level names to src\qf_solver.egg-info\top_level.txt
+reading manifest file 'src\qf_solver.egg-info\SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+adding license file 'LICENSE'
+adding license file 'LICENSE-DOCS'
+adding license file 'NOTICE'
+adding license file 'THIRD_PARTY_LICENSES.md'
+writing manifest file 'src\qf_solver.egg-info\SOURCES.txt'
+running check
+creating qf_solver-0.2.8
+creating qf_solver-0.2.8\examples
+creating qf_solver-0.2.8\examples\vnv_026_g06
+creating qf_solver-0.2.8\qualification
+creating qf_solver-0.2.8\qualification\0_2_7
+creating qf_solver-0.2.8\qualification\0_2_8
+creating qf_solver-0.2.8\requirements
+creating qf_solver-0.2.8\src\qf_solver
+creating qf_solver-0.2.8\src\qf_solver.egg-info
+creating qf_solver-0.2.8\src\solveur
+creating qf_solver-0.2.8\src\solveur\api
+creating qf_solver-0.2.8\src\solveur\benchmarks
+creating qf_solver-0.2.8\src\solveur\cli
+creating qf_solver-0.2.8\src\solveur\compat
+creating qf_solver-0.2.8\src\solveur\compat\mitc4
+creating qf_solver-0.2.8\src\solveur\compatibility
+creating qf_solver-0.2.8\src\solveur\contact
+creating qf_solver-0.2.8\src\solveur\core
+creating qf_solver-0.2.8\src\solveur\core\analyses
+creating qf_solver-0.2.8\src\solveur\core\assembly
+creating qf_solver-0.2.8\src\solveur\core\nonlinear
+creating qf_solver-0.2.8\src\solveur\core\solvers
+creating qf_solver-0.2.8\src\solveur\core\telemetry
+creating qf_solver-0.2.8\src\solveur\elements
+creating qf_solver-0.2.8\src\solveur\elements\beam
+creating qf_solver-0.2.8\src\solveur\elements\shell
+creating qf_solver-0.2.8\src\solveur\elements\shell\mitc4
+creating qf_solver-0.2.8\src\solveur\elements\solid
+creating qf_solver-0.2.8\src\solveur\execution
+creating qf_solver-0.2.8\src\solveur\io
+creating qf_solver-0.2.8\src\solveur\large
+creating qf_solver-0.2.8\src\solveur\loads
+creating qf_solver-0.2.8\src\solveur\materials
+creating qf_solver-0.2.8\src\solveur\mesh
+creating qf_solver-0.2.8\src\solveur\post
+creating qf_solver-0.2.8\src\solveur\verification
+creating qf_solver-0.2.8\src\solveur\verification\framework
+creating qf_solver-0.2.8\src\solveur\verification\v2
+copying files to qf_solver-0.2.8...
+copying CHANGELOG.md -> qf_solver-0.2.8
+copying CITATION.cff -> qf_solver-0.2.8
+copying LICENSE -> qf_solver-0.2.8
+copying LICENSE-DOCS -> qf_solver-0.2.8
+copying MANIFEST.in -> qf_solver-0.2.8
+copying NOTICE -> qf_solver-0.2.8
+copying README.md -> qf_solver-0.2.8
+copying THIRD_PARTY_LICENSES.md -> qf_solver-0.2.8
+copying pyproject.toml -> qf_solver-0.2.8
+copying examples\beam2_cantilever.json -> qf_solver-0.2.8\examples
+copying examples\frictional_contact_plane.json -> qf_solver-0.2.8\examples
+copying examples\frictionless_contact_plane.json -> qf_solver-0.2.8\examples
+copying examples\frictionless_contact_surface.json -> qf_solver-0.2.8\examples
+copying examples\hex20_g06_analytic.json -> qf_solver-0.2.8\examples
+copying examples\hex20_g06_j2.json -> qf_solver-0.2.8\examples
+copying examples\hex20_g06_static.json -> qf_solver-0.2.8\examples
+copying examples\hex8_g06_analytic.json -> qf_solver-0.2.8\examples
+copying examples\hex8_g06_j2.json -> qf_solver-0.2.8\examples
+copying examples\hex8_g06_static.json -> qf_solver-0.2.8\examples
+copying examples\invalid_inverted_tet4.json -> qf_solver-0.2.8\examples
+copying examples\mitc3_laminate_harmonic.json -> qf_solver-0.2.8\examples
+copying examples\mitc3_modal_cantilever.json -> qf_solver-0.2.8\examples
+copying examples\mitc3_newmark_cantilever.json -> qf_solver-0.2.8\examples
+copying examples\mitc3_shell_static.json -> qf_solver-0.2.8\examples
+copying examples\mitc4_dynamic_multicomponent.json -> qf_solver-0.2.8\examples
+copying examples\mitc4_harmonic_cantilever.json -> qf_solver-0.2.8\examples
+copying examples\mitc4_laminate_static.json -> qf_solver-0.2.8\examples
+copying examples\mitc4_modal_cantilever.json -> qf_solver-0.2.8\examples
+copying examples\mitc4_newmark_cantilever.json -> qf_solver-0.2.8\examples
+copying examples\mitc4_shell_static.json -> qf_solver-0.2.8\examples
+copying examples\rbe2_rigid_arm.json -> qf_solver-0.2.8\examples
+copying examples\spring_mass_oscillator.json -> qf_solver-0.2.8\examples
+copying examples\tet10_g06_analytic.json -> qf_solver-0.2.8\examples
+copying examples\tet10_orthotropic_newmark.json -> qf_solver-0.2.8\examples
+copying examples\tet10_orthotropic_static.json -> qf_solver-0.2.8\examples
+copying examples\tet10_static.json -> qf_solver-0.2.8\examples
+copying examples\tet4_body_force.json -> qf_solver-0.2.8\examples
+copying examples\tet4_compression.json -> qf_solver-0.2.8\examples
+copying examples\tet4_dynamic_free_vibration.json -> qf_solver-0.2.8\examples
+copying examples\tet4_dynamic_sdof_free_vibration.json -> qf_solver-0.2.8\examples
+copying examples\tet4_dynamic_tabulated_load.json -> qf_solver-0.2.8\examples
+copying examples\tet4_elastoplastic_static.json -> qf_solver-0.2.8\examples
+copying examples\tet4_g06_analytic.json -> qf_solver-0.2.8\examples
+copying examples\tet4_geometric_nonlinear_static.json -> qf_solver-0.2.8\examples
+copying examples\tet4_harmonic_response.json -> qf_solver-0.2.8\examples
+copying examples\tet4_harmonic_sdof_response.json -> qf_solver-0.2.8\examples
+copying examples\tet4_linear_buckling.json -> qf_solver-0.2.8\examples
+copying examples\tet4_modal_unit.json -> qf_solver-0.2.8\examples
+copying examples\tet4_nonlinear_static.json -> qf_solver-0.2.8\examples
+copying examples\tet4_orthotropic_modal.json -> qf_solver-0.2.8\examples
+copying examples\tet4_orthotropic_static.json -> qf_solver-0.2.8\examples
+copying examples\tet4_pressure.json -> qf_solver-0.2.8\examples
+copying examples\tet4_static.json -> qf_solver-0.2.8\examples
+copying examples\tet4_transient_dynamic.json -> qf_solver-0.2.8\examples
+copying examples\vnv_026_g06\hex8_mesh_01.json -> qf_solver-0.2.8\examples\vnv_026_g06
+copying examples\vnv_026_g06\hex8_mesh_02.json -> qf_solver-0.2.8\examples\vnv_026_g06
+copying examples\vnv_026_g06\hex8_mesh_04.json -> qf_solver-0.2.8\examples\vnv_026_g06
+copying examples\vnv_026_g06\hex8_mesh_08.json -> qf_solver-0.2.8\examples\vnv_026_g06
+copying qualification\benchmarks.json -> qf_solver-0.2.8\qualification
+copying qualification\campaign.json -> qf_solver-0.2.8\qualification
+copying qualification\demonstrations.json -> qf_solver-0.2.8\qualification
+copying qualification\element_analysis_matrix.json -> qf_solver-0.2.8\qualification
+copying qualification\formulas.json -> qf_solver-0.2.8\qualification
+copying qualification\release_vv_0_2_1.json -> qf_solver-0.2.8\qualification
+copying qualification\requirements.json -> qf_solver-0.2.8\qualification
+copying qualification\technical_content_coverage.json -> qf_solver-0.2.8\qualification
+copying qualification\0_2_7\capability_registry_v2.json -> qf_solver-0.2.8\qualification\0_2_7
+copying qualification\0_2_8\consolidated_registry.json -> qf_solver-0.2.8\qualification\0_2_8
+copying qualification\0_2_8\wp10_hex8_sri_owner_gate_final.json -> qf_solver-0.2.8\qualification\0_2_8
+copying qualification\0_2_8\wp13_02d_mixed_dynamics_delivery.json -> qf_solver-0.2.8\qualification\0_2_8
+copying qualification\0_2_8\wp13_03d_mixed_mpc_owner_delivery.json -> qf_solver-0.2.8\qualification\0_2_8
+copying qualification\0_2_8\wp13_04d_multimaterial_owner_delivery.json -> qf_solver-0.2.8\qualification\0_2_8
+copying qualification\0_2_8\wp13_05_inp_import_capability_record.json -> qf_solver-0.2.8\qualification\0_2_8
+copying qualification\0_2_8\wp13_05c_registry_reconciliation_erratum.json -> qf_solver-0.2.8\qualification\0_2_8
+copying qualification\0_2_8\wp13_06d_mixed_hdf5_capability_record.json -> qf_solver-0.2.8\qualification\0_2_8
+copying qualification\0_2_8\wp13_07d_contact_capability_record.json -> qf_solver-0.2.8\qualification\0_2_8
+copying requirements\baseline-large-linux.txt -> qf_solver-0.2.8\requirements
+copying requirements\baseline-standard.txt -> qf_solver-0.2.8\requirements
+copying src\qf_solver\__init__.py -> qf_solver-0.2.8\src\qf_solver
+copying src\qf_solver.egg-info\PKG-INFO -> qf_solver-0.2.8\src\qf_solver.egg-info
+copying src\qf_solver.egg-info\SOURCES.txt -> qf_solver-0.2.8\src\qf_solver.egg-info
+copying src\qf_solver.egg-info\dependency_links.txt -> qf_solver-0.2.8\src\qf_solver.egg-info
+copying src\qf_solver.egg-info\entry_points.txt -> qf_solver-0.2.8\src\qf_solver.egg-info
+copying src\qf_solver.egg-info\requires.txt -> qf_solver-0.2.8\src\qf_solver.egg-info
+copying src\qf_solver.egg-info\top_level.txt -> qf_solver-0.2.8\src\qf_solver.egg-info
+copying src\solveur\__init__.py -> qf_solver-0.2.8\src\solveur
+copying src\solveur\paths.py -> qf_solver-0.2.8\src\solveur
+copying src\solveur\version.py -> qf_solver-0.2.8\src\solveur
+copying src\solveur\api\__init__.py -> qf_solver-0.2.8\src\solveur\api
+copying src\solveur\api\public.py -> qf_solver-0.2.8\src\solveur\api
+copying src\solveur\benchmarks\__init__.py -> qf_solver-0.2.8\src\solveur\benchmarks
+copying src\solveur\benchmarks\beam.py -> qf_solver-0.2.8\src\solveur\benchmarks
+copying src\solveur\benchmarks\catalog.py -> qf_solver-0.2.8\src\solveur\benchmarks
+copying src\solveur\benchmarks\demonstrations.py -> qf_solver-0.2.8\src\solveur\benchmarks
+copying src\solveur\benchmarks\dynamic.py -> qf_solver-0.2.8\src\solveur\benchmarks
+copying src\solveur\benchmarks\gmsh_factory.py -> qf_solver-0.2.8\src\solveur\benchmarks
+copying src\solveur\benchmarks\nonlinear.py -> qf_solver-0.2.8\src\solveur\benchmarks
+copying src\solveur\benchmarks\runner.py -> qf_solver-0.2.8\src\solveur\benchmarks
+copying src\solveur\benchmarks\shell.py -> qf_solver-0.2.8\src\solveur\benchmarks
+copying src\solveur\benchmarks\solid.py -> qf_solver-0.2.8\src\solveur\benchmarks
+copying src\solveur\benchmarks\solid_extended.py -> qf_solver-0.2.8\src\solveur\benchmarks
+copying src\solveur\benchmarks\support.py -> qf_solver-0.2.8\src\solveur\benchmarks
+copying src\solveur\benchmarks\types.py -> qf_solver-0.2.8\src\solveur\benchmarks
+copying src\solveur\cli\__init__.py -> qf_solver-0.2.8\src\solveur\cli
+copying src\solveur\cli\benchmark.py -> qf_solver-0.2.8\src\solveur\cli
+copying src\solveur\cli\large.py -> qf_solver-0.2.8\src\solveur\cli
+copying src\solveur\cli\main.py -> qf_solver-0.2.8\src\solveur\cli
+copying src\solveur\cli\mesh.py -> qf_solver-0.2.8\src\solveur\cli
+copying src\solveur\cli\standard.py -> qf_solver-0.2.8\src\solveur\cli
+copying src\solveur\cli\verification.py -> qf_solver-0.2.8\src\solveur\cli
+copying src\solveur\cli\vnv.py -> qf_solver-0.2.8\src\solveur\cli
+copying src\solveur\compat\__init__.py -> qf_solver-0.2.8\src\solveur\compat
+copying src\solveur\compat\mitc4\__init__.py -> qf_solver-0.2.8\src\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\benchmarks.py -> qf_solver-0.2.8\src\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\cli.py -> qf_solver-0.2.8\src\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\constants.py -> qf_solver-0.2.8\src\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\convergence.py -> qf_solver-0.2.8\src\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\element.py -> qf_solver-0.2.8\src\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\geometry.py -> qf_solver-0.2.8\src\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\locking.py -> qf_solver-0.2.8\src\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\material.py -> qf_solver-0.2.8\src\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\mesh.py -> qf_solver-0.2.8\src\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\model.py -> qf_solver-0.2.8\src\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\verification.py -> qf_solver-0.2.8\src\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\visualization.py -> qf_solver-0.2.8\src\solveur\compat\mitc4
+copying src\solveur\compatibility\__init__.py -> qf_solver-0.2.8\src\solveur\compatibility
+copying src\solveur\compatibility\descriptors.py -> qf_solver-0.2.8\src\solveur\compatibility
+copying src\solveur\compatibility\preflight.py -> qf_solver-0.2.8\src\solveur\compatibility
+copying src\solveur\contact\__init__.py -> qf_solver-0.2.8\src\solveur\contact
+copying src\solveur\contact\entities.py -> qf_solver-0.2.8\src\solveur\contact
+copying src\solveur\contact\evaluation.py -> qf_solver-0.2.8\src\solveur\contact
+copying src\solveur\contact\measures.py -> qf_solver-0.2.8\src\solveur\contact
+copying src\solveur\contact\restart.py -> qf_solver-0.2.8\src\solveur\contact
+copying src\solveur\contact\slip_root.py -> qf_solver-0.2.8\src\solveur\contact
+copying src\solveur\contact\solver.py -> qf_solver-0.2.8\src\solveur\contact
+copying src\solveur\contact\support.py -> qf_solver-0.2.8\src\solveur\contact
+copying src\solveur\core\__init__.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\analysis.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\assembler.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\assembly_plan.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\audit.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\audit_checks.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\buckling.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\constraints.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\dofs.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\dynamic.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\dynamic_checkpoint.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\dynamic_controls.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\dynamic_history.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\dynamic_reduction.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\errors.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\geometric_assembly.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\geometric_nonlinear.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\geometric_nonlinear_controls.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\harmonic.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\linear_methods.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\linear_policy.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\material_state.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\modal.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\modal_dense.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\modal_options.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\model.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\nonlinear_arc_length.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\nonlinear_assembly.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\nonlinear_checkpoint.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\nonlinear_contracts.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\nonlinear_controls.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\nonlinear_iteration.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\nonlinear_load_control.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\nonlinear_support.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\qualification.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\rbe.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\result_serialization.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\results.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\router.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\solver.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\solver_backend.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\sparse_accumulator.py -> qf_solver-0.2.8\src\solveur\core
+copying src\solveur\core\analyses\__init__.py -> qf_solver-0.2.8\src\solveur\core\analyses
+copying src\solveur\core\analyses\buckling.py -> qf_solver-0.2.8\src\solveur\core\analyses
+copying src\solveur\core\analyses\dynamic.py -> qf_solver-0.2.8\src\solveur\core\analyses
+copying src\solveur\core\analyses\dynamic_checkpoint.py -> qf_solver-0.2.8\src\solveur\core\analyses
+copying src\solveur\core\analyses\dynamic_controls.py -> qf_solver-0.2.8\src\solveur\core\analyses
+copying src\solveur\core\analyses\dynamic_history.py -> qf_solver-0.2.8\src\solveur\core\analyses
+copying src\solveur\core\analyses\dynamic_reduction.py -> qf_solver-0.2.8\src\solveur\core\analyses
+copying src\solveur\core\analyses\geometric_nonlinear.py -> qf_solver-0.2.8\src\solveur\core\analyses
+copying src\solveur\core\analyses\geometric_nonlinear_controls.py -> qf_solver-0.2.8\src\solveur\core\analyses
+copying src\solveur\core\analyses\harmonic.py -> qf_solver-0.2.8\src\solveur\core\analyses
+copying src\solveur\core\analyses\modal.py -> qf_solver-0.2.8\src\solveur\core\analyses
+copying src\solveur\core\analyses\modal_dense.py -> qf_solver-0.2.8\src\solveur\core\analyses
+copying src\solveur\core\analyses\modal_options.py -> qf_solver-0.2.8\src\solveur\core\analyses
+copying src\solveur\core\analyses\settings.py -> qf_solver-0.2.8\src\solveur\core\analyses
+copying src\solveur\core\assembly\__init__.py -> qf_solver-0.2.8\src\solveur\core\assembly
+copying src\solveur\core\assembly\assembler.py -> qf_solver-0.2.8\src\solveur\core\assembly
+copying src\solveur\core\assembly\geometric.py -> qf_solver-0.2.8\src\solveur\core\assembly
+copying src\solveur\core\assembly\nonlinear.py -> qf_solver-0.2.8\src\solveur\core\assembly
+copying src\solveur\core\assembly\plan.py -> qf_solver-0.2.8\src\solveur\core\assembly
+copying src\solveur\core\assembly\sparse.py -> qf_solver-0.2.8\src\solveur\core\assembly
+copying src\solveur\core\nonlinear\__init__.py -> qf_solver-0.2.8\src\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\arc_length.py -> qf_solver-0.2.8\src\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\checkpoint.py -> qf_solver-0.2.8\src\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\contracts.py -> qf_solver-0.2.8\src\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\controls.py -> qf_solver-0.2.8\src\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\driver.py -> qf_solver-0.2.8\src\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\iteration.py -> qf_solver-0.2.8\src\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\linear_solver.py -> qf_solver-0.2.8\src\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\load_control.py -> qf_solver-0.2.8\src\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\material_state.py -> qf_solver-0.2.8\src\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\robustness.py -> qf_solver-0.2.8\src\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\solver.py -> qf_solver-0.2.8\src\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\state.py -> qf_solver-0.2.8\src\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\support.py -> qf_solver-0.2.8\src\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\telemetry.py -> qf_solver-0.2.8\src\solveur\core\nonlinear
+copying src\solveur\core\solvers\__init__.py -> qf_solver-0.2.8\src\solveur\core\solvers
+copying src\solveur\core\solvers\backend.py -> qf_solver-0.2.8\src\solveur\core\solvers
+copying src\solveur\core\solvers\linear.py -> qf_solver-0.2.8\src\solveur\core\solvers
+copying src\solveur\core\solvers\policy.py -> qf_solver-0.2.8\src\solveur\core\solvers
+copying src\solveur\core\solvers\static.py -> qf_solver-0.2.8\src\solveur\core\solvers
+copying src\solveur\core\telemetry\__init__.py -> qf_solver-0.2.8\src\solveur\core\telemetry
+copying src\solveur\core\telemetry\console.py -> qf_solver-0.2.8\src\solveur\core\telemetry
+copying src\solveur\core\telemetry\events.py -> qf_solver-0.2.8\src\solveur\core\telemetry
+copying src\solveur\core\telemetry\health.py -> qf_solver-0.2.8\src\solveur\core\telemetry
+copying src\solveur\core\telemetry\jsonl.py -> qf_solver-0.2.8\src\solveur\core\telemetry
+copying src\solveur\core\telemetry\legacy.py -> qf_solver-0.2.8\src\solveur\core\telemetry
+copying src\solveur\core\telemetry\observer.py -> qf_solver-0.2.8\src\solveur\core\telemetry
+copying src\solveur\core\telemetry\schemas.py -> qf_solver-0.2.8\src\solveur\core\telemetry
+copying src\solveur\elements\__init__.py -> qf_solver-0.2.8\src\solveur\elements
+copying src\solveur\elements\discrete.py -> qf_solver-0.2.8\src\solveur\elements
+copying src\solveur\elements\registry.py -> qf_solver-0.2.8\src\solveur\elements
+copying src\solveur\elements\beam\__init__.py -> qf_solver-0.2.8\src\solveur\elements\beam
+copying src\solveur\elements\beam\beam2.py -> qf_solver-0.2.8\src\solveur\elements\beam
+copying src\solveur\elements\shell\__init__.py -> qf_solver-0.2.8\src\solveur\elements\shell
+copying src\solveur\elements\shell\frames.py -> qf_solver-0.2.8\src\solveur\elements\shell
+copying src\solveur\elements\shell\mitc3.py -> qf_solver-0.2.8\src\solveur\elements\shell
+copying src\solveur\elements\shell\mitc3_condensation.py -> qf_solver-0.2.8\src\solveur\elements\shell
+copying src\solveur\elements\shell\mitc4\__init__.py -> qf_solver-0.2.8\src\solveur\elements\shell\mitc4
+copying src\solveur\elements\shell\mitc4\adapter.py -> qf_solver-0.2.8\src\solveur\elements\shell\mitc4
+copying src\solveur\elements\shell\mitc4\constants.py -> qf_solver-0.2.8\src\solveur\elements\shell\mitc4
+copying src\solveur\elements\shell\mitc4\element.py -> qf_solver-0.2.8\src\solveur\elements\shell\mitc4
+copying src\solveur\elements\shell\mitc4\geometry.py -> qf_solver-0.2.8\src\solveur\elements\shell\mitc4
+copying src\solveur\elements\shell\mitc4\material.py -> qf_solver-0.2.8\src\solveur\elements\shell\mitc4
+copying src\solveur\elements\shell\mitc4\mesh.py -> qf_solver-0.2.8\src\solveur\elements\shell\mitc4
+copying src\solveur\elements\shell\mitc4\model.py -> qf_solver-0.2.8\src\solveur\elements\shell\mitc4
+copying src\solveur\elements\solid\__init__.py -> qf_solver-0.2.8\src\solveur\elements\solid
+copying src\solveur\elements\solid\common.py -> qf_solver-0.2.8\src\solveur\elements\solid
+copying src\solveur\elements\solid\corotational_j2.py -> qf_solver-0.2.8\src\solveur\elements\solid
+copying src\solveur\elements\solid\hex20.py -> qf_solver-0.2.8\src\solveur\elements\solid
+copying src\solveur\elements\solid\hex8.py -> qf_solver-0.2.8\src\solveur\elements\solid
+copying src\solveur\elements\solid\hex8_sri.py -> qf_solver-0.2.8\src\solveur\elements\solid
+copying src\solveur\elements\solid\hex8_total_lagrangian_batch.py -> qf_solver-0.2.8\src\solveur\elements\solid
+copying src\solveur\elements\solid\pyramid5.py -> qf_solver-0.2.8\src\solveur\elements\solid
+copying src\solveur\elements\solid\quadrature.py -> qf_solver-0.2.8\src\solveur\elements\solid
+copying src\solveur\elements\solid\tet10.py -> qf_solver-0.2.8\src\solveur\elements\solid
+copying src\solveur\elements\solid\tet4.py -> qf_solver-0.2.8\src\solveur\elements\solid
+copying src\solveur\elements\solid\tet4_total_lagrangian.py -> qf_solver-0.2.8\src\solveur\elements\solid
+copying src\solveur\elements\solid\tet4_total_lagrangian_batch.py -> qf_solver-0.2.8\src\solveur\elements\solid
+copying src\solveur\elements\solid\total_lagrangian_j2.py -> qf_solver-0.2.8\src\solveur\elements\solid
+copying src\solveur\elements\solid\wedge6.py -> qf_solver-0.2.8\src\solveur\elements\solid
+copying src\solveur\execution\__init__.py -> qf_solver-0.2.8\src\solveur\execution
+copying src\solveur\execution\contract.py -> qf_solver-0.2.8\src\solveur\execution
+copying src\solveur\execution\diagnostics.py -> qf_solver-0.2.8\src\solveur\execution
+copying src\solveur\io\__init__.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\audit_markdown.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\checkpoint_common.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\constraint_schema.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\contact_schema.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\csv_writer.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\discrete_schema.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\dynamic_checkpoint.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\evidence_verifier.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\evidence_writer.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\inp_reader.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\json_reader.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\json_writer.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\laminate_schema.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\load_schema.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\manifest.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\mixed_results_hdf5.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\model_writer.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\nonlinear_checkpoint.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\schema.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\schema_analysis.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\schema_entities.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\schema_values.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\io\vtu_writer.py -> qf_solver-0.2.8\src\solveur\io
+copying src\solveur\large\__init__.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\assembler.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\audit.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\benchmark.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\campaign.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\distributed_model.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\dofs.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\dynamic.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\evidence.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\generator.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\generic_distributed.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\io.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\materials.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\matrix_free.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\memory.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\model.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\mpi_diagnostics.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\mpi_guardrails.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\multifamily.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\optimization.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\partitioning.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\postprocess.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\profiling.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\qualification.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\readiness.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\runtime.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\solver.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\telemetry.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\tet4_batch.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\tuning.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\large\verification.py -> qf_solver-0.2.8\src\solveur\large
+copying src\solveur\loads\__init__.py -> qf_solver-0.2.8\src\solveur\loads
+copying src\solveur\loads\entities.py -> qf_solver-0.2.8\src\solveur\loads
+copying src\solveur\loads\integration.py -> qf_solver-0.2.8\src\solveur\loads
+copying src\solveur\materials\__init__.py -> qf_solver-0.2.8\src\solveur\materials
+copying src\solveur\materials\beam.py -> qf_solver-0.2.8\src\solveur\materials
+copying src\solveur\materials\composite.py -> qf_solver-0.2.8\src\solveur\materials
+copying src\solveur\materials\factory.py -> qf_solver-0.2.8\src\solveur\materials
+copying src\solveur\materials\failure.py -> qf_solver-0.2.8\src\solveur\materials
+copying src\solveur\materials\laminate.py -> qf_solver-0.2.8\src\solveur\materials
+copying src\solveur\materials\orthotropic.py -> qf_solver-0.2.8\src\solveur\materials
+copying src\solveur\materials\shell.py -> qf_solver-0.2.8\src\solveur\materials
+copying src\solveur\materials\solid.py -> qf_solver-0.2.8\src\solveur\materials
+copying src\solveur\mesh\__init__.py -> qf_solver-0.2.8\src\solveur\mesh
+copying src\solveur\mesh\constraint_validation.py -> qf_solver-0.2.8\src\solveur\mesh
+copying src\solveur\mesh\contact_validation.py -> qf_solver-0.2.8\src\solveur\mesh
+copying src\solveur\mesh\entities.py -> qf_solver-0.2.8\src\solveur\mesh
+copying src\solveur\mesh\gmsh_importer.py -> qf_solver-0.2.8\src\solveur\mesh
+copying src\solveur\mesh\gmsh_reader.py -> qf_solver-0.2.8\src\solveur\mesh
+copying src\solveur\mesh\gmsh_types.py -> qf_solver-0.2.8\src\solveur\mesh
+copying src\solveur\mesh\mixed_validation.py -> qf_solver-0.2.8\src\solveur\mesh
+copying src\solveur\mesh\quality.py -> qf_solver-0.2.8\src\solveur\mesh
+copying src\solveur\mesh\quality_contract.py -> qf_solver-0.2.8\src\solveur\mesh
+copying src\solveur\mesh\solid_validation.py -> qf_solver-0.2.8\src\solveur\mesh
+copying src\solveur\mesh\topology.py -> qf_solver-0.2.8\src\solveur\mesh
+copying src\solveur\mesh\validation.py -> qf_solver-0.2.8\src\solveur\mesh
+copying src\solveur\mesh\validation_geometry.py -> qf_solver-0.2.8\src\solveur\mesh
+copying src\solveur\mesh\validation_helpers.py -> qf_solver-0.2.8\src\solveur\mesh
+copying src\solveur\mesh\validation_rank.py -> qf_solver-0.2.8\src\solveur\mesh
+copying src\solveur\post\__init__.py -> qf_solver-0.2.8\src\solveur\post
+copying src\solveur\post\audit.py -> qf_solver-0.2.8\src\solveur\post
+copying src\solveur\post\harmonic_shell.py -> qf_solver-0.2.8\src\solveur\post
+copying src\solveur\post\mitc4_visualization.py -> qf_solver-0.2.8\src\solveur\post
+copying src\solveur\post\shell_results.py -> qf_solver-0.2.8\src\solveur\post
+copying src\solveur\post\solid_recovery.py -> qf_solver-0.2.8\src\solveur\post
+copying src\solveur\post\solid_results.py -> qf_solver-0.2.8\src\solveur\post
+copying src\solveur\post\stress.py -> qf_solver-0.2.8\src\solveur\post
+copying src\solveur\verification\__init__.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\analytical_references.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\calculix_buckling_025.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\calculix_composite.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\calculix_composite_conical_cutout.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\calculix_composite_conical_ply_stress.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\calculix_curved_composite.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\calculix_curved_orientation.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\calculix_j2.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\calculix_mitc3.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\calculix_mitc3_curved_composite.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\calculix_mitc3_laminate_ply_stress.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\calculix_mitc4_conical_cutout.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\calculix_nafems.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\calculix_tet10.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\calculix_tl_structural.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\calculix_total_lagrangian.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\campaign.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_beam2.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_beam2_modal.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_beam2_newmark.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_beam2_static.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_beam2_transverse.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_contact.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_contact_additional.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_contact_folded.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_contact_folded_search.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_contact_tet4.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_discrete.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_friction_contact.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_j2.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_mitc3.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_mitc3_curved_laminate.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_mitc3_dynamic.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_mitc3_dynamic_refinement.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_mitc3_hemisphere.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_mitc3_laminate_dynamic.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_mitc3_laminate_dynamic_refinement.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_mitc3_temporal_refinement.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_mitc4_conical_cutout.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_mitc4_laminate_dynamic.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_mitc4_orthotropic_curved_dynamic.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_nafems.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_rbe.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_tet10_block_dynamic.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_tet10_cylinder_dynamic.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_tet10_damped_cylinder_dynamic.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_tet10_dynamic.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_tet10_j2_complex.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_tet10_j2_structural.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_tet10_static.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_tet10_stress_probe.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_tet4_cylinder_dynamic.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_tet4_dynamic.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_tet4_static.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_tet4_thick_dynamic.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\code_aster_tl_structural.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\composite_analytic.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\composite_conical_cutout.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\composite_curved_assembly.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\composite_nafems.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\composite_ply_stress.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\composite_structural.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\contact_additional_models.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\contact_additional_oracle.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\contact_campaign.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\contact_deformable_master.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\contact_master_surface.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\contact_tet4_master.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\discrete_multidof_campaign.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\dynamic_family_campaign.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\elastica.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\evidence_readiness.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\external_correlation.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\frictional_contact.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\frictional_contact_family_survey.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\frictional_contact_structural.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\frictionless_contact_structural.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\g06_analytical.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\g11_native_adapters.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\g11_runner.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\hex20.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\hex20_calculix.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\hex8.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\hex8_calculix.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\hex8_campaign.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\hex8_tet_benchmark.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\j2_material.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\j2_methods.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\j2_multielement_external.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\j2_performance.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\j2_step_sensitivity.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\j2_structural.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\large_petsc_scipy.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\linear_solver_comparison.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\maturity_promotion.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\maturity_promotion_helpers.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\maturity_promotion_reports.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mechanical.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mesh_checks.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc3_campaign.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc3_curved_axial_audit.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc3_dynamic_extended.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc3_laminate_abd_audit.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc3_laminate_dynamic.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc3_mass_quadrature_audit.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc3_matrix_condensation_audit.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc3_models.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc3_refined.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc3_stiffness_quadrature_audit.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc3_temporal_refinement.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_benchmarks.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_campaign.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_conical_cutout.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_convergence.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_harmonic.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_harmonic_broadband.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_harmonic_condensation.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_harmonic_nafems.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_laminate_dynamic.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_laminate_layups.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_locking.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_mechanical.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_modal.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_modal_extended.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_modal_external.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_modal_plate.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_newmark.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_newmark_broadband.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_newmark_extended.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_newmark_operational.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_orthotropic_curved_dynamic.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\mitc4_orthotropic_static.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\modal_comparison.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\nonlinear_checkpoint_failure.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\nonlinear_failure_campaign.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\nonlinear_failure_paths.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\nonlinear_failure_runner.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\observatory.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\orthotropic_additional_stress.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\orthotropic_complex_mesh.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\orthotropic_convergence.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\orthotropic_external.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\orthotropic_large_static.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\orthotropic_load_cases.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\orthotropic_modal_dynamic.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\orthotropic_performance.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\orthotropic_singularity_vnv.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\orthotropic_solid.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\owner_review.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\release_vv.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\robustness_arc_length.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\robustness_arc_length_extended.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\robustness_buckling.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\robustness_campaign.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\robustness_contact.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\robustness_contact_extended.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\robustness_coupling.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\robustness_foundations.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\robustness_geometric.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\robustness_mesh.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\robustness_nonlinear_solids.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\robustness_support.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\rqg08_external_j2.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\singularity_stress.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\tet10.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\tet10_geometry_quadrature.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\tet10_mass_modal_loads.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\tet10_near_incompressible.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\tet10_structural_convergence.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\tet4_error_audit.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\tet4_structured_convergence.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\tet4_structured_petsc.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\tet4_tet10_reference.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\tet4_tl_buckling_refinement.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\tet4_total_lagrangian.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\tet4_total_lagrangian_assembly.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\tet4_total_lagrangian_buckling.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\tet4_total_lagrangian_postbuckling.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\tet4_total_lagrangian_steps.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\tet4_total_lagrangian_stress.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\torsion_stress_probe.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\total_lagrangian_structural.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\traceability.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\transient_modal_oracle.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\vnv_benchmark_import.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\vnv_manifest.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\vnv_report.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\vnv_runner.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\vnv_schema.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\vnv_torsion_import.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\vnv_types.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\vnv_visualization.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\wedge6_modal.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\wp09_independent_reference.py -> qf_solver-0.2.8\src\solveur\verification
+copying src\solveur\verification\framework\__init__.py -> qf_solver-0.2.8\src\solveur\verification\framework
+copying src\solveur\verification\framework\case.py -> qf_solver-0.2.8\src\solveur\verification\framework
+copying src\solveur\verification\framework\environment.py -> qf_solver-0.2.8\src\solveur\verification\framework
+copying src\solveur\verification\framework\manifest.py -> qf_solver-0.2.8\src\solveur\verification\framework
+copying src\solveur\verification\framework\registry.py -> qf_solver-0.2.8\src\solveur\verification\framework
+copying src\solveur\verification\framework\result.py -> qf_solver-0.2.8\src\solveur\verification\framework
+copying src\solveur\verification\framework\runner.py -> qf_solver-0.2.8\src\solveur\verification\framework
+copying src\solveur\verification\v2\__init__.py -> qf_solver-0.2.8\src\solveur\verification\v2
+copying src\solveur\verification\v2\runner.py -> qf_solver-0.2.8\src\solveur\verification\v2
+copying src\solveur\verification\v2\schema.py -> qf_solver-0.2.8\src\solveur\verification\v2
+copying src\qf_solver.egg-info\SOURCES.txt -> qf_solver-0.2.8\src\qf_solver.egg-info
+Writing qf_solver-0.2.8\setup.cfg
+Creating tar archive
+removing 'qf_solver-0.2.8' (and everything under it)
+running egg_info
+writing src\qf_solver.egg-info\PKG-INFO
+writing dependency_links to src\qf_solver.egg-info\dependency_links.txt
+writing entry points to src\qf_solver.egg-info\entry_points.txt
+writing requirements to src\qf_solver.egg-info\requires.txt
+writing top-level names to src\qf_solver.egg-info\top_level.txt
+reading manifest file 'src\qf_solver.egg-info\SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+adding license file 'LICENSE'
+adding license file 'LICENSE-DOCS'
+adding license file 'NOTICE'
+adding license file 'THIRD_PARTY_LICENSES.md'
+writing manifest file 'src\qf_solver.egg-info\SOURCES.txt'
+running bdist_wheel
+running build
+running build_py
+creating build\lib\qf_solver
+copying src\qf_solver\__init__.py -> build\lib\qf_solver
+creating build\lib\solveur
+copying src\solveur\paths.py -> build\lib\solveur
+copying src\solveur\version.py -> build\lib\solveur
+copying src\solveur\__init__.py -> build\lib\solveur
+creating build\lib\solveur\api
+copying src\solveur\api\public.py -> build\lib\solveur\api
+copying src\solveur\api\__init__.py -> build\lib\solveur\api
+creating build\lib\solveur\benchmarks
+copying src\solveur\benchmarks\beam.py -> build\lib\solveur\benchmarks
+copying src\solveur\benchmarks\catalog.py -> build\lib\solveur\benchmarks
+copying src\solveur\benchmarks\demonstrations.py -> build\lib\solveur\benchmarks
+copying src\solveur\benchmarks\dynamic.py -> build\lib\solveur\benchmarks
+copying src\solveur\benchmarks\gmsh_factory.py -> build\lib\solveur\benchmarks
+copying src\solveur\benchmarks\nonlinear.py -> build\lib\solveur\benchmarks
+copying src\solveur\benchmarks\runner.py -> build\lib\solveur\benchmarks
+copying src\solveur\benchmarks\shell.py -> build\lib\solveur\benchmarks
+copying src\solveur\benchmarks\solid.py -> build\lib\solveur\benchmarks
+copying src\solveur\benchmarks\solid_extended.py -> build\lib\solveur\benchmarks
+copying src\solveur\benchmarks\support.py -> build\lib\solveur\benchmarks
+copying src\solveur\benchmarks\types.py -> build\lib\solveur\benchmarks
+copying src\solveur\benchmarks\__init__.py -> build\lib\solveur\benchmarks
+creating build\lib\solveur\cli
+copying src\solveur\cli\benchmark.py -> build\lib\solveur\cli
+copying src\solveur\cli\large.py -> build\lib\solveur\cli
+copying src\solveur\cli\main.py -> build\lib\solveur\cli
+copying src\solveur\cli\mesh.py -> build\lib\solveur\cli
+copying src\solveur\cli\standard.py -> build\lib\solveur\cli
+copying src\solveur\cli\verification.py -> build\lib\solveur\cli
+copying src\solveur\cli\vnv.py -> build\lib\solveur\cli
+copying src\solveur\cli\__init__.py -> build\lib\solveur\cli
+creating build\lib\solveur\compat
+copying src\solveur\compat\__init__.py -> build\lib\solveur\compat
+creating build\lib\solveur\compatibility
+copying src\solveur\compatibility\descriptors.py -> build\lib\solveur\compatibility
+copying src\solveur\compatibility\preflight.py -> build\lib\solveur\compatibility
+copying src\solveur\compatibility\__init__.py -> build\lib\solveur\compatibility
+creating build\lib\solveur\contact
+copying src\solveur\contact\entities.py -> build\lib\solveur\contact
+copying src\solveur\contact\evaluation.py -> build\lib\solveur\contact
+copying src\solveur\contact\measures.py -> build\lib\solveur\contact
+copying src\solveur\contact\restart.py -> build\lib\solveur\contact
+copying src\solveur\contact\slip_root.py -> build\lib\solveur\contact
+copying src\solveur\contact\solver.py -> build\lib\solveur\contact
+copying src\solveur\contact\support.py -> build\lib\solveur\contact
+copying src\solveur\contact\__init__.py -> build\lib\solveur\contact
+creating build\lib\solveur\core
+copying src\solveur\core\analysis.py -> build\lib\solveur\core
+copying src\solveur\core\assembler.py -> build\lib\solveur\core
+copying src\solveur\core\assembly_plan.py -> build\lib\solveur\core
+copying src\solveur\core\audit.py -> build\lib\solveur\core
+copying src\solveur\core\audit_checks.py -> build\lib\solveur\core
+copying src\solveur\core\buckling.py -> build\lib\solveur\core
+copying src\solveur\core\constraints.py -> build\lib\solveur\core
+copying src\solveur\core\dofs.py -> build\lib\solveur\core
+copying src\solveur\core\dynamic.py -> build\lib\solveur\core
+copying src\solveur\core\dynamic_checkpoint.py -> build\lib\solveur\core
+copying src\solveur\core\dynamic_controls.py -> build\lib\solveur\core
+copying src\solveur\core\dynamic_history.py -> build\lib\solveur\core
+copying src\solveur\core\dynamic_reduction.py -> build\lib\solveur\core
+copying src\solveur\core\errors.py -> build\lib\solveur\core
+copying src\solveur\core\geometric_assembly.py -> build\lib\solveur\core
+copying src\solveur\core\geometric_nonlinear.py -> build\lib\solveur\core
+copying src\solveur\core\geometric_nonlinear_controls.py -> build\lib\solveur\core
+copying src\solveur\core\harmonic.py -> build\lib\solveur\core
+copying src\solveur\core\linear_methods.py -> build\lib\solveur\core
+copying src\solveur\core\linear_policy.py -> build\lib\solveur\core
+copying src\solveur\core\material_state.py -> build\lib\solveur\core
+copying src\solveur\core\modal.py -> build\lib\solveur\core
+copying src\solveur\core\modal_dense.py -> build\lib\solveur\core
+copying src\solveur\core\modal_options.py -> build\lib\solveur\core
+copying src\solveur\core\model.py -> build\lib\solveur\core
+copying src\solveur\core\nonlinear_arc_length.py -> build\lib\solveur\core
+copying src\solveur\core\nonlinear_assembly.py -> build\lib\solveur\core
+copying src\solveur\core\nonlinear_checkpoint.py -> build\lib\solveur\core
+copying src\solveur\core\nonlinear_contracts.py -> build\lib\solveur\core
+copying src\solveur\core\nonlinear_controls.py -> build\lib\solveur\core
+copying src\solveur\core\nonlinear_iteration.py -> build\lib\solveur\core
+copying src\solveur\core\nonlinear_load_control.py -> build\lib\solveur\core
+copying src\solveur\core\nonlinear_support.py -> build\lib\solveur\core
+copying src\solveur\core\qualification.py -> build\lib\solveur\core
+copying src\solveur\core\rbe.py -> build\lib\solveur\core
+copying src\solveur\core\results.py -> build\lib\solveur\core
+copying src\solveur\core\result_serialization.py -> build\lib\solveur\core
+copying src\solveur\core\router.py -> build\lib\solveur\core
+copying src\solveur\core\solver.py -> build\lib\solveur\core
+copying src\solveur\core\solver_backend.py -> build\lib\solveur\core
+copying src\solveur\core\sparse_accumulator.py -> build\lib\solveur\core
+copying src\solveur\core\__init__.py -> build\lib\solveur\core
+creating build\lib\solveur\elements
+copying src\solveur\elements\discrete.py -> build\lib\solveur\elements
+copying src\solveur\elements\registry.py -> build\lib\solveur\elements
+copying src\solveur\elements\__init__.py -> build\lib\solveur\elements
+creating build\lib\solveur\execution
+copying src\solveur\execution\contract.py -> build\lib\solveur\execution
+copying src\solveur\execution\diagnostics.py -> build\lib\solveur\execution
+copying src\solveur\execution\__init__.py -> build\lib\solveur\execution
+creating build\lib\solveur\io
+copying src\solveur\io\audit_markdown.py -> build\lib\solveur\io
+copying src\solveur\io\checkpoint_common.py -> build\lib\solveur\io
+copying src\solveur\io\constraint_schema.py -> build\lib\solveur\io
+copying src\solveur\io\contact_schema.py -> build\lib\solveur\io
+copying src\solveur\io\csv_writer.py -> build\lib\solveur\io
+copying src\solveur\io\discrete_schema.py -> build\lib\solveur\io
+copying src\solveur\io\dynamic_checkpoint.py -> build\lib\solveur\io
+copying src\solveur\io\evidence_verifier.py -> build\lib\solveur\io
+copying src\solveur\io\evidence_writer.py -> build\lib\solveur\io
+copying src\solveur\io\inp_reader.py -> build\lib\solveur\io
+copying src\solveur\io\json_reader.py -> build\lib\solveur\io
+copying src\solveur\io\json_writer.py -> build\lib\solveur\io
+copying src\solveur\io\laminate_schema.py -> build\lib\solveur\io
+copying src\solveur\io\load_schema.py -> build\lib\solveur\io
+copying src\solveur\io\manifest.py -> build\lib\solveur\io
+copying src\solveur\io\mixed_results_hdf5.py -> build\lib\solveur\io
+copying src\solveur\io\model_writer.py -> build\lib\solveur\io
+copying src\solveur\io\nonlinear_checkpoint.py -> build\lib\solveur\io
+copying src\solveur\io\schema.py -> build\lib\solveur\io
+copying src\solveur\io\schema_analysis.py -> build\lib\solveur\io
+copying src\solveur\io\schema_entities.py -> build\lib\solveur\io
+copying src\solveur\io\schema_values.py -> build\lib\solveur\io
+copying src\solveur\io\vtu_writer.py -> build\lib\solveur\io
+copying src\solveur\io\__init__.py -> build\lib\solveur\io
+creating build\lib\solveur\large
+copying src\solveur\large\assembler.py -> build\lib\solveur\large
+copying src\solveur\large\audit.py -> build\lib\solveur\large
+copying src\solveur\large\benchmark.py -> build\lib\solveur\large
+copying src\solveur\large\campaign.py -> build\lib\solveur\large
+copying src\solveur\large\distributed_model.py -> build\lib\solveur\large
+copying src\solveur\large\dofs.py -> build\lib\solveur\large
+copying src\solveur\large\dynamic.py -> build\lib\solveur\large
+copying src\solveur\large\evidence.py -> build\lib\solveur\large
+copying src\solveur\large\generator.py -> build\lib\solveur\large
+copying src\solveur\large\generic_distributed.py -> build\lib\solveur\large
+copying src\solveur\large\io.py -> build\lib\solveur\large
+copying src\solveur\large\materials.py -> build\lib\solveur\large
+copying src\solveur\large\matrix_free.py -> build\lib\solveur\large
+copying src\solveur\large\memory.py -> build\lib\solveur\large
+copying src\solveur\large\model.py -> build\lib\solveur\large
+copying src\solveur\large\mpi_diagnostics.py -> build\lib\solveur\large
+copying src\solveur\large\mpi_guardrails.py -> build\lib\solveur\large
+copying src\solveur\large\multifamily.py -> build\lib\solveur\large
+copying src\solveur\large\optimization.py -> build\lib\solveur\large
+copying src\solveur\large\partitioning.py -> build\lib\solveur\large
+copying src\solveur\large\postprocess.py -> build\lib\solveur\large
+copying src\solveur\large\profiling.py -> build\lib\solveur\large
+copying src\solveur\large\qualification.py -> build\lib\solveur\large
+copying src\solveur\large\readiness.py -> build\lib\solveur\large
+copying src\solveur\large\runtime.py -> build\lib\solveur\large
+copying src\solveur\large\solver.py -> build\lib\solveur\large
+copying src\solveur\large\telemetry.py -> build\lib\solveur\large
+copying src\solveur\large\tet4_batch.py -> build\lib\solveur\large
+copying src\solveur\large\tuning.py -> build\lib\solveur\large
+copying src\solveur\large\verification.py -> build\lib\solveur\large
+copying src\solveur\large\__init__.py -> build\lib\solveur\large
+creating build\lib\solveur\loads
+copying src\solveur\loads\entities.py -> build\lib\solveur\loads
+copying src\solveur\loads\integration.py -> build\lib\solveur\loads
+copying src\solveur\loads\__init__.py -> build\lib\solveur\loads
+creating build\lib\solveur\materials
+copying src\solveur\materials\beam.py -> build\lib\solveur\materials
+copying src\solveur\materials\composite.py -> build\lib\solveur\materials
+copying src\solveur\materials\factory.py -> build\lib\solveur\materials
+copying src\solveur\materials\failure.py -> build\lib\solveur\materials
+copying src\solveur\materials\laminate.py -> build\lib\solveur\materials
+copying src\solveur\materials\orthotropic.py -> build\lib\solveur\materials
+copying src\solveur\materials\shell.py -> build\lib\solveur\materials
+copying src\solveur\materials\solid.py -> build\lib\solveur\materials
+copying src\solveur\materials\__init__.py -> build\lib\solveur\materials
+creating build\lib\solveur\mesh
+copying src\solveur\mesh\constraint_validation.py -> build\lib\solveur\mesh
+copying src\solveur\mesh\contact_validation.py -> build\lib\solveur\mesh
+copying src\solveur\mesh\entities.py -> build\lib\solveur\mesh
+copying src\solveur\mesh\gmsh_importer.py -> build\lib\solveur\mesh
+copying src\solveur\mesh\gmsh_reader.py -> build\lib\solveur\mesh
+copying src\solveur\mesh\gmsh_types.py -> build\lib\solveur\mesh
+copying src\solveur\mesh\mixed_validation.py -> build\lib\solveur\mesh
+copying src\solveur\mesh\quality.py -> build\lib\solveur\mesh
+copying src\solveur\mesh\quality_contract.py -> build\lib\solveur\mesh
+copying src\solveur\mesh\solid_validation.py -> build\lib\solveur\mesh
+copying src\solveur\mesh\topology.py -> build\lib\solveur\mesh
+copying src\solveur\mesh\validation.py -> build\lib\solveur\mesh
+copying src\solveur\mesh\validation_geometry.py -> build\lib\solveur\mesh
+copying src\solveur\mesh\validation_helpers.py -> build\lib\solveur\mesh
+copying src\solveur\mesh\validation_rank.py -> build\lib\solveur\mesh
+copying src\solveur\mesh\__init__.py -> build\lib\solveur\mesh
+creating build\lib\solveur\post
+copying src\solveur\post\audit.py -> build\lib\solveur\post
+copying src\solveur\post\harmonic_shell.py -> build\lib\solveur\post
+copying src\solveur\post\mitc4_visualization.py -> build\lib\solveur\post
+copying src\solveur\post\shell_results.py -> build\lib\solveur\post
+copying src\solveur\post\solid_recovery.py -> build\lib\solveur\post
+copying src\solveur\post\solid_results.py -> build\lib\solveur\post
+copying src\solveur\post\stress.py -> build\lib\solveur\post
+copying src\solveur\post\__init__.py -> build\lib\solveur\post
+creating build\lib\solveur\verification
+copying src\solveur\verification\analytical_references.py -> build\lib\solveur\verification
+copying src\solveur\verification\calculix_buckling_025.py -> build\lib\solveur\verification
+copying src\solveur\verification\calculix_composite.py -> build\lib\solveur\verification
+copying src\solveur\verification\calculix_composite_conical_cutout.py -> build\lib\solveur\verification
+copying src\solveur\verification\calculix_composite_conical_ply_stress.py -> build\lib\solveur\verification
+copying src\solveur\verification\calculix_curved_composite.py -> build\lib\solveur\verification
+copying src\solveur\verification\calculix_curved_orientation.py -> build\lib\solveur\verification
+copying src\solveur\verification\calculix_j2.py -> build\lib\solveur\verification
+copying src\solveur\verification\calculix_mitc3.py -> build\lib\solveur\verification
+copying src\solveur\verification\calculix_mitc3_curved_composite.py -> build\lib\solveur\verification
+copying src\solveur\verification\calculix_mitc3_laminate_ply_stress.py -> build\lib\solveur\verification
+copying src\solveur\verification\calculix_mitc4_conical_cutout.py -> build\lib\solveur\verification
+copying src\solveur\verification\calculix_nafems.py -> build\lib\solveur\verification
+copying src\solveur\verification\calculix_tet10.py -> build\lib\solveur\verification
+copying src\solveur\verification\calculix_tl_structural.py -> build\lib\solveur\verification
+copying src\solveur\verification\calculix_total_lagrangian.py -> build\lib\solveur\verification
+copying src\solveur\verification\campaign.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_beam2.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_beam2_modal.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_beam2_newmark.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_beam2_static.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_beam2_transverse.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_contact.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_contact_additional.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_contact_folded.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_contact_folded_search.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_contact_tet4.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_discrete.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_friction_contact.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_j2.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_mitc3.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_mitc3_curved_laminate.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_mitc3_dynamic.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_mitc3_dynamic_refinement.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_mitc3_hemisphere.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_mitc3_laminate_dynamic.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_mitc3_laminate_dynamic_refinement.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_mitc3_temporal_refinement.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_mitc4_conical_cutout.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_mitc4_laminate_dynamic.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_mitc4_orthotropic_curved_dynamic.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_nafems.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_rbe.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_tet10_block_dynamic.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_tet10_cylinder_dynamic.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_tet10_damped_cylinder_dynamic.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_tet10_dynamic.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_tet10_j2_complex.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_tet10_j2_structural.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_tet10_static.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_tet10_stress_probe.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_tet4_cylinder_dynamic.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_tet4_dynamic.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_tet4_static.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_tet4_thick_dynamic.py -> build\lib\solveur\verification
+copying src\solveur\verification\code_aster_tl_structural.py -> build\lib\solveur\verification
+copying src\solveur\verification\composite_analytic.py -> build\lib\solveur\verification
+copying src\solveur\verification\composite_conical_cutout.py -> build\lib\solveur\verification
+copying src\solveur\verification\composite_curved_assembly.py -> build\lib\solveur\verification
+copying src\solveur\verification\composite_nafems.py -> build\lib\solveur\verification
+copying src\solveur\verification\composite_ply_stress.py -> build\lib\solveur\verification
+copying src\solveur\verification\composite_structural.py -> build\lib\solveur\verification
+copying src\solveur\verification\contact_additional_models.py -> build\lib\solveur\verification
+copying src\solveur\verification\contact_additional_oracle.py -> build\lib\solveur\verification
+copying src\solveur\verification\contact_campaign.py -> build\lib\solveur\verification
+copying src\solveur\verification\contact_deformable_master.py -> build\lib\solveur\verification
+copying src\solveur\verification\contact_master_surface.py -> build\lib\solveur\verification
+copying src\solveur\verification\contact_tet4_master.py -> build\lib\solveur\verification
+copying src\solveur\verification\discrete_multidof_campaign.py -> build\lib\solveur\verification
+copying src\solveur\verification\dynamic_family_campaign.py -> build\lib\solveur\verification
+copying src\solveur\verification\elastica.py -> build\lib\solveur\verification
+copying src\solveur\verification\evidence_readiness.py -> build\lib\solveur\verification
+copying src\solveur\verification\external_correlation.py -> build\lib\solveur\verification
+copying src\solveur\verification\frictional_contact.py -> build\lib\solveur\verification
+copying src\solveur\verification\frictional_contact_family_survey.py -> build\lib\solveur\verification
+copying src\solveur\verification\frictional_contact_structural.py -> build\lib\solveur\verification
+copying src\solveur\verification\frictionless_contact_structural.py -> build\lib\solveur\verification
+copying src\solveur\verification\g06_analytical.py -> build\lib\solveur\verification
+copying src\solveur\verification\g11_native_adapters.py -> build\lib\solveur\verification
+copying src\solveur\verification\g11_runner.py -> build\lib\solveur\verification
+copying src\solveur\verification\hex20.py -> build\lib\solveur\verification
+copying src\solveur\verification\hex20_calculix.py -> build\lib\solveur\verification
+copying src\solveur\verification\hex8.py -> build\lib\solveur\verification
+copying src\solveur\verification\hex8_calculix.py -> build\lib\solveur\verification
+copying src\solveur\verification\hex8_campaign.py -> build\lib\solveur\verification
+copying src\solveur\verification\hex8_tet_benchmark.py -> build\lib\solveur\verification
+copying src\solveur\verification\j2_material.py -> build\lib\solveur\verification
+copying src\solveur\verification\j2_methods.py -> build\lib\solveur\verification
+copying src\solveur\verification\j2_multielement_external.py -> build\lib\solveur\verification
+copying src\solveur\verification\j2_performance.py -> build\lib\solveur\verification
+copying src\solveur\verification\j2_step_sensitivity.py -> build\lib\solveur\verification
+copying src\solveur\verification\j2_structural.py -> build\lib\solveur\verification
+copying src\solveur\verification\large_petsc_scipy.py -> build\lib\solveur\verification
+copying src\solveur\verification\linear_solver_comparison.py -> build\lib\solveur\verification
+copying src\solveur\verification\maturity_promotion.py -> build\lib\solveur\verification
+copying src\solveur\verification\maturity_promotion_helpers.py -> build\lib\solveur\verification
+copying src\solveur\verification\maturity_promotion_reports.py -> build\lib\solveur\verification
+copying src\solveur\verification\mechanical.py -> build\lib\solveur\verification
+copying src\solveur\verification\mesh_checks.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc3_campaign.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc3_curved_axial_audit.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc3_dynamic_extended.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc3_laminate_abd_audit.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc3_laminate_dynamic.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc3_mass_quadrature_audit.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc3_matrix_condensation_audit.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc3_models.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc3_refined.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc3_stiffness_quadrature_audit.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc3_temporal_refinement.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_benchmarks.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_campaign.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_conical_cutout.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_convergence.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_harmonic.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_harmonic_broadband.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_harmonic_condensation.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_harmonic_nafems.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_laminate_dynamic.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_laminate_layups.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_locking.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_mechanical.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_modal.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_modal_extended.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_modal_external.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_modal_plate.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_newmark.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_newmark_broadband.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_newmark_extended.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_newmark_operational.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_orthotropic_curved_dynamic.py -> build\lib\solveur\verification
+copying src\solveur\verification\mitc4_orthotropic_static.py -> build\lib\solveur\verification
+copying src\solveur\verification\modal_comparison.py -> build\lib\solveur\verification
+copying src\solveur\verification\nonlinear_checkpoint_failure.py -> build\lib\solveur\verification
+copying src\solveur\verification\nonlinear_failure_campaign.py -> build\lib\solveur\verification
+copying src\solveur\verification\nonlinear_failure_paths.py -> build\lib\solveur\verification
+copying src\solveur\verification\nonlinear_failure_runner.py -> build\lib\solveur\verification
+copying src\solveur\verification\observatory.py -> build\lib\solveur\verification
+copying src\solveur\verification\orthotropic_additional_stress.py -> build\lib\solveur\verification
+copying src\solveur\verification\orthotropic_complex_mesh.py -> build\lib\solveur\verification
+copying src\solveur\verification\orthotropic_convergence.py -> build\lib\solveur\verification
+copying src\solveur\verification\orthotropic_external.py -> build\lib\solveur\verification
+copying src\solveur\verification\orthotropic_large_static.py -> build\lib\solveur\verification
+copying src\solveur\verification\orthotropic_load_cases.py -> build\lib\solveur\verification
+copying src\solveur\verification\orthotropic_modal_dynamic.py -> build\lib\solveur\verification
+copying src\solveur\verification\orthotropic_performance.py -> build\lib\solveur\verification
+copying src\solveur\verification\orthotropic_singularity_vnv.py -> build\lib\solveur\verification
+copying src\solveur\verification\orthotropic_solid.py -> build\lib\solveur\verification
+copying src\solveur\verification\owner_review.py -> build\lib\solveur\verification
+copying src\solveur\verification\release_vv.py -> build\lib\solveur\verification
+copying src\solveur\verification\robustness_arc_length.py -> build\lib\solveur\verification
+copying src\solveur\verification\robustness_arc_length_extended.py -> build\lib\solveur\verification
+copying src\solveur\verification\robustness_buckling.py -> build\lib\solveur\verification
+copying src\solveur\verification\robustness_campaign.py -> build\lib\solveur\verification
+copying src\solveur\verification\robustness_contact.py -> build\lib\solveur\verification
+copying src\solveur\verification\robustness_contact_extended.py -> build\lib\solveur\verification
+copying src\solveur\verification\robustness_coupling.py -> build\lib\solveur\verification
+copying src\solveur\verification\robustness_foundations.py -> build\lib\solveur\verification
+copying src\solveur\verification\robustness_geometric.py -> build\lib\solveur\verification
+copying src\solveur\verification\robustness_mesh.py -> build\lib\solveur\verification
+copying src\solveur\verification\robustness_nonlinear_solids.py -> build\lib\solveur\verification
+copying src\solveur\verification\robustness_support.py -> build\lib\solveur\verification
+copying src\solveur\verification\rqg08_external_j2.py -> build\lib\solveur\verification
+copying src\solveur\verification\singularity_stress.py -> build\lib\solveur\verification
+copying src\solveur\verification\tet10.py -> build\lib\solveur\verification
+copying src\solveur\verification\tet10_geometry_quadrature.py -> build\lib\solveur\verification
+copying src\solveur\verification\tet10_mass_modal_loads.py -> build\lib\solveur\verification
+copying src\solveur\verification\tet10_near_incompressible.py -> build\lib\solveur\verification
+copying src\solveur\verification\tet10_structural_convergence.py -> build\lib\solveur\verification
+copying src\solveur\verification\tet4_error_audit.py -> build\lib\solveur\verification
+copying src\solveur\verification\tet4_structured_convergence.py -> build\lib\solveur\verification
+copying src\solveur\verification\tet4_structured_petsc.py -> build\lib\solveur\verification
+copying src\solveur\verification\tet4_tet10_reference.py -> build\lib\solveur\verification
+copying src\solveur\verification\tet4_tl_buckling_refinement.py -> build\lib\solveur\verification
+copying src\solveur\verification\tet4_total_lagrangian.py -> build\lib\solveur\verification
+copying src\solveur\verification\tet4_total_lagrangian_assembly.py -> build\lib\solveur\verification
+copying src\solveur\verification\tet4_total_lagrangian_buckling.py -> build\lib\solveur\verification
+copying src\solveur\verification\tet4_total_lagrangian_postbuckling.py -> build\lib\solveur\verification
+copying src\solveur\verification\tet4_total_lagrangian_steps.py -> build\lib\solveur\verification
+copying src\solveur\verification\tet4_total_lagrangian_stress.py -> build\lib\solveur\verification
+copying src\solveur\verification\torsion_stress_probe.py -> build\lib\solveur\verification
+copying src\solveur\verification\total_lagrangian_structural.py -> build\lib\solveur\verification
+copying src\solveur\verification\traceability.py -> build\lib\solveur\verification
+copying src\solveur\verification\transient_modal_oracle.py -> build\lib\solveur\verification
+copying src\solveur\verification\vnv_benchmark_import.py -> build\lib\solveur\verification
+copying src\solveur\verification\vnv_manifest.py -> build\lib\solveur\verification
+copying src\solveur\verification\vnv_report.py -> build\lib\solveur\verification
+copying src\solveur\verification\vnv_runner.py -> build\lib\solveur\verification
+copying src\solveur\verification\vnv_schema.py -> build\lib\solveur\verification
+copying src\solveur\verification\vnv_torsion_import.py -> build\lib\solveur\verification
+copying src\solveur\verification\vnv_types.py -> build\lib\solveur\verification
+copying src\solveur\verification\vnv_visualization.py -> build\lib\solveur\verification
+copying src\solveur\verification\wedge6_modal.py -> build\lib\solveur\verification
+copying src\solveur\verification\wp09_independent_reference.py -> build\lib\solveur\verification
+copying src\solveur\verification\__init__.py -> build\lib\solveur\verification
+creating build\lib\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\benchmarks.py -> build\lib\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\cli.py -> build\lib\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\constants.py -> build\lib\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\convergence.py -> build\lib\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\element.py -> build\lib\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\geometry.py -> build\lib\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\locking.py -> build\lib\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\material.py -> build\lib\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\mesh.py -> build\lib\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\model.py -> build\lib\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\verification.py -> build\lib\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\visualization.py -> build\lib\solveur\compat\mitc4
+copying src\solveur\compat\mitc4\__init__.py -> build\lib\solveur\compat\mitc4
+creating build\lib\solveur\core\analyses
+copying src\solveur\core\analyses\buckling.py -> build\lib\solveur\core\analyses
+copying src\solveur\core\analyses\dynamic.py -> build\lib\solveur\core\analyses
+copying src\solveur\core\analyses\dynamic_checkpoint.py -> build\lib\solveur\core\analyses
+copying src\solveur\core\analyses\dynamic_controls.py -> build\lib\solveur\core\analyses
+copying src\solveur\core\analyses\dynamic_history.py -> build\lib\solveur\core\analyses
+copying src\solveur\core\analyses\dynamic_reduction.py -> build\lib\solveur\core\analyses
+copying src\solveur\core\analyses\geometric_nonlinear.py -> build\lib\solveur\core\analyses
+copying src\solveur\core\analyses\geometric_nonlinear_controls.py -> build\lib\solveur\core\analyses
+copying src\solveur\core\analyses\harmonic.py -> build\lib\solveur\core\analyses
+copying src\solveur\core\analyses\modal.py -> build\lib\solveur\core\analyses
+copying src\solveur\core\analyses\modal_dense.py -> build\lib\solveur\core\analyses
+copying src\solveur\core\analyses\modal_options.py -> build\lib\solveur\core\analyses
+copying src\solveur\core\analyses\settings.py -> build\lib\solveur\core\analyses
+copying src\solveur\core\analyses\__init__.py -> build\lib\solveur\core\analyses
+creating build\lib\solveur\core\assembly
+copying src\solveur\core\assembly\assembler.py -> build\lib\solveur\core\assembly
+copying src\solveur\core\assembly\geometric.py -> build\lib\solveur\core\assembly
+copying src\solveur\core\assembly\nonlinear.py -> build\lib\solveur\core\assembly
+copying src\solveur\core\assembly\plan.py -> build\lib\solveur\core\assembly
+copying src\solveur\core\assembly\sparse.py -> build\lib\solveur\core\assembly
+copying src\solveur\core\assembly\__init__.py -> build\lib\solveur\core\assembly
+creating build\lib\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\arc_length.py -> build\lib\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\checkpoint.py -> build\lib\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\contracts.py -> build\lib\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\controls.py -> build\lib\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\driver.py -> build\lib\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\iteration.py -> build\lib\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\linear_solver.py -> build\lib\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\load_control.py -> build\lib\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\material_state.py -> build\lib\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\robustness.py -> build\lib\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\solver.py -> build\lib\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\state.py -> build\lib\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\support.py -> build\lib\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\telemetry.py -> build\lib\solveur\core\nonlinear
+copying src\solveur\core\nonlinear\__init__.py -> build\lib\solveur\core\nonlinear
+creating build\lib\solveur\core\solvers
+copying src\solveur\core\solvers\backend.py -> build\lib\solveur\core\solvers
+copying src\solveur\core\solvers\linear.py -> build\lib\solveur\core\solvers
+copying src\solveur\core\solvers\policy.py -> build\lib\solveur\core\solvers
+copying src\solveur\core\solvers\static.py -> build\lib\solveur\core\solvers
+copying src\solveur\core\solvers\__init__.py -> build\lib\solveur\core\solvers
+creating build\lib\solveur\core\telemetry
+copying src\solveur\core\telemetry\console.py -> build\lib\solveur\core\telemetry
+copying src\solveur\core\telemetry\events.py -> build\lib\solveur\core\telemetry
+copying src\solveur\core\telemetry\health.py -> build\lib\solveur\core\telemetry
+copying src\solveur\core\telemetry\jsonl.py -> build\lib\solveur\core\telemetry
+copying src\solveur\core\telemetry\legacy.py -> build\lib\solveur\core\telemetry
+copying src\solveur\core\telemetry\observer.py -> build\lib\solveur\core\telemetry
+copying src\solveur\core\telemetry\schemas.py -> build\lib\solveur\core\telemetry
+copying src\solveur\core\telemetry\__init__.py -> build\lib\solveur\core\telemetry
+creating build\lib\solveur\elements\beam
+copying src\solveur\elements\beam\beam2.py -> build\lib\solveur\elements\beam
+copying src\solveur\elements\beam\__init__.py -> build\lib\solveur\elements\beam
+creating build\lib\solveur\elements\shell
+copying src\solveur\elements\shell\frames.py -> build\lib\solveur\elements\shell
+copying src\solveur\elements\shell\mitc3.py -> build\lib\solveur\elements\shell
+copying src\solveur\elements\shell\mitc3_condensation.py -> build\lib\solveur\elements\shell
+copying src\solveur\elements\shell\__init__.py -> build\lib\solveur\elements\shell
+creating build\lib\solveur\elements\solid
+copying src\solveur\elements\solid\common.py -> build\lib\solveur\elements\solid
+copying src\solveur\elements\solid\corotational_j2.py -> build\lib\solveur\elements\solid
+copying src\solveur\elements\solid\hex20.py -> build\lib\solveur\elements\solid
+copying src\solveur\elements\solid\hex8.py -> build\lib\solveur\elements\solid
+copying src\solveur\elements\solid\hex8_sri.py -> build\lib\solveur\elements\solid
+copying src\solveur\elements\solid\hex8_total_lagrangian_batch.py -> build\lib\solveur\elements\solid
+copying src\solveur\elements\solid\pyramid5.py -> build\lib\solveur\elements\solid
+copying src\solveur\elements\solid\quadrature.py -> build\lib\solveur\elements\solid
+copying src\solveur\elements\solid\tet10.py -> build\lib\solveur\elements\solid
+copying src\solveur\elements\solid\tet4.py -> build\lib\solveur\elements\solid
+copying src\solveur\elements\solid\tet4_total_lagrangian.py -> build\lib\solveur\elements\solid
+copying src\solveur\elements\solid\tet4_total_lagrangian_batch.py -> build\lib\solveur\elements\solid
+copying src\solveur\elements\solid\total_lagrangian_j2.py -> build\lib\solveur\elements\solid
+copying src\solveur\elements\solid\wedge6.py -> build\lib\solveur\elements\solid
+copying src\solveur\elements\solid\__init__.py -> build\lib\solveur\elements\solid
+creating build\lib\solveur\elements\shell\mitc4
+copying src\solveur\elements\shell\mitc4\adapter.py -> build\lib\solveur\elements\shell\mitc4
+copying src\solveur\elements\shell\mitc4\constants.py -> build\lib\solveur\elements\shell\mitc4
+copying src\solveur\elements\shell\mitc4\element.py -> build\lib\solveur\elements\shell\mitc4
+copying src\solveur\elements\shell\mitc4\geometry.py -> build\lib\solveur\elements\shell\mitc4
+copying src\solveur\elements\shell\mitc4\material.py -> build\lib\solveur\elements\shell\mitc4
+copying src\solveur\elements\shell\mitc4\mesh.py -> build\lib\solveur\elements\shell\mitc4
+copying src\solveur\elements\shell\mitc4\model.py -> build\lib\solveur\elements\shell\mitc4
+copying src\solveur\elements\shell\mitc4\__init__.py -> build\lib\solveur\elements\shell\mitc4
+creating build\lib\solveur\verification\framework
+copying src\solveur\verification\framework\case.py -> build\lib\solveur\verification\framework
+copying src\solveur\verification\framework\environment.py -> build\lib\solveur\verification\framework
+copying src\solveur\verification\framework\manifest.py -> build\lib\solveur\verification\framework
+copying src\solveur\verification\framework\registry.py -> build\lib\solveur\verification\framework
+copying src\solveur\verification\framework\result.py -> build\lib\solveur\verification\framework
+copying src\solveur\verification\framework\runner.py -> build\lib\solveur\verification\framework
+copying src\solveur\verification\framework\__init__.py -> build\lib\solveur\verification\framework
+creating build\lib\solveur\verification\v2
+copying src\solveur\verification\v2\runner.py -> build\lib\solveur\verification\v2
+copying src\solveur\verification\v2\schema.py -> build\lib\solveur\verification\v2
+copying src\solveur\verification\v2\__init__.py -> build\lib\solveur\verification\v2
+running egg_info
+writing src\qf_solver.egg-info\PKG-INFO
+writing dependency_links to src\qf_solver.egg-info\dependency_links.txt
+writing entry points to src\qf_solver.egg-info\entry_points.txt
+writing requirements to src\qf_solver.egg-info\requires.txt
+writing top-level names to src\qf_solver.egg-info\top_level.txt
+reading manifest file 'src\qf_solver.egg-info\SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+adding license file 'LICENSE'
+adding license file 'LICENSE-DOCS'
+adding license file 'NOTICE'
+adding license file 'THIRD_PARTY_LICENSES.md'
+writing manifest file 'src\qf_solver.egg-info\SOURCES.txt'
+installing to build\bdist.win-amd64\wheel
+running install
+running install_lib
+creating build\bdist.win-amd64\wheel
+creating build\bdist.win-amd64\wheel\qf_solver
+copying build\lib\qf_solver\__init__.py -> build\bdist.win-amd64\wheel\.\qf_solver
+creating build\bdist.win-amd64\wheel\solveur
+creating build\bdist.win-amd64\wheel\solveur\api
+copying build\lib\solveur\api\public.py -> build\bdist.win-amd64\wheel\.\solveur\api
+copying build\lib\solveur\api\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\api
+creating build\bdist.win-amd64\wheel\solveur\benchmarks
+copying build\lib\solveur\benchmarks\beam.py -> build\bdist.win-amd64\wheel\.\solveur\benchmarks
+copying build\lib\solveur\benchmarks\catalog.py -> build\bdist.win-amd64\wheel\.\solveur\benchmarks
+copying build\lib\solveur\benchmarks\demonstrations.py -> build\bdist.win-amd64\wheel\.\solveur\benchmarks
+copying build\lib\solveur\benchmarks\dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\benchmarks
+copying build\lib\solveur\benchmarks\gmsh_factory.py -> build\bdist.win-amd64\wheel\.\solveur\benchmarks
+copying build\lib\solveur\benchmarks\nonlinear.py -> build\bdist.win-amd64\wheel\.\solveur\benchmarks
+copying build\lib\solveur\benchmarks\runner.py -> build\bdist.win-amd64\wheel\.\solveur\benchmarks
+copying build\lib\solveur\benchmarks\shell.py -> build\bdist.win-amd64\wheel\.\solveur\benchmarks
+copying build\lib\solveur\benchmarks\solid.py -> build\bdist.win-amd64\wheel\.\solveur\benchmarks
+copying build\lib\solveur\benchmarks\solid_extended.py -> build\bdist.win-amd64\wheel\.\solveur\benchmarks
+copying build\lib\solveur\benchmarks\support.py -> build\bdist.win-amd64\wheel\.\solveur\benchmarks
+copying build\lib\solveur\benchmarks\types.py -> build\bdist.win-amd64\wheel\.\solveur\benchmarks
+copying build\lib\solveur\benchmarks\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\benchmarks
+creating build\bdist.win-amd64\wheel\solveur\cli
+copying build\lib\solveur\cli\benchmark.py -> build\bdist.win-amd64\wheel\.\solveur\cli
+copying build\lib\solveur\cli\large.py -> build\bdist.win-amd64\wheel\.\solveur\cli
+copying build\lib\solveur\cli\main.py -> build\bdist.win-amd64\wheel\.\solveur\cli
+copying build\lib\solveur\cli\mesh.py -> build\bdist.win-amd64\wheel\.\solveur\cli
+copying build\lib\solveur\cli\standard.py -> build\bdist.win-amd64\wheel\.\solveur\cli
+copying build\lib\solveur\cli\verification.py -> build\bdist.win-amd64\wheel\.\solveur\cli
+copying build\lib\solveur\cli\vnv.py -> build\bdist.win-amd64\wheel\.\solveur\cli
+copying build\lib\solveur\cli\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\cli
+creating build\bdist.win-amd64\wheel\solveur\compat
+creating build\bdist.win-amd64\wheel\solveur\compat\mitc4
+copying build\lib\solveur\compat\mitc4\benchmarks.py -> build\bdist.win-amd64\wheel\.\solveur\compat\mitc4
+copying build\lib\solveur\compat\mitc4\cli.py -> build\bdist.win-amd64\wheel\.\solveur\compat\mitc4
+copying build\lib\solveur\compat\mitc4\constants.py -> build\bdist.win-amd64\wheel\.\solveur\compat\mitc4
+copying build\lib\solveur\compat\mitc4\convergence.py -> build\bdist.win-amd64\wheel\.\solveur\compat\mitc4
+copying build\lib\solveur\compat\mitc4\element.py -> build\bdist.win-amd64\wheel\.\solveur\compat\mitc4
+copying build\lib\solveur\compat\mitc4\geometry.py -> build\bdist.win-amd64\wheel\.\solveur\compat\mitc4
+copying build\lib\solveur\compat\mitc4\locking.py -> build\bdist.win-amd64\wheel\.\solveur\compat\mitc4
+copying build\lib\solveur\compat\mitc4\material.py -> build\bdist.win-amd64\wheel\.\solveur\compat\mitc4
+copying build\lib\solveur\compat\mitc4\mesh.py -> build\bdist.win-amd64\wheel\.\solveur\compat\mitc4
+copying build\lib\solveur\compat\mitc4\model.py -> build\bdist.win-amd64\wheel\.\solveur\compat\mitc4
+copying build\lib\solveur\compat\mitc4\verification.py -> build\bdist.win-amd64\wheel\.\solveur\compat\mitc4
+copying build\lib\solveur\compat\mitc4\visualization.py -> build\bdist.win-amd64\wheel\.\solveur\compat\mitc4
+copying build\lib\solveur\compat\mitc4\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\compat\mitc4
+copying build\lib\solveur\compat\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\compat
+creating build\bdist.win-amd64\wheel\solveur\compatibility
+copying build\lib\solveur\compatibility\descriptors.py -> build\bdist.win-amd64\wheel\.\solveur\compatibility
+copying build\lib\solveur\compatibility\preflight.py -> build\bdist.win-amd64\wheel\.\solveur\compatibility
+copying build\lib\solveur\compatibility\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\compatibility
+creating build\bdist.win-amd64\wheel\solveur\contact
+copying build\lib\solveur\contact\entities.py -> build\bdist.win-amd64\wheel\.\solveur\contact
+copying build\lib\solveur\contact\evaluation.py -> build\bdist.win-amd64\wheel\.\solveur\contact
+copying build\lib\solveur\contact\measures.py -> build\bdist.win-amd64\wheel\.\solveur\contact
+copying build\lib\solveur\contact\restart.py -> build\bdist.win-amd64\wheel\.\solveur\contact
+copying build\lib\solveur\contact\slip_root.py -> build\bdist.win-amd64\wheel\.\solveur\contact
+copying build\lib\solveur\contact\solver.py -> build\bdist.win-amd64\wheel\.\solveur\contact
+copying build\lib\solveur\contact\support.py -> build\bdist.win-amd64\wheel\.\solveur\contact
+copying build\lib\solveur\contact\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\contact
+creating build\bdist.win-amd64\wheel\solveur\core
+creating build\bdist.win-amd64\wheel\solveur\core\analyses
+copying build\lib\solveur\core\analyses\buckling.py -> build\bdist.win-amd64\wheel\.\solveur\core\analyses
+copying build\lib\solveur\core\analyses\dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\core\analyses
+copying build\lib\solveur\core\analyses\dynamic_checkpoint.py -> build\bdist.win-amd64\wheel\.\solveur\core\analyses
+copying build\lib\solveur\core\analyses\dynamic_controls.py -> build\bdist.win-amd64\wheel\.\solveur\core\analyses
+copying build\lib\solveur\core\analyses\dynamic_history.py -> build\bdist.win-amd64\wheel\.\solveur\core\analyses
+copying build\lib\solveur\core\analyses\dynamic_reduction.py -> build\bdist.win-amd64\wheel\.\solveur\core\analyses
+copying build\lib\solveur\core\analyses\geometric_nonlinear.py -> build\bdist.win-amd64\wheel\.\solveur\core\analyses
+copying build\lib\solveur\core\analyses\geometric_nonlinear_controls.py -> build\bdist.win-amd64\wheel\.\solveur\core\analyses
+copying build\lib\solveur\core\analyses\harmonic.py -> build\bdist.win-amd64\wheel\.\solveur\core\analyses
+copying build\lib\solveur\core\analyses\modal.py -> build\bdist.win-amd64\wheel\.\solveur\core\analyses
+copying build\lib\solveur\core\analyses\modal_dense.py -> build\bdist.win-amd64\wheel\.\solveur\core\analyses
+copying build\lib\solveur\core\analyses\modal_options.py -> build\bdist.win-amd64\wheel\.\solveur\core\analyses
+copying build\lib\solveur\core\analyses\settings.py -> build\bdist.win-amd64\wheel\.\solveur\core\analyses
+copying build\lib\solveur\core\analyses\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\core\analyses
+copying build\lib\solveur\core\analysis.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\assembler.py -> build\bdist.win-amd64\wheel\.\solveur\core
+creating build\bdist.win-amd64\wheel\solveur\core\assembly
+copying build\lib\solveur\core\assembly\assembler.py -> build\bdist.win-amd64\wheel\.\solveur\core\assembly
+copying build\lib\solveur\core\assembly\geometric.py -> build\bdist.win-amd64\wheel\.\solveur\core\assembly
+copying build\lib\solveur\core\assembly\nonlinear.py -> build\bdist.win-amd64\wheel\.\solveur\core\assembly
+copying build\lib\solveur\core\assembly\plan.py -> build\bdist.win-amd64\wheel\.\solveur\core\assembly
+copying build\lib\solveur\core\assembly\sparse.py -> build\bdist.win-amd64\wheel\.\solveur\core\assembly
+copying build\lib\solveur\core\assembly\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\core\assembly
+copying build\lib\solveur\core\assembly_plan.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\audit.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\audit_checks.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\buckling.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\constraints.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\dofs.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\dynamic_checkpoint.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\dynamic_controls.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\dynamic_history.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\dynamic_reduction.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\errors.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\geometric_assembly.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\geometric_nonlinear.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\geometric_nonlinear_controls.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\harmonic.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\linear_methods.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\linear_policy.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\material_state.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\modal.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\modal_dense.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\modal_options.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\model.py -> build\bdist.win-amd64\wheel\.\solveur\core
+creating build\bdist.win-amd64\wheel\solveur\core\nonlinear
+copying build\lib\solveur\core\nonlinear\arc_length.py -> build\bdist.win-amd64\wheel\.\solveur\core\nonlinear
+copying build\lib\solveur\core\nonlinear\checkpoint.py -> build\bdist.win-amd64\wheel\.\solveur\core\nonlinear
+copying build\lib\solveur\core\nonlinear\contracts.py -> build\bdist.win-amd64\wheel\.\solveur\core\nonlinear
+copying build\lib\solveur\core\nonlinear\controls.py -> build\bdist.win-amd64\wheel\.\solveur\core\nonlinear
+copying build\lib\solveur\core\nonlinear\driver.py -> build\bdist.win-amd64\wheel\.\solveur\core\nonlinear
+copying build\lib\solveur\core\nonlinear\iteration.py -> build\bdist.win-amd64\wheel\.\solveur\core\nonlinear
+copying build\lib\solveur\core\nonlinear\linear_solver.py -> build\bdist.win-amd64\wheel\.\solveur\core\nonlinear
+copying build\lib\solveur\core\nonlinear\load_control.py -> build\bdist.win-amd64\wheel\.\solveur\core\nonlinear
+copying build\lib\solveur\core\nonlinear\material_state.py -> build\bdist.win-amd64\wheel\.\solveur\core\nonlinear
+copying build\lib\solveur\core\nonlinear\robustness.py -> build\bdist.win-amd64\wheel\.\solveur\core\nonlinear
+copying build\lib\solveur\core\nonlinear\solver.py -> build\bdist.win-amd64\wheel\.\solveur\core\nonlinear
+copying build\lib\solveur\core\nonlinear\state.py -> build\bdist.win-amd64\wheel\.\solveur\core\nonlinear
+copying build\lib\solveur\core\nonlinear\support.py -> build\bdist.win-amd64\wheel\.\solveur\core\nonlinear
+copying build\lib\solveur\core\nonlinear\telemetry.py -> build\bdist.win-amd64\wheel\.\solveur\core\nonlinear
+copying build\lib\solveur\core\nonlinear\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\core\nonlinear
+copying build\lib\solveur\core\nonlinear_arc_length.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\nonlinear_assembly.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\nonlinear_checkpoint.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\nonlinear_contracts.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\nonlinear_controls.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\nonlinear_iteration.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\nonlinear_load_control.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\nonlinear_support.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\qualification.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\rbe.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\results.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\result_serialization.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\router.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\solver.py -> build\bdist.win-amd64\wheel\.\solveur\core
+creating build\bdist.win-amd64\wheel\solveur\core\solvers
+copying build\lib\solveur\core\solvers\backend.py -> build\bdist.win-amd64\wheel\.\solveur\core\solvers
+copying build\lib\solveur\core\solvers\linear.py -> build\bdist.win-amd64\wheel\.\solveur\core\solvers
+copying build\lib\solveur\core\solvers\policy.py -> build\bdist.win-amd64\wheel\.\solveur\core\solvers
+copying build\lib\solveur\core\solvers\static.py -> build\bdist.win-amd64\wheel\.\solveur\core\solvers
+copying build\lib\solveur\core\solvers\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\core\solvers
+copying build\lib\solveur\core\solver_backend.py -> build\bdist.win-amd64\wheel\.\solveur\core
+copying build\lib\solveur\core\sparse_accumulator.py -> build\bdist.win-amd64\wheel\.\solveur\core
+creating build\bdist.win-amd64\wheel\solveur\core\telemetry
+copying build\lib\solveur\core\telemetry\console.py -> build\bdist.win-amd64\wheel\.\solveur\core\telemetry
+copying build\lib\solveur\core\telemetry\events.py -> build\bdist.win-amd64\wheel\.\solveur\core\telemetry
+copying build\lib\solveur\core\telemetry\health.py -> build\bdist.win-amd64\wheel\.\solveur\core\telemetry
+copying build\lib\solveur\core\telemetry\jsonl.py -> build\bdist.win-amd64\wheel\.\solveur\core\telemetry
+copying build\lib\solveur\core\telemetry\legacy.py -> build\bdist.win-amd64\wheel\.\solveur\core\telemetry
+copying build\lib\solveur\core\telemetry\observer.py -> build\bdist.win-amd64\wheel\.\solveur\core\telemetry
+copying build\lib\solveur\core\telemetry\schemas.py -> build\bdist.win-amd64\wheel\.\solveur\core\telemetry
+copying build\lib\solveur\core\telemetry\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\core\telemetry
+copying build\lib\solveur\core\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\core
+creating build\bdist.win-amd64\wheel\solveur\elements
+creating build\bdist.win-amd64\wheel\solveur\elements\beam
+copying build\lib\solveur\elements\beam\beam2.py -> build\bdist.win-amd64\wheel\.\solveur\elements\beam
+copying build\lib\solveur\elements\beam\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\elements\beam
+copying build\lib\solveur\elements\discrete.py -> build\bdist.win-amd64\wheel\.\solveur\elements
+copying build\lib\solveur\elements\registry.py -> build\bdist.win-amd64\wheel\.\solveur\elements
+creating build\bdist.win-amd64\wheel\solveur\elements\shell
+copying build\lib\solveur\elements\shell\frames.py -> build\bdist.win-amd64\wheel\.\solveur\elements\shell
+copying build\lib\solveur\elements\shell\mitc3.py -> build\bdist.win-amd64\wheel\.\solveur\elements\shell
+copying build\lib\solveur\elements\shell\mitc3_condensation.py -> build\bdist.win-amd64\wheel\.\solveur\elements\shell
+creating build\bdist.win-amd64\wheel\solveur\elements\shell\mitc4
+copying build\lib\solveur\elements\shell\mitc4\adapter.py -> build\bdist.win-amd64\wheel\.\solveur\elements\shell\mitc4
+copying build\lib\solveur\elements\shell\mitc4\constants.py -> build\bdist.win-amd64\wheel\.\solveur\elements\shell\mitc4
+copying build\lib\solveur\elements\shell\mitc4\element.py -> build\bdist.win-amd64\wheel\.\solveur\elements\shell\mitc4
+copying build\lib\solveur\elements\shell\mitc4\geometry.py -> build\bdist.win-amd64\wheel\.\solveur\elements\shell\mitc4
+copying build\lib\solveur\elements\shell\mitc4\material.py -> build\bdist.win-amd64\wheel\.\solveur\elements\shell\mitc4
+copying build\lib\solveur\elements\shell\mitc4\mesh.py -> build\bdist.win-amd64\wheel\.\solveur\elements\shell\mitc4
+copying build\lib\solveur\elements\shell\mitc4\model.py -> build\bdist.win-amd64\wheel\.\solveur\elements\shell\mitc4
+copying build\lib\solveur\elements\shell\mitc4\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\elements\shell\mitc4
+copying build\lib\solveur\elements\shell\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\elements\shell
+creating build\bdist.win-amd64\wheel\solveur\elements\solid
+copying build\lib\solveur\elements\solid\common.py -> build\bdist.win-amd64\wheel\.\solveur\elements\solid
+copying build\lib\solveur\elements\solid\corotational_j2.py -> build\bdist.win-amd64\wheel\.\solveur\elements\solid
+copying build\lib\solveur\elements\solid\hex20.py -> build\bdist.win-amd64\wheel\.\solveur\elements\solid
+copying build\lib\solveur\elements\solid\hex8.py -> build\bdist.win-amd64\wheel\.\solveur\elements\solid
+copying build\lib\solveur\elements\solid\hex8_sri.py -> build\bdist.win-amd64\wheel\.\solveur\elements\solid
+copying build\lib\solveur\elements\solid\hex8_total_lagrangian_batch.py -> build\bdist.win-amd64\wheel\.\solveur\elements\solid
+copying build\lib\solveur\elements\solid\pyramid5.py -> build\bdist.win-amd64\wheel\.\solveur\elements\solid
+copying build\lib\solveur\elements\solid\quadrature.py -> build\bdist.win-amd64\wheel\.\solveur\elements\solid
+copying build\lib\solveur\elements\solid\tet10.py -> build\bdist.win-amd64\wheel\.\solveur\elements\solid
+copying build\lib\solveur\elements\solid\tet4.py -> build\bdist.win-amd64\wheel\.\solveur\elements\solid
+copying build\lib\solveur\elements\solid\tet4_total_lagrangian.py -> build\bdist.win-amd64\wheel\.\solveur\elements\solid
+copying build\lib\solveur\elements\solid\tet4_total_lagrangian_batch.py -> build\bdist.win-amd64\wheel\.\solveur\elements\solid
+copying build\lib\solveur\elements\solid\total_lagrangian_j2.py -> build\bdist.win-amd64\wheel\.\solveur\elements\solid
+copying build\lib\solveur\elements\solid\wedge6.py -> build\bdist.win-amd64\wheel\.\solveur\elements\solid
+copying build\lib\solveur\elements\solid\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\elements\solid
+copying build\lib\solveur\elements\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\elements
+creating build\bdist.win-amd64\wheel\solveur\execution
+copying build\lib\solveur\execution\contract.py -> build\bdist.win-amd64\wheel\.\solveur\execution
+copying build\lib\solveur\execution\diagnostics.py -> build\bdist.win-amd64\wheel\.\solveur\execution
+copying build\lib\solveur\execution\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\execution
+creating build\bdist.win-amd64\wheel\solveur\io
+copying build\lib\solveur\io\audit_markdown.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\checkpoint_common.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\constraint_schema.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\contact_schema.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\csv_writer.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\discrete_schema.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\dynamic_checkpoint.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\evidence_verifier.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\evidence_writer.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\inp_reader.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\json_reader.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\json_writer.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\laminate_schema.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\load_schema.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\manifest.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\mixed_results_hdf5.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\model_writer.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\nonlinear_checkpoint.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\schema.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\schema_analysis.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\schema_entities.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\schema_values.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\vtu_writer.py -> build\bdist.win-amd64\wheel\.\solveur\io
+copying build\lib\solveur\io\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\io
+creating build\bdist.win-amd64\wheel\solveur\large
+copying build\lib\solveur\large\assembler.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\audit.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\benchmark.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\campaign.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\distributed_model.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\dofs.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\evidence.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\generator.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\generic_distributed.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\io.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\materials.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\matrix_free.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\memory.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\model.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\mpi_diagnostics.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\mpi_guardrails.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\multifamily.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\optimization.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\partitioning.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\postprocess.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\profiling.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\qualification.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\readiness.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\runtime.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\solver.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\telemetry.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\tet4_batch.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\tuning.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\verification.py -> build\bdist.win-amd64\wheel\.\solveur\large
+copying build\lib\solveur\large\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\large
+creating build\bdist.win-amd64\wheel\solveur\loads
+copying build\lib\solveur\loads\entities.py -> build\bdist.win-amd64\wheel\.\solveur\loads
+copying build\lib\solveur\loads\integration.py -> build\bdist.win-amd64\wheel\.\solveur\loads
+copying build\lib\solveur\loads\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\loads
+creating build\bdist.win-amd64\wheel\solveur\materials
+copying build\lib\solveur\materials\beam.py -> build\bdist.win-amd64\wheel\.\solveur\materials
+copying build\lib\solveur\materials\composite.py -> build\bdist.win-amd64\wheel\.\solveur\materials
+copying build\lib\solveur\materials\factory.py -> build\bdist.win-amd64\wheel\.\solveur\materials
+copying build\lib\solveur\materials\failure.py -> build\bdist.win-amd64\wheel\.\solveur\materials
+copying build\lib\solveur\materials\laminate.py -> build\bdist.win-amd64\wheel\.\solveur\materials
+copying build\lib\solveur\materials\orthotropic.py -> build\bdist.win-amd64\wheel\.\solveur\materials
+copying build\lib\solveur\materials\shell.py -> build\bdist.win-amd64\wheel\.\solveur\materials
+copying build\lib\solveur\materials\solid.py -> build\bdist.win-amd64\wheel\.\solveur\materials
+copying build\lib\solveur\materials\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\materials
+creating build\bdist.win-amd64\wheel\solveur\mesh
+copying build\lib\solveur\mesh\constraint_validation.py -> build\bdist.win-amd64\wheel\.\solveur\mesh
+copying build\lib\solveur\mesh\contact_validation.py -> build\bdist.win-amd64\wheel\.\solveur\mesh
+copying build\lib\solveur\mesh\entities.py -> build\bdist.win-amd64\wheel\.\solveur\mesh
+copying build\lib\solveur\mesh\gmsh_importer.py -> build\bdist.win-amd64\wheel\.\solveur\mesh
+copying build\lib\solveur\mesh\gmsh_reader.py -> build\bdist.win-amd64\wheel\.\solveur\mesh
+copying build\lib\solveur\mesh\gmsh_types.py -> build\bdist.win-amd64\wheel\.\solveur\mesh
+copying build\lib\solveur\mesh\mixed_validation.py -> build\bdist.win-amd64\wheel\.\solveur\mesh
+copying build\lib\solveur\mesh\quality.py -> build\bdist.win-amd64\wheel\.\solveur\mesh
+copying build\lib\solveur\mesh\quality_contract.py -> build\bdist.win-amd64\wheel\.\solveur\mesh
+copying build\lib\solveur\mesh\solid_validation.py -> build\bdist.win-amd64\wheel\.\solveur\mesh
+copying build\lib\solveur\mesh\topology.py -> build\bdist.win-amd64\wheel\.\solveur\mesh
+copying build\lib\solveur\mesh\validation.py -> build\bdist.win-amd64\wheel\.\solveur\mesh
+copying build\lib\solveur\mesh\validation_geometry.py -> build\bdist.win-amd64\wheel\.\solveur\mesh
+copying build\lib\solveur\mesh\validation_helpers.py -> build\bdist.win-amd64\wheel\.\solveur\mesh
+copying build\lib\solveur\mesh\validation_rank.py -> build\bdist.win-amd64\wheel\.\solveur\mesh
+copying build\lib\solveur\mesh\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\mesh
+copying build\lib\solveur\paths.py -> build\bdist.win-amd64\wheel\.\solveur
+creating build\bdist.win-amd64\wheel\solveur\post
+copying build\lib\solveur\post\audit.py -> build\bdist.win-amd64\wheel\.\solveur\post
+copying build\lib\solveur\post\harmonic_shell.py -> build\bdist.win-amd64\wheel\.\solveur\post
+copying build\lib\solveur\post\mitc4_visualization.py -> build\bdist.win-amd64\wheel\.\solveur\post
+copying build\lib\solveur\post\shell_results.py -> build\bdist.win-amd64\wheel\.\solveur\post
+copying build\lib\solveur\post\solid_recovery.py -> build\bdist.win-amd64\wheel\.\solveur\post
+copying build\lib\solveur\post\solid_results.py -> build\bdist.win-amd64\wheel\.\solveur\post
+copying build\lib\solveur\post\stress.py -> build\bdist.win-amd64\wheel\.\solveur\post
+copying build\lib\solveur\post\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\post
+creating build\bdist.win-amd64\wheel\solveur\verification
+copying build\lib\solveur\verification\analytical_references.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\calculix_buckling_025.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\calculix_composite.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\calculix_composite_conical_cutout.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\calculix_composite_conical_ply_stress.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\calculix_curved_composite.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\calculix_curved_orientation.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\calculix_j2.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\calculix_mitc3.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\calculix_mitc3_curved_composite.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\calculix_mitc3_laminate_ply_stress.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\calculix_mitc4_conical_cutout.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\calculix_nafems.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\calculix_tet10.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\calculix_tl_structural.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\calculix_total_lagrangian.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\campaign.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_beam2.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_beam2_modal.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_beam2_newmark.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_beam2_static.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_beam2_transverse.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_contact.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_contact_additional.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_contact_folded.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_contact_folded_search.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_contact_tet4.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_discrete.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_friction_contact.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_j2.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_mitc3.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_mitc3_curved_laminate.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_mitc3_dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_mitc3_dynamic_refinement.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_mitc3_hemisphere.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_mitc3_laminate_dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_mitc3_laminate_dynamic_refinement.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_mitc3_temporal_refinement.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_mitc4_conical_cutout.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_mitc4_laminate_dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_mitc4_orthotropic_curved_dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_nafems.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_rbe.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_tet10_block_dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_tet10_cylinder_dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_tet10_damped_cylinder_dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_tet10_dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_tet10_j2_complex.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_tet10_j2_structural.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_tet10_static.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_tet10_stress_probe.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_tet4_cylinder_dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_tet4_dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_tet4_static.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_tet4_thick_dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\code_aster_tl_structural.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\composite_analytic.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\composite_conical_cutout.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\composite_curved_assembly.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\composite_nafems.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\composite_ply_stress.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\composite_structural.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\contact_additional_models.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\contact_additional_oracle.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\contact_campaign.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\contact_deformable_master.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\contact_master_surface.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\contact_tet4_master.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\discrete_multidof_campaign.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\dynamic_family_campaign.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\elastica.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\evidence_readiness.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\external_correlation.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+creating build\bdist.win-amd64\wheel\solveur\verification\framework
+copying build\lib\solveur\verification\framework\case.py -> build\bdist.win-amd64\wheel\.\solveur\verification\framework
+copying build\lib\solveur\verification\framework\environment.py -> build\bdist.win-amd64\wheel\.\solveur\verification\framework
+copying build\lib\solveur\verification\framework\manifest.py -> build\bdist.win-amd64\wheel\.\solveur\verification\framework
+copying build\lib\solveur\verification\framework\registry.py -> build\bdist.win-amd64\wheel\.\solveur\verification\framework
+copying build\lib\solveur\verification\framework\result.py -> build\bdist.win-amd64\wheel\.\solveur\verification\framework
+copying build\lib\solveur\verification\framework\runner.py -> build\bdist.win-amd64\wheel\.\solveur\verification\framework
+copying build\lib\solveur\verification\framework\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\verification\framework
+copying build\lib\solveur\verification\frictional_contact.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\frictional_contact_family_survey.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\frictional_contact_structural.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\frictionless_contact_structural.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\g06_analytical.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\g11_native_adapters.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\g11_runner.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\hex20.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\hex20_calculix.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\hex8.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\hex8_calculix.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\hex8_campaign.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\hex8_tet_benchmark.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\j2_material.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\j2_methods.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\j2_multielement_external.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\j2_performance.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\j2_step_sensitivity.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\j2_structural.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\large_petsc_scipy.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\linear_solver_comparison.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\maturity_promotion.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\maturity_promotion_helpers.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\maturity_promotion_reports.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mechanical.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mesh_checks.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc3_campaign.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc3_curved_axial_audit.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc3_dynamic_extended.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc3_laminate_abd_audit.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc3_laminate_dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc3_mass_quadrature_audit.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc3_matrix_condensation_audit.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc3_models.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc3_refined.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc3_stiffness_quadrature_audit.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc3_temporal_refinement.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_benchmarks.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_campaign.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_conical_cutout.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_convergence.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_harmonic.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_harmonic_broadband.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_harmonic_condensation.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_harmonic_nafems.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_laminate_dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_laminate_layups.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_locking.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_mechanical.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_modal.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_modal_extended.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_modal_external.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_modal_plate.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_newmark.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_newmark_broadband.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_newmark_extended.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_newmark_operational.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_orthotropic_curved_dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\mitc4_orthotropic_static.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\modal_comparison.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\nonlinear_checkpoint_failure.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\nonlinear_failure_campaign.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\nonlinear_failure_paths.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\nonlinear_failure_runner.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\observatory.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\orthotropic_additional_stress.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\orthotropic_complex_mesh.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\orthotropic_convergence.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\orthotropic_external.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\orthotropic_large_static.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\orthotropic_load_cases.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\orthotropic_modal_dynamic.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\orthotropic_performance.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\orthotropic_singularity_vnv.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\orthotropic_solid.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\owner_review.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\release_vv.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\robustness_arc_length.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\robustness_arc_length_extended.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\robustness_buckling.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\robustness_campaign.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\robustness_contact.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\robustness_contact_extended.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\robustness_coupling.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\robustness_foundations.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\robustness_geometric.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\robustness_mesh.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\robustness_nonlinear_solids.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\robustness_support.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\rqg08_external_j2.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\singularity_stress.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\tet10.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\tet10_geometry_quadrature.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\tet10_mass_modal_loads.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\tet10_near_incompressible.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\tet10_structural_convergence.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\tet4_error_audit.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\tet4_structured_convergence.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\tet4_structured_petsc.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\tet4_tet10_reference.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\tet4_tl_buckling_refinement.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\tet4_total_lagrangian.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\tet4_total_lagrangian_assembly.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\tet4_total_lagrangian_buckling.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\tet4_total_lagrangian_postbuckling.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\tet4_total_lagrangian_steps.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\tet4_total_lagrangian_stress.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\torsion_stress_probe.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\total_lagrangian_structural.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\traceability.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\transient_modal_oracle.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+creating build\bdist.win-amd64\wheel\solveur\verification\v2
+copying build\lib\solveur\verification\v2\runner.py -> build\bdist.win-amd64\wheel\.\solveur\verification\v2
+copying build\lib\solveur\verification\v2\schema.py -> build\bdist.win-amd64\wheel\.\solveur\verification\v2
+copying build\lib\solveur\verification\v2\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\verification\v2
+copying build\lib\solveur\verification\vnv_benchmark_import.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\vnv_manifest.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\vnv_report.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\vnv_runner.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\vnv_schema.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\vnv_torsion_import.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\vnv_types.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\vnv_visualization.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\wedge6_modal.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\wp09_independent_reference.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\verification\__init__.py -> build\bdist.win-amd64\wheel\.\solveur\verification
+copying build\lib\solveur\version.py -> build\bdist.win-amd64\wheel\.\solveur
+copying build\lib\solveur\__init__.py -> build\bdist.win-amd64\wheel\.\solveur
+running install_data
+creating build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data
+creating build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\beam2_cantilever.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\frictional_contact_plane.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\frictionless_contact_plane.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\frictionless_contact_surface.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\hex20_g06_analytic.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\hex20_g06_j2.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\hex20_g06_static.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\hex8_g06_analytic.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\hex8_g06_j2.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\hex8_g06_static.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\invalid_inverted_tet4.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\mitc3_laminate_harmonic.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\mitc3_modal_cantilever.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\mitc3_newmark_cantilever.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\mitc3_shell_static.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\mitc4_dynamic_multicomponent.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\mitc4_harmonic_cantilever.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\mitc4_laminate_static.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\mitc4_modal_cantilever.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\mitc4_newmark_cantilever.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\mitc4_shell_static.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\rbe2_rigid_arm.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\spring_mass_oscillator.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet10_g06_analytic.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet10_orthotropic_newmark.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet10_orthotropic_static.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet10_static.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_body_force.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_compression.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_dynamic_free_vibration.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_dynamic_sdof_free_vibration.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_dynamic_tabulated_load.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_elastoplastic_static.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_g06_analytic.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_geometric_nonlinear_static.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_harmonic_response.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_harmonic_sdof_response.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_linear_buckling.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_modal_unit.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_nonlinear_static.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_orthotropic_modal.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_orthotropic_static.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_pressure.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_static.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+copying examples\tet4_transient_dynamic.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples
+creating build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples\vnv_026_g06
+copying examples\vnv_026_g06\hex8_mesh_01.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples\vnv_026_g06
+copying examples\vnv_026_g06\hex8_mesh_02.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples\vnv_026_g06
+copying examples\vnv_026_g06\hex8_mesh_04.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples\vnv_026_g06
+copying examples\vnv_026_g06\hex8_mesh_08.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\examples\vnv_026_g06
+creating build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification
+copying qualification\benchmarks.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification
+copying qualification\campaign.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification
+copying qualification\demonstrations.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification
+copying qualification\element_analysis_matrix.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification
+copying qualification\formulas.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification
+copying qualification\requirements.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification
+copying qualification\release_vv_0_2_1.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification
+copying qualification\technical_content_coverage.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification
+creating build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification\0_2_7
+copying qualification\0_2_7\capability_registry_v2.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification\0_2_7
+creating build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification\0_2_8
+copying qualification\0_2_8\consolidated_registry.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification\0_2_8
+copying qualification\0_2_8\wp10_hex8_sri_owner_gate_final.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification\0_2_8
+copying qualification\0_2_8\wp13_02d_mixed_dynamics_delivery.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification\0_2_8
+copying qualification\0_2_8\wp13_03d_mixed_mpc_owner_delivery.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification\0_2_8
+copying qualification\0_2_8\wp13_04d_multimaterial_owner_delivery.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification\0_2_8
+copying qualification\0_2_8\wp13_05_inp_import_capability_record.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification\0_2_8
+copying qualification\0_2_8\wp13_05c_registry_reconciliation_erratum.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification\0_2_8
+copying qualification\0_2_8\wp13_06d_mixed_hdf5_capability_record.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification\0_2_8
+copying qualification\0_2_8\wp13_07d_contact_capability_record.json -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\qualification\0_2_8
+creating build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\requirements
+copying requirements\baseline-standard.txt -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\requirements
+copying requirements\baseline-large-linux.txt -> build\bdist.win-amd64\wheel\qf_solver-0.2.8.data\data\requirements
+running install_egg_info
+Copying src\qf_solver.egg-info to build\bdist.win-amd64\wheel\.\qf_solver-0.2.8-py3.13.egg-info
+running install_scripts
+creating build\bdist.win-amd64\wheel\qf_solver-0.2.8.dist-info\WHEEL
+creating 'C:\\Users\\fari\\AppData\\Local\\Temp\\wp14_g03_r4_5_350289e\\package-candidate\\dist\\.tmp-69r0ck87\\qf_solver-0.2.8-py3-none-any.whl' and adding 'build\\bdist.win-amd64\\wheel' to it
+adding 'qf_solver/__init__.py'
+adding 'qf_solver-0.2.8.data/data/examples/beam2_cantilever.json'
+adding 'qf_solver-0.2.8.data/data/examples/frictional_contact_plane.json'
+adding 'qf_solver-0.2.8.data/data/examples/frictionless_contact_plane.json'
+adding 'qf_solver-0.2.8.data/data/examples/frictionless_contact_surface.json'
+adding 'qf_solver-0.2.8.data/data/examples/hex20_g06_analytic.json'
+adding 'qf_solver-0.2.8.data/data/examples/hex20_g06_j2.json'
+adding 'qf_solver-0.2.8.data/data/examples/hex20_g06_static.json'
+adding 'qf_solver-0.2.8.data/data/examples/hex8_g06_analytic.json'
+adding 'qf_solver-0.2.8.data/data/examples/hex8_g06_j2.json'
+adding 'qf_solver-0.2.8.data/data/examples/hex8_g06_static.json'
+adding 'qf_solver-0.2.8.data/data/examples/invalid_inverted_tet4.json'
+adding 'qf_solver-0.2.8.data/data/examples/mitc3_laminate_harmonic.json'
+adding 'qf_solver-0.2.8.data/data/examples/mitc3_modal_cantilever.json'
+adding 'qf_solver-0.2.8.data/data/examples/mitc3_newmark_cantilever.json'
+adding 'qf_solver-0.2.8.data/data/examples/mitc3_shell_static.json'
+adding 'qf_solver-0.2.8.data/data/examples/mitc4_dynamic_multicomponent.json'
+adding 'qf_solver-0.2.8.data/data/examples/mitc4_harmonic_cantilever.json'
+adding 'qf_solver-0.2.8.data/data/examples/mitc4_laminate_static.json'
+adding 'qf_solver-0.2.8.data/data/examples/mitc4_modal_cantilever.json'
+adding 'qf_solver-0.2.8.data/data/examples/mitc4_newmark_cantilever.json'
+adding 'qf_solver-0.2.8.data/data/examples/mitc4_shell_static.json'
+adding 'qf_solver-0.2.8.data/data/examples/rbe2_rigid_arm.json'
+adding 'qf_solver-0.2.8.data/data/examples/spring_mass_oscillator.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet10_g06_analytic.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet10_orthotropic_newmark.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet10_orthotropic_static.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet10_static.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_body_force.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_compression.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_dynamic_free_vibration.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_dynamic_sdof_free_vibration.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_dynamic_tabulated_load.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_elastoplastic_static.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_g06_analytic.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_geometric_nonlinear_static.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_harmonic_response.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_harmonic_sdof_response.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_linear_buckling.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_modal_unit.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_nonlinear_static.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_orthotropic_modal.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_orthotropic_static.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_pressure.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_static.json'
+adding 'qf_solver-0.2.8.data/data/examples/tet4_transient_dynamic.json'
+adding 'qf_solver-0.2.8.data/data/examples/vnv_026_g06/hex8_mesh_01.json'
+adding 'qf_solver-0.2.8.data/data/examples/vnv_026_g06/hex8_mesh_02.json'
+adding 'qf_solver-0.2.8.data/data/examples/vnv_026_g06/hex8_mesh_04.json'
+adding 'qf_solver-0.2.8.data/data/examples/vnv_026_g06/hex8_mesh_08.json'
+adding 'qf_solver-0.2.8.data/data/qualification/benchmarks.json'
+adding 'qf_solver-0.2.8.data/data/qualification/campaign.json'
+adding 'qf_solver-0.2.8.data/data/qualification/demonstrations.json'
+adding 'qf_solver-0.2.8.data/data/qualification/element_analysis_matrix.json'
+adding 'qf_solver-0.2.8.data/data/qualification/formulas.json'
+adding 'qf_solver-0.2.8.data/data/qualification/release_vv_0_2_1.json'
+adding 'qf_solver-0.2.8.data/data/qualification/requirements.json'
+adding 'qf_solver-0.2.8.data/data/qualification/technical_content_coverage.json'
+adding 'qf_solver-0.2.8.data/data/qualification/0_2_7/capability_registry_v2.json'
+adding 'qf_solver-0.2.8.data/data/qualification/0_2_8/consolidated_registry.json'
+adding 'qf_solver-0.2.8.data/data/qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json'
+adding 'qf_solver-0.2.8.data/data/qualification/0_2_8/wp13_02d_mixed_dynamics_delivery.json'
+adding 'qf_solver-0.2.8.data/data/qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json'
+adding 'qf_solver-0.2.8.data/data/qualification/0_2_8/wp13_04d_multimaterial_owner_delivery.json'
+adding 'qf_solver-0.2.8.data/data/qualification/0_2_8/wp13_05_inp_import_capability_record.json'
+adding 'qf_solver-0.2.8.data/data/qualification/0_2_8/wp13_05c_registry_reconciliation_erratum.json'
+adding 'qf_solver-0.2.8.data/data/qualification/0_2_8/wp13_06d_mixed_hdf5_capability_record.json'
+adding 'qf_solver-0.2.8.data/data/qualification/0_2_8/wp13_07d_contact_capability_record.json'
+adding 'qf_solver-0.2.8.data/data/requirements/baseline-large-linux.txt'
+adding 'qf_solver-0.2.8.data/data/requirements/baseline-standard.txt'
+adding 'qf_solver-0.2.8.dist-info/licenses/LICENSE'
+adding 'qf_solver-0.2.8.dist-info/licenses/LICENSE-DOCS'
+adding 'qf_solver-0.2.8.dist-info/licenses/NOTICE'
+adding 'qf_solver-0.2.8.dist-info/licenses/THIRD_PARTY_LICENSES.md'
+adding 'solveur/__init__.py'
+adding 'solveur/paths.py'
+adding 'solveur/version.py'
+adding 'solveur/api/__init__.py'
+adding 'solveur/api/public.py'
+adding 'solveur/benchmarks/__init__.py'
+adding 'solveur/benchmarks/beam.py'
+adding 'solveur/benchmarks/catalog.py'
+adding 'solveur/benchmarks/demonstrations.py'
+adding 'solveur/benchmarks/dynamic.py'
+adding 'solveur/benchmarks/gmsh_factory.py'
+adding 'solveur/benchmarks/nonlinear.py'
+adding 'solveur/benchmarks/runner.py'
+adding 'solveur/benchmarks/shell.py'
+adding 'solveur/benchmarks/solid.py'
+adding 'solveur/benchmarks/solid_extended.py'
+adding 'solveur/benchmarks/support.py'
+adding 'solveur/benchmarks/types.py'
+adding 'solveur/cli/__init__.py'
+adding 'solveur/cli/benchmark.py'
+adding 'solveur/cli/large.py'
+adding 'solveur/cli/main.py'
+adding 'solveur/cli/mesh.py'
+adding 'solveur/cli/standard.py'
+adding 'solveur/cli/verification.py'
+adding 'solveur/cli/vnv.py'
+adding 'solveur/compat/__init__.py'
+adding 'solveur/compat/mitc4/__init__.py'
+adding 'solveur/compat/mitc4/benchmarks.py'
+adding 'solveur/compat/mitc4/cli.py'
+adding 'solveur/compat/mitc4/constants.py'
+adding 'solveur/compat/mitc4/convergence.py'
+adding 'solveur/compat/mitc4/element.py'
+adding 'solveur/compat/mitc4/geometry.py'
+adding 'solveur/compat/mitc4/locking.py'
+adding 'solveur/compat/mitc4/material.py'
+adding 'solveur/compat/mitc4/mesh.py'
+adding 'solveur/compat/mitc4/model.py'
+adding 'solveur/compat/mitc4/verification.py'
+adding 'solveur/compat/mitc4/visualization.py'
+adding 'solveur/compatibility/__init__.py'
+adding 'solveur/compatibility/descriptors.py'
+adding 'solveur/compatibility/preflight.py'
+adding 'solveur/contact/__init__.py'
+adding 'solveur/contact/entities.py'
+adding 'solveur/contact/evaluation.py'
+adding 'solveur/contact/measures.py'
+adding 'solveur/contact/restart.py'
+adding 'solveur/contact/slip_root.py'
+adding 'solveur/contact/solver.py'
+adding 'solveur/contact/support.py'
+adding 'solveur/core/__init__.py'
+adding 'solveur/core/analysis.py'
+adding 'solveur/core/assembler.py'
+adding 'solveur/core/assembly_plan.py'
+adding 'solveur/core/audit.py'
+adding 'solveur/core/audit_checks.py'
+adding 'solveur/core/buckling.py'
+adding 'solveur/core/constraints.py'
+adding 'solveur/core/dofs.py'
+adding 'solveur/core/dynamic.py'
+adding 'solveur/core/dynamic_checkpoint.py'
+adding 'solveur/core/dynamic_controls.py'
+adding 'solveur/core/dynamic_history.py'
+adding 'solveur/core/dynamic_reduction.py'
+adding 'solveur/core/errors.py'
+adding 'solveur/core/geometric_assembly.py'
+adding 'solveur/core/geometric_nonlinear.py'
+adding 'solveur/core/geometric_nonlinear_controls.py'
+adding 'solveur/core/harmonic.py'
+adding 'solveur/core/linear_methods.py'
+adding 'solveur/core/linear_policy.py'
+adding 'solveur/core/material_state.py'
+adding 'solveur/core/modal.py'
+adding 'solveur/core/modal_dense.py'
+adding 'solveur/core/modal_options.py'
+adding 'solveur/core/model.py'
+adding 'solveur/core/nonlinear_arc_length.py'
+adding 'solveur/core/nonlinear_assembly.py'
+adding 'solveur/core/nonlinear_checkpoint.py'
+adding 'solveur/core/nonlinear_contracts.py'
+adding 'solveur/core/nonlinear_controls.py'
+adding 'solveur/core/nonlinear_iteration.py'
+adding 'solveur/core/nonlinear_load_control.py'
+adding 'solveur/core/nonlinear_support.py'
+adding 'solveur/core/qualification.py'
+adding 'solveur/core/rbe.py'
+adding 'solveur/core/result_serialization.py'
+adding 'solveur/core/results.py'
+adding 'solveur/core/router.py'
+adding 'solveur/core/solver.py'
+adding 'solveur/core/solver_backend.py'
+adding 'solveur/core/sparse_accumulator.py'
+adding 'solveur/core/analyses/__init__.py'
+adding 'solveur/core/analyses/buckling.py'
+adding 'solveur/core/analyses/dynamic.py'
+adding 'solveur/core/analyses/dynamic_checkpoint.py'
+adding 'solveur/core/analyses/dynamic_controls.py'
+adding 'solveur/core/analyses/dynamic_history.py'
+adding 'solveur/core/analyses/dynamic_reduction.py'
+adding 'solveur/core/analyses/geometric_nonlinear.py'
+adding 'solveur/core/analyses/geometric_nonlinear_controls.py'
+adding 'solveur/core/analyses/harmonic.py'
+adding 'solveur/core/analyses/modal.py'
+adding 'solveur/core/analyses/modal_dense.py'
+adding 'solveur/core/analyses/modal_options.py'
+adding 'solveur/core/analyses/settings.py'
+adding 'solveur/core/assembly/__init__.py'
+adding 'solveur/core/assembly/assembler.py'
+adding 'solveur/core/assembly/geometric.py'
+adding 'solveur/core/assembly/nonlinear.py'
+adding 'solveur/core/assembly/plan.py'
+adding 'solveur/core/assembly/sparse.py'
+adding 'solveur/core/nonlinear/__init__.py'
+adding 'solveur/core/nonlinear/arc_length.py'
+adding 'solveur/core/nonlinear/checkpoint.py'
+adding 'solveur/core/nonlinear/contracts.py'
+adding 'solveur/core/nonlinear/controls.py'
+adding 'solveur/core/nonlinear/driver.py'
+adding 'solveur/core/nonlinear/iteration.py'
+adding 'solveur/core/nonlinear/linear_solver.py'
+adding 'solveur/core/nonlinear/load_control.py'
+adding 'solveur/core/nonlinear/material_state.py'
+adding 'solveur/core/nonlinear/robustness.py'
+adding 'solveur/core/nonlinear/solver.py'
+adding 'solveur/core/nonlinear/state.py'
+adding 'solveur/core/nonlinear/support.py'
+adding 'solveur/core/nonlinear/telemetry.py'
+adding 'solveur/core/solvers/__init__.py'
+adding 'solveur/core/solvers/backend.py'
+adding 'solveur/core/solvers/linear.py'
+adding 'solveur/core/solvers/policy.py'
+adding 'solveur/core/solvers/static.py'
+adding 'solveur/core/telemetry/__init__.py'
+adding 'solveur/core/telemetry/console.py'
+adding 'solveur/core/telemetry/events.py'
+adding 'solveur/core/telemetry/health.py'
+adding 'solveur/core/telemetry/jsonl.py'
+adding 'solveur/core/telemetry/legacy.py'
+adding 'solveur/core/telemetry/observer.py'
+adding 'solveur/core/telemetry/schemas.py'
+adding 'solveur/elements/__init__.py'
+adding 'solveur/elements/discrete.py'
+adding 'solveur/elements/registry.py'
+adding 'solveur/elements/beam/__init__.py'
+adding 'solveur/elements/beam/beam2.py'
+adding 'solveur/elements/shell/__init__.py'
+adding 'solveur/elements/shell/frames.py'
+adding 'solveur/elements/shell/mitc3.py'
+adding 'solveur/elements/shell/mitc3_condensation.py'
+adding 'solveur/elements/shell/mitc4/__init__.py'
+adding 'solveur/elements/shell/mitc4/adapter.py'
+adding 'solveur/elements/shell/mitc4/constants.py'
+adding 'solveur/elements/shell/mitc4/element.py'
+adding 'solveur/elements/shell/mitc4/geometry.py'
+adding 'solveur/elements/shell/mitc4/material.py'
+adding 'solveur/elements/shell/mitc4/mesh.py'
+adding 'solveur/elements/shell/mitc4/model.py'
+adding 'solveur/elements/solid/__init__.py'
+adding 'solveur/elements/solid/common.py'
+adding 'solveur/elements/solid/corotational_j2.py'
+adding 'solveur/elements/solid/hex20.py'
+adding 'solveur/elements/solid/hex8.py'
+adding 'solveur/elements/solid/hex8_sri.py'
+adding 'solveur/elements/solid/hex8_total_lagrangian_batch.py'
+adding 'solveur/elements/solid/pyramid5.py'
+adding 'solveur/elements/solid/quadrature.py'
+adding 'solveur/elements/solid/tet10.py'
+adding 'solveur/elements/solid/tet4.py'
+adding 'solveur/elements/solid/tet4_total_lagrangian.py'
+adding 'solveur/elements/solid/tet4_total_lagrangian_batch.py'
+adding 'solveur/elements/solid/total_lagrangian_j2.py'
+adding 'solveur/elements/solid/wedge6.py'
+adding 'solveur/execution/__init__.py'
+adding 'solveur/execution/contract.py'
+adding 'solveur/execution/diagnostics.py'
+adding 'solveur/io/__init__.py'
+adding 'solveur/io/audit_markdown.py'
+adding 'solveur/io/checkpoint_common.py'
+adding 'solveur/io/constraint_schema.py'
+adding 'solveur/io/contact_schema.py'
+adding 'solveur/io/csv_writer.py'
+adding 'solveur/io/discrete_schema.py'
+adding 'solveur/io/dynamic_checkpoint.py'
+adding 'solveur/io/evidence_verifier.py'
+adding 'solveur/io/evidence_writer.py'
+adding 'solveur/io/inp_reader.py'
+adding 'solveur/io/json_reader.py'
+adding 'solveur/io/json_writer.py'
+adding 'solveur/io/laminate_schema.py'
+adding 'solveur/io/load_schema.py'
+adding 'solveur/io/manifest.py'
+adding 'solveur/io/mixed_results_hdf5.py'
+adding 'solveur/io/model_writer.py'
+adding 'solveur/io/nonlinear_checkpoint.py'
+adding 'solveur/io/schema.py'
+adding 'solveur/io/schema_analysis.py'
+adding 'solveur/io/schema_entities.py'
+adding 'solveur/io/schema_values.py'
+adding 'solveur/io/vtu_writer.py'
+adding 'solveur/large/__init__.py'
+adding 'solveur/large/assembler.py'
+adding 'solveur/large/audit.py'
+adding 'solveur/large/benchmark.py'
+adding 'solveur/large/campaign.py'
+adding 'solveur/large/distributed_model.py'
+adding 'solveur/large/dofs.py'
+adding 'solveur/large/dynamic.py'
+adding 'solveur/large/evidence.py'
+adding 'solveur/large/generator.py'
+adding 'solveur/large/generic_distributed.py'
+adding 'solveur/large/io.py'
+adding 'solveur/large/materials.py'
+adding 'solveur/large/matrix_free.py'
+adding 'solveur/large/memory.py'
+adding 'solveur/large/model.py'
+adding 'solveur/large/mpi_diagnostics.py'
+adding 'solveur/large/mpi_guardrails.py'
+adding 'solveur/large/multifamily.py'
+adding 'solveur/large/optimization.py'
+adding 'solveur/large/partitioning.py'
+adding 'solveur/large/postprocess.py'
+adding 'solveur/large/profiling.py'
+adding 'solveur/large/qualification.py'
+adding 'solveur/large/readiness.py'
+adding 'solveur/large/runtime.py'
+adding 'solveur/large/solver.py'
+adding 'solveur/large/telemetry.py'
+adding 'solveur/large/tet4_batch.py'
+adding 'solveur/large/tuning.py'
+adding 'solveur/large/verification.py'
+adding 'solveur/loads/__init__.py'
+adding 'solveur/loads/entities.py'
+adding 'solveur/loads/integration.py'
+adding 'solveur/materials/__init__.py'
+adding 'solveur/materials/beam.py'
+adding 'solveur/materials/composite.py'
+adding 'solveur/materials/factory.py'
+adding 'solveur/materials/failure.py'
+adding 'solveur/materials/laminate.py'
+adding 'solveur/materials/orthotropic.py'
+adding 'solveur/materials/shell.py'
+adding 'solveur/materials/solid.py'
+adding 'solveur/mesh/__init__.py'
+adding 'solveur/mesh/constraint_validation.py'
+adding 'solveur/mesh/contact_validation.py'
+adding 'solveur/mesh/entities.py'
+adding 'solveur/mesh/gmsh_importer.py'
+adding 'solveur/mesh/gmsh_reader.py'
+adding 'solveur/mesh/gmsh_types.py'
+adding 'solveur/mesh/mixed_validation.py'
+adding 'solveur/mesh/quality.py'
+adding 'solveur/mesh/quality_contract.py'
+adding 'solveur/mesh/solid_validation.py'
+adding 'solveur/mesh/topology.py'
+adding 'solveur/mesh/validation.py'
+adding 'solveur/mesh/validation_geometry.py'
+adding 'solveur/mesh/validation_helpers.py'
+adding 'solveur/mesh/validation_rank.py'
+adding 'solveur/post/__init__.py'
+adding 'solveur/post/audit.py'
+adding 'solveur/post/harmonic_shell.py'
+adding 'solveur/post/mitc4_visualization.py'
+adding 'solveur/post/shell_results.py'
+adding 'solveur/post/solid_recovery.py'
+adding 'solveur/post/solid_results.py'
+adding 'solveur/post/stress.py'
+adding 'solveur/verification/__init__.py'
+adding 'solveur/verification/analytical_references.py'
+adding 'solveur/verification/calculix_buckling_025.py'
+adding 'solveur/verification/calculix_composite.py'
+adding 'solveur/verification/calculix_composite_conical_cutout.py'
+adding 'solveur/verification/calculix_composite_conical_ply_stress.py'
+adding 'solveur/verification/calculix_curved_composite.py'
+adding 'solveur/verification/calculix_curved_orientation.py'
+adding 'solveur/verification/calculix_j2.py'
+adding 'solveur/verification/calculix_mitc3.py'
+adding 'solveur/verification/calculix_mitc3_curved_composite.py'
+adding 'solveur/verification/calculix_mitc3_laminate_ply_stress.py'
+adding 'solveur/verification/calculix_mitc4_conical_cutout.py'
+adding 'solveur/verification/calculix_nafems.py'
+adding 'solveur/verification/calculix_tet10.py'
+adding 'solveur/verification/calculix_tl_structural.py'
+adding 'solveur/verification/calculix_total_lagrangian.py'
+adding 'solveur/verification/campaign.py'
+adding 'solveur/verification/code_aster_beam2.py'
+adding 'solveur/verification/code_aster_beam2_modal.py'
+adding 'solveur/verification/code_aster_beam2_newmark.py'
+adding 'solveur/verification/code_aster_beam2_static.py'
+adding 'solveur/verification/code_aster_beam2_transverse.py'
+adding 'solveur/verification/code_aster_contact.py'
+adding 'solveur/verification/code_aster_contact_additional.py'
+adding 'solveur/verification/code_aster_contact_folded.py'
+adding 'solveur/verification/code_aster_contact_folded_search.py'
+adding 'solveur/verification/code_aster_contact_tet4.py'
+adding 'solveur/verification/code_aster_discrete.py'
+adding 'solveur/verification/code_aster_friction_contact.py'
+adding 'solveur/verification/code_aster_j2.py'
+adding 'solveur/verification/code_aster_mitc3.py'
+adding 'solveur/verification/code_aster_mitc3_curved_laminate.py'
+adding 'solveur/verification/code_aster_mitc3_dynamic.py'
+adding 'solveur/verification/code_aster_mitc3_dynamic_refinement.py'
+adding 'solveur/verification/code_aster_mitc3_hemisphere.py'
+adding 'solveur/verification/code_aster_mitc3_laminate_dynamic.py'
+adding 'solveur/verification/code_aster_mitc3_laminate_dynamic_refinement.py'
+adding 'solveur/verification/code_aster_mitc3_temporal_refinement.py'
+adding 'solveur/verification/code_aster_mitc4_conical_cutout.py'
+adding 'solveur/verification/code_aster_mitc4_laminate_dynamic.py'
+adding 'solveur/verification/code_aster_mitc4_orthotropic_curved_dynamic.py'
+adding 'solveur/verification/code_aster_nafems.py'
+adding 'solveur/verification/code_aster_rbe.py'
+adding 'solveur/verification/code_aster_tet10_block_dynamic.py'
+adding 'solveur/verification/code_aster_tet10_cylinder_dynamic.py'
+adding 'solveur/verification/code_aster_tet10_damped_cylinder_dynamic.py'
+adding 'solveur/verification/code_aster_tet10_dynamic.py'
+adding 'solveur/verification/code_aster_tet10_j2_complex.py'
+adding 'solveur/verification/code_aster_tet10_j2_structural.py'
+adding 'solveur/verification/code_aster_tet10_static.py'
+adding 'solveur/verification/code_aster_tet10_stress_probe.py'
+adding 'solveur/verification/code_aster_tet4_cylinder_dynamic.py'
+adding 'solveur/verification/code_aster_tet4_dynamic.py'
+adding 'solveur/verification/code_aster_tet4_static.py'
+adding 'solveur/verification/code_aster_tet4_thick_dynamic.py'
+adding 'solveur/verification/code_aster_tl_structural.py'
+adding 'solveur/verification/composite_analytic.py'
+adding 'solveur/verification/composite_conical_cutout.py'
+adding 'solveur/verification/composite_curved_assembly.py'
+adding 'solveur/verification/composite_nafems.py'
+adding 'solveur/verification/composite_ply_stress.py'
+adding 'solveur/verification/composite_structural.py'
+adding 'solveur/verification/contact_additional_models.py'
+adding 'solveur/verification/contact_additional_oracle.py'
+adding 'solveur/verification/contact_campaign.py'
+adding 'solveur/verification/contact_deformable_master.py'
+adding 'solveur/verification/contact_master_surface.py'
+adding 'solveur/verification/contact_tet4_master.py'
+adding 'solveur/verification/discrete_multidof_campaign.py'
+adding 'solveur/verification/dynamic_family_campaign.py'
+adding 'solveur/verification/elastica.py'
+adding 'solveur/verification/evidence_readiness.py'
+adding 'solveur/verification/external_correlation.py'
+adding 'solveur/verification/frictional_contact.py'
+adding 'solveur/verification/frictional_contact_family_survey.py'
+adding 'solveur/verification/frictional_contact_structural.py'
+adding 'solveur/verification/frictionless_contact_structural.py'
+adding 'solveur/verification/g06_analytical.py'
+adding 'solveur/verification/g11_native_adapters.py'
+adding 'solveur/verification/g11_runner.py'
+adding 'solveur/verification/hex20.py'
+adding 'solveur/verification/hex20_calculix.py'
+adding 'solveur/verification/hex8.py'
+adding 'solveur/verification/hex8_calculix.py'
+adding 'solveur/verification/hex8_campaign.py'
+adding 'solveur/verification/hex8_tet_benchmark.py'
+adding 'solveur/verification/j2_material.py'
+adding 'solveur/verification/j2_methods.py'
+adding 'solveur/verification/j2_multielement_external.py'
+adding 'solveur/verification/j2_performance.py'
+adding 'solveur/verification/j2_step_sensitivity.py'
+adding 'solveur/verification/j2_structural.py'
+adding 'solveur/verification/large_petsc_scipy.py'
+adding 'solveur/verification/linear_solver_comparison.py'
+adding 'solveur/verification/maturity_promotion.py'
+adding 'solveur/verification/maturity_promotion_helpers.py'
+adding 'solveur/verification/maturity_promotion_reports.py'
+adding 'solveur/verification/mechanical.py'
+adding 'solveur/verification/mesh_checks.py'
+adding 'solveur/verification/mitc3_campaign.py'
+adding 'solveur/verification/mitc3_curved_axial_audit.py'
+adding 'solveur/verification/mitc3_dynamic_extended.py'
+adding 'solveur/verification/mitc3_laminate_abd_audit.py'
+adding 'solveur/verification/mitc3_laminate_dynamic.py'
+adding 'solveur/verification/mitc3_mass_quadrature_audit.py'
+adding 'solveur/verification/mitc3_matrix_condensation_audit.py'
+adding 'solveur/verification/mitc3_models.py'
+adding 'solveur/verification/mitc3_refined.py'
+adding 'solveur/verification/mitc3_stiffness_quadrature_audit.py'
+adding 'solveur/verification/mitc3_temporal_refinement.py'
+adding 'solveur/verification/mitc4_benchmarks.py'
+adding 'solveur/verification/mitc4_campaign.py'
+adding 'solveur/verification/mitc4_conical_cutout.py'
+adding 'solveur/verification/mitc4_convergence.py'
+adding 'solveur/verification/mitc4_harmonic.py'
+adding 'solveur/verification/mitc4_harmonic_broadband.py'
+adding 'solveur/verification/mitc4_harmonic_condensation.py'
+adding 'solveur/verification/mitc4_harmonic_nafems.py'
+adding 'solveur/verification/mitc4_laminate_dynamic.py'
+adding 'solveur/verification/mitc4_laminate_layups.py'
+adding 'solveur/verification/mitc4_locking.py'
+adding 'solveur/verification/mitc4_mechanical.py'
+adding 'solveur/verification/mitc4_modal.py'
+adding 'solveur/verification/mitc4_modal_extended.py'
+adding 'solveur/verification/mitc4_modal_external.py'
+adding 'solveur/verification/mitc4_modal_plate.py'
+adding 'solveur/verification/mitc4_newmark.py'
+adding 'solveur/verification/mitc4_newmark_broadband.py'
+adding 'solveur/verification/mitc4_newmark_extended.py'
+adding 'solveur/verification/mitc4_newmark_operational.py'
+adding 'solveur/verification/mitc4_orthotropic_curved_dynamic.py'
+adding 'solveur/verification/mitc4_orthotropic_static.py'
+adding 'solveur/verification/modal_comparison.py'
+adding 'solveur/verification/nonlinear_checkpoint_failure.py'
+adding 'solveur/verification/nonlinear_failure_campaign.py'
+adding 'solveur/verification/nonlinear_failure_paths.py'
+adding 'solveur/verification/nonlinear_failure_runner.py'
+adding 'solveur/verification/observatory.py'
+adding 'solveur/verification/orthotropic_additional_stress.py'
+adding 'solveur/verification/orthotropic_complex_mesh.py'
+adding 'solveur/verification/orthotropic_convergence.py'
+adding 'solveur/verification/orthotropic_external.py'
+adding 'solveur/verification/orthotropic_large_static.py'
+adding 'solveur/verification/orthotropic_load_cases.py'
+adding 'solveur/verification/orthotropic_modal_dynamic.py'
+adding 'solveur/verification/orthotropic_performance.py'
+adding 'solveur/verification/orthotropic_singularity_vnv.py'
+adding 'solveur/verification/orthotropic_solid.py'
+adding 'solveur/verification/owner_review.py'
+adding 'solveur/verification/release_vv.py'
+adding 'solveur/verification/robustness_arc_length.py'
+adding 'solveur/verification/robustness_arc_length_extended.py'
+adding 'solveur/verification/robustness_buckling.py'
+adding 'solveur/verification/robustness_campaign.py'
+adding 'solveur/verification/robustness_contact.py'
+adding 'solveur/verification/robustness_contact_extended.py'
+adding 'solveur/verification/robustness_coupling.py'
+adding 'solveur/verification/robustness_foundations.py'
+adding 'solveur/verification/robustness_geometric.py'
+adding 'solveur/verification/robustness_mesh.py'
+adding 'solveur/verification/robustness_nonlinear_solids.py'
+adding 'solveur/verification/robustness_support.py'
+adding 'solveur/verification/rqg08_external_j2.py'
+adding 'solveur/verification/singularity_stress.py'
+adding 'solveur/verification/tet10.py'
+adding 'solveur/verification/tet10_geometry_quadrature.py'
+adding 'solveur/verification/tet10_mass_modal_loads.py'
+adding 'solveur/verification/tet10_near_incompressible.py'
+adding 'solveur/verification/tet10_structural_convergence.py'
+adding 'solveur/verification/tet4_error_audit.py'
+adding 'solveur/verification/tet4_structured_convergence.py'
+adding 'solveur/verification/tet4_structured_petsc.py'
+adding 'solveur/verification/tet4_tet10_reference.py'
+adding 'solveur/verification/tet4_tl_buckling_refinement.py'
+adding 'solveur/verification/tet4_total_lagrangian.py'
+adding 'solveur/verification/tet4_total_lagrangian_assembly.py'
+adding 'solveur/verification/tet4_total_lagrangian_buckling.py'
+adding 'solveur/verification/tet4_total_lagrangian_postbuckling.py'
+adding 'solveur/verification/tet4_total_lagrangian_steps.py'
+adding 'solveur/verification/tet4_total_lagrangian_stress.py'
+adding 'solveur/verification/torsion_stress_probe.py'
+adding 'solveur/verification/total_lagrangian_structural.py'
+adding 'solveur/verification/traceability.py'
+adding 'solveur/verification/transient_modal_oracle.py'
+adding 'solveur/verification/vnv_benchmark_import.py'
+adding 'solveur/verification/vnv_manifest.py'
+adding 'solveur/verification/vnv_report.py'
+adding 'solveur/verification/vnv_runner.py'
+adding 'solveur/verification/vnv_schema.py'
+adding 'solveur/verification/vnv_torsion_import.py'
+adding 'solveur/verification/vnv_types.py'
+adding 'solveur/verification/vnv_visualization.py'
+adding 'solveur/verification/wedge6_modal.py'
+adding 'solveur/verification/wp09_independent_reference.py'
+adding 'solveur/verification/framework/__init__.py'
+adding 'solveur/verification/framework/case.py'
+adding 'solveur/verification/framework/environment.py'
+adding 'solveur/verification/framework/manifest.py'
+adding 'solveur/verification/framework/registry.py'
+adding 'solveur/verification/framework/result.py'
+adding 'solveur/verification/framework/runner.py'
+adding 'solveur/verification/v2/__init__.py'
+adding 'solveur/verification/v2/runner.py'
+adding 'solveur/verification/v2/schema.py'
+adding 'qf_solver-0.2.8.dist-info/METADATA'
+adding 'qf_solver-0.2.8.dist-info/WHEEL'
+adding 'qf_solver-0.2.8.dist-info/entry_points.txt'
+adding 'qf_solver-0.2.8.dist-info/top_level.txt'
+adding 'qf_solver-0.2.8.dist-info/RECORD'
+removing build\bdist.win-amd64\wheel
+Successfully built qf_solver-0.2.8.tar.gz and qf_solver-0.2.8-py3-none-any.whl

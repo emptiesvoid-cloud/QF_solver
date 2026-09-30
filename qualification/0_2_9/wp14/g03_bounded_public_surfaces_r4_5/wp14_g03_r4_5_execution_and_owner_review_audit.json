@@ -1,0 +1,258 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-029-WP14-G03-R4.5-CURRENT-HEAD-REBIND",
+  "review_verdict": "PASS_FOR_OWNER_REVIEW",
+  "review_scope": "SCOPED_PUBLIC_SURFACES_ONLY",
+  "wp14_ledger": {
+    "governing_source_descriptive_status": "NOT_STARTED",
+    "candidate_corrected_descriptive_status": "HOLD",
+    "validated_points": 0,
+    "available_points": 1
+  },
+  "official_total": {
+    "validated_points": 95,
+    "available_points": 100
+  },
+  "provenance": {
+    "governing_branch": "0.2.9-unified-nonlinear",
+    "merged_source_sha": "d37ab32e4f7ba0b9688ef78711453200486056f0",
+    "contract_commit": "350289e867306dad4bb25374a8ec2249be39a92a",
+    "execution_sha": "350289e867306dad4bb25374a8ec2249be39a92a",
+    "candidate_branch": "codex/wp14-current-head-rebind",
+    "ci_source_sha": "c36df868464d0cd4de0a5c982652aec21640667a",
+    "ci_tree_identical_to_merged_source": true
+  },
+  "g03": {
+    "status": "PASS_BOUNDED_PUBLIC_SURFACES",
+    "package_sources": 551,
+    "package_findings": 0,
+    "public_documents": 745,
+    "public_document_findings": 0,
+    "controlled_archive_documents_excluded": 208,
+    "whole_repository_status": "FAIL_RETAINED"
+  },
+  "candidate_package": {
+    "status": "PASS_CANDIDATE_PACKAGE_ONLY",
+    "version": "0.2.8",
+    "wheel_scan_files": 551,
+    "sdist_scan_files": 559,
+    "scan_findings": 0,
+    "installed_sources_verified": 473,
+    "inside_checkout_probe": "PASS",
+    "outside_checkout_probe": "PASS",
+    "wheel": {
+      "bytes": 1509979,
+      "sha256": "24a3330a23a513bfb274830da2318362e87aeeb8a81a4623270a350aee3c9a73"
+    },
+    "sdist": {
+      "bytes": 1138014,
+      "sha256": "5584ba659a2e3bc1517810ddd6e6e0c8e8debc8750e61741824c50795283db4a"
+    },
+    "binaries_versioned": false,
+    "external_output_root": "C:/Users/fari/AppData/Local/Temp/wp14_g03_r4_5_350289e/package-candidate"
+  },
+  "g06": {
+    "status": "PASS_WITH_LIMITATIONS_ARCHIVED_R2_2",
+    "owner_review_documents_complete": 22,
+    "owner_review_documents_total": 22,
+    "controlled_document_backlog": 89,
+    "reviewer_missing": 86,
+    "approver_missing": 89
+  },
+  "g08": {
+    "status": "PASS_CI_AT_IDENTICAL_MERGE_TREE",
+    "workflow_run_id": 36707249001,
+    "workflow_url": "https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/36707249001",
+    "jobs": [
+      {
+        "job_id": 109860306972,
+        "name": "ubuntu-latest / Python 3.13",
+        "conclusion": "success"
+      },
+      {
+        "job_id": 109860307049,
+        "name": "ubuntu-latest / Python 3.10",
+        "conclusion": "success"
+      },
+      {
+        "job_id": 109860307167,
+        "name": "windows-latest / Python 3.10",
+        "conclusion": "success"
+      },
+      {
+        "job_id": 109860307183,
+        "name": "windows-latest / Python 3.13",
+        "conclusion": "success"
+      },
+      {
+        "job_id": 109875663570,
+        "name": "Documentation evidence / ubuntu-latest",
+        "conclusion": "success"
+      },
+      {
+        "job_id": 109875663611,
+        "name": "WP14 recovered evidence / targeted checks",
+        "conclusion": "success"
+      },
+      {
+        "job_id": 109876123345,
+        "name": "Full engineering campaign",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "targeted_tests": {
+    "status": "PASS",
+    "passed": 118,
+    "skipped": 2,
+    "command": "python -m pytest tests/unit/test_wp14_public_scope_scan.py tests/unit/test_public_package_build.py tests/unit/test_public_package_plan.py tests/unit/test_wp14_contract.py tests/unit/test_029_step_up_baseline.py tests/unit/test_pp04_public_documentation.py tests/unit/test_step2b_qualification_reconciliation.py tests/documentation/test_docs_generation.py -q"
+  },
+  "versioned_generated_records": [
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/commands.json",
+      "bytes": 8571,
+      "sha256": "6c5a2a5d23eac31dd318ea038dc7894799c1f0c1abf63363b3fb6adbffddca9a"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/inside_checkout_probe.json",
+      "bytes": 6356,
+      "sha256": "3d1a22d82b23f0f8833e2c0e4329c18ad412fdb9890b7b089296fa35593fa4d5"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/01.stderr.log",
+      "bytes": 893,
+      "sha256": "770801fdf83f604c64511d1cc11da5454690d645415cbfeeeec539e0a12675d3"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/01.stdout.log",
+      "bytes": 185489,
+      "sha256": "a5b7fd31291b9c66d98ed37365b02caaa139ab19fd805c2c64adc09e7eb31ad1"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/02.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/02.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/03.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/03.stdout.log",
+      "bytes": 205,
+      "sha256": "5ea70d47d67baabb328e683e94574ebae1cfcbf89cbdf667d1797659caf629ca"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/04.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/04.stdout.log",
+      "bytes": 17,
+      "sha256": "103eec304b3e8b1d1059105e6cbdf34a51e33d986735c0a0082e081faddae90f"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/05.stderr.log",
+      "bytes": 90,
+      "sha256": "d6cdb17be2260e9154403aa3fe23c59c6956021722edccca28988513f5993e17"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/05.stdout.log",
+      "bytes": 17,
+      "sha256": "103eec304b3e8b1d1059105e6cbdf34a51e33d986735c0a0082e081faddae90f"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/06.stderr.log",
+      "bytes": 88,
+      "sha256": "adeba1e481a4efbfe777c871f81b75224d332f9ae232d8ff5f8ccb96fd097285"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/06.stdout.log",
+      "bytes": 20,
+      "sha256": "972ea6a8672a41fe74623f7e4bef664fbca03d9679c3d55b2ca29f0e21285d7f"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/07.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/07.stdout.log",
+      "bytes": 4606,
+      "sha256": "5eea2ec2cfa06942142c5915a60724cd541a0de09668af858090538c148c1066"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/08.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/08.stdout.log",
+      "bytes": 6375,
+      "sha256": "6ec28254d80c0abc16e0186f458576c0308dd6e63dc6576a425d032882f3fac0"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/09.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/09.stdout.log",
+      "bytes": 6356,
+      "sha256": "3d1a22d82b23f0f8833e2c0e4329c18ad412fdb9890b7b089296fa35593fa4d5"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/manifest.json",
+      "bytes": 4112,
+      "sha256": "2dbc5f8c2df152ee980d20db0ac89f0a4d18acaa370ab83364035bda55403444"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/outside_checkout_probe.json",
+      "bytes": 6375,
+      "sha256": "6ec28254d80c0abc16e0186f458576c0308dd6e63dc6576a425d032882f3fac0"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/package_check.json",
+      "bytes": 713,
+      "sha256": "d25497139cadfc7b46a134f13a19cf42bd3cb2497510372e24292edb63e4c653"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/result.json",
+      "bytes": 15357,
+      "sha256": "bf03aefee79a5452e426e1497698c7d0dd214b1f98c43af3a7cab6af6c8b5f43"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/source_mapping.json",
+      "bytes": 136105,
+      "sha256": "26f646af3aece1a0ca3dee81681c2ca501972c6b4640334690591d45a4ecea52"
+    },
+    {
+      "path": "qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/public-scope-scan.json",
+      "bytes": 396290,
+      "sha256": "0864874ec7569a90edfee1032282da89c4b2e1513e3269c7c9565f6cd10532b0"
+    }
+  ],
+  "governance": {
+    "whole_repository_g03_waived": false,
+    "historical_r02_to_r05_reclassified": false,
+    "wp14_point_awarded": false,
+    "release_0_2_9_authorized": false,
+    "tag_or_publication_performed": false
+  },
+  "limitations": [
+    "G03 is a prospectively rebound selected public-surface scan, not a whole-repository pass.",
+    "The package is version 0.2.8 and remains a candidate only.",
+    "G06 R2.2 metadata attribution is Owner self-attested, not an independent digital signature; advisory backlog remains visible.",
+    "The GitHub CI ran on the PR head with a tree identical to the merged source, not on the later evidence and ledger commits.",
+    "Wheel and sdist binaries remain outside Git with their hashes recorded; no fresh remote archive readback was performed.",
+    "WP04-D reproduced NPZ files do not establish provenance of the four original historical files.",
+    "G09 Owner release and score decisions remain open."
+  ]
+}

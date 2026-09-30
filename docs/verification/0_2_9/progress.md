@@ -27,7 +27,7 @@ approver: ""
 | WP11 | 6 | **Closed — Owner accepted 6/6; bounded TET4/HEX8/TET10/HEX20 PETSc/MPI evidence with limitations** |
 | WP12 | 4 | **Owner accepted — 4/4 bounded Code_Aster correlation with limitations** |
 | WP13 | 1 | **Owner accepted — 1/1; bounded multi-family performance/API/diagnostics characterization with limitations** |
-| WP14 | 1 | **In progress — HOLD, 0/1; bounded G03 package scan is only a candidate, while G04/G05/G06/G08/G09 remain open or gated** |
+| WP14 | 1 | **HOLD, 0/1; G03 R4.5 selected public surfaces and package candidate PASS, G06 R2.2 PASS_WITH_LIMITATIONS, G08 CI #36707249001 PASS; whole-repository G03 failures and G09 release decision remain separate** |
 | **Validated total (consolidated ledger)** | **95 / 100** | **Includes WP05 5/5, WP06 4/8, WP07 10/10, WP08 8/8, WP09 8/8, WP10 6/6, WP11 6/6, WP12 4/4 and WP13 1/1** |
 
 ## Current administrative closure

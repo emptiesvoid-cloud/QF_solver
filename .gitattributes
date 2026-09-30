@@ -49,3 +49,6 @@ qualification/0_2_9/wp14/g06_g08_r2_2/*-manifest.csv binary
 qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/** whitespace=cr-at-eol
 qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/*.log binary
 qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/package_candidate/logs/*.log binary
+qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/** whitespace=cr-at-eol
+qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/*.log binary
+qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/*.log binary
