@@ -35,7 +35,7 @@ On this page: [Why QF Solver?](README.md#why-qf-solver) ·
 | Item | Status |
 | --- | --- |
 | Release line | `0.2.8` |
-| Next source candidate | `0.2.9` (in qualification; no tag or publication yet) |
+| Source candidate | `0.2.9` (integrated into `main`; not tagged or published) |
 | Development stage | Beta |
 | Python | `>=3.10` |
 | CI validation | Windows and Linux |
@@ -47,9 +47,12 @@ Release availability is authoritative on [PyPI](https://pypi.org/project/qf-solv
 and [GitHub Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases).
 This page describes the published `0.2.8` release line. Citation metadata is
 authoritative in [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).
-The development source identifies as `0.2.9`, but it is not yet a published
-release. Checks on selected candidate sources and documents do not qualify the
-whole repository or broaden any element, analysis or solver-route claim.
+The `0.2.9` source candidate was integrated into `main` at merge commit
+`765bbe4`; the required `Quality and verification` and `Documentation tests`
+workflows passed on candidate commit `ea28165`. This confirms those CI checks,
+not qualification of the whole repository or any broader element, analysis or
+solver-route claim. `v0.2.9` remains untagged and unpublished; no version DOI
+or PyPI package is claimed.
 Historical failures and the [known limitations](https://emptiesvoid-cloud.github.io/QF_solver/etat/limites/)
 remain in effect. The published `0.2.8` tag, DOI and installation instructions
 below must not be interpreted as evidence for the candidate source.
