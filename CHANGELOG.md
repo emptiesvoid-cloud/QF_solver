@@ -1,13 +1,15 @@
 # Changelog
 
-## 0.2.9 - In preparation (not released)
+## 0.2.9 - Source integrated; release not issued
 
-- The integrated source candidate includes bounded public-package and
-  documentation review, plus bounded external-evidence handling. These checks
-  do not qualify the whole repository or broaden route-specific claims;
-  recorded failures and limitations remain in effect.
-- Historical failures and the published `0.2.8` citation remain unchanged.
-  No `v0.2.9` tag, release archive, DOI or PyPI publication is claimed.
+- The source candidate was merged into `main` at `765bbe4`. The required
+  `Quality and verification` and `Documentation tests` workflows passed on
+  candidate commit `ea28165`; these CI results do not qualify the whole
+  repository or broaden route-specific claims.
+- `v0.2.9` has not been tagged or published. The published `0.2.8` release
+  and citation remain authoritative until a separate release is issued; no
+  `0.2.9` version DOI, release archive or PyPI publication is claimed.
+- Historical failures and documented limitations remain in effect.
 
 ## 0.2.8 - Released
 

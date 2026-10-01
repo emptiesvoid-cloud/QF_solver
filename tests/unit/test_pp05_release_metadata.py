@@ -80,7 +80,10 @@ def test_candidate_source_and_last_published_citation_are_distinct() -> None:
 
     assert "10.5281/zenodo.22697898" in _text("README.md")
     assert "10.5281/zenodo.22697897" in _text("README.md")
-    assert "0.2.9` (in qualification; no tag or publication yet)" in _text("README.md")
+    assert (
+        "Source candidate | `0.2.9` (integrated into `main`; not tagged or published)"
+        in _text("README.md")
+    )
 
 
 def test_public_release_policy_classifies_reviewed_evidence_and_exclusions() -> None:

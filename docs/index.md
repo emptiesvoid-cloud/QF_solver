@@ -73,9 +73,12 @@ physical validation or certification.
 
 ## Release and roadmap
 
-The development source identifies as `0.2.9`, but `v0.2.9` has not been tagged
-or published. Checks on selected candidate sources and documents do not qualify
-the whole repository or broaden any solver-route claim; the
+The `0.2.9` source candidate was integrated into `main` at merge commit
+`765bbe4`; its required `Quality and verification` and `Documentation tests`
+workflows passed on candidate commit `ea28165`. This confirms those CI checks,
+not qualification of the whole repository or any broader solver-route claim.
+`v0.2.9` remains untagged and unpublished; no version DOI or PyPI package is
+claimed. The
 [known limitations](etat/limites.md) and recorded failures remain visible.
 The current published release is `0.2.8` as linked above. See the
 [public roadmap](reference/feuille_de_route.md) for product-level next steps.
