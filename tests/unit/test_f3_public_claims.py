@@ -109,8 +109,11 @@ def test_active_lu2_views_do_not_present_old_accounting_as_current() -> None:
     assert statuses["LU2-WP05"] == "PASS"
 
     roadmap = (ROOT / "docs/reference/feuille_de_route.md").read_text(encoding="utf-8")
-    assert "historical planning snapshot" in roadmap
-    assert "0.2.8 development scope" in roadmap
+    normalized_roadmap = " ".join(roadmap.split())
+    assert "QF Solver 0.2.8 is the current published release" in normalized_roadmap
+    assert "0.2.9 candidate; it has not been tagged or published" in normalized_roadmap
+    assert "Historical planning snapshots may retain earlier scores" in normalized_roadmap
+    assert "they do not define the 0.2.9 candidate" in normalized_roadmap
     assert "QF Solver 0.2.7 is the current stable source release" not in roadmap
 
     for relative in ("docs/elements/tet4.md", "docs/elements/tet10.md", "docs/elements/mitc4.md"):
