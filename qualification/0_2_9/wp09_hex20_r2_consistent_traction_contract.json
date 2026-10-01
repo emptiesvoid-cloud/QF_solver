@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-029-WP09-HEX20-R2-CONSISTENT-TRACTION",
+  "work_item": "WP09",
+  "scope": "HEX20-only bounded corotational small-strain J2 R2 requalification study",
+  "status": "FROZEN_PROSPECTIVE_DIAGNOSTIC_CONTRACT",
+  "governing_branch": "0.2.9-unified-nonlinear",
+  "governing_base_sha": "cd5605ee7b77d119bbdb01ab9dbe9fa0c84331cf",
+  "policy_code_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "runtime_policy_digest": "895d3c932278c0207b207318216c263a427636d57738bef730917fdc7d9b0ef5",
+  "owner_authorization": {
+    "hex20_only": true,
+    "production_mechanics_change": false,
+    "official_points_awarded": false,
+    "merge": false,
+    "push": false
+  },
+  "formulation": {
+    "kinematics": "corotational_j2",
+    "local_strain": "U - I",
+    "constitutive_model": "additive small-strain von Mises J2 with isotropic hardening",
+    "tangent": "central_difference_internal_force_at_fixed_committed_state",
+    "solver_method": "newton_raphson"
+  },
+  "material": {
+    "type": "von_mises_elastoplastic_3d",
+    "E": 1000.0,
+    "nu": 0.3,
+    "yield_stress": 0.02,
+    "hardening_modulus": 10.0
+  },
+  "path": {
+    "load_scale": 0.25,
+    "load_path": [0.25, 0.5, 0.75, 1.0],
+    "load_steps": 4,
+    "max_iterations": 40,
+    "tolerance": 1e-9,
+    "corotational_max_local_strain": 0.05,
+    "adaptive_load_steps": false
+  },
+  "load_definition": {
+    "type": "consistent_surface_traction",
+    "face": "x=1 HEX20 QUAD8 faces",
+    "quadrature": "2x2 Gauss",
+    "traction_direction": "+UX",
+    "total_resultant": [0.25, 0.0, 0.0],
+    "equal_share_nodal_load": false,
+    "resultant_and_moment_checked": true
+  },
+  "mesh_hierarchy": {
+    "family": "HEX20",
+    "refinement": "three-dimensional structured refinement",
+    "levels": [
+      {"stage": "H1", "cells": [1, 1, 1], "raw_filename": "h1_hex20.json"},
+      {"stage": "H2", "cells": [2, 2, 2], "raw_filename": "h2_hex20.json"},
+      {"stage": "H3", "cells": [3, 3, 3], "raw_filename": "h3_hex20.json"}
+    ],
+    "gate": "H2_to_H3_only"
+  },
+  "gates": {
+    "production_status": "PASS",
+    "accepted_steps": 4,
+    "rejected_increments": 0,
+    "fallback_count": 0,
+    "free_residual_relative_max": 1e-7,
+    "force_equilibrium_relative_max": 1e-8,
+    "moment_equilibrium_relative_max": 1e-8,
+    "minimum_det_f": 1e-10,
+    "maximum_local_strain_norm": 0.05,
+    "replay_relative_tolerance": 1e-12,
+    "mesh_comparison": {
+      "selected_displacement_relative_max": 0.05,
+      "reaction_relative_max": 0.05,
+      "energy_relative_max": 0.05,
+      "von_mises_relative_max": 0.10
+    }
+  },
+  "reference": {
+    "script": "scripts/run_wp09_hex20_extension_reference.py",
+    "classification": "independent_observable_recomputation_not_global_fem_solve",
+    "required": true
+  },
+  "replay": {
+    "required": true,
+    "same_frozen_inputs": true,
+    "same_contract": true
+  },
+  "formal_status": {
+    "wp09_hex8_points": "8/8 unchanged",
+    "hex20_points": "0/pending_owner_review"
+  },
+  "limitations": [
+    "HEX20 only",
+    "bounded corotational small-strain J2",
+    "no general finite-strain plasticity claim",
+    "no external solver correlation in this run",
+    "no automatic score attribution"
+  ]
+}

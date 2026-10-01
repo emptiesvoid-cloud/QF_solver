@@ -54,12 +54,12 @@ def test_security_policy_is_durable_across_published_and_candidate_channels() ->
     assert "best-effort basis" in security
 
 
-def test_published_metadata_and_citation_are_coherent() -> None:
+def test_candidate_source_and_last_published_citation_are_distinct() -> None:
     project = tomllib.loads(_text("pyproject.toml"))["project"]
     runtime = _text("src/solveur/version.py")
     citation = _text("CITATION.cff")
-    assert project["version"] == "0.2.8"
-    assert '__version__ = "0.2.8"' in runtime
+    assert project["version"] == "0.2.9"
+    assert '__version__ = "0.2.9"' in runtime
     assert 'version: "0.2.8"' in citation
     assert 'doi: "10.5281/zenodo.22697898"' in citation
     assert "NOT_PUBLISHED_YET" not in citation
@@ -80,6 +80,7 @@ def test_published_metadata_and_citation_are_coherent() -> None:
 
     assert "10.5281/zenodo.22697898" in _text("README.md")
     assert "10.5281/zenodo.22697897" in _text("README.md")
+    assert "0.2.9` (in qualification; no tag or publication yet)" in _text("README.md")
 
 
 def test_public_release_policy_classifies_reviewed_evidence_and_exclusions() -> None:

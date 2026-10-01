@@ -1,0 +1,84 @@
+{
+  "files": {
+    "preflight.json": {
+      "sha256": "11dad270b1fa3e251c26e6f695da3474024bebe812088150f4b76a0d635745ec",
+      "size_bytes": 460
+    },
+    "progress.json": {
+      "sha256": "eb0a7d7084ff804825174154b2f16135363bdbba1c1177be46253aaa6cc63e9a",
+      "size_bytes": 206
+    },
+    "tet4_slender_beam_h1_axial_x/case.json": {
+      "sha256": "cc6fee75e6b57470918ecad16d4cdac436014887799a030748f1efc4f848392c",
+      "size_bytes": 1372
+    },
+    "tet4_slender_beam_h1_axial_x/container.cid": {
+      "sha256": "0e2697ce93be005119deeacefc4969edfd6d8e8b213322c9bc10f905cfa8850f",
+      "size_bytes": 64
+    },
+    "tet4_slender_beam_h1_axial_x/model_inputs.npz": {
+      "sha256": "90fd767d6147ec752aea226e5bcaf4593aeb40aa758e03a3bf93046536c4f336",
+      "size_bytes": 890
+    },
+    "tet4_slender_beam_h1_axial_x/process.json": {
+      "sha256": "5710515bfd36d3a78945fa32db0864fcc46e5bb64ad4665d2530b0910f2e4c49",
+      "size_bytes": 2865
+    },
+    "tet4_slender_beam_h1_axial_x/progress.json": {
+      "sha256": "92a32c75633a81bcd55b52d271465f604617cd2f5d81467f1e1c6f7d36caeadc",
+      "size_bytes": 234
+    },
+    "tet4_slender_beam_h1_axial_x/qf_result.npz": {
+      "sha256": "4eebd0fa04cddc8d54308ed6c7026d9a3d9899f713f0bbd385e48233694e95bb",
+      "size_bytes": 299
+    },
+    "tet4_slender_beam_h1_axial_x/qf_stiffness.npz": {
+      "sha256": "f73a026497549763de1f8c8e4170caab98d0f49e6f1155c1ba29a1c8f9cd9f8a",
+      "size_bytes": 1738
+    },
+    "tet4_slender_beam_h1_axial_x/result.json": {
+      "sha256": "a2c577350981205bc8cc6ea8edef84073f09d3296c6e716345305ac076c27b43",
+      "size_bytes": 560
+    },
+    "tet4_slender_beam_h1_axial_x/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "tet4_slender_beam_h1_axial_x/stdout.log": {
+      "sha256": "fc6215b52ad1c12f410664302b66c6f6e0a969590b04a29db80f9675d13c0cd0",
+      "size_bytes": 17255
+    },
+    "tet4_slender_beam_h1_axial_x/telemetry.jsonl": {
+      "sha256": "176d0772f13418d4a5afdc214bf37c69a6df4cff86b182b2699f4861483db7ac",
+      "size_bytes": 1960
+    },
+    "tet4_slender_beam_h1_axial_x/tet4_slender_beam_h1_axial_x.comm": {
+      "sha256": "ff96077e2e1ba6c0bb2d52e9201a95a9c532af4d624d8892f65d7eb3f3fdb45b",
+      "size_bytes": 1997
+    },
+    "tet4_slender_beam_h1_axial_x/tet4_slender_beam_h1_axial_x.export": {
+      "sha256": "76b169448132e8060e8b8899523b0a89e8054249d8375d70aac6b417c2750a65",
+      "size_bytes": 303
+    },
+    "tet4_slender_beam_h1_axial_x/tet4_slender_beam_h1_axial_x.mail": {
+      "sha256": "c614bff3bcc7f83c870fd22685abf83a9beb70eea7713f745e5fedee93bf3358",
+      "size_bytes": 481
+    },
+    "tet4_slender_beam_h1_axial_x/tet4_slender_beam_h1_axial_x.mess": {
+      "sha256": "d472b8a201eb4e678dbb449ddbe336fe7b8e14cbb5037d19e9a6f7312f3d1b9b",
+      "size_bytes": 12650
+    },
+    "tet4_slender_beam_h1_axial_x/tet4_slender_beam_h1_axial_x.resu": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "wp12_expanded_summary.json": {
+      "sha256": "336ec839e08d626ba9fedc128353355f1c9ea59ffb853b246b693ec9ef980fac",
+      "size_bytes": 3042
+    },
+    "wp12_expanded_summary.md": {
+      "sha256": "2dd562e71863e115cb80e9c0f1272675e51b511b7211b4148bc678a5e09aeaaf",
+      "size_bytes": 1314
+    }
+  }
+}

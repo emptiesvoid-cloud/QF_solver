@@ -1,0 +1,320 @@
+{
+  "audit_status": "PASS_CANDIDATE",
+  "candidate_points": "4/4",
+  "contract_sha256": "f6154660635670c026354429894c9c7a6f7fa6d8bd6849edf44717a4bd43824a",
+  "errors": [],
+  "execution_sha": "e3231fa386d2542841084e3be9843e7eca75acf4",
+  "families": {
+    "HEX20": {
+      "errors": [],
+      "gates": {
+        "aster_force_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 2.4046965713294066e-16
+        },
+        "aster_moment_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.2405598494210877e-16
+        },
+        "displacement_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.2096814517532255e-14
+        },
+        "displacement_relative_linf": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.619317582996786e-14
+        },
+        "fixed_displacement_abs_max": {
+          "limit": 1e-12,
+          "status": "PASS",
+          "value": 1.5661044753501717e-24
+        },
+        "qf_force_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 3.600173569433198e-15
+        },
+        "qf_moment_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 4.4329895162852315e-15
+        },
+        "reaction_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.3582566582890024e-14
+        },
+        "reaction_relative_linf": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.2940856609056491e-14
+        },
+        "strain_energy_from_external_work_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.110061525831259e-14
+        }
+      },
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy": 1.5261009007946626e-05,
+        "aster_force_equilibrium_relative": 2.4046965713294066e-16,
+        "aster_moment_equilibrium_relative": 1.2405598494210877e-16,
+        "displacement_relative_l2": 1.2096814517532255e-14,
+        "displacement_relative_linf": 1.619317582996786e-14,
+        "fixed_displacement_abs_max": 1.5661044753501717e-24,
+        "qf_force_equilibrium_relative": 3.600173569433198e-15,
+        "qf_moment_equilibrium_relative": 4.4329895162852315e-15,
+        "qf_strain_energy": 1.5261009007946795e-05,
+        "reaction_relative_l2": 1.3582566582890024e-14,
+        "reaction_relative_linf": 1.2940856609056491e-14,
+        "strain_energy_from_external_work_relative": 1.110061525831259e-14
+      },
+      "model_fingerprint": "4b0c26ce400cc071eeb24782965fc2c996b295acb687a9858e499200c78108a7",
+      "runner_status": "PASS",
+      "status": "PASS_CANDIDATE"
+    },
+    "HEX8": {
+      "errors": [],
+      "gates": {
+        "aster_force_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 8.788928253162695e-17
+        },
+        "aster_moment_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 9.845568954283847e-17
+        },
+        "displacement_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 7.501039756768504e-16
+        },
+        "displacement_relative_linf": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.2402436043719e-15
+        },
+        "fixed_displacement_abs_max": {
+          "limit": 1e-12,
+          "status": "PASS",
+          "value": 4.463391450687487e-25
+        },
+        "qf_force_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 4.3476855298588233e-16
+        },
+        "qf_moment_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 2.5579538487363605e-16
+        },
+        "reaction_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.0462640403296646e-15
+        },
+        "reaction_relative_linf": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.364242052659392e-15
+        },
+        "strain_energy_from_external_work_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 7.93755906798016e-16
+        }
+      },
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy": 1.0671201814058952e-05,
+        "aster_force_equilibrium_relative": 8.788928253162695e-17,
+        "aster_moment_equilibrium_relative": 9.845568954283847e-17,
+        "displacement_relative_l2": 7.501039756768504e-16,
+        "displacement_relative_linf": 1.2402436043719e-15,
+        "fixed_displacement_abs_max": 4.463391450687487e-25,
+        "qf_force_equilibrium_relative": 4.3476855298588233e-16,
+        "qf_moment_equilibrium_relative": 2.5579538487363605e-16,
+        "qf_strain_energy": 1.067120181405896e-05,
+        "reaction_relative_l2": 1.0462640403296646e-15,
+        "reaction_relative_linf": 1.364242052659392e-15,
+        "strain_energy_from_external_work_relative": 7.93755906798016e-16
+      },
+      "model_fingerprint": "cd4d8a9e513f1327201734a6a053da659752c0f8f1e7873c9cd3680c7195fadb",
+      "runner_status": "PASS",
+      "status": "PASS_CANDIDATE"
+    },
+    "TET10": {
+      "errors": [],
+      "gates": {
+        "aster_force_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 5.209785393794663e-16
+        },
+        "aster_moment_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 2.5579538487363605e-16
+        },
+        "displacement_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 4.733651614165304e-15
+        },
+        "displacement_relative_linf": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 4.152424917460272e-15
+        },
+        "fixed_displacement_abs_max": {
+          "limit": 1e-12,
+          "status": "PASS",
+          "value": 7.533380869806668e-24
+        },
+        "qf_force_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 6.765083320175035e-15
+        },
+        "qf_moment_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 3.794484488998622e-15
+        },
+        "reaction_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 6.043100203873072e-15
+        },
+        "reaction_relative_linf": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 6.489385730745798e-15
+        },
+        "strain_energy_from_external_work_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 4.252083115479319e-15
+        }
+      },
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy": 0.00022948327413561254,
+        "aster_force_equilibrium_relative": 5.209785393794663e-16,
+        "aster_moment_equilibrium_relative": 2.5579538487363605e-16,
+        "displacement_relative_l2": 4.733651614165304e-15,
+        "displacement_relative_linf": 4.152424917460272e-15,
+        "fixed_displacement_abs_max": 7.533380869806668e-24,
+        "qf_force_equilibrium_relative": 6.765083320175035e-15,
+        "qf_moment_equilibrium_relative": 3.794484488998622e-15,
+        "qf_strain_energy": 0.0002294832741356135,
+        "reaction_relative_l2": 6.043100203873072e-15,
+        "reaction_relative_linf": 6.489385730745798e-15,
+        "strain_energy_from_external_work_relative": 4.252083115479319e-15
+      },
+      "model_fingerprint": "15d1cb9d0ca07e4ba91175ba2edfebe3366d97a54cefa207b7023a331cad0941",
+      "runner_status": "PASS",
+      "status": "PASS_CANDIDATE"
+    },
+    "TET4": {
+      "errors": [],
+      "gates": {
+        "aster_force_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 0.0
+        },
+        "aster_moment_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 0.0
+        },
+        "displacement_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.7816197808834443e-16
+        },
+        "displacement_relative_linf": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.7816197808834443e-16
+        },
+        "fixed_displacement_abs_max": {
+          "limit": 1e-12,
+          "status": "PASS",
+          "value": 0.0
+        },
+        "qf_force_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 0.0
+        },
+        "qf_moment_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 0.0
+        },
+        "reaction_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 2.625485054475693e-16
+        },
+        "reaction_relative_linf": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 2.2737367544323206e-16
+        },
+        "strain_energy_from_external_work_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.8243786556246468e-16
+        }
+      },
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy": 3.714285714285714e-05,
+        "aster_force_equilibrium_relative": 0.0,
+        "aster_moment_equilibrium_relative": 0.0,
+        "displacement_relative_l2": 1.7816197808834443e-16,
+        "displacement_relative_linf": 1.7816197808834443e-16,
+        "fixed_displacement_abs_max": 0.0,
+        "qf_force_equilibrium_relative": 0.0,
+        "qf_moment_equilibrium_relative": 0.0,
+        "qf_strain_energy": 3.7142857142857143e-05,
+        "reaction_relative_l2": 2.625485054475693e-16,
+        "reaction_relative_linf": 2.2737367544323206e-16,
+        "strain_energy_from_external_work_relative": 1.8243786556246468e-16
+      },
+      "model_fingerprint": "616a50157a4073619d1432196c8c2a0d9e5570b82bc472ac2d9556c4b56e547c",
+      "runner_status": "PASS",
+      "status": "PASS_CANDIDATE"
+    }
+  },
+  "limitations": [
+    "one homogeneous one-element static elastic case per listed family only",
+    "Code_Aster correlation applies only to the exact WP11 M1 mesh, material, fixed DOFs and nodal load vector",
+    "TET4 and TET10 apply the resultant at the single x=1 vertex; this is not a face-load test",
+    "HEX20 uses the explicit QF-to-Code_Aster local connectivity permutation frozen above",
+    "no mesh-convergence, stress-field equivalence or cross-family equivalence claim",
+    "no WP04/WP05 geometric nonlinearity, WP06 arc length, WP07/WP08 contact or friction correlation",
+    "no WP09/WP10 J2 or coupled nonlinear correlation",
+    "no dynamics, MPI/PETSc, scaling or general solver validation claim",
+    "the Code_Aster run is a separate external FEM solve but shares the frozen mathematical model and is not experimental validation"
+  ],
+  "manifest_sha256": "7a912a795bd57db6505ae100dd77a8480d3bf41a1229fd39644c298b294c4e8c",
+  "official_points": "0/4",
+  "prior_attempt_audit": {
+    "contract_sha256": "7be23ae98a8032f8cda85075c860d2cacb24bbfd6065273cd4b1a558475938f4",
+    "manifest_entries": 66,
+    "manifest_sha256": "a39817051b90333689e206edfbdbbea4d5d2d9504a4edf9dc72cd11376bb9e1a",
+    "record_sha256": "306f3f7373818d3ea48cd4c3be6f32a7f9892ac5c8ee39bff22078df7c7171fc",
+    "status": "PASS",
+    "summary_sha256": "baa7d90063196979457b4146b315c14e7b88ba3e5cabac2671de5d158016f0bd"
+  },
+  "runner_sha": "c4a772cd14921ca0b243c71b99a0f94f0ca210e8",
+  "work_package": "WP12"
+}

@@ -1,0 +1,383 @@
+{
+  "schema_version": 1,
+  "status": "LOCAL_ARCHIVE_VERIFIED_PENDING_REMOTE",
+  "source_relative_root": "qualification/0_2_9",
+  "file_count": 73,
+  "uncompressed_bytes": 382579508,
+  "archive": {
+    "name": "wp08_area_r1_10.zip",
+    "size_bytes": 19580256,
+    "sha256": "cbee25f4e74b57cf12ea024aaad7065b8c1a7242e3acfb3d42f81184e1614df1"
+  },
+  "files": [
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M1/slip_target/progress.json",
+      "size_bytes": 810,
+      "sha256": "95ae9d6a9ab1f1b212e466aa5f5fcbdd1a96158a873c1bb03c45463a9e92c5c4"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M1/slip_target/raw.npz",
+      "size_bytes": 5149,
+      "sha256": "fce03e7b8d2981ab802b05d0b8c7e4b88b9696ffa24a3591e725532daccf1f76"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M1/slip_target/result.json",
+      "size_bytes": 635279,
+      "sha256": "fe28edc114572d2e51580d9b05b92d6394f7be32cf199f2499dc00e3839df281"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M1/slip_target/telemetry.jsonl",
+      "size_bytes": 158035,
+      "sha256": "5e7991d9814d9944ff554c0be43a489eace27ce002cf6096513df8cf0878564c"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M1/stick_target/progress.json",
+      "size_bytes": 813,
+      "sha256": "f3621a65c45908479568527ba59ec5fe28efe131bda1adcc877b697a9a1bd153"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M1/stick_target/raw.npz",
+      "size_bytes": 5147,
+      "sha256": "02d899b9d1d0cb842e2ff55b6a294b168daed9145cb37f3748c8e1545203a35a"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M1/stick_target/result.json",
+      "size_bytes": 635803,
+      "sha256": "2e43fb8d0fcc2cd8053e09043c13607d1969f054d0aa5eaa3f57f180a6ab0b05"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M1/stick_target/telemetry.jsonl",
+      "size_bytes": 89678,
+      "sha256": "88abeef10b2f53f627ccdd527a43adc83a7a61e6f1b9a053c9f1625b11b251d5"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M2/slip_target/progress.json",
+      "size_bytes": 957,
+      "sha256": "37bdc2e7dfaeaf11288f60a77ea6124d6568091480a8b800264f8dfb59a712ec"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M2/slip_target/raw.npz",
+      "size_bytes": 5993,
+      "sha256": "87cc25d772442625b9372f7e7f240067bee1f31dd61cbabb3bc6913b5cb03648"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M2/slip_target/result.json",
+      "size_bytes": 4647001,
+      "sha256": "df6f1187392be81099fd5cc4a293ec22047228881133b601d73c50d4f39cceea"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M2/slip_target/telemetry.jsonl",
+      "size_bytes": 195457,
+      "sha256": "3604aa47654a0f20cc1648cec9fa1be0d3dbfc04b34114a2967beab993f01a88"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M2/stick_target/progress.json",
+      "size_bytes": 960,
+      "sha256": "8da3598382e040bae3595b11f0ca93ca91d33ced4eb024874bcc28afdd4cf944"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M2/stick_target/raw.npz",
+      "size_bytes": 5994,
+      "sha256": "9634700c8bc4767374fb89bc603fc4f32f1427f87e61d73f6f65e28d100b7b69"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M2/stick_target/result.json",
+      "size_bytes": 4648515,
+      "sha256": "47fffac3acadf197da504630204c52cded2247ad565ec7957aba5898788192cf"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M2/stick_target/telemetry.jsonl",
+      "size_bytes": 112150,
+      "sha256": "84133ef3c9700c8ed6f4096a69bbc383d6fecf57a06e61c5b8fb1994b49cec37"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M3/slip_target/progress.json",
+      "size_bytes": 1093,
+      "sha256": "ed0601b954e58047da7eabe53e9a28ef91bd473fd4e3f91598e4495ea88a5f57"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M3/slip_target/raw.npz",
+      "size_bytes": 11076,
+      "sha256": "303155ed2635300888824f7bfd2e45e737bfd374b0c49431a794e294207ec5ab"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M3/slip_target/result.json",
+      "size_bytes": 36643048,
+      "sha256": "e7d377f87b0e9b7d7f8377936cee390eae1b8fbd6c9a3825fe87e65a13fc2e86"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M3/slip_target/telemetry.jsonl",
+      "size_bytes": 459185,
+      "sha256": "66ebd74a6ca2e04cdb699ebe18d20366275dbd280f6470ef2c1ce4ead49daeec"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M3/stick_target/progress.json",
+      "size_bytes": 1137,
+      "sha256": "b5e816a6f802e0083d339f1e9f94e82d7fa716da2f9ba0534803b7ecd7a94596"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M3/stick_target/raw.npz",
+      "size_bytes": 11247,
+      "sha256": "a4fe0fe48c054f2ee97c00b4cd9788d9462ce1eac53505a93c28d5aeff3baaf8"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M3/stick_target/result.json",
+      "size_bytes": 36667511,
+      "sha256": "5eba8069d253f7533bdb09db12d3b85d8b302d33d8a2dee1121fff2cb3169269"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M3/stick_target/telemetry.jsonl",
+      "size_bytes": 230338,
+      "sha256": "00c183155852b803054d444ece3f05737b5c693db16f15a274222972267f5cd8"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/final.json",
+      "size_bytes": 18084,
+      "sha256": "5cdff523a120044aefed0a0d3a37e6d81fabebdb134fffa4f8244721858860ba"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/progress.json",
+      "size_bytes": 18084,
+      "sha256": "5cdff523a120044aefed0a0d3a37e6d81fabebdb134fffa4f8244721858860ba"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/M2_slip_target.process.json",
+      "size_bytes": 1945,
+      "sha256": "de9c27c169932e41ff54d1a00052423840e488859b87aa9ab281975d62cc8de5"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/M2_slip_target.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/M2_slip_target.stdout.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/M2_stick_target.process.json",
+      "size_bytes": 1953,
+      "sha256": "21e442a5ca4af56666c22cfd2305f6cc8963153e34995e44ffa70e2a0033a05e"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/M2_stick_target.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/M2_stick_target.stdout.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/M3_slip_target.process.json",
+      "size_bytes": 1946,
+      "sha256": "70d226daf73af014ee98d1acca3a9d2a22a18f2628cfe5ec313968df722597cd"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/M3_slip_target.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/M3_slip_target.stdout.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/M3_stick_target.process.json",
+      "size_bytes": 1953,
+      "sha256": "3fd29dedfdd190105f082a06e0d47175d4216fc6753816a84f155f38e39dce5c"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/M3_stick_target.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/M3_stick_target.stdout.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/slip_target.process.json",
+      "size_bytes": 1281,
+      "sha256": "3c144a9f8ec835ef9af36f8a2b1822b33e9bd27253207a691ebc95c8c67f11b5"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/slip_target.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/slip_target.stdout.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/stick_target.process.json",
+      "size_bytes": 1285,
+      "sha256": "0d1a3269cb8c925dbd2f6429f359cab5962a85d73d232af997b31e7384a6f448"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/stick_target.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/stick_target.stdout.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/contract.json",
+      "size_bytes": 9326,
+      "sha256": "67efb97074cb8cb1c5f442045b1c0e209b6413d676ad61568fb554586e2ee7f0"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/contract_r1_10_contact_requalification.json",
+      "size_bytes": 8271,
+      "sha256": "a988e5b04769c2c064a9a9846133db17892b39d932d8a818026b85f1891f4242"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/execution_binding.json",
+      "size_bytes": 2677,
+      "sha256": "10fb31c34dcaab5af9eb073ed07b078661f9fd9230a94039717d3ec72dd02b07"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/execution_source_manifest.json",
+      "size_bytes": 111613,
+      "sha256": "676bf1924802be9aabe65b65b63a94839220c0daaee2d30f9528a89cc647a675"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/final.json",
+      "size_bytes": 3415,
+      "sha256": "1639caaa3ea19a27338ce48ac616030191c88aff90ad69ccae19559166adf897"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/freeze_binding.json",
+      "size_bytes": 807,
+      "sha256": "472dd3db8a15f74dafa06136f724b8ebb7dbae0df0159bb71089949beab51cbd"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/freeze_binding_r1_10_contact_requalification.json",
+      "size_bytes": 2202,
+      "sha256": "597c383d351a91a27bf8a135a299456804b4f5ae10a41417c9c5db6fb3a141ab"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/progress.json",
+      "size_bytes": 3415,
+      "sha256": "1639caaa3ea19a27338ce48ac616030191c88aff90ad69ccae19559166adf897"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/r1_10_final_audit.json",
+      "size_bytes": 13761,
+      "sha256": "a59eff6d17e72d7828b67d339adbd269c4c4da1cb54972cd82769e03fb845549"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/source_file_manifest.json",
+      "size_bytes": 111613,
+      "sha256": "676bf1924802be9aabe65b65b63a94839220c0daaee2d30f9528a89cc647a675"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/M4/final.json",
+      "size_bytes": 4990,
+      "sha256": "d63d0cf49dfe542495890d814642e775e5f47ed7ca10ef90aa6cc8d4e2f71f16"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/M4/progress.json",
+      "size_bytes": 5045,
+      "sha256": "4dfb07938c7cd0c2d600446d807e206fc471be8e5eaf42dc9f09250078268537"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/M4/slip_target/failure.json",
+      "size_bytes": 502,
+      "sha256": "acf5c531efc5ee40cd41686e31ca06a15e0d7df2f7be16b24a1704b082e5e2f0"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/M4/slip_target/telemetry.jsonl",
+      "size_bytes": 2321867,
+      "sha256": "95db722c0be8b3acba0c53102f45490469ee85738667627fe3a92c91527c83aa"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/M4/stick_target/progress.json",
+      "size_bytes": 1541,
+      "sha256": "cf51160a62d908ebb2728f028877f6e318b20ece9284f10ee7c8105d825aaa46"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/M4/stick_target/raw.npz",
+      "size_bytes": 40797,
+      "sha256": "92eaef99350b1b09b063b5659e6a34d7c2a5670d0bb87ea7916fd7b247f105f7"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/M4/stick_target/result.json",
+      "size_bytes": 293629737,
+      "sha256": "6dca2f01cddc12deb30c3255f40cf074da9c299585a7ce44021b67188aa9d362"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/M4/stick_target/telemetry.jsonl",
+      "size_bytes": 943489,
+      "sha256": "2107dd135ab01df1ee02c5186ba72569d1ab6086762ff801ea30e8b0880fc78a"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/_process_logs/M4_slip_target.process.json",
+      "size_bytes": 1779,
+      "sha256": "b668d3168f983723909ad0b8948044e3e7e59556f66921e3d8638bbba5e3bb72"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/_process_logs/M4_slip_target.stderr.log",
+      "size_bytes": 6611,
+      "sha256": "a2c8c663a4a346c51b67587ff80c8c0da9340eb1d6e3b68a120db559bd106818"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/_process_logs/M4_slip_target.stdout.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/_process_logs/M4_stick_target.process.json",
+      "size_bytes": 1908,
+      "sha256": "1bbb0cb77d6466e202c25fd65067f8c608be9f5339f6e4e013ecb43ddd4bbf6c"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/_process_logs/M4_stick_target.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/_process_logs/M4_stick_target.stdout.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/contract.json",
+      "size_bytes": 13897,
+      "sha256": "79073a5199a2832a3c546f77c5e3a98d48d7fd38b6f69c1fb3a237a40fffa0dd"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/execution_binding.json",
+      "size_bytes": 2078,
+      "sha256": "708bae8952f7f074d98fe48435a9973715f745a337c33b9da1273940c1adba37"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/freeze_record.json",
+      "size_bytes": 914,
+      "sha256": "9efd0eba19b51538caf721c94baaaea9ccc7bf9d95adb1540ce338d23ceef926"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/m4_final_audit.json",
+      "size_bytes": 6477,
+      "sha256": "530c2dbf6d6f112fdf828719030cb13431be7e47028a47c88ae62c90fcdd1361"
+    },
+    {
+      "path": "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/source_manifest.json",
+      "size_bytes": 111869,
+      "sha256": "81a3ed3eb3219fdcc3b0df67b2223b534cf1fb716b410b3cf1893fddad33764a"
+    }
+  ],
+  "selected_roots": [
+    "wp08_surface_stiffness_remediation/area_supported_r1_10_20260926",
+    "wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926"
+  ]
+}

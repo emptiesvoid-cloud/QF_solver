@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "wheel": "qf_solver-0.2.8-py3-none-any.whl",
+  "sdist": "qf_solver-0.2.8.tar.gz",
+  "selected_files": 551,
+  "wheel_modules": 473,
+  "scans": {
+    "wheel": {
+      "status": "PASS",
+      "scanned_files": 551,
+      "findings": []
+    },
+    "sdist": {
+      "status": "PASS",
+      "scanned_files": 559,
+      "findings": []
+    }
+  },
+  "binaries": [
+    {
+      "path": "qf_solver-0.2.8-py3-none-any.whl",
+      "bytes": 1509979,
+      "sha256": "24a3330a23a513bfb274830da2318362e87aeeb8a81a4623270a350aee3c9a73"
+    },
+    {
+      "path": "qf_solver-0.2.8.tar.gz",
+      "bytes": 1138014,
+      "sha256": "5584ba659a2e3bc1517810ddd6e6e0c8e8debc8750e61741824c50795283db4a"
+    }
+  ]
+}

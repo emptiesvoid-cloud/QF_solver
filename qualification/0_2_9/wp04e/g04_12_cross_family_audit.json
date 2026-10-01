@@ -1,0 +1,324 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP04-E-G04-12-CROSS-FAMILY-001",
+  "work_package": "WP04-E",
+  "phase": "CROSS_FAMILY_CLOSURE",
+  "gate": "G04-12",
+  "audit_start_sha": "a4f8937919f5a008abbc15d0d404c47f09816459",
+  "branch": "0.2.9-unified-nonlinear",
+  "evidence_only": true,
+  "structural_solves_run": false,
+  "h4_run": false,
+  "petsc_run": false,
+  "full_test_suite_run": false,
+  "sources": {
+    "tet4": {
+      "source_sha": "2c52bf8196a7d47d14ce1784290580160de26590",
+      "source_sha_role": "Owner-approved C2R6 execution source recorded by the frozen audit",
+      "approved_status": "OWNER_APPROVED_PASS",
+      "approved_case": "C2R6 M3",
+      "mesh_cells": [64, 32, 32],
+      "nodes": 70785,
+      "elements": 393216,
+      "dofs": 212355,
+      "audit_path": "qualification/0_2_9/c2r6/frozen_threshold_audit.json",
+      "audit_sha256": "75bcef01a7916c8350142044deb6168cb5e9d20efb04d6d8ca905f14078893ef",
+      "campaign_path": "qualification/0_2_9/c2r6/campaign_result.json",
+      "campaign_sha256": "d107eaf45538be70236019b8f839b78f1acf4b7352d32ea0c9019a09d6f6f513",
+      "case_result_path": "qualification/0_2_9/c2r6/m3_result.json",
+      "case_result_sha256": "997ffe16dc6d7832a98f101d513ffa54040295df14609b82723871b1559f97e1",
+      "route": {
+        "linear_solver": "MINRES",
+        "preconditioner": "Jacobi",
+        "rtol": 1e-11,
+        "atol": 1e-14,
+        "maxiter": 10000,
+        "direct_fallback": false,
+        "line_search": "existing/enabled",
+        "floor_aware_termination": true,
+        "newton_tolerance": 1e-10,
+        "increments": 12
+      },
+      "final_load_factor": 1.0,
+      "direct_fallback_count": 0,
+      "raw_observables": {
+        "tip_displacement": -0.2002482511318092,
+        "reaction_resultant_norm": 49.99999999999998,
+        "strain_energy": 4.999939075668591,
+        "representative_sigma_xx": 3068.972048649666,
+        "force_equilibrium_relative": 2.5505039661180956e-14,
+        "moment_equilibrium_relative": 7.63053276664867e-16,
+        "minimum_det_f": 0.9909797199809931,
+        "minimum_principal_stretch": 0.9893216428558,
+        "maximum_principal_stretch": 1.0104538037144282,
+        "maximum_green_lagrange_norm": 0.01111056564916684,
+        "accepted_step_count": 12,
+        "accepted_load_factors": [
+          0.08333333333333333,
+          0.16666666666666666,
+          0.25,
+          0.3333333333333333,
+          0.4166666666666667,
+          0.5,
+          0.5833333333333334,
+          0.6666666666666666,
+          0.75,
+          0.8333333333333334,
+          0.9166666666666666,
+          1.0
+        ],
+        "termination_classifications": [
+          "CONVERGED_RESIDUAL",
+          "CONVERGED_RESIDUAL",
+          "CONVERGED_RESIDUAL",
+          "CONVERGED_NUMERICAL_FLOOR",
+          "CONVERGED_NUMERICAL_FLOOR",
+          "CONVERGED_NUMERICAL_FLOOR",
+          "CONVERGED_NUMERICAL_FLOOR",
+          "CONVERGED_NUMERICAL_FLOOR",
+          "CONVERGED_NUMERICAL_FLOOR",
+          "CONVERGED_NUMERICAL_FLOOR",
+          "CONVERGED_NUMERICAL_FLOOR",
+          "CONVERGED_NUMERICAL_FLOOR"
+        ],
+        "mesh_total_load": [0.0, -49.99999999999921, 0.0],
+        "load_centroid": [3.999999999999938, 0.2500000000000004, 0.25000000000000056]
+      }
+    },
+    "hex8": {
+      "source_sha": "a4f8937919f5a008abbc15d0d404c47f09816459",
+      "source_sha_role": "WP04-E audit start / Owner-approved WP04-D evidence checkout",
+      "execution_sha": "e01e292a36dc4f2e6bfe1cbe8a64a6b563707edf",
+      "approved_status": "OWNER_APPROVED_PASS",
+      "approved_case": "H3",
+      "mesh_cells": [32, 16, 16],
+      "nodes": 9537,
+      "elements": 8192,
+      "dofs": 28611,
+      "contract_path": "qualification/0_2_9/wp04d/hex8_contract.json",
+      "contract_sha256": "003385618fe683e1701bd03f6a53ec431395127b7823ce757d6a814bcb66d181",
+      "audit_path": "qualification/0_2_9/wp04d/g04_11_audit.json",
+      "audit_sha256": "21bbbd5b1fee3a400be85aa96d21569c8ede7b1f222e0696bd3698c5af488816",
+      "campaign_path": "qualification/0_2_9/wp04d/hex8_campaign_result.json",
+      "campaign_sha256": "03438dd4988ea0bb87c6a1e1117f46d386df86e11659082488a291b684d96bb9",
+      "case_result_path": "qualification/0_2_9/wp04d/h3_result.json",
+      "case_result_sha256": "cae8d513fbab6209ed8a88d59b331ee247e356882e5c26643def6308457f0a0e",
+      "raw_npz_path": "qualification/0_2_9/wp04d/h3_raw.npz",
+      "raw_npz_sha256": "a595374adbabde01a1f297a6e221c73adeaf10f915dfd7f59af4b4bf455dd14b",
+      "route": {
+        "linear_solver": "MINRES",
+        "preconditioner": "Jacobi",
+        "rtol": 1e-11,
+        "atol": 1e-14,
+        "maxiter": 10000,
+        "direct_fallback": false,
+        "line_search": "existing/enabled",
+        "floor_aware_termination": true,
+        "newton_tolerance": 1e-10,
+        "increments": 12
+      },
+      "final_load_factor": 1.0,
+      "direct_fallback_count": 0,
+      "raw_observables": {
+        "tip_displacement": -0.19933380039473436,
+        "reaction_resultant": [
+          1.3731238368563936e-12,
+          49.99999999999994,
+          -3.2862601528904634e-14
+        ],
+        "reaction_resultant_norm": 49.99999999999994,
+        "strain_energy": 4.977170539703795,
+        "representative_sigma_xx": 2910.498904645881,
+        "force_equilibrium_relative": 2.7493855285792547e-14,
+        "moment_equilibrium_relative": 3.257786891417962e-15,
+        "minimum_det_f": 0.9924435183210853,
+        "minimum_principal_stretch": 0.9907111439153957,
+        "maximum_principal_stretch": 1.0092228247131967,
+        "maximum_green_lagrange_norm": 0.0095824348944902,
+        "accepted_step_count": 12,
+        "accepted_load_factors": [
+          0.08333333333333333,
+          0.16666666666666666,
+          0.25,
+          0.3333333333333333,
+          0.4166666666666667,
+          0.5,
+          0.5833333333333334,
+          0.6666666666666666,
+          0.75,
+          0.8333333333333334,
+          0.9166666666666666,
+          1.0
+        ],
+        "termination_classifications": [
+          "CONVERGED_RESIDUAL",
+          "CONVERGED_RESIDUAL",
+          "CONVERGED_RESIDUAL",
+          "CONVERGED_RESIDUAL",
+          "CONVERGED_RESIDUAL",
+          "CONVERGED_RESIDUAL",
+          "CONVERGED_RESIDUAL",
+          "CONVERGED_RESIDUAL",
+          "CONVERGED_RESIDUAL",
+          "CONVERGED_RESIDUAL",
+          "CONVERGED_RESIDUAL",
+          "CONVERGED_RESIDUAL"
+        ],
+        "load_resultant": [0.0, -50.0, 0.0],
+        "reference_moment": [12.5, 0.0, -200.0]
+      }
+    }
+  },
+  "physical_definition_comparison": {
+    "geometry": {
+      "tet4": {"length": 4.0, "height": 0.5, "depth": 0.5},
+      "hex8": {"length": 4.0, "height": 0.5, "depth": 0.5},
+      "match": true
+    },
+    "material": {
+      "tet4": {"class": "homogeneous_isotropic_3d", "model": "Saint-Venant-Kirchhoff", "young_modulus": 1000000.0, "poisson_ratio": 0.3},
+      "hex8": {"class": "homogeneous_isotropic_3d", "model": "Saint-Venant-Kirchhoff", "young_modulus": 1000000.0, "poisson_ratio": 0.3},
+      "match": true
+    },
+    "boundary_conditions": {
+      "tet4": "all translational DOFs fixed on nodes on x=0",
+      "hex8": "all translational DOFs fixed for nodes on x=0",
+      "match": true
+    },
+    "load_resultant": {
+      "expected": [0.0, -50.0, 0.0],
+      "tet4_declared": [0.0, -50.0, 0.0],
+      "tet4_recorded": [0.0, -49.99999999999921, 0.0],
+      "tet4_recorded_relative_error": 1.5774048733874226e-14,
+      "hex8_recorded": [0.0, -50.0, 0.0],
+      "match": true
+    },
+    "load_moment": {
+      "expected": [12.5, 0.0, -200.0],
+      "tet4_derived_from_recorded_centroid_cross_load": [12.499999999999831, 0.0, -199.99999999999375],
+      "tet4_derivation_error_norm": 6.255052878983532e-12,
+      "hex8_recorded": [12.5, 0.0, -200.0],
+      "match": true
+    },
+    "displacement_definition": {
+      "tet4": "loaded-face average uy on x=L",
+      "hex8": "mean y displacement of all nodes on x=L face",
+      "match": true
+    },
+    "reaction_definition": {
+      "tet4": "reaction resultant norm",
+      "hex8": "reaction resultant vector and norm with TET4 sign convention",
+      "comparison": "resultant norms",
+      "match": true
+    },
+    "strain_energy_definition": {
+      "tet4": "total accepted-state Total-Lagrangian StVK strain energy",
+      "hex8": "accepted-state Total-Lagrangian StVK integrated strain energy",
+      "match": true
+    },
+    "stress_region": {
+      "tet4": "0.40 <= X/L <= 0.60; 0.75 <= Y/H <= 0.90; 0.25 <= Z/D <= 0.75",
+      "hex8": "0.40 <= X/L <= 0.60; 0.75 <= Y/H <= 0.90; 0.25 <= Z/D <= 0.75",
+      "match": true
+    },
+    "stress_weighting": {
+      "tet4": "reference-volume weighted sigma_xx",
+      "hex8": "reference-volume weighted sigma_xx",
+      "match": true
+    },
+    "load_representation_disclosure": {
+      "tet4": "equal over all loaded-face nodes in the frozen C2R6 contract",
+      "hex8": "consistent Q4 face-traction nodal load in the frozen WP04-D contract",
+      "governing_cross_family_checks": "physical resultant and reference first moment",
+      "representation_difference_disclosed": true,
+      "physical_definition_mismatch": false
+    },
+    "all_required_matches": true
+  },
+  "provenance_checks": {
+    "tet4_g04_10_owner_approved": true,
+    "hex8_g04_11_owner_approved": true,
+    "same_bounded_tl_stvk_scope": true,
+    "same_final_load_factor": true,
+    "tet4_final_load_factor": 1.0,
+    "hex8_final_load_factor": 1.0,
+    "no_direct_fallback_tet4": true,
+    "no_direct_fallback_hex8": true,
+    "no_policy_drift": true,
+    "no_maturity_promotion": true,
+    "no_physical_threshold_change": true,
+    "source_evidence_integrity_checked": true
+  },
+  "delta_definition": {
+    "formula": "abs(a-b) / max(abs(a), abs(b), 1e-12)",
+    "reaction_comparison": "resultant norms",
+    "absolute_floor": 1e-12,
+    "post_result_adjustment": false
+  },
+  "thresholds": {
+    "displacement": 0.03,
+    "reaction": 0.03,
+    "strain_energy": 0.03,
+    "representative_sigma_xx": 0.12
+  },
+  "comparisons": {
+    "displacement": {
+      "tet4": -0.2002482511318092,
+      "hex8": -0.19933380039473436,
+      "delta": 0.004566585385421973,
+      "threshold": 0.03,
+      "status": "PASS"
+    },
+    "reaction": {
+      "tet4": 49.99999999999998,
+      "hex8": 49.99999999999994,
+      "delta": 7.105427357601005e-16,
+      "threshold": 0.03,
+      "status": "PASS"
+    },
+    "strain_energy": {
+      "tet4": 4.999939075668591,
+      "hex8": 4.977170539703795,
+      "delta": 0.004553762679948579,
+      "threshold": 0.03,
+      "status": "PASS"
+    },
+    "representative_sigma_xx": {
+      "tet4": 3068.972048649666,
+      "hex8": 2910.498904645881,
+      "delta": 0.05163720669059609,
+      "threshold": 0.12,
+      "status": "PASS"
+    },
+    "all_pass": true
+  },
+  "carried_limitations": [
+    {
+      "id": "HEX8_SMALL_LOAD_REACTION_SUPPORT",
+      "status": "LIMITATION_CARRIED_TO_WP04_F",
+      "source_path": "qualification/0_2_9/wp04d/h1_small_0p001_result.json",
+      "source_sha256": "cc3a8a45e3e50e693cb041045b621e07ae550d429b6c2b72a22af289f97cf824",
+      "multiplier": 0.001,
+      "displacement_relative_error": 2.5607163831358572e-05,
+      "reaction_relative_error": 2.7738177407149553e-04,
+      "support_threshold": 0.0001,
+      "g04_11_decision_changed": false,
+      "g04_12_decision_changed": false
+    },
+    {
+      "id": "NO_MATURITY_OR_POINT_CLOSURE",
+      "status": "CARRIED",
+      "detail": "G04-12 is pending Owner review and WP04-F independent combined closure; WP04 remains 0/12."
+    }
+  ],
+  "gate_decision": {
+    "g04_10": "OWNER_APPROVED_PASS",
+    "g04_11": "OWNER_APPROVED_PASS",
+    "g04_12": "PASS_PENDING_OWNER_REVIEW",
+    "wp04_points": "0/12",
+    "validated_total": 29,
+    "maturity_changed": false,
+    "owner_review_required": true,
+    "next_gate": "Independent WP04-F combined G04-01..G04-12 closure audit"
+  }
+}

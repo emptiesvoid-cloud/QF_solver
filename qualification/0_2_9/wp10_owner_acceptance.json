@@ -1,0 +1,40 @@
+{
+  "decision_id": "OD-029-WP10-BOUNDED-CLOSURE-01",
+  "decision_date": "2026-09-22",
+  "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+  "owner_accepts_wp10": true,
+  "owner_accepts_wp10_limitations": true,
+  "owner_accepts_m2_moment_limitation": true,
+  "owner_awards_wp10_points": "6/6",
+  "accepted_families": ["TET4", "HEX8", "HEX20", "TET10"],
+  "wp10_points_before": "0/6",
+  "wp10_points_after": "6/6",
+  "global_total_before": "78/100",
+  "global_total_after": "84/100",
+  "decision_context_head": "40b197d735d92d0ed6f395459c4e777a45b41dd3",
+  "tet10_r2_execution_sha": "3356dabb38ff4f660dfc905aa75da3e3a6f7c863",
+  "tet10_r2_m3_process_sha": "def63ca4341de32498c3debb709822ee1f8eccb9",
+  "tet10_r2_contract_sha256": "9cf4c1b8c8bb7ea3a5af2581e2181e56f7c048de43f07d336065c4f728e70bda",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "m2_moment_balance_relative_error": 7.96706507124153e-05,
+  "m2_equilibrium_gate": "NOT_DEFINED_IN_R2_CONTRACT",
+  "historical_evidence_preserved": true,
+  "production_mechanics_changed_by_decision": false,
+  "thresholds_changed_by_decision": false,
+  "governing_push": "NOT_PERFORMED",
+  "limitations": [
+    "bounded TET4/HEX8/HEX20/TET10 evidence only",
+    "no unrestricted finite-strain claim",
+    "no frictional or finite-sliding contact claim",
+    "no dynamics or MPI/PETSc claim",
+    "no external solver correlation claim",
+    "independent references are observable recomputations, not global FEM/Newton solves"
+  ],
+  "evidence": [
+    "docs/verification/0_2_9/wp10-owner-review-final.md",
+    "docs/verification/0_2_9/wp10-tet10-surface-r2-final-report.md",
+    "docs/verification/0_2_9/wp10-owner-acceptance.md",
+    "qualification/0_2_9/wp10_owner_review_final.json",
+    "qualification/0_2_9/wp10_tet10_surface_r2_manifest.json"
+  ]
+}

@@ -1,0 +1,551 @@
+{
+  "diagnosis": {
+    "classification_basis": "Original and extended nonlinear tip/energy/stress sequences are monotone; the linear route exhibits the same compliant-with-refinement direction; mesh volume, orientation, and resultant/centroid audits are invariant. M5 nonlinear was not run because M4 establishes the trend and M5 requires a substantially larger direct sparse factorization.",
+    "confidence": "MEDIUM",
+    "primary": "SLOW_TET4_DISCRETIZATION_CONVERGENCE"
+  },
+  "gate_status": {
+    "G04-10": "FAIL_UNDER_REMEDIATION"
+  },
+  "linear_apparent_orders": {
+    "representative_stress": {
+      "asymptotic": false,
+      "extrapolated_value": 7212.166682723836,
+      "order": 0.7272765280798157,
+      "reason": "Diagnostic fit only: the final observed change remains above the frozen qualification threshold."
+    },
+    "strain_energy": {
+      "asymptotic": false,
+      "extrapolated_value": 5.173525805989167,
+      "order": 1.6253767030459159,
+      "reason": "Diagnostic fit only: the final observed change remains above the frozen qualification threshold."
+    },
+    "tip_displacement": {
+      "asymptotic": false,
+      "extrapolated_value": -0.20694103223956645,
+      "order": 1.625376703045941,
+      "reason": "Diagnostic fit only: the final observed change remains above the frozen qualification threshold."
+    }
+  },
+  "linear_campaign": {
+    "M1": {
+      "representative_stress_sigma_xx": 1883.005372858299,
+      "strain_energy": 2.193965353161775,
+      "stress_region_elements": 16,
+      "stress_region_volume": 0.02083333333333334,
+      "tip_displacement": -0.087758614126471
+    },
+    "M2": {
+      "representative_stress_sigma_xx": 3983.32186347852,
+      "strain_energy": 3.806563345888328,
+      "stress_region_elements": 80,
+      "stress_region_volume": 0.01302083333333334,
+      "tip_displacement": -0.15226253383553315
+    },
+    "M3": {
+      "representative_stress_sigma_xx": 5159.71885885774,
+      "strain_energy": 4.4329762096365535,
+      "stress_region_elements": 336,
+      "stress_region_volume": 0.016203703703703692,
+      "tip_displacement": -0.1773190483854621
+    },
+    "M4": {
+      "representative_stress_sigma_xx": 5547.193990208701,
+      "strain_energy": 4.709564632981863,
+      "stress_region_elements": 672,
+      "stress_region_volume": 0.013671875000000007,
+      "tip_displacement": -0.18838258531927454
+    },
+    "M5": {
+      "representative_stress_sigma_xx": 5972.3996733157755,
+      "strain_energy": 4.933494986593932,
+      "stress_region_elements": 2640,
+      "stress_region_volume": 0.01591435185185184,
+      "tip_displacement": -0.1973397994637573
+    }
+  },
+  "linear_nonlinear_m2_m3_correlation": {
+    "representative_stress": 1.2148234973914376,
+    "strain_energy": 1.0046776090593472,
+    "tip_displacement": 1.0030442826067163
+  },
+  "linear_sequences": {
+    "representative_stress": {
+      "h": [
+        0.10919755809203736,
+        0.05459877904601869,
+        0.036399186030679126,
+        0.027299389523009344,
+        0.018199593015339563
+      ],
+      "levels": [
+        "M1",
+        "M2",
+        "M3",
+        "M4",
+        "M5"
+      ],
+      "monotonic_absolute": true,
+      "successive_relative_deltas": [
+        1.115406530907586,
+        0.29533064002814646,
+        0.07509617131285712,
+        0.07665239107512761
+      ],
+      "values": [
+        1883.005372858299,
+        3983.32186347852,
+        5159.71885885774,
+        5547.193990208701,
+        5972.3996733157755
+      ]
+    },
+    "strain_energy": {
+      "h": [
+        0.10919755809203736,
+        0.05459877904601869,
+        0.036399186030679126,
+        0.027299389523009344,
+        0.018199593015339563
+      ],
+      "levels": [
+        "M1",
+        "M2",
+        "M3",
+        "M4",
+        "M5"
+      ],
+      "monotonic_absolute": true,
+      "successive_relative_deltas": [
+        0.7350152500825048,
+        0.16456126086141387,
+        0.06239339221899094,
+        0.04754799457339393
+      ],
+      "values": [
+        2.193965353161775,
+        3.806563345888328,
+        4.4329762096365535,
+        4.709564632981863,
+        4.933494986593932
+      ]
+    },
+    "tip_displacement": {
+      "h": [
+        0.10919755809203736,
+        0.05459877904601869,
+        0.036399186030679126,
+        0.027299389523009344,
+        0.018199593015339563
+      ],
+      "levels": [
+        "M1",
+        "M2",
+        "M3",
+        "M4",
+        "M5"
+      ],
+      "monotonic_absolute": true,
+      "successive_relative_deltas": [
+        0.7350152500825051,
+        0.16456126086141348,
+        0.062393392218991275,
+        0.047547994573393745
+      ],
+      "values": [
+        -0.087758614126471,
+        -0.15226253383553315,
+        -0.1773190483854621,
+        -0.18838258531927454,
+        -0.1973397994637573
+      ]
+    }
+  },
+  "load_centroid_invariant": true,
+  "mesh_audit": {
+    "M1": {
+      "dofs": 675,
+      "domain_volume": 1.0,
+      "elements": 768,
+      "load_centroid": [
+        4.0,
+        0.25,
+        0.25
+      ],
+      "load_moment_about_origin": [
+        12.5,
+        0.0,
+        -200.0
+      ],
+      "loaded_face_area": 0.25,
+      "loaded_nodes": 25,
+      "maximum_volume": 0.0013020833333333337,
+      "minimum_volume": 0.0013020833333333337,
+      "nodes": 225,
+      "orientation_failures": 0,
+      "per_node_y_weight": -2.0,
+      "quality_maximum": 0.3463420477021527,
+      "quality_median": 0.3463420477021527,
+      "quality_minimum": 0.27212589462312,
+      "stress_region_centroid": [
+        2.03125,
+        0.42187500000000006,
+        0.25781250000000006
+      ],
+      "stress_region_elements": 16,
+      "stress_region_volume": 0.02083333333333334,
+      "total_load": [
+        0.0,
+        -50.0,
+        0.0
+      ],
+      "total_mesh_volume": 1.0000000000000002,
+      "total_volume_error": 2.220446049250313e-16
+    },
+    "M2": {
+      "dofs": 4131,
+      "domain_volume": 1.0,
+      "elements": 6144,
+      "load_centroid": [
+        4.0000000000000036,
+        0.25000000000000006,
+        0.25
+      ],
+      "load_moment_about_origin": [
+        12.5,
+        0.0,
+        -200.00000000000017
+      ],
+      "loaded_face_area": 0.25,
+      "loaded_nodes": 81,
+      "maximum_volume": 0.00016276041666666682,
+      "minimum_volume": 0.00016276041666666666,
+      "nodes": 1377,
+      "orientation_failures": 0,
+      "per_node_y_weight": -0.6172839506172839,
+      "quality_maximum": 0.34634204770215293,
+      "quality_median": 0.3463420477021527,
+      "quality_minimum": 0.27212589462312015,
+      "stress_region_centroid": [
+        2.0000000000000004,
+        0.40624999999999994,
+        0.25
+      ],
+      "stress_region_elements": 80,
+      "stress_region_volume": 0.01302083333333334,
+      "total_load": [
+        0.0,
+        -50.00000000000004,
+        0.0
+      ],
+      "total_mesh_volume": 1.0000000000000004,
+      "total_volume_error": 4.440892098500626e-16
+    },
+    "M3": {
+      "dofs": 12675,
+      "domain_volume": 1.0,
+      "elements": 20736,
+      "load_centroid": [
+        3.999999999999986,
+        0.24999999999999978,
+        0.24999999999999972
+      ],
+      "load_moment_about_origin": [
+        12.499999999999988,
+        0.0,
+        -199.99999999999932
+      ],
+      "loaded_face_area": 0.25,
+      "loaded_nodes": 169,
+      "maximum_volume": 4.822530864197545e-05,
+      "minimum_volume": 4.822530864197519e-05,
+      "nodes": 4225,
+      "orientation_failures": 0,
+      "per_node_y_weight": -0.2958579881656805,
+      "quality_maximum": 0.34634204770215316,
+      "quality_median": 0.3463420477021526,
+      "quality_minimum": 0.27212589462311904,
+      "stress_region_centroid": [
+        1.9999999999999958,
+        0.4166666666666677,
+        0.24999999999999983
+      ],
+      "stress_region_elements": 336,
+      "stress_region_volume": 0.016203703703703692,
+      "total_load": [
+        0.0,
+        -49.99999999999983,
+        0.0
+      ],
+      "total_mesh_volume": 1.0,
+      "total_volume_error": 0.0
+    },
+    "M4": {
+      "dofs": 28611,
+      "domain_volume": 1.0,
+      "elements": 49152,
+      "load_centroid": [
+        3.9999999999999796,
+        0.25000000000000056,
+        0.2500000000000001
+      ],
+      "load_moment_about_origin": [
+        12.500000000000005,
+        0.0,
+        -199.99999999999898
+      ],
+      "loaded_face_area": 0.25,
+      "loaded_nodes": 289,
+      "maximum_volume": 2.0345052083333346e-05,
+      "minimum_volume": 2.0345052083333346e-05,
+      "nodes": 9537,
+      "orientation_failures": 0,
+      "per_node_y_weight": -0.17301038062283736,
+      "quality_maximum": 0.34634204770215293,
+      "quality_median": 0.34634204770215293,
+      "quality_minimum": 0.27212589462312015,
+      "stress_region_centroid": [
+        2.0022321428571423,
+        0.411830357142857,
+        0.25055803571428553
+      ],
+      "stress_region_elements": 672,
+      "stress_region_volume": 0.013671875000000007,
+      "total_load": [
+        0.0,
+        -49.999999999999744,
+        0.0
+      ],
+      "total_mesh_volume": 1.0000000000000009,
+      "total_volume_error": 8.881784197001252e-16
+    },
+    "M5": {
+      "dofs": 91875,
+      "domain_volume": 1.0,
+      "elements": 165888,
+      "load_centroid": [
+        3.999999999999943,
+        0.25000000000000017,
+        0.25000000000000033
+      ],
+      "load_moment_about_origin": [
+        12.500000000000016,
+        0.0,
+        -199.99999999999716
+      ],
+      "loaded_face_area": 0.25,
+      "loaded_nodes": 625,
+      "maximum_volume": 6.02816358024694e-06,
+      "minimum_volume": 6.028163580246876e-06,
+      "nodes": 30625,
+      "orientation_failures": 0,
+      "per_node_y_weight": -0.08,
+      "quality_maximum": 0.3463420477021546,
+      "quality_median": 0.3463420477021522,
+      "quality_minimum": 0.272125894623119,
+      "stress_region_centroid": [
+        2.0009469696969835,
+        0.4133522727272732,
+        0.25023674242424193
+      ],
+      "stress_region_elements": 2640,
+      "stress_region_volume": 0.01591435185185184,
+      "total_load": [
+        0.0,
+        -49.99999999999929,
+        0.0
+      ],
+      "total_mesh_volume": 0.9999999999999999,
+      "total_volume_error": 1.1102230246251565e-16
+    }
+  },
+  "nonlinear_apparent_orders": {
+    "representative_stress": {
+      "asymptotic": false,
+      "extrapolated_value": null,
+      "order": null,
+      "reason": "At least five levels are required before a nonuniform-ratio order fit is reported."
+    },
+    "strain_energy": {
+      "asymptotic": false,
+      "extrapolated_value": null,
+      "order": null,
+      "reason": "At least five levels are required before a nonuniform-ratio order fit is reported."
+    },
+    "tip_displacement": {
+      "asymptotic": false,
+      "extrapolated_value": null,
+      "order": null,
+      "reason": "At least five levels are required before a nonuniform-ratio order fit is reported."
+    }
+  },
+  "nonlinear_campaign": {
+    "M1": {
+      "accepted_digest": "6ad6535dcabca6e60a7324dc7954a901bd340784b2678c6a642fb2afe27d6498",
+      "minimum_det_f": 0.9972736215971093,
+      "newton_iterations": 69,
+      "representative_stress_sigma_xx": 1291.1114122696958,
+      "strain_energy": 2.191303101105339,
+      "stress_region_elements": 16,
+      "stress_region_volume": 0.02083333333333334,
+      "tip_displacement": -0.08768376207087285
+    },
+    "M2": {
+      "accepted_digest": "c76d9703dbc61e94600e4d96668383550d65ba59b6d1770bfed6815819faa285",
+      "minimum_det_f": 0.9953204032824443,
+      "newton_iterations": 98,
+      "representative_stress_sigma_xx": 2224.4286735340856,
+      "strain_energy": 3.7974457338045395,
+      "stress_region_elements": 80,
+      "stress_region_volume": 0.01302083333333334,
+      "tip_displacement": -0.15201607213372517
+    },
+    "M3": {
+      "accepted_digest": "92b3b07742c1ee23760692cb9a8d77bd9c6852baad87e76ca23ef70a64793a79",
+      "minimum_det_f": 0.9938290240543391,
+      "newton_iterations": 135,
+      "representative_stress_sigma_xx": 2765.2001891183813,
+      "strain_energy": 4.419448705078838,
+      "stress_region_elements": 336,
+      "stress_region_volume": 0.016203703703703692,
+      "tip_displacement": -0.17695610412963447
+    },
+    "M4": {
+      "accepted_digest": "4ceb6d70d6ca1d420cd1843adc9ad676ea91e4821454a7280d69484c5dbcacfd",
+      "minimum_det_f": 0.992927047661092,
+      "newton_iterations": 145,
+      "representative_stress_sigma_xx": 2837.843915881305,
+      "strain_energy": 4.693669347230475,
+      "stress_region_elements": 672,
+      "stress_region_volume": 0.013671875000000007,
+      "tip_displacement": -0.18795714735201677
+    }
+  },
+  "nonlinear_sequences": {
+    "representative_stress": {
+      "h": [
+        0.10919755809203736,
+        0.05459877904601869,
+        0.036399186030679126,
+        0.027299389523009344
+      ],
+      "levels": [
+        "M1",
+        "M2",
+        "M3",
+        "M4"
+      ],
+      "monotonic_absolute": true,
+      "successive_relative_deltas": [
+        0.7228789494035023,
+        0.24310580151133324,
+        0.026270693546453228
+      ],
+      "values": [
+        1291.1114122696958,
+        2224.4286735340856,
+        2765.2001891183813,
+        2837.843915881305
+      ]
+    },
+    "strain_energy": {
+      "h": [
+        0.10919755809203736,
+        0.05459877904601869,
+        0.036399186030679126,
+        0.027299389523009344
+      ],
+      "levels": [
+        "M1",
+        "M2",
+        "M3",
+        "M4"
+      ],
+      "monotonic_absolute": true,
+      "successive_relative_deltas": [
+        0.7329623327275119,
+        0.16379509145773455,
+        0.06204860842405581
+      ],
+      "values": [
+        2.191303101105339,
+        3.7974457338045395,
+        4.419448705078838,
+        4.693669347230475
+      ]
+    },
+    "tip_displacement": {
+      "h": [
+        0.10919755809203736,
+        0.05459877904601869,
+        0.036399186030679126,
+        0.027299389523009344
+      ],
+      "levels": [
+        "M1",
+        "M2",
+        "M3",
+        "M4"
+      ],
+      "monotonic_absolute": true,
+      "successive_relative_deltas": [
+        0.7336855598286709,
+        0.1640618103457515,
+        0.06216820423625032
+      ],
+      "values": [
+        -0.08768376207087285,
+        -0.15201607213372517,
+        -0.17695610412963447,
+        -0.18795714735201677
+      ]
+    }
+  },
+  "original_failed_campaign": {
+    "G04-10": "FAIL",
+    "hold_sha": "a5c3031f6b28b00476e328daff4845a741a5c161",
+    "start_sha": "48bfa83bc517e031cdab4876970a4f511f744e35",
+    "summary": "qualification/0_2_9/wp04_c_tet4_structural_summary.json"
+  },
+  "original_failure_reproduction_relative": {
+    "M1": {
+      "representative_stress": 0.0,
+      "strain_energy": 0.0,
+      "tip_displacement": 0.0
+    },
+    "M2": {
+      "representative_stress": 0.0,
+      "strain_energy": 0.0,
+      "tip_displacement": 0.0
+    },
+    "M3": {
+      "representative_stress": 0.0,
+      "strain_energy": 0.0,
+      "tip_displacement": 0.0
+    }
+  },
+  "recommendation": "C2_REQUALIFY_WITH_FINER_PREDECLARED_MESHES only after Owner review; retain this failed campaign and establish a separately frozen asymptotic mesh set.",
+  "record_id": "QF-SOLVER-0.2.9-WP04-C1-TET4-MESH-DIAGNOSIS-001",
+  "schema_version": 1,
+  "scope": {
+    "full_test_suite_run": false,
+    "maturity_changed": false,
+    "numerical_formulation_changed": false,
+    "production_source_changed": false
+  },
+  "status": "EXECUTED_TARGETED_DIAGNOSIS",
+  "stress_region_physically_invariant": true,
+  "tetra_subdivision_bias_audit": {
+    "M2": {
+      "alternate_body_diagonal_relative_energy": 1.1899724470555093e-10,
+      "alternate_body_diagonal_relative_tip_displacement": 1.1899736136963067e-10
+    },
+    "M3": {
+      "alternate_body_diagonal_relative_energy": 1.1149554076874397e-10,
+      "alternate_body_diagonal_relative_tip_displacement": 1.114956159026702e-10
+    },
+    "status": "NOT_DETECTED_IN_LINEAR_M2_M3_AUDIT"
+  },
+  "total_load_invariant": true,
+  "work_package": "WP04-C1"
+}

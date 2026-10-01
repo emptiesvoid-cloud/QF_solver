@@ -20,7 +20,7 @@ def _text(relative: str) -> str:
 def test_package_declares_complete_license_set_and_documentation_engine() -> None:
     project = tomllib.loads(_text("pyproject.toml"))["project"]
     assert project["name"] == "qf-solver"
-    assert project["version"] == "0.2.8"
+    assert project["version"] == "0.2.9"
     assert set(project["license-files"]) == {"LICENSE", "LICENSE-DOCS", "NOTICE", "THIRD_PARTY_LICENSES.md"}
     docs = set(project["optional-dependencies"]["docs"])
     assert "mkdocs>=1.6,<2" in docs

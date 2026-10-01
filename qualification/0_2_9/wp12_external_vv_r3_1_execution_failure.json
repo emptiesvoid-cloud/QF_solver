@@ -1,0 +1,23 @@
+{
+  "contract_path": "qualification/0_2_9/wp12_external_vv_r3_1_expanded_contract.json",
+  "contract_sha256": "e3baff6bb56004ff609ab9519b2d2b5352114d6999176dad246c4e6349ec0137",
+  "execution_sha": "dcab59dc58366e4cc1ca8253701965c608a6d80f",
+  "runner_sha": "3ba52b5d067266224ac1d63ec3ab20306872caf7",
+  "manifest_path": "qualification/0_2_9/wp12_external_vv_r3_1_expanded_manifest.json",
+  "manifest_sha256": "8d2f29a40d0bbd956836c1a67e0767605a57fa4982538f0c4f6e6b03dd189327",
+  "audit_path": "qualification/0_2_9/wp12_external_vv_r3_1_expanded_audit.json",
+  "audit_sha256": "0a0b40b91af86595aa71476d51a0944c1be0025f608bec9f9c90a2ec748d75fc",
+  "cases_attempted": 144,
+  "qf_primary_linear_solves_completed": 144,
+  "runner_case_status": "FAIL_CLOSED_EXECUTION",
+  "runner_error": "KeyError: 'timeout_seconds'",
+  "code_aster_processes_started": 0,
+  "code_aster_raw_results": 0,
+  "independent_audit_status": "FAIL_CLOSED",
+  "candidate_correlations_passed": 0,
+  "official_points_changed": false,
+  "thresholds_changed": false,
+  "production_source_changed": false,
+  "r2_evidence_modified": false,
+  "resolution": "Create R3.2 with timeout_seconds and memory_limit_mb at contract root and external_solver level; validate both before executing any model. Preserve all R3.1 failures and raw artifacts."
+}

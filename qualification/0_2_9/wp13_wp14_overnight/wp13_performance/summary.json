@@ -1,0 +1,55 @@
+{
+  "campaign_id": "VNV-J2-NONLINEAR-PERFORMANCE-006",
+  "status": "PASS_INTERNAL",
+  "maturity": "experimental",
+  "scope": {
+    "purpose": "bounded nonlinear driver characterization",
+    "elements": [
+      "TET4",
+      "TET10"
+    ],
+    "scalability_claim": false,
+    "external_correlation": false
+  },
+  "cases": [
+    {
+      "element_type": "TET4",
+      "status": "PASS",
+      "node_count": 68,
+      "element_count": 140,
+      "dof_count": 204,
+      "integration_point_state_count": 140,
+      "elapsed_seconds": 8.837794799997937,
+      "peak_python_memory_bytes": 5945507,
+      "increments": 24,
+      "total_newton_iterations": 33,
+      "maximum_relative_residual": 4.061176704145706e-09,
+      "final_relative_residual": 4.061176704145706e-09,
+      "residual_samples": 57,
+      "notes": [
+        "Timing includes model solve only after mesh import.",
+        "Memory is Python allocation peak from tracemalloc, not process RSS."
+      ]
+    },
+    {
+      "element_type": "TET10",
+      "status": "PASS",
+      "node_count": 341,
+      "element_count": 140,
+      "dof_count": 1023,
+      "integration_point_state_count": 560,
+      "elapsed_seconds": 35.61400689999573,
+      "peak_python_memory_bytes": 12967703,
+      "increments": 24,
+      "total_newton_iterations": 33,
+      "maximum_relative_residual": 7.493738437623695e-09,
+      "final_relative_residual": 3.088014774646989e-09,
+      "residual_samples": 57,
+      "notes": [
+        "Timing includes model solve only after mesh import.",
+        "Memory is Python allocation peak from tracemalloc, not process RSS."
+      ]
+    }
+  ],
+  "interpretation": "The measurements characterize total solve cost and state storage on small J2 bars. They do not qualify large-scale, parallel or multi-million-DOF performance."
+}

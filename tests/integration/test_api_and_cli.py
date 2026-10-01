@@ -94,7 +94,7 @@ def test_cli_check_mesh_and_solve(tmp_path: Path):
     assert data["audit"]["purpose"] == "white_box_solver_audit"
     assert data["audit"]["equilibrium"]["free_residual_norm"] < 1.0e-8
     audit_text = audit_md_path.read_text(encoding="utf-8")
-    assert "equilibrium:free_relative_residual" in audit_text
+    assert "Residu relatif libre" in audit_text
     assert "## Equilibre" in audit_text
     assert "Norme residu libre" in audit_text
     assert "## Bilan des chargements" in audit_text
@@ -177,15 +177,16 @@ def test_cli_inspect_writes_white_box_audit(tmp_path: Path):
     assert "AUDIT STATUS: PASS" in inspect.stdout
     data = json.loads(audit_path.read_text(encoding="utf-8"))
     assert data["purpose"] == "white_box_solver_audit"
+    assert data["detail"] == "summary"
     assert data["boundary"]["free_dof_count"] == 3
     assert data["equilibrium"] == {}
-    assert data["element_audits"][0]["geometry"]["corner_quality"] > 0.0
-    assert data["element_audits"][0]["matrices"][0]["shape"] == [12, 12]
+    assert data["element_audits"] == []
+    assert data["diagnostic"]["element_quality"]["TET4"]["corner_quality"]["min"] > 0.0
     assert {matrix["name"] for matrix in data["matrices"]} == {"stiffness", "reduced_stiffness"}
     markdown = markdown_path.read_text(encoding="utf-8")
     assert "## Controles automatiques" in markdown
     assert "## Matrices globales" in markdown
-    assert "## Elements" in markdown
+    assert "## Synthese" in markdown
 
 
 def test_cli_inspect_detail_values_writes_assembly_trace(tmp_path: Path):
@@ -215,6 +216,39 @@ def test_cli_inspect_detail_values_writes_assembly_trace(tmp_path: Path):
     element = data["element_audits"][0]
     assert element["assembly_entries"][0]["global_row"] >= 0
     assert "values" in element["matrices"][0]
+
+
+def test_cli_inspect_diagnostic_writes_compact_aggregates(tmp_path: Path):
+    root = Path(__file__).resolve().parents[2]
+    model_path = tmp_path / "model.json"
+    audit_path = tmp_path / "audit_diagnostic.json"
+    markdown_path = tmp_path / "audit_diagnostic.md"
+    write_model(model_path)
+    inspect = subprocess.run(
+        [
+            sys.executable,
+            "main_solveur.py",
+            "inspect",
+            "--input",
+            str(model_path),
+            "--output",
+            str(audit_path),
+            "--markdown",
+            str(markdown_path),
+            "--detail",
+            "diagnostic",
+        ],
+        cwd=root,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    assert inspect.returncode == 0, inspect.stderr
+    data = json.loads(audit_path.read_text(encoding="utf-8"))
+    assert data["detail"] == "diagnostic"
+    assert data["element_audits"] == []
+    assert "element_quality" in data["diagnostic"]
+    assert "Element quality summary" in markdown_path.read_text(encoding="utf-8")
 
 
 def test_cli_inspect_invalid_official_example_writes_partial_audit(tmp_path: Path):

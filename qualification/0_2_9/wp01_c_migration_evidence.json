@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "evidence_id": "QF-SOLVER-0.2.9-WP01-C-LOAD-CONTROL-001",
+  "contract_id": "QF-SOLVER-0.2.9-WP01-UNIFIED-NONLINEAR-CORE-001",
+  "baseline_sha": "ad7ee6bd469aa770929fd7a1d46f56da5e9bba1a",
+  "final_sha": "the commit containing this evidence; reported by the final Git verification",
+  "status": "LOAD_CONTROL_MIGRATION_TARGETED_PASS",
+  "scope": "Fixed load-control Full Newton migration only. The common engine owns the migrated Newton lifecycle; adaptive ownership, arc-length, active-set/frictional contact and checkpoint persistence remain outside this step.",
+  "migrated_paths": [
+    "src/solveur/core/nonlinear/iteration.py: solve_full_newton compatibility adapter",
+    "src/solveur/core/nonlinear/load_control.py: NonlinearStaticSolver._solve_load_step",
+    "src/solveur/core/analyses/geometric_nonlinear.py: existing delegation through solve_full_newton"
+  ],
+  "intentionally_unmigrated": [
+    "adaptive load-control ownership/cutback wrapper",
+    "arc-length control loop",
+    "FrictionlessActiveSetSolver",
+    "frictional contact and slip-root/semi-smooth paths",
+    "checkpoint persistence format",
+    "PETSc/MPI",
+    "all FEM and constitutive formulations"
+  ],
+  "baseline_artifacts": {
+    "before": "qualification/0_2_9/wp01_c_baseline.json",
+    "after": "qualification/0_2_9/wp01_c_post_migration.json",
+    "cases": [
+      "small-strain J2 nonlinear static",
+      "geometric nonlinear TET4",
+      "geometric nonlinear HEX8",
+      "frictionless penalty contact composition",
+      "geometric plus penalty contact composition",
+      "singular Full Newton failure"
+    ]
+  },
+  "numerical_equivalence": {
+    "tolerance": {"relative": 1e-9, "absolute_floor": 1e-12},
+    "small_strain_j2": {"status": "PASS", "max_abs_displacement_delta": 0.0, "iterations_before_after": [1, 1], "load_factor_before_after": [1.0, 1.0]},
+    "geometric_tet4": {"status": "PASS", "max_abs_displacement_delta": 1.3552527156068805e-20, "relative_delta": 1.2320479232789823e-21, "iterations_before_after": [3, 3], "load_factor_before_after": [1.0, 1.0]},
+    "geometric_hex8": {"status": "PASS", "max_abs_displacement_delta": 1.0587911840678754e-22, "relative_delta": 1.512558834382679e-23, "iterations_before_after": [3, 3], "load_factor_before_after": [1.0, 1.0]},
+    "penalty_contact": {"status": "PASS", "max_abs_displacement_delta": 0.0, "iterations_before_after": [5, 5], "load_factor_before_after": [1.0, 1.0]},
+    "geometric_penalty_contact": {"status": "PASS", "max_abs_displacement_delta": 1.3552527156068805e-20, "relative_delta": 1.2320479232789823e-21, "iterations_before_after": [3, 3], "load_factor_before_after": [1.0, 1.0]},
+    "failure_case": {"status": "PASS", "reason_before_after": ["SINGULAR_TANGENT", "SINGULAR_TANGENT"], "replay_deterministic": true, "diagnostic_backend_error_added": true}
+  },
+  "transaction_evidence": {
+    "intermediate_material_commit": false,
+    "accepted_increment_commit_count": 1,
+    "failed_increment_rollback": "PASS",
+    "line_search_trial_isolation": "PASS",
+    "load_factor_advances_only_on_acceptance": "PASS"
+  },
+  "tests": {
+    "foundation": {"command": "python -m pytest -q tests/unit/test_unified_nonlinear_foundation.py", "passed": 19, "failed": 0, "skipped": 0},
+    "full_newton": {"command": "python -m pytest -q tests/unit/test_nonlinear_iteration_sparse.py tests/unit/test_nonlinear_failure_modes.py", "passed": 23, "failed": 0, "skipped": 0},
+    "load_j2": {"command": "python -m pytest -q tests/unit/test_nonlinear_load_path.py tests/unit/test_analysis_features.py -k \"nonlinear or elastoplastic or signed\"", "passed": 33, "failed": 0, "skipped": 0, "deselected": 22},
+    "geometric": {"command": "python -m pytest -q tests/unit/test_geometric_nonlinear_public.py", "passed": 7, "failed": 0, "skipped": 0},
+    "contact": {"command": "python -m pytest -q tests/unit/test_nonlinear_contact_composition.py", "passed": 11, "failed": 0, "skipped": 0},
+    "migration": {"command": "python -m pytest -q tests/unit/test_wp01_c_unified_newton.py", "passed": 12, "failed": 0, "skipped": 0},
+    "legacy_regression": {"command": "python -m pytest -q tests/unit/test_nonlinear_state_transaction_contract.py tests/unit/test_nonlinear_contracts.py tests/unit/test_nonlinear_composite_assembly.py tests/unit/test_nonlinear_failure_modes.py tests/verification/test_j2_methods_vnv.py tests/unit/test_geometric_nonlinear_contracts.py tests/unit/test_nonlinear_contact_composition.py", "passed": 53, "failed": 0, "errors": 0}
+  },
+  "gate_status": {
+    "G01": "PARTIAL_PASS_MIGRATED_FIXED_LOAD_PATHS_ONLY",
+    "G02": "PASS_FOR_MIGRATED_FIXED_LOAD_CONTRIBUTIONS",
+    "G03": "PASS",
+    "G04": "PASS",
+    "G05": "PASS_BOUNDED_J2_TARGETED_EQUIVALENCE",
+    "G06": "PASS_BOUNDED_TET4_HEX8_TARGETED_EQUIVALENCE",
+    "G07": "PASS_BOUNDED_PENALTY_COMPOSITION_TARGETED_EQUIVALENCE",
+    "G08": "PASS",
+    "G09": "PASS_NO_MATURITY_CHANGE",
+    "G10": "PARTIAL_PASS_COMPATIBILITY_ADAPTER_REMAINS"
+  },
+  "integrity": {
+    "numerical_source_changed": false,
+    "element_formulation_changed": false,
+    "maturity_changed": false,
+    "evidence_0_2_8_changed": false,
+    "od_029_01": "OPEN",
+    "full_test_suite_run": false
+  },
+  "remaining_work": [
+    "Migrate adaptive load-control ownership and cutback policy under a later contract.",
+    "Adapt arc-length continuation through the common transaction and diagnostics.",
+    "Migrate active-set/frictional contact only after a dedicated contract.",
+    "Migrate checkpoint persistence to the composite state schema.",
+    "Complete G01/G10 only after all production Newton paths are audited."
+  ],
+  "wp01_phase": "LOAD_CONTROL_MIGRATION",
+  "wp01_points_awarded": "0/12"
+}

@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-029-WP14-G06-REVIEW-SCOPE-R2.2",
+  "revision": "R2.2",
+  "status": "OWNER_CONFIRMED_POLICY_AND_IDENTITY_PENDING_EXECUTION_FREEZE",
+  "scope": "Prospective G06 review-metadata scope semantics and evidence-backed metadata reconciliation. This change does not close WP14, award points, change the ledger, or authorize merge, push, or release.",
+  "provenance": {
+    "candidate_branch": "codex/wp14-g03-g06-g08-remediation",
+    "pre_change_head": "04f7381d77bdce63db2678f2e845bbec48e83a82",
+    "owner_policy_confirmation": {
+      "channel": "Codex conversation",
+      "date": "2026-09-29",
+      "scope_confirmed": "Treat controlled and controlled_release as document-control lifecycle states with a visible non-blocking metadata backlog; retain explicit approval/acceptance states in Owner-review metadata readiness.",
+      "signature_claimed": false
+    },
+    "parent_contract": {
+      "path": "qualification/0_2_9/wp14/wp14_g06_g08_remediation_r2_1_contract.json",
+      "sha256": "d378e500726f31486e89aec2229c7ff18a6fff1ac952a9b843db269ef73e1e02"
+    },
+    "historical_record_policy": "R2.1 contract, execution record, raw logs, archived outputs, and the 19/111 complete versus 92/111 incomplete historical snapshot remain unchanged.",
+    "execution_freeze_rule": "The commit containing this policy and its implementation is the R2.2 execution freeze. Record that full commit SHA before running the inherited G06 command set."
+  },
+  "policy": {
+    "owner_review_metadata_scope": {
+      "exact_statuses": ["approved"],
+      "status_prefixes": ["accepted_for_release_", "owner_approved", "owner_accepted"],
+      "required_fields": ["reviewer", "approver"],
+      "interpretation": "These lifecycle statuses assert approval or acceptance. Missing reviewer/approver metadata blocks Owner-review metadata readiness. Non-empty fields alone do not prove the decision; identity, date, scope, and decision must remain bound to direct evidence."
+    },
+    "document_control_metadata_backlog": {
+      "statuses": ["controlled", "controlled_release"],
+      "gate_effect": "ADVISORY_NON_BLOCKING",
+      "interpretation": "These statuses mean the document is controlled in the configuration registry; they do not assert that an Owner decision occurred. Missing metadata stays visible as a cleanup backlog and is not treated as an Owner-review failure."
+    },
+    "prospective_only": true,
+    "no_threshold_or_mechanics_change": true
+  },
+  "evidence_based_metadata_reconciliation": [
+    {
+      "document_id": "DOC-HEX8-023-002",
+      "document_path": "docs/verification/qf_solver_0_2_3_alpha_hex8_release_gate.md",
+      "fields_completed": {
+        "reviewer": "Quentin Farinazzo",
+        "review_date": "2026-08-24"
+      },
+      "direct_source": {
+        "path": "docs/verification/qf_solver_0_2_3_alpha_hex8_owner_review.md",
+        "sha256": "caf804c7a80b18b13b7e57d3a1262832b7c3422aab32066e5c49fb8a81298c4f",
+        "evidence": "Signed Owner review records the name/role Quentin Farinazzo / Owner and date 2026-08-24."
+      }
+    },
+    {
+      "document_id": "DOC-HEX20-023-002",
+      "document_path": "docs/verification/qf_solver_0_2_3_alpha_hex20_release_gate.md",
+      "fields_completed": {
+        "reviewer": "Quentin Farinazzo",
+        "review_date": "2026-08-24"
+      },
+      "direct_source": {
+        "path": "docs/verification/qf_solver_0_2_3_alpha_hex20_owner_review.md",
+        "sha256": "14b854819cb2ee6a365d294795f57903361ffebbd7c4d77c959c6c76f99ad165",
+        "evidence": "Signed Owner review records the name/role Quentin Farinazzo / Owner and date 2026-08-24."
+      }
+    }
+  ],
+  "preflight_observation_before_wp09_self_attestation": {
+    "observation_timing": "Recorded before the Owner identity self-attestation below; preserved as the pre-attestation baseline.",
+    "source_head": "04f7381d77bdce63db2678f2e845bbec48e83a82",
+    "active_documents": 584,
+    "owner_review_metadata_scope": 22,
+    "owner_review_metadata_complete": 21,
+    "owner_review_metadata_incomplete": [
+      {
+        "document_id": "DOC-029-WP09-OWNER-R3",
+        "document_path": "docs/verification/0_2_9/wp09-owner-acceptance-r3.md",
+        "missing_fields": ["reviewer", "approver"],
+        "decision_record_path": "qualification/0_2_9/wp09_owner_acceptance_r3.json",
+        "decision_record_sha256": "f0f5c56254ec9a3e2d04a1f7986b1b6572d95e06d027b0525125d7a440fcf8c0",
+        "decision_date": "2026-09-20",
+        "limitation": "At this pre-attestation observation the source record did not name the decision-maker. This historical observation is superseded for metadata completeness only by the Owner self-attestation below; the original decision record remains unchanged."
+      }
+    ],
+    "document_control_metadata_backlog_documents": 89,
+    "document_control_metadata_backlog_missing_field_counts": {
+      "reviewer": 86,
+      "approver": 89
+    },
+    "status": "OWNER_REVIEW_METADATA_BLOCKED_BEFORE_SELF_ATTESTATION"
+  },
+  "wp09_identity_self_attestation": {
+    "attestation_path": "qualification/0_2_9/wp09_owner_acceptance_r3_identity_attestation_2026_09_29.json",
+    "attestation_sha256": "0615441c0f82813991f46d81e38a741cf7cbca5d879c601e158bdebdd51595ac",
+    "attestation_id": "OD-029-WP09-HEX8-R3-IDENTITY-ATTESTATION-2026-09-29",
+    "decision_id": "OD-029-WP09-HEX8-R3",
+    "decision_record_path": "qualification/0_2_9/wp09_owner_acceptance_r3.json",
+    "decision_record_sha256": "f0f5c56254ec9a3e2d04a1f7986b1b6572d95e06d027b0525125d7a440fcf8c0",
+    "decision_maker_role": "Owner",
+    "personal_name_supplied": false,
+    "independence": "SELF_REVIEW_NON_INDEPENDENT",
+    "original_decision_changed": false
+  },
+  "post_attestation_preflight_observation": {
+    "source_head": "04f7381d77bdce63db2678f2e845bbec48e83a82",
+    "active_documents": 584,
+    "owner_review_metadata_scope": 22,
+    "owner_review_metadata_complete": 22,
+    "owner_review_metadata_incomplete": [],
+    "document_control_metadata_backlog_documents": 89,
+    "document_control_metadata_backlog_missing_field_counts": {
+      "reviewer": 86,
+      "approver": 89
+    },
+    "status": "OWNER_REVIEW_METADATA_FIELDS_COMPLETE_WITH_ROLE_SELF_ATTESTATION"
+  },
+  "execution": {
+    "inherited_g06_commands": "qualification/0_2_9/wp14/wp14_g06_g08_remediation_r2_1_contract.json#g06_documentation.commands",
+    "must_run_on_exact_freeze_commit": true,
+    "expected_interpretation": "The 22 explicit approval/acceptance records have complete reviewer/approver fields after the role-based WP09 Owner self-attestation; 89 controlled lifecycle records remain visible in a non-blocking metadata backlog. This does not close G06 until the exact frozen command set passes, and does not close WP14 or award points.",
+    "execution_sha": null,
+    "commands_run": false
+  },
+  "governance": {
+    "wp14_closure": false,
+    "official_points_awarded": false,
+    "ledger_update": false,
+    "merge_or_push": false,
+    "release": false,
+    "historical_failures_reclassified": false
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "manifest_status": "PASS",
+  "element_type": "HEX20",
+  "contract_sha256": "26d50ef1be225db854e385e8eb044b3a488493a27b0a1461898cd0213f81139b",
+  "artifacts": {
+    "m1_primary.json": "70e3672b32acd77cffb8bdb61b6e33c5246e30bf9fc4ba436767494f745cefbb",
+    "m1_reference.json": "aa8c034f5ec239f92472c66ecce918c97b77fa9736a527b687d0b9e2d00f0d5a",
+    "m2_primary.json": "191bc1d6227b7559e0d9236cb33565b14ba7a981dd5f13ff2cfe41caa3855a59",
+    "m2_reference.json": "e7fe7e386710b306a44f3000976376cbf67726cf532ac1f77da2e0e61928ddf9",
+    "m3_replay.json": "2bdf03ee95da01fe24785c3771c600ee675ab089bf564709f7a95c3c03409ab0",
+    "m3_reference.json": "b6160ed8841fcebf0dfc02ca948f15c9e0dd7c5693d19e41ee0f8f1ca6b99365",
+    "m3_replay_process_manifest.json": "5ff641da5c4f935203325f26c6321c4c0574bff3a8de68301ecf4228a11e8749"
+  },
+  "replay": {
+    "pid": 43112,
+    "return_code": 0,
+    "fresh_process": true,
+    "primary_matches_m2": true,
+    "reference_matches_m2": true
+  },
+  "reference_coverage": "final saved displacement state; production contact gaps retained for every step",
+  "fallback_count": {"m1": 0, "m2": 0, "m3": 0}
+}

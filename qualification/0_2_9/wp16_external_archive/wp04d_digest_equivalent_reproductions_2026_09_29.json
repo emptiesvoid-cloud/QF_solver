@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "record_type": "WP04D_HISTORICAL_HASH_TO_REPRODUCTION_MAPPING",
+  "status": "FOUR_REPRODUCED_NPZ_MATCH_RECORDED_HISTORICAL_SIZE_AND_SHA256_ORIGINAL_PROVENANCE_UNAVAILABLE",
+  "historical_expectation_source": "qualification/0_2_9/wp14/wp14_corrections_package_candidate_r3_20260927.json",
+  "reproduction_source_sha": "e01e292a36dc4f2e6bfe1cbe8a64a6b563707edf",
+  "reproduction_manifest": "qualification/0_2_9/wp16_external_archive/wp04d_reproduced_manifest.json",
+  "reproduction_manifest_sha256": "7f4a227453bc4c0ae1268b4f2cd2e545ffba236010462b2e09db6b37c7475ae5",
+  "reproduction_drive_archive_file_id": "1iS2Jcl2pzid2YZ3DDxYucTioHr2CfODN",
+  "reproduction_drive_archive_sha256": "a5f63df37713ec3bf2540ae0920fbf271229bca1adc61115a9fde22aa2690244",
+  "reproduction_readback": "REMOTE_ZIP_AND_MANIFEST_SHA256_MATCH; ALL_31_MEMBERS_AND_FULL_RESTORE_VERIFIED",
+  "mappings": [
+    {
+      "historical_path": "qualification/0_2_9/wp04d/h1_raw.npz",
+      "reproduced_zip_member": "wp04d/h1_raw.npz",
+      "size_bytes": 510642,
+      "sha256": "021fb16a46f369452f5aa0a8e913c1bd345eb3128df3cb5c5a1edce63805ab2d",
+      "recorded_historical_hash_matches_reproduction": true
+    },
+    {
+      "historical_path": "qualification/0_2_9/wp04d/h1_replay_raw.npz",
+      "reproduced_zip_member": "wp04d/h1_replay_raw.npz",
+      "size_bytes": 510642,
+      "sha256": "021fb16a46f369452f5aa0a8e913c1bd345eb3128df3cb5c5a1edce63805ab2d",
+      "recorded_historical_hash_matches_reproduction": true
+    },
+    {
+      "historical_path": "qualification/0_2_9/wp04d/h2_raw.npz",
+      "reproduced_zip_member": "wp04d/h2_raw.npz",
+      "size_bytes": 1635806,
+      "sha256": "cdaf20e269e379e52d9888a618bad6b5bd8d7ca98dc20adbef1a7d54a1aaf3ee",
+      "recorded_historical_hash_matches_reproduction": true
+    },
+    {
+      "historical_path": "qualification/0_2_9/wp04d/h3_raw.npz",
+      "reproduced_zip_member": "wp04d/h3_raw.npz",
+      "size_bytes": 3761002,
+      "sha256": "a595374adbabde01a1f297a6e221c73adeaf10f915dfd7f59af4b4bf455dd14b",
+      "recorded_historical_hash_matches_reproduction": true
+    }
+  ],
+  "distinct_sha256_count": 3,
+  "historical_original_files_found": false,
+  "historical_status_reclassified": false,
+  "interpretation": "The archived later reproductions have the same recorded sizes and SHA-256 digests as the four historical NPZ expectations. This provides hash-equivalent bytes for restoration, not evidence that the physical original files were recovered or that the current source was numerically requalified."
+}

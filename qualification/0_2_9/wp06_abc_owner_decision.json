@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "record_id": "OD-029-WP06-ABC-01",
+  "title": "WP06-A/B/C partial Owner acceptance and point award",
+  "decision_date": "2026-09-18",
+  "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+  "owner_decision": {
+    "OWNER_ACCEPTS_WP06A": true,
+    "OWNER_AWARDS_WP06A": "1/1",
+    "OWNER_ACCEPTS_WP06B": true,
+    "OWNER_AWARDS_WP06B": "1/1",
+    "OWNER_ACCEPTS_WP06B_LIMITATIONS": true,
+    "OWNER_ACCEPTS_WP06C": true,
+    "OWNER_AWARDS_WP06C": "2/2",
+    "OWNER_ACCEPTS_WP06C_BOUNDED_SCOPE": true,
+    "WP06_OFFICIAL_POINTS_AFTER_DECISION": "4/8",
+    "GLOBAL_OFFICIAL_TOTAL_AFTER_DECISION": "70/100",
+    "OWNER_AUTHORIZES_WP06D_R2_STRUCTURAL_EXECUTION": false
+  },
+  "award": {
+    "WP06A": {"accepted": true, "official_points": "1/1"},
+    "WP06B": {"accepted": true, "official_points": "1/1", "limitations_accepted": true},
+    "WP06C": {"accepted": true, "official_points": "2/2", "bounded_scope_accepted": true},
+    "WP06_ABC_OFFICIAL_POINTS": "4/8",
+    "WP06D_R2": {"structural_execution_authorized": false, "status": "NOT_AUTHORIZED"},
+    "WP06D1_HISTORICAL_M2": {"status": "FAIL_CLOSED", "preserved": true}
+  },
+  "ledger": {
+    "global_official_total_before": "66/100",
+    "global_official_total_after": "70/100",
+    "roadmap_weights_changed": false,
+    "ledger_update_scope": "LOCAL_ISOLATED_WP06_BRANCH",
+    "governing_merge": "NOT_PERFORMED",
+    "governing_push": "NOT_PERFORMED"
+  },
+  "provenance": {
+    "repository": "emptiesvoid-cloud/QF_solver",
+    "branch": "codex/wp06-score-requalification",
+    "decision_context_head": "c2fb99ecebd236bdd382ab39976589eb1bb5057c",
+    "revalidation_execution_sha": "915d0d4e8a8df462d7928f77b96f4480f53fbae7",
+    "revalidation_record": "qualification/0_2_9/wp06_abc_revalidation_r1.json",
+    "revalidation_report": "docs/verification/0_2_9/wp06-abc-current-revalidation.md",
+    "targeted_test_record": "qualification/0_2_9/wp06_abc_revalidation_r1/targeted-tests.xml",
+    "historical_evidence_rewritten": false
+  },
+  "verification_basis": {
+    "targeted_tests_passed_as_recorded": 118,
+    "targeted_tests_rerun_for_owner_decision": false,
+    "ledger_record_validation": {
+      "json_validation": "PASS",
+      "git_diff_check": "PASS",
+      "documentation_generation_tests_passed": 17,
+      "documentation_generation_tests_skipped": 2
+    },
+    "structural_solves_run": false,
+    "full_test_suite_run": false,
+    "production_mechanics_changed": false,
+    "thresholds_changed": false
+  },
+  "limitations": [
+    "WP06-A does not claim equivalence to Crisfield or Riks methods",
+    "WP06-B does not qualify structural restart suffixes or distributed/MPI continuation or restart",
+    "WP06-C is limited to algebraic/toy identity and policy evidence, not structural postbuckling",
+    "historical WP06-D1 M2 FAIL_CLOSED remains authoritative for that execution"
+  ],
+  "next_gate": "No WP06-D R2 structural execution is authorized. Any future run requires a frozen current-source contract and safe runner, followed by a separate explicit Owner authorization bound to the execution inputs."
+}

@@ -1,19 +1,139 @@
-# Python caches
+# Generated WP09 raw FEM outputs are archived externally and referenced by SHA-256.
+# WP12 R3 expanded raw Code_Aster runs remain local; version the sibling manifest/reports.
+qualification/0_2_9/wp12_external_vv_r3_expanded_raw/
+qualification/0_2_9/wp12_external_vv_r3_1_expanded_raw/
+qualification/0_2_9/wp12_external_vv_r3_2_expanded_raw/
+qualification/0_2_9/wp12_external_vv_r3_3_expanded_raw/
+qualification/0_2_9/wp12_external_vv_r3_4_expanded_raw/
+qualification/0_2_9/wp12_external_vv_r3_5_expanded_raw/
+qualification/0_2_9/wp12_external_vv_r3_6_diverse_raw/
+qualification/0_2_9/wp12_external_vv_r3_6_diverse_r1_raw/
+qualification/0_2_9/wp12_external_vv_r3_6_diverse_r2_raw/
+qualification/0_2_9/wp12_external_vv_r3_6_diverse_r3_raw/
+qualification/0_2_9/wp12_external_vv_r3_5_smoke_raw/
+qualification/0_2_9/wp12_external_vv_r3_5_smoke_r2_raw/
+qualification/0_2_9/wp12_external_vv_r3_5_smoke_r3_raw/
+qualification/0_2_9/wp12_external_vv_r3_5_smoke_attempt4_raw/
 __pycache__/
-*.py[cod]
+qualification/0_2_9/wp09_hex8_accuracy_remediation_r1/hex8_*.json
+qualification/0_2_9/wp09_hex8_accuracy_remediation_r1/summary.json
+qualification/0_2_9/wp09_hex8_accuracy_remediation_r2/hex8_*.json
+qualification/0_2_9/wp09_hex8_accuracy_remediation_r2/summary.json
+qualification/0_2_9/wp09_hex8_accuracy_remediation_r3/hex8_*.json
+qualification/0_2_9/wp09_hex8_accuracy_remediation_r3/summary.json
+qualification/0_2_9/wp09_hex8_extended_refinement_r1/hex8_*.json
+qualification/0_2_9/wp09_hex8_extended_refinement_r1/summary.json
+qualification/0_2_9/wp09_hex8_extended_refinement_r2/hex8_*.json
+qualification/0_2_9/wp09_hex8_extended_refinement_r2/summary.json
+qualification/0_2_9/wp09_hex8_extended_refinement_r3/hex8_*.json
+qualification/0_2_9/wp09_hex8_extended_refinement_r3/summary.json
+qualification/0_2_9/wp09_hex8_formal_r2_evidence/replay/m*_hex8.json
+qualification/0_2_9/wp09_hex8_formal_r3_evidence/replay/m*_hex8.json
+qualification/0_2_9/wp09_hex8_formal_r3_primary/m*_hex8.json
+qualification/0_2_9/wp09_hex8_refinement_r1/hex8_*.json
 
-# Test and lint caches
-.pytest_cache/
-.ruff_cache/
-.mypy_cache/
-.hypothesis/
-.coverage
-coverage*.json
-coverage*.xml
-htmlcov/
-schema-coverage.json
+# WP11 raw execution files remain local/external and are referenced by manifests.
+qualification/0_2_9/wp11_execution/m1_serial/
+qualification/0_2_9/wp11_execution/m2_petsc_1rank/
+qualification/0_2_9/wp11_execution/m2_petsc_2rank/
+qualification/0_2_9/wp11_execution/m2_petsc_2rank_r1/
+qualification/0_2_9/wp11_execution/m2_petsc_2rank_r2/
+qualification/0_2_9/wp11_execution/m3_replay_2rank/
+qualification/0_2_9/wp11_execution/m3_replay_2rank_r1/
+qualification/0_2_9/wp11_execution/m3_replay_audit.json
+qualification/0_2_9/wp11_execution/wp11_manifest.json
+**/__pycache__/
+*.pyc
+qualification/0_2_9/wp09_hex8_refinement_r1/summary.json
 
-# Editable/install metadata
+# WP09 HEX20 extension raw solves remain in the local evidence archive.
+qualification/0_2_9/wp09_hex20_extension/h*_hex20.json
+qualification/0_2_9/wp09_hex20_extension/load_window_020/h*_load020.json
+qualification/0_2_9/wp09_hex20_extension/revalidation_h1/h1_hex20.json
+qualification/0_2_9/wp09_hex20_extension/campaign.json
+qualification/0_2_9/wp09_hex20_extension/campaign.md
+qualification/0_2_9/wp09_hex20_extension/reference_stdout.log
+qualification/0_2_9/wp09_hex20_extension/reference_stderr.log
+qualification/0_2_9/wp09_hex20_extension/manifest.json
+
+# WP09 TET10 R2 raw solves are retained in the local/external evidence archive.
+qualification/0_2_9/wp09_tet10_r2_consistent_traction/h*_tet10.json
+qualification/0_2_9/wp09_tet10_r2_consistent_traction/campaign.json
+qualification/0_2_9/wp09_tet10_r2_consistent_traction/campaign.md
+qualification/0_2_9/wp09_tet10_r2_consistent_traction/reference_stdout.log
+qualification/0_2_9/wp09_tet10_r2_consistent_traction/reference_stderr.log
+
+# WP09 TET4 diagnostic raw solves and subprocess logs remain local; compact
+# campaign summaries and hash manifests are versioned separately.
+qualification/0_2_9/wp09_tet4_consistent_traction_study_r1/*_tet4_primary.json
+qualification/0_2_9/wp09_tet4_consistent_traction_study_r1/*_tet4_replay.json
+qualification/0_2_9/wp09_tet4_consistent_traction_study_r1/*.log
+qualification/0_2_9/wp09_tet4_consistent_traction_study_r1/
+qualification/0_2_9/wp09_tet4_consistent_traction_study_r2/*_tet4_primary.json
+qualification/0_2_9/wp09_tet4_consistent_traction_study_r2/*_tet4_replay.json
+qualification/0_2_9/wp09_tet4_consistent_traction_study_r2/*.log
+
+# WP09 HEX20 R2 raw solves are retained in the local/external evidence archive.
+qualification/0_2_9/wp09_hex20_r2_consistent_traction/h*_hex20.json
+qualification/0_2_9/wp09_hex20_r2_consistent_traction/campaign.json
+qualification/0_2_9/wp09_hex20_r2_consistent_traction/campaign.md
+qualification/0_2_9/wp09_hex20_r2_consistent_traction/reference_stdout.log
+qualification/0_2_9/wp09_hex20_r2_consistent_traction/reference_stderr.log
+
+# WP12 R4 gallery raw case outputs stay local; version only the manifest and summaries.
+qualification/0_2_9/wp12_external_vv_r4_gallery_raw/
+
+# WP13 R2 full per-case nonlinear performance results are local raw evidence;
+# version the compact execution record, hashes, report, contract, and tests.
+qualification/0_2_9/wp13_r2_multifamily/raw/
+
+# Raw WP07/WP08 contact-mechanics requalification process outputs are kept
+# locally; version compact reports and hash manifests separately.
+qualification/0_2_9/wp07d_contact_requalification_r2/runs/
+qualification/0_2_9/wp07d_contact_requalification_r2/authorizations/
+qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_1/
+qualification/0_2_9/wp07d_contact_requalification_r2/authorizations_r2_1/
+qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_2/
+qualification/0_2_9/wp07d_contact_requalification_r2/authorizations_r2_2/
+qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_3/
+qualification/0_2_9/wp07d_contact_requalification_r2/authorizations_r2_3/
+qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_5/
+qualification/0_2_9/wp07d_contact_requalification_r2/analysis_final.json
+qualification/0_2_9/wp07d_contact_requalification_r2/progress.json
+qualification/0_2_9/wp07d_contact_requalification_r2/replay_authorization_gate.json
+qualification/0_2_9/wp07d_contact_requalification_r2/analysis_final_r2_1.json
+qualification/0_2_9/wp07d_contact_requalification_r2/progress_r2_1.json
+qualification/0_2_9/wp07d_contact_requalification_r2/replay_authorization_gate_r2_1.json
+qualification/0_2_9/wp07d_contact_requalification_r2/analysis_final_r2_2.json
+qualification/0_2_9/wp07d_contact_requalification_r2/progress_r2_2.json
+qualification/0_2_9/wp07d_contact_requalification_r2/replay_authorization_gate_r2_2.json
+qualification/0_2_9/wp07d_contact_requalification_r2/analysis_final_r2_3.json
+qualification/0_2_9/wp07d_contact_requalification_r2/progress_r2_3.json
+qualification/0_2_9/wp07d_contact_requalification_r2/replay_authorization_gate_r2_3.json
+qualification/0_2_9/wp08d_contact_requalification_r1_runs/raw/
+qualification/0_2_9/wp08d_contact_requalification_r1_runs/raw_retry_1/
+qualification/0_2_9/wp08d_contact_requalification_r1_runs/raw_retry_2/
+
+# WP08-D contact requalification raw process outputs stay local; keep compact
+# contracts, reports, and integrity manifests in Git.
+qualification/0_2_9/wp08d_contact_requalification_r2_runs/
+
+# WP08 area-supported R1.10 raw per-case outputs stay local; keep contracts,
+# final summaries, process bindings, and compact integrity records versionable.
+qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M1/
+qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/_process_logs/
+qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M2/
+qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/M3/
+qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/M2_M3/_process_logs/
+qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/M4/stick_target/
+qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/M4/slip_target/
+
+# Local test/build outputs; these are regenerable and are not release sources.
+/.coverage
+/.coverage.*
+/coverage.json
+/coverage.xml
+/results/
 *.egg-info/
 build/
 dist/

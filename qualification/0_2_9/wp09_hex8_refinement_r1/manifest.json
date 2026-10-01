@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "execution_sha": "7553d4c6b776db2296c6d6eb437e9dbb1dee9ea4",
+  "files": [
+    {
+      "path": "hex8_1x1x1.json",
+      "sha256": "c75283ef184b87eaa8a89de86eab3291dfb69d9a1243d154979e7bf4166d1697",
+      "bytes": 303192
+    },
+    {
+      "path": "hex8_2x2x2.json",
+      "sha256": "302f64d51bbc42836f986b6b2a24f091d5916dc6a512cd7e941a0dea5d436e50",
+      "bytes": 2169618
+    },
+    {
+      "path": "hex8_4x4x4.json",
+      "sha256": "c8eb34e0c8bfd49dace52693e82aac5f27ba5c82e9839e96be9a71cdc7630a33",
+      "bytes": 17096321
+    },
+    {
+      "path": "hex8_8x8x8.json",
+      "sha256": "94e89d4d366bdfd9b56b055016cfc81a8f3ba7d812ec5fe4290236796e32c3c8",
+      "bytes": 136733245
+    },
+    {
+      "path": "summary.json",
+      "sha256": "4b6f0b892765238c1a3ca0f1459c1844f91a71da9af9753dd857c3c801627081",
+      "bytes": 197634151
+    }
+  ]
+}

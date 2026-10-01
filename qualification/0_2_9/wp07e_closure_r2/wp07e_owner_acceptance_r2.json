@@ -1,0 +1,43 @@
+{
+  "artifact_id": "QF-029-WP07-E-OWNER-ACCEPTANCE-R2-001",
+  "schema_version": 1,
+  "decision_date": "2026-09-18",
+  "decision_source": "Explicit Owner message in the current conversation",
+  "decision": {
+    "owner_accepts_wp07e": true,
+    "owner_awards_wp07e_points": "2/2",
+    "wp07e_evidence_package": "COMPLETE",
+    "wp07e_closure_status": "ACCEPTED",
+    "wp07e_official_points": "2/2",
+    "wp07d_points": "3/3",
+    "wp07_final_points": "10/10"
+  },
+  "accepted_package": {
+    "branch": "codex/wp07e-closure-r2",
+    "package_commit_before_decision": "667c34abcd56a0f703eb6aa6eb48c1c95f3f2317",
+    "governing_branch": "0.2.9-unified-nonlinear",
+    "governing_base_sha": "168e345b74f221fb1b975161faea841ca48d9c7c",
+    "wp07d_execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+    "wp07e_checker_execution_sha": "bf3f1f6daeaf350b9da535a894b611af2dc8b3ee",
+    "wp07e_contract_sha256": "2a6292b3c90a645c752ad388f0c62dc6aa735d1e42225a3dd96333c1bbafcd88",
+    "wp07e_binding_sha256": "892f2de802551107337f3e0eddbcce68294e15aad5080fa1c64b945710e95cec",
+    "wp07e_candidate_json_sha256": "8ef56a5446632be3e25b218dbe25e7b2b903bb3dd01f0b6f1732ed9c9633b5",
+    "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "checker_status": "PASS",
+    "negative_cases_passed": 6,
+    "targeted_tests_passed": 67,
+    "wp07d_raw_artifacts_verified": 80,
+    "wp07d_rerun": false,
+    "historical_failures_preserved": true,
+    "production_mechanics_changed_by_wp07e": false
+  },
+  "global_project_total": {
+    "changed": false,
+    "reason": "Existing global ledger discrepancy remains unreconciled; this decision awards WP07 points only."
+  },
+  "integration": {
+    "local_merge_authorized": true,
+    "merge_performed": false,
+    "push_performed": false
+  }
+}

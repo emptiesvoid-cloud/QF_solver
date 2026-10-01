@@ -1,0 +1,142 @@
+{
+  "audit_id": "QF-029-WP09-HEX20-R2-AUDIT",
+  "status": "PASS_CANDIDATE_OWNER_REVIEW",
+  "official_points": "0/8_UNCHANGED",
+  "extension_points": "0/PENDING_OWNER_REVIEW",
+  "branch": "codex/wp09-hex20-extension",
+  "governing_branch": "0.2.9-unified-nonlinear",
+  "governing_base_sha": "cd5605ee7b77d119bbdb01ab9dbe9fa0c84331cf",
+  "execution_source_sha": "eea9b3b4f8e6e4b8bcce4626c7f301911aeb4f7e",
+  "post_run_type_only_fix_commit": "3970612d",
+  "contract_sha256": "9fb5bfe23d2eb7cef4ffdbe76b0d9b70e89d9649ae27b9e98a1e9081ae9d07cb",
+  "policy_code_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "runtime_policy_digest": "895d3c932278c0207b207318216c263a427636d57738bef730917fdc7d9b0ef5",
+  "production_mechanics_changed": false,
+  "thresholds_changed": false,
+  "load_definition": {
+    "type": "consistent_surface_traction",
+    "face": "x=1 HEX20 QUAD8",
+    "quadrature": "2x2 Gauss",
+    "total_resultant": [0.25, 0.0, 0.0],
+    "origin_moment": [0.0, 0.125, -0.125],
+    "equal_share_nodal_load": false
+  },
+  "mesh_hierarchy": {
+    "H1": {"cells": [1, 1, 1], "nodes": 20, "elements": 1, "dofs": 60},
+    "H2": {"cells": [2, 2, 2], "nodes": 81, "elements": 8, "dofs": 243},
+    "H3": {"cells": [3, 3, 3], "nodes": 208, "elements": 27, "dofs": 624}
+  },
+  "stages": {
+    "H1": {
+      "status": "PASS",
+      "selected_displacement": 0.017864877192814897,
+      "reaction_norm": 0.2500000000003925,
+      "energy": 0.0022564265991111957,
+      "von_mises_max": 0.1856849073542707,
+      "max_local_strain_norm": 0.036911760826804585,
+      "min_det_f": 0.9994163297058459,
+      "free_relative_residual": 2.66273960626051e-12,
+      "force_balance_relative_error": 3.9261134572014434e-13,
+      "moment_balance_relative_error": 2.652282935628729e-13,
+      "accepted_steps": 4,
+      "rejected_increments": 0,
+      "fallback_count": 0,
+      "newton_iterations": 21,
+      "elapsed_seconds": 28.128579000000173,
+      "replay": "PASS"
+    },
+    "H2": {
+      "status": "PASS",
+      "selected_displacement": 0.01935146246651554,
+      "reaction_norm": 0.25000000002336165,
+      "energy": 0.002538584684812773,
+      "von_mises_max": 0.2620390990837909,
+      "max_local_strain_norm": 0.03265916159373042,
+      "min_det_f": 0.9993985922189478,
+      "free_relative_residual": 3.927452625270862e-10,
+      "force_balance_relative_error": 2.336167374649234e-11,
+      "moment_balance_relative_error": 1.6606937850722312e-11,
+      "accepted_steps": 4,
+      "rejected_increments": 0,
+      "fallback_count": 0,
+      "newton_iterations": 22,
+      "elapsed_seconds": 233.9041099999995,
+      "replay": "PASS"
+    },
+    "H3": {
+      "status": "PASS",
+      "selected_displacement": 0.020081892781572176,
+      "reaction_norm": 0.25000000003167144,
+      "energy": 0.002643200772102237,
+      "von_mises_max": 0.2637064024496287,
+      "max_local_strain_norm": 0.03239869371462333,
+      "min_det_f": 0.9993741166322226,
+      "free_relative_residual": 1.9113076606670765e-10,
+      "force_balance_relative_error": 3.167158203106206e-11,
+      "moment_balance_relative_error": 2.237547509089332e-11,
+      "accepted_steps": 4,
+      "rejected_increments": 0,
+      "fallback_count": 0,
+      "newton_iterations": 22,
+      "elapsed_seconds": 802.2792687000001,
+      "replay": "PASS"
+    }
+  },
+  "mesh_gate_h2_to_h3": {
+    "status": "PASS",
+    "selected_displacement_relative_delta": 0.03637258315246568,
+    "reaction_relative_delta": 3.3239189174646556e-11,
+    "energy_relative_delta": 0.03957931928351354,
+    "von_mises_relative_delta": 0.00632257446292467,
+    "limits": {
+      "selected_displacement": 0.05,
+      "reaction": 0.05,
+      "energy": 0.05,
+      "von_mises": 0.10
+    }
+  },
+  "independent_reference": {
+    "status": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION",
+    "classification": "NOT_GLOBAL_FEM_SOLVE",
+    "production_imports": [],
+    "raw_source_sha256": {
+      "h1_hex20.json": "e288249cad1cdd4a18bc10aa023c60721a9d6c7c94c29c956e7275764c8f9f6c",
+      "h2_hex20.json": "563b8c8ccd11d219a7ef29a7b87017797ddbcca13142a3c4f20601f60e87f5dd",
+      "h3_hex20.json": "e9c43cd3527aa9f7c17b38a33f1cdd07f41c906c21441e4e18eaec7fe3ac95d2"
+    }
+  },
+  "replay": {
+    "H1": "PASS",
+    "H2": "PASS",
+    "H3": "PASS",
+    "relative_errors": "all zero for selected displacement, reaction, energy, von Mises and equivalent plastic strain"
+  },
+  "validation": {
+    "targeted_tests": "15 passed",
+    "ruff": "PASS",
+    "mypy": "PASS",
+    "compileall": "PASS",
+    "json_validation": "PASS",
+    "git_diff_check": "PASS",
+    "full_repository_suite": "NOT_RUN"
+  },
+  "raw_artifact_hashes": {
+    "h1_hex20.json": "e288249cad1cdd4a18bc10aa023c60721a9d6c7c94c29c956e7275764c8f9f6c",
+    "h1_replay_hex20.json": "4ef7871d8f091c5bdef8d7d193d98fce8dbad9b2a9866d8e3c472e1da12571b4",
+    "h2_hex20.json": "563b8c8ccd11d219a7ef29a7b87017797ddbcca13142a3c4f20601f60e87f5dd",
+    "h2_replay_hex20.json": "56efaba972ce980f4cf7f15104bd2c26c91e5b63f1959e6b2632db214b1108d6",
+    "h3_hex20.json": "e9c43cd3527aa9f7c17b38a33f1cdd07f41c906c21441e4e18eaec7fe3ac95d2",
+    "h3_replay_hex20.json": "1214065fe67d90bb30bf3ae0c789bb4e3828f266e8409cd59b9c8db0c83e5a7c",
+    "independent_reference/summary.json": "7b8dc1924d99f434aca0ea755351d887c8aef9f9e2dde6e3f770c008ed74c8e4"
+  },
+  "limitations": [
+    "HEX20 only; no TET4/TET10/HEX8 extension claim",
+    "bounded corotational small-strain J2 scope",
+    "independent reference recomputes observables and is not an independent global FEM/Newton solve",
+    "no external solver correlation",
+    "solver qualification summary remains WARNING/experimental by design",
+    "raw JSON is retained locally and ignored by Git; this manifest is the versioned pointer",
+    "full repository test suite was not run"
+  ],
+  "decision": "READY_FOR_OWNER_REVIEW; do not award official WP09 points automatically; do not merge or push"
+}

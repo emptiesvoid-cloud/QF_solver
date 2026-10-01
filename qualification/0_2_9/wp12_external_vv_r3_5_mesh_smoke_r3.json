@@ -1,0 +1,503 @@
+{
+  "attempted_case_count": 4,
+  "campaign": "WP12 R3.5 four-family H3 serializer/input smoke attempt 2",
+  "case_count": 4,
+  "case_pass_count": 4,
+  "cases": [
+    {
+      "case_id": "tet4_slender_beam_h3_combined_xyz",
+      "comm_text_sha256": "022209e1611e7821b4bdb2bb1575cf6b1d1380e1271a76942b7f99f9db0aa00a",
+      "comparisons": {
+        "aster_force_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 5.800396716028487e-16
+        },
+        "aster_moment_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 9.947598300641403e-17
+        },
+        "displacement_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 4.865558298778294e-14
+        },
+        "displacement_relative_linf": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 5.951737838346941e-14
+        },
+        "fixed_displacement_abs_max": {
+          "limit": 1e-12,
+          "status": "PASS",
+          "value": 3.4256342914613716e-24
+        },
+        "qf_force_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.6936668113796898e-14
+        },
+        "qf_free_residual_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 3.333328416848477e-14
+        },
+        "qf_moment_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.631757641164002e-14
+        },
+        "reaction_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 5.88606946838656e-14
+        },
+        "reaction_relative_linf": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 6.790635830844096e-14
+        },
+        "strain_energy_from_external_work_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.2348171032180718e-14
+        }
+      },
+      "family": "TET4",
+      "geometry": "slender_beam",
+      "load_case": "combined_xyz",
+      "mesh": "H3",
+      "mesh_text_sha256": "74b12f908a94d117352dd41361824fd7973c62c877c6f6c691df7d5928ad722c",
+      "metrics": {
+        "aster_external_work_energy_j": 0.0001558497085233464,
+        "aster_force_equilibrium_relative": 5.800396716028487e-16,
+        "aster_moment_equilibrium_relative": 9.947598300641403e-17,
+        "displacement_relative_l2": 4.865558298778294e-14,
+        "displacement_relative_linf": 5.951737838346941e-14,
+        "fixed_displacement_abs_max": 3.4256342914613716e-24,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.00015584970852334446,
+        "qf_force_equilibrium_relative": 1.6936668113796898e-14,
+        "qf_free_residual_relative_l2": 3.333328416848477e-14,
+        "qf_moment_equilibrium_relative": 1.631757641164002e-14,
+        "reaction_relative_l2": 5.88606946838656e-14,
+        "reaction_relative_linf": 6.790635830844096e-14,
+        "strain_energy_from_external_work_relative": 1.2348171032180718e-14
+      },
+      "process": {
+        "case_id": "tet4_slender_beam_h3_combined_xyz",
+        "command": [
+          "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE",
+          "run",
+          "--rm",
+          "--cpus=1",
+          "--cidfile",
+          "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp12_external_vv\\qualification\\0_2_9\\wp12_external_vv_r3_5_smoke_r3_raw\\tet4_slender_beam_h3_combined_xyz\\container.cid",
+          "-v",
+          "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp12_external_vv\\qualification\\0_2_9\\wp12_external_vv_r3_5_smoke_r3_raw\\tet4_slender_beam_h3_combined_xyz:/work",
+          "--workdir",
+          "/work",
+          "--entrypoint",
+          "/bin/bash",
+          "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+          "-lc",
+          "export RUNASTER_ROOT=/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg; source /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh; export PYTHONPATH=$(find /opt/spack/opt/spack/linux-zen -type d -path '*/lib/python3.11/site-packages' | paste -sd: -):${PYTHONPATH:-}; export LD_LIBRARY_PATH=$(find /opt/spack/opt/spack/linux-zen -type d \\( -name lib -o -name lib64 \\) | paste -sd: -):${LD_LIBRARY_PATH:-}; python3 -c 'import mpi4py, numpy; import code_aster.Commands' && /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster tet4_slender_beam_h3_combined_xyz.export --no-mpi"
+        ],
+        "container_cpu_limit": 1,
+        "container_id": "c1dce136e98b98515e9818815c8418cce7ad2b64667745d22beebda6f3df7b8f",
+        "elapsed_seconds": 5.019704099991941,
+        "exit_code": 0,
+        "family": "TET4",
+        "finished_utc": "2026-09-23T14:43:40.705279+00:00",
+        "fresh_container_process": true,
+        "host_process_id": 29996,
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "image_id": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "runtime_shell_command": "export RUNASTER_ROOT=/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg; source /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh; export PYTHONPATH=$(find /opt/spack/opt/spack/linux-zen -type d -path '*/lib/python3.11/site-packages' | paste -sd: -):${PYTHONPATH:-}; export LD_LIBRARY_PATH=$(find /opt/spack/opt/spack/linux-zen -type d \\( -name lib -o -name lib64 \\) | paste -sd: -):${LD_LIBRARY_PATH:-}; python3 -c 'import mpi4py, numpy; import code_aster.Commands' && /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster tet4_slender_beam_h3_combined_xyz.export --no-mpi",
+        "runtime_version": "code_aster 18.1.0 (spack-local)",
+        "solver_mpi_disabled": true,
+        "started_utc": "2026-09-23T14:43:35.694188+00:00",
+        "telemetry_events": 3
+      },
+      "raw_result_sha256": "6b51b7995f1180a440df8e64f2fdc8ce6d77aadbb82352b9faa50b107dde1650",
+      "status": "PASS_SMOKE_ONLY"
+    },
+    {
+      "case_id": "hex8_slender_beam_h3_combined_xyz",
+      "comm_text_sha256": "422fe103e344257669102d87f1862d2304631b6eec725ddb8c6cc245fcbb5806",
+      "comparisons": {
+        "aster_force_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.247078411633926e-15
+        },
+        "aster_moment_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.7023393966597584e-16
+        },
+        "displacement_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 2.4855098018487583e-14
+        },
+        "displacement_relative_linf": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 3.9629938417727316e-14
+        },
+        "fixed_displacement_abs_max": {
+          "limit": 1e-12,
+          "status": "PASS",
+          "value": 4.7827170360344295e-24
+        },
+        "qf_force_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 5.546531366861953e-14
+        },
+        "qf_free_residual_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 2.9291229518504724e-14
+        },
+        "qf_moment_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 4.669839950106446e-14
+        },
+        "reaction_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 2.5385807612880846e-14
+        },
+        "reaction_relative_linf": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.8340962772633895e-14
+        },
+        "strain_energy_from_external_work_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 2.7084745518227506e-14
+        }
+      },
+      "family": "HEX8",
+      "geometry": "slender_beam",
+      "load_case": "combined_xyz",
+      "mesh": "H3",
+      "mesh_text_sha256": "60075cc64bc59d042a9683494bbf6fa68d58490759750b8b43865b2d195a5002",
+      "metrics": {
+        "aster_external_work_energy_j": 0.0003182384440517942,
+        "aster_force_equilibrium_relative": 1.247078411633926e-15,
+        "aster_moment_equilibrium_relative": 1.7023393966597584e-16,
+        "displacement_relative_l2": 2.4855098018487583e-14,
+        "displacement_relative_linf": 3.9629938417727316e-14,
+        "fixed_displacement_abs_max": 4.7827170360344295e-24,
+        "load_area_m2": 0.2500000000000001,
+        "qf_energy_j": 0.0003182384440518028,
+        "qf_force_equilibrium_relative": 5.546531366861953e-14,
+        "qf_free_residual_relative_l2": 2.9291229518504724e-14,
+        "qf_moment_equilibrium_relative": 4.669839950106446e-14,
+        "reaction_relative_l2": 2.5385807612880846e-14,
+        "reaction_relative_linf": 1.8340962772633895e-14,
+        "strain_energy_from_external_work_relative": 2.7084745518227506e-14
+      },
+      "process": {
+        "case_id": "hex8_slender_beam_h3_combined_xyz",
+        "command": [
+          "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE",
+          "run",
+          "--rm",
+          "--cpus=1",
+          "--cidfile",
+          "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp12_external_vv\\qualification\\0_2_9\\wp12_external_vv_r3_5_smoke_r3_raw\\hex8_slender_beam_h3_combined_xyz\\container.cid",
+          "-v",
+          "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp12_external_vv\\qualification\\0_2_9\\wp12_external_vv_r3_5_smoke_r3_raw\\hex8_slender_beam_h3_combined_xyz:/work",
+          "--workdir",
+          "/work",
+          "--entrypoint",
+          "/bin/bash",
+          "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+          "-lc",
+          "export RUNASTER_ROOT=/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg; source /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh; export PYTHONPATH=$(find /opt/spack/opt/spack/linux-zen -type d -path '*/lib/python3.11/site-packages' | paste -sd: -):${PYTHONPATH:-}; export LD_LIBRARY_PATH=$(find /opt/spack/opt/spack/linux-zen -type d \\( -name lib -o -name lib64 \\) | paste -sd: -):${LD_LIBRARY_PATH:-}; python3 -c 'import mpi4py, numpy; import code_aster.Commands' && /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster hex8_slender_beam_h3_combined_xyz.export --no-mpi"
+        ],
+        "container_cpu_limit": 1,
+        "container_id": "88dae5f1b872151c4c3da601cfe855a00fa34562c8357f4c3edbc45c54b6433e",
+        "elapsed_seconds": 5.018288100007339,
+        "exit_code": 0,
+        "family": "HEX8",
+        "finished_utc": "2026-09-23T14:43:45.775239+00:00",
+        "fresh_container_process": true,
+        "host_process_id": 31276,
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "image_id": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "runtime_shell_command": "export RUNASTER_ROOT=/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg; source /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh; export PYTHONPATH=$(find /opt/spack/opt/spack/linux-zen -type d -path '*/lib/python3.11/site-packages' | paste -sd: -):${PYTHONPATH:-}; export LD_LIBRARY_PATH=$(find /opt/spack/opt/spack/linux-zen -type d \\( -name lib -o -name lib64 \\) | paste -sd: -):${LD_LIBRARY_PATH:-}; python3 -c 'import mpi4py, numpy; import code_aster.Commands' && /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster hex8_slender_beam_h3_combined_xyz.export --no-mpi",
+        "runtime_version": "code_aster 18.1.0 (spack-local)",
+        "solver_mpi_disabled": true,
+        "started_utc": "2026-09-23T14:43:40.764392+00:00",
+        "telemetry_events": 3
+      },
+      "raw_result_sha256": "8482bf47706fec6d7609fb0bf1d5ffaf3b6e9f384aaeaf05468f201540bf65e5",
+      "status": "PASS_SMOKE_ONLY"
+    },
+    {
+      "case_id": "tet10_slender_beam_h3_combined_xyz",
+      "comm_text_sha256": "44e5f46b7dbe2f11e02e7cb39233e7d8d29491f808017f8126cf39faa5ec890e",
+      "comparisons": {
+        "aster_force_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.351395498576127e-15
+        },
+        "aster_moment_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.0054870144021001e-16
+        },
+        "displacement_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 6.335850531896353e-13
+        },
+        "displacement_relative_linf": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 8.319781411118932e-13
+        },
+        "fixed_displacement_abs_max": {
+          "limit": 1e-12,
+          "status": "PASS",
+          "value": 1.516883989651118e-23
+        },
+        "qf_force_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 8.802669786837616e-13
+        },
+        "qf_free_residual_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 6.401627468111614e-13
+        },
+        "qf_moment_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 6.357403440810766e-13
+        },
+        "reaction_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 7.585881180488004e-13
+        },
+        "reaction_relative_linf": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 7.098497275879819e-13
+        },
+        "strain_energy_from_external_work_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.3453271982328587e-13
+        }
+      },
+      "family": "TET10",
+      "geometry": "slender_beam",
+      "load_case": "combined_xyz",
+      "mesh": "H3",
+      "mesh_text_sha256": "325d9af6984cd579b5e931b6e7f57694807535833d1be78014e23fbe739a9533",
+      "metrics": {
+        "aster_external_work_energy_j": 0.000777695640006884,
+        "aster_force_equilibrium_relative": 1.351395498576127e-15,
+        "aster_moment_equilibrium_relative": 1.0054870144021001e-16,
+        "displacement_relative_l2": 6.335850531896353e-13,
+        "displacement_relative_linf": 8.319781411118932e-13,
+        "fixed_displacement_abs_max": 1.516883989651118e-23,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.0007776956400069886,
+        "qf_force_equilibrium_relative": 8.802669786837616e-13,
+        "qf_free_residual_relative_l2": 6.401627468111614e-13,
+        "qf_moment_equilibrium_relative": 6.357403440810766e-13,
+        "reaction_relative_l2": 7.585881180488004e-13,
+        "reaction_relative_linf": 7.098497275879819e-13,
+        "strain_energy_from_external_work_relative": 1.3453271982328587e-13
+      },
+      "process": {
+        "case_id": "tet10_slender_beam_h3_combined_xyz",
+        "command": [
+          "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE",
+          "run",
+          "--rm",
+          "--cpus=1",
+          "--cidfile",
+          "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp12_external_vv\\qualification\\0_2_9\\wp12_external_vv_r3_5_smoke_r3_raw\\tet10_slender_beam_h3_combined_xyz\\container.cid",
+          "-v",
+          "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp12_external_vv\\qualification\\0_2_9\\wp12_external_vv_r3_5_smoke_r3_raw\\tet10_slender_beam_h3_combined_xyz:/work",
+          "--workdir",
+          "/work",
+          "--entrypoint",
+          "/bin/bash",
+          "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+          "-lc",
+          "export RUNASTER_ROOT=/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg; source /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh; export PYTHONPATH=$(find /opt/spack/opt/spack/linux-zen -type d -path '*/lib/python3.11/site-packages' | paste -sd: -):${PYTHONPATH:-}; export LD_LIBRARY_PATH=$(find /opt/spack/opt/spack/linux-zen -type d \\( -name lib -o -name lib64 \\) | paste -sd: -):${LD_LIBRARY_PATH:-}; python3 -c 'import mpi4py, numpy; import code_aster.Commands' && /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster tet10_slender_beam_h3_combined_xyz.export --no-mpi"
+        ],
+        "container_cpu_limit": 1,
+        "container_id": "13917d8ab0cf2f8b8ed2b444afc6073a75a51205ffb782dc7e2633c65f833d40",
+        "elapsed_seconds": 5.017442800002755,
+        "exit_code": 0,
+        "family": "TET10",
+        "finished_utc": "2026-09-23T14:43:50.882983+00:00",
+        "fresh_container_process": true,
+        "host_process_id": 2820,
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "image_id": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "runtime_shell_command": "export RUNASTER_ROOT=/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg; source /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh; export PYTHONPATH=$(find /opt/spack/opt/spack/linux-zen -type d -path '*/lib/python3.11/site-packages' | paste -sd: -):${PYTHONPATH:-}; export LD_LIBRARY_PATH=$(find /opt/spack/opt/spack/linux-zen -type d \\( -name lib -o -name lib64 \\) | paste -sd: -):${LD_LIBRARY_PATH:-}; python3 -c 'import mpi4py, numpy; import code_aster.Commands' && /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster tet10_slender_beam_h3_combined_xyz.export --no-mpi",
+        "runtime_version": "code_aster 18.1.0 (spack-local)",
+        "solver_mpi_disabled": true,
+        "started_utc": "2026-09-23T14:43:45.872994+00:00",
+        "telemetry_events": 3
+      },
+      "raw_result_sha256": "80a835fab2bf1bc7018add582ab4428088cb8127ac62e7b416ea500cd718aa1f",
+      "status": "PASS_SMOKE_ONLY"
+    },
+    {
+      "case_id": "hex20_slender_beam_h3_combined_xyz",
+      "comm_text_sha256": "5ad41da0197903b252287aa1b59f281e3debe395ace777a7f11091a13f1078e3",
+      "comparisons": {
+        "aster_force_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 8.285909540897276e-16
+        },
+        "aster_moment_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.1265423785391608e-16
+        },
+        "displacement_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 9.95941616253495e-13
+        },
+        "displacement_relative_linf": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.0144847254154168e-12
+        },
+        "fixed_displacement_abs_max": {
+          "limit": 1e-12,
+          "status": "PASS",
+          "value": 1.0687623725648298e-22
+        },
+        "qf_force_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.2250439532823402e-12
+        },
+        "qf_free_residual_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 5.322265640409905e-13
+        },
+        "qf_moment_equilibrium_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.0300199153110219e-12
+        },
+        "reaction_relative_l2": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 1.061310906822899e-12
+        },
+        "reaction_relative_linf": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 9.927899486591142e-13
+        },
+        "strain_energy_from_external_work_relative": {
+          "limit": 1e-08,
+          "status": "PASS",
+          "value": 5.342701292840069e-14
+        }
+      },
+      "family": "HEX20",
+      "geometry": "slender_beam",
+      "load_case": "combined_xyz",
+      "mesh": "H3",
+      "mesh_text_sha256": "6a402b84d5146239ccd65c4944efec7924c6739e17405bc4853c891a3045485f",
+      "metrics": {
+        "aster_external_work_energy_j": 0.0007873740639181019,
+        "aster_force_equilibrium_relative": 8.285909540897276e-16,
+        "aster_moment_equilibrium_relative": 1.1265423785391608e-16,
+        "displacement_relative_l2": 9.95941616253495e-13,
+        "displacement_relative_linf": 1.0144847254154168e-12,
+        "fixed_displacement_abs_max": 1.0687623725648298e-22,
+        "load_area_m2": 0.24999999999999997,
+        "qf_energy_j": 0.0007873740639180598,
+        "qf_force_equilibrium_relative": 1.2250439532823402e-12,
+        "qf_free_residual_relative_l2": 5.322265640409905e-13,
+        "qf_moment_equilibrium_relative": 1.0300199153110219e-12,
+        "reaction_relative_l2": 1.061310906822899e-12,
+        "reaction_relative_linf": 9.927899486591142e-13,
+        "strain_energy_from_external_work_relative": 5.342701292840069e-14
+      },
+      "process": {
+        "case_id": "hex20_slender_beam_h3_combined_xyz",
+        "command": [
+          "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE",
+          "run",
+          "--rm",
+          "--cpus=1",
+          "--cidfile",
+          "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp12_external_vv\\qualification\\0_2_9\\wp12_external_vv_r3_5_smoke_r3_raw\\hex20_slender_beam_h3_combined_xyz\\container.cid",
+          "-v",
+          "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp12_external_vv\\qualification\\0_2_9\\wp12_external_vv_r3_5_smoke_r3_raw\\hex20_slender_beam_h3_combined_xyz:/work",
+          "--workdir",
+          "/work",
+          "--entrypoint",
+          "/bin/bash",
+          "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+          "-lc",
+          "export RUNASTER_ROOT=/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg; source /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh; export PYTHONPATH=$(find /opt/spack/opt/spack/linux-zen -type d -path '*/lib/python3.11/site-packages' | paste -sd: -):${PYTHONPATH:-}; export LD_LIBRARY_PATH=$(find /opt/spack/opt/spack/linux-zen -type d \\( -name lib -o -name lib64 \\) | paste -sd: -):${LD_LIBRARY_PATH:-}; python3 -c 'import mpi4py, numpy; import code_aster.Commands' && /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster hex20_slender_beam_h3_combined_xyz.export --no-mpi"
+        ],
+        "container_cpu_limit": 1,
+        "container_id": "8d91ed4924b33ccdbaebbab70ecfa612464798335b7dc90cd047153c30bc1f60",
+        "elapsed_seconds": 5.019520200003171,
+        "exit_code": 0,
+        "family": "HEX20",
+        "finished_utc": "2026-09-23T14:43:56.089989+00:00",
+        "fresh_container_process": true,
+        "host_process_id": 29116,
+        "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "image_id": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+        "runtime_shell_command": "export RUNASTER_ROOT=/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg; source /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh; export PYTHONPATH=$(find /opt/spack/opt/spack/linux-zen -type d -path '*/lib/python3.11/site-packages' | paste -sd: -):${PYTHONPATH:-}; export LD_LIBRARY_PATH=$(find /opt/spack/opt/spack/linux-zen -type d \\( -name lib -o -name lib64 \\) | paste -sd: -):${LD_LIBRARY_PATH:-}; python3 -c 'import mpi4py, numpy; import code_aster.Commands' && /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster hex20_slender_beam_h3_combined_xyz.export --no-mpi",
+        "runtime_version": "code_aster 18.1.0 (spack-local)",
+        "solver_mpi_disabled": true,
+        "started_utc": "2026-09-23T14:43:51.077881+00:00",
+        "telemetry_events": 3
+      },
+      "raw_result_sha256": "f255fa2236e238260f9b44d3620072103beba829f389cdfba00256beb3cfed05",
+      "status": "PASS_SMOKE_ONLY"
+    }
+  ],
+  "code_aster_image_id": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+  "code_aster_runtime_version": "code_aster 18.1.0 (spack-local)",
+  "families": [
+    "TET4",
+    "HEX8",
+    "TET10",
+    "HEX20"
+  ],
+  "formal_correlation_evidence": false,
+  "manifest_sha256": "779a89efec67b8681a4f91f2230ef79c72c17005a4f5a9758eeb5cfc68935932",
+  "not_started_case_count": 0,
+  "official_points_changed": false,
+  "runner_sha": "397d3bd4187716ffc7fd0a03aaabd4bcdce61569",
+  "smoke_contract_sha256": "DIAGNOSTIC_ONLY_NO_FROZEN_144_CASE_CONTRACT",
+  "smoke_runner_sha": "4e1a501b306e525d933e79cbb83531fb1c7018e0",
+  "source_sha": "4e1a501b306e525d933e79cbb83531fb1c7018e0",
+  "status": "PASS_DIAGNOSTIC_ONLY",
+  "threshold_source_contract_sha256": "91ca0b310763209fa010955e723e21d8d09ca6bc0141f5317d167bab711896e3",
+  "timestamp_utc": "2026-09-23T14:43:56.103905+00:00"
+}

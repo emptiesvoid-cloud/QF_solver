@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "artifact_id": "QF-SOLVER-0.2.9-WP08E-CLOSURE-INTEGRITY-001",
+  "status": "PASS",
+  "scope": "WP08-E local closure final JSON and accepted-state checkpoint integrity",
+  "review_target_sha": "123c46eb6900647679c4b96350dafd4d05efa355",
+  "evidence_snapshot_sha": "bba9f7bc54ccd804824b58cb3e8684dc185fe8a7",
+  "authorized_base_sha": "7b93e71bab06a0e58108bd2479cd46808d533b67",
+  "execution_sha": "3c386b87bd60f3ed20d979f67c8b42da8f41b8c1",
+  "remediation_sha": "794de436c13364c16aa85b2ae2c9e7bb09957829",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "checkpoint_consistency": {
+    "accepted_checkpoint": {
+      "completed_step": 4,
+      "load_path_length": 7,
+      "kind": "frictional_contact_accepted_state",
+      "schema_version": 1,
+      "model_signature": "cc18530f932f6254742229598c8ad8761f1660b47790139afb665b953da268cb",
+      "cumulative_dissipation": 9.749999999999998,
+      "restartable": true
+    },
+    "resumed_terminal_checkpoint": {
+      "completed_step": 7,
+      "load_path_length": 7,
+      "kind": "frictional_contact_accepted_state",
+      "schema_version": 1,
+      "model_signature": "cc18530f932f6254742229598c8ad8761f1660b47790139afb665b953da268cb",
+      "cumulative_dissipation": 26.249999999999996,
+      "restartable": false
+    },
+    "same_physical_model_signature": true,
+    "step_order_valid": true,
+    "terminal_checkpoint_rejected_as_restart_source": true,
+    "closure_delta_displacement": 0.0,
+    "closure_delta_cumulative_dissipation": 0.0
+  },
+  "files": [
+    {
+      "relative_path": "wp08e_closure_final.json",
+      "size_bytes": 1746,
+      "sha256": "55fe584850498c08a73b3145f5102b31fbae5385ba7220aa799de6abde665fbd"
+    },
+    {
+      "relative_path": "restart/accepted_step4.json",
+      "size_bytes": 735,
+      "sha256": "049e4bd47d4c6b48675bd9e554c29691f8182d58e8841b64298f79b4f48a769c"
+    },
+    {
+      "relative_path": "restart/resumed_final.json",
+      "size_bytes": 737,
+      "sha256": "6c6aa1a591ace03d11925188893312c5f634518293fc8c2302dfd61f1f5f95ad"
+    }
+  ],
+  "full_test_suite_run": false,
+  "structural_solves_run": false,
+  "qualification_claim": "WP08E_EVIDENCE_READY_FOR_DIRECT_OWNER_INSPECTION",
+  "formal_points": "0/1"
+}

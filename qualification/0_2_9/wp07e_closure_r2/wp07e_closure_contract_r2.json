@@ -1,0 +1,1423 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-029-WP07-E-CLOSURE-R2-D-R1-BOUND",
+  "gate": "WP07",
+  "work_package": "WP07-E",
+  "revision": "R2_D_R1_EVIDENCE_BINDING",
+  "applicable_version": "0.2.9-development",
+  "status": "FROZEN_FOR_E_CLOSURE",
+  "owner_status": "OWNER_AUTHORIZED_EXECUTION_PENDING_EVIDENCE",
+  "owner_correction": "OWNER_EXECUTION_AUTHORIZATION_2026-09-17",
+  "preparation_only": false,
+  "qualification_campaign_executed": false,
+  "source_sha": "168e345b74f221fb1b975161faea841ca48d9c7c",
+  "formal_points": "0/2",
+  "wp07_points": "8/10",
+  "integration_train_required": true,
+  "execution_policy_status": "BOUND_TO_ACCEPTED_WP07D_R1",
+  "no_data_fabrication": true,
+  "reported_status_policy": {
+    "authoritative": false,
+    "reported_status_field": "reported_status",
+    "derived_status_field": "derived_status",
+    "disagreement": "record STATUS_MISMATCH and fail closed; raw-derived failure category remains visible",
+    "allowed_reported_values": [
+      "PASS",
+      "FAIL",
+      "INCOMPLETE",
+      "NOT_COVERED"
+    ]
+  },
+  "raw_evidence_schema": {
+    "description": "The closure builder derives gates from these observations. Labels such as PASS are non-authoritative diagnostics only.",
+    "ACTIVE_SET": {
+      "structural_level_fields": [
+        "case_definition_digest",
+        "selected_displacement",
+        "support_reaction_vector",
+        "reaction_moment_vector",
+        "contact_resultant_vector",
+        "contact_region_measure",
+        "scales"
+      ],
+      "identity_fields": [
+        "open_contact_force_vector",
+        "closed_gap",
+        "pressure",
+        "L_char",
+        "F_char",
+        "P_char"
+      ],
+      "equilibrium_fields": [
+        "support_reaction_vector",
+        "external_force_vector",
+        "reaction_moment_vector",
+        "external_moment_vector",
+        "F_char",
+        "M_char"
+      ],
+      "replay_fields": [
+        "final_displacement",
+        "reaction_vector",
+        "moment_vector",
+        "contact_resultant",
+        "active_contact_qualitative_status",
+        "active_contact_count",
+        "load_factor_history",
+        "terminal_classification"
+      ],
+      "optional_replay_fields": [
+        "newton_iteration_counts"
+      ]
+    },
+    "PENALTY": {
+      "structural_level_fields": [
+        "case_definition_digest",
+        "selected_displacement",
+        "support_reaction_vector",
+        "reaction_moment_vector",
+        "contact_resultant_vector",
+        "maximum_penetration",
+        "penetration_scale",
+        "contact_energy",
+        "contact_energy_applicable",
+        "scales"
+      ],
+      "identity_fields": [
+        "energy_gradient_error",
+        "tangent_frobenius_error",
+        "tangent_max_column_error",
+        "tangent_symmetry_error",
+        "open_contact_force_vector",
+        "open_force_scale",
+        "reopen_ghost_force_vector",
+        "reopen_force_scale"
+      ],
+      "equilibrium_fields": [
+        "support_reaction_vector",
+        "external_force_vector",
+        "reaction_moment_vector",
+        "external_moment_vector",
+        "F_char",
+        "M_char"
+      ],
+      "rollback_fields": [
+        "state_before_digest",
+        "trial_state_digest",
+        "state_after_reject_digest"
+      ],
+      "load_path_fields": [
+        "step_statuses"
+      ],
+      "replay_fields": [
+        "final_displacement",
+        "reaction_vector",
+        "moment_vector",
+        "contact_resultant",
+        "active_contact_qualitative_status",
+        "active_contact_count",
+        "load_factor_history",
+        "terminal_classification",
+        "contact_topology_digest",
+        "model_signature",
+        "accepted_state_digest"
+      ],
+      "optional_replay_fields": [
+        "newton_iteration_counts"
+      ]
+    },
+    "reference_fields": [
+      "independent_implementation",
+      "production_contact_routines_called",
+      "formulation_match",
+      "raw_comparisons"
+    ],
+    "provenance_fields": [
+      "integrated_source_sha",
+      "case_definition_digest",
+      "contract_revision",
+      "contract_digest",
+      "environment"
+    ]
+  },
+  "required_evidence": {
+    "description": "Every listed D R1 file is referenced at its real source path and hash-checked. No D data is relocated or rewritten.",
+    "artifacts": [
+      {
+        "id": "WP07-A-CONTRACT",
+        "role": "WP07_A_CONTRACT",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/qualification/0_2_9/wp07a_contact_formulation_contract.json",
+        "sha256": "097e5257c0379204c56957b64c068730315c7eb7364244bfaf830685e66ebebb",
+        "size_bytes": 11546,
+        "relative_path": "qualification/0_2_9/wp07a_contact_formulation_contract.json"
+      },
+      {
+        "id": "WP07-B-CONTRACT",
+        "role": "WP07_B_CONTRACT",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/qualification/0_2_9/wp07b_contact_evaluation_restart.json",
+        "sha256": "ed9e0c64c35cd13f69087de63b2dd09506c6cf48e1ede6340b0c702ba6631601",
+        "size_bytes": 6044,
+        "relative_path": "qualification/0_2_9/wp07b_contact_evaluation_restart.json"
+      },
+      {
+        "id": "WP07-C-CONTRACT",
+        "role": "WP07_C_CONTRACT",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/qualification/0_2_9/wp07c_contact_identities.json",
+        "sha256": "b89bf4d9ba459484a2a651a659f0be79d8114d093fd5da9f70e1dec9651cf190",
+        "size_bytes": 4757,
+        "relative_path": "qualification/0_2_9/wp07c_contact_identities.json"
+      },
+      {
+        "id": "WP07-D-OWNER-ACCEPTANCE",
+        "role": "D_OWNER_ACCEPTANCE",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_unified_nonlinear/qualification/0_2_9/wp07d_owner_acceptance_r1.json",
+        "sha256": "17837563364304d41ecb9ec4308f455d673f06bd533dc588f7f9daaf85b434dc",
+        "size_bytes": 3677
+      },
+      {
+        "id": "D-R1:wp07d_formal_requalification_contract_r1.json",
+        "role": "D_R1_CONTROL",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_formal_requalification_contract_r1.json",
+        "sha256": "b923f560a0d6719ee149ea31f912f46b6b7d32600df1cd7b80bf70a40562d7d7",
+        "size_bytes": 43273,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_formal_requalification_contract_r1.json"
+      },
+      {
+        "id": "D-R1:wp07d_execution_binding_formal_rebind_r1.json",
+        "role": "D_R1_CONTROL",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_execution_binding_formal_rebind_r1.json",
+        "sha256": "ef223ee40ed1d4d9b1c60a20c2ee2958ea4e37acd8c0265058a4a12218fcf52d",
+        "size_bytes": 7918,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_execution_binding_formal_rebind_r1.json"
+      },
+      {
+        "id": "D-R1:owner_decision.json",
+        "role": "D_R1_CONTROL",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/owner_decision.json",
+        "sha256": "f5d19dcaeafb1a3592bda6ffa54d24a2f602f8d5eb06ce21f9d0013a1c7b57f8",
+        "size_bytes": 1983,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/owner_decision.json"
+      },
+      {
+        "id": "D-R1:analysis_final.json",
+        "role": "D_R1_CONTROL",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/analysis_final.json",
+        "sha256": "1a81e261eec99e201b6266a41dd87a8f452880dab4105b9a940087ab9e8854ab",
+        "size_bytes": 619321,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/analysis_final.json"
+      },
+      {
+        "id": "D-R1:readiness.json",
+        "role": "D_R1_CONTROL",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/readiness.json",
+        "sha256": "1ef95b0a0bd7f1da66e512b5af18f8f484f97a1e88a5ee65742c192f1077819b",
+        "size_bytes": 3211,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/readiness.json"
+      },
+      {
+        "id": "D-R1:replay_authorization_gate.json",
+        "role": "D_R1_CONTROL",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/replay_authorization_gate.json",
+        "sha256": "9ec21b2dbaf456042acc14951dc22072949c8285d6d8036623688d2c14c1a7b5",
+        "size_bytes": 48825,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/replay_authorization_gate.json"
+      },
+      {
+        "id": "D-R1-AUTH:INDEPENDENT_REFERENCE/ACTIVE_SET_M1.json",
+        "role": "D_R1_AUTHORIZATION",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/ACTIVE_SET_M1.json",
+        "sha256": "24e151ed4b548866ebc8068627124a0215bacb5d76357ecd2891864ee1df8982",
+        "size_bytes": 1630,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/ACTIVE_SET_M1.json"
+      },
+      {
+        "id": "D-R1-AUTH:INDEPENDENT_REFERENCE/ACTIVE_SET_M2.json",
+        "role": "D_R1_AUTHORIZATION",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/ACTIVE_SET_M2.json",
+        "sha256": "9f377cfff466791dfadc8dde33e84bb22499bbb2a65c7fe9eba35adf2c5e0121",
+        "size_bytes": 1632,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/ACTIVE_SET_M2.json"
+      },
+      {
+        "id": "D-R1-AUTH:INDEPENDENT_REFERENCE/ACTIVE_SET_M3.json",
+        "role": "D_R1_AUTHORIZATION",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/ACTIVE_SET_M3.json",
+        "sha256": "0c3c5ea85984de34712eaae6517f969a18cb55387275d2bf026f3baaae86f896",
+        "size_bytes": 2543,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/ACTIVE_SET_M3.json"
+      },
+      {
+        "id": "D-R1-AUTH:INDEPENDENT_REFERENCE/PENALTY_M1.json",
+        "role": "D_R1_AUTHORIZATION",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/PENALTY_M1.json",
+        "sha256": "0c25dbb6eef541807d9ac56c7690a41565c5d72c85bb9b2e85e933a048e5a614",
+        "size_bytes": 1667,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/PENALTY_M1.json"
+      },
+      {
+        "id": "D-R1-AUTH:INDEPENDENT_REFERENCE/PENALTY_M2.json",
+        "role": "D_R1_AUTHORIZATION",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/PENALTY_M2.json",
+        "sha256": "6c49025dd28dc5bd01ce315b9919a194e9faee17b39d5a000c4e41220d6cca46",
+        "size_bytes": 1669,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/PENALTY_M2.json"
+      },
+      {
+        "id": "D-R1-AUTH:INDEPENDENT_REFERENCE/PENALTY_M3.json",
+        "role": "D_R1_AUTHORIZATION",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/PENALTY_M3.json",
+        "sha256": "4e4f82f0c06f9b1ad7acaac823c1c3a22dae82f506ff82e60b98fd68fcf5d725",
+        "size_bytes": 2580,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/PENALTY_M3.json"
+      },
+      {
+        "id": "D-R1-AUTH:PRIMARY_PRODUCTION/ACTIVE_SET_M1.json",
+        "role": "D_R1_AUTHORIZATION",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/ACTIVE_SET_M1.json",
+        "sha256": "7b407be69199288b0ea246fec55a2abc62b7c774c4c15556f0b87503e1795bc8",
+        "size_bytes": 1624,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/ACTIVE_SET_M1.json"
+      },
+      {
+        "id": "D-R1-AUTH:PRIMARY_PRODUCTION/ACTIVE_SET_M2.json",
+        "role": "D_R1_AUTHORIZATION",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/ACTIVE_SET_M2.json",
+        "sha256": "4e3e96d8ab6e1342f2b7b210047ad4b09b29b039e48443cf2165048cb7554905",
+        "size_bytes": 1626,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/ACTIVE_SET_M2.json"
+      },
+      {
+        "id": "D-R1-AUTH:PRIMARY_PRODUCTION/ACTIVE_SET_M3.json",
+        "role": "D_R1_AUTHORIZATION",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/ACTIVE_SET_M3.json",
+        "sha256": "0b665164281e18cbc4b590528999eb6d9d8c9b23af3f45762e478806d204c00a",
+        "size_bytes": 2537,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/ACTIVE_SET_M3.json"
+      },
+      {
+        "id": "D-R1-AUTH:PRIMARY_PRODUCTION/PENALTY_M1.json",
+        "role": "D_R1_AUTHORIZATION",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/PENALTY_M1.json",
+        "sha256": "2da62b24989f84ada1ba98e3c854fde2661a57084641dec935e543689ad9878d",
+        "size_bytes": 1661,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/PENALTY_M1.json"
+      },
+      {
+        "id": "D-R1-AUTH:PRIMARY_PRODUCTION/PENALTY_M2.json",
+        "role": "D_R1_AUTHORIZATION",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/PENALTY_M2.json",
+        "sha256": "e4ed8deb15789b71e0c5d24bb458cf493f8f5312fd1519063872dfab501093cc",
+        "size_bytes": 1663,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/PENALTY_M2.json"
+      },
+      {
+        "id": "D-R1-AUTH:PRIMARY_PRODUCTION/PENALTY_M3.json",
+        "role": "D_R1_AUTHORIZATION",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/PENALTY_M3.json",
+        "sha256": "696b1c5ca28b5285f5e587ed7cb9aa6ec7ecda204302a5b3659852159b3b7959",
+        "size_bytes": 2574,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/PENALTY_M3.json"
+      },
+      {
+        "id": "D-R1-AUTH:REPLAY/ACTIVE_SET_M2.json",
+        "role": "D_R1_AUTHORIZATION",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/REPLAY/ACTIVE_SET_M2.json",
+        "sha256": "24286eb0bbde8c4453e59748c5f7d4d4eca6ab863c8781d3f463016a3db1501b",
+        "size_bytes": 1796,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/REPLAY/ACTIVE_SET_M2.json"
+      },
+      {
+        "id": "D-R1-AUTH:REPLAY/PENALTY_M1.json",
+        "role": "D_R1_AUTHORIZATION",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/REPLAY/PENALTY_M1.json",
+        "sha256": "6cef20e43df137ec1ba511f1bcfe84009620e4e2c0c58999771f0037d15c3eb9",
+        "size_bytes": 1831,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/REPLAY/PENALTY_M1.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M1/primary/progress.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/primary/progress.json",
+        "sha256": "bbcb1147e54ee9fb63061cea1ccc5ce61a9f13cee8567ab9acd1f8338e64a7ed",
+        "size_bytes": 989,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/primary/progress.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M1/primary/result.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/primary/result.json",
+        "sha256": "e6afb83b057eab82e6de107a018835efbb51a0a02582d1a419b8942bcec22e09",
+        "size_bytes": 47292758,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/primary/result.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M1/primary/run.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/primary/run.json",
+        "sha256": "659c00c7aa39f1f300da2007d6e46d8b84f0dec11712276df0b3dbe2b102d3a2",
+        "size_bytes": 2645,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/primary/run.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M1/primary/telemetry.jsonl",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/primary/telemetry.jsonl",
+        "sha256": "195bd03e280eb8e1c6cc5fba21982f2b79a4903c384e11b6665469d0d4f3c896",
+        "size_bytes": 5457,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/primary/telemetry.jsonl"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M1/reference/progress.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/reference/progress.json",
+        "sha256": "b833ae7f8dc45c285c62d6b7e0b307b8af03adc8f6fe160c0a37c1d4b7f915d2",
+        "size_bytes": 1434,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/reference/progress.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M1/reference/result.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/reference/result.json",
+        "sha256": "921ef6430bd4280321b3ffd4dbb1a9105843aa69e4b816ccac015eceac612030",
+        "size_bytes": 55586,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/reference/result.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M1/reference/run.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/reference/run.json",
+        "sha256": "2b9e88faec1ddc119d4c34cd8923b228d4712033ff09a7fcb64ff2bc77212e29",
+        "size_bytes": 2514,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/reference/run.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M1/reference/telemetry.jsonl",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/reference/telemetry.jsonl",
+        "sha256": "11f2e79d1867abc93cefb9f60cdc1e6205e29030c9003ab0c9a58eba0a5265c7",
+        "size_bytes": 22984,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/reference/telemetry.jsonl"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M2/primary/progress.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/primary/progress.json",
+        "sha256": "1641221e87acd41d7e5daba22da7582e043acc15f851267323474f112e1c1aa5",
+        "size_bytes": 987,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/primary/progress.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M2/primary/result.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/primary/result.json",
+        "sha256": "6d59bedb7326a7f40c69370e6b1a47b7566ba8d602e0acb8367bc2e6946746df",
+        "size_bytes": 378501337,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/primary/result.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M2/primary/run.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/primary/run.json",
+        "sha256": "d3f50a4263d59a4482e2e1743ad2be24018a02831b585b0c60fa8b9990b38da7",
+        "size_bytes": 2647,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/primary/run.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M2/primary/telemetry.jsonl",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/primary/telemetry.jsonl",
+        "sha256": "92232fb6e97e3dda4d49c470a77ac3c8212eee90d20ecabf26d728e124f1a04f",
+        "size_bytes": 13299,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/primary/telemetry.jsonl"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M2/reference/progress.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/reference/progress.json",
+        "sha256": "11a6814190336a9fa72d0e135a7a07d00fd876cc8166bf6b02a599f5b3c4d3ff",
+        "size_bytes": 1443,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/reference/progress.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M2/reference/result.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/reference/result.json",
+        "sha256": "d84fe6d93ae002ed39d4b66f37f944a7f0848e324bd7a660cf804e7977bffeb2",
+        "size_bytes": 343550,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/reference/result.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M2/reference/run.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/reference/run.json",
+        "sha256": "147a638f94628281a3cd59ff1006745ee6aaab0eccf5ceb57137fc556b049830",
+        "size_bytes": 2516,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/reference/run.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M2/reference/telemetry.jsonl",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/reference/telemetry.jsonl",
+        "sha256": "cbbaf44f62c95b0cc43092ea39525faf184d18f5da5b775f1bf22b6b9b38a8d3",
+        "size_bytes": 34606,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/reference/telemetry.jsonl"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M3/primary/progress.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/primary/progress.json",
+        "sha256": "26bbbdaba81cfae585e98dba9ee8dbe83ae8213b7f27604ecfd670cc9ce86586",
+        "size_bytes": 990,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/primary/progress.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M3/primary/result.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/primary/result.json",
+        "sha256": "208d58d06ce6820be1fccba882731b5b70c87d4c30b128633f6e7a93405800db",
+        "size_bytes": 1522709271,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/primary/result.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M3/primary/run.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/primary/run.json",
+        "sha256": "e8875da6e8e46e8b6db9ede77235726c8675b9a87bbfa6b0d13c493d89b0bd67",
+        "size_bytes": 3632,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/primary/run.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M3/primary/telemetry.jsonl",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/primary/telemetry.jsonl",
+        "sha256": "dea3eab6f1f6cedcd79f97965ad21452753ec2dc46eec930b91f8bf9be70d0f5",
+        "size_bytes": 24888,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/primary/telemetry.jsonl"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M3/reference/progress.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/reference/progress.json",
+        "sha256": "d1a17dc411fc185261190ea2081b82669d420ab722be01f601be69d9be25a967",
+        "size_bytes": 1446,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/reference/progress.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M3/reference/result.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/reference/result.json",
+        "sha256": "a14876cc762198306f5c3763c95684b4a227826c67bb68383995ac3851e87879",
+        "size_bytes": 1265293,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/reference/result.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M3/reference/run.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/reference/run.json",
+        "sha256": "9829c28e531c873f636a2d543d8ae47cc607ce1e3681aca2ecb70d1d5dab343d",
+        "size_bytes": 3501,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/reference/run.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M3/reference/telemetry.jsonl",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/reference/telemetry.jsonl",
+        "sha256": "326b52396a2f55c802a1d32a6d36d0061a191b8b6acdc933a3208eba825b0114",
+        "size_bytes": 50832,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/reference/telemetry.jsonl"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M1/primary/progress.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/primary/progress.json",
+        "sha256": "b85df59a075de97437e56e0ac8c555dc8676c4ee4b991b11053aa3f2b024817f",
+        "size_bytes": 880,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/primary/progress.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M1/primary/result.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/primary/result.json",
+        "sha256": "d18b5348e061a3d9792507c3cd27fd915586288483d022fa72a6df98004f1f36",
+        "size_bytes": 3199684,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/primary/result.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M1/primary/run.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/primary/run.json",
+        "sha256": "0ef550fd0cc7280e044408b37004b7b39a9848b115444f81ca2089b1891162cb",
+        "size_bytes": 2648,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/primary/run.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M1/primary/telemetry.jsonl",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/primary/telemetry.jsonl",
+        "sha256": "267dc3a1771e198aafcac157a1db1b638002665a2827e4fcee2902ec6edccd3d",
+        "size_bytes": 79169,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/primary/telemetry.jsonl"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M1/reference/progress.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/reference/progress.json",
+        "sha256": "b2a86171e3381b8f952e6ef36a3ba5e737c2c9047e3bbdc9e54912e649174c6b",
+        "size_bytes": 1603,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/reference/progress.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M1/reference/result.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/reference/result.json",
+        "sha256": "2affc4096d881007af9fd7f1959fc2b0cbbbceaa89fb050b2c8c9da853d93677",
+        "size_bytes": 44197,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/reference/result.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M1/reference/run.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/reference/run.json",
+        "sha256": "b62779a415c77576e5bd84336f566608047dc160cf590effcd8230429464f5f4",
+        "size_bytes": 2517,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/reference/run.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M1/reference/telemetry.jsonl",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/reference/telemetry.jsonl",
+        "sha256": "1f2cac0234c2c8a2b222ae2b1741ddae67cf7e9c77602998f1cf94e513b8e875",
+        "size_bytes": 408103,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/reference/telemetry.jsonl"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M2/primary/progress.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/primary/progress.json",
+        "sha256": "2ce38b953cc5278d449bbdf5dd2d1fc8ae1d7156821dce1ef40158edb510d8c6",
+        "size_bytes": 882,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/primary/progress.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M2/primary/result.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/primary/result.json",
+        "sha256": "70930cb17e2de0708a382be901aa6e0e340acf83f029f0d4440e93a62162324a",
+        "size_bytes": 23956974,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/primary/result.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M2/primary/run.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/primary/run.json",
+        "sha256": "fbb241431534fb71b12750d7567dc4e90e56f341d142b3fe9811b1321b05b648",
+        "size_bytes": 2650,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/primary/run.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M2/primary/telemetry.jsonl",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/primary/telemetry.jsonl",
+        "sha256": "c03921af6445d4dc63749a0d74dbe2e3cfb24cbdfe1b089d949a5e201ae01280",
+        "size_bytes": 91902,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/primary/telemetry.jsonl"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M2/reference/progress.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/reference/progress.json",
+        "sha256": "b115969142112fb81ee0dc2c27570de2ed21b769b54bc7bc3391db92d805a371",
+        "size_bytes": 2096,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/reference/progress.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M2/reference/result.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/reference/result.json",
+        "sha256": "0466a9d84e399292e67098525b60c4c15bbaa0aeafd5b9fce0b346fea18ceaa4",
+        "size_bytes": 243155,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/reference/result.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M2/reference/run.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/reference/run.json",
+        "sha256": "0ee0ee82ac70f02f4dca063e46c5fb05d09167392bc72435b4b5fea2c778dbb2",
+        "size_bytes": 2523,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/reference/run.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M2/reference/telemetry.jsonl",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/reference/telemetry.jsonl",
+        "sha256": "808043c12e75a239f6eb4c7df9f3d375ba28e124464aa2e41fe618ef2073c1b5",
+        "size_bytes": 874338,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/reference/telemetry.jsonl"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M3/primary/progress.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/progress.json",
+        "sha256": "eb8f934ced65a25f354f84dd3c352d789714d23bc68a0aa3a3977aabef6c93c6",
+        "size_bytes": 881,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/progress.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M3/primary/result.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/result.json",
+        "sha256": "42186a865a419a17147da090c588ce37686bba25b4d3571c60a5ac2c777b9862",
+        "size_bytes": 97609776,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/result.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M3/primary/run.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/run.json",
+        "sha256": "dffd3fe83f36cac5f0924fa229128aa31ecdda9ee71e4bd16d3c31c6fa7e2cc5",
+        "size_bytes": 3901,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/run.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M3/primary/serialization_diagnostic.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/serialization_diagnostic.json",
+        "sha256": "ccd6b2198f067a2ce20ac12f3046cc2eef3a55612ac2ad355524212073990bfc",
+        "size_bytes": 625,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/serialization_diagnostic.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M3/primary/telemetry.jsonl",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/telemetry.jsonl",
+        "sha256": "2a8a8262bb1c2194485f01ac1682786d0e7b6e14585ea5d0b35da4e0f333eade",
+        "size_bytes": 97191,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/telemetry.jsonl"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M3/reference/progress.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/reference/progress.json",
+        "sha256": "f9d2ec548f7025eb24d9749078f61eb29c9364170126f0379f7bbffa7a578713",
+        "size_bytes": 1611,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/reference/progress.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M3/reference/result.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/reference/result.json",
+        "sha256": "1c7b9091b0b1de2a17be9e7c91befc5805faef3f53c7fd69100b6f39316ca46d",
+        "size_bytes": 836789,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/reference/result.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M3/reference/run.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/reference/run.json",
+        "sha256": "0355d4da9a26f8223cf86cd9bda017b2e801284f9e86aa9ff621a92f8740dc6a",
+        "size_bytes": 3504,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/reference/run.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M3/reference/telemetry.jsonl",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/reference/telemetry.jsonl",
+        "sha256": "3744b459f0cc3ee551a036576110c22c07e4fba36b7fce52d386557d5bae6957",
+        "size_bytes": 1560936,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/reference/telemetry.jsonl"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M2/replay/progress.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/replay/progress.json",
+        "sha256": "fe4f75410aabd22178fe05493b00d23e354db5b7840609656946377ff4739fa1",
+        "size_bytes": 985,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/replay/progress.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M2/replay/result.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/replay/result.json",
+        "sha256": "7d9dc4f5e98e6082b970e194584fa4b6e6ff4edffb49b683042ff175089d4715",
+        "size_bytes": 378501326,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/replay/result.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M2/replay/run.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/replay/run.json",
+        "sha256": "79e726a36c2b92c39d46626f5c28500932355e990aa1b802dbc661df2934a397",
+        "size_bytes": 2623,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/replay/run.json"
+      },
+      {
+        "id": "D-R1-RUN:ACTIVE_SET/M2/replay/telemetry.jsonl",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/replay/telemetry.jsonl",
+        "sha256": "453b99398fd7e819ca37944fc9f72179c7a475ca2582d32856ba2b9cf18867c0",
+        "size_bytes": 13301,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/replay/telemetry.jsonl"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M1/replay/progress.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/replay/progress.json",
+        "sha256": "dbb52a586f2a289d060ea3da33fc1a8397f37e0f83eee18fd62700bd5293c15d",
+        "size_bytes": 880,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/replay/progress.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M1/replay/result.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/replay/result.json",
+        "sha256": "e090e4f2bc1628c38705847502afb92b1ed7ad7dde6f3a8ee711aec06d6a1547",
+        "size_bytes": 3199682,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/replay/result.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M1/replay/run.json",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/replay/run.json",
+        "sha256": "201fc996f66279415f4796d73079b042a304b76586b0374ed310cbdb985c2f36",
+        "size_bytes": 2624,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/replay/run.json"
+      },
+      {
+        "id": "D-R1-RUN:PENALTY/M1/replay/telemetry.jsonl",
+        "role": "D_R1_RAW_RUN",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/replay/telemetry.jsonl",
+        "sha256": "0acd2a45621c677486df89b2c8a4ed31af2e52d31b5bee26f9f36cfd7ce42beb",
+        "size_bytes": 79161,
+        "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/replay/telemetry.jsonl"
+      },
+      {
+        "id": "D-R1-INDEPENDENT-REFERENCE-SOURCE",
+        "role": "INDEPENDENT_REFERENCE_SOURCE",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/scripts/wp07d_independent_reference.py",
+        "sha256": "569bcdd2343c0f0a86fe4f6074bd518b9d482b5603140407888e9b9dd9e5943e",
+        "size_bytes": 64845,
+        "relative_path": "scripts/wp07d_independent_reference.py"
+      },
+      {
+        "id": "D-R1-REFERENCE-HELPER:prepare_wp07d_structural_vnv.py",
+        "role": "INDEPENDENT_REFERENCE_HELPER_SOURCE",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/scripts/prepare_wp07d_structural_vnv.py",
+        "sha256": "cdbb362a90bbe65da28ac45d33e7fdd610b5cc96e19e08966551ba14a432caa5",
+        "size_bytes": 37562,
+        "relative_path": "scripts/prepare_wp07d_structural_vnv.py"
+      },
+      {
+        "id": "D-R1-REFERENCE-HELPER:wp07d_execution_binding.py",
+        "role": "INDEPENDENT_REFERENCE_HELPER_SOURCE",
+        "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/scripts/wp07d_execution_binding.py",
+        "sha256": "ef1cb5441f1a0bde01e414a0e4d4053eab3f7fe489fccb0771f4ebfe870372d4",
+        "size_bytes": 77411,
+        "relative_path": "scripts/wp07d_execution_binding.py"
+      }
+    ],
+    "negative_case_artifacts": [
+      {
+        "case": "reversed_orientation",
+        "expected_classifications": [
+          "VALIDATION_FAILURE"
+        ],
+        "path": "qualification/0_2_9/wp07e_closure_r2/negative_cases/reversed_orientation.json",
+        "role": "WP07E_NEGATIVE_CASE_RAW"
+      },
+      {
+        "case": "open_no_contact",
+        "expected_classifications": [
+          "PASS_OPEN_NO_CONTACT"
+        ],
+        "path": "qualification/0_2_9/wp07e_closure_r2/negative_cases/open_no_contact.json",
+        "role": "WP07E_NEGATIVE_CASE_RAW"
+      },
+      {
+        "case": "excessive_penetration",
+        "expected_classifications": [
+          "CONTACT_PENETRATION_EXCESSIVE",
+          "ROUTE_NATIVE_FAILURE"
+        ],
+        "path": "qualification/0_2_9/wp07e_closure_r2/negative_cases/excessive_penetration.json",
+        "role": "WP07E_NEGATIVE_CASE_RAW"
+      },
+      {
+        "case": "unsupported_combination",
+        "expected_classifications": [
+          "UNSUPPORTED_EXPLICIT"
+        ],
+        "path": "qualification/0_2_9/wp07e_closure_r2/negative_cases/unsupported_combination.json",
+        "role": "WP07E_NEGATIVE_CASE_RAW"
+      },
+      {
+        "case": "nonfinite_observable",
+        "expected_classifications": [
+          "EVIDENCE_VALIDATION_FAILURE"
+        ],
+        "path": "qualification/0_2_9/wp07e_closure_r2/negative_cases/nonfinite_observable.json",
+        "role": "WP07E_NEGATIVE_CASE_RAW"
+      },
+      {
+        "case": "incompatible_restart_metadata",
+        "expected_classifications": [
+          "RESTART_METADATA_MISMATCH"
+        ],
+        "path": "qualification/0_2_9/wp07e_closure_r2/negative_cases/incompatible_restart_metadata.json",
+        "role": "WP07E_NEGATIVE_CASE_RAW"
+      }
+    ],
+    "negative_case_manifest_path": "qualification/0_2_9/wp07e_closure_r2/negative_case_manifest.json",
+    "d_r1_manifest_path": "qualification/0_2_9/wp07e_closure_r2/d_r1_evidence_manifest.json"
+  },
+  "track_separation": {
+    "ACTIVE_SET": {
+      "route": "linear_static",
+      "formulation": "LINEAR_ACTIVE_SET_INITIAL_SEARCH",
+      "required_checks": [
+        "open_zero_force",
+        "closed_gap",
+        "wrong_sign_pressure",
+        "complementarity",
+        "equilibrium_force",
+        "equilibrium_moment",
+        "refinement",
+        "replay",
+        "reference",
+        "negative_cases",
+        "finite",
+        "no_silent_pass"
+      ],
+      "independent_reference_id": "QF-029-WP07-D-REFERENCE-ACTIVE-SET-001",
+      "not_applicable_policy": "A check may be NOT_APPLICABLE only with a nonempty controlled reason and only where this contract labels it optional. A required check marked NOT_APPLICABLE is not a closure PASS."
+    },
+    "PENALTY": {
+      "route": "geometric_nonlinear_static",
+      "formulation": "NONLINEAR_PENALTY_INITIAL_SEARCH",
+      "required_checks": [
+        "open_zero_force",
+        "energy_gradient",
+        "tangent_fd",
+        "no_ghost_force_after_reopen",
+        "rollback",
+        "equilibrium_force",
+        "equilibrium_moment",
+        "refinement",
+        "accepted_load_path",
+        "replay",
+        "reference",
+        "negative_cases",
+        "finite",
+        "no_silent_pass"
+      ],
+      "independent_reference_id": "QF-029-WP07-D-REFERENCE-PENALTY-001",
+      "not_applicable_policy": "Penalty penetration is finite by formulation and zero-gap is not required. Contact energy may be NOT_APPLICABLE only when the declared reference/measurement is invalid, with an explicit reason; the structural closure still remains bounded accordingly."
+    },
+    "UPDATED_SEARCH_FINITE_SLIDING": {
+      "route": "geometric_nonlinear_static",
+      "formulation": "UPDATED_SEARCH_FINITE_SLIDING",
+      "status": "RESEARCH_ONLY",
+      "qualified": false,
+      "tangent": "APPROXIMATE_GEOMETRIC_CONTACT_TANGENT",
+      "energy_claim": false,
+      "restart": "UNQUALIFIED_RESTART",
+      "policy": "Any attempted updated-search evidence is rejected from this closure and cannot be downgraded to a bounded pass."
+    }
+  },
+  "refinement_policy": {
+    "comparison": "M2_TO_M3",
+    "formula": "abs(M3 - M2) / max(abs(M2), abs(M3), scale_floor)",
+    "scale_floor": "max(1e-14, 64 * machine_epsilon * declared_physical_scale)",
+    "finite_required": true,
+    "missing_policy": "FAIL_CLOSED",
+    "nonfinite_policy": "FAIL_CLOSED",
+    "thresholds": {
+      "ACTIVE_SET": {
+        "selected_displacement": 0.03,
+        "reaction_resultant": 0.02,
+        "reaction_moment": 0.03,
+        "contact_resultant": 0.03,
+        "contact_region_measure": 0.1
+      },
+      "PENALTY": {
+        "selected_displacement": 0.03,
+        "reaction_resultant": 0.02,
+        "reaction_moment": 0.03,
+        "contact_resultant": 0.03,
+        "normalized_penetration": 0.05,
+        "contact_energy": 0.05
+      },
+      "optional_averaged_stress": 0.12
+    },
+    "denominators": {
+      "selected_displacement": "max(abs(M2), abs(M3), U_char, absolute_floor)",
+      "reaction_resultant": "max(norm(M2), norm(M3), F_char, absolute_floor)",
+      "reaction_moment": "max(norm(M2), norm(M3), M_char, absolute_floor)",
+      "contact_resultant": "max(norm(M2), norm(M3), F_char, absolute_floor)",
+      "contact_region_measure": "max(abs(M2), abs(M3), 1)",
+      "normalized_penetration": "max(abs(M2), abs(M3), penetration_scale, absolute_floor)",
+      "contact_energy": "max(abs(M2), abs(M3), E_char, absolute_floor)",
+      "optional_averaged_stress": "max(abs(M2), abs(M3), stress_scale, absolute_floor)"
+    },
+    "missing_observable": "FAIL_CLOSED"
+  },
+  "equilibrium_policy": {
+    "force": {
+      "expression": "norm(R_support + F_external) / max(norm(R_support), norm(F_external), F_char, absolute_floor)",
+      "threshold": 1e-08,
+      "components_required": 3
+    },
+    "moment": {
+      "expression": "norm(M_reaction_about_global_origin + M_external_about_global_origin) / max(norm(M_reaction), norm(M_external), M_char, absolute_floor)",
+      "threshold": 1e-08,
+      "components_required": 3,
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "missing_policy": "FAIL_CLOSED",
+    "scalar_shortcut_allowed": false
+  },
+  "active_set_closure": {
+    "required": [
+      "open_zero_force",
+      "closed_gap",
+      "wrong_sign_pressure",
+      "complementarity",
+      "equilibrium_force",
+      "equilibrium_moment",
+      "refinement",
+      "replay",
+      "reference",
+      "negative_cases",
+      "finite",
+      "no_silent_pass"
+    ],
+    "open_zero_force": "PASS when open contact force is zero under declared scale; open-only evidence never proves closed qualification.",
+    "closed_gap": "PASS when normalized gap <= 1e-10.",
+    "wrong_sign_pressure": "PASS when normalized wrong-sign pressure <= 1e-12.",
+    "complementarity": "PASS when normalized complementarity <= 1e-10.",
+    "failure_class": "IDENTITY_FAILURE"
+  },
+  "penalty_closure": {
+    "required": [
+      "open_zero_force",
+      "energy_gradient",
+      "tangent_fd",
+      "no_ghost_force_after_reopen",
+      "rollback",
+      "equilibrium_force",
+      "equilibrium_moment",
+      "refinement",
+      "accepted_load_path",
+      "replay",
+      "reference",
+      "negative_cases",
+      "finite",
+      "no_silent_pass"
+    ],
+    "open_zero_force": "PASS when open fixed-normal penalty force is zero; zero gap is not required.",
+    "energy_gradient": "WP07-C fixed-normal identity, away from activation switching.",
+    "tangent_fd": "WP07-C fixed-normal tangent identity, away from activation switching.",
+    "no_ghost_force_after_reopen": "PASS when unload/reopen has no persistent contact force.",
+    "rollback": "PASS only when rejected/trial state and re-evaluation satisfy WP07-B digest/state rules.",
+    "failure_class": "IDENTITY_FAILURE"
+  },
+  "identity_thresholds": {
+    "ACTIVE_SET": {
+      "open_force": 1e-12,
+      "closed_gap": 1e-10,
+      "wrong_sign_pressure": 1e-12,
+      "complementarity": 1e-10
+    },
+    "PENALTY": {
+      "energy_gradient": 1e-07,
+      "tangent_frobenius": 1e-06,
+      "tangent_max_column": 5e-06,
+      "tangent_symmetry": 1e-12,
+      "open_force": 1e-12
+    }
+  },
+  "replay_policy": {
+    "relative_tolerance": 1e-12,
+    "absolute_floor": 1e-14,
+    "scalar_vector_formula": "abs(a-b) <= max(absolute_floor, relative_tolerance * max(abs(a), abs(b)))",
+    "required_equal_or_compatible": [
+      "final_displacement",
+      "reaction_resultant",
+      "reaction_moment",
+      "contact_resultant",
+      "active_contact_qualitative_status",
+      "active_contact_count_when_meaningful",
+      "load_history_length",
+      "load_factor_history",
+      "newton_iteration_counts_when_governing",
+      "terminal_classification"
+    ],
+    "exact_requirements": [
+      "qualitative_contact_status",
+      "history_length",
+      "terminal_classification"
+    ],
+    "penalty_restart_metadata": [
+      "contact_topology_digest",
+      "model_signature",
+      "accepted_state_digest"
+    ],
+    "missing_policy": "HOLD_REPLAY"
+  },
+  "reference_policy": {
+    "formulation_match_required": true,
+    "production_contact_routines_called": false,
+    "active_set": {
+      "method": "independently assembled KKT/unilateral reference",
+      "displacement": 0.02,
+      "reaction_resultant": 0.02,
+      "reaction_moment": 0.02,
+      "contact_resultant": 0.03,
+      "active_region_measure": 0.1
+    },
+    "penalty": {
+      "method": "independently assembled fixed-normal penalty reference",
+      "displacement": 0.02,
+      "reaction_resultant": 0.02,
+      "reaction_moment": 0.02,
+      "contact_resultant": 0.03,
+      "penetration": 0.05
+    },
+    "incompatible_policy": "HOLD_REFERENCE",
+    "threshold_policy": "Frozen before execution; a stronger analytical reference may tighten but no result-driven tuning is permitted."
+  },
+  "governing_execution_policy": {
+    "status": "BOUND_TO_ACCEPTED_WP07D_R1_BINDING_AND_POLICY_DIGEST",
+    "expected": {
+      "governing_policy_sha": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+      "wp07d_execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "formal_contract_sha256": "b923f560a0d6719ee149ea31f912f46b6b7d32600df1cd7b80bf70a40562d7d7",
+      "execution_binding_sha256": "ef223ee40ed1d4d9b1c60a20c2ee2958ea4e37acd8c0265058a4a12218fcf52d"
+    },
+    "frozen_route_binding": {
+      "ACTIVE_SET": {
+        "analysis_type": "linear_static",
+        "fallback_allowed": false,
+        "finite_sliding": false,
+        "formulation": "LINEAR_ACTIVE_SET_INITIAL_SEARCH_FOCUSED_LOCAL_REFINEMENT_R1",
+        "mesh_levels": [
+          "M1",
+          "M2",
+          "M3"
+        ],
+        "replay_level": "M2",
+        "updated_search": false
+      },
+      "PENALTY": {
+        "adaptive_load_steps": false,
+        "analysis_type": "geometric_nonlinear_static",
+        "fallback_allowed": false,
+        "finite_sliding": false,
+        "floor_aware_termination": true,
+        "formulation": "NONLINEAR_PENALTY_INITIAL_SEARCH_SURFACE_LUMPED_FOCUSED_LOCAL_REFINEMENT_R1",
+        "line_search": "existing",
+        "linear_atol": 1e-14,
+        "linear_direct_fallback": false,
+        "linear_maxiter": 10000,
+        "linear_preconditioner": "jacobi",
+        "linear_rtol": 1e-11,
+        "linear_solver": "minres",
+        "load_factors": [
+          0.125,
+          0.25,
+          0.375,
+          0.5,
+          0.625,
+          0.75,
+          0.875,
+          1.0
+        ],
+        "load_increments": 8,
+        "max_newton_iterations": 100,
+        "mesh_levels": [
+          "M1",
+          "M2",
+          "M3"
+        ],
+        "newton_tolerance": 1e-10,
+        "penalty_integration": "surface_lumped",
+        "penalty_interpretation": "global_slave_patch_stiffness",
+        "reference_surface_measure": "triangular_reference_tributary_area",
+        "replay_level": "M1",
+        "updated_search": false
+      }
+    },
+    "source_artifact": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_execution_binding_formal_rebind_r1.json"
+  },
+  "provenance_contract": {
+    "runtime_and_references_required": [
+      "integrated_source_sha",
+      "case_definition_digest",
+      "contract_revision",
+      "contract_digest",
+      "environment"
+    ],
+    "expected_contract_revision": "R2_D_R1_EVIDENCE_BINDING",
+    "expected_contract_digest": "d1e2f5bdd76708987fec62fe4e337f9ad6547934ab43d4438ee555838359534d",
+    "relationship_rules": [
+      "runtime integrated_source_sha equals every reference integrated_source_sha",
+      "runtime case_definition_digest equals every reference case_definition_digest",
+      "runtime contract_revision and contract_digest equal the closure contract",
+      "M2 and M3 case_definition_digest equal runtime case_definition_digest",
+      "reference source_sha may identify its independent implementation and need not equal the integrated QF SHA"
+    ],
+    "historical_contract_sources_may_differ": true,
+    "stale_or_mixed_policy": "WP07_INCOMPLETE_EVIDENCE",
+    "expected_integrated_source_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+    "governing_source_sha": "168e345b74f221fb1b975161faea841ca48d9c7c",
+    "d_execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+    "contract_digest_convention": "SHA256 of canonical JSON with provenance_contract.expected_contract_digest set to the empty string; detached byte-level SHA256 is recorded in wp07e_closure_binding_r2.json.",
+    "rebind_sha256": "36421eddc5b19dcac9245279bfb037953f370883f961e9a34e3f541df3b61b61"
+  },
+  "negative_case_policy": [
+    {
+      "case": "reversed_orientation",
+      "accepted_classifications": [
+        "VALIDATION_FAILURE"
+      ],
+      "counts_as_structural_pass": false
+    },
+    {
+      "case": "open_no_contact",
+      "accepted_classifications": [
+        "PASS_OPEN_NO_CONTACT"
+      ],
+      "counts_as_structural_pass": false
+    },
+    {
+      "case": "excessive_penetration",
+      "accepted_classifications": [
+        "CONTACT_PENETRATION_EXCESSIVE",
+        "ROUTE_NATIVE_FAILURE"
+      ],
+      "counts_as_structural_pass": false
+    },
+    {
+      "case": "unsupported_combination",
+      "accepted_classifications": [
+        "UNSUPPORTED_EXPLICIT"
+      ],
+      "counts_as_structural_pass": false
+    },
+    {
+      "case": "nonfinite_observable",
+      "accepted_classifications": [
+        "EVIDENCE_VALIDATION_FAILURE"
+      ],
+      "counts_as_structural_pass": false
+    },
+    {
+      "case": "incompatible_restart_metadata",
+      "accepted_classifications": [
+        "RESTART_METADATA_MISMATCH"
+      ],
+      "counts_as_structural_pass": false
+    }
+  ],
+  "execution_policy_binding": {
+    "status": "BOUND_TO_ACCEPTED_WP07D_R1",
+    "governing_policy_sha": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "wp07d_execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+    "formal_contract_sha256": "b923f560a0d6719ee149ea31f912f46b6b7d32600df1cd7b80bf70a40562d7d7",
+    "execution_binding_sha256": "ef223ee40ed1d4d9b1c60a20c2ee2958ea4e37acd8c0265058a4a12218fcf52d",
+    "required_runtime_fields": [
+      "governing_policy_sha",
+      "wp07d_execution_sha",
+      "contract_sha256",
+      "binding_sha256"
+    ],
+    "mismatch_policy": "FAIL_CLOSED",
+    "physics_contract_unchanged": true
+  },
+  "decision_matrix": {
+    "precedence_high_to_low": [
+      "WP07_INCOMPLETE_EVIDENCE",
+      "WP07_FAIL_IDENTITY",
+      "WP07_FAIL_EQUILIBRIUM",
+      "WP07_HOLD_REPLAY",
+      "WP07_HOLD_STRUCTURAL_CONVERGENCE",
+      "WP07_HOLD_REFERENCE",
+      "WP07_PARTIAL_ACTIVE_SET_ONLY",
+      "WP07_PARTIAL_PENALTY_ONLY",
+      "WP07_PASS_BOUNDED"
+    ],
+    "statuses": {
+      "WP07_PASS_BOUNDED": "Both tracks satisfy their applicable identity, equilibrium, refinement, replay and compatible-reference gates within the declared bounded scope.",
+      "WP07_PARTIAL_ACTIVE_SET_ONLY": "Only the active-set track closes and the penalty track is explicitly not covered; no penalty claim is made.",
+      "WP07_PARTIAL_PENALTY_ONLY": "Only the penalty track closes and the active-set track is explicitly not covered; no active-set claim is made.",
+      "WP07_HOLD_STRUCTURAL_CONVERGENCE": "A required refinement or structural convergence gate is missing or failed.",
+      "WP07_HOLD_REFERENCE": "A required independent reference is missing, incompatible or outside its frozen limits.",
+      "WP07_HOLD_REPLAY": "A required replay/restart/state comparison is missing or failed.",
+      "WP07_FAIL_IDENTITY": "A local formulation identity, finiteness or no-silent-pass invariant failed.",
+      "WP07_FAIL_EQUILIBRIUM": "A vector force or moment equilibrium gate failed.",
+      "WP07_INCOMPLETE_EVIDENCE": "Required artifact, field, provenance or execution-policy binding is missing or malformed."
+    },
+    "no_downgrade_rule": "A failed higher-precedence gate cannot be relabeled as a limitation or partial pass."
+  },
+  "point_policy": {
+    "WP07-A": 1,
+    "WP07-B": 2,
+    "WP07-C": 2,
+    "WP07-D": 3,
+    "WP07-E": 2,
+    "total": 10,
+    "current_formal_points": "0/10",
+    "partial_points": "Not awarded unless explicitly approved by Owner for a bounded formulation claim."
+  },
+  "integration_train": [
+    "WP04 governing branch closure",
+    "integrate WP07 candidate artifacts onto the governing branch",
+    "revalidate targeted WP07 contracts and evidence paths",
+    "execute WP07-D structural evidence on the integrated code",
+    "run WP07-E closure evaluator with immutable A/B/C/D/reference artifacts",
+    "Owner records final WP07 decision and any bounded public claim"
+  ],
+  "report_builder": {
+    "path": "scripts/build_wp07e_closure.py",
+    "input": "JSON evidence map; no default or fabricated qualification values",
+    "output": "machine-readable gate matrix, observations, thresholds, limitations, final status and point recommendation",
+    "deterministic_output": true
+  },
+  "governance": {
+    "structural_solves_run": false,
+    "external_solver_run": false,
+    "production_mechanics_changed": false,
+    "contact_mechanics_changed": false,
+    "maturity_changed": false,
+    "official_points_awarded": false,
+    "next_step": "Owner review after all hashes, D dependency gates and six raw negative-case records pass."
+  },
+  "global_ledger_status": "NOT_UPDATED; totals require separate reconciliation",
+  "governing_source": {
+    "branch": "0.2.9-unified-nonlinear",
+    "sha": "168e345b74f221fb1b975161faea841ca48d9c7c",
+    "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "working_tree_at_base": "clean committed base; E package is built on an isolated branch"
+  },
+  "owner_execution_authorization": {
+    "authorized": true,
+    "authorization_scope": "WP07-E evidence closure; reuse accepted D R1; no D M1/M2/M3 rerun, no push/merge/ledger update",
+    "authorization_date": "2026-09-17",
+    "source_kind": "explicit user instruction in this conversation",
+    "formal_owner_decision_sha": null,
+    "note": "This records the later conversational authorization; the earlier D decision remains unchanged and still records E unauthorized at that time."
+  },
+  "wp07d_dependency": {
+    "owner_acceptance": "YES",
+    "points": "3/3",
+    "rerun": false,
+    "authorized_base_sha": "a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe",
+    "execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+    "analysis_path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/analysis_final.json",
+    "analysis_sha256": "1a81e261eec99e201b6266a41dd87a8f452880dab4105b9a940087ab9e8854ab",
+    "formal_contract_path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_formal_requalification_contract_r1.json",
+    "formal_contract_sha256": "b923f560a0d6719ee149ea31f912f46b6b7d32600df1cd7b80bf70a40562d7d7",
+    "execution_binding_path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_execution_binding_formal_rebind_r1.json",
+    "execution_binding_sha256": "ef223ee40ed1d4d9b1c60a20c2ee2958ea4e37acd8c0265058a4a12218fcf52d",
+    "owner_acceptance_source_path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_unified_nonlinear/qualification/0_2_9/wp07d_owner_acceptance_r1.json",
+    "owner_acceptance_sha256": "17837563364304d41ecb9ec4308f455d673f06bd533dc588f7f9daaf85b434dc",
+    "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
+  },
+  "independent_reference_source_audit": {
+    "status": "PASS_STATIC_IMPORT_SCAN",
+    "production_contact_or_analysis_imports": [],
+    "scanned_sources": {
+      "wp07d_independent_reference.py": {
+        "module_level_imports": [
+          "__future__",
+          "argparse",
+          "dataclasses",
+          "datetime",
+          "json",
+          "numpy",
+          "os",
+          "pathlib",
+          "scipy.sparse",
+          "scipy.sparse.linalg",
+          "scripts.prepare_wp07d_structural_vnv",
+          "scripts.wp07d_execution_binding",
+          "subprocess",
+          "sys",
+          "threading",
+          "time",
+          "typing"
+        ],
+        "reachable_helper_function_imports": []
+      },
+      "prepare_wp07d_structural_vnv.py": {
+        "module_level_imports": [
+          "__future__",
+          "argparse",
+          "dataclasses",
+          "fractions",
+          "json",
+          "math",
+          "numpy",
+          "pathlib",
+          "platform",
+          "subprocess",
+          "sys",
+          "typing"
+        ],
+        "reachable_helper_functions": [
+          "_boundary_faces",
+          "_signed_tet4_volume",
+          "_validated_axis_fractions",
+          "accumulate_constant_t3_traction",
+          "generate_structured_tet4_mesh",
+          "resultant_and_moment"
+        ],
+        "reachable_helper_function_imports": []
+      },
+      "wp07d_execution_binding.py": {
+        "module_level_imports": [
+          "__future__",
+          "argparse",
+          "hashlib",
+          "json",
+          "pathlib",
+          "subprocess",
+          "sys",
+          "typing"
+        ],
+        "reachable_helper_functions": [
+          "_file_sha256",
+          "_git",
+          "_load_json",
+          "_validate_focused_local_comparison_baseline",
+          "_validate_formal_rebind_r1_binding",
+          "_validate_formal_replay_gate",
+          "coordinate_grading_from_authorization",
+          "formal_contract_identity",
+          "load_binding",
+          "mesh_axis_fractions_from_authorization",
+          "mesh_cell_counts_from_authorization",
+          "penalty_integration_from_authorization",
+          "validate_authorized_execution_source",
+          "validate_binding",
+          "validate_formal_requalification_authorization"
+        ],
+        "reachable_helper_function_imports": [
+          "scripts.prepare_wp07d_structural_vnv"
+        ]
+      }
+    },
+    "scope_note": "Static source/import audit only; the frozen D R1 numerical reference artifacts remain the numerical reference evidence."
+  },
+  "scope_and_limitations": [
+    "Only the accepted frozen WP07-D R1 routes, meshes, observables and gates are reused.",
+    "No broader contact qualification is implied.",
+    "No updated-search or finite-sliding qualification.",
+    "No D structural rerun is part of WP07-E closure unless a verified artifact discrepancy makes reuse invalid.",
+    "D source SHA and current governing branch SHA are distinct and remain separately disclosed.",
+    "WP07-E candidate points remain 0/2 until an explicit Owner decision."
+  ]
+}

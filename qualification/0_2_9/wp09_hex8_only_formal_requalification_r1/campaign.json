@@ -1,0 +1,2414 @@
+{
+  "status": "FAIL_CLOSED",
+  "contract_path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp09_hex8_only_formal\\qualification\\0_2_9\\wp09_formal_requalification_contract.json",
+  "contract_sha256": "42b33386ca4da1e199a13517255007eaf2fa74ea5af52ea694062ca0d54592b6",
+  "governing_branch": "codex/wp09-hex8-only-formal",
+  "execution_sha": "2b6350c8b6bb45d16ca13ee716af97b5aa247db5",
+  "authorized_source_sha": "50fc3f30b08db894ca78ba22d21c6dafb7140f33",
+  "family_scope": [
+    "HEX8"
+  ],
+  "load_scale": 0.25,
+  "working_tree_at_start": "",
+  "timestamp_utc": "2026-09-20T06:50:19Z",
+  "machine": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1"
+  },
+  "stages": {
+    "M1": {
+      "status": "PASS",
+      "cells": 1,
+      "rows": [
+        {
+          "family": "HEX8",
+          "cells": 1,
+          "primary": {
+            "family": "HEX8",
+            "cells": 1,
+            "label": "m1",
+            "raw_path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp09_hex8_only_formal\\qualification\\0_2_9\\wp09_hex8_only_formal_requalification_r1\\m1_hex8_1.json",
+            "status": "PASS",
+            "run_verdict": "WARNING",
+            "node_count": 8,
+            "element_count": 1,
+            "dof_count": 24,
+            "selected_displacement": 0.0010659442150518605,
+            "displacement_norm": 0.0024064022453999727,
+            "reaction_norm": 0.24999999993727678,
+            "reaction_resultant": [
+              -0.24999999993727678,
+              -3.261002579080241e-13,
+              9.4167729169925e-13
+            ],
+            "reaction_moment": [],
+            "energy": 0.0001412232089347639,
+            "von_mises_max": 0.029097572443971015,
+            "equivalent_plastic_strain_max": 0.0011138904395219444,
+            "plastic_dissipation_max": 2.6532878062375463e-05,
+            "min_det_f": 0.9998200851848581,
+            "max_local_strain_norm": 0.0014010962312423503,
+            "accepted_steps": 4,
+            "step_count": 4,
+            "newton_iterations": 12,
+            "rejected_increments": 0,
+            "fallback_count": 0,
+            "elapsed_seconds": 2.3014021000126377,
+            "equilibrium": {
+              "free_relative_residual": 3.1737624891480515e-10,
+              "force_balance_relative_error": 6.273113151745903e-11,
+              "moment_balance_relative_error": 4.45127586837201e-11,
+              "reaction_resultant": [
+                -0.24999999993727678,
+                -3.261002579080241e-13,
+                9.4167729169925e-13
+              ],
+              "reaction_moment": []
+            }
+          },
+          "structural_gate": {
+            "status": "PASS",
+            "failures": []
+          },
+          "replay": {
+            "status": "PASS",
+            "checks": {
+              "selected_displacement": {
+                "primary_vs_replay_a": 0.0,
+                "replay_a_vs_replay_b": 0.0
+              },
+              "reaction_norm": {
+                "primary_vs_replay_a": 0.0,
+                "replay_a_vs_replay_b": 0.0
+              },
+              "energy": {
+                "primary_vs_replay_a": 0.0,
+                "replay_a_vs_replay_b": 0.0
+              },
+              "von_mises_max": {
+                "primary_vs_replay_a": 0.0,
+                "replay_a_vs_replay_b": 0.0
+              },
+              "equivalent_plastic_strain_max": {
+                "primary_vs_replay_a": 0.0,
+                "replay_a_vs_replay_b": 0.0
+              }
+            }
+          },
+          "status": "PASS"
+        }
+      ]
+    },
+    "M2": {
+      "status": "PASS",
+      "cells": 2,
+      "rows": [
+        {
+          "family": "HEX8",
+          "cells": 2,
+          "primary": {
+            "family": "HEX8",
+            "cells": 2,
+            "label": "m2",
+            "raw_path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp09_hex8_only_formal\\qualification\\0_2_9\\wp09_hex8_only_formal_requalification_r1\\m2_hex8_2.json",
+            "status": "PASS",
+            "run_verdict": "WARNING",
+            "node_count": 12,
+            "element_count": 2,
+            "dof_count": 36,
+            "selected_displacement": 0.0036279566109091413,
+            "displacement_norm": 0.00897479768438023,
+            "reaction_norm": 0.24999999998413655,
+            "reaction_resultant": [
+              -0.24999999998413655,
+              2.7755575615628914e-15,
+              -2.7755575615628914e-15
+            ],
+            "reaction_moment": [],
+            "energy": 0.0004829699227092117,
+            "von_mises_max": 0.06811636834120209,
+            "equivalent_plastic_strain_max": 0.004948047479013678,
+            "plastic_dissipation_max": 0.00021242183257902533,
+            "min_det_f": 0.9990892521062423,
+            "max_local_strain_norm": 0.006134288881744761,
+            "accepted_steps": 4,
+            "step_count": 4,
+            "newton_iterations": 16,
+            "rejected_increments": 0,
+            "fallback_count": 0,
+            "elapsed_seconds": 5.518222999991849,
+            "equilibrium": {
+              "free_relative_residual": 1.4939819036980836e-11,
+              "force_balance_relative_error": 1.5863449928559185e-11,
+              "moment_balance_relative_error": 1.1265080663018229e-11,
+              "reaction_resultant": [
+                -0.24999999998413655,
+                2.7755575615628914e-15,
+                -2.7755575615628914e-15
+              ],
+              "reaction_moment": []
+            }
+          },
+          "structural_gate": {
+            "status": "PASS",
+            "failures": []
+          },
+          "replay": {
+            "status": "PASS",
+            "checks": {
+              "selected_displacement": {
+                "primary_vs_replay_a": 0.0,
+                "replay_a_vs_replay_b": 0.0
+              },
+              "reaction_norm": {
+                "primary_vs_replay_a": 0.0,
+                "replay_a_vs_replay_b": 0.0
+              },
+              "energy": {
+                "primary_vs_replay_a": 0.0,
+                "replay_a_vs_replay_b": 0.0
+              },
+              "von_mises_max": {
+                "primary_vs_replay_a": 0.0,
+                "replay_a_vs_replay_b": 0.0
+              },
+              "equivalent_plastic_strain_max": {
+                "primary_vs_replay_a": 0.0,
+                "replay_a_vs_replay_b": 0.0
+              }
+            }
+          },
+          "status": "PASS"
+        }
+      ]
+    },
+    "M3": {
+      "status": "PASS",
+      "cells": 4,
+      "rows": [
+        {
+          "family": "HEX8",
+          "cells": 4,
+          "primary": {
+            "family": "HEX8",
+            "cells": 4,
+            "label": "m3",
+            "raw_path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp09_hex8_only_formal\\qualification\\0_2_9\\wp09_hex8_only_formal_requalification_r1\\m3_hex8_4.json",
+            "status": "PASS",
+            "run_verdict": "WARNING",
+            "node_count": 20,
+            "element_count": 4,
+            "dof_count": 60,
+            "selected_displacement": 0.009193498142309305,
+            "displacement_norm": 0.027536534996016958,
+            "reaction_norm": 0.24999999683898916,
+            "reaction_resultant": [
+              -0.24999999683898916,
+              9.571510251049631e-14,
+              -9.971190539914687e-14
+            ],
+            "reaction_moment": [],
+            "energy": 0.0012257220405951542,
+            "von_mises_max": 0.14905613237877643,
+            "equivalent_plastic_strain_max": 0.012977051335751996,
+            "plastic_dissipation_max": 0.001077947342196182,
+            "min_det_f": 0.9984062210892333,
+            "max_local_strain_norm": 0.016052554905142853,
+            "accepted_steps": 4,
+            "step_count": 4,
+            "newton_iterations": 16,
+            "rejected_increments": 0,
+            "fallback_count": 0,
+            "elapsed_seconds": 10.822459199931473,
+            "equilibrium": {
+              "free_relative_residual": 1.7256991868241201e-09,
+              "force_balance_relative_error": 3.161010844989531e-09,
+              "moment_balance_relative_error": 2.234823917494461e-09,
+              "reaction_resultant": [
+                -0.24999999683898916,
+                9.571510251049631e-14,
+                -9.971190539914687e-14
+              ],
+              "reaction_moment": []
+            }
+          },
+          "structural_gate": {
+            "status": "PASS",
+            "failures": []
+          },
+          "replay": {
+            "status": "PASS",
+            "checks": {
+              "selected_displacement": {
+                "primary_vs_replay_a": 0.0,
+                "replay_a_vs_replay_b": 0.0
+              },
+              "reaction_norm": {
+                "primary_vs_replay_a": 0.0,
+                "replay_a_vs_replay_b": 0.0
+              },
+              "energy": {
+                "primary_vs_replay_a": 0.0,
+                "replay_a_vs_replay_b": 0.0
+              },
+              "von_mises_max": {
+                "primary_vs_replay_a": 0.0,
+                "replay_a_vs_replay_b": 0.0
+              },
+              "equivalent_plastic_strain_max": {
+                "primary_vs_replay_a": 0.0,
+                "replay_a_vs_replay_b": 0.0
+              }
+            }
+          },
+          "status": "PASS"
+        }
+      ]
+    }
+  },
+  "formal_points": "0/8",
+  "independent_component_reference": {
+    "status": "PASS_INDEPENDENT_REFERENCE",
+    "return_code": 0,
+    "summary_path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp09_hex8_only_formal\\qualification\\0_2_9\\wp09_hex8_only_formal_requalification_r1\\independent_component_reference\\summary.json",
+    "summary_sha256": "7b6186f320faed6fb9c8033db0cb1e31c11cbec145aa4ec5ee56e537b1a85a82",
+    "summary": {
+      "status": "PASS_INDEPENDENT_REFERENCE",
+      "classification": "BOUNDED_MATERIAL_POINT_AND_AFFINE_ELEMENT_REFERENCE_NOT_GLOBAL_FEM_SOLVE",
+      "governing_branch": "codex/wp09-hex8-only-formal",
+      "execution_sha": "2b6350c8b6bb45d16ca13ee716af97b5aa247db5",
+      "working_tree": "",
+      "independent_reference_module_sha256": "ae1bc236b933974e5159bd1ade93f1e28a1c6f3a38a492a4b72d51f67b97c3c3",
+      "independence_source_check": "PASS",
+      "rotation_deg": 50.0,
+      "load_factors": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "material": {
+        "young": 1000.0,
+        "poisson": 0.3,
+        "yield_stress": 2.0,
+        "hardening_modulus": 20.0
+      },
+      "families": [
+        {
+          "family": "TET4",
+          "rows": [
+            {
+              "factor": 0.0,
+              "errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 0.0,
+                "stretch": 0.0,
+                "local_strain": 0.0,
+                "local_stress": 0.0,
+                "cauchy_stress": 0.0,
+                "equivalent_plastic_strain": 0.0,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.0
+              },
+              "absolute_errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 0.0,
+                "stretch": 0.0,
+                "local_strain": 0.0,
+                "local_stress": 0.0,
+                "cauchy_stress": 0.0,
+                "equivalent_plastic_strain": 0.0,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.0
+              },
+              "production": {
+                "deformation_gradient": [
+                  [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    1.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    1.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    1.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "local_stress": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "cauchy_stress": [
+                  [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0
+                  ]
+                ],
+                "equivalent_plastic_strain": 0.0,
+                "yield_function": -2.0,
+                "plastic_dissipation": 0.0
+              },
+              "independent_reference": {
+                "deformation_gradient": [
+                  [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    1.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    1.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    1.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "local_stress": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "cauchy_stress": [
+                  [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0
+                  ]
+                ],
+                "equivalent_plastic_strain": 0.0,
+                "yield_function": -2.0,
+                "plastic_dissipation": 0.0
+              }
+            },
+            {
+              "factor": 0.25,
+              "errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 0.0,
+                "stretch": 0.0,
+                "local_strain": 0.0,
+                "local_stress": 0.0,
+                "cauchy_stress": 0.0,
+                "equivalent_plastic_strain": 0.0,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.0
+              },
+              "absolute_errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 0.0,
+                "stretch": 0.0,
+                "local_strain": 0.0,
+                "local_stress": 0.0,
+                "cauchy_stress": 0.0,
+                "equivalent_plastic_strain": 0.0,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.0
+              },
+              "production": {
+                "deformation_gradient": [
+                  [
+                    0.9782485991341733,
+                    -0.21622317432416477,
+                    0.0
+                  ],
+                  [
+                    0.2168724931659791,
+                    0.9753197111128135,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    0.9762960071199336,
+                    -0.21643961393810288,
+                    0.0
+                  ],
+                  [
+                    0.21643961393810288,
+                    0.9762960071199334,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.002,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.999,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.0020000000000000018,
+                  -0.0010000000000000009,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "local_stress": [
+                  2.093592637644913,
+                  -0.1748741101159289,
+                  0.5812814724710182,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "cauchy_stress": [
+                  [
+                    1.9893376679557588,
+                    0.47971681747888284,
+                    0.0
+                  ],
+                  [
+                    0.47971681747888273,
+                    -0.06817440198081134,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.5807019319429392
+                  ]
+                ],
+                "equivalent_plastic_strain": 2.9981199911266787e-05,
+                "yield_function": 0.0,
+                "plastic_dissipation": 2.9990188634747978e-05
+              },
+              "independent_reference": {
+                "deformation_gradient": [
+                  [
+                    0.9782485991341733,
+                    -0.21622317432416477,
+                    0.0
+                  ],
+                  [
+                    0.2168724931659791,
+                    0.9753197111128135,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    0.9762960071199336,
+                    -0.21643961393810288,
+                    0.0
+                  ],
+                  [
+                    0.21643961393810288,
+                    0.9762960071199334,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.002,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.999,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.0020000000000000018,
+                  -0.0010000000000000009,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "local_stress": [
+                  2.093592637644913,
+                  -0.1748741101159289,
+                  0.5812814724710182,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "cauchy_stress": [
+                  [
+                    1.9893376679557588,
+                    0.47971681747888284,
+                    0.0
+                  ],
+                  [
+                    0.47971681747888273,
+                    -0.06817440198081134,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.5807019319429392
+                  ]
+                ],
+                "equivalent_plastic_strain": 2.9981199911266787e-05,
+                "yield_function": 0.0,
+                "plastic_dissipation": 2.9990188634747978e-05
+              }
+            },
+            {
+              "factor": 0.5,
+              "errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 0.0,
+                "stretch": 0.0,
+                "local_strain": 0.0,
+                "local_stress": 0.0,
+                "cauchy_stress": 0.0,
+                "equivalent_plastic_strain": 0.0,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.0
+              },
+              "absolute_errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 0.0,
+                "stretch": 0.0,
+                "local_strain": 0.0,
+                "local_stress": 0.0,
+                "cauchy_stress": 0.0,
+                "equivalent_plastic_strain": 0.0,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.0
+              },
+              "production": {
+                "deformation_gradient": [
+                  [
+                    0.9099330181847965,
+                    -0.42177302521721804,
+                    0.0
+                  ],
+                  [
+                    0.42430873478766223,
+                    0.9044951714625766,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    0.9063077870366498,
+                    -0.42261826174069944,
+                    0.0
+                  ],
+                  [
+                    0.42261826174069944,
+                    0.9063077870366499,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.004,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.998,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.0040000000000000036,
+                  -0.0020000000000000018,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "local_stress": [
+                  2.9487291334103136,
+                  0.6408314939307012,
+                  1.4104393726589897,
+                  0.004176901212748057,
+                  0.0,
+                  0.0
+                ],
+                "cauchy_stress": [
+                  [
+                    2.537725634511908,
+                    0.8898870610216991,
+                    0.0
+                  ],
+                  [
+                    0.8899120726059001,
+                    1.0551911561279321,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.4076353630158625
+                  ]
+                ],
+                "equivalent_plastic_strain": 0.0017664474935810523,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.0033746104425365618
+              },
+              "independent_reference": {
+                "deformation_gradient": [
+                  [
+                    0.9099330181847965,
+                    -0.42177302521721804,
+                    0.0
+                  ],
+                  [
+                    0.42430873478766223,
+                    0.9044951714625766,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    0.9063077870366498,
+                    -0.42261826174069944,
+                    0.0
+                  ],
+                  [
+                    0.42261826174069944,
+                    0.9063077870366499,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.004,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.998,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.0040000000000000036,
+                  -0.0020000000000000018,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "local_stress": [
+                  2.9487291334103136,
+                  0.6408314939307012,
+                  1.4104393726589897,
+                  0.004176901212748057,
+                  0.0,
+                  0.0
+                ],
+                "cauchy_stress": [
+                  [
+                    2.537725634511908,
+                    0.8898870610216991,
+                    0.0
+                  ],
+                  [
+                    0.8899120726059001,
+                    1.0551911561279321,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.4076353630158625
+                  ]
+                ],
+                "equivalent_plastic_strain": 0.0017664474935810523,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.0033746104425365618
+              }
+            },
+            {
+              "factor": 0.75,
+              "errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 0.0,
+                "stretch": 0.0,
+                "local_strain": 0.0,
+                "local_stress": 0.0,
+                "cauchy_stress": 0.0,
+                "equivalent_plastic_strain": 0.0,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.0
+              },
+              "absolute_errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 0.0,
+                "stretch": 0.0,
+                "local_strain": 0.0,
+                "local_stress": 0.0,
+                "cauchy_stress": 0.0,
+                "equivalent_plastic_strain": 0.0,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.0
+              },
+              "production": {
+                "deformation_gradient": [
+                  [
+                    0.7981134603329826,
+                    -0.6069351447216945,
+                    0.0
+                  ],
+                  [
+                    0.6124139975827729,
+                    0.7909732802703615,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    0.7933533402912352,
+                    -0.6087614290087205,
+                    0.0
+                  ],
+                  [
+                    0.6087614290087205,
+                    0.7933533402912352,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.006,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.9970000000000001,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.006000000000000005,
+                  -0.0029999999999998916,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "local_stress": [
+                  3.7777085603974743,
+                  1.4672455619785558,
+                  2.255045877624252,
+                  0.23479594863390205,
+                  0.0,
+                  0.0
+                ],
+                "cauchy_stress": [
+                  [
+                    2.698924231475913,
+                    1.1852107123908282,
+                    0.0
+                  ],
+                  [
+                    1.1873175932099305,
+                    2.5486461506969267,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    2.2483413237966903
+                  ]
+                ],
+                "equivalent_plastic_strain": 0.0037312939454260605,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.007037506440340808
+              },
+              "independent_reference": {
+                "deformation_gradient": [
+                  [
+                    0.7981134603329826,
+                    -0.6069351447216945,
+                    0.0
+                  ],
+                  [
+                    0.6124139975827729,
+                    0.7909732802703615,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    0.7933533402912352,
+                    -0.6087614290087205,
+                    0.0
+                  ],
+                  [
+                    0.6087614290087205,
+                    0.7933533402912352,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.006,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.9970000000000001,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.006000000000000005,
+                  -0.0029999999999998916,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "local_stress": [
+                  3.7777085603974743,
+                  1.4672455619785558,
+                  2.255045877624252,
+                  0.23479594863390205,
+                  0.0,
+                  0.0
+                ],
+                "cauchy_stress": [
+                  [
+                    2.698924231475913,
+                    1.1852107123908282,
+                    0.0
+                  ],
+                  [
+                    1.1873175932099305,
+                    2.5486461506969267,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    2.2483413237966903
+                  ]
+                ],
+                "equivalent_plastic_strain": 0.0037312939454260605,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.007037506440340808
+              }
+            },
+            {
+              "factor": 1.0,
+              "errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 0.0,
+                "stretch": 0.0,
+                "local_strain": 0.0,
+                "local_stress": 0.0,
+                "cauchy_stress": 0.0,
+                "equivalent_plastic_strain": 0.0,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.0
+              },
+              "absolute_errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 0.0,
+                "stretch": 0.0,
+                "local_strain": 0.0,
+                "local_stress": 0.0,
+                "cauchy_stress": 0.0,
+                "equivalent_plastic_strain": 0.0,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.0
+              },
+              "production": {
+                "deformation_gradient": [
+                  [
+                    0.6479299105640317,
+                    -0.7629802653465021,
+                    0.0
+                  ],
+                  [
+                    0.7721727986639298,
+                    0.6402164592477932,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    0.6427876096865393,
+                    -0.7660444431189778,
+                    0.0
+                  ],
+                  [
+                    0.7660444431189778,
+                    0.6427876096865395,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.0080000000000002,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.996,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.00800000000000023,
+                  -0.0040000000000000036,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "local_stress": [
+                  4.544332909020905,
+                  2.3335117980011892,
+                  3.1221552929784773,
+                  0.5001765806339559,
+                  0.0,
+                  0.0
+                ],
+                "cauchy_stress": [
+                  [
+                    2.7520302662282075,
+                    1.0170490122660472,
+                    0.0
+                  ],
+                  [
+                    1.0230274089555902,
+                    4.125544838857068,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    3.109815544896328
+                  ]
+                ],
+                "equivalent_plastic_strain": 0.006262278052706809,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.011813619253888144
+              },
+              "independent_reference": {
+                "deformation_gradient": [
+                  [
+                    0.6479299105640317,
+                    -0.7629802653465021,
+                    0.0
+                  ],
+                  [
+                    0.7721727986639298,
+                    0.6402164592477932,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    0.6427876096865393,
+                    -0.7660444431189778,
+                    0.0
+                  ],
+                  [
+                    0.7660444431189778,
+                    0.6427876096865395,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.0080000000000002,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.996,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.00800000000000023,
+                  -0.0040000000000000036,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "local_stress": [
+                  4.544332909020905,
+                  2.3335117980011892,
+                  3.1221552929784773,
+                  0.5001765806339559,
+                  0.0,
+                  0.0
+                ],
+                "cauchy_stress": [
+                  [
+                    2.7520302662282075,
+                    1.0170490122660472,
+                    0.0
+                  ],
+                  [
+                    1.0230274089555902,
+                    4.125544838857068,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    3.109815544896328
+                  ]
+                ],
+                "equivalent_plastic_strain": 0.006262278052706809,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.011813619253888144
+              }
+            }
+          ],
+          "max_relative_errors": {
+            "deformation_gradient": 0.0,
+            "rotation": 0.0,
+            "stretch": 0.0,
+            "local_strain": 0.0,
+            "local_stress": 0.0,
+            "cauchy_stress": 0.0,
+            "equivalent_plastic_strain": 0.0,
+            "yield_function": 0.0,
+            "plastic_dissipation": 0.0
+          },
+          "max_absolute_errors": {
+            "deformation_gradient": 0.0,
+            "rotation": 0.0,
+            "stretch": 0.0,
+            "local_strain": 0.0,
+            "local_stress": 0.0,
+            "cauchy_stress": 0.0,
+            "equivalent_plastic_strain": 0.0,
+            "yield_function": 0.0,
+            "plastic_dissipation": 0.0
+          },
+          "status": "PASS"
+        },
+        {
+          "family": "HEX8",
+          "rows": [
+            {
+              "factor": 0.0,
+              "errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 0.0,
+                "stretch": 0.0,
+                "local_strain": 0.0,
+                "local_stress": 0.0,
+                "cauchy_stress": 0.0,
+                "equivalent_plastic_strain": 0.0,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.0
+              },
+              "absolute_errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 0.0,
+                "stretch": 0.0,
+                "local_strain": 0.0,
+                "local_stress": 0.0,
+                "cauchy_stress": 0.0,
+                "equivalent_plastic_strain": 0.0,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.0
+              },
+              "production": {
+                "deformation_gradient": [
+                  [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    1.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    1.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    1.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "local_stress": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "cauchy_stress": [
+                  [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0
+                  ]
+                ],
+                "equivalent_plastic_strain": 0.0,
+                "yield_function": -2.0,
+                "plastic_dissipation": 0.0
+              },
+              "independent_reference": {
+                "deformation_gradient": [
+                  [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    1.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    1.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    1.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "local_stress": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "cauchy_stress": [
+                  [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0
+                  ]
+                ],
+                "equivalent_plastic_strain": 0.0,
+                "yield_function": -2.0,
+                "plastic_dissipation": 0.0
+              }
+            },
+            {
+              "factor": 0.25,
+              "errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 2.274357400887681e-16,
+                "stretch": 1.1113343589841408e-16,
+                "local_strain": 2.7755575615628888e-14,
+                "local_stress": 7.009544761599938e-14,
+                "cauchy_stress": 1.09924035979503e-13,
+                "equivalent_plastic_strain": 2.870417051210033e-13,
+                "yield_function": 0.0,
+                "plastic_dissipation": 2.8718162171553486e-13
+              },
+              "absolute_errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 2.220446049250313e-16,
+                "stretch": 1.1102230246251565e-16,
+                "local_strain": 7.995991022080812e-17,
+                "local_stress": 4.0745185003743245e-14,
+                "cauchy_stress": 4.0745185003743245e-14,
+                "equivalent_plastic_strain": 8.605854744103691e-18,
+                "yield_function": 0.0,
+                "plastic_dissipation": 8.612631007681726e-18
+              },
+              "production": {
+                "deformation_gradient": [
+                  [
+                    0.9782485991341733,
+                    -0.21622317432416477,
+                    0.0
+                  ],
+                  [
+                    0.2168724931659791,
+                    0.9753197111128135,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    0.9762960071199336,
+                    -0.2164396139381029,
+                    -7.743921888238565e-18
+                  ],
+                  [
+                    0.21643961393810288,
+                    0.9762960071199336,
+                    3.4930574312972726e-17
+                  ],
+                  [
+                    0.0,
+                    -3.252606517454971e-18,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.002,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.9989999999999999,
+                    3.997995511040406e-17
+                  ],
+                  [
+                    0.0,
+                    3.997995511040406e-17,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.0020000000000000018,
+                  -0.0009999999999999731,
+                  -4.163336342344337e-17,
+                  0.0,
+                  7.995991022080812e-17,
+                  0.0
+                ],
+                "local_stress": [
+                  2.093592637644911,
+                  -0.1748741101159209,
+                  0.5812814724709775,
+                  0.0,
+                  3.023106624830567e-14,
+                  0.0
+                ],
+                "cauchy_stress": [
+                  [
+                    1.989337667955757,
+                    0.47971681747888073,
+                    -6.5411736147708445e-15
+                  ],
+                  [
+                    0.4797168174788806,
+                    -0.06817440198080385,
+                    2.950532744807672e-14
+                  ],
+                  [
+                    -6.530766570705033e-15,
+                    2.9454994821424585e-14,
+                    0.5807019319428984
+                  ]
+                ],
+                "equivalent_plastic_strain": 2.998119991125818e-05,
+                "yield_function": 0.0,
+                "plastic_dissipation": 2.9990188634739365e-05
+              },
+              "independent_reference": {
+                "deformation_gradient": [
+                  [
+                    0.9782485991341733,
+                    -0.21622317432416477,
+                    0.0
+                  ],
+                  [
+                    0.2168724931659791,
+                    0.9753197111128135,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    0.9762960071199336,
+                    -0.21643961393810288,
+                    0.0
+                  ],
+                  [
+                    0.21643961393810288,
+                    0.9762960071199334,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.002,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.999,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.0020000000000000018,
+                  -0.0010000000000000009,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "local_stress": [
+                  2.093592637644913,
+                  -0.1748741101159289,
+                  0.5812814724710182,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "cauchy_stress": [
+                  [
+                    1.9893376679557588,
+                    0.47971681747888284,
+                    0.0
+                  ],
+                  [
+                    0.47971681747888273,
+                    -0.06817440198081134,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.5807019319429392
+                  ]
+                ],
+                "equivalent_plastic_strain": 2.9981199911266787e-05,
+                "yield_function": 0.0,
+                "plastic_dissipation": 2.9990188634747978e-05
+              }
+            },
+            {
+              "factor": 0.5,
+              "errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 2.4499911409902963e-16,
+                "stretch": 2.2248958409321767e-16,
+                "local_strain": 1.3183898417423721e-13,
+                "local_stress": 3.0352920503514236e-13,
+                "cauchy_stress": 1.79076518689338e-13,
+                "equivalent_plastic_strain": 6.825183427104007e-14,
+                "yield_function": 0.0,
+                "plastic_dissipation": 6.644115316062088e-14
+              },
+              "absolute_errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 2.220446049250313e-16,
+                "stretch": 2.220446049250313e-16,
+                "local_strain": 2.636779683484747e-16,
+                "local_stress": 1.9451107391432743e-13,
+                "cauchy_stress": 1.8895995879120164e-13,
+                "equivalent_plastic_strain": 1.205632815803881e-16,
+                "yield_function": 0.0,
+                "plastic_dissipation": 2.242130092700023e-16
+              },
+              "production": {
+                "deformation_gradient": [
+                  [
+                    0.9099330181847965,
+                    -0.42177302521721804,
+                    0.0
+                  ],
+                  [
+                    0.42430873478766223,
+                    0.9044951714625766,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    0.9063077870366499,
+                    -0.4226182617406995,
+                    -3.6656291000926314e-19
+                  ],
+                  [
+                    0.4226182617406994,
+                    0.9063077870366502,
+                    7.860966973175421e-19
+                  ],
+                  [
+                    0.0,
+                    2.0816681711722412e-17,
+                    0.9999999999999999
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.0039999999999998,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.9980000000000002,
+                    3.353220479063939e-18
+                  ],
+                  [
+                    0.0,
+                    3.353220479063939e-18,
+                    0.9999999999999999
+                  ]
+                ],
+                "local_strain": [
+                  0.0040000000000000036,
+                  -0.001999999999999738,
+                  -8.326672684688674e-17,
+                  0.0,
+                  6.706440958127878e-18,
+                  0.0
+                ],
+                "local_stress": [
+                  2.9487291334104837,
+                  0.6408314939308957,
+                  1.410439372659076,
+                  0.004176901212746971,
+                  1.0427475589359673e-15,
+                  -5.700115897546991e-17
+                ],
+                "cauchy_stress": [
+                  [
+                    2.5377256345120833,
+                    0.8898870610216896,
+                    -4.918819409758683e-16
+                  ],
+                  [
+                    0.8899120726058903,
+                    1.055191156128121,
+                    9.20236133208969e-16
+                  ],
+                  [
+                    -5.023335144261692e-16,
+                    9.302941830073275e-16,
+                    1.4076353630159484
+                  ]
+                ],
+                "equivalent_plastic_strain": 0.0017664474935809318,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.0033746104425363375
+              },
+              "independent_reference": {
+                "deformation_gradient": [
+                  [
+                    0.9099330181847965,
+                    -0.42177302521721804,
+                    0.0
+                  ],
+                  [
+                    0.42430873478766223,
+                    0.9044951714625766,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    0.9063077870366498,
+                    -0.42261826174069944,
+                    0.0
+                  ],
+                  [
+                    0.42261826174069944,
+                    0.9063077870366499,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.004,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.998,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.0040000000000000036,
+                  -0.0020000000000000018,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "local_stress": [
+                  2.9487291334103136,
+                  0.6408314939307012,
+                  1.4104393726589897,
+                  0.004176901212748057,
+                  0.0,
+                  0.0
+                ],
+                "cauchy_stress": [
+                  [
+                    2.537725634511908,
+                    0.8898870610216991,
+                    0.0
+                  ],
+                  [
+                    0.8899120726059001,
+                    1.0551911561279321,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.4076353630158625
+                  ]
+                ],
+                "equivalent_plastic_strain": 0.0017664474935810523,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.0033746104425365618
+              }
+            },
+            {
+              "factor": 0.75,
+              "errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 1.823740749201199e-16,
+                "stretch": 4.454254863089896e-16,
+                "local_strain": 1.3415194880885992e-13,
+                "local_stress": 2.6846707827545135e-13,
+                "cauchy_stress": 1.6082826585382294e-13,
+                "equivalent_plastic_strain": 4.556137981412972e-14,
+                "yield_function": 0.0,
+                "plastic_dissipation": 5.0162117840160285e-14
+              },
+              "absolute_errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 1.1102230246251565e-16,
+                "stretch": 4.440892098500626e-16,
+                "local_strain": 4.0245584642661925e-16,
+                "local_stress": 3.9390712913700554e-13,
+                "cauchy_stress": 4.098943406916078e-13,
+                "equivalent_plastic_strain": 1.700029006457271e-16,
+                "yield_function": 0.0,
+                "plastic_dissipation": 3.5301622736128024e-16
+              },
+              "production": {
+                "deformation_gradient": [
+                  [
+                    0.7981134603329826,
+                    -0.6069351447216945,
+                    0.0
+                  ],
+                  [
+                    0.6124139975827729,
+                    0.7909732802703615,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    0.793353340291235,
+                    -0.6087614290087204,
+                    4.2241309686822036e-18
+                  ],
+                  [
+                    0.6087614290087205,
+                    0.793353340291235,
+                    -5.504994656591054e-18
+                  ],
+                  [
+                    0.0,
+                    -1.3010426069830797e-18,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.006,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.9969999999999997,
+                    -1.467792901111027e-17
+                  ],
+                  [
+                    0.0,
+                    -1.467792901111027e-17,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.006000000000000005,
+                  -0.003000000000000294,
+                  1.3877787807814457e-17,
+                  0.0,
+                  -2.935585802222054e-17,
+                  0.0
+                ],
+                "local_stress": [
+                  3.7777085603971288,
+                  1.467245561978162,
+                  2.2550458776240223,
+                  0.23479594863386577,
+                  -6.0991562061446894e-15,
+                  -1.848722966588187e-16
+                ],
+                "cauchy_stress": [
+                  [
+                    2.6989242314755844,
+                    1.185210712390841,
+                    3.565156306739235e-15
+                  ],
+                  [
+                    1.1873175932099431,
+                    2.548646150696517,
+                    -4.9489852141989986e-15
+                  ],
+                  [
+                    3.5241117106618642e-15,
+                    -4.935713341838784e-15,
+                    2.248341323796461
+                  ]
+                ],
+                "equivalent_plastic_strain": 0.0037312939454262305,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.007037506440341161
+              },
+              "independent_reference": {
+                "deformation_gradient": [
+                  [
+                    0.7981134603329826,
+                    -0.6069351447216945,
+                    0.0
+                  ],
+                  [
+                    0.6124139975827729,
+                    0.7909732802703615,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    0.7933533402912352,
+                    -0.6087614290087205,
+                    0.0
+                  ],
+                  [
+                    0.6087614290087205,
+                    0.7933533402912352,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.006,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.9970000000000001,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.006000000000000005,
+                  -0.0029999999999998916,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "local_stress": [
+                  3.7777085603974743,
+                  1.4672455619785558,
+                  2.255045877624252,
+                  0.23479594863390205,
+                  0.0,
+                  0.0
+                ],
+                "cauchy_stress": [
+                  [
+                    2.698924231475913,
+                    1.1852107123908282,
+                    0.0
+                  ],
+                  [
+                    1.1873175932099305,
+                    2.5486461506969267,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    2.2483413237966903
+                  ]
+                ],
+                "equivalent_plastic_strain": 0.0037312939454260605,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.007037506440340808
+              }
+            },
+            {
+              "factor": 1.0,
+              "errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 4.347879687390627e-16,
+                "stretch": 2.2293635032633667e-16,
+                "local_strain": 3.8163916471488267e-14,
+                "local_stress": 1.355002865998295e-13,
+                "cauchy_stress": 1.2909428077147092e-13,
+                "equivalent_plastic_strain": 1.6620694207856097e-15,
+                "yield_function": 0.0,
+                "plastic_dissipation": 6.901526248535207e-15
+              },
+              "absolute_errors": {
+                "deformation_gradient": 0.0,
+                "rotation": 3.3306690738754696e-16,
+                "stretch": 2.220446049250313e-16,
+                "local_strain": 1.6653345369377348e-16,
+                "local_stress": 3.4283687000424834e-13,
+                "cauchy_stress": 3.552713678800501e-13,
+                "equivalent_plastic_strain": 1.0408340855860843e-17,
+                "yield_function": 0.0,
+                "plastic_dissipation": 8.153200337090993e-17
+              },
+              "production": {
+                "deformation_gradient": [
+                  [
+                    0.6479299105640317,
+                    -0.7629802653465021,
+                    0.0
+                  ],
+                  [
+                    0.7721727986639298,
+                    0.6402164592477932,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    0.6427876096865395,
+                    -0.7660444431189781,
+                    -1.3288752791216231e-18
+                  ],
+                  [
+                    0.766044443118978,
+                    0.6427876096865394,
+                    1.1150587565916679e-18
+                  ],
+                  [
+                    0.0,
+                    -1.040834085586102e-17,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.008,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.9959999999999998,
+                    -7.779193955670368e-17
+                  ],
+                  [
+                    0.0,
+                    -7.779193955670368e-17,
+                    0.9999999999999999
+                  ]
+                ],
+                "local_strain": [
+                  0.008000000000000063,
+                  -0.004000000000000156,
+                  -6.938893903907228e-17,
+                  0.0,
+                  -1.5558387911340736e-16,
+                  0.0
+                ],
+                "local_stress": [
+                  4.544332909020562,
+                  2.333511798000873,
+                  3.1221552929781535,
+                  0.5001765806339865,
+                  -2.3056847658396635e-14,
+                  3.9743696890678744e-16
+                ],
+                "cauchy_stress": [
+                  [
+                    2.752030266227852,
+                    1.0170490122660267,
+                    1.7843087258571798e-14
+                  ],
+                  [
+                    1.0230274089555706,
+                    4.125544838856768,
+                    -1.445536135128559e-14
+                  ],
+                  [
+                    1.77831933065969e-14,
+                    -1.4495069526560987e-14,
+                    3.109815544896006
+                  ]
+                ],
+                "equivalent_plastic_strain": 0.006262278052706799,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.011813619253888063
+              },
+              "independent_reference": {
+                "deformation_gradient": [
+                  [
+                    0.6479299105640317,
+                    -0.7629802653465021,
+                    0.0
+                  ],
+                  [
+                    0.7721727986639298,
+                    0.6402164592477932,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "rotation": [
+                  [
+                    0.6427876096865393,
+                    -0.7660444431189778,
+                    0.0
+                  ],
+                  [
+                    0.7660444431189778,
+                    0.6427876096865395,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "stretch": [
+                  [
+                    1.0080000000000002,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.996,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "local_strain": [
+                  0.00800000000000023,
+                  -0.0040000000000000036,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "local_stress": [
+                  4.544332909020905,
+                  2.3335117980011892,
+                  3.1221552929784773,
+                  0.5001765806339559,
+                  0.0,
+                  0.0
+                ],
+                "cauchy_stress": [
+                  [
+                    2.7520302662282075,
+                    1.0170490122660472,
+                    0.0
+                  ],
+                  [
+                    1.0230274089555902,
+                    4.125544838857068,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    3.109815544896328
+                  ]
+                ],
+                "equivalent_plastic_strain": 0.006262278052706809,
+                "yield_function": 0.0,
+                "plastic_dissipation": 0.011813619253888144
+              }
+            }
+          ],
+          "max_relative_errors": {
+            "deformation_gradient": 0.0,
+            "rotation": 4.347879687390627e-16,
+            "stretch": 4.454254863089896e-16,
+            "local_strain": 1.3415194880885992e-13,
+            "local_stress": 3.0352920503514236e-13,
+            "cauchy_stress": 1.79076518689338e-13,
+            "equivalent_plastic_strain": 2.870417051210033e-13,
+            "yield_function": 0.0,
+            "plastic_dissipation": 2.8718162171553486e-13
+          },
+          "max_absolute_errors": {
+            "deformation_gradient": 0.0,
+            "rotation": 3.3306690738754696e-16,
+            "stretch": 4.440892098500626e-16,
+            "local_strain": 4.0245584642661925e-16,
+            "local_stress": 3.9390712913700554e-13,
+            "cauchy_stress": 4.098943406916078e-13,
+            "equivalent_plastic_strain": 1.700029006457271e-16,
+            "yield_function": 0.0,
+            "plastic_dissipation": 3.5301622736128024e-16
+          },
+          "status": "PASS"
+        }
+      ],
+      "formal_qualification": {
+        "authorized": false,
+        "wp09_points": "0/8",
+        "production_mechanics_changed": false
+      }
+    }
+  },
+  "mesh_gate_m2_to_m3": {
+    "status": "FAIL_CLOSED",
+    "rows": [
+      {
+        "family": "HEX8",
+        "deltas": {
+          "selected_displacement": 0.605378001414613,
+          "reaction": 1.2580589570897507e-08,
+          "energy": 0.6059710874786067,
+          "von_mises": 0.5430153241323405
+        },
+        "failures": [
+          "selected_displacement",
+          "energy",
+          "von_mises"
+        ]
+      }
+    ]
+  },
+  "working_tree_at_end": "?? qualification/0_2_9/wp09_hex8_only_formal_requalification_r1/",
+  "manifest_sha256": "32b1e4a65e43c2c523b126c50eaf2efccaeab3e789d713c08df9d231511eb02c",
+  "artifact_count": 13
+}

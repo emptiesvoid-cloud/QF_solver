@@ -1,0 +1,99 @@
+{
+  "all_pass": true,
+  "all_six_present_once": true,
+  "artifact_id": "QF-029-WP07-E-NEGATIVE-CASE-MANIFEST-R2-001",
+  "binding_file_sha256": "892f2de802551107337f3e0eddbcce68294e15aad5080fa1c64b945710e95cec",
+  "cases": [
+    {
+      "case": "reversed_orientation",
+      "execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "expected_classifications": [
+        "VALIDATION_FAILURE"
+      ],
+      "observed_classification": "VALIDATION_FAILURE",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/qualification/0_2_9/wp07e_closure_r2/negative_cases/reversed_orientation.json",
+      "sha256": "0e909b6d89474f6632ffc49dfe86a3d53dc074c3d6dd76918f3bc5dfdc3c04ba",
+      "size_bytes": 1600,
+      "source_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "status": "PASS"
+    },
+    {
+      "case": "open_no_contact",
+      "execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "expected_classifications": [
+        "PASS_OPEN_NO_CONTACT"
+      ],
+      "observed_classification": "PASS_OPEN_NO_CONTACT",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/qualification/0_2_9/wp07e_closure_r2/negative_cases/open_no_contact.json",
+      "sha256": "59926c797eaa5ed721b9411ea38624170ca13f5ca6a9344db98810849b2958c8",
+      "size_bytes": 1548,
+      "source_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "status": "PASS"
+    },
+    {
+      "case": "excessive_penetration",
+      "execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "expected_classifications": [
+        "CONTACT_PENETRATION_EXCESSIVE",
+        "ROUTE_NATIVE_FAILURE"
+      ],
+      "observed_classification": "CONTACT_PENETRATION_EXCESSIVE",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/qualification/0_2_9/wp07e_closure_r2/negative_cases/excessive_penetration.json",
+      "sha256": "c34ad1f0846c7d9ef0853a4d3684defc79fbc1430ccab897e6964463bf70b00b",
+      "size_bytes": 2010,
+      "source_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "status": "PASS"
+    },
+    {
+      "case": "unsupported_combination",
+      "execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "expected_classifications": [
+        "UNSUPPORTED_EXPLICIT"
+      ],
+      "observed_classification": "UNSUPPORTED_EXPLICIT",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/qualification/0_2_9/wp07e_closure_r2/negative_cases/unsupported_combination.json",
+      "sha256": "4d51a837d062368981fc286a09e947904191eaea4a90df17c46a1254e9c139f5",
+      "size_bytes": 1641,
+      "source_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "status": "PASS"
+    },
+    {
+      "case": "nonfinite_observable",
+      "execution_sha": "f0a891e6b0bce514f1d0662e5b9d1dfd99f80f3d",
+      "expected_classifications": [
+        "EVIDENCE_VALIDATION_FAILURE"
+      ],
+      "observed_classification": "EVIDENCE_VALIDATION_FAILURE",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/qualification/0_2_9/wp07e_closure_r2/negative_cases/nonfinite_observable.json",
+      "sha256": "d0555240a3f80588eeab9f9188df1d207562b362cd186ec9a62de57d71160111",
+      "size_bytes": 1684,
+      "source_sha": "f0a891e6b0bce514f1d0662e5b9d1dfd99f80f3d",
+      "status": "PASS"
+    },
+    {
+      "case": "incompatible_restart_metadata",
+      "execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "expected_classifications": [
+        "RESTART_METADATA_MISMATCH"
+      ],
+      "observed_classification": "RESTART_METADATA_MISMATCH",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/qualification/0_2_9/wp07e_closure_r2/negative_cases/incompatible_restart_metadata.json",
+      "sha256": "247af693d8412ed753aa390449f4839e184210db6d8863877c5eaf6da1a2fe38",
+      "size_bytes": 1818,
+      "source_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "status": "PASS"
+    }
+  ],
+  "contract_file_sha256": "2a6292b3c90a645c752ad388f0c62dc6aa735d1e42225a3dd96333c1bbafcd88",
+  "contract_revision": "R2_D_R1_EVIDENCE_BINDING",
+  "gate": "WP07",
+  "production_mechanics_changed": false,
+  "runner_commit_sha": "f0a891e6b0bce514f1d0662e5b9d1dfd99f80f3d",
+  "runner_script_sha256": "578130ebade5ff4054c1b7f48effb775265046d3b62b2db8fff0cb268e92e730",
+  "schema_version": 1,
+  "structural_wp07d_rerun": false,
+  "thresholds_changed": false,
+  "timestamp_utc": "2026-09-17T21:19:47.907638+00:00",
+  "work_package": "WP07-E",
+  "wp07d_tested_source_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2"
+}

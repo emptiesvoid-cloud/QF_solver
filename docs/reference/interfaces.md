@@ -37,6 +37,15 @@ profil, le scope, chaque commande executee et son code de retour. Le rapport
 est ecrit egalement si une commande echoue, afin de rendre la campagne
 rejouable et auditable hors du flux console.
 
+La commande verify-all sert au développement et à la CI depuis un checkout Git
+complet. Le préflight exige que le module CLI importé soit le fichier sous
+src/solveur du checkout, vérifie les types des chemins attendus et fait confirmer
+la racine par Git. Wheel et sdist omettent les scripts, tests et lanceurs requis :
+un module provenant d'un paquet installé est donc refusé avant tout
+sous-processus. Un checkout incomplet ou un faux marqueur .git ne démarre aucune
+commande de vérification et n'écrit aucun rapport ; seul le contrôle Git de
+métadonnées peut être exécuté pour invalider un faux checkout.
+
 La forme module `python -m solveur.cli.main` est portable apres installation
 du package, ou depuis ce checkout avec `PYTHONPATH=src`. Depuis un checkout
 source sans installation, utiliser `python qf_solver.py` afin d'identifier

@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "artifact_id": "QF-029-WP08-D-CONTACT-MECHANICS-REQUALIFICATION-R2",
+  "revision": "R2_SOURCE_BOUND_CONTACT_CANDIDATE",
+  "status": "FROZEN_FOR_OWNER_AUTHORIZED_REQUALIFICATION",
+  "work_package": "WP08-D",
+  "purpose": "Prospective source-bound requalification of the current bounded WP08-D contact implementation. This revision does not alter the parent physics contract; it binds the current authorized contact-source correction and requires M1/M2/M3 production, independent references for passing primary cases, and only the parent-contract M1 replay.",
+  "parent_contract": {
+    "path": "qualification/0_2_9/wp08d_structural_reference_contract.json",
+    "canonical_sha256": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+    "historical_status": "PREPARATION_ONLY",
+    "historical_status_preserved": true
+  },
+  "governing": {
+    "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "source_baseline_sha": "cd69958909aabcd74649b92fde768a1a0422ed52",
+    "branch": "codex/wp08d-contact-r2-requalification",
+    "execution_sha_binding": "Exact clean HEAD is bound by the separate authorization record after this contract and runner are committed."
+  },
+  "source_requalification": {
+    "change_commit": "23de731e51e87a61831a23f97fea119f52846352",
+    "source_diff_sha256_since_source_baseline": "69aa58206935bc5ee2adff90a6e12d93e9a77acd3aac11cee579749562161ffa",
+    "changed_production_paths": [
+      "src/solveur/contact/slip_root.py"
+    ],
+    "change_classification": "BOUNDED_COUPLED_CONTACT_SEED_FIRST_ATTEMPT_WITH_FAIL_CLOSED_LIMIT",
+    "source_change_summary": "For systems above the exhaustive normal-set cap, attempt the normal-only seed exactly once and accept it only if the existing coupled residual and admissibility checks pass; if it is rejected, preserve fail-closed behavior without exhaustive enumeration. For systems within the existing cap, the exhaustive candidate search remains available.",
+    "production_mechanics_changed_from_source_baseline": true,
+    "thresholds_changed": false,
+    "physical_inputs_changed": false,
+    "solver_tolerances_changed": false,
+    "backend_changed": false,
+    "fallback_policy_changed": false
+  },
+  "owner_decision": {
+    "path": "qualification/0_2_9/wp08d_contact_requalification_r2_owner_decision.json",
+    "sha256": "33f84096335b4badaf3a813e9041f3f3356b32973ed80d12a92a1f1afb547a7e"
+  },
+  "campaign": {
+    "mesh_levels": ["M1", "M2", "M3"],
+    "execution_order": "Sequential single-agent, one structural solve at a time: all primary production levels M1/M2/M3; then independent references for each passing primary; then only the M1 replay required by the parent contract if its primary and reference gates pass.",
+    "replay_meshes": ["M1"],
+    "reference_implementation": "Frozen independent NumPy/KKT contact reference; no production contact/friction import or call.",
+    "failure_policy": "Preserve every failure as raw evidence. A failed primary blocks its dependent reference/replay only. Do not alter inputs, thresholds, parameters, or fallback behavior after observing results.",
+    "output_root": "qualification/0_2_9/wp08d_contact_requalification_r2_runs/raw_r2"
+  },
+  "invariants": {
+    "parent_physics_contract_changed": false,
+    "geometry_or_mesh_changed": false,
+    "loads_changed": false,
+    "material_changed": false,
+    "friction_parameters_changed": false,
+    "thresholds_changed": false,
+    "solver_tolerances_changed": false,
+    "backend_changed": false,
+    "fallback_policy_changed": false,
+    "historical_evidence_overwritten": false,
+    "wp08e_authorized": false,
+    "score_or_ledger_update_authorized": false,
+    "merge_or_push_authorized": false
+  },
+  "qualification_claim": "Prospective WP08-D source requalification evidence only; official points remain unchanged and subject to Owner review.",
+  "full_repository_test_suite": false
+}

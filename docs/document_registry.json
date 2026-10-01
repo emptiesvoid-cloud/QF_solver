@@ -3056,7 +3056,7 @@
     {
       "id": "DOC-REF-OSS-001",
       "path": "reference/open_source.md",
-      "title": "Preparation open source",
+      "title": "Open-source licence and publication",
       "status": "controlled",
       "requirements": [
         "REQ-REL-001"
@@ -3778,7 +3778,7 @@
       "id": "DOC-HEX8-023-001",
       "path": "verification/qf_solver_0_2_3_alpha_hex8_implementation_vnv_plan.md",
       "title": "Plan d'implementation et V&V HEX8 - QF_solver 0.2.3 alpha",
-        "status": "controlled",
+      "status": "controlled",
       "requirements": [
         "REQ-SOL-001",
         "REQ-DYN-001",
@@ -3820,7 +3820,7 @@
       "id": "DOC-HEX20-023-001",
       "path": "verification/qf_solver_0_2_3_alpha_hex20_implementation_vnv_plan.md",
       "title": "Plan d'implementation et V&V HEX20 - QF_solver 0.2.3 alpha",
-        "status": "controlled",
+      "status": "controlled",
       "requirements": [
         "REQ-SOL-001",
         "REQ-DYN-001",
@@ -3965,7 +3965,12 @@
       "path": "verification/0_2_5/README.md",
       "title": "Pack de planification Unified Nonlinear Structural Mechanics - QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-AUD-001",
+        "REQ-EVD-001",
+        "REQ-REL-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -3974,7 +3979,10 @@
       "path": "verification/0_2_5/0_2_5_scope.md",
       "title": "Perimetre QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-REL-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-REL-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -3983,7 +3991,10 @@
       "path": "verification/0_2_5/0_2_5_architecture.md",
       "title": "Architecture cible non lineaire QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-AUD-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-AUD-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -3992,7 +4003,11 @@
       "path": "verification/0_2_5/0_2_5_work_packages.md",
       "title": "Work packages QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001", "REQ-REL-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001",
+        "REQ-REL-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -4001,7 +4016,11 @@
       "path": "verification/0_2_5/0_2_5_requirements.md",
       "title": "Matrice des exigences QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001", "REQ-REL-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001",
+        "REQ-REL-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -4010,7 +4029,10 @@
       "path": "verification/0_2_5/0_2_5_formula_inventory.md",
       "title": "Inventaire des formulations QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-AUD-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-AUD-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -4019,7 +4041,10 @@
       "path": "verification/0_2_5/0_2_5_vnv_plan.md",
       "title": "Plan V&V QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -4028,7 +4053,10 @@
       "path": "verification/0_2_5/0_2_5_vnv_matrix.md",
       "title": "Matrice V&V QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -4037,7 +4065,10 @@
       "path": "verification/0_2_5/0_2_5_benchmark_plan.md",
       "title": "Plan de benchmarks QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -4046,7 +4077,10 @@
       "path": "verification/0_2_5/0_2_5_external_correlation_matrix.md",
       "title": "Matrice de correlation externe QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -4055,7 +4089,10 @@
       "path": "verification/0_2_5/0_2_5_performance_plan.md",
       "title": "Plan de performance QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -4064,7 +4101,10 @@
       "path": "verification/0_2_5/0_2_5_failure_mode_plan.md",
       "title": "Plan des modes d'echec QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -4073,7 +4113,11 @@
       "path": "verification/0_2_5/0_2_5_risk_register.md",
       "title": "Registre des risques QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-AUD-001", "REQ-REL-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-AUD-001",
+        "REQ-REL-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -4082,7 +4126,11 @@
       "path": "verification/0_2_5/0_2_5_gate_matrix.md",
       "title": "Matrice des gates QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001", "REQ-REL-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001",
+        "REQ-REL-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -4091,7 +4139,10 @@
       "path": "verification/0_2_5/0_2_5_known_limitations.md",
       "title": "Limites planifiees QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-REL-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-REL-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -4100,7 +4151,11 @@
       "path": "verification/0_2_5/0_2_5_release_readiness.md",
       "title": "Modele de release readiness QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"],
+      "requirements": [
+        "REQ-AUD-001",
+        "REQ-EVD-001",
+        "REQ-REL-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -4109,7 +4164,11 @@
       "path": "verification/0_2_5/0_2_5_owner_review_template.md",
       "title": "Modele de revue Owner QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"],
+      "requirements": [
+        "REQ-AUD-001",
+        "REQ-EVD-001",
+        "REQ-REL-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -4118,7 +4177,12 @@
       "path": "verification/0_2_5/0_2_5_objective_execution_plan.md",
       "title": "Plan d'execution en mode objectif QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-AUD-001",
+        "REQ-EVD-001",
+        "REQ-REL-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -4127,7 +4191,11 @@
       "path": "verification/0_2_5/0_2_5_implementation_status.md",
       "title": "Etat d'implementation QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001", "REQ-REL-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001",
+        "REQ-REL-001"
+      ],
       "examples": [],
       "tests": [
         "tests/unit/test_nonlinear_multielement.py",
@@ -4139,7 +4207,10 @@
       "path": "verification/0_2_5/0_2_5_lot4_arc_length_implementation_report.md",
       "title": "Rapport d'implementation du lot 4 arc-length QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001"
+      ],
       "examples": [],
       "tests": [
         "tests/unit/test_nonlinear_multielement.py",
@@ -4151,7 +4222,10 @@
       "path": "verification/0_2_5/0_2_5_lot5a_contact_implementation_report.md",
       "title": "Rapport d'implementation du lot 5A contact QF_solver 0.2.5 alpha",
       "status": "approved",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001"
+      ],
       "examples": [],
       "tests": [
         "tests/unit/test_contact_finite_sliding.py",
@@ -4164,7 +4238,10 @@
       "path": "verification/0_2_5/0_2_5_failure_campaign_report.md",
       "title": "Rapport de campagne des modes d'echec QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001"
+      ],
       "examples": [],
       "tests": [
         "tests/unit/test_nonlinear_failure_campaign.py"
@@ -4175,7 +4252,10 @@
       "path": "verification/0_2_5/0_2_5_j2_qualification_report.md",
       "title": "Rapport de qualification J2 QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001"
+      ],
       "examples": [],
       "tests": [
         "tests/unit/test_nonlinear_multielement.py",
@@ -4187,7 +4267,11 @@
       "path": "verification/0_2_5/0_2_5_g02_owner_review.md",
       "title": "Revue Owner G02 QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001", "REQ-REL-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001",
+        "REQ-REL-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -4196,7 +4280,11 @@
       "path": "verification/0_2_5/0_2_5_g04_owner_review.md",
       "title": "Revue Owner G04 QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001", "REQ-REL-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001",
+        "REQ-REL-001"
+      ],
       "examples": [],
       "tests": [
         "tests/unit/test_nonlinear_multielement.py",
@@ -4208,7 +4296,11 @@
       "path": "verification/0_2_5/0_2_5_g04_external_branch_diagnostic.md",
       "title": "Diagnostic externe de branche G04 QF_solver 0.2.5 alpha",
       "status": "controlled_candidate",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001", "REQ-REL-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001",
+        "REQ-REL-001"
+      ],
       "examples": [],
       "tests": [
         "tests/unit/test_nonlinear_multielement.py",
@@ -4220,7 +4312,11 @@
       "path": "verification/0_2_5/0_2_5_g03_owner_review.md",
       "title": "Revue Owner G03 QF_solver 0.2.5 alpha",
       "status": "approved",
-      "requirements": ["REQ-NL-001", "REQ-EVD-001", "REQ-REL-001"],
+      "requirements": [
+        "REQ-NL-001",
+        "REQ-EVD-001",
+        "REQ-REL-001"
+      ],
       "examples": [],
       "tests": [
         "tests/unit/test_linear_buckling.py",
@@ -4232,7 +4328,11 @@
       "path": "verification/0_2_5/0_2_5_owner_scope_revision.md",
       "title": "Decision Owner de revision du scope QF_solver 0.2.5 alpha",
       "status": "approved",
-      "requirements": ["REQ-AUD-001", "REQ-EVD-001", "REQ-REL-001"],
+      "requirements": [
+        "REQ-AUD-001",
+        "REQ-EVD-001",
+        "REQ-REL-001"
+      ],
       "examples": [],
       "tests": []
     },
@@ -4393,7 +4493,9 @@
       "path": "verification/0_2_7/0_2_7_element_descriptor_preflight.md",
       "title": "0.2.7 element descriptors and compatibility preflight",
       "status": "controlled_candidate",
-      "requirements": ["027-REQ-004"],
+      "requirements": [
+        "027-REQ-004"
+      ],
       "examples": [
         "qualification/0_2_7/wp03_state.json",
         "qualification/0_2_7/capability_registry_v2.json"
@@ -4407,7 +4509,9 @@
       "path": "verification/0_2_7/0_2_7_vnv_harness_v2.md",
       "title": "0.2.7 declarative V&V harness v2",
       "status": "controlled_candidate",
-      "requirements": ["027-REQ-005"],
+      "requirements": [
+        "027-REQ-005"
+      ],
       "examples": [
         "qualification/0_2_7/vnv_v2/sample_cases.json",
         "qualification/0_2_7/vnv_v2/wp04_state.json"
@@ -4421,7 +4525,9 @@
       "path": "verification/0_2_7/0_2_7_wedge6_external_review.md",
       "title": "0.2.7 WEDGE6 external oracle review pack",
       "status": "controlled_candidate",
-      "requirements": ["027-REQ-006"],
+      "requirements": [
+        "027-REQ-006"
+      ],
       "examples": [
         "qualification/0_2_7/external_oracles/wedge6/contract.json",
         "qualification/0_2_7/external_oracles/wedge6/mapping.json",
@@ -4437,7 +4543,9 @@
       "path": "verification/0_2_7/0_2_7_mesh_quality_contract.md",
       "title": "0.2.7 mesh quality contract",
       "status": "controlled_candidate",
-      "requirements": ["027-REQ-007"],
+      "requirements": [
+        "027-REQ-007"
+      ],
       "examples": [
         "qualification/0_2_7/wp06_state.json",
         "qualification/0_2_7/vnv_v2/mesh_quality_cases.json"
@@ -4451,7 +4559,9 @@
       "path": "verification/0_2_7/0_2_7_wedge6_static_vertical_slice.md",
       "title": "0.2.7 WEDGE6 static vertical slice",
       "status": "controlled_candidate",
-      "requirements": ["027-REQ-009"],
+      "requirements": [
+        "027-REQ-009"
+      ],
       "examples": [
         "qualification/0_2_7/wp08_state.json",
         "qualification/0_2_7/vnv_v2/wp08_cases.json",
@@ -4466,7 +4576,9 @@
       "path": "verification/0_2_7/0_2_7_wp11_j2_closure.md",
       "title": "0.2.7 WP11 existing J2 maturity and closure evidence",
       "status": "controlled_candidate",
-      "requirements": ["027-REQ-012"],
+      "requirements": [
+        "027-REQ-012"
+      ],
       "examples": [
         "qualification/0_2_7/wp11_j2_cases.json",
         "qualification/0_2_7/wp11_j2_evidence.json",
@@ -4481,7 +4593,9 @@
       "path": "verification/0_2_7/0_2_7_large_scale_readiness.md",
       "title": "0.2.7 large-scale readiness evidence",
       "status": "controlled_candidate",
-      "requirements": ["027-REQ-013"],
+      "requirements": [
+        "027-REQ-013"
+      ],
       "examples": [
         "qualification/0_2_7/wp12_state.json",
         "qualification/0_2_7/wp12_scaling_evidence.json",
@@ -4496,7 +4610,9 @@
       "path": "verification/0_2_7/0_2_7_wp17r_petsc_remediation.md",
       "title": "0.2.7 WP17-R PETSc environment and 1M solver remediation",
       "status": "controlled_candidate",
-      "requirements": ["027-LU-REQ-017"],
+      "requirements": [
+        "027-LU-REQ-017"
+      ],
       "examples": [
         "qualification/0_2_7/wp17r_state.json",
         "qualification/0_2_7/wp17_runtime/wp17r_summary.json",
@@ -4511,7 +4627,9 @@
       "path": "verification/0_2_7/0_2_7_wedge6_formulation_contract.md",
       "title": "0.2.7 WEDGE6 formulation contract",
       "status": "controlled_candidate",
-      "requirements": ["027-REQ-008"],
+      "requirements": [
+        "027-REQ-008"
+      ],
       "examples": [
         "qualification/0_2_7/wp07_prerequisites.json",
         "qualification/0_2_7/vnv_v2/wp07_cases.json"
@@ -4525,7 +4643,9 @@
       "path": "verification/0_2_7/0_2_7_wedge6_kernel.md",
       "title": "0.2.7 WEDGE6 kernel evidence",
       "status": "controlled_candidate",
-      "requirements": ["027-REQ-008"],
+      "requirements": [
+        "027-REQ-008"
+      ],
       "examples": [
         "qualification/0_2_7/wp07_state.json",
         "qualification/0_2_7/vnv_v2/wp07_evidence.json"
@@ -4539,7 +4659,9 @@
       "path": "verification/0_2_7/0_2_7_wedge6_modal.md",
       "title": "0.2.7 WEDGE6 modal qualification evidence",
       "status": "controlled_candidate",
-      "requirements": ["027-REQ-011"],
+      "requirements": [
+        "027-REQ-011"
+      ],
       "examples": [
         "qualification/0_2_7/wp10_final_state.json",
         "qualification/0_2_7/vnv_v2/wp10_final_evidence.json"
@@ -4553,7 +4675,9 @@
       "path": "verification/0_2_7/0_2_7_wedge6_robustness_external_vnv.md",
       "title": "0.2.7 WEDGE6 robustness and external V&V",
       "status": "controlled_candidate",
-      "requirements": ["027-REQ-010"],
+      "requirements": [
+        "027-REQ-010"
+      ],
       "examples": [
         "qualification/0_2_7/wp09_final_state.json",
         "qualification/0_2_7/vnv_v2/wp09_final_external_evidence.json"
@@ -4568,7 +4692,9 @@
       "path": "verification/0_2_7/0_2_7_wp09_s3_closeout.md",
       "title": "0.2.7 WP09 WEDGE6 static-linear S3 closeout",
       "status": "controlled_candidate",
-      "requirements": ["027-REQ-010"],
+      "requirements": [
+        "027-REQ-010"
+      ],
       "examples": [
         "qualification/0_2_7/wp09_s3_closeout.json",
         "qualification/0_2_7/vnv_v2/wp09_evidence.json",
@@ -4585,7 +4711,9 @@
       "path": "verification/0_2_7/0_2_7_wp13_golden_baseline.md",
       "title": "0.2.7 WP13 golden numerical baseline",
       "status": "controlled_candidate",
-      "requirements": ["027-LU-REQ-013"],
+      "requirements": [
+        "027-LU-REQ-013"
+      ],
       "examples": [
         "qualification/0_2_7/wp13_state.json",
         "qualification/0_2_7/golden/evidence.json"
@@ -4599,7 +4727,9 @@
       "path": "verification/0_2_7/0_2_7_wp14_large_scale_contract.md",
       "title": "0.2.7 WP14 large-scale execution contract",
       "status": "controlled_candidate",
-      "requirements": ["027-LU-REQ-014"],
+      "requirements": [
+        "027-LU-REQ-014"
+      ],
       "examples": [
         "qualification/0_2_7/wp14_execution_contract.json",
         "qualification/0_2_7/wp14_state.json"
@@ -4613,7 +4743,9 @@
       "path": "verification/0_2_7/0_2_7_wp15_matrix_free.md",
       "title": "0.2.7 WP15 matrix-free TET4 V2",
       "status": "controlled_candidate",
-      "requirements": ["027-LU-REQ-015"],
+      "requirements": [
+        "027-LU-REQ-015"
+      ],
       "examples": [
         "qualification/0_2_7/wp15_state.json",
         "qualification/0_2_7/wp15_matrix_free_benchmark.json"
@@ -4627,7 +4759,9 @@
       "path": "verification/0_2_7/0_2_7_wp16_1m_qualification.md",
       "title": "0.2.7 WP16 true 1M DOF qualification",
       "status": "controlled_candidate",
-      "requirements": ["027-LU-REQ-016"],
+      "requirements": [
+        "027-LU-REQ-016"
+      ],
       "examples": [
         "qualification/0_2_7/wp16_state.json",
         "qualification/0_2_7/wp16_runtime/wp16_retry_summary.json"
@@ -4639,7 +4773,9 @@
       "path": "verification/0_2_7/0_2_7_wp17_final.md",
       "title": "0.2.7 WP17 final PETSc/MPI solver path closure",
       "status": "controlled_candidate",
-      "requirements": ["027-LU-REQ-017"],
+      "requirements": [
+        "027-LU-REQ-017"
+      ],
       "examples": [
         "qualification/0_2_7/wp17_final_state.json",
         "qualification/0_2_7/wp17_runtime/wp17r_strict_summary.json"
@@ -4653,7 +4789,9 @@
       "path": "verification/0_2_7/0_2_7_wp17_solver_stack.md",
       "title": "0.2.7 WP17 large solver stack and preconditioning",
       "status": "controlled_candidate",
-      "requirements": ["027-LU-REQ-017"],
+      "requirements": [
+        "027-LU-REQ-017"
+      ],
       "examples": [
         "qualification/0_2_7/wp17_state.json",
         "qualification/0_2_7/wp17_runtime/wp17_probe.json"
@@ -4667,7 +4805,9 @@
       "path": "verification/0_2_7/0_2_7_wp18_3m_ladder.md",
       "title": "0.2.7 WP18 3M DOF ladder",
       "status": "controlled_candidate",
-      "requirements": ["027-LU-REQ-018"],
+      "requirements": [
+        "027-LU-REQ-018"
+      ],
       "examples": [
         "qualification/0_2_7/wp18_state.json",
         "qualification/0_2_7/wp18_runtime/wp18_summary.json",
@@ -4682,7 +4822,9 @@
       "path": "verification/0_2_7/0_2_7_wp19_robustness_hex8.md",
       "title": "0.2.7 WP19 adversarial robustness and HEX8 diagnostic",
       "status": "controlled_candidate",
-      "requirements": ["027-LU-REQ-019"],
+      "requirements": [
+        "027-LU-REQ-019"
+      ],
       "examples": [
         "qualification/0_2_7/wp19_state.json",
         "qualification/0_2_7/wp19_runtime/wp19_robustness_evidence.json"
@@ -4696,7 +4838,9 @@
       "path": "verification/0_2_7/0_2_7_wp20_j2_closeout.md",
       "title": "0.2.7 WP20 residual J2 and external V&V closure",
       "status": "controlled_candidate",
-      "requirements": ["027-LU-REQ-020"],
+      "requirements": [
+        "027-LU-REQ-020"
+      ],
       "examples": [
         "qualification/0_2_7/wp20_state.json",
         "qualification/0_2_7/wp11_j2_evidence.json"
@@ -4710,7 +4854,9 @@
       "path": "verification/0_2_7/0_2_7_wp01_observatory.md",
       "title": "0.2.7 LU2-WP01 evidence and performance observatory",
       "status": "controlled_candidate",
-      "requirements": ["027-LU2-REQ-001"],
+      "requirements": [
+        "027-LU2-REQ-001"
+      ],
       "examples": [
         "qualification/0_2_7/observatory_contract.json",
         "qualification/0_2_7/wp01_observatory_sample.json"
@@ -4725,7 +4871,9 @@
       "path": "verification/0_2_7/0_2_7_wp02_configuration_freeze.md",
       "title": "0.2.7 LU2-WP02 CPU/MPI/PETSc configuration freeze",
       "status": "controlled_candidate",
-      "requirements": ["027-LU2-REQ-002"],
+      "requirements": [
+        "027-LU2-REQ-002"
+      ],
       "examples": [
         "qualification/0_2_7/wp02_execution_contract.json",
         "qualification/0_2_7/wp02_runtime/wp02_evidence_index.json",
@@ -4742,7 +4890,9 @@
       "path": "verification/0_2_7/0_2_7_wp03_3m_gold_compute.md",
       "title": "0.2.7 LU2-WP03 bounded 3M Gold Compute",
       "status": "controlled_candidate",
-      "requirements": ["027-LU2-REQ-003"],
+      "requirements": [
+        "027-LU2-REQ-003"
+      ],
       "examples": [
         "qualification/0_2_7/wp03_execution_contract.json",
         "qualification/0_2_7/lu2_wp03_state.json",
@@ -4760,7 +4910,9 @@
       "path": "verification/0_2_7/0_2_7_wp04_5m_bronze.md",
       "title": "0.2.7 LU2-WP04 5M Bronze forensic evidence",
       "status": "controlled_evidence",
-      "requirements": ["027-LU2-REQ-004"],
+      "requirements": [
+        "027-LU2-REQ-004"
+      ],
       "examples": [
         "qualification/0_2_7/wp04_execution_contract.json",
         "qualification/0_2_7/wp04_runtime/wp04_preflight.json",
@@ -4780,7 +4932,9 @@
       "path": "verification/0_2_7/0_2_7_wp04_forensic_audit.md",
       "title": "0.2.7 LU2-WP04 5M Bronze forensic audit",
       "status": "controlled_evidence",
-      "requirements": ["027-LU2-REQ-004"],
+      "requirements": [
+        "027-LU2-REQ-004"
+      ],
       "examples": [
         "qualification/0_2_7/wp04_runtime/wp04_forensic_audit.json"
       ],
@@ -4794,7 +4948,9 @@
       "path": "verification/0_2_7/0_2_7_lu2_wp08_decisions.md",
       "title": "0.2.7 LU2-WP08 mixed/new-solid/HEX8 scope decisions",
       "status": "controlled_evidence",
-      "requirements": ["027-LU2-REQ-008"],
+      "requirements": [
+        "027-LU2-REQ-008"
+      ],
       "examples": [
         "qualification/0_2_7/lu2_wp08_decision_matrix.json",
         "qualification/0_2_7/lu2_wp08_state.json",
@@ -4810,7 +4966,9 @@
       "path": "verification/0_2_7/0_2_7_wp06_execution_contract.md",
       "title": "0.2.7 LU2-WP06 execution, recovery and diagnostics contract",
       "status": "controlled_evidence",
-      "requirements": ["027-LU2-REQ-006"],
+      "requirements": [
+        "027-LU2-REQ-006"
+      ],
       "examples": [
         "qualification/0_2_7/wp06_execution_contract.json",
         "qualification/0_2_7/lu2_wp06_state.json"
@@ -4826,7 +4984,9 @@
       "path": "verification/0_2_7/0_2_7_lu2_wp07_maturity.md",
       "title": "0.2.7 LU2-WP07 existing route maturity and targeted V&V",
       "status": "controlled_evidence",
-      "requirements": ["027-LU2-REQ-007"],
+      "requirements": [
+        "027-LU2-REQ-007"
+      ],
       "examples": [
         "qualification/0_2_7/lu2_wp07_maturity_matrix.json",
         "qualification/0_2_7/lu2_wp07_state.json",
@@ -4846,7 +5006,9 @@
       "path": "verification/0_2_7/0_2_7_s1_assembly_telemetry.md",
       "title": "0.2.7 S1 5M assembly telemetry setup",
       "status": "controlled_evidence",
-      "requirements": ["027-LU2-REQ-004"],
+      "requirements": [
+        "027-LU2-REQ-004"
+      ],
       "examples": [
         "qualification/0_2_7/wp04_telemetry_contract.json",
         "qualification/0_2_7/s1_telemetry_state.json",
@@ -4861,7 +5023,9 @@
       "path": "verification/0_2_7/0_2_7_s3_expanded_validation.md",
       "title": "0.2.7 S3 expanded validation matrix and release pre-gate",
       "status": "controlled_evidence",
-      "requirements": ["027-LU-REQ-013"],
+      "requirements": [
+        "027-LU-REQ-013"
+      ],
       "examples": [
         "qualification/0_2_7/s3_validation_matrix.json",
         "qualification/0_2_7/golden/evidence.json",
@@ -4877,7 +5041,9 @@
       "path": "verification/0_2_7/0_2_7_f1_architecture_audit.md",
       "title": "0.2.7 F1 architecture audit",
       "status": "controlled_candidate",
-      "requirements": ["027-LU-REQ-021"],
+      "requirements": [
+        "027-LU-REQ-021"
+      ],
       "examples": [
         "qualification/0_2_7/f1_architecture_audit.json",
         "tests/unit/test_f1_architecture_audit.py"
@@ -5037,581 +5203,2771 @@
       "tests": []
     },
     {
-  "id": "DOC-SOLVER-GUIDE-001",
-  "path": "getting-started/when-to-use-qf-solver.md",
-  "title": "When should I use QF Solver?",
-  "status": "controlled",
-  "requirements": [],
-  "examples": [],
-  "tests": []
-},
-{
-  "id": "DOC-SOLVER-COMP-000",
-  "path": "comparisons/index.md",
-  "title": "FEM solver comparisons",
-  "status": "controlled",
-  "requirements": [],
-  "examples": [],
-  "tests": []
-},
-{
-  "id": "DOC-SOLVER-COMP-001",
-  "path": "comparisons/python-fem-solvers.md",
-  "title": "Python FEM solvers: which one should you use?",
-  "status": "controlled",
-  "requirements": [],
-  "examples": [],
-  "tests": []
-},
-{
-  "id": "DOC-SOLVER-COMP-002",
-  "path": "comparisons/qf-vs-sfepy.md",
-  "title": "QF Solver vs SfePy",
-  "status": "controlled",
-  "requirements": [],
-  "examples": [],
-  "tests": []
-},
-{
-  "id": "DOC-SOLVER-COMP-003",
-  "path": "comparisons/qf-vs-scikit-fem.md",
-  "title": "QF Solver vs scikit-fem",
-  "status": "controlled",
-  "requirements": [],
-  "examples": [],
-  "tests": []
-},
-{
-  "id": "DOC-SOLVER-COMP-004",
-  "path": "comparisons/qf-vs-calculix.md",
-  "title": "QF Solver vs CalculiX",
-  "status": "controlled",
-  "requirements": [],
-  "examples": [],
-  "tests": []
-},
-{
-  "id": "DOC-SOLVER-COMP-005",
-  "path": "comparisons/qf-vs-code-aster.md",
-  "title": "QF Solver vs Code_Aster",
-  "status": "controlled",
-  "requirements": [],
-  "examples": [],
-  "tests": []
-},
-{
-  "id": "DOC-SOLVER-BENCH-001",
-  "path": "benchmarks/index.md",
-  "title": "QF Solver benchmarks and reproducibility",
-  "status": "controlled",
-  "requirements": [],
-  "examples": [],
-  "tests": []
-},
-{
-  "id": "DOC-028-001",
-  "path": "verification/0_2_8/README.md",
-  "title": "QF Solver 0.2.8 WP01 maturity baseline",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp01_maturity_matrix.json"
-  ],
-  "tests": [
-    "tests/unit/test_028_wp01_maturity_matrix.py"
+      "id": "DOC-SOLVER-GUIDE-001",
+      "path": "getting-started/when-to-use-qf-solver.md",
+      "title": "When should I use QF Solver?",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-SOLVER-COMP-000",
+      "path": "comparisons/index.md",
+      "title": "FEM solver comparisons",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-SOLVER-COMP-001",
+      "path": "comparisons/python-fem-solvers.md",
+      "title": "Python FEM solvers: which one should you use?",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-SOLVER-COMP-002",
+      "path": "comparisons/qf-vs-sfepy.md",
+      "title": "QF Solver vs SfePy",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-SOLVER-COMP-003",
+      "path": "comparisons/qf-vs-scikit-fem.md",
+      "title": "QF Solver vs scikit-fem",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-SOLVER-COMP-004",
+      "path": "comparisons/qf-vs-calculix.md",
+      "title": "QF Solver vs CalculiX",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-SOLVER-COMP-005",
+      "path": "comparisons/qf-vs-code-aster.md",
+      "title": "QF Solver vs Code_Aster",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-SOLVER-BENCH-001",
+      "path": "benchmarks/index.md",
+      "title": "QF Solver benchmarks and reproducibility",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-028-001",
+      "path": "verification/0_2_8/README.md",
+      "title": "QF Solver 0.2.8 WP01 maturity baseline",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp01_maturity_matrix.json"
+      ],
+      "tests": [
+        "tests/unit/test_028_wp01_maturity_matrix.py"
+      ]
+    },
+    {
+      "id": "DOC-REF-API-003",
+      "path": "reference/qf_solver_api.md",
+      "title": "QF Solver public Python API contract",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "examples/tet4_static.json"
+      ],
+      "tests": [
+        "tests/unit/test_public_api_contract.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP03-001",
+      "path": "verification/0_2_8/wp03_beam2_discrete_vnv.md",
+      "title": "QF Solver 0.2.8 WP03 BEAM2 and DISCRETE V&V",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp03_beam2_discrete_vnv.json",
+        "qualification/0_2_8/wp03_maturity_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_beam2_discrete_vnv.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP03B-001",
+      "path": "verification/0_2_8/wp03b_dynamic_vnv.md",
+      "title": "QF Solver 0.2.8 WP03B BEAM2 and DISCRETE dynamic V&V",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp03b_dynamic_vnv.json",
+        "qualification/0_2_8/wp03b_maturity_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_beam2_discrete_dynamic_vnv.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP03-OWNER-001",
+      "path": "verification/0_2_8/wp03_owner_gate_final.md",
+      "title": "QF Solver 0.2.8 WP03 final Owner gate",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp03_owner_gate_final.json",
+        "qualification/0_2_8/wp03_maturity_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp03_owner_gate_final.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP04-001",
+      "path": "verification/0_2_8/wp04_mitc_vnv.md",
+      "title": "QF Solver 0.2.8 WP04 MITC3 and MITC4 V&V",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp04_mitc_vnv.json",
+        "qualification/0_2_8/wp04_maturity_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_mitc_vnv.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP04-OWNER-001",
+      "path": "verification/0_2_8/wp04_owner_gate_final.md",
+      "title": "QF Solver 0.2.8 WP04 final Owner gate",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp04_owner_gate_final.json",
+        "qualification/0_2_8/wp04_maturity_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp04_owner_gate_final.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP05-001",
+      "path": "verification/0_2_8/wp05_wedge6_vnv.md",
+      "title": "QF Solver 0.2.8 WP05 WEDGE6 static V&V",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp05_wedge6_contract.json",
+        "qualification/0_2_8/wp05_wedge6_vnv.json",
+        "qualification/0_2_8/wp05_maturity_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wedge6_static_campaign.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP05-OWNER-001",
+      "path": "verification/0_2_8/wp05_owner_gate_final.md",
+      "title": "QF Solver 0.2.8 WP05 final Owner gate",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp05_owner_gate_final.json",
+        "qualification/0_2_8/wp05_maturity_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp05_owner_gate_final.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP06-001",
+      "path": "verification/0_2_8/wp06_hex8_buckling_vnv.md",
+      "title": "QF Solver 0.2.8 WP06 HEX8 linear-buckling assessment",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp06_hex8_buckling_contract.json",
+        "qualification/0_2_8/wp06_hex8_buckling_vnv.json",
+        "qualification/0_2_8/wp06_maturity_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_hex8_buckling_vnv.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP06B-001",
+      "path": "verification/0_2_8/wp06b_hex8_buckling_vnv.md",
+      "title": "QF Solver 0.2.8 WP06B HEX8 buckling root-cause remediation",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp06b_hex8_buckling_contract.json",
+        "qualification/0_2_8/wp06b_hex8_buckling_vnv.json",
+        "qualification/0_2_8/wp06b_maturity_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp06b_hex8_buckling.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP07-001",
+      "path": "verification/0_2_8/wp07_mixed_static_vnv.md",
+      "title": "QF Solver 0.2.8 WP07 mixed linear-static V&V",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp07_mixed_static_contract.json",
+        "qualification/0_2_8/wp07_mixed_static_vnv.json",
+        "qualification/0_2_8/wp07_mixed_static_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp07_mixed_static.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP07-OWNER-001",
+      "path": "verification/0_2_8/wp07_owner_gate_final.md",
+      "title": "QF Solver 0.2.8 WP07 final Owner gate",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp07_owner_gate_final.json",
+        "qualification/0_2_8/wp07_mixed_static_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp07_owner_gate_final.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP08-001",
+      "path": "verification/0_2_8/wp08_mixed_modal_vnv.md",
+      "title": "QF Solver 0.2.8 WP08 mixed modal V&V",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp08_mixed_modal_contract.json",
+        "qualification/0_2_8/wp08_mixed_modal_vnv.json",
+        "qualification/0_2_8/wp08_mixed_modal_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp08_mixed_modal.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP08B-001",
+      "path": "verification/0_2_8/wp08b_mixed_modal_vnv.md",
+      "title": "QF Solver 0.2.8 WP08B mixed modal follow-up",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp08b_root_cause_audit.json",
+        "qualification/0_2_8/wp08b_mixed_modal_contract.json",
+        "qualification/0_2_8/wp08b_mixed_modal_vnv.json",
+        "qualification/0_2_8/wp08b_mixed_modal_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp08b_mixed_modal.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP08B-OWNER-001",
+      "path": "verification/0_2_8/wp08b_owner_gate_final.md",
+      "title": "QF Solver 0.2.8 WP08B final Owner gate",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp08b_owner_gate_final.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp08b_owner_gate_final.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP09-001",
+      "path": "verification/0_2_8/wp09_pyramid5_formulation.md",
+      "title": "QF Solver 0.2.8 WP09 PYRAMID5 formulation gate",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp09_pyramid5_contract.json",
+        "qualification/0_2_8/wp09_pyramid5_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp09_pyramid5.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP09-VNV-001",
+      "path": "verification/0_2_8/wp09_pyramid5_vnv.md",
+      "title": "WP09 PYRAMID5 feasibility gate",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp09_pyramid5_contract.json",
+        "qualification/0_2_8/wp09_pyramid5_vnv.json",
+        "qualification/0_2_8/wp09_pyramid5_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp09_pyramid5.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP10-FORMULATION-001",
+      "path": "verification/0_2_8/wp10_hex8_sri_formulation.md",
+      "title": "WP10 HEX8 selective reduced integration formulation",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp10_hex8_sri_contract.json",
+        "qualification/0_2_8/wp10_hex8_sri_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp10_hex8_sri.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP10-VNV-001",
+      "path": "verification/0_2_8/wp10_hex8_sri_vnv.md",
+      "title": "WP10 HEX8 selective reduced integration research gate",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp10_hex8_sri_contract.json",
+        "qualification/0_2_8/wp10_hex8_sri_vnv.json",
+        "qualification/0_2_8/wp10_hex8_sri_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp10_hex8_sri.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP10-OWNER-001",
+      "path": "verification/0_2_8/wp10_hex8_sri_owner_gate_final.md",
+      "title": "WP10 HEX8-SRI Owner gate",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp10_owner_gate_final.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP11-CONTRACT-001",
+      "path": "verification/0_2_8/wp11_mixed_large_contract.md",
+      "title": "WP11 mixed large-scale evidence contract",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp11_mixed_large_contract.json",
+        "qualification/0_2_8/wp11_mixed_large_matrix.json",
+        "qualification/0_2_8/wp11_mixed_large_vnv.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp11_mixed_large.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP11-VNV-001",
+      "path": "verification/0_2_8/wp11_mixed_large_vnv.md",
+      "title": "WP11 mixed large-scale evidence",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp11_mixed_large_vnv.json",
+        "qualification/0_2_8/wp11_mixed_large_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp11_mixed_large.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP11B-CONTRACT-001",
+      "path": "verification/0_2_8/wp11b_hex8_buckling_experimental_contract.md",
+      "title": "WP11B HEX8 buckling experimental-readiness contract",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp11b_hex8_buckling_experimental_contract.json",
+        "qualification/0_2_8/wp11b_hex8_buckling_experimental_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp11b_hex8_buckling_experimental.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP11B-VNV-001",
+      "path": "verification/0_2_8/wp11b_hex8_buckling_experimental_vnv.md",
+      "title": "WP11B HEX8 buckling experimental-readiness campaign",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp11b_hex8_buckling_experimental_vnv.json",
+        "qualification/0_2_8/wp11b_hex8_buckling_experimental_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp11b_hex8_buckling_experimental.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP11B-OWNER-001",
+      "path": "verification/0_2_8/wp11b_hex8_buckling_owner_gate_final.md",
+      "title": "WP11B HEX8 buckling Owner gate",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp11b_hex8_buckling_owner_gate_final.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp11b_owner_gate_final.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP13-02A-READINESS-001",
+      "path": "verification/0_2_8/wp13_02a_dynamic_readiness.md",
+      "title": "QF Solver 0.2.8 WP13-02A mixed dynamics readiness",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp13_02a_readiness.json",
+        "qualification/0_2_8/wp13_02a_newmark_contract.json",
+        "qualification/0_2_8/wp13_02a_harmonic_contract.json"
+      ],
+      "tests": []
+    },
+    {
+      "id": "DOC-028-WP13-02A2-WEDGE6-DYNAMIC-001",
+      "path": "verification/0_2_8/wp13_02a2_wedge6_dynamic_enablement.md",
+      "title": "QF Solver 0.2.8 WP13-02A2 WEDGE6 dynamic enablement",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp13_02a2_wedge6_dynamic_evidence.json",
+        "qualification/0_2_8/wp13_02a_newmark_contract.json",
+        "qualification/0_2_8/wp13_02a_harmonic_contract.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp13_02a2_wedge6_dynamic.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP13-02B-MIXED-NEWMARK-001",
+      "path": "verification/0_2_8/wp13_02b_mixed_newmark.md",
+      "title": "QF Solver 0.2.8 WP13-02B connected mixed Newmark campaign",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp13_02b_mixed_newmark_evidence.json",
+        "qualification/0_2_8/wp13_02a_newmark_contract.json"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp13_02b_mixed_newmark.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP13-02B2-EVIDENCE-CLOSURE-001",
+      "path": "verification/0_2_8/wp13_02b2_evidence_closure.md",
+      "title": "QF Solver 0.2.8 WP13-02B2 Newmark evidence closure",
+      "status": "owner_review_required",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp13_02a_newmark_contract.json",
+        "qualification/0_2_8/wp13_02b2_raw/manifest.json",
+        "qualification/0_2_8/wp13_02b2_raw/wp13_02b2_raw_arrays.npz"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp13_02b2_evidence_closure.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP13-02B5-NEWMARK-V2-001",
+      "path": "verification/0_2_8/wp13_02b5_newmark_v2.md",
+      "title": "QF Solver 0.2.8 WP13-02B5 Newmark V2 campaign",
+      "status": "owner_review_required",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp13_02b4_newmark_v2_contract.json",
+        "qualification/0_2_8/wp13_02b5_v2/manifest.json",
+        "qualification/0_2_8/wp13_02b5_v2/wp13_02b5_arrays.npz"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp13_02b5_newmark_v2.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP13-02B7-NEWMARK-V2-RERUN-001",
+      "path": "verification/0_2_8/wp13_02b7_newmark_v2_rerun.md",
+      "title": "QF Solver 0.2.8 WP13-02B7 Newmark V2 rerun",
+      "status": "owner_review_required",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp13_02b4_newmark_v2_contract.json",
+        "qualification/0_2_8/wp13_02b7_v2/manifest.json",
+        "qualification/0_2_8/wp13_02b7_v2/wp13_02b7_arrays.npz"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp13_02b7_newmark_v2.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP13-02C-MIXED-HARMONIC-001",
+      "path": "verification/0_2_8/wp13_02c_mixed_harmonic.md",
+      "title": "QF Solver 0.2.8 WP13-02C connected mixed harmonic campaign",
+      "status": "owner_review_required",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp13_02c_harmonic_contract.json",
+        "qualification/0_2_8/wp13_02c_harmonic_contract.schema.json",
+        "qualification/0_2_8/wp13_02c_harmonic_v1/manifest.json",
+        "qualification/0_2_8/wp13_02c_harmonic_v1/wp13_02c_harmonic_arrays.npz"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp13_02c_mixed_harmonic.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP13-02C2-HARMONIC-HARNESS-001",
+      "path": "verification/0_2_8/wp13_02c2_harmonic_harness.md",
+      "title": "QF Solver 0.2.8 WP13-02C2 harmonic harness/evidence correction",
+      "status": "owner_review_required",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp13_02c_harmonic_contract.json",
+        "qualification/0_2_8/wp13_02c_harmonic_evidence.schema.json",
+        "qualification/0_2_8/wp13_02c2_harmonic_harness/manifest.json",
+        "qualification/0_2_8/wp13_02c2_harmonic_harness/wp13_02c2_harness_arrays.npz"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp13_02c2_harmonic_harness.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP07-A-READINESS-001",
+      "path": "verification/0_2_9/wp07-frictionless-contact-readiness.md",
+      "title": "QF Solver 0.2.9 WP07-A frictionless contact readiness audit",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp07_frictionless_contact_readiness.json"
+      ],
+      "tests": [
+        "tests/unit/test_frictionless_contact.py",
+        "tests/unit/test_nonlinear_contact_composition.py",
+        "tests/unit/test_contact_finite_sliding.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP07-A-CONTRACT-001",
+      "path": "verification/0_2_9/wp07a-contact-formulation-contract.md",
+      "title": "QF Solver 0.2.9 WP07-A contact formulation contract R1",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp07a_contact_formulation_contract.json"
+      ],
+      "tests": [
+        "tests/unit/test_frictionless_contact.py",
+        "tests/unit/test_nonlinear_contact_composition.py",
+        "tests/unit/test_contact_finite_sliding.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP07-B-CONTACT-EVALUATION-001",
+      "path": "verification/0_2_9/wp07b-contact-evaluation-restart.md",
+      "title": "QF Solver 0.2.9 WP07-B contact evaluation and restart semantics",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp07b_contact_evaluation_restart.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp07b_contact_evaluation_restart.py",
+        "tests/unit/test_frictionless_contact.py",
+        "tests/unit/test_nonlinear_contact_composition.py",
+        "tests/unit/test_contact_finite_sliding.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP07-C-CONTACT-IDENTITIES-001",
+      "path": "verification/0_2_9/wp07c-contact-identities.md",
+      "title": "QF Solver 0.2.9 WP07-C contact identities and open/close V&V",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp07c_contact_identities.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp07c_contact_identities.py",
+        "tests/unit/test_wp07b_contact_evaluation_restart.py",
+        "tests/unit/test_frictionless_contact.py",
+        "tests/unit/test_nonlinear_contact_composition.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP07-D-STRUCTURAL-VNV-001",
+      "path": "verification/0_2_9/wp07d-structural-vnv-contract.md",
+      "title": "QF Solver 0.2.9 WP07-D structural and external V&V contract",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp07d_structural_vnv_contract.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp07d_structural_vnv_contract.py",
+        "tests/unit/test_wp07c_contact_identities.py",
+        "tests/unit/test_frictionless_contact.py",
+        "tests/unit/test_nonlinear_contact_composition.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP07-E-CLOSURE-001",
+      "path": "verification/0_2_9/wp07e-closure-contract.md",
+      "title": "QF Solver 0.2.9 WP07-E refinement replay and Owner closure contract",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp07e_closure_contract.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp07e_closure_contract.py"
+      ]
+    },
+    {
+      "id": "DOC-028-WP13-02C3-HARMONIC-FINAL-001",
+      "path": "verification/0_2_8/wp13_02c3_harmonic_final.md",
+      "title": "QF Solver 0.2.8 WP13-02C3 final mixed harmonic campaign",
+      "status": "owner_review_required",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_8/wp13_02c_harmonic_contract.json",
+        "qualification/0_2_8/wp13_02c3_harmonic_evidence.schema.json",
+        "qualification/0_2_8/wp13_02c3_harmonic_final/manifest.json",
+        "qualification/0_2_8/wp13_02c3_harmonic_final/wp13_02c3_harmonic_arrays.npz"
+      ],
+      "tests": [
+        "tests/verification/test_028_wp13_02c3_harmonic_final.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP04-F-001",
+      "path": "verification/0_2_9/wp04-f-final-closure-audit.md",
+      "title": "QF Solver 0.2.9 WP04-F independent geometric nonlinear closure audit",
+      "status": "owner_review_required",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp04f/wp04_final_closure_audit.json",
+        "qualification/0_2_9/wp04_geometric_qualification_contract.json",
+        "qualification/0_2_9/wp04_gate_matrix.json"
+      ],
+      "tests": [
+        "tests/verification/test_wp04_f_final_closure.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP15-TELEMETRY-ARCHITECTURE-001",
+      "path": "verification/0_2_9/wp15-global-telemetry-architecture.md",
+      "title": "QF Solver 0.2.9 WP15 global telemetry architecture",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp15_telemetry_architecture.json"
+      ],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP15A-GENERIC-TELEMETRY-CORE-001",
+      "path": "verification/0_2_9/wp15a-generic-telemetry-core.md",
+      "title": "QF Solver 0.2.9 WP15-A generic telemetry core",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp15a_generic_telemetry_core.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp15a_generic_telemetry.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP15B-ROUTE-INSTRUMENTATION-PHASE1-001",
+      "path": "verification/0_2_9/wp15b-route-instrumentation-phase1.md",
+      "title": "QF Solver 0.2.9 WP15-B phase 1 console and route instrumentation",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp15b_phase1_route_instrumentation.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp15b_phase1.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP15-INTEGRATION-001",
+      "path": "verification/0_2_9/wp15-integration-into-governing-branch.md",
+      "title": "QF Solver 0.2.9 WP15 governing-branch integration audit",
+      "status": "owner_review_required",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp15/wp15_integration_audit.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp15a_generic_telemetry.py",
+        "tests/unit/test_wp15b_phase1.py",
+        "tests/verification/test_wp04_f_final_closure.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP05-READINESS-001",
+      "path": "verification/0_2_9/wp05-high-order-geometric-readiness.md",
+      "title": "QF Solver 0.2.9 WP05 high-order geometric readiness audit",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp05_readiness.json"
+      ],
+      "tests": [
+        "tests/unit/test_tet10_element.py",
+        "tests/unit/test_hex20_element.py",
+        "tests/unit/test_geometric_nonlinear_public.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP05-AB-IDENTITIES-001",
+      "path": "verification/0_2_9/wp05-ab-high-order-identities.md",
+      "title": "QF Solver 0.2.9 WP05-A/B high-order TL identity V&V",
+      "status": "owner_review_required",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp05_ab_high_order_identities.json"
+      ],
+      "tests": [
+        "tests/verification/test_wp05a_tet10_high_order_identity.py",
+        "tests/verification/test_wp05b_hex20_high_order_identity.py",
+        "tests/unit/test_gmsh_importer.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP05-CD-STRUCTURAL-CONTRACT-001",
+      "path": "verification/0_2_9/wp05-cd-structural-contract.md",
+      "title": "QF Solver 0.2.9 WP05-C/D TET10 and HEX20 structural benchmark contract",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp05_cd_structural_contract.json"
+      ],
+      "tests": [
+        "tests/verification/test_wp05_cd_structural_harness.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP05-INTEGRATION-001",
+      "path": "verification/0_2_9/wp05-integration-into-governing-branch.md",
+      "title": "QF Solver 0.2.9 WP05 governing-branch integration audit",
+      "status": "owner_review_required",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp05/wp05_integration_audit.json"
+      ],
+      "tests": [
+        "tests/verification/test_wp05a_tet10_high_order_identity.py",
+        "tests/verification/test_wp05b_hex20_high_order_identity.py",
+        "tests/verification/test_wp05_cd_structural_harness.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP07-INTEGRATION-001",
+      "path": "verification/0_2_9/wp07-integration-into-governing-branch.md",
+      "title": "QF Solver 0.2.9 WP07 governing-branch integration audit",
+      "status": "owner_review_required",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp07/wp07_integration_audit.json",
+        "qualification/0_2_9/wp07a_contact_formulation_contract.json",
+        "qualification/0_2_9/wp07b_contact_evaluation_restart.json",
+        "qualification/0_2_9/wp07c_contact_identities.json",
+        "qualification/0_2_9/wp07d_structural_vnv_contract.json",
+        "qualification/0_2_9/wp07e_closure_contract.json"
+      ],
+      "tests": [
+        "tests/integration/test_wp07_governing_integration.py",
+        "tests/unit/test_wp07b_contact_evaluation_restart.py",
+        "tests/unit/test_wp07c_contact_identities.py",
+        "tests/unit/test_wp07d_structural_vnv_contract.py",
+        "tests/unit/test_wp07e_closure_contract.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP08A-001",
+      "path": "verification/0_2_9/wp08a-frictional-contact-readiness.md",
+      "title": "QF Solver 0.2.9 WP08-A frictional-contact readiness audit",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp08a_frictional_contact_readiness.json"
+      ],
+      "tests": [
+        "tests/unit/test_frictional_contact.py",
+        "tests/verification/test_frictional_contact_vnv.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP08B-001",
+      "path": "verification/0_2_9/wp08b-frictional-identities-rollback.md",
+      "title": "QF Solver 0.2.9 WP08-B frictional identities and rollback",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp08b_frictional_identities_rollback.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp08b_frictional_identities_rollback.py",
+        "tests/unit/test_frictional_contact.py",
+        "tests/verification/test_frictional_contact_vnv.py",
+        "tests/unit/test_frictionless_contact.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP08C-001",
+      "path": "verification/0_2_9/wp08c-friction-tangent-dissipation.md",
+      "title": "QF Solver 0.2.9 WP08-C friction tangent and dissipation V&V",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp08c_friction_tangent_dissipation.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp08c_friction_tangent_dissipation.py",
+        "tests/unit/test_wp08b_frictional_identities_rollback.py",
+        "tests/unit/test_frictional_contact.py",
+        "tests/verification/test_frictional_contact_vnv.py",
+        "tests/unit/test_frictionless_contact.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP08D-001",
+      "path": "verification/0_2_9/wp08d-structural-reference-contract.md",
+      "title": "QF Solver 0.2.9 WP08-D frictional structural and independent-reference contract",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp08d_structural_reference_contract.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp08d_structural_reference_contract.py",
+        "tests/unit/test_wp08c_friction_tangent_dissipation.py",
+        "tests/unit/test_wp08b_frictional_identities_rollback.py",
+        "tests/unit/test_frictional_contact.py",
+        "tests/verification/test_frictional_contact_vnv.py",
+        "tests/unit/test_frictionless_contact.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP08-CONTROLLED-001",
+      "path": "verification/0_2_9/wp08-controlled-integration-review.md",
+      "title": "QF Solver 0.2.9 WP08 controlled reconstruction and revalidation",
+      "status": "ready_for_owner_review",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp08_controlled_integration/wp08_provenance_report.json",
+        "qualification/0_2_9/wp08_controlled_integration/wp08_controlled_integration_final.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp08b_frictional_identities_rollback.py",
+        "tests/unit/test_wp08c_friction_tangent_dissipation.py",
+        "tests/unit/test_wp08d_structural_reference_contract.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP08-AUTHORIZED-MERGE-001",
+      "path": "verification/0_2_9/wp08-authorized-merge-report.md",
+      "title": "QF Solver 0.2.9 WP08 authorized local merge report",
+      "status": "merged_locally_pending_structural_requalification",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp08_controlled_integration/wp08_authorized_merge_final.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp08b_frictional_identities_rollback.py",
+        "tests/unit/test_wp08c_friction_tangent_dissipation.py",
+        "tests/unit/test_wp08d_structural_reference_contract.py",
+        "tests/unit/test_frictionless_contact.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP08D-PHASE1-001",
+      "path": "verification/0_2_9/wp08d-phase1-runner-freeze.md",
+      "title": "QF Solver 0.2.9 WP08-D Phase-1 execution runner freeze",
+      "status": "preparation_only",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp08d_phase1/wp08d_phase1_artifact_schema.json",
+        "qualification/0_2_9/wp08d_phase1/wp08d_phase1_summary.json",
+        "qualification/0_2_9/wp08d_phase1/wp08d_phase1_runner_freeze.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp08d_phase1_runner.py",
+        "tests/unit/test_wp08d_independent_reference.py",
+        "tests/unit/test_wp08d_phase1_fail_closed.py",
+        "tests/unit/test_wp08d_structural_reference_contract.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP08E-001",
+      "path": "verification/0_2_9/wp08e-closure-report.md",
+      "title": "QF Solver 0.2.9 WP08-E accepted-state closure",
+      "status": "owner_approved_with_limitations",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp08e_closure/wp08e_closure_final.json",
+        "qualification/0_2_9/wp08e_closure/wp08e_closure_integrity_manifest.json",
+        "qualification/0_2_9/wp08_closure/wp08_owner_review_inspection.json"
+      ],
+      "tests": [
+        "tests/unit/test_frictional_contact.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP08-OWNER-002",
+      "path": "verification/0_2_9/wp08-owner-approval.md",
+      "title": "QF Solver 0.2.9 WP08 Owner approval and retained limitations",
+      "status": "owner_approved_with_limitations",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp08_closure/wp08_owner_approval.json",
+        "qualification/0_2_9/wp08_closure/wp08abcd_closure_final.json",
+        "qualification/0_2_9/wp08e_closure/wp08e_closure_final.json"
+      ],
+      "tests": [
+        "tests/unit/test_frictional_contact.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP05-C-REQUALIFICATION-001",
+      "path": "verification/0_2_9/wp05-c-tet10-formal-requalification.md",
+      "title": "QF Solver 0.2.9 WP05-C TET10 formal structural requalification",
+      "status": "owner_approved_with_limitations",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp05c_formal_requalification/TET10/H1/result.json",
+        "qualification/0_2_9/wp05c_formal_requalification/TET10/H2/result.json",
+        "qualification/0_2_9/wp05c_formal_requalification/TET10/H3/result.json",
+        "qualification/0_2_9/wp05c_formal_requalification_replay/TET10/H1/result.json"
+      ],
+      "tests": [
+        "tests/verification/test_wp05e_cross_family.py",
+        "tests/verification/test_wp05cde_integration.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP05-E-CROSS-FAMILY-001",
+      "path": "verification/0_2_9/wp05-e-cross-family-closure.md",
+      "title": "QF Solver 0.2.9 WP05-E TET10/HEX20 cross-family closure",
+      "status": "owner_approved_with_limitations",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp05e/wp05e_cross_family_audit.json",
+        "qualification/0_2_9/wp05cde_integration/wp05_cde_integration_audit.json"
+      ],
+      "tests": [
+        "tests/verification/test_wp05e_cross_family.py",
+        "tests/verification/test_wp05cde_integration.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP05-CDE-OWNER-INTEGRATION-001",
+      "path": "verification/0_2_9/wp05-cde-owner-integration.md",
+      "title": "QF Solver 0.2.9 WP05-C/D/E Owner-approved bounded integration",
+      "status": "owner_approved_with_limitations_local_governing_unpushed",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp05cde_integration/wp05_cde_integration_audit.json",
+        "qualification/0_2_9/owner_decisions.json",
+        "qualification/0_2_9/progress.json"
+      ],
+      "tests": [
+        "tests/verification/test_wp05cde_integration.py",
+        "tests/verification/test_wp05e_cross_family.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP06-001",
+      "path": "verification/0_2_9/wp06-arc-length-postbuckling-readiness.md",
+      "title": "QF Solver 0.2.9 WP06 arc-length and postbuckling readiness",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp06_arc_length_postbuckling_readiness.json"
+      ],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP06A-001",
+      "path": "verification/0_2_9/wp06a-arc-length-formulation-contract.md",
+      "title": "QF Solver 0.2.9 WP06-A arc-length formulation contract",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp06a_arc_length_formulation_contract.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp06_ab_arc_length_contract.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP06B-001",
+      "path": "verification/0_2_9/wp06b-continuation-state-rollback.md",
+      "title": "QF Solver 0.2.9 WP06-B continuation state and rollback contract",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp06b_continuation_state_rollback.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp06_ab_arc_length_contract.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP06C-001",
+      "path": "verification/0_2_9/wp06c-arc-length-predictor-corrector-identities.md",
+      "title": "QF Solver 0.2.9 WP06-C arc-length predictor, corrector and constraint identities",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp06c_arc_length_predictor_corrector_identities.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp06c_arc_length_predictor_corrector_identities.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP06D-001",
+      "path": "verification/0_2_9/wp06d-structural-limit-point-contract.md",
+      "title": "QF Solver 0.2.9 WP06-D structural limit-point qualification contract",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp06d_structural_limit_point_contract.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp06d_structural_limit_point_contract.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP06E-001",
+      "path": "verification/0_2_9/wp06e-postbuckling-imperfection-contract.md",
+      "title": "QF Solver 0.2.9 WP06-E postbuckling and imperfection claim contract",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp06e_postbuckling_imperfection_contract.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp06e_postbuckling_imperfection_contract.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP06F-001",
+      "path": "verification/0_2_9/wp06f-closure-contract.md",
+      "title": "QF Solver 0.2.9 WP06-F closure, replay, reference and provenance contract",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp06f_closure_contract.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp06f_closure_contract.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP06D1-001",
+      "path": "verification/0_2_9/wp06-d1-m2-failure-diagnostic.md",
+      "title": "QF Solver 0.2.9 WP06-D1 M2 failure diagnostic",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp06d1/wp06d1_m2_failure_diagnostic.json"
+      ],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP06D1-REMEDIATION-001",
+      "path": "verification/0_2_9/wp06-premerge-remediation.md",
+      "title": "QF Solver 0.2.9 WP06-D1 pre-merge remediation preparation",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp06_premerge_remediation.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp06_premerge_tools.py",
+        "tests/verification/test_wp04_f_final_closure.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP06-ABC-REVALIDATION-R1",
+      "path": "verification/0_2_9/wp06-abc-current-revalidation.md",
+      "title": "QF Solver 0.2.9 WP06-A/B/C current-source revalidation R1",
+      "status": "ready_for_owner_review",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp06_abc_revalidation_r1.json",
+        "qualification/0_2_9/wp06_abc_revalidation_r1/targeted-tests.xml"
+      ],
+      "tests": [
+        "tests/unit/test_wp06_ab_arc_length_contract.py",
+        "tests/unit/test_wp06c_arc_length_predictor_corrector_identities.py",
+        "tests/unit/test_wp01_d_continuation.py",
+        "tests/unit/test_wp02_d_arc_length_restart.py",
+        "tests/unit/test_wp02_d1_arc_length_material_state.py",
+        "tests/unit/test_wp03_d_arc_radius_policy.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP06D-R2-RUNNER-SAFETY-PREP",
+      "path": "verification/0_2_9/wp06d-r2-runner-safety-preparation.md",
+      "title": "QF Solver 0.2.9 WP06-D R2 runner safety preparation",
+      "status": "phase_0_preparation",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp06d_r2_runner_safety_preparation.json",
+        "qualification/0_2_9/wp06_abc_revalidation_r1/wp06d-guard-targeted-tests-r2.xml",
+        "qualification/0_2_9/wp06_abc_revalidation_r1/wp06d-guard-targeted-tests.xml"
+      ],
+      "tests": [
+        "tests/unit/test_wp06_premerge_tools.py",
+        "tests/unit/test_wp06d_structural_limit_point_contract.py",
+        "tests/unit/test_wp01_d_continuation.py",
+        "tests/unit/test_wp02_d_arc_length_restart.py",
+        "tests/unit/test_wp03_d_arc_radius_policy.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP06-ABC-OWNER-DECISION",
+      "path": "verification/0_2_9/wp06-abc-owner-decision.md",
+      "title": "QF Solver 0.2.9 WP06-A/B/C Owner acceptance and point award",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp06_abc_owner_decision.json"
+      ],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP06D-R2-GUARD-HARDENING",
+      "path": "verification/0_2_9/wp06d-r2-guard-hardening.md",
+      "title": "QF Solver 0.2.9 WP06-D R2 execution-guard hardening audit",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp06d_r2_guard_hardening.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp06_premerge_tools.py",
+        "tests/unit/test_wp06d_structural_limit_point_contract.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP11-M3-PROCESS-ATTESTATION",
+      "path": "verification/0_2_9/wp11-m3-process-attestation.md",
+      "title": "QF Solver 0.2.9 WP11 R2 M3 post-hoc Docker process-event attestation",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp11_m3_process_attestation.json",
+        "qualification/0_2_9/wp11_multifamily_extension_contract.json",
+        "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/TET4/M3/result.json",
+        "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/HEX8/M3/result.json",
+        "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/TET10/M3/result.json",
+        "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/HEX20/M3/result.json"
+      ],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP12-EXTERNAL-VV-R2-OWNER-REVIEW",
+      "path": "verification/0_2_9/wp12-external-vv-r2-owner-review.md",
+      "title": "QF Solver 0.2.9 WP12 Code_Aster R2 external correlation Owner review",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp12_external_vv_r2_contract.json",
+        "qualification/0_2_9/wp12_external_vv_r2_final.json",
+        "qualification/0_2_9/wp12_external_vv_r2_audit.json",
+        "qualification/0_2_9/wp12_external_vv_r2/manifest.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp12_code_aster_multifamily.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP12-EXTERNAL-VV-INDEPENDENT-AUDIT",
+      "path": "verification/0_2_9/wp12-external-vv-independent-audit.md",
+      "title": "QF Solver 0.2.9 WP12 independent plan and raw-evidence audit",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp12_external_vv_independent_audit.json",
+        "qualification/0_2_9/wp12_external_vv_r2_contract.json",
+        "qualification/0_2_9/wp12_external_vv_r2/manifest.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp12_code_aster_multifamily.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP12-EXTERNAL-VV-R3-5-RESULTS",
+      "path": "verification/0_2_9/wp12-expanded-correlation-r3_5-results.md",
+      "title": "QF Solver 0.2.9 WP12 R3.5 expanded Code_Aster correlation results",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp12_external_vv_r3_5_expanded_contract.json",
+        "qualification/0_2_9/wp12_external_vv_r3_5_expanded_audit.json",
+        "qualification/0_2_9/wp12_external_vv_r3_5_expanded_manifest.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp12_expanded_models.py",
+        "tests/unit/test_wp12_expanded_correlation_io.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP12-R4-GALLERY-RESULTS",
+      "path": "verification/0_2_9/wp12-expanded-correlation-r4-gallery-results.md",
+      "title": "QF Solver 0.2.9 WP12 R4 expanded Code_Aster model-gallery correlation",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp12_external_vv_r4_gallery_contract.json",
+        "qualification/0_2_9/wp12_external_vv_r4_gallery_manifest.json",
+        "qualification/0_2_9/wp12_external_vv_r4_gallery_audit.json",
+        "qualification/0_2_9/wp12_external_vv_r4_gallery_summary.json"
+      ],
+      "tests": [
+        "tests/integration/test_wp12_gallery_r4.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP12-OWNER-ACCEPTANCE-R2",
+      "path": "verification/0_2_9/wp12-owner-acceptance-r2.md",
+      "title": "QF Solver 0.2.9 WP12 Owner acceptance of bounded external correlation",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp12_owner_acceptance_r2.json",
+        "qualification/0_2_9/wp12_external_vv_r2_final.json",
+        "qualification/0_2_9/wp12_external_vv_r4_gallery_audit.json"
+      ],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-CONTACT-ACTIVE-SET-REQUAL-001",
+      "path": "verification/0_2_9/contact-active-set-remediation.md",
+      "title": "QF Solver 0.2.9 frictional contact active-set remediation and WP07/WP08 reopening",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/contact_robustness_requalification/contact_active_set_remediation_r1.json",
+        "qualification/0_2_9/contact_robustness_requalification/diagnostic_survey_r1/summary.json",
+        "qualification/0_2_9/contact_robustness_requalification/diagnostic_survey_r1/vnv_manifest.json",
+        "qualification/0_2_9/contact_robustness_requalification/targeted_contact_regression_r1.xml"
+      ],
+      "tests": [
+        "tests/unit/test_frictional_contact_family_survey.py",
+        "tests/unit/test_frictional_contact_structural_limit.py",
+        "tests/unit/test_frictionless_contact.py",
+        "tests/integration/test_wp07_governing_integration.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-001",
+      "path": "verification/0_2_9/wp08-area-supported-contact-r1-13-normalized-merit.md",
+      "title": "WP08 area-supported contact R1.13 normalized active-slip globalization diagnostic contract",
+      "status": "controlled_candidate_contract",
+      "requirements": [],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_wp08_area_supported_r1_13_runner.py",
+        "tests/unit/test_wp08d_mixed_open_active_slip.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-RESULTS",
+      "path": "verification/0_2_9/wp08-area-supported-contact-r1-13-final-report.md",
+      "title": "WP08 R1.13 area-supported contact results accepted experimentally with limitations",
+      "status": "owner_accepted_experimental_with_limitations",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_final_audit.json"
+      ],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-OWNER-DECISION",
+      "path": "verification/0_2_9/wp08-area-supported-contact-r1-13-owner-decision.md",
+      "title": "WP08 R1.13 Owner acceptance as experimental evidence with limitations",
+      "status": "owner_accepted_experimental_with_limitations",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_owner_decision.json",
+        "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_final_audit.json"
+      ],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP07-D-R2.5-OWNER-ACCEPTANCE-001",
+      "path": "verification/0_2_9/wp07d-r2-5-owner-acceptance.md",
+      "title": "QF Solver 0.2.9 WP07-D R2.5 Owner acceptance with limitations",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp07d_contact_requalification_r2/wp07d_r2_5_owner_acceptance.json",
+        "qualification/0_2_9/wp07d_contact_requalification_r2/analysis_final_r2_5.json",
+        "qualification/0_2_9/wp07d_contact_requalification_r2/replay_gate_normalization_r2_5.json",
+        "qualification/0_2_9/wp07d_contact_requalification_r2/replay_authorization_gate_r2_5.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp07d_replay_gate_status_normalization.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP07-R2.5-INTEGRATION-001",
+      "path": "verification/0_2_9/wp07-r2-5-integration-record.md",
+      "title": "QF Solver 0.2.9 WP07 R2.5 authorized governing integration and push record",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp07d_contact_requalification_r2/wp07_r2_5_integration_record.json",
+        "qualification/0_2_9/owner_decisions.json",
+        "qualification/0_2_9/progress.json"
+      ],
+      "tests": [
+        "tests/unit/test_wp07d_replay_gate_status_normalization.py"
+      ]
+    },
+    {
+      "id": "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-INTEGRATION",
+      "path": "verification/0_2_9/wp08-area-contact-r1-13-integration-record.md",
+      "title": "WP08 R1.13 Owner-authorized governing integration and push record",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_integration_record.json",
+        "qualification/0_2_9/owner_decisions.json",
+        "qualification/0_2_9/progress.json"
+      ],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-0A3756894A80B76B",
+      "path": "reference/audit_detail_modes.md",
+      "title": "Niveaux de detail des audits",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-001",
+      "path": "verification/0_2_9/README.md",
+      "title": "QF Solver 0.2.9 Unified Nonlinear Mechanics — master plan",
+      "status": "planning",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-002",
+      "path": "verification/0_2_9/architecture-baseline.md",
+      "title": "0.2.9 nonlinear architecture baseline",
+      "status": "planning",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-004",
+      "path": "verification/0_2_9/gate-matrix.md",
+      "title": "0.2.9 gate matrix",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-005",
+      "path": "verification/0_2_9/known-limitations.md",
+      "title": "Inherited limitations and 0.2.9 boundaries",
+      "status": "planning",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-020",
+      "path": "verification/0_2_9/linear-solver-remediation-master.md",
+      "title": "Linear-solver remediation master record",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-LINEAR-SOLVER-REMEDIATION-R2-001",
+      "path": "verification/0_2_9/linear-solver-remediation-r2.md",
+      "title": "Linear-solver remediation R2",
+      "status": "hold",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-LINEAR-SOLVER-REMEDIATION-R2B-001",
+      "path": "verification/0_2_9/linear-solver-remediation-r2b.md",
+      "title": "Linear-solver remediation R2B",
+      "status": "hold",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-LINEAR-SOLVER-REMEDIATION-001",
+      "path": "verification/0_2_9/linear-solver-remediation.md",
+      "title": "Linear-solver remediation — initial local validation",
+      "status": "hold",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-007",
+      "path": "verification/0_2_9/owner-decisions.md",
+      "title": "0.2.9 Owner decision log",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-006",
+      "path": "verification/0_2_9/progress.md",
+      "title": "0.2.9 progress tracker",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-003",
+      "path": "verification/0_2_9/requirements.md",
+      "title": "0.2.9 nonlinear requirements",
+      "status": "planning",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP01-007",
+      "path": "verification/0_2_9/wp01-b-foundation-evidence.md",
+      "title": "WP01-B Unified Nonlinear Core foundation evidence",
+      "status": "implementation_foundation",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP01-008",
+      "path": "verification/0_2_9/wp01-c-load-control-migration.md",
+      "title": "WP01-C fixed load-control migration evidence",
+      "status": "implementation_migration",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP01-009",
+      "path": "verification/0_2_9/wp01-d-continuation-migration.md",
+      "title": "WP01-D adaptive and arc-length continuation migration",
+      "status": "implementation_migration",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP01-005",
+      "path": "verification/0_2_9/wp01-failure-retry-matrix.md",
+      "title": "WP01 failure and retry contract",
+      "status": "prospective_contract",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP01-006",
+      "path": "verification/0_2_9/wp01-gate-matrix.md",
+      "title": "WP01 prospective acceptance gates",
+      "status": "prospective_contract",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP01-004",
+      "path": "verification/0_2_9/wp01-migration-matrix.md",
+      "title": "WP01 migration matrix",
+      "status": "prospective_contract",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP01-OWNER-CLOSURE-001",
+      "path": "verification/0_2_9/wp01-owner-closure.md",
+      "title": "WP01 Owner closure — Unified Nonlinear Core",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP01-002",
+      "path": "verification/0_2_9/wp01-ownership-model.md",
+      "title": "WP01 ownership model",
+      "status": "prospective_contract",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP01-003",
+      "path": "verification/0_2_9/wp01-state-transaction-contract.md",
+      "title": "WP01 accepted-increment state transaction contract",
+      "status": "prospective_contract",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP01-001",
+      "path": "verification/0_2_9/wp01-unified-nonlinear-core-contract.md",
+      "title": "WP01 prospective Unified Nonlinear Core contract",
+      "status": "prospective_contract",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-011",
+      "path": "verification/0_2_9/wp02-b-schema-v2-foundation.md",
+      "title": "WP02-B — checkpoint schema v2 foundation",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-012",
+      "path": "verification/0_2_9/wp02-c-fixed-adaptive-restart.md",
+      "title": "WP02-C — fixed and adaptive restart migration",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP02-002",
+      "path": "verification/0_2_9/wp02-compatibility-matrix.md",
+      "title": "WP02-A compatibility matrix",
+      "status": "prospective_contract",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-013",
+      "path": "verification/0_2_9/wp02-d-arc-length-restart.md",
+      "title": "WP02-D — arc-length restart migration",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-014",
+      "path": "verification/0_2_9/wp02-d1-material-state-alias.md",
+      "title": "WP02-D1 — arc-length restart material-state ownership",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP02-006",
+      "path": "verification/0_2_9/wp02-e-independent-closure.md",
+      "title": "WP02-E — independent state, rollback and restart closure audit",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP02-003",
+      "path": "verification/0_2_9/wp02-failure-matrix.md",
+      "title": "WP02-A checkpoint failure matrix",
+      "status": "prospective_contract",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP02-004",
+      "path": "verification/0_2_9/wp02-gate-matrix.md",
+      "title": "WP02-A prospective gates",
+      "status": "prospective_contract",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP02-005",
+      "path": "verification/0_2_9/wp02-implementation-plan.md",
+      "title": "WP02 implementation decomposition",
+      "status": "prospective_contract",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP02-001",
+      "path": "verification/0_2_9/wp02-state-checkpoint-contract.md",
+      "title": "WP02-A — prospective state and checkpoint contract",
+      "status": "prospective_contract",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP03-002",
+      "path": "verification/0_2_9/wp03-architecture-map.md",
+      "title": "WP03-A — current robustness architecture map",
+      "status": "planning",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP03-007",
+      "path": "verification/0_2_9/wp03-b-baseline.md",
+      "title": "WP03-B — executed robustness baseline",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP03-008",
+      "path": "verification/0_2_9/wp03-b-robustness-authority.md",
+      "title": "WP03-B — unified stagnation and line-search authority",
+      "status": "implementation_migration",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP03-004",
+      "path": "verification/0_2_9/wp03-baseline-campaign.md",
+      "title": "WP03-A — frozen robustness baseline campaign",
+      "status": "planning",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP03-010",
+      "path": "verification/0_2_9/wp03-c-adaptive-policy.md",
+      "title": "WP03-C — unified adaptive cutback and growth policy",
+      "status": "implementation_migration",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP03-009",
+      "path": "verification/0_2_9/wp03-c-baseline.md",
+      "title": "WP03-C — adaptive policy baseline",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP03-011",
+      "path": "verification/0_2_9/wp03-d-arc-radius-policy.md",
+      "title": "WP03-D — arc-length robustness and radius policy boundary",
+      "status": "implementation_migration",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP03-012",
+      "path": "verification/0_2_9/wp03-e-independent-closure.md",
+      "title": "WP03-E — independent robustness closure audit",
+      "status": "closed",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP03-003",
+      "path": "verification/0_2_9/wp03-failure-retry-matrix.md",
+      "title": "WP03-A — failure and retry matrix",
+      "status": "planning",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP03-005",
+      "path": "verification/0_2_9/wp03-gate-matrix.md",
+      "title": "WP03-A — prospective robustness gate matrix",
+      "status": "planning",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP03-006",
+      "path": "verification/0_2_9/wp03-implementation-plan.md",
+      "title": "WP03 implementation decomposition",
+      "status": "planning",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP03-001",
+      "path": "verification/0_2_9/wp03-robustness-contract.md",
+      "title": "WP03-A — Newton robustness and adaptive-control contract",
+      "status": "planning",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP04-B-001",
+      "path": "verification/0_2_9/wp04-b-mechanics-identities.md",
+      "title": "WP04-B — geometric nonlinear mechanics identities",
+      "status": "executed_targeted_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-5CA77EE225EA161F",
+      "path": "verification/0_2_9/wp04-c-tet4-structural-qualification.md",
+      "title": "WP04-C — TET4 bounded structural qualification",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-037",
+      "path": "verification/0_2_9/wp04-c1-tet4-mesh-diagnosis.md",
+      "title": "WP04-C1 — TET4 mesh-convergence diagnosis",
+      "status": "evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP04-C2-M3-ABORT-001",
+      "path": "verification/0_2_9/wp04-c2-m3-linear-solver-abort.md",
+      "title": "WP04-C2 M3 — owner-aborted linear-solver remediation record",
+      "status": "evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-038",
+      "path": "verification/0_2_9/wp04-c2-tet4-requalification.md",
+      "title": "WP04-C2 — TET4 finer-mesh requalification",
+      "status": "evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-985FA2B071C38525",
+      "path": "verification/0_2_9/wp04-c2r4-near-tolerance-audit.md",
+      "title": "WP04-C2R4 — near-tolerance stagnation and protocol audit",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-021",
+      "path": "verification/0_2_9/wp04-c2r5-residual-precision-audit.md",
+      "title": "WP04-C2R5 — residual precision and near-floor termination forensics",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-0816DAE4F4858096",
+      "path": "verification/0_2_9/wp04-c2r6-floor-aware-termination.md",
+      "title": "WP04-C2R6 recovered M2/M3 frozen-threshold audit",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-BC81DDC1450AA19D",
+      "path": "verification/0_2_9/wp04-d-hex8-structural-qualification.md",
+      "title": "WP04-D — HEX8 structural qualification contract",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-028",
+      "path": "verification/0_2_9/wp04-e-g04-12-cross-family-closure.md",
+      "title": "WP04-E — G04-12 TET4/HEX8 cross-family closure",
+      "status": "controlled_audit",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP04-001",
+      "path": "verification/0_2_9/wp04-geometric-qualification-contract.md",
+      "title": "WP04-A — geometric nonlinear qualification contract and baseline",
+      "status": "prospective_contract",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-841D753B6DC53C82",
+      "path": "verification/0_2_9/wp05-d-stress-window-owner-approval.md",
+      "title": "WP05-D stress-window remediation — Owner decision",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-F69766BD5D937D59",
+      "path": "verification/0_2_9/wp05-d-stress-window-remediation-candidate.md",
+      "title": "WP05-D stress-window remediation candidate",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-AE1A89C93DDFEDD4",
+      "path": "verification/0_2_9/wp05d-formal-requalification-authorization.md",
+      "title": "WP05-D formal requalification authorization",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-2A4F65E59B90199B",
+      "path": "verification/0_2_9/wp05d-owner-validation-review.md",
+      "title": "Dossier de validation Owner — WP05-D HEX20",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-71CB709181648FF7",
+      "path": "verification/0_2_9/wp06d-local-axial-diagnostic-requalification.md",
+      "title": "WP06-D local-axial diagnostic requalification",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-5DF18261CAF54F5F",
+      "path": "verification/0_2_9/wp06d-owner-bounded-experimental-decision.md",
+      "title": "WP06-D Owner decision — bounded experimental scope",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-24C49307D75060C1",
+      "path": "verification/0_2_9/wp07-d-contact-event-line-search-remediation-r2-3.md",
+      "title": "WP07-D contact-event line-search remediation R2.3",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-C10DF8F54099268A",
+      "path": "verification/0_2_9/wp07-d-surface-lumped-penalty-remediation.md",
+      "title": "WP07-D — correction de l’intégration pénalité `surface_lumped`",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-B27BF993026C81A9",
+      "path": "verification/0_2_9/wp07e-closure-owner-report-r2-verified.md",
+      "title": "WP07-E closure — Owner review R2",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-49274751FBBD0FE5",
+      "path": "verification/0_2_9/wp07e-closure-owner-report-r2.md",
+      "title": "WP07-E closure — Owner review R2",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-1647A2D3F9DADA4C",
+      "path": "verification/0_2_9/wp07e-closure-owner-review-r2-final.md",
+      "title": "WP07-E closure — Owner review R2",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-90902BA17DE20A2A",
+      "path": "verification/0_2_9/wp07e-owner-acceptance-r2.md",
+      "title": "WP07-E Owner acceptance — R2",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-A507B913973677AE",
+      "path": "verification/0_2_9/wp08-area-contact-r1-10-remediation-candidate.md",
+      "title": "WP08 area-supported contact — R1.10 remediation candidate",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-0899492B7E98D924",
+      "path": "verification/0_2_9/wp08-area-supported-contact-m4-slip-forensic-r2.md",
+      "title": "WP08 area-supported contact — M4 slip forensic R2",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-084594134C202CF3",
+      "path": "verification/0_2_9/wp08-area-supported-contact-m4-slip-r1-12-results.md",
+      "title": "WP08 area-supported contact — R1.12 M4 slip results",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-0BD95541C33A4D92",
+      "path": "verification/0_2_9/wp08-area-supported-contact-m4-slip-r1-12.md",
+      "title": "WP08 area-supported contact — R1.12 M4 slip diagnostic",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-252DCAD9FF732B00",
+      "path": "verification/0_2_9/wp08-area-supported-contact-r1-10-m4-results.md",
+      "title": "WP08 area-supported contact R1.10 — M4 diagnostic results",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-8A99184B4663EB77",
+      "path": "verification/0_2_9/wp08-area-supported-contact-r1-10-m4.md",
+      "title": "WP08 area-supported contact — prospective R1.10 M4 diagnostic",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-31F917B19AC131C8",
+      "path": "verification/0_2_9/wp08-area-supported-contact-r1-10-results.md",
+      "title": "WP08 area-supported contact — R1.10 diagnostic results",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-625169A6DE54F958",
+      "path": "verification/0_2_9/wp08-area-supported-contact-r1-11-optimizer.md",
+      "title": "WP08 area-supported contact — R1.11 optimizer-stop candidate",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-16532487F5DF938E",
+      "path": "verification/0_2_9/wp08-area-supported-contact-requalification-r1-10.md",
+      "title": "WP08 area-supported contact — prospective R1.10 diagnostic",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-27618503595CF3BB",
+      "path": "verification/0_2_9/wp08-area-supported-contact-requalification-r1-7.md",
+      "title": "WP08 area-supported contact — prospective R1.7 diagnostic",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-050C5A69D3C2E886",
+      "path": "verification/0_2_9/wp08-area-supported-contact-requalification-r1-8.md",
+      "title": "WP08 area-supported contact — prospective R1.8 diagnostic",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-569AB6F273F0224A",
+      "path": "verification/0_2_9/wp08-area-supported-contact-requalification-r1-9.md",
+      "title": "WP08 area-supported contact — prospective R1.9 diagnostic",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-68AD7558750BA90A",
+      "path": "verification/0_2_9/wp08-area-supported-contact-state-fix-r1-2.md",
+      "title": "WP08 area-supported contact: R1.2 zero-pressure state correction",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP08-OWNER-REVIEW-001",
+      "path": "verification/0_2_9/wp08-owner-review-decision.md",
+      "title": "WP08 — final Owner review decision",
+      "status": "owner_decision_required",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-A7FEB474A84087B0",
+      "path": "verification/0_2_9/wp08d-active-set-remediation-m1-m2-report.md",
+      "title": "WP08-D active-set remediation — corrected M1/M2 report",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-0117EF65BE21AD0F",
+      "path": "verification/0_2_9/wp08d-contact-r2-1-requalification-report.md",
+      "title": "WP08-D contact requalification R2.1 — execution report",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-5C7BD80F008612C5",
+      "path": "verification/0_2_9/wp08d-contract-aligned-m2-fail-closed.md",
+      "title": "WP08-D M2 contract-aligned requalification",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-E2C1B7F4855D021A",
+      "path": "verification/0_2_9/wp08d-hybrid-stick-slip-m1-m2-report.md",
+      "title": "WP08-D hybrid stick/slip M2 requalification",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-16F606178B11BC03",
+      "path": "verification/0_2_9/wp08d-m1-phase1-report.md",
+      "title": "WP08-D Phase-1 M1 execution report",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-C579FC0777A82C7D",
+      "path": "verification/0_2_9/wp08d-m2-active-set-remediation.md",
+      "title": "WP08-D M2 active-set remediation",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-5A8456CF3B8FA7D0",
+      "path": "verification/0_2_9/wp08d-m2-forensic-review.md",
+      "title": "WP08-D M2 fail-closed forensic review",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-F392917BD6D711EC",
+      "path": "verification/0_2_9/wp08d-m2-independent-reference-replay-report.md",
+      "title": "WP08-D M2 — independent hybrid reference and replay",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-AEE6E03534FFFB22",
+      "path": "verification/0_2_9/wp08d-m2-phase1-fail-closed.md",
+      "title": "WP08-D M2 Phase-1 — fail-closed evidence",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-980897CA585C2FCC",
+      "path": "verification/0_2_9/wp08d-m2-reference-remediation-provenance.md",
+      "title": "WP08-D M2 independent-reference remediation — provenance closure",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-1999831A9AC75340",
+      "path": "verification/0_2_9/wp08d-m2-reference-replay-m3-report.md",
+      "title": "WP08-D M2 reference/replay and conditional M3 report",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-CC87385CE4F50A1D",
+      "path": "verification/0_2_9/wp08d-m2-requalification-report.md",
+      "title": "WP08-D M2 requalification after stick-predictor remediation",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-4B75C063F950A9F5",
+      "path": "verification/0_2_9/wp08d-m2-step2-local-source-reconstruction.md",
+      "title": "WP08-D M2 step-2 local-source reconstruction",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-0BDD67818CF4292B",
+      "path": "verification/0_2_9/wp08d-m2-step3-mode-remediation.md",
+      "title": "WP08-D M2 step-3 mode forensic and remediation",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-0B606A780DE5253F",
+      "path": "verification/0_2_9/wp08d-m2-step3-stick-slip-mode-forensic.md",
+      "title": "WP08-D M2 step-3 stick/slip mode forensic",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-96142C24DC5A3289",
+      "path": "verification/0_2_9/wp08d-m2-step5-hybrid-mode-forensic.md",
+      "title": "WP08-D M2 step-5 hybrid stick/slip forensic",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-85029457D1452687",
+      "path": "verification/0_2_9/wp08d-m3-production-reference-replay-report.md",
+      "title": "WP08-D M3 — production, independent reference, and replay",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-8D5033ECD86DA69B",
+      "path": "verification/0_2_9/wp08d-mixed-open-active-slip-m1-m2-report.md",
+      "title": "WP08-D mixed open / active-slip M1–M2 requalification",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-6F5A98672AC6A69C",
+      "path": "verification/0_2_9/wp08d-mixed-open-active-slip-remediation.md",
+      "title": "WP08-D mixed open / active-slip remediation",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-2DA5CCB146368151",
+      "path": "verification/0_2_9/wp09-corotational-bounded-contract.md",
+      "title": "WP09 — bounded corotational small-strain J2 candidate",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-FB1F1B3B52FC140B",
+      "path": "verification/0_2_9/wp09-corotational-implementation-report.md",
+      "title": "WP09 corotational J2 implementation report",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-3DEB44BCAAFE0129",
+      "path": "verification/0_2_9/wp09-hex20-extension-study.md",
+      "title": "WP09 — étude d’extension HEX20",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-1E238FCF6978D4CB",
+      "path": "verification/0_2_9/wp09-hex20-r2-consistent-traction-audit.md",
+      "title": "WP09 HEX20 R2 — audit de la requalification par traction cohérente",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-00EBB9D0E14AE3B2",
+      "path": "verification/0_2_9/wp09-hex20-tet10-owner-acceptance.md",
+      "title": "WP09 — Owner acceptance HEX20 and TET10 extensions",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-511245EB5F3743E0",
+      "path": "verification/0_2_9/wp09-hex8-accuracy-remediation-r1.md",
+      "title": "WP09 HEX8 refinement and equilibrium-accuracy remediation",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-57DB2C964F7D3C50",
+      "path": "verification/0_2_9/wp09-hex8-extended-convergence-analysis.md",
+      "title": "WP09 HEX8 extended convergence analysis",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-CE7D2FE0891A2C90",
+      "path": "verification/0_2_9/wp09-hex8-formal-r2-reference-replay.md",
+      "title": "WP09 HEX8 formal R2 — reference and replay review",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-50200745863F5245",
+      "path": "verification/0_2_9/wp09-hex8-formal-r3-review.md",
+      "title": "WP09 HEX8 R3 — revue de requalification prospective",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-0569E34CB1DBB4DC",
+      "path": "verification/0_2_9/wp09-hex8-only-formal-requalification-r1.md",
+      "title": "WP09 HEX8-only formal requalification — R1",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-AB4CBA26CEBFE90F",
+      "path": "verification/0_2_9/wp09-hex8-refinement-r1-analysis.md",
+      "title": "WP09 HEX8 refinement study — diagnostic analysis",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP09-OWNER-R3",
+      "path": "verification/0_2_9/wp09-owner-acceptance-r3.md",
+      "title": "WP09 Owner acceptance — HEX8 R3",
+      "status": "owner_approved",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-EFFC2A7394CA4C38",
+      "path": "verification/0_2_9/wp09-remesh-study-r3-analysis.md",
+      "title": "WP09 isotropic 3-D remesh study — diagnostic analysis",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-5238EF27241177D0",
+      "path": "verification/0_2_9/wp09-tet10-r2-consistent-traction-audit.md",
+      "title": "WP09 TET10 R2 — audit de l’extension par traction cohérente",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-4288ACDB3E36D55C",
+      "path": "verification/0_2_9/wp09-tet4-consistent-traction-diagnostic-r2.md",
+      "title": "WP09 TET4 — consistent-traction diagnostic R2",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP10-EXT-PREPARATION",
+      "path": "verification/0_2_9/wp10-extension-preparation.md",
+      "title": "WP10-EXT — extension par famille d’éléments",
+      "status": "preparation_only",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-84DACCAB9350CCDA",
+      "path": "verification/0_2_9/wp10-hex20-extension-r2-review.md",
+      "title": "WP10 HEX20 extension R2 — review package",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-0A15DD421B430DAB",
+      "path": "verification/0_2_9/wp10-owner-acceptance.md",
+      "title": "WP10 — Owner administrative acceptance",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-2852C149BF6FC971",
+      "path": "verification/0_2_9/wp10-owner-review-final.md",
+      "title": "WP10 — Owner review final preparation",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP10-OWNER-REVIEW-R1",
+      "path": "verification/0_2_9/wp10-owner-review-r1.md",
+      "title": "WP10 Owner review R1 — provenance-corrected bounded coupled mechanics",
+      "status": "ready_for_owner_review",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP10-OWNER-REVIEW",
+      "path": "verification/0_2_9/wp10-owner-review.md",
+      "title": "WP10 Owner review — bounded HEX8 coupled mechanics",
+      "status": "ready_for_owner_review",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP10-PREP",
+      "path": "verification/0_2_9/wp10-preparation.md",
+      "title": "WP10 preparation — coupled nonlinear mechanics",
+      "status": "frozen_execution",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-C2C4A5AD9488165D",
+      "path": "verification/0_2_9/wp10-tet10-surface-r1-evidence-remediation-report.md",
+      "title": "WP10 TET10 surface R1 — evidence remediation and M1 requalification",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-C93FC0719705100E",
+      "path": "verification/0_2_9/wp10-tet10-surface-r1-m1-reexecution-report.md",
+      "title": "WP10 TET10 surface-traction R1 — final M1 reexecution",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-D377113CFC298F75",
+      "path": "verification/0_2_9/wp10-tet10-surface-r1-m1-report.md",
+      "title": "WP10 TET10 surface-traction R1 — M1 report",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-37C102C703B977DB",
+      "path": "verification/0_2_9/wp10-tet10-surface-r2-final-report.md",
+      "title": "WP10 TET10 surface R2 — M1/M2/M3 final report",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-A706FB3581A86713",
+      "path": "verification/0_2_9/wp10-tet4-extension-r2-review.md",
+      "title": "WP10-TET4 extension R2 — provenance remediation review",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-5D8B5816F742DECF",
+      "path": "verification/0_2_9/wp10-tet4-extension-review.md",
+      "title": "WP10 TET4 extension — execution review",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP11-CURRENT-LINEAGE-AUDIT",
+      "path": "verification/0_2_9/wp11-current-lineage-audit.md",
+      "title": "WP11 — current lineage audit",
+      "status": "ready_for_owner_review",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-DB55E8E7D3C1BC27",
+      "path": "verification/0_2_9/wp11-multifamily-extension-plan.md",
+      "title": "WP11 bounded multi-family extension plan",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-3A4628CC08DB22E7",
+      "path": "verification/0_2_9/wp11-multifamily-owner-review.md",
+      "title": "WP11 multi-family Owner review",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-EB7369A54A5A08BB",
+      "path": "verification/0_2_9/wp11-multifamily-provenance-owner-review.md",
+      "title": "WP11 multi-family Owner review",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-1A33554EB3863A61",
+      "path": "verification/0_2_9/wp11-owner-acceptance-r2.md",
+      "title": "WP11 Owner acceptance — R2 multi-family bounded scope",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP11-OWNER-REVIEW",
+      "path": "verification/0_2_9/wp11-owner-review.md",
+      "title": "WP11 — revue Owner PETSc/MPI",
+      "status": "ready_for_owner_review",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP11-PREPARATION",
+      "path": "verification/0_2_9/wp11-preparation.md",
+      "title": "WP11 — plan de qualification PETSc/MPI",
+      "status": "preparation_only",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-4BE65E2C6E989246",
+      "path": "verification/0_2_9/wp12-expanded-correlation-r3-plan.md",
+      "title": "WP12 R3 — Expanded external-correlation campaign",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-05395B5A8EADF9AE",
+      "path": "verification/0_2_9/wp12-expanded-correlation-r3_3-interruption.md",
+      "title": "WP12 R3.3 expanded correlation — interrupted fail-closed attempt",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-1AFCF058B1D7FEC3",
+      "path": "verification/0_2_9/wp12-expanded-correlation-r3_4-interruption.md",
+      "title": "WP12 R3.4 expanded correlation — fail-fast execution record",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-35816E2D9C210F30",
+      "path": "verification/0_2_9/wp12-expanded-correlation-r3_5-smoke-attempt-1.md",
+      "title": "WP12 R3.5 pre-freeze smoke — harness failure preserved",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-003E7D78D9FABED1",
+      "path": "verification/0_2_9/wp12-expanded-correlation-r3_5-smoke-attempt-2.md",
+      "title": "WP12 R3.5 pre-freeze smoke — harness attempt 2 preserved",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-6A51864D0C7EE8A9",
+      "path": "verification/0_2_9/wp12-expanded-correlation-r3_6-r1-failure.md",
+      "title": "WP12 R3.6-R1 — fail-closed execution record",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-D84878542E3CC229",
+      "path": "verification/0_2_9/wp12-expanded-correlation-r3_6-r2-preflight.md",
+      "title": "WP12 R3.6-R2 — preflight blocked before execution",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-4C00F9306A0AFF20",
+      "path": "verification/0_2_9/wp12-expanded-correlation-r3_6-r3-results.md",
+      "title": "WP12 R3.6-R3 — diverse-topology Code_Aster correlation",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-67D204C7CAC0D8C4",
+      "path": "verification/0_2_9/wp12-external-vv-plan.md",
+      "title": "WP12 external V&V — prospective plan",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-C25DF46D7623326B",
+      "path": "verification/0_2_9/wp12-r3-6-diverse-topology-preparation.md",
+      "title": "WP12 R3.6 — préparation de corrélations sur topologies diverses",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP13-EXEC-001",
+      "path": "verification/0_2_9/wp13-execution-contract.md",
+      "title": "WP13 execution contract — bounded performance, API and diagnostics",
+      "status": "frozen_execution_protocol",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP13-RESULT-001",
+      "path": "verification/0_2_9/wp13-performance-api-diagnostics-report.md",
+      "title": "WP13 — performance, API et diagnostics",
+      "status": "candidate_for_owner_review",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-2D87085E985EB38F",
+      "path": "verification/0_2_9/wp13-r2-1-multifamily-performance-contract.md",
+      "title": "WP13 R2.1 — contrat d’exécution multi-familles",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-1B0A8BB56026916B",
+      "path": "verification/0_2_9/wp13-r2-multifamily-performance-contract.md",
+      "title": "WP13 R2 — extension de caractérisation J2 à quatre familles",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-00E701DD8A361435",
+      "path": "verification/0_2_9/wp13-r2-multifamily-performance-report.md",
+      "title": "WP13 R2.1 — caractérisation J2 TET4/TET10/HEX8/HEX20",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP13-WP14-LEDGER-ADDENDUM-001",
+      "path": "verification/0_2_9/wp13-wp14-ledger-reconciliation-addendum.md",
+      "title": "WP13/WP14 ledger reconciliation addendum",
+      "status": "audit_addendum",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP13-WP14-PREFLIGHT-001",
+      "path": "verification/0_2_9/wp13-wp14-overnight-preflight.md",
+      "title": "WP13/WP14 overnight preflight — HOLD",
+      "status": "preflight_hold",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-MARKDOWN-68F5908CA26955A2",
+      "path": "verification/0_2_9/wp14-g3-g4-g5-corrections-recheck-20260928.md",
+      "title": "WP14 — addendum de recontrôle G03/G04/G05",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
+      "id": "DOC-029-WP16-EXTERNAL-ARCHIVE-001",
+      "path": "verification/0_2_9/wp16-external-evidence-archive.md",
+      "title": "0.2.9 WP16 — off-Git evidence archive, first verified tranche",
+      "status": "controlled_evidence",
+      "requirements": [],
+      "examples": [
+        "qualification/0_2_9/wp16_external_archive/drive_catalog_2026_09_29.json",
+        "qualification/0_2_9/wp16_external_archive/wp04d_digest_equivalent_reproductions_2026_09_29.json",
+        "qualification/0_2_9/wp16_external_archive/owner_bounded_acceptance_2026_09_29.json"
+      ],
+      "tests": [
+        "scripts/wp16_external_archive.py",
+        "tests/unit/test_wp16_external_archive.py"
+      ]
+    }
   ]
-},
-{
-  "id": "DOC-REF-API-003",
-  "path": "reference/qf_solver_api.md",
-  "title": "QF Solver public Python API contract",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "examples/tet4_static.json"
-  ],
-  "tests": [
-    "tests/unit/test_public_api_contract.py"
-  ]
-},
-{
-  "id": "DOC-028-WP03-001",
-  "path": "verification/0_2_8/wp03_beam2_discrete_vnv.md",
-  "title": "QF Solver 0.2.8 WP03 BEAM2 and DISCRETE V&V",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp03_beam2_discrete_vnv.json",
-    "qualification/0_2_8/wp03_maturity_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_beam2_discrete_vnv.py"
-  ]
-},
-{
-  "id": "DOC-028-WP03B-001",
-  "path": "verification/0_2_8/wp03b_dynamic_vnv.md",
-  "title": "QF Solver 0.2.8 WP03B BEAM2 and DISCRETE dynamic V&V",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp03b_dynamic_vnv.json",
-    "qualification/0_2_8/wp03b_maturity_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_beam2_discrete_dynamic_vnv.py"
-  ]
-},
-{
-  "id": "DOC-028-WP03-OWNER-001",
-  "path": "verification/0_2_8/wp03_owner_gate_final.md",
-  "title": "QF Solver 0.2.8 WP03 final Owner gate",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp03_owner_gate_final.json",
-    "qualification/0_2_8/wp03_maturity_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp03_owner_gate_final.py"
-  ]
-},
-{
-  "id": "DOC-028-WP04-001",
-  "path": "verification/0_2_8/wp04_mitc_vnv.md",
-  "title": "QF Solver 0.2.8 WP04 MITC3 and MITC4 V&V",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp04_mitc_vnv.json",
-    "qualification/0_2_8/wp04_maturity_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_mitc_vnv.py"
-  ]
-},
-{
-  "id": "DOC-028-WP04-OWNER-001",
-  "path": "verification/0_2_8/wp04_owner_gate_final.md",
-  "title": "QF Solver 0.2.8 WP04 final Owner gate",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp04_owner_gate_final.json",
-    "qualification/0_2_8/wp04_maturity_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp04_owner_gate_final.py"
-  ]
-},
-{
-  "id": "DOC-028-WP05-001",
-  "path": "verification/0_2_8/wp05_wedge6_vnv.md",
-  "title": "QF Solver 0.2.8 WP05 WEDGE6 static V&V",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp05_wedge6_contract.json",
-    "qualification/0_2_8/wp05_wedge6_vnv.json",
-    "qualification/0_2_8/wp05_maturity_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wedge6_static_campaign.py"
-  ]
-},
-{
-  "id": "DOC-028-WP05-OWNER-001",
-  "path": "verification/0_2_8/wp05_owner_gate_final.md",
-  "title": "QF Solver 0.2.8 WP05 final Owner gate",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp05_owner_gate_final.json",
-    "qualification/0_2_8/wp05_maturity_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp05_owner_gate_final.py"
-  ]
-},
-{
-  "id": "DOC-028-WP06-001",
-  "path": "verification/0_2_8/wp06_hex8_buckling_vnv.md",
-  "title": "QF Solver 0.2.8 WP06 HEX8 linear-buckling assessment",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp06_hex8_buckling_contract.json",
-    "qualification/0_2_8/wp06_hex8_buckling_vnv.json",
-    "qualification/0_2_8/wp06_maturity_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_hex8_buckling_vnv.py"
-  ]
-},
-{
-  "id": "DOC-028-WP06B-001",
-  "path": "verification/0_2_8/wp06b_hex8_buckling_vnv.md",
-  "title": "QF Solver 0.2.8 WP06B HEX8 buckling root-cause remediation",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp06b_hex8_buckling_contract.json",
-    "qualification/0_2_8/wp06b_hex8_buckling_vnv.json",
-    "qualification/0_2_8/wp06b_maturity_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp06b_hex8_buckling.py"
-  ]
-},
-{
-  "id": "DOC-028-WP07-001",
-  "path": "verification/0_2_8/wp07_mixed_static_vnv.md",
-  "title": "QF Solver 0.2.8 WP07 mixed linear-static V&V",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp07_mixed_static_contract.json",
-    "qualification/0_2_8/wp07_mixed_static_vnv.json",
-    "qualification/0_2_8/wp07_mixed_static_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp07_mixed_static.py"
-  ]
-},
-{
-  "id": "DOC-028-WP07-OWNER-001",
-  "path": "verification/0_2_8/wp07_owner_gate_final.md",
-  "title": "QF Solver 0.2.8 WP07 final Owner gate",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp07_owner_gate_final.json",
-    "qualification/0_2_8/wp07_mixed_static_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp07_owner_gate_final.py"
-  ]
-},
-{
-  "id": "DOC-028-WP08-001",
-  "path": "verification/0_2_8/wp08_mixed_modal_vnv.md",
-  "title": "QF Solver 0.2.8 WP08 mixed modal V&V",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp08_mixed_modal_contract.json",
-    "qualification/0_2_8/wp08_mixed_modal_vnv.json",
-    "qualification/0_2_8/wp08_mixed_modal_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp08_mixed_modal.py"
-  ]
-},
-{
-  "id": "DOC-028-WP08B-001",
-  "path": "verification/0_2_8/wp08b_mixed_modal_vnv.md",
-  "title": "QF Solver 0.2.8 WP08B mixed modal follow-up",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp08b_root_cause_audit.json",
-    "qualification/0_2_8/wp08b_mixed_modal_contract.json",
-    "qualification/0_2_8/wp08b_mixed_modal_vnv.json",
-    "qualification/0_2_8/wp08b_mixed_modal_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp08b_mixed_modal.py"
-  ]
-},
-{
-  "id": "DOC-028-WP08B-OWNER-001",
-  "path": "verification/0_2_8/wp08b_owner_gate_final.md",
-  "title": "QF Solver 0.2.8 WP08B final Owner gate",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp08b_owner_gate_final.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp08b_owner_gate_final.py"
-  ]
-},
-{
-  "id": "DOC-028-WP09-001",
-  "path": "verification/0_2_8/wp09_pyramid5_formulation.md",
-  "title": "QF Solver 0.2.8 WP09 PYRAMID5 formulation gate",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp09_pyramid5_contract.json",
-    "qualification/0_2_8/wp09_pyramid5_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp09_pyramid5.py"
-  ]
-},
-{
-  "id": "DOC-028-WP09-VNV-001",
-  "path": "verification/0_2_8/wp09_pyramid5_vnv.md",
-  "title": "WP09 PYRAMID5 feasibility gate",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp09_pyramid5_contract.json",
-    "qualification/0_2_8/wp09_pyramid5_vnv.json",
-    "qualification/0_2_8/wp09_pyramid5_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp09_pyramid5.py"
-  ]
-},
-{
-  "id": "DOC-028-WP10-FORMULATION-001",
-  "path": "verification/0_2_8/wp10_hex8_sri_formulation.md",
-  "title": "WP10 HEX8 selective reduced integration formulation",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp10_hex8_sri_contract.json",
-    "qualification/0_2_8/wp10_hex8_sri_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp10_hex8_sri.py"
-  ]
-},
-{
-  "id": "DOC-028-WP10-VNV-001",
-  "path": "verification/0_2_8/wp10_hex8_sri_vnv.md",
-  "title": "WP10 HEX8 selective reduced integration research gate",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp10_hex8_sri_contract.json",
-    "qualification/0_2_8/wp10_hex8_sri_vnv.json",
-    "qualification/0_2_8/wp10_hex8_sri_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp10_hex8_sri.py"
-  ]
-},
-{
-  "id": "DOC-028-WP10-OWNER-001",
-  "path": "verification/0_2_8/wp10_hex8_sri_owner_gate_final.md",
-  "title": "WP10 HEX8-SRI Owner gate",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp10_owner_gate_final.py"
-  ]
-},
-{
-  "id": "DOC-028-WP11-CONTRACT-001",
-  "path": "verification/0_2_8/wp11_mixed_large_contract.md",
-  "title": "WP11 mixed large-scale evidence contract",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp11_mixed_large_contract.json",
-    "qualification/0_2_8/wp11_mixed_large_matrix.json",
-    "qualification/0_2_8/wp11_mixed_large_vnv.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp11_mixed_large.py"
-  ]
-},
-{
-  "id": "DOC-028-WP11-VNV-001",
-  "path": "verification/0_2_8/wp11_mixed_large_vnv.md",
-  "title": "WP11 mixed large-scale evidence",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp11_mixed_large_vnv.json",
-    "qualification/0_2_8/wp11_mixed_large_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp11_mixed_large.py"
-  ]
-},
-{
-  "id": "DOC-028-WP11B-CONTRACT-001",
-  "path": "verification/0_2_8/wp11b_hex8_buckling_experimental_contract.md",
-  "title": "WP11B HEX8 buckling experimental-readiness contract",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp11b_hex8_buckling_experimental_contract.json",
-    "qualification/0_2_8/wp11b_hex8_buckling_experimental_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp11b_hex8_buckling_experimental.py"
-  ]
-},
-{
-  "id": "DOC-028-WP11B-VNV-001",
-  "path": "verification/0_2_8/wp11b_hex8_buckling_experimental_vnv.md",
-  "title": "WP11B HEX8 buckling experimental-readiness campaign",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp11b_hex8_buckling_experimental_vnv.json",
-    "qualification/0_2_8/wp11b_hex8_buckling_experimental_matrix.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp11b_hex8_buckling_experimental.py"
-  ]
-},
-{
-  "id": "DOC-028-WP11B-OWNER-001",
-  "path": "verification/0_2_8/wp11b_hex8_buckling_owner_gate_final.md",
-  "title": "WP11B HEX8 buckling Owner gate",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp11b_hex8_buckling_owner_gate_final.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp11b_owner_gate_final.py"
-  ]
-},
-{
-  "id": "DOC-028-WP13-02A-READINESS-001",
-  "path": "verification/0_2_8/wp13_02a_dynamic_readiness.md",
-  "title": "QF Solver 0.2.8 WP13-02A mixed dynamics readiness",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp13_02a_readiness.json",
-    "qualification/0_2_8/wp13_02a_newmark_contract.json",
-    "qualification/0_2_8/wp13_02a_harmonic_contract.json"
-  ],
-  "tests": []
-},
-{
-  "id": "DOC-028-WP13-02A2-WEDGE6-DYNAMIC-001",
-  "path": "verification/0_2_8/wp13_02a2_wedge6_dynamic_enablement.md",
-  "title": "QF Solver 0.2.8 WP13-02A2 WEDGE6 dynamic enablement",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp13_02a2_wedge6_dynamic_evidence.json",
-    "qualification/0_2_8/wp13_02a_newmark_contract.json",
-    "qualification/0_2_8/wp13_02a_harmonic_contract.json"
-  ],
-  "tests": [
-    "tests/unit/test_wp13_02a2_wedge6_dynamic.py"
-  ]
-},
-{
-  "id": "DOC-028-WP13-02B-MIXED-NEWMARK-001",
-  "path": "verification/0_2_8/wp13_02b_mixed_newmark.md",
-  "title": "QF Solver 0.2.8 WP13-02B connected mixed Newmark campaign",
-  "status": "controlled_candidate",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp13_02b_mixed_newmark_evidence.json",
-    "qualification/0_2_8/wp13_02a_newmark_contract.json"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp13_02b_mixed_newmark.py"
-  ]
-},
-{
-  "id": "DOC-028-WP13-02B2-EVIDENCE-CLOSURE-001",
-  "path": "verification/0_2_8/wp13_02b2_evidence_closure.md",
-  "title": "QF Solver 0.2.8 WP13-02B2 Newmark evidence closure",
-  "status": "owner_review_required",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp13_02a_newmark_contract.json",
-    "qualification/0_2_8/wp13_02b2_raw/manifest.json",
-    "qualification/0_2_8/wp13_02b2_raw/wp13_02b2_raw_arrays.npz"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp13_02b2_evidence_closure.py"
-  ]
-},
-{
-  "id": "DOC-028-WP13-02B5-NEWMARK-V2-001",
-  "path": "verification/0_2_8/wp13_02b5_newmark_v2.md",
-  "title": "QF Solver 0.2.8 WP13-02B5 Newmark V2 campaign",
-  "status": "owner_review_required",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp13_02b4_newmark_v2_contract.json",
-    "qualification/0_2_8/wp13_02b5_v2/manifest.json",
-    "qualification/0_2_8/wp13_02b5_v2/wp13_02b5_arrays.npz"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp13_02b5_newmark_v2.py"
-  ]
-},
-{
-  "id": "DOC-028-WP13-02B7-NEWMARK-V2-RERUN-001",
-  "path": "verification/0_2_8/wp13_02b7_newmark_v2_rerun.md",
-  "title": "QF Solver 0.2.8 WP13-02B7 Newmark V2 rerun",
-  "status": "owner_review_required",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp13_02b4_newmark_v2_contract.json",
-    "qualification/0_2_8/wp13_02b7_v2/manifest.json",
-    "qualification/0_2_8/wp13_02b7_v2/wp13_02b7_arrays.npz"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp13_02b7_newmark_v2.py"
-  ]
-},
-{
-  "id": "DOC-028-WP13-02C-MIXED-HARMONIC-001",
-  "path": "verification/0_2_8/wp13_02c_mixed_harmonic.md",
-  "title": "QF Solver 0.2.8 WP13-02C connected mixed harmonic campaign",
-  "status": "owner_review_required",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp13_02c_harmonic_contract.json",
-    "qualification/0_2_8/wp13_02c_harmonic_contract.schema.json",
-    "qualification/0_2_8/wp13_02c_harmonic_v1/manifest.json",
-    "qualification/0_2_8/wp13_02c_harmonic_v1/wp13_02c_harmonic_arrays.npz"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp13_02c_mixed_harmonic.py"
-  ]
-},
-{
-  "id": "DOC-028-WP13-02C2-HARMONIC-HARNESS-001",
-  "path": "verification/0_2_8/wp13_02c2_harmonic_harness.md",
-  "title": "QF Solver 0.2.8 WP13-02C2 harmonic harness/evidence correction",
-  "status": "owner_review_required",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp13_02c_harmonic_contract.json",
-    "qualification/0_2_8/wp13_02c_harmonic_evidence.schema.json",
-    "qualification/0_2_8/wp13_02c2_harmonic_harness/manifest.json",
-    "qualification/0_2_8/wp13_02c2_harmonic_harness/wp13_02c2_harness_arrays.npz"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp13_02c2_harmonic_harness.py"
-  ]
-},
-{
-  "id": "DOC-028-WP13-02C3-HARMONIC-FINAL-001",
-  "path": "verification/0_2_8/wp13_02c3_harmonic_final.md",
-  "title": "QF Solver 0.2.8 WP13-02C3 final mixed harmonic campaign",
-  "status": "owner_review_required",
-  "requirements": [],
-  "examples": [
-    "qualification/0_2_8/wp13_02c_harmonic_contract.json",
-    "qualification/0_2_8/wp13_02c3_harmonic_evidence.schema.json",
-    "qualification/0_2_8/wp13_02c3_harmonic_final/manifest.json",
-    "qualification/0_2_8/wp13_02c3_harmonic_final/wp13_02c3_harmonic_arrays.npz"
-  ],
-  "tests": [
-    "tests/verification/test_028_wp13_02c3_harmonic_final.py"
-  ]
-}
-  ]
-  
 }

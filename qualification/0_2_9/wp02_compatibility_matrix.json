@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP02-COMPATIBILITY-001",
+  "status": "PROSPECTIVE_CONTRACT_PHASE",
+  "baseline_sha": "cced3d30ac12f2e405915766c5329ac53b7b07bb",
+  "entries": [
+    {"component": "NonlinearStateTransaction", "classification": "AUTHORITATIVE", "policy": "Remain the sole accepted composite state transaction and persistence source."},
+    {"component": "StateTransaction", "classification": "COMPATIBILITY", "policy": "Retain for legacy generic/contact/research helpers; it must not publish a nonlinear checkpoint or global accepted state."},
+    {"component": "MaterialStateSession", "classification": "COMPATIBILITY", "policy": "Retain for legacy material-only callers; migrated global routes must delegate through the composite transaction."},
+    {"component": "commit_material_states", "classification": "COMPATIBILITY_ADAPTER", "policy": "Mirror the accepted material component into legacy solver-owned containers only after composite acceptance; deprecate later."},
+    {"component": "material_state.state_digest", "classification": "DELEGATE", "policy": "Preserve material-only compatibility while delegating canonical accepted-state identity to deterministic_state_digest."},
+    {"component": "nonlinear.deterministic_state_digest", "classification": "AUTHORITATIVE", "policy": "Use for component and composite checkpoint digests."},
+    {"component": "NonlinearCheckpoint schema 1", "classification": "COMPATIBILITY", "policy": "Read and migrate in memory within the bounded v1 policy; never write schema 1 after WP02 implementation."},
+    {"component": "NonlinearCheckpointSession.restore", "classification": "ADAPT", "policy": "Adapt fixed-load restore to construct one accepted NonlinearState."},
+    {"component": "NonlinearCheckpointSession.restore_continuation", "classification": "ADAPT", "policy": "Adapt arc-length restore to construct the same accepted NonlinearState with continuation payload."},
+    {"component": "NpzNonlinearCheckpointStore", "classification": "ADAPT", "policy": "Add v2 serialization, digest validation and atomic durability while retaining bounded v1 read support."},
+    {"component": "FrictionlessActiveSetSolver", "classification": "RESEARCH_COMPATIBILITY", "policy": "No WP02 migration; it remains outside the public nonlinear checkpoint authority."}
+  ],
+  "removal_policy": "No public/used legacy class is removed in WP02-A or WP02-B without compatibility evidence and Owner review."
+}

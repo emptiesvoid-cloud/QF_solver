@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "mesh_scale_to_m": 1.0,
+  "units": {
+    "system": "SI"
+  },
+  "verification_profile": "engineering",
+  "analysis": {
+    "type": "nonlinear_static",
+    "method": "newton_raphson",
+    "load_steps": 25,
+    "load_path": [
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      0.75,
+      0.5,
+      0.25,
+      0.0,
+      -0.25,
+      -0.5,
+      -0.75,
+      -1.0,
+      -1.2,
+      -1.0,
+      -0.75,
+      -0.5,
+      -0.25,
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.2,
+      1.4
+    ],
+    "max_iterations": 50,
+    "tolerance": 1e-07
+  },
+  "materials": {
+    "j2": {
+      "type": "von_mises_elastoplastic_3d",
+      "E": 210000000000.0,
+      "nu": 0.3,
+      "yield_stress": 250000000.0,
+      "hardening_modulus": 50000000000.0
+    }
+  },
+  "groups": [
+    {
+      "name": "domain",
+      "dimension": 3,
+      "actions": [
+        {
+          "type": "elements",
+          "element_type": "TET10",
+          "material": "j2"
+        }
+      ]
+    },
+    {
+      "name": "x_min",
+      "dimension": 2,
+      "actions": [
+        {
+          "type": "fixed_dofs",
+          "dofs": [
+            "UX"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "anchor_origin",
+      "dimension": 0,
+      "actions": [
+        {
+          "type": "fixed_dofs",
+          "dofs": [
+            "UY",
+            "UZ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "anchor_xy",
+      "dimension": 0,
+      "actions": [
+        {
+          "type": "fixed_dofs",
+          "dofs": [
+            "UZ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "x_max",
+      "dimension": 2,
+      "actions": [
+        {
+          "type": "surface_traction",
+          "value": [
+            300000000.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  ]
+}

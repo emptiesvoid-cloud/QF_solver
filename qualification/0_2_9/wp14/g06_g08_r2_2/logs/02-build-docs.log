@@ -1,0 +1,8 @@
+START_UTC=2026-09-29T08:21:52.5987244Z
+ARGV=python scripts/build_docs.py --profile engineering
+HEAD=a4a64123ec38304f2d1aa02bc3cd0617d31bbb5c
+PYTHON=Python 3.13.1
+Documentation evidence engineering generated: 700 artifacts, campaign=PASS.
+
+EXIT_CODE=0
+END_UTC=2026-09-29T08:28:29.9875517Z

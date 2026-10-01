@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "scope": "WP08D_M2_REFERENCE_REMEDIATION_ONLY",
+  "root_cause": "The independent reference replaced the observed SSK classification at increment 5 with an all-slip 6-unknown root.",
+  "before_fix": {
+    "active_contacts": [3, 7, 11],
+    "state_attempt": "SSS",
+    "tangential_unknown_dimension": 6,
+    "root_residual_inf": 3.29,
+    "status": "FAIL_CLOSED"
+  },
+  "after_fix": {
+    "active_contacts": [3, 7, 11],
+    "state": "SSK",
+    "stick_contacts": [3, 7],
+    "slip_contacts": [11],
+    "tangential_unknown_dimension": 2,
+    "root_residual_inf": 6.563638521583925e-13,
+    "status": "PASS_REFERENCE"
+  },
+  "AUTHORIZED_BASE_SHA": "28cf9dd1886b72c6c7c9fc720dc778eddfce4441",
+  "PRODUCTION_REMEDIATION_SHA": "b11726c6d7318762c3a892821f9fd3ca0a8a5eaf",
+  "REMEDIATION_SHA": "5fe0451a21ac33de9ddaca6b480748238ac04779",
+  "EXECUTION_SHA": "5fe0451a21ac33de9ddaca6b480748238ac04779",
+  "EVIDENCE_COMMIT_SHA": "ab64fc5bc9373bb7c12e96d7259cc148a1fe1d8b",
+  "FINAL_SHA": "ab64fc5bc9373bb7c12e96d7259cc148a1fe1d8b",
+  "REMOTE_HEAD_AFTER_M2": "ab64fc5bc9373bb7c12e96d7259cc148a1fe1d8b",
+  "m2_production": "PASS_7_OF_7",
+  "m2_independent_reference": "PASS_7_OF_7",
+  "m2_replay": "PASS_7_OF_7",
+  "wp08d_formal_points": "0/2",
+  "wp08_formal_points": "0/8",
+  "final_status": "M2_EVIDENCE_PASS_OWNER_REVIEW_REQUIRED"
+}

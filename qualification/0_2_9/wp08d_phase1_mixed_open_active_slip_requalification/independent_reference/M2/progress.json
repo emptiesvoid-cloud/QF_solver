@@ -1,0 +1,9 @@
+{
+  "elapsed_time_s": 0.01717940007802099,
+  "error_message": "not enough values to unpack (expected 8, got 7)",
+  "error_type": "ValueError",
+  "mesh": "M2",
+  "phase": "RUN_FAILED",
+  "schema_version": 1,
+  "status": "FAILED"
+}

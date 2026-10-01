@@ -1,0 +1,377 @@
+{
+  "schema_version": 1,
+  "record_type": "WP14_TEN_ORIGINAL_ERROR_RECHECK_AND_CORRECTIONS",
+  "recorded_at_utc": "2026-09-27T08:12:31Z",
+  "status": "PARTIAL_CORRECTION_VERIFIED_WP14_HOLD",
+  "provenance": {
+    "branch": "codex/wp14-remediation-clean",
+    "head": "0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba",
+    "execution_source": "MODIFIED_UNCOMMITTED_WORKTREE_NOT_FROZEN_EXECUTION_SHA",
+    "full_repository_suite_run": false,
+    "source_proof_kind": "TARGETED_DEVELOPMENT_CHECKS_NOT_A_NEW_RELEASE_QUALIFICATION",
+    "raw_command_output_basis": "Observed command outputs; no separate process manifest/JUnit/log archive captured for this recheck.",
+    "start_end_command_timestamps_recorded": false,
+    "git_history_rewritten": false,
+    "commit_merge_push_tag_publication_performed": false
+  },
+  "original_recheck": {
+    "record": "qualification/0_2_9/wp14/wp14_r23_open_nodes_recheck_28459.json",
+    "sha256": "813357ac845f2d672be15869d8f6ec870d55a8e699e635bff9ffdfa5bf7085c6",
+    "historical_failures": 10,
+    "historical_record_changed": false
+  },
+  "current_recheck": {
+    "command": [
+      "python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/unit/test_architecture_rules.py::test_python_source_size_debt_is_reported_without_a_hard_cap",
+      "tests/unit/test_public_document_audit.py::test_public_document_audit_passes_without_web_delivery_or_internal_paths",
+      "tests/unit/test_public_document_audit.py::test_controlled_public_document_audit_record_matches_current_classification",
+      "tests/unit/test_public_release_audit.py::test_current_public_release_candidates_are_clean",
+      "tests/unit/test_public_release_audit.py::test_current_git_archive_excludes_runtime_and_private_evidence_trees",
+      "tests/unit/test_review_vocabulary.py::test_published_sources_use_controlled_review_vocabulary",
+      "tests/verification/test_wp04_c_tet4_structural.py::test_c05_mesh_displacement_convergence",
+      "tests/verification/test_wp04_c_tet4_structural.py::test_c07_mesh_energy_convergence",
+      "tests/verification/test_wp04_c_tet4_structural.py::test_c08_mesh_representative_stress_convergence",
+      "tests/verification/test_wp04_d_hex8_structural.py::test_raw_hex8_arrays_are_reproducible_and_do_not_use_object_arrays",
+      "--tb=short"
+    ],
+    "environment": {
+      "QF_SOLVER_EVIDENCE_ARCHIVE_ROOT": "<redacted-local-evidence-archive-root>"
+    },
+    "passed": 5,
+    "failed": 5,
+    "warnings": 1,
+    "duration_seconds": 223.12,
+    "exit_code": 1,
+    "remaining_failures": [
+      "R02",
+      "R03",
+      "R04",
+      "R05",
+      "R10"
+    ],
+    "tests": [
+      {
+        "id": "R01",
+        "subject": "Objectif indicatif de 700 lignes",
+        "node": "tests/unit/test_architecture_rules.py::test_python_source_size_debt_is_reported_without_a_hard_cap",
+        "status": "PASS",
+        "explanation": "Owner policy applied; 48 oversize files remain visible as one advisory warning."
+      },
+      {
+        "id": "R02",
+        "subject": "Audit documentaire du dépôt entier",
+        "node": "tests/unit/test_public_document_audit.py::test_public_document_audit_passes_without_web_delivery_or_internal_paths",
+        "status": "FAIL",
+        "explanation": "The engineering evidence repository is not a clean public distribution; selected-package preview is distinct."
+      },
+      {
+        "id": "R03",
+        "subject": "Cohérence du snapshot documentaire historique avec le dépôt courant",
+        "node": "tests/unit/test_public_document_audit.py::test_controlled_public_document_audit_record_matches_current_classification",
+        "status": "FAIL",
+        "explanation": "Historical 0.2.7 PASS is preserved; the current whole-repository scan remains FAIL."
+      },
+      {
+        "id": "R04",
+        "subject": "Hygiène des sources candidates du dépôt entier",
+        "node": "tests/unit/test_public_release_audit.py::test_current_public_release_candidates_are_clean",
+        "status": "FAIL",
+        "explanation": "Private workstation references and internal evidence remain in the engineering repository; scanners unchanged."
+      },
+      {
+        "id": "R05",
+        "subject": "Hygiène de git archive HEAD",
+        "node": "tests/unit/test_public_release_audit.py::test_current_git_archive_excludes_runtime_and_private_evidence_trees",
+        "status": "FAIL",
+        "explanation": "The default whole-repository archive still contains internal evidence; no public selected archive/build attested."
+      },
+      {
+        "id": "R06",
+        "subject": "Terminologie analyseur",
+        "node": "tests/unit/test_review_vocabulary.py::test_published_sources_use_controlled_review_vocabulary",
+        "status": "PASS",
+        "explanation": "Strict lexical guard, archived copies included, with exact migration and no generic vocabulary waiver."
+      },
+      {
+        "id": "R07",
+        "subject": "Gate de déplacement TET4 : sélectionner C2R6 sans effacer l'échec ancien",
+        "node": "tests/verification/test_wp04_c_tet4_structural.py::test_c05_mesh_displacement_convergence",
+        "status": "PASS",
+        "explanation": "Historical 16.406181% FAIL preserved; accepted C2R6 1.692701% <= frozen 2%."
+      },
+      {
+        "id": "R08",
+        "subject": "Gate d'énergie TET4 : sélectionner C2R6 sans effacer l'échec ancien",
+        "node": "tests/verification/test_wp04_c_tet4_structural.py::test_c07_mesh_energy_convergence",
+        "status": "PASS",
+        "explanation": "Historical 16.379509% FAIL preserved; accepted C2R6 1.689047% <= frozen 2%."
+      },
+      {
+        "id": "R09",
+        "subject": "Gate de contrainte TET4 : sélectionner C2R6 sans effacer l'échec ancien",
+        "node": "tests/verification/test_wp04_c_tet4_structural.py::test_c08_mesh_representative_stress_convergence",
+        "status": "PASS",
+        "explanation": "Historical 24.310580% FAIL preserved; accepted C2R6 2.164607% <= frozen 10%."
+      },
+      {
+        "id": "R10",
+        "subject": "Intégrité des quatre NPZ HEX8 historiques",
+        "node": "tests/verification/test_wp04_d_hex8_structural.py::test_raw_hex8_arrays_are_reproducible_and_do_not_use_object_arrays",
+        "status": "FAIL",
+        "explanation": "Missing original bytes: h1_raw, h1_replay_raw, h2_raw, h3_raw. Exact-byte archive reader implemented, actual evidence gap remains."
+      }
+    ]
+  },
+  "targeted_regressions": {
+    "command": [
+      "python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/unit/test_review_vocabulary.py",
+      "tests/unit/test_review_vocabulary_history.py",
+      "tests/unit/test_review_terminology_migration.py",
+      "tests/unit/test_evidence_runner_bootstrap.py",
+      "tests/unit/test_wp06f_closure_contract.py",
+      "tests/unit/test_wp10_coupled_runner.py",
+      "tests/unit/test_wp10_tet4_extension.py",
+      "tests/unit/test_wp10_hex20_extension.py",
+      "tests/unit/test_wp10_tet10_surface_m1.py",
+      "tests/unit/test_wp10_tet10_surface_r2.py",
+      "tests/unit/test_wp08_area_supported_m4_slip_r1_12_runner.py",
+      "tests/unit/test_audit_detail_levels.py",
+      "tests/unit/test_public_api_contract.py",
+      "tests/unit/test_public_package_plan.py",
+      "tests/unit/test_source_maintainability.py",
+      "tests/unit/test_architecture_rules.py",
+      "tests/unit/test_wp04_mesh_lineage.py",
+      "tests/unit/test_historical_arrays.py",
+      "tests/verification/test_wp04_c_tet4_structural.py::test_c05_mesh_displacement_convergence",
+      "tests/verification/test_wp04_c_tet4_structural.py::test_c07_mesh_energy_convergence",
+      "tests/verification/test_wp04_c_tet4_structural.py::test_c08_mesh_representative_stress_convergence",
+      "tests/verification/test_wp04_e_cross_family.py",
+      "tests/verification/test_wp04_f_final_closure.py"
+    ],
+    "passed": 195,
+    "failed": 0,
+    "warnings": 1,
+    "duration_seconds": 24.18,
+    "exit_code": 0
+  },
+  "checks": {
+    "ruff": {
+      "command": [
+        "python",
+        "-m",
+        "ruff",
+        "check",
+        "src",
+        "scripts",
+        "tests"
+      ],
+      "status": "PASS"
+    },
+    "mypy": {
+      "command": [
+        "python",
+        "-m",
+        "mypy",
+        "-m",
+        "tests.helpers.wp04_lineage",
+        "-m",
+        "tests.helpers.historical_arrays",
+        "-m",
+        "scripts.plan_public_package",
+        "--follow-imports=silent"
+      ],
+      "status": "PASS",
+      "sources": 3
+    },
+    "compileall": {
+      "command": [
+        "python",
+        "-m",
+        "compileall",
+        "-q",
+        "scripts",
+        "tests",
+        "src"
+      ],
+      "status": "PASS"
+    },
+    "diff_check": {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "status": "PASS"
+    },
+    "wp04_campaign_ast": {
+      "status": "PASS",
+      "existing_functions_changed": [
+        "test_c05_mesh_displacement_convergence",
+        "test_c07_mesh_energy_convergence",
+        "test_c08_mesh_representative_stress_convergence"
+      ],
+      "new_function": "test_historical_coarse_campaign_live_mesh_gates_remain_failed",
+      "campaign_mesh_builder_solver_observers_and_writer_unchanged": true,
+      "live_historical_campaign_rerun_in_this_lot": false
+    }
+  },
+  "wp04_inputs": {
+    "closure_sha256": "3bb1bbf9e0e0d9252bec3bc28d64174546484a913c19b7d926aafa61620c7533",
+    "historical_summary_git_blob": "0138e7583c2e0ce0488c69ab8630f87118a299e6",
+    "summary_git_lf_sha256": "66e640474fd052de1012e9a175605b98db09826b4a106db9d95d09dbd5aa0708",
+    "original_recorded_summary_crlf_sha256": "a9647723085ee0776bb5b04c9c5c71ff7259bc94cfd65c3f4412ee4f54c0368d",
+    "summary_hash_difference_explained_by_exact_crlf_conversion": true,
+    "summary_original_failure_status": "FAIL_PRESERVED",
+    "accepted_source_inputs_verified_by_existing_external_manifest": [
+      "qualification/0_2_9/c2r6/frozen_threshold_audit.json",
+      "qualification/0_2_9/c2r6/campaign_result.json",
+      "qualification/0_2_9/c2r6/m3_result.json"
+    ],
+    "original_c2r6_placeholder": "UNRESOLVED_PRESERVED",
+    "reference_kind": "ARCHIVED_JSON_OBSERVABLE_RECOMPUTATION_NOT_A_NEW_FEM_SOLVE"
+  },
+  "public_package_preview": {
+    "status": "PASS_PREPARATION_WORKTREE_PREVIEW",
+    "contract_path": "qualification/0_2_9/wp14/wp14_public_package_selection_preparation_20260927.json",
+    "contract_sha256": "cd58d1fe159bb5b6ed872975ab2747d79c4668d47994c42e0b924fe266b3b326",
+    "selected_files": 551,
+    "strict_findings": 0,
+    "missing_package_inputs": [],
+    "mapping_sha256": "87786986092e730c4418f23019f49448d6a4b3a693c850e3eae9ad0482e557c2",
+    "changed_selected_files": [
+      "src/solveur/api/public.py",
+      "src/solveur/core/audit.py"
+    ],
+    "no_whole_repository_gate_changed": true,
+    "package_build_or_install_executed": false,
+    "new_frozen_source_binding": "REQUIRED_BEFORE_A_NEW_EXECUTION",
+    "owner_scope_decision": "NOT_GRANTED_BY_THIS_CHECK"
+  },
+  "historical_npz_search": {
+    "temp_directory_roots_checked": 54,
+    "additional_registered_worktree_and_workspace_roots_checked": 33,
+    "counts_may_overlap": true,
+    "exact_requested_relative_paths_checked": "qualification/0_2_9/wp04d/{h1_raw,h1_replay_raw,h2_raw,h3_raw}.npz",
+    "matching_files_found": 0,
+    "existing_archive_manifest_npz_entries": 0,
+    "no_regeneration_or_replacement_performed": true,
+    "missing_inputs": [
+      {
+        "name": "h1_raw.npz",
+        "sha256": "021fb16a46f369452f5aa0a8e913c1bd345eb3128df3cb5c5a1edce63805ab2d",
+        "size_bytes": 510642
+      },
+      {
+        "name": "h1_replay_raw.npz",
+        "sha256": "021fb16a46f369452f5aa0a8e913c1bd345eb3128df3cb5c5a1edce63805ab2d",
+        "size_bytes": 510642
+      },
+      {
+        "name": "h2_raw.npz",
+        "sha256": "cdaf20e269e379e52d9888a618bad6b5bd8d7ca98dc20adbef1a7d54a1aaf3ee",
+        "size_bytes": 1635806
+      },
+      {
+        "name": "h3_raw.npz",
+        "sha256": "a595374adbabde01a1f297a6e221c73adeaf10f915dfd7f59af4b4bf455dd14b",
+        "size_bytes": 3761002
+      }
+    ]
+  },
+  "development_iterations": [
+    {
+      "status": "NOT_PROBATIVE_TEST_INVOCATION",
+      "note": "An initial recheck named the wrong advisory test node; no tests ran. The correct exact node was rerun."
+    },
+    {
+      "status": "CORRECTED_TYPING_INVOCATION_AND_DIAGNOSTICS",
+      "note": "Mypy path-based invocation found duplicate namespace names; module-based invocation exposed two new-helper typing diagnostics. Both were fixed without configuration suppression."
+    },
+    {
+      "status": "CORRECTED_SYNTHETIC_FIXTURE",
+      "passed": 63,
+      "failed": 1,
+      "note": "The first preview fixture mixed Windows checkout line endings and Git normalization. Fixture-local core.autocrlf=false now makes the byte-identity assertion exact; production Git configuration and preview byte hashes unchanged."
+    }
+  ],
+  "current_lot_files": [
+    {
+      "path": "tests/helpers/wp04_lineage.py",
+      "sha256": "50934658f674f98c6a86f156cd8bade9cf78b4f664840d04f6f75e6443c1867d",
+      "size_bytes": 10724
+    },
+    {
+      "path": "tests/helpers/historical_arrays.py",
+      "sha256": "eed4933a48192ab56b258dc063edcb39382ec48352a0c7739b7a33b9ac0f2600",
+      "size_bytes": 2485
+    },
+    {
+      "path": "tests/unit/test_wp04_mesh_lineage.py",
+      "sha256": "97ca24aa87bd977f0dd3f69260db86709677df5eebf4435ace1c803b179b7813",
+      "size_bytes": 6295
+    },
+    {
+      "path": "tests/unit/test_historical_arrays.py",
+      "sha256": "6494e4bfd16e54d2b673cccbf75fe653f5f541709162aaa9aa5361cf578699fd",
+      "size_bytes": 4219
+    },
+    {
+      "path": "tests/verification/test_wp04_c_tet4_structural.py",
+      "sha256": "c80f2ee458659c49b43914b74d298a0b89e41cce5d62b827f1607a5e3f26da90",
+      "size_bytes": 42408
+    },
+    {
+      "path": "tests/verification/test_wp04_d_hex8_structural.py",
+      "sha256": "37165188d330ef2966a4ee9d0b18a3f20914280c47595edaed70c07427994ec8",
+      "size_bytes": 9024
+    },
+    {
+      "path": "scripts/plan_public_package.py",
+      "sha256": "d1a734cb4a11d53abfa102507f531f9369bc70797adf23075dd5b03c10f8e1f8",
+      "size_bytes": 13538
+    },
+    {
+      "path": "tests/unit/test_public_package_plan.py",
+      "sha256": "a9dcd880485b77e4f88a94dd08ff6e6a673c0c07c8828e6952adc567369473f5",
+      "size_bytes": 10268
+    },
+    {
+      "path": "qualification/0_2_9/wp14/wp14_r23_open_nodes_recheck_28459.json",
+      "sha256": "813357ac845f2d672be15869d8f6ec870d55a8e699e635bff9ffdfa5bf7085c6",
+      "size_bytes": 4394
+    }
+  ],
+  "governance": {
+    "production_mechanics_changed_in_this_lot": false,
+    "numerical_thresholds_changed": false,
+    "historical_numerical_results_or_owner_decisions_changed": false,
+    "ledger_changed": false,
+    "wp14_official_points": "0/1",
+    "observed_global_official_total": "95/100",
+    "wp14_status": "HOLD",
+    "full_release_readiness_claim": false
+  },
+  "next_actions": [
+    "Freeze the corrected source prospectively and obtain/record the explicit selected-public-scope contract rather than weakening whole-repository scans.",
+    "Build and inspect the actually selected source archive/wheel/sdist, attest install/import/CLI behavior and retain the old whole-repository FAIL evidence.",
+    "Recover the four original NPZ bytes and validate their original hashes; if unavailable, keep R10 HOLD and request a distinct prospective replacement evidence campaign with new hashes, never claim the old bytes were recovered.",
+    "Run the complete required release gates only after the final source/contract freeze; the ten-node recheck and 195 targeted tests do not close all WP14 gates."
+  ],
+  "provenance_redactions": [
+    {
+      "field": "current_recheck.environment.QF_SOLVER_EVIDENCE_ARCHIVE_ROOT",
+      "replacement": "<redacted-local-evidence-archive-root>",
+      "reason": "Remove a workstation-local path and organization identifier from the tracked report without changing test outcomes or numerical evidence.",
+      "pre_redaction_sha256": "5a5b7ec873ed71ab090088f31497ddb0de881fcfddfd1dd5b5de1065a581d2ed",
+      "pre_redaction_git_blob": "233e8321df3f074263e0a4a10fd8ad7231a51db9"
+    }
+  ]
+}

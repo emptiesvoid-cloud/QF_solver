@@ -1,0 +1,652 @@
+{
+  "schema_version": 1,
+  "closed_decisions": [
+    {
+      "id": "OD-029-WP08-01",
+      "title": "WP08 frictional-contact closure",
+      "status": "CLOSED_APPROVED_WITH_LIMITATIONS",
+      "owner_review_status": "PASS",
+      "accepted_work_items": ["WP08-A", "WP08-B", "WP08-C", "WP08-D", "WP08-E"],
+      "approved_points": 8,
+      "official_total_before": 50,
+      "official_total_after": 58,
+      "reviewed_package_sha": "340a9be695d562dcfd75b5178bc641964795a9fa",
+      "review_source_tree_sha": "123c46eb6900647679c4b96350dafd4d05efa355",
+      "authorizations": {
+        "governing_push": true,
+        "official_ledger_update": true,
+        "merge_reviewed_lineage_only": true
+      },
+      "historical_failures_preserved": true,
+      "m1_m2_m3_evidence_regeneration_or_overwrite": false,
+      "limitations": [
+        "serial/direct linear_static frictional-contact route only",
+        "small displacement",
+        "fixed initial search, face and normal",
+        "positive friction coefficient and tangential stiffness",
+        "no frictional updated search",
+        "no finite sliding",
+        "no general nonlinear-friction qualification",
+        "no mid-Newton restart",
+        "no general nonlinear restart capability",
+        "no global pressure-coupled tangent-consistency claim",
+        "no complete global energy-decomposition claim",
+        "no external-solver correlation claim",
+        "no MPI/PETSc or dynamics qualification from WP08"
+      ],
+      "evidence": [
+        "qualification/0_2_9/wp08_closure/wp08abcd_closure_final.json",
+        "qualification/0_2_9/wp08e_closure/wp08e_closure_final.json",
+        "qualification/0_2_9/wp08_closure/wp08_owner_review_inspection.json",
+        "qualification/0_2_9/wp08_closure/wp08_owner_approval.json"
+      ]
+    },
+    {
+      "id": "OD-029-WP05-CDE-01",
+      "title": "Bounded WP05-C/D/E qualification and cross-family closure",
+      "status": "CLOSED_APPROVED_WITH_LIMITATIONS",
+      "owner_review_status": "PASS",
+      "accepted_work_items": ["WP05-C", "WP05-D", "WP05-E"],
+      "approved_points": 3,
+      "official_total_before": 58,
+      "official_total_after_local_integration": 61,
+      "reviewed_execution_sha": "72282a6ca6e6574a32c6182eccb001d9816febbc",
+      "authorizations": {
+        "local_governing_integration": true,
+        "official_ledger_update_in_local_integration": true,
+        "governing_push": false,
+        "external_solver_correlation_now": false
+      },
+      "external_solver_comparison": "DEFERRED_TO_FUTURE_VV; NO_CODE_ASTER_OR_OTHER_SOLVER_CORRELATION_CLAIM",
+      "historical_failures_preserved": true,
+      "limitations": [
+        "bounded TET10 and straight-sided affine HEX20 cantilever H1/H2/H3 cases only",
+        "WP05-E stress comparison uses the historical common representative_sigma_xx observable only",
+        "HEX20 clipped-window stress is not compared across families",
+        "different integration-point populations and sampled reference volumes are disclosed",
+        "no general element-family interchangeability or stress-field equivalence claim",
+        "external-solver correlation is deferred to future V&V"
+      ],
+      "evidence": [
+        "docs/verification/0_2_9/wp05-c-tet10-formal-requalification.md",
+        "docs/verification/0_2_9/wp05d-owner-validation-review.md",
+        "docs/verification/0_2_9/wp05-e-cross-family-closure.md",
+        "docs/verification/0_2_9/wp05-cde-owner-integration.md",
+        "qualification/0_2_9/wp05cde_integration/wp05_cde_integration_audit.json"
+      ]
+    },
+    {
+      "id": "OD-029-WP07-D-R1-01",
+      "title": "WP07-D formal R1 requalification acceptance",
+      "decision_date": "2026-09-17",
+      "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "owner_review_status": "PASS_REPLAY_VERIFIED",
+      "accepted_work_items": ["WP07-D"],
+      "approved_points": 3,
+      "wp07_points_before": "5/10",
+      "wp07_points_after": "8/10",
+      "consolidated_ledger_before": 61,
+      "consolidated_ledger_after": 64,
+      "owner_stated_total_after": 61,
+      "owner_stated_total_basis": "58/100 pre-local-WP05-C/D/E baseline plus WP07-D 3/3; the consolidated ledger already included WP05-C/D/E +3.",
+      "execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "formal_contract_sha256": "b923f560a0d6719ee149ea31f912f46b6b7d32600df1cd7b80bf70a40562d7d7",
+      "execution_binding_sha256": "ef223ee40ed1d4d9b1c60a20c2ee2958ea4e37acd8c0265058a4a12218fcf52d",
+      "analysis_sha256": "1a81e261eec99e201b6266a41dd87a8f452880dab4105b9a940087ab9e8854ab",
+      "owner_acceptance_sha256_as_bound_by_wp07e": "17837563364304d41ecb9ec4308f455d673f06bd533dc588f7f9daaf85b434dc",
+      "evidence": [
+        "qualification/0_2_9/wp07e_closure_r2/d_r1_evidence_manifest.json",
+        "qualification/0_2_9/wp07e_closure_r2/wp07e_closure_final_r2_owner_review.json"
+      ],
+      "wp07e_status_at_decision": "NOT_YET_ACCEPTED"
+    },
+    {
+      "id": "OD-029-WP07-E-R2-01",
+      "title": "WP07-E R2 evidence closure acceptance",
+      "decision_date": "2026-09-18",
+      "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "owner_review_status": "ACCEPTED",
+      "accepted_work_items": ["WP07-E"],
+      "approved_points": 2,
+      "wp07_points_before": "8/10",
+      "wp07_points_after": "10/10",
+      "consolidated_ledger_before": 64,
+      "consolidated_ledger_after": 66,
+      "evidence_package_status": "COMPLETE",
+      "checker_status": "PASS",
+      "negative_cases_passed": 6,
+      "targeted_tests_passed": 67,
+      "wp07d_rerun": false,
+      "evidence_package_commit_before_acceptance": "667c34abcd56a0f703eb6aa6eb48c1c95f3f2317",
+      "owner_acceptance_record_commit": "51e8d09c23a2f5ecaf61251cb308e025752b6d6b",
+      "owner_acceptance_record_sha256": "f48c58696cd36982521fb2b9270ff3e1e2292b1fb5dfcba4defc4dd02cf1faa2",
+      "closure_candidate_sha256": "8ef56a5446632be3e25b218dbe25e7b2b903bb3dd01f0b6f1732ed9c9633b5",
+      "contract_sha256": "2a6292b3c90a645c752ad388f0c62dc6aa735d1e42225a3dd96333c1bbafcd88",
+      "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+      "authorizations": {
+        "owner_accepts_wp07e": true,
+        "owner_awards_wp07e_points": "2/2",
+        "official_wp07_ledger_update": true,
+        "governing_push": true
+      },
+      "evidence": [
+        "docs/verification/0_2_9/wp07e-owner-acceptance-r2.md",
+        "qualification/0_2_9/wp07e_closure_r2/wp07e_owner_acceptance_r2.json",
+        "qualification/0_2_9/wp07e_closure_r2/wp07e_closure_final_r2_owner_review.json"
+      ],
+      "historical_failures_preserved": true,
+      "limitations": [
+        "bounded routes and frozen cases only",
+        "no frictional updated-search or finite-sliding qualification",
+        "no WP06 or general nonlinear contact qualification"
+      ]
+    },
+    {
+      "id": "OD-029-WP06-ABC-01",
+      "title": "WP06-A/B/C partial Owner acceptance and point award",
+      "decision_date": "2026-09-18",
+      "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "accepted_work_items": ["WP06-A", "WP06-B", "WP06-C"],
+      "approved_points": 4,
+      "points_by_work_item": {"WP06-A": "1/1", "WP06-B": "1/1", "WP06-C": "2/2"},
+      "wp06_points_before": "0/8",
+      "wp06_points_after": "4/8",
+      "global_official_total_before": "66/100",
+      "global_official_total_after": "70/100",
+      "limitations_accepted": {"WP06-B": true, "WP06-C_bounded_scope": true},
+      "authorizations": {
+        "official_wp06_abc_award": true,
+        "local_ledger_update": true,
+        "governing_merge": false,
+        "governing_push": false,
+        "wp06d_r2_structural_execution": false
+      },
+      "historical_wp06d1_m2_fail_closed_preserved": true,
+      "structural_solves_run_by_this_decision": false,
+      "reviewed_revalidation_execution_sha": "915d0d4e8a8df462d7928f77b96f4480f53fbae7",
+      "decision_context_head": "c2fb99ecebd236bdd382ab39976589eb1bb5057c",
+      "evidence": [
+        "docs/verification/0_2_9/wp06-abc-current-revalidation.md",
+        "qualification/0_2_9/wp06_abc_revalidation_r1.json",
+        "qualification/0_2_9/wp06_abc_revalidation_r1/targeted-tests.xml",
+        "docs/verification/0_2_9/wp06-abc-owner-decision.md",
+        "qualification/0_2_9/wp06_abc_owner_decision.json"
+      ],
+      "limitations": [
+        "WP06-A does not claim equivalence to Crisfield or Riks methods",
+        "WP06-B does not qualify structural restart suffixes or distributed/MPI continuation/restart",
+        "WP06-C is limited to algebraic/toy identity and policy evidence, not structural postbuckling",
+        "WP06-D1 historical M2 FAIL_CLOSED remains unchanged"
+      ]
+    },
+    {
+      "id": "OD-029-WP06-D-EXP-01",
+      "title": "WP06-D bounded experimental continuation acceptance",
+      "decision_date": "2026-09-19",
+      "status": "CLOSED_OWNER_ACCEPTED_EXPERIMENTAL_WITH_LIMITATIONS",
+      "accepted_work_items": ["WP06-D diagnostic local-axial continuation"],
+      "approved_points": 0,
+      "formal_points_awarded": "0/2",
+      "wp06_points_before": "4/8",
+      "wp06_points_after": "4/8",
+      "global_official_total_before": "70/100",
+      "global_official_total_after": "70/100",
+      "experimental_bounded_acceptance": true,
+      "formal_limit_point_claim": false,
+      "historical_wp06d1_m2_fail_closed_preserved": true,
+      "production_mechanics_changed": false,
+      "thresholds_changed": false,
+      "independent_nonlinear_path_solve": false,
+      "production_solver_replay": false,
+      "evidence": [
+        "docs/verification/0_2_9/wp06d-local-axial-diagnostic-requalification.md",
+        "docs/verification/0_2_9/wp06d-owner-bounded-experimental-decision.md",
+        "qualification/0_2_9/wp06d_owner_bounded_experimental_decision.json",
+        "qualification/0_2_9/wp06d_local_axial_diagnostic_20260919/evidence_replay.json"
+      ],
+      "limitations": [
+        "bounded experimental continuation only",
+        "no limit point detected",
+        "no formal postbuckling or bifurcation claim",
+        "local axial refinement only; transverse section remains 4x4",
+        "no independent nonlinear path solve or second production FEM replay"
+      ]
+    },
+    {
+      "id": "OD-029-01",
+      "title": "Bounded J2 plus geometric formulation",
+      "decision_date": "2026-09-22",
+      "status": "CLOSED_OWNER_APPROVED_A_BOUNDED",
+      "approved_decision": "A",
+      "approved_formulation": "Corotational / large-rotation plus small-strain J2",
+      "scope": "Bounded HEX8 WP09 scope with explicit strain, state-transport and external-correlation limitations",
+      "evidence": [
+        "docs/verification/0_2_9/wp09-owner-acceptance-r3.md",
+        "qualification/0_2_9/wp09_hex8_formal_r3_evidence_v3/manifest.json"
+      ]
+    },
+    {
+      "id": "OD-029-WP09-HEX8-R3-01",
+      "title": "WP09 HEX8 R3 bounded qualification acceptance",
+      "decision_date": "2026-09-22",
+      "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "accepted_work_items": ["WP09-HEX8"],
+      "approved_points": 8,
+      "wp09_points_before": "0/8",
+      "wp09_points_after": "8/8",
+      "global_official_total_before": "70/100",
+      "global_official_total_after": "78/100",
+      "approved_formulation": "A — bounded corotational / large-rotation plus small-strain J2",
+      "authorizations": {
+        "official_wp09_ledger_update": true,
+        "governing_push": false
+      },
+      "evidence": [
+        "docs/verification/0_2_9/wp09-owner-acceptance-r3.md",
+        "qualification/0_2_9/wp09_hex8_formal_r3_evidence_v3/manifest.json"
+      ],
+      "limitations": [
+        "HEX8-only bounded scope",
+        "no TET4, TET10 or HEX20 claim under WP09",
+        "no general finite-strain plasticity claim",
+        "no external Code_Aster correlation claim"
+      ]
+    },
+    {
+      "id": "OD-029-WP10-BOUNDED-CLOSURE-01",
+      "title": "WP10 bounded multi-family closure acceptance",
+      "decision_date": "2026-09-22",
+      "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "accepted_work_items": ["WP10-TET4", "WP10-HEX8", "WP10-HEX20", "WP10-TET10"],
+      "approved_points": 6,
+      "wp10_points_before": "0/6",
+      "wp10_points_after": "6/6",
+      "global_official_total_before": "78/100",
+      "global_official_total_after": "84/100",
+      "owner_accepts_wp10_scope": true,
+      "owner_accepts_m2_moment_limitation_without_frozen_equilibrium_gate": true,
+      "authorizations": {
+        "official_wp10_ledger_update": true,
+        "governing_push": false
+      },
+      "evidence": [
+        "docs/verification/0_2_9/wp10-owner-review-final.md",
+        "docs/verification/0_2_9/wp10-tet10-surface-r2-final-report.md",
+        "qualification/0_2_9/wp10_owner_review_final.json",
+        "qualification/0_2_9/wp10_tet10_surface_r2_manifest.json"
+      ],
+      "limitations": [
+        "bounded evidence for TET4, HEX8, HEX20 and TET10 only",
+        "TET10 R2 uses bounded corotational J2 and initial-search frictionless penalty contact",
+        "M2 moment balance is recorded as a limitation; no equilibrium threshold was frozen",
+        "no friction, finite sliding, dynamics, MPI/PETSc or external solver correlation claim",
+        "independent reference is observable recomputation, not an independent global FEM/Newton solve"
+      ]
+    },
+    {
+      "id": "OD-029-WP11-MULTIFAMILY-R2-01",
+      "title": "WP11 bounded multi-family PETSc/MPI closure acceptance",
+      "decision_date": "2026-09-22",
+      "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "accepted_work_items": ["WP11-TET4", "WP11-HEX8", "WP11-TET10", "WP11-HEX20"],
+      "approved_points": 6,
+      "wp11_points_before": "0/6",
+      "wp11_points_after": "6/6",
+      "global_official_total_before": "84/100",
+      "global_official_total_after": "90/100",
+      "owner_accepts_wp11_scope": true,
+      "authorizations": {
+        "official_wp11_ledger_update": true,
+        "governing_push": false,
+        "merge": false
+      },
+      "evidence": [
+        "docs/verification/0_2_9/wp11-owner-acceptance-r2.md",
+        "qualification/0_2_9/wp11_owner_acceptance_r2.json",
+        "qualification/0_2_9/wp11_multifamily_provenance_owner_review.json"
+      ],
+      "limitations": [
+        "bounded linear static one-element cases",
+        "root-side assembly with replicated input",
+        "no strong/weak scaling claim",
+        "no dynamics, contact or friction qualification",
+        "reference is observable recomputation, not an independent global FEM solve",
+        "no external FEM solver correlation",
+        "no cross-family result-equivalence claim"
+      ]
+    },
+    {
+      "id": "OD-029-WP12-CODE-ASTER-R2-01",
+      "title": "WP12 bounded Code_Aster external-correlation acceptance",
+      "decision_date": "2026-09-23",
+      "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "owner_review_status": "ACCEPTED",
+      "accepted_work_items": ["WP12-R2-TET4", "WP12-R2-HEX8", "WP12-R2-TET10", "WP12-R2-HEX20"],
+      "approved_points": 4,
+      "wp12_points_before": "0/4",
+      "wp12_points_after": "4/4",
+      "global_official_total_before": "90/100",
+      "global_official_total_after": "94/100",
+      "owner_accepts_wp12_r2_external_correlation": true,
+      "owner_accepts_wp12_limitations": true,
+      "r4_supplemental_case_count": 864,
+      "r4_supplemental_case_pass_count": 864,
+      "authorizations": {
+        "official_wp12_ledger_update": true,
+        "governing_integration": true,
+        "governing_push": true
+      },
+      "r2_manifest_verification": {
+        "declared_files": 74,
+        "verified_files": 74,
+        "mismatches": 0
+      },
+      "r4_raw_evidence": {
+        "file_count": 14692,
+        "bytes": 243014078,
+        "local_only_ignored_by_git": true,
+        "external_archive_deferred_to_wp16": true
+      },
+      "evidence": [
+        "docs/verification/0_2_9/wp12-external-vv-r2-owner-review.md",
+        "qualification/0_2_9/wp12_external_vv_r2_contract.json",
+        "qualification/0_2_9/wp12_external_vv_r2_final.json",
+        "qualification/0_2_9/wp12_external_vv_r2_audit.json",
+        "qualification/0_2_9/wp12_external_vv_r2/manifest.json",
+        "docs/verification/0_2_9/wp12-expanded-correlation-r4-gallery-results.md",
+        "qualification/0_2_9/wp12_external_vv_r4_gallery_manifest.json",
+        "qualification/0_2_9/wp12_external_vv_r4_gallery_audit.json",
+        "qualification/0_2_9/wp12_external_vv_r4_gallery_summary.json"
+      ],
+      "historical_failures_preserved": true,
+      "solver_campaign_rerun_for_owner_decision": false,
+      "limitations": [
+        "same-mesh numerical correlation, not experimental validation",
+        "bounded frozen linear-static cases and observables only",
+        "R4 H1/H2/H3 hierarchy refines only the longitudinal direction",
+        "no general mesh-convergence, stress-field equivalence, nonlinear, contact, friction, dynamics, buckling, MPI or scaling claim",
+        "independent audit recomputes observables and is not a second global FEM/Newton solve",
+        "R4 raw gallery is local pending the planned WP16 archive"
+      ]
+    },
+    {
+      "id": "OD-029-WP13-R2.1-01",
+      "title": "WP13 bounded multi-family performance/API/diagnostics acceptance",
+      "decision_date": "2026-09-24",
+      "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "owner_review_status": "ACCEPTED",
+      "accepted_work_items": ["WP13-R2.1-TET4", "WP13-R2.1-TET10", "WP13-R2.1-HEX8", "WP13-R2.1-HEX20"],
+      "approved_points": 1,
+      "wp13_points_before": "0/1",
+      "wp13_points_after": "1/1",
+      "global_official_total_before": "94/100",
+      "global_official_total_after": "95/100",
+      "owner_accepts_wp13_r2_1_bounded_characterization": true,
+      "owner_accepts_wp13_limitations": true,
+      "authorizations": {
+        "official_wp13_ledger_update": true,
+        "governing_integration": true,
+        "governing_push": false
+      },
+      "active_allocation_revision": {
+        "status": "OWNER_CONFIRMED",
+        "allocations": {"WP13": 1, "WP14": 1, "WP15": 2},
+        "total_points": 100,
+        "original_frozen_roadmap_preserved": true,
+        "scope": "active score allocation only; package technical scopes are unchanged"
+      },
+      "contract_id": "QF-029-WP13-EXEC-003",
+      "contract_sha256": "8ff91f880f2979198d23b23b7f98b3df0d8a698e33124b454849e86d43896499",
+      "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+      "execution_sha": "1fc52758d53e1caa4434b22f453fb03fa40f6266",
+      "reviewed_evidence_head": "d4f95233b340cb7e30807161fce37e2027e5680e",
+      "execution_record_sha256": "debd0617bcf5c7269aa1c2a1bbeb69fe55317e291259e89beddfa432fc70bab9",
+      "raw_manifest_sha256": "218f46655ed48d242fc6ee32ad7033bebe3ccd955f80db46550b496860578c56",
+      "archived_targeted_tests": "21 passed in 3.57s",
+      "full_repository_suite_run": false,
+      "historical_failures_preserved": true,
+      "solver_campaign_rerun_for_owner_decision": false,
+      "evidence": [
+        "docs/verification/0_2_9/wp13-r2-multifamily-performance-report.md",
+        "qualification/0_2_9/wp13_r2_multifamily/wp13_r2_1_execution_contract.json",
+        "qualification/0_2_9/wp13_r2_multifamily/wp13_r2_execution_record.json",
+        "qualification/0_2_9/wp13_r2_multifamily/wp13_r2_raw_evidence_manifest.json",
+        "qualification/0_2_9/wp13_r2_multifamily/wp13_owner_acceptance_r2_1.json"
+      ],
+      "limitations": [
+        "bounded local performance characterization, not a comparative benchmark or solver ranking",
+        "memory is tracemalloc allocation peak, not process RSS",
+        "no mesh-convergence, scaling, HPC, cross-machine, precision, or external-solver claim",
+        "raw artifacts remain local and Git-ignored pending WP16 external archive",
+        "independent checks are not an independent global FEM/Newton solve"
+      ]
+    },
+    {
+      "id": "OD-029-WP07-D-R2.5-01",
+      "title": "WP07-D R2.5 scoped contact requalification evidence acceptance",
+      "decision_date": "2026-09-26",
+      "status": "CLOSED_OWNER_ACCEPTED_WITH_LIMITATIONS",
+      "owner_review_status": "ACCEPTED",
+      "accepted_work_items": ["WP07-D R2.3/R2.5 scoped requalification evidence"],
+      "incremental_points_awarded": 0,
+      "wp07_points_before": "10/10",
+      "wp07_points_after": "10/10",
+      "global_official_total_before": "95/100",
+      "global_official_total_after": "95/100",
+      "existing_wp07_owner_award_preserved": true,
+      "owner_accepts_r2_5_evidence_package": true,
+      "owner_accepts_penalty_m1_warning_as_disclosed_limitation": true,
+      "warning": {
+        "case": "PENALTY/M1",
+        "run_verdict": "WARNING",
+        "solver_converged": true,
+        "final_relative_residual": 1.8185441495457156e-11,
+        "maturity": "research",
+        "reclassified": false
+      },
+      "execution_sha": "3c749f30f95a53b4eaadb2159accb4349e6d7ee7",
+      "contract_sha256": "8b3f53c55b08859cbada2668f6e6506f08acb1981a690f62074cac0b4082bf78",
+      "execution_binding_sha256": "55a24836c4369fc4f94ec02a0a430fe5d098fa5c46e71aa814ea1399b23683dc",
+      "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+      "analysis_sha256": "2176eb503ab5aa609d5903be292111cc23eeefe83c9bdaf803c7bb39e7236abd",
+      "normalized_replay_gate_sha256": "7bd9f01ac94fd9c8e884ebbae94450eefa01958676e79b87cca57a9a57f1a926",
+      "historical_failures_preserved": true,
+      "wp07e_rerun": false,
+      "wp08e_rerun": false,
+      "full_repository_test_suite_run": false,
+      "authorizations": {
+        "owner_accepts_r2_5_evidence": true,
+        "official_points_changed": false,
+        "governing_merge": false,
+        "governing_push": false
+      },
+      "evidence": [
+        "docs/verification/0_2_9/wp07d-r2-5-owner-acceptance.md",
+        "qualification/0_2_9/wp07d_contact_requalification_r2/wp07d_r2_5_owner_acceptance.json",
+        "qualification/0_2_9/wp07d_contact_requalification_r2/analysis_final_r2_5.json",
+        "qualification/0_2_9/wp07d_contact_requalification_r2/replay_gate_normalization_r2_5.json",
+        "qualification/0_2_9/wp07d_contact_requalification_r2/replay_authorization_gate_r2_5.json"
+      ],
+      "limitations": [
+        "bounded WP07-D routes, meshes and frozen observables only",
+        "independent references are observable recomputations, not independent global FEM/Newton solves",
+        "PENALTY/M1 warning and research maturity remain disclosed",
+        "raw execution evidence remains local pending WP16 archival",
+        "this decision does not qualify WP08 or award additional WP07 points"
+      ]
+    },
+    {
+      "id": "OD-029-WP07-R2.5-INTEGRATION-01",
+      "title": "Separate Owner authorization to integrate and push the reviewed 0.2.9 lineage",
+      "decision_date": "2026-09-26",
+      "status": "CLOSED_INTEGRATED_AND_PUSHED",
+      "owner_authorization": true,
+      "authorization_scope": "Fast-forward the reviewed local 0.2.9-unified-nonlinear lineage to the governing branch and push it to origin; preserve historical evidence and score decisions.",
+      "governing_branch": "0.2.9-unified-nonlinear",
+      "source_branch": "codex/wp07d-penalty-r2-5",
+      "governing_head_before_integration": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+      "accepted_source_head": "624701020c24cab70382ba0e549af7504d21a813",
+      "post_integration_targeted_test_commit": "7b079efa84529eadb19b155920342c54dcc9fb4e",
+      "integration_method": "fast-forward followed by a test-only corrective commit; no force push",
+      "initial_remote_head_verified": "7b079efa84529eadb19b155920342c54dcc9fb4e",
+      "remote_verification": "git fetch confirmed origin/0.2.9-unified-nonlinear matched the pushed head; zero ahead/behind divergence at verification",
+      "targeted_tests": "118 passed",
+      "ruff": "PASS",
+      "compileall": "PASS",
+      "git_diff_check": "PASS",
+      "full_repository_test_suite_run": false,
+      "production_source_changed_after_wp07d_execution_sha": false,
+      "wp07_points_before": "10/10",
+      "wp07_points_after": "10/10",
+      "wp08_points_preserved": "8/8 historical award; frictional-contact requalification remains open",
+      "global_official_total_before": "95/100",
+      "global_official_total_after": "95/100",
+      "raw_evidence": {
+        "file_count": 99,
+        "bytes": 3949086874,
+        "versioned_or_pushed": false,
+        "status": "PRESERVED_LOCAL_PENDING_WP16_ARCHIVE",
+        "worktree": "C:/Users/fari/AppData/Local/Temp/qf_solver_wp07d_contact_r2_5_20260925",
+        "relative_path": "qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_5"
+      },
+      "limitations": [
+        "WP07 R2.5 acceptance adds no points and preserves the existing WP07 award",
+        "WP08 is not qualified by the WP07 decision and remains open for prospective requalification",
+        "raw R2.5 evidence remains local until WP16 archival",
+        "the historical R2.2 binding and its provenance evidence remain unchanged"
+      ],
+      "evidence": [
+        "docs/verification/0_2_9/wp07-r2-5-integration-record.md",
+        "qualification/0_2_9/wp07d_contact_requalification_r2/wp07_r2_5_integration_record.json",
+        "docs/verification/0_2_9/wp07d-r2-5-owner-acceptance.md"
+      ]
+    },
+    {
+      "id": "OD-029-WP08-AREA-R1.13-01",
+      "title": "WP08 R1.13 area-supported contact accepted as experimental evidence",
+      "decision_date": "2026-09-27",
+      "status": "CLOSED_OWNER_ACCEPTED_EXPERIMENTAL_WITH_LIMITATIONS",
+      "owner_review_status": "ACCEPTED_EXPERIMENTAL_WITH_LIMITATIONS",
+      "owner_accepts_experimental_evidence": true,
+      "owner_accepts_limitations": true,
+      "accepted_scope": "Six R1.13 diagnostic cases: stick/slip on M1/M2/M3; each passed its per-case diagnostic gates and accepted 8/8 load steps.",
+      "execution_sha": "b5dde151ff827f140e0431c3cf45a4c18871d5cd",
+      "pre_decision_evidence_report_commit": "dc538b86bc5f1064c59201c627158640682f501c",
+      "final_audit_sha256": "c152a2cc0c27b91c1a14da9a27e78ce75a058a6f98a46259b153b108f8e03354",
+      "m1_contract_sha256": "a81c9b07d9bfc457c8ef5ab48cfd9dcc1f4eab8430f6fc04136889c3229c790a",
+      "m2_m3_contract_sha256": "08c568984bd63f66bc7cf30be5407b190ac351cec6f3543f11cb839d09322b4f",
+      "incremental_points_awarded": 0,
+      "wp08_points_before": "8/8",
+      "wp08_points_after": "8/8",
+      "global_official_total_before": "95/100",
+      "global_official_total_after": "95/100",
+      "formal_wp08_requalification": false,
+      "authorizations": {
+        "owner_accepts_r1_13_experimental_evidence": true,
+        "official_score_changed": false,
+        "governing_merge": false,
+        "governing_push": false
+      },
+      "historical_r1_12_m4_failure_preserved": true,
+      "evidence": [
+        "docs/verification/0_2_9/wp08-area-supported-contact-r1-13-owner-decision.md",
+        "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_owner_decision.json",
+        "docs/verification/0_2_9/wp08-area-supported-contact-r1-13-final-report.md",
+        "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_final_audit.json"
+      ],
+      "limitations": [
+        "R1.13 is experimental bounded evidence, not formal WP08 qualification",
+        "slip displacement mesh deltas are 24.883% for M1-to-M2 and 24.541% for M2-to-M3; no mesh-convergence claim",
+        "M3 slip active contact area fraction is 0.875",
+        "independent global FEM/Newton reference, replay and external-solver correlation were not run",
+        "fallback count is not exposed; no zero-fallback claim",
+        "historical R1.12 M4 FAIL_CLOSED_NUMERICAL remains preserved and unreclassified",
+        "prior WP08 official 8/8 award is preserved; no new points or score change"
+      ]
+    },
+    {
+      "id": "OD-029-WP08-AREA-R1.13-INTEGRATION-01",
+      "title": "Owner authorization to integrate and push WP08 R1.13 experimental lineage",
+      "decision_date": "2026-09-27",
+      "status": "CLOSED_INTEGRATED_AND_PUSHED",
+      "owner_authorization": true,
+      "authorization_scope": "Fast-forward the reviewed codex/wp08-area-contact-r1-13 lineage into 0.2.9-unified-nonlinear and push; preserve historical evidence and score decisions.",
+      "governing_branch": "0.2.9-unified-nonlinear",
+      "source_branch": "codex/wp08-area-contact-r1-13",
+      "governing_head_before_integration": "cd69958909aabcd74649b92fde768a1a0422ed52",
+      "accepted_source_head": "d96b91e8ecd5781e0bff4803e256a0976bd6a4db",
+      "integration_method": "fast-forward; no force push",
+      "initial_pushed_head_verified_after_fetch": "d96b91e8ecd5781e0bff4803e256a0976bd6a4db",
+      "wp08_points_before": "8/8",
+      "wp08_points_after": "8/8",
+      "global_official_total_before": "95/100",
+      "global_official_total_after": "95/100",
+      "incremental_points_awarded": 0,
+      "formal_wp08_requalification": false,
+      "historical_r1_12_m4_failure_preserved": true,
+      "earlier_r1_13_evidence_decision_rewritten": false,
+      "evidence": [
+        "docs/verification/0_2_9/wp08-area-contact-r1-13-integration-record.md",
+        "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_13_newton_merit_20260927/r1_13_integration_record.json",
+        "docs/verification/0_2_9/wp08-area-supported-contact-r1-13-owner-decision.md"
+      ]
+    }
+  ],
+  "ledger_reconciliation": {
+    "reconciled_on": "2026-09-18",
+    "prior_committed_total": 61,
+    "prior_wp07_points": "5/10",
+    "wp05_points_already_in_prior_total": "5/5",
+    "wp07d_award": 3,
+    "total_after_wp07d": 64,
+    "wp07e_award": 2,
+    "reconciled_validated_total": 66,
+    "declared_total_points": 100,
+    "frozen_roadmap_allocations_sum": 100,
+    "weight_changes": false,
+    "allocation_mismatch_status": "CONSISTENT",
+    "explanation": "The earlier Owner-stated 61/100 after D used a 58/100 pre-WP05 baseline; the consolidated local ledger already included WP05-C/D/E +3. The frozen roadmap package allocations sum to the declared 100 points. No points are double counted.",
+    "current_reconciled_on": "2026-09-24",
+    "current_official_total": "95/100",
+    "current_awards": {
+      "WP09": "8/8",
+      "WP10": "6/6",
+      "WP11": "6/6",
+      "WP12": "4/4",
+      "WP13": "1/1"
+    },
+    "current_owner_decision_ids": [
+      "OD-029-WP09-HEX8-R3-01",
+      "OD-029-WP10-BOUNDED-CLOSURE-01",
+      "OD-029-WP11-MULTIFAMILY-R2-01",
+      "OD-029-WP12-CODE-ASTER-R2-01",
+      "OD-029-WP13-R2.1-01"
+    ],
+    "current_explanation": "The Owner accepted WP09 HEX8 R3 at 8/8, WP10 bounded multi-family evidence at 6/6, WP11 bounded multi-family PETSc/MPI evidence at 6/6, WP12 bounded Code_Aster external correlation at 4/4, and WP13 R2.1 bounded multi-family characterization at 1/1. The current official total is 95/100. The Owner-confirmed active scoring allocation is WP13=1, WP14=1, WP15=2; the original frozen roadmap is retained unchanged as historical evidence. WP12 R4 remains supplemental and all historical failures remain preserved.",
+    "active_allocation_revision": {
+      "owner_decision_id": "OD-029-WP13-R2.1-01",
+      "status": "OWNER_CONFIRMED",
+      "allocations": {"WP13": 1, "WP14": 1, "WP15": 2},
+      "total_points": 100,
+      "original_frozen_roadmap_preserved": true
+    }
+  },
+  "open_decisions": [
+    {
+      "id": "OD-029-02",
+      "title": "Legacy v1 checkpoint compatibility boundary",
+      "status": "CLOSED",
+      "decision_required_before": "WP02-B implementation",
+      "question": "Should legacy schema-1 checkpoints with contact-bearing models receive a migration path despite schema 1 lacking contact state, topology and composite digests?",
+      "approved_decision": "READ_V1_WRITE_V2_BOUNDED",
+      "decision_scope": "Read contact-free v1 checkpoints and stateless-compatible penalty-contact v1 checkpoints only when compatibility is proven from the current model; reject ambiguous/stateful contact-history-dependent v1 checkpoints; never invent missing history; write v2 only.",
+      "default_without_owner_approval": "Reject ambiguous contact-bearing v1 checkpoints explicitly; support bounded contact-free v1 read and v2 write.",
+      "options": [
+        {"id": "A", "name": "Keep bounded compatibility", "scope": "Read v1 only for contact-free/stateless-compatible cases; reject ambiguous contact-bearing v1 inputs explicitly."},
+        {"id": "B", "name": "Add a legacy contact migration contract", "scope": "Define and validate an external topology/invariant source before accepting contact-bearing v1 checkpoints."},
+        {"id": "C", "name": "Reject all v1 checkpoints", "scope": "Require a v2 checkpoint for every restart; this would be a deliberate compatibility break."}
+      ],
+      "blocks": "Only the ambiguous contact-bearing v1 migration path; it does not block WP02-B bounded schema foundation or later fixed-state work within the approved policy."
+    }
+  ]
+}

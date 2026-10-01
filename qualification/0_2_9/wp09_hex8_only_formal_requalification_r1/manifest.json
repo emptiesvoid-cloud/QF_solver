@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "execution_sha": "2b6350c8b6bb45d16ca13ee716af97b5aa247db5",
+  "contract_sha256": "42b33386ca4da1e199a13517255007eaf2fa74ea5af52ea694062ca0d54592b6",
+  "files": [
+    {
+      "path": "independent_component_reference\\report.md",
+      "sha256": "decfa8a891280451b279579314962307c2b632bd89c8cb1574ba18e647463133",
+      "bytes": 569
+    },
+    {
+      "path": "independent_component_reference\\summary.json",
+      "sha256": "7b6186f320faed6fb9c8033db0cb1e31c11cbec145aa4ec5ee56e537b1a85a82",
+      "bytes": 55620
+    },
+    {
+      "path": "independent_reference_stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "independent_reference_stdout.log",
+      "sha256": "4e273e033f05df699b7e4d263fdf4f1b6b324a44adf6035158ccb0227dbf7e17",
+      "bytes": 1852
+    },
+    {
+      "path": "m1_hex8_1.json",
+      "sha256": "2d90f6936cd822f0566bfe1c4826d32989aa7a0abe89cf2520080bd121dd5e80",
+      "bytes": 427158
+    },
+    {
+      "path": "m1_replay_a_hex8_1.json",
+      "sha256": "c9b6d07aee3760c0bc28b21c6bc91053734ca4b8aa18813c7ad8872f6735e8a0",
+      "bytes": 427163
+    },
+    {
+      "path": "m1_replay_b_hex8_1.json",
+      "sha256": "0c000656bbb9b7d2e6689450a5d4c7f9a98dcbc9696dc845894be0cd58b810c9",
+      "bytes": 427164
+    },
+    {
+      "path": "m2_hex8_2.json",
+      "sha256": "73c55c58166e3ccc1c6b943afbde0a6a9e44d9d442309319cb01bdc6e8d8b96e",
+      "bytes": 807256
+    },
+    {
+      "path": "m2_replay_a_hex8_2.json",
+      "sha256": "d4f6d6acc95045a310a441622562af9da0223008a48d1bac3612319a6fe5da43",
+      "bytes": 807263
+    },
+    {
+      "path": "m2_replay_b_hex8_2.json",
+      "sha256": "8dc575769c1a0bb72becf99e787bb1c98d1e52d7465a3c4562c8d93c2908fdcf",
+      "bytes": 807259
+    },
+    {
+      "path": "m3_hex8_4.json",
+      "sha256": "c66b5bf78170a6582efddfb98c0ba792f0d4e7553c951080dd0ad0fe870c74ea",
+      "bytes": 1567479
+    },
+    {
+      "path": "m3_replay_a_hex8_4.json",
+      "sha256": "3e965c4a88392d4e8dccb6a6e4341442d4fdd7f8305cc15d5ea92e0d7fe92511",
+      "bytes": 1567497
+    },
+    {
+      "path": "m3_replay_b_hex8_4.json",
+      "sha256": "249cf048f73c501fea47fa064cc3303c26407471a7da603a76e07cbe5a51f2fe",
+      "bytes": 1567494
+    }
+  ]
+}

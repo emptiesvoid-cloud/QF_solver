@@ -1,0 +1,8 @@
+{
+  "elapsed_time_s": 0.17159990000072867,
+  "mesh": "M2",
+  "phase": "RUN_END",
+  "schema_version": 1,
+  "status": "FAILED",
+  "terminal_classification": "REFERENCE_MISMATCH"
+}

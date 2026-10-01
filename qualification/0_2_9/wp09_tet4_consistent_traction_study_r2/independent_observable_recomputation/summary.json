@@ -1,0 +1,204 @@
+{
+  "status": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION",
+  "classification": "INDEPENDENT_OBSERVABLE_RECOMPUTATION_NOT_GLOBAL_FEM_SOLVE",
+  "production_imports": [],
+  "rows": [
+    {
+      "source": "h1_tet4_primary.json",
+      "sha256": "bc981f3127bea0580468a066a629937cba75733d195d0dd865bf97d38d851273",
+      "family": "TET4",
+      "stage": "H1",
+      "status": "PASS",
+      "failures": [],
+      "comparisons": {
+        "selected_displacement": {
+          "declared": 0.015351227460599364,
+          "recomputed": 0.015351227460599364,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "displacement_norm": {
+          "declared": 0.026266661980069574,
+          "recomputed": 0.026266661980069574,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "reaction_norm": {
+          "declared": 0.2500000000036466,
+          "recomputed": 0.2500000000036466,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "energy": {
+          "declared": 0.0007482932871326265,
+          "recomputed": 0.0007482932871326265,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "von_mises_max": {
+          "declared": 0.20204655454886253,
+          "recomputed": 0.20204655454886253,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "equivalent_plastic_strain_max": {
+          "declared": 0.018204655454886535,
+          "recomputed": 0.018204655454886535,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "plastic_dissipation_max": {
+          "declared": 0.0019900908385752166,
+          "recomputed": 0.0019900908385752166,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "min_det_f": {
+          "declared": 0.9998470307511788,
+          "recomputed": 0.9998470307511788,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "max_local_strain_norm": {
+          "declared": 0.022508860741308704,
+          "recomputed": 0.022508860741308704,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        }
+      }
+    },
+    {
+      "source": "h2_tet4_primary.json",
+      "sha256": "dc7b32f2ce218114ad8e5f710ca60fb54f9ac5a283b83ef091414f4461e69fc7",
+      "family": "TET4",
+      "stage": "H2",
+      "status": "PASS",
+      "failures": [],
+      "comparisons": {
+        "selected_displacement": {
+          "declared": 0.013975581681210481,
+          "recomputed": 0.013975581681210481,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "displacement_norm": {
+          "declared": 0.030753174030392207,
+          "recomputed": 0.030753174030392207,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "reaction_norm": {
+          "declared": 0.2499999999994204,
+          "recomputed": 0.2499999999994204,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "energy": {
+          "declared": 0.0006801841182729848,
+          "recomputed": 0.0006801841182729848,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "von_mises_max": {
+          "declared": 0.2125680165027074,
+          "recomputed": 0.2125680165027074,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "equivalent_plastic_strain_max": {
+          "declared": 0.019256801650270723,
+          "recomputed": 0.019256801650270723,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "plastic_dissipation_max": {
+          "declared": 0.0022065792021628682,
+          "recomputed": 0.0022065792021628682,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "min_det_f": {
+          "declared": 0.99906173772422,
+          "recomputed": 0.99906173772422,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "max_local_strain_norm": {
+          "declared": 0.023791717602892067,
+          "recomputed": 0.023791717602892067,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        }
+      }
+    },
+    {
+      "source": "h3_tet4_primary.json",
+      "sha256": "7f22bd73745ae5afed3c8bc043f6b2a9d6be9b8beb8962e583f24f7df49ce56e",
+      "family": "TET4",
+      "stage": "H3",
+      "status": "PASS",
+      "failures": [],
+      "comparisons": {
+        "selected_displacement": {
+          "declared": 0.012642749540586433,
+          "recomputed": 0.012642749540586433,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "displacement_norm": {
+          "declared": 0.03719525353022641,
+          "recomputed": 0.03719525353022641,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "reaction_norm": {
+          "declared": 0.25000000000627004,
+          "recomputed": 0.25000000000627004,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "energy": {
+          "declared": 0.0007554574263751903,
+          "recomputed": 0.0007554574263751903,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "von_mises_max": {
+          "declared": 0.21072942400984804,
+          "recomputed": 0.21072942400984804,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "equivalent_plastic_strain_max": {
+          "declared": 0.019072942400984793,
+          "recomputed": 0.019072942400984793,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "plastic_dissipation_max": {
+          "declared": 0.0021679863984020364,
+          "recomputed": 0.0021679863984020364,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "min_det_f": {
+          "declared": 0.9984956886935266,
+          "recomputed": 0.9984956886935266,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        },
+        "max_local_strain_norm": {
+          "declared": 0.023557806930628585,
+          "recomputed": 0.023557806930628585,
+          "absolute_error": 0.0,
+          "relative_error": 0.0
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "recomputes derived observables from serialized production result arrays",
+    "does not independently solve the FEM/Newton problem",
+    "does not independently validate equilibrium vectors generated by production audit"
+  ]
+}

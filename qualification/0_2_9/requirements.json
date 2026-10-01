@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "requirements_id": "QF-SOLVER-0.2.9-NONLINEAR-REQUIREMENTS-001",
+  "canonical_mechanics_contract": {
+    "residual": "R(u, lambda, state) = lambda * F_ext - F_material - F_geometric - F_contact",
+    "tangent": "K_T = K_material + K_geometric + K_contact",
+    "free_dof_policy": "Convergence and physical residual gates are evaluated on declared free degrees of freedom; constrained reactions are recovered from the physical system.",
+    "state_policy": "Trial state is never externally committed until an accepted increment; failed iterations, rejected increments and restart failures must roll back atomically.",
+    "compatibility_note": "Existing implementations use algebraically equivalent internal-minus-external residual conventions in places. WP01 must adapt them to this explicit contract without changing physical K/F definitions."
+  },
+  "common_driver_requirements": [
+    "A single public nonlinear-driver contract owns Newton iteration, convergence reporting, line-search policy, increment acceptance, cutback/retry and diagnostics.",
+    "Material, geometric and contact contributions compose through one residual/tangent assembly protocol.",
+    "No physics family may silently fall back to an unrelated solver or commit state outside the accepted-increment boundary.",
+    "Checkpoint/restart state must be versioned, validated and sufficient to reproduce the declared continuation state."
+  ],
+  "geometric_nonlinear_gates": [
+    "rigid-body objectivity", "small-displacement recovery", "tangent finite-difference agreement", "residual convergence", "reactions and equilibrium", "energy/work consistency", "increment refinement", "mesh refinement", "large-rotation cases", "det(F) monitoring", "controlled failure behavior", "external correlation"
+  ],
+  "contact_gates": [
+    "open/contact transition", "separation", "recontact", "updated search", "facet transition", "penetration", "penalty sensitivity", "reaction equilibrium", "mesh sensitivity", "finite sliding where claimed", "tangent consistency", "state rollback"
+  ],
+  "friction_gates": [
+    "stick", "slip", "stick-to-slip", "slip-to-stick or reversal where supported", "Coulomb cone", "non-negative dissipation", "state commit/rollback", "load-step sensitivity"
+  ],
+  "evidence_policy": {
+    "prospective_contract": "Every work package freezes observable definitions, numerical gates, scope, failure cases and oracle limitations before campaign execution.",
+    "replay": "At least two deterministic replays are required where a work package claims deterministic nonlinear behavior.",
+    "promotion": "No target becomes a maturity change without completed gates, evidence integrity and Owner approval."
+  }
+}

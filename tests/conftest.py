@@ -81,6 +81,18 @@ EVIDENCE_TESTS = {
     "tests/verification/test_orthotropic_completion_vnv.py::test_controlled_orthotropic_performance_evidence_is_complete",
 }
 
+RECOVERED_ARCHIVE_EVIDENCE_TESTS = {
+    "tests/verification/test_wp04_c_tet4_structural.py::test_c05_mesh_displacement_convergence",
+    "tests/verification/test_wp04_c_tet4_structural.py::test_c07_mesh_energy_convergence",
+    "tests/verification/test_wp04_c_tet4_structural.py::test_c08_mesh_representative_stress_convergence",
+    "tests/verification/test_wp04_e_cross_family.py::test_g04_12_recomputes_all_frozen_deltas_from_governing_source_records",
+    "tests/verification/test_wp04_e_cross_family.py::test_g04_12_source_file_hashes_and_carried_limitation_are_bound",
+    "tests/verification/test_wp04_f_final_closure.py::test_audit_scope_and_source_freeze",
+    "tests/verification/test_wp04_f_final_closure.py::test_original_failure_and_wp04b_metrics_are_preserved",
+    "tests/verification/test_wp04_f_final_closure.py::test_final_all_or_nothing_governance_decision",
+    "tests/verification/test_wp09_tet4_consistent_traction_study.py::test_frozen_study_contract_binds_runner_and_preserves_history",
+}
+
 
 def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     """Skip only archive-backed checks when the optional evidence corpus is absent."""
@@ -89,6 +101,13 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
         and EVIDENCE_ROOT.is_dir()
         and GENERATED_DOCS_MANIFEST.is_file()
     )
+    archive_root_value = os.environ.get("QF_SOLVER_EVIDENCE_ARCHIVE_ROOT")
+    recovered_archive_available = (
+        os.environ.get("QF_SOLVER_RUN_RECOVERED_EVIDENCE", "0") == "1"
+        and archive_root_value is not None
+        and (Path(archive_root_value) / "0_2_9" / "wp14" / "r23_engineering_source_evidence").is_dir()
+        and (ROOT / "qualification" / "0_2_9" / "wp14" / "wp14_r23_recovered_evidence_manifest.json").is_file()
+    )
     mesh_available = _gmsh_available()
     evidence_marker = pytest.mark.skip(reason="optional controlled V&V evidence corpus is not installed")
     mesh_marker = pytest.mark.skip(reason="optional Gmsh dependency is not installed")
@@ -96,7 +115,12 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
         base_nodeid = item.nodeid.split("[", maxsplit=1)[0]
         module_path = base_nodeid.split("::", maxsplit=1)[0]
         evidence_required = base_nodeid in EVIDENCE_TESTS or module_path in OPTIONAL_EVIDENCE_MODULES
-        if not evidence_available and (evidence_required or item.get_closest_marker("evidence") is not None):
+        recovered_archive_test = recovered_archive_available and base_nodeid in RECOVERED_ARCHIVE_EVIDENCE_TESTS
+        if (
+            not evidence_available
+            and not recovered_archive_test
+            and (evidence_required or item.get_closest_marker("evidence") is not None)
+        ):
             item.add_marker(pytest.mark.evidence)
             item.add_marker(evidence_marker)
         if not mesh_available and module_path in OPTIONAL_MESH_TEST_MODULES:

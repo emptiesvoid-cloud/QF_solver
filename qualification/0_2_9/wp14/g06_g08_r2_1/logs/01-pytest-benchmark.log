@@ -1,0 +1,31 @@
+START_UTC=2026-09-28T06:30:03.7716414+00:00
+COMMAND=python -m pytest -m benchmark
+CWD=C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_r1_13_integration_20260927
+PYTHON=Python 3.13.1
+============================= test session starts =============================
+platform win32 -- Python 3.13.1, pytest-8.4.1, pluggy-1.6.0
+rootdir: C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_r1_13_integration_20260927
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.9.0, hypothesis-6.135.20, langsmith-0.3.42, cov-6.2.1
+collected 3929 items / 3905 deselected / 24 selected
+
+tests\verification\test_j2_methods_vnv.py .                              [  4%]
+tests\verification\test_j2_step_sensitivity_vnv.py .                     [  8%]
+tests\verification\test_j2_structural_vnv.py .                           [ 12%]
+tests\verification\test_j2_unified_nonlinear_evidence.py .               [ 16%]
+tests\verification\test_meshed_benchmarks.py ...........                 [ 62%]
+tests\verification\test_mitc4_verification.py ..                         [ 70%]
+tests\verification\test_tet10_j2_structural_vnv.py .                     [ 75%]
+tests\verification\test_tet10_mass_modal_loads_vnv.py .                  [ 79%]
+tests\verification\test_tet10_near_incompressible_vnv.py .               [ 83%]
+tests\verification\test_tet10_structural_convergence_vnv.py .            [ 87%]
+tests\verification\test_tet4_tl_buckling_vnv.py .                        [ 91%]
+tests\verification\test_tet4_tl_postbuckling_vnv.py s                    [ 95%]
+tests\verification\test_tet4_total_lagrangian_vnv.py .                   [100%]
+
+========= 23 passed, 1 skipped, 3905 deselected in 591.77s (0:09:51) ==========
+
+EXIT_CODE=0
+END_UTC=2026-09-28T06:39:58.6499737+00:00
+LOG_SHA256=215B92F75892204FF104DBE051DEE69DD1A615C19F9C641E70B38FA92BE215F9

@@ -1,0 +1,16 @@
+{
+  "evidence_class": "HISTORICAL_NON_AUTHORITATIVE_PRESERVED",
+  "source_branch": "codex/wp10-tet10-extension",
+  "source_path": "qualification/0_2_9/wp10_tet10_extension_r2/m1_primary.json",
+  "source_commit_family": "historical TET10 equal-share extension",
+  "source_sha": "e474e626028d89e88b2e88e5eb21ebefaa3aeb6c",
+  "runner_sha": "692041a6e994b8a06160358e35689f3a546db952",
+  "contract_sha256": "2b1bd33738378efc8833c8ab78f53d440554693efd394daba35b58e2edaf4aac",
+  "declared_raw_sha256": "5e7b1c557b31c85cbd6764dabbde3b61986311507ab48807eca7325da149ff88",
+  "status": "FAIL_CLOSED",
+  "error_type": "NumericalConvergenceError",
+  "error": "Nonlinear element 1 update failed: Corotational small-strain bound exceeded: ||U-I||F=6.989617e-02 > 5.000000e-02.",
+  "m2_allowed": false,
+  "m3_allowed": false,
+  "preservation_note": "Copied from the historical branch for direct audit traceability; not used as evidence for the new surface-traction contract and not rewritten."
+}

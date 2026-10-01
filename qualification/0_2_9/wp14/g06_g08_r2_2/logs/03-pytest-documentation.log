@@ -1,0 +1,26 @@
+START_UTC=2026-09-29T08:33:17.4317495Z
+ARGV=python -m pytest tests/documentation
+ENV:QF_SOLVER_RUN_EVIDENCE=1
+HEAD=a4a64123ec38304f2d1aa02bc3cd0617d31bbb5c
+============================= test session starts =============================
+platform win32 -- Python 3.13.1, pytest-8.4.1, pluggy-1.6.0
+rootdir: C:\Users\fari\AppData\Local\Temp\wp14_g03_g06_g08_20260929
+configfile: pyproject.toml
+plugins: anyio-4.9.0, hypothesis-6.135.20, langsmith-0.3.42, cov-6.2.1
+collected 68 items
+
+tests\documentation\test_docs_fields.py .......                          [ 10%]
+tests\documentation\test_docs_generation.py ..........s................. [ 51%]
+......s...                                                               [ 66%]
+tests\documentation\test_engineering_page_contracts.py ....              [ 72%]
+tests\documentation\test_extended_element_dossiers.py ........s          [ 85%]
+tests\documentation\test_mitc3_review_pdf.py .                           [ 86%]
+tests\documentation\test_open_owner_review_pdfs.py .                     [ 88%]
+tests\documentation\test_owner_review_audit_pack.py ...                  [ 92%]
+tests\documentation\test_owner_review_element_pack_pdf.py .              [ 94%]
+tests\documentation\test_technical_content_closure.py sss.               [100%]
+
+======================= 62 passed, 6 skipped in 51.93s ========================
+
+EXIT_CODE=0
+END_UTC=2026-09-29T08:34:13.4240407Z

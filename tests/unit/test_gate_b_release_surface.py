@@ -31,7 +31,9 @@ def test_base_import_does_not_require_h5py(tmp_path: Path) -> None:
         text=True,
     )
     assert completed.returncode == 0, completed.stdout + completed.stderr
-    assert completed.stdout.strip() == "0.2.8"
+    from solveur.version import __version__
+
+    assert completed.stdout.strip() == __version__
 
 
 def test_hdf5_api_fails_typed_and_closed_without_h5py(tmp_path: Path) -> None:
@@ -74,8 +76,9 @@ def test_version_registry_and_public_docs_are_aligned() -> None:
     project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]
     from solveur.version import __version__
 
-    assert project["version"] == __version__ == "0.2.8"
+    assert project["version"] == __version__ == "0.2.9"
     assert project["optional-dependencies"]["hdf5"] == ["h5py>=3.10"]
+    # CITATION remains bound to the last published release until 0.2.9 is tagged.
     assert 'version: "0.2.8"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
     registry = json.loads((ROOT / "qualification/0_2_8/consolidated_registry.json").read_text(encoding="utf-8"))
     assert registry["combination_registry"]["state_counts"] == {

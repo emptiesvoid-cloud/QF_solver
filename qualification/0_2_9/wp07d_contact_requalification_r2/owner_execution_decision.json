@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "artifact_id": "QF-029-WP07-D-OWNER-EXECUTION-DECISION-CONTACT-R2-001",
+  "decision_date": "2026-09-25",
+  "status": "AUTHORIZED_FOR_SOURCE_BOUND_REQUALIFICATION",
+  "authorization_basis": "Owner explicitly requested rerunning M1, M2, and M3 for WP07 and WP08 after the contact-mechanics correction, to validate both packages.",
+  "decisions": {
+    "OWNER_AUTHORIZES_WP07D_M1_M2_M3_REQUALIFICATION": true,
+    "OWNER_AUTHORIZES_WP07D_INDEPENDENT_REFERENCES": true,
+    "OWNER_AUTHORIZES_WP07D_CONTRACT_REQUIRED_REPLAYS": true,
+    "OWNER_AUTHORIZES_WP08D_M1_M2_M3_REQUALIFICATION": true,
+    "OWNER_AUTHORIZES_WP08D_INDEPENDENT_REFERENCES": true,
+    "OWNER_AUTHORIZES_WP08D_CONTRACT_REQUIRED_REPLAY": true,
+    "OWNER_AUTHORIZES_WP07E_OR_WP08E": false,
+    "OWNER_AWARDS_POINTS": false,
+    "OWNER_AUTHORIZES_LEDGER_UPDATE": false,
+    "OWNER_AUTHORIZES_MERGE_OR_PUSH": false
+  },
+  "conditions": [
+    "Run sequentially on one CPU; no parallel structural solves.",
+    "Preserve all historical failures and raw evidence without overwriting them.",
+    "Use the frozen physics, mesh, material, loads, tolerances, backend, fallback policy, and numerical gates unchanged.",
+    "Run references only for primary cases that complete successfully.",
+    "Run only replay levels already required by the frozen package contracts, and only after their primary/reference gates pass.",
+    "Do not run WP07-E or WP08-E, award points, update the ledger, merge, push, tag, or release."
+  ],
+  "execution_sha": "BOUND_AFTER_SOURCE_AND_CONTRACT_FREEZE",
+  "qualification_claim": "Execution authorization only; no formal points are awarded by this decision."
+}

@@ -1,4 +1,13 @@
 *.msh -text whitespace=-trailing-space
+# Qualification files are hash-bound evidence; preserve their Git blob bytes on Windows.
+qualification/** -text
+# The WP06F migration audit verifies this document's exact historical byte delta.
+docs/verification/0_2_9/wp06f-closure-contract.md text eol=lf
+qualification/0_2_9/wp08d_phase1/M2/** -text
+qualification/0_2_9/wp08d_phase1_mixed_open_active_slip_step2_reconstruction/** -text
+qualification/0_2_9/wp08d_phase1_mixed_open_active_slip_step2_local_source/** -text
+qualification/0_2_9/wp08d_phase1_mixed_open_active_slip_requalification/** -text
+qualification/0_2_9/wp08d_phase1_contract_aligned_m2/** -text
 qualification/0_2_7/external_oracles/wedge6/decks/calculix/*.inp binary
 qualification/0_2_7/external_oracles/wedge6/results/*.dat binary
 qualification/0_2_7/external_oracles/wedge6/results/*.frd binary
@@ -27,4 +36,19 @@ results_large/** export-ignore
 site/** export-ignore
 output/** export-ignore
 VNV-*/** export-ignore
+qualification/0_2_9/wp05_cd_stress_window_remediation_candidate.json text eol=lf
+docs/verification/0_2_9/wp05d-owner-validation-review.md text eol=lf
 qualification/vnv/** export-ignore
+# Keep this campaign's captured Windows process logs byte-exact for hash verification.
+qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_m4_20260926/_process_logs/*.log binary
+qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_m4_slip_forensic_r2_20260926/_process_logs/*.log binary
+# Preserve WP14 R2.2 command logs and generated-output manifests byte-exactly.
+qualification/0_2_9/wp14/g06_g08_r2_2/logs/*.log binary
+qualification/0_2_9/wp14/g06_g08_r2_2/*-manifest.csv binary
+# Keep captured Windows evidence bytes intact and treat CRLF as line endings during diff checks.
+qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/** whitespace=cr-at-eol
+qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/*.log binary
+qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_4/package_candidate/logs/*.log binary
+qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/** whitespace=cr-at-eol
+qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/*.log binary
+qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_5/package_candidate/logs/*.log binary

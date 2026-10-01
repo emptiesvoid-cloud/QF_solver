@@ -1,0 +1,7 @@
+{
+  "status_equal": true,
+  "dof_equal": true,
+  "final_displacement_max_abs_diff": 0.0,
+  "step_count_equal": true,
+  "status": "PASS_REPLAY"
+}

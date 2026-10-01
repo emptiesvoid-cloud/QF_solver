@@ -1,0 +1,809 @@
+{
+  "all_hashes_verified": true,
+  "artifact_id": "QF-029-WP07-D-R1-EVIDENCE-MANIFEST-R2-001",
+  "artifacts": [
+    {
+      "expected_sha256": "b923f560a0d6719ee149ea31f912f46b6b7d32600df1cd7b80bf70a40562d7d7",
+      "id": "D-R1:wp07d_formal_requalification_contract_r1.json",
+      "observed_sha256": "b923f560a0d6719ee149ea31f912f46b6b7d32600df1cd7b80bf70a40562d7d7",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_formal_requalification_contract_r1.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_formal_requalification_contract_r1.json",
+      "role": "D_R1_CONTROL",
+      "size_bytes": 43273,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "ef223ee40ed1d4d9b1c60a20c2ee2958ea4e37acd8c0265058a4a12218fcf52d",
+      "id": "D-R1:wp07d_execution_binding_formal_rebind_r1.json",
+      "observed_sha256": "ef223ee40ed1d4d9b1c60a20c2ee2958ea4e37acd8c0265058a4a12218fcf52d",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_execution_binding_formal_rebind_r1.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_execution_binding_formal_rebind_r1.json",
+      "role": "D_R1_CONTROL",
+      "size_bytes": 7918,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "f5d19dcaeafb1a3592bda6ffa54d24a2f602f8d5eb06ce21f9d0013a1c7b57f8",
+      "id": "D-R1:owner_decision.json",
+      "observed_sha256": "f5d19dcaeafb1a3592bda6ffa54d24a2f602f8d5eb06ce21f9d0013a1c7b57f8",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/owner_decision.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/owner_decision.json",
+      "role": "D_R1_CONTROL",
+      "size_bytes": 1983,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "1a81e261eec99e201b6266a41dd87a8f452880dab4105b9a940087ab9e8854ab",
+      "id": "D-R1:analysis_final.json",
+      "observed_sha256": "1a81e261eec99e201b6266a41dd87a8f452880dab4105b9a940087ab9e8854ab",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/analysis_final.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/analysis_final.json",
+      "role": "D_R1_CONTROL",
+      "size_bytes": 619321,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "1ef95b0a0bd7f1da66e512b5af18f8f484f97a1e88a5ee65742c192f1077819b",
+      "id": "D-R1:readiness.json",
+      "observed_sha256": "1ef95b0a0bd7f1da66e512b5af18f8f484f97a1e88a5ee65742c192f1077819b",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/readiness.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/readiness.json",
+      "role": "D_R1_CONTROL",
+      "size_bytes": 3211,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "9ec21b2dbaf456042acc14951dc22072949c8285d6d8036623688d2c14c1a7b5",
+      "id": "D-R1:replay_authorization_gate.json",
+      "observed_sha256": "9ec21b2dbaf456042acc14951dc22072949c8285d6d8036623688d2c14c1a7b5",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/replay_authorization_gate.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/replay_authorization_gate.json",
+      "role": "D_R1_CONTROL",
+      "size_bytes": 48825,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "24e151ed4b548866ebc8068627124a0215bacb5d76357ecd2891864ee1df8982",
+      "id": "D-R1-AUTH:INDEPENDENT_REFERENCE/ACTIVE_SET_M1.json",
+      "observed_sha256": "24e151ed4b548866ebc8068627124a0215bacb5d76357ecd2891864ee1df8982",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/ACTIVE_SET_M1.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/ACTIVE_SET_M1.json",
+      "role": "D_R1_AUTHORIZATION",
+      "size_bytes": 1630,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "9f377cfff466791dfadc8dde33e84bb22499bbb2a65c7fe9eba35adf2c5e0121",
+      "id": "D-R1-AUTH:INDEPENDENT_REFERENCE/ACTIVE_SET_M2.json",
+      "observed_sha256": "9f377cfff466791dfadc8dde33e84bb22499bbb2a65c7fe9eba35adf2c5e0121",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/ACTIVE_SET_M2.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/ACTIVE_SET_M2.json",
+      "role": "D_R1_AUTHORIZATION",
+      "size_bytes": 1632,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "0c3c5ea85984de34712eaae6517f969a18cb55387275d2bf026f3baaae86f896",
+      "id": "D-R1-AUTH:INDEPENDENT_REFERENCE/ACTIVE_SET_M3.json",
+      "observed_sha256": "0c3c5ea85984de34712eaae6517f969a18cb55387275d2bf026f3baaae86f896",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/ACTIVE_SET_M3.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/ACTIVE_SET_M3.json",
+      "role": "D_R1_AUTHORIZATION",
+      "size_bytes": 2543,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "0c25dbb6eef541807d9ac56c7690a41565c5d72c85bb9b2e85e933a048e5a614",
+      "id": "D-R1-AUTH:INDEPENDENT_REFERENCE/PENALTY_M1.json",
+      "observed_sha256": "0c25dbb6eef541807d9ac56c7690a41565c5d72c85bb9b2e85e933a048e5a614",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/PENALTY_M1.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/PENALTY_M1.json",
+      "role": "D_R1_AUTHORIZATION",
+      "size_bytes": 1667,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "6c49025dd28dc5bd01ce315b9919a194e9faee17b39d5a000c4e41220d6cca46",
+      "id": "D-R1-AUTH:INDEPENDENT_REFERENCE/PENALTY_M2.json",
+      "observed_sha256": "6c49025dd28dc5bd01ce315b9919a194e9faee17b39d5a000c4e41220d6cca46",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/PENALTY_M2.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/PENALTY_M2.json",
+      "role": "D_R1_AUTHORIZATION",
+      "size_bytes": 1669,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "4e4f82f0c06f9b1ad7acaac823c1c3a22dae82f506ff82e60b98fd68fcf5d725",
+      "id": "D-R1-AUTH:INDEPENDENT_REFERENCE/PENALTY_M3.json",
+      "observed_sha256": "4e4f82f0c06f9b1ad7acaac823c1c3a22dae82f506ff82e60b98fd68fcf5d725",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/PENALTY_M3.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/INDEPENDENT_REFERENCE/PENALTY_M3.json",
+      "role": "D_R1_AUTHORIZATION",
+      "size_bytes": 2580,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "7b407be69199288b0ea246fec55a2abc62b7c774c4c15556f0b87503e1795bc8",
+      "id": "D-R1-AUTH:PRIMARY_PRODUCTION/ACTIVE_SET_M1.json",
+      "observed_sha256": "7b407be69199288b0ea246fec55a2abc62b7c774c4c15556f0b87503e1795bc8",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/ACTIVE_SET_M1.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/ACTIVE_SET_M1.json",
+      "role": "D_R1_AUTHORIZATION",
+      "size_bytes": 1624,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "4e3e96d8ab6e1342f2b7b210047ad4b09b29b039e48443cf2165048cb7554905",
+      "id": "D-R1-AUTH:PRIMARY_PRODUCTION/ACTIVE_SET_M2.json",
+      "observed_sha256": "4e3e96d8ab6e1342f2b7b210047ad4b09b29b039e48443cf2165048cb7554905",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/ACTIVE_SET_M2.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/ACTIVE_SET_M2.json",
+      "role": "D_R1_AUTHORIZATION",
+      "size_bytes": 1626,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "0b665164281e18cbc4b590528999eb6d9d8c9b23af3f45762e478806d204c00a",
+      "id": "D-R1-AUTH:PRIMARY_PRODUCTION/ACTIVE_SET_M3.json",
+      "observed_sha256": "0b665164281e18cbc4b590528999eb6d9d8c9b23af3f45762e478806d204c00a",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/ACTIVE_SET_M3.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/ACTIVE_SET_M3.json",
+      "role": "D_R1_AUTHORIZATION",
+      "size_bytes": 2537,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "2da62b24989f84ada1ba98e3c854fde2661a57084641dec935e543689ad9878d",
+      "id": "D-R1-AUTH:PRIMARY_PRODUCTION/PENALTY_M1.json",
+      "observed_sha256": "2da62b24989f84ada1ba98e3c854fde2661a57084641dec935e543689ad9878d",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/PENALTY_M1.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/PENALTY_M1.json",
+      "role": "D_R1_AUTHORIZATION",
+      "size_bytes": 1661,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "e4ed8deb15789b71e0c5d24bb458cf493f8f5312fd1519063872dfab501093cc",
+      "id": "D-R1-AUTH:PRIMARY_PRODUCTION/PENALTY_M2.json",
+      "observed_sha256": "e4ed8deb15789b71e0c5d24bb458cf493f8f5312fd1519063872dfab501093cc",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/PENALTY_M2.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/PENALTY_M2.json",
+      "role": "D_R1_AUTHORIZATION",
+      "size_bytes": 1663,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "696b1c5ca28b5285f5e587ed7cb9aa6ec7ecda204302a5b3659852159b3b7959",
+      "id": "D-R1-AUTH:PRIMARY_PRODUCTION/PENALTY_M3.json",
+      "observed_sha256": "696b1c5ca28b5285f5e587ed7cb9aa6ec7ecda204302a5b3659852159b3b7959",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/PENALTY_M3.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/PRIMARY_PRODUCTION/PENALTY_M3.json",
+      "role": "D_R1_AUTHORIZATION",
+      "size_bytes": 2574,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "24286eb0bbde8c4453e59748c5f7d4d4eca6ab863c8781d3f463016a3db1501b",
+      "id": "D-R1-AUTH:REPLAY/ACTIVE_SET_M2.json",
+      "observed_sha256": "24286eb0bbde8c4453e59748c5f7d4d4eca6ab863c8781d3f463016a3db1501b",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/REPLAY/ACTIVE_SET_M2.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/REPLAY/ACTIVE_SET_M2.json",
+      "role": "D_R1_AUTHORIZATION",
+      "size_bytes": 1796,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "6cef20e43df137ec1ba511f1bcfe84009620e4e2c0c58999771f0037d15c3eb9",
+      "id": "D-R1-AUTH:REPLAY/PENALTY_M1.json",
+      "observed_sha256": "6cef20e43df137ec1ba511f1bcfe84009620e4e2c0c58999771f0037d15c3eb9",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/REPLAY/PENALTY_M1.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/authorizations/REPLAY/PENALTY_M1.json",
+      "role": "D_R1_AUTHORIZATION",
+      "size_bytes": 1831,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "bbcb1147e54ee9fb63061cea1ccc5ce61a9f13cee8567ab9acd1f8338e64a7ed",
+      "id": "D-R1-RUN:ACTIVE_SET/M1/primary/progress.json",
+      "observed_sha256": "bbcb1147e54ee9fb63061cea1ccc5ce61a9f13cee8567ab9acd1f8338e64a7ed",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/primary/progress.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/primary/progress.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 989,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "e6afb83b057eab82e6de107a018835efbb51a0a02582d1a419b8942bcec22e09",
+      "id": "D-R1-RUN:ACTIVE_SET/M1/primary/result.json",
+      "observed_sha256": "e6afb83b057eab82e6de107a018835efbb51a0a02582d1a419b8942bcec22e09",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/primary/result.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/primary/result.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 47292758,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "659c00c7aa39f1f300da2007d6e46d8b84f0dec11712276df0b3dbe2b102d3a2",
+      "id": "D-R1-RUN:ACTIVE_SET/M1/primary/run.json",
+      "observed_sha256": "659c00c7aa39f1f300da2007d6e46d8b84f0dec11712276df0b3dbe2b102d3a2",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/primary/run.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/primary/run.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 2645,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "195bd03e280eb8e1c6cc5fba21982f2b79a4903c384e11b6665469d0d4f3c896",
+      "id": "D-R1-RUN:ACTIVE_SET/M1/primary/telemetry.jsonl",
+      "observed_sha256": "195bd03e280eb8e1c6cc5fba21982f2b79a4903c384e11b6665469d0d4f3c896",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/primary/telemetry.jsonl",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/primary/telemetry.jsonl",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 5457,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "b833ae7f8dc45c285c62d6b7e0b307b8af03adc8f6fe160c0a37c1d4b7f915d2",
+      "id": "D-R1-RUN:ACTIVE_SET/M1/reference/progress.json",
+      "observed_sha256": "b833ae7f8dc45c285c62d6b7e0b307b8af03adc8f6fe160c0a37c1d4b7f915d2",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/reference/progress.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/reference/progress.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 1434,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "921ef6430bd4280321b3ffd4dbb1a9105843aa69e4b816ccac015eceac612030",
+      "id": "D-R1-RUN:ACTIVE_SET/M1/reference/result.json",
+      "observed_sha256": "921ef6430bd4280321b3ffd4dbb1a9105843aa69e4b816ccac015eceac612030",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/reference/result.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/reference/result.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 55586,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "2b9e88faec1ddc119d4c34cd8923b228d4712033ff09a7fcb64ff2bc77212e29",
+      "id": "D-R1-RUN:ACTIVE_SET/M1/reference/run.json",
+      "observed_sha256": "2b9e88faec1ddc119d4c34cd8923b228d4712033ff09a7fcb64ff2bc77212e29",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/reference/run.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/reference/run.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 2514,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "11f2e79d1867abc93cefb9f60cdc1e6205e29030c9003ab0c9a58eba0a5265c7",
+      "id": "D-R1-RUN:ACTIVE_SET/M1/reference/telemetry.jsonl",
+      "observed_sha256": "11f2e79d1867abc93cefb9f60cdc1e6205e29030c9003ab0c9a58eba0a5265c7",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/reference/telemetry.jsonl",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M1/reference/telemetry.jsonl",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 22984,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "1641221e87acd41d7e5daba22da7582e043acc15f851267323474f112e1c1aa5",
+      "id": "D-R1-RUN:ACTIVE_SET/M2/primary/progress.json",
+      "observed_sha256": "1641221e87acd41d7e5daba22da7582e043acc15f851267323474f112e1c1aa5",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/primary/progress.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/primary/progress.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 987,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "6d59bedb7326a7f40c69370e6b1a47b7566ba8d602e0acb8367bc2e6946746df",
+      "id": "D-R1-RUN:ACTIVE_SET/M2/primary/result.json",
+      "observed_sha256": "6d59bedb7326a7f40c69370e6b1a47b7566ba8d602e0acb8367bc2e6946746df",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/primary/result.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/primary/result.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 378501337,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "d3f50a4263d59a4482e2e1743ad2be24018a02831b585b0c60fa8b9990b38da7",
+      "id": "D-R1-RUN:ACTIVE_SET/M2/primary/run.json",
+      "observed_sha256": "d3f50a4263d59a4482e2e1743ad2be24018a02831b585b0c60fa8b9990b38da7",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/primary/run.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/primary/run.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 2647,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "92232fb6e97e3dda4d49c470a77ac3c8212eee90d20ecabf26d728e124f1a04f",
+      "id": "D-R1-RUN:ACTIVE_SET/M2/primary/telemetry.jsonl",
+      "observed_sha256": "92232fb6e97e3dda4d49c470a77ac3c8212eee90d20ecabf26d728e124f1a04f",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/primary/telemetry.jsonl",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/primary/telemetry.jsonl",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 13299,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "11a6814190336a9fa72d0e135a7a07d00fd876cc8166bf6b02a599f5b3c4d3ff",
+      "id": "D-R1-RUN:ACTIVE_SET/M2/reference/progress.json",
+      "observed_sha256": "11a6814190336a9fa72d0e135a7a07d00fd876cc8166bf6b02a599f5b3c4d3ff",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/reference/progress.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/reference/progress.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 1443,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "d84fe6d93ae002ed39d4b66f37f944a7f0848e324bd7a660cf804e7977bffeb2",
+      "id": "D-R1-RUN:ACTIVE_SET/M2/reference/result.json",
+      "observed_sha256": "d84fe6d93ae002ed39d4b66f37f944a7f0848e324bd7a660cf804e7977bffeb2",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/reference/result.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/reference/result.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 343550,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "147a638f94628281a3cd59ff1006745ee6aaab0eccf5ceb57137fc556b049830",
+      "id": "D-R1-RUN:ACTIVE_SET/M2/reference/run.json",
+      "observed_sha256": "147a638f94628281a3cd59ff1006745ee6aaab0eccf5ceb57137fc556b049830",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/reference/run.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/reference/run.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 2516,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "cbbaf44f62c95b0cc43092ea39525faf184d18f5da5b775f1bf22b6b9b38a8d3",
+      "id": "D-R1-RUN:ACTIVE_SET/M2/reference/telemetry.jsonl",
+      "observed_sha256": "cbbaf44f62c95b0cc43092ea39525faf184d18f5da5b775f1bf22b6b9b38a8d3",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/reference/telemetry.jsonl",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/reference/telemetry.jsonl",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 34606,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "26bbbdaba81cfae585e98dba9ee8dbe83ae8213b7f27604ecfd670cc9ce86586",
+      "id": "D-R1-RUN:ACTIVE_SET/M3/primary/progress.json",
+      "observed_sha256": "26bbbdaba81cfae585e98dba9ee8dbe83ae8213b7f27604ecfd670cc9ce86586",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/primary/progress.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/primary/progress.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 990,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "208d58d06ce6820be1fccba882731b5b70c87d4c30b128633f6e7a93405800db",
+      "id": "D-R1-RUN:ACTIVE_SET/M3/primary/result.json",
+      "observed_sha256": "208d58d06ce6820be1fccba882731b5b70c87d4c30b128633f6e7a93405800db",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/primary/result.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/primary/result.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 1522709271,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "e8875da6e8e46e8b6db9ede77235726c8675b9a87bbfa6b0d13c493d89b0bd67",
+      "id": "D-R1-RUN:ACTIVE_SET/M3/primary/run.json",
+      "observed_sha256": "e8875da6e8e46e8b6db9ede77235726c8675b9a87bbfa6b0d13c493d89b0bd67",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/primary/run.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/primary/run.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 3632,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "dea3eab6f1f6cedcd79f97965ad21452753ec2dc46eec930b91f8bf9be70d0f5",
+      "id": "D-R1-RUN:ACTIVE_SET/M3/primary/telemetry.jsonl",
+      "observed_sha256": "dea3eab6f1f6cedcd79f97965ad21452753ec2dc46eec930b91f8bf9be70d0f5",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/primary/telemetry.jsonl",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/primary/telemetry.jsonl",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 24888,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "d1a17dc411fc185261190ea2081b82669d420ab722be01f601be69d9be25a967",
+      "id": "D-R1-RUN:ACTIVE_SET/M3/reference/progress.json",
+      "observed_sha256": "d1a17dc411fc185261190ea2081b82669d420ab722be01f601be69d9be25a967",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/reference/progress.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/reference/progress.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 1446,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "a14876cc762198306f5c3763c95684b4a227826c67bb68383995ac3851e87879",
+      "id": "D-R1-RUN:ACTIVE_SET/M3/reference/result.json",
+      "observed_sha256": "a14876cc762198306f5c3763c95684b4a227826c67bb68383995ac3851e87879",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/reference/result.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/reference/result.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 1265293,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "9829c28e531c873f636a2d543d8ae47cc607ce1e3681aca2ecb70d1d5dab343d",
+      "id": "D-R1-RUN:ACTIVE_SET/M3/reference/run.json",
+      "observed_sha256": "9829c28e531c873f636a2d543d8ae47cc607ce1e3681aca2ecb70d1d5dab343d",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/reference/run.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/reference/run.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 3501,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "326b52396a2f55c802a1d32a6d36d0061a191b8b6acdc933a3208eba825b0114",
+      "id": "D-R1-RUN:ACTIVE_SET/M3/reference/telemetry.jsonl",
+      "observed_sha256": "326b52396a2f55c802a1d32a6d36d0061a191b8b6acdc933a3208eba825b0114",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/reference/telemetry.jsonl",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M3/reference/telemetry.jsonl",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 50832,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "b85df59a075de97437e56e0ac8c555dc8676c4ee4b991b11053aa3f2b024817f",
+      "id": "D-R1-RUN:PENALTY/M1/primary/progress.json",
+      "observed_sha256": "b85df59a075de97437e56e0ac8c555dc8676c4ee4b991b11053aa3f2b024817f",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/primary/progress.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/primary/progress.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 880,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "d18b5348e061a3d9792507c3cd27fd915586288483d022fa72a6df98004f1f36",
+      "id": "D-R1-RUN:PENALTY/M1/primary/result.json",
+      "observed_sha256": "d18b5348e061a3d9792507c3cd27fd915586288483d022fa72a6df98004f1f36",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/primary/result.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/primary/result.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 3199684,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "0ef550fd0cc7280e044408b37004b7b39a9848b115444f81ca2089b1891162cb",
+      "id": "D-R1-RUN:PENALTY/M1/primary/run.json",
+      "observed_sha256": "0ef550fd0cc7280e044408b37004b7b39a9848b115444f81ca2089b1891162cb",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/primary/run.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/primary/run.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 2648,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "267dc3a1771e198aafcac157a1db1b638002665a2827e4fcee2902ec6edccd3d",
+      "id": "D-R1-RUN:PENALTY/M1/primary/telemetry.jsonl",
+      "observed_sha256": "267dc3a1771e198aafcac157a1db1b638002665a2827e4fcee2902ec6edccd3d",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/primary/telemetry.jsonl",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/primary/telemetry.jsonl",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 79169,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "b2a86171e3381b8f952e6ef36a3ba5e737c2c9047e3bbdc9e54912e649174c6b",
+      "id": "D-R1-RUN:PENALTY/M1/reference/progress.json",
+      "observed_sha256": "b2a86171e3381b8f952e6ef36a3ba5e737c2c9047e3bbdc9e54912e649174c6b",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/reference/progress.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/reference/progress.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 1603,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "2affc4096d881007af9fd7f1959fc2b0cbbbceaa89fb050b2c8c9da853d93677",
+      "id": "D-R1-RUN:PENALTY/M1/reference/result.json",
+      "observed_sha256": "2affc4096d881007af9fd7f1959fc2b0cbbbceaa89fb050b2c8c9da853d93677",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/reference/result.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/reference/result.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 44197,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "b62779a415c77576e5bd84336f566608047dc160cf590effcd8230429464f5f4",
+      "id": "D-R1-RUN:PENALTY/M1/reference/run.json",
+      "observed_sha256": "b62779a415c77576e5bd84336f566608047dc160cf590effcd8230429464f5f4",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/reference/run.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/reference/run.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 2517,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "1f2cac0234c2c8a2b222ae2b1741ddae67cf7e9c77602998f1cf94e513b8e875",
+      "id": "D-R1-RUN:PENALTY/M1/reference/telemetry.jsonl",
+      "observed_sha256": "1f2cac0234c2c8a2b222ae2b1741ddae67cf7e9c77602998f1cf94e513b8e875",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/reference/telemetry.jsonl",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/reference/telemetry.jsonl",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 408103,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "2ce38b953cc5278d449bbdf5dd2d1fc8ae1d7156821dce1ef40158edb510d8c6",
+      "id": "D-R1-RUN:PENALTY/M2/primary/progress.json",
+      "observed_sha256": "2ce38b953cc5278d449bbdf5dd2d1fc8ae1d7156821dce1ef40158edb510d8c6",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/primary/progress.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/primary/progress.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 882,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "70930cb17e2de0708a382be901aa6e0e340acf83f029f0d4440e93a62162324a",
+      "id": "D-R1-RUN:PENALTY/M2/primary/result.json",
+      "observed_sha256": "70930cb17e2de0708a382be901aa6e0e340acf83f029f0d4440e93a62162324a",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/primary/result.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/primary/result.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 23956974,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "fbb241431534fb71b12750d7567dc4e90e56f341d142b3fe9811b1321b05b648",
+      "id": "D-R1-RUN:PENALTY/M2/primary/run.json",
+      "observed_sha256": "fbb241431534fb71b12750d7567dc4e90e56f341d142b3fe9811b1321b05b648",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/primary/run.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/primary/run.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 2650,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "c03921af6445d4dc63749a0d74dbe2e3cfb24cbdfe1b089d949a5e201ae01280",
+      "id": "D-R1-RUN:PENALTY/M2/primary/telemetry.jsonl",
+      "observed_sha256": "c03921af6445d4dc63749a0d74dbe2e3cfb24cbdfe1b089d949a5e201ae01280",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/primary/telemetry.jsonl",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/primary/telemetry.jsonl",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 91902,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "b115969142112fb81ee0dc2c27570de2ed21b769b54bc7bc3391db92d805a371",
+      "id": "D-R1-RUN:PENALTY/M2/reference/progress.json",
+      "observed_sha256": "b115969142112fb81ee0dc2c27570de2ed21b769b54bc7bc3391db92d805a371",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/reference/progress.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/reference/progress.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 2096,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "0466a9d84e399292e67098525b60c4c15bbaa0aeafd5b9fce0b346fea18ceaa4",
+      "id": "D-R1-RUN:PENALTY/M2/reference/result.json",
+      "observed_sha256": "0466a9d84e399292e67098525b60c4c15bbaa0aeafd5b9fce0b346fea18ceaa4",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/reference/result.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/reference/result.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 243155,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "0ee0ee82ac70f02f4dca063e46c5fb05d09167392bc72435b4b5fea2c778dbb2",
+      "id": "D-R1-RUN:PENALTY/M2/reference/run.json",
+      "observed_sha256": "0ee0ee82ac70f02f4dca063e46c5fb05d09167392bc72435b4b5fea2c778dbb2",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/reference/run.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/reference/run.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 2523,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "808043c12e75a239f6eb4c7df9f3d375ba28e124464aa2e41fe618ef2073c1b5",
+      "id": "D-R1-RUN:PENALTY/M2/reference/telemetry.jsonl",
+      "observed_sha256": "808043c12e75a239f6eb4c7df9f3d375ba28e124464aa2e41fe618ef2073c1b5",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/reference/telemetry.jsonl",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M2/reference/telemetry.jsonl",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 874338,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "eb8f934ced65a25f354f84dd3c352d789714d23bc68a0aa3a3977aabef6c93c6",
+      "id": "D-R1-RUN:PENALTY/M3/primary/progress.json",
+      "observed_sha256": "eb8f934ced65a25f354f84dd3c352d789714d23bc68a0aa3a3977aabef6c93c6",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/progress.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/progress.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 881,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "42186a865a419a17147da090c588ce37686bba25b4d3571c60a5ac2c777b9862",
+      "id": "D-R1-RUN:PENALTY/M3/primary/result.json",
+      "observed_sha256": "42186a865a419a17147da090c588ce37686bba25b4d3571c60a5ac2c777b9862",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/result.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/result.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 97609776,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "dffd3fe83f36cac5f0924fa229128aa31ecdda9ee71e4bd16d3c31c6fa7e2cc5",
+      "id": "D-R1-RUN:PENALTY/M3/primary/run.json",
+      "observed_sha256": "dffd3fe83f36cac5f0924fa229128aa31ecdda9ee71e4bd16d3c31c6fa7e2cc5",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/run.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/run.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 3901,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "ccd6b2198f067a2ce20ac12f3046cc2eef3a55612ac2ad355524212073990bfc",
+      "id": "D-R1-RUN:PENALTY/M3/primary/serialization_diagnostic.json",
+      "observed_sha256": "ccd6b2198f067a2ce20ac12f3046cc2eef3a55612ac2ad355524212073990bfc",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/serialization_diagnostic.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/serialization_diagnostic.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 625,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "2a8a8262bb1c2194485f01ac1682786d0e7b6e14585ea5d0b35da4e0f333eade",
+      "id": "D-R1-RUN:PENALTY/M3/primary/telemetry.jsonl",
+      "observed_sha256": "2a8a8262bb1c2194485f01ac1682786d0e7b6e14585ea5d0b35da4e0f333eade",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/telemetry.jsonl",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/primary/telemetry.jsonl",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 97191,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "f9d2ec548f7025eb24d9749078f61eb29c9364170126f0379f7bbffa7a578713",
+      "id": "D-R1-RUN:PENALTY/M3/reference/progress.json",
+      "observed_sha256": "f9d2ec548f7025eb24d9749078f61eb29c9364170126f0379f7bbffa7a578713",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/reference/progress.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/reference/progress.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 1611,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "1c7b9091b0b1de2a17be9e7c91befc5805faef3f53c7fd69100b6f39316ca46d",
+      "id": "D-R1-RUN:PENALTY/M3/reference/result.json",
+      "observed_sha256": "1c7b9091b0b1de2a17be9e7c91befc5805faef3f53c7fd69100b6f39316ca46d",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/reference/result.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/reference/result.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 836789,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "0355d4da9a26f8223cf86cd9bda017b2e801284f9e86aa9ff621a92f8740dc6a",
+      "id": "D-R1-RUN:PENALTY/M3/reference/run.json",
+      "observed_sha256": "0355d4da9a26f8223cf86cd9bda017b2e801284f9e86aa9ff621a92f8740dc6a",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/reference/run.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/reference/run.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 3504,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "3744b459f0cc3ee551a036576110c22c07e4fba36b7fce52d386557d5bae6957",
+      "id": "D-R1-RUN:PENALTY/M3/reference/telemetry.jsonl",
+      "observed_sha256": "3744b459f0cc3ee551a036576110c22c07e4fba36b7fce52d386557d5bae6957",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/reference/telemetry.jsonl",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M3/reference/telemetry.jsonl",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 1560936,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "fe4f75410aabd22178fe05493b00d23e354db5b7840609656946377ff4739fa1",
+      "id": "D-R1-RUN:ACTIVE_SET/M2/replay/progress.json",
+      "observed_sha256": "fe4f75410aabd22178fe05493b00d23e354db5b7840609656946377ff4739fa1",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/replay/progress.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/replay/progress.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 985,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "7d9dc4f5e98e6082b970e194584fa4b6e6ff4edffb49b683042ff175089d4715",
+      "id": "D-R1-RUN:ACTIVE_SET/M2/replay/result.json",
+      "observed_sha256": "7d9dc4f5e98e6082b970e194584fa4b6e6ff4edffb49b683042ff175089d4715",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/replay/result.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/replay/result.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 378501326,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "79e726a36c2b92c39d46626f5c28500932355e990aa1b802dbc661df2934a397",
+      "id": "D-R1-RUN:ACTIVE_SET/M2/replay/run.json",
+      "observed_sha256": "79e726a36c2b92c39d46626f5c28500932355e990aa1b802dbc661df2934a397",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/replay/run.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/replay/run.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 2623,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "453b99398fd7e819ca37944fc9f72179c7a475ca2582d32856ba2b9cf18867c0",
+      "id": "D-R1-RUN:ACTIVE_SET/M2/replay/telemetry.jsonl",
+      "observed_sha256": "453b99398fd7e819ca37944fc9f72179c7a475ca2582d32856ba2b9cf18867c0",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/replay/telemetry.jsonl",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/ACTIVE_SET/M2/replay/telemetry.jsonl",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 13301,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "dbb52a586f2a289d060ea3da33fc1a8397f37e0f83eee18fd62700bd5293c15d",
+      "id": "D-R1-RUN:PENALTY/M1/replay/progress.json",
+      "observed_sha256": "dbb52a586f2a289d060ea3da33fc1a8397f37e0f83eee18fd62700bd5293c15d",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/replay/progress.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/replay/progress.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 880,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "e090e4f2bc1628c38705847502afb92b1ed7ad7dde6f3a8ee711aec06d6a1547",
+      "id": "D-R1-RUN:PENALTY/M1/replay/result.json",
+      "observed_sha256": "e090e4f2bc1628c38705847502afb92b1ed7ad7dde6f3a8ee711aec06d6a1547",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/replay/result.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/replay/result.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 3199682,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "201fc996f66279415f4796d73079b042a304b76586b0374ed310cbdb985c2f36",
+      "id": "D-R1-RUN:PENALTY/M1/replay/run.json",
+      "observed_sha256": "201fc996f66279415f4796d73079b042a304b76586b0374ed310cbdb985c2f36",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/replay/run.json",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/replay/run.json",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 2624,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "0acd2a45621c677486df89b2c8a4ed31af2e52d31b5bee26f9f36cfd7ce42beb",
+      "id": "D-R1-RUN:PENALTY/M1/replay/telemetry.jsonl",
+      "observed_sha256": "0acd2a45621c677486df89b2c8a4ed31af2e52d31b5bee26f9f36cfd7ce42beb",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/replay/telemetry.jsonl",
+      "relative_path": "qualification/0_2_9/wp07d_formal_rebind_r1/runs/PENALTY/M1/replay/telemetry.jsonl",
+      "role": "D_R1_RAW_RUN",
+      "size_bytes": 79161,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "569bcdd2343c0f0a86fe4f6074bd518b9d482b5603140407888e9b9dd9e5943e",
+      "id": "D-R1-INDEPENDENT-REFERENCE-SOURCE",
+      "observed_sha256": "569bcdd2343c0f0a86fe4f6074bd518b9d482b5603140407888e9b9dd9e5943e",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/scripts/wp07d_independent_reference.py",
+      "relative_path": "scripts/wp07d_independent_reference.py",
+      "role": "INDEPENDENT_REFERENCE_SOURCE",
+      "size_bytes": 64845,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "cdbb362a90bbe65da28ac45d33e7fdd610b5cc96e19e08966551ba14a432caa5",
+      "id": "D-R1-REFERENCE-HELPER:prepare_wp07d_structural_vnv.py",
+      "observed_sha256": "cdbb362a90bbe65da28ac45d33e7fdd610b5cc96e19e08966551ba14a432caa5",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/scripts/prepare_wp07d_structural_vnv.py",
+      "relative_path": "scripts/prepare_wp07d_structural_vnv.py",
+      "role": "INDEPENDENT_REFERENCE_HELPER_SOURCE",
+      "size_bytes": 37562,
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "ef1cb5441f1a0bde01e414a0e4d4053eab3f7fe489fccb0771f4ebfe870372d4",
+      "id": "D-R1-REFERENCE-HELPER:wp07d_execution_binding.py",
+      "observed_sha256": "ef1cb5441f1a0bde01e414a0e4d4053eab3f7fe489fccb0771f4ebfe870372d4",
+      "path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement/scripts/wp07d_execution_binding.py",
+      "relative_path": "scripts/wp07d_execution_binding.py",
+      "role": "INDEPENDENT_REFERENCE_HELPER_SOURCE",
+      "size_bytes": 77411,
+      "status": "PASS"
+    }
+  ],
+  "schema_version": 1,
+  "source_checkout": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement",
+  "source_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2"
+}

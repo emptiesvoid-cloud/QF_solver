@@ -1,0 +1,578 @@
+{
+  "status": "FAIL_CLOSED_DIAGNOSTIC",
+  "study": "WP09 TET4 consistent-traction diagnostic R1",
+  "scope": "diagnostic-only; no official score or WP09 HEX8/HEX20/TET10 status change",
+  "branch": "codex/wp09-tet4-extension-study",
+  "execution_sha": "b2fd8e929c51844d2a3076a45e3303d0a536442d",
+  "working_tree_clean": true,
+  "contract_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2_contract.json",
+  "contract_sha256": "2680b1cdbeebc92422d0b2058e77b98483798297dfc1b4a4fadf05c384b29c49",
+  "runner_sha256": "bc053494b263255805cd613c00bdea0a78be82ea2c02d4415be63c967334a87f",
+  "policy_code_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "runtime_policy_digest": "895d3c932278c0207b207318216c263a427636d57738bef730917fdc7d9b0ef5",
+  "started_utc": "2026-09-23T05:27:46.020414+00:00",
+  "machine": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "logical_cpu_count": 12
+  },
+  "stages": {
+    "H1": {
+      "cells": [
+        1,
+        1,
+        1
+      ],
+      "node_count_expected": 8,
+      "element_count_expected": 5,
+      "dof_count_expected": 24,
+      "status": "PASS",
+      "primary": {
+        "process_id": 7268,
+        "exit_code": 0,
+        "elapsed_seconds_observational_only": 2.966259600005287,
+        "raw_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h1_tet4_primary.json",
+        "raw_sha256": "bc981f3127bea0580468a066a629937cba75733d195d0dd865bf97d38d851273",
+        "stdout_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h1_tet4_primary.stdout.log",
+        "stderr_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h1_tet4_primary.stderr.log",
+        "status": "PASS",
+        "metrics": {
+          "status": "PASS",
+          "node_count": 8,
+          "element_count": 5,
+          "dof_count": 24,
+          "selected_displacement": 0.015351227460599364,
+          "displacement_norm": 0.026266661980069574,
+          "reaction_norm": 0.2500000000036466,
+          "energy": 0.0007482932871326265,
+          "von_mises_max": 0.20204655454886253,
+          "equivalent_plastic_strain_max": 0.018204655454886535,
+          "plastic_dissipation_max": 0.0019900908385752166,
+          "min_det_f": 0.9998470307511788,
+          "max_local_strain_norm": 0.022508860741308704,
+          "accepted_steps": 4,
+          "step_count": 4,
+          "newton_iterations": 24,
+          "rejected_increments": 0,
+          "fallback_count": 0,
+          "elapsed_seconds_observational_only": 1.5396011999982875,
+          "equilibrium": {
+            "free_relative_residual": 1.6717905755303574e-11,
+            "force_balance_relative_error": 3.646632585105171e-12,
+            "moment_balance_relative_error": 2.6128157479194495e-12,
+            "reaction_resultant": [
+              -0.2500000000036466,
+              -1.1921019726912618e-14,
+              1.4807599590938025e-14
+            ],
+            "reaction_moment": []
+          }
+        },
+        "failure": null
+      },
+      "structural_gate": {
+        "status": "PASS",
+        "failures": []
+      },
+      "replay": {
+        "process_id": 30184,
+        "exit_code": 0,
+        "elapsed_seconds_observational_only": 2.9366938000021037,
+        "raw_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h1_tet4_replay.json",
+        "raw_sha256": "6b10f81f3396371e9f651de77deb80e6448d5d88d469a98943f0bd93fb42dd1c",
+        "stdout_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h1_tet4_replay.stdout.log",
+        "stderr_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h1_tet4_replay.stderr.log",
+        "status": "PASS",
+        "metrics": {
+          "status": "PASS",
+          "node_count": 8,
+          "element_count": 5,
+          "dof_count": 24,
+          "selected_displacement": 0.015351227460599364,
+          "displacement_norm": 0.026266661980069574,
+          "reaction_norm": 0.2500000000036466,
+          "energy": 0.0007482932871326265,
+          "von_mises_max": 0.20204655454886253,
+          "equivalent_plastic_strain_max": 0.018204655454886535,
+          "plastic_dissipation_max": 0.0019900908385752166,
+          "min_det_f": 0.9998470307511788,
+          "max_local_strain_norm": 0.022508860741308704,
+          "accepted_steps": 4,
+          "step_count": 4,
+          "newton_iterations": 24,
+          "rejected_increments": 0,
+          "fallback_count": 0,
+          "elapsed_seconds_observational_only": 1.5502608999959193,
+          "equilibrium": {
+            "free_relative_residual": 1.6717905755303574e-11,
+            "force_balance_relative_error": 3.646632585105171e-12,
+            "moment_balance_relative_error": 2.6128157479194495e-12,
+            "reaction_resultant": [
+              -0.2500000000036466,
+              -1.1921019726912618e-14,
+              1.4807599590938025e-14
+            ],
+            "reaction_moment": []
+          }
+        },
+        "failure": null
+      },
+      "replay_gate": {
+        "status": "PASS",
+        "relative_errors": {
+          "selected_displacement": 0.0,
+          "reaction_norm": 0.0,
+          "energy": 0.0,
+          "von_mises_max": 0.0,
+          "equivalent_plastic_strain_max": 0.0,
+          "plastic_dissipation_max": 0.0
+        }
+      }
+    },
+    "H2": {
+      "cells": [
+        2,
+        2,
+        2
+      ],
+      "node_count_expected": 27,
+      "element_count_expected": 40,
+      "dof_count_expected": 81,
+      "status": "PASS",
+      "primary": {
+        "process_id": 29916,
+        "exit_code": 0,
+        "elapsed_seconds_observational_only": 12.59876510000322,
+        "raw_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h2_tet4_primary.json",
+        "raw_sha256": "dc7b32f2ce218114ad8e5f710ca60fb54f9ac5a283b83ef091414f4461e69fc7",
+        "stdout_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h2_tet4_primary.stdout.log",
+        "stderr_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h2_tet4_primary.stderr.log",
+        "status": "PASS",
+        "metrics": {
+          "status": "PASS",
+          "node_count": 27,
+          "element_count": 40,
+          "dof_count": 81,
+          "selected_displacement": 0.013975581681210481,
+          "displacement_norm": 0.030753174030392207,
+          "reaction_norm": 0.2499999999994204,
+          "energy": 0.0006801841182729848,
+          "von_mises_max": 0.2125680165027074,
+          "equivalent_plastic_strain_max": 0.019256801650270723,
+          "plastic_dissipation_max": 0.0022065792021628682,
+          "min_det_f": 0.99906173772422,
+          "max_local_strain_norm": 0.023791717602892067,
+          "accepted_steps": 4,
+          "step_count": 4,
+          "newton_iterations": 25,
+          "rejected_increments": 0,
+          "fallback_count": 0,
+          "elapsed_seconds_observational_only": 11.042736200004583,
+          "equilibrium": {
+            "free_relative_residual": 6.645503731631964e-12,
+            "force_balance_relative_error": 5.796040253118967e-13,
+            "moment_balance_relative_error": 3.855494254966891e-13,
+            "reaction_resultant": [
+              -0.2499999999994204,
+              -1.9463597400459776e-15,
+              3.1988300897012323e-15
+            ],
+            "reaction_moment": []
+          }
+        },
+        "failure": null
+      },
+      "structural_gate": {
+        "status": "PASS",
+        "failures": []
+      },
+      "replay": {
+        "process_id": 14272,
+        "exit_code": 0,
+        "elapsed_seconds_observational_only": 12.592502700004843,
+        "raw_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h2_tet4_replay.json",
+        "raw_sha256": "6c2149a1ee63be8bf6e3bc4cde89bdb298540e59454f0c30a2bc992685300706",
+        "stdout_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h2_tet4_replay.stdout.log",
+        "stderr_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h2_tet4_replay.stderr.log",
+        "status": "PASS",
+        "metrics": {
+          "status": "PASS",
+          "node_count": 27,
+          "element_count": 40,
+          "dof_count": 81,
+          "selected_displacement": 0.013975581681210481,
+          "displacement_norm": 0.030753174030392207,
+          "reaction_norm": 0.2499999999994204,
+          "energy": 0.0006801841182729848,
+          "von_mises_max": 0.2125680165027074,
+          "equivalent_plastic_strain_max": 0.019256801650270723,
+          "plastic_dissipation_max": 0.0022065792021628682,
+          "min_det_f": 0.99906173772422,
+          "max_local_strain_norm": 0.023791717602892067,
+          "accepted_steps": 4,
+          "step_count": 4,
+          "newton_iterations": 25,
+          "rejected_increments": 0,
+          "fallback_count": 0,
+          "elapsed_seconds_observational_only": 11.057537699998647,
+          "equilibrium": {
+            "free_relative_residual": 6.645503731631964e-12,
+            "force_balance_relative_error": 5.796040253118967e-13,
+            "moment_balance_relative_error": 3.855494254966891e-13,
+            "reaction_resultant": [
+              -0.2499999999994204,
+              -1.9463597400459776e-15,
+              3.1988300897012323e-15
+            ],
+            "reaction_moment": []
+          }
+        },
+        "failure": null
+      },
+      "replay_gate": {
+        "status": "PASS",
+        "relative_errors": {
+          "selected_displacement": 0.0,
+          "reaction_norm": 0.0,
+          "energy": 0.0,
+          "von_mises_max": 0.0,
+          "equivalent_plastic_strain_max": 0.0,
+          "plastic_dissipation_max": 0.0
+        }
+      }
+    },
+    "H3": {
+      "cells": [
+        3,
+        3,
+        3
+      ],
+      "node_count_expected": 64,
+      "element_count_expected": 135,
+      "dof_count_expected": 192,
+      "status": "PASS",
+      "primary": {
+        "process_id": 8552,
+        "exit_code": 0,
+        "elapsed_seconds_observational_only": 37.737275300001784,
+        "raw_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h3_tet4_primary.json",
+        "raw_sha256": "7f22bd73745ae5afed3c8bc043f6b2a9d6be9b8beb8962e583f24f7df49ce56e",
+        "stdout_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h3_tet4_primary.stdout.log",
+        "stderr_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h3_tet4_primary.stderr.log",
+        "status": "PASS",
+        "metrics": {
+          "status": "PASS",
+          "node_count": 64,
+          "element_count": 135,
+          "dof_count": 192,
+          "selected_displacement": 0.012642749540586433,
+          "displacement_norm": 0.03719525353022641,
+          "reaction_norm": 0.25000000000627004,
+          "energy": 0.0007554574263751903,
+          "von_mises_max": 0.21072942400984804,
+          "equivalent_plastic_strain_max": 0.019072942400984793,
+          "plastic_dissipation_max": 0.0021679863984020364,
+          "min_det_f": 0.9984956886935266,
+          "max_local_strain_norm": 0.023557806930628585,
+          "accepted_steps": 4,
+          "step_count": 4,
+          "newton_iterations": 24,
+          "rejected_increments": 0,
+          "fallback_count": 0,
+          "elapsed_seconds_observational_only": 35.85993060000328,
+          "equilibrium": {
+            "free_relative_residual": 4.1096099328368593e-10,
+            "force_balance_relative_error": 6.2699852102023836e-12,
+            "moment_balance_relative_error": 4.48667091108042e-12,
+            "reaction_resultant": [
+              -0.25000000000627004,
+              -1.5681900222830336e-15,
+              -2.4598378889351125e-15
+            ],
+            "reaction_moment": []
+          }
+        },
+        "failure": null
+      },
+      "structural_gate": {
+        "status": "PASS",
+        "failures": []
+      },
+      "replay": {
+        "process_id": 29340,
+        "exit_code": 0,
+        "elapsed_seconds_observational_only": 37.573929999998654,
+        "raw_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h3_tet4_replay.json",
+        "raw_sha256": "17ef25e0864a29929a279d5f3d9887fbae38baf52a0d8fee19d2d297d9dff243",
+        "stdout_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h3_tet4_replay.stdout.log",
+        "stderr_path": "qualification\\0_2_9\\wp09_tet4_consistent_traction_study_r2\\h3_tet4_replay.stderr.log",
+        "status": "PASS",
+        "metrics": {
+          "status": "PASS",
+          "node_count": 64,
+          "element_count": 135,
+          "dof_count": 192,
+          "selected_displacement": 0.012642749540586433,
+          "displacement_norm": 0.03719525353022641,
+          "reaction_norm": 0.25000000000627004,
+          "energy": 0.0007554574263751903,
+          "von_mises_max": 0.21072942400984804,
+          "equivalent_plastic_strain_max": 0.019072942400984793,
+          "plastic_dissipation_max": 0.0021679863984020364,
+          "min_det_f": 0.9984956886935266,
+          "max_local_strain_norm": 0.023557806930628585,
+          "accepted_steps": 4,
+          "step_count": 4,
+          "newton_iterations": 24,
+          "rejected_increments": 0,
+          "fallback_count": 0,
+          "elapsed_seconds_observational_only": 35.701981599995634,
+          "equilibrium": {
+            "free_relative_residual": 4.1096099328368593e-10,
+            "force_balance_relative_error": 6.2699852102023836e-12,
+            "moment_balance_relative_error": 4.48667091108042e-12,
+            "reaction_resultant": [
+              -0.25000000000627004,
+              -1.5681900222830336e-15,
+              -2.4598378889351125e-15
+            ],
+            "reaction_moment": []
+          }
+        },
+        "failure": null
+      },
+      "replay_gate": {
+        "status": "PASS",
+        "relative_errors": {
+          "selected_displacement": 0.0,
+          "reaction_norm": 0.0,
+          "energy": 0.0,
+          "von_mises_max": 0.0,
+          "equivalent_plastic_strain_max": 0.0,
+          "plastic_dissipation_max": 0.0
+        }
+      }
+    }
+  },
+  "official_points_awarded": false,
+  "production_source_changed": false,
+  "mesh_gate_h2_to_h3": {
+    "status": "FAIL_CLOSED",
+    "relative_deltas": {
+      "selected_displacement": 0.09536863445304597,
+      "reaction": 2.7398527890222302e-11,
+      "energy": 0.09963937804328599,
+      "von_mises": 0.00864943147661138
+    },
+    "failures": [
+      "selected_displacement",
+      "energy"
+    ]
+  },
+  "independent_observable_recomputation": {
+    "status": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION",
+    "classification": "INDEPENDENT_OBSERVABLE_RECOMPUTATION_NOT_GLOBAL_FEM_SOLVE",
+    "production_imports": [],
+    "rows": [
+      {
+        "source": "h1_tet4_primary.json",
+        "sha256": "bc981f3127bea0580468a066a629937cba75733d195d0dd865bf97d38d851273",
+        "family": "TET4",
+        "stage": "H1",
+        "status": "PASS",
+        "failures": [],
+        "comparisons": {
+          "selected_displacement": {
+            "declared": 0.015351227460599364,
+            "recomputed": 0.015351227460599364,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "displacement_norm": {
+            "declared": 0.026266661980069574,
+            "recomputed": 0.026266661980069574,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "reaction_norm": {
+            "declared": 0.2500000000036466,
+            "recomputed": 0.2500000000036466,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "energy": {
+            "declared": 0.0007482932871326265,
+            "recomputed": 0.0007482932871326265,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "von_mises_max": {
+            "declared": 0.20204655454886253,
+            "recomputed": 0.20204655454886253,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "equivalent_plastic_strain_max": {
+            "declared": 0.018204655454886535,
+            "recomputed": 0.018204655454886535,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "plastic_dissipation_max": {
+            "declared": 0.0019900908385752166,
+            "recomputed": 0.0019900908385752166,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "min_det_f": {
+            "declared": 0.9998470307511788,
+            "recomputed": 0.9998470307511788,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "max_local_strain_norm": {
+            "declared": 0.022508860741308704,
+            "recomputed": 0.022508860741308704,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          }
+        }
+      },
+      {
+        "source": "h2_tet4_primary.json",
+        "sha256": "dc7b32f2ce218114ad8e5f710ca60fb54f9ac5a283b83ef091414f4461e69fc7",
+        "family": "TET4",
+        "stage": "H2",
+        "status": "PASS",
+        "failures": [],
+        "comparisons": {
+          "selected_displacement": {
+            "declared": 0.013975581681210481,
+            "recomputed": 0.013975581681210481,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "displacement_norm": {
+            "declared": 0.030753174030392207,
+            "recomputed": 0.030753174030392207,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "reaction_norm": {
+            "declared": 0.2499999999994204,
+            "recomputed": 0.2499999999994204,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "energy": {
+            "declared": 0.0006801841182729848,
+            "recomputed": 0.0006801841182729848,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "von_mises_max": {
+            "declared": 0.2125680165027074,
+            "recomputed": 0.2125680165027074,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "equivalent_plastic_strain_max": {
+            "declared": 0.019256801650270723,
+            "recomputed": 0.019256801650270723,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "plastic_dissipation_max": {
+            "declared": 0.0022065792021628682,
+            "recomputed": 0.0022065792021628682,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "min_det_f": {
+            "declared": 0.99906173772422,
+            "recomputed": 0.99906173772422,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "max_local_strain_norm": {
+            "declared": 0.023791717602892067,
+            "recomputed": 0.023791717602892067,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          }
+        }
+      },
+      {
+        "source": "h3_tet4_primary.json",
+        "sha256": "7f22bd73745ae5afed3c8bc043f6b2a9d6be9b8beb8962e583f24f7df49ce56e",
+        "family": "TET4",
+        "stage": "H3",
+        "status": "PASS",
+        "failures": [],
+        "comparisons": {
+          "selected_displacement": {
+            "declared": 0.012642749540586433,
+            "recomputed": 0.012642749540586433,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "displacement_norm": {
+            "declared": 0.03719525353022641,
+            "recomputed": 0.03719525353022641,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "reaction_norm": {
+            "declared": 0.25000000000627004,
+            "recomputed": 0.25000000000627004,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "energy": {
+            "declared": 0.0007554574263751903,
+            "recomputed": 0.0007554574263751903,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "von_mises_max": {
+            "declared": 0.21072942400984804,
+            "recomputed": 0.21072942400984804,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "equivalent_plastic_strain_max": {
+            "declared": 0.019072942400984793,
+            "recomputed": 0.019072942400984793,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "plastic_dissipation_max": {
+            "declared": 0.0021679863984020364,
+            "recomputed": 0.0021679863984020364,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "min_det_f": {
+            "declared": 0.9984956886935266,
+            "recomputed": 0.9984956886935266,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          },
+          "max_local_strain_norm": {
+            "declared": 0.023557806930628585,
+            "recomputed": 0.023557806930628585,
+            "absolute_error": 0.0,
+            "relative_error": 0.0
+          }
+        }
+      }
+    ],
+    "limitations": [
+      "recomputes derived observables from serialized production result arrays",
+      "does not independently solve the FEM/Newton problem",
+      "does not independently validate equilibrium vectors generated by production audit"
+    ]
+  },
+  "completed_utc": "2026-09-23T05:29:33.192530+00:00"
+}

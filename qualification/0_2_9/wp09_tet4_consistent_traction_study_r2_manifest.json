@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "study": "WP09 TET4 consistent-traction diagnostic R2",
+  "study_branch": "codex/wp09-tet4-extension-study",
+  "governing_base_sha": "cf832937404a14bb780778e2c0f6adc3efbfcc59",
+  "execution_sha": "b2fd8e929c51844d2a3076a45e3303d0a536442d",
+  "frozen_runner_commit": "e3b987dfddbc519b30b6e7e67d2890c83f0f5943",
+  "runner_sha256": "bc053494b263255805cd613c00bdea0a78be82ea2c02d4415be63c967334a87f",
+  "contract_path": "qualification/0_2_9/wp09_tet4_consistent_traction_study_r2_contract.json",
+  "contract_sha256": "2680b1cdbeebc92422d0b2058e77b98483798297dfc1b4a4fadf05c384b29c49",
+  "reference_script": "scripts/run_wp09_tet4_consistent_traction_reference.py",
+  "reference_script_sha256": "8d50078d682e3f47d38f76929578d39d095a690b3e024ab3fb3a8df08cd21336",
+  "reference_summary_path": "qualification/0_2_9/wp09_tet4_consistent_traction_study_r2/independent_observable_recomputation/summary.json",
+  "reference_summary_sha256": "0a2904e02286db054c53310f281241331f83c522f579f399e21df8c4c5d562cc",
+  "campaign_summary_path": "qualification/0_2_9/wp09_tet4_consistent_traction_study_r2/campaign.json",
+  "campaign_summary_sha256": "18b652f192bab0aa3497677620eedb5ade89db0de540fd584f1c562fca7aab69",
+  "superseded_r1_attempt": {
+    "execution_sha": "78ae76d55d9c1474c15adb6838c7cf92d70b4fc2",
+    "contract_sha256": "35c5d08a05ac4b830d5175b933301733be7faa6886cb879fab13296129c43e0b",
+    "h1_raw_path": "qualification/0_2_9/wp09_tet4_consistent_traction_study_r1/h1_tet4_primary.json",
+    "h1_raw_sha256": "602387bc91b1ffa3e006c7a626809f46276b2bb6acbd3958c95a669408e6c45d",
+    "classification": "H1_RAW_PASS_ORCHESTRATION_SCHEMA_MISMATCH_GATE_AND_REPLAY_NOT_EVALUATED_NOT_REUSED"
+  },
+  "raw_runs": [
+    {"stage": "H1", "kind": "primary", "path": "qualification/0_2_9/wp09_tet4_consistent_traction_study_r2/h1_tet4_primary.json", "sha256": "bc981f3127bea0580468a066a629937cba75733d195d0dd865bf97d38d851273", "bytes": 530043, "process_id": 7268, "exit_code": 0, "status": "PASS"},
+    {"stage": "H1", "kind": "replay", "path": "qualification/0_2_9/wp09_tet4_consistent_traction_study_r2/h1_tet4_replay.json", "sha256": "6b10f81f3396371e9f651de77deb80e6448d5d88d469a98943f0bd93fb42dd1c", "bytes": 530042, "process_id": 30184, "exit_code": 0, "status": "PASS"},
+    {"stage": "H2", "kind": "primary", "path": "qualification/0_2_9/wp09_tet4_consistent_traction_study_r2/h2_tet4_primary.json", "sha256": "dc7b32f2ce218114ad8e5f710ca60fb54f9ac5a283b83ef091414f4461e69fc7", "bytes": 3829934, "process_id": 29916, "exit_code": 0, "status": "PASS"},
+    {"stage": "H2", "kind": "replay", "path": "qualification/0_2_9/wp09_tet4_consistent_traction_study_r2/h2_tet4_replay.json", "sha256": "6c2149a1ee63be8bf6e3bc4cde89bdb298540e59454f0c30a2bc992685300706", "bytes": 3829932, "process_id": 14272, "exit_code": 0, "status": "PASS"},
+    {"stage": "H3", "kind": "primary", "path": "qualification/0_2_9/wp09_tet4_consistent_traction_study_r2/h3_tet4_primary.json", "sha256": "7f22bd73745ae5afed3c8bc043f6b2a9d6be9b8beb8962e583f24f7df49ce56e", "bytes": 13035494, "process_id": 8552, "exit_code": 0, "status": "PASS"},
+    {"stage": "H3", "kind": "replay", "path": "qualification/0_2_9/wp09_tet4_consistent_traction_study_r2/h3_tet4_replay.json", "sha256": "17ef25e0864a29929a279d5f3d9887fbae38baf52a0d8fee19d2d297d9dff243", "bytes": 13035492, "process_id": 29340, "exit_code": 0, "status": "PASS"}
+  ],
+  "historical_artifacts": [
+    {"path": "qualification/0_2_9/wp09_formal_requalification_r2/m1_tet4_1.json", "sha256": "d74ee9f76c188206338f87a4d5b4cad5a9581990a0f8795bd74f863cc5f3f949", "classification": "historical_FAIL_CLOSED_preserved"},
+    {"path": "qualification/0_2_9/wp09_remesh_study_r2/tet4_1x1x1.json", "sha256": "afd582b2e46b7f3ff0098216441184977238dfc1149e597d7eddf9e9ad7444ed", "classification": "historical_nodal_load_diagnostic"},
+    {"path": "qualification/0_2_9/wp09_remesh_study_r2/tet4_2x2x2.json", "sha256": "d80da9a71a92235d31fc195e64d0cd3ca74026b9245d26ed16a30ccd0ac45705", "classification": "historical_nodal_load_diagnostic"},
+    {"path": "qualification/0_2_9/wp09_remesh_study_r2/tet4_4x4x4.json", "sha256": "fabf441a8e67622870b4efc84d2fd7e7efa30201458e63670b6aa93c828d5433", "classification": "historical_nodal_load_diagnostic"}
+  ],
+  "study_result": {
+    "campaign_status": "FAIL_CLOSED_DIAGNOSTIC",
+    "mesh_gate_status": "FAIL_CLOSED",
+    "mesh_gate_failures": ["selected_displacement", "energy"],
+    "production_source_changed": false,
+    "thresholds_changed": false,
+    "official_points_changed": false,
+    "push_performed": false,
+    "merge_performed": false
+  },
+  "raw_evidence_storage": "local ignored files; hashes and sizes recorded above",
+  "formal_claim": false
+}

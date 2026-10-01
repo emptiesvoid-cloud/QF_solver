@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "decision_id": "OD-029-WP07-R2.5-INTEGRATION-01",
+  "recorded_on": "2026-09-26",
+  "status": "CLOSED_INTEGRATED_AND_PUSHED",
+  "owner_authorization": true,
+  "governing_branch": "0.2.9-unified-nonlinear",
+  "source_branch": "codex/wp07d-penalty-r2-5",
+  "governing_head_before_integration": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+  "accepted_source_head": "624701020c24cab70382ba0e549af7504d21a813",
+  "post_integration_targeted_test_commit": "7b079efa84529eadb19b155920342c54dcc9fb4e",
+  "integration_method": "fast_forward_then_test_only_commit",
+  "force_push": false,
+  "initial_pushed_head": "7b079efa84529eadb19b155920342c54dcc9fb4e",
+  "remote_head_verified_after_fetch": "7b079efa84529eadb19b155920342c54dcc9fb4e",
+  "remote_ahead_behind_at_verification": "0/0",
+  "targeted_tests": {
+    "status": "PASS",
+    "passed": 118,
+    "full_repository_suite_run": false
+  },
+  "ruff": "PASS",
+  "compileall": "PASS",
+  "git_diff_check": "PASS",
+  "production_source_changed_after_execution_sha": false,
+  "scores": {
+    "wp07_before": "10/10",
+    "wp07_after": "10/10",
+    "wp08_historical_award": "8/8",
+    "wp08_requalification": "OPEN",
+    "global_before": "95/100",
+    "global_after": "95/100"
+  },
+  "raw_evidence": {
+    "file_count": 99,
+    "bytes": 3949086874,
+    "pushed": false,
+    "archive_status": "PENDING_WP16",
+    "local_directory": "C:/Users/fari/AppData/Local/Temp/qf_solver_wp07d_contact_r2_5_20260925/qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_5"
+  },
+  "historical_evidence_modified": false,
+  "limitations": [
+    "WP07 R2.5 evidence is limited to its frozen bounded scope",
+    "the R2.5 evidence decision awards no incremental points",
+    "WP08 is not qualified by this integration and remains open",
+    "raw evidence remains local until WP16 archival"
+  ]
+}

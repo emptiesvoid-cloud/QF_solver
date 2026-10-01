@@ -1,0 +1,190 @@
+{
+  "comparisons": {
+    "aster_force_equilibrium_relative": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 0.0
+    },
+    "aster_moment_equilibrium_relative": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 0.0
+    },
+    "displacement_relative_l2": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 1.7816197808834443e-16
+    },
+    "displacement_relative_linf": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 1.7816197808834443e-16
+    },
+    "fixed_displacement_abs_max": {
+      "limit": 1e-12,
+      "status": "PASS",
+      "value": 0.0
+    },
+    "qf_force_equilibrium_relative": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 0.0
+    },
+    "qf_moment_equilibrium_relative": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 0.0
+    },
+    "reaction_relative_l2": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 2.625485054475693e-16
+    },
+    "reaction_relative_linf": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 2.2737367544323206e-16
+    },
+    "strain_energy_from_external_work_relative": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 1.8243786556246468e-16
+    }
+  },
+  "contract_sha256": "f6154660635670c026354429894c9c7a6f7fa6d8bd6849edf44717a4bd43824a",
+  "execution_sha": "e3231fa386d2542841084e3be9843e7eca75acf4",
+  "external_solver": {
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "image_id": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "name": "Code_Aster",
+    "version": "18.1.0"
+  },
+  "family": "TET4",
+  "input_hashes": {
+    "displacement.npy": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/TET4/M1/displacement.npy",
+      "sha256": "7f91e998555f5e09cb13cdb5e38bc7661a5b02c2c874a3c4ac0b62855bc76505"
+    },
+    "fixed.npy": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/TET4/M1/fixed.npy",
+      "sha256": "13fcf4c3e34ae28922d1d4687e2b46430e17313d14191234086a8a3d7d5e38b9"
+    },
+    "loads.npy": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/TET4/M1/loads.npy",
+      "sha256": "84367d447048a6d1c280e51167da21c3b7c8efed632257d0e96aa782b7a3e525"
+    },
+    "result.json": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/TET4/M1/result.json",
+      "sha256": "4d52b0a1cf54aac789ed4e2ffd7d570b3607c6216bfa0c35b0c4fb981c4bee09"
+    },
+    "stiffness.npy": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/TET4/M1/stiffness.npy",
+      "sha256": "1b428e1b425fc63cc3d9b769c24b8075157dd41522de4a7b27d0fba50f196b28"
+    }
+  },
+  "metrics": {
+    "aster_external_work_energy": 3.714285714285714e-05,
+    "aster_force_equilibrium_relative": 0.0,
+    "aster_moment_equilibrium_relative": 0.0,
+    "displacement_relative_l2": 1.7816197808834443e-16,
+    "displacement_relative_linf": 1.7816197808834443e-16,
+    "fixed_displacement_abs_max": 0.0,
+    "qf_force_equilibrium_relative": 0.0,
+    "qf_moment_equilibrium_relative": 0.0,
+    "qf_strain_energy": 3.7142857142857143e-05,
+    "reaction_relative_l2": 2.625485054475693e-16,
+    "reaction_relative_linf": 2.2737367544323206e-16,
+    "strain_energy_from_external_work_relative": 1.8243786556246468e-16
+  },
+  "model_fingerprint": "616a50157a4073619d1432196c8c2a0d9e5570b82bc472ac2d9556c4b56e547c",
+  "process": {
+    "command": [
+      "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE",
+      "run",
+      "--rm",
+      "--cpus=1",
+      "--cidfile",
+      "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp12_external_vv\\qualification\\0_2_9\\wp12_external_vv_r2\\TET4\\container.cid",
+      "-v",
+      "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp12_external_vv\\qualification\\0_2_9\\wp12_external_vv_r2\\TET4:/work",
+      "--workdir",
+      "/work",
+      "--entrypoint",
+      "/bin/bash",
+      "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+      "-lc",
+      "export RUNASTER_ROOT=/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg; source /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh; export PYTHONPATH=$(find /opt/spack/opt/spack/linux-zen -type d -path '*/lib/python3.11/site-packages' | paste -sd: -):${PYTHONPATH:-}; export LD_LIBRARY_PATH=$(find /opt/spack/opt/spack/linux-zen -type d \\( -name lib -o -name lib64 \\) | paste -sd: -):${LD_LIBRARY_PATH:-}; /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster TET4.export --no-mpi"
+    ],
+    "container_cpu_limit": 1,
+    "container_id": "b705e7bf6d86313c744762e1ff024cbc541ff2ad948fadadd58ee57d4dcc379a",
+    "elapsed_seconds": 5.052011399995536,
+    "exit_code": 0,
+    "family": "TET4",
+    "finished_utc": "2026-09-23T08:35:42.233742+00:00",
+    "fresh_container_process": true,
+    "host_process_id": 12128,
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "image_id": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "python_runtime_import_smoke": "PASS",
+    "runtime_probe_shell_command": "export RUNASTER_ROOT=/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg; source /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh; export PYTHONPATH=$(find /opt/spack/opt/spack/linux-zen -type d -path '*/lib/python3.11/site-packages' | paste -sd: -):${PYTHONPATH:-}; export LD_LIBRARY_PATH=$(find /opt/spack/opt/spack/linux-zen -type d \\( -name lib -o -name lib64 \\) | paste -sd: -):${LD_LIBRARY_PATH:-}; python3 -c 'import mpi4py, numpy; import code_aster.Commands' && /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster --version",
+    "runtime_shell_command": "export RUNASTER_ROOT=/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg; source /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh; export PYTHONPATH=$(find /opt/spack/opt/spack/linux-zen -type d -path '*/lib/python3.11/site-packages' | paste -sd: -):${PYTHONPATH:-}; export LD_LIBRARY_PATH=$(find /opt/spack/opt/spack/linux-zen -type d \\( -name lib -o -name lib64 \\) | paste -sd: -):${LD_LIBRARY_PATH:-}; /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster TET4.export --no-mpi",
+    "runtime_version": "code_aster 18.1.0 (spack-local)",
+    "solver_entrypoint": "/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster",
+    "solver_mpi_disabled": true,
+    "started_utc": "2026-09-23T08:35:34.789636+00:00",
+    "telemetry_events": 3
+  },
+  "raw": {
+    "displacement": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        -7.428571428571427e-08
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "element_type": "TETRA4",
+    "family": "TET4",
+    "modelisation": "3D",
+    "reaction": [
+      [
+        999.9999999999998,
+        0.0,
+        999.9999999999998
+      ],
+      [
+        0.0,
+        0.0,
+        2.2737367544323206e-13
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        -999.9999999999998,
+        0.0,
+        0.0
+      ]
+    ],
+    "status": "PASS"
+  },
+  "runner_sha": "c4a772cd14921ca0b243c71b99a0f94f0ca210e8",
+  "status": "PASS",
+  "wp11_source_sha": "f122032cbac77b98137b61f27907ba28755a250a"
+}

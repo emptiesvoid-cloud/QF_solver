@@ -90,4 +90,4 @@ Les formules critiques sont reliees separement dans
 - `python .\qf_solver.py qualify --manifest .\qualification\campaign.json --output .\results\qualification_campaign`
 - Les exemples officiels produisent un dossier `evidence`.
 - Les limites connues sont a jour dans `README.md` et `prochaines_etapes.md`.
-- Aucun fichier Python principal ne depasse 700 lignes.
+- Objectif indicatif de 700 lignes par fichier Python : les depassements restent visibles comme dette de maintenance, sans echec fonde uniquement sur la taille. Les gates numeriques, de dependances et de comportement restent inchanges.

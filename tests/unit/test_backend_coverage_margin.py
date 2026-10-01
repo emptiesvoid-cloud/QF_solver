@@ -323,3 +323,44 @@ def test_linear_solver_reports_bad_residual_and_nonfinite_solution() -> None:
         )
     with pytest.raises(NumericalConvergenceError, match="non-finite"):
         LinearSystemSolver._validated_residual(matrix, np.ones(2), np.array([np.nan, 0.0]), "test", {})
+
+
+def test_direct_refinement_is_opt_in_and_keeps_the_same_residual_gate(monkeypatch: pytest.MonkeyPatch) -> None:
+    import solveur.core.solvers.linear as linear_module
+
+    matrix = csr_matrix(np.eye(2))
+    rhs = np.ones(2)
+    real_spsolve = linear_module.spsolve
+    calls = 0
+
+    def perturbed_first_solve(system: object, vector: object) -> np.ndarray:
+        nonlocal calls
+        calls += 1
+        candidate = np.asarray(real_spsolve(system, vector), dtype=float)
+        if calls == 1:
+            candidate[0] += 2.0e-7
+        return candidate
+
+    monkeypatch.setattr(linear_module, "spsolve", perturbed_first_solve)
+    with pytest.raises(NumericalConvergenceError) as rejected:
+        LinearSystemSolver().solve(
+            matrix,
+            rhs,
+            method="direct",
+            parameters={"residual_failure_tolerance": 1.0e-7},
+        )
+    assert rejected.value.diagnostics["relative_residual"] > 1.0e-7
+
+    calls = 0
+    solution, info = LinearSystemSolver().solve(
+        matrix,
+        rhs,
+        method="direct",
+        parameters={
+            "residual_failure_tolerance": 1.0e-7,
+            "experimental_direct_refinement_steps": 2,
+        },
+    )
+    assert np.allclose(solution, rhs)
+    assert info.direct_refinement_iterations == 1
+    assert calls == 2

@@ -1,0 +1,126 @@
+{
+  "schema": "qf.wp08.area_supported_contact_m4_slip_forensic_review.r1",
+  "artifact_id": "QF-029-WP08-AREA-SUPPORTED-CONTACT-M4-SLIP-FORENSIC-R2",
+  "status": "DIAGNOSTIC_CAPTURED_NUMERICAL_FAILURE",
+  "classification": "SOLVER_ROBUSTNESS_LIMITATION_CAUSE_NARROWED_NOT_FULLY_ISOLATED",
+  "provenance": {
+    "branch": "codex/wp08-area-contact-r1-10-candidate",
+    "execution_sha": "50b3d35809b49457a5c7cebac017d63daf17b06e",
+    "runner_path": "scripts/run_wp08_area_supported_m4_slip_forensic_r2.py",
+    "runner_sha256": "ba8ba38292027d4d7a21c2c04a1984b84947bdc693d74cb5d5ca4e6ef14569bc",
+    "source_bundle_sha256": "926f3983a49967eaebc55d2c024848127af907f4498a5b09d24faf4b0e037534",
+    "contract_path": "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_m4_slip_forensic_r2_20260926/contract.json",
+    "contract_sha256": "190910ae3d9c8ca8afdd1e4742a97b57984fd54e9bac5a79db45bc4ddb533583",
+    "execution_binding_path": "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_m4_slip_forensic_r2_20260926/execution_binding.json",
+    "execution_binding_canonical_sha256": "583bf26a4cebaf8ffcdb0b5a2f141c5a72c32f6240e134c7d6df3289bdcd87be",
+    "execution_binding_file_sha256": "f176fc4a8530004a0efe81dca20a164abe6ae7cf741394df91ca464c6380a1ee",
+    "parent_m1_m2_m3_reverified_read_only": true,
+    "historical_m4_failure_preserved": true
+  },
+  "execution": {
+    "case": "M4/slip_target",
+    "attempts": 1,
+    "pid": 31436,
+    "started_utc": "2026-09-26T21:18:55.273155+00:00",
+    "ended_utc": "2026-09-26T21:20:03.842163+00:00",
+    "elapsed_seconds": 68.56896409997717,
+    "process_exit_code": 1,
+    "process_classification": "NUMERICAL_FAILURE_NOT_INFRASTRUCTURE",
+    "active_process_after_run": false,
+    "m1_m2_m3_rerun": false,
+    "stick_rerun": false,
+    "reference_or_replay_run": false,
+    "production_mechanics_changed": false,
+    "thresholds_changed": false
+  },
+  "observed_failure": {
+    "step": 7,
+    "accepted_steps_before_failure": 6,
+    "step_7_rejected_and_rollback": true,
+    "outer_cause": "ALL_FRICTIONAL_CONTACT_ROUTES_FAILED",
+    "direct_active_set": {
+      "cause": "ACTIVE_SET_MAX_ITERATIONS",
+      "iteration_limit": 25,
+      "visited_active_sets": 10,
+      "active_contacts_at_failure": 81,
+      "tangential_states_at_failure": {"slip": 80, "stick": 1}
+    },
+    "active_slip_root": {
+      "closed_slip_contacts": 45,
+      "unknown_dimension": 90,
+      "cause": "GLOBALIZED_SLIP_RESIDUAL_NOT_CONVERGED",
+      "frozen_contact_tolerance": 1e-9,
+      "physical_residual_norm": 1.5037868322441332e-7,
+      "maximum_scaled_per_contact_residual": 1.0519097154830292e-8,
+      "contacts_over_tolerance": 37,
+      "worst_contact": 65,
+      "worst_contact_scaled_residual": 1.0519097154830292e-8,
+      "worst_contact_physical_residual_N": 5.495876940920163e-8,
+      "worst_contact_friction_limit_N": 5.224666014608009,
+      "least_squares": {
+        "success": true,
+        "status": 3,
+        "message": "`xtol` termination condition is satisfied.",
+        "nfev": 3
+      },
+      "semismooth_refinement": {
+        "error": "Active-slip semi-smooth Newton line search could not reduce the residual.",
+        "successful_evaluations": 0,
+        "remaining_iteration_limit": 28
+      }
+    },
+    "coupled_projection": {
+      "seed_candidate_count": 1,
+      "seed_frictional_contacts": 45,
+      "seed_root_rejected": true,
+      "cause": "COUPLED_SEARCH_CONTACT_LIMIT_EXCEEDED",
+      "contact_operators": 81,
+      "maximum_enumerated_contacts": 8,
+      "interpretation": "The fail-closed combinatorial guard prevented an unsafe exhaustive search; the cap was not changed."
+    }
+  },
+  "diagnosis": {
+    "established": [
+      "The same M4 slip step-7 failure reproduced with an identical frozen input set.",
+      "The failure is numerical/algorithmic, not a missing runtime, process crash, or infrastructure failure.",
+      "The normal active-set path cycles/exhausts its iteration allowance; the active-slip equation then remains above its frozen per-contact residual gate.",
+      "SciPy least_squares reports successful xtol termination, but this is not the solver's contact-equation acceptance gate; the code correctly rejects the candidate.",
+      "The coupled-projection fallback rejects its deterministic seed and safely refuses exponential enumeration because 81 operators exceed the frozen cap of 8."
+    ],
+    "not_established": [
+      "Whether early optimizer termination, Jacobian conditioning, inner linear-solve accuracy, or active-set nonsmoothness is the dominant mathematical cause.",
+      "Whether an algorithmic change will make this M4 case converge without altering the frozen acceptance threshold."
+    ],
+    "recommended_remediation": [
+      "Preserve the 1e-9 per-contact acceptance gate and the exhaustive-search cap.",
+      "In a new source revision, decouple least-squares step/cost termination tolerances from physical contact acceptance and record optimality, cost, gradient norm, and termination diagnostics.",
+      "Add focused regressions for optimizer xtol termination with residual still above the physical gate and for deterministic active-set cycle handling.",
+      "Freeze a new prospective contract/binding before any subsequent M4 attempt; do not retry under this single-attempt contract."
+    ]
+  },
+  "evidence_hashes": {
+    "failure_json": "67637a5bd4b08a73c16f38aba9c847386f35f2c3bb4e5fb8bf1e75476021b190",
+    "telemetry_jsonl": "f23b56151bd432aef3c55baa746a359ea39044af8a45ae92258ea765e2b5f031",
+    "process_manifest": "05de4956753af4bca1950c6a9e538eef2b556e54e60447f7b97c929da90361b2",
+    "stderr_log": "82d97b8af03b3357deaa0c7aceb84bfac610261eab5409e45f2880818c0592c6",
+    "stdout_log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "final_json": "1cf1a58d31faac2bcca53afb06bbe1d66e6e306857213a073de7e7de6443843f",
+    "progress_json": "3d7ac16fce0a3495d1bc2637adb0c58672cccbbacabeef2fd509b48ae7969456",
+    "source_manifest": "88b8f72b14beaf0bffad3133c5eea375de7031c53a342d7f09dfe4e525963c07",
+    "freeze_record": "6b5e99baeb48ce4d440a017a59ab69002f4f638dd48f7300f9b64bc2930a1bbd"
+  },
+  "validation": {
+    "targeted_tests": "8 passed",
+    "compileall": "PASS",
+    "git_diff_check_before_freeze": "PASS",
+    "ruff": "NOT_RUN_TOOL_UNAVAILABLE",
+    "full_test_suite": "NOT_RUN"
+  },
+  "governance": {
+    "wp08_formal_qualification": false,
+    "formal_points_awarded": false,
+    "ledger_changed": false,
+    "merge_or_push": false,
+    "final_interpretation": "Forensic diagnostic only; no M4 qualification and no effect on historical M1/M2/M3 or official points."
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP03-D-ARC-RADIUS-POLICY-001",
+  "work_package": "WP03-D",
+  "status": "IMPLEMENTED_TARGETED",
+  "phase": "ARC_LENGTH_ROBUSTNESS_BOUNDARY",
+  "baseline_sha": "862e6dd5e5b976fbb2ca57c1966640691fcb2700",
+  "final_sha": null,
+  "final_sha_policy": "The final commit SHA is reported after the dedicated commit; this record is not self-referential.",
+  "branch": "0.2.9-unified-nonlinear",
+  "validated_points": 0,
+  "validated_total": 22,
+  "scope": {
+    "implemented": [
+      "one formulation-neutral UnifiedArcLengthRadiusPolicy",
+      "canonical retry classification and deterministic radius decisions",
+      "policy-radius versus effective-attempt-radius diagnostics",
+      "rollback-before-radius-decision ordering",
+      "target-clipped retry progress guard",
+      "accepted-step radius growth/shrink/keep decisions",
+      "accepted-state digest attachment to accepted radius decisions",
+      "focused WP03-D tests and controlled evidence"
+    ],
+    "deferred": [
+      "WP03-E independent robustness closure",
+      "new difficult physical-case convergence evidence",
+      "frictional or active-set contact migration",
+      "maturity promotion"
+    ]
+  },
+  "baseline": {
+    "record": "qualification/0_2_9/wp03_d_baseline.json",
+    "status": "EXECUTED_AT_START_SHA",
+    "cases": [
+      "D-B01 monotonic fixed-radius",
+      "D-B02 monotonic adaptive-radius",
+      "D-B03 turning branch",
+      "D-B04 easy adaptive radius growth",
+      "D-B05 expensive accepted-step shrink",
+      "D-B06 one forced retryable rejection",
+      "D-B07 multiple deterministic rejections",
+      "D-B08 minimum-radius terminal failure",
+      "D-B09 max-steps terminal failure",
+      "D-B10 load-factor-limit terminal failure",
+      "D-B11 restart before rejection",
+      "D-B12 restart after rejection/retry",
+      "D-B13 path-dependent J2 restart/retry",
+      "D-B14 checkpoint failure after accepted step",
+      "D-B15 target-clipped step"
+    ],
+    "comparison": {
+      "relative": 1e-09,
+      "absolute_floor": 1e-12,
+      "full_suite": "NOT_RUN"
+    }
+  },
+  "policy": {
+    "policy_id": "qf-solver-unified-arc-length-radius",
+    "policy_version": 1,
+    "authority": "UnifiedArcLengthRadiusPolicy",
+    "policy_radius": "radius carried between accepted/rejected decisions",
+    "effective_attempt_radius": "radius passed to the unchanged augmented correction kernel after target clipping",
+    "accepted_decisions": {
+      "iterations <= grow_below_iterations": "ACCEPT_GROW, capped at maximum_radius",
+      "iterations >= shrink_above_iterations": "ACCEPT_SHRINK, floored at minimum_radius",
+      "otherwise": "ACCEPT_KEEP",
+      "adaptive_radius_false": "accepted policy radius remains unchanged"
+    },
+    "retry_decision": {
+      "retryable": [
+        "MAX_ITERATIONS",
+        "CONVERGENCE_STAGNATION",
+        "LINE_SEARCH_FAILURE",
+        "CONTACT_UPDATE_FAILURE",
+        "CONTACT_PENETRATION_EXCESSIVE",
+        "retryable ARC_LENGTH_FAILURE correction stages"
+      ],
+      "owner_policy_dependent": [
+        "SINGULAR_TANGENT",
+        "LINEAR_SOLVER_FAILURE",
+        "unknown RuntimeError when owner policy is enabled"
+      ],
+      "terminal": [
+        "MATERIAL_UPDATE_FAILURE",
+        "STATE_CORRUPTION",
+        "NAN_DETECTED",
+        "INF_DETECTED",
+        "INVALID_ELEMENT",
+        "CHECKPOINT_FAILURE",
+        "explicit arc terminal policy stages"
+      ],
+      "minimum_radius": "candidate == minimum is permitted; candidate < minimum is terminal",
+      "target_clipped_retry": "advance policy radius to the first shrink value strictly below the failed effective radius; use it as the next effective attempt"
+    }
+  },
+  "target_clipped_retry_audit": {
+    "reproduced_at_baseline": true,
+    "baseline_policy_radius": 0.1,
+    "baseline_effective_failed_radius": 0.0035355339059327385,
+    "baseline_policy_retry_radius": 0.05,
+    "baseline_effective_retry_radius": 0.0035355339059327385,
+    "fix_applied": true,
+    "post_policy_retry_radius": 0.003125,
+    "post_effective_retry_radius": 0.003125,
+    "effective_retry_decreases": true,
+    "note": "The post-policy retry preserves the legacy cutback trajectory while preventing an identical target-clipped correction attempt."
+  },
+  "runtime_error_policy": {
+    "classification": "OWNER_POLICY_DEPENDENT",
+    "decision": "PRESERVED",
+    "evidence": "The existing allow_owner_policy=True continuation behavior is consumed by the common radius policy; no arbitrary RuntimeError is reclassified as a canonical physical failure."
+  },
+  "source_audit": {
+    "arc_radius_policy_authority_count": 1,
+    "arc_radius_shrink_policy_loop_count": 1,
+    "duplicate_arc_retry_blocks": "NONE",
+    "specialized_correction_kernel_changed": false,
+    "branch_selection_math_changed": false,
+    "checkpoint_save_after_commit": true
+  },
+  "after_results": {
+    "D-B01": "PASS_BOUNDED; fixed-radius load-factor/effective-radius path remains within 1e-9/1e-12 baseline bounds",
+    "D-B02": "PASS_BOUNDED; adaptive accepted-radius decisions remain baseline-equivalent",
+    "D-B03": "PASS_BOUNDED; branch-direction diagnostics remain baseline-equivalent",
+    "D-B04": "PASS",
+    "D-B05": "PASS",
+    "D-B06": "PASS; rollback precedes one retry cutback",
+    "D-B07": "PASS; deterministic shrink sequence",
+    "D-B08": "PASS; ARC_LENGTH_FAILURE at explicit minimum-radius boundary",
+    "D-B09": "PASS; ARC_LENGTH_FAILURE at max_steps boundary",
+    "D-B10": "PASS; load-factor envelope failure remains bounded by retry/minimum policy",
+    "D-B11": "PASS_BOUNDED; restart before rejection",
+    "D-B12": "PASS_BOUNDED; restart after rejection/retry",
+    "D-B13": "PASS_BOUNDED; path-dependent J2 restart/retry remains caller-state consistent",
+    "D-B14": "PASS; checkpoint failure remains infrastructure-only after physical acceptance",
+    "D-B15": "PASS; target clipping does not mutate policy radius"
+  },
+  "targeted_validation": [
+    {"command": "python -m pytest -q tests/unit/test_wp03_d_arc_radius_policy.py", "result": "40 passed"},
+    {"command": "python -m pytest -q tests/unit/test_wp03_c_adaptive_policy.py", "result": "35 passed"},
+    {"command": "python -m pytest -q tests/unit/test_wp03_b_robustness_authority.py", "result": "30 passed"},
+    {"command": "python -m pytest -q tests/unit/test_wp02_d_arc_length_restart.py", "result": "28 passed"},
+    {"command": "python -m pytest -q tests/unit/test_wp02_d1_arc_length_material_state.py", "result": "10 passed"},
+    {"command": "python -m pytest -q tests/unit/test_wp01_d_continuation.py", "result": "22 passed"},
+    {"command": "python -m pytest -q tests/unit/test_analysis_features.py -k arc_length", "result": "3 passed, 27 deselected"},
+    {"command": "python -m pytest -q tests/unit/test_nonlinear_failure_modes.py", "result": "20 passed"},
+    {"command": "python -m pytest -q tests/unit/test_nonlinear_failure_campaign.py", "result": "1 passed"},
+    {"command": "python -m pytest -q tests/unit/test_nonlinear_load_path.py -k 'arc_length or checkpoint'", "result": "9 passed, 16 deselected"},
+    {"command": "python -m pytest -q tests/unit/test_geometric_nonlinear_public.py", "result": "7 passed"},
+    {"command": "python -m pytest -q tests/unit/test_frictionless_contact.py -k 'penalty or nonlinear or updated'", "result": "7 passed, 12 deselected"},
+    {"command": "python -m pytest -q tests/unit/test_nonlinear_state_transaction_contract.py tests/unit/test_robustness_state_transactions.py tests/unit/test_unified_nonlinear_foundation.py", "result": "25 passed"},
+    {"command": "python -m pytest -q tests/unit/test_nonlinear_checkpoint.py tests/unit/test_wp02_b_checkpoint_v2.py", "result": "38 passed"},
+    {"command": "python -m pytest -q tests/unit/test_nonlinear_contact_composition.py tests/unit/test_nonlinear_composite_assembly.py", "result": "13 passed"},
+    {"command": "python -m pytest -q tests/unit/test_nonlinear_load_path.py -k 'j2 or material or nonlinear'", "result": "25 passed"},
+    {"command": "python -m pytest -q tests/unit/test_geometric_nonlinear_adaptive.py tests/unit/test_geometric_nonlinear_controls.py", "result": "12 passed"}
+  ],
+  "gate_status": {
+    "G03-01": {"status": "PASS_BOUNDED", "reason": "One common robustness architecture now spans fixed, adaptive and arc-length policy boundaries; the arc correction algebra remains specialized."},
+    "G03-02": {"status": "PASS_BOUNDED", "reason": "Arc radius decisions consume the canonical retry taxonomy and share deterministic policy diagnostics."},
+    "G03-03": {"status": "PASS", "reason": "WP03-B stagnation authority remains green."},
+    "G03-04": {"status": "PASS", "reason": "WP03-B line-search authority remains green."},
+    "G03-05": {"status": "PASS", "reason": "Retryable arc failures roll back before radius policy evaluation; minimum-radius boundaries are explicit."},
+    "G03-06": {"status": "PASS", "reason": "Accepted arc-radius growth/shrink/keep semantics use one inclusive policy."},
+    "G03-07": {"status": "PASS", "reason": "Minimum radius and terminal arc policy boundaries are deterministic and focused-tested."},
+    "G03-08": {"status": "PASS_BOUNDED", "reason": "Rollback/state preservation now covers the migrated arc policy boundary; unsupported research contact routes remain outside scope."},
+    "G03-09": {"status": "PASS_BOUNDED", "reason": "Stable arc cases and existing WP01/WP02 arc regressions remain within frozen bounds."},
+    "G03-10": {"status": "NOT_YET_DEMONSTRATED", "reason": "The target-clipped retry defect is fixed and effective progress is proven, but no difficult physical convergence improvement is claimed."}
+  },
+  "integrity": {
+    "numerical_formulation_changed": false,
+    "element_formulation_changed": false,
+    "maturity_changed": false,
+    "historical_evidence_changed": false,
+    "checkpoint_schema_changed": false,
+    "checkpoint_failure_causes_physical_cutback": false,
+    "checkpoint_failure_causes_arc_retry": false,
+    "full_test_suite_run": false,
+    "known_limitations": [
+      "WP03-E independent closure remains required before any WP03 points are awarded.",
+      "No new difficult physical-case improvement is claimed.",
+      "Frictional and active-set contact paths remain research/compatibility boundaries.",
+      "Adaptive penalty-contact qualification remains unsupported/inherited.",
+      "Inherited typing debt remains bounded and outside this policy change."
+    ]
+  }
+}

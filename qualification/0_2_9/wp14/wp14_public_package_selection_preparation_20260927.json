@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-029-WP14-PUBLIC-PACKAGE-PREPARATION-20260927",
+  "status": "PREPARATION_ONLY",
+  "source_sha": "0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba",
+  "owner_acceptance": "PENDING_SEPARATE_PACKAGE_REVIEW",
+  "structural_solves_allowed": false,
+  "publication_allowed": false,
+  "numeric_threshold_changes_allowed": false,
+  "whole_repository_gate_waivers_allowed": false,
+  "selection": {
+    "include_exact": [
+      "CHANGELOG.md", "CITATION.cff", "LICENSE", "LICENSE-DOCS", "MANIFEST.in",
+      "NOTICE", "README.md", "THIRD_PARTY_LICENSES.md", "pyproject.toml",
+      "qualification/benchmarks.json", "qualification/campaign.json",
+      "qualification/demonstrations.json", "qualification/element_analysis_matrix.json",
+      "qualification/formulas.json", "qualification/requirements.json",
+      "qualification/release_vv_0_2_1.json", "qualification/technical_content_coverage.json",
+      "qualification/0_2_7/capability_registry_v2.json",
+      "qualification/0_2_8/consolidated_registry.json",
+      "qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json",
+      "qualification/0_2_8/wp13_02d_mixed_dynamics_delivery.json",
+      "qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json",
+      "qualification/0_2_8/wp13_04d_multimaterial_owner_delivery.json",
+      "qualification/0_2_8/wp13_05_inp_import_capability_record.json",
+      "qualification/0_2_8/wp13_05c_registry_reconciliation_erratum.json",
+      "qualification/0_2_8/wp13_06d_mixed_hdf5_capability_record.json",
+      "qualification/0_2_8/wp13_07d_contact_capability_record.json",
+      "requirements/baseline-standard.txt", "requirements/baseline-large-linux.txt"
+    ],
+    "include_prefixes": ["examples/", "src/qf_solver/", "src/solveur/"],
+    "exclude_exact": [
+      "examples/README.md", "src/solveur/verification/j2_multifamily_performance.py"
+    ],
+    "forbid_prefixes": ["qualification/0_2_9/", "docs/", "scripts/", "tests/"]
+  },
+  "exclusion_rationale": {
+    "examples/README.md": "Internal preparation notes, not a packaged example.",
+    "src/solveur/verification/j2_multifamily_performance.py": "Internal WP13 campaign harness, not a public API or a solver kernel."
+  },
+  "limitations": [
+    "A selection plan is not wheel/sdist build evidence or a release approval.",
+    "The source commit is a preparation baseline; changed sources require a new prospective binding.",
+    "Package source scans do not sanitize an existing Git repository or its history.",
+    "The original whole-repository R1 audit failures remain open and preserved.",
+    "A new package execution must verify byte-for-byte mapping, installed CLI behavior, and metadata."
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "manifest_status": "PASS",
+  "execution_sha": "38029b5e3fa9a063cc272b5d6c0510bb3687df35",
+  "contract_sha256": "3906d61d7d75edfdb6bb6400772fa9b4ede88fd6ca36d84a81ddbc56dc6c842c",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "contract_source_sha": "2d87bc80b2875251ff093eaa76bee0020b4a48fd",
+  "files": [
+    {
+      "path": "qualification/0_2_9/wp10_execution_r2/m1_primary.json",
+      "sha256": "c84f271bbca3c528c61e887e9d4bca572e74068056d4e5aca9bc2bf7dad4ef06",
+      "size_bytes": 2496
+    },
+    {
+      "path": "qualification/0_2_9/wp10_execution_r2/m1_reference.json",
+      "sha256": "afcdd062630531107ca052787ea7a6bbfa7d32e4ebbec482934dfaf528810c8b",
+      "size_bytes": 991
+    },
+    {
+      "path": "qualification/0_2_9/wp10_execution_r2/m2_primary.json",
+      "sha256": "d31f6add5f1495d7690dec2712b4ae31deda0b3a95388e3db6c5b87ec10f8d82",
+      "size_bytes": 2887
+    },
+    {
+      "path": "qualification/0_2_9/wp10_execution_r2/m2_reference.json",
+      "sha256": "fbbb7b49cd3abd7047e51e8cd65687ec73099595f8150988a0b1a71d0a04f4af",
+      "size_bytes": 566
+    },
+    {
+      "path": "qualification/0_2_9/wp10_execution_r2/m3_reference.json",
+      "sha256": "fbbb7b49cd3abd7047e51e8cd65687ec73099595f8150988a0b1a71d0a04f4af",
+      "size_bytes": 566
+    },
+    {
+      "path": "qualification/0_2_9/wp10_execution_r2/m3_replay.json",
+      "sha256": "d31f6add5f1495d7690dec2712b4ae31deda0b3a95388e3db6c5b87ec10f8d82",
+      "size_bytes": 2887
+    },
+    {
+      "path": "qualification/0_2_9/wp10_execution_r2/m3_replay_audit.json",
+      "sha256": "eacdac0fb3939aae214d22134dc1691297708aa81c6a67eaaab3774e23ff6675",
+      "size_bytes": 587
+    }
+  ]
+}

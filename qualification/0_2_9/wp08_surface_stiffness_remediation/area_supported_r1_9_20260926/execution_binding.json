@@ -1,0 +1,45 @@
+{
+  "artifact_id": "QF-029-WP08-AREA-SUPPORTED-CONTACT-DIAGNOSTIC-R1.9",
+  "contract_document_sha256": "b415dc523c053f3a37ea476624b32fbcb7bd2a7031d7eebe3814e8f973113a0c",
+  "contract_path": "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_9_20260926/contract_r1_9_contact_requalification.json",
+  "contract_sha256": "c6d24175d521f52ee14f985f373eef57b196771fa6e7f9366e92d56e6980a210",
+  "execution_binding_sha256": "d5dd9310ed7b28ea4f4821d0136e9a040c935bb7b36f60f4cc2d38063cbb89d8",
+  "execution_order": [
+    "M2/stick_target",
+    "M2/slip_target",
+    "M3/stick_target",
+    "M3/slip_target"
+  ],
+  "execution_policy": "one child process at a time; stop after any numerical failure; M3 only if both M2 gates pass; preserve all artifacts; no rerun",
+  "frozen_utc": "2026-09-26T19:02:19.858247+00:00",
+  "git": {
+    "branch": "codex/wp08-area-contact-r1-9-candidate",
+    "head": "4ccba7f736a25d44c06d0ec189cb0e37dca19ad4",
+    "porcelain_status": "?? qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_2_m1_20260926/\n?? qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_7_20260926/\n?? qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_8_20260926/\n?? qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_9_20260926/M1/\n?? qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_9_20260926/_process_logs/\n?? qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_9_20260926/execution_source_manifest.json\n?? qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_9_20260926/final.json\n?? qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_9_20260926/progress.json\n?? qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r2_m2_m3_20260926/\n?? qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r2_m2_m3_attempt2_20260926/"
+  },
+  "m1_inputs_reverified": true,
+  "owner_authorization": {
+    "authorized": true,
+    "recorded_from": "Explicit Owner instruction: freeze the runner and launch execution; green light.",
+    "recorded_utc": "2026-09-26T19:02:20.058242+00:00",
+    "scope": "Run M2 and M3 stick_target/slip_target sequentially under the frozen R1.9 campaign; M3 only after both M2 cases pass; no formal qualification or point award."
+  },
+  "parent_contract_sha256": "54e034808586c71ee58616edbd395ab933450989865d0d35d21a63f2efe85962",
+  "runner_path": "scripts/run_wp08_area_supported_m2_m3_diagnostic_r1_9.py",
+  "runner_sha256": "8a7402e813714bd038e0d3feebe6267377c06cba911b9567489722253f15da58",
+  "runtime": {
+    "governing_policy_enforced": false,
+    "numpy": "2.2.6",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "policy_digest_context_only": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+    "python_executable": "C:\\Python313\\python.exe",
+    "scipy": "1.15.2"
+  },
+  "schema": "qf.wp08.area_supported_contact_campaign_execution_binding.v1",
+  "source_bundle_sha256": "5c7c00b67f5ba0afffb75c94528ce761dcca6aa567b8df3e35c7b7f194f98499",
+  "source_file_count": 975,
+  "source_manifest_path": "execution_source_manifest.json",
+  "targeted_test_path": "tests/unit/test_wp08_area_supported_m2_m3_runner_r1_9.py",
+  "targeted_test_sha256": "6c549944b8369f318e2b7793f92dd54d90794b90a2d34e8e68da06e7ec9620fb"
+}

@@ -1,0 +1,300 @@
+{
+  "files": {
+    "HEX20/HEX20.comm": {
+      "sha256": "fed0df3103d6a6ec8239ffe6e248f03d6ac6b70d1d57b52d3bdf4ca8d0ffefd2",
+      "size_bytes": 2099
+    },
+    "HEX20/HEX20.export": {
+      "sha256": "f5a5acf25be0f89f5bbe457d5ef90fbfee3c0205bf579b0becbe99c740063013",
+      "size_bytes": 211
+    },
+    "HEX20/HEX20.mail": {
+      "sha256": "d94dabda016303c91ab605e299b9fc49118e66413413abd2d8cd63311fc72443",
+      "size_bytes": 1224
+    },
+    "HEX20/HEX20.mess": {
+      "sha256": "d0b4c268ead3d8c996aded48532d5567a4a8364cab65a2f154573f7346aadc25",
+      "size_bytes": 21532
+    },
+    "HEX20/HEX20.resu": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "HEX20/aster_raw.json": {
+      "sha256": "072ac19beab084fa1d68d10f993701108a30936144d3132d364de5d1f0ec41a4",
+      "size_bytes": 3828
+    },
+    "HEX20/comparison.json": {
+      "sha256": "1d926ffa10c2ca07482540d93aff5a8f69a2e9965f27b7eafe68ee262a5c4770",
+      "size_bytes": 11892
+    },
+    "HEX20/container.cid": {
+      "sha256": "996c72c9503982abdf0b71112be8b78943a048da1ee605e84c050fc09e3b292d",
+      "size_bytes": 64
+    },
+    "HEX20/process.json": {
+      "sha256": "2680304f2dc438a5805535429a5932884b5c202e973ccf9b89b450e5ac13fa61",
+      "size_bytes": 3431
+    },
+    "HEX20/progress.json": {
+      "sha256": "959707f52b03f5355cdaae5e206e029dac7b193232569ad10e4ccca66f2a74ec",
+      "size_bytes": 193
+    },
+    "HEX20/qf_m1/displacement.npy": {
+      "sha256": "eb7cd2f2d6edf47a14da3259c6a0b3b0444d52dcfa9c01a1d104e7ae556463f0",
+      "size_bytes": 608
+    },
+    "HEX20/qf_m1/fixed.npy": {
+      "sha256": "c3c6c35aa1bc639804df5c6cd64f53afa37b866859e41ede1778f1828706cfec",
+      "size_bytes": 320
+    },
+    "HEX20/qf_m1/loads.npy": {
+      "sha256": "708e6f07453ef3d77fd882f7ee6e64299f0aff478f5541f53ad37034e91d108e",
+      "size_bytes": 608
+    },
+    "HEX20/qf_m1/result.json": {
+      "sha256": "9940f5b8c5810b8f55b3ceeab153d870e56e4277318857f55287e5610c06687c",
+      "size_bytes": 2280
+    },
+    "HEX20/qf_m1/stiffness.npy": {
+      "sha256": "40ea45bf2a8db980d4f176085ef8c38bcfe05fde04bd7c52868f7c2103987c82",
+      "size_bytes": 28928
+    },
+    "HEX20/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "HEX20/stdout.log": {
+      "sha256": "008fadf106768d4cb18482751285ebb9d6da64f705f2cce888d83257cf516477",
+      "size_bytes": 25941
+    },
+    "HEX20/telemetry.jsonl": {
+      "sha256": "09161a75ee99d04b8722f2bbd9de555412dd868a9923f8ef451fa957d5e73668",
+      "size_bytes": 1683
+    },
+    "HEX8/HEX8.comm": {
+      "sha256": "9247253f2592aa2744ec18f9a1945fe74958258a9041261107861c575e22e894",
+      "size_bytes": 1970
+    },
+    "HEX8/HEX8.export": {
+      "sha256": "57ca3567abf2ee64d058481aab8cded5223681b1ee08a00db409228de29d50bf",
+      "size_bytes": 207
+    },
+    "HEX8/HEX8.mail": {
+      "sha256": "c9262f613325236430b6781712123e2f18e2bece5d8d5a5c7209b67d41e1b5f2",
+      "size_bytes": 574
+    },
+    "HEX8/HEX8.mess": {
+      "sha256": "d8761a1ebc177b8a3a7266929e8b58175da22add8e089324df06cf4ba8e41371",
+      "size_bytes": 21105
+    },
+    "HEX8/HEX8.resu": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "HEX8/aster_raw.json": {
+      "sha256": "22767171dcfc64ec3ac107cf4a91789ce6284a426d908b4787f449944ee9f375",
+      "size_bytes": 1531
+    },
+    "HEX8/comparison.json": {
+      "sha256": "da22538629e3d1ca51e50f0672fdfd152f6cc4eade7f5967f2090a107692b596",
+      "size_bytes": 9212
+    },
+    "HEX8/container.cid": {
+      "sha256": "4c64759db12292a5230a1356cbf978610ad5b6edc91c63ae52c0ff3869325dec",
+      "size_bytes": 64
+    },
+    "HEX8/process.json": {
+      "sha256": "a3aea24fedbb9436b23e46f590edd339eaca67a049adc9778f1a76c018f35c31",
+      "size_bytes": 3429
+    },
+    "HEX8/progress.json": {
+      "sha256": "2c4db4970be3397908ba92f01c28574fb1e0cfd22cc53ec257d2c060858c0947",
+      "size_bytes": 191
+    },
+    "HEX8/qf_m1/displacement.npy": {
+      "sha256": "2da9e21a748a22dc091cbb8f0e3357d0571a1e6a43231d9744773f9e860123ed",
+      "size_bytes": 320
+    },
+    "HEX8/qf_m1/fixed.npy": {
+      "sha256": "429a5a0d56f10be9c06d6ee1976229aca9348f21961ccac12d7ef80937000279",
+      "size_bytes": 224
+    },
+    "HEX8/qf_m1/loads.npy": {
+      "sha256": "7d7fe48713382d2dcfa93510628133f30a526056943e8497f526982e64777c73",
+      "size_bytes": 320
+    },
+    "HEX8/qf_m1/result.json": {
+      "sha256": "7c5c7c9b38388cdcc1eccae300778759180b2de22db122a256dd7890d0dd4a44",
+      "size_bytes": 2266
+    },
+    "HEX8/qf_m1/stiffness.npy": {
+      "sha256": "d0a137063361220a1b4061de5547f02227fce70ff72e0fd0622064a55a0d23bf",
+      "size_bytes": 4736
+    },
+    "HEX8/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "HEX8/stdout.log": {
+      "sha256": "12a980796e43a3a947e6835a5e8b57f84afc4ddd89073c87165350cc19b27417",
+      "size_bytes": 25381
+    },
+    "HEX8/telemetry.jsonl": {
+      "sha256": "2500e85aaaf64bbb2dc90f7dd130da0e25ef73ac8c3409d1d2b157f7de53de1c",
+      "size_bytes": 1674
+    },
+    "TET10/TET10.comm": {
+      "sha256": "0f06a19169a1844f53b5b79a61e61a85d0abe2b7a3a4a89a22530088b4c383a9",
+      "size_bytes": 1887
+    },
+    "TET10/TET10.export": {
+      "sha256": "6c4b552f3f265ac22a31283bd28ad8ae1e4674dc2861d7da8815c5ef6b0d73aa",
+      "size_bytes": 211
+    },
+    "TET10/TET10.mail": {
+      "sha256": "16d5baa7936dd569d5ca8aca5c44ab1530c872a643d83975ee23674e7b6b1616",
+      "size_bytes": 686
+    },
+    "TET10/TET10.mess": {
+      "sha256": "f36f11bbe9b07a73a38f713b58cbdfd44f809a98f3e638d5a320598149535d15",
+      "size_bytes": 20808
+    },
+    "TET10/TET10.resu": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "TET10/aster_raw.json": {
+      "sha256": "83da37db99ccdc7705369b74e738a9442a7008c792f4dfc9fcadc74dd29c8b74",
+      "size_bytes": 1900
+    },
+    "TET10/comparison.json": {
+      "sha256": "f22b84e6815d7c93dfe984c71aae49d8c3f81918e444acd2f3b18d9767b35480",
+      "size_bytes": 9655
+    },
+    "TET10/container.cid": {
+      "sha256": "5aec7f406834ba706178ab18a64b77f50a711eb8f9ddc9717cbc36f86f73033b",
+      "size_bytes": 64
+    },
+    "TET10/process.json": {
+      "sha256": "da3338eee4e5e9616b01f976ba362748d7f9c81e469aea962fde3eb0b74c3db1",
+      "size_bytes": 3435
+    },
+    "TET10/progress.json": {
+      "sha256": "9374e8bddd12c230dba61414c7f4390dffa033154e0768dfe9f290f4e2da64b9",
+      "size_bytes": 192
+    },
+    "TET10/qf_m1/displacement.npy": {
+      "sha256": "a899e705b10265fd18e9fb696717559b9d004f2e76e9cb9af1b4346c5f710b77",
+      "size_bytes": 368
+    },
+    "TET10/qf_m1/fixed.npy": {
+      "sha256": "e363b905afdbda970486b93f7b3333f5ca79e31319daa289602b9b2884b13294",
+      "size_bytes": 272
+    },
+    "TET10/qf_m1/loads.npy": {
+      "sha256": "8f2c8615eed030fb56d3797ac97ac08530bb90c7d561e067bbc712784ae6612c",
+      "size_bytes": 368
+    },
+    "TET10/qf_m1/result.json": {
+      "sha256": "c1e5fcb9150e37a7523ae8f902f3ca96ff008f5cdd58aa46205c5816b7f1dbc8",
+      "size_bytes": 2270
+    },
+    "TET10/qf_m1/stiffness.npy": {
+      "sha256": "ee62177f501bfe0bba11937a2300f822228c50afe9b0304591d53ed99bc9dd40",
+      "size_bytes": 7328
+    },
+    "TET10/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "TET10/stdout.log": {
+      "sha256": "f993c27f1f3cd9695564db77df57131f76c59ea45ffadd22fd39ba204738fb14",
+      "size_bytes": 25005
+    },
+    "TET10/telemetry.jsonl": {
+      "sha256": "5c73c5653d7e96b35214bf0735506de4dd9fa4875926d481de80a80cd798fd3b",
+      "size_bytes": 1683
+    },
+    "TET4/TET4.comm": {
+      "sha256": "c335d88833a805c14cf558876592944beb59985cfa48fd9eb7541e7ac58bb766",
+      "size_bytes": 1882
+    },
+    "TET4/TET4.export": {
+      "sha256": "a5795848eacc1c7f8e75b6375c3a0d536569c7fe82a5131c867a6d4261699d2b",
+      "size_bytes": 207
+    },
+    "TET4/TET4.mail": {
+      "sha256": "790222d1192229e9c568c18d010ed88e834cc8d9bf62920498c2a3b5facd4945",
+      "size_bytes": 379
+    },
+    "TET4/TET4.mess": {
+      "sha256": "458d14b744e6702a59001afe59241ab3db473a5dfb284a0c385f114edc355c53",
+      "size_bytes": 20795
+    },
+    "TET4/TET4.resu": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "TET4/aster_raw.json": {
+      "sha256": "c485643b824b56c51b6ab440b3ef6a1de379247ca96c04de7d13dc94f983145e",
+      "size_bytes": 579
+    },
+    "TET4/comparison.json": {
+      "sha256": "e83bd8f1b158bdc53b73d521ad50b923245707de6921b4baf57d5b183d5bfe63",
+      "size_bytes": 7968
+    },
+    "TET4/container.cid": {
+      "sha256": "28890465ea994ef2302993872e21fc193c6ffc42b507b5fab62a4d01dbfb3c3b",
+      "size_bytes": 64
+    },
+    "TET4/process.json": {
+      "sha256": "f63dd183e964b8e756fcb3008bc20b4b587ea692dc3e367c7fd74d6a5307e1cb",
+      "size_bytes": 3429
+    },
+    "TET4/progress.json": {
+      "sha256": "7f6f128c4af163092303ebe50f8a3b9359af672765eb56e6849b907c56298f9b",
+      "size_bytes": 191
+    },
+    "TET4/qf_m1/displacement.npy": {
+      "sha256": "7f91e998555f5e09cb13cdb5e38bc7661a5b02c2c874a3c4ac0b62855bc76505",
+      "size_bytes": 224
+    },
+    "TET4/qf_m1/fixed.npy": {
+      "sha256": "13fcf4c3e34ae28922d1d4687e2b46430e17313d14191234086a8a3d7d5e38b9",
+      "size_bytes": 200
+    },
+    "TET4/qf_m1/loads.npy": {
+      "sha256": "84367d447048a6d1c280e51167da21c3b7c8efed632257d0e96aa782b7a3e525",
+      "size_bytes": 224
+    },
+    "TET4/qf_m1/result.json": {
+      "sha256": "4d52b0a1cf54aac789ed4e2ffd7d570b3607c6216bfa0c35b0c4fb981c4bee09",
+      "size_bytes": 2201
+    },
+    "TET4/qf_m1/stiffness.npy": {
+      "sha256": "1b428e1b425fc63cc3d9b769c24b8075157dd41522de4a7b27d0fba50f196b28",
+      "size_bytes": 1280
+    },
+    "TET4/stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "TET4/stdout.log": {
+      "sha256": "b22790ad149924a24927254c1b38fc265a54cbba016c8bdcb3edde20a7a123c9",
+      "size_bytes": 24983
+    },
+    "TET4/telemetry.jsonl": {
+      "sha256": "437c7c1a6435b0c3221378bff05e5e9e9517c00d09b5391a9be8e907610873a8",
+      "size_bytes": 1677
+    },
+    "wp12_summary.json": {
+      "sha256": "a7f7222d03ef04662828ed1e1207a312487c958b5d948bd36f513102dacae138",
+      "size_bytes": 44625
+    },
+    "wp12_summary.md": {
+      "sha256": "acd9925a1d86cbfdddc0ea99b3541e8641f3a461a3388bba54d19b0323315856",
+      "size_bytes": 1537
+    }
+  }
+}

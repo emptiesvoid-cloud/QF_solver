@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "status": "HOLD_NO_LIMIT_POINT_AND_NO_PRODUCTION_REPLAY",
+  "formal_qualification_claimed": false,
+  "wp06d_formal_points": "0/2",
+  "wp06_official_points": "4/8",
+  "global_official_total": "70/100",
+  "production_mechanics_changed": false,
+  "thresholds_changed": false,
+  "provenance": {
+    "branch": "codex/wp06-score-requalification",
+    "executed_head": "504c952287295cd525f1c4183b3c2764c5294b38",
+    "worktree_dirty_at_launch": true,
+    "local_mesh_manifest_sha256": "b415aaefa9e6f91b7e4e704ad5da04bbc32ef6e422febd5da02af1fa54870918",
+    "production_runner_sha256": "c8a4201033314806f04b4c01910c55d71e02c3099f78b1f26847ded14968f84c",
+    "independent_reference_sha256": "2f66e3bb1e23e78bb95426c09c8a773a1aed12d11a1b58ea400c93df296232d9",
+    "evidence_replay_sha256": "3a5eb0632ae267382dc359586757d2d92e3332ace23e8cce061fb06b7a88dda7"
+  },
+  "production": {
+    "M2": {"status": "PASS", "accepted_states": 160, "elapsed_seconds": 4828.0931693},
+    "M3": {"status": "PASS", "accepted_states": 160, "elapsed_seconds": 9108.50285110006, "envelope": "PASS"}
+  },
+  "independent_reference": {
+    "M2": "PASS_OBSERVABLE_RECOMPUTATION_NO_LIMIT_POINT",
+    "M3": "PASS_OBSERVABLE_RECOMPUTATION_NO_LIMIT_POINT",
+    "independent_path_solve_run": false,
+    "production_solver_replay_run": false
+  },
+  "evidence_replay": "PASS_EVIDENCE_REPLAY_ONLY",
+  "limit_point": "NOT_DETECTED",
+  "limitations": [
+    "Local axial refinement only; transverse section remains 4x4.",
+    "No independent nonlinear path solve.",
+    "No second production FEM replay.",
+    "No formal WP06-D score attribution."
+  ],
+  "next_action": "Owner-approved scope decision and, if retaining the limit-point claim, a dedicated path that reaches a limit point plus independent solve and production replay."
+}

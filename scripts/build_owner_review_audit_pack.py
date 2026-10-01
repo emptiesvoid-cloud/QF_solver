@@ -1,4 +1,6 @@
 from __future__ import annotations
+from collections import Counter
+from html import escape
 import json
 import shutil
 import subprocess
@@ -481,6 +483,12 @@ def _audit_markdown(
     stats: dict[str, Any], git_stats: dict[str, Any], privacy: dict[str, Any], release: dict[str, Any]
 ) -> str:
     largest = "\n".join(f"| `{path}` | {lines} |" for lines, path in stats["largest"])
+    privacy_findings = privacy["findings"]
+    privacy_count = len(privacy_findings)
+    privacy_counts_by_kind = Counter(str(item.get("kind", "unspecified")) for item in privacy_findings)
+    privacy_breakdown = ", ".join(
+        f"{kind}: {count}" for kind, count in sorted(privacy_counts_by_kind.items())
+    ) or "aucun constat"
     return f"""---
 doc_id: DOC-AUDIT-PROJECT-021-001
 revision: 0.1
@@ -493,14 +501,15 @@ approver: ''
 ---
 # Audit hygiene, architecture et manques - QF_solver 0.2.1 alpha
 ## Verdict
-**Le code publiable est propre du point de vue des marqueurs controles, mais la baseline de developpement n'est pas gelable aujourd'hui.**
-- Audit de confidentialite du lot publiable : `{privacy['status']}`, {privacy['scanned_files']} fichiers, {len(privacy['findings'])} finding.
+**Le statut de confidentialite courant est `{privacy['status']}` ; la baseline de developpement n'est pas gelable aujourd'hui.**
+- Audit de confidentialite du lot publiable : `{privacy['status']}`, {privacy['scanned_files']} fichiers, {privacy_count} findings.
+- Repartition des constats : {privacy_breakdown}.
 - Gate `release-vv` courant : `{release.get('status', 'UNKNOWN')}`.
 - Git : HEAD `{git_stats['head']}`, tag `{git_stats['tag']}`, {git_stats['modified']} fichiers modifies et {git_stats['untracked']} fichiers non suivis.
 - Tests collectes : {stats['test_count']}.
 - Limite 700 lignes : {stats['over_700']} depassement; {stats['over_600']} fichiers au-dessus de 600 lignes.
 ## Confidentialite et publication
-Le scanner controle les chemins de poste, adresses privees, secrets courants, ancienne marque et vocabulaire d'assistance interne dans les sources candidates. Aucun finding n'est present dans le lot courant. Les fichiers locaux de configuration et le cache de graphe ne sont pas suivis par Git : `{', '.join(git_stats['tracked_local_config']) or 'aucun'}`.
+Le scanner controle les chemins de poste, adresses privees, secrets courants, ancienne marque et vocabulaire d'assistance interne dans les sources candidates. Le resultat courant est `{privacy['status']}` pour {privacy['scanned_files']} fichiers et {privacy_count} findings. Repartition : {privacy_breakdown}. Les fichiers locaux de configuration et le cache de graphe ne sont pas suivis par Git : `{', '.join(git_stats['tracked_local_config']) or 'aucun'}`.
 L'identite complete de l'auteur/Owner reste volontairement presente dans {git_stats['attribution_path_count']} fichiers de metadonnees, attribution et revues signees. Ce n'est pas une donnee de poste, mais c'est bien une information personnelle publiee; elle doit rester un choix explicite du proprietaire.
 Cette verification ne prouve pas l'absence absolue de secret dans tout l'historique binaire. L'audit d'historique existant est un prefiltre sur les chemins; une revue manuelle de l'archive `git archive` reste obligatoire avant publication.
 ## Structure
@@ -542,6 +551,12 @@ Le projet est techniquement riche et nettement mieux structure qu'un prototype. 
 def _build_audit_pdf(output: Path, markdown: str, stats: dict[str, Any], git_stats: dict[str, Any], privacy: dict[str, Any], release: dict[str, Any]) -> Path:
     styles = _styles()
     largest_rows = [["Fichier", "Lignes"]] + [[path, lines] for lines, path in stats["largest"]]
+    privacy_findings = privacy["findings"]
+    privacy_count = len(privacy_findings)
+    privacy_counts_by_kind = Counter(str(item.get("kind", "unspecified")) for item in privacy_findings)
+    privacy_breakdown = "; ".join(
+        f"{escape(kind)}: {count}" for kind, count in sorted(privacy_counts_by_kind.items())
+    ) or "aucun constat"
     story: list[object] = [
         Spacer(1, 25 * mm),
         Paragraph("QF_solver", styles["title"]),
@@ -550,12 +565,12 @@ def _build_audit_pdf(output: Path, markdown: str, stats: dict[str, Any], git_sta
         Spacer(1, 12 * mm),
         Paragraph("Verdict", styles["h1"]),
         Paragraph(
-            "Le lot publiable est propre selon les marqueurs controles, mais la baseline de developpement "
-            "n'est pas gelable aujourd'hui.", styles["note"],
+            f"Le statut de confidentialite courant est {escape(str(privacy['status']))}; la baseline de "
+            "developpement n'est pas gelable aujourd'hui.", styles["note"],
         ),
         _table([
             ["Controle", "Valeur", "Statut", "Consequence"],
-            ["Confidentialite", f"{privacy['scanned_files']} fichiers / {len(privacy['findings'])} finding", privacy["status"], "Lot courant publiable"],
+            ["Confidentialite", f"{privacy['scanned_files']} fichiers / {privacy_count} findings", privacy["status"], "Gate public"],
             ["Attribution", f"{git_stats['attribution_path_count']} fichiers avec identite auteur/Owner", "DECLAREE", "Choix public a confirmer"],
             ["Release-vv", "Gate courant", release.get("status", "UNKNOWN"), "Ne pas taguer"],
             ["Git", f"{git_stats['modified']} modifies / {git_stats['untracked']} non suivis", "DIRTY" if not git_stats["clean"] else "CLEAN", "Figer avant release"],
@@ -568,8 +583,10 @@ def _build_audit_pdf(output: Path, markdown: str, stats: dict[str, Any], git_sta
         Paragraph("1. Confidentialite et publication", styles["h1"]),
         Paragraph(
             "Le scanner public controle les chemins de poste, adresses privees, secrets usuels, ancienne "
-            "marque et vocabulaire d'assistance interne. Le resultat courant est PASS sans finding. Les "
-            "configurations locales et caches de graphe ne sont pas suivis par Git.", styles["body"],
+            f"marque et vocabulaire d'assistance interne. Le resultat courant est {escape(str(privacy['status']))} "
+            f"pour {privacy['scanned_files']} fichiers, avec {privacy_count} findings. Repartition : "
+            f"{privacy_breakdown}. Les configurations locales et caches de graphe ne sont pas suivis par Git.",
+            styles["body"],
         ),
         Paragraph(
             f"L'identite complete de l'auteur/Owner reste volontairement presente dans "

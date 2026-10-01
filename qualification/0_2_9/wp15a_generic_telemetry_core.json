@@ -1,0 +1,356 @@
+{
+  "schema_version": 1,
+  "record_type": "wp15a_generic_telemetry_core",
+  "status": "WP15_A_PASS_CANDIDATE_PENDING_INTEGRATION",
+  "owner_status": "OWNER_FROZEN",
+  "work_package": "WP15-A",
+  "source_baseline_sha": "2c52bf8196a7d47d14ce1784290580160de26590",
+  "branch": "0.2.9-wp15-prep",
+  "formal_points": "0/1",
+  "wp15_points": "0/2",
+  "validated_total": "29/100",
+  "scope": {
+    "production_infrastructure_changed": true,
+    "route_instrumentation": "NOT_PERFORMED",
+    "mechanics_changed": false,
+    "convergence_policy_changed": false,
+    "linear_numerics_changed": false,
+    "wp04_c2r6_path_changed": false,
+    "heavy_solve_run": false,
+    "maturity_changed": false
+  },
+  "implementation_modules": [
+    {
+      "path": "src/solveur/core/telemetry/events.py",
+      "responsibilities": [
+        "controlled EventType and EventStatus",
+        "finite-only TelemetryEvent envelope",
+        "explicit missing-value token",
+        "deterministic JSON serialization"
+      ]
+    },
+    {
+      "path": "src/solveur/core/telemetry/observer.py",
+      "responsibilities": [
+        "TelemetrySink protocol",
+        "per-analysis SequenceGenerator and SequenceValidator",
+        "TelemetryEmitter",
+        "CompositeSink fan-out",
+        "bounded MemorySink",
+        "original-exception preservation helper"
+      ]
+    },
+    {
+      "path": "src/solveur/core/telemetry/health.py",
+      "responsibilities": [
+        "HEALTHY/DEGRADED state",
+        "sink identifier",
+        "failure type and message",
+        "failure event type and sequence context"
+      ]
+    },
+    {
+      "path": "src/solveur/core/telemetry/jsonl.py",
+      "responsibilities": [
+        "UTF-8 append JSONL",
+        "one event per line",
+        "immediate flush",
+        "optional boundary fsync"
+      ]
+    },
+    {
+      "path": "src/solveur/core/telemetry/schemas.py",
+      "responsibilities": [
+        "backend-neutral linear schema",
+        "normalized memory names",
+        "normalized timing names"
+      ]
+    },
+    {
+      "path": "src/solveur/core/telemetry/legacy.py",
+      "responsibilities": [
+        "external WP04 mapping adapter",
+        "legacy payload preservation",
+        "no active WP04 producer modification"
+      ]
+    }
+  ],
+  "event_types": [
+    "ANALYSIS_START",
+    "ANALYSIS_END",
+    "ANALYSIS_FAILED",
+    "MESH_READY",
+    "ASSEMBLY_START",
+    "ASSEMBLY_END",
+    "LINEAR_SOLVE_START",
+    "LINEAR_SOLVE_ITERATION",
+    "LINEAR_SOLVE_END",
+    "STEP_START",
+    "STEP_ACCEPTED",
+    "STEP_REJECTED",
+    "NONLINEAR_ITERATION",
+    "LINE_SEARCH_TRIAL",
+    "LINE_SEARCH_ACCEPTED",
+    "LINE_SEARCH_REJECTED",
+    "CHECKPOINT",
+    "CONTACT_STATE",
+    "TIME_STEP_START",
+    "TIME_STEP_ACCEPTED",
+    "TIME_STEP_REJECTED",
+    "MODAL_MODE_FOUND"
+  ],
+  "event_envelope": {
+    "mandatory_fields": [
+      "schema_version",
+      "event_type",
+      "analysis_id",
+      "analysis_type",
+      "route",
+      "sequence_number",
+      "elapsed_time_s",
+      "status",
+      "metrics",
+      "metadata"
+    ],
+    "optional_fields": [
+      "timestamp",
+      "step",
+      "iteration",
+      "load_factor",
+      "physical_time",
+      "solver_backend",
+      "message"
+    ],
+    "schema_version": 1,
+    "finite_values": true,
+    "unknown_top_level_fields": "REJECT",
+    "metrics_bare_null": "REJECT",
+    "missing_value": {
+      "shape": {
+        "value": null,
+        "reason": "CONTROLLED_REASON",
+        "detail": "OPTIONAL_STRING"
+      },
+      "reasons": [
+        "NOT_COMPUTABLE",
+        "NOT_AVAILABLE",
+        "NOT_APPLICABLE",
+        "BACKEND_UNSUPPORTED",
+        "NOT_SAMPLED",
+        "NOT_EMITTED",
+        "REDACTED"
+      ]
+    },
+    "serialization": {
+      "sort_keys": true,
+      "compact_separators": true,
+      "allow_nan": false
+    }
+  },
+  "sequence_contract": {
+    "scope": "analysis_id",
+    "start": 0,
+    "monotonicity": "strict contiguous increase",
+    "duplicate_or_backwards": "REJECT",
+    "skipped_numbers": "REJECT",
+    "thread_safety": "SequenceGenerator is locked; TelemetryEmitter serializes construction and sink delivery per emitter",
+    "distributed_ordering": "NOT_CLAIMED",
+    "independent_stream_example": {
+      "analysis_a": [0, 1, 2],
+      "analysis_b": [0, 1]
+    }
+  },
+  "sink_contract": {
+    "protocol_method": "emit(TelemetryEvent)",
+    "optional_methods": [
+      "flush()",
+      "close()"
+    ],
+    "composite": "ordinary Exception from one sink is recorded and does not stop sibling sinks",
+    "memory": {
+      "default_max_events": 10000,
+      "explicit_unbounded_mode": "max_events=None",
+      "intended_use": "tests and focused debugging"
+    },
+    "jsonl": {
+      "encoding": "UTF-8",
+      "mode": "append",
+      "one_event_per_line": true,
+      "flush": "after every event",
+      "per_analysis_sequence_validation": "fresh session, contiguous from zero",
+      "invalid_sequence": "DEGRADE_AND_DO_NOT_WRITE",
+      "cross_process_continuation": "NOT_CLAIMED",
+      "fsync_default": false,
+      "fsync_boundaries": [
+        "CHECKPOINT",
+        "ANALYSIS_END",
+        "ANALYSIS_FAILED"
+      ]
+    }
+  },
+  "health_contract": {
+    "states": [
+      "HEALTHY",
+      "DEGRADED"
+    ],
+    "failure_record_fields": [
+      "sink_identifier",
+      "failure_type",
+      "failure_message",
+      "sequence_number",
+      "event_type",
+      "provenance"
+    ],
+    "provenance_values": [
+      "DIRECT_COMPOSITE_FAILURE",
+      "CHILD_SINK_REPORTED_FAILURE"
+    ],
+    "child_ledger_aggregation": "after construction, emit, flush and close; append each child ledger entry once",
+    "mechanics_effect": "sink failure cannot change numerical mechanics or replace a solver exception",
+    "partial_failure": "other composite sinks continue where possible"
+  },
+  "disabled_fast_path": {
+    "enabled_false": [
+      "no event construction",
+      "no event serialization",
+      "no sink call",
+      "no lazy metric supplier evaluation",
+      "no telemetry-only file access through the emitter"
+    ],
+    "performance_percentage": "NOT_FROZEN; WP15-B measurement"
+  },
+  "failure_safety": {
+    "solver_exception": "best-effort ANALYSIS_FAILED followed by original re-raise",
+    "keyboard_interrupt": "original KeyboardInterrupt preserved",
+    "system_exit": "original SystemExit preserved",
+    "nonfinite_metric": "reject before serialization",
+    "sink_exception": "record DEGRADED and isolate from mechanics",
+    "disk_or_flush_failure": "record DEGRADED; no fake terminal PASS",
+    "crash_without_terminal_event": "INCOMPLETE_OR_UNKNOWN"
+  },
+  "legacy_wp04_adapter": {
+    "producer_changed": false,
+    "legacy_events": [
+      "ITERATION",
+      "STEP_ACCEPTED",
+      "STEP_FAILED",
+      "SOLVE_FAILED",
+      "SOLVE_COMPLETED"
+    ],
+    "mapping": {
+      "ITERATION": "NONLINEAR_ITERATION",
+      "STEP_ACCEPTED": "STEP_ACCEPTED",
+      "STEP_FAILED": "STEP_REJECTED",
+      "SOLVE_FAILED": "ANALYSIS_FAILED",
+      "SOLVE_COMPLETED": "ANALYSIS_END"
+    },
+    "preservation": "complete legacy payload retained under metadata.legacy_payload",
+    "key_removal": false
+  },
+  "linear_schema": {
+    "backends": [
+      "DIRECT",
+      "CG",
+      "MINRES",
+      "GMRES",
+      "PETSC_KSP"
+    ],
+    "fields": [
+      "backend",
+      "preconditioner",
+      "matrix_rows",
+      "matrix_columns",
+      "matrix_nnz",
+      "method",
+      "rtol",
+      "atol",
+      "max_iterations",
+      "iterations",
+      "raw_residual_norm",
+      "relative_residual_norm",
+      "backward_error_eta_inf",
+      "converged",
+      "fallback_used",
+      "fallback_reason",
+      "solve_time_s",
+      "setup_time_s"
+    ],
+    "direct_iteration_policy": "iteration events are optional; terminal iteration field may use explicit NOT_APPLICABLE token"
+  },
+  "memory_field_names": [
+    "peak_rss_process",
+    "peak_private_or_uss_process",
+    "telemetry_sample_peak_rss",
+    "telemetry_sample_peak_private"
+  ],
+  "timing_field_names": [
+    "mesh_setup_time_s",
+    "assembly_time_s",
+    "factorization_setup_time_s",
+    "linear_solve_time_s",
+    "communication_time_s",
+    "checkpoint_io_time_s",
+    "postprocess_time_s",
+    "total_analysis_time_s"
+  ],
+  "targeted_verification": {
+    "test_file": "tests/unit/test_wp15a_generic_telemetry.py",
+    "classes": [
+      "event envelope and controlled vocabulary",
+      "mandatory and unknown fields",
+      "nested NaN/Infinity rejection",
+      "explicit missing-value handling",
+      "deterministic JSON",
+      "sequence streams and rejection",
+      "JSONL round trip and immediate flush",
+      "JSONL duplicate/skip/backwards rejection and independent streams",
+      "durability boundaries",
+      "child health aggregation and partial composite failure",
+      "original solver exception preservation",
+      "KeyboardInterrupt preservation",
+      "disabled lazy fast path",
+      "legacy WP04 adapter",
+      "linear schema",
+      "memory and timing names",
+      "bounded memory sink"
+    ],
+    "heavy_solve_run": false,
+    "full_suite": false
+  },
+  "governance": {
+    "wp04_c2r6_touched": false,
+    "agent_a_touched": false,
+    "mechanics_formulation_changed": false,
+    "convergence_policy_changed": false,
+    "linear_numerical_behavior_changed": false,
+    "maturity_changed": false,
+    "owner_review_required": true
+  },
+  "owner_correction_r1": {
+    "identifier": "OWNER_CORRECTION_R1",
+    "status": "IMPLEMENTED",
+    "scope": [
+      "aggregate compatible child sink health into CompositeSink and TelemetryEmitter",
+      "deduplicate copied child failure ledger entries",
+      "validate JsonlSink per-analysis contiguous sequence within a fresh sink session",
+      "reject invalid sequence events without writing them"
+    ],
+    "preserved_contracts": [
+      "immediate flush",
+      "allow_nan_false",
+      "default fsync off and boundary durability",
+      "partial sink isolation",
+      "original solver exception preservation",
+      "disabled fast path and lazy metrics",
+      "legacy WP04 adapter behavior",
+      "bounded MemorySink"
+    ],
+    "history_preserved": true,
+    "no_route_or_numerical_changes": true,
+    "ordering_limits": [
+      "no automatic append-file sequence continuation",
+      "no cross-process global ordering",
+      "no MPI global ordering"
+    ]
+  }
+}

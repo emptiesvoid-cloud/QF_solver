@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from html.parser import HTMLParser
 from pathlib import Path
+from types import SimpleNamespace
+from typing import Any
 from urllib.parse import unquote, urlparse
 
 import numpy as np
@@ -15,6 +17,9 @@ from scripts.docs_assets import DocumentationAssetBuilder
 from scripts.docs_models import upgrade_tet4_to_tet10
 from scripts.docs_publication import (
     DocumentationPublisher,
+    _has_nonempty_review_metadata,
+    _missing_review_metadata_fields,
+    _review_scope_documents,
     is_generated_document,
     normalize_document_status,
     read_document_metadata,
@@ -51,6 +56,22 @@ def controlled_markdown_paths() -> set[str]:
         if not is_generated_document(path.relative_to(DOCS).as_posix())
         and path.relative_to(DOCS).as_posix() != "assets/vendor/README.md"
     }
+
+
+def test_public_release_status_copy_distinguishes_release_and_candidate() -> None:
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    index = (DOCS / "index.md").read_text(encoding="utf-8")
+    roadmap = (DOCS / "reference" / "feuille_de_route.md").read_text(encoding="utf-8")
+    architecture = (DOCS / "architecture.md").read_text(encoding="utf-8")
+    open_source = (DOCS / "reference" / "open_source.md").read_text(encoding="utf-8")
+
+    assert "Next source candidate | `0.2.9`" in readme
+    assert "The current published release is" in index
+    assert "0.2.8 is the current published release" in roadmap
+    assert "0.2.9 candidate; it has not been tagged or published" in roadmap
+    assert "Published 0.2.8 architecture" in architecture
+    assert "published 0.2.8 release scope" in open_source
+    assert "0.2.8 is the current development candidate" not in roadmap
 
 
 def test_tetra_boundary_faces_remove_shared_face() -> None:
@@ -234,57 +255,424 @@ def test_every_controlled_page_is_registered_with_consistent_review_fields() -> 
     identifiers = [str(entry["id"]) for entry in entries]
     assert paths == controlled_markdown_paths()
     assert len(identifiers) == len(set(identifiers))
+    reviewer_expectations = {
+        **{
+            identifier: "Owner"
+            for identifier in {
+                "DOC-OWNER-BACKEND-022-001",
+                "DOC-HEX8-023-003",
+                "DOC-HEX20-023-003",
+                "DOC-029-WP05-C-REQUALIFICATION-001",
+                "DOC-029-WP05-E-CROSS-FAMILY-001",
+                "DOC-029-WP05-CDE-OWNER-INTEGRATION-001",
+                "DOC-029-WP06-ABC-OWNER-DECISION",
+                "DOC-029-WP08E-001",
+                "DOC-029-WP08-OWNER-002",
+                "DOC-029-WP12-OWNER-ACCEPTANCE-R2",
+                "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-RESULTS",
+                "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-OWNER-DECISION",
+                "DOC-029-WP07-D-R2.5-OWNER-ACCEPTANCE-001",
+                "DOC-029-WP07-R2.5-INTEGRATION-001",
+                "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-INTEGRATION",
+                "DOC-029-WP09-OWNER-R3",
+            }
+        },
+        **{
+            identifier: "Quentin Farinazzo"
+            for identifier in {"DOC-HEX8-023-002", "DOC-HEX20-023-002"}
+        },
+        **{
+            identifier: "Quentin Farinazzo"
+            for identifier in {
+                "DOC-VV-OWNER-PAGES-001",
+                "DOC-COMP-007",
+                "DOC-VNV-MITC4-LAMINATE-DYN-001",
+                "DOC-VV-CODEASTER-OWNER-2026-08-14",
+                "DOC-VNV-MITC3-DYNAMICS-CODEASTER-DKT-017",
+                "DOC-VNV-TET10-DYNAMICS-CODEASTER-TETRA10-018",
+                "DOC-VNV-TET4-DYNAMICS-CODEASTER-TETRA4-020",
+                "DOC-VNV-BEAM2-TRANSVERSE-DYNAMICS-CODEASTER-POUDE-019",
+                "DOC-VNV-MITC3-CURVED-PROJECTED-001",
+            }
+        },
+    }
+    approver_expectations = {
+        **{
+            identifier: "Owner"
+            for identifier in {
+                "DOC-OWNER-BACKEND-022-001",
+                "DOC-HEX8-023-003",
+                "DOC-HEX20-023-003",
+                "DOC-029-WP05-C-REQUALIFICATION-001",
+                "DOC-029-WP05-E-CROSS-FAMILY-001",
+                "DOC-029-WP05-CDE-OWNER-INTEGRATION-001",
+                "DOC-029-WP06-ABC-OWNER-DECISION",
+                "DOC-029-WP08E-001",
+                "DOC-029-WP08-OWNER-002",
+                "DOC-029-WP12-OWNER-ACCEPTANCE-R2",
+                "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-RESULTS",
+                "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-OWNER-DECISION",
+                "DOC-029-WP07-D-R2.5-OWNER-ACCEPTANCE-001",
+                "DOC-029-WP07-R2.5-INTEGRATION-001",
+                "DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-INTEGRATION",
+                "DOC-029-WP09-OWNER-R3",
+            }
+        },
+        **{
+            identifier: "Quentin Farinazzo"
+            for identifier in {
+                "DOC-VV-CODEASTER-OWNER-2026-08-14",
+                "DOC-VNV-MITC3-DYNAMICS-CODEASTER-DKT-017",
+                "DOC-VNV-TET10-DYNAMICS-CODEASTER-TETRA10-018",
+                "DOC-VNV-TET4-DYNAMICS-CODEASTER-TETRA4-020",
+                "DOC-VNV-BEAM2-TRANSVERSE-DYNAMICS-CODEASTER-POUDE-019",
+                "DOC-VNV-MITC3-CURVED-PROJECTED-001",
+            }
+        },
+    }
+    review_dates = {
+        "DOC-HEX8-023-002": "2026-08-24",
+        "DOC-HEX20-023-002": "2026-08-24",
+        "DOC-029-WP09-OWNER-R3": "2026-09-20",
+        "DOC-VV-OWNER-PAGES-001": "2026-08-02",
+        "DOC-VNV-MITC3-DYNAMICS-CODEASTER-DKT-017": "2026-08-02",
+        "DOC-VNV-TET10-DYNAMICS-CODEASTER-TETRA10-018": "2026-08-02",
+        "DOC-VNV-TET4-DYNAMICS-CODEASTER-TETRA4-020": "2026-08-02",
+        "DOC-VNV-BEAM2-TRANSVERSE-DYNAMICS-CODEASTER-POUDE-019": "2026-08-02",
+        "DOC-VNV-MITC3-CURVED-PROJECTED-001": "2026-08-09",
+    }
     for entry in entries:
         metadata = read_document_metadata(DOCS / entry["path"])
         assert metadata["doc_id"] == entry["id"]
         assert normalize_document_status(str(metadata["status"])) == entry["status"]
+        assert {"revision", "applicable_version", "reviewer", "approver"}.issubset(metadata)
         assert set(entry.get("requirements", [])).issubset(requirement_ids)
-        if entry["id"] in {
-            "DOC-OWNER-BACKEND-022-001",
-            "DOC-HEX8-023-003",
-            "DOC-HEX20-023-003",
-        }:
-            assert metadata["reviewer"] == "Owner"
-        elif entry["id"] in {
-            "DOC-VV-OWNER-PAGES-001",
-            "DOC-COMP-007",
-            "DOC-VNV-MITC4-LAMINATE-DYN-001",
-            "DOC-VV-CODEASTER-OWNER-2026-08-14",
-        }:
-            assert metadata["reviewer"] == "Quentin Farinazzo"
-            if entry["id"] == "DOC-VV-OWNER-PAGES-001":
-                assert metadata["review_date"] == "2026-08-02"
-        else:
-            assert metadata["reviewer"] == ""
-        if entry["id"] not in {
-            "DOC-VV-CODEASTER-OWNER-2026-08-14",
-            "DOC-OWNER-BACKEND-022-001",
-            "DOC-HEX8-023-003",
-            "DOC-HEX20-023-003",
-        }:
-            assert metadata["approver"] == ""
+        assert metadata["reviewer"] == reviewer_expectations.get(entry["id"], "")
+        assert metadata["approver"] == approver_expectations.get(entry["id"], "")
+        if entry["id"] in review_dates:
+            assert metadata["review_date"] == review_dates[entry["id"]]
         for reference in (*entry.get("examples", []), *entry.get("tests", [])):
             if "/" in reference:
                 assert (ROOT / reference).is_file(), reference
+
+
+@pytest.mark.parametrize("missing_field", ("revision", "applicable_version", "reviewer", "approver"))
+def test_document_registry_requires_all_r1_metadata_fields(
+    tmp_path: Path, missing_field: str
+) -> None:
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    generated = docs / "generated"
+    generated.mkdir()
+    metadata = {
+        "doc_id": "DOC-TEST-STRICT-001",
+        "revision": "1",
+        "applicable_version": "0.2.9",
+        "reviewer": "Reviewer Name",
+        "approver": "Approver Name",
+        "status": "controlled",
+    }
+    metadata.pop(missing_field)
+    yaml_lines = [f"{key}: {json.dumps(value)}" for key, value in metadata.items()]
+    (docs / "controlled.md").write_text(
+        "---\n" + "\n".join(yaml_lines) + "\n---\n# Controlled\n",
+        encoding="utf-8",
+    )
+    (docs / "document_registry.json").write_text(
+        json.dumps(
+            {
+                "documents": [
+                    {
+                        "id": "DOC-TEST-STRICT-001",
+                        "path": "controlled.md",
+                        "title": "Strict metadata fixture",
+                        "status": "controlled",
+                        "requirements": [],
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    publisher = object.__new__(DocumentationPublisher)
+    publisher.root = tmp_path
+    publisher.docs = docs
+    publisher.generated = generated
+
+    with pytest.raises(ValueError, match=f"no '{missing_field}' metadata"):
+        publisher._document_registry()
+
+
+@pytest.mark.parametrize(
+    "metadata",
+    (
+        {},
+        {"reviewer": "", "approver": "Owner"},
+        {"reviewer": "Reviewer", "approver": "   "},
+        {"reviewer": None, "approver": "Owner"},
+    ),
+)
+def test_empty_review_fields_are_not_owner_approval_metadata(metadata: dict[str, Any]) -> None:
+    assert _has_nonempty_review_metadata(metadata) is False
+
+
+def test_complete_review_metadata_is_not_itself_an_owner_decision() -> None:
+    assert _has_nonempty_review_metadata({"reviewer": "Reviewer", "approver": "Approver"}) is True
+
+
+@pytest.mark.parametrize(
+    ("metadata", "expected"),
+    (
+        ({}, ["reviewer", "approver"]),
+        ({"reviewer": "Reviewer", "approver": ""}, ["approver"]),
+        ({"reviewer": " ", "approver": "Approver"}, ["reviewer"]),
+        ({"reviewer": "Reviewer", "approver": "Approver"}, []),
+    ),
+)
+def test_review_metadata_gap_report_names_only_missing_fields(
+    metadata: dict[str, Any], expected: list[str]
+) -> None:
+    assert _missing_review_metadata_fields(metadata) == expected
+
+
+def test_review_readiness_emits_actionable_metadata_gap_records(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    docs = tmp_path / "docs"
+    generated = docs / "generated"
+    generated.mkdir(parents=True)
+    (docs / "document_registry.json").write_text(
+        json.dumps(
+            {
+                "documents": [
+                    {
+                        "id": "DOC-MISSING-APPROVER",
+                        "path": "missing_approver.md",
+                        "status": "controlled",
+                    },
+                    {
+                        "id": "DOC-COMPLETE",
+                        "path": "complete.md",
+                        "status": "owner_accepted",
+                    },
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    (docs / "missing_approver.md").write_text(
+        '---\ndoc_id: DOC-MISSING-APPROVER\nreviewer: "Reviewer A"\napprover: ""\n---\n',
+        encoding="utf-8",
+    )
+    (docs / "complete.md").write_text(
+        '---\ndoc_id: DOC-COMPLETE\nreviewer: "Reviewer B"\napprover: "Approver B"\n---\n',
+        encoding="utf-8",
+    )
+    qualification = tmp_path / "qualification"
+    qualification.mkdir()
+    (qualification / "requirements.json").write_text('{"requirements": []}', encoding="utf-8")
+    (qualification / "formulas.json").write_text('{"formulas": []}', encoding="utf-8")
+
+    class StubFormulaRegistry:
+        formulas: dict[str, Any] = {}
+
+        def __init__(self, _path: Path) -> None:
+            pass
+
+        def validate(self, _formula_ids: list[str], _requirement_ids: set[str]) -> SimpleNamespace:
+            return SimpleNamespace(status="PASS", issues=[], covered_count=0, requested_count=0)
+
+    monkeypatch.setattr("scripts.docs_publication.FormulaRegistry", StubFormulaRegistry)
+    publisher = object.__new__(DocumentationPublisher)
+    publisher.root = tmp_path
+    publisher.docs = docs
+    publisher.generated = generated
+    publisher.source_state = {"revision": "frozen-sha", "dirty": False}
+    publisher._review_readiness()
+
+    report = json.loads((generated / "review_readiness.json").read_text(encoding="utf-8"))
+    owner_review = report["owner_review"]
+    assert report["status"] == "PASS"
+    assert owner_review["status"] == "PASS"
+    assert owner_review["metadata_complete_documents"] == 1
+    assert owner_review["review_scope_documents"] == 1
+    assert owner_review["documents_missing_metadata"] == []
+    assert owner_review["missing_metadata_field_counts"] == {"reviewer": 0, "approver": 0}
+    assert report["review_metadata_backlog"]["status"] == "ADVISORY"
+    assert report["review_metadata_backlog"]["documents_with_missing_metadata"] == 1
+    assert report["review_metadata_backlog"]["missing_field_counts"] == {"reviewer": 0, "approver": 1}
+    assert report["review_metadata_backlog"]["details"] == [
+        {
+            "id": "DOC-MISSING-APPROVER",
+            "path": "missing_approver.md",
+            "status": "controlled",
+            "missing_fields": ["approver"],
+        }
+    ]
+
+
+def test_review_readiness_blocks_explicit_approval_status_with_incomplete_metadata(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    docs = tmp_path / "docs"
+    generated = docs / "generated"
+    generated.mkdir(parents=True)
+    (docs / "document_registry.json").write_text(
+        json.dumps(
+            {
+                "documents": [
+                    {"id": "DOC-CONTROLLED", "path": "controlled.md", "status": "controlled"},
+                    {"id": "DOC-OWNER-ACCEPTED", "path": "accepted.md", "status": "owner_accepted"},
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    (docs / "controlled.md").write_text('---\nreviewer: ""\napprover: ""\n---\n', encoding="utf-8")
+    (docs / "accepted.md").write_text('---\nreviewer: "Owner"\napprover: ""\n---\n', encoding="utf-8")
+    qualification = tmp_path / "qualification"
+    qualification.mkdir()
+    (qualification / "requirements.json").write_text('{"requirements": []}', encoding="utf-8")
+    (qualification / "formulas.json").write_text('{"formulas": []}', encoding="utf-8")
+
+    class StubFormulaRegistry:
+        formulas: dict[str, Any] = {}
+
+        def __init__(self, _path: Path) -> None:
+            pass
+
+        def validate(self, _formula_ids: list[str], _requirement_ids: set[str]) -> SimpleNamespace:
+            return SimpleNamespace(status="PASS", issues=[], covered_count=0, requested_count=0)
+
+    monkeypatch.setattr("scripts.docs_publication.FormulaRegistry", StubFormulaRegistry)
+    publisher = object.__new__(DocumentationPublisher)
+    publisher.root = tmp_path
+    publisher.docs = docs
+    publisher.generated = generated
+    publisher.source_state = {"revision": "frozen-sha", "dirty": False}
+    publisher._review_readiness()
+
+    report = json.loads((generated / "review_readiness.json").read_text(encoding="utf-8"))
+    assert report["status"] == "BLOCKED"
+    assert report["owner_review"]["documents_missing_metadata"] == ["DOC-OWNER-ACCEPTED"]
+    assert report["review_metadata_backlog"]["details"][0]["id"] == "DOC-CONTROLLED"
 
 
 def test_owner_reviewed_document_normalizes_to_controlled() -> None:
     assert normalize_document_status("owner_reviewed") == "controlled"
 
 
+def test_legacy_and_extended_document_statuses_normalize_to_registry_values() -> None:
+    assert normalize_document_status("approved_with_limitations") == "owner_approved_with_limitations"
+    assert normalize_document_status("owner_correction_r1_candidate") == "controlled_candidate"
+
+
+def test_review_metadata_scope_excludes_unreviewed_lifecycle_states() -> None:
+    documents = [
+        {"id": "controlled", "status": "controlled"},
+        {"id": "controlled-release", "status": "controlled_release"},
+        {"id": "accepted", "status": "owner_accepted_experimental"},
+        {"id": "approved", "status": "approved"},
+        {"id": "future-release-acceptance", "status": "accepted_for_release_0_2_9"},
+        {"id": "accepted-with-limits", "status": "owner_accepted_with_limitations"},
+        {"id": "candidate", "status": "controlled_candidate"},
+        {"id": "evidence", "status": "controlled_evidence"},
+        {"id": "pending", "status": "ready_for_owner_review"},
+        {"id": "superseded", "status": "superseded"},
+        {"id": "draft", "status": "draft"},
+    ]
+
+    assert [item["id"] for item in _review_scope_documents(documents)] == [
+        "accepted",
+        "approved",
+        "future-release-acceptance",
+        "accepted-with-limits",
+    ]
+
+
+def test_dynamic_owner_metadata_matches_recorded_review_decisions() -> None:
+    dynamic_review = json.loads(
+        (ROOT / "qualification" / "reviews" / "owner_review_linear_dynamics_2026-08-02.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    curved_review = json.loads(
+        (ROOT / "qualification" / "reviews" / "mitc3_laminate_curved_projected_2026-08-09.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    registry = json.loads((DOCS / "document_registry.json").read_text(encoding="utf-8"))
+    documents = {item["id"]: item for item in registry["documents"]}
+    dynamic_ids = (
+        "DOC-VNV-MITC3-DYNAMICS-CODEASTER-DKT-017",
+        "DOC-VNV-TET10-DYNAMICS-CODEASTER-TETRA10-018",
+        "DOC-VNV-TET4-DYNAMICS-CODEASTER-TETRA4-020",
+        "DOC-VNV-BEAM2-TRANSVERSE-DYNAMICS-CODEASTER-POUDE-019",
+    )
+
+    for identifier in dynamic_ids:
+        metadata = read_document_metadata(DOCS / documents[identifier]["path"])
+        assert metadata["reviewer"] == dynamic_review["owner"]
+        assert metadata["approver"] == dynamic_review["owner"]
+        assert metadata["review_date"] == dynamic_review["decision_date"]
+
+    curved_metadata = read_document_metadata(DOCS / documents["DOC-VNV-MITC3-CURVED-PROJECTED-001"]["path"])
+    assert curved_metadata["reviewer"] == curved_review["signature"]["name"]
+    assert curved_metadata["approver"] == curved_review["signature"]["name"]
+    assert curved_metadata["review_date"] == curved_review["decision_date"]
+
+
 def test_document_lifecycle_statuses_are_preserved() -> None:
     for status in (
+        "controlled_audit",
+        "closed",
+        "planning",
+        "implementation_foundation",
+        "implementation_migration",
+        "prospective_contract",
+        "evidence",
+        "executed_targeted_evidence",
+        "frozen_execution",
+        "frozen_execution_protocol",
+        "hold",
+        "owner_approved",
+        "owner_decision_required",
+        "candidate_for_owner_review",
+        "audit_addendum",
+        "preflight_hold",
         "controlled_release",
         "controlled_evidence",
         "ready_for_owner_review",
         "owner_accepted",
         "owner_accepted_experimental",
         "owner_accepted_with_recommendations",
+        "owner_accepted_experimental_with_limitations",
+        "owner_approved_with_limitations",
+        "owner_approved_with_limitations_local_governing_unpushed",
         "accepted_for_release_0_2_3",
         "controlled_candidate",
+        "controlled_candidate_contract",
+        "merged_locally_pending_structural_requalification",
+        "phase_0_preparation",
+        "preparation_only",
         "verified_development_external_correlation",
     ):
         assert normalize_document_status(status) == status
+
+
+def test_historical_document_status_aliases_normalize_without_downgrading() -> None:
+    aliases = {
+        "controlled-audit": "controlled_audit",
+        "controlled-evidence": "controlled_evidence",
+        "executed-targeted-evidence": "executed_targeted_evidence",
+        "frozen-execution": "frozen_execution",
+        "owner-approved": "owner_approved",
+        "preparation-only": "preparation_only",
+        "prospective-contract": "prospective_contract",
+        "ready-for-owner-review": "ready_for_owner_review",
+    }
+    for source, expected in aliases.items():
+        assert normalize_document_status(source) == expected
 
 
 def test_qualification_build_requires_controlled_source(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -402,5 +790,3 @@ def test_complete_formulation_pages_are_registered() -> None:
         assert relative_path in registered_paths
         for fragment in required_fragments:
             assert fragment in content
-
-

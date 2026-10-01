@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 @pytest.fixture
-def generated_pack(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple[Path, Path, Path]:
+def generated_pack(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple[Path, Path, Path, Path]:
     """Build all generated artifacts outside tracked documentation paths."""
     tracked_sources = {
         path: path.read_bytes()
@@ -33,9 +33,21 @@ def generated_pack(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple[Pat
     monkeypatch.setattr(audit_pack, "STABLE_PDF", pdfs / "stable.pdf")
     monkeypatch.setattr(audit_pack, "OPEN_PDF", pdfs / "open.pdf")
     monkeypatch.setattr(audit_pack, "PROJECT_AUDIT_PDF", pdfs / "audit.pdf")
+    monkeypatch.setattr(
+        audit_pack,
+        "audit_public_release",
+        lambda _root: {
+            "status": "FAIL",
+            "scanned_files": 12,
+            "findings": [
+                {"kind": "fixture_rule", "path": "docs/a.md"},
+                {"kind": "fixture_rule", "path": "docs/b.md"},
+            ],
+        },
+    )
     result = audit_pack.build()
     assert {path: path.read_bytes() for path in tracked_sources} == tracked_sources
-    return result
+    return (*result, markdown / "audit.md")
 
 
 def _text(path: Path) -> str:
@@ -44,9 +56,9 @@ def _text(path: Path) -> str:
 
 @pytest.mark.docs
 def test_pack_contains_every_scope_without_prefilled_decision(
-    generated_pack: tuple[Path, Path, Path],
+    generated_pack: tuple[Path, Path, Path, Path],
 ) -> None:
-    stable_pdf, open_pdf, _ = generated_pack
+    stable_pdf, open_pdf, _, _ = generated_pack
     snapshot = json.loads(
         (ROOT / "qualification" / "public_evidence" / "owner_review_audit_pack_0_2_1.json").read_text(encoding="utf-8")
     )
@@ -65,21 +77,29 @@ def test_pack_contains_every_scope_without_prefilled_decision(
 
 @pytest.mark.docs
 def test_pack_page_counts_and_project_audit_verdict(
-    generated_pack: tuple[Path, Path, Path],
+    generated_pack: tuple[Path, Path, Path, Path],
 ) -> None:
-    stable_pdf, open_pdf, audit_pdf = generated_pack
+    stable_pdf, open_pdf, audit_pdf, audit_markdown = generated_pack
     assert len(PdfReader(str(stable_pdf)).pages) >= 5
     assert len(PdfReader(str(open_pdf)).pages) >= 5
     assert len(PdfReader(str(audit_pdf)).pages) >= 5
     audit_text = _text(audit_pdf)
     assert "Confidentialite" in audit_text
-    assert "0 finding" in audit_text
+    assert "12 fichiers / 2 findings" in audit_text
+    assert "fixture_rule: 2" in audit_text
+    assert "FAIL" in audit_text
+    assert "PASS sans finding" not in audit_text
     assert "Release-vv" in audit_text
+    markdown_text = audit_markdown.read_text(encoding="utf-8")
+    assert "FAIL" in markdown_text
+    assert "12 fichiers" in markdown_text
+    assert "fixture_rule: 2" in markdown_text
+    assert "Aucun finding n'est present" not in markdown_text
 
 
 @pytest.mark.docs
 def test_markdown_sources_keep_decisions_pending(
-    generated_pack: tuple[Path, Path, Path],
+    generated_pack: tuple[Path, Path, Path, Path],
 ) -> None:
     del generated_pack
     for name in (

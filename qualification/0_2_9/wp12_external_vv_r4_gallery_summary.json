@@ -1,0 +1,183 @@
+{
+  "candidate_cases_passed": 864,
+  "case_count": 864,
+  "coverage": {
+    "family": {
+      "HEX20": {
+        "cases": 216,
+        "failed": 0,
+        "passed": 216
+      },
+      "HEX8": {
+        "cases": 216,
+        "failed": 0,
+        "passed": 216
+      },
+      "TET10": {
+        "cases": 216,
+        "failed": 0,
+        "passed": 216
+      },
+      "TET4": {
+        "cases": 216,
+        "failed": 0,
+        "passed": 216
+      }
+    },
+    "geometry": {
+      "box_tube_beam": {
+        "cases": 144,
+        "failed": 0,
+        "passed": 144
+      },
+      "channel_section_beam": {
+        "cases": 144,
+        "failed": 0,
+        "passed": 144
+      },
+      "cruciform_beam": {
+        "cases": 144,
+        "failed": 0,
+        "passed": 144
+      },
+      "i_section_beam": {
+        "cases": 144,
+        "failed": 0,
+        "passed": 144
+      },
+      "tee_section_beam": {
+        "cases": 144,
+        "failed": 0,
+        "passed": 144
+      },
+      "triangular_prism": {
+        "cases": 144,
+        "failed": 0,
+        "passed": 144
+      }
+    },
+    "material_variant": {
+      "aluminum": {
+        "cases": 288,
+        "failed": 0,
+        "passed": 288
+      },
+      "polymer": {
+        "cases": 288,
+        "failed": 0,
+        "passed": 288
+      },
+      "steel": {
+        "cases": 288,
+        "failed": 0,
+        "passed": 288
+      }
+    }
+  },
+  "cumulative_case_count": 1008,
+  "execution": {
+    "code_aster_version": "18.1.0",
+    "cpu_per_container": 1,
+    "finished_utc": "2026-09-23T19:48:34.959936+00:00",
+    "fresh_container_per_case": true,
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "image_id": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "mpi": false,
+    "process_nonzero_exit_count": 0,
+    "sequential": true,
+    "started_utc": "2026-09-23T17:25:33.486112+00:00"
+  },
+  "gates": {
+    "aster_force_equilibrium_relative": 1e-08,
+    "aster_moment_equilibrium_relative": 1e-08,
+    "displacement_relative_l2": 1e-08,
+    "displacement_relative_linf": 1e-08,
+    "fixed_displacement_abs_max": 1e-12,
+    "qf_force_equilibrium_relative": 1e-08,
+    "qf_free_residual_relative_l2": 1e-08,
+    "qf_moment_equilibrium_relative": 1e-08,
+    "reaction_relative_l2": 1e-08,
+    "reaction_relative_linf": 1e-08,
+    "strain_energy_from_external_work_relative": 1e-08
+  },
+  "independent_audit": {
+    "audit_path": "qualification/0_2_9/wp12_external_vv_r4_gallery_audit.json",
+    "error_count": 0,
+    "pass_count": 864,
+    "status": "PASS_WITH_LIMITATIONS"
+  },
+  "audit_chain": {
+    "initial_attempt": {
+      "path": "qualification/0_2_9/wp12_external_vv_r4_gallery_audit_initial_fail_closed.json",
+      "sha256": "fb37db9f8eeb7271bbc2a639a586568cab02566fc095dad355c850f30da3a9a3",
+      "status": "FAIL_CLOSED_COMPATIBILITY_SUMMARY_FILENAME_MISMATCH"
+    },
+    "compatibility_summary": {
+      "source_path": "qualification/0_2_9/wp12_external_vv_r4_gallery_raw/wp12_gallery_r4_raw_summary.json",
+      "alias_path": "qualification/0_2_9/wp12_external_vv_r4_gallery_raw/wp12_expanded_summary.json",
+      "source_and_alias_sha256": "a4bfc5df5fa3cb0266c8677179edd3100e7ed5c493b668de772c3e751898562a",
+      "manifest_entries_before": 14691,
+      "manifest_entries_after": 14692,
+      "existing_entries_changed": 0
+    },
+    "final_audit_path": "qualification/0_2_9/wp12_external_vv_r4_gallery_audit.json",
+    "final_audit_sha256": "50ba73ec784452931b000ca750f4885c1eb63acb3510ffb4d8296b7e0db0a8c5",
+    "final_status": "PASS_WITH_LIMITATIONS"
+  },
+  "ledger_changed": false,
+  "limitations": [
+    "homogeneous isotropic 3D small-strain linear-static elasticity only",
+    "six extruded solid cross-section topologies: triangular prism, T-section, I-section, channel, box tube, and cruciform",
+    "three elastic material parameter sets: steel, aluminum, and polymer; all isotropic and linear elastic",
+    "element families limited to TET4, HEX8, TET10, and HEX20",
+    "H1/H2/H3 refine only the longitudinal axis; no isotropic/asymptotic mesh-convergence claim",
+    "same discrete mesh, material, boundary conditions, and equivalent nodal force vector are supplied to both solvers",
+    "same-mesh solver correlation is not experimental validation or an independent physical benchmark",
+    "no stress-field comparison, geometric/material nonlinearity, contact, friction, dynamics, buckling, continuation, or MPI/PETSc claim",
+    "R4 supplements but does not supersede R3.5/R3.6, historical failures, Owner decisions, WP12 points, or the global ledger"
+  ],
+  "maxima_across_cases": {
+    "aster_force_equilibrium_relative": 4.583792243560615e-15,
+    "aster_moment_equilibrium_relative": 2.7642222211682144e-15,
+    "displacement_relative_l2": 6.200220690682521e-12,
+    "displacement_relative_linf": 7.434303799192486e-12,
+    "fixed_displacement_abs_max": 1.5669924283475594e-20,
+    "qf_force_equilibrium_relative": 2.93139292238385e-12,
+    "qf_free_residual_relative_l2": 8.548752147783687e-13,
+    "qf_moment_equilibrium_relative": 2.4587501928948076e-12,
+    "reaction_relative_l2": 6.9161314954342255e-12,
+    "reaction_relative_linf": 8.002876503992535e-12,
+    "strain_energy_from_external_work_relative": 6.048078837055574e-12
+  },
+  "merge_performed": false,
+  "official_points_changed": false,
+  "provenance": {
+    "audit_sha256": "50ba73ec784452931b000ca750f4885c1eb63acb3510ffb4d8296b7e0db0a8c5",
+    "auditor_sha": "58a5d66fbca6a0596f9c54e510eb1667b5a872b8",
+    "branch": "codex/wp12-expanded-correlation-r4",
+    "branch_base_sha": "3d01b1ad6be59b09377ac66cab7f327f62b3bdf5",
+    "contract_builder_sha": "f1a643c0ad6a1aa41cf14833b51885d7b8827651",
+    "contract_sha256": "7588d0962776e02fe4ffba83ccc1611afbb5d606bd502c51d8f544954bc48ef2",
+    "execution_sha": "c3c52449eb41e9b5a79e98f35b4bdb5591ba6980",
+    "manifest_sha256": "02b4c6a799835dd6908a2ea297d11ad86d27e22947fdb778ab44af7403a9980d",
+    "manifested_raw_bytes": 243014078,
+    "manifested_raw_file_count": 14692,
+    "model_builder_sha": "58a5d66fbca6a0596f9c54e510eb1667b5a872b8",
+    "r3_6_prior_audit_status": "PASS_WITH_LIMITATIONS",
+    "raw_summary_sha256": "a4bfc5df5fa3cb0266c8677179edd3100e7ed5c493b668de772c3e751898562a",
+    "runner_sha": "f1a643c0ad6a1aa41cf14833b51885d7b8827651"
+  },
+  "push_performed": false,
+  "evidence_committed": false,
+  "revision": "R4_GALLERY_864_CASES_6_TOPOLOGIES_3_MATERIALS",
+  "schema": "wp12-r4-gallery-compact-summary-v1",
+  "status": "PASS_WITH_LIMITATIONS",
+  "validation": {
+    "compileall": "PASS",
+    "full_repository_suite": "NOT_RUN",
+    "mypy": "PASS",
+    "ruff": "PASS",
+    "targeted_tests": "196 passed"
+  },
+  "work_package": "WP12"
+}

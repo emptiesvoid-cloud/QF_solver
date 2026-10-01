@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "record_type": "WP08D_M2_ACTIVE_SET_REMEDIATION",
+  "branch": "0.2.9-wp08d-m1-phase1",
+  "audit_base_commit": "7e46335f0f24de1943a951d561f70359ec6c36cd",
+  "final_audit_commit": "31780a4974d2ebaf0b9dbeed4c23a6e2d9f42363",
+  "historical_m2": {
+    "status": "FAIL_CLOSED",
+    "classification": "NumericalConvergenceError",
+    "message": "Frictional contact active set did not converge with direct or active-slip root iterations.",
+    "accepted_increments": "0/7",
+    "classification_from_forensic_review": "ACTIVE_SET_ROBUSTNESS_LIMITATION",
+    "evidence_commit": "d2b07ec4c3ddcf45a96b9ceec278fb181ab70a0a",
+    "evidence_preserved": true
+  },
+  "remediation": {
+    "implementation_commit": "653b1e8879ed33b9e03939d72167a1d6ab831399",
+    "final_telemetry_test_commit": "25c3ab2fbbc0cded420b91d3a4428c1cc23e25ac",
+    "scope": [
+      "deterministic one-contact pivot after repeated active-set signature",
+      "visited active-set diagnostics",
+      "direct and active-slip-root failure diagnostics",
+      "CONTACT_STATE and STEP_REJECTED telemetry"
+    ],
+    "convergence_tolerances_changed": false,
+    "qualification_thresholds_changed": false,
+    "fallback_policy_changed": false,
+    "state_transaction_or_rollback_changed": false,
+    "mechanics_scope": "production contact active-set transition path only"
+  },
+  "m1_regression": {
+    "status": "PASS",
+    "qualification_claim": "NO_DIAGNOSTIC_REGRESSION_ONLY",
+    "output_directory": "C:\\Users\\fari\\AppData\\Local\\Temp\\wp08d_m1_active_set_fix_regression_final\\M1",
+    "mesh": "M1",
+    "load_increments": 7,
+    "accepted_increments": 7,
+    "active_contact_count": 0,
+    "fallback_count": 0,
+    "observables_equal_to_existing_m1": true,
+    "equilibrium_equal_to_existing_m1": true,
+    "displacements_equal_to_existing_m1": true,
+    "telemetry": {
+      "contact_state_events": 7,
+      "step_accepted_events": 14,
+      "internal_contact_step_accepted_events": 7,
+      "step_rejected_events": 0,
+      "convergence_cause_present": true
+    },
+    "regression_artifact_hashes": {
+      "console.err.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "console.log": "5053abbff0d1590f9edb75eed86b879c822ccaebf2732fd0a22e43d169964f68",
+      "manifest.json": "452d0cecb07973774fecc990132ecd3bcf4e0b142f9520c8090d155ca62cccd0",
+      "progress.json": "26f44e50fe475e3130984b3367e938689032d8e3dcd9a7e89325603f54b49ed2",
+      "raw.npz": "6026d60ae660f97a09733b3ee31072fe027de6ac8e942bd7c6604f9669c5da00",
+      "result.json": "83ce1282a257a10b6b5f54262778e852051924373ce89044279b016cc59a4ee6",
+      "telemetry.jsonl": "8a1b0b61ae28dfc7b558687b33fbb4cce0a2de72a5b17219bbed9328e5e55737"
+    }
+  },
+  "validation": {
+    "targeted_tests": "54 passed",
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "mypy": "ONE_INHERITED_DIAGNOSTIC_IN_SUPPORT_PY",
+    "full_test_suite": "NOT_RUN"
+  },
+  "execution_policy": {
+    "m2_rerun": false,
+    "m3_run": false,
+    "owner_review_required": true,
+    "wp08d_formal_points": "0/2",
+    "wp08_formal_points": "0/8"
+  },
+  "final_status": "READY_FOR_OWNER_REVIEW_BEFORE_M2_M3"
+}

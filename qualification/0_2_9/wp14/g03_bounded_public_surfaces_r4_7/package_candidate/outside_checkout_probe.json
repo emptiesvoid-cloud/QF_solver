@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "pid": 32056,
+  "cwd": "<local-temp>\\qf-g03-r47-package-1790853590988\\outside_checkout",
+  "python_prefix": "<local-temp>\\qf-g03-r47-package-1790853590988\\installed_env",
+  "solveur_origin": "<local-temp>\\qf-g03-r47-package-1790853590988\\installed_env\\Lib\\site-packages\\solveur\\__init__.py",
+  "qf_solver_origin": "<local-temp>\\qf-g03-r47-package-1790853590988\\installed_env\\Lib\\site-packages\\qf_solver\\__init__.py",
+  "verification_origin": "<local-temp>\\qf-g03-r47-package-1790853590988\\installed_env\\Lib\\site-packages\\solveur\\cli\\verification.py",
+  "verified_installed_sources": 473,
+  "version": "0.2.9",
+  "cli_smoke": [
+    {
+      "arguments": [
+        "--version"
+      ],
+      "exit_code": 0,
+      "output": "QF_solver 0.2.9\n"
+    },
+    {
+      "arguments": [
+        "--help"
+      ],
+      "exit_code": 0,
+      "output": "usage: QF_solver [-h] [--version] [--debug]\n                 {solve,check-mesh,inspect,evidence,import-mesh,benchmarks,benchmark,vnv-compare,vnv-import-benchmark,convert-model,inspect-large,solve-large,generate-large-tet4-block,benchmark-large,large-campaign,large-preconditioners,large-scaling-report,petsc-profile-report,petsc-tuning-report,postprocess-large,large-readiness,qualify-large,verify-large,verify-evidence,verify,verify-tet10,verify-hex8,verify-hex8-campaign,verify-hex8-external,verify-contact,verify-all,qualification-readiness,maturity-promotion,owner-review-check,qualify,release-vv,methods} ...\n\nQF_solver finite element solver CLI.\n\npositional arguments:\n  {solve,check-mesh,inspect,evidence,import-mesh,benchmarks,benchmark,vnv-compare,vnv-import-benchmark,convert-model,inspect-large,solve-large,generate-large-tet4-block,benchmark-large,large-campaign,large-preconditioners,large-scaling-report,petsc-profile-report,petsc-tuning-report,postprocess-large,large-readiness,qualify-large,verify-large,verify-evidence,verify,verify-tet10,verify-hex8,verify-hex8-campaign,verify-hex8-external,verify-contact,verify-all,qualification-readiness,maturity-promotion,owner-review-check,qualify,release-vv,methods}\n    solve               solve a JSON finite element model\n    check-mesh          validate a JSON model mesh\n    inspect             write a white-box audit for a JSON model\n    evidence            solve a model and write a reproducible evidence bundle\n    import-mesh         import a Gmsh MSH 4.1 mesh and companion setup\n    benchmarks          list controlled meshed mechanical benchmarks\n    benchmark           run one controlled meshed benchmark\n    vnv-compare         compare normalized QF_solver and reference results and\n                        write a Markdown study\n    vnv-import-benchmark\n                        create a V&V study with PNG and VTU evidence from a\n                        controlled benchmark\n    convert-model       convert JSON model to large HDF5/NPZ format\n    inspect-large       write an aggregated audit for a large model\n    solve-large         solve a large-scale linear static TET4 model\n    generate-large-tet4-block\n                        generate a structured large TET4 block\n    benchmark-large     solve a large model and write benchmark evidence\n    large-campaign      plan or execute a multi-size large TET4 campaign\n    large-preconditioners\n                        compare PETSc preconditioners on one model\n    large-scaling-report\n                        analyze completed strong/weak scaling runs\n    petsc-profile-report\n                        parse and compare PETSc log_view profiles\n    petsc-tuning-report\n                        compare PETSc tuning runs across topologies\n    postprocess-large   recover TET4 fields by checkpointed bounded-memory\n                        chunks\n    large-readiness     check dependencies and sizing before a large TET4 run\n    qualify-large       generate, solve and verify a large TET4 case\n    verify-large        verify a completed large qualification evidence\n                        directory\n    verify-evidence     verify an evidence bundle manifest\n    verify              run existing MITC4 verification\n    verify-tet10        run analytical TET10 mechanical verification\n    verify-hex8         run analytical HEX8 mechanical verification\n    verify-hex8-campaign\n                        run the internal HEX8 V&V campaign\n    verify-hex8-external\n                        run the HEX8/CalculiX C3D8 correlation\n    verify-contact      run the internal V1 normal and frictional contact\n                        studies\n    verify-all          run repository checks from a complete Git source\n                        checkout (developer/CI only)\n    qualification-readiness\n                        check requirement traceability for one scope\n    maturity-promotion  audit evidence readiness for the controlled maturity-\n                        promotion plan\n    owner-review-check  validate one Owner/external review record without\n                        changing maturity\n    qualify             run a qualification campaign manifest\n    release-vv          build the release-level verification and validation\n                        readiness package\n    methods             list available analysis methods\n\noptions:\n  -h, --help            show this help message and exit\n  --version             show program's version number and exit\n  --debug               show Python tracebacks for diagnostic use\n"
+    }
+  ],
+  "verify_all_exit_code": 2,
+  "verify_all_output": "VERIFY-ALL UNSUPPORTED: this developer command requires its CLI module to be imported from a complete, valid Git source checkout.\nCheckout validation: CLI module is not loaded from this checkout's src/solveur tree\n",
+  "report_created": false,
+  "python_subprocess_audit_events": [],
+  "trace_scope": "PYTHON_AUDIT_HOOK_DURING_CLI_CHECKS_NOT_SYSTEM_WIDE_OS_TRACE",
+  "dependency_isolation": "SYSTEM_AND_USER_SITE_DEPENDENCIES_ALLOWED_QF_ORIGIN_AND_BYTES_VERIFIED",
+  "safe_path": true,
+  "runtime_versions": {
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "matplotlib": "3.10.3",
+    "pip": "24.3.1"
+  }
+}

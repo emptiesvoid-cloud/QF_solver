@@ -1,0 +1,258 @@
+{
+  "case": "M1-H1",
+  "status": "PASS_CANDIDATE",
+  "level": "H1",
+  "cells_x": 1,
+  "execution_sha": "acd6a5f4c8541ffcfdcde7e5be26cb0fdafcc52f",
+  "runner_sha": "7bd222fa7b4327148969c580602389f4235664b3",
+  "contract_sha256": "c6d6cd9d1a0a869443eb9ae5d7b8e03283f7fa46c37dc72287206fc0d16b11a8",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "element_type": "TET10",
+  "kinematics": "corotational_j2",
+  "contact": "disabled",
+  "frozen_inputs": {
+    "load_path": [
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "reference_resultant": 0.25,
+    "surface_traction": "consistent_quadratic_TET10_x1_boundary_faces",
+    "corotational_max_local_strain": 0.05
+  },
+  "surface_load": {
+    "face_count": 2,
+    "face_area": [
+      0.5,
+      0.5
+    ],
+    "total_area": 1.0,
+    "traction_magnitude": 0.25,
+    "traction_direction": [
+      1.0,
+      0.0,
+      0.0
+    ],
+    "reference_resultant": [
+      0.25,
+      0.0,
+      0.0
+    ],
+    "face_ids": [
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        1
+      ]
+    ]
+  },
+  "load_balance": {
+    "resultant": [
+      0.24999999999999994,
+      0.0,
+      0.0
+    ],
+    "moment_about_origin": [
+      0.0,
+      0.12499999999999999,
+      -0.12499999999999997
+    ],
+    "expected_resultant": [
+      0.25,
+      0.0,
+      0.0
+    ],
+    "resultant_error_norm": 5.551115123125783e-17,
+    "contributions": [
+      {
+        "index": 0,
+        "type": "surface_traction",
+        "element_indices": [
+          1
+        ],
+        "resultant": [
+          0.12499999999999997,
+          0.0,
+          0.0
+        ],
+        "moment_about_origin": [
+          0.0,
+          0.04166666666666666,
+          -0.08333333333333331
+        ],
+        "vector_norm": 0.0721687836487032,
+        "nonzero_dof_count": 3
+      },
+      {
+        "index": 1,
+        "type": "surface_traction",
+        "element_indices": [
+          3
+        ],
+        "resultant": [
+          0.12499999999999999,
+          0.0,
+          0.0
+        ],
+        "moment_about_origin": [
+          0.0,
+          0.08333333333333333,
+          -0.041666666666666664
+        ],
+        "vector_norm": 0.0721687836487032,
+        "nonzero_dof_count": 3
+      }
+    ]
+  },
+  "result": {
+    "status": "PASS",
+    "element_type": "TET10",
+    "node_count": 26,
+    "element_count": 5,
+    "dof_count": 78,
+    "displacements": [
+      0.0,
+      0.0,
+      0.0,
+      0.023894254532946566,
+      0.008197605308502044,
+      0.00819760530843509,
+      0.017001017304185365,
+      -0.0054356788921557046,
+      0.005435678892104059,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.017001017304220475,
+      0.005435678892197021,
+      -0.00543567889210304,
+      0.023894254532912343,
+      -0.008197605308373901,
+      -0.00819760530845138,
+      0.0,
+      0.0,
+      0.0,
+      0.006005514590759021,
+      0.005572862654943167,
+      0.005572862654951146,
+      0.006110761859394743,
+      -0.00043105092348990075,
+      0.004665847868291488,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0061107618593968585,
+      0.004665847868312336,
+      -0.00043105092349522033,
+      0.0,
+      0.0,
+      0.0,
+      0.017805698219211286,
+      0.0006512570852347618,
+      0.006694889223949248,
+      0.007372995448319116,
+      -0.005399119981163598,
+      0.0053991199811469544,
+      0.018732658121532093,
+      4.609228687493011e-14,
+      1.351859804365699e-14,
+      0.017805698219202346,
+      -0.006694889223916308,
+      -0.0006512570852135492,
+      0.006110761859388459,
+      -0.004665847868263557,
+      0.00043105092349857426,
+      0.006110761859387734,
+      0.0004310509235258657,
+      -0.0046658478682740315,
+      0.007372995448347302,
+      0.00539911998118349,
+      -0.0053991199811526894,
+      0.017805698219215776,
+      0.006694889223994636,
+      0.0006512570852122249,
+      0.017805698219203258,
+      -0.0006512570851676044,
+      -0.006694889223947383,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.006005514590749901,
+      -0.005572862654898341,
+      -0.0055728626549412085
+    ],
+    "steps": [
+      {
+        "step": 1,
+        "load_factor": 0.2,
+        "relative_residual": 7.311185937590272e-13,
+        "iterations": 5,
+        "accepted": true,
+        "rejected": false,
+        "fallback_used": false,
+        "equivalent_plastic_strain_max": 0.0035036621155926932
+      },
+      {
+        "step": 2,
+        "load_factor": 0.4,
+        "relative_residual": 2.931168899422961e-08,
+        "iterations": 4,
+        "accepted": true,
+        "rejected": false,
+        "fallback_used": false,
+        "equivalent_plastic_strain_max": 0.009631348480029783
+      },
+      {
+        "step": 3,
+        "load_factor": 0.6,
+        "relative_residual": 2.135509151430575e-10,
+        "iterations": 5,
+        "accepted": true,
+        "rejected": false,
+        "fallback_used": false,
+        "equivalent_plastic_strain_max": 0.015780135001526734
+      },
+      {
+        "step": 4,
+        "load_factor": 0.8,
+        "relative_residual": 8.490462473191205e-10,
+        "iterations": 5,
+        "accepted": true,
+        "rejected": false,
+        "fallback_used": false,
+        "equivalent_plastic_strain_max": 0.02193367644359155
+      },
+      {
+        "step": 5,
+        "load_factor": 1.0,
+        "relative_residual": 2.368224795439923e-09,
+        "iterations": 5,
+        "accepted": true,
+        "rejected": false,
+        "fallback_used": false,
+        "equivalent_plastic_strain_max": 0.02808730446754474
+      }
+    ],
+    "final_displacement_norm": 0.06757121574059904,
+    "max_relative_residual": 2.931168899422961e-08,
+    "max_peeq": 0.02808730446754474,
+    "fallback_count": 0,
+    "accepted_step_count": 5
+  },
+  "fallback_count": 0,
+  "fallback_evidence": "per-step fallback_used field"
+}

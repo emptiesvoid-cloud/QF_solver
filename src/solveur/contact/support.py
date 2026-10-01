@@ -35,6 +35,9 @@ class _ContactOperator:
     projection_clamped: bool
     closest_distance: float
     projection_mode: str
+    tangential_stiffness_mode: str = "nodal"
+    reference_slave_area: float | None = None
+    declared_tangential_stiffness: float | None = None
 
     @property
     def has_friction(self) -> bool:
@@ -61,6 +64,22 @@ class _FrictionIncrementState:
     slip_references: np.ndarray
     history: list[dict[str, object]]
     dissipation_increment: float
+
+
+def _sparse_rank_one(vector: np.ndarray, factor: float) -> csr_matrix:
+    """Build ``factor * vector * vector.T`` from its nonzero support only."""
+    values = np.asarray(vector, dtype=float).reshape(-1)
+    support = np.flatnonzero(values)
+    if support.size == 0 or factor == 0.0:
+        return csr_matrix((values.size, values.size), dtype=float)
+
+    local_values = values[support]
+    entries = (float(factor) * np.multiply.outer(local_values, local_values)).ravel()
+    rows = np.repeat(support, support.size)
+    columns = np.tile(support, support.size)
+    result = csr_matrix((entries, (rows, columns)), shape=(values.size, values.size))
+    result.eliminate_zeros()
+    return result
 
 
 def _expanded_contacts(contacts: list[FrictionlessContact]) -> list[FrictionlessContact]:
@@ -97,9 +116,7 @@ def _operator(
         _relative_vector(contact.slave_node, geometry.master_nodes, dofs, tangent_one, barycentric),
         _relative_vector(contact.slave_node, geometry.master_nodes, dofs, tangent_two, barycentric),
     )
-    stiffness = contact.tangential_stiffness
-    if contact.friction_coefficient > 0.0 and (stiffness is None or stiffness <= 0.0):
-        raise InputValidationError("Frictional contact requires a positive tangential_stiffness.")
+    stiffness, reference_area = contact.tangential_regularization(nodes)
     return _ContactOperator(
         name=contact.name or f"contact_slave_{contact.slave_node}",
         vector=vector,
@@ -117,6 +134,9 @@ def _operator(
         projection_clamped=geometry.projection_clamped,
         closest_distance=float(geometry.closest_distance),
         projection_mode=geometry.projection_mode,
+        tangential_stiffness_mode=contact.tangential_stiffness_mode,
+        reference_slave_area=reference_area,
+        declared_tangential_stiffness=contact.tangential_stiffness,
     )
 
 
@@ -145,9 +165,7 @@ def _finite_sliding(model: FiniteElementModel) -> bool:
     if not isinstance(value, bool):
         raise InputValidationError("contact_finite_sliding must be a boolean.")
     if value and any(contact.friction_coefficient > 0.0 for contact in model.contacts):
-        raise InputValidationError(
-            "contact_finite_sliding is currently available for frictionless contact only."
-        )
+        raise InputValidationError("contact_finite_sliding is currently available for frictionless contact only.")
     return value
 
 
@@ -209,6 +227,37 @@ def _proposed_active(
     return tuple(index for index in proposed if index not in tensile)
 
 
+def _select_active_set_transition(
+    active: tuple[int, ...],
+    proposed: tuple[int, ...],
+    visited: set[tuple[int, ...]],
+) -> tuple[tuple[int, ...], str]:
+    """Choose a deterministic non-repeating active-set transition.
+
+    The normal complementarity rule remains the authority for convergence.  If
+    its simultaneous update would revisit an active set, apply a Bland-style
+    one-contact pivot in stable index order.  This only changes the path after
+    a detected cycle; it does not relax the gap/pressure tolerances or accept
+    an unconverged set.
+    """
+
+    if proposed not in visited:
+        return proposed, "ACTIVE_SET_UPDATE"
+    current = set(active)
+    target = set(proposed)
+    pivots = sorted((target - current) | (current - target))
+    for index in pivots:
+        candidate = set(current)
+        if index in candidate:
+            candidate.remove(index)
+        else:
+            candidate.add(index)
+        transition = tuple(sorted(candidate))
+        if transition not in visited:
+            return transition, "ACTIVE_SET_CYCLE_BROKEN"
+    return proposed, "ACTIVE_SET_CYCLE_REPEATED"
+
+
 def _friction_system(
     stiffness: csr_matrix,
     loads: np.ndarray,
@@ -227,8 +276,8 @@ def _friction_system(
             continue
         if states[index] == "stick":
             for vector, reference in zip(operator.tangential_vectors, slip_references[index]):
-                effective_stiffness = effective_stiffness + csr_matrix(
-                    operator.tangential_stiffness * np.outer(vector, vector)
+                effective_stiffness = effective_stiffness + _sparse_rank_one(
+                    vector, operator.tangential_stiffness
                 )
                 effective_loads += operator.tangential_stiffness * reference * vector
         elif states[index] == "slip":
@@ -262,14 +311,31 @@ def _friction_update(
         trial = operator.tangential_stiffness * (relative - slip_references[index])
         trial_norm = float(np.linalg.norm(trial))
         limit = operator.friction_coefficient * max(float(pressures[index]), 0.0)
+        if not np.isfinite(trial_norm) or not np.isfinite(limit):
+            raise NumericalConvergenceError(
+                "Frictional contact update produced a non-finite trial state.",
+                reason=NonlinearFailureReason.NAN_DETECTED,
+            )
         remains_sliding = prior_states[index] == "slip" and trial_norm >= limit - operator.tolerance
         if trial_norm <= limit + operator.tolerance and not remains_sliding:
             states.append("stick")
             forces[index] = trial
         else:
             states.append("slip")
-            forces[index] = limit * trial / trial_norm
-            next_references[index] = relative - forces[index] / operator.tangential_stiffness
+            if trial_norm == 0.0:
+                # A previously sliding contact can remain on the slip branch
+                # at zero Coulomb capacity.  There is no direction to project
+                # and 0/0 must not leak into the physical state.
+                forces[index] = 0.0
+                next_references[index] = relative
+            else:
+                forces[index] = limit * trial / trial_norm
+                next_references[index] = relative - forces[index] / operator.tangential_stiffness
+        if not np.all(np.isfinite(forces[index])) or not np.all(np.isfinite(next_references[index])):
+            raise NumericalConvergenceError(
+                "Frictional contact update produced non-finite state.",
+                reason=NonlinearFailureReason.NAN_DETECTED,
+            )
     return tuple(states), forces, relative_displacements, next_references
 
 
@@ -294,9 +360,7 @@ def _contact_load_path(model: FiniteElementModel, dofs: DofManager, loads: np.nd
     result: list[np.ndarray] = []
     for index, row in enumerate(history):
         if not isinstance(row, list) or len(row) != len(model.loads):
-            raise InputValidationError(
-                f"contact_load_history[{index}] must contain {len(model.loads)} finite factors."
-            )
+            raise InputValidationError(f"contact_load_history[{index}] must contain {len(model.loads)} finite factors.")
         vector = np.zeros(dofs.ndof, dtype=float)
         for factor, load in zip(row, model.loads):
             if not isinstance(factor, (int, float)) or not np.isfinite(float(factor)):
@@ -320,6 +384,35 @@ def _seed_stick_states(
         if updated[index] == "open" and operators[index].has_friction:
             updated[index] = "stick"
     return tuple(updated)
+
+
+def _reseed_stick_predictor_after_normal_set_change(
+    states: tuple[str, ...],
+    active: tuple[int, ...],
+    operators: list[_ContactOperator],
+) -> tuple[str, ...]:
+    """Re-evaluate retained friction pairs from their elastic stick tangent.
+
+    A normal-set change invalidates the tangential equilibrium used to classify
+    the preceding trial.  In particular, a pair that was provisionally marked
+    ``slip`` while a soon-to-open neighbour was constrained can lie strictly
+    inside the Coulomb cone after that neighbour is removed.  Re-seed every
+    newly evaluated closed frictional pair as ``stick`` for the next KKT
+    solve; the unchanged return map immediately restores ``slip`` whenever
+    that elastic trial is outside the cone.  This does not alter material,
+    tolerances, loads, or the accepted-state transaction.
+    """
+
+    refreshed = list(states)
+    active_set = set(active)
+    for index, operator in enumerate(operators):
+        if index not in active_set:
+            refreshed[index] = "open"
+        elif operator.has_friction:
+            refreshed[index] = "stick"
+        else:
+            refreshed[index] = "frictionless"
+    return tuple(refreshed)
 
 
 def _tangential_contact_force(operators: list[_ContactOperator], forces: np.ndarray, size: int) -> np.ndarray:
@@ -403,6 +496,16 @@ def _details(
                     "tangential_stiffness": operator.tangential_stiffness,
                 }
             )
+        if operator.tangential_stiffness_mode == "surface":
+            row.update(
+                {
+                    "tangential_stiffness_mode": "surface",
+                    "reference_slave_area": operator.reference_slave_area,
+                    "declared_tangential_stiffness": operator.declared_tangential_stiffness,
+                    "declared_tangential_stiffness_unit": "N/m^3",
+                    "effective_tangential_stiffness_unit": "N/m",
+                }
+            )
         rows.append(row)
     return {
         "method": "lagrange_active_set_coulomb_regularized" if tangential_states is not None else "lagrange_active_set",
@@ -424,10 +527,12 @@ def _contact_convergence_diagnostics(
     active_gaps = [abs(float(gaps[index])) for index in active]
     complementarity = [abs(float(gaps[index] * pressures[index])) for index in range(len(gaps))]
     final_residual = max(active_gaps or [0.0])
+    initial_value = history[0].get("min_gap", 0.0) if history else 0.0
+    residual_initial = float(initial_value) if isinstance(initial_value, (int, float, np.floating)) else 0.0
     return {
         "converged": True,
         "iterations": len(history),
-        "residual_initial": float(history[0].get("min_gap", 0.0)) if history else 0.0,
+        "residual_initial": residual_initial,
         "residual_final": final_residual,
         "relative_residual": final_residual,
         "solver": "contact_active_set",

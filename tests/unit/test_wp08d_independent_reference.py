@@ -1,0 +1,132 @@
+"""Targeted tests for the independent NumPy KKT/reference harness."""
+
+from __future__ import annotations
+
+import ast
+from pathlib import Path
+from typing import Any
+
+import numpy as np
+import pytest
+
+from scripts import run_wp08d_independent_reference as structural_reference
+from scripts.wp08d_independent_kkt_reference import (
+    KktReferenceProblem,
+    ReferenceContact,
+    solve_kkt_return_map,
+)
+
+
+REFERENCE = Path(__file__).resolve().parents[2] / "scripts" / "wp08d_independent_kkt_reference.py"
+STRUCTURAL_REFERENCE = Path(__file__).resolve().parents[2] / "scripts" / "run_wp08d_independent_reference.py"
+
+
+def _problem(force_x: float, *, tangential_stiffness: float = 1.0e4) -> KktReferenceProblem:
+    stiffness = np.diag([1.0e6, 1.0e6, 1.0e3])
+    normal = np.array([0.0, 0.0, 1.0])
+    tangent_x = np.array([1.0, 0.0, 0.0])
+    tangent_y = np.array([0.0, 1.0, 0.0])
+    contact = ReferenceContact(
+        normal=normal,
+        tangent_basis=np.vstack((tangent_x, tangent_y)),
+        friction_coefficient=0.3,
+        tangential_stiffness=tangential_stiffness,
+    )
+    return KktReferenceProblem(
+        stiffness=stiffness,
+        force=np.array([force_x, 0.0, -200.0]),
+        constraints=np.zeros((0, 3), dtype=float),
+        constraint_values=np.zeros(0, dtype=float),
+        contacts=(contact,),
+    )
+
+
+def test_reference_module_has_no_solver_package_or_production_contact_imports() -> None:
+    for path in (REFERENCE, STRUCTURAL_REFERENCE):
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        imports = [node for node in ast.walk(tree) if isinstance(node, (ast.Import, ast.ImportFrom))]
+        imported_names = {alias.name for node in imports for alias in node.names}
+        assert not any(name.startswith("solveur") for name in imported_names)
+
+
+def test_structural_reference_resolves_frozen_m2_path_and_observed_hybrid_mode() -> None:
+    model = structural_reference._model("M2")
+    references: np.ndarray = np.zeros((len(model["slave_nodes"]), 2), dtype=float)
+    expected_load_path = (
+        (1.0, 0.0),
+        (1.0, 0.25),
+        (1.0, 0.75),
+        (1.0, 1.0),
+        (1.0, 1.25),
+        (1.0, 0.25),
+        (1.0, -0.5),
+    )
+    assert structural_reference.FROZEN_LOAD_PATH == expected_load_path
+    accepted_steps: list[dict[str, Any]] = []
+    for normal_factor, tangential_factor in structural_reference.FROZEN_LOAD_PATH:
+        load = normal_factor * np.asarray(model["normal_load"]) + tangential_factor * np.asarray(model["tangent_load"])
+        accepted = structural_reference._solve_increment(model, load, references)
+        references = np.asarray(accepted["references"], dtype=float)
+        accepted_steps.append(accepted)
+
+    assert len(accepted_steps) == 7
+    assert all(np.all(np.isfinite(np.asarray(step["displacement"], dtype=float))) for step in accepted_steps)
+    mixed_step = accepted_steps[4]
+    assert mixed_step["strategy"] == "hybrid_stick_slip_root"
+    assert tuple(mixed_step["active"]) == (3, 7, 11)
+    assert tuple(mixed_step["states"][index] for index in mixed_step["active"]) == ("stick", "stick", "slip")
+    assert mixed_step["root_diagnostics"]["tangential_unknown_dimension"] == 2
+    assert np.all(np.isfinite(np.asarray(mixed_step["forces"], dtype=float)))
+
+
+@pytest.mark.parametrize(
+    ("mesh_name", "expected_eligible_area"),
+    [("M1", 1.5), ("M2", 1.75), ("M3", 1.875)],
+)
+def test_independent_surface_reference_integrates_tributary_areas_without_production_imports(
+    mesh_name: str,
+    expected_eligible_area: float,
+) -> None:
+    kappa = 2_666_700.0
+    model = structural_reference._model(mesh_name, surface_stiffness_density=kappa)
+    areas = np.asarray(model["slave_reference_areas"], dtype=float)
+    stiffnesses = np.asarray(model["tangential_stiffness_by_contact"], dtype=float)
+    assert np.sum(areas) == pytest.approx(expected_eligible_area)
+    assert np.sum(stiffnesses) == pytest.approx(kappa * expected_eligible_area)
+    assert np.allclose(stiffnesses, kappa * areas, rtol=0.0, atol=1.0e-9)
+    legacy = structural_reference._model(mesh_name)
+    assert np.all(legacy["tangential_stiffness_by_contact"] == structural_reference.TANGENTIAL_STIFFNESS)
+
+
+def test_independent_reference_reaches_a_finite_sliding_return_map() -> None:
+    result = solve_kkt_return_map(_problem(50_000.0))
+    assert result.contact_states in (("stick",), ("slip",))
+    assert np.all(np.isfinite(result.displacement))
+    assert result.cumulative_dissipation > 0.0
+    assert np.linalg.norm(result.displacement[[1, 2]]) == 0.0
+
+
+def test_independent_reference_sticks_inside_coulomb_limit() -> None:
+    result = solve_kkt_return_map(_problem(100.0))
+    assert result.contact_states == ("stick",)
+    assert result.cumulative_dissipation == 0.0
+    assert result.tangential_forces[0, 0] > 0.0
+
+
+def test_reference_rejects_non_symmetric_stiffness() -> None:
+    problem = _problem(100.0)
+    nonsymmetric = np.asarray(problem.stiffness, dtype=float).copy()
+    nonsymmetric[0, 1] = 1.0
+    invalid = KktReferenceProblem(
+        stiffness=nonsymmetric,
+        force=problem.force,
+        constraints=problem.constraints,
+        constraint_values=problem.constraint_values,
+        contacts=problem.contacts,
+    )
+    try:
+        solve_kkt_return_map(invalid)
+    except ValueError as error:
+        assert "symmetric" in str(error)
+    else:
+        raise AssertionError("non-symmetric reference stiffness was accepted")

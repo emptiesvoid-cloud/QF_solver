@@ -1,0 +1,10 @@
+START_UTC=2026-09-28T06:50:49.0337946+00:00
+COMMAND=python -m pytest tests/documentation/test_docs_generation.py -q
+CWD=C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_r1_13_integration_20260927
+PYTHON=Python 3.13.1
+..........s.................s...                                         [100%]
+30 passed, 2 skipped in 2.16s
+
+EXIT_CODE=0
+END_UTC=2026-09-28T06:50:53.4871469+00:00
+LOG_SHA256_PRE_SELF_RECORD=08751671BFA1125971F158D17E5F2CBA10AA8E35E79909914235546423472946

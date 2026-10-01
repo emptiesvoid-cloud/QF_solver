@@ -1,0 +1,59 @@
+{
+  "status": "PASS",
+  "target_dofs": 24,
+  "backend": "scipy",
+  "memory_budget_bytes": null,
+  "dimensions": {
+    "nx": 1,
+    "ny": 1,
+    "nz": 1
+  },
+  "sizing": {
+    "node_count": 8,
+    "element_count": 6,
+    "ndof": 24,
+    "model_arrays_bytes": 624,
+    "displacement_bytes": 192,
+    "scipy_sparse_upper_bound_bytes": 21552,
+    "petsc_rule_of_thumb_bytes": 46896,
+    "chunk_triplet_bytes_at_default_chunk": 20736,
+    "recommended_free_disk_bytes": 3264
+  },
+  "checks": [
+    {
+      "id": "DEP-H5PY",
+      "status": "PASS",
+      "detail": "h5py available"
+    },
+    {
+      "id": "DEP-MPI4PY",
+      "status": "PASS",
+      "detail": "mpi4py available"
+    },
+    {
+      "id": "DEP-PETSC4PY",
+      "status": "PASS",
+      "detail": "petsc4py not required for selected backend"
+    },
+    {
+      "id": "BACKEND-SCALE",
+      "status": "PASS",
+      "detail": "SciPy allowed for ndof=24"
+    },
+    {
+      "id": "DISK-FREE",
+      "status": "PASS",
+      "detail": "free=32489684992 bytes"
+    },
+    {
+      "id": "CHUNK-SIZE",
+      "status": "PASS",
+      "detail": "chunk_size=4096"
+    },
+    {
+      "id": "MULTI-MILLION-GATE",
+      "status": "PASS",
+      "detail": "not applicable below 2000000 target dofs"
+    }
+  ]
+}

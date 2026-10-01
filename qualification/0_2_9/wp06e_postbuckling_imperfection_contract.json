@@ -1,0 +1,330 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0.2.9-WP06E-POSTBUCKLING-IMPERFECTION-CONTRACT-001",
+  "work_package": "WP06-E",
+  "phase": "PHASE_0_PREPARATION",
+  "status": "PREPARATION_ONLY_OWNER_CANDIDATE",
+  "branch": "0.2.9-wp06-prep",
+  "baseline_sha": "791758d9bdaecb1c41e5f38ad70aa3e4bae124f5",
+  "source_repository": "emptiesvoid-cloud/QF_solver",
+  "formal_points": "0/1",
+  "wp06_points": "0/8",
+  "validated_total": "29/100",
+  "execution": {
+    "structural_postbuckling_run": false,
+    "buckling_eigen_solve_run": false,
+    "reference_solver_run": false,
+    "external_solver_run": false,
+    "heavy_solve_run": false,
+    "full_test_suite_run": false,
+    "production_mechanics_changed": false,
+    "maturity_changed": false
+  },
+  "capability_inventory": [
+    {
+      "capability": "linear_buckling_eigenvalue_extraction",
+      "status": "IMPLEMENTED_RESEARCH",
+      "locations": [
+        "src/solveur/verification/tet4_total_lagrangian_buckling.py:TotalLagrangianBucklingCampaign",
+        "src/solveur/verification/total_lagrangian_structural.py:smallest_tangent_eigenpair"
+      ],
+      "finding": "smallest constrained tangent eigenpair and sign-change bracketing exist in a research campaign"
+    },
+    {
+      "capability": "geometric_tangent",
+      "status": "IMPLEMENTED_RESEARCH",
+      "locations": ["src/solveur/verification/tet4_total_lagrangian_buckling.py"],
+      "finding": "initial tangent plus geometric tangent rate is used for the buckling probe"
+    },
+    {
+      "capability": "mode_normalization",
+      "status": "PARTIAL",
+      "locations": ["src/solveur/verification/total_lagrangian_structural.py:smallest_tangent_eigenpair"],
+      "finding": "eigsh Euclidean normalization on free DOFs; no physical amplitude, sign, rigid-body or interpolation contract"
+    },
+    {
+      "capability": "explicit_coordinate_imperfection",
+      "status": "IMPLEMENTED_RESEARCH",
+      "locations": ["src/solveur/verification/tet4_total_lagrangian_postbuckling.py:TotalLagrangianPostbucklingCampaign"],
+      "finding": "Z coordinates are perturbed by amplitude*(1-cos(0.5*pi*X/L)) before TET4 assembly"
+    },
+    {
+      "capability": "eigenmode_scaled_imperfection",
+      "status": "DISCONNECTED",
+      "locations": [
+        "src/solveur/verification/tet4_total_lagrangian_buckling.py",
+        "src/solveur/verification/tet4_total_lagrangian_postbuckling.py"
+      ],
+      "finding": "buckling mode is extracted/visualized but is not mapped into continuation coordinates"
+    },
+    {
+      "capability": "user_defined_imperfection_field",
+      "status": "MISSING",
+      "locations": [],
+      "finding": "no generic public route found"
+    },
+    {
+      "capability": "mesh_generation_offset",
+      "status": "MISSING",
+      "locations": [],
+      "finding": "no separate mesh-generator imperfection contract found"
+    },
+    {
+      "capability": "continuation_from_imperfect_geometry",
+      "status": "IMPLEMENTED_RESEARCH",
+      "locations": [
+        "src/solveur/verification/tet4_total_lagrangian_postbuckling.py:TotalLagrangianPostbucklingCampaign",
+        "src/solveur/verification/total_lagrangian_structural.py:trace_sparse_arc_length"
+      ],
+      "finding": "an assembly built from perturbed coordinates is traced with a sparse arc-length helper"
+    },
+    {
+      "capability": "limit_point_tracking",
+      "status": "PARTIAL",
+      "locations": [
+        "src/solveur/core/nonlinear/arc_length.py",
+        "src/solveur/verification/robustness_arc_length_extended.py"
+      ],
+      "finding": "turning behavior can be observed, but this is not a general postbuckling detector"
+    },
+    {
+      "capability": "bifurcation_detection",
+      "status": "MISSING_NOT_QUALIFIED",
+      "locations": [],
+      "finding": "no detector is connected to continuation closure"
+    },
+    {
+      "capability": "branch_switching",
+      "status": "MISSING_NOT_QUALIFIED",
+      "locations": [],
+      "finding": "no branch-selection or switching API"
+    },
+    {
+      "capability": "symmetry_breaking_path_following",
+      "status": "NOT_QUALIFIED",
+      "locations": ["src/solveur/verification/tet4_total_lagrangian_postbuckling.py"],
+      "finding": "explicit imperfection selects a path, but no symmetry or branch identity proof exists"
+    },
+    {
+      "capability": "imperfection_provenance",
+      "status": "PARTIAL",
+      "locations": ["src/solveur/verification/tet4_total_lagrangian_postbuckling.py"],
+      "finding": "research output records amplitude and a buckling-summary digest; future closure requires case and contract digests"
+    },
+    {
+      "capability": "postbuckling_restart",
+      "status": "PARTIAL_RESEARCH",
+      "locations": [
+        "src/solveur/core/nonlinear/checkpoint.py",
+        "src/solveur/core/nonlinear/arc_length.py"
+      ],
+      "finding": "general continuation persistence exists, but imperfection/branch state is not a qualified WP06-E payload"
+    }
+  ],
+  "claim_separation": {
+    "limit_point_tracking": "continuation through d(lambda)/ds reversal on one equilibrium path",
+    "bifurcation_detection": "identify a branch point from tangent/eigenstructure",
+    "branch_switching": "deliberate transition from a primary to a secondary branch",
+    "imperfection_seeded_postbuckling": "declared perturbed geometry follows one selected continuation path",
+    "bifurcation_detection_status": "NOT_QUALIFIED",
+    "branch_switching_status": "NOT_QUALIFIED",
+    "mode_based_imperfection_status": "NOT_QUALIFIED"
+  },
+  "benchmark": {
+    "id": "WP06E-TET4-IMPERFECT-COLUMN-001",
+    "selected": "existing explicit-coordinate TET4 total-Lagrangian imperfect-column research path",
+    "why_selected": "existing coordinate perturbation and sparse arc-length continuation are small, interpretable and source-grounded",
+    "route": "nonlinear_static",
+    "method": "arc_length",
+    "element_family": "TET4",
+    "formulation": "total_lagrangian_StVK_elastic",
+    "execution": "serial_sparse_direct_research_path",
+    "geometry": {"length": 4.0, "height": 0.5, "depth": 0.5, "coordinate_system": "global Cartesian XYZ"},
+    "material": {"model": "isotropic StVK", "young_modulus": 1000000.0, "poisson_ratio": 0.3},
+    "boundary_conditions": "all displacement DOFs fixed on x=0 face",
+    "load": "existing conservative axial dead-load vector on x=L tip-node set; mapping retained for Phase-1 review",
+    "contact": false,
+    "plasticity": false,
+    "dynamics": false,
+    "imperfection": {
+      "input_route": "EXPLICIT_MODIFIED_REFERENCE_COORDINATES",
+      "formula": "Z_imperfect = Z0 + alpha*(1-cos(0.5*pi*X/L))",
+      "coordinate_frame": "reference global Cartesian XYZ",
+      "primary_alpha_over_L": 0.005,
+      "primary_alpha": 0.02,
+      "amplitude_sweep": false,
+      "zero_on_clamped_face": true,
+      "mode_based": "NOT_QUALIFIED"
+    },
+    "branch_policy": "follow the deterministic continuation path selected by the frozen orientation policy; no branch switching",
+    "public_claim": "bounded imperfection-seeded nonlinear continuation on the selected TET4 benchmark",
+    "excluded_claims": [
+      "general postbuckling",
+      "automatic bifurcation detection",
+      "branch switching",
+      "uniqueness or stability",
+      "industrial/general-purpose postbuckling",
+      "material nonlinear behavior",
+      "contact or dynamics",
+      "MPI/PETSc continuation",
+      "transitive qualification of other elements/routes"
+    ]
+  },
+  "physics_contract": {
+    "frozen": true,
+    "items": [
+      "geometry",
+      "material",
+      "TET4 total-Lagrangian StVK formulation",
+      "fixed support",
+      "conservative dead load",
+      "explicit coordinate imperfection",
+      "primary amplitude",
+      "route scope",
+      "observables",
+      "geometric envelope"
+    ],
+    "geometric_envelope": {
+      "minimum_det_f": 0.2,
+      "principal_stretches": [0.75, 1.3],
+      "maximum_green_lagrange_norm": 0.3
+    }
+  },
+  "execution_policy": {
+    "status": "PENDING_GOVERNING_BRANCH_INTEGRATION",
+    "required_binding": [
+      "governing policy identity/SHA",
+      "Newton convergence contract",
+      "floor-aware secondary convergence if approved",
+      "linear backend",
+      "line-search policy",
+      "load-step/retry policy",
+      "arc-length termination and orientation policy"
+    ],
+    "no_new_wp06_specific_tolerance": true
+  },
+  "mode_based_policy": {
+    "status": "NOT_QUALIFIED",
+    "reason": "available eigsh mode has no qualified physical normalization, sign, rigid-body removal or nodal interpolation route",
+    "future_required": [
+      "selected mode and source eigenproblem",
+      "physical normalization and sign",
+      "rigid-body/null-space removal",
+      "nodal interpolation and coordinate frame",
+      "amplitude and dimension validation",
+      "replay and mode provenance"
+    ]
+  },
+  "required_observables": [
+    "step",
+    "accepted_or_rejected",
+    "monitor_displacement",
+    "selected_displacement_vector",
+    "load_factor",
+    "accepted_load_factor_history",
+    "support_reaction_resultant",
+    "support_reaction_moment_when_applicable",
+    "strain_energy_when_available",
+    "imperfection_amplitude",
+    "case_definition_digest",
+    "reference_coordinate_digest",
+    "arc_length_radius",
+    "arc_length_constraint_residual",
+    "mechanical_residual",
+    "Newton_iteration_count",
+    "minimum_det_F",
+    "principal_stretches",
+    "maximum_green_lagrange_norm",
+    "terminal_classification"
+  ],
+  "thresholds": {
+    "reference_monitor_displacement": 0.05,
+    "reference_load_factor": 0.05,
+    "reference_reaction": 0.05,
+    "reference_strain_energy": 0.07,
+    "replay_relative": 1.0e-12,
+    "replay_absolute_floor": 1.0e-14,
+    "force_equilibrium_relative": 1.0e-8,
+    "moment_equilibrium_relative": 1.0e-8,
+    "comparison_policy": "declared physical scale and floor; missing/nonfinite values FAIL_CLOSED"
+  },
+  "reference_plan": {
+    "type": "INDEPENDENT_IMPERFECT_TET4_ENERGY_PATH",
+    "status_before_phase_1": "PLAN_ONLY_NO_REFERENCE_RESULT",
+    "independent_implementation": true,
+    "production_continuation_routines_called": false,
+    "production_mechanics_routines_called": false,
+    "formulation_match_required": true,
+    "allowed_external_supplement": "only with exact formulation and load mapping",
+    "analytical_sanity": "Euler/reduced model is diagnostic only, not an automatic 3D TET4 acceptance oracle",
+    "comparison_parameter": "normalized cumulative accepted-path arc measure",
+    "stations": [0.2, 0.4, 0.6, 0.8, 1.0],
+    "interpolation": "piecewise linear between accepted states, frozen before execution",
+    "no_cherry_picking": true,
+    "required_digests": ["reference_implementation", "case_definition", "contract_revision"]
+  },
+  "replay_policy": {
+    "case": "primary WP06E-TET4-IMPERFECT-COLUMN-001",
+    "relative_tolerance": 1.0e-12,
+    "absolute_floor": 1.0e-14,
+    "required_matches": [
+      "final state",
+      "accepted path values",
+      "load-factor history",
+      "arc-length radius history",
+      "accepted/rejected-step history",
+      "orientation decisions",
+      "Newton counts when governing policy requires",
+      "terminal classification"
+    ],
+    "binary_state_hash_required": false,
+    "missing_or_nonfinite": "FAIL_CLOSED"
+  },
+  "negative_controls": [
+    {"case": "zero_or_invalid_imperfection", "expected": "IMPERFECTION_INPUT_FAILURE"},
+    {"case": "nonfinite_amplitude", "expected": "IMPERFECTION_INPUT_FAILURE"},
+    {"case": "wrong_mode_dimension", "expected": "MODE_INPUT_FAILURE"},
+    {"case": "mode_normalization_failure", "expected": "MODE_INPUT_FAILURE"},
+    {"case": "unsupported_element_or_path", "expected": "UNSUPPORTED_EXPLICIT"},
+    {"case": "unsupported_branch_switch", "expected": "BRANCH_SWITCHING_UNSUPPORTED"},
+    {"case": "unsupported_bifurcation_detection", "expected": "BIFURCATION_DETECTION_UNSUPPORTED"},
+    {"case": "envelope_violation", "expected": "ENVELOPE_VIOLATION"},
+    {"case": "nonfinite_continuation_state", "expected": "NONFINITE_STATE"},
+    {"case": "reference_provenance_mismatch", "expected": "REFERENCE_MISMATCH"},
+    {"case": "replay_mismatch", "expected": "REPLAY_MISMATCH"}
+  ],
+  "dependencies": {
+    "wp04_governing_policy": "required_before_phase_1",
+    "wp05_high_order": "informative_only; no transitive qualification",
+    "wp06d_formal_structural_evidence": "required_before_phase_1",
+    "existing_buckling_route": "research evidence only; not mode-imperfection qualification",
+    "wp15_telemetry": "useful but not required for physics contract"
+  },
+  "governance": {
+    "work_allowed_before_wp04_close": [
+      "source audit",
+      "contract/docs",
+      "case-definition and imperfection construction checks",
+      "schema/provenance tests",
+      "tiny algebraic validation"
+    ],
+    "work_blocked_until_wp04": [
+      "structural continuation",
+      "reference execution",
+      "governing-policy-bound Phase-1 run"
+    ],
+    "work_blocked_until_wp06d": [
+      "WP06-E structural execution",
+      "formal point recommendation"
+    ],
+    "formal_points": "0/1",
+    "wp06_points": "0/8",
+    "validated_total": "29/100",
+    "public_maturity_changed": false
+  },
+  "source_inventory_tests": [
+    "tests/unit/test_tet4_tl_postbuckling.py",
+    "tests/verification/test_tet4_tl_postbuckling_vnv.py",
+    "tests/unit/test_wp06d_structural_limit_point_contract.py"
+  ]
+}

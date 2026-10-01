@@ -1,0 +1,11 @@
+{
+  "status": "PASS_REPLAY",
+  "fresh_process": true,
+  "source_sha_m2": "38029b5e3fa9a063cc272b5d6c0510bb3687df35",
+  "source_sha_m3": "38029b5e3fa9a063cc272b5d6c0510bb3687df35",
+  "contract_sha256_m2": "3906d61d7d75edfdb6bb6400772fa9b4ede88fd6ca36d84a81ddbc56dc6c842c",
+  "contract_sha256_m3": "3906d61d7d75edfdb6bb6400772fa9b4ede88fd6ca36d84a81ddbc56dc6c842c",
+  "policy_digest_m2": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "policy_digest_m3": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "complete_json_equal": true
+}

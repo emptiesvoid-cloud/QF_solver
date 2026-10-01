@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-029-WP14-G06-G08-R2.1-EXECUTION",
+  "overall_status": "PARTIAL_PASS_WITH_GOVERNANCE_AND_PLATFORM_HOLDS",
+  "provenance": {
+    "branch": "codex/wp14-g06-g08-remediation",
+    "execution_sha": "16f3199154f92546bda228c6dafbe60c5bbf9f7b",
+    "implementation_source_sha": "3337107aca2587166e1c649a481892eba1c343f5",
+    "contract_path": "qualification/0_2_9/wp14/wp14_g06_g08_remediation_r2_1_contract.json",
+    "contract_sha256": "d378e500726f31486e89aec2229c7ff18a6fff1ac952a9b843db269ef73e1e02",
+    "contract_freeze_commit": "16f3199154f92546bda228c6dafbe60c5bbf9f7b",
+    "governing_base_sha": "99e0bd4b65ce43ad41a369768a4c8fe78dd7cfbb",
+    "working_tree_clean_at_execution_start": true,
+    "production_source_files_changed_since_governing_base": 0,
+    "historical_r2_contract_and_failures_overwritten": false
+  },
+  "g06": {
+    "registry_schema_status": "PASS",
+    "registered_documents": 589,
+    "active_documents_excluding_superseded": 584,
+    "controlled_markdown_missing_from_registry": 0,
+    "registry_markdown_extra_or_invalid": 0,
+    "required_metadata_keys_present": true,
+    "lifecycle_status_consistency": "PASS_NORMALIZED_ALIASES",
+    "review_readiness_status": "BLOCKED",
+    "review_scope_documents": 111,
+    "review_scope_metadata_complete": 19,
+    "review_scope_metadata_incomplete": 92,
+    "interpretation": "The required reviewer/approver keys are present, but 92 in-scope records have empty/incomplete values. No identity or Owner approval was inferred or fabricated.",
+    "build_docs_status": "PASS",
+    "build_docs_generated_artifact_count": 700,
+    "automated_traceability": "PASS",
+    "formula_coverage": "61/61",
+    "commands": [
+      {
+        "id": "G06-C1",
+        "argv": ["python", "-m", "pytest", "-m", "benchmark"],
+        "started_utc": "2026-09-28T06:30:03.7716414+00:00",
+        "ended_utc": "2026-09-28T06:39:58.6499737+00:00",
+        "exit_code": 0,
+        "summary": "23 passed, 1 skipped, 3905 deselected in 591.77s",
+        "log_path": "qualification/0_2_9/wp14/g06_g08_r2_1/logs/01-pytest-benchmark.log",
+        "log_size_bytes": 1861,
+        "log_sha256": "a30540fea185843cd5880cc09698da65be3b66e7c90245e1ea61ed345d73f688"
+      },
+      {
+        "id": "G06-C2",
+        "argv": ["python", "scripts/build_docs.py", "--profile", "engineering"],
+        "started_utc": "2026-09-28T06:40:14.0414876+00:00",
+        "ended_utc": "2026-09-28T06:47:00.8051210+00:00",
+        "exit_code": 0,
+        "summary": "Generated 700 artifacts; campaign=PASS",
+        "log_path": "qualification/0_2_9/wp14/g06_g08_r2_1/logs/02-build-docs.log",
+        "log_size_bytes": 469,
+        "log_sha256": "eb8b49349f2aa3ee7b4e64d7596db76ec36fc8d7ae2fb413775404d2819fe1ef"
+      },
+      {
+        "id": "G06-C3",
+        "argv": ["python", "-m", "pytest", "tests/documentation"],
+        "env": {"QF_SOLVER_RUN_EVIDENCE": "1"},
+        "started_utc": "2026-09-28T06:48:13.7054931+00:00",
+        "ended_utc": "2026-09-28T06:48:54.9432732+00:00",
+        "exit_code": 0,
+        "summary": "56 passed, 6 skipped in 38.83s",
+        "log_path": "qualification/0_2_9/wp14/g06_g08_r2_1/logs/03-pytest-documentation.log",
+        "log_size_bytes": 1618,
+        "log_sha256": "6343a238acd85e7e2709fef1d2d26dc7a7bf20e8377ee7db80ead1d358906a83"
+      },
+      {
+        "id": "G06-C4",
+        "argv": ["mkdocs", "build", "--strict", "-f", ".github/pages/mkdocs.yml"],
+        "environment": "Fresh external venv; Python 3.13.1; mkdocs 1.6.1; mkdocs-material 9.7.7",
+        "started_utc": "2026-09-28T06:50:20.8679280+00:00",
+        "ended_utc": "2026-09-28T06:50:35.1432586+00:00",
+        "exit_code": 0,
+        "summary": "Strict build succeeded; 40 INFO diagnostics, 0 WARNING, 0 ERROR",
+        "log_path": "qualification/0_2_9/wp14/g06_g08_r2_1/logs/04-mkdocs-strict.log",
+        "log_size_bytes": 49282,
+        "log_sha256": "4abe12dad24e73b08d0f13b3eec59307db670c6f5f8c1bb1c84195a174131fd9"
+      },
+      {
+        "id": "G06-C5",
+        "argv": ["python", "-m", "pytest", "tests/documentation/test_docs_generation.py", "-q"],
+        "started_utc": "2026-09-28T06:50:49.0337946+00:00",
+        "ended_utc": "2026-09-28T06:50:53.4871469+00:00",
+        "exit_code": 0,
+        "summary": "30 passed, 2 skipped in 2.16s",
+        "log_path": "qualification/0_2_9/wp14/g06_g08_r2_1/logs/05-docs-generation-targeted.log",
+        "log_size_bytes": 482,
+        "log_sha256": "9c44e15aa4d7d598f05fb5376841209b90f7de3bdb874d3afd03f41ee0c3e2cd"
+      },
+      {
+        "id": "G06-C6",
+        "argv": ["python", "-m", "pytest", "tests/integration/test_packaging.py", "-q"],
+        "started_utc": "2026-09-28T06:51:04.2907073+00:00",
+        "ended_utc": "2026-09-28T06:51:21.9943426+00:00",
+        "exit_code": 0,
+        "summary": "13 passed in 15.36s",
+        "log_path": "qualification/0_2_9/wp14/g06_g08_r2_1/logs/06-packaging-targeted.log",
+        "log_size_bytes": 464,
+        "log_sha256": "4fe48698a95dbba2495a338eeb37e6b696167424e93cd3d00f8d78c030dfa535"
+      }
+    ],
+    "documentation_environment_setup": {
+      "status": "PASS",
+      "started_utc": "2026-09-28T06:49:18.4334790+00:00",
+      "ended_utc": "2026-09-28T06:49:52.3004472+00:00",
+      "exit_code": 0,
+      "log_path": "qualification/0_2_9/wp14/g06_g08_r2_1/logs/mkdocs-environment-setup.log",
+      "log_size_bytes": 7691,
+      "log_sha256": "117d9419f4e9d062babd2abee12fcf496df7886c9740d85ef34907d81886bd75"
+    },
+    "generated_output_archives": [
+      {
+        "scope": "post-build generated documentation outputs",
+        "location": "C:/Users/fari/AppData/Local/Temp/wp14_g06_g08_r2_1_16f31991/generated-output-snapshot",
+        "versioned_manifest_path": "qualification/0_2_9/wp14/g06_g08_r2_1/generated-output-archive-manifest.json",
+        "file_count": 763,
+        "total_bytes": 2428665385,
+        "manifest_sha256": "2d541a43a266eb2e4e3c001ec9b77966ef144c54a8a28924cccbab95872f5278"
+      },
+      {
+        "scope": "final post-test generated outputs including MkDocs site",
+        "location": "C:/Users/fari/AppData/Local/Temp/wp14_g06_g08_r2_1_16f31991/post-tests-final-output-snapshot",
+        "versioned_manifest_path": "qualification/0_2_9/wp14/g06_g08_r2_1/post-tests-output-archive-manifest.json",
+        "file_count": 2315,
+        "total_bytes": 4942171737,
+        "manifest_sha256": "fe2bcc653406716cb1046d80165b85e8697b046a38030c8a50b4f05221b14e8d"
+      }
+    ],
+    "generated_review_readiness": {
+      "status": "BLOCKED",
+      "artifact_sha256": "cd03ada03a1a84990b0c65fe69749b2651ec3472e5579e539466af639d3e52b7",
+      "blocker": "Review metadata incomplete: 19/111 review-scope documents"
+    },
+    "overall_status": "PASS_AUTOMATED_REGISTRY_AND_BUILD_GATES_WITH_REVIEW_METADATA_HOLD"
+  },
+  "g08": {
+    "status": "NOT_RUN",
+    "workflow": ".github/workflows/quality.yml",
+    "required_job": "standard-baseline",
+    "required_legs": [
+      "ubuntu-latest / Python 3.10",
+      "ubuntu-latest / Python 3.13",
+      "windows-latest / Python 3.10",
+      "windows-latest / Python 3.13"
+    ],
+    "workflow_run_id": null,
+    "tested_sha": null,
+    "reason": "No GitHub workflow was triggered. This local run did not push, open a PR, or dispatch a workflow."
+  },
+  "other_wp14_gates": {
+    "g03_g04_g05": "NOT_RERUN_IN_R2_1; previously recorded failures remain unchanged",
+    "g09": "OWNER_GATED_NOT_RUN",
+    "full_repository_test_suite": "NOT_RUN"
+  },
+  "ledger": {
+    "wp14_official_points": "0/1",
+    "global_machine_total": "95/100",
+    "modified": false
+  },
+  "limitations": [
+    "The R2.1 G06 command set verifies registry consistency and build/test behavior; it does not supply missing review identities or Owner decisions.",
+    "MkDocs emitted informational links to qualification artifacts outside the configured site; strict mode returned exit code 0.",
+    "Generated outputs were preserved outside Git and are not part of the repository evidence commit; only their manifests and review-readiness hash are recorded here.",
+    "G08 remains unverified until the exact candidate source is run through the required GitHub Actions matrix."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "status": "FAIL_CLOSED",
+  "source_sha": "acd6a5f4c8541ffcfdcde7e5be26cb0fdafcc52f",
+  "contract_sha256": "c6d6cd9d1a0a869443eb9ae5d7b8e03283f7fa46c37dc72287206fc0d16b11a8",
+  "element_type": "TET10",
+  "independence": "surface-load resultant and finite-displacement recomputation; not an independent global FEM solve",
+  "resultant_error_norm": null,
+  "finite_displacements": false
+}

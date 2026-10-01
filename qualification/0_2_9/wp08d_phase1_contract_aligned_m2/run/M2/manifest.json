@@ -1,0 +1,67 @@
+{
+  "case": "WP08-D-M2-PHASE1",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "files": [
+    {
+      "relative_path": "checkpoint_step_001.json",
+      "sha256": "90e41a765d2b4d7a5579f315905587541dfc4218754c01d1798c2aced05a11ad",
+      "size_bytes": 5955
+    },
+    {
+      "relative_path": "checkpoint_step_002.json",
+      "sha256": "f1a50ead8c3d55149d15416157f72de020f5d44ad005226f9544107066f0775b",
+      "size_bytes": 5970
+    },
+    {
+      "relative_path": "checkpoint_step_003.json",
+      "sha256": "691b588d3b7ccf901bc5837fcfd3447ad23ff0de93e799fb987182cc76595c90",
+      "size_bytes": 5980
+    },
+    {
+      "relative_path": "checkpoint_step_004.json",
+      "sha256": "d6384e4411a0f31fb987579a7758feece076c5680dce54ce00be05d0a4f864c5",
+      "size_bytes": 5962
+    },
+    {
+      "relative_path": "console.err.log",
+      "sha256": "8c89e61cf9ec6d576cab7d2876d5fb7fdd076f91250629cb4259743b62e47eba",
+      "size_bytes": 139
+    },
+    {
+      "relative_path": "console.log",
+      "sha256": "8a9a51aeb6e0dd45c06e8db16ff3388ed7005745ce1291de906b9de2c23a9fb2",
+      "size_bytes": 60
+    },
+    {
+      "relative_path": "progress.json",
+      "sha256": "43599f7acd9c692a68d7150d0e461a7559695b4061e1b7895fa7891d3addc4b8",
+      "size_bytes": 271
+    },
+    {
+      "relative_path": "telemetry.jsonl",
+      "sha256": "f5f6f5c103e5019c1e37f647165a0cba062f1e5c739333cbdbbd2a4e96eaa697",
+      "size_bytes": 113524
+    }
+  ],
+  "frozen_parameters": {
+    "accepted_step_checkpoints": [
+      "checkpoint_step_001.json",
+      "checkpoint_step_002.json",
+      "checkpoint_step_003.json",
+      "checkpoint_step_004.json"
+    ],
+    "backend": "serial_direct",
+    "diagnostic_load_step_limit": null,
+    "fallback": "disabled",
+    "load_increments": 7
+  },
+  "governing_sha": "28cf9dd1886b72c6c7c9fc720dc778eddfce4441",
+  "mesh": "M2",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "qualification_claim": "PHASE1_EXECUTION_EVIDENCE_NOT_FORMAL_WP08_CLOSURE",
+  "route": "linear_static_node_to_triangle_lagrange_active_set_regularized_coulomb",
+  "runner_sha": "446061bd8939551297a4b4053421875a1bd4cf74",
+  "schema_version": 1,
+  "terminal_classification": "NumericalConvergenceError",
+  "terminal_status": "FAILED"
+}

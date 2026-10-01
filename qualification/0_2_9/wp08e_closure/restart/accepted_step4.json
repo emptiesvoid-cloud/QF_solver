@@ -1,0 +1,49 @@
+{
+  "active_contacts": [
+    0
+  ],
+  "completed_step": 4,
+  "cumulative_dissipation": 9.749999999999998,
+  "displacement": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.09,
+    0.0,
+    -0.1
+  ],
+  "gaps": [
+    0.0
+  ],
+  "kind": "frictional_contact_accepted_state",
+  "load_path_length": 7,
+  "model_signature": "cc18530f932f6254742229598c8ad8761f1660b47790139afb665b953da268cb",
+  "multipliers": [
+    -100.0
+  ],
+  "pressures": [
+    100.0
+  ],
+  "schema_version": 1,
+  "slip_references": [
+    [
+      0.095,
+      0.0
+    ]
+  ],
+  "tangential_forces": [
+    [
+      -50.0,
+      0.0
+    ]
+  ],
+  "tangential_states": [
+    "slip"
+  ]
+}

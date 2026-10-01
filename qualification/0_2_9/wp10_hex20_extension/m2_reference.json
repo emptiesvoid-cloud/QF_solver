@@ -1,0 +1,17 @@
+{
+  "status": "FAIL_CLOSED",
+  "source_sha": "36c40dd9d60320755bcf044a7cb404f5e6fa6026",
+  "contract_sha256": "147f2ac9462c4e62612d599e935606c9cf084e73b1e99dc500c6ab921d60f26e",
+  "element_type": "HEX20",
+  "independence": "contact gap and penalty recomputation; not an independent global FEM solve",
+  "coverage": "final saved displacement state; production contact gaps are retained for every step",
+  "rows": [
+    {
+      "step": 4,
+      "recomputed_gap": 0.006249131963674159,
+      "production_gap": 0.0062491319636740865,
+      "recomputed_penalty_force": 0.0,
+      "gap_absolute_error": 7.28583859910259e-17
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP04-C2-TET4-REQUALIFICATION-CONTRACT-001",
+  "work_package": "WP04-C2",
+  "status": "FROZEN_BEFORE_RESULT_EXECUTION",
+  "frozen_from_sha": "f52465b008f0171c26386a7e24824f5d1cc9d807",
+  "historical_evidence": {
+    "wp04_c_hold_sha": "a5c3031f6b28b00476e328daff4845a741a5c161",
+    "wp04_c_status": "FAIL",
+    "wp04_c1_diagnosis_sha": "f52465b008f0171c26386a7e24824f5d1cc9d807",
+    "wp04_c1_primary_diagnosis": "SLOW_TET4_DISCRETIZATION_CONVERGENCE"
+  },
+  "benchmark": {
+    "geometry": {"kind": "rectangular_cantilever_solid", "length_x": 4.0, "height_y": 0.5, "depth_z": 0.5},
+    "material": {"class": "homogeneous_isotropic_3d", "model": "saint_venant_kirchhoff", "young_modulus": 1000000.0, "poisson_ratio": 0.3},
+    "formulation": "Total-Lagrangian TET4 geometric_nonlinear_static",
+    "boundary_conditions": "all translational DOFs fixed on x=0",
+    "load": {"kind": "distributed_nodal_dead_load", "face": "x=L", "total_vector": [0.0, -50.0, 0.0], "distribution": "equal over all loaded-face nodes"},
+    "newton": {"accepted_intervals": 12, "relative_tolerance": 1e-10, "maximum_iterations": 40, "line_search": false}
+  },
+  "mesh_sequence": {
+    "C2-M1": {"cells": [32, 16, 16], "role": "required"},
+    "C2-M2": {"cells": [48, 24, 24], "role": "required"},
+    "C2-M3": {"cells": [64, 32, 32], "role": "required"},
+    "C2-M4": {"cells": [96, 48, 48], "role": "optional_predeclared_escalation", "execute_only_if": ["C2-M3 completes", "C2-M2_to_C2-M3 displacement or energy exceeds 2 percent", "resources remain practical"]}
+  },
+  "observables": {
+    "qualification": ["loaded_face_average_uy", "reaction_resultant", "total_strain_energy", "volume_weighted_cauchy_sigma_xx"],
+    "stress_region": "0.40 <= x/L <= 0.60 and 0.75 <= y/H <= 0.90 and 0.25 <= z/D <= 0.75; reference-centroid selected; volume-weighted sigma_xx",
+    "diagnostic": ["mesh volume", "orientation", "quality", "load resultant and centroid", "det(F)", "principal stretches", "Green-Lagrange norm", "wall time", "peak memory where available", "Newton iterations"]
+  },
+  "thresholds": {
+    "tip_displacement_relative": 0.02,
+    "reaction_relative": 0.02,
+    "strain_energy_relative": 0.02,
+    "representative_stress_relative": 0.1,
+    "force_balance_relative": 1e-8,
+    "moment_balance_relative": 1e-8,
+    "minimum_det_F": 0.2,
+    "principal_stretch_interval": [0.75, 1.3],
+    "maximum_green_lagrange_norm": 0.3
+  },
+  "stopping_rule": {
+    "first_final_pair": "C2-M2 to C2-M3",
+    "pass_candidate": "all four frozen metrics satisfy their thresholds and the full historical-to-refined sequence is monotone or physically coherent",
+    "escalate": "if C2-M2 to C2-M3 displacement or energy exceeds 2 percent and C2-M4 is practical",
+    "resource_limit": "if a required or justified predeclared level cannot complete without changing formulation, solver policy, tolerance, load, or element, record UNRESOLVED_RESOURCE_LIMIT",
+    "failure": "if the final executed pair exceeds a frozen threshold, record FAIL_CURRENT_TET4_SCOPE; do not start C3"
+  },
+  "resource_policy": {
+    "allowed": ["existing sparse backend options", "deterministic memory-conscious qualification harness"],
+    "forbidden_without_owner_review": ["element change", "integration change", "new preconditioner changing route semantics", "tolerance relaxation", "Newton policy change", "load change"],
+    "m4_not_automatic": true
+  },
+  "failure_policy": "No production mechanics repair, maturity promotion, or WP04-D start is authorized by this campaign."
+}

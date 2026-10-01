@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP03-FAILURE-RETRY-001",
+  "work_package": "WP03-A",
+  "status": "PROSPECTIVE_CONTRACT_FROZEN",
+  "baseline_sha": "ecc09f0bae2dab867c12d7e471860887f6ef0548",
+  "policy": "Preserve existing NonlinearFailureReason values and make retry/cutback ownership explicit before implementation. No non-retryable physical failure may be hidden as a cutback.",
+  "terminal_boundaries": {
+    "adaptive_minimum_increment": "MIN_INCREMENT_REACHED",
+    "adaptive_maximum_cutbacks": "MAX_ITERATIONS",
+    "arc_minimum_radius": "ARC_LENGTH_FAILURE",
+    "non_retryable_failure": "Stop after rollback and publish the canonical reason.",
+    "checkpoint_failure": "CHECKPOINT_FAILURE; no physical cutback or radius shrink."
+  },
+  "matrix": [
+    {
+      "reason": "MAX_ITERATIONS",
+      "classification": "RETRYABLE",
+      "adaptive_load_control": "CUTBACK_AND_RETRY_WHEN_INCREMENT_AND_CUTBACK_BUDGET_ALLOW",
+      "arc_length": "RADIUS_SHRINK_AND_RETRY_WHEN_RADIUS_POLICY_ALLOWS",
+      "owner_policy_required": false,
+      "terminal_condition": "MIN_INCREMENT_REACHED_OR_MAXIMUM_CUTBACKS"
+    },
+    {
+      "reason": "CONVERGENCE_STAGNATION",
+      "classification": "RETRYABLE",
+      "adaptive_load_control": "CUTBACK_AND_RETRY",
+      "arc_length": "RADIUS_SHRINK_AND_RETRY_WHEN_RADIUS_POLICY_ALLOWS",
+      "owner_policy_required": false,
+      "terminal_condition": "MIN_INCREMENT_REACHED_OR_MINIMUM_RADIUS"
+    },
+    {
+      "reason": "LINE_SEARCH_FAILURE",
+      "classification": "RETRYABLE",
+      "adaptive_load_control": "CUTBACK_AND_RETRY",
+      "arc_length": "RADIUS_SHRINK_ONLY_IF_THE_ARC_CORRECTION_POLICY_DECLARES_IT_RETRYABLE",
+      "owner_policy_required": false,
+      "terminal_condition": "MIN_INCREMENT_REACHED_OR_MINIMUM_RADIUS"
+    },
+    {
+      "reason": "CONTACT_UPDATE_FAILURE",
+      "classification": "RETRYABLE",
+      "adaptive_load_control": "CUTBACK_AND_RETRY_IN_SUPPORTED_FRICTIONLESS_PENALTY_SCOPE",
+      "arc_length": "CONTEXT_DEPENDENT_RADIUS_RETRY; NO_FRICTIONAL_PUBLIC_CLAIM",
+      "owner_policy_required": false,
+      "terminal_condition": "ROUTE_POLICY_LIMIT"
+    },
+    {
+      "reason": "CONTACT_PENETRATION_EXCESSIVE",
+      "classification": "RETRYABLE",
+      "adaptive_load_control": "CUTBACK_AND_RETRY_IN_SUPPORTED_SCOPE",
+      "arc_length": "CONTEXT_DEPENDENT_RADIUS_RETRY",
+      "owner_policy_required": false,
+      "terminal_condition": "ROUTE_POLICY_LIMIT"
+    },
+    {
+      "reason": "ARC_LENGTH_FAILURE",
+      "classification": "RETRYABLE",
+      "adaptive_load_control": "NOT_APPLICABLE",
+      "arc_length": "RADIUS_SHRINK_AND_RETRY",
+      "owner_policy_required": false,
+      "terminal_condition": "MINIMUM_RADIUS_OR_EXPLICIT_ARC_TERMINAL_LIMIT"
+    },
+    {
+      "reason": "SINGULAR_TANGENT",
+      "classification": "OWNER_POLICY_DEPENDENT",
+      "adaptive_load_control": "NO_RETRY_BY_DEFAULT",
+      "arc_length": "NO_RETRY_BY_DEFAULT",
+      "owner_policy_required": true,
+      "terminal_condition": "TERMINAL_UNLESS_EXPLICIT_POLICY_ALLOWS_RETRY"
+    },
+    {
+      "reason": "LINEAR_SOLVER_FAILURE",
+      "classification": "OWNER_POLICY_DEPENDENT",
+      "adaptive_load_control": "NO_RETRY_BY_DEFAULT",
+      "arc_length": "NO_RETRY_BY_DEFAULT",
+      "owner_policy_required": true,
+      "terminal_condition": "TERMINAL_UNLESS_EXPLICIT_POLICY_ALLOWS_RETRY"
+    },
+    {
+      "reason": "MATERIAL_UPDATE_FAILURE",
+      "classification": "NON_RETRYABLE",
+      "adaptive_load_control": "NO_CUTBACK",
+      "arc_length": "NO_RADIUS_RETRY",
+      "owner_policy_required": false,
+      "terminal_condition": "IMMEDIATE_TERMINAL_FAILURE"
+    },
+    {
+      "reason": "STATE_CORRUPTION",
+      "classification": "NON_RETRYABLE",
+      "adaptive_load_control": "NO_CUTBACK",
+      "arc_length": "NO_RADIUS_RETRY",
+      "owner_policy_required": false,
+      "terminal_condition": "IMMEDIATE_TERMINAL_FAILURE"
+    },
+    {
+      "reason": "NAN_DETECTED",
+      "classification": "NON_RETRYABLE",
+      "adaptive_load_control": "NO_CUTBACK",
+      "arc_length": "NO_RADIUS_RETRY",
+      "owner_policy_required": false,
+      "terminal_condition": "IMMEDIATE_TERMINAL_FAILURE"
+    },
+    {
+      "reason": "INF_DETECTED",
+      "classification": "NON_RETRYABLE",
+      "adaptive_load_control": "NO_CUTBACK",
+      "arc_length": "NO_RADIUS_RETRY",
+      "owner_policy_required": false,
+      "terminal_condition": "IMMEDIATE_TERMINAL_FAILURE"
+    },
+    {
+      "reason": "INVALID_ELEMENT",
+      "classification": "NON_RETRYABLE",
+      "adaptive_load_control": "NO_CUTBACK",
+      "arc_length": "NO_RADIUS_RETRY",
+      "owner_policy_required": false,
+      "terminal_condition": "IMMEDIATE_TERMINAL_FAILURE"
+    },
+    {
+      "reason": "MIN_INCREMENT_REACHED",
+      "classification": "NON_RETRYABLE",
+      "adaptive_load_control": "NO_CUTBACK",
+      "arc_length": "NOT_APPLICABLE",
+      "owner_policy_required": false,
+      "terminal_condition": "EXPLICIT_TERMINAL_OUTCOME"
+    },
+    {
+      "reason": "CHECKPOINT_FAILURE",
+      "classification": "NON_RETRYABLE",
+      "adaptive_load_control": "NO_PHYSICAL_CUTBACK",
+      "arc_length": "NO_PHYSICAL_RADIUS_SHRINK",
+      "owner_policy_required": false,
+      "terminal_condition": "INFRASTRUCTURE_FAILURE_AFTER_OR_AROUND_ACCEPTANCE"
+    },
+    {
+      "reason": "BUCKLING_FAILURE",
+      "classification": "NON_RETRYABLE",
+      "adaptive_load_control": "NO_CUTBACK",
+      "arc_length": "NO_RADIUS_RETRY",
+      "owner_policy_required": false,
+      "terminal_condition": "IMMEDIATE_TERMINAL_FAILURE"
+    }
+  ],
+  "invariants": [
+    "rollback precedes any retry decision",
+    "accepted composite state digest is the retry origin",
+    "cutback/radius candidate is next-trial policy state, not accepted physical state",
+    "failure reason and retry classification are deterministic and serialized in diagnostics",
+    "checkpoint failure never masquerades as physical non-convergence"
+  ],
+  "implementation_scope": "This is a WP03-A contract. Existing route-specific implementations remain unchanged until WP03-B/C/D."
+}

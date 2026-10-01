@@ -275,6 +275,12 @@ class JsonSchemaAnalysisMixin:
                 self._nonnegative_int("analysis.arc_length_control_dof", params["arc_length_control_dof"], errors)
             if "adaptive_arc_length" in params and not isinstance(params["adaptive_arc_length"], bool):
                 errors.append("analysis.adaptive_arc_length must be a boolean.")
+            if "experimental_direct_refinement_steps" in params:
+                self._nonnegative_int(
+                    "analysis.experimental_direct_refinement_steps",
+                    params["experimental_direct_refinement_steps"],
+                    errors,
+                )
             if "arc_length_allow_load_factor_turning" in params and not isinstance(
                 params["arc_length_allow_load_factor_turning"], bool
             ):
@@ -350,8 +356,6 @@ class JsonSchemaAnalysisMixin:
                 errors.append("analysis.checkpoint_keep_steps must be a boolean.")
             if params.get("checkpoint_keep_steps") and "checkpoint_path" not in params:
                 errors.append("analysis.checkpoint_keep_steps requires analysis.checkpoint_path.")
-            if params.get("adaptive_load_steps") and any(key in params for key in ("checkpoint_path", "restart_from")):
-                errors.append("analysis nonlinear checkpoint/restart requires fixed load-control steps.")
         if analysis_type == "geometric_nonlinear_static":
             if "load_increments" in params:
                 self._positive_int("analysis.load_increments", params["load_increments"], errors)

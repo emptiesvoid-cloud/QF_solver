@@ -1,0 +1,2 @@
+RUN_START independent_reference=M2
+RUN_END status=FAIL_CLOSED error=ValueError

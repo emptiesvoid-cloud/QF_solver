@@ -1,0 +1,191 @@
+{
+  "schema_version": "1.0",
+  "audit_stage": "PRE_PORT_PROVENANCE_AUDIT",
+  "governing_sha": "7b93e71bab06a0e58108bd2479cd46808d533b67",
+  "expected_wp08_source_sha": "502dd1f7b1f19f37e1929ae9a6107ee1a4f9e514",
+  "actual_wp08_source_sha": "7712af3f0755260cd2bc588e2c45ea7da241b60f",
+  "merge_base": "2c52bf8196a7d47d14ce1784290580160de26590",
+  "controlled_branch": "0.2.9-wp08-controlled-integration",
+  "controlled_base_verified": true,
+  "working_tree_pre_port": {
+    "clean": false,
+    "preexisting_in_scope_changes": true,
+    "paths": [
+      "docs/document_registry.json",
+      "src/solveur/contact/support.py",
+      "docs/verification/0_2_9/wp08a-frictional-contact-readiness.md",
+      "docs/verification/0_2_9/wp08b-frictional-identities-rollback.md",
+      "docs/verification/0_2_9/wp08c-friction-tangent-dissipation.md",
+      "docs/verification/0_2_9/wp08d-structural-reference-contract.md",
+      "qualification/0_2_9/wp08a_frictional_contact_readiness.json",
+      "qualification/0_2_9/wp08b_frictional_identities_rollback.json",
+      "qualification/0_2_9/wp08c_friction_tangent_dissipation.json",
+      "qualification/0_2_9/wp08d_structural_reference_contract.json",
+      "scripts/prepare_wp08d_structural_reference.py",
+      "tests/unit/test_wp08b_frictional_identities_rollback.py",
+      "tests/unit/test_wp08c_friction_tangent_dissipation.py",
+      "tests/unit/test_wp08d_structural_reference_contract.py"
+    ],
+    "scope_check": "all pre-existing paths are explicitly listed WP08 reconstruction inputs"
+  },
+  "source_history_audit": {
+    "expected_commit": {
+      "sha": "502dd1f7b1f19f37e1929ae9a6107ee1a4f9e514",
+      "parent": "d8da1caede03463971a748a46c5d416069eceb24",
+      "subject": "test: qualify WP08-C friction tangent and dissipation"
+    },
+    "actual_commit": {
+      "sha": "7712af3f0755260cd2bc588e2c45ea7da241b60f",
+      "parent": "502dd1f7b1f19f37e1929ae9a6107ee1a4f9e514",
+      "subject": "test: prepare WP08-D friction structural contract"
+    },
+    "base_to_actual_diff": {
+      "path_count": 133,
+      "status_counts": {
+        "added": 12,
+        "deleted": 100,
+        "modified": 21
+      },
+      "policy": "WHOLE_DIVERGENT_HISTORY_NOT_IMPORTED"
+    },
+    "expected_to_actual_diff": {
+      "paths": [
+        "docs/document_registry.json",
+        "docs/verification/0_2_9/wp08d-structural-reference-contract.md",
+        "qualification/0_2_9/wp08d_structural_reference_contract.json",
+        "scripts/prepare_wp08d_structural_reference.py",
+        "tests/unit/test_wp08d_structural_reference_contract.py"
+      ],
+      "policy": "ONLY_THESE_WP08-D_PREPARATION_PATHS_ARE_ELIGIBLE_FROM_ACTUAL"
+    }
+  },
+  "files_selected_for_controlled_port": [
+    {
+      "path": "docs/document_registry.json",
+      "origin": "WP08 expected/actual registry entries",
+      "classification": "documentation_registry_only"
+    },
+    {
+      "path": "docs/verification/0_2_9/wp08a-frictional-contact-readiness.md",
+      "origin": "WP08 expected source",
+      "classification": "documentation_only"
+    },
+    {
+      "path": "docs/verification/0_2_9/wp08b-frictional-identities-rollback.md",
+      "origin": "WP08 expected source",
+      "classification": "documentation_only"
+    },
+    {
+      "path": "docs/verification/0_2_9/wp08c-friction-tangent-dissipation.md",
+      "origin": "WP08 expected source",
+      "classification": "documentation_only"
+    },
+    {
+      "path": "docs/verification/0_2_9/wp08d-structural-reference-contract.md",
+      "origin": "WP08 actual source, WP08-D preparation",
+      "classification": "documentation_only"
+    },
+    {
+      "path": "qualification/0_2_9/wp08a_frictional_contact_readiness.json",
+      "origin": "WP08 expected source",
+      "classification": "qualification_metadata_only_preparation"
+    },
+    {
+      "path": "qualification/0_2_9/wp08b_frictional_identities_rollback.json",
+      "origin": "WP08 expected source",
+      "classification": "qualification_evidence_metadata"
+    },
+    {
+      "path": "qualification/0_2_9/wp08c_friction_tangent_dissipation.json",
+      "origin": "WP08 expected source",
+      "classification": "qualification_evidence_metadata"
+    },
+    {
+      "path": "qualification/0_2_9/wp08d_structural_reference_contract.json",
+      "origin": "WP08 actual source, WP08-D preparation",
+      "classification": "qualification_contract_preparation_only"
+    },
+    {
+      "path": "scripts/prepare_wp08d_structural_reference.py",
+      "origin": "WP08 actual source",
+      "classification": "audit_tool_only"
+    },
+    {
+      "path": "src/solveur/contact/support.py",
+      "origin": "WP08 expected/actual contact patch",
+      "classification": "PRODUCTION_CONTACT_FRICTION_MECHANICS_CHANGE"
+    },
+    {
+      "path": "tests/unit/test_wp08b_frictional_identities_rollback.py",
+      "origin": "WP08 expected source",
+      "classification": "test_only"
+    },
+    {
+      "path": "tests/unit/test_wp08c_friction_tangent_dissipation.py",
+      "origin": "WP08 expected source",
+      "classification": "test_only"
+    },
+    {
+      "path": "tests/unit/test_wp08d_structural_reference_contract.py",
+      "origin": "WP08 actual source",
+      "classification": "test_only"
+    }
+  ],
+  "support_friction_update_patch": {
+    "function": "src/solveur/contact/support.py::_friction_update",
+    "classification": "PRODUCTION_CONTACT_FRICTION_MECHANICS_CHANGE",
+    "authorized_changes": [
+      "finite guard for trial_norm and limit",
+      "explicit trial_norm == 0.0 slip-branch handling",
+      "prevent 0/0 NaN propagation",
+      "explicit NumericalConvergenceError for invalid non-finite state"
+    ],
+    "unmodified_policy_surfaces": [
+      "Newton tolerances and convergence criteria",
+      "linear backend and fallback policy",
+      "contact search and active-set policy",
+      "penalty/friction parameters",
+      "loads, boundary conditions, observables and qualification thresholds",
+      "rollback/state ownership"
+    ],
+    "base_actual_diff_verified": true
+  },
+  "controlled_port_commit": "604d3a4a6d533c3b12642c0d00b0fa75e9cd033f",
+  "digest_reconciliation": {
+    "hash_algorithm": "SHA-256",
+    "wp08d_contract_canonical_json_sha256": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+    "historical_wp08d_contract_blob_sha256": "f1af8d2b8135e423926ab11ee0eb50c7527a29afc16d9534cf8f1f014f54b5c9",
+    "controlled_wp08a_json_sha256": "788a15d43be26e180054be2de399c0ac611eca117dcc07c267869f1294649c06",
+    "controlled_wp08b_json_sha256": "d2fb35f53c75713912b10a3ace1f0e85bad0f8a99d401382b42b3c31a4e5fd79",
+    "controlled_wp08c_json_sha256": "ac456457cc587fdd75721601b651da78f3aacf4168fb1c172f776313e7d62750",
+    "controlled_wp08d_json_sha256": "8594062ae97ccec15d8f12fab62c5edf32806bbe2aff808db16c706be9219344",
+    "governing_policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "governing_policy_source": "docs/verification/0_2_9/wp07-integration-into-governing-branch.md"
+  },
+  "controlled_revalidation": {
+    "targeted_pytest": "46 passed",
+    "additional_frictionless_contact_regression": "19 passed",
+    "ruff": "PASS",
+    "mypy_new_wp08_scope": "PASS with --follow-imports=skip",
+    "mypy_inherited_diagnostic": "src/solveur/contact/support.py:447 pre-existing on governing base; not changed by authorized mechanics patch",
+    "compileall": "PASS",
+    "json_validation": "PASS",
+    "git_diff_check": "PASS",
+    "contract_payload_unchanged_outside_provenance_metadata": true,
+    "structural_solves_run": false,
+    "h4_run": false,
+    "wp06_touched": false,
+    "full_test_suite_run": false
+  },
+  "additional_test_only_change": {
+    "path": "tests/unit/test_wp08c_friction_tangent_dissipation.py",
+    "change": "type annotation for an existing ndarray local to remove a new mypy diagnostic",
+    "numerical_behavior_changed": false
+  },
+  "provenance_status": "PASS_CONTROLLED_PORT_REVALIDATED_PENDING_OWNER_REVIEW",
+  "merge_to_governing": "NOT_PERFORMED",
+  "h4_status": "NOT_STARTED",
+  "wp06_touched": false,
+  "full_test_suite_run": false,
+  "owner_review_required": true
+}

@@ -1,0 +1,585 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0.2.9-WP06-READINESS-001",
+  "work_package": "WP06",
+  "title": "Arc-length and postbuckling architecture readiness audit",
+  "phase": "PHASE_0_READINESS_AUDIT",
+  "status": "READINESS_AUDIT_ONLY",
+  "branch": "0.2.9-wp06-prep",
+  "baseline_sha": "03166e98a9a0b8cc7978c7ad2a370e441aefdc1e",
+  "source_repository": "emptiesvoid-cloud/QF_solver",
+  "production_mechanics_changed": false,
+  "maturity_changed": false,
+  "heavy_solve_run": false,
+  "structural_postbuckling_run": false,
+  "external_solver_run": false,
+  "full_test_suite_run": false,
+  "source_inventory": [
+    {
+      "component": "public_nonlinear_route",
+      "locations": [
+        "src/solveur/core/nonlinear/solver.py:NonlinearStaticSolver.solve"
+      ],
+      "role": "dispatches method arc_length and owns the surrounding checkpoint session",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "component": "arc_length_driver",
+      "locations": [
+        "src/solveur/core/nonlinear/arc_length.py:NonlinearArcLengthMixin._solve_arc_length"
+      ],
+      "role": "continuation loop, accepted history, checkpoint save and terminal classification",
+      "status": "IMPLEMENTED_BOUNDED"
+    },
+    {
+      "component": "arc_length_step",
+      "locations": [
+        "src/solveur/core/nonlinear/arc_length.py:NonlinearArcLengthMixin._solve_arc_length_step"
+      ],
+      "role": "spherical predictor/corrector, residual and constraint convergence, branch orientation",
+      "status": "SPECIALIZED_IMPLEMENTATION"
+    },
+    {
+      "component": "radius_policy",
+      "locations": [
+        "src/solveur/core/nonlinear/controls.py:ArcLengthControls",
+        "src/solveur/core/nonlinear/driver.py:UnifiedArcLengthRadiusPolicy"
+      ],
+      "role": "fixed/adaptive radius, target clipping, shrink/grow and minimum-radius handling",
+      "status": "IMPLEMENTED_BOUNDED"
+    },
+    {
+      "component": "augmented_correction_kernel",
+      "locations": [
+        "src/solveur/core/nonlinear/iteration.py:solve_arc_length_correction"
+      ],
+      "role": "sparse augmented Newton correction with one additional constraint row",
+      "status": "IMPLEMENTED_BOUNDED"
+    },
+    {
+      "component": "common_assembly_seam",
+      "locations": [
+        "src/solveur/core/nonlinear/driver.py:ContributionResponse",
+        "src/solveur/core/nonlinear/driver.py:compose_contribution_responses",
+        "src/solveur/core/nonlinear/driver.py:canonical_residual",
+        "src/solveur/core/nonlinear/solver.py:_assemble_internal_tangent"
+      ],
+      "role": "common internal/tangent and residual composition used by arc steps",
+      "status": "REUSABLE"
+    },
+    {
+      "component": "common_newton_engine",
+      "locations": [
+        "src/solveur/core/nonlinear/driver.py:UnifiedNewtonEngine"
+      ],
+      "role": "fixed-load-control Newton lifecycle",
+      "status": "NOT_USED_BY_ARC_PATH"
+    },
+    {
+      "component": "continuation_transaction",
+      "locations": [
+        "src/solveur/core/nonlinear/driver.py:UnifiedContinuationController"
+      ],
+      "role": "accepted/trial ownership, commit, rollback and accepted digest verification",
+      "status": "REUSABLE_BOUNDED"
+    },
+    {
+      "component": "nonlinear_state",
+      "locations": [
+        "src/solveur/core/nonlinear/state.py:NonlinearState",
+        "src/solveur/core/nonlinear/state.py:NonlinearStateTransaction"
+      ],
+      "role": "displacement, load factor, material/contact slots, continuation payload and digests",
+      "status": "REUSABLE_BOUNDED"
+    },
+    {
+      "component": "checkpoint",
+      "locations": [
+        "src/solveur/core/nonlinear/checkpoint.py:NonlinearCheckpointV2",
+        "src/solveur/core/nonlinear/checkpoint.py:NonlinearCheckpointSession"
+      ],
+      "role": "accepted-only state and continuation persistence",
+      "status": "REUSABLE_BOUNDED"
+    },
+    {
+      "component": "public_geometric_route",
+      "locations": [
+        "src/solveur/core/analyses/geometric_nonlinear.py:GeometricNonlinearStaticSolver"
+      ],
+      "role": "separate finite-kinematic full-Newton route",
+      "status": "ARC_LENGTH_NOT_EXPOSED_AS_THIS_ROUTE"
+    },
+    {
+      "component": "verification_research_paths",
+      "locations": [
+        "src/solveur/verification/robustness_arc_length.py",
+        "src/solveur/verification/robustness_arc_length_extended.py",
+        "src/solveur/verification/total_lagrangian_structural.py",
+        "src/solveur/verification/tet4_total_lagrangian_postbuckling.py"
+      ],
+      "role": "reduced, minimal-FEM, restart/rollback and imperfection-seeded research evidence",
+      "status": "RESEARCH_ONLY"
+    },
+    {
+      "component": "legacy_compatibility_name",
+      "locations": [
+        "src/solveur/core/nonlinear_arc_length.py"
+      ],
+      "role": "compatibility alias or wrapper around the current implementation",
+      "status": "COMPATIBILITY_ONLY"
+    }
+  ],
+  "equations": {
+    "residual": "R(u,lambda) = lambda*F_ext - F_internal(u)",
+    "constraint": "g = Delta-u^T*Delta-u + (load_scale*Delta-lambda)^2 - radius^2",
+    "predictor": "K_ff*predictor = F_ext,ff",
+    "augmented_matrix": [
+      [
+        "K_ff",
+        "-F_ext,ff"
+      ],
+      [
+        "2*Delta-u^T",
+        "2*load_scale^2*Delta-lambda"
+      ]
+    ],
+    "augmented_rhs": [
+      "R_ff",
+      "-g"
+    ],
+    "root_selection": "orientation sign from previous displacement/predictor alignment, with scaled load-factor tie-breaker; no quadratic-root enumeration"
+  },
+  "unified_core": {
+    "common_assembly": "REUSABLE",
+    "canonical_residual_available": true,
+    "continuation_controller": "COMPATIBLE_BOUNDED",
+    "state_transaction": "COMPATIBLE_BOUNDED",
+    "common_newton_engine_used": false,
+    "line_search_lifecycle_shared": false,
+    "radius_policy_authority": "UnifiedArcLengthRadiusPolicy",
+    "arc_path_is_specialized": true,
+    "compatibility_status": "PARTIAL"
+  },
+  "state_and_restart": {
+    "accepted_state_fields": [
+      "displacement",
+      "load_factor",
+      "material_state",
+      "contact_state_slot",
+      "continuation_state",
+      "accepted_increment_metadata"
+    ],
+    "continuation_fields": [
+      "accepted_step",
+      "load_factor",
+      "radius",
+      "maximum_radius",
+      "load_scale",
+      "previous_du",
+      "previous_dlambda",
+      "target_load_factor",
+      "stop_mode",
+      "allow_load_factor_turning",
+      "control_dof"
+    ],
+    "trial_policy": "detached trial; commit only on physical acceptance; rollback before retry-radius policy",
+    "checkpoint_policy": "save after accepted physical step",
+    "rollback_digest_verification": true,
+    "restart_v2_available": true,
+    "v1_read_v2_write": "BOUNDED",
+    "stateful_friction_restart": "NOT_CLAIMED",
+    "branch_switching_restart": "NOT_CLAIMED",
+    "cross_process_sequence_continuation": "NOT_CLAIMED",
+    "rollback_gaps": [
+      "structural rejected-step isolation must be demonstrated on the future declared benchmark",
+      "structural restart suffix must be demonstrated under the governing integrated policy",
+      "stateful contact or friction serialization is not a qualified arc-length payload"
+    ]
+  },
+  "augmented_system": {
+    "dimension": "n_free + 1",
+    "matrix_storage": "sparse CSC",
+    "matrix_symmetry": "GENERALLY_NON_SYMMETRIC",
+    "spd_expected": false,
+    "conditioning_status": "NOT_QUALIFIED",
+    "predictor_backend": "configured nonlinear linear-solver adapter",
+    "correction_backend": "SciPy sparse direct spsolve",
+    "iterative_backend_qualification": "MISSING",
+    "petsc_backend_qualification": "MISSING",
+    "large_distributed_qualification": "MISSING",
+    "scaling_qualification": "MISSING"
+  },
+  "capabilities": {
+    "limit_point_capability": "PARTIAL_INTERNAL_RESEARCH",
+    "snap_through_capability": "PARTIAL_RESEARCH_ONLY",
+    "snap_back_capability": "UNPROVEN",
+    "bifurcation_detection": "MISSING",
+    "branch_switching": "MISSING",
+    "imperfection_seeded_postbuckling": "PARTIAL_RESEARCH_ONLY",
+    "adaptive_radius_policy": "IMPLEMENTED_BOUNDED",
+    "failure_taxonomy": "PARTIAL"
+  },
+  "adaptive_radius_policy": {
+    "authority": "UnifiedArcLengthRadiusPolicy",
+    "supports": [
+      "fixed radius",
+      "adaptive growth after accepted steps",
+      "adaptive shrink after rejected steps",
+      "target clipping",
+      "minimum-radius termination"
+    ],
+    "deterministic": true,
+    "independent_physical_qualification": false
+  },
+  "failure_taxonomy": {
+    "current_reason_enum": [
+      "MAX_ITERATIONS",
+      "MIN_INCREMENT_REACHED",
+      "LINEAR_SOLVER_FAILURE",
+      "SINGULAR_TANGENT",
+      "NAN_DETECTED",
+      "INF_DETECTED",
+      "MATERIAL_UPDATE_FAILURE",
+      "INVALID_ELEMENT",
+      "STATE_CORRUPTION",
+      "LINE_SEARCH_FAILURE",
+      "CONVERGENCE_STAGNATION",
+      "CONTACT_UPDATE_FAILURE",
+      "CONTACT_PENETRATION_EXCESSIVE",
+      "ARC_LENGTH_FAILURE",
+      "CHECKPOINT_FAILURE",
+      "BUCKLING_FAILURE"
+    ],
+    "arc_specific_detail": "PARTIAL",
+    "required_future_distinctions": [
+      "predictor_or_initial_radius_failure",
+      "augmented_correction_singularity_or_nonfinite_correction",
+      "constraint_nonconvergence",
+      "physical_residual_nonconvergence",
+      "minimum_radius_termination",
+      "rollback_failure",
+      "checkpoint_failure_after_acceptance"
+    ],
+    "failure_safety": "preserve original numerical failure and keep checkpoint failure separate from physical rollback"
+  },
+  "telemetry_readiness": {
+    "step_diagnostics": [
+      "residual",
+      "iteration",
+      "load increment",
+      "timings",
+      "contact diagnostics",
+      "arc_length_radius",
+      "arc_length_control_displacement",
+      "arc_length_predictor_sign",
+      "arc_length_branch_direction",
+      "arc_length_direction_alignment",
+      "arc_length_constraint_residual"
+    ],
+    "generic_wp15_event_producer_in_baseline": false,
+    "status": "PARTIAL"
+  },
+  "existing_evidence": {
+    "focused_unit_suites": [
+      {
+        "path": "tests/unit/test_wp01_d_continuation.py",
+        "coverage": [
+          "accepted and rejected arc-step ownership",
+          "rollback",
+          "turning-point baseline",
+          "adaptive radius",
+          "replay digest",
+          "checkpoint ordering",
+          "unified-controller use"
+        ],
+        "level": "IMPLEMENTATION_AND_REPLAY"
+      },
+      {
+        "path": "tests/unit/test_wp02_d_arc_length_restart.py",
+        "test_count": 28,
+        "coverage": [
+          "v2 restore",
+          "accepted-only save",
+          "continuation fields",
+          "rejected-trial persistence",
+          "adaptive radius and rejection restart",
+          "v1 migration boundaries",
+          "failure semantics",
+          "deterministic suffix behavior"
+        ],
+        "level": "FOCUSED_RESTART"
+      },
+      {
+        "path": "tests/unit/test_wp02_d1_arc_length_material_state.py",
+        "coverage": [
+          "material-state restart",
+          "rejected-increment isolation",
+          "accepted-state publication",
+          "elastic-regression boundaries"
+        ],
+        "level": "FOCUSED_STATE"
+      },
+      {
+        "path": "tests/unit/test_wp03_d_arc_radius_policy.py",
+        "coverage": [
+          "fixed and adaptive radius",
+          "growth and shrink",
+          "target clipping",
+          "rollback ordering",
+          "rejection and checkpoint behavior",
+          "deterministic mapping",
+          "policy authority"
+        ],
+        "level": "FOCUSED_POLICY"
+      },
+      {
+        "path": "tests/unit/test_tet4_tl_postbuckling.py",
+        "coverage": [
+          "small sparse arc-length path",
+          "finite displacement/residual/detF",
+          "controlled-summary guards"
+        ],
+        "level": "SMALL_RESEARCH_UNIT"
+      }
+    ],
+    "research_helpers": [
+      {
+        "path": "src/solveur/verification/robustness_arc_length.py",
+        "status": "PASS_INTERNAL_RESEARCH",
+        "limitations": [
+          "no snap-through or external validation claim"
+        ]
+      },
+      {
+        "path": "src/solveur/verification/robustness_arc_length_extended.py",
+        "status": "PASS_INTERNAL_RESEARCH",
+        "limitations": [
+          "minimal internal FEM",
+          "no external validation",
+          "no general structural qualification"
+        ]
+      },
+      {
+        "path": "src/solveur/verification/tet4_total_lagrangian_postbuckling.py",
+        "status": "PASS_POSTBUCKLING_RESEARCH",
+        "limitations": [
+          "stress-free coordinate imperfection",
+          "no external correlation",
+          "TET4 bending mesh dependence",
+          "follower/material/contact excluded"
+        ]
+      }
+    ],
+    "historical_evidence": [
+      {
+        "path": "qualification/0_2_6/g07_b1_arc_length_evidence.json",
+        "status": "PARTIAL",
+        "use": "historical context only; not current WP06 closure"
+      },
+      {
+        "path": "qualification/0_2_6/g07_b3_gap_resolution/g07_b3_gap_resolution_evidence.json",
+        "status": "PARTIAL",
+        "use": "historical blocked G07 context only"
+      },
+      {
+        "path": "qualification/0_2_9/wp02_d_arc_length_restart.json",
+        "status": "ARC_LENGTH_RESTART",
+        "use": "implementation and focused restart evidence; not structural qualification"
+      },
+      {
+        "path": "qualification/0_2_9/wp03_d_arc_radius_policy.json",
+        "status": "IMPLEMENTED_TARGETED",
+        "use": "radius-policy evidence; not physical convergence qualification"
+      }
+    ],
+    "current_qualification_level": "EXPERIMENTAL_BOUNDED",
+    "formal_wp06_points": "0/8"
+  },
+  "benchmark_ladder": [
+    {
+      "stage": "A",
+      "name": "algebraic turning identity",
+      "purpose": "constraint, predictor orientation, load-factor turn, finite residual and deterministic replay",
+      "minimum_evidence": [
+        "raw state/history",
+        "constraint residual",
+        "turning indicator",
+        "replay"
+      ],
+      "resource_class": "TINY",
+      "qualification_role": "WP06-C support only"
+    },
+    {
+      "stage": "B",
+      "name": "reduced shallow arch or von Mises truss",
+      "purpose": "mechanically interpretable limit point with independent reduced reference",
+      "minimum_evidence": [
+        "displacement/load path",
+        "limit point",
+        "equilibrium",
+        "radius/rejection history",
+        "independent reduced reference"
+      ],
+      "resource_class": "LIGHT_TO_MODERATE",
+      "qualification_role": "WP06-D candidate"
+    },
+    {
+      "stage": "C",
+      "name": "common-driver structural limit point",
+      "purpose": "production FE model, initially low-order TET4, on direct sparse correction",
+      "minimum_evidence": [
+        "multi-level path",
+        "equilibrium",
+        "finite state and determinant guards where relevant",
+        "turning point",
+        "reference",
+        "restart suffix"
+      ],
+      "resource_class": "MODERATE_TO_HEAVY",
+      "qualification_role": "WP06-D formal candidate"
+    },
+    {
+      "stage": "D",
+      "name": "imperfection-seeded postbuckling",
+      "purpose": "declared imperfection and postcritical path after branch policy exists",
+      "minimum_evidence": [
+        "imperfection provenance",
+        "path continuity",
+        "branch/turning behavior",
+        "mesh/reference evidence",
+        "restart and failure controls"
+      ],
+      "resource_class": "HEAVY",
+      "qualification_role": "WP06-E candidate"
+    },
+    {
+      "stage": "E",
+      "name": "high-order or other route extension",
+      "purpose": "separate element/formulation evidence after WP05 and route governance",
+      "minimum_evidence": [
+        "separate formulation contract",
+        "independent V&V",
+        "no transitive promotion from TET4"
+      ],
+      "resource_class": "HEAVY",
+      "qualification_role": "future release or WP05-linked"
+    }
+  ],
+  "point_split": [
+    {
+      "sub_wp": "WP06-A",
+      "weight": 1,
+      "name": "formulation and route contract",
+      "exit_evidence": "exact residual, constraint, predictor, corrector, root-selection and claim-boundary contract"
+    },
+    {
+      "sub_wp": "WP06-B",
+      "weight": 1,
+      "name": "continuation state, rollback and checkpoint",
+      "exit_evidence": "accepted/trial digest, rejected-step isolation, restart metadata and suffix replay"
+    },
+    {
+      "sub_wp": "WP06-C",
+      "weight": 2,
+      "name": "identity, radius and backend V&V",
+      "exit_evidence": "constraint/predictor/corrector checks, radius behavior, direct backend diagnostics and failure taxonomy"
+    },
+    {
+      "sub_wp": "WP06-D",
+      "weight": 2,
+      "name": "structural limit-point qualification",
+      "exit_evidence": "predeclared FE benchmark, path observables, equilibrium, replay and independent reference"
+    },
+    {
+      "sub_wp": "WP06-E",
+      "weight": 1,
+      "name": "bounded imperfection/postbuckling qualification",
+      "exit_evidence": "branch/imperfection evidence or explicit exclusion if the prerequisite policy is unavailable"
+    },
+    {
+      "sub_wp": "WP06-F",
+      "weight": 1,
+      "name": "reference, evidence aggregation and Owner closure",
+      "exit_evidence": "provenance-aware machine-readable gate matrix and final bounded claim"
+    }
+  ],
+  "point_split_total": 8,
+  "dependencies": {
+    "existing_foundations": [
+      "WP01 continuation ownership",
+      "WP02 checkpoint/restart",
+      "WP03 adaptive radius policy"
+    ],
+    "required_before_structural_execution": [
+      "WP04 governing 0.2.9 nonlinear execution policy and source identity",
+      "integration-train revalidation on the exact governing branch"
+    ],
+    "high_order_dependency": "WP05 evidence is required for separate TET10/HEX20 continuation claims",
+    "optional_telemetry_dependency": "WP15 generic events can consume step diagnostics but are not a qualification substitute",
+    "excluded_dependencies": [
+      "WP08 frictional contact continuation is not included in this scope"
+    ]
+  },
+  "work_policy": {
+    "allowed_before_wp04_close": [
+      "source/test audit",
+      "readiness documentation",
+      "machine-readable contract",
+      "small schema/provenance helpers",
+      "unit tests of algebraic constraint/radius/state behavior",
+      "reuse of focused continuation tests",
+      "harmless algebraic research replay if separately classified"
+    ],
+    "blocked_until_wp04_wp05_and_integration": [
+      "production structural limit-point campaign",
+      "postbuckling campaign",
+      "external reference runs",
+      "high-order continuation qualification",
+      "stateful friction/contact continuation qualification",
+      "public maturity or release promotion"
+    ]
+  },
+  "claim_boundary": {
+    "maximum_phase_0_claim": "experimental bounded arc-length continuation on nonlinear_static with deterministic radius policy and accepted-state rollback/checkpoint foundations, plus internal research turning demonstrations",
+    "excluded_claims": [
+      "general-purpose or industrial postbuckling",
+      "universal limit-point, snap-through or snap-back robustness",
+      "bifurcation detection",
+      "automatic branch switching",
+      "external validation",
+      "stateful frictional-contact restart",
+      "MPI/PETSc/distributed continuation qualification",
+      "high-order continuation by transitivity",
+      "separate geometric_nonlinear_static arc-length capability",
+      "maturity or release promotion from preparation artifacts"
+    ]
+  },
+  "validation_policy": {
+    "targeted_existing_tests": [
+      "tests/unit/test_wp01_d_continuation.py",
+      "tests/unit/test_wp02_d_arc_length_restart.py",
+      "tests/unit/test_wp02_d1_arc_length_material_state.py",
+      "tests/unit/test_wp03_d_arc_radius_policy.py",
+      "tests/unit/test_tet4_tl_postbuckling.py"
+    ],
+    "external_solver": "SKIP",
+    "structural_postbuckling": "SKIP",
+    "full_suite": "SKIP",
+    "static_checks": [
+      "compileall",
+      "Ruff",
+      "targeted mypy",
+      "JSON parsing",
+      "controlled-document metadata"
+    ],
+    "inherited_drift_policy": "report separately; do not mass-register unrelated documents or reinterpret drift as WP06 evidence"
+  },
+  "provenance": {
+    "source_sha": "03166e98a9a0b8cc7978c7ad2a370e441aefdc1e",
+    "source_branch": "0.2.9-wp06-prep",
+    "audit_type": "read_only_preparation",
+    "new_qualification_results": false,
+    "recorded_formal_points": "0/8",
+    "validated_total": "29/100"
+  }
+}

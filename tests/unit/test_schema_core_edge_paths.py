@@ -160,7 +160,7 @@ def test_laminate_and_checkpoint_control_errors_cover_strict_paths() -> None:
     assert any("checkpoint_path must be a non-empty" in error for error in errors)
     assert any("checkpoint_interval requires" in error for error in errors)
     assert any("load_path[1]" in error for error in errors)
-    assert any("checkpoint/restart requires fixed" in error for error in errors)
+    assert any("analysis.restart_from must use the .npz format" in error for error in errors)
 
 
 def test_analysis_validator_covers_type_method_and_control_failures() -> None:

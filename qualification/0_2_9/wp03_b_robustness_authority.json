@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP03-B-AUTHORITY-001",
+  "work_package": "WP03-B",
+  "status": "IMPLEMENTED_TARGETED",
+  "baseline_sha": "9a97025670f7fbb28cbe4c6e2e76eacbf9fc5714",
+  "final_sha": null,
+  "final_sha_policy": "The exact final commit SHA is reported after the dedicated commit; this record is not self-referential.",
+  "branch": "0.2.9-unified-nonlinear",
+  "validated_points": 0,
+  "validated_total": 22,
+  "scope": {
+    "implemented": [
+      "one formulation-neutral stagnation decision authority",
+      "one formulation-neutral line-search policy loop and dispatch seam",
+      "UnifiedNewtonEngine consumption of common robustness diagnostics",
+      "compatibility adapters delegating without a second policy loop",
+      "focused deterministic boundary and integration tests"
+    ],
+    "deferred": [
+      "WP03-C adaptive increment/cutback consolidation",
+      "WP03-D arc-length robustness boundary",
+      "difficult robustness improvement evidence",
+      "maturity promotion"
+    ]
+  },
+  "policy": {
+    "policy_id": "qf-solver-unified-robustness",
+    "policy_version": 1,
+    "public_default": {
+      "stagnation_window": 4,
+      "plateau_threshold": 1e-10,
+      "line_search_min_alpha": 1e-4,
+      "line_search_max_reductions": 12,
+      "line_search_merit": "free-DOF residual 2-norm",
+      "line_search_acceptance": "strict decrease unless explicit Armijo coefficient is configured"
+    },
+    "experimental_override": "NonlinearRobustnessOptions is explicit opt-in and is recorded with policy_source=EXPERIMENTAL_OVERRIDE.",
+    "compatibility_helper_defaults": {
+      "min_alpha": 0.0,
+      "max_reductions": 14,
+      "armijo": 0.0,
+      "policy_source": "COMPATIBILITY_ADAPTER",
+      "observed_in_easy_baseline": false,
+      "reason": "Historical helper defaults are retained for direct compatibility calls; the public solve_full_newton adapter supplies the frozen public-default controller explicitly."
+    }
+  },
+  "authority_audit": {
+    "stagnation_authority": "UnifiedNonlinearRobustnessController.stagnation_decision",
+    "line_search_authority": "UnifiedNonlinearRobustnessController.line_search",
+    "newton_engine": "UnifiedNewtonEngine",
+    "solve_full_newton": "compatibility adapter; delegates to UnifiedNewtonEngine",
+    "stateful_load_control_line_search": "adapter; delegates to the same controller",
+    "alternate_policy_loops_in_migrated_helpers": 0,
+    "source_scan": {
+      "common_reduction_loops": 1,
+      "helper_reduction_loops": 0,
+      "inline_driver_stagnation_loop": 0
+    },
+    "accepted_state_authority_changed": false
+  },
+  "diagnostics": {
+    "per_increment": [
+      "robustness policy id/version/source",
+      "stagnation window, threshold, relative change, decision and reason",
+      "line-search merit history, accepted factors, reductions and Armijo configuration"
+    ],
+    "timing": "Existing timing fields remain compatibility diagnostics and are not part of deterministic robustness identity."
+  },
+  "baseline_results": {
+    "record": "qualification/0_2_9/wp03_b_baseline.json",
+    "B01_B06": "11 passed",
+    "B02_full": "35 passed, 1 pre-existing failure",
+    "B02_control": "35 passed, 1 deselected",
+    "B03_B04": "27 passed",
+    "B05": "30 passed",
+    "B07_B12_B13_B14": "28 passed",
+    "preexisting_failure": "test_adversarial_rollback_retries_from_clean_committed_state: injected override does not accept the existing commit_to_inputs keyword"
+  },
+  "post_migration_preservation": {
+    "multielement_full_control": {
+      "command": "python -m pytest -q tests/unit/test_nonlinear_constitutive_vv.py tests/unit/test_j2_plastic_dissipation.py tests/unit/test_nonlinear_multielement.py",
+      "result": "35 passed, 1 failed",
+      "status": "SAME_PREEXISTING_FAILURE",
+      "failure": "test_adversarial_rollback_retries_from_clean_committed_state: injected override does not accept the existing commit_to_inputs keyword"
+    },
+    "multielement_control_excluding_preexisting_failure": {
+      "command": "python -m pytest -q tests/unit/test_nonlinear_multielement.py -k \"not adversarial_rollback_retries_from_clean_committed_state\"",
+      "result": "31 passed, 1 deselected",
+      "status": "PASS"
+    },
+    "step_up_and_wp03_guards": {
+      "command": "python -m pytest -q tests/unit/test_029_step_up_baseline.py tests/unit/test_wp03_b_robustness_authority.py",
+      "result": "35 passed",
+      "status": "PASS"
+    }
+  },
+  "targeted_validation": {
+    "wp03_b": {"command": "python -m pytest -q tests/unit/test_wp03_b_robustness_authority.py", "passed": 30, "failed": 0, "skipped": 0},
+    "wp01_c": {"command": "python -m pytest -q tests/unit/test_wp01_c_unified_newton.py", "passed": 12, "failed": 0, "skipped": 0},
+    "wp01_b_state": {"command": "python -m pytest -q tests/unit/test_nonlinear_state_transaction_contract.py", "passed": 5, "failed": 0, "skipped": 0},
+    "wp01_d": {"command": "python -m pytest -q tests/unit/test_wp01_d_continuation.py", "passed": 22, "failed": 0, "skipped": 0},
+    "wp02_b": {"command": "python -m pytest -q tests/unit/test_wp02_b_checkpoint_v2.py", "passed": 28, "failed": 0, "skipped": 0},
+    "failure_modes": {"command": "python -m pytest -q tests/unit/test_nonlinear_failure_modes.py tests/unit/test_nonlinear_failure_campaign.py", "passed": 21, "failed": 0, "skipped": 0},
+    "iteration_sparse": {"command": "python -m pytest -q tests/unit/test_nonlinear_iteration_sparse.py", "passed": 3, "failed": 0, "skipped": 0},
+    "geometric": {"command": "python -m pytest -q tests/unit/test_geometric_nonlinear_public.py tests/unit/test_geometric_nonlinear_controls.py tests/unit/test_geometric_nonlinear_contracts.py", "passed": 22, "failed": 0, "skipped": 0},
+    "contact": {"command": "python -m pytest -q tests/unit/test_nonlinear_contact_composition.py tests/unit/test_frictionless_contact.py", "passed": 30, "failed": 0, "skipped": 0},
+    "multielement_control": {"command": "python -m pytest -q tests/unit/test_nonlinear_multielement.py -k \"not adversarial_rollback_retries_from_clean_committed_state\"", "passed": 31, "failed": 0, "skipped": 0, "deselected": 1},
+    "robustness_options": {"command": "python -m pytest -q tests/unit/test_nonlinear_robustness_options.py", "passed": 7, "failed": 0, "skipped": 0}
+  },
+  "gates": {
+    "G03-01": {"status": "PARTIAL", "reason": "Fixed/load-control dispatch is covered; WP03-C adaptive consolidation and WP03-D arc-length robustness remain."},
+    "G03-02": {"status": "PASS_BOUNDED", "reason": "Common controller is formulation-neutral and migrated adapters retain the existing composition seam."},
+    "G03-03": {"status": "PASS", "reason": "Four-sample policy boundary, precedence and deterministic diagnostics are focused-tested."},
+    "G03-04": {"status": "PASS", "reason": "All migrated line-search loops delegate to the single common alpha policy loop."},
+    "G03-05": {"status": "PENDING_WP03_C", "reason": "Adaptive-control consolidation is outside WP03-B."},
+    "G03-06": {"status": "PENDING_WP03_C", "reason": "Adaptive-control consolidation is outside WP03-B."},
+    "G03-07": {"status": "PENDING_WP03_C", "reason": "Adaptive-control consolidation is outside WP03-B."},
+    "G03-08": {"status": "PARTIAL", "reason": "Common explicit diagnostics and failure reasons are covered for migrated fixed paths; continuation-wide closure is deferred."},
+    "G03-09": {"status": "PASS_BOUNDED", "reason": "Easy targeted J2, geometric, contact and failure regressions pass without maturity changes."},
+    "G03-10": {"status": "NOT_YET_DEMONSTRATED", "reason": "No difficult-case improvement claim is made in WP03-B."}
+  },
+  "integrity": {
+    "numerical_formulation_changed": false,
+    "element_formulation_changed": false,
+    "maturity_changed": false,
+    "historical_evidence_changed": false,
+    "full_test_suite_run": false,
+    "known_baseline_debt": ["adaptive rollback benchmark signature mismatch described above", "inherited mypy load-control mixin diagnostics"]
+  }
+}

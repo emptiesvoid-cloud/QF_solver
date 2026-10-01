@@ -1,0 +1,48 @@
+{
+  "case": "WP08-D-M1-PHASE1",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "files": [
+    {
+      "relative_path": "console.log",
+      "sha256": "7e340d64ac6fb4634deac1f05325f63ddd27d16b784ebd7aefedce49d271d978",
+      "size_bytes": 110
+    },
+    {
+      "relative_path": "progress.json",
+      "sha256": "47bcb64edca02a0340bd2d10da86cd6d78e9bb9db37d078d66b49be2f711ac37",
+      "size_bytes": 130
+    },
+    {
+      "relative_path": "raw.npz",
+      "sha256": "6a029467815f74f9c82d500103a2f5467b9f0d23ce5393b33ceca13565116efd",
+      "size_bytes": 2051
+    },
+    {
+      "relative_path": "result.json",
+      "sha256": "a3c58ec4789ea9e09b444ab4c72a1c705a9c36fd7282c2bbac8b37981045cd0e",
+      "size_bytes": 18303
+    },
+    {
+      "relative_path": "telemetry.jsonl",
+      "sha256": "d1a5217e11de811a8dfa675af61f0a00369163ebc077f6aab18335c75d7b09f0",
+      "size_bytes": 22292
+    }
+  ],
+  "frozen_parameters": {
+    "backend": "numpy_dense_kkt",
+    "load_increments": 7,
+    "production_contact_routines_called": false,
+    "reference": "independent_numpy_kkt_return_map"
+  },
+  "governing_sha": "28cf9dd1886b72c6c7c9fc720dc778eddfce4441",
+  "mesh": "M1",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "production_contact_routines_called": false,
+  "qualification_claim": "INDEPENDENT_M1_REFERENCE_ONLY_NOT_FORMAL_WP08_CLOSURE",
+  "reference_implementation": "independent_numpy_kkt_return_map",
+  "route": "linear_static_node_to_triangle_lagrange_active_set_regularized_coulomb",
+  "runner_sha": "8216d95b5fe7be6ac375157dc666d2d08b6695e1",
+  "schema_version": 1,
+  "terminal_classification": "PASS_REFERENCE",
+  "terminal_status": "COMPLETED"
+}

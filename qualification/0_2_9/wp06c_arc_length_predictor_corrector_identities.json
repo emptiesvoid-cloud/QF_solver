@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0.2.9-WP06C-IDENTITIES-001",
+  "work_package": "WP06-C",
+  "phase": "LIGHTWEIGHT_LOCAL_QUALIFICATION",
+  "status": "TECHNICAL_CANDIDATE",
+  "branch": "0.2.9-wp06-prep",
+  "baseline_sha": "03166e98a9a0b8cc7978c7ad2a370e441aefdc1e",
+  "source_repository": "emptiesvoid-cloud/QF_solver",
+  "formulation_label": "SPHERICAL_ARC_LENGTH_CUSTOM",
+  "formal_points": "0/2",
+  "predictor": {
+    "equation": "K_ff*p = F_ext,ff",
+    "test_system": {
+      "matrix": [
+        [
+          2.0,
+          0.0
+        ],
+        [
+          0.0,
+          3.0
+        ]
+      ],
+      "reference_load": [
+        1.0,
+        -2.0
+      ],
+      "backend": "LinearSystemSolver direct"
+    },
+    "relative_residual": 0.0,
+    "threshold": 1.0e-11,
+    "status": "PASS"
+  },
+  "spherical_constraint": {
+    "equation": "g = Delta-u^T*Delta-u + (load_scale*Delta-lambda)^2 - radius^2",
+    "threshold": "abs(g)/max(radius^2,1) <= 1e-12",
+    "cases": [
+      {
+        "radius": 1.0e-3,
+        "load_scale": 0.5,
+        "normalized_error": 2.117582368135751e-22
+      },
+      {
+        "radius": 5.0e-2,
+        "load_scale": 1.0,
+        "normalized_error": 0.0
+      },
+      {
+        "radius": 4.0e-1,
+        "load_scale": 2.0,
+        "normalized_error": 0.0
+      }
+    ],
+    "status": "PASS"
+  },
+  "constraint_jacobian": {
+    "derivative_row": [
+      "2*Delta-u",
+      "2*load_scale^2*Delta-lambda"
+    ],
+    "production_capture": "solve_arc_length_correction augmented matrix",
+    "frobenius_relative_error": 0.0,
+    "maximum_column_relative_error": 0.0,
+    "thresholds": {
+      "frobenius": 1.0e-12,
+      "maximum_column": 1.0e-12
+    },
+    "status": "PASS"
+  },
+  "augmented_jacobian": {
+    "combined_system": "H = [R,g], R = lambda*F_ext - F_internal(u)",
+    "direct_jacobian": "J_H = [-K_tangent,F_ext; 2*Delta-u,2*load_scale^2*Delta-lambda]",
+    "production_correction_matrix": "A = [K_tangent,-F_ext; 2*Delta-u,2*load_scale^2*Delta-lambda]",
+    "equivalence": "top residual row is explicitly sign-scaled for A*correction=[R,-g]",
+    "finite_difference_steps": [
+      1.0e-4,
+      1.0e-5,
+      1.0e-6
+    ],
+    "finite_difference_frobenius_errors": [
+      7.363585525014283e-9,
+      7.231654259249061e-11,
+      6.453555830400776e-12
+    ],
+    "finite_difference_maximum_column_errors": [
+      1.0000008932045983e-8,
+      9.820764578589762e-11,
+      8.668906698930482e-12
+    ],
+    "thresholds": {
+      "frobenius": 1.0e-6,
+      "maximum_column": 5.0e-6
+    },
+    "classification": "LOCAL_CONSISTENT_ROW_SCALED"
+  },
+  "orientation": {
+    "policy": [
+      "initial target-load direction",
+      "previous displacement projection first",
+      "scaled previous load-factor increment as near-zero tie-breaker",
+      "preserve displacement branch while allowing load-factor reversal"
+    ],
+    "root_enumeration": false,
+    "deterministic": true,
+    "continuity": "PASS",
+    "evidence": [
+      "tests/unit/test_wp01_d_continuation.py",
+      "tests/unit/test_wp03_d_arc_radius_policy.py"
+    ]
+  },
+  "toy_limit_point": {
+    "equilibrium": "lambda = u - u^3",
+    "reference_load": 1.0,
+    "limit_point": {
+      "displacement": 0.5773502691896257,
+      "load_factor": 0.3849001794597505
+    },
+    "settings": {
+      "steps": 80,
+      "radius": 0.05,
+      "max_iterations": 40
+    },
+    "result": "PASS_INTERNAL_RESEARCH",
+    "observed_limit_point": true,
+    "observed_step": 14,
+    "continued_beyond_turn": true,
+    "branch_turn_count": 1,
+    "maximum_equilibrium_error": 3.250177904590146e-13,
+    "load_factor_range": [
+      -2.608806171660758,
+      0.38473022923171823
+    ],
+    "structural_claim": false
+  },
+  "adaptive_radius": {
+    "accept": "PASS: keep/grow/shrink, maximum cap and minimum floor",
+    "reject": "PASS: retry shrink, target-clipped strict decrease and terminal boundaries",
+    "rollback_before_retry": true,
+    "radius_state_contamination": false,
+    "evidence": [
+      "tests/unit/test_wp03_d_arc_radius_policy.py",
+      "tests/unit/test_wp06_ab_arc_length_contract.py"
+    ]
+  },
+  "failure_controls": {
+    "nonfinite_linear_input": "PASS_TYPED_NAN_DETECTED",
+    "nonfinite_predictor_result": "adapter finite-result contract; alternate-adapter post-predictor guard remains a documented gap",
+    "nonfinite_delta_lambda": "continuation/state validation boundary",
+    "nonfinite_radius": "PASS_TYPED_INPUT_VALIDATION",
+    "singular_predictor_tangent": "typed linear failure boundary",
+    "singular_augmented_correction": "PASS_TYPED_ARC_LENGTH_FAILURE",
+    "nonfinite_augmented_correction": "PASS_TYPED_ARC_LENGTH_FAILURE",
+    "radius_exhaustion": "PASS_TERMINAL_MIN_RADIUS",
+    "taxonomy_scope": "existing ARC_LENGTH_FAILURE aggregate retained"
+  },
+  "replay": {
+    "relative_tolerance": 1.0e-12,
+    "absolute_floor": 1.0e-14,
+    "displacement_error": 0.0,
+    "load_factor_error": 0.0,
+    "radius_error": 0.0,
+    "orientation_match": true,
+    "iteration_match": true,
+    "terminal_classification_match": true,
+    "status": "PASS"
+  },
+  "validation": {
+    "targeted_tests": {
+      "status": "PASS",
+      "passed": 121,
+      "failed": 0,
+      "scope": "WP06-C plus WP06-A/B and lightweight arc-length/restart/radius/postbuckling unit tests"
+    },
+    "ruff": "PASS",
+    "mypy": "PRE_EXISTING_DIAGNOSTICS",
+    "compileall": "PASS",
+    "json_validation": "PASS",
+    "document_registry": "PASS_SCOPED",
+    "full_test_suite": "SKIPPED_BY_POLICY"
+  },
+  "claim_boundary": [
+    "local predictor/corrector and spherical-constraint identities",
+    "local row-scaled augmented Jacobian consistency",
+    "deterministic continuation and radius-policy semantics",
+    "toy algebraic limit-point traversal as internal research evidence",
+    "no structural snap-through, snap-back, bifurcation, branch-switching, high-order, external or distributed claim"
+  ],
+  "governance": {
+    "production_mechanics_changed": false,
+    "maturity_changed": false,
+    "heavy_solve_run": false,
+    "structural_postbuckling_run": false,
+    "external_solver_run": false,
+    "validated_total": "29/100"
+  }
+}

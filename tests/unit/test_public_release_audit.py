@@ -8,9 +8,16 @@ from scripts.audit_public_release import audit_public_release, public_source_fil
 from scripts.audit_release_archive import _scan_member, audit_release_archive
 
 
-def test_current_public_release_candidates_are_clean() -> None:
+def test_whole_repository_public_release_scan_preserves_unresolved_g03_findings() -> None:
     report = audit_public_release()
-    assert report["status"] == "PASS", report["findings"]
+    # The R1 scan deliberately covers the engineering repository. Its current
+    # findings remain a separate G03 HOLD; the selected R3 package scan does
+    # not waive or silently replace this broader gate.
+    assert report["status"] == "FAIL"
+    assert report["findings"]
+    assert {item["identifier"] for item in report["findings"]} >= {
+        "workstation_path", "private_environment", "internal_workflow"
+    }
 
 
 def test_audit_covers_public_launchers_and_release_environments() -> None:
@@ -62,6 +69,15 @@ def test_pdf_and_archive_content_scans_reject_local_file_links() -> None:
     }
 
 
+def test_archive_member_scanner_skips_non_text_payloads_before_compiling_patterns(monkeypatch) -> None:
+    def unexpected_pattern_compilation():
+        raise AssertionError("binary archive members must not be scanned as text")
+
+    monkeypatch.setattr("scripts.audit_release_archive._patterns", unexpected_pattern_compilation)
+
+    assert _scan_member("qualification/raw.npz", b"binary payload") == []
+
+
 def test_archive_rules_exclude_local_and_working_evidence_trees() -> None:
     attributes = (Path(__file__).resolve().parents[2] / ".gitattributes").read_text(encoding="utf-8")
     for path in (
@@ -75,7 +91,8 @@ def test_archive_rules_exclude_local_and_working_evidence_trees() -> None:
         assert f"{path} export-ignore" in attributes
 
 
-def test_current_git_archive_excludes_runtime_and_private_evidence_trees() -> None:
+def test_current_git_archive_keeps_whole_repository_hygiene_findings_visible() -> None:
     report = audit_release_archive()
-    assert report["status"] == "PASS", report["findings"]
+    assert report["status"] == "FAIL"
+    assert report["findings"]
     assert "README.md" in report["paths"]

@@ -1,0 +1,227 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "VNV029-WP05-E-CROSS-FAMILY-001",
+  "phase": "CROSS_FAMILY_EVIDENCE_ONLY",
+  "status": "PASS_CANDIDATE_OWNER_REVIEW_REQUIRED",
+  "release": "0.2.9",
+  "branch": "codex/wp05d-formal-requalification",
+  "provenance": {
+    "authorized_base_sha": "a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe",
+    "remediation_sha": "817b5d098b280fbd0b7fa2938c3204d859f20b0c",
+    "execution_sha": "72282a6ca6e6574a32c6182eccb001d9816febbc",
+    "evidence_commit_sha": "NOT_CREATED",
+    "final_sha": "NOT_CREATED",
+    "remote_head": "NOT_PUSHED",
+    "tracked_worktree_diff": false,
+    "untracked_evidence_present": true
+  },
+  "governance": {
+    "structural_solves_run_for_wp05e": false,
+    "production_mechanics_changed_in_wp05e": false,
+    "thresholds_changed": false,
+    "official_ledger_updated": false,
+    "official_total_before_owner_review": 58,
+    "full_repository_suite_run": false,
+    "owner_review_required": true,
+    "next_step": "OWNER REVIEW; DO NOT SELF-MERGE OR UPDATE THE OFFICIAL LEDGER"
+  },
+  "prerequisites": {
+    "wp05c": {
+      "status": "PASS_CANDIDATE_OWNER_REVIEW_REQUIRED",
+      "candidate_points": "1/1",
+      "official_points": "0/1_PENDING_OWNER_REVIEW",
+      "h1_status": "PASS",
+      "h2_status": "PASS",
+      "h3_status": "PASS",
+      "h1_replay_status": "PASS",
+      "h1_replay_observables_identical": true,
+      "h1_replay_newton_count_equal": true,
+      "accepted_increments_per_case": 12,
+      "fallbacks_per_case": 0,
+      "h2_to_h3_mesh_delta": {
+        "status": "PASS",
+        "mean_end_displacement": {"delta": 0.00776329330247684, "limit": 0.02},
+        "reaction_resultant": {"delta": 3.0508524056307694e-14, "limit": 0.02},
+        "reaction_moment": {"delta": 2.2899772874480315e-05, "limit": 0.02},
+        "strain_energy": {"delta": 0.007758755105271173, "limit": 0.02},
+        "representative_sigma_xx": {"delta": 0.042395024161354836, "limit": 0.08}
+      }
+    },
+    "wp05d": {
+      "production_status": "PASS_CANDIDATE",
+      "candidate_points": "1/1",
+      "owner_technical_acceptance": "ACCEPT 1/1 dans le périmètre établi",
+      "official_ledger_status": "0/1_PENDING_INTEGRATION",
+      "independent_reference_status": "PASS_OBSERVABLE_RECOMPUTATION_ONLY_NOT_AN_INDEPENDENT_FEM_SOLVE",
+      "replay_status": "PASS"
+    }
+  },
+  "sources": {
+    "base_contract": {
+      "path": "qualification/0_2_9/wp05_cd_structural_contract.json",
+      "sha256": "e8ce5ed095bf3f142b64d5a5838682c638478a5a92c8330a10af88584f52d680"
+    },
+    "wp05d_candidate_contract": {
+      "path": "qualification/0_2_9/wp05_cd_stress_window_remediation_candidate.json",
+      "sha256": "b5c05bc59d70ea53fdb0b480f4734c0dd53451b75c889e16e750c9fc6e7c12da"
+    },
+    "wp05c_h1": {
+      "result_path": "qualification/0_2_9/wp05c_formal_requalification/TET10/H1/result.json",
+      "result_sha256": "296806d747332eee1331326254c1c1042c6be62b86aada629271e6592cb06e94",
+      "raw_path": "qualification/0_2_9/wp05c_formal_requalification/TET10/H1/raw.npz",
+      "raw_sha256": "7b0fc327ba3d63ea4a418c31f2e65af5ee068d7bd4dcdddc3df4de138127f467"
+    },
+    "wp05c_h2": {
+      "result_path": "qualification/0_2_9/wp05c_formal_requalification/TET10/H2/result.json",
+      "result_sha256": "b041f16dc8710f2b4200e18dc11ead4176401af02f2808fb13d1a787d77f14af",
+      "raw_path": "qualification/0_2_9/wp05c_formal_requalification/TET10/H2/raw.npz",
+      "raw_sha256": "6f54480bbcf20b7799a6804d6541542f16d467cb43eb7f2b281cf9657d15f41f"
+    },
+    "wp05c_h3": {
+      "result_path": "qualification/0_2_9/wp05c_formal_requalification/TET10/H3/result.json",
+      "result_sha256": "3ba99cb90feca5aae590d4d2038bb03cafdce9d70800e554f7e590fe8b09c94d",
+      "raw_path": "qualification/0_2_9/wp05c_formal_requalification/TET10/H3/raw.npz",
+      "raw_sha256": "0bfc3c10411b527b1e4584defbbbd7e13f564a67a9bf75f7af680bb6c3b801b2"
+    },
+    "wp05c_h1_replay": {
+      "result_path": "qualification/0_2_9/wp05c_formal_requalification_replay/TET10/H1/result.json",
+      "result_sha256": "73e3a077842cacd38d5191508244bfd0966d9e6de73caed6c76b4ee3b9bf53db",
+      "raw_path": "qualification/0_2_9/wp05c_formal_requalification_replay/TET10/H1/raw.npz",
+      "raw_sha256": "7b0fc327ba3d63ea4a418c31f2e65af5ee068d7bd4dcdddc3df4de138127f467"
+    },
+    "wp05d_h3": {
+      "result_path": "qualification/0_2_9/wp05d_formal_requalification/production/HEX20/H3/result.json",
+      "result_sha256": "7b79c9b436e379eeca9bf2b7ae6d2d6eb4d685f76987c4d313f620b8cb93feec",
+      "raw_path": "qualification/0_2_9/wp05d_formal_requalification/production/HEX20/H3/raw.npz",
+      "raw_sha256": "1c51bd2e8df0a94dae6f10f70d435667e6f29478cd57d44c7448270afd808444"
+    },
+    "wp05d_summary": {
+      "path": "qualification/0_2_9/wp05d_formal_requalification/formal_requalification_summary.json",
+      "sha256": "1b72f1f3614b9ce536de0abc7e718a476f8ee328db4d13514c3d3d9b3d61b978"
+    },
+    "wp05d_owner_acceptance": {
+      "path": "docs/verification/0_2_9/wp05d-owner-validation-review.md",
+      "sha256": "e4a56fd574f2e8d9ecd9343b4732b7c9fa43b976537b3c5375a4b476b770e0f2"
+    }
+  },
+  "physical_definition_comparison": {
+    "geometry": {
+      "match": true,
+      "domain": {"L": 4.0, "H": 0.5, "D": 0.5},
+      "h3_base_cells": [16, 8, 8],
+      "tet10_nodes_elements_dofs": [9537, 6144, 28611],
+      "hex20_nodes_elements_dofs": [5121, 1024, 15363]
+    },
+    "material": {"match": true, "type": "isotropic linear elastic", "E": 1000000.0, "nu": 0.3},
+    "boundary_conditions": {"match": true, "definition": "all displacement DOFs fixed on x=0 face"},
+    "load_resultant": {"match": true, "target": [0.0, -50.0, 0.0], "contract_h3_difference": 8.526512829121202e-14},
+    "load_reference_moment": {"match": true, "target": [12.5, 0.0, -200.0], "contract_h3_difference": 3.4110214398748283e-13},
+    "load_representation_disclosure": {
+      "tet10": "consistent equivalent nodal traction integrated over quadratic T6 with three-point degree-2 rule",
+      "hex20": "consistent equivalent nodal traction integrated over quadratic Q8 with 2x2 Gauss rule",
+      "same_physical_definition": true,
+      "nodal_vectors_identical": false
+    },
+    "runtime_policy": {
+      "same_execution_sha": true,
+      "execution_sha": "72282a6ca6e6574a32c6182eccb001d9816febbc",
+      "same_runtime_policy_digest": true,
+      "runtime_policy_digest": "895d3c932278c0207b207318216c263a427636d57738bef730917fdc7d9b0ef5",
+      "solver_route": "geometric_nonlinear_static / MINRES + Jacobi / canonical line search / floor-aware termination"
+    },
+    "displacement_definition": {"match": true, "definition": "mean Y displacement over all x=L face nodes"},
+    "reaction_definition": {"match": true, "definition": "clamp reaction resultant; cross-family comparison uses vector norm"},
+    "moment_definition": {"match": true, "definition": "three-component clamp reaction moment about global origin; comparison uses vector norm"},
+    "strain_energy_definition": {"match": true, "definition": "accepted-state total strain energy from the same governing runner"},
+    "stress_region": {
+      "match": true,
+      "contract_digest": "e8ce5ed095bf3f142b64d5a5838682c638478a5a92c8330a10af88584f52d680",
+      "normalized_box": {"x_over_L": [0.4, 0.6], "y_over_H": [0.7, 0.95], "z_over_D": [0.2, 0.8]},
+      "field": "Cauchy sigma_xx",
+      "common_field_used": "observables.representative_sigma_xx"
+    },
+    "stress_weighting": {
+      "match": true,
+      "definition": "reference integration-point volume weights w_q*det(J0), using reference coordinates and the historical common observable",
+      "tet10_h3_reference_volume": 0.029947916666666696,
+      "hex20_h3_reference_volume": 0.030647183641975325,
+      "tet10_h3_integration_point_count": 736,
+      "hex20_h3_integration_point_count": 840,
+      "different_discrete_population_disclosed": true
+    },
+    "all_required_matches": true
+  },
+  "comparison_method": {
+    "formula": "delta(a,b)=abs(a-b)/max(abs(a),abs(b),1e-12)",
+    "formula_precedent": "existing WP04-E cross-family closure convention",
+    "vector_observables": "compare Euclidean norms, then apply the scalar relative-delta formula",
+    "thresholds": {
+      "displacement": 0.03,
+      "reaction_resultant": 0.02,
+      "reaction_moment": 0.03,
+      "strain_energy": 0.03,
+      "representative_sigma_xx": 0.10
+    },
+    "thresholds_changed": false
+  },
+  "comparisons": {
+    "displacement": {
+      "tet10": -0.20420059690047945,
+      "hex20": -0.20442938024683543,
+      "delta": 0.0011191314383467805,
+      "threshold": 0.03,
+      "status": "PASS"
+    },
+    "reaction_resultant": {
+      "tet10_norm": 50.00000000000002,
+      "hex20_norm": 49.99999999999996,
+      "delta": 1.2789769243681797e-15,
+      "threshold": 0.02,
+      "status": "PASS"
+    },
+    "reaction_moment": {
+      "tet10_norm": 200.0774735267031,
+      "hex20_norm": 200.0768910073825,
+      "delta": 2.911468794233921e-06,
+      "threshold": 0.03,
+      "status": "PASS"
+    },
+    "strain_energy": {
+      "tet10": 5.098363013959317,
+      "hex20": 5.104069784584174,
+      "delta": 0.001118082405944473,
+      "threshold": 0.03,
+      "status": "PASS"
+    },
+    "representative_sigma_xx": {
+      "tet10_common_historical": 3082.376241842556,
+      "hex20_common_historical": 3254.1440918472313,
+      "delta": 0.05278434056900368,
+      "threshold": 0.1,
+      "status": "PASS",
+      "hex20_candidate_window_sigma_xx_excluded": 3104.950355967558,
+      "exclusion_reason": "Owner-approved exact clipped-window observable is HEX20-only and has no matching TET10 measurement in this evidence package"
+    },
+    "all_pass": true
+  },
+  "terminal_evaluation": {
+    "wp05e_candidate_points": "1/1",
+    "wp05e_official_points": "0/1_PENDING_OWNER_REVIEW",
+    "wp05e_status": "PASS_CANDIDATE_OWNER_REVIEW_REQUIRED",
+    "owner_review_required": true
+  },
+  "limitations": [
+    "Comparison is limited to the declared TET10 and HEX20 affine H3 cantilever cases and these five observables.",
+    "This does not establish general interchangeability or equivalent accuracy for all TET10 and HEX20 meshes.",
+    "The HEX20 candidate clipped-window stress value is not compared to TET10; the common historical stress observable is used instead.",
+    "The common stress observable has different discrete integration-point populations and sampled reference volumes across families; this is disclosed and is part of the bounded comparison.",
+    "WP05-D's independent NumPy result is an independent observable recomputation from production displacement data, not a second independent FEM solve.",
+    "No official points, global total, governing branch, or remote branch were changed by this audit."
+  ],
+  "targeted_tests": "PASS: 25 passed in 3.67s (test_wp05e_cross_family.py + test_wp05_cd_structural_harness.py)",
+  "ruff": "PASS: tests/verification/test_wp05e_cross_family.py",
+  "mypy": "NOT_RUN: evidence/test-only change; no production Python source changed",
+  "compileall": "PASS: tests/verification/test_wp05e_cross_family.py",
+  "json_validation": "PASS: wp05e_cross_family_audit.json parses successfully",
+  "git_diff_check": "PASS: git diff --check"
+}

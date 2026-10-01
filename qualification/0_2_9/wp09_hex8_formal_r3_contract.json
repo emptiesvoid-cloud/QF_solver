@@ -1,0 +1,113 @@
+{
+  "schema_version": 3,
+  "record_id": "QF-029-WP09-HEX8-FORMAL-REQUALIFICATION-R3",
+  "work_item": "WP09",
+  "scope": "HEX8-only bounded corotational small-strain J2 qualification",
+  "status": "FROZEN_EXECUTION_CONTRACT",
+  "frozen_before_primary_execution": true,
+  "governing_branch": "0.2.9-unified-nonlinear",
+  "governing_base_sha": "03c35eb7a634a57e5c29d95555316cfb2701d2ad",
+  "authorized_source_base_sha": "11af1c7c9a1e0f5036fabbbf5a30bcb2940fd099",
+  "policy": {
+    "frozen_policy_code_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "runtime_policy_binding_digest": "895d3c932278c0207b207318216c263a427636d57738bef730917fdc7d9b0ef5",
+    "persist_in_every_primary_artifact": true
+  },
+  "owner_authorization": {
+    "hex8_scope": true,
+    "strict_tolerance": true,
+    "formal_primary_h7_h8_h9": true,
+    "independent_reference": true,
+    "deterministic_replay": true,
+    "official_points_awarded": false,
+    "merge": false,
+    "push": false
+  },
+  "formulation": {
+    "kinematics": "corotational_j2",
+    "decomposition": "F = R U",
+    "local_strain": "U - I",
+    "constitutive_model": "additive small-strain von Mises J2 with isotropic hardening",
+    "force_measure": "P = R sigma_local",
+    "state_transport": "tensorial committed state between corotated frames",
+    "tangent": "central_difference_internal_force_at_fixed_committed_state",
+    "solver_method": "newton_raphson",
+    "production_mechanics_changed_from_r2": false
+  },
+  "material": {
+    "type": "von_mises_elastoplastic_3d",
+    "E": 1000.0,
+    "nu": 0.3,
+    "yield_stress": 0.02,
+    "hardening_modulus": 10.0
+  },
+  "path": {
+    "load_scale": 0.25,
+    "reference_resultant": [1.0, 0.0, 0.0],
+    "effective_final_resultant": [0.25, 0.0, 0.0],
+    "load_path": [0.25, 0.5, 0.75, 1.0],
+    "load_steps": 4,
+    "max_iterations": 40,
+    "tolerance": 1e-9,
+    "corotational_max_local_strain": 0.05,
+    "adaptive_load_steps": false,
+    "contact": false,
+    "dynamics": false,
+    "follower_loads": false
+  },
+  "mesh_hierarchy": {
+    "family": "HEX8",
+    "mesh_gate": "M2_to_M3_only",
+    "levels": [
+      {"stage": "M1", "level": "H7", "cells": 7, "raw_filename": "m1_hex8.json"},
+      {"stage": "M2", "level": "H8", "cells": 8, "raw_filename": "m2_hex8.json"},
+      {"stage": "M3", "level": "H9", "cells": 9, "raw_filename": "m3_hex8.json"}
+    ]
+  },
+  "gates": {
+    "finite_required": true,
+    "production_status": "PASS",
+    "force_equilibrium_relative_max": 1e-8,
+    "moment_equilibrium_relative_max": 1e-8,
+    "free_residual_relative_max": 1e-7,
+    "minimum_det_f": 1e-10,
+    "maximum_local_strain_norm": 0.05,
+    "replay_relative_tolerance": 1e-12,
+    "replay_absolute_tolerance": 1e-14,
+    "mesh_comparison": {
+      "selected_displacement_relative_max": 0.05,
+      "reaction_relative_max": 0.05,
+      "energy_relative_max": 0.05,
+      "von_mises_relative_max": 0.10,
+      "missing_observable": "FAIL_CLOSED"
+    }
+  },
+  "independent_reference": {
+    "implementation": "NumPy material-point and affine-element reference",
+    "module": "src/solveur/verification/wp09_independent_reference.py",
+    "must_not_import": ["solveur.elements", "solveur.materials", "solveur.core"],
+    "not_claimed": "independent global FEM/Newton solve",
+    "required_relative_max": 1e-11,
+    "required_absolute_max": 1e-10,
+    "code_aster": "not required for this internal gate; external correlation remains separate"
+  },
+  "replay": {
+    "required": true,
+    "same_frozen_inputs": true,
+    "same_frozen_tolerance": true,
+    "compare": [
+      "selected_displacement",
+      "reaction_norm",
+      "energy",
+      "von_mises_max",
+      "equivalent_plastic_strain_max",
+      "free_relative_residual",
+      "force_balance_relative_error",
+      "moment_balance_relative_error"
+    ]
+  },
+  "formal_points": {
+    "wp09": "0/8",
+    "award_policy": "Owner review required; no runner-side award"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "accepted_step_count": 4,
+  "branch": "0.2.9-wp08d-m1-phase1",
+  "case": "WP08-D-independent-reference",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "element_count": 96,
+  "fallback_count": 0,
+  "files": [
+    {
+      "relative_path": "accepted_step_001.json",
+      "sha256": "9e17c660a1f1ebdce62861602e8c557cb940edefab4cc1e2e35fb705912db4a3",
+      "size_bytes": 22835
+    },
+    {
+      "relative_path": "accepted_step_002.json",
+      "sha256": "0412d4d50baa81ed0943cfcd88272cd210bb6fad0d0da49f9ecda59220a1715b",
+      "size_bytes": 9166
+    },
+    {
+      "relative_path": "accepted_step_003.json",
+      "sha256": "1eebe36a1bbaed35392e5fbd8ccda03ea292899e4e8acf7d4802f49f0a431540",
+      "size_bytes": 9231
+    },
+    {
+      "relative_path": "accepted_step_004.json",
+      "sha256": "a31ecec1e298ea27bfe715fd1556ee4e2993a8e36e4d11d1de7eb28566ac0521",
+      "size_bytes": 9187
+    },
+    {
+      "relative_path": "console.err.log",
+      "sha256": "8d099b7b67aa78abbe94b8811253029d58fc1b1340e6c7a1fe2fb228ce400acf",
+      "size_bytes": 94
+    },
+    {
+      "relative_path": "console.log",
+      "sha256": "a6b685fa309a624703f86d1606a20b2a196e0b79489d1668b35b0155406a3f21",
+      "size_bytes": 81
+    },
+    {
+      "relative_path": "progress.json",
+      "sha256": "708ee4bd7807a1c376ce5b8803045fcf57d505e7fb1beb74b9656ef198571565",
+      "size_bytes": 241
+    },
+    {
+      "relative_path": "raw.npz",
+      "sha256": "b9faaf298523779c710647b74f315a5eb2930a660922aa807aa9399d1cc46681",
+      "size_bytes": 2570
+    },
+    {
+      "relative_path": "result.json",
+      "sha256": "dfbc7dbeb8cc944d73f76afc2ee91c7ff1e9dc11d92b90c553c4b72caf0c34df",
+      "size_bytes": 63326
+    },
+    {
+      "relative_path": "telemetry.jsonl",
+      "sha256": "56b9738eb7dcac3481d1545996f7b756f8432eea519889c7f4e60577b63fec46",
+      "size_bytes": 5229
+    }
+  ],
+  "mesh": "M2",
+  "ndof": 147,
+  "node_count": 49,
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "production_contact_routines_called": false,
+  "production_result": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08d_m1_phase1\\qualification\\0_2_9\\wp08d_phase1_mixed_open_active_slip_requalification\\run\\M2\\result.json",
+  "qualification_claim": "INDEPENDENT_REFERENCE_ONLY_NOT_FORMAL_WP08D_CLOSURE",
+  "schema_version": 1,
+  "source_sha": "0510e6fbc70e61454304b88b2b64662e2f87d5bb",
+  "terminal_classification": "REFERENCE_FAILURE",
+  "terminal_status": "FAILED"
+}

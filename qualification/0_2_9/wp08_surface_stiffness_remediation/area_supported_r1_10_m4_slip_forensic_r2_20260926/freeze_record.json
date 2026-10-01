@@ -1,0 +1,15 @@
+{
+  "artifact_id": "QF-029-WP08-AREA-SUPPORTED-CONTACT-M4-SLIP-FORENSIC-R2",
+  "contract_sha256": "190910ae3d9c8ca8afdd1e4742a97b57984fd54e9bac5a79db45bc4ddb533583",
+  "execution_binding_sha256": "583bf26a4cebaf8ffcdb0b5a2f141c5a72c32f6240e134c7d6df3289bdcd87be",
+  "frozen_utc": "2026-09-26T21:18:45.384735+00:00",
+  "owner_authorization": {
+    "authorized": true,
+    "recorded_from": "Owner instruction: freeze the runner and launch execution; explicit green light.",
+    "scope": "Exactly one fresh M4/slip_target diagnostic attempt with the R1.10 frozen inputs, separate output directory, and enriched failure serialization; no retry, no tuning, no formal qualification or points."
+  },
+  "runner_sha256": "ba8ba38292027d4d7a21c2c04a1984b84947bdc693d74cb5d5ca4e6ef14569bc",
+  "source_bundle_sha256": "926f3983a49967eaebc55d2c024848127af907f4498a5b09d24faf4b0e037534",
+  "source_head": "50b3d35809b49457a5c7cebac017d63daf17b06e",
+  "status": "FROZEN_READY_TO_EXECUTE"
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "matrix_id": "QF-SOLVER-0.2.9-WP01-MIGRATION-001",
+  "contract_id": "QF-SOLVER-0.2.9-WP01-UNIFIED-NONLINEAR-CORE-001",
+  "entries": [
+    {"path": "solve_full_newton", "location": "src/solveur/core/nonlinear/iteration.py", "classification": "RETAIN", "rationale": "Shared stateless Full Newton loop and diagnostics are the closest current authoritative-driver foundation; evolve behind the new contract."},
+    {"path": "solve_adaptive_full_newton", "location": "src/solveur/core/nonlinear/iteration.py", "classification": "ADAPT", "rationale": "Retain cutback behavior but replace displacement-only rollback assumptions with the common transaction."},
+    {"path": "NonlinearStaticSolver._solve_load_step", "location": "src/solveur/core/nonlinear/load_control.py", "classification": "MIGRATE", "rationale": "Its material-specific Newton ownership and direct material commit must delegate to the authoritative driver."},
+    {"path": "arc-length correction path", "location": "src/solveur/core/nonlinear/arc_length.py", "classification": "ADAPT", "rationale": "Retain continuation mathematics as a driver mode, but share transaction, diagnostics and failure policy."},
+    {"path": "GeometricNonlinearStaticSolver", "location": "src/solveur/core/analyses/geometric_nonlinear.py", "classification": "WRAP", "rationale": "It already composes through the shared assembly and delegates dead-load Newton; retain public compatibility as an adapter."},
+    {"path": "assemble_internal_tangent", "location": "src/solveur/core/assembly/nonlinear.py", "classification": "ADAPT", "rationale": "Retain immutable plan and detached trial material state while returning a common contribution response rather than owning lifecycle semantics."},
+    {"path": "assemble_penalty_contact", "location": "src/solveur/contact/solver.py", "classification": "ADAPT", "rationale": "Retain bounded frictionless penalty calculations; express diagnostics/admissibility and optional future state via ContactContribution."},
+    {"path": "FrictionlessActiveSetSolver", "location": "src/solveur/contact/solver.py", "classification": "RESEARCH_COMPATIBILITY", "rationale": "Legacy global active-set ownership is retained without promotion until a safe common-driver adaptation is separately contracted."},
+    {"path": "frictional contact path", "location": "src/solveur/contact/solver.py; src/solveur/contact/support.py; src/solveur/contact/slip_root.py", "classification": "RESEARCH_COMPATIBILITY", "rationale": "Active-set/fixed-point/semi-smooth loops and slip state remain research compatibility; WP01 creates no frictional integration."},
+    {"path": "checkpoint/restart", "location": "src/solveur/core/nonlinear/checkpoint.py", "classification": "MIGRATE", "rationale": "Retain storage-neutral persistence boundary but evolve payload/validation in later work to the unified state schema."},
+    {"path": "duplicate load-control line search", "location": "src/solveur/core/nonlinear/load_control.py", "classification": "DEPRECATE_LATER", "rationale": "Keep compatibility until the shared line-search dispatch has passed WP01/WP03 gates; do not remove in WP01-A."},
+    {"path": "GeometricNonlinearStaticSolver._line_search", "location": "src/solveur/core/analyses/geometric_nonlinear.py", "classification": "WRAP", "rationale": "Compatibility wrapper already delegates to shared semantics; retain temporarily and remove only after public compatibility audit."}
+  ],
+  "counts": {"RETAIN": 1, "ADAPT": 3, "WRAP": 2, "MIGRATE": 2, "DEPRECATE_LATER": 1, "RESEARCH_COMPATIBILITY": 2}
+}

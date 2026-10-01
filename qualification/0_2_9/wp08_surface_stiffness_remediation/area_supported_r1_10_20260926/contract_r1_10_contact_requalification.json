@@ -1,0 +1,178 @@
+{
+  "artifact_id": "QF-029-WP08-AREA-SUPPORTED-CONTACT-DIAGNOSTIC-R1.10",
+  "contract_document": "docs/verification/0_2_9/wp08-area-supported-contact-requalification-r1-10.md",
+  "contract_document_sha256": "92283ce7ce962640e9e7cd7f4fe0a76f37ec6387deca8e54947347f4c9844907",
+  "execution": {
+    "authorized_attempts": 1,
+    "no_parameter_or_threshold_adjustments": true,
+    "no_retry_after_solver_starts": true,
+    "output_root": "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926",
+    "preserve_all_prior_attempts": true,
+    "run_m2_only_if_both_m1_cases_pass": true,
+    "run_m3_only_if_both_m2_cases_pass": true,
+    "sequence": [
+      "M1/stick_target",
+      "M1/slip_target",
+      "M2/stick_target",
+      "M2/slip_target",
+      "M3/stick_target",
+      "M3/slip_target"
+    ],
+    "serial_single_worker": true,
+    "stop_after_any_numerical_failure": true
+  },
+  "formal_replay": false,
+  "formal_wp08_qualification": false,
+  "frozen_utc": "2026-09-26T19:54:06.378588+00:00",
+  "full_test_suite": false,
+  "historical_r1_9_evidence": {
+    "classification": "PRESERVED_HISTORICAL_R1_9_FAIL_CLOSED_NO_REWRITE",
+    "files": [
+      {
+        "path": "contract.json",
+        "sha256": "54e034808586c71ee58616edbd395ab933450989865d0d35d21a63f2efe85962",
+        "size_bytes": 8630
+      },
+      {
+        "path": "contract_r1_9_contact_requalification.json",
+        "sha256": "c6d24175d521f52ee14f985f373eef57b196771fa6e7f9366e92d56e6980a210",
+        "size_bytes": 41328
+      },
+      {
+        "path": "execution_binding.json",
+        "sha256": "46a02d25a5dcdfa8e0388bad0ca26c9c037608f343f8471a5b8fb1fa99900df8",
+        "size_bytes": 3483
+      },
+      {
+        "path": "freeze_binding.json",
+        "sha256": "21cb741a35736f3a364bbb6245ea3daada7bd58c516952e4fb430659cbc78316",
+        "size_bytes": 774
+      },
+      {
+        "path": "freeze_binding_r1_9_contact_requalification.json",
+        "sha256": "7f57bb09bfb6b9570e109512d5a00e60fa8a6887e2b896572a441748a9fe81f4",
+        "size_bytes": 2197
+      },
+      {
+        "path": "final.json",
+        "sha256": "d077a53d7782335d2aafe84bba26500d4779992c436b5bcc3b7e04c37d8182f9",
+        "size_bytes": 3311
+      },
+      {
+        "path": "source_file_manifest.json",
+        "sha256": "e677f8145c44a9704210b95281aea3d286aa553dac981be95be1a0caa0e1d94c",
+        "size_bytes": 111352
+      },
+      {
+        "path": "M1/stick_target/result.json",
+        "sha256": "ca55dc35f33067b71a8930d27e50cf604f5d0d069d59d2fce2603989d7d16e98",
+        "size_bytes": 635801
+      },
+      {
+        "path": "M1/slip_target/result.json",
+        "sha256": "e64d257a0f80d05cec45c9c3d7800b163ee7db6350089f438e6c6da3342a99d9",
+        "size_bytes": 635279
+      },
+      {
+        "path": "M2_M3/final.json",
+        "sha256": "34e5258db7dce78fe11de4d9e11fc585a68e7db2f80b3f2385e40ef4bf656974",
+        "size_bytes": 15494
+      },
+      {
+        "path": "M2_M3/M3/slip_target/failure.json",
+        "sha256": "ce824e409e4dc27722e122173c1aff17666d745bc3425f51173e7bd0561f5ffe",
+        "size_bytes": 7517
+      },
+      {
+        "path": "M2_M3/M3/slip_target/telemetry.jsonl",
+        "sha256": "b97a03cf5c26629a846f6b034f3fbd1f71a617d00ea71f8216539fd3b53d6fcf",
+        "size_bytes": 319814
+      }
+    ],
+    "m1_cases": {
+      "slip_target": "PASS_DIAGNOSTIC_GATES",
+      "stick_target": "PASS_DIAGNOSTIC_GATES"
+    },
+    "m1_contract_sha256": "54e034808586c71ee58616edbd395ab933450989865d0d35d21a63f2efe85962",
+    "m1_final_sha256": "d077a53d7782335d2aafe84bba26500d4779992c436b5bcc3b7e04c37d8182f9",
+    "m2_m3_cases": {
+      "M2/slip_target": "PASS_DIAGNOSTIC_GATES",
+      "M2/stick_target": "PASS_DIAGNOSTIC_GATES",
+      "M3/slip_target": "FAIL_CLOSED_PROCESS_OR_RESULT",
+      "M3/stick_target": "PASS_DIAGNOSTIC_GATES"
+    },
+    "m2_m3_contract_sha256": "c6d24175d521f52ee14f985f373eef57b196771fa6e7f9366e92d56e6980a210",
+    "m2_m3_execution_binding_canonical_sha256": "d5dd9310ed7b28ea4f4821d0136e9a040c935bb7b36f60f4cc2d38063cbb89d8",
+    "m2_m3_final_sha256": "34e5258db7dce78fe11de4d9e11fc585a68e7db2f80b3f2385e40ef4bf656974",
+    "m3_slip_failure_sha256": "ce824e409e4dc27722e122173c1aff17666d745bc3425f51173e7bd0561f5ffe",
+    "m3_slip_telemetry_sha256": "b97a03cf5c26629a846f6b034f3fbd1f71a617d00ea71f8216539fd3b53d6fcf",
+    "root_absolute_path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08_area_contact_r1_9_candidate_20260926\\qualification\\0_2_9\\wp08_surface_stiffness_remediation\\area_supported_r1_9_20260926"
+  },
+  "independent_global_fem_reference": false,
+  "mechanics_change": {
+    "production_mechanics_changed": true,
+    "regression_tests": [
+      "tests/unit/test_wp08d_mixed_open_active_slip.py",
+      "tests/unit/test_wp08_area_supported_m1_runner_r1_10.py",
+      "tests/unit/test_wp08_area_supported_m2_m3_runner_r1_10.py"
+    ],
+    "scope": [
+      "piecewise analytic coupled-projection Jacobian including pressure-dependent residual normalization",
+      "best-finite-candidate continuation for active-slip root/semismooth attempts",
+      "bounded safeguarded semismooth refinement from the trust-region best candidate"
+    ],
+    "thresholds_or_search_cap_changed": false
+  },
+  "owner_authorization": {
+    "execution_authorized": true,
+    "recorded_from": "Owner instruction: freeze the runner and launch execution; explicit green light.",
+    "scope": "One serial prospective R1.10 M1/M2/M3 diagnostic campaign with conditional progression; no formal qualification or point award."
+  },
+  "parent_contract_path": "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/contract.json",
+  "parent_contract_sha256": "67efb97074cb8cb1c5f442045b1c0e209b6413d676ad61568fb554586e2ee7f0",
+  "parent_freeze_binding_path": "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926/freeze_binding.json",
+  "parent_freeze_binding_sha256": "472dd3db8a15f74dafa06136f724b8ebb7dbae0df0159bb71089949beab51cbd",
+  "provenance_anchor": {
+    "branch": "codex/wp08-area-contact-r1-10-candidate",
+    "head": "0bf33ccc2df717172bebc0a5fa23f99db7e99cb1",
+    "m1_artifact_root": "qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_20260926",
+    "m1_cases": {
+      "slip_target": {
+        "process_manifest_sha256": "3c144a9f8ec835ef9af36f8a2b1822b33e9bd27253207a691ebc95c8c67f11b5",
+        "progress_sha256": "95ae9d6a9ab1f1b212e466aa5f5fcbdd1a96158a873c1bb03c45463a9e92c5c4",
+        "raw_npz_sha256": "fce03e7b8d2981ab802b05d0b8c7e4b88b9696ffa24a3591e725532daccf1f76",
+        "result_sha256": "fe28edc114572d2e51580d9b05b92d6394f7be32cf199f2499dc00e3839df281",
+        "telemetry_sha256": "5e7991d9814d9944ff554c0be43a489eace27ce002cf6096513df8cf0878564c"
+      },
+      "stick_target": {
+        "process_manifest_sha256": "0d1a3269cb8c925dbd2f6429f359cab5962a85d73d232af997b31e7384a6f448",
+        "progress_sha256": "f3621a65c45908479568527ba59ec5fe28efe131bda1adcc877b697a9a1bd153",
+        "raw_npz_sha256": "02d899b9d1d0cb842e2ff55b6a294b168daed9145cb37f3748c8e1545203a35a",
+        "result_sha256": "2e43fb8d0fcc2cd8053e09043c13607d1969f054d0aa5eaa3f57f180a6ab0b05",
+        "telemetry_sha256": "88abeef10b2f53f627ccdd527a43adc83a7a61e6f1b9a053c9f1625b11b251d5"
+      }
+    },
+    "m1_contract_sha256": "67efb97074cb8cb1c5f442045b1c0e209b6413d676ad61568fb554586e2ee7f0",
+    "m1_final_sha256": "1639caaa3ea19a27338ce48ac616030191c88aff90ad69ccae19559166adf897",
+    "m1_source_bundle_sha256": "a6703a15b73991c2950688c545a4e371d51b72e0d969dc0d42d33bf613515e04",
+    "working_tree_at_freeze": "DIRTY_HASH_BOUND"
+  },
+  "schema": "qf.wp08.area_supported_contact_campaign_amendment.v1",
+  "status": "FROZEN_R1_10_PROSPECTIVE_CONTACT_DIAGNOSTIC",
+  "unchanged": {
+    "boundary_conditions": true,
+    "contact_count_guard": true,
+    "fallback_policy": true,
+    "friction_coefficient": true,
+    "geometry": true,
+    "iteration_limits": true,
+    "loads_and_load_steps": true,
+    "material": true,
+    "mesh_hierarchy": true,
+    "refinement_convergence_thresholds": null,
+    "solver_backend": true,
+    "surface_stiffness_density": true,
+    "tolerances_and_diagnostic_gates": true
+  },
+  "wp08_points_awarded": false
+}

@@ -1,0 +1,46 @@
+{
+  "work_package": "WP11",
+  "title": "PETSc/MPI mixed large-scale closure",
+  "revision": "R1_PREPARATION",
+  "status": "PREPARATION_ONLY",
+  "source_sha": "b3bec329b4ae6a4c3f3f3e8ef9d221fd12fea13c",
+  "branch": "codex/wp11-qualification",
+  "official_points": "0/6",
+  "production_mechanics_changed": false,
+  "thresholds_changed": false,
+  "scope": {
+    "model": "structured TET4 large-model path",
+    "backend": "PETSc",
+    "runtime": "pinned Docker image with MPI",
+    "execution": "serial baseline plus distributed multi-rank qualification",
+    "output": "rank-owned HDF5/displacement evidence and aggregate audit",
+    "excluded": ["dynamics", "contact", "friction", "strong-scaling claim", "weak-scaling claim", "production mechanics changes"]
+  },
+  "gates": [
+    {"id": "M1", "name": "serial_reference_and_file_backed_baseline", "required": true},
+    {"id": "M2", "name": "PETSc_MPI_distributed_static_run", "required": true, "minimum_ranks": 2},
+    {"id": "M3", "name": "fresh_process_replay_and_rank_evidence", "required": true, "dependency": "M1_AND_M2_PASS"}
+  ],
+  "frozen_inputs": {
+    "element": "TET4",
+    "load_case": "static_structured_block",
+    "target_dofs": [24, 100000],
+    "backend": "petsc",
+    "preconditioner": "gamg",
+    "chunk_size": 4096,
+    "tolerances": "existing large-solver contract",
+    "fallback": "none"
+  },
+  "provenance_requirements": [
+    "container image digest",
+    "MPI implementation and rank count",
+    "PETSc version",
+    "source SHA",
+    "contract SHA-256",
+    "per-rank manifest hashes",
+    "fresh-process replay hashes"
+  ],
+  "reference_policy": "M1 serial result and independent file-backed observable comparison; no claim of an external FEM solver",
+  "fail_closed": true,
+  "next_gate": "OWNER_REVIEW_AFTER_M1_M2_M3_OR_EXPLICIT_PREFLIGHT_HOLD"
+}

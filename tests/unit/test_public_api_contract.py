@@ -150,7 +150,7 @@ def test_critical_workflow_signatures_are_stable() -> None:
     expected = {
         "load_model": "(path: 'str | Path') -> 'FiniteElementModel'",
         "check_mesh": "(model: 'FiniteElementModel') -> 'MeshReport'",
-        "solve_model": "(model: 'FiniteElementModel', *, enforce_policy: 'bool' = True) -> 'object'",
+        "solve_model": "(model: 'FiniteElementModel', *, enforce_policy: 'bool' = True, telemetry: 'TelemetryEmitter | None' = None) -> 'object'",
         "save_result": "(result: 'object', path: 'str | Path') -> 'None'",
     }
     for name, signature in expected.items():

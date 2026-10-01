@@ -1,0 +1,1177 @@
+{
+  "audit_status": "FAIL_CLOSED",
+  "campaign": "R3 expanded Code_Aster same-mesh correlation",
+  "case_count": 144,
+  "case_pass_count": 0,
+  "cases": {
+    "hex20_l_section_beam_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h1_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_l_section_beam_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h1_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_l_section_beam_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h1_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_l_section_beam_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h1_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_l_section_beam_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h2_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_l_section_beam_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h2_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_l_section_beam_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h2_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_l_section_beam_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h2_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_l_section_beam_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h3_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_l_section_beam_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h3_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_l_section_beam_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h3_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_l_section_beam_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h3_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_perforated_prism_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h1_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_perforated_prism_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h1_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_perforated_prism_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h1_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_perforated_prism_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h1_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_perforated_prism_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h2_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_perforated_prism_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h2_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_perforated_prism_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h2_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_perforated_prism_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h2_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_perforated_prism_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h3_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_perforated_prism_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h3_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_perforated_prism_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h3_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_perforated_prism_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h3_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_stepped_cantilever_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h1_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_stepped_cantilever_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h1_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_stepped_cantilever_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h1_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_stepped_cantilever_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h1_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_stepped_cantilever_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h2_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_stepped_cantilever_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h2_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_stepped_cantilever_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h2_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_stepped_cantilever_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h2_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_stepped_cantilever_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h3_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_stepped_cantilever_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h3_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_stepped_cantilever_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h3_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex20_stepped_cantilever_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h3_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_l_section_beam_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h1_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_l_section_beam_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h1_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_l_section_beam_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h1_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_l_section_beam_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h1_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_l_section_beam_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h2_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_l_section_beam_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h2_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_l_section_beam_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h2_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_l_section_beam_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h2_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_l_section_beam_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h3_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_l_section_beam_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h3_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_l_section_beam_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h3_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_l_section_beam_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h3_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_perforated_prism_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h1_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_perforated_prism_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h1_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_perforated_prism_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h1_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_perforated_prism_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h1_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_perforated_prism_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h2_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_perforated_prism_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h2_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_perforated_prism_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h2_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_perforated_prism_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h2_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_perforated_prism_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h3_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_perforated_prism_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h3_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_perforated_prism_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h3_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_perforated_prism_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h3_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_stepped_cantilever_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h1_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_stepped_cantilever_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h1_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_stepped_cantilever_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h1_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_stepped_cantilever_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h1_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_stepped_cantilever_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h2_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_stepped_cantilever_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h2_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_stepped_cantilever_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h2_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_stepped_cantilever_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h2_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_stepped_cantilever_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h3_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_stepped_cantilever_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h3_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_stepped_cantilever_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h3_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "hex8_stepped_cantilever_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h3_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_l_section_beam_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h1_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_l_section_beam_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h1_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_l_section_beam_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h1_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_l_section_beam_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h1_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_l_section_beam_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h2_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_l_section_beam_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h2_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_l_section_beam_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h2_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_l_section_beam_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h2_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_l_section_beam_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h3_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_l_section_beam_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h3_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_l_section_beam_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h3_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_l_section_beam_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h3_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_perforated_prism_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h1_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_perforated_prism_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h1_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_perforated_prism_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h1_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_perforated_prism_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h1_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_perforated_prism_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h2_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_perforated_prism_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h2_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_perforated_prism_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h2_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_perforated_prism_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h2_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_perforated_prism_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h3_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_perforated_prism_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h3_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_perforated_prism_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h3_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_perforated_prism_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h3_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_stepped_cantilever_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h1_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_stepped_cantilever_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h1_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_stepped_cantilever_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h1_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_stepped_cantilever_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h1_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_stepped_cantilever_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h2_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_stepped_cantilever_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h2_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_stepped_cantilever_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h2_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_stepped_cantilever_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h2_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_stepped_cantilever_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h3_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_stepped_cantilever_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h3_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_stepped_cantilever_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h3_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet10_stepped_cantilever_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h3_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_l_section_beam_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h1_axial_x\\\\process.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_l_section_beam_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h1_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_l_section_beam_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h1_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_l_section_beam_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h1_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_l_section_beam_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h2_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_l_section_beam_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h2_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_l_section_beam_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h2_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_l_section_beam_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h2_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_l_section_beam_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h3_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_l_section_beam_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h3_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_l_section_beam_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h3_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_l_section_beam_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h3_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_perforated_prism_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h1_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_perforated_prism_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h1_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_perforated_prism_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h1_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_perforated_prism_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h1_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_perforated_prism_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h2_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_perforated_prism_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h2_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_perforated_prism_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h2_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_perforated_prism_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h2_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_perforated_prism_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h3_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_perforated_prism_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h3_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_perforated_prism_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h3_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_perforated_prism_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h3_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_stepped_cantilever_h1_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h1_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_stepped_cantilever_h1_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h1_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_stepped_cantilever_h1_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h1_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_stepped_cantilever_h1_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h1_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_stepped_cantilever_h2_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h2_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_stepped_cantilever_h2_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h2_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_stepped_cantilever_h2_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h2_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_stepped_cantilever_h2_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h2_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_stepped_cantilever_h3_axial_x": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h3_axial_x\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_stepped_cantilever_h3_combined_xyz": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h3_combined_xyz\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_stepped_cantilever_h3_transverse_y": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h3_transverse_y\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    },
+    "tet4_stepped_cantilever_h3_transverse_z": {
+      "errors": [
+        "missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h3_transverse_z\\\\case.json'"
+      ],
+      "status": "FAIL_CLOSED"
+    }
+  },
+  "contract_sha256": "8cd36e25f82d3c25383d38c470792a1e4e2b219de40e3a978c1f3d8ff2377ad3",
+  "errors": [
+    "summary case coverage differs from frozen contract",
+    "tet4_l_section_beam_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h1_axial_x\\\\process.json'",
+    "tet4_l_section_beam_h1_axial_x: summary status differs from independent audit",
+    "tet4_l_section_beam_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h1_transverse_y\\\\case.json'",
+    "tet4_l_section_beam_h1_transverse_y: summary status differs from independent audit",
+    "tet4_l_section_beam_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h1_transverse_z\\\\case.json'",
+    "tet4_l_section_beam_h1_transverse_z: summary status differs from independent audit",
+    "tet4_l_section_beam_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h1_combined_xyz\\\\case.json'",
+    "tet4_l_section_beam_h1_combined_xyz: summary status differs from independent audit",
+    "tet4_l_section_beam_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h2_axial_x\\\\case.json'",
+    "tet4_l_section_beam_h2_axial_x: summary status differs from independent audit",
+    "tet4_l_section_beam_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h2_transverse_y\\\\case.json'",
+    "tet4_l_section_beam_h2_transverse_y: summary status differs from independent audit",
+    "tet4_l_section_beam_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h2_transverse_z\\\\case.json'",
+    "tet4_l_section_beam_h2_transverse_z: summary status differs from independent audit",
+    "tet4_l_section_beam_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h2_combined_xyz\\\\case.json'",
+    "tet4_l_section_beam_h2_combined_xyz: summary status differs from independent audit",
+    "tet4_l_section_beam_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h3_axial_x\\\\case.json'",
+    "tet4_l_section_beam_h3_axial_x: summary status differs from independent audit",
+    "tet4_l_section_beam_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h3_transverse_y\\\\case.json'",
+    "tet4_l_section_beam_h3_transverse_y: summary status differs from independent audit",
+    "tet4_l_section_beam_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h3_transverse_z\\\\case.json'",
+    "tet4_l_section_beam_h3_transverse_z: summary status differs from independent audit",
+    "tet4_l_section_beam_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_l_section_beam_h3_combined_xyz\\\\case.json'",
+    "tet4_l_section_beam_h3_combined_xyz: summary status differs from independent audit",
+    "tet4_perforated_prism_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h1_axial_x\\\\case.json'",
+    "tet4_perforated_prism_h1_axial_x: summary status differs from independent audit",
+    "tet4_perforated_prism_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h1_transverse_y\\\\case.json'",
+    "tet4_perforated_prism_h1_transverse_y: summary status differs from independent audit",
+    "tet4_perforated_prism_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h1_transverse_z\\\\case.json'",
+    "tet4_perforated_prism_h1_transverse_z: summary status differs from independent audit",
+    "tet4_perforated_prism_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h1_combined_xyz\\\\case.json'",
+    "tet4_perforated_prism_h1_combined_xyz: summary status differs from independent audit",
+    "tet4_perforated_prism_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h2_axial_x\\\\case.json'",
+    "tet4_perforated_prism_h2_axial_x: summary status differs from independent audit",
+    "tet4_perforated_prism_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h2_transverse_y\\\\case.json'",
+    "tet4_perforated_prism_h2_transverse_y: summary status differs from independent audit",
+    "tet4_perforated_prism_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h2_transverse_z\\\\case.json'",
+    "tet4_perforated_prism_h2_transverse_z: summary status differs from independent audit",
+    "tet4_perforated_prism_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h2_combined_xyz\\\\case.json'",
+    "tet4_perforated_prism_h2_combined_xyz: summary status differs from independent audit",
+    "tet4_perforated_prism_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h3_axial_x\\\\case.json'",
+    "tet4_perforated_prism_h3_axial_x: summary status differs from independent audit",
+    "tet4_perforated_prism_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h3_transverse_y\\\\case.json'",
+    "tet4_perforated_prism_h3_transverse_y: summary status differs from independent audit",
+    "tet4_perforated_prism_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h3_transverse_z\\\\case.json'",
+    "tet4_perforated_prism_h3_transverse_z: summary status differs from independent audit",
+    "tet4_perforated_prism_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_perforated_prism_h3_combined_xyz\\\\case.json'",
+    "tet4_perforated_prism_h3_combined_xyz: summary status differs from independent audit",
+    "tet4_stepped_cantilever_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h1_axial_x\\\\case.json'",
+    "tet4_stepped_cantilever_h1_axial_x: summary status differs from independent audit",
+    "tet4_stepped_cantilever_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h1_transverse_y\\\\case.json'",
+    "tet4_stepped_cantilever_h1_transverse_y: summary status differs from independent audit",
+    "tet4_stepped_cantilever_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h1_transverse_z\\\\case.json'",
+    "tet4_stepped_cantilever_h1_transverse_z: summary status differs from independent audit",
+    "tet4_stepped_cantilever_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h1_combined_xyz\\\\case.json'",
+    "tet4_stepped_cantilever_h1_combined_xyz: summary status differs from independent audit",
+    "tet4_stepped_cantilever_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h2_axial_x\\\\case.json'",
+    "tet4_stepped_cantilever_h2_axial_x: summary status differs from independent audit",
+    "tet4_stepped_cantilever_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h2_transverse_y\\\\case.json'",
+    "tet4_stepped_cantilever_h2_transverse_y: summary status differs from independent audit",
+    "tet4_stepped_cantilever_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h2_transverse_z\\\\case.json'",
+    "tet4_stepped_cantilever_h2_transverse_z: summary status differs from independent audit",
+    "tet4_stepped_cantilever_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h2_combined_xyz\\\\case.json'",
+    "tet4_stepped_cantilever_h2_combined_xyz: summary status differs from independent audit",
+    "tet4_stepped_cantilever_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h3_axial_x\\\\case.json'",
+    "tet4_stepped_cantilever_h3_axial_x: summary status differs from independent audit",
+    "tet4_stepped_cantilever_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h3_transverse_y\\\\case.json'",
+    "tet4_stepped_cantilever_h3_transverse_y: summary status differs from independent audit",
+    "tet4_stepped_cantilever_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h3_transverse_z\\\\case.json'",
+    "tet4_stepped_cantilever_h3_transverse_z: summary status differs from independent audit",
+    "tet4_stepped_cantilever_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet4_stepped_cantilever_h3_combined_xyz\\\\case.json'",
+    "tet4_stepped_cantilever_h3_combined_xyz: summary status differs from independent audit",
+    "hex8_l_section_beam_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h1_axial_x\\\\case.json'",
+    "hex8_l_section_beam_h1_axial_x: summary status differs from independent audit",
+    "hex8_l_section_beam_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h1_transverse_y\\\\case.json'",
+    "hex8_l_section_beam_h1_transverse_y: summary status differs from independent audit",
+    "hex8_l_section_beam_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h1_transverse_z\\\\case.json'",
+    "hex8_l_section_beam_h1_transverse_z: summary status differs from independent audit",
+    "hex8_l_section_beam_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h1_combined_xyz\\\\case.json'",
+    "hex8_l_section_beam_h1_combined_xyz: summary status differs from independent audit",
+    "hex8_l_section_beam_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h2_axial_x\\\\case.json'",
+    "hex8_l_section_beam_h2_axial_x: summary status differs from independent audit",
+    "hex8_l_section_beam_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h2_transverse_y\\\\case.json'",
+    "hex8_l_section_beam_h2_transverse_y: summary status differs from independent audit",
+    "hex8_l_section_beam_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h2_transverse_z\\\\case.json'",
+    "hex8_l_section_beam_h2_transverse_z: summary status differs from independent audit",
+    "hex8_l_section_beam_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h2_combined_xyz\\\\case.json'",
+    "hex8_l_section_beam_h2_combined_xyz: summary status differs from independent audit",
+    "hex8_l_section_beam_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h3_axial_x\\\\case.json'",
+    "hex8_l_section_beam_h3_axial_x: summary status differs from independent audit",
+    "hex8_l_section_beam_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h3_transverse_y\\\\case.json'",
+    "hex8_l_section_beam_h3_transverse_y: summary status differs from independent audit",
+    "hex8_l_section_beam_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h3_transverse_z\\\\case.json'",
+    "hex8_l_section_beam_h3_transverse_z: summary status differs from independent audit",
+    "hex8_l_section_beam_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_l_section_beam_h3_combined_xyz\\\\case.json'",
+    "hex8_l_section_beam_h3_combined_xyz: summary status differs from independent audit",
+    "hex8_perforated_prism_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h1_axial_x\\\\case.json'",
+    "hex8_perforated_prism_h1_axial_x: summary status differs from independent audit",
+    "hex8_perforated_prism_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h1_transverse_y\\\\case.json'",
+    "hex8_perforated_prism_h1_transverse_y: summary status differs from independent audit",
+    "hex8_perforated_prism_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h1_transverse_z\\\\case.json'",
+    "hex8_perforated_prism_h1_transverse_z: summary status differs from independent audit",
+    "hex8_perforated_prism_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h1_combined_xyz\\\\case.json'",
+    "hex8_perforated_prism_h1_combined_xyz: summary status differs from independent audit",
+    "hex8_perforated_prism_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h2_axial_x\\\\case.json'",
+    "hex8_perforated_prism_h2_axial_x: summary status differs from independent audit",
+    "hex8_perforated_prism_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h2_transverse_y\\\\case.json'",
+    "hex8_perforated_prism_h2_transverse_y: summary status differs from independent audit",
+    "hex8_perforated_prism_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h2_transverse_z\\\\case.json'",
+    "hex8_perforated_prism_h2_transverse_z: summary status differs from independent audit",
+    "hex8_perforated_prism_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h2_combined_xyz\\\\case.json'",
+    "hex8_perforated_prism_h2_combined_xyz: summary status differs from independent audit",
+    "hex8_perforated_prism_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h3_axial_x\\\\case.json'",
+    "hex8_perforated_prism_h3_axial_x: summary status differs from independent audit",
+    "hex8_perforated_prism_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h3_transverse_y\\\\case.json'",
+    "hex8_perforated_prism_h3_transverse_y: summary status differs from independent audit",
+    "hex8_perforated_prism_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h3_transverse_z\\\\case.json'",
+    "hex8_perforated_prism_h3_transverse_z: summary status differs from independent audit",
+    "hex8_perforated_prism_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_perforated_prism_h3_combined_xyz\\\\case.json'",
+    "hex8_perforated_prism_h3_combined_xyz: summary status differs from independent audit",
+    "hex8_stepped_cantilever_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h1_axial_x\\\\case.json'",
+    "hex8_stepped_cantilever_h1_axial_x: summary status differs from independent audit",
+    "hex8_stepped_cantilever_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h1_transverse_y\\\\case.json'",
+    "hex8_stepped_cantilever_h1_transverse_y: summary status differs from independent audit",
+    "hex8_stepped_cantilever_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h1_transverse_z\\\\case.json'",
+    "hex8_stepped_cantilever_h1_transverse_z: summary status differs from independent audit",
+    "hex8_stepped_cantilever_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h1_combined_xyz\\\\case.json'",
+    "hex8_stepped_cantilever_h1_combined_xyz: summary status differs from independent audit",
+    "hex8_stepped_cantilever_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h2_axial_x\\\\case.json'",
+    "hex8_stepped_cantilever_h2_axial_x: summary status differs from independent audit",
+    "hex8_stepped_cantilever_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h2_transverse_y\\\\case.json'",
+    "hex8_stepped_cantilever_h2_transverse_y: summary status differs from independent audit",
+    "hex8_stepped_cantilever_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h2_transverse_z\\\\case.json'",
+    "hex8_stepped_cantilever_h2_transverse_z: summary status differs from independent audit",
+    "hex8_stepped_cantilever_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h2_combined_xyz\\\\case.json'",
+    "hex8_stepped_cantilever_h2_combined_xyz: summary status differs from independent audit",
+    "hex8_stepped_cantilever_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h3_axial_x\\\\case.json'",
+    "hex8_stepped_cantilever_h3_axial_x: summary status differs from independent audit",
+    "hex8_stepped_cantilever_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h3_transverse_y\\\\case.json'",
+    "hex8_stepped_cantilever_h3_transverse_y: summary status differs from independent audit",
+    "hex8_stepped_cantilever_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h3_transverse_z\\\\case.json'",
+    "hex8_stepped_cantilever_h3_transverse_z: summary status differs from independent audit",
+    "hex8_stepped_cantilever_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex8_stepped_cantilever_h3_combined_xyz\\\\case.json'",
+    "hex8_stepped_cantilever_h3_combined_xyz: summary status differs from independent audit",
+    "tet10_l_section_beam_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h1_axial_x\\\\case.json'",
+    "tet10_l_section_beam_h1_axial_x: summary status differs from independent audit",
+    "tet10_l_section_beam_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h1_transverse_y\\\\case.json'",
+    "tet10_l_section_beam_h1_transverse_y: summary status differs from independent audit",
+    "tet10_l_section_beam_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h1_transverse_z\\\\case.json'",
+    "tet10_l_section_beam_h1_transverse_z: summary status differs from independent audit",
+    "tet10_l_section_beam_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h1_combined_xyz\\\\case.json'",
+    "tet10_l_section_beam_h1_combined_xyz: summary status differs from independent audit",
+    "tet10_l_section_beam_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h2_axial_x\\\\case.json'",
+    "tet10_l_section_beam_h2_axial_x: summary status differs from independent audit",
+    "tet10_l_section_beam_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h2_transverse_y\\\\case.json'",
+    "tet10_l_section_beam_h2_transverse_y: summary status differs from independent audit",
+    "tet10_l_section_beam_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h2_transverse_z\\\\case.json'",
+    "tet10_l_section_beam_h2_transverse_z: summary status differs from independent audit",
+    "tet10_l_section_beam_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h2_combined_xyz\\\\case.json'",
+    "tet10_l_section_beam_h2_combined_xyz: summary status differs from independent audit",
+    "tet10_l_section_beam_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h3_axial_x\\\\case.json'",
+    "tet10_l_section_beam_h3_axial_x: summary status differs from independent audit",
+    "tet10_l_section_beam_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h3_transverse_y\\\\case.json'",
+    "tet10_l_section_beam_h3_transverse_y: summary status differs from independent audit",
+    "tet10_l_section_beam_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h3_transverse_z\\\\case.json'",
+    "tet10_l_section_beam_h3_transverse_z: summary status differs from independent audit",
+    "tet10_l_section_beam_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_l_section_beam_h3_combined_xyz\\\\case.json'",
+    "tet10_l_section_beam_h3_combined_xyz: summary status differs from independent audit",
+    "tet10_perforated_prism_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h1_axial_x\\\\case.json'",
+    "tet10_perforated_prism_h1_axial_x: summary status differs from independent audit",
+    "tet10_perforated_prism_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h1_transverse_y\\\\case.json'",
+    "tet10_perforated_prism_h1_transverse_y: summary status differs from independent audit",
+    "tet10_perforated_prism_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h1_transverse_z\\\\case.json'",
+    "tet10_perforated_prism_h1_transverse_z: summary status differs from independent audit",
+    "tet10_perforated_prism_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h1_combined_xyz\\\\case.json'",
+    "tet10_perforated_prism_h1_combined_xyz: summary status differs from independent audit",
+    "tet10_perforated_prism_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h2_axial_x\\\\case.json'",
+    "tet10_perforated_prism_h2_axial_x: summary status differs from independent audit",
+    "tet10_perforated_prism_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h2_transverse_y\\\\case.json'",
+    "tet10_perforated_prism_h2_transverse_y: summary status differs from independent audit",
+    "tet10_perforated_prism_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h2_transverse_z\\\\case.json'",
+    "tet10_perforated_prism_h2_transverse_z: summary status differs from independent audit",
+    "tet10_perforated_prism_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h2_combined_xyz\\\\case.json'",
+    "tet10_perforated_prism_h2_combined_xyz: summary status differs from independent audit",
+    "tet10_perforated_prism_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h3_axial_x\\\\case.json'",
+    "tet10_perforated_prism_h3_axial_x: summary status differs from independent audit",
+    "tet10_perforated_prism_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h3_transverse_y\\\\case.json'",
+    "tet10_perforated_prism_h3_transverse_y: summary status differs from independent audit",
+    "tet10_perforated_prism_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h3_transverse_z\\\\case.json'",
+    "tet10_perforated_prism_h3_transverse_z: summary status differs from independent audit",
+    "tet10_perforated_prism_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_perforated_prism_h3_combined_xyz\\\\case.json'",
+    "tet10_perforated_prism_h3_combined_xyz: summary status differs from independent audit",
+    "tet10_stepped_cantilever_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h1_axial_x\\\\case.json'",
+    "tet10_stepped_cantilever_h1_axial_x: summary status differs from independent audit",
+    "tet10_stepped_cantilever_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h1_transverse_y\\\\case.json'",
+    "tet10_stepped_cantilever_h1_transverse_y: summary status differs from independent audit",
+    "tet10_stepped_cantilever_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h1_transverse_z\\\\case.json'",
+    "tet10_stepped_cantilever_h1_transverse_z: summary status differs from independent audit",
+    "tet10_stepped_cantilever_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h1_combined_xyz\\\\case.json'",
+    "tet10_stepped_cantilever_h1_combined_xyz: summary status differs from independent audit",
+    "tet10_stepped_cantilever_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h2_axial_x\\\\case.json'",
+    "tet10_stepped_cantilever_h2_axial_x: summary status differs from independent audit",
+    "tet10_stepped_cantilever_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h2_transverse_y\\\\case.json'",
+    "tet10_stepped_cantilever_h2_transverse_y: summary status differs from independent audit",
+    "tet10_stepped_cantilever_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h2_transverse_z\\\\case.json'",
+    "tet10_stepped_cantilever_h2_transverse_z: summary status differs from independent audit",
+    "tet10_stepped_cantilever_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h2_combined_xyz\\\\case.json'",
+    "tet10_stepped_cantilever_h2_combined_xyz: summary status differs from independent audit",
+    "tet10_stepped_cantilever_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h3_axial_x\\\\case.json'",
+    "tet10_stepped_cantilever_h3_axial_x: summary status differs from independent audit",
+    "tet10_stepped_cantilever_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h3_transverse_y\\\\case.json'",
+    "tet10_stepped_cantilever_h3_transverse_y: summary status differs from independent audit",
+    "tet10_stepped_cantilever_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h3_transverse_z\\\\case.json'",
+    "tet10_stepped_cantilever_h3_transverse_z: summary status differs from independent audit",
+    "tet10_stepped_cantilever_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\tet10_stepped_cantilever_h3_combined_xyz\\\\case.json'",
+    "tet10_stepped_cantilever_h3_combined_xyz: summary status differs from independent audit",
+    "hex20_l_section_beam_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h1_axial_x\\\\case.json'",
+    "hex20_l_section_beam_h1_axial_x: summary status differs from independent audit",
+    "hex20_l_section_beam_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h1_transverse_y\\\\case.json'",
+    "hex20_l_section_beam_h1_transverse_y: summary status differs from independent audit",
+    "hex20_l_section_beam_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h1_transverse_z\\\\case.json'",
+    "hex20_l_section_beam_h1_transverse_z: summary status differs from independent audit",
+    "hex20_l_section_beam_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h1_combined_xyz\\\\case.json'",
+    "hex20_l_section_beam_h1_combined_xyz: summary status differs from independent audit",
+    "hex20_l_section_beam_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h2_axial_x\\\\case.json'",
+    "hex20_l_section_beam_h2_axial_x: summary status differs from independent audit",
+    "hex20_l_section_beam_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h2_transverse_y\\\\case.json'",
+    "hex20_l_section_beam_h2_transverse_y: summary status differs from independent audit",
+    "hex20_l_section_beam_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h2_transverse_z\\\\case.json'",
+    "hex20_l_section_beam_h2_transverse_z: summary status differs from independent audit",
+    "hex20_l_section_beam_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h2_combined_xyz\\\\case.json'",
+    "hex20_l_section_beam_h2_combined_xyz: summary status differs from independent audit",
+    "hex20_l_section_beam_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h3_axial_x\\\\case.json'",
+    "hex20_l_section_beam_h3_axial_x: summary status differs from independent audit",
+    "hex20_l_section_beam_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h3_transverse_y\\\\case.json'",
+    "hex20_l_section_beam_h3_transverse_y: summary status differs from independent audit",
+    "hex20_l_section_beam_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h3_transverse_z\\\\case.json'",
+    "hex20_l_section_beam_h3_transverse_z: summary status differs from independent audit",
+    "hex20_l_section_beam_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_l_section_beam_h3_combined_xyz\\\\case.json'",
+    "hex20_l_section_beam_h3_combined_xyz: summary status differs from independent audit",
+    "hex20_perforated_prism_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h1_axial_x\\\\case.json'",
+    "hex20_perforated_prism_h1_axial_x: summary status differs from independent audit",
+    "hex20_perforated_prism_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h1_transverse_y\\\\case.json'",
+    "hex20_perforated_prism_h1_transverse_y: summary status differs from independent audit",
+    "hex20_perforated_prism_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h1_transverse_z\\\\case.json'",
+    "hex20_perforated_prism_h1_transverse_z: summary status differs from independent audit",
+    "hex20_perforated_prism_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h1_combined_xyz\\\\case.json'",
+    "hex20_perforated_prism_h1_combined_xyz: summary status differs from independent audit",
+    "hex20_perforated_prism_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h2_axial_x\\\\case.json'",
+    "hex20_perforated_prism_h2_axial_x: summary status differs from independent audit",
+    "hex20_perforated_prism_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h2_transverse_y\\\\case.json'",
+    "hex20_perforated_prism_h2_transverse_y: summary status differs from independent audit",
+    "hex20_perforated_prism_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h2_transverse_z\\\\case.json'",
+    "hex20_perforated_prism_h2_transverse_z: summary status differs from independent audit",
+    "hex20_perforated_prism_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h2_combined_xyz\\\\case.json'",
+    "hex20_perforated_prism_h2_combined_xyz: summary status differs from independent audit",
+    "hex20_perforated_prism_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h3_axial_x\\\\case.json'",
+    "hex20_perforated_prism_h3_axial_x: summary status differs from independent audit",
+    "hex20_perforated_prism_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h3_transverse_y\\\\case.json'",
+    "hex20_perforated_prism_h3_transverse_y: summary status differs from independent audit",
+    "hex20_perforated_prism_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h3_transverse_z\\\\case.json'",
+    "hex20_perforated_prism_h3_transverse_z: summary status differs from independent audit",
+    "hex20_perforated_prism_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_perforated_prism_h3_combined_xyz\\\\case.json'",
+    "hex20_perforated_prism_h3_combined_xyz: summary status differs from independent audit",
+    "hex20_stepped_cantilever_h1_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h1_axial_x\\\\case.json'",
+    "hex20_stepped_cantilever_h1_axial_x: summary status differs from independent audit",
+    "hex20_stepped_cantilever_h1_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h1_transverse_y\\\\case.json'",
+    "hex20_stepped_cantilever_h1_transverse_y: summary status differs from independent audit",
+    "hex20_stepped_cantilever_h1_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h1_transverse_z\\\\case.json'",
+    "hex20_stepped_cantilever_h1_transverse_z: summary status differs from independent audit",
+    "hex20_stepped_cantilever_h1_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h1_combined_xyz\\\\case.json'",
+    "hex20_stepped_cantilever_h1_combined_xyz: summary status differs from independent audit",
+    "hex20_stepped_cantilever_h2_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h2_axial_x\\\\case.json'",
+    "hex20_stepped_cantilever_h2_axial_x: summary status differs from independent audit",
+    "hex20_stepped_cantilever_h2_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h2_transverse_y\\\\case.json'",
+    "hex20_stepped_cantilever_h2_transverse_y: summary status differs from independent audit",
+    "hex20_stepped_cantilever_h2_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h2_transverse_z\\\\case.json'",
+    "hex20_stepped_cantilever_h2_transverse_z: summary status differs from independent audit",
+    "hex20_stepped_cantilever_h2_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h2_combined_xyz\\\\case.json'",
+    "hex20_stepped_cantilever_h2_combined_xyz: summary status differs from independent audit",
+    "hex20_stepped_cantilever_h3_axial_x: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h3_axial_x\\\\case.json'",
+    "hex20_stepped_cantilever_h3_axial_x: summary status differs from independent audit",
+    "hex20_stepped_cantilever_h3_transverse_y: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h3_transverse_y\\\\case.json'",
+    "hex20_stepped_cantilever_h3_transverse_y: summary status differs from independent audit",
+    "hex20_stepped_cantilever_h3_transverse_z: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h3_transverse_z\\\\case.json'",
+    "hex20_stepped_cantilever_h3_transverse_z: summary status differs from independent audit",
+    "hex20_stepped_cantilever_h3_combined_xyz: missing/invalid raw case evidence: FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\fari\\\\AppData\\\\Local\\\\Temp\\\\qf_solver_029_wp12_external_vv\\\\qualification\\\\0_2_9\\\\wp12_external_vv_r3_6_diverse_raw\\\\hex20_stepped_cantilever_h3_combined_xyz\\\\case.json'",
+    "hex20_stepped_cantilever_h3_combined_xyz: summary status differs from independent audit"
+  ],
+  "limitations": [
+    "bounded homogeneous isotropic 3D small-strain linear-static elasticity only",
+    "only TET4, HEX8, TET10, and HEX20; no wedge, pyramid, shell, or beam element family",
+    "three structured non-prismatic solid topologies: L-section, centered through-hole prism, and stepped cantilever",
+    "H1/H2/H3 refine only the longitudinal axis within each topology; no isotropic or asymptotic mesh-convergence claim",
+    "same discrete mesh, material, boundary conditions, and consistent nodal force vector are supplied to both solvers",
+    "same-mesh FEM correlation is not experimental validation or an independent physical benchmark",
+    "no stress-field comparison, material/geometric nonlinearity, contact, friction, dynamics, buckling, continuation, or MPI/PETSc claim",
+    "R3.6 is supplemental and does not supersede R3.5, prior failure history, Owner decisions, WP12 points, or the global ledger"
+  ],
+  "manifest_sha256": "6247a921134d9df9b4090e4e85a9fed060bd6bee59394d65f323a70baf463b58",
+  "official_points_changed": false,
+  "work_package": "WP12"
+}

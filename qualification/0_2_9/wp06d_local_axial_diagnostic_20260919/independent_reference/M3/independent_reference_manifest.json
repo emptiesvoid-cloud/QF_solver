@@ -1,0 +1,10 @@
+{
+  "algorithm": "sha256",
+  "files": {
+    "independent_reference_result.json": "3c6cb9b29bc1cea96e55c46f98d50b72f20cd5b9f8558ad97fad6ca0bf6d1b9e",
+    "scripts/wp06d_local_axial_independent_reference.py": "2f66e3bb1e23e78bb95426c09c8a773a1aed12d11a1b58ea400c93df296232d9",
+    "state_metrics.jsonl": "90d5f56f31c739cf18666d68d56f1d205e24bb56e3945feb843c5b5ec034065b"
+  },
+  "manifest_excludes_itself": true,
+  "schema_version": 1
+}

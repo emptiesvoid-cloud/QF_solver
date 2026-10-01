@@ -1,0 +1,32 @@
+{
+  "attempt_id": "r3_6_r2_preflight_builder_source_mismatch",
+  "audit_status": "FAIL_CLOSED_PREFLIGHT",
+  "branch": "codex/wp12-expanded-correlation",
+  "contract_path": "qualification/0_2_9/wp12_external_vv_r3_6_diverse_r2_contract.json",
+  "contract_commit_sha": "8e007e8a379e5e0359cc9f744515cfa5cbdd4b83",
+  "contract_sha256": "f09dc422e251c355c3f351bc219ce18745eade0199853d2a31e64b913fff5d64",
+  "runner_sha": "69dbcb8c887456e0e1686bed605a6e80189a3273",
+  "observed_at_utc": "2026-09-23T16:23:14Z",
+  "command": [
+    "python",
+    "scripts/run_wp12_diverse_code_aster.py",
+    "--contract",
+    "qualification/0_2_9/wp12_external_vv_r3_6_diverse_r2_contract.json"
+  ],
+  "process_exit_code": 1,
+  "failure": "CampaignError: Frozen contract_builder_sha differs from tracked source commit.",
+  "root_cause": "R3.6-R1/R2 preflight hard-coded the legacy R3.6 contract-builder path scripts/freeze_wp12_diverse_contract.py, while R2 correctly recorded scripts/freeze_wp12_diverse_r2_contract.py.",
+  "execution_boundary": {
+    "case_count": 144,
+    "cases_started": 0,
+    "code_aster_process_started": false,
+    "docker_runtime_probe_started": false,
+    "numerical_results_produced": 0,
+    "raw_output_created": false
+  },
+  "r2_raw_root": "qualification/0_2_9/wp12_external_vv_r3_6_diverse_r2_raw",
+  "r2_manifest_path": "qualification/0_2_9/wp12_external_vv_r3_6_diverse_r2_manifest.json",
+  "r2_audit_path": "qualification/0_2_9/wp12_external_vv_r3_6_diverse_r2_audit.json",
+  "historical_contract_modified": false,
+  "official_points_changed": false
+}

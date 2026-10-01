@@ -28,6 +28,7 @@ from solveur.core.nonlinear.controls import (
 from solveur.core.nonlinear.checkpoint import NonlinearCheckpointSession, NonlinearCheckpointStore
 from solveur.core.nonlinear.arc_length import NonlinearArcLengthMixin
 from solveur.core.nonlinear.load_control import NonlinearLoadControlMixin
+from solveur.core.nonlinear.state import NonlinearState
 from solveur.core.results import SolveResult
 from solveur.mesh.validation import MeshValidator
 from solveur.post.audit import PostProcessingAuditor
@@ -80,11 +81,12 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
             raise InputValidationError("analysis.load_path is not yet compatible with adaptive_load_steps.")
         if load_path is not None and model.analysis.method == "arc_length":
             raise InputValidationError("analysis.load_path is not compatible with arc_length.")
-        checkpoint_requested = any(key in params for key in ("checkpoint_path", "restart_from"))
-        if checkpoint_requested and adaptive:
-            raise InputValidationError("Nonlinear checkpoint/restart currently requires fixed load-control steps.")
         self._rejected_increments = 0
         self._rejection_log: list[dict[str, object]] = []
+        self._continuation_rejection_log: list[dict[str, object]] = []
+        self._continuation_commit_count = 0
+        self._adaptive_policy_diagnostics: dict[str, object] = {}
+        self._arc_radius_policy_diagnostics: dict[str, object] = {}
         reference_force_norm = max(float(np.linalg.norm(loads[free])), 1.0)
         arc_length_controls = (
             ArcLengthControls.from_parameters(params, max_iterations=max_iterations)
@@ -101,17 +103,24 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                 max(1, int(params.get("max_arc_steps", max(load_steps * 4, load_steps + 1)))),
                 self.checkpoint_store,
             )
-            displacement, material_states, continuation_state = checkpoint_session.restore_continuation(
-                displacement,
-                material_states,
-                float(params.get("target_load_factor", 1.0)),
-                float(
-                    params.get(
-                        "arc_length_load_factor_limit",
-                        max(abs(float(params.get("target_load_factor", 1.0))), 1.0),
-                    )
-                ),
+            target_factor = float(params.get("target_load_factor", 1.0))
+            load_factor_limit = float(
+                params.get(
+                    "arc_length_load_factor_limit",
+                    max(abs(target_factor), 1.0),
+                )
             )
+            restored = checkpoint_session.restore_state(
+                NonlinearState(
+                    displacement=displacement,
+                    load_factor=0.0,
+                    material_state=material_states,
+                ),
+                load_factor_limit=load_factor_limit,
+                require_continuation=checkpoint_session.settings.restart_from is not None,
+            )
+            displacement = restored.displacement.copy()
+            material_states = copy_material_states(restored.material_state)
             history = self._solve_arc_length(
                 model,
                 dofs,
@@ -124,10 +133,25 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                 tolerance,
                 linear_method,
                 checkpoint_session,
-                continuation_state,
                 arc_length_controls,
+                initial_state=restored,
             )
         elif adaptive:
+            checkpoint_session = NonlinearCheckpointSession.create(
+                model,
+                max(load_steps, 1),
+                self.checkpoint_store,
+            )
+            restored = checkpoint_session.restore_state(
+                NonlinearState(
+                    displacement=displacement,
+                    load_factor=0.0,
+                    material_state=material_states,
+                ),
+                allow_variable_step_count=True,
+            )
+            displacement = restored.displacement.copy()
+            material_states = copy_material_states(restored.material_state)
             history = self._solve_adaptive_load_steps(
                 model,
                 dofs,
@@ -142,13 +166,24 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                 min_alpha,
                 max_reductions,
                 armijo,
+                checkpoint_session=checkpoint_session,
+                initial_state=restored,
             )
         else:
             history = []
             factors = load_path or [step / load_steps for step in range(1, load_steps + 1)]
             checkpoint_session = NonlinearCheckpointSession.create(model, len(factors), self.checkpoint_store)
-            displacement, material_states = checkpoint_session.restore(displacement, material_states, factors)
-            previous_factor = 0.0 if checkpoint_session.restart_step == 0 else factors[checkpoint_session.restart_step - 1]
+            restored = checkpoint_session.restore_state(
+                NonlinearState(
+                    displacement=displacement,
+                    load_factor=0.0,
+                    material_state=material_states,
+                ),
+                load_factors=factors,
+            )
+            displacement = restored.displacement.copy()
+            material_states = copy_material_states(restored.material_state)
+            previous_factor = float(restored.load_factor)
             for step, load_factor in enumerate(
                 factors[checkpoint_session.restart_step :], start=checkpoint_session.restart_step + 1
             ):
@@ -177,7 +212,19 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                     )
                 )
                 previous_factor = load_factor
-                checkpoint_session.save(step, load_factor, displacement, material_states)
+                accepted_state = self._last_load_step_state
+                if accepted_state is None:
+                    raise InputValidationError("Unified nonlinear load step did not expose an accepted state.")
+                accepted_state.accepted_increment_metadata = {
+                    "step": step,
+                    "load_increment": float(history[-1].load_increment),
+                    "load_control": "fixed",
+                }
+                checkpoint_session.save_state(
+                    step,
+                    accepted_state,
+                    final=step == len(factors),
+                )
             completed_factors = list(factors)
 
         element_results = self.post.element_results(model, dofs, displacement, material_states)
@@ -273,9 +320,17 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                 "history_is_partial": bool(checkpoint_session and checkpoint_session.restart_step > 0),
                 "checkpoint_path": checkpoint_session.settings.path if checkpoint_session else None,
                 "checkpoint_files": checkpoint_session.files if checkpoint_session else [],
-                "checkpoint_model_signature": checkpoint_session.signature if checkpoint_session else "",
+                "checkpoint_model_signature": (
+                    checkpoint_session.persisted_signature or checkpoint_session.signature
+                    if checkpoint_session
+                    else ""
+                ),
                 "rejected_increments": self._rejected_increments,
                 "rejection_log": list(self._rejection_log),
+                "continuation_rejection_log": list(self._continuation_rejection_log),
+                "continuation_commit_count": self._continuation_commit_count,
+                "adaptive_policy": dict(self._adaptive_policy_diagnostics),
+                "arc_radius_policy": dict(self._arc_radius_policy_diagnostics),
                 "load_assembly": dict(self.assembler.last_load_diagnostics),
                 "steps": [item.to_dict() for item in history],
             },
@@ -306,10 +361,10 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
         kinematics = str(params.get("kinematics", "small_strain")).lower()
         if kinematics == "small_strain":
             return
-        if kinematics not in {"total_lagrangian", "total_lagrangian_j2"}:
+        if kinematics not in {"total_lagrangian", "total_lagrangian_j2", "corotational_j2"}:
             raise InputValidationError(
                 "nonlinear_static kinematics must be 'small_strain', 'total_lagrangian' "
-                "or 'total_lagrangian_j2'."
+                "'total_lagrangian_j2' or 'corotational_j2'."
             )
         if model.analysis.method == "modified_newton":
             raise InputValidationError(
@@ -331,7 +386,7 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
         }
         expected_material = (
             "von_mises_elastoplastic_3d"
-            if kinematics == "total_lagrangian_j2"
+            if kinematics in {"total_lagrangian_j2", "corotational_j2"}
             else "isotropic_3d"
         )
         if material_types != {expected_material}:

@@ -201,9 +201,7 @@ def _parse_spring(item: dict[str, Any]) -> SpringDefinition:
         stiffness=tuple(tuple(float(value) for value in row) for row in matrix),
         coordinate_system=str(item.get("coordinate_system", "global")).lower(),
         orientation=(
-            tuple(tuple(float(value) for value in row) for row in orientation)
-            if orientation is not None
-            else None
+            tuple(tuple(float(value) for value in row) for row in orientation) if orientation is not None else None
         ),
     )
 
@@ -214,11 +212,7 @@ def _parse_mass(item: dict[str, Any]) -> ConcentratedMass:
         node=int(item["node"]),
         mass=float(item["mass"]),
         center_of_mass=tuple(float(value) for value in item.get("center_of_mass", (0.0, 0.0, 0.0))),
-        inertia=(
-            tuple(tuple(float(value) for value in row) for row in inertia)
-            if inertia is not None
-            else None
-        ),
+        inertia=(tuple(tuple(float(value) for value in row) for row in inertia) if inertia is not None else None),
     )
 
 
@@ -284,15 +278,32 @@ def _parse_contact(item: dict[str, Any]) -> FrictionlessContact:
             raise InputValidationError("A frictionless contact needs exactly three master nodes.")
         raw_master_nodes = (raw_master[0], raw_master[1], raw_master[2])
         parsed_faces = None
+    raw_slave_faces = item.get("slave_patch_faces")
+    if raw_slave_faces is not None:
+        if not isinstance(raw_slave_faces, list) or not raw_slave_faces:
+            raise InputValidationError("A contact slave patch needs one or more triangular faces.")
+        parsed_slave_faces = tuple(
+            (int(face[0]), int(face[1]), int(face[2]))
+            for face in raw_slave_faces
+            if isinstance(face, list) and len(face) == 3
+        )
+        if len(parsed_slave_faces) != len(raw_slave_faces):
+            raise InputValidationError("A contact slave patch needs one or more triangular faces.")
+        if parsed_slave_nodes is None:
+            raise InputValidationError("slave_patch_faces requires an explicit slave_nodes patch.")
+    else:
+        parsed_slave_faces = None
     return FrictionlessContact(
         slave_node=raw_slave_node,
         master_nodes=(raw_master_nodes[0], raw_master_nodes[1], raw_master_nodes[2]),
         master_faces=parsed_faces,
         slave_patch_nodes=parsed_slave_nodes,
+        slave_patch_faces=parsed_slave_faces,
         name=str(item.get("name", "")),
         gap_tolerance=float(item.get("gap_tolerance", 1.0e-10)),
         friction_coefficient=float(item.get("friction_coefficient", 0.0)),
         tangential_stiffness=(
             float(item["tangential_stiffness"]) if item.get("tangential_stiffness") is not None else None
         ),
+        tangential_stiffness_mode=str(item.get("tangential_stiffness_mode", "nodal")),
     )

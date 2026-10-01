@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "execution_sha": "1bc884e927fb2a7d554da53bc3953d5719bd4914",
+  "files": [
+    {
+      "path": "hex8_1x1x1.json",
+      "sha256": "08b458bb153cd67d38daac6be2b8d0392407c3bc495528627c199288308a0fcc",
+      "bytes": 303196
+    },
+    {
+      "path": "hex8_2x2x2.json",
+      "sha256": "32d9f854a5dbe29beb1253e0de661d94fdeec0ef31d9c9b0310e5e971eb2a9df",
+      "bytes": 2169619
+    },
+    {
+      "path": "hex8_4x4x4.json",
+      "sha256": "1f23f830e6541432ec8d10d5eb4d6767cb5769fc691f1c3b05995e21408e3fea",
+      "bytes": 17096325
+    },
+    {
+      "path": "summary.json",
+      "sha256": "e8b028ea3062363f97189ec59b5968f0e4c9b3665c36074047ff05d2eaf3a12d",
+      "bytes": 25436313
+    },
+    {
+      "path": "tet4_1x1x1.json",
+      "sha256": "b48d04f7a01977c43e3495fcf01f2c2b3697939d90a2a33c2949e9cc4364e30d",
+      "bytes": 325961
+    },
+    {
+      "path": "tet4_2x2x2.json",
+      "sha256": "2e5f2cb1d3277a88772608f216c5b471c1fef376e852329701f79e8ce3ed277d",
+      "bytes": 23932
+    },
+    {
+      "path": "tet4_4x4x4.json",
+      "sha256": "464e78993cfc02727cdb9868c26abccc2ef0e751753b2293fd93b25c5fc4eaac",
+      "bytes": 173315
+    }
+  ]
+}

@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
 from scipy.sparse import csr_matrix
 
 from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear_contracts import NonlinearFailureReason
 from solveur.core.nonlinear_iteration import solve_arc_length_correction
 from solveur.core.nonlinear_iteration import solve_full_newton
+from solveur.core.nonlinear.robustness import NonlinearRobustnessOptions
 
 
 def test_arc_length_correction_preserves_sparse_augmented_system(monkeypatch) -> None:
@@ -55,6 +57,39 @@ def test_full_newton_failure_contains_convergence_history() -> None:
         assert error.diagnostics["tolerance"] == 1.0e-8
     else:
         raise AssertionError("singular Full Newton tangent must be reported")
+
+
+def test_full_newton_stagnation_reports_configured_iterative_backend() -> None:
+    class StagnatingAssembly:
+        ndof = 2
+
+        def assemble(self, displacement, *, tangent_required=True):
+            # The correction is well-defined but this deliberately controlled
+            # assembly never changes its residual, so the robustness policy
+            # terminates with deterministic stagnation after prior MINRES work.
+            return np.zeros(2), csr_matrix(np.eye(2))
+
+    options = NonlinearRobustnessOptions(
+        linear_solver="minres",
+        linear_preconditioner="jacobi",
+        linear_rtol=1.0e-11,
+        linear_atol=1.0e-14,
+        linear_direct_fallback=False,
+        line_search="off",
+    )
+    with pytest.raises(NumericalConvergenceError) as error:
+        solve_full_newton(
+            StagnatingAssembly(),
+            np.array([1.0, 0.0]),
+            np.array([1]),
+            increments=1,
+            tolerance=1.0e-10,
+            max_iterations=10,
+            robustness_options=options,
+        )
+
+    assert error.value.reason is NonlinearFailureReason.CONVERGENCE_STAGNATION
+    assert error.value.diagnostics["backend"] == "scipy.sparse.linalg.minres"
 
 
 def test_full_newton_success_exports_line_search_diagnostics() -> None:

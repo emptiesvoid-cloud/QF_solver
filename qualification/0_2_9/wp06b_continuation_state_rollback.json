@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0.2.9-WP06B-STATE-001",
+  "work_package": "WP06-B",
+  "phase": "CONTINUATION_STATE_ROLLBACK",
+  "status": "TECHNICAL_CANDIDATE",
+  "branch": "0.2.9-wp06-prep",
+  "baseline_sha": "03166e98a9a0b8cc7978c7ad2a370e441aefdc1e",
+  "source_repository": "emptiesvoid-cloud/QF_solver",
+  "formal_points": "0/1",
+  "state_owner": "NonlinearState plus UnifiedContinuationController",
+  "state_schema": {
+    "mechanical": [
+      "displacement",
+      "material_state",
+      "contact_state"
+    ],
+    "continuation": [
+      "load_factor",
+      "accepted_step",
+      "radius",
+      "maximum_radius",
+      "load_scale",
+      "previous_du",
+      "previous_dlambda",
+      "target_load_factor",
+      "stop_mode",
+      "allow_load_factor_turning",
+      "control_dof"
+    ],
+    "trial_local": [
+      "delta_u_step",
+      "delta_lambda"
+    ],
+    "accepted_metadata": [
+      "step",
+      "arc_length_radius",
+      "accepted_radius_for_next_trial",
+      "accepted_load_factor"
+    ],
+    "rejection_metadata": [
+      "accepted_digest_before",
+      "accepted_digest_after",
+      "accepted_component_digests_before",
+      "accepted_component_digests_after",
+      "accepted_load_factor_before",
+      "accepted_load_factor_after",
+      "accepted_continuation_before",
+      "accepted_continuation_after",
+      "rollback_before_retry"
+    ]
+  },
+  "transaction_semantics": {
+    "accepted_state": "detached composite snapshot",
+    "begin_trial": "detached copy of the complete accepted state",
+    "trial_mutation": "allowed only on the trial",
+    "commit": "validate and atomically publish the complete replacement",
+    "reject": "discard trial after accepted composite digest verification",
+    "partial_rollback": false,
+    "accepted_state_mutation_detection": true
+  },
+  "rollback_contract": {
+    "mechanical_state": "displacement, material_state and contact_state slot preserved",
+    "continuation_state": "load factor, radius payload, load scale, previous direction and policy compatibility fields preserved",
+    "digest_rule": "accepted composite and component digests before and after rollback must match",
+    "retry_order": "controller.rollback before UnifiedArcLengthRadiusPolicy.on_failure",
+    "radius_semantics": "retry radius is a next-trial policy value, not accepted state until a later physical commit",
+    "checkpoint_semantics": "save after physical acceptance; checkpoint failure does not trigger physical rollback"
+  },
+  "restart_contract": {
+    "classification": "PARTIAL_RESTART_STATE",
+    "schema": "NonlinearCheckpointV2",
+    "restoration": "detached accepted state validated before caller-owned installation",
+    "validated_fields": [
+      "accepted step",
+      "load factor",
+      "radius ordering",
+      "load scale",
+      "previous displacement direction shape and finiteness",
+      "previous load-factor increment",
+      "target/stop/turning/control compatibility"
+    ],
+    "v1_read_v2_write": "BOUNDED",
+    "stateful_friction_restart": "NOT_CLAIMED",
+    "branch_switching_restart": "NOT_CLAIMED",
+    "structural_suffix_qualification": "MISSING",
+    "cross_process_or_mpi_ordering": "NOT_CLAIMED"
+  },
+  "failure_controls": {
+    "nan_load_factor": "state validation rejects before transaction installation",
+    "nan_or_inf_continuation": "state validation rejects",
+    "nonpositive_or_nonfinite_radius": "controls or route validation rejects",
+    "nonfinite_reduced_linear_input": "typed NAN_DETECTED from nonlinear adapter",
+    "singular_augmented_system": "typed ARC_LENGTH_FAILURE",
+    "nonfinite_augmented_correction": "typed ARC_LENGTH_FAILURE",
+    "typed_trial_failure": "rollback, digest check, then frozen retry classification",
+    "rollback_digest_mismatch": "STATE_CORRUPTION; no silent retry"
+  },
+  "telemetry_metadata": [
+    "analysis and route identity",
+    "step and iteration",
+    "load_factor and delta_lambda",
+    "delta_u summary",
+    "radius and load_scale",
+    "predictor sign and branch direction",
+    "direction alignment",
+    "constraint_residual",
+    "residual history",
+    "accepted/rejected status",
+    "retry count and failure reason",
+    "accepted and rollback digests",
+    "checkpoint status"
+  ],
+  "technical_evidence": {
+    "existing_focus": [
+      "tests/unit/test_wp01_d_continuation.py",
+      "tests/unit/test_wp02_d_arc_length_restart.py",
+      "tests/unit/test_wp02_d1_arc_length_material_state.py",
+      "tests/unit/test_wp03_d_arc_radius_policy.py"
+    ],
+    "new_focus": [
+      "tests/unit/test_wp06_ab_arc_length_contract.py"
+    ],
+    "structural_restart_campaign_run": false,
+    "external_solver_run": false,
+    "full_suite_run": false
+  },
+  "validation": {
+    "targeted_tests": {
+      "status": "PASS",
+      "passed": 113,
+      "failed": 0,
+      "scope": "WP06-A/B contract tests plus lightweight arc-length, restart, material-state, radius-policy and TET4 postbuckling unit tests"
+    },
+    "ruff": "PASS",
+    "mypy": "PRE_EXISTING_DIAGNOSTICS",
+    "compileall": "PASS",
+    "json_validation": "PASS",
+    "document_registry": "PASS_SCOPED",
+    "official_document_generation_test": "SKIPPED",
+    "full_test_suite": "SKIPPED_BY_POLICY"
+  },
+  "public_claim_boundary": [
+    "accepted-state transaction and rollback foundations are bounded",
+    "restart state is partial pending structural suffix evidence",
+    "no stateful friction restart claim",
+    "no branch-switching or bifurcation restart claim",
+    "no external or distributed restart qualification"
+  ],
+  "governance": {
+    "production_mechanics_changed": false,
+    "maturity_changed": false,
+    "validated_total": "29/100",
+    "owner_review_required": true
+  }
+}

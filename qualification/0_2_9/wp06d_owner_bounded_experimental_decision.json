@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "decision_id": "OD-029-WP06-D-EXP-01",
+  "decision_date": "2026-09-19",
+  "status": "CLOSED_OWNER_ACCEPTED_EXPERIMENTAL_WITH_LIMITATIONS",
+  "owner_accepts_wp06d_experimental_bounded": true,
+  "owner_awards_wp06d_formal_points": "0/2",
+  "wp06d_status": "EXPERIMENTAL_BOUNDED_ACCEPTED",
+  "wp06e_status": "BLOCKED_FORMAL_D_DEPENDENCY",
+  "wp06f_status": "BLOCKED_FORMAL_D_AND_E_DEPENDENCY",
+  "wp06_points_before": "4/8",
+  "wp06_points_after": "4/8",
+  "global_official_total_before": "70/100",
+  "global_official_total_after": "70/100",
+  "historical_failures_preserved": true,
+  "production_mechanics_changed": false,
+  "thresholds_changed": false,
+  "formal_limit_point_claim": false,
+  "independent_nonlinear_path_solve": false,
+  "production_solver_replay": false,
+  "transverse_mesh_convergence_claim": false,
+  "limitations": [
+    "Experimental bounded continuation only.",
+    "No limit point detected in the 160-state path.",
+    "No formal postbuckling or bifurcation claim.",
+    "Local axial refinement only; transverse section remains 4x4.",
+    "No independent nonlinear path solve or second production FEM replay."
+  ],
+  "evidence": [
+    "docs/verification/0_2_9/wp06d-local-axial-diagnostic-requalification.md",
+    "docs/verification/0_2_9/wp06d-owner-bounded-experimental-decision.md",
+    "qualification/0_2_9/wp06d_local_axial_diagnostic_20260919/wp06d_local_axial_requalification_summary.json",
+    "qualification/0_2_9/wp06d_local_axial_diagnostic_20260919/evidence_replay.json"
+  ],
+  "next_action": "Future formal postbuckling work requires a separately frozen Owner-approved contract."
+}

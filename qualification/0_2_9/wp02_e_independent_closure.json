@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP02-E-INDEPENDENT-CLOSURE-001",
+  "work_package": "WP02-E",
+  "audit_sha": "c4e02fbd2d1262f621f6c8d4f07ee2da89d885f5",
+  "status": "CLOSED_GO_WITH_LIMITATIONS",
+  "auditor_decision": "GO_WITH_LIMITATIONS",
+  "wp02_score": 6,
+  "validated_total": 22,
+  "production_source_changed": false,
+  "owner_decisions": {
+    "OD-029-01": "OPEN; blocks WP09 only.",
+    "OD-029-02": "CLOSED; READ_V1_WRITE_V2_BOUNDED."
+  },
+  "authority_audit": {
+    "public_accepted_state_authorities": 1,
+    "public_checkpoint_authorities": 1,
+    "authoritative_runtime": "NonlinearStateTransaction through UnifiedNewtonEngine or UnifiedContinuationController.",
+    "authoritative_persistence": "NonlinearCheckpointSession.save_state / restore_state with NonlinearCheckpointV2.",
+    "legacy_helpers": "restore, restore_continuation and save are compatibility delegates; MaterialStateSession and StateTransaction are not public nonlinear checkpoint authorities.",
+    "active_set_boundary": "Frictionless/frictional active-set loops remain linear-static or research compatibility. Public nonlinear routes require penalty contact.",
+    "hidden_commit_path_found": false,
+    "partial_commit_possible": false,
+    "trial_state_persistence_paths": "NONE"
+  },
+  "adversarial_results": {
+    "rollback_digest_exact": true,
+    "failed_retry_state_leak": false,
+    "deterministic_serialization": "PASS",
+    "component_digest_validation": "PASS",
+    "composite_digest_validation": "PASS",
+    "partial_restore_possible": false,
+    "schema_v2_complete": "PASS",
+    "model_signature_and_topology": "PASS",
+    "checkpoint_failure_physical_retry": false,
+    "atomic_canonical_preservation": "PASS; atomic visibility is proven, while filesystem durability remains bounded by supported platform fsync capabilities.",
+    "material_state_alias_defect": "CLOSED by WP02-D1 and independently rechecked."
+  },
+  "compatibility": {
+    "contact_free_v1": "PASS",
+    "stateless_compatible_penalty_contact_v1": "PASS_BOUNDED",
+    "ambiguous_or_stateful_contact_v1": "REJECTED",
+    "complete_arc_v1": "PASS_BOUNDED",
+    "incomplete_arc_v1": "REJECTED",
+    "resumed_v1_writes": "SCHEMA_V2_ONLY"
+  },
+  "independent_replay": {
+    "fixed_restart": "PASS",
+    "adaptive_restart": "PASS",
+    "arc_monotonic_restart": "PASS",
+    "arc_turning_restart": "PASS",
+    "arc_rejection_radius_restart": "PASS",
+    "path_dependent_material_identity": "PASS; controller, caller, post-processing, final assembly and accepted checkpoint agree at the same accepted state.",
+    "thresholds": {
+      "physical": {"relative": 1e-9, "absolute_floor": 1e-12},
+      "persisted_state": "exact component/composite digest equality"
+    }
+  },
+  "gates": {
+    "G02-01": "PASS",
+    "G02-02": "PASS",
+    "G02-03": "PASS_WITH_LIMITATIONS",
+    "G02-04": "PASS_WITH_LIMITATIONS",
+    "G02-05": "PASS",
+    "G02-06": "PASS",
+    "G02-07": "PASS_WITH_LIMITATIONS",
+    "G02-08": "PASS",
+    "G02-09": "PASS",
+    "G02-10": "PASS_WITH_LIMITATIONS"
+  },
+  "tests": {
+    "independent_runtime_probe": "PASS: deterministic mixed-payload serialization; invalid atomic commit; fixed, adaptive and arc restart replay.",
+    "wp02_b": "28 passed",
+    "wp02_c": "25 passed",
+    "wp02_d": "28 passed",
+    "wp02_d1": "10 passed",
+    "checkpoint": "10 passed",
+    "continuation": "22 passed",
+    "failure": "21 passed",
+    "j2_geometric_contact": "39 passed",
+    "step_up_baseline_guard": "PREEXISTING_STALE_GUARD: 2 assertions fail because the guard excludes pre-existing WP02-D/D1 pages and still freezes 16/100; it is not modified by this audit.",
+    "full_suite_run": false
+  },
+  "limitations": [
+    "No frictional-contact restart qualification.",
+    "No distributed PETSc/MPI or nonlinear-dynamics restart claim.",
+    "Adaptive penalty-contact qualification remains future work.",
+    "Schema-v1 migration remains deliberately bounded by OD-029-02.",
+    "Fifteen inherited mypy diagnostics remain; the audit introduces no new diagnostic.",
+    "The legacy step-up documentation guard is stale before this audit and requires a separate documentary-guard maintenance task."
+  ],
+  "closure_boundary": "WP02 is closed at 6/6. Owner review of this independent closure remains required before WP03 authorization."
+}

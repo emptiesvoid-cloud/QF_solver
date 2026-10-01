@@ -1,0 +1,37 @@
+{
+  "artifact_id": "QF-029-WP07-E-NEG-04-UNSUPPORTED_COMBINATION",
+  "binding_file_sha256": "892f2de802551107337f3e0eddbcce68294e15aad5080fa1c64b945710e95cec",
+  "case": "unsupported_combination",
+  "configuration": {
+    "frozen_contract_revision": "R2_D_R1_EVIDENCE_BINDING",
+    "mechanical_parameters_changed": false,
+    "scenario": "unsupported_combination"
+  },
+  "contract_file_sha256": "2a6292b3c90a645c752ad388f0c62dc6aa735d1e42225a3dd96333c1bbafcd88",
+  "environment": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.1"
+  },
+  "execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+  "expected_classifications": [
+    "UNSUPPORTED_EXPLICIT"
+  ],
+  "gate": "WP07",
+  "logs": [
+    "InputValidationError: geometric_nonlinear_static currently supports frictionless contact only."
+  ],
+  "observed_classification": "UNSUPPORTED_EXPLICIT",
+  "raw_result": {
+    "exception_type": "InputValidationError",
+    "message": "geometric_nonlinear_static currently supports frictionless contact only."
+  },
+  "runner_commit_sha": "f0a891e6b0bce514f1d0662e5b9d1dfd99f80f3d",
+  "runner_source_path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/scripts/run_wp07e_negative_cases_r2.py",
+  "runner_source_sha256": "578130ebade5ff4054c1b7f48effb775265046d3b62b2db8fff0cb268e92e730",
+  "schema_version": 1,
+  "source_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+  "status": "PASS",
+  "tested_source_root": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07_local_refinement",
+  "timestamp_utc": "2026-09-17T21:19:47.907638+00:00",
+  "work_package": "WP07-E"
+}

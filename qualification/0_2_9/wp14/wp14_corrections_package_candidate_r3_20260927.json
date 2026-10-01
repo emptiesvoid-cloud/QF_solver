@@ -1,0 +1,289 @@
+{
+  "schema_version": 1,
+  "record_type": "WP14_CORRECTIONS_AND_SELECTED_PACKAGE_R3_HANDOFF",
+  "status": "PASS_CANDIDATE_PACKAGE_ONLY_WP14_HOLD",
+  "provenance": {
+    "branch": "codex/wp14-remediation-clean",
+    "authorized_baseline_sha": "0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba",
+    "remediation_source_sha": "074f6d14e1a2f7503892552bc492e8ed10ecd50a",
+    "package_execution_sha": "d6a7a52bc46495107aba77f28335097af4ed6e92",
+    "contract": "qualification/0_2_9/wp14/wp14_public_package_candidate_20260927_r3_contract.json",
+    "contract_sha256": "a65e9b354c322ca83477b38ad57a1dc71a8087c0d61fba83466e608146e8e283",
+    "source_and_tools_prospectively_frozen": true,
+    "clean_checkout_precheck": "ENFORCED_BY_HASH_BOUND_FROZEN_INPUTS_GUARD",
+    "evidence_commit_sha": "Resolve with git log -1 --format=%H -- this report path; do not confuse this later evidence commit with the executed source.",
+    "original_workspace_modified": false,
+    "git_history_rewritten": false
+  },
+  "corrections": [
+    "Added fail-closed immutable source selection, wheel/sdist content verification and installed-byte probes.",
+    "Fixed setuptools coverage of the four nested HEX8 example mesh JSON files; no runtime dataset is silently dropped.",
+    "Fixed probe dependency visibility with explicit safe-path mode and exact QF source origin/hash checks; dependency sites remain a limitation.",
+    "Preserved R1 content failure and R2 tooling failure in distinct external archives and compact versioned failure records.",
+    "Retained the prior lint, analyzer vocabulary, advisory maintainability and accepted WP04-C lineage corrections."
+  ],
+  "package": {
+    "status": "PASS_CANDIDATE_PACKAGE_ONLY",
+    "version": "0.2.8",
+    "selected_files": 551,
+    "verified_installed_source_files": 473,
+    "strict_source_wheel_sdist_findings": 0,
+    "missing_selected_archive_files": 0,
+    "unexpected_archive_files": 0,
+    "wheel": {
+      "bytes": 1509827,
+      "sha256": "50693a92f1c852a7a443f22e5cc4b09fb882eb928329a614bd8f92607f9bad1b"
+    },
+    "sdist": {
+      "bytes": 1137784,
+      "sha256": "0926e4073f9d9a5ab0bdb8f2ee6e4fb4ea27417ed8baaf58738bcaed059e8d9d"
+    },
+    "three_installed_cli_versions": "PASS",
+    "cli_help": "PASS",
+    "outside_checkout_probe": {
+      "status": "PASS",
+      "pid": 43604,
+      "verify_all_exit": 2,
+      "report_created": false,
+      "python_subprocess_audit_events": 0
+    },
+    "inside_checkout_probe": {
+      "status": "PASS",
+      "pid": 17532,
+      "verify_all_exit": 2,
+      "report_created": false,
+      "python_subprocess_audit_events": 0
+    },
+    "actual_commands": 9,
+    "all_command_exit_codes_zero": true,
+    "manifest_bound_files": 26,
+    "manifest_mismatches": 0,
+    "archive_root_environment": "QF_SOLVER_EVIDENCE_ARCHIVE_ROOT",
+    "archive_subdirectory": "0_2_9/wp14/package_candidate_20260927_r3",
+    "raw_records": [
+      {
+        "path": "manifest.json",
+        "bytes": 4112,
+        "sha256": "e2cf9a83b96f80884bd05e0621db26ce2152df460ef7b1f395d3aa15570cb130"
+      },
+      {
+        "path": "result.json",
+        "bytes": 15950,
+        "sha256": "f0de4bd765ff80da80f19e4e7e39ae4abce02fad2f1867616af5fbfa9c1ca682"
+      },
+      {
+        "path": "source_mapping.json",
+        "bytes": 136105,
+        "sha256": "83074b7e6c3dba52884bb0f141138a8bb57608b58b3d2cd6f7c02fb3df00e359"
+      },
+      {
+        "path": "commands.json",
+        "bytes": 9397,
+        "sha256": "c466a83ba6bdf98b394b1271ccb00f338a559c7567fa4069ad0afcc556c5f618"
+      },
+      {
+        "path": "package_check.json",
+        "bytes": 713,
+        "sha256": "1816cf555a84031876fb806113521e86e039d5f7338d07ecb277cdf32e805e85"
+      },
+      {
+        "path": "outside_checkout_probe.json",
+        "bytes": 6550,
+        "sha256": "66b167c1342ab51e65f9ab946899a84861e0f50f66c387ec8b9bbd616607f7d3"
+      },
+      {
+        "path": "inside_checkout_probe.json",
+        "bytes": 6502,
+        "sha256": "05c46d2abd6b4f9e568a5f725f7ec06c0caf3d976aad56928b117cc68570466d"
+      }
+    ],
+    "limitations": [
+      "Candidate package only; no release 0.2.9, tag, upload, governing merge/push or point attribution.",
+      "The whole engineering repository and Git history remain outside this selected publication decision; their historical strict-scan failures remain open.",
+      "Selected public documentation is limited to the included README, changelog, citation and selected qualification metadata; the excluded full documentation collection is not certified.",
+      "System and user dependency sites are allowed; all QF loaded module origins and installed byte hashes must still be verified. This is not full dependency isolation.",
+      "Python audit hooks are not a system-wide OS subprocess trace.",
+      "Build uses installed build dependencies with --no-isolation; actual runtime versions must be recorded.",
+      "No numerical solve, mesh refinement, independent FEM comparison or historical raw recovery is performed by this package campaign.",
+      "No existing output directory may be reused; failed attempts and all earlier raw evidence remain intact."
+    ],
+    "cli_coverage": "Version/help and verify-all boundary checks only; not exhaustive verification of every public CLI command."
+  },
+  "validation": {
+    "execution_sha": "d6a7a52bc46495107aba77f28335097af4ed6e92",
+    "targeted_tests": 229,
+    "failures": 0,
+    "errors": 0,
+    "warnings": 1,
+    "pytest_reported_seconds": 31.04,
+    "ruff": "PASS_SRC_TESTS_SCRIPTS",
+    "mypy": "PASS_TWO_PACKAGE_TOOL_FILES_NOT_GLOBAL",
+    "compileall": "PASS_SRC_SCRIPTS_TESTS",
+    "diff_check": "PASS",
+    "full_repository_suite_run": false,
+    "archive_subdirectory": "0_2_9/wp14/tooling_validation_20260927_r3",
+    "junit_and_commands": [
+      {
+        "path": "commands.json",
+        "bytes": 5414,
+        "sha256": "bf10406e1706bce4e8411c594de96897bba259dc26f8a58b5f79ad1872d4c5bd"
+      },
+      {
+        "path": "targeted.xml",
+        "bytes": 32679,
+        "sha256": "8122f860ea60faa11a625f8885d045b6ef3c16f2fce07a660c9176a6145aa119"
+      }
+    ],
+    "integrity_manifest": {
+      "path": "tooling_validation_20260927_r3/integrity_manifest.json",
+      "bytes": 2098,
+      "sha256": "5557404a4e8b2f28d73f0192aac258257de324860959e21fc2cbb515e69380b8"
+    }
+  },
+  "original_ten_recheck": {
+    "execution_sha": "652d7af6973668d5910fb044fbe428872ddf07df",
+    "archive_subdirectory": "0_2_9/wp14/tooling_validation_20260927_r2",
+    "passed": 5,
+    "failed": 5,
+    "junit_sha256": "add22d6082f6473c3f725f960046521049ea2a1d3602291783955cd60b5741c4",
+    "results": [
+      {
+        "id": "R01",
+        "subject": "Objectif indicatif de 700 lignes",
+        "status": "PASS_WITH_ADVISORY",
+        "basis": "Owner policy applied; oversize files remain inventoried."
+      },
+      {
+        "id": "R02",
+        "subject": "Audit documentaire du dépôt entier",
+        "status": "FAIL",
+        "basis": "The engineering evidence repository is not the selected installable package."
+      },
+      {
+        "id": "R03",
+        "subject": "Snapshot documentaire historique versus audit courant",
+        "status": "FAIL",
+        "basis": "Historical snapshot is preserved; the current whole-repository scan still fails."
+      },
+      {
+        "id": "R04",
+        "subject": "Hygiène des sources du dépôt entier",
+        "status": "FAIL",
+        "basis": "Internal proof paths and workflow records remain visible in the engineering repository."
+      },
+      {
+        "id": "R05",
+        "subject": "Archive Git du dépôt entier",
+        "status": "FAIL",
+        "basis": "The selected candidate wheel/sdist is not a claim that the complete Git archive passes."
+      },
+      {
+        "id": "R06",
+        "subject": "Vocabulaire contrôlé",
+        "status": "PASS",
+        "basis": "Current files use the analyzer terminology; migration and immutable historical blobs are traced."
+      },
+      {
+        "id": "R07",
+        "subject": "Convergence déplacement WP04-C",
+        "status": "PASS_ACCEPTED_LINEAGE",
+        "basis": "Accepted C2R6 evidence is hash-verified; the historical coarse failure remains FAIL."
+      },
+      {
+        "id": "R08",
+        "subject": "Convergence énergie WP04-C",
+        "status": "PASS_ACCEPTED_LINEAGE",
+        "basis": "Accepted C2R6 evidence is hash-verified; the historical coarse failure remains FAIL."
+      },
+      {
+        "id": "R09",
+        "subject": "Convergence contrainte WP04-C",
+        "status": "PASS_ACCEPTED_LINEAGE",
+        "basis": "Accepted C2R6 evidence is hash-verified; the historical coarse failure remains FAIL."
+      },
+      {
+        "id": "R10",
+        "subject": "Bruts historiques HEX8",
+        "status": "FAIL_MISSING_RAW_EVIDENCE",
+        "basis": "Four NPZ entries have known hashes but the corresponding original bytes were not found in the bounded local search."
+      }
+    ],
+    "rerun_after_safe_path_tooling_only_fix": false
+  },
+  "additional_legacy_publication_test": {
+    "node": "tests/integration/test_packaging.py::test_maintained_sources_use_only_qf_solver_brand",
+    "status": "FAIL",
+    "cause": "An immutable internal recheck report records the actual archive path containing the retired project name. That report is not a selected package input and was not rewritten to mask this whole-repository finding.",
+    "suite_tests": 13,
+    "suite_failures": 1,
+    "junit_sha256": "6b4caa8fc76d79072158fbb88475ac126776d55510eb469cbf47c5336c01244b"
+  },
+  "historical_hex8_recovery": {
+    "status": "NOT_FOUND_IN_SCANNED_LOCATIONS",
+    "read_errors": 0,
+    "filesystem_roots": 56,
+    "git_matching_size_blobs": 0,
+    "git_object_inventory_lines": [
+      20963,
+      10962
+    ],
+    "filesystem_size_candidates": 0,
+    "archive_subdirectory": "0_2_9/wp14/historical_hex8_recovery_inventory_20260927",
+    "integrity_manifest": {
+      "path": "historical_hex8_recovery_inventory_20260927/integrity_manifest.json",
+      "bytes": 2752,
+      "sha256": "7de6eed4200757ab9faa07ea0f00997fedf53c3f647455953fb7eabe2df66565"
+    },
+    "original_files_recreated": false,
+    "missing": [
+      {
+        "path": "qualification/0_2_9/wp04d/h1_raw.npz",
+        "bytes": 510642,
+        "sha256": "021fb16a46f369452f5aa0a8e913c1bd345eb3128df3cb5c5a1edce63805ab2d"
+      },
+      {
+        "path": "qualification/0_2_9/wp04d/h1_replay_raw.npz",
+        "bytes": 510642,
+        "sha256": "021fb16a46f369452f5aa0a8e913c1bd345eb3128df3cb5c5a1edce63805ab2d"
+      },
+      {
+        "path": "qualification/0_2_9/wp04d/h2_raw.npz",
+        "bytes": 1635806,
+        "sha256": "cdaf20e269e379e52d9888a618bad6b5bd8d7ca98dc20adbef1a7d54a1aaf3ee"
+      },
+      {
+        "path": "qualification/0_2_9/wp04d/h3_raw.npz",
+        "bytes": 3761002,
+        "sha256": "a595374adbabde01a1f297a6e221c73adeaf10f915dfd7f59af4b4bf455dd14b"
+      }
+    ],
+    "search_limit": "The local searches do not prove that an external backup does not exist. One initial launcher attempt failed before process creation and is classified in the recovery manifest, not counted as a search result."
+  },
+  "governance": {
+    "numerical_solver_kernels_changed": false,
+    "production_scope": "Presentation wording only under src/solveur; package metadata/resources and audit tooling were corrected.",
+    "numeric_thresholds_changed": false,
+    "historical_raw_results_changed": false,
+    "historical_failed_records_changed": false,
+    "ledger_changed": false,
+    "wp14_status": "HOLD",
+    "wp14_official_points": "0/1",
+    "global_official_total": "95/100",
+    "local_commits": "SOURCE_CONTRACT_AND_EVIDENCE_CHECKPOINTS_ONLY",
+    "governing_merge": false,
+    "push": false,
+    "tag": false,
+    "publication": false,
+    "owner_accepts_selected_package": "PENDING"
+  },
+  "remaining_blockers": [
+    "R02/R03/R04/R05 and the additional branding assertion still target the whole engineering repository, not the passing selected package. Historical FAIL outcomes remain authoritative until an explicit prospective scope decision.",
+    "The four original HEX8 NPZ files are unavailable in the searched locations. Their integrity test cannot be made PASS by summaries, invented arrays or relabelled new results.",
+    "The selected package campaign does not requalify or waive the other WP14 R1 quality, engineering, metadata, platform and release-governance gates."
+  ],
+  "next_actions": [
+    "Owner review of the selected package scope R3 and its explicit limitations; no automatic WP14 point or release approval.",
+    "Provide a backup containing the four exact historical NPZ files, or separately authorize a new prospectively frozen HEX8 evidence lineage. Do not overwrite the missing historical record or claim recovered original bytes.",
+    "Reconcile the current mandatory release-gate contract with the accepted publication scope, preserving earlier failures, before any governing merge/push/tag/publication."
+  ]
+}

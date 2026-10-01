@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "artifact_id": "QF-029-WP07-D-OWNER-DECISION-FORMAL-REBIND-R1-001",
+  "decision_date": "2026-09-17",
+  "owner_decision": "APPROVED_WITH_LIMITATIONS",
+  "OWNER_ACCEPTS_EXPERIMENTAL_RESULT": true,
+  "OWNER_ACCEPTS_REFINED_M3_AS_FORMAL_LEVEL_UNDER_CURRENT_CONTRACT": false,
+  "OWNER_AUTHORIZES_CONTRACT_REBIND": true,
+  "OWNER_AUTHORIZES_FORMAL_WP07D_REQUALIFICATION_AFTER_REBIND": true,
+  "OWNER_AUTHORIZES_WP07E": false,
+  "OWNER_AUTHORIZES_GOVERNING_PUSH_OR_MERGE": false,
+  "OWNER_AUTHORIZES_OFFICIAL_LEDGER_UPDATE": false,
+  "conditions": [
+    "The refined M3 is not formal under the historical WP07-D contract.",
+    "Create and freeze a separately versioned formal contract and execution binding before any structural solve.",
+    "Preserve the historical preparation-only contract and all experimental/failing evidence unchanged.",
+    "Run the complete new M1/M2/M3 hierarchy for ACTIVE_SET and PENALTY under the frozen rebind.",
+    "Run independent references; run each frozen replay only after its production/reference gates pass.",
+    "Do not run WP07-E, award formal points, update the official ledger, push, or merge in this authorization."
+  ],
+  "provenance": {
+    "authorized_governing_base_sha": "a670f106f4eef88a3cfe5ca65a09ed55cdcc19fe",
+    "candidate_branch_at_decision": "codex/wp07d-v4-local-refinement",
+    "candidate_head_at_decision": "e886f2123227f25bc2168e7c281bb3c9bb16d9e3",
+    "historical_preparation_contract": "qualification/0_2_9/wp07d_structural_vnv_contract.json",
+    "historical_preparation_contract_sha256": "a31f32d45bfa65f5aaaac62034cdc94cfafae3d59a7fbc1ce8ce8489d7cae3e9",
+    "accepted_experimental_summary": "qualification/0_2_9/wp07d_focused_local_refinement_experiment/focused_local_refinement_summary.json",
+    "accepted_experimental_summary_sha256": "9f4d861e15968511cb050343387f620e892754c2a76c228835c7218d761d9948"
+  },
+  "formal_points_awarded": 0,
+  "official_total_before_owner_review": "58/100"
+}

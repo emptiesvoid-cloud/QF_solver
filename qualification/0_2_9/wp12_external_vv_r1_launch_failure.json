@@ -1,0 +1,36 @@
+{
+  "work_package": "WP12",
+  "attempt": "R1",
+  "classification": "FAIL_CLOSED_LAUNCHER_RUNTIME_IMPORT_FAILURE",
+  "numerical_failure": false,
+  "correlation_claim": false,
+  "contract_path": "qualification/0_2_9/wp12_external_vv_contract.json",
+  "contract_sha256": "7be23ae98a8032f8cda85075c860d2cacb24bbfd6065273cd4b1a558475938f4",
+  "execution_sha": "08fd35fa4001a3ef7b26c057f3d23b1a4257b89a",
+  "output_root": "qualification/0_2_9/wp12_external_vv",
+  "summary_sha256": "baa7d90063196979457b4146b315c14e7b88ba3e5cabac2671de5d158016f0bd",
+  "raw_manifest_sha256": "a39817051b90333689e206edfbdbbea4d5d2d9504a4edf9dc72cd11376bb9e1a",
+  "runtime_image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+  "runtime_version": "code_aster 18.1.0 (spack-local)",
+  "failure": {
+    "message": "No module named mpi4py",
+    "phase": "run_aster runtime startup before command-file result production",
+    "result_files_created": false,
+    "fort_8_created": false,
+    "exit_code": 1
+  },
+  "families": {
+    "TET4": {"host_process_id": 31600, "exit_code": 1, "aster_raw_json_present": false},
+    "HEX8": {"host_process_id": 13048, "exit_code": 1, "aster_raw_json_present": false},
+    "TET10": {"host_process_id": 29508, "exit_code": 1, "aster_raw_json_present": false},
+    "HEX20": {"host_process_id": 29880, "exit_code": 1, "aster_raw_json_present": false}
+  },
+  "preservation": {
+    "historical_r1_artifacts_modified": false,
+    "all_r1_logs_and_manifests_retained": true,
+    "r1_status_rewritten_as_pass": false
+  },
+  "r2_remediation": "Bootstrap the pinned image profile and expose its Spack Python site-packages and shared libraries; verify mpi4py/NumPy/Code_Aster imports before any family solve.",
+  "formal_points": "0/4",
+  "owner_points_awarded": false
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "record_type": "WP16_OWNER_BOUNDED_ARCHIVE_AND_RETENTION_DECISION",
+  "decision_date": "2026-09-29",
+  "decision_maker": "OWNER",
+  "decision_basis": "Explicit Owner approval in the current conversation to proceed with the proposed bounded acceptance and retention policy.",
+  "decision": "ACCEPT_BOUNDED_ARCHIVE_WITH_LIMITATIONS",
+  "accepted_scope": {
+    "selected_external_archive_bundles": 12,
+    "copied_wp14_ci_artifacts": 6,
+    "wp09_v1_surviving_tracked_files_reconstruction": "ACCEPTED_AS_SUPPLEMENTARY_RECONSTRUCTION_ONLY_NOT_AS_ORIGINAL_V1_ARCHIVE",
+    "wp04d_digest_equivalent_reproductions": "ACCEPTED_AS_HASH_EQUIVALENT_LATER_REPRODUCTIONS_ONLY_ORIGINAL_FILE_PROVENANCE_NOT_RECOVERED",
+    "drive_folder_id": "1Aye0b1kcfK4Vm2gc01OaiIbZL9XdgHel"
+  },
+  "retention_policy": {
+    "keep_latest_owner_accepted_complete_version": true,
+    "keep_one_candidate_until_accepted_and_remote_restore_verified": true,
+    "no_automatic_deletion_or_overwrite": true,
+    "retain_compact_manifests_hashes_source_shas_decisions_and_historical_failure_records_in_git": true,
+    "retain_irreplaceable_raw_evidence_supporting_active_claims_or_explicitly_mark_unavailable": true,
+    "superseded_raw_eligible_for_removal_only_after_accepted_replacement_and_owner_specific_deletion_decision": true,
+    "capacity_review_trigger": "80_PERCENT_OF_ACTUAL_GOOGLE_ACCOUNT_QUOTA_FOR_PLANNING_ONLY",
+    "account_quota_verified": false,
+    "independent_backup_verified": false
+  },
+  "limitations_accepted_and_preserved": [
+    "The historical WP09 V1 tarball and any untracked raw members it may have contained remain unavailable; the accepted reconstruction contains only the 32 surviving Git-tracked files.",
+    "The four WP04-D reproduced NPZ paths match all recorded historical sizes and SHA-256 values, but original-file provenance is not recovered.",
+    "The bounded inventory does not certify all worktrees, disks, historical backups, or all campaign evidence.",
+    "One existing WP14 source archive remains anyone-with-link reader because current CI downloads it without authentication; its permission was not changed.",
+    "The Drive folder access snapshot does not attest account-wide connector OAuth scope, actual Google account quota, or independent backup redundancy."
+  ],
+  "wp16_status": "OWNER_ACCEPTED_BOUNDED_ARCHIVE_WITH_LIMITATIONS_WP16_REMAINS_OPEN_FOR_REMAINDER_INVENTORY_AND_GOVERNANCE",
+  "qualification_points_awarded": 0,
+  "wp14_global_status": "HOLD",
+  "wp14_official_points": "0/1",
+  "global_official_total": "95/100",
+  "wp14_gate_waiver": false,
+  "release_authorized": false,
+  "ledger_modified": false
+}

@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "manifest_type": "wp13_evidence_integrity_manifest",
+  "contract_id": "QF-029-WP13-EXEC-001",
+  "execution_sha": "f08800b5d80f3640cef5e15dd9df1be1e90962f7",
+  "manifested_at": "2026-09-24T06:49:28.280966+02:00",
+  "files": [
+    {
+      "path": "docs/verification/0_2_9/wp13-execution-contract.md",
+      "size_bytes": 2472,
+      "sha256": "622442cfc6eac8c73a72fccb3f6ffd05993fc7bbaa1b3dfb7355d8b27443ddf1"
+    },
+    {
+      "path": "qualification/0_2_9/wp13_wp14_overnight/wp13_execution_contract.json",
+      "size_bytes": 4561,
+      "sha256": "5d9faa73032c8d2441003e31ad13b1d49292b9a4a2a2aead86ab3b8168c43305"
+    },
+    {
+      "path": "qualification/0_2_9/wp13_wp14_overnight/wp13_execution_record.json",
+      "size_bytes": 4700,
+      "sha256": "902a9a1caaaa09d7e163cb5101052d7cd170319a624a7cb5412f304e0de897b7"
+    },
+    {
+      "path": "docs/verification/0_2_9/wp13-performance-api-diagnostics-report.md",
+      "size_bytes": 3649,
+      "sha256": "1ee5a3af3f58fe9b1d46da1c3db95625e00d881ceda3a99ca28b98ba8a34aecc"
+    },
+    {
+      "path": "tests/unit/test_public_api_contract.py",
+      "size_bytes": 5759,
+      "sha256": "c7a15ff9554ef79eef70c62bf5cff1ff946b53f8d85dd7d4dc43c05033bdcb07"
+    },
+    {
+      "path": "tests/unit/test_audit_detail_levels.py",
+      "size_bytes": 3527,
+      "sha256": "c31f30db2864775873aa292928fda21e9d592c9d7cd82e7dc3c0978441d2c552"
+    },
+    {
+      "path": "tests/unit/test_nonlinear_performance.py",
+      "size_bytes": 1125,
+      "sha256": "aa60cc0657bf30162f107130c4f7646b574a60419dfcff8811f8efb32a2027ef"
+    },
+    {
+      "path": "src/solveur/verification/j2_performance.py",
+      "size_bytes": 5396,
+      "sha256": "adb9e45cda0ca1eab470f2fd236f88e8f686ffe63dc7abfd6e6e90ee8567fba7"
+    },
+    {
+      "path": "src/solveur/verification/j2_structural.py",
+      "size_bytes": 10911,
+      "sha256": "2a08b968007e49ebe3cea0ff494f329b5a991ede8bd91ffc0bacb30c9770a8d3"
+    },
+    {
+      "path": "qualification/0_2_9/wp13_wp14_overnight/wp13_performance/j2_performance_tet10.msh",
+      "size_bytes": 23293,
+      "sha256": "a2cae9586bd4607a0d62e045ad352bae5ddafea23b7ffb6d4915ec54f2c8143e"
+    },
+    {
+      "path": "qualification/0_2_9/wp13_wp14_overnight/wp13_performance/j2_performance_tet4.msh",
+      "size_bytes": 8117,
+      "sha256": "cf3600914d19bcb66d2d2a0d644922fc67048fde124e70329c277cc15585248b"
+    },
+    {
+      "path": "qualification/0_2_9/wp13_wp14_overnight/wp13_performance/report.md",
+      "size_bytes": 624,
+      "sha256": "5cda95a63bb33c76842b6b8ec4544b00ae958cb8597bbbcd276263866f1863d4"
+    },
+    {
+      "path": "qualification/0_2_9/wp13_wp14_overnight/wp13_performance/summary.json",
+      "size_bytes": 1858,
+      "sha256": "d81f6157ca96e10bc7fd31ae7901ade14c340ffd318daedc997b9567cbbee26d"
+    },
+    {
+      "path": "qualification/0_2_9/wp13_wp14_overnight/wp13_performance/tet10.setup.json",
+      "size_bytes": 1948,
+      "sha256": "1c3a334d5b78c70eec19ce1590d182323708cad8ee834a68fc544bc62709bd02"
+    },
+    {
+      "path": "qualification/0_2_9/wp13_wp14_overnight/wp13_performance/tet4.setup.json",
+      "size_bytes": 1947,
+      "sha256": "fe3ef7851932af959f6da8cf4a16aeb76a9219975c51224a37f4a8f1eb6f4869"
+    }
+  ],
+  "test_result": {
+    "command": "python -m pytest tests/unit/test_public_api_contract.py tests/unit/test_audit_detail_levels.py tests/unit/test_nonlinear_performance.py",
+    "exit_code": 0,
+    "passed": 11,
+    "failed": 0,
+    "duration_seconds": 2.61
+  },
+  "campaign_result": "PASS_INTERNAL",
+  "claim_boundary": "No speedup, scalability, HPC, cross-machine, or general solver-performance claim."
+}

@@ -1,0 +1,10 @@
+P actions make_etude
+P time_limit 900
+P memory_limit 4096
+P ncpus 1
+P mpi_nbcpu 1
+P mpi_nbnoeud 1
+F comm /work/HEX20.comm D 1
+F mail /work/HEX20.mail D 20
+F mess /work/HEX20.mess R 6
+F resu /work/HEX20.resu R 8

@@ -1,0 +1,27 @@
+{
+  "artifact_id": "QF-029-WP08-AREA-SUPPORTED-CONTACT-M4-SLIP-FORENSIC-R2",
+  "contract_document_sha256": "5deb958fd77f7f1cea222a19bf8157dd301d1ed7726858a27b1c88ac74292ac3",
+  "contract_sha256": "190910ae3d9c8ca8afdd1e4742a97b57984fd54e9bac5a79db45bc4ddb533583",
+  "execution_binding_sha256": "583bf26a4cebaf8ffcdb0b5a2f141c5a72c32f6240e134c7d6df3289bdcd87be",
+  "frozen_utc": "2026-09-26T21:18:45.384735+00:00",
+  "git": {
+    "branch": "codex/wp08-area-contact-r1-10-candidate",
+    "head": "50b3d35809b49457a5c7cebac017d63daf17b06e",
+    "status_porcelain_at_freeze": "?? qualification/0_2_9/wp08_surface_stiffness_remediation/area_supported_r1_10_m4_slip_forensic_r2_20260926/"
+  },
+  "numpy": "2.0.2",
+  "original_m4_failure_evidence_sha256": "d50cbd2a81b0225678c84de0a87a6417b7e4e0fc4348d95841e2123069590127",
+  "owner_authorization": {
+    "authorized": true,
+    "recorded_from": "Owner instruction: freeze the runner and launch execution; explicit green light.",
+    "scope": "Exactly one fresh M4/slip_target diagnostic attempt with the R1.10 frozen inputs, separate output directory, and enriched failure serialization; no retry, no tuning, no formal qualification or points."
+  },
+  "parent_m1_m2_m3_evidence_sha256": "8cf639bc20446678060f72966e4611a87841bb902052a8becc53ad8b37487bea",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "python": "3.12.3 (tags/v3.12.3:f6650f9, Apr  9 2024, 14:05:25) [MSC v.1938 64 bit (AMD64)]",
+  "runner_sha256": "ba8ba38292027d4d7a21c2c04a1984b84947bdc693d74cb5d5ca4e6ef14569bc",
+  "schema": "qf.wp08.area_supported_contact_m4_slip_forensic_binding.r1",
+  "scipy": "1.14.1",
+  "source_bundle_sha256": "926f3983a49967eaebc55d2c024848127af907f4498a5b09d24faf4b0e037534",
+  "source_head": "50b3d35809b49457a5c7cebac017d63daf17b06e"
+}

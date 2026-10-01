@@ -2,18 +2,22 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
+
 import numpy as np
 
 from solveur.contact.solver import assemble_penalty_contact
 from solveur.core.dofs import DofManager
 from solveur.core.errors import InputValidationError, MeshValidationError
 from solveur.core.analyses.geometric_nonlinear_controls import GeometricNonlinearControls
+from solveur.core.nonlinear.checkpoint import NonlinearCheckpointSession, NonlinearCheckpointStore
 from solveur.core.assembly.geometric import (
     TotalLagrangianHighOrderAssembly,
     build_total_lagrangian_assembly,
 )
 from solveur.core.nonlinear.iteration import (
     CompositeNonlinearAssembly,
+    FloorAwareEvidence,
     NonlinearAssemblyProtocol,
     _line_search_assembly,
     solve_adaptive_full_newton,
@@ -21,6 +25,8 @@ from solveur.core.nonlinear.iteration import (
 )
 from solveur.core.nonlinear.controls import AdaptiveLoadControls
 from solveur.core.nonlinear.robustness import NonlinearRobustnessOptions
+from solveur.core.nonlinear.state import NonlinearState
+from solveur.core.nonlinear.telemetry import NonlinearTelemetryObserver
 from solveur.core.model import FiniteElementModel
 from solveur.core.results import SolveResult
 from solveur.elements.solid.tet4_total_lagrangian_batch import TotalLagrangianTet4Assembly
@@ -30,6 +36,9 @@ from solveur.mesh.validation import MeshValidator
 
 class GeometricNonlinearStaticSolver:
     """Solve a bounded TET4 Saint-Venant-Kirchhoff dead-load problem."""
+
+    def __init__(self, checkpoint_store: NonlinearCheckpointStore | None = None) -> None:
+        self.checkpoint_store = checkpoint_store
 
     def solve(self, model: FiniteElementModel) -> SolveResult:
         self._validate_scope(model)
@@ -70,6 +79,45 @@ class GeometricNonlinearStaticSolver:
             if bool(parameters.get("adaptive_load_steps", False))
             else None
         )
+        checkpoint_session = NonlinearCheckpointSession.create(
+            model,
+            controls.load_increments,
+            self.checkpoint_store,
+        )
+        restored = checkpoint_session.restore_state(
+            NonlinearState(
+                displacement=np.zeros(dofs.ndof, dtype=float),
+                continuation_state={"accepted_step": 0} if adaptive_controls is not None else {},
+            ),
+            load_factors=(
+                [step / controls.load_increments for step in range(1, controls.load_increments + 1)]
+                if adaptive_controls is None
+                else None
+            ),
+            allow_variable_step_count=adaptive_controls is not None,
+        )
+
+        def save_fixed(local_step: int, state: NonlinearState) -> None:
+            global_step = checkpoint_session.restart_step + local_step
+            state.accepted_increment_metadata = {
+                "step": global_step,
+                "load_control": "geometric_fixed",
+            }
+            checkpoint_session.save_state(
+                global_step,
+                state,
+                final=global_step == controls.load_increments,
+                migration_metadata={"continuation_kind": "geometric_fixed_load_control"},
+            )
+
+        def save_adaptive(step: int, state: NonlinearState) -> None:
+            checkpoint_session.save_state(
+                step,
+                state,
+                final=state.load_factor >= 1.0 - 1.0e-12,
+                migration_metadata={"continuation_kind": "geometric_adaptive_load_control"},
+            )
+
         robustness_options = NonlinearRobustnessOptions.from_parameters(parameters)
         displacement, diagnostics = _newton_dead_load(
             assembly,
@@ -81,6 +129,13 @@ class GeometricNonlinearStaticSolver:
             determinant_assembly=geometric_assembly,
             adaptive_controls=adaptive_controls,
             robustness_options=robustness_options,
+            initial_state=restored,
+            target_load_factors=(
+                [step / controls.load_increments for step in range(checkpoint_session.restart_step + 1, controls.load_increments + 1)]
+                if adaptive_controls is None
+                else None
+            ),
+            accepted_state_callback=save_adaptive if adaptive_controls is not None else save_fixed,
         )
         states = geometric_assembly.element_states(displacement)
         element_results = [
@@ -99,6 +154,10 @@ class GeometricNonlinearStaticSolver:
             {
                 "load_increments": controls.load_increments,
                 "adaptive_load_steps": adaptive_controls is not None,
+                "restart_step": checkpoint_session.restart_step,
+                "history_is_partial": checkpoint_session.restart_step > 0,
+                "checkpoint_path": checkpoint_session.settings.path,
+                "checkpoint_files": checkpoint_session.files,
                 "strain_energy": geometric_assembly.strain_energy(displacement),
                 "minimum_det_f": float(np.min(states["det_f"])),
                 "scope": (
@@ -188,6 +247,73 @@ class _PenaltyContactAssembly:
         self.last_details = details
         return internal, tangent if tangent_required else None
 
+    def diagnostics_snapshot(self) -> dict[str, object]:
+        """Expose the latest penalty state for passive Newton line-search audit."""
+
+        if not self.last_details:
+            return {}
+        active = self.last_details.get("active_contacts", [])
+        gaps = self.last_details.get("gaps", [])
+        weights = self.last_details.get("penalty_integration_weights", [])
+        effective = self.last_details.get("effective_penalties", [])
+        active_values = [int(value) for value in active] if isinstance(active, list) else []
+        gap_values = [float(value) for value in gaps] if isinstance(gaps, list) else []
+        weight_values = [float(value) for value in weights] if isinstance(weights, list) else []
+        effective_values = [float(value) for value in effective] if isinstance(effective, list) else []
+        finite_gaps = [value for value in gap_values if np.isfinite(value)]
+        negative_gaps = [value for value in finite_gaps if value < 0.0]
+        return {
+            "search_mode": self.last_details.get("search_mode"),
+            "finite_sliding": self.last_details.get("finite_sliding", False),
+            "penalty": self.last_details.get("penalty"),
+            "penalty_integration": self.last_details.get("penalty_integration"),
+            "slave_node_count": self.last_details.get("slave_node_count", len(gap_values)),
+            "gap_count": len(gap_values),
+            "negative_gap_count": len(negative_gaps),
+            "minimum_gap": min(finite_gaps) if finite_gaps else None,
+            "maximum_gap": max(finite_gaps) if finite_gaps else None,
+            "maximum_penetration": self.last_details.get("maximum_penetration", 0.0),
+            "contact_force_norm": self.last_details.get("contact_force_norm", 0.0),
+            "tangent_nnz": self.last_details.get("tangent_nnz", 0),
+            "active_count": len(active_values),
+            "active_contacts_preview": active_values[:16],
+            "active_contacts_truncated": len(active_values) > 16,
+            "weight_sum": float(sum(weight_values)),
+            "effective_penalty_min": min(effective_values) if effective_values else None,
+            "effective_penalty_max": max(effective_values) if effective_values else None,
+            "effective_penalty_sum": float(sum(effective_values)),
+        }
+
+    def line_search_activation_factors(
+        self, displacement: np.ndarray, direction: np.ndarray
+    ) -> tuple[float, ...]:
+        """Predict fixed-search gap-zero events along a Newton correction."""
+
+        if str(self.model.analysis.parameters.get("contact_search_mode", "initial")).lower() != "initial":
+            return ()
+        penalty = float(self.model.analysis.parameters.get("contact_penalty", 1.0e6))
+        _, _, base = assemble_penalty_contact(
+            self.model, self.dofs, displacement, penalty=penalty
+        )
+        _, _, endpoint = assemble_penalty_contact(
+            self.model, self.dofs, displacement + direction, penalty=penalty
+        )
+        base_gaps = base.get("gaps", [])
+        endpoint_gaps = endpoint.get("gaps", [])
+        if not isinstance(base_gaps, list) or not isinstance(endpoint_gaps, list):
+            return ()
+        if len(base_gaps) != len(endpoint_gaps):
+            return ()
+        factors: list[float] = []
+        for start, finish in zip(base_gaps, endpoint_gaps, strict=True):
+            start_gap = float(start)
+            finish_gap = float(finish)
+            if start_gap >= 0.0 and finish_gap < 0.0:
+                factor = start_gap / (start_gap - finish_gap)
+                if np.isfinite(factor) and 0.0 < factor < 1.0:
+                    factors.append(factor)
+        return tuple(factors)
+
 
 def _newton_dead_load(
     assembly: NonlinearAssemblyProtocol,
@@ -200,6 +326,11 @@ def _newton_dead_load(
     determinant_assembly: TotalLagrangianTet4Assembly | TotalLagrangianHex8Assembly | TotalLagrangianHighOrderAssembly | None = None,
     adaptive_controls: AdaptiveLoadControls | None = None,
     robustness_options: NonlinearRobustnessOptions | None = None,
+    initial_state: NonlinearState | None = None,
+    target_load_factors: list[float] | None = None,
+    accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
+    telemetry_observer: NonlinearTelemetryObserver | None = None,
+    floor_aware_evidence: FloorAwareEvidence | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
     if fixed.size == 0:
         raise MeshValidationError("geometric_nonlinear_static requires constrained dofs.")
@@ -212,6 +343,11 @@ def _newton_dead_load(
             tolerance=tolerance,
             max_iterations=max_iterations,
             robustness_options=robustness_options,
+            initial_state=initial_state,
+            target_load_factors=target_load_factors,
+            accepted_state_callback=accepted_state_callback,
+            telemetry_observer=telemetry_observer,
+            floor_aware_evidence=floor_aware_evidence,
         )
     else:
         displacement, diagnostics = solve_adaptive_full_newton(
@@ -223,6 +359,9 @@ def _newton_dead_load(
             max_iterations=max_iterations,
             controls=adaptive_controls,
             robustness_options=robustness_options,
+            initial_state=initial_state,
+            accepted_state_callback=accepted_state_callback,
+            floor_aware_evidence=floor_aware_evidence,
         )
     determinant_source: object = determinant_assembly or assembly
     deformation_determinants = getattr(determinant_source, "deformation_determinants", None)

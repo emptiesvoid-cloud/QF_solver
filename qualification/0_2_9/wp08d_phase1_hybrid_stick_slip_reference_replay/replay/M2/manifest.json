@@ -1,0 +1,95 @@
+{
+  "case": "WP08-D-M2-PHASE1",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "files": [
+    {
+      "relative_path": "checkpoint_step_001.json",
+      "sha256": "90e41a765d2b4d7a5579f315905587541dfc4218754c01d1798c2aced05a11ad",
+      "size_bytes": 5955
+    },
+    {
+      "relative_path": "checkpoint_step_002.json",
+      "sha256": "f1a50ead8c3d55149d15416157f72de020f5d44ad005226f9544107066f0775b",
+      "size_bytes": 5970
+    },
+    {
+      "relative_path": "checkpoint_step_003.json",
+      "sha256": "691b588d3b7ccf901bc5837fcfd3447ad23ff0de93e799fb987182cc76595c90",
+      "size_bytes": 5980
+    },
+    {
+      "relative_path": "checkpoint_step_004.json",
+      "sha256": "d6384e4411a0f31fb987579a7758feece076c5680dce54ce00be05d0a4f864c5",
+      "size_bytes": 5962
+    },
+    {
+      "relative_path": "checkpoint_step_005.json",
+      "sha256": "64dff09aea25350bc3a85ab8f15af53dff9ef4b7283bf5262b77636744c46a23",
+      "size_bytes": 5958
+    },
+    {
+      "relative_path": "checkpoint_step_006.json",
+      "sha256": "e67b1ef9452052ce2fd6804f71ea3d8f71f4f71736064da8bedbdf69351f02ed",
+      "size_bytes": 5966
+    },
+    {
+      "relative_path": "checkpoint_step_007.json",
+      "sha256": "631bb6b63df3f9acb18907ed255cd1d9c3299790342edb27744ee3adeeac1f46",
+      "size_bytes": 5970
+    },
+    {
+      "relative_path": "console.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "relative_path": "console.log",
+      "sha256": "967692013f64adfb04d0a7232775840a8ab3548ffe6cbc653ccb749f5f69e7fe",
+      "size_bytes": 344
+    },
+    {
+      "relative_path": "progress.json",
+      "sha256": "976879da3e832d4013bda646c8026b8602c4d2eeed316077fb911862cbbe608f",
+      "size_bytes": 129
+    },
+    {
+      "relative_path": "raw.npz",
+      "sha256": "2692228a58c671eb5b4368c4c6dacb223a041295a5079f27ec91b604f06beadd",
+      "size_bytes": 2675
+    },
+    {
+      "relative_path": "result.json",
+      "sha256": "a1c4ec9e1ebd0e84304802d51317400b26a58cde13b8df01b51a9de3e34fa412",
+      "size_bytes": 2980659
+    },
+    {
+      "relative_path": "telemetry.jsonl",
+      "sha256": "e686059497c9847a81c60bce36094c0de412bf7719f9dba609940bd40db53361",
+      "size_bytes": 174982
+    }
+  ],
+  "frozen_parameters": {
+    "accepted_step_checkpoints": [
+      "checkpoint_step_001.json",
+      "checkpoint_step_002.json",
+      "checkpoint_step_003.json",
+      "checkpoint_step_004.json",
+      "checkpoint_step_005.json",
+      "checkpoint_step_006.json",
+      "checkpoint_step_007.json"
+    ],
+    "backend": "serial_direct",
+    "diagnostic_load_step_limit": null,
+    "fallback": "disabled",
+    "load_increments": 7
+  },
+  "governing_sha": "28cf9dd1886b72c6c7c9fc720dc778eddfce4441",
+  "mesh": "M2",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "qualification_claim": "PHASE1_EXECUTION_EVIDENCE_NOT_FORMAL_WP08_CLOSURE",
+  "route": "linear_static_node_to_triangle_lagrange_active_set_regularized_coulomb",
+  "runner_sha": "5fe0451a21ac33de9ddaca6b480748238ac04779",
+  "schema_version": 1,
+  "terminal_classification": "PASS",
+  "terminal_status": "COMPLETED"
+}

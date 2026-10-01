@@ -1,0 +1,65 @@
+{
+  "base_module": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp06_score_requalification\\scripts\\run_wp06d_low_strain_exploratory.py",
+  "base_runner_sha256": "424fef607cb35c78eb8b4358382bff82fc7c3ca6769f1277b5f1da7037151ba6",
+  "benchmark": {
+    "load_resultant": [
+      0.0,
+      0.0,
+      -1.0
+    ],
+    "rise": 0.1,
+    "section_depth": 0.025,
+    "section_width": 0.1,
+    "span": 2.0,
+    "supports": "full end faces x=+/-1, all translational DOFs fixed"
+  },
+  "branch": "codex/wp06-score-requalification",
+  "classification": "DIAGNOSTIC_ONLY_NOT_FORMAL_REQUALIFICATION",
+  "formal_contract_or_ledger_modified": false,
+  "head_sha": "504c952287295cd525f1c4183b3c2764c5294b38",
+  "launch_authorization": "Explicit user instruction in current conversation",
+  "levels_and_order": [
+    "M2",
+    "M3"
+  ],
+  "local_mesh_audit_manifest_sha256": "b415aaefa9e6f91b7e4e704ad5da04bbc32ef6e422febd5da02af1fa54870918",
+  "m1_role": "M1 local mesh is used only for free-DOF normalization; it is not rerun here.",
+  "m3_policy": "start only after M2 completes numerically and passes its archived envelope gate",
+  "production_mechanics_changed": false,
+  "q_observable": {
+    "formula": "-mean(UZ at physical crown points x=0, y=-0.025/0/0.025, top surface)",
+    "name": "q_mean_crown_nodes_2_3_4",
+    "physical_coordinates": [
+      [
+        0.0,
+        -0.025,
+        0.1125
+      ],
+      [
+        0.0,
+        0.0,
+        0.1125
+      ],
+      [
+        0.0,
+        0.025,
+        0.1125
+      ]
+    ]
+  },
+  "reference_path_solve": false,
+  "replay": false,
+  "runner_sha256": "c8a4201033314806f04b4c01910c55d71e02c3099f78b1f26847ded14968f84c",
+  "schema_version": 1,
+  "solver": {
+    "fallback": "no explicit fallback enabled",
+    "linear_method": "direct",
+    "max_accepted_steps": 160,
+    "method": "arc_length",
+    "newton_tolerance": 1e-08,
+    "single_blas_thread": true
+  },
+  "study": "WP06-D local axial M2/M3 diagnostic",
+  "thresholds_changed": false,
+  "working_tree_dirty_at_start": true
+}

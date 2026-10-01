@@ -1,0 +1,90 @@
+{
+  "candidate": "direct",
+  "case": {
+    "cells": [
+      32,
+      16,
+      16
+    ],
+    "full_dofs": 28611,
+    "increments": 12
+  },
+  "error": null,
+  "error_diagnostics": {},
+  "line_search_alphas": [],
+  "linear_solves": {
+    "direct_fallbacks": 0,
+    "fallback_rate": 0.0,
+    "iterative_success": 0,
+    "krylov_iterations": 0,
+    "total": 0
+  },
+  "memory": {
+    "peak_private_bytes": 711041024,
+    "peak_rss_bytes": 736813056,
+    "private_after_bytes": 218677248,
+    "private_before_bytes": 183197696,
+    "rss_after_bytes": 246607872,
+    "rss_before_bytes": 210411520
+  },
+  "newton_iterations": 145,
+  "observables": {
+    "equilibrium": {
+      "force_relative_error": 3.552085348027768e-14,
+      "moment_relative_error": 4.505940522377961e-15,
+      "reaction_resultant_norm": 49.999999999999986
+    },
+    "maximum_green_lagrange_norm": 0.009423514082040636,
+    "maximum_principal_stretch": 1.0089023457744155,
+    "minimum_det_f": 0.992927047661092,
+    "minimum_principal_stretch": 0.9912335760094751,
+    "representative_stress_sigma_xx": 2837.843915881305,
+    "strain_energy": 4.693669347230475,
+    "tip_displacement": -0.18795714735201677
+  },
+  "record_id": "QF-SOLVER-0.2.9-LINEAR-SOLVER-REMEDIATION-R2-STAGE-C-001",
+  "schema_version": 1,
+  "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+  "state": {
+    "accepted_digests": [
+      "c76cddef68f75e334a954b57e60ff0b8a76581da8c817c4c6ad9a7f2215fae2e",
+      "4f858c7f594414edc06bf3f4d92c31b79a1bba092ff6fd8d2636af435b9a4fff",
+      "97d658c98b39e3b048646ccaf50e60a04361d2dd28a48ed3f070117afb84ffab",
+      "363b9425749c5819402c35676e20bc3c283a5263e713ea5de9e35554eb88fbc0",
+      "0d5bad5c322dfb27662a09572c5456c2c6d1b51c4e1046043692ecb1bb4b81e2",
+      "b0c74905e7b07d68bdc397ec58f2f0f6e1e2bcb5b7b3aa230ebbb7517da14526",
+      "ce982637de5c9b97da6429567f2a892355f03bfdb43bfca955f0f3fa88ef930a",
+      "a1a306183f103e422d8873975d6136750e1e6fb4eea5b1d1de815cac389d27dc",
+      "3a1181db0eee9e965e4d94abab6d6e1b53c2d5624f9a0839646ed92f9f368bff",
+      "0366212aa81c84d0cf09d0a57007ec5b736593536c551a9dc615b24808122578",
+      "1ff23b469159c2d38eac10957ad596c09f548c6c89a88ac113de6842fe6a9eca",
+      "c5245fe6a341f4110bc2ee2f48d1e80c7bbdc9ed9b5ff54809b3db8441fb0a2f"
+    ],
+    "accepted_load_factors": [
+      0.08333333333333333,
+      0.16666666666666666,
+      0.25,
+      0.3333333333333333,
+      0.4166666666666667,
+      0.5,
+      0.5833333333333334,
+      0.6666666666666666,
+      0.75,
+      0.8333333333333334,
+      0.9166666666666666,
+      1.0
+    ],
+    "accepted_steps": 12,
+    "displacement_digest": "97ee4d3657e97890c870b62268353d4c03447b6f325115e1b29aa953abf58d33",
+    "displacement_norm": 9.099964131754849,
+    "final_digest": "c5245fe6a341f4110bc2ee2f48d1e80c7bbdc9ed9b5ff54809b3db8441fb0a2f"
+  },
+  "status": "PASS_STAGE_C",
+  "telemetry": {
+    "events": 158,
+    "path": "qualification\\0_2_9\\wp04_linear_solver_r2_stage_c_direct.jsonl"
+  },
+  "timing": {
+    "total_seconds": 758.9268259999808
+  }
+}

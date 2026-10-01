@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
-from typing import Any, cast
 import numpy as np
 from scipy.sparse import csr_matrix
 from solveur.contact.entities import FrictionlessContact
-from solveur.contact.slip_root import solve_active_slip_root
+from solveur.contact.evaluation import normalized_contact_diagnostics
+from solveur.contact.slip_root import solve_active_slip_root, solve_coupled_contact_projection
+from solveur.contact.restart import checkpoint_paths, load_contact_checkpoint, save_contact_checkpoint
 from solveur.core.constraints import ConstraintReduction
 from solveur.core.dofs import DofManager
 from solveur.core.errors import InputValidationError, NumericalConvergenceError
@@ -30,12 +32,19 @@ from solveur.contact.support import (
     _positive_float,
     _positive_int,
     _pressures,
+    _reseed_stick_predictor_after_normal_set_change,
     _proposed_active,
+    _select_active_set_transition,
     _search_mode,
     _seed_stick_states,
     _solve_active_set,
     _tangential_contact_force,
 )
+from solveur.core.telemetry.events import EventStatus, EventType
+from solveur.core.telemetry.observer import TelemetryHandle, emit_route_event_best_effort
+
+
+ContactTrace = Callable[[str, Mapping[str, object]], None]
 
 @dataclass(frozen=True)
 class ContactSolveState:
@@ -46,6 +55,72 @@ class ContactSolveState:
     reduced_stiffness: csr_matrix
     details: dict[str, object]
     applied_loads: np.ndarray
+
+
+def _surface_lumped_patch_weights(contact: FrictionlessContact, nodes: np.ndarray) -> np.ndarray:
+    """Compute normalized tributary-area weights for an explicit slave patch."""
+
+    if contact.slave_patch_nodes is None or contact.slave_patch_faces is None:
+        raise InputValidationError(
+            "surface_lumped penalty integration requires slave_nodes and slave_patch_faces."
+        )
+    slave_nodes = contact.slave_nodes
+    slave_set = set(slave_nodes)
+    if not slave_set or len(slave_set) != len(slave_nodes):
+        raise InputValidationError("A surface-lumped slave patch must contain unique slave nodes.")
+    tributary = {node: 0.0 for node in slave_nodes}
+    patch_area = 0.0
+    seen_faces: set[tuple[int, int, int]] = set()
+    for face in contact.slave_patch_faces:
+        if len(face) != 3 or len(set(face)) != 3 or any(node not in slave_set for node in face):
+            raise InputValidationError("Slave patch faces must be unique-node triangles within the slave patch.")
+        ordered_face = sorted(face)
+        canonical_face = (ordered_face[0], ordered_face[1], ordered_face[2])
+        if canonical_face in seen_faces:
+            raise InputValidationError("A surface-lumped slave patch must not repeat a face.")
+        seen_faces.add(canonical_face)
+        if any(node < 0 or node >= len(nodes) for node in face):
+            raise InputValidationError("A slave patch face references a nonexistent node.")
+        triangle = np.asarray(nodes[list(face)], dtype=float)
+        area = 0.5 * float(np.linalg.norm(np.cross(triangle[1] - triangle[0], triangle[2] - triangle[0])))
+        if not np.isfinite(area) or area <= 1.0e-14:
+            raise InputValidationError("Slave patch faces must have finite positive area.")
+        patch_area += area
+        for node in face:
+            tributary[node] += area / 3.0
+    if not np.isfinite(patch_area) or patch_area <= 1.0e-14:
+        raise InputValidationError("A surface-lumped slave patch must have positive total area.")
+    weights = np.asarray([tributary[node] / patch_area for node in slave_nodes], dtype=float)
+    if (
+        not np.all(np.isfinite(weights))
+        or np.any(weights <= 0.0)
+        or not np.isclose(float(np.sum(weights)), 1.0, rtol=1.0e-12, atol=1.0e-14)
+    ):
+        raise InputValidationError("Every slave patch node must have a positive normalized tributary weight.")
+    return weights
+
+
+def _penalty_contact_integration_weights(
+    model: FiniteElementModel,
+    expanded_contacts: list[FrictionlessContact],
+    integration: str,
+) -> np.ndarray:
+    """Return the frozen per-contact integration weights in solver order."""
+
+    if integration == "nodal":
+        return np.ones(len(expanded_contacts), dtype=float)
+    if integration != "surface_lumped":
+        raise InputValidationError("contact_penalty_integration must be 'nodal' or 'surface_lumped'.")
+    weights: list[float] = []
+    for patch in model.contacts:
+        patch_weights = _surface_lumped_patch_weights(patch, model.nodes)
+        expanded = patch.expanded_slave_contacts()
+        if len(expanded) != len(patch_weights):
+            raise InputValidationError("Surface-lumped weights do not match the expanded slave patch.")
+        weights.extend(float(weight) for weight in patch_weights)
+    if len(weights) != len(expanded_contacts):
+        raise InputValidationError("Surface-lumped weights do not match the assembled contact set.")
+    return np.asarray(weights, dtype=float)
 
 
 def assemble_penalty_contact(
@@ -93,6 +168,9 @@ def assemble_penalty_contact(
             raise InputValidationError("contact_max_penetration must be finite and positive when configured.")
     reference = values if search_mode == "updated" else None
     contacts = _expanded_contacts(model.contacts)
+    integration = str(model.analysis.parameters.get("contact_penalty_integration", "nodal")).lower()
+    integration_weights = _penalty_contact_integration_weights(model, contacts, integration)
+    effective_penalties = penalty * integration_weights
     operators = [
         _operator(contact, model.nodes, dofs, reference, finite_sliding=finite_sliding)
         for contact in contacts
@@ -109,10 +187,11 @@ def assemble_penalty_contact(
         if gap >= 0.0:
             continue
         active.append(index)
-        internal += penalty * gap * operator.vector
+        local_penalty = float(effective_penalties[index])
+        internal += local_penalty * gap * operator.vector
         support = np.flatnonzero(operator.vector)
         local_vector = operator.vector[support]
-        block = penalty * np.outer(local_vector, local_vector)
+        block = local_penalty * np.outer(local_vector, local_vector)
         local_rows, local_cols = np.nonzero(block)
         rows.extend(support[local_rows].tolist())
         cols.extend(support[local_cols].tolist())
@@ -133,11 +212,14 @@ def assemble_penalty_contact(
                 "finite_sliding": finite_sliding,
             },
         )
-    return internal, tangent, {
+    details: dict[str, object] = {
         "formulation": "frictionless_penalty",
         "search_mode": search_mode,
         "finite_sliding": finite_sliding,
         "penalty": float(penalty),
+        "penalty_integration": integration,
+        "penalty_integration_weights": integration_weights.tolist(),
+        "effective_penalties": effective_penalties.tolist(),
         "active_contacts": active,
         "gaps": gaps,
         "master_face_indices": [int(operator.master_face_index) for operator in operators],
@@ -156,6 +238,8 @@ def assemble_penalty_contact(
         "contact_force_norm": float(np.linalg.norm(internal)),
         "tangent_nnz": int(tangent.nnz),
     }
+    details.update(normalized_contact_diagnostics(details))
+    return internal, tangent, details
 
 class FrictionlessActiveSetSolver:
     """Enforce normal contact exactly and optional regularized Coulomb friction."""
@@ -167,6 +251,8 @@ class FrictionlessActiveSetSolver:
         stiffness: csr_matrix,
         loads: np.ndarray,
         fixed: np.ndarray,
+        *,
+        telemetry: TelemetryHandle | None = None,
     ) -> ContactSolveState:
         if model.linear_constraints():
             raise InputValidationError("Frictionless contact cannot yet be combined with MPC or RBE links.")
@@ -175,11 +261,11 @@ class FrictionlessActiveSetSolver:
         if any(operator.has_friction for operator in operators):
             if _search_mode(model) == "updated":
                 raise InputValidationError("Updated contact search is not yet available with frictional contact.")
-            return self._solve_with_friction(model, dofs, stiffness, loads, fixed, operators)
+            return self._solve_with_friction(model, dofs, stiffness, loads, fixed, operators, telemetry=telemetry)
         reduction = ConstraintReduction.from_system(dofs, stiffness, loads, [], fixed)
         if _search_mode(model) == "updated":
-            return self._solve_updated_frictionless(model, dofs, stiffness, loads, reduction, contacts)
-        return self._solve_frictionless(model, dofs, stiffness, loads, reduction, operators)
+            return self._solve_updated_frictionless(model, dofs, stiffness, loads, reduction, contacts, telemetry=telemetry)
+        return self._solve_frictionless(model, dofs, stiffness, loads, reduction, operators, telemetry=telemetry)
 
     def _solve_updated_frictionless(
         self,
@@ -189,6 +275,8 @@ class FrictionlessActiveSetSolver:
         loads: np.ndarray,
         reduction: ConstraintReduction,
         contacts: list[FrictionlessContact],
+        *,
+        telemetry: TelemetryHandle | None = None,
     ) -> ContactSolveState:
         """Repeat frozen-contact solves while facettes and normals are updated."""
         reference = np.zeros(dofs.ndof, dtype=float)
@@ -198,7 +286,7 @@ class FrictionlessActiveSetSolver:
         tolerance = _positive_float(model.analysis.parameters.get("contact_search_tolerance", 1.0e-10), "contact_search_tolerance")
         for iteration in range(1, maximum + 1):
             operators = [_operator(contact, model.nodes, dofs, reference) for contact in contacts]
-            state = self._solve_frictionless(model, dofs, stiffness, loads, reduction, operators)
+            state = self._solve_frictionless(model, dofs, stiffness, loads, reduction, operators, telemetry=telemetry)
             faces = tuple(operator.master_face_index for operator in operators)
             change = float(np.linalg.norm(state.displacement - reference))
             search_history.append({"iteration": iteration, "master_face_indices": list(faces), "displacement_change": change})
@@ -222,9 +310,12 @@ class FrictionlessActiveSetSolver:
         loads: np.ndarray,
         reduction: ConstraintReduction,
         operators: list["_ContactOperator"],
+        *,
+        telemetry: TelemetryHandle | None = None,
     ) -> ContactSolveState:
         active: tuple[int, ...] = ()
         history: list[dict[str, object]] = []
+        visited: set[tuple[int, ...]] = {active}
         max_iterations = _positive_int(model.analysis.parameters.get("contact_max_iterations", 25), "contact_max_iterations")
         for iteration in range(1, max_iterations + 1):
             displacement, multipliers = _solve_active_set(reduction, operators, active)
@@ -250,6 +341,24 @@ class FrictionlessActiveSetSolver:
                     "min_pressure": float(np.min(pressures, initial=0.0)),
                 }
             )
+            if telemetry is not None:
+                emit_route_event_best_effort(
+                    telemetry,
+                    EventType.CONTACT_STATE,
+                    status=EventStatus.RUNNING,
+                    step=1,
+                    iteration=iteration,
+                    solver_backend="contact_active_set",
+                    metrics={
+                        "phase": "normal_active_set",
+                        "strategy": "frictionless",
+                        "active_contacts": list(active),
+                        "proposed_contacts": list(proposed),
+                        "min_gap": float(np.min(gaps, initial=0.0)),
+                        "min_pressure": float(np.min(pressures, initial=0.0)),
+                        "convergence_cause": "ACTIVE_SET_STABLE" if proposed == active else "ACTIVE_SET_UPDATE",
+                    },
+                )
             if proposed == active:
                 contact_force = _contact_force(operators, active, multipliers, dofs.ndof)
                 details = _details(operators, gaps, pressures, active, history)
@@ -261,10 +370,19 @@ class FrictionlessActiveSetSolver:
                     details=details,
                     applied_loads=np.asarray(loads, dtype=float).copy(),
                 )
-            active = proposed
+            active, transition_cause = _select_active_set_transition(active, proposed, visited)
+            history[-1]["transition_cause"] = transition_cause
+            visited.add(active)
         raise NumericalConvergenceError(
             f"Contact active set did not converge within {max_iterations} iterations.",
             reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+            diagnostics={
+                "strategy": "frictionless",
+                "iteration": max_iterations,
+                "active_contacts": list(active),
+                "cause": "ACTIVE_SET_MAX_ITERATIONS",
+                "visited_active_sets": len(visited),
+            },
         )
 
     def _solve_with_friction(
@@ -275,6 +393,8 @@ class FrictionlessActiveSetSolver:
         loads: np.ndarray,
         fixed: np.ndarray,
         operators: list["_ContactOperator"],
+        *,
+        telemetry: TelemetryHandle | None = None,
     ) -> ContactSolveState:
         """Solve a small-displacement Coulomb problem by active-set outer iterations.
 
@@ -284,7 +404,21 @@ class FrictionlessActiveSetSolver:
         limited to the direct, small-model contact scope.
         """
         path = _contact_load_path(model, dofs, loads)
-        slip_references: np.ndarray = np.zeros((len(operators), 2), dtype=float)
+        checkpoint_path, restart_path = checkpoint_paths(model.analysis.parameters)
+        restart = None
+        if restart_path is not None:
+            restart = load_contact_checkpoint(
+                restart_path,
+                model=model,
+                dofs=dofs,
+                load_path=path,
+                contact_count=len(operators),
+            )
+        slip_references: np.ndarray = (
+            np.asarray(restart["slip_references"], dtype=float).copy()
+            if restart is not None
+            else np.zeros((len(operators), 2), dtype=float)
+        )
         step_details: list[dict[str, object]] = []
         final: _FrictionIncrementState | None = None
         state_transaction = StateTransaction(np.asarray(slip_references, dtype=float).copy())
@@ -292,7 +426,18 @@ class FrictionlessActiveSetSolver:
         tolerance = _positive_float(
             model.analysis.parameters.get("contact_friction_tolerance", 1.0e-9), "contact_friction_tolerance"
         )
-        for step, step_loads in enumerate(path, start=1):
+        start_step = int(restart["completed_step"]) if restart is not None else 0
+        cumulative_dissipation = float(restart["cumulative_dissipation"]) if restart is not None else 0.0
+        for step, step_loads in enumerate(path[start_step:], start=start_step + 1):
+            if telemetry is not None:
+                emit_route_event_best_effort(
+                    telemetry,
+                    EventType.STEP_START,
+                    status=EventStatus.STARTED,
+                    step=step,
+                    solver_backend="contact_active_set",
+                    metrics={"phase": "contact_increment", "load_norm": float(np.linalg.norm(step_loads))},
+                )
             trial_references = state_transaction.begin_trial()
             try:
                 final = self._solve_friction_increment(
@@ -304,13 +449,36 @@ class FrictionlessActiveSetSolver:
                     trial_references,
                     max_iterations,
                     tolerance,
+                    telemetry=telemetry,
+                    step=step,
                 )
-            except NumericalConvergenceError:
+            except NumericalConvergenceError as error:
                 state_transaction.rollback()
+                if telemetry is not None:
+                    diagnostics = dict(error.diagnostics or {})
+                    emit_route_event_best_effort(
+                        telemetry,
+                        EventType.STEP_REJECTED,
+                        status=EventStatus.REJECTED,
+                        step=step,
+                        solver_backend="contact_active_set",
+                        message=str(error),
+                        metrics={
+                            "phase": "contact_increment",
+                            "accepted": False,
+                            "rejected": True,
+                            "active_set_iterations": int(diagnostics.get("iteration", 0) or 0),
+                            "active_contact_count": len(diagnostics.get("active_contacts", [])),
+                            "strategy": str(diagnostics.get("strategy", "unknown")),
+                            "convergence_cause": str(diagnostics.get("cause", "CONTACT_UPDATE_FAILURE")),
+                            "rollback_performed": True,
+                        },
+                    )
                 raise
             state_transaction.trial = np.asarray(final.slip_references, dtype=float).copy()
             state_transaction.commit()
             slip_references = np.asarray(state_transaction.committed, dtype=float).copy()
+            cumulative_dissipation += float(final.dissipation_increment)
             step_details.append(
                 {
                     "step": step,
@@ -322,6 +490,47 @@ class FrictionlessActiveSetSolver:
                     "local_dissipation_increment": final.dissipation_increment,
                 }
             )
+            if checkpoint_path is not None:
+                save_contact_checkpoint(
+                    checkpoint_path,
+                    model=model,
+                    dofs=dofs,
+                    load_path=path,
+                    completed_step=step,
+                    state=final,
+                    cumulative_dissipation=cumulative_dissipation,
+                )
+            if telemetry is not None:
+                strategy = str(final.history[-1].get("strategy", "direct")) if final.history else "direct"
+                metrics: dict[str, object] = {
+                    "phase": "contact_increment",
+                    "accepted": True,
+                    "rejected": False,
+                    "active_set_iterations": len(final.history),
+                    "active_contact_count": len(final.active),
+                    "strategy": strategy,
+                    "convergence_cause": "ACTIVE_SET_STABLE",
+                }
+                if model.analysis.parameters.get("contact_emit_step_checkpoints", False):
+                    metrics["committed_contact_state"] = {
+                        "step": step,
+                        "displacement": final.displacement.tolist(),
+                        "multipliers": final.multipliers.tolist(),
+                        "gaps": final.gaps.tolist(),
+                        "pressures": final.pressures.tolist(),
+                        "active_contacts": list(final.active),
+                        "tangential_states": list(final.states),
+                        "tangential_forces": final.tangential_forces.tolist(),
+                        "slip_references": final.slip_references.tolist(),
+                    }
+                emit_route_event_best_effort(
+                    telemetry,
+                    EventType.STEP_ACCEPTED,
+                    status=EventStatus.ACCEPTED,
+                    step=step,
+                    solver_backend="contact_active_set",
+                    metrics=metrics,
+                )
         if final is None:
             raise NumericalConvergenceError(
                 "Frictional contact load path is empty.",
@@ -342,10 +551,14 @@ class FrictionlessActiveSetSolver:
         details["convergence"] = _contact_convergence_diagnostics(
             final.history, final.gaps, final.pressures, final.active
         )
-        cumulative_dissipation = 0.0
-        for item in step_details:
-            cumulative_dissipation += float(cast(Any, item["local_dissipation_increment"]))
         details["cumulative_local_dissipation"] = cumulative_dissipation
+        details["restart"] = {
+            "checkpoint_enabled": checkpoint_path is not None,
+            "checkpoint_path": str(checkpoint_path) if checkpoint_path is not None else None,
+            "restart_from": str(restart_path) if restart_path is not None else None,
+            "restarted_from_step": start_step,
+            "accepted_steps_written": len(step_details),
+        }
         normal_force = _contact_force(operators, final.active, final.multipliers, dofs.ndof)
         friction_force = _tangential_contact_force(operators, final.tangential_forces, dofs.ndof)
         return ContactSolveState(
@@ -361,6 +574,9 @@ class FrictionlessActiveSetSolver:
         dofs: DofManager, stiffness: csr_matrix, loads: np.ndarray, fixed: np.ndarray,
         operators: list["_ContactOperator"], slip_references: np.ndarray,
         max_iterations: int, tolerance: float,
+        *,
+        telemetry: TelemetryHandle | None = None,
+        step: int = 1,
     ) -> "_FrictionIncrementState":
         """Try the direct fixed point, then solve the active slip equations.
 
@@ -371,6 +587,7 @@ class FrictionlessActiveSetSolver:
         In that event the fallback solves the two tangential slip-force
         components with the normal Lagrange multiplier still enforced exactly.
         """
+        direct_error: NumericalConvergenceError | None = None
         try:
             return FrictionlessActiveSetSolver._iterate_friction_increment(
                 dofs,
@@ -382,8 +599,29 @@ class FrictionlessActiveSetSolver:
                 max_iterations,
                 tolerance,
                 strategy="direct",
+                telemetry=telemetry,
+                step=step,
             )
-        except NumericalConvergenceError:
+        except NumericalConvergenceError as error:
+            direct_error = error
+            direct_diagnostics = dict(error.diagnostics or {})
+            if telemetry is not None:
+                emit_route_event_best_effort(
+                    telemetry,
+                    EventType.CONTACT_STATE,
+                    status=EventStatus.RUNNING,
+                    step=step,
+                    iteration=int((error.diagnostics or {}).get("iteration", 0) or 0),
+                    solver_backend="contact_active_set",
+                    message=str(error),
+                    metrics={
+                        "phase": "direct_active_set_failure",
+                        "strategy": "direct",
+                        "active_contacts": list((error.diagnostics or {}).get("active_contacts", [])),
+                        "convergence_cause": str((error.diagnostics or {}).get("cause", "ACTIVE_SET_FAILURE")),
+                        "active_set_iteration": int((error.diagnostics or {}).get("iteration", 0) or 0),
+                    },
+                )
             try:
                 root_state = solve_active_slip_root(
                     dofs,
@@ -397,6 +635,10 @@ class FrictionlessActiveSetSolver:
                     pressures_for=_pressures,
                     proposed_active=_proposed_active,
                     tangential_force=_tangential_contact_force,
+                    trace=_contact_trace(telemetry, step=step, strategy="active_slip_root"),
+                    observed_tangential_states=tuple(
+                        direct_diagnostics.get("tangential_states", [])
+                    ) if direct_diagnostics.get("tangential_states") else None,
                 )
                 return _FrictionIncrementState(
                     root_state.displacement,
@@ -413,10 +655,144 @@ class FrictionlessActiveSetSolver:
                     _dissipation_increment(slip_references, root_state.references, root_state.forces),
                 )
             except NumericalConvergenceError as root_error:
-                raise NumericalConvergenceError(
-                    "Frictional contact active set did not converge with direct or active-slip root iterations.",
-                    reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
-                ) from root_error
+                root_diagnostics = dict(root_error.diagnostics or {})
+                if telemetry is not None:
+                    emit_route_event_best_effort(
+                        telemetry,
+                        EventType.CONTACT_STATE,
+                        status=EventStatus.RUNNING,
+                        step=step,
+                        iteration=int(root_diagnostics.get("iteration", 0) or 0),
+                        solver_backend="contact_active_set",
+                        message=str(root_error),
+                        metrics={
+                            "phase": "active_slip_root_failure",
+                            "strategy": "active_slip_root",
+                            "active_contacts": list(root_diagnostics.get("active_contacts", [])),
+                            "convergence_cause": str(root_diagnostics.get("cause", "ROOT_SOLVE_FAILURE")),
+                            "active_set_iteration": int(root_diagnostics.get("iteration", 0) or 0),
+                            **{
+                                key: root_diagnostics[key]
+                                for key in (
+                                    "contact",
+                                    "observed_state",
+                                    "root_state",
+                                    "normal_pressure",
+                                    "active_normal_constraint",
+                                    "tangential_force_norm",
+                                    "friction_limit",
+                                    "trial_norm",
+                                    "admissibility_error",
+                                    "admissibility_limit",
+                                    "tolerance",
+                                    "trial_vector",
+                                    "tangential_force_vector",
+                                    "target_tangential_force",
+                                    "tangential_basis",
+                                    "contact_residuals",
+                                    "worst_contact",
+                                    "max_scaled_contact_residual",
+                                    "residual_norm",
+                                    "gap",
+                                )
+                                if key in root_diagnostics
+                            },
+                        },
+                    )
+                try:
+                    coupled_state = solve_coupled_contact_projection(
+                        dofs,
+                        stiffness,
+                        loads,
+                        fixed,
+                        operators,
+                        slip_references,
+                        tolerance,
+                        solve_active_set=_solve_active_set,
+                        pressures_for=_pressures,
+                        proposed_active=_proposed_active,
+                        tangential_force=_tangential_contact_force,
+                        trace=_contact_trace(telemetry, step=step, strategy="coupled_contact_projection"),
+                    )
+                    if telemetry is not None:
+                        emit_route_event_best_effort(
+                            telemetry,
+                            EventType.CONTACT_STATE,
+                            status=EventStatus.RUNNING,
+                            step=step,
+                            solver_backend="contact_active_set",
+                            metrics={
+                                "phase": "coupled_contact_projection_accepted",
+                                "strategy": "coupled_contact_projection",
+                                "active_contacts": list(coupled_state.active),
+                                "tangential_states": list(coupled_state.states),
+                                "closed_frictional_contacts": list(coupled_state.closed_frictional_contacts),
+                                "stick_frictional_contacts": list(coupled_state.stick_frictional_contacts),
+                                "slip_frictional_contacts": list(coupled_state.slip_frictional_contacts),
+                                "max_complementarity": coupled_state.max_complementarity,
+                            },
+                        )
+                    return _FrictionIncrementState(
+                        coupled_state.displacement,
+                        coupled_state.multipliers,
+                        coupled_state.reduction,
+                        coupled_state.gaps,
+                        coupled_state.pressures,
+                        coupled_state.active,
+                        coupled_state.states,
+                        coupled_state.forces,
+                        coupled_state.tangential_displacements,
+                        coupled_state.references,
+                        coupled_state.history,
+                        _dissipation_increment(slip_references, coupled_state.references, coupled_state.forces),
+                    )
+                except NumericalConvergenceError as coupled_error:
+                    coupled_diagnostics = dict(coupled_error.diagnostics or {})
+                    if telemetry is not None:
+                        emit_route_event_best_effort(
+                            telemetry,
+                            EventType.CONTACT_STATE,
+                            status=EventStatus.RUNNING,
+                            step=step,
+                            solver_backend="contact_active_set",
+                            message=str(coupled_error),
+                            metrics={
+                                "phase": "coupled_contact_projection_failure",
+                                "strategy": "coupled_contact_projection",
+                                "convergence_cause": str(
+                                    coupled_diagnostics.get("cause", "COUPLED_CONTACT_FAILURE")
+                                ),
+                                **{
+                                    key: coupled_diagnostics[key]
+                                    for key in (
+                                        "contact",
+                                        "normal_pressure",
+                                        "tangential_force_norm",
+                                        "state_tolerance",
+                                        "gap",
+                                        "tangential_force",
+                                        "active_contacts",
+                                        "maximum_enumerated_contacts",
+                                    )
+                                    if key in coupled_diagnostics
+                                },
+                            },
+                        )
+                    raise NumericalConvergenceError(
+                        "Frictional contact failed in the direct, frozen-mode, and coupled-projection routes.",
+                        reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+                        diagnostics={
+                            "step": step,
+                            "strategy": "direct_then_active_slip_then_coupled_projection",
+                            "cause": "ALL_FRICTIONAL_CONTACT_ROUTES_FAILED",
+                            "direct_error": str(direct_error) if direct_error is not None else "direct_failed",
+                            "direct_diagnostics": direct_diagnostics,
+                            "active_slip_root_error": str(root_error),
+                            "active_slip_root_diagnostics": root_diagnostics,
+                            "coupled_projection_error": str(coupled_error),
+                            "coupled_projection_diagnostics": coupled_diagnostics,
+                        },
+                    ) from coupled_error
 
     @staticmethod
     def _iterate_friction_increment(
@@ -430,17 +806,21 @@ class FrictionlessActiveSetSolver:
         tolerance: float,
         *,
         strategy: str,
+        telemetry: TelemetryHandle | None = None,
+        step: int = 1,
     ) -> "_FrictionIncrementState":
         """Perform one fixed-point strategy without mutating committed slip data."""
         active: tuple[int, ...] = ()
         states: tuple[str, ...] = tuple("open" for _ in operators)
         tangential_forces: np.ndarray = np.zeros((len(operators), 2), dtype=float)
         history: list[dict[str, object]] = []
+        last_next_states = states
         # The reference is the committed state at the beginning of the load
         # increment.  It must remain frozen while equilibrium is iterated;
         # only the converged return mapping can commit a new reference.
         references = np.asarray(slip_references, dtype=float).copy()
         initial_references = references.copy()
+        visited: set[tuple[int, ...]] = {active}
         for iteration in range(1, max_iterations + 1):
             effective_stiffness, effective_loads = _friction_system(
                 stiffness, loads, operators, active, states, tangential_forces, references
@@ -454,6 +834,7 @@ class FrictionlessActiveSetSolver:
                 operators, active, displacement, pressures, references, states
             )
             next_states = _seed_stick_states(next_states, proposed, operators)
+            last_next_states = next_states
             force_delta = float(np.linalg.norm(next_forces - tangential_forces))
             reference_delta = float(np.linalg.norm(next_references - references))
             force_scale = max(float(np.linalg.norm(next_forces)), 1.0)
@@ -470,16 +851,85 @@ class FrictionlessActiveSetSolver:
                     "slip_reference_change": reference_delta,
                 }
             )
+            transition_cause = "ACTIVE_SET_STABLE" if proposed == active else "ACTIVE_SET_UPDATE"
+            if proposed != active:
+                next_active, transition_cause = _select_active_set_transition(active, proposed, visited)
+                next_states = _reseed_stick_predictor_after_normal_set_change(next_states, next_active, operators)
+                history[-1]["tangential_predictor"] = "STICK_RESEEDED_AFTER_NORMAL_SET_CHANGE"
+            else:
+                next_active = active
+            history[-1]["transition_cause"] = transition_cause
+            if telemetry is not None:
+                emit_route_event_best_effort(
+                    telemetry,
+                    EventType.CONTACT_STATE,
+                    status=EventStatus.RUNNING,
+                    step=step,
+                    iteration=iteration,
+                    solver_backend="contact_active_set",
+                    metrics={
+                        "phase": "friction_active_set",
+                        "strategy": strategy,
+                        "active_contacts": list(active),
+                        "proposed_contacts": list(proposed),
+                        "next_active_contacts": list(next_active),
+                        "tangential_states": list(next_states),
+                        "min_gap": float(np.min(gaps, initial=0.0)),
+                        "min_pressure": float(np.min(pressures, initial=0.0)),
+                        "tangential_force_change": force_delta,
+                        "slip_reference_change": reference_delta,
+                        "convergence_cause": transition_cause,
+                    },
+                )
             if proposed == active and states == next_states and force_delta <= tolerance * force_scale:
                 return _FrictionIncrementState(
                     displacement, multipliers, reduction, gaps, pressures, active, next_states,
                     next_forces, tangential_displacements, next_references, history,
                     _dissipation_increment(initial_references, next_references, next_forces),
                 )
-            active = proposed
+            active = next_active
             states = next_states
             tangential_forces = next_forces
+            visited.add(active)
         raise NumericalConvergenceError(
             f"Frictional contact {strategy} active set did not converge within {max_iterations} iterations.",
             reason=NonlinearFailureReason.CONTACT_UPDATE_FAILURE,
+            diagnostics={
+                "step": step,
+                "strategy": strategy,
+                "iteration": max_iterations,
+                "active_contacts": list(active),
+                "tangential_states": list(last_next_states),
+                "tangential_forces": tangential_forces.tolist(),
+                "cause": "ACTIVE_SET_MAX_ITERATIONS",
+                "visited_active_sets": len(visited),
+            },
         )
+
+
+def _contact_trace(
+    telemetry: TelemetryHandle | None,
+    *,
+    step: int,
+    strategy: str,
+) -> ContactTrace | None:
+    """Build the optional trace callback used by the active-slip root path."""
+
+    if telemetry is None:
+        return None
+
+    def trace(phase: str, values: Mapping[str, object]) -> None:
+        iteration_value = values.get("iteration")
+        iteration = int(iteration_value) if isinstance(iteration_value, int) else None
+        metrics = {"phase": phase, "strategy": strategy, **dict(values)}
+        emit_route_event_best_effort(
+            telemetry,
+            EventType.CONTACT_STATE,
+            status=EventStatus.RUNNING,
+            step=step,
+            iteration=iteration,
+            solver_backend="contact_active_set",
+            metrics=metrics,
+        )
+
+    return trace

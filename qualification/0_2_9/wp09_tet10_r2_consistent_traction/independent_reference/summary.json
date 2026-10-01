@@ -1,0 +1,57 @@
+{
+  "status": "FAIL_CLOSED",
+  "classification": "INDEPENDENT_OBSERVABLE_RECOMPUTATION_NOT_GLOBAL_FEM_SOLVE",
+  "source_scope": "TET10",
+  "rows": [
+    {
+      "source": "h1_tet10.json",
+      "source_sha256": "e1d305ad82be89d8fe5d8aa7cd4a2b52d52a34ab851c3b8aee43af0fc4bc9dff",
+      "family": "TET10",
+      "cells": [
+        1,
+        1,
+        1
+      ],
+      "status": "FAIL_CLOSED",
+      "errors": [
+        "production_not_pass"
+      ],
+      "comparisons": {}
+    },
+    {
+      "source": "h2_tet10.json",
+      "source_sha256": "3b3b96506e3ee97f8e541ce4f28968f3fe54d7262c0f4d7b7442d82c247c44ea",
+      "family": "TET10",
+      "cells": [
+        2,
+        2,
+        2
+      ],
+      "status": "FAIL_CLOSED",
+      "errors": [
+        "production_not_pass"
+      ],
+      "comparisons": {}
+    },
+    {
+      "source": "h3_tet10.json",
+      "source_sha256": "879de3995bf6712de4606dcda4973cbfd9d2fcebeae6cf41f4e2fd11ba772379",
+      "family": "TET10",
+      "cells": [
+        3,
+        3,
+        3
+      ],
+      "status": "FAIL_CLOSED",
+      "errors": [
+        "production_not_pass"
+      ],
+      "comparisons": {}
+    }
+  ],
+  "production_imports": [],
+  "limitations": [
+    "recomputes observables from raw result JSON",
+    "does not solve FEM/Newton independently"
+  ]
+}

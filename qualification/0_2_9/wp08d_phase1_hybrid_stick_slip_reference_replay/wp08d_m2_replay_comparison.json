@@ -1,0 +1,20 @@
+{
+  "comparison": {
+    "mesh_identity_equal": true,
+    "numeric_checks": {
+      "cumulative_local_dissipation": true,
+      "force_balance_relative_error": true,
+      "moment_balance_relative_error": true,
+      "selected_displacement": true
+    },
+    "status": "PASS",
+    "structural_solve_performed": false,
+    "terminal_status_equal": true
+  },
+  "qualification_claim": "M2_REPLAY_EVIDENCE_ONLY_NOT_FORMAL_WP08D_CLOSURE",
+  "reference_result": "qualification\\0_2_9\\wp08d_phase1_hybrid_stick_slip_requalification\\production\\M2\\result.json",
+  "replay_result": "qualification\\0_2_9\\wp08d_phase1_hybrid_stick_slip_reference_replay\\replay\\M2\\result.json",
+  "schema_version": 1,
+  "status": "PASS",
+  "structural_solve_performed": true
+}

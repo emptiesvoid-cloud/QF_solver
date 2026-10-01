@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "case": "WP08-D-M1-ACTIVE-SET-REMEDIATION",
+  "source_sha_at_execution": "e711661b24b6be22fb23136df838bcb7feef30fe",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "mesh": {
+    "level": "M1",
+    "subdivision": [2, 1, 1],
+    "nodes": 16,
+    "elements": 12,
+    "dofs": 48,
+    "load_increments": 7
+  },
+  "production": {
+    "status": "PASS",
+    "terminal_classification": "PASS",
+    "qualification_claim": "PHASE1_EXECUTION_EVIDENCE_NOT_FORMAL_WP08_CLOSURE",
+    "accepted_increments": 7,
+    "fallback_count": 0,
+    "active_contact_count": 0,
+    "contact_states": ["open", "open", "open", "open"],
+    "force_equilibrium_relative_error": 4.8074305725478e-15,
+    "moment_equilibrium_relative_error": 7.806091302554032e-15,
+    "cumulative_local_dissipation": 0.0,
+    "telemetry": {
+      "contact_state_events": 7,
+      "internal_contact_step_accepted_events": 7,
+      "step_rejected_events": 0,
+      "step_and_iteration_present": true,
+      "transition_cause_present": true,
+      "rollback_metadata_present": true
+    }
+  },
+  "independent_reference": {
+    "status": "PASS",
+    "implementation": "independent_numpy_kkt_return_map",
+    "production_contact_routines_called": false,
+    "force_equilibrium_relative_error": 6.247799189332917e-15,
+    "moment_equilibrium_relative_error": 1.1073971008993349e-14,
+    "deltas_vs_production": {
+      "full_displacement": 4.322414648920085e-15,
+      "selected_displacement": 4.683194093724405e-15,
+      "reaction": 2.9124602944169367e-15,
+      "moment": 3.4278894313603834e-15,
+      "normal_contact": 0.0,
+      "tangential_contact": 0.0,
+      "dissipation": 0.0
+    }
+  },
+  "replay": {
+    "status": "PASS",
+    "production_status_equal": true,
+    "mesh_identity_equal": true,
+    "observables_equal": true,
+    "equilibrium_equal": true,
+    "displacements_equal": true,
+    "relative_tolerance": 1e-12,
+    "absolute_floor": 1e-14,
+    "checker": {
+      "status": "PASS",
+      "numeric_checks": {
+        "cumulative_local_dissipation": true,
+        "force_balance_relative_error": true,
+        "moment_balance_relative_error": true,
+        "selected_displacement": true
+      },
+      "structural_solve_performed": false
+    }
+  },
+  "artifact_hashes": {
+    "M1/console.err.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "M1/console.log": "5053abbff0d1590f9edb75eed86b879c822ccaebf2732fd0a22e43d169964f68",
+    "M1/manifest.json": "8db9beca0d89c9d9496f1e5190ef1e58b1228be4e1d25c0105481d785a5b9cf5",
+    "M1/progress.json": "0f7ae8eec1879fb67638e93e41e743291a51e168153543d60b9a56827b82ee23",
+    "M1/raw.npz": "6026d60ae660f97a09733b3ee31072fe027de6ac8e942bd7c6604f9669c5da00",
+    "M1/result.json": "d5756ec056e8255bc70462f84e4ec0169f95a633e94a989f3fb6674f845feae2",
+    "M1/telemetry.jsonl": "e7555659f8851426d98a8fde6c1cbdc2be23a87d5dec3ef5cce24f3ffc07aa05",
+    "independent_reference/M1/manifest.json": "46eaf772d72ad2fd091ebe75633f71072c5ca739391f29647cce7f9e97e1b4f6",
+    "independent_reference/M1/progress.json": "1ef29c84e3a841316bf7689a85a7dbd5d102e4aba190ee7b0614b1d66d776e8c",
+    "independent_reference/M1/raw.npz": "6a029467815f74f9c82d500103a2f5467b9f0d23ce5393b33ceca13565116efd",
+    "independent_reference/M1/result.json": "2892c2ae62cc50aa38774e77546037c2977b1a0406562eb7691a12a6dee68866",
+    "independent_reference/M1/telemetry.jsonl": "e24a8ca9b8cf4847f5ca32f3f25cc33df665f651c011a00a34bded5f5b04ddc2",
+    "independent_reference/M1/console.log": "3f28e158e8eceaea1e89de0af23e0a054be8c0a32b173cee5792040a9609818c",
+    "replay/M1/manifest.json": "a72bca6929af46579b769b4e0b71b6cf9d0f43b8e63bbdf4b8b40cbee9b0c741",
+    "replay/M1/progress.json": "d944b43adea4d2ca39cbbe83d2aa243f0e038cdab872db16e0646dc3fdf4c5c3",
+    "replay/M1/raw.npz": "6026d60ae660f97a09733b3ee31072fe027de6ac8e942bd7c6604f9669c5da00",
+    "replay/M1/result.json": "a91e8b3a2011626d32c32ac52d5f41b57c5079f77e2bb4aaa2c454d65e5d2832",
+    "replay/M1/telemetry.jsonl": "25e12e11cd57fa203f1cc33d7bfe9794014bd5a9f6de62fb996df2279cb0eaa2",
+    "replay/M1/console.log": "5053abbff0d1590f9edb75eed86b879c822ccaebf2732fd0a22e43d169964f68",
+    "replay/M1/console.err.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "M2": "NOT_RUN",
+  "M3": "NOT_RUN",
+  "formal_points": {
+    "WP08D": "0/2",
+    "WP08": "0/8"
+  },
+  "status": "M1_PASS_READY_FOR_M2"
+}

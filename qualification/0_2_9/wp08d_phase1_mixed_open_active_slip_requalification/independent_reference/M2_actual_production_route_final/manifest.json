@@ -1,0 +1,85 @@
+{
+  "branch": "0.2.9-wp08d-m1-phase1",
+  "case": "WP08-D-independent-reference",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "element_count": 96,
+  "fallback_count": 0,
+  "files": [
+    {
+      "relative_path": "accepted_step_001.json",
+      "sha256": "ab722a9286dfc86e710dcdf5ab9562a052f5d509db071ed0b4c047b60f529b90",
+      "size_bytes": 22769
+    },
+    {
+      "relative_path": "accepted_step_002.json",
+      "sha256": "1a850d3b6aedf13ff25340d87cac9fa9d74eca2723561490b461525d4129d789",
+      "size_bytes": 22756
+    },
+    {
+      "relative_path": "accepted_step_003.json",
+      "sha256": "28886ad572bfcbfab998ab024028252c6e96601713547920e863c0d6291e8158",
+      "size_bytes": 9230
+    },
+    {
+      "relative_path": "accepted_step_004.json",
+      "sha256": "537b41f7a61643cbf66e469127d881aab9729c6db0785a3564001ff1350db806",
+      "size_bytes": 9222
+    },
+    {
+      "relative_path": "accepted_step_005.json",
+      "sha256": "eed71383a9a87109a352d23f7a3392f8ce808e04c2333f2f8b89a80231c28711",
+      "size_bytes": 9225
+    },
+    {
+      "relative_path": "accepted_step_006.json",
+      "sha256": "89fb895dd1b4a2659f6604dba276324da0ec60524fe9458a6887d9359f7e232b",
+      "size_bytes": 9197
+    },
+    {
+      "relative_path": "accepted_step_007.json",
+      "sha256": "7e803cd61b25943599c0abb4812dc132ae7164f2340c46177f2e7143e65028a1",
+      "size_bytes": 22774
+    },
+    {
+      "relative_path": "console.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "relative_path": "console.log",
+      "sha256": "ce9c3248457acccd87825f4b057673ee36b81945e10fd6cd2264aed709934572",
+      "size_bytes": 55
+    },
+    {
+      "relative_path": "progress.json",
+      "sha256": "abe519c782b43afb82295e870b6ce61173cac47ff4f79c9a1918b93a612bc4c5",
+      "size_bytes": 177
+    },
+    {
+      "relative_path": "raw.npz",
+      "sha256": "665d92a8dd9cea304b7e1d1e8aff5252c8f98c859c78713313acd4b01cc1fbb0",
+      "size_bytes": 2717
+    },
+    {
+      "relative_path": "result.json",
+      "sha256": "eaa016ce2dd58165daa464670f7a7ea568e7574b2fcbe2dba63876d90a920e82",
+      "size_bytes": 195738
+    },
+    {
+      "relative_path": "telemetry.jsonl",
+      "sha256": "90726377d8320a4b9da95d2f3b3f9e652ceb2dfc098ddaf162277b5375ffe105",
+      "size_bytes": 7471
+    }
+  ],
+  "mesh": "M2",
+  "ndof": 147,
+  "node_count": 49,
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "production_contact_routines_called": false,
+  "production_result": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp08d_m1_phase1\\qualification\\0_2_9\\wp08d_phase1_mixed_open_active_slip_requalification\\run\\M2\\result.json",
+  "qualification_claim": "INDEPENDENT_REFERENCE_ONLY_NOT_FORMAL_WP08D_CLOSURE",
+  "schema_version": 1,
+  "source_sha": "0510e6fbc70e61454304b88b2b64662e2f87d5bb",
+  "terminal_classification": "PASS_REFERENCE",
+  "terminal_status": "COMPLETED"
+}

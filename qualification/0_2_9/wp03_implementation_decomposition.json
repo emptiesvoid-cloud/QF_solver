@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP03-DECOMPOSITION-001",
+  "work_package": "WP03",
+  "status": "CLOSED_GO_WITH_LIMITATIONS",
+  "baseline_sha": "ecc09f0bae2dab867c12d7e471860887f6ef0548",
+  "points": 7,
+  "validated_points": 7,
+  "phases": [
+    {
+      "id": "WP03-A",
+      "title": "Newton robustness and adaptive-control contract",
+      "status": "CONTRACT_PHASE",
+      "scope": "Inventory current authorities, freeze residual/convergence/stagnation/line-search/retry contracts, define baseline campaign and gates.",
+      "production_change": false
+    },
+    {
+      "id": "WP03-B",
+      "title": "Stagnation and line-search authority",
+      "status": "IMPLEMENTED_TARGETED",
+      "scope": "Implement one deterministic stagnation and line-search policy behind the authoritative driver; retain delegating compatibility wrappers.",
+      "production_change": true
+    },
+    {
+      "id": "WP03-C",
+      "title": "Adaptive increment and cutback consolidation",
+      "status": "IMPLEMENTED_TARGETED",
+      "scope": "Consolidate adaptive load-control retry, cutback, growth and terminal policy behind one deterministic authority while preserving accepted composite state semantics.",
+      "production_change": true
+    },
+    {
+      "id": "WP03-D",
+      "title": "Arc-length robustness boundary",
+      "status": "IMPLEMENTED_TARGETED",
+      "scope": "Integrate specialized arc-length retry/radius diagnostics with one common robustness policy, preserve rollback-before-retry and target-clipped progress, without changing arc mathematics.",
+      "production_change": true
+    },
+    {
+      "id": "WP03-E",
+      "title": "Independent robustness closure audit",
+      "status": "CLOSED_GO_WITH_LIMITATIONS",
+      "scope": "Independent adversarial replay closed all frozen G03 gates, including same-model target-clipped difficult-case improvement evidence.",
+      "production_change": false
+    }
+  ],
+  "non_goals": [
+    "finite-strain plasticity",
+    "frictional contact migration",
+    "new element formulation",
+    "distributed nonlinear mechanics",
+    "nonlinear dynamics",
+    "maturity promotion"
+  ],
+  "closure_policy": "No WP03 points were awarded in WP03-A through WP03-D. The independent WP03-E audit at 4ca71d549ea13460086f52670baa42c74d9ac1aa closed WP03 at 7/7 with bounded limitations recorded in wp03_e_independent_closure.json."
+}

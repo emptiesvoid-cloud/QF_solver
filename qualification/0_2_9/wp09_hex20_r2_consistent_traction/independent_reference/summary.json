@@ -1,0 +1,237 @@
+{
+  "status": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION",
+  "classification": "INDEPENDENT_OBSERVABLE_RECOMPUTATION_NOT_GLOBAL_FEM_SOLVE",
+  "source_scope": "HEX20",
+  "rows": [
+    {
+      "source": "h1_hex20.json",
+      "source_sha256": "e288249cad1cdd4a18bc10aa023c60721a9d6c7c94c29c956e7275764c8f9f6c",
+      "family": "HEX20",
+      "cells": [
+        1,
+        1,
+        1
+      ],
+      "status": "PASS",
+      "errors": [],
+      "mismatches": [],
+      "comparisons": {
+        "selected_displacement": {
+          "declared": 0.017864877192814897,
+          "recomputed": 0.017864877192814897,
+          "absolute_error": 0.0
+        },
+        "displacement_norm": {
+          "declared": 0.05958873925271002,
+          "recomputed": 0.05958873925271002,
+          "absolute_error": 0.0
+        },
+        "reaction_norm": {
+          "declared": 0.2500000000003925,
+          "recomputed": 0.2500000000003925,
+          "absolute_error": 0.0
+        },
+        "energy": {
+          "declared": 0.0022564265991111957,
+          "recomputed": 0.0022564265991111957,
+          "absolute_error": 0.0
+        },
+        "von_mises_max": {
+          "declared": 0.1856849073542707,
+          "recomputed": 0.1856849073542707,
+          "absolute_error": 0.0
+        },
+        "equivalent_plastic_strain_max": {
+          "declared": 0.029863979347628206,
+          "recomputed": 0.029863979347628206,
+          "absolute_error": 0.0
+        },
+        "plastic_dissipation_max": {
+          "declared": 0.005001803086952082,
+          "recomputed": 0.005001803086952082,
+          "absolute_error": 0.0
+        },
+        "min_det_f": {
+          "declared": 0.9994163297058459,
+          "recomputed": 0.9994163297058459,
+          "absolute_error": 0.0
+        },
+        "max_local_strain_norm": {
+          "declared": 0.036911760826804585,
+          "recomputed": 0.036911760826804585,
+          "absolute_error": 0.0
+        },
+        "free_relative_residual": {
+          "declared": 2.66273960626051e-12,
+          "recomputed": 2.66273960626051e-12,
+          "absolute_error": 0.0
+        },
+        "force_balance_relative_error": {
+          "declared": 3.9261134572014434e-13,
+          "recomputed": 3.9261134572014434e-13,
+          "absolute_error": 0.0
+        },
+        "moment_balance_relative_error": {
+          "declared": 2.652282935628729e-13,
+          "recomputed": 2.652282935628729e-13,
+          "absolute_error": 0.0
+        }
+      }
+    },
+    {
+      "source": "h2_hex20.json",
+      "source_sha256": "563b8c8ccd11d219a7ef29a7b87017797ddbcca13142a3c4f20601f60e87f5dd",
+      "family": "HEX20",
+      "cells": [
+        2,
+        2,
+        2
+      ],
+      "status": "PASS",
+      "errors": [],
+      "mismatches": [],
+      "comparisons": {
+        "selected_displacement": {
+          "declared": 0.01935146246651554,
+          "recomputed": 0.01935146246651554,
+          "absolute_error": 0.0
+        },
+        "displacement_norm": {
+          "declared": 0.11267775579880536,
+          "recomputed": 0.11267775579880536,
+          "absolute_error": 0.0
+        },
+        "reaction_norm": {
+          "declared": 0.25000000002336165,
+          "recomputed": 0.25000000002336165,
+          "absolute_error": 0.0
+        },
+        "energy": {
+          "declared": 0.002538584684812773,
+          "recomputed": 0.002538584684812773,
+          "absolute_error": 0.0
+        },
+        "von_mises_max": {
+          "declared": 0.2620390990837909,
+          "recomputed": 0.2620390990837909,
+          "absolute_error": 0.0
+        },
+        "equivalent_plastic_strain_max": {
+          "declared": 0.02641986496288187,
+          "recomputed": 0.02641986496288187,
+          "absolute_error": 0.0
+        },
+        "plastic_dissipation_max": {
+          "declared": 0.003970527491656025,
+          "recomputed": 0.003970527491656025,
+          "absolute_error": 0.0
+        },
+        "min_det_f": {
+          "declared": 0.9993985922189478,
+          "recomputed": 0.9993985922189478,
+          "absolute_error": 0.0
+        },
+        "max_local_strain_norm": {
+          "declared": 0.03265916159373042,
+          "recomputed": 0.03265916159373042,
+          "absolute_error": 0.0
+        },
+        "free_relative_residual": {
+          "declared": 3.927452625270862e-10,
+          "recomputed": 3.927452625270862e-10,
+          "absolute_error": 0.0
+        },
+        "force_balance_relative_error": {
+          "declared": 2.336167374649234e-11,
+          "recomputed": 2.336167374649234e-11,
+          "absolute_error": 0.0
+        },
+        "moment_balance_relative_error": {
+          "declared": 1.6606937850722312e-11,
+          "recomputed": 1.6606937850722312e-11,
+          "absolute_error": 0.0
+        }
+      }
+    },
+    {
+      "source": "h3_hex20.json",
+      "source_sha256": "e9c43cd3527aa9f7c17b38a33f1cdd07f41c906c21441e4e18eaec7fe3ac95d2",
+      "family": "HEX20",
+      "cells": [
+        3,
+        3,
+        3
+      ],
+      "status": "PASS",
+      "errors": [],
+      "mismatches": [],
+      "comparisons": {
+        "selected_displacement": {
+          "declared": 0.020081892781572176,
+          "recomputed": 0.020081892781572176,
+          "absolute_error": 0.0
+        },
+        "displacement_norm": {
+          "declared": 0.18173548219221058,
+          "recomputed": 0.18173548219221058,
+          "absolute_error": 0.0
+        },
+        "reaction_norm": {
+          "declared": 0.25000000003167144,
+          "recomputed": 0.25000000003167144,
+          "absolute_error": 0.0
+        },
+        "energy": {
+          "declared": 0.002643200772102237,
+          "recomputed": 0.002643200772102237,
+          "absolute_error": 0.0
+        },
+        "von_mises_max": {
+          "declared": 0.2637064024496287,
+          "recomputed": 0.2637064024496287,
+          "absolute_error": 0.0
+        },
+        "equivalent_plastic_strain_max": {
+          "declared": 0.026210621340167002,
+          "recomputed": 0.026210621340167002,
+          "absolute_error": 0.0
+        },
+        "plastic_dissipation_max": {
+          "declared": 0.0039116073045547374,
+          "recomputed": 0.0039116073045547374,
+          "absolute_error": 0.0
+        },
+        "min_det_f": {
+          "declared": 0.9993741166322226,
+          "recomputed": 0.9993741166322226,
+          "absolute_error": 0.0
+        },
+        "max_local_strain_norm": {
+          "declared": 0.03239869371462333,
+          "recomputed": 0.03239869371462333,
+          "absolute_error": 0.0
+        },
+        "free_relative_residual": {
+          "declared": 1.9113076606670765e-10,
+          "recomputed": 1.9113076606670765e-10,
+          "absolute_error": 0.0
+        },
+        "force_balance_relative_error": {
+          "declared": 3.167158203106206e-11,
+          "recomputed": 3.167158203106206e-11,
+          "absolute_error": 0.0
+        },
+        "moment_balance_relative_error": {
+          "declared": 2.237547509089332e-11,
+          "recomputed": 2.237547509089332e-11,
+          "absolute_error": 0.0
+        }
+      }
+    }
+  ],
+  "production_imports": [],
+  "limitations": [
+    "recomputes observables from raw result JSON",
+    "does not solve FEM/Newton independently"
+  ]
+}

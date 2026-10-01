@@ -1,0 +1,77 @@
+Traceback (most recent call last):
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\src\solveur\contact\solver.py", line 592, in _solve_friction_increment
+    return FrictionlessActiveSetSolver._iterate_friction_increment(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\src\solveur\contact\solver.py", line 894, in _iterate_friction_increment
+    raise NumericalConvergenceError(
+solveur.core.errors.NumericalConvergenceError: Frictional contact direct active set did not converge within 25 iterations.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\src\solveur\contact\slip_root.py", line 1282, in _solve_active_slip_on_active_set
+    solution, evaluations, residual_norm = _semismooth_newton_solution(
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\src\solveur\contact\slip_root.py", line 1673, in _semismooth_newton_solution
+    raise NumericalConvergenceError(
+solveur.core.errors.NumericalConvergenceError: Active-slip semi-smooth Newton line search could not reduce the residual.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\src\solveur\contact\solver.py", line 626, in _solve_friction_increment
+    root_state = solve_active_slip_root(
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\src\solveur\contact\slip_root.py", line 183, in solve_active_slip_root
+    solution = _solve_active_slip_on_active_set(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\src\solveur\contact\slip_root.py", line 1301, in _solve_active_slip_on_active_set
+    solution, evaluations, residual_norm = _globalized_slip_solution(
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\src\solveur\contact\slip_root.py", line 1808, in _globalized_slip_solution
+    raise NumericalConvergenceError(
+solveur.core.errors.NumericalConvergenceError: Active-slip globalized least-squares fallback failed: `xtol` termination condition is satisfied.; residual=1.504e-07.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\src\solveur\contact\solver.py", line 703, in _solve_friction_increment
+    coupled_state = solve_coupled_contact_projection(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\src\solveur\contact\slip_root.py", line 548, in solve_coupled_contact_projection
+    raise NumericalConvergenceError(
+solveur.core.errors.NumericalConvergenceError: Coupled frictional contact exhaustive search exceeds its deterministic contact-count limit after the seed set was rejected.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\scripts\run_wp08_area_supported_m4_slip_forensic_r2.py", line 618, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\scripts\run_wp08_area_supported_m4_slip_forensic_r2.py", line 612, in main
+    return _worker(args.output_root.resolve(), args.execution_binding_sha256)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\scripts\run_wp08_area_supported_m4_slip_forensic_r2.py", line 459, in _worker
+    result = solve_model(model, enforce_policy=False, telemetry=telemetry)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\src\solveur\api\public.py", line 170, in solve_model
+    result = AnalysisRouter().solve(model, telemetry=telemetry)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\src\solveur\core\router.py", line 56, in solve
+    return self._solve(model, telemetry=route_telemetry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\src\solveur\core\router.py", line 76, in _solve
+    return LinearStaticSolver().solve(model, telemetry=telemetry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\src\solveur\core\solvers\static.py", line 113, in solve
+    contact_state = FrictionlessActiveSetSolver().solve(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\src\solveur\contact\solver.py", line 264, in solve
+    return self._solve_with_friction(model, dofs, stiffness, loads, fixed, operators, telemetry=telemetry)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\src\solveur\contact\solver.py", line 443, in _solve_with_friction
+    final = self._solve_friction_increment(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_area_contact_r1_10_candidate_20260926\src\solveur\contact\solver.py", line 781, in _solve_friction_increment
+    raise NumericalConvergenceError(
+solveur.core.errors.NumericalConvergenceError: Frictional contact failed in the direct, frozen-mode, and coupled-projection routes.

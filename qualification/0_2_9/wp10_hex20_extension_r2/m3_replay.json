@@ -1,0 +1,160 @@
+{
+  "case": "M2",
+  "status": "PASS_CANDIDATE",
+  "execution_sha": "8f75290fa9aa1ef17c20b9ba69626022a06403d5",
+  "runner_sha": "832fd3fd4f678cc27a41d0ae6631ca907f79bd94",
+  "source_sha": "8f75290fa9aa1ef17c20b9ba69626022a06403d5",
+  "contract_sha256": "26d50ef1be225db854e385e8eb044b3a488493a27b0a1461898cd0213f81139b",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "element_type": "HEX20",
+  "kinematics": "corotational_j2",
+  "contact": "frictionless_penalty_initial_search",
+  "frozen_inputs": {
+    "load_path": [
+      0.1,
+      0.2,
+      0.3,
+      0.5
+    ],
+    "penalty": 1000000.0,
+    "plane_x": 1.02
+  },
+  "result": {
+    "status": "PASS",
+    "element_type": "HEX20",
+    "node_count": 23,
+    "element_count": 1,
+    "dof_count": 69,
+    "slave_node": 1,
+    "slave_ux_dof": 3,
+    "displacements": [
+      0.0,
+      0.0,
+      0.0,
+      0.026249131963674104,
+      0.011412287174574522,
+      0.011412287174570181,
+      0.020271055381031636,
+      -0.009702829410118692,
+      0.009344329840229064,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.020271055381037784,
+      0.009344329840235057,
+      -0.009702829410116172,
+      0.02466035271680298,
+      -0.01138156310855898,
+      -0.011381563108565577,
+      0.0,
+      0.0,
+      0.0,
+      0.008219221895034644,
+      0.005254194167130609,
+      0.005254194167133852,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.018794649833953632,
+      4.115535205371174e-05,
+      0.007495842712062535,
+      0.018794649833952896,
+      0.007495842712067422,
+      4.11553520500818e-05,
+      0.00665407240864241,
+      -0.005477658247421436,
+      0.005036756534558001,
+      0.01799453144901463,
+      -0.006874812547401968,
+      -0.0005273272334873555,
+      0.0,
+      0.0,
+      0.0,
+      0.006654072408646,
+      0.00503675653456189,
+      -0.0054776582474185785,
+      0.0,
+      0.0,
+      0.0,
+      0.017994531449016474,
+      -0.0005273272334860725,
+      -0.006874812547405252,
+      0.007832858132515266,
+      -0.005542146601380218,
+      -0.005542146601384432,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "steps": [
+      {
+        "step": 1,
+        "load_factor": 0.1,
+        "relative_residual": 1.7658881766787724e-12,
+        "iterations": 5,
+        "contact_gaps": [
+          -1.845425057211969e-08
+        ],
+        "contact_active_contacts": [
+          0
+        ],
+        "equivalent_plastic_strain_max": 0.025692665995793274
+      },
+      {
+        "step": 2,
+        "load_factor": 0.2,
+        "relative_residual": 2.5848142232699067e-09,
+        "iterations": 7,
+        "contact_gaps": [
+          -8.062670236314018e-09
+        ],
+        "contact_active_contacts": [
+          0
+        ],
+        "equivalent_plastic_strain_max": 0.026353219804976187
+      },
+      {
+        "step": 3,
+        "load_factor": 0.3,
+        "relative_residual": 4.682540941704355e-09,
+        "iterations": 7,
+        "contact_gaps": [
+          -1.5464573649426328e-09
+        ],
+        "contact_active_contacts": [
+          0
+        ],
+        "equivalent_plastic_strain_max": 0.027275598521018476
+      },
+      {
+        "step": 4,
+        "load_factor": 0.5,
+        "relative_residual": 9.442172636860134e-09,
+        "iterations": 6,
+        "contact_gaps": [
+          0.0062491319636740865
+        ],
+        "contact_active_contacts": [],
+        "equivalent_plastic_strain_max": 0.037267159961386256
+      }
+    ],
+    "final_displacement_norm": 0.07076625949264134,
+    "max_relative_residual": 9.442172636860134e-09,
+    "max_peeq": 0.037267159961386256,
+    "fallback_count": 0
+  },
+  "fallback_count": 0,
+  "fallback_evidence": "per-step fallback_used field; zero when no step reports fallback"
+}

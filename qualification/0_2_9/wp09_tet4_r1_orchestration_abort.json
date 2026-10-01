@@ -1,0 +1,30 @@
+{
+  "study": "WP09 TET4 consistent-traction diagnostic",
+  "attempt": "R1",
+  "execution_sha": "78ae76d55d9c1474c15adb6838c7cf92d70b4fc2",
+  "contract_path": "qualification/0_2_9/wp09_tet4_consistent_traction_study_contract.json",
+  "contract_sha256": "35c5d08a05ac4b830d5175b933301733be7faa6886cb879fab13296129c43e0b",
+  "runner_commit": "5db249cc803e0398f85e003434f3a1168dac6285",
+  "failure_classification": "ORCHESTRATION_CONTRACT_SCHEMA_MISMATCH",
+  "failure": "KeyError: runner read gates.production_status; frozen contract declared gates.primary_status",
+  "campaign_status_at_abort": "RUNNING",
+  "h1": {
+    "raw_path": "qualification/0_2_9/wp09_tet4_consistent_traction_study_r1/h1_tet4_primary.json",
+    "raw_sha256": "602387bc91b1ffa3e006c7a626809f46276b2bb6acbd3958c95a669408e6c45d",
+    "primary_status": "PASS",
+    "nodes": 8,
+    "elements": 5,
+    "dofs": 24,
+    "accepted_steps": 4,
+    "fallback_count": 0,
+    "max_local_strain_norm": 0.022508860741308704,
+    "gate_evaluated": false,
+    "replay_run": false,
+    "reuse_in_r2": false
+  },
+  "h2": "NOT_RUN",
+  "h3": "NOT_RUN",
+  "numerical_failure": false,
+  "evidence_overwritten": false,
+  "classification": "PRESERVED_NONAUTHORITATIVE_PRELIMINARY_PRIMARY"
+}

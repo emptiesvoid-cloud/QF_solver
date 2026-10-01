@@ -1,0 +1,4800 @@
+{
+  "abort_on_execution_failure": true,
+  "auditor_sha": "885d0bc24804b77dd339a396948c970d403add2b",
+  "boundary_condition": "all translational DOFs fixed on the complete x=0 plane; no other constraints",
+  "branch": "codex/wp12-expanded-correlation",
+  "branch_base_sha": "c5e842d5e589358633221ecd9f29c2ff1ef003aa",
+  "case_count": 144,
+  "case_matrix_order": [
+    "family",
+    "geometry",
+    "mesh",
+    "load_case"
+  ],
+  "cases": [
+    {
+      "case_id": "tet4_slender_beam_h1_axial_x",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 6,
+      "family": "TET4",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        250.0,
+        -250.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "03265d7839d6afe26564fdfcd5ce18b634af54ca786eed5dab40a00b14361a52",
+      "nodes": 8,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_slender_beam_h1_transverse_y",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 6,
+      "family": "TET4",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -250.0,
+        0.0,
+        2000.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "19dc62800344ff4abdd0f79566a1d5e0593ec6dd9ab8ea22a4c5cbe6fb7af409",
+      "nodes": 8,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_slender_beam_h1_transverse_z",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 6,
+      "family": "TET4",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -250.0,
+        2000.0,
+        0.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "f0d6c755a1a2568374b659d1ad1cd8fbec8145e2405161992b04de5c868b8acb",
+      "nodes": 8,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet4_slender_beam_h1_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 6,
+      "family": "TET4",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -288.6751345948129,
+        1299.0381056766578,
+        1010.3629710818451
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "3b1a74ae4194a1b4b6242b9a9a205f6857064740a2edfcc4fbde87a3366fe061",
+      "nodes": 8,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "tet4_slender_beam_h2_axial_x",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 12,
+      "family": "TET4",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        250.0,
+        -250.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "3eb4f1a6ee7ddcc071760b0b1f6c28d3d5baea35b97b21b8aee6ad003eaae956",
+      "nodes": 12,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_slender_beam_h2_transverse_y",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 12,
+      "family": "TET4",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -250.0,
+        0.0,
+        2000.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "28adf1aca8a7c3a720cef7c3935287ff3ab6cc28c1aae40e7bc8e6c650221c5e",
+      "nodes": 12,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_slender_beam_h2_transverse_z",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 12,
+      "family": "TET4",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -250.0,
+        2000.0,
+        0.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "34ea9980edaad05c4e4b49325312b4d4a4312368bd9ccc0df6b967a5c01069fa",
+      "nodes": 12,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet4_slender_beam_h2_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 12,
+      "family": "TET4",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -288.6751345948129,
+        1299.0381056766578,
+        1010.3629710818451
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "0df852b8c6590b4231cdd7e4b705e4fab201a6b4899b5db6994698d47deaade9",
+      "nodes": 12,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "tet4_slender_beam_h3_axial_x",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 24,
+      "family": "TET4",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        250.0,
+        -250.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "cd6c787dc17da7c52ef75ca5a4c8ef75cd7482ba9e2354e7590e0561a13ae060",
+      "nodes": 18,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_slender_beam_h3_transverse_y",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 24,
+      "family": "TET4",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -250.0,
+        0.0,
+        2000.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "682f3d2bb331be1c9c7e9f1c8be3519a8564741b4fd2a5534a2f26458fee4848",
+      "nodes": 18,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_slender_beam_h3_transverse_z",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 24,
+      "family": "TET4",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -250.0,
+        2000.0,
+        0.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "266242c6cf958c91f2d47068c0d4c87ed3f4c1a5687b12e77abef8306e7ecb83",
+      "nodes": 18,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet4_slender_beam_h3_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 24,
+      "family": "TET4",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -288.6751345948129,
+        1299.038105676658,
+        1010.3629710818452
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "8b5c8d831957aea2972fe2ec2f0cffb3b8305bdddbd967bd3014a951b8126f22",
+      "nodes": 18,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "tet4_rectangular_beam_h1_axial_x",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 6,
+      "family": "TET4",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        250.0,
+        -500.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "64f6cc864a977b0a3a4843f084eca4eb881faf3e76560eaa2a0c59d98737febc",
+      "nodes": 8,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_rectangular_beam_h1_transverse_y",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 6,
+      "family": "TET4",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -250.0,
+        0.0,
+        2000.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "94c96dcb2b8f442b56407b45207a2b322d4027c0030674cd28996a38c221f043",
+      "nodes": 8,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_rectangular_beam_h1_transverse_z",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 6,
+      "family": "TET4",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -500.0,
+        2000.0,
+        0.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "3c04de7bf6d31a0c070462dd19e838d1ceae5ef53998d8411ffebd116d7db9be",
+      "nodes": 8,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet4_rectangular_beam_h1_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 6,
+      "family": "TET4",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.01270189221935,
+        1299.0381056766578,
+        866.0254037844387
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "9d9f093057c52e27b95676ac7fbcc14ac1ab56aa2e95086777dc9a0e44cf7180",
+      "nodes": 8,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "tet4_rectangular_beam_h2_axial_x",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 12,
+      "family": "TET4",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        250.0,
+        -500.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "c0d08eba63968fd217e695d1f06b13df938bd10e70f96e7716724343bce341b9",
+      "nodes": 12,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_rectangular_beam_h2_transverse_y",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 12,
+      "family": "TET4",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -250.0,
+        0.0,
+        2000.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "6feefffc1965b675b0b793027d174addfe29f831bca82ff3eeef87c4abc6e0ca",
+      "nodes": 12,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_rectangular_beam_h2_transverse_z",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 12,
+      "family": "TET4",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -500.0,
+        2000.0,
+        0.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "19af1f163572dacdc4693243066851c278f54f6b4ac526aaf6b76431306bbc56",
+      "nodes": 12,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet4_rectangular_beam_h2_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 12,
+      "family": "TET4",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.01270189221935,
+        1299.0381056766578,
+        866.0254037844387
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "3117a4c16e0ed498344b910d28e549b8d13c33b7513624c130847970b523db2c",
+      "nodes": 12,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "tet4_rectangular_beam_h3_axial_x",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 24,
+      "family": "TET4",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        250.0,
+        -500.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "d689c753d5c229ac959a5a5c22560bf8d1827aa5e3833538d9956a5da7fac750",
+      "nodes": 18,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_rectangular_beam_h3_transverse_y",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 24,
+      "family": "TET4",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -250.0,
+        0.0,
+        2000.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "7d5165f9fa667cbb07495c287e0cba99c0bf4f7e20c49a85c78bdefcfe01ad26",
+      "nodes": 18,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_rectangular_beam_h3_transverse_z",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 24,
+      "family": "TET4",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -500.0,
+        2000.0,
+        0.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "a2b46db59d4a16b21502ae2bab3d25f95d15351de3cdf76a718e2137c8ec343b",
+      "nodes": 18,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet4_rectangular_beam_h3_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 24,
+      "family": "TET4",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.01270189221935,
+        1299.038105676658,
+        866.0254037844388
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "0c8c25e0cb22a3bc05711a1be7570696fbdb0d26ea5bb820b52c87b7b03a186e",
+      "nodes": 18,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "tet4_short_block_h1_axial_x",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 6,
+      "family": "TET4",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        375.0,
+        -375.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "c325253141c6d87c0c4bc87ec81a14279219d0d5a5a7deecd3b7fc1e68e1d00c",
+      "nodes": 8,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_short_block_h1_transverse_y",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 6,
+      "family": "TET4",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -375.0,
+        0.0,
+        1000.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "5ffcebbc22f4bdb56d97b7e092da95e7b0c68373e9110e6e13b72a3f60576430",
+      "nodes": 8,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_short_block_h1_transverse_z",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 6,
+      "family": "TET4",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -375.0,
+        1000.0,
+        0.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "b5e466f8304641a6018796adf897a7341a767aac5b18ab40df9c248f46869b0c",
+      "nodes": 8,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet4_short_block_h1_combined_xyz",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 6,
+      "family": "TET4",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.01270189221935,
+        793.8566201357355,
+        360.8439182435161
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "6be6ba72e6d077a6243da994cdb31bc60b3e4f4eda93496e76e8ea66cea7750a",
+      "nodes": 8,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "tet4_short_block_h2_axial_x",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 12,
+      "family": "TET4",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        375.0,
+        -375.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "35b8f3208ca41912d59974ba566c3820ef6259d18511074457093c291b3cbdaa",
+      "nodes": 12,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_short_block_h2_transverse_y",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 12,
+      "family": "TET4",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -375.0,
+        0.0,
+        1000.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "7dc9e37dddaf73dd09f163eeb252e099abb440a08dedb5d822f2584c6c66a2f8",
+      "nodes": 12,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_short_block_h2_transverse_z",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 12,
+      "family": "TET4",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -375.0,
+        1000.0,
+        0.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "6afc56e1e1620369bce52db425a91a8a0d3e51592c1ea0d64103e918fbff66e3",
+      "nodes": 12,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet4_short_block_h2_combined_xyz",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 12,
+      "family": "TET4",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.01270189221935,
+        793.8566201357355,
+        360.8439182435161
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "b8595f990d372e33b0449f8b59bcdbea49f06899d7f561d35767f5e40527f20f",
+      "nodes": 12,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "tet4_short_block_h3_axial_x",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 24,
+      "family": "TET4",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        375.0,
+        -375.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "4b73aa6a53f9d6f7d9d5646458cc151fc61de0db83b5558a87edb505456530db",
+      "nodes": 18,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_short_block_h3_transverse_y",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 24,
+      "family": "TET4",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -375.0,
+        0.0,
+        1000.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "6d04713eae82b355727540fa9030e2c05927a25e274a782e0034c378be18e2ec",
+      "nodes": 18,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet4_short_block_h3_transverse_z",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 24,
+      "family": "TET4",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -375.0,
+        1000.0,
+        0.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "2e72ca5abebb012536028983a368920a041eefe1413813247ddd80c6c96f2809",
+      "nodes": 18,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet4_short_block_h3_combined_xyz",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 24,
+      "family": "TET4",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.01270189221935,
+        793.8566201357355,
+        360.8439182435161
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "766cc9bb10d7a93a977d2ce6fefd254db2549f17197548c41bf363040fb89d76",
+      "nodes": 18,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex8_slender_beam_h1_axial_x",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 1,
+      "family": "HEX8",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        250.0,
+        -250.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "d8e9d35828f1f177d292cf19b437661d842a6509e3c5b9d56cdec87b4ea5f4b2",
+      "nodes": 8,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_slender_beam_h1_transverse_y",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 1,
+      "family": "HEX8",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -250.0,
+        0.0,
+        2000.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "283deb7e0fa6bd53269a509c70d21bd6abdbd424e046596695ea9c447f7f3c3d",
+      "nodes": 8,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_slender_beam_h1_transverse_z",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 1,
+      "family": "HEX8",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -250.0,
+        2000.0,
+        0.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "93275f02606a7e5f82e68890e4657341a25255d679c1f1f15ef93b97e920319b",
+      "nodes": 8,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex8_slender_beam_h1_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 1,
+      "family": "HEX8",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -288.6751345948129,
+        1299.038105676658,
+        1010.3629710818452
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "bb801a0ed3b93953a927c8d57eb55dad5c420ba9e30ebd8f3d197981616958b9",
+      "nodes": 8,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex8_slender_beam_h2_axial_x",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 2,
+      "family": "HEX8",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        250.0,
+        -250.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "b5c3e90009cf8201de26331e457597ac6324ddb3fe74b49a52b1413ee4413ae9",
+      "nodes": 12,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_slender_beam_h2_transverse_y",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 2,
+      "family": "HEX8",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -250.0,
+        0.0,
+        2000.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "da7049acc566eacfedeb08d8dc241da5c4440c65bc2e427f435ec5537ed6c9a0",
+      "nodes": 12,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_slender_beam_h2_transverse_z",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 2,
+      "family": "HEX8",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -250.0,
+        2000.0,
+        0.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "761503a7cc8ce7b422b4c4b3e9b2968933fa0b233f2816b50b91c4d6f147c062",
+      "nodes": 12,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex8_slender_beam_h2_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 2,
+      "family": "HEX8",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -288.6751345948129,
+        1299.038105676658,
+        1010.3629710818452
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "ebffb9d79613e0cf9b975bcaa993dacc719aa4daf4ea8646aef4e13bdbe7c457",
+      "nodes": 12,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex8_slender_beam_h3_axial_x",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 4,
+      "family": "HEX8",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.2500000000000001,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        249.9999999999999,
+        -249.9999999999999
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "727bd381ee15cfc4fb29e1dcaa41dec13be1d87ec395facf13457b7ae54aa2f3",
+      "nodes": 18,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_slender_beam_h3_transverse_y",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 4,
+      "family": "HEX8",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.2500000000000001,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -249.9999999999999,
+        0.0,
+        1999.999999999999
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "1e4c56e29a0885b66e9304c484a3d7944f8d1fd75d404d26d23a770b91e94ead",
+      "nodes": 18,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_slender_beam_h3_transverse_z",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 4,
+      "family": "HEX8",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.2500000000000001,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -249.9999999999999,
+        1999.999999999999,
+        0.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "feae2fa4b9d077ba0074e88f8db8a605fcb76bc922dfd6b0ef0bbe6898a5fa66",
+      "nodes": 18,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex8_slender_beam_h3_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 4,
+      "family": "HEX8",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.2500000000000001,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -288.6751345948128,
+        1299.0381056766573,
+        1010.3629710818448
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "83daa2e0b54bdc1a8ab83af9690e9df3f0b0fba1985989fae58e2a85be750891",
+      "nodes": 18,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex8_rectangular_beam_h1_axial_x",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 1,
+      "family": "HEX8",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        250.0,
+        -500.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "cd77d658bc36ffd65a15e88dbe408d07cf1b193d4a52a4b3f380a4ed39afcdbc",
+      "nodes": 8,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_rectangular_beam_h1_transverse_y",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 1,
+      "family": "HEX8",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -250.0,
+        0.0,
+        2000.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "a8cd413e206f2fd2c19425ee2971a8ea69a45c32a5d4dc383cd8a61c7ab766b6",
+      "nodes": 8,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_rectangular_beam_h1_transverse_z",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 1,
+      "family": "HEX8",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -500.0,
+        2000.0,
+        0.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "bad807fb1a12ae6d5f8a4f176db80ed86a57d391166a9df3e6817c25f60fee34",
+      "nodes": 8,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex8_rectangular_beam_h1_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 1,
+      "family": "HEX8",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.01270189221935,
+        1299.038105676658,
+        866.0254037844386
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "408fccfc5fb24d7db6d3b15170e05e9e1647dc6d77cdc091015a2c7557e5f808",
+      "nodes": 8,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex8_rectangular_beam_h2_axial_x",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 2,
+      "family": "HEX8",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        250.0,
+        -500.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "7a9fd2e47d2d8116c66d64196edf219bcc97ede247b4f922899c3a03e4b9dc2b",
+      "nodes": 12,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_rectangular_beam_h2_transverse_y",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 2,
+      "family": "HEX8",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -250.0,
+        0.0,
+        2000.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "e7242fc775b8e36e16dd19c5741612932567f5f5af064c905cd4526c3bc837d6",
+      "nodes": 12,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_rectangular_beam_h2_transverse_z",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 2,
+      "family": "HEX8",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -500.0,
+        2000.0,
+        0.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "0a93308fc67b7a572ab1bc3880f03160436eb6e9ee7abc493cce159d7e92ee56",
+      "nodes": 12,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex8_rectangular_beam_h2_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 2,
+      "family": "HEX8",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.01270189221935,
+        1299.038105676658,
+        866.0254037844386
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "26bcd05c5025f42dd1290f0511b6acfa440a0257ea75e4eafe3aa92f82d62105",
+      "nodes": 12,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex8_rectangular_beam_h3_axial_x",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 4,
+      "family": "HEX8",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5000000000000002,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        249.9999999999999,
+        -499.9999999999998
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "59dcb10f7d6f31ffffac58f7b336725c1680bcc28bba090336f2da50298af2a7",
+      "nodes": 18,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_rectangular_beam_h3_transverse_y",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 4,
+      "family": "HEX8",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5000000000000002,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -249.9999999999999,
+        0.0,
+        1999.999999999999
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "9232df6ec681c2a576eb7f839dcb5e9f20116bf5e344e714741ddeb42b31f356",
+      "nodes": 18,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_rectangular_beam_h3_transverse_z",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 4,
+      "family": "HEX8",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5000000000000002,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -499.9999999999998,
+        1999.999999999999,
+        0.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "9d5e47b1ba6d53591b4df316a946951dd5f21f5f32bd2704c8673d1651ab7160",
+      "nodes": 18,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex8_rectangular_beam_h3_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 4,
+      "family": "HEX8",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5000000000000002,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.0127018922192,
+        1299.0381056766573,
+        866.0254037844384
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "34abc89f321b81480de68e110f59557faa38db701549e5b5fcbb09122f40b0e4",
+      "nodes": 18,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex8_short_block_h1_axial_x",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 1,
+      "family": "HEX8",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        375.0,
+        -375.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "f548ece0aec223ddd498b486ba1253fbf90ca90f00976465c601f8a4003b54bf",
+      "nodes": 8,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_short_block_h1_transverse_y",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 1,
+      "family": "HEX8",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -375.0,
+        0.0,
+        1000.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "a08fcc50c35a399d52c1a81143d8081ecc5d99bdc69b14897f656522f4721950",
+      "nodes": 8,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_short_block_h1_transverse_z",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 1,
+      "family": "HEX8",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -375.0,
+        1000.0,
+        0.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "22170ce598302dd90c64a21a378a727b7bed4972538daa036e20b95082210ebf",
+      "nodes": 8,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex8_short_block_h1_combined_xyz",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 24,
+      "elements": 1,
+      "family": "HEX8",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.01270189221935,
+        793.8566201357355,
+        360.8439182435161
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "129aa707311c42ef258cb2ae298f366bc0d2127b878fb4e48b5acd5f6bc03a35",
+      "nodes": 8,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex8_short_block_h2_axial_x",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 2,
+      "family": "HEX8",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        375.0,
+        -375.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "7da121229df95182aed4bb4a095a633e22c596390411610987f9d790ec616887",
+      "nodes": 12,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_short_block_h2_transverse_y",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 2,
+      "family": "HEX8",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -375.0,
+        0.0,
+        1000.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "2a529ca7b09ce4cfa7a8ee3bb26ecae55b43a31214b2d55ada62b69110d591d8",
+      "nodes": 12,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_short_block_h2_transverse_z",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 2,
+      "family": "HEX8",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -375.0,
+        1000.0,
+        0.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "36269c12b50bfcf2765c2aa40a7ebda41a54e57d1f12df7fee869c88ba3bfe94",
+      "nodes": 12,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex8_short_block_h2_combined_xyz",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 36,
+      "elements": 2,
+      "family": "HEX8",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.01270189221935,
+        793.8566201357355,
+        360.8439182435161
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "231bb5ea4e7e6e8e87f331060bf6281e0caac9e8b484c1388a73e50f919024b4",
+      "nodes": 12,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex8_short_block_h3_axial_x",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 4,
+      "family": "HEX8",
+      "geometry": "short_block",
+      "load_area_m2": 0.5624999999999999,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        375.0,
+        -375.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "c9fc107aa26933508cd2aea2002eee3c0b6c063c2b1cd4bb813377f0495fda4e",
+      "nodes": 18,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_short_block_h3_transverse_y",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 4,
+      "family": "HEX8",
+      "geometry": "short_block",
+      "load_area_m2": 0.5624999999999999,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -375.0,
+        0.0,
+        1000.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "2bde1ec9254bce1b66b14d7b666fd896950777ccf495fda632d2dea4b8c240a6",
+      "nodes": 18,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex8_short_block_h3_transverse_z",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 4,
+      "family": "HEX8",
+      "geometry": "short_block",
+      "load_area_m2": 0.5624999999999999,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -375.0,
+        1000.0,
+        0.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "97a877c2bad9d47ae6954b97352354b0fb833788866333e080b972284ee7a162",
+      "nodes": 18,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex8_short_block_h3_combined_xyz",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 54,
+      "elements": 4,
+      "family": "HEX8",
+      "geometry": "short_block",
+      "load_area_m2": 0.5624999999999999,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.01270189221935,
+        793.8566201357355,
+        360.84391824351616
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "3ee7a571437be2529a7304fe261631b72717a745424b4a705e1f4ec15cf704cd",
+      "nodes": 18,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "tet10_slender_beam_h1_axial_x",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 81,
+      "elements": 6,
+      "family": "TET10",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        249.99999999999997,
+        -249.99999999999997
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "bb64f863843b25005bd71a21562b46b7dcaaef01848b7b1120ecccd8b9255435",
+      "nodes": 27,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_slender_beam_h1_transverse_y",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 81,
+      "elements": 6,
+      "family": "TET10",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -249.99999999999997,
+        0.0,
+        1999.9999999999998
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "d0f7ef46e2d28bdca7093411426d4825941e2ee20eed1f60426a51f689972d32",
+      "nodes": 27,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_slender_beam_h1_transverse_z",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 81,
+      "elements": 6,
+      "family": "TET10",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -249.99999999999997,
+        1999.9999999999998,
+        0.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "9d3b6b3a132657cf3855d355c37a134ea0eb1a7014e4d764c254113bdb0f3a14",
+      "nodes": 27,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet10_slender_beam_h1_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 81,
+      "elements": 6,
+      "family": "TET10",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -288.6751345948129,
+        1299.0381056766582,
+        1010.362971081845
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "49015f712f5e922faf54b6b2f5288b26a72569f5fe5bf198d9b35abef36df5f4",
+      "nodes": 27,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "tet10_slender_beam_h2_axial_x",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 135,
+      "elements": 12,
+      "family": "TET10",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        249.99999999999997,
+        -249.99999999999997
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "4f65b30ae0d171960c229dd70258de1ead16d55b8315c4b7b2fa7f36651ecc1c",
+      "nodes": 45,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_slender_beam_h2_transverse_y",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 135,
+      "elements": 12,
+      "family": "TET10",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -249.99999999999997,
+        0.0,
+        1999.9999999999998
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "a2273df81b4a5c5db34760d45cb8c2d8cb138efaa95b6e1d293fca4a36972518",
+      "nodes": 45,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_slender_beam_h2_transverse_z",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 135,
+      "elements": 12,
+      "family": "TET10",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -249.99999999999997,
+        1999.9999999999998,
+        0.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "f6d9aaa68c40859fc6880a36807aa06e4cd8a4fa555ee1724f6a7008649026ca",
+      "nodes": 45,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet10_slender_beam_h2_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 135,
+      "elements": 12,
+      "family": "TET10",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -288.6751345948129,
+        1299.0381056766582,
+        1010.362971081845
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "44c5ddd6e4c7bc5ec6f0a746ee56e8a3b43744df25cc11356820bb4ccf8d4bbf",
+      "nodes": 45,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "tet10_slender_beam_h3_axial_x",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 225,
+      "elements": 24,
+      "family": "TET10",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        250.0,
+        -249.99999999999997
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "ae95569b0cefe5cd0d20f6466484072d961e4355bc278ac0c3c49b3e04d7b669",
+      "nodes": 75,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_slender_beam_h3_transverse_y",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 225,
+      "elements": 24,
+      "family": "TET10",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -250.0,
+        0.0,
+        2000.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "c993fb8ca805635ffeb509a0d4d3d332b33abb7d7e6000164a5c6882b17e4441",
+      "nodes": 75,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_slender_beam_h3_transverse_z",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 225,
+      "elements": 24,
+      "family": "TET10",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -249.99999999999997,
+        2000.0,
+        0.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "6faad21e9e2de4c5e56514f77cb0f12807a9e49479431374f92342de8836923c",
+      "nodes": 75,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet10_slender_beam_h3_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 225,
+      "elements": 24,
+      "family": "TET10",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -288.6751345948129,
+        1299.038105676658,
+        1010.3629710818449
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "3c897a5727cd7de34915338a56e4e632e3f311a9d4e0c145380f2db8aea7e4a0",
+      "nodes": 75,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "tet10_rectangular_beam_h1_axial_x",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 81,
+      "elements": 6,
+      "family": "TET10",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        249.99999999999997,
+        -499.99999999999994
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "bf93ee60d48f76029b8c9c937f9f80833ecfd194243dbd621f1fea86e323951a",
+      "nodes": 27,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_rectangular_beam_h1_transverse_y",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 81,
+      "elements": 6,
+      "family": "TET10",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -249.99999999999997,
+        0.0,
+        1999.9999999999998
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "109120c668fe273ec97cf4a609759a9a5ea51675046c1a0de3ab0e9243f81e83",
+      "nodes": 27,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_rectangular_beam_h1_transverse_z",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 81,
+      "elements": 6,
+      "family": "TET10",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -499.99999999999994,
+        1999.9999999999998,
+        0.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "74cb64162e9c64cc79d312839e5672a8c29b842eacdd41b74684596664373ebe",
+      "nodes": 27,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet10_rectangular_beam_h1_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 81,
+      "elements": 6,
+      "family": "TET10",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.0127018922193,
+        1299.0381056766582,
+        866.0254037844387
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "70732f980c30109e9715628a2f3375c72ac83be2360df9880730005c8b5521a5",
+      "nodes": 27,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "tet10_rectangular_beam_h2_axial_x",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 135,
+      "elements": 12,
+      "family": "TET10",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        249.99999999999997,
+        -499.99999999999994
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "6479af30ec8b31397a53966ccd271102f64fd5563714db7cfbfe0a971f136390",
+      "nodes": 45,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_rectangular_beam_h2_transverse_y",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 135,
+      "elements": 12,
+      "family": "TET10",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -249.99999999999997,
+        0.0,
+        1999.9999999999998
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "2d142889ee2efc97488f46ca9ed271a821a3cc425039efc1e13a2b4f706569c1",
+      "nodes": 45,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_rectangular_beam_h2_transverse_z",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 135,
+      "elements": 12,
+      "family": "TET10",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -499.99999999999994,
+        1999.9999999999998,
+        0.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "f57fa62c32b99c150b1d021a424332d503c05587a8dd2d8600ba8fe9aa0ee3c0",
+      "nodes": 45,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet10_rectangular_beam_h2_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 135,
+      "elements": 12,
+      "family": "TET10",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.0127018922193,
+        1299.0381056766582,
+        866.0254037844387
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "8ee83f6afc1820c02f8bd675e05f378864ed620eef8654fb9a68c5ed3fb6965f",
+      "nodes": 45,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "tet10_rectangular_beam_h3_axial_x",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 225,
+      "elements": 24,
+      "family": "TET10",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        250.0,
+        -499.99999999999994
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "49e38f87b7d551446e6fd030c99c84f31c2d124ccc38b9ba8f88f3af66e5af9c",
+      "nodes": 75,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_rectangular_beam_h3_transverse_y",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 225,
+      "elements": 24,
+      "family": "TET10",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -250.0,
+        0.0,
+        2000.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "687ee670a9ee8b3476fc7d05e23f7809e77381d7149a7018a7797a9c5f6cad56",
+      "nodes": 75,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_rectangular_beam_h3_transverse_z",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 225,
+      "elements": 24,
+      "family": "TET10",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -499.99999999999994,
+        2000.0,
+        0.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "aedde0da431791303dd3f0baafbb2669a4e5d113103d1df9479739a056614e65",
+      "nodes": 75,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet10_rectangular_beam_h3_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 225,
+      "elements": 24,
+      "family": "TET10",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.01270189221935,
+        1299.038105676658,
+        866.0254037844387
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "1fd1d5575b4aa9c8a1427787df67c56ce8106d9e3db4f3ce541742128e1b7226",
+      "nodes": 75,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "tet10_short_block_h1_axial_x",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 81,
+      "elements": 6,
+      "family": "TET10",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        375.0,
+        -375.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "25436c8c47fe149a02d55b8de1cd3f3a0fefaac24a1cc2e8868fa4ad9ca9c7b5",
+      "nodes": 27,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_short_block_h1_transverse_y",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 81,
+      "elements": 6,
+      "family": "TET10",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -375.0,
+        0.0,
+        999.9999999999999
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "b0cd89d58f248227a01fab74a5e966d2163840eed60e120da96d636f9e9e6f98",
+      "nodes": 27,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_short_block_h1_transverse_z",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 81,
+      "elements": 6,
+      "family": "TET10",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -375.0,
+        999.9999999999999,
+        0.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "46b8a90a944ab058951bb83e57dc08d22e08b2108ed5b36427ca01dd911c0d82",
+      "nodes": 27,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet10_short_block_h1_combined_xyz",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 81,
+      "elements": 6,
+      "family": "TET10",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.01270189221935,
+        793.8566201357354,
+        360.8439182435161
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "a7e850e07d8a45b582821ec8ab90e8fe3684e88ae86fb4eeaa9055adc2fb5f3b",
+      "nodes": 27,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "tet10_short_block_h2_axial_x",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 135,
+      "elements": 12,
+      "family": "TET10",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        375.0,
+        -375.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "97a3bc90fce57ba889dc3b540525e1cd8dc3d479bd242d8208253d74dde972fd",
+      "nodes": 45,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_short_block_h2_transverse_y",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 135,
+      "elements": 12,
+      "family": "TET10",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -375.0,
+        0.0,
+        999.9999999999999
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "0ed2fa9288f296de4b1995695e3918d6e827f7c5a6a8c3aa0f0c98c626e37c67",
+      "nodes": 45,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_short_block_h2_transverse_z",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 135,
+      "elements": 12,
+      "family": "TET10",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -375.0,
+        999.9999999999999,
+        0.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "c7880311c01c92a9b8879cc13b21d25ff1c83992754c2a16f52fc6c72619703f",
+      "nodes": 45,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet10_short_block_h2_combined_xyz",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 135,
+      "elements": 12,
+      "family": "TET10",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.01270189221935,
+        793.8566201357354,
+        360.8439182435161
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "30e18b18fc58a0f8b6a1b4e5eddcddc58268f5d995001ed9492cbc8eb7782f7d",
+      "nodes": 45,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "tet10_short_block_h3_axial_x",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 225,
+      "elements": 24,
+      "family": "TET10",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        375.0,
+        -375.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "2707e318f2db91ea7e192952f624e316c53573d6517051ec6cc4e9c5a83e931c",
+      "nodes": 75,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_short_block_h3_transverse_y",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 225,
+      "elements": 24,
+      "family": "TET10",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -375.0,
+        0.0,
+        1000.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "e451f88b03aac13b9e65d2313ad04bb3c8100b15d83a4ce74d2b1709357b4bfb",
+      "nodes": 75,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "tet10_short_block_h3_transverse_z",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 225,
+      "elements": 24,
+      "family": "TET10",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -375.0,
+        1000.0,
+        0.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "18e00b64e78da52ac470de7f897413d89139fe48caf0354d6dbf0079772ff5cf",
+      "nodes": 75,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "tet10_short_block_h3_combined_xyz",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 225,
+      "elements": 24,
+      "family": "TET10",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.01270189221935,
+        793.8566201357355,
+        360.8439182435161
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "df84fa518ef8adcf718db76e9e1ca568e8b388d3004d4849f1c743e66118618e",
+      "nodes": 75,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex20_slender_beam_h1_axial_x",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 60,
+      "elements": 1,
+      "family": "HEX20",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        249.99999999999994,
+        -249.99999999999997
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "46fa2cb1cfbb7fae81b2bc0987f1f003439cec5af01e510e64d1d7a9d8400b2f",
+      "nodes": 20,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_slender_beam_h1_transverse_y",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 60,
+      "elements": 1,
+      "family": "HEX20",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -249.99999999999994,
+        0.0,
+        1999.9999999999998
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "2818966a9ad77e1fdef111ba547801b1006fd2db1397ff7e69eb3d7f59931565",
+      "nodes": 20,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_slender_beam_h1_transverse_z",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 60,
+      "elements": 1,
+      "family": "HEX20",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -249.99999999999997,
+        1999.9999999999998,
+        0.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "2884f5091ce3165a3dfdab84544839a530e053d0716e67755221d4c89f17de69",
+      "nodes": 20,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex20_slender_beam_h1_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 60,
+      "elements": 1,
+      "family": "HEX20",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -288.6751345948129,
+        1299.038105676658,
+        1010.3629710818451
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "4dedc02c0ba7a5c4f5475a29df926bb44e27ceee3c174edf211aa011152c6645",
+      "nodes": 20,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex20_slender_beam_h2_axial_x",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 96,
+      "elements": 2,
+      "family": "HEX20",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        249.99999999999994,
+        -249.99999999999997
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "6b32beae7792a2f96e50e065e1c9ce80776b9f33e4ed744809c4f8b4bfb03380",
+      "nodes": 32,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_slender_beam_h2_transverse_y",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 96,
+      "elements": 2,
+      "family": "HEX20",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -249.99999999999994,
+        0.0,
+        1999.9999999999998
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "9735cb0976bd1c4225c739408e094b3a57ddde6ec49979f67344ad5c4d7e5d25",
+      "nodes": 32,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_slender_beam_h2_transverse_z",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 96,
+      "elements": 2,
+      "family": "HEX20",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -249.99999999999997,
+        1999.9999999999998,
+        0.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "43f656fde0cac67d235923eb465c4c413a8db117145b4ae539c1e1819532120c",
+      "nodes": 32,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex20_slender_beam_h2_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 96,
+      "elements": 2,
+      "family": "HEX20",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.25,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -288.6751345948129,
+        1299.038105676658,
+        1010.3629710818451
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "3d7a4359cc711d50ec4e2e9259d6c92abfb60e71f956c35cb39df96c9f64a5a6",
+      "nodes": 32,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex20_slender_beam_h3_axial_x",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 153,
+      "elements": 4,
+      "family": "HEX20",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.24999999999999997,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        250.00000000000003,
+        -250.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "4793fa56a9986f3a12d0ad7438e85d49704bc5b0ead8f41a714c136f7715800f",
+      "nodes": 51,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_slender_beam_h3_transverse_y",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 153,
+      "elements": 4,
+      "family": "HEX20",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.24999999999999997,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -250.00000000000003,
+        0.0,
+        2000.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "293a9c238a895fd07fd8a657fb1e044ead05ea865d9ffdc8e05f57da549f2e2b",
+      "nodes": 51,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_slender_beam_h3_transverse_z",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 153,
+      "elements": 4,
+      "family": "HEX20",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.24999999999999997,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -250.0,
+        2000.0,
+        0.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "7862742b860fc650edb434e2ae48b1e9f2051bb5f1bc3db1c755b7f2acae59bb",
+      "nodes": 51,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex20_slender_beam_h3_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        0.5,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 153,
+      "elements": 4,
+      "family": "HEX20",
+      "geometry": "slender_beam",
+      "load_area_m2": 0.24999999999999997,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -288.6751345948129,
+        1299.038105676658,
+        1010.3629710818451
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "f8163064fed32d0c9fe84ad89af0af22366d103a9cd76aba1054a4b1f9944b89",
+      "nodes": 51,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex20_rectangular_beam_h1_axial_x",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 60,
+      "elements": 1,
+      "family": "HEX20",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        249.99999999999994,
+        -499.99999999999994
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "9817bea25555e876817e1b12b9f0517475f4d9b3ee7963442aa57fa72c5c1f7e",
+      "nodes": 20,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_rectangular_beam_h1_transverse_y",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 60,
+      "elements": 1,
+      "family": "HEX20",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -249.99999999999994,
+        0.0,
+        1999.9999999999998
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "5e7233bfe5b9cd46828ebffb9675eaf255a0a6a29cc834e09f79f65f0630dc0c",
+      "nodes": 20,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_rectangular_beam_h1_transverse_z",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 60,
+      "elements": 1,
+      "family": "HEX20",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -499.99999999999994,
+        1999.9999999999998,
+        0.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "bc62279f23a32cc123ab5b37a3ddcf25a675c53236c291750bf4eac90c4ab2a4",
+      "nodes": 20,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex20_rectangular_beam_h1_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 60,
+      "elements": 1,
+      "family": "HEX20",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.0127018922193,
+        1299.038105676658,
+        866.0254037844386
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "68eadd82be4e1c83bdc69e1211cd3e0190069e53921c10efd2d107cf8703150c",
+      "nodes": 20,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex20_rectangular_beam_h2_axial_x",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 96,
+      "elements": 2,
+      "family": "HEX20",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        249.99999999999994,
+        -499.99999999999994
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "24bc980e89471d08d30564356deb8ccbb7e567ef8d7f5339265d588a64226645",
+      "nodes": 32,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_rectangular_beam_h2_transverse_y",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 96,
+      "elements": 2,
+      "family": "HEX20",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -249.99999999999994,
+        0.0,
+        1999.9999999999998
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "a37d5c87969190f5f4519e912e61a6c24c10a48ba078b60148a5ff161197f65c",
+      "nodes": 32,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_rectangular_beam_h2_transverse_z",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 96,
+      "elements": 2,
+      "family": "HEX20",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -499.99999999999994,
+        1999.9999999999998,
+        0.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "ab6c1c86363f26325d62ab10953c2bee95af879359e0b030acf810497eb84d0f",
+      "nodes": 32,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex20_rectangular_beam_h2_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 96,
+      "elements": 2,
+      "family": "HEX20",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.5,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.0127018922193,
+        1299.038105676658,
+        866.0254037844386
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "cb79a8d4168335aff8fab45cef21d59fc7b50bb6096f5d6ec39408aafff05544",
+      "nodes": 32,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex20_rectangular_beam_h3_axial_x",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 153,
+      "elements": 4,
+      "family": "HEX20",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.49999999999999994,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        250.00000000000003,
+        -500.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "6002e7a5c8ab68c62b240f0843ccb20e25dd655b3e8b00bfad7ac1e36b186bbe",
+      "nodes": 51,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_rectangular_beam_h3_transverse_y",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 153,
+      "elements": 4,
+      "family": "HEX20",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.49999999999999994,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -250.00000000000003,
+        0.0,
+        2000.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "740e4afa3b3b0a788fc0c7e929f1844a0ca75df84043c5250d95495e05843a19",
+      "nodes": 51,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_rectangular_beam_h3_transverse_z",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 153,
+      "elements": 4,
+      "family": "HEX20",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.49999999999999994,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -500.0,
+        2000.0,
+        0.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "4668c98aa6dec1884996804b39a2c23a0cb4f25da5493ef5c09f894f0aada59d",
+      "nodes": 51,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex20_rectangular_beam_h3_combined_xyz",
+      "dimensions_m": [
+        2.0,
+        1.0,
+        0.5
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 153,
+      "elements": 4,
+      "family": "HEX20",
+      "geometry": "rectangular_beam",
+      "load_area_m2": 0.49999999999999994,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.0127018922193,
+        1299.038105676658,
+        866.0254037844386
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "5d6d58b817950b8a2bb139f14b7409c85735c3c963e081a55d5f0ed2ab687798",
+      "nodes": 51,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex20_short_block_h1_axial_x",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 60,
+      "elements": 1,
+      "family": "HEX20",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        374.99999999999994,
+        -375.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "980e8b27bc0a3b3554f91be9efd711dfc54e8bc4ffe90dbb94f01141f75ca9fd",
+      "nodes": 20,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_short_block_h1_transverse_y",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 60,
+      "elements": 1,
+      "family": "HEX20",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -374.99999999999994,
+        0.0,
+        999.9999999999998
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "3b6fb0ae3f4148dfb78e4309e1a4cf5bbe432a45b1f9004af59aeaeb31825bb3",
+      "nodes": 20,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_short_block_h1_transverse_z",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 60,
+      "elements": 1,
+      "family": "HEX20",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -375.0,
+        999.9999999999998,
+        0.0
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "3922962a4499003b69403cba8c039288841b4c87668bfea743a4c9e1c654f2df",
+      "nodes": 20,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex20_short_block_h1_combined_xyz",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        1,
+        1,
+        1
+      ],
+      "dofs": 60,
+      "elements": 1,
+      "family": "HEX20",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.0127018922193,
+        793.8566201357353,
+        360.84391824351604
+      ],
+      "mesh": "H1",
+      "model_fingerprint": "9d6a1d5cd9a60e756aa31287ab75958aeacbdafeb1e058a6666c6c1db8bbabe6",
+      "nodes": 20,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex20_short_block_h2_axial_x",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 96,
+      "elements": 2,
+      "family": "HEX20",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        374.99999999999994,
+        -375.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "7fe9858c112a27a17680d7012e46fdb629aca978e7d79cbf1f02e9cf2b590fc3",
+      "nodes": 32,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_short_block_h2_transverse_y",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 96,
+      "elements": 2,
+      "family": "HEX20",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -374.99999999999994,
+        0.0,
+        999.9999999999998
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "4236a9c961940dfc95cdfec3e60cc19357c1c46626fb8854db43111705d99c74",
+      "nodes": 32,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_short_block_h2_transverse_z",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 96,
+      "elements": 2,
+      "family": "HEX20",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -375.0,
+        999.9999999999998,
+        0.0
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "45f7cefaab0a8a0d24832eb1eab965e4c4013e76363f0476b188f1b5413d75db",
+      "nodes": 32,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex20_short_block_h2_combined_xyz",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        1,
+        1
+      ],
+      "dofs": 96,
+      "elements": 2,
+      "family": "HEX20",
+      "geometry": "short_block",
+      "load_area_m2": 0.5625,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.0127018922193,
+        793.8566201357353,
+        360.84391824351604
+      ],
+      "mesh": "H2",
+      "model_fingerprint": "c93701e3d277fddae9fcdd2396fa92ea7b0e26c993170e0ca2d63672f1ac5451",
+      "nodes": 32,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    },
+    {
+      "case_id": "hex20_short_block_h3_axial_x",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 153,
+      "elements": 4,
+      "family": "HEX20",
+      "geometry": "short_block",
+      "load_area_m2": 0.5624999999999999,
+      "load_case": "axial_x",
+      "load_moment_origin_Nm": [
+        0.0,
+        375.0,
+        -375.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "32456aa8a6b9231baa524ba937a6a1e94d06a0a34856b6a7599a2a49c17638fa",
+      "nodes": 51,
+      "resultant_N": [
+        1000.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_short_block_h3_transverse_y",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 153,
+      "elements": 4,
+      "family": "HEX20",
+      "geometry": "short_block",
+      "load_area_m2": 0.5624999999999999,
+      "load_case": "transverse_y",
+      "load_moment_origin_Nm": [
+        -375.0,
+        0.0,
+        999.9999999999998
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "a75412c90d23f4085e9774d089b2fa55b63d45eb9e25795031d849b4abf699a5",
+      "nodes": 51,
+      "resultant_N": [
+        0.0,
+        1000.0,
+        0.0
+      ]
+    },
+    {
+      "case_id": "hex20_short_block_h3_transverse_z",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 153,
+      "elements": 4,
+      "family": "HEX20",
+      "geometry": "short_block",
+      "load_area_m2": 0.5624999999999999,
+      "load_case": "transverse_z",
+      "load_moment_origin_Nm": [
+        -375.0,
+        999.9999999999998,
+        0.0
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "432e61ef1e5a46f7c32242a4d55dd8d1f181dbf420ecda5197fd8d4d39a60579",
+      "nodes": 51,
+      "resultant_N": [
+        0.0,
+        0.0,
+        -1000.0
+      ]
+    },
+    {
+      "case_id": "hex20_short_block_h3_combined_xyz",
+      "dimensions_m": [
+        1.0,
+        0.75,
+        0.75
+      ],
+      "divisions": [
+        2,
+        2,
+        1
+      ],
+      "dofs": 153,
+      "elements": 4,
+      "family": "HEX20",
+      "geometry": "short_block",
+      "load_area_m2": 0.5624999999999999,
+      "load_case": "combined_xyz",
+      "load_moment_origin_Nm": [
+        -433.0127018922193,
+        793.8566201357353,
+        360.84391824351604
+      ],
+      "mesh": "H3",
+      "model_fingerprint": "0942b67593fb644f098f397d02479e7e0df1485ea3a81a14f9ef138c1498bd63",
+      "nodes": 51,
+      "resultant_N": [
+        577.3502691896258,
+        577.3502691896258,
+        -577.3502691896258
+      ]
+    }
+  ],
+  "code_aster_image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+  "code_aster_image_id": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+  "code_aster_version": "18.1.0",
+  "contract_builder_sha": "885d0bc24804b77dd339a396948c970d403add2b",
+  "execution_authorization": {
+    "basis": "Owner request to substantially increase external correlation coverage after acceptance of the WP12 R2 perimeter; full fresh rerun after R3.2 exposed an 80-column mesh-record truncation and R3.3 exposed rejection of numeric-only node identifiers.",
+    "scope": "144 sequential same-mesh QF Solver SciPy direct versus Code_Aster 18.1 serial linear-static correlations using compact bijective alphabetic node and element identifiers (A..Z, AA...) so native-format names are valid and every .mail line respects the documented 80-column limit; abort the campaign on the first execution exception; one CPU per Code_Aster container; no nonlinear runs, no ledger change, no merge, no push."
+  },
+  "execution_authorized": true,
+  "external_solver": {
+    "action": "make_etude",
+    "cpu_limit": 1,
+    "fresh_container_per_case": true,
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "image_id": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "memory_limit_mb": 4096,
+    "modelisation": "3D",
+    "mpi": false,
+    "name": "Code_Aster",
+    "timeout_seconds": 900,
+    "version": "18.1.0"
+  },
+  "fail_closed": true,
+  "families": [
+    "TET4",
+    "HEX8",
+    "TET10",
+    "HEX20"
+  ],
+  "freeze_commit_sha": "885d0bc24804b77dd339a396948c970d403add2b",
+  "frozen_utc": "2026-09-23T14:25:34.775603+00:00",
+  "full_repository_test_suite": false,
+  "gates": {
+    "aster_force_equilibrium_relative": 1e-08,
+    "aster_moment_equilibrium_relative": 1e-08,
+    "displacement_relative_l2": 1e-08,
+    "displacement_relative_linf": 1e-08,
+    "fixed_displacement_abs_max": 1e-12,
+    "qf_force_equilibrium_relative": 1e-08,
+    "qf_free_residual_relative_l2": 1e-08,
+    "qf_moment_equilibrium_relative": 1e-08,
+    "reaction_relative_l2": 1e-08,
+    "reaction_relative_linf": 1e-08,
+    "strain_energy_from_external_work_relative": 1e-08
+  },
+  "geometry_catalog_m": {
+    "rectangular_beam": [
+      2.0,
+      1.0,
+      0.5
+    ],
+    "short_block": [
+      1.0,
+      0.75,
+      0.75
+    ],
+    "slender_beam": [
+      2.0,
+      0.5,
+      0.5
+    ]
+  },
+  "limitations": [
+    "bounded homogeneous isotropic 3D small-strain linear-static elasticity only",
+    "only TET4, HEX8, TET10, and HEX20 are covered; no wedge, pyramid, shell, or beam family",
+    "three simple rectangular block geometries, three low-to-moderate structured mesh sizes, and four prescribed distal-face traction directions",
+    "mesh labels H1/H2/H3 define model diversity only; no mesh-convergence or asymptotic accuracy claim",
+    "same discrete mesh, material, boundary conditions, and consistent nodal force vector are supplied to both solvers",
+    "no stress-field comparison, material nonlinearity, geometric nonlinearity, contact, friction, dynamics, buckling, continuation, or MPI/PETSc claim",
+    "correlation between two FEM implementations is not experimental validation",
+    "this supplemental R3.4 campaign does not alter existing WP12 R2 results, R3.2 or R3.3 failures, Owner decisions, points, or global ledger"
+  ],
+  "load_catalog_resultants_N": {
+    "axial_x": [
+      1000.0,
+      0.0,
+      0.0
+    ],
+    "combined_xyz": [
+      577.3502691896258,
+      577.3502691896258,
+      -577.3502691896258
+    ],
+    "transverse_y": [
+      0.0,
+      1000.0,
+      0.0
+    ],
+    "transverse_z": [
+      0.0,
+      0.0,
+      -1000.0
+    ]
+  },
+  "loading": {
+    "definition": "uniform traction over the complete distal x=L face, integrated to consistent equivalent nodal forces for each element interpolation",
+    "hexahedral_face_integration": "2D tensor Gauss integration of HEX8/HEX20 shape functions on xi=+1 face",
+    "moment_reference": "global origin; expected for uniform planar traction at (L,H/2,W/2)",
+    "tetrahedral_face_integration": "T3: area/3 per corner; T6: area/3 per edge-midpoint, zero corner contribution for constant traction",
+    "total_resultant_magnitude_N": 1000.0
+  },
+  "manifest_path": "qualification/0_2_9/wp12_external_vv_r3_4_expanded_manifest.json",
+  "material": {
+    "E": 210000000000.0,
+    "density": 7800.0,
+    "nu": 0.3,
+    "type": "isotropic_3d"
+  },
+  "memory_limit_mb": 4096,
+  "mesh_catalog_cells": {
+    "H1": [
+      1,
+      1,
+      1
+    ],
+    "H2": [
+      2,
+      1,
+      1
+    ],
+    "H3": [
+      2,
+      2,
+      1
+    ]
+  },
+  "model_builder_sha": "53a0b86cc7d0f1f15451f748ef6d5514f1bc5621",
+  "output_overwrite_allowed": false,
+  "output_root": "qualification/0_2_9/wp12_external_vv_r3_4_expanded_raw",
+  "points_policy": {
+    "candidate_points": "supplemental evidence only; no automatic WP12 point allocation",
+    "official_points_changed": false
+  },
+  "post_result_threshold_retuning_allowed": false,
+  "qf_solver": {
+    "analysis": "small-strain linear static",
+    "backend": "SciPy sparse direct spsolve via the existing WP11 linear-system helper",
+    "fallback": "none"
+  },
+  "raw_artifact_storage": "local ignored output root; versioned sibling SHA-256 manifest and compact reports",
+  "revision": "R3_4_EXPANDED_144_CASE_LINEAR_STATIC_CORRELATION",
+  "runner_sha": "885d0bc24804b77dd339a396948c970d403add2b",
+  "status": "FROZEN",
+  "supersedes_diagnostic_campaign": {
+    "audit_path": "qualification/0_2_9/wp12_external_vv_r3_2_expanded_audit.json",
+    "audit_sha256": "71dd9156e63098fb36feb02e6e8ddc243ce09ce4ea3f686b9e31b9530fd77190",
+    "audit_status": "FAIL_CLOSED",
+    "candidate_cases_passed": 132,
+    "case_count": 144,
+    "contract_path": "qualification/0_2_9/wp12_external_vv_r3_2_expanded_contract.json",
+    "contract_sha256": "64863837dc5694edd65126d5e28a286fdbcb35659bf2e63aef0748ab73b044aa",
+    "execution_sha": "ee5fcaef0c2125b69e584669b807ad5ff985fbbc",
+    "historical_results_preserved": true,
+    "manifest_path": "qualification/0_2_9/wp12_external_vv_r3_2_expanded_manifest.json",
+    "manifest_sha256": "c2cbbbd742d11a465b990977fba2c58194652fc0ddcfdcc69a70073045859c05",
+    "raw_evidence_reused": false,
+    "revision": "R3.2"
+  },
+  "supersedes_failed_attempt": {
+    "audit_path": "qualification/0_2_9/wp12_external_vv_r3_3_execution_audit.json",
+    "audit_sha256": "438c48745ffcec2c50bb75a3a395a71ba7995b33399a3c2bcc2e94a5da131851",
+    "audit_status": "FAIL_CLOSED",
+    "completed_failures": 20,
+    "contract_path": "qualification/0_2_9/wp12_external_vv_r3_3_expanded_contract.json",
+    "contract_sha256": "b7d732a74ff064a44d8bc83558986d6650d96d7c2b5bc4de97594f17f128a0ae",
+    "execution_sha": "f14d1eee623bfc991ed38e0aa3bd8164e0a1746e",
+    "historical_results_preserved": true,
+    "interrupted_cases": 1,
+    "manifest_path": "qualification/0_2_9/wp12_external_vv_r3_3_expanded_manifest.json",
+    "manifest_sha256": "e6e0e4cceb901170806c44ac0dfe7eaf091044f8a76db5b584fbe175c5ee6552",
+    "raw_evidence_reused": false,
+    "revision": "R3.3"
+  },
+  "thresholds_frozen_before_execution": true,
+  "timeout_seconds": 900,
+  "work_package": "WP12"
+}

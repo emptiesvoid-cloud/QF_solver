@@ -1,0 +1,28 @@
+START_UTC=2026-09-28T06:48:13.7054931+00:00
+COMMAND=python -m pytest tests/documentation
+ENV_QF_SOLVER_RUN_EVIDENCE=1
+CWD=C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_r1_13_integration_20260927
+PYTHON=Python 3.13.1
+============================= test session starts =============================
+platform win32 -- Python 3.13.1, pytest-8.4.1, pluggy-1.6.0
+rootdir: C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_r1_13_integration_20260927
+configfile: pyproject.toml
+plugins: anyio-4.9.0, hypothesis-6.135.20, langsmith-0.3.42, cov-6.2.1
+collected 62 items
+
+tests\documentation\test_docs_fields.py .......                          [ 11%]
+tests\documentation\test_docs_generation.py ..........s................. [ 56%]
+s...                                                                     [ 62%]
+tests\documentation\test_engineering_page_contracts.py ....              [ 69%]
+tests\documentation\test_extended_element_dossiers.py ........s          [ 83%]
+tests\documentation\test_mitc3_review_pdf.py .                           [ 85%]
+tests\documentation\test_open_owner_review_pdfs.py .                     [ 87%]
+tests\documentation\test_owner_review_audit_pack.py ...                  [ 91%]
+tests\documentation\test_owner_review_element_pack_pdf.py .              [ 93%]
+tests\documentation\test_technical_content_closure.py sss.               [100%]
+
+======================= 56 passed, 6 skipped in 38.83s ========================
+
+EXIT_CODE=0
+END_UTC=2026-09-28T06:48:54.9432732+00:00
+LOG_SHA256_PRE_SELF_RECORD=9084836BCF2F29748D885B618F1E08C1570C7C39DCED3D066155927235159FF1

@@ -1,0 +1,154 @@
+{
+  "artifact_id": "QF-029-WP07-E-CLOSURE-R2-FINAL-001",
+  "binding_file_sha256": "892f2de802551107337f3e0eddbcce68294e15aad5080fa1c64b945710e95cec",
+  "blockers": [
+    "D production/reference case is not PASS: PENALTY/M1",
+    "D production/reference case is not PASS: PENALTY/M2",
+    "D production/reference case is not PASS: PENALTY/M3"
+  ],
+  "branch": "codex/wp07e-closure-r2",
+  "checker": {
+    "derived_gate": "WP07_INCOMPLETE_EVIDENCE",
+    "hash_mismatches": [],
+    "missing_evidence": [],
+    "negative_case_failures": [],
+    "provenance_failures": [
+      "D production/reference case is not PASS: PENALTY/M1",
+      "D production/reference case is not PASS: PENALTY/M2",
+      "D production/reference case is not PASS: PENALTY/M3"
+    ],
+    "status": "FAIL_CLOSED"
+  },
+  "checker_execution_sha": "30cd777bb8246c7e67225d0515c7c82b0fb85f25",
+  "checker_source_sha256": "5140784e511a5d50c42cee8a16cf7ff704d2bdf3ceb607337ce1412b168ad693",
+  "contract_file_sha256": "2a6292b3c90a645c752ad388f0c62dc6aa735d1e42225a3dd96333c1bbafcd88",
+  "contract_path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/qualification/0_2_9/wp07e_closure_r2/wp07e_closure_contract_r2.json",
+  "contract_semantic_digest": "d1e2f5bdd76708987fec62fe4e337f9ad6547934ab43d4438ee555838359534d",
+  "d_execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+  "d_r1_evidence_manifest_sha256": "e446b3e419377927898a1f7ea3900d9ea197adad24737374f636294a02f2d36e",
+  "execution_sha": "f0a891e6b0bce514f1d0662e5b9d1dfd99f80f3d",
+  "gate": "WP07",
+  "global_totals": {
+    "local_integrated_total_after_D": "64/100",
+    "owner_stated_total_after_D": "61/100",
+    "reconciliation": "not performed; WP07-only score is evaluated independently"
+  },
+  "governing_branch": "0.2.9-unified-nonlinear",
+  "governing_sha": "168e345b74f221fb1b975161faea841ca48d9c7c",
+  "head_at_verification": "30cd777bb8246c7e67225d0515c7c82b0fb85f25",
+  "historical_evidence_modified": false,
+  "merge_performed": false,
+  "negative_case_manifest_sha256": "62b021f7c9b2594b43d8451751cdfacc83615957a6c6a332ca2fa9ca1c01c500",
+  "negative_cases": [
+    {
+      "case": "reversed_orientation",
+      "evidence_path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/qualification/0_2_9/wp07e_closure_r2/negative_cases/reversed_orientation.json",
+      "execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "expected": [
+        "VALIDATION_FAILURE"
+      ],
+      "expected_evidence_sha256": "0e909b6d89474f6632ffc49dfe86a3d53dc074c3d6dd76918f3bc5dfdc3c04ba",
+      "observed": "VALIDATION_FAILURE",
+      "observed_evidence_sha256": "0e909b6d89474f6632ffc49dfe86a3d53dc074c3d6dd76918f3bc5dfdc3c04ba",
+      "source_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "status": "PASS"
+    },
+    {
+      "case": "open_no_contact",
+      "evidence_path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/qualification/0_2_9/wp07e_closure_r2/negative_cases/open_no_contact.json",
+      "execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "expected": [
+        "PASS_OPEN_NO_CONTACT"
+      ],
+      "expected_evidence_sha256": "59926c797eaa5ed721b9411ea38624170ca13f5ca6a9344db98810849b2958c8",
+      "observed": "PASS_OPEN_NO_CONTACT",
+      "observed_evidence_sha256": "59926c797eaa5ed721b9411ea38624170ca13f5ca6a9344db98810849b2958c8",
+      "source_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "status": "PASS"
+    },
+    {
+      "case": "excessive_penetration",
+      "evidence_path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/qualification/0_2_9/wp07e_closure_r2/negative_cases/excessive_penetration.json",
+      "execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "expected": [
+        "CONTACT_PENETRATION_EXCESSIVE",
+        "ROUTE_NATIVE_FAILURE"
+      ],
+      "expected_evidence_sha256": "c34ad1f0846c7d9ef0853a4d3684defc79fbc1430ccab897e6964463bf70b00b",
+      "observed": "CONTACT_PENETRATION_EXCESSIVE",
+      "observed_evidence_sha256": "c34ad1f0846c7d9ef0853a4d3684defc79fbc1430ccab897e6964463bf70b00b",
+      "source_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "status": "PASS"
+    },
+    {
+      "case": "unsupported_combination",
+      "evidence_path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/qualification/0_2_9/wp07e_closure_r2/negative_cases/unsupported_combination.json",
+      "execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "expected": [
+        "UNSUPPORTED_EXPLICIT"
+      ],
+      "expected_evidence_sha256": "4d51a837d062368981fc286a09e947904191eaea4a90df17c46a1254e9c139f5",
+      "observed": "UNSUPPORTED_EXPLICIT",
+      "observed_evidence_sha256": "4d51a837d062368981fc286a09e947904191eaea4a90df17c46a1254e9c139f5",
+      "source_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "status": "PASS"
+    },
+    {
+      "case": "nonfinite_observable",
+      "evidence_path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/qualification/0_2_9/wp07e_closure_r2/negative_cases/nonfinite_observable.json",
+      "execution_sha": "f0a891e6b0bce514f1d0662e5b9d1dfd99f80f3d",
+      "expected": [
+        "EVIDENCE_VALIDATION_FAILURE"
+      ],
+      "expected_evidence_sha256": "d0555240a3f80588eeab9f9188df1d207562b362cd186ec9a62de57d71160111",
+      "observed": "EVIDENCE_VALIDATION_FAILURE",
+      "observed_evidence_sha256": "d0555240a3f80588eeab9f9188df1d207562b362cd186ec9a62de57d71160111",
+      "source_sha": "f0a891e6b0bce514f1d0662e5b9d1dfd99f80f3d",
+      "status": "PASS"
+    },
+    {
+      "case": "incompatible_restart_metadata",
+      "evidence_path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/qualification/0_2_9/wp07e_closure_r2/negative_cases/incompatible_restart_metadata.json",
+      "execution_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "expected": [
+        "RESTART_METADATA_MISMATCH"
+      ],
+      "expected_evidence_sha256": "247af693d8412ed753aa390449f4839e184210db6d8863877c5eaf6da1a2fe38",
+      "observed": "RESTART_METADATA_MISMATCH",
+      "observed_evidence_sha256": "247af693d8412ed753aa390449f4839e184210db6d8863877c5eaf6da1a2fe38",
+      "source_sha": "ed89446bb74d454ec40170a75c9252514ecc95e2",
+      "status": "PASS"
+    }
+  ],
+  "next_action": "Resolve the listed evidence/provenance/negative-case blockers without changing frozen criteria.",
+  "official_ledger_updated": false,
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "production_mechanics_changed_by_wp07e": false,
+  "push_performed": false,
+  "schema_version": 1,
+  "thresholds_changed": false,
+  "work_package": "WP07-E",
+  "working_tree_dirty": true,
+  "wp07_candidate_points_after_owner_acceptance": "8/10",
+  "wp07_current_official_points": "8/10",
+  "wp07d_dependency": {
+    "all_production_m1_m2_m3_pass": false,
+    "all_references_m1_m2_m3_pass": true,
+    "analysis_status": "READY_FOR_OWNER_REVIEW",
+    "owner_acceptance": "YES",
+    "points": "3/3",
+    "raw_artifact_manifest_path": "C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp07e_closure_r2/qualification/0_2_9/wp07e_closure_r2/d_r1_evidence_manifest.json",
+    "raw_artifacts_verified": 80,
+    "replay_statuses": {
+      "ACTIVE_SET": "PASS",
+      "PENALTY": "PASS"
+    },
+    "rerun": false
+  },
+  "wp07d_rerun": false,
+  "wp07e_candidate_points": "0/2",
+  "wp07e_closure_status": "FAIL_CLOSED",
+  "wp07e_evidence_package": "INCOMPLETE",
+  "wp07e_official_points_awarded": "0/2",
+  "wp07e_owner_acceptance": "PENDING"
+}

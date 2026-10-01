@@ -1,6 +1,6 @@
 ---
 doc_id: DOC-GOV-REV-TERMS-001
-revision: 0.1
+revision: 0.3
 status: controlled
 applicable_version: 0.2.1a0
 reviewer: ""
@@ -21,6 +21,8 @@ rester explicite.
 | Terme | Responsabilite | Preuve minimale | Effet sur la maturite |
 | --- | --- | --- | --- |
 | `automated_verification` | Test, calcul ou campagne reproductible | commande, entree, environnement, resultat et verdict | aucun, sans decision explicite |
+| `analyzer_report` / rapport analyseur | Representation des controles par l'analyseur | source, entrees, metriques et verdicts traces | aucun ; les donnees brutes restent prioritaires |
+| `owner_analysis` / analyse Owner | Analyse preparatoire des preuves pour le proprietaire | perimetre, donnees, ecarts et limites | aucun ; ce n'est pas une acceptation |
 | `owner_review` | Proprietaire du projet | identite, date, scope, decision et commentaires | peut accepter un domaine interne borne |
 | `external_audit` | Relecteur ou organisme independant | auteur, independance, version, perimetre et artefacts | peut completer une evidence, sans certification implicite |
 
@@ -28,6 +30,22 @@ rester explicite.
 la decision sont la meme personne. Il doit rester declare comme non
 independant. `independent_review` designe une revue par une personne distincte
 et tracee.
+
+## Statuts de controle documentaire et decisions Owner
+
+`controlled` et `controlled_release` indiquent qu'un document est gere dans le
+registre de configuration. Ces statuts ne prouvent pas, a eux seuls, qu'une
+revue Owner a eu lieu et ne declenchent donc pas le controle de completude des
+metadonnees de decision Owner. Les champs manquants restent signales dans un
+backlog documentaire non bloquant.
+
+Les statuts `approved`, `accepted_for_release_*`, `owner_approved*` et
+`owner_accepted*` expriment une approbation ou une acceptation et restent dans
+le perimetre du controle de metadonnees Owner. La presence de champs non vides
+ne suffit toujours pas a prouver l'identite, la date, le perimetre et la
+decision : ces elements doivent etre rattaches a un dossier de preuve direct.
+Cette distinction s'applique prospectivement et ne reclassifie aucun resultat
+historique.
 
 ## Schema V&V
 
@@ -41,14 +59,26 @@ un verdict automatique `FAIL`.
 
 ## Archives
 
-Les archives de preuve sous `qualification/evidence/` sont immuables : elles
-peuvent conserver un vocabulaire historique. Elles ne doivent pas etre citees
-comme un contrat de terminologie courant. Tout rapport nouveau applique cette
-politique et identifie clairement les artefacts d'archive qu'il reference.
+Les resultats numeriques, les decisions et les liaisons d'execution des archives
+restent traces. Les copies courantes appliquent egalement la terminologie
+analyseur apres migration explicite. Les hashes originaux ne sont pas
+remplaces retroactivement par ceux des copies migrees. Tout rapport nouveau
+identifie clairement les artefacts d'archive qu'il reference.
+
+La migration de terminologie autorisee applique aussi les nouveaux libelles
+aux copies courantes des archives. Aucune archive ne beneficie d'une dispense
+lexicale. Les versions originales restent identifiables par leurs objets Git
+et leurs hashes, sans reecriture de l'histoire Git. Pour WP06-F, le rapport
+devient un rapport analyseur, avec le token `ANALYZER_REPORT`, sans changer son
+rang d'autorite, les seuils, les resultats ou la decision de preparation.
+`scripts/verify_review_terminology_migration.py` verifie exactement les deux
+transformations autorisees et leurs hashes avant/apres. Cette migration ne
+vaut ni qualification supplementaire ni nouvelle execution.
 
 ## Controle
 
 Le test `tests/unit/test_review_vocabulary.py` interdit le vocabulaire
-generique des anciennes revues dans les sources publiees et maintenues. Les
-archives immuables et les produits generes sont exclus de ce controle, car ils
-font l'objet d'un audit de publication distinct.
+generique des anciennes revues dans les sources maintenues, les archives et
+les documents generes presents dans l'inventaire Git. Aucun contrat historique
+ne beneficie d'une exception lexicale. Les fichiers binaires et les objets
+Git originaux ne sont pas reecrits par ce controle.

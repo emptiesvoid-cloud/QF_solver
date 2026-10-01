@@ -1,0 +1,22 @@
+{
+  "kind": "fresh_process_replay_attestation",
+  "element_type": "HEX20",
+  "pid": 43112,
+  "command": [
+    "C:\\Python313\\python.exe",
+    "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp10_extension_preparation\\scripts\\run_wp10_hex20_coupled.py",
+    "--case",
+    "m2",
+    "--output",
+    "qualification\\0_2_9\\wp10_hex20_extension_r2\\m3_replay.json",
+    "--reference",
+    "qualification\\0_2_9\\wp10_hex20_extension_r2\\m3_reference.json"
+  ],
+  "cwd": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp10_extension_preparation",
+  "started_unix": 1789976155.1610312,
+  "ended_unix": 1789976189.802741,
+  "return_code": 0,
+  "source_sha": "8f75290fa9aa1ef17c20b9ba69626022a06403d5",
+  "primary_sha256": "2bdf03ee95da01fe24785c3771c600ee675ab089bf564709f7a95c3c03409ab0",
+  "reference_sha256": "b6160ed8841fcebf0dfc02ca948f15c9e0dd7c5693d19e41ee0f8f1ca6b99365"
+}

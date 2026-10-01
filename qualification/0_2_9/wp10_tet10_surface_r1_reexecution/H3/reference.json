@@ -1,0 +1,9 @@
+{
+  "status": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION",
+  "source_sha": "a114a707332487a637569661b9548f2928d885b7",
+  "contract_sha256": "e1203f6203281b3bf5e8a503b52ed1fe8f2a548128819e685764477c60c34359",
+  "element_type": "TET10",
+  "independence": "surface-load resultant and finite-displacement recomputation; not an independent global FEM solve",
+  "resultant_error_norm": 5.551115123125783e-17,
+  "finite_displacements": true
+}

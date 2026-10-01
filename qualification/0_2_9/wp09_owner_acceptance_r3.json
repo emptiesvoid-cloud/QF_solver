@@ -1,0 +1,32 @@
+{
+  "decision_id": "OD-029-WP09-HEX8-R3",
+  "decision_date": "2026-09-20",
+  "status": "APPROVED_WITH_LIMITATIONS",
+  "owner_accepts_wp09_hex8_r3": true,
+  "owner_awards_wp09_points": "8/8",
+  "wp09_official_points_before": "0/8",
+  "wp09_official_points_after": "8/8",
+  "global_official_total_before": "70/100",
+  "global_official_total_after": "78/100",
+  "scope": "HEX8-only bounded corotational J2 qualification",
+  "source_sha": "397439f2d40d4a70375c6998b701428b4cd4cf40",
+  "contract_sha256": "c2439513909cc7c640c96878ad6673b8b0377fea15cb16d269df43adae128b0d",
+  "policy_code_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "primary_status": "PASS",
+  "independent_reference_status": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION",
+  "replay_status": "PASS",
+  "mesh_gate_status": "PASS",
+  "code_aster_status": "NOT_EXECUTED_AND_NOT_CLAIMED",
+  "limitations": [
+    "HEX8 only",
+    "bounded corotational J2",
+    "small local strain scope",
+    "independent reference is not a global FEM/Newton solve",
+    "no TET4 or HEX20 qualification",
+    "no general finite-strain plasticity claim",
+    "no Code_Aster correlation"
+  ],
+  "historical_evidence_preserved": true,
+  "merge_authorized": true,
+  "push_authorized": true
+}

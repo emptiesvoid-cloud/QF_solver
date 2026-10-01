@@ -1,0 +1,15 @@
+{
+  "artifact_id": "QF-029-WP08-AREA-SUPPORTED-CONTACT-DIAGNOSTIC-R1.9",
+  "contract_path": "contract.json",
+  "contract_sha256": "54e034808586c71ee58616edbd395ab933450989865d0d35d21a63f2efe85962",
+  "frozen_utc": "2026-09-26T19:01:00.922424+00:00",
+  "git": {
+    "branch": "codex/wp08-area-contact-r1-9-candidate",
+    "head": "265b7f0320b51eff3d4d572a89b3a99b70158dcd",
+    "porcelain_status": "?? qualification/0_2_9/wp08_surface_stiffness_remediation/"
+  },
+  "source_bundle_sha256": "5c7c00b67f5ba0afffb75c94528ce761dcca6aa567b8df3e35c7b7f194f98499",
+  "source_manifest_canonical_sha256": "5c7c00b67f5ba0afffb75c94528ce761dcca6aa567b8df3e35c7b7f194f98499",
+  "source_manifest_path": "source_file_manifest.json",
+  "status": "FROZEN_R1_9_CONTACT_CAMPAIGN_DIAGNOSTIC"
+}

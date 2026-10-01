@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "passed": 49,
+  "skipped": 1,
+  "failed": 0,
+  "command": "python -m pytest tests/unit/test_distributed_large_model.py tests/unit/test_large_mpi_diagnostics.py tests/unit/test_large_mpi_guardrails.py tests/unit/test_large_mpi_output.py tests/unit/test_large_petsc_contract.py tests/unit/test_large_solver_low_level_contracts.py tests/integration/test_large_model.py -q",
+  "full_suite": "NOT_RUN"
+}

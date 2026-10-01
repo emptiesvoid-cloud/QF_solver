@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "decision_id": "QF-SOLVER-0.2.9-WP08-OWNER-REVIEW-001",
+  "controlled_branch": "0.2.9-wp08-controlled-integration",
+  "controlled_final_sha": "94ce29e8fd5348eff4db3752183a50e0a7da0673",
+  "base_sha": "7b93e71bab06a0e58108bd2479cd46808d533b67",
+  "controlled_port_commit": "604d3a4a6d533c3b12642c0d00b0fa75e9cd033f",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "provenance_rebound": true,
+  "divergent_history_imported": false,
+  "thresholds_changed": false,
+  "solver_parameters_changed": false,
+  "fallback_policy_changed": false,
+  "wp06_touched": false,
+  "working_tree_clean": true,
+  "production_mechanics_change": {
+    "classification": "PRODUCTION_CONTACT_FRICTION_MECHANICS_CHANGE",
+    "files": ["src/solveur/contact/support.py"],
+    "function": "_friction_update",
+    "scope": [
+      "finite-state guards",
+      "trial_norm == 0.0 slip-branch handling",
+      "0/0 NaN prevention",
+      "explicit NumericalConvergenceError with NAN_DETECTED"
+    ],
+    "unapproved_mechanics_change": false
+  },
+  "targeted_validation": {
+    "tests": "46 passed; additional frictionless contact regression 19 passed",
+    "ruff": "PASS",
+    "mypy": "PASS for new WP08 scope; inherited support.py:447 diagnostic reported",
+    "compileall": "PASS",
+    "json_validation": "PASS",
+    "git_diff_check": "PASS",
+    "full_test_suite": "NO"
+  },
+  "gate_status": {
+    "wp08_a": "PASS_TECHNICAL_CANDIDATE_REVALIDATED",
+    "wp08_b": "PASS_CANDIDATE_WITH_LIMITATIONS_REVALIDATED",
+    "wp08_c": "PASS_CANDIDATE_WITH_LIMITATIONS_REVALIDATED",
+    "wp08_d": "PREPARATION_ONLY",
+    "wp08_formal_points": "0/8",
+    "structural_qualification_claim": false,
+    "h4_status": "NOT_STARTED"
+  },
+  "owner_decision": {
+    "owner_authorizes_contact_mechanics_change": "NOT_PROVIDED",
+    "effective_contact_mechanics_authorization": "NO",
+    "owner_merge_authorization": "NOT_GRANTED",
+    "owner_structural_wp08d_authorization": "NOT_GRANTED",
+    "decision_rule": "absence of explicit YES keeps the controlled change unauthorized"
+  },
+  "governance": {
+    "merge_to_governing": "NOT_PERFORMED",
+    "push": "NOT_PERFORMED",
+    "wp08_points": "0/8",
+    "wp06_touched": false,
+    "h4_started": false,
+    "full_test_suite_run": false
+  },
+  "inherited_mypy_limitation": {
+    "path": "src/solveur/contact/support.py",
+    "line": 447,
+    "status": "INHERITED_FROM_GOVERNING_BASE",
+    "changed_in_controlled_patch": false
+  },
+  "final_status": "HOLD_OWNER_AUTHORIZATION_REQUIRED"
+}

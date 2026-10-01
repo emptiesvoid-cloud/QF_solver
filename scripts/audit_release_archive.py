@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import subprocess
 import tarfile
 import tempfile
@@ -94,10 +95,14 @@ def audit_release_archive(
                 members = [member for member in archive.getmembers() if member.isfile()]
                 paths = sorted(member.name.rstrip("/") for member in members)
                 content_findings: list[dict[str, object]] = []
+                patterns = _patterns()
                 for member in members:
+                    suffix = Path(member.name).suffix.lower()
+                    if member.name == _SOURCE_SCANNER or suffix not in TEXT_SUFFIXES | PDF_SUFFIXES:
+                        continue
                     stream = archive.extractfile(member)
                     if stream is not None:
-                        content_findings.extend(_scan_member(member.name, stream.read()))
+                        content_findings.extend(_scan_member(member.name, stream.read(), patterns))
     except (FileNotFoundError, OSError, tarfile.TarError) as exc:
         return {
             "status": "FAIL",
@@ -119,7 +124,11 @@ def _is_forbidden(path: str) -> bool:
     return path.startswith(_FORBIDDEN_PREFIXES) or path.startswith("VNV-")
 
 
-def _scan_member(path: str, payload: bytes) -> list[dict[str, object]]:
+def _scan_member(
+    path: str,
+    payload: bytes,
+    patterns: dict[str, re.Pattern[str]] | None = None,
+) -> list[dict[str, object]]:
     if path == _SOURCE_SCANNER:
         return []
     suffix = Path(path).suffix.lower()
@@ -127,6 +136,7 @@ def _scan_member(path: str, payload: bytes) -> list[dict[str, object]]:
         return [asdict(finding) for finding in scan_pdf_bytes(path, payload)]
     if suffix not in TEXT_SUFFIXES:
         return []
+    compiled_patterns = _patterns() if patterns is None else patterns
     try:
         lines = payload.decode("utf-8").splitlines()
     except UnicodeDecodeError:
@@ -134,7 +144,7 @@ def _scan_member(path: str, payload: bytes) -> list[dict[str, object]]:
     findings: list[dict[str, object]] = []
     for line_number, line in enumerate(lines, start=1):
         scan_line = _mask_controlled_public_ref(line)
-        for identifier, pattern in _patterns().items():
+        for identifier, pattern in compiled_patterns.items():
             if pattern.search(scan_line):
                 findings.append(
                     {

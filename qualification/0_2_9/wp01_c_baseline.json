@@ -1,0 +1,1702 @@
+{
+  "baseline_sha": "ad7ee6bd469aa770929fd7a1d46f56da5e9bba1a",
+  "cases": [
+    {
+      "analysis": "nonlinear_static",
+      "contact_diagnostics": {
+        "contact_active_contacts": [],
+        "contact_closest_distances": [],
+        "contact_finite_sliding": false,
+        "contact_gaps": [],
+        "contact_master_face_indices": [],
+        "contact_mode": "none",
+        "contact_projection_clamped": [],
+        "contact_projection_modes": [],
+        "contact_tangent_nnz": 0
+      },
+      "displacement": [
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 0
+        },
+        {
+          "dofs": {
+            "UX": 0.08043478260869566,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 1
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 2
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 3
+        }
+      ],
+      "equilibrium": {
+        "displacement_norm": 0.08043478260869566,
+        "external_load_norm": 10.0,
+        "external_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "external_resultant": [
+          10.0,
+          0.0,
+          0.0
+        ],
+        "external_work_at_final_load": 0.8043478260869565,
+        "fixed_reaction_norm": 19.560922770741985,
+        "force_balance_relative_error": 1.77635683940025e-16,
+        "force_imbalance": [
+          -1.7763568394002505e-15,
+          0.0,
+          0.0
+        ],
+        "free_relative_residual": 1.7763568394002506e-16,
+        "free_residual_norm": 1.7763568394002505e-15,
+        "ground_spring_reaction_norm": 0.0,
+        "internal_force_norm": 21.96883473566435,
+        "linear_energy_identity_relative_error": 2.220446049250313e-16,
+        "load_factor": 1.0,
+        "moment_balance_relative_error": 0.0,
+        "moment_imbalance_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reaction_moment_about_origin": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reaction_resultant": [
+          -10.000000000000002,
+          0.0,
+          0.0
+        ],
+        "reactions": [
+          {
+            "dof": "UX",
+            "index": 0,
+            "node": 0,
+            "value": -10.000000000000002
+          },
+          {
+            "dof": "UY",
+            "index": 1,
+            "node": 0,
+            "value": -8.405797101449277
+          },
+          {
+            "dof": "UZ",
+            "index": 2,
+            "node": 0,
+            "value": -8.405797101449277
+          },
+          {
+            "dof": "UX",
+            "index": 6,
+            "node": 2,
+            "value": 0.0
+          },
+          {
+            "dof": "UY",
+            "index": 7,
+            "node": 2,
+            "value": 8.405797101449277
+          },
+          {
+            "dof": "UZ",
+            "index": 8,
+            "node": 2,
+            "value": 0.0
+          },
+          {
+            "dof": "UX",
+            "index": 9,
+            "node": 3,
+            "value": 0.0
+          },
+          {
+            "dof": "UY",
+            "index": 10,
+            "node": 3,
+            "value": 0.0
+          },
+          {
+            "dof": "UZ",
+            "index": 11,
+            "node": 3,
+            "value": 8.405797101449277
+          }
+        ],
+        "secant_internal_energy": 0.4021739130434784,
+        "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs"
+      },
+      "iteration_count": 1,
+      "load_factor": 1.0,
+      "material_state_digest": "ed9eef34094a0469a685ec2ad97477953c8afb2d92c10c98a82106a5c86a7963",
+      "material_states": [
+        {
+          "element": 0,
+          "integration_points": [
+            {
+              "elastic": false,
+              "equivalent_plastic_strain": 0.04565217391304348,
+              "equivalent_stress": 9.565217391304348,
+              "index": 0,
+              "model": "von_mises_isotropic_hardening",
+              "plastic_multiplier": 0.010434782608695648,
+              "plastic_strain": [
+                0.04565217391304347,
+                -0.022826086956521743,
+                -0.022826086956521746,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "stress": [
+                60.000000000000014,
+                50.43478260869566,
+                50.43478260869566,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "yield_function": 0.0,
+              "yield_stress": 9.565217391304348
+            }
+          ]
+        }
+      ],
+      "method": "newton_line_search",
+      "name": "small_strain_j2_nonlinear_static",
+      "reactions": [
+        {
+          "max_abs": 10.0,
+          "name": "reference_loads",
+          "nonzero_count": 1,
+          "nonzero_entries": [
+            {
+              "index": 3,
+              "value": 10.0
+            }
+          ],
+          "norm": 10.0,
+          "size": 12
+        },
+        {
+          "max_abs": 10.0,
+          "name": "final_external_load",
+          "nonzero_count": 1,
+          "nonzero_entries": [
+            {
+              "index": 3,
+              "value": 10.0
+            }
+          ],
+          "norm": 10.0,
+          "size": 12
+        },
+        {
+          "max_abs": 0.08043478260869566,
+          "name": "displacements",
+          "nonzero_count": 1,
+          "nonzero_entries": [
+            {
+              "index": 3,
+              "value": 0.08043478260869566
+            }
+          ],
+          "norm": 0.08043478260869566,
+          "size": 12
+        },
+        {
+          "max_abs": 10.000000000000002,
+          "name": "final_internal_force",
+          "nonzero_count": 6,
+          "nonzero_entries": [
+            {
+              "index": 0,
+              "value": -10.000000000000002
+            },
+            {
+              "index": 1,
+              "value": -8.405797101449277
+            },
+            {
+              "index": 2,
+              "value": -8.405797101449277
+            },
+            {
+              "index": 3,
+              "value": 10.000000000000002
+            },
+            {
+              "index": 7,
+              "value": 8.405797101449277
+            },
+            {
+              "index": 11,
+              "value": 8.405797101449277
+            }
+          ],
+          "norm": 21.96883473566435,
+          "size": 12
+        },
+        {
+          "max_abs": 10.000000000000002,
+          "name": "residual",
+          "nonzero_count": 6,
+          "nonzero_entries": [
+            {
+              "index": 0,
+              "value": -10.000000000000002
+            },
+            {
+              "index": 1,
+              "value": -8.405797101449277
+            },
+            {
+              "index": 2,
+              "value": -8.405797101449277
+            },
+            {
+              "index": 3,
+              "value": 1.7763568394002505e-15
+            },
+            {
+              "index": 7,
+              "value": 8.405797101449277
+            },
+            {
+              "index": 11,
+              "value": 8.405797101449277
+            }
+          ],
+          "norm": 19.560922770741985,
+          "size": 12
+        },
+        {
+          "max_abs": 10.000000000000002,
+          "name": "reactions",
+          "nonzero_count": 5,
+          "nonzero_entries": [
+            {
+              "index": 0,
+              "value": -10.000000000000002
+            },
+            {
+              "index": 1,
+              "value": -8.405797101449277
+            },
+            {
+              "index": 2,
+              "value": -8.405797101449277
+            },
+            {
+              "index": 7,
+              "value": 8.405797101449277
+            },
+            {
+              "index": 11,
+              "value": 8.405797101449277
+            }
+          ],
+          "norm": 19.560922770741985,
+          "size": 12
+        }
+      ],
+      "residual": {
+        "history": [
+          2.0,
+          1.7763568394002505e-15
+        ],
+        "norm": 1.7763568394002505e-15,
+        "relative": 1.7763568394002506e-16
+      },
+      "solver_step": {
+        "arc_length_branch_direction": null,
+        "arc_length_constraint_residual": null,
+        "arc_length_control_displacement": null,
+        "arc_length_direction_alignment": null,
+        "arc_length_predictor_sign": null,
+        "arc_length_radius": null,
+        "assembly_seconds": 0.0010168000007979572,
+        "contact_active_contacts": [],
+        "contact_assembly_calls": 0,
+        "contact_assembly_seconds": 0.0,
+        "contact_closest_distances": [],
+        "contact_finite_sliding": false,
+        "contact_gaps": [],
+        "contact_master_face_indices": [],
+        "contact_projection_clamped": [],
+        "contact_projection_modes": [],
+        "contact_search_mode": null,
+        "contact_tangent_nnz": 0,
+        "cumulative_correction_norm": 0.016956521739130436,
+        "element_cache_hits": 2,
+        "element_cache_misses": 0,
+        "element_kernel_calls": 2,
+        "element_kernel_seconds": 0.0005039999668952078,
+        "element_scatter_seconds": 0.00025859999004751444,
+        "element_setup_seconds": 1.400010660290718e-06,
+        "equivalent_plastic_strain_max": 0.04565217391304348,
+        "failure_reason": null,
+        "incremental_external_work": 0.15260869565217394,
+        "incremental_internal_work": 0.15260869565217394,
+        "iterations": 1,
+        "last_correction_norm": 0.016956521739130436,
+        "line_search_reductions": 0,
+        "line_search_seconds": 0.0005555999814532697,
+        "linear_solve_seconds": 0.0009027000050991774,
+        "load_factor": 1.0,
+        "load_increment": 0.19999999999999996,
+        "load_step_cutbacks": 0,
+        "min_line_search_factor": 1.0,
+        "plastic_dissipation_max": 0.32268431001890296,
+        "reference_cache_hits": 0,
+        "reference_cache_misses": 0,
+        "relative_residual": 1.7763568394002506e-16,
+        "relative_work_imbalance": 0.0,
+        "residual_history": [
+          2.0,
+          1.7763568394002505e-15
+        ],
+        "residual_initial": 2.0,
+        "residual_norm": 1.7763568394002505e-15,
+        "sparse_accumulator_levels": 1,
+        "sparse_chunk_count": 1,
+        "sparse_conversion_seconds": 0.0003603999793995172,
+        "sparse_peak_chunk_bytes_estimate": 6912,
+        "sparse_peak_chunk_entries": 144,
+        "state_committed": true,
+        "step": 5,
+        "tangent_nnz": 72,
+        "work_diagnostics_available": true
+      },
+      "status": "PASS"
+    },
+    {
+      "analysis": "geometric_nonlinear_static",
+      "contact_diagnostics": {},
+      "displacement": [
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 0
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 1
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 2
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 3
+        },
+        {
+          "dofs": {
+            "UX": -8.325456778794414e-06,
+            "UY": 4.003217190784964e-06,
+            "UZ": -2.9918132433092003e-05
+          },
+          "node": 4
+        },
+        {
+          "dofs": {
+            "UX": 1.064197712631619e-05,
+            "UY": 2.6446492985427384e-06,
+            "UZ": -2.8775335512362018e-05
+          },
+          "node": 5
+        },
+        {
+          "dofs": {
+            "UX": -1.0516102102849739e-05,
+            "UY": 3.978783359444879e-06,
+            "UZ": -2.8215443688487196e-05
+          },
+          "node": 6
+        },
+        {
+          "dofs": {
+            "UX": 7.0119487940967256e-06,
+            "UY": 2.1360270921605483e-06,
+            "UZ": -2.680946830702607e-05
+          },
+          "node": 7
+        },
+        {
+          "dofs": {
+            "UX": -1.128351618220531e-05,
+            "UY": 1.0704144014005236e-05,
+            "UZ": -8.321519514695153e-05
+          },
+          "node": 8
+        },
+        {
+          "dofs": {
+            "UX": 1.2483778428112126e-05,
+            "UY": 8.753612801478007e-06,
+            "UZ": -8.206147734292372e-05
+          },
+          "node": 9
+        },
+        {
+          "dofs": {
+            "UX": -1.5479362888123253e-05,
+            "UY": 1.051663563625255e-05,
+            "UZ": -8.104507539447664e-05
+          },
+          "node": 10
+        },
+        {
+          "dofs": {
+            "UX": 8.94330896691215e-06,
+            "UY": 8.400339936913216e-06,
+            "UZ": -7.972937225848873e-05
+          },
+          "node": 11
+        }
+      ],
+      "equilibrium": {},
+      "iteration_count": 3,
+      "load_factor": 1.0,
+      "material_state_digest": "510eeed9abe9e0d9c1fcb08e0e8c0b88d013bd091224f52333f2fc7c395eb218",
+      "material_states": [],
+      "method": "newton_raphson",
+      "name": "geometric_nonlinear_tet4",
+      "reactions": [],
+      "residual": {
+        "history": [
+          0.04999999999999963,
+          1.2564114016670878e-05,
+          9.946134258093405e-11
+        ],
+        "norm": 9.946134258093405e-11,
+        "relative": 9.946134258093405e-11
+      },
+      "solver_step": {
+        "assembly_seconds": 0.0018418999970890582,
+        "diagnostics": {
+          "assembly_seconds": 0.0018418999970890582,
+          "backend": "scipy.sparse.linalg.spsolve",
+          "converged": true,
+          "iterations": 3,
+          "line_search_iterations": 0,
+          "line_search_seconds": 0.0004329000075813383,
+          "linear_solve_seconds": 0.0004006999952252954,
+          "linear_system_diagnostics": [],
+          "reason": null,
+          "relative_residual": 9.946134258093405e-11,
+          "residual_final": 9.946134258093405e-11,
+          "residual_history": [
+            0.04999999999999963,
+            1.2564114016670878e-05,
+            9.946134258093405e-11
+          ],
+          "residual_initial": 0.04999999999999963,
+          "robustness_options": null,
+          "solver": "full_newton",
+          "tolerance": 1e-09
+        },
+        "increment": 10,
+        "iterations": 3,
+        "line_search_seconds": 0.0004329000075813383,
+        "linear_solve_seconds": 0.0004006999952252954,
+        "load_factor": 1.0,
+        "minimum_det_f": 0.9999922968082128,
+        "relative_residual": 9.946134258093405e-11,
+        "residual_final": 9.946134258093405e-11,
+        "residual_history": [
+          0.04999999999999963,
+          1.2564114016670878e-05,
+          9.946134258093405e-11
+        ],
+        "residual_initial": 0.04999999999999963
+      },
+      "status": "success"
+    },
+    {
+      "analysis": "geometric_nonlinear_static",
+      "contact_diagnostics": {},
+      "displacement": [
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 0
+        },
+        {
+          "dofs": {
+            "UX": 9.099987313982313e-07,
+            "UY": 1.949998316622425e-07,
+            "UZ": 1.949998316622427e-07
+          },
+          "node": 1
+        },
+        {
+          "dofs": {
+            "UX": 9.099987313982307e-07,
+            "UY": -1.9499983166224237e-07,
+            "UZ": 1.9499983166224258e-07
+          },
+          "node": 2
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 3
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 4
+        },
+        {
+          "dofs": {
+            "UX": 9.099987313982302e-07,
+            "UY": 1.9499983166224242e-07,
+            "UZ": -1.9499983166224208e-07
+          },
+          "node": 5
+        },
+        {
+          "dofs": {
+            "UX": 9.099987313982307e-07,
+            "UY": -1.949998316622423e-07,
+            "UZ": -1.9499983166224218e-07
+          },
+          "node": 6
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 7
+        }
+      ],
+      "equilibrium": {},
+      "iteration_count": 3,
+      "load_factor": 1.0,
+      "material_state_digest": "510eeed9abe9e0d9c1fcb08e0e8c0b88d013bd091224f52333f2fc7c395eb218",
+      "material_states": [],
+      "method": "newton_raphson",
+      "name": "geometric_nonlinear_hex8",
+      "reactions": [],
+      "residual": {
+        "history": [
+          0.08333333331138072,
+          2.1593746953358733e-08,
+          9.89431046037601e-11
+        ],
+        "norm": 9.89431046037601e-11,
+        "relative": 9.89431046037601e-11
+      },
+      "solver_step": {
+        "assembly_seconds": 0.00991500003146939,
+        "diagnostics": {
+          "assembly_seconds": 0.00991500003146939,
+          "backend": "scipy.sparse.linalg.spsolve",
+          "converged": true,
+          "iterations": 3,
+          "line_search_iterations": 0,
+          "line_search_seconds": 0.0006876999977976084,
+          "linear_solve_seconds": 0.0004003999929409474,
+          "linear_system_diagnostics": [],
+          "reason": null,
+          "relative_residual": 9.89431046037601e-11,
+          "residual_final": 9.89431046037601e-11,
+          "residual_history": [
+            0.08333333331138072,
+            2.1593746953358733e-08,
+            9.89431046037601e-11
+          ],
+          "residual_initial": 0.08333333331138072,
+          "robustness_options": null,
+          "solver": "full_newton",
+          "tolerance": 1e-09
+        },
+        "increment": 6,
+        "iterations": 3,
+        "line_search_seconds": 0.0006876999977976084,
+        "linear_solve_seconds": 0.0004003999929409474,
+        "load_factor": 1.0,
+        "minimum_det_f": 1.0000002948321924,
+        "relative_residual": 9.89431046037601e-11,
+        "residual_final": 9.89431046037601e-11,
+        "residual_history": [
+          0.08333333331138072,
+          2.1593746953358733e-08,
+          9.89431046037601e-11
+        ],
+        "residual_initial": 0.08333333331138072
+      },
+      "status": "success"
+    },
+    {
+      "analysis": "nonlinear_static",
+      "contact_diagnostics": {
+        "contact_active_contacts": [],
+        "contact_closest_distances": [
+          1.0
+        ],
+        "contact_finite_sliding": false,
+        "contact_gaps": [
+          1.0026473989535278
+        ],
+        "contact_master_face_indices": [
+          0
+        ],
+        "contact_mode": "penalty",
+        "contact_projection_clamped": [
+          false
+        ],
+        "contact_projection_modes": [
+          "exact_node_to_triangle"
+        ],
+        "contact_search_mode": "initial",
+        "contact_tangent_nnz": 0
+      },
+      "displacement": [
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 0
+        },
+        {
+          "dofs": {
+            "UX": 0.002647398953527815,
+            "UY": 0.001578036340869248,
+            "UZ": 0.001578036340903607
+          },
+          "node": 1
+        },
+        {
+          "dofs": {
+            "UX": 0.10107002926377565,
+            "UY": -0.048664178872899026,
+            "UZ": 0.04866417887287447
+          },
+          "node": 2
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 3
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 4
+        },
+        {
+          "dofs": {
+            "UX": 0.10107002926377222,
+            "UY": 0.04866417887287006,
+            "UZ": -0.04866417887286928
+          },
+          "node": 5
+        },
+        {
+          "dofs": {
+            "UX": 0.002647398953527722,
+            "UY": -0.0015780363409024923,
+            "UZ": -0.0015780363409061196
+          },
+          "node": 6
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 7
+        }
+      ],
+      "equilibrium": {
+        "displacement_norm": 0.17299447704900064,
+        "external_load_norm": 0.5,
+        "external_moment_about_origin": [
+          0.0,
+          0.5,
+          -0.5
+        ],
+        "external_resultant": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "external_work_at_final_load": 0.05185871410865085,
+        "fixed_reaction_norm": 1.0672355334419488,
+        "force_balance_relative_error": 2.0167201057644575e-08,
+        "force_imbalance": [
+          -2.0167201464360573e-08,
+          -4.440892098500626e-16,
+          2.220446049250313e-16
+        ],
+        "free_relative_residual": 1.638377786893059e-08,
+        "free_residual_norm": 1.638377786893059e-08,
+        "ground_spring_reaction_norm": 0.0,
+        "internal_force_norm": 1.1785549176532766,
+        "linear_energy_identity_relative_error": 3.5271234544165253e-10,
+        "load_factor": 1.0,
+        "moment_balance_relative_error": 1.4260364913004633e-08,
+        "moment_imbalance_about_origin": [
+          0.0,
+          -1.0083600621157984e-08,
+          1.008360084320259e-08
+        ],
+        "reaction_moment_about_origin": [
+          0.0,
+          -0.5000000100836006,
+          0.5000000100836008
+        ],
+        "reaction_resultant": [
+          -1.0000000201672015,
+          -4.440892098500626e-16,
+          2.220446049250313e-16
+        ],
+        "reactions": [
+          {
+            "dof": "UX",
+            "index": 0,
+            "node": 0,
+            "value": -0.3747501085255068
+          },
+          {
+            "dof": "UY",
+            "index": 1,
+            "node": 0,
+            "value": -0.36750291559340653
+          },
+          {
+            "dof": "UZ",
+            "index": 2,
+            "node": 0,
+            "value": -0.36750291559340764
+          },
+          {
+            "dof": "UX",
+            "index": 9,
+            "node": 3,
+            "value": -0.1252499015580941
+          },
+          {
+            "dof": "UY",
+            "index": 10,
+            "node": 3,
+            "value": 0.26763209290094414
+          },
+          {
+            "dof": "UZ",
+            "index": 11,
+            "node": 3,
+            "value": -0.2676320929009288
+          },
+          {
+            "dof": "UX",
+            "index": 12,
+            "node": 4,
+            "value": -0.12524990155809385
+          },
+          {
+            "dof": "UY",
+            "index": 13,
+            "node": 4,
+            "value": -0.2676320929009286
+          },
+          {
+            "dof": "UZ",
+            "index": 14,
+            "node": 4,
+            "value": 0.2676320929009459
+          },
+          {
+            "dof": "UX",
+            "index": 21,
+            "node": 7,
+            "value": -0.3747501085255067
+          },
+          {
+            "dof": "UY",
+            "index": 22,
+            "node": 7,
+            "value": 0.36750291559339054
+          },
+          {
+            "dof": "UZ",
+            "index": 23,
+            "node": 7,
+            "value": 0.36750291559339077
+          }
+        ],
+        "secant_internal_energy": 0.025929356877969253,
+        "sign_convention": "residual = internal_force - external_force; reactions are residuals on fixed dofs"
+      },
+      "iteration_count": 5,
+      "load_factor": 1.0,
+      "material_state_digest": "89e135f8a6c3a3a4c13682dbf2690a931111eea8f93c442d28e142fc47661b03",
+      "material_states": [
+        {
+          "element": 0,
+          "integration_points": [
+            {
+              "elastic": false,
+              "equivalent_plastic_strain": 0.0021492525547125935,
+              "equivalent_stress": 0.04149252554712593,
+              "index": 0,
+              "model": "von_mises_isotropic_hardening",
+              "plastic_multiplier": 0.0005513998823649822,
+              "plastic_strain": [
+                0.0017359221875700756,
+                -0.000867961093785038,
+                -0.000867961093785038,
+                0.0015520114754739044,
+                0.0,
+                0.0015520114755082453
+              ],
+              "stress": [
+                2.2284815239258466,
+                2.1950079299468457,
+                2.1950079299468457,
+                0.010009563613593708,
+                0.0,
+                0.010009563613600702
+              ],
+              "yield_function": 0.0,
+              "yield_stress": 0.04149252554712593
+            }
+          ]
+        },
+        {
+          "element": 1,
+          "integration_points": [
+            {
+              "elastic": false,
+              "equivalent_plastic_strain": 0.12052134440909033,
+              "equivalent_stress": 1.2252134440909033,
+              "index": 0,
+              "model": "von_mises_isotropic_hardening",
+              "plastic_multiplier": 0.030630337447369815,
+              "plastic_strain": [
+                0.09999380005920264,
+                -0.04999690002959516,
+                -0.04999690002960748,
+                0.049323879735850076,
+                0.0933499455759128,
+                -0.04932387973587475
+              ],
+              "stress": [
+                1.1657141013408443,
+                0.1491414946130437,
+                0.1491414946130516,
+                0.1671429621148933,
+                0.31628441848253674,
+                -0.16714296211488544
+              ],
+              "yield_function": 0.0,
+              "yield_stress": 1.2252134440909033
+            }
+          ]
+        },
+        {
+          "element": 2,
+          "integration_points": [
+            {
+              "elastic": false,
+              "equivalent_plastic_strain": 0.0033089172707775117,
+              "equivalent_stress": 0.05308917270777512,
+              "index": 0,
+              "model": "von_mises_isotropic_hardening",
+              "plastic_multiplier": 0.0008471522383845183,
+              "plastic_strain": [
+                0.0027783478915251454,
+                -0.0013891739457530757,
+                -0.0013891739457720699,
+                -1.6674283165159117e-14,
+                -0.003112725566239033,
+                -1.3062758000138317e-15
+              ],
+              "stress": [
+                -0.3941955647650772,
+                -0.4387443779461679,
+                -0.4387443779461673,
+                2.2149866796046505e-15,
+                -0.016671967519884832,
+                1.387265297114674e-15
+              ],
+              "yield_function": 0.0,
+              "yield_stress": 0.05308917270777512
+            }
+          ]
+        },
+        {
+          "element": 3,
+          "integration_points": [
+            {
+              "elastic": false,
+              "equivalent_plastic_strain": 0.12052134440909033,
+              "equivalent_stress": 1.2252134440909033,
+              "index": 0,
+              "model": "von_mises_isotropic_hardening",
+              "plastic_multiplier": 0.030630337447369108,
+              "plastic_strain": [
+                0.0999938000591992,
+                -0.04999690002959943,
+                -0.049996900029599764,
+                -0.04932387973587572,
+                0.09334994557590937,
+                0.04932387973587641
+              ],
+              "stress": [
+                1.1657141013408465,
+                0.14914149461304715,
+                0.149141494613046,
+                -0.16714296211488694,
+                0.3162844184825353,
+                0.1671429621148882
+              ],
+              "yield_function": 0.0,
+              "yield_stress": 1.2252134440909033
+            }
+          ]
+        },
+        {
+          "element": 4,
+          "integration_points": [
+            {
+              "elastic": false,
+              "equivalent_plastic_strain": 0.002149252554721096,
+              "equivalent_stress": 0.04149252554721096,
+              "index": 0,
+              "model": "von_mises_isotropic_hardening",
+              "plastic_multiplier": 0.0005513998823623967,
+              "plastic_strain": [
+                0.001735922187569936,
+                -0.0008679610937849682,
+                -0.0008679610937849682,
+                -0.0015520114755071194,
+                0.0,
+                -0.001552011475510743
+              ],
+              "stress": [
+                2.228481523925829,
+                2.1950079299467378,
+                2.1950079299467378,
+                -0.010009563613604906,
+                0.0,
+                -0.010009563613606375
+              ],
+              "yield_function": 0.0,
+              "yield_stress": 0.04149252554721096
+            }
+          ]
+        }
+      ],
+      "method": "newton_raphson",
+      "name": "frictionless_penalty_contact_composition",
+      "reactions": [
+        {
+          "max_abs": 0.25,
+          "name": "reference_loads",
+          "nonzero_count": 4,
+          "nonzero_entries": [
+            {
+              "index": 3,
+              "value": 0.25
+            },
+            {
+              "index": 6,
+              "value": 0.25
+            },
+            {
+              "index": 15,
+              "value": 0.25
+            },
+            {
+              "index": 18,
+              "value": 0.25
+            }
+          ],
+          "norm": 0.5,
+          "size": 24
+        },
+        {
+          "max_abs": 0.25,
+          "name": "final_external_load",
+          "nonzero_count": 4,
+          "nonzero_entries": [
+            {
+              "index": 3,
+              "value": 0.25
+            },
+            {
+              "index": 6,
+              "value": 0.25
+            },
+            {
+              "index": 15,
+              "value": 0.25
+            },
+            {
+              "index": 18,
+              "value": 0.25
+            }
+          ],
+          "norm": 0.5,
+          "size": 24
+        },
+        {
+          "max_abs": 0.10107002926377565,
+          "name": "displacements",
+          "nonzero_count": 12,
+          "nonzero_entries": [
+            {
+              "index": 3,
+              "value": 0.002647398953527815
+            },
+            {
+              "index": 4,
+              "value": 0.001578036340869248
+            },
+            {
+              "index": 5,
+              "value": 0.001578036340903607
+            },
+            {
+              "index": 6,
+              "value": 0.10107002926377565
+            },
+            {
+              "index": 7,
+              "value": -0.048664178872899026
+            },
+            {
+              "index": 8,
+              "value": 0.04866417887287447
+            },
+            {
+              "index": 15,
+              "value": 0.10107002926377222
+            },
+            {
+              "index": 16,
+              "value": 0.04866417887287006
+            },
+            {
+              "index": 17,
+              "value": -0.04866417887286928
+            },
+            {
+              "index": 18,
+              "value": 0.002647398953527722
+            },
+            {
+              "index": 19,
+              "value": -0.0015780363409024923
+            },
+            {
+              "index": 20,
+              "value": -0.0015780363409061196
+            }
+          ],
+          "norm": 0.17299447704900064,
+          "size": 24
+        },
+        {
+          "max_abs": 0.3747501085255068,
+          "name": "final_internal_force",
+          "nonzero_count": 24,
+          "nonzero_entries": [
+            {
+              "index": 0,
+              "value": -0.3747501085255068
+            },
+            {
+              "index": 1,
+              "value": -0.36750291559340653
+            },
+            {
+              "index": 2,
+              "value": -0.36750291559340764
+            },
+            {
+              "index": 3,
+              "value": 0.2500000058218306
+            },
+            {
+              "index": 4,
+              "value": -6.693236451194018e-10
+            },
+            {
+              "index": 5,
+              "value": -6.693218930486911e-10
+            },
+            {
+              "index": 6,
+              "value": 0.2500000042617706
+            },
+            {
+              "index": 7,
+              "value": 6.374234954679517e-09
+            },
+            {
+              "index": 8,
+              "value": -6.3742340665010975e-09
+            },
+            {
+              "index": 9,
+              "value": -0.1252499015580941
+            },
+            {
+              "index": 10,
+              "value": 0.26763209290094414
+            },
+            {
+              "index": 11,
+              "value": -0.2676320929009288
+            },
+            {
+              "index": 12,
+              "value": -0.12524990155809385
+            },
+            {
+              "index": 13,
+              "value": -0.2676320929009286
+            },
+            {
+              "index": 14,
+              "value": 0.2676320929009459
+            },
+            {
+              "index": 15,
+              "value": 0.2500000042617697
+            },
+            {
+              "index": 16,
+              "value": -6.37423259545559e-09
+            },
+            {
+              "index": 17,
+              "value": 6.37423259545559e-09
+            },
+            {
+              "index": 18,
+              "value": 0.25000000582183063
+            },
+            {
+              "index": 19,
+              "value": 6.693216397790636e-10
+            },
+            {
+              "index": 20,
+              "value": 6.693231210160716e-10
+            },
+            {
+              "index": 21,
+              "value": -0.3747501085255067
+            },
+            {
+              "index": 22,
+              "value": 0.36750291559339054
+            },
+            {
+              "index": 23,
+              "value": 0.36750291559339077
+            }
+          ],
+          "norm": 1.1785549176532766,
+          "size": 24
+        },
+        {
+          "max_abs": 0.3747501085255068,
+          "name": "residual",
+          "nonzero_count": 24,
+          "nonzero_entries": [
+            {
+              "index": 0,
+              "value": -0.3747501085255068
+            },
+            {
+              "index": 1,
+              "value": -0.36750291559340653
+            },
+            {
+              "index": 2,
+              "value": -0.36750291559340764
+            },
+            {
+              "index": 3,
+              "value": 5.821830573182751e-09
+            },
+            {
+              "index": 4,
+              "value": -6.693236451194018e-10
+            },
+            {
+              "index": 5,
+              "value": -6.693218930486911e-10
+            },
+            {
+              "index": 6,
+              "value": 4.261770603086745e-09
+            },
+            {
+              "index": 7,
+              "value": 6.374234954679517e-09
+            },
+            {
+              "index": 8,
+              "value": -6.3742340665010975e-09
+            },
+            {
+              "index": 9,
+              "value": -0.1252499015580941
+            },
+            {
+              "index": 10,
+              "value": 0.26763209290094414
+            },
+            {
+              "index": 11,
+              "value": -0.2676320929009288
+            },
+            {
+              "index": 12,
+              "value": -0.12524990155809385
+            },
+            {
+              "index": 13,
+              "value": -0.2676320929009286
+            },
+            {
+              "index": 14,
+              "value": 0.2676320929009459
+            },
+            {
+              "index": 15,
+              "value": 4.2617697149083256e-09
+            },
+            {
+              "index": 16,
+              "value": -6.37423259545559e-09
+            },
+            {
+              "index": 17,
+              "value": 6.37423259545559e-09
+            },
+            {
+              "index": 18,
+              "value": 5.8218306286939026e-09
+            },
+            {
+              "index": 19,
+              "value": 6.693216397790636e-10
+            },
+            {
+              "index": 20,
+              "value": 6.693231210160716e-10
+            },
+            {
+              "index": 21,
+              "value": -0.3747501085255067
+            },
+            {
+              "index": 22,
+              "value": 0.36750291559339054
+            },
+            {
+              "index": 23,
+              "value": 0.36750291559339077
+            }
+          ],
+          "norm": 1.0672355334419488,
+          "size": 24
+        },
+        {
+          "max_abs": 0.3747501085255068,
+          "name": "reactions",
+          "nonzero_count": 12,
+          "nonzero_entries": [
+            {
+              "index": 0,
+              "value": -0.3747501085255068
+            },
+            {
+              "index": 1,
+              "value": -0.36750291559340653
+            },
+            {
+              "index": 2,
+              "value": -0.36750291559340764
+            },
+            {
+              "index": 9,
+              "value": -0.1252499015580941
+            },
+            {
+              "index": 10,
+              "value": 0.26763209290094414
+            },
+            {
+              "index": 11,
+              "value": -0.2676320929009288
+            },
+            {
+              "index": 12,
+              "value": -0.12524990155809385
+            },
+            {
+              "index": 13,
+              "value": -0.2676320929009286
+            },
+            {
+              "index": 14,
+              "value": 0.2676320929009459
+            },
+            {
+              "index": 21,
+              "value": -0.3747501085255067
+            },
+            {
+              "index": 22,
+              "value": 0.36750291559339054
+            },
+            {
+              "index": 23,
+              "value": 0.36750291559339077
+            }
+          ],
+          "norm": 1.0672355334419488,
+          "size": 24
+        }
+      ],
+      "residual": {
+        "history": [
+          0.12500000000018482,
+          0.07969990739306007,
+          0.19077639471136829,
+          0.042311362771864196,
+          0.00042075691833901713,
+          1.6383777342303932e-08
+        ],
+        "norm": 1.6383777342303932e-08,
+        "relative": 1.6383777342303932e-08
+      },
+      "solver_step": {
+        "arc_length_branch_direction": null,
+        "arc_length_constraint_residual": null,
+        "arc_length_control_displacement": null,
+        "arc_length_direction_alignment": null,
+        "arc_length_predictor_sign": null,
+        "arc_length_radius": null,
+        "assembly_seconds": 0.013706200057640672,
+        "contact_active_contacts": [],
+        "contact_assembly_calls": 6,
+        "contact_assembly_seconds": 0.0017568999901413918,
+        "contact_closest_distances": [
+          1.0
+        ],
+        "contact_finite_sliding": false,
+        "contact_gaps": [
+          1.0026473989535278
+        ],
+        "contact_master_face_indices": [
+          0
+        ],
+        "contact_projection_clamped": [
+          false
+        ],
+        "contact_projection_modes": [
+          "exact_node_to_triangle"
+        ],
+        "contact_search_mode": "initial",
+        "contact_tangent_nnz": 0,
+        "cumulative_correction_norm": 0.0444725461637026,
+        "element_cache_hits": 30,
+        "element_cache_misses": 0,
+        "element_kernel_calls": 30,
+        "element_kernel_seconds": 0.006766899983631447,
+        "element_scatter_seconds": 0.0028466000221669674,
+        "element_setup_seconds": 1.6200094250962138e-05,
+        "equivalent_plastic_strain_max": 0.12052134440909033,
+        "failure_reason": null,
+        "incremental_external_work": 0.011530928815761713,
+        "incremental_internal_work": 0.011530928770950306,
+        "iterations": 5,
+        "last_correction_norm": 2.622179522784016e-05,
+        "line_search_reductions": 0,
+        "line_search_seconds": 0.0,
+        "linear_solve_seconds": 0.005140700028277934,
+        "load_factor": 1.0,
+        "load_increment": 0.25,
+        "load_step_cutbacks": 0,
+        "min_line_search_factor": 1.0,
+        "plastic_dissipation_max": 0.07475109810091546,
+        "reference_cache_hits": 0,
+        "reference_cache_misses": 0,
+        "relative_residual": 1.6383777342303932e-08,
+        "relative_work_imbalance": 3.88619226063376e-09,
+        "residual_history": [
+          0.12500000000018482,
+          0.07969990739306007,
+          0.19077639471136829,
+          0.042311362771864196,
+          0.00042075691833901713,
+          1.6383777342303932e-08
+        ],
+        "residual_initial": 0.12500000000018482,
+        "residual_norm": 1.6383777342303932e-08,
+        "sparse_accumulator_levels": 2,
+        "sparse_chunk_count": 3,
+        "sparse_conversion_seconds": 0.002928600035374984,
+        "sparse_peak_chunk_bytes_estimate": 13824,
+        "sparse_peak_chunk_entries": 288,
+        "state_committed": true,
+        "step": 4,
+        "tangent_nnz": 388,
+        "work_diagnostics_available": true
+      },
+      "status": "PASS"
+    },
+    {
+      "analysis": "geometric_nonlinear_static",
+      "contact_diagnostics": {},
+      "displacement": [
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 0
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 1
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 2
+        },
+        {
+          "dofs": {
+            "UX": 0.0,
+            "UY": 0.0,
+            "UZ": 0.0
+          },
+          "node": 3
+        },
+        {
+          "dofs": {
+            "UX": -8.325456778794418e-06,
+            "UY": 4.003217190784966e-06,
+            "UZ": -2.9918132433092003e-05
+          },
+          "node": 4
+        },
+        {
+          "dofs": {
+            "UX": 1.064197712631619e-05,
+            "UY": 2.644649298542741e-06,
+            "UZ": -2.8775335512362018e-05
+          },
+          "node": 5
+        },
+        {
+          "dofs": {
+            "UX": -1.0516102102849742e-05,
+            "UY": 3.978783359444879e-06,
+            "UZ": -2.8215443688487196e-05
+          },
+          "node": 6
+        },
+        {
+          "dofs": {
+            "UX": 7.011948794096724e-06,
+            "UY": 2.1360270921605483e-06,
+            "UZ": -2.6809468307026073e-05
+          },
+          "node": 7
+        },
+        {
+          "dofs": {
+            "UX": -1.1283516182205315e-05,
+            "UY": 1.070414401400524e-05,
+            "UZ": -8.321519514695154e-05
+          },
+          "node": 8
+        },
+        {
+          "dofs": {
+            "UX": 1.2483778428112126e-05,
+            "UY": 8.753612801478011e-06,
+            "UZ": -8.206147734292373e-05
+          },
+          "node": 9
+        },
+        {
+          "dofs": {
+            "UX": -1.547936288812326e-05,
+            "UY": 1.0516635636252555e-05,
+            "UZ": -8.104507539447665e-05
+          },
+          "node": 10
+        },
+        {
+          "dofs": {
+            "UX": 8.94330896691215e-06,
+            "UY": 8.400339936913219e-06,
+            "UZ": -7.972937225848873e-05
+          },
+          "node": 11
+        }
+      ],
+      "equilibrium": {},
+      "iteration_count": 3,
+      "load_factor": 1.0,
+      "material_state_digest": "510eeed9abe9e0d9c1fcb08e0e8c0b88d013bd091224f52333f2fc7c395eb218",
+      "material_states": [],
+      "method": "newton_raphson",
+      "name": "geometric_penalty_contact_composition",
+      "reactions": [],
+      "residual": {
+        "history": [
+          0.04999999999999942,
+          1.256411401686467e-05,
+          9.946200733404152e-11
+        ],
+        "norm": 9.946200733404152e-11,
+        "relative": 9.946200733404152e-11
+      },
+      "solver_step": {
+        "assembly_seconds": 0.003233299998100847,
+        "diagnostics": {
+          "assembly_seconds": 0.003233299998100847,
+          "backend": "scipy.sparse.linalg.spsolve",
+          "converged": true,
+          "iterations": 3,
+          "line_search_iterations": 0,
+          "line_search_seconds": 0.0010011999984271824,
+          "linear_solve_seconds": 0.00037620001239702106,
+          "linear_system_diagnostics": [],
+          "reason": null,
+          "relative_residual": 9.946200733404152e-11,
+          "residual_final": 9.946200733404152e-11,
+          "residual_history": [
+            0.04999999999999942,
+            1.256411401686467e-05,
+            9.946200733404152e-11
+          ],
+          "residual_initial": 0.04999999999999942,
+          "robustness_options": null,
+          "solver": "full_newton",
+          "tolerance": 1e-09
+        },
+        "increment": 10,
+        "iterations": 3,
+        "line_search_seconds": 0.0010011999984271824,
+        "linear_solve_seconds": 0.00037620001239702106,
+        "load_factor": 1.0,
+        "minimum_det_f": 0.9999922968082128,
+        "relative_residual": 9.946200733404152e-11,
+        "residual_final": 9.946200733404152e-11,
+        "residual_history": [
+          0.04999999999999942,
+          1.256411401686467e-05,
+          9.946200733404152e-11
+        ],
+        "residual_initial": 0.04999999999999942
+      },
+      "status": "success"
+    }
+  ],
+  "failure_cases": [
+    {
+      "diagnostics": {
+        "backend": "scipy.sparse.linalg.spsolve",
+        "iterations": 1,
+        "line_search_iterations": 0,
+        "relative_residual": 1.0,
+        "relative_residual_status": "COMPUTED",
+        "residual_final": 1.0,
+        "residual_history": [
+          1.0
+        ],
+        "residual_initial": 1.0,
+        "solver": "full_newton",
+        "step": 1,
+        "tolerance": 1e-08
+      },
+      "failure_reason": "SINGULAR_TANGENT",
+      "name": "full_newton_singular_tangent",
+      "status": "EXPECTED_FAILURE"
+    }
+  ],
+  "scope": "WP01-C fixed load-control migration baseline"
+}

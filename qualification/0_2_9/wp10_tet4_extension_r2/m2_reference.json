@@ -1,0 +1,17 @@
+{
+  "status": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION",
+  "source_sha": "4a8afdb0b3cf9c8a48202b850aed400737e387db",
+  "contract_sha256": "e86f7c6f2c6e6f4b46b004dd54e847fa197c72a2d62acaf621a53dd2346df7c1",
+  "element_type": "TET4",
+  "independence": "contact gap and penalty recomputation; not an independent global FEM solve",
+  "coverage": "final saved displacement state; production contact gaps are retained for every step",
+  "rows": [
+    {
+      "step": 4,
+      "recomputed_gap": -2.738213539910106e-06,
+      "production_gap": -2.738213539972556e-06,
+      "recomputed_penalty_force": 2.738213539910106,
+      "gap_absolute_error": 6.245004513516506e-17
+    }
+  ]
+}

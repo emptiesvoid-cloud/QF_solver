@@ -68,7 +68,24 @@ class SolverCli:
         inspect.add_argument("--output", type=Path, default=None)
         inspect.add_argument("--markdown", type=Path, default=None)
         inspect.add_argument("--audit-gate", choices=("none", "fail", "warning"), default="none")
-        inspect.add_argument("--detail", choices=("summary", "values"), default="summary")
+        inspect.add_argument(
+            "--detail",
+            choices=("summary", "diagnostic", "values"),
+            default="summary",
+            help="audit serialization level; values is exhaustive forensic output",
+        )
+        inspect.add_argument(
+            "--max-pass-rows",
+            type=int,
+            default=None,
+            help="limit PASS rows in Markdown export only; WARNING/FAIL rows are retained",
+        )
+        inspect.add_argument(
+            "--values-warning-rows",
+            type=int,
+            default=100_000,
+            help="warn when exhaustive values export exceeds this estimated row count",
+        )
         inspect.add_argument("--verification-profile", choices=PROFILES, default=None)
         inspect.add_argument("--strict-schema", action="store_true", help="accepted for explicit v1 strict JSON validation")
         inspect.set_defaults(func=standard_cli.command_inspect)
@@ -308,7 +325,10 @@ class SolverCli:
         verify_contact.add_argument("--json-report", type=Path, default=None)
         verify_contact.set_defaults(func=verification_cli.command_verify_contact)
 
-        verify_all = sub.add_parser("verify-all", help="run project quality and verification commands")
+        verify_all = sub.add_parser(
+            "verify-all",
+            help="run repository checks from a complete Git source checkout (developer/CI only)",
+        )
         verify_all.add_argument("--profile", choices=PROFILES, default="engineering")
         verify_all.add_argument("--scope", choices=QUALIFICATION_SCOPES, default="tet4-linear-static")
         verify_all.add_argument("--json-report", type=Path, default=None)

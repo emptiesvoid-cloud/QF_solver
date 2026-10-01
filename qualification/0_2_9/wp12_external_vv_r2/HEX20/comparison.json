@@ -1,0 +1,350 @@
+{
+  "comparisons": {
+    "aster_force_equilibrium_relative": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 2.4046965713294066e-16
+    },
+    "aster_moment_equilibrium_relative": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 1.2405598494210877e-16
+    },
+    "displacement_relative_l2": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 1.2096814517532255e-14
+    },
+    "displacement_relative_linf": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 1.619317582996786e-14
+    },
+    "fixed_displacement_abs_max": {
+      "limit": 1e-12,
+      "status": "PASS",
+      "value": 1.5661044753501717e-24
+    },
+    "qf_force_equilibrium_relative": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 3.600173569433198e-15
+    },
+    "qf_moment_equilibrium_relative": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 4.4329895162852315e-15
+    },
+    "reaction_relative_l2": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 1.3582566582890024e-14
+    },
+    "reaction_relative_linf": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 1.2940856609056491e-14
+    },
+    "strain_energy_from_external_work_relative": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 1.110061525831259e-14
+    }
+  },
+  "contract_sha256": "f6154660635670c026354429894c9c7a6f7fa6d8bd6849edf44717a4bd43824a",
+  "execution_sha": "e3231fa386d2542841084e3be9843e7eca75acf4",
+  "external_solver": {
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "image_id": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "name": "Code_Aster",
+    "version": "18.1.0"
+  },
+  "family": "HEX20",
+  "input_hashes": {
+    "displacement.npy": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/HEX20/M1/displacement.npy",
+      "sha256": "eb7cd2f2d6edf47a14da3259c6a0b3b0444d52dcfa9c01a1d104e7ae556463f0"
+    },
+    "fixed.npy": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/HEX20/M1/fixed.npy",
+      "sha256": "c3c6c35aa1bc639804df5c6cd64f53afa37b866859e41ede1778f1828706cfec"
+    },
+    "loads.npy": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/HEX20/M1/loads.npy",
+      "sha256": "708e6f07453ef3d77fd882f7ee6e64299f0aff478f5541f53ad37034e91d108e"
+    },
+    "result.json": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/HEX20/M1/result.json",
+      "sha256": "9940f5b8c5810b8f55b3ceeab153d870e56e4277318857f55287e5610c06687c"
+    },
+    "stiffness.npy": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/HEX20/M1/stiffness.npy",
+      "sha256": "40ea45bf2a8db980d4f176085ef8c38bcfe05fde04bd7c52868f7c2103987c82"
+    }
+  },
+  "metrics": {
+    "aster_external_work_energy": 1.5261009007946626e-05,
+    "aster_force_equilibrium_relative": 2.4046965713294066e-16,
+    "aster_moment_equilibrium_relative": 1.2405598494210877e-16,
+    "displacement_relative_l2": 1.2096814517532255e-14,
+    "displacement_relative_linf": 1.619317582996786e-14,
+    "fixed_displacement_abs_max": 1.5661044753501717e-24,
+    "qf_force_equilibrium_relative": 3.600173569433198e-15,
+    "qf_moment_equilibrium_relative": 4.4329895162852315e-15,
+    "qf_strain_energy": 1.5261009007946795e-05,
+    "reaction_relative_l2": 1.3582566582890024e-14,
+    "reaction_relative_linf": 1.2940856609056491e-14,
+    "strain_energy_from_external_work_relative": 1.110061525831259e-14
+  },
+  "model_fingerprint": "4b0c26ce400cc071eeb24782965fc2c996b295acb687a9858e499200c78108a7",
+  "process": {
+    "command": [
+      "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE",
+      "run",
+      "--rm",
+      "--cpus=1",
+      "--cidfile",
+      "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp12_external_vv\\qualification\\0_2_9\\wp12_external_vv_r2\\HEX20\\container.cid",
+      "-v",
+      "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp12_external_vv\\qualification\\0_2_9\\wp12_external_vv_r2\\HEX20:/work",
+      "--workdir",
+      "/work",
+      "--entrypoint",
+      "/bin/bash",
+      "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+      "-lc",
+      "export RUNASTER_ROOT=/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg; source /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh; export PYTHONPATH=$(find /opt/spack/opt/spack/linux-zen -type d -path '*/lib/python3.11/site-packages' | paste -sd: -):${PYTHONPATH:-}; export LD_LIBRARY_PATH=$(find /opt/spack/opt/spack/linux-zen -type d \\( -name lib -o -name lib64 \\) | paste -sd: -):${LD_LIBRARY_PATH:-}; /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster HEX20.export --no-mpi"
+    ],
+    "container_cpu_limit": 1,
+    "container_id": "e4248f9f175df4b37a76a5e8e9ed4dea431d79bb674e21e9016c70bb4b90a953",
+    "elapsed_seconds": 5.115638700001,
+    "exit_code": 0,
+    "family": "HEX20",
+    "finished_utc": "2026-09-23T08:36:05.070453+00:00",
+    "fresh_container_process": true,
+    "host_process_id": 11248,
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "image_id": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "python_runtime_import_smoke": "PASS",
+    "runtime_probe_shell_command": "export RUNASTER_ROOT=/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg; source /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh; export PYTHONPATH=$(find /opt/spack/opt/spack/linux-zen -type d -path '*/lib/python3.11/site-packages' | paste -sd: -):${PYTHONPATH:-}; export LD_LIBRARY_PATH=$(find /opt/spack/opt/spack/linux-zen -type d \\( -name lib -o -name lib64 \\) | paste -sd: -):${LD_LIBRARY_PATH:-}; python3 -c 'import mpi4py, numpy; import code_aster.Commands' && /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster --version",
+    "runtime_shell_command": "export RUNASTER_ROOT=/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg; source /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh; export PYTHONPATH=$(find /opt/spack/opt/spack/linux-zen -type d -path '*/lib/python3.11/site-packages' | paste -sd: -):${PYTHONPATH:-}; export LD_LIBRARY_PATH=$(find /opt/spack/opt/spack/linux-zen -type d \\( -name lib -o -name lib64 \\) | paste -sd: -):${LD_LIBRARY_PATH:-}; /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster HEX20.export --no-mpi",
+    "runtime_version": "code_aster 18.1.0 (spack-local)",
+    "solver_entrypoint": "/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster",
+    "solver_mpi_disabled": true,
+    "started_utc": "2026-09-23T08:35:57.562730+00:00",
+    "telemetry_events": 3
+  },
+  "raw": {
+    "displacement": [
+      [
+        0.0,
+        1.090309006942269e-25,
+        0.0
+      ],
+      [
+        -1.2017538809755618e-08,
+        2.7238466470201485e-09,
+        -3.1875199013022006e-08
+      ],
+      [
+        -1.2017538809755471e-08,
+        -2.7238466470201985e-09,
+        -3.1875199013021854e-08
+      ],
+      [
+        0.0,
+        -5.517891406052428e-26,
+        0.0
+      ],
+      [
+        0.0,
+        -2.4411749472882833e-25,
+        0.0
+      ],
+      [
+        1.2017538809755622e-08,
+        -2.723846647020129e-09,
+        -3.187519901302192e-08
+      ],
+      [
+        1.2017538809755446e-08,
+        2.723846647020214e-09,
+        -3.187519901302184e-08
+      ],
+      [
+        0.0,
+        8.680100769430247e-26,
+        0.0
+      ],
+      [
+        -8.293134975888403e-09,
+        -8.694253796083163e-10,
+        -1.2727613703582848e-08
+      ],
+      [
+        0.0,
+        7.515875632815956e-25,
+        0.0
+      ],
+      [
+        0.0,
+        -1.1175267430915174e-25,
+        0.0
+      ],
+      [
+        -1.3251145412690874e-08,
+        -1.38202708147223e-23,
+        -2.8935813911984014e-08
+      ],
+      [
+        8.532659663605016e-24,
+        7.342971862839561e-24,
+        -2.9401860125545234e-08
+      ],
+      [
+        -8.293134975888342e-09,
+        8.69425379608327e-10,
+        -1.2727613703582846e-08
+      ],
+      [
+        -1.1382732754431023e-23,
+        1.3529056915347048e-23,
+        -2.9401860125545155e-08
+      ],
+      [
+        0.0,
+        1.5661044753501717e-24,
+        0.0
+      ],
+      [
+        8.293134975888413e-09,
+        8.694253796083204e-10,
+        -1.2727613703582856e-08
+      ],
+      [
+        0.0,
+        7.688878948231114e-25,
+        0.0
+      ],
+      [
+        1.3251145412690867e-08,
+        3.0100784191764536e-23,
+        -2.8935813911983998e-08
+      ],
+      [
+        8.293134975888329e-09,
+        -8.694253796083316e-10,
+        -1.272761370358281e-08
+      ]
+    ],
+    "element_type": "HEXA20",
+    "family": "HEX20",
+    "modelisation": "3D",
+    "reaction": [
+      [
+        179.3435162603558,
+        65.02388369538792,
+        2.218923354542413
+      ],
+      [
+        -4.75175454539567e-13,
+        -4.956035581926699e-13,
+        -1.0800249583553523e-12
+      ],
+      [
+        5.897504706808832e-13,
+        1.0480505352461478e-13,
+        2.8421709430404007e-13
+      ],
+      [
+        179.34351626035547,
+        -65.02388369538727,
+        2.2189233545421114
+      ],
+      [
+        -179.34351626035604,
+        -65.02388369538748,
+        2.218923354542243
+      ],
+      [
+        7.94475596421762e-13,
+        3.703704010149522e-13,
+        2.5579538487363607e-13
+      ],
+      [
+        -6.590283874174929e-13,
+        4.1744385725905886e-13,
+        3.836930773104541e-13
+      ],
+      [
+        -179.34351626035513,
+        65.02388369538768,
+        2.218923354541971
+      ],
+      [
+        -5.686007220617739e-13,
+        -1.0660361482450753e-12,
+        6.73683331342545e-13
+      ],
+      [
+        641.3129674792793,
+        -3.9698799803034035e-13,
+        455.0798931884192
+      ],
+      [
+        -3.7164715749327115e-14,
+        -2.5135449277513544e-13,
+        40.482260102491274
+      ],
+      [
+        6.306066779870889e-13,
+        -3.3151259515307174e-13,
+        1.5631940186722204e-13
+      ],
+      [
+        -1.0480505352461478e-13,
+        -2.177147351289932e-13,
+        2.8421709430404007e-12
+      ],
+      [
+        4.014566457044566e-13,
+        2.446931546273845e-13,
+        4.618527782440651e-14
+      ],
+      [
+        1.4210854715202004e-13,
+        4.618527782440651e-14,
+        3.637978807091713e-12
+      ],
+      [
+        -3.0730973321624333e-13,
+        -1.603162047558726e-13,
+        40.4822601024916
+      ],
+      [
+        8.331113576787175e-13,
+        4.4941828036826337e-13,
+        1.438849039914203e-13
+      ],
+      [
+        -641.3129674792795,
+        7.309708394132031e-13,
+        455.07989318841896
+      ],
+      [
+        -3.517186542012496e-13,
+        3.055333763768431e-13,
+        1.1652900866465643e-12
+      ],
+      [
+        -9.521272659185342e-13,
+        -5.915268275202834e-13,
+        1.9113599591946695e-12
+      ]
+    ],
+    "status": "PASS"
+  },
+  "runner_sha": "c4a772cd14921ca0b243c71b99a0f94f0ca210e8",
+  "status": "PASS",
+  "wp11_source_sha": "f122032cbac77b98137b61f27907ba28755a250a"
+}

@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from typing import Protocol
 import warnings
-from time import perf_counter
 
 import numpy as np
 
@@ -14,7 +13,22 @@ from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear.material_state import MaterialStateTable
 from solveur.core.nonlinear.contracts import NonlinearFailureReason, NonlinearIterationDiagnostics
 from solveur.core.nonlinear.controls import AdaptiveLoadControls
-from solveur.core.nonlinear.robustness import NonlinearRobustnessOptions, solve_scaled_system
+from solveur.core.nonlinear.driver import (
+    ContributionResponse,
+    FloorAwareEvidence,
+    UnifiedContinuationController,
+    UnifiedNewtonEngine,
+)
+from solveur.core.nonlinear.linear_solver import NonlinearLinearSolverAdapter
+from solveur.core.nonlinear.robustness import (
+    UnifiedAdaptiveStepPolicy,
+    LineSearchEvaluation,
+    LineSearchResult,
+    NonlinearRobustnessOptions,
+    UnifiedNonlinearRobustnessController,
+)
+from solveur.core.nonlinear.state import NonlinearState
+from solveur.core.nonlinear.telemetry import NonlinearTelemetryObserver
 from solveur.core.model import FiniteElementModel
 from scipy.sparse import bmat, csr_matrix, csc_matrix
 from scipy.sparse.linalg import MatrixRankWarning, spsolve
@@ -71,6 +85,80 @@ class CompositeNonlinearAssembly:
             raise ValueError("Composite nonlinear assembly produced non-finite values.")
         return internal, tangent
 
+    def diagnostics_snapshot(self) -> dict[str, object]:
+        """Collect read-only snapshots exposed by stateful assembly components."""
+
+        components: list[dict[str, object]] = []
+        for index, component in enumerate(self.components):
+            snapshot = getattr(component, "diagnostics_snapshot", None)
+            if not callable(snapshot):
+                continue
+            try:
+                values = snapshot()
+            except Exception as exc:  # Observability must not affect the solve.
+                components.append(
+                    {
+                        "index": index,
+                        "component": type(component).__name__,
+                        "telemetry_error": f"{type(exc).__name__}: {exc}",
+                    }
+                )
+                continue
+            if isinstance(values, Mapping):
+                components.append(
+                    {
+                        "index": index,
+                        "component": type(component).__name__,
+                        "diagnostics": dict(values),
+                    }
+                )
+        return {"components": components} if components else {}
+
+    def line_search_activation_factors(
+        self, displacement: np.ndarray, direction: np.ndarray
+    ) -> tuple[float, ...]:
+        """Merge exact branch-transition factors supplied by components."""
+
+        factors: set[float] = set()
+        for component in self.components:
+            provider = getattr(component, "line_search_activation_factors", None)
+            if not callable(provider):
+                continue
+            try:
+                values = provider(displacement, direction)
+            except Exception:
+                continue  # Candidate generation is advisory, never solve-critical.
+            for value in values if isinstance(values, (list, tuple)) else ():
+                factor = float(value)
+                if np.isfinite(factor) and 0.0 < factor < 1.0:
+                    factors.add(factor)
+        return tuple(sorted(factors))
+
+
+class _AssemblyContribution:
+    """Compatibility adapter from the legacy force/tangent assembly contract."""
+
+    name = "assembly"
+
+    def __init__(self, assembly: NonlinearAssemblyProtocol) -> None:
+        self.assembly = assembly
+
+    def evaluate(self, state: NonlinearState) -> ContributionResponse:
+        internal, tangent = self.assembly.assemble(state.displacement)
+        if tangent is None:
+            raise ValueError("Full Newton assembly returned no tangent.")
+        internal_values = np.asarray(internal, dtype=float)
+        tangent_values = csr_matrix(tangent, dtype=float)
+        if np.any(np.isinf(internal_values)):
+            raise ValueError("Full Newton assembly returned infinite internal force.")
+        if np.any(np.isnan(internal_values)):
+            raise ValueError("Full Newton assembly returned nan internal force.")
+        if np.any(np.isinf(tangent_values.data)):
+            raise ValueError("Full Newton assembly returned infinite tangent.")
+        if np.any(np.isnan(tangent_values.data)):
+            raise ValueError("Full Newton assembly returned nan tangent.")
+        return ContributionResponse(self.name, internal_values, tangent_values)
+
 
 def solve_full_newton(
     assembly: NonlinearAssemblyProtocol,
@@ -81,210 +169,128 @@ def solve_full_newton(
     tolerance: float,
     max_iterations: int,
     robustness_options: NonlinearRobustnessOptions | None = None,
+    initial_state: NonlinearState | None = None,
+    target_load_factors: Sequence[float] | None = None,
+    accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
+    telemetry_observer: NonlinearTelemetryObserver | None = None,
+    floor_aware_evidence: FloorAwareEvidence | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
-    """Solve a dead-load path with the shared Full Newton contract.
+    """Compatibility adapter into the authoritative unified Newton engine."""
 
-    Element-specific assemblies only provide force/tangent evaluations. The
-    driver owns load increments, residual criteria, line search and structured
-    iteration histories, so geometric and future coupled paths do not grow
-    independent Newton implementations.
-    """
     if increments < 1 or max_iterations < 1:
         raise ValueError("Full Newton requires positive increments and max_iterations.")
-    fixed = np.asarray(fixed, dtype=int)
-    free = np.setdiff1d(np.arange(assembly.ndof), fixed)
-    if free.size == 0:
-        raise ValueError("Full Newton requires at least one free degree of freedom.")
-    displacement: np.ndarray = np.zeros(assembly.ndof, dtype=float)
-    history: list[dict[str, object]] = []
-    total_iterations = 0
-    for step in range(1, increments + 1):
-        target = (step / increments) * np.asarray(external, dtype=float)
-        scale = max(float(np.linalg.norm(target[free])), 1.0)
-        residual_history: list[float] = []
-        line_search_iterations = 0
-        assembly_seconds = 0.0
-        linear_solve_seconds = 0.0
-        line_search_seconds = 0.0
-        linear_diagnostics: list[dict[str, object]] = []
-        for iteration in range(1, max_iterations + 1):
-            assembly_started = perf_counter()
-            try:
-                internal, tangent = assembly.assemble(displacement)
-            except NumericalConvergenceError as exc:
-                diagnostics = _failure_diagnostics(
-                    step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
-                )
-                diagnostics.update(exc.diagnostics)
-                raise NumericalConvergenceError(str(exc), reason=exc.reason, diagnostics=diagnostics) from exc
-            except (ValueError, FloatingPointError) as exc:
-                diagnostics = _failure_diagnostics(
-                    step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
-                )
-                raise NumericalConvergenceError(
-                    f"Full Newton assembly failed at increment {step}: {exc}",
-                    reason=_assembly_failure_reason(str(exc)),
-                    diagnostics=diagnostics,
-                ) from exc
-            finally:
-                assembly_seconds += perf_counter() - assembly_started
-            if tangent is None:
-                raise NumericalConvergenceError(
-                    "Full Newton assembly returned no tangent.",
-                    reason=NonlinearFailureReason.INVALID_ELEMENT,
-                    diagnostics=_failure_diagnostics(
-                        step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
-                    ),
-                )
-            if not np.all(np.isfinite(internal)):
-                reason = _nonfinite_failure_reason(internal)
-                raise NumericalConvergenceError(
-                    f"Full Newton assembly returned non-finite internal force at increment {step}.",
-                    reason=reason,
-                    diagnostics=_failure_diagnostics(
-                        step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
-                    ),
-                )
-            if not np.all(np.isfinite(tangent.data)):
-                reason = _nonfinite_failure_reason(tangent.data)
-                raise NumericalConvergenceError(
-                    f"Full Newton assembly returned a non-finite tangent at increment {step}.",
-                    reason=reason,
-                    diagnostics=_failure_diagnostics(
-                        step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
-                    ),
-                )
-            residual = target - internal
-            if not np.all(np.isfinite(residual)):
-                reason = _nonfinite_failure_reason(residual)
-                raise NumericalConvergenceError(
-                    f"Full Newton residual is non-finite at increment {step}.",
-                    reason=reason,
-                    diagnostics=_failure_diagnostics(
-                        step, iteration, residual_history, float("inf"), tolerance, line_search_iterations
-                    ),
-                )
-            residual_norm = float(np.linalg.norm(residual[free]))
-            relative = residual_norm / scale
-            residual_history.append(residual_norm)
-            if relative <= tolerance:
-                break
-            if len(residual_history) >= 4 and residual_history[-1] >= residual_history[-4] * (1.0 - 1.0e-10):
-                raise NumericalConvergenceError(
-                    f"Full Newton stagnated at increment {step}; relative residual={relative:.6e}.",
-                    reason=NonlinearFailureReason.CONVERGENCE_STAGNATION,
-                    diagnostics=_failure_diagnostics(
-                        step, iteration, residual_history, relative, tolerance, line_search_iterations
-                    ),
-                )
-            try:
-                linear_solve_started = perf_counter()
-                if robustness_options is None:
-                    with warnings.catch_warnings():
-                        warnings.simplefilter("error", MatrixRankWarning)
-                        correction = spsolve(tangent[free, :][:, free], residual[free])
-                else:
-                    correction, solve_diagnostics = solve_scaled_system(
-                        tangent[free, :][:, free], residual[free], robustness_options
-                    )
-                    linear_diagnostics.append(solve_diagnostics)
-                linear_solve_seconds += perf_counter() - linear_solve_started
-            except (MatrixRankWarning, ValueError) as exc:
-                raise NumericalConvergenceError(
-                    f"Full Newton tangent is singular at increment {step}.",
-                    reason=NonlinearFailureReason.SINGULAR_TANGENT,
-                    diagnostics=_failure_diagnostics(
-                        step, iteration, residual_history, relative, tolerance, line_search_iterations
-                    ),
-                ) from exc
-            except RuntimeError as exc:
-                diagnostics = _failure_diagnostics(
-                    step, iteration, residual_history, relative, tolerance, line_search_iterations
-                )
-                diagnostics["backend_error"] = str(exc)
-                raise NumericalConvergenceError(
-                    f"Full Newton linear solver failed at increment {step}: {exc}",
-                    reason=NonlinearFailureReason.LINEAR_SOLVER_FAILURE,
-                    diagnostics=diagnostics,
-                ) from exc
-            if not np.all(np.isfinite(correction)):
-                raise NumericalConvergenceError(
-                    f"Full Newton correction is non-finite at increment {step}.",
-                    reason=_nonfinite_failure_reason(correction),
-                    diagnostics=_failure_diagnostics(
-                        step, iteration, residual_history, relative, tolerance, line_search_iterations
-                    ),
-                )
-            try:
-                line_search_started = perf_counter()
-                if robustness_options is None or robustness_options.line_search == "existing":
-                    displacement, reductions = _line_search_assembly_with_diagnostics(
-                        assembly, displacement, free, correction, target, residual_norm
-                    )
-                elif robustness_options.line_search == "off":
-                    displacement = displacement.copy()
-                    displacement[free] += correction
-                    reductions = 0
-                else:
-                    displacement, reductions = _line_search_assembly_with_diagnostics(
-                        assembly,
-                        displacement,
-                        free,
-                        correction,
-                        target,
-                        residual_norm,
-                        min_alpha=robustness_options.line_search_min_alpha,
-                        max_reductions=robustness_options.line_search_max_reductions,
-                        armijo=robustness_options.line_search_c,
-                    )
-                line_search_seconds += perf_counter() - line_search_started
-                line_search_iterations += reductions
-            except NumericalConvergenceError as exc:
-                diagnostics = _failure_diagnostics(
-                    step, iteration, residual_history, relative, tolerance, line_search_iterations
-                )
-                diagnostics.update(exc.diagnostics)
-                raise NumericalConvergenceError(
-                    str(exc), reason=exc.reason, diagnostics=diagnostics
-                ) from exc
-            total_iterations += 1
-        else:
-            raise NumericalConvergenceError(
-                f"Full Newton did not converge at increment {step}; relative residual={relative:.6e}.",
-                reason=NonlinearFailureReason.MAX_ITERATIONS,
-                diagnostics={
-                    **_failure_diagnostics(
-                        step,
-                        max_iterations,
-                        residual_history,
-                        relative,
-                        tolerance,
-                        line_search_iterations,
-                    ),
-                },
+    external_values = np.asarray(external, dtype=float)
+    fixed_values = np.asarray(fixed, dtype=int)
+    if external_values.shape != (assembly.ndof,) or not np.all(np.isfinite(external_values)):
+        raise ValueError("Full Newton external load must be a finite vector with assembly.ndof entries.")
+
+    linear_adapter = NonlinearLinearSolverAdapter(robustness_options)
+
+    def linear_solve(matrix: csr_matrix, rhs: np.ndarray) -> tuple[np.ndarray, dict[str, object] | None]:
+        return linear_adapter.solve(matrix, rhs)
+
+    use_line_search = robustness_options is None or robustness_options.line_search != "off"
+    robustness_controller = UnifiedNonlinearRobustnessController.from_options(
+        robustness_options,
+        line_search_enabled=use_line_search,
+    )
+
+    def line_search(
+        state: NonlinearState,
+        free: np.ndarray,
+        correction: np.ndarray,
+        target: np.ndarray,
+        residual_norm: float,
+    ) -> tuple[np.ndarray, int, Mapping[str, object] | None]:
+        try:
+            result = _line_search_assembly_with_result(
+                assembly,
+                state.displacement,
+                free,
+                correction,
+                target,
+                residual_norm,
+                controller=robustness_controller,
             )
+            updated = result.payload
+            if not isinstance(updated, np.ndarray):
+                raise NumericalConvergenceError(
+                    "Unified line search did not return a displacement trial.",
+                    reason=NonlinearFailureReason.STATE_CORRUPTION,
+                )
+            return updated, result.reductions, result.to_dict()
+        except NumericalConvergenceError as exc:
+            raise NumericalConvergenceError(
+                str(exc), reason=exc.reason, diagnostics=dict(exc.diagnostics)
+            ) from exc
+
+    engine = UnifiedNewtonEngine()
+    state = initial_state.detached_copy() if initial_state is not None else NonlinearState(
+        np.zeros(assembly.ndof, dtype=float)
+    )
+    factors = (
+        tuple(float(value) for value in target_load_factors)
+        if target_load_factors is not None
+        else tuple(float(value) for value in np.linspace(1.0 / increments, 1.0, increments))
+    )
+    if not factors or any(not np.isfinite(value) for value in factors):
+        raise ValueError("Full Newton target load factors must be finite and non-empty.")
+    try:
+        result = engine.solve(
+            initial_state=state,
+            external_force=external_values,
+            fixed=fixed_values,
+            target_load_factors=factors,
+            tolerance=tolerance,
+            max_iterations=max_iterations,
+            contributions=(_AssemblyContribution(assembly),),
+            linear_solve=linear_solve,
+            line_search=line_search if use_line_search else None,
+            solver_name="full_newton",
+            failure_diagnostics=_failure_diagnostics,
+            assembly_failure_reason=_assembly_failure_reason,
+            nonfinite_failure_reason=_nonfinite_failure_reason,
+            robustness_controller=robustness_controller,
+            accepted_state_callback=accepted_state_callback,
+            telemetry_observer=telemetry_observer,
+            floor_aware_evidence=floor_aware_evidence,
+        )
+    except NumericalConvergenceError as exc:
+        # Preserve the legacy diagnostic envelope while the engine owns the
+        # transaction boundary and iteration lifecycle.
+        if "solver" not in exc.diagnostics:
+            exc.diagnostics["solver"] = "full_newton"
+        if "backend" not in exc.diagnostics:
+            exc.diagnostics["backend"] = linear_adapter.configured_backend()
+        raise
+
+    history: list[dict[str, object]] = []
+    for raw in result.diagnostics["increments"]:
+        assert isinstance(raw, dict)
+        raw_history = list(raw["residual_history"])
         step_diagnostics = NonlinearIterationDiagnostics(
             converged=True,
-            iterations=iteration,
-            residual_initial=residual_history[0],
-            residual_final=residual_history[-1],
-            relative_residual=relative,
+            iterations=int(raw["iterations"]),
+            residual_initial=float(raw["residual_initial"]),
+            residual_final=float(raw["residual_final"]),
+            relative_residual=float(raw["relative_residual"]),
             tolerance=tolerance,
             solver="full_newton",
-            backend=(
-                "scipy.sparse.linalg.splu"
-                if robustness_options is not None and robustness_options.linear_solver == "splu"
-                else "scipy.sparse.linalg.spsolve"
-            ),
-            residual_history=tuple(residual_history),
-            line_search_iterations=line_search_iterations,
+            backend=str(raw["linear_system_diagnostics"][-1].get("linear_backend", "scipy.sparse.linalg.spsolve"))
+            if raw["linear_system_diagnostics"]
+            else "scipy.sparse.linalg.spsolve",
+            residual_history=tuple(float(item) for item in raw_history),
+            line_search_iterations=int(raw["line_search_iterations"]),
         ).to_dict()
         step_diagnostics.update(
             {
-                "assembly_seconds": assembly_seconds,
-                "linear_solve_seconds": linear_solve_seconds,
-                "line_search_seconds": line_search_seconds,
-                "linear_system_diagnostics": linear_diagnostics,
+                "assembly_seconds": raw["assembly_seconds"],
+                "linear_solve_seconds": raw["linear_solve_seconds"],
+                "line_search_seconds": raw["line_search_seconds"],
+                "linear_system_diagnostics": raw["linear_system_diagnostics"],
+                "robustness": raw.get("robustness"),
+                "termination_classification": raw.get("termination_classification", "CONVERGED_RESIDUAL"),
+                "floor_aware": raw.get("floor_aware"),
                 "robustness_options": (
                     robustness_options.to_dict() if robustness_options is not None else None
                 ),
@@ -292,24 +298,27 @@ def solve_full_newton(
         )
         history.append(
             {
-                "increment": step,
-                "load_factor": step / increments,
-                "iterations": iteration,
-                "relative_residual": relative,
-                "residual_initial": residual_history[0],
-                "residual_final": residual_history[-1],
-                "residual_history": tuple(residual_history),
-                "assembly_seconds": assembly_seconds,
-                "linear_solve_seconds": linear_solve_seconds,
-                "line_search_seconds": line_search_seconds,
+                "increment": raw["increment"],
+                "load_factor": raw["load_factor"],
+                "iterations": raw["iterations"],
+                "relative_residual": raw["relative_residual"],
+                "residual_initial": raw["residual_initial"],
+                "residual_final": raw["residual_final"],
+                "residual_history": raw_history,
+                "assembly_seconds": raw["assembly_seconds"],
+                "linear_solve_seconds": raw["linear_solve_seconds"],
+                "line_search_seconds": raw["line_search_seconds"],
                 "diagnostics": step_diagnostics,
+                "termination_classification": raw.get("termination_classification", "CONVERGED_RESIDUAL"),
+                "floor_aware": raw.get("floor_aware"),
             }
         )
-    return displacement, {
+    return result.state.displacement.copy(), {
         "converged": True,
-        "newton_iterations": total_iterations,
-        "final_relative_residual": history[-1]["relative_residual"],
+        "newton_iterations": result.diagnostics["newton_iterations"],
+        "final_relative_residual": result.diagnostics["final_relative_residual"],
         "increments": history,
+        "robustness_policy": result.diagnostics["robustness_policy"],
         "robustness_options": robustness_options.to_dict() if robustness_options is not None else None,
     }
 
@@ -344,6 +353,9 @@ def solve_adaptive_full_newton(
     max_iterations: int,
     controls: AdaptiveLoadControls,
     robustness_options: NonlinearRobustnessOptions | None = None,
+    initial_state: NonlinearState | None = None,
+    accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
+    floor_aware_evidence: FloorAwareEvidence | None = None,
 ) -> tuple[np.ndarray, dict[str, object]]:
     """Solve a dead-load path with deterministic cutback/retry continuation.
 
@@ -365,21 +377,41 @@ def solve_adaptive_full_newton(
     if free.size == 0:
         raise ValueError("Adaptive Full Newton requires at least one free degree of freedom.")
 
-    displacement: np.ndarray = np.zeros(assembly.ndof, dtype=float)
+    starting_state = (
+        initial_state.detached_copy()
+        if initial_state is not None
+        else NonlinearState(
+            displacement=np.zeros(assembly.ndof, dtype=float),
+            load_factor=0.0,
+            continuation_state={"accepted_step": 0},
+        )
+    )
+    displacement: np.ndarray = starting_state.displacement.copy()
+    controller = UnifiedContinuationController(
+        starting_state
+    )
     history: list[dict[str, object]] = []
     rejection_log: list[dict[str, object]] = []
-    current_factor = 0.0
-    increment = controls.initial_increment
-    accepted_step = 0
+    current_factor = float(controller.accepted_state.load_factor)
+    stored_increment = controller.accepted_state.continuation_state.get("next_increment")
+    adaptive_policy = UnifiedAdaptiveStepPolicy(controls)
+    increment = adaptive_policy.initial_increment(
+        float(stored_increment)
+        if isinstance(stored_increment, (int, float))
+        else None
+    )
+    accepted_step = int(controller.accepted_state.continuation_state.get("accepted_step", 0))
     total_iterations = 0
-    rejected_increments = 0
+    metadata = controller.accepted_state.accepted_increment_metadata
+    rejected_increments = int(metadata.get("rejected_increments", 0)) if isinstance(metadata, dict) else 0
     pending_cutbacks = 0
     while current_factor < 1.0 - 1.0e-12:
-        proposed = min(increment, 1.0 - current_factor)
+        policy_increment = increment
+        proposed = adaptive_policy.propose_increment(current_factor, policy_increment)
         target_factor = current_factor + proposed
-        committed = displacement.copy()
         while True:
-            attempt = _OffsetNonlinearAssembly(assembly, committed)
+            trial_state = controller.begin_trial()
+            attempt = _OffsetNonlinearAssembly(assembly, controller.accepted_state.displacement)
             try:
                 trial_delta, attempt_diagnostics = solve_full_newton(
                     attempt,
@@ -389,17 +421,40 @@ def solve_adaptive_full_newton(
                     tolerance=tolerance,
                     max_iterations=max_iterations,
                     robustness_options=robustness_options,
+                    floor_aware_evidence=floor_aware_evidence,
                 )
             except NumericalConvergenceError as exc:
-                displacement[:] = committed
-                rejected_increments += 1
+                retry_classification = controller.rollback(
+                    exc,
+                    path="adaptive_full_newton",
+                    metadata={
+                        "adaptive_load_step": accepted_step + 1,
+                        "base_load_factor": current_factor,
+                        "rejected_increment": proposed,
+                    },
+                )
+                rejected_increments = controller.rejected_increments
                 pending_cutbacks += 1
                 failure_reason = (
                     exc.reason.value
                     if isinstance(exc.reason, NonlinearFailureReason)
                     else (str(exc.reason) if exc.reason is not None else type(exc).__name__)
                 )
-                retry_increment = proposed * controls.cutback_factor
+                policy_decision = adaptive_policy.on_failure(
+                    base_load_factor=current_factor,
+                    proposed_increment=proposed,
+                    failure_reason=exc.reason,
+                    retry_classification=retry_classification,
+                    rejected_count=rejected_increments,
+                    iterations=(
+                        int(exc.diagnostics["iterations"])
+                        if isinstance(exc.diagnostics.get("iterations"), int)
+                        else None
+                    ),
+                )
+                retry_increment = float(policy_decision.retry_increment or 0.0)
+                if controller.rejection_log:
+                    controller.rejection_log[-1]["retry_increment"] = retry_increment
                 failure_diagnostics = dict(exc.diagnostics)
                 failure_diagnostics.update(
                     {
@@ -407,7 +462,8 @@ def solve_adaptive_full_newton(
                         "base_load_factor": current_factor,
                         "rejected_increment": proposed,
                         "retry_increment": retry_increment,
-                        "rollback_verified": bool(np.array_equal(displacement, committed)),
+                        "rollback_verified": True,
+                        "accepted_state_digest": controller.accepted_digest,
                     }
                 )
                 rejection_log.append(
@@ -418,10 +474,10 @@ def solve_adaptive_full_newton(
                         "retry_increment": retry_increment,
                         "failure_reason": failure_reason,
                         "failure_diagnostics": failure_diagnostics,
-                        "rollback_before_retry": bool(np.array_equal(displacement, committed)),
+                        "rollback_before_retry": True,
                     }
                 )
-                if rejected_increments >= controls.maximum_cutbacks:
+                if policy_decision.decision == "TERMINAL_MAX_CUTBACKS":
                     raise NumericalConvergenceError(
                         "Adaptive Full Newton exceeded the configured maximum number of cutbacks.",
                         reason=NonlinearFailureReason.MAX_ITERATIONS,
@@ -430,9 +486,12 @@ def solve_adaptive_full_newton(
                             "max_cutbacks": controls.maximum_cutbacks,
                             "rejected_increments": rejected_increments,
                             "rejection_log": rejection_log,
+                            "continuation_rejection_log": controller.rejection_log,
+                            "adaptive_policy": adaptive_policy.configuration_diagnostics(),
+                            "adaptive_policy_terminal_decision": policy_decision.to_dict(),
                         },
                     ) from exc
-                if retry_increment < controls.minimum_increment:
+                if policy_decision.decision == "TERMINAL_MIN_INCREMENT":
                     raise NumericalConvergenceError(
                         "Adaptive Full Newton reached the minimum load increment.",
                         reason=NonlinearFailureReason.MIN_INCREMENT_REACHED,
@@ -441,9 +500,15 @@ def solve_adaptive_full_newton(
                             "minimum_increment": controls.minimum_increment,
                             "rejected_increments": rejected_increments,
                             "rejection_log": rejection_log,
+                            "continuation_rejection_log": controller.rejection_log,
+                            "adaptive_policy": adaptive_policy.configuration_diagnostics(),
+                            "adaptive_policy_terminal_decision": policy_decision.to_dict(),
                         },
                     ) from exc
+                if policy_decision.decision == "TERMINAL_NON_RETRYABLE":
+                    raise
                 proposed = retry_increment
+                policy_increment = proposed
                 target_factor = current_factor + proposed
                 increment = proposed
                 continue
@@ -456,14 +521,48 @@ def solve_adaptive_full_newton(
                 or not isinstance(attempt_steps[0], dict)
                 or not isinstance(attempt_total_iterations, int)
             ):
+                controller.rollback(
+                    NumericalConvergenceError(
+                        "Adaptive Full Newton received an invalid attempt diagnostic payload.",
+                        reason=NonlinearFailureReason.INVALID_ELEMENT,
+                    ),
+                    path="adaptive_full_newton",
+                    metadata={"adaptive_load_step": accepted_step + 1},
+                )
                 raise NumericalConvergenceError(
                     "Adaptive Full Newton received an invalid attempt diagnostic payload.",
                     reason=NonlinearFailureReason.INVALID_ELEMENT,
                     diagnostics={"adaptive_load_step": accepted_step + 1},
                 )
             step_diagnostics = dict(attempt_steps[0])
-            displacement[:] = committed + trial_delta
+            trial_state.displacement = controller.accepted_state.displacement + trial_delta
+            trial_state.load_factor = target_factor
+            next_iterations = int(step_diagnostics["iterations"])
+            policy_decision = adaptive_policy.on_accept(
+                base_load_factor=current_factor,
+                policy_increment=policy_increment,
+                proposed_increment=proposed,
+                iterations=next_iterations,
+                cutback_count=pending_cutbacks,
+            )
+            next_increment = float(policy_decision.next_increment or 0.0)
             accepted_step += 1
+            trial_state.continuation_state = {
+                "accepted_step": accepted_step,
+                "current_factor": target_factor,
+                "next_increment": next_increment,
+                "controller_policy": "adaptive_load_control_v1",
+            }
+            trial_state.accepted_increment_metadata = {
+                "step": accepted_step,
+                "load_increment": proposed,
+                "load_step_cutbacks": pending_cutbacks,
+                "rejected_increments": controller.rejected_increments,
+            }
+            controller.commit()
+            if accepted_state_callback is not None:
+                accepted_state_callback(accepted_step, controller.accepted_state.detached_copy())
+            displacement[:] = controller.accepted_state.displacement
             total_iterations += attempt_total_iterations
             step_diagnostics.update(
                 {
@@ -472,18 +571,13 @@ def solve_adaptive_full_newton(
                     "load_increment": proposed,
                     "load_step_cutbacks": pending_cutbacks,
                     "state_committed": True,
+                    "adaptive_policy": policy_decision.to_dict(),
                 }
             )
             history.append(step_diagnostics)
             current_factor = target_factor
             pending_cutbacks = 0
-            iterations = int(step_diagnostics["iterations"])
-            if iterations <= controls.grow_below_iterations:
-                increment = min(controls.maximum_increment, proposed * controls.growth_factor)
-            elif iterations >= controls.shrink_above_iterations:
-                increment = max(controls.minimum_increment, proposed * controls.cutback_factor)
-            else:
-                increment = proposed
+            increment = next_increment
             break
 
     return displacement, {
@@ -494,6 +588,9 @@ def solve_adaptive_full_newton(
         "adaptive_load_steps": True,
         "rejected_increments": rejected_increments,
         "rejection_log": rejection_log,
+        "continuation_commit_count": controller.transaction.commit_count,
+        "continuation_rejection_log": controller.rejection_log,
+        "adaptive_policy": adaptive_policy.configuration_diagnostics(),
         "adaptive_controls": {
             "initial_increment": controls.initial_increment,
             "minimum_increment": controls.minimum_increment,
@@ -526,7 +623,6 @@ def _failure_diagnostics(
         "relative_residual_status": "COMPUTED" if relative_is_finite else "NOT_COMPUTABLE",
         "tolerance": tolerance,
         "solver": "full_newton",
-        "backend": "scipy.sparse.linalg.spsolve",
         "residual_history": tuple(residual_history),
         "line_search_iterations": line_search_iterations,
     }
@@ -582,33 +678,154 @@ def _line_search_assembly_with_diagnostics(
     *,
     min_alpha: float = 0.0,
     max_reductions: int = 14,
-    armijo: float = 0.0,
+    armijo: float | None = 0.0,
+    controller: UnifiedNonlinearRobustnessController | None = None,
 ) -> tuple[np.ndarray, int]:
-    """Return the accepted trial and the number of reductions used."""
-    alpha = 1.0
-    for reductions in range(max_reductions + 1):
+    """Return an accepted trial through the common policy loop.
+
+    The historical defaults are intentionally retained for this compatibility
+    helper.  The public ``solve_full_newton`` adapter supplies the public
+    default controller explicitly, so this wrapper cannot create a second
+    line-search implementation.
+    """
+    result = _line_search_assembly_with_result(
+        assembly,
+        displacement,
+        free,
+        correction,
+        target,
+        residual_norm,
+        min_alpha=min_alpha,
+        max_reductions=max_reductions,
+        armijo_c=None if armijo is None or armijo == 0.0 else armijo,
+        controller=controller,
+    )
+    if not isinstance(result.payload, np.ndarray):
+        raise NumericalConvergenceError(
+            "Common line search returned no displacement trial.",
+            reason=NonlinearFailureReason.STATE_CORRUPTION,
+            diagnostics=result.to_dict(),
+        )
+    return result.payload, result.reductions
+
+
+def _line_search_assembly_with_result(
+    assembly: NonlinearAssemblyProtocol,
+    displacement: np.ndarray,
+    free: np.ndarray,
+    correction: np.ndarray,
+    target: np.ndarray,
+    residual_norm: float,
+    *,
+    min_alpha: float = 1.0e-4,
+    max_reductions: int = 12,
+    armijo_c: float | None = None,
+    controller: UnifiedNonlinearRobustnessController | None = None,
+) -> LineSearchResult:
+    """Evaluate assembly merit values using the one common alpha policy."""
+    policy = controller or UnifiedNonlinearRobustnessController(
+        policy_source="COMPATIBILITY_ADAPTER",
+        min_alpha=min_alpha,
+        max_reductions=max_reductions,
+        armijo_c=armijo_c,
+    )
+    base_diagnostics = _assembly_diagnostics_snapshot(assembly)
+    direction = np.zeros_like(displacement)
+    direction[free] = correction
+    activation_factors: tuple[float, ...] = ()
+    activation_provider = getattr(assembly, "line_search_activation_factors", None)
+    if callable(activation_provider):
+        try:
+            activation_factors = tuple(activation_provider(displacement, direction))
+        except Exception:
+            activation_factors = ()  # Candidate generation is diagnostic-only.
+    supplemental_alphas = _contact_event_refinement_alphas(activation_factors, policy)
+
+    def evaluate(alpha: float) -> LineSearchEvaluation:
         trial = displacement.copy()
         trial[free] += alpha * correction
         try:
             trial_internal, _ = assembly.assemble(trial, tangent_required=False)
-        except ValueError:
-            alpha *= 0.5
-            continue
-        trial_norm = np.linalg.norm((target - trial_internal)[free])
-        accepted = (
-            trial_norm < residual_norm
-            if armijo == 0.0
-            else trial_norm <= (1.0 - armijo * alpha) * residual_norm
+        except ValueError as exc:
+            return LineSearchEvaluation(
+                merit=float("inf"),
+                payload=trial,
+                diagnostics={"assembly_rejected": True, "error": str(exc)},
+            )
+        trial_norm = float(np.linalg.norm((target - trial_internal)[free]))
+        trial_diagnostics = _assembly_diagnostics_snapshot(assembly)
+        diagnostics: dict[str, object] = {"alpha": float(alpha)}
+        if activation_factors:
+            diagnostics["contact_activation_factor_summary"] = {
+                "count": len(activation_factors),
+                "minimum": min(activation_factors),
+                "median": float(np.median(activation_factors)),
+                "maximum": max(activation_factors),
+            }
+        if base_diagnostics:
+            diagnostics["base_assembly"] = base_diagnostics
+        if trial_diagnostics:
+            diagnostics["trial_assembly"] = trial_diagnostics
+        return LineSearchEvaluation(
+            merit=trial_norm,
+            payload=trial,
+            diagnostics=diagnostics if len(diagnostics) > 1 else {},
         )
-        if accepted:
-            return trial, reductions
-        alpha *= 0.5
-        if alpha < min_alpha:
-            break
-    raise NumericalConvergenceError(
-        "Full Newton line search failed to reduce the residual.",
-        reason=NonlinearFailureReason.LINE_SEARCH_FAILURE,
+
+    return policy.line_search(
+        residual_norm,
+        evaluate,
+        supplemental_alphas=supplemental_alphas,
     )
+
+
+def _contact_event_refinement_alphas(
+    activation_factors: Sequence[float],
+    policy: UnifiedNonlinearRobustnessController,
+) -> tuple[float, ...]:
+    """Generate bounded merit probes around a predicted penalty activation."""
+
+    roots = sorted(
+        {
+            float(value)
+            for value in activation_factors
+            if np.isfinite(float(value)) and 0.0 < float(value) < 1.0
+        }
+    )
+    if not roots:
+        return ()
+    standard = [
+        0.5**reductions
+        for reductions in range(policy.max_reductions + 1)
+        if 0.5**reductions >= policy.min_alpha
+    ]
+    if not standard:
+        return ()
+    representative_roots = sorted({roots[0], roots[len(roots) // 2], roots[-1]})
+    candidates: set[float] = set()
+    fractions = (0.75, 0.5, 0.25, 0.125, 0.0625, 0.03125, 0.015625)
+    for root in representative_roots:
+        upper = min((value for value in standard if value > root), default=None)
+        if upper is None:
+            continue
+        for fraction in fractions:
+            candidates.add(root + (upper - root) * fraction)
+        if root >= policy.min_alpha:
+            candidates.add(root)
+    return tuple(sorted(candidates, reverse=True))
+
+
+def _assembly_diagnostics_snapshot(assembly: NonlinearAssemblyProtocol) -> dict[str, object]:
+    """Read optional assembly diagnostics without making them solver-critical."""
+
+    snapshot = getattr(assembly, "diagnostics_snapshot", None)
+    if not callable(snapshot):
+        return {}
+    try:
+        values = snapshot()
+    except Exception as exc:  # Observability must not affect the solve.
+        return {"telemetry_error": f"{type(exc).__name__}: {exc}"}
+    return dict(values) if isinstance(values, Mapping) else {}
 
 
 def line_search_factor(
@@ -625,22 +842,69 @@ def line_search_factor(
     max_reductions: int,
     armijo: float,
 ) -> tuple[float, int]:
-    """Find an Armijo factor while keeping trial assembly delegated to the driver."""
-    alpha = 1.0
-    for reductions in range(max_reductions + 1):
+    """Compatibility wrapper over the common line-search policy."""
+    result = _line_search_factor_with_result(
+        assemble,
+        model,
+        dofs,
+        displacement,
+        free,
+        target_load,
+        material_states,
+        increment,
+        residual_norm,
+        min_alpha,
+        max_reductions,
+        armijo,
+    )
+    if result.factor is None:
+        raise NumericalConvergenceError(
+            "Common Newton line search returned no accepted factor.",
+            reason=NonlinearFailureReason.LINE_SEARCH_FAILURE,
+            diagnostics=result.to_dict(),
+        )
+    return result.factor, result.reductions
+
+
+def _line_search_factor_with_result(
+    assemble: Callable[..., tuple[np.ndarray, object, MaterialStateTable]],
+    model: FiniteElementModel,
+    dofs: DofManager,
+    displacement: np.ndarray,
+    free: np.ndarray,
+    target_load: np.ndarray,
+    material_states: MaterialStateTable,
+    increment: np.ndarray,
+    residual_norm: float,
+    min_alpha: float,
+    max_reductions: int,
+    armijo: float,
+    *,
+    controller: UnifiedNonlinearRobustnessController | None = None,
+    evaluation_diagnostics: Callable[[float], Mapping[str, object]] | None = None,
+) -> LineSearchResult:
+    """Run the common policy against the stateful load-control assembly."""
+    policy = controller or UnifiedNonlinearRobustnessController(
+        policy_source="COMPATIBILITY_ADAPTER",
+        min_alpha=min_alpha,
+        max_reductions=max_reductions,
+        armijo_c=armijo,
+    )
+
+    def evaluate(alpha: float) -> LineSearchEvaluation:
         trial = displacement.copy()
         trial[free] += alpha * increment
         trial_internal, _, _ = assemble(model, dofs, trial, material_states)
         trial_norm = float(np.linalg.norm((target_load - trial_internal)[free]))
-        if trial_norm <= (1.0 - armijo * alpha) * residual_norm:
-            return alpha, reductions
-        alpha *= 0.5
-        if alpha < min_alpha:
-            break
-    raise NumericalConvergenceError(
-        "Newton line-search failed to reduce the residual.",
-        reason=NonlinearFailureReason.LINE_SEARCH_FAILURE,
-    )
+        diagnostics: Mapping[str, object] = {}
+        if evaluation_diagnostics is not None:
+            try:
+                diagnostics = evaluation_diagnostics(alpha)
+            except Exception as exc:  # Telemetry must never change solver decisions.
+                diagnostics = {"telemetry_error": f"{type(exc).__name__}: {exc}"}
+        return LineSearchEvaluation(merit=trial_norm, payload=alpha, diagnostics=diagnostics)
+
+    return policy.line_search(residual_norm, evaluate)
 
 
 def solve_arc_length_correction(

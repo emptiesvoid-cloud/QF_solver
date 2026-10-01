@@ -1,0 +1,1536 @@
+{
+  "admissible_mode_count": 1,
+  "admissible_modes": [
+    "SSS"
+  ],
+  "candidate_modes": [
+    {
+      "active_pressures": [
+        53.115124378681536,
+        105.91325102660826,
+        47.23016414651788
+      ],
+      "admissibility": {
+        "active_gaps": true,
+        "compressive_pressures": true,
+        "finite": true,
+        "normal_set": true,
+        "open_gaps": true,
+        "root_residual": true,
+        "tangential_modes": true
+      },
+      "gaps": [
+        0.016097690218707918,
+        0.010466906208281022,
+        0.004791997512614653,
+        6.938893903907228e-18,
+        0.016251619051172617,
+        0.010694914252850376,
+        0.00494920103527959,
+        -1.3877787807814457e-17,
+        0.016507996476932185,
+        0.011010357536857175,
+        0.005145353174036549,
+        -3.469446951953614e-18
+      ],
+      "mode": "SSS",
+      "mode_checks": [
+        {
+          "condition": "STICK_INSIDE_CONE",
+          "contact": 3,
+          "force_norm": 3.700812384336925,
+          "limit": 15.93453731360446,
+          "state": "stick",
+          "trial_norm": 3.700812384336925,
+          "valid": true
+        },
+        {
+          "condition": "STICK_INSIDE_CONE",
+          "contact": 7,
+          "force_norm": 10.634626899706683,
+          "limit": 31.77397530798248,
+          "state": "stick",
+          "trial_norm": 10.634626899706683,
+          "valid": true
+        },
+        {
+          "condition": "STICK_INSIDE_CONE",
+          "contact": 11,
+          "force_norm": 5.433901378624007,
+          "limit": 14.169049243955364,
+          "state": "stick",
+          "trial_norm": 5.433901378624007,
+          "valid": true
+        }
+      ],
+      "post_root_normal_active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "root": {
+        "attempted": false,
+        "evaluations": 0,
+        "message": "linear stick KKT",
+        "status": 0,
+        "success": true
+      },
+      "root_residual_inf": 0.0,
+      "slip_references": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0018287630093456197,
+          0.0006703598868777593
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0020660434663829315,
+          0.0007454570623687168
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0023851492945746724,
+          0.0007948717321050323
+        ]
+      ],
+      "status": "ADMISSIBLE",
+      "tangential_forces": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -2.0217033436257994,
+          3.0997948148924013
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -5.6249393671726695,
+          9.02526157025912
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.052795487946732944,
+          5.433644893537335
+        ]
+      ],
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "stick",
+        "open",
+        "open",
+        "open",
+        "stick",
+        "open",
+        "open",
+        "open",
+        "stick"
+      ]
+    },
+    {
+      "active_pressures": [
+        53.18924992436117,
+        105.73196442697622,
+        47.344451559039115
+      ],
+      "admissibility": {
+        "active_gaps": true,
+        "compressive_pressures": true,
+        "finite": true,
+        "normal_set": true,
+        "open_gaps": true,
+        "root_residual": false,
+        "tangential_modes": false
+      },
+      "gaps": [
+        0.016097676272797616,
+        0.010466885573788132,
+        0.00479182026174662,
+        0.0,
+        0.016251675554110476,
+        0.010695079721242956,
+        0.004949509448238871,
+        0.0,
+        0.016508068654955303,
+        0.011010476782695703,
+        0.005145356558172491,
+        0.0
+      ],
+      "mode": "SSK",
+      "mode_checks": [
+        {
+          "condition": "STICK_INSIDE_CONE",
+          "contact": 3,
+          "force_norm": 3.6288821556819184,
+          "limit": 15.956774977308351,
+          "state": "stick",
+          "trial_norm": 3.6288821556819184,
+          "valid": true
+        },
+        {
+          "condition": "STICK_INSIDE_CONE",
+          "contact": 7,
+          "force_norm": 10.241427565467601,
+          "limit": 31.719589328092866,
+          "state": "stick",
+          "trial_norm": 10.241427565467601,
+          "valid": true
+        },
+        {
+          "condition": "SLIP_ON_CONE_ALIGNED",
+          "contact": 11,
+          "force_norm": 6.034429034182437,
+          "limit": 14.203335467711733,
+          "state": "slip",
+          "trial_norm": 5.9144070550019834e-05,
+          "valid": false
+        }
+      ],
+      "post_root_normal_active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "root": {
+        "attempted": true,
+        "evaluations": 38,
+        "message": "`xtol` termination condition is satisfied.",
+        "status": 3,
+        "success": true
+      },
+      "root_residual_inf": 8.168339015112057,
+      "slip_references": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0018287630093456197,
+          0.0006703598868777593
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0020660434663829315,
+          0.0007454570623687168
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0023852338605438806,
+          0.0007888379547998872
+        ]
+      ],
+      "status": "REJECTED",
+      "tangential_forces": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -2.0308980685575415,
+          3.0073640842032905
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -5.600331673604949,
+          8.57456259667727
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.08456672508783762,
+          6.033836444385272
+        ]
+      ],
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "stick",
+        "open",
+        "open",
+        "open",
+        "stick",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_pressures": [
+        52.9873389163204,
+        105.96943227492277,
+        47.19139420741879
+      ],
+      "admissibility": {
+        "active_gaps": true,
+        "compressive_pressures": true,
+        "finite": true,
+        "normal_set": true,
+        "open_gaps": true,
+        "root_residual": false,
+        "tangential_modes": false
+      },
+      "gaps": [
+        0.016097353882150587,
+        0.010466274598949587,
+        0.004791542380939913,
+        -2.7755575615628914e-17,
+        0.01625127771357746,
+        0.010694086845437432,
+        0.004948080768280669,
+        6.938893903907228e-18,
+        0.01650779272792927,
+        0.01100979073481917,
+        0.00514495470087162,
+        3.469446951953614e-18
+      ],
+      "mode": "SKS",
+      "mode_checks": [
+        {
+          "condition": "STICK_INSIDE_CONE",
+          "contact": 3,
+          "force_norm": 2.844421635826277,
+          "limit": 15.896201674896119,
+          "state": "stick",
+          "trial_norm": 2.844421635826277,
+          "valid": true
+        },
+        {
+          "condition": "SLIP_ON_CONE_ALIGNED",
+          "contact": 7,
+          "force_norm": 12.95290936439928,
+          "limit": 31.79082968247683,
+          "state": "slip",
+          "trial_norm": 0.0012307135157427955,
+          "valid": false
+        },
+        {
+          "condition": "STICK_INSIDE_CONE",
+          "contact": 11,
+          "force_norm": 4.620313817354997,
+          "limit": 14.157418262225637,
+          "state": "stick",
+          "trial_norm": 4.620313817354997,
+          "valid": true
+        }
+      ],
+      "post_root_normal_active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "root": {
+        "attempted": true,
+        "evaluations": 34,
+        "message": "`xtol` termination condition is satisfied.",
+        "status": 3,
+        "success": true
+      },
+      "root_residual_inf": 15.815696159188931,
+      "slip_references": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0018287630093456197,
+          0.0006703598868777593
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.002059005959646114,
+          0.0007345841842398542
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0023851492945746724,
+          0.0007948717321050323
+        ]
+      ],
+      "status": "REJECTED",
+      "tangential_forces": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -1.6996464977754242,
+          2.2807753560919517
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -7.038175384789992,
+          10.873911359546703
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.5653056192470376,
+          4.5856002145508965
+        ]
+      ],
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "stick",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "stick"
+      ]
+    },
+    {
+      "active_pressures": [
+        53.00641192217637,
+        105.92471623689154,
+        47.218830184683654
+      ],
+      "admissibility": {
+        "active_gaps": true,
+        "compressive_pressures": true,
+        "finite": true,
+        "normal_set": true,
+        "open_gaps": true,
+        "root_residual": false,
+        "tangential_modes": false
+      },
+      "gaps": [
+        0.01609735016764263,
+        0.010466267501609481,
+        0.004791495923426313,
+        -1.3877787807814457e-17,
+        0.016251291261010704,
+        0.010694126331881,
+        0.004948155317102123,
+        6.938893903907228e-18,
+        0.016507809175946776,
+        0.011009818010473125,
+        0.005144952232535072,
+        -1.3877787807814457e-17
+      ],
+      "mode": "SKK",
+      "mode_checks": [
+        {
+          "condition": "STICK_INSIDE_CONE",
+          "contact": 3,
+          "force_norm": 2.835411145611812,
+          "limit": 15.90192357665291,
+          "state": "stick",
+          "trial_norm": 2.835411145611812,
+          "valid": true
+        },
+        {
+          "condition": "SLIP_ON_CONE_ALIGNED",
+          "contact": 7,
+          "force_norm": 12.841396856224717,
+          "limit": 31.77741487106746,
+          "state": "slip",
+          "trial_norm": 0.0011753286859947976,
+          "valid": false
+        },
+        {
+          "condition": "SLIP_ON_CONE_ALIGNED",
+          "contact": 11,
+          "force_norm": 4.7696514837466575,
+          "limit": 14.165649055405096,
+          "state": "slip",
+          "trial_norm": 3.369158512247951,
+          "valid": false
+        }
+      ],
+      "post_root_normal_active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "root": {
+        "attempted": true,
+        "evaluations": 35,
+        "message": "`xtol` termination condition is satisfied.",
+        "status": 3,
+        "success": true
+      },
+      "root_residual_inf": 15.847007476663798,
+      "slip_references": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0018287630093456197,
+          0.0006703598868777593
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0020590173886352783,
+          0.0007347097129112677
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.002385152350147098,
+          0.0007934574638947298
+        ]
+      ],
+      "status": "REJECTED",
+      "tangential_forces": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -1.702688406315803,
+          2.2672469110481637
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -7.026721024152862,
+          10.748333120432498
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.5682696638627417,
+          4.735677867585592
+        ]
+      ],
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "stick",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_pressures": [
+        53.03688500770102,
+        105.96616954799892,
+        47.23041225291327
+      ],
+      "admissibility": {
+        "active_gaps": true,
+        "compressive_pressures": true,
+        "finite": true,
+        "normal_set": true,
+        "open_gaps": true,
+        "root_residual": false,
+        "tangential_modes": false
+      },
+      "gaps": [
+        0.016097556614546673,
+        0.010466630411627048,
+        0.00479167311209228,
+        3.469446951953614e-18,
+        0.016251556896696544,
+        0.010694759006554932,
+        0.004949007434360419,
+        -6.938893903907228e-18,
+        0.01650800792596415,
+        0.011010328873640514,
+        0.005145337715345543,
+        1.734723475976807e-17
+      ],
+      "mode": "KSS",
+      "mode_checks": [
+        {
+          "condition": "SLIP_ON_CONE_ALIGNED",
+          "contact": 3,
+          "force_norm": 4.20447159940479,
+          "limit": 15.911065502310304,
+          "state": "slip",
+          "trial_norm": 2.9657227794453904e-05,
+          "valid": false
+        },
+        {
+          "condition": "STICK_INSIDE_CONE",
+          "contact": 7,
+          "force_norm": 10.355742059481681,
+          "limit": 31.789850864399675,
+          "state": "stick",
+          "trial_norm": 10.355742059481681,
+          "valid": true
+        },
+        {
+          "condition": "STICK_INSIDE_CONE",
+          "contact": 11,
+          "force_norm": 5.383942598280683,
+          "limit": 14.16912367587398,
+          "state": "stick",
+          "trial_norm": 5.383942598280683,
+          "valid": true
+        }
+      ],
+      "post_root_normal_active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "root": {
+        "attempted": true,
+        "evaluations": 30,
+        "message": "`xtol` termination condition is satisfied.",
+        "status": 3,
+        "success": true
+      },
+      "root_residual_inf": 9.745946815955294,
+      "slip_references": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.001826420578359488,
+          0.000666868418831034
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0020660434663829315,
+          0.0007454570623687168
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0023851492945746724,
+          0.0007948717321050323
+        ]
+      ],
+      "status": "REJECTED",
+      "tangential_forces": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -2.3424474408238756,
+          3.49149272048205
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -5.46821693576732,
+          8.794316184098987
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.07043616579143624,
+          5.383481833175436
+        ]
+      ],
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "stick",
+        "open",
+        "open",
+        "open",
+        "stick"
+      ]
+    },
+    {
+      "active_pressures": [
+        53.019899670906575,
+        106.00754275213338,
+        47.20431441634353
+      ],
+      "admissibility": {
+        "active_gaps": true,
+        "compressive_pressures": true,
+        "finite": true,
+        "normal_set": true,
+        "open_gaps": true,
+        "root_residual": false,
+        "tangential_modes": false
+      },
+      "gaps": [
+        0.016097559447023894,
+        0.010466634412303132,
+        0.004791712888131553,
+        1.734723475976807e-17,
+        0.016251543734064896,
+        0.010694720611993013,
+        0.004948936343171582,
+        -3.469446951953614e-18,
+        0.016507991245770876,
+        0.0110103009731378,
+        0.005145335958333334,
+        -6.938893903907228e-18
+      ],
+      "mode": "KSK",
+      "mode_checks": [
+        {
+          "condition": "SLIP_ON_CONE_ALIGNED",
+          "contact": 3,
+          "force_norm": 4.222628788414246,
+          "limit": 15.905969901271972,
+          "state": "slip",
+          "trial_norm": 0.0009247372813066776,
+          "valid": false
+        },
+        {
+          "condition": "STICK_INSIDE_CONE",
+          "contact": 7,
+          "force_norm": 10.444034212278437,
+          "limit": 31.80226282564001,
+          "state": "stick",
+          "trial_norm": 10.444034212278437,
+          "valid": true
+        },
+        {
+          "condition": "SLIP_ON_CONE_ALIGNED",
+          "contact": 11,
+          "force_norm": 5.2472352753701506,
+          "limit": 14.161294324903059,
+          "state": "slip",
+          "trial_norm": 6.617151220270566,
+          "valid": false
+        }
+      ],
+      "post_root_normal_active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "root": {
+        "attempted": true,
+        "evaluations": 33,
+        "message": "`xtol` termination condition is satisfied.",
+        "status": 3,
+        "success": true
+      },
+      "root_residual_inf": 9.724296245916713,
+      "slip_references": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0018264227394607763,
+          0.0006668462104610336
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0020660434663829315,
+          0.0007454570623687168
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.002385122506484407,
+          0.0007962414177218776
+        ]
+      ],
+      "status": "REJECTED",
+      "tangential_forces": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -2.340782472485954,
+          3.514446087400873
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -5.473161306622336,
+          8.895074813565907
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.06258361385544,
+          5.246862045676982
+        ]
+      ],
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "stick",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    },
+    {
+      "active_pressures": [
+        52.93036963909221,
+        106.00885972924715,
+        47.19370683054169
+      ],
+      "admissibility": {
+        "active_gaps": true,
+        "compressive_pressures": true,
+        "finite": true,
+        "normal_set": true,
+        "open_gaps": true,
+        "root_residual": false,
+        "tangential_modes": false
+      },
+      "gaps": [
+        0.016097261496212108,
+        0.010466080494332461,
+        0.004791298394255515,
+        6.938893903907228e-18,
+        0.016251243632670803,
+        0.01069400100829453,
+        0.0049479793253470305,
+        -1.0408340855860843e-17,
+        0.016507811275163493,
+        0.01100979400827304,
+        0.005144960108999433,
+        0.0
+      ],
+      "mode": "KKS",
+      "mode_checks": [
+        {
+          "condition": "SLIP_ON_CONE_ALIGNED",
+          "contact": 3,
+          "force_norm": 3.2799267016086806,
+          "limit": 15.879110891727663,
+          "state": "slip",
+          "trial_norm": 9.760790933831776e-05,
+          "valid": false
+        },
+        {
+          "condition": "SLIP_ON_CONE_ALIGNED",
+          "contact": 7,
+          "force_norm": 12.63197654167986,
+          "limit": 31.802657918774145,
+          "state": "slip",
+          "trial_norm": 0.2718525446395139,
+          "valid": false
+        },
+        {
+          "condition": "STICK_INSIDE_CONE",
+          "contact": 11,
+          "force_norm": 4.619729449005775,
+          "limit": 14.158112049162508,
+          "state": "stick",
+          "trial_norm": 4.619729449005775,
+          "valid": true
+        }
+      ],
+      "post_root_normal_active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "root": {
+        "attempted": true,
+        "evaluations": 35,
+        "message": "`xtol` termination condition is satisfied.",
+        "status": 3,
+        "success": true
+      },
+      "root_residual_inf": 16.0922761748222,
+      "slip_references": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.001826787098744209,
+          0.0006677420526241977
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0020593463846070963,
+          0.0007350685222587879
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0023851492945746724,
+          0.0007948717321050323
+        ]
+      ],
+      "status": "REJECTED",
+      "tangential_forces": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -1.9759694193447477,
+          2.617912149354898
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -6.844652789869662,
+          10.61685261909949
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.5554710280565762,
+          4.586213265756508
+        ]
+      ],
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "stick"
+      ]
+    },
+    {
+      "active_pressures": [
+        52.85574638255935,
+        106.43111469220175,
+        46.91418721379524
+      ],
+      "admissibility": {
+        "active_gaps": true,
+        "compressive_pressures": true,
+        "finite": true,
+        "normal_set": true,
+        "open_gaps": true,
+        "root_residual": false,
+        "tangential_modes": false
+      },
+      "gaps": [
+        0.016097561376812806,
+        0.010466609648877048,
+        0.004792069857938241,
+        3.469446951953614e-18,
+        0.01625136212492747,
+        0.010694222533030182,
+        0.004948104410387816,
+        -6.938893903907228e-18,
+        0.01650774283976556,
+        0.011009830829179145,
+        0.005145064431735498,
+        -2.7755575615628914e-17
+      ],
+      "mode": "KKK",
+      "mode_checks": [
+        {
+          "condition": "SLIP_ON_CONE_ALIGNED",
+          "contact": 3,
+          "force_norm": 4.394121765826133,
+          "limit": 15.856723914767805,
+          "state": "slip",
+          "trial_norm": 0.0016018870306025385,
+          "valid": false
+        },
+        {
+          "condition": "SLIP_ON_CONE_ALIGNED",
+          "contact": 7,
+          "force_norm": 11.272474235865936,
+          "limit": 31.929334407660523,
+          "state": "slip",
+          "trial_norm": 11.198897893981313,
+          "valid": false
+        },
+        {
+          "condition": "SLIP_ON_CONE_ALIGNED",
+          "contact": 11,
+          "force_norm": 3.8699371655032904,
+          "limit": 14.074256164138571,
+          "state": "slip",
+          "trial_norm": 18.968925553979105,
+          "valid": false
+        }
+      ],
+      "post_root_normal_active_contacts": [
+        3,
+        7,
+        11
+      ],
+      "root": {
+        "attempted": true,
+        "evaluations": 32,
+        "message": "`xtol` termination condition is satisfied.",
+        "status": 3,
+        "success": true
+      },
+      "root_residual_inf": 17.71149457171456,
+      "slip_references": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0018264392973360041,
+          0.0006666323416557392
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.0020662613790785973,
+          0.0007452495720209447
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.002382986174020052,
+          0.0008098722867207182
+        ]
+      ],
+      "status": "REJECTED",
+      "tangential_forces": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -2.324559675027384,
+          3.7289044517315753
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -5.413322178625069,
+          9.88759922269644
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.1886910970338203,
+          3.865334310877109
+        ]
+      ],
+      "tangential_states": [
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip",
+        "open",
+        "open",
+        "open",
+        "slip"
+      ]
+    }
+  ],
+  "checkpoint": {
+    "input_provenance": "LOCAL_CHECKOUT_SOURCE_VERIFIED",
+    "path": "qualification/0_2_9/wp08d_phase1_mixed_open_active_slip_step2_local_source/run/M2/checkpoint_step_002.json",
+    "sha256": "98e73217ecc8497a23c16fe9b4ce7af00c46917b852f1a7f534b98f0345f119b",
+    "step": 2
+  },
+  "final_classification": "ADMISSIBLE_MODE_FOUND",
+  "frozen_parameters": {
+    "active_contacts": [
+      3,
+      7,
+      11
+    ],
+    "friction_coefficient": 0.3,
+    "friction_tolerance": 1e-09,
+    "gap_tolerance": 1e-10,
+    "mesh": "M2",
+    "step": 3,
+    "tangential_stiffness": 1000000.0
+  },
+  "kind": "WP08D_M2_STEP3_INDEPENDENT_STICK_SLIP_MODE_ENUMERATION",
+  "production_contact_implementation_called": false,
+  "qualification_claim": "DIAGNOSTIC_ONLY_NO_FORMAL_WP08D_CREDIT",
+  "schema_version": 1
+}

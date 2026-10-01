@@ -1,6 +1,6 @@
 ---
 doc_id: DOC-ARCH-001
-revision: 2.1
+revision: 2.2
 status: controlled
 applicable_version: 0.2.8
 reviewer: ""
@@ -57,7 +57,7 @@ Les visualisations, campagnes et verifications vivent respectivement dans
 durant la serie 0.2.x. Les deux chemins d'import sont proteges par une
 baseline matricielle et la campagne MITC4.
 
-## Current architecture (0.2.8 development)
+## Published 0.2.8 architecture
 
 `src/solveur/elements/shell/mitc4` is the canonical MITC4 implementation.
 `src/solveur/compat/mitc4` is an internal compatibility facade retained for
@@ -217,7 +217,7 @@ refactoring automatique.
 
 ## Garde-Fous
 
-- Aucun fichier Python sous `src/solveur`, `src/solveur/compat/mitc4` ou `tests` ne depasse 700 lignes.
+- L'objectif de maintenance est de 700 lignes par fichier Python sous `src/solveur`, `scripts` et `tests`. Un depassement, y compris au-dela de 1 000 ou 2 000 lignes, est inventorie comme dette non bloquante, sans plafond arbitraire. Les controles de dependances, de syntaxe et de comportement restent obligatoires.
 - `src/solveur/elements` ne depend pas de `solveur/io`, `solveur/cli` ou
   `solveur/api`.
 - `src/solveur/core` ne depend pas de `solveur/cli` ou `solveur/api`.

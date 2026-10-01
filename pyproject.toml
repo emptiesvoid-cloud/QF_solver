@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qf-solver"
-version = "0.2.8"
+version = "0.2.9"
 description = "Open-source white-box Python finite element solver for structural mechanics, dynamics and verifiable engineering simulation."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -49,7 +49,8 @@ test = [
   "h5py>=3.10",
   "psutil>=5.9",
   "jsonschema>=4.26,<5",
-  "PyYAML>=6.0"
+  "PyYAML>=6.0",
+  "threadpoolctl>=3.5"
 ]
 dev = [
   "pytest>=8",
@@ -62,7 +63,8 @@ dev = [
   "ruff>=0.6",
   "mypy>=1.16",
   "hypothesis>=6.135",
-  "PyYAML>=6.0"
+  "PyYAML>=6.0",
+  "threadpoolctl>=3.5"
 ]
 large = [
   "h5py>=3.10",
@@ -98,6 +100,7 @@ include = ["qf_solver*", "solveur*"]
 
 [tool.setuptools.data-files]
 examples = ["examples/*.json"]
+"examples/vnv_026_g06" = ["examples/vnv_026_g06/*.json"]
 qualification = [
   "qualification/benchmarks.json",
   "qualification/campaign.json",

@@ -1,0 +1,31 @@
+{
+  "work_package": "WP10",
+  "status": "READY_FOR_OWNER_REVIEW",
+  "candidate_points": "PENDING_OWNER",
+  "official_points": "0/6",
+  "branch": "codex/wp10-provenance-requalification",
+  "authorized_base_sha": "22f1adb85d47c87d3c09b6607de170a6b4c20269",
+  "runner_sha": "2d87bc80b2875251ff093eaa76bee0020b4a48fd",
+  "contract_sha": "38029b5e3fa9a063cc272b5d6c0510bb3687df35",
+  "execution_sha": "38029b5e3fa9a063cc272b5d6c0510bb3687df35",
+  "contract_sha256": "3906d61d7d75edfdb6bb6400772fa9b4ede88fd6ca36d84a81ddbc56dc6c842c",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "route": "frictionless_penalty_initial_search",
+  "m1": {"production": "PASS_CANDIDATE", "reference": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION"},
+  "m2": {"production": "PASS_CANDIDATE", "reference": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION"},
+  "m3": {"replay": "PASS_REPLAY", "fresh_process": true, "complete_json_equal": true, "max_final_displacement_abs_diff": 0.0},
+  "tests": {"targeted": "34 passed", "full_suite": "NOT_RUN", "json_validation": "PASS", "diff_check": "PASS"},
+  "production_mechanics_changed": false,
+  "thresholds_changed": false,
+  "limitations": [
+    "HEX8 only",
+    "one-element benchmark without mesh convergence",
+    "frictionless penalty contact with fixed initial search",
+    "no friction, finite sliding, updated search, MPI/PETSc or dynamics",
+    "reference is observable recomputation, not an independent global FEM/Newton solve",
+    "no Code_Aster coupled correlation",
+    "no general finite-strain plasticity claim"
+  ],
+  "historical_evidence": "preserved; not overwritten",
+  "owner_decision": {"accept_m1": "PENDING", "accept_m2": "PENDING", "accept_m3_replay": "PENDING", "award_points": "PENDING"}
+}

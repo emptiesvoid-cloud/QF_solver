@@ -1,0 +1,23 @@
+{
+  "Newton_iteration": 25,
+  "RSS": 1146777600,
+  "case": "C2-M3",
+  "elapsed_wall_time": 24582.423806999985,
+  "last_event_status": "COMPLETED",
+  "last_update_timestamp": "2026-09-13T14:37:14.089107+00:00",
+  "latest_Krylov_iterations": 3475,
+  "latest_eta_inf": 1.6216535871656596e-12,
+  "latest_line_search_alpha": null,
+  "latest_linear_solve_time": 79.89762419997714,
+  "load_step": 12,
+  "mesh": [
+    64,
+    32,
+    32
+  ],
+  "pid": 30220,
+  "private_memory": 1123041280,
+  "started_timestamp": "2026-09-13T07:47:31.665307+00:00",
+  "status": "COMPLETED",
+  "terminal_reason": null
+}

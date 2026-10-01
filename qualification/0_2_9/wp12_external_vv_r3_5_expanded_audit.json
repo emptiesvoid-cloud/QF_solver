@@ -1,0 +1,2903 @@
+{
+  "audit_status": "PASS_WITH_LIMITATIONS",
+  "campaign": "R3 expanded Code_Aster same-mesh correlation",
+  "case_count": 144,
+  "case_pass_count": 144,
+  "cases": {
+    "hex20_rectangular_beam_h1_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 9.179218286207087e-06,
+        "aster_force_equilibrium_relative": 6.955846994174078e-17,
+        "aster_moment_equilibrium_relative": 2.7716175256053023e-17,
+        "displacement_relative_l2": 2.650284886516045e-14,
+        "displacement_relative_linf": 2.548483918648651e-14,
+        "fixed_displacement_abs_max": 4.933154780080816e-25,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 9.179218286207e-06,
+        "qf_force_equilibrium_relative": 2.4505659810011373e-15,
+        "qf_free_residual_relative_l2": 1.3057374246035484e-15,
+        "qf_moment_equilibrium_relative": 9.964293197658777e-16,
+        "reaction_relative_l2": 1.4705285627941e-14,
+        "reaction_relative_linf": 1.6819904303822576e-14,
+        "strain_energy_from_external_work_relative": 9.596833168987425e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_rectangular_beam_h1_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00021728651208023116,
+        "aster_force_equilibrium_relative": 6.562645946210247e-16,
+        "aster_moment_equilibrium_relative": 1.3775003044489306e-16,
+        "displacement_relative_l2": 7.08023759342827e-13,
+        "displacement_relative_linf": 7.784746172347836e-13,
+        "fixed_displacement_abs_max": 9.654695631797999e-24,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.0002172865120801483,
+        "qf_force_equilibrium_relative": 3.1971845576258634e-13,
+        "qf_free_residual_relative_l2": 9.488586136040825e-14,
+        "qf_moment_equilibrium_relative": 2.0787376016715239e-13,
+        "reaction_relative_l2": 6.992700652477124e-13,
+        "reaction_relative_linf": 7.142412376479023e-13,
+        "strain_energy_from_external_work_relative": 3.8134051782119307e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_rectangular_beam_h1_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00015152824514276286,
+        "aster_force_equilibrium_relative": 4.002273210750664e-16,
+        "aster_moment_equilibrium_relative": 1.8128991784926156e-16,
+        "displacement_relative_l2": 4.0518280902130856e-14,
+        "displacement_relative_linf": 5.759163805318024e-14,
+        "fixed_displacement_abs_max": 1.5212082199748163e-23,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.00015152824514275592,
+        "qf_force_equilibrium_relative": 2.730001034808845e-14,
+        "qf_free_residual_relative_l2": 3.5112322282651387e-14,
+        "qf_moment_equilibrium_relative": 4.5642252438390926e-14,
+        "reaction_relative_l2": 5.5081886366548345e-14,
+        "reaction_relative_linf": 4.6681196347834826e-14,
+        "strain_energy_from_external_work_relative": 4.579274245121788e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_rectangular_beam_h1_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0004911520728117151,
+        "aster_force_equilibrium_relative": 1.218296698615837e-15,
+        "aster_moment_equilibrium_relative": 6.47827594429313e-16,
+        "displacement_relative_l2": 7.540541975298619e-13,
+        "displacement_relative_linf": 7.820430869616383e-13,
+        "fixed_displacement_abs_max": 3.551699212128284e-23,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.0004911520728114816,
+        "qf_force_equilibrium_relative": 3.305887508917227e-13,
+        "qf_free_residual_relative_l2": 1.836800380889808e-13,
+        "qf_moment_equilibrium_relative": 3.571716986494515e-13,
+        "reaction_relative_l2": 7.33386574815572e-13,
+        "reaction_relative_linf": 7.631646825910317e-13,
+        "strain_energy_from_external_work_relative": 4.754884706411816e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_rectangular_beam_h2_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 9.316177907672823e-06,
+        "aster_force_equilibrium_relative": 4.454091629814088e-17,
+        "aster_moment_equilibrium_relative": 6.37980562113237e-17,
+        "displacement_relative_l2": 8.028221675923041e-14,
+        "displacement_relative_linf": 8.972269178461519e-14,
+        "fixed_displacement_abs_max": 9.789805904378439e-26,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 9.316177907672833e-06,
+        "qf_force_equilibrium_relative": 2.841443445846876e-15,
+        "qf_free_residual_relative_l2": 2.8710891064367153e-15,
+        "qf_moment_equilibrium_relative": 1.7409943567284226e-15,
+        "reaction_relative_l2": 1.7425473163891137e-14,
+        "reaction_relative_linf": 1.5404203661210797e-14,
+        "strain_energy_from_external_work_relative": 1.0910477953281867e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_rectangular_beam_h2_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0002465798514920548,
+        "aster_force_equilibrium_relative": 8.972812891105954e-16,
+        "aster_moment_equilibrium_relative": 2.040860075781787e-16,
+        "displacement_relative_l2": 7.755552391920246e-13,
+        "displacement_relative_linf": 8.741812673060097e-13,
+        "fixed_displacement_abs_max": 8.436434653717955e-24,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.00024657985149227775,
+        "qf_force_equilibrium_relative": 1.3726031190044223e-13,
+        "qf_free_residual_relative_l2": 1.7743836142047484e-13,
+        "qf_moment_equilibrium_relative": 1.7682273051423666e-13,
+        "reaction_relative_l2": 8.197407611164004e-13,
+        "reaction_relative_linf": 8.512409719372807e-13,
+        "strain_energy_from_external_work_relative": 9.042351815133067e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_rectangular_beam_h2_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00016473967729431212,
+        "aster_force_equilibrium_relative": 4.788672736034388e-16,
+        "aster_moment_equilibrium_relative": 2.3050519556671205e-16,
+        "displacement_relative_l2": 6.804558031393592e-14,
+        "displacement_relative_linf": 7.637654364251382e-14,
+        "fixed_displacement_abs_max": 9.866939876381708e-24,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.00016473967729429244,
+        "qf_force_equilibrium_relative": 3.441893540565232e-14,
+        "qf_free_residual_relative_l2": 3.6560422375710945e-14,
+        "qf_moment_equilibrium_relative": 2.931155440668206e-14,
+        "reaction_relative_l2": 7.411332711340608e-14,
+        "reaction_relative_linf": 6.429817403175757e-14,
+        "strain_energy_from_external_work_relative": 1.1945069793634758e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_rectangular_beam_h2_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0005656836992741759,
+        "aster_force_equilibrium_relative": 1.3406596941675883e-15,
+        "aster_moment_equilibrium_relative": 5.017124363960495e-16,
+        "displacement_relative_l2": 8.142359276958104e-13,
+        "displacement_relative_linf": 8.72866439205674e-13,
+        "fixed_displacement_abs_max": 6.781664171639413e-24,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.0005656836992747613,
+        "qf_force_equilibrium_relative": 1.6906042332065933e-13,
+        "qf_free_residual_relative_l2": 2.4095549915122044e-13,
+        "qf_moment_equilibrium_relative": 2.0213400948578827e-13,
+        "reaction_relative_l2": 8.638965959244858e-13,
+        "reaction_relative_linf": 8.448254009230748e-13,
+        "strain_energy_from_external_work_relative": 1.034976213549687e-12
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_rectangular_beam_h3_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 9.320508446252258e-06,
+        "aster_force_equilibrium_relative": 1.82437887364781e-16,
+        "aster_moment_equilibrium_relative": 3.019072183073042e-17,
+        "displacement_relative_l2": 2.236326403723185e-14,
+        "displacement_relative_linf": 2.856062786041331e-14,
+        "fixed_displacement_abs_max": 3.079649479252188e-25,
+        "load_area_m2": 0.49999999999999994,
+        "qf_energy_j": 9.32050844625221e-06,
+        "qf_force_equilibrium_relative": 9.09680471064098e-16,
+        "qf_free_residual_relative_l2": 2.7539619773543995e-15,
+        "qf_moment_equilibrium_relative": 6.40985023078342e-16,
+        "reaction_relative_l2": 1.3188630174235362e-14,
+        "reaction_relative_linf": 1.3151591031430282e-14,
+        "strain_energy_from_external_work_relative": 5.089190715267689e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_rectangular_beam_h3_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00025001995941924737,
+        "aster_force_equilibrium_relative": 8.664308269845613e-16,
+        "aster_moment_equilibrium_relative": 1.4726903491385888e-16,
+        "displacement_relative_l2": 4.566826621843207e-13,
+        "displacement_relative_linf": 5.502145007976276e-13,
+        "fixed_displacement_abs_max": 1.6657562360439786e-23,
+        "load_area_m2": 0.49999999999999994,
+        "qf_energy_j": 0.0002500199594192234,
+        "qf_force_equilibrium_relative": 1.6285991400007707e-13,
+        "qf_free_residual_relative_l2": 1.5428446498610188e-13,
+        "qf_moment_equilibrium_relative": 2.0212068888801207e-13,
+        "reaction_relative_l2": 3.9962326816254585e-13,
+        "reaction_relative_linf": 4.407696869983891e-13,
+        "strain_energy_from_external_work_relative": 9.583582073842765e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_rectangular_beam_h3_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00017023692468951627,
+        "aster_force_equilibrium_relative": 9.779913878848475e-16,
+        "aster_moment_equilibrium_relative": 5.014166708671659e-16,
+        "displacement_relative_l2": 6.59847297957923e-14,
+        "displacement_relative_linf": 8.388422317963315e-14,
+        "fixed_displacement_abs_max": 2.992253462015954e-23,
+        "load_area_m2": 0.49999999999999994,
+        "qf_energy_j": 0.0001702369246895182,
+        "qf_force_equilibrium_relative": 2.425032233076655e-14,
+        "qf_free_residual_relative_l2": 6.775688735320796e-14,
+        "qf_moment_equilibrium_relative": 1.3296847472743659e-14,
+        "reaction_relative_l2": 7.450692327479334e-14,
+        "reaction_relative_linf": 4.704953638940979e-14,
+        "strain_energy_from_external_work_relative": 1.1304591290471444e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_rectangular_beam_h3_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0005705024451219719,
+        "aster_force_equilibrium_relative": 1.095171800217072e-15,
+        "aster_moment_equilibrium_relative": 3.04847965927744e-16,
+        "displacement_relative_l2": 4.960535413970156e-13,
+        "displacement_relative_linf": 5.639181490796383e-13,
+        "fixed_displacement_abs_max": 1.9625550554062562e-23,
+        "load_area_m2": 0.49999999999999994,
+        "qf_energy_j": 0.0005705024451215433,
+        "qf_force_equilibrium_relative": 1.3200942105825697e-13,
+        "qf_free_residual_relative_l2": 3.725374642555342e-13,
+        "qf_moment_equilibrium_relative": 5.884977504996412e-14,
+        "reaction_relative_l2": 4.711741532757954e-13,
+        "reaction_relative_linf": 4.4926902307308484e-13,
+        "strain_energy_from_external_work_relative": 7.512415107917925e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_short_block_h1_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 4.050936023761548e-06,
+        "aster_force_equilibrium_relative": 1.5904105257079617e-16,
+        "aster_moment_equilibrium_relative": 1.4770524139965133e-16,
+        "displacement_relative_l2": 4.031642938200414e-15,
+        "displacement_relative_linf": 5.086001442859946e-15,
+        "fixed_displacement_abs_max": 1.4819294121173566e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 4.050936023761541e-06,
+        "qf_force_equilibrium_relative": 6.412482134203417e-16,
+        "qf_free_residual_relative_l2": 8.372264049303232e-16,
+        "qf_moment_equilibrium_relative": 6.210503998319734e-16,
+        "reaction_relative_l2": 3.7905178888866375e-15,
+        "reaction_relative_linf": 3.3885339332438224e-15,
+        "strain_energy_from_external_work_relative": 1.8818605084288664e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_short_block_h1_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 2.5371699598484522e-05,
+        "aster_force_equilibrium_relative": 2.3556179570859924e-16,
+        "aster_moment_equilibrium_relative": 2.9922814003868783e-16,
+        "displacement_relative_l2": 1.530874746631596e-14,
+        "displacement_relative_linf": 2.4342672649865553e-14,
+        "fixed_displacement_abs_max": 4.5272401194312474e-24,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 2.5371699598484173e-05,
+        "qf_force_equilibrium_relative": 4.011210186007648e-15,
+        "qf_free_residual_relative_l2": 4.820782857929776e-15,
+        "qf_moment_equilibrium_relative": 5.299078986151263e-15,
+        "reaction_relative_l2": 1.4636124297847487e-14,
+        "reaction_relative_linf": 1.0794909313791215e-14,
+        "strain_energy_from_external_work_relative": 1.375459980180521e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_short_block_h1_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.603208138584605e-05,
+        "aster_force_equilibrium_relative": 1.6424705550631555e-16,
+        "aster_moment_equilibrium_relative": 1.4504307800153102e-16,
+        "displacement_relative_l2": 1.5805322031934797e-14,
+        "displacement_relative_linf": 2.270518759484888e-14,
+        "fixed_displacement_abs_max": 2.186964185128825e-24,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 3.603208138584547e-05,
+        "qf_force_equilibrium_relative": 3.665770257669059e-15,
+        "qf_free_residual_relative_l2": 3.800982050847166e-15,
+        "qf_moment_equilibrium_relative": 7.605066171517524e-15,
+        "reaction_relative_l2": 1.548687392241182e-14,
+        "reaction_relative_linf": 1.2208102322172667e-14,
+        "strain_energy_from_external_work_relative": 1.617332791493651e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_short_block_h1_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.6032081385846125e-05,
+        "aster_force_equilibrium_relative": 1.6707919077408132e-16,
+        "aster_moment_equilibrium_relative": 2.5652985318368318e-17,
+        "displacement_relative_l2": 1.8945160525746686e-14,
+        "displacement_relative_linf": 2.2168844580797388e-14,
+        "fixed_displacement_abs_max": 1.766611462887718e-24,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 3.603208138584553e-05,
+        "qf_force_equilibrium_relative": 1.3307203941648922e-14,
+        "qf_free_residual_relative_l2": 3.766189877821336e-15,
+        "qf_moment_equilibrium_relative": 1.2984897561843559e-14,
+        "reaction_relative_l2": 2.161645487767565e-14,
+        "reaction_relative_linf": 1.9397318134118844e-14,
+        "strain_energy_from_external_work_relative": 1.6549451819935005e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_short_block_h2_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 4.098541099732069e-06,
+        "aster_force_equilibrium_relative": 2.6034193884786515e-16,
+        "aster_moment_equilibrium_relative": 1.3297842456561436e-16,
+        "displacement_relative_l2": 2.055982135915614e-14,
+        "displacement_relative_linf": 3.6129821331921765e-14,
+        "fixed_displacement_abs_max": 1.4131893233247892e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 4.0985410997320515e-06,
+        "qf_force_equilibrium_relative": 4.0789260933494365e-15,
+        "qf_free_residual_relative_l2": 1.7457924382047765e-15,
+        "qf_moment_equilibrium_relative": 3.124515168005085e-15,
+        "reaction_relative_l2": 1.0950204953483437e-14,
+        "reaction_relative_linf": 1.2494690725497619e-14,
+        "strain_energy_from_external_work_relative": 4.340005738506125e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_short_block_h2_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 2.6711316267876026e-05,
+        "aster_force_equilibrium_relative": 2.467261814079251e-16,
+        "aster_moment_equilibrium_relative": 1.8625082401479136e-16,
+        "displacement_relative_l2": 6.9293401391417705e-15,
+        "displacement_relative_linf": 1.1283667809815695e-14,
+        "fixed_displacement_abs_max": 1.1495631746153077e-24,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 2.6711316267875918e-05,
+        "qf_force_equilibrium_relative": 7.557830213336202e-15,
+        "qf_free_residual_relative_l2": 5.889404561514005e-15,
+        "qf_moment_equilibrium_relative": 8.23801612683347e-15,
+        "reaction_relative_l2": 1.3258387114749577e-14,
+        "reaction_relative_linf": 1.1241980051063378e-14,
+        "strain_energy_from_external_work_relative": 4.05896198305064e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_short_block_h2_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.801770385194791e-05,
+        "aster_force_equilibrium_relative": 1.7176372178855665e-16,
+        "aster_moment_equilibrium_relative": 2.7988349683203847e-16,
+        "displacement_relative_l2": 2.8576199007554216e-15,
+        "displacement_relative_linf": 3.5727030739024934e-15,
+        "fixed_displacement_abs_max": 2.1139615280734e-24,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 3.8017703851948125e-05,
+        "qf_force_equilibrium_relative": 1.2060747640398513e-14,
+        "qf_free_residual_relative_l2": 9.330441251684872e-15,
+        "qf_moment_equilibrium_relative": 1.1253168470919528e-14,
+        "reaction_relative_l2": 1.4622522259385375e-14,
+        "reaction_relative_linf": 8.914787739789053e-15,
+        "strain_energy_from_external_work_relative": 5.7036699360261186e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_short_block_h2_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.801770385194822e-05,
+        "aster_force_equilibrium_relative": 4.559485752208981e-16,
+        "aster_moment_equilibrium_relative": 4.805638501854132e-16,
+        "displacement_relative_l2": 1.0659600223451187e-14,
+        "displacement_relative_linf": 1.3593699500702249e-14,
+        "fixed_displacement_abs_max": 6.945093325577401e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 3.801770385194759e-05,
+        "qf_force_equilibrium_relative": 2.2978599286185537e-15,
+        "qf_free_residual_relative_l2": 6.459391598434959e-15,
+        "qf_moment_equilibrium_relative": 4.434474710227925e-15,
+        "reaction_relative_l2": 1.699253359630183e-14,
+        "reaction_relative_linf": 1.5518646585820153e-14,
+        "strain_energy_from_external_work_relative": 1.6576290751576142e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_short_block_h3_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 4.101252363665865e-06,
+        "aster_force_equilibrium_relative": 1.692545044063503e-16,
+        "aster_moment_equilibrium_relative": 1.9215646493477224e-16,
+        "displacement_relative_l2": 1.100663593866379e-14,
+        "displacement_relative_linf": 1.2142738382314704e-14,
+        "fixed_displacement_abs_max": 2.9918716985946555e-25,
+        "load_area_m2": 0.5624999999999999,
+        "qf_energy_j": 4.101252363665859e-06,
+        "qf_force_equilibrium_relative": 2.222886073545651e-15,
+        "qf_free_residual_relative_l2": 1.8732017858741867e-15,
+        "qf_moment_equilibrium_relative": 1.5378515639662682e-15,
+        "reaction_relative_l2": 8.26816529761139e-15,
+        "reaction_relative_linf": 7.441181230302989e-15,
+        "strain_energy_from_external_work_relative": 1.6522425291521234e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_short_block_h3_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 2.7406632301305534e-05,
+        "aster_force_equilibrium_relative": 1.531883009739326e-16,
+        "aster_moment_equilibrium_relative": 1.8506266802446915e-16,
+        "displacement_relative_l2": 3.6982696689430237e-14,
+        "displacement_relative_linf": 6.412552342026102e-14,
+        "fixed_displacement_abs_max": 5.782927299010731e-24,
+        "load_area_m2": 0.5624999999999999,
+        "qf_energy_j": 2.7406632301306923e-05,
+        "qf_force_equilibrium_relative": 6.622770777831738e-15,
+        "qf_free_residual_relative_l2": 1.1011699031465371e-14,
+        "qf_moment_equilibrium_relative": 7.500184675049916e-15,
+        "reaction_relative_l2": 4.434433611090375e-14,
+        "reaction_relative_linf": 3.9782768688154104e-14,
+        "strain_energy_from_external_work_relative": 5.068605358823345e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_short_block_h3_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 4.001840110881983e-05,
+        "aster_force_equilibrium_relative": 6.277443367078291e-16,
+        "aster_moment_equilibrium_relative": 2.0597812267773797e-16,
+        "displacement_relative_l2": 5.028125229499394e-14,
+        "displacement_relative_linf": 6.683192056758937e-14,
+        "fixed_displacement_abs_max": 5.889922019690025e-24,
+        "load_area_m2": 0.5624999999999999,
+        "qf_energy_j": 4.001840110882107e-05,
+        "qf_force_equilibrium_relative": 2.4810954247452204e-14,
+        "qf_free_residual_relative_l2": 1.3994878321993779e-14,
+        "qf_moment_equilibrium_relative": 2.090892895351697e-14,
+        "reaction_relative_l2": 5.06382294136491e-14,
+        "reaction_relative_linf": 4.8984677738430404e-14,
+        "strain_energy_from_external_work_relative": 3.098715092110354e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_short_block_h3_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.810024343143101e-05,
+        "aster_force_equilibrium_relative": 7.697093519340415e-17,
+        "aster_moment_equilibrium_relative": 1.2090123322224893e-16,
+        "displacement_relative_l2": 1.6265387171248715e-14,
+        "displacement_relative_linf": 1.9656944440408087e-14,
+        "fixed_displacement_abs_max": 2.1073234533140935e-24,
+        "load_area_m2": 0.5624999999999999,
+        "qf_energy_j": 3.810024343143133e-05,
+        "qf_force_equilibrium_relative": 1.7535892976964947e-14,
+        "qf_free_residual_relative_l2": 9.994049673920483e-15,
+        "qf_moment_equilibrium_relative": 1.3397504198212155e-14,
+        "reaction_relative_l2": 2.562102081348641e-14,
+        "reaction_relative_linf": 2.1427018756347413e-14,
+        "strain_energy_from_external_work_relative": 8.359116884404964e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_slender_beam_h1_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.838994759501522e-05,
+        "aster_force_equilibrium_relative": 2.2219842994163034e-16,
+        "aster_moment_equilibrium_relative": 2.6575291712146075e-17,
+        "displacement_relative_l2": 5.094653604666134e-14,
+        "displacement_relative_linf": 4.1540956292541806e-14,
+        "fixed_displacement_abs_max": 7.178640141806455e-25,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 1.8389947595015025e-05,
+        "qf_force_equilibrium_relative": 6.040409181225678e-15,
+        "qf_free_residual_relative_l2": 2.081612724174844e-15,
+        "qf_moment_equilibrium_relative": 1.5897365909244262e-15,
+        "reaction_relative_l2": 1.9027407182798896e-14,
+        "reaction_relative_linf": 2.2460664669829437e-14,
+        "strain_energy_from_external_work_relative": 1.0685818583641109e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_slender_beam_h1_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0006720168577856961,
+        "aster_force_equilibrium_relative": 1.883482607690451e-15,
+        "aster_moment_equilibrium_relative": 4.1883714385757286e-16,
+        "displacement_relative_l2": 1.402124506017118e-12,
+        "displacement_relative_linf": 1.6893288160892063e-12,
+        "fixed_displacement_abs_max": 4.766390646088657e-23,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.0006720168577868857,
+        "qf_force_equilibrium_relative": 4.633012537298027e-13,
+        "qf_free_residual_relative_l2": 3.2759571960026073e-13,
+        "qf_moment_equilibrium_relative": 2.974119715717819e-13,
+        "reaction_relative_l2": 1.4087030307714118e-12,
+        "reaction_relative_linf": 1.6702125622416006e-12,
+        "strain_energy_from_external_work_relative": 1.7701737833909293e-12
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_slender_beam_h1_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0009988303128813962,
+        "aster_force_equilibrium_relative": 3.7477768236678424e-16,
+        "aster_moment_equilibrium_relative": 8.660815587544761e-17,
+        "displacement_relative_l2": 8.410490864478273e-13,
+        "displacement_relative_linf": 8.503912390918442e-13,
+        "fixed_displacement_abs_max": 1.2334106484796635e-22,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.0009988303128827935,
+        "qf_force_equilibrium_relative": 4.421421520935162e-14,
+        "qf_free_residual_relative_l2": 5.197008550502507e-13,
+        "qf_moment_equilibrium_relative": 1.0579940758295824e-13,
+        "reaction_relative_l2": 8.253210542539858e-13,
+        "reaction_relative_linf": 7.888782141534499e-13,
+        "strain_energy_from_external_work_relative": 1.3989561008279942e-12
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_slender_beam_h1_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.000998830312880841,
+        "aster_force_equilibrium_relative": 4.814552180842638e-16,
+        "aster_moment_equilibrium_relative": 3.456599623848589e-16,
+        "displacement_relative_l2": 1.6217714550734296e-12,
+        "displacement_relative_linf": 1.656491267814005e-12,
+        "fixed_displacement_abs_max": 3.384067878968155e-23,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.0009988303128824004,
+        "qf_force_equilibrium_relative": 5.798958224795184e-13,
+        "qf_free_residual_relative_l2": 2.678073730746252e-13,
+        "qf_moment_equilibrium_relative": 3.558489131096828e-13,
+        "reaction_relative_l2": 1.648543245676505e-12,
+        "reaction_relative_linf": 1.6409155828487276e-12,
+        "strain_energy_from_external_work_relative": 1.5611255929636973e-12
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_slender_beam_h2_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.8681517139294487e-05,
+        "aster_force_equilibrium_relative": 2.049585534234076e-16,
+        "aster_moment_equilibrium_relative": 5.746612096077511e-17,
+        "displacement_relative_l2": 8.301185812481883e-14,
+        "displacement_relative_linf": 9.116163158225256e-14,
+        "fixed_displacement_abs_max": 2.759224728102903e-25,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 1.868151713929437e-05,
+        "qf_force_equilibrium_relative": 1.2644798546007617e-15,
+        "qf_free_residual_relative_l2": 2.40961668174513e-15,
+        "qf_moment_equilibrium_relative": 8.552028116627582e-16,
+        "reaction_relative_l2": 2.1599937714259225e-14,
+        "reaction_relative_linf": 2.395493155471957e-14,
+        "strain_energy_from_external_work_relative": 6.347697123922194e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_slender_beam_h2_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0007754973886458288,
+        "aster_force_equilibrium_relative": 8.904186358056388e-16,
+        "aster_moment_equilibrium_relative": 2.856819225274373e-16,
+        "displacement_relative_l2": 1.9566292195399604e-13,
+        "displacement_relative_linf": 2.693141029910398e-13,
+        "fixed_displacement_abs_max": 5.296627667154737e-23,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.0007754973886455849,
+        "qf_force_equilibrium_relative": 2.3243648763157146e-13,
+        "qf_free_residual_relative_l2": 1.6315064864439917e-13,
+        "qf_moment_equilibrium_relative": 2.0800646064401092e-13,
+        "reaction_relative_l2": 1.789101082754814e-13,
+        "reaction_relative_linf": 2.3820239731861055e-13,
+        "strain_energy_from_external_work_relative": 3.145664864652763e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_slender_beam_h2_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0011539053243990864,
+        "aster_force_equilibrium_relative": 1.688790889568382e-15,
+        "aster_moment_equilibrium_relative": 3.583170594612548e-16,
+        "displacement_relative_l2": 1.0645409798435448e-13,
+        "displacement_relative_linf": 1.294869959502024e-13,
+        "fixed_displacement_abs_max": 1.4081781941562011e-22,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.0011539053243994142,
+        "qf_force_equilibrium_relative": 3.3867034740766514e-13,
+        "qf_free_residual_relative_l2": 4.676588844892201e-13,
+        "qf_moment_equilibrium_relative": 2.7284702194111663e-13,
+        "reaction_relative_l2": 1.5309483937667894e-13,
+        "reaction_relative_linf": 1.558010985617018e-13,
+        "strain_energy_from_external_work_relative": 2.841331346921922e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_slender_beam_h2_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0011539053243990122,
+        "aster_force_equilibrium_relative": 5.520472651329635e-16,
+        "aster_moment_equilibrium_relative": 1.400597198235453e-16,
+        "displacement_relative_l2": 1.7931967899166791e-13,
+        "displacement_relative_linf": 1.8194206796404764e-13,
+        "fixed_displacement_abs_max": 2.0898748587752113e-23,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.001153905324398623,
+        "qf_force_equilibrium_relative": 2.0378682886249141e-13,
+        "qf_free_residual_relative_l2": 3.3504170350533226e-13,
+        "qf_moment_equilibrium_relative": 8.290529736113655e-14,
+        "reaction_relative_l2": 1.8872630955352115e-13,
+        "reaction_relative_linf": 1.5727693635654343e-13,
+        "strain_energy_from_external_work_relative": 3.3731413807727167e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_slender_beam_h3_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.868530545312128e-05,
+        "aster_force_equilibrium_relative": 2.7159713483348136e-16,
+        "aster_moment_equilibrium_relative": 1.5809561947139364e-17,
+        "displacement_relative_l2": 1.8489454802186532e-14,
+        "displacement_relative_linf": 2.0528254245123507e-14,
+        "fixed_displacement_abs_max": 4.539073571917921e-25,
+        "load_area_m2": 0.24999999999999997,
+        "qf_energy_j": 1.868530545312121e-05,
+        "qf_force_equilibrium_relative": 2.1258061377683505e-14,
+        "qf_free_residual_relative_l2": 6.8673678068369405e-15,
+        "qf_moment_equilibrium_relative": 4.5209278140181296e-15,
+        "reaction_relative_l2": 3.2002801508803915e-14,
+        "reaction_relative_linf": 2.6984599122494726e-14,
+        "strain_energy_from_external_work_relative": 3.8078461038738944e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_slender_beam_h3_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0007873740639181019,
+        "aster_force_equilibrium_relative": 8.285909540897276e-16,
+        "aster_moment_equilibrium_relative": 1.1265423785391608e-16,
+        "displacement_relative_l2": 9.95941616253495e-13,
+        "displacement_relative_linf": 1.0144847254154168e-12,
+        "fixed_displacement_abs_max": 1.0687623725648298e-22,
+        "load_area_m2": 0.24999999999999997,
+        "qf_energy_j": 0.0007873740639180598,
+        "qf_force_equilibrium_relative": 1.2250439532823402e-12,
+        "qf_free_residual_relative_l2": 5.322265640409905e-13,
+        "qf_moment_equilibrium_relative": 1.0300199153110219e-12,
+        "reaction_relative_l2": 1.061310906822899e-12,
+        "reaction_relative_linf": 9.927899486591142e-13,
+        "strain_energy_from_external_work_relative": 5.342701292840069e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_slender_beam_h3_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0011822439556911338,
+        "aster_force_equilibrium_relative": 2.4655558402768256e-15,
+        "aster_moment_equilibrium_relative": 5.418431485435481e-16,
+        "displacement_relative_l2": 8.376696336873224e-13,
+        "displacement_relative_linf": 8.650108748956563e-13,
+        "fixed_displacement_abs_max": 1.4337805055209778e-22,
+        "load_area_m2": 0.24999999999999997,
+        "qf_energy_j": 0.0011822439556887564,
+        "qf_force_equilibrium_relative": 7.069773391517685e-13,
+        "qf_free_residual_relative_l2": 7.35633490676851e-13,
+        "qf_moment_equilibrium_relative": 8.716624076149609e-13,
+        "reaction_relative_l2": 9.49621631321451e-13,
+        "reaction_relative_linf": 9.30526196382051e-13,
+        "strain_energy_from_external_work_relative": 2.0109542640386404e-12
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex20_slender_beam_h3_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0011611929306099573,
+        "aster_force_equilibrium_relative": 9.688871210601687e-16,
+        "aster_moment_equilibrium_relative": 1.1042029406365487e-16,
+        "displacement_relative_l2": 9.577629566241014e-13,
+        "displacement_relative_linf": 9.62649071778873e-13,
+        "fixed_displacement_abs_max": 2.2579611819219568e-23,
+        "load_area_m2": 0.24999999999999997,
+        "qf_energy_j": 0.0011611929306104508,
+        "qf_force_equilibrium_relative": 8.133523839905452e-13,
+        "qf_free_residual_relative_l2": 3.6939506595012313e-13,
+        "qf_moment_equilibrium_relative": 7.55719406633996e-13,
+        "reaction_relative_l2": 9.746463565885885e-13,
+        "reaction_relative_linf": 9.411823631756832e-13,
+        "strain_energy_from_external_work_relative": 4.250188025653485e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_rectangular_beam_h1_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 8.749181401440724e-06,
+        "aster_force_equilibrium_relative": 4.8841738066824975e-17,
+        "aster_moment_equilibrium_relative": 1.8033521790747422e-17,
+        "displacement_relative_l2": 2.0164798151601127e-15,
+        "displacement_relative_linf": 1.5127003537346975e-15,
+        "fixed_displacement_abs_max": 8.130886841895573e-24,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 8.749181401440732e-06,
+        "qf_force_equilibrium_relative": 3.869034057419748e-16,
+        "qf_free_residual_relative_l2": 1.8546135227978513e-16,
+        "qf_moment_equilibrium_relative": 1.2328275602957294e-16,
+        "reaction_relative_l2": 1.3189624750347298e-15,
+        "reaction_relative_linf": 1.7000357179749896e-15,
+        "strain_energy_from_external_work_relative": 9.681282263902071e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_rectangular_beam_h1_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 5.402256429952653e-05,
+        "aster_force_equilibrium_relative": 1.8198773652309365e-16,
+        "aster_moment_equilibrium_relative": 6.355287432313018e-17,
+        "displacement_relative_l2": 1.6340123205928573e-14,
+        "displacement_relative_linf": 2.474018734803533e-14,
+        "fixed_displacement_abs_max": 4.1482383439407264e-23,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 5.402256429952727e-05,
+        "qf_force_equilibrium_relative": 1.1065064634014534e-14,
+        "qf_free_residual_relative_l2": 6.592856456062681e-15,
+        "qf_moment_equilibrium_relative": 7.283336855301807e-15,
+        "reaction_relative_l2": 1.6527284896072943e-14,
+        "reaction_relative_linf": 1.46623242273026e-14,
+        "strain_energy_from_external_work_relative": 1.3672300446726725e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_rectangular_beam_h1_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 6.689866767536646e-05,
+        "aster_force_equilibrium_relative": 2.8355017802873186e-16,
+        "aster_moment_equilibrium_relative": 1.0898206177627377e-16,
+        "displacement_relative_l2": 7.079217782221586e-15,
+        "displacement_relative_linf": 7.71556026702675e-15,
+        "fixed_displacement_abs_max": 1.304889141927322e-23,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 6.68986676753666e-05,
+        "qf_force_equilibrium_relative": 9.482489140874474e-15,
+        "qf_free_residual_relative_l2": 3.5004133552944828e-15,
+        "qf_moment_equilibrium_relative": 9.265268211168047e-15,
+        "reaction_relative_l2": 8.090749622964256e-15,
+        "reaction_relative_linf": 7.503331289626587e-15,
+        "strain_energy_from_external_work_relative": 2.0258291572911418e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_rectangular_beam_h1_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 8.641984382177289e-05,
+        "aster_force_equilibrium_relative": 4.996080585683258e-16,
+        "aster_moment_equilibrium_relative": 9.664426065637204e-17,
+        "displacement_relative_l2": 1.9872846963089703e-14,
+        "displacement_relative_linf": 2.6188038022985226e-14,
+        "fixed_displacement_abs_max": 2.806801485112636e-23,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 8.641984382177454e-05,
+        "qf_force_equilibrium_relative": 2.36717864280157e-14,
+        "qf_free_residual_relative_l2": 6.161155354147572e-15,
+        "qf_moment_equilibrium_relative": 1.6349203892600863e-14,
+        "reaction_relative_l2": 1.898885145153229e-14,
+        "reaction_relative_linf": 2.080469130305537e-14,
+        "strain_energy_from_external_work_relative": 1.9132276106055606e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_rectangular_beam_h2_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 9.090092775601992e-06,
+        "aster_force_equilibrium_relative": 1.7190099759636511e-16,
+        "aster_moment_equilibrium_relative": 4.767890878790405e-17,
+        "displacement_relative_l2": 7.092624809355739e-15,
+        "displacement_relative_linf": 8.138637070215371e-15,
+        "fixed_displacement_abs_max": 1.1864895437917567e-23,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 9.090092775601997e-06,
+        "qf_force_equilibrium_relative": 1.0189307323667167e-16,
+        "qf_free_residual_relative_l2": 4.819294899512974e-16,
+        "qf_moment_equilibrium_relative": 1.0480528874109334e-16,
+        "reaction_relative_l2": 2.247078132410724e-15,
+        "reaction_relative_linf": 2.2737367544323195e-15,
+        "strain_energy_from_external_work_relative": 5.590919486725734e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_rectangular_beam_h2_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00011707606058393408,
+        "aster_force_equilibrium_relative": 2.980894033072876e-16,
+        "aster_moment_equilibrium_relative": 3.8474429319083136e-16,
+        "displacement_relative_l2": 8.563850705677719e-15,
+        "displacement_relative_linf": 8.63990325184597e-15,
+        "fixed_displacement_abs_max": 1.2639913643594177e-23,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.00011707606058393407,
+        "qf_force_equilibrium_relative": 2.0524252924696116e-14,
+        "qf_free_residual_relative_l2": 7.996153851129604e-15,
+        "qf_moment_equilibrium_relative": 1.6325148844074786e-14,
+        "reaction_relative_l2": 8.833324299670934e-15,
+        "reaction_relative_linf": 5.8921943434097716e-15,
+        "strain_energy_from_external_work_relative": 1.1575831206203543e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_rectangular_beam_h2_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00011453147146680926,
+        "aster_force_equilibrium_relative": 4.0384291939489536e-16,
+        "aster_moment_equilibrium_relative": 7.246142549764705e-17,
+        "displacement_relative_l2": 1.991748869449423e-15,
+        "displacement_relative_linf": 2.134640956468935e-15,
+        "fixed_displacement_abs_max": 2.9138002076662706e-23,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.00011453147146680878,
+        "qf_force_equilibrium_relative": 1.5764953073924786e-15,
+        "qf_free_residual_relative_l2": 4.219582470237764e-15,
+        "qf_moment_equilibrium_relative": 1.463084151976939e-15,
+        "reaction_relative_l2": 3.66812299955912e-15,
+        "reaction_relative_linf": 3.9506176108261534e-15,
+        "strain_energy_from_external_work_relative": 4.141555542660355e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_rectangular_beam_h2_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00022760661750939102,
+        "aster_force_equilibrium_relative": 5.915488315313313e-16,
+        "aster_moment_equilibrium_relative": 6.184809236683607e-17,
+        "displacement_relative_l2": 9.49563346655592e-15,
+        "displacement_relative_linf": 8.838509493890058e-15,
+        "fixed_displacement_abs_max": 7.662783151722531e-24,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.00022760661750939444,
+        "qf_force_equilibrium_relative": 1.1145405840269059e-14,
+        "qf_free_residual_relative_l2": 1.211925152459701e-14,
+        "qf_moment_equilibrium_relative": 1.04434603474323e-14,
+        "reaction_relative_l2": 1.013083482340664e-14,
+        "reaction_relative_linf": 1.1027623258996433e-14,
+        "strain_energy_from_external_work_relative": 1.5004998012363923e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_rectangular_beam_h3_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 9.0936802305717e-06,
+        "aster_force_equilibrium_relative": 3.8936433194412764e-17,
+        "aster_moment_equilibrium_relative": 1.5587468005037633e-17,
+        "displacement_relative_l2": 3.915963280812147e-15,
+        "displacement_relative_linf": 3.3416833465535796e-15,
+        "fixed_displacement_abs_max": 4.30888764882159e-25,
+        "load_area_m2": 0.5000000000000002,
+        "qf_energy_j": 9.093680230571704e-06,
+        "qf_force_equilibrium_relative": 3.754742098282126e-16,
+        "qf_free_residual_relative_l2": 5.012898297858573e-16,
+        "qf_moment_equilibrium_relative": 1.0767115812840791e-16,
+        "reaction_relative_l2": 1.7890793416998438e-15,
+        "reaction_relative_linf": 1.4496850384105001e-15,
+        "strain_energy_from_external_work_relative": 3.725809246763228e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_rectangular_beam_h3_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00011900196077125644,
+        "aster_force_equilibrium_relative": 3.700283902586404e-16,
+        "aster_moment_equilibrium_relative": 2.5668202664787215e-16,
+        "displacement_relative_l2": 1.630368153800078e-14,
+        "displacement_relative_linf": 1.8419892684264856e-14,
+        "fixed_displacement_abs_max": 1.3385011340817253e-23,
+        "load_area_m2": 0.5000000000000002,
+        "qf_energy_j": 0.0001190019607712568,
+        "qf_force_equilibrium_relative": 1.5244743658404205e-14,
+        "qf_free_residual_relative_l2": 8.835038209741342e-15,
+        "qf_moment_equilibrium_relative": 1.2342910651275674e-14,
+        "reaction_relative_l2": 2.2644109567661695e-14,
+        "reaction_relative_linf": 2.193675476885866e-14,
+        "strain_energy_from_external_work_relative": 3.074892471034309e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_rectangular_beam_h3_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00011735345071095834,
+        "aster_force_equilibrium_relative": 2.182503067449883e-16,
+        "aster_moment_equilibrium_relative": 5.999150493898753e-17,
+        "displacement_relative_l2": 1.7239680108887388e-14,
+        "displacement_relative_linf": 1.8478466210827068e-14,
+        "fixed_displacement_abs_max": 9.991803202345165e-24,
+        "load_area_m2": 0.5000000000000002,
+        "qf_energy_j": 0.00011735345071096063,
+        "qf_force_equilibrium_relative": 2.8967413737041606e-15,
+        "qf_free_residual_relative_l2": 8.330744176968639e-15,
+        "qf_moment_equilibrium_relative": 4.680051514772959e-15,
+        "reaction_relative_l2": 1.6934720569908105e-14,
+        "reaction_relative_linf": 1.887201506178809e-14,
+        "strain_energy_from_external_work_relative": 1.9516913013634207e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_rectangular_beam_h3_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00023055875137224056,
+        "aster_force_equilibrium_relative": 6.362885651039583e-17,
+        "aster_moment_equilibrium_relative": 5.4550715391459024e-17,
+        "displacement_relative_l2": 1.612211210067072e-14,
+        "displacement_relative_linf": 1.843761995596648e-14,
+        "fixed_displacement_abs_max": 3.344150994745444e-24,
+        "load_area_m2": 0.5000000000000002,
+        "qf_energy_j": 0.00023055875137223812,
+        "qf_force_equilibrium_relative": 2.5911185716438408e-14,
+        "qf_free_residual_relative_l2": 1.5393471756611616e-14,
+        "qf_moment_equilibrium_relative": 1.831150656335991e-14,
+        "reaction_relative_l2": 2.5495031314757502e-14,
+        "reaction_relative_linf": 2.356150930079233e-14,
+        "strain_energy_from_external_work_relative": 1.058062152736885e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_short_block_h1_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.870380268028584e-06,
+        "aster_force_equilibrium_relative": 1.1499252551260543e-16,
+        "aster_moment_equilibrium_relative": 2.9585308484943824e-17,
+        "displacement_relative_l2": 5.201997471478153e-16,
+        "displacement_relative_linf": 5.075868051110402e-16,
+        "fixed_displacement_abs_max": 2.609196115300195e-24,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 3.870380268028583e-06,
+        "qf_force_equilibrium_relative": 1.6421455838041603e-16,
+        "qf_free_residual_relative_l2": 1.2992322983177108e-16,
+        "qf_moment_equilibrium_relative": 4.884628042796633e-17,
+        "reaction_relative_l2": 5.003608799969703e-16,
+        "reaction_relative_linf": 5.684341886080802e-16,
+        "strain_energy_from_external_work_relative": 2.1885005828787592e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_short_block_h1_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.6589705686969048e-05,
+        "aster_force_equilibrium_relative": 2.49399488080602e-16,
+        "aster_moment_equilibrium_relative": 1.476835343142577e-16,
+        "displacement_relative_l2": 3.0490538360095576e-15,
+        "displacement_relative_linf": 4.5459026336704825e-15,
+        "fixed_displacement_abs_max": 4.300365196930063e-23,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 1.6589705686969096e-05,
+        "qf_force_equilibrium_relative": 1.2761315884201648e-15,
+        "qf_free_residual_relative_l2": 6.194367960490401e-16,
+        "qf_moment_equilibrium_relative": 1.1831763399924653e-15,
+        "reaction_relative_l2": 2.2648862721929425e-15,
+        "reaction_relative_linf": 1.8654762229169366e-15,
+        "strain_energy_from_external_work_relative": 2.8592336682319338e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_short_block_h1_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 2.2949368396439317e-05,
+        "aster_force_equilibrium_relative": 1.8433286676711953e-16,
+        "aster_moment_equilibrium_relative": 2.406307945881563e-16,
+        "displacement_relative_l2": 1.5159197743285463e-15,
+        "displacement_relative_linf": 1.7300985681464606e-15,
+        "fixed_displacement_abs_max": 6.0944275877976e-24,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 2.294936839643932e-05,
+        "qf_force_equilibrium_relative": 1.245782240399826e-15,
+        "qf_free_residual_relative_l2": 1.072507713623817e-15,
+        "qf_moment_equilibrium_relative": 1.3570160067073153e-15,
+        "reaction_relative_l2": 1.1035804037945486e-15,
+        "reaction_relative_linf": 1.3216094885137848e-15,
+        "strain_energy_from_external_work_relative": 1.4763507781516474e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_short_block_h1_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 2.2949368396439297e-05,
+        "aster_force_equilibrium_relative": 1.561199391128936e-16,
+        "aster_moment_equilibrium_relative": 1.7288479064949269e-16,
+        "displacement_relative_l2": 2.5967288907976777e-15,
+        "displacement_relative_linf": 3.0276724942563015e-15,
+        "fixed_displacement_abs_max": 9.138552697800792e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 2.2949368396439348e-05,
+        "qf_force_equilibrium_relative": 2.686265052732407e-15,
+        "qf_free_residual_relative_l2": 6.256004980700464e-16,
+        "qf_moment_equilibrium_relative": 2.5407069861434957e-15,
+        "reaction_relative_l2": 2.825022636052525e-15,
+        "reaction_relative_linf": 2.7284841053187785e-15,
+        "strain_energy_from_external_work_relative": 2.2145261672274683e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_short_block_h2_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 4.0133725348229095e-06,
+        "aster_force_equilibrium_relative": 2.2792773915068844e-16,
+        "aster_moment_equilibrium_relative": 8.183701258901417e-17,
+        "displacement_relative_l2": 1.2798532692100397e-15,
+        "displacement_relative_linf": 1.4533144942543822e-15,
+        "fixed_displacement_abs_max": 1.1665384951401176e-23,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 4.013372534822911e-06,
+        "qf_force_equilibrium_relative": 2.9419670909924714e-16,
+        "qf_free_residual_relative_l2": 1.4888441773341128e-16,
+        "qf_moment_equilibrium_relative": 1.7026551408494331e-16,
+        "reaction_relative_l2": 8.329689967006221e-16,
+        "reaction_relative_linf": 9.094947017729279e-16,
+        "strain_energy_from_external_work_relative": 4.2210531910747496e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_short_block_h2_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 2.2015454570988315e-05,
+        "aster_force_equilibrium_relative": 1.3024463484486658e-16,
+        "aster_moment_equilibrium_relative": 1.556721137788958e-16,
+        "displacement_relative_l2": 2.1121364765928102e-15,
+        "displacement_relative_linf": 3.406623460023962e-15,
+        "fixed_displacement_abs_max": 3.7243311086694426e-23,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 2.2015454570988332e-05,
+        "qf_force_equilibrium_relative": 1.6167931168329108e-15,
+        "qf_free_residual_relative_l2": 9.219867227709716e-16,
+        "qf_moment_equilibrium_relative": 1.574329257742177e-15,
+        "reaction_relative_l2": 2.2323601763051797e-15,
+        "reaction_relative_linf": 1.6167460598613465e-15,
+        "strain_energy_from_external_work_relative": 7.694894007507879e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_short_block_h2_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.101649558907107e-05,
+        "aster_force_equilibrium_relative": 1.097365605033545e-16,
+        "aster_moment_equilibrium_relative": 1.1786512948737621e-16,
+        "displacement_relative_l2": 1.5116855945062862e-15,
+        "displacement_relative_linf": 1.7068194906599162e-15,
+        "fixed_displacement_abs_max": 6.0507138668676534e-24,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 3.101649558907103e-05,
+        "qf_force_equilibrium_relative": 1.7178407998666726e-15,
+        "qf_free_residual_relative_l2": 8.943201513168689e-16,
+        "qf_moment_equilibrium_relative": 1.0898224318866573e-15,
+        "reaction_relative_l2": 1.4556183492990524e-15,
+        "reaction_relative_linf": 1.7053025658242396e-15,
+        "strain_energy_from_external_work_relative": 1.310837368826816e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_short_block_h2_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.1016495589071004e-05,
+        "aster_force_equilibrium_relative": 2.5946707804382023e-16,
+        "aster_moment_equilibrium_relative": 1.5948244580944377e-16,
+        "displacement_relative_l2": 1.6411662366062396e-15,
+        "displacement_relative_linf": 2.1335243633248937e-15,
+        "fixed_displacement_abs_max": 2.372364173886949e-24,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 3.101649558907102e-05,
+        "qf_force_equilibrium_relative": 1.7682238229261731e-15,
+        "qf_free_residual_relative_l2": 1.0834733586275248e-15,
+        "qf_moment_equilibrium_relative": 1.38856576793448e-15,
+        "reaction_relative_l2": 2.696698717586114e-15,
+        "reaction_relative_linf": 2.8990143619012066e-15,
+        "strain_energy_from_external_work_relative": 4.3694578960893887e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_short_block_h3_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 4.016023963762302e-06,
+        "aster_force_equilibrium_relative": 4.5709842821582394e-17,
+        "aster_moment_equilibrium_relative": 5.923204532785187e-17,
+        "displacement_relative_l2": 2.54512918275041e-15,
+        "displacement_relative_linf": 2.4648861586762954e-15,
+        "fixed_displacement_abs_max": 2.362146931898032e-24,
+        "load_area_m2": 0.5624999999999999,
+        "qf_energy_j": 4.016023963762303e-06,
+        "qf_force_equilibrium_relative": 4.04191966732284e-16,
+        "qf_free_residual_relative_l2": 2.5686710224780906e-16,
+        "qf_moment_equilibrium_relative": 1.6626737973085741e-16,
+        "reaction_relative_l2": 1.2832769536163855e-15,
+        "reaction_relative_linf": 9.714778413506158e-16,
+        "strain_energy_from_external_work_relative": 4.2182663992910064e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_short_block_h3_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 2.2410591186074186e-05,
+        "aster_force_equilibrium_relative": 2.766558158943409e-16,
+        "aster_moment_equilibrium_relative": 2.0346847496847932e-16,
+        "displacement_relative_l2": 1.5248285623046382e-15,
+        "displacement_relative_linf": 2.5952080292835e-15,
+        "fixed_displacement_abs_max": 1.2489190992668817e-23,
+        "load_area_m2": 0.5624999999999999,
+        "qf_energy_j": 2.241059118607417e-05,
+        "qf_force_equilibrium_relative": 2.7096191116049996e-15,
+        "qf_free_residual_relative_l2": 1.2867593482463006e-15,
+        "qf_moment_equilibrium_relative": 1.554838961911679e-15,
+        "reaction_relative_l2": 2.7656800047957466e-15,
+        "reaction_relative_linf": 1.8964483948147843e-15,
+        "strain_energy_from_external_work_relative": 7.559220015406309e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_short_block_h3_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.1919794745079795e-05,
+        "aster_force_equilibrium_relative": 1.4183141506155153e-16,
+        "aster_moment_equilibrium_relative": 1.2113871294572832e-16,
+        "displacement_relative_l2": 2.6567392049337976e-15,
+        "displacement_relative_linf": 2.8967089116440748e-15,
+        "fixed_displacement_abs_max": 1.333567772768011e-23,
+        "load_area_m2": 0.5624999999999999,
+        "qf_energy_j": 3.1919794745079836e-05,
+        "qf_force_equilibrium_relative": 6.298945123432782e-15,
+        "qf_free_residual_relative_l2": 1.881793732416568e-15,
+        "qf_moment_equilibrium_relative": 4.132379675845809e-15,
+        "reaction_relative_l2": 3.032272841583358e-15,
+        "reaction_relative_linf": 2.5579538487363657e-15,
+        "strain_energy_from_external_work_relative": 1.2737419458022498e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_short_block_h3_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.129595484938041e-05,
+        "aster_force_equilibrium_relative": 2.0474995975512432e-16,
+        "aster_moment_equilibrium_relative": 1.8695377771251732e-16,
+        "displacement_relative_l2": 8.660815863674129e-16,
+        "displacement_relative_linf": 9.63315822442642e-16,
+        "fixed_displacement_abs_max": 5.953262352407507e-24,
+        "load_area_m2": 0.5624999999999999,
+        "qf_energy_j": 3.1295954849380374e-05,
+        "qf_force_equilibrium_relative": 1.1998919000426688e-15,
+        "qf_free_residual_relative_l2": 1.6472489424706304e-15,
+        "qf_moment_equilibrium_relative": 6.040057326845093e-16,
+        "reaction_relative_l2": 2.116031011068426e-15,
+        "reaction_relative_linf": 1.7973969355136377e-15,
+        "strain_energy_from_external_work_relative": 1.082610134544044e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_slender_beam_h1_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.751751279024006e-05,
+        "aster_force_equilibrium_relative": 1.1374233532693354e-16,
+        "aster_moment_equilibrium_relative": 1.2809491335957507e-17,
+        "displacement_relative_l2": 5.079636773116455e-16,
+        "displacement_relative_linf": 5.666425062447634e-16,
+        "fixed_displacement_abs_max": 3.2800013509207463e-24,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 1.751751279024006e-05,
+        "qf_force_equilibrium_relative": 2.293908843477926e-16,
+        "qf_free_residual_relative_l2": 2.532912941650669e-16,
+        "qf_moment_equilibrium_relative": 1.6362020822772926e-16,
+        "reaction_relative_l2": 9.560084054681645e-16,
+        "reaction_relative_linf": 1.804427663529044e-15,
+        "strain_energy_from_external_work_relative": 0.0
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_slender_beam_h1_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00012171278984847553,
+        "aster_force_equilibrium_relative": 1.0634429903501373e-16,
+        "aster_moment_equilibrium_relative": 1.8254173395838972e-16,
+        "displacement_relative_l2": 1.0544066839820392e-14,
+        "displacement_relative_linf": 1.6732674376898666e-14,
+        "fixed_displacement_abs_max": 4.7412127725790764e-24,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.00012171278984847428,
+        "qf_force_equilibrium_relative": 1.4966992003639767e-14,
+        "qf_free_residual_relative_l2": 8.703031874279291e-15,
+        "qf_moment_equilibrium_relative": 1.0098029774977607e-14,
+        "reaction_relative_l2": 7.298392344394211e-15,
+        "reaction_relative_linf": 5.003865633236031e-15,
+        "strain_energy_from_external_work_relative": 1.0244054876324566e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_slender_beam_h1_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00017381042837759367,
+        "aster_force_equilibrium_relative": 2.909757090129016e-16,
+        "aster_moment_equilibrium_relative": 2.3092638912203257e-16,
+        "displacement_relative_l2": 9.145809799137879e-15,
+        "displacement_relative_linf": 1.0812667394373375e-14,
+        "fixed_displacement_abs_max": 2.4757526132765043e-23,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.00017381042837759592,
+        "qf_force_equilibrium_relative": 1.3244053564209679e-14,
+        "qf_free_residual_relative_l2": 1.4560216554942668e-14,
+        "qf_moment_equilibrium_relative": 4.775519301047647e-15,
+        "reaction_relative_l2": 8.574433348264399e-15,
+        "reaction_relative_linf": 7.617018127348153e-15,
+        "strain_energy_from_external_work_relative": 1.2943524326515091e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_slender_beam_h1_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00017381042837759343,
+        "aster_force_equilibrium_relative": 4.0108312260214795e-16,
+        "aster_moment_equilibrium_relative": 1.8018423742180103e-16,
+        "displacement_relative_l2": 7.20706058076793e-15,
+        "displacement_relative_linf": 7.82395475191458e-15,
+        "fixed_displacement_abs_max": 1.0515603941443915e-23,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.00017381042837759034,
+        "qf_force_equilibrium_relative": 3.186706143890415e-14,
+        "qf_free_residual_relative_l2": 9.951495371719297e-15,
+        "qf_moment_equilibrium_relative": 1.892860242748093e-14,
+        "reaction_relative_l2": 6.505776300174745e-15,
+        "reaction_relative_linf": 6.252776074688829e-15,
+        "strain_energy_from_external_work_relative": 1.7777852689430936e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_slender_beam_h2_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.8209128877957224e-05,
+        "aster_force_equilibrium_relative": 2.6604844918946563e-17,
+        "aster_moment_equilibrium_relative": 1.6356490468151158e-17,
+        "displacement_relative_l2": 6.348610646372745e-15,
+        "displacement_relative_linf": 7.308020165948582e-15,
+        "fixed_displacement_abs_max": 2.7863430136173914e-24,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 1.820912887795726e-05,
+        "qf_force_equilibrium_relative": 6.547134189530432e-16,
+        "qf_free_residual_relative_l2": 3.934459977599589e-16,
+        "qf_moment_equilibrium_relative": 1.6266889100326668e-16,
+        "reaction_relative_l2": 2.4678995689448802e-15,
+        "reaction_relative_linf": 4.092726157978172e-15,
+        "strain_energy_from_external_work_relative": 2.0467453401521634e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_slender_beam_h2_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00031418726051044856,
+        "aster_force_equilibrium_relative": 9.515968624090876e-16,
+        "aster_moment_equilibrium_relative": 2.1831129253850482e-16,
+        "displacement_relative_l2": 1.845719260492849e-14,
+        "displacement_relative_linf": 2.969920483685347e-14,
+        "fixed_displacement_abs_max": 6.141701966622448e-23,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.00031418726051044476,
+        "qf_force_equilibrium_relative": 7.926345467036916e-15,
+        "qf_free_residual_relative_l2": 1.6869379956370173e-14,
+        "qf_moment_equilibrium_relative": 6.4341753560523775e-15,
+        "reaction_relative_l2": 2.0489688477691694e-14,
+        "reaction_relative_linf": 1.3007734041953843e-14,
+        "strain_energy_from_external_work_relative": 1.2077853180724733e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_slender_beam_h2_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0004621763263266889,
+        "aster_force_equilibrium_relative": 1.7156517474222608e-15,
+        "aster_moment_equilibrium_relative": 3.0325798312767556e-16,
+        "displacement_relative_l2": 6.9036477990428684e-15,
+        "displacement_relative_linf": 8.132629235501116e-15,
+        "fixed_displacement_abs_max": 2.843807684204593e-23,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.00046217632632668975,
+        "qf_force_equilibrium_relative": 1.3554504110636427e-14,
+        "qf_free_residual_relative_l2": 1.6146870098321905e-14,
+        "qf_moment_equilibrium_relative": 3.7939943552499434e-15,
+        "reaction_relative_l2": 1.0245092259531223e-14,
+        "reaction_relative_linf": 7.85860265750667e-15,
+        "strain_energy_from_external_work_relative": 1.8766901041471953e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_slender_beam_h2_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00046217632632669864,
+        "aster_force_equilibrium_relative": 7.528845957951675e-16,
+        "aster_moment_equilibrium_relative": 7.944109290391274e-17,
+        "displacement_relative_l2": 2.5335441679007758e-14,
+        "displacement_relative_linf": 2.932328287729999e-14,
+        "fixed_displacement_abs_max": 1.4392155339835484e-23,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.00046217632632668726,
+        "qf_force_equilibrium_relative": 1.6964213396450028e-14,
+        "qf_free_residual_relative_l2": 2.168917239772696e-14,
+        "qf_moment_equilibrium_relative": 9.75924692334431e-15,
+        "reaction_relative_l2": 3.318131570040132e-14,
+        "reaction_relative_linf": 3.024069883395001e-14,
+        "strain_energy_from_external_work_relative": 2.463155761693207e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_slender_beam_h3_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.8211578699187043e-05,
+        "aster_force_equilibrium_relative": 8.041121265650804e-17,
+        "aster_moment_equilibrium_relative": 1.8850155041745962e-17,
+        "displacement_relative_l2": 1.435335418061896e-14,
+        "displacement_relative_linf": 1.4457713846438058e-14,
+        "fixed_displacement_abs_max": 6.1176548148061445e-25,
+        "load_area_m2": 0.2500000000000001,
+        "qf_energy_j": 1.8211578699187073e-05,
+        "qf_force_equilibrium_relative": 3.4292113305484315e-16,
+        "qf_free_residual_relative_l2": 1.027770056902236e-15,
+        "qf_moment_equilibrium_relative": 1.7781323089483015e-16,
+        "reaction_relative_l2": 5.355308900366613e-15,
+        "reaction_relative_linf": 5.894612478182091e-15,
+        "strain_energy_from_external_work_relative": 1.6743845552783387e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_slender_beam_h3_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0003182384440517942,
+        "aster_force_equilibrium_relative": 1.247078411633926e-15,
+        "aster_moment_equilibrium_relative": 1.7023393966597584e-16,
+        "displacement_relative_l2": 2.4855098018487583e-14,
+        "displacement_relative_linf": 3.9629938417727316e-14,
+        "fixed_displacement_abs_max": 4.7827170360344295e-24,
+        "load_area_m2": 0.2500000000000001,
+        "qf_energy_j": 0.0003182384440518028,
+        "qf_force_equilibrium_relative": 5.546531366861953e-14,
+        "qf_free_residual_relative_l2": 2.9291229518504724e-14,
+        "qf_moment_equilibrium_relative": 4.669839950106446e-14,
+        "reaction_relative_l2": 2.5385807612880846e-14,
+        "reaction_relative_linf": 1.8340962772633895e-14,
+        "strain_energy_from_external_work_relative": 2.7084745518227506e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_slender_beam_h3_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00047088962620591714,
+        "aster_force_equilibrium_relative": 3.6482840812155805e-16,
+        "aster_moment_equilibrium_relative": 3.1675268003075525e-16,
+        "displacement_relative_l2": 2.4900146441488305e-14,
+        "displacement_relative_linf": 2.6641361786711535e-14,
+        "fixed_displacement_abs_max": 5.525874691085859e-23,
+        "load_area_m2": 0.2500000000000001,
+        "qf_energy_j": 0.0004708896262059431,
+        "qf_force_equilibrium_relative": 5.5412491757594574e-14,
+        "qf_free_residual_relative_l2": 4.416486452197907e-14,
+        "qf_moment_equilibrium_relative": 4.989095766047563e-14,
+        "reaction_relative_l2": 2.171026553807853e-14,
+        "reaction_relative_linf": 2.6986413104168735e-14,
+        "strain_energy_from_external_work_relative": 5.514379715740721e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "hex8_slender_beam_h3_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00046561412725027774,
+        "aster_force_equilibrium_relative": 3.999604603011875e-16,
+        "aster_moment_equilibrium_relative": 9.542948147549738e-17,
+        "displacement_relative_l2": 2.3771951596777435e-14,
+        "displacement_relative_linf": 2.3869072262126226e-14,
+        "fixed_displacement_abs_max": 1.2748620629708007e-23,
+        "load_area_m2": 0.2500000000000001,
+        "qf_energy_j": 0.000465614127250256,
+        "qf_force_equilibrium_relative": 1.2896818468464013e-14,
+        "qf_free_residual_relative_l2": 2.5485653501660307e-14,
+        "qf_moment_equilibrium_relative": 1.001707262589568e-14,
+        "reaction_relative_l2": 2.9991354795887e-14,
+        "reaction_relative_linf": 2.939649121755902e-14,
+        "strain_energy_from_external_work_relative": 4.6687272327221706e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_rectangular_beam_h1_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 9.135539001537532e-06,
+        "aster_force_equilibrium_relative": 4.736685573332592e-17,
+        "aster_moment_equilibrium_relative": 9.66165208399867e-17,
+        "displacement_relative_l2": 2.433281787368559e-14,
+        "displacement_relative_linf": 2.769813528592022e-14,
+        "fixed_displacement_abs_max": 1.3476506490735609e-25,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 9.135539001537596e-06,
+        "qf_force_equilibrium_relative": 3.1316453142298086e-15,
+        "qf_free_residual_relative_l2": 2.2876280749552124e-15,
+        "qf_moment_equilibrium_relative": 8.790491210770359e-16,
+        "reaction_relative_l2": 1.1140906824575981e-14,
+        "reaction_relative_linf": 8.843398673674921e-15,
+        "strain_energy_from_external_work_relative": 7.046601626952936e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_rectangular_beam_h1_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00021386926150831722,
+        "aster_force_equilibrium_relative": 1.3185498490615396e-15,
+        "aster_moment_equilibrium_relative": 2.6520121203698246e-16,
+        "displacement_relative_l2": 8.161698850115659e-14,
+        "displacement_relative_linf": 9.458239759305518e-14,
+        "fixed_displacement_abs_max": 4.603612555596115e-24,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.00021386926150834506,
+        "qf_force_equilibrium_relative": 3.9989213866933394e-14,
+        "qf_free_residual_relative_l2": 2.459550513532279e-13,
+        "qf_moment_equilibrium_relative": 8.91197474995473e-14,
+        "reaction_relative_l2": 9.251471543806642e-14,
+        "reaction_relative_linf": 7.888608342939468e-14,
+        "strain_energy_from_external_work_relative": 1.3015844625001964e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_rectangular_beam_h1_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00014588531779615973,
+        "aster_force_equilibrium_relative": 5.240824692128435e-16,
+        "aster_moment_equilibrium_relative": 4.735948564079418e-16,
+        "displacement_relative_l2": 3.750802252492734e-14,
+        "displacement_relative_linf": 3.613666856378017e-14,
+        "fixed_displacement_abs_max": 5.1178637744579274e-24,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.0001458853177961585,
+        "qf_force_equilibrium_relative": 4.2678561342317684e-14,
+        "qf_free_residual_relative_l2": 6.208156118839921e-14,
+        "qf_moment_equilibrium_relative": 4.396817953834288e-14,
+        "reaction_relative_l2": 4.7298390376223395e-14,
+        "reaction_relative_linf": 3.813230535404879e-14,
+        "strain_energy_from_external_work_relative": 8.360864975805747e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_rectangular_beam_h1_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0004780582371476291,
+        "aster_force_equilibrium_relative": 1.032458514178882e-15,
+        "aster_moment_equilibrium_relative": 4.204580706664868e-16,
+        "displacement_relative_l2": 7.962593262821849e-14,
+        "displacement_relative_linf": 9.093046534716476e-14,
+        "fixed_displacement_abs_max": 1.2248203554028435e-23,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.00047805823714781284,
+        "qf_force_equilibrium_relative": 3.3381335553919113e-13,
+        "qf_free_residual_relative_l2": 4.934477196030846e-13,
+        "qf_moment_equilibrium_relative": 4.038426336691897e-13,
+        "reaction_relative_l2": 1.141844202349401e-13,
+        "reaction_relative_linf": 8.423828094383957e-14,
+        "strain_energy_from_external_work_relative": 3.8430058066516313e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_rectangular_beam_h2_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 9.303786754288183e-06,
+        "aster_force_equilibrium_relative": 8.595252132520369e-17,
+        "aster_moment_equilibrium_relative": 8.295593730210842e-17,
+        "displacement_relative_l2": 3.4843477722127714e-14,
+        "displacement_relative_linf": 3.8837940093804675e-14,
+        "fixed_displacement_abs_max": 1.3975963981443143e-25,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 9.303786754288195e-06,
+        "qf_force_equilibrium_relative": 3.8685291846410185e-15,
+        "qf_free_residual_relative_l2": 2.5802316300644805e-15,
+        "qf_moment_equilibrium_relative": 4.657941849240097e-16,
+        "reaction_relative_l2": 1.2799996120099053e-14,
+        "reaction_relative_linf": 7.707375249745711e-15,
+        "strain_energy_from_external_work_relative": 1.274584378892233e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_rectangular_beam_h2_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0002466715731168911,
+        "aster_force_equilibrium_relative": 8.384404281969183e-16,
+        "aster_moment_equilibrium_relative": 4.633806507763543e-16,
+        "displacement_relative_l2": 9.968736334272734e-14,
+        "displacement_relative_linf": 1.229341571277301e-13,
+        "fixed_displacement_abs_max": 3.1865319317886603e-24,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.0002466715731169625,
+        "qf_force_equilibrium_relative": 1.1103960311436461e-13,
+        "qf_free_residual_relative_l2": 1.5629705095711084e-13,
+        "qf_moment_equilibrium_relative": 9.418796808024951e-14,
+        "reaction_relative_l2": 9.96590037373756e-14,
+        "reaction_relative_linf": 6.463999962703832e-14,
+        "strain_energy_from_external_work_relative": 2.8943226880998464e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_rectangular_beam_h2_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00016276320875690313,
+        "aster_force_equilibrium_relative": 1.1281926443230635e-15,
+        "aster_moment_equilibrium_relative": 3.0603007177816747e-16,
+        "displacement_relative_l2": 6.203986468954772e-14,
+        "displacement_relative_linf": 7.631541166266598e-14,
+        "fixed_displacement_abs_max": 1.2074548451194153e-24,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.00016276320875690758,
+        "qf_force_equilibrium_relative": 8.128868555697437e-15,
+        "qf_free_residual_relative_l2": 5.189301485447072e-14,
+        "qf_moment_equilibrium_relative": 8.436932144384309e-15,
+        "reaction_relative_l2": 5.5927083289491274e-14,
+        "reaction_relative_linf": 3.9747409019071596e-14,
+        "strain_energy_from_external_work_relative": 2.7311017896124606e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_rectangular_beam_h2_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0005625570374837853,
+        "aster_force_equilibrium_relative": 2.8534196671260245e-15,
+        "aster_moment_equilibrium_relative": 5.620966526413969e-16,
+        "displacement_relative_l2": 1.229517247098443e-13,
+        "displacement_relative_linf": 1.381589657262814e-13,
+        "fixed_displacement_abs_max": 5.58277652648188e-24,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.0005625570374839004,
+        "qf_force_equilibrium_relative": 2.198217214584822e-13,
+        "qf_free_residual_relative_l2": 3.5326997324783835e-13,
+        "qf_moment_equilibrium_relative": 1.4412755890369193e-13,
+        "reaction_relative_l2": 1.3333902330466406e-13,
+        "reaction_relative_linf": 8.999463260483802e-14,
+        "strain_energy_from_external_work_relative": 2.046766159622628e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_rectangular_beam_h3_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 9.303496485566742e-06,
+        "aster_force_equilibrium_relative": 2.0045179348251007e-16,
+        "aster_moment_equilibrium_relative": 9.775734695956905e-17,
+        "displacement_relative_l2": 3.4325365020693745e-14,
+        "displacement_relative_linf": 4.0417998080324677e-14,
+        "fixed_displacement_abs_max": 1.2829369769001037e-25,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 9.303496485566766e-06,
+        "qf_force_equilibrium_relative": 3.507559111310504e-15,
+        "qf_free_residual_relative_l2": 3.2909035177427073e-15,
+        "qf_moment_equilibrium_relative": 9.523458269957936e-16,
+        "reaction_relative_l2": 1.4819822658577593e-14,
+        "reaction_relative_linf": 1.0587739936871678e-14,
+        "strain_energy_from_external_work_relative": 2.5492482917486247e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_rectangular_beam_h3_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00024842337282375635,
+        "aster_force_equilibrium_relative": 1.1879033577102754e-15,
+        "aster_moment_equilibrium_relative": 1.3368781795170137e-16,
+        "displacement_relative_l2": 3.3050811065614726e-13,
+        "displacement_relative_linf": 3.50388375440466e-13,
+        "fixed_displacement_abs_max": 6.5708830426940484e-24,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.00024842337282368897,
+        "qf_force_equilibrium_relative": 1.9847305426157772e-13,
+        "qf_free_residual_relative_l2": 1.6538991695838911e-13,
+        "qf_moment_equilibrium_relative": 1.7895451443753388e-13,
+        "reaction_relative_l2": 3.204993021260665e-13,
+        "reaction_relative_linf": 2.837483189139349e-13,
+        "strain_energy_from_external_work_relative": 2.7124325804801497e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_rectangular_beam_h3_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00016892502614727445,
+        "aster_force_equilibrium_relative": 3.308022171100405e-16,
+        "aster_moment_equilibrium_relative": 1.0970441734624027e-16,
+        "displacement_relative_l2": 1.3964688745586093e-13,
+        "displacement_relative_linf": 1.4848733953382867e-13,
+        "fixed_displacement_abs_max": 2.8888068304784942e-24,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.00016892502614727133,
+        "qf_force_equilibrium_relative": 4.013222578065109e-14,
+        "qf_free_residual_relative_l2": 9.420292444154688e-14,
+        "qf_moment_equilibrium_relative": 1.9425551464709593e-14,
+        "reaction_relative_l2": 1.0273449822244891e-13,
+        "reaction_relative_linf": 7.795936631768183e-14,
+        "strain_energy_from_external_work_relative": 1.845245383107597e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_rectangular_beam_h3_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0005640805162081497,
+        "aster_force_equilibrium_relative": 6.774257391891969e-16,
+        "aster_moment_equilibrium_relative": 4.521565881814206e-16,
+        "displacement_relative_l2": 3.0306970943785005e-13,
+        "displacement_relative_linf": 3.05565353641278e-13,
+        "fixed_displacement_abs_max": 4.062564470223883e-24,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.0005640805162079937,
+        "qf_force_equilibrium_relative": 3.233349123860803e-13,
+        "qf_free_residual_relative_l2": 3.156216516947602e-13,
+        "qf_moment_equilibrium_relative": 2.5820555222640193e-13,
+        "reaction_relative_l2": 3.215922360443495e-13,
+        "reaction_relative_linf": 2.9882486097436246e-13,
+        "strain_energy_from_external_work_relative": 2.7658585634100503e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_short_block_h1_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 4.0427220227257886e-06,
+        "aster_force_equilibrium_relative": 1.4356390048550738e-16,
+        "aster_moment_equilibrium_relative": 1.1928952548710494e-16,
+        "displacement_relative_l2": 3.637811607922892e-15,
+        "displacement_relative_linf": 3.5184944493162064e-15,
+        "fixed_displacement_abs_max": 1.5583460743558695e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 4.0427220227257835e-06,
+        "qf_force_equilibrium_relative": 4.69127626422519e-16,
+        "qf_free_residual_relative_l2": 6.062762853061852e-16,
+        "qf_moment_equilibrium_relative": 3.2960341224691927e-16,
+        "reaction_relative_l2": 3.144053530009186e-15,
+        "reaction_relative_linf": 2.1843616051059294e-15,
+        "strain_energy_from_external_work_relative": 1.2571227145860396e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_short_block_h1_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 2.5612321522587232e-05,
+        "aster_force_equilibrium_relative": 4.721768995590353e-16,
+        "aster_moment_equilibrium_relative": 1.3649080239232027e-16,
+        "displacement_relative_l2": 2.4801692896006794e-15,
+        "displacement_relative_linf": 5.102811018914785e-15,
+        "fixed_displacement_abs_max": 7.212638495901631e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 2.5612321522587283e-05,
+        "qf_force_equilibrium_relative": 5.445057321647072e-15,
+        "qf_free_residual_relative_l2": 6.9352762592127815e-15,
+        "qf_moment_equilibrium_relative": 4.334962940587138e-15,
+        "reaction_relative_l2": 7.74226357018784e-15,
+        "reaction_relative_linf": 6.3103593028775685e-15,
+        "strain_energy_from_external_work_relative": 1.984278418121472e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_short_block_h1_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.564146608719341e-05,
+        "aster_force_equilibrium_relative": 2.843058982725574e-16,
+        "aster_moment_equilibrium_relative": 1.974399850780683e-16,
+        "displacement_relative_l2": 4.3198992111009106e-15,
+        "displacement_relative_linf": 6.069949985976092e-15,
+        "fixed_displacement_abs_max": 1.4861971456487127e-24,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 3.564146608719317e-05,
+        "qf_force_equilibrium_relative": 7.11824130856961e-15,
+        "qf_free_residual_relative_l2": 9.247074779650351e-15,
+        "qf_moment_equilibrium_relative": 9.92764696667151e-15,
+        "reaction_relative_l2": 1.0999906710792677e-14,
+        "reaction_relative_linf": 8.080018334056454e-15,
+        "strain_energy_from_external_work_relative": 6.6543061009609996e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_short_block_h1_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.564146608719323e-05,
+        "aster_force_equilibrium_relative": 1.374583442423692e-16,
+        "aster_moment_equilibrium_relative": 1.68811017259946e-16,
+        "displacement_relative_l2": 2.7176085594531067e-15,
+        "displacement_relative_linf": 2.963145391821279e-15,
+        "fixed_displacement_abs_max": 1.7926672443931444e-24,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 3.5641466087193234e-05,
+        "qf_force_equilibrium_relative": 7.0419812866655716e-15,
+        "qf_free_residual_relative_l2": 7.803458868465395e-15,
+        "qf_moment_equilibrium_relative": 5.87065269121437e-15,
+        "reaction_relative_l2": 6.495139840532637e-15,
+        "reaction_relative_linf": 4.158933379168872e-15,
+        "strain_energy_from_external_work_relative": 1.9012303145602823e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_short_block_h2_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 4.095335097781321e-06,
+        "aster_force_equilibrium_relative": 3.634270506434986e-17,
+        "aster_moment_equilibrium_relative": 9.20854583989947e-17,
+        "displacement_relative_l2": 8.978631585728192e-15,
+        "displacement_relative_linf": 9.505783691607344e-15,
+        "fixed_displacement_abs_max": 2.1127361117285205e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 4.0953350977813245e-06,
+        "qf_force_equilibrium_relative": 2.3000862207507777e-16,
+        "qf_free_residual_relative_l2": 1.3685826356337046e-15,
+        "qf_moment_equilibrium_relative": 4.639087351413375e-16,
+        "reaction_relative_l2": 6.0344419106827015e-15,
+        "reaction_relative_linf": 4.076734996941134e-15,
+        "strain_energy_from_external_work_relative": 8.273149102872546e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_short_block_h2_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 2.6773890211894217e-05,
+        "aster_force_equilibrium_relative": 4.1819529796959394e-16,
+        "aster_moment_equilibrium_relative": 1.1212175250861023e-16,
+        "displacement_relative_l2": 4.166252594129117e-15,
+        "displacement_relative_linf": 6.576172199190251e-15,
+        "fixed_displacement_abs_max": 8.80664499219558e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 2.677389021189409e-05,
+        "qf_force_equilibrium_relative": 5.956925193185618e-15,
+        "qf_free_residual_relative_l2": 7.514015350095301e-15,
+        "qf_moment_equilibrium_relative": 3.704020503373054e-15,
+        "reaction_relative_l2": 9.826709881007348e-15,
+        "reaction_relative_linf": 6.775256682659032e-15,
+        "strain_energy_from_external_work_relative": 4.6822062539849315e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_short_block_h2_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.80042421957928e-05,
+        "aster_force_equilibrium_relative": 7.161595747914524e-16,
+        "aster_moment_equilibrium_relative": 3.797681166252929e-16,
+        "displacement_relative_l2": 6.154287105330399e-15,
+        "displacement_relative_linf": 5.521412007763371e-15,
+        "fixed_displacement_abs_max": 1.540254230998107e-24,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 3.800424219579299e-05,
+        "qf_force_equilibrium_relative": 8.360542786178957e-15,
+        "qf_free_residual_relative_l2": 9.875854243079676e-15,
+        "qf_moment_equilibrium_relative": 3.664053737505908e-15,
+        "reaction_relative_l2": 1.1898603625123797e-14,
+        "reaction_relative_linf": 6.2988867189789535e-15,
+        "strain_energy_from_external_work_relative": 5.17078179721608e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_short_block_h2_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.8004242195792905e-05,
+        "aster_force_equilibrium_relative": 7.107196403537554e-16,
+        "aster_moment_equilibrium_relative": 3.2340989205681236e-16,
+        "displacement_relative_l2": 5.634374821734269e-15,
+        "displacement_relative_linf": 6.2376455111905725e-15,
+        "fixed_displacement_abs_max": 1.2612847918629703e-24,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 3.8004242195792885e-05,
+        "qf_force_equilibrium_relative": 2.7655756168538715e-15,
+        "qf_free_residual_relative_l2": 7.390842748336092e-15,
+        "qf_moment_equilibrium_relative": 2.2019161038555683e-15,
+        "reaction_relative_l2": 1.0482158056831379e-14,
+        "reaction_relative_linf": 6.877703336398661e-15,
+        "strain_energy_from_external_work_relative": 5.349084617809753e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_short_block_h3_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 4.097999568295352e-06,
+        "aster_force_equilibrium_relative": 1.8475243802879728e-16,
+        "aster_moment_equilibrium_relative": 1.464297306430552e-16,
+        "displacement_relative_l2": 1.1251694514330822e-14,
+        "displacement_relative_linf": 1.1034949071003684e-14,
+        "fixed_displacement_abs_max": 1.6933643746061563e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 4.097999568295347e-06,
+        "qf_force_equilibrium_relative": 5.520584941945335e-16,
+        "qf_free_residual_relative_l2": 1.5386896827575919e-15,
+        "qf_moment_equilibrium_relative": 5.474251263916517e-16,
+        "reaction_relative_l2": 8.25735221217634e-15,
+        "reaction_relative_linf": 8.418559624831244e-15,
+        "strain_energy_from_external_work_relative": 1.0334712499819055e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_short_block_h3_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 2.739176624846808e-05,
+        "aster_force_equilibrium_relative": 2.9766567970530977e-16,
+        "aster_moment_equilibrium_relative": 3.1346533198159133e-16,
+        "displacement_relative_l2": 2.0955134206350502e-14,
+        "displacement_relative_linf": 3.7186826795203524e-14,
+        "fixed_displacement_abs_max": 1.024102375517415e-24,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 2.7391766248467863e-05,
+        "qf_force_equilibrium_relative": 6.823770697193616e-15,
+        "qf_free_residual_relative_l2": 1.5914867081051125e-14,
+        "qf_moment_equilibrium_relative": 6.908869951412776e-15,
+        "reaction_relative_l2": 3.00041692212733e-14,
+        "reaction_relative_linf": 2.3762834748670085e-14,
+        "strain_energy_from_external_work_relative": 7.916263322713981e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_short_block_h3_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.989858289227003e-05,
+        "aster_force_equilibrium_relative": 8.684147466286909e-16,
+        "aster_moment_equilibrium_relative": 1.462907924039007e-16,
+        "displacement_relative_l2": 2.957908093234435e-14,
+        "displacement_relative_linf": 3.835438261099822e-14,
+        "fixed_displacement_abs_max": 1.2028674632225183e-24,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 3.989858289226939e-05,
+        "qf_force_equilibrium_relative": 1.8706118217304404e-14,
+        "qf_free_residual_relative_l2": 2.1688291913620777e-14,
+        "qf_moment_equilibrium_relative": 1.5175699728431584e-14,
+        "reaction_relative_l2": 3.513933715573924e-14,
+        "reaction_relative_linf": 2.952021730752481e-14,
+        "strain_energy_from_external_work_relative": 1.6134533942006197e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_short_block_h3_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.782932718874695e-05,
+        "aster_force_equilibrium_relative": 2.1433090559631197e-16,
+        "aster_moment_equilibrium_relative": 5.995942405957682e-16,
+        "displacement_relative_l2": 4.017693830136337e-15,
+        "displacement_relative_linf": 4.839340653163011e-15,
+        "fixed_displacement_abs_max": 1.21349102361388e-24,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 3.782932718874693e-05,
+        "qf_force_equilibrium_relative": 8.04323060213035e-15,
+        "qf_free_residual_relative_l2": 1.1999420644966887e-14,
+        "qf_moment_equilibrium_relative": 6.633142370020133e-15,
+        "reaction_relative_l2": 1.6412662172049778e-14,
+        "reaction_relative_linf": 1.16263064402229e-14,
+        "strain_energy_from_external_work_relative": 5.373817681893746e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_slender_beam_h1_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.828114512421628e-05,
+        "aster_force_equilibrium_relative": 1.0809011860749517e-16,
+        "aster_moment_equilibrium_relative": 4.943874986993567e-17,
+        "displacement_relative_l2": 6.047317600985093e-14,
+        "displacement_relative_linf": 6.237573218360599e-14,
+        "fixed_displacement_abs_max": 2.604353813954838e-25,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 1.8281145124216284e-05,
+        "qf_force_equilibrium_relative": 2.4736566316004097e-15,
+        "qf_free_residual_relative_l2": 4.9106552581406936e-15,
+        "qf_moment_equilibrium_relative": 1.6107762368612266e-15,
+        "reaction_relative_l2": 1.907895403767949e-14,
+        "reaction_relative_linf": 1.1374749372352465e-14,
+        "strain_energy_from_external_work_relative": 1.8533476792594803e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_slender_beam_h1_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0006522963416216125,
+        "aster_force_equilibrium_relative": 1.2076718449651685e-15,
+        "aster_moment_equilibrium_relative": 2.522739431443731e-16,
+        "displacement_relative_l2": 4.078700582694664e-13,
+        "displacement_relative_linf": 5.893620310891352e-13,
+        "fixed_displacement_abs_max": 3.1949727510191796e-24,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.0006522963416216092,
+        "qf_force_equilibrium_relative": 6.617699436588792e-13,
+        "qf_free_residual_relative_l2": 3.845706727593526e-13,
+        "qf_moment_equilibrium_relative": 5.919107592960292e-13,
+        "reaction_relative_l2": 4.3346925403840843e-13,
+        "reaction_relative_linf": 5.350339595976689e-13,
+        "strain_energy_from_external_work_relative": 5.1526070594686285e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_slender_beam_h1_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0009577589966022458,
+        "aster_force_equilibrium_relative": 2.2049454570934235e-15,
+        "aster_moment_equilibrium_relative": 3.774925466549357e-16,
+        "displacement_relative_l2": 6.625307120101215e-13,
+        "displacement_relative_linf": 6.60707133118356e-13,
+        "fixed_displacement_abs_max": 2.4390569434132074e-23,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.0009577589966017626,
+        "qf_force_equilibrium_relative": 6.44930959980755e-13,
+        "qf_free_residual_relative_l2": 3.9737886210509696e-13,
+        "qf_moment_equilibrium_relative": 5.465876922057916e-13,
+        "reaction_relative_l2": 6.93379335761107e-13,
+        "reaction_relative_linf": 6.426620084166838e-13,
+        "strain_energy_from_external_work_relative": 5.045412363562653e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_slender_beam_h1_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0009577589966019434,
+        "aster_force_equilibrium_relative": 4.719897452640404e-16,
+        "aster_moment_equilibrium_relative": 2.872872788048045e-16,
+        "displacement_relative_l2": 2.0556070189857298e-13,
+        "displacement_relative_linf": 2.0148601299283057e-13,
+        "fixed_displacement_abs_max": 9.41678629351449e-24,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.000957758996601798,
+        "qf_force_equilibrium_relative": 3.191102721897486e-13,
+        "qf_free_residual_relative_l2": 3.450083487168251e-13,
+        "qf_moment_equilibrium_relative": 2.4374209376356924e-13,
+        "reaction_relative_l2": 2.353194066540161e-13,
+        "reaction_relative_linf": 1.7955425408042797e-13,
+        "strain_energy_from_external_work_relative": 1.518038586389335e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_slender_beam_h2_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.86539139356831e-05,
+        "aster_force_equilibrium_relative": 4.676566540170951e-17,
+        "aster_moment_equilibrium_relative": 6.98531943107181e-17,
+        "displacement_relative_l2": 9.261153856568983e-14,
+        "displacement_relative_linf": 9.155259088135203e-14,
+        "fixed_displacement_abs_max": 2.133837659737092e-25,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 1.8653913935683077e-05,
+        "qf_force_equilibrium_relative": 5.27421147623039e-15,
+        "qf_free_residual_relative_l2": 3.618792771130609e-15,
+        "qf_moment_equilibrium_relative": 1.8688149225312984e-16,
+        "reaction_relative_l2": 2.3066157628681737e-14,
+        "reaction_relative_linf": 1.2322981702296533e-14,
+        "strain_energy_from_external_work_relative": 1.2714180308161658e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_slender_beam_h2_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0007733050428723251,
+        "aster_force_equilibrium_relative": 1.6273755587551073e-15,
+        "aster_moment_equilibrium_relative": 5.030101855237003e-16,
+        "displacement_relative_l2": 3.0992105122423655e-13,
+        "displacement_relative_linf": 3.688927231854359e-13,
+        "fixed_displacement_abs_max": 6.032603352361299e-24,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.0007733050428721928,
+        "qf_force_equilibrium_relative": 3.9629112582202514e-13,
+        "qf_free_residual_relative_l2": 3.4793561693011917e-13,
+        "qf_moment_equilibrium_relative": 2.667990391053844e-13,
+        "reaction_relative_l2": 3.519962039135027e-13,
+        "reaction_relative_linf": 3.3896669841187924e-13,
+        "strain_energy_from_external_work_relative": 1.7104849666044756e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_slender_beam_h2_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0011392904598568506,
+        "aster_force_equilibrium_relative": 1.1467157561410512e-15,
+        "aster_moment_equilibrium_relative": 5.102101026980782e-16,
+        "displacement_relative_l2": 2.802873586332998e-13,
+        "displacement_relative_linf": 2.663183464525172e-13,
+        "fixed_displacement_abs_max": 4.496403312929475e-24,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.0011392904598564756,
+        "qf_force_equilibrium_relative": 1.7541436966823556e-13,
+        "qf_free_residual_relative_l2": 3.7217542704548757e-13,
+        "qf_moment_equilibrium_relative": 1.2960142847171832e-13,
+        "reaction_relative_l2": 3.114357245251157e-13,
+        "reaction_relative_linf": 3.1535920078912063e-13,
+        "strain_energy_from_external_work_relative": 3.2907947925125113e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_slender_beam_h2_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0011392904598566517,
+        "aster_force_equilibrium_relative": 7.098641001058401e-16,
+        "aster_moment_equilibrium_relative": 2.867721344579991e-16,
+        "displacement_relative_l2": 1.9330607091391522e-13,
+        "displacement_relative_linf": 1.8445971701441553e-13,
+        "fixed_displacement_abs_max": 4.539648982032195e-24,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.0011392904598561929,
+        "qf_force_equilibrium_relative": 1.9954264658445245e-13,
+        "qf_free_residual_relative_l2": 3.701320346641464e-13,
+        "qf_moment_equilibrium_relative": 1.3978350741500462e-13,
+        "reaction_relative_l2": 2.463513179573498e-13,
+        "reaction_relative_linf": 2.5387407359126804e-13,
+        "strain_energy_from_external_work_relative": 4.027369451103645e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_slender_beam_h3_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.8641969510295474e-05,
+        "aster_force_equilibrium_relative": 2.0023523215407177e-16,
+        "aster_moment_equilibrium_relative": 3.2939334103000737e-17,
+        "displacement_relative_l2": 3.6976815805103056e-14,
+        "displacement_relative_linf": 4.438455647684958e-14,
+        "fixed_displacement_abs_max": 3.1223943509238605e-25,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 1.8641969510295305e-05,
+        "qf_force_equilibrium_relative": 1.0962252593255868e-14,
+        "qf_free_residual_relative_l2": 6.256435705919353e-15,
+        "qf_moment_equilibrium_relative": 2.2510542992415885e-15,
+        "reaction_relative_l2": 2.543124744873762e-14,
+        "reaction_relative_linf": 1.5168270938799097e-14,
+        "strain_energy_from_external_work_relative": 9.087376167915239e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_slender_beam_h3_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.000777695640006884,
+        "aster_force_equilibrium_relative": 1.351395498576127e-15,
+        "aster_moment_equilibrium_relative": 1.0054870144021001e-16,
+        "displacement_relative_l2": 6.335850531896353e-13,
+        "displacement_relative_linf": 8.319781411118932e-13,
+        "fixed_displacement_abs_max": 1.516883989651118e-23,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.0007776956400069886,
+        "qf_force_equilibrium_relative": 8.802669786837616e-13,
+        "qf_free_residual_relative_l2": 6.401627468111614e-13,
+        "qf_moment_equilibrium_relative": 6.357403440810766e-13,
+        "reaction_relative_l2": 7.585881180488004e-13,
+        "reaction_relative_linf": 7.098497275879819e-13,
+        "strain_energy_from_external_work_relative": 1.3453271982328587e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_slender_beam_h3_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00116428434025938,
+        "aster_force_equilibrium_relative": 1.0574755360581526e-15,
+        "aster_moment_equilibrium_relative": 3.6379580987712804e-16,
+        "displacement_relative_l2": 6.606825770216378e-13,
+        "displacement_relative_linf": 6.578538443681721e-13,
+        "fixed_displacement_abs_max": 1.2340689502274994e-23,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.0011642843402600786,
+        "qf_force_equilibrium_relative": 2.227751370516423e-12,
+        "qf_free_residual_relative_l2": 1.3925789543472676e-12,
+        "qf_moment_equilibrium_relative": 1.9022817314330907e-12,
+        "reaction_relative_l2": 7.809577452734074e-13,
+        "reaction_relative_linf": 8.103479839740439e-13,
+        "strain_energy_from_external_work_relative": 6.000766786862323e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet10_slender_beam_h3_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0011377425379541875,
+        "aster_force_equilibrium_relative": 9.437187236315688e-16,
+        "aster_moment_equilibrium_relative": 3.9910953510013236e-16,
+        "displacement_relative_l2": 4.4390600519143953e-13,
+        "displacement_relative_linf": 4.1549891078462787e-13,
+        "fixed_displacement_abs_max": 1.4536804900823216e-23,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.0011377425379551246,
+        "qf_force_equilibrium_relative": 1.0622534222836528e-13,
+        "qf_free_residual_relative_l2": 4.738214851100673e-13,
+        "qf_moment_equilibrium_relative": 7.545052210766507e-14,
+        "reaction_relative_l2": 4.860883505913559e-13,
+        "reaction_relative_linf": 4.0364554457819945e-13,
+        "strain_energy_from_external_work_relative": 8.237227023091536e-13
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_rectangular_beam_h1_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 8.362467650304607e-06,
+        "aster_force_equilibrium_relative": 9.72666892431093e-17,
+        "aster_moment_equilibrium_relative": 3.287760111959343e-17,
+        "displacement_relative_l2": 1.2985721108224992e-15,
+        "displacement_relative_linf": 9.054963469555514e-16,
+        "fixed_displacement_abs_max": 5.374469920233218e-25,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 8.362467650304602e-06,
+        "qf_force_equilibrium_relative": 3.428506756084528e-16,
+        "qf_free_residual_relative_l2": 4.35073271908988e-16,
+        "qf_moment_equilibrium_relative": 1.189529237007199e-16,
+        "reaction_relative_l2": 1.0606722761902845e-15,
+        "reaction_relative_linf": 9.722165545043483e-16,
+        "strain_energy_from_external_work_relative": 6.077389947619928e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_rectangular_beam_h1_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.313543357256852e-05,
+        "aster_force_equilibrium_relative": 8.526512829121202e-17,
+        "aster_moment_equilibrium_relative": 8.526512829121202e-17,
+        "displacement_relative_l2": 5.247446005135177e-15,
+        "displacement_relative_linf": 6.584860658493745e-15,
+        "fixed_displacement_abs_max": 9.129204246532708e-26,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 3.3135433572568677e-05,
+        "qf_force_equilibrium_relative": 7.815711709913592e-15,
+        "qf_free_residual_relative_l2": 6.658539916425525e-15,
+        "qf_moment_equilibrium_relative": 8.14295615503291e-15,
+        "reaction_relative_l2": 4.825905362022015e-15,
+        "reaction_relative_linf": 3.7636697735013764e-15,
+        "strain_energy_from_external_work_relative": 4.703546792392533e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_rectangular_beam_h1_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 4.0256287944900266e-05,
+        "aster_force_equilibrium_relative": 5.818755025955794e-17,
+        "aster_moment_equilibrium_relative": 1.7346558842822479e-16,
+        "displacement_relative_l2": 6.59312014433775e-15,
+        "displacement_relative_linf": 6.582260061819079e-15,
+        "fixed_displacement_abs_max": 6.099631763732297e-25,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 4.02562879449005e-05,
+        "qf_force_equilibrium_relative": 7.074126508354631e-15,
+        "qf_free_residual_relative_l2": 3.27646503033849e-15,
+        "qf_moment_equilibrium_relative": 7.01508663030206e-15,
+        "reaction_relative_l2": 6.868325589870154e-15,
+        "reaction_relative_linf": 7.284336286345246e-15,
+        "strain_energy_from_external_work_relative": 5.8914827307431286e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_rectangular_beam_h1_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 4.674570639746293e-05,
+        "aster_force_equilibrium_relative": 6.756136857869315e-16,
+        "aster_moment_equilibrium_relative": 1.4369837526939964e-16,
+        "displacement_relative_l2": 2.873658316482094e-15,
+        "displacement_relative_linf": 3.398444770940201e-15,
+        "fixed_displacement_abs_max": 7.776962893906623e-26,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 4.6745706397462904e-05,
+        "qf_force_equilibrium_relative": 1.3799012507817365e-14,
+        "qf_free_residual_relative_l2": 7.600698594051349e-15,
+        "qf_moment_equilibrium_relative": 1.4704108097895062e-14,
+        "reaction_relative_l2": 5.0685160147939934e-15,
+        "reaction_relative_linf": 6.575376010779662e-15,
+        "strain_energy_from_external_work_relative": 5.798405115899312e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_rectangular_beam_h2_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 8.950548577488957e-06,
+        "aster_force_equilibrium_relative": 1.7098495431101346e-16,
+        "aster_moment_equilibrium_relative": 5.860515069901691e-17,
+        "displacement_relative_l2": 6.6267479934722685e-15,
+        "displacement_relative_linf": 6.4240278379235524e-15,
+        "fixed_displacement_abs_max": 2.038408656217359e-25,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 8.950548577488933e-06,
+        "qf_force_equilibrium_relative": 7.542010340501289e-16,
+        "qf_free_residual_relative_l2": 8.786666105504313e-16,
+        "qf_moment_equilibrium_relative": 3.2554647039715905e-16,
+        "reaction_relative_l2": 4.4730528141906104e-15,
+        "reaction_relative_linf": 6.977783981233885e-15,
+        "strain_energy_from_external_work_relative": 2.649773063381794e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_rectangular_beam_h2_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 6.190970840794733e-05,
+        "aster_force_equilibrium_relative": 8.098940525528068e-16,
+        "aster_moment_equilibrium_relative": 2.074005965273276e-16,
+        "displacement_relative_l2": 1.7142883001719166e-14,
+        "displacement_relative_linf": 1.97085378424404e-14,
+        "fixed_displacement_abs_max": 9.431961648301153e-25,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 6.190970840794567e-05,
+        "qf_force_equilibrium_relative": 9.620486252079004e-15,
+        "qf_free_residual_relative_l2": 9.69040673416714e-15,
+        "qf_moment_equilibrium_relative": 6.979135798917296e-15,
+        "reaction_relative_l2": 2.010950447534544e-14,
+        "reaction_relative_linf": 1.6645263286294515e-14,
+        "strain_energy_from_external_work_relative": 2.6706769512553398e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_rectangular_beam_h2_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 5.609586771608535e-05,
+        "aster_force_equilibrium_relative": 1.8212639386627383e-16,
+        "aster_moment_equilibrium_relative": 2.3392839103938704e-16,
+        "displacement_relative_l2": 3.327578458201127e-15,
+        "displacement_relative_linf": 3.4147762057763154e-15,
+        "fixed_displacement_abs_max": 3.213355775195816e-25,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 5.609586771608522e-05,
+        "qf_force_equilibrium_relative": 5.000363414561918e-15,
+        "qf_free_residual_relative_l2": 4.0612226053135624e-15,
+        "qf_moment_equilibrium_relative": 3.1796767577695836e-15,
+        "reaction_relative_l2": 4.4333243806238825e-15,
+        "reaction_relative_linf": 4.832181676805295e-15,
+        "strain_energy_from_external_work_relative": 2.2951602894224504e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_rectangular_beam_h2_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00010022506002571084,
+        "aster_force_equilibrium_relative": 3.1781401842036224e-16,
+        "aster_moment_equilibrium_relative": 2.601074137262813e-16,
+        "displacement_relative_l2": 2.071496236019439e-14,
+        "displacement_relative_linf": 2.0094768106599117e-14,
+        "fixed_displacement_abs_max": 7.68279072619829e-25,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 0.00010022506002570825,
+        "qf_force_equilibrium_relative": 7.19316351431082e-15,
+        "qf_free_residual_relative_l2": 1.504783909776163e-14,
+        "qf_moment_equilibrium_relative": 1.0285370556070466e-14,
+        "reaction_relative_l2": 2.1601877640071455e-14,
+        "reaction_relative_linf": 2.251799920179487e-14,
+        "strain_energy_from_external_work_relative": 2.5827200164760887e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_rectangular_beam_h3_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 8.9364194532582e-06,
+        "aster_force_equilibrium_relative": 9.530633850772474e-17,
+        "aster_moment_equilibrium_relative": 3.7367599797441903e-17,
+        "displacement_relative_l2": 3.49480192228894e-15,
+        "displacement_relative_linf": 2.857816522541713e-15,
+        "fixed_displacement_abs_max": 3.1424529780159195e-25,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 8.936419453258216e-06,
+        "qf_force_equilibrium_relative": 1.0167703466441016e-15,
+        "qf_free_residual_relative_l2": 9.453143746138883e-16,
+        "qf_moment_equilibrium_relative": 3.333782904128349e-16,
+        "reaction_relative_l2": 3.885622288253675e-15,
+        "reaction_relative_linf": 3.397458682324815e-15,
+        "strain_energy_from_external_work_relative": 1.8956875327634096e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_rectangular_beam_h3_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 6.487832261049095e-05,
+        "aster_force_equilibrium_relative": 3.1199218710895807e-16,
+        "aster_moment_equilibrium_relative": 2.2198064686752598e-16,
+        "displacement_relative_l2": 1.0253278953988186e-14,
+        "displacement_relative_linf": 1.1373320496839809e-14,
+        "fixed_displacement_abs_max": 1.2618147539838246e-24,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 6.48783226104918e-05,
+        "qf_force_equilibrium_relative": 1.1711434289296758e-14,
+        "qf_free_residual_relative_l2": 1.0895894261892287e-14,
+        "qf_moment_equilibrium_relative": 9.655739850712357e-15,
+        "reaction_relative_l2": 1.141645802317555e-14,
+        "reaction_relative_linf": 1.0080749833817182e-14,
+        "strain_energy_from_external_work_relative": 1.3160161614509142e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_rectangular_beam_h3_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 7.472698005900992e-05,
+        "aster_force_equilibrium_relative": 4.635053350680363e-16,
+        "aster_moment_equilibrium_relative": 8.388938034981929e-17,
+        "displacement_relative_l2": 9.949273779569086e-15,
+        "displacement_relative_linf": 9.461671948232942e-15,
+        "fixed_displacement_abs_max": 1.4527354050515797e-24,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 7.472698005901047e-05,
+        "qf_force_equilibrium_relative": 1.3273128490734524e-14,
+        "qf_free_residual_relative_l2": 1.0215805789718085e-14,
+        "qf_moment_equilibrium_relative": 1.133058424555297e-14,
+        "reaction_relative_l2": 1.3635345925516119e-14,
+        "reaction_relative_linf": 1.1849810955622687e-14,
+        "strain_energy_from_external_work_relative": 7.435783072727306e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_rectangular_beam_h3_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 9.619666308367385e-05,
+        "aster_force_equilibrium_relative": 1.8563619528233437e-16,
+        "aster_moment_equilibrium_relative": 8.640502827277029e-17,
+        "displacement_relative_l2": 6.683376884584438e-15,
+        "displacement_relative_linf": 5.60222409834897e-15,
+        "fixed_displacement_abs_max": 2.4683714333360278e-24,
+        "load_area_m2": 0.5,
+        "qf_energy_j": 9.619666308367396e-05,
+        "qf_force_equilibrium_relative": 1.873715070883263e-14,
+        "qf_free_residual_relative_l2": 1.6194427162920625e-14,
+        "qf_moment_equilibrium_relative": 1.696717881518543e-14,
+        "reaction_relative_l2": 7.555038406432085e-15,
+        "reaction_relative_linf": 5.185920062906278e-15,
+        "strain_energy_from_external_work_relative": 1.127068380264336e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_short_block_h1_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.7348393859270494e-06,
+        "aster_force_equilibrium_relative": 6.994131899695427e-17,
+        "aster_moment_equilibrium_relative": 1.2058330526586284e-16,
+        "displacement_relative_l2": 9.221076150543694e-16,
+        "displacement_relative_linf": 8.102277390723562e-16,
+        "fixed_displacement_abs_max": 4.429498955126136e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 3.734839385927048e-06,
+        "qf_force_equilibrium_relative": 5.166916409711124e-17,
+        "qf_free_residual_relative_l2": 1.4794837191531956e-16,
+        "qf_moment_equilibrium_relative": 4.1499328785683575e-17,
+        "reaction_relative_l2": 1.0814912512954825e-15,
+        "reaction_relative_linf": 1.196080715055642e-15,
+        "strain_energy_from_external_work_relative": 3.401885033313365e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_short_block_h1_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.2493912651731858e-05,
+        "aster_force_equilibrium_relative": 1.271057486462604e-16,
+        "aster_moment_equilibrium_relative": 8.163514517232825e-17,
+        "displacement_relative_l2": 2.2341590181934756e-15,
+        "displacement_relative_linf": 2.9203431877165524e-15,
+        "fixed_displacement_abs_max": 2.2097655405381116e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 1.2493912651731851e-05,
+        "qf_force_equilibrium_relative": 5.362597410144532e-16,
+        "qf_free_residual_relative_l2": 1.054096794101309e-15,
+        "qf_moment_equilibrium_relative": 4.696037092872503e-16,
+        "reaction_relative_l2": 2.8286379239534984e-15,
+        "reaction_relative_linf": 2.49311351721573e-15,
+        "strain_energy_from_external_work_relative": 5.423652115172349e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_short_block_h1_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.5901172421010994e-05,
+        "aster_force_equilibrium_relative": 1.3425309665884686e-16,
+        "aster_moment_equilibrium_relative": 1.9065862296939058e-16,
+        "displacement_relative_l2": 2.7590325472823834e-15,
+        "displacement_relative_linf": 3.0512628530398283e-15,
+        "fixed_displacement_abs_max": 6.827963003068259e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 1.5901172421010946e-05,
+        "qf_force_equilibrium_relative": 3.2877481150021804e-16,
+        "qf_free_residual_relative_l2": 1.451578117870868e-15,
+        "qf_moment_equilibrium_relative": 5.835541753477619e-16,
+        "reaction_relative_l2": 3.243500021485821e-15,
+        "reaction_relative_linf": 2.9117084620169927e-15,
+        "strain_energy_from_external_work_relative": 2.9830407337489348e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_short_block_h1_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.590117242101095e-05,
+        "aster_force_equilibrium_relative": 1.8712762148292137e-16,
+        "aster_moment_equilibrium_relative": 1.8575514315785004e-16,
+        "displacement_relative_l2": 2.0217906748332004e-15,
+        "displacement_relative_linf": 2.097743211464879e-15,
+        "fixed_displacement_abs_max": 1.238574758504081e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 1.590117242101099e-05,
+        "qf_force_equilibrium_relative": 1.0349622657591429e-15,
+        "qf_free_residual_relative_l2": 1.3113364089399234e-15,
+        "qf_moment_equilibrium_relative": 1.0505465057961043e-15,
+        "reaction_relative_l2": 2.374185254725795e-15,
+        "reaction_relative_linf": 2.0381959234118923e-15,
+        "strain_energy_from_external_work_relative": 2.55689205749908e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_short_block_h2_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.936504617789366e-06,
+        "aster_force_equilibrium_relative": 5.785069663737228e-17,
+        "aster_moment_equilibrium_relative": 5.684423878278759e-17,
+        "displacement_relative_l2": 6.819427251352855e-16,
+        "displacement_relative_linf": 9.63375551283622e-16,
+        "fixed_displacement_abs_max": 3.425630987574665e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 3.936504617789365e-06,
+        "qf_force_equilibrium_relative": 2.7011176319684274e-16,
+        "qf_free_residual_relative_l2": 3.2906560963813894e-16,
+        "qf_moment_equilibrium_relative": 1.3803251551465013e-16,
+        "reaction_relative_l2": 8.688776423968807e-16,
+        "reaction_relative_linf": 6.604331133583922e-16,
+        "strain_energy_from_external_work_relative": 2.1517387365087642e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_short_block_h2_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.5230030268754908e-05,
+        "aster_force_equilibrium_relative": 1.3330963383348915e-16,
+        "aster_moment_equilibrium_relative": 1.3024463484486658e-16,
+        "displacement_relative_l2": 9.501960089905271e-16,
+        "displacement_relative_linf": 1.4830187803793664e-15,
+        "fixed_displacement_abs_max": 4.20849637073157e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 1.5230030268754913e-05,
+        "qf_force_equilibrium_relative": 7.896940126926099e-16,
+        "qf_free_residual_relative_l2": 8.669786122180565e-16,
+        "qf_moment_equilibrium_relative": 6.163318301503706e-16,
+        "reaction_relative_l2": 1.7543003908576688e-15,
+        "reaction_relative_linf": 1.1416276909513444e-15,
+        "strain_energy_from_external_work_relative": 3.336958360451954e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_short_block_h2_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.8553320256283363e-05,
+        "aster_force_equilibrium_relative": 1.1500645925857674e-16,
+        "aster_moment_equilibrium_relative": 1.2251732370710678e-16,
+        "displacement_relative_l2": 1.7592207271927072e-15,
+        "displacement_relative_linf": 1.8584358956007127e-15,
+        "fixed_displacement_abs_max": 8.918892956773073e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 1.8553320256283325e-05,
+        "qf_force_equilibrium_relative": 1.1718571004216929e-15,
+        "qf_free_residual_relative_l2": 9.912007494944992e-16,
+        "qf_moment_equilibrium_relative": 7.731540852509763e-16,
+        "reaction_relative_l2": 2.2140950455690672e-15,
+        "reaction_relative_linf": 2.189410718470791e-15,
+        "strain_energy_from_external_work_relative": 2.0087752038111574e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_short_block_h2_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.8553320256283342e-05,
+        "aster_force_equilibrium_relative": 7.145870096287915e-17,
+        "aster_moment_equilibrium_relative": 6.514663457186938e-17,
+        "displacement_relative_l2": 4.951082972096164e-16,
+        "displacement_relative_linf": 5.068461533456485e-16,
+        "fixed_displacement_abs_max": 3.621785578311492e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 1.855332025628335e-05,
+        "qf_force_equilibrium_relative": 8.0438961152168e-16,
+        "qf_free_residual_relative_l2": 1.2345104940884777e-15,
+        "qf_moment_equilibrium_relative": 3.544889092173213e-16,
+        "reaction_relative_l2": 1.4570400294156658e-15,
+        "reaction_relative_linf": 1.2510918391261656e-15,
+        "strain_energy_from_external_work_relative": 3.6523185523839182e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_short_block_h3_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 3.944502305782124e-06,
+        "aster_force_equilibrium_relative": 1.4283230640195828e-16,
+        "aster_moment_equilibrium_relative": 1.2230769648630847e-16,
+        "displacement_relative_l2": 9.627201105549954e-16,
+        "displacement_relative_linf": 9.550691269837378e-16,
+        "fixed_displacement_abs_max": 1.7926961367702884e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 3.944502305782126e-06,
+        "qf_force_equilibrium_relative": 2.618202499735583e-16,
+        "qf_free_residual_relative_l2": 4.004675944528549e-16,
+        "qf_moment_equilibrium_relative": 1.364100448506627e-16,
+        "reaction_relative_l2": 1.7874827508488225e-15,
+        "reaction_relative_linf": 1.7159071142951785e-15,
+        "strain_energy_from_external_work_relative": 4.294751943801176e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_short_block_h3_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.665941057471721e-05,
+        "aster_force_equilibrium_relative": 2.530170748793361e-16,
+        "aster_moment_equilibrium_relative": 5.859285502108464e-17,
+        "displacement_relative_l2": 1.6275037554688469e-15,
+        "displacement_relative_linf": 1.9976453156888934e-15,
+        "fixed_displacement_abs_max": 9.683293135182029e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 1.6659410574717244e-05,
+        "qf_force_equilibrium_relative": 8.603143935298084e-16,
+        "qf_free_residual_relative_l2": 1.7472128844780182e-15,
+        "qf_moment_equilibrium_relative": 1.2931877790833823e-15,
+        "reaction_relative_l2": 2.96917962979507e-15,
+        "reaction_relative_linf": 3.2766643500661632e-15,
+        "strain_energy_from_external_work_relative": 2.0337645043451406e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_short_block_h3_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 2.4043704951794456e-05,
+        "aster_force_equilibrium_relative": 2.0944400762078479e-16,
+        "aster_moment_equilibrium_relative": 1.61384884517056e-16,
+        "displacement_relative_l2": 1.403179828509126e-15,
+        "displacement_relative_linf": 1.8120803619173903e-15,
+        "fixed_displacement_abs_max": 7.098493229275989e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 2.4043704951794486e-05,
+        "qf_force_equilibrium_relative": 3.0186130972890178e-15,
+        "qf_free_residual_relative_l2": 3.841494365348793e-15,
+        "qf_moment_equilibrium_relative": 2.325098601135493e-15,
+        "reaction_relative_l2": 3.720730463941957e-15,
+        "reaction_relative_linf": 3.1521666066834666e-15,
+        "strain_energy_from_external_work_relative": 1.26823990571715e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_short_block_h3_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.809037152512218e-05,
+        "aster_force_equilibrium_relative": 9.707514853117906e-17,
+        "aster_moment_equilibrium_relative": 1.4279539902237497e-16,
+        "displacement_relative_l2": 1.7333906134051248e-15,
+        "displacement_relative_linf": 1.92145181148386e-15,
+        "fixed_displacement_abs_max": 6.76531086420004e-25,
+        "load_area_m2": 0.5625,
+        "qf_energy_j": 1.809037152512224e-05,
+        "qf_force_equilibrium_relative": 6.41891896070168e-16,
+        "qf_free_residual_relative_l2": 1.9974246040645285e-15,
+        "qf_moment_equilibrium_relative": 6.957516043765764e-16,
+        "reaction_relative_l2": 3.0279088897995833e-15,
+        "reaction_relative_linf": 3.20455627343357e-15,
+        "strain_energy_from_external_work_relative": 3.183916943513587e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_slender_beam_h1_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.6648506218092713e-05,
+        "aster_force_equilibrium_relative": 2.5129966217718927e-16,
+        "aster_moment_equilibrium_relative": 2.8421763640460936e-17,
+        "displacement_relative_l2": 2.899302927840662e-15,
+        "displacement_relative_linf": 2.7653518098745458e-15,
+        "fixed_displacement_abs_max": 1.9713085583708322e-25,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 1.6648506218092706e-05,
+        "qf_force_equilibrium_relative": 1.3176305718065932e-15,
+        "qf_free_residual_relative_l2": 6.887501522244654e-16,
+        "qf_moment_equilibrium_relative": 1.5571264811463783e-16,
+        "reaction_relative_l2": 1.994800167722197e-15,
+        "reaction_relative_linf": 2.9189211696284354e-15,
+        "strain_energy_from_external_work_relative": 4.07019313881165e-16
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_slender_beam_h1_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 6.893537494234994e-05,
+        "aster_force_equilibrium_relative": 2.428351918216984e-16,
+        "aster_moment_equilibrium_relative": 8.526512829121202e-17,
+        "displacement_relative_l2": 5.337865769813611e-15,
+        "displacement_relative_linf": 5.739478346789967e-15,
+        "fixed_displacement_abs_max": 2.152932805967125e-25,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 6.893537494235069e-05,
+        "qf_force_equilibrium_relative": 3.353279954297392e-15,
+        "qf_free_residual_relative_l2": 1.0520160508442702e-14,
+        "qf_moment_equilibrium_relative": 2.0607209373024735e-15,
+        "reaction_relative_l2": 6.085712976634131e-15,
+        "reaction_relative_linf": 5.313573051609658e-15,
+        "strain_energy_from_external_work_relative": 1.0812866314387042e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_slender_beam_h1_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 9.281389136246835e-05,
+        "aster_force_equilibrium_relative": 1.439177957289608e-16,
+        "aster_moment_equilibrium_relative": 3.499017183300205e-17,
+        "displacement_relative_l2": 3.607040734777448e-15,
+        "displacement_relative_linf": 3.648272487073103e-15,
+        "fixed_displacement_abs_max": 1.228542099033954e-24,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 9.281389136246822e-05,
+        "qf_force_equilibrium_relative": 8.032150581639156e-15,
+        "qf_free_residual_relative_l2": 6.518438662407747e-15,
+        "qf_moment_equilibrium_relative": 8.165097590795431e-15,
+        "reaction_relative_l2": 4.284869080641047e-15,
+        "reaction_relative_linf": 3.595388700478921e-15,
+        "strain_energy_from_external_work_relative": 1.4601830563424833e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_slender_beam_h1_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 9.28138913624685e-05,
+        "aster_force_equilibrium_relative": 4.0808294810709313e-16,
+        "aster_moment_equilibrium_relative": 2.042810365310288e-17,
+        "displacement_relative_l2": 6.204535614954573e-15,
+        "displacement_relative_linf": 5.8930279600033714e-15,
+        "fixed_displacement_abs_max": 2.961016515612942e-25,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 9.281389136246923e-05,
+        "qf_force_equilibrium_relative": 2.2854748198714894e-15,
+        "qf_free_residual_relative_l2": 6.107179915594188e-15,
+        "qf_moment_equilibrium_relative": 2.4090228171053243e-15,
+        "reaction_relative_l2": 6.3454960680054135e-15,
+        "reaction_relative_linf": 7.103084993629082e-15,
+        "strain_energy_from_external_work_relative": 7.884988504249324e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_slender_beam_h2_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.791391201058635e-05,
+        "aster_force_equilibrium_relative": 2.9478732675036697e-16,
+        "aster_moment_equilibrium_relative": 2.1204263245923065e-17,
+        "displacement_relative_l2": 6.55206860390366e-15,
+        "displacement_relative_linf": 5.94859393851786e-15,
+        "fixed_displacement_abs_max": 7.014865898263061e-25,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 1.791391201058637e-05,
+        "qf_force_equilibrium_relative": 1.1562268324047417e-15,
+        "qf_free_residual_relative_l2": 8.550090972100429e-16,
+        "qf_moment_equilibrium_relative": 2.049999683020438e-16,
+        "reaction_relative_l2": 4.073593885001828e-15,
+        "reaction_relative_linf": 5.618367770782326e-15,
+        "strain_energy_from_external_work_relative": 1.1348046547336922e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_slender_beam_h2_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00015054091082602659,
+        "aster_force_equilibrium_relative": 4.291584011338472e-16,
+        "aster_moment_equilibrium_relative": 1.3330963383348915e-16,
+        "displacement_relative_l2": 9.896983608156425e-15,
+        "displacement_relative_linf": 1.389309261818931e-14,
+        "fixed_displacement_abs_max": 3.1551034320759407e-24,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.00015054091082602558,
+        "qf_force_equilibrium_relative": 8.055737333987452e-15,
+        "qf_free_residual_relative_l2": 2.1222692355415416e-14,
+        "qf_moment_equilibrium_relative": 1.0946749695461404e-14,
+        "reaction_relative_l2": 1.3151421957653947e-14,
+        "reaction_relative_linf": 1.0955121035003495e-14,
+        "strain_energy_from_external_work_relative": 6.661890140335939e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_slender_beam_h2_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00019412000746422243,
+        "aster_force_equilibrium_relative": 4.1114890934793954e-16,
+        "aster_moment_equilibrium_relative": 1.7376547415479132e-16,
+        "displacement_relative_l2": 1.462028834324135e-14,
+        "displacement_relative_linf": 1.4793421410177475e-14,
+        "fixed_displacement_abs_max": 1.1391412386526836e-24,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.00019412000746422712,
+        "qf_force_equilibrium_relative": 7.128128461308991e-15,
+        "qf_free_residual_relative_l2": 1.553214565887525e-14,
+        "qf_moment_equilibrium_relative": 5.329203151194237e-15,
+        "reaction_relative_l2": 1.3894384966197181e-14,
+        "reaction_relative_linf": 1.4461369138020756e-14,
+        "strain_energy_from_external_work_relative": 2.4156059219521402e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_slender_beam_h2_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00019412000746422132,
+        "aster_force_equilibrium_relative": 2.1408600746742132e-16,
+        "aster_moment_equilibrium_relative": 1.2297984092889874e-16,
+        "displacement_relative_l2": 7.111584274862402e-15,
+        "displacement_relative_linf": 7.463347738468116e-15,
+        "fixed_displacement_abs_max": 2.837299659763413e-24,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.0001941200074642171,
+        "qf_force_equilibrium_relative": 4.3610425061198455e-15,
+        "qf_free_residual_relative_l2": 1.7422252871790544e-14,
+        "qf_moment_equilibrium_relative": 2.967313579606113e-15,
+        "reaction_relative_l2": 8.2210482154582e-15,
+        "reaction_relative_linf": 7.888019529829724e-15,
+        "strain_energy_from_external_work_relative": 2.178234241760424e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_slender_beam_h3_axial_x": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 1.787299405044764e-05,
+        "aster_force_equilibrium_relative": 1.4451638975116193e-16,
+        "aster_moment_equilibrium_relative": 1.7950618794458266e-17,
+        "displacement_relative_l2": 9.171169852859085e-15,
+        "displacement_relative_linf": 8.955051056903988e-15,
+        "fixed_displacement_abs_max": 3.4382858007746854e-25,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 1.787299405044758e-05,
+        "qf_force_equilibrium_relative": 9.465565400377835e-16,
+        "qf_free_residual_relative_l2": 2.0031131042245605e-15,
+        "qf_moment_equilibrium_relative": 6.993529510182483e-16,
+        "reaction_relative_l2": 6.586675241936848e-15,
+        "reaction_relative_linf": 8.413558814354098e-15,
+        "strain_energy_from_external_work_relative": 3.2226408317888984e-15
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_slender_beam_h3_combined_xyz": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.0001558497085233464,
+        "aster_force_equilibrium_relative": 5.800396716028487e-16,
+        "aster_moment_equilibrium_relative": 9.947598300641403e-17,
+        "displacement_relative_l2": 4.865558298778294e-14,
+        "displacement_relative_linf": 5.951737838346941e-14,
+        "fixed_displacement_abs_max": 3.4256342914613716e-24,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.00015584970852334446,
+        "qf_force_equilibrium_relative": 1.6936668113796898e-14,
+        "qf_free_residual_relative_l2": 3.333328416848477e-14,
+        "qf_moment_equilibrium_relative": 1.631757641164002e-14,
+        "reaction_relative_l2": 5.88606946838656e-14,
+        "reaction_relative_linf": 6.790635830844096e-14,
+        "strain_energy_from_external_work_relative": 1.2348171032180718e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_slender_beam_h3_transverse_y": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00023459417842278045,
+        "aster_force_equilibrium_relative": 4.2815819676818613e-16,
+        "aster_moment_equilibrium_relative": 9.787810811529958e-17,
+        "displacement_relative_l2": 5.39380525012826e-14,
+        "displacement_relative_linf": 5.562247805630363e-14,
+        "fixed_displacement_abs_max": 8.206891650263954e-25,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.0002345941784227846,
+        "qf_force_equilibrium_relative": 2.6840798632841814e-14,
+        "qf_free_residual_relative_l2": 3.8774798204432763e-14,
+        "qf_moment_equilibrium_relative": 2.4187432309117898e-14,
+        "reaction_relative_l2": 5.744311117233958e-14,
+        "reaction_relative_linf": 5.369998296550531e-14,
+        "strain_energy_from_external_work_relative": 1.7677648003196468e-14
+      },
+      "status": "PASS_CANDIDATE"
+    },
+    "tet4_slender_beam_h3_transverse_z": {
+      "errors": [],
+      "metrics_recomputed_from_raw": {
+        "aster_external_work_energy_j": 0.00018980001340590367,
+        "aster_force_equilibrium_relative": 2.575874374913606e-16,
+        "aster_moment_equilibrium_relative": 1.7884848696231166e-16,
+        "displacement_relative_l2": 4.2829348688694764e-14,
+        "displacement_relative_linf": 4.2395124473676423e-14,
+        "fixed_displacement_abs_max": 4.371095865895852e-24,
+        "load_area_m2": 0.25,
+        "qf_energy_j": 0.00018980001340589245,
+        "qf_force_equilibrium_relative": 1.022032183193177e-14,
+        "qf_free_residual_relative_l2": 2.3056007068488185e-14,
+        "qf_moment_equilibrium_relative": 3.2639849998806632e-15,
+        "reaction_relative_l2": 4.690021734367789e-14,
+        "reaction_relative_linf": 4.170242099317415e-14,
+        "strain_energy_from_external_work_relative": 5.912271703178179e-14
+      },
+      "status": "PASS_CANDIDATE"
+    }
+  },
+  "contract_sha256": "9459613354787bbfdaef7e2d2dbdc5ddbf200e5ee9fea44004e8e7a39c4e2b6c",
+  "errors": [],
+  "limitations": [
+    "bounded homogeneous isotropic 3D small-strain linear-static elasticity only",
+    "only TET4, HEX8, TET10, and HEX20 are covered; no wedge, pyramid, shell, or beam family",
+    "three simple rectangular block geometries, three low-to-moderate structured mesh sizes, and four prescribed distal-face traction directions",
+    "mesh labels H1/H2/H3 define model diversity only; no mesh-convergence or asymptotic accuracy claim",
+    "same discrete mesh, material, boundary conditions, and consistent nodal force vector are supplied to both solvers",
+    "no stress-field comparison, material nonlinearity, geometric nonlinearity, contact, friction, dynamics, buckling, continuation, or MPI/PETSc claim",
+    "correlation between two FEM implementations is not experimental validation",
+    "this supplemental R3.5 campaign does not alter existing WP12 R2 results, R3.2, R3.3, or R3.4 failures, Owner decisions, points, or global ledger"
+  ],
+  "manifest_sha256": "28efddda1e4e15d7152adc3b46a716f79685e5f30bf6f660e264aa672e5110f4",
+  "official_points_changed": false,
+  "work_package": "WP12"
+}

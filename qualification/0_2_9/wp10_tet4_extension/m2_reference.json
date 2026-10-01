@@ -1,0 +1,16 @@
+{
+  "status": "PASS_INDEPENDENT_OBSERVABLE_RECOMPUTATION",
+  "source_sha": "1ac9005e01b5b53703ceaafc03e655500f9901ea",
+  "contract_sha256": "d5d3ec4256a62e64fdfe55a312bebd50993314321234d428d8f323f77ea27313",
+  "element_type": "TET4",
+  "independence": "contact gap and penalty recomputation; not an independent global FEM solve",
+  "rows": [
+    {
+      "step": 4,
+      "recomputed_gap": -2.738213539910106e-06,
+      "production_gap": -2.738213539972556e-06,
+      "recomputed_penalty_force": 2.738213539910106,
+      "gap_absolute_error": 6.245004513516506e-17
+    }
+  ]
+}

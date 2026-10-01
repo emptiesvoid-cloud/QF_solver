@@ -1,0 +1,50 @@
+{
+  "case": "WP08-D-M1-PHASE1",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "files": [
+    {
+      "relative_path": "console.err.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "relative_path": "console.log",
+      "sha256": "5053abbff0d1590f9edb75eed86b879c822ccaebf2732fd0a22e43d169964f68",
+      "size_bytes": 344
+    },
+    {
+      "relative_path": "progress.json",
+      "sha256": "d5bb1c66ae62060c6737d51390b2b3eac8968d7cde94f800c8e49ad30a623603",
+      "size_bytes": 130
+    },
+    {
+      "relative_path": "raw.npz",
+      "sha256": "6026d60ae660f97a09733b3ee31072fe027de6ac8e942bd7c6604f9669c5da00",
+      "size_bytes": 1933
+    },
+    {
+      "relative_path": "result.json",
+      "sha256": "2b2039d9901395e9dc29fee4cc8f7c04bd394ad72e2a3e4e50b52e030f950653",
+      "size_bytes": 440270
+    },
+    {
+      "relative_path": "telemetry.jsonl",
+      "sha256": "c15bef126570a605f613708883be18268134a744731ca34c341af325b23f33b7",
+      "size_bytes": 13892
+    }
+  ],
+  "frozen_parameters": {
+    "backend": "serial_direct",
+    "fallback": "disabled",
+    "load_increments": 7
+  },
+  "governing_sha": "28cf9dd1886b72c6c7c9fc720dc778eddfce4441",
+  "mesh": "M1",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "qualification_claim": "PHASE1_EXECUTION_EVIDENCE_NOT_FORMAL_WP08_CLOSURE",
+  "route": "linear_static_node_to_triangle_lagrange_active_set_regularized_coulomb",
+  "runner_sha": "ff296807ad4cfb72e9cce499e0c2cfca57d18a76",
+  "schema_version": 1,
+  "terminal_classification": "PASS",
+  "terminal_status": "COMPLETED"
+}

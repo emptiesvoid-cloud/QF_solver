@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP04-C2-M3-OWNER-ABORT-001",
+  "work_package": "WP04-C2 linear-solver remediation",
+  "start_sha": "c4d2fd9b8bf0154bad9a30389d5ba426fe6fc7d9",
+  "target": {
+    "level": "C2-M3 nonlinear",
+    "pid": 25932,
+    "mesh": "64x32x32",
+    "elements": 393216,
+    "dofs": 212355
+  },
+  "observation": {
+    "cpu_seconds": 29775.578,
+    "wall_seconds": 21584.007,
+    "rss_bytes": 11225694208,
+    "private_bytes": 15652462592,
+    "threads": 24,
+    "py_spy_main_thread": "98-100 percent sampled time in scipy.sparse.linalg.spsolve / SuperLU"
+  },
+  "terminal_classification": "ABORTED_BY_OWNER_FOR_LINEAR_SOLVER_REMEDIATION",
+  "runner_status_file": "RUNNING",
+  "runner_status_interpretation": "STALE_INTERRUPTED_STATUS_WRITE_NOT_AUTHORITATIVE",
+  "not_a": ["NUMERICAL_FAILURE", "RESOURCE_FAILURE", "TIMEOUT"],
+  "historical_wp04_c_unchanged": true,
+  "wp04_status": "HOLD",
+  "g04_10": "UNRESOLVED_LINEAR_SOLVER_REMEDIATION",
+  "validated_total": 29,
+  "production_source_changed_by_abort_record": false,
+  "full_test_suite_run": false
+}

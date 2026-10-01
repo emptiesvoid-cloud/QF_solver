@@ -1,0 +1,131 @@
+{
+  "schema_version": 2,
+  "record_id": "QF-029-WP09-HEX8-FORMAL-REQUALIFICATION-R2",
+  "work_item": "WP09",
+  "scope": "HEX8-only corotational small-strain J2 bounded qualification",
+  "status": "FROZEN_EXECUTION_CONTRACT",
+  "governing_branch": "0.2.9-unified-nonlinear",
+  "governing_base_sha": "03c35eb7a634a57e5c29d95555316cfb2701d2ad",
+  "authorized_source_sha": "14dcb2d5f12369ac34e2e7a3d5d79094bf0bb437",
+  "policy": {
+    "frozen_policy_code_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "runtime_policy_binding_digest": "895d3c932278c0207b207318216c263a427636d57738bef730917fdc7d9b0ef5"
+  },
+  "owner_authorization": {
+    "hex8_scope": true,
+    "strict_tolerance": true,
+    "independent_reference": true,
+    "deterministic_replay": true,
+    "formal_points_awarded": false,
+    "merge": false,
+    "push": false
+  },
+  "formulation": {
+    "kinematics": "corotational_j2",
+    "decomposition": "F = R U",
+    "local_strain": "U - I",
+    "constitutive_model": "additive small-strain von Mises J2 with isotropic hardening",
+    "force_measure": "P = R sigma_local",
+    "state_transport": "tensorial committed state between corotated frames",
+    "tangent": "central_difference_internal_force_at_fixed_committed_state",
+    "solver_method": "newton_raphson",
+    "production_mechanics_changed": false
+  },
+  "material": {
+    "type": "von_mises_elastoplastic_3d",
+    "E": 1000.0,
+    "nu": 0.3,
+    "yield_stress": 0.02,
+    "hardening_modulus": 10.0
+  },
+  "path": {
+    "load_scale": 0.25,
+    "reference_resultant": [1.0, 0.0, 0.0],
+    "effective_final_resultant": [0.25, 0.0, 0.0],
+    "load_path": [0.25, 0.5, 0.75, 1.0],
+    "load_steps": 4,
+    "max_iterations": 40,
+    "tolerance": 1e-9,
+    "corotational_max_local_strain": 0.05,
+    "adaptive_load_steps": false,
+    "contact": false,
+    "dynamics": false,
+    "follower_loads": false
+  },
+  "mesh_hierarchy": {
+    "family": "HEX8",
+    "levels": [
+      {
+        "stage": "M1",
+        "level": "H7",
+        "cells": 7,
+        "raw_path": "qualification/0_2_9/wp09_hex8_accuracy_remediation_r3/hex8_7x7x7.json",
+        "raw_sha256": "39F722779D95CF1F24F0CE1BC88DFC9C12CA75BC81F4FDF4FA707C94B252AD73",
+        "execution_sha": "a968a5857da7f1758e79827b78322e15edbadca5"
+      },
+      {
+        "stage": "M2",
+        "level": "H8",
+        "cells": 8,
+        "raw_path": "qualification/0_2_9/wp09_hex8_accuracy_remediation_r2/hex8_8x8x8.json",
+        "raw_sha256": "7D74FA0144C354565F0AC7594589A7E559FC717AB50EA2EB77EB82FAA8D0E780",
+        "execution_sha": "e95021fb747f6411e42b55fd1b70c02354407d56"
+      },
+      {
+        "stage": "M3",
+        "level": "H9",
+        "cells": 9,
+        "raw_path": "qualification/0_2_9/wp09_hex8_accuracy_remediation_r1/hex8_9x9x9.json",
+        "raw_sha256": "8F2A0B03E0A0A41AAC243B9BDB455C783D2AAAB5E8FA89DFEA0D51605C3E0590",
+        "execution_sha": "c8b3f1ea707ab73664068c7bae7c5d6373235ff5"
+      }
+    ],
+    "mesh_gate": "M2_to_M3_only"
+  },
+  "gates": {
+    "finite_required": true,
+    "production_status": "PASS",
+    "force_equilibrium_relative_max": 1e-8,
+    "moment_equilibrium_relative_max": 1e-8,
+    "free_residual_relative_max": 1e-7,
+    "minimum_det_f": 1e-10,
+    "maximum_local_strain_norm": 0.05,
+    "replay_relative_tolerance": 1e-12,
+    "replay_absolute_tolerance": 1e-14,
+    "mesh_comparison": {
+      "selected_displacement_relative_max": 0.05,
+      "reaction_relative_max": 0.05,
+      "energy_relative_max": 0.05,
+      "von_mises_relative_max": 0.10,
+      "missing_observable": "FAIL_CLOSED"
+    }
+  },
+  "independent_reference": {
+    "implementation": "NumPy material-point and affine-element reference module",
+    "module": "src/solveur/verification/wp09_independent_reference.py",
+    "must_not_import": ["solveur.elements", "solveur.materials", "solveur.core"],
+    "scope": "constitutive and affine-element recomputation; not an independent global FEM/Newton solve",
+    "required_relative_max": 1e-11,
+    "required_absolute_max": 1e-10,
+    "code_aster": "not required for this internal gate; any Code_Aster correlation remains separate external V&V"
+  },
+  "replay": {
+    "required": true,
+    "kind": "same frozen HEX8 runner and inputs, one deterministic replay per H7/H8/H9",
+    "compare": [
+      "selected_displacement",
+      "reaction_norm",
+      "energy",
+      "von_mises_max",
+      "equivalent_plastic_strain_max",
+      "free_relative_residual",
+      "force_balance_relative_error",
+      "moment_balance_relative_error"
+    ],
+    "missing_or_mismatched_evidence": "FAIL_CLOSED"
+  },
+  "formal_points": {
+    "wp09": "0/8",
+    "award_policy": "Owner review required after every gate; runner cannot award points"
+  }
+}

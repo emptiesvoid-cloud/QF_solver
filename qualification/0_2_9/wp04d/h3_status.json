@@ -1,0 +1,25 @@
+{
+  "Newton_iteration": 12,
+  "RSS": 201953280,
+  "elapsed_wall_time": 4936.012975199963,
+  "label": "H3",
+  "last_event": "SOLVE_COMPLETED",
+  "last_event_status": "COMPLETED",
+  "last_update_timestamp": "2026-09-13T18:02:31.129498+00:00",
+  "latest_Krylov_iterations": 0,
+  "latest_eta_inf": null,
+  "latest_line_search_alpha": 1.0,
+  "latest_linear_solve_time": 0.0,
+  "load_step": 12,
+  "mesh_cells": [
+    32,
+    16,
+    16
+  ],
+  "pid": 43364,
+  "private_memory": 174149632,
+  "result_path": "qualification/0_2_9/wp04d/h3_result.json",
+  "started_timestamp": "2026-09-13T16:40:15.116530+00:00",
+  "status": "PASS",
+  "terminal_reason": "COMPLETED"
+}

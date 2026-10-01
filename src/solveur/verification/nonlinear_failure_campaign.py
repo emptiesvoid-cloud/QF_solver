@@ -110,7 +110,7 @@ def _run_nonfinite_correction_case(
     assembly = _Assembly(lambda _displacement: np.zeros(2), np.eye(2))
     try:
         with patch(
-            "solveur.core.nonlinear.iteration.spsolve",
+            "solveur.core.solvers.linear.spsolve",
             return_value=np.array([value, 0.0]),
         ):
             solve_full_newton(
@@ -601,13 +601,12 @@ def _run_linear_backend_failure_case() -> dict[str, object]:
     """Verify that a sparse backend runtime error has its own failure reason."""
 
     assembly = _Assembly(lambda _displacement: np.zeros(2), np.eye(2))
-    import solveur.core.nonlinear.iteration as nonlinear_iteration
 
     def fail(*args: object, **kwargs: object):
         raise RuntimeError("controlled sparse factorization failure")
 
     try:
-        with patch.object(nonlinear_iteration, "spsolve", side_effect=fail):
+        with patch("solveur.core.solvers.linear.spsolve", side_effect=fail):
             solve_full_newton(
                 assembly,
                 np.array([1.0, 0.0]),

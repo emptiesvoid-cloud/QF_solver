@@ -1,0 +1,140 @@
+{
+  "status": "PASS_DIAGNOSTIC_ONLY",
+  "diagnostic_only": true,
+  "load_scale": 0.2,
+  "original_contract_load_scale": 0.25,
+  "source_sha": "69b082d3330e76b14d850035535d97537f2de86b",
+  "contract_sha256": "8a694acbab56c711c6b9961e57efb0fce4841b847e2dc7cf9ee28ee7f02eb0c9",
+  "rows": [
+    {
+      "stage": "H1",
+      "cells": 1,
+      "status": "PASS",
+      "run_verdict": "WARNING",
+      "node_count": 20,
+      "element_count": 1,
+      "dof_count": 60,
+      "selected_displacement": 0.018404432590695123,
+      "displacement_norm": 0.05673520837525689,
+      "reaction_norm": 0.1999999999866025,
+      "energy": 0.0017736010801543498,
+      "von_mises_max": 0.15390554091721018,
+      "equivalent_plastic_strain_max": 0.026725519961198173,
+      "plastic_dissipation_max": 0.004056416448240735,
+      "min_det_f": 0.9982726642901711,
+      "max_local_strain_norm": 0.03300842137385946,
+      "accepted_steps": 4,
+      "step_count": 4,
+      "newton_iterations": 24,
+      "rejected_increments": 0,
+      "fallback_count": 0,
+      "elapsed_seconds": 31.618606200001523,
+      "equilibrium": {
+        "free_relative_residual": 2.1550590108525354e-10,
+        "force_balance_relative_error": 1.3397482954448385e-11,
+        "moment_balance_relative_error": 9.498275348430456e-12,
+        "reaction_resultant": [
+          -0.1999999999866025,
+          -5.230191280070073e-15,
+          1.0810796702287462e-14
+        ],
+        "reaction_moment": []
+      },
+      "raw_path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp09_hex20_extension\\qualification\\0_2_9\\wp09_hex20_extension\\load_window_020\\h1_hex20_load020.json"
+    },
+    {
+      "stage": "H2",
+      "cells": 2,
+      "status": "PASS",
+      "run_verdict": "WARNING",
+      "node_count": 32,
+      "element_count": 2,
+      "dof_count": 96,
+      "selected_displacement": 0.023651828747932636,
+      "displacement_norm": 0.08019348101225736,
+      "reaction_norm": 0.19999999999928741,
+      "energy": 0.0021652083666954965,
+      "von_mises_max": 0.22146962636197196,
+      "equivalent_plastic_strain_max": 0.03263051521260695,
+      "plastic_dissipation_max": 0.005910179377512061,
+      "min_det_f": 0.9980898946115533,
+      "max_local_strain_norm": 0.04032905373687753,
+      "accepted_steps": 4,
+      "step_count": 4,
+      "newton_iterations": 26,
+      "rejected_increments": 0,
+      "fallback_count": 0,
+      "elapsed_seconds": 67.43772379999791,
+      "equilibrium": {
+        "free_relative_residual": 2.8900523418943144e-11,
+        "force_balance_relative_error": 7.125689699385918e-13,
+        "moment_balance_relative_error": 5.362123306826347e-13,
+        "reaction_resultant": [
+          -0.19999999999928741,
+          -3.642919299551295e-17,
+          -3.2959746043559335e-16
+        ],
+        "reaction_moment": []
+      },
+      "raw_path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp09_hex20_extension\\qualification\\0_2_9\\wp09_hex20_extension\\load_window_020\\h2_hex20_load020.json"
+    },
+    {
+      "stage": "H3",
+      "cells": 3,
+      "status": "PASS",
+      "run_verdict": "WARNING",
+      "node_count": 44,
+      "element_count": 3,
+      "dof_count": 132,
+      "selected_displacement": 0.02653740476298983,
+      "displacement_norm": 0.10223296287175929,
+      "reaction_norm": 0.19999999998976953,
+      "energy": 0.002373277764413669,
+      "von_mises_max": 0.23012896164965158,
+      "equivalent_plastic_strain_max": 0.0383573246220965,
+      "plastic_dissipation_max": 0.008044258592381613,
+      "min_det_f": 0.99826065683861,
+      "max_local_strain_norm": 0.047403681367363774,
+      "accepted_steps": 4,
+      "step_count": 4,
+      "newton_iterations": 24,
+      "rejected_increments": 0,
+      "fallback_count": 0,
+      "elapsed_seconds": 94.41821970000092,
+      "equilibrium": {
+        "free_relative_residual": 3.6388993430046653e-10,
+        "force_balance_relative_error": 1.0230461160490275e-11,
+        "moment_balance_relative_error": 7.2379883691398295e-12,
+        "reaction_resultant": [
+          -0.19999999998976953,
+          8.894794623071078e-15,
+          -6.271025365656158e-15
+        ],
+        "reaction_moment": []
+      },
+      "raw_path": "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp09_hex20_extension\\qualification\\0_2_9\\wp09_hex20_extension\\load_window_020\\h3_hex20_load020.json"
+    }
+  ],
+  "gates": {
+    "H1": true,
+    "H2": true,
+    "H3": true
+  },
+  "strain_envelope": {
+    "status": "PASS",
+    "limit": 0.05
+  },
+  "mesh_h2_to_h3_deltas": {
+    "selected_displacement": 0.1087361797745023,
+    "reaction_norm": 4.758943239497074e-11,
+    "energy": 0.0876717427846366,
+    "von_mises_max": 0.03762818562951062
+  },
+  "formal_points": "0/pending",
+  "limitations": [
+    "not the frozen load scale 0.25 contract",
+    "no formal WP09 points",
+    "no independent global FEM solve",
+    "same x-only hierarchy as the extension study"
+  ]
+}

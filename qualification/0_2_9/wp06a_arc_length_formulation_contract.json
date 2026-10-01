@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0.2.9-WP06A-FORMULATION-001",
+  "work_package": "WP06-A",
+  "phase": "FORMULATION_CONTRACT",
+  "status": "TECHNICAL_CANDIDATE",
+  "branch": "0.2.9-wp06-prep",
+  "baseline_sha": "03166e98a9a0b8cc7978c7ad2a370e441aefdc1e",
+  "source_repository": "emptiesvoid-cloud/QF_solver",
+  "formal_points": "0/1",
+  "formulation_label": "SPHERICAL_ARC_LENGTH_CUSTOM",
+  "named_method_equivalence": "NOT_CLAIMED",
+  "residual_form": "R(u,lambda) = lambda*F_ext - F_internal(u)",
+  "constraint_form": "g = delta_u^T*delta_u + (load_scale*delta_lambda)^2 - radius^2",
+  "delta_definitions": {
+    "delta_u": "trial displacement on free DOFs minus accepted base displacement on free DOFs",
+    "delta_lambda": "trial load factor minus accepted base load factor",
+    "persisted_previous_direction": "previous_du and previous_dlambda in continuation_state"
+  },
+  "source_locations": [
+    {
+      "path": "src/solveur/core/nonlinear/solver.py",
+      "symbols": [
+        "NonlinearStaticSolver.solve"
+      ],
+      "role": "arc_length route dispatch and checkpoint-session ownership"
+    },
+    {
+      "path": "src/solveur/core/nonlinear/arc_length.py",
+      "symbols": [
+        "NonlinearArcLengthMixin._solve_arc_length",
+        "NonlinearArcLengthMixin._solve_arc_length_step",
+        "NonlinearArcLengthMixin._initial_arc_length_radius",
+        "NonlinearArcLengthMixin._radius_for_target",
+        "_validate_arc_continuation_state"
+      ],
+      "role": "continuation equations, predictor, corrector loop, convergence and restart validation"
+    },
+    {
+      "path": "src/solveur/core/nonlinear/iteration.py",
+      "symbols": [
+        "solve_arc_length_correction"
+      ],
+      "role": "sparse augmented correction kernel"
+    },
+    {
+      "path": "src/solveur/core/nonlinear/controls.py",
+      "symbols": [
+        "ArcLengthControls",
+        "NonlinearStep"
+      ],
+      "role": "validated controls and arc diagnostics"
+    },
+    {
+      "path": "src/solveur/core/nonlinear/robustness.py",
+      "symbols": [
+        "UnifiedArcLengthRadiusPolicy"
+      ],
+      "role": "single radius decision authority"
+    }
+  ],
+  "predictor_contract": {
+    "equation": "K_ff*predictor = F_ext,ff",
+    "load_increment": "delta_lambda_pred = direction*radius/sqrt(predictor^T*predictor + load_scale^2)",
+    "displacement_increment": "delta_u_pred = delta_lambda_pred*predictor",
+    "initial_direction": "sign of target load direction",
+    "previous_direction_rule": "displacement projection selects first; scaled previous_dlambda is tie-breaker near zero projection",
+    "projection_threshold": "abs(previous_du^T*predictor) > 1e-12*max(norm(previous_du)*norm(predictor), 1e-30)",
+    "target_clipping": "when load-factor turning is disabled, clip to target_factor - base_factor",
+    "nonfinite_backend_contract": "configured nonlinear linear adapter rejects non-finite matrix, RHS and returned correction"
+  },
+  "radius_contract": {
+    "initial_load_scale": "max(norm(predictor), 1e-12)",
+    "initial_radius": "sqrt(predictor^T*predictor + initial_load_scale^2)/max(load_steps, 1)",
+    "explicit_parameters": [
+      "arc_length_radius",
+      "max_arc_length_radius",
+      "arc_length_load_scale"
+    ],
+    "minimum_radius_default": 1.0e-10,
+    "growth_factor_default": 1.5,
+    "shrink_factor_default": 0.5,
+    "grow_below_iterations_rule": "max(2, max_iterations//4)",
+    "shrink_above_iterations_rule": "max(3, max_iterations//2)",
+    "adaptive_default": false,
+    "accepted_behavior": [
+      "grow when adaptive and iterations <= grow threshold",
+      "shrink when adaptive and iterations >= shrink threshold",
+      "otherwise keep"
+    ],
+    "failure_behavior": "rollback first, then retryable failure shrinks radius; terminal for non-retryable, unverified rollback or minimum-radius boundary",
+    "maximum_retry_count_field": "not separately frozen; rejected count plus minimum radius, max steps and load-factor limits bound execution"
+  },
+  "corrector_contract": {
+    "dimension": "n_free + 1",
+    "matrix": [
+      [
+        "K_ff",
+        "-F_ext,ff"
+      ],
+      [
+        "2*delta_u^T",
+        "2*load_scale^2*delta_lambda"
+      ]
+    ],
+    "rhs": [
+      "residual[free]",
+      "-g"
+    ],
+    "storage": "sparse CSC",
+    "backend": "SciPy sparse direct spsolve",
+    "acceptance_metric": "max(norm(residual[free])/reference, abs(g)/max(radius^2, 1e-30)) <= tolerance",
+    "separate_correction_magnitude_gate": false,
+    "failure_reason": "ARC_LENGTH_FAILURE for rank, runtime, shape or non-finite correction failure"
+  },
+  "augmented_system_contract": {
+    "symmetry": "GENERALLY_NON_SYMMETRIC",
+    "spd_expected": false,
+    "cg_valid_by_default": false,
+    "minres_valid_by_default": false,
+    "conditioning_policy": "not qualified",
+    "iterative_or_petsc_correction": "not qualified"
+  },
+  "orientation_and_root_contract": {
+    "root_enumeration": false,
+    "selection": "orientation sign from predictor and previous accepted path direction",
+    "load_factor_turning": "permitted by controls without requiring displacement-branch reversal",
+    "branch_switching": "not implemented"
+  },
+  "technical_evidence": {
+    "existing_focus": [
+      "tests/unit/test_wp01_d_continuation.py",
+      "tests/unit/test_wp02_d_arc_length_restart.py",
+      "tests/unit/test_wp03_d_arc_radius_policy.py"
+    ],
+    "new_focus": [
+      "tests/unit/test_wp06_ab_arc_length_contract.py"
+    ],
+    "structural_campaign_run": false,
+    "external_solver_run": false,
+    "full_suite_run": false
+  },
+  "validation": {
+    "targeted_tests": {
+      "status": "PASS",
+      "passed": 113,
+      "failed": 0,
+      "scope": "WP06-A/B contract tests plus lightweight arc-length, restart, material-state, radius-policy and TET4 postbuckling unit tests"
+    },
+    "ruff": "PASS",
+    "mypy": "PRE_EXISTING_DIAGNOSTICS",
+    "compileall": "PASS",
+    "json_validation": "PASS",
+    "document_registry": "PASS_SCOPED",
+    "official_document_generation_test": "SKIPPED",
+    "full_test_suite": "SKIPPED_BY_POLICY"
+  },
+  "public_claim_boundary": [
+    "experimental bounded arc-length on nonlinear_static",
+    "no Crisfield or Riks equivalence claim",
+    "no structural limit-point qualification",
+    "no snap-back, bifurcation or branch-switching claim",
+    "no external, high-order or distributed qualification"
+  ],
+  "governance": {
+    "production_mechanics_changed": false,
+    "maturity_changed": false,
+    "validated_total": "29/100",
+    "owner_review_required": true
+  }
+}

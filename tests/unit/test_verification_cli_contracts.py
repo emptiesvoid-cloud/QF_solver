@@ -36,6 +36,7 @@ def test_contact_and_verification_all_commands_cover_success_and_error_codes(mon
     contact["status"] = "FAIL"
     assert verification.command_verify_contact(Namespace(output=tmp_path / "contact", json_report=None)) == int(ExitCode.QUALIFICATION_REJECTED)
 
+    monkeypatch.setattr(verification, "_verify_all_checkout_root", lambda: (tmp_path, []))
     monkeypatch.setattr(verification, "verification_profile", lambda _: SimpleNamespace(name="engineering"))
     monkeypatch.setattr(verification, "_verify_all_commands", lambda *_: [["first"], ["second"]])
     calls = iter([SimpleNamespace(returncode=0), SimpleNamespace(returncode=int(ExitCode.QUALIFICATION_REJECTED))])
@@ -49,6 +50,111 @@ def test_contact_and_verification_all_commands_cover_success_and_error_codes(mon
 
     monkeypatch.setattr(verification.subprocess, "run", lambda *args, **kwargs: SimpleNamespace(returncode=0))
     assert verification.command_verify_all(Namespace(profile="engineering", scope="scope", json_report=None)) == 0
+
+
+def test_verify_all_rejects_installed_package_before_starting_subprocesses(
+    monkeypatch, tmp_path: Path, capsys
+) -> None:
+    installed_module = tmp_path / "venv" / "Lib" / "site-packages" / "solveur" / "cli" / "verification.py"
+    monkeypatch.setattr(verification, "__file__", str(installed_module))
+
+    def unexpected_call(*_args, **_kwargs):
+        raise AssertionError("an installed CLI must be rejected before starting any subprocess")
+
+    monkeypatch.setattr(verification.subprocess, "run", unexpected_call)
+    monkeypatch.setattr(verification, "_verify_all_commands", unexpected_call)
+
+    report_path = tmp_path / "verify-all.json"
+    status = verification.command_verify_all(
+        Namespace(profile="engineering", scope="scope", json_report=report_path)
+    )
+
+    captured = capsys.readouterr()
+    assert status == int(ExitCode.INPUT_OR_MESH)
+    assert "VERIFY-ALL UNSUPPORTED" in captured.out
+    assert "not loaded from this checkout" in captured.out
+    assert not report_path.exists()
+
+
+def _populate_checkout_fixture(root: Path) -> Path:
+    for relative in verification.VERIFY_ALL_CHECKOUT_PATHS:
+        path = root / relative
+        if relative == ".git":
+            continue
+        elif relative in {"src/solveur", "scripts", "tests"}:
+            path.mkdir(parents=True)
+        else:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("fixture", encoding="utf-8")
+    module_path = root / "src" / "solveur" / "cli" / "verification.py"
+    module_path.parent.mkdir(parents=True, exist_ok=True)
+    module_path.write_text("# source fixture\n", encoding="utf-8")
+    return module_path
+
+
+def test_verify_all_checkout_preflight_accepts_real_git_checkout() -> None:
+    expected_root = Path(verification.__file__).resolve().parents[3]
+    root, failures = verification._verify_all_checkout_root()
+
+    assert failures == []
+    assert root == expected_root
+
+
+def test_verify_all_rejects_fake_git_marker_and_does_not_start_suite_commands(
+    monkeypatch, tmp_path: Path
+) -> None:
+    module_path = _populate_checkout_fixture(tmp_path)
+    (tmp_path / ".git").mkdir()
+    monkeypatch.setattr(verification, "__file__", str(module_path))
+    monkeypatch.setattr(
+        verification,
+        "_verify_all_commands",
+        lambda *_: (_ for _ in ()).throw(AssertionError("suite commands must not start")),
+    )
+    monkeypatch.setattr(verification, "verification_profile", lambda _: SimpleNamespace(name="engineering"))
+
+    status = verification.command_verify_all(
+        Namespace(profile="engineering", scope="scope", json_report=tmp_path / "must-not-exist.json")
+    )
+
+    assert status == int(ExitCode.INPUT_OR_MESH)
+    assert not (tmp_path / "must-not-exist.json").exists()
+
+
+def test_verify_all_ignores_checkout_found_in_current_directory_for_installed_module(
+    monkeypatch, tmp_path: Path
+) -> None:
+    installed_module = tmp_path / "venv" / "Lib" / "site-packages" / "solveur" / "cli" / "verification.py"
+    monkeypatch.setattr(verification, "__file__", str(installed_module))
+    monkeypatch.chdir(Path(__file__).resolve().parents[2])
+
+    def forbidden_subprocess(*_args, **_kwargs):
+        raise AssertionError("installed CLI must not search cwd/parent checkouts or launch children")
+
+    monkeypatch.setattr(verification.subprocess, "run", forbidden_subprocess)
+    root, failures = verification._verify_all_checkout_root()
+
+    assert root is None
+    assert failures == ["CLI module is not loaded from this checkout's src/solveur tree"]
+
+
+def test_verify_all_required_paths_enforce_file_and_directory_types(tmp_path: Path) -> None:
+    (tmp_path / ".git").mkdir()
+    for relative in verification.VERIFY_ALL_CHECKOUT_PATHS:
+        path = tmp_path / relative
+        if relative == ".git":
+            continue
+        if relative == "src/solveur":
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("not a directory", encoding="utf-8")
+            continue
+        if relative in verification.VERIFY_ALL_CHECKOUT_DIRECTORIES:
+            path.mkdir(parents=True)
+        else:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("fixture", encoding="utf-8")
+
+    assert verification._verify_all_missing_checkout_paths(tmp_path) == ["src/solveur"]
 
 
 def test_readiness_promotion_owner_and_qualification_commands(monkeypatch, tmp_path: Path) -> None:

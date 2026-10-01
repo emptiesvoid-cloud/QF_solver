@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-029-WP14-G06-G08-REMEDIATION-R2.1",
+  "revision": "R2.1",
+  "status": "FROZEN_PROSPECTIVE",
+  "scope": "Prospective verification of the documentation registry/schema/build corrections and the exact GitHub Actions platform matrix. This contract does not close WP14, clear unrelated G03-G05 failures, award points, or authorize release.",
+  "provenance": {
+    "governing_branch": "0.2.9-unified-nonlinear",
+    "governing_base_sha": "99e0bd4b65ce43ad41a369768a4c8fe78dd7cfbb",
+    "candidate_branch": "codex/wp14-g06-g08-remediation",
+    "implementation_source_sha": "3337107aca2587166e1c649a481892eba1c343f5",
+    "contract_freeze_commit_rule": "The commit containing this contract is the freeze commit. Record its full SHA before running any command listed below.",
+    "prior_contract_preservation": "The R2 contract and its failed execution record remain unchanged and are historical evidence. R2.1 is a new prospective contract; it does not overwrite or retroactively reclassify R2."
+  },
+  "change_policy": {
+    "allowed": [
+      "The 153 metadata-only document registry/frontmatter reconciliations in implementation_source_sha.",
+      "The duplicate legacy document ID repair, preserving the prior identifier as legacy metadata.",
+      "Lifecycle-status alias normalization and accurate audit-pack rendering of live scanner findings.",
+      "Execution of the six frozen G06 commands and the exact G08 workflow on the candidate commit."
+    ],
+    "prohibited": [
+      "Solver or production mechanics changes.",
+      "Changing thresholds, tests, release scope/version, workflow matrix, or acceptance criteria after observing results.",
+      "Inventing reviewer, approver, Owner, or approval identities/decisions.",
+      "Rewriting historical failures, prior R1/R2 reports, raw evidence, or the official ledger.",
+      "Treating missing evidence, an unavailable workflow leg, or a command that did not execute as PASS."
+    ]
+  },
+  "g06_documentation": {
+    "acceptance": "All six frozen commands complete with exit code 0 on the exact frozen candidate source. The controlled Markdown inventory is fully represented in the registry; required metadata keys exist; parsed lifecycle status matches the registry after documented alias normalization; referenced requirements/examples/tests resolve. A successful registry/build gate does not imply complete Owner review metadata.",
+    "required_metadata_fields": ["revision", "applicable_version", "reviewer", "approver"],
+    "review_metadata_interpretation": "Non-empty reviewer and approver fields measure metadata completeness only. They do not establish an Owner decision. Do not fabricate names. Report review-scope completeness independently from registry/build status; incomplete review metadata remains an explicit governance blocker wherever the governing release gate requires it.",
+    "frozen_preflight_snapshot": {
+      "registered_documents": 589,
+      "active_documents_excluding_superseded": 584,
+      "controlled_markdown_missing_from_registry": 0,
+      "registry_markdown_extra_or_invalid": 0,
+      "review_scope_documents": 111,
+      "review_scope_metadata_complete": 19,
+      "review_scope_metadata_incomplete": 92
+    },
+    "commands": [
+      {"argv": ["python", "-m", "pytest", "-m", "benchmark"], "env": {}},
+      {"argv": ["python", "scripts/build_docs.py", "--profile", "engineering"], "env": {}},
+      {"argv": ["python", "-m", "pytest", "tests/documentation"], "env": {"QF_SOLVER_RUN_EVIDENCE": "1"}},
+      {"argv": ["mkdocs", "build", "--strict", "-f", ".github/pages/mkdocs.yml"], "env": {}},
+      {"argv": ["python", "-m", "pytest", "tests/documentation/test_docs_generation.py", "-q"], "env": {}},
+      {"argv": ["python", "-m", "pytest", "tests/integration/test_packaging.py", "-q"], "env": {}}
+    ],
+    "environment_setup": "Before command 4, create a fresh temporary virtual environment outside the repository and install the project's frozen documentation dependency set from requirements/baseline-docs.txt (or, if that file lacks MkDocs, the exact declared docs extra from pyproject.toml). Record Python and installed package versions. Add that environment's Scripts directory to PATH, then run the unchanged command 4 argv. Environment setup is recorded separately and is not counted as one of the six gates.",
+    "generated_output_handling": "The engineering docs build may rewrite large generated artifacts. Preserve the pre-run clean-tree snapshot, archive every generated output outside Git with path, size, and SHA-256, and restore only outputs produced by this command after confirming they were clean/unmodified before execution. Do not discard or overwrite user data.",
+    "failure_behavior": "FAIL_CLOSED; preserve command logs and outputs, report exact failing gate, and do not weaken criteria."
+  },
+  "g08_platform_matrix": {
+    "workflow": ".github/workflows/quality.yml",
+    "required_job": "standard-baseline",
+    "matrix": {
+      "operating_systems": ["ubuntu-latest", "windows-latest"],
+      "python_versions": ["3.10", "3.13"],
+      "required_legs": [
+        "ubuntu-latest / Python 3.10",
+        "ubuntu-latest / Python 3.13",
+        "windows-latest / Python 3.10",
+        "windows-latest / Python 3.13"
+      ]
+    },
+    "acceptance": "Every required standard-baseline leg completes successfully for the exact candidate commit. Local results or runs against another SHA do not satisfy this gate.",
+    "trigger": "The workflow is configured for pull_request to main, push to main, or workflow_dispatch. A candidate-branch run requires an authorized PR or workflow dispatch; no push, PR, or external workflow trigger is included in this local contract execution.",
+    "failure_behavior": "NOT_RUN remains NOT_RUN. Any missing, cancelled, stale-SHA, or failing matrix leg blocks G08 PASS."
+  },
+  "governance": {
+    "wp14_closure": false,
+    "official_points_awarded_by_runner": false,
+    "ledger_update": false,
+    "merge_or_release": false,
+    "historical_failures_preserved": true
+  }
+}

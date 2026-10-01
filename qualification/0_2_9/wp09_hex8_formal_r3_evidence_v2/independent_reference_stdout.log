@@ -1,0 +1,58 @@
+{
+  "status": "PASS_INDEPENDENT_REFERENCE",
+  "execution_sha": "bb86e8a0a2b6b30945a610a8fb7770bae88beea5",
+  "families": [
+    {
+      "family": "TET4",
+      "status": "PASS",
+      "max_relative_errors": {
+        "deformation_gradient": 0.0,
+        "rotation": 0.0,
+        "stretch": 0.0,
+        "local_strain": 0.0,
+        "local_stress": 0.0,
+        "cauchy_stress": 0.0,
+        "equivalent_plastic_strain": 0.0,
+        "yield_function": 0.0,
+        "plastic_dissipation": 0.0
+      },
+      "max_absolute_errors": {
+        "deformation_gradient": 0.0,
+        "rotation": 0.0,
+        "stretch": 0.0,
+        "local_strain": 0.0,
+        "local_stress": 0.0,
+        "cauchy_stress": 0.0,
+        "equivalent_plastic_strain": 0.0,
+        "yield_function": 0.0,
+        "plastic_dissipation": 0.0
+      }
+    },
+    {
+      "family": "HEX8",
+      "status": "PASS",
+      "max_relative_errors": {
+        "deformation_gradient": 0.0,
+        "rotation": 4.347879687390627e-16,
+        "stretch": 4.454254863089896e-16,
+        "local_strain": 1.3415194880885992e-13,
+        "local_stress": 3.0352920503514236e-13,
+        "cauchy_stress": 1.79076518689338e-13,
+        "equivalent_plastic_strain": 2.870417051210033e-13,
+        "yield_function": 0.0,
+        "plastic_dissipation": 2.8718162171553486e-13
+      },
+      "max_absolute_errors": {
+        "deformation_gradient": 0.0,
+        "rotation": 3.3306690738754696e-16,
+        "stretch": 4.440892098500626e-16,
+        "local_strain": 4.0245584642661925e-16,
+        "local_stress": 3.9390712913700554e-13,
+        "cauchy_stress": 4.098943406916078e-13,
+        "equivalent_plastic_strain": 1.700029006457271e-16,
+        "yield_function": 0.0,
+        "plastic_dissipation": 3.5301622736128024e-16
+      }
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP03-C-ADAPTIVE-POLICY-001",
+  "work_package": "WP03-C",
+  "status": "IMPLEMENTED_TARGETED",
+  "baseline_sha": "e2f3e07310b4348c01ee68f764de0f986436995e",
+  "final_sha": null,
+  "final_sha_policy": "The exact final commit SHA is reported after the dedicated commit; this record is not self-referential.",
+  "branch": "0.2.9-unified-nonlinear",
+  "validated_points": 0,
+  "validated_total": 22,
+  "scope": {
+    "implemented": [
+      "one formulation-neutral UnifiedAdaptiveStepPolicy",
+      "common retry/cutback, growth, shrink and terminal boundary decisions",
+      "stateless adaptive Full Newton delegation",
+      "stateful material adaptive load-control delegation",
+      "deterministic adaptive decision diagnostics",
+      "stale verification override signature correction for the B16 seam",
+      "focused policy, route and preservation tests"
+    ],
+    "deferred": [
+      "WP03-D arc-length radius policy",
+      "difficulty-improvement evidence",
+      "maturity promotion",
+      "adaptive penalty-contact qualification"
+    ]
+  },
+  "signature_mismatch": {
+    "classification": "TEST_FIXTURE_STALE",
+    "reason": "The production _solve_load_step seam intentionally accepts commit_to_inputs to suppress premature mirror publication during adaptive trials; the injected verification override did not mirror that existing keyword-only seam.",
+    "resolved": true,
+    "production_compatibility_changed": false,
+    "verification_fixture_updated": "src/solveur/verification/robustness_mesh.py"
+  },
+  "policy": {
+    "policy_id": "qf-solver-unified-adaptive-step",
+    "policy_version": 1,
+    "authority": "UnifiedAdaptiveStepPolicy",
+    "policy_source": "PUBLIC_DEFAULT",
+    "controls_preserved": {
+      "cutback_factor": 0.5,
+      "growth_factor": 1.5,
+      "maximum_cutbacks": 25,
+      "initial_min_max": "AdaptiveLoadControls existing values",
+      "grow_below_iterations": "existing rule",
+      "shrink_above_iterations": "existing rule"
+    },
+    "semantics": {
+      "retryable": [
+        "MAX_ITERATIONS",
+        "CONVERGENCE_STAGNATION",
+        "LINE_SEARCH_FAILURE",
+        "CONTACT_UPDATE_FAILURE",
+        "CONTACT_PENETRATION_EXCESSIVE"
+      ],
+      "owner_policy_dependent": ["SINGULAR_TANGENT", "LINEAR_SOLVER_FAILURE"],
+      "non_retryable": [
+        "MATERIAL_UPDATE_FAILURE",
+        "STATE_CORRUPTION",
+        "NAN_DETECTED",
+        "INF_DETECTED",
+        "INVALID_ELEMENT",
+        "CHECKPOINT_FAILURE",
+        "MIN_INCREMENT_REACHED"
+      ],
+      "minimum_increment": "candidate < minimum is terminal; equality is permitted",
+      "maximum_cutbacks": "the Nth rejected attempt is recorded and terminal; no N+1 attempt",
+      "growth": "iterations <= grow_below_iterations, capped at maximum",
+      "shrink": "iterations >= shrink_above_iterations, floored at minimum",
+      "final_clipping": "proposed increment is clipped to the remaining target, while next policy increment uses the unclipped policy increment"
+    }
+  },
+  "authority_audit": {
+    "adaptive_policy_authority_count": 1,
+    "adaptive_cutback_policy_loop_count": 1,
+    "adaptive_growth_policy_loop_count": 1,
+    "stateless_route": "solve_adaptive_full_newton delegates decisions to UnifiedAdaptiveStepPolicy",
+    "stateful_route": "NonlinearLoadControlMixin._solve_adaptive_load_steps delegates decisions to UnifiedAdaptiveStepPolicy",
+    "accepted_state_authority": "UnifiedContinuationController + NonlinearStateTransaction",
+    "arc_length_radius_policy": "unchanged and deferred to WP03-D",
+    "duplicate_route_decision_loops": 0
+  },
+  "baseline": {
+    "record": "qualification/0_2_9/wp03_c_baseline.json",
+    "b08": "stateful [0.25, 0.5, 0.25]; stateless [1.0]; zero rejections",
+    "b09": "one retry 1.0 -> 0.5, then accepted to factor 1.0",
+    "b10": "three retries 1.0 -> 0.5 -> 0.25 -> 0.125, then accepted eighths",
+    "b11": "MIN_INCREMENT_REACHED at 0.5 < 0.75",
+    "max_cutback": "MAX_ITERATIONS after two rejected attempts at max_cutbacks=2",
+    "b16": "fixture TypeError before rollback assertions"
+  },
+  "after_results": {
+    "b08": {
+      "status": "PASS",
+      "stateless": {
+        "accepted_increments": [1.0],
+        "accepted_load_factors": [1.0],
+        "rejected_total": 0,
+        "policy_decision": "ACCEPT_GROW"
+      },
+      "stateful_regression": "11 passed, 14 deselected"
+    },
+    "b09": {
+      "status": "PASS",
+      "retry_increments": [0.5],
+      "accepted_load_factors": [0.5, 1.0],
+      "rejected_total": 1
+    },
+    "b10": {
+      "status": "PASS",
+      "retry_increments": [0.5, 0.25, 0.125],
+      "accepted_load_factors": [0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0],
+      "rejected_total": 3
+    },
+    "b11": {
+      "status": "PASS",
+      "terminal_reason": "MIN_INCREMENT_REACHED",
+      "accepted_state_preserved": true
+    },
+    "max_cutback": {
+      "status": "PASS",
+      "terminal_reason": "MAX_ITERATIONS",
+      "rejected_total": 2,
+      "extra_attempt": false
+    },
+    "b16": {
+      "status": "PASS",
+      "classification": "TEST_FIXTURE_STALE",
+      "clean_retry": true,
+      "command": "python -m pytest -q tests/unit/test_nonlinear_multielement.py::test_adversarial_rollback_retries_from_clean_committed_state"
+    },
+    "restart": {
+      "status": "PASS_BOUNDED",
+      "evidence": "WP02-C adaptive restart subset passed; WP03-C tests preserve stored next_increment and rejection path"
+    }
+  },
+  "targeted_validation": [
+    {"command": "python -m pytest -q tests/unit/test_wp03_c_adaptive_policy.py", "result": "35 passed"},
+    {"command": "python -m pytest -q tests/unit/test_wp03_b_robustness_authority.py", "result": "30 passed"},
+    {"command": "python -m pytest -q tests/unit/test_nonlinear_load_path.py -k adaptive", "result": "11 passed, 14 deselected"},
+    {"command": "python -m pytest -q tests/unit/test_geometric_nonlinear_adaptive.py", "result": "5 passed"},
+    {"command": "python -m pytest -q tests/unit/test_wp01_d_continuation.py -k 'adaptive or min_increment'", "result": "4 passed, 18 deselected"},
+    {"command": "python -m pytest -q tests/unit/test_nonlinear_multielement.py::test_adversarial_rollback_retries_from_clean_committed_state", "result": "1 passed"},
+    {"command": "python -m pytest -q tests/unit/test_wp02_b_checkpoint_v2.py", "result": "28 passed"},
+    {"command": "python -m pytest -q tests/unit/test_wp02_c_restart_migration.py", "result": "25 passed"},
+    {"command": "python -m pytest -q tests/unit/test_wp02_d_arc_length_restart.py", "result": "28 passed"},
+    {"command": "python -m pytest -q tests/unit/test_wp02_d1_arc_length_material_state.py", "result": "10 passed"},
+    {"command": "python -m pytest -q tests/unit/test_wp01_c_unified_newton.py tests/unit/test_wp01_d_continuation.py", "result": "34 passed"},
+    {"command": "python -m pytest -q tests/unit/test_nonlinear_contracts.py tests/unit/test_nonlinear_state_transaction_contract.py tests/unit/test_robustness_state_transactions.py", "result": "12 passed"},
+    {"command": "python -m pytest -q tests/unit/test_nonlinear_failure_modes.py tests/unit/test_nonlinear_failure_campaign.py", "result": "21 passed"},
+    {"command": "python -m pytest -q tests/unit/test_j2_plastic_dissipation.py tests/unit/test_j2_multielement_external.py tests/unit/test_robustness_j2_multiaxial.py", "result": "5 passed"},
+    {"command": "python -m pytest -q tests/unit/test_geometric_nonlinear_contracts.py tests/unit/test_geometric_nonlinear_public.py tests/unit/test_geometric_nonlinear_adaptive.py", "result": "20 passed"},
+    {"command": "python -m pytest -q tests/unit/test_nonlinear_contact_composition.py tests/unit/test_frictionless_contact.py", "result": "30 passed"}
+  ],
+  "quality_tools": {
+    "ruff": "PASS",
+    "mypy": "14 inherited diagnostics in load-control mixin; 0 WP03-C-added diagnostics",
+    "compileall": "PASS",
+    "json_validation": "PASS",
+    "mkdocs_strict": "PASS"
+  },
+  "gate_status": {
+    "G03-01": {"status": "PARTIAL", "reason": "Fixed and adaptive load-control routes share the robustness/accepted-state architecture; arc-length radius policy remains WP03-D."},
+    "G03-02": {"status": "PASS_BOUNDED", "reason": "Both adaptive surfaces use one policy authority while retaining separate physics kernels."},
+    "G03-03": {"status": "PASS", "reason": "Existing WP03-B stagnation authority remains green."},
+    "G03-04": {"status": "PASS", "reason": "Existing WP03-B line-search authority remains green."},
+    "G03-05": {"status": "PASS", "reason": "Retryable failure cutback, rollback-before-retry and terminal classification are focused-tested."},
+    "G03-06": {"status": "PASS", "reason": "Inclusive growth/shrink boundaries, caps and floors use the common policy."},
+    "G03-07": {"status": "PASS", "reason": "Minimum increment and maximum cutback boundaries are explicit and shared."},
+    "G03-08": {"status": "PASS_BOUNDED", "reason": "Adaptive route rollback and accepted-state preservation are targeted-tested; arc radius remains outside this step."},
+    "G03-09": {"status": "PASS_BOUNDED", "reason": "B08/B09/B10/B11 and legacy adaptive/geometric regressions preserve bounded outcomes without maturity changes."},
+    "G03-10": {"status": "NOT_YET_DEMONSTRATED", "reason": "Policy correctness and classification do not by themselves demonstrate improved convergence of a difficult physical case."}
+  },
+  "integrity": {
+    "numerical_formulation_changed": false,
+    "element_formulation_changed": false,
+    "maturity_changed": false,
+    "historical_evidence_changed": false,
+    "checkpoint_failure_causes_physical_cutback": false,
+    "full_test_suite_run": false,
+    "known_limitations": [
+      "WP03-D arc-length radius-policy consolidation remains future work.",
+      "Adaptive penalty-contact baseline is unsupported/inherited and is not promoted.",
+      "Difficult-case improvement evidence is not demonstrated.",
+      "Inherited load-control mixin mypy debt remains bounded."
+    ]
+  }
+}

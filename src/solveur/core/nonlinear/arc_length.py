@@ -9,15 +9,20 @@ import numpy as np
 from solveur.core.dofs import DofManager
 from solveur.core.errors import InputValidationError, NumericalConvergenceError
 from solveur.core.nonlinear.material_state import (
-    MaterialStateSession,
     MaterialStateTable,
     commit_material_states,
+    copy_material_states,
 )
 from solveur.core.model import FiniteElementModel
 from solveur.core.nonlinear.checkpoint import NonlinearCheckpointSession
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.core.nonlinear.controls import ArcLengthControls, NonlinearStep
+from solveur.core.nonlinear.driver import (
+    UnifiedContinuationController,
+)
 from solveur.core.nonlinear.iteration import solve_arc_length_correction
+from solveur.core.nonlinear.robustness import UnifiedArcLengthRadiusPolicy
+from solveur.core.nonlinear.state import NonlinearState
 from solveur.core.nonlinear.support import _failure_reason_value
 
 
@@ -36,8 +41,9 @@ class NonlinearArcLengthMixin:
         tolerance: float,
         linear_method: str,
         checkpoint_session: NonlinearCheckpointSession | None = None,
-        continuation_state: dict[str, object] | None = None,
         arc_length_controls: ArcLengthControls | None = None,
+        *,
+        initial_state: NonlinearState | None = None,
     ) -> list[NonlinearStep]:
         params = model.analysis.parameters
         target_factor = float(params.get("target_load_factor", 1.0))
@@ -66,27 +72,36 @@ class NonlinearArcLengthMixin:
             if control_dof_value < 0 or control_dof_value >= dofs.ndof or control_dof_value not in set(free.tolist()):
                 raise InputValidationError("arc_length_control_dof must identify a free global DDL.")
             control_dof = control_dof_value
-        current_factor = float((continuation_state or {}).get("load_factor", 0.0))
         history: list[NonlinearStep] = []
         reference = max(float(np.linalg.norm(loads[free])), 1.0)
-        if continuation_state:
-            radius = float(continuation_state["radius"])
-            maximum_radius = float(
-                continuation_state.get(
-                    "maximum_radius",
-                    params.get("max_arc_length_radius", radius),
-                )
+        restored_state = initial_state.detached_copy() if initial_state is not None else None
+        if restored_state is not None and restored_state.continuation_state:
+            _validate_arc_continuation_state(
+                restored_state,
+                free=free,
+                target_factor=target_factor,
+                load_factor_limit=load_factor_limit,
+                stop_mode=stop_mode,
+                allow_turning=allow_turning,
+                control_dof=control_dof,
             )
-            load_scale = float(continuation_state["load_scale"])
-            previous_du = np.asarray(continuation_state["previous_du"], dtype=float)
-            previous_dlambda = float(continuation_state.get("previous_dlambda", 0.0))
-            if previous_du.shape != (free.size,) or not np.all(np.isfinite(previous_du)):
-                raise InputValidationError("Arc-length checkpoint previous displacement increment is invalid.")
-            if not np.isfinite(previous_dlambda):
-                raise InputValidationError("Arc-length checkpoint previous load increment is invalid.")
-            if not np.isfinite(radius) or radius <= 0.0 or not np.isfinite(load_scale) or load_scale <= 0.0:
-                raise InputValidationError("Arc-length checkpoint radius or load scale is invalid.")
-            step = checkpoint_session.restart_step if checkpoint_session is not None else 0
+            current_factor = float(restored_state.load_factor)
+            accepted_continuation = restored_state.continuation_state
+            radius = float(accepted_continuation["radius"])
+            maximum_radius = float(accepted_continuation["maximum_radius"])
+            load_scale = float(accepted_continuation["load_scale"])
+            previous_du = np.asarray(accepted_continuation["previous_du"], dtype=float)
+            previous_dlambda = float(accepted_continuation["previous_dlambda"])
+            step = int(accepted_continuation["accepted_step"])
+            if checkpoint_session is not None and step != checkpoint_session.restart_step:
+                raise InputValidationError("Arc-length checkpoint step and continuation state are inconsistent.")
+            displacement[:] = restored_state.displacement
+            # Keep the caller-visible compatibility mirror synchronized with
+            # the accepted restart state. Rebinding this local parameter
+            # would leave the outer solver's material-state object stale
+            # after the resumed run, even though the controller and
+            # checkpoints held the correct accepted state.
+            commit_material_states(material_states, restored_state.material_state)
         else:
             radius, load_scale = self._initial_arc_length_radius(
                 model,
@@ -107,6 +122,26 @@ class NonlinearArcLengthMixin:
             previous_du = np.zeros(free.size, dtype=float)
             previous_dlambda = 0.0
             step = 0
+            current_factor = 0.0
+            restored_state = NonlinearState(
+                displacement=displacement,
+                load_factor=current_factor,
+                material_state=copy_material_states(material_states),
+                contact_state=(initial_state.contact_state if initial_state is not None else {}),
+                continuation_state={
+                    "accepted_step": step,
+                    "load_factor": current_factor,
+                    "radius": radius,
+                    "maximum_radius": maximum_radius,
+                    "load_scale": load_scale,
+                    "previous_du": previous_du.tolist(),
+                    "previous_dlambda": previous_dlambda,
+                    "target_load_factor": target_factor,
+                    "stop_mode": stop_mode,
+                    "allow_load_factor_turning": allow_turning,
+                    "control_dof": control_dof,
+                },
+            )
         if (
             not np.isfinite(maximum_radius)
             or maximum_radius < controls.minimum_radius
@@ -115,47 +150,63 @@ class NonlinearArcLengthMixin:
             raise InputValidationError(
                 "max_arc_length_radius must be finite and at least the current arc-length radius."
             )
-        def target_reached() -> bool:
-            return target_direction * (current_factor - target_factor) >= -1.0e-12
+        controller = UnifiedContinuationController(restored_state)
+        radius_policy = UnifiedArcLengthRadiusPolicy(controls)
+        self._arc_radius_policy_diagnostics = radius_policy.configuration_diagnostics()
+        self._continuation_rejection_log: list[dict[str, object]] = []
+        self._continuation_commit_count = 0
+        accepted_step = step
+        effective_retry_radius: float | None = None
 
-        while (not target_reached()) if stop_mode == "target_load" else step < max_steps:
-            step += 1
+        def target_reached() -> bool:
+            return target_direction * (controller.accepted_state.load_factor - target_factor) >= -1.0e-12
+
+        while (not target_reached()) if stop_mode == "target_load" else accepted_step < max_steps:
+            step = accepted_step + 1
             if step > max_steps:
                 raise NumericalConvergenceError(
                     "Arc-length continuation reached max_arc_steps before the target load factor.",
                     reason=NonlinearFailureReason.ARC_LENGTH_FAILURE,
                     diagnostics={
                         "max_arc_steps": max_steps,
-                        "current_load_factor": current_factor,
+                        "current_load_factor": controller.accepted_state.load_factor,
                         "target_load_factor": target_factor,
                         "last_radius": radius,
                     },
                 )
+            accepted = controller.accepted_state
+            current_factor = accepted.load_factor
+            accepted_continuation = accepted.continuation_state
+            previous_du = np.asarray(accepted_continuation["previous_du"], dtype=float)
+            previous_dlambda = float(accepted_continuation.get("previous_dlambda", 0.0))
             step_radius = self._radius_for_target(
                 model,
                 dofs,
-                displacement,
+                accepted.displacement,
                 free,
                 loads,
-                material_states,
+                accepted.material_state,
                 current_factor,
                 target_factor,
                 radius,
                 load_scale,
                 linear_method,
             )
+            if effective_retry_radius is not None:
+                step_radius = min(step_radius, effective_retry_radius)
+                effective_retry_radius = None
             step_radius = max(step_radius, controls.minimum_radius)
-            trial = displacement.copy()
-            state_session = MaterialStateSession(material_states)
-            trial_states = state_session.begin_trial()
+            target_clipped = step_radius < radius
+            trial = controller.begin_trial()
+            self._last_arc_length_updated_states = None
             try:
-                info, current_factor, previous_du = self._solve_arc_length_step(
+                info, trial_factor, trial_previous_du = self._solve_arc_length_step(
                     model,
                     dofs,
-                    trial,
+                    trial.displacement,
                     free,
                     loads,
-                    trial_states,
+                    trial.material_state,
                     step,
                     current_factor,
                     target_factor,
@@ -172,101 +223,138 @@ class NonlinearArcLengthMixin:
                     target_direction=target_direction,
                     control_dof=control_dof,
                 )
-                previous_dlambda = info.load_increment
-            except NumericalConvergenceError as error:
-                state_session.rollback()
-                if error.reason not in {
-                    None,
-                    NonlinearFailureReason.ARC_LENGTH_FAILURE,
-                    NonlinearFailureReason.LINE_SEARCH_FAILURE,
-                    NonlinearFailureReason.MAX_ITERATIONS,
-                    NonlinearFailureReason.SINGULAR_TANGENT,
-                }:
-                    raise
-                previous_radius = radius
-                radius *= controls.shrink_factor
-                self._rejected_increments += 1
-                self._rejection_log.append(
-                    {
-                        "path": "arc_length",
-                        "step": step,
-                        "base_load_factor": current_factor,
-                        "rejected_radius": step_radius,
-                        "retry_radius": radius,
-                        "previous_radius": previous_radius,
-                        "failure_reason": _failure_reason_value(error),
-                        "failure_diagnostics": dict(error.diagnostics),
-                        "rollback_before_retry": True,
-                    }
+                updated_states = self._last_arc_length_updated_states
+                if updated_states is None:
+                    updated_states = copy_material_states(trial.material_state)
+                radius_decision = radius_policy.on_accept(
+                    accepted_step=step,
+                    base_load_factor=current_factor,
+                    policy_radius=radius,
+                    effective_attempt_radius=step_radius,
+                    maximum_radius=maximum_radius,
+                    iterations=info.iterations,
+                    target_clipped=target_clipped,
                 )
-                if radius < controls.minimum_radius:
-                    raise NumericalConvergenceError(
-                        "Arc-length continuation reached the minimum radius.",
-                        reason=NonlinearFailureReason.ARC_LENGTH_FAILURE,
-                        diagnostics={
-                            "failure_stage": "minimum_radius",
-                            "minimum_radius": controls.minimum_radius,
-                            "last_radius": radius,
-                            "last_failure_reason": _failure_reason_value(error),
-                            "last_failure_diagnostics": dict(error.diagnostics),
-                        },
-                    ) from error
-                step -= 1
-                continue
+                next_radius = float(radius_decision.accepted_next_radius or radius)
+                trial.load_factor = trial_factor
+                trial.material_state = copy_material_states(updated_states)
+                trial.continuation_state = {
+                    "accepted_step": step,
+                    "load_factor": trial_factor,
+                    "radius": next_radius,
+                    "maximum_radius": maximum_radius,
+                    "load_scale": load_scale,
+                    "previous_du": trial_previous_du.tolist(),
+                    "previous_dlambda": info.load_increment,
+                    "target_load_factor": target_factor,
+                    "stop_mode": stop_mode,
+                    "allow_load_factor_turning": allow_turning,
+                    "control_dof": control_dof,
+                }
+                trial.accepted_increment_metadata = {
+                    "step": step,
+                    "arc_length_radius": step_radius,
+                    "accepted_radius_for_next_trial": next_radius,
+                    "accepted_load_factor": trial_factor,
+                }
+                controller.commit()
+                self._continuation_commit_count = controller.transaction.commit_count
+                accepted = controller.accepted_state
+                radius_policy.record_accepted_state_digest(accepted.digest)
+                displacement[:] = accepted.displacement
+                commit_material_states(material_states, accepted.material_state)
+                current_factor = accepted.load_factor
+                previous_du = np.asarray(
+                    accepted.continuation_state["previous_du"],
+                    dtype=float,
+                )
+                previous_dlambda = float(accepted.continuation_state["previous_dlambda"])
+                radius = float(accepted.continuation_state["radius"])
+                accepted_step = step
+                history.append(info)
+                self._arc_radius_policy_diagnostics = radius_policy.configuration_diagnostics()
             except RuntimeError as error:
-                state_session.rollback()
-                previous_radius = radius
-                radius *= controls.shrink_factor
-                self._rejected_increments += 1
-                self._rejection_log.append(
-                    {
-                        "path": "arc_length",
+                failure_diagnostics = (
+                    dict(error.diagnostics)
+                    if isinstance(error, NumericalConvergenceError)
+                    else {"message": str(error)}
+                )
+                retry_classification = controller.rollback(
+                    error,
+                    path="arc_length",
+                    metadata={
                         "step": step,
                         "base_load_factor": current_factor,
                         "rejected_radius": step_radius,
-                        "retry_radius": radius,
-                        "previous_radius": previous_radius,
-                        "failure_reason": type(error).__name__,
-                        "failure_diagnostics": {"message": str(error)},
-                        "rollback_before_retry": True,
-                    }
-                )
-                if radius < controls.minimum_radius:
-                    raise NumericalConvergenceError(
-                        "Arc-length continuation reached the minimum radius.",
-                        reason=NonlinearFailureReason.ARC_LENGTH_FAILURE,
-                        diagnostics={
-                            "failure_stage": "minimum_radius",
-                            "minimum_radius": controls.minimum_radius,
-                            "last_radius": radius,
-                            "last_failure_reason": _failure_reason_value(error),
-                        },
-                    ) from error
-                step -= 1
-                continue
-            displacement[:] = trial
-            state_session.commit()
-            history.append(info)
-            if controls.adaptive_radius:
-                if info.iterations <= controls.grow_below_iterations:
-                    radius = min(maximum_radius, radius * controls.growth_factor)
-                elif info.iterations >= controls.shrink_above_iterations:
-                    radius = max(controls.minimum_radius, radius * controls.shrink_factor)
-            if checkpoint_session is not None:
-                checkpoint_session.save(
-                    step,
-                    current_factor,
-                    displacement,
-                    material_states,
-                    continuation_state={
-                        "load_factor": current_factor,
-                        "radius": radius,
-                        "maximum_radius": maximum_radius,
-                        "load_scale": load_scale,
-                        "previous_du": previous_du.tolist(),
-                        "previous_dlambda": previous_dlambda,
                     },
                 )
+                self._continuation_rejection_log = list(controller.rejection_log)
+                self._rejected_increments = controller.rejected_increments
+                previous_radius = radius
+                radius_decision = radius_policy.on_failure(
+                    accepted_step=accepted_step,
+                    base_load_factor=current_factor,
+                    policy_radius=radius,
+                    effective_attempt_radius=step_radius,
+                    maximum_radius=maximum_radius,
+                    failure_reason=_failure_reason_value(error),
+                    retry_classification=retry_classification,
+                    rejected_count=controller.rejected_increments,
+                    failure_diagnostics=failure_diagnostics,
+                    rollback_verified=True,
+                    accepted_state_digest=controller.accepted_digest,
+                )
+                retry_radius = float(radius_decision.retry_radius or 0.0)
+                self._rejection_log.append(
+                    {
+                        "path": "arc_length",
+                        "step": step,
+                        "base_load_factor": current_factor,
+                        "rejected_radius": step_radius,
+                        "retry_radius": retry_radius,
+                        "effective_retry_radius": radius_decision.effective_retry_radius,
+                        "previous_radius": previous_radius,
+                        "failure_reason": _failure_reason_value(error),
+                        "failure_diagnostics": failure_diagnostics,
+                        "rollback_before_retry": True,
+                        "radius_policy": radius_decision.to_dict(),
+                    }
+                )
+                self._arc_radius_policy_diagnostics = radius_policy.configuration_diagnostics()
+                if radius_decision.decision == "TERMINAL_MIN_RADIUS":
+                    raise NumericalConvergenceError(
+                        "Arc-length continuation reached the minimum radius.",
+                        reason=NonlinearFailureReason.ARC_LENGTH_FAILURE,
+                        diagnostics={
+                            "failure_stage": "minimum_radius",
+                            "minimum_radius": controls.minimum_radius,
+                            "last_radius": retry_radius,
+                            "failed_effective_radius": step_radius,
+                            "last_failure_reason": _failure_reason_value(error),
+                            "last_failure_diagnostics": failure_diagnostics,
+                            "radius_policy": radius_decision.to_dict(),
+                            "continuation_commit_count": controller.transaction.commit_count,
+                            "accepted_state_digest": controller.accepted_digest,
+                        },
+                    ) from error
+                if radius_decision.decision == "TERMINAL_NON_RETRYABLE":
+                    raise
+                radius = retry_radius
+                effective_retry_radius = radius_decision.effective_retry_radius
+                continue
+
+            if checkpoint_session is not None:
+                # Persistence is infrastructure after physical acceptance.
+                # A save failure must not enter the physical rollback/cutback
+                # path: the accepted controller state remains authoritative.
+                checkpoint_session.save_state(
+                    step,
+                    accepted,
+                    final=(stop_mode == "target_load" and target_reached()),
+                    migration_metadata={"continuation_kind": "arc_length"},
+                )
+                self._arc_radius_policy_diagnostics = radius_policy.configuration_diagnostics()
+        self._arc_radius_policy_diagnostics = radius_policy.configuration_diagnostics()
         return history
 
 
@@ -282,7 +370,12 @@ class NonlinearArcLengthMixin:
         linear_method: str,
     ) -> tuple[float, float]:
         _, tangent, _ = self._assemble_internal_tangent(model, dofs, displacement, material_states)
-        predictor, info = self.linear_solver.solve(tangent[free, :][:, free], loads[free], method=linear_method)
+        predictor, info = self.linear_solver.solve(
+            tangent[free, :][:, free],
+            loads[free],
+            method=linear_method,
+            parameters=model.analysis.parameters,
+        )
         if not info.converged:
             raise NumericalConvergenceError(
                 "Arc-length predictor solve did not converge.",
@@ -311,7 +404,12 @@ class NonlinearArcLengthMixin:
         if abs(remaining) <= 1.0e-12:
             return radius
         _, tangent, _ = self._assemble_internal_tangent(model, dofs, displacement, material_states)
-        predictor, info = self.linear_solver.solve(tangent[free, :][:, free], loads[free], method=linear_method)
+        predictor, info = self.linear_solver.solve(
+            tangent[free, :][:, free],
+            loads[free],
+            method=linear_method,
+            parameters=model.analysis.parameters,
+        )
         if not info.converged:
             raise NumericalConvergenceError(
                 "Arc-length target-radius solve did not converge.",
@@ -356,7 +454,12 @@ class NonlinearArcLengthMixin:
         )
         assembly_seconds += perf_counter() - phase_started
         phase_started = perf_counter()
-        predictor, info = self.linear_solver.solve(tangent[free, :][:, free], loads[free], method=linear_method)
+        predictor, info = self.linear_solver.solve(
+            tangent[free, :][:, free],
+            loads[free],
+            method=linear_method,
+            parameters=model.analysis.parameters,
+        )
         linear_solve_seconds += perf_counter() - phase_started
         if not info.converged:
             raise NumericalConvergenceError(
@@ -428,7 +531,7 @@ class NonlinearArcLengthMixin:
                 # selects the continuation branch; retain the alignment as a
                 # diagnostic for the evidence layer instead of treating every
                 # lambda reversal as a branch jump.
-                commit_material_states(material_states, updated_states)
+                self._last_arc_length_updated_states = copy_material_states(updated_states)
                 return (
                     NonlinearStep(
                         step,
@@ -527,3 +630,80 @@ class NonlinearArcLengthMixin:
                 "residual_history": residual_history,
             },
         )
+
+
+def _validate_arc_continuation_state(
+    state: NonlinearState,
+    *,
+    free: np.ndarray,
+    target_factor: float,
+    load_factor_limit: float,
+    stop_mode: str,
+    allow_turning: bool,
+    control_dof: int | None,
+) -> None:
+    """Validate the accepted continuation payload before controller install."""
+
+    continuation = state.continuation_state
+    required = {
+        "accepted_step",
+        "load_factor",
+        "radius",
+        "maximum_radius",
+        "load_scale",
+        "previous_du",
+        "previous_dlambda",
+    }
+    missing = sorted(key for key in required if key not in continuation)
+    if missing:
+        raise InputValidationError(
+            "Arc-length checkpoint continuation state is incomplete: " + ", ".join(missing)
+        )
+
+    accepted_step = continuation["accepted_step"]
+    if isinstance(accepted_step, bool) or not isinstance(accepted_step, (int, np.integer)) or accepted_step < 0:
+        raise InputValidationError("Arc-length checkpoint accepted_step must be a non-negative integer.")
+
+    stored_factor = continuation["load_factor"]
+    radius = continuation["radius"]
+    maximum_radius = continuation["maximum_radius"]
+    load_scale = continuation["load_scale"]
+    previous_dlambda = continuation["previous_dlambda"]
+    values = {
+        "load_factor": stored_factor,
+        "radius": radius,
+        "maximum_radius": maximum_radius,
+        "load_scale": load_scale,
+        "previous_dlambda": previous_dlambda,
+    }
+    for name, value in values.items():
+        if isinstance(value, bool) or not isinstance(value, (int, float, np.integer, np.floating)):
+            raise InputValidationError(f"Arc-length checkpoint {name} must be a finite scalar.")
+        if not np.isfinite(float(value)):
+            raise InputValidationError(f"Arc-length checkpoint {name} must be finite.")
+    if float(radius) <= 0.0:
+        raise InputValidationError("Arc-length checkpoint radius must be positive.")
+    if float(maximum_radius) < float(radius):
+        raise InputValidationError("Arc-length checkpoint maximum_radius must be at least radius.")
+    if float(load_scale) <= 0.0:
+        raise InputValidationError("Arc-length checkpoint load_scale must be positive.")
+    if not np.isclose(float(stored_factor), state.load_factor, rtol=0.0, atol=1.0e-14):
+        raise InputValidationError("Arc-length checkpoint load factor is inconsistent with continuation state.")
+    if abs(state.load_factor) > load_factor_limit + 1.0e-12:
+        raise InputValidationError("Arc-length checkpoint load factor exceeds the configured limit.")
+
+    previous_du = np.asarray(continuation["previous_du"], dtype=float)
+    if previous_du.shape != (free.size,) or not np.all(np.isfinite(previous_du)):
+        raise InputValidationError("Arc-length checkpoint previous displacement increment is invalid.")
+
+    stored_target = continuation.get("target_load_factor")
+    if stored_target is not None and not np.isclose(float(stored_target), target_factor, rtol=0.0, atol=1.0e-14):
+        raise InputValidationError("Arc-length checkpoint target load factor is incompatible with the model.")
+    stored_stop_mode = continuation.get("stop_mode")
+    if stored_stop_mode is not None and str(stored_stop_mode).lower() != stop_mode:
+        raise InputValidationError("Arc-length checkpoint stop mode is incompatible with the model.")
+    stored_turning = continuation.get("allow_load_factor_turning")
+    if stored_turning is not None and bool(stored_turning) != allow_turning:
+        raise InputValidationError("Arc-length checkpoint turning policy is incompatible with the model.")
+    if "control_dof" in continuation and continuation["control_dof"] != control_dof:
+        raise InputValidationError("Arc-length checkpoint control DOF is incompatible with the model.")

@@ -1,0 +1,23 @@
+{
+  "status": "PASS_REPLAY",
+  "fresh_process": true,
+  "m2_source_sha": "f9bb50f8f1fe8d6920a81ebe61f1730214a469e0",
+  "m3_source_sha": "f9bb50f8f1fe8d6920a81ebe61f1730214a469e0",
+  "m2_contract_sha256": "37876e3da02b1ca9a97ee535d8e2026131cc61900f3d478a578d9398ff0eb0d6",
+  "m3_contract_sha256": "37876e3da02b1ca9a97ee535d8e2026131cc61900f3d478a578d9398ff0eb0d6",
+  "m2_m3_observable_comparison": {
+    "m1_m2_max_abs_diff": 3.308722450212111e-24,
+    "m1_m2_max_relative_diff": 6.422498112526624e-16,
+    "m2_m3_max_abs_diff": 0.0,
+    "m2_m3_max_relative_diff": 0.0
+  },
+  "deterministic_fields_equal": true,
+  "non_deterministic_fields_excluded": [
+    "setup_time_seconds",
+    "iteration_time_seconds",
+    "assembly_time_seconds",
+    "solve_time_seconds"
+  ],
+  "m2_status": "PASS",
+  "m3_status": "PASS"
+}

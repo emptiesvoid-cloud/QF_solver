@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-029-WP13-EXEC-003",
+  "release": "0.2.9",
+  "work_package": "WP13",
+  "revision": "R2.1_MULTIFAMILY_J2_PERFORMANCE_RUNNER_BOOTSTRAP",
+  "status": "FROZEN_EXECUTION_PROTOCOL",
+  "execution_branch": "codex/wp13-r2-multifamily",
+  "pre_contract_sha": "77a640b438b495603670a756b1ff2548b7a75ec3",
+  "governing_branch": "0.2.9-unified-nonlinear",
+  "governing_sha": "9c4048dc1909520e3933f86b2b62a9bfd6562c2c",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "supersedes": {
+    "contract_id": "QF-029-WP13-EXEC-002",
+    "reason": "The first direct-script launch failed at Python import before campaign construction. No output directory, solve, or numerical result was created. R2.1 preserves that attempt and changes only the src-layout import bootstrap and associated provenance binding; all model and measurement definitions are unchanged."
+  },
+  "execution_binding": "Execute only on a clean execution_branch checkout whose HEAD is the commit adding this contract and whose first parent is pre_contract_sha. The runner independently checks the branch, clean state, parent SHA, policy digest, output path, and source SHA-256 bindings; record HEAD as EXECUTION_SHA.",
+  "source_sha256": {
+    ".gitignore": "125a79a2e398f162f3ed01a7f3bba9ef058885d34a344c56fb5bbd8dd41e0e76",
+    "src/solveur/benchmarks/gmsh_factory.py": "bf6ebe804e6328b784263581db9e4031202cd8e8d7fc60565147114a85ce71fd",
+    "src/solveur/verification/j2_multifamily_performance.py": "dc85f9432e915e87140a05498cff3de15f3400ea95e2ae301727ef72dc096e89",
+    "scripts/run_wp13_r2_multifamily_performance.py": "5ad0b82fd48b2b5827db82e427199ce15dc8f52c52453bcc728a2ff4d0c2622a",
+    "tests/unit/test_j2_multifamily_performance.py": "efeb693b49e56fe3043e7eb5d971885e5b30c048ddee883cde3a147aa880f258"
+  },
+  "scope": {
+    "purpose": "Add bounded nonlinear J2 performance characterization for HEX8 and HEX20 alongside the already measured TET4 and TET10 cases.",
+    "families_and_order": ["TET4", "TET10", "HEX8", "HEX20"],
+    "geometry_m": {"length": 1.0, "width": 0.2, "height": 0.2},
+    "material": {
+      "model": "von_mises_elastoplastic_3d",
+      "E_Pa": 210000000000.0,
+      "nu": 0.3,
+      "yield_stress_Pa": 250000000.0,
+      "hardening_modulus_Pa": 50000000000.0
+    },
+    "boundary_conditions": [
+      "x_min: UX fixed",
+      "origin: UY and UZ fixed",
+      "(x_min,y_max,z_min) corner: UZ fixed"
+    ],
+    "loading": {
+      "x_max_surface_traction_Pa": [300000000.0, 0.0, 0.0],
+      "load_path": [0.25, 0.5, 0.75, 1.0, 0.75, 0.5, 0.25, 0.0, -0.25, -0.5, -0.75, -1.0, -1.2, -1.0, -0.75, -0.5, -0.25, 0.0, 0.25, 0.5, 0.75, 1.0, 1.2, 1.4]
+    },
+    "analysis": {
+      "type": "nonlinear_static",
+      "method": "newton_raphson",
+      "load_steps_setting": 25,
+      "load_path_factor_count": 24,
+      "max_iterations": 50,
+      "tolerance": 1e-7
+    },
+    "meshes": {
+      "TET4": {"generator": "existing Gmsh tetra factory", "mesh_size_m": 0.18, "order": 1},
+      "TET10": {"generator": "existing Gmsh tetra factory", "mesh_size_m": 0.18, "order": 2},
+      "HEX8": {"generator": "new structured Gmsh hexa factory", "cells": [6, 2, 2], "order": 1, "expected_elements": 24},
+      "HEX20": {"generator": "new structured Gmsh hexa factory", "cells": [6, 2, 2], "order": 2, "incomplete_quadratic": true, "expected_elements": 24}
+    },
+    "measurement": "solve_model wall time and Python tracemalloc peak after mesh generation/import, plus node/element/DOF/state counts, increments, Newton iterations, residual observations, and full raw result.",
+    "interpretation": "Descriptive characterization on one machine only. Mesh resolutions and interpolation orders differ; do not rank element efficiency or infer accuracy, convergence, scalability, or cross-machine performance.",
+    "r1_preservation": "WP13 R1 TET4/TET10 contract, raw files, reports, manifests, and execution record are immutable and are not overwritten or used as R2 outputs."
+  },
+  "commands": {
+    "targeted_tests": "python -m pytest tests/unit/test_public_api_contract.py tests/unit/test_audit_detail_levels.py tests/unit/test_nonlinear_performance.py tests/unit/test_j2_multifamily_performance.py -q",
+    "campaign": "python scripts/run_wp13_r2_multifamily_performance.py",
+    "sequence": "One process; TET4 then TET10 then HEX8 then HEX20; no parallel solves."
+  },
+  "raw_output_path": "qualification/0_2_9/wp13_r2_multifamily/raw",
+  "gates": {
+    "source_and_provenance": "Runner must verify clean worktree, exact branch and implementation parent SHA, frozen contract, unchanged policy digest, and all contract-bound source SHA-256 values before creating the raw output directory.",
+    "mesh_import": "Every family imports as exactly the declared element family with mesh_status PASS. TET4/TET10 may report only the two known unused y_min/z_min physical groups; those warnings must remain recorded. No other warning is accepted by the campaign harness.",
+    "campaign_status": "Exactly four ordered cases must be present and each must have solver status PASS, all 24 load-path increments, finite serialized full result, finite displacement/residual data, finite positive elapsed time, and finite nonnegative tracemalloc peak. The aggregate must be PASS_INTERNAL.",
+    "evidence": "Preserve full per-case result.json, setup.json, mesh.msh, import_report.json, raw summary and raw report locally under raw_output_path. Version the execution record, compact report and SHA-256/size manifest; do not silently omit a raw file or hash mismatch.",
+    "performance_thresholds": "No time, memory, speedup, efficiency, scaling, or cross-family ranking threshold is defined. Measurements are observational only."
+  },
+  "failure_policy": [
+    "Any provenance, policy, source hash, branch, cleanliness, or output-path mismatch is FAIL_CLOSED before any solve.",
+    "Any missing family, mesh-import failure, solver failure, non-finite result, incomplete load path, or missing raw artifact is FAIL_CLOSED; preserve all outputs and do not rerun into the same directory.",
+    "Do not alter mechanics, load/material/BC/mesh definitions, solver tolerances, iteration limits, backends, or fallback behavior in response to observed performance or results."
+  ],
+  "governance": {
+    "production_solver_mechanics_changes_allowed": false,
+    "solver_policy_or_threshold_changes_allowed": false,
+    "full_test_suite": false,
+    "wp14_execution": false,
+    "ledger_update_or_score_award": false,
+    "merge_or_push": false,
+    "official_wp13_points": 0,
+    "existing_wp13_allocation_discrepancy_resolved": false
+  },
+  "limitations": [
+    "Bounded small cyclic J2 test bar only; no qualification of all element families, material laws, solver methods, or production workloads.",
+    "Mesh density and DOF counts are not equal across all families; timings are not a controlled element-efficiency comparison.",
+    "No external-solver correlation, mesh-convergence claim, accuracy claim, performance ranking, scalability claim, or release-performance claim.",
+    "Full raw results remain local/ignored; versioned manifest hashes are integrity references, not an external archival service.",
+    "WP13 official allocation discrepancy (current ledger one point versus frozen roadmap two points) remains unresolved; R2 awards no points."
+  ],
+  "frozen_before_results": true
+}

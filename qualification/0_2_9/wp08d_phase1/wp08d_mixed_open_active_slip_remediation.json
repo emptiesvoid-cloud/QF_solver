@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "case": "WP08-D-MIXED-OPEN-ACTIVE-SLIP-REMEDIATION",
+  "base_sha": "6ebbf92c961ae12d8198045a469b11fe866a7af0",
+  "branch": "0.2.9-wp08d-mixed-open-active-slip",
+  "implementation_test_sha": "1a09f0350c9e3c785ca2c27ec26be745c5a9339a",
+  "final_sha": null,
+  "final_sha_note": "Recorded by the audit commit containing this file and reported separately; no self-referential SHA is embedded.",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "production_mechanics_changed": true,
+  "mechanics_scope": "active-slip mixed open/closed tangential subset and post-root normal active-set consistency only",
+  "mechanics_files": [
+    "src/solveur/contact/slip_root.py"
+  ],
+  "thresholds_changed": false,
+  "mesh_changed": false,
+  "loads_changed": false,
+  "mu_changed": false,
+  "kt_changed": false,
+  "tolerances_changed": false,
+  "fallback_changed": false,
+  "wp05_touched": false,
+  "wp06_touched": false,
+  "h4_touched": false,
+  "implementation": {
+    "closed_frictional_subset": "normal-active, frictional, positive-compression contacts only",
+    "open_frictional_behavior": "state open, exact zero tangential force, incoming slip reference unchanged",
+    "post_root_check": "recompute gaps/pressures/proposed normal set and reject changed sets before reference commit",
+    "transition": "existing deterministic active-set transition",
+    "active_set_iteration_limit": 25,
+    "telemetry": [
+      "active contacts before root",
+      "closed frictional contacts included",
+      "open frictional contacts excluded",
+      "tangential unknown dimension",
+      "post-root gaps and pressures",
+      "post-root normal set",
+      "POST_ROOT_NORMAL_SET_CHANGED",
+      "rollback/state acceptance decision"
+    ]
+  },
+  "tests": {
+    "mixed_open_active_test": "PASS",
+    "post_root_normal_set_change_test": "PASS",
+    "stable_post_root_acceptance_test": "PASS",
+    "targeted_tests": "104 passed in 5.43s",
+    "ruff": "PASS",
+    "mypy": "PASS",
+    "compileall": "PASS",
+    "json_validation": "PASS",
+    "git_diff_check": "PASS",
+    "full_test_suite": "NOT_RUN"
+  },
+  "structural_solves": {
+    "m1": "NOT_RUN",
+    "m2": "NOT_RUN",
+    "m3": "NOT_RUN"
+  },
+  "status": {
+    "m1_m2_m3_structural_solves": "NOT_RUN",
+    "wp08d_formal_status": "PREPARATION_ONLY",
+    "wp08d_formal_points": "0/2",
+    "wp08_formal_points": "0/8",
+    "final_status": "READY_FOR_OWNER_REVIEW"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "levels": [
+    {
+      "checkpoint_count": 160,
+      "checkpoint_snapshot_sha256": "e470a5a64679a8f9e0008c13f5725328d6ec0b72b6586b2d2884dea5139ab265",
+      "first_checkpoint": {
+        "completed_step": 1,
+        "composite_digest": "40f8867c6720c52c56c11c0474e0cebcaf79b106df2ebc58ebdd8dd83af0516d",
+        "metadata_sha256": "6f0677ddab70136c5d66ab025ac7c37c038e155aa5eab8f53e7163a53da3323e",
+        "path": "accepted_state.step00000001.npz",
+        "sha256": "0537fe49ff58fdb3cb42b102d54e0270d02159b2f64dd186efcdc5f02e51cff3"
+      },
+      "independent_observable_recomputation": true,
+      "last_checkpoint": {
+        "completed_step": 160,
+        "composite_digest": "4cd9bac4af078d6d3651e92a2fdda6367f3a61c19faaf41476b9aec5f5c9d367",
+        "metadata_sha256": "0e891b25b21686bfdc8f579a7e57ef43c5e5c17cd30b39cf6a10c2b50e429366",
+        "path": "accepted_state.step00000160.npz",
+        "sha256": "612c08ee322ab15fa3568419d4bc49d071cafa1bfa24b67c04e368bbe41e4b40"
+      },
+      "level": "M2",
+      "production_solver_replay_run": false,
+      "recorded_comparison": "PASS",
+      "status": "PASS_EVIDENCE_REPLAY_ONLY"
+    },
+    {
+      "checkpoint_count": 160,
+      "checkpoint_snapshot_sha256": "4a791d197daa0484b8dd38a91795e5793238afaee1a608937d4c86aba93c87d3",
+      "first_checkpoint": {
+        "completed_step": 1,
+        "composite_digest": "48588d3b0347744e01a21975ea34bf63e752dfd24115ce4016ebd3cd0ca4a5bc",
+        "metadata_sha256": "c8b3c44838d4c55f96b5ec1e5a7f0a441070014f1d7e4695c6d59fca95abdc52",
+        "path": "accepted_state.step00000001.npz",
+        "sha256": "1c7fbaff2eac44c9ff668d4a50489158725f6c9f8a94e80557e0ca73571ea611"
+      },
+      "independent_observable_recomputation": true,
+      "last_checkpoint": {
+        "completed_step": 160,
+        "composite_digest": "cb2a643555a15adfc951a5bb611ace4f64ce837e9f46ee5efc7d47eac0afc72d",
+        "metadata_sha256": "cf742a0b8837dadddeba456bedb96f3c4bd6109ef8421c00b473d1fca7802d10",
+        "path": "accepted_state.step00000160.npz",
+        "sha256": "cddeec9ff40848fe0007c1d19dd837a2dd50cc88c3a0ad6ddad69ff78bba9b03"
+      },
+      "level": "M3",
+      "production_solver_replay_run": false,
+      "recorded_comparison": "PASS",
+      "status": "PASS_EVIDENCE_REPLAY_ONLY"
+    }
+  ],
+  "limitations": [
+    "This replay does not rerun Newton or arc-length production mechanics.",
+    "It proves deterministic archival readback and reference-row/checkpoint identity only."
+  ],
+  "production_solver_replay_run": false,
+  "provenance": {
+    "branch": "codex/wp06-score-requalification",
+    "head": "504c952287295cd525f1c4183b3c2764c5294b38"
+  },
+  "schema_version": 1,
+  "status": "PASS_EVIDENCE_REPLAY_ONLY"
+}

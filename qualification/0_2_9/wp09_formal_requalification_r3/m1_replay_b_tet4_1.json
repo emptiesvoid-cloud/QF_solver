@@ -1,0 +1,10 @@
+{
+  "family": "TET4",
+  "cells": 1,
+  "label": "m1_replay_b",
+  "execution_sha": "7fe74d73fb551f534a096cfb0c7d7b6110302535",
+  "status": "FAIL_EXCEPTION",
+  "exception_type": "NumericalConvergenceError",
+  "exception": "Nonlinear element 1 update failed: Corotational small-strain bound exceeded: ||U-I||_F=5.477916e-02 > 5.000000e-02.",
+  "elapsed_seconds": 0.443510300014168
+}

@@ -1,0 +1,230 @@
+{
+  "comparisons": {
+    "aster_force_equilibrium_relative": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 8.788928253162695e-17
+    },
+    "aster_moment_equilibrium_relative": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 9.845568954283847e-17
+    },
+    "displacement_relative_l2": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 7.501039756768504e-16
+    },
+    "displacement_relative_linf": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 1.2402436043719e-15
+    },
+    "fixed_displacement_abs_max": {
+      "limit": 1e-12,
+      "status": "PASS",
+      "value": 4.463391450687487e-25
+    },
+    "qf_force_equilibrium_relative": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 4.3476855298588233e-16
+    },
+    "qf_moment_equilibrium_relative": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 2.5579538487363605e-16
+    },
+    "reaction_relative_l2": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 1.0462640403296646e-15
+    },
+    "reaction_relative_linf": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 1.364242052659392e-15
+    },
+    "strain_energy_from_external_work_relative": {
+      "limit": 1e-08,
+      "status": "PASS",
+      "value": 7.93755906798016e-16
+    }
+  },
+  "contract_sha256": "f6154660635670c026354429894c9c7a6f7fa6d8bd6849edf44717a4bd43824a",
+  "execution_sha": "e3231fa386d2542841084e3be9843e7eca75acf4",
+  "external_solver": {
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "image_id": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "name": "Code_Aster",
+    "version": "18.1.0"
+  },
+  "family": "HEX8",
+  "input_hashes": {
+    "displacement.npy": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/HEX8/M1/displacement.npy",
+      "sha256": "2da9e21a748a22dc091cbb8f0e3357d0571a1e6a43231d9744773f9e860123ed"
+    },
+    "fixed.npy": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/HEX8/M1/fixed.npy",
+      "sha256": "429a5a0d56f10be9c06d6ee1976229aca9348f21961ccac12d7ef80937000279"
+    },
+    "loads.npy": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/HEX8/M1/loads.npy",
+      "sha256": "7d7fe48713382d2dcfa93510628133f30a526056943e8497f526982e64777c73"
+    },
+    "result.json": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/HEX8/M1/result.json",
+      "sha256": "7c5c7c9b38388cdcc1eccae300778759180b2de22db122a256dd7890d0dd4a44"
+    },
+    "stiffness.npy": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/HEX8/M1/stiffness.npy",
+      "sha256": "d0a137063361220a1b4061de5547f02227fce70ff72e0fd0622064a55a0d23bf"
+    }
+  },
+  "metrics": {
+    "aster_external_work_energy": 1.0671201814058952e-05,
+    "aster_force_equilibrium_relative": 8.788928253162695e-17,
+    "aster_moment_equilibrium_relative": 9.845568954283847e-17,
+    "displacement_relative_l2": 7.501039756768504e-16,
+    "displacement_relative_linf": 1.2402436043719e-15,
+    "fixed_displacement_abs_max": 4.463391450687487e-25,
+    "qf_force_equilibrium_relative": 4.3476855298588233e-16,
+    "qf_moment_equilibrium_relative": 2.5579538487363605e-16,
+    "qf_strain_energy": 1.067120181405896e-05,
+    "reaction_relative_l2": 1.0462640403296646e-15,
+    "reaction_relative_linf": 1.364242052659392e-15,
+    "strain_energy_from_external_work_relative": 7.93755906798016e-16
+  },
+  "model_fingerprint": "cd4d8a9e513f1327201734a6a053da659752c0f8f1e7873c9cd3680c7195fadb",
+  "process": {
+    "command": [
+      "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE",
+      "run",
+      "--rm",
+      "--cpus=1",
+      "--cidfile",
+      "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp12_external_vv\\qualification\\0_2_9\\wp12_external_vv_r2\\HEX8\\container.cid",
+      "-v",
+      "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp12_external_vv\\qualification\\0_2_9\\wp12_external_vv_r2\\HEX8:/work",
+      "--workdir",
+      "/work",
+      "--entrypoint",
+      "/bin/bash",
+      "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+      "-lc",
+      "export RUNASTER_ROOT=/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg; source /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh; export PYTHONPATH=$(find /opt/spack/opt/spack/linux-zen -type d -path '*/lib/python3.11/site-packages' | paste -sd: -):${PYTHONPATH:-}; export LD_LIBRARY_PATH=$(find /opt/spack/opt/spack/linux-zen -type d \\( -name lib -o -name lib64 \\) | paste -sd: -):${LD_LIBRARY_PATH:-}; /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster HEX8.export --no-mpi"
+    ],
+    "container_cpu_limit": 1,
+    "container_id": "cfbec099db2a59384a1302979363ccd574ca904ae0c58526bc3ddb38fa942ed5",
+    "elapsed_seconds": 5.0740331999986665,
+    "exit_code": 0,
+    "family": "HEX8",
+    "finished_utc": "2026-09-23T08:35:49.772297+00:00",
+    "fresh_container_process": true,
+    "host_process_id": 9228,
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "image_id": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "python_runtime_import_smoke": "PASS",
+    "runtime_probe_shell_command": "export RUNASTER_ROOT=/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg; source /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh; export PYTHONPATH=$(find /opt/spack/opt/spack/linux-zen -type d -path '*/lib/python3.11/site-packages' | paste -sd: -):${PYTHONPATH:-}; export LD_LIBRARY_PATH=$(find /opt/spack/opt/spack/linux-zen -type d \\( -name lib -o -name lib64 \\) | paste -sd: -):${LD_LIBRARY_PATH:-}; python3 -c 'import mpi4py, numpy; import code_aster.Commands' && /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster --version",
+    "runtime_shell_command": "export RUNASTER_ROOT=/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg; source /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/share/aster/profile.sh; export PYTHONPATH=$(find /opt/spack/opt/spack/linux-zen -type d -path '*/lib/python3.11/site-packages' | paste -sd: -):${PYTHONPATH:-}; export LD_LIBRARY_PATH=$(find /opt/spack/opt/spack/linux-zen -type d \\( -name lib -o -name lib64 \\) | paste -sd: -):${LD_LIBRARY_PATH:-}; /opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster HEX8.export --no-mpi",
+    "runtime_version": "code_aster 18.1.0 (spack-local)",
+    "solver_entrypoint": "/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster",
+    "solver_mpi_disabled": true,
+    "started_utc": "2026-09-23T08:35:42.355035+00:00",
+    "telemetry_events": 3
+  },
+  "raw": {
+    "displacement": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        -8.961451247165527e-09,
+        -2.1224489795918325e-09,
+        -2.1342403628117914e-08
+      ],
+      [
+        -8.961451247165532e-09,
+        2.1224489795918416e-09,
+        -2.134240362811789e-08
+      ],
+      [
+        0.0,
+        4.463391450687487e-25,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        8.961451247165526e-09,
+        2.1224489795918334e-09,
+        -2.134240362811791e-08
+      ],
+      [
+        8.961451247165532e-09,
+        -2.1224489795918416e-09,
+        -2.1342403628117897e-08
+      ],
+      [
+        0.0,
+        -3.674588745244573e-25,
+        0.0
+      ]
+    ],
+    "element_type": "HEXA8",
+    "family": "HEX8",
+    "modelisation": "3D",
+    "reaction": [
+      [
+        499.9999999999999,
+        52.38095238095228,
+        249.99999999999991
+      ],
+      [
+        5.3290705182007514e-14,
+        -1.4832579608992091e-13,
+        -1.9895196601282805e-13
+      ],
+      [
+        -1.9895196601282805e-13,
+        -8.348877145181177e-14,
+        4.547473508864641e-13
+      ],
+      [
+        499.99999999999983,
+        -52.38095238095244,
+        249.99999999999994
+      ],
+      [
+        -499.9999999999999,
+        -52.38095238095224,
+        249.99999999999997
+      ],
+      [
+        -9.947598300641403e-14,
+        2.4158453015843406e-13,
+        -5.684341886080802e-14
+      ],
+      [
+        1.3500311979441904e-13,
+        2.3092638912203256e-14,
+        1.9895196601282805e-13
+      ],
+      [
+        -499.9999999999997,
+        52.38095238095234,
+        249.99999999999983
+      ]
+    ],
+    "status": "PASS"
+  },
+  "runner_sha": "c4a772cd14921ca0b243c71b99a0f94f0ca210e8",
+  "status": "PASS",
+  "wp11_source_sha": "f122032cbac77b98137b61f27907ba28755a250a"
+}

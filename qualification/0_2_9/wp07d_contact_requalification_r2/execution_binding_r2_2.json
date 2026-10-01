@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "artifact_id": "QF-029-WP07-D-EXECUTION-BINDING-CONTACT-R2-002",
+  "binding_revision": "R2.2_SURFACE_LUMPED_CONTRACT_IMPLEMENTATION_FIX",
+  "supersedes": {
+    "path": "qualification/0_2_9/wp07d_contact_requalification_r2/execution_binding_r2_1.json",
+    "sha256": "0a0c465ddf2ece1748ea19e930f364ee5c3cad82bcf95c9b8d9bbbdaed47d230"
+  },
+  "status": "FROZEN_FAIL_CLOSED_PER_CASE_AUTHORIZATION_REQUIRED",
+  "extends_binding": {
+    "path": "qualification/0_2_9/wp07d_formal_rebind_r1/wp07d_execution_binding_formal_rebind_r1.json",
+    "sha256": "ef223ee40ed1d4d9b1c60a20c2ee2958ea4e37acd8c0265058a4a12218fcf52d"
+  },
+  "requalification_contract": {
+    "path": "qualification/0_2_9/wp07d_contact_requalification_r2/contact_requalification_contract.json",
+    "sha256": "7045a9e2afb7d84c033ae1b4e473a0e6fd5c5efa02880f0d70c0262eb9c247e0"
+  },
+  "owner_decision": {
+    "path": "qualification/0_2_9/wp07d_contact_requalification_r2/owner_execution_decision.json",
+    "sha256": "e6de753a7a433da9f56ee724c74e389126dda79e278cf02ebce20509aabb0a24"
+  },
+  "governing": {
+    "authorized_base_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+    "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac"
+  },
+  "authorization": {
+    "required": true,
+    "token": "OWNER_AUTHORIZED_WP07D_CONTACT_REQUALIFICATION_R2",
+    "structural_solves_allowed": false,
+    "independent_references_allowed": false,
+    "replay_allowed": false,
+    "wp07e_allowed": false
+  },
+  "invariants": {
+    "production_mechanics_changed": true,
+    "thresholds_changed": false,
+    "mesh_changed": false,
+    "loads_changed": false,
+    "contact_parameters_changed": false,
+    "fallback_policy_changed": false,
+    "frozen_physics_contract_changed": false
+  },
+  "source_lineage_disclosure": {
+    "authorized_governing_base_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+    "changed_production_source_paths_since_governing_base": [
+      "src/solveur/contact/entities.py",
+      "src/solveur/contact/slip_root.py",
+      "src/solveur/contact/solver.py",
+      "src/solveur/core/model.py"
+    ],
+    "production_source_diff_sha256_since_governing_base": "3d8a242ffe35c0484f0be6d1664dfc7813849e3e8835f8dee92183018f06956c",
+    "requalification_adds_mechanics_change": true,
+    "source_contains_wp07_candidate_changes_since_governing_base": true,
+    "source_correction_commit": "4e63f0929b0d8a4ff83482769a34a2ce3e232544",
+    "source_correction_classification": "FROZEN_CONTRACT_IMPLEMENTATION_DEFECT"
+  },
+  "source_correction": {
+    "classification": "FROZEN_CONTRACT_IMPLEMENTATION_DEFECT",
+    "route": "PENALTY",
+    "required_integration": "surface_lumped",
+    "preserves_default_nodal_route": true,
+    "commit": "4e63f0929b0d8a4ff83482769a34a2ce3e232544",
+    "description": "Implements the already-frozen surface-lumped penalty integration: parse slave patch faces, derive normalized tributary-area weights, apply weights consistently to penalty residual and tangent, and expose effective penalties to post-processing. No physical contract, threshold, mesh, load, friction/contact parameter, backend, or fallback policy was changed."
+  },
+  "source_correction_addendum": {
+    "path": "docs/verification/0_2_9/wp07-d-surface-lumped-penalty-remediation.md",
+    "sha256": "9ffbd440f55f3ec699da38adafb130fcf1925047a1bf0b7ed179d1713999a1c7"
+  },
+  "execution_artifacts": {
+    "run_root": "qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_4",
+    "authorization_root": "qualification/0_2_9/wp07d_contact_requalification_r2/authorizations_r2_4",
+    "replay_gate_path": "qualification/0_2_9/wp07d_contact_requalification_r2/replay_authorization_gate_r2_4.json"
+  },
+  "execution_sha": "BOUND_AFTER_R2_2_BINDING_AND_RUNNER_FREEZE_COMMIT"
+}

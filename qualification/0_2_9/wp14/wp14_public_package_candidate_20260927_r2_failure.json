@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "record_type": "PRESERVED_PACKAGE_CANDIDATE_R2_TOOLING_FAILURE",
+  "status": "FAIL_CLOSED_CANDIDATE_BUILD",
+  "source_sha": "3aa43287c5ec88190474495aa8ef38a8d0f41ef0",
+  "execution_sha": "652d7af6973668d5910fb044fbe428872ddf07df",
+  "contract": "qualification/0_2_9/wp14/wp14_public_package_candidate_20260927_r2_contract.json",
+  "contract_sha256": "f6a8e18d67d721ff45ac90a25217f24a768157e09a3e990ff68d87175f43a3e0",
+  "archive_root_environment": "QF_SOLVER_EVIDENCE_ARCHIVE_ROOT",
+  "archive_subdirectory": "0_2_9/wp14/package_candidate_20260927_r2",
+  "raw_records": [
+    {
+      "path": "result.json",
+      "bytes": 862,
+      "sha256": "f24fc4de560db766aeca98da1febebf97b3e9e9b55b5770e0b2cdcf7c8c7c80c"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 3484,
+      "sha256": "d60118783525d4e9ecbdc69224f2c95e59d693a6218e43b902412896be51b975"
+    },
+    {
+      "path": "package_check.json",
+      "bytes": 713,
+      "sha256": "ede6d051197d75c830f26980461729223ea308d2d5728c1a9815b08ebdf8f564"
+    },
+    {
+      "path": "commands.json",
+      "bytes": 8068,
+      "sha256": "e1368fd25a92bf2b91a64711bf270b6d0106ab3201fc3551723cac031cacddb4"
+    },
+    {
+      "path": "source_mapping.json",
+      "bytes": 136105,
+      "sha256": "83074b7e6c3dba52884bb0f141138a8bb57608b58b3d2cd6f7c02fb3df00e359"
+    }
+  ],
+  "package_content_check": "PASS",
+  "strict_source_wheel_sdist_scan": "PASS_ZERO_FINDINGS",
+  "wheel_bytes": 1509827,
+  "sdist_bytes": 1137767,
+  "selected_files": 551,
+  "selected_runtime_files": 473,
+  "venv_install": "PASS",
+  "three_cli_version_commands": "PASS",
+  "cli_help": "PASS",
+  "outside_checkout_probe": "FAIL_COMMAND_8_EXIT_1",
+  "inside_checkout_probe": "NOT_RUN_DEPENDENCY",
+  "root_cause": "The -I probe hid user-site NumPy. The venv permits configured dependency sites, but interpreter isolation excluded them. No QF numerical solve was started.",
+  "remediation": "Use a prospectively frozen Python 3.11+ safe-path -P probe, clear PYTHONPATH, explicitly permit system/user dependency sites, retain exact installed QF module origin and SHA-256 checks, and keep dependency isolation as a limitation.",
+  "historical_evidence_changed": false,
+  "solver_numeric_behavior_changed": false,
+  "numeric_thresholds_changed": false,
+  "wp14_official_points": "0/1",
+  "global_official_total": "95/100"
+}

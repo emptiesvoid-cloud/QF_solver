@@ -1,0 +1,102 @@
+
+# ------------------------------------------------------------------------------
+Execution of code_aster
+
+# ------------------------------------------------------------------------------
+Prepare environment in /tmp/run_aster_or4oci1u/proc.0
+
+# ------------------------------------------------------------------------------
+Command file #1 / 1
+
+Content of the file to execute:
+# coding=utf-8
+import json
+import numpy as np
+from code_aster.Commands import *
+
+DEBUT(CODE="OUI", ERREUR=_F(ALARME="EXCEPTION"))
+mesh = LIRE_MAILLAGE(FORMAT="ASTER", UNITE=20)
+model = AFFE_MODELE(MAILLAGE=mesh, AFFE=_F(GROUP_MA="SOLID", PHENOMENE="MECANIQUE", MODELISATION="3D"))
+material = DEFI_MATERIAU(ELAS=_F(E=210000000000, NU=0.29999999999999999))
+field = AFFE_MATERIAU(MAILLAGE=mesh, AFFE=_F(GROUP_MA="SOLID", MATER=material))
+boundary = AFFE_CHAR_MECA(MODELE=model, DDL_IMPO=_F(GROUP_NO="ROOT", DX=0.0, DY=0.0, DZ=0.0))
+force = AFFE_CHAR_MECA(MODELE=model, FORCE_NODALE=(
+    _F(NOEUD="N2", FZ=-250),
+    _F(NOEUD="N3", FZ=-250),
+    _F(NOEUD="N6", FZ=-250),
+    _F(NOEUD="N7", FZ=-250)
+))
+result = MECA_STATIQUE(MODELE=model, CHAM_MATER=field, EXCIT=(_F(CHARGE=boundary), _F(CHARGE=force)))
+result = CALC_CHAMP(reuse=result, RESULTAT=result, FORCE=("REAC_NODA",))
+depl = result.getField("DEPL", 1)
+reac = result.getField("REAC_NODA", 1)
+displacement = np.zeros((8, 3), dtype=float)
+reaction = np.zeros((8, 3), dtype=float)
+for node in range(8):
+    group = "QF%03d" % node
+    for component, name in enumerate(("DX", "DY", "DZ")):
+        values, _ = depl.getValuesWithDescription(name, [group])
+        if len(values) != 1:
+            raise RuntimeError("Expected one displacement value for " + group)
+        displacement[node, component] = float(values[0])
+        values, _ = reac.getValuesWithDescription(name, [group])
+        if len(values) != 1:
+            raise RuntimeError("Expected one reaction value for " + group)
+        reaction[node, component] = float(values[0])
+with open("/work/aster_raw.json", "w", encoding="utf-8") as stream:
+    json.dump({
+        "status": "PASS",
+        "family": "HEX8",
+        "element_type": "HEXA8",
+        "modelisation": "3D",
+        "displacement": displacement.tolist(),
+        "reaction": reaction.tolist(),
+    }, stream, indent=2, allow_nan=False)
+FIN()
+
+
+
+# ------------------------------------------------------------------------------
+Command line #1:
+    ulimit -c unlimited ; ulimit -t 1125 ; ( /opt/spack/opt/spack/linux-zen/python-3.11.14-b46uatqeae4oxf3zlavoyghidvlm47wc/bin/python3 -m mpi4py "/work/HEX8.comm" --last --link="F::mail::/work/HEX8.mail::D::20" --memory 4096.0 --tpmax 900 --numthreads 1 ; echo $? > _exit_code_ ) 2>&1 | tee -a fort.6
+/opt/spack/opt/spack/linux-zen/python-3.11.14-b46uatqeae4oxf3zlavoyghidvlm47wc/bin/python3: No module named mpi4py
+
+EXECUTION_CODE_ASTER_EXIT_10=1
+
+
+restoring result databases from 'BASE_PREC'...
+WARNING: execution failed (command file #1): <F>_ABNORMAL_ABORT
+
+# ------------------------------------------------------------------------------
+Content of /tmp/run_aster_or4oci1u/proc.0 after execution:
+.:
+total 16
+-rw-r--r-- 1 user user  282 Sep 23 08:06 10.export
+drwxr-xr-x 2 user user 4096 Sep 23 08:06 REPE_IN
+drwxr-xr-x 2 user user 4096 Sep 23 08:06 REPE_OUT
+-rw-r--r-- 1 user user  313 Sep 23 08:06 fort.6
+
+REPE_OUT:
+total 0
+
+
+# ------------------------------------------------------------------------------
+Copying results
+copying (shutil) 'fort.6' to '/work/HEX8.mess'...
+WARNING: file not found: fort.8
+
+# ------------------------------------------------------------------------------
+Execution summary
+                                      cpu     system    cpu+sys    elapsed
+--------------------------------------------------------------------------------
+Preparation of environment           0.00       0.00       0.00       0.00
+Execution of code_aster              0.01       0.00       0.01       0.03
+Copying results                      0.01       0.00       0.01       0.01
+--------------------------------------------------------------------------------
+Total                                0.02       0.00       0.02       0.04
+--------------------------------------------------------------------------------
+
+------------------------------------------------------------
+--- DIAGNOSTIC JOB : <F>_ABNORMAL_ABORT
+------------------------------------------------------------
+

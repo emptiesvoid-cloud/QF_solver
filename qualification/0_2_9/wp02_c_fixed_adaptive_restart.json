@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP02-C-RESTART-001",
+  "work_package": "WP02-C",
+  "status": "FIXED_ADAPTIVE_RESTART",
+  "baseline_sha": "2e542d4beff9c0906f2125c62107d3f56b12ddf8",
+  "implementation_sha": "reported in the final gate record; not embedded self-referentially",
+  "validated_total": 16,
+  "points_awarded": 0,
+  "owner_decisions": {
+    "OD-029-01": "OPEN; unchanged and blocks WP09 only.",
+    "OD-029-02": "CLOSED; READ_V1_WRITE_V2_BOUNDED"
+  },
+  "routes": {
+    "fixed_nonlinear_static": "MIGRATED_TO_COMPOSITE_RESTORE_SAVE",
+    "adaptive_nonlinear_static": "MIGRATED_TO_COMPOSITE_RESTORE_SAVE",
+    "fixed_geometric_nonlinear": "MIGRATED_TO_COMPOSITE_RESTORE_SAVE",
+    "adaptive_geometric_nonlinear": "MIGRATED_TO_COMPOSITE_RESTORE_SAVE",
+    "arc_length": "COMPATIBILITY_SESSION_ONLY; COMPLETE_RESTART_EQUIVALENCE_PENDING_WP02_D",
+    "frictional_contact": "NOT_MIGRATED"
+  },
+  "implementation": {
+    "restore_api": "NonlinearCheckpointSession.restore_state returns one detached accepted NonlinearState after validation.",
+    "save_api": "NonlinearCheckpointSession.save_state persists only an accepted NonlinearState as schema v2.",
+    "legacy_wrappers": "restore, restore_continuation and save delegate to the composite API.",
+    "adaptive_policy_state": "accepted continuation stores accepted_step, current_factor, next_increment and controller policy; rejected trials are not persisted.",
+    "atomic_install": "load, decode, signature/topology/digest validation and detached construction complete before caller state is published.",
+    "checkpoint_boundary": "save callbacks run after composite acceptance; CHECKPOINT_FAILURE does not trigger physical cutback."
+  },
+  "v1_policy": {
+    "contact_free": "SOLVER_RESTART_SUPPORTED",
+    "stateless_penalty_contact": "SUPPORTED_WHEN_MODEL_COMPATIBILITY_IS_PROVEN",
+    "ambiguous_or_stateful_contact": "REJECTED",
+    "resume_output": "SCHEMA_V2"
+  },
+  "thresholds": {
+    "physical_restart_relative": 1e-9,
+    "physical_restart_absolute_floor": 1e-12,
+    "persisted_state_relative": 1e-12,
+    "persisted_state_absolute": 1e-14
+  },
+  "tests": {
+    "wp02_c_focused": "25 passed",
+    "wp02_b_checkpoint": "28 passed",
+    "fixed_checkpoint_restart": "10 passed",
+    "adaptive_load_control": "2 passed, 35 deselected",
+    "j2_regression": "22 passed, 29 deselected",
+    "geometric_regression": "15 passed",
+    "contact_regression": "11 passed",
+    "failure_regression": "20 passed",
+    "wp01_foundation_continuation": "46 passed",
+    "full_suite_run": false
+  },
+  "gates": {
+    "G02-01": "PASS",
+    "G02-02": "PASS",
+    "G02-03": "PASS_BOUNDED",
+    "G02-04": "PENDING_WP02_D",
+    "G02-05": "PASS",
+    "G02-06": "PASS",
+    "G02-07": "PASS_BOUNDED",
+    "G02-08": "PASS_FIXED_ADAPTIVE_BOUNDARY",
+    "G02-09": "PASS_FIXED_ADAPTIVE_BOUNDARY",
+    "G02-10": "PASS_BOUNDED_FIXED_ADAPTIVE_SCOPE"
+  },
+  "known_limits": [
+    "Complete arc-length restart equivalence remains WP02-D.",
+    "Frictional-contact restart is not implemented or claimed.",
+    "Adaptive penalty-contact qualification remains outside this step.",
+    "Checkpoint persistence remains single-process; PETSc/MPI restart is out of scope.",
+    "No maturity status is changed by this migration."
+  ],
+  "numerical_formulation_changed": false,
+  "maturity_changed": false,
+  "historical_evidence_changed": false
+}

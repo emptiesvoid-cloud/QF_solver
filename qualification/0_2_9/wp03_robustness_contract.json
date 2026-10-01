@@ -1,0 +1,270 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-SOLVER-0.2.9-WP03-ROBUSTNESS-CONTRACT-001",
+  "work_package": "WP03-A",
+  "phase": "CONTRACT_PHASE",
+  "status": "PROSPECTIVE_CONTRACT_FROZEN",
+  "baseline_sha": "ecc09f0bae2dab867c12d7e471860887f6ef0548",
+  "validated_points": 0,
+  "scope": "Freeze the Newton robustness, line-search, stagnation, adaptive-control and deterministic replay contract before WP03 implementation.",
+  "canonical_equations": {
+    "diagnostic_residual": "R(u, lambda, state) = lambda * F_ext - F_internal - F_contact",
+    "tangent_composition": "K_T = K_material + K_geometric + K_contact",
+    "normalization": "Global convergence uses the free-DOF residual; fixed DOFs are constrained in the reduced solve and do not enter the physical residual norm.",
+    "sign_policy": "Existing internal force and tangent signs may remain inside formulation-specific assembly. The common driver normalizes diagnostics only and must not change physical force definitions.",
+    "load_factor_ownership": "The accepted composite state owns the published load factor. Adaptive and arc controllers may propose next-trial policy values, but they cannot publish them before global acceptance.",
+    "contribution_accumulation": "Material, geometric and contact contributions are accumulated through NonlinearAssemblyProtocol/CompositeNonlinearAssembly; the driver does not inspect constitutive or contact equations."
+  },
+  "current_architecture_inventory": {
+    "public_fixed_newton": {
+      "authority": "UnifiedNewtonEngine",
+      "entry_points": [
+        "src/solveur/core/nonlinear/iteration.py::solve_full_newton",
+        "src/solveur/core/nonlinear/load_control.py::NonlinearLoadControlMixin._solve_load_step",
+        "src/solveur/core/analyses/geometric_nonlinear.py::GeometricNonlinearStaticSolver"
+      ],
+      "status": "CURRENT_PUBLIC_AUTHORITY",
+      "observation": "solve_full_newton is a compatibility adapter; the global fixed-load Newton lifecycle is executed by UnifiedNewtonEngine."
+    },
+    "accepted_state_and_transaction": {
+      "authority": "UnifiedContinuationController + NonlinearStateTransaction",
+      "entry_points": [
+        "src/solveur/core/nonlinear/driver.py::UnifiedContinuationController",
+        "src/solveur/core/nonlinear/state.py::NonlinearStateTransaction"
+      ],
+      "status": "CURRENT_PUBLIC_STATE_AUTHORITY",
+      "observation": "Migrated fixed, adaptive and arc-length routes publish accepted composite state through the shared transaction boundary."
+    },
+    "adaptive_load_control": {
+      "entry_points": [
+        "src/solveur/core/nonlinear/iteration.py::solve_adaptive_full_newton",
+        "src/solveur/core/nonlinear/load_control.py::NonlinearLoadControlMixin._solve_adaptive_load_steps"
+      ],
+      "status": "CURRENT_PUBLIC_POLICY_SURFACES",
+      "observation": "Both paths use the unified transaction/driver foundation, but retain separate adaptive increment, cutback and growth policy implementations pending WP03."
+    },
+    "arc_length": {
+      "entry_points": [
+        "src/solveur/core/nonlinear/arc_length.py::_solve_arc_length",
+        "src/solveur/core/nonlinear/arc_length.py::_solve_arc_length_step",
+        "src/solveur/core/nonlinear/iteration.py::solve_arc_length_correction"
+      ],
+      "status": "CURRENT_PUBLIC_SPECIALIZED_CONTINUATION",
+      "observation": "Arc-length retains an augmented correction kernel and radius policy, while accepted state and rollback use the shared continuation controller."
+    },
+    "experimental_robustness": {
+      "entry_point": "src/solveur/core/nonlinear/robustness.py::NonlinearRobustnessOptions",
+      "status": "EXPERIMENTAL_KEEP",
+      "observation": "Experimental linear solver, permutation, scaling and line-search controls are explicit opt-in R&D controls, not the default public robustness authority."
+    },
+    "contact_boundary": {
+      "public": "NonlinearStaticSolver validates the common nonlinear contact route as frictionless penalty contact only.",
+      "compatibility_research": [
+        "src/solveur/contact/solver.py::FrictionlessActiveSetSolver",
+        "src/solveur/contact/support.py",
+        "src/solveur/contact/slip_root.py"
+      ],
+      "status": "RESEARCH_COMPATIBILITY",
+      "observation": "Active-set, frictional and slip-root loops are not part of the public common nonlinear driver and must not be promoted by WP03."
+    }
+  },
+  "duplicate_policy_surfaces": [
+    {
+      "id": "POLICY-029-01",
+      "surface": "Line search",
+      "locations": [
+        "src/solveur/core/nonlinear/iteration.py::_line_search_assembly_with_diagnostics",
+        "src/solveur/core/nonlinear/iteration.py::line_search_factor",
+        "src/solveur/core/nonlinear/geometric_nonlinear.py compatibility wrapper"
+      ],
+      "classification": "MAJOR_CONTRACT_DEBT",
+      "planned_work": "WP03-B",
+      "required_outcome": "One authoritative line-search dispatch and one documented merit/acceptance contract; compatibility wrappers delegate."
+    },
+    {
+      "id": "POLICY-029-02",
+      "surface": "Adaptive load stepping",
+      "locations": [
+        "src/solveur/core/nonlinear/iteration.py::solve_adaptive_full_newton",
+        "src/solveur/core/nonlinear/load_control.py::NonlinearLoadControlMixin._solve_adaptive_load_steps"
+      ],
+      "classification": "MAJOR_CONTRACT_DEBT",
+      "planned_work": "WP03-C",
+      "required_outcome": "One formulation-neutral retry/cutback/growth policy with physical accepted state separated from next-trial policy state."
+    },
+    {
+      "id": "POLICY-029-03",
+      "surface": "Arc-length radius adaptation",
+      "locations": [
+        "src/solveur/core/nonlinear/arc_length.py::_solve_arc_length"
+      ],
+      "classification": "ACCEPTABLE_SPECIALIZATION",
+      "planned_work": "WP03-D",
+      "required_outcome": "Retain augmented mathematics, but expose radius retry/growth decisions through the common robustness diagnostics and failure contract."
+    },
+    {
+      "id": "POLICY-029-04",
+      "surface": "Experimental robustness options",
+      "locations": [
+        "src/solveur/core/nonlinear/robustness.py::NonlinearRobustnessOptions"
+      ],
+      "classification": "EXPERIMENTAL_KEEP",
+      "planned_work": "WP03-E",
+      "required_outcome": "Keep opt-in and bounded; do not make experimental settings silently alter the public default."
+    }
+  ],
+  "target_authority": {
+    "name": "UnifiedNonlinearRobustnessController",
+    "status": "PROSPECTIVE_NOT_IMPLEMENTED",
+    "owns": [
+      "increment proposal",
+      "retry classification",
+      "cutback and growth policy",
+      "stagnation decision",
+      "line-search dispatch",
+      "global convergence lifecycle",
+      "terminal failure publication",
+      "deterministic robustness diagnostics"
+    ],
+    "must_not_own": [
+      "constitutive equations",
+      "geometric force/tangent equations",
+      "contact search or friction law",
+      "element formulation",
+      "global accepted-state publication outside NonlinearStateTransaction"
+    ],
+    "relationship_to_arc_length": "Arc-length may keep a specialized augmented correction kernel and radius proposal. The common controller owns accepted/rejected lifecycle, failure classification, rollback boundary and diagnostics, not the arc algebra."
+  },
+  "stagnation_contract": {
+    "status": "FROZEN_PROSPECTIVE",
+    "primary_measure": "Free-DOF residual force norm",
+    "secondary_measures": [
+      "relative residual",
+      "displacement correction norm",
+      "optional energy/work norm when the route provides it"
+    ],
+    "window": 4,
+    "plateau_relative_change": 1e-10,
+    "decision_rule": "Declare CONVERGENCE_STAGNATION only when the canonical convergence criteria are not satisfied and the residual has failed to decrease across the declared window by the required relative amount.",
+    "determinism_rules": [
+      "No wall-clock, thread timing or unordered diagnostic data may affect the decision.",
+      "The exact residual history, window and threshold belong in diagnostics.",
+      "A non-finite value takes precedence and maps to NAN_DETECTED or INF_DETECTED."
+    ],
+    "current_implementation_note": "UnifiedNewtonEngine currently uses a four-sample residual plateau check with a 1e-10 relative threshold. WP03-B must make that behavior explicit and test false-positive/false-negative boundaries before changing it."
+  },
+  "line_search_contract": {
+    "status": "FROZEN_PROSPECTIVE",
+    "merit": "M(alpha) = ||R_free(u + alpha * delta_u)||_2",
+    "initial_alpha": 1.0,
+    "reduction": "Geometric halving after a rejected trial.",
+    "minimum_alpha": 1e-4,
+    "maximum_reductions": 12,
+    "acceptance": "Accept the first finite trial satisfying strict merit decrease by default; an explicitly configured Armijo coefficient c uses M(alpha) <= (1 - c * alpha) M(0).",
+    "failure": "If no finite trial is accepted within the reduction budget or alpha floor, return LINE_SEARCH_FAILURE and leave the accepted state unchanged.",
+    "arc_boundary": "The augmented arc-length correction may use its specialized kernel; it must not create a second accepted-state or retry authority."
+  },
+  "adaptive_control_contract": {
+    "status": "FROZEN_PROSPECTIVE",
+    "physical_state": [
+      "accepted displacement",
+      "accepted load factor",
+      "accepted material state",
+      "accepted contact state",
+      "accepted continuation state",
+      "accepted increment metadata"
+    ],
+    "next_trial_policy_state": [
+      "proposed load increment",
+      "cutback count",
+      "retry index",
+      "growth/cutback diagnostic history"
+    ],
+    "rules": [
+      "Only an accepted composite transaction may advance physical state.",
+      "A rejected trial is discarded before cutback is applied.",
+      "A second retry starts from the same accepted digest as the first retry.",
+      "MIN_INCREMENT_REACHED is an explicit terminal outcome.",
+      "Checkpoint failure is infrastructure failure and never causes a physical cutback by default."
+    ],
+    "defaults_to_preserve": {
+      "cutback_factor": 0.5,
+      "growth_factor": 1.5,
+      "maximum_cutbacks": 25
+    }
+  },
+  "arc_length_boundary": {
+    "status": "FROZEN_PROSPECTIVE",
+    "shared": [
+      "accepted NonlinearState",
+      "begin_trial/commit/rollback",
+      "failure classification",
+      "deterministic diagnostics",
+      "checkpoint acceptance boundary"
+    ],
+    "specialized": [
+      "predictor",
+      "augmented correction",
+      "control DOF",
+      "radius calculation",
+      "turning-point branch direction",
+      "adaptive radius proposal"
+    ],
+    "prohibited": "Do not force the standard fixed-load Newton equation onto arc-length or allow arc-length to publish an accepted state outside the shared transaction."
+  },
+  "public_and_experimental_policy": {
+    "public_default": [
+      "standard fixed-load Newton",
+      "modified Newton through the common load-control lifecycle",
+      "newton_line_search through the common lifecycle",
+      "bounded adaptive load-control routes once their existing route contract is preserved",
+      "frictionless penalty composition within its existing bounded scope"
+    ],
+    "experimental_or_research": [
+      "NonlinearRobustnessOptions opt-in settings",
+      "geometric nonlinear research routes",
+      "arc-length/postbuckling",
+      "active-set contact",
+      "frictional contact and slip-root loops",
+      "mixed distributed PETSc/MPI nonlinear execution"
+    ],
+    "maturity_rule": "WP03 implementation and robustness improvements do not change qualification or public maturity. Any future promotion requires the separate capability gates and Owner approval."
+  },
+  "frozen_thresholds": {
+    "easy_case_numerical_preservation": {
+      "relative": 1e-9,
+      "absolute_floor": 1e-12
+    },
+    "deterministic_replay": "Exact state and diagnostic digest equality where the route is deterministic; otherwise the permitted physical threshold above and an explicit reason for non-bitwise variation.",
+    "existing_stricter_tests": "Existing repository tolerances remain authoritative when stricter."
+  },
+  "gate_record": {
+    "G03-01": "PROSPECTIVE_NOT_DEMONSTRATED",
+    "G03-02": "PROSPECTIVE_NOT_DEMONSTRATED",
+    "G03-03": "PROSPECTIVE_NOT_DEMONSTRATED",
+    "G03-04": "PROSPECTIVE_NOT_DEMONSTRATED",
+    "G03-05": "PROSPECTIVE_NOT_DEMONSTRATED",
+    "G03-06": "PROSPECTIVE_NOT_DEMONSTRATED",
+    "G03-07": "PROSPECTIVE_NOT_DEMONSTRATED",
+    "G03-08": "PROSPECTIVE_NOT_DEMONSTRATED",
+    "G03-09": "PROSPECTIVE_NOT_DEMONSTRATED",
+    "G03-10": "PROSPECTIVE_NOT_DEMONSTRATED"
+  },
+  "non_goals": [
+    "No finite-strain plasticity implementation",
+    "No formulation or element change",
+    "No frictional-contact migration",
+    "No distributed nonlinear PETSc/MPI support",
+    "No nonlinear dynamics",
+    "No new maturity claim",
+    "No full-suite execution in WP03-A"
+  ],
+  "owner_decisions": {
+    "new_decisions_required": [],
+    "OD-029-01": "OPEN; formulation decision remains outside WP03 and blocks WP09 only.",
+    "OD-029-02": "CLOSED; READ_V1_WRITE_V2_BOUNDED."
+  },
+  "baseline_campaign_record": "qualification/0_2_9/wp03_baseline_campaign.json",
+  "failure_matrix_record": "qualification/0_2_9/wp03_failure_retry_matrix.json",
+  "implementation_decomposition_record": "qualification/0_2_9/wp03_implementation_decomposition.json"
+}

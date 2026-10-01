@@ -1,0 +1,20 @@
+{
+  "assembly": "tests.verification.test_wp04_c2_tet4_requalification._case",
+  "case": "WP04-C2-M1 zero-state linear preflight",
+  "cells": [
+    32,
+    16,
+    16
+  ],
+  "direct_reference": "spsolve computed during preparation; candidate runs are separate processes",
+  "direct_reference_solution_norm": 9.116269500822165,
+  "free_dofs": 27744,
+  "full_dofs": 28611,
+  "matrix_nnz": 1151694,
+  "matrix_shape": [
+    27744,
+    27744
+  ],
+  "source_sha": "12304a5e79d720b2cea8dca60f638239f045bdef",
+  "symmetry_defect": 0.0
+}

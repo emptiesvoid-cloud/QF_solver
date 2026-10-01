@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-029-WP07-C-CONTACT-IDENTITIES-001",
+  "gate": "WP07",
+  "work_package": "WP07-C",
+  "revision": "0.1",
+  "source_sha": "9ebad4a4ace79e0c4882bbf1636e45a5a3f6d563",
+  "status": "PREPARATION_ONLY",
+  "owner_status": "PASS_CANDIDATE_PENDING_OWNER_REVIEW",
+  "qualification_campaign_executed": false,
+  "formal_points": "0/2",
+  "wp07_points": "0/10",
+  "validated_total": "29/100",
+  "scope": {
+    "penalty": "NONLINEAR_PENALTY_INITIAL_SEARCH: frictionless node-to-triangle, initial/fixed face and normal, existing penalty contribution",
+    "active_set": "LINEAR_ACTIVE_SET_INITIAL_SEARCH: linear static, small displacement, serial direct sparse active-set route",
+    "updated_search": "UPDATED_SEARCH_FINITE_SLIDING: RESEARCH_ONLY; no WP07-C identity or energy claim"
+  },
+  "frozen_thresholds": {
+    "penalty_energy_gradient_relative": 1e-7,
+    "penalty_tangent_frobenius_relative": 1e-6,
+    "penalty_tangent_max_column_relative": 5e-6,
+    "penalty_tangent_symmetry_relative": 1e-12,
+    "penalty_open_force_normalized": 1e-12,
+    "replay_relative": 1e-12,
+    "replay_absolute_floor": 1e-14,
+    "active_set_closed_normalized_gap": 1e-10,
+    "active_set_wrong_sign_pressure": 1e-12,
+    "active_set_normalized_complementarity": 1e-10,
+    "active_set_open_force_normalized": 1e-12,
+    "equilibrium_force_relative": 1e-8,
+    "equilibrium_moment_relative": 1e-8
+  },
+  "case_scales": {
+    "L_char": 0.1,
+    "F_char": "external load norm per case",
+    "P_char": "max(abs(contact pressure), 1) per closed case"
+  },
+  "identities": {
+    "gap": "g(u) = g0 + c dot u",
+    "active_force": "f_c = k * g * c for g < 0",
+    "open_force": "f_c = 0 for g >= 0",
+    "active_tangent": "K_c = k * c outer c away from switching",
+    "open_tangent": "K_c = 0 for g >= 0",
+    "potential": "U_c = 0.5 * k * min(g, 0)^2",
+    "activation_boundary": "nonsmooth; g = 0 follows implementation exactly"
+  },
+  "observed_results": {
+    "penalty_open_force_normalized": 0.0,
+    "penalty_active_force_formula": "PASS within 1e-12 absolute",
+    "penalty_energy_gradient_relative_error": 1.5192447540399686e-10,
+    "penalty_tangent_frobenius_relative_error": 1.5743360213643872e-11,
+    "penalty_tangent_max_column_relative_error": 3.274180926489745e-11,
+    "penalty_tangent_symmetry_relative_error": 0.0,
+    "active_set_open_reaction_normalized": 0.0,
+    "active_set_closed_gap": 0.0,
+    "active_set_closed_pressure": 100.0,
+    "active_set_wrong_sign_pressure": 0.0,
+    "active_set_normalized_complementarity": 0.0,
+    "active_set_force_equilibrium_relative_error": 1.4210854715202004e-16,
+    "active_set_moment_equilibrium_relative_error": 2.8421709430404003e-16,
+    "active_set_replay": "PASS; active status, pressure and displacement exact"
+  },
+  "open_close_reopen": {
+    "path": ["open", "close", "deeper_penetration", "unload", "reopen"],
+    "ghost_force_after_reopen": false,
+    "reopened_replay": "PASS",
+    "closed_replay": "PASS",
+    "persistent_contact_history": false
+  },
+  "activation_cases": [
+    {"gap": 1e-6, "classification": "OPEN", "force_zero": true, "tangent_zero": true},
+    {"gap": -1e-6, "classification": "ACTIVE", "force_zero": false, "tangent_zero": false},
+    {"gap": 0.0, "classification": "OPEN_BY_IMPLEMENTATION", "force_zero": true, "tangent_zero": true}
+  ],
+  "vnv_cases": [
+    {"id": "C1", "name": "penalty_open_zero_force", "status": "PASS"},
+    {"id": "C2", "name": "penalty_active_force_formula", "status": "PASS"},
+    {"id": "C3", "name": "penalty_energy_gradient", "status": "PASS"},
+    {"id": "C4", "name": "penalty_tangent_finite_difference", "status": "PASS"},
+    {"id": "C5", "name": "penalty_activation_boundary", "status": "PASS"},
+    {"id": "C6", "name": "penalty_open_close_reopen", "status": "PASS"},
+    {"id": "C7", "name": "active_set_open_contact", "status": "PASS"},
+    {"id": "C8", "name": "active_set_closed_complementarity", "status": "PASS"},
+    {"id": "C9", "name": "active_set_equilibrium", "status": "PASS"},
+    {"id": "C10", "name": "active_set_replay", "status": "PASS"},
+    {"id": "C11", "name": "updated_search_guard", "status": "PASS_GUARD_ONLY"}
+  ],
+  "governance": {
+    "contact_mechanics_changed": false,
+    "penalty_value_changed": false,
+    "activation_criterion_changed": false,
+    "normal_computation_changed": false,
+    "active_set_algorithm_changed": false,
+    "newton_policy_changed": false,
+    "line_search_policy_changed": false,
+    "search_policy_changed": false,
+    "maturity_changed": false,
+    "heavy_solve_run": false,
+    "external_solver_run": false,
+    "full_test_suite_run": false
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "record_type": "OWNER_AUTHORIZATION_WP08D_ACTIVE_SET_REMEDIATION",
+  "authorization": "OWNER_AUTHORIZED_ACTIVE_SET_REMEDIATION_INTEGRATION",
+  "pre_remediation_remote_sha": "7e46335f0f24de1943a951d561f70359ec6c36cd",
+  "remediation_source_sha": "804a3e6ac12a451f04f2688d90766e7f61554682",
+  "branch": "0.2.9-wp08d-m1-phase1",
+  "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+  "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+  "mechanics_change_authorized": true,
+  "mechanics_scope": "src/solveur/contact/support.py and active-set transition/convergence diagnostics only",
+  "thresholds_changed": false,
+  "mesh_changed": false,
+  "loads_changed": false,
+  "mu_changed": false,
+  "kt_changed": false,
+  "tolerances_changed": false,
+  "fallback_changed": false,
+  "execution_scope": {
+    "M1_production": true,
+    "M1_independent_reference": true,
+    "M1_replay": true,
+    "M2_production": true,
+    "M2_reference": false,
+    "M2_replay": false,
+    "M3": false,
+    "H4": false,
+    "WP05": false,
+    "WP06": false,
+    "WP07": false
+  },
+  "formal_points": {
+    "WP08D": "0/2",
+    "WP08": "0/8"
+  }
+}

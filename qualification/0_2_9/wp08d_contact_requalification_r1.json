@@ -1,0 +1,69 @@
+{
+  "artifact_id": "QF-029-WP08-D-CONTACT-MECHANICS-REQUALIFICATION-R1",
+  "status": "FROZEN_FOR_OWNER_AUTHORIZED_REQUALIFICATION",
+  "work_package": "WP08-D",
+  "purpose": "Re-execute the existing frozen WP08-D frictional structural cases on the contact active-set remediation source. This is a source requalification only; the parent physics contract, loads, material, mesh hierarchy, numerical thresholds, solver tolerances, backend, and fallback policy are not changed.",
+  "parent_contract": {
+    "path": "qualification/0_2_9/wp08d_structural_reference_contract.json",
+    "canonical_sha256": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+    "historical_status": "PREPARATION_ONLY",
+    "historical_status_preserved": true
+  },
+  "governing": {
+    "base_sha": "b2485f98260c7ca9892997eefa3a327637d83cd3",
+    "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "source_before_requalification_freeze": "066359bb9f2a21f0234b69376053239427d40afb",
+    "execution_sha_binding": "Exact frozen HEAD is supplied by the separate Owner authorization record after this contract and runner are committed."
+  },
+  "mechanics_requalification": {
+    "change_commit": "4066b5ad4ac4595de64e9948f62a91140697b06",
+    "source_diff_sha256_since_governing_base": "43cdff84e5030518b6cc8fc821e0c2fc9db6a936bb82228b8a015989939492dc",
+    "changed_production_paths": [
+      "src/solveur/contact/slip_root.py",
+      "src/solveur/contact/solver.py"
+    ],
+    "production_mechanics_changed_since_governing_base": true,
+    "production_mechanics_changed_by_this_requalification": false
+  },
+  "owner_decision": {
+    "path": "qualification/0_2_9/wp07d_contact_requalification_r2/owner_execution_decision.json",
+    "sha256": "e6de753a7a433da9f56ee724c74e389126dda79e278cf02ebce20509aabb0a24"
+  },
+  "owner_authorization": {
+    "basis": "Owner's explicit instruction to rerun WP07 and WP08 M1/M2/M3 after the contact mechanics remediation.",
+    "allowed": [
+      "WP08-D production M1, M2, M3",
+      "WP08-D independent reference for each successful primary mesh",
+      "WP08-D deterministic replay for each mesh whose primary and reference gates pass"
+    ],
+    "not_authorized": [
+      "WP08-E closure",
+      "score or ledger award",
+      "merge, push, tag, or release",
+      "threshold, solver parameter, mesh, load, material, contact search, or fallback changes"
+    ]
+  },
+  "campaign": {
+    "mesh_levels": ["M1", "M2", "M3"],
+    "execution_order": "Sequential, one production solve at a time; finish all primary levels before references, then replay only eligible levels.",
+    "primary": "Fresh production solve at each frozen mesh level.",
+    "independent_reference": "Use the frozen NumPy/KKT reference implementation; it must not import production contact/friction routines.",
+    "replay": "Fresh production process at M1 only, as required by the parent contract; compare the frozen observables using the parent replay gate.",
+    "replay_meshes": ["M1"],
+    "failure_policy": "Preserve every raw failure. A failed mesh blocks only its dependent reference/replay; it does not alter inputs or thresholds. Continue independent primary mesh levels sequentially."
+  },
+  "invariants": {
+    "physics_contract_changed": false,
+    "thresholds_changed": false,
+    "mesh_changed": false,
+    "loads_changed": false,
+    "material_changed": false,
+    "friction_parameters_changed": false,
+    "solver_tolerances_changed": false,
+    "backend_changed": false,
+    "fallback_policy_changed": false,
+    "production_mechanics_changed_by_this_requalification": false
+  },
+  "qualification_claim": "Requalification evidence only; official WP08 points remain subject to Owner review.",
+  "full_repository_test_suite": false
+}

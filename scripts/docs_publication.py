@@ -21,6 +21,9 @@ from solveur.version import DISPLAY_NAME, __version__
 
 
 GENERATED_DOCUMENT_PREFIXES = ("verification/0_2_6/",)
+_OWNER_REVIEW_REQUIRED_EXACT_STATUSES = frozenset({"approved"})
+_OWNER_REVIEW_REQUIRED_STATUS_PREFIXES = ("accepted_for_release_", "owner_approved", "owner_accepted")
+_CONTROLLED_DOCUMENT_METADATA_BACKLOG_STATUSES = frozenset({"controlled", "controlled_release"})
 
 
 def is_generated_document(relative_path: str) -> bool:
@@ -199,19 +202,49 @@ class DocumentationPublisher:
             formula_rows,
         )
 
-        active_documents = [
-            item for item in document_registry["documents"] if item.get("status") != "superseded"
-        ]
-        reviewed_documents = []
-        for item in active_documents:
+        active_documents = [item for item in document_registry["documents"] if item.get("status") != "superseded"]
+        review_scope_documents = _review_scope_documents(active_documents)
+        metadata_complete_documents = []
+        missing_review_metadata = []
+        missing_review_metadata_details = []
+        missing_review_metadata_field_counts = {"reviewer": 0, "approver": 0}
+        controlled_metadata_backlog = []
+        controlled_metadata_backlog_field_counts = {"reviewer": 0, "approver": 0}
+        for item in review_scope_documents:
             metadata = read_document_metadata(self.docs / item["path"])
-            if (
-                item.get("status") in {"controlled", "approved", "accepted_for_release_0_2_3"}
-                and str(metadata.get("reviewer", "")).strip()
-                and str(metadata.get("approver", "")).strip()
-            ):
-                reviewed_documents.append(str(item["id"]))
-        owner_review_status = "PASS" if len(reviewed_documents) == len(active_documents) else "BLOCKED"
+            missing_fields = _missing_review_metadata_fields(metadata)
+            if not missing_fields:
+                metadata_complete_documents.append(str(item["id"]))
+            else:
+                identifier = str(item["id"])
+                missing_review_metadata.append(identifier)
+                missing_review_metadata_details.append(
+                    {
+                        "id": identifier,
+                        "path": str(item["path"]),
+                        "status": str(item.get("status", "")),
+                        "missing_fields": missing_fields,
+                    }
+                )
+                for field in missing_fields:
+                    missing_review_metadata_field_counts[field] += 1
+        for item in active_documents:
+            if str(item.get("status", "")).strip().lower() not in _CONTROLLED_DOCUMENT_METADATA_BACKLOG_STATUSES:
+                continue
+            missing_fields = _missing_review_metadata_fields(read_document_metadata(self.docs / item["path"]))
+            if not missing_fields:
+                continue
+            controlled_metadata_backlog.append(
+                {
+                    "id": str(item["id"]),
+                    "path": str(item["path"]),
+                    "status": str(item.get("status", "")),
+                    "missing_fields": missing_fields,
+                }
+            )
+            for field in missing_fields:
+                controlled_metadata_backlog_field_counts[field] += 1
+        owner_review_status = "PASS" if not missing_review_metadata else "BLOCKED"
         source_status = (
             "PASS"
             if self.source_state["revision"] not in {"uncommitted", "unknown"} and not self.source_state["dirty"]
@@ -219,7 +252,11 @@ class DocumentationPublisher:
         )
         blockers = []
         if owner_review_status != "PASS":
-            blockers.append(f"Owner review incomplete: {len(reviewed_documents)}/{len(active_documents)} documents")
+            blockers.append(
+                "Review metadata incomplete: "
+                f"{len(metadata_complete_documents)}/{len(review_scope_documents)} decision-scope documents; "
+                "controlled lifecycle records are tracked separately and do not assert an Owner decision."
+            )
         if source_status != "PASS":
             blockers.append("approved clean Git revision unavailable")
         payload = {
@@ -231,8 +268,29 @@ class DocumentationPublisher:
             },
             "owner_review": {
                 "status": owner_review_status,
-                "reviewed_documents": len(reviewed_documents),
+                "metadata_complete_documents": len(metadata_complete_documents),
+                "review_scope_documents": len(review_scope_documents),
                 "active_documents": len(active_documents),
+                "excluded_from_review_scope_documents": len(active_documents) - len(review_scope_documents),
+                "documents_missing_metadata": missing_review_metadata,
+                "documents_missing_metadata_details": missing_review_metadata_details,
+                "missing_metadata_field_counts": missing_review_metadata_field_counts,
+                "interpretation": (
+                    "Only statuses that explicitly encode approval or acceptance enter Owner-review metadata "
+                    "readiness. `controlled` and `controlled_release` describe document control, not an Owner "
+                    "decision; their missing fields remain visible in the separate backlog. Metadata fields "
+                    "alone do not establish Owner authorization or an Owner decision."
+                ),
+            },
+            "review_metadata_backlog": {
+                "status": "ADVISORY" if controlled_metadata_backlog else "CLEAR",
+                "documents_with_missing_metadata": len(controlled_metadata_backlog),
+                "details": controlled_metadata_backlog,
+                "missing_field_counts": controlled_metadata_backlog_field_counts,
+                "interpretation": (
+                    "Missing reviewer/approver values on controlled lifecycle records are reported for cleanup, "
+                    "but are not treated as evidence of a missing Owner decision or as a G06 Owner-review blocker."
+                ),
             },
             "source_baseline": {"status": source_status, **self.source_state},
             "blockers": blockers,
@@ -249,10 +307,16 @@ class DocumentationPublisher:
                     "controle automatique bloquant",
                 ),
                 (
-                    "Owner review",
-                    f"{len(reviewed_documents)}/{len(active_documents)}",
+                    "Review metadata",
+                    f"{len(metadata_complete_documents)}/{len(review_scope_documents)} (active: {len(active_documents)})",
                     owner_review_status,
-                    "reviewer et approver non pre-remplis",
+                    "completude des champs uniquement; pas une decision Owner",
+                ),
+                (
+                    "Metadata backlog (controlled lifecycle)",
+                    str(len(controlled_metadata_backlog)),
+                    payload["review_metadata_backlog"]["status"],
+                    "signale sans assimiler controlled a une decision Owner",
                 ),
                 (
                     "Baseline source",
@@ -467,27 +531,100 @@ def read_document_metadata(path: Path) -> dict[str, Any]:
     return metadata
 
 
+def _has_nonempty_review_metadata(metadata: dict[str, Any]) -> bool:
+    """Check metadata completeness only; this does not assert Owner authorization."""
+
+    return not _missing_review_metadata_fields(metadata)
+
+
+def _missing_review_metadata_fields(metadata: dict[str, Any]) -> list[str]:
+    """Return empty or invalid review metadata fields without inferring identities."""
+
+    return [
+        field
+        for field in ("reviewer", "approver")
+        if not isinstance(metadata.get(field), str) or not metadata[field].strip()
+    ]
+
+
+def _review_scope_documents(documents: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Return lifecycle records whose status explicitly asserts approval or acceptance.
+
+    `controlled` and `controlled_release` describe document control only. They
+    are tracked as a metadata backlog but do not assert an Owner decision.
+    """
+
+    return [
+        item
+        for item in documents
+        if _requires_owner_review_metadata(str(item.get("status", "")).strip().lower())
+    ]
+
+
+def _requires_owner_review_metadata(status: str) -> bool:
+    return status in _OWNER_REVIEW_REQUIRED_EXACT_STATUSES or status.startswith(
+        _OWNER_REVIEW_REQUIRED_STATUS_PREFIXES
+    )
+
+
 def normalize_document_status(status: str) -> str:
     """Map descriptive page states to the controlled lifecycle vocabulary."""
     normalized = status.strip().lower()
+    normalized = {
+        "controlled-audit": "controlled_audit",
+        "controlled-evidence": "controlled_evidence",
+        "executed-targeted-evidence": "executed_targeted_evidence",
+        "frozen-execution": "frozen_execution",
+        "owner-approved": "owner_approved",
+        "preparation-only": "preparation_only",
+        "prospective-contract": "prospective_contract",
+        "ready-for-owner-review": "ready_for_owner_review",
+    }.get(normalized, normalized)
     if normalized in {
         "controlled",
         "controlled_release",
         "controlled_evidence",
+        "controlled_audit",
         "approved",
         "superseded",
+        "closed",
         "controlled_candidate",
+        "controlled_candidate_contract",
+        "planning",
+        "implementation_foundation",
+        "implementation_migration",
+        "prospective_contract",
+        "evidence",
+        "executed_targeted_evidence",
+        "frozen_execution",
+        "frozen_execution_protocol",
+        "hold",
+        "owner_approved",
         "owner_accepted",
         "owner_accepted_experimental",
         "owner_accepted_with_recommendations",
+        "owner_accepted_experimental_with_limitations",
+        "owner_approved_with_limitations",
+        "owner_approved_with_limitations_local_governing_unpushed",
         "owner_review_required",
+        "owner_decision_required",
+        "candidate_for_owner_review",
+        "audit_addendum",
+        "preflight_hold",
         "accepted_for_release_0_2_3",
         "ready_for_owner_review",
         "verified_development_external_correlation",
+        "merged_locally_pending_structural_requalification",
+        "preparation_only",
+        "phase_0_preparation",
     }:
         return normalized
     if normalized == "owner_reviewed":
         return "controlled"
+    if normalized == "approved_with_limitations":
+        return "owner_approved_with_limitations"
+    if normalized == "owner_correction_r1_candidate":
+        return "controlled_candidate"
     return "draft"
 
 

@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "classification": "DIAGNOSTIC_ONLY_NO_FORMAL_POINTS",
+  "branch": "codex/wp09-hex8-accuracy-diagnostic",
+  "final_source_sha": "e95021fb747f6411e42b55fd1b70c02354407d56",
+  "production_mechanics_changed": false,
+  "thresholds_changed": false,
+  "formal_contract_rebound": false,
+  "strict_solver_tolerance": 1e-09,
+  "runs": [
+    {
+      "level": "H8",
+      "execution_sha": "e95021fb747f6411e42b55fd1b70c02354407d56",
+      "raw_path": "qualification/0_2_9/wp09_hex8_accuracy_remediation_r2/hex8_8x8x8.json",
+      "raw_sha256": "7D74FA0144C354565F0AC7594589A7E559FC717AB50EA2EB77EB82FAA8D0E780",
+      "summary_sha256": "5D2E30D86106302F2F842E623BCDB3AE634985720BCAC020A7559B8B1C4F8926",
+      "manifest_sha256": "03089A5783575AE525797560ABE1B2F9F5D4ABCE29DEB46B8FD24E51C093D7E7",
+      "nodes": 729,
+      "elements": 512,
+      "dofs": 2187,
+      "status": "PASS",
+      "accepted_steps": 4,
+      "selected_displacement": 0.021230343966417212,
+      "energy": 0.002093817249147815,
+      "von_mises_max": 0.3105744828392777,
+      "max_local_strain_norm": 0.04219397595692801,
+      "free_relative_residual": 5.156625968710628e-10,
+      "force_balance_relative_error": 3.269637339598436e-11,
+      "moment_balance_relative_error": 2.30932960953401e-11,
+      "elapsed_seconds": 1772.176081100013
+    },
+    {
+      "level": "H9",
+      "execution_sha": "c8b3f1ea707ab73664068c7bae7c5d6373235ff5",
+      "raw_path": "qualification/0_2_9/wp09_hex8_accuracy_remediation_r1/hex8_9x9x9.json",
+      "raw_sha256": "8F2A0B03E0A0A41AAC243B9BDB455C783D2AAAB5E8FA89DFEA0D51605C3E0590",
+      "summary_sha256": "E2D43ED028911E504C8B0AB995F158A6EA55DB792C3F8702EE4A1FA4DC265A70",
+      "manifest_sha256": "8D5AC6AEFACAA159475C11581B35246C5296847A0391DCFBBDF8C390F8CC3A8A",
+      "nodes": 1000,
+      "elements": 729,
+      "dofs": 3000,
+      "status": "PASS",
+      "accepted_steps": 4,
+      "selected_displacement": 0.021897995446470694,
+      "energy": 0.0021872382555426255,
+      "von_mises_max": 0.32243677472830096,
+      "max_local_strain_norm": 0.043858720616027996,
+      "free_relative_residual": 5.397144734866607e-10,
+      "force_balance_relative_error": 2.2200935542316556e-11,
+      "moment_balance_relative_error": 1.5703908424909593e-11,
+      "elapsed_seconds": 2465.440994200064
+    }
+  ],
+  "strict_h8_h9_deltas": {
+    "selected_displacement": 0.03048916,
+    "energy": 0.04271186,
+    "von_mises_max": 0.03678951,
+    "equivalent_plastic_strain_max": 0.03798882
+  },
+  "formal_status": "NOT_REBOUND",
+  "formal_points": "0/8",
+  "next_step": "Freeze and review a new HEX8 contract, then run independent checks and replay before any formal claim."
+}

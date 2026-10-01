@@ -1,0 +1,67 @@
+usage: QF_solver [-h] [--version] [--debug]
+                 {solve,check-mesh,inspect,evidence,import-mesh,benchmarks,benchmark,vnv-compare,vnv-import-benchmark,convert-model,inspect-large,solve-large,generate-large-tet4-block,benchmark-large,large-campaign,large-preconditioners,large-scaling-report,petsc-profile-report,petsc-tuning-report,postprocess-large,large-readiness,qualify-large,verify-large,verify-evidence,verify,verify-tet10,verify-hex8,verify-hex8-campaign,verify-hex8-external,verify-contact,verify-all,qualification-readiness,maturity-promotion,owner-review-check,qualify,release-vv,methods} ...
+
+QF_solver finite element solver CLI.
+
+positional arguments:
+  {solve,check-mesh,inspect,evidence,import-mesh,benchmarks,benchmark,vnv-compare,vnv-import-benchmark,convert-model,inspect-large,solve-large,generate-large-tet4-block,benchmark-large,large-campaign,large-preconditioners,large-scaling-report,petsc-profile-report,petsc-tuning-report,postprocess-large,large-readiness,qualify-large,verify-large,verify-evidence,verify,verify-tet10,verify-hex8,verify-hex8-campaign,verify-hex8-external,verify-contact,verify-all,qualification-readiness,maturity-promotion,owner-review-check,qualify,release-vv,methods}
+    solve               solve a JSON finite element model
+    check-mesh          validate a JSON model mesh
+    inspect             write a white-box audit for a JSON model
+    evidence            solve a model and write a reproducible evidence bundle
+    import-mesh         import a Gmsh MSH 4.1 mesh and companion setup
+    benchmarks          list controlled meshed mechanical benchmarks
+    benchmark           run one controlled meshed benchmark
+    vnv-compare         compare normalized QF_solver and reference results and
+                        write a Markdown study
+    vnv-import-benchmark
+                        create a V&V study with PNG and VTU evidence from a
+                        controlled benchmark
+    convert-model       convert JSON model to large HDF5/NPZ format
+    inspect-large       write an aggregated audit for a large model
+    solve-large         solve a large-scale linear static TET4 model
+    generate-large-tet4-block
+                        generate a structured large TET4 block
+    benchmark-large     solve a large model and write benchmark evidence
+    large-campaign      plan or execute a multi-size large TET4 campaign
+    large-preconditioners
+                        compare PETSc preconditioners on one model
+    large-scaling-report
+                        analyze completed strong/weak scaling runs
+    petsc-profile-report
+                        parse and compare PETSc log_view profiles
+    petsc-tuning-report
+                        compare PETSc tuning runs across topologies
+    postprocess-large   recover TET4 fields by checkpointed bounded-memory
+                        chunks
+    large-readiness     check dependencies and sizing before a large TET4 run
+    qualify-large       generate, solve and verify a large TET4 case
+    verify-large        verify a completed large qualification evidence
+                        directory
+    verify-evidence     verify an evidence bundle manifest
+    verify              run existing MITC4 verification
+    verify-tet10        run analytical TET10 mechanical verification
+    verify-hex8         run analytical HEX8 mechanical verification
+    verify-hex8-campaign
+                        run the internal HEX8 V&V campaign
+    verify-hex8-external
+                        run the HEX8/CalculiX C3D8 correlation
+    verify-contact      run the internal V1 normal and frictional contact
+                        studies
+    verify-all          run repository checks from a complete Git source
+                        checkout (developer/CI only)
+    qualification-readiness
+                        check requirement traceability for one scope
+    maturity-promotion  audit evidence readiness for the controlled maturity-
+                        promotion plan
+    owner-review-check  validate one Owner/external review record without
+                        changing maturity
+    qualify             run a qualification campaign manifest
+    release-vv          build the release-level verification and validation
+                        readiness package
+    methods             list available analysis methods
+
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+  --debug               show Python tracebacks for diagnostic use

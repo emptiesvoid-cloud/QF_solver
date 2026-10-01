@@ -1,0 +1,65 @@
+{
+  "contract_sha256": "7be23ae98a8032f8cda85075c860d2cacb24bbfd6065273cd4b1a558475938f4",
+  "error": "RuntimeError: Code_Aster TET10 failed with exit 1:\n\nEXECUTION_CODE_ASTER_EXIT_10=1\n\n\nrestoring result databases from 'BASE_PREC'...\nWARNING: execution failed (command file #1): <F>_ABNORMAL_ABORT\n\n# ------------------------------------------------------------------------------\nContent of /tmp/run_aster_n_0cin28/proc.0 after execution:\n.:\ntotal 16\n-rw-r--r-- 1 user user  286 Sep 23 08:06 10.export\ndrwxr-xr-x 2 user user 4096 Sep 23 08:06 REPE_IN\ndrwxr-xr-x 2 user user 4096 Sep 23 08:06 REPE_OUT\n-rw-r--r-- 1 user user  313 Sep 23 08:06 fort.6\n\nREPE_OUT:\ntotal 0\n\n\n# ------------------------------------------------------------------------------\nCopying results\ncopying (shutil) 'fort.6' to '/work/TET10.mess'...\nWARNING: file not found: fort.8\n\n# ------------------------------------------------------------------------------\nExecution summary\n                                      cpu     system    cpu+sys    elapsed\n--------------------------------------------------------------------------------\nPreparation of environment           0.00       0.00       0.00       0.00\nExecution of code_aster              0.02       0.00       0.02       0.03\nCopying results                      0.00       0.01       0.01       0.01\n--------------------------------------------------------------------------------\nTotal                                0.02       0.01       0.03       0.04\n--------------------------------------------------------------------------------\n\n------------------------------------------------------------\n--- DIAGNOSTIC JOB : <F>_ABNORMAL_ABORT\n------------------------------------------------------------\n\n",
+  "execution_sha": "08fd35fa4001a3ef7b26c057f3d23b1a4257b89a",
+  "family": "TET10",
+  "input_hashes": {
+    "displacement.npy": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/TET10/M1/displacement.npy",
+      "sha256": "a899e705b10265fd18e9fb696717559b9d004f2e76e9cb9af1b4346c5f710b77"
+    },
+    "fixed.npy": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/TET10/M1/fixed.npy",
+      "sha256": "e363b905afdbda970486b93f7b3333f5ca79e31319daa289602b9b2884b13294"
+    },
+    "loads.npy": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/TET10/M1/loads.npy",
+      "sha256": "8f2c8615eed030fb56d3797ac97ac08530bb90c7d561e067bbc712784ae6612c"
+    },
+    "result.json": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/TET10/M1/result.json",
+      "sha256": "c1e5fcb9150e37a7523ae8f902f3ca96ff008f5cdd58aa46205c5816b7f1dbc8"
+    },
+    "stiffness.npy": {
+      "path": "qualification/0_2_9/wp11_multifamily_extension_provenance_r1/TET10/M1/stiffness.npy",
+      "sha256": "ee62177f501bfe0bba11937a2300f822228c50afe9b0304591d53ed99bc9dd40"
+    }
+  },
+  "model_fingerprint": "15d1cb9d0ca07e4ba91175ba2edfebe3366d97a54cefa207b7023a331cad0941",
+  "process": {
+    "command": [
+      "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE",
+      "run",
+      "--rm",
+      "--cpus=1",
+      "--cidfile",
+      "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp12_external_vv\\qualification\\0_2_9\\wp12_external_vv\\TET10\\container.cid",
+      "-v",
+      "C:\\Users\\fari\\AppData\\Local\\Temp\\qf_solver_029_wp12_external_vv\\qualification\\0_2_9\\wp12_external_vv\\TET10:/work",
+      "--workdir",
+      "/work",
+      "--entrypoint",
+      "/opt/spack/opt/spack/linux-zen/code-aster-18.1.0-owafurl325k3dbxls3s645zyfmvakxsg/bin/run_aster",
+      "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+      "TET10.export",
+      "--no-mpi"
+    ],
+    "container_cpu_limit": 1,
+    "container_id": "24ddf68fc445c9665267f41e8382253c1d2fde7c22f54503fe31c3e68ab403f1",
+    "elapsed_seconds": 5.099090399999113,
+    "exit_code": 1,
+    "family": "TET10",
+    "finished_utc": "2026-09-23T08:06:23.538050+00:00",
+    "fresh_container_process": true,
+    "host_process_id": 29508,
+    "image": "simvia/code_aster@sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "image_id": "sha256:4629a21a109309bb97fbdc27d750445cc869e151e2e2ed6290f69539614e4435",
+    "runtime_version": "code_aster 18.1.0 (spack-local)",
+    "solver_mpi_disabled": true,
+    "started_utc": "2026-09-23T08:06:17.810765+00:00",
+    "telemetry_events": 3
+  },
+  "runner_sha": "59fd2bf289ab893eb73d25958c349e52cf2466a6",
+  "status": "FAIL_CLOSED_EXECUTION",
+  "wp11_source_sha": "f122032cbac77b98137b61f27907ba28755a250a"
+}

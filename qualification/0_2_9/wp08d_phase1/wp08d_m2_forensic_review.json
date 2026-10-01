@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "case": "WP08-D-M2-PHASE1-FORENSIC-REVIEW",
+  "branch": "0.2.9-wp08d-m1-phase1",
+  "authoritative_source_sha": "d2b07ec4c3ddcf45a96b9ceec278fb181ab70a0a",
+  "execution_governing_sha": "28cf9dd1886b72c6c7c9fc720dc778eddfce4441",
+  "execution_runner_sha": "d47287944906610eaac751871796de34df4b7d44",
+  "archive_commit_sha": "d2b07ec4c3ddcf45a96b9ceec278fb181ab70a0a",
+  "provenance": {
+    "execution_runner_is_ancestor_of_authoritative_source": true,
+    "execution_governing_sha_is_ancestor_of_authoritative_source": true,
+    "source_sha_interpretation": "M2 execution lineage is recorded at the runner/base commits; d2b07ec is the later evidence archive commit.",
+    "status": "RECONCILED"
+  },
+  "source_artifacts": {
+    "m2_directory": "qualification/0_2_9/wp08d_phase1/M2/",
+    "manifest": {
+      "path": "qualification/0_2_9/wp08d_phase1/M2/manifest.json",
+      "size_bytes": 1401,
+      "sha256": "84c7f617c20eb15aca9f64364f58b75693d13046935711f7e71e18e849db7b1f"
+    },
+    "failure_record": "qualification/0_2_9/wp08d_phase1/wp08d_m2_phase1_fail_closed.json",
+    "failure_document": "docs/verification/0_2_9/wp08d-m2-phase1-fail-closed.md"
+  },
+  "integrity": {
+    "manifest_file_hashes_verified": true,
+    "manifest_files": [
+      {
+        "relative_path": "console.err.log",
+        "size_bytes": 139,
+        "sha256": "8c89e61cf9ec6d576cab7d2876d5fb7fdd076f91250629cb4259743b62e47eba",
+        "validation": "PASS"
+      },
+      {
+        "relative_path": "console.log",
+        "size_bytes": 60,
+        "sha256": "8a9a51aeb6e0dd45c06e8db16ff3388ed7005745ce1291de906b9de2c23a9fb2",
+        "validation": "PASS"
+      },
+      {
+        "relative_path": "progress.json",
+        "size_bytes": 272,
+        "sha256": "d541798de9a28c2b0f683d38560ac9bf270610d76fc96a1ce30422498b867da2",
+        "validation": "PASS"
+      },
+      {
+        "relative_path": "telemetry.jsonl",
+        "size_bytes": 6757,
+        "sha256": "e16848f315c631688b21387d5e048991977fca8274379a59b7792e3d542524c2",
+        "validation": "PASS"
+      }
+    ],
+    "telemetry_jsonl_valid": true,
+    "telemetry_event_count": 10,
+    "telemetry_sequence_numbers": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "contract_digest": "d2d9533c873000996ab3fad992c653dfed37f533ed12d85af97b3696740f179a",
+    "contract_digest_recomputed": true,
+    "policy_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "policy_digest_consistent_across_evidence": true,
+    "status": "PASS_WITH_EXECUTION_ARCHIVE_LINEAGE_RECORDED"
+  },
+  "failure": {
+    "m2_status": "FAIL_CLOSED",
+    "failure_classification": "NumericalConvergenceError",
+    "failure_message": "Frictional contact active set did not converge with direct or active-slip root iterations.",
+    "mesh": "M2",
+    "nodes": 49,
+    "elements": 96,
+    "dofs": 147,
+    "matrix_shape": [147, 147],
+    "matrix_nnz": 3033,
+    "load_increments_configured": 7,
+    "accepted_increments": 0,
+    "failure_localization": "After ASSEMBLY_END and LINEAR_SOLVE_START, before any STEP_END or committed load increment.",
+    "failure_elapsed_time_s": 0.16629349999129772,
+    "first_failure_event_sequence": 8,
+    "terminal_failure_event_sequence": 9,
+    "result_json_present": false,
+    "raw_npz_present": false,
+    "reference_status": "NOT_RUN_DEPENDENCY_PRODUCTION_FAILURE",
+    "replay_status": "NOT_RUN_DEPENDENCY_PRODUCTION_FAILURE",
+    "m3_status": "NOT_RUN_DEPENDENCY_M2_FAILURE"
+  },
+  "contact_state": {
+    "frictional_route_invoked": true,
+    "contact_solver_backend_event": "contact_active_set",
+    "telemetry_method_label": "frictionless_active_set",
+    "active_contact_count_at_failure": null,
+    "active_contact_state": "NOT_RECORDED",
+    "accepted_contact_state": "NONE",
+    "active_set_history_recorded": false,
+    "contact_state_observation_limit": "No gap, pressure, stick/slip, or active-contact count was serialized before failure."
+  },
+  "solver_route": {
+    "dispatch": "FrictionlessActiveSetSolver.solve -> _solve_with_friction",
+    "increment_route": "_solve_friction_increment",
+    "primary_strategy": "_iterate_friction_increment(strategy=direct)",
+    "secondary_strategy": "solve_active_slip_root",
+    "normal_constraint": "Lagrange active-set",
+    "search_mode": "initial_fixed_face_normal",
+    "backend": "serial_direct",
+    "contact_max_iterations": 25,
+    "contact_friction_tolerance": 1e-9,
+    "mu": 0.3,
+    "tangential_stiffness": 1000000.0,
+    "fallback": "disabled",
+    "nonfinite_state_observed": false,
+    "rollback_on_failure": true
+  },
+  "telemetry_timeline": [
+    {"sequence": 0, "event": "ANALYSIS_START", "phase1_event": "RUN_START", "elapsed_s": 0.003325499943457544},
+    {"sequence": 1, "event": "MESH_READY", "phase1_event": "MESH_READY", "elapsed_s": 0.01865660003386438},
+    {"sequence": 2, "event": "ASSEMBLY_START", "phase1_event": "ASSEMBLY_START", "elapsed_s": 0.020861399942077696},
+    {"sequence": 3, "event": "ANALYSIS_START", "phase1_event": null, "elapsed_s": 0.022929999977350235},
+    {"sequence": 4, "event": "MESH_READY", "phase1_event": null, "elapsed_s": 0.092181200045045},
+    {"sequence": 5, "event": "ASSEMBLY_START", "phase1_event": null, "elapsed_s": 0.09231239999644458},
+    {"sequence": 6, "event": "ASSEMBLY_END", "phase1_event": null, "elapsed_s": 0.10234520002268255},
+    {"sequence": 7, "event": "LINEAR_SOLVE_START", "phase1_event": null, "elapsed_s": 0.10249119997024536},
+    {"sequence": 8, "event": "ANALYSIS_FAILED", "phase1_event": null, "elapsed_s": 0.162125900038518},
+    {"sequence": 9, "event": "ANALYSIS_FAILED", "phase1_event": "RUN_FAILED", "elapsed_s": 0.16629349999129772}
+  ],
+  "code_audit": {
+    "production_files_read": [
+      "src/solveur/contact/solver.py",
+      "src/solveur/contact/support.py",
+      "src/solveur/contact/slip_root.py"
+    ],
+    "production_source_changed_in_archive_commit": false,
+    "friction_update_nonfinite_guard_present": true,
+    "friction_update_zero_trial_norm_branch_present": true,
+    "friction_update_nonfinite_failure_not_observed": true,
+    "direct_then_active_slip_root_path_present": true,
+    "canonical_error_wraps_inner_root_error": true,
+    "diagnostic_granularity": "Inner active-set/root iteration and increment are not exposed by the preserved M2 telemetry."
+  },
+  "reproducibility": {
+    "theoretically_reproducible": true,
+    "basis": [
+      "deterministic frozen mesh/load construction",
+      "fixed contract and policy digests",
+      "serial direct route",
+      "failure occurs before any committed increment"
+    ],
+    "empirical_rerun_performed": false
+  },
+  "classification": "ACTIVE_SET_ROBUSTNESS_LIMITATION",
+  "classification_basis": [
+    "Frozen contract and policy digests match.",
+    "M2 mesh and assembled system metadata match the frozen M2 descriptor.",
+    "The production route exhausted its direct and active-slip root paths and returned the declared numerical convergence exception.",
+    "No non-finite-state exception, resource failure, threshold drift, or unauthorized fallback is evidenced.",
+    "The exact inner iteration is not recorded, so no narrower implementation-cause claim is made."
+  ],
+  "governance": {
+    "production_mechanics_changed": false,
+    "thresholds_changed": false,
+    "solver_parameters_changed": false,
+    "fallback_changed": false,
+    "m2_rerun": false,
+    "m3_run": false,
+    "wp08d_formal_status": "FAIL_CLOSED",
+    "wp08d_formal_points": "0/2",
+    "wp08_formal_points": "0/8",
+    "corrective_action": "NONE",
+    "next_step": "Owner review before any remediation or further execution"
+  }
+}

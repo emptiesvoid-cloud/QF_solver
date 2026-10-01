@@ -40,6 +40,37 @@ class FrictionlessContact:
     tangential_stiffness: float | None = None
     master_faces: tuple[tuple[int, int, int], ...] | None = None
     slave_patch_nodes: tuple[int, ...] | None = None
+    slave_patch_faces: tuple[tuple[int, int, int], ...] | None = None
+    tangential_stiffness_mode: str = "nodal"
+
+    def tangential_regularization(self, nodes: np.ndarray) -> tuple[float, float | None]:
+        """Return nodal K_t [N/m] and reference area for the explicit law.
+
+        Legacy ``nodal`` uses K_t unchanged. ``surface`` interprets the input
+        as kappa [N/m^3] and uses K_t = kappa * A_i. ``line`` is intentionally
+        unsupported, not silently interpreted as nodal or surface stiffness.
+        """
+        from solveur.contact.measures import reference_surface_areas
+
+        if self.tangential_stiffness_mode not in {"nodal", "surface"}:
+            raise InputValidationError("tangential_stiffness_mode must be 'nodal' or 'surface'; line is unsupported.")
+        value = self.tangential_stiffness
+        if value is not None and (isinstance(value, bool) or not np.isfinite(value) or value <= 0.0):
+            raise InputValidationError("tangential_stiffness must be finite and positive.")
+        if self.friction_coefficient > 0.0 and value is None:
+            raise InputValidationError("Frictional contact requires a positive tangential_stiffness.")
+        if self.tangential_stiffness_mode == "nodal":
+            return float(value or 0.0), None
+        if self.slave_patch_faces is None or value is None:
+            raise InputValidationError("Surface tangential stiffness requires stiffness and slave_patch_faces.")
+        areas = reference_surface_areas(nodes, self.slave_patch_faces)
+        if self.slave_node not in areas:
+            raise InputValidationError("Surface tangential stiffness has no tributary area for the slave node.")
+        area = areas[self.slave_node]
+        effective = float(value * area)
+        if not np.isfinite(effective) or effective <= 0.0:
+            raise InputValidationError("Effective surface tangential stiffness must be finite and positive.")
+        return effective, area
 
     @property
     def slave_nodes(self) -> tuple[int, ...]:
@@ -82,9 +113,7 @@ class FrictionlessContact:
         """Return every master node needed in the global displacement map."""
         return tuple(sorted({node for face in self.faces for node in face}))
 
-    def face_geometry(
-        self, nodes: np.ndarray, *, allow_clamped_projection: bool = False
-    ) -> ContactFaceGeometry:
+    def face_geometry(self, nodes: np.ndarray, *, allow_clamped_projection: bool = False) -> ContactFaceGeometry:
         """Select the nearest compatible triangle on the supplied geometry.
 
         The caller supplies either the initial coordinates or one bounded

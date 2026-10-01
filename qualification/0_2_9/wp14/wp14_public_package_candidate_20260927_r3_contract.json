@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-029-WP14-PACKAGE-CANDIDATE-20260927-R3",
+  "status": "FROZEN_CANDIDATE_BUILD",
+  "source_sha": "074f6d14e1a2f7503892552bc492e8ed10ecd50a",
+  "selection": {
+    "include_exact": [
+      "CHANGELOG.md",
+      "CITATION.cff",
+      "LICENSE",
+      "LICENSE-DOCS",
+      "MANIFEST.in",
+      "NOTICE",
+      "README.md",
+      "THIRD_PARTY_LICENSES.md",
+      "pyproject.toml",
+      "qualification/benchmarks.json",
+      "qualification/campaign.json",
+      "qualification/demonstrations.json",
+      "qualification/element_analysis_matrix.json",
+      "qualification/formulas.json",
+      "qualification/requirements.json",
+      "qualification/release_vv_0_2_1.json",
+      "qualification/technical_content_coverage.json",
+      "qualification/0_2_7/capability_registry_v2.json",
+      "qualification/0_2_8/consolidated_registry.json",
+      "qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json",
+      "qualification/0_2_8/wp13_02d_mixed_dynamics_delivery.json",
+      "qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json",
+      "qualification/0_2_8/wp13_04d_multimaterial_owner_delivery.json",
+      "qualification/0_2_8/wp13_05_inp_import_capability_record.json",
+      "qualification/0_2_8/wp13_05c_registry_reconciliation_erratum.json",
+      "qualification/0_2_8/wp13_06d_mixed_hdf5_capability_record.json",
+      "qualification/0_2_8/wp13_07d_contact_capability_record.json",
+      "requirements/baseline-standard.txt",
+      "requirements/baseline-large-linux.txt"
+    ],
+    "include_prefixes": [
+      "examples/",
+      "src/qf_solver/",
+      "src/solveur/"
+    ],
+    "exclude_exact": [
+      "examples/README.md",
+      "src/solveur/verification/j2_multifamily_performance.py"
+    ],
+    "forbid_prefixes": [
+      "qualification/0_2_9/",
+      "docs/",
+      "scripts/",
+      "tests/"
+    ]
+  },
+  "tool_bindings": {
+    "scripts/audit_public_release.py": "cb1493a8a49d3f1ee0be89efc37050dc87a8c5165dbfb6de6fdd17b3bbeaf79c",
+    "scripts/audit_release_archive.py": "802a940ccafc91d2eedc1248e22726ecc1ecb401c9f420a21a2fba1d1a45b336",
+    "scripts/git_tools.py": "9192aef8e8610ee4f651cac11a18af189678f561d9c85c20c64c77be47a287fa",
+    "scripts/plan_public_package.py": "d1a734cb4a11d53abfa102507f531f9369bc70797adf23075dd5b03c10f8e1f8",
+    "scripts/probe_installed_package.py": "855ec48183218f6466defa90e02ffbee30cbebf30f51ef31d598c1b565b916e4",
+    "scripts/review_vocabulary.py": "28af00eab2a09fdcb94bf3c4682230dcaaca9b519aeb0867d96b67d4589ad3aa",
+    "scripts/verify_public_package.py": "3126db2cf7bcc250c75d683c4577e4af21d867102a866484018e8c868f884814"
+  },
+  "package_version": "0.2.8",
+  "package_build_allowed": true,
+  "publication_allowed": false,
+  "structural_solves_allowed": false,
+  "numeric_threshold_changes_allowed": false,
+  "whole_repository_gate_waivers_allowed": false,
+  "owner_acceptance": "PENDING_SEPARATE_PACKAGE_REVIEW_NOT_WP14_CLOSURE",
+  "purpose": "Verify a selected installable package from prospectively frozen Git source without replacing the engineering repository or historical whole-repository release gates.",
+  "exclusion_rationale": {
+    "examples/README.md": "Internal campaign preparation notes are not runtime package inputs.",
+    "src/solveur/verification/j2_multifamily_performance.py": "Internal WP13 harness; no public import depends on it. Existing solver kernels and public APIs remain selected."
+  },
+  "gates": [
+    "Exact clean source/contract/tool provenance before any build",
+    "Every selected source byte covered by sdist and every runtime/resource byte covered by wheel",
+    "Strict existing scans report zero findings in selected sources, wheel and sdist",
+    "No undeclared archive payload, symlink, traversal or case alias",
+    "Unchanged package metadata version 0.2.8 in both archives",
+    "Separate venv install with no index and no dependency installation",
+    "Installed QF source SHA-256 identities match all selected source inputs",
+    "All three installed CLI version commands and primary CLI help succeed",
+    "Fresh installed verify-all probes from both unrelated cwd and source checkout cwd return 2, produce no requested report and no Python subprocess audit events",
+    "Actual argv/PID/UTC/exit codes and raw hashed command logs, plus binary manifest"
+  ],
+  "limitations": [
+    "Candidate package only; no release 0.2.9, tag, upload, governing merge/push or point attribution.",
+    "The whole engineering repository and Git history remain outside this selected publication decision; their historical strict-scan failures remain open.",
+    "Selected public documentation is limited to the included README, changelog, citation and selected qualification metadata; the excluded full documentation collection is not certified.",
+    "System and user dependency sites are allowed; all QF loaded module origins and installed byte hashes must still be verified. This is not full dependency isolation.",
+    "Python audit hooks are not a system-wide OS subprocess trace.",
+    "Build uses installed build dependencies with --no-isolation; actual runtime versions must be recorded.",
+    "No numerical solve, mesh refinement, independent FEM comparison or historical raw recovery is performed by this package campaign.",
+    "No existing output directory may be reused; failed attempts and all earlier raw evidence remain intact."
+  ],
+  "previous_attempt": {
+    "status": "FAIL_CLOSED_CANDIDATE_BUILD",
+    "record": "qualification/0_2_9/wp14/wp14_public_package_candidate_20260927_r2_failure.json",
+    "raw_evidence_preserved": true
+  },
+  "audit_runner_minimum_python": "3.11",
+  "dependency_mode": "VENV_WITH_SYSTEM_AND_USER_DEPENDENCY_SITES_ALLOWED_SAFE_PATH_PROBES_EXACT_QF_ORIGIN_AND_BYTES_REQUIRED"
+}

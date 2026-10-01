@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-029-WP09-HEX20-EXTENSION-STUDY-R1",
+  "work_item": "WP09",
+  "scope": "HEX20-only bounded corotational small-strain J2 extension study",
+  "status": "FROZEN_DIAGNOSTIC_CONTRACT",
+  "governing_branch": "0.2.9-unified-nonlinear",
+  "authorized_source_base_sha": "3e4f79161c0484563387a55d3de9c19c5389f9b3",
+  "policy": {
+    "frozen_policy_code_digest": "93a79d72fab9a9305985276f4c912d49c3e6e5df865475ae2108848778ea92ac",
+    "runtime_policy_binding_digest": "895d3c932278c0207b207318216c263a427636d57738bef730917fdc7d9b0ef5",
+    "persist_in_every_primary_artifact": true
+  },
+  "owner_authorization": {
+    "hex20_scope": true,
+    "diagnostic_study": true,
+    "formal_wp09_points_awarded": false,
+    "merge": false,
+    "push": false
+  },
+  "formulation": {
+    "kinematics": "corotational_j2",
+    "decomposition": "F = R U",
+    "local_strain": "U - I",
+    "constitutive_model": "additive small-strain von Mises J2 with isotropic hardening",
+    "force_measure": "P = R sigma_local",
+    "state_transport": "tensorial committed state between corotated frames",
+    "tangent": "central_difference_internal_force_at_fixed_committed_state",
+    "solver_method": "newton_raphson",
+    "production_mechanics_changed": false
+  },
+  "material": {
+    "type": "von_mises_elastoplastic_3d",
+    "E": 1000.0,
+    "nu": 0.3,
+    "yield_stress": 0.02,
+    "hardening_modulus": 10.0
+  },
+  "path": {
+    "load_scale": 0.25,
+    "reference_resultant": [1.0, 0.0, 0.0],
+    "effective_final_resultant": [0.25, 0.0, 0.0],
+    "load_path": [0.25, 0.5, 0.75, 1.0],
+    "load_steps": 4,
+    "max_iterations": 40,
+    "tolerance": 1e-9,
+    "corotational_max_local_strain": 0.05,
+    "adaptive_load_steps": false,
+    "contact": false,
+    "dynamics": false,
+    "follower_loads": false
+  },
+  "mesh_hierarchy": {
+    "family": "HEX20",
+    "topology": "regular_unit_block_refined_along_x_with_shared_mid-edge_nodes",
+    "mesh_gate": "H2_to_H3_only",
+    "levels": [
+      {"stage": "H1", "level": "H20-1", "cells": 1, "raw_filename": "h1_hex20.json"},
+      {"stage": "H2", "level": "H20-2", "cells": 2, "raw_filename": "h2_hex20.json"},
+      {"stage": "H3", "level": "H20-3", "cells": 3, "raw_filename": "h3_hex20.json"}
+    ]
+  },
+  "gates": {
+    "finite_required": true,
+    "production_status": "PASS",
+    "force_equilibrium_relative_max": 1e-8,
+    "moment_equilibrium_relative_max": 1e-8,
+    "free_residual_relative_max": 1e-7,
+    "minimum_det_f": 1e-10,
+    "maximum_local_strain_norm": 0.05,
+    "replay_relative_tolerance": 1e-12,
+    "replay_absolute_tolerance": 1e-14,
+    "mesh_comparison": {
+      "selected_displacement_relative_max": 0.05,
+      "reaction_relative_max": 0.05,
+      "energy_relative_max": 0.05,
+      "von_mises_relative_max": 0.10,
+      "missing_observable": "FAIL_CLOSED"
+    }
+  },
+  "independent_reference": {
+    "implementation": "pure NumPy observable recomputation from raw HEX20 evidence",
+    "script": "scripts/run_wp09_hex20_extension_reference.py",
+    "must_not_import": ["solveur.elements", "solveur.materials", "solveur.core"],
+    "not_claimed": "independent global FEM/Newton solve",
+    "required": true
+  },
+  "replay": {
+    "required": true,
+    "same_frozen_inputs": true,
+    "same_frozen_tolerance": true,
+    "compare": [
+      "selected_displacement",
+      "reaction_norm",
+      "energy",
+      "von_mises_max",
+      "equivalent_plastic_strain_max",
+      "free_relative_residual",
+      "force_balance_relative_error",
+      "moment_balance_relative_error"
+    ]
+  },
+  "formal_status": {
+    "wp09_official_points": "8/8 HEX8 unchanged",
+    "hex20_extension_points": "0/pending",
+    "award_policy": "Owner review required; this study never awards points"
+  },
+  "limitations": [
+    "HEX20 only; no TET4/TET10/HEX8 extension claim",
+    "bounded corotational small-strain J2 only",
+    "regular unit-block mesh refined along x only",
+    "reference is observable recomputation, not an independent global solve",
+    "no external Code_Aster or CalculiX correlation in this study",
+    "no general finite-strain plasticity claim"
+  ]
+}

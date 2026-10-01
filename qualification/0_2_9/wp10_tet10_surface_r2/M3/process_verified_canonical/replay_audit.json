@@ -1,0 +1,21 @@
+{
+  "status": "PASS_REPLAY",
+  "primary": "qualification\\0_2_9\\wp10_tet10_surface_r2\\M2\\H3\\primary.json",
+  "replay": "qualification\\0_2_9\\wp10_tet10_surface_r2\\M3\\process_verified_canonical\\primary_replay.json",
+  "reference": "qualification\\0_2_9\\wp10_tet10_surface_r2\\M2\\H3\\reference.json",
+  "primary_execution_sha": "3356dabb38ff4f660dfc905aa75da3e3a6f7c863",
+  "replay_execution_sha": "def63ca4341de32498c3debb709822ee1f8eccb9",
+  "comparisons": {
+    "status": true,
+    "contract_sha256": true,
+    "runner_sha": true,
+    "displacements_max_abs": 0.0,
+    "load_path_max_abs": 0.0,
+    "contact_gaps_max_abs": 0.0,
+    "active_contacts_equal": true,
+    "equilibrium_max_abs": 0.0,
+    "envelope_max_abs": 0.0,
+    "reference_pass": true
+  },
+  "independence_note": "Replay is a fresh production process; the reference is JSON/numpy observable recomputation, not an independent global solve."
+}

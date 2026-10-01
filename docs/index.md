@@ -1,6 +1,6 @@
 ---
 doc_id: DOC-STATE-001
-revision: 1.0
+revision: 1.1
 status: controlled
 applicable_version: 0.2.8
 reviewer: ""
@@ -35,6 +35,7 @@ tools, start with the solver-selection and comparison guides:
 
 - [Compare open-source FEM solvers](comparisons/index.md)
 - [Python FEM solvers: which one should you use?](comparisons/python-fem-solvers.md)
+
 ## Current scope
 
 - Bounded linear static routes are available for the element combinations in
@@ -72,13 +73,17 @@ physical validation or certification.
 
 ## Release and roadmap
 
-The source currently identifies as `0.2.8`; no 0.2.8 tag or publication is
-claimed by this documentation update. See the [public roadmap](reference/feuille_de_route.md)
-for product-level next steps. Historical qualification records remain
-available for provenance and are labelled as historical in their own pages.
+The development source identifies as `0.2.9`, but `v0.2.9` has not been tagged
+or published. Checks on selected candidate sources and documents do not qualify
+the whole repository or broaden any solver-route claim; the
+[known limitations](etat/limites.md) and recorded failures remain visible.
+The current published release is `0.2.8` as linked above. See the
+[public roadmap](reference/feuille_de_route.md) for product-level next steps.
+Historical qualification records remain available for provenance and are
+labelled as historical in their own pages.
 
-Read [What's New in 0.2.8](whats-new/0.2.8.md) for the current bounded
-development summary.
+Read [What's New in 0.2.8](whats-new/0.2.8.md) for the published release
+summary.
 
 ## Performance and reproducibility
 
