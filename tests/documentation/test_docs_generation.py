@@ -65,10 +65,16 @@ def test_public_release_status_copy_distinguishes_release_and_candidate() -> Non
     architecture = (DOCS / "architecture.md").read_text(encoding="utf-8")
     open_source = (DOCS / "reference" / "open_source.md").read_text(encoding="utf-8")
 
-    assert "Next source candidate | `0.2.9`" in readme
+    assert (
+        "Source candidate | `0.2.9` (integrated into `main`; not tagged or published)"
+        in readme
+    )
     assert "The current published release is" in index
     assert "0.2.8 is the current published release" in roadmap
-    assert "0.2.9 candidate; it has not been tagged or published" in roadmap
+    assert (
+        "0.2.9 source candidate\nhas been integrated into `main`, but has not been tagged or published"
+        in roadmap
+    )
     assert "Published 0.2.8 architecture" in architecture
     assert "published 0.2.8 release scope" in open_source
     assert "0.2.8 is the current development candidate" not in roadmap
