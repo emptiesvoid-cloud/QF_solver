@@ -73,11 +73,14 @@ physical validation or certification.
 
 ## Release and roadmap
 
-The development source identifies as `0.2.9`, but WP14 remains `HOLD` and
-`v0.2.9` has not been tagged or published. The current published release is
-`0.2.8` as linked above. See the [public roadmap](reference/feuille_de_route.md)
-for product-level next steps. Historical qualification records remain
-available for provenance and are labelled as historical in their own pages.
+The development source identifies as `0.2.9`, but `v0.2.9` has not been tagged
+or published. Checks on selected candidate sources and documents do not qualify
+the whole repository or broaden any solver-route claim; the
+[known limitations](etat/limites.md) and recorded failures remain visible.
+The current published release is `0.2.8` as linked above. See the
+[public roadmap](reference/feuille_de_route.md) for product-level next steps.
+Historical qualification records remain available for provenance and are
+labelled as historical in their own pages.
 
 Read [What's New in 0.2.8](whats-new/0.2.8.md) for the published release
 summary.

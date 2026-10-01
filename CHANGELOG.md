@@ -2,9 +2,10 @@
 
 ## 0.2.9 - In preparation (not released)
 
-- The integrated source candidate includes WP14 owner-review preparation and
-  WP16 bounded external-evidence handling. WP14 remains `HOLD` pending
-  qualification of the integrated source and public package.
+- The integrated source candidate includes bounded public-package and
+  documentation review, plus bounded external-evidence handling. These checks
+  do not qualify the whole repository or broaden route-specific claims;
+  recorded failures and limitations remain in effect.
 - Historical failures and the published `0.2.8` citation remain unchanged.
   No `v0.2.9` tag, release archive, DOI or PyPI publication is claimed.
 

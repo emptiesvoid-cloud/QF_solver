@@ -47,9 +47,12 @@ Release availability is authoritative on [PyPI](https://pypi.org/project/qf-solv
 and [GitHub Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases).
 This page describes the published `0.2.8` release line. Citation metadata is
 authoritative in [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).
-The development source identifies as `0.2.9`. Its WP14 qualification remains
-`HOLD`; the published `0.2.8` tag, DOI and installation instructions below
-must not be interpreted as evidence for the candidate source.
+The development source identifies as `0.2.9`, but it is not yet a published
+release. Checks on selected candidate sources and documents do not qualify the
+whole repository or broaden any element, analysis or solver-route claim.
+Historical failures and the [known limitations](https://emptiesvoid-cloud.github.io/QF_solver/etat/limites/)
+remain in effect. The published `0.2.8` tag, DOI and installation instructions
+below must not be interpreted as evidence for the candidate source.
 
 ## Intended use
 
