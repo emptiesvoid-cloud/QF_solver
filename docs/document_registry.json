@@ -3056,7 +3056,7 @@
     {
       "id": "DOC-REF-OSS-001",
       "path": "reference/open_source.md",
-      "title": "Preparation open source",
+      "title": "Open-source licence and publication",
       "status": "controlled",
       "requirements": [
         "REQ-REL-001"

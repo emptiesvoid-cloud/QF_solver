@@ -1,6 +1,6 @@
 ---
 doc_id: DOC-REF-004
-revision: 1.0
+revision: 1.1
 status: controlled
 applicable_version: 0.2.8
 reviewer: ""
@@ -9,15 +9,16 @@ approver: ""
 
 # Public roadmap
 
-QF Solver 0.2.8 is the current development candidate. This roadmap describes
+QF Solver 0.2.8 is the current published release. The development source is a
+0.2.9 candidate; it has not been tagged or published. This roadmap describes
 product-level follow-up work; it is not a release gate, tag, publication or a
 promise that an unqualified route is production-ready.
 
 ## Current release
 
-This is the 0.2.8 development scope. A historical planning snapshot may retain
-earlier scores or work-package wording, but it does not define the current
-candidate.
+The scope below describes the published 0.2.8 release. Historical planning
+snapshots may retain earlier scores or work-package wording, but they do not
+define the 0.2.9 candidate or authorize its release.
 
 The release focuses on inspectable formulations, bounded numerical evidence,
 reproducible solver behavior and recorded large-model PETSc/MPI workflows.
@@ -47,4 +48,5 @@ separate decision.
 Historical plans and qualification records remain in
 [`docs/verification/0_2_7/`](../verification/0_2_7/README.md) for provenance. They are
 not the active product roadmap. The mixed distributed PETSc/MPI runtime is
-explicitly `NOT_VALIDATED` and is deferred beyond the 0.2.8 release gate.
+explicitly `NOT_VALIDATED`; its presence in the 0.2.9 development source does
+not constitute runtime qualification.

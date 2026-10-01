@@ -58,6 +58,22 @@ def controlled_markdown_paths() -> set[str]:
     }
 
 
+def test_public_release_status_copy_distinguishes_release_and_candidate() -> None:
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    index = (DOCS / "index.md").read_text(encoding="utf-8")
+    roadmap = (DOCS / "reference" / "feuille_de_route.md").read_text(encoding="utf-8")
+    architecture = (DOCS / "architecture.md").read_text(encoding="utf-8")
+    open_source = (DOCS / "reference" / "open_source.md").read_text(encoding="utf-8")
+
+    assert "Next source candidate | `0.2.9`" in readme
+    assert "The current published release is" in index
+    assert "0.2.8 is the current published release" in roadmap
+    assert "0.2.9 candidate; it has not been tagged or published" in roadmap
+    assert "Published 0.2.8 architecture" in architecture
+    assert "published 0.2.8 release scope" in open_source
+    assert "0.2.8 is the current development candidate" not in roadmap
+
+
 def test_tetra_boundary_faces_remove_shared_face() -> None:
     faces = tetra_boundary_faces([(0, 1, 2, 3), (0, 2, 1, 4)])
     assert faces.shape == (6, 3)
