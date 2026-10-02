@@ -54,7 +54,7 @@ def test_security_policy_is_durable_across_published_and_candidate_channels() ->
     assert "best-effort basis" in security
 
 
-def test_candidate_source_and_last_published_citation_are_distinct() -> None:
+def test_tagged_source_and_last_published_citation_are_distinct() -> None:
     project = tomllib.loads(_text("pyproject.toml"))["project"]
     runtime = _text("src/solveur/version.py")
     citation = _text("CITATION.cff")
@@ -81,7 +81,8 @@ def test_candidate_source_and_last_published_citation_are_distinct() -> None:
     assert "10.5281/zenodo.22697898" in _text("README.md")
     assert "10.5281/zenodo.22697897" in _text("README.md")
     assert (
-        "Source candidate | `0.2.9` (integrated into `main`; not tagged or published)"
+        "Source tag | [`v0.2.9`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.9) "
+        "(source snapshot; package not published)"
         in _text("README.md")
     )
 

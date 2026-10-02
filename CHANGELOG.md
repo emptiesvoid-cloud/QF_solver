@@ -1,14 +1,14 @@
 # Changelog
 
-## 0.2.9 - Source integrated; release not issued
+## 0.2.9 - Source tagged; package release not issued
 
 - The source candidate was merged into `main` at `765bbe4`. The required
   `Quality and verification` and `Documentation tests` workflows passed on
   candidate commit `ea28165`; these CI results do not qualify the whole
   repository or broaden route-specific claims.
-- `v0.2.9` has not been tagged or published. The published `0.2.8` release
-  and citation remain authoritative until a separate release is issued; no
-  `0.2.9` version DOI, release archive or PyPI publication is claimed.
+- `v0.2.9` identifies the source snapshot. No 0.2.9 GitHub Release, version
+  DOI, Zenodo archive or PyPI package has been published. The published `0.2.8`
+  release and citation remain authoritative until a separate publication.
 - Historical failures and documented limitations remain in effect.
 
 ## 0.2.8 - Released

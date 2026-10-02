@@ -9,16 +9,17 @@ approver: ""
 
 # Public roadmap
 
-QF Solver 0.2.8 is the current published release. The 0.2.9 source candidate
-has been integrated into `main`, but has not been tagged or published. This
-roadmap describes product-level follow-up work; it is not a release gate, tag,
-publication or a promise that an unqualified route is production-ready.
+QF Solver 0.2.8 is the current published release. The 0.2.9 source is
+integrated into `main` and tagged `v0.2.9`; no package or version DOI has been
+published. This roadmap describes product-level follow-up work; it is not a
+release gate, tag, publication or a promise that an unqualified route is
+production-ready.
 
 ## Current release
 
 The scope below describes the published 0.2.8 release. The roadmap is
 forward-looking and does not change that release scope or authorize publication
-of the 0.2.9 source candidate.
+of the tagged 0.2.9 source.
 
 The release focuses on inspectable formulations, bounded numerical evidence,
 reproducible solver behavior and recorded large-model PETSc/MPI workflows.
