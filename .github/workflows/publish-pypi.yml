@@ -155,7 +155,6 @@ jobs:
           name: bounded-package-audit
           path: |
             ${{ runner.temp }}/qf-public-scope.json
-            ${{ runner.temp }}/qf-package-candidate/result.json
             ${{ runner.temp }}/qf-package-candidate/package_check.json
             ${{ runner.temp }}/qf-package-candidate/manifest.json
           if-no-files-found: error
