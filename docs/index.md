@@ -87,9 +87,11 @@ clear the full archive for distribution. The
 The current published release is `0.2.8` as linked above. See the
 [public roadmap](reference/feuille_de_route.md) for product-level next steps.
 The development package version is `0.2.10`, a preparation candidate only;
-it has not been tagged, assigned a version DOI, or published. Its eventual
-distribution requires fresh frozen-source and package checks and a separate
-publication decision. The `v0.2.9` source tag remains unchanged.
+it has not been tagged or published. The new-version Zenodo draft reserves
+`10.5281/zenodo.23106744`, but has no files; this DOI is not registered or a
+published citation. Its eventual distribution requires fresh frozen-source
+and package checks and a separate publication decision. The `v0.2.9` source
+tag remains unchanged.
 Historical qualification records remain available for provenance and are
 labelled as historical in their own pages.
 

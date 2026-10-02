@@ -4,7 +4,10 @@
 
 - The development package version advances beyond the immutable `v0.2.9`
   source-only tag. There is no `v0.2.10` tag, package publication, GitHub
-  Release, Zenodo deposit or version DOI yet.
+  Release, PyPI package or published Zenodo deposit yet. The v0.2.10 Zenodo
+  draft reserves `10.5281/zenodo.23106744`; it contains no release files, and
+  its DOI is not registered until that draft is published. The published 0.2.8
+  citation remains authoritative.
 - Publication requires a new frozen source and selected-package audit, public
   metadata aligned to the new version and its assigned DOI, passing CI at the
   final source revision, and a separate Owner publication decision. The

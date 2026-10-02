@@ -49,7 +49,10 @@ and [GitHub Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases).
 This page describes the published `0.2.8` release line. Citation metadata is
 authoritative in [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).
 The development package version is `0.2.10`; this is a candidate identity,
-not a published package, release tag, version DOI or qualification decision.
+not a published package, release tag or qualification decision. A new-version
+Zenodo draft has reserved DOI `10.5281/zenodo.23106744`, but the record has no
+files and has not been published. The DOI is not registered or a citable release
+identifier yet; the published `0.2.8` citation remains authoritative.
 The `0.2.9` source was integrated into `main` at merge commit
 `765bbe4`; the required `Quality and verification` and `Documentation tests`
 workflows passed on candidate commit `ea28165`. This confirms those CI checks,
