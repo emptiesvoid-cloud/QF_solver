@@ -2,19 +2,18 @@
 doc_id: DOC-START-PUB-001
 revision: 1.0
 status: controlled
-applicable_version: 0.2.8
+applicable_version: 0.2.10
 reviewer: ""
 approver: ""
 ---
 
 # Installation
 
-QF Solver `0.2.8` is published on [PyPI](https://pypi.org/project/qf-solver/).
+QF Solver `0.2.10` is published on [PyPI](https://pypi.org/project/qf-solver/0.2.10/).
 The [central capability index](../capabilities/index.md) and
-[What's New](../whats-new/0.2.8.md) describe its bounded public scope.
-The development source identifies itself as `0.2.10`, but that candidate is
-not yet published. These installation instructions are for the published
-`0.2.8` release; do not treat a default-branch checkout as a release package.
+[What's New](../whats-new/0.2.10.md) describe its bounded public scope.
+The full GitHub repository archive is outside the selected distribution scope;
+do not treat a default-branch checkout as a cleared release archive.
 
 ## User installation
 
@@ -30,7 +29,7 @@ release selector. Select the immutable release tag explicitly when
 reproducibility matters:
 
 ```bash
-git clone --branch v0.2.8 --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git
+git clone --branch v0.2.10 --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git
 cd QF_solver
 python -m pip install .
 qf-solver --version
@@ -95,11 +94,14 @@ commands.
 
 ## Distribution traceability data
 
-The wheel and source distribution include only the lightweight public 0.2.8
+The wheel and source distribution include only the selected lightweight public
 traceability set: the consolidated 46-record element-analysis registry and the
 HEX8-SRI, mixed-dynamics, mixed-MPC, mixed-multimaterial, `.inp`, mixed-HDF5
 and contact owner/delivery records. Historical 0.2.7 capability metadata is
 retained separately.
+
+These records retain their original 0.2.8 evidence identity. Packaging them
+in 0.2.10 does not create a new maturity or qualification decision.
 
 Raw NPZ/HDF5 arrays, full campaign output, caches, debug artifacts and
 temporary files are intentionally excluded from package data. They remain

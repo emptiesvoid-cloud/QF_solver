@@ -2,7 +2,7 @@
 doc_id: DOC-REF-OSS-001
 revision: 1.1
 status: controlled
-applicable_version: 0.2.8
+applicable_version: 0.2.10
 reviewer: ""
 approver: ""
 ---
@@ -26,10 +26,11 @@ terms described in CONTRIBUTING.md.
 
 ## Release boundary
 
-The published 0.2.8 release scope is explicitly bounded. Experimental,
+The published 0.2.10 package scope is explicitly bounded. Experimental,
 research-only, not-validated and non-comparable
 routes remain labeled as such in the capabilities and known-limitations pages.
 Historical audit records keep the version and status that were true when they
-were produced.
+were produced. The full GitHub repository archive still fails the separate
+G03 public-content scan and is not a cleared 0.2.10 distribution asset.
 
 This page does not imply certification or automatic publication.

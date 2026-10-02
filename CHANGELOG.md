@@ -1,19 +1,19 @@
 # Changelog
 
-## 0.2.10 - Release preparation (not published)
+## 0.2.10 - Released
 
-- The development package version advances beyond the immutable `v0.2.9`
-  source-only tag. There is no `v0.2.10` tag, package publication, GitHub
-  Release, PyPI package or published Zenodo deposit yet. The v0.2.10 Zenodo
-  draft reserves `10.5281/zenodo.23106744`; it contains no release files, and
-  its DOI is not registered until that draft is published. The published 0.2.8
-  citation remains authoritative.
-- Publication requires a new frozen source and selected-package audit, public
-  metadata aligned to the new version and its assigned DOI, passing CI at the
-  final source revision, and a separate Owner publication decision. The
-  whole-repository G03 archive scan remains failed; a bounded package review
-  does not clear that archive or change WP14 status.
-- No new mechanics qualification or broader solver-route claim is made here.
+- The selected Python wheel and source distribution carry the 0.2.10 package
+  identity. This follows the immutable `v0.2.9` source-only snapshot, which
+  was not a PyPI package release.
+- The version DOI is `10.5281/zenodo.23106744`. Its Zenodo deposit contains
+  the explicitly selected Python distribution artifacts and their checksums,
+  not the complete GitHub repository archive.
+- The public package and served documentation have separate bounded audits.
+  These do not clear the full-repository G03 archive, promote WP14, alter
+  historical failures, or expand any element/analysis/solver-route claim.
+- Release artifacts and CI apply to the exact `v0.2.10` source revision. See
+  [the release notes](docs/whats-new/0.2.10.md) for user-facing scope and
+  [known limitations](docs/etat/limites.md) before relying on a result.
 
 ## 0.2.9 - Source tagged; package release not issued
 
@@ -22,8 +22,9 @@
   candidate commit `ea28165`; these CI results do not qualify the whole
   repository or broaden route-specific claims.
 - `v0.2.9` identifies the source snapshot. No 0.2.9 GitHub Release, version
-  DOI, Zenodo archive or PyPI package has been published. The published `0.2.8`
-  release and citation remain authoritative until a separate publication.
+  DOI, Zenodo archive or PyPI package was issued for 0.2.9. The `0.2.8`
+  release and citation remained authoritative until the later 0.2.10
+  publication.
 - Earlier bounded checks of selected installable sources and public documents
   passed at their frozen source revision, but the full repository archive
   remains outside that scope and fails the public-content scan. The source tag

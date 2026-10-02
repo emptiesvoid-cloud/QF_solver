@@ -12,13 +12,9 @@ from scripts.check_publication_metadata import check_publication_metadata
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def test_v0210_candidate_is_not_a_publishable_metadata_state() -> None:
-    failures = check_publication_metadata(ROOT, "v0.2.10")
-    assert "CITATION.cff does not identify this version" in failures
-    assert "README.md release line does not identify this version" in failures
-    assert "README.md still denies publication of this version" in failures
-    assert "CHANGELOG.md has no released entry for this version" in failures
-    assert "docs/index.md still advertises a different current release" in failures
+def test_v0210_release_copy_passes_fail_closed_metadata_gate() -> None:
+    assert check_publication_metadata(ROOT, "v0.2.10") == []
+    assert check_publication_metadata(ROOT, "v0.2.8")
 
 
 def test_metadata_gate_rejects_nonstable_or_mismatched_tag() -> None:

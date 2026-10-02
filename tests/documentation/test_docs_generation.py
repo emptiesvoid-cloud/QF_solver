@@ -58,7 +58,7 @@ def controlled_markdown_paths() -> set[str]:
     }
 
 
-def test_public_release_status_copy_distinguishes_release_and_tagged_source() -> None:
+def test_public_release_copy_distinguishes_package_and_source_only_tag() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     index = (DOCS / "index.md").read_text(encoding="utf-8")
     roadmap = (DOCS / "reference" / "feuille_de_route.md").read_text(encoding="utf-8")
@@ -70,21 +70,21 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
         "(source snapshot; package not published)"
         in readme
     )
-    assert "The current published release is" in index
-    assert "0.2.8 is the current published release" in roadmap
+    assert "The current published release is `0.2.10`" in index
+    assert "0.2.10 is the current published release" in roadmap
     assert (
-        "0.2.9 source is integrated into `main` and tagged `v0.2.9`; "
-        "no package or version DOI has been published"
+        "0.2.9 source was integrated into `main` and tagged `v0.2.9` "
+        "without a package or version DOI"
         in " ".join(roadmap.split())
     )
-    assert "Published 0.2.8 architecture" in architecture
-    assert "published 0.2.8 release scope" in open_source
-    assert "0.2.8 is the current development candidate" not in roadmap
+    assert "Public 0.2.10 architecture and carried evidence" in architecture
+    assert "published 0.2.10 package scope" in open_source
+    assert "0.2.10 is a publication candidate" not in roadmap
     assert "10.5281/zenodo.23106744" in readme
     assert "10.5281/zenodo.23106744" in index
-    assert "not registered or a citable release" in readme
-    assert "not registered or a" in index
-    assert 'version: "0.2.8"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    assert "selected wheel, source distribution and checksums" in readme
+    assert "whole-repository" in index
+    assert 'version: "0.2.10"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
 
 
 def test_tetra_boundary_faces_remove_shared_face() -> None:

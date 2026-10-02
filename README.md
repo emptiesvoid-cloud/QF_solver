@@ -34,25 +34,23 @@ On this page: [Why QF Solver?](README.md#why-qf-solver) ·
 
 | Item | Status |
 | --- | --- |
-| Release line | `0.2.8` |
+| Release line | `0.2.10` |
 | Source tag | [`v0.2.9`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.9) (source snapshot; package not published) |
-| Next candidate | `0.2.10` (in preparation; not tagged or published) |
+| Package source tag | [`v0.2.10`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.10) |
 | Development stage | Beta |
 | Python | `>=3.10` |
 | CI validation | Windows and Linux |
 | License | Apache-2.0 |
 | Documentation | [Online documentation](https://emptiesvoid-cloud.github.io/QF_solver/) |
-| Release archive | [Zenodo v0.2.8](https://doi.org/10.5281/zenodo.22697898) |
+| Selected distribution archive | [Zenodo v0.2.10](https://doi.org/10.5281/zenodo.23106744) |
 
-Release availability is authoritative on [PyPI](https://pypi.org/project/qf-solver/)
-and [GitHub Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases).
-This page describes the published `0.2.8` release line. Citation metadata is
-authoritative in [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).
-The development package version is `0.2.10`; this is a candidate identity,
-not a published package, release tag or qualification decision. A new-version
-Zenodo draft has reserved DOI `10.5281/zenodo.23106744`, but the record has no
-files and has not been published. The DOI is not registered or a citable release
-identifier yet; the published `0.2.8` citation remains authoritative.
+Package availability is authoritative on [PyPI](https://pypi.org/project/qf-solver/).
+The 0.2.10 version DOI and citation are recorded in
+[`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).
+Zenodo preserves the selected wheel, source distribution and checksums for
+this version, not the whole-repository source archive. The source tag on
+GitHub is a revision identifier, not a clearance of GitHub's automatic
+repository ZIP/tarball.
 The `0.2.9` source was integrated into `main` at merge commit
 `765bbe4`; the required `Quality and verification` and `Documentation tests`
 workflows passed on candidate commit `ea28165`. This confirms those CI checks,
@@ -60,12 +58,14 @@ not qualification of the whole repository or any broader element, analysis or
 solver-route claim. The `v0.2.9` tag identifies the source snapshot; there is
 no 0.2.9 GitHub Release, version DOI, Zenodo archive or PyPI publication.
 The full repository archive remains outside the reviewed package scope and
-fails the public-content scan. Earlier bounded checks of selected installable
-sources and public documents passed at their frozen source revision; they do
-not qualify this full archive or clear it for distribution.
+fails the public-content scan. The bounded checks of selected installable
+sources and served public documents do not qualify the full archive or clear
+it for distribution. They also do not promote WP14 or broaden any numerical
+capability claim.
 Historical failures and the [known limitations](https://emptiesvoid-cloud.github.io/QF_solver/etat/limites/)
-remain in effect. The published `0.2.8` tag, DOI and installation instructions
-below must not be interpreted as evidence for the tagged 0.2.9 source.
+remain in effect. The earlier `0.2.8` tag, DOI and evidence must not be
+interpreted as evidence for the tagged 0.2.9 source or for any broader 0.2.10
+route claim.
 
 ## Intended use
 
@@ -86,7 +86,7 @@ qf-solver --version
 To install the immutable source for this release:
 
 ```bash
-git clone --branch v0.2.8 --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git
+git clone --branch v0.2.10 --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git
 cd QF_solver
 python -m pip install .
 qf-solver --version
@@ -219,7 +219,7 @@ and [solver/backend notes](https://emptiesvoid-cloud.github.io/QF_solver/solveur
 - [Capability index](https://emptiesvoid-cloud.github.io/QF_solver/capabilities/)
 - [Elements](https://emptiesvoid-cloud.github.io/QF_solver/elements/)
 - [Analyses](https://emptiesvoid-cloud.github.io/QF_solver/analyses/)
-- [What's New in 0.2.8](https://emptiesvoid-cloud.github.io/QF_solver/whats-new/0.2.8/)
+- [What's New in 0.2.10](https://emptiesvoid-cloud.github.io/QF_solver/whats-new/0.2.10/)
 - [Benchmarks](https://emptiesvoid-cloud.github.io/QF_solver/benchmarks/)
 - [V&V and maturity](https://emptiesvoid-cloud.github.io/QF_solver/verification/evidence-and-maturity/)
 - [API stability](https://emptiesvoid-cloud.github.io/QF_solver/reference/api_stability/)
@@ -236,7 +236,7 @@ documentation and original examples are under
 [CC BY 4.0](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/LICENSE-DOCS).
 Third-party terms are listed in
 [THIRD_PARTY_LICENSES.md](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/THIRD_PARTY_LICENSES.md).
-For QF Solver 0.2.8 specifically, cite the [version DOI](https://doi.org/10.5281/zenodo.22697898).
+For QF Solver 0.2.10 specifically, cite the [version DOI](https://doi.org/10.5281/zenodo.23106744).
 The [concept DOI](https://doi.org/10.5281/zenodo.22697897) identifies the
 evolving QF Solver project. Full citation metadata is in
 [CITATION.cff](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).

@@ -110,10 +110,10 @@ def test_active_lu2_views_do_not_present_old_accounting_as_current() -> None:
 
     roadmap = (ROOT / "docs/reference/feuille_de_route.md").read_text(encoding="utf-8")
     normalized_roadmap = " ".join(roadmap.split())
-    assert "QF Solver 0.2.8 is the current published release" in normalized_roadmap
+    assert "QF Solver 0.2.10 is the current published release" in normalized_roadmap
     assert (
-        "0.2.9 source is integrated into `main` and tagged `v0.2.9`; "
-        "no package or version DOI has been published"
+        "0.2.9 source was integrated into `main` and tagged `v0.2.9` "
+        "without a package or version DOI"
         in normalized_roadmap
     )
     assert "Historical plans and qualification records remain in" in normalized_roadmap
