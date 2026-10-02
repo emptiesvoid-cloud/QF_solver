@@ -35,7 +35,7 @@ On this page: [Why QF Solver?](README.md#why-qf-solver) ·
 | Item | Status |
 | --- | --- |
 | Release line | `0.2.8` |
-| Source candidate | `0.2.9` (integrated into `main`; not tagged or published) |
+| Source tag | [`v0.2.9`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.9) (source snapshot; package not published) |
 | Development stage | Beta |
 | Python | `>=3.10` |
 | CI validation | Windows and Linux |
@@ -47,15 +47,19 @@ Release availability is authoritative on [PyPI](https://pypi.org/project/qf-solv
 and [GitHub Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases).
 This page describes the published `0.2.8` release line. Citation metadata is
 authoritative in [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).
-The `0.2.9` source candidate was integrated into `main` at merge commit
+The `0.2.9` source was integrated into `main` at merge commit
 `765bbe4`; the required `Quality and verification` and `Documentation tests`
 workflows passed on candidate commit `ea28165`. This confirms those CI checks,
 not qualification of the whole repository or any broader element, analysis or
-solver-route claim. `v0.2.9` remains untagged and unpublished; no version DOI
-or PyPI package is claimed.
+solver-route claim. The `v0.2.9` tag identifies the source snapshot; there is
+no 0.2.9 GitHub Release, version DOI, Zenodo archive or PyPI publication.
+The full repository archive remains outside the reviewed package scope and
+fails the public-content scan. Earlier bounded checks of selected installable
+sources and public documents passed at their frozen source revision; they do
+not qualify this full archive or clear it for distribution.
 Historical failures and the [known limitations](https://emptiesvoid-cloud.github.io/QF_solver/etat/limites/)
 remain in effect. The published `0.2.8` tag, DOI and installation instructions
-below must not be interpreted as evidence for the candidate source.
+below must not be interpreted as evidence for the tagged 0.2.9 source.
 
 ## Intended use
 

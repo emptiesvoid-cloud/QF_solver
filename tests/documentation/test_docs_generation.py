@@ -58,7 +58,7 @@ def controlled_markdown_paths() -> set[str]:
     }
 
 
-def test_public_release_status_copy_distinguishes_release_and_candidate() -> None:
+def test_public_release_status_copy_distinguishes_release_and_tagged_source() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     index = (DOCS / "index.md").read_text(encoding="utf-8")
     roadmap = (DOCS / "reference" / "feuille_de_route.md").read_text(encoding="utf-8")
@@ -66,14 +66,16 @@ def test_public_release_status_copy_distinguishes_release_and_candidate() -> Non
     open_source = (DOCS / "reference" / "open_source.md").read_text(encoding="utf-8")
 
     assert (
-        "Source candidate | `0.2.9` (integrated into `main`; not tagged or published)"
+        "Source tag | [`v0.2.9`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.9) "
+        "(source snapshot; package not published)"
         in readme
     )
     assert "The current published release is" in index
     assert "0.2.8 is the current published release" in roadmap
     assert (
-        "0.2.9 source candidate\nhas been integrated into `main`, but has not been tagged or published"
-        in roadmap
+        "0.2.9 source is integrated into `main` and tagged `v0.2.9`; "
+        "no package or version DOI has been published"
+        in " ".join(roadmap.split())
     )
     assert "Published 0.2.8 architecture" in architecture
     assert "published 0.2.8 release scope" in open_source
