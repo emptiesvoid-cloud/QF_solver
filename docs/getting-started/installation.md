@@ -12,6 +12,9 @@ approver: ""
 QF Solver `0.2.8` is published on [PyPI](https://pypi.org/project/qf-solver/).
 The [central capability index](../capabilities/index.md) and
 [What's New](../whats-new/0.2.8.md) describe its bounded public scope.
+The development source identifies itself as `0.2.10`, but that candidate is
+not yet published. These installation instructions are for the published
+`0.2.8` release; do not treat a default-branch checkout as a release package.
 
 ## User installation
 

@@ -80,6 +80,11 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
     assert "Published 0.2.8 architecture" in architecture
     assert "published 0.2.8 release scope" in open_source
     assert "0.2.8 is the current development candidate" not in roadmap
+    assert "10.5281/zenodo.23106744" in readme
+    assert "10.5281/zenodo.23106744" in index
+    assert "not registered or a citable release" in readme
+    assert "not registered or a" in index
+    assert 'version: "0.2.8"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
 
 
 def test_tetra_boundary_faces_remove_shared_face() -> None:

@@ -1,15 +1,20 @@
 name: Publish Python package
 
+# PyPI is a selected wheel/sdist channel. This workflow never publishes the
+# GitHub repository archive, GitHub Release, or a Zenodo deposit.
 on:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: "Immutable release tag to validate (v0.2.8 only)"
+        description: "Annotated source tag to build (a source-only tag will fail metadata preflight)"
         required: true
         type: string
-        default: v0.2.8
+      contract_path:
+        description: "Prospectively committed frozen package/public-docs contract"
+        required: true
+        type: string
       confirm_publish:
-        description: "Confirm the intentional PyPI publication"
+        description: "Publish the audited wheel and sdist to PyPI after all gates pass"
         required: true
         type: boolean
         default: false
@@ -18,11 +23,40 @@ permissions:
   contents: read
 
 jobs:
-  quality:
-    name: Release quality gate
+  preflight:
+    name: Tagged public metadata preflight
     runs-on: ubuntu-latest
-    outputs:
-      release_verified: ${{ steps.verify_release.outputs.release_verified }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          fetch-tags: true
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.release_tag }}
+          path: tagged-source
+          fetch-depth: 0
+          fetch-tags: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Verify immutable tag and public release copy
+        env:
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+          [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          test "$(git -C tagged-source cat-file -t "refs/tags/$RELEASE_TAG")" = tag
+          test "$(git -C tagged-source rev-parse HEAD)" = "$(git -C tagged-source rev-parse "refs/tags/$RELEASE_TAG^{commit}")"
+          git merge-base --is-ancestor "refs/tags/$RELEASE_TAG^{commit}" HEAD
+          python scripts/check_publication_metadata.py --root tagged-source --tag "$RELEASE_TAG"
+
+  quality:
+    name: Tagged release quality gate
+    needs: preflight
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -33,124 +67,152 @@ jobs:
         with:
           python-version: "3.13"
           cache: pip
-      - name: Verify immutable release source
-        id: verify_release
-        env:
-          RELEASE_TAG: ${{ inputs.release_tag }}
-          EXPECTED_TAG: v0.2.8
-          EXPECTED_COMMIT: c8f202d504fd26f66e12fbbc9a754a273ffbde07
-          EXPECTED_TREE: c8b31e72bcdd167372057b51c560b49062ebbdb4
-        run: |
-          set -euo pipefail
-          test "$GITHUB_REF" = "refs/heads/main"
-          test "$RELEASE_TAG" = "$EXPECTED_TAG"
-          head_commit="$(git rev-parse HEAD)"
-          head_tree="$(git rev-parse 'HEAD^{tree}')"
-          tag_commit="$(git rev-parse "refs/tags/${RELEASE_TAG}^{commit}")"
-          test "$head_commit" = "$EXPECTED_COMMIT"
-          test "$tag_commit" = "$EXPECTED_COMMIT"
-          test "$head_tree" = "$EXPECTED_TREE"
-          package_version="$(python -c 'import tomllib; from pathlib import Path; print(tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))["project"]["version"])')"
-          test "$package_version" = "0.2.8"
-          printf 'Verified tag %s at %s with tree %s and package version %s\n' \
-            "$RELEASE_TAG" "$head_commit" "$head_tree" "$package_version"
-          echo "release_verified=true" >> "$GITHUB_OUTPUT"
       - name: Install locked standard baseline
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements/baseline-standard.txt
           python -m pip install -e . --no-deps
+      - name: Fetch frozen WP04-C and WP04-F source revisions
+        run: |
+          git fetch --no-tags origin 0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba
+          git cat-file -e 0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba:qualification/0_2_9/wp04f/wp04_final_closure_audit.json
+          git cat-file -e 0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba:qualification/0_2_9/wp04_c_tet4_campaign.json
+          git cat-file -e 0c7ecfaee74c1f0bb362afb1f0ac8bc45686c0ba:qualification/0_2_9/wp04_c_tet4_structural_summary.json
+          git fetch --no-tags origin 70e1bf953c8e6f37b8070e78ca97e58b21499291
+          git cat-file -e 70e1bf953c8e6f37b8070e78ca97e58b21499291:src/solveur/core/analyses/geometric_nonlinear.py
+      - name: Download and verify recovered evidence archive
+        run: |
+          archive="$RUNNER_TEMP/wp14-r23-engineering-source-evidence.zip"
+          curl --fail --location --retry 3 \
+            "https://drive.google.com/uc?export=download&id=1ly_pVCeeyW7MfsHxgBKjL3DM0UeHawv9" \
+            --output "$archive"
+          python scripts/prepare_wp14_recovered_evidence.py \
+            --archive "$archive" \
+            --archive-root "$RUNNER_TEMP/qf_solver_evidence_archive"
+          echo "QF_SOLVER_EVIDENCE_ARCHIVE_ROOT=$RUNNER_TEMP/qf_solver_evidence_archive" >> "$GITHUB_ENV"
+      - name: Full MITC4 benchmarks
+        run: python qf_solver.py verify
       - name: Run engineering verification gate
+        env:
+          QF_SOLVER_RUN_RECOVERED_EVIDENCE: "1"
         run: python qf_solver.py verify-all --profile engineering
 
+  docs:
+    name: Tagged documentation and package checks
+    needs: preflight
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.release_tag }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install documentation test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[test,dev,docs]"
+      - name: Run documentation tests
+        run: python -m pytest tests/documentation/test_docs_generation.py -q
+      - name: Build public documentation strictly
+        run: mkdocs build --strict -f .github/pages/mkdocs.yml
+      - name: Run packaging tests
+        run: python -m pytest tests/integration/test_packaging.py -q
+
   build:
-    needs: quality
+    name: Frozen selected package and public-docs audit
+    needs: [quality, docs]
     runs-on: ubuntu-latest
     outputs:
       release_verified: ${{ steps.verify_release.outputs.release_verified }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.release_tag }}
+          ref: ${{ github.sha }}
           fetch-depth: 0
           fetch-tags: true
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - name: Verify immutable release source
-        id: verify_release
+          cache: pip
+      - name: Bind frozen contract to the requested tag
         env:
           RELEASE_TAG: ${{ inputs.release_tag }}
-          EXPECTED_TAG: v0.2.8
-          EXPECTED_COMMIT: c8f202d504fd26f66e12fbbc9a754a273ffbde07
-          EXPECTED_TREE: c8b31e72bcdd167372057b51c560b49062ebbdb4
+          CONTRACT_PATH: ${{ inputs.contract_path }}
         run: |
           set -euo pipefail
           test "$GITHUB_REF" = "refs/heads/main"
-          test "$RELEASE_TAG" = "$EXPECTED_TAG"
-          head_commit="$(git rev-parse HEAD)"
-          head_tree="$(git rev-parse 'HEAD^{tree}')"
-          tag_commit="$(git rev-parse "refs/tags/${RELEASE_TAG}^{commit}")"
-          test "$head_commit" = "$EXPECTED_COMMIT"
-          test "$tag_commit" = "$EXPECTED_COMMIT"
-          test "$head_tree" = "$EXPECTED_TREE"
-          package_version="$(python -c 'import tomllib; from pathlib import Path; print(tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))["project"]["version"])')"
-          test "$package_version" = "0.2.8"
-          printf 'Verified tag %s at %s with tree %s and package version %s\n' \
-            "$RELEASE_TAG" "$head_commit" "$head_tree" "$package_version"
-          echo "release_verified=true" >> "$GITHUB_OUTPUT"
-      - name: Build distributions
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git cat-file -t "refs/tags/$RELEASE_TAG")" = tag
+          git merge-base --is-ancestor "refs/tags/$RELEASE_TAG^{commit}" HEAD
+          source_sha="$(python -c 'import json, os; print(json.load(open(os.environ["CONTRACT_PATH"], encoding="utf-8"))["source_sha"])')"
+          test "$source_sha" = "$(git rev-parse "refs/tags/$RELEASE_TAG^{commit}")"
+      - name: Install candidate verification dependencies
         run: |
-          python -m pip install --upgrade build
-          python -m build
-      - name: Verify tag matches package version
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements/baseline-standard.txt
+          python -m pip install build wheel twine
+      - name: Audit the frozen public documentation surface
         env:
-          RELEASE_TAG: ${{ inputs.release_tag }}
+          CONTRACT_PATH: ${{ inputs.contract_path }}
+        run: |
+          python scripts/audit_wp14_public_scope.py \
+            --contract "$CONTRACT_PATH" \
+            --output "$RUNNER_TEMP/qf-public-scope.json"
+      - name: Rebuild and probe selected wheel and sdist
+        env:
+          CONTRACT_PATH: ${{ inputs.contract_path }}
+        run: |
+          python scripts/verify_public_package.py \
+            --contract "$CONTRACT_PATH" \
+            --output "$RUNNER_TEMP/qf-package-candidate"
+          python -m twine check "$RUNNER_TEMP"/qf-package-candidate/dist/*
+          python scripts/check_distribution.py "$RUNNER_TEMP"/qf-package-candidate/dist/*
+      - name: Confirm only verified candidate bytes are uploaded
+        id: verify_release
         run: |
           python - <<'PY'
-          import tomllib
-          from pathlib import Path
-          from packaging.version import Version
+          import hashlib
+          import json
           import os
+          from pathlib import Path
 
-          tag = os.environ["RELEASE_TAG"]
-          if tag != "v0.2.8":
-              raise SystemExit(f"Invalid release tag: {tag}")
-          package_version = tomllib.loads(
-              Path("pyproject.toml").read_text(encoding="utf-8")
-          )["project"]["version"]
-          if Version(tag[1:]) != Version(package_version):
-              raise SystemExit(
-                  f"Tag {tag} does not match package version {package_version}"
-              )
-          print(f"Release tag {tag} matches qf-solver {package_version}")
+          candidate = Path(os.environ["RUNNER_TEMP"]) / "qf-package-candidate"
+          result = json.loads((candidate / "result.json").read_text(encoding="utf-8"))
+          scope = json.loads((Path(os.environ["RUNNER_TEMP"]) / "qf-public-scope.json").read_text(encoding="utf-8"))
+          if result["status"] != "PASS_CANDIDATE_PACKAGE_ONLY" or scope["status"] != "PASS_BOUNDED_PUBLIC_SURFACES":
+              raise SystemExit("The selected package and documentation gates must both pass")
+          expected = {item["path"]: item["sha256"] for item in result["package_check"]["binaries"]}
+          actual = {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in (candidate / "dist").iterdir()}
+          if actual != expected or len(actual) != 2:
+              raise SystemExit("Distribution bytes differ from the frozen candidate report")
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as stream:
+              stream.write("release_verified=true\n")
           PY
-      - name: Verify distributions
-        run: |
-          python -m pip install --upgrade twine
-          python -m twine check dist/*
-          python scripts/check_distribution.py dist/*
-      - name: Smoke-test the built wheel
-        run: |
-          python -m pip install dist/*.whl
-          cd "${RUNNER_TEMP}"
-          qf-solver --version
-          qf-solver methods
       - uses: actions/upload-artifact@v4
         with:
           name: python-package-distributions
-          path: dist/
+          path: ${{ runner.temp }}/qf-package-candidate/dist/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bounded-package-audit
+          path: |
+            ${{ runner.temp }}/qf-public-scope.json
+            ${{ runner.temp }}/qf-package-candidate/package_check.json
+            ${{ runner.temp }}/qf-package-candidate/manifest.json
+          if-no-files-found: error
 
   publish:
-    needs: [quality, build]
+    needs: [preflight, quality, docs, build]
     if: >-
+      needs.preflight.result == 'success' &&
       needs.quality.result == 'success' &&
+      needs.docs.result == 'success' &&
       needs.build.result == 'success' &&
-      needs.quality.outputs.release_verified == 'true' &&
       needs.build.outputs.release_verified == 'true' &&
       github.event_name == 'workflow_dispatch' &&
       github.ref == 'refs/heads/main' &&
-      inputs.release_tag == 'v0.2.8' &&
       inputs.confirm_publish == true
     runs-on: ubuntu-latest
     environment:
@@ -163,9 +225,6 @@ jobs:
         with:
           name: python-package-distributions
           path: dist/
-      # Pin the publication action to the current release/v1 commit. PyPI
-      # publication remains gated by the tag/version check and confirmation
-      # input above; this is not a branch or pull-request publication path.
       - uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33
         with:
           user: __token__

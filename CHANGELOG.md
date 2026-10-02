@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.2.10 - Release preparation (not published)
+
+- The development package version advances beyond the immutable `v0.2.9`
+  source-only tag. There is no `v0.2.10` tag, package publication, GitHub
+  Release, PyPI package or published Zenodo deposit yet. The v0.2.10 Zenodo
+  draft reserves `10.5281/zenodo.23106744`; it contains no release files, and
+  its DOI is not registered until that draft is published. The published 0.2.8
+  citation remains authoritative.
+- Publication requires a new frozen source and selected-package audit, public
+  metadata aligned to the new version and its assigned DOI, passing CI at the
+  final source revision, and a separate Owner publication decision. The
+  whole-repository G03 archive scan remains failed; a bounded package review
+  does not clear that archive or change WP14 status.
+- No new mechanics qualification or broader solver-route claim is made here.
+
 ## 0.2.9 - Source tagged; package release not issued
 
 - The source candidate was merged into `main` at `765bbe4`. The required

@@ -50,7 +50,7 @@ do not rely on deleting a file in a later commit.
 
 ## Release Gate
 
-Before creating a tag or source archive, run:
+Before promoting a full repository source archive or GitHub Release, run:
 
 ```powershell
 python .\scripts\audit_public_release.py --output .\public_release_audit.json
@@ -68,6 +68,12 @@ artifacts from `git archive`. The complete `qualification/vnv/` working tree
 is also excluded: only selected, reviewed V&V packages may be copied into a
 future public release deliberately. These rules are safeguards, not substitutes
 for review.
+
+A source tag used solely to identify a separately audited PyPI candidate does
+not pass this whole-repository gate by implication. GitHub may still offer an
+automatic source archive for the tag; it must not be described or uploaded as
+a cleared distribution while this gate fails. The separate PyPI decision and
+its frozen selected-content checks are specified below.
 
 `audit_release_archive.py` uses worktree attributes by default to verify the
 next prospective archive. Immediately before tagging, run it again with
@@ -118,8 +124,10 @@ This command is read-only: it does not stage, build, publish, or update a ledger
 A successful preparation scan does not close the whole-repository release
 gates. A separate prospective execution contract must bind the updated source
 before staging, building and checking wheel/sdist bytes and installed commands.
-The existing package version remains authoritative; a preparation plan is not
-permission to announce a new release or to change that version.
+The existing package version at the frozen source revision remains
+authoritative for that contract. A preparation plan cannot silently change it
+or announce a new release; a subsequent candidate needs its own reviewed
+version change, new source freeze and new contract.
 
 Unselected engineering records and historical failures remain intact. The
 package selection does not make committed Git history private. No history
@@ -160,3 +168,25 @@ are not treated as immutable evidence inputs. Large outputs remain external.
 satisfies its candidate checks. It does not convert the historical whole-repo
 publication failures to PASS, certify the full documentation collection,
 recover missing historical raw evidence, close WP14, or authorize publication.
+
+### Separate PyPI distribution decision
+
+PyPI wheel and sdist are a bounded publication channel distinct from the
+GitHub repository's automatically generated source archives. The Owner may
+authorize that channel separately only when the *tagged* source is covered by
+a prospectively committed contract, the strict selected-source and served-docs
+scan passes, the wheel/sdist content and installed-package probes pass, the
+engineering CI passes on that tag, and the package version, README, changelog,
+documentation and `CITATION.cff` consistently identify the published version
+and its assigned version DOI. The manual `confirm_publish` input and any PyPI
+environment approval are the final publication decision; a candidate PASS
+alone is not.
+
+The selected package must be built from the contract's exact tagged Git blobs,
+not from the rest of the engineering checkout. Publish only those audited
+wheel/sdist bytes. A PyPI-only decision never clears a failing whole-repository
+source/archive/history audit and never authorizes a GitHub Release, an upload
+of the repository archive to Zenodo, or a WP14 status change. Do not move an
+existing tag to make corrected metadata appear retroactively in its source.
+If the immutable tag's public metadata is inconsistent, prepare a new version
+and tag after the corrections and a new frozen audit.
