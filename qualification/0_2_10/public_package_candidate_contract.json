@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-0210-BOUNDED-PACKAGE-CANDIDATE-01",
+  "status": "FROZEN_CANDIDATE_BUILD",
+  "source_sha": "aa45694f02bcc7607f5aef4b770ddb07269e42fe",
+  "selection": {
+    "include_exact": [
+      "CHANGELOG.md",
+      "CITATION.cff",
+      "LICENSE",
+      "LICENSE-DOCS",
+      "MANIFEST.in",
+      "NOTICE",
+      "README.md",
+      "THIRD_PARTY_LICENSES.md",
+      "pyproject.toml",
+      "qualification/benchmarks.json",
+      "qualification/campaign.json",
+      "qualification/demonstrations.json",
+      "qualification/element_analysis_matrix.json",
+      "qualification/formulas.json",
+      "qualification/requirements.json",
+      "qualification/release_vv_0_2_1.json",
+      "qualification/technical_content_coverage.json",
+      "qualification/0_2_7/capability_registry_v2.json",
+      "qualification/0_2_8/consolidated_registry.json",
+      "qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json",
+      "qualification/0_2_8/wp13_02d_mixed_dynamics_delivery.json",
+      "qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json",
+      "qualification/0_2_8/wp13_04d_multimaterial_owner_delivery.json",
+      "qualification/0_2_8/wp13_05_inp_import_capability_record.json",
+      "qualification/0_2_8/wp13_05c_registry_reconciliation_erratum.json",
+      "qualification/0_2_8/wp13_06d_mixed_hdf5_capability_record.json",
+      "qualification/0_2_8/wp13_07d_contact_capability_record.json",
+      "requirements/baseline-standard.txt",
+      "requirements/baseline-large-linux.txt"
+    ],
+    "include_prefixes": ["examples/", "src/qf_solver/", "src/solveur/"],
+    "exclude_exact": ["examples/README.md", "src/solveur/verification/j2_multifamily_performance.py"],
+    "forbid_prefixes": ["qualification/0_2_9/", "docs/", "scripts/", "tests/"]
+  },
+  "documentation_selection": {
+    "include_prefixes": ["docs/"],
+    "exclude_prefixes": ["docs/verification/0_2_9/"],
+    "suffixes": [".cff", ".cfg", ".csv", ".htm", ".html", ".ini", ".json", ".md", ".pdf", ".ps1", ".py", ".rst", ".sh", ".tex", ".toml", ".txt", ".xml", ".yaml", ".yml"]
+  },
+  "documentation_publication_policy": {
+    "config_path": ".github/pages/mkdocs.yml",
+    "config_sha256": "5ae533f6769de62ce66c1d2d9f58aea94b1ff20f9a030d90bcc2bc1a6a1563d5",
+    "excluded_source_prefix": "docs/verification/0_2_9/",
+    "mkdocs_exclude_pattern": "verification/0_2_9/**"
+  },
+  "package_version": "0.2.10",
+  "tool_bindings": {
+    "scripts/audit_public_release.py": "cb1493a8a49d3f1ee0be89efc37050dc87a8c5165dbfb6de6fdd17b3bbeaf79c",
+    "scripts/audit_release_archive.py": "b67613d0eb5e1b305aba2bb9181d12529eda7859db00b840a71746bc39c52a37",
+    "scripts/git_tools.py": "9192aef8e8610ee4f651cac11a18af189678f561d9c85c20c64c77be47a287fa",
+    "scripts/plan_public_package.py": "d1a734cb4a11d53abfa102507f531f9369bc70797adf23075dd5b03c10f8e1f8",
+    "scripts/probe_installed_package.py": "46576afa82a8285730c4afc67e41fd58f5a8deb753f054f5a35cc0442eb18675",
+    "scripts/review_vocabulary.py": "28af00eab2a09fdcb94bf3c4682230dcaaca9b519aeb0867d96b67d4589ad3aa",
+    "scripts/verify_public_package.py": "dea7069acaa82c13cf106d3b3f7f43549080d49c0b9ec22a8bc037810db19a16"
+  },
+  "scope_scan_tool_sha256": "fa2a39d03b2f14bfcbbaf725c7c9f25fe84b117a2824f3355765c0fa8c26d616",
+  "package_build_allowed": true,
+  "publication_allowed": false,
+  "structural_solves_allowed": false,
+  "numeric_threshold_changes_allowed": false,
+  "whole_repository_gate_waivers_allowed": false,
+  "limitations": [
+    "Only selected package sources and served documentation are covered; the complete repository archive remains failed under G03.",
+    "The Zenodo version DOI is reserved in an unpublished draft with no release files, not yet registered or citable.",
+    "CITATION.cff continues to describe the last published version 0.2.8; this 0.2.10 candidate is not publication-ready.",
+    "Passing this candidate audit does not authorize a tag, GitHub Release, Zenodo deposit, PyPI upload, or WP14 promotion."
+  ]
+}
