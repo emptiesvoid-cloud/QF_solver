@@ -9,6 +9,10 @@
 - `v0.2.9` identifies the source snapshot. No 0.2.9 GitHub Release, version
   DOI, Zenodo archive or PyPI package has been published. The published `0.2.8`
   release and citation remain authoritative until a separate publication.
+- Earlier bounded checks of selected installable sources and public documents
+  passed at their frozen source revision, but the full repository archive
+  remains outside that scope and fails the public-content scan. The source tag
+  is not a cleared release archive.
 - Historical failures and documented limitations remain in effect.
 
 ## 0.2.8 - Released

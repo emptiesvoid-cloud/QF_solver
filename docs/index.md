@@ -79,6 +79,10 @@ workflows passed on candidate commit `ea28165`. This confirms those CI checks,
 not qualification of the whole repository or any broader solver-route claim.
 The `v0.2.9` tag identifies the source snapshot; no 0.2.9 GitHub Release,
 version DOI, Zenodo archive or PyPI package has been published. The
+[earlier bounded review of selected installable sources and public documents](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.9/qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_7/owner-review.md)
+passed at its frozen source revision, while the full repository archive remains
+outside that scope and fails the public-content scan. The source tag does not
+clear the full archive for distribution. The
 [known limitations](etat/limites.md) and recorded failures remain visible.
 The current published release is `0.2.8` as linked above. See the
 [public roadmap](reference/feuille_de_route.md) for product-level next steps.

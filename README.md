@@ -53,6 +53,10 @@ workflows passed on candidate commit `ea28165`. This confirms those CI checks,
 not qualification of the whole repository or any broader element, analysis or
 solver-route claim. The `v0.2.9` tag identifies the source snapshot; there is
 no 0.2.9 GitHub Release, version DOI, Zenodo archive or PyPI publication.
+The full repository archive remains outside the reviewed package scope and
+fails the public-content scan. Earlier bounded checks of selected installable
+sources and public documents passed at their frozen source revision; they do
+not qualify this full archive or clear it for distribution.
 Historical failures and the [known limitations](https://emptiesvoid-cloud.github.io/QF_solver/etat/limites/)
 remain in effect. The published `0.2.8` tag, DOI and installation instructions
 below must not be interpreted as evidence for the tagged 0.2.9 source.
