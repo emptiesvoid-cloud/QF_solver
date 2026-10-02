@@ -160,3 +160,25 @@ are not treated as immutable evidence inputs. Large outputs remain external.
 satisfies its candidate checks. It does not convert the historical whole-repo
 publication failures to PASS, certify the full documentation collection,
 recover missing historical raw evidence, close WP14, or authorize publication.
+
+### Separate PyPI distribution decision
+
+PyPI wheel and sdist are a bounded publication channel distinct from the
+GitHub repository's automatically generated source archives. The Owner may
+authorize that channel separately only when the *tagged* source is covered by
+a prospectively committed contract, the strict selected-source and served-docs
+scan passes, the wheel/sdist content and installed-package probes pass, the
+engineering CI passes on that tag, and the package version, README, changelog,
+documentation and `CITATION.cff` consistently identify the published version
+and its assigned version DOI. The manual `confirm_publish` input and any PyPI
+environment approval are the final publication decision; a candidate PASS
+alone is not.
+
+The selected package must be built from the contract's exact tagged Git blobs,
+not from the rest of the engineering checkout. Publish only those audited
+wheel/sdist bytes. A PyPI-only decision never clears a failing whole-repository
+source/archive/history audit and never authorizes a GitHub Release, an upload
+of the repository archive to Zenodo, or a WP14 status change. Do not move an
+existing tag to make corrected metadata appear retroactively in its source.
+If the immutable tag's public metadata is inconsistent, prepare a new version
+and tag after the corrections and a new frozen audit.
