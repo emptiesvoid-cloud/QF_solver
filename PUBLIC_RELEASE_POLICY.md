@@ -50,7 +50,7 @@ do not rely on deleting a file in a later commit.
 
 ## Release Gate
 
-Before creating a tag or source archive, run:
+Before promoting a full repository source archive or GitHub Release, run:
 
 ```powershell
 python .\scripts\audit_public_release.py --output .\public_release_audit.json
@@ -68,6 +68,12 @@ artifacts from `git archive`. The complete `qualification/vnv/` working tree
 is also excluded: only selected, reviewed V&V packages may be copied into a
 future public release deliberately. These rules are safeguards, not substitutes
 for review.
+
+A source tag used solely to identify a separately audited PyPI candidate does
+not pass this whole-repository gate by implication. GitHub may still offer an
+automatic source archive for the tag; it must not be described or uploaded as
+a cleared distribution while this gate fails. The separate PyPI decision and
+its frozen selected-content checks are specified below.
 
 `audit_release_archive.py` uses worktree attributes by default to verify the
 next prospective archive. Immediately before tagging, run it again with
@@ -118,8 +124,10 @@ This command is read-only: it does not stage, build, publish, or update a ledger
 A successful preparation scan does not close the whole-repository release
 gates. A separate prospective execution contract must bind the updated source
 before staging, building and checking wheel/sdist bytes and installed commands.
-The existing package version remains authoritative; a preparation plan is not
-permission to announce a new release or to change that version.
+The existing package version at the frozen source revision remains
+authoritative for that contract. A preparation plan cannot silently change it
+or announce a new release; a subsequent candidate needs its own reviewed
+version change, new source freeze and new contract.
 
 Unselected engineering records and historical failures remain intact. The
 package selection does not make committed Git history private. No history

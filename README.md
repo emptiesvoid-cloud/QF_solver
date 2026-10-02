@@ -36,6 +36,7 @@ On this page: [Why QF Solver?](README.md#why-qf-solver) ·
 | --- | --- |
 | Release line | `0.2.8` |
 | Source tag | [`v0.2.9`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.9) (source snapshot; package not published) |
+| Next candidate | `0.2.10` (in preparation; not tagged or published) |
 | Development stage | Beta |
 | Python | `>=3.10` |
 | CI validation | Windows and Linux |
@@ -47,6 +48,8 @@ Release availability is authoritative on [PyPI](https://pypi.org/project/qf-solv
 and [GitHub Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases).
 This page describes the published `0.2.8` release line. Citation metadata is
 authoritative in [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).
+The development package version is `0.2.10`; this is a candidate identity,
+not a published package, release tag, version DOI or qualification decision.
 The `0.2.9` source was integrated into `main` at merge commit
 `765bbe4`; the required `Quality and verification` and `Documentation tests`
 workflows passed on candidate commit `ea28165`. This confirms those CI checks,

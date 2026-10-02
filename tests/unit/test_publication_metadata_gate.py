@@ -12,18 +12,21 @@ from scripts.check_publication_metadata import check_publication_metadata
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def test_v029_source_tag_is_not_a_publishable_metadata_state() -> None:
-    failures = check_publication_metadata(ROOT, "v0.2.9")
+def test_v0210_candidate_is_not_a_publishable_metadata_state() -> None:
+    failures = check_publication_metadata(ROOT, "v0.2.10")
     assert "CITATION.cff does not identify this version" in failures
+    assert "README.md release line does not identify this version" in failures
     assert "README.md still denies publication of this version" in failures
     assert "CHANGELOG.md has no released entry for this version" in failures
+    assert "docs/index.md still advertises a different current release" in failures
 
 
 def test_metadata_gate_rejects_nonstable_or_mismatched_tag() -> None:
     assert check_publication_metadata(ROOT, "../../v0.2.9") == [
         "release tag must be a stable vMAJOR.MINOR.PATCH tag"
     ]
-    assert "pyproject.toml version differs from release tag" in check_publication_metadata(ROOT, "v0.2.10")
+    assert "pyproject.toml version differs from release tag" in check_publication_metadata(ROOT, "v0.2.9")
+    assert "pyproject.toml version differs from release tag" in check_publication_metadata(ROOT, "v0.2.11")
 
 
 def test_metadata_gate_accepts_consistent_release_copy(tmp_path: Path) -> None:
@@ -50,17 +53,27 @@ def test_metadata_gate_accepts_consistent_release_copy(tmp_path: Path) -> None:
         f"| Release line | `{version}` |\nNo {version} package has been published.\n", encoding="utf-8"
     )
     assert "README.md still denies publication of this version" in check_publication_metadata(tmp_path, tag)
+    (tmp_path / "README.md").write_text(
+        f"| Release line | `{version}` |\nThe `{version}` candidate is not yet published.\n", encoding="utf-8"
+    )
+    assert "README.md still denies publication of this version" in check_publication_metadata(tmp_path, tag)
 
 
 def test_pypi_workflow_publishes_only_audited_selected_archives() -> None:
     workflow = yaml.safe_load((ROOT / ".github/workflows/publish-pypi.yml").read_text(encoding="utf-8"))
-    assert set(workflow["jobs"]) == {"preflight", "quality", "build", "publish"}
-    assert workflow["jobs"]["publish"]["needs"] == ["preflight", "quality", "build"]
+    assert set(workflow["jobs"]) == {"preflight", "quality", "docs", "build", "publish"}
+    assert workflow["jobs"]["publish"]["needs"] == ["preflight", "quality", "docs", "build"]
     assert "inputs.confirm_publish == true" in workflow["jobs"]["publish"]["if"]
     assert workflow["jobs"]["publish"]["environment"]["name"] == "pypi"
     preflight = str(workflow["jobs"]["preflight"])
     build = str(workflow["jobs"]["build"])
     assert "check_publication_metadata.py" in preflight
+    assert "git merge-base --is-ancestor" in preflight
+    assert "prepare_wp14_recovered_evidence.py" in str(workflow["jobs"]["quality"])
+    assert "mkdocs build --strict" in str(workflow["jobs"]["docs"])
+    events = workflow.get("on", workflow.get(True))
+    assert "default" not in events["workflow_dispatch"]["inputs"]["release_tag"]
+    assert "default" not in events["workflow_dispatch"]["inputs"]["contract_path"]
     assert "audit_wp14_public_scope.py" in build
     assert "verify_public_package.py" in build
     assert "qf-package-candidate/dist" in build

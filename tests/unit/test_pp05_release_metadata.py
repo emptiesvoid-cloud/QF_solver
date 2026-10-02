@@ -58,8 +58,8 @@ def test_tagged_source_and_last_published_citation_are_distinct() -> None:
     project = tomllib.loads(_text("pyproject.toml"))["project"]
     runtime = _text("src/solveur/version.py")
     citation = _text("CITATION.cff")
-    assert project["version"] == "0.2.9"
-    assert '__version__ = "0.2.9"' in runtime
+    assert project["version"] == "0.2.10"
+    assert '__version__ = "0.2.10"' in runtime
     assert 'version: "0.2.8"' in citation
     assert 'doi: "10.5281/zenodo.22697898"' in citation
     assert "NOT_PUBLISHED_YET" not in citation

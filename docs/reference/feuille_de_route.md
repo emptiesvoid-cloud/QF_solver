@@ -14,6 +14,9 @@ integrated into `main` and tagged `v0.2.9`; no package or version DOI has been
 published. This roadmap describes product-level follow-up work; it is not a
 release gate, tag, publication or a promise that an unqualified route is
 production-ready.
+The development package version `0.2.10` is a publication candidate, not a
+tagged or published release. Its selected distribution and documentation must
+be re-audited at the final frozen source revision before a release decision.
 
 ## Current release
 

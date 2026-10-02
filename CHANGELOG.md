@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.10 - Release preparation (not published)
+
+- The development package version advances beyond the immutable `v0.2.9`
+  source-only tag. There is no `v0.2.10` tag, package publication, GitHub
+  Release, Zenodo deposit or version DOI yet.
+- Publication requires a new frozen source and selected-package audit, public
+  metadata aligned to the new version and its assigned DOI, passing CI at the
+  final source revision, and a separate Owner publication decision. The
+  whole-repository G03 archive scan remains failed; a bounded package review
+  does not clear that archive or change WP14 status.
+- No new mechanics qualification or broader solver-route claim is made here.
+
 ## 0.2.9 - Source tagged; package release not issued
 
 - The source candidate was merged into `main` at `765bbe4`. The required

@@ -78,7 +78,15 @@ def check_publication_metadata(root: Path, tag: str) -> list[str]:
         failures.append("security policy still advertises a different release")
 
     for relative, body in contents.items():
-        if re.search(rf"(?is)(?:no|not|pas de|non)\s+[^.\n]{{0,90}}{re.escape(version)}[^.\n]{{0,90}}(?:publish|publi)", body):
+        denial_before_version = re.search(
+            rf"(?is)(?:no|not|pas de|non)\s+[^.\n]{{0,90}}{re.escape(version)}[^.\n]{{0,90}}(?:publish|publi)",
+            body,
+        )
+        denial_after_version = re.search(
+            rf"(?is){re.escape(version)}[^.]{{0,160}}\b(?:not\s+(?:yet\s+)?(?:a\s+)?(?:tagged|published|publishable)|no\s+[^.]{{0,30}}(?:publication|version\s+DOI))\b",
+            body,
+        )
+        if denial_before_version or denial_after_version:
             failures.append(f"{relative} still denies publication of this version")
     return failures
 
