@@ -9,10 +9,13 @@ approver: ""
 
 # Interfaces CLI et API publiques
 
-Cette page decrit les interfaces disponibles dans le candidat 0.2.8.
+Cette page est un instantane technique des interfaces 0.2.8 ; elle ne constitue
+pas l'inventaire complet de l'API du candidat source 0.2.10. Pour les contrats
+publics actuels, consulter le [contrat API 0.2.10](qf_solver_api.md), la
+[stabilite API](api_stability.md) et l'[index des capacites](../capabilities/index.md).
 La stabilite d'une API ou la compatibilite d'un import ne constitue pas une
-qualification mecanique : les claims restent gouvernes par le registre
-consolide 0.2.8, les records separes et leurs preuves.
+qualification mecanique : les claims restent gouvernes par leurs records et
+leurs preuves, avec des limites explicites.
 
 ## Commandes principales
 

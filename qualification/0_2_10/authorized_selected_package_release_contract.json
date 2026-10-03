@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-0210-OWNER-AUTHORIZED-SELECTED-PACKAGE-RELEASE-01",
+  "status": "OWNER_AUTHORIZED_SELECTED_PACKAGE_RELEASE",
+  "package_version": "0.2.10",
+  "release_tag": "v0.2.10",
+  "source_sha": "b453265d5e61acd5f91cfc3aa236ee8b85344033",
+  "tag_target_sha": "b453265d5e61acd5f91cfc3aa236ee8b85344033",
+  "source_contract": {
+    "path": "qualification/0_2_10/public_package_release_contract.json",
+    "commit_sha": "7371221d2470a0ebb6b37b39a4230bb979ce8440",
+    "sha256": "585c34c937271d3d586ad944f0af53865789b627c79feecc840b5a73bb121bf9",
+    "superseded_candidate_artifacts": {
+      "wheel_sha256": "64963831b8d6088107272152513a63224c7c3fde92013ce7ec2de19e29002ec2",
+      "sdist_sha256": "692d8f52e2ac5e700675bbf0eea2f345ac7440d32482f94a5fa085a8ebdb0190"
+    },
+    "note": "The earlier candidate contract remains unchanged as historical evidence. This prospective release contract binds the reproducibly normalized distribution bytes below."
+  },
+  "owner_authorization": {
+    "path": "qualification/0_2_10/owner_publication_reauthorization_b453265d.json",
+    "commit_sha": "e350ef870dfa5182a4e25c79c07ce04b974d5568",
+    "sha256": "8d684c17345f827ea70ab647c2e38cd4b3b711e0e8925207c09881f3582b20a7",
+    "record_id": "QF-0210-OWNER-PUBLICATION-REAUTHORIZATION-B453265D",
+    "supersedes_for_release": "QF-0210-OWNER-PUBLICATION-AUTHORIZATION-2026-10-03",
+    "decision": "AUTHORIZE_V0_2_10_PUBLICATION"
+  },
+  "superseded_owner_authorization": {
+    "path": "qualification/0_2_10/owner_publication_authorization.json",
+    "commit_sha": "61e692cddb3e6feb3c6006beec6d2f2b55205f15",
+    "sha256": "65999315d3e2950c6a734092d3c1417dd53c332e220bb90257d762fd91c90c99",
+    "historical_record_preserved": true
+  },
+  "authorization_resolution": {
+    "status": "RESOLVED_BY_OWNER_REAUTHORIZATION",
+    "owner_approved_source_sha": "b453265d5e61acd5f91cfc3aa236ee8b85344033",
+    "candidate_source_sha": "b453265d5e61acd5f91cfc3aa236ee8b85344033",
+    "owner_approved_wheel_sha256": "5c97d11cdc199512658ca3067b16beb7d72a2f6a183a171db5e921884709ca10",
+    "candidate_wheel_sha256": "5c97d11cdc199512658ca3067b16beb7d72a2f6a183a171db5e921884709ca10",
+    "owner_approved_sdist_sha256": "35ce10458e84425558396f1246b55e217734e0fa0189df242fbc2242bca9099d",
+    "candidate_sdist_sha256": "35ce10458e84425558396f1246b55e217734e0fa0189df242fbc2242bca9099d",
+    "owner_approved_manifest_sha256": "fbe097e7d785d9d0c63cc16f562a32166da3aca300fc0693ef1777ba3bd85d7a",
+    "candidate_manifest_sha256": "fbe097e7d785d9d0c63cc16f562a32166da3aca300fc0693ef1777ba3bd85d7a",
+    "note": "The later audited candidate and exact selected distribution bytes are covered by the prospective Owner reauthorization. The earlier 6b5562d decision and its artifact hashes remain unchanged historical evidence."
+  },
+  "authorization": {
+    "selected_package_publication_allowed": true,
+    "tag_creation_allowed": true,
+    "pypi_publication_allowed": true,
+    "github_release_allowed": true,
+    "zenodo_selected_artifact_publication_allowed": true,
+    "whole_repository_archive_cleared": false,
+    "whole_repository_archive_publication_allowed": false,
+    "ledger_update_allowed": false,
+    "wp14_promotion_allowed": false,
+    "numeric_maturity_promotion_allowed": false,
+    "historical_result_reclassification_allowed": false,
+    "certification_or_universal_validation_claims_allowed": false
+  },
+  "prior_acceptance_ci": {
+    "quality_workflow": {
+      "run_number": 182,
+      "run_id": "37108431922",
+      "commit_sha": "7315f9f70c635a449f20c89cf2e8fa293ee5c4bf",
+      "conclusion": "SUCCESS",
+      "jobs": {
+        "ubuntu_python_3_10": "PASS",
+        "ubuntu_python_3_13": "PASS",
+        "windows_python_3_10": "PASS",
+        "windows_python_3_13": "PASS",
+        "wp14_recovered_evidence_targeted": "PASS",
+        "documentation_evidence": "PASS",
+        "full_engineering_campaign": "PASS"
+      }
+    },
+    "documentation_workflow": {
+      "run_number": 60,
+      "run_id": "37108499563",
+      "commit_sha": "7315f9f70c635a449f20c89cf2e8fa293ee5c4bf",
+      "conclusion": "SUCCESS"
+    },
+    "final_tag_checks_required": true
+  },
+  "selected_scope": {
+    "package_source_files": 551,
+    "package_scan_findings": 0,
+    "served_documentation_files": 749,
+    "served_documentation_findings": 0,
+    "documentation_source_contract": "qualification/0_2_10/public_package_release_contract.json",
+    "distribution_files_allowed": [
+      "qf_solver-0.2.10-py3-none-any.whl",
+      "qf_solver-0.2.10.tar.gz",
+      "qf_solver-0.2.10-SHA256SUMS.txt"
+    ]
+  },
+  "audited_artifacts": {
+    "wheel": {
+      "filename": "qf_solver-0.2.10-py3-none-any.whl",
+      "bytes": 1509431,
+      "sha256": "5c97d11cdc199512658ca3067b16beb7d72a2f6a183a171db5e921884709ca10"
+    },
+    "sdist": {
+      "filename": "qf_solver-0.2.10.tar.gz",
+      "bytes": 1114202,
+      "sha256": "35ce10458e84425558396f1246b55e217734e0fa0189df242fbc2242bca9099d"
+    }
+  },
+  "sha256_manifest": {
+    "filename": "qf_solver-0.2.10-SHA256SUMS.txt",
+    "bytes": 190,
+    "sha256": "fbe097e7d785d9d0c63cc16f562a32166da3aca300fc0693ef1777ba3bd85d7a"
+  },
+  "manifest_repository_path": "qualification/0_2_10/qf_solver-0.2.10-SHA256SUMS.txt",
+  "build_provenance": {
+    "source_materialization": "551 selected regular Git blobs from the exact source_sha; no working-tree source bytes.",
+    "build_command": "python -m build --no-isolation --outdir <new-external-run>/dist <new-external-run>/selected_source",
+    "build_environment": {
+      "python": "3.13.1",
+      "build": "1.5.0",
+      "setuptools": "82.0.1",
+      "wheel": "0.47.0",
+      "source_date_epoch": 1791032593
+    },
+    "normalization": {
+      "tool": "scripts/normalize_public_sdist.py",
+      "method": "Sorted regular tar members, preserved file bytes and executable modes, normalized uid/gid/names and member mtime, deterministic gzip header with mtime 0 and compression level 9.",
+      "raw_sdist_builds_are_not_byte_stable": true,
+      "publication_uses_only_normalized_sdist": true
+    },
+    "independent_run_comparison": {
+      "runs": 2,
+      "wheel_sha256_run_1": "5c97d11cdc199512658ca3067b16beb7d72a2f6a183a171db5e921884709ca10",
+      "wheel_sha256_run_2": "5c97d11cdc199512658ca3067b16beb7d72a2f6a183a171db5e921884709ca10",
+      "normalized_sdist_sha256_run_1": "35ce10458e84425558396f1246b55e217734e0fa0189df242fbc2242bca9099d",
+      "normalized_sdist_sha256_run_2": "35ce10458e84425558396f1246b55e217734e0fa0189df242fbc2242bca9099d"
+    },
+    "artifact_publication_rule": "The publisher downloads and verifies these exact release assets; it does not rebuild or replace them."
+  },
+  "tool_bindings": {
+    "scripts/normalize_public_sdist.py": "1c3594c61b46af5601fda7993644aa613fb1523edb4709526b0ee35a01213d2c",
+    "scripts/verify_authorized_release_artifacts.py": "4df8c01ef571bf5bde2d5414a74958a19e9523c1683f9bdb0c2f0d10ac5de75c",
+    ".github/workflows/publish-pypi.yml": "78ba2b6b8eec95a4a15e1c7de74e4f079522a002f3e269daf0b86e88118d3e87",
+    "scripts/check_distribution.py": "456ba6fd025053073a8eaf46609a19f7b674edb2ca99cd024f963f8ef8848860"
+  },
+  "release_identifiers": {
+    "version_doi": "10.5281/zenodo.23106744",
+    "version_doi_state_before_publication": "Reserved in a Zenodo draft; not registered or citable until the exact selected-artifact deposit is published and resolves.",
+    "concept_doi": "10.5281/zenodo.22697897",
+    "citation_release_date": "2026-10-03"
+  },
+  "g03_status": "FAIL_PRESERVED",
+  "whole_repository_archive_cleared": false,
+  "wp14_status": "HOLD_NOT_PROMOTED",
+  "publication_constraints": [
+    "The exact b453265d source and selected artifact hashes are authorized by the prospective Owner reauthorization referenced above; tag CI and all release workflow gates remain mandatory.",
+    "Only the exact wheel, sdist and SHA256SUMS manifest listed above may be attached to the GitHub Release or Zenodo deposit.",
+    "Only the exact wheel and sdist listed above may be uploaded to PyPI.",
+    "Never describe the GitHub-generated complete source archives or a full repository Zenodo archive as audited or cleared while G03 remains failed.",
+    "Do not alter the source commit, package files, selected bytes, maturity classifications, historical evidence or ledger under this contract.",
+    "If any package metadata or selected source changes, create a new source freeze and rebuild, normalize, scan, probe and hash new artifacts before publication."
+  ]
+}

@@ -44,13 +44,35 @@ jobs:
       - name: Verify immutable tag and public release copy
         env:
           RELEASE_TAG: ${{ inputs.release_tag }}
+          CONFIRM_PUBLISH: ${{ inputs.confirm_publish }}
+          CONTRACT_PATH: ${{ inputs.contract_path }}
         run: |
           set -euo pipefail
           test "$GITHUB_REF" = "refs/heads/main"
           [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          if [[ "$CONFIRM_PUBLISH" == "true" ]]; then
+            for artifact_kind in wheel sdist; do
+              artifact_hash="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["audited_artifacts"][sys.argv[2]]["sha256"])' "$CONTRACT_PATH" "$artifact_kind")"
+              [[ "$artifact_hash" =~ ^[0-9a-f]{64}$ ]]
+            done
+          fi
           test "$(git -C tagged-source cat-file -t "refs/tags/$RELEASE_TAG")" = tag
           test "$(git -C tagged-source rev-parse HEAD)" = "$(git -C tagged-source rev-parse "refs/tags/$RELEASE_TAG^{commit}")"
           git merge-base --is-ancestor "refs/tags/$RELEASE_TAG^{commit}" HEAD
+          python - "$CONTRACT_PATH" "$RELEASE_TAG" "$(git -C tagged-source rev-parse "refs/tags/$RELEASE_TAG^{commit}")" <<'PY'
+          import json
+          import sys
+
+          contract = json.load(open(sys.argv[1], encoding="utf-8"))
+          if contract.get("status") != "OWNER_AUTHORIZED_SELECTED_PACKAGE_RELEASE":
+              raise SystemExit("The release contract is not Owner-authorized.")
+          if contract.get("release_tag") != sys.argv[2] or contract.get("source_sha") != sys.argv[3]:
+              raise SystemExit("The requested tag differs from the exact audited package source.")
+          if contract.get("g03_status") != "FAIL_PRESERVED" or contract.get("whole_repository_archive_cleared") is not False:
+              raise SystemExit("G03 must remain failed and the complete repository archive uncleared.")
+          if contract.get("wp14_status") != "HOLD_NOT_PROMOTED":
+              raise SystemExit("This release workflow does not authorize a WP14 status change.")
+          PY
           python scripts/check_publication_metadata.py --root tagged-source --tag "$RELEASE_TAG"
 
   quality:
@@ -151,28 +173,49 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements/baseline-standard.txt
-          python -m pip install build wheel twine
+          python -m pip install twine
+      - name: Download uploaded selected release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/qf-release-assets"
+          gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --dir "$RUNNER_TEMP/qf-release-assets"
       - name: Audit the frozen public documentation surface
         env:
           CONTRACT_PATH: ${{ inputs.contract_path }}
         run: |
+          SOURCE_CONTRACT_PATH="$(python -c 'import json, os; print(json.load(open(os.environ["CONTRACT_PATH"], encoding="utf-8"))["source_contract"]["path"])')"
           python scripts/audit_wp14_public_scope.py \
-            --contract "$CONTRACT_PATH" \
+            --contract "$SOURCE_CONTRACT_PATH" \
             --output "$RUNNER_TEMP/qf-public-scope.json"
-      - name: Rebuild and probe selected wheel and sdist
+      - name: Verify exact prebuilt wheel, sdist and checksum manifest
+        id: verify_release
         env:
           CONTRACT_PATH: ${{ inputs.contract_path }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
         run: |
-          python scripts/verify_public_package.py \
+          SOURCE_CONTRACT_PATH="$(python -c 'import json, os; print(json.load(open(os.environ["CONTRACT_PATH"], encoding="utf-8"))["source_contract"]["path"])')"
+          python scripts/verify_authorized_release_artifacts.py \
             --contract "$CONTRACT_PATH" \
+            --source-contract "$SOURCE_CONTRACT_PATH" \
+            --dist "$RUNNER_TEMP/qf-release-assets" \
             --output "$RUNNER_TEMP/qf-package-candidate"
-          python -m twine check "$RUNNER_TEMP"/qf-package-candidate/dist/*
-          python scripts/check_distribution.py "$RUNNER_TEMP"/qf-package-candidate/dist/*
-      - name: Confirm only verified candidate bytes are uploaded
-        id: verify_release
+          python - "$RUNNER_TEMP/qf-package-candidate/result.json" <<'PY'
+          import json
+          import os
+          import sys
+
+          result = json.load(open(sys.argv[1], encoding="utf-8"))
+          if result["status"] != "PASS_AUTHORIZED_SELECTED_ARTIFACTS_ONLY":
+              raise SystemExit("The exact selected release assets did not pass their frozen audit.")
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as stream:
+              stream.write("release_verified=true\n")
+          PY
+      - name: Confirm only the two audited packages enter the PyPI artifact
         run: |
           python - <<'PY'
-          import hashlib
           import json
           import os
           from pathlib import Path
@@ -180,14 +223,12 @@ jobs:
           candidate = Path(os.environ["RUNNER_TEMP"]) / "qf-package-candidate"
           result = json.loads((candidate / "result.json").read_text(encoding="utf-8"))
           scope = json.loads((Path(os.environ["RUNNER_TEMP"]) / "qf-public-scope.json").read_text(encoding="utf-8"))
-          if result["status"] != "PASS_CANDIDATE_PACKAGE_ONLY" or scope["status"] != "PASS_BOUNDED_PUBLIC_SURFACES":
-              raise SystemExit("The selected package and documentation gates must both pass")
-          expected = {item["path"]: item["sha256"] for item in result["package_check"]["binaries"]}
-          actual = {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in (candidate / "dist").iterdir()}
-          if actual != expected or len(actual) != 2:
-              raise SystemExit("Distribution bytes differ from the frozen candidate report")
-          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as stream:
-              stream.write("release_verified=true\n")
+          if result["status"] != "PASS_AUTHORIZED_SELECTED_ARTIFACTS_ONLY" or scope["status"] != "PASS_BOUNDED_PUBLIC_SURFACES":
+              raise SystemExit("The selected package and documentation gates must both pass.")
+          actual = {path.name for path in (candidate / "dist").iterdir()}
+          expected = {result["package_check"]["wheel"], result["package_check"]["sdist"]}
+          if actual != expected:
+              raise SystemExit("Only the two exact audited package files may enter the PyPI artifact.")
           PY
       - uses: actions/upload-artifact@v4
         with:
@@ -200,6 +241,8 @@ jobs:
           path: |
             ${{ runner.temp }}/qf-public-scope.json
             ${{ runner.temp }}/qf-package-candidate/package_check.json
+            ${{ runner.temp }}/qf-package-candidate/asset_check.json
+            ${{ runner.temp }}/qf-package-candidate/result.json
             ${{ runner.temp }}/qf-package-candidate/manifest.json
           if-no-files-found: error
 

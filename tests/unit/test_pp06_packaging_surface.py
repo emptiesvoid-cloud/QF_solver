@@ -1,4 +1,4 @@
-"""Targeted guards for the 0.2.8 packaging, license and install surface."""
+"""Targeted guards for the current packaging, license and install surface."""
 
 from __future__ import annotations
 
@@ -41,7 +41,7 @@ def test_installation_document_matches_extras_and_runtime_boundaries() -> None:
     for extra in ("mesh", "hdf5", "large", "hpc", "docs"):
         assert f'qf-solver[{extra}]' in installation
     assert "python -m mkdocs build --strict -f .github/pages/mkdocs.yml" in installation
-    assert "--branch v0.2.8" in installation
+    assert "--branch v0.2.10" in installation
     assert "default branch" in installation
     assert "Linux" in installation and "native Windows" in installation
     assert "NOT_VALIDATED" in installation

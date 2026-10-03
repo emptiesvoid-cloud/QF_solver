@@ -1,36 +1,37 @@
 ---
 doc_id: DOC-ANALYSIS-000
-revision: 1.0
-status: controlled
-applicable_version: 0.2.8
+revision: 2.0
+status: controlled_candidate
+applicable_version: 0.2.10
 reviewer: ""
 approver: ""
 ---
 
 # Analyses
 
-This page is a public map of analysis routes. The detailed capability matrix
-defines the valid element/material combinations.
+This page maps QF Solver 0.2.10 analysis routes. The
+[consolidated 0.2.8 registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json)
+remains authoritative for its 46 element-analysis decisions. Development-cycle
+evidence is linked separately and does not rewrite that registry.
 
-| Analysis | Status | Boundary |
+| Analysis | Maturity / evidence status | Scope boundary |
 | --- | --- | --- |
-| Linear static | `QUALIFIED_BOUNDED` | Elastic and bounded material routes recorded in the matrix. |
-| Modal | `ROUTE_DEPENDENT — see capability index` | Controlled linear eigenvalue cases; WEDGE6 first three modes are separately bounded. |
-| Newmark transient | `ROUTE_DEPENDENT — see capability index` | Linear cases with documented mass, damping and time-step assumptions. |
-| Harmonic | `ROUTE_DEPENDENT — see capability index` | Controlled frequency-domain cases; not a general dynamic claim. |
-| Linear buckling | `ROUTE_DEPENDENT — see capability index` | Bounded first-factor sparse cases; no post-buckling claim. |
-| Small-strain J2 | `QUALIFIED_BOUNDED` | TET4, TET10, HEX8 and HEX20 within the recorded constitutive scope. |
-| Mixed static and modal | `QUALIFIED_BOUNDED` | Connected conforming serial TET4/WEDGE6/HEX8 benchmark scopes only. |
-| Mixed Newmark and harmonic | `EXPERIMENTAL_BOUNDED` | Frozen serial dynamic benchmarks only. |
-| Frictionless penalty contact | `EXPERIMENTAL_BOUNDED` | Bounded node-to-triangle small-sliding cases only. |
-| Geometric nonlinear | `RESEARCH_ONLY` | Discovery evidence only; no production nonlinear claim. |
-| Mixed distributed PETSc/MPI | `NOT_VALIDATED` | Architecture readiness does not constitute runtime qualification. |
+| Linear static | `QUALIFIED_BOUNDED` | Only recorded element/material/load/mesh combinations. |
+| Modal | Route-dependent; see registry | Controlled linear eigenvalue cases; mass and family scope vary. |
+| Newmark transient | Route-dependent; mixed route `EXPERIMENTAL_BOUNDED` | Linear dynamics only; recorded time-step, mass and damping assumptions apply. |
+| Harmonic | Route-dependent; mixed route `EXPERIMENTAL_BOUNDED` | Recorded linear frequency-domain cases only. |
+| Linear buckling | Route-dependent | Bounded first-factor cases; not postbuckling or bifurcation analysis. |
+| Small-strain J2 | `QUALIFIED_BOUNDED` | The exact element-analysis combinations in the registry. |
+| Corotational J2 | `QUALIFIED_BOUNDED` within accepted scope | HEX8 only; large rotations with small local strains, not general finite-strain plasticity. |
+| Total-Lagrangian geometric nonlinear | Audited `GO_WITH_LIMITATIONS`; maturity not promoted | Selected StVK static serial TET4/HEX8 cases. |
+| Coupled material/geometric nonlinear | Owner-accepted bounded evidence | Selected static cases across TET4/TET10/HEX8/HEX20; no friction, dynamics, MPI/PETSc or external correlation. |
+| Frictionless contact | `EXPERIMENTAL_BOUNDED` | Penalty node-to-triangle bounded route. |
+| Frictional contact | Prior Owner-accepted bounded evidence; current-source formal requalification not established | Narrow serial stick/slip route; mesh sensitivity and search limitations remain. |
+| Arc-length continuation | Experimental bounded evidence | No general limit-point, bifurcation, or postbuckling claim. |
+| PETSc/MPI static | Owner-accepted bounded evidence | Two-rank linear-static one-element cases with replicated input/root-side assembly. |
 
-## What is not claimed
-
-Finite-kinematic J2, generalized nonlinear production use, contact with a
-universal friction law, arbitrary mixed meshes, generalized dynamics and
-production finite-sliding are not qualified by this release.
-
-[Read the authoritative 0.2.8 registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json).
-For separate mixed workflows and capabilities, use the [central capability index](../capabilities/index.md).
+For element-family boundaries use the [elements map](../elements/index.md).
+For nonlinear mechanics see the [mechanics overview](../mechanics/nonlinear-overview.md)
+and [capability matrix](../capabilities/index.md). The current
+[V&V summary](../verification/0_2_10/README.md) distinguishes implementation,
+verification, bounded acceptance, and physical validation.

@@ -1,13 +1,15 @@
 ---
 doc_id: DOC-REF-API-002
 revision: 1.0
-status: controlled
-applicable_version: 0.2.8
+status: controlled_candidate
+applicable_version: 0.2.10
 reviewer: ""
 approver: ""
 ---
 
 # API stability
+
+This page describes the public API surface of the 0.2.10 release.
 
 ## Public namespace
 
@@ -29,7 +31,9 @@ print(__version__)
 
 The `solveur` namespace remains a compatibility facade for existing 0.2.x
 applications. The recommended CLI is `qf-solver`; legacy entry points remain
-available for compatibility but should not be used in new integrations.
+available during the 0.2.x compatibility period. The current compatibility
+plan schedules removal of the legacy `solveur-ef` launcher for 0.3.0; this is
+a plan, not a 0.2.10 release event.
 
 ## Compatibility boundary
 

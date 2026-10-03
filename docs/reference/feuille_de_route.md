@@ -1,56 +1,51 @@
 ---
 doc_id: DOC-REF-004
-revision: 1.1
-status: controlled
-applicable_version: 0.2.8
+revision: 2.0
+status: controlled_candidate
+applicable_version: 0.2.10
 reviewer: ""
 approver: ""
 ---
 
 # Public roadmap
 
-QF Solver 0.2.8 is the current published release. The 0.2.9 source is
-integrated into `main` and tagged `v0.2.9`; no package or version DOI has been
-published. This roadmap describes product-level follow-up work; it is not a
-release gate, tag, publication or a promise that an unqualified route is
-production-ready.
-The development package version `0.2.10` is a publication candidate, not a
-tagged or published release. Its selected distribution and documentation must
-be re-audited at the final frozen source revision before a release decision.
+QF Solver 0.2.10 is the current published release. Version 0.2.9 was a
+development/source snapshot, not a PyPI package, GitHub Release, or version
+DOI. This roadmap is a product-level orientation; it is not a release gate,
+tag, publication decision, or promise that an unqualified route is ready for
+production.
 
-## Current release
+## Current direction
 
-The scope below describes the published 0.2.8 release. The roadmap is
-forward-looking and does not change that release scope or authorize publication
-of the tagged 0.2.9 source.
+Follow-up work after 0.2.10 will extend evidence and reproducibility without
+generalizing the existing bounded nonlinear routes or changing the linear
+element-analysis boundaries. The current release already includes common
+Newton and residual/tangent infrastructure, transactional state management,
+bounded geometric/J2/contact routes, and continuation diagnostics. The
+[capability index](../capabilities/index.md) and
+[0.2.10 V&V summary](../verification/0_2_10/README.md) state what the
+evidence accepts—and what it excludes.
 
-The release focuses on inspectable formulations, bounded numerical evidence,
-reproducible solver behavior and recorded large-model PETSc/MPI workflows.
-TET4, TET10, HEX8 and HEX20 have the strongest solid-element coverage. WEDGE6
-static and modal are qualified only within their separate bounded scopes.
-Mixed static, modal, translational-MPC and multi-material workflows are
-separately bounded; mixed Newmark and harmonic remain experimental bounded.
+## Follow-up themes
 
-## Next technical themes
+1. Keep each future source and package audit bound to exact Git blobs; keep
+   package-scoped and whole-repository archive gates distinct.
+2. Extend nonlinear evidence only through separately declared, reproducible
+   scopes; do not generalize beyond the families, formulations, or loads tested.
+3. Requalify current-source frictional contact and preserve its observed mesh
+   sensitivity until a new decision changes that scope.
+4. Improve the distributed PETSc/MPI path before making general nonlinear or
+   scaling claims.
+5. Extend external numerical correlation only for comparable meshes,
+   formulations, conventions, and observables; keep it distinct from physical
+   validation.
 
-1. Extend comparable verification for selected element and analysis
-   combinations without broadening claims prematurely.
-2. Diagnose or redesign the mixed PETSc/MPI runtime without treating its
-   architecture-only readiness as runtime qualification.
-3. Expand external correlation only where meshes, loads, conventions and
-   observables are demonstrably comparable.
-4. Continue WEDGE15, PYRAMID5, HEX8R/B-bar, finite-kinematic J2 and any
-   HEX8-SRI expansion as separate, evidence-led projects.
+## Deferred or outside the current claim
 
-## Explicitly deferred
-
-General nonlinear/contact production use, finite-sliding production support,
-GPU claims, universal HPC scaling, 5M Gold and deeper 10M scaling analysis are
-not part of the current public promise. They require new evidence and a
-separate decision.
-
-Historical plans and qualification records remain in
-[`docs/verification/0_2_7/`](../verification/0_2_7/README.md) for provenance. They are
-not the active product roadmap. The mixed distributed PETSc/MPI runtime is
-explicitly `NOT_VALIDATED`; its presence in the 0.2.9 development source does
-not constitute runtime qualification.
+General finite-strain plasticity, general finite-sliding/self-contact,
+nonlinear transient dynamics, broad postbuckling/bifurcation, nonlinear
+distributed MPI/PETSc, universal scaling, GPU support, and certification are
+not current public claims. Each requires its own technical evidence and
+decision. Historical plans and qualification records remain in the archive
+for provenance; they are not the active product roadmap and do not
+automatically become current claims.

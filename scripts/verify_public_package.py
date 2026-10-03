@@ -188,6 +188,35 @@ def verify_archives(dist: Path, selected: dict[str, bytes], version: str) -> dic
                          for path in [wheels[0], sources[0]]]}
 
 
+def verify_expected_artifacts(package_check: dict[str, Any], expected: Any) -> None:
+    """Match rebuilt distributions to hashes frozen in the prospective contract."""
+    if expected is None:
+        return
+    if not isinstance(expected, dict) or set(expected) != {"wheel", "sdist"}:
+        raise ValueError("The contract must bind exactly one wheel and one sdist artifact.")
+    observed = {item["path"]: item for item in package_check["binaries"]}
+    for kind, filename in (("wheel", package_check["wheel"]), ("sdist", package_check["sdist"])):
+        binding = expected[kind]
+        if not isinstance(binding, dict) or set(binding) != {"filename", "bytes", "sha256"}:
+            raise ValueError(f"The frozen {kind} artifact binding is malformed.")
+        actual = observed.get(filename)
+        sha256 = binding["sha256"]
+        size = binding["bytes"]
+        if (
+            actual is None
+            or binding["filename"] != filename
+            or not isinstance(size, int)
+            or isinstance(size, bool)
+            or size <= 0
+            or not isinstance(sha256, str)
+            or len(sha256) != 64
+            or any(character not in "0123456789abcdef" for character in sha256)
+            or actual["bytes"] != size
+            or actual["sha256"] != sha256
+        ):
+            raise ValueError(f"Rebuilt {kind} differs from the SHA-256 frozen in the contract.")
+
+
 def run_command(command: list[str], cwd: Path, logs: Path, records: list[dict[str, Any]], *, expected: int = 0) -> None:
     """Record actual arguments, PID, UTC, exit and immediately preserved logs."""
     environment = os.environ.copy()
@@ -280,6 +309,7 @@ def run_candidate(root: Path, contract_path: Path, output: Path) -> dict[str, An
         write_record(output / "source_mapping.json", mapping)
         run_command([sys.executable, "-m", "build", "--no-isolation", "--outdir", str(dist), str(stage)], neutral, logs, records)
         packages = verify_archives(dist, payloads, contract["package_version"])
+        verify_expected_artifacts(packages, contract.get("audited_artifacts"))
         write_record(output / "package_check.json", packages)
         environment = output / "installed_env"
         run_command([sys.executable, "-m", "venv", "--system-site-packages", str(environment)], neutral, logs, records)

@@ -1,104 +1,81 @@
 ---
 doc_id: DOC-STATE-001
-revision: 1.1
-status: controlled
-applicable_version: 0.2.8
+revision: 2.0
+status: controlled_candidate
+applicable_version: 0.2.10
 reviewer: ""
 approver: ""
 ---
 
-# QF Solver 0.2.8
+# QF Solver 0.2.10
+
+**Current release:** [`0.2.10`](https://github.com/emptiesvoid-cloud/QF_solver/releases/tag/v0.2.10)<br>
+**Selected PyPI distribution:** `qf-solver==0.2.10`<br>
+**Version DOI:** [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744)<br>
+**Project concept DOI:** [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897)
 
 QF Solver is an inspectable Python finite-element solver for structural
-mechanics. **Current release:** [`0.2.8`](https://github.com/emptiesvoid-cloud/QF_solver/releases/tag/v0.2.8).
-The package is available on [PyPI](https://pypi.org/project/qf-solver/), and
-the release archive is preserved at [Zenodo](https://doi.org/10.5281/zenodo.22697898).
-Claims are bounded by the active consolidated registry, separate
-workflow/capability records and their linked evidence.
+mechanics and dynamics. Version 0.2.10 is the first public release after
+0.2.8 and documents the nonlinear-mechanics development from the intervening
+source cycle. The 0.2.9 source snapshot was not a public package release.
+
+Claims remain bounded by the exact element, formulation, material, loading,
+mesh and solver route in their controlling record. The selected wheel and
+sdist were audited; the full-repository G03 archive gate remains failed.
+GitHub-generated source archives are not cleared distribution artifacts.
+See the [0.2.10 V&V summary](verification/0_2_10/README.md).
 
 ## Start here
 
-1. [Install QF Solver](getting-started/installation.md).
+1. [Install the latest published package](getting-started/installation.md).
 2. [Check whether QF Solver fits your problem](getting-started/when-to-use-qf-solver.md).
-3. Run the [first calculation](getting-started/quickstart.md).
-4. Check [elements and maturities](elements/index.md).
-5. Select an [analysis route](analyses/index.md) and [solver backend](solveurs/index.md).
-6. Read the [known limitations](etat/limites.md) before using a result.
-7. Use the [central capability index](capabilities/index.md) for current
-   maturity and record links.
+3. Run the [linear first calculation](getting-started/quickstart.md).
+4. Try the separate [bounded nonlinear example](getting-started/nonlinear-example.md).
+5. Check the [capability index](capabilities/index.md), [elements](elements/index.md)
+   and [analysis routes](analyses/index.md).
+6. Read [known limitations](etat/limites.md) before relying on a result.
 
-   
-## Choosing a FEM solver
+## What changed since 0.2.8
 
-If you are evaluating QF Solver against other open-source finite-element
-tools, start with the solver-selection and comparison guides:
+The main documented development is a more common nonlinear execution
+architecture: selected routes share a Newton engine, assembly protocol,
+accepted-state transactions and robustness diagnostics. Evidence also covers
+bounded Total-Lagrangian StVK checks, bounded J2/contact routes, selected
+multi-family comparisons and a same-mesh Code_Aster correlation campaign.
+Those are different evidence classes and do not imply general nonlinear
+qualification, physical validation or unrestricted PETSc/MPI support.
 
-- [Compare open-source FEM solvers](comparisons/index.md)
-- [Python FEM solvers: which one should you use?](comparisons/python-fem-solvers.md)
+Read [What's New in 0.2.10](whats-new/0.2.10.md) for the concise comparison
+with published 0.2.8, and the [nonlinear mechanics overview](mechanics/nonlinear-overview.md)
+for implementation, scope and boundaries.
 
-## Current scope
+## Verification and maturity
 
-- Bounded linear static routes are available for the element combinations in
-  the active 0.2.8 registry.
-- Small-strain J2 is bounded to TET4, TET10, HEX8 and HEX20.
-- Modal, Newmark, harmonic, buckling and frictionless contact routes have
-  route-specific limitations.
-- WEDGE6 static is `QUALIFIED_BOUNDED` only for its approved linear-elastic
-  scope. WEDGE6 modal has its own bounded first-three-mode scope.
-- Connected conforming mixed TET4/WEDGE6/HEX8 static, modal, translational-MPC
-  and multi-material workflows are `QUALIFIED_BOUNDED` within their separate
-  records. Mixed Newmark and harmonic workflows are `EXPERIMENTAL_BOUNDED`.
-- The `.inp` subset, family-aware mixed HDF5 storage, bounded frictionless
-  contact and HEX8-SRI are separate `EXPERIMENTAL_BOUNDED` capabilities.
-- PYRAMID5 remains internal/research-only, and MITC4 modal remains
-  `EXPERIMENTAL`.
-- PETSc/MPI large-model evidence is limited to recorded structured TET4
-  workloads and environments. The generic mixed PETSc/MPI runtime is
-  `NOT_VALIDATED`.
+The [capability index](capabilities/index.md) provides route-specific status
+and evidence links. The [V&V and maturity model](verification/evidence-and-maturity.md)
+explains the distinction between testing, verification, external correlation,
+qualification and physical validation. The [0.2.10 verification summary](verification/0_2_10/README.md)
+states the evidence provenance and open release limitations. The
+[0.2.8 verification summary](verification/0_2_8/README.md) and [0.2.7
+summary](verification/0_2_7/README.md) remain historical evidence.
 
-## Verification
+No certification, universal physical validation, industrial equivalence or
+general-purpose nonlinear-solver claim is made. The internal 95/100 roadmap
+score is not a public quality rating. WP14 remains `HOLD`; passing a bounded
+package scan or CI job does not clear the complete repository archive.
 
-The [central capability index](capabilities/index.md) gives the current public
-status. The [V&V and maturity model](verification/evidence-and-maturity.md)
-explains contracts, frozen gates, evidence and replays. The [0.2.8 verification
-summary](verification/0_2_8/README.md) gives the chronological development
-overview, while the [0.2.7 summary](verification/0_2_7/README.md) remains
-immutable historical evidence. Internal gate,
-work-package and audit identifiers are kept there under an explicit
-traceability section; they are not part of the user workflow.
+## Release and citation
 
-The project distinguishes implementation, testing, verification, external
-correlation and qualification. None of these labels is a claim of universal
-physical validation or certification.
+The selected wheel and sdist are the audited Python distribution artifacts.
+The full-repository G03 archive gate remains failed; automatic GitHub source
+archives and a complete repository archive are not represented as cleared.
 
-## Release and roadmap
+For reproducibility, cite the exact release DOI
+[`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744). Use
+[concept DOI `10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897)
+to cite the project across versions. The machine-readable
+[`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff)
+records the 0.2.10 release citation.
 
-The `0.2.9` source was integrated into `main` at merge commit
-`765bbe4`; its required `Quality and verification` and `Documentation tests`
-workflows passed on candidate commit `ea28165`. This confirms those CI checks,
-not qualification of the whole repository or any broader solver-route claim.
-The `v0.2.9` tag identifies the source snapshot; no 0.2.9 GitHub Release,
-version DOI, Zenodo archive or PyPI package has been published. The
-[earlier bounded review of selected installable sources and public documents](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.9/qualification/0_2_9/wp14/g03_bounded_public_surfaces_r4_7/owner-review.md)
-passed at its frozen source revision, while the full repository archive remains
-outside that scope and fails the public-content scan. The source tag does not
-clear the full archive for distribution. The
-[known limitations](etat/limites.md) and recorded failures remain visible.
-The current published release is `0.2.8` as linked above. See the
-[public roadmap](reference/feuille_de_route.md) for product-level next steps.
-The development package version is `0.2.10`, a preparation candidate only;
-it has not been tagged or published. The new-version Zenodo draft reserves
-`10.5281/zenodo.23106744`, but has no files; this DOI is not registered or a
-published citation. Its eventual distribution requires fresh frozen-source
-and package checks and a separate publication decision. The `v0.2.9` source
-tag remains unchanged.
-Historical qualification records remain available for provenance and are
-labelled as historical in their own pages.
-
-Read [What's New in 0.2.8](whats-new/0.2.8.md) for the published release
-summary.
-
-## Performance and reproducibility
-
-- [Benchmarks and reproducibility](benchmarks/index.md)
-
+See [Release history](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CHANGELOG.md), [API stability](reference/api_stability.md)
+and the [public roadmap](reference/feuille_de_route.md) for more context.

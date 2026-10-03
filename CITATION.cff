@@ -2,9 +2,9 @@ cff-version: 1.2.0
 message: "If you use QF Solver, please cite the published software release."
 type: software
 title: "QF Solver"
-version: "0.2.8"
-date-released: 2026-09-10
-doi: "10.5281/zenodo.22697898"
+version: "0.2.10"
+date-released: 2026-10-03
+doi: "10.5281/zenodo.23106744"
 license: "Apache-2.0"
 authors:
   - family-names: "Farinazzo"

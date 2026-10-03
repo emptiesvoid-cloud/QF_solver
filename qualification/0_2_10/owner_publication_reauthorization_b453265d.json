@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0210-OWNER-PUBLICATION-REAUTHORIZATION-B453265D",
+  "decision": "AUTHORIZE_V0_2_10_PUBLICATION",
+  "decision_authority": "Repository Owner",
+  "decision_date": "2026-10-03",
+  "version": "0.2.10",
+  "status": "OWNER_REAUTHORIZED_LATER_AUDITED_RELEASE_CANDIDATE",
+  "supersedes_for_release": "QF-0210-OWNER-PUBLICATION-AUTHORIZATION-2026-10-03",
+  "superseded_record": {
+    "path": "qualification/0_2_10/owner_publication_authorization.json",
+    "commit_sha": "61e692cddb3e6feb3c6006beec6d2f2b55205f15",
+    "sha256": "65999315d3e2950c6a734092d3c1417dd53c332e220bb90257d762fd91c90c99",
+    "historical_record_preserved": true
+  },
+  "authorized_source_sha": "b453265d5e61acd5f91cfc3aa236ee8b85344033",
+  "authorized_tag": "v0.2.10",
+  "authorized_tag_target_sha": "b453265d5e61acd5f91cfc3aa236ee8b85344033",
+  "authorized_artifacts": {
+    "wheel": {
+      "filename": "qf_solver-0.2.10-py3-none-any.whl",
+      "bytes": 1509431,
+      "sha256": "5c97d11cdc199512658ca3067b16beb7d72a2f6a183a171db5e921884709ca10"
+    },
+    "sdist": {
+      "filename": "qf_solver-0.2.10.tar.gz",
+      "bytes": 1114202,
+      "sha256": "35ce10458e84425558396f1246b55e217734e0fa0189df242fbc2242bca9099d"
+    },
+    "manifest": {
+      "filename": "qf_solver-0.2.10-SHA256SUMS.txt",
+      "bytes": 190,
+      "sha256": "fbe097e7d785d9d0c63cc16f562a32166da3aca300fc0693ef1777ba3bd85d7a"
+    }
+  },
+  "authorized_wheel_sha256": "5c97d11cdc199512658ca3067b16beb7d72a2f6a183a171db5e921884709ca10",
+  "authorized_sdist_sha256": "35ce10458e84425558396f1246b55e217734e0fa0189df242fbc2242bca9099d",
+  "authorized_manifest_sha256": "fbe097e7d785d9d0c63cc16f562a32166da3aca300fc0693ef1777ba3bd85d7a",
+  "prior_ci_evidence": {
+    "quality_workflow": {
+      "run_number": 182,
+      "run_id": "37108431922",
+      "commit_sha": "7315f9f70c635a449f20c89cf2e8fa293ee5c4bf",
+      "conclusion": "SUCCESS",
+      "historical_not_final_for_authorized_source": true
+    },
+    "documentation_workflow": {
+      "run_number": 60,
+      "run_id": "37108499563",
+      "commit_sha": "7315f9f70c635a449f20c89cf2e8fa293ee5c4bf",
+      "conclusion": "SUCCESS",
+      "historical_not_final_for_authorized_source": true
+    }
+  },
+  "candidate_acceptance": {
+    "selected_package_files": 551,
+    "selected_package_findings": 0,
+    "served_documentation_files": 749,
+    "served_documentation_findings": 0,
+    "twine": "PASS",
+    "installed_package_probes": "PASS",
+    "reproducible_artifact_hashes": "PASS",
+    "mkdocs_strict": "PASS",
+    "ruff": "PASS",
+    "nonlinear_example": "CONVERGED_WITH_WARNING_RESEARCH_MATURITY",
+    "production_mechanics_modified_since_prior_authorized_source": false,
+    "residual_deviations_accepted_nonblocking_for_selected_publication": true
+  },
+  "authorization": {
+    "selected_package_publication_allowed": true,
+    "tag_creation_allowed": true,
+    "pypi_publication_allowed": true,
+    "github_release_allowed": true,
+    "zenodo_selected_artifact_publication_allowed": true,
+    "whole_repository_archive_cleared": false,
+    "whole_repository_archive_publication_allowed": false,
+    "ledger_update_allowed": false,
+    "wp14_promotion_allowed": false,
+    "numeric_maturity_promotion_allowed": false,
+    "historical_result_reclassification_allowed": false,
+    "certification_or_universal_validation_claims_allowed": false
+  },
+  "selected_package_publication_allowed": true,
+  "tag_creation_allowed": true,
+  "pypi_publication_allowed": true,
+  "github_release_allowed": true,
+  "zenodo_selected_artifact_publication_allowed": true,
+  "g03_status": "FAIL_PRESERVED",
+  "whole_repository_archive_cleared": false,
+  "whole_repository_archive_publication_allowed": false,
+  "wp14_status": "HOLD_NOT_PROMOTED",
+  "wp14_promotion_allowed": false,
+  "numeric_maturity_promotion_allowed": false,
+  "historical_result_reclassification_allowed": false,
+  "ledger_update_allowed": false,
+  "certification_or_universal_validation_claims_allowed": false,
+  "preserved_gates": {
+    "g03_status": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "wp14_status": "HOLD_NOT_PROMOTED"
+  },
+  "release_identifiers": {
+    "version_doi": "10.5281/zenodo.23106744",
+    "version_doi_state": "Reserved in a Zenodo draft; not registered or citable until the selected-artifact record is published and resolves.",
+    "concept_doi": "10.5281/zenodo.22697897"
+  },
+  "publication_constraints": [
+    "Only the exact wheel, sdist and checksum manifest above are authorized selected artifacts.",
+    "Do not describe GitHub-generated complete source archives or a full-repository Zenodo archive as audited or cleared while G03 remains failed.",
+    "Keep G03 failed, WP14 on HOLD, and all historical results and maturity classifications unchanged.",
+    "If source or any selected artifact hash changes, this reauthorization no longer applies; obtain a new prospective Owner decision."
+  ]
+}

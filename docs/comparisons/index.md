@@ -1,8 +1,8 @@
 ---
 doc_id: DOC-SOLVER-COMP-000
 revision: 1.0
-status: controlled
-applicable_version: 0.2.8
+status: controlled_candidate
+applicable_version: 0.2.10
 reviewer: ""
 approver: ""
 ---
@@ -16,12 +16,14 @@ from the software.
 This section compares QF Solver with several open-source finite-element tools.
 
 > **HISTORICAL SNAPSHOT NOTICE.** The detailed comparison pages retain their
-> explicitly labeled 0.2.7 snapshots. They are not the current 0.2.8 maturity
-> record; use the capability index for current status.
+> explicitly labeled 0.2.7 analysis snapshots and have not been refreshed for
+> the 0.2.10 release. They are not current capability or maturity records;
+> use the 0.2.10 index and V&V summary for current scope.
 
-The detailed comparison articles retain their explicit 0.2.7 snapshot where
-stated. For current QF Solver maturity and limitations, use the 0.2.8 sources
-linked below; in particular, mixed PETSc/MPI is `NOT_VALIDATED`.
+The current published package is 0.2.10. The detailed comparison articles
+retain their explicit 0.2.7 snapshots. For current maturity and
+limitations, use the 0.2.10 sources linked below; in particular, mixed
+distributed PETSc/MPI remains `NOT_VALIDATED`.
 
 The objective is not to claim that QF Solver is universally better. Each
 project has a different scope and design philosophy.
@@ -99,7 +101,9 @@ The authoritative QF Solver capability information is available in:
 
 - [Elements](../elements/index.md)
 - [Analyses](../analyses/index.md)
+- [0.2.10 capability index](../capabilities/index.md)
+- [0.2.10 V&V summary](../verification/0_2_10/README.md)
 - [Known limitations](../etat/limites.md)
-- [QF Solver 0.2.8 verification](../verification/0_2_8/README.md)
+- [Published QF Solver 0.2.8 verification](../verification/0_2_8/README.md)
 - [Historical QF Solver 0.2.7 verification](../verification/0_2_7/README.md)
 - [When should I use QF Solver?](../getting-started/when-to-use-qf-solver.md)

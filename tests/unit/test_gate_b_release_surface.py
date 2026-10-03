@@ -78,8 +78,11 @@ def test_version_registry_and_public_docs_are_aligned() -> None:
 
     assert project["version"] == __version__ == "0.2.10"
     assert project["optional-dependencies"]["hdf5"] == ["h5py>=3.10"]
-    # CITATION remains bound to the last published release until a new package is issued.
-    assert 'version: "0.2.8"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    # Release metadata is pre-staged; the reserved version DOI is activated only
+    # when the corresponding Zenodo record is actually published.
+    citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    assert 'version: "0.2.10"' in citation
+    assert 'doi: "10.5281/zenodo.23106744"' in citation
     registry = json.loads((ROOT / "qualification/0_2_8/consolidated_registry.json").read_text(encoding="utf-8"))
     assert registry["combination_registry"]["state_counts"] == {
         "QUALIFIED_BOUNDED": 32,

@@ -12,13 +12,8 @@ from scripts.check_publication_metadata import check_publication_metadata
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def test_v0210_candidate_is_not_a_publishable_metadata_state() -> None:
-    failures = check_publication_metadata(ROOT, "v0.2.10")
-    assert "CITATION.cff does not identify this version" in failures
-    assert "README.md release line does not identify this version" in failures
-    assert "README.md still denies publication of this version" in failures
-    assert "CHANGELOG.md has no released entry for this version" in failures
-    assert "docs/index.md still advertises a different current release" in failures
+def test_v0210_final_metadata_is_publishable() -> None:
+    assert check_publication_metadata(ROOT, "v0.2.10") == []
 
 
 def test_metadata_gate_rejects_nonstable_or_mismatched_tag() -> None:
@@ -37,7 +32,10 @@ def test_metadata_gate_accepts_consistent_release_copy(tmp_path: Path) -> None:
         "README.md": f"| Release line | `{version}` |\n",
         "CHANGELOG.md": f"## {version} - Released\n",
         "docs/index.md": f"**Current release:** [`{version}`]\n",
-        "docs/getting-started/installation.md": f"QF Solver `{version}` is published on PyPI.\n",
+        "docs/getting-started/installation.md": (
+            f"The selected QF Solver `{version}` wheel and sdist are the audited PyPI release\n"
+            "artifacts.\n"
+        ),
         "docs/capabilities/index.md": f"**Current release:** `{version}` / `{tag}`\n",
         "docs/reference/feuille_de_route.md": f"QF Solver {version} is the current published release.\n",
         "CONTRIBUTING.md": f"QF Solver `{version}` (`{tag}`)\n",
@@ -74,7 +72,11 @@ def test_pypi_workflow_publishes_only_audited_selected_archives() -> None:
     events = workflow.get("on", workflow.get(True))
     assert "default" not in events["workflow_dispatch"]["inputs"]["release_tag"]
     assert "default" not in events["workflow_dispatch"]["inputs"]["contract_path"]
+    assert "audited_artifacts" in str(workflow["jobs"]["preflight"])
     assert "audit_wp14_public_scope.py" in build
-    assert "verify_public_package.py" in build
+    assert "verify_authorized_release_artifacts.py" in build
+    assert "gh release download" in build
     assert "qf-package-candidate/dist" in build
     assert "python -m build" not in build
+    assert "verify_public_package.py" not in build
+    assert "PASS_AUTHORIZED_SELECTED_ARTIFACTS_ONLY" in build

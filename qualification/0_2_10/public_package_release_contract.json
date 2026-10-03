@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-0210-PUBLIC-PACKAGE-RELEASE-CANDIDATE-01",
+  "status": "FROZEN_CANDIDATE_BUILD",
+  "source_sha": "b453265d5e61acd5f91cfc3aa236ee8b85344033",
+  "selection": {
+    "include_exact": [
+      "CHANGELOG.md",
+      "CITATION.cff",
+      "LICENSE",
+      "LICENSE-DOCS",
+      "MANIFEST.in",
+      "NOTICE",
+      "README.md",
+      "THIRD_PARTY_LICENSES.md",
+      "pyproject.toml",
+      "qualification/benchmarks.json",
+      "qualification/campaign.json",
+      "qualification/demonstrations.json",
+      "qualification/element_analysis_matrix.json",
+      "qualification/formulas.json",
+      "qualification/requirements.json",
+      "qualification/release_vv_0_2_1.json",
+      "qualification/technical_content_coverage.json",
+      "qualification/0_2_7/capability_registry_v2.json",
+      "qualification/0_2_8/consolidated_registry.json",
+      "qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json",
+      "qualification/0_2_8/wp13_02d_mixed_dynamics_delivery.json",
+      "qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json",
+      "qualification/0_2_8/wp13_04d_multimaterial_owner_delivery.json",
+      "qualification/0_2_8/wp13_05_inp_import_capability_record.json",
+      "qualification/0_2_8/wp13_05c_registry_reconciliation_erratum.json",
+      "qualification/0_2_8/wp13_06d_mixed_hdf5_capability_record.json",
+      "qualification/0_2_8/wp13_07d_contact_capability_record.json",
+      "requirements/baseline-standard.txt",
+      "requirements/baseline-large-linux.txt"
+    ],
+    "include_prefixes": ["examples/", "src/qf_solver/", "src/solveur/"],
+    "exclude_exact": ["examples/README.md", "src/solveur/verification/j2_multifamily_performance.py"],
+    "forbid_prefixes": ["qualification/0_2_9/", "docs/", "scripts/", "tests/"]
+  },
+  "documentation_selection": {
+    "include_prefixes": ["docs/"],
+    "exclude_prefixes": ["docs/verification/0_2_9/"],
+    "suffixes": [".cff", ".cfg", ".csv", ".htm", ".html", ".ini", ".json", ".md", ".pdf", ".ps1", ".py", ".rst", ".sh", ".tex", ".toml", ".txt", ".xml", ".yaml", ".yml"]
+  },
+  "documentation_publication_policy": {
+    "config_path": ".github/pages/mkdocs.yml",
+    "config_sha256": "f0426b4c1833e811b8c8e17bf0b1dee5a22bb8b300fb739e16f381e6fd08b3ea",
+    "excluded_source_prefix": "docs/verification/0_2_9/",
+    "mkdocs_exclude_pattern": "verification/0_2_9/**"
+  },
+  "package_version": "0.2.10",
+  "audited_artifacts": {
+    "wheel": {
+      "filename": "qf_solver-0.2.10-py3-none-any.whl",
+      "bytes": 1509431,
+      "sha256": "64963831b8d6088107272152513a63224c7c3fde92013ce7ec2de19e29002ec2"
+    },
+    "sdist": {
+      "filename": "qf_solver-0.2.10.tar.gz",
+      "bytes": 1138202,
+      "sha256": "692d8f52e2ac5e700675bbf0eea2f345ac7440d32482f94a5fa085a8ebdb0190"
+    }
+  },
+  "tool_bindings": {
+    "scripts/verify_public_package.py": "7e25532f5a8c2c80b0a8ab711c235fc45a34eb6219efdef0386543d00f1bc86c",
+    "scripts/probe_installed_package.py": "46576afa82a8285730c4afc67e41fd58f5a8deb753f054f5a35cc0442eb18675",
+    "scripts/plan_public_package.py": "d1a734cb4a11d53abfa102507f531f9369bc70797adf23075dd5b03c10f8e1f8",
+    "scripts/git_tools.py": "9192aef8e8610ee4f651cac11a18af189678f561d9c85c20c64c77be47a287fa",
+    "scripts/audit_public_release.py": "cb1493a8a49d3f1ee0be89efc37050dc87a8c5165dbfb6de6fdd17b3bbeaf79c",
+    "scripts/audit_release_archive.py": "b67613d0eb5e1b305aba2bb9181d12529eda7859db00b840a71746bc39c52a37",
+    "scripts/review_vocabulary.py": "28af00eab2a09fdcb94bf3c4682230dcaaca9b519aeb0867d96b67d4589ad3aa"
+  },
+  "scope_scan_tool_sha256": "fa2a39d03b2f14bfcbbaf725c7c9f25fe84b117a2824f3355765c0fa8c26d616",
+  "candidate_execution_profile": {
+    "source_materialization": "Selected regular Git blobs from source_sha; no checkout working-tree bytes.",
+    "build_command": "python -m build --no-isolation --outdir <new-external-output>/dist <new-external-output>/selected_source",
+    "archive_checks": ["wheel and sdist path/type checks", "selected byte equality", "undeclared payload rejection", "twine check both distributions"],
+    "installation": "Separate venv; --no-index --no-deps; system-site-packages visibility is recorded and is not full dependency isolation.",
+    "installed_probes": [
+      "Verify all installed QF source bytes against source_mapping.json.",
+      "Run qf-solver, solveur-ef and mitc4-solver --version plus qf-solver --help.",
+      "Probe imports and CLI outside and inside the checkout using safe-path mode.",
+      "Require verify-all to refuse with exit code 2 without creating a report.",
+      "No structural solve or verification campaign is authorized by this package audit."
+    ],
+    "evidence_output": "New external directory only; refuse existing output; record source mapping, environment, command logs, artifact hashes and manifest."
+  },
+  "owner_authorization": {
+    "record_path": "qualification/0_2_10/owner_publication_authorization.json",
+    "record_commit_sha": "61e692cddb3e6feb3c6006beec6d2f2b55205f15",
+    "decision": "AUTHORIZE_V0_2_10_PUBLICATION",
+    "scope": "Selected wheel/sdist, tag, PyPI, GitHub Release, and selected Zenodo artifacts only; no whole-repository archive."
+  },
+  "publication_policy": {
+    "package_build_allowed": true,
+    "publication_allowed": false,
+    "tag_creation_allowed": false,
+    "github_release_allowed": false,
+    "pypi_upload_allowed": false,
+    "zenodo_deposit_allowed": false,
+    "citation_update_allowed": false,
+    "ledger_update_allowed": false,
+    "wp14_promotion_allowed": false,
+    "version_doi": "10.5281/zenodo.23106744",
+    "version_doi_state": "Reserved in an unpublished Zenodo draft; not registered or citable until published.",
+    "concept_doi": "10.5281/zenodo.22697897",
+    "last_published_version_at_freeze": "0.2.8"
+  },
+  "package_build_allowed": true,
+  "publication_allowed": false,
+  "structural_solves_allowed": false,
+  "numeric_threshold_changes_allowed": false,
+  "whole_repository_gate_waivers_allowed": false,
+  "limitations": [
+    "This contract binds only the selected installable package files and served documentation at source_sha; it does not clear the full-repository G03 archive gate or GitHub-generated source archives.",
+    "Owner publication authority is recorded separately; this execution contract authorizes candidate build and verification only and does not itself authorize publication.",
+    "The version DOI is reserved in a draft and is not registered or citable until the Zenodo record is actually published and resolves.",
+    "WP14 remains HOLD; no historical result, experimental evidence, or numerical maturity is reclassified by this contract.",
+    "The installed probe permits system and user dependency sites to be visible; it checks QF Solver import origins and bytes but does not claim complete dependency isolation."
+  ]
+}

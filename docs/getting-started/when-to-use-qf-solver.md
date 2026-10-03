@@ -1,623 +1,135 @@
 ---
 doc_id: DOC-SOLVER-GUIDE-001
-revision: 1.0
-status: controlled
-applicable_version: 0.2.8
+revision: 2.0
+status: controlled_candidate
+applicable_version: 0.2.10
 reviewer: ""
 approver: ""
 ---
+
 # When should I use QF Solver?
 
-QF Solver is an open-source Python finite-element solver focused on
-structural mechanics, transparent formulations, reproducible numerical
-verification and inspectable solver behaviour.
-
-It is designed primarily for engineers, researchers and developers who want
-to understand, verify and control the finite-element calculation rather than
-treat the solver as a black box.
-
-QF Solver is not intended to replace every industrial finite-element package.
-Its capabilities are deliberately classified by maturity and by validated
-scope.
-
-This page helps decide whether QF Solver is an appropriate choice for a given
-problem.
-
----
-
-## Short answer
-
-QF Solver is a good fit if you need:
-
-- a Python-native finite-element workflow;
-- transparent and inspectable FEM formulations;
-- structural mechanics calculations;
-- reproducible verification evidence;
-- linear static analysis;
-- modal and structural dynamic analysis within documented limits;
-- small-strain elastoplastic calculations within qualified routes;
-- sparse linear solving;
-- PETSc/MPI solving for the recorded structured TET4 large-model routes;
-- an engineering solver that exposes numerical diagnostics;
-- a solver that explicitly separates implemented, tested, verified and
-  qualified capabilities.
-
-QF Solver is currently a poor fit if you need:
-
-- production-grade general-purpose nonlinear analysis;
-- large-strain plasticity;
-- general frictional contact;
-- production finite-sliding contact;
-- arbitrary mixed-element industrial models;
-- mature GPU acceleration;
-- full multiphysics;
-- certification-oriented industrial workflows;
-- a drop-in replacement for Abaqus, ANSYS, Code_Aster or similar mature
-  general-purpose platforms.
-
----
-
-# Typical good use cases
-
-## 1. Structural finite-element analysis in Python
-
-QF Solver is particularly suitable when the finite-element solver is part of a
-larger Python engineering workflow.
-
-Typical examples include:
-
-- structural preprocessing;
-- automated parametric studies;
-- solver development;
-- optimization loops;
-- research prototypes;
-- surrogate-model data generation;
-- FEM verification studies;
-- automated mechanical simulation pipelines.
-
-The public Python API allows QF Solver to be integrated directly into Python
-applications rather than only controlled through an external solver process.
-
----
-
-## 2. Linear static structural mechanics
-
-Linear static analysis is one of the strongest current use cases.
-
-QF Solver provides bounded qualified routes for several solid finite elements,
-including:
-
-- TET4;
-- TET10;
-- HEX8;
-- HEX20.
-
-Qualification remains dependent on the complete combination of:
-
-- element;
-- material;
-- loading;
-- boundary conditions;
-- mesh;
-- solver route;
-- analysis type.
-
-A qualified element does not imply that every possible model using that
-element is qualified.
-
-Users should always consult the active capability matrix before making a
-reliability claim.
-
----
-
-## 3. Modal analysis
-
-QF Solver can be used for structural modal analysis when the problem lies
-inside the documented route-specific scope.
-
-Typical applications include:
-
-- natural-frequency estimation;
-- structural mode extraction;
-- model verification;
-- comparison with analytical solutions;
-- comparison with reference finite-element solutions.
-
-WEDGE6 modal analysis has bounded qualification for a specifically documented
-homogeneous isotropic consistent-mass route and for the first three modes.
-
-WEDGE6 static has a separate `QUALIFIED_BOUNDED` linear-elastic scope. Neither
-decision qualifies arbitrary WEDGE6 analyses.
-
-This qualification must not be generalized to other WEDGE6 analyses.
-
----
-
-## 4. Structural dynamics
-
-QF Solver contains dynamic-analysis routes including:
-
-- modal analysis;
-- Newmark time integration;
-- harmonic analysis.
-
-These capabilities are currently supported with documented limitations.
-
-The connected mixed TET4/WEDGE6/HEX8 Newmark and harmonic routes are
-`EXPERIMENTAL_BOUNDED`; their serial model, damping, timestep or frequency
-scope must be matched exactly.
-
-They are appropriate for controlled structural-dynamics studies when the
-chosen formulation, model and solver route match the available verification
-evidence.
-
-For safety-critical or production-critical dynamic analyses, users should
-independently verify the model against analytical solutions, experimental
-results or an established reference solver.
-
----
-
-## 5. Small-strain J2 plasticity
-
-QF Solver provides bounded qualification evidence for small-strain J2
-plasticity on:
-
-- TET4;
-- TET10;
-- HEX8;
-- HEX20.
-
-This makes QF Solver useful for studying and developing nonlinear solid
-mechanics workflows where:
-
-- strains remain inside the documented small-strain assumptions;
-- the constitutive route matches the qualified implementation;
-- the complete element/material/solver combination is covered by the
-  qualification evidence.
-
-This qualification does not currently extend to general finite-strain
-plasticity.
-
----
-
-## 6. Solver and FEM method development
-
-QF Solver is deliberately designed as a white-box solver.
-
-It is therefore particularly suitable for developers working on:
-
-- finite-element formulations;
-- numerical integration;
-- constitutive models;
-- nonlinear algorithms;
-- sparse matrix assembly;
-- eigensolvers;
-- iterative linear solvers;
-- preconditioning;
-- mesh diagnostics;
-- verification infrastructure;
-- solver reproducibility.
-
-The objective is that numerical behaviour can be inspected rather than hidden
-behind a proprietary execution layer.
-
-For research and solver-development workflows, this transparency can be more
-important than having the broadest possible feature set.
-
----
-
-## 7. Verification and validation studies
-
-QF Solver places unusual emphasis on numerical evidence.
-
-The project distinguishes several concepts that are often mixed together:
-
-- `IMPLEMENTED`;
-- `TESTED`;
-- `VERIFIED`;
-- `EXTERNALLY_VALIDATED`;
-- `QUALIFIED`;
-- `EXPERIMENTAL`.
-
-A feature being implemented does not automatically mean that it is ready for
-engineering use.
-
-A passing example also does not constitute universal validation.
-
-This makes QF Solver useful for:
-
-- verification methodology development;
-- FEM regression studies;
-- solver-to-solver comparison;
-- reproducibility studies;
-- numerical-quality auditing;
-- engineering-method development.
-
----
-
-# Large models and HPC
-
-QF Solver includes optional PETSc/MPI integrations for selected large-scale
-finite-element calculations.
-
-Recorded QF Solver 0.2.7 evidence includes structured TET4 workloads at
-approximately:
-
-- 1 million DOFs;
-- 3 million DOFs;
-- 5 million DOFs;
-- 10 million DOFs.
-
-These results demonstrate that QF Solver can execute large sparse calculations
-under the documented PETSc/MPI environments.
-
-They must not be interpreted as a universal scalability claim.
-
-In particular, the current evidence does not demonstrate equivalent scaling
-for:
-
-- every element family;
-- arbitrary mixed meshes;
-- every nonlinear route;
-- every hardware configuration;
-- every PETSc configuration;
-- GPU execution.
-
-Use QF Solver for large models when the intended solver route is close to the
-documented large-scale configurations.
-
-The 0.2.8 mixed PETSc/MPI architecture does not yet satisfy its runtime
-qualification gates and remains `NOT_VALIDATED`: the two-rank run passes its
-residual check but fails force balance, the three-rank run reaches
-`KSP_DIVERGED_BREAKDOWN`, and partition consistency fails. This is architecture
-evidence only; it must not be presented as scalable mixed PETSc support,
-validated distributed mixed support, production-ready mixed MPI, or even as a
-limited two-rank claim.
-
----
-
-# When QF Solver is probably not the right tool
-
-## General industrial nonlinear simulation
-
-QF Solver is not currently a general replacement for mature industrial
-nonlinear finite-element platforms.
-
-If your model requires combinations such as:
-
-- large deformation;
-- complex plasticity;
-- frictional contact;
-- finite sliding;
-- complex shell assemblies;
-- complex mixed-element assemblies;
-- sophisticated nonlinear stabilization;
-- highly mature automatic nonlinear control;
-
-a mature general-purpose solver will normally be the safer choice.
-
-Examples include Code_Aster, CalculiX, Abaqus, ANSYS and other established
-finite-element platforms depending on the application.
-
----
-
-## Frictional contact
-
-QF Solver currently contains bounded frictionless node-to-triangle contact
-capabilities.
-
-General friction is outside the currently qualified scope.
-
-Do not choose QF Solver solely for a production model dominated by complex
-frictional contact.
-
----
-
-## Large-strain plasticity
-
-The currently qualified J2 scope is based on small-strain formulations.
-
-Finite-kinematic J2 and broader finite-strain nonlinear workflows remain
-experimental or outside the qualified scope.
-
-For large deformation elastoplasticity, another solver should currently be
-preferred unless the objective is specifically research or solver
-development.
-
----
-
-## Arbitrary mixed meshes
-
-QF Solver supports several important solid element families, but this does not
-mean arbitrary mixed TET/WEDGE/HEX models are production-qualified.
-
-Mixed-element workflows remain limited.
-
-Complex industrial meshes should therefore be checked carefully against the
-active capability matrix.
-
----
-
-## WEDGE elements
-
-WEDGE6 support must be interpreted carefully.
-
-Current status:
-
-- WEDGE6 static: `QUALIFIED_BOUNDED` within its documented linear-elastic scope;
-- WEDGE6 modal: bounded qualification for a specific documented route.
-
-Neither WEDGE6 static nor modal qualification implies nonlinear or general
-dynamic qualification.
-
-WEDGE15 is currently outside the supported qualified scope.
-
----
-
-## Pyramid elements
-
-PYRAMID5 is not currently part of the qualified production scope.
-
-Models requiring pyramid transition elements should therefore not assume that
-QF Solver can currently reproduce a general industrial mixed-mesh workflow.
-
----
-
-## GPU solving
-
-QF Solver currently makes no general GPU-solving claim.
-
-The large-scale solver route is primarily based on sparse CPU workflows and
-optional PETSc/MPI integration.
-
-If GPU acceleration is a primary requirement, QF Solver is currently unlikely
-to be the best choice.
-
----
-
-# QF Solver versus a mature industrial solver
-
-QF Solver and large industrial finite-element platforms solve different
-problems.
-
-A mature industrial solver usually prioritizes:
-
-- very broad element libraries;
-- mature nonlinear algorithms;
-- complex contact;
-- industrial preprocessing;
-- extensive material models;
-- decades of validation;
-- production support.
-
-QF Solver prioritizes:
-
-- Python integration;
-- inspectability;
-- transparent formulations;
-- explicit numerical diagnostics;
-- reproducible verification;
-- machine-readable qualification evidence;
-- controlled solver development;
-- traceability between claims and numerical evidence.
-
-The correct choice depends on what matters most for the application.
-
----
-
-# QF Solver versus a lightweight Python FEM library
-
-A lightweight Python FEM library can be preferable when the goal is:
-
-- teaching;
-- rapid implementation of a weak formulation;
-- small research experiments;
-- minimal solver infrastructure.
-
-QF Solver becomes more interesting when the project also requires:
-
-- engineering-oriented solver routes;
-- explicit capability maturity;
-- numerical diagnostics;
-- regression infrastructure;
-- verification evidence;
-- large sparse solving;
-- structured release qualification.
-
----
-
-# Recommended user profiles
-
-## Engineering user
-
-QF Solver may be appropriate if you want to perform controlled structural
-calculations while retaining access to the numerical details of the solver.
-
-Always check the capability matrix before relying on a result.
-
----
-
-## Researcher
-
-QF Solver can be useful for:
-
-- computational mechanics research;
-- FEM methodology;
-- nonlinear algorithms;
-- structural dynamics;
-- solver benchmarking;
-- verification studies;
-- surrogate-model dataset generation.
-
-Its white-box architecture is particularly useful when the numerical method
-itself is part of the research.
-
----
-
-## FEM developer
-
-This is one of the strongest use cases.
-
-QF Solver can serve as a platform for experimenting with:
-
-- new elements;
-- new materials;
-- new integration schemes;
-- solver backends;
-- preconditioners;
-- nonlinear algorithms;
-- verification methods.
-
----
-
-## Student
-
-QF Solver can be useful for learning finite-element mechanics because the
-implementation is inspectable.
-
-However, the project is an engineering solver rather than a simplified
-teaching-only FEM implementation.
-
-Users should already be familiar with basic:
-
-- continuum mechanics;
-- finite-element theory;
-- numerical linear algebra;
-- structural mechanics.
-
----
-
-# Decision checklist
-
-Before choosing QF Solver, answer the following questions.
-
-### Analysis
-
-- Is the required analysis available?
-- What is its current maturity status?
-- Is the route qualified, limited or experimental?
-
-### Elements
-
-- Are the required elements supported?
-- Is the exact element-analysis combination covered?
-
-### Materials
-
-- Is the required material model supported?
-- Are the assumptions compatible with the intended problem?
-
-### Nonlinearity
-
-- Does the problem involve large deformation?
-- Plasticity?
-- Contact?
-- Friction?
-- Material nonlinearity?
-
-### Scale
-
-- How many DOFs are expected?
-- Is the standard SciPy route sufficient?
-- Is PETSc/MPI required?
-- Is the model similar to an existing large-scale verified workload?
-
-### Verification
-
-- Is an analytical reference available?
-- Can the result be compared with another FEM solver?
-- Does QF Solver provide existing qualification evidence for the same route?
-
-### Production requirements
-
-- Is certification required?
-- Is the calculation safety critical?
-- Is industrial vendor support required?
-
-If certification, production liability or safety-critical qualification is a
-primary requirement, QF Solver should not be treated as a certified solver.
-
----
-
-# Capability status matters
-
-The most important rule when using QF Solver is:
-
-> Do not infer capability from implementation alone.
-
-QF Solver uses explicit maturity levels to prevent this.
-
-For example:
-
-| Capability | Current public status |
-| --- | --- |
-| Linear static solid routes | `QUALIFIED_BOUNDED` |
-| Small-strain J2 on TET4/TET10/HEX8/HEX20 | `QUALIFIED_BOUNDED` |
-| Modal analysis | `ROUTE_DEPENDENT — see capability index` |
-| Newmark dynamics | `ROUTE_DEPENDENT — see capability index` |
-| Harmonic analysis | `ROUTE_DEPENDENT — see capability index` |
-| Linear buckling | `ROUTE_DEPENDENT — see capability index` |
-| Frictionless contact | `EXPERIMENTAL_BOUNDED` |
-| WEDGE6 static | `QUALIFIED_BOUNDED` |
-| WEDGE6 modal, declared route | `QUALIFIED_BOUNDED` |
-| Structured TET4 PETSc/MPI route | `ROUTE_DEPENDENT — see capability index` |
-| Mixed distributed PETSc/MPI runtime | `NOT_VALIDATED` |
-| General frictional contact | Not qualified |
-| General finite-strain plasticity | Not qualified |
-| GPU solving | Not claimed |
-
-The active capability registry remains the authoritative source for the exact
-supported combinations.
-
----
-
-# Recommended workflow
-
-For a new QF Solver project:
-
-1. Identify the required analysis.
-2. Identify the element family.
-3. Check the active capability matrix.
-4. Read the documented limitations.
-5. Start with a small reference problem.
-6. Verify the result against an analytical or independent reference whenever
-   possible.
-7. Increase model complexity progressively.
-8. Record solver diagnostics and convergence information.
-9. Use the qualified route whenever an engineering claim is required.
-
----
-
-# Getting started
-
-Install QF Solver with:
-
-```bash
-python -m pip install qf-solver
-```
-
-Then continue with:
-
-- [Installation](installation.md)
-- [Quick start](quickstart.md)
-- [Elements](../elements/index.md)
-- [Analyses](../analyses/index.md)
-- [Known limitations](../etat/limites.md)
-- [QF Solver 0.2.8 verification](../verification/0_2_8/README.md)
-- [Historical QF Solver 0.2.7 verification](../verification/0_2_7/README.md)
-
----
-
-# Final recommendation
-
-Choose QF Solver when transparency, Python integration, numerical verification
-and control over the finite-element workflow matter.
-
-Choose another solver when your primary requirement is the broadest possible
-industrial feature set, mature complex nonlinear workflows, certified
-production processes or specialized physics that QF Solver does not currently
-cover.
-
-When in doubt, treat the capability matrix and the linked verification
-evidence as authoritative rather than assuming that a feature is generally
-supported.
+QF Solver is an open-source Python finite-element solver for structural
+mechanics and dynamics. It emphasizes inspectable formulations, explicit
+solver diagnostics and traceable verification evidence. The 0.2.10 release is
+the first public release after 0.2.8. Its pages describe bounded evidence from
+the development cycle, not a blanket maturity upgrade.
+
+QF Solver can suit controlled analysis, solver development, computational
+mechanics research and reproducible FEM studies when the exact route appears
+in the [capability index](../capabilities/index.md). It is not certified and
+is not a general replacement for Abaqus, ANSYS, Code_Aster or other mature
+industrial systems.
+
+## Current route picture
+
+| Domain | Status | Decision boundary |
+| --- | --- | --- |
+| Linear static TET4/TET10/HEX8/HEX20 | `QUALIFIED_BOUNDED` in the published 0.2.8 registry | Exact materials, meshes, loads and routes only. |
+| Small-strain J2, four solid families | `QUALIFIED_BOUNDED` within the recorded published scope | Does not imply finite-strain or arbitrary cyclic behavior. |
+| Corotational J2 | Owner-accepted bounded qualification for HEX8 | Large rotations with small local strain; not general finite-strain plasticity. |
+| TET10/HEX20 corotational J2 extensions | Owner-accepted bounded extension evidence | Non-scoring evidence; not an all-family qualification. |
+| Total-Lagrangian StVK geometric static | WP04 bounded identity/structural audit for TET4 and HEX8 | Audit closure retained limitations and did not update public maturity; Owner/maturity integration is not recorded as a promotion. |
+| Frictionless penalty contact | `EXPERIMENTAL_BOUNDED` | Node-to-triangle, bounded small-sliding cases. |
+| Frictional contact | Prior Owner acceptance for a narrow serial/direct linear-static route; current-source formal requalification open | Recent area-supported stick/slip evidence is experimental and mesh-sensitive. |
+| Arc-length / postbuckling | Bounded experimental continuation evidence | No formal limit-point, bifurcation or general structural postbuckling claim. |
+| PETSc/MPI | Route-specific | Bounded recorded linear-static executions only; no general distributed nonlinear claim. |
+| General mixed distributed PETSc/MPI | `NOT_VALIDATED` | Historical runtime physical-balance and partition gates failed. |
+
+The internal roadmap score is not a public capability score. Read the
+[0.2.10 V&V summary](../verification/0_2_10/README.md) for the evidence
+classes and provenance behind these labels.
+
+## Good-fit workflows
+
+QF Solver is a reasonable candidate when you need:
+
+- a Python-native, inspectable FEM workflow;
+- bounded structural linear static, modal or dynamic routes matching a
+  documented record;
+- small-strain J2 within its declared family and material scope;
+- a controlled experiment with the nonlinear driver, state
+  transaction or continuation policies;
+- numerical diagnostics and reproducible input/result artifacts;
+- a solver whose implementation, verification and maturity decisions are
+  kept distinct.
+
+For a first run, follow the [linear quick start](quickstart.md). The
+[nonlinear example](nonlinear-example.md) is a one-element TET4
+Total-Lagrangian demonstration: the solver returns a result with
+`run_verdict=WARNING` because that experimental route is not promoted to a
+general qualified public capability.
+
+## Nonlinear mechanics: what is and is not demonstrated
+
+The development cycle introduced common assembly, Newton, state-transaction
+and robustness components for selected routes. Fixed-load material and
+geometric analyses use the shared Newton engine; supported continuation paths
+share accepted-state/rollback contracts. The augmented arc-length correction
+kernel remains specialized, and contact routes do not all participate in the
+same lifecycle.
+
+The bounded geometric audit covers homogeneous isotropic Saint-Venant–
+Kirchhoff Total-Lagrangian static cases on TET4 and HEX8, with serial dead-load
+conditions and a frozen deformation envelope. Its original TET4 mesh failure
+is preserved alongside the later bounded closure evidence. The audit did not
+itself change the public maturity registry. It does not cover J2 plus
+geometry, contact, high-order elements, follower loads, dynamics or
+distributed execution.
+
+The HEX8 corotational J2 Owner decision permits large rotations while retaining
+a small-local-strain constitutive assumption. The TET10/HEX20 extensions and
+multi-family coupled static cases have separate evidence and limitations;
+they do not imply general finite-strain plasticity. See [nonlinear
+mechanics](../mechanics/nonlinear-overview.md) for definitions and links.
+
+## External comparison and physical validation
+
+The accepted Code_Aster evidence is a same-mesh numerical correlation for
+frozen linear-static models and observables. Supplementary mesh-gallery
+results have their own contract and status. These comparisons do not establish
+physical accuracy, general mesh convergence, nonlinear solver correlation or
+an independent second global FEM/Newton implementation. For any safety- or
+production-critical use, obtain independent engineering review and
+application-specific physical validation.
+
+## Large models and optional backends
+
+PETSc/MPI and SLEPc require native runtimes beyond a plain `pip` installation.
+The historical structured-TET4 large-model evidence applies only to recorded
+workloads, host and configuration. A separate Owner-accepted two-rank
+linear-static study covers bounded one-element cases for TET4, HEX8, TET10
+and HEX20 with replicated input and root-side assembly. Neither is a strong-
+or weak-scaling claim. Mixed distributed nonlinear mechanics, general GPU
+support and equivalent behavior on arbitrary models are not demonstrated.
+
+The core package does not require PETSc, MPI, SLEPc or HDF5. See
+[installation](installation.md) and [solver backends](../solveurs/index.md)
+before selecting an optional route.
+
+## Poor-fit requirements
+
+Choose a different tool or treat the work as research when the primary need
+is:
+
+- general finite-strain or multiplicative J2 plasticity;
+- general-purpose nonlinear production analysis;
+- robust frictional updated-search or finite-sliding contact, self-contact,
+  impact or contact dynamics;
+- general nonlinear transient dynamics;
+- general nonlinear MPI/PETSc, universal HPC scaling or GPU acceleration;
+- unrestricted mixed-element behavior, certified workflows or universal
+  physical validation.
+
+The [known limitations](../etat/limites.md) page gives the more detailed
+technical boundaries.
+
+## Decision checklist
+
+Before relying on a result, match the exact analysis, element, material,
+geometry, mesh quality, load/constraint model, solver/backend and requested
+observable to an authoritative record. Start with a small reference case;
+inspect convergence, reactions and solver diagnostics; preserve the input and
+environment; and independently verify the result where appropriate. An
+implemented feature, passing unit test or successful demonstration is not by
+itself a qualification decision.

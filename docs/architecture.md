@@ -1,230 +1,141 @@
 ---
 doc_id: DOC-ARCH-001
-revision: 2.2
-status: controlled
-applicable_version: 0.2.8
+revision: 3.0
+status: controlled_candidate
+applicable_version: 0.2.10
 reviewer: ""
 approver: ""
 ---
 
 # QF Solver architecture
 
-La formulation mathematique, les reperes locaux et les conventions des
-elements sont documentes dans les sections `fondements/` et `elements/` des
-sources Markdown et PDF versionnees. L'ancien manuel monolithique est
-uniquement une redirection.
+This page describes the QF Solver 0.2.10 architecture. Architecture diagrams describe implementation
+boundaries; they do not establish capability maturity. See the
+[capability index](capabilities/index.md) and [0.2.10 V&V summary](verification/0_2_10/README.md)
+for evidence and scope.
 
-## Principes
+## Public entry points and routing
 
-Le solveur est organise par responsabilite. Les modules de calcul ne doivent
-pas connaitre la CLI, les formats disque ou les details d'export. Les entrees
-Python publiques passent par `qf_solver` et la commande publique est
-`qf-solver`. Le namespace `solveur` contient l'implementation et les facades
-de compatibilite 0.2.x ; il n'est pas le contrat des nouvelles integrations.
-
-## Arborescence Publique
+New Python integrations should use the `qf_solver` namespace. The `solveur`
+namespace remains the implementation and a compatibility facade for existing
+0.2.x applications. The recommended command is `qf-solver`; legacy launchers
+remain available during the 0.2.x compatibility period.
 
 ```text
-QF_solver/
-  src/
-    qf_solver/            # facade Python publique et stable
-    solveur/              # implementation interne
-      api/                # fonctions reexportees par qf_solver
-      cli/                # adaptation des commandes
-      core/               # analyses, assemblage et solveurs
-      elements/           # TET4, TET10, HEX8, HEX20, MITC3+, MITC4, BEAM2, discret
-      materials/          # lois isotropes, orthotropes, stratifies et J2
-      mesh/ loads/ post/  # validation, chargements et post-traitement
-      large/              # chemin TET4 PETSc/MPI optionnel
-      verification/       # campagnes et oracles reproductibles
-  examples/               # entrees JSON executables
-  qualification/          # exigences, scopes et decisions controlees
-  tests/                  # unitaires, integration, V&V et documentation
-  docs/                   # source unique du manuel technique
-  scripts/                # construction, V&V et publication
-  tools/
-    containers/large/     # environnement PETSc/MPI optionnel
-    legacy_launchers/     # lanceurs specialises non publics
-```
-
-Le layout `src/` empeche qu'un test importe accidentellement le code du
-repertoire courant au lieu du paquet installe. Le paquet `qf_solver` est le
-produit public generaliste. Toute l'implementation MITC4, y compris le
-maillage et le modele de coque, vit dans `solveur.elements.shell.mitc4`.
-Les visualisations, campagnes et verifications vivent respectivement dans
-`solveur.post` et `solveur.verification`. La facade historique
-`solveur.compat.mitc4` et le lanceur `mitc4-solver` ne contiennent plus que des adaptateurs compatibles
-durant la serie 0.2.x. Les deux chemins d'import sont proteges par une
-baseline matricielle et la campagne MITC4.
-
-## Published 0.2.8 architecture
-
-`src/solveur/elements/shell/mitc4` is the canonical MITC4 implementation.
-`src/solveur/compat/mitc4` is an internal compatibility facade retained for
-the 0.2.x migration; it contains no new numerical formulation. The public
-architecture is organized around the `qf_solver` facade, with `solveur`
-providing the implementation and compatibility layers.
-
-Current maturity is sourced from the machine-readable
-`qualification/0_2_8/consolidated_registry.json` and from separate 0.2.8
-workflow and capability records. The 46 element-analysis records remain
-separate from mixed workflows and research routes; source-tree presence does
-not imply qualification.
-
-The standard runtime does not require Docker, PETSc or MPI. The pinned
-container under `tools/containers/large/` exists for reproducible historical
-large-model campaigns. The generic mixed TET4/WEDGE6/HEX8 PETSc/MPI runtime
-remains `NOT_VALIDATED`; its architecture foundation is not a distributed
-runtime claim.
-
-The common backend is implemented by `solveur.core.linear_methods`,
-`solveur.core.linear_policy` and `solveur.core.solver_backend`. SciPy is the
-standard path; PETSc/SLEPc are optional and are loaded only when the optional
-backend is selected. The package does not include Docker, PETSc, MPI or
-documentation evidence archives.
-
-## Couches
-
-```text
-CLI -> API -> core / large -> elements / materials / loads / mesh / post
+qf_solver public API / qf-solver CLI
+                  |
+                  v
+             AnalysisRouter
+              /         \
+       linear routes   nonlinear routes
+           |                 |
+           +------ assembly -+
                     |
-                    v
-                   io
+     elements / materials / loads / contact
+                    |
+       SciPy default; PETSc/SLEPc optional
 ```
 
-- `solveur.api`: facade stable pour scripts Python.
-- `solveur.cli`: construction du parser et commandes minces.
-- `solveur.core`: modeles memoire, analyses, assemblage, solveurs et DTO de
-  resultats. `ReusableSparseFactorization` porte les LU constantes utilisees
-  par les analyses multi-resolutions comme Newmark.
-- `solveur.elements`: formulations MITC4, TET4 et TET10, sans lecture JSON ni
-  export.
-- `solveur.materials`: lois materiaux et tangentes.
-- `solveur.loads`: entites typees, integration coherente et bilans globaux
-  des chargements repartis, sans parsing JSON.
-- `solveur.mesh`: validations, qualite et rapports maillage.
-- `solveur.benchmarks`: registre et runners des cas mecaniques mailles.
-- `solveur.post`: contraintes, resultats derives et audits post-traitement.
-- `solveur.io`: JSON, CSV, VTU, Markdown, evidence et manifestes.
-- `solveur.large`: chemin separe pour TET4 statique lineaire grand modele.
+The CLI validates and translates input, calls the API, and writes result
+artifacts. It is not the location of finite-element formulations. Core
+calculation modules do not own command-line parsing or output serialization.
 
-## Flux Standard
+## Nonlinear analysis flow
+
+Several bounded nonlinear routes share a driver foundation, Newton engine,
+continuation/robustness policies, state transaction primitives, and a
+residual/tangent assembly interface:
 
 ```text
-JSON -> JsonModelReader -> MeshValidator -> AnalysisRouter
-     -> assembler/solver/post -> Result DTO -> JSON/CSV/VTU/audit/evidence
+Nonlinear analysis request
+  -> nonlinear driver foundation
+  -> continuation / robustness policy
+  -> NonlinearStateTransaction
+  -> CompositeNonlinearAssembly
+       + material contribution
+       + geometric contribution (selected routes)
+       + contact contribution (route-dependent)
+  -> residual + tangent
+  -> UnifiedNewtonEngine
+  -> convergence decision
+       + accept / commit
+       + reject / rollback / retry
 ```
 
-La CLI ne contient pas de logique EF. Elle applique les options utilisateur,
-appelle l'API, puis ecrit les artefacts demandes.
+The shared lifecycle provides a common integration point; it does not mean
+all physics are composed in every route. Some contact active-set and recovery
+loops remain specialized, and arc-length correction remains route-specific.
+The state transaction separates accepted history from trial updates so a
+rejected iteration can be rolled back before retry. Selected schema-v2
+checkpoints support restart/replay; support is not universal across contact,
+distributed, and nonlinear transient routes.
 
-Le flux Gmsh est separe du lecteur JSON:
+Relevant internal implementation modules include
+`solveur.core.analyses.AnalysisRouter`, `solveur.core.nonlinear.driver`,
+`solveur.core.nonlinear.state`, `solveur.core.nonlinear.iteration`, and
+`solveur.core.nonlinear.robustness`. These internal names are explanatory,
+not a promise that they are stable Python API.
+
+## Package layers
 
 ```text
-MSH 4.1 + setup JSON -> GmshNativeReader -> GmshModelImporter
-                     -> FiniteElementModel + GmshImportReport
-                     -> validation obligatoire -> API/CLI standard
+src/qf_solver/              public facade and version metadata
+src/solveur/api/             API implementation and compatibility adapters
+src/solveur/cli/             command parsing and orchestration
+src/solveur/core/            analyses, routing, assembly and solver policies
+src/solveur/elements/        element formulations
+src/solveur/materials/       constitutive models, including J2 routes
+src/solveur/contact/         route-specific contact implementation
+src/solveur/mesh/loads/post/ validation, input mechanics and result processing
+src/solveur/large/           bounded optional large-model routes
+src/solveur/verification/    reproducible checks and evidence tooling
+docs/                       public and engineering documentation sources
+qualification/              scoped records, contracts and decisions
+tests/                       unit, integration, documentation and V&V tests
 ```
 
-L'assemblage statique des charges reparties accumule un seul vecteur global et
-libere chaque contribution apres son bilan. Les vecteurs individuels ne sont
-conserves que pour Newmark lorsque le chargement temporel doit etre module par
-index de charge; le chemin courant evite ainsi une memoire
-`O(nombre_de_charges * nombre_de_DDL)`.
+The package layout keeps the public facade separate from implementation
+modules. Optional PETSc/SLEPc integrations are loaded only when selected; the
+standard runtime path uses SciPy and does not require Docker, PETSc or MPI.
 
-## Flux Grand Modele
+## Backends and evidence boundaries
+
+PETSc/MPI evidence accepted for 0.2.10 is bounded to recorded two-rank
+linear-static one-element cases with replicated input and root-side assembly.
+It does not establish distributed assembly, scaling, general nonlinear MPI,
+contact, or dynamics. Historical structured-TET4 large-model observations
+apply only to their recorded workload and environment.
+
+Bounded nonlinear routes include selected small-strain and corotational J2,
+Total-Lagrangian geometry, contact and continuation paths. Their exact
+formulations and maturity differ. In particular, the geometric audit is
+`GO_WITH_LIMITATIONS` without maturity promotion; corotational J2 has a
+bounded HEX8 acceptance with small local strains; frictional contact
+requalification against current source is not established. See
+[known limitations](etat/limites.md).
+
+## Documentation and evidence pipeline
 
 ```text
-HDF5/NPZ -> LargeModel -> inspect_large_model -> backend SciPy/PETSc/matrix_free
-         -> summary.json + audit_large.json + displacements.h5/npz
-         -> evidence_manifest.json
+examples + API + evidence + benchmarks
+  -> documentation model/assets builders
+  -> generated tables and figures
+  -> publication/status generator
+  -> Markdown sources and optional PDF output
 ```
 
-Le mode grand modele evite les deplacements monolithiques en JSON et utilise
-un audit agrege. Les artefacts de preuve incluent une empreinte d'entree et un
-rapport `runtime_environment.json`.
+`python scripts/build_docs.py --profile engineering` builds the engineering
+documentation and exposes an uncommitted tree as such. The `qualification`
+profile has stricter source and page-status requirements. Generated
+measurements are not manually transcribed as new qualification decisions.
+The MkDocs site intentionally excludes the detailed `verification/0_2_9`
+engineering archive from public navigation; the concise 0.2.10 summary is
+served separately.
 
-This flow describes the historical structured-TET4 large-model route. The
-generic mixed PETSc/MPI path is architecture evidence only and remains
-`NOT_VALIDATED`; no mixed distributed qualification or general scalability
-claim follows from the recorded large-model workloads.
+## Known architectural debt
 
-## Assemblage et scaling 0.2.2 alpha
-
-Le chantier backend distingue explicitement le kernel elementaire, le motif
-de DDL, la fusion sparse, la reduction des contraintes et la resolution. Le
-chemin SciPy ne doit pas additionner chaque chunk directement a une matrice
-globale : `solveur.core.sparse_accumulator.SparseCsrAccumulator` fusionne les
-chunks pairwise et conserve des metriques de chunk/NNZ. Le chemin PETSc utilise
-une matrice AIJ ou BAIJ native lorsque le backend optionnel est disponible.
-
-`solveur.core.assembly_plan.AssemblyPlan` pre-calcule maintenant les
-specifications d'elements, les coordonnees, les indices DDL globaux et le
-nombre d'entrees locales pour un couple `(model, dofs)`. Les chemins statique,
-modal, Newmark et harmonique peuvent reutiliser ce plan pour K et M. Le plan
-ne cache pas les matrices locales lorsque la geometrie, l'orientation ou
-l'etat materiel varie. Les diagnostics indiquent si le plan a ete reutilise et
-mesurent sa preparation.
-
-Les chemins modal, Newmark et harmonique utilisent aussi
-`GlobalAssembler.assemble_stiffness_and_mass`. Pour chaque chunk, les vecteurs
-`rows` et `cols` du motif DDL sont construits une seule fois puis reutilises
-pour K et M ; les valeurs locales restent calculees separement et les chunks
-temporaires sont liberes apres fusion. Cette implementation evite de conserver
-un motif global et potentiellement volumineux : `paired_assembly` et
-`shared_chunk_pattern` sont exposes dans les diagnostics. Elle mutualise la
-structure de travail sans supposer que K et M ont les memes valeurs.
-
-Une estimation conservatrice de la memoire temporaire est calculee avant la
-creation des tableaux COO. Les parametres `assembly_memory_budget_mb` et
-`enforce_assembly_memory_budget=true` permettent respectivement d'avertir ou
-de refuser une allocation estimee trop grande ; sans ces parametres, le
-comportement reste retrocompatible et l'estimation est seulement tracee.
-
-Cette optimisation est acceptee comme changement de performance seulement
-apres comparaison numerique de K, M, des reactions, des frequences et des
-reponses temporelles. La prochaine tranche porte sur la reutilisation explicite
-des operateurs constants et la mesure du gain reel de la paire K/M, sous la
-meme contrainte de non-regression. Les campagnes manuelles sont
-`scripts/benchmark_sparse_scaling.py` pour la resolution et
-`scripts/benchmark_assembly_scaling.py` pour l'assemblage ; elles ne sont pas
-des tests CI obligatoires.
-
-## Flux Documentaire
-
-```text
-examples + API publique + campagne qualification + benchmarks Gmsh
-    -> scripts/docs_models.py
-    -> scripts/docs_assets.py + scripts/docs_benchmarks.py
-    -> PNG/SVG + tableaux Markdown + resultats JSON
-    -> scripts/docs_publication.py
-    -> registre valide + manifeste SHA-256 + statut courant
-    -> sources Markdown + dossier PDF optionnel
-```
-
-`scripts/build_docs.py` est l'orchestrateur public. Le profil `engineering`
-accepte une revision non commitee en l'affichant comme telle. Le profil
-`qualification` refuse une source non commitee, un arbre sale ou une page sans
-statut `controlled`/`approved`. Les valeurs numeriques ne sont pas recopiees
-dans les pages; elles sont incluses depuis `docs/generated/`.
-
-## Artefacts Generes
-
-Les dossiers `results/`, `results_large/`, caches Python, caches de test,
-metadonnees d'installation editable et fichiers HDF5/NPZ lourds sont ignores
-par `.gitignore`. Les artefacts existants ne doivent pas etre supprimes par un
-refactoring automatique.
-
-## Garde-Fous
-
-- L'objectif de maintenance est de 700 lignes par fichier Python sous `src/solveur`, `scripts` et `tests`. Un depassement, y compris au-dela de 1 000 ou 2 000 lignes, est inventorie comme dette non bloquante, sans plafond arbitraire. Les controles de dependances, de syntaxe et de comportement restent obligatoires.
-- `src/solveur/elements` ne depend pas de `solveur/io`, `solveur/cli` ou
-  `solveur/api`.
-- `src/solveur/core` ne depend pas de `solveur/cli` ou `solveur/api`.
-- Les empreintes SHA-256 et entrees de manifeste sont centralisees dans
-  `src/solveur/io/manifest.py`.
-- Les formats publics JSON/CLI/API sont proteges par tests de regression.
-- Toute page Markdown publiee possede une entete de configuration et une
-  entree dans `docs/document_registry.json`.
-- Aucune ressource web n'est requise pour la documentation publiee : les
-  sources Markdown, PDF et figures locales sont versionnees et controlees.
+The common nonlinear interfaces coexist with route-specific implementation
+and specialized recovery code. That is current architectural debt, not a
+reason to infer unsupported combinations or hide limitations. The docs do not
+claim a general-purpose nonlinear framework, certified solver, or universal
+HPC support.

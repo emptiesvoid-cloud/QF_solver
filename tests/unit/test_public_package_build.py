@@ -16,6 +16,7 @@ import pytest
 from scripts.git_tools import git_run
 from scripts.verify_public_package import (
     REQUIRED_TOOLS, archive_payloads, digest, frozen_inputs, installed_probe_command, verify_archives,
+    verify_expected_artifacts,
 )
 
 
@@ -53,6 +54,25 @@ def test_actual_archives_cover_every_selected_byte(tmp_path: Path, selected: dic
     assert result["selected_files"] == 4
     assert result["wheel_modules"] == 1
     assert all(scan["status"] == "PASS" for scan in result["scans"].values())
+
+
+def test_frozen_artifact_hashes_are_checked_exactly(tmp_path: Path, selected: dict[str, bytes]) -> None:
+    _archives(tmp_path / "dist", selected)
+    result = verify_archives(tmp_path / "dist", selected, "0.2.8")
+    expected = {
+        "wheel": next(item for item in result["binaries"] if item["path"] == result["wheel"]),
+        "sdist": next(item for item in result["binaries"] if item["path"] == result["sdist"]),
+    }
+    expected = {
+        kind: {"filename": binding["path"], "bytes": binding["bytes"], "sha256": binding["sha256"]}
+        for kind, binding in expected.items()
+    }
+    verify_expected_artifacts(result, expected)
+
+    altered = {kind: dict(binding) for kind, binding in expected.items()}
+    altered["wheel"]["sha256"] = "0" * 64
+    with pytest.raises(ValueError, match="Rebuilt wheel differs"):
+        verify_expected_artifacts(result, altered)
 
 
 @pytest.mark.parametrize("extra", ["tests/private.py", "qualification/0_2_9/private.json", "src/private.py"])

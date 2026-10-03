@@ -1,19 +1,92 @@
 # Changelog
 
-## 0.2.10 - Release preparation (not published)
+## 0.2.10 - Released
 
-- The development package version advances beyond the immutable `v0.2.9`
-  source-only tag. There is no `v0.2.10` tag, package publication, GitHub
-  Release, PyPI package or published Zenodo deposit yet. The v0.2.10 Zenodo
-  draft reserves `10.5281/zenodo.23106744`; it contains no release files, and
-  its DOI is not registered until that draft is published. The published 0.2.8
-  citation remains authoritative.
-- Publication requires a new frozen source and selected-package audit, public
-  metadata aligned to the new version and its assigned DOI, passing CI at the
-  final source revision, and a separate Owner publication decision. The
-  whole-repository G03 archive scan remains failed; a bounded package review
-  does not clear that archive or change WP14 status.
-- No new mechanics qualification or broader solver-route claim is made here.
+QF Solver 0.2.10 is the first public release after 0.2.8. The `v0.2.9` tag
+identifies a development/source snapshot, not an intervening PyPI package,
+GitHub Release, or version DOI. This release therefore summarizes the work
+since the published 0.2.8 baseline, including development from the 0.2.9
+cycle. It describes bounded capabilities and their exclusions; it does not
+claim universal validation or clear the complete repository archive.
+
+### Added
+
+- A user-facing guide to the nonlinear architecture, bounded state lifecycle,
+  mechanics evidence and a small executable nonlinear example.
+- A 0.2.10 capability orientation and verification summary that link back to
+  the decision records without exposing the internal roadmap score as a user
+  rating.
+
+### Improved
+
+- Public pages distinguish the published 0.2.10 release from the historical
+  0.2.8 baseline and the 0.2.9 source-only snapshot.
+- Architecture and API pages describe the current source interfaces while
+  retaining the legacy 0.2.x compatibility boundary.
+
+### Nonlinear mechanics
+
+- Selected material and geometric routes use a shared Newton/assembly and
+  accepted-state lifecycle. Line search, stagnation, adaptive-step and
+  arc-radius policies have bounded evidence; the arc-length correction
+  kernel remains specialized.
+- The owner-accepted corotational J2 qualification is limited to HEX8 and
+  small local strain. Separate TET10/HEX20 extension and multi-family static
+  evidence do not create general finite-strain or all-family qualification.
+- Total-Lagrangian StVK identities and TET4/HEX8 static campaigns have a
+  bounded closure audit with retained limitations; the audit did not itself
+  update public maturity.
+- Contact remains route-specific: frictionless penalty contact is
+  experimental bounded, and current-source formal requalification of the
+  frictional route is not established.
+
+### Verification
+
+- Owner-accepted Code_Aster evidence covers bounded same-mesh linear-static
+  cases for TET4, HEX8, TET10 and HEX20. It is numerical correlation, not
+  experimental physical validation, nonlinear correlation or an independent
+  global FEM/Newton implementation.
+- Bounded PETSc/MPI linear-static evidence and separate structured-TET4
+  large-model results do not imply general scaling or distributed nonlinear
+  support.
+- WP14 remains `HOLD`. The full-repository G03 archive gate is still failed;
+  a selected package/documentation scan does not clear that archive.
+
+### API and packaging
+
+- `qf_solver` remains the recommended Python namespace and `qf-solver` the
+  recommended CLI. `solveur`, `solveur-ef` and the legacy launcher remain
+  0.2.x compatibility paths; the existing deprecation contract targets
+  removal in 0.3.0.
+- `qf_solver` remains the recommended Python namespace and `qf-solver` the
+  recommended CLI. `solveur`, `solveur-ef` and the legacy launcher remain
+  0.2.x compatibility paths; their planned removal in 0.3.0 is a compatibility
+  plan, not a 0.2.10 release event.
+
+### Documentation
+
+- Added dedicated 0.2.10 What's New, nonlinear mechanics, nonlinear example
+  and V&V summary pages; the historical 0.2.8 release notes remain
+  unchanged.
+
+### Known limitations
+
+- Selected wheel and sdist audits apply only to the exact source and artifact
+  hashes recorded by the release contract. They do not clear GitHub-generated
+  source archives or a complete repository archive.
+- Finite-strain plasticity, general nonlinear dynamics, self-contact,
+  impact, frictional updated search, finite sliding, universal nonlinear
+  contact, general nonlinear MPI/PETSc, certification and universal physical
+  validation remain outside the demonstrated scope.
+- Corotational J2 remains bounded to its accepted HEX8 scope and small local
+  strain; it is not general finite-strain multiplicative plasticity.
+- Frictional contact remains narrow and mesh-sensitive; updated search,
+  finite sliding, self-contact and impact/contact dynamics are not generally
+  qualified. Frictionless contact remains experimental and bounded.
+- General nonlinear transient dynamics, general nonlinear MPI/PETSc, solver
+  certification and universal physical validation are outside the claims.
+- WP14 remains `HOLD` and the whole-repository G03 archive gate remains
+  `FAIL`; no historical result or maturity is reclassified by this release.
 
 ## 0.2.9 - Source tagged; package release not issued
 

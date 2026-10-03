@@ -11,8 +11,8 @@
     {
       "id": "DOC-STATE-001",
       "path": "index.md",
-      "title": "QF Solver 0.2.8",
-      "status": "controlled",
+      "title": "QF Solver 0.2.10",
+      "status": "controlled_candidate",
       "requirements": [
         "REQ-AUD-001",
         "REQ-CMP-001"
@@ -43,10 +43,46 @@
       ]
     },
     {
+      "id": "DOC-WHATS-NEW-0210-001",
+      "path": "whats-new/0.2.10.md",
+      "title": "What's New in QF Solver 0.2.10",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": ["tests/documentation/test_docs_generation.py"]
+    },
+    {
+      "id": "DOC-MECH-NONLINEAR-001",
+      "path": "mechanics/nonlinear-overview.md",
+      "title": "Nonlinear mechanics overview",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": ["tests/documentation/test_docs_generation.py"]
+    },
+    {
+      "id": "DOC-START-NONLINEAR-001",
+      "path": "getting-started/nonlinear-example.md",
+      "title": "Nonlinear example",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": ["examples/tet4_geometric_nonlinear_static.json"],
+      "tests": ["tests/integration/test_geometric_nonlinear_cli.py"]
+    },
+    {
+      "id": "DOC-VV-CANDIDATE-0210-001",
+      "path": "verification/0_2_10/README.md",
+      "title": "QF Solver 0.2.10 verification summary",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": ["tests/unit/test_pp04_public_documentation.py"]
+    },
+    {
       "id": "DOC-STATE-002",
       "path": "etat/capacites.md",
       "title": "Capabilities and maturity",
-      "status": "controlled",
+      "status": "controlled_candidate",
       "requirements": [
         "REQ-CMP-001",
         "REQ-REL-001"
@@ -58,7 +94,7 @@
       "id": "DOC-STATE-003",
       "path": "etat/limites.md",
       "title": "Known limitations",
-      "status": "controlled",
+      "status": "controlled_candidate",
       "requirements": [
         "REQ-CMP-002",
         "REQ-REL-001"
@@ -69,8 +105,8 @@
     {
       "id": "DOC-CAPABILITY-028-001",
       "path": "capabilities/index.md",
-      "title": "QF Solver 0.2.8 capability index",
-      "status": "controlled",
+      "title": "QF Solver capability index — 0.2.10",
+      "status": "controlled_candidate",
       "requirements": [],
       "examples": [],
       "tests": []
@@ -79,7 +115,7 @@
       "id": "DOC-VV-MATURITY-028-001",
       "path": "verification/evidence-and-maturity.md",
       "title": "V&V, evidence and maturity",
-      "status": "controlled",
+      "status": "controlled_candidate",
       "requirements": [],
       "examples": [],
       "tests": []
@@ -387,7 +423,7 @@
       "id": "DOC-ELEM-000",
       "path": "elements/index.md",
       "title": "Elements",
-      "status": "controlled",
+      "status": "controlled_candidate",
       "requirements": [
         "REQ-SOL-001",
         "REQ-SOL-002",
@@ -1408,7 +1444,7 @@
       "id": "DOC-SOL-000",
       "path": "solveurs/index.md",
       "title": "Solvers and backends",
-      "status": "controlled",
+      "status": "controlled_candidate",
       "requirements": [
         "REQ-SOL-001",
         "REQ-MOD-001",
@@ -2800,7 +2836,7 @@
       "id": "DOC-REF-004",
       "path": "reference/feuille_de_route.md",
       "title": "Public roadmap",
-      "status": "controlled",
+      "status": "controlled_candidate",
       "requirements": [
         "REQ-CMP-002",
         "REQ-REL-001"
@@ -2840,7 +2876,7 @@
       "id": "DOC-ARCH-001",
       "path": "architecture.md",
       "title": "QF Solver architecture",
-      "status": "controlled",
+      "status": "controlled_candidate",
       "requirements": [
         "REQ-REL-001"
       ],
@@ -3024,7 +3060,7 @@
       "id": "DOC-REF-API-002",
       "path": "reference/api_stability.md",
       "title": "API stability",
-      "status": "controlled",
+      "status": "controlled_candidate",
       "requirements": [
         "REQ-REL-001"
       ],
@@ -5152,7 +5188,7 @@
       "id": "DOC-ANALYSIS-000",
       "path": "analyses/index.md",
       "title": "Analyses",
-      "status": "controlled",
+      "status": "controlled_candidate",
       "requirements": [],
       "examples": [],
       "tests": []
@@ -5170,7 +5206,7 @@
       "id": "DOC-START-PUB-001",
       "path": "getting-started/installation.md",
       "title": "Installation",
-      "status": "controlled",
+      "status": "controlled_candidate",
       "requirements": [],
       "examples": [],
       "tests": []
@@ -5179,7 +5215,7 @@
       "id": "DOC-START-PUB-002",
       "path": "getting-started/quickstart.md",
       "title": "First calculation",
-      "status": "controlled",
+      "status": "controlled_candidate",
       "requirements": [],
       "examples": [],
       "tests": []
@@ -5206,7 +5242,7 @@
       "id": "DOC-SOLVER-GUIDE-001",
       "path": "getting-started/when-to-use-qf-solver.md",
       "title": "When should I use QF Solver?",
-      "status": "controlled",
+      "status": "controlled_candidate",
       "requirements": [],
       "examples": [],
       "tests": []
@@ -5215,7 +5251,7 @@
       "id": "DOC-SOLVER-COMP-000",
       "path": "comparisons/index.md",
       "title": "FEM solver comparisons",
-      "status": "controlled",
+      "status": "controlled_candidate",
       "requirements": [],
       "examples": [],
       "tests": []

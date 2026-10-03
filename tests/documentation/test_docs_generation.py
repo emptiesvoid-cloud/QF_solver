@@ -64,27 +64,40 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
     roadmap = (DOCS / "reference" / "feuille_de_route.md").read_text(encoding="utf-8")
     architecture = (DOCS / "architecture.md").read_text(encoding="utf-8")
     open_source = (DOCS / "reference" / "open_source.md").read_text(encoding="utf-8")
+    comparisons = (DOCS / "comparisons" / "index.md").read_text(encoding="utf-8")
+    comparison_snapshot = (DOCS / "comparisons" / "qf-vs-code-aster.md").read_text(
+        encoding="utf-8"
+    )
+    normalized_roadmap = " ".join(roadmap.split())
+    normalized_architecture = " ".join(architecture.split())
+    normalized_index = " ".join(index.split())
+    normalized_comparisons = " ".join(comparisons.split())
+    normalized_comparison_snapshot = " ".join(
+        comparison_snapshot.replace(">", "").split()
+    )
 
-    assert (
-        "Source tag | [`v0.2.9`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.9) "
-        "(source snapshot; package not published)"
-        in readme
-    )
-    assert "The current published release is" in index
-    assert "0.2.8 is the current published release" in roadmap
-    assert (
-        "0.2.9 source is integrated into `main` and tagged `v0.2.9`; "
-        "no package or version DOI has been published"
-        in " ".join(roadmap.split())
-    )
-    assert "Published 0.2.8 architecture" in architecture
+    assert "| Release line | `0.2.10` |" in readme
+    assert "`0.2.8` — release candidate; not published" not in readme
+    assert "Source tag" in readme and "v0.2.10" in readme
+    assert "QF Solver 0.2.10 is the current published release" in normalized_roadmap
+    assert "Version 0.2.9 was a development/source snapshot" in normalized_roadmap
+    assert "QF Solver 0.2.10 architecture" in normalized_architecture
     assert "published 0.2.8 release scope" in open_source
+    assert "first public release after 0.2.8" in normalized_index
+    assert "0.2.10" in index
     assert "0.2.8 is the current development candidate" not in roadmap
     assert "10.5281/zenodo.23106744" in readme
     assert "10.5281/zenodo.23106744" in index
-    assert "not registered or a citable release" in readme
-    assert "not registered or a" in index
-    assert 'version: "0.2.8"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    assert "Version DOI" in readme
+    assert "Current release" in normalized_index
+    assert "current published package is 0.2.10" in normalized_comparisons
+    assert (
+        "not been refreshed against the 0.2.10 release"
+        in normalized_comparison_snapshot
+    )
+    assert "not a current capability or maturity record" in normalized_comparison_snapshot
+    assert 'version: "0.2.10"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    assert 'doi: "10.5281/zenodo.23106744"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
 
 
 def test_tetra_boundary_faces_remove_shared_face() -> None:
