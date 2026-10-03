@@ -229,7 +229,8 @@ def _validate_contract(root: Path, contract_path: Path, candidate_path: Path) ->
         or hashlib.sha256(manifest_bytes).hexdigest() != manifest_binding.get("sha256")
     ):
         raise ValueError("Committed SHA-256 manifest bytes do not match the release contract.")
-    if len(payloads) != release_contract.get("selected_package_file_count"):
+    selected_scope = release_contract.get("selected_scope")
+    if not isinstance(selected_scope, dict) or len(payloads) != selected_scope.get("package_source_files"):
         raise ValueError("The selected package file count differs from the prospective release contract.")
     if release_contract.get("package_version") != candidate_contract.get("package_version"):
         raise ValueError("The authorized package version differs from the frozen package contract.")
