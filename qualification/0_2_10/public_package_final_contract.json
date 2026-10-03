@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "contract_id": "QF-0210-BOUNDED-PACKAGE-FINAL-02",
+  "contract_id": "QF-0210-BOUNDED-PACKAGE-FINAL-03",
   "status": "FROZEN_CANDIDATE_BUILD",
-  "source_sha": "17e46d0a35cadf1c54aaa3ac44dec94dd0b125b2",
+  "source_sha": "b25dcbb581e344e57caea3053720cbf28e7ce78d",
   "selection": {
     "include_exact": [
       "CHANGELOG.md",
