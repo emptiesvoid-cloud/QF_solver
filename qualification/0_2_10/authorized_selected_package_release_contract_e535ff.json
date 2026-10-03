@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-0210-AUTHORIZED-SELECTED-PACKAGE-RELEASE-E535FF63464D",
+  "status": "OWNER_AUTHORIZED_SELECTED_PACKAGE_RELEASE",
+  "package_version": "0.2.10",
+  "release_tag": "v0.2.10",
+  "source_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+  "tag_target_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+  "source_delta_review": {
+    "comparison_base_sha": "b453265d5e61acd5f91cfc3aa236ee8b85344033",
+    "e535_commit_changed_paths": [
+      "tests/unit/test_gate_b_release_surface.py"
+    ],
+    "selected_package_source_changed_paths": [],
+    "public_documentation_changed_paths": [],
+    "cumulative_range_note": "The cumulative b453..e535 range contains prior release-governance contracts, scripts and tests in addition to the e535 commit. The e535 commit itself changes only the release-surface test; there are no selected package or public documentation changes in that range."
+  },
+  "source_contract": {
+    "path": "qualification/0_2_10/public_package_release_contract_e535ff.json",
+    "commit_sha": "bd7b622c2016b2d614ce68aae146f2ae49cd814e",
+    "sha256": "98edce3c6c4e1a9e688f503f35a0cc8171a4c8e7e6f7d79e291d5267f642a304",
+    "historical_contracts_modified": false,
+    "candidate_publication_allowed": false
+  },
+  "owner_authorization": {
+    "path": "qualification/0_2_10/owner_publication_reauthorization_e535ff.json",
+    "commit_sha": "a2eb6ac4b091725bd05393fb3b1115f836953e81",
+    "sha256": "485e7c2f612b470be4443e36e1ec46ec43346828338212093c58f63039cb4572",
+    "record_id": "QF-0210-OWNER-PUBLICATION-REAUTHORIZATION-E535FF63464D",
+    "supersedes_for_release": "QF-0210-OWNER-PUBLICATION-REAUTHORIZATION-B453265D",
+    "decision": "AUTHORIZE_V0_2_10_PUBLICATION"
+  },
+  "superseded_owner_authorization": {
+    "path": "qualification/0_2_10/owner_publication_reauthorization_b453265d.json",
+    "commit_sha": "e350ef870dfa5182a4e25c79c07ce04b974d5568",
+    "sha256": "8d684c17345f827ea70ab647c2e38cd4b3b711e0e8925207c09881f3582b20a7",
+    "historical_record_preserved": true
+  },
+  "authorization_resolution": {
+    "status": "RESOLVED_BY_OWNER_REAUTHORIZATION",
+    "owner_approved_source_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+    "candidate_source_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+    "owner_approved_wheel_sha256": "61641c97860cb25fb4c7a01e5c7ab724dc58616b97802cea2b9926fd10912454",
+    "candidate_wheel_sha256": "61641c97860cb25fb4c7a01e5c7ab724dc58616b97802cea2b9926fd10912454",
+    "owner_approved_sdist_sha256": "82e54d0d5d05c1ff224e1af72f90d0bbd84e13e93f7cc5f881ccd16242e4f3f3",
+    "candidate_sdist_sha256": "82e54d0d5d05c1ff224e1af72f90d0bbd84e13e93f7cc5f881ccd16242e4f3f3",
+    "owner_approved_manifest_sha256": "a8d7e13cd3bf5292b9b941975d569512fed9c4985a9f9d7cd8a5c9efe9af6287",
+    "candidate_manifest_sha256": "a8d7e13cd3bf5292b9b941975d569512fed9c4985a9f9d7cd8a5c9efe9af6287"
+  },
+  "authorization": {
+    "selected_package_publication_allowed": true,
+    "tag_creation_allowed": true,
+    "pypi_publication_allowed": true,
+    "github_release_allowed": true,
+    "zenodo_selected_artifact_publication_allowed": true,
+    "whole_repository_archive_cleared": false,
+    "whole_repository_archive_publication_allowed": false,
+    "ledger_update_allowed": false,
+    "wp14_promotion_allowed": false,
+    "numeric_maturity_promotion_allowed": false,
+    "historical_result_reclassification_allowed": false,
+    "certification_or_universal_validation_claims_allowed": false
+  },
+  "ci_evidence": {
+    "quality_workflow": {
+      "run_number": 184,
+      "run_id": "37133239269",
+      "commit_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+      "conclusion": "SUCCESS"
+    },
+    "documentation_workflow": {
+      "run_number": 62,
+      "run_id": "37133239271",
+      "commit_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+      "conclusion": "SUCCESS"
+    },
+    "tag_ci_required_before_publication": true
+  },
+  "selected_scope": {
+    "package_source_files": 551,
+    "package_scan_findings": 0,
+    "served_documentation_files": 749,
+    "served_documentation_findings": 0,
+    "source_contract": "qualification/0_2_10/public_package_release_contract_e535ff.json",
+    "distribution_files_allowed": [
+      "qf_solver-0.2.10-py3-none-any.whl",
+      "qf_solver-0.2.10.tar.gz",
+      "qf_solver-0.2.10-e535ff-SHA256SUMS.txt"
+    ]
+  },
+  "audited_artifacts": {
+    "wheel": {
+      "filename": "qf_solver-0.2.10-py3-none-any.whl",
+      "bytes": 1509431,
+      "sha256": "61641c97860cb25fb4c7a01e5c7ab724dc58616b97802cea2b9926fd10912454"
+    },
+    "sdist": {
+      "filename": "qf_solver-0.2.10.tar.gz",
+      "bytes": 1114201,
+      "sha256": "82e54d0d5d05c1ff224e1af72f90d0bbd84e13e93f7cc5f881ccd16242e4f3f3"
+    }
+  },
+  "sha256_manifest": {
+    "filename": "qf_solver-0.2.10-e535ff-SHA256SUMS.txt",
+    "bytes": 190,
+    "sha256": "a8d7e13cd3bf5292b9b941975d569512fed9c4985a9f9d7cd8a5c9efe9af6287"
+  },
+  "manifest_repository_path": "qualification/0_2_10/qf_solver-0.2.10-e535ff-SHA256SUMS.txt",
+  "build_provenance": {
+    "source_materialization": "The exact 551 selected regular Git blobs at source_sha e535ff; no checkout working-tree source bytes.",
+    "build_command": "python scripts/verify_public_package.py --root . --contract qualification/0_2_10/public_package_release_contract_e535ff.json --output <new-external-output>",
+    "build_environment": {
+      "python": "3.13.1",
+      "build": "1.5.0",
+      "setuptools": "82.0.1",
+      "wheel": "0.47.0",
+      "twine": "7.0.0",
+      "source_date_epoch": 1791041164
+    },
+    "normalization": {
+      "tool": "scripts/normalize_public_sdist.py",
+      "tool_sha256": "1c3594c61b46af5601fda7993644aa613fb1523edb4709526b0ee35a01213d2c",
+      "method": "Sorted regular tar members; preserved payload bytes and executable modes; normalized uid/gid/names and member mtime; deterministic gzip header mtime 0 and compression level 9.",
+      "raw_sdist_builds_are_byte_stable": false,
+      "normalized_sdist_builds_are_byte_identical": true,
+      "publication_uses_normalized_sdist_only": true
+    },
+    "independent_run_comparison": {
+      "runs": 2,
+      "wheel_sha256_run_1": "61641c97860cb25fb4c7a01e5c7ab724dc58616b97802cea2b9926fd10912454",
+      "wheel_sha256_run_2": "61641c97860cb25fb4c7a01e5c7ab724dc58616b97802cea2b9926fd10912454",
+      "raw_sdist_sha256_run_1": "947cba17d01e516da0ef9dfb45268a67da9ef4311e6806f57d2ed3dddf98c9c6",
+      "raw_sdist_sha256_run_2": "492fd45e6dd1f5fffaca9e6b25558c35051b5fc3d47fdd88aeffb947dffa099c",
+      "normalized_sdist_sha256_run_1": "82e54d0d5d05c1ff224e1af72f90d0bbd84e13e93f7cc5f881ccd16242e4f3f3",
+      "normalized_sdist_sha256_run_2": "82e54d0d5d05c1ff224e1af72f90d0bbd84e13e93f7cc5f881ccd16242e4f3f3"
+    },
+    "installed_probes": {
+      "status": "PASS",
+      "outside_checkout": "PASS",
+      "inside_checkout_safe_path": "PASS",
+      "installed_package_version": "0.2.10",
+      "installed_sources_verified": 473,
+      "cli_commands": [
+        "qf-solver --version",
+        "qf-solver --help",
+        "solveur-ef --version",
+        "mitc4-solver --version"
+      ],
+      "verify_all_refused_without_checkout_evidence": true
+    },
+    "twine_check": "PASS",
+    "distribution_policy_check": "PASS"
+  },
+  "tool_bindings": {
+    "scripts/verify_authorized_release_artifacts.py": "892dcf3999ac4eb3195b19224ce2d5ba6ade92178d7fbd9f761c031579e0d5e3",
+    "scripts/normalize_public_sdist.py": "1c3594c61b46af5601fda7993644aa613fb1523edb4709526b0ee35a01213d2c",
+    "scripts/check_distribution.py": "3858a988dd74f6df03d79d135d098dc442f7de2e554fc29e02d73920ccbf10e5",
+    "scripts/check_publication_metadata.py": "3d2251ca53dd5d307f007e3f89bbe599cff16f5ac9cdb92d326d08f0733798c7",
+    "scripts/audit_wp14_public_scope.py": "c6a473c3034399c5b24ab69ebc1351cd651880d99758e32aea09e8b2ad2a79d0",
+    ".github/workflows/publish-pypi.yml": "59827b7aecac61660bea6b1a2dca4c5da7b80090444e7eb69ec936503aec9bcd"
+  },
+  "release_identifiers": {
+    "version_doi": "10.5281/zenodo.23106744",
+    "version_doi_state_before_publication": "Reserved in a Zenodo draft; not registered or citable until the selected-artifact deposit is published and resolves.",
+    "concept_doi": "10.5281/zenodo.22697897",
+    "citation_release_date": "2026-10-03"
+  },
+  "g03_status": "FAIL_PRESERVED",
+  "whole_repository_archive_cleared": false,
+  "whole_repository_archive_publication_allowed": false,
+  "wp14_status": "HOLD_NOT_PROMOTED",
+  "publication_constraints": [
+    "Only the exact wheel, normalized sdist and e535-specific SHA256SUMS manifest above are authorized selected artifacts.",
+    "Quality #184 and Documentation #62 pass on the exact authorized source; tag CI and all required release workflow gates remain mandatory before publication.",
+    "A source-only tag used to identify this selected PyPI candidate does not clear G03 or the automatic GitHub source archives.",
+    "Do not describe GitHub-generated complete source archives or a full-repository Zenodo archive as audited or cleared while G03 remains failed.",
+    "Keep G03 failed, WP14 on HOLD, and all historical results and numerical maturity classifications unchanged.",
+    "Do not modify source_sha, selected source bytes, authorized artifact bytes, or the immutable v0.2.10 tag under this contract."
+  ]
+}
