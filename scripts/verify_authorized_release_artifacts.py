@@ -132,6 +132,36 @@ def verify_artifact_set(dist: Path, contract: dict[str, Any]) -> dict[str, Any]:
     return {"status": "PASS_EXACT_RELEASE_ASSETS", "files": list(observed.values())}
 
 
+def validate_owner_artifact_scope(contract: dict[str, Any], owner_record: dict[str, Any]) -> None:
+    """Require a prospective release to stay inside the Owner's exact source and byte authorization."""
+    provenance = owner_record.get("provenance")
+    tag_policy = owner_record.get("tag_policy")
+    distribution = owner_record.get("audited_distribution")
+    if not isinstance(provenance, dict) or not isinstance(tag_policy, dict) or not isinstance(distribution, dict):
+        raise ValueError("The Owner authorization lacks source/tag/artifact provenance.")
+    approved_source = provenance.get("audited_package_source_sha")
+    if (
+        contract.get("source_sha") != approved_source
+        or contract.get("tag_target_sha") != approved_source
+        or tag_policy.get("selected_package_source_sha_remains") != approved_source
+    ):
+        raise ValueError("The candidate source differs from the exact source accepted by the Owner.")
+
+    artifacts = contract.get("audited_artifacts")
+    if not isinstance(artifacts, dict):
+        raise ValueError("The prospective release does not bind the Owner-authorized package bytes.")
+    for kind in ("wheel", "sdist"):
+        approved = distribution.get(kind)
+        candidate = artifacts.get(kind)
+        if (
+            not isinstance(approved, dict)
+            or not isinstance(candidate, dict)
+            or candidate.get("filename") != approved.get("filename")
+            or candidate.get("sha256") != approved.get("sha256")
+        ):
+            raise ValueError(f"The candidate {kind} bytes differ from the exact artifact accepted by the Owner.")
+
+
 def _validate_contract(root: Path, contract_path: Path, candidate_path: Path) -> tuple[
     dict[str, Any], dict[str, Any], dict[str, bytes], list[dict[str, Any]], str
 ]:
@@ -190,6 +220,7 @@ def _validate_contract(root: Path, contract_path: Path, candidate_path: Path) ->
         or owner_record.get("decision") != "AUTHORIZE_V0_2_10_PUBLICATION"
     ):
         raise ValueError("The original Owner authorization record is missing, changed, or not an ancestor of the source.")
+    validate_owner_artifact_scope(release_contract, owner_record)
     allowed = owner_record.get("authorization", {})
     for key in (
         "selected_package_publication_allowed", "tag_creation_allowed", "pypi_publication_allowed",

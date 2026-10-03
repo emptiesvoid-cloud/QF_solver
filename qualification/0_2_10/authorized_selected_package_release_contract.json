@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "contract_id": "QF-0210-OWNER-AUTHORIZED-SELECTED-PACKAGE-RELEASE-01",
-  "status": "OWNER_AUTHORIZED_SELECTED_PACKAGE_RELEASE",
+  "status": "OWNER_REAUTHORIZATION_REQUIRED_SOURCE_MISMATCH",
   "package_version": "0.2.10",
   "release_tag": "v0.2.10",
   "source_sha": "b453265d5e61acd5f91cfc3aa236ee8b85344033",
@@ -22,12 +22,22 @@
     "sha256": "65999315d3e2950c6a734092d3c1417dd53c332e220bb90257d762fd91c90c99",
     "decision": "AUTHORIZE_V0_2_10_PUBLICATION"
   },
+  "authorization_resolution": {
+    "status": "PENDING_OWNER_DECISION",
+    "owner_approved_source_sha": "6b5562d318f2fd55e3e122190e8078906a94f119",
+    "candidate_source_sha": "b453265d5e61acd5f91cfc3aa236ee8b85344033",
+    "owner_approved_wheel_sha256": "cead9603cadd05222287779746ab1adce07580a9fa832e3cd7c7504d8ad83231",
+    "candidate_wheel_sha256": "5c97d11cdc199512658ca3067b16beb7d72a2f6a183a171db5e921884709ca10",
+    "owner_approved_sdist_sha256": "01c9034286c12e48b82c4e367c851025504a627f5738fe13cf7717ddd48e23a8",
+    "candidate_sdist_sha256": "35ce10458e84425558396f1246b55e217734e0fa0189df242fbc2242bca9099d",
+    "note": "The historical Owner authorization applies only to its recorded source and distribution hashes. No tag or publication is authorized for this differing candidate until the Owner updates the authorization prospectively."
+  },
   "authorization": {
-    "selected_package_publication_allowed": true,
-    "tag_creation_allowed": true,
-    "pypi_publication_allowed": true,
-    "github_release_allowed": true,
-    "zenodo_selected_artifact_publication_allowed": true,
+    "selected_package_publication_allowed": false,
+    "tag_creation_allowed": false,
+    "pypi_publication_allowed": false,
+    "github_release_allowed": false,
+    "zenodo_selected_artifact_publication_allowed": false,
     "whole_repository_archive_cleared": false,
     "ledger_update_allowed": false,
     "wp14_promotion_allowed": false,
@@ -115,7 +125,7 @@
   },
   "tool_bindings": {
     "scripts/normalize_public_sdist.py": "1c3594c61b46af5601fda7993644aa613fb1523edb4709526b0ee35a01213d2c",
-    "scripts/verify_authorized_release_artifacts.py": "569d5853d2af72c5023f75c9814386a485eedecb03808ec0f70d42492851ece0",
+    "scripts/verify_authorized_release_artifacts.py": "822d71c6c5b438fcd9dd3a72bbb3000b23bdbc6faf2be0d07e72291fd6ecc7d6",
     ".github/workflows/publish-pypi.yml": "78ba2b6b8eec95a4a15e1c7de74e4f079522a002f3e269daf0b86e88118d3e87",
     "scripts/check_distribution.py": "456ba6fd025053073a8eaf46609a19f7b674edb2ca99cd024f963f8ef8848860"
   },
@@ -129,8 +139,9 @@
   "whole_repository_archive_cleared": false,
   "wp14_status": "HOLD_NOT_PROMOTED",
   "publication_constraints": [
-    "Only the exact wheel, sdist and SHA256SUMS manifest listed above may be attached to the GitHub Release or Zenodo deposit.",
-    "Only the exact wheel and sdist listed above may be uploaded to PyPI.",
+    "No tag or publication may proceed until the Owner authorization is updated to cover the exact source SHA and artifact hashes in this prospective contract.",
+    "If reauthorized, only the exact wheel, sdist and SHA256SUMS manifest listed above may be attached to the GitHub Release or Zenodo deposit.",
+    "If reauthorized, only the exact wheel and sdist listed above may be uploaded to PyPI.",
     "Never describe the GitHub-generated complete source archives or a full repository Zenodo archive as audited or cleared while G03 remains failed.",
     "Do not alter the source commit, package files, selected bytes, maturity classifications, historical evidence or ledger under this contract.",
     "If any package metadata or selected source changes, create a new source freeze and rebuild, normalize, scan, probe and hash new artifacts before publication."

@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from scripts.verify_authorized_release_artifacts import verify_artifact_set
+from scripts.verify_authorized_release_artifacts import verify_artifact_set, validate_owner_artifact_scope
 
 
 def _sha(data: bytes) -> str:
@@ -63,3 +63,35 @@ def test_extra_assets_are_not_silently_published(tmp_path: Path) -> None:
     (dist / "repository-source.zip").write_bytes(b"uncleared source archive")
     with pytest.raises(ValueError, match="only the two selected packages"):
         verify_artifact_set(dist, contract)
+
+
+def test_owner_authorization_pins_exact_source_and_package_hashes() -> None:
+    source = "a" * 40
+    contract: dict[str, object] = {
+        "source_sha": source,
+        "tag_target_sha": source,
+        "audited_artifacts": {
+            "wheel": {"filename": "qf_solver-0.2.10-py3-none-any.whl", "sha256": "1" * 64},
+            "sdist": {"filename": "qf_solver-0.2.10.tar.gz", "sha256": "2" * 64},
+        },
+    }
+    owner = {
+        "provenance": {"audited_package_source_sha": source},
+        "tag_policy": {"selected_package_source_sha_remains": source},
+        "audited_distribution": {
+            "wheel": {"filename": "qf_solver-0.2.10-py3-none-any.whl", "sha256": "1" * 64},
+            "sdist": {"filename": "qf_solver-0.2.10.tar.gz", "sha256": "2" * 64},
+        },
+    }
+    validate_owner_artifact_scope(contract, owner)
+
+    changed_source = {**contract, "source_sha": "b" * 40}
+    with pytest.raises(ValueError, match="exact source accepted by the Owner"):
+        validate_owner_artifact_scope(changed_source, owner)
+
+    changed_artifacts = {**contract, "audited_artifacts": {
+        **contract["audited_artifacts"],
+        "wheel": {"filename": "qf_solver-0.2.10-py3-none-any.whl", "sha256": "3" * 64},
+    }}
+    with pytest.raises(ValueError, match="exact artifact accepted by the Owner"):
+        validate_owner_artifact_scope(changed_artifacts, owner)
