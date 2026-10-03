@@ -51,6 +51,18 @@
     "mkdocs_exclude_pattern": "verification/0_2_9/**"
   },
   "package_version": "0.2.10",
+  "audited_artifacts": {
+    "wheel": {
+      "filename": "qf_solver-0.2.10-py3-none-any.whl",
+      "bytes": 1509431,
+      "sha256": "64963831b8d6088107272152513a63224c7c3fde92013ce7ec2de19e29002ec2"
+    },
+    "sdist": {
+      "filename": "qf_solver-0.2.10.tar.gz",
+      "bytes": 1138202,
+      "sha256": "692d8f52e2ac5e700675bbf0eea2f345ac7440d32482f94a5fa085a8ebdb0190"
+    }
+  },
   "tool_bindings": {
     "scripts/verify_public_package.py": "7e25532f5a8c2c80b0a8ab711c235fc45a34eb6219efdef0386543d00f1bc86c",
     "scripts/probe_installed_package.py": "46576afa82a8285730c4afc67e41fd58f5a8deb753f054f5a35cc0442eb18675",
