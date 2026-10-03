@@ -9,10 +9,9 @@ approver: ""
 
 # QF Solver architecture
 
-This page describes the candidate source architecture for 0.2.10. The latest
-published release remains 0.2.8. Architecture diagrams describe implementation
+This page describes the QF Solver 0.2.10 architecture. Architecture diagrams describe implementation
 boundaries; they do not establish capability maturity. See the
-[capability index](capabilities/index.md) and [candidate V&V summary](verification/0_2_10/README.md)
+[capability index](capabilities/index.md) and [0.2.10 V&V summary](verification/0_2_10/README.md)
 for evidence and scope.
 
 ## Public entry points and routing
@@ -43,7 +42,7 @@ calculation modules do not own command-line parsing or output serialization.
 
 ## Nonlinear analysis flow
 
-Several candidate nonlinear routes share a driver foundation, Newton engine,
+Several bounded nonlinear routes share a driver foundation, Newton engine,
 continuation/robustness policies, state transaction primitives, and a
 residual/tangent assembly interface:
 
@@ -101,13 +100,13 @@ standard runtime path uses SciPy and does not require Docker, PETSc or MPI.
 
 ## Backends and evidence boundaries
 
-PETSc/MPI evidence accepted for the candidate is bounded to recorded two-rank
+PETSc/MPI evidence accepted for 0.2.10 is bounded to recorded two-rank
 linear-static one-element cases with replicated input and root-side assembly.
 It does not establish distributed assembly, scaling, general nonlinear MPI,
 contact, or dynamics. Historical structured-TET4 large-model observations
 apply only to their recorded workload and environment.
 
-Candidate nonlinear routes include selected small-strain and corotational J2,
+Bounded nonlinear routes include selected small-strain and corotational J2,
 Total-Lagrangian geometry, contact and continuation paths. Their exact
 formulations and maturity differ. In particular, the geometric audit is
 `GO_WITH_LIMITATIONS` without maturity promotion; corotational J2 has a
@@ -130,7 +129,7 @@ documentation and exposes an uncommitted tree as such. The `qualification`
 profile has stricter source and page-status requirements. Generated
 measurements are not manually transcribed as new qualification decisions.
 The MkDocs site intentionally excludes the detailed `verification/0_2_9`
-engineering archive from public navigation; the concise candidate summary is
+engineering archive from public navigation; the concise 0.2.10 summary is
 served separately.
 
 ## Known architectural debt

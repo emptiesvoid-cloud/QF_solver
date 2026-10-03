@@ -2,7 +2,7 @@
 doc_id: DOC-DEMO-000
 revision: 1.0
 status: controlled
-applicable_version: 0.2.8
+applicable_version: 0.2.10
 reviewer: ""
 approver: ""
 ---
@@ -15,7 +15,7 @@ not establish universal element or solver qualification.
 
 ## Public examples
 
-The maintained JSON examples are in [`examples/`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.8/examples). The
+The maintained JSON examples are in [`examples/`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.10/examples). The
 shortest path is the [TET4 static quickstart](../getting-started/quickstart.md).
 The public Python API is available through `qf_solver`.
 
@@ -26,8 +26,8 @@ diagnostics and a manifest. Read the reported residual, reactions, energy and
 mesh checks together. A plausible displacement alone is not sufficient.
 
 The published 0.2.8 boundaries remain in the
-[historical verification summary](../verification/0_2_8/README.md). For the
-0.2.10 source candidate, consult the [capability index](../capabilities/index.md),
-[candidate V&V summary](../verification/0_2_10/README.md), and the bounded
+[historical verification summary](../verification/0_2_8/README.md). For
+0.2.10, consult the [capability index](../capabilities/index.md),
+[V&V summary](../verification/0_2_10/README.md), and the bounded
 [nonlinear example](../getting-started/nonlinear-example.md). Large-model
 examples are described in [Large models](../solveurs/grand_modele.md).

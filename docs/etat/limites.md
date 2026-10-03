@@ -9,8 +9,7 @@ approver: ""
 
 # Known limitations
 
-QF Solver 0.2.10 is a release candidate in this source tree; 0.2.8 remains the
-latest published release. Every result is bounded by its element family,
+QF Solver 0.2.10 is the current published release. Every result is bounded by its element family,
 formulation, mesh, loads, boundary conditions, constitutive model, solver, and
 evidence decision. The limitations below are technical boundaries, not a
 complete list of input checks.
@@ -82,15 +81,12 @@ complete list of input checks.
   solve. A test pass is not itself a maturity decision.
 - No certification, Abaqus equivalence, industrial-grade guarantee, or
   universal physical validation is claimed.
-- The full-repository G03 archive scan remains failed. A package-scoped scan
-  does not clear the full source archive or authorize a waiver. The candidate
-  package audit is bound to its recorded earlier SHA and is not a final audit
-  for a later tag.
-- The prospective Zenodo DOI `10.5281/zenodo.23106744` is reserved but not
-  published. The current citation metadata remains tied to the published
-  0.2.8 release until a real 0.2.10 publication.
+- The selected wheel and sdist are audited against their prospective release
+  contract. That package-scoped result does not clear the full-repository G03
+  archive gate or the automatic GitHub source archives. G03 remains FAIL and
+  WP14 remains on HOLD.
 
 For exact published element-analysis boundaries, see the
 [0.2.8 consolidated registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json).
-For candidate evidence see the [0.2.10 V&V summary](../verification/0_2_10/README.md)
+For release evidence see the [0.2.10 V&V summary](../verification/0_2_10/README.md)
 and the [capability index](../capabilities/index.md).

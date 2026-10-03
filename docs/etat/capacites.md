@@ -9,8 +9,8 @@ approver: ""
 
 # Capabilities and maturity
 
-This page is an orientation to the 0.2.10 candidate, not a new qualification
-decision. The last public release is 0.2.8. Maturity applies only to a named
+This page is an orientation to the 0.2.10 release, not a new qualification
+decision. Maturity applies only to a named
 scope; implementation or execution alone does not promote it.
 
 | Scope | Status | Boundary |
@@ -35,4 +35,4 @@ specified 0.2.8 element-analysis combinations. It is not a 0.2.10 score.
 
 Read the [capability matrix](../capabilities/index.md),
 [analysis map](../analyses/index.md), [known limitations](limites.md), and
-[candidate V&V summary](../verification/0_2_10/README.md) together.
+[0.2.10 V&V summary](../verification/0_2_10/README.md) together.

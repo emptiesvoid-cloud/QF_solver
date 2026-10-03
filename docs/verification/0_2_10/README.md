@@ -1,5 +1,5 @@
 ---
-title: QF Solver 0.2.10 candidate verification summary
+title: QF Solver 0.2.10 verification summary
 doc_id: DOC-VV-CANDIDATE-0210-001
 revision: 1.0
 applicable_version: 0.2.10
@@ -8,14 +8,14 @@ reviewer: ""
 approver: ""
 ---
 
-# QF Solver 0.2.10 candidate verification summary
+# QF Solver 0.2.10 verification summary
 
-**Status:** candidate documentation; no final source freeze, tag, package,
-GitHub Release, or version DOI is asserted here. The package candidate audit
-is tied to source SHA
-[`aa45694f02bcc7607f5aef4b770ddb07269e42fe`](https://github.com/emptiesvoid-cloud/QF_solver/commit/aa45694f02bcc7607f5aef4b770ddb07269e42fe),
-not to this later documentation tree. The whole-repository G03 archive scan
-remains failed. A package-scoped scan does not waive that failure.
+**Release:** QF Solver 0.2.10, the first public release after 0.2.8. The
+selected wheel and sdist have a source-bound release audit recorded in the
+[`release contract`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_10/public_package_release_contract.json).
+The whole-repository G03 archive scan remains failed and is not waived by the
+selected-package audit. GitHub-generated source archives are not cleared
+distribution artifacts.
 
 This summary separates four kinds of statement:
 
@@ -53,23 +53,26 @@ This summary separates four kinds of statement:
 | Continuation | Full Newton, line search, adaptive cutback/retry, and arc-length evidence is route-bounded; no general postbuckling or bifurcation claim. |
 | PETSc/MPI | Bounded two-rank linear-static cases with replicated input/root-side assembly; no scaling or general nonlinear distributed claim. |
 | Code_Aster | Same-mesh 18.1 linear-static numerical correlation for bounded cases across TET4/HEX8/TET10/HEX20. This is not physical validation or general nonlinear correlation. |
-| Release gate | WP14 remains on HOLD while the whole-repository G03 scan is failed; no implicit waiver is applied. |
+| Release gate | The Owner authorizes publication of the selected wheel/sdist scope; WP14 remains on HOLD and whole-repository G03 remains FAIL. |
 
 ## Provenance and interpretation
 
 The development-cycle records are retained under
 [`qualification/0_2_9`](https://github.com/emptiesvoid-cloud/QF_solver/tree/main/qualification/0_2_9)
-and the 0.2.10 package candidate records under
-[`qualification/0_2_10`](https://github.com/emptiesvoid-cloud/QF_solver/tree/main/qualification/0_2_10).
+and the 0.2.10 release contract and Owner decision records under
+[`qualification/0_2_10`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.10/qualification/0_2_10).
 They are detailed engineering evidence, not a substitute for the scope
 summaries above. Historical failures and previous source-bound audits remain
 unchanged.
 
-The package-scoped candidate scan and package checks were run against their
-recorded source SHA; they do not clear a later source tree or full repository
-archive. A final release requires a clean, exact-SHA freeze and renewed source-
-bound audits. The candidate Zenodo identifier `10.5281/zenodo.23106744` is
-reserved but not published; it must not be cited as the version DOI.
+The selected distribution scan and package checks are bound to the exact
+source SHA and artifact hashes in the release contract. The Owner's decision
+accepts identified residual deviations as non-blocking for this selected
+distribution only. It does not alter technical results, maturity levels,
+historical failures, or the G03/WP14 disposition. The version DOI is
+[`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744); the
+project concept DOI remains
+[`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897).
 
 For the latest public release and citation, see
 [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).

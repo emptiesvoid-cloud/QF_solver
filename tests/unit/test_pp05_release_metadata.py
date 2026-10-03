@@ -1,4 +1,4 @@
-"""Targeted guards for the 0.2.8 release metadata and trust surface."""
+"""Targeted guards for the current public release metadata and trust surface."""
 
 from __future__ import annotations
 
@@ -45,23 +45,23 @@ def test_028_changelog_is_structured_released_and_bounded() -> None:
     assert "NOT_AVAILABLE_YET" not in section
 
 
-def test_security_policy_is_durable_across_published_and_candidate_channels() -> None:
+def test_security_policy_identifies_current_and_older_release_channels() -> None:
     security = _text("SECURITY.md")
     assert "Latest published release" in security
-    assert "Current `0.2.8` release" in security
+    assert "Current `0.2.10` release" in security
     assert "Older releases" in security
     assert "0.2.7 = supported" not in security
     assert "best-effort basis" in security
 
 
-def test_tagged_source_and_last_published_citation_are_distinct() -> None:
+def test_current_source_and_published_citation_match() -> None:
     project = tomllib.loads(_text("pyproject.toml"))["project"]
     runtime = _text("src/solveur/version.py")
     citation = _text("CITATION.cff")
     assert project["version"] == "0.2.10"
     assert '__version__ = "0.2.10"' in runtime
-    assert 'version: "0.2.8"' in citation
-    assert 'doi: "10.5281/zenodo.22697898"' in citation
+    assert 'version: "0.2.10"' in citation
+    assert 'doi: "10.5281/zenodo.23106744"' in citation
     assert "NOT_PUBLISHED_YET" not in citation
     assert "NOT_AVAILABLE_YET" not in citation
 
@@ -74,15 +74,15 @@ def test_tagged_source_and_last_published_citation_are_distinct() -> None:
         "SUPPORT.md",
     ):
         text = _text(relative)
-        assert "0.2.8" in text, relative
         assert "NOT_PUBLISHED_YET" not in text, relative
         assert "NOT_AVAILABLE_YET" not in text, relative
 
-    assert "10.5281/zenodo.22697898" in _text("README.md")
+    assert "0.2.8" in _text("README.md")
+    assert "0.2.8" in _text("CHANGELOG.md")
+    assert "10.5281/zenodo.23106744" in _text("README.md")
     assert "10.5281/zenodo.22697897" in _text("README.md")
     assert (
-        "Source tag | [`v0.2.9`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.9) "
-        "(source snapshot; package not published)"
+        "`v0.2.9` tag is a source snapshot, not a PyPI, GitHub Release or Zenodo"
         in _text("README.md")
     )
 
@@ -110,5 +110,5 @@ def test_release_registry_and_public_boundaries_remain_unchanged() -> None:
     }
     assert "Mixed distributed PETSc/MPI" in _text("README.md")
     assert "`NOT_VALIDATED`" in _text("README.md")
-    assert "0.2.8" in _text("CONTRIBUTING.md")
+    assert "0.2.10" in _text("CONTRIBUTING.md")
     assert "haven't had the time to put everything on GitHub" not in _text("CONTRIBUTING.md")

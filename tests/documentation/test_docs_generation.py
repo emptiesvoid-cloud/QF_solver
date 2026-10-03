@@ -76,28 +76,28 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
         comparison_snapshot.replace(">", "").split()
     )
 
-    assert "Latest published release" in readme
+    assert "| Release line | `0.2.10` |" in readme
     assert "`0.2.8` — release candidate; not published" not in readme
-    assert "Source tag" in readme and "source snapshot; package not published" in readme
-    assert "0.2.8 is the latest published release" in normalized_roadmap
+    assert "Source tag" in readme and "v0.2.10" in readme
+    assert "QF Solver 0.2.10 is the current published release" in normalized_roadmap
     assert "Version 0.2.9 was a development/source snapshot" in normalized_roadmap
-    assert "latest published release remains 0.2.8" in normalized_architecture
+    assert "QF Solver 0.2.10 architecture" in normalized_architecture
     assert "published 0.2.8 release scope" in open_source
-    assert "not tagged or published" in normalized_index
+    assert "first public release after 0.2.8" in normalized_index
     assert "0.2.10" in index
     assert "0.2.8 is the current development candidate" not in roadmap
     assert "10.5281/zenodo.23106744" in readme
     assert "10.5281/zenodo.23106744" in index
-    assert "not published or citable" in readme
-    assert "must not be cited as a registered version DOI" in normalized_index
-    assert "latest published package remains 0.2.8" in normalized_comparisons
+    assert "Version DOI" in readme
+    assert "Current release" in normalized_index
+    assert "current published package is 0.2.10" in normalized_comparisons
     assert (
-        "not been refreshed against the 0.2.10 source"
+        "not been refreshed against the 0.2.10 release"
         in normalized_comparison_snapshot
     )
     assert "not a current capability or maturity record" in normalized_comparison_snapshot
-    assert 'version: "0.2.8"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
-    assert 'doi: "10.5281/zenodo.22697898"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    assert 'version: "0.2.10"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    assert 'doi: "10.5281/zenodo.23106744"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
 
 
 def test_tetra_boundary_faces_remove_shared_face() -> None:

@@ -17,11 +17,11 @@ This section compares QF Solver with several open-source finite-element tools.
 
 > **HISTORICAL SNAPSHOT NOTICE.** The detailed comparison pages retain their
 > explicitly labeled 0.2.7 analysis snapshots and have not been refreshed for
-> the 0.2.10 source candidate. They are not current capability or maturity
-> records; use the 0.2.10 candidate index and V&V summary for current scope.
+> the 0.2.10 release. They are not current capability or maturity records;
+> use the 0.2.10 index and V&V summary for current scope.
 
-The latest published package remains 0.2.8. The detailed comparison articles
-retain their explicit 0.2.7 snapshots. For current candidate maturity and
+The current published package is 0.2.10. The detailed comparison articles
+retain their explicit 0.2.7 snapshots. For current maturity and
 limitations, use the 0.2.10 sources linked below; in particular, mixed
 distributed PETSc/MPI remains `NOT_VALIDATED`.
 
@@ -101,8 +101,8 @@ The authoritative QF Solver capability information is available in:
 
 - [Elements](../elements/index.md)
 - [Analyses](../analyses/index.md)
-- [0.2.10 candidate capability index](../capabilities/index.md)
-- [0.2.10 candidate V&V summary](../verification/0_2_10/README.md)
+- [0.2.10 capability index](../capabilities/index.md)
+- [0.2.10 V&V summary](../verification/0_2_10/README.md)
 - [Known limitations](../etat/limites.md)
 - [Published QF Solver 0.2.8 verification](../verification/0_2_8/README.md)
 - [Historical QF Solver 0.2.7 verification](../verification/0_2_7/README.md)

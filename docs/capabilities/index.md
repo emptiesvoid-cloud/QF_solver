@@ -7,12 +7,13 @@ reviewer: ""
 approver: ""
 ---
 
-# QF Solver capability index — 0.2.10 candidate
+# QF Solver capability index — 0.2.10
 
-The public release remains 0.2.8 until a 0.2.10 publication is completed.
-This index describes evidence in the current 0.2.10 candidate source without
-changing previous maturity decisions. In particular, source implementation
-and a successful test do not by themselves establish qualification.
+**Current release:** `0.2.10` / `v0.2.10`
+
+This index describes evidence available for QF Solver 0.2.10 without changing
+previous maturity decisions. In particular, source implementation and a
+successful test do not by themselves establish qualification.
 
 ## How to read the statuses
 
@@ -22,7 +23,7 @@ general qualified capability. “Owner-accepted bounded evidence” is reported
 as such and is not silently relabeled `QUALIFIED_BOUNDED`. “Audited; maturity
 not promoted” means a technical audit exists but no maturity promotion was
 recorded. The 46-case registry remains the authority for its original 0.2.8
-scope and counts; this candidate index does not rewrite it.
+scope and counts; this 0.2.10 index does not rewrite it.
 
 ## Capability matrix
 
@@ -43,13 +44,13 @@ scope and counts; this candidate index does not rewrite it.
 | Continuation | Adaptive increments / cutback | Bounded route evidence — [WP03 records](https://github.com/emptiesvoid-cloud/QF_solver/tree/main/qualification/0_2_9) | Full Newton, line search, stagnation and retry mechanisms are not a guarantee of convergence for arbitrary models. |
 | Continuation | Arc-length | Experimental bounded evidence — [WP06 decision](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_9/wp06d_owner_bounded_experimental_decision.json) | No general bifurcation or postbuckling capability claim. |
 | HPC | PETSc/MPI | Owner-accepted bounded evidence — [WP11 decision](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_9/wp11_owner_acceptance_r2.json) | Two-rank linear-static cases with replicated input and root-side assembly; no scaling or nonlinear distributed claim. |
-| HPC | Distributed mixed PETSc/MPI runtime | `NOT_VALIDATED` — [historical runtime limits](../verification/0_2_8/README.md) | Candidate-cycle bounded linear evidence does not close generic mixed distributed gates. |
+| HPC | Distributed mixed PETSc/MPI runtime | `NOT_VALIDATED` — [historical runtime limits](../verification/0_2_8/README.md) | Development-cycle bounded linear evidence does not close generic mixed distributed gates. |
 | Large model | Structured TET4 PETSc route | Route-dependent historical evidence — [limitations](../etat/limites.md) | Exact workload/environment only; not general scaling or hardware-independent performance. |
 | External correlation | Code_Aster 18.1 | Owner-accepted bounded correlation — [WP12 decision](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_9/wp12_owner_acceptance_r2.json) | Same-mesh, linear-static and comparable observables; not physical validation or general nonlinear correlation. |
 
 For the nonlinear architecture see the [mechanics overview](../mechanics/nonlinear-overview.md).
 For concrete route restrictions see [known limitations](../etat/limites.md).
-For test and evidence interpretation see the [candidate V&V summary](../verification/0_2_10/README.md).
+For test and evidence interpretation see the [0.2.10 V&V summary](../verification/0_2_10/README.md).
 
 ## Registry boundary
 
@@ -58,4 +59,4 @@ The consolidated 0.2.8 registry contains 46 element-analysis combinations:
 historical, scoped counts—not a 0.2.10 score and not a count of every separate
 workflow above. Mixed workflows, mechanics evidence, and external correlation
 remain separate records. WP14 is on HOLD while the whole-repository G03 scan
-is failed; no waiver is implied by the package-scoped candidate scan.
+is failed; the selected-package audit does not waive or clear that gate.

@@ -9,8 +9,7 @@ approver: ""
 
 # API stability
 
-This page describes the 0.2.10 source candidate, not a published 0.2.10
-package. The latest published release is 0.2.8.
+This page describes the public API surface of the 0.2.10 release.
 
 ## Public namespace
 

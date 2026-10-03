@@ -10,10 +10,10 @@ approver: ""
 # Python FEM solvers: which one should you use?
 
 > **HISTORICAL COMPARISON SNAPSHOT.** This article preserves 0.2.7-era
-> comparative analysis and has not been refreshed against the 0.2.10 source
-> candidate. The latest published release remains 0.2.8. This article is not a
-> current capability or maturity record; use the [0.2.10 candidate capability
-> index](../capabilities/index.md) and [candidate V&V summary](../verification/0_2_10/README.md).
+> comparative analysis and has not been refreshed against the 0.2.10 release.
+> The current published release is 0.2.10. This article is not a current
+> capability or maturity record; use the [0.2.10 capability index](../capabilities/index.md)
+> and [V&V summary](../verification/0_2_10/README.md).
 
 There is no single best finite-element solver for every problem.
 

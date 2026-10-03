@@ -9,12 +9,12 @@ approver: ""
 
 # Verification, validation, evidence and maturity
 
-**Latest published release:** QF Solver `0.2.8` / `v0.2.8`<br>
-**Current source candidate:** `0.2.10`, not yet published
+**Current release:** QF Solver `0.2.10` / `v0.2.10`<br>
+**Version DOI:** [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744)
 
-The 0.2.10 candidate accumulates development made since the published 0.2.8
+The 0.2.10 release accumulates development made since the published 0.2.8
 baseline, including the development-only 0.2.9 cycle. The
-[candidate V&V summary](0_2_10/README.md) describes the bounded records; the
+[0.2.10 V&V summary](0_2_10/README.md) describes the bounded records; the
 [capability index](../capabilities/index.md) is the public navigation to
 current scopes. The 46-combination
 [0.2.8 registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json)
@@ -60,7 +60,7 @@ and 0 `NOT_QUALIFIED` across 46 specified combinations. These counts are not a
 0.2.10 quality score and exclude separate mixed workflows and capability
 records.
 
-## Candidate boundaries
+## 0.2.10 scope boundaries
 
 - Small-strain J2 and the 0.2.8 linear registry retain their original bounded
   scopes.
@@ -80,7 +80,8 @@ records.
 - Code_Aster evidence is bounded same-mesh linear-static numerical correlation
   for recorded observables, not physical validation.
 - WP14 remains HOLD while the whole-repository G03 archive scan is failed.
-  Package-scoped checks do not waive that gate.
+  The selected wheel/sdist audit does not clear that gate or automatic GitHub
+  source archives.
 
 The detailed development-cycle records remain in
 [`qualification/0_2_9`](https://github.com/emptiesvoid-cloud/QF_solver/tree/main/qualification/0_2_9).

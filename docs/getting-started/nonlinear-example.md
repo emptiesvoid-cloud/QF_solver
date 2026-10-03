@@ -10,7 +10,7 @@ approver: ""
 
 # Nonlinear example
 
-This short example runs a repository fixture for the candidate
+This short example runs a repository fixture for the bounded
 Total-Lagrangian TET4 static route. It demonstrates that the CLI route can run;
 it is not a qualification claim. The solver intentionally reports a
 `WARNING` maturity verdict for this research-profile route.
@@ -70,5 +70,5 @@ The current geometric campaign covers selected Total-Lagrangian St.
 Venant–Kirchhoff static serial TET4/HEX8 cases with explicit deformation and
 formulation bounds. The final audit recorded `GO_WITH_LIMITATIONS` without a
 maturity promotion. This example is a convenient smoke test, not a replacement
-for the [candidate V&V summary](../verification/0_2_10/README.md) or the
+for the [0.2.10 V&V summary](../verification/0_2_10/README.md) or the
 [known limitations](../etat/limites.md).

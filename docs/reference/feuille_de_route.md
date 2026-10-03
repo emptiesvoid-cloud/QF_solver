@@ -9,29 +9,27 @@ approver: ""
 
 # Public roadmap
 
-0.2.8 is the latest published release. Version 0.2.10 is the
-current source candidate and has not been published. Version 0.2.9 was a
+QF Solver 0.2.10 is the current published release. Version 0.2.9 was a
 development/source snapshot, not a PyPI package, GitHub Release, or version
-DOI. 0.2.9 source is integrated into `main` and tagged `v0.2.9`; no
-package or version DOI has been published. This roadmap is a product-level orientation; it is not a release gate,
+DOI. This roadmap is a product-level orientation; it is not a release gate,
 tag, publication decision, or promise that an unqualified route is ready for
 production.
 
 ## Current direction
 
-The current development direction is to make bounded nonlinear structural
-mechanics easier to inspect and reproduce while preserving the existing
-linear element-analysis boundaries. Work includes common Newton and
-residual/tangent infrastructure, transactional state management, bounded
-geometric/J2/contact routes, and continuation diagnostics. The
+Follow-up work after 0.2.10 will extend evidence and reproducibility without
+generalizing the existing bounded nonlinear routes or changing the linear
+element-analysis boundaries. The current release already includes common
+Newton and residual/tangent infrastructure, transactional state management,
+bounded geometric/J2/contact routes, and continuation diagnostics. The
 [capability index](../capabilities/index.md) and
-[candidate V&V summary](../verification/0_2_10/README.md) state what the
+[0.2.10 V&V summary](../verification/0_2_10/README.md) state what the
 evidence accepts—and what it excludes.
 
 ## Follow-up themes
 
-1. Re-freeze and audit the exact source candidate selected for publication;
-   keep package-scoped and whole-repository archive gates distinct.
+1. Keep each future source and package audit bound to exact Git blobs; keep
+   package-scoped and whole-repository archive gates distinct.
 2. Extend nonlinear evidence only through separately declared, reproducible
    scopes; do not generalize beyond the families, formulations, or loads tested.
 3. Requalify current-source frictional contact and preserve its observed mesh

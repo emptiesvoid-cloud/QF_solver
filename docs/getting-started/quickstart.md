@@ -42,7 +42,7 @@ surface.
 Confirm that the element, analysis, material, loading, boundary conditions and
 solver backend fall within a matching evidence scope. The linked 0.2.8
 consolidated registry remains the authority for its 46 published
-element-analysis records; the [candidate capability index](../capabilities/index.md)
+element-analysis records; the [0.2.10 capability index](../capabilities/index.md)
 adds source-cycle evidence without rewriting those historical decisions. For
 mixed workflows or separate capabilities, read the controlling record. Review
 the [known limitations](../etat/limites.md) and retain the input,
@@ -51,8 +51,8 @@ configuration and result files with the calculation record.
 ## Nonlinear example
 
 The linear first calculation above remains the recommended first run. To
-inspect one small candidate-source nonlinear route, use the separate
+inspect one small nonlinear route, use the separate
 [Total-Lagrangian TET4 example](nonlinear-example.md). It converges for its
 declared input but reports an engineering-profile `WARNING`; that warning and
-the candidate maturity boundary are part of the example, not an error to
+the route's maturity boundary are part of the example, not an error to
 ignore or a general qualification claim.

@@ -9,8 +9,7 @@ approver: ""
 
 # `qf_solver` public API contract
 
-This page documents the 0.2.10 source candidate; the latest published package
-is still 0.2.8. The candidate API inventory is not a publication assertion.
+This page documents the public `qf_solver` API for release 0.2.10.
 
 This page is the concise contract for the Python surface exported by
 `qf_solver`. New integrations should use this namespace. Implementation
@@ -216,6 +215,6 @@ For the overview and compatibility boundary, see
 the [0.2.8 consolidated registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json)
 and linked mixed-workflow/capability records.
 
-The candidate cross-registry public orientation is maintained by the
+The 0.2.10 cross-registry public orientation is maintained by the
 [0.2.10 capability index](../capabilities/index.md); the linked 0.2.8
 registry remains the authority for its original published decisions.

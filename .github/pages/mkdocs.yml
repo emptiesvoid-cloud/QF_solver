@@ -48,7 +48,7 @@ nav:
       - Demonstrations: demonstrations/index.md
   - Verification & Validation:
       - V&V and Maturity: verification/evidence-and-maturity.md
-      - 0.2.10 Candidate V&V Summary: verification/0_2_10/README.md
+      - 0.2.10 Verification Summary: verification/0_2_10/README.md
       - Published 0.2.8 Verification: verification/0_2_8/README.md
       - Benchmarks: benchmarks/index.md
       - Historical Evidence:

@@ -9,9 +9,9 @@ approver: ""
 
 # Analyses
 
-This page maps the current 0.2.10 candidate routes. The last published release
-is 0.2.8; the [consolidated 0.2.8 registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json)
-remains authoritative for its 46 element-analysis decisions. Candidate-cycle
+This page maps QF Solver 0.2.10 analysis routes. The
+[consolidated 0.2.8 registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json)
+remains authoritative for its 46 element-analysis decisions. Development-cycle
 evidence is linked separately and does not rewrite that registry.
 
 | Analysis | Maturity / evidence status | Scope boundary |

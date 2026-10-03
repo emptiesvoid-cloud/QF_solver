@@ -11,7 +11,7 @@
     {
       "id": "DOC-STATE-001",
       "path": "index.md",
-      "title": "QF Solver 0.2.10 candidate",
+      "title": "QF Solver 0.2.10",
       "status": "controlled_candidate",
       "requirements": [
         "REQ-AUD-001",
@@ -72,7 +72,7 @@
     {
       "id": "DOC-VV-CANDIDATE-0210-001",
       "path": "verification/0_2_10/README.md",
-      "title": "QF Solver 0.2.10 candidate verification summary",
+      "title": "QF Solver 0.2.10 verification summary",
       "status": "controlled_candidate",
       "requirements": [],
       "examples": [],
@@ -105,7 +105,7 @@
     {
       "id": "DOC-CAPABILITY-028-001",
       "path": "capabilities/index.md",
-      "title": "QF Solver capability index — 0.2.10 candidate",
+      "title": "QF Solver capability index — 0.2.10",
       "status": "controlled_candidate",
       "requirements": [],
       "examples": [],

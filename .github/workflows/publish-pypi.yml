@@ -44,10 +44,18 @@ jobs:
       - name: Verify immutable tag and public release copy
         env:
           RELEASE_TAG: ${{ inputs.release_tag }}
+          CONFIRM_PUBLISH: ${{ inputs.confirm_publish }}
+          CONTRACT_PATH: ${{ inputs.contract_path }}
         run: |
           set -euo pipefail
           test "$GITHUB_REF" = "refs/heads/main"
           [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          if [[ "$CONFIRM_PUBLISH" == "true" ]]; then
+            for artifact_kind in wheel sdist; do
+              artifact_hash="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["audited_artifacts"][sys.argv[2]]["sha256"])' "$CONTRACT_PATH" "$artifact_kind")"
+              [[ "$artifact_hash" =~ ^[0-9a-f]{64}$ ]]
+            done
+          fi
           test "$(git -C tagged-source cat-file -t "refs/tags/$RELEASE_TAG")" = tag
           test "$(git -C tagged-source rev-parse HEAD)" = "$(git -C tagged-source rev-parse "refs/tags/$RELEASE_TAG^{commit}")"
           git merge-base --is-ancestor "refs/tags/$RELEASE_TAG^{commit}" HEAD

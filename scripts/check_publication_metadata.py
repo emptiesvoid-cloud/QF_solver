@@ -1,4 +1,4 @@
-"""Fail closed if a tagged PyPI candidate still describes another release."""
+"""Fail closed if tagged PyPI release metadata disagrees with its source tag."""
 
 from __future__ import annotations
 
@@ -64,8 +64,9 @@ def check_publication_metadata(root: Path, tag: str) -> list[str]:
         failures.append("CHANGELOG.md has no released entry for this version")
     if f"**Current release:** [`{version}`]" not in contents["docs/index.md"]:
         failures.append("docs/index.md still advertises a different current release")
-    if f"QF Solver `{version}` is published" not in contents["docs/getting-started/installation.md"]:
-        failures.append("installation guide does not identify this published version")
+    installation = " ".join(contents["docs/getting-started/installation.md"].split())
+    if f"selected QF Solver `{version}` wheel and sdist are the audited PyPI release artifacts" not in installation:
+        failures.append("installation guide does not identify the selected artifacts for this version")
     if f"**Current release:** `{version}` / `{tag}`" not in contents["docs/capabilities/index.md"]:
         failures.append("capability index still advertises a different release")
     if f"QF Solver {version} is the current published release." not in contents["docs/reference/feuille_de_route.md"]:

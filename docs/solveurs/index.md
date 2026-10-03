@@ -12,8 +12,7 @@ approver: ""
 The route, element, formulation and evidence boundary determine which solver
 path is supported. Method names are not convergence guarantees; inspect the
 residual, conditioning, warnings and final diagnostics for every calculation.
-The latest published release is 0.2.8; this page describes candidate source
-0.2.10.
+This page describes the bounded solver and backend scope of release 0.2.10.
 
 | Analysis / backend | Status | Scope |
 | --- | --- | --- |

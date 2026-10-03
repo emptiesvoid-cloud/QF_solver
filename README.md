@@ -13,22 +13,22 @@ certified solver or a general-purpose replacement for industrial FEA software.
 
 | Item | Status |
 | --- | --- |
-| Latest published release | [`0.2.8`](https://github.com/emptiesvoid-cloud/QF_solver/releases/tag/v0.2.8) |
-| Current source version | `0.2.10` — release candidate; not published |
-| Source tag | [`v0.2.9`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.9) (source snapshot; package not published) |
-| `0.2.10` version DOI | Candidate identifier `10.5281/zenodo.23106744` is reserved, not published or citable |
+| Release line | `0.2.10` |
+| Source tag | [`v0.2.10`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.10) |
+| Selected PyPI distribution | `qf-solver==0.2.10` |
+| Version DOI | [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744) |
 | Project concept DOI | [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897) |
-| Citation metadata | [`CITATION.cff`](CITATION.cff) continues to identify published `0.2.8` |
+| Citation metadata | [`CITATION.cff`](CITATION.cff) identifies release `0.2.10` |
 
-The candidate documentation describes the development since the last public
-release, `0.2.8`; the `0.2.9` source snapshot was not a public package release.
-The candidate is not yet a final source freeze. Its prior selected-package
-audit is tied to an earlier source SHA, and the whole-repository G03 archive
-gate remains failed. A bounded package result does not clear the complete
-repository archive or authorize publication. See the [0.2.10 verification
-summary](docs/verification/0_2_10/README.md) for the exact boundaries.
+QF Solver 0.2.10 is the first public release after 0.2.8. The intervening
+`v0.2.9` tag is a source snapshot, not a PyPI, GitHub Release or Zenodo
+version. The selected wheel and sdist have a bounded release audit; the
+whole-repository G03 archive gate remains failed. GitHub-generated source
+archives are not cleared distribution artifacts. See the
+[0.2.10 verification summary](docs/verification/0_2_10/README.md) for scope
+and limitations.
 
-## 0.2.10 candidate highlights
+## 0.2.10 highlights
 
 These are development-cycle results with their recorded scopes, not a blanket
 qualification of nonlinear mechanics.
@@ -74,8 +74,8 @@ limitations](docs/etat/limites.md), and [V&V summary](docs/verification/0_2_10/R
 ### Published 0.2.8 carry-forward boundaries
 
 The existing [0.2.8 consolidated registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json)
-remains the source of truth for these published scopes; the 0.2.10 candidate
-does not rewrite them:
+remains the source of truth for these published scopes; 0.2.10 does not
+rewrite them:
 
 | Route | Published status | Boundary |
 | --- | --- | --- |
@@ -92,33 +92,31 @@ physical validation is made.
 
 ## Installation
 
-The latest published package remains `0.2.8`:
+Once the tagged release workflow has published the selected PyPI artifacts,
+install the 0.2.10 package:
 
 ```bash
-python -m pip install "qf-solver==0.2.8"
+python -m pip install "qf-solver==0.2.10"
 qf-solver --version
 ```
 
 The unpinned command `python -m pip install qf-solver` installs the latest
-version currently available from PyPI; it does not install the unpublished
-`0.2.10` source candidate. The [installation guide](docs/getting-started/installation.md)
-covers optional extras and recorded native PETSc/MPI environment boundaries.
+version currently available from PyPI. The
+[installation guide](docs/getting-started/installation.md) covers optional
+extras and recorded native PETSc/MPI environment boundaries.
 
 For a first calculation, see [Quick Start](docs/getting-started/quickstart.md).
 A separate [nonlinear example](docs/getting-started/nonlinear-example.md)
-uses a small existing TET4 input and intentionally reports the candidate
-route's engineering-profile warning.
+uses a small existing TET4 input and intentionally reports the route's
+engineering-profile warning.
 
 ## Citing QF Solver
 
-For reproducibility, cite the exact published version and its version DOI
-when one exists. The current exact-version citation is
-[`0.2.8`, DOI `10.5281/zenodo.22697898`](https://doi.org/10.5281/zenodo.22697898).
-To cite the project independent of a specific release, use the concept DOI
+For reproducibility, cite the exact version DOI for QF Solver 0.2.10:
+[`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744). To cite
+the project independent of a specific release, use the concept DOI
 [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897).
-`CITATION.cff` is the machine-readable citation record. The reserved
-candidate identifier `10.5281/zenodo.23106744` is not a published version DOI
-and must not be cited as one.
+`CITATION.cff` is the machine-readable citation record.
 
 ## Verification and scope
 
@@ -134,7 +132,7 @@ The repository distinguishes:
 - **physical validation** — comparison with physical observations, which is
   not implied by numerical verification or solver-to-solver correlation.
 
-The 0.2.10 candidate cycle has substantial bounded evidence, but its roadmap
+The 0.2.10 release includes substantial bounded evidence, but its roadmap
 score is internal and is not a public quality rating. WP14 remains `HOLD`;
 neither that score nor a passing CI workflow closes the full-repository G03
 archive gate. There is no certification, universal physical validation,

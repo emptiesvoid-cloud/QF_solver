@@ -1,26 +1,26 @@
 # Changelog
 
-## 0.2.10 - Release candidate (not published)
+## 0.2.10 - Released
 
-QF Solver 0.2.10 is being prepared as the first public release after 0.2.8.
-The `v0.2.9` source snapshot was not published as a package, GitHub Release or
-version DOI. The items below therefore summarize the development since the
-published 0.2.8 baseline. This section describes a candidate, not a completed
-release; the final source, artifact hashes and version DOI must be added only
-after their corresponding gates and publication steps actually pass.
+QF Solver 0.2.10 is the first public release after 0.2.8. The `v0.2.9` tag
+identifies a development/source snapshot, not an intervening PyPI package,
+GitHub Release, or version DOI. This release therefore summarizes the work
+since the published 0.2.8 baseline, including development from the 0.2.9
+cycle. It describes bounded capabilities and their exclusions; it does not
+claim universal validation or clear the complete repository archive.
 
 ### Added
 
 - A user-facing guide to the nonlinear architecture, bounded state lifecycle,
-  candidate mechanics evidence and a small executable nonlinear example.
+  mechanics evidence and a small executable nonlinear example.
 - A 0.2.10 capability orientation and verification summary that link back to
   the decision records without exposing the internal roadmap score as a user
   rating.
 
 ### Improved
 
-- Public pages distinguish the last published release (0.2.8) from the
-  0.2.10 source candidate and its not-yet-published version DOI.
+- Public pages distinguish the published 0.2.10 release from the historical
+  0.2.8 baseline and the 0.2.9 source-only snapshot.
 - Architecture and API pages describe the current source interfaces while
   retaining the legacy 0.2.x compatibility boundary.
 
@@ -58,28 +58,35 @@ after their corresponding gates and publication steps actually pass.
   recommended CLI. `solveur`, `solveur-ef` and the legacy launcher remain
   0.2.x compatibility paths; the existing deprecation contract targets
   removal in 0.3.0.
-- The source metadata says `0.2.10`, but no 0.2.10 package, GitHub Release,
-  final source tag or version DOI is claimed here. `CITATION.cff` remains on
-  published 0.2.8 until actual publication.
+- `qf_solver` remains the recommended Python namespace and `qf-solver` the
+  recommended CLI. `solveur`, `solveur-ef` and the legacy launcher remain
+  0.2.x compatibility paths; their planned removal in 0.3.0 is a compatibility
+  plan, not a 0.2.10 release event.
 
 ### Documentation
 
 - Added dedicated 0.2.10 What's New, nonlinear mechanics, nonlinear example
-  and candidate V&V summary pages; the historical 0.2.8 release notes remain
+  and V&V summary pages; the historical 0.2.8 release notes remain
   unchanged.
 
 ### Known limitations
 
-- This candidate description is not a final-source qualification contract.
-  The previously recorded selected-package audit is tied to an older SHA and
-  must not be presented as an audit of the eventual tagged commit.
+- Selected wheel and sdist audits apply only to the exact source and artifact
+  hashes recorded by the release contract. They do not clear GitHub-generated
+  source archives or a complete repository archive.
 - Finite-strain plasticity, general nonlinear dynamics, self-contact,
   impact, frictional updated search, finite sliding, universal nonlinear
   contact, general nonlinear MPI/PETSc, certification and universal physical
   validation remain outside the demonstrated scope.
-- The candidate Zenodo draft DOI `10.5281/zenodo.23106744` is reserved but
-  unpublished and is not a citable version DOI. No tag, package or repository
-  archive publication is authorized by this changelog entry.
+- Corotational J2 remains bounded to its accepted HEX8 scope and small local
+  strain; it is not general finite-strain multiplicative plasticity.
+- Frictional contact remains narrow and mesh-sensitive; updated search,
+  finite sliding, self-contact and impact/contact dynamics are not generally
+  qualified. Frictionless contact remains experimental and bounded.
+- General nonlinear transient dynamics, general nonlinear MPI/PETSc, solver
+  certification and universal physical validation are outside the claims.
+- WP14 remains `HOLD` and the whole-repository G03 archive gate remains
+  `FAIL`; no historical result or maturity is reclassified by this release.
 
 ## 0.2.9 - Source tagged; package release not issued
 

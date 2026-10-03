@@ -9,20 +9,21 @@ approver: ""
 
 # Installation
 
-The latest published package is QF Solver `0.2.8` on
-[PyPI](https://pypi.org/project/qf-solver/). The source tree currently
-identifies itself as `0.2.10`, a candidate that is not published. These
-commands install the latest published package; they do not install the
-candidate. See [What's New in 0.2.10](../whats-new/0.2.10.md) for the
-candidate's documented scope and [the capability index](../capabilities/index.md)
-for maturity boundaries.
+The selected QF Solver `0.2.10` wheel and sdist are the audited PyPI release
+artifacts. The tagged release workflow publishes them only after its CI and
+source-bound package gates pass. QF Solver 0.2.10 is the first public release
+after `0.2.8`; the intervening `v0.2.9` tag is a source snapshot, not a package
+release. See [What's New in 0.2.10](../whats-new/0.2.10.md) for the release
+scope and [the capability index](../capabilities/index.md) for maturity
+boundaries.
 
 ## User installation
 
-Install the published package from the package index:
+After the tagged release workflow completes the PyPI upload, install the exact
+version from the package index:
 
 ```bash
-python -m pip install "qf-solver==0.2.8"
+python -m pip install "qf-solver==0.2.10"
 qf-solver --version
 ```
 
@@ -31,7 +32,7 @@ release selector. Select the immutable release tag explicitly when
 reproducibility matters:
 
 ```bash
-git clone --branch v0.2.8 --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git
+git clone --branch v0.2.10 --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git
 cd QF_solver
 python -m pip install .
 qf-solver --version
@@ -47,7 +48,7 @@ import qf_solver
 print(qf_solver.__version__)
 ```
 
-## Optional extras in the source candidate
+## Optional extras
 
 The optional extras are intended for specific workflows:
 
@@ -63,9 +64,8 @@ python -m pip install "qf-solver[docs]"
 result dependency. `large` adds HDF5 and MPI/PETSc support used by the
 large-model route. `hpc` adds the optional SLEPc integration. `docs` adds the
 MkDocs/MkDocs Material site builder and the controlled Markdown/PDF tooling.
-These extras describe the current source candidate and are not a claim that
-the unpublished 0.2.10 artifacts are available from PyPI. They are not
-required for core import or small standard examples.
+These extras describe optional workflows. They are not required for core
+import or small standard examples.
 Calling an HDF5 API without `h5py` raises a typed `InfrastructureError`;
 importing `qf_solver` does not require `h5py`.
 
@@ -99,8 +99,8 @@ commands.
 
 ## Distribution traceability data
 
-The published 0.2.8 wheel and source distribution include only the lightweight
-0.2.8 traceability set: the consolidated 46-record element-analysis registry and the
+The published 0.2.10 wheel and source distribution include the selected
+lightweight traceability set: the consolidated 46-record element-analysis registry and the
 HEX8-SRI, mixed-dynamics, mixed-MPC, mixed-multimaterial, `.inp`, mixed-HDF5
 and contact owner/delivery records. Historical 0.2.7 capability metadata is
 retained separately.
@@ -108,6 +108,5 @@ retained separately.
 Raw NPZ/HDF5 arrays, full campaign output, caches, debug artifacts and
 temporary files are intentionally excluded from package data. They remain
 repository evidence and are not required for importing or using the base
-package. The candidate 0.2.10 package contents have not been frozen by a
-final-source contract; the old candidate build/audit is not evidence for a
-future tagged source.
+package. The selected wheel and sdist are the audited distribution artifacts;
+this does not clear the complete repository archive.

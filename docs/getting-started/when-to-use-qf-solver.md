@@ -11,9 +11,9 @@ approver: ""
 
 QF Solver is an open-source Python finite-element solver for structural
 mechanics and dynamics. It emphasizes inspectable formulations, explicit
-solver diagnostics and traceable verification evidence. The 0.2.10 source is
-a candidate; the latest published package is 0.2.8. The candidate pages below
-describe evidence from the development cycle, not a blanket maturity upgrade.
+solver diagnostics and traceable verification evidence. The 0.2.10 release is
+the first public release after 0.2.8. Its pages describe bounded evidence from
+the development cycle, not a blanket maturity upgrade.
 
 QF Solver can suit controlled analysis, solver development, computational
 mechanics research and reproducible FEM studies when the exact route appears
@@ -23,7 +23,7 @@ industrial systems.
 
 ## Current route picture
 
-| Domain | Candidate-source status | Decision boundary |
+| Domain | Status | Decision boundary |
 | --- | --- | --- |
 | Linear static TET4/TET10/HEX8/HEX20 | `QUALIFIED_BOUNDED` in the published 0.2.8 registry | Exact materials, meshes, loads and routes only. |
 | Small-strain J2, four solid families | `QUALIFIED_BOUNDED` within the recorded published scope | Does not imply finite-strain or arbitrary cyclic behavior. |
@@ -37,7 +37,7 @@ industrial systems.
 | General mixed distributed PETSc/MPI | `NOT_VALIDATED` | Historical runtime physical-balance and partition gates failed. |
 
 The internal roadmap score is not a public capability score. Read the
-[candidate V&V summary](../verification/0_2_10/README.md) for the evidence
+[0.2.10 V&V summary](../verification/0_2_10/README.md) for the evidence
 classes and provenance behind these labels.
 
 ## Good-fit workflows
@@ -48,7 +48,7 @@ QF Solver is a reasonable candidate when you need:
 - bounded structural linear static, modal or dynamic routes matching a
   documented record;
 - small-strain J2 within its declared family and material scope;
-- a controlled experiment with the candidate nonlinear driver, state
+- a controlled experiment with the nonlinear driver, state
   transaction or continuation policies;
 - numerical diagnostics and reproducible input/result artifacts;
 - a solver whose implementation, verification and maturity decisions are
@@ -57,7 +57,7 @@ QF Solver is a reasonable candidate when you need:
 For a first run, follow the [linear quick start](quickstart.md). The
 [nonlinear example](nonlinear-example.md) is a one-element TET4
 Total-Lagrangian demonstration: the solver returns a result with
-`run_verdict=WARNING` because that candidate route is not promoted to a
+`run_verdict=WARNING` because that experimental route is not promoted to a
 general qualified public capability.
 
 ## Nonlinear mechanics: what is and is not demonstrated

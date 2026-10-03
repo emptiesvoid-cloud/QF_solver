@@ -334,13 +334,13 @@ class DocumentationPublisher:
         revision = str(self.source_state["revision"])
         panels = f"""
 <div class="status-grid">
-  <section class="status-panel"><h3>Source candidate</h3><span class="value">{version}</span><span>not published; 0.2.8 is the latest published release</span></section>
-  <section class="status-panel"><h3>Evidence status</h3><span class="value">BOUNDED</span><span>0.2.8 registry remains historical authority; 0.2.10 routes are separately scoped; WP14 HOLD</span></section>
-  <section class="status-panel"><h3>Release freeze</h3><span class="value">PENDING</span><span>exact clean source SHA and package contract not yet frozen</span></section>
+  <section class="status-panel"><h3>Project version</h3><span class="value">{version}</span><span>release status and citation identifiers are maintained in README and CITATION.cff</span></section>
+  <section class="status-panel"><h3>Evidence status</h3><span class="value">BOUNDED</span><span>0.2.8 registry remains historical authority; 0.2.10 routes are separately scoped; WP14 HOLD and G03 FAIL</span></section>
+  <section class="status-panel"><h3>Distribution scope</h3><span class="value">SELECTED</span><span>wheel and sdist only; whole-repository source archives are not cleared</span></section>
 </div>
 
 The 0.2.8 published registry remains bounded at its declared historical
-boundaries. The full-suite test inventory is recorded by the final Gate-E evidence; this generated overview deliberately does not hard-code a collection count. Candidate 0.2.10 evidence and limitations are summarized separately; it is not a publication or source-freeze assertion.
+boundaries. The full-suite test inventory is recorded by the final Gate-E evidence; this generated overview deliberately does not hard-code a collection count. The 0.2.10 evidence and limitations are summarized separately; this status panel does not assert that the complete repository archive passed G03.
 
 | Scope | Maturity | Public boundary |
 | --- | --- | --- |
