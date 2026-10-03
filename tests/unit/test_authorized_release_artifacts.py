@@ -66,31 +66,31 @@ def test_extra_assets_are_not_silently_published(tmp_path: Path) -> None:
 
 
 def test_owner_authorization_pins_exact_source_and_package_hashes() -> None:
-    source = "b453265d5e61acd5f91cfc3aa236ee8b85344033"
+    source = "e535ff63464ddd7d76c2898df25470350b5154f1"
     contract: dict[str, object] = {
         "source_sha": source,
         "tag_target_sha": source,
         "release_tag": "v0.2.10",
         "audited_artifacts": {
-            "wheel": {"filename": "qf_solver-0.2.10-py3-none-any.whl", "bytes": 1509431, "sha256": "5c97d11cdc199512658ca3067b16beb7d72a2f6a183a171db5e921884709ca10"},
-            "sdist": {"filename": "qf_solver-0.2.10.tar.gz", "bytes": 1114202, "sha256": "35ce10458e84425558396f1246b55e217734e0fa0189df242fbc2242bca9099d"},
+            "wheel": {"filename": "qf_solver-0.2.10-py3-none-any.whl", "bytes": 1509431, "sha256": "61641c97860cb25fb4c7a01e5c7ab724dc58616b97802cea2b9926fd10912454"},
+            "sdist": {"filename": "qf_solver-0.2.10.tar.gz", "bytes": 1114201, "sha256": "82e54d0d5d05c1ff224e1af72f90d0bbd84e13e93f7cc5f881ccd16242e4f3f3"},
         },
-        "sha256_manifest": {"filename": "qf_solver-0.2.10-SHA256SUMS.txt", "bytes": 190, "sha256": "fbe097e7d785d9d0c63cc16f562a32166da3aca300fc0693ef1777ba3bd85d7a"},
+        "sha256_manifest": {"filename": "qf_solver-0.2.10-e535ff-SHA256SUMS.txt", "bytes": 190, "sha256": "a8d7e13cd3bf5292b9b941975d569512fed9c4985a9f9d7cd8a5c9efe9af6287"},
     }
     owner = {
-        "record_id": "QF-0210-OWNER-PUBLICATION-REAUTHORIZATION-B453265D",
+        "record_id": "QF-0210-OWNER-PUBLICATION-REAUTHORIZATION-E535FF63464D",
         "decision": "AUTHORIZE_V0_2_10_PUBLICATION",
         "version": "0.2.10",
         "authorized_source_sha": source,
         "authorized_tag": "v0.2.10",
         "authorized_tag_target_sha": source,
-        "authorized_wheel_sha256": "5c97d11cdc199512658ca3067b16beb7d72a2f6a183a171db5e921884709ca10",
-        "authorized_sdist_sha256": "35ce10458e84425558396f1246b55e217734e0fa0189df242fbc2242bca9099d",
-        "authorized_manifest_sha256": "fbe097e7d785d9d0c63cc16f562a32166da3aca300fc0693ef1777ba3bd85d7a",
+        "authorized_wheel_sha256": "61641c97860cb25fb4c7a01e5c7ab724dc58616b97802cea2b9926fd10912454",
+        "authorized_sdist_sha256": "82e54d0d5d05c1ff224e1af72f90d0bbd84e13e93f7cc5f881ccd16242e4f3f3",
+        "authorized_manifest_sha256": "a8d7e13cd3bf5292b9b941975d569512fed9c4985a9f9d7cd8a5c9efe9af6287",
         "authorized_artifacts": {
-            "wheel": {"filename": "qf_solver-0.2.10-py3-none-any.whl", "bytes": 1509431, "sha256": "5c97d11cdc199512658ca3067b16beb7d72a2f6a183a171db5e921884709ca10"},
-            "sdist": {"filename": "qf_solver-0.2.10.tar.gz", "bytes": 1114202, "sha256": "35ce10458e84425558396f1246b55e217734e0fa0189df242fbc2242bca9099d"},
-            "manifest": {"filename": "qf_solver-0.2.10-SHA256SUMS.txt", "bytes": 190, "sha256": "fbe097e7d785d9d0c63cc16f562a32166da3aca300fc0693ef1777ba3bd85d7a"},
+            "wheel": {"filename": "qf_solver-0.2.10-py3-none-any.whl", "bytes": 1509431, "sha256": "61641c97860cb25fb4c7a01e5c7ab724dc58616b97802cea2b9926fd10912454"},
+            "sdist": {"filename": "qf_solver-0.2.10.tar.gz", "bytes": 1114201, "sha256": "82e54d0d5d05c1ff224e1af72f90d0bbd84e13e93f7cc5f881ccd16242e4f3f3"},
+            "manifest": {"filename": "qf_solver-0.2.10-e535ff-SHA256SUMS.txt", "bytes": 190, "sha256": "a8d7e13cd3bf5292b9b941975d569512fed9c4985a9f9d7cd8a5c9efe9af6287"},
         },
         "authorization": {
             "selected_package_publication_allowed": True,

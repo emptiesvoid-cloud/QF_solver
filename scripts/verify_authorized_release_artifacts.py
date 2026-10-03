@@ -35,33 +35,33 @@ else:
     )
 
 
-OWNER_REAUTHORIZATION_PATH = "qualification/0_2_10/owner_publication_reauthorization_b453265d.json"
-OWNER_REAUTHORIZATION_COMMIT = "e350ef870dfa5182a4e25c79c07ce04b974d5568"
-OWNER_REAUTHORIZATION_SHA256 = "8d684c17345f827ea70ab647c2e38cd4b3b711e0e8925207c09881f3582b20a7"
-OWNER_REAUTHORIZATION_ID = "QF-0210-OWNER-PUBLICATION-REAUTHORIZATION-B453265D"
-AUTHORIZED_SOURCE_SHA = "b453265d5e61acd5f91cfc3aa236ee8b85344033"
+OWNER_REAUTHORIZATION_PATH = "qualification/0_2_10/owner_publication_reauthorization_e535ff.json"
+OWNER_REAUTHORIZATION_COMMIT = "a2eb6ac4b091725bd05393fb3b1115f836953e81"
+OWNER_REAUTHORIZATION_SHA256 = "485e7c2f612b470be4443e36e1ec46ec43346828338212093c58f63039cb4572"
+OWNER_REAUTHORIZATION_ID = "QF-0210-OWNER-PUBLICATION-REAUTHORIZATION-E535FF63464D"
+AUTHORIZED_SOURCE_SHA = "e535ff63464ddd7d76c2898df25470350b5154f1"
 AUTHORIZED_TAG = "v0.2.10"
 AUTHORIZED_ARTIFACTS = {
     "wheel": {
         "filename": "qf_solver-0.2.10-py3-none-any.whl",
         "bytes": 1509431,
-        "sha256": "5c97d11cdc199512658ca3067b16beb7d72a2f6a183a171db5e921884709ca10",
+        "sha256": "61641c97860cb25fb4c7a01e5c7ab724dc58616b97802cea2b9926fd10912454",
     },
     "sdist": {
         "filename": "qf_solver-0.2.10.tar.gz",
-        "bytes": 1114202,
-        "sha256": "35ce10458e84425558396f1246b55e217734e0fa0189df242fbc2242bca9099d",
+        "bytes": 1114201,
+        "sha256": "82e54d0d5d05c1ff224e1af72f90d0bbd84e13e93f7cc5f881ccd16242e4f3f3",
     },
     "manifest": {
-        "filename": "qf_solver-0.2.10-SHA256SUMS.txt",
+        "filename": "qf_solver-0.2.10-e535ff-SHA256SUMS.txt",
         "bytes": 190,
-        "sha256": "fbe097e7d785d9d0c63cc16f562a32166da3aca300fc0693ef1777ba3bd85d7a",
+        "sha256": "a8d7e13cd3bf5292b9b941975d569512fed9c4985a9f9d7cd8a5c9efe9af6287",
     },
 }
 SUPERSEDED_OWNER_RECORD = {
-    "path": "qualification/0_2_10/owner_publication_authorization.json",
-    "commit_sha": "61e692cddb3e6feb3c6006beec6d2f2b55205f15",
-    "sha256": "65999315d3e2950c6a734092d3c1417dd53c332e220bb90257d762fd91c90c99",
+    "path": "qualification/0_2_10/owner_publication_reauthorization_b453265d.json",
+    "commit_sha": "e350ef870dfa5182a4e25c79c07ce04b974d5568",
+    "sha256": "8d684c17345f827ea70ab647c2e38cd4b3b711e0e8925207c09881f3582b20a7",
     "historical_record_preserved": True,
 }
 
@@ -267,7 +267,7 @@ def _validate_superseded_owner_record(
         raise ValueError("The superseded Owner record reference differs from the prospective contract.")
     commit = previous.get("commit_sha")
     if (
-        owner_record.get("supersedes_for_release") != "QF-0210-OWNER-PUBLICATION-AUTHORIZATION-2026-10-03"
+        owner_record.get("supersedes_for_release") != "QF-0210-OWNER-PUBLICATION-REAUTHORIZATION-B453265D"
         or git_run(["merge-base", "--is-ancestor", commit, contract["source_sha"]], cwd=root).returncode
     ):
         raise ValueError("The reauthorization does not supersede the exact historical decision for this release.")
@@ -281,7 +281,9 @@ def _validate_superseded_owner_record(
     historical = json.loads(historical_bytes)
     if historical.get("record_id") != owner_record.get("supersedes_for_release"):
         raise ValueError("The historical Owner record identity does not match the superseded decision.")
-    old_source = historical.get("provenance", {}).get("audited_package_source_sha")
+    old_source = historical.get("authorized_source_sha") or historical.get("provenance", {}).get(
+        "audited_package_source_sha"
+    )
     if old_source == contract.get("source_sha"):
         raise ValueError("The prospective record must bind a distinct later candidate, not rewrite the prior decision.")
 
