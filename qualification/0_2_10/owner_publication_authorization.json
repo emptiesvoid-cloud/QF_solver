@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0210-OWNER-PUBLICATION-AUTHORIZATION-2026-10-03",
+  "decision": "AUTHORIZE_V0_2_10_PUBLICATION",
+  "decision_authority": "Repository Owner",
+  "decision_date": "2026-10-03",
+  "version": "0.2.10",
+  "status": "OWNER_ACCEPTED_SELECTED_DISTRIBUTION_PUBLICATION",
+  "provenance": {
+    "audited_package_source_sha": "6b5562d318f2fd55e3e122190e8078906a94f119",
+    "final_candidate_contract_commit_sha": "7315f9f70c635a449f20c89cf2e8fa293ee5c4bf",
+    "quality_ci": {
+      "workflow": "Quality and verification",
+      "run_number": 182,
+      "run_id": "37108431922",
+      "commit_sha": "7315f9f70c635a449f20c89cf2e8fa293ee5c4bf",
+      "conclusion": "SUCCESS",
+      "jobs": {
+        "ubuntu_python_3_10": "PASS",
+        "ubuntu_python_3_13": "PASS",
+        "windows_python_3_10": "PASS",
+        "windows_python_3_13": "PASS",
+        "wp14_recovered_evidence_targeted": "PASS",
+        "documentation_evidence": "PASS",
+        "full_engineering_campaign": "PASS"
+      },
+      "accepted_nonblocking_infrastructure_warnings": [
+        "GitHub Actions Node 20 to Node 24 runtime transition notices.",
+        "ubuntu-latest future runner-image migration notice."
+      ]
+    },
+    "documentation_ci": {
+      "workflow": "Documentation tests",
+      "run_number": 60,
+      "run_id": "37108499563",
+      "commit_sha": "7315f9f70c635a449f20c89cf2e8fa293ee5c4bf",
+      "conclusion": "SUCCESS"
+    }
+  },
+  "audited_distribution": {
+    "scope": "Selected QF Solver Python wheel and sdist only; not the whole-repository source archive.",
+    "wheel": {
+      "filename": "qf_solver-0.2.10-py3-none-any.whl",
+      "sha256": "cead9603cadd05222287779746ab1adce07580a9fa832e3cd7c7504d8ad83231"
+    },
+    "sdist": {
+      "filename": "qf_solver-0.2.10.tar.gz",
+      "sha256": "01c9034286c12e48b82c4e367c851025504a627f5738fe13cf7717ddd48e23a8"
+    },
+    "selected_package_scan": {
+      "status": "PASS",
+      "files_scanned": 551,
+      "findings": 0
+    },
+    "served_documentation_scan": {
+      "status": "PASS",
+      "documents_scanned": 749,
+      "findings": 0
+    },
+    "installed_package_probes": "PASS",
+    "twine_check": "PASS"
+  },
+  "authorization": {
+    "selected_package_publication_allowed": true,
+    "tag_creation_allowed": true,
+    "pypi_publication_allowed": true,
+    "github_release_allowed": true,
+    "zenodo_selected_artifact_publication_allowed": true,
+    "citation_update_allowed_after_version_doi_is_registered": true,
+    "whole_repository_archive_publication_allowed": false,
+    "whole_repository_archive_cleared": false,
+    "ledger_update_allowed": false,
+    "wp14_promotion_allowed": false,
+    "numeric_maturity_promotion_allowed": false,
+    "historical_result_reclassification_allowed": false,
+    "certification_or_universal_validation_claims_allowed": false
+  },
+  "owner_acceptance": {
+    "residual_deviations_accepted_as_nonblocking_for_the_selected_distribution": true,
+    "technical_results_or_historical_findings_changed": false,
+    "detail": "The Owner accepts the currently identified residual deviations for publication of the selected 0.2.10 distribution. This decision does not change G03, clear a whole-repository archive, promote numerical maturities, generalize experimental evidence, reclassify historical failures, or claim certification or universal validation."
+  },
+  "release_identifiers": {
+    "version_doi": "10.5281/zenodo.23106744",
+    "version_doi_state_at_decision": "Reserved in an unpublished draft; not yet registered or citable.",
+    "concept_doi": "10.5281/zenodo.22697897",
+    "last_published_version_at_decision": "0.2.8"
+  },
+  "tag_policy": {
+    "tag": "v0.2.10",
+    "tag_commit_must_be_determined_from_repository_release_policy": true,
+    "tag_must_not_be_moved_after_creation": true,
+    "selected_package_source_sha_remains": "6b5562d318f2fd55e3e122190e8078906a94f119",
+    "whole_repository_gate_waiver": false
+  },
+  "publication_constraints": [
+    "Publish only the selected, audited package artifacts and verify their exact SHA-256 values immediately before upload.",
+    "Do not describe GitHub-generated source archives or a complete repository Zenodo archive as audited or cleared while G03 remains FAIL.",
+    "Keep G03 as FAIL_PRESERVED and WHOLE_REPOSITORY_ARCHIVE_CLEARED as false.",
+    "Do not present the version DOI as registered or citable until the Zenodo record is actually published and resolves.",
+    "If final metadata changes any wheel or sdist bytes, rebuild, re-audit, and publish only the newly verified bytes.",
+    "Preserve all technical limitations, experimental classifications, maturity levels, and historical results."
+  ],
+  "preserved_gates": {
+    "g03_status": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "wp14_status": "HOLD_NOT_PROMOTED"
+  }
+}
