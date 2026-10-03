@@ -35,6 +35,37 @@ else:
     )
 
 
+OWNER_REAUTHORIZATION_PATH = "qualification/0_2_10/owner_publication_reauthorization_b453265d.json"
+OWNER_REAUTHORIZATION_COMMIT = "e350ef870dfa5182a4e25c79c07ce04b974d5568"
+OWNER_REAUTHORIZATION_SHA256 = "8d684c17345f827ea70ab647c2e38cd4b3b711e0e8925207c09881f3582b20a7"
+OWNER_REAUTHORIZATION_ID = "QF-0210-OWNER-PUBLICATION-REAUTHORIZATION-B453265D"
+AUTHORIZED_SOURCE_SHA = "b453265d5e61acd5f91cfc3aa236ee8b85344033"
+AUTHORIZED_TAG = "v0.2.10"
+AUTHORIZED_ARTIFACTS = {
+    "wheel": {
+        "filename": "qf_solver-0.2.10-py3-none-any.whl",
+        "bytes": 1509431,
+        "sha256": "5c97d11cdc199512658ca3067b16beb7d72a2f6a183a171db5e921884709ca10",
+    },
+    "sdist": {
+        "filename": "qf_solver-0.2.10.tar.gz",
+        "bytes": 1114202,
+        "sha256": "35ce10458e84425558396f1246b55e217734e0fa0189df242fbc2242bca9099d",
+    },
+    "manifest": {
+        "filename": "qf_solver-0.2.10-SHA256SUMS.txt",
+        "bytes": 190,
+        "sha256": "fbe097e7d785d9d0c63cc16f562a32166da3aca300fc0693ef1777ba3bd85d7a",
+    },
+}
+SUPERSEDED_OWNER_RECORD = {
+    "path": "qualification/0_2_10/owner_publication_authorization.json",
+    "commit_sha": "61e692cddb3e6feb3c6006beec6d2f2b55205f15",
+    "sha256": "65999315d3e2950c6a734092d3c1417dd53c332e220bb90257d762fd91c90c99",
+    "historical_record_preserved": True,
+}
+
+
 def _relative_path(value: str) -> str:
     if not isinstance(value, str) or not value or "\\" in value:
         raise ValueError("Contract paths must use non-empty canonical POSIX paths.")
@@ -134,32 +165,125 @@ def verify_artifact_set(dist: Path, contract: dict[str, Any]) -> dict[str, Any]:
 
 def validate_owner_artifact_scope(contract: dict[str, Any], owner_record: dict[str, Any]) -> None:
     """Require a prospective release to stay inside the Owner's exact source and byte authorization."""
-    provenance = owner_record.get("provenance")
-    tag_policy = owner_record.get("tag_policy")
-    distribution = owner_record.get("audited_distribution")
-    if not isinstance(provenance, dict) or not isinstance(tag_policy, dict) or not isinstance(distribution, dict):
-        raise ValueError("The Owner authorization lacks source/tag/artifact provenance.")
-    approved_source = provenance.get("audited_package_source_sha")
+    approved_source = owner_record.get("authorized_source_sha")
     if (
-        contract.get("source_sha") != approved_source
+        owner_record.get("record_id") != OWNER_REAUTHORIZATION_ID
+        or owner_record.get("decision") != "AUTHORIZE_V0_2_10_PUBLICATION"
+        or owner_record.get("version") != "0.2.10"
+        or approved_source != AUTHORIZED_SOURCE_SHA
+        or contract.get("source_sha") != AUTHORIZED_SOURCE_SHA
         or contract.get("tag_target_sha") != approved_source
-        or tag_policy.get("selected_package_source_sha_remains") != approved_source
+        or owner_record.get("authorized_tag_target_sha") != approved_source
+        or owner_record.get("authorized_tag") != AUTHORIZED_TAG
+        or contract.get("release_tag") != AUTHORIZED_TAG
     ):
         raise ValueError("The candidate source differs from the exact source accepted by the Owner.")
 
     artifacts = contract.get("audited_artifacts")
-    if not isinstance(artifacts, dict):
+    approved_artifacts = owner_record.get("authorized_artifacts")
+    if not isinstance(artifacts, dict) or not isinstance(approved_artifacts, dict):
         raise ValueError("The prospective release does not bind the Owner-authorized package bytes.")
-    for kind in ("wheel", "sdist"):
-        approved = distribution.get(kind)
-        candidate = artifacts.get(kind)
+    for kind in ("wheel", "sdist", "manifest"):
+        approved = approved_artifacts.get(kind)
+        candidate = contract.get("sha256_manifest") if kind == "manifest" else artifacts.get(kind)
+        if not isinstance(approved, dict) or not isinstance(candidate, dict) or approved != AUTHORIZED_ARTIFACTS[kind]:
+            raise ValueError(f"The Owner authorization lacks the exact {kind} artifact binding.")
         if (
-            not isinstance(approved, dict)
-            or not isinstance(candidate, dict)
-            or candidate.get("filename") != approved.get("filename")
+            candidate.get("filename") != approved.get("filename")
+            or candidate.get("bytes") != approved.get("bytes")
             or candidate.get("sha256") != approved.get("sha256")
         ):
             raise ValueError(f"The candidate {kind} bytes differ from the exact artifact accepted by the Owner.")
+
+    required_authorization = {
+        "selected_package_publication_allowed": True,
+        "tag_creation_allowed": True,
+        "pypi_publication_allowed": True,
+        "github_release_allowed": True,
+        "zenodo_selected_artifact_publication_allowed": True,
+        "whole_repository_archive_cleared": False,
+        "whole_repository_archive_publication_allowed": False,
+        "ledger_update_allowed": False,
+        "wp14_promotion_allowed": False,
+        "numeric_maturity_promotion_allowed": False,
+        "historical_result_reclassification_allowed": False,
+        "certification_or_universal_validation_claims_allowed": False,
+    }
+    if owner_record.get("authorization") != required_authorization:
+        raise ValueError("The Owner authorization permissions broaden or weaken the selected-release boundary.")
+    required_top_level_flags = {
+        "selected_package_publication_allowed": True,
+        "tag_creation_allowed": True,
+        "pypi_publication_allowed": True,
+        "github_release_allowed": True,
+        "zenodo_selected_artifact_publication_allowed": True,
+        "whole_repository_archive_cleared": False,
+        "whole_repository_archive_publication_allowed": False,
+        "wp14_promotion_allowed": False,
+        "numeric_maturity_promotion_allowed": False,
+        "historical_result_reclassification_allowed": False,
+        "ledger_update_allowed": False,
+        "certification_or_universal_validation_claims_allowed": False,
+    }
+    if any(owner_record.get(key) is not expected for key, expected in required_top_level_flags.items()):
+        raise ValueError("The Owner record's direct permissions broaden or weaken the selected-release boundary.")
+    required_hashes = {
+        "authorized_wheel_sha256": approved_artifacts["wheel"].get("sha256"),
+        "authorized_sdist_sha256": approved_artifacts["sdist"].get("sha256"),
+        "authorized_manifest_sha256": approved_artifacts["manifest"].get("sha256"),
+    }
+    if any(owner_record.get(key) != expected for key, expected in required_hashes.items()):
+        raise ValueError("The Owner record's direct artifact hashes differ from its exact artifact bindings.")
+    required_preserved = {
+        "g03_status": "FAIL_PRESERVED",
+        "whole_repository_archive_cleared": False,
+        "wp14_status": "HOLD_NOT_PROMOTED",
+        "numeric_maturity_promotion_allowed": False,
+        "historical_result_reclassification_allowed": False,
+        "ledger_update_allowed": False,
+    }
+    if any(owner_record.get(key) != expected for key, expected in required_preserved.items()):
+        raise ValueError("The Owner record changes the preserved release boundary.")
+    if owner_record.get("whole_repository_archive_publication_allowed") is not False:
+        raise ValueError("The Owner record permits whole-repository archive publication despite G03.")
+    expected_gate_summary = {
+        "g03_status": "FAIL_PRESERVED",
+        "whole_repository_archive_cleared": False,
+        "wp14_status": "HOLD_NOT_PROMOTED",
+    }
+    if owner_record.get("preserved_gates") != expected_gate_summary:
+        raise ValueError("The Owner record's preserved gate summary is inconsistent.")
+
+
+def _validate_superseded_owner_record(
+    root: Path, head: str, owner_record: dict[str, Any], contract: dict[str, Any],
+) -> None:
+    previous = owner_record.get("superseded_record")
+    previous_contract = contract.get("superseded_owner_authorization")
+    if not isinstance(previous, dict) or not isinstance(previous_contract, dict):
+        raise ValueError("The prospective reauthorization must identify the preserved historical Owner record.")
+    path = _relative_path(previous.get("path", ""))
+    if previous != SUPERSEDED_OWNER_RECORD or previous != previous_contract:
+        raise ValueError("The superseded Owner record reference differs from the prospective contract.")
+    commit = previous.get("commit_sha")
+    if (
+        owner_record.get("supersedes_for_release") != "QF-0210-OWNER-PUBLICATION-AUTHORIZATION-2026-10-03"
+        or git_run(["merge-base", "--is-ancestor", commit, contract["source_sha"]], cwd=root).returncode
+    ):
+        raise ValueError("The reauthorization does not supersede the exact historical decision for this release.")
+    historical_bytes = git_run(["show", f"{commit}:{path}"], cwd=root, check=True).stdout
+    current_bytes = _committed_bytes(root, head, path)
+    if (
+        hashlib.sha256(historical_bytes).hexdigest() != previous.get("sha256")
+        or hashlib.sha256(current_bytes).hexdigest() != previous.get("sha256")
+    ):
+        raise ValueError("The historical Owner record was changed or does not match its recorded hash.")
+    historical = json.loads(historical_bytes)
+    if historical.get("record_id") != owner_record.get("supersedes_for_release"):
+        raise ValueError("The historical Owner record identity does not match the superseded decision.")
+    old_source = historical.get("provenance", {}).get("audited_package_source_sha")
+    if old_source == contract.get("source_sha"):
+        raise ValueError("The prospective record must bind a distinct later candidate, not rewrite the prior decision.")
 
 
 def _validate_contract(root: Path, contract_path: Path, candidate_path: Path) -> tuple[
@@ -210,24 +334,47 @@ def _validate_contract(root: Path, contract_path: Path, candidate_path: Path) ->
     owner = release_contract.get("owner_authorization", {})
     owner_path = _relative_path(owner.get("path", ""))
     owner_commit = owner.get("commit_sha")
+    if (
+        owner_path != OWNER_REAUTHORIZATION_PATH
+        or owner_commit != OWNER_REAUTHORIZATION_COMMIT
+        or owner.get("sha256") != OWNER_REAUTHORIZATION_SHA256
+        or owner.get("record_id") != OWNER_REAUTHORIZATION_ID
+    ):
+        raise ValueError("The release contract does not bind the exact prospective Owner reauthorization.")
     owner_bytes = _committed_bytes(root, head, owner_path)
     owner_record = json.loads(owner_bytes)
     recorded_owner_bytes = git_run(["show", f"{owner_commit}:{owner_path}"], cwd=root, check=True).stdout
     if (
         hashlib.sha256(owner_bytes).hexdigest() != owner.get("sha256")
         or hashlib.sha256(recorded_owner_bytes).hexdigest() != owner.get("sha256")
-        or git_run(["merge-base", "--is-ancestor", owner_commit, source_sha], cwd=root).returncode
-        or owner_record.get("decision") != "AUTHORIZE_V0_2_10_PUBLICATION"
+        or git_run(["merge-base", "--is-ancestor", owner_commit, head], cwd=root).returncode
+        or git_run(["merge-base", "--is-ancestor", source_sha, owner_commit], cwd=root).returncode
     ):
-        raise ValueError("The original Owner authorization record is missing, changed, or not an ancestor of the source.")
+        raise ValueError("The prospective Owner reauthorization is missing, changed, or out of source/governance order.")
+    if (
+        owner.get("record_id") != owner_record.get("record_id")
+        or owner.get("supersedes_for_release") != owner_record.get("supersedes_for_release")
+        or owner_record.get("status") != "OWNER_REAUTHORIZED_LATER_AUDITED_RELEASE_CANDIDATE"
+    ):
+        raise ValueError("The contract does not identify the exact prospective Owner reauthorization.")
+    _validate_superseded_owner_record(root, head, owner_record, release_contract)
     validate_owner_artifact_scope(release_contract, owner_record)
-    allowed = owner_record.get("authorization", {})
-    for key in (
-        "selected_package_publication_allowed", "tag_creation_allowed", "pypi_publication_allowed",
-        "github_release_allowed", "zenodo_selected_artifact_publication_allowed",
+    resolution = release_contract.get("authorization_resolution", {})
+    resolution_hashes = {
+        "owner_approved_wheel_sha256": release_contract["audited_artifacts"]["wheel"]["sha256"],
+        "candidate_wheel_sha256": release_contract["audited_artifacts"]["wheel"]["sha256"],
+        "owner_approved_sdist_sha256": release_contract["audited_artifacts"]["sdist"]["sha256"],
+        "candidate_sdist_sha256": release_contract["audited_artifacts"]["sdist"]["sha256"],
+        "owner_approved_manifest_sha256": release_contract["sha256_manifest"]["sha256"],
+        "candidate_manifest_sha256": release_contract["sha256_manifest"]["sha256"],
+    }
+    if (
+        resolution.get("status") != "RESOLVED_BY_OWNER_REAUTHORIZATION"
+        or resolution.get("owner_approved_source_sha") != source_sha
+        or resolution.get("candidate_source_sha") != source_sha
+        or any(resolution.get(key) != value for key, value in resolution_hashes.items())
     ):
-        if allowed.get(key) is not True:
-            raise ValueError(f"The Owner record does not authorize {key}.")
+        raise ValueError("The release contract's Owner reauthorization resolution is stale or inconsistent.")
 
     required_authority = {
         "selected_package_publication_allowed": True,
@@ -236,10 +383,12 @@ def _validate_contract(root: Path, contract_path: Path, candidate_path: Path) ->
         "github_release_allowed": True,
         "zenodo_selected_artifact_publication_allowed": True,
         "whole_repository_archive_cleared": False,
+        "whole_repository_archive_publication_allowed": False,
         "ledger_update_allowed": False,
         "wp14_promotion_allowed": False,
         "numeric_maturity_promotion_allowed": False,
         "historical_result_reclassification_allowed": False,
+        "certification_or_universal_validation_claims_allowed": False,
     }
     if release_contract.get("authorization") != required_authority:
         raise ValueError("The prospective release contract broadens or weakens the Owner's bounded authority.")
