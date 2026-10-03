@@ -1,6 +1,6 @@
 | ID | Title | Status | Requirements | Examples | Tests | Source |
 | --- | --- | --- | --- | --- | --- | --- |
-| DOC-STATE-001 | QF Solver 0.2.8 | controlled | REQ-AUD-001, REQ-CMP-001 | 1 | 1 | index.md |
+| DOC-STATE-001 | QF Solver 0.2.10 | controlled | REQ-AUD-001, REQ-CMP-001 | 1 | 1 | index.md |
 | DOC-VNV-CODEASTER-CAMPAIGN-2026-08-14 | Campagne de correlation Code_Aster du 2026-08-14 | ready_for_owner_review | REQ-CMP-003, REQ-AUD-001 | 1 | 3 | verification/code_aster_correlation_campaign_2026-08-14.md |
 | DOC-STATE-002 | Capabilities and maturity | controlled | REQ-CMP-001, REQ-REL-001 | 0 | 0 | etat/capacites.md |
 | DOC-STATE-003 | Known limitations | controlled | REQ-CMP-002, REQ-REL-001 | 0 | 0 | etat/limites.md |

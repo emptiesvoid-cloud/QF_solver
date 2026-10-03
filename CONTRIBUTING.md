@@ -16,8 +16,9 @@ cases.
 
 ## Current release state
 
-The latest published release is QF Solver `0.2.10` (`v0.2.10`). New changes
-on the default branch do not change the published scope. The public
+QF Solver `0.2.10` (`v0.2.10` when tagged) is the selected release line.
+Check [PyPI](https://pypi.org/project/qf-solver/) for the latest published
+package. New changes on the default branch do not change a published scope. The public
 [capability index](docs/capabilities/index.md) and [V&V/maturity guide](docs/verification/evidence-and-maturity.md)
 define the current bounded scope; historical 0.2.7 evidence must remain
 unchanged.

@@ -10,9 +10,10 @@ approver: ""
 # QF Solver 0.2.10
 
 QF Solver is an inspectable Python finite-element solver for structural
-mechanics. **Current release:** [`0.2.10`](https://pypi.org/project/qf-solver/0.2.10/).
-The package is available on [PyPI](https://pypi.org/project/qf-solver/), and
-the selected distribution archive is preserved at [Zenodo](https://doi.org/10.5281/zenodo.23106744).
+mechanics. **Selected release line:** `0.2.10`. Check
+[PyPI](https://pypi.org/project/qf-solver/) for package availability. The
+version DOI `10.5281/zenodo.23106744` is reserved; cite it only after the
+selected Zenodo deposit is published.
 Claims are bounded by the active consolidated registry, separate
 workflow/capability records and their linked evidence.
 
@@ -84,16 +85,16 @@ passed at its frozen source revision, while the full repository archive remains
 outside that scope and fails the public-content scan. The source tag does not
 clear the full archive for distribution. The
 [known limitations](etat/limites.md) and recorded failures remain visible.
-The current published release is `0.2.10` as linked above. See the
+The selected release line is `0.2.10`; publication status is determined by PyPI. See the
 [public roadmap](reference/feuille_de_route.md) for product-level next steps.
-The Zenodo version DOI is `10.5281/zenodo.23106744`; that record preserves
-the selected distribution artifacts and checksums. The whole-repository
+The assigned Zenodo version DOI is `10.5281/zenodo.23106744`; the planned
+record is limited to selected distribution artifacts and checksums. The whole-repository
 archive still fails G03 and is not a release artifact. The `v0.2.9` source
 tag remains unchanged, and WP14 has not been promoted.
 Historical qualification records remain available for provenance and are
 labelled as historical in their own pages.
 
-Read [What's New in 0.2.10](whats-new/0.2.10.md) for the published release
+Read [What's New in 0.2.10](whats-new/0.2.10.md) for the selected release
 summary.
 
 ## Performance and reproducibility

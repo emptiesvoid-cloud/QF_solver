@@ -70,16 +70,17 @@ def test_public_release_copy_distinguishes_package_and_source_only_tag() -> None
         "(source snapshot; package not published)"
         in readme
     )
-    assert "The current published release is `0.2.10`" in index
-    assert "0.2.10 is the current published release" in roadmap
+    assert "The selected release line is `0.2.10`" in index
+    assert "0.2.10 is the selected release line" in roadmap
     assert (
         "0.2.9 source was integrated into `main` and tagged `v0.2.9` "
         "without a package or version DOI"
         in " ".join(roadmap.split())
     )
     assert "Public 0.2.10 architecture and carried evidence" in architecture
-    assert "published 0.2.10 package scope" in open_source
-    assert "0.2.10 is a publication candidate" not in roadmap
+    assert "selected 0.2.10 package scope" in open_source
+    assert "published 0.2.10 package" not in open_source
+    assert "not evidence that a tag" in readme
     assert "10.5281/zenodo.23106744" in readme
     assert "10.5281/zenodo.23106744" in index
     assert "selected wheel, source distribution and checksums" in readme

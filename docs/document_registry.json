@@ -11,7 +11,7 @@
     {
       "id": "DOC-STATE-001",
       "path": "index.md",
-      "title": "QF Solver 0.2.8",
+      "title": "QF Solver 0.2.10",
       "status": "controlled",
       "requirements": [
         "REQ-AUD-001",

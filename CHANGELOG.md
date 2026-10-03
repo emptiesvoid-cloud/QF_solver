@@ -1,17 +1,18 @@
 # Changelog
 
-## 0.2.10 - Released
+## 0.2.10 - Release scope (check PyPI for publication status)
 
 - The selected Python wheel and source distribution carry the 0.2.10 package
   identity. This follows the immutable `v0.2.9` source-only snapshot, which
   was not a PyPI package release.
-- The version DOI is `10.5281/zenodo.23106744`. Its Zenodo deposit contains
-  the explicitly selected Python distribution artifacts and their checksums,
+- The assigned version DOI is `10.5281/zenodo.23106744`. It is citable only
+  after the Zenodo deposit is published. The planned deposit contains the
+  explicitly selected Python distribution artifacts and their checksums,
   not the complete GitHub repository archive.
 - The public package and served documentation have separate bounded audits.
   These do not clear the full-repository G03 archive, promote WP14, alter
   historical failures, or expand any element/analysis/solver-route claim.
-- Release artifacts and CI apply to the exact `v0.2.10` source revision. See
+- Release artifacts and CI must apply to the exact `v0.2.10` source revision. See
   [the release notes](docs/whats-new/0.2.10.md) for user-facing scope and
   [known limitations](docs/etat/limites.md) before relying on a result.
 
@@ -23,8 +24,7 @@
   repository or broaden route-specific claims.
 - `v0.2.9` identifies the source snapshot. No 0.2.9 GitHub Release, version
   DOI, Zenodo archive or PyPI package was issued for 0.2.9. The `0.2.8`
-  release and citation remained authoritative until the later 0.2.10
-  publication.
+  release and citation remain authoritative until a later publication.
 - Earlier bounded checks of selected installable sources and public documents
   passed at their frozen source revision, but the full repository archive
   remains outside that scope and fails the public-content scan. The source tag

@@ -31,14 +31,14 @@ def test_metadata_gate_accepts_consistent_release_copy(tmp_path: Path) -> None:
         "pyproject.toml": f'[project]\nversion = "{version}"\n',
         "CITATION.cff": f'version: "{version}"\ndate-released: 2026-10-02\ndoi: "10.5281/zenodo.99999999"\n',
         "README.md": f"| Release line | `{version}` |\n",
-        "CHANGELOG.md": f"## {version} - Released\n",
-        "docs/index.md": f"**Current release:** [`{version}`]\n",
-        "docs/getting-started/installation.md": f"QF Solver `{version}` is published on PyPI.\n",
-        "docs/capabilities/index.md": f"**Current release:** `{version}` / `{tag}`\n",
-        "docs/reference/feuille_de_route.md": f"QF Solver {version} is the current published release.\n",
-        "CONTRIBUTING.md": f"QF Solver `{version}` (`{tag}`)\n",
+        "CHANGELOG.md": f"## {version} - Release scope\n",
+        "docs/index.md": f"**Selected release line:** `{version}`\n",
+        "docs/getting-started/installation.md": f"QF Solver `{version}` is the selected package version.\n",
+        "docs/capabilities/index.md": f"**Selected release line:** `{version}` / planned `{tag}`\n",
+        "docs/reference/feuille_de_route.md": f"QF Solver {version} is the selected release line.\n",
+        "CONTRIBUTING.md": f"QF Solver `{version}` (`{tag}` when tagged)\n",
         "SUPPORT.md": f"currently `{version}`\n",
-        "SECURITY.md": f"Current release: `{version}` / `{tag}`\n",
+        "SECURITY.md": f"Selected release line: `{version}` / planned `{tag}`\n",
     }
     for relative, content in files.items():
         path = tmp_path / relative
@@ -46,13 +46,9 @@ def test_metadata_gate_accepts_consistent_release_copy(tmp_path: Path) -> None:
         path.write_text(content, encoding="utf-8")
     assert check_publication_metadata(tmp_path, tag) == []
     (tmp_path / "README.md").write_text(
-        f"| Release line | `{version}` |\nNo {version} package has been published.\n", encoding="utf-8"
+        f"| Release line | `{version}` |\nQF Solver {version} is published on PyPI.\n", encoding="utf-8"
     )
-    assert "README.md still denies publication of this version" in check_publication_metadata(tmp_path, tag)
-    (tmp_path / "README.md").write_text(
-        f"| Release line | `{version}` |\nThe `{version}` candidate is not yet published.\n", encoding="utf-8"
-    )
-    assert "README.md still denies publication of this version" in check_publication_metadata(tmp_path, tag)
+    assert "README.md prematurely claims publication of this version" in check_publication_metadata(tmp_path, tag)
 
 
 def test_pypi_workflow_publishes_only_audited_selected_archives() -> None:

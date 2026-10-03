@@ -48,7 +48,7 @@ def test_028_changelog_is_structured_released_and_bounded() -> None:
 def test_security_policy_is_durable_across_published_channels() -> None:
     security = _text("SECURITY.md")
     assert "Latest published release" in security
-    assert "Current `0.2.10` release" in security
+    assert "Selected `0.2.10` release line" in security
     assert "Older releases" in security
     assert "0.2.7 = supported" not in security
     assert "best-effort basis" in security

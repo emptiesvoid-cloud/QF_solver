@@ -26,7 +26,7 @@ terms described in CONTRIBUTING.md.
 
 ## Release boundary
 
-The published 0.2.10 package scope is explicitly bounded. Experimental,
+The selected 0.2.10 package scope is explicitly bounded. Experimental,
 research-only, not-validated and non-comparable
 routes remain labeled as such in the capabilities and known-limitations pages.
 Historical audit records keep the version and status that were true when they

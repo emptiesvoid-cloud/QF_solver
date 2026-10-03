@@ -36,21 +36,22 @@ On this page: [Why QF Solver?](README.md#why-qf-solver) ·
 | --- | --- |
 | Release line | `0.2.10` |
 | Source tag | [`v0.2.9`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.9) (source snapshot; package not published) |
-| Package source tag | [`v0.2.10`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.10) |
+| Planned package source tag | `v0.2.10` (verify that the tag exists before using it) |
 | Development stage | Beta |
 | Python | `>=3.10` |
 | CI validation | Windows and Linux |
 | License | Apache-2.0 |
 | Documentation | [Online documentation](https://emptiesvoid-cloud.github.io/QF_solver/) |
-| Selected distribution archive | [Zenodo v0.2.10](https://doi.org/10.5281/zenodo.23106744) |
+| Planned selected distribution archive | Zenodo DOI `10.5281/zenodo.23106744` (reserved until the deposit is published) |
 
 Package availability is authoritative on [PyPI](https://pypi.org/project/qf-solver/).
-The 0.2.10 version DOI and citation are recorded in
-[`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).
-Zenodo preserves the selected wheel, source distribution and checksums for
-this version, not the whole-repository source archive. The source tag on
-GitHub is a revision identifier, not a clearance of GitHub's automatic
-repository ZIP/tarball.
+This source tree prepares the release; its text is not evidence that a tag,
+package upload or Zenodo record already exists. The assigned version DOI is
+recorded in [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff)
+and is citable only after the Zenodo deposit is published. The planned deposit
+contains the selected wheel, source distribution and checksums, not the
+whole-repository source archive. A GitHub source tag identifies a revision;
+it does not clear GitHub's automatic repository ZIP/tarball for distribution.
 The `0.2.9` source was integrated into `main` at merge commit
 `765bbe4`; the required `Quality and verification` and `Documentation tests`
 workflows passed on candidate commit `ea28165`. This confirms those CI checks,
@@ -83,7 +84,7 @@ python -m pip install qf-solver
 qf-solver --version
 ```
 
-To install the immutable source for this release:
+Once the source tag exists, to install the immutable source for this release:
 
 ```bash
 git clone --branch v0.2.10 --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git
@@ -92,7 +93,7 @@ python -m pip install .
 qf-solver --version
 ```
 
-Use the matching release tag or source archive for reproducibility. Optional
+Use the matching approved package artifact for reproducibility. Optional
 development and integration extras are described in the
 [installation guide](https://emptiesvoid-cloud.github.io/QF_solver/getting-started/installation/).
 HDF5, PETSc, MPI and SLEPc remain optional integrations and are not required
@@ -236,7 +237,9 @@ documentation and original examples are under
 [CC BY 4.0](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/LICENSE-DOCS).
 Third-party terms are listed in
 [THIRD_PARTY_LICENSES.md](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/THIRD_PARTY_LICENSES.md).
-For QF Solver 0.2.10 specifically, cite the [version DOI](https://doi.org/10.5281/zenodo.23106744).
+For QF Solver 0.2.10 specifically, cite the
+[version DOI](https://doi.org/10.5281/zenodo.23106744) only after its Zenodo
+record is published.
 The [concept DOI](https://doi.org/10.5281/zenodo.22697897) identifies the
 evolving QF Solver project. Full citation metadata is in
 [CITATION.cff](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).

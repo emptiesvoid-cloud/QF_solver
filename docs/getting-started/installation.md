@@ -9,7 +9,8 @@ approver: ""
 
 # Installation
 
-QF Solver `0.2.10` is published on [PyPI](https://pypi.org/project/qf-solver/0.2.10/).
+QF Solver `0.2.10` is the selected package version. Check
+[PyPI](https://pypi.org/project/qf-solver/) for actual availability before installation.
 The [central capability index](../capabilities/index.md) and
 [What's New](../whats-new/0.2.10.md) describe its bounded public scope.
 The full GitHub repository archive is outside the selected distribution scope;
@@ -17,16 +18,16 @@ do not treat a default-branch checkout as a cleared release archive.
 
 ## User installation
 
-Install the published package from the package index:
+After this version appears on the package index, install it with:
 
 ```bash
-python -m pip install qf-solver
+python -m pip install qf-solver==0.2.10
 qf-solver --version
 ```
 
 An unqualified clone follows the repository default branch; it is not a
 release selector. Select the immutable release tag explicitly when
-reproducibility matters:
+reproducibility matters, once that tag exists:
 
 ```bash
 git clone --branch v0.2.10 --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git

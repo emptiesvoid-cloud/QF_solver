@@ -9,7 +9,7 @@ approver: ""
 
 # Public roadmap
 
-QF Solver 0.2.10 is the current published release. The 0.2.9 source was
+QF Solver 0.2.10 is the selected release line; check PyPI for publication. The 0.2.9 source was
 integrated into `main` and tagged `v0.2.9` without a package or version DOI.
 This roadmap describes product-level follow-up work; it is not a release gate
 or a promise that an unqualified route is production-ready. The 0.2.10

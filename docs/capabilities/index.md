@@ -9,8 +9,8 @@ approver: ""
 
 # QF Solver 0.2.10 capability index
 
-**Current release:** `0.2.10` / `v0.2.10`
-**Publication status:** `PUBLISHED`
+**Selected release line:** `0.2.10` / planned `v0.2.10`
+**Publication status:** check [PyPI](https://pypi.org/project/qf-solver/) and the source tags.
 
 This page is the public orientation index for the 0.2.10 package. It links to
 the previously qualified 0.2.8 element-analysis registry and separate
