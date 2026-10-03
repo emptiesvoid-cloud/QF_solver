@@ -1,39 +1,47 @@
 ---
 doc_id: DOC-SOL-000
-revision: 1.0
-status: controlled
-applicable_version: 0.2.8
+revision: 2.0
+status: controlled_candidate
+applicable_version: 0.2.10
 reviewer: ""
 approver: ""
 ---
 
 # Solvers and backends
 
-The route and element combination determine which backend is appropriate.
-Method names alone are not convergence guarantees; inspect the residual,
-conditioning and final diagnostics for every calculation.
+The route, element, formulation and evidence boundary determine which solver
+path is supported. Method names are not convergence guarantees; inspect the
+residual, conditioning, warnings and final diagnostics for every calculation.
+The latest published release is 0.2.8; this page describes candidate source
+0.2.10.
 
-| Analysis | Public status | Available methods or backend |
+| Analysis / backend | Status | Scope |
 | --- | --- | --- |
-| Linear static | `QUALIFIED_BOUNDED` | Direct and iterative sparse routes within the element matrix. |
-| Modal | `ROUTE_DEPENDENT — see capability index` | Sparse eigenvalue routes for the recorded bounded cases. |
-| Newmark / harmonic | `ROUTE_DEPENDENT — see capability index` | Controlled linear routes; mixed TET4/WEDGE6/HEX8 variants are separate `EXPERIMENTAL_BOUNDED` workflows. |
-| Linear buckling | `ROUTE_DEPENDENT — see capability index` | Bounded sparse tangent-instability cases. |
-| Nonlinear and contact | `ROUTE_DEPENDENT — see capability index` | Newton, load-control, Arc-Length and contact paths remain route-specific. |
-| Structured TET4 large model | `ROUTE_DEPENDENT — see capability index` | PETSc/MPI for recorded historical workloads; SciPy is for small or intermediate cases. |
-| Mixed distributed PETSc/MPI | `NOT_VALIDATED` | Architecture foundation only; physical balance and three-rank runtime gates remain failed. |
+| Linear static | `QUALIFIED_BOUNDED` | Direct and iterative sparse routes only within the recorded element-analysis matrix. |
+| Modal | Route-dependent | Sparse eigenvalue routes for recorded bounded cases; mass and family scope vary. |
+| Newmark / harmonic | Route-dependent; selected mixed routes `EXPERIMENTAL_BOUNDED` | Linear analysis and documented timestep/frequency/damping limits only. |
+| Linear buckling | Route-dependent | Bounded first-factor cases; no postbuckling or bifurcation claim. |
+| Nonlinear Newton | Bounded route evidence | Shared Newton/assembly/state infrastructure in selected material/geometric routes; not a general nonlinear solver claim. |
+| Arc-length | Experimental bounded evidence | Specialized correction route; no general limit-point or postbuckling claim. |
+| Frictionless contact | `EXPERIMENTAL_BOUNDED` | Bounded penalty node-to-triangle route. |
+| Frictional contact | Prior bounded Owner acceptance; current-source formal requalification not established | Narrow serial stick/slip route with search and mesh-sensitivity limits. |
+| Structured TET4 PETSc/MPI | Route-dependent historical evidence | Exact recorded workload, host and configuration only. |
+| Two-rank PETSc/MPI linear static | Owner-accepted bounded evidence | One-element family cases, replicated input/root-side assembly; no scaling claim. |
+| Mixed distributed PETSc/MPI runtime | `NOT_VALIDATED` | No generic mixed or nonlinear distributed runtime claim. |
 
-## Optional PETSc/MPI route
+## Optional PETSc/MPI
 
-PETSc and MPI are optional integrations. The large-model route uses a
-distributed AIJ matrix with structured diagonal/off-diagonal preallocation on
-the recorded qualification path. Its 1M, 3M, 5M and bounded 10M results apply
-only to the declared workloads, host and configuration. They are not a general
-HPC or GPU claim. It does not qualify the newer generic mixed distributed
-runtime, which remains `NOT_VALIDATED`.
+PETSc, MPI and SLEPc are optional integrations. The bounded two-rank acceptance
+does not establish distributed assembly, strong/weak scaling, nonlinear MPI,
+contact, dynamics or cross-family result equivalence. Historical structured
+TET4 large-model observations apply only to their exact configurations and
+environment. The standard installation uses SciPy and does not require these
+external runtimes.
 
 ## Public API
 
-New applications should import from `qf_solver` and use the documented CLI
-`qf-solver`. The compatibility namespace `solveur` and legacy entry points are
-retained for existing integrations; see the [API stability contract](../reference/api_stability.md).
+New applications should import from `qf_solver` and use the `qf-solver` CLI.
+The `solveur` compatibility namespace and legacy launchers remain during 0.2.x;
+the current compatibility plan targets removal of `solveur-ef` for 0.3.0.
+See the [API stability contract](../reference/api_stability.md) and
+[capability index](../capabilities/index.md).

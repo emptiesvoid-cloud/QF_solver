@@ -1,8 +1,8 @@
 ---
 doc_id: DOC-START-PUB-002
 revision: 1.0
-status: controlled
-applicable_version: 0.2.8
+status: controlled_candidate
+applicable_version: 0.2.10
 reviewer: ""
 approver: ""
 ---
@@ -40,8 +40,19 @@ surface.
 ## Before a production decision
 
 Confirm that the element, analysis, material, loading, boundary conditions and
-solver backend all fall within the
-[0.2.8 consolidated registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json)
-and, for mixed workflows or separate capabilities, the linked delivery record.
-Read the [known limitations](../etat/limites.md) and retain the input,
+solver backend fall within a matching evidence scope. The linked 0.2.8
+consolidated registry remains the authority for its 46 published
+element-analysis records; the [candidate capability index](../capabilities/index.md)
+adds source-cycle evidence without rewriting those historical decisions. For
+mixed workflows or separate capabilities, read the controlling record. Review
+the [known limitations](../etat/limites.md) and retain the input,
 configuration and result files with the calculation record.
+
+## Nonlinear example
+
+The linear first calculation above remains the recommended first run. To
+inspect one small candidate-source nonlinear route, use the separate
+[Total-Lagrangian TET4 example](nonlinear-example.md). It converges for its
+declared input but reports an engineering-profile `WARNING`; that warning and
+the candidate maturity boundary are part of the example, not an error to
+ignore or a general qualification claim.

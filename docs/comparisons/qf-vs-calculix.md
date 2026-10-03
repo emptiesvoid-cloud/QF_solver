@@ -8,9 +8,11 @@ approver: ""
 ---
 # QF Solver vs CalculiX
 
-> **HISTORICAL / NOT CURRENT STATUS.** This comparison preserves a 0.2.7
-> snapshot. Current 0.2.8 maturity and limitations are defined by the
-> [capability index](../capabilities/index.md).
+> **HISTORICAL COMPARISON SNAPSHOT.** This article preserves 0.2.7-era
+> comparative analysis and has not been refreshed against the 0.2.10 source
+> candidate. The latest published release remains 0.2.8. This article is not a
+> current capability or maturity record; use the [0.2.10 candidate capability
+> index](../capabilities/index.md) and [candidate V&V summary](../verification/0_2_10/README.md).
 
 This comparison is intended as a technical selection guide, not as a claim
 that one solver is universally superior to another.

@@ -10,9 +10,10 @@ approver: ""
 # QF Solver benchmarks and reproducibility
 
 > **Historical 0.2.7 evidence page.** The measurements below are retained for
-> provenance and are not the current 0.2.8 maturity or a general performance
-> promise. Use the [0.2.8 capability index](../capabilities/index.md) for the
-> current public status.
+> provenance; they are not a 0.2.10 candidate maturity decision or a general
+> performance promise. Use the [0.2.10 candidate capability index](../capabilities/index.md)
+> and [candidate V&V summary](../verification/0_2_10/README.md) for current
+> public scope. The latest published release remains 0.2.8.
 
 QF Solver publishes bounded numerical and large-model evidence for selected
 finite-element routes.

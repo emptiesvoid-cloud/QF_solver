@@ -1,19 +1,85 @@
 # Changelog
 
-## 0.2.10 - Release preparation (not published)
+## 0.2.10 - Release candidate (not published)
 
-- The development package version advances beyond the immutable `v0.2.9`
-  source-only tag. There is no `v0.2.10` tag, package publication, GitHub
-  Release, PyPI package or published Zenodo deposit yet. The v0.2.10 Zenodo
-  draft reserves `10.5281/zenodo.23106744`; it contains no release files, and
-  its DOI is not registered until that draft is published. The published 0.2.8
-  citation remains authoritative.
-- Publication requires a new frozen source and selected-package audit, public
-  metadata aligned to the new version and its assigned DOI, passing CI at the
-  final source revision, and a separate Owner publication decision. The
-  whole-repository G03 archive scan remains failed; a bounded package review
-  does not clear that archive or change WP14 status.
-- No new mechanics qualification or broader solver-route claim is made here.
+QF Solver 0.2.10 is being prepared as the first public release after 0.2.8.
+The `v0.2.9` source snapshot was not published as a package, GitHub Release or
+version DOI. The items below therefore summarize the development since the
+published 0.2.8 baseline. This section describes a candidate, not a completed
+release; the final source, artifact hashes and version DOI must be added only
+after their corresponding gates and publication steps actually pass.
+
+### Added
+
+- A user-facing guide to the nonlinear architecture, bounded state lifecycle,
+  candidate mechanics evidence and a small executable nonlinear example.
+- A 0.2.10 capability orientation and verification summary that link back to
+  the decision records without exposing the internal roadmap score as a user
+  rating.
+
+### Improved
+
+- Public pages distinguish the last published release (0.2.8) from the
+  0.2.10 source candidate and its not-yet-published version DOI.
+- Architecture and API pages describe the current source interfaces while
+  retaining the legacy 0.2.x compatibility boundary.
+
+### Nonlinear mechanics
+
+- Selected material and geometric routes use a shared Newton/assembly and
+  accepted-state lifecycle. Line search, stagnation, adaptive-step and
+  arc-radius policies have bounded evidence; the arc-length correction
+  kernel remains specialized.
+- The owner-accepted corotational J2 qualification is limited to HEX8 and
+  small local strain. Separate TET10/HEX20 extension and multi-family static
+  evidence do not create general finite-strain or all-family qualification.
+- Total-Lagrangian StVK identities and TET4/HEX8 static campaigns have a
+  bounded closure audit with retained limitations; the audit did not itself
+  update public maturity.
+- Contact remains route-specific: frictionless penalty contact is
+  experimental bounded, and current-source formal requalification of the
+  frictional route is not established.
+
+### Verification
+
+- Owner-accepted Code_Aster evidence covers bounded same-mesh linear-static
+  cases for TET4, HEX8, TET10 and HEX20. It is numerical correlation, not
+  experimental physical validation, nonlinear correlation or an independent
+  global FEM/Newton implementation.
+- Bounded PETSc/MPI linear-static evidence and separate structured-TET4
+  large-model results do not imply general scaling or distributed nonlinear
+  support.
+- WP14 remains `HOLD`. The full-repository G03 archive gate is still failed;
+  a selected package/documentation scan does not clear that archive.
+
+### API and packaging
+
+- `qf_solver` remains the recommended Python namespace and `qf-solver` the
+  recommended CLI. `solveur`, `solveur-ef` and the legacy launcher remain
+  0.2.x compatibility paths; the existing deprecation contract targets
+  removal in 0.3.0.
+- The source metadata says `0.2.10`, but no 0.2.10 package, GitHub Release,
+  final source tag or version DOI is claimed here. `CITATION.cff` remains on
+  published 0.2.8 until actual publication.
+
+### Documentation
+
+- Added dedicated 0.2.10 What's New, nonlinear mechanics, nonlinear example
+  and candidate V&V summary pages; the historical 0.2.8 release notes remain
+  unchanged.
+
+### Known limitations
+
+- This candidate description is not a final-source qualification contract.
+  The previously recorded selected-package audit is tied to an older SHA and
+  must not be presented as an audit of the eventual tagged commit.
+- Finite-strain plasticity, general nonlinear dynamics, self-contact,
+  impact, frictional updated search, finite sliding, universal nonlinear
+  contact, general nonlinear MPI/PETSc, certification and universal physical
+  validation remain outside the demonstrated scope.
+- The candidate Zenodo draft DOI `10.5281/zenodo.23106744` is reserved but
+  unpublished and is not a citable version DOI. No tag, package or repository
+  archive publication is authorized by this changelog entry.
 
 ## 0.2.9 - Source tagged; package release not issued
 

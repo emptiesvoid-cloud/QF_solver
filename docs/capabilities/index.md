@@ -1,90 +1,61 @@
 ---
 doc_id: DOC-CAPABILITY-028-001
-revision: 1.0
-status: controlled
-applicable_version: 0.2.8
+revision: 2.0
+status: controlled_candidate
+applicable_version: 0.2.10
 reviewer: ""
 approver: ""
 ---
 
-# QF Solver 0.2.8 capability index
+# QF Solver capability index — 0.2.10 candidate
 
-**Current release:** `0.2.8` / `v0.2.8`
-**Publication status:** `PUBLISHED`
+The public release remains 0.2.8 until a 0.2.10 publication is completed.
+This index describes evidence in the current 0.2.10 candidate source without
+changing previous maturity decisions. In particular, source implementation
+and a successful test do not by themselves establish qualification.
 
-This page is the public orientation index for the published 0.2.8 release. It links to
-the authoritative element-analysis registry and to the separate mixed-workflow,
-capability and research records. It does not merge those records and it does
-not create a new maturity decision.
+## How to read the statuses
 
-## How to read this index
+`QUALIFIED_BOUNDED` refers only to a recorded element/analysis/material scope.
+`EXPERIMENTAL_BOUNDED` means the route has limited evidence but is not a
+general qualified capability. “Owner-accepted bounded evidence” is reported
+as such and is not silently relabeled `QUALIFIED_BOUNDED`. “Audited; maturity
+not promoted” means a technical audit exists but no maturity promotion was
+recorded. The 46-case registry remains the authority for its original 0.2.8
+scope and counts; this candidate index does not rewrite it.
 
-The active source of truth for the 46 element-analysis combinations is the
-[consolidated registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json):
+## Capability matrix
 
-| Registry | `QUALIFIED_BOUNDED` | `EXPERIMENTAL` | `NOT_QUALIFIED` | Total |
-| --- | ---: | ---: | ---: | ---: |
-| Element-analysis combinations | 32 | 14 | 0 | 46 |
+| Domain | Capability | Maturity / evidence status | Scope and limitation |
+| --- | --- | --- | --- |
+| Linear | TET4, TET10, HEX8, HEX20 | `QUALIFIED_BOUNDED` — [registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json) | Recorded elastic element/analysis combinations only; read the registry row and route boundary. |
+| Linear | WEDGE6 static | `QUALIFIED_BOUNDED` — [WP05 Owner record](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/wp05_owner_gate_final.json) | Gmsh Prism 6, bounded isotropic small-strain static scope. |
+| Dynamics | Modal | Route-dependent — [registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json) | Controlled linear eigenvalue cases; mass formulation and family coverage vary by route. |
+| Dynamics | WEDGE6 modal | `QUALIFIED_BOUNDED` — [registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json) | Homogeneous isotropic consistent-mass route; first three modes in the declared refinement scope. |
+| Dynamics | Newmark | Route-dependent / mixed route experimental — [registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json) | Linear transient scope only; timestep, damping and mass assumptions apply. |
+| Dynamics | Harmonic | Route-dependent / mixed route experimental — [registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json) | Recorded linear frequency-domain cases; no general nonlinear transient claim. |
+| Material NL | Small-strain J2 | `QUALIFIED_BOUNDED` — [registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json) | Recorded homogeneous constitutive cases and element combinations only. |
+| Geometric NL | Total-Lagrangian StVK | Audited `GO_WITH_LIMITATIONS`; maturity not promoted — [audit](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_9/wp04f/wp04_final_closure_audit.json) | Selected static serial TET4/HEX8 cases within explicit deformation/formulation bounds; excludes contact, dynamics, MPI/PETSc and high-order routes. |
+| Coupled NL | Material + geometry | Owner-accepted bounded evidence — [WP10 decision](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_9/wp10_owner_acceptance.json) | Selected static cases across recorded families; not frictional contact, dynamics, Code_Aster correlation or MPI. |
+| J2 rotations | Corotational J2 | `QUALIFIED_BOUNDED` within accepted scope — [Owner decision](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_9/owner_decisions.json) | HEX8 route; large rotations with small local strains. Not general multiplicative finite-strain plasticity. |
+| Contact | Frictionless penalty | `EXPERIMENTAL_BOUNDED` — [capability record](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/wp13_07d_contact_capability_record.json) | Node-to-triangle, penalty, bounded small-sliding cases; not self-contact or impact dynamics. |
+| Contact | Frictional stick/slip | Owner-accepted bounded evidence; current-source formal requalification not established — [progress and limitations](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_9/progress.json) | Narrow serial route; mesh sensitivity remains; no general updated search or finite sliding. |
+| Continuation | Adaptive increments / cutback | Bounded route evidence — [WP03 records](https://github.com/emptiesvoid-cloud/QF_solver/tree/main/qualification/0_2_9) | Full Newton, line search, stagnation and retry mechanisms are not a guarantee of convergence for arbitrary models. |
+| Continuation | Arc-length | Experimental bounded evidence — [WP06 decision](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_9/wp06d_owner_bounded_experimental_decision.json) | No general bifurcation or postbuckling capability claim. |
+| HPC | PETSc/MPI | Owner-accepted bounded evidence — [WP11 decision](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_9/wp11_owner_acceptance_r2.json) | Two-rank linear-static cases with replicated input and root-side assembly; no scaling or nonlinear distributed claim. |
+| HPC | Distributed mixed PETSc/MPI runtime | `NOT_VALIDATED` — [historical runtime limits](../verification/0_2_8/README.md) | Candidate-cycle bounded linear evidence does not close generic mixed distributed gates. |
+| Large model | Structured TET4 PETSc route | Route-dependent historical evidence — [limitations](../etat/limites.md) | Exact workload/environment only; not general scaling or hardware-independent performance. |
+| External correlation | Code_Aster 18.1 | Owner-accepted bounded correlation — [WP12 decision](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_9/wp12_owner_acceptance_r2.json) | Same-mesh, linear-static and comparable observables; not physical validation or general nonlinear correlation. |
 
-Mixed workflows and separate capabilities are deliberately outside those 46
-records. Their status applies only to the linked scope, evidence and
-limitations.
+For the nonlinear architecture see the [mechanics overview](../mechanics/nonlinear-overview.md).
+For concrete route restrictions see [known limitations](../etat/limites.md).
+For test and evidence interpretation see the [candidate V&V summary](../verification/0_2_10/README.md).
 
-## Element-analysis registry
+## Registry boundary
 
-- [Elements and route boundaries](../elements/index.md)
-- [Analyses map](../analyses/index.md)
-- [Consolidated machine-readable registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json)
-- [Known limitations](../etat/limites.md)
-
-The registry remains the only authority for the 46 element-analysis maturity
-counts. This index must not be used to infer a broader element or analysis
-qualification.
-
-## Mixed workflows
-
-| Workflow | Status | Authoritative record or evidence |
-| --- | --- | --- |
-| Connected conforming mixed static | `QUALIFIED_BOUNDED` | [WP07 Owner record](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/wp07_owner_gate_final.json) |
-| Connected conforming mixed modal | `QUALIFIED_BOUNDED` | [WP08B Owner record](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/wp08b_owner_gate_final.json) |
-| Translational MPC mixed static | `QUALIFIED_BOUNDED` | [WP13-03D delivery](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json) |
-| Multi-material mixed static | `QUALIFIED_BOUNDED` | [WP13-04D delivery](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/wp13_04d_multimaterial_owner_delivery.json) |
-| Mixed Newmark linear dynamics | `EXPERIMENTAL_BOUNDED` | [WP13-02D delivery](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/wp13_02d_mixed_dynamics_delivery.json) |
-| Mixed harmonic linear response | `EXPERIMENTAL_BOUNDED` | [WP13-02D delivery](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/wp13_02d_mixed_dynamics_delivery.json) |
-| Distributed mixed PETSc/MPI runtime | `NOT_VALIDATED` | [0.2.8 verification history](../verification/0_2_8/README.md) |
-
-The distributed mixed PETSc/MPI route is architecture evidence only. Its
-runtime physical and partition gates failed; the partial two-rank result is
-not a public qualification claim.
-
-## Separate experimental capabilities
-
-| Capability | Status | Authoritative record |
-| --- | --- | --- |
-| Bounded Abaqus/CalculiX `.inp` importer | `EXPERIMENTAL_BOUNDED` | [WP13-05 capability record](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/wp13_05_inp_import_capability_record.json) |
-| Family-aware mixed HDF5 result storage | `EXPERIMENTAL_BOUNDED` | [WP13-06D capability record](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/wp13_06d_mixed_hdf5_capability_record.json) |
-| Frictionless penalty node-to-triangle contact | `EXPERIMENTAL_BOUNDED` | [WP13-07D capability record](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/wp13_07d_contact_capability_record.json) |
-| HEX8 selective reduced integration | `EXPERIMENTAL_BOUNDED` | [WP10 Owner record](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json) |
-
-These capabilities remain opt-in or route-specific. They do not promote any
-element-analysis combination in the 46-record registry.
-
-## Internal and research routes
-
-| Route | Status | Reference |
-| --- | --- | --- |
-| PYRAMID5 | `INTERNAL / RESEARCH_ONLY` | [WP13-10 maturation evidence](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/wp13_10_pyramid5_maturation/wp13_10_pyramid5_maturation_evidence.json) |
-| Geometric nonlinear discovery | `RESEARCH_ONLY` | [WP13-11 evidence](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/wp13_11_geometric_nonlinear_discovery/manifest.json) |
-| High-order mixed-interface feasibility | `RESEARCH_ONLY` | [WP13-09 evidence](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/wp13_09_high_order_interface_feasibility/wp13_09_feasibility_evidence.json) |
-
-These entries are visible for traceability only. They are not stable public
-solver capabilities and must not be used as production or qualification claims.
-
-## Public entry points
-
-- [V&V and evidence model](../verification/evidence-and-maturity.md)
-- [0.2.8 What's New](../whats-new/0.2.8.md)
-- [Installation](../getting-started/installation.md)
-- [API stability](../reference/api_stability.md)
-- [Known limitations](../etat/limites.md)
-- [Historical 0.2.7 verification](../verification/0_2_7/README.md)
+The consolidated 0.2.8 registry contains 46 element-analysis combinations:
+32 `QUALIFIED_BOUNDED`, 14 `EXPERIMENTAL`, and 0 `NOT_QUALIFIED`. These are
+historical, scoped counts—not a 0.2.10 score and not a count of every separate
+workflow above. Mixed workflows, mechanics evidence, and external correlation
+remain separate records. WP14 is on HOLD while the whole-repository G03 scan
+is failed; no waiver is implied by the package-scoped candidate scan.

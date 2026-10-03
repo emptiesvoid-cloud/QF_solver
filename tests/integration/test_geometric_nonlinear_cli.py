@@ -34,4 +34,8 @@ def test_geometric_nonlinear_example_api_and_cli(tmp_path: Path) -> None:
     assert completed.returncode == 0, completed.stderr
     data = json.loads(output.read_text(encoding="utf-8"))
     assert data["status"] == "success"
+    assert data["run_verdict"] == "WARNING"
+    assert data["solver"]["converged"] is True
+    assert data["solver"]["maturity"] == "research"
+    assert data["solver"]["final_relative_residual"] <= 1.0e-9
     assert data["solver"]["scope"] == "tet4-total-lagrangian-structural-v2"

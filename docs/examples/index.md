@@ -16,3 +16,8 @@ the public `qf_solver` API or the `qf-solver` CLI. Start with
 
 Examples demonstrate a concrete workflow; they do not qualify every possible
 combination of element, load, material and solver.
+
+For the 0.2.10 source candidate, see the bounded
+[nonlinear example](../getting-started/nonlinear-example.md). It is a smoke
+test for one research-profile Total-Lagrangian TET4 route, not a general
+qualification claim; the latest published package remains 0.2.8.

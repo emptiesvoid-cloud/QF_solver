@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "qf-solver"
 version = "0.2.10"
-description = "Open-source white-box Python finite element solver for structural mechanics, dynamics and verifiable engineering simulation."
+description = "Python FEM/FEA solver for structural mechanics and dynamics with inspectable formulations, bounded nonlinear routes, and reproducible verification evidence."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "Apache-2.0"
@@ -37,6 +37,7 @@ Source = "https://github.com/emptiesvoid-cloud/QF_solver"
 Issues = "https://github.com/emptiesvoid-cloud/QF_solver/issues"
 Documentation = "https://emptiesvoid-cloud.github.io/QF_solver/"
 Changelog = "https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CHANGELOG.md"
+"Release Notes (candidate)" = "https://emptiesvoid-cloud.github.io/QF_solver/whats-new/0.2.10/"
 
 [project.optional-dependencies]
 hdf5 = [

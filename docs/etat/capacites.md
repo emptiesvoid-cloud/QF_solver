@@ -1,54 +1,38 @@
 ---
 doc_id: DOC-STATE-002
-revision: 1.0
-status: controlled
-applicable_version: 0.2.8
+revision: 2.0
+status: controlled_candidate
+applicable_version: 0.2.10
 reviewer: ""
 approver: ""
 ---
 
 # Capabilities and maturity
 
-This page summarizes the active public scope of QF Solver 0.2.8. A maturity
-label applies to the declared combination, not to every possible use of an
-element or analysis.
+This page is an orientation to the 0.2.10 candidate, not a new qualification
+decision. The last public release is 0.2.8. Maturity applies only to a named
+scope; implementation or execution alone does not promote it.
 
-| Scope | Maturity | Qualification boundary |
+| Scope | Status | Boundary |
 | --- | --- | --- |
-| TET4/TET10/HEX8/HEX20 linear static | `QUALIFIED_BOUNDED` | Recorded elastic materials, meshes, loads and solver routes. |
-| TET4/TET10/HEX8/HEX20 small-strain J2 | `QUALIFIED_BOUNDED` | Homogeneous constitutive cases in the active evidence matrix. |
-| Modal, Newmark and harmonic | `ROUTE_DEPENDENT — see capability index` | Controlled linear cases; mass, damping and element coverage remain route-specific. |
-| Linear buckling | `ROUTE_DEPENDENT — see capability index` | Bounded sparse first-factor cases. |
-| Frictionless contact | `EXPERIMENTAL_BOUNDED` | Penalty, node-to-triangle, small-sliding static/quasi-static cases only. |
-| WEDGE6 static | `QUALIFIED_BOUNDED` | Approved isotropic linear-elastic static scope only. |
-| WEDGE6 modal | `QUALIFIED_BOUNDED` | First three modes, homogeneous isotropic consistent-mass scope. |
-| Mixed static and modal | `QUALIFIED_BOUNDED` | Connected conforming TET4/WEDGE6/HEX8 benchmark scopes only. |
-| Mixed translational MPC and multi-material static | `QUALIFIED_BOUNDED` | Separate frozen mixed-workflow scopes only. |
-| Mixed Newmark and harmonic | `EXPERIMENTAL_BOUNDED` | Serial linear workflows with the recorded timestep/frequency and damping scopes. |
-| Bounded `.inp` subset | `EXPERIMENTAL_BOUNDED` | Provisional C3D4/C3D6/C3D8 linear-static Abaqus/CalculiX subset; not full compatibility. |
-| Family-aware mixed HDF5 results | `EXPERIMENTAL_BOUNDED` | Opt-in schema v1.0 storage and selective reads; no restart, XDMF or general scalability claim. |
-| HEX8-SRI | `EXPERIMENTAL_BOUNDED` | Separate opt-in linear-static locking-sensitive research capability. |
-| PYRAMID5 | `INTERNAL / RESEARCH_ONLY` | No public supported-element claim. |
-| MITC4 modal | `EXPERIMENTAL` | Element-analysis record remains experimental. |
-| Structured TET4 PETSc/MPI | `ROUTE_DEPENDENT — see capability index` | Historical recorded workloads and exact environments only. |
-| Mixed distributed PETSc/MPI | `NOT_VALIDATED` | Architecture foundation exists; runtime physical and partition gates fail. |
+| TET4/TET10/HEX8/HEX20 linear static | `QUALIFIED_BOUNDED` | Recorded combinations in the 0.2.8 registry. |
+| Small-strain J2 | `QUALIFIED_BOUNDED` | Exact element-analysis combinations in that registry. |
+| Corotational J2 | `QUALIFIED_BOUNDED` within accepted scope | HEX8; large rotations, small local strain; not general finite-strain plasticity. |
+| Total-Lagrangian StVK geometry | Audited `GO_WITH_LIMITATIONS`; maturity unchanged | Selected static serial TET4/HEX8 cases only. |
+| Coupled nonlinear static | Owner-accepted bounded evidence | Selected TET4/HEX8/HEX20/TET10; no friction, dynamics, MPI/PETSc or external solver correlation. |
+| Frictionless contact | `EXPERIMENTAL_BOUNDED` | Penalty node-to-triangle bounded scope. |
+| Frictional contact | Owner-accepted bounded evidence; current-source formal requalification not established | Narrow serial route; mesh sensitivity and search limits remain. |
+| Arc-length | Experimental bounded evidence | No general bifurcation/postbuckling claim. |
+| PETSc/MPI | Owner-accepted bounded evidence | Two-rank linear static with replicated input/root-side assembly; no scaling claim. |
+| Code_Aster | Owner-accepted bounded external correlation | Same-mesh linear-static observables for selected families; not physical validation. |
+| Mixed PETSc/MPI general workflow | `NOT_VALIDATED` | Architecture evidence does not establish generic distributed execution. |
 
-## Evidence vocabulary
+`QUALIFIED_BOUNDED`, `EXPERIMENTAL_BOUNDED`, Owner-accepted evidence, and an
+audit result are distinct labels; this summary preserves the source decision
+language. The 46-row historical registry remains unchanged: 32
+`QUALIFIED_BOUNDED`, 14 `EXPERIMENTAL`, and 0 `NOT_QUALIFIED` for its
+specified 0.2.8 element-analysis combinations. It is not a 0.2.10 score.
 
-- `IMPLEMENTED`: code exists.
-- `TESTED`: an automated or controlled case was executed.
-- `VERIFIED`: an invariant, analytical result or quantitative comparison was
-  checked.
-- `EXTERNALLY_VALIDATED`: a comparable external reference was used.
-- `QUALIFIED`: evidence satisfies a declared qualification gate.
-- `EXPERIMENTAL`: the route is usable for bounded exploration but is not a
-  general qualified capability.
-
-The machine-readable source of truth for the 46 element-analysis combinations
-is [`qualification/0_2_8/consolidated_registry.json`](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json):
-32 `QUALIFIED_BOUNDED`, 14 `EXPERIMENTAL`, 0 `NOT_QUALIFIED`, total 46.
-Mixed workflows and the `.inp`, HDF5, contact and HEX8-SRI capabilities are
-separate records and are not added to those 46 combinations.
-
-Use the [central capability index](../capabilities/index.md) to navigate from
-this registry to the separate mixed-workflow, capability and research records.
+Read the [capability matrix](../capabilities/index.md),
+[analysis map](../analyses/index.md), [known limitations](limites.md), and
+[candidate V&V summary](../verification/0_2_10/README.md) together.

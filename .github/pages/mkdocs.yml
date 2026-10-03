@@ -33,11 +33,14 @@ nav:
   - Getting Started:
       - Installation: getting-started/installation.md
       - Quick Start: getting-started/quickstart.md
+      - Nonlinear Example: getting-started/nonlinear-example.md
       - When to Use QF Solver: getting-started/when-to-use-qf-solver.md
   - Capabilities:
       - Overview: capabilities/index.md
       - Elements: elements/index.md
       - Analyses: analyses/index.md
+      - Nonlinear Mechanics: mechanics/nonlinear-overview.md
+      - Architecture: architecture.md
       - Solvers & Backends: solveurs/index.md
       - Known Limitations: etat/limites.md
   - Examples:
@@ -45,7 +48,8 @@ nav:
       - Demonstrations: demonstrations/index.md
   - Verification & Validation:
       - V&V and Maturity: verification/evidence-and-maturity.md
-      - Current 0.2.8 Verification: verification/0_2_8/README.md
+      - 0.2.10 Candidate V&V Summary: verification/0_2_10/README.md
+      - Published 0.2.8 Verification: verification/0_2_8/README.md
       - Benchmarks: benchmarks/index.md
       - Historical Evidence:
           - 0.2.7 Verification: verification/0_2_7/README.md
@@ -60,6 +64,7 @@ nav:
       - QF Solver vs scikit-fem: comparisons/qf-vs-scikit-fem.md
       - QF Solver vs SfePy: comparisons/qf-vs-sfepy.md
   - Project:
+      - What's New 0.2.10: whats-new/0.2.10.md
       - What's New 0.2.8: whats-new/0.2.8.md
       - Roadmap: reference/feuille_de_route.md
 

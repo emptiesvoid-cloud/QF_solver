@@ -25,6 +25,9 @@ Some demonstrations generate a result directory containing inputs, outputs,
 diagnostics and a manifest. Read the reported residual, reactions, energy and
 mesh checks together. A plausible displacement alone is not sufficient.
 
-The active 0.2.8 capability and evidence boundaries are in the
-[verification summary](../verification/0_2_8/README.md). Large-model examples
-are described in [Large models](../solveurs/grand_modele.md).
+The published 0.2.8 boundaries remain in the
+[historical verification summary](../verification/0_2_8/README.md). For the
+0.2.10 source candidate, consult the [capability index](../capabilities/index.md),
+[candidate V&V summary](../verification/0_2_10/README.md), and the bounded
+[nonlinear example](../getting-started/nonlinear-example.md). Large-model
+examples are described in [Large models](../solveurs/grand_modele.md).
