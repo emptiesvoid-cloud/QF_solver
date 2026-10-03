@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0210-OWNER-PUBLICATION-REAUTHORIZATION-E535FF63464D",
+  "decision": "AUTHORIZE_V0_2_10_PUBLICATION",
+  "decision_authority": "Repository Owner",
+  "decision_date": "2026-10-03",
+  "version": "0.2.10",
+  "status": "OWNER_REAUTHORIZED_LATER_AUDITED_RELEASE_CANDIDATE",
+  "supersedes_for_release": "QF-0210-OWNER-PUBLICATION-REAUTHORIZATION-B453265D",
+  "superseded_record": {
+    "path": "qualification/0_2_10/owner_publication_reauthorization_b453265d.json",
+    "commit_sha": "e350ef870dfa5182a4e25c79c07ce04b974d5568",
+    "sha256": "8d684c17345f827ea70ab647c2e38cd4b3b711e0e8925207c09881f3582b20a7",
+    "historical_record_preserved": true
+  },
+  "authorized_source_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+  "authorized_tag": "v0.2.10",
+  "authorized_tag_target_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+  "source_change_review": {
+    "comparison_base_sha": "b453265d5e61acd5f91cfc3aa236ee8b85344033",
+    "e535_commit_changed_paths": [
+      "tests/unit/test_gate_b_release_surface.py"
+    ],
+    "selected_package_source_changed": false,
+    "public_documentation_changed": false,
+    "production_mechanics_changed": false,
+    "numerical_formulations_thresholds_or_maturities_changed": false,
+    "cumulative_range_note": "The cumulative b453..e535 range also contains prospective release-governance contracts, tools and tests added before e535; the e535 commit itself changes only the release-surface test, and no selected package source or public documentation changes in that range."
+  },
+  "ci_evidence": {
+    "quality_workflow": {
+      "run_number": 184,
+      "run_id": "37133239269",
+      "commit_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+      "conclusion": "SUCCESS",
+      "jobs": {
+        "ubuntu_python_3_10": "PASS",
+        "ubuntu_python_3_13": "PASS",
+        "windows_python_3_10": "PASS",
+        "windows_python_3_13": "PASS",
+        "wp14_recovered_evidence_targeted": "PASS",
+        "documentation_evidence": "PASS",
+        "full_engineering_campaign": "PASS"
+      }
+    },
+    "documentation_workflow": {
+      "run_number": 62,
+      "run_id": "37133239271",
+      "commit_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+      "conclusion": "SUCCESS"
+    },
+    "tag_ci_required_before_publication": true
+  },
+  "audit_evidence": {
+    "candidate_contract": {
+      "path": "qualification/0_2_10/public_package_release_contract_e535ff.json",
+      "commit_sha": "bd7b622c2016b2d614ce68aae146f2ae49cd814e",
+      "sha256": "98edce3c6c4e1a9e688f503f35a0cc8171a4c8e7e6f7d79e291d5267f642a304"
+    },
+    "scope_scan": {
+      "status": "PASS_BOUNDED_PUBLIC_SURFACES",
+      "package_files": 551,
+      "package_findings": 0,
+      "served_documentation_files": 749,
+      "served_documentation_findings": 0,
+      "report_sha256": "ad8b5f7e052a2eb98f3f891d51feec31b93fe4204cd8bd426fd1a18f4672ed47"
+    },
+    "independent_builds": {
+      "count": 2,
+      "source_materialization": "Git blobs at authorized_source_sha only",
+      "execution_contract_commit": "bd7b622c2016b2d614ce68aae146f2ae49cd814e",
+      "python": "3.13.1",
+      "build": "1.5.0",
+      "setuptools": "82.0.1",
+      "wheel": "0.47.0",
+      "twine": "7.0.0",
+      "source_date_epoch": 1791041164,
+      "wheel_runs_identical": true,
+      "normalized_sdist_runs_identical": true,
+      "raw_sdist_runs_identical": false,
+      "raw_sdist_note": "The two raw build archives differed in generated archive metadata; the frozen normalizer preserved payloads/modes and produced identical normalized release bytes."
+    },
+    "build_run_1": {
+      "status": "PASS_CANDIDATE_PACKAGE_ONLY",
+      "result_sha256": "bcd4e2924c20c41d40826943943075feac71529b301d14a057366a29ad29807e",
+      "evidence_manifest_sha256": "b691aefbdca8909bc853ddb03aafcf38c1d84ee94f8d485034398700067fb4f7"
+    },
+    "build_run_2": {
+      "status": "PASS_CANDIDATE_PACKAGE_ONLY",
+      "result_sha256": "c5d4e682dbeca7f6a1a62cc1b00cad39f837126a9a8c42c2abcbf990fa5e99f3",
+      "evidence_manifest_sha256": "debfc3db394adc6bdc5d2ad3c7bbad9ae521c3c6026e3f4b8ac57754322ac008"
+    },
+    "twine_check": "PASS",
+    "distribution_check": "PASS",
+    "installed_probes": {
+      "outside_checkout": "PASS",
+      "inside_checkout_safe_path": "PASS",
+      "installed_qf_sources_verified": 473,
+      "version": "0.2.10",
+      "cli": [
+        "qf-solver --version",
+        "qf-solver --help",
+        "solveur-ef --version",
+        "mitc4-solver --version"
+      ],
+      "verify_all_refusal_exit_code": 2,
+      "verify_all_report_created": false,
+      "dependency_isolation": "--no-index --no-deps; system and user site dependencies remain visible"
+    }
+  },
+  "authorized_artifacts": {
+    "wheel": {
+      "filename": "qf_solver-0.2.10-py3-none-any.whl",
+      "bytes": 1509431,
+      "sha256": "61641c97860cb25fb4c7a01e5c7ab724dc58616b97802cea2b9926fd10912454"
+    },
+    "sdist": {
+      "filename": "qf_solver-0.2.10.tar.gz",
+      "bytes": 1114201,
+      "sha256": "82e54d0d5d05c1ff224e1af72f90d0bbd84e13e93f7cc5f881ccd16242e4f3f3"
+    },
+    "manifest": {
+      "filename": "qf_solver-0.2.10-e535ff-SHA256SUMS.txt",
+      "bytes": 190,
+      "sha256": "a8d7e13cd3bf5292b9b941975d569512fed9c4985a9f9d7cd8a5c9efe9af6287"
+    }
+  },
+  "authorized_wheel_sha256": "61641c97860cb25fb4c7a01e5c7ab724dc58616b97802cea2b9926fd10912454",
+  "authorized_sdist_sha256": "82e54d0d5d05c1ff224e1af72f90d0bbd84e13e93f7cc5f881ccd16242e4f3f3",
+  "authorized_manifest_sha256": "a8d7e13cd3bf5292b9b941975d569512fed9c4985a9f9d7cd8a5c9efe9af6287",
+  "authorization": {
+    "selected_package_publication_allowed": true,
+    "tag_creation_allowed": true,
+    "pypi_publication_allowed": true,
+    "github_release_allowed": true,
+    "zenodo_selected_artifact_publication_allowed": true,
+    "whole_repository_archive_cleared": false,
+    "whole_repository_archive_publication_allowed": false,
+    "ledger_update_allowed": false,
+    "wp14_promotion_allowed": false,
+    "numeric_maturity_promotion_allowed": false,
+    "historical_result_reclassification_allowed": false,
+    "certification_or_universal_validation_claims_allowed": false
+  },
+  "selected_package_publication_allowed": true,
+  "tag_creation_allowed": true,
+  "pypi_publication_allowed": true,
+  "github_release_allowed": true,
+  "zenodo_selected_artifact_publication_allowed": true,
+  "whole_repository_archive_cleared": false,
+  "whole_repository_archive_publication_allowed": false,
+  "ledger_update_allowed": false,
+  "wp14_promotion_allowed": false,
+  "numeric_maturity_promotion_allowed": false,
+  "historical_result_reclassification_allowed": false,
+  "certification_or_universal_validation_claims_allowed": false,
+  "g03_status": "FAIL_PRESERVED",
+  "wp14_status": "HOLD_NOT_PROMOTED",
+  "preserved_gates": {
+    "g03_status": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "wp14_status": "HOLD_NOT_PROMOTED"
+  },
+  "release_identifiers": {
+    "version_doi": "10.5281/zenodo.23106744",
+    "version_doi_state": "Reserved in a Zenodo draft; not registered or citable until the selected-artifact deposit is published and resolves.",
+    "concept_doi": "10.5281/zenodo.22697897"
+  },
+  "residual_deviations_accepted_nonblocking_for_selected_publication": true,
+  "publication_constraints": [
+    "The Owner authorizes only the exact selected wheel, normalized sdist and checksum manifest identified above.",
+    "Tag CI and all required release workflow gates remain mandatory before publication.",
+    "Do not describe GitHub-generated complete source archives or a full-repository Zenodo archive as audited or cleared while G03 remains failed.",
+    "Keep G03 failed, WP14 on HOLD, and all historical results and maturity classifications unchanged.",
+    "Do not change selected package source bytes or publish different artifact bytes under this authorization."
+  ]
+}
