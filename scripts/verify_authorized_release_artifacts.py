@@ -13,15 +13,26 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from scripts.git_tools import git_run
-from scripts.verify_public_package import (
-    digest,
-    frozen_inputs,
-    installed_probe_command,
-    run_command,
-    verify_archives,
-    write_record,
-)
+if __package__:
+    from scripts.git_tools import git_run
+    from scripts.verify_public_package import (
+        digest,
+        frozen_inputs,
+        installed_probe_command,
+        run_command,
+        verify_archives,
+        write_record,
+    )
+else:
+    from git_tools import git_run
+    from verify_public_package import (
+        digest,
+        frozen_inputs,
+        installed_probe_command,
+        run_command,
+        verify_archives,
+        write_record,
+    )
 
 
 def _relative_path(value: str) -> str:

@@ -115,7 +115,7 @@
   },
   "tool_bindings": {
     "scripts/normalize_public_sdist.py": "1c3594c61b46af5601fda7993644aa613fb1523edb4709526b0ee35a01213d2c",
-    "scripts/verify_authorized_release_artifacts.py": "9b22903e7fb9956c795eb6cef82676053c806a030289f582e9eeb513aa227dbb",
+    "scripts/verify_authorized_release_artifacts.py": "507e391b21fd27a4bc34dea2a270e4e9e5e2021aebc65ff1379bc853fc54b199",
     ".github/workflows/publish-pypi.yml": "78ba2b6b8eec95a4a15e1c7de74e4f079522a002f3e269daf0b86e88118d3e87",
     "scripts/check_distribution.py": "456ba6fd025053073a8eaf46609a19f7b674edb2ca99cd024f963f8ef8848860"
   },
