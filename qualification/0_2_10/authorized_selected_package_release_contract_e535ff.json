@@ -154,10 +154,10 @@
   "tool_bindings": {
     "scripts/verify_authorized_release_artifacts.py": "892dcf3999ac4eb3195b19224ce2d5ba6ade92178d7fbd9f761c031579e0d5e3",
     "scripts/normalize_public_sdist.py": "1c3594c61b46af5601fda7993644aa613fb1523edb4709526b0ee35a01213d2c",
-    "scripts/check_distribution.py": "3858a988dd74f6df03d79d135d098dc442f7de2e554fc29e02d73920ccbf10e5",
-    "scripts/check_publication_metadata.py": "3d2251ca53dd5d307f007e3f89bbe599cff16f5ac9cdb92d326d08f0733798c7",
-    "scripts/audit_wp14_public_scope.py": "c6a473c3034399c5b24ab69ebc1351cd651880d99758e32aea09e8b2ad2a79d0",
-    ".github/workflows/publish-pypi.yml": "59827b7aecac61660bea6b1a2dca4c5da7b80090444e7eb69ec936503aec9bcd"
+    "scripts/check_distribution.py": "456ba6fd025053073a8eaf46609a19f7b674edb2ca99cd024f963f8ef8848860",
+    "scripts/check_publication_metadata.py": "bd31b1e32c23e04b0c524e17207a83a183aa44057a247fac0e5b07882f27a4ba",
+    "scripts/audit_wp14_public_scope.py": "fa2a39d03b2f14bfcbbaf725c7c9f25fe84b117a2824f3355765c0fa8c26d616",
+    ".github/workflows/publish-pypi.yml": "78ba2b6b8eec95a4a15e1c7de74e4f079522a002f3e269daf0b86e88118d3e87"
   },
   "release_identifiers": {
     "version_doi": "10.5281/zenodo.23106744",
