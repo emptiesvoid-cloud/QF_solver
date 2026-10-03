@@ -60,7 +60,7 @@
     "scripts/audit_release_archive.py": "b67613d0eb5e1b305aba2bb9181d12529eda7859db00b840a71746bc39c52a37",
     "scripts/review_vocabulary.py": "28af00eab2a09fdcb94bf3c4682230dcaaca9b519aeb0867d96b67d4589ad3aa"
   },
-  "scope_scan_tool_sha256": "cb1493a8a49d3f1ee0be89efc37050dc87a8c5165dbfb6de6fdd17b3bbeaf79c",
+  "scope_scan_tool_sha256": "fa2a39d03b2f14bfcbbaf725c7c9f25fe84b117a2824f3355765c0fa8c26d616",
   "candidate_execution_profile": {
     "source_materialization": "Selected regular Git blobs from source_sha; no checkout working-tree bytes.",
     "build_command": "python -m build --no-isolation --outdir <new-external-output>/dist <new-external-output>/selected_source",
