@@ -74,6 +74,9 @@ def test_pypi_workflow_publishes_only_audited_selected_archives() -> None:
     assert "default" not in events["workflow_dispatch"]["inputs"]["contract_path"]
     assert "audited_artifacts" in str(workflow["jobs"]["preflight"])
     assert "audit_wp14_public_scope.py" in build
-    assert "verify_public_package.py" in build
+    assert "verify_authorized_release_artifacts.py" in build
+    assert "gh release download" in build
     assert "qf-package-candidate/dist" in build
     assert "python -m build" not in build
+    assert "verify_public_package.py" not in build
+    assert "PASS_AUTHORIZED_SELECTED_ARTIFACTS_ONLY" in build
