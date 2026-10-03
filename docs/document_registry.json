@@ -94,6 +94,15 @@
       "tests": []
     },
     {
+      "id": "DOC-WHATS-NEW-0210-001",
+      "path": "whats-new/0.2.10.md",
+      "title": "What's New in QF Solver 0.2.10",
+      "status": "controlled",
+      "requirements": [],
+      "examples": [],
+      "tests": []
+    },
+    {
       "id": "DOC-START-001",
       "path": "demarrage/installation.md",
       "title": "Installation pointer",
