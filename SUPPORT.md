@@ -7,8 +7,9 @@ Support is best-effort. QF_solver is not certified software and does not
 replace an engineer's independent model review, boundary-condition review,
 mesh-quality assessment or validation against the intended application.
 
-The latest published release, currently `0.2.8`, is the normal support
-reference. Questions should include the exact release tag or source revision
+The latest published release, as listed on PyPI, is the normal support
+reference; the selected next release line is currently `0.2.10`. Questions
+should include the exact release tag or source revision
 when reproducibility matters. Older releases are supported on a best-effort
 basis and are not actively maintained by default.
 

@@ -2,20 +2,20 @@
 doc_id: DOC-CAPABILITY-028-001
 revision: 1.0
 status: controlled
-applicable_version: 0.2.8
+applicable_version: 0.2.10
 reviewer: ""
 approver: ""
 ---
 
-# QF Solver 0.2.8 capability index
+# QF Solver 0.2.10 capability index
 
-**Current release:** `0.2.8` / `v0.2.8`
-**Publication status:** `PUBLISHED`
+**Selected release line:** `0.2.10` / planned `v0.2.10`
+**Publication status:** check [PyPI](https://pypi.org/project/qf-solver/) and the source tags.
 
-This page is the public orientation index for the published 0.2.8 release. It links to
-the authoritative element-analysis registry and to the separate mixed-workflow,
-capability and research records. It does not merge those records and it does
-not create a new maturity decision.
+This page is the public orientation index for the 0.2.10 package. It links to
+the previously qualified 0.2.8 element-analysis registry and separate
+mixed-workflow, capability and research records. The package release does not
+merge those records, create a new maturity decision or promote WP14.
 
 ## How to read this index
 
@@ -83,7 +83,7 @@ solver capabilities and must not be used as production or qualification claims.
 ## Public entry points
 
 - [V&V and evidence model](../verification/evidence-and-maturity.md)
-- [0.2.8 What's New](../whats-new/0.2.8.md)
+- [0.2.10 What's New](../whats-new/0.2.10.md)
 - [Installation](../getting-started/installation.md)
 - [API stability](../reference/api_stability.md)
 - [Known limitations](../etat/limites.md)

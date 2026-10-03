@@ -60,34 +60,31 @@ def check_publication_metadata(root: Path, tag: str) -> list[str]:
     readme = contents["README.md"]
     if f"| Release line | `{version}` |" not in readme:
         failures.append("README.md release line does not identify this version")
-    if f"## {version} - Released" not in contents["CHANGELOG.md"]:
-        failures.append("CHANGELOG.md has no released entry for this version")
-    if f"**Current release:** [`{version}`]" not in contents["docs/index.md"]:
-        failures.append("docs/index.md still advertises a different current release")
-    if f"QF Solver `{version}` is published" not in contents["docs/getting-started/installation.md"]:
-        failures.append("installation guide does not identify this published version")
-    if f"**Current release:** `{version}` / `{tag}`" not in contents["docs/capabilities/index.md"]:
-        failures.append("capability index still advertises a different release")
-    if f"QF Solver {version} is the current published release." not in contents["docs/reference/feuille_de_route.md"]:
-        failures.append("public roadmap still advertises a different release")
-    if f"QF Solver `{version}` (`{tag}`)" not in contents["CONTRIBUTING.md"]:
+    if f"## {version} - Release scope" not in contents["CHANGELOG.md"]:
+        failures.append("CHANGELOG.md does not identify the selected release scope")
+    if f"**Selected release line:** `{version}`" not in contents["docs/index.md"]:
+        failures.append("docs/index.md does not identify the selected release line")
+    if f"QF Solver `{version}` is the selected package version" not in contents["docs/getting-started/installation.md"]:
+        failures.append("installation guide does not identify the selected package version")
+    if f"**Selected release line:** `{version}` / planned `{tag}`" not in contents["docs/capabilities/index.md"]:
+        failures.append("capability index does not identify the selected release line")
+    if f"QF Solver {version} is the selected release line" not in contents["docs/reference/feuille_de_route.md"]:
+        failures.append("public roadmap does not identify the selected release line")
+    if f"QF Solver `{version}` (`{tag}` when tagged)" not in contents["CONTRIBUTING.md"]:
         failures.append("contribution guide still advertises a different release")
     if f"currently `{version}`" not in contents["SUPPORT.md"]:
         failures.append("support guide still advertises a different release")
-    if f"Current release: `{version}` / `{tag}`" not in contents["SECURITY.md"]:
+    if f"Selected release line: `{version}` / planned `{tag}`" not in contents["SECURITY.md"]:
         failures.append("security policy still advertises a different release")
 
     for relative, body in contents.items():
-        denial_before_version = re.search(
-            rf"(?is)(?:no|not|pas de|non)\s+[^.\n]{{0,90}}{re.escape(version)}[^.\n]{{0,90}}(?:publish|publi)",
-            body,
+        premature_claims = (
+            rf"QF Solver [`]?{re.escape(version)}[`]? is published",
+            rf"{re.escape(version)} is the current published release",
+            rf"published {re.escape(version)} package",
         )
-        denial_after_version = re.search(
-            rf"(?is){re.escape(version)}[^.]{{0,160}}\b(?:not\s+(?:yet\s+)?(?:a\s+)?(?:tagged|published|publishable)|no\s+[^.]{{0,30}}(?:publication|version\s+DOI))\b",
-            body,
-        )
-        if denial_before_version or denial_after_version:
-            failures.append(f"{relative} still denies publication of this version")
+        if any(re.search(pattern, body, re.IGNORECASE) for pattern in premature_claims):
+            failures.append(f"{relative} prematurely claims publication of this version")
     return failures
 
 

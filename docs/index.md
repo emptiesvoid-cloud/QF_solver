@@ -2,17 +2,18 @@
 doc_id: DOC-STATE-001
 revision: 1.1
 status: controlled
-applicable_version: 0.2.8
+applicable_version: 0.2.10
 reviewer: ""
 approver: ""
 ---
 
-# QF Solver 0.2.8
+# QF Solver 0.2.10
 
 QF Solver is an inspectable Python finite-element solver for structural
-mechanics. **Current release:** [`0.2.8`](https://github.com/emptiesvoid-cloud/QF_solver/releases/tag/v0.2.8).
-The package is available on [PyPI](https://pypi.org/project/qf-solver/), and
-the release archive is preserved at [Zenodo](https://doi.org/10.5281/zenodo.22697898).
+mechanics. **Selected release line:** `0.2.10`. Check
+[PyPI](https://pypi.org/project/qf-solver/) for package availability. The
+version DOI `10.5281/zenodo.23106744` is reserved; cite it only after the
+selected Zenodo deposit is published.
 Claims are bounded by the active consolidated registry, separate
 workflow/capability records and their linked evidence.
 
@@ -39,7 +40,7 @@ tools, start with the solver-selection and comparison guides:
 ## Current scope
 
 - Bounded linear static routes are available for the element combinations in
-  the active 0.2.8 registry.
+  the carried 0.2.8 registry; the new package version does not promote them.
 - Small-strain J2 is bounded to TET4, TET10, HEX8 and HEX20.
 - Modal, Newmark, harmonic, buckling and frictionless contact routes have
   route-specific limitations.
@@ -84,18 +85,16 @@ passed at its frozen source revision, while the full repository archive remains
 outside that scope and fails the public-content scan. The source tag does not
 clear the full archive for distribution. The
 [known limitations](etat/limites.md) and recorded failures remain visible.
-The current published release is `0.2.8` as linked above. See the
+The selected release line is `0.2.10`; publication status is determined by PyPI. See the
 [public roadmap](reference/feuille_de_route.md) for product-level next steps.
-The development package version is `0.2.10`, a preparation candidate only;
-it has not been tagged or published. The new-version Zenodo draft reserves
-`10.5281/zenodo.23106744`, but has no files; this DOI is not registered or a
-published citation. Its eventual distribution requires fresh frozen-source
-and package checks and a separate publication decision. The `v0.2.9` source
-tag remains unchanged.
+The assigned Zenodo version DOI is `10.5281/zenodo.23106744`; the planned
+record is limited to selected distribution artifacts and checksums. The whole-repository
+archive still fails G03 and is not a release artifact. The `v0.2.9` source
+tag remains unchanged, and WP14 has not been promoted.
 Historical qualification records remain available for provenance and are
 labelled as historical in their own pages.
 
-Read [What's New in 0.2.8](whats-new/0.2.8.md) for the published release
+Read [What's New in 0.2.10](whats-new/0.2.10.md) for the selected release
 summary.
 
 ## Performance and reproducibility

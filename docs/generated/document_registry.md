@@ -1,9 +1,13 @@
 | ID | Title | Status | Requirements | Examples | Tests | Source |
 | --- | --- | --- | --- | --- | --- | --- |
-| DOC-STATE-001 | QF Solver 0.2.8 | controlled | REQ-AUD-001, REQ-CMP-001 | 1 | 1 | index.md |
+| DOC-STATE-001 | QF Solver 0.2.10 | controlled | REQ-AUD-001, REQ-CMP-001 | 1 | 1 | index.md |
 | DOC-VNV-CODEASTER-CAMPAIGN-2026-08-14 | Campagne de correlation Code_Aster du 2026-08-14 | ready_for_owner_review | REQ-CMP-003, REQ-AUD-001 | 1 | 3 | verification/code_aster_correlation_campaign_2026-08-14.md |
 | DOC-STATE-002 | Capabilities and maturity | controlled | REQ-CMP-001, REQ-REL-001 | 0 | 0 | etat/capacites.md |
 | DOC-STATE-003 | Known limitations | controlled | REQ-CMP-002, REQ-REL-001 | 0 | 0 | etat/limites.md |
+| DOC-CAPABILITY-028-001 | QF Solver 0.2.10 capability index | controlled |  | 0 | 0 | capabilities/index.md |
+| DOC-VV-MATURITY-028-001 | V&V, evidence and maturity | controlled |  | 0 | 0 | verification/evidence-and-maturity.md |
+| DOC-WHATS-NEW-028-001 | What's New in QF Solver 0.2.8 | controlled |  | 0 | 0 | whats-new/0.2.8.md |
+| DOC-WHATS-NEW-0210-001 | What's New in QF Solver 0.2.10 | controlled |  | 0 | 0 | whats-new/0.2.10.md |
 | DOC-START-001 | Installation pointer | superseded | REQ-REL-001 | 0 | 1 | demarrage/installation.md |
 | DOC-START-002 | Quickstart pointer | superseded | REQ-IO-001, REQ-MESH-001, REQ-SOL-001 | 1 | 1 | demarrage/premier_calcul.md |
 | DOC-START-003 | Creer un cas | draft | REQ-IO-001, REQ-MESH-001 | 0 | 0 | demarrage/creer_un_cas.md |
@@ -174,7 +178,7 @@
 | DOC-LEGACY-MANUAL-001 | Manuel theorique des elements finis | superseded |  | 0 | 0 | manuel_theorique_elements_finis.md |
 | DOC-REF-API-002 | API stability | controlled | REQ-REL-001 | 0 | 2 | reference/api_stability.md |
 | DOC-REF-DEMO-001 | Demonstrations et API de reproductibilite | draft | REQ-DOC-001, REQ-CMP-003, REQ-EVD-001 | 2 | 2 | reference/demonstrations_api.md |
-| DOC-REF-OSS-001 | Preparation open source | controlled | REQ-REL-001 | 0 | 1 | reference/open_source.md |
+| DOC-REF-OSS-001 | Open-source licence and publication | controlled | REQ-REL-001 | 0 | 1 | reference/open_source.md |
 | DOC-VV-CONTENT-CLOSURE-001 | Complements de champs, convergence et correlation | ready_for_owner_review | REQ-DOC-001, REQ-CMP-003, REQ-EVD-001 | 2 | 2 | verification/contenus_techniques_complementaires.md |
 | DOC-VV-OWNER-PAGES-001 | Owner review des pages techniques | controlled | REQ-DOC-001, REQ-CMP-003 | 2 | 1 | verification/owner_review_pages_techniques.md |
 | DOC-LATEX-BUILD-001 | Construction du dossier technique LaTeX | draft | REQ-DOC-001, REQ-EVD-001 | 0 | 2 | latex/README.md |
@@ -336,3 +340,254 @@
 | DOC-START-PUB-002 | First calculation | controlled |  | 0 | 0 | getting-started/quickstart.md |
 | DOC-027-5M-CLOSEOUT | LU2 5M Bronze and Silver Closeout | controlled_candidate |  | 0 | 0 | verification/0_2_7/0_2_7_lu2_wp04_wp05_5m_closeout.md |
 | DOC-027-STEP1 | Historical 0.2.7 Step 1 release-freeze record | controlled_release |  | 0 | 0 | verification/0_2_7/0_2_7_step1_release_freeze.md |
+| DOC-SOLVER-GUIDE-001 | When should I use QF Solver? | controlled |  | 0 | 0 | getting-started/when-to-use-qf-solver.md |
+| DOC-SOLVER-COMP-000 | FEM solver comparisons | controlled |  | 0 | 0 | comparisons/index.md |
+| DOC-SOLVER-COMP-001 | Python FEM solvers: which one should you use? | controlled |  | 0 | 0 | comparisons/python-fem-solvers.md |
+| DOC-SOLVER-COMP-002 | QF Solver vs SfePy | controlled |  | 0 | 0 | comparisons/qf-vs-sfepy.md |
+| DOC-SOLVER-COMP-003 | QF Solver vs scikit-fem | controlled |  | 0 | 0 | comparisons/qf-vs-scikit-fem.md |
+| DOC-SOLVER-COMP-004 | QF Solver vs CalculiX | controlled |  | 0 | 0 | comparisons/qf-vs-calculix.md |
+| DOC-SOLVER-COMP-005 | QF Solver vs Code_Aster | controlled |  | 0 | 0 | comparisons/qf-vs-code-aster.md |
+| DOC-SOLVER-BENCH-001 | QF Solver benchmarks and reproducibility | controlled |  | 0 | 0 | benchmarks/index.md |
+| DOC-028-001 | QF Solver 0.2.8 WP01 maturity baseline | controlled_candidate |  | 1 | 1 | verification/0_2_8/README.md |
+| DOC-REF-API-003 | QF Solver public Python API contract | controlled_candidate |  | 1 | 1 | reference/qf_solver_api.md |
+| DOC-028-WP03-001 | QF Solver 0.2.8 WP03 BEAM2 and DISCRETE V&V | controlled_candidate |  | 2 | 1 | verification/0_2_8/wp03_beam2_discrete_vnv.md |
+| DOC-028-WP03B-001 | QF Solver 0.2.8 WP03B BEAM2 and DISCRETE dynamic V&V | controlled_candidate |  | 2 | 1 | verification/0_2_8/wp03b_dynamic_vnv.md |
+| DOC-028-WP03-OWNER-001 | QF Solver 0.2.8 WP03 final Owner gate | controlled_candidate |  | 2 | 1 | verification/0_2_8/wp03_owner_gate_final.md |
+| DOC-028-WP04-001 | QF Solver 0.2.8 WP04 MITC3 and MITC4 V&V | controlled_candidate |  | 2 | 1 | verification/0_2_8/wp04_mitc_vnv.md |
+| DOC-028-WP04-OWNER-001 | QF Solver 0.2.8 WP04 final Owner gate | controlled_candidate |  | 2 | 1 | verification/0_2_8/wp04_owner_gate_final.md |
+| DOC-028-WP05-001 | QF Solver 0.2.8 WP05 WEDGE6 static V&V | controlled_candidate |  | 3 | 1 | verification/0_2_8/wp05_wedge6_vnv.md |
+| DOC-028-WP05-OWNER-001 | QF Solver 0.2.8 WP05 final Owner gate | controlled_candidate |  | 2 | 1 | verification/0_2_8/wp05_owner_gate_final.md |
+| DOC-028-WP06-001 | QF Solver 0.2.8 WP06 HEX8 linear-buckling assessment | controlled_candidate |  | 3 | 1 | verification/0_2_8/wp06_hex8_buckling_vnv.md |
+| DOC-028-WP06B-001 | QF Solver 0.2.8 WP06B HEX8 buckling root-cause remediation | controlled_candidate |  | 3 | 1 | verification/0_2_8/wp06b_hex8_buckling_vnv.md |
+| DOC-028-WP07-001 | QF Solver 0.2.8 WP07 mixed linear-static V&V | controlled_candidate |  | 3 | 1 | verification/0_2_8/wp07_mixed_static_vnv.md |
+| DOC-028-WP07-OWNER-001 | QF Solver 0.2.8 WP07 final Owner gate | controlled_candidate |  | 2 | 1 | verification/0_2_8/wp07_owner_gate_final.md |
+| DOC-028-WP08-001 | QF Solver 0.2.8 WP08 mixed modal V&V | controlled_candidate |  | 3 | 1 | verification/0_2_8/wp08_mixed_modal_vnv.md |
+| DOC-028-WP08B-001 | QF Solver 0.2.8 WP08B mixed modal follow-up | controlled_candidate |  | 4 | 1 | verification/0_2_8/wp08b_mixed_modal_vnv.md |
+| DOC-028-WP08B-OWNER-001 | QF Solver 0.2.8 WP08B final Owner gate | controlled_candidate |  | 1 | 1 | verification/0_2_8/wp08b_owner_gate_final.md |
+| DOC-028-WP09-001 | QF Solver 0.2.8 WP09 PYRAMID5 formulation gate | controlled_candidate |  | 2 | 1 | verification/0_2_8/wp09_pyramid5_formulation.md |
+| DOC-028-WP09-VNV-001 | WP09 PYRAMID5 feasibility gate | controlled_candidate |  | 3 | 1 | verification/0_2_8/wp09_pyramid5_vnv.md |
+| DOC-028-WP10-FORMULATION-001 | WP10 HEX8 selective reduced integration formulation | controlled_candidate |  | 2 | 1 | verification/0_2_8/wp10_hex8_sri_formulation.md |
+| DOC-028-WP10-VNV-001 | WP10 HEX8 selective reduced integration research gate | controlled_candidate |  | 3 | 1 | verification/0_2_8/wp10_hex8_sri_vnv.md |
+| DOC-028-WP10-OWNER-001 | WP10 HEX8-SRI Owner gate | controlled_candidate |  | 1 | 1 | verification/0_2_8/wp10_hex8_sri_owner_gate_final.md |
+| DOC-028-WP11-CONTRACT-001 | WP11 mixed large-scale evidence contract | controlled_candidate |  | 3 | 1 | verification/0_2_8/wp11_mixed_large_contract.md |
+| DOC-028-WP11-VNV-001 | WP11 mixed large-scale evidence | controlled_candidate |  | 2 | 1 | verification/0_2_8/wp11_mixed_large_vnv.md |
+| DOC-028-WP11B-CONTRACT-001 | WP11B HEX8 buckling experimental-readiness contract | controlled_candidate |  | 2 | 1 | verification/0_2_8/wp11b_hex8_buckling_experimental_contract.md |
+| DOC-028-WP11B-VNV-001 | WP11B HEX8 buckling experimental-readiness campaign | controlled_candidate |  | 2 | 1 | verification/0_2_8/wp11b_hex8_buckling_experimental_vnv.md |
+| DOC-028-WP11B-OWNER-001 | WP11B HEX8 buckling Owner gate | controlled_candidate |  | 1 | 1 | verification/0_2_8/wp11b_hex8_buckling_owner_gate_final.md |
+| DOC-028-WP13-02A-READINESS-001 | QF Solver 0.2.8 WP13-02A mixed dynamics readiness | controlled_candidate |  | 3 | 0 | verification/0_2_8/wp13_02a_dynamic_readiness.md |
+| DOC-028-WP13-02A2-WEDGE6-DYNAMIC-001 | QF Solver 0.2.8 WP13-02A2 WEDGE6 dynamic enablement | controlled_candidate |  | 3 | 1 | verification/0_2_8/wp13_02a2_wedge6_dynamic_enablement.md |
+| DOC-028-WP13-02B-MIXED-NEWMARK-001 | QF Solver 0.2.8 WP13-02B connected mixed Newmark campaign | controlled_candidate |  | 2 | 1 | verification/0_2_8/wp13_02b_mixed_newmark.md |
+| DOC-028-WP13-02B2-EVIDENCE-CLOSURE-001 | QF Solver 0.2.8 WP13-02B2 Newmark evidence closure | owner_review_required |  | 3 | 1 | verification/0_2_8/wp13_02b2_evidence_closure.md |
+| DOC-028-WP13-02B5-NEWMARK-V2-001 | QF Solver 0.2.8 WP13-02B5 Newmark V2 campaign | owner_review_required |  | 3 | 1 | verification/0_2_8/wp13_02b5_newmark_v2.md |
+| DOC-028-WP13-02B7-NEWMARK-V2-RERUN-001 | QF Solver 0.2.8 WP13-02B7 Newmark V2 rerun | owner_review_required |  | 3 | 1 | verification/0_2_8/wp13_02b7_newmark_v2_rerun.md |
+| DOC-028-WP13-02C-MIXED-HARMONIC-001 | QF Solver 0.2.8 WP13-02C connected mixed harmonic campaign | owner_review_required |  | 4 | 1 | verification/0_2_8/wp13_02c_mixed_harmonic.md |
+| DOC-028-WP13-02C2-HARMONIC-HARNESS-001 | QF Solver 0.2.8 WP13-02C2 harmonic harness/evidence correction | owner_review_required |  | 4 | 1 | verification/0_2_8/wp13_02c2_harmonic_harness.md |
+| DOC-029-WP07-A-READINESS-001 | QF Solver 0.2.9 WP07-A frictionless contact readiness audit | controlled_candidate |  | 1 | 3 | verification/0_2_9/wp07-frictionless-contact-readiness.md |
+| DOC-029-WP07-A-CONTRACT-001 | QF Solver 0.2.9 WP07-A contact formulation contract R1 | controlled_candidate |  | 1 | 3 | verification/0_2_9/wp07a-contact-formulation-contract.md |
+| DOC-029-WP07-B-CONTACT-EVALUATION-001 | QF Solver 0.2.9 WP07-B contact evaluation and restart semantics | controlled_candidate |  | 1 | 4 | verification/0_2_9/wp07b-contact-evaluation-restart.md |
+| DOC-029-WP07-C-CONTACT-IDENTITIES-001 | QF Solver 0.2.9 WP07-C contact identities and open/close V&V | controlled_candidate |  | 1 | 4 | verification/0_2_9/wp07c-contact-identities.md |
+| DOC-029-WP07-D-STRUCTURAL-VNV-001 | QF Solver 0.2.9 WP07-D structural and external V&V contract | controlled_candidate |  | 1 | 4 | verification/0_2_9/wp07d-structural-vnv-contract.md |
+| DOC-029-WP07-E-CLOSURE-001 | QF Solver 0.2.9 WP07-E refinement replay and Owner closure contract | controlled_candidate |  | 1 | 1 | verification/0_2_9/wp07e-closure-contract.md |
+| DOC-028-WP13-02C3-HARMONIC-FINAL-001 | QF Solver 0.2.8 WP13-02C3 final mixed harmonic campaign | owner_review_required |  | 4 | 1 | verification/0_2_8/wp13_02c3_harmonic_final.md |
+| DOC-029-WP04-F-001 | QF Solver 0.2.9 WP04-F independent geometric nonlinear closure audit | owner_review_required |  | 3 | 1 | verification/0_2_9/wp04-f-final-closure-audit.md |
+| DOC-029-WP15-TELEMETRY-ARCHITECTURE-001 | QF Solver 0.2.9 WP15 global telemetry architecture | controlled_candidate |  | 1 | 0 | verification/0_2_9/wp15-global-telemetry-architecture.md |
+| DOC-029-WP15A-GENERIC-TELEMETRY-CORE-001 | QF Solver 0.2.9 WP15-A generic telemetry core | controlled_candidate |  | 1 | 1 | verification/0_2_9/wp15a-generic-telemetry-core.md |
+| DOC-029-WP15B-ROUTE-INSTRUMENTATION-PHASE1-001 | QF Solver 0.2.9 WP15-B phase 1 console and route instrumentation | controlled_candidate |  | 1 | 1 | verification/0_2_9/wp15b-route-instrumentation-phase1.md |
+| DOC-029-WP15-INTEGRATION-001 | QF Solver 0.2.9 WP15 governing-branch integration audit | owner_review_required |  | 1 | 3 | verification/0_2_9/wp15-integration-into-governing-branch.md |
+| DOC-029-WP05-READINESS-001 | QF Solver 0.2.9 WP05 high-order geometric readiness audit | controlled_candidate |  | 1 | 3 | verification/0_2_9/wp05-high-order-geometric-readiness.md |
+| DOC-029-WP05-AB-IDENTITIES-001 | QF Solver 0.2.9 WP05-A/B high-order TL identity V&V | owner_review_required |  | 1 | 3 | verification/0_2_9/wp05-ab-high-order-identities.md |
+| DOC-029-WP05-CD-STRUCTURAL-CONTRACT-001 | QF Solver 0.2.9 WP05-C/D TET10 and HEX20 structural benchmark contract | controlled_candidate |  | 1 | 1 | verification/0_2_9/wp05-cd-structural-contract.md |
+| DOC-029-WP05-INTEGRATION-001 | QF Solver 0.2.9 WP05 governing-branch integration audit | owner_review_required |  | 1 | 3 | verification/0_2_9/wp05-integration-into-governing-branch.md |
+| DOC-029-WP07-INTEGRATION-001 | QF Solver 0.2.9 WP07 governing-branch integration audit | owner_review_required |  | 6 | 5 | verification/0_2_9/wp07-integration-into-governing-branch.md |
+| DOC-029-WP08A-001 | QF Solver 0.2.9 WP08-A frictional-contact readiness audit | controlled_candidate |  | 1 | 2 | verification/0_2_9/wp08a-frictional-contact-readiness.md |
+| DOC-029-WP08B-001 | QF Solver 0.2.9 WP08-B frictional identities and rollback | controlled_candidate |  | 1 | 4 | verification/0_2_9/wp08b-frictional-identities-rollback.md |
+| DOC-029-WP08C-001 | QF Solver 0.2.9 WP08-C friction tangent and dissipation V&V | controlled_candidate |  | 1 | 5 | verification/0_2_9/wp08c-friction-tangent-dissipation.md |
+| DOC-029-WP08D-001 | QF Solver 0.2.9 WP08-D frictional structural and independent-reference contract | controlled_candidate |  | 1 | 6 | verification/0_2_9/wp08d-structural-reference-contract.md |
+| DOC-029-WP08-CONTROLLED-001 | QF Solver 0.2.9 WP08 controlled reconstruction and revalidation | ready_for_owner_review |  | 2 | 3 | verification/0_2_9/wp08-controlled-integration-review.md |
+| DOC-029-WP08-AUTHORIZED-MERGE-001 | QF Solver 0.2.9 WP08 authorized local merge report | merged_locally_pending_structural_requalification |  | 1 | 4 | verification/0_2_9/wp08-authorized-merge-report.md |
+| DOC-029-WP08D-PHASE1-001 | QF Solver 0.2.9 WP08-D Phase-1 execution runner freeze | preparation_only |  | 3 | 4 | verification/0_2_9/wp08d-phase1-runner-freeze.md |
+| DOC-029-WP08E-001 | QF Solver 0.2.9 WP08-E accepted-state closure | owner_approved_with_limitations |  | 3 | 1 | verification/0_2_9/wp08e-closure-report.md |
+| DOC-029-WP08-OWNER-002 | QF Solver 0.2.9 WP08 Owner approval and retained limitations | owner_approved_with_limitations |  | 3 | 1 | verification/0_2_9/wp08-owner-approval.md |
+| DOC-029-WP05-C-REQUALIFICATION-001 | QF Solver 0.2.9 WP05-C TET10 formal structural requalification | owner_approved_with_limitations |  | 4 | 2 | verification/0_2_9/wp05-c-tet10-formal-requalification.md |
+| DOC-029-WP05-E-CROSS-FAMILY-001 | QF Solver 0.2.9 WP05-E TET10/HEX20 cross-family closure | owner_approved_with_limitations |  | 2 | 2 | verification/0_2_9/wp05-e-cross-family-closure.md |
+| DOC-029-WP05-CDE-OWNER-INTEGRATION-001 | QF Solver 0.2.9 WP05-C/D/E Owner-approved bounded integration | owner_approved_with_limitations_local_governing_unpushed |  | 3 | 2 | verification/0_2_9/wp05-cde-owner-integration.md |
+| DOC-029-WP06-001 | QF Solver 0.2.9 WP06 arc-length and postbuckling readiness | controlled_candidate |  | 1 | 0 | verification/0_2_9/wp06-arc-length-postbuckling-readiness.md |
+| DOC-029-WP06A-001 | QF Solver 0.2.9 WP06-A arc-length formulation contract | controlled_candidate |  | 1 | 1 | verification/0_2_9/wp06a-arc-length-formulation-contract.md |
+| DOC-029-WP06B-001 | QF Solver 0.2.9 WP06-B continuation state and rollback contract | controlled_candidate |  | 1 | 1 | verification/0_2_9/wp06b-continuation-state-rollback.md |
+| DOC-029-WP06C-001 | QF Solver 0.2.9 WP06-C arc-length predictor, corrector and constraint identities | controlled_candidate |  | 1 | 1 | verification/0_2_9/wp06c-arc-length-predictor-corrector-identities.md |
+| DOC-029-WP06D-001 | QF Solver 0.2.9 WP06-D structural limit-point qualification contract | controlled_candidate |  | 1 | 1 | verification/0_2_9/wp06d-structural-limit-point-contract.md |
+| DOC-029-WP06E-001 | QF Solver 0.2.9 WP06-E postbuckling and imperfection claim contract | controlled_candidate |  | 1 | 1 | verification/0_2_9/wp06e-postbuckling-imperfection-contract.md |
+| DOC-029-WP06F-001 | QF Solver 0.2.9 WP06-F closure, replay, reference and provenance contract | controlled_candidate |  | 1 | 1 | verification/0_2_9/wp06f-closure-contract.md |
+| DOC-029-WP06D1-001 | QF Solver 0.2.9 WP06-D1 M2 failure diagnostic | controlled_evidence |  | 1 | 0 | verification/0_2_9/wp06-d1-m2-failure-diagnostic.md |
+| DOC-029-WP06D1-REMEDIATION-001 | QF Solver 0.2.9 WP06-D1 pre-merge remediation preparation | controlled_candidate |  | 1 | 2 | verification/0_2_9/wp06-premerge-remediation.md |
+| DOC-029-WP06-ABC-REVALIDATION-R1 | QF Solver 0.2.9 WP06-A/B/C current-source revalidation R1 | ready_for_owner_review |  | 2 | 6 | verification/0_2_9/wp06-abc-current-revalidation.md |
+| DOC-029-WP06D-R2-RUNNER-SAFETY-PREP | QF Solver 0.2.9 WP06-D R2 runner safety preparation | phase_0_preparation |  | 3 | 5 | verification/0_2_9/wp06d-r2-runner-safety-preparation.md |
+| DOC-029-WP06-ABC-OWNER-DECISION | QF Solver 0.2.9 WP06-A/B/C Owner acceptance and point award | controlled_evidence |  | 1 | 0 | verification/0_2_9/wp06-abc-owner-decision.md |
+| DOC-029-WP06D-R2-GUARD-HARDENING | QF Solver 0.2.9 WP06-D R2 execution-guard hardening audit | controlled_evidence |  | 1 | 2 | verification/0_2_9/wp06d-r2-guard-hardening.md |
+| DOC-029-WP11-M3-PROCESS-ATTESTATION | QF Solver 0.2.9 WP11 R2 M3 post-hoc Docker process-event attestation | controlled_evidence |  | 6 | 0 | verification/0_2_9/wp11-m3-process-attestation.md |
+| DOC-029-WP12-EXTERNAL-VV-R2-OWNER-REVIEW | QF Solver 0.2.9 WP12 Code_Aster R2 external correlation Owner review | controlled_evidence |  | 4 | 1 | verification/0_2_9/wp12-external-vv-r2-owner-review.md |
+| DOC-029-WP12-EXTERNAL-VV-INDEPENDENT-AUDIT | QF Solver 0.2.9 WP12 independent plan and raw-evidence audit | controlled_evidence |  | 3 | 1 | verification/0_2_9/wp12-external-vv-independent-audit.md |
+| DOC-029-WP12-EXTERNAL-VV-R3-5-RESULTS | QF Solver 0.2.9 WP12 R3.5 expanded Code_Aster correlation results | controlled_evidence |  | 3 | 2 | verification/0_2_9/wp12-expanded-correlation-r3_5-results.md |
+| DOC-029-WP12-R4-GALLERY-RESULTS | QF Solver 0.2.9 WP12 R4 expanded Code_Aster model-gallery correlation | controlled_evidence |  | 4 | 1 | verification/0_2_9/wp12-expanded-correlation-r4-gallery-results.md |
+| DOC-029-WP12-OWNER-ACCEPTANCE-R2 | QF Solver 0.2.9 WP12 Owner acceptance of bounded external correlation | controlled_evidence |  | 3 | 0 | verification/0_2_9/wp12-owner-acceptance-r2.md |
+| DOC-029-CONTACT-ACTIVE-SET-REQUAL-001 | QF Solver 0.2.9 frictional contact active-set remediation and WP07/WP08 reopening | controlled_evidence |  | 4 | 4 | verification/0_2_9/contact-active-set-remediation.md |
+| DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-001 | WP08 area-supported contact R1.13 normalized active-slip globalization diagnostic contract | controlled_candidate_contract |  | 0 | 2 | verification/0_2_9/wp08-area-supported-contact-r1-13-normalized-merit.md |
+| DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-RESULTS | WP08 R1.13 area-supported contact results accepted experimentally with limitations | owner_accepted_experimental_with_limitations |  | 1 | 0 | verification/0_2_9/wp08-area-supported-contact-r1-13-final-report.md |
+| DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-OWNER-DECISION | WP08 R1.13 Owner acceptance as experimental evidence with limitations | owner_accepted_experimental_with_limitations |  | 2 | 0 | verification/0_2_9/wp08-area-supported-contact-r1-13-owner-decision.md |
+| DOC-029-WP07-D-R2.5-OWNER-ACCEPTANCE-001 | QF Solver 0.2.9 WP07-D R2.5 Owner acceptance with limitations | controlled_evidence |  | 4 | 1 | verification/0_2_9/wp07d-r2-5-owner-acceptance.md |
+| DOC-029-WP07-R2.5-INTEGRATION-001 | QF Solver 0.2.9 WP07 R2.5 authorized governing integration and push record | controlled_evidence |  | 3 | 1 | verification/0_2_9/wp07-r2-5-integration-record.md |
+| DOC-029-WP08-AREA-SUPPORTED-CONTACT-R1-13-INTEGRATION | WP08 R1.13 Owner-authorized governing integration and push record | controlled_evidence |  | 3 | 0 | verification/0_2_9/wp08-area-contact-r1-13-integration-record.md |
+| DOC-MARKDOWN-0A3756894A80B76B | Niveaux de detail des audits | controlled_candidate |  | 0 | 0 | reference/audit_detail_modes.md |
+| DOC-029-001 | QF Solver 0.2.9 Unified Nonlinear Mechanics — master plan | planning |  | 0 | 0 | verification/0_2_9/README.md |
+| DOC-029-002 | 0.2.9 nonlinear architecture baseline | planning |  | 0 | 0 | verification/0_2_9/architecture-baseline.md |
+| DOC-029-004 | 0.2.9 gate matrix | controlled |  | 0 | 0 | verification/0_2_9/gate-matrix.md |
+| DOC-029-005 | Inherited limitations and 0.2.9 boundaries | planning |  | 0 | 0 | verification/0_2_9/known-limitations.md |
+| DOC-029-020 | Linear-solver remediation master record | controlled_evidence |  | 0 | 0 | verification/0_2_9/linear-solver-remediation-master.md |
+| DOC-029-LINEAR-SOLVER-REMEDIATION-R2-001 | Linear-solver remediation R2 | hold |  | 0 | 0 | verification/0_2_9/linear-solver-remediation-r2.md |
+| DOC-029-LINEAR-SOLVER-REMEDIATION-R2B-001 | Linear-solver remediation R2B | hold |  | 0 | 0 | verification/0_2_9/linear-solver-remediation-r2b.md |
+| DOC-029-LINEAR-SOLVER-REMEDIATION-001 | Linear-solver remediation — initial local validation | hold |  | 0 | 0 | verification/0_2_9/linear-solver-remediation.md |
+| DOC-029-007 | 0.2.9 Owner decision log | controlled |  | 0 | 0 | verification/0_2_9/owner-decisions.md |
+| DOC-029-006 | 0.2.9 progress tracker | controlled |  | 0 | 0 | verification/0_2_9/progress.md |
+| DOC-029-003 | 0.2.9 nonlinear requirements | planning |  | 0 | 0 | verification/0_2_9/requirements.md |
+| DOC-029-WP01-007 | WP01-B Unified Nonlinear Core foundation evidence | implementation_foundation |  | 0 | 0 | verification/0_2_9/wp01-b-foundation-evidence.md |
+| DOC-029-WP01-008 | WP01-C fixed load-control migration evidence | implementation_migration |  | 0 | 0 | verification/0_2_9/wp01-c-load-control-migration.md |
+| DOC-029-WP01-009 | WP01-D adaptive and arc-length continuation migration | implementation_migration |  | 0 | 0 | verification/0_2_9/wp01-d-continuation-migration.md |
+| DOC-029-WP01-005 | WP01 failure and retry contract | prospective_contract |  | 0 | 0 | verification/0_2_9/wp01-failure-retry-matrix.md |
+| DOC-029-WP01-006 | WP01 prospective acceptance gates | prospective_contract |  | 0 | 0 | verification/0_2_9/wp01-gate-matrix.md |
+| DOC-029-WP01-004 | WP01 migration matrix | prospective_contract |  | 0 | 0 | verification/0_2_9/wp01-migration-matrix.md |
+| DOC-029-WP01-OWNER-CLOSURE-001 | WP01 Owner closure — Unified Nonlinear Core | controlled |  | 0 | 0 | verification/0_2_9/wp01-owner-closure.md |
+| DOC-029-WP01-002 | WP01 ownership model | prospective_contract |  | 0 | 0 | verification/0_2_9/wp01-ownership-model.md |
+| DOC-029-WP01-003 | WP01 accepted-increment state transaction contract | prospective_contract |  | 0 | 0 | verification/0_2_9/wp01-state-transaction-contract.md |
+| DOC-029-WP01-001 | WP01 prospective Unified Nonlinear Core contract | prospective_contract |  | 0 | 0 | verification/0_2_9/wp01-unified-nonlinear-core-contract.md |
+| DOC-029-011 | WP02-B — checkpoint schema v2 foundation | controlled |  | 0 | 0 | verification/0_2_9/wp02-b-schema-v2-foundation.md |
+| DOC-029-012 | WP02-C — fixed and adaptive restart migration | controlled |  | 0 | 0 | verification/0_2_9/wp02-c-fixed-adaptive-restart.md |
+| DOC-029-WP02-002 | WP02-A compatibility matrix | prospective_contract |  | 0 | 0 | verification/0_2_9/wp02-compatibility-matrix.md |
+| DOC-029-013 | WP02-D — arc-length restart migration | controlled |  | 0 | 0 | verification/0_2_9/wp02-d-arc-length-restart.md |
+| DOC-029-014 | WP02-D1 — arc-length restart material-state ownership | controlled_candidate |  | 0 | 0 | verification/0_2_9/wp02-d1-material-state-alias.md |
+| DOC-029-WP02-006 | WP02-E — independent state, rollback and restart closure audit | controlled |  | 0 | 0 | verification/0_2_9/wp02-e-independent-closure.md |
+| DOC-029-WP02-003 | WP02-A checkpoint failure matrix | prospective_contract |  | 0 | 0 | verification/0_2_9/wp02-failure-matrix.md |
+| DOC-029-WP02-004 | WP02-A prospective gates | prospective_contract |  | 0 | 0 | verification/0_2_9/wp02-gate-matrix.md |
+| DOC-029-WP02-005 | WP02 implementation decomposition | prospective_contract |  | 0 | 0 | verification/0_2_9/wp02-implementation-plan.md |
+| DOC-029-WP02-001 | WP02-A — prospective state and checkpoint contract | prospective_contract |  | 0 | 0 | verification/0_2_9/wp02-state-checkpoint-contract.md |
+| DOC-029-WP03-002 | WP03-A — current robustness architecture map | planning |  | 0 | 0 | verification/0_2_9/wp03-architecture-map.md |
+| DOC-029-WP03-007 | WP03-B — executed robustness baseline | controlled |  | 0 | 0 | verification/0_2_9/wp03-b-baseline.md |
+| DOC-029-WP03-008 | WP03-B — unified stagnation and line-search authority | implementation_migration |  | 0 | 0 | verification/0_2_9/wp03-b-robustness-authority.md |
+| DOC-029-WP03-004 | WP03-A — frozen robustness baseline campaign | planning |  | 0 | 0 | verification/0_2_9/wp03-baseline-campaign.md |
+| DOC-029-WP03-010 | WP03-C — unified adaptive cutback and growth policy | implementation_migration |  | 0 | 0 | verification/0_2_9/wp03-c-adaptive-policy.md |
+| DOC-029-WP03-009 | WP03-C — adaptive policy baseline | controlled |  | 0 | 0 | verification/0_2_9/wp03-c-baseline.md |
+| DOC-029-WP03-011 | WP03-D — arc-length robustness and radius policy boundary | implementation_migration |  | 0 | 0 | verification/0_2_9/wp03-d-arc-radius-policy.md |
+| DOC-029-WP03-012 | WP03-E — independent robustness closure audit | closed |  | 0 | 0 | verification/0_2_9/wp03-e-independent-closure.md |
+| DOC-029-WP03-003 | WP03-A — failure and retry matrix | planning |  | 0 | 0 | verification/0_2_9/wp03-failure-retry-matrix.md |
+| DOC-029-WP03-005 | WP03-A — prospective robustness gate matrix | planning |  | 0 | 0 | verification/0_2_9/wp03-gate-matrix.md |
+| DOC-029-WP03-006 | WP03 implementation decomposition | planning |  | 0 | 0 | verification/0_2_9/wp03-implementation-plan.md |
+| DOC-029-WP03-001 | WP03-A — Newton robustness and adaptive-control contract | planning |  | 0 | 0 | verification/0_2_9/wp03-robustness-contract.md |
+| DOC-029-WP04-B-001 | WP04-B — geometric nonlinear mechanics identities | executed_targeted_evidence |  | 0 | 0 | verification/0_2_9/wp04-b-mechanics-identities.md |
+| DOC-MARKDOWN-5CA77EE225EA161F | WP04-C — TET4 bounded structural qualification | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp04-c-tet4-structural-qualification.md |
+| DOC-029-037 | WP04-C1 — TET4 mesh-convergence diagnosis | evidence |  | 0 | 0 | verification/0_2_9/wp04-c1-tet4-mesh-diagnosis.md |
+| DOC-029-WP04-C2-M3-ABORT-001 | WP04-C2 M3 — owner-aborted linear-solver remediation record | evidence |  | 0 | 0 | verification/0_2_9/wp04-c2-m3-linear-solver-abort.md |
+| DOC-029-038 | WP04-C2 — TET4 finer-mesh requalification | evidence |  | 0 | 0 | verification/0_2_9/wp04-c2-tet4-requalification.md |
+| DOC-MARKDOWN-985FA2B071C38525 | WP04-C2R4 — near-tolerance stagnation and protocol audit | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp04-c2r4-near-tolerance-audit.md |
+| DOC-029-021 | WP04-C2R5 — residual precision and near-floor termination forensics | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp04-c2r5-residual-precision-audit.md |
+| DOC-MARKDOWN-0816DAE4F4858096 | WP04-C2R6 recovered M2/M3 frozen-threshold audit | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp04-c2r6-floor-aware-termination.md |
+| DOC-MARKDOWN-BC81DDC1450AA19D | WP04-D — HEX8 structural qualification contract | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp04-d-hex8-structural-qualification.md |
+| DOC-029-028 | WP04-E — G04-12 TET4/HEX8 cross-family closure | controlled_audit |  | 0 | 0 | verification/0_2_9/wp04-e-g04-12-cross-family-closure.md |
+| DOC-029-WP04-001 | WP04-A — geometric nonlinear qualification contract and baseline | prospective_contract |  | 0 | 0 | verification/0_2_9/wp04-geometric-qualification-contract.md |
+| DOC-MARKDOWN-841D753B6DC53C82 | WP05-D stress-window remediation — Owner decision | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp05-d-stress-window-owner-approval.md |
+| DOC-MARKDOWN-F69766BD5D937D59 | WP05-D stress-window remediation candidate | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp05-d-stress-window-remediation-candidate.md |
+| DOC-MARKDOWN-AE1A89C93DDFEDD4 | WP05-D formal requalification authorization | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp05d-formal-requalification-authorization.md |
+| DOC-MARKDOWN-2A4F65E59B90199B | Dossier de validation Owner — WP05-D HEX20 | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp05d-owner-validation-review.md |
+| DOC-MARKDOWN-71CB709181648FF7 | WP06-D local-axial diagnostic requalification | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp06d-local-axial-diagnostic-requalification.md |
+| DOC-MARKDOWN-5DF18261CAF54F5F | WP06-D Owner decision — bounded experimental scope | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp06d-owner-bounded-experimental-decision.md |
+| DOC-MARKDOWN-24C49307D75060C1 | WP07-D contact-event line-search remediation R2.3 | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp07-d-contact-event-line-search-remediation-r2-3.md |
+| DOC-MARKDOWN-C10DF8F54099268A | WP07-D — correction de l’intégration pénalité `surface_lumped` | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp07-d-surface-lumped-penalty-remediation.md |
+| DOC-MARKDOWN-B27BF993026C81A9 | WP07-E closure — Owner review R2 | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp07e-closure-owner-report-r2-verified.md |
+| DOC-MARKDOWN-49274751FBBD0FE5 | WP07-E closure — Owner review R2 | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp07e-closure-owner-report-r2.md |
+| DOC-MARKDOWN-1647A2D3F9DADA4C | WP07-E closure — Owner review R2 | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp07e-closure-owner-review-r2-final.md |
+| DOC-MARKDOWN-90902BA17DE20A2A | WP07-E Owner acceptance — R2 | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp07e-owner-acceptance-r2.md |
+| DOC-MARKDOWN-A507B913973677AE | WP08 area-supported contact — R1.10 remediation candidate | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08-area-contact-r1-10-remediation-candidate.md |
+| DOC-MARKDOWN-0899492B7E98D924 | WP08 area-supported contact — M4 slip forensic R2 | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08-area-supported-contact-m4-slip-forensic-r2.md |
+| DOC-MARKDOWN-084594134C202CF3 | WP08 area-supported contact — R1.12 M4 slip results | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08-area-supported-contact-m4-slip-r1-12-results.md |
+| DOC-MARKDOWN-0BD95541C33A4D92 | WP08 area-supported contact — R1.12 M4 slip diagnostic | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08-area-supported-contact-m4-slip-r1-12.md |
+| DOC-MARKDOWN-252DCAD9FF732B00 | WP08 area-supported contact R1.10 — M4 diagnostic results | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08-area-supported-contact-r1-10-m4-results.md |
+| DOC-MARKDOWN-8A99184B4663EB77 | WP08 area-supported contact — prospective R1.10 M4 diagnostic | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08-area-supported-contact-r1-10-m4.md |
+| DOC-MARKDOWN-31F917B19AC131C8 | WP08 area-supported contact — R1.10 diagnostic results | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08-area-supported-contact-r1-10-results.md |
+| DOC-MARKDOWN-625169A6DE54F958 | WP08 area-supported contact — R1.11 optimizer-stop candidate | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08-area-supported-contact-r1-11-optimizer.md |
+| DOC-MARKDOWN-16532487F5DF938E | WP08 area-supported contact — prospective R1.10 diagnostic | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08-area-supported-contact-requalification-r1-10.md |
+| DOC-MARKDOWN-27618503595CF3BB | WP08 area-supported contact — prospective R1.7 diagnostic | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08-area-supported-contact-requalification-r1-7.md |
+| DOC-MARKDOWN-050C5A69D3C2E886 | WP08 area-supported contact — prospective R1.8 diagnostic | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08-area-supported-contact-requalification-r1-8.md |
+| DOC-MARKDOWN-569AB6F273F0224A | WP08 area-supported contact — prospective R1.9 diagnostic | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08-area-supported-contact-requalification-r1-9.md |
+| DOC-MARKDOWN-68AD7558750BA90A | WP08 area-supported contact: R1.2 zero-pressure state correction | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08-area-supported-contact-state-fix-r1-2.md |
+| DOC-029-WP08-OWNER-REVIEW-001 | WP08 — final Owner review decision | owner_decision_required |  | 0 | 0 | verification/0_2_9/wp08-owner-review-decision.md |
+| DOC-MARKDOWN-A7FEB474A84087B0 | WP08-D active-set remediation — corrected M1/M2 report | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-active-set-remediation-m1-m2-report.md |
+| DOC-MARKDOWN-0117EF65BE21AD0F | WP08-D contact requalification R2.1 — execution report | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-contact-r2-1-requalification-report.md |
+| DOC-MARKDOWN-5C7BD80F008612C5 | WP08-D M2 contract-aligned requalification | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-contract-aligned-m2-fail-closed.md |
+| DOC-MARKDOWN-E2C1B7F4855D021A | WP08-D hybrid stick/slip M2 requalification | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-hybrid-stick-slip-m1-m2-report.md |
+| DOC-MARKDOWN-16F606178B11BC03 | WP08-D Phase-1 M1 execution report | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-m1-phase1-report.md |
+| DOC-MARKDOWN-C579FC0777A82C7D | WP08-D M2 active-set remediation | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-m2-active-set-remediation.md |
+| DOC-MARKDOWN-5A8456CF3B8FA7D0 | WP08-D M2 fail-closed forensic review | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-m2-forensic-review.md |
+| DOC-MARKDOWN-F392917BD6D711EC | WP08-D M2 — independent hybrid reference and replay | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-m2-independent-reference-replay-report.md |
+| DOC-MARKDOWN-AEE6E03534FFFB22 | WP08-D M2 Phase-1 — fail-closed evidence | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-m2-phase1-fail-closed.md |
+| DOC-MARKDOWN-980897CA585C2FCC | WP08-D M2 independent-reference remediation — provenance closure | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-m2-reference-remediation-provenance.md |
+| DOC-MARKDOWN-1999831A9AC75340 | WP08-D M2 reference/replay and conditional M3 report | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-m2-reference-replay-m3-report.md |
+| DOC-MARKDOWN-CC87385CE4F50A1D | WP08-D M2 requalification after stick-predictor remediation | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-m2-requalification-report.md |
+| DOC-MARKDOWN-4B75C063F950A9F5 | WP08-D M2 step-2 local-source reconstruction | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-m2-step2-local-source-reconstruction.md |
+| DOC-MARKDOWN-0BDD67818CF4292B | WP08-D M2 step-3 mode forensic and remediation | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-m2-step3-mode-remediation.md |
+| DOC-MARKDOWN-0B606A780DE5253F | WP08-D M2 step-3 stick/slip mode forensic | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-m2-step3-stick-slip-mode-forensic.md |
+| DOC-MARKDOWN-96142C24DC5A3289 | WP08-D M2 step-5 hybrid stick/slip forensic | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-m2-step5-hybrid-mode-forensic.md |
+| DOC-MARKDOWN-85029457D1452687 | WP08-D M3 — production, independent reference, and replay | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-m3-production-reference-replay-report.md |
+| DOC-MARKDOWN-8D5033ECD86DA69B | WP08-D mixed open / active-slip M1–M2 requalification | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-mixed-open-active-slip-m1-m2-report.md |
+| DOC-MARKDOWN-6F5A98672AC6A69C | WP08-D mixed open / active-slip remediation | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp08d-mixed-open-active-slip-remediation.md |
+| DOC-MARKDOWN-2DA5CCB146368151 | WP09 — bounded corotational small-strain J2 candidate | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp09-corotational-bounded-contract.md |
+| DOC-MARKDOWN-FB1F1B3B52FC140B | WP09 corotational J2 implementation report | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp09-corotational-implementation-report.md |
+| DOC-MARKDOWN-3DEB44BCAAFE0129 | WP09 — étude d’extension HEX20 | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp09-hex20-extension-study.md |
+| DOC-MARKDOWN-1E238FCF6978D4CB | WP09 HEX20 R2 — audit de la requalification par traction cohérente | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp09-hex20-r2-consistent-traction-audit.md |
+| DOC-MARKDOWN-00EBB9D0E14AE3B2 | WP09 — Owner acceptance HEX20 and TET10 extensions | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp09-hex20-tet10-owner-acceptance.md |
+| DOC-MARKDOWN-511245EB5F3743E0 | WP09 HEX8 refinement and equilibrium-accuracy remediation | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp09-hex8-accuracy-remediation-r1.md |
+| DOC-MARKDOWN-57DB2C964F7D3C50 | WP09 HEX8 extended convergence analysis | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp09-hex8-extended-convergence-analysis.md |
+| DOC-MARKDOWN-CE7D2FE0891A2C90 | WP09 HEX8 formal R2 — reference and replay review | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp09-hex8-formal-r2-reference-replay.md |
+| DOC-MARKDOWN-50200745863F5245 | WP09 HEX8 R3 — revue de requalification prospective | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp09-hex8-formal-r3-review.md |
+| DOC-MARKDOWN-0569E34CB1DBB4DC | WP09 HEX8-only formal requalification — R1 | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp09-hex8-only-formal-requalification-r1.md |
+| DOC-MARKDOWN-AB4CBA26CEBFE90F | WP09 HEX8 refinement study — diagnostic analysis | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp09-hex8-refinement-r1-analysis.md |
+| DOC-029-WP09-OWNER-R3 | WP09 Owner acceptance — HEX8 R3 | owner_approved |  | 0 | 0 | verification/0_2_9/wp09-owner-acceptance-r3.md |
+| DOC-MARKDOWN-EFFC2A7394CA4C38 | WP09 isotropic 3-D remesh study — diagnostic analysis | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp09-remesh-study-r3-analysis.md |
+| DOC-MARKDOWN-5238EF27241177D0 | WP09 TET10 R2 — audit de l’extension par traction cohérente | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp09-tet10-r2-consistent-traction-audit.md |
+| DOC-MARKDOWN-4288ACDB3E36D55C | WP09 TET4 — consistent-traction diagnostic R2 | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp09-tet4-consistent-traction-diagnostic-r2.md |
+| DOC-029-WP10-EXT-PREPARATION | WP10-EXT — extension par famille d’éléments | preparation_only |  | 0 | 0 | verification/0_2_9/wp10-extension-preparation.md |
+| DOC-MARKDOWN-84DACCAB9350CCDA | WP10 HEX20 extension R2 — review package | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp10-hex20-extension-r2-review.md |
+| DOC-MARKDOWN-0A15DD421B430DAB | WP10 — Owner administrative acceptance | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp10-owner-acceptance.md |
+| DOC-MARKDOWN-2852C149BF6FC971 | WP10 — Owner review final preparation | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp10-owner-review-final.md |
+| DOC-029-WP10-OWNER-REVIEW-R1 | WP10 Owner review R1 — provenance-corrected bounded coupled mechanics | ready_for_owner_review |  | 0 | 0 | verification/0_2_9/wp10-owner-review-r1.md |
+| DOC-029-WP10-OWNER-REVIEW | WP10 Owner review — bounded HEX8 coupled mechanics | ready_for_owner_review |  | 0 | 0 | verification/0_2_9/wp10-owner-review.md |
+| DOC-029-WP10-PREP | WP10 preparation — coupled nonlinear mechanics | frozen_execution |  | 0 | 0 | verification/0_2_9/wp10-preparation.md |
+| DOC-MARKDOWN-C2C4A5AD9488165D | WP10 TET10 surface R1 — evidence remediation and M1 requalification | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp10-tet10-surface-r1-evidence-remediation-report.md |
+| DOC-MARKDOWN-C93FC0719705100E | WP10 TET10 surface-traction R1 — final M1 reexecution | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp10-tet10-surface-r1-m1-reexecution-report.md |
+| DOC-MARKDOWN-D377113CFC298F75 | WP10 TET10 surface-traction R1 — M1 report | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp10-tet10-surface-r1-m1-report.md |
+| DOC-MARKDOWN-37C102C703B977DB | WP10 TET10 surface R2 — M1/M2/M3 final report | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp10-tet10-surface-r2-final-report.md |
+| DOC-MARKDOWN-A706FB3581A86713 | WP10-TET4 extension R2 — provenance remediation review | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp10-tet4-extension-r2-review.md |
+| DOC-MARKDOWN-5D8B5816F742DECF | WP10 TET4 extension — execution review | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp10-tet4-extension-review.md |
+| DOC-029-WP11-CURRENT-LINEAGE-AUDIT | WP11 — current lineage audit | ready_for_owner_review |  | 0 | 0 | verification/0_2_9/wp11-current-lineage-audit.md |
+| DOC-MARKDOWN-DB55E8E7D3C1BC27 | WP11 bounded multi-family extension plan | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp11-multifamily-extension-plan.md |
+| DOC-MARKDOWN-3A4628CC08DB22E7 | WP11 multi-family Owner review | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp11-multifamily-owner-review.md |
+| DOC-MARKDOWN-EB7369A54A5A08BB | WP11 multi-family Owner review | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp11-multifamily-provenance-owner-review.md |
+| DOC-MARKDOWN-1A33554EB3863A61 | WP11 Owner acceptance — R2 multi-family bounded scope | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp11-owner-acceptance-r2.md |
+| DOC-029-WP11-OWNER-REVIEW | WP11 — revue Owner PETSc/MPI | ready_for_owner_review |  | 0 | 0 | verification/0_2_9/wp11-owner-review.md |
+| DOC-029-WP11-PREPARATION | WP11 — plan de qualification PETSc/MPI | preparation_only |  | 0 | 0 | verification/0_2_9/wp11-preparation.md |
+| DOC-MARKDOWN-4BE65E2C6E989246 | WP12 R3 — Expanded external-correlation campaign | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp12-expanded-correlation-r3-plan.md |
+| DOC-MARKDOWN-05395B5A8EADF9AE | WP12 R3.3 expanded correlation — interrupted fail-closed attempt | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp12-expanded-correlation-r3_3-interruption.md |
+| DOC-MARKDOWN-1AFCF058B1D7FEC3 | WP12 R3.4 expanded correlation — fail-fast execution record | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp12-expanded-correlation-r3_4-interruption.md |
+| DOC-MARKDOWN-35816E2D9C210F30 | WP12 R3.5 pre-freeze smoke — harness failure preserved | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp12-expanded-correlation-r3_5-smoke-attempt-1.md |
+| DOC-MARKDOWN-003E7D78D9FABED1 | WP12 R3.5 pre-freeze smoke — harness attempt 2 preserved | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp12-expanded-correlation-r3_5-smoke-attempt-2.md |
+| DOC-MARKDOWN-6A51864D0C7EE8A9 | WP12 R3.6-R1 — fail-closed execution record | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp12-expanded-correlation-r3_6-r1-failure.md |
+| DOC-MARKDOWN-D84878542E3CC229 | WP12 R3.6-R2 — preflight blocked before execution | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp12-expanded-correlation-r3_6-r2-preflight.md |
+| DOC-MARKDOWN-4C00F9306A0AFF20 | WP12 R3.6-R3 — diverse-topology Code_Aster correlation | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp12-expanded-correlation-r3_6-r3-results.md |
+| DOC-MARKDOWN-67D204C7CAC0D8C4 | WP12 external V&V — prospective plan | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp12-external-vv-plan.md |
+| DOC-MARKDOWN-C25DF46D7623326B | WP12 R3.6 — préparation de corrélations sur topologies diverses | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp12-r3-6-diverse-topology-preparation.md |
+| DOC-029-WP13-EXEC-001 | WP13 execution contract — bounded performance, API and diagnostics | frozen_execution_protocol |  | 0 | 0 | verification/0_2_9/wp13-execution-contract.md |
+| DOC-029-WP13-RESULT-001 | WP13 — performance, API et diagnostics | candidate_for_owner_review |  | 0 | 0 | verification/0_2_9/wp13-performance-api-diagnostics-report.md |
+| DOC-MARKDOWN-2D87085E985EB38F | WP13 R2.1 — contrat d’exécution multi-familles | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp13-r2-1-multifamily-performance-contract.md |
+| DOC-MARKDOWN-1B0A8BB56026916B | WP13 R2 — extension de caractérisation J2 à quatre familles | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp13-r2-multifamily-performance-contract.md |
+| DOC-MARKDOWN-00E701DD8A361435 | WP13 R2.1 — caractérisation J2 TET4/TET10/HEX8/HEX20 | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp13-r2-multifamily-performance-report.md |
+| DOC-029-WP13-WP14-LEDGER-ADDENDUM-001 | WP13/WP14 ledger reconciliation addendum | audit_addendum |  | 0 | 0 | verification/0_2_9/wp13-wp14-ledger-reconciliation-addendum.md |
+| DOC-029-WP13-WP14-PREFLIGHT-001 | WP13/WP14 overnight preflight — HOLD | preflight_hold |  | 0 | 0 | verification/0_2_9/wp13-wp14-overnight-preflight.md |
+| DOC-MARKDOWN-68F5908CA26955A2 | WP14 — addendum de recontrôle G03/G04/G05 | controlled_evidence |  | 0 | 0 | verification/0_2_9/wp14-g3-g4-g5-corrections-recheck-20260928.md |
+| DOC-029-WP16-EXTERNAL-ARCHIVE-001 | 0.2.9 WP16 — off-Git evidence archive, first verified tranche | controlled_evidence |  | 3 | 2 | verification/0_2_9/wp16-external-evidence-archive.md |

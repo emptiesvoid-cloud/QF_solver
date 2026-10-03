@@ -2,7 +2,7 @@
 doc_id: DOC-ARCH-001
 revision: 2.2
 status: controlled
-applicable_version: 0.2.8
+applicable_version: 0.2.10
 reviewer: ""
 approver: ""
 ---
@@ -57,7 +57,7 @@ Les visualisations, campagnes et verifications vivent respectivement dans
 durant la serie 0.2.x. Les deux chemins d'import sont proteges par une
 baseline matricielle et la campagne MITC4.
 
-## Published 0.2.8 architecture
+## Public 0.2.10 architecture and carried evidence
 
 `src/solveur/elements/shell/mitc4` is the canonical MITC4 implementation.
 `src/solveur/compat/mitc4` is an internal compatibility facade retained for
@@ -65,11 +65,12 @@ the 0.2.x migration; it contains no new numerical formulation. The public
 architecture is organized around the `qf_solver` facade, with `solveur`
 providing the implementation and compatibility layers.
 
-Current maturity is sourced from the machine-readable
+The package carries the bounded maturity recorded in the machine-readable
 `qualification/0_2_8/consolidated_registry.json` and from separate 0.2.8
 workflow and capability records. The 46 element-analysis records remain
 separate from mixed workflows and research routes; source-tree presence does
-not imply qualification.
+not imply qualification. The 0.2.10 distribution does not promote WP14 or
+turn these historical records into a new mechanics approval.
 
 The standard runtime does not require Docker, PETSc or MPI. The pinned
 container under `tools/containers/large/` exists for reproducible historical

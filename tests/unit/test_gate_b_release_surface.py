@@ -78,8 +78,8 @@ def test_version_registry_and_public_docs_are_aligned() -> None:
 
     assert project["version"] == __version__ == "0.2.10"
     assert project["optional-dependencies"]["hdf5"] == ["h5py>=3.10"]
-    # CITATION remains bound to the last published release until a new package is issued.
-    assert 'version: "0.2.8"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    # The current citation follows the release, while carried evidence retains its 0.2.8 identity.
+    assert 'version: "0.2.10"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
     registry = json.loads((ROOT / "qualification/0_2_8/consolidated_registry.json").read_text(encoding="utf-8"))
     assert registry["combination_registry"]["state_counts"] == {
         "QUALIFIED_BOUNDED": 32,
