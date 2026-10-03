@@ -69,7 +69,7 @@
     {
       "id": "DOC-CAPABILITY-028-001",
       "path": "capabilities/index.md",
-      "title": "QF Solver 0.2.8 capability index",
+      "title": "QF Solver 0.2.10 capability index",
       "status": "controlled",
       "requirements": [],
       "examples": [],
