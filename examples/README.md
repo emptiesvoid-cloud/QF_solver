@@ -1,77 +1,73 @@
-# Exemples officiels
+# QF Solver examples
 
-Ces fichiers JSON sont des cas minimaux maintenus par les tests
-d'integration. Ils servent a verifier rapidement la CLI, l'API Python et
-l'audit boite blanche.
+These JSON inputs illustrate specific QF Solver routes. Start with a small
+linear case, inspect its mesh and result diagnostics, then consult the
+[capability index](https://emptiesvoid-cloud.github.io/QF_solver/capabilities/)
+before interpreting a more advanced result. An executable example is not a
+general qualification or physical-validation claim.
 
-## Cas disponibles
+## Start here
 
-- `tet4_static.json`: solide 3D TET4 en statique lineaire.
-- `tet4_compression.json`: compression TET4 avec solution fermee signee et
-  bilan des reactions.
-- `tet4_body_force.json`: force volumique constante TET4 avec resultante et
-  reactions analytiques.
-- `tet10_static.json`: solide 3D TET10 en statique lineaire.
-- `mitc4_shell_static.json`: coque MITC4 en statique lineaire.
-- `tet4_modal_unit.json`: solide TET4 modal avec frequence analytique de
-  cisaillement.
-- `tet4_nonlinear_static.json`: solide TET4 avec materiau non-lineaire simple.
-- `tet4_linear_buckling.json`: facteur critique tangent sparse borne pour TET4;
-  preuve de recherche, sans revendication de post-flambement.
-- `tet4_elastoplastic_static.json`: solide TET4 avec loi Von Mises
-  elastoplastique simple.
-- `tet4_transient_dynamic.json`: solide TET4 dynamique transitoire Newmark.
-- `tet4_dynamic_free_vibration.json`: vibration libre non amortie avec
-  deplacement initial.
-- `tet4_dynamic_sdof_free_vibration.json`: vibration libre Newmark 1 ddl avec
-  energie initiale analytique.
-- `tet4_dynamic_tabulated_load.json`: dynamique Newmark avec chargement
-  temporel tabule.
-- `tet4_harmonic_response.json`: reponse harmonique frequentielle TET4.
-- `tet4_harmonic_sdof_response.json`: reponse harmonique 1 ddl avec amplitude
-  et phase analytiques.
-- `invalid_inverted_tet4.json`: cas volontairement invalide pour tester
-  `inspect` et les messages de validation.
+From the repository root after installing QF Solver:
 
-## Commandes utiles
-
-Depuis la racine du projet:
-
-```powershell
-qf-solver check-mesh --input .\examples\tet4_static.json
-qf-solver inspect --input .\examples\tet4_static.json --markdown .\results\tet4_audit.md
-qf-solver inspect --input .\examples\invalid_inverted_tet4.json --markdown .\results\invalid_audit.md
-qf-solver solve --input .\examples\tet4_static.json --output .\results\tet4_results.json --audit-md .\results\tet4_audit.md --csv-dir .\results\tet4_csv --vtu .\results\tet4.vtu --audit-gate fail
+```bash
+qf-solver check-mesh --input examples/tet4_static.json
+qf-solver solve --input examples/tet4_static.json --output results/tet4.json
 ```
 
-Pour lancer tous les exemples:
+The [first-calculation guide](https://emptiesvoid-cloud.github.io/QF_solver/getting-started/quickstart/)
+explains the CLI and public Python API. For a small, bounded nonlinear case,
+follow the separate
+[Total-Lagrangian TET4 example](https://emptiesvoid-cloud.github.io/QF_solver/getting-started/nonlinear-example/);
+its engineering-profile `WARNING` is part of the documented outcome.
 
-```powershell
-python -m pytest tests\integration\test_examples.py
+## Find an input
+
+| Goal | Example inputs | Boundary |
+| --- | --- | --- |
+| Linear solid statics | `tet4_static.json`, `tet10_static.json`, `tet4_compression.json`, `tet4_body_force.json`, `tet4_pressure.json` | Check element, load and output scope in the registry. |
+| Material and geometric routes | `tet4_elastoplastic_static.json`, `tet4_nonlinear_static.json`, `tet4_geometric_nonlinear_static.json`, `hex8_g06_j2.json` | These inputs do not qualify arbitrary J2, coupled or finite-strain cases. |
+| Modal, transient and harmonic response | `tet4_modal_unit.json`, `tet4_transient_dynamic.json`, `tet4_dynamic_sdof_free_vibration.json`, `tet4_harmonic_sdof_response.json` | Linear dynamic assumptions and route-specific mass/damping bounds apply. |
+| Beams and shells | `beam2_cantilever.json`, `mitc3_shell_static.json`, `mitc4_shell_static.json`, `mitc4_modal_cantilever.json` | Shell/beam evidence and maturity differ by analysis. |
+| Constraints and contact | `rbe2_rigid_arm.json`, `frictionless_contact_plane.json`, `frictional_contact_plane.json` | Contact is bounded; the frictional current-source route is not generally requalified. |
+| Input rejection | `invalid_inverted_tet4.json` | Intentionally invalid: use it to inspect validation diagnostics, not to solve. |
+
+Other JSON files in this directory cover orthotropy, laminate response,
+tabulated loads, additional dynamics and recorded G06 cases. The
+[elements](https://emptiesvoid-cloud.github.io/QF_solver/elements/),
+[analyses](https://emptiesvoid-cloud.github.io/QF_solver/analyses/) and
+[known-limitations](https://emptiesvoid-cloud.github.io/QF_solver/etat/limites/)
+pages explain how to choose among them.
+
+## Inspect a result
+
+```bash
+qf-solver inspect --input examples/tet4_static.json --markdown results/tet4_audit.md
+qf-solver solve --input examples/tet4_static.json --output results/tet4.json
 ```
 
-L'API correspondante utilise le namespace public `qf_solver` :
+The public Python workflow uses `qf_solver`:
 
 ```python
-from qf_solver import load_model, solve_model
+from qf_solver import check_mesh, load_model, solve_model
 
 model = load_model("examples/tet4_static.json")
+report = check_mesh(model)
+if report.status == "FAIL":
+    raise RuntimeError(report.errors)
 result = solve_model(model)
+print(result.to_dict()["status"])
 ```
 
-Les exemples non lineaires, de flambement et de contact sont des entrees
-executables de demonstration. Leur statut de maturite est celui de la matrice
-de release ; ils ne doivent pas etre lus comme une qualification generale.
+Inspect the residual, reactions and route-specific diagnostics as well as the
+solve status. The integration suite exercises a maintained subset of these
+inputs; it does not make every example an accepted qualification case:
 
-## Demonstrations documentaires
-
-Les modeles plus volumineux de poutres TET4/TET10 et de plaque MITC4 sont
-generes dans `docs/generated/models/` par :
-
-```powershell
-python .\scripts\build_docs.py --profile engineering
+```bash
+python -m pytest tests/integration/test_examples.py
 ```
 
-Ils ne constituent pas une seconde collection manuelle. Leur entree, version,
-unites, tolerance, verdict et empreinte sont publies dans
-`docs/generated/docs_manifest.json` et dans le catalogue du site local.
+Larger documentation models are generated by the project's controlled docs
+workflow rather than maintained as a second hand-edited example collection.
+Their manifests and applicable evidence are linked from the
+[documentation](https://emptiesvoid-cloud.github.io/QF_solver/).
