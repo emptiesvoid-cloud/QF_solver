@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0211-WP01-REGRESSION-CAMPAIGN",
+  "baseline_source_sha": "c37179dae53604126aa6aa0d834770dfa4d2db37",
+  "published_baseline": {
+    "tag": "v0.2.10",
+    "source_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+    "immutable": true
+  },
+  "authority": {
+    "quality_workflow": ".github/workflows/quality.yml",
+    "documentation_workflow": ".github/workflows/docs-tests.yml",
+    "matrix": "qualification/0_2_11/wp01_capability_matrix.json",
+    "evidence_inventory": "qualification/0_2_11/wp01_evidence_inventory.json"
+  },
+  "baseline_gate": {
+    "id": "QF0211-G02",
+    "name": "Legacy non-regression baseline ready",
+    "inputs": [
+      "approved source SHA c37179dae53604126aa6aa0d834770dfa4d2db37",
+      "immutable v0.2.10 source tag e535ff63464ddd7d76c2898df25470350b5154f1",
+      "wp01_capability_matrix.json",
+      "wp01_evidence_inventory.json",
+      "Quality and verification run 37217513570",
+      "Documentation tests run 37217513498"
+    ],
+    "checks": [
+      "Verify local and remote main still equal the approved baseline before starting.",
+      "Run all PR_REQUIRED quality matrix and documentation checks on the exact baseline SHA.",
+      "Run the workflow-defined WP14 recovery, documentation evidence, and full engineering jobs to terminal state.",
+      "Classify every failure, skip, marker deselection, optional dependency, and unavailable raw input without changing its outcome.",
+      "Confirm 0.2.10 tag/artifact/source and historical maturity records remain unchanged."
+    ],
+    "pass": "Both authoritative workflows are terminal success on the exact baseline SHA; all job outcomes and skips are explicitly recorded; no baseline drift or historical reclassification occurred.",
+    "fail": "Any unexplained required-job failure, missing required workflow/job result, baseline SHA drift, or attempted threshold/status weakening.",
+    "blocking": true,
+    "evidence": [
+      "https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/37217513570",
+      "https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/37217513498",
+      "qualification/0_2_11/wp01_baseline_report.md"
+    ]
+  },
+  "selection_policy": "Do not run every repository verification file indiscriminately. FAST_DEVELOPMENT is the exact module selector from the touched capability rows; PR_REQUIRED and RELEASE_CANDIDATE_REQUIRED use the existing authoritative workflow commands without changing markers, thresholds, or maturity policy.",
+  "campaigns": {
+    "FAST_DEVELOPMENT": {
+      "purpose": "Fast, change-impact regression while iterating locally.",
+      "command": "python -m pytest -q <the tests[] modules listed by the touched capability rows in wp01_capability_matrix.json>",
+      "selection_is_literal": true,
+      "mandatory_rules": [
+        "Include all listed unit modules for every changed capability row and directly coupled row.",
+        "Add its listed integration module when routing, public IO, or assembly changes.",
+        "Add its listed tests/verification modules when formulation, solver, accepted observables, reference mapping, or maturity-facing behavior changes.",
+        "Do not select unrelated benchmarks or evidence archives just because they are present."
+      ],
+      "comparison_policy": "Use existing per-case assertion tolerances and frozen qualification acceptance metrics. Preserve complex phase, reactions, energy, residual, state/history and diagnostic observables where the row names them. No tolerance is widened after viewing a result."
+    },
+    "PR_REQUIRED": {
+      "purpose": "Required pull-request gate for every 0.2.11 source PR.",
+      "workflow": "Quality and verification",
+      "matrix": [
+        "ubuntu-latest / Python 3.10",
+        "ubuntu-latest / Python 3.13",
+        "windows-latest / Python 3.10",
+        "windows-latest / Python 3.13"
+      ],
+      "commands": [
+        "python -m ruff check src/qf_solver src/solveur tests scripts",
+        "python -m mypy src/solveur/core/errors.py src/solveur/core/qualification.py src/solveur/io/manifest.py src/solveur/verification/traceability.py",
+        "python -m pytest tests/unit tests/integration -m \"not benchmark and not large and not evidence\" --cov=solveur --cov-branch --cov-report=term-missing:skip-covered --cov-report=json:coverage.json --cov-report=xml:coverage.xml --cov-fail-under=80",
+        "python -m coverage run --rcfile=.coveragerc-p0 -m pytest tests/unit/test_traceability.py",
+        "python -m coverage json --rcfile=.coveragerc-p0 -o coverage-p0.json",
+        "python scripts/check_p0_coverage.py coverage.json coverage-p0.json",
+        "python -m compileall -q src scripts tests qf_solver.py main_solveur.py mitc4_solver.py",
+        "python qf_solver.py verify --quick",
+        "python mitc4_solver.py verify --quick"
+      ],
+      "selection_and_skip_classification": {
+        "deselected_by_authoritative_pr_selection": ["benchmark", "large", "evidence"],
+        "optional_evidence_skips": "tests/conftest.py marks archive-backed cases skipped unless QF_SOLVER_RUN_EVIDENCE=1 and both qualification/vnv and docs/generated/docs_manifest.json are available; report these as SKIPPED in the PR matrix, not PASS.",
+        "optional_gmsh_skips": "The two modules in OPTIONAL_MESH_TEST_MODULES are skipped when gmsh cannot import; report SKIPPED and require the controlled benchmark/docs-evidence jobs where relevant.",
+        "recovered_archive_cases": "The nine exact WP14 cases are skipped unless the verified recovered archive is provided; the required WP14 job provides it separately."
+      },
+      "documentation_workflow": {
+        "name": "Documentation tests",
+        "commands": [
+          "python -m pytest tests/documentation/test_docs_generation.py -q",
+          "mkdocs build --strict -f .github/pages/mkdocs.yml",
+          "python -m pytest tests/integration/test_packaging.py -q"
+        ]
+      },
+      "pass_rule": "All required jobs succeed on all four matrix entries, docs workflow succeeds, and current coverage/quality thresholds remain unchanged. A skip is reported as SKIPPED, never converted to PASS."
+    },
+    "RELEASE_CANDIDATE_REQUIRED": {
+      "purpose": "Full release-candidate regression and evidence campaign.",
+      "workflow": "Quality and verification on the exact candidate SHA plus Documentation tests on the same SHA.",
+      "additional_jobs": {
+        "WP14 recovered evidence / targeted checks": {
+          "command": "python -m pytest -p no:cacheprovider -q tests/verification/test_wp04_c_tet4_structural.py::test_c05_mesh_displacement_convergence tests/verification/test_wp04_c_tet4_structural.py::test_c07_mesh_energy_convergence tests/verification/test_wp04_c_tet4_structural.py::test_c08_mesh_representative_stress_convergence tests/verification/test_wp04_e_cross_family.py::test_g04_12_recomputes_all_frozen_deltas_from_governing_source_records tests/verification/test_wp04_e_cross_family.py::test_g04_12_source_file_hashes_and_carried_limitation_are_bound tests/verification/test_wp04_f_final_closure.py::test_audit_scope_and_source_freeze tests/verification/test_wp04_f_final_closure.py::test_original_failure_and_wp04b_metrics_are_preserved tests/verification/test_wp04_f_final_closure.py::test_final_all_or_nothing_governance_decision tests/verification/test_wp09_tet4_consistent_traction_study.py::test_frozen_study_contract_binds_runner_and_preserves_history",
+          "external_input": "The workflow downloads and verifies the pinned WP14 evidence archive; without that exact archive the job is NOT_AVAILABLE/FAIL, not PASS."
+        },
+        "Full engineering campaign": {
+          "commands": [
+            "python qf_solver.py verify",
+            "QF_SOLVER_EVIDENCE_ARCHIVE_ROOT=<verified WP14 archive>; QF_SOLVER_RUN_RECOVERED_EVIDENCE=1 python qf_solver.py verify-all --profile engineering"
+          ],
+          "dependencies": ["four standard matrix jobs", "WP14 recovered evidence artifact"]
+        },
+        "Documentation evidence / ubuntu-latest": {
+          "commands": [
+            "python -m pytest -m benchmark",
+            "python scripts/build_docs.py --profile engineering",
+            "QF_SOLVER_RUN_EVIDENCE=1 python -m pytest tests/documentation"
+          ],
+          "result_handling": "Keep generated report status and individual expected failures/skips visible; a successful documentation build is not a maturity promotion."
+        },
+        "Frozen selected package and public docs": {
+          "commands": [
+            "python scripts/verify_public_package.py --contract <new frozen 0.2.11 contract> --output <audit.json>",
+            "python scripts/probe_installed_package.py --mapping <contract-generated source mapping> --version 0.2.11 --output <probe.json>",
+            "python scripts/verify_authorized_release_artifacts.py --contract <new frozen 0.2.11 contract> --source-contract <source mapping contract> --dist <audited dist directory> --output <audit.json>",
+            "python -m twine check <audited wheel> <audited sdist>"
+          ],
+          "note": "Exact arguments and accepted artifact source are set only when the 0.2.11 release contract is frozen; never reuse 0.2.10 bytes as a 0.2.11 candidate."
+        }
+      },
+      "pass_rule": "Every required workflow job is terminal success; each artifact/checksum is tied to the exact candidate source; all per-case historical failures remain represented with their original statuses."
+    },
+    "OPTIONAL_EVIDENCE": [
+      {
+        "item": "Code_Aster external replay",
+        "classification": "OPTIONAL_DEPENDENCY",
+        "requirement": "Run only when the exact solver build, deck, raw archive, units, and reference digests are provisioned; correlation is not physical validation."
+      },
+      {
+        "item": "WP12 R4 external raw gallery replay",
+        "classification": "AVAILABLE_HISTORICAL_ONLY / OPTIONAL_DEPENDENCY",
+        "requirement": "External archive and Code_Aster runtime are not guaranteed on standard CI runners."
+      },
+      {
+        "item": "PETSc/MPI runtime and scale profiles",
+        "classification": "OPTIONAL_DEPENDENCY unless the changed scope is the bounded distributed route",
+        "requirement": "For the accepted bounded linear-static distributed scope, use its exact unit/verification tests; do not infer nonlinear, dynamic, contact, scaling, or general MPI maturity."
+      },
+      {
+        "item": "Recovered local-only WP08/WP06 raw payloads",
+        "classification": "MISSING in the clean baseline checkout",
+        "requirement": "A new run can produce new evidence but cannot reconstruct original missing bytes or rewrite their historical status."
+      }
+    ]
+  },
+  "numerical_comparison_contract": {
+    "bitwise_identity": "Required only for immutable source/artifact/provenance bytes and explicitly deterministic serialization contracts; not required for floating-point solver outputs by default.",
+    "reference": "Use the named case's frozen reference and tolerance policy in its qualification record. If a record does not freeze an acceptance tolerance, report the numerical result diagnostically and do not promote or claim a new pass.",
+    "observables_by_family": {
+      "static_and_elements": ["displacement vector/norm", "support reactions and force/moment balance", "element K/M identities", "energy where recorded"],
+      "modal": ["frequencies", "mass-normalized modes", "generalized eigen residual", "MAC/subspace principal angles for repeated or clustered modes"],
+      "Newmark_and_harmonic": ["initial state", "selected displacement/velocity/acceleration history", "phase and amplitude", "energy/dissipation and restart suffix where recorded"],
+      "nonlinear_J2_geometry_contact": ["load-path observables", "residual/convergence diagnostics", "accepted/rejected state history", "stress/plastic internal variables", "gap/normal/tangential force", "frictional dissipation and rollback behavior"],
+      "distributed": ["rank ownership", "serial/reference equivalence for the exact accepted case", "collective completion and output digests where recorded"]
+    },
+    "provenance_key_for_new_vnv": ["source SHA", "model/input identity and actual external-file digests", "solver configuration", "reference/oracle identity", "tolerance policy", "environment", "result digest"]
+  },
+  "baseline_execution": {
+    "quality_run_id": "37217513570",
+    "documentation_run_id": "37217513498",
+    "source_sha": "c37179dae53604126aa6aa0d834770dfa4d2db37",
+    "quality_status": "SUCCESS",
+    "documentation_status": "SUCCESS",
+    "quality_jobs": {
+      "ubuntu-latest / Python 3.10": "SUCCESS; unit/integration 3316 passed, 22 skipped, 107 deselected; coverage 85.47% (80% required); Ruff, progressive mypy, P0 coverage, compileall, and quick verification passed.",
+      "ubuntu-latest / Python 3.13": "SUCCESS; unit/integration 3316 passed, 22 skipped, 107 deselected; coverage 85.47% (80% required); Ruff, progressive mypy, P0 coverage, compileall, and quick verification passed.",
+      "windows-latest / Python 3.10": "SUCCESS; unit/integration 3316 passed, 22 skipped, 107 deselected; coverage 85.49% (80% required); Ruff, progressive mypy, P0 coverage, compileall, and quick verification passed.",
+      "windows-latest / Python 3.13": "SUCCESS; unit/integration 3316 passed, 22 skipped, 107 deselected; coverage 85.49% (80% required); Ruff, progressive mypy, P0 coverage, compileall, and quick verification passed.",
+      "WP14 recovered evidence / targeted checks": "SUCCESS; all nine exact targeted checks passed. This verifies those checks only and does not change WP14 HOLD or maturity.",
+      "Documentation evidence / ubuntu-latest": "SUCCESS; controlled meshed profile 23 passed, 1 skipped, 3959 deselected; Markdown/PDF checks 63 passed, 6 skipped.",
+      "Full engineering campaign": "SUCCESS; 3672 passed, 36 skipped, 206 deselected; full engineering verification profile GLOBAL STATUS PASS and VERIFY-ALL PASS."
+    },
+    "documentation_run": "SUCCESS; docs-generation tests 37 passed, 2 skipped; MkDocs strict build passed; packaging integration tests 13 passed.",
+    "skip_classification": {
+      "standard_matrix": "22 runtime skips per matrix; reported as SKIPPED, not PASS. The workflow emits aggregate counts rather than per-node skip reasons. Repository skip guards identify optional dependency/host-capability cases; source search also identifies archive-backed evidence gates. Exact per-node breakdown is not claimed.",
+      "standard_deselection": "107 items per matrix explicitly deselected by the authoritative not benchmark / not large / not evidence marker expression; not PASS and outside that workflow's selected test scope.",
+      "engineering_profile": "36 runtime skips and 206 marker-deselected items; kept separate from the 3672 passing tests. The profile's logs provide aggregate skip counts; optional/external evidence remains unavailable unless provisioned.",
+      "documentation": "Docs workflow's two skipped tests are archive-backed controlled V&V corpus checks (the optional corpus was not installed). Documentation evidence job's one controlled-profile skip and six Markdown/PDF skips are reported as SKIPPED; no maturity is inferred.",
+      "wp14_targeted": "No skip; nine checks passed against the verified recovered archive. Overall WP14 remains HOLD_NOT_PROMOTED."
+    },
+    "failures": [],
+    "infrastructure_warnings": [
+      "GitHub Actions Node.js 20 to 24 action migration warning.",
+      "ubuntu-latest future runner-image migration warning."
+    ],
+    "note": "Both authoritative workflows are terminal success on the exact approved baseline SHA. All jobs, aggregate skips/deselections, and non-blocking infrastructure warnings are recorded without converting SKIPPED to PASS or changing historical maturity."
+  }
+}
