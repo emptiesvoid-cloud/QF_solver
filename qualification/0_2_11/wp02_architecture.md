@@ -18,11 +18,12 @@ tracking, and Campbell execution remain future WP05/WP06 work.
 
 | Component and current source | `CURRENT_RESPONSIBILITY` | `FUTURE_ROLE` | `CHANGE_REQUIRED` | `CHANGE_NOT_REQUIRED` | `RISK` |
 |---|---|---|---|---|---|
-| `solveur.core.router.AnalysisRouter` (`src/solveur/core/router.py`) | Normalizes settings, performs the common compatibility/mesh preflight, and dispatches explicit analysis types. | Add one explicit `rotating_modal` dispatch after common preflight, only in WP05. | Add the single route branch and route telemetry only if its contract is approved. | No plugin/registry framework; no change to existing route order or semantics in WP02. | A route added in only one entry point could be unreachable or bypass validation. |
+| `solveur.core.router.AnalysisRouter` (`src/solveur/core/router.py`) | Normalizes settings, performs the common compatibility/mesh preflight, and dispatches explicit analysis types. | Add one explicit `rotating_modal` dispatch after common preflight, only in WP05; run its route-local validation before any K/M/G assembly. | Add the single route branch and route telemetry only if its contract is approved. | No plugin/registry framework; no change to existing route order or semantics in WP02. | A route added in only one entry point could be unreachable or bypass validation. |
 | `AnalysisSettings` and JSON analysis schema (`core/analyses/settings.py`, `io/schema_analysis.py`) | `SUPPORTED_METHODS` drives settings and JSON acceptance; method parameters remain analysis-specific. | Define `rotating_modal` and its `dense_qep` method/config schema in WP05. | Route-specific validation for rotation and disks, before assembly. | No `rotating_modal` registration during WP02; do not silently accept unknown rotor data. | Duplicate or permissive schemas can accept incomplete physical inputs. |
+| Compatibility descriptors and preflight (`src/solveur/compatibility/descriptors.py`, `preflight.py`) | Descriptors declare technical element/analysis compatibility; preflight checks each finite element, and checks `DISCRETE` only when the model has no finite elements. Registry maturity is evaluated separately. | In WP05, declare the bounded technical BEAM2 + `rotating_modal` route in the descriptor while retaining its explicit experimental status; add route-local disk checks because mixed beam/discrete models do not currently get a separate `DISCRETE` preflight. | Add the descriptor entry, tests for descriptor/preflight behavior, and a fail-closed `RotatingModalInputValidator` for discrete entities before assembly. | Do not create a qualification registry combination or promote maturity solely to make dispatch pass; do not broaden other element families or analyses. | Descriptor-only support could admit an unvalidated route; missing discrete validation could ignore or double-count disk inertia. |
 | CLI (`solveur/cli/main.py`) and public API (`solveur/api/public.py`) | `solve_model` delegates through `AnalysisRouter`; CLI analysis choices are a separate explicit list. | Expose the future route through JSON/API and the existing `solve --analysis` surface, with the model carrying physical configuration. | Add the route name to the CLI at the same time as the WP05 route; keep configuration in the validated model input. | No new CLI flags for individual disk properties; no new public namespace export in WP02. | Two entry points can diverge; experimental behavior could be presented as stable. |
 | Global sparse assembler (`core/assembly/assembler.py`) | Produces real sparse element K/M, paired assembly, load vectors, and discrete spring/mass blocks. Discrete inertial entries are consumed through `active_dofs()` and `matrix()`. | Continue to own K/M assembly. A future `RotatingDisk` mass entity in the existing discrete-mass collection participates in M exactly once via that interface. | Add no G responsibility to `GlobalAssembler`; add only the minimal disk entity/parser typing needed in WP05. | No generic contribution-provider framework and no changes to ordinary K/M routes. | Double-adding disk mass or leaking G into ordinary modal/dynamic analyses. |
-| `ConcentratedMass` / `FiniteElementModel.dof_manager()` (`elements/discrete.py`, `core/model.py`) | A discrete mass owns node, mass, optional COM offset/inertia and supplies active DOFs and a mass matrix. The model asks each mass entry for active DOFs. | A future axisymmetric `RotatingDisk` is one discrete inertial entity: it owns its mass and inertias for M and its rotor identity/axis for the separate G contribution. | Add a typed disk entity and route-aware parsing in WP05; represent a disk once, not as both a disk and a second concentrated mass. | Do not retrofit historical generic masses or change their matrix semantics. | Duplicate ownership corrupts M while ordinary solver tests may still appear plausible. |
+| `ConcentratedMass` / `FiniteElementModel.dof_manager()` (`elements/discrete.py`, `core/model.py`) | A discrete mass owns node, mass, optional COM offset/inertia and supplies active DOFs and a mass matrix. The model asks each mass entry for active DOFs. | A future axisymmetric `RotatingDisk` is one discrete inertial entity: it owns its mass and inertias for M and its rotor identity/axis for the separate G contribution. | Add a typed disk entity and route-aware parsing in WP05; validate every discrete entry on the rotating route even when BEAM2 elements are present; represent a disk once, not as both a disk and a second concentrated mass. | Do not retrofit historical generic masses or change their matrix semantics. | Duplicate ownership corrupts M while ordinary solver tests may still appear plausible. |
 | BEAM2 (`elements/beam/beam2.py`) | Six-DOF 3-D Timoshenko beam with existing linear stiffness and consistent mass, including sectional rotary inertia. | Supplies the flexible shaft K/M for the first bounded rotating route. | No element formulation changes. | No shaft/rotor coupling or centrifugal prestress in WP02/WP05 initial scope. | Requalification is required if beam stiffness, mass, frame, or DOF ordering changes. |
 | DOF map, fixed constraints and dynamic reducer (`core/dofs.py`, `core/assembly/assembler.py`, `core/analyses/dynamic_reduction.py`) | `DofManager` numbers active named DOFs; `fixed_indices` returns homogeneous fixed indices. `DynamicDofReducer` additionally performs shell-director transformation and massless MITC drilling condensation; it is not a generic reduction abstraction. | Initial BEAM2-only route uses the same free-index selection for K, M, and G. | Add a small route-local selection/reduction step if needed; reject unsupported MPC/RBE and shell cases in the initial route. | Do not generalize or alter `DynamicDofReducer` for a case that has no shell drilling DOFs. | Applying different reductions to K/M/G gives a different eigenproblem; shell condensation cannot be assumed to commute with G. |
 | Modal solver (`core/analyses/modal.py`) | Solves real symmetric generalized Kφ=μMφ with modal diagnostics, sparse/dense methods and shell reduction. | Remains unchanged; the new QEP path is an independent analysis solver. | None in WP02. | Do not overload `ModalAnalysisSolver` or change the classic modal contract. | Complex roots/vectors must not pass through real-only casts or alter existing modal results. |
@@ -67,6 +68,9 @@ Dependency rules:
    `qualification/` files at runtime.
 5. PETSc, SLEPc, MPI, distributed rotor assembly, and backend registries are
    not dependencies of the initial rotating route.
+6. The existing compatibility preflight is a technical gate, not a maturity
+   decision. WP05 must add the BEAM2 technical declaration and a dedicated
+   rotating-input validator together; a descriptor entry alone is insufficient.
 
 ## 3. Frozen input and ownership contracts (future WP05 implementation)
 
@@ -117,7 +121,12 @@ Dependency rules:
 - **Fail-closed checks:** unique disk node/entity; node is active in the model;
   no second generic lumped mass at that node; physical finite inertia; common
   axis; required rotational DOFs; initial BEAM2-only element set. No disk is
-  silently ignored by a non-rotating analysis.
+  silently ignored by a non-rotating analysis. The route-local validator must
+  enumerate and validate the model's complete discrete-mass collection even
+  when finite elements are also present; current common preflight does not
+  separately check discrete entities in that mixed case. Reject springs or
+  other unsupported discrete entities unless their rotating-route semantics
+  are explicitly specified.
 
 ### 3.3 Assembly of K, M and G
 
@@ -233,6 +242,13 @@ prediction, or operational criticality proof.
 - JSON remains the first input route; the current CLI analysis choices need
   an explicit synchronized update in WP05. Public stability classification
   for the new route/result starts `EXPERIMENTAL`/provisional, not STABLE.
+- WP05 must update the BEAM2 compatibility descriptor so the common preflight
+  does not reject the route as undeclared. This is a technical-route declaration
+  only: do not add a compatible-maturity registry record merely to enable the
+  route. Without an authoritative maturity combination, preflight/route
+  reporting must remain explicitly experimental. Test both the technical
+  declaration and the fail-closed disk validator; the validator must reject
+  invalid or unsupported discrete entries before any matrix allocation.
 - The first route is serial, linear flexible BEAM2 with rigid axisymmetric
   disks, constant prescribed signed speed, fixed spatial frame, small
   perturbations, no damping, simple homogeneous fixed constraints, and
@@ -275,6 +291,7 @@ their corresponding results are inspected.
 | `MODULE_RESPONSIBILITIES_CLEAR` | YES |
 | `ROTATION_CONFIG_CONTRACT_CLEAR` | YES |
 | `ROTATING_DISK_OWNERSHIP_CLEAR` | YES; one entity owns M, rotor assembler contributes G only |
+| `COMPATIBILITY_PREFLIGHT_INTEGRATION_CLEAR` | YES; BEAM2 technical declaration and route-local validation of all discrete entries are both required in WP05; technical support does not promote maturity |
 | `ASSEMBLY_EXTENSION_CLEAR` | YES; compose K/M with narrow G assembler |
 | `DOF_REDUCTION_CONTRACT_CLEAR` | YES; shared fixed-DOF selection for initial BEAM2; reject unsupported transforms |
 | `QEP_INTERFACE_CLEAR` | YES; internal SciPy dense QEP contract, no backend framework |

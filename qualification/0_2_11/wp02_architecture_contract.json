@@ -30,7 +30,11 @@
     "rotating_modal_result": "src/solveur/core/results.py",
     "modal_tracking": "src/solveur/core/analyses/modal_tracking.py",
     "campbell_orchestration": "src/solveur/core/analyses/campbell.py",
-    "campbell_postprocessing": "src/solveur/post/campbell.py"
+    "campbell_postprocessing": "src/solveur/post/campbell.py",
+    "compatibility_descriptor": "src/solveur/compatibility/descriptors.py",
+    "compatibility_preflight": "src/solveur/compatibility/preflight.py",
+    "rotating_input_validator": "src/solveur/core/analyses/rotating_input_validator.py",
+    "rotating_route_tests": "tests/unit/test_rotating_modal_preflight.py"
   },
   "frozen_contracts": {
     "analysis_route": {
@@ -38,6 +42,15 @@
       "initial_method": "dense_qep",
       "owner": "AnalysisRouter dispatches; dedicated solver validates and orchestrates",
       "public_status": "EXPERIMENTAL_PROVISIONAL",
+      "technical_descriptor": "WP05 adds rotating_modal to the BEAM2 supported_analyses descriptor so common preflight recognizes the bounded technical route; registry maturity remains separate and must not be promoted to enable dispatch",
+      "route_local_validation": "RotatingModalInputValidator validates rotation settings and every discrete entity before any assembly; common preflight currently does not separately check DISCRETE when finite elements are present",
+      "required_fail_closed_tests": [
+        "BEAM2 + rotating_modal passes technical descriptor check but remains explicitly experimental without a maturity registry combination",
+        "BEAM2 model with a valid disk passes route-specific discrete validation",
+        "BEAM2 model with a generic concentrated mass at a disk node is rejected before assembly",
+        "BEAM2 model with an unsupported spring or other discrete entity is rejected before assembly",
+        "invalid disk mass, inertia, axis, node ownership, or missing rotational DOFs is rejected before matrix allocation"
+      ],
       "initial_scope": [
         "BEAM2 flexible structure",
         "rigid axisymmetric disks",
@@ -60,6 +73,13 @@
         "nonlinear rotor",
         "PETSc, SLEPc, MPI, distributed solve"
       ]
+    },
+    "compatibility_preflight": {
+      "current_behavior": "finite-element compatibility is checked per element; DISCRETE compatibility is checked only when the model has no finite elements",
+      "wp05_change": "declare only the bounded BEAM2 rotating_modal technical route and add a route-local validator for the complete discrete entity collection",
+      "maturity_rule": "technical descriptor support does not qualify the route; absent an authoritative registry combination, status remains EXPERIMENTAL_ROUTE",
+      "validation_order": "settings and common preflight, then route-local rotation/discrete validation, then allocation or K/M/G assembly",
+      "no_qualification_promotion": true
     },
     "rotation_config": {
       "location": "analysis.parameters.rotation",
@@ -153,6 +173,7 @@
       "module_responsibilities_clear": true,
       "rotation_config_contract_clear": true,
       "rotating_disk_ownership_clear": true,
+      "compatibility_preflight_integration_clear": true,
       "assembly_extension_clear": true,
       "dof_reduction_contract_clear": true,
       "qep_interface_clear": true,
