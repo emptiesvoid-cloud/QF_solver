@@ -116,6 +116,20 @@ def test_runner_records_expected_failure_and_manifest_digests(tmp_path: Path) ->
     assert manifest["threshold_source"] == "qualification/0_2_6/tolerance_policy.json"
 
 
+def test_legacy_resume_refuses_source_sha_only_reuse_without_mutating_prior_result(tmp_path: Path) -> None:
+    registry = VnvRegistry.from_file(REGISTRY_PATH)
+    case_id = "VNV026-ADV-INVERTED-TET4-001"
+    runner = VnvRunner(ROOT)
+    runner.run(registry, tmp_path, profile="SMOKE", case_ids=(case_id,))
+    result_path = tmp_path / f"{case_id.lower()}.json"
+    original = result_path.read_bytes()
+
+    with pytest.raises(ValueError, match="REFUSE_RESUME"):
+        runner.run(registry, tmp_path, profile="SMOKE", case_ids=(case_id,), resume=True)
+
+    assert result_path.read_bytes() == original
+
+
 def test_runner_applies_declared_analysis_override_to_string_model(tmp_path: Path) -> None:
     registry = VnvRegistry.from_file(REGISTRY_PATH)
 

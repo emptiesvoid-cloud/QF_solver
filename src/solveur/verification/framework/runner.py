@@ -87,9 +87,10 @@ class VnvRunner:
     ) -> Path:
         result_path = output_dir / f"{case.case_id.lower()}.json"
         if resume and result_path.exists():
-            previous = json.loads(result_path.read_text(encoding="utf-8"))
-            if previous.get("source_sha") == environment["source"]["sha"]:
-                return result_path
+            raise ValueError(
+                "REFUSE_RESUME: this historical runner has no complete execution identity or verified artifact manifest; "
+                "use resume=False to execute the case again."
+            )
         started = perf_counter()
         try:
             model_path = self._model_path(case)
