@@ -1,0 +1,223 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0211-WP05-GYROSCOPIC-CONTRACT",
+  "work_package": "WP05",
+  "status": "PROSPECTIVE_CONTRACT_FROZEN_BEFORE_GYRO_GATES",
+  "implementation_base_sha": "a0e8acd87ea535086dc8b78ae6a2032449fb3a5e",
+  "wp02_architecture_authority": "qualification/0_2_11/wp02_architecture_contract.json",
+  "immutable_baselines": {
+    "published_tag": "v0.2.10",
+    "published_source_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+    "published_baseline_immutable": true,
+    "wp04_base_sha": "a0e8acd87ea535086dc8b78ae6a2032449fb3a5e",
+    "g03": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "wp14": "HOLD_NOT_PROMOTED"
+  },
+  "scope": {
+    "capability": "single-speed gyroscopic modal analysis of a bounded linear BEAM2 rotor with centered rigid axisymmetric disks",
+    "maturity": "EXPERIMENTAL",
+    "frame": "fixed global spatial frame",
+    "perturbation": "small linear perturbations about the undeformed, unprestressed state",
+    "execution": "serial dense SciPy generalized eigensolve",
+    "allowed_structure": [
+      "connected unbranched collinear BEAM2 chain",
+      "isotropic circular sections with constant section properties per element",
+      "one common global rotation axis parallel to the beam centerline",
+      "centered rigid axisymmetric disks attached at existing beam nodes",
+      "homogeneous fixed DOFs",
+      "fixed-ground linear springs only when their assembled contribution passes the same SPD checks"
+    ],
+    "explicitly_rejected": [
+      "non-BEAM2 or mixed structural element families",
+      "branched, curved, or non-collinear beam centerlines",
+      "variable or inferred rotation axis",
+      "off-node or eccentric disks",
+      "non-axisymmetric disks",
+      "generic concentrated mass at a disk node",
+      "nonzero damping or nonzero static/prestress load",
+      "MPC, RBE, contact, or unsupported constraint transforms",
+      "centrifugal stress stiffening",
+      "variable spin speed",
+      "distributed beam gyroscopic terms",
+      "forced unbalance response or nonlinear rotor behavior",
+      "PETSc, SLEPc, MPI, or sparse QEP"
+    ],
+    "out_of_scope_work_packages": ["WP06 Campbell, speed sweep, modal tracking, and plotting"]
+  },
+  "scientific_convention": {
+    "time_dependence": "q(t)=Re(phi*exp(lambda*t))",
+    "equation": "M*q_ddot + Omega*G*q_dot + K*q = 0",
+    "quadratic_eigenproblem": "(lambda^2*M + lambda*Omega*G + K)*phi = 0",
+    "gyroscopic_matrix_definition": "G is the unit-speed gyroscopic matrix and does not contain Omega",
+    "gyroscopic_skew_invariant": "G.T = -G",
+    "rotation_sign": "signed Omega is applied exactly once by the QEP; axis direction follows the global right-hand rule",
+    "disk_mass_block": "m*I for translations and Jd*(I-a*a.T)+Jp*(a*a.T) for rotations; zero translation/rotation coupling",
+    "disk_gyro_block": "-Jp*[a]_cross in rotational DOFs only",
+    "axis_x_gyro_yz_block": [[0.0, "Jp"], ["-Jp", 0.0]],
+    "disk_validation": ["m>0", "Jd>0", "Jp>0", "Jp<=2*Jd", "finite normalized global axis"]
+  },
+  "rotation_configuration": {
+    "location": "analysis.parameters.rotation",
+    "required_fields": ["axis_global", "speed_rad_s", "frame_convention"],
+    "frame_convention": "global_fixed_right_hand_rule",
+    "axis_policy": "finite nonzero 3-vector normalized on construction; direction is retained",
+    "speed_policy": "finite signed scalar in rad/s; zero is valid",
+    "rpm_policy": "only an explicit RotationConfig.from_rpm API may convert RPM; input parsing never guesses units",
+    "legacy_models_without_rotation": "unchanged"
+  },
+  "discrete_ownership_and_preflight": {
+    "entity": "RotatingDisk stored in the existing concentrated-mass collection",
+    "mass_owner": "one disk entity contributes translational and rotary mass exactly once through GlobalAssembler",
+    "gyro_owner": "RotatingDiskGyroAssembler contributes G only; it never multiplies by Omega",
+    "duplicate_mass_rule": "reject a generic ConcentratedMass at any RotatingDisk node before K/M/G allocation",
+    "all_discrete_entities_rule": "route-local validator examines every spring and mass even when finite elements are present",
+    "other_routes": "reject RotatingDisk before assembly on every analysis other than rotating_modal",
+    "validation_order": ["analysis settings", "common compatibility preflight", "complete rotating route validation", "DOF map", "K/M assembly", "G assembly"]
+  },
+  "assembly_and_reduction": {
+    "K_and_M": "reuse existing structural assembly and discrete mass/spring path",
+    "G": "assemble once from disk rotational blocks in the same global DofManager order",
+    "ordinary_routes_allocate_G": false,
+    "constraints": "homogeneous fixed DOFs only; select the same free-index vector for M, K, and G",
+    "reduced_invariants": {
+      "M": "finite, real, symmetric and positive definite",
+      "K": "finite, real, symmetric and positive definite",
+      "G": "finite, real and skew-symmetric",
+      "shape_and_order": "M, K, G have identical reduced shape and index ordering"
+    },
+    "no_postassembly_skew_projection": true
+  },
+  "qep_solver": {
+    "module": "src/solveur/core/analyses/qep.py",
+    "backend": "scipy.linalg.eig(A,B), dense generalized eigenproblem, serial",
+    "linearization_A": "[[0,I],[-K,-Omega*G]]",
+    "linearization_B": "[[I,0],[0,M]]",
+    "prohibited": ["numpy.linalg.inv(M)", "scipy.linalg.eigh for the QEP", "eigsh for the QEP", "silent complex-to-real conversion"],
+    "root_policy": "all raw 2*n roots retained; any non-finite root/vector, malformed shape, or rejected residual fails closed",
+    "scaling": {
+      "status": "prospectively_frozen_in_wp05_before_qep_numerical_gates",
+      "length_reference": "L_ref is the end-to-end projected length of the validated straight beam chain; it must be finite and positive",
+      "coordinate_transform": "q_physical = D*q_scaled; D is diagonal with L_ref for each translational DOF and 1 for each rotational DOF",
+      "matrix_transform": "M_s=D.T*M*D; K_s=D.T*K*D; G_s=D.T*G*D",
+      "matrix_norm": "Frobenius norm, computed deterministically as sqrt(sum(A_ij*A_ij)) on the symmetric/reduced real matrices",
+      "mass_reference": "M_ref=norm_F(M_s)",
+      "stiffness_reference": "K_ref=norm_F(K_s)",
+      "frequency_reference": "omega_ref=sqrt(K_ref/M_ref), required finite and positive",
+      "scaled_matrices": "M_hat=omega_ref^2*M_s/K_ref; K_hat=K_s/K_ref; G_hat=omega_ref^2*G_s/K_ref; Omega_hat=Omega/omega_ref",
+      "scaled_qep": "(mu^2*M_hat + mu*Omega_hat*G_hat + K_hat)*phi_hat=0 with lambda=omega_ref*mu",
+      "reconstruction": "phi_physical=D*phi_hat; lambda_physical=omega_ref*mu; all reported residuals and normalization use physical reduced M/K/G and lambda/Omega",
+      "operational_values_excluded": ["timestamps", "temporary paths", "output directory"]
+    }
+  },
+  "result_contract": {
+    "type": "RotatingModalResult, distinct from ModalResult",
+    "maturity": "EXPERIMENTAL",
+    "required_fields": [
+      "raw_eigenvalues_complex",
+      "raw_modes_complex",
+      "selected_mode_indices",
+      "frequency_hz",
+      "growth_rate_per_s",
+      "qep_residuals",
+      "spin_speed_rad_s",
+      "axis_global",
+      "frame_convention",
+      "solver_metadata",
+      "diagnostics",
+      "provenance",
+      "maturity",
+      "numerical_status"
+    ],
+    "normalization": "each returned mode satisfies phi.conj().T*M*phi=1 within the frozen tolerance; deterministic phase sets the largest-magnitude component real nonnegative without affecting phase-invariant comparisons",
+    "complex_serialization": "every complex scalar/vector is encoded explicitly as {real,imag}; round-trip must preserve complex values",
+    "frequency": "abs(imag(lambda))/(2*pi)",
+    "growth_rate": "real(lambda)",
+    "physical_mode_selection": "select roots with positive imaginary part above 64*machine_epsilon*max(omega_ref,abs(lambda)); order by frequency_hz, then real(lambda), then imag(lambda); return requested count while retaining the full raw spectrum and indices",
+    "pairing": "no cross-speed tracking or branch IDs in WP05",
+    "whirl": "not classified in WP05 unless an independently defined diagnostic is available; otherwise NOT_DEFINED"
+  },
+  "frozen_tolerances": {
+    "recorded_before_numerical_gate_execution": true,
+    "matrix_symmetry_relative_frobenius_max": 1e-12,
+    "gyro_skew_relative_frobenius_max": 1e-12,
+    "mass_normalization_absolute_error_max": 1e-10,
+    "general_qep_relative_residual_max": 1e-8,
+    "simple_analytic_qep_relative_residual_max": 1e-10,
+    "conservative_growth_ratio_max": 1e-8,
+    "conservative_growth_ratio_definition": "max_i(abs(real(lambda_i))/max(omega_ref,abs(lambda_i))) over the complete finite raw spectrum",
+    "normalized_spectral_pair_mismatch_max": 1e-8,
+    "normalized_spectral_pair_mismatch_definition": "minimum-cost full assignment between raw lambda and conjugate(raw lambda), with cost abs(lambda_i-conj(lambda_j))/max(omega_ref,abs(lambda_i),abs(lambda_j)); report maximum assigned cost",
+    "qep_residual_definition": "norm2((lambda^2*M+lambda*Omega*G+K)*phi)/(norm2(K*phi)+abs(lambda*Omega)*norm2(G*phi)+abs(lambda)^2*norm2(M*phi)); zero denominator is invalid",
+    "symmetry_definition": "norm_F(A-A.T)/max(norm_F(A),tiny) for M/K and norm_F(G+G.T)/max(norm_F(G),tiny) for G",
+    "positive_definiteness": "Cholesky factorization succeeds for each reduced symmetric M and K; no threshold tuning after observing a case"
+  },
+  "verification_cases": {
+    "GYRO-01": {
+      "purpose": "Omega=0 recovers classic modal frequencies and eigenspaces for identical physical K/M including disk mass",
+      "comparison": "frequency and multiplicity agreement; compare phase-invariant modal assurance and degenerate subspaces; compare mass normalization and residuals",
+      "oracle": "classic ModalAnalysisSolver on a reference model with equivalent concentrated inertia and identical assembled K/M"
+    },
+    "GYRO-02": {
+      "purpose": "local disk matrices, assembly, frame covariance, sign and ownership",
+      "checks": ["analytic M/G blocks", "G skew", "v.T*G*v=0", "orthogonal frame covariance", "Omega sign enters once", "no duplicate mass", "fail-closed input validation"]
+    },
+    "GYRO-03": {
+      "purpose": "independent analytical gyroscopic disk oscillator oracle",
+      "fixture": {"mass_kg": 1.0, "diametral_inertia_kg_m2": 0.01, "polar_inertia_kg_m2": 0.02, "rotational_stiffness_Nm_per_rad": 100.0, "spin_speed_rad_s": [0.0, 5.0, -5.0, 25.0, -25.0, 50.0, -50.0, 100.0, -100.0]},
+      "oracle": "omega0=sqrt(k_theta/Jd); s=Omega*Jp/Jd; unordered frequency pair is sqrt(omega0^2+(s/2)^2) +/- abs(s)/2",
+      "independence": "fixture computes the closed-form oracle directly and must not call production disk G assembly"
+    },
+    "GYRO-04": {
+      "purpose": "single-speed spectral splitting under signed spin",
+      "checks": ["degenerate zero-speed limit", "splitting increases with absolute speed in analytic fixture", "signed speed reverses Omega*G term", "signed speed produces the expected unordered spectrum", "conjugate pairing and QEP residuals"],
+      "campbell_tracking": "not included"
+    }
+  },
+  "dense_characterization": {
+    "status": "measurement_required_before_publishing_a_supported_dof_bound",
+    "target_physical_dof_sizes": [50, 100, 250, 500, 1000],
+    "minimum_completed_sizes": 3,
+    "repetitions_per_completed_size": 3,
+    "measure": ["physical DOFs", "linearized dimension", "wall time per solve", "peak process RSS", "run-to-run dispersion", "BLAS/LAPACK", "OS", "Python", "SciPy", "maximum QEP residual"],
+    "fixture": "deterministically generated finite SPD M/K and finite skew G; generation seed and parameters recorded in each schema-v2 execution record",
+    "stop_rule": "before each size, estimate required dense matrices/workspace from prior measured RSS-per-linearized-DOF; skip a larger size if projected peak exceeds 70 percent of available physical memory or if the preceding size fails; never extrapolate a public bound above the largest size completed successfully",
+    "supported_dof_bound_rule": "at most the largest successfully completed target size, reduced by one target tier if its peak RSS exceeds 50 percent of available physical memory or any repetition has a residual/solve failure",
+    "not_a_claim": "no general HPC, sparse, parallel, or untested-size claim"
+  },
+  "evidence_records": {
+    "schema": "WP03 schema v2 execution identity and safe-resume contract",
+    "required_per_case": ["source SHA", "case contract version", "model/input identity", "solver configuration", "reference/oracle identity", "tolerance policy", "software versions", "numerical environment", "execution_key", "content hashes", "availability status", "numerical result", "maturity decision separated from result"],
+    "availability_is_not_verdict": true,
+    "historical_records_mutated": false
+  },
+  "required_validation": {
+    "fast_development": ["disk matrix unit tests", "rotation config validation", "route-local fail-closed tests", "G assembly local invariants", "QEP and result tests as implemented"],
+    "pr_required_exact_wp05_sha": ["legacy non-regression tests selected from WP01", "GYRO-01 through GYRO-04", "dense characterization records", "documentation tests", "Ruff and type gates currently required by repository workflow", "Quality and verification workflow", "package/API import tests"],
+    "main_workflows_rerun": false
+  },
+  "gate_contracts": {
+    "QF0211-G04": {
+      "name": "GYROSCOPIC FORMULATION VERIFIED",
+      "requires": ["LOCAL_DISK_MASS", "LOCAL_G_MATRIX", "G_ANTISYMMETRY", "FRAME_COVARIANCE", "SIGNED_SPEED_BEHAVIOR", "MASS_OWNERSHIP", "FAIL_CLOSED_INPUT_VALIDATION"],
+      "all_required_pass": true,
+      "qep_solver_failure_cannot_mask_formulation_failure": true
+    },
+    "QF0211-G05": {
+      "name": "QEP / RESULT VERIFIED",
+      "requires": ["GYRO-01", "GYRO-03", "GYRO-04", "QEP_RESIDUALS", "COMPLEX_SPECTRUM", "MASS_NORMALIZATION", "SERIALIZATION", "FAIL_CLOSED", "DENSE_DOMAIN_CHARACTERIZED"],
+      "all_required_pass": true,
+      "depends_on": "QF0211-G04"
+    }
+  },
+  "preservation": {
+    "legacy_modal_result_changed": false,
+    "classic_routes_assemble_gyro": false,
+    "historical_qualification_records_modified": false,
+    "v0_2_10_tag_or_artifacts_modified": false,
+    "g03": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "wp14": "HOLD_NOT_PROMOTED",
+    "numerical_maturity_promotion": false
+  }
+}
