@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0211-WP04-HISTORICAL-REMEDIATION",
+  "work_package": "WP04",
+  "status": "CANDIDATE_PENDING_EXACT_SHA_CI",
+  "base_sha": "33d83b2935a97ca7a74fef2c62d5e2310eb71ddc",
+  "baseline_main_sha": "c37179dae53604126aa6aa0d834770dfa4d2db37",
+  "immutable_release": {
+    "tag": "v0.2.10",
+    "source_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+    "release_contract": "qualification/0_2_10/authorized_selected_package_release_contract_e535ff.json",
+    "version_doi": "10.5281/zenodo.23106744",
+    "preserved": true
+  },
+  "scope": {
+    "authorized_interventions": ["L01_DOCUMENTARY_AUTHORITIES", "L02_CURRENT_RULE_COHERENCE", "L03_SHORT_RETESTS", "L04_EVIDENCE_AVAILABILITY"],
+    "budget_percent": {"L01": 3, "L02": 2, "L03": 3, "L04": 2, "total": 10},
+    "production_numerical_code_changed": false,
+    "solver_formulations_changed": false,
+    "numerical_thresholds_changed": false,
+    "historical_qualification_records_changed": false,
+    "maturity_promotions": [],
+    "wp05_or_gyro_or_qep_or_campbell_started": false,
+    "scope_expansion": false
+  },
+  "L01_documentary_authorities": {
+    "status": "PASS",
+    "current_release_authority": {
+      "tag": "v0.2.10",
+      "package_source_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+      "release_contract": "qualification/0_2_10/authorized_selected_package_release_contract_e535ff.json",
+      "version_doi": "10.5281/zenodo.23106744",
+      "concept_doi": "10.5281/zenodo.22697897"
+    },
+    "historical_contracts_rewritten": false,
+    "current_document_corrected": "docs/verification/0_2_10/README.md",
+    "corrections": [
+      "Replaced the stale candidate contract link with the e535ff authorized selected-package contract.",
+      "Made the source tag/SHA and governance-vs-package-source distinction explicit.",
+      "Labeled the page as the current public summary and retained G03 FAIL_PRESERVED and WP14 HOLD_NOT_PROMOTED."
+    ]
+  },
+  "L02_current_rules": {
+    "status": "PASS",
+    "source_file": "DEVELOPER_GUIDE.md",
+    "current_source_size_rule": "700 lines is an advisory maintainability objective, not a hard correctness or CI gate.",
+    "implementation": "scripts/audit_source_maintainability.py reports maintenance debt; the associated test and architecture rule do not fail solely because a file exceeds 700 lines.",
+    "workflow_gate": "No 700-line hard cap was found in the current quality workflow.",
+    "historical_records_edited": false,
+    "numerical_formulations_or_thresholds_changed": false
+  },
+  "L03_short_retests": {
+    "status": "RECORDED_WITH_LIMITATIONS",
+    "historical_result_reclassification": false,
+    "maturity_promotions": [],
+    "records": "qualification/0_2_11/wp04_retest_execution_records.json",
+    "MITC4_MODAL_10K": {
+      "current_replay": "BLOCKED",
+      "reason": "The unchanged 10k QUAD4 QF route did not produce a usable eigenpair or summary within the unchanged 900 s budget; the bounded process was stopped. The external Code_Aster reference was not recomputed and is absent from this clean checkout.",
+      "action": "RETEST_ONLY; defer any solver, preconditioner, formulation, or reference change to a separately authorized scope."
+    },
+    "DISCRETE_NEWMARK": {
+      "classification": "REPRODUCED",
+      "historical_rejected_gate": "coarse.max_phase_error_rad = 0.012895220110156203 rad > frozen 0.012 rad",
+      "fine_grid_observation": "0.0032254224099297346 rad; the original coarse grid and gate remain authoritative.",
+      "action": "RETEST_ONLY; retain EXPERIMENTAL and the historical Owner REJECT decision."
+    },
+    "CONTACT_GUARDS": {
+      "current_replay": "PASS_TARGETED_GUARDS",
+      "tests_passed": 24,
+      "scope": "Coupled active-set cycle recovery, bounded fail-closed enumeration behavior, telemetry/rejection rollback and existing frictionless tests only; not a WP08 campaign.",
+      "action": "RETEST_ONLY; no WP07/WP08 requalification or maturity promotion."
+    }
+  },
+  "L04_evidence_inventory": {
+    "status": "PASS_WITH_RECORDED_AVAILABILITY_LIMITATIONS",
+    "record": "qualification/0_2_11/wp04_evidence_inventory.json",
+    "original_vs_reconstructed_distinguished": true,
+    "private_absolute_paths_in_records": false
+  },
+  "historical_dispositions": {
+    "G03_whole_repository": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "WP14": "HOLD_NOT_PROMOTED",
+    "WP06_D": "EXPERIMENTAL_BOUNDED_ACCEPTED; 0/2 formal points",
+    "WP06_E_F": "BLOCKED_ON_FORMAL_DEPENDENCIES",
+    "WP08_R1_13": "EXPERIMENTAL_DIAGNOSTIC_WITH_MESH_SENSITIVITY; no formal requalification",
+    "MITC4_modal_10k": "historical failed/timeout scope retained; not generalized to every MITC4 modal case",
+    "DISCRETE_NEWMARK": "EXPERIMENTAL; Owner gate REJECTED",
+    "historical_records_rewritten": false,
+    "historical_results_reclassified": false
+  },
+  "QF0211_G03_SELECTED_HISTORICAL_FIXES_VERIFIED": {
+    "local_scope_conditions": {
+      "L01_AUTHORITIES_CORRECT": "YES",
+      "L02_CURRENT_RULES_COHERENT": "YES",
+      "MITC4_RETEST_RECORDED": "YES",
+      "DISCRETE_NEWMARK_RETEST_RECORDED": "YES",
+      "CONTACT_GUARDS_RETEST_RECORDED": "YES",
+      "EVIDENCE_INVENTORY_UPDATED": "YES",
+      "NO_HISTORICAL_RECORD_REWRITTEN": "YES",
+      "NO_UNAUTHORIZED_PROMOTION": "YES",
+      "NO_SCOPE_EXPANSION": "YES"
+    },
+    "legacy_non_regression": "PENDING_EXACT_SHA_CI",
+    "gate_status": "PENDING_EXACT_SHA_CI",
+    "pass_rule": "All local scope conditions remain YES, exact WP04 Quality and Documentation workflows complete successfully on the committed WP04 SHA, and no new regression appears. A failed/blocked historical retest is acceptable when accurately recorded and not promoted."
+  },
+  "validation": {
+    "source_sha_for_retests": "33d83b2935a97ca7a74fef2c62d5e2310eb71ddc",
+    "retest_identity_contract": "WP03 execution-identity schema v1, serialized in wp04_retest_execution_records.json",
+    "historical_comparison_quality_run_id": "37269320218",
+    "historical_comparison_docs_run_id": "37269320422",
+    "required_wp04_ci": ["Quality and verification workflow_dispatch on exact WP04 SHA", "Documentation tests workflow_dispatch on exact WP04 SHA"],
+    "main_workflows_relaunched": false
+  }
+}

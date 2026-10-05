@@ -1,0 +1,222 @@
+{
+  "record_schema": "qf.wp04.retest-executions.v1",
+  "work_package": "WP04",
+  "source_sha": "33d83b2935a97ca7a74fef2c62d5e2310eb71ddc",
+  "identity_contract": {
+    "implementation": "solveur.verification.v2.ExecutionIdentity",
+    "identity_schema_version": 1,
+    "algorithm": "SHA256(UTF8('QF-VNV-EXECUTION-IDENTITY-v1\\n' + canonical_json(identity)))",
+    "canonical_json": "UTF-8; lexicographically sorted object keys; compact separators; input/reference files normalized by logical role and logical ID; operational output/temp path omitted.",
+    "interpretation": "Keys identify these scoped regression/replay executions. Test-process PASS does not mean the underlying capability is qualified or promoted."
+  },
+  "environment": {
+    "python": "3.13.1",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "pytest": "8.4.1",
+    "os": "Windows",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "machine": "AMD64",
+    "cpu_count": 12
+  },
+  "executions": [
+    {
+      "case_id": "DISCRETE_NEWMARK_RETEST",
+      "execution_key": "2b5c8450068ccc03b6e91b32f8342ef881444977273c7710f0ec04a6669c2b32",
+      "command": "python -m pytest -q tests/verification/test_028_beam2_discrete_dynamic_vnv.py -k DISCRETE_NEWMARK",
+      "process_result": "1 passed, 4 deselected",
+      "current_replay_classification": "REPRODUCED",
+      "observed": {
+        "owner_gate": "REJECTED",
+        "coarse_max_phase_error_rad": 0.012895220110156203,
+        "predeclared_coarse_limit_rad": 0.012,
+        "fine_max_phase_error_rad": 0.0032254224099297346,
+        "time_grid_or_tolerance_changed": false,
+        "historical_result_preserved": true,
+        "maturity_promotion": "NONE"
+      },
+      "execution_identity": {
+        "source_sha": "33d83b2935a97ca7a74fef2c62d5e2310eb71ddc",
+        "case_contract_version": "0.2.11-wp04-v1",
+        "units_resolved": true,
+        "case_definition": {"case_id": "DISCRETE_NEWMARK_RETEST"},
+        "model_input": {},
+        "input_files": [
+          {
+            "logical_role": "test_contract",
+            "logical_id": "tests/verification/test_028_beam2_discrete_dynamic_vnv.py",
+            "sha256": "d020c03a8020c3e90dc5153ca5390477732debae8afc894ddced35b365376008",
+            "size_bytes": 17067,
+            "provenance": "REPOSITORY",
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "public_identifier": "tests/verification/test_028_beam2_discrete_dynamic_vnv.py"
+          },
+          {
+            "logical_role": "historical_case_contract",
+            "logical_id": "qualification/0_2_8/wp03b_dynamic_vnv.json",
+            "sha256": "bd66f8478e2cb68d4e386cc4c288cf691ffc644b9f0fce54093724e142591e58",
+            "size_bytes": 12237,
+            "provenance": "REPOSITORY",
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "public_identifier": "qualification/0_2_8/wp03b_dynamic_vnv.json"
+          }
+        ],
+        "mesh": {"model": "one grounded UX spring and concentrated mass"},
+        "material_data": {"mass_kg": 10.0, "spring_N_per_m": 1000.0},
+        "boundary_conditions": {},
+        "loads": {},
+        "solver_configuration": {"runner": "pytest", "selector": "DISCRETE_NEWMARK", "beta": 0.25, "gamma": 0.5},
+        "resolved_overrides": {},
+        "reference_identity": {"id": "COMB-DISCRETE-newmark_transient", "authority": "qualification/0_2_8/wp03_owner_gate_final.json"},
+        "reference_files": [
+          {
+            "logical_role": "owner_decision",
+            "logical_id": "qualification/0_2_8/wp03_owner_gate_final.json",
+            "sha256": "ef559fb665f2849202aadc883df7aa2869f0459f967ea67c02795fd4534476b0",
+            "size_bytes": 4510,
+            "provenance": "REPOSITORY",
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "public_identifier": "qualification/0_2_8/wp03_owner_gate_final.json"
+          }
+        ],
+        "tolerance_policy": {"coarse.max_phase_error_rad": 0.012},
+        "metric_definitions": {"max_phase_error_rad": "absolute wrapped phase error"},
+        "software_versions": {"python": "3.13.1", "numpy": "2.2.6", "scipy": "1.15.2", "pytest": "8.4.1", "qf_solver_source_sha": "33d83b2935a97ca7a74fef2c62d5e2310eb71ddc"},
+        "numerical_environment": {"os": "Windows", "platform": "Windows-10-10.0.19045-SP0", "machine": "AMD64", "cpu_count": 12},
+        "rotation_configuration": {},
+        "schema_version": 1
+      }
+    },
+    {
+      "case_id": "CONTACT_GUARDS_RETEST",
+      "execution_key": "51309a0c2cadf36958c6f72435f7a342f4371d9752fef995ec06f178a1a0d047",
+      "command": "python -m pytest -q tests/unit/test_frictional_contact_family_survey.py::test_ramp_cycle_is_recovered_by_coupled_normal_and_friction_projection tests/unit/test_frictional_contact_family_survey.py::test_coupled_projection_tries_large_seed_before_blocking_enumeration tests/unit/test_wp08d_active_set_remediation.py tests/unit/test_frictionless_contact.py",
+      "process_result": "24 passed",
+      "current_replay_classification": "PASS_TARGETED_GUARDS",
+      "observed": {
+        "cycle_recovery_guard": "PASS",
+        "above_enumeration_limit_fail_closed_guard": "PASS",
+        "targeted_contact_and_frictionless_regressions": "PASS",
+        "full_WP08_campaign": "NOT_RUN",
+        "historical_result_preserved": true,
+        "maturity_promotion": "NONE"
+      },
+      "execution_identity": {
+        "source_sha": "33d83b2935a97ca7a74fef2c62d5e2310eb71ddc",
+        "case_contract_version": "0.2.11-wp04-v1",
+        "units_resolved": true,
+        "case_definition": {"case_id": "CONTACT_GUARDS_RETEST"},
+        "model_input": {},
+        "input_files": [
+          {
+            "logical_role": "test_contract",
+            "logical_id": "tests/unit/test_frictional_contact_family_survey.py",
+            "sha256": "98a4cd4a77b9f9b80546ea29de84306ebed15b744ddb4484c4c921612331df3f",
+            "size_bytes": 4983,
+            "provenance": "REPOSITORY",
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "public_identifier": "tests/unit/test_frictional_contact_family_survey.py"
+          },
+          {
+            "logical_role": "test_contract",
+            "logical_id": "tests/unit/test_wp08d_active_set_remediation.py",
+            "sha256": "1aba87609f70ddd096431d1f4fcdb2d94156bcf771974891d8612c66837206d8",
+            "size_bytes": 4321,
+            "provenance": "REPOSITORY",
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "public_identifier": "tests/unit/test_wp08d_active_set_remediation.py"
+          },
+          {
+            "logical_role": "test_contract",
+            "logical_id": "tests/unit/test_frictionless_contact.py",
+            "sha256": "f607e9518af86787ceb7f7274f75f6c0c54c2639597be237788f5394153d4f97",
+            "size_bytes": 17327,
+            "provenance": "REPOSITORY",
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "public_identifier": "tests/unit/test_frictionless_contact.py"
+          },
+          {
+            "logical_role": "historical_remediation_contract",
+            "logical_id": "qualification/0_2_9/contact_robustness_requalification/contact_active_set_remediation_r1.json",
+            "sha256": "edec0f8ac492b47014e8e6677910f744a673b7edb0a43c21b656c3041d7e94e4",
+            "size_bytes": 7426,
+            "provenance": "REPOSITORY",
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "public_identifier": "qualification/0_2_9/contact_robustness_requalification/contact_active_set_remediation_r1.json"
+          }
+        ],
+        "mesh": {"scope": "targeted unit guards only; no WP08 campaign"},
+        "material_data": {},
+        "boundary_conditions": {},
+        "loads": {},
+        "solver_configuration": {"runner": "pytest", "selection": "four targeted test files", "expected_pass_count": 24},
+        "resolved_overrides": {},
+        "reference_identity": {"id": "QF-029-CONTACT-ACTIVE-SET-REMEDIATION-R1", "authority": "qualification/0_2_9/contact_robustness_requalification/contact_active_set_remediation_r1.json"},
+        "reference_files": [],
+        "tolerance_policy": {"source_tests_unchanged": true},
+        "metric_definitions": {"unit_test_count": "passed test count"},
+        "software_versions": {"python": "3.13.1", "numpy": "2.2.6", "scipy": "1.15.2", "pytest": "8.4.1", "qf_solver_source_sha": "33d83b2935a97ca7a74fef2c62d5e2310eb71ddc"},
+        "numerical_environment": {"os": "Windows", "platform": "Windows-10-10.0.19045-SP0", "machine": "AMD64", "cpu_count": 12},
+        "rotation_configuration": {},
+        "schema_version": 1
+      }
+    },
+    {
+      "case_id": "MITC4_MODAL_10K_RETEST",
+      "execution_key": "aeeaf393365044b2717f767ecf34a52a24d22bcc45027b443c8452232302d381",
+      "command": "python .\\scripts\\run_code_aster_mitc4_modal_10k_vnv.py --output <external-temp> --qf-method eigsh --qf-preconditioner spilu --qf-shift-hz 1.0 --qf-drop-tol 1e-6 --qf-fill-factor 20 --qf-maxiter 3000 --qf-ncv 40 --qf-inner-rtol 1e-8 --qf-inner-maxiter 2000 --qf-inner-restart 100 --skip-external",
+      "process_result": "900-second budget exhausted; bounded process stopped; no usable eigenpair or summary.json",
+      "current_replay_classification": "BLOCKED",
+      "historical_result_preserved": true,
+      "external_reference_recomputed": false,
+      "maturity_promotion": "NONE",
+      "local_only_generated_files": [
+        {"logical_id": "mitc4_laminate_modal_10k.mail", "size_bytes": 668747, "sha256": "03628c48a0e3e35718e036fa86e71d0fe4e70fb4738cb8d5b31eee728b953afe"},
+        {"logical_id": "mitc4_laminate_modal_10k.comm", "size_bytes": 1704, "sha256": "74c29c5ded7e1f6c71821e8fe2277ccba9c3d57233c8f359ea568d4696b2f768"}
+      ],
+      "execution_identity": {
+        "source_sha": "33d83b2935a97ca7a74fef2c62d5e2310eb71ddc",
+        "case_contract_version": "0.2.11-wp04-v1",
+        "units_resolved": true,
+        "case_definition": {"case_id": "MITC4_MODAL_10K_RETEST"},
+        "model_input": {},
+        "input_files": [
+          {
+            "logical_role": "runner",
+            "logical_id": "scripts/run_code_aster_mitc4_modal_10k_vnv.py",
+            "sha256": "168ccb4e9dd28da56d9789fdd4daedd5cdb7ed6c7cf387192dbb11d25b209b18",
+            "size_bytes": 17383,
+            "provenance": "REPOSITORY",
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "public_identifier": "scripts/run_code_aster_mitc4_modal_10k_vnv.py"
+          },
+          {
+            "logical_role": "frozen_command_and_scope",
+            "logical_id": "docs/verification/mitc4_modal_10k_diagnostic_2026-08-14.md",
+            "sha256": "1baf1137193c39e9c872e55068af6b33ee7db12e78089f0b5f3e7ad26039c3ca",
+            "size_bytes": 2554,
+            "provenance": "REPOSITORY",
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "public_identifier": "docs/verification/mitc4_modal_10k_diagnostic_2026-08-14.md"
+          }
+        ],
+        "mesh": {"element": "QUAD4", "nx": 200, "ny": 50, "element_count": 10000, "layup_deg": [45, -45, -45, 45]},
+        "material_data": {},
+        "boundary_conditions": {},
+        "loads": {},
+        "solver_configuration": {"method": "eigsh", "shift_hz": 1.0, "preconditioner": "spilu", "drop_tol": 1e-06, "fill_factor": 20, "ncv": 40, "maxiter": 3000, "inner_rtol": 1e-08, "inner_maxiter": 2000, "inner_restart": 100, "timeout_seconds": 900, "skip_external": true},
+        "resolved_overrides": {},
+        "reference_identity": {"id": "Code_Aster-18.1.0 historical same-mesh reference", "recomputed": false, "availability": "NOT_PRESENT_IN_CLEAN_CHECKOUT"},
+        "reference_files": [
+          {"logical_role": "external_oracle", "logical_id": "external/Code_Aster-18.1.0/mitc4_modal_10k_reference", "sha256": null, "size_bytes": null, "provenance": "MISSING", "availability_status": "MISSING", "public_identifier": null}
+        ],
+        "tolerance_policy": {"frozen_historical_diagnostic": "unchanged; 900 s execution budget"},
+        "metric_definitions": {"usable_eigenpair": "must be present for successful diagnostic", "summary_json": "must be present for successful diagnostic"},
+        "software_versions": {"python": "3.13.1", "numpy": "2.2.6", "scipy": "1.15.2", "pytest": "8.4.1", "qf_solver_source_sha": "33d83b2935a97ca7a74fef2c62d5e2310eb71ddc"},
+        "numerical_environment": {"os": "Windows", "platform": "Windows-10-10.0.19045-SP0", "machine": "AMD64", "cpu_count": 12},
+        "rotation_configuration": {},
+        "schema_version": 1
+      }
+    }
+  ]
+}

@@ -9,7 +9,9 @@ mechanically justified and accompanied by proportionate tests.
 ## Modification Rules
 
 - Do not change public CLI or API contracts without compatibility tests.
-- Keep Python source files below 700 lines.
+- Treat 700 lines per Python source file as an advisory maintainability
+  objective, not a hard correctness or CI gate. Oversized files are reported as
+  maintenance debt; split one only when a scoped change has a clear benefit.
 - Keep `src/solveur/elements` independent from `solveur/io`, `solveur/cli` and
   `solveur/api`; keep `src/solveur/core` independent from `solveur/cli` and
   `solveur/api`.
