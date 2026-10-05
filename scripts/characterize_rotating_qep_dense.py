@@ -283,7 +283,7 @@ def _run_suite(source_sha: str, output: Path, timeout_seconds: int) -> None:
                 )
                 stop_reason = "next_target_projected_over_70_percent_available_memory"
                 break
-            if executions[-1]["status"] != "PASS":
+            if executions[-1]["result_status"] != "PASS":
                 skipped_sizes.append({"physical_dofs": size, "status": "SKIPPED_PREVIOUS_SIZE_FAILED"})
                 stop_reason = "preceding_size_failed"
                 break
