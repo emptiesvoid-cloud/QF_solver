@@ -169,7 +169,11 @@
     "GYRO-01": {
       "purpose": "Omega=0 recovers classic modal frequencies and eigenspaces for identical physical K/M including disk mass",
       "comparison": "frequency and multiplicity agreement; compare phase-invariant modal assurance and degenerate subspaces; compare mass normalization and residuals",
-      "oracle": "classic ModalAnalysisSolver on a reference model with equivalent concentrated inertia and identical assembled K/M"
+      "oracle": "classic ModalAnalysisSolver on a reference model with equivalent concentrated inertia and identical assembled K/M",
+      "frequency_relative_error_max": 1e-8,
+      "mode_assurance_minimum": 0.99999999,
+      "degenerate_cluster_subspace_minimum_singular_value": 0.99999999,
+      "degenerate_cluster_relative_frequency_gap": 1e-8
     },
     "GYRO-02": {
       "purpose": "local disk matrices, assembly, frame covariance, sign and ownership",
