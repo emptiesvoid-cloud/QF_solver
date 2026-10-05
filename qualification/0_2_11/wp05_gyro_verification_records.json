@@ -1,0 +1,581 @@
+{
+  "cases": [
+    {
+      "case_id": "GYRO-01",
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/unit/test_rotating_modal_cases.py::test_gyro01_zero_speed_matches_modal_frequencies_multiplicity_and_subspaces"
+      ],
+      "evidence_availability": "AVAILABLE_AND_REPRODUCIBLE",
+      "execution_identity": {
+        "boundary_conditions": {
+          "fixture_defined_by_test": true
+        },
+        "case_contract_version": "0.2.11-wp05-v1",
+        "case_definition": {
+          "case_id": "GYRO-01",
+          "purpose": "zero-speed recovery against the classic modal solution for the same physical K/M",
+          "schema_version": 2
+        },
+        "input_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "tests/unit/test_rotating_modal_cases.py",
+            "logical_role": "verification_test",
+            "provenance": "REPOSITORY",
+            "public_identifier": "tests/unit/test_rotating_modal_cases.py",
+            "sha256": "ae65cd814914d9d5cc0840bb4417526b6318715a0fd05cd193793370b12138fa",
+            "size_bytes": 4001
+          },
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "scripts/record_wp05_gyro_evidence.py",
+            "logical_role": "wp05_test_runner",
+            "provenance": "REPOSITORY",
+            "public_identifier": "scripts/record_wp05_gyro_evidence.py",
+            "sha256": "a7048e2b692143c672dd1eddcf405e2f9741298ae080993271473ce8efd961ea",
+            "size_bytes": 10450
+          }
+        ],
+        "loads": {
+          "expected": "zero external load"
+        },
+        "material_data": {
+          "model": "linear_elastic_beam_for_GYRO01"
+        },
+        "mesh": {
+          "kind": "deterministic_unit_test_fixture",
+          "test_files": [
+            "tests/unit/test_rotating_modal_cases.py"
+          ]
+        },
+        "metric_definitions": {
+          "degenerate_subspace": "minimum singular value of M-weighted cross-subspace; >= frozen 0.99999999",
+          "frequency_relative_error": "maximum paired selected frequency relative error; <= frozen 1e-8",
+          "mode_assurance": "phase-invariant mass-weighted MAC; >= frozen 0.99999999"
+        },
+        "model_input": {
+          "bounded_scope": "single-speed gyroscopic modal analysis of a bounded linear BEAM2 rotor with centered rigid axisymmetric disks",
+          "fixtures": {
+            "authority": "ModalAnalysisSolver using equivalent concentrated disk inertia",
+            "id": "classic-modal-solver-same-assembled-KM-v1"
+          }
+        },
+        "numerical_environment": {
+          "cpu_count": 12,
+          "dtype": "float64/complex128",
+          "machine": "AMD64",
+          "os": "Windows",
+          "platform": "Windows-10-10.0.19045-SP0"
+        },
+        "reference_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "logical_role": "frozen_scientific_contract",
+            "provenance": "REPOSITORY",
+            "public_identifier": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "sha256": "9e5e3ca372aee4431dffd21f1ed92ee051612d268f5e81935da2132e8161dd17",
+            "size_bytes": 16954
+          }
+        ],
+        "reference_identity": {
+          "authority": "ModalAnalysisSolver using equivalent concentrated disk inertia",
+          "id": "classic-modal-solver-same-assembled-KM-v1"
+        },
+        "resolved_overrides": {},
+        "rotation_configuration": {
+          "fixture_speed_is_explicit_per_test": true,
+          "unit": "rad/s"
+        },
+        "schema_version": 1,
+        "software_versions": {
+          "numpy": "2.2.6",
+          "python": "3.13.1",
+          "scipy": "1.15.2"
+        },
+        "solver_configuration": {
+          "backend": "SciPy dense generalized QEP where applicable",
+          "commands": [
+            "tests/unit/test_rotating_modal_cases.py::test_gyro01_zero_speed_matches_modal_frequencies_multiplicity_and_subspaces"
+          ]
+        },
+        "source_sha": "f2690bcac8f1b5b34c6b01a6cf5a9e19ecb725a9",
+        "tolerance_policy": {
+          "conservative_growth_ratio_definition": "max_i(abs(real(lambda_i))/max(omega_ref,abs(lambda_i))) over the complete finite raw spectrum",
+          "conservative_growth_ratio_max": 1e-08,
+          "general_qep_relative_residual_max": 1e-08,
+          "generalized_eigenvalue_condition_definition": "for each scaled generalized pencil root, ||left||2*||B*right||2/abs(left.conj().T*B*right); zero denominator or non-finite estimate is rejected",
+          "generalized_eigenvalue_condition_max": 1000000000000.0,
+          "gyro_skew_relative_frobenius_max": 1e-12,
+          "mass_normalization_absolute_error_max": 1e-10,
+          "matrix_symmetry_relative_frobenius_max": 1e-12,
+          "normalized_spectral_pair_mismatch_definition": "minimum-cost full assignment between raw lambda and conjugate(raw lambda), with cost abs(lambda_i-conj(lambda_j))/max(omega_ref,abs(lambda_i),abs(lambda_j)); report maximum assigned cost",
+          "normalized_spectral_pair_mismatch_max": 1e-08,
+          "positive_definiteness": "Cholesky factorization succeeds for each reduced symmetric M and K; no threshold tuning after observing a case",
+          "qep_residual_definition": "norm2((lambda^2*M+lambda*Omega*G+K)*phi)/(norm2(K*phi)+abs(lambda*Omega)*norm2(G*phi)+abs(lambda)^2*norm2(M*phi)); zero denominator is invalid",
+          "recorded_before_numerical_gate_execution": true,
+          "simple_analytic_qep_relative_residual_max": 1e-10,
+          "symmetry_definition": "norm_F(A-A.T)/max(norm_F(A),tiny) for M/K and norm_F(G+G.T)/max(norm_F(G),tiny) for G"
+        },
+        "units_resolved": true
+      },
+      "execution_key": "5a854ec68092377f4574d40e83c86e2425530b2db9535e62e509bc1956bb49e2",
+      "expected_metrics": {
+        "degenerate_subspace": "minimum singular value of M-weighted cross-subspace; >= frozen 0.99999999",
+        "frequency_relative_error": "maximum paired selected frequency relative error; <= frozen 1e-8",
+        "mode_assurance": "phase-invariant mass-weighted MAC; >= frozen 0.99999999"
+      },
+      "maturity": "EXPERIMENTAL",
+      "maturity_promotion": "NONE",
+      "numerical_status": "PASS",
+      "observed_at_utc": "2026-10-05T17:08:28.825630+00:00",
+      "purpose": "zero-speed recovery against the classic modal solution for the same physical K/M",
+      "return_code": 0,
+      "stderr": "",
+      "stdout": ".                                                                        [100%]\n1 passed in 1.18s"
+    },
+    {
+      "case_id": "GYRO-02",
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/unit/test_rotating_disk_gyro.py",
+        "tests/unit/test_rotating_modal_preflight.py"
+      ],
+      "evidence_availability": "AVAILABLE_AND_REPRODUCIBLE",
+      "execution_identity": {
+        "boundary_conditions": {
+          "fixture_defined_by_test": true
+        },
+        "case_contract_version": "0.2.11-wp05-v1",
+        "case_definition": {
+          "case_id": "GYRO-02",
+          "purpose": "disk mass/G formulation, skewness, zero gyroscopic work, frame covariance, ownership, fail-closed inputs",
+          "schema_version": 2
+        },
+        "input_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "tests/unit/test_rotating_disk_gyro.py",
+            "logical_role": "verification_test",
+            "provenance": "REPOSITORY",
+            "public_identifier": "tests/unit/test_rotating_disk_gyro.py",
+            "sha256": "cea2804c9c52a886816738b26277aaf769301861fc8094bc48e7a76eaceef79b",
+            "size_bytes": 3639
+          },
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "tests/unit/test_rotating_modal_preflight.py",
+            "logical_role": "verification_test",
+            "provenance": "REPOSITORY",
+            "public_identifier": "tests/unit/test_rotating_modal_preflight.py",
+            "sha256": "60ad3134d3a1146dc9413e24e9a98f561abb8b262001dd1bdd823b8814e2c1b6",
+            "size_bytes": 8458
+          },
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "scripts/record_wp05_gyro_evidence.py",
+            "logical_role": "wp05_test_runner",
+            "provenance": "REPOSITORY",
+            "public_identifier": "scripts/record_wp05_gyro_evidence.py",
+            "sha256": "a7048e2b692143c672dd1eddcf405e2f9741298ae080993271473ce8efd961ea",
+            "size_bytes": 10450
+          }
+        ],
+        "loads": {
+          "expected": "zero external load"
+        },
+        "material_data": {},
+        "mesh": {
+          "kind": "deterministic_unit_test_fixture",
+          "test_files": [
+            "tests/unit/test_rotating_disk_gyro.py",
+            "tests/unit/test_rotating_modal_preflight.py"
+          ]
+        },
+        "metric_definitions": {
+          "frame_covariance": "rotated blocks equal orthogonal congruence transform",
+          "gyro_skew_error": "||G+G.T||F/max(||G||F,tiny); <= frozen 1e-12",
+          "mass_block": "exact translational and principal rotary inertia blocks",
+          "quadratic_work": "v.T G v for deterministic vectors; zero within floating point unit-test tolerance"
+        },
+        "model_input": {
+          "bounded_scope": "single-speed gyroscopic modal analysis of a bounded linear BEAM2 rotor with centered rigid axisymmetric disks",
+          "fixtures": {
+            "authority": "frozen WP05 contract and independent tensor covariance identities",
+            "id": "analytical-axisymmetric-disk-blocks-v1"
+          }
+        },
+        "numerical_environment": {
+          "cpu_count": 12,
+          "dtype": "float64/complex128",
+          "machine": "AMD64",
+          "os": "Windows",
+          "platform": "Windows-10-10.0.19045-SP0"
+        },
+        "reference_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "logical_role": "frozen_scientific_contract",
+            "provenance": "REPOSITORY",
+            "public_identifier": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "sha256": "9e5e3ca372aee4431dffd21f1ed92ee051612d268f5e81935da2132e8161dd17",
+            "size_bytes": 16954
+          }
+        ],
+        "reference_identity": {
+          "authority": "frozen WP05 contract and independent tensor covariance identities",
+          "id": "analytical-axisymmetric-disk-blocks-v1"
+        },
+        "resolved_overrides": {},
+        "rotation_configuration": {
+          "fixture_speed_is_explicit_per_test": true,
+          "unit": "rad/s"
+        },
+        "schema_version": 1,
+        "software_versions": {
+          "numpy": "2.2.6",
+          "python": "3.13.1",
+          "scipy": "1.15.2"
+        },
+        "solver_configuration": {
+          "backend": "SciPy dense generalized QEP where applicable",
+          "commands": [
+            "tests/unit/test_rotating_disk_gyro.py",
+            "tests/unit/test_rotating_modal_preflight.py"
+          ]
+        },
+        "source_sha": "f2690bcac8f1b5b34c6b01a6cf5a9e19ecb725a9",
+        "tolerance_policy": {
+          "conservative_growth_ratio_definition": "max_i(abs(real(lambda_i))/max(omega_ref,abs(lambda_i))) over the complete finite raw spectrum",
+          "conservative_growth_ratio_max": 1e-08,
+          "general_qep_relative_residual_max": 1e-08,
+          "generalized_eigenvalue_condition_definition": "for each scaled generalized pencil root, ||left||2*||B*right||2/abs(left.conj().T*B*right); zero denominator or non-finite estimate is rejected",
+          "generalized_eigenvalue_condition_max": 1000000000000.0,
+          "gyro_skew_relative_frobenius_max": 1e-12,
+          "mass_normalization_absolute_error_max": 1e-10,
+          "matrix_symmetry_relative_frobenius_max": 1e-12,
+          "normalized_spectral_pair_mismatch_definition": "minimum-cost full assignment between raw lambda and conjugate(raw lambda), with cost abs(lambda_i-conj(lambda_j))/max(omega_ref,abs(lambda_i),abs(lambda_j)); report maximum assigned cost",
+          "normalized_spectral_pair_mismatch_max": 1e-08,
+          "positive_definiteness": "Cholesky factorization succeeds for each reduced symmetric M and K; no threshold tuning after observing a case",
+          "qep_residual_definition": "norm2((lambda^2*M+lambda*Omega*G+K)*phi)/(norm2(K*phi)+abs(lambda*Omega)*norm2(G*phi)+abs(lambda)^2*norm2(M*phi)); zero denominator is invalid",
+          "recorded_before_numerical_gate_execution": true,
+          "simple_analytic_qep_relative_residual_max": 1e-10,
+          "symmetry_definition": "norm_F(A-A.T)/max(norm_F(A),tiny) for M/K and norm_F(G+G.T)/max(norm_F(G),tiny) for G"
+        },
+        "units_resolved": true
+      },
+      "execution_key": "0cf52123a9fc0d25d98fdd4e39ade06d2cbac45e4725d68de556f328d504e67a",
+      "expected_metrics": {
+        "frame_covariance": "rotated blocks equal orthogonal congruence transform",
+        "gyro_skew_error": "||G+G.T||F/max(||G||F,tiny); <= frozen 1e-12",
+        "mass_block": "exact translational and principal rotary inertia blocks",
+        "quadratic_work": "v.T G v for deterministic vectors; zero within floating point unit-test tolerance"
+      },
+      "maturity": "EXPERIMENTAL",
+      "maturity_promotion": "NONE",
+      "numerical_status": "PASS",
+      "observed_at_utc": "2026-10-05T17:08:32.052244+00:00",
+      "purpose": "disk mass/G formulation, skewness, zero gyroscopic work, frame covariance, ownership, fail-closed inputs",
+      "return_code": 0,
+      "stderr": "",
+      "stdout": "........................                                                 [100%]\n24 passed in 1.37s"
+    },
+    {
+      "case_id": "GYRO-03",
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual"
+      ],
+      "evidence_availability": "AVAILABLE_AND_REPRODUCIBLE",
+      "execution_identity": {
+        "boundary_conditions": {
+          "fixture_defined_by_test": true
+        },
+        "case_contract_version": "0.2.11-wp05-v1",
+        "case_definition": {
+          "case_id": "GYRO-03",
+          "purpose": "independent analytical gyroscopic disk oscillator across the frozen signed-speed fixture",
+          "schema_version": 2
+        },
+        "input_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "tests/unit/test_rotating_qep.py",
+            "logical_role": "verification_test",
+            "provenance": "REPOSITORY",
+            "public_identifier": "tests/unit/test_rotating_qep.py",
+            "sha256": "f104afffa852e6a675301f0fa781229ef382af11f269752e63a1e481d1fb6243",
+            "size_bytes": 5541
+          },
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "scripts/record_wp05_gyro_evidence.py",
+            "logical_role": "wp05_test_runner",
+            "provenance": "REPOSITORY",
+            "public_identifier": "scripts/record_wp05_gyro_evidence.py",
+            "sha256": "a7048e2b692143c672dd1eddcf405e2f9741298ae080993271473ce8efd961ea",
+            "size_bytes": 10450
+          }
+        ],
+        "loads": {
+          "expected": "zero external load"
+        },
+        "material_data": {},
+        "mesh": {
+          "kind": "deterministic_unit_test_fixture",
+          "test_files": [
+            "tests/unit/test_rotating_qep.py"
+          ]
+        },
+        "metric_definitions": {
+          "analytic_frequency_relative_error": "<= frozen 1e-10",
+          "conjugate_spectrum_mismatch": "<= frozen 1e-8",
+          "conservative_growth_ratio": "<= frozen 1e-8",
+          "mass_normalization_absolute_error": "<= frozen 1e-10",
+          "qep_relative_residual": "<= frozen 1e-10"
+        },
+        "model_input": {
+          "bounded_scope": "single-speed gyroscopic modal analysis of a bounded linear BEAM2 rotor with centered rigid axisymmetric disks",
+          "fixtures": {
+            "formula": "omega0=sqrt(k_theta/Jd); s=Omega*Jp/Jd; omega_pm=sqrt(omega0^2+(s/2)^2) +/- abs(s)/2",
+            "id": "closed-form-two-axis-disk-oscillator-v1",
+            "independent_of_production_G_assembler": true
+          }
+        },
+        "numerical_environment": {
+          "cpu_count": 12,
+          "dtype": "float64/complex128",
+          "machine": "AMD64",
+          "os": "Windows",
+          "platform": "Windows-10-10.0.19045-SP0"
+        },
+        "reference_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "logical_role": "frozen_scientific_contract",
+            "provenance": "REPOSITORY",
+            "public_identifier": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "sha256": "9e5e3ca372aee4431dffd21f1ed92ee051612d268f5e81935da2132e8161dd17",
+            "size_bytes": 16954
+          }
+        ],
+        "reference_identity": {
+          "formula": "omega0=sqrt(k_theta/Jd); s=Omega*Jp/Jd; omega_pm=sqrt(omega0^2+(s/2)^2) +/- abs(s)/2",
+          "id": "closed-form-two-axis-disk-oscillator-v1",
+          "independent_of_production_G_assembler": true
+        },
+        "resolved_overrides": {},
+        "rotation_configuration": {
+          "fixture_speed_is_explicit_per_test": true,
+          "unit": "rad/s"
+        },
+        "schema_version": 1,
+        "software_versions": {
+          "numpy": "2.2.6",
+          "python": "3.13.1",
+          "scipy": "1.15.2"
+        },
+        "solver_configuration": {
+          "backend": "SciPy dense generalized QEP where applicable",
+          "commands": [
+            "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual"
+          ]
+        },
+        "source_sha": "f2690bcac8f1b5b34c6b01a6cf5a9e19ecb725a9",
+        "tolerance_policy": {
+          "conservative_growth_ratio_definition": "max_i(abs(real(lambda_i))/max(omega_ref,abs(lambda_i))) over the complete finite raw spectrum",
+          "conservative_growth_ratio_max": 1e-08,
+          "general_qep_relative_residual_max": 1e-08,
+          "generalized_eigenvalue_condition_definition": "for each scaled generalized pencil root, ||left||2*||B*right||2/abs(left.conj().T*B*right); zero denominator or non-finite estimate is rejected",
+          "generalized_eigenvalue_condition_max": 1000000000000.0,
+          "gyro_skew_relative_frobenius_max": 1e-12,
+          "mass_normalization_absolute_error_max": 1e-10,
+          "matrix_symmetry_relative_frobenius_max": 1e-12,
+          "normalized_spectral_pair_mismatch_definition": "minimum-cost full assignment between raw lambda and conjugate(raw lambda), with cost abs(lambda_i-conj(lambda_j))/max(omega_ref,abs(lambda_i),abs(lambda_j)); report maximum assigned cost",
+          "normalized_spectral_pair_mismatch_max": 1e-08,
+          "positive_definiteness": "Cholesky factorization succeeds for each reduced symmetric M and K; no threshold tuning after observing a case",
+          "qep_residual_definition": "norm2((lambda^2*M+lambda*Omega*G+K)*phi)/(norm2(K*phi)+abs(lambda*Omega)*norm2(G*phi)+abs(lambda)^2*norm2(M*phi)); zero denominator is invalid",
+          "recorded_before_numerical_gate_execution": true,
+          "simple_analytic_qep_relative_residual_max": 1e-10,
+          "symmetry_definition": "norm_F(A-A.T)/max(norm_F(A),tiny) for M/K and norm_F(G+G.T)/max(norm_F(G),tiny) for G"
+        },
+        "units_resolved": true
+      },
+      "execution_key": "2de5607838c2859903bf61dc93dfe4805954cf1af462c25ce4629b4d409e80f2",
+      "expected_metrics": {
+        "analytic_frequency_relative_error": "<= frozen 1e-10",
+        "conjugate_spectrum_mismatch": "<= frozen 1e-8",
+        "conservative_growth_ratio": "<= frozen 1e-8",
+        "mass_normalization_absolute_error": "<= frozen 1e-10",
+        "qep_relative_residual": "<= frozen 1e-10"
+      },
+      "maturity": "EXPERIMENTAL",
+      "maturity_promotion": "NONE",
+      "numerical_status": "PASS",
+      "observed_at_utc": "2026-10-05T17:08:34.845183+00:00",
+      "purpose": "independent analytical gyroscopic disk oscillator across the frozen signed-speed fixture",
+      "return_code": 0,
+      "stderr": "",
+      "stdout": ".........                                                                [100%]\n9 passed in 0.98s"
+    },
+    {
+      "case_id": "GYRO-04",
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/unit/test_rotating_qep.py"
+      ],
+      "evidence_availability": "AVAILABLE_AND_REPRODUCIBLE",
+      "execution_identity": {
+        "boundary_conditions": {
+          "fixture_defined_by_test": true
+        },
+        "case_contract_version": "0.2.11-wp05-v1",
+        "case_definition": {
+          "case_id": "GYRO-04",
+          "purpose": "signed-speed pencil behavior, zero-speed degeneracy and unordered spectrum symmetry",
+          "schema_version": 2
+        },
+        "input_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "tests/unit/test_rotating_qep.py",
+            "logical_role": "verification_test",
+            "provenance": "REPOSITORY",
+            "public_identifier": "tests/unit/test_rotating_qep.py",
+            "sha256": "f104afffa852e6a675301f0fa781229ef382af11f269752e63a1e481d1fb6243",
+            "size_bytes": 5541
+          },
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "scripts/record_wp05_gyro_evidence.py",
+            "logical_role": "wp05_test_runner",
+            "provenance": "REPOSITORY",
+            "public_identifier": "scripts/record_wp05_gyro_evidence.py",
+            "sha256": "a7048e2b692143c672dd1eddcf405e2f9741298ae080993271473ce8efd961ea",
+            "size_bytes": 10450
+          }
+        ],
+        "loads": {
+          "expected": "zero external load"
+        },
+        "material_data": {},
+        "mesh": {
+          "kind": "deterministic_unit_test_fixture",
+          "test_files": [
+            "tests/unit/test_rotating_qep.py"
+          ]
+        },
+        "metric_definitions": {
+          "residual": "all raw roots satisfy original quadratic polynomial within frozen 1e-8",
+          "signed_speed": "scaled signed speed reverses sign while G remains unit-speed",
+          "spectral_pairing": "all raw roots have conjugate partners within frozen normalized 1e-8"
+        },
+        "model_input": {
+          "bounded_scope": "single-speed gyroscopic modal analysis of a bounded linear BEAM2 rotor with centered rigid axisymmetric disks",
+          "fixtures": {
+            "authority": "frozen QEP invariants plus the independent disk oscillator oracle",
+            "id": "conservative-real-qep-conjugate-spectrum-v1"
+          }
+        },
+        "numerical_environment": {
+          "cpu_count": 12,
+          "dtype": "float64/complex128",
+          "machine": "AMD64",
+          "os": "Windows",
+          "platform": "Windows-10-10.0.19045-SP0"
+        },
+        "reference_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "logical_role": "frozen_scientific_contract",
+            "provenance": "REPOSITORY",
+            "public_identifier": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "sha256": "9e5e3ca372aee4431dffd21f1ed92ee051612d268f5e81935da2132e8161dd17",
+            "size_bytes": 16954
+          }
+        ],
+        "reference_identity": {
+          "authority": "frozen QEP invariants plus the independent disk oscillator oracle",
+          "id": "conservative-real-qep-conjugate-spectrum-v1"
+        },
+        "resolved_overrides": {},
+        "rotation_configuration": {
+          "fixture_speed_is_explicit_per_test": true,
+          "unit": "rad/s"
+        },
+        "schema_version": 1,
+        "software_versions": {
+          "numpy": "2.2.6",
+          "python": "3.13.1",
+          "scipy": "1.15.2"
+        },
+        "solver_configuration": {
+          "backend": "SciPy dense generalized QEP where applicable",
+          "commands": [
+            "tests/unit/test_rotating_qep.py"
+          ]
+        },
+        "source_sha": "f2690bcac8f1b5b34c6b01a6cf5a9e19ecb725a9",
+        "tolerance_policy": {
+          "conservative_growth_ratio_definition": "max_i(abs(real(lambda_i))/max(omega_ref,abs(lambda_i))) over the complete finite raw spectrum",
+          "conservative_growth_ratio_max": 1e-08,
+          "general_qep_relative_residual_max": 1e-08,
+          "generalized_eigenvalue_condition_definition": "for each scaled generalized pencil root, ||left||2*||B*right||2/abs(left.conj().T*B*right); zero denominator or non-finite estimate is rejected",
+          "generalized_eigenvalue_condition_max": 1000000000000.0,
+          "gyro_skew_relative_frobenius_max": 1e-12,
+          "mass_normalization_absolute_error_max": 1e-10,
+          "matrix_symmetry_relative_frobenius_max": 1e-12,
+          "normalized_spectral_pair_mismatch_definition": "minimum-cost full assignment between raw lambda and conjugate(raw lambda), with cost abs(lambda_i-conj(lambda_j))/max(omega_ref,abs(lambda_i),abs(lambda_j)); report maximum assigned cost",
+          "normalized_spectral_pair_mismatch_max": 1e-08,
+          "positive_definiteness": "Cholesky factorization succeeds for each reduced symmetric M and K; no threshold tuning after observing a case",
+          "qep_residual_definition": "norm2((lambda^2*M+lambda*Omega*G+K)*phi)/(norm2(K*phi)+abs(lambda*Omega)*norm2(G*phi)+abs(lambda)^2*norm2(M*phi)); zero denominator is invalid",
+          "recorded_before_numerical_gate_execution": true,
+          "simple_analytic_qep_relative_residual_max": 1e-10,
+          "symmetry_definition": "norm_F(A-A.T)/max(norm_F(A),tiny) for M/K and norm_F(G+G.T)/max(norm_F(G),tiny) for G"
+        },
+        "units_resolved": true
+      },
+      "execution_key": "1f4d2cc36cccf5c66297411063bb7849b40f30d75bbaea54d0c99274b1dbd0e0",
+      "expected_metrics": {
+        "residual": "all raw roots satisfy original quadratic polynomial within frozen 1e-8",
+        "signed_speed": "scaled signed speed reverses sign while G remains unit-speed",
+        "spectral_pairing": "all raw roots have conjugate partners within frozen normalized 1e-8"
+      },
+      "maturity": "EXPERIMENTAL",
+      "maturity_promotion": "NONE",
+      "numerical_status": "PASS",
+      "observed_at_utc": "2026-10-05T17:08:37.651151+00:00",
+      "purpose": "signed-speed pencil behavior, zero-speed degeneracy and unordered spectrum symmetry",
+      "return_code": 0,
+      "stderr": "",
+      "stdout": "..............                                                           [100%]\n14 passed in 1.00s"
+    }
+  ],
+  "contract_path": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+  "contract_sha256": "9e5e3ca372aee4431dffd21f1ed92ee051612d268f5e81935da2132e8161dd17",
+  "g04_formulation_status": "PASS",
+  "g05_qep_result_status": "PASS",
+  "maturity_promotion": "NONE",
+  "overall_status": "PASS",
+  "record_schema": "qf.wp05.gyro-verification-suite.v1",
+  "schema_version": 2,
+  "source_sha": "f2690bcac8f1b5b34c6b01a6cf5a9e19ecb725a9",
+  "suite_sha256": "ab98c9b53e5633080c13c99c62f54986c0a09c7d30e314c208ff17b6053151a9",
+  "work_package": "WP05"
+}

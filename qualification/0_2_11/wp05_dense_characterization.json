@@ -1,0 +1,1466 @@
+{
+  "contract_path": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+  "contract_sha256": "9e5e3ca372aee4431dffd21f1ed92ee051612d268f5e81935da2132e8161dd17",
+  "executions": [
+    {
+      "case_id": "WP05-DENSE-50",
+      "evidence_availability": "AVAILABLE_AND_REPRODUCIBLE",
+      "execution_identity": {
+        "boundary_conditions": {},
+        "case_contract_version": "0.2.11-wp05-dense-qep-v1",
+        "case_definition": {
+          "case_id": "WP05-DENSE-50",
+          "fixture": {
+            "frequency_squared_diagonal": "20 + 0.25*i",
+            "gyro_lower_neighbour": "negative transpose",
+            "gyro_upper_neighbour": "0.05*(1 + (i mod 7)/7)",
+            "kind": "formula-generated-spd-skew-dense-qep-v1",
+            "mass_diagonal": "1 + 0.001*i",
+            "physical_dofs": 50,
+            "seed_recorded_no_random_draws": 20261155,
+            "signed_speed_rad_s": 25.0
+          },
+          "schema_version": 2
+        },
+        "input_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "wp05/dense-qep/physical-dof-50/fixture-v1.json",
+            "logical_role": "generated_matrix_fixture_spec",
+            "provenance": "GENERATED",
+            "public_identifier": "wp05/dense-qep/physical-dof-50/fixture-v1.json",
+            "sha256": "f2681e13d519752a783efd1ec4138918f76d942c0d49e618a54aa146d39799b3",
+            "size_bytes": 301
+          },
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "src/solveur/core/analyses/qep.py",
+            "logical_role": "solver_source",
+            "provenance": "REPOSITORY",
+            "public_identifier": "src/solveur/core/analyses/qep.py",
+            "sha256": "c6b080cfaa6df18b486dbf985208881de14f06639b467f908baa5812a1d00b32",
+            "size_bytes": 11861
+          },
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "scripts/characterize_rotating_qep_dense.py",
+            "logical_role": "characterization_runner",
+            "provenance": "REPOSITORY",
+            "public_identifier": "scripts/characterize_rotating_qep_dense.py",
+            "sha256": "b8bb2250e267ac7a22ec7fbcd3707cdec58f9be2e28f99b68100dbac5127f80d",
+            "size_bytes": 18633
+          }
+        ],
+        "loads": {},
+        "material_data": {},
+        "mesh": {
+          "kind": "not_applicable_synthetic_matrix",
+          "physical_dofs": 50
+        },
+        "metric_definitions": {
+          "peak_rss_bytes": "Windows peak_wset high-water mark when available; otherwise maximum 10 ms sampled RSS",
+          "qep_residual": "contract-defined original-polynomial relative residual",
+          "wall_seconds": "elapsed wall time for one complete QuadraticEigenSolver.solve call"
+        },
+        "model_input": {
+          "kind": "synthetic_matrix_pencil",
+          "physical_dofs": 50
+        },
+        "numerical_environment": {
+          "blas_threads": 1,
+          "cpu_count": 12,
+          "dtype": "float64",
+          "machine": "AMD64",
+          "os": "Windows",
+          "platform": "Windows-10-10.0.19045-SP0"
+        },
+        "reference_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "logical_role": "frozen_wp05_contract",
+            "provenance": "REPOSITORY",
+            "public_identifier": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "sha256": "9e5e3ca372aee4431dffd21f1ed92ee051612d268f5e81935da2132e8161dd17",
+            "size_bytes": 16954
+          }
+        ],
+        "reference_identity": {
+          "id": "QF0211-WP05-DENSE-SOLVER-INVARIANT-v1",
+          "role": "numerical gates only; not an external physical oracle"
+        },
+        "resolved_overrides": {},
+        "rotation_configuration": {
+          "physical_rotor_claim": false,
+          "synthetic_qep_speed_rad_s": 25.0
+        },
+        "schema_version": 1,
+        "software_versions": {
+          "numpy": "2.2.6",
+          "python": "3.13.1",
+          "scipy": "1.15.2"
+        },
+        "solver_configuration": {
+          "backend": "scipy.linalg.eig(A,B)",
+          "blas_threads": 1,
+          "driver": "dense_qep"
+        },
+        "source_sha": "f2690bcac8f1b5b34c6b01a6cf5a9e19ecb725a9",
+        "tolerance_policy": {
+          "conservative_growth_ratio_definition": "max_i(abs(real(lambda_i))/max(omega_ref,abs(lambda_i))) over the complete finite raw spectrum",
+          "conservative_growth_ratio_max": 1e-08,
+          "general_qep_relative_residual_max": 1e-08,
+          "generalized_eigenvalue_condition_definition": "for each scaled generalized pencil root, ||left||2*||B*right||2/abs(left.conj().T*B*right); zero denominator or non-finite estimate is rejected",
+          "generalized_eigenvalue_condition_max": 1000000000000.0,
+          "gyro_skew_relative_frobenius_max": 1e-12,
+          "mass_normalization_absolute_error_max": 1e-10,
+          "matrix_symmetry_relative_frobenius_max": 1e-12,
+          "normalized_spectral_pair_mismatch_definition": "minimum-cost full assignment between raw lambda and conjugate(raw lambda), with cost abs(lambda_i-conj(lambda_j))/max(omega_ref,abs(lambda_i),abs(lambda_j)); report maximum assigned cost",
+          "normalized_spectral_pair_mismatch_max": 1e-08,
+          "positive_definiteness": "Cholesky factorization succeeds for each reduced symmetric M and K; no threshold tuning after observing a case",
+          "qep_residual_definition": "norm2((lambda^2*M+lambda*Omega*G+K)*phi)/(norm2(K*phi)+abs(lambda*Omega)*norm2(G*phi)+abs(lambda)^2*norm2(M*phi)); zero denominator is invalid",
+          "recorded_before_numerical_gate_execution": true,
+          "simple_analytic_qep_relative_residual_max": 1e-10,
+          "symmetry_definition": "norm_F(A-A.T)/max(norm_F(A),tiny) for M/K and norm_F(G+G.T)/max(norm_F(G),tiny) for G"
+        },
+        "units_resolved": true
+      },
+      "execution_key": "361f6134cddcea7a1a539cddd5324360b9cccfef3d57a470804409e1491da05f",
+      "linearized_dimension": 100,
+      "maturity": "EXPERIMENTAL",
+      "maturity_promotion": "NONE",
+      "observed_at_utc": "2026-10-05T17:09:13.065347+00:00",
+      "physical_dofs": 50,
+      "record_schema": "qf.wp05.dense-characterization.v1",
+      "record_sha256": "734a3817f45478c27281ff42cc1b4bc053d7feb750d08e195bf54851a26723d1",
+      "repetitions": [
+        {
+          "baseline_rss_bytes": 72073216,
+          "conjugate_spectrum_mismatch": 3.452431545645307e-16,
+          "linearized_dimension": 100,
+          "maximum_eigenvalue_condition": 3.961595837162695,
+          "maximum_mass_normalization_error": 4.440892098500626e-16,
+          "maximum_qep_residual": 8.119540362979473e-15,
+          "peak_rss_bytes": 74244096,
+          "physical_dofs": 50,
+          "repetition": 1,
+          "return_code": 0,
+          "status": "PASS",
+          "stderr": "",
+          "threadpools": [
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.29"
+            },
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.28"
+            }
+          ],
+          "wall_seconds": 0.0457262999843806
+        },
+        {
+          "baseline_rss_bytes": 72245248,
+          "conjugate_spectrum_mismatch": 3.452431545645307e-16,
+          "linearized_dimension": 100,
+          "maximum_eigenvalue_condition": 3.961595837162695,
+          "maximum_mass_normalization_error": 4.440892098500626e-16,
+          "maximum_qep_residual": 8.119540362979473e-15,
+          "peak_rss_bytes": 74477568,
+          "physical_dofs": 50,
+          "repetition": 2,
+          "return_code": 0,
+          "status": "PASS",
+          "stderr": "",
+          "threadpools": [
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.29"
+            },
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.28"
+            }
+          ],
+          "wall_seconds": 0.04546709998976439
+        },
+        {
+          "baseline_rss_bytes": 72122368,
+          "conjugate_spectrum_mismatch": 3.452431545645307e-16,
+          "linearized_dimension": 100,
+          "maximum_eigenvalue_condition": 3.961595837162695,
+          "maximum_mass_normalization_error": 4.440892098500626e-16,
+          "maximum_qep_residual": 8.119540362979473e-15,
+          "peak_rss_bytes": 74264576,
+          "physical_dofs": 50,
+          "repetition": 3,
+          "return_code": 0,
+          "status": "PASS",
+          "stderr": "",
+          "threadpools": [
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.29"
+            },
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.28"
+            }
+          ],
+          "wall_seconds": 0.045770900091156363
+        }
+      ],
+      "repetitions_required": 3,
+      "result_status": "PASS",
+      "rss_measurement": {
+        "method": "Windows peak_wset high-water mark when available; otherwise maximum sampled RSS",
+        "sample_interval_ms": 10
+      },
+      "schema_version": 2,
+      "seed": 20261155,
+      "source_sha": "f2690bcac8f1b5b34c6b01a6cf5a9e19ecb725a9",
+      "summary": {
+        "available_memory_at_start_bytes": 79439273984,
+        "blas_lapack": [
+          {
+            "architecture": "Haswell",
+            "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+            "internal_api": "openblas",
+            "num_threads": 1,
+            "prefix": "libscipy_openblas",
+            "threading_layer": "pthreads",
+            "user_api": "blas",
+            "version": "0.3.29"
+          },
+          {
+            "architecture": "Haswell",
+            "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+            "internal_api": "openblas",
+            "num_threads": 1,
+            "prefix": "libscipy_openblas",
+            "threading_layer": "pthreads",
+            "user_api": "blas",
+            "version": "0.3.28"
+          }
+        ],
+        "maximum_qep_residual": 8.119540362979473e-15,
+        "peak_rss_bytes_max": 74477568,
+        "total_physical_memory_bytes": 102963109888,
+        "wall_seconds_max": 0.045770900091156363,
+        "wall_seconds_median": 0.0457262999843806,
+        "wall_seconds_min": 0.04546709998976439,
+        "wall_seconds_population_stdev": 0.00013394373127848406
+      },
+      "work_package": "WP05"
+    },
+    {
+      "case_id": "WP05-DENSE-100",
+      "evidence_availability": "AVAILABLE_AND_REPRODUCIBLE",
+      "execution_identity": {
+        "boundary_conditions": {},
+        "case_contract_version": "0.2.11-wp05-dense-qep-v1",
+        "case_definition": {
+          "case_id": "WP05-DENSE-100",
+          "fixture": {
+            "frequency_squared_diagonal": "20 + 0.25*i",
+            "gyro_lower_neighbour": "negative transpose",
+            "gyro_upper_neighbour": "0.05*(1 + (i mod 7)/7)",
+            "kind": "formula-generated-spd-skew-dense-qep-v1",
+            "mass_diagonal": "1 + 0.001*i",
+            "physical_dofs": 100,
+            "seed_recorded_no_random_draws": 20261205,
+            "signed_speed_rad_s": 25.0
+          },
+          "schema_version": 2
+        },
+        "input_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "wp05/dense-qep/physical-dof-100/fixture-v1.json",
+            "logical_role": "generated_matrix_fixture_spec",
+            "provenance": "GENERATED",
+            "public_identifier": "wp05/dense-qep/physical-dof-100/fixture-v1.json",
+            "sha256": "9d034fcee88c02fb6af7c048c32f6daf851c095382151379ebec8d37fd6faccd",
+            "size_bytes": 302
+          },
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "src/solveur/core/analyses/qep.py",
+            "logical_role": "solver_source",
+            "provenance": "REPOSITORY",
+            "public_identifier": "src/solveur/core/analyses/qep.py",
+            "sha256": "c6b080cfaa6df18b486dbf985208881de14f06639b467f908baa5812a1d00b32",
+            "size_bytes": 11861
+          },
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "scripts/characterize_rotating_qep_dense.py",
+            "logical_role": "characterization_runner",
+            "provenance": "REPOSITORY",
+            "public_identifier": "scripts/characterize_rotating_qep_dense.py",
+            "sha256": "b8bb2250e267ac7a22ec7fbcd3707cdec58f9be2e28f99b68100dbac5127f80d",
+            "size_bytes": 18633
+          }
+        ],
+        "loads": {},
+        "material_data": {},
+        "mesh": {
+          "kind": "not_applicable_synthetic_matrix",
+          "physical_dofs": 100
+        },
+        "metric_definitions": {
+          "peak_rss_bytes": "Windows peak_wset high-water mark when available; otherwise maximum 10 ms sampled RSS",
+          "qep_residual": "contract-defined original-polynomial relative residual",
+          "wall_seconds": "elapsed wall time for one complete QuadraticEigenSolver.solve call"
+        },
+        "model_input": {
+          "kind": "synthetic_matrix_pencil",
+          "physical_dofs": 100
+        },
+        "numerical_environment": {
+          "blas_threads": 1,
+          "cpu_count": 12,
+          "dtype": "float64",
+          "machine": "AMD64",
+          "os": "Windows",
+          "platform": "Windows-10-10.0.19045-SP0"
+        },
+        "reference_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "logical_role": "frozen_wp05_contract",
+            "provenance": "REPOSITORY",
+            "public_identifier": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "sha256": "9e5e3ca372aee4431dffd21f1ed92ee051612d268f5e81935da2132e8161dd17",
+            "size_bytes": 16954
+          }
+        ],
+        "reference_identity": {
+          "id": "QF0211-WP05-DENSE-SOLVER-INVARIANT-v1",
+          "role": "numerical gates only; not an external physical oracle"
+        },
+        "resolved_overrides": {},
+        "rotation_configuration": {
+          "physical_rotor_claim": false,
+          "synthetic_qep_speed_rad_s": 25.0
+        },
+        "schema_version": 1,
+        "software_versions": {
+          "numpy": "2.2.6",
+          "python": "3.13.1",
+          "scipy": "1.15.2"
+        },
+        "solver_configuration": {
+          "backend": "scipy.linalg.eig(A,B)",
+          "blas_threads": 1,
+          "driver": "dense_qep"
+        },
+        "source_sha": "f2690bcac8f1b5b34c6b01a6cf5a9e19ecb725a9",
+        "tolerance_policy": {
+          "conservative_growth_ratio_definition": "max_i(abs(real(lambda_i))/max(omega_ref,abs(lambda_i))) over the complete finite raw spectrum",
+          "conservative_growth_ratio_max": 1e-08,
+          "general_qep_relative_residual_max": 1e-08,
+          "generalized_eigenvalue_condition_definition": "for each scaled generalized pencil root, ||left||2*||B*right||2/abs(left.conj().T*B*right); zero denominator or non-finite estimate is rejected",
+          "generalized_eigenvalue_condition_max": 1000000000000.0,
+          "gyro_skew_relative_frobenius_max": 1e-12,
+          "mass_normalization_absolute_error_max": 1e-10,
+          "matrix_symmetry_relative_frobenius_max": 1e-12,
+          "normalized_spectral_pair_mismatch_definition": "minimum-cost full assignment between raw lambda and conjugate(raw lambda), with cost abs(lambda_i-conj(lambda_j))/max(omega_ref,abs(lambda_i),abs(lambda_j)); report maximum assigned cost",
+          "normalized_spectral_pair_mismatch_max": 1e-08,
+          "positive_definiteness": "Cholesky factorization succeeds for each reduced symmetric M and K; no threshold tuning after observing a case",
+          "qep_residual_definition": "norm2((lambda^2*M+lambda*Omega*G+K)*phi)/(norm2(K*phi)+abs(lambda*Omega)*norm2(G*phi)+abs(lambda)^2*norm2(M*phi)); zero denominator is invalid",
+          "recorded_before_numerical_gate_execution": true,
+          "simple_analytic_qep_relative_residual_max": 1e-10,
+          "symmetry_definition": "norm_F(A-A.T)/max(norm_F(A),tiny) for M/K and norm_F(G+G.T)/max(norm_F(G),tiny) for G"
+        },
+        "units_resolved": true
+      },
+      "execution_key": "cccaa309f68b1a4e2a2897f89fab0d1cc71816d289672513b57ec89355cdb2b2",
+      "linearized_dimension": 200,
+      "maturity": "EXPERIMENTAL",
+      "maturity_promotion": "NONE",
+      "observed_at_utc": "2026-10-05T17:09:15.764461+00:00",
+      "physical_dofs": 100,
+      "record_schema": "qf.wp05.dense-characterization.v1",
+      "record_sha256": "6dd07d77323d0671d9131aa5424b32785bc8920bd74764010b7ecd0973dae6e9",
+      "repetitions": [
+        {
+          "baseline_rss_bytes": 72196096,
+          "conjugate_spectrum_mismatch": 3.0665629933577346e-16,
+          "linearized_dimension": 200,
+          "maximum_eigenvalue_condition": 6.392709288698355,
+          "maximum_mass_normalization_error": 4.440892098500626e-16,
+          "maximum_qep_residual": 2.414878582081664e-14,
+          "peak_rss_bytes": 78458880,
+          "physical_dofs": 100,
+          "repetition": 1,
+          "return_code": 0,
+          "status": "PASS",
+          "stderr": "",
+          "threadpools": [
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.29"
+            },
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.28"
+            }
+          ],
+          "wall_seconds": 0.15070859994739294
+        },
+        {
+          "baseline_rss_bytes": 72241152,
+          "conjugate_spectrum_mismatch": 3.0665629933577346e-16,
+          "linearized_dimension": 200,
+          "maximum_eigenvalue_condition": 6.392709288698355,
+          "maximum_mass_normalization_error": 4.440892098500626e-16,
+          "maximum_qep_residual": 2.414878582081664e-14,
+          "peak_rss_bytes": 78319616,
+          "physical_dofs": 100,
+          "repetition": 2,
+          "return_code": 0,
+          "status": "PASS",
+          "stderr": "",
+          "threadpools": [
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.29"
+            },
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.28"
+            }
+          ],
+          "wall_seconds": 0.1531236000591889
+        },
+        {
+          "baseline_rss_bytes": 72359936,
+          "conjugate_spectrum_mismatch": 3.0665629933577346e-16,
+          "linearized_dimension": 200,
+          "maximum_eigenvalue_condition": 6.392709288698355,
+          "maximum_mass_normalization_error": 4.440892098500626e-16,
+          "maximum_qep_residual": 2.414878582081664e-14,
+          "peak_rss_bytes": 78495744,
+          "physical_dofs": 100,
+          "repetition": 3,
+          "return_code": 0,
+          "status": "PASS",
+          "stderr": "",
+          "threadpools": [
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.29"
+            },
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.28"
+            }
+          ],
+          "wall_seconds": 0.15117719990666956
+        }
+      ],
+      "repetitions_required": 3,
+      "result_status": "PASS",
+      "rss_measurement": {
+        "method": "Windows peak_wset high-water mark when available; otherwise maximum sampled RSS",
+        "sample_interval_ms": 10
+      },
+      "schema_version": 2,
+      "seed": 20261205,
+      "source_sha": "f2690bcac8f1b5b34c6b01a6cf5a9e19ecb725a9",
+      "summary": {
+        "available_memory_at_start_bytes": 79439273984,
+        "blas_lapack": [
+          {
+            "architecture": "Haswell",
+            "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+            "internal_api": "openblas",
+            "num_threads": 1,
+            "prefix": "libscipy_openblas",
+            "threading_layer": "pthreads",
+            "user_api": "blas",
+            "version": "0.3.29"
+          },
+          {
+            "architecture": "Haswell",
+            "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+            "internal_api": "openblas",
+            "num_threads": 1,
+            "prefix": "libscipy_openblas",
+            "threading_layer": "pthreads",
+            "user_api": "blas",
+            "version": "0.3.28"
+          }
+        ],
+        "maximum_qep_residual": 2.414878582081664e-14,
+        "peak_rss_bytes_max": 78495744,
+        "total_physical_memory_bytes": 102963109888,
+        "wall_seconds_max": 0.1531236000591889,
+        "wall_seconds_median": 0.15117719990666956,
+        "wall_seconds_min": 0.15070859994739294,
+        "wall_seconds_population_stdev": 0.0010456409525865986
+      },
+      "work_package": "WP05"
+    },
+    {
+      "case_id": "WP05-DENSE-250",
+      "evidence_availability": "AVAILABLE_AND_REPRODUCIBLE",
+      "execution_identity": {
+        "boundary_conditions": {},
+        "case_contract_version": "0.2.11-wp05-dense-qep-v1",
+        "case_definition": {
+          "case_id": "WP05-DENSE-250",
+          "fixture": {
+            "frequency_squared_diagonal": "20 + 0.25*i",
+            "gyro_lower_neighbour": "negative transpose",
+            "gyro_upper_neighbour": "0.05*(1 + (i mod 7)/7)",
+            "kind": "formula-generated-spd-skew-dense-qep-v1",
+            "mass_diagonal": "1 + 0.001*i",
+            "physical_dofs": 250,
+            "seed_recorded_no_random_draws": 20261355,
+            "signed_speed_rad_s": 25.0
+          },
+          "schema_version": 2
+        },
+        "input_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "wp05/dense-qep/physical-dof-250/fixture-v1.json",
+            "logical_role": "generated_matrix_fixture_spec",
+            "provenance": "GENERATED",
+            "public_identifier": "wp05/dense-qep/physical-dof-250/fixture-v1.json",
+            "sha256": "f210590d14c9e375df867fb9925a4d07a14485f79eaa5125f9e38fb112bf72dd",
+            "size_bytes": 302
+          },
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "src/solveur/core/analyses/qep.py",
+            "logical_role": "solver_source",
+            "provenance": "REPOSITORY",
+            "public_identifier": "src/solveur/core/analyses/qep.py",
+            "sha256": "c6b080cfaa6df18b486dbf985208881de14f06639b467f908baa5812a1d00b32",
+            "size_bytes": 11861
+          },
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "scripts/characterize_rotating_qep_dense.py",
+            "logical_role": "characterization_runner",
+            "provenance": "REPOSITORY",
+            "public_identifier": "scripts/characterize_rotating_qep_dense.py",
+            "sha256": "b8bb2250e267ac7a22ec7fbcd3707cdec58f9be2e28f99b68100dbac5127f80d",
+            "size_bytes": 18633
+          }
+        ],
+        "loads": {},
+        "material_data": {},
+        "mesh": {
+          "kind": "not_applicable_synthetic_matrix",
+          "physical_dofs": 250
+        },
+        "metric_definitions": {
+          "peak_rss_bytes": "Windows peak_wset high-water mark when available; otherwise maximum 10 ms sampled RSS",
+          "qep_residual": "contract-defined original-polynomial relative residual",
+          "wall_seconds": "elapsed wall time for one complete QuadraticEigenSolver.solve call"
+        },
+        "model_input": {
+          "kind": "synthetic_matrix_pencil",
+          "physical_dofs": 250
+        },
+        "numerical_environment": {
+          "blas_threads": 1,
+          "cpu_count": 12,
+          "dtype": "float64",
+          "machine": "AMD64",
+          "os": "Windows",
+          "platform": "Windows-10-10.0.19045-SP0"
+        },
+        "reference_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "logical_role": "frozen_wp05_contract",
+            "provenance": "REPOSITORY",
+            "public_identifier": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "sha256": "9e5e3ca372aee4431dffd21f1ed92ee051612d268f5e81935da2132e8161dd17",
+            "size_bytes": 16954
+          }
+        ],
+        "reference_identity": {
+          "id": "QF0211-WP05-DENSE-SOLVER-INVARIANT-v1",
+          "role": "numerical gates only; not an external physical oracle"
+        },
+        "resolved_overrides": {},
+        "rotation_configuration": {
+          "physical_rotor_claim": false,
+          "synthetic_qep_speed_rad_s": 25.0
+        },
+        "schema_version": 1,
+        "software_versions": {
+          "numpy": "2.2.6",
+          "python": "3.13.1",
+          "scipy": "1.15.2"
+        },
+        "solver_configuration": {
+          "backend": "scipy.linalg.eig(A,B)",
+          "blas_threads": 1,
+          "driver": "dense_qep"
+        },
+        "source_sha": "f2690bcac8f1b5b34c6b01a6cf5a9e19ecb725a9",
+        "tolerance_policy": {
+          "conservative_growth_ratio_definition": "max_i(abs(real(lambda_i))/max(omega_ref,abs(lambda_i))) over the complete finite raw spectrum",
+          "conservative_growth_ratio_max": 1e-08,
+          "general_qep_relative_residual_max": 1e-08,
+          "generalized_eigenvalue_condition_definition": "for each scaled generalized pencil root, ||left||2*||B*right||2/abs(left.conj().T*B*right); zero denominator or non-finite estimate is rejected",
+          "generalized_eigenvalue_condition_max": 1000000000000.0,
+          "gyro_skew_relative_frobenius_max": 1e-12,
+          "mass_normalization_absolute_error_max": 1e-10,
+          "matrix_symmetry_relative_frobenius_max": 1e-12,
+          "normalized_spectral_pair_mismatch_definition": "minimum-cost full assignment between raw lambda and conjugate(raw lambda), with cost abs(lambda_i-conj(lambda_j))/max(omega_ref,abs(lambda_i),abs(lambda_j)); report maximum assigned cost",
+          "normalized_spectral_pair_mismatch_max": 1e-08,
+          "positive_definiteness": "Cholesky factorization succeeds for each reduced symmetric M and K; no threshold tuning after observing a case",
+          "qep_residual_definition": "norm2((lambda^2*M+lambda*Omega*G+K)*phi)/(norm2(K*phi)+abs(lambda*Omega)*norm2(G*phi)+abs(lambda)^2*norm2(M*phi)); zero denominator is invalid",
+          "recorded_before_numerical_gate_execution": true,
+          "simple_analytic_qep_relative_residual_max": 1e-10,
+          "symmetry_definition": "norm_F(A-A.T)/max(norm_F(A),tiny) for M/K and norm_F(G+G.T)/max(norm_F(G),tiny) for G"
+        },
+        "units_resolved": true
+      },
+      "execution_key": "b78623e907668a43267beb48cb5d95b0b7ef7d66e2c42b108e05c6eebd4833a2",
+      "linearized_dimension": 500,
+      "maturity": "EXPERIMENTAL",
+      "maturity_promotion": "NONE",
+      "observed_at_utc": "2026-10-05T17:09:24.619019+00:00",
+      "physical_dofs": 250,
+      "record_schema": "qf.wp05.dense-characterization.v1",
+      "record_sha256": "ae6805a004d5a510200c030c3f4c39612021685e64ef49e5a1a86b0b4063f0b6",
+      "repetitions": [
+        {
+          "baseline_rss_bytes": 73400320,
+          "conjugate_spectrum_mismatch": 2.3662155251396984e-16,
+          "linearized_dimension": 500,
+          "maximum_eigenvalue_condition": 13.984906099754307,
+          "maximum_mass_normalization_error": 4.440892098500626e-16,
+          "maximum_qep_residual": 9.667517143717946e-14,
+          "peak_rss_bytes": 102625280,
+          "physical_dofs": 250,
+          "repetition": 1,
+          "return_code": 0,
+          "status": "PASS",
+          "stderr": "",
+          "threadpools": [
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.29"
+            },
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.28"
+            }
+          ],
+          "wall_seconds": 2.168951900093816
+        },
+        {
+          "baseline_rss_bytes": 73613312,
+          "conjugate_spectrum_mismatch": 2.3662155251396984e-16,
+          "linearized_dimension": 500,
+          "maximum_eigenvalue_condition": 13.984906099754307,
+          "maximum_mass_normalization_error": 4.440892098500626e-16,
+          "maximum_qep_residual": 9.667517143717946e-14,
+          "peak_rss_bytes": 102916096,
+          "physical_dofs": 250,
+          "repetition": 2,
+          "return_code": 0,
+          "status": "PASS",
+          "stderr": "",
+          "threadpools": [
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.29"
+            },
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.28"
+            }
+          ],
+          "wall_seconds": 2.1760629999917
+        },
+        {
+          "baseline_rss_bytes": 73789440,
+          "conjugate_spectrum_mismatch": 2.3662155251396984e-16,
+          "linearized_dimension": 500,
+          "maximum_eigenvalue_condition": 13.984906099754307,
+          "maximum_mass_normalization_error": 4.440892098500626e-16,
+          "maximum_qep_residual": 9.667517143717946e-14,
+          "peak_rss_bytes": 102899712,
+          "physical_dofs": 250,
+          "repetition": 3,
+          "return_code": 0,
+          "status": "PASS",
+          "stderr": "",
+          "threadpools": [
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.29"
+            },
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.28"
+            }
+          ],
+          "wall_seconds": 2.2089122000616044
+        }
+      ],
+      "repetitions_required": 3,
+      "result_status": "PASS",
+      "rss_measurement": {
+        "method": "Windows peak_wset high-water mark when available; otherwise maximum sampled RSS",
+        "sample_interval_ms": 10
+      },
+      "schema_version": 2,
+      "seed": 20261355,
+      "source_sha": "f2690bcac8f1b5b34c6b01a6cf5a9e19ecb725a9",
+      "summary": {
+        "available_memory_at_start_bytes": 79439273984,
+        "blas_lapack": [
+          {
+            "architecture": "Haswell",
+            "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+            "internal_api": "openblas",
+            "num_threads": 1,
+            "prefix": "libscipy_openblas",
+            "threading_layer": "pthreads",
+            "user_api": "blas",
+            "version": "0.3.29"
+          },
+          {
+            "architecture": "Haswell",
+            "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+            "internal_api": "openblas",
+            "num_threads": 1,
+            "prefix": "libscipy_openblas",
+            "threading_layer": "pthreads",
+            "user_api": "blas",
+            "version": "0.3.28"
+          }
+        ],
+        "maximum_qep_residual": 9.667517143717946e-14,
+        "peak_rss_bytes_max": 102916096,
+        "total_physical_memory_bytes": 102963109888,
+        "wall_seconds_max": 2.2089122000616044,
+        "wall_seconds_median": 2.1760629999917,
+        "wall_seconds_min": 2.168951900093816,
+        "wall_seconds_population_stdev": 0.01740518205243579
+      },
+      "work_package": "WP05"
+    },
+    {
+      "case_id": "WP05-DENSE-500",
+      "evidence_availability": "AVAILABLE_AND_REPRODUCIBLE",
+      "execution_identity": {
+        "boundary_conditions": {},
+        "case_contract_version": "0.2.11-wp05-dense-qep-v1",
+        "case_definition": {
+          "case_id": "WP05-DENSE-500",
+          "fixture": {
+            "frequency_squared_diagonal": "20 + 0.25*i",
+            "gyro_lower_neighbour": "negative transpose",
+            "gyro_upper_neighbour": "0.05*(1 + (i mod 7)/7)",
+            "kind": "formula-generated-spd-skew-dense-qep-v1",
+            "mass_diagonal": "1 + 0.001*i",
+            "physical_dofs": 500,
+            "seed_recorded_no_random_draws": 20261605,
+            "signed_speed_rad_s": 25.0
+          },
+          "schema_version": 2
+        },
+        "input_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "wp05/dense-qep/physical-dof-500/fixture-v1.json",
+            "logical_role": "generated_matrix_fixture_spec",
+            "provenance": "GENERATED",
+            "public_identifier": "wp05/dense-qep/physical-dof-500/fixture-v1.json",
+            "sha256": "5d0be8d84368b24476b56b0c498739a3321a0b8608cc34aa7fb37c65bcc43e63",
+            "size_bytes": 302
+          },
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "src/solveur/core/analyses/qep.py",
+            "logical_role": "solver_source",
+            "provenance": "REPOSITORY",
+            "public_identifier": "src/solveur/core/analyses/qep.py",
+            "sha256": "c6b080cfaa6df18b486dbf985208881de14f06639b467f908baa5812a1d00b32",
+            "size_bytes": 11861
+          },
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "scripts/characterize_rotating_qep_dense.py",
+            "logical_role": "characterization_runner",
+            "provenance": "REPOSITORY",
+            "public_identifier": "scripts/characterize_rotating_qep_dense.py",
+            "sha256": "b8bb2250e267ac7a22ec7fbcd3707cdec58f9be2e28f99b68100dbac5127f80d",
+            "size_bytes": 18633
+          }
+        ],
+        "loads": {},
+        "material_data": {},
+        "mesh": {
+          "kind": "not_applicable_synthetic_matrix",
+          "physical_dofs": 500
+        },
+        "metric_definitions": {
+          "peak_rss_bytes": "Windows peak_wset high-water mark when available; otherwise maximum 10 ms sampled RSS",
+          "qep_residual": "contract-defined original-polynomial relative residual",
+          "wall_seconds": "elapsed wall time for one complete QuadraticEigenSolver.solve call"
+        },
+        "model_input": {
+          "kind": "synthetic_matrix_pencil",
+          "physical_dofs": 500
+        },
+        "numerical_environment": {
+          "blas_threads": 1,
+          "cpu_count": 12,
+          "dtype": "float64",
+          "machine": "AMD64",
+          "os": "Windows",
+          "platform": "Windows-10-10.0.19045-SP0"
+        },
+        "reference_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "logical_role": "frozen_wp05_contract",
+            "provenance": "REPOSITORY",
+            "public_identifier": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "sha256": "9e5e3ca372aee4431dffd21f1ed92ee051612d268f5e81935da2132e8161dd17",
+            "size_bytes": 16954
+          }
+        ],
+        "reference_identity": {
+          "id": "QF0211-WP05-DENSE-SOLVER-INVARIANT-v1",
+          "role": "numerical gates only; not an external physical oracle"
+        },
+        "resolved_overrides": {},
+        "rotation_configuration": {
+          "physical_rotor_claim": false,
+          "synthetic_qep_speed_rad_s": 25.0
+        },
+        "schema_version": 1,
+        "software_versions": {
+          "numpy": "2.2.6",
+          "python": "3.13.1",
+          "scipy": "1.15.2"
+        },
+        "solver_configuration": {
+          "backend": "scipy.linalg.eig(A,B)",
+          "blas_threads": 1,
+          "driver": "dense_qep"
+        },
+        "source_sha": "f2690bcac8f1b5b34c6b01a6cf5a9e19ecb725a9",
+        "tolerance_policy": {
+          "conservative_growth_ratio_definition": "max_i(abs(real(lambda_i))/max(omega_ref,abs(lambda_i))) over the complete finite raw spectrum",
+          "conservative_growth_ratio_max": 1e-08,
+          "general_qep_relative_residual_max": 1e-08,
+          "generalized_eigenvalue_condition_definition": "for each scaled generalized pencil root, ||left||2*||B*right||2/abs(left.conj().T*B*right); zero denominator or non-finite estimate is rejected",
+          "generalized_eigenvalue_condition_max": 1000000000000.0,
+          "gyro_skew_relative_frobenius_max": 1e-12,
+          "mass_normalization_absolute_error_max": 1e-10,
+          "matrix_symmetry_relative_frobenius_max": 1e-12,
+          "normalized_spectral_pair_mismatch_definition": "minimum-cost full assignment between raw lambda and conjugate(raw lambda), with cost abs(lambda_i-conj(lambda_j))/max(omega_ref,abs(lambda_i),abs(lambda_j)); report maximum assigned cost",
+          "normalized_spectral_pair_mismatch_max": 1e-08,
+          "positive_definiteness": "Cholesky factorization succeeds for each reduced symmetric M and K; no threshold tuning after observing a case",
+          "qep_residual_definition": "norm2((lambda^2*M+lambda*Omega*G+K)*phi)/(norm2(K*phi)+abs(lambda*Omega)*norm2(G*phi)+abs(lambda)^2*norm2(M*phi)); zero denominator is invalid",
+          "recorded_before_numerical_gate_execution": true,
+          "simple_analytic_qep_relative_residual_max": 1e-10,
+          "symmetry_definition": "norm_F(A-A.T)/max(norm_F(A),tiny) for M/K and norm_F(G+G.T)/max(norm_F(G),tiny) for G"
+        },
+        "units_resolved": true
+      },
+      "execution_key": "25b05ce4f210449fa0bee37be6af36ec1afa2c3eb456a9623b6dbd97bd90e7e6",
+      "linearized_dimension": 1000,
+      "maturity": "EXPERIMENTAL",
+      "maturity_promotion": "NONE",
+      "observed_at_utc": "2026-10-05T17:10:43.245768+00:00",
+      "physical_dofs": 500,
+      "record_schema": "qf.wp05.dense-characterization.v1",
+      "record_sha256": "9c017aca9d7cf4bc5ac61a9c22f67e52ba5a9bc24ba5f54677fe8bb8af5068e2",
+      "repetitions": [
+        {
+          "baseline_rss_bytes": 78196736,
+          "conjugate_spectrum_mismatch": 3.602666347508141e-16,
+          "linearized_dimension": 1000,
+          "maximum_eigenvalue_condition": 28.969158845420743,
+          "maximum_mass_normalization_error": 5.551115123125783e-16,
+          "maximum_qep_residual": 5.782381294083821e-13,
+          "peak_rss_bytes": 186372096,
+          "physical_dofs": 500,
+          "repetition": 1,
+          "return_code": 0,
+          "status": "PASS",
+          "stderr": "",
+          "threadpools": [
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.29"
+            },
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.28"
+            }
+          ],
+          "wall_seconds": 25.304273099987768
+        },
+        {
+          "baseline_rss_bytes": 78061568,
+          "conjugate_spectrum_mismatch": 3.602666347508141e-16,
+          "linearized_dimension": 1000,
+          "maximum_eigenvalue_condition": 28.969158845420743,
+          "maximum_mass_normalization_error": 5.551115123125783e-16,
+          "maximum_qep_residual": 5.782381294083821e-13,
+          "peak_rss_bytes": 186130432,
+          "physical_dofs": 500,
+          "repetition": 2,
+          "return_code": 0,
+          "status": "PASS",
+          "stderr": "",
+          "threadpools": [
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.29"
+            },
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.28"
+            }
+          ],
+          "wall_seconds": 25.200794500065967
+        },
+        {
+          "baseline_rss_bytes": 78266368,
+          "conjugate_spectrum_mismatch": 3.602666347508141e-16,
+          "linearized_dimension": 1000,
+          "maximum_eigenvalue_condition": 28.969158845420743,
+          "maximum_mass_normalization_error": 5.551115123125783e-16,
+          "maximum_qep_residual": 5.782381294083821e-13,
+          "peak_rss_bytes": 186171392,
+          "physical_dofs": 500,
+          "repetition": 3,
+          "return_code": 0,
+          "status": "PASS",
+          "stderr": "",
+          "threadpools": [
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.29"
+            },
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.28"
+            }
+          ],
+          "wall_seconds": 25.785412700031884
+        }
+      ],
+      "repetitions_required": 3,
+      "result_status": "PASS",
+      "rss_measurement": {
+        "method": "Windows peak_wset high-water mark when available; otherwise maximum sampled RSS",
+        "sample_interval_ms": 10
+      },
+      "schema_version": 2,
+      "seed": 20261605,
+      "source_sha": "f2690bcac8f1b5b34c6b01a6cf5a9e19ecb725a9",
+      "summary": {
+        "available_memory_at_start_bytes": 79439273984,
+        "blas_lapack": [
+          {
+            "architecture": "Haswell",
+            "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+            "internal_api": "openblas",
+            "num_threads": 1,
+            "prefix": "libscipy_openblas",
+            "threading_layer": "pthreads",
+            "user_api": "blas",
+            "version": "0.3.29"
+          },
+          {
+            "architecture": "Haswell",
+            "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+            "internal_api": "openblas",
+            "num_threads": 1,
+            "prefix": "libscipy_openblas",
+            "threading_layer": "pthreads",
+            "user_api": "blas",
+            "version": "0.3.28"
+          }
+        ],
+        "maximum_qep_residual": 5.782381294083821e-13,
+        "peak_rss_bytes_max": 186372096,
+        "total_physical_memory_bytes": 102963109888,
+        "wall_seconds_max": 25.785412700031884,
+        "wall_seconds_median": 25.304273099987768,
+        "wall_seconds_min": 25.200794500065967,
+        "wall_seconds_population_stdev": 0.2547289572824366
+      },
+      "work_package": "WP05"
+    },
+    {
+      "case_id": "WP05-DENSE-1000",
+      "evidence_availability": "AVAILABLE_AND_REPRODUCIBLE",
+      "execution_identity": {
+        "boundary_conditions": {},
+        "case_contract_version": "0.2.11-wp05-dense-qep-v1",
+        "case_definition": {
+          "case_id": "WP05-DENSE-1000",
+          "fixture": {
+            "frequency_squared_diagonal": "20 + 0.25*i",
+            "gyro_lower_neighbour": "negative transpose",
+            "gyro_upper_neighbour": "0.05*(1 + (i mod 7)/7)",
+            "kind": "formula-generated-spd-skew-dense-qep-v1",
+            "mass_diagonal": "1 + 0.001*i",
+            "physical_dofs": 1000,
+            "seed_recorded_no_random_draws": 20262105,
+            "signed_speed_rad_s": 25.0
+          },
+          "schema_version": 2
+        },
+        "input_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "wp05/dense-qep/physical-dof-1000/fixture-v1.json",
+            "logical_role": "generated_matrix_fixture_spec",
+            "provenance": "GENERATED",
+            "public_identifier": "wp05/dense-qep/physical-dof-1000/fixture-v1.json",
+            "sha256": "1e867a9aa99e24d7664e89a2f47daec83d58546bda0b5544b9eed043dfc69ec1",
+            "size_bytes": 303
+          },
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "src/solveur/core/analyses/qep.py",
+            "logical_role": "solver_source",
+            "provenance": "REPOSITORY",
+            "public_identifier": "src/solveur/core/analyses/qep.py",
+            "sha256": "c6b080cfaa6df18b486dbf985208881de14f06639b467f908baa5812a1d00b32",
+            "size_bytes": 11861
+          },
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "scripts/characterize_rotating_qep_dense.py",
+            "logical_role": "characterization_runner",
+            "provenance": "REPOSITORY",
+            "public_identifier": "scripts/characterize_rotating_qep_dense.py",
+            "sha256": "b8bb2250e267ac7a22ec7fbcd3707cdec58f9be2e28f99b68100dbac5127f80d",
+            "size_bytes": 18633
+          }
+        ],
+        "loads": {},
+        "material_data": {},
+        "mesh": {
+          "kind": "not_applicable_synthetic_matrix",
+          "physical_dofs": 1000
+        },
+        "metric_definitions": {
+          "peak_rss_bytes": "Windows peak_wset high-water mark when available; otherwise maximum 10 ms sampled RSS",
+          "qep_residual": "contract-defined original-polynomial relative residual",
+          "wall_seconds": "elapsed wall time for one complete QuadraticEigenSolver.solve call"
+        },
+        "model_input": {
+          "kind": "synthetic_matrix_pencil",
+          "physical_dofs": 1000
+        },
+        "numerical_environment": {
+          "blas_threads": 1,
+          "cpu_count": 12,
+          "dtype": "float64",
+          "machine": "AMD64",
+          "os": "Windows",
+          "platform": "Windows-10-10.0.19045-SP0"
+        },
+        "reference_files": [
+          {
+            "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+            "logical_id": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "logical_role": "frozen_wp05_contract",
+            "provenance": "REPOSITORY",
+            "public_identifier": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+            "sha256": "9e5e3ca372aee4431dffd21f1ed92ee051612d268f5e81935da2132e8161dd17",
+            "size_bytes": 16954
+          }
+        ],
+        "reference_identity": {
+          "id": "QF0211-WP05-DENSE-SOLVER-INVARIANT-v1",
+          "role": "numerical gates only; not an external physical oracle"
+        },
+        "resolved_overrides": {},
+        "rotation_configuration": {
+          "physical_rotor_claim": false,
+          "synthetic_qep_speed_rad_s": 25.0
+        },
+        "schema_version": 1,
+        "software_versions": {
+          "numpy": "2.2.6",
+          "python": "3.13.1",
+          "scipy": "1.15.2"
+        },
+        "solver_configuration": {
+          "backend": "scipy.linalg.eig(A,B)",
+          "blas_threads": 1,
+          "driver": "dense_qep"
+        },
+        "source_sha": "f2690bcac8f1b5b34c6b01a6cf5a9e19ecb725a9",
+        "tolerance_policy": {
+          "conservative_growth_ratio_definition": "max_i(abs(real(lambda_i))/max(omega_ref,abs(lambda_i))) over the complete finite raw spectrum",
+          "conservative_growth_ratio_max": 1e-08,
+          "general_qep_relative_residual_max": 1e-08,
+          "generalized_eigenvalue_condition_definition": "for each scaled generalized pencil root, ||left||2*||B*right||2/abs(left.conj().T*B*right); zero denominator or non-finite estimate is rejected",
+          "generalized_eigenvalue_condition_max": 1000000000000.0,
+          "gyro_skew_relative_frobenius_max": 1e-12,
+          "mass_normalization_absolute_error_max": 1e-10,
+          "matrix_symmetry_relative_frobenius_max": 1e-12,
+          "normalized_spectral_pair_mismatch_definition": "minimum-cost full assignment between raw lambda and conjugate(raw lambda), with cost abs(lambda_i-conj(lambda_j))/max(omega_ref,abs(lambda_i),abs(lambda_j)); report maximum assigned cost",
+          "normalized_spectral_pair_mismatch_max": 1e-08,
+          "positive_definiteness": "Cholesky factorization succeeds for each reduced symmetric M and K; no threshold tuning after observing a case",
+          "qep_residual_definition": "norm2((lambda^2*M+lambda*Omega*G+K)*phi)/(norm2(K*phi)+abs(lambda*Omega)*norm2(G*phi)+abs(lambda)^2*norm2(M*phi)); zero denominator is invalid",
+          "recorded_before_numerical_gate_execution": true,
+          "simple_analytic_qep_relative_residual_max": 1e-10,
+          "symmetry_definition": "norm_F(A-A.T)/max(norm_F(A),tiny) for M/K and norm_F(G+G.T)/max(norm_F(G),tiny) for G"
+        },
+        "units_resolved": true
+      },
+      "execution_key": "8b62631378999316c70580cc60e75cea79ffaf722e8b3c877c0cb6b89e1c823d",
+      "linearized_dimension": 2000,
+      "maturity": "EXPERIMENTAL",
+      "maturity_promotion": "NONE",
+      "observed_at_utc": "2026-10-05T17:24:19.562363+00:00",
+      "physical_dofs": 1000,
+      "record_schema": "qf.wp05.dense-characterization.v1",
+      "record_sha256": "c2f87912874052dd2100a1bcb1113ffcd3f507853cf290cb226bf8f40d04ca8e",
+      "repetitions": [
+        {
+          "baseline_rss_bytes": 84201472,
+          "conjugate_spectrum_mismatch": 4.867955373956374e-16,
+          "linearized_dimension": 2000,
+          "maximum_eigenvalue_condition": 68.52559378710369,
+          "maximum_mass_normalization_error": 6.661338147750939e-16,
+          "maximum_qep_residual": 5.0360160541404416e-12,
+          "peak_rss_bytes": 516517888,
+          "physical_dofs": 1000,
+          "repetition": 1,
+          "return_code": 0,
+          "status": "PASS",
+          "stderr": "",
+          "threadpools": [
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.29"
+            },
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.28"
+            }
+          ],
+          "wall_seconds": 271.2178426999599
+        },
+        {
+          "baseline_rss_bytes": 84324352,
+          "conjugate_spectrum_mismatch": 4.867955373956374e-16,
+          "linearized_dimension": 2000,
+          "maximum_eigenvalue_condition": 68.52559378710369,
+          "maximum_mass_normalization_error": 6.661338147750939e-16,
+          "maximum_qep_residual": 5.0360160541404416e-12,
+          "peak_rss_bytes": 516673536,
+          "physical_dofs": 1000,
+          "repetition": 2,
+          "return_code": 0,
+          "status": "PASS",
+          "stderr": "",
+          "threadpools": [
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.29"
+            },
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.28"
+            }
+          ],
+          "wall_seconds": 271.55016169999726
+        },
+        {
+          "baseline_rss_bytes": 84324352,
+          "conjugate_spectrum_mismatch": 4.867955373956374e-16,
+          "linearized_dimension": 2000,
+          "maximum_eigenvalue_condition": 68.52559378710369,
+          "maximum_mass_normalization_error": 6.661338147750939e-16,
+          "maximum_qep_residual": 5.0360160541404416e-12,
+          "peak_rss_bytes": 516771840,
+          "physical_dofs": 1000,
+          "repetition": 3,
+          "return_code": 0,
+          "status": "PASS",
+          "stderr": "",
+          "threadpools": [
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.29"
+            },
+            {
+              "architecture": "Haswell",
+              "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+              "internal_api": "openblas",
+              "num_threads": 1,
+              "prefix": "libscipy_openblas",
+              "threading_layer": "pthreads",
+              "user_api": "blas",
+              "version": "0.3.28"
+            }
+          ],
+          "wall_seconds": 271.1720190999331
+        }
+      ],
+      "repetitions_required": 3,
+      "result_status": "PASS",
+      "rss_measurement": {
+        "method": "Windows peak_wset high-water mark when available; otherwise maximum sampled RSS",
+        "sample_interval_ms": 10
+      },
+      "schema_version": 2,
+      "seed": 20262105,
+      "source_sha": "f2690bcac8f1b5b34c6b01a6cf5a9e19ecb725a9",
+      "summary": {
+        "available_memory_at_start_bytes": 79439273984,
+        "blas_lapack": [
+          {
+            "architecture": "Haswell",
+            "filepath": "<site-packages>/numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+            "internal_api": "openblas",
+            "num_threads": 1,
+            "prefix": "libscipy_openblas",
+            "threading_layer": "pthreads",
+            "user_api": "blas",
+            "version": "0.3.29"
+          },
+          {
+            "architecture": "Haswell",
+            "filepath": "<site-packages>/scipy.libs/libscipy_openblas-f07f5a5d207a3a47104dca54d6d0c86a.dll",
+            "internal_api": "openblas",
+            "num_threads": 1,
+            "prefix": "libscipy_openblas",
+            "threading_layer": "pthreads",
+            "user_api": "blas",
+            "version": "0.3.28"
+          }
+        ],
+        "maximum_qep_residual": 5.0360160541404416e-12,
+        "peak_rss_bytes_max": 516771840,
+        "total_physical_memory_bytes": 102963109888,
+        "wall_seconds_max": 271.55016169999726,
+        "wall_seconds_median": 271.2178426999599,
+        "wall_seconds_min": 271.1720190999331,
+        "wall_seconds_population_stdev": 0.168499108500296
+      },
+      "work_package": "WP05"
+    }
+  ],
+  "maturity_promotion": "NONE",
+  "overall_status": "PASS",
+  "record_schema": "qf.wp05.dense-characterization-suite.v1",
+  "repetitions_per_size": 3,
+  "resource_policy": {
+    "fallback_rss_sample_interval_ms": 10,
+    "projected_rss_threshold_fraction": 0.7,
+    "safety_factor": 2.0,
+    "supported_bound_reduction_threshold_fraction": 0.5
+  },
+  "schema_version": 2,
+  "skipped_sizes": [],
+  "source_sha": "f2690bcac8f1b5b34c6b01a6cf5a9e19ecb725a9",
+  "stop_reason": "all_contract_targets_completed",
+  "suite_sha256": "0c2027d73ac6879ff3d0f43b39848f39c1549971dcb0270b0cedc6580ce673d3",
+  "supported_bound_reason": "largest_successful_target_size; no extrapolation",
+  "supported_physical_dof_bound": 1000,
+  "target_physical_dof_sizes": [
+    50,
+    100,
+    250,
+    500,
+    1000
+  ],
+  "work_package": "WP05"
+}
