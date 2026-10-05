@@ -92,7 +92,7 @@ def _sha(data: bytes) -> str:
 
 
 def _identity(source_sha: str, case_id: str, case: dict[str, Any], contract: dict[str, Any]) -> Any:
-    sys.path.insert(0, str(ROOT))
+    sys.path.insert(0, str(ROOT / "src"))
     from solveur.verification.v2.execution_identity import ExecutionIdentity, InputFileIdentity
 
     files = tuple(

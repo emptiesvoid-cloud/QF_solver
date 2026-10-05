@@ -43,7 +43,7 @@ def _fixture(size: int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
 
 def _worker(size: int, seed: int) -> int:
     del seed  # The fixture is formula-based; the fixed seed remains recorded for schema stability.
-    sys.path.insert(0, str(ROOT))
+    sys.path.insert(0, str(ROOT / "src"))
     import psutil as worker_psutil
 
     from solveur.core.analyses.qep import QuadraticEigenSolver
@@ -88,7 +88,7 @@ def _worker(size: int, seed: int) -> int:
 
 
 def _identity_for_size(source_sha: str, size: int, seed: int, contract: dict[str, Any]) -> Any:
-    sys.path.insert(0, str(ROOT))
+    sys.path.insert(0, str(ROOT / "src"))
     from solveur.verification.v2.execution_identity import ExecutionIdentity, InputFileIdentity
 
     fixture_spec = {
