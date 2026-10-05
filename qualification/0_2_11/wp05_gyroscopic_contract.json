@@ -43,6 +43,16 @@
       "forced unbalance response or nonlinear rotor behavior",
       "PETSc, SLEPc, MPI, or sparse QEP"
     ],
+    "geometry_and_section_preflight": {
+      "shaft_topology": "one connected unbranched path with every BEAM2 edge collinear",
+      "shaft_length": "sum of unique path segment lengths; finite and strictly positive",
+      "collinearity_relative_tolerance": 1e-12,
+      "spin_axis_alignment": "abs(dot(unit shaft direction, unit rotation axis)) >= 1-1e-12",
+      "disk_axis_alignment": "dot(unit disk axis, unit rotation axis) >= 1-1e-12; opposite direction is rejected rather than silently changing sign",
+      "circular_isotropic_section": "each used beam material must be beam_isotropic, Iy and Iz equal within 1e-12 relative to max(abs(Iy),abs(Iz)), and J=Iy+Iz within 1e-12 relative",
+      "section_properties": "material properties must be finite and positive, including density; section properties are constant within each element and may differ between elements",
+      "loads_and_initial_state": "nonzero nodal/distributed loads, contact, and any prestress/initial-stress state are rejected; the solver does not silently ignore them"
+    },
     "out_of_scope_work_packages": ["WP06 Campbell, speed sweep, modal tracking, and plotting"]
   },
   "scientific_convention": {
@@ -133,6 +143,7 @@
     "complex_serialization": "every complex scalar/vector is encoded explicitly as {real,imag}; round-trip must preserve complex values",
     "frequency": "abs(imag(lambda))/(2*pi)",
     "growth_rate": "real(lambda)",
+    "default_physical_mode_count": 6,
     "physical_mode_selection": "select roots with positive imaginary part above 64*machine_epsilon*max(omega_ref,abs(lambda)); order by frequency_hz, then real(lambda), then imag(lambda); return requested count while retaining the full raw spectrum and indices",
     "pairing": "no cross-speed tracking or branch IDs in WP05",
     "whirl": "not classified in WP05 unless an independently defined diagnostic is available; otherwise NOT_DEFINED"
