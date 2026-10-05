@@ -55,6 +55,15 @@
     },
     "out_of_scope_work_packages": ["WP06 Campbell, speed sweep, modal tracking, and plotting"]
   },
+  "prospective_analysis_route_registration": {
+    "analysis": "rotating_modal",
+    "capability_id": "ANA-ROTATING-MODAL-WP05",
+    "maturity": "EXPERIMENTAL",
+    "qualification_status": "NOT_FORMALLY_QUALIFIED",
+    "legacy_registry": "qualification/capability_registry.json",
+    "legacy_registry_modified": false,
+    "scope": "single-speed serial dense QEP for straight BEAM2 chains with centered rigid axisymmetric disks"
+  },
   "scientific_convention": {
     "time_dependence": "q(t)=Re(phi*exp(lambda*t))",
     "equation": "M*q_ddot + Omega*G*q_dot + K*q = 0",
@@ -198,7 +207,13 @@
     "repetitions_per_completed_size": 3,
     "measure": ["physical DOFs", "linearized dimension", "wall time per solve", "peak process RSS", "run-to-run dispersion", "BLAS/LAPACK", "OS", "Python", "SciPy", "maximum QEP residual"],
     "fixture": "deterministically generated finite SPD M/K and finite skew G; generation seed and parameters recorded in each schema-v2 execution record",
-    "stop_rule": "before each size, estimate required dense matrices/workspace from prior measured RSS-per-linearized-DOF; skip a larger size if projected peak exceeds 70 percent of available physical memory or if the preceding size fails; never extrapolate a public bound above the largest size completed successfully",
+    "stop_rule": "before each size after the first, estimate projected peak RSS as baseline child-process RSS plus 2.0 times the largest previously measured solver RSS increment scaled by the square of the target-to-previous linearized-dimension ratio; skip a larger size if projected peak exceeds 70 percent of currently available physical memory or if the preceding size fails; never extrapolate a public bound above the largest size completed successfully",
+    "resource_estimation": {
+      "rss_dimension_scaling": "quadratic_in_linearized_dimension",
+      "safety_factor": 2.0,
+      "maximum_projected_fraction_of_available_memory": 0.70,
+      "reduce_supported_bound_if_peak_fraction_exceeds": 0.50
+    },
     "supported_dof_bound_rule": "at most the largest successfully completed target size, reduced by one target tier if its peak RSS exceeds 50 percent of available physical memory or any repetition has a residual/solve failure",
     "not_a_claim": "no general HPC, sparse, parallel, or untested-size claim"
   },

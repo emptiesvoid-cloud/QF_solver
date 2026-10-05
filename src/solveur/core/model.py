@@ -14,7 +14,7 @@ from solveur.core.dofs import DOF_ORDER, DofManager, normalize_dof_name
 from solveur.core.errors import InputValidationError
 from solveur.core.rbe import Rbe2Definition, Rbe3Definition, rbe2_constraints, rbe3_constraints
 from solveur.elements.registry import ElementRegistry
-from solveur.elements.discrete import ConcentratedMass, SpringDefinition
+from solveur.elements.discrete import ConcentratedMass, RotatingDisk, SpringDefinition
 from solveur.loads.entities import DistributedLoad, parse_distributed_loads
 
 
@@ -55,7 +55,7 @@ class FiniteElementModel:
     loads: list[NodalLoad] = field(default_factory=list)
     distributed_loads: list[DistributedLoad] = field(default_factory=list)
     springs: list[SpringDefinition] = field(default_factory=list)
-    concentrated_masses: list[ConcentratedMass] = field(default_factory=list)
+    concentrated_masses: list[ConcentratedMass | RotatingDisk] = field(default_factory=list)
     multipoint_constraints: list[LinearConstraint] = field(default_factory=list)
     rbe2: list[Rbe2Definition] = field(default_factory=list)
     rbe3: list[Rbe3Definition] = field(default_factory=list)
@@ -206,7 +206,21 @@ def _parse_spring(item: dict[str, Any]) -> SpringDefinition:
     )
 
 
-def _parse_mass(item: dict[str, Any]) -> ConcentratedMass:
+def _parse_mass(item: dict[str, Any]) -> ConcentratedMass | RotatingDisk:
+    entity_type = str(item.get("type", "concentrated_mass")).strip().lower()
+    if entity_type == "rotating_disk":
+        try:
+            return RotatingDisk(
+                node=item["node"],
+                mass=float(item["mass"]),
+                diametral_inertia=float(item["diametral_inertia"]),
+                polar_inertia=float(item["polar_inertia"]),
+                axis_global=tuple(float(value) for value in item["axis_global"]),
+            )
+        except (KeyError, TypeError, ValueError) as exc:
+            raise InputValidationError(f"Invalid rotating disk definition: {exc}") from exc
+    if "type" in item and entity_type != "concentrated_mass":
+        raise InputValidationError(f"Unsupported concentrated mass type {item['type']!r}.")
     inertia = item.get("inertia")
     return ConcentratedMass(
         node=int(item["node"]),

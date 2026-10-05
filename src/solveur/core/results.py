@@ -11,7 +11,12 @@ from solveur.core.audit import SolverAudit
 from solveur.core.dofs import DofManager
 from solveur.core.nonlinear.material_state import MaterialStateTable, material_states_to_dict
 from solveur.core.qualification import RunVerdict, qualification_summary, run_verdict
-from solveur.core.result_serialization import complex_nodal_state, legacy_six_dof_vector, modal_shape, nodal_state
+from solveur.core.result_serialization import (
+    complex_nodal_state,
+    legacy_six_dof_vector,
+    modal_shape,
+    nodal_state,
+)
 from solveur.mesh.validation import MeshReport
 
 
@@ -126,6 +131,92 @@ class ModalResult(QualificationAwareResult):
             data["audit"] = self.audit.to_dict()
             data["qualification_summary"] = qualification_summary(self)
         return data
+
+
+@dataclass(frozen=True)
+class RotatingModalResult(QualificationAwareResult):
+    """Complex single-speed QEP result; distinct from the real ``ModalResult``."""
+
+    numerical_status: str
+    maturity: str
+    eigenvalues: np.ndarray
+    modes: np.ndarray
+    frequencies_hz: np.ndarray
+    growth_rate_per_s: np.ndarray
+    qep_residuals: np.ndarray
+    selected_mode_indices: tuple[int, ...]
+    dofs: DofManager
+    mesh_report: MeshReport
+    node_count: int
+    element_count: int
+    spin_speed_rad_s: float
+    axis_global: tuple[float, float, float]
+    frame_convention: str
+    solver_metadata: dict[str, Any] = field(default_factory=dict)
+    diagnostics: dict[str, Any] = field(default_factory=dict)
+    provenance: dict[str, Any] = field(default_factory=dict)
+
+    @property
+    def status(self) -> str:
+        """Compatibility alias for the numerical status, not a maturity claim."""
+        return self.numerical_status
+
+    @property
+    def run_verdict(self) -> RunVerdict:
+        """Keep a numerical pass visibly non-qualifying while maturity is experimental."""
+        if self.numerical_status != "PASS":
+            return RunVerdict.FAIL
+        return RunVerdict.WARNING if self.maturity == "EXPERIMENTAL" else RunVerdict.FAIL
+
+    @staticmethod
+    def _complex_array(value: np.ndarray) -> dict[str, Any]:
+        array = np.asarray(value, dtype=np.complex128)
+        if not np.all(np.isfinite(array)):
+            raise ValueError("Rotating modal result cannot serialize non-finite complex values.")
+        return {"real": array.real.tolist(), "imag": array.imag.tolist()}
+
+    @staticmethod
+    def _decode_complex_array(value: Any) -> np.ndarray:
+        if not isinstance(value, dict) or set(value) != {"real", "imag"}:
+            raise ValueError("Complex result arrays require explicit real and imag fields.")
+        real = np.asarray(value["real"], dtype=float)
+        imag = np.asarray(value["imag"], dtype=float)
+        if real.shape != imag.shape or not np.all(np.isfinite(real)) or not np.all(np.isfinite(imag)):
+            raise ValueError("Complex result real/imag arrays must have matching finite shapes.")
+        return real + 1j * imag
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "analysis": "rotating_modal",
+            "status": self.numerical_status,
+            "numerical_status": self.numerical_status,
+            "run_verdict": self.run_verdict.value,
+            "maturity": self.maturity,
+            "method": "dense_qep",
+            "node_count": self.node_count,
+            "element_count": self.element_count,
+            "dof_map": [
+                {"node": int(node), "dofs": list(names)} for node, names in sorted(self.dofs.node_dofs.items())
+            ],
+            "spin_speed_rad_s": float(self.spin_speed_rad_s),
+            "axis_global": list(self.axis_global),
+            "frame_convention": self.frame_convention,
+            "raw_eigenvalues": self._complex_array(self.eigenvalues),
+            "raw_modes": self._complex_array(self.modes),
+            "frequency_hz": np.asarray(self.frequencies_hz, dtype=float).tolist(),
+            "growth_rate_per_s": np.asarray(self.growth_rate_per_s, dtype=float).tolist(),
+            "qep_residuals": np.asarray(self.qep_residuals, dtype=float).tolist(),
+            "selected_mode_indices": list(self.selected_mode_indices),
+            "solver_metadata": self.solver_metadata,
+            "diagnostics": self.diagnostics,
+            "provenance": self.provenance,
+            "mesh_report": self.mesh_report.to_dict(),
+        }
+
+    @classmethod
+    def complex_arrays_from_dict(cls, payload: dict[str, Any]) -> tuple[np.ndarray, np.ndarray]:
+        """Decode the complex spectral payload without discarding imaginary parts."""
+        return cls._decode_complex_array(payload["raw_eigenvalues"]), cls._decode_complex_array(payload["raw_modes"])
 
 
 @dataclass(frozen=True)

@@ -18,6 +18,29 @@ def test_controlled_capability_registry_passes_its_contract() -> None:
     assert AUDIT.validate_registry(AUDIT.load_registry()) == []
 
 
+def test_rotating_modal_is_prospective_and_not_promoted_in_legacy_registry() -> None:
+    routes, errors = AUDIT._prospective_analysis_routes()
+
+    assert errors == []
+    assert routes == {"rotating_modal"}
+    assert "ANA-ROTATING-MODAL-WP05" not in {
+        row["CAPABILITY_ID"] for row in AUDIT.load_registry()["capabilities"]
+    }
+
+
+def test_rotating_modal_registry_record_fails_closed_if_maturity_is_promoted(monkeypatch, tmp_path) -> None:
+    contract = AUDIT.json.loads(AUDIT.WP05_GYRO_CONTRACT.read_text(encoding="utf-8"))
+    contract["prospective_analysis_route_registration"]["maturity"] = "QUALIFIED_BOUNDED"
+    path = tmp_path / "wp05_contract.json"
+    path.write_text(AUDIT.json.dumps(contract), encoding="utf-8")
+    monkeypatch.setattr(AUDIT, "WP05_GYRO_CONTRACT", path)
+
+    routes, errors = AUDIT._prospective_analysis_routes()
+
+    assert routes == set()
+    assert any("NOT_FORMALLY_QUALIFIED" in error for error in errors)
+
+
 def test_registry_is_hermetic_without_historical_git_objects(monkeypatch) -> None:
     monkeypatch.setattr(AUDIT, "_revision_available", lambda revision: False)
 

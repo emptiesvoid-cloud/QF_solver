@@ -189,6 +189,28 @@ class JsonSchemaAnalysisMixin:
 
 
     def _validate_analysis_parameters(self, analysis_type: str, params: Mapping[str, Any], errors: list[str]) -> None:
+        if analysis_type == "rotating_modal":
+            self._reject_unknown("analysis.parameters", params, {"rotation", "modes"}, errors)
+            self._positive_int("analysis.parameters.modes", params.get("modes", 6), errors)
+            rotation = params.get("rotation")
+            if not isinstance(rotation, Mapping):
+                errors.append("analysis.parameters.rotation must be an object.")
+            else:
+                expected_rotation_fields = {"axis_global", "speed_rad_s", "frame_convention"}
+                self._reject_unknown("analysis.parameters.rotation", rotation, expected_rotation_fields, errors)
+                for name in expected_rotation_fields:
+                    if name not in rotation:
+                        errors.append(f"analysis.parameters.rotation.{name} is required.")
+                if not _is_numeric_vector(rotation.get("axis_global"), 3):
+                    errors.append("analysis.parameters.rotation.axis_global must contain three finite values.")
+                elif not any(float(value) != 0.0 for value in rotation["axis_global"]):
+                    errors.append("analysis.parameters.rotation.axis_global must be non-zero.")
+                if not _is_number(rotation.get("speed_rad_s")):
+                    errors.append("analysis.parameters.rotation.speed_rad_s must be a finite number in rad/s.")
+                if rotation.get("frame_convention") != "global_fixed_right_hand_rule":
+                    errors.append(
+                        "analysis.parameters.rotation.frame_convention must be 'global_fixed_right_hand_rule'."
+                    )
         if "assembly_chunk_size" in params:
             self._positive_int("analysis.assembly_chunk_size", params["assembly_chunk_size"], errors)
         if analysis_type in {"nonlinear_static", "geometric_nonlinear_static", "linear_buckling"}:

@@ -46,6 +46,12 @@ and separate mixed-workflow/capability records define those boundaries.
 `qf_solver.read_inp(path)` remains `PROVISIONAL`; it covers only the documented
 bounded Abaqus/CalculiX subset and is not a full-format compatibility claim.
 
+The 0.2.11 development branch contains a candidate-only `rotating_modal` JSON
+route with `EXPERIMENTAL` maturity. It is not part of the published 0.2.10
+API contract. Its complex `RotatingModalResult` schema is provisional and
+must not be treated as stable for downstream integrations before a separate
+release contract says otherwise. See the [candidate scope and limitations](../mechanics/rotating-modal.md).
+
 The family-aware mixed HDF5 functions are also `PROVISIONAL` and
 `EXPERIMENTAL_BOUNDED`: they cover the documented schema-v1.0 TET4/WEDGE6/HEX8
 result-storage path only. Internal implementation symbols under `solveur` are

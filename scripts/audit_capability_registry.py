@@ -21,6 +21,7 @@ DEFAULT_DOCUMENT = ROOT / "docs" / "verification" / "0_2_6" / "capability_covera
 DEFAULT_HISTORICAL_SNAPSHOTS = ROOT / "qualification" / "historical_inventory_snapshots.json"
 ACTIVE_V2_REGISTRY = ROOT / "qualification" / "0_2_7" / "capability_registry_v2.json"
 CONSOLIDATED_028_REGISTRY = ROOT / "qualification" / "0_2_8" / "consolidated_registry.json"
+WP05_GYRO_CONTRACT = ROOT / "qualification" / "0_2_11" / "wp05_gyroscopic_contract.json"
 REQUIRED_FIELDS = {
     "CAPABILITY_ID", "DOMAIN", "ELEMENT", "ANALYSIS", "MATERIAL_PHYSICS",
     "PRESENT_IN_CODE", "PUBLIC", "MATURITY", "TESTS", "VNV_LEVEL",
@@ -158,6 +159,34 @@ def _technical_only_current_elements() -> set[str]:
     return technical_only
 
 
+def _prospective_analysis_routes() -> tuple[set[str], list[str]]:
+    """Read explicitly versioned current routes without rewriting the legacy registry."""
+
+    if not WP05_GYRO_CONTRACT.exists():
+        return set(), []
+    try:
+        contract = json.loads(WP05_GYRO_CONTRACT.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        return set(), [f"WP05 prospective analysis-route record unavailable: {error}."]
+    record = contract.get("prospective_analysis_route_registration")
+    expected = {
+        "analysis": "rotating_modal",
+        "capability_id": "ANA-ROTATING-MODAL-WP05",
+        "maturity": "EXPERIMENTAL",
+        "qualification_status": "NOT_FORMALLY_QUALIFIED",
+        "legacy_registry": "qualification/capability_registry.json",
+        "legacy_registry_modified": False,
+    }
+    if not isinstance(record, dict) or any(record.get(key) != value for key, value in expected.items()):
+        return set(), [
+            "WP05 rotating_modal route must remain prospectively registered as EXPERIMENTAL and "
+            "NOT_FORMALLY_QUALIFIED without changing the legacy registry."
+        ]
+    if not record.get("scope"):
+        return set(), ["WP05 prospective rotating_modal route registration must state its bounded scope."]
+    return {"rotating_modal"}, []
+
+
 def validate_registry(registry: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     rows = registry.get("capabilities", [])
@@ -202,7 +231,9 @@ def validate_registry(registry: dict[str, Any]) -> list[str]:
     for element in sorted(current_elements - registered_elements - technical_only_elements):
         errors.append(f"Public element family is unregistered: {element}.")
     current_routes = _analysis_routes(_current_source("src/solveur/core/router.py"))
-    registered_routes = {row["ANALYSIS"] for row in rows if row.get("DOMAIN") == "ANALYSIS"}
+    prospective_routes, prospective_errors = _prospective_analysis_routes()
+    errors.extend(prospective_errors)
+    registered_routes = {row["ANALYSIS"] for row in rows if row.get("DOMAIN") == "ANALYSIS"} | prospective_routes
     for route in sorted(current_routes - registered_routes):
         errors.append(f"Public analysis route is unregistered: {route}.")
     try:

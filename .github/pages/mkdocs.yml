@@ -40,6 +40,7 @@ nav:
       - Elements: elements/index.md
       - Analyses: analyses/index.md
       - Nonlinear Mechanics: mechanics/nonlinear-overview.md
+      - Experimental Rotating Modal: mechanics/rotating-modal.md
       - Architecture: architecture.md
       - Solvers & Backends: solveurs/index.md
       - Known Limitations: etat/limites.md
