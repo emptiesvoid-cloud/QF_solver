@@ -1,3 +1,13 @@
+---
+title: Experimental rotating modal analysis
+doc_id: DOC-MECH-ROTATING-MODAL-WP05
+revision: 1.0
+applicable_version: 0.2.11
+status: controlled_candidate
+reviewer: ""
+approver: ""
+---
+
 # Experimental rotating modal analysis
 
 This page documents the bounded `rotating_modal` capability introduced for

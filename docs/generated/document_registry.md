@@ -4,8 +4,9 @@
 | DOC-VNV-CODEASTER-CAMPAIGN-2026-08-14 | Campagne de correlation Code_Aster du 2026-08-14 | ready_for_owner_review | REQ-CMP-003, REQ-AUD-001 | 1 | 3 | verification/code_aster_correlation_campaign_2026-08-14.md |
 | DOC-WHATS-NEW-0210-001 | What's New in QF Solver 0.2.10 | controlled_candidate |  | 0 | 1 | whats-new/0.2.10.md |
 | DOC-MECH-NONLINEAR-001 | Nonlinear mechanics overview | controlled_candidate |  | 0 | 1 | mechanics/nonlinear-overview.md |
+| DOC-MECH-ROTATING-MODAL-WP05 | Experimental rotating modal analysis | controlled_candidate |  | 0 | 3 | mechanics/rotating-modal.md |
 | DOC-START-NONLINEAR-001 | Nonlinear example | controlled_candidate |  | 1 | 1 | getting-started/nonlinear-example.md |
-| DOC-VV-CANDIDATE-0210-001 | QF Solver 0.2.10 verification summary | controlled_candidate |  | 0 | 1 | verification/0_2_10/README.md |
+| DOC-VV-PUBLIC-0210-001 | QF Solver 0.2.10 verification summary | controlled_release |  | 0 | 1 | verification/0_2_10/README.md |
 | DOC-STATE-002 | Capabilities and maturity | controlled_candidate | REQ-CMP-001, REQ-REL-001 | 0 | 0 | etat/capacites.md |
 | DOC-STATE-003 | Known limitations | controlled_candidate | REQ-CMP-002, REQ-REL-001 | 0 | 0 | etat/limites.md |
 | DOC-CAPABILITY-028-001 | QF Solver capability index — 0.2.10 | controlled_candidate |  | 0 | 0 | capabilities/index.md |
