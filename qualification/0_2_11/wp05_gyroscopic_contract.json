@@ -161,7 +161,9 @@
     "normalized_spectral_pair_mismatch_definition": "minimum-cost full assignment between raw lambda and conjugate(raw lambda), with cost abs(lambda_i-conj(lambda_j))/max(omega_ref,abs(lambda_i),abs(lambda_j)); report maximum assigned cost",
     "qep_residual_definition": "norm2((lambda^2*M+lambda*Omega*G+K)*phi)/(norm2(K*phi)+abs(lambda*Omega)*norm2(G*phi)+abs(lambda)^2*norm2(M*phi)); zero denominator is invalid",
     "symmetry_definition": "norm_F(A-A.T)/max(norm_F(A),tiny) for M/K and norm_F(G+G.T)/max(norm_F(G),tiny) for G",
-    "positive_definiteness": "Cholesky factorization succeeds for each reduced symmetric M and K; no threshold tuning after observing a case"
+    "positive_definiteness": "Cholesky factorization succeeds for each reduced symmetric M and K; no threshold tuning after observing a case",
+    "generalized_eigenvalue_condition_max": 1e12,
+    "generalized_eigenvalue_condition_definition": "for each scaled generalized pencil root, ||left||2*||B*right||2/abs(left.conj().T*B*right); zero denominator or non-finite estimate is rejected"
   },
   "verification_cases": {
     "GYRO-01": {
