@@ -70,10 +70,10 @@
       "tests": ["tests/integration/test_geometric_nonlinear_cli.py"]
     },
     {
-      "id": "DOC-VV-CANDIDATE-0210-001",
+      "id": "DOC-VV-PUBLIC-0210-001",
       "path": "verification/0_2_10/README.md",
       "title": "QF Solver 0.2.10 verification summary",
-      "status": "controlled_candidate",
+      "status": "controlled_release",
       "requirements": [],
       "examples": [],
       "tests": ["tests/unit/test_pp04_public_documentation.py"]

@@ -37,7 +37,7 @@
     "corrections": [
       "Replaced the stale candidate contract link with the e535ff authorized selected-package contract.",
       "Made the source tag/SHA and governance-vs-package-source distinction explicit.",
-      "Labeled the page as the current public summary and retained G03 FAIL_PRESERVED and WP14 HOLD_NOT_PROMOTED."
+      "Labeled the page as the current public summary, synchronized its document-registry ID and controlled_release status, and retained G03 FAIL_PRESERVED and WP14 HOLD_NOT_PROMOTED."
     ]
   },
   "L02_current_rules": {
@@ -111,6 +111,19 @@
     "retest_identity_contract": "WP03 execution-identity schema v1, serialized in wp04_retest_execution_records.json",
     "historical_comparison_quality_run_id": "37269320218",
     "historical_comparison_docs_run_id": "37269320422",
+    "initial_wp04_candidate_ci": {
+      "source_sha": "d948c5776a8f41a3b1b3e4a37de92922d54994f6",
+      "quality_run_id": "37284436811",
+      "quality_conclusion": "failure",
+      "docs_run_id": "37284436670",
+      "docs_conclusion": "success",
+      "failed_job": "Documentation evidence / ubuntu-latest",
+      "failed_step": "Document metadata validation",
+      "diagnostic": "document_registry.json retained DOC-VV-CANDIDATE-0210-001 and controlled_candidate while the current public-summary page declared DOC-VV-PUBLIC-0210-001 and current_public_summary; the lifecycle vocabulary also requires the recognized controlled_release status.",
+      "classification": "DOCUMENTATION_REGISTRY_METADATA_MISMATCH",
+      "scope_correction": "Synchronize only the current public summary page and its registry entry; historical evidence and qualification records remain untouched.",
+      "new_exact_sha_ci_required": true
+    },
     "required_wp04_ci": ["Quality and verification workflow_dispatch on exact WP04 SHA", "Documentation tests workflow_dispatch on exact WP04 SHA"],
     "main_workflows_relaunched": false
   }

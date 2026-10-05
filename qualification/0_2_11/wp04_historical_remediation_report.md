@@ -82,6 +82,17 @@ Documentation CI are still required; the WP03 comparison runs are Quality
 `37269320218` and Documentation `37269320422`. No full campaign was relaunched
 on `main`.
 
+The first exact-candidate CI attempt (`d948c5776a8f41a3b1b3e4a37de92922d54994f6`)
+had Quality run `37284436811` fail only in Documentation evidence: the current
+public-summary page ID/status had not yet been synchronized with
+`docs/document_registry.json`. Its matrix jobs, WP14 targeted checks, and Full
+engineering campaign passed; Documentation tests run `37284436670` passed.
+This is a documentation-registry consistency defect, not a numerical or
+historical-evidence failure. The page and registry are now being aligned using
+the controlled `controlled_release` status; see the contract's initial CI
+diagnostic. Required Quality and Documentation workflows must pass again on
+the exact post-correction WP04 SHA before the gate closes.
+
 `QF0211-G03_SELECTED_HISTORICAL_FIXES_VERIFIED` is not closed until the exact
 committed WP04 SHA passes its required CI with no new regression. A `BLOCKED`
 or failing historical replay is compatible with this gate if recorded

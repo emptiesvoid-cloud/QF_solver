@@ -3,7 +3,7 @@ title: QF Solver 0.2.10 verification summary
 doc_id: DOC-VV-PUBLIC-0210-001
 revision: 1.0
 applicable_version: 0.2.10
-status: current_public_summary
+status: controlled_release
 reviewer: ""
 approver: ""
 ---
