@@ -46,9 +46,9 @@ and separate mixed-workflow/capability records define those boundaries.
 `qf_solver.read_inp(path)` remains `PROVISIONAL`; it covers only the documented
 bounded Abaqus/CalculiX subset and is not a full-format compatibility claim.
 
-The 0.2.11 development branch contains candidate-only `rotating_modal` and
-`campbell` JSON routes with `EXPERIMENTAL` maturity. They are not part of the
-published 0.2.10 API contract. Their complex result schemas are provisional
+The 0.2.11 release candidate contains `rotating_modal` and `campbell` JSON
+routes with `EXPERIMENTAL` maturity. They are not part of the published
+0.2.10 API contract. Their complex result schemas are provisional
 and must not be treated as stable for downstream integrations before a
 separate release contract says otherwise. See the [rotating-modal
 scope](../mechanics/rotating-modal.md) and [Campbell scope](../mechanics/campbell.md).

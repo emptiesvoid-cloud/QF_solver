@@ -68,8 +68,8 @@ def test_public_facades_and_maturity_boundaries_remain_explicit() -> None:
     # F1 is an immutable 0.2.7 snapshot; current runtime identity is a
     # separate release-surface contract.
     assert record["target_version"] == "0.2.7a0"
-    assert qf_solver.__version__ == "0.2.10"
-    assert solveur.__version__ == "0.2.10"
+    assert qf_solver.__version__ == "0.2.11"
+    assert solveur.__version__ == "0.2.11"
     assert "solve_model" in qf_solver.__all__
     assert "solve_model" in solveur.__all__
     boundary = record["maturity_boundary"]

@@ -21,6 +21,11 @@ current scopes. The 46-combination
 is historical authority for those published element-analysis decisions and
 is not silently rewritten here.
 
+The 0.2.11 release candidate adds experimental gyroscopic modal and Campbell
+evidence. Those results, their availability and their maturity decisions are
+summarized separately in the [0.2.11 candidate V&V page](0_2_11/README.md);
+they are not part of the published 0.2.10 record.
+
 ## Four distinct claims
 
 1. **Implementation:** a code path exists.

@@ -147,10 +147,9 @@ return annotation is the documented return type where one is available.
 - `solve_model(model: FiniteElementModel, *, enforce_policy: bool = True) -> object` — solve through the public router; `STABLE`.
 - `verify_evidence(path: str | Path) -> EvidenceVerificationReport` — verify evidence fingerprints; `STABLE`.
 
-### 0.2.11 development candidate: `rotating_modal`
+### 0.2.11 release candidate: `rotating_modal`
 
-The `codex/v0.2.11-wp05-rotating-modal` development branch adds a
-candidate-only JSON analysis route consumed through the existing
+The 0.2.11 candidate adds an unreleased JSON analysis route consumed through the existing
 `load_model`/`solve_model` API. It returns a distinct complex
 `RotatingModalResult`, but neither that result schema nor the numerical
 capability is declared stable or included in the published 0.2.10 contract.
@@ -159,9 +158,9 @@ scope](../mechanics/rotating-modal.md). Do not infer Campbell diagrams or
 general rotordynamics support from the single-speed route; Campbell orchestration
 is a separate experimental candidate documented below.
 
-### 0.2.11 development candidate: `campbell`
+### 0.2.11 release candidate: `campbell`
 
-The WP06 development branch adds an experimental JSON `campbell` route,
+The candidate adds an experimental JSON `campbell` route,
 consumed through the same `load_model`/`solve_model` workflow. The caller must
 provide finite, strictly increasing `spin_speeds_rad_s`, an explicit global
 axis/frame, a mode count, and the frozen WP05 QEP/WP06 tracking policy IDs.

@@ -76,13 +76,15 @@ def test_version_registry_and_public_docs_are_aligned() -> None:
     project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]
     from solveur.version import __version__
 
-    assert project["version"] == __version__ == "0.2.10"
+    assert project["version"] == __version__ == "0.2.11"
     assert project["optional-dependencies"]["hdf5"] == ["h5py>=3.10"]
-    # Release metadata is pre-staged; the reserved version DOI is activated only
-    # when the corresponding Zenodo record is actually published.
+    # CITATION.cff identifies the latest published release until 0.2.11 is
+    # actually published; the candidate uses the existing project concept DOI.
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
     assert 'version: "0.2.10"' in citation
     assert 'doi: "10.5281/zenodo.23106744"' in citation
+    assert project["urls"]["DOI"] == "https://doi.org/10.5281/zenodo.22697897"
+    assert "0.2.11 candidate" in (ROOT / "README.md").read_text(encoding="utf-8")
     registry = json.loads((ROOT / "qualification/0_2_8/consolidated_registry.json").read_text(encoding="utf-8"))
     assert registry["combination_registry"]["state_counts"] == {
         "QUALIFIED_BOUNDED": 32,

@@ -14,11 +14,15 @@ contact details beyond the public repository profile.
 
 ## Release Metadata
 
-The published QF Solver `0.2.8` release is tagged `v0.2.8`. Its version DOI is
+The latest published release is QF Solver `0.2.10`, tagged `v0.2.10` and
+bound to package source `e535ff63464ddd7d76c2898df25470350b5154f1`. Its version
+DOI is [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744).
+The published `0.2.8` version DOI is
 [`10.5281/zenodo.22697898`](https://doi.org/10.5281/zenodo.22697898), while
 [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897) is the
 concept DOI for the evolving project. These identifiers do not change any
-capability maturity or V&V result.
+capability maturity or V&V result. A prepublication candidate must not claim
+a version DOI or release date that has not actually been issued.
 
 ## Content Classification
 

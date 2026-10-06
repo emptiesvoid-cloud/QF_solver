@@ -51,6 +51,7 @@ nav:
   - Verification & Validation:
       - V&V and Maturity: verification/evidence-and-maturity.md
       - 0.2.10 Verification Summary: verification/0_2_10/README.md
+      - 0.2.11 Candidate Verification: verification/0_2_11/README.md
       - Published 0.2.8 Verification: verification/0_2_8/README.md
       - Benchmarks: benchmarks/index.md
       - Historical Evidence:
@@ -66,6 +67,7 @@ nav:
       - QF Solver vs scikit-fem: comparisons/qf-vs-scikit-fem.md
       - QF Solver vs SfePy: comparisons/qf-vs-sfepy.md
   - Project:
+      - What's New 0.2.11 (candidate): whats-new/0.2.11.md
       - What's New 0.2.10: whats-new/0.2.10.md
       - What's New 0.2.8: whats-new/0.2.8.md
       - Roadmap: reference/feuille_de_route.md
