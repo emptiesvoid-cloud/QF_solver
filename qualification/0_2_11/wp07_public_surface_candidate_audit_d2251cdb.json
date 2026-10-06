@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0211-WP07-PUBLIC-SURFACE-CANDIDATE-AUDIT-D2251CDB-2026-10-07",
+  "status": "READY_FOR_OWNER_RELEASE_AUTHORIZATION",
+  "candidate": {
+    "package_version": "0.2.11",
+    "package_source_sha": "d2251cdb331e1beac5e9ba122019111c7e550e02",
+    "package_source_tree_sha": "2357162743edd8dbcb6a95963d32f9073a25b791",
+    "branch": "codex/v0.2.11-public-readme-citation",
+    "governance_parent_sha": "b07816d6f9f3f9421776304874ad0a43aa5fda79",
+    "baseline_main_sha": "fcf1dd12e176ff206d811910b4b1459043e93fa6",
+    "previous_public_surface_sha": "67e56da1984565e3b92f88d25e284f046bfd8a57",
+    "previous_public_surface_tree_sha": "b30d11f13da6656c8023760acb493fc92a12c5b3",
+    "v0_2_10_tag_target_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+    "expected_tag": "v0.2.11",
+    "expected_tag_target_sha": "d2251cdb331e1beac5e9ba122019111c7e550e02",
+    "tag_created": false
+  },
+  "source_change_review": {
+    "changed_paths_since_previous_public_surface_candidate": [
+      "tests/unit/test_f3_public_claims.py"
+    ],
+    "change_reason": "Corrected one obsolete test assertion so the test checks detailed capability maturity in the capability index instead of requiring the cumulative README to duplicate the full matrix; updated README claim expectations to its solver-oriented content.",
+    "production_or_numerical_source_changed": false,
+    "formulations_or_thresholds_changed": false,
+    "maturity_or_historical_records_changed": false,
+    "v0_2_10_tag_or_artifacts_changed": false,
+    "earlier_governance_contracts_in_candidate_tree": [
+      "qualification/0_2_11/wp07_candidate_build_contract_67e56da.json",
+      "qualification/0_2_11/wp07_candidate_build_contract_67e56da_r2.json"
+    ],
+    "earlier_governance_contracts_selected_for_distribution": false
+  },
+  "ci": {
+    "quality_run_id": 37525861754,
+    "quality_run_url": "https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/37525861754",
+    "quality_head_sha": "d2251cdb331e1beac5e9ba122019111c7e550e02",
+    "quality_conclusion": "SUCCESS",
+    "quality_jobs": {
+      "ubuntu_python_3_10": "PASS",
+      "ubuntu_python_3_13": "PASS",
+      "windows_python_3_10": "PASS",
+      "windows_python_3_13": "PASS",
+      "wp14_recovered_evidence_targeted": "PASS",
+      "documentation_evidence": "PASS",
+      "full_engineering_campaign": "PASS"
+    },
+    "documentation_run_id": 37525862337,
+    "documentation_run_url": "https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/37525862337",
+    "documentation_head_sha": "d2251cdb331e1beac5e9ba122019111c7e550e02",
+    "documentation_conclusion": "SUCCESS",
+    "superseded_quality_run": {
+      "run_id": 37518910380,
+      "head_sha": "67e56da1984565e3b92f88d25e284f046bfd8a57",
+      "conclusion": "FAIL",
+      "classification": "STALE_TEST_EXPECTATION",
+      "failed_test": "tests/unit/test_f3_public_claims.py::test_active_boundaries_match_registry_and_release_truth",
+      "resolution_commit": "d2251cdb331e1beac5e9ba122019111c7e550e02"
+    }
+  },
+  "selected_scope_audit": {
+    "build_contract_path": "qualification/0_2_11/wp07_candidate_build_contract_d2251cdb.json",
+    "build_contract_sha256": "152f74eabdb9e5b28f5955a7bc4af7a4857399eacbe95564c087a276b29337e4",
+    "status": "PASS_BOUNDED_PUBLIC_SURFACES",
+    "source_materialization": "Selected regular Git blobs from package_source_sha; no working-tree source bytes.",
+    "selected_package_file_count": 562,
+    "selected_package_findings": 0,
+    "served_document_file_count": 753,
+    "served_document_findings": 0,
+    "historical_document_files_excluded": 208,
+    "whole_repository_scope_scanned": false
+  },
+  "build_and_artifacts": {
+    "build_policy": "Two fresh independent output directories from Git materialized source, pinned environment and SOURCE_DATE_EPOCH=1791305555; normalized sdist comparison uses the frozen normalizer bound in the candidate build contract.",
+    "build_environment": {
+      "python": "3.13.1",
+      "build": "1.5.0",
+      "setuptools": "82.0.1",
+      "wheel": "0.47.0",
+      "twine": "7.0.0",
+      "source_date_epoch": 1791305555
+    },
+    "wheel": {
+      "filename": "qf_solver-0.2.11-py3-none-any.whl",
+      "sha256": "f956a9d4b40ade45959b921ff8c964d4c21c84cc24d4a2f0257e7714862654e0",
+      "size_bytes": 1551331,
+      "independent_builds_byte_identical": true
+    },
+    "sdist": {
+      "filename": "qf_solver-0.2.11.tar.gz",
+      "sha256": "cfc841bd70165ce844fec258118cedb3c3fa42aed56c33462b850cbcbfb09057",
+      "size_bytes": 1151431,
+      "file_count": 570,
+      "raw_build_a_sha256": "8cd4ee59b6e784d320169f531725b3c7fea01bc65419f1a90da0861cfc61c585",
+      "raw_build_b_sha256": "c2203034cee8757a293d30dcf7b6ae57ec6f133ed89e0e98ba4d54d91550bf1a",
+      "normalized_builds_byte_identical": true,
+      "normalization_policy": "Compare normalized archive bytes; raw gzip metadata differed as explicitly anticipated by the frozen contract."
+    },
+    "manifest": {
+      "filename": "qf_solver-0.2.11-d2251cdb-SHA256SUMS.txt",
+      "sha256": "b37336a2f47d67ded799a4a54f47105dd5cc5c0636ff6510e0acdc399691f635",
+      "size_bytes": 192,
+      "entries_match_artifacts": true
+    },
+    "twine_check": "PASS",
+    "archive_content_and_path_audit": "PASS",
+    "installed_package_probes": {
+      "isolated_no_index_no_deps_install": "PASS",
+      "imports_outside_checkout_and_safe_path": "PASS",
+      "console_scripts_and_version_help": "PASS",
+      "static_smoke": "PASS",
+      "modal_smoke": "PASS",
+      "rotating_modal_smoke": "PASS_EXPERIMENTAL",
+      "campbell_smoke": "PASS_EXPERIMENTAL",
+      "developer_only_verify_all_from_installed_wheel": "EXPECTED_FAIL_CLOSED_NOT_A_DISTRIBUTION_PROBE"
+    }
+  },
+  "local_validation": {
+    "focused_corrected_claim_test": "PASS",
+    "relevant_documentation_release_api_package_tests": "132 passed, 6 skipped",
+    "ruff_modified_python_tests": "PASS",
+    "mkdocs_strict": "PASS",
+    "all_final_candidate_ci_is_authoritative_for_sha": true
+  },
+  "release_gates": {
+    "QF0211_G01": "PASS_CARRIED_FORWARD_FROM_APPROVED_WP02",
+    "QF0211_G02": "PASS_CARRIED_FORWARD_FROM_WP01_BASELINE_AND_WP02",
+    "QF0211_G03": "PASS_CARRIED_FORWARD_FROM_WP04",
+    "QF0211_G04": "PASS_CARRIED_FORWARD_FROM_WP05",
+    "QF0211_G05": "PASS_CARRIED_FORWARD_FROM_WP05",
+    "QF0211_G06": "PASS_CARRIED_FORWARD_FROM_WP06",
+    "QF0211_G07": "PASS",
+    "QF0211_G08": "PASS"
+  },
+  "public_claims_and_preserved_limits": {
+    "readme_orientation": "Cumulative solver overview; not primarily a 0.2.11 release-delta page.",
+    "citation_version": "0.2.11 candidate",
+    "citation_release_date": "NOT_SET",
+    "version_doi": "NOT_ASSIGNED_NOT_CLAIMED",
+    "concept_doi": "10.5281/zenodo.22697897",
+    "rotating_modal_maturity": "EXPERIMENTAL",
+    "campbell_maturity": "EXPERIMENTAL",
+    "campbell_100_rad_s_high_frequency_pair": "AMBIGUITY_PRESERVED",
+    "gyro_06_evidence": "INTERNAL_MESH_CONVERGENCE_ONLY_NOT_INDEPENDENT_PHYSICAL_VALIDATION",
+    "historical_G03": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "historical_WP14": "HOLD_NOT_PROMOTED",
+    "historical_failures_reclassified": false,
+    "maturity_promotions": "NONE"
+  },
+  "authorization_and_publication": {
+    "ready_for_owner_release_authorization": true,
+    "owner_release_authorization": "PENDING",
+    "publication_allowed": false,
+    "tag_creation_allowed": false,
+    "github_release_allowed": false,
+    "pypi_upload_allowed": false,
+    "zenodo_deposit_allowed": false,
+    "ledger_update_allowed": false,
+    "version_doi_or_release_date_may_be_claimed": false,
+    "limitations": [
+      "This is a candidate audit and does not authorize a tag, merge, GitHub Release, PyPI upload, Zenodo deposit, DOI activation or ledger update.",
+      "The full repository archive remains outside the selected distribution audit; historical G03 remains FAIL_PRESERVED.",
+      "Historical WP14 remains HOLD_NOT_PROMOTED; the targeted CI job passing does not change this status.",
+      "The 0.2.11 version DOI and release date remain unset until an authorized publication sequence confirms them."
+    ]
+  }
+}
