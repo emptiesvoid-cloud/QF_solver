@@ -12,8 +12,11 @@ from scripts.check_publication_metadata import check_publication_metadata
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def test_v0210_final_metadata_is_publishable() -> None:
-    assert check_publication_metadata(ROOT, "v0.2.10") == []
+def test_unreleased_candidate_is_not_mistaken_for_a_published_tag() -> None:
+    failures = check_publication_metadata(ROOT, "v0.2.11")
+    assert "CITATION.cff does not identify this version" in failures
+    assert "CHANGELOG.md has no released entry for this version" in failures
+    assert "README.md release line does not identify this version" in failures
 
 
 def test_metadata_gate_rejects_nonstable_or_mismatched_tag() -> None:
@@ -21,7 +24,7 @@ def test_metadata_gate_rejects_nonstable_or_mismatched_tag() -> None:
         "release tag must be a stable vMAJOR.MINOR.PATCH tag"
     ]
     assert "pyproject.toml version differs from release tag" in check_publication_metadata(ROOT, "v0.2.9")
-    assert "pyproject.toml version differs from release tag" in check_publication_metadata(ROOT, "v0.2.11")
+    assert "pyproject.toml version differs from release tag" in check_publication_metadata(ROOT, "v0.2.10")
 
 
 def test_metadata_gate_accepts_consistent_release_copy(tmp_path: Path) -> None:

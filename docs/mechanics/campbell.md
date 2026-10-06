@@ -10,6 +10,9 @@ approver: ""
 
 # Experimental Campbell diagrams
 
+This is an unreleased 0.2.11 candidate capability. The latest published
+release remains 0.2.10, and Campbell maturity remains `EXPERIMENTAL`.
+
 The `campbell` route orchestrates a set of single-speed `rotating_modal`
 analyses and associates their complex modes. It is experimental and limited to
 the same straight, collinear BEAM2 shaft and centered rigid axisymmetric disk
@@ -46,6 +49,9 @@ The following reproducible internal BEAM2/disk example shows the sampled
 branches and the optional 1× line. A missing point at 100 rad/s is an explicit
 tracking ambiguity for the high-frequency pair, not an interpolated or forced
 connection. The figure is a projection; the structured record is authoritative.
+
+**At 100 rad/s, the high-frequency pair remains ambiguous. The tracker
+preserves the ambiguity rather than forcing branch continuity.**
 
 ![Experimental Campbell diagram for the frozen WP06 BEAM2 shaft and centered-disk case. The high-frequency branch gap at 100 rad/s is retained because the tracker does not claim an unambiguous association.](../assets/gyro06-campbell.png)
 

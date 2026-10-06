@@ -10,6 +10,10 @@ approver: ""
 
 # Experimental rotating modal analysis
 
+This route belongs to the unreleased 0.2.11 candidate; the latest published
+package remains 0.2.10. Its experimental maturity and bounded scope do not
+change the published release contract.
+
 This page documents the bounded `rotating_modal` capability introduced for
 QF Solver 0.2.11. It describes the numerical route; it does not assign a
 qualification level. The route remains **EXPERIMENTAL**.

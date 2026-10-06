@@ -10,6 +10,7 @@ approver: ""
 # QF Solver 0.2.10
 
 **Current release:** [`0.2.10`](https://github.com/emptiesvoid-cloud/QF_solver/releases/tag/v0.2.10)<br>
+**Next candidate:** `0.2.11` — not yet published<br>
 **Selected PyPI distribution:** `qf-solver==0.2.10`<br>
 **Version DOI:** [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744)<br>
 **Project concept DOI:** [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897)
@@ -24,6 +25,9 @@ mesh and solver route in their controlling record. The selected wheel and
 sdist were audited; the full-repository G03 archive gate remains failed.
 GitHub-generated source archives are not cleared distribution artifacts.
 See the [0.2.10 V&V summary](verification/0_2_10/README.md).
+The 0.2.11 candidate adds an experimental, bounded gyroscopic modal route and
+Campbell tracking; it is not yet the current release. See its
+[candidate V&V summary](verification/0_2_11/README.md).
 
 ## Start here
 
@@ -45,9 +49,11 @@ multi-family comparisons and a same-mesh Code_Aster correlation campaign.
 Those are different evidence classes and do not imply general nonlinear
 qualification, physical validation or unrestricted PETSc/MPI support.
 
-Read [What's New in 0.2.10](whats-new/0.2.10.md) for the concise comparison
-with published 0.2.8, and the [nonlinear mechanics overview](mechanics/nonlinear-overview.md)
-for implementation, scope and boundaries.
+Read [What's New in 0.2.10](whats-new/0.2.10.md) for the published release
+and [What's New in 0.2.11](whats-new/0.2.11.md) for the unreleased candidate.
+The 0.2.10 page gives the concise comparison with published 0.2.8. The
+[nonlinear mechanics overview](mechanics/nonlinear-overview.md) explains its
+implementation, scope and boundaries.
 
 ## Verification and maturity
 

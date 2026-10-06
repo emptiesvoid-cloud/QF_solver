@@ -17,6 +17,12 @@ reproducible studies. An implemented feature or a converged example is not
 automatically qualified or physically validated. The project is not certified
 and is not a general-purpose replacement for industrial FEA software.
 
+**Published release:** 0.2.10. **0.2.11 candidate:** not yet published; it
+adds experimental serial gyroscopic modal and Campbell analysis for a narrowly
+bounded BEAM2/disk model. See [What's New in 0.2.11](docs/whats-new/0.2.11.md)
+for its evidence and limitations. The candidate does not change the current
+installation or citation instructions below.
+
 On this page: [Purpose](#why-qf-solver) · [First calculation](#quick-start) ·
 [Capabilities](#capabilities) · [Nonlinear mechanics](#nonlinear-mechanics) ·
 [Evidence](#verification-and-maturity) · [Limits](#limitations) ·
@@ -95,6 +101,7 @@ and the applicable record before choosing a mesh, material or backend.
 | Dynamics and stability | Modal, linear Newmark transient, harmonic response and linear buckling routes | Mass, damping, timestep, family and mixed-route maturity vary; linear buckling does not establish postbuckling. |
 | Materials | Linear elastic and selected small-strain J2 plasticity routes | Small-strain J2 has bounded element-analysis decisions; other constitutive paths require their own evidence. |
 | Nonlinear mechanics | Selected geometric, coupled material/geometric, corotational J2, contact and continuation routes | Evidence differs by route; see [below](#nonlinear-mechanics). |
+| Rotating dynamics (0.2.11 candidate) | Experimental `rotating_modal` and Campbell sweep | Linear straight BEAM2 shaft with centered rigid axisymmetric disks; serial dense QEP; the high-frequency pair remains ambiguous at 100 rad/s. Not general rotordynamics or critical-speed prediction. |
 | Inputs and results | JSON model workflow, bounded Abaqus/CalculiX `.inp` import, optional mixed HDF5 results | `.inp` and HDF5 paths are provisional/bounded, not general format or parallel-storage guarantees. |
 | Larger models | Structured-TET4 workloads and selected PETSc/MPI linear-static cases | Recorded hardware and rank configurations only; mixed distributed runtime remains `NOT_VALIDATED`. |
 
@@ -192,6 +199,7 @@ and the controlling capability record for the chosen route.
 | Item | Status |
 | --- | --- |
 | Release line | `0.2.10` |
+| 0.2.11 candidate | Experimental rotating modal and Campbell routes; not yet published |
 | Source tag | [`v0.2.10`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.10) |
 | PyPI distribution | [`qf-solver==0.2.10`](https://pypi.org/project/qf-solver/0.2.10/) |
 | GitHub Release | [QF Solver 0.2.10](https://github.com/emptiesvoid-cloud/QF_solver/releases/tag/v0.2.10) |
@@ -207,8 +215,10 @@ or the [changelog](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CHAN
 For reproducibility, cite the exact version DOI; use the concept DOI when
 referring to the evolving project. The machine-readable record is
 [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).
-The audited distribution scope is the selected wheel and sdist. The
-whole-repository G03 archive gate remains **FAIL** and WP14 remains on
+It records the latest published 0.2.10 release; no 0.2.11 version DOI is
+claimed while that candidate remains unpublished. The audited distribution
+scope is the selected wheel and sdist. The whole-repository G03 archive gate
+remains **FAIL** and WP14 remains on
 **HOLD**. Automatic GitHub source archives—and the full-repository ZIP while
 it remains attached to the Zenodo record—are **not** cleared distribution
 artifacts. A DOI resolving does not change that boundary.

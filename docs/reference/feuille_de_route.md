@@ -2,7 +2,7 @@
 doc_id: DOC-REF-004
 revision: 2.0
 status: controlled_candidate
-applicable_version: 0.2.10
+applicable_version: 0.2.11
 reviewer: ""
 approver: ""
 ---
@@ -17,7 +17,14 @@ production.
 
 ## Current direction
 
-Follow-up work after 0.2.10 will extend evidence and reproducibility without
+The 0.2.11 candidate is in release preparation. WP01–WP06 add prospective V&V
+consolidation and experimental gyroscopic modal/Campbell routes within a
+bounded BEAM2-and-disk scope; neither route is published or promoted beyond
+`EXPERIMENTAL`. The [candidate verification summary](../verification/0_2_11/README.md)
+records its evidence and limitations. The latest published release remains
+0.2.10.
+
+Follow-up work will extend evidence and reproducibility without
 generalizing the existing bounded nonlinear routes or changing the linear
 element-analysis boundaries. The current release already includes common
 Newton and residual/tangent infrastructure, transactional state management,

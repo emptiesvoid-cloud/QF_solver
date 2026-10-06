@@ -2,7 +2,7 @@
 doc_id: DOC-ANALYSIS-000
 revision: 2.0
 status: controlled_candidate
-applicable_version: 0.2.10
+applicable_version: 0.2.11
 reviewer: ""
 approver: ""
 ---
@@ -10,8 +10,8 @@ approver: ""
 # Analyses
 
 This page maps published QF Solver 0.2.10 routes and separately identifies
-the experimental 0.2.11 development candidates. Candidate rows are not part
-of the immutable 0.2.10 tag or distribution. The
+the experimental 0.2.11 release candidates. Candidate rows are not part of
+the immutable 0.2.10 tag or distribution. The
 [consolidated 0.2.8 registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json)
 remains authoritative for its 46 element-analysis decisions. Development-cycle
 evidence is linked separately and does not rewrite that registry.

@@ -2,14 +2,15 @@
 doc_id: DOC-STATE-003
 revision: 2.0
 status: controlled_candidate
-applicable_version: 0.2.10
+applicable_version: 0.2.11
 reviewer: ""
 approver: ""
 ---
 
 # Known limitations
 
-QF Solver 0.2.10 is the current published release. Every result is bounded by its element family,
+QF Solver 0.2.10 remains the current published release; 0.2.11 is an
+unreleased candidate. Every result is bounded by its element family,
 formulation, mesh, loads, boundary conditions, constitutive model, solver, and
 evidence decision. The limitations below are technical boundaries, not a
 complete list of input checks.
@@ -37,6 +38,25 @@ complete list of input checks.
 - Checkpoint/restart and deterministic state digests apply only to the routes
   named in their records. Do not infer frictional-contact, distributed, or
   nonlinear-dynamics restart support from shared transaction code.
+
+## Rotating modal and Campbell candidate
+
+- The 0.2.11 candidate is experimental and restricted to serial dense gyroscopic
+  modal analysis of straight, collinear, circular-isotropic BEAM2 shafts with
+  centered rigid axisymmetric disks, constant signed spin, a fixed global
+  axis, and an undamped, unprestressed small-perturbation model.
+- Campbell diagrams only orchestrate single-speed modal solves and track their
+  complex modes. They do not calculate forced response, unbalance amplitude,
+  operational risk, instability, or validated critical speeds.
+- At 100 rad/s, the high-frequency pair remains ambiguous. The tracker keeps
+  the gap; it must not force continuity or interpolate across the ambiguity.
+- GYRO-06 is internal mesh-convergence evidence, not independent physical
+  validation. Both new analysis maturities remain `EXPERIMENTAL`; candidate
+  numerical PASS does not itself qualify the capability.
+- Distributed shaft gyros, variable speed, speed-dependent stiffness/mass,
+  general damping, bearings, centrifugal stiffening, contact/rubbing,
+  nonlinear rotors, forced unbalance response, PETSc/SLEPc and MPI are outside
+  this candidate scope.
 
 ## Contact
 

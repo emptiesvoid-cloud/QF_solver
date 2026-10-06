@@ -1,5 +1,72 @@
 # Changelog
 
+## 0.2.11 - Release candidate; not published
+
+QF Solver 0.2.11 is being prepared as a cumulative update to the published
+0.2.10 solver. The package version in this candidate is 0.2.11, while the
+latest public PyPI/GitHub/Zenodo release and `CITATION.cff` remain 0.2.10
+until a separate release authorization and publication. This entry describes
+the candidate scope; it does not announce a release or assign a version DOI.
+
+### Added
+
+- Experimental single-speed gyroscopic modal analysis for a linear straight
+  BEAM2 shaft carrying centered rigid axisymmetric disks, using a serial dense
+  complex QEP.
+- Experimental Campbell speed sweeps with complex MAC tracking, global
+  assignment, degenerate-subspace handling, branch lineage, and explicit
+  ambiguity rather than forced continuity.
+
+### Improved
+
+- Prospective V&V execution identity, safe-resume, expected-failure and
+  provenance contracts were consolidated for new 0.2.11 evidence. Historical
+  records remain unchanged.
+- Public capability and API pages distinguish implementation, numerical
+  results, maturity, and the current published release.
+
+### Nonlinear and rotating mechanics
+
+- No nonlinear formulation, material law, contact route, or existing BEAM2
+  formulation was changed for the rotating-analysis work.
+- Gyroscopic scope is limited to constant signed speed, a fixed global frame,
+  small perturbations, an undamped/unprestressed model, and centered rigid
+  axisymmetric disks. Distributed shaft gyros, speed-dependent properties,
+  forcing, contact, nonlinear rotors and parallel QEP backends are excluded.
+
+### Verification
+
+- GYRO-01 through GYRO-06 provide zero-speed recovery, disk-gyro identities,
+  an independent analytical oscillator, signed-speed splitting, tracking
+  invariance/ambiguity checks, and internal BEAM2 mesh-convergence evidence.
+- The high-frequency pair remains ambiguous at 100 rad/s; the tracker preserves
+  the gap. GYRO-06 is internal convergence evidence, not independent physical
+  validation. Both rotating modal and Campbell maturity remain `EXPERIMENTAL`.
+
+### API and packaging
+
+- The candidate adds `rotating_modal` and `campbell` routes with provisional
+  result contracts. They are not represented as stable API guarantees before
+  the 0.2.11 publication decision.
+- Package metadata identifies 0.2.11; `CITATION.cff` continues to identify the
+  actually published 0.2.10 release. The package DOI URL uses the published
+  project concept DOI until a version DOI exists.
+
+### Documentation
+
+- Added candidate What's New and V&V summaries and made the rotating-modal and
+  Campbell scope, ambiguity, provenance, and maturity visible in the public
+  documentation.
+
+### Known limitations
+
+- The 100 rad/s high-frequency branch pair is unresolved and must not be
+  connected by interpolation or manual tracking.
+- Campbell sweeps do not predict forced-response amplitude, unbalance response,
+  operational danger, instability, or validated critical speeds.
+- G03 remains `FAIL_PRESERVED`, the whole-repository archive is not cleared,
+  and historical WP14 remains `HOLD_NOT_PROMOTED`.
+
 ## 0.2.10 - Released
 
 QF Solver 0.2.10 is the first public release after 0.2.8. The `v0.2.9` tag

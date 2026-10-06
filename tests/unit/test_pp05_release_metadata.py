@@ -54,12 +54,13 @@ def test_security_policy_identifies_current_and_older_release_channels() -> None
     assert "best-effort basis" in security
 
 
-def test_current_source_and_published_citation_match() -> None:
+def test_release_candidate_and_latest_published_citation_are_distinct() -> None:
     project = tomllib.loads(_text("pyproject.toml"))["project"]
     runtime = _text("src/solveur/version.py")
     citation = _text("CITATION.cff")
-    assert project["version"] == "0.2.10"
-    assert '__version__ = "0.2.10"' in runtime
+    assert project["version"] == "0.2.11"
+    assert '__version__ = "0.2.11"' in runtime
+    # Citation metadata remains attached to the latest actually published release.
     assert 'version: "0.2.10"' in citation
     assert 'doi: "10.5281/zenodo.23106744"' in citation
     assert "NOT_PUBLISHED_YET" not in citation
@@ -79,6 +80,7 @@ def test_current_source_and_published_citation_match() -> None:
 
     assert "0.2.8" in _text("README.md")
     assert "0.2.8" in _text("CHANGELOG.md")
+    assert "0.2.11 candidate" in _text("README.md")
     assert "10.5281/zenodo.23106744" in _text("README.md")
     assert "10.5281/zenodo.22697897" in _text("README.md")
     assert (
