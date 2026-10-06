@@ -20,6 +20,18 @@
     "changed_paths_since_previous_public_surface_candidate": [
       "tests/unit/test_f3_public_claims.py"
     ],
+    "governance_only_changes_since_package_source_sha": [
+      {
+        "path": "qualification/0_2_11/wp07_candidate_build_contract_d2251cdb.json",
+        "introduced_by": "b07816d6f9f3f9421776304874ad0a43aa5fda79",
+        "included_in_selected_package": false
+      },
+      {
+        "path": "qualification/0_2_11/wp07_public_surface_candidate_audit_d2251cdb.json",
+        "introduced_by": "this governance audit commit",
+        "included_in_selected_package": false
+      }
+    ],
     "change_reason": "Corrected one obsolete test assertion so the test checks detailed capability maturity in the capability index instead of requiring the cumulative README to duplicate the full matrix; updated README claim expectations to its solver-oriented content.",
     "production_or_numerical_source_changed": false,
     "formulations_or_thresholds_changed": false,
