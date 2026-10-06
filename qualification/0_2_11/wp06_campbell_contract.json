@@ -1,0 +1,280 @@
+{
+  "schema_version": 2,
+  "record_id": "QF-0211-WP06-CAMPBELL-CONTRACT",
+  "work_package": "WP06",
+  "status": "PROSPECTIVE_CONTRACT_FROZEN_BEFORE_BENCHMARKS",
+  "implementation_base_sha": "d728ad54f463e7264020e8feb1577955b3c78232",
+  "branch": "codex/v0.2.11-wp06-campbell",
+  "authorities": {
+    "wp02_architecture": "qualification/0_2_11/wp02_architecture_contract.json",
+    "wp05_gyroscopic_contract": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+    "wp05_source_sha": "d728ad54f463e7264020e8feb1577955b3c78232",
+    "immutable_release": {
+      "tag": "v0.2.10",
+      "source_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+      "immutable": true
+    },
+    "g03": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "wp14": "HOLD_NOT_PROMOTED"
+  },
+  "scope": {
+    "capability": "experimental Campbell speed sweep and complex modal tracking for the bounded WP05 rotating_modal model",
+    "maturity": "EXPERIMENTAL",
+    "model": "linear straight collinear BEAM2 shaft with centered rigid axisymmetric disks",
+    "execution": "serial dense SciPy QEP at each explicitly provided spin speed",
+    "invariant_over_sweep": [
+      "model and input identity",
+      "disk definitions and axes",
+      "K, M, G and DOF reduction",
+      "QEP solver contract",
+      "axis and frame convention"
+    ],
+    "variable_over_sweep": ["signed spin_speed_rad_s only"],
+    "fail_closed_if_speed_dependent": [
+      "stiffness or mass",
+      "gyroscopic matrix or disk properties",
+      "bearing coefficients",
+      "prestress or centrifugal stiffening",
+      "damping",
+      "any model input"
+    ],
+    "rejected_scope": [
+      "distributed shaft gyroscopic terms",
+      "general or speed-dependent damping",
+      "speed-dependent bearings",
+      "centrifugal stress stiffening",
+      "unbalance forcing or forced response",
+      "contact or rubbing",
+      "nonlinear rotor",
+      "PETSc, SLEPc, sparse QEP, or MPI"
+    ]
+  },
+  "responsibility_boundaries": {
+    "rotating_modal": "solve one validated model state at one signed speed; no branch identifiers",
+    "modal_tracking": "phase-invariant association, degeneracy/subspace handling, branch lineage and explicit ambiguity; no physics solve",
+    "campbell": "validate explicit sweep, invoke rotating_modal at each speed, orchestrate tracking and retain source result identities; no new physical formulation",
+    "post_campbell": "render/export an existing CampbellResult only; must not assign/reassign branches or fill gaps"
+  },
+  "input_contract": {
+    "required": [
+      "model",
+      "rotation axis and frame convention",
+      "ordered spin_speeds_rad_s",
+      "requested mode count",
+      "WP05 QEP settings",
+      "tracking policy identifier"
+    ],
+    "spin_speeds_rad_s": {
+      "minimum_count": 2,
+      "maximum_count": 101,
+      "must_be_finite": true,
+      "strictly_increasing": true,
+      "units_resolved_before_call": true,
+      "implicit_grid_generation": false,
+      "rpm_conversion": "only through an explicit named RPM conversion helper"
+    },
+    "rpm_conversion_constant": "2*pi/60 rad/s per RPM",
+    "refinement": {
+      "enabled": false,
+      "maximum_depth": 0,
+      "minimum_speed_interval_rad_s": null,
+      "maximum_additional_solves": 0,
+      "unresolved_ambiguity": "preserve as AMBIGUOUS or UNTRACKED; never loop or force a connection"
+    }
+  },
+  "tracking_policy": {
+    "policy_id": "QF0211-COMPLEX-MAC-GLOBAL-v1",
+    "complex_mac": {
+      "formula": "abs(phi_i.conj().T @ M @ phi_j)**2 / ((phi_i.conj().T @ M @ phi_i).real * (phi_j.conj().T @ M @ phi_j).real)",
+      "mass": "the common reduced physical mass matrix for the unchanged model over the sweep",
+      "phase_and_scaling_invariant": true,
+      "real_projection": false,
+      "invalid_or_nonpositive_mass_norm": "fail closed"
+    },
+    "normalized_frequency_distance": "abs(f_i-f_j)/max(abs(f_i),abs(f_j),1.0 Hz)",
+    "polarization": {
+      "chi": "-2*imag(conj(u2)*u3)/(abs(u2)**2+abs(u3)**2)",
+      "transverse_basis": "right-handed basis obtained by projecting the least-aligned global Cartesian basis vector into the plane normal to the validated rotation axis",
+      "stations": "all BEAM2 shaft nodes with transverse amplitude >= 1e-8 times the maximum transverse amplitude in that mode",
+      "weakly_polarized_abs_chi_max": 0.1,
+      "station_sign_conflict": "INCONSISTENT; do not vote or average into a direction",
+      "undefined_when": [
+        "spin speed is zero",
+        "transverse amplitude is insufficient",
+        "polarization is weakly polarized",
+        "strong station signs conflict"
+      ],
+      "relative_classification": "FORWARD when sign(Omega)*chi > 0; BACKWARD when sign(Omega)*chi < 0; never classify at Omega=0"
+    },
+    "cost": {
+      "formula": "0.65*(1-MAC) + 0.25*min(normalized_frequency_distance,1) + 0.10*abs(chi_i-chi_j)/2",
+      "weights": {"complex_mac": 0.65, "frequency": 0.25, "polarization": 0.10},
+      "undefined_polarization": "omit polarization term and renormalize remaining weights to sum to one",
+      "mac_minimum_admissible": 0.8,
+      "normalized_frequency_distance_maximum_admissible": 0.25,
+      "nonmatch_dummy_cost": 0.4,
+      "invalid_edge_cost": 1000000.0
+    },
+    "assignment": {
+      "algorithm": "global one-to-one linear sum assignment (Hungarian algorithm) over an augmented matrix with explicit unmatched dummy nodes",
+      "library": "scipy.optimize.linear_sum_assignment",
+      "greedy": false,
+      "stable_input_order": "canonicalize mode descriptors by frequency, growth rate, polarization state and phase-invariant subspace signature; exact ties are represented as a cluster, not broken using LAPACK order",
+      "ambiguity_margin": "second-best admissible candidate cost minus assigned admissible cost",
+      "minimum_clear_margin": 0.05,
+      "below_margin": "AMBIGUOUS; record all admissible candidates and do not commit an individual branch edge"
+    },
+    "degeneracy": {
+      "relative_frequency_cluster_gap_max": 1e-8,
+      "mass_orthonormalization": "Hermitian M-inner-product Gram whitening; reject rank-deficient or non-positive cluster Gram matrix",
+      "subspace_metric": "singular values of Q_left.conj().T @ M @ Q_right (principal-angle cosines)",
+      "same_subspace_minimum_singular_value": 0.99999999,
+      "cluster_split": "record parent cluster ID and explicit child branch lineage; use polarization only when defined, otherwise retain child assignment ambiguity",
+      "individual_identity_in_degenerate_subspace": "not asserted"
+    },
+    "ambiguity_statuses": [
+      "CLEAR_MATCH",
+      "DEGENERATE_CLUSTER",
+      "MULTIPLE_CANDIDATES",
+      "LOW_MAC",
+      "FREQUENCY_JUMP",
+      "POLARIZATION_CONFLICT",
+      "UNTRACKED"
+    ],
+    "no_forced_continuity": true
+  },
+  "result_contract": {
+    "type": "CampbellResult, separate from ModalResult and RotatingModalResult",
+    "required_fields": [
+      "spin_speeds_rad_s",
+      "branches with explicit missing/ambiguous samples",
+      "frequencies_hz",
+      "complex eigenvalues",
+      "source mode identifiers and source result keys/hashes",
+      "tracking scores, complex MAC and normalized frequency distances",
+      "polarization chi/classification and defined state",
+      "ambiguity status and candidate edges",
+      "branch lineage",
+      "QEP diagnostics",
+      "execution identity and hashed provenance",
+      "maturity",
+      "numerical_status"
+    ],
+    "maturity": "EXPERIMENTAL",
+    "complex_values": "explicit real/imag serialization; round-trip must preserve complex values",
+    "stable_identity": "branch IDs are created by tracking policy before plotting; plotting cannot alter IDs"
+  },
+  "plot_contract": {
+    "axes": {"x": "spin speed in rad/s", "y": "frequency in Hz"},
+    "ambiguities_and_gaps": "show as gaps/markers; no interpolation across missing, ambiguous or untracked samples",
+    "authority": "CampbellResult is authoritative; plotted coordinates are a projection only",
+    "one_x_line": {
+      "enabled_by_explicit_option": true,
+      "formula_hz": "abs(Omega)/(2*pi)",
+      "intersection_interpretation": "frequency coincidence / candidate critical-speed location within the linear modal model only",
+      "does_not_establish": ["forced-response amplitude", "unbalance response", "operational danger", "instability"]
+    }
+  },
+  "verification_cases": {
+    "GYRO-05": {
+      "record_schema": "qf.wp03.execution.v2",
+      "purpose": "independent analytical Campbell and invariant/ambiguity tests; not physical validation",
+      "oracle": {
+        "independent": true,
+        "must_not_call_production_gyro_assembly": true,
+        "parameters": {
+          "mass_kg": 1.0,
+          "diametral_inertia_kg_m2": 0.01,
+          "polar_inertia_kg_m2": 0.02,
+          "rotational_stiffness_Nm_per_rad": 100.0
+        },
+        "formula": "omega0=sqrt(k_theta/Jd); s=Omega*Jp/Jd; omega_plus=sqrt(omega0**2+(s/2)**2)+abs(s)/2; omega_minus=sqrt(omega0**2+(s/2)**2)-abs(s)/2",
+        "speeds_rad_s_strictly_increasing": [-100.0, -50.0, -25.0, -5.0, 0.0, 5.0, 25.0, 50.0, 100.0],
+        "frequency_error_relative_max": 1e-10
+      },
+      "required_assertions": [
+        "zero-speed two-mode cluster is identified without individual eigenvector identity",
+        "cluster split has explicit parent-child lineage",
+        "analytical and computed branch frequencies agree within the frozen relative error",
+        "complex phase multiplication leaves tracking unchanged",
+        "eigenpair permutation leaves tracking unchanged",
+        "controlled symmetric tie is reported AMBIGUOUS with candidates rather than forced continuity",
+        "all source QEP residuals satisfy the WP05 limit"
+      ],
+      "controlled_ambiguity_fixture": {
+        "mass_matrix": "identity(2)",
+        "previous_modes": [[1.0, 0.0], [0.0, 1.0]],
+        "current_modes": "orthogonal real rotation of previous basis by pi/4, represented as complex vectors",
+        "all_four_frequencies_hz": 10.0,
+        "expected": "DEGENERATE_CLUSTER and individual MULTIPLE_CANDIDATES; AMBIGUITY_DETECTED=true; no individual edge committed"
+      }
+    },
+    "GYRO-06": {
+      "record_schema": "qf.wp03.execution.v2",
+      "purpose": "internal mesh-convergence evidence for a flexible BEAM2 shaft and centered disk; not independent physical validation",
+      "fixture": {
+        "geometry": "straight 1.0 m collinear circular isotropic BEAM2 shaft, fixed at x=0, centered disk at x=1.0 m",
+        "radius_m": 0.05,
+        "young_modulus_pa": 210000000000.0,
+        "poisson_ratio": 0.3,
+        "density_kg_m3": 7800.0,
+        "cross_section_area_m2": "pi*radius_m**2",
+        "second_moment_m4": "cross_section_area_m2**2/(4*pi); Iy=Iz",
+        "torsional_constant_m4": "2*second_moment_m4",
+        "disk_mass_kg": 1.0,
+        "disk_diametral_inertia_kg_m2": 0.01,
+        "disk_polar_inertia_kg_m2": 0.02,
+        "disk_axis": [1.0, 0.0, 0.0],
+        "mesh_element_counts": [4, 8, 16, 32],
+        "spin_speeds_rad_s": [0.0, 100.0, 250.0],
+        "requested_positive_frequency_modes": 4
+      },
+      "metrics": {
+        "final_adjacent_mesh_relative_frequency_delta_max": 0.005,
+        "relative_delta_definition": "abs(f_32-f_16)/max(abs(f_32),abs(f_16),1 Hz) for each retained tracked branch at each speed",
+        "qep_relative_residual_max": 1e-8,
+        "complex_mac_minimum_for_unambiguous_adjacent_mesh_correspondence": 0.8
+      },
+      "interpretation": "internal convergence evidence only; no independent physical validation or general rotor-dynamics qualification"
+    }
+  },
+  "historical_preservation": {
+    "wp05_contract_and_records_modified": false,
+    "wp05_rotating_modal_physics_modified": false,
+    "wp05_qep_or_result_contract_modified": false,
+    "v0_2_10_tag_and_artifacts_modified": false,
+    "g03": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "wp14": "HOLD_NOT_PROMOTED",
+    "numeric_maturity_promotion": "NONE"
+  },
+  "gate_contract": {
+    "id": "QF0211-G06",
+    "name": "CAMPBELL / TRACKING VERIFIED",
+    "requires": [
+      "GYRO-05",
+      "GYRO-06",
+      "PHASE_INVARIANCE",
+      "ORDERING_INVARIANCE",
+      "DEGENERATE_SUBSPACE_TRACKING",
+      "BRANCH_SPLITTING",
+      "AMBIGUITY_DETECTION",
+      "NO_FORCED_CONTINUITY",
+      "CONVERGENCE",
+      "RESULT_SERIALIZATION",
+      "PROVENANCE",
+      "LEGACY_NON_REGRESSION",
+      "WP05_NON_REGRESSION"
+    ],
+    "all_required_pass": true,
+    "a_correctly_detected_ambiguity_can_pass": true,
+    "silently_forced_ambiguous_edge_fails": true,
+    "ci_required_on_exact_final_wp06_sha": [
+      "Quality and verification",
+      "Documentation tests",
+      "applicable engineering campaign",
+      "WP14 targeted evidence checks"
+    ]
+  }
+}
