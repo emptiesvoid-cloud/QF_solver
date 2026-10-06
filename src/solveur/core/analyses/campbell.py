@@ -250,6 +250,15 @@ def _result_hash(result: RotatingModalResult) -> str:
     return content_digest(payload.encode("utf-8"))
 
 
+def _implementation_source_path(relative: str) -> Path:
+    """Resolve a selected solveur source path in either checkout or wheel layout."""
+    prefix = "src/solveur/"
+    if not relative.startswith(prefix) or "\\" in relative or ".." in Path(relative).parts:
+        raise ValueError(f"Unexpected Campbell implementation path: {relative}")
+    package_root = Path(__file__).resolve().parents[2]
+    return package_root / relative[len(prefix) :]
+
+
 def _execution_identity(
     *, model_digest: str, validated: ValidatedCampbellInput, matrix_hash: str
 ) -> tuple[dict[str, Any], dict[str, Any]]:
@@ -275,8 +284,9 @@ def _execution_identity(
         "src/solveur/core/model.py",
         "src/solveur/post/campbell.py",
     )
+
     code_hashes = {
-        relative: hashlib.sha256((repository / relative).read_bytes()).hexdigest()
+        relative: hashlib.sha256(_implementation_source_path(relative).read_bytes()).hexdigest()
         for relative in implementation_files
     }
     environment = {

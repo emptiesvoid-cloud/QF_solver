@@ -48,6 +48,9 @@ the candidate scope; it does not announce a release or assign a version DOI.
 - The candidate adds `rotating_modal` and `campbell` routes with provisional
   result contracts. They are not represented as stable API guarantees before
   the 0.2.11 publication decision.
+- Fixed Campbell execution-provenance hashing to resolve implementation files
+  from the installed wheel layout as well as a source checkout; no solver or
+  tracking calculation changed.
 - Package metadata identifies 0.2.11; `CITATION.cff` continues to identify the
   actually published 0.2.10 release. The package DOI URL uses the published
   project concept DOI until a version DOI exists.
