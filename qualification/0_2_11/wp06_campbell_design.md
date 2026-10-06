@@ -10,6 +10,8 @@ The only changing sweep quantity is signed `Omega` in rad/s. The input model, di
 
 ## Frozen association policy
 
+The campbell route is recorded prospectively as ANA-CAMPBELL-WP06, EXPERIMENTAL, and NOT_FORMALLY_QUALIFIED. The historical capability registry is intentionally unchanged; the current source audit recognizes this versioned route record instead of inferring maturity from its implementation.
+
 The primary score is the Hermitian mass-weighted complex MAC. The modes remain complex; phase or nonzero scaling does not change MAC. The normalized frequency distance is divided by the maximum of the two absolute frequencies and 1 Hz. Polarization is the signed transverse descriptor from WP05 conventions; it contributes only when both classifications are defined.
 
 Admissible edges require complex MAC at least 0.80 and normalized frequency distance at most 0.25. The predeclared edge cost is 0.65 times one minus MAC, 0.25 times capped frequency distance, and 0.10 times polarization distance; when polarization is unavailable, the remaining weights are renormalized. A global Hungarian assignment uses explicit dummy unmatched nodes at cost 0.40. Invalid edges have cost 1,000,000. A best/second-best admissible cost margin below 0.05 is ambiguous: candidate edges are recorded and the individual branch edge is not committed.

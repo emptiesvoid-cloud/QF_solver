@@ -26,6 +26,7 @@ MATURITY_BY_ANALYSIS = {
     "transient_dynamic": "stable_after_reinforced_tests",
     "harmonic_response": "stable_after_reinforced_tests",
     "rotating_modal": "experimental",
+    "campbell": "experimental",
     "nonlinear_static": "experimental",
     "geometric_nonlinear_static": "research",
     "linear_buckling": "research",

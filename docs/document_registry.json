@@ -74,6 +74,18 @@
       ]
     },
     {
+      "id": "DOC-MECH-CAMPBELL-WP06",
+      "path": "mechanics/campbell.md",
+      "title": "Experimental Campbell diagrams",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_campbell.py",
+        "tests/documentation/test_docs_generation.py"
+      ]
+    },
+    {
       "id": "DOC-START-NONLINEAR-001",
       "path": "getting-started/nonlinear-example.md",
       "title": "Nonlinear example",

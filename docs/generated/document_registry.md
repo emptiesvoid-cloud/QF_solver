@@ -5,6 +5,7 @@
 | DOC-WHATS-NEW-0210-001 | What's New in QF Solver 0.2.10 | controlled_candidate |  | 0 | 1 | whats-new/0.2.10.md |
 | DOC-MECH-NONLINEAR-001 | Nonlinear mechanics overview | controlled_candidate |  | 0 | 1 | mechanics/nonlinear-overview.md |
 | DOC-MECH-ROTATING-MODAL-WP05 | Experimental rotating modal analysis | controlled_candidate |  | 0 | 3 | mechanics/rotating-modal.md |
+| DOC-MECH-CAMPBELL-WP06 | Experimental Campbell diagrams | controlled_candidate |  | 0 | 2 | mechanics/campbell.md |
 | DOC-START-NONLINEAR-001 | Nonlinear example | controlled_candidate |  | 1 | 1 | getting-started/nonlinear-example.md |
 | DOC-VV-PUBLIC-0210-001 | QF Solver 0.2.10 verification summary | controlled_release |  | 0 | 1 | verification/0_2_10/README.md |
 | DOC-STATE-002 | Capabilities and maturity | controlled_candidate | REQ-CMP-001, REQ-REL-001 | 0 | 0 | etat/capacites.md |

@@ -156,7 +156,20 @@ candidate-only JSON analysis route consumed through the existing
 capability is declared stable or included in the published 0.2.10 contract.
 Its maturity remains `EXPERIMENTAL`; see the [bounded rotating-modal
 scope](../mechanics/rotating-modal.md). Do not infer Campbell diagrams or
-general rotordynamics support.
+general rotordynamics support from the single-speed route; Campbell orchestration
+is a separate experimental candidate documented below.
+
+### 0.2.11 development candidate: `campbell`
+
+The WP06 development branch adds an experimental JSON `campbell` route,
+consumed through the same `load_model`/`solve_model` workflow. The caller must
+provide finite, strictly increasing `spin_speeds_rad_s`, an explicit global
+axis/frame, a mode count, and the frozen WP05 QEP/WP06 tracking policy IDs.
+It returns a provisional `CampbellResult` with branch lineage and explicit
+ambiguity/gaps. Its plot helper is a projection only and cannot assign tracks.
+This route is not part of the published 0.2.10 contract, is not a general
+rotordynamics capability, and does not predict forced-response amplitudes or
+operational critical speeds. See the [candidate Campbell scope](../mechanics/campbell.md).
 
 ### Provisional symbols
 

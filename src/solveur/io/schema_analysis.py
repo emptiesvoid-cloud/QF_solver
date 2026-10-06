@@ -211,6 +211,45 @@ class JsonSchemaAnalysisMixin:
                     errors.append(
                         "analysis.parameters.rotation.frame_convention must be 'global_fixed_right_hand_rule'."
                     )
+        if analysis_type == "campbell":
+            self._reject_unknown(
+                "analysis.parameters",
+                params,
+                {"rotation", "spin_speeds_rad_s", "modes", "qep_settings", "tracking_policy"},
+                errors,
+            )
+            self._positive_int("analysis.parameters.modes", params.get("modes"), errors)
+            rotation = params.get("rotation")
+            if not isinstance(rotation, Mapping):
+                errors.append("analysis.parameters.rotation must be an object.")
+            else:
+                self._reject_unknown("analysis.parameters.rotation", rotation, {"axis_global", "frame_convention"}, errors)
+                if not _is_numeric_vector(rotation.get("axis_global"), 3):
+                    errors.append("analysis.parameters.rotation.axis_global must contain three finite values.")
+                elif not any(float(value) != 0.0 for value in rotation["axis_global"]):
+                    errors.append("analysis.parameters.rotation.axis_global must be non-zero.")
+                if rotation.get("frame_convention") != "global_fixed_right_hand_rule":
+                    errors.append(
+                        "analysis.parameters.rotation.frame_convention must be 'global_fixed_right_hand_rule'."
+                    )
+            speeds = params.get("spin_speeds_rad_s")
+            if not isinstance(speeds, list) or not 2 <= len(speeds) <= 101:
+                errors.append("analysis.parameters.spin_speeds_rad_s must contain 2 to 101 explicit values.")
+            else:
+                for index, speed in enumerate(speeds):
+                    if not _is_number(speed):
+                        errors.append(f"analysis.parameters.spin_speeds_rad_s[{index}] must be finite rad/s.")
+                if all(_is_number(speed) for speed in speeds) and any(
+                    float(right) <= float(left) for left, right in zip(speeds, speeds[1:])
+                ):
+                    errors.append("analysis.parameters.spin_speeds_rad_s must be strictly increasing in rad/s.")
+            qep_settings = params.get("qep_settings")
+            if not isinstance(qep_settings, Mapping) or dict(qep_settings) != {"contract": "wp05-frozen-qep-v1"}:
+                errors.append(
+                    "analysis.parameters.qep_settings must identify the frozen WP05 QEP contract."
+                )
+            if params.get("tracking_policy") != "QF0211-COMPLEX-MAC-GLOBAL-v1":
+                errors.append("analysis.parameters.tracking_policy must identify the frozen WP06 tracking policy.")
         if "assembly_chunk_size" in params:
             self._positive_int("analysis.assembly_chunk_size", params["assembly_chunk_size"], errors)
         if analysis_type in {"nonlinear_static", "geometric_nonlinear_static", "linear_buckling"}:

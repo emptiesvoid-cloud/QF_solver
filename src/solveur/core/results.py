@@ -220,6 +220,85 @@ class RotatingModalResult(QualificationAwareResult):
 
 
 @dataclass(frozen=True)
+class CampbellResult(QualificationAwareResult):
+    """Experimental speed-sweep result with explicit tracked branches and source solves."""
+
+    numerical_status: str
+    maturity: str
+    spin_speeds_rad_s: tuple[float, ...]
+    branches: list[dict[str, Any]]
+    tracking_diagnostics: list[dict[str, Any]]
+    source_result_keys: tuple[str, ...]
+    source_result_hashes: tuple[str, ...]
+    execution_identity: dict[str, Any]
+    execution_key: str
+    provenance: dict[str, Any]
+    diagnostics: dict[str, Any] = field(default_factory=dict)
+    source_results: tuple[RotatingModalResult, ...] = field(default_factory=tuple, repr=False, compare=False)
+
+    @property
+    def status(self) -> str:
+        """Compatibility alias for the numerical status, not a maturity claim."""
+        return self.numerical_status
+
+    @property
+    def run_verdict(self) -> RunVerdict:
+        if self.numerical_status != "PASS":
+            return RunVerdict.FAIL
+        return RunVerdict.WARNING if self.maturity == "EXPERIMENTAL" else RunVerdict.FAIL
+
+    @staticmethod
+    def _complex_values(values: list[dict[str, Any]]) -> dict[str, list[float]]:
+        return {
+            "real": [float(item["real"]) for item in values],
+            "imag": [float(item["imag"]) for item in values],
+        }
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "analysis": "campbell",
+            "status": self.numerical_status,
+            "numerical_status": self.numerical_status,
+            "run_verdict": self.run_verdict.value,
+            "maturity": self.maturity,
+            "spin_speeds_rad_s": list(self.spin_speeds_rad_s),
+            "branches": [
+                {
+                    **{key: value for key, value in branch.items() if key != "samples"},
+                    "samples": [
+                        None
+                        if sample is None
+                        else {
+                            **sample,
+                            "eigenvalues": self._complex_values(sample["eigenvalues"]),
+                        }
+                        for sample in branch["samples"]
+                    ],
+                }
+                for branch in self.branches
+            ],
+            "tracking_diagnostics": self.tracking_diagnostics,
+            "source_result_keys": list(self.source_result_keys),
+            "source_result_hashes": list(self.source_result_hashes),
+            "execution_identity": self.execution_identity,
+            "execution_key": self.execution_key,
+            "provenance": self.provenance,
+            "diagnostics": self.diagnostics,
+        }
+
+    @staticmethod
+    def complex_eigenvalues_from_sample(sample: dict[str, Any]) -> np.ndarray:
+        payload = sample["eigenvalues"]
+        if not isinstance(payload, dict) or set(payload) != {"real", "imag"}:
+            raise ValueError("Campbell complex eigenvalues require explicit real and imag arrays.")
+        real = np.asarray(payload["real"], dtype=float)
+        imag = np.asarray(payload["imag"], dtype=float)
+        if real.shape != imag.shape or not np.all(np.isfinite(real)) or not np.all(np.isfinite(imag)):
+            raise ValueError("Campbell complex eigenvalue arrays must have matching finite shapes.")
+        return real + 1j * imag
+
+
+@dataclass(frozen=True)
 class DynamicResult(QualificationAwareResult):
     """Transient dynamic analysis result with final state and time history."""
 

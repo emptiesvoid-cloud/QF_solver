@@ -5,6 +5,15 @@
   "status": "PROSPECTIVE_CONTRACT_FROZEN_BEFORE_BENCHMARKS",
   "implementation_base_sha": "d728ad54f463e7264020e8feb1577955b3c78232",
   "branch": "codex/v0.2.11-wp06-campbell",
+  "prospective_analysis_route_registration": {
+    "analysis": "campbell",
+    "capability_id": "ANA-CAMPBELL-WP06",
+    "maturity": "EXPERIMENTAL",
+    "qualification_status": "NOT_FORMALLY_QUALIFIED",
+    "legacy_registry": "qualification/capability_registry.json",
+    "legacy_registry_modified": false,
+    "scope": "experimental Campbell speed sweep and complex modal tracking for the bounded WP05 rotating_modal model"
+  },
   "authorities": {
     "wp02_architecture": "qualification/0_2_11/wp02_architecture_contract.json",
     "wp05_gyroscopic_contract": "qualification/0_2_11/wp05_gyroscopic_contract.json",

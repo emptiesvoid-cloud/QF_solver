@@ -65,10 +65,10 @@ class AnalysisRouter:
             model.analysis = AnalysisSettings.from_raw(model.analysis)
         model.analysis.validate()
         has_rotating_disk = any(isinstance(item, RotatingDisk) for item in model.concentrated_masses)
-        if model.analysis.type != "rotating_modal" and has_rotating_disk:
-            raise InputValidationError("RotatingDisk entities are only valid for analysis='rotating_modal'.")
-        if model.analysis.type != "rotating_modal" and "rotation" in model.analysis.parameters:
-            raise InputValidationError("analysis.parameters.rotation is only valid for rotating_modal.")
+        if model.analysis.type not in {"rotating_modal", "campbell"} and has_rotating_disk:
+            raise InputValidationError("RotatingDisk entities are only valid for analysis='rotating_modal' or 'campbell'.")
+        if model.analysis.type not in {"rotating_modal", "campbell"} and "rotation" in model.analysis.parameters:
+            raise InputValidationError("analysis.parameters.rotation is only valid for rotating_modal or campbell.")
         compatibility = preflight_model(model)
         try:
             compatibility.raise_for_error()
@@ -87,6 +87,10 @@ class AnalysisRouter:
             from solveur.core.analyses.rotating_modal import RotatingModalSolver
 
             return RotatingModalSolver().solve(model)
+        if model.analysis.type == "campbell":
+            from solveur.core.analyses.campbell import CampbellSolver
+
+            return CampbellSolver().solve(model)
         if model.analysis.type == "nonlinear_static":
             from solveur.io.nonlinear_checkpoint import NpzNonlinearCheckpointStore
 

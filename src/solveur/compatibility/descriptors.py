@@ -59,7 +59,7 @@ DESCRIPTORS: dict[str, ElementCapabilityDescriptor] = {
     "BEAM2": ElementCapabilityDescriptor(
         "BEAM2", ("BEAM2", "BEAM"), 3, 2, ("UX", "UY", "UZ", "RX", "RY", "RZ"),
         "line", ("POINT",), "Timoshenko 2-node", ("beam_isotropic",),
-        ("linear_static", "modal", "transient_dynamic", "harmonic_response", "rotating_modal"),
+        ("linear_static", "modal", "transient_dynamic", "harmonic_response", "rotating_modal", "campbell"),
         ("nodal", "gravity", "body_force", "line_load"), "consistent", "beam resultants",
         "Gmsh line2", ("scipy_sparse",), ("nonlinear routes are not declared"), ("ELE-BEAM2",),
     ),
@@ -119,7 +119,7 @@ DESCRIPTORS: dict[str, ElementCapabilityDescriptor] = {
     "DISCRETE": ElementCapabilityDescriptor(
         "DISCRETE", ("DISCRETE", "SPRING", "MASS"), 0, 0, (), "discrete entity", (),
         "entity-level spring/mass", ("discrete_linear",),
-        ("linear_static", "modal", "transient_dynamic", "harmonic_response"),
+        ("linear_static", "modal", "transient_dynamic", "harmonic_response", "campbell"),
         ("nodal", "frictionless_contact"), "entity-specific", "entity-specific", "none", ("scipy_sparse",),
         ("element definitions are not used for discrete entities",), ("ELE-DISCRETE",),
     ),

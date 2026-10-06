@@ -90,6 +90,8 @@ serialization, and a bounded dense-backend characterization. Read those
 records for the measured size limit; no limit is extrapolated beyond tested
 sizes.
 
-This route does not implement speed sweeps, modal tracking, forward/backward
-whirl classification, or Campbell diagrams. Those belong to a separate
-future work package and are not implied by `rotating_modal`.
+This single-speed route does not implement speed sweeps or modal tracking.
+The separate experimental [`campbell` route](campbell.md) orchestrates
+multiple `rotating_modal` solves and reports modal association and ambiguity;
+it does not change the WP05 physical formulation or imply general rotordynamics
+support.

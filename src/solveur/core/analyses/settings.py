@@ -15,6 +15,7 @@ DEFAULT_METHODS = {
     "transient_dynamic": "newmark",
     "harmonic_response": "direct_frequency",
     "rotating_modal": "dense_qep",
+    "campbell": "complex_mac_hungarian",
 }
 
 SUPPORTED_METHODS = {
@@ -26,6 +27,7 @@ SUPPORTED_METHODS = {
     "transient_dynamic": ("newmark", "newmark_average_acceleration"),
     "harmonic_response": ("direct_frequency", "harmonic_direct"),
     "rotating_modal": ("dense_qep",),
+    "campbell": ("complex_mac_hungarian",),
 }
 
 DYNAMIC_ANALYSIS_TYPES = {"modal", "transient_dynamic", "harmonic_response"}

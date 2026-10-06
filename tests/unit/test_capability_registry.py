@@ -18,14 +18,14 @@ def test_controlled_capability_registry_passes_its_contract() -> None:
     assert AUDIT.validate_registry(AUDIT.load_registry()) == []
 
 
-def test_rotating_modal_is_prospective_and_not_promoted_in_legacy_registry() -> None:
+def test_rotating_routes_are_prospective_and_not_promoted_in_legacy_registry() -> None:
     routes, errors = AUDIT._prospective_analysis_routes()
 
     assert errors == []
-    assert routes == {"rotating_modal"}
-    assert "ANA-ROTATING-MODAL-WP05" not in {
+    assert routes == {"rotating_modal", "campbell"}
+    assert {"ANA-ROTATING-MODAL-WP05", "ANA-CAMPBELL-WP06"} & {
         row["CAPABILITY_ID"] for row in AUDIT.load_registry()["capabilities"]
-    }
+    } == set()
 
 
 def test_rotating_modal_registry_record_fails_closed_if_maturity_is_promoted(monkeypatch, tmp_path) -> None:
@@ -37,8 +37,21 @@ def test_rotating_modal_registry_record_fails_closed_if_maturity_is_promoted(mon
 
     routes, errors = AUDIT._prospective_analysis_routes()
 
-    assert routes == set()
+    assert routes == {"campbell"}
     assert any("NOT_FORMALLY_QUALIFIED" in error for error in errors)
+
+
+def test_campbell_registry_record_fails_closed_if_maturity_is_promoted(monkeypatch, tmp_path) -> None:
+    contract = AUDIT.json.loads(AUDIT.WP06_CAMPBELL_CONTRACT.read_text(encoding="utf-8"))
+    contract["prospective_analysis_route_registration"]["maturity"] = "QUALIFIED_BOUNDED"
+    path = tmp_path / "wp06_contract.json"
+    path.write_text(AUDIT.json.dumps(contract), encoding="utf-8")
+    monkeypatch.setattr(AUDIT, "WP06_CAMPBELL_CONTRACT", path)
+
+    routes, errors = AUDIT._prospective_analysis_routes()
+
+    assert routes == {"rotating_modal"}
+    assert any("WP06 campbell route" in error and "NOT_FORMALLY_QUALIFIED" in error for error in errors)
 
 
 def test_registry_is_hermetic_without_historical_git_objects(monkeypatch) -> None:
