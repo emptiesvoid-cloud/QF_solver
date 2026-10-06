@@ -179,10 +179,27 @@ def run_gyro05() -> dict[str, Any]:
         all_residuals.extend(float(value) for value in snapshot.qep_residuals)
 
     branches, tracking = track_modal_sweep(snapshots, np.eye(2) * diametral)
+    phased_only = []
+    permuted_only = []
     phased_permuted = []
     for snapshot in snapshots:
         permutation = np.arange(len(snapshot.selected_mode_indices))[::-1]
         phases = np.exp(1j * np.arange(1, len(permutation) + 1) * 0.731)
+        phased_only.append(
+            SimpleNamespace(**{**snapshot.__dict__, "modes": snapshot.modes * phases[None, :]})
+        )
+        permuted_only.append(
+            SimpleNamespace(
+                **{
+                    **snapshot.__dict__,
+                    "modes": snapshot.modes[:, permutation],
+                    "eigenvalues": snapshot.eigenvalues[permutation],
+                    "frequencies_hz": snapshot.frequencies_hz[permutation],
+                    "qep_residuals": snapshot.qep_residuals[permutation],
+                    "selected_mode_indices": tuple(range(len(permutation))),
+                }
+            )
+        )
         phased_permuted.append(
             SimpleNamespace(
                 **{
@@ -195,6 +212,8 @@ def run_gyro05() -> dict[str, Any]:
                 }
             )
         )
+    phased_only_branches, _ = track_modal_sweep(phased_only, np.eye(2) * diametral)
+    permuted_only_branches, _ = track_modal_sweep(permuted_only, np.eye(2) * diametral)
     phased_branches, _ = track_modal_sweep(phased_permuted, np.eye(2) * diametral)
 
     zero = next(item for item in snapshots if item.spin_speed_rad_s == 0.0)
@@ -228,12 +247,29 @@ def run_gyro05() -> dict[str, Any]:
         "threshold": qep_threshold,
         "status": "PASS" if max(all_residuals, default=float("inf")) <= qep_threshold else "FAIL",
     }
-    invariant_metric = {
-        "metric": "phase_and_eigenpair_ordering_invariance",
+    phase_invariant = _branch_signature(phased_only_branches) == _branch_signature(branches)
+    phase_metric = {
+        "metric": "complex_phase_invariance",
         "expected_value": True,
-        "observed_value": _branch_signature(phased_branches) == _branch_signature(branches),
+        "observed_value": phase_invariant,
         "threshold": "exact branch/lineage/frequency/status signature equality",
-        "status": "PASS" if _branch_signature(phased_branches) == _branch_signature(branches) else "FAIL",
+        "status": "PASS" if phase_invariant else "FAIL",
+    }
+    ordering_invariant = _branch_signature(permuted_only_branches) == _branch_signature(branches)
+    ordering_metric = {
+        "metric": "eigenpair_ordering_invariance",
+        "expected_value": True,
+        "observed_value": ordering_invariant,
+        "threshold": "exact branch/lineage/frequency/status signature equality",
+        "status": "PASS" if ordering_invariant else "FAIL",
+    }
+    combined_invariant = _branch_signature(phased_branches) == _branch_signature(branches)
+    combined_metric = {
+        "metric": "combined_phase_and_eigenpair_ordering_invariance",
+        "expected_value": True,
+        "observed_value": combined_invariant,
+        "threshold": "exact branch/lineage/frequency/status signature equality",
+        "status": "PASS" if combined_invariant else "FAIL",
     }
     degeneracy_metric = {
         "metric": "zero_speed_degenerate_cluster_identified",
@@ -272,7 +308,16 @@ def run_gyro05() -> dict[str, Any]:
         "threshold": "DEGENERATE_CLUSTER plus MULTIPLE_CANDIDATES; no individual edge",
         "status": "PASS" if ambiguity_detected else "FAIL",
     }
-    metrics = [*frequency_rows, qep_metric, invariant_metric, degeneracy_metric, split_metric, ambiguity_metric]
+    metrics = [
+        *frequency_rows,
+        qep_metric,
+        phase_metric,
+        ordering_metric,
+        combined_metric,
+        degeneracy_metric,
+        split_metric,
+        ambiguity_metric,
+    ]
     source_sha = _source_sha()
     identity = {
         "schema_version": 2,
@@ -325,7 +370,9 @@ def run_gyro05() -> dict[str, Any]:
         "tracking": {
             "branches": branches,
             "diagnostics": tracking,
-            "phase_order_invariance": invariant_metric,
+            "phase_invariance": phase_metric,
+            "ordering_invariance": ordering_metric,
+            "combined_phase_order_invariance": combined_metric,
             "zero_speed_degeneracy": degeneracy_metric,
             "cluster_split": split_metric,
             "controlled_ambiguity": ambiguity_metric,

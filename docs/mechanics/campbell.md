@@ -42,6 +42,16 @@ linear modal model. It is not a forced-response amplitude, an unbalance
 response prediction, an operational-risk assessment, or evidence of
 instability.
 
+The following reproducible internal BEAM2/disk example shows the sampled
+branches and the optional 1× line. A missing point at 100 rad/s is an explicit
+tracking ambiguity for the high-frequency pair, not an interpolated or forced
+connection. The figure is a projection; the structured record is authoritative.
+
+![Experimental Campbell diagram for the frozen WP06 BEAM2 shaft and centered-disk case. The high-frequency branch gap at 100 rad/s is retained because the tracker does not claim an unambiguous association.](../assets/gyro06-campbell.png)
+
+*Figure: internal convergence evidence only, not independent physical
+validation. The structured record is `qualification/0_2_11/gyro_06_beam2_convergence.json`; the model and thresholds are defined in the frozen WP06 case contract.*
+
 The initial implementation uses a serial dense SciPy QEP at every speed and
 does not support distributed shaft gyroscopic terms, speed-dependent
 stiffness/mass/bearing properties, general damping, centrifugal stiffening,
