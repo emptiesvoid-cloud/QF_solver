@@ -126,7 +126,7 @@ return annotation is the documented return type where one is available.
 - `QualificationGateError(message: str, *, result: object | None = None, summary: dict[str, Any] | None = None) -> None` — verification-profile rejection; `STABLE`.
 - `RunVerdict(*values)` — stable run-verdict enum; `STABLE`.
 - `ConstraintTerm(node: int, dof: str, coefficient: float) -> None` — one linear-constraint term; `STABLE`.
-- `FiniteElementModel(nodes: np.ndarray, elements: list[ElementDefinition], materials: dict[str, dict[str, Any]], fixed_dofs: list[BoundaryCondition] = <factory>, loads: list[NodalLoad] = <factory>, distributed_loads: list[DistributedLoad] = <factory>, springs: list[SpringDefinition] = <factory>, concentrated_masses: list[ConcentratedMass] = <factory>, multipoint_constraints: list[LinearConstraint] = <factory>, rbe2: list[Rbe2Definition] = <factory>, rbe3: list[Rbe3Definition] = <factory>, contacts: list[FrictionlessContact] = <factory>, analysis: AnalysisSettings = <factory>, schema_version: int = 1, units: dict[str, str] = <factory>, verification_profile: str = 'engineering') -> None` — in-memory model; `STABLE`.
+- `FiniteElementModel(nodes: np.ndarray, elements: list[ElementDefinition], materials: dict[str, dict[str, Any]], fixed_dofs: list[BoundaryCondition] = <factory>, loads: list[NodalLoad] = <factory>, distributed_loads: list[DistributedLoad] = <factory>, springs: list[SpringDefinition] = <factory>, concentrated_masses: list[ConcentratedMass | RotatingDisk] = <factory>, multipoint_constraints: list[LinearConstraint] = <factory>, rbe2: list[Rbe2Definition] = <factory>, rbe3: list[Rbe3Definition] = <factory>, contacts: list[FrictionlessContact] = <factory>, analysis: AnalysisSettings = <factory>, schema_version: int = 1, units: dict[str, str] = <factory>, verification_profile: str = 'engineering') -> None` — in-memory model; the `RotatingDisk` alternative is candidate-only and experimental; `STABLE` container API.
 - `LinearConstraint(terms: tuple[ConstraintTerm, ...], value: float = 0.0, name: str = '') -> None` — linear multi-point constraint; `STABLE`.
 - `Rbe2Definition(master: int, slaves: tuple[int, ...], tie_rotations: bool = False, name: str = '') -> None` — rigid-body RBE2 definition; `STABLE`.
 - `Rbe3Definition(reference: int, independents: tuple[tuple[int, float], ...], dofs: tuple[str, ...] = ('UX', 'UY', 'UZ', 'RX', 'RY', 'RZ'), mode: str = 'rigid_body_projection', name: str = '') -> None` — weighted RBE3 definition; `STABLE`.
@@ -146,6 +146,30 @@ return annotation is the documented return type where one is available.
 - `save_result_vtu(result: object, model: FiniteElementModel, path: str | Path) -> None` — write an ASCII VTU result; `STABLE`.
 - `solve_model(model: FiniteElementModel, *, enforce_policy: bool = True) -> object` — solve through the public router; `STABLE`.
 - `verify_evidence(path: str | Path) -> EvidenceVerificationReport` — verify evidence fingerprints; `STABLE`.
+
+### 0.2.11 development candidate: `rotating_modal`
+
+The `codex/v0.2.11-wp05-rotating-modal` development branch adds a
+candidate-only JSON analysis route consumed through the existing
+`load_model`/`solve_model` API. It returns a distinct complex
+`RotatingModalResult`, but neither that result schema nor the numerical
+capability is declared stable or included in the published 0.2.10 contract.
+Its maturity remains `EXPERIMENTAL`; see the [bounded rotating-modal
+scope](../mechanics/rotating-modal.md). Do not infer Campbell diagrams or
+general rotordynamics support from the single-speed route; Campbell orchestration
+is a separate experimental candidate documented below.
+
+### 0.2.11 development candidate: `campbell`
+
+The WP06 development branch adds an experimental JSON `campbell` route,
+consumed through the same `load_model`/`solve_model` workflow. The caller must
+provide finite, strictly increasing `spin_speeds_rad_s`, an explicit global
+axis/frame, a mode count, and the frozen WP05 QEP/WP06 tracking policy IDs.
+It returns a provisional `CampbellResult` with branch lineage and explicit
+ambiguity/gaps. Its plot helper is a projection only and cannot assign tracks.
+This route is not part of the published 0.2.10 contract, is not a general
+rotordynamics capability, and does not predict forced-response amplitudes or
+operational critical speeds. See the [candidate Campbell scope](../mechanics/campbell.md).
 
 ### Provisional symbols
 

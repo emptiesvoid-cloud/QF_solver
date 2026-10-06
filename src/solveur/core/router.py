@@ -7,6 +7,8 @@ from solveur.core.analyses.dynamic import NewmarkDynamicSolver
 from solveur.core.analyses.harmonic import HarmonicResponseSolver
 from solveur.core.analyses.modal import ModalAnalysisSolver
 from solveur.core.model import FiniteElementModel
+from solveur.core.errors import InputValidationError
+from solveur.elements.discrete import RotatingDisk
 from solveur.core.nonlinear.solver import NonlinearStaticSolver
 from solveur.core.solvers.static import LinearStaticSolver
 from solveur.compatibility import preflight_model
@@ -62,6 +64,11 @@ class AnalysisRouter:
         if not isinstance(model.analysis, AnalysisSettings):
             model.analysis = AnalysisSettings.from_raw(model.analysis)
         model.analysis.validate()
+        has_rotating_disk = any(isinstance(item, RotatingDisk) for item in model.concentrated_masses)
+        if model.analysis.type not in {"rotating_modal", "campbell"} and has_rotating_disk:
+            raise InputValidationError("RotatingDisk entities are only valid for analysis='rotating_modal' or 'campbell'.")
+        if model.analysis.type not in {"rotating_modal", "campbell"} and "rotation" in model.analysis.parameters:
+            raise InputValidationError("analysis.parameters.rotation is only valid for rotating_modal or campbell.")
         compatibility = preflight_model(model)
         try:
             compatibility.raise_for_error()
@@ -76,6 +83,14 @@ class AnalysisRouter:
             return LinearStaticSolver().solve(model, telemetry=telemetry)
         if model.analysis.type == "modal":
             return ModalAnalysisSolver().solve(model, telemetry=telemetry)
+        if model.analysis.type == "rotating_modal":
+            from solveur.core.analyses.rotating_modal import RotatingModalSolver
+
+            return RotatingModalSolver().solve(model)
+        if model.analysis.type == "campbell":
+            from solveur.core.analyses.campbell import CampbellSolver
+
+            return CampbellSolver().solve(model)
         if model.analysis.type == "nonlinear_static":
             from solveur.io.nonlinear_checkpoint import NpzNonlinearCheckpointStore
 

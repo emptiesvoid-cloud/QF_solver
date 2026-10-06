@@ -21,6 +21,8 @@ DEFAULT_DOCUMENT = ROOT / "docs" / "verification" / "0_2_6" / "capability_covera
 DEFAULT_HISTORICAL_SNAPSHOTS = ROOT / "qualification" / "historical_inventory_snapshots.json"
 ACTIVE_V2_REGISTRY = ROOT / "qualification" / "0_2_7" / "capability_registry_v2.json"
 CONSOLIDATED_028_REGISTRY = ROOT / "qualification" / "0_2_8" / "consolidated_registry.json"
+WP05_GYRO_CONTRACT = ROOT / "qualification" / "0_2_11" / "wp05_gyroscopic_contract.json"
+WP06_CAMPBELL_CONTRACT = ROOT / "qualification" / "0_2_11" / "wp06_campbell_contract.json"
 REQUIRED_FIELDS = {
     "CAPABILITY_ID", "DOMAIN", "ELEMENT", "ANALYSIS", "MATERIAL_PHYSICS",
     "PRESENT_IN_CODE", "PUBLIC", "MATURITY", "TESTS", "VNV_LEVEL",
@@ -158,6 +160,45 @@ def _technical_only_current_elements() -> set[str]:
     return technical_only
 
 
+def _prospective_analysis_routes() -> tuple[set[str], list[str]]:
+    """Read explicitly versioned current routes without rewriting the legacy registry."""
+
+    contracts = (
+        (WP05_GYRO_CONTRACT, "WP05", "rotating_modal", "ANA-ROTATING-MODAL-WP05"),
+        (WP06_CAMPBELL_CONTRACT, "WP06", "campbell", "ANA-CAMPBELL-WP06"),
+    )
+    routes: set[str] = set()
+    errors: list[str] = []
+    for path, work_package, analysis, capability_id in contracts:
+        if not path.exists():
+            continue
+        try:
+            contract = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as error:
+            errors.append(f"{work_package} prospective analysis-route record unavailable: {error}.")
+            continue
+        record = contract.get("prospective_analysis_route_registration")
+        expected = {
+            "analysis": analysis,
+            "capability_id": capability_id,
+            "maturity": "EXPERIMENTAL",
+            "qualification_status": "NOT_FORMALLY_QUALIFIED",
+            "legacy_registry": "qualification/capability_registry.json",
+            "legacy_registry_modified": False,
+        }
+        if not isinstance(record, dict) or any(record.get(key) != value for key, value in expected.items()):
+            errors.append(
+                f"{work_package} {analysis} route must remain prospectively registered as EXPERIMENTAL and "
+                "NOT_FORMALLY_QUALIFIED without changing the legacy registry."
+            )
+            continue
+        if not record.get("scope"):
+            errors.append(f"{work_package} prospective {analysis} route registration must state its bounded scope.")
+            continue
+        routes.add(analysis)
+    return routes, errors
+
+
 def validate_registry(registry: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     rows = registry.get("capabilities", [])
@@ -202,7 +243,9 @@ def validate_registry(registry: dict[str, Any]) -> list[str]:
     for element in sorted(current_elements - registered_elements - technical_only_elements):
         errors.append(f"Public element family is unregistered: {element}.")
     current_routes = _analysis_routes(_current_source("src/solveur/core/router.py"))
-    registered_routes = {row["ANALYSIS"] for row in rows if row.get("DOMAIN") == "ANALYSIS"}
+    prospective_routes, prospective_errors = _prospective_analysis_routes()
+    errors.extend(prospective_errors)
+    registered_routes = {row["ANALYSIS"] for row in rows if row.get("DOMAIN") == "ANALYSIS"} | prospective_routes
     for route in sorted(current_routes - registered_routes):
         errors.append(f"Public analysis route is unregistered: {route}.")
     try:

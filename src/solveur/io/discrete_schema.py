@@ -88,6 +88,27 @@ class DiscreteEntitySchemaValidator:
             if not isinstance(item, Mapping):
                 errors.append(f"{path} must be an object.")
                 continue
+            if str(item.get("type", "")).lower() == "rotating_disk":
+                reject_unknown(
+                    path,
+                    item,
+                    {"type", "node", "mass", "diametral_inertia", "polar_inertia", "axis_global"},
+                    errors,
+                )
+                self._node(f"{path}.node", item.get("node"), node_count, errors)
+                for field in ("mass", "diametral_inertia", "polar_inertia"):
+                    if not is_number(item.get(field)) or float(item[field]) <= 0.0:
+                        errors.append(f"{path}.{field} must be a strictly positive finite number.")
+                if is_number(item.get("diametral_inertia")) and is_number(item.get("polar_inertia")):
+                    if float(item["polar_inertia"]) > 2.0 * float(item["diametral_inertia"]):
+                        errors.append(f"{path}.polar_inertia must not exceed 2*diametral_inertia.")
+                if not is_numeric_vector(item.get("axis_global"), 3):
+                    errors.append(f"{path}.axis_global must contain exactly 3 finite numbers.")
+                else:
+                    axis = np.asarray(item["axis_global"], dtype=float)
+                    if not np.any(axis != 0.0):
+                        errors.append(f"{path}.axis_global must be non-zero.")
+                continue
             reject_unknown(path, item, {"node", "mass", "center_of_mass", "inertia"}, errors)
             self._node(f"{path}.node", item.get("node"), node_count, errors)
             if not is_number(item.get("mass")) or float(item["mass"]) <= 0.0:

@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0211-WP02-ARCHITECTURE-FREEZE",
+  "status": "DESIGN_FROZEN_NOT_IMPLEMENTED",
+  "scope": "WP02 targeted architecture consolidation only",
+  "baseline_source_sha": "c37179dae53604126aa6aa0d834770dfa4d2db37",
+  "wp01_checkpoint_sha": "11b235dc8fd8b8c384ab9653133f6e006e9464e0",
+  "immutable_release": {
+    "tag": "v0.2.10",
+    "source_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+    "immutable": true
+  },
+  "design_record": "qualification/0_2_11/wp02_architecture.md",
+  "implementation_status": {
+    "rotating_modal": "NOT_IMPLEMENTED",
+    "gyroscopic_matrix": "NOT_IMPLEMENTED",
+    "qep_solver": "NOT_IMPLEMENTED",
+    "complex_rotating_result": "NOT_IMPLEMENTED",
+    "modal_tracking": "NOT_IMPLEMENTED",
+    "campbell": "NOT_IMPLEMENTED",
+    "public_api_changed": false,
+    "numerical_behavior_changed": false
+  },
+  "target_modules": {
+    "rotation_config": "src/solveur/core/analyses/rotation_config.py",
+    "rotating_disk_entity": "src/solveur/elements/discrete.py",
+    "rotating_disk_gyro_assembly": "src/solveur/core/assembly/rotating_disk_gyro.py",
+    "rotating_modal_solver": "src/solveur/core/analyses/rotating_modal.py",
+    "qep_solver": "src/solveur/core/analyses/qep.py",
+    "rotating_modal_result": "src/solveur/core/results.py",
+    "modal_tracking": "src/solveur/core/analyses/modal_tracking.py",
+    "campbell_orchestration": "src/solveur/core/analyses/campbell.py",
+    "campbell_postprocessing": "src/solveur/post/campbell.py",
+    "compatibility_descriptor": "src/solveur/compatibility/descriptors.py",
+    "compatibility_preflight": "src/solveur/compatibility/preflight.py",
+    "rotating_input_validator": "src/solveur/core/analyses/rotating_input_validator.py",
+    "rotating_route_tests": "tests/unit/test_rotating_modal_preflight.py"
+  },
+  "frozen_contracts": {
+    "analysis_route": {
+      "name": "rotating_modal",
+      "initial_method": "dense_qep",
+      "owner": "AnalysisRouter dispatches; dedicated solver validates and orchestrates",
+      "public_status": "EXPERIMENTAL_PROVISIONAL",
+      "technical_descriptor": "WP05 adds rotating_modal to the BEAM2 supported_analyses descriptor so common preflight recognizes the bounded technical route; registry maturity remains separate and must not be promoted to enable dispatch",
+      "route_local_validation": "RotatingModalInputValidator validates rotation settings and every discrete entity before any assembly; common preflight currently does not separately check DISCRETE when finite elements are present",
+      "required_fail_closed_tests": [
+        "BEAM2 + rotating_modal passes technical descriptor check but remains explicitly experimental without a maturity registry combination",
+        "BEAM2 model with a valid disk passes route-specific discrete validation",
+        "BEAM2 model with a generic concentrated mass at a disk node is rejected before assembly",
+        "BEAM2 model with an unsupported spring or other discrete entity is rejected before assembly",
+        "invalid disk mass, inertia, axis, node ownership, or missing rotational DOFs is rejected before matrix allocation"
+      ],
+      "initial_scope": [
+        "BEAM2 flexible structure",
+        "rigid axisymmetric disks",
+        "constant prescribed signed angular speed",
+        "fixed global spatial frame",
+        "small perturbations",
+        "serial SciPy execution",
+        "undamped linear model",
+        "homogeneous fixed constraints",
+        "positive-definite reduced mass matrix"
+      ],
+      "reject_initially": [
+        "shell or mixed element families",
+        "MPC or RBE constraints",
+        "damping",
+        "variable speed",
+        "centrifugal stress stiffening",
+        "rotor-stator contact or rubbing",
+        "forced unbalance response",
+        "nonlinear rotor",
+        "PETSc, SLEPc, MPI, distributed solve"
+      ]
+    },
+    "compatibility_preflight": {
+      "current_behavior": "finite-element compatibility is checked per element; DISCRETE compatibility is checked only when the model has no finite elements",
+      "wp05_change": "declare only the bounded BEAM2 rotating_modal technical route and add a route-local validator for the complete discrete entity collection",
+      "maturity_rule": "technical descriptor support does not qualify the route; absent an authoritative registry combination, status remains EXPERIMENTAL_ROUTE",
+      "validation_order": "settings and common preflight, then route-local rotation/discrete validation, then allocation or K/M/G assembly",
+      "no_qualification_promotion": true
+    },
+    "rotation_config": {
+      "location": "analysis.parameters.rotation",
+      "type": "internal immutable validated value object",
+      "fields": ["axis_global", "speed_rad_s", "frame_convention"],
+      "frame_convention_initial": "global_fixed_right_hand_rule",
+      "axis_policy": "finite nonzero 3-vector canonicalized to unit direction; direction sets right-hand sign",
+      "speed_policy": "finite signed scalar in rad/s; zero is valid",
+      "runtime_or_cli_added_in_wp02": false
+    },
+    "rotating_disk": {
+      "location": "existing discrete mass collection; entity adjacent to ConcentratedMass",
+      "fields": ["node", "mass", "diametral_inertia", "polar_inertia", "axis_global"],
+      "mass_owner": "one RotatingDisk entity owns its translational and rotary mass contribution",
+      "mass_assembly": "existing GlobalAssembler active_dofs()/matrix() path, exactly once",
+      "gyro_assembly": "specialized RotatingDiskGyroAssembler reads disk and contributes G only",
+      "center_of_mass": "at attachment node; initial route rejects offset",
+      "inertia_tensor": "Id*(I-a*a.T) + Ip*(a*a.T), in fixed global coordinates",
+      "duplicate_guard": "initial route rejects a generic ConcentratedMass at a rotating disk node",
+      "route_guard": "non-rotating analyses reject rotating disk entities before assembly"
+    },
+    "assembly": {
+      "global_assembler_change": "none planned; retain ownership of ordinary K/M",
+      "gyro_matrix_owner": "RotatingDiskGyroAssembler",
+      "gyro_units_and_speed": "G excludes Omega; QEP applies signed Omega exactly once",
+      "invariants": [
+        "K, M, and G share shape and DofManager ordering",
+        "G is finite, real, and skew-symmetric",
+        "ordinary routes never assemble G",
+        "the same free-DOF index selection reduces K, M, and G"
+      ]
+    },
+    "dof_reduction": {
+      "initial_scope": "BEAM2 with homogeneous fixed DOFs only",
+      "method": "select identical free index ordering for K, M, G",
+      "shell_dynamic_reducer_reuse": false,
+      "reject": ["shell drilling transform", "MPC", "RBE", "unsupported constraint transform"]
+    },
+    "qep": {
+      "interface": "internal solve(M, K, G, omega_rad_s, options)",
+      "equation": "(lambda^2 M + lambda Omega G + K) phi = 0",
+      "time_convention": "q(t)=phi*exp(lambda*t)",
+      "initial_backend": "SciPy dense generalized eigenproblem",
+      "backend_registry": false,
+      "validation": [
+        "same-size finite real M/K/G",
+        "finite signed Omega",
+        "positive-definite reduced M for accepted initial cases",
+        "residuals evaluated against original quadratic polynomial",
+        "non-finite or malformed roots fail closed"
+      ],
+      "dense_size_limit": "set only after multi-size resource characterization"
+    },
+    "result": {
+      "dto": "separate RotatingModalResult; ModalResult remains real-valued and unchanged",
+      "complex_serialization": "explicit real/imag fields; no implicit complex-to-float conversion",
+      "fields": [
+        "complex eigenvalues",
+        "complex mode shapes",
+        "frequency_hz from abs(imag(lambda))/(2*pi)",
+        "growth_rate_per_s from real(lambda)",
+        "QEP residual diagnostics",
+        "rotation axis, signed speed and frame convention",
+        "solver metadata",
+        "optional polarization/whirl with explicit defined/ambiguous status"
+      ],
+      "tracking_ids_in_single_speed_result": false
+    },
+    "campbell_boundaries": {
+      "rotating_modal": "one speed solve",
+      "modal_tracking": "complex mode association and ambiguity reporting",
+      "campbell": "speed-sweep orchestration and track table",
+      "post_campbell": "render/export only; cannot assign branches",
+      "primary_similarity": "phase-invariant complex MAC",
+      "degenerate_modes": "track subspaces; do not claim unique vector identity",
+      "ambiguity": "retain explicit gaps/ambiguous intervals; never force smoothness"
+    }
+  },
+  "non_regression": {
+    "existing_routes_unchanged": true,
+    "existing_modal_result_unchanged": true,
+    "no_optional_backend_import_on_standard_import": true,
+    "qualification_data_runtime_dependency": false,
+    "required_validation": "WP01 PR_REQUIRED workflows on exact WP02 head"
+  },
+  "refactorings": [],
+  "gate": {
+    "id": "QF0211-G01",
+    "name": "ARCHITECTURE FROZEN",
+    "design_criteria": {
+      "module_responsibilities_clear": true,
+      "rotation_config_contract_clear": true,
+      "rotating_disk_ownership_clear": true,
+      "compatibility_preflight_integration_clear": true,
+      "assembly_extension_clear": true,
+      "dof_reduction_contract_clear": true,
+      "qep_interface_clear": true,
+      "complex_result_contract_clear": true,
+      "tracking_boundaries_clear": true,
+      "public_api_preserved_by_wp02": true,
+      "no_physics_implemented_prematurely": true
+    },
+    "required_ci": {
+      "legacy_non_regression": "WP01 PR_REQUIRED workflows on the exact WP02 head",
+      "documentation_tests": "WP01 Documentation tests workflow on the exact WP02 head",
+      "all_skips_remain_classified_not_pass": true
+    }
+  },
+  "preserved_governance": {
+    "g03": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "wp14": "HOLD_NOT_PROMOTED",
+    "historical_maturity_changed": false,
+    "v0_2_10_modified": false
+  }
+}

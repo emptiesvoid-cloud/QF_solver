@@ -118,5 +118,57 @@ class ConcentratedMass:
         return _symmetrize(matrix)
 
 
+@dataclass(frozen=True)
+class RotatingDisk:
+    """Centered rigid axisymmetric disk used by the experimental rotor route."""
+
+    node: int
+    mass: float
+    diametral_inertia: float
+    polar_inertia: float
+    axis_global: tuple[float, float, float]
+
+    def __post_init__(self) -> None:
+        if isinstance(self.node, bool) or not isinstance(self.node, (int, np.integer)) or self.node < 0:
+            raise InputValidationError("Rotating disk node must be a non-negative integer.")
+        for name in ("mass", "diametral_inertia", "polar_inertia"):
+            value = float(getattr(self, name))
+            if not np.isfinite(value) or value <= 0.0:
+                raise InputValidationError(f"Rotating disk {name} must be finite and strictly positive.")
+            object.__setattr__(self, name, value)
+        if self.polar_inertia > 2.0 * self.diametral_inertia:
+            raise InputValidationError("Rotating disk polar_inertia must be no greater than 2*diametral_inertia.")
+        axis = np.asarray(self.axis_global, dtype=float)
+        if axis.shape != (3,) or not np.all(np.isfinite(axis)):
+            raise InputValidationError("Rotating disk axis_global must contain three finite values.")
+        scale = float(np.max(np.abs(axis)))
+        if not np.isfinite(scale) or scale <= 0.0:
+            raise InputValidationError("Rotating disk axis_global must be non-zero.")
+        scaled_axis = axis / scale
+        unit_axis = scaled_axis / np.linalg.norm(scaled_axis)
+        object.__setattr__(self, "axis_global", tuple(float(value) for value in unit_axis))
+
+    def active_dofs(self) -> tuple[str, ...]:
+        return DOF_ORDER
+
+    def matrix(self) -> np.ndarray:
+        """Return the disk's six-DOF mass matrix in global coordinates."""
+        axis = np.asarray(self.axis_global, dtype=float)
+        inertia = self.diametral_inertia * (np.eye(3) - np.outer(axis, axis))
+        inertia += self.polar_inertia * np.outer(axis, axis)
+        matrix = np.zeros((6, 6), dtype=float)
+        matrix[:3, :3] = self.mass * np.eye(3)
+        matrix[3:, 3:] = inertia
+        return matrix
+
+    def gyroscopic_matrix(self) -> np.ndarray:
+        """Return the unit-speed rotational gyroscopic block (Omega excluded)."""
+        x, y, z = self.axis_global
+        cross = np.array([[0.0, -z, y], [z, 0.0, -x], [-y, x, 0.0]], dtype=float)
+        matrix = np.zeros((6, 6), dtype=float)
+        matrix[3:, 3:] = -self.polar_inertia * cross
+        return matrix
+
+
 def _symmetrize(matrix: np.ndarray) -> np.ndarray:
     return 0.5 * (matrix + matrix.T)

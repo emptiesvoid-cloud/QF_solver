@@ -2,17 +2,25 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import MISSING, asdict, dataclass
 from datetime import datetime, timezone
 import json
 import math
 from pathlib import Path
 import platform
+import re
 from time import perf_counter
 from typing import Any, Callable, Mapping
 
 from solveur.io.manifest import content_digest
-from solveur.verification.v2.schema import VnvCase, VnvSchemaError, VERDICTS
+from solveur.verification.v2.execution_identity import ExecutionIdentity, ExecutionIdentityError
+from solveur.verification.v2.schema import (
+    CASE_SCHEMA_VERSION,
+    ExpectedFailureContract,
+    VnvCase,
+    VnvSchemaError,
+    VERDICTS,
+)
 
 
 def _canonical(value: Any) -> Any:
@@ -54,6 +62,16 @@ class DuplicateJsonKeyError(ValueError):
     """Raised when a machine-readable contract contains a duplicate key."""
 
 
+class VnvExecutionError(RuntimeError):
+    """Structured executor error that can satisfy an exact schema-2 expectation."""
+
+    def __init__(self, *, stage: str, reason: str, error_code: str | None = None) -> None:
+        super().__init__(reason)
+        self.stage = stage
+        self.reason = reason
+        self.error_code = error_code
+
+
 @dataclass(frozen=True)
 class ExecutionOutput:
     """Solver-independent observations returned by a case executor."""
@@ -85,16 +103,104 @@ class VnvEvidence:
     peak_memory_mb: float | None
     provenance: dict[str, Any]
     artifact_classification: str
+    execution_key: str | None = None
+    identity_schema_version: int | None = None
 
     def __post_init__(self) -> None:
         if self.verdict not in VERDICTS:
             raise ValueError(f"Invalid V&V verdict {self.verdict!r}.")
+        if self.execution_key is not None and not re.fullmatch(r"[0-9a-f]{64}", self.execution_key):
+            raise ValueError("execution_key must be a lowercase SHA-256 digest.")
+        if (self.execution_key is None) != (self.identity_schema_version is None):
+            raise ValueError("execution_key and identity_schema_version must be present together.")
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        result = asdict(self)
+        if self.execution_key is None:
+            result.pop("execution_key")
+            result.pop("identity_schema_version")
+        return result
 
 
 Executor = Callable[[VnvCase], ExecutionOutput | Mapping[str, Any]]
+
+
+def _case_execution_identity(case: VnvCase, source_sha: str) -> ExecutionIdentity | None:
+    if case.schema_version != CASE_SCHEMA_VERSION:
+        return None
+    supplemental = case.execution_identity
+    if supplemental is None:
+        raise VnvSchemaError("Schema-2 case has no execution identity block.")
+    expected_failure = case.expected_failure
+    if isinstance(expected_failure, ExpectedFailureContract):
+        expected_failure_value: Any = expected_failure.to_dict()
+    else:
+        expected_failure_value = expected_failure
+    payload = {
+        "schema_version": 1,
+        "source_sha": source_sha,
+        "case_contract_version": supplemental["case_contract_version"],
+        "units_resolved": supplemental["units_resolved"],
+        "case_definition": {
+            "case_id": case.case_id,
+            "requirement_id": case.requirement_id,
+            "capability_refs": list(case.capability_refs),
+            "element": case.element,
+            "analysis": case.analysis,
+            "material": case.material,
+            "route": case.route,
+            "observables": list(case.observables),
+            "expected_failure": expected_failure_value,
+            "execution_tier": case.execution_tier,
+        },
+        "model_input": case.model_input,
+        "input_files": supplemental["input_files"],
+        "mesh": supplemental["mesh"],
+        "material_data": supplemental["material_data"],
+        "boundary_conditions": supplemental["boundary_conditions"],
+        "loads": supplemental["loads"],
+        "solver_configuration": supplemental["solver_configuration"],
+        "resolved_overrides": supplemental["resolved_overrides"],
+        "reference_identity": {
+            "declared": supplemental["reference_identity"],
+            "oracle": case.oracle.to_dict(),
+        },
+        "reference_files": supplemental["reference_files"],
+        "tolerance_policy": {
+            "declared": supplemental["tolerance_policy"],
+            "case_tolerance": case.tolerance,
+            "oracle_tolerance": case.oracle.tolerance,
+            "comparison_rule": case.oracle.comparison_rule,
+        },
+        "metric_definitions": {
+            "declared": supplemental["metric_definitions"],
+            "observables": list(case.observables),
+        },
+        "software_versions": supplemental["software_versions"],
+        "numerical_environment": supplemental["numerical_environment"],
+        "rotation_configuration": supplemental["rotation_configuration"],
+    }
+    try:
+        return ExecutionIdentity.from_dict(payload)
+    except (ExecutionIdentityError, TypeError) as exc:
+        raise VnvSchemaError(f"Cannot build schema-2 execution identity: {exc}") from exc
+
+
+def _matches_expected_failure(expected: ExpectedFailureContract, exc: Exception) -> bool:
+    actual_type = f"{type(exc).__module__}.{type(exc).__qualname__}"
+    actual_stage = getattr(exc, "stage", None)
+    actual_reason = getattr(exc, "reason", str(exc))
+    actual_code = getattr(exc, "error_code", None)
+    if actual_type != expected.expected_error_type or actual_stage != expected.expected_stage:
+        return False
+    if actual_reason != expected.expected_reason:
+        return False
+    if expected.expected_error_code is not None and actual_code != expected.expected_error_code:
+        return False
+    if expected.optional_message_pattern is not None:
+        if re.search(expected.optional_message_pattern, str(exc)) is None:
+            return False
+    return True
 
 
 def validate_case(data: VnvCase | Mapping[str, Any]) -> VnvCase:
@@ -179,6 +285,8 @@ class VnvRunner:
 
     def run(self, data: VnvCase | Mapping[str, Any], executor: Executor) -> VnvEvidence:
         case = validate_case(data)
+        execution_identity = _case_execution_identity(case, self.source_sha)
+        execution_key = execution_identity.execution_key() if execution_identity is not None else None
         input_digest = canonical_sha256(case.model_input)
         started = perf_counter()
         observables: dict[str, Any] = {}
@@ -207,7 +315,12 @@ class VnvRunner:
             failure_reason = str(exc) or exc.__class__.__name__
         except Exception as exc:  # The evidence record must classify executor failures, never hide them.
             failure_reason = str(exc) or exc.__class__.__name__
-            if case.expected_failure and case.expected_failure in failure_reason:
+            if isinstance(case.expected_failure, ExpectedFailureContract) and _matches_expected_failure(
+                case.expected_failure, exc
+            ):
+                failure_reason = str(getattr(exc, "reason", failure_reason))
+                verdict = "EXPECTED_FAILURE_PASS"
+            elif isinstance(case.expected_failure, str) and case.expected_failure in failure_reason:
                 verdict = "EXPECTED_FAILURE_PASS"
             else:
                 verdict = "FAIL" if case.expected_failure is None else "INVALID_EVIDENCE"
@@ -230,6 +343,8 @@ class VnvRunner:
             peak_memory_mb=peak_memory_mb,
             provenance=provenance,
             artifact_classification="CONTROLLED_PROOF",
+            execution_key=execution_key,
+            identity_schema_version=1 if execution_identity is not None else None,
         )
 
     @staticmethod
@@ -247,13 +362,28 @@ def load_cases(path: str | Path) -> tuple[VnvCase, ...]:
     return tuple(validate_case(item) for item in payload)
 
 
+def load_prospective_cases(path: str | Path) -> tuple[VnvCase, ...]:
+    """Load a new-campaign catalog and reject implicit inheritance of schema 1."""
+
+    cases = load_cases(path)
+    if not cases:
+        raise VnvSchemaError("Prospective V&V case catalogs must not be empty.")
+    legacy = [case.case_id for case in cases if case.schema_version != CASE_SCHEMA_VERSION]
+    if legacy:
+        raise VnvSchemaError(
+            "Prospective catalogs must explicitly use schema_version 2; legacy cases: " + ", ".join(legacy)
+        )
+    return cases
+
+
 def load_evidence(path: str | Path) -> VnvEvidence:
     payload = load_json_strict(path)
-    required = {field.name for field in VnvEvidence.__dataclass_fields__.values()}
+    required = _required_evidence_fields()
     missing = required - set(payload)
     if missing:
         raise VnvSchemaError(f"Evidence is missing fields: {sorted(missing)}.")
-    return VnvEvidence(**{key: payload[key] for key in required})
+    allowed = {field.name for field in VnvEvidence.__dataclass_fields__.values()}
+    return VnvEvidence(**{key: value for key, value in payload.items() if key in allowed})
 
 
 def replay_case(
@@ -273,18 +403,35 @@ def replay_case(
     input_digest = canonical_sha256(case.model_input)
     if prior.input_digest != input_digest:
         return False, "INPUT_DIGEST_MISMATCH", None
-    current = VnvRunner(source_sha=source_sha, environment=environment).run(case, executor)
+    runner = VnvRunner(source_sha=source_sha, environment=environment)
+    if case.schema_version == CASE_SCHEMA_VERSION:
+        identity = _case_execution_identity(case, source_sha)
+        expected_key = identity.execution_key() if identity is not None else None
+        if prior.execution_key is None:
+            return False, "EXECUTION_KEY_MISSING", None
+        if prior.execution_key != expected_key:
+            return False, "EXECUTION_KEY_MISMATCH", None
+    current = runner.run(case, executor)
     if current.result_digest != prior.result_digest:
         return False, "RESULT_DIGEST_MISMATCH", current
     return True, "PASS", current
 
 
 def load_evidence_from_dict(payload: Mapping[str, Any]) -> VnvEvidence:
-    required = {field.name for field in VnvEvidence.__dataclass_fields__.values()}
+    required = _required_evidence_fields()
     missing = required - set(payload)
     if missing:
         raise VnvSchemaError(f"Evidence is missing fields: {sorted(missing)}.")
-    return VnvEvidence(**{key: payload[key] for key in required})
+    allowed = {field.name for field in VnvEvidence.__dataclass_fields__.values()}
+    return VnvEvidence(**{key: value for key, value in payload.items() if key in allowed})
+
+
+def _required_evidence_fields() -> set[str]:
+    return {
+        name
+        for name, field in VnvEvidence.__dataclass_fields__.items()
+        if field.default is MISSING and field.default_factory is MISSING
+    }
 
 
 def load_json_strict(path: str | Path) -> Any:

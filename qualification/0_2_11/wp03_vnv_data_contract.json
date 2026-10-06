@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0211-WP03-VNV-DATA",
+  "work_package": "WP03",
+  "status": "IMPLEMENTED; EXACT_SHA_CI_IS_COMMIT_BOUND",
+  "baseline_source_sha": "c37179dae53604126aa6aa0d834770dfa4d2db37",
+  "implementation_base_sha": "b4483870a9f3d77087a3d52faf00c0972c826698",
+  "immutable_published_baseline": {
+    "tag": "v0.2.10",
+    "source_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+    "preserved": true
+  },
+  "authoritative_design": "qualification/0_2_11/wp03_vnv_data_design.md",
+  "scope": {
+    "prospective_only": true,
+    "solver_formulations_changed": false,
+    "solver_runtime_behavior_changed": false,
+    "vnv_infrastructure_behavior_changed": true,
+    "numerical_tolerances_changed": false,
+    "historical_records_changed": false,
+    "maturity_changed": false,
+    "gyro_or_qep_implemented": false,
+    "campbell_implemented": false,
+    "g03": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "wp14": "HOLD_NOT_PROMOTED"
+  },
+  "case_schema": {
+    "historical_schema_version": 1,
+    "prospective_schema_version": 2,
+    "prospective_loader": "solveur.verification.v2.load_prospective_cases",
+    "schema_1_policy": "Read existing cases and retain their historical free-text expected-failure semantics; do not use as the implicit schema for new catalogs.",
+    "schema_2_policy": "Require explicit version, explicit expected_failure (null or a structured object), and complete execution_identity supplemental block.",
+    "old_0_2_6_policy": "Read-only historical contract; no in-place migration or hash changes."
+  },
+  "execution_identity": {
+    "schema_version": 1,
+    "algorithm": "SHA256(UTF8('QF-VNV-EXECUTION-IDENTITY-v1\\n' + canonical_json(identity)))",
+    "canonical_json": {
+      "encoding": "UTF-8",
+      "object_keys": "sorted lexicographically",
+      "separators": [",", ":"],
+      "list_order": "preserved except input_files/reference_files, sorted by logical_role then logical_id",
+      "non_finite_numbers": "rejected",
+      "units": "must be resolved before identity construction",
+      "private_absolute_paths": "rejected; identify input bytes with logical IDs and SHA-256",
+      "operational_metadata": "timestamp/output/temp paths are supplied out of band and omitted; no scientific payload keys are silently filtered"
+    },
+    "identity_fields": [
+      "source_sha",
+      "case_contract_version",
+      "units_resolved",
+      "case_definition",
+      "model_input",
+      "input_files",
+      "mesh",
+      "material_data",
+      "boundary_conditions",
+      "loads",
+      "solver_configuration",
+      "resolved_overrides",
+      "reference_identity",
+      "reference_files",
+      "tolerance_policy",
+      "metric_definitions",
+      "software_versions",
+      "numerical_environment",
+      "rotation_configuration"
+    ],
+    "input_file_identity": {
+      "required": ["logical_role", "logical_id", "sha256", "size_bytes", "provenance", "availability_status"],
+      "optional": ["public_identifier"],
+      "sha256_and_size_null_rule": "Both may be null only when availability_status is MISSING or OPTIONAL_DEPENDENCY; never fabricate a digest.",
+      "provenance_enum": ["REPOSITORY", "GENERATED", "EXTERNAL_VERSIONED", "LOCAL_ONLY", "MISSING", "RECONSTRUCTED", "OPTIONAL"],
+      "availability_enum": ["AVAILABLE_AND_REPRODUCIBLE", "AVAILABLE_HISTORICAL_ONLY", "AVAILABLE_LOCAL_ONLY", "RECONSTRUCTED", "OPTIONAL_DEPENDENCY", "MISSING"],
+      "content_hashing": "InputFileIdentity.from_bytes hashes the bytes, not the path or a caller-provided digest alone."
+    },
+    "future_gyro_identity_slots": {
+      "rotation_configuration": ["rotation_axis", "speed_rad_s", "disk_definitions", "tracking_policy", "qep_policy"]
+    },
+    "gyro_slots_are_data_only": true
+  },
+  "safe_resume": {
+    "record_schema_version": 1,
+    "required": ["schema_version", "execution_key", "required_artifacts"],
+    "artifact_fields": ["logical_id", "sha256", "size_bytes"],
+    "minimum_required_artifacts": 1,
+    "reuse_conditions": [
+      "record schema explicitly supported",
+      "execution_key exactly matches current execution identity",
+      "every required result artifact is present as bytes",
+      "every artifact byte length and SHA-256 match the recorded values"
+    ],
+    "otherwise": {
+      "identity_or_artifact_mismatch": "REEXECUTE",
+      "malformed_record_or_incompatible_schema": "REFUSE_RESUME"
+    },
+    "legacy_0_2_6_runner": "An existing source-SHA-only result is refused for resume and left unchanged; no guessed adapter/key is generated."
+  },
+  "expected_failure": {
+    "schema_1": "legacy string behavior retained only for historical schema-1 cases",
+    "schema_2_required_fields": ["expected_stage", "expected_error_type", "expected_reason"],
+    "schema_2_optional_fields": ["expected_error_code", "optional_message_pattern"],
+    "matching": "Exact type/stage/reason, exact code when declared, and regex search when declared; any mismatch is not EXPECTED_FAILURE_PASS.",
+    "unexpected_success": "FAIL"
+  },
+  "provenance_and_availability": {
+    "numerical_verdict_is_separate": true,
+    "availability_enum": ["AVAILABLE_AND_REPRODUCIBLE", "AVAILABLE_HISTORICAL_ONLY", "AVAILABLE_LOCAL_ONLY", "RECONSTRUCTED", "OPTIONAL_DEPENDENCY", "MISSING"],
+    "public_private_split": "PublicBenchmarkRecord is allowlisted; unknown/internal fields and absolute local paths are rejected.",
+    "maturity_rule": "A public record must carry an explicit maturity status, authority and decision ID; numerical PASS cannot derive maturity."
+  },
+  "documentation_projection": {
+    "api": "solveur.verification.v2.render_public_benchmark",
+    "output": "deterministic Markdown",
+    "fields": ["numerical_status", "metrics", "limitations", "provenance", "evidence_availability", "maturity decision", "evidence link"],
+    "automation_scope": "future selected benchmark summaries only; no repository-wide rewrite and no auto-qualification"
+  },
+  "wp02_discrete_preflight_finding": {
+    "finding": "Common compatibility preflight does not separately validate discrete entities when finite elements are also present.",
+    "wp03_action": "Record the finding and reserve a future route-local fail-closed validation/test location.",
+    "implementation_deferred_to": "WP05 rotating-modal input validator",
+    "runtime_behavior_changed": false
+  },
+  "validation_plan": {
+    "focused_tests": "tests/unit/test_vnv_wp03_records.py, tests/unit/test_vnv_harness_v2.py, tests/unit/test_vnv_026_framework.py",
+    "preservation_tests": "0.2.6 registry/result tests and historical v2 case/evidence reading",
+    "documentation_workflow": ".github/workflows/docs-tests.yml on exact WP03 SHA",
+    "quality_workflow": ".github/workflows/quality.yml workflow_dispatch on exact WP03 SHA; no main dispatch",
+    "no_threshold_changes": true
+  },
+  "qf0211_g07_foundation": {
+    "id": "QF0211_G07_FOUNDATION_READY",
+    "execution_identity_complete": "YES",
+    "safe_resume_fail_closed": "YES",
+    "expected_failure_structured": "YES",
+    "historical_schemas_readable": "YES",
+    "provenance_hashed": "YES",
+    "evidence_availability_explicit": "YES",
+    "public_private_provenance_separated": "YES",
+    "documentation_projection_defined": "YES",
+    "legacy_behavior_preserved": "YES",
+    "legacy_compatibility_boundary": "Historical schemas/results remain readable and unchanged; source-SHA-only legacy resume is intentionally refused because it is not safe to preserve as reuse behavior.",
+    "final_release_gate_closed": false,
+    "pass_rule": "Every foundation item is YES and exact WP03 validation is terminal success. Report CI run IDs against the frozen HEAD separately; do not amend this tested source to record them. This is not the final QF0211-G07 release gate and does not qualify mechanics."
+  }
+}

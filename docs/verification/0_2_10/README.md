@@ -1,18 +1,21 @@
 ---
 title: QF Solver 0.2.10 verification summary
-doc_id: DOC-VV-CANDIDATE-0210-001
+doc_id: DOC-VV-PUBLIC-0210-001
 revision: 1.0
 applicable_version: 0.2.10
-status: controlled_candidate
+status: controlled_release
 reviewer: ""
 approver: ""
 ---
 
 # QF Solver 0.2.10 verification summary
 
-**Release:** QF Solver 0.2.10, the first public release after 0.2.8. The
-selected wheel and sdist have a source-bound release audit recorded in the
-[`release contract`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_10/public_package_release_contract.json).
+**Current public release:** QF Solver 0.2.10, the first public release after
+0.2.8. Its immutable source tag `v0.2.10` points to
+`e535ff63464ddd7d76c2898df25470350b5154f1`. The selected wheel and normalized
+sdist are bound to that package source by the
+[`authorized e535ff release contract`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_10/authorized_selected_package_release_contract_e535ff.json);
+the governance record does not change the package source SHA.
 The whole-repository G03 archive scan remains failed and is not waived by the
 selected-package audit. GitHub-generated source archives are not cleared
 distribution artifacts.
@@ -73,6 +76,13 @@ historical failures, or the G03/WP14 disposition. The version DOI is
 [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744); the
 project concept DOI remains
 [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897).
+
+The e535ff contract is the current release authority for the selected
+distribution. Earlier candidate contracts under `qualification/0_2_10/` are
+historical records and are not interchangeable with it. The whole-repository
+G03 result remains `FAIL_PRESERVED`; no complete repository archive is cleared.
+WP14 remains `HOLD_NOT_PROMOTED`. These dispositions and all capability
+maturities are unchanged by this summary.
 
 For the latest public release and citation, see
 [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff).

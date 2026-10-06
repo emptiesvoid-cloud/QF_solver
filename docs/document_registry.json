@@ -61,6 +61,31 @@
       "tests": ["tests/documentation/test_docs_generation.py"]
     },
     {
+      "id": "DOC-MECH-ROTATING-MODAL-WP05",
+      "path": "mechanics/rotating-modal.md",
+      "title": "Experimental rotating modal analysis",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_rotating_modal_cases.py",
+        "tests/unit/test_rotating_qep.py",
+        "tests/documentation/test_docs_generation.py"
+      ]
+    },
+    {
+      "id": "DOC-MECH-CAMPBELL-WP06",
+      "path": "mechanics/campbell.md",
+      "title": "Experimental Campbell diagrams",
+      "status": "controlled_candidate",
+      "requirements": [],
+      "examples": [],
+      "tests": [
+        "tests/unit/test_campbell.py",
+        "tests/documentation/test_docs_generation.py"
+      ]
+    },
+    {
       "id": "DOC-START-NONLINEAR-001",
       "path": "getting-started/nonlinear-example.md",
       "title": "Nonlinear example",
@@ -70,10 +95,10 @@
       "tests": ["tests/integration/test_geometric_nonlinear_cli.py"]
     },
     {
-      "id": "DOC-VV-CANDIDATE-0210-001",
+      "id": "DOC-VV-PUBLIC-0210-001",
       "path": "verification/0_2_10/README.md",
       "title": "QF Solver 0.2.10 verification summary",
-      "status": "controlled_candidate",
+      "status": "controlled_release",
       "requirements": [],
       "examples": [],
       "tests": ["tests/unit/test_pp04_public_documentation.py"]

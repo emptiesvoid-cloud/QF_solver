@@ -1,0 +1,66 @@
+{
+  "contract_path": "qualification/0_2_11/wp05_gyroscopic_contract.json",
+  "contract_sha256": "9e5e3ca372aee4431dffd21f1ed92ee051612d268f5e81935da2132e8161dd17",
+  "dense_characterization": [
+    {
+      "maximum_qep_residual": 8.119540362979473e-15,
+      "median_seconds": 0.0457262999843806,
+      "peak_rss_bytes": 74477568,
+      "physical_dofs": 50,
+      "status": "PASS"
+    },
+    {
+      "maximum_qep_residual": 2.414878582081664e-14,
+      "median_seconds": 0.15117719990666956,
+      "peak_rss_bytes": 78495744,
+      "physical_dofs": 100,
+      "status": "PASS"
+    },
+    {
+      "maximum_qep_residual": 9.667517143717946e-14,
+      "median_seconds": 2.1760629999917,
+      "peak_rss_bytes": 102916096,
+      "physical_dofs": 250,
+      "status": "PASS"
+    },
+    {
+      "maximum_qep_residual": 5.782381294083821e-13,
+      "median_seconds": 25.304273099987768,
+      "peak_rss_bytes": 186372096,
+      "physical_dofs": 500,
+      "status": "PASS"
+    },
+    {
+      "maximum_qep_residual": 5.0360160541404416e-12,
+      "median_seconds": 271.2178426999599,
+      "peak_rss_bytes": 516771840,
+      "physical_dofs": 1000,
+      "status": "PASS"
+    }
+  ],
+  "dense_record_path": "qualification/0_2_11/wp05_dense_characterization.json",
+  "dense_record_sha256": "beac46466f7b1b1fb37eda7fa0706397ead77e24d433d951c7d5d900dd757618",
+  "evidence_availability": "AVAILABLE_AND_REPRODUCIBLE",
+  "g03": "FAIL_PRESERVED",
+  "generated_at_utc": "2026-10-05T17:25:35.742086+00:00",
+  "gyro_case_statuses": {
+    "GYRO-01": "PASS",
+    "GYRO-02": "PASS",
+    "GYRO-03": "PASS",
+    "GYRO-04": "PASS"
+  },
+  "gyro_record_path": "qualification/0_2_11/wp05_gyro_verification_records.json",
+  "gyro_record_sha256": "78f731a42d072da1b87d0b5e7c80eef3fb4b4565da866076d53860504f4b8bd1",
+  "maturity": "EXPERIMENTAL",
+  "maturity_promotion": "NONE",
+  "qf0211_g04": "PASS",
+  "qf0211_g05": "PASS",
+  "record_schema": "qf.wp05.gate-summary.v1",
+  "record_sha256": "6d214b1ef8c86786df11cacb02d00a1aef634beae8a2d53af9a9fb957b942a3f",
+  "schema_version": 2,
+  "source_sha": "f2690bcac8f1b5b34c6b01a6cf5a9e19ecb725a9",
+  "supported_physical_dof_bound": 1000,
+  "whole_repository_archive_cleared": false,
+  "work_package": "WP05",
+  "wp14": "HOLD_NOT_PROMOTED"
+}

@@ -9,7 +9,7 @@ from solveur.core.model import FiniteElementModel
 from solveur.contact.entities import FrictionlessContact
 from solveur.core.constraints import LinearConstraint
 from solveur.core.rbe import Rbe2Definition, Rbe3Definition
-from solveur.elements.discrete import ConcentratedMass, SpringDefinition
+from solveur.elements.discrete import ConcentratedMass, RotatingDisk, SpringDefinition
 from solveur.io.manifest import write_json_file
 from solveur.loads.entities import BodyLoad, EdgeLoad, GravityLoad, LineLoad, SurfaceLoad
 
@@ -64,7 +64,16 @@ def _spring(spring: SpringDefinition) -> dict[str, Any]:
     return item
 
 
-def _concentrated_mass(mass: ConcentratedMass) -> dict[str, Any]:
+def _concentrated_mass(mass: ConcentratedMass | RotatingDisk) -> dict[str, Any]:
+    if isinstance(mass, RotatingDisk):
+        return {
+            "type": "rotating_disk",
+            "node": mass.node,
+            "mass": mass.mass,
+            "diametral_inertia": mass.diametral_inertia,
+            "polar_inertia": mass.polar_inertia,
+            "axis_global": list(mass.axis_global),
+        }
     item: dict[str, Any] = {
         "node": mass.node,
         "mass": mass.mass,

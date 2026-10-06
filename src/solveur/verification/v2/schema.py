@@ -4,10 +4,13 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 import math
+import re
 from typing import Any, Mapping
 
+from solveur.verification.v2.execution_identity import ExecutionIdentityError, prospective_identity_inputs
 
-CASE_SCHEMA_VERSION = 1
+LEGACY_CASE_SCHEMA_VERSION = 1
+CASE_SCHEMA_VERSION = 2
 ORACLE_TYPES = {
     "ANALYTICAL",
     "INTERNAL_INVARIANT",
@@ -42,6 +45,14 @@ _CASE_FIELDS = {
     "expected_failure",
     "execution_tier",
     "provenance",
+    "execution_identity",
+}
+_EXPECTED_FAILURE_FIELDS = {
+    "expected_stage",
+    "expected_error_type",
+    "expected_reason",
+    "expected_error_code",
+    "optional_message_pattern",
 }
 _ORACLE_FIELDS = {
     "type",
@@ -57,6 +68,50 @@ _ORACLE_FIELDS = {
 
 class VnvSchemaError(ValueError):
     """Raised when a declarative case or oracle violates the v2 schema."""
+
+
+@dataclass(frozen=True)
+class ExpectedFailureContract:
+    """Specific, prospective expected-failure contract for schema-2 cases."""
+
+    expected_stage: str
+    expected_error_type: str
+    expected_reason: str
+    expected_error_code: str | None = None
+    optional_message_pattern: str | None = None
+
+    @classmethod
+    def from_dict(cls, data: Mapping[str, Any]) -> "ExpectedFailureContract":
+        if not isinstance(data, Mapping):
+            raise VnvSchemaError("expected_failure must be an object.")
+        unknown = set(data) - _EXPECTED_FAILURE_FIELDS
+        if unknown:
+            raise VnvSchemaError(f"Unknown expected_failure fields: {sorted(unknown)}.")
+        required = {"expected_stage", "expected_error_type", "expected_reason"}
+        missing = required - set(data)
+        if missing:
+            raise VnvSchemaError(f"expected_failure is missing fields: {sorted(missing)}.")
+        values: dict[str, str | None] = {}
+        for name in required:
+            value = data[name]
+            if not isinstance(value, str) or not value.strip():
+                raise VnvSchemaError(f"expected_failure.{name} must be a non-empty string.")
+            values[name] = value.strip()
+        for name in ("expected_error_code", "optional_message_pattern"):
+            value = data.get(name)
+            if value is not None and (not isinstance(value, str) or not value.strip()):
+                raise VnvSchemaError(f"expected_failure.{name} must be null or a non-empty string.")
+            values[name] = value.strip() if isinstance(value, str) else None
+        pattern = values["optional_message_pattern"]
+        if pattern is not None:
+            try:
+                re.compile(pattern)
+            except re.error as exc:
+                raise VnvSchemaError(f"Invalid expected_failure.optional_message_pattern: {exc}.") from exc
+        return cls(**values)
+
+    def to_dict(self) -> dict[str, str | None]:
+        return asdict(self)
 
 
 def _required(data: Mapping[str, Any], name: str) -> Any:
@@ -144,18 +199,26 @@ class VnvCase:
     oracle: VnvOracle
     observables: tuple[str, ...]
     tolerance: float
-    expected_failure: str | None
+    expected_failure: str | ExpectedFailureContract | None
     execution_tier: str
     provenance: dict[str, Any]
-    schema_version: int = CASE_SCHEMA_VERSION
+    schema_version: int = LEGACY_CASE_SCHEMA_VERSION
+    execution_identity: dict[str, Any] | None = None
 
     @classmethod
     def from_dict(cls, data: Mapping[str, Any]) -> "VnvCase":
+        if not isinstance(data, Mapping):
+            raise VnvSchemaError("V&V case must be an object.")
         unknown = set(data) - _CASE_FIELDS
         if unknown:
             raise VnvSchemaError(f"Unknown case fields: {sorted(unknown)}.")
-        version = int(data.get("schema_version", CASE_SCHEMA_VERSION))
-        if version != CASE_SCHEMA_VERSION:
+        raw_version = data.get("schema_version", LEGACY_CASE_SCHEMA_VERSION)
+        if isinstance(raw_version, bool) or not (
+            isinstance(raw_version, int) or (isinstance(raw_version, str) and raw_version.strip() in {"1", "2"})
+        ):
+            raise VnvSchemaError(f"Unsupported V&V case schema version {raw_version!r}.")
+        version = int(raw_version)
+        if version not in {LEGACY_CASE_SCHEMA_VERSION, CASE_SCHEMA_VERSION}:
             raise VnvSchemaError(f"Unsupported V&V case schema version {version}.")
         refs = _required(data, "capability_refs")
         if not isinstance(refs, list) or not refs or not all(isinstance(item, str) and item.strip() for item in refs):
@@ -167,8 +230,24 @@ class VnvCase:
         if tolerance < 0.0:
             raise VnvSchemaError("Case tolerance must be non-negative.")
         failure = data.get("expected_failure")
-        if failure is not None and (not isinstance(failure, str) or not failure.strip()):
-            raise VnvSchemaError("expected_failure must be null or a non-empty string.")
+        if version == LEGACY_CASE_SCHEMA_VERSION:
+            if "execution_identity" in data:
+                raise VnvSchemaError("execution_identity is only supported by schema-2 cases.")
+            if failure is not None and (not isinstance(failure, str) or not failure.strip()):
+                raise VnvSchemaError("Legacy expected_failure must be null or a non-empty string.")
+            expected_failure: str | ExpectedFailureContract | None = failure.strip() if isinstance(failure, str) else None
+            execution_identity = None
+        else:
+            if "expected_failure" not in data:
+                raise VnvSchemaError("Schema-2 cases must explicitly declare expected_failure as an object or null.")
+            if failure is not None and not isinstance(failure, Mapping):
+                raise VnvSchemaError("Schema-2 expected_failure must be null or a structured object.")
+            expected_failure = ExpectedFailureContract.from_dict(failure) if isinstance(failure, Mapping) else None
+            identity = _mapping(_required(data, "execution_identity"), "execution_identity")
+            try:
+                execution_identity = prospective_identity_inputs(identity)
+            except ExecutionIdentityError as exc:
+                raise VnvSchemaError(f"Invalid execution_identity: {exc}") from exc
         tier = _text(data, "execution_tier").upper()
         if tier not in EXECUTION_TIERS:
             raise VnvSchemaError(f"Unsupported execution tier {tier!r}.")
@@ -188,9 +267,10 @@ class VnvCase:
             oracle=VnvOracle.from_dict(_mapping(_required(data, "oracle"), "oracle")),
             observables=tuple(item.strip() for item in observables),
             tolerance=tolerance,
-            expected_failure=failure.strip() if isinstance(failure, str) else None,
+            expected_failure=expected_failure,
             execution_tier=tier,
             provenance=provenance,
+            execution_identity=execution_identity,
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -198,4 +278,8 @@ class VnvCase:
         result["capability_refs"] = list(self.capability_refs)
         result["observables"] = list(self.observables)
         result["oracle"] = self.oracle.to_dict()
+        if isinstance(self.expected_failure, ExpectedFailureContract):
+            result["expected_failure"] = self.expected_failure.to_dict()
+        if self.execution_identity is None:
+            result.pop("execution_identity", None)
         return result
