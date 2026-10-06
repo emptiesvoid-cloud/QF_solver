@@ -1,10 +1,8 @@
 cff-version: 1.2.0
-message: "If you use QF Solver, please cite the published software release."
+message: "For the evolving project, use the project concept DOI. Version 0.2.11 is a release candidate and has no release date or version DOI yet."
 type: software
 title: "QF Solver"
-version: "0.2.10"
-date-released: 2026-10-03
-doi: "10.5281/zenodo.23106744"
+version: "0.2.11"
 license: "Apache-2.0"
 authors:
   - family-names: "Farinazzo"
@@ -12,5 +10,5 @@ authors:
 repository-code: "https://github.com/emptiesvoid-cloud/QF_solver"
 url: "https://emptiesvoid-cloud.github.io/QF_solver/"
 
-abstract: "Open-source white-box finite-element solver for verifiable structural mechanics and dynamics."
+abstract: "Open-source Python finite-element solver for structural mechanics and dynamics, designed for inspectable formulations, engineering-method development, and reproducible numerical verification."
 

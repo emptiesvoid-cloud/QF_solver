@@ -14,9 +14,12 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def test_unreleased_candidate_is_not_mistaken_for_a_published_tag() -> None:
     failures = check_publication_metadata(ROOT, "v0.2.11")
-    assert "CITATION.cff does not identify this version" in failures
+    assert "CITATION.cff does not identify this version" not in failures
+    assert "CITATION.cff needs a release date" in failures
+    assert "CITATION.cff needs an assigned version DOI" in failures
     assert "CHANGELOG.md has no released entry for this version" in failures
     assert "README.md release line does not identify this version" in failures
+    assert "README.md still denies publication of this version" in failures
 
 
 def test_metadata_gate_rejects_nonstable_or_mismatched_tag() -> None:

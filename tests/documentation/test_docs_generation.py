@@ -76,9 +76,10 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
         comparison_snapshot.replace(">", "").split()
     )
 
-    assert "| Release line | `0.2.10` |" in readme
+    assert "latest **published** release is `0.2.10`" in readme
+    assert "0.2.11 is a **candidate, not yet published**" in readme
     assert "`0.2.8` — release candidate; not published" not in readme
-    assert "Source tag" in readme and "v0.2.10" in readme
+    assert "source tag" in readme and "v0.2.10" in readme
     assert "QF Solver 0.2.10 is the current published release" in normalized_roadmap
     assert "Version 0.2.9 was a development/source snapshot" in normalized_roadmap
     assert "QF Solver 0.2.10 architecture" in normalized_architecture
@@ -88,7 +89,7 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
     assert "0.2.8 is the current development candidate" not in roadmap
     assert "10.5281/zenodo.23106744" in readme
     assert "10.5281/zenodo.23106744" in index
-    assert "Version DOI" in readme
+    assert "version DOI" in readme
     assert "Current release" in normalized_index
     assert "current published package is 0.2.10" in normalized_comparisons
     assert (
@@ -96,8 +97,10 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
         in normalized_comparison_snapshot
     )
     assert "not a current capability or maturity record" in normalized_comparison_snapshot
-    assert 'version: "0.2.10"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
-    assert 'doi: "10.5281/zenodo.23106744"' in (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
+    assert 'version: "0.2.11"' in citation
+    assert not any(line.startswith("date-released:") for line in citation.splitlines())
+    assert not any(line.startswith("doi:") for line in citation.splitlines())
 
 
 def test_tetra_boundary_faces_remove_shared_face() -> None:
