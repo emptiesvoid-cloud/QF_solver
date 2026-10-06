@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import numpy as np
 import pytest
 
+import solveur.core.analyses.campbell as campbell_analysis
 from solveur.core.analyses.campbell import CampbellInputValidator, CampbellSolver
 from solveur.core.analyses.settings import AnalysisSettings
 from solveur.core.dofs import DOF_ORDER
@@ -16,6 +18,20 @@ from solveur.elements.discrete import RotatingDisk
 from solveur.core.router import AnalysisRouter
 from solveur.io.model_writer import model_to_dict
 from solveur.io.schema import JsonSchemaValidator
+
+
+def test_implementation_hash_paths_support_installed_wheel_layout(tmp_path: Path, monkeypatch) -> None:
+    package_root = tmp_path / "venv" / "Lib" / "site-packages" / "solveur"
+    module_file = package_root / "core" / "analyses" / "campbell.py"
+    module_file.parent.mkdir(parents=True)
+    module_file.write_text("# installed wheel layout\n", encoding="utf-8")
+    monkeypatch.setattr(campbell_analysis, "__file__", str(module_file))
+
+    implementation = campbell_analysis._implementation_source_path(
+        "src/solveur/core/analyses/rotating_modal.py"
+    )
+
+    assert implementation == package_root / "core" / "analyses" / "rotating_modal.py"
 
 
 def _beam_material() -> dict[str, float | str]:
