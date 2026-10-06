@@ -82,11 +82,12 @@ def test_active_boundaries_match_registry_and_release_truth() -> None:
     assert state["global_accounting"]["level_up_2"] == "50/50 CLOSED"
 
     root_readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "WEDGE6 static | `QUALIFIED_BOUNDED`" in root_readme
+    capabilities_index = (ROOT / "docs/capabilities/index.md").read_text(encoding="utf-8")
+    assert "WEDGE6 static | `QUALIFIED_BOUNDED`" in capabilities_index
     assert "qualification/0_2_8/consolidated_registry.json" in root_readme
-    assert "No claim of GPU, general HPC" in root_readme
-    assert "two complete 5M Silver replays" in root_readme
-    assert "No claim of certification" in root_readme
+    assert "no general HPC or nonlinear distributed claim" in root_readme
+    assert "two complete 5M Silver replays" not in root_readme
+    assert "project is not certified" in root_readme
 
     interfaces = (ROOT / "docs/reference/interfaces.md").read_text(encoding="utf-8")
     assert "PYTHONPATH=src" in interfaces
