@@ -1,0 +1,4314 @@
+{
+  "case_id": "GYRO-06",
+  "evidence_availability": "AVAILABLE_AND_REPRODUCIBLE",
+  "figure_provenance": {
+    "path": "docs/assets/gyro06-campbell.png",
+    "projection_only_not_tracking_authority": true,
+    "sha256": "bffc4c2f11e2598ec73f8365aff03c9727681a40d3c5f9ea1cb19c4006b4b445",
+    "size_bytes": 52655,
+    "source_execution_key": "2158bfb994c674e0a2a7b44f617446ed7218768c18ab43b4ae72a40da3c87204"
+  },
+  "final_adjacent_mesh_relative_frequency_delta_max": 0.00011432898981305986,
+  "input_files": [
+    {
+      "availability_status": "AVAILABLE_AND_REPRODUCIBLE",
+      "logical_role": "generated_model_fixture_specification",
+      "provenance": "GENERATED_FROM_FROZEN_CONTRACT",
+      "public_identifier": "qualification/0_2_11/wp06_campbell_contract.json#/verification_cases/GYRO-06/fixture",
+      "sha256": "86d5c275690be864ac289619c7f30f32ffea6c3839f8177e3b10bbddb9f26711",
+      "size_bytes": 547
+    }
+  ],
+  "interpretation": "internal convergence evidence only; no independent physical validation or general rotor-dynamics qualification",
+  "maturity": "EXPERIMENTAL",
+  "maturity_promotion": "NONE",
+  "maximum_qep_relative_residual": 1.6173500115243727e-09,
+  "mesh_convergence_comparisons": [
+    {
+      "absolute_error": 3.291936778283929e-06,
+      "branch_id": "cluster-000",
+      "coarse_frequency_hz": 69.88409371489547,
+      "coarse_mesh_elements": 16,
+      "expected_value": 0.0,
+      "fine_frequency_hz": 69.88386366087715,
+      "fine_mesh_elements": 32,
+      "mode_position_in_branch": 0,
+      "observed_value": 3.291936778283929e-06,
+      "relative_error": 3.291936778283929e-06,
+      "spin_speed_rad_s": 0.0,
+      "status": "PASS",
+      "threshold": 0.005
+    },
+    {
+      "absolute_error": 3.291916422240645e-06,
+      "branch_id": "cluster-000",
+      "coarse_frequency_hz": 69.8840937149672,
+      "coarse_mesh_elements": 16,
+      "expected_value": 0.0,
+      "fine_frequency_hz": 69.88386366237144,
+      "fine_mesh_elements": 32,
+      "mode_position_in_branch": 1,
+      "observed_value": 3.291916422240645e-06,
+      "relative_error": 3.291916422240645e-06,
+      "spin_speed_rad_s": 0.0,
+      "status": "PASS",
+      "threshold": 0.005
+    },
+    {
+      "absolute_error": 0.00011389541266302637,
+      "branch_id": "cluster-001",
+      "coarse_frequency_hz": 422.07396580892186,
+      "coarse_mesh_elements": 16,
+      "expected_value": 0.0,
+      "fine_frequency_hz": 422.0258935204117,
+      "fine_mesh_elements": 32,
+      "mode_position_in_branch": 0,
+      "observed_value": 0.00011389541266302637,
+      "relative_error": 0.00011389541266302637,
+      "spin_speed_rad_s": 0.0,
+      "status": "PASS",
+      "threshold": 0.005
+    },
+    {
+      "absolute_error": 0.00011389541099869342,
+      "branch_id": "cluster-001",
+      "coarse_frequency_hz": 422.0739658089275,
+      "coarse_mesh_elements": 16,
+      "expected_value": 0.0,
+      "fine_frequency_hz": 422.0258935211198,
+      "fine_mesh_elements": 32,
+      "mode_position_in_branch": 1,
+      "observed_value": 0.00011389541099869342,
+      "relative_error": 0.00011389541099869342,
+      "spin_speed_rad_s": 0.0,
+      "status": "PASS",
+      "threshold": 0.005
+    },
+    {
+      "absolute_error": 3.289286648128523e-06,
+      "branch_id": "cluster-000.B",
+      "coarse_frequency_hz": 69.86568565696942,
+      "coarse_mesh_elements": 16,
+      "expected_value": 0.0,
+      "fine_frequency_hz": 69.86545584870242,
+      "fine_mesh_elements": 32,
+      "mode_position_in_branch": 0,
+      "observed_value": 3.289286648128523e-06,
+      "relative_error": 3.289286648128523e-06,
+      "spin_speed_rad_s": 100.0,
+      "status": "PASS",
+      "threshold": 0.005
+    },
+    {
+      "absolute_error": 3.294520321891765e-06,
+      "branch_id": "cluster-000.F",
+      "coarse_frequency_hz": 69.90249446699052,
+      "coarse_mesh_elements": 16,
+      "expected_value": 0.0,
+      "fine_frequency_hz": 69.90226417180195,
+      "fine_mesh_elements": 32,
+      "mode_position_in_branch": 0,
+      "observed_value": 3.294520321891765e-06,
+      "relative_error": 3.294520321891765e-06,
+      "spin_speed_rad_s": 100.0,
+      "status": "PASS",
+      "threshold": 0.005
+    },
+    {
+      "absolute_error": 0.00011346062631167874,
+      "branch_id": "branch-000",
+      "coarse_frequency_hz": 421.5470256738796,
+      "coarse_mesh_elements": 16,
+      "expected_value": 0.0,
+      "fine_frequency_hz": 421.4991966843268,
+      "fine_mesh_elements": 32,
+      "mode_position_in_branch": 0,
+      "observed_value": 0.00011346062631167874,
+      "relative_error": 0.00011346062631167874,
+      "spin_speed_rad_s": 250.0,
+      "status": "PASS",
+      "threshold": 0.005
+    },
+    {
+      "absolute_error": 0.00011432898981305986,
+      "branch_id": "branch-001",
+      "coarse_frequency_hz": 422.59906054574816,
+      "coarse_mesh_elements": 16,
+      "expected_value": 0.0,
+      "fine_frequency_hz": 422.55074522206,
+      "fine_mesh_elements": 32,
+      "mode_position_in_branch": 0,
+      "observed_value": 0.00011432898981305986,
+      "relative_error": 0.00011432898981305986,
+      "spin_speed_rad_s": 250.0,
+      "status": "PASS",
+      "threshold": 0.005
+    },
+    {
+      "absolute_error": 3.2853590186118857e-06,
+      "branch_id": "cluster-000.B",
+      "coarse_frequency_hz": 69.83805988856469,
+      "coarse_mesh_elements": 16,
+      "expected_value": 0.0,
+      "fine_frequency_hz": 69.83783044546479,
+      "fine_mesh_elements": 32,
+      "mode_position_in_branch": 0,
+      "observed_value": 3.2853590186118857e-06,
+      "relative_error": 3.2853590186118857e-06,
+      "spin_speed_rad_s": 250.0,
+      "status": "PASS",
+      "threshold": 0.005
+    },
+    {
+      "absolute_error": 3.2984433443744404e-06,
+      "branch_id": "cluster-000.F",
+      "coarse_frequency_hz": 69.93008188098518,
+      "coarse_mesh_elements": 16,
+      "expected_value": 0.0,
+      "fine_frequency_hz": 69.92985122057203,
+      "fine_mesh_elements": 32,
+      "mode_position_in_branch": 0,
+      "observed_value": 3.2984433443744404e-06,
+      "relative_error": 3.2984433443744404e-06,
+      "spin_speed_rad_s": 250.0,
+      "status": "PASS",
+      "threshold": 0.005
+    }
+  ],
+  "mesh_element_counts": [
+    4,
+    8,
+    16,
+    32
+  ],
+  "mesh_level_execution_identities": [
+    {
+      "authority_sha256": {
+        "qualification/0_2_11/wp05_gyroscopic_contract.json": "9e5e3ca372aee4431dffd21f1ed92ee051612d268f5e81935da2132e8161dd17",
+        "qualification/0_2_11/wp06_campbell_contract.json": "8caa305017b7d0ff9eae8b756d246261a2172a6f37c951795db30e4893a466c2"
+      },
+      "case_contract_version": "0.2.11-wp06-campbell-v1",
+      "case_definition": {
+        "analysis": "campbell",
+        "frame_convention": "global_fixed_right_hand_rule",
+        "invariant_reduced_k_m_g_sha256": "949f70637bacaff6a78b66b3c73bb269bd0eed15ffe8e90398d4e0a26b796cb2",
+        "model_identity_sha256": "980f082dae0beee102581c2ef6602ad1436ddcba6c4998233236834be1fbb807",
+        "qep_settings": {
+          "contract": "wp05-frozen-qep-v1"
+        },
+        "refinement": {
+          "enabled": false,
+          "maximum_additional_solves": 0
+        },
+        "requested_modes": 4,
+        "rotation_axis_global": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "spin_speeds_rad_s": [
+          0.0,
+          100.0,
+          250.0
+        ],
+        "tracking_policy": "QF0211-COMPLEX-MAC-GLOBAL-v1"
+      },
+      "implementation_sha256": {
+        "src/solveur/core/analyses/campbell.py": "c1001bcbb003e0c3aef1d331d4cb7a02adbe56f8cf3475d6d88305ed3cabc578",
+        "src/solveur/core/analyses/modal_tracking.py": "95a53071c8103074501a322374dd8c027760c954a00b7428c09e81eef1886952",
+        "src/solveur/core/analyses/qep.py": "c6b080cfaa6df18b486dbf985208881de14f06639b467f908baa5812a1d00b32",
+        "src/solveur/core/analyses/rotating_input_validator.py": "d0c96425935c25c2d51aeed12688d849167f35f35d8b2a3516821b7039ab52b5",
+        "src/solveur/core/analyses/rotating_modal.py": "9f6558288307aa6331af5955e11ea365ef122e9b8e5dc38aa77e039dbf74719d",
+        "src/solveur/core/analyses/rotation_config.py": "c9c92a28fac5666c36d23d4f5904ca3700212a6ded5d3f5346df84b99daf131b",
+        "src/solveur/core/assembly/assembler.py": "23e0702165a65afb2108670b2f140b8173f4857134a4e1461c5d75e8333b30cb",
+        "src/solveur/core/assembly/rotating_disk_gyro.py": "85e1ac04d0432cf0e6d1d9057703a7748498104ae4c7d43a4d81e875872d6ed4",
+        "src/solveur/core/model.py": "9ca34e9eb7b099b65fcb53740659f54ab3779393c668a1a4f8203ab517cb8d8e",
+        "src/solveur/core/results.py": "66a752a7fec9859073eba6ed6a2e3ae7a924b3b0517922f3499713ee3dd9de4e",
+        "src/solveur/post/campbell.py": "deae29a4425df8bad752a708d9cd92a85e05c6f11fc520c47c46d15687ba3b99"
+      },
+      "reference_identity": {
+        "id": "QF0211-WP06-CONTRACT-AND-GYRO-05-06",
+        "role": "verification contract"
+      },
+      "schema_version": 2,
+      "software_versions": {
+        "execution": "serial",
+        "numpy": "2.2.6",
+        "platform": "Windows-10-10.0.19045-SP0",
+        "python": "3.13.1",
+        "qf_solver": "0.2.10",
+        "scipy": "1.15.2"
+      },
+      "source_sha": "bf59bac3d38f19139a401ec8665b326e05917629",
+      "tolerance_policy": {
+        "ambiguity_margin_minimum": 0.05,
+        "complex_mac_minimum": 0.8,
+        "degenerate_cluster_relative_gap": 1e-08,
+        "degenerate_subspace_minimum_singular_value": 0.99999999,
+        "gyro05_relative_frequency_error_maximum": 1e-10,
+        "gyro06_final_mesh_frequency_delta_maximum": 0.005,
+        "normalized_frequency_distance_maximum": 0.25,
+        "policy_id": "QF0211-COMPLEX-MAC-GLOBAL-v1",
+        "qep_relative_residual_maximum": 1e-08
+      }
+    },
+    {
+      "authority_sha256": {
+        "qualification/0_2_11/wp05_gyroscopic_contract.json": "9e5e3ca372aee4431dffd21f1ed92ee051612d268f5e81935da2132e8161dd17",
+        "qualification/0_2_11/wp06_campbell_contract.json": "8caa305017b7d0ff9eae8b756d246261a2172a6f37c951795db30e4893a466c2"
+      },
+      "case_contract_version": "0.2.11-wp06-campbell-v1",
+      "case_definition": {
+        "analysis": "campbell",
+        "frame_convention": "global_fixed_right_hand_rule",
+        "invariant_reduced_k_m_g_sha256": "bb26a95c3438a11325580b540514601c1f83ff9e709ee03c0c225c1069359bc0",
+        "model_identity_sha256": "5bed1cc16c7ccb828fa5721e3f88f4c87e1ff6c257875eebea7730dc1bac90d6",
+        "qep_settings": {
+          "contract": "wp05-frozen-qep-v1"
+        },
+        "refinement": {
+          "enabled": false,
+          "maximum_additional_solves": 0
+        },
+        "requested_modes": 4,
+        "rotation_axis_global": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "spin_speeds_rad_s": [
+          0.0,
+          100.0,
+          250.0
+        ],
+        "tracking_policy": "QF0211-COMPLEX-MAC-GLOBAL-v1"
+      },
+      "implementation_sha256": {
+        "src/solveur/core/analyses/campbell.py": "c1001bcbb003e0c3aef1d331d4cb7a02adbe56f8cf3475d6d88305ed3cabc578",
+        "src/solveur/core/analyses/modal_tracking.py": "95a53071c8103074501a322374dd8c027760c954a00b7428c09e81eef1886952",
+        "src/solveur/core/analyses/qep.py": "c6b080cfaa6df18b486dbf985208881de14f06639b467f908baa5812a1d00b32",
+        "src/solveur/core/analyses/rotating_input_validator.py": "d0c96425935c25c2d51aeed12688d849167f35f35d8b2a3516821b7039ab52b5",
+        "src/solveur/core/analyses/rotating_modal.py": "9f6558288307aa6331af5955e11ea365ef122e9b8e5dc38aa77e039dbf74719d",
+        "src/solveur/core/analyses/rotation_config.py": "c9c92a28fac5666c36d23d4f5904ca3700212a6ded5d3f5346df84b99daf131b",
+        "src/solveur/core/assembly/assembler.py": "23e0702165a65afb2108670b2f140b8173f4857134a4e1461c5d75e8333b30cb",
+        "src/solveur/core/assembly/rotating_disk_gyro.py": "85e1ac04d0432cf0e6d1d9057703a7748498104ae4c7d43a4d81e875872d6ed4",
+        "src/solveur/core/model.py": "9ca34e9eb7b099b65fcb53740659f54ab3779393c668a1a4f8203ab517cb8d8e",
+        "src/solveur/core/results.py": "66a752a7fec9859073eba6ed6a2e3ae7a924b3b0517922f3499713ee3dd9de4e",
+        "src/solveur/post/campbell.py": "deae29a4425df8bad752a708d9cd92a85e05c6f11fc520c47c46d15687ba3b99"
+      },
+      "reference_identity": {
+        "id": "QF0211-WP06-CONTRACT-AND-GYRO-05-06",
+        "role": "verification contract"
+      },
+      "schema_version": 2,
+      "software_versions": {
+        "execution": "serial",
+        "numpy": "2.2.6",
+        "platform": "Windows-10-10.0.19045-SP0",
+        "python": "3.13.1",
+        "qf_solver": "0.2.10",
+        "scipy": "1.15.2"
+      },
+      "source_sha": "bf59bac3d38f19139a401ec8665b326e05917629",
+      "tolerance_policy": {
+        "ambiguity_margin_minimum": 0.05,
+        "complex_mac_minimum": 0.8,
+        "degenerate_cluster_relative_gap": 1e-08,
+        "degenerate_subspace_minimum_singular_value": 0.99999999,
+        "gyro05_relative_frequency_error_maximum": 1e-10,
+        "gyro06_final_mesh_frequency_delta_maximum": 0.005,
+        "normalized_frequency_distance_maximum": 0.25,
+        "policy_id": "QF0211-COMPLEX-MAC-GLOBAL-v1",
+        "qep_relative_residual_maximum": 1e-08
+      }
+    },
+    {
+      "authority_sha256": {
+        "qualification/0_2_11/wp05_gyroscopic_contract.json": "9e5e3ca372aee4431dffd21f1ed92ee051612d268f5e81935da2132e8161dd17",
+        "qualification/0_2_11/wp06_campbell_contract.json": "8caa305017b7d0ff9eae8b756d246261a2172a6f37c951795db30e4893a466c2"
+      },
+      "case_contract_version": "0.2.11-wp06-campbell-v1",
+      "case_definition": {
+        "analysis": "campbell",
+        "frame_convention": "global_fixed_right_hand_rule",
+        "invariant_reduced_k_m_g_sha256": "517c6f06efcb24ef60b293453ad71d397afc8afb89f064a7bd81c4c8cf800834",
+        "model_identity_sha256": "8d94966a34eb21c82d8765a2c24218ee014dfbf0d9d7b3de8afef165a1c84d31",
+        "qep_settings": {
+          "contract": "wp05-frozen-qep-v1"
+        },
+        "refinement": {
+          "enabled": false,
+          "maximum_additional_solves": 0
+        },
+        "requested_modes": 4,
+        "rotation_axis_global": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "spin_speeds_rad_s": [
+          0.0,
+          100.0,
+          250.0
+        ],
+        "tracking_policy": "QF0211-COMPLEX-MAC-GLOBAL-v1"
+      },
+      "implementation_sha256": {
+        "src/solveur/core/analyses/campbell.py": "c1001bcbb003e0c3aef1d331d4cb7a02adbe56f8cf3475d6d88305ed3cabc578",
+        "src/solveur/core/analyses/modal_tracking.py": "95a53071c8103074501a322374dd8c027760c954a00b7428c09e81eef1886952",
+        "src/solveur/core/analyses/qep.py": "c6b080cfaa6df18b486dbf985208881de14f06639b467f908baa5812a1d00b32",
+        "src/solveur/core/analyses/rotating_input_validator.py": "d0c96425935c25c2d51aeed12688d849167f35f35d8b2a3516821b7039ab52b5",
+        "src/solveur/core/analyses/rotating_modal.py": "9f6558288307aa6331af5955e11ea365ef122e9b8e5dc38aa77e039dbf74719d",
+        "src/solveur/core/analyses/rotation_config.py": "c9c92a28fac5666c36d23d4f5904ca3700212a6ded5d3f5346df84b99daf131b",
+        "src/solveur/core/assembly/assembler.py": "23e0702165a65afb2108670b2f140b8173f4857134a4e1461c5d75e8333b30cb",
+        "src/solveur/core/assembly/rotating_disk_gyro.py": "85e1ac04d0432cf0e6d1d9057703a7748498104ae4c7d43a4d81e875872d6ed4",
+        "src/solveur/core/model.py": "9ca34e9eb7b099b65fcb53740659f54ab3779393c668a1a4f8203ab517cb8d8e",
+        "src/solveur/core/results.py": "66a752a7fec9859073eba6ed6a2e3ae7a924b3b0517922f3499713ee3dd9de4e",
+        "src/solveur/post/campbell.py": "deae29a4425df8bad752a708d9cd92a85e05c6f11fc520c47c46d15687ba3b99"
+      },
+      "reference_identity": {
+        "id": "QF0211-WP06-CONTRACT-AND-GYRO-05-06",
+        "role": "verification contract"
+      },
+      "schema_version": 2,
+      "software_versions": {
+        "execution": "serial",
+        "numpy": "2.2.6",
+        "platform": "Windows-10-10.0.19045-SP0",
+        "python": "3.13.1",
+        "qf_solver": "0.2.10",
+        "scipy": "1.15.2"
+      },
+      "source_sha": "bf59bac3d38f19139a401ec8665b326e05917629",
+      "tolerance_policy": {
+        "ambiguity_margin_minimum": 0.05,
+        "complex_mac_minimum": 0.8,
+        "degenerate_cluster_relative_gap": 1e-08,
+        "degenerate_subspace_minimum_singular_value": 0.99999999,
+        "gyro05_relative_frequency_error_maximum": 1e-10,
+        "gyro06_final_mesh_frequency_delta_maximum": 0.005,
+        "normalized_frequency_distance_maximum": 0.25,
+        "policy_id": "QF0211-COMPLEX-MAC-GLOBAL-v1",
+        "qep_relative_residual_maximum": 1e-08
+      }
+    },
+    {
+      "authority_sha256": {
+        "qualification/0_2_11/wp05_gyroscopic_contract.json": "9e5e3ca372aee4431dffd21f1ed92ee051612d268f5e81935da2132e8161dd17",
+        "qualification/0_2_11/wp06_campbell_contract.json": "8caa305017b7d0ff9eae8b756d246261a2172a6f37c951795db30e4893a466c2"
+      },
+      "case_contract_version": "0.2.11-wp06-campbell-v1",
+      "case_definition": {
+        "analysis": "campbell",
+        "frame_convention": "global_fixed_right_hand_rule",
+        "invariant_reduced_k_m_g_sha256": "c72b330b651b660aaf673d1ff96842a51fd4c07d2bb54c16daf7b9d6fb15be0d",
+        "model_identity_sha256": "2a7bdc79414295ec79555c7a6bc55129aa0a5470067e82ecdcdb0a492a09647b",
+        "qep_settings": {
+          "contract": "wp05-frozen-qep-v1"
+        },
+        "refinement": {
+          "enabled": false,
+          "maximum_additional_solves": 0
+        },
+        "requested_modes": 4,
+        "rotation_axis_global": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "spin_speeds_rad_s": [
+          0.0,
+          100.0,
+          250.0
+        ],
+        "tracking_policy": "QF0211-COMPLEX-MAC-GLOBAL-v1"
+      },
+      "implementation_sha256": {
+        "src/solveur/core/analyses/campbell.py": "c1001bcbb003e0c3aef1d331d4cb7a02adbe56f8cf3475d6d88305ed3cabc578",
+        "src/solveur/core/analyses/modal_tracking.py": "95a53071c8103074501a322374dd8c027760c954a00b7428c09e81eef1886952",
+        "src/solveur/core/analyses/qep.py": "c6b080cfaa6df18b486dbf985208881de14f06639b467f908baa5812a1d00b32",
+        "src/solveur/core/analyses/rotating_input_validator.py": "d0c96425935c25c2d51aeed12688d849167f35f35d8b2a3516821b7039ab52b5",
+        "src/solveur/core/analyses/rotating_modal.py": "9f6558288307aa6331af5955e11ea365ef122e9b8e5dc38aa77e039dbf74719d",
+        "src/solveur/core/analyses/rotation_config.py": "c9c92a28fac5666c36d23d4f5904ca3700212a6ded5d3f5346df84b99daf131b",
+        "src/solveur/core/assembly/assembler.py": "23e0702165a65afb2108670b2f140b8173f4857134a4e1461c5d75e8333b30cb",
+        "src/solveur/core/assembly/rotating_disk_gyro.py": "85e1ac04d0432cf0e6d1d9057703a7748498104ae4c7d43a4d81e875872d6ed4",
+        "src/solveur/core/model.py": "9ca34e9eb7b099b65fcb53740659f54ab3779393c668a1a4f8203ab517cb8d8e",
+        "src/solveur/core/results.py": "66a752a7fec9859073eba6ed6a2e3ae7a924b3b0517922f3499713ee3dd9de4e",
+        "src/solveur/post/campbell.py": "deae29a4425df8bad752a708d9cd92a85e05c6f11fc520c47c46d15687ba3b99"
+      },
+      "reference_identity": {
+        "id": "QF0211-WP06-CONTRACT-AND-GYRO-05-06",
+        "role": "verification contract"
+      },
+      "schema_version": 2,
+      "software_versions": {
+        "execution": "serial",
+        "numpy": "2.2.6",
+        "platform": "Windows-10-10.0.19045-SP0",
+        "python": "3.13.1",
+        "qf_solver": "0.2.10",
+        "scipy": "1.15.2"
+      },
+      "source_sha": "bf59bac3d38f19139a401ec8665b326e05917629",
+      "tolerance_policy": {
+        "ambiguity_margin_minimum": 0.05,
+        "complex_mac_minimum": 0.8,
+        "degenerate_cluster_relative_gap": 1e-08,
+        "degenerate_subspace_minimum_singular_value": 0.99999999,
+        "gyro05_relative_frequency_error_maximum": 1e-10,
+        "gyro06_final_mesh_frequency_delta_maximum": 0.005,
+        "normalized_frequency_distance_maximum": 0.25,
+        "policy_id": "QF0211-COMPLEX-MAC-GLOBAL-v1",
+        "qep_relative_residual_maximum": 1e-08
+      }
+    }
+  ],
+  "mesh_level_execution_keys": [
+    "2ccad8a48048f99c178165950eda8ca0267340d3caae27d73b00c017ea6ea3af",
+    "51a7fe5094c65939875a4badc8a796af225ca0fd586c83d0d846e5654eb0d155",
+    "ffd36fcb6a2b3b45b2bd2383199aa87e5194264565d9ec2728a6badbbf5ab8ba",
+    "2158bfb994c674e0a2a7b44f617446ed7218768c18ab43b4ae72a40da3c87204"
+  ],
+  "mesh_tracking_coverage_comparisons": [
+    {
+      "coarse_tracked_mode_count": 4,
+      "common_tracked_branch_ids": [
+        "cluster-000",
+        "cluster-001"
+      ],
+      "compared_mode_count": 4,
+      "expected_value": 4,
+      "fine_tracked_mode_count": 4,
+      "spin_speed_rad_s": 0.0,
+      "status": "PASS",
+      "threshold": "at least one common retained tracked frequency; unresolved ambiguity remains explicit",
+      "unmatched_or_ambiguous_16_element_branches": [
+        {
+          "ambiguity_status": null,
+          "branch_id": "branch-000",
+          "candidate_branch_ids": [],
+          "frequencies_hz": []
+        },
+        {
+          "ambiguity_status": null,
+          "branch_id": "branch-001",
+          "candidate_branch_ids": [],
+          "frequencies_hz": []
+        },
+        {
+          "ambiguity_status": null,
+          "branch_id": "cluster-000.B",
+          "candidate_branch_ids": [],
+          "frequencies_hz": []
+        },
+        {
+          "ambiguity_status": null,
+          "branch_id": "cluster-000.F",
+          "candidate_branch_ids": [],
+          "frequencies_hz": []
+        }
+      ],
+      "unmatched_or_ambiguous_32_element_branches": [
+        {
+          "ambiguity_status": null,
+          "branch_id": "branch-000",
+          "candidate_branch_ids": [],
+          "frequencies_hz": []
+        },
+        {
+          "ambiguity_status": null,
+          "branch_id": "branch-001",
+          "candidate_branch_ids": [],
+          "frequencies_hz": []
+        },
+        {
+          "ambiguity_status": null,
+          "branch_id": "cluster-000.B",
+          "candidate_branch_ids": [],
+          "frequencies_hz": []
+        },
+        {
+          "ambiguity_status": null,
+          "branch_id": "cluster-000.F",
+          "candidate_branch_ids": [],
+          "frequencies_hz": []
+        }
+      ]
+    },
+    {
+      "coarse_tracked_mode_count": 2,
+      "common_tracked_branch_ids": [
+        "cluster-000.B",
+        "cluster-000.F"
+      ],
+      "compared_mode_count": 2,
+      "expected_value": 4,
+      "fine_tracked_mode_count": 2,
+      "spin_speed_rad_s": 100.0,
+      "status": "PASS_WITH_RECORDED_AMBIGUITY",
+      "threshold": "at least one common retained tracked frequency; unresolved ambiguity remains explicit",
+      "unmatched_or_ambiguous_16_element_branches": [
+        {
+          "ambiguity_status": "UNTRACKED",
+          "branch_id": "branch-000",
+          "candidate_branch_ids": [],
+          "frequencies_hz": [
+            421.86341095907153
+          ]
+        },
+        {
+          "ambiguity_status": "UNTRACKED",
+          "branch_id": "branch-001",
+          "candidate_branch_ids": [],
+          "frequencies_hz": [
+            422.2842253924505
+          ]
+        },
+        {
+          "ambiguity_status": null,
+          "branch_id": "cluster-000",
+          "candidate_branch_ids": [],
+          "frequencies_hz": []
+        },
+        {
+          "ambiguity_status": null,
+          "branch_id": "cluster-001",
+          "candidate_branch_ids": [],
+          "frequencies_hz": []
+        }
+      ],
+      "unmatched_or_ambiguous_32_element_branches": [
+        {
+          "ambiguity_status": "UNTRACKED",
+          "branch_id": "branch-000",
+          "candidate_branch_ids": [],
+          "frequencies_hz": [
+            421.8154359582343
+          ]
+        },
+        {
+          "ambiguity_status": "UNTRACKED",
+          "branch_id": "branch-001",
+          "candidate_branch_ids": [],
+          "frequencies_hz": [
+            422.23605585668525
+          ]
+        },
+        {
+          "ambiguity_status": null,
+          "branch_id": "cluster-000",
+          "candidate_branch_ids": [],
+          "frequencies_hz": []
+        },
+        {
+          "ambiguity_status": null,
+          "branch_id": "cluster-001",
+          "candidate_branch_ids": [],
+          "frequencies_hz": []
+        }
+      ]
+    },
+    {
+      "coarse_tracked_mode_count": 4,
+      "common_tracked_branch_ids": [
+        "branch-000",
+        "branch-001",
+        "cluster-000.B",
+        "cluster-000.F"
+      ],
+      "compared_mode_count": 4,
+      "expected_value": 4,
+      "fine_tracked_mode_count": 4,
+      "spin_speed_rad_s": 250.0,
+      "status": "PASS",
+      "threshold": "at least one common retained tracked frequency; unresolved ambiguity remains explicit",
+      "unmatched_or_ambiguous_16_element_branches": [
+        {
+          "ambiguity_status": null,
+          "branch_id": "cluster-000",
+          "candidate_branch_ids": [],
+          "frequencies_hz": []
+        },
+        {
+          "ambiguity_status": null,
+          "branch_id": "cluster-001",
+          "candidate_branch_ids": [],
+          "frequencies_hz": []
+        }
+      ],
+      "unmatched_or_ambiguous_32_element_branches": [
+        {
+          "ambiguity_status": null,
+          "branch_id": "cluster-000",
+          "candidate_branch_ids": [],
+          "frequencies_hz": []
+        },
+        {
+          "ambiguity_status": null,
+          "branch_id": "cluster-001",
+          "candidate_branch_ids": [],
+          "frequencies_hz": []
+        }
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "absolute_error": 1.6173500115243727e-09,
+      "expected_value": 0.0,
+      "metric": "maximum_qep_relative_residual_over_all_meshes_speeds_modes",
+      "observed_value": 1.6173500115243727e-09,
+      "relative_error": 1.6173500115243727e-09,
+      "status": "PASS",
+      "threshold": 1e-08
+    },
+    {
+      "absolute_error": 0.00011432898981305986,
+      "compared_tracked_frequencies": 10,
+      "coverage_failure_count": 0,
+      "expected_value": 0.0,
+      "metric": "maximum_16_to_32_element_tracked_branch_frequency_delta",
+      "observed_value": 0.00011432898981305986,
+      "partial_coverage_speeds_rad_s": [
+        100.0
+      ],
+      "relative_error": 0.00011432898981305986,
+      "status": "PASS",
+      "structural_mismatch_count": 0,
+      "threshold": 0.005
+    },
+    {
+      "expected_value": true,
+      "metric": "no_forced_continuity_for_reported_ambiguities",
+      "observed_statuses": [
+        "DEGENERATE_CLUSTER",
+        "DEGENERATE_CLUSTER",
+        "UNTRACKED",
+        "UNTRACKED",
+        "CLEAR_MATCH",
+        "CLEAR_MATCH",
+        "CLEAR_MATCH",
+        "CLEAR_MATCH",
+        "DEGENERATE_CLUSTER",
+        "DEGENERATE_CLUSTER",
+        "UNTRACKED",
+        "UNTRACKED",
+        "CLEAR_MATCH",
+        "CLEAR_MATCH",
+        "CLEAR_MATCH",
+        "CLEAR_MATCH",
+        "DEGENERATE_CLUSTER",
+        "DEGENERATE_CLUSTER",
+        "UNTRACKED",
+        "UNTRACKED",
+        "CLEAR_MATCH",
+        "CLEAR_MATCH",
+        "CLEAR_MATCH",
+        "CLEAR_MATCH",
+        "DEGENERATE_CLUSTER",
+        "DEGENERATE_CLUSTER",
+        "UNTRACKED",
+        "UNTRACKED",
+        "CLEAR_MATCH",
+        "CLEAR_MATCH",
+        "CLEAR_MATCH",
+        "CLEAR_MATCH"
+      ],
+      "observed_value": true,
+      "status": "PASS",
+      "threshold": "ambiguous/untracked edges remain absent from individual branch associations"
+    }
+  ],
+  "numerical_status": "PASS",
+  "observed_at_utc": "2026-10-06T07:14:48.865434+00:00",
+  "record_schema": "qf.wp03.execution.v2",
+  "record_sha256": "d9b372684b4c7e79402fb735b96cf05b27952b59c592c64340508dbd457d8e1f",
+  "schema_version": 2,
+  "source_sha": "bf59bac3d38f19139a401ec8665b326e05917629",
+  "speed_sweep_rad_s": [
+    0.0,
+    100.0,
+    250.0
+  ],
+  "tracking_coverage_by_mesh": [
+    {
+      "mesh_elements": 4,
+      "speeds": [
+        {
+          "expected_mode_count": 4,
+          "spin_speed_rad_s": 0.0,
+          "status": "TRACKING_COVERAGE_COMPLETE",
+          "tracked_branch_ids": [
+            "cluster-000",
+            "cluster-001"
+          ],
+          "tracked_mode_count": 4,
+          "untracked_or_ambiguous_branches": [
+            {
+              "ambiguity_status": null,
+              "branch_id": "branch-000",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "branch-001",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-000.B",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-000.F",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            }
+          ]
+        },
+        {
+          "expected_mode_count": 4,
+          "spin_speed_rad_s": 100.0,
+          "status": "PARTIAL_TRACKING_AMBIGUITY_PRESERVED",
+          "tracked_branch_ids": [
+            "cluster-000.B",
+            "cluster-000.F"
+          ],
+          "tracked_mode_count": 2,
+          "untracked_or_ambiguous_branches": [
+            {
+              "ambiguity_status": "UNTRACKED",
+              "branch_id": "branch-000",
+              "candidate_branch_ids": [],
+              "frequencies_hz": [
+                423.06690541278107
+              ]
+            },
+            {
+              "ambiguity_status": "UNTRACKED",
+              "branch_id": "branch-001",
+              "candidate_branch_ids": [],
+              "frequencies_hz": [
+                423.492723423927
+              ]
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-000",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-001",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            }
+          ]
+        },
+        {
+          "expected_mode_count": 4,
+          "spin_speed_rad_s": 250.0,
+          "status": "TRACKING_COVERAGE_COMPLETE",
+          "tracked_branch_ids": [
+            "branch-000",
+            "branch-001",
+            "cluster-000.B",
+            "cluster-000.F"
+          ],
+          "tracked_mode_count": 4,
+          "untracked_or_ambiguous_branches": [
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-000",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-001",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mesh_elements": 8,
+      "speeds": [
+        {
+          "expected_mode_count": 4,
+          "spin_speed_rad_s": 0.0,
+          "status": "TRACKING_COVERAGE_COMPLETE",
+          "tracked_branch_ids": [
+            "cluster-000",
+            "cluster-001"
+          ],
+          "tracked_mode_count": 4,
+          "untracked_or_ambiguous_branches": [
+            {
+              "ambiguity_status": null,
+              "branch_id": "branch-000",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "branch-001",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-000.B",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-000.F",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            }
+          ]
+        },
+        {
+          "expected_mode_count": 4,
+          "spin_speed_rad_s": 100.0,
+          "status": "PARTIAL_TRACKING_AMBIGUITY_PRESERVED",
+          "tracked_branch_ids": [
+            "cluster-000.B",
+            "cluster-000.F"
+          ],
+          "tracked_mode_count": 2,
+          "untracked_or_ambiguous_branches": [
+            {
+              "ambiguity_status": "UNTRACKED",
+              "branch_id": "branch-000",
+              "candidate_branch_ids": [],
+              "frequencies_hz": [
+                422.06849447027554
+              ]
+            },
+            {
+              "ambiguity_status": "UNTRACKED",
+              "branch_id": "branch-001",
+              "candidate_branch_ids": [],
+              "frequencies_hz": [
+                422.4901448742057
+              ]
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-000",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-001",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            }
+          ]
+        },
+        {
+          "expected_mode_count": 4,
+          "spin_speed_rad_s": 250.0,
+          "status": "TRACKING_COVERAGE_COMPLETE",
+          "tracked_branch_ids": [
+            "branch-000",
+            "branch-001",
+            "cluster-000.B",
+            "cluster-000.F"
+          ],
+          "tracked_mode_count": 4,
+          "untracked_or_ambiguous_branches": [
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-000",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-001",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mesh_elements": 16,
+      "speeds": [
+        {
+          "expected_mode_count": 4,
+          "spin_speed_rad_s": 0.0,
+          "status": "TRACKING_COVERAGE_COMPLETE",
+          "tracked_branch_ids": [
+            "cluster-000",
+            "cluster-001"
+          ],
+          "tracked_mode_count": 4,
+          "untracked_or_ambiguous_branches": [
+            {
+              "ambiguity_status": null,
+              "branch_id": "branch-000",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "branch-001",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-000.B",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-000.F",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            }
+          ]
+        },
+        {
+          "expected_mode_count": 4,
+          "spin_speed_rad_s": 100.0,
+          "status": "PARTIAL_TRACKING_AMBIGUITY_PRESERVED",
+          "tracked_branch_ids": [
+            "cluster-000.B",
+            "cluster-000.F"
+          ],
+          "tracked_mode_count": 2,
+          "untracked_or_ambiguous_branches": [
+            {
+              "ambiguity_status": "UNTRACKED",
+              "branch_id": "branch-000",
+              "candidate_branch_ids": [],
+              "frequencies_hz": [
+                421.86341095907153
+              ]
+            },
+            {
+              "ambiguity_status": "UNTRACKED",
+              "branch_id": "branch-001",
+              "candidate_branch_ids": [],
+              "frequencies_hz": [
+                422.2842253924505
+              ]
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-000",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-001",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            }
+          ]
+        },
+        {
+          "expected_mode_count": 4,
+          "spin_speed_rad_s": 250.0,
+          "status": "TRACKING_COVERAGE_COMPLETE",
+          "tracked_branch_ids": [
+            "branch-000",
+            "branch-001",
+            "cluster-000.B",
+            "cluster-000.F"
+          ],
+          "tracked_mode_count": 4,
+          "untracked_or_ambiguous_branches": [
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-000",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-001",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mesh_elements": 32,
+      "speeds": [
+        {
+          "expected_mode_count": 4,
+          "spin_speed_rad_s": 0.0,
+          "status": "TRACKING_COVERAGE_COMPLETE",
+          "tracked_branch_ids": [
+            "cluster-000",
+            "cluster-001"
+          ],
+          "tracked_mode_count": 4,
+          "untracked_or_ambiguous_branches": [
+            {
+              "ambiguity_status": null,
+              "branch_id": "branch-000",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "branch-001",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-000.B",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-000.F",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            }
+          ]
+        },
+        {
+          "expected_mode_count": 4,
+          "spin_speed_rad_s": 100.0,
+          "status": "PARTIAL_TRACKING_AMBIGUITY_PRESERVED",
+          "tracked_branch_ids": [
+            "cluster-000.B",
+            "cluster-000.F"
+          ],
+          "tracked_mode_count": 2,
+          "untracked_or_ambiguous_branches": [
+            {
+              "ambiguity_status": "UNTRACKED",
+              "branch_id": "branch-000",
+              "candidate_branch_ids": [],
+              "frequencies_hz": [
+                421.8154359582343
+              ]
+            },
+            {
+              "ambiguity_status": "UNTRACKED",
+              "branch_id": "branch-001",
+              "candidate_branch_ids": [],
+              "frequencies_hz": [
+                422.23605585668525
+              ]
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-000",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-001",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            }
+          ]
+        },
+        {
+          "expected_mode_count": 4,
+          "spin_speed_rad_s": 250.0,
+          "status": "TRACKING_COVERAGE_COMPLETE",
+          "tracked_branch_ids": [
+            "branch-000",
+            "branch-001",
+            "cluster-000.B",
+            "cluster-000.F"
+          ],
+          "tracked_mode_count": 4,
+          "untracked_or_ambiguous_branches": [
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-000",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            },
+            {
+              "ambiguity_status": null,
+              "branch_id": "cluster-001",
+              "candidate_branch_ids": [],
+              "frequencies_hz": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "tracking_metrics": [
+    {
+      "branches": [
+        {
+          "branch_id": "branch-000",
+          "child_branch_ids": [],
+          "parent_branch_ids": [],
+          "samples": [
+            null,
+            {
+              "ambiguity_status": "UNTRACKED",
+              "branch_id": "branch-000",
+              "candidate_branch_ids": [],
+              "eigenvalues": [
+                {
+                  "imag": 2658.207764043522,
+                  "real": 1.6232757948448198e-26
+                }
+              ],
+              "frequencies_hz": [
+                423.06690541278107
+              ],
+              "mode_ids": [
+                "mode-002"
+              ],
+              "polarization": [
+                {
+                  "chi": -1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "BACKWARD",
+                  "station_chi": [
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0
+                  ]
+                }
+              ],
+              "qep_residuals": [
+                1.4054744582875103e-13
+              ],
+              "source_mode_indices": [
+                5
+              ],
+              "speed_index": 1,
+              "spin_speed_rad_s": 100.0
+            },
+            {
+              "ambiguity_margin": 1.0,
+              "ambiguity_status": "CLEAR_MATCH",
+              "branch_id": "branch-000",
+              "complex_mac": 0.9999996011931886,
+              "eigenvalues": [
+                {
+                  "imag": 2656.1962651684544,
+                  "real": -2.302787569923642e-13
+                }
+              ],
+              "frequencies_hz": [
+                422.7467654237903
+              ],
+              "mode_ids": [
+                "mode-002"
+              ],
+              "normalized_frequency_distance": 0.0007567124369570298,
+              "polarization": [
+                {
+                  "chi": -1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "BACKWARD",
+                  "station_chi": [
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0000000000000002
+                  ]
+                }
+              ],
+              "polarization_distance": 0.0,
+              "qep_residuals": [
+                1.303770763982832e-13
+              ],
+              "source_mode_indices": [
+                5
+              ],
+              "speed_index": 2,
+              "spin_speed_rad_s": 250.0
+            }
+          ]
+        },
+        {
+          "branch_id": "branch-001",
+          "child_branch_ids": [],
+          "parent_branch_ids": [],
+          "samples": [
+            null,
+            {
+              "ambiguity_status": "UNTRACKED",
+              "branch_id": "branch-001",
+              "candidate_branch_ids": [],
+              "eigenvalues": [
+                {
+                  "imag": 2660.883257514686,
+                  "real": 2.374121391827201e-27
+                }
+              ],
+              "frequencies_hz": [
+                423.492723423927
+              ],
+              "mode_ids": [
+                "mode-003"
+              ],
+              "polarization": [
+                {
+                  "chi": 0.9999999999999998,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "FORWARD",
+                  "station_chi": [
+                    1.0,
+                    0.9999999999999998,
+                    0.9999999999999998,
+                    0.9999999999999999
+                  ]
+                }
+              ],
+              "qep_residuals": [
+                6.562829994830858e-14
+              ],
+              "source_mode_indices": [
+                7
+              ],
+              "speed_index": 1,
+              "spin_speed_rad_s": 100.0
+            },
+            {
+              "ambiguity_margin": 1.0,
+              "ambiguity_status": "CLEAR_MATCH",
+              "branch_id": "branch-001",
+              "complex_mac": 0.9999996062956974,
+              "eigenvalues": [
+                {
+                  "imag": 2662.8849906924006,
+                  "real": 5.541000636759491e-14
+                }
+              ],
+              "frequencies_hz": [
+                423.8113091539113
+              ],
+              "mode_ids": [
+                "mode-003"
+              ],
+              "normalized_frequency_distance": 0.000751715971478734,
+              "polarization": [
+                {
+                  "chi": 1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "FORWARD",
+                  "station_chi": [
+                    0.9999999999999999,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                }
+              ],
+              "polarization_distance": 1.1102230246251565e-16,
+              "qep_residuals": [
+                1.9679630567555196e-13
+              ],
+              "source_mode_indices": [
+                7
+              ],
+              "speed_index": 2,
+              "spin_speed_rad_s": 250.0
+            }
+          ]
+        },
+        {
+          "branch_id": "cluster-000",
+          "child_branch_ids": [
+            "cluster-000.B",
+            "cluster-000.F"
+          ],
+          "parent_branch_ids": [],
+          "samples": [
+            {
+              "ambiguity_status": "DEGENERATE_CLUSTER",
+              "branch_id": "cluster-000",
+              "eigenvalues": [
+                {
+                  "imag": 439.1344809558414,
+                  "real": -1.4110535316817852e-11
+                },
+                {
+                  "imag": 439.1344809558686,
+                  "real": -1.645539917730148e-11
+                }
+              ],
+              "frequencies_hz": [
+                69.89042332621594,
+                69.89042332622026
+              ],
+              "mode_ids": [
+                "cluster-000"
+              ],
+              "polarization": [
+                {
+                  "chi": null,
+                  "classification": "UNDEFINED",
+                  "defined": false,
+                  "relative_whirl": "UNDEFINED",
+                  "station_chi": []
+                },
+                {
+                  "chi": null,
+                  "classification": "UNDEFINED",
+                  "defined": false,
+                  "relative_whirl": "UNDEFINED",
+                  "station_chi": []
+                }
+              ],
+              "qep_residuals": [
+                2.5367079172235184e-13,
+                2.907386540425209e-13
+              ],
+              "source_mode_indices": [
+                1,
+                2
+              ],
+              "speed_index": 0,
+              "spin_speed_rad_s": 0.0
+            },
+            null,
+            null
+          ]
+        },
+        {
+          "branch_id": "cluster-000.B",
+          "child_branch_ids": [],
+          "parent_branch_ids": [
+            "cluster-000"
+          ],
+          "samples": [
+            null,
+            {
+              "ambiguity_status": "DEGENERATE_CLUSTER",
+              "branch_id": "cluster-000.B",
+              "eigenvalues": [
+                {
+                  "imag": 439.0187774728744,
+                  "real": -6.670132193218854e-20
+                }
+              ],
+              "frequencies_hz": [
+                69.87200854496879
+              ],
+              "mode_ids": [
+                "mode-000"
+              ],
+              "parent_subspace_projection": 0.9999999973247219,
+              "polarization": [
+                {
+                  "chi": -1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "BACKWARD",
+                  "station_chi": [
+                    -0.9999999999999998,
+                    -1.0,
+                    -1.0,
+                    -1.0
+                  ]
+                }
+              ],
+              "qep_residuals": [
+                1.3625520473605608e-12
+              ],
+              "source_mode_indices": [
+                1
+              ],
+              "speed_index": 1,
+              "spin_speed_rad_s": 100.0
+            },
+            {
+              "ambiguity_margin": 1.0,
+              "ambiguity_status": "CLEAR_MATCH",
+              "branch_id": "cluster-000.B",
+              "complex_mac": 0.9999999939790525,
+              "eigenvalues": [
+                {
+                  "imag": 438.8451362969558,
+                  "real": -6.2992562892636335e-15
+                }
+              ],
+              "frequencies_hz": [
+                69.84437269349705
+              ],
+              "mode_ids": [
+                "mode-000"
+              ],
+              "normalized_frequency_distance": 0.0003955210684112059,
+              "polarization": [
+                {
+                  "chi": -1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "BACKWARD",
+                  "station_chi": [
+                    -1.0,
+                    -0.9999999999999999,
+                    -1.0,
+                    -1.0000000000000002
+                  ]
+                }
+              ],
+              "polarization_distance": 0.0,
+              "qep_residuals": [
+                1.53954592562511e-12
+              ],
+              "source_mode_indices": [
+                1
+              ],
+              "speed_index": 2,
+              "spin_speed_rad_s": 250.0
+            }
+          ]
+        },
+        {
+          "branch_id": "cluster-000.F",
+          "child_branch_ids": [],
+          "parent_branch_ids": [
+            "cluster-000"
+          ],
+          "samples": [
+            null,
+            {
+              "ambiguity_status": "DEGENERATE_CLUSTER",
+              "branch_id": "cluster-000.F",
+              "eigenvalues": [
+                {
+                  "imag": 439.25013854340426,
+                  "real": -1.8278593827386865e-14
+                }
+              ],
+              "frequencies_hz": [
+                69.90883080298265
+              ],
+              "mode_ids": [
+                "mode-001"
+              ],
+              "parent_subspace_projection": 0.9999999973252851,
+              "polarization": [
+                {
+                  "chi": 1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "FORWARD",
+                  "station_chi": [
+                    1.0000000000000002,
+                    0.9999999999999999,
+                    1.0,
+                    1.0
+                  ]
+                }
+              ],
+              "qep_residuals": [
+                1.1685108481171404e-12
+              ],
+              "source_mode_indices": [
+                3
+              ],
+              "speed_index": 1,
+              "spin_speed_rad_s": 100.0
+            },
+            {
+              "ambiguity_margin": 1.0,
+              "ambiguity_status": "CLEAR_MATCH",
+              "branch_id": "cluster-000.F",
+              "complex_mac": 0.9999999939834885,
+              "eigenvalues": [
+                {
+                  "imag": 439.42353876791,
+                  "real": 1.6421742944703584e-15
+                }
+              ],
+              "frequencies_hz": [
+                69.93642830584598
+              ],
+              "mode_ids": [
+                "mode-001"
+              ],
+              "normalized_frequency_distance": 0.00039460841126516126,
+              "polarization": [
+                {
+                  "chi": 1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "FORWARD",
+                  "station_chi": [
+                    1.0,
+                    1.0,
+                    1.0000000000000002,
+                    1.0
+                  ]
+                }
+              ],
+              "polarization_distance": 0.0,
+              "qep_residuals": [
+                1.6895082921612964e-12
+              ],
+              "source_mode_indices": [
+                3
+              ],
+              "speed_index": 2,
+              "spin_speed_rad_s": 250.0
+            }
+          ]
+        },
+        {
+          "branch_id": "cluster-001",
+          "child_branch_ids": [],
+          "parent_branch_ids": [],
+          "samples": [
+            {
+              "ambiguity_status": "DEGENERATE_CLUSTER",
+              "branch_id": "cluster-001",
+              "eigenvalues": [
+                {
+                  "imag": 2659.5464408549274,
+                  "real": 1.184074882855131e-11
+                },
+                {
+                  "imag": 2659.5464408549456,
+                  "real": 1.181328422045498e-11
+                }
+              ],
+              "frequencies_hz": [
+                423.2799624445188,
+                423.2799624445217
+              ],
+              "mode_ids": [
+                "cluster-001"
+              ],
+              "polarization": [
+                {
+                  "chi": null,
+                  "classification": "UNDEFINED",
+                  "defined": false,
+                  "relative_whirl": "UNDEFINED",
+                  "station_chi": []
+                },
+                {
+                  "chi": null,
+                  "classification": "UNDEFINED",
+                  "defined": false,
+                  "relative_whirl": "UNDEFINED",
+                  "station_chi": []
+                }
+              ],
+              "qep_residuals": [
+                3.171374669445131e-14,
+                2.514185949210919e-14
+              ],
+              "source_mode_indices": [
+                4,
+                7
+              ],
+              "speed_index": 0,
+              "spin_speed_rad_s": 0.0
+            },
+            null,
+            null
+          ]
+        }
+      ],
+      "execution_key": "2ccad8a48048f99c178165950eda8ca0267340d3caae27d73b00c017ea6ea3af",
+      "mesh_elements": 4,
+      "tracking_diagnostics": [
+        {
+          "child_branch_id": "cluster-000.B",
+          "combined_subspace_minimum_singular_value": 0.9999999986623611,
+          "event": "CLUSTER_SPLIT",
+          "from_speed_index": 0,
+          "parent_branch_id": "cluster-000",
+          "status": "DEGENERATE_CLUSTER",
+          "subspace_projection": 0.9999999973247219,
+          "to_speed_index": 1
+        },
+        {
+          "child_branch_id": "cluster-000.F",
+          "combined_subspace_minimum_singular_value": 0.9999999986623611,
+          "event": "CLUSTER_SPLIT",
+          "from_speed_index": 0,
+          "parent_branch_id": "cluster-000",
+          "status": "DEGENERATE_CLUSTER",
+          "subspace_projection": 0.9999999973252851,
+          "to_speed_index": 1
+        },
+        {
+          "admissible_candidate_edges": [],
+          "event": "UNMATCHED_TARGET",
+          "from_speed_index": 0,
+          "status": "UNTRACKED",
+          "target_branch_id": "branch-000",
+          "to_speed_index": 1
+        },
+        {
+          "admissible_candidate_edges": [],
+          "event": "UNMATCHED_TARGET",
+          "from_speed_index": 0,
+          "status": "UNTRACKED",
+          "target_branch_id": "branch-001",
+          "to_speed_index": 1
+        },
+        {
+          "admissible_edges_for_source": [
+            {
+              "assignment_cost": 9.88841807186884e-05,
+              "complex_mac": 0.9999999939790525,
+              "normalized_frequency_distance": 0.0003955210684112059,
+              "polarization_distance": 0.0,
+              "target_mode_indices": [
+                1
+              ]
+            }
+          ],
+          "admissible_edges_for_target": [
+            {
+              "assignment_cost": 9.88841807186884e-05,
+              "complex_mac": 0.9999999939790525,
+              "normalized_frequency_distance": 0.0003955210684112059,
+              "polarization_distance": 0.0,
+              "source_branch_id": "cluster-000.B",
+              "source_mode_indices": [
+                1
+              ],
+              "target_mode_indices": [
+                1
+              ]
+            }
+          ],
+          "ambiguity_margin": 1.0,
+          "candidate_mode_indices": [
+            1
+          ],
+          "complex_mac": 0.9999999939790525,
+          "from_speed_index": 1,
+          "individual_association_status": "CLEAR_MATCH",
+          "individual_edges_committed": true,
+          "normalized_frequency_distance": 0.0003955210684112059,
+          "polarization_distance": 0.0,
+          "source_branch_id": "cluster-000.B",
+          "source_mode_indices": [
+            1
+          ],
+          "status": "CLEAR_MATCH",
+          "target_group_index": 0,
+          "to_speed_index": 2
+        },
+        {
+          "admissible_edges_for_source": [
+            {
+              "assignment_cost": 9.86560135487726e-05,
+              "complex_mac": 0.9999999939834885,
+              "normalized_frequency_distance": 0.00039460841126516126,
+              "polarization_distance": 0.0,
+              "target_mode_indices": [
+                3
+              ]
+            }
+          ],
+          "admissible_edges_for_target": [
+            {
+              "assignment_cost": 9.86560135487726e-05,
+              "complex_mac": 0.9999999939834885,
+              "normalized_frequency_distance": 0.00039460841126516126,
+              "polarization_distance": 0.0,
+              "source_branch_id": "cluster-000.F",
+              "source_mode_indices": [
+                3
+              ],
+              "target_mode_indices": [
+                3
+              ]
+            }
+          ],
+          "ambiguity_margin": 1.0,
+          "candidate_mode_indices": [
+            3
+          ],
+          "complex_mac": 0.9999999939834885,
+          "from_speed_index": 1,
+          "individual_association_status": "CLEAR_MATCH",
+          "individual_edges_committed": true,
+          "normalized_frequency_distance": 0.00039460841126516126,
+          "polarization_distance": 0.0,
+          "source_branch_id": "cluster-000.F",
+          "source_mode_indices": [
+            3
+          ],
+          "status": "CLEAR_MATCH",
+          "target_group_index": 1,
+          "to_speed_index": 2
+        },
+        {
+          "admissible_edges_for_source": [
+            {
+              "assignment_cost": 0.0001894373336666366,
+              "complex_mac": 0.9999996011931886,
+              "normalized_frequency_distance": 0.0007567124369570298,
+              "polarization_distance": 0.0,
+              "target_mode_indices": [
+                5
+              ]
+            }
+          ],
+          "admissible_edges_for_target": [
+            {
+              "assignment_cost": 0.0001894373336666366,
+              "complex_mac": 0.9999996011931886,
+              "normalized_frequency_distance": 0.0007567124369570298,
+              "polarization_distance": 0.0,
+              "source_branch_id": "branch-000",
+              "source_mode_indices": [
+                5
+              ],
+              "target_mode_indices": [
+                5
+              ]
+            }
+          ],
+          "ambiguity_margin": 1.0,
+          "candidate_mode_indices": [
+            5
+          ],
+          "complex_mac": 0.9999996011931886,
+          "from_speed_index": 1,
+          "individual_association_status": "CLEAR_MATCH",
+          "individual_edges_committed": true,
+          "normalized_frequency_distance": 0.0007567124369570298,
+          "polarization_distance": 0.0,
+          "source_branch_id": "branch-000",
+          "source_mode_indices": [
+            5
+          ],
+          "status": "CLEAR_MATCH",
+          "target_group_index": 2,
+          "to_speed_index": 2
+        },
+        {
+          "admissible_edges_for_source": [
+            {
+              "assignment_cost": 0.00018818490066638697,
+              "complex_mac": 0.9999996062956974,
+              "normalized_frequency_distance": 0.000751715971478734,
+              "polarization_distance": 1.1102230246251565e-16,
+              "target_mode_indices": [
+                7
+              ]
+            }
+          ],
+          "admissible_edges_for_target": [
+            {
+              "assignment_cost": 0.00018818490066638697,
+              "complex_mac": 0.9999996062956974,
+              "normalized_frequency_distance": 0.000751715971478734,
+              "polarization_distance": 1.1102230246251565e-16,
+              "source_branch_id": "branch-001",
+              "source_mode_indices": [
+                7
+              ],
+              "target_mode_indices": [
+                7
+              ]
+            }
+          ],
+          "ambiguity_margin": 1.0,
+          "candidate_mode_indices": [
+            7
+          ],
+          "complex_mac": 0.9999996062956974,
+          "from_speed_index": 1,
+          "individual_association_status": "CLEAR_MATCH",
+          "individual_edges_committed": true,
+          "normalized_frequency_distance": 0.000751715971478734,
+          "polarization_distance": 1.1102230246251565e-16,
+          "source_branch_id": "branch-001",
+          "source_mode_indices": [
+            7
+          ],
+          "status": "CLEAR_MATCH",
+          "target_group_index": 3,
+          "to_speed_index": 2
+        }
+      ]
+    },
+    {
+      "branches": [
+        {
+          "branch_id": "branch-000",
+          "child_branch_ids": [],
+          "parent_branch_ids": [],
+          "samples": [
+            null,
+            {
+              "ambiguity_status": "UNTRACKED",
+              "branch_id": "branch-000",
+              "candidate_branch_ids": [],
+              "eigenvalues": [
+                {
+                  "imag": 2651.9345630790435,
+                  "real": 1.6454881226477939e-13
+                }
+              ],
+              "frequencies_hz": [
+                422.06849447027554
+              ],
+              "mode_ids": [
+                "mode-002"
+              ],
+              "polarization": [
+                {
+                  "chi": -1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "BACKWARD",
+                  "station_chi": [
+                    -0.9999999999999999,
+                    -0.9999999999999999,
+                    -0.9999999999999999,
+                    -0.9999999999999998,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0
+                  ]
+                }
+              ],
+              "qep_residuals": [
+                1.0052766054217155e-12
+              ],
+              "source_mode_indices": [
+                5
+              ],
+              "speed_index": 1,
+              "spin_speed_rad_s": 100.0
+            },
+            {
+              "ambiguity_margin": 1.0,
+              "ambiguity_status": "CLEAR_MATCH",
+              "branch_id": "branch-000",
+              "complex_mac": 0.9999996021917754,
+              "eigenvalues": [
+                {
+                  "imag": 2649.942713498373,
+                  "real": -8.847408319906914e-14
+                }
+              ],
+              "frequencies_hz": [
+                421.75148176361625
+              ],
+              "mode_ids": [
+                "mode-002"
+              ],
+              "normalized_frequency_distance": 0.0007510930354021245,
+              "polarization": [
+                {
+                  "chi": -1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "BACKWARD",
+                  "station_chi": [
+                    -1.0000000000000002,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0000000000000002,
+                    -0.9999999999999998,
+                    -1.0,
+                    -1.0000000000000002
+                  ]
+                }
+              ],
+              "polarization_distance": 0.0,
+              "qep_residuals": [
+                1.2386337952641001e-12
+              ],
+              "source_mode_indices": [
+                5
+              ],
+              "speed_index": 2,
+              "spin_speed_rad_s": 250.0
+            }
+          ]
+        },
+        {
+          "branch_id": "branch-001",
+          "child_branch_ids": [],
+          "parent_branch_ids": [],
+          "samples": [
+            null,
+            {
+              "ambiguity_status": "UNTRACKED",
+              "branch_id": "branch-001",
+              "candidate_branch_ids": [],
+              "eigenvalues": [
+                {
+                  "imag": 2654.5838707017842,
+                  "real": 2.653189312418646e-13
+                }
+              ],
+              "frequencies_hz": [
+                422.4901448742057
+              ],
+              "mode_ids": [
+                "mode-003"
+              ],
+              "polarization": [
+                {
+                  "chi": 1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "FORWARD",
+                  "station_chi": [
+                    1.0,
+                    1.0000000000000002,
+                    0.9999999999999999,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0000000000000002,
+                    1.0
+                  ]
+                }
+              ],
+              "qep_residuals": [
+                9.465436232053925e-13
+              ],
+              "source_mode_indices": [
+                7
+              ],
+              "speed_index": 1,
+              "spin_speed_rad_s": 100.0
+            },
+            {
+              "ambiguity_margin": 1.0,
+              "ambiguity_status": "CLEAR_MATCH",
+              "branch_id": "branch-001",
+              "complex_mac": 0.9999996072866716,
+              "eigenvalues": [
+                {
+                  "imag": 2656.5659748535113,
+                  "real": -3.498859135856845e-27
+                }
+              ],
+              "frequencies_hz": [
+                422.80560654767606
+              ],
+              "mode_ids": [
+                "mode-003"
+              ],
+              "normalized_frequency_distance": 0.000746115161636974,
+              "polarization": [
+                {
+                  "chi": 1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "FORWARD",
+                  "station_chi": [
+                    0.9999999999999999,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0000000000000002,
+                    0.9999999999999998,
+                    1.0,
+                    1.0
+                  ]
+                }
+              ],
+              "polarization_distance": 0.0,
+              "qep_residuals": [
+                1.2946429957333365e-12
+              ],
+              "source_mode_indices": [
+                7
+              ],
+              "speed_index": 2,
+              "spin_speed_rad_s": 250.0
+            }
+          ]
+        },
+        {
+          "branch_id": "cluster-000",
+          "child_branch_ids": [
+            "cluster-000.B",
+            "cluster-000.F"
+          ],
+          "parent_branch_ids": [],
+          "samples": [
+            {
+              "ambiguity_status": "DEGENERATE_CLUSTER",
+              "branch_id": "cluster-000",
+              "eigenvalues": [
+                {
+                  "imag": 439.10102013660503,
+                  "real": 4.452675980112643e-12
+                },
+                {
+                  "imag": 439.10102013717153,
+                  "real": -6.278967178215854e-11
+                }
+              ],
+              "frequencies_hz": [
+                69.88509787143457,
+                69.88509787152472
+              ],
+              "mode_ids": [
+                "cluster-000"
+              ],
+              "polarization": [
+                {
+                  "chi": null,
+                  "classification": "UNDEFINED",
+                  "defined": false,
+                  "relative_whirl": "UNDEFINED",
+                  "station_chi": []
+                },
+                {
+                  "chi": null,
+                  "classification": "UNDEFINED",
+                  "defined": false,
+                  "relative_whirl": "UNDEFINED",
+                  "station_chi": []
+                }
+              ],
+              "qep_residuals": [
+                2.2911506297950387e-12,
+                2.050950924879657e-12
+              ],
+              "source_mode_indices": [
+                1,
+                2
+              ],
+              "speed_index": 0,
+              "spin_speed_rad_s": 0.0
+            },
+            null,
+            null
+          ]
+        },
+        {
+          "branch_id": "cluster-000.B",
+          "child_branch_ids": [],
+          "parent_branch_ids": [
+            "cluster-000"
+          ],
+          "samples": [
+            null,
+            {
+              "ambiguity_status": "DEGENERATE_CLUSTER",
+              "branch_id": "cluster-000.B",
+              "eigenvalues": [
+                {
+                  "imag": 438.98535221698194,
+                  "real": -7.632572252282241e-15
+                }
+              ],
+              "frequencies_hz": [
+                69.86668875026939
+              ],
+              "mode_ids": [
+                "mode-000"
+              ],
+              "parent_subspace_projection": 0.9999999973245727,
+              "polarization": [
+                {
+                  "chi": -1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "BACKWARD",
+                  "station_chi": [
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0000000000000002,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0
+                  ]
+                }
+              ],
+              "qep_residuals": [
+                2.141285041408838e-11
+              ],
+              "source_mode_indices": [
+                1
+              ],
+              "speed_index": 1,
+              "spin_speed_rad_s": 100.0
+            },
+            {
+              "ambiguity_margin": 1.0,
+              "ambiguity_status": "CLEAR_MATCH",
+              "branch_id": "cluster-000.B",
+              "complex_mac": 0.9999999939787156,
+              "eigenvalues": [
+                {
+                  "imag": 438.8117643745408,
+                  "real": -1.588270213700567e-10
+                }
+              ],
+              "frequencies_hz": [
+                69.83906138708423
+              ],
+              "mode_ids": [
+                "mode-000"
+              ],
+              "normalized_frequency_distance": 0.0003954296915932541,
+              "polarization": [
+                {
+                  "chi": -1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "BACKWARD",
+                  "station_chi": [
+                    -0.9999999999999999,
+                    -1.0,
+                    -1.0,
+                    -1.0000000000000002,
+                    -1.0,
+                    -1.0000000000000002,
+                    -1.0,
+                    -1.0
+                  ]
+                }
+              ],
+              "polarization_distance": 0.0,
+              "qep_residuals": [
+                4.1050142886185455e-11
+              ],
+              "source_mode_indices": [
+                1
+              ],
+              "speed_index": 2,
+              "spin_speed_rad_s": 250.0
+            }
+          ]
+        },
+        {
+          "branch_id": "cluster-000.F",
+          "child_branch_ids": [],
+          "parent_branch_ids": [
+            "cluster-000"
+          ],
+          "samples": [
+            null,
+            {
+              "ambiguity_status": "DEGENERATE_CLUSTER",
+              "branch_id": "cluster-000.F",
+              "eigenvalues": [
+                {
+                  "imag": 439.2166421539729,
+                  "real": 4.273128056406202e-16
+                }
+              ],
+              "frequencies_hz": [
+                69.90349968702891
+              ],
+              "mode_ids": [
+                "mode-001"
+              ],
+              "parent_subspace_projection": 0.9999999973251368,
+              "polarization": [
+                {
+                  "chi": 1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "FORWARD",
+                  "station_chi": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                }
+              ],
+              "qep_residuals": [
+                2.1256962117644687e-11
+              ],
+              "source_mode_indices": [
+                3
+              ],
+              "speed_index": 1,
+              "spin_speed_rad_s": 100.0
+            },
+            {
+              "ambiguity_margin": 1.0,
+              "ambiguity_status": "CLEAR_MATCH",
+              "branch_id": "cluster-000.F",
+              "complex_mac": 0.999999993983157,
+              "eigenvalues": [
+                {
+                  "imag": 439.3899890120466,
+                  "real": 1.5880614819743337e-10
+                }
+              ],
+              "frequencies_hz": [
+                69.9310886963608
+              ],
+              "mode_ids": [
+                "mode-001"
+              ],
+              "normalized_frequency_distance": 0.00039451708597990705,
+              "polarization": [
+                {
+                  "chi": 1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "FORWARD",
+                  "station_chi": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                }
+              ],
+              "polarization_distance": 0.0,
+              "qep_residuals": [
+                4.057735259932443e-11
+              ],
+              "source_mode_indices": [
+                3
+              ],
+              "speed_index": 2,
+              "spin_speed_rad_s": 250.0
+            }
+          ]
+        },
+        {
+          "branch_id": "cluster-001",
+          "child_branch_ids": [],
+          "parent_branch_ids": [],
+          "samples": [
+            {
+              "ambiguity_status": "DEGENERATE_CLUSTER",
+              "branch_id": "cluster-001",
+              "eigenvalues": [
+                {
+                  "imag": 2653.260145035666,
+                  "real": 7.349359765459257e-11
+                },
+                {
+                  "imag": 2653.2601450357424,
+                  "real": 7.124056110594465e-11
+                }
+              ],
+              "frequencies_hz": [
+                422.27946739114543,
+                422.27946739115754
+              ],
+              "mode_ids": [
+                "cluster-001"
+              ],
+              "polarization": [
+                {
+                  "chi": null,
+                  "classification": "UNDEFINED",
+                  "defined": false,
+                  "relative_whirl": "UNDEFINED",
+                  "station_chi": []
+                },
+                {
+                  "chi": null,
+                  "classification": "UNDEFINED",
+                  "defined": false,
+                  "relative_whirl": "UNDEFINED",
+                  "station_chi": []
+                }
+              ],
+              "qep_residuals": [
+                1.7429042576499553e-13,
+                1.5668253377653474e-13
+              ],
+              "source_mode_indices": [
+                4,
+                6
+              ],
+              "speed_index": 0,
+              "spin_speed_rad_s": 0.0
+            },
+            null,
+            null
+          ]
+        }
+      ],
+      "execution_key": "51a7fe5094c65939875a4badc8a796af225ca0fd586c83d0d846e5654eb0d155",
+      "mesh_elements": 8,
+      "tracking_diagnostics": [
+        {
+          "child_branch_id": "cluster-000.B",
+          "combined_subspace_minimum_singular_value": 0.9999999986622864,
+          "event": "CLUSTER_SPLIT",
+          "from_speed_index": 0,
+          "parent_branch_id": "cluster-000",
+          "status": "DEGENERATE_CLUSTER",
+          "subspace_projection": 0.9999999973245727,
+          "to_speed_index": 1
+        },
+        {
+          "child_branch_id": "cluster-000.F",
+          "combined_subspace_minimum_singular_value": 0.9999999986622864,
+          "event": "CLUSTER_SPLIT",
+          "from_speed_index": 0,
+          "parent_branch_id": "cluster-000",
+          "status": "DEGENERATE_CLUSTER",
+          "subspace_projection": 0.9999999973251368,
+          "to_speed_index": 1
+        },
+        {
+          "admissible_candidate_edges": [],
+          "event": "UNMATCHED_TARGET",
+          "from_speed_index": 0,
+          "status": "UNTRACKED",
+          "target_branch_id": "branch-000",
+          "to_speed_index": 1
+        },
+        {
+          "admissible_candidate_edges": [],
+          "event": "UNMATCHED_TARGET",
+          "from_speed_index": 0,
+          "status": "UNTRACKED",
+          "target_branch_id": "branch-001",
+          "to_speed_index": 1
+        },
+        {
+          "admissible_edges_for_source": [
+            {
+              "assignment_cost": 9.886133673314752e-05,
+              "complex_mac": 0.9999999939787156,
+              "normalized_frequency_distance": 0.0003954296915932541,
+              "polarization_distance": 0.0,
+              "target_mode_indices": [
+                1
+              ]
+            }
+          ],
+          "admissible_edges_for_target": [
+            {
+              "assignment_cost": 9.886133673314752e-05,
+              "complex_mac": 0.9999999939787156,
+              "normalized_frequency_distance": 0.0003954296915932541,
+              "polarization_distance": 0.0,
+              "source_branch_id": "cluster-000.B",
+              "source_mode_indices": [
+                1
+              ],
+              "target_mode_indices": [
+                1
+              ]
+            }
+          ],
+          "ambiguity_margin": 1.0,
+          "candidate_mode_indices": [
+            1
+          ],
+          "complex_mac": 0.9999999939787156,
+          "from_speed_index": 1,
+          "individual_association_status": "CLEAR_MATCH",
+          "individual_edges_committed": true,
+          "normalized_frequency_distance": 0.0003954296915932541,
+          "polarization_distance": 0.0,
+          "source_branch_id": "cluster-000.B",
+          "source_mode_indices": [
+            1
+          ],
+          "status": "CLEAR_MATCH",
+          "target_group_index": 0,
+          "to_speed_index": 2
+        },
+        {
+          "admissible_edges_for_source": [
+            {
+              "assignment_cost": 9.863318244294224e-05,
+              "complex_mac": 0.999999993983157,
+              "normalized_frequency_distance": 0.00039451708597990705,
+              "polarization_distance": 0.0,
+              "target_mode_indices": [
+                3
+              ]
+            }
+          ],
+          "admissible_edges_for_target": [
+            {
+              "assignment_cost": 9.863318244294224e-05,
+              "complex_mac": 0.999999993983157,
+              "normalized_frequency_distance": 0.00039451708597990705,
+              "polarization_distance": 0.0,
+              "source_branch_id": "cluster-000.F",
+              "source_mode_indices": [
+                3
+              ],
+              "target_mode_indices": [
+                3
+              ]
+            }
+          ],
+          "ambiguity_margin": 1.0,
+          "candidate_mode_indices": [
+            3
+          ],
+          "complex_mac": 0.999999993983157,
+          "from_speed_index": 1,
+          "individual_association_status": "CLEAR_MATCH",
+          "individual_edges_committed": true,
+          "normalized_frequency_distance": 0.00039451708597990705,
+          "polarization_distance": 0.0,
+          "source_branch_id": "cluster-000.F",
+          "source_mode_indices": [
+            3
+          ],
+          "status": "CLEAR_MATCH",
+          "target_group_index": 1,
+          "to_speed_index": 2
+        },
+        {
+          "admissible_edges_for_source": [
+            {
+              "assignment_cost": 0.00018803183419651052,
+              "complex_mac": 0.9999996021917754,
+              "normalized_frequency_distance": 0.0007510930354021245,
+              "polarization_distance": 0.0,
+              "target_mode_indices": [
+                5
+              ]
+            }
+          ],
+          "admissible_edges_for_target": [
+            {
+              "assignment_cost": 0.00018803183419651052,
+              "complex_mac": 0.9999996021917754,
+              "normalized_frequency_distance": 0.0007510930354021245,
+              "polarization_distance": 0.0,
+              "source_branch_id": "branch-000",
+              "source_mode_indices": [
+                5
+              ],
+              "target_mode_indices": [
+                5
+              ]
+            }
+          ],
+          "ambiguity_margin": 1.0,
+          "candidate_mode_indices": [
+            5
+          ],
+          "complex_mac": 0.9999996021917754,
+          "from_speed_index": 1,
+          "individual_association_status": "CLEAR_MATCH",
+          "individual_edges_committed": true,
+          "normalized_frequency_distance": 0.0007510930354021245,
+          "polarization_distance": 0.0,
+          "source_branch_id": "branch-000",
+          "source_mode_indices": [
+            5
+          ],
+          "status": "CLEAR_MATCH",
+          "target_group_index": 2,
+          "to_speed_index": 2
+        },
+        {
+          "admissible_edges_for_source": [
+            {
+              "assignment_cost": 0.00018678405407271135,
+              "complex_mac": 0.9999996072866716,
+              "normalized_frequency_distance": 0.000746115161636974,
+              "polarization_distance": 0.0,
+              "target_mode_indices": [
+                7
+              ]
+            }
+          ],
+          "admissible_edges_for_target": [
+            {
+              "assignment_cost": 0.00018678405407271135,
+              "complex_mac": 0.9999996072866716,
+              "normalized_frequency_distance": 0.000746115161636974,
+              "polarization_distance": 0.0,
+              "source_branch_id": "branch-001",
+              "source_mode_indices": [
+                7
+              ],
+              "target_mode_indices": [
+                7
+              ]
+            }
+          ],
+          "ambiguity_margin": 1.0,
+          "candidate_mode_indices": [
+            7
+          ],
+          "complex_mac": 0.9999996072866716,
+          "from_speed_index": 1,
+          "individual_association_status": "CLEAR_MATCH",
+          "individual_edges_committed": true,
+          "normalized_frequency_distance": 0.000746115161636974,
+          "polarization_distance": 0.0,
+          "source_branch_id": "branch-001",
+          "source_mode_indices": [
+            7
+          ],
+          "status": "CLEAR_MATCH",
+          "target_group_index": 3,
+          "to_speed_index": 2
+        }
+      ]
+    },
+    {
+      "branches": [
+        {
+          "branch_id": "branch-000",
+          "child_branch_ids": [],
+          "parent_branch_ids": [],
+          "samples": [
+            null,
+            {
+              "ambiguity_status": "UNTRACKED",
+              "branch_id": "branch-000",
+              "candidate_branch_ids": [],
+              "eigenvalues": [
+                {
+                  "imag": 2650.645985374702,
+                  "real": 2.51759171061313e-13
+                }
+              ],
+              "frequencies_hz": [
+                421.86341095907153
+              ],
+              "mode_ids": [
+                "mode-002"
+              ],
+              "polarization": [
+                {
+                  "chi": -1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "BACKWARD",
+                  "station_chi": [
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0000000000000002,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0000000000000002,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0000000000000002
+                  ]
+                }
+              ],
+              "qep_residuals": [
+                1.1498027357852194e-11
+              ],
+              "source_mode_indices": [
+                5
+              ],
+              "speed_index": 1,
+              "spin_speed_rad_s": 100.0
+            },
+            {
+              "ambiguity_margin": 1.0,
+              "ambiguity_status": "CLEAR_MATCH",
+              "branch_id": "branch-000",
+              "complex_mac": 0.9999996025109246,
+              "eigenvalues": [
+                {
+                  "imag": 2648.658077999376,
+                  "real": 2.2781861178023845e-13
+                }
+              ],
+              "frequencies_hz": [
+                421.5470256738796
+              ],
+              "mode_ids": [
+                "mode-002"
+              ],
+              "normalized_frequency_distance": 0.0007499709075803743,
+              "polarization": [
+                {
+                  "chi": -1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "BACKWARD",
+                  "station_chi": [
+                    -1.0,
+                    -1.0,
+                    -0.9999999999999998,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0000000000000002
+                  ]
+                }
+              ],
+              "polarization_distance": 0.0,
+              "qep_residuals": [
+                2.0690293982668692e-11
+              ],
+              "source_mode_indices": [
+                5
+              ],
+              "speed_index": 2,
+              "spin_speed_rad_s": 250.0
+            }
+          ]
+        },
+        {
+          "branch_id": "branch-001",
+          "child_branch_ids": [],
+          "parent_branch_ids": [],
+          "samples": [
+            null,
+            {
+              "ambiguity_status": "UNTRACKED",
+              "branch_id": "branch-001",
+              "candidate_branch_ids": [],
+              "eigenvalues": [
+                {
+                  "imag": 2653.2900404395577,
+                  "real": 2.0079460165467106e-17
+                }
+              ],
+              "frequencies_hz": [
+                422.2842253924505
+              ],
+              "mode_ids": [
+                "mode-003"
+              ],
+              "polarization": [
+                {
+                  "chi": 1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "FORWARD",
+                  "station_chi": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0000000000000002,
+                    0.9999999999999999,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0000000000000002,
+                    1.0000000000000002
+                  ]
+                }
+              ],
+              "qep_residuals": [
+                1.128863904385871e-11
+              ],
+              "source_mode_indices": [
+                7
+              ],
+              "speed_index": 1,
+              "spin_speed_rad_s": 100.0
+            },
+            {
+              "ambiguity_margin": 1.0,
+              "ambiguity_status": "CLEAR_MATCH",
+              "branch_id": "branch-001",
+              "complex_mac": 0.9999996076026935,
+              "eigenvalues": [
+                {
+                  "imag": 2655.2682080489412,
+                  "real": 7.984302898380106e-17
+                }
+              ],
+              "frequencies_hz": [
+                422.59906054574816
+              ],
+              "mode_ids": [
+                "mode-003"
+              ],
+              "normalized_frequency_distance": 0.000744997286295663,
+              "polarization": [
+                {
+                  "chi": 1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "FORWARD",
+                  "station_chi": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0000000000000002,
+                    1.0
+                  ]
+                }
+              ],
+              "polarization_distance": 0.0,
+              "qep_residuals": [
+                1.9946230574998296e-11
+              ],
+              "source_mode_indices": [
+                7
+              ],
+              "speed_index": 2,
+              "spin_speed_rad_s": 250.0
+            }
+          ]
+        },
+        {
+          "branch_id": "cluster-000",
+          "child_branch_ids": [
+            "cluster-000.B",
+            "cluster-000.F"
+          ],
+          "parent_branch_ids": [],
+          "samples": [
+            {
+              "ambiguity_status": "DEGENERATE_CLUSTER",
+              "branch_id": "cluster-000",
+              "eigenvalues": [
+                {
+                  "imag": 439.0947108349925,
+                  "real": -1.987216147758852e-13
+                },
+                {
+                  "imag": 439.09471083544315,
+                  "real": -1.0705808824637971e-10
+                }
+              ],
+              "frequencies_hz": [
+                69.88409371489547,
+                69.8840937149672
+              ],
+              "mode_ids": [
+                "cluster-000"
+              ],
+              "polarization": [
+                {
+                  "chi": null,
+                  "classification": "UNDEFINED",
+                  "defined": false,
+                  "relative_whirl": "UNDEFINED",
+                  "station_chi": []
+                },
+                {
+                  "chi": null,
+                  "classification": "UNDEFINED",
+                  "defined": false,
+                  "relative_whirl": "UNDEFINED",
+                  "station_chi": []
+                }
+              ],
+              "qep_residuals": [
+                5.49845545185092e-11,
+                6.001431563727147e-11
+              ],
+              "source_mode_indices": [
+                1,
+                2
+              ],
+              "speed_index": 0,
+              "spin_speed_rad_s": 0.0
+            },
+            null,
+            null
+          ]
+        },
+        {
+          "branch_id": "cluster-000.B",
+          "child_branch_ids": [],
+          "parent_branch_ids": [
+            "cluster-000"
+          ],
+          "samples": [
+            null,
+            {
+              "ambiguity_status": "DEGENERATE_CLUSTER",
+              "branch_id": "cluster-000.B",
+              "eigenvalues": [
+                {
+                  "imag": 438.97904959589783,
+                  "real": 2.8890887519534574e-14
+                }
+              ],
+              "frequencies_hz": [
+                69.86568565696942
+              ],
+              "mode_ids": [
+                "mode-000"
+              ],
+              "parent_subspace_projection": 0.999999997324585,
+              "polarization": [
+                {
+                  "chi": -1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "BACKWARD",
+                  "station_chi": [
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0000000000000002,
+                    -1.0,
+                    -1.0000000000000002,
+                    -0.9999999999999999,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0
+                  ]
+                }
+              ],
+              "qep_residuals": [
+                2.0521494411310177e-10
+              ],
+              "source_mode_indices": [
+                1
+              ],
+              "speed_index": 1,
+              "spin_speed_rad_s": 100.0
+            },
+            {
+              "ambiguity_margin": 1.0,
+              "ambiguity_status": "CLEAR_MATCH",
+              "branch_id": "cluster-000.B",
+              "complex_mac": 0.999999993978743,
+              "eigenvalues": [
+                {
+                  "imag": 438.80547177375763,
+                  "real": 2.9320323568518795e-14
+                }
+              ],
+              "frequencies_hz": [
+                69.83805988856469
+              ],
+              "mode_ids": [
+                "mode-000"
+              ],
+              "normalized_frequency_distance": 0.00039541254258021447,
+              "polarization": [
+                {
+                  "chi": -1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "BACKWARD",
+                  "station_chi": [
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0000000000000002,
+                    -1.0,
+                    -1.0,
+                    -0.9999999999999999,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -0.9999999999999999,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0000000000000002
+                  ]
+                }
+              ],
+              "polarization_distance": 0.0,
+              "qep_residuals": [
+                2.871215106983192e-10
+              ],
+              "source_mode_indices": [
+                1
+              ],
+              "speed_index": 2,
+              "spin_speed_rad_s": 250.0
+            }
+          ]
+        },
+        {
+          "branch_id": "cluster-000.F",
+          "child_branch_ids": [],
+          "parent_branch_ids": [
+            "cluster-000"
+          ],
+          "samples": [
+            null,
+            {
+              "ambiguity_status": "DEGENERATE_CLUSTER",
+              "branch_id": "cluster-000.F",
+              "eigenvalues": [
+                {
+                  "imag": 439.2103261701971,
+                  "real": -5.65598456910714e-14
+                }
+              ],
+              "frequencies_hz": [
+                69.90249446699052
+              ],
+              "mode_ids": [
+                "mode-001"
+              ],
+              "parent_subspace_projection": 0.9999999973251494,
+              "polarization": [
+                {
+                  "chi": 1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "FORWARD",
+                  "station_chi": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                }
+              ],
+              "qep_residuals": [
+                2.0395704008959285e-10
+              ],
+              "source_mode_indices": [
+                3
+              ],
+              "speed_index": 1,
+              "spin_speed_rad_s": 100.0
+            },
+            {
+              "ambiguity_margin": 1.0,
+              "ambiguity_status": "CLEAR_MATCH",
+              "branch_id": "cluster-000.F",
+              "complex_mac": 0.9999999939831847,
+              "eigenvalues": [
+                {
+                  "imag": 439.3836630044715,
+                  "real": -2.9587747582594874e-14
+                }
+              ],
+              "frequencies_hz": [
+                69.93008188098518
+              ],
+              "mode_ids": [
+                "mode-001"
+              ],
+              "normalized_frequency_distance": 0.00039449995270444434,
+              "polarization": [
+                {
+                  "chi": 1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "FORWARD",
+                  "station_chi": [
+                    1.0,
+                    0.9999999999999999,
+                    1.0,
+                    1.0,
+                    1.0000000000000002,
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.9999999999999999,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                }
+              ],
+              "polarization_distance": 0.0,
+              "qep_residuals": [
+                2.859166894595591e-10
+              ],
+              "source_mode_indices": [
+                3
+              ],
+              "speed_index": 2,
+              "spin_speed_rad_s": 250.0
+            }
+          ]
+        },
+        {
+          "branch_id": "cluster-001",
+          "child_branch_ids": [],
+          "parent_branch_ids": [],
+          "samples": [
+            {
+              "ambiguity_status": "DEGENERATE_CLUSTER",
+              "branch_id": "cluster-001",
+              "eigenvalues": [
+                {
+                  "imag": 2651.968940513637,
+                  "real": -1.9603561776809376e-10
+                },
+                {
+                  "imag": 2651.9689405136724,
+                  "real": 1.2422390496077137e-11
+                }
+              ],
+              "frequencies_hz": [
+                422.07396580892186,
+                422.0739658089275
+              ],
+              "mode_ids": [
+                "cluster-001"
+              ],
+              "polarization": [
+                {
+                  "chi": null,
+                  "classification": "UNDEFINED",
+                  "defined": false,
+                  "relative_whirl": "UNDEFINED",
+                  "station_chi": []
+                },
+                {
+                  "chi": null,
+                  "classification": "UNDEFINED",
+                  "defined": false,
+                  "relative_whirl": "UNDEFINED",
+                  "station_chi": []
+                }
+              ],
+              "qep_residuals": [
+                3.1502003349378745e-12,
+                6.366534745840387e-12
+              ],
+              "source_mode_indices": [
+                4,
+                6
+              ],
+              "speed_index": 0,
+              "spin_speed_rad_s": 0.0
+            },
+            null,
+            null
+          ]
+        }
+      ],
+      "execution_key": "ffd36fcb6a2b3b45b2bd2383199aa87e5194264565d9ec2728a6badbbf5ab8ba",
+      "mesh_elements": 16,
+      "tracking_diagnostics": [
+        {
+          "child_branch_id": "cluster-000.B",
+          "combined_subspace_minimum_singular_value": 0.9999999986622925,
+          "event": "CLUSTER_SPLIT",
+          "from_speed_index": 0,
+          "parent_branch_id": "cluster-000",
+          "status": "DEGENERATE_CLUSTER",
+          "subspace_projection": 0.999999997324585,
+          "to_speed_index": 1
+        },
+        {
+          "child_branch_id": "cluster-000.F",
+          "combined_subspace_minimum_singular_value": 0.9999999986622925,
+          "event": "CLUSTER_SPLIT",
+          "from_speed_index": 0,
+          "parent_branch_id": "cluster-000",
+          "status": "DEGENERATE_CLUSTER",
+          "subspace_projection": 0.9999999973251494,
+          "to_speed_index": 1
+        },
+        {
+          "admissible_candidate_edges": [],
+          "event": "UNMATCHED_TARGET",
+          "from_speed_index": 0,
+          "status": "UNTRACKED",
+          "target_branch_id": "branch-000",
+          "to_speed_index": 1
+        },
+        {
+          "admissible_candidate_edges": [],
+          "event": "UNMATCHED_TARGET",
+          "from_speed_index": 0,
+          "status": "UNTRACKED",
+          "target_branch_id": "branch-001",
+          "to_speed_index": 1
+        },
+        {
+          "admissible_edges_for_source": [
+            {
+              "assignment_cost": 9.885704946213516e-05,
+              "complex_mac": 0.999999993978743,
+              "normalized_frequency_distance": 0.00039541254258021447,
+              "polarization_distance": 0.0,
+              "target_mode_indices": [
+                1
+              ]
+            }
+          ],
+          "admissible_edges_for_target": [
+            {
+              "assignment_cost": 9.885704946213516e-05,
+              "complex_mac": 0.999999993978743,
+              "normalized_frequency_distance": 0.00039541254258021447,
+              "polarization_distance": 0.0,
+              "source_branch_id": "cluster-000.B",
+              "source_mode_indices": [
+                1
+              ],
+              "target_mode_indices": [
+                1
+              ]
+            }
+          ],
+          "ambiguity_margin": 1.0,
+          "candidate_mode_indices": [
+            1
+          ],
+          "complex_mac": 0.999999993978743,
+          "from_speed_index": 1,
+          "individual_association_status": "CLEAR_MATCH",
+          "individual_edges_committed": true,
+          "normalized_frequency_distance": 0.00039541254258021447,
+          "polarization_distance": 0.0,
+          "source_branch_id": "cluster-000.B",
+          "source_mode_indices": [
+            1
+          ],
+          "status": "CLEAR_MATCH",
+          "target_group_index": 0,
+          "to_speed_index": 2
+        },
+        {
+          "admissible_edges_for_source": [
+            {
+              "assignment_cost": 9.862889910603544e-05,
+              "complex_mac": 0.9999999939831847,
+              "normalized_frequency_distance": 0.00039449995270444434,
+              "polarization_distance": 0.0,
+              "target_mode_indices": [
+                3
+              ]
+            }
+          ],
+          "admissible_edges_for_target": [
+            {
+              "assignment_cost": 9.862889910603544e-05,
+              "complex_mac": 0.9999999939831847,
+              "normalized_frequency_distance": 0.00039449995270444434,
+              "polarization_distance": 0.0,
+              "source_branch_id": "cluster-000.F",
+              "source_mode_indices": [
+                3
+              ],
+              "target_mode_indices": [
+                3
+              ]
+            }
+          ],
+          "ambiguity_margin": 1.0,
+          "candidate_mode_indices": [
+            3
+          ],
+          "complex_mac": 0.9999999939831847,
+          "from_speed_index": 1,
+          "individual_association_status": "CLEAR_MATCH",
+          "individual_edges_committed": true,
+          "normalized_frequency_distance": 0.00039449995270444434,
+          "polarization_distance": 0.0,
+          "source_branch_id": "cluster-000.F",
+          "source_mode_indices": [
+            3
+          ],
+          "status": "CLEAR_MATCH",
+          "target_group_index": 1,
+          "to_speed_index": 2
+        },
+        {
+          "admissible_edges_for_source": [
+            {
+              "assignment_cost": 0.00018775109479412448,
+              "complex_mac": 0.9999996025109246,
+              "normalized_frequency_distance": 0.0007499709075803743,
+              "polarization_distance": 0.0,
+              "target_mode_indices": [
+                5
+              ]
+            }
+          ],
+          "admissible_edges_for_target": [
+            {
+              "assignment_cost": 0.00018775109479412448,
+              "complex_mac": 0.9999996025109246,
+              "normalized_frequency_distance": 0.0007499709075803743,
+              "polarization_distance": 0.0,
+              "source_branch_id": "branch-000",
+              "source_mode_indices": [
+                5
+              ],
+              "target_mode_indices": [
+                5
+              ]
+            }
+          ],
+          "ambiguity_margin": 1.0,
+          "candidate_mode_indices": [
+            5
+          ],
+          "complex_mac": 0.9999996025109246,
+          "from_speed_index": 1,
+          "individual_association_status": "CLEAR_MATCH",
+          "individual_edges_committed": true,
+          "normalized_frequency_distance": 0.0007499709075803743,
+          "polarization_distance": 0.0,
+          "source_branch_id": "branch-000",
+          "source_mode_indices": [
+            5
+          ],
+          "status": "CLEAR_MATCH",
+          "target_group_index": 2,
+          "to_speed_index": 2
+        },
+        {
+          "admissible_edges_for_source": [
+            {
+              "assignment_cost": 0.00018650437982316463,
+              "complex_mac": 0.9999996076026935,
+              "normalized_frequency_distance": 0.000744997286295663,
+              "polarization_distance": 0.0,
+              "target_mode_indices": [
+                7
+              ]
+            }
+          ],
+          "admissible_edges_for_target": [
+            {
+              "assignment_cost": 0.00018650437982316463,
+              "complex_mac": 0.9999996076026935,
+              "normalized_frequency_distance": 0.000744997286295663,
+              "polarization_distance": 0.0,
+              "source_branch_id": "branch-001",
+              "source_mode_indices": [
+                7
+              ],
+              "target_mode_indices": [
+                7
+              ]
+            }
+          ],
+          "ambiguity_margin": 1.0,
+          "candidate_mode_indices": [
+            7
+          ],
+          "complex_mac": 0.9999996076026935,
+          "from_speed_index": 1,
+          "individual_association_status": "CLEAR_MATCH",
+          "individual_edges_committed": true,
+          "normalized_frequency_distance": 0.000744997286295663,
+          "polarization_distance": 0.0,
+          "source_branch_id": "branch-001",
+          "source_mode_indices": [
+            7
+          ],
+          "status": "CLEAR_MATCH",
+          "target_group_index": 3,
+          "to_speed_index": 2
+        }
+      ]
+    },
+    {
+      "branches": [
+        {
+          "branch_id": "branch-000",
+          "child_branch_ids": [],
+          "parent_branch_ids": [],
+          "samples": [
+            null,
+            {
+              "ambiguity_status": "UNTRACKED",
+              "branch_id": "branch-000",
+              "candidate_branch_ids": [],
+              "eigenvalues": [
+                {
+                  "imag": 2650.344549554329,
+                  "real": -2.7790031941539404e-08
+                }
+              ],
+              "frequencies_hz": [
+                421.8154359582343
+              ],
+              "mode_ids": [
+                "mode-002"
+              ],
+              "polarization": [
+                {
+                  "chi": -0.9999999999999998,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "BACKWARD",
+                  "station_chi": [
+                    -0.9999999999999998,
+                    -0.9999999999999998,
+                    -1.0,
+                    -0.9999999999999999,
+                    -0.9999999999999999,
+                    -0.9999999999999997,
+                    -0.9999999999999998,
+                    -0.9999999999999999,
+                    -0.9999999999999998,
+                    -0.9999999999999998,
+                    -0.9999999999999997,
+                    -0.9999999999999998,
+                    -0.9999999999999998,
+                    -0.9999999999999998,
+                    -0.9999999999999998,
+                    -0.9999999999999996,
+                    -0.9999999999999998,
+                    -0.9999999999999998,
+                    -0.9999999999999999,
+                    -0.9999999999999998,
+                    -0.9999999999999999,
+                    -0.9999999999999998,
+                    -0.9999999999999997,
+                    -0.9999999999999998,
+                    -0.9999999999999999,
+                    -0.9999999999999998,
+                    -0.9999999999999997,
+                    -0.9999999999999998,
+                    -0.9999999999999997,
+                    -0.9999999999999997,
+                    -0.9999999999999998,
+                    -0.9999999999999998
+                  ]
+                }
+              ],
+              "qep_residuals": [
+                1.2252719317479892e-10
+              ],
+              "source_mode_indices": [
+                5
+              ],
+              "speed_index": 1,
+              "spin_speed_rad_s": 100.0
+            },
+            {
+              "ambiguity_margin": 1.0,
+              "ambiguity_status": "CLEAR_MATCH",
+              "branch_id": "branch-000",
+              "complex_mac": 0.9999996025885333,
+              "eigenvalues": [
+                {
+                  "imag": 2648.357559594961,
+                  "real": -1.0296472340596964e-12
+                }
+              ],
+              "frequencies_hz": [
+                421.4991966843268
+              ],
+              "mode_ids": [
+                "mode-002"
+              ],
+              "normalized_frequency_distance": 0.0007497100555105536,
+              "polarization": [
+                {
+                  "chi": -1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "BACKWARD",
+                  "station_chi": [
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -0.9999999999999999,
+                    -1.0000000000000002,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0
+                  ]
+                }
+              ],
+              "polarization_distance": 1.1102230246251565e-16,
+              "qep_residuals": [
+                1.088658919882607e-10
+              ],
+              "source_mode_indices": [
+                5
+              ],
+              "speed_index": 2,
+              "spin_speed_rad_s": 250.0
+            }
+          ]
+        },
+        {
+          "branch_id": "branch-001",
+          "child_branch_ids": [],
+          "parent_branch_ids": [],
+          "samples": [
+            null,
+            {
+              "ambiguity_status": "UNTRACKED",
+              "branch_id": "branch-001",
+              "candidate_branch_ids": [],
+              "eigenvalues": [
+                {
+                  "imag": 2652.9873823201838,
+                  "real": 2.7794115003943363e-08
+                }
+              ],
+              "frequencies_hz": [
+                422.23605585668525
+              ],
+              "mode_ids": [
+                "mode-003"
+              ],
+              "polarization": [
+                {
+                  "chi": 0.9999999999999998,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "FORWARD",
+                  "station_chi": [
+                    0.9999999999999998,
+                    0.9999999999999998,
+                    0.9999999999999998,
+                    0.9999999999999999,
+                    0.9999999999999999,
+                    0.9999999999999998,
+                    0.9999999999999998,
+                    0.9999999999999999,
+                    0.9999999999999999,
+                    0.9999999999999997,
+                    0.9999999999999997,
+                    0.9999999999999998,
+                    0.9999999999999998,
+                    0.9999999999999996,
+                    0.9999999999999998,
+                    0.9999999999999998,
+                    0.9999999999999999,
+                    0.9999999999999997,
+                    0.9999999999999996,
+                    0.9999999999999998,
+                    0.9999999999999998,
+                    0.9999999999999998,
+                    0.9999999999999998,
+                    0.9999999999999998,
+                    0.9999999999999998,
+                    0.9999999999999998,
+                    0.9999999999999997,
+                    0.9999999999999997,
+                    0.9999999999999998,
+                    0.9999999999999997,
+                    0.9999999999999998,
+                    0.9999999999999999
+                  ]
+                }
+              ],
+              "qep_residuals": [
+                1.2162777490926228e-10
+              ],
+              "source_mode_indices": [
+                7
+              ],
+              "speed_index": 1,
+              "spin_speed_rad_s": 100.0
+            },
+            {
+              "ambiguity_margin": 1.0,
+              "ambiguity_status": "CLEAR_MATCH",
+              "branch_id": "branch-001",
+              "complex_mac": 0.9999996076795054,
+              "eigenvalues": [
+                {
+                  "imag": 2654.964633917032,
+                  "real": 1.0162558219224204e-12
+                }
+              ],
+              "frequencies_hz": [
+                422.55074522206
+              ],
+              "mode_ids": [
+                "mode-003"
+              ],
+              "normalized_frequency_distance": 0.0007447374520884697,
+              "polarization": [
+                {
+                  "chi": 1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "FORWARD",
+                  "station_chi": [
+                    1.0000000000000002,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.9999999999999998,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0000000000000002,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0000000000000002,
+                    1.0,
+                    1.0000000000000002,
+                    0.9999999999999999,
+                    1.0,
+                    1.0000000000000002,
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.9999999999999998,
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.9999999999999998,
+                    1.0
+                  ]
+                }
+              ],
+              "polarization_distance": 1.1102230246251565e-16,
+              "qep_residuals": [
+                1.1029796471428957e-10
+              ],
+              "source_mode_indices": [
+                7
+              ],
+              "speed_index": 2,
+              "spin_speed_rad_s": 250.0
+            }
+          ]
+        },
+        {
+          "branch_id": "cluster-000",
+          "child_branch_ids": [
+            "cluster-000.B",
+            "cluster-000.F"
+          ],
+          "parent_branch_ids": [],
+          "samples": [
+            {
+              "ambiguity_status": "DEGENERATE_CLUSTER",
+              "branch_id": "cluster-000",
+              "eigenvalues": [
+                {
+                  "imag": 439.09326536296476,
+                  "real": 5.615539197425664e-11
+                },
+                {
+                  "imag": 439.0932653723536,
+                  "real": 2.3746018626763606e-10
+                }
+              ],
+              "frequencies_hz": [
+                69.88386366087715,
+                69.88386366237144
+              ],
+              "mode_ids": [
+                "cluster-000"
+              ],
+              "polarization": [
+                {
+                  "chi": null,
+                  "classification": "UNDEFINED",
+                  "defined": false,
+                  "relative_whirl": "UNDEFINED",
+                  "station_chi": []
+                },
+                {
+                  "chi": null,
+                  "classification": "UNDEFINED",
+                  "defined": false,
+                  "relative_whirl": "UNDEFINED",
+                  "station_chi": []
+                }
+              ],
+              "qep_residuals": [
+                2.592332605615786e-10,
+                2.3934654349557076e-10
+              ],
+              "source_mode_indices": [
+                1,
+                2
+              ],
+              "speed_index": 0,
+              "spin_speed_rad_s": 0.0
+            },
+            null,
+            null
+          ]
+        },
+        {
+          "branch_id": "cluster-000.B",
+          "child_branch_ids": [],
+          "parent_branch_ids": [
+            "cluster-000"
+          ],
+          "samples": [
+            null,
+            {
+              "ambiguity_status": "DEGENERATE_CLUSTER",
+              "branch_id": "cluster-000.B",
+              "eigenvalues": [
+                {
+                  "imag": 438.9776056679712,
+                  "real": -3.424452436706729e-14
+                }
+              ],
+              "frequencies_hz": [
+                69.86545584870242
+              ],
+              "mode_ids": [
+                "mode-000"
+              ],
+              "parent_subspace_projection": 0.9999999973245915,
+              "polarization": [
+                {
+                  "chi": -1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "BACKWARD",
+                  "station_chi": [
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -0.9999999999999999,
+                    -0.9999999999999999,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -0.9999999999999999,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0000000000000002,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -1.0,
+                    -0.9999999999999998,
+                    -1.0,
+                    -0.9999999999999999,
+                    -0.9999999999999999,
+                    -1.0,
+                    -1.0000000000000002,
+                    -1.0
+                  ]
+                }
+              ],
+              "qep_residuals": [
+                1.512402463483109e-09
+              ],
+              "source_mode_indices": [
+                1
+              ],
+              "speed_index": 1,
+              "spin_speed_rad_s": 100.0
+            },
+            {
+              "ambiguity_margin": 1.0,
+              "ambiguity_status": "CLEAR_MATCH",
+              "branch_id": "cluster-000.B",
+              "complex_mac": 0.9999999939787487,
+              "eigenvalues": [
+                {
+                  "imag": 438.8040301402436,
+                  "real": -3.161455440876253e-15
+                }
+              ],
+              "frequencies_hz": [
+                69.83783044546479
+              ],
+              "mode_ids": [
+                "mode-000"
+              ],
+              "normalized_frequency_distance": 0.00039540861649081774,
+              "polarization": [
+                {
+                  "chi": -0.9999999999999998,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "BACKWARD",
+                  "station_chi": [
+                    -0.9999999999999998,
+                    -0.9999999999999998,
+                    -0.9999999999999998,
+                    -1.0,
+                    -0.9999999999999999,
+                    -0.9999999999999999,
+                    -0.9999999999999999,
+                    -0.9999999999999998,
+                    -0.9999999999999998,
+                    -0.9999999999999999,
+                    -0.9999999999999998,
+                    -0.9999999999999998,
+                    -0.9999999999999999,
+                    -0.9999999999999996,
+                    -0.9999999999999999,
+                    -0.9999999999999998,
+                    -0.9999999999999998,
+                    -1.0,
+                    -0.9999999999999998,
+                    -0.9999999999999999,
+                    -0.9999999999999998,
+                    -0.9999999999999998,
+                    -0.9999999999999999,
+                    -0.9999999999999999,
+                    -0.9999999999999998,
+                    -0.9999999999999998,
+                    -1.0,
+                    -0.9999999999999999,
+                    -0.9999999999999999,
+                    -1.0,
+                    -0.9999999999999999,
+                    -0.9999999999999998
+                  ]
+                }
+              ],
+              "polarization_distance": 1.1102230246251565e-16,
+              "qep_residuals": [
+                1.615945407666202e-09
+              ],
+              "source_mode_indices": [
+                1
+              ],
+              "speed_index": 2,
+              "spin_speed_rad_s": 250.0
+            }
+          ]
+        },
+        {
+          "branch_id": "cluster-000.F",
+          "child_branch_ids": [],
+          "parent_branch_ids": [
+            "cluster-000"
+          ],
+          "samples": [
+            null,
+            {
+              "ambiguity_status": "DEGENERATE_CLUSTER",
+              "branch_id": "cluster-000.F",
+              "eigenvalues": [
+                {
+                  "imag": 439.208879182852,
+                  "real": 3.259826235877573e-14
+                }
+              ],
+              "frequencies_hz": [
+                69.90226417180195
+              ],
+              "mode_ids": [
+                "mode-001"
+              ],
+              "parent_subspace_projection": 0.9999999973251511,
+              "polarization": [
+                {
+                  "chi": 1.0,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "FORWARD",
+                  "station_chi": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.9999999999999999,
+                    0.9999999999999998,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.9999999999999999,
+                    1.0000000000000002,
+                    0.9999999999999999,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.9999999999999999,
+                    1.0000000000000002,
+                    1.0,
+                    0.9999999999999999,
+                    0.9999999999999999,
+                    0.9999999999999999,
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.9999999999999999,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                }
+              ],
+              "qep_residuals": [
+                1.5106328606225927e-09
+              ],
+              "source_mode_indices": [
+                3
+              ],
+              "speed_index": 1,
+              "spin_speed_rad_s": 100.0
+            },
+            {
+              "ambiguity_margin": 1.0,
+              "ambiguity_status": "CLEAR_MATCH",
+              "branch_id": "cluster-000.F",
+              "complex_mac": 0.9999999939831966,
+              "eigenvalues": [
+                {
+                  "imag": 439.3822137223526,
+                  "real": 1.9940167418141043e-14
+                }
+              ],
+              "frequencies_hz": [
+                69.92985122057203
+              ],
+              "mode_ids": [
+                "mode-001"
+              ],
+              "normalized_frequency_distance": 0.00039449603121665907,
+              "polarization": [
+                {
+                  "chi": 0.9999999999999999,
+                  "classification": "POLARIZED",
+                  "defined": true,
+                  "relative_whirl": "FORWARD",
+                  "station_chi": [
+                    0.9999999999999998,
+                    0.9999999999999999,
+                    0.9999999999999999,
+                    0.9999999999999999,
+                    0.9999999999999999,
+                    0.9999999999999999,
+                    0.9999999999999997,
+                    0.9999999999999998,
+                    0.9999999999999999,
+                    0.9999999999999999,
+                    0.9999999999999999,
+                    1.0,
+                    0.9999999999999999,
+                    0.9999999999999998,
+                    0.9999999999999999,
+                    0.9999999999999999,
+                    0.9999999999999998,
+                    0.9999999999999999,
+                    0.9999999999999999,
+                    0.9999999999999999,
+                    0.9999999999999998,
+                    1.0,
+                    0.9999999999999999,
+                    0.9999999999999999,
+                    0.9999999999999999,
+                    0.9999999999999998,
+                    0.9999999999999998,
+                    0.9999999999999999,
+                    0.9999999999999999,
+                    0.9999999999999998,
+                    0.9999999999999998,
+                    0.9999999999999999
+                  ]
+                }
+              ],
+              "polarization_distance": 5.551115123125783e-17,
+              "qep_residuals": [
+                1.6173500115243727e-09
+              ],
+              "source_mode_indices": [
+                3
+              ],
+              "speed_index": 2,
+              "spin_speed_rad_s": 250.0
+            }
+          ]
+        },
+        {
+          "branch_id": "cluster-001",
+          "child_branch_ids": [],
+          "parent_branch_ids": [],
+          "samples": [
+            {
+              "ambiguity_status": "DEGENERATE_CLUSTER",
+              "branch_id": "cluster-001",
+              "eigenvalues": [
+                {
+                  "imag": 2651.6668934167874,
+                  "real": 6.019300583046863e-10
+                },
+                {
+                  "imag": 2651.6668934212366,
+                  "real": -7.906539082061643e-13
+                }
+              ],
+              "frequencies_hz": [
+                422.0258935204117,
+                422.0258935211198
+              ],
+              "mode_ids": [
+                "cluster-001"
+              ],
+              "polarization": [
+                {
+                  "chi": null,
+                  "classification": "UNDEFINED",
+                  "defined": false,
+                  "relative_whirl": "UNDEFINED",
+                  "station_chi": []
+                },
+                {
+                  "chi": null,
+                  "classification": "UNDEFINED",
+                  "defined": false,
+                  "relative_whirl": "UNDEFINED",
+                  "station_chi": []
+                }
+              ],
+              "qep_residuals": [
+                1.7242319476751153e-11,
+                2.1512428373513727e-11
+              ],
+              "source_mode_indices": [
+                5,
+                7
+              ],
+              "speed_index": 0,
+              "spin_speed_rad_s": 0.0
+            },
+            null,
+            null
+          ]
+        }
+      ],
+      "execution_key": "2158bfb994c674e0a2a7b44f617446ed7218768c18ab43b4ae72a40da3c87204",
+      "mesh_elements": 32,
+      "tracking_diagnostics": [
+        {
+          "child_branch_id": "cluster-000.B",
+          "combined_subspace_minimum_singular_value": 0.9999999986622959,
+          "event": "CLUSTER_SPLIT",
+          "from_speed_index": 0,
+          "parent_branch_id": "cluster-000",
+          "status": "DEGENERATE_CLUSTER",
+          "subspace_projection": 0.9999999973245915,
+          "to_speed_index": 1
+        },
+        {
+          "child_branch_id": "cluster-000.F",
+          "combined_subspace_minimum_singular_value": 0.9999999986622959,
+          "event": "CLUSTER_SPLIT",
+          "from_speed_index": 0,
+          "parent_branch_id": "cluster-000",
+          "status": "DEGENERATE_CLUSTER",
+          "subspace_projection": 0.9999999973251511,
+          "to_speed_index": 1
+        },
+        {
+          "admissible_candidate_edges": [],
+          "event": "UNMATCHED_TARGET",
+          "from_speed_index": 0,
+          "status": "UNTRACKED",
+          "target_branch_id": "branch-000",
+          "to_speed_index": 1
+        },
+        {
+          "admissible_candidate_edges": [],
+          "event": "UNMATCHED_TARGET",
+          "from_speed_index": 0,
+          "status": "UNTRACKED",
+          "target_branch_id": "branch-001",
+          "to_speed_index": 1
+        },
+        {
+          "admissible_edges_for_source": [
+            {
+              "assignment_cost": 9.885606793604452e-05,
+              "complex_mac": 0.9999999939787487,
+              "normalized_frequency_distance": 0.00039540861649081774,
+              "polarization_distance": 1.1102230246251565e-16,
+              "target_mode_indices": [
+                1
+              ]
+            }
+          ],
+          "admissible_edges_for_target": [
+            {
+              "assignment_cost": 9.885606793604452e-05,
+              "complex_mac": 0.9999999939787487,
+              "normalized_frequency_distance": 0.00039540861649081774,
+              "polarization_distance": 1.1102230246251565e-16,
+              "source_branch_id": "cluster-000.B",
+              "source_mode_indices": [
+                1
+              ],
+              "target_mode_indices": [
+                1
+              ]
+            }
+          ],
+          "ambiguity_margin": 1.0,
+          "candidate_mode_indices": [
+            1
+          ],
+          "complex_mac": 0.9999999939787487,
+          "from_speed_index": 1,
+          "individual_association_status": "CLEAR_MATCH",
+          "individual_edges_committed": true,
+          "normalized_frequency_distance": 0.00039540861649081774,
+          "polarization_distance": 1.1102230246251565e-16,
+          "source_branch_id": "cluster-000.B",
+          "source_mode_indices": [
+            1
+          ],
+          "status": "CLEAR_MATCH",
+          "target_group_index": 0,
+          "to_speed_index": 2
+        },
+        {
+          "admissible_edges_for_source": [
+            {
+              "assignment_cost": 9.862791872637307e-05,
+              "complex_mac": 0.9999999939831966,
+              "normalized_frequency_distance": 0.00039449603121665907,
+              "polarization_distance": 5.551115123125783e-17,
+              "target_mode_indices": [
+                3
+              ]
+            }
+          ],
+          "admissible_edges_for_target": [
+            {
+              "assignment_cost": 9.862791872637307e-05,
+              "complex_mac": 0.9999999939831966,
+              "normalized_frequency_distance": 0.00039449603121665907,
+              "polarization_distance": 5.551115123125783e-17,
+              "source_branch_id": "cluster-000.F",
+              "source_mode_indices": [
+                3
+              ],
+              "target_mode_indices": [
+                3
+              ]
+            }
+          ],
+          "ambiguity_margin": 1.0,
+          "candidate_mode_indices": [
+            3
+          ],
+          "complex_mac": 0.9999999939831966,
+          "from_speed_index": 1,
+          "individual_association_status": "CLEAR_MATCH",
+          "individual_edges_committed": true,
+          "normalized_frequency_distance": 0.00039449603121665907,
+          "polarization_distance": 5.551115123125783e-17,
+          "source_branch_id": "cluster-000.F",
+          "source_mode_indices": [
+            3
+          ],
+          "status": "CLEAR_MATCH",
+          "target_group_index": 1,
+          "to_speed_index": 2
+        },
+        {
+          "admissible_edges_for_source": [
+            {
+              "assignment_cost": 0.00018768583133102717,
+              "complex_mac": 0.9999996025885333,
+              "normalized_frequency_distance": 0.0007497100555105536,
+              "polarization_distance": 1.1102230246251565e-16,
+              "target_mode_indices": [
+                5
+              ]
+            }
+          ],
+          "admissible_edges_for_target": [
+            {
+              "assignment_cost": 0.00018768583133102717,
+              "complex_mac": 0.9999996025885333,
+              "normalized_frequency_distance": 0.0007497100555105536,
+              "polarization_distance": 1.1102230246251565e-16,
+              "source_branch_id": "branch-000",
+              "source_mode_indices": [
+                5
+              ],
+              "target_mode_indices": [
+                5
+              ]
+            }
+          ],
+          "ambiguity_margin": 1.0,
+          "candidate_mode_indices": [
+            5
+          ],
+          "complex_mac": 0.9999996025885333,
+          "from_speed_index": 1,
+          "individual_association_status": "CLEAR_MATCH",
+          "individual_edges_committed": true,
+          "normalized_frequency_distance": 0.0007497100555105536,
+          "polarization_distance": 1.1102230246251565e-16,
+          "source_branch_id": "branch-000",
+          "source_mode_indices": [
+            5
+          ],
+          "status": "CLEAR_MATCH",
+          "target_group_index": 2,
+          "to_speed_index": 2
+        },
+        {
+          "admissible_edges_for_source": [
+            {
+              "assignment_cost": 0.00018643937134364878,
+              "complex_mac": 0.9999996076795054,
+              "normalized_frequency_distance": 0.0007447374520884697,
+              "polarization_distance": 1.1102230246251565e-16,
+              "target_mode_indices": [
+                7
+              ]
+            }
+          ],
+          "admissible_edges_for_target": [
+            {
+              "assignment_cost": 0.00018643937134364878,
+              "complex_mac": 0.9999996076795054,
+              "normalized_frequency_distance": 0.0007447374520884697,
+              "polarization_distance": 1.1102230246251565e-16,
+              "source_branch_id": "branch-001",
+              "source_mode_indices": [
+                7
+              ],
+              "target_mode_indices": [
+                7
+              ]
+            }
+          ],
+          "ambiguity_margin": 1.0,
+          "candidate_mode_indices": [
+            7
+          ],
+          "complex_mac": 0.9999996076795054,
+          "from_speed_index": 1,
+          "individual_association_status": "CLEAR_MATCH",
+          "individual_edges_committed": true,
+          "normalized_frequency_distance": 0.0007447374520884697,
+          "polarization_distance": 1.1102230246251565e-16,
+          "source_branch_id": "branch-001",
+          "source_mode_indices": [
+            7
+          ],
+          "status": "CLEAR_MATCH",
+          "target_group_index": 3,
+          "to_speed_index": 2
+        }
+      ]
+    }
+  ],
+  "work_package": "WP06"
+}
