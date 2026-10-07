@@ -1,6 +1,6 @@
 | ID | Title | Status | Requirements | Examples | Tests | Source |
 | --- | --- | --- | --- | --- | --- | --- |
-| DOC-STATE-001 | QF Solver 0.2.10 | controlled_candidate | REQ-AUD-001, REQ-CMP-001 | 1 | 1 | index.md |
+| DOC-STATE-001 | QF Solver | controlled_candidate | REQ-AUD-001, REQ-CMP-001 | 1 | 1 | index.md |
 | DOC-VNV-CODEASTER-CAMPAIGN-2026-08-14 | Campagne de correlation Code_Aster du 2026-08-14 | ready_for_owner_review | REQ-CMP-003, REQ-AUD-001 | 1 | 3 | verification/code_aster_correlation_campaign_2026-08-14.md |
 | DOC-WHATS-NEW-0210-001 | What's New in QF Solver 0.2.10 | controlled_candidate |  | 0 | 1 | whats-new/0.2.10.md |
 | DOC-WHATS-NEW-0211-001 | What's New in QF Solver 0.2.11 | controlled_candidate |  | 0 | 1 | whats-new/0.2.11.md |
@@ -9,7 +9,7 @@
 | DOC-MECH-CAMPBELL-WP06 | Experimental Campbell diagrams | controlled_candidate |  | 0 | 2 | mechanics/campbell.md |
 | DOC-START-NONLINEAR-001 | Nonlinear example | controlled_candidate |  | 1 | 1 | getting-started/nonlinear-example.md |
 | DOC-VV-PUBLIC-0210-001 | QF Solver 0.2.10 verification summary | controlled_release |  | 0 | 1 | verification/0_2_10/README.md |
-| DOC-VV-PUBLIC-0211-001 | QF Solver 0.2.11 candidate verification summary | controlled_candidate |  | 0 | 1 | verification/0_2_11/README.md |
+| DOC-VV-PUBLIC-0211-001 | QF Solver 0.2.11 verification summary | controlled_candidate |  | 0 | 1 | verification/0_2_11/README.md |
 | DOC-STATE-002 | Capabilities and maturity | controlled_candidate | REQ-CMP-001, REQ-REL-001 | 0 | 0 | etat/capacites.md |
 | DOC-STATE-003 | Known limitations | controlled_candidate | REQ-CMP-002, REQ-REL-001 | 0 | 0 | etat/limites.md |
 | DOC-CAPABILITY-028-001 | QF Solver capability index | controlled_candidate |  | 0 | 0 | capabilities/index.md |

@@ -2,28 +2,28 @@
 doc_id: DOC-START-PUB-001
 revision: 1.0
 status: controlled_candidate
-applicable_version: 0.2.10
+applicable_version: 0.2.11
 reviewer: ""
 approver: ""
 ---
 
 # Installation
 
-The selected QF Solver `0.2.10` wheel and sdist are the audited PyPI release
-artifacts. The tagged release workflow publishes them only after its CI and
-source-bound package gates pass. QF Solver 0.2.10 is the first public release
-after `0.2.8`; the intervening `v0.2.9` tag is a source snapshot, not a package
-release. See [What's New in 0.2.10](../whats-new/0.2.10.md) for the release
+This guide applies to QF Solver `0.2.11`. Release availability is
+authoritative on [PyPI](https://pypi.org/project/qf-solver/) and
+[GitHub Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases).
+Only the exact selected wheel/sdist bytes bound to a successful release audit
+are audited distribution artifacts; this page is not an upload confirmation.
+See [What's New in 0.2.11](../whats-new/0.2.11.md) for the release
 scope and [the capability index](../capabilities/index.md) for maturity
 boundaries.
 
 ## User installation
 
-After the tagged release workflow completes the PyPI upload, install the exact
-version from the package index:
+Install the exact version from the package index after its release upload:
 
 ```bash
-python -m pip install "qf-solver==0.2.10"
+python -m pip install "qf-solver==0.2.11"
 qf-solver --version
 ```
 
@@ -32,13 +32,14 @@ release selector. Select the immutable release tag explicitly when
 reproducibility matters:
 
 ```bash
-git clone --branch v0.2.10 --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git
+git clone --branch v0.2.11 --single-branch https://github.com/emptiesvoid-cloud/QF_solver.git
 cd QF_solver
 python -m pip install .
 qf-solver --version
 ```
 
-The default branch is not a promise that it contains a specific release.
+The tag command applies once that release tag exists. The default branch is
+not a promise that it contains a specific release.
 
 The published core package requires Python 3.10 or newer. The recommended
 public import is:
@@ -99,7 +100,7 @@ commands.
 
 ## Distribution traceability data
 
-The published 0.2.10 wheel and source distribution include the selected
+The distribution selection retains the
 lightweight traceability set: the consolidated 46-record element-analysis registry and the
 HEX8-SRI, mixed-dynamics, mixed-MPC, mixed-multimaterial, `.inp`, mixed-HDF5
 and contact owner/delivery records. Historical 0.2.7 capability metadata is
@@ -108,5 +109,6 @@ retained separately.
 Raw NPZ/HDF5 arrays, full campaign output, caches, debug artifacts and
 temporary files are intentionally excluded from package data. They remain
 repository evidence and are not required for importing or using the base
-package. The selected wheel and sdist are the audited distribution artifacts;
-this does not clear the complete repository archive.
+package. Exact source selection, contents and artifact hashes are controlled
+by the matching release contract, not inferred from a default-branch build.
+Auditing a selected wheel/sdist does not clear the complete repository archive.

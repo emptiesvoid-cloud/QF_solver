@@ -9,7 +9,7 @@ approver: ""
 
 # Public roadmap
 
-QF Solver 0.2.10 is the current published release. Version 0.2.9 was a
+QF Solver 0.2.11 is the current documentation baseline. Version 0.2.9 was a
 development/source snapshot, not a PyPI package, GitHub Release, or version
 DOI. This roadmap is a product-level orientation; it is not a release gate,
 tag, publication decision, or promise that an unqualified route is ready for
@@ -17,12 +17,12 @@ production.
 
 ## Current direction
 
-The 0.2.11 candidate is in release preparation. WP01–WP06 add prospective V&V
-consolidation and experimental gyroscopic modal/Campbell routes within a
-bounded BEAM2-and-disk scope; neither route is published or promoted beyond
-`EXPERIMENTAL`. The [candidate verification summary](../verification/0_2_11/README.md)
-records its evidence and limitations. The latest published release remains
-0.2.10.
+Version 0.2.11 includes prospective V&V consolidation and experimental
+gyroscopic modal/Campbell routes within a bounded BEAM2-and-disk scope.
+Neither route is promoted beyond `EXPERIMENTAL`. The
+[verification summary](../verification/0_2_11/README.md) records its evidence
+and limitations. Package publication is governed by separate exact-source
+release gates and is not inferred from this roadmap.
 
 Follow-up work will extend evidence and reproducibility without
 generalizing the existing bounded nonlinear routes or changing the linear
@@ -31,7 +31,9 @@ Newton and residual/tangent infrastructure, transactional state management,
 bounded geometric/J2/contact routes, and continuation diagnostics. The
 [capability index](../capabilities/index.md) and
 [0.2.10 V&V summary](../verification/0_2_10/README.md) state what the
-evidence accepts—and what it excludes.
+evidence accepts and what it excludes. The
+[0.2.11 summary](../verification/0_2_11/README.md) adds the experimental
+rotating evidence without rewriting those earlier decisions.
 
 ## Follow-up themes
 

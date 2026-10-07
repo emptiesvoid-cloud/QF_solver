@@ -2,7 +2,7 @@
 doc_id: DOC-SOLVER-GUIDE-001
 revision: 2.0
 status: controlled_candidate
-applicable_version: 0.2.10
+applicable_version: 0.2.11
 reviewer: ""
 approver: ""
 ---
@@ -11,9 +11,9 @@ approver: ""
 
 QF Solver is an open-source Python finite-element solver for structural
 mechanics and dynamics. It emphasizes inspectable formulations, explicit
-solver diagnostics and traceable verification evidence. The 0.2.10 release is
-the first public release after 0.2.8. Its pages describe bounded evidence from
-the development cycle, not a blanket maturity upgrade.
+solver diagnostics and traceable verification evidence. This 0.2.11 guide
+describes the cumulative solver, with route-specific evidence rather than
+a blanket maturity claim.
 
 QF Solver can suit controlled analysis, solver development, computational
 mechanics research and reproducible FEM studies when the exact route appears
@@ -35,10 +35,13 @@ industrial systems.
 | Arc-length / postbuckling | Bounded experimental continuation evidence | No formal limit-point, bifurcation or general structural postbuckling claim. |
 | PETSc/MPI | Route-specific | Bounded recorded linear-static executions only; no general distributed nonlinear claim. |
 | General mixed distributed PETSc/MPI | `NOT_VALIDATED` | Historical runtime physical-balance and partition gates failed. |
+| Gyroscopic modal analysis | `EXPERIMENTAL` | Straight circular BEAM2 shafts with centered rigid axisymmetric disks; dense serial QEP only. |
+| Campbell diagrams | `EXPERIMENTAL` | Explicit speed sweeps and complex-mode tracking within that disk model; ambiguity is retained, including the high-frequency pair at 100 rad/s. |
 
 The internal roadmap score is not a public capability score. Read the
-[0.2.10 V&V summary](../verification/0_2_10/README.md) for the evidence
-classes and provenance behind these labels.
+[0.2.11 V&V summary](../verification/0_2_11/README.md) and the inherited
+[0.2.10 evidence](../verification/0_2_10/README.md) for the records behind
+these labels.
 
 ## Good-fit workflows
 
@@ -51,6 +54,8 @@ QF Solver is a reasonable candidate when you need:
 - a controlled experiment with the nonlinear driver, state
   transaction or continuation policies;
 - numerical diagnostics and reproducible input/result artifacts;
+- exploratory disk-gyroscopic modes or Campbell diagrams within the
+  [rotating-modal scope](../mechanics/rotating-modal.md);
 - a solver whose implementation, verification and maturity decisions are
   kept distinct.
 
@@ -117,6 +122,8 @@ is:
 - robust frictional updated-search or finite-sliding contact, self-contact,
   impact or contact dynamics;
 - general nonlinear transient dynamics;
+- general rotordynamics, distributed shaft gyroscopy, unbalance response,
+  rotor/stator contact or operational critical-speed validation;
 - general nonlinear MPI/PETSc, universal HPC scaling or GPU acceleration;
 - unrestricted mixed-element behavior, certified workflows or universal
   physical validation.

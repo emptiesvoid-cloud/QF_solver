@@ -2,7 +2,7 @@
 title: Nonlinear mechanics overview
 doc_id: DOC-MECH-NONLINEAR-001
 revision: 1.0
-applicable_version: 0.2.10
+applicable_version: 0.2.11
 status: controlled_candidate
 reviewer: ""
 approver: ""
@@ -10,7 +10,7 @@ approver: ""
 
 # Nonlinear mechanics overview
 
-This page explains the current candidate architecture. It is a mechanics
+This page explains the nonlinear architecture retained in QF Solver 0.2.11. It is a mechanics
 guide, not a verification report or a qualification decision. The
 [0.2.10 V&V summary](../verification/0_2_10/README.md) explains what evidence
 exists and what it does not establish.

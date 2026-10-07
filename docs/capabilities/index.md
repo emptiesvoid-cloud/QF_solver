@@ -9,12 +9,12 @@ approver: ""
 
 # QF Solver capability index
 
-**Current release:** `0.2.10` / `v0.2.10`<br>
-**0.2.11 candidate:** experimental rotating modal and Campbell routes; not yet published.
+**Current release documentation:** `0.2.11`<br>
+**Rotating modal and Campbell:** `EXPERIMENTAL`, within their declared scope.
 
-The published capability rows describe QF Solver 0.2.10 without changing
-previous maturity decisions; separately labeled 0.2.11 rows describe only
-unreleased candidate evidence. In particular, source implementation and a
+The capability rows describe the cumulative QF Solver 0.2.11 surface without
+changing previous maturity decisions. New experimental routes have separate
+contracts and evidence. In particular, source implementation and a
 successful test do not by themselves establish qualification.
 
 ## How to read the statuses
@@ -25,7 +25,7 @@ general qualified capability. “Owner-accepted bounded evidence” is reported
 as such and is not silently relabeled `QUALIFIED_BOUNDED`. “Audited; maturity
 not promoted” means a technical audit exists but no maturity promotion was
 recorded. The 46-case registry remains the authority for its original 0.2.8
-scope and counts; this 0.2.10 index does not rewrite it.
+scope and counts; this current index does not rewrite it.
 
 ## Capability matrix
 
@@ -37,8 +37,8 @@ scope and counts; this 0.2.10 index does not rewrite it.
 | Dynamics | WEDGE6 modal | `QUALIFIED_BOUNDED` — [registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json) | Homogeneous isotropic consistent-mass route; first three modes in the declared refinement scope. |
 | Dynamics | Newmark | Route-dependent / mixed route experimental — [registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json) | Linear transient scope only; timestep, damping and mass assumptions apply. |
 | Dynamics | Harmonic | Route-dependent / mixed route experimental — [registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json) | Recorded linear frequency-domain cases; no general nonlinear transient claim. |
-| Rotating dynamics | `rotating_modal` (candidate) | `EXPERIMENTAL` — [WP05 contract](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_11/wp05_gyroscopic_contract.json) | Serial dense QEP; straight circular-isotropic BEAM2 shaft, centered axisymmetric disks, constant signed spin, undamped/unprestressed small perturbations only. |
-| Rotating dynamics | Campbell / modal tracking (candidate) | `EXPERIMENTAL` — [WP06 contract](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_11/wp06_campbell_contract.json) | Explicit speed sweep over the WP05 model; complex MAC and ambiguity-preserving tracks. High-frequency pair ambiguous at 100 rad/s; no forced response or validated critical-speed prediction. |
+| Rotating dynamics | `rotating_modal` | `EXPERIMENTAL` — [WP05 contract](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_11/wp05_gyroscopic_contract.json) | Serial dense QEP; straight circular-isotropic BEAM2 shaft, centered axisymmetric disks, constant signed spin, undamped/unprestressed small perturbations only. |
+| Rotating dynamics | Campbell / modal tracking | `EXPERIMENTAL` — [WP06 contract](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_11/wp06_campbell_contract.json) | Explicit speed sweep over the WP05 model; complex MAC and ambiguity-preserving tracks. High-frequency pair ambiguous at 100 rad/s; no forced response or validated critical-speed prediction. |
 | Material NL | Small-strain J2 | `QUALIFIED_BOUNDED` — [registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json) | Recorded homogeneous constitutive cases and element combinations only. |
 | Geometric NL | Total-Lagrangian StVK | Audited `GO_WITH_LIMITATIONS`; maturity not promoted — [audit](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_9/wp04f/wp04_final_closure_audit.json) | Selected static serial TET4/HEX8 cases within explicit deformation/formulation bounds; excludes contact, dynamics, MPI/PETSc and high-order routes. |
 | Coupled NL | Material + geometry | Owner-accepted bounded evidence — [WP10 decision](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_9/wp10_owner_acceptance.json) | Selected static cases across recorded families; not frictional contact, dynamics, Code_Aster correlation or MPI. |
@@ -55,13 +55,13 @@ scope and counts; this 0.2.10 index does not rewrite it.
 For the nonlinear architecture see the [mechanics overview](../mechanics/nonlinear-overview.md).
 For concrete route restrictions see [known limitations](../etat/limites.md).
 For published 0.2.10 evidence see the [0.2.10 V&V summary](../verification/0_2_10/README.md).
-For candidate GYRO-01–06 evidence see the [0.2.11 V&V summary](../verification/0_2_11/README.md).
+For GYRO-01–06 evidence see the [0.2.11 V&V summary](../verification/0_2_11/README.md).
 
 ## Registry boundary
 
 The consolidated 0.2.8 registry contains 46 element-analysis combinations:
 32 `QUALIFIED_BOUNDED`, 14 `EXPERIMENTAL`, and 0 `NOT_QUALIFIED`. These are
-historical, scoped counts—not a 0.2.10 score and not a count of every separate
+historical, scoped counts, not a current score or a count of every separate
 workflow above. Mixed workflows, mechanics evidence, and external correlation
 remain separate records. WP14 is on HOLD while the whole-repository G03 scan
 is failed; the selected-package audit does not waive or clear that gate.

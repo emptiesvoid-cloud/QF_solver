@@ -2,7 +2,7 @@
 doc_id: DOC-ELEM-000
 revision: 2.0
 status: controlled_candidate
-applicable_version: 0.2.10
+applicable_version: 0.2.11
 reviewer: ""
 approver: ""
 ---
@@ -12,7 +12,7 @@ approver: ""
 Element support and maturity are separate. The published 0.2.8 consolidated
 registry remains authoritative for its 46 recorded element-analysis
 combinations; 0.2.10 nonlinear evidence and its limitations are reported
-separately.
+separately and remain relevant in 0.2.11.
 
 | Element family | 0.2.8 bounded scope | 0.2.10 nonlinear evidence / limitation |
 | --- | --- | --- |
@@ -28,6 +28,14 @@ separately.
 HEX8-SRI is a separate experimental capability; it is not a blanket claim for
 HEX8R, B-bar, or hourglass-control formulations. Higher-order families may
 have narrower nonlinear evidence than their linear registry coverage.
+
+The 0.2.11 rotating extension uses only a straight, collinear BEAM2 shaft
+with circular isotropic sections and centered rigid axisymmetric disks.
+It is `EXPERIMENTAL`; legacy beam or shell support does not extend that
+scope to shells, solid rotor meshes, eccentric disks or distributed shaft
+gyroscopy. Each disk owns its mass and gyroscopic term; duplicate generic
+disk mass at the same node is rejected. See [rotating modal](../mechanics/rotating-modal.md)
+and [Campbell](../mechanics/campbell.md).
 
 Before selecting an element, check geometry quality, orientation, expected
 deformation, loading, material model, and required output. Refinement cannot

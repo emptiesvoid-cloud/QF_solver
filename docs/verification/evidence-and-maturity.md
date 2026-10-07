@@ -2,17 +2,17 @@
 doc_id: DOC-VV-MATURITY-028-001
 revision: 2.0
 status: controlled_candidate
-applicable_version: 0.2.10
+applicable_version: 0.2.11
 reviewer: ""
 approver: ""
 ---
 
 # Verification, validation, evidence and maturity
 
-**Current release:** QF Solver `0.2.10` / `v0.2.10`<br>
-**Version DOI:** [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744)
+**Current release documentation:** QF Solver `0.2.11`<br>
+**Previous version DOI (0.2.10 only):** [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744)
 
-The 0.2.10 release accumulates development made since the published 0.2.8
+The cumulative solver retains the 0.2.10 development made since the published 0.2.8
 baseline, including the development-only 0.2.9 cycle. The
 [0.2.10 V&V summary](0_2_10/README.md) describes the bounded records; the
 [capability index](../capabilities/index.md) is the public navigation to
@@ -21,10 +21,14 @@ current scopes. The 46-combination
 is historical authority for those published element-analysis decisions and
 is not silently rewritten here.
 
-The 0.2.11 release candidate adds experimental gyroscopic modal and Campbell
+QF Solver 0.2.11 adds experimental gyroscopic modal and Campbell
 evidence. Those results, their availability and their maturity decisions are
-summarized separately in the [0.2.11 candidate V&V page](0_2_11/README.md);
+summarized separately in the [0.2.11 V&V page](0_2_11/README.md);
 they are not part of the published 0.2.10 record.
+
+Publication availability is established by PyPI and GitHub Releases, not by
+this page. The 0.2.11 citation metadata does not assert a publication date or
+an assigned version DOI.
 
 ## Four distinct claims
 
@@ -62,10 +66,10 @@ preserved; they are not rewritten to match a later desired outcome.
 
 The 0.2.8 registry counts remain 32 `QUALIFIED_BOUNDED`, 14 `EXPERIMENTAL`,
 and 0 `NOT_QUALIFIED` across 46 specified combinations. These counts are not a
-0.2.10 quality score and exclude separate mixed workflows and capability
+current-version quality score and exclude separate mixed workflows and capability
 records.
 
-## 0.2.10 scope boundaries
+## Inherited structural scope boundaries
 
 - Small-strain J2 and the 0.2.8 linear registry retain their original bounded
   scopes.
@@ -92,3 +96,12 @@ The detailed development-cycle records remain in
 [`qualification/0_2_9`](https://github.com/emptiesvoid-cloud/QF_solver/tree/main/qualification/0_2_9).
 They are engineering evidence, not user-level replacements for the concise
 scope statements above.
+
+## Experimental rotating scope
+
+Gyroscopic modal analysis is limited to linear straight circular BEAM2 shafts
+with centered rigid axisymmetric disks and a dense serial QEP. Campbell
+diagrams orchestrate this route and use explicit complex-mode tracking.
+The high-frequency pair at 100 rad/s remains ambiguous; the tracker does not
+force continuity. GYRO-06 supplies internal mesh-convergence evidence, not
+independent physical validation. Both capabilities remain `EXPERIMENTAL`.

@@ -9,8 +9,8 @@ approver: ""
 
 # Known limitations
 
-QF Solver 0.2.10 remains the current published release; 0.2.11 is an
-unreleased candidate. Every result is bounded by its element family,
+These limitations apply to the cumulative QF Solver 0.2.11 surface.
+Every result is bounded by its element family,
 formulation, mesh, loads, boundary conditions, constitutive model, solver, and
 evidence decision. The limitations below are technical boundaries, not a
 complete list of input checks.
@@ -39,9 +39,9 @@ complete list of input checks.
   named in their records. Do not infer frictional-contact, distributed, or
   nonlinear-dynamics restart support from shared transaction code.
 
-## Rotating modal and Campbell candidate
+## Rotating modal and Campbell
 
-- The 0.2.11 candidate is experimental and restricted to serial dense gyroscopic
+- The rotating capability is experimental and restricted to serial dense gyroscopic
   modal analysis of straight, collinear, circular-isotropic BEAM2 shafts with
   centered rigid axisymmetric disks, constant signed spin, a fixed global
   axis, and an undamped, unprestressed small-perturbation model.
@@ -51,12 +51,12 @@ complete list of input checks.
 - At 100 rad/s, the high-frequency pair remains ambiguous. The tracker keeps
   the gap; it must not force continuity or interpolate across the ambiguity.
 - GYRO-06 is internal mesh-convergence evidence, not independent physical
-  validation. Both new analysis maturities remain `EXPERIMENTAL`; candidate
+  validation. Both analysis maturities remain `EXPERIMENTAL`;
   numerical PASS does not itself qualify the capability.
 - Distributed shaft gyros, variable speed, speed-dependent stiffness/mass,
   general damping, bearings, centrifugal stiffening, contact/rubbing,
   nonlinear rotors, forced unbalance response, PETSc/SLEPc and MPI are outside
-  this candidate scope.
+  this scope.
 
 ## Contact
 
@@ -101,12 +101,13 @@ complete list of input checks.
   solve. A test pass is not itself a maturity decision.
 - No certification, Abaqus equivalence, industrial-grade guarantee, or
   universal physical validation is claimed.
-- The selected wheel and sdist are audited against their prospective release
-  contract. That package-scoped result does not clear the full-repository G03
+- Selected wheel/sdist audits are bound to their exact source and release
+  contract. A package-scoped result does not clear the full-repository G03
   archive gate or the automatic GitHub source archives. G03 remains FAIL and
   WP14 remains on HOLD.
 
 For exact published element-analysis boundaries, see the
 [0.2.8 consolidated registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json).
-For release evidence see the [0.2.10 V&V summary](../verification/0_2_10/README.md)
+For evidence see the [0.2.11 V&V summary](../verification/0_2_11/README.md),
+the separate [0.2.10 records](../verification/0_2_10/README.md)
 and the [capability index](../capabilities/index.md).

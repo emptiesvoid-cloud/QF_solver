@@ -19,7 +19,9 @@ def test_unreleased_candidate_is_not_mistaken_for_a_published_tag() -> None:
     assert "CITATION.cff needs an assigned version DOI" in failures
     assert "CHANGELOG.md has no released entry for this version" in failures
     assert "README.md release line does not identify this version" in failures
-    assert "README.md still denies publication of this version" in failures
+    # Final-state documentation is not proof of publication. The missing
+    # release date, assigned DOI and released changelog keep this gate closed.
+    assert "README.md still denies publication of this version" not in failures
 
 
 def test_metadata_gate_rejects_nonstable_or_mismatched_tag() -> None:

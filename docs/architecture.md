@@ -2,16 +2,16 @@
 doc_id: DOC-ARCH-001
 revision: 3.0
 status: controlled_candidate
-applicable_version: 0.2.10
+applicable_version: 0.2.11
 reviewer: ""
 approver: ""
 ---
 
 # QF Solver architecture
 
-This page describes the QF Solver 0.2.10 architecture. Architecture diagrams describe implementation
+This page describes the QF Solver 0.2.11 architecture. Architecture diagrams describe implementation
 boundaries; they do not establish capability maturity. See the
-[capability index](capabilities/index.md) and [0.2.10 V&V summary](verification/0_2_10/README.md)
+[capability index](capabilities/index.md) and [0.2.11 V&V summary](verification/0_2_11/README.md)
 for evidence and scope.
 
 ## Public entry points and routing
@@ -39,6 +39,34 @@ qf_solver public API / qf-solver CLI
 The CLI validates and translates input, calls the API, and writes result
 artifacts. It is not the location of finite-element formulations. Core
 calculation modules do not own command-line parsing or output serialization.
+
+Rotating modal and Campbell are additional analysis routes, not alternative
+implementations of classical modal analysis. They use the existing public
+model workflow with separate input and result contracts.
+
+## Rotating analysis flow
+
+```text
+campbell request + explicit ordered speeds
+  -> fixed model / disk / tracking policy
+  -> rotating_modal at each signed speed
+       -> fail-closed BEAM2/disk input validation
+       -> structural K/M + disk mass + unit-speed G
+       -> common fixed-DOF reduction
+       -> scaled dense generalized QEP
+       -> RotatingModalResult (raw complex spectrum + residuals)
+  -> modal_tracking (complex MAC / global assignment / subspaces)
+  -> CampbellResult (lineage / scores / ambiguity / provenance)
+  -> post/campbell (projection only; cannot assign tracks)
+```
+
+The responsibilities are implemented separately in
+`solveur.core.analyses.rotating_modal`, `qep`, `modal_tracking`, `campbell`
+and `solveur.post.campbell`. Campbell varies speed, not model properties or
+`K/M/G`. Gyroscopic assembly is not activated for legacy analyses. These
+internal modules are not stable public API. Both rotating capabilities
+remain `EXPERIMENTAL`, serial and bounded; PETSc/SLEPc/MPI, distributed
+shaft gyroscopy and speed-dependent physics are not enabled by this graph.
 
 ## Nonlinear analysis flow
 
@@ -129,8 +157,11 @@ documentation and exposes an uncommitted tree as such. The `qualification`
 profile has stricter source and page-status requirements. Generated
 measurements are not manually transcribed as new qualification decisions.
 The MkDocs site intentionally excludes the detailed `verification/0_2_9`
-engineering archive from public navigation; the concise 0.2.10 summary is
-served separately.
+engineering archive from public navigation; concise 0.2.10 and 0.2.11 summaries
+are served separately. Prospective execution identities, content hashes,
+safe resume, structured expected failures and evidence availability are
+documented in the [0.2.11 provenance summary](verification/0_2_11/README.md).
+Numerical results and maturity decisions remain separate.
 
 ## Known architectural debt
 

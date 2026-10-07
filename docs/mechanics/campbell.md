@@ -10,8 +10,8 @@ approver: ""
 
 # Experimental Campbell diagrams
 
-This is an unreleased 0.2.11 candidate capability. The latest published
-release remains 0.2.10, and Campbell maturity remains `EXPERIMENTAL`.
+This capability is part of QF Solver 0.2.11. Campbell maturity remains
+`EXPERIMENTAL`, independently of package publication.
 
 The `campbell` route orchestrates a set of single-speed `rotating_modal`
 analyses and associates their complex modes. It is experimental and limited to

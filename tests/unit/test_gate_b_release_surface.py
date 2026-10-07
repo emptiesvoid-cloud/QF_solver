@@ -85,7 +85,9 @@ def test_version_registry_and_public_docs_are_aligned() -> None:
     assert not any(line.startswith("date-released:") for line in citation.splitlines())
     assert not any(line.startswith("doi:") for line in citation.splitlines())
     assert project["urls"]["DOI"] == "https://doi.org/10.5281/zenodo.22697897"
-    assert "0.2.11 is a **candidate, not yet published**" in (ROOT / "README.md").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "The current QF Solver release is `0.2.11`" in readme
+    assert "0.2.11 is a **candidate, not yet published**" not in readme
     registry = json.loads((ROOT / "qualification/0_2_8/consolidated_registry.json").read_text(encoding="utf-8"))
     assert registry["combination_registry"]["state_counts"] == {
         "QUALIFIED_BOUNDED": 32,

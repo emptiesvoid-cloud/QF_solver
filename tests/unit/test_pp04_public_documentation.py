@@ -75,7 +75,7 @@ def test_current_document_metadata_and_registry_are_coherent() -> None:
     entries = {entry["id"]: entry for entry in registry["documents"]}
 
     expected = {
-        "DOC-STATE-001": ("index.md", "QF Solver 0.2.10"),
+        "DOC-STATE-001": ("index.md", "QF Solver"),
         "DOC-ARCH-001": ("architecture.md", "QF Solver architecture"),
         "DOC-REF-002": ("reference/registre_documentaire.md", "Documentation registry"),
     }
@@ -86,14 +86,14 @@ def test_current_document_metadata_and_registry_are_coherent() -> None:
         assert (DOCS / path).is_file()
 
     for path in ("index.md", "architecture.md"):
-        assert "applicable_version: 0.2.10" in _front_matter(DOCS / path)
-    assert "applicable_version: 0.2.8" in _front_matter(DOCS / "reference" / "registre_documentaire.md")
+        assert "applicable_version: 0.2.11" in _front_matter(DOCS / path)
+    assert "applicable_version: 0.2.11" in _front_matter(DOCS / "reference" / "registre_documentaire.md")
 
-    assert re.search(r"^# QF Solver 0\.2\.10$", _text(DOCS / "index.md"), re.MULTILINE)
+    assert re.search(r"^# QF Solver$", _text(DOCS / "index.md"), re.MULTILINE)
     assert re.search(r"^# QF Solver architecture$", _text(DOCS / "architecture.md"), re.MULTILINE)
     assert re.search(r"^# Documentation registry$", _text(DOCS / "reference" / "registre_documentaire.md"), re.MULTILINE)
     generated = _text(DOCS / "generated" / "document_registry.md")
-    assert "| DOC-STATE-001 | QF Solver 0.2.10 |" in generated
+    assert "| DOC-STATE-001 | QF Solver |" in generated
     assert "| DOC-ARCH-001 | QF Solver architecture |" in generated
     assert "| DOC-REF-002 | Documentation registry |" in generated
 
@@ -103,12 +103,15 @@ def test_generated_status_avoids_fragile_test_count() -> None:
     assert "Test inventory" not in status
     assert re.search(r"full-suite test\s+inventory is recorded by the final Gate-E evidence", status)
     assert "0.2.8-development" not in status
-    assert ">0.2.10<" in status
+    assert ">0.2.11<" in status
     assert "<h3>Project version</h3>" in status
     assert "whole-repository source archives are not cleared" in status
     assert "G03 FAIL" in status
     assert "Mixed distributed PETSc/MPI" in status
     assert "not validated" in status
+    assert "Gyroscopic modal analysis" in status and "Campbell diagrams" in status
+    assert "100 rad/s preserved" in status
+    assert "not independent physical validation" in status
 
 
 def test_current_public_pages_use_canonical_maturity_vocabulary() -> None:

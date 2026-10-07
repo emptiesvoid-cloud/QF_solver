@@ -2,7 +2,7 @@
 doc_id: DOC-SOL-000
 revision: 2.0
 status: controlled_candidate
-applicable_version: 0.2.10
+applicable_version: 0.2.11
 reviewer: ""
 approver: ""
 ---
@@ -12,12 +12,14 @@ approver: ""
 The route, element, formulation and evidence boundary determine which solver
 path is supported. Method names are not convergence guarantees; inspect the
 residual, conditioning, warnings and final diagnostics for every calculation.
-This page describes the bounded solver and backend scope of release 0.2.10.
+This page describes the bounded solver and backend scope of release 0.2.11.
 
 | Analysis / backend | Status | Scope |
 | --- | --- | --- |
 | Linear static | `QUALIFIED_BOUNDED` | Direct and iterative sparse routes only within the recorded element-analysis matrix. |
 | Modal | Route-dependent | Sparse eigenvalue routes for recorded bounded cases; mass and family scope vary. |
+| Rotating modal | `EXPERIMENTAL` | Serial dense generalized QEP with `scipy.linalg.eig(A, B)`; explicit complex spectrum, mass normalization and original-polynomial residuals. Not interchangeable with classical `eigh`/`eigsh`. |
+| Campbell | `EXPERIMENTAL` | Multiple bounded rotating solves plus complex-MAC global assignment and subspace-aware tracking. Unresolved matches remain ambiguous, including the high-frequency pair at 100 rad/s. |
 | Newmark / harmonic | Route-dependent; selected mixed routes `EXPERIMENTAL_BOUNDED` | Linear analysis and documented timestep/frequency/damping limits only. |
 | Linear buckling | Route-dependent | Bounded first-factor cases; no postbuckling or bifurcation claim. |
 | Nonlinear Newton | Bounded route evidence | Shared Newton/assembly/state infrastructure in selected material/geometric routes; not a general nonlinear solver claim. |
@@ -36,6 +38,13 @@ contact, dynamics or cross-family result equivalence. Historical structured
 TET4 large-model observations apply only to their exact configurations and
 environment. The standard installation uses SciPy and does not require these
 external runtimes.
+
+The rotating QEP does not use these optional backends. Its initial method is
+`dense_qep`; Campbell uses `complex_mac_hungarian` for tracking, not a new
+physical solver. The dense characterization reached 1,000 physical DOFs on
+synthetic matrix pencils in the recorded environment, without extrapolation
+or a universal capacity promise. See [rotating modal](../mechanics/rotating-modal.md)
+and [Campbell](../mechanics/campbell.md) for the full scope.
 
 ## Public API
 

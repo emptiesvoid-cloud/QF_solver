@@ -76,14 +76,14 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
         comparison_snapshot.replace(">", "").split()
     )
 
-    assert "latest **published** release is `0.2.10`" in readme
-    assert "0.2.11 is a **candidate, not yet published**" in readme
+    assert "The current QF Solver release is `0.2.11`" in readme
+    assert "0.2.11 is a **candidate, not yet published**" not in readme
     assert "`0.2.8` — release candidate; not published" not in readme
     assert "source tag" in readme and "v0.2.10" in readme
-    assert "QF Solver 0.2.10 is the current published release" in normalized_roadmap
+    assert "QF Solver 0.2.11 is the current documentation baseline" in normalized_roadmap
     assert "Version 0.2.9 was a development/source snapshot" in normalized_roadmap
-    assert "QF Solver 0.2.10 architecture" in normalized_architecture
-    assert "published 0.2.8 release scope" in open_source
+    assert "QF Solver 0.2.11 architecture" in normalized_architecture
+    assert "cumulative 0.2.11 solver retains explicitly bounded scopes" in open_source
     assert "first public release after 0.2.8" in normalized_index
     assert "0.2.10" in index
     assert "0.2.8 is the current development candidate" not in roadmap
@@ -91,7 +91,7 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
     assert "10.5281/zenodo.23106744" in index
     assert "version DOI" in readme
     assert "Current release" in normalized_index
-    assert "current published package is 0.2.10" in normalized_comparisons
+    assert "current documentation baseline is 0.2.11" in normalized_comparisons
     assert (
         "not been refreshed against the 0.2.10 release"
         in normalized_comparison_snapshot
@@ -101,6 +101,78 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
     assert 'version: "0.2.11"' in citation
     assert not any(line.startswith("date-released:") for line in citation.splitlines())
     assert not any(line.startswith("doi:") for line in citation.splitlines())
+
+
+@pytest.mark.parametrize(
+    "relative",
+    (
+        "index.md",
+        "architecture.md",
+        "capabilities/index.md",
+        "analyses/index.md",
+        "elements/index.md",
+        "etat/capacites.md",
+        "etat/limites.md",
+        "getting-started/installation.md",
+        "getting-started/quickstart.md",
+        "getting-started/nonlinear-example.md",
+        "getting-started/when-to-use-qf-solver.md",
+        "mechanics/nonlinear-overview.md",
+        "mechanics/rotating-modal.md",
+        "mechanics/campbell.md",
+        "reference/qf_solver_api.md",
+        "reference/api_stability.md",
+        "solveurs/index.md",
+        "verification/evidence-and-maturity.md",
+        "verification/0_2_11/README.md",
+        "whats-new/0.2.11.md",
+    ),
+)
+def test_current_public_surfaces_use_consistent_version_without_promotion(relative: str) -> None:
+    content = (DOCS / relative).read_text(encoding="utf-8")
+    assert "applicable_version: 0.2.11" in content
+    normalized = " ".join(content.split()).lower()
+    for stale in (
+        "current release:** qf solver `0.2.10`",
+        "0.2.11 release candidate",
+        "0.2.11 candidate v&v",
+        "future 0.2.11",
+        "upcoming 0.2.11",
+    ):
+        assert stale not in normalized
+    assert "0.2.12" not in content
+
+
+@pytest.mark.parametrize(
+    "relative",
+    (
+        "mechanics/campbell.md",
+        "verification/0_2_11/README.md",
+        "whats-new/0.2.11.md",
+        "verification/evidence-and-maturity.md",
+    ),
+)
+def test_rotating_public_evidence_retains_limits(relative: str) -> None:
+    content = (DOCS / relative).read_text(encoding="utf-8")
+    normalized = " ".join(content.split())
+    assert "EXPERIMENTAL" in content
+    assert "100 rad/s" in normalized
+    assert "ambigu" in normalized.lower()
+    assert "internal mesh-convergence evidence" in normalized
+    assert "not independent physical validation" in normalized
+
+
+def test_generated_status_matches_its_template_without_running_campaign(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    (tmp_path / "docs" / "generated").mkdir(parents=True)
+    monkeypatch.setattr("scripts.docs_publication.collect_test_count", lambda _root: 0)
+    publisher = DocumentationPublisher(
+        tmp_path, profile="quick", records=[], scales={}, source_state={"revision": "uncommitted"}
+    )
+    publisher._status({})
+    generated = (tmp_path / "docs" / "generated" / "status.md").read_text(encoding="utf-8")
+    assert generated == (DOCS / "generated" / "status.md").read_text(encoding="utf-8")
 
 
 def test_tetra_boundary_faces_remove_shared_face() -> None:
