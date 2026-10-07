@@ -1,0 +1,551 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0212-WP00-BASELINE-SCOPE-2026-10-07",
+  "record_type": "RELEASE_BASELINE_AND_SCOPE_CONTRACT",
+  "status": "WP00_FROZEN",
+  "captured_on": "2026-10-07",
+  "repository": "emptiesvoid-cloud/QF_solver",
+  "baseline": {
+    "branch": "main",
+    "expected_main_sha": "e367fe58b2b9ebb4aef321424ca775e80e82d9ca",
+    "verified_head_sha": "e367fe58b2b9ebb4aef321424ca775e80e82d9ca",
+    "verified_origin_main_sha": "e367fe58b2b9ebb4aef321424ca775e80e82d9ca",
+    "remote_main_sha": "e367fe58b2b9ebb4aef321424ca775e80e82d9ca",
+    "worktree_clean_at_capture": true,
+    "worktree_count_at_capture": 1,
+    "local_branches_at_capture": ["main"],
+    "remote_branches_at_capture": ["origin/main"],
+    "open_pull_requests_at_capture": 0,
+    "published_baseline_tag": {
+      "name": "v0.2.11",
+      "annotated": true,
+      "tag_object_sha": "be8114f22c68e1bc6bf0dd35c9f2466c0ca72890",
+      "target_commit_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4"
+    },
+    "published_state": {
+      "github_release": "PUBLISHED_AND_VERIFIED",
+      "pypi_version": "0.2.11",
+      "zenodo_version_doi": "10.5281/zenodo.23214487",
+      "zenodo_concept_doi": "10.5281/zenodo.22697897",
+      "publication_record": "qualification/0_2_11/publication_verification_0_2_11.json"
+    },
+    "main_remains_unmodified_by_wp00": true,
+    "baseline_reproducibility": "Git commit and peeled annotated tag target verified against local, origin and GitHub references."
+  },
+  "release_objective": "QF Solver 0.2.12 is a bounded A+NL release: reduced linear structural dynamics, richer excitation channels, and targeted consolidation of existing nonlinear-static behavior. V&V is targeted to changed and new capability scopes, not a global solver requalification campaign.",
+  "scope": {
+    "core_work_packages": [
+      {"id": "WP00", "name": "Baseline / scope / authorities"},
+      {"id": "WP01", "name": "Shared contracts"},
+      {"id": "WP02", "name": "Prepared dynamic system"},
+      {"id": "WP03", "name": "Excitation channels / phasors"},
+      {"id": "WP04", "name": "Modal basis / damping"},
+      {"id": "WP05", "name": "Reduced harmonic response"},
+      {"id": "WP06", "name": "Modal Newmark transient"},
+      {"id": "WP07", "name": "Uniform base acceleration"},
+      {"id": "WP08", "name": "Nonlinear stress measures / semantic migration"},
+      {"id": "WP09", "name": "Corotational tangent robustness"},
+      {"id": "WP10", "name": "Nonlinear accepted states / checkpoint migration / convergence"},
+      {"id": "WP11", "name": "Results / serialization / API integration"},
+      {"id": "WP12", "name": "Targeted V&V / performance characterization"},
+      {"id": "WP13", "name": "Release engineering"}
+    ],
+    "options": [
+      {
+        "id": "OPTION-A",
+        "name": "Residual flexibility",
+        "planning_recommendation": true,
+        "core_dependency": false,
+        "implementation_authorized_by_wp00": false,
+        "selection_rule": "May be separately authorized after its interface, cost and targeted evidence are reviewed. Its omission cannot block the 0.2.12 core."
+      },
+      {"id": "OPTION-B", "name": "Prepared Campbell", "selected": false},
+      {"id": "OPTION-C", "name": "Solid dynamic stress snapshots", "selected": false}
+    ],
+    "deferred": [
+      "generalized-alpha",
+      "reduced shell dynamics",
+      "nonlinear transient dynamics",
+      "multiplicative finite-strain plasticity",
+      "general contact/mortar overhaul",
+      "general finite sliding",
+      "explicit central-difference dynamics",
+      "major new element families",
+      "general prestressed modal",
+      "general follower loads",
+      "distributed rotor expansion",
+      "rotor rubbing",
+      "GPU rewrite",
+      "general MPI/HPC redesign"
+    ],
+    "dynamic_initial_domain": {
+      "element_families": ["TET4", "TET10", "HEX8", "HEX20", "BEAM2 non-rotating"],
+      "material": "linear isotropic elastic",
+      "boundary_conditions": "homogeneous fixed supports",
+      "discrete_entities": "admissible concentrated masses and springs attached to existing supported structural DOFs; entity ownership/preflight must be explicit",
+      "operator_domain": "reduced M and K must satisfy the positive-definite domain contracted for the selected method; unsupported massless directions fail closed",
+      "execution": "serial, using compatible existing backends",
+      "explicitly_excluded": ["shells", "unhandled algebraic coordinates", "contact", "complex MPC/RBE", "rotor", "prestressed state", "follower loads", "incompatible massless directions"],
+      "compatibility_rule": "A new method rejecting an unsupported model must not make a previously compatible legacy route reject it."
+    },
+    "nonlinear_initial_domain": {
+      "intent": "consolidate existing nonlinear-static routes and their semantics; no new constitutive family",
+      "priorities": [
+        "corotational J2 stress measure labels and transformations",
+        "semantic migration of stored results",
+        "numerical tangent robustness and origin invariance",
+        "raw versus returned/symmetrized tangent observability",
+        "safe accepted-state and checkpoint migration",
+        "convergence and failure reporting",
+        "explicit method- and scope-dependent support matrix"
+      ],
+      "excluded": ["nonlinear transient dynamics", "multiplicative plasticity", "general finite-strain plasticity", "general contact", "general corotational continuum reformulation"]
+    },
+    "historical_statuses": {
+      "HISTORICAL_G03": "FAIL_PRESERVED",
+      "HISTORICAL_WP14": "HOLD_NOT_PROMOTED",
+      "WHOLE_REPOSITORY_ARCHIVE_CLEARED": "NO",
+      "historical_records_mutable": false
+    }
+  },
+  "method_scope_matrix": [
+    {
+      "ANALYSIS": "excitation_channels",
+      "METHOD": "explicit, unit-resolved force phasors/time histories and uniform base-motion inputs with stable excitation identity",
+      "ELEMENT_FAMILY": ["TET4", "TET10", "HEX8", "HEX20", "BEAM2 non-rotating"],
+      "MATERIAL_SCOPE": "linear isotropic elastic prepared-system domain",
+      "EXCITATION_SCOPE": "force channels and uniform translational base acceleration only; no implicit grid, unit, phase, sign or frame inference",
+      "DAMPING_SCOPE": "excitation definition is separate from damping; compatibility is owned by the consuming method contract",
+      "RESULT_AVAILABILITY": "resolved channel identity and complex phasor or time-history provenance; response values belong to the consuming analysis",
+      "MATURITY_TARGET": "EXPERIMENTAL",
+      "QUALIFICATION_TARGET": "QF0212-G02 plus QF0212-G03-DYN",
+      "STATUS_0_2_12": "MUST",
+      "NUMERICAL_PASS_IMPLIES_QUALIFICATION": false
+    },
+    {
+      "ANALYSIS": "prepared_dynamic_system",
+      "METHOD": "assemble/prepare reduced structural M, K and explicit excitation operators; internal prerequisite, not a standalone qualification claim",
+      "ELEMENT_FAMILY": ["TET4", "TET10", "HEX8", "HEX20", "BEAM2 non-rotating"],
+      "MATERIAL_SCOPE": "linear isotropic elastic",
+      "EXCITATION_SCOPE": "contracted force and base-motion channels only; WP03 owns channel semantics",
+      "DAMPING_SCOPE": "no implicit damping matrix; WP01 must define supported damping inputs and method compatibility",
+      "RESULT_AVAILABILITY": "prepared operator identity and diagnostics; public result exposure decided in WP01/WP11",
+      "MATURITY_TARGET": "EXPERIMENTAL",
+      "QUALIFICATION_TARGET": "QF0212-G02 plus QF0212-G03-DYN",
+      "STATUS_0_2_12": "MUST",
+      "NUMERICAL_PASS_IMPLIES_QUALIFICATION": false
+    },
+    {
+      "ANALYSIS": "modal_basis",
+      "METHOD": "real symmetric generalized eigenproblem for the prepared reduced M/K, with contracted mode normalization and cluster/truncation policy",
+      "ELEMENT_FAMILY": ["TET4", "TET10", "HEX8", "HEX20", "BEAM2 non-rotating"],
+      "MATERIAL_SCOPE": "linear isotropic elastic",
+      "EXCITATION_SCOPE": "none for basis construction",
+      "DAMPING_SCOPE": "basis is undamped; damping assignment is a separate explicit model contract",
+      "RESULT_AVAILABILITY": "eigenvalues, modes, residuals, cluster/truncation diagnostics subject to WP01/WP11 availability contract",
+      "MATURITY_TARGET": "EXPERIMENTAL",
+      "QUALIFICATION_TARGET": "QF0212-G03-DYN / G04-DYN",
+      "STATUS_0_2_12": "MUST",
+      "NUMERICAL_PASS_IMPLIES_QUALIFICATION": false
+    },
+    {
+      "ANALYSIS": "harmonic_response",
+      "METHOD": "reduced modal superposition plus explicit direct-reference comparison only where damping/operator assumptions are compatible",
+      "ELEMENT_FAMILY": ["TET4", "TET10", "HEX8", "HEX20", "BEAM2 non-rotating"],
+      "MATERIAL_SCOPE": "linear isotropic elastic",
+      "EXCITATION_SCOPE": "contracted force phasors and, if WP07 permits, uniform base-acceleration phasors",
+      "DAMPING_SCOPE": "only WP01-contracted modal damping; modal damping does not imply a complete physical C; full-basis/direct equivalence is conditional, not presumed",
+      "RESULT_AVAILABILITY": "complex displacement/response phasors and availability diagnostics; reactions may be unavailable under modal damping",
+      "MATURITY_TARGET": "EXPERIMENTAL",
+      "QUALIFICATION_TARGET": "QF0212-G03-DYN / G04-DYN / G05",
+      "STATUS_0_2_12": "MUST",
+      "NUMERICAL_PASS_IMPLIES_QUALIFICATION": false
+    },
+    {
+      "ANALYSIS": "transient_response",
+      "METHOD": "modal Newmark integration on the contracted reduced basis; legacy direct Newmark route remains separately preserved",
+      "ELEMENT_FAMILY": ["TET4", "TET10", "HEX8", "HEX20", "BEAM2 non-rotating"],
+      "MATERIAL_SCOPE": "linear isotropic elastic",
+      "EXCITATION_SCOPE": "contracted force histories and uniform base acceleration if WP07 passes its separate gate",
+      "DAMPING_SCOPE": "only explicit WP01-contracted modal damping; no inferred physical damping matrix",
+      "RESULT_AVAILABILITY": "time histories, selected modal/generalized quantities and checkpoint availability as declared by WP01/WP11",
+      "MATURITY_TARGET": "EXPERIMENTAL",
+      "QUALIFICATION_TARGET": "QF0212-G03-DYN / G04-DYN / G05",
+      "STATUS_0_2_12": "MUST",
+      "NUMERICAL_PASS_IMPLIES_QUALIFICATION": false
+    },
+    {
+      "ANALYSIS": "uniform_base_acceleration",
+      "METHOD": "equivalent inertial loading formed with the complete supported mass/operator model before constraint elimination; distinct relative and absolute response frames",
+      "ELEMENT_FAMILY": ["TET4", "TET10", "HEX8", "HEX20", "BEAM2 non-rotating"],
+      "MATERIAL_SCOPE": "linear isotropic elastic",
+      "EXCITATION_SCOPE": "uniform prescribed translational base acceleration, with axes, units, sign and input history/phasor explicit",
+      "DAMPING_SCOPE": "must follow the selected harmonic/transient method contract; reactions are explicitly availability-tagged",
+      "RESULT_AVAILABILITY": "relative response and absolute response only when reconstructable; unavailable quantities must be represented as unavailable, not zero",
+      "MATURITY_TARGET": "EXPERIMENTAL",
+      "QUALIFICATION_TARGET": "QF0212-G03-DYN / G04-DYN / G05",
+      "STATUS_0_2_12": "MUST",
+      "NUMERICAL_PASS_IMPLIES_QUALIFICATION": false
+    },
+    {
+      "ANALYSIS": "harmonic_response_optional_extension",
+      "METHOD": "residual-flexibility correction to reduced harmonic response",
+      "ELEMENT_FAMILY": ["same as the qualified reduced dynamic domain; no broadened family"],
+      "MATERIAL_SCOPE": "linear isotropic elastic",
+      "EXCITATION_SCOPE": "same explicit channels as core harmonic response",
+      "DAMPING_SCOPE": "only if mathematically compatible with WP01 damping contract",
+      "RESULT_AVAILABILITY": "separately contracted corrected response and residual diagnostics",
+      "MATURITY_TARGET": "EXPERIMENTAL",
+      "QUALIFICATION_TARGET": "independent option gate; does not gate core G03/G04",
+      "STATUS_0_2_12": "OPTIONAL_RECOMMENDED_NOT_SELECTED_FOR_IMPLEMENTATION",
+      "NUMERICAL_PASS_IMPLIES_QUALIFICATION": false
+    },
+    {
+      "ANALYSIS": "nonlinear_static_stress_results",
+      "METHOD": "targeted correction/migration of corotational J2 stress measure identity and public labels",
+      "ELEMENT_FAMILY": "existing nonlinear-static families only; exact method/family support is recorded, not broadened, in WP01/WP08",
+      "MATERIAL_SCOPE": "existing corotational J2 scope only; no new constitutive model",
+      "EXCITATION_SCOPE": "static loads already supported by the selected legacy route",
+      "DAMPING_SCOPE": "not applicable",
+      "RESULT_AVAILABILITY": "each stress measure and migration outcome explicit; ambiguous legacy semantics fail closed",
+      "MATURITY_TARGET": "PRESERVE_EXISTING_METHOD_SPECIFIC_STATUS",
+      "QUALIFICATION_TARGET": "QF0212-G03-NL / G04-NL / G05; targeted only",
+      "STATUS_0_2_12": "MUST_TARGETED_CONSOLIDATION",
+      "NUMERICAL_PASS_IMPLIES_QUALIFICATION": false
+    },
+    {
+      "ANALYSIS": "nonlinear_static_tangent",
+      "METHOD": "robustness and provenance of existing corotational finite-difference tangent, including raw and symmetrized forms",
+      "ELEMENT_FAMILY": "existing corotational scope only",
+      "MATERIAL_SCOPE": "existing corotational J2 scope only",
+      "EXCITATION_SCOPE": "existing static load path only",
+      "DAMPING_SCOPE": "not applicable",
+      "RESULT_AVAILABILITY": "raw tangent, returned tangent, step policy and diagnostic comparison available to the targeted evidence contract",
+      "MATURITY_TARGET": "PRESERVE_EXISTING_METHOD_SPECIFIC_STATUS",
+      "QUALIFICATION_TARGET": "QF0212-G03-NL / G04-NL / G05; targeted only",
+      "STATUS_0_2_12": "MUST_TARGETED_CONSOLIDATION",
+      "NUMERICAL_PASS_IMPLIES_QUALIFICATION": false
+    },
+    {
+      "ANALYSIS": "nonlinear_static_accepted_state_and_checkpoint",
+      "METHOD": "accepted-state, convergence/failure reporting and fail-closed v1-to-v2 checkpoint migration",
+      "ELEMENT_FAMILY": "existing nonlinear-static families only",
+      "MATERIAL_SCOPE": "existing nonlinear-static state only",
+      "EXCITATION_SCOPE": "existing static loads and continuation state only",
+      "DAMPING_SCOPE": "not applicable",
+      "RESULT_AVAILABILITY": "accepted state and checkpoint compatibility are explicit; unsafe legacy state is refused, never silently promoted",
+      "MATURITY_TARGET": "PRESERVE_EXISTING_METHOD_SPECIFIC_STATUS",
+      "QUALIFICATION_TARGET": "QF0212-G02 / G03-NL / G04-NL / G05",
+      "STATUS_0_2_12": "MUST_TARGETED_CONSOLIDATION",
+      "NUMERICAL_PASS_IMPLIES_QUALIFICATION": false
+    },
+    {
+      "ANALYSIS": "any_new_dynamic_method",
+      "METHOD": "fail-closed for unsupported model/operator combinations",
+      "ELEMENT_FAMILY": ["shells", "unsupported element families", "rotor elements"],
+      "MATERIAL_SCOPE": "nonlinear, anisotropic or otherwise uncontracted material behavior",
+      "EXCITATION_SCOPE": "contact, follower, unsupported spatially varying or nonlinear excitation",
+      "DAMPING_SCOPE": "uncontracted damping and speed-dependent damping/operators",
+      "RESULT_AVAILABILITY": "explicit refusal with reason; no partial result presented as valid",
+      "MATURITY_TARGET": "NOT_SUPPORTED",
+      "QUALIFICATION_TARGET": "not applicable",
+      "STATUS_0_2_12": "DEFERRED_OR_EXCLUDED",
+      "NUMERICAL_PASS_IMPLIES_QUALIFICATION": false
+    }
+  ],
+  "inherited_technical_findings": [
+    {
+      "finding": "NEW_MARK_PHYSICAL_IDENTITY_INCOMPLETE",
+      "status": "CONFIRMED",
+      "owner_wp": "WP02",
+      "record_only_in_wp00": true,
+      "note": "Prepared operator identity must distinguish physical model, operator and excitation; do not use an incomplete nominal signature."
+    },
+    {
+      "finding": "NL_V1_TO_V2_MIGRATION_UNSAFE_CASE",
+      "status": "CONFIRMED",
+      "owner_wp": "WP10",
+      "record_only_in_wp00": true,
+      "note": "A legacy checkpoint case cannot be migrated unless the required state and identity are provable; ambiguous/incomplete cases must fail closed."
+    },
+    {
+      "finding": "COROTATIONAL_SECOND_PIOLA_LABEL_INCORRECT",
+      "status": "CONFIRMED",
+      "owner_wp": "WP08",
+      "record_only_in_wp00": true
+    },
+    {
+      "finding": "COROTATIONAL_TANGENT_CENTRAL_DIFFERENCE",
+      "status": "CONFIRMED",
+      "owner_wp": "WP09",
+      "record_only_in_wp00": true
+    },
+    {
+      "finding": "COROTATIONAL_TANGENT_SYMMETRIZED",
+      "status": "CONFIRMED",
+      "owner_wp": "WP09",
+      "record_only_in_wp00": true,
+      "note": "Evidence must compare raw numerical tangent and returned/symmetrized tangent; symmetrization must not hide a defect."
+    },
+    {
+      "finding": "COROTATIONAL_FD_STEP_ORIGIN_DEPENDENT",
+      "status": "CONFIRMED",
+      "owner_wp": "WP09",
+      "record_only_in_wp00": true,
+      "note": "Current finite-difference step depends on max(abs(coords)); investigate objective length/scale measures without changing the formulation silently."
+    },
+    {
+      "finding": "HEX8_FORCE_EVAL_COUNT",
+      "status": "CONFIRMED",
+      "observed_count": 49,
+      "owner_wp": "WP09",
+      "record_only_in_wp00": true
+    },
+    {
+      "finding": "HEX20_FORCE_EVAL_COUNT",
+      "status": "CONFIRMED",
+      "observed_count": 121,
+      "owner_wp": "WP09",
+      "record_only_in_wp00": true
+    }
+  ],
+  "authority_inventory": [
+    {
+      "authority": "PUBLIC_RELEASE_POLICY.md",
+      "role": "current public release metadata, distribution scope and publication policy",
+      "classification_at_baseline": "CURRENT_AUTHORITY_STALE",
+      "finding": "Release Metadata subsection named 0.2.10 as latest although 0.2.11 was publicly verified.",
+      "wp00_action": "Correct only the current release metadata subsection to 0.2.11; retain publication policy and historical release records unchanged."
+    },
+    {
+      "authority": "CITATION.cff and pyproject.toml",
+      "role": "current citation, version, license and project metadata",
+      "classification_at_baseline": "CURRENT",
+      "finding": "Both identify 0.2.11; CITATION.cff binds release date 2026-10-07 and version DOI 10.5281/zenodo.23214487; pyproject DOI URL is the concept DOI 10.5281/zenodo.22697897.",
+      "wp00_action": "Read-only reference; no edit."
+    },
+    {
+      "authority": "qualification/0_2_11/authorized_selected_package_release_contract_afd2efa.json",
+      "role": "exact selected package source, tag and artifact authorization",
+      "classification_at_baseline": "HISTORICAL_RELEASE_AUTHORITY",
+      "finding": "Binds v0.2.11 to afd2efa and exact wheel/sdist/manifest hashes; preserves whole-repository clearance false and WP14 hold.",
+      "wp00_action": "Immutable historical input; no edit or reuse as 0.2.12 contract."
+    },
+    {
+      "authority": "qualification/0_2_11/publication_verification_0_2_11.json",
+      "role": "post-publication G09 evidence across GitHub, PyPI and Zenodo",
+      "classification_at_baseline": "HISTORICAL_RELEASE_EVIDENCE",
+      "finding": "Records public DOI, exact three selected Zenodo files, hashes and G09 PASS.",
+      "wp00_action": "Immutable historical evidence; no edit."
+    },
+    {
+      "authority": "qualification/capability_registry.json and qualification/0_2_7/capability_registry_v2.json",
+      "role": "existing capability registry and generated public capability view inputs",
+      "classification_at_baseline": "LEGACY_VERSIONED_AUTHORITY",
+      "finding": "Registry source metadata is tied to earlier releases; it is not a standalone 0.2.12 method-aware qualification decision.",
+      "wp00_action": "Do not rewrite. WP01 must define how method-specific status and evidence are represented prospectively."
+    },
+    {
+      "authority": "qualification/element_analysis_matrix.json",
+      "role": "element/analysis coverage and current runtime maturity lookup input",
+      "classification_at_baseline": "CURRENT_RUNTIME_INPUT_WITH_HISTORICAL_SCOPE",
+      "finding": "Consumed by existing audit/runtime/documentation tooling, but its date and analysis-level shape do not automatically authorize new method maturity.",
+      "wp00_action": "Preserve as-is. WP01 must make new method maturity explicit and record-bound."
+    },
+    {
+      "authority": "src/solveur/core/qualification.py and src/solveur/verification/traceability.py",
+      "role": "runtime maturity and model-scope resolution behavior",
+      "classification_at_baseline": "EXECUTABLE_RUNTIME_AUTHORITY",
+      "finding": "Existing model/analysis lookups are method-sensitive only to the extent implemented; new reduced routes must not inherit legacy maturity by default.",
+      "wp00_action": "No code change. WP01 contracts and later implementation must explicitly govern this behavior."
+    },
+    {
+      "authority": ".github/workflows/quality.yml, .github/workflows/docs-tests.yml, .github/workflows/publish-pypi.yml",
+      "role": "CI, documentation and publication execution gates",
+      "classification_at_baseline": "EXECUTABLE_WORKFLOW_AUTHORITY",
+      "finding": "quality.yml is not a tag-triggered workflow by default; release publication checks are explicitly workflow-driven.",
+      "wp00_action": "No workflow change; WP13 must bind candidate SHA and phase-specific release checks."
+    },
+    {
+      "authority": "qualification/0_2_11/wp03_vnv_data_contract.json and verification/v2/",
+      "role": "execution identity, safe resume, provenance and evidence projection precedent",
+      "classification_at_baseline": "VERSIONED_VNV_CONTRACT_AND_CODE",
+      "finding": "Provides prospective provenance patterns; not a substitute for 0.2.12 dynamic physical/operator/excitation identities.",
+      "wp00_action": "Reuse concepts and preserve historical records; WP01 defines the shared 0.2.12 contract."
+    },
+    {
+      "authority": "qualification/0_2_12/wp00_baseline_scope_contract.json",
+      "role": "0.2.12 baseline and frozen scope authority",
+      "classification_at_baseline": "CURRENT_RELEASE_PLANNING_AUTHORITY",
+      "finding": "Created by WP00 on the WP00 branch, anchored to the immutable main baseline SHA.",
+      "wp00_action": "Use as scope authority for WP01; supersede only through an explicit Owner-approved scope change."
+    }
+  ],
+  "reference_dag": {
+    "edges": [
+      ["WP00", "WP01"],
+      ["WP01", "WP02"],
+      ["WP01", "WP03"],
+      ["WP01", "WP04"],
+      ["WP02", "WP03"],
+      ["WP02", "WP04"],
+      ["WP02", "WP05"],
+      ["WP03", "WP05"],
+      ["WP04", "WP05"],
+      ["WP02", "WP06"],
+      ["WP03", "WP06"],
+      ["WP04", "WP06"],
+      ["WP02", "WP07"],
+      ["WP03", "WP07"],
+      ["WP04", "WP07"],
+      ["WP01", "WP08"],
+      ["WP08", "WP09"],
+      ["WP08", "WP10"],
+      ["WP09", "WP10"],
+      ["WP01", "WP11"],
+      ["WP05", "WP11"],
+      ["WP06", "WP11"],
+      ["WP07", "WP11"],
+      ["WP10", "WP11"],
+      ["WP11", "WP12"],
+      ["WP12", "WP13"]
+    ],
+    "optional_edge": {
+      "feature": "OPTION-A Residual flexibility",
+      "depends_on": ["WP01", "WP02", "WP04", "WP05", "WP11"],
+      "blocks_core": false,
+      "requires_separate_authorization": true
+    },
+    "interpretation": "WP03/WP04 may proceed after their shared contracts and prepared-system interface are frozen; no downstream numerical work starts before its prerequisite WP exits."
+  },
+  "release_gates": [
+    {
+      "id": "QF0212_G01",
+      "name": "Baseline / scope",
+      "inputs": ["WP00 baseline", "scope contract", "authority inventory", "historical status ledger"],
+      "checks": ["exact baseline and v0.2.11 target", "scope and exclusions unambiguous", "option/core relationship explicit", "authorities classified", "history preserved"],
+      "pass": "All WP00 acceptance items are evidenced; scope changes require explicit Owner approval.",
+      "fail": "Baseline mismatch, unresolved scope conflict, stale current authority left uncorrected, or historical record rewritten.",
+      "blocking": "Blocks all implementation WPs until PASS.",
+      "evidence": ["qualification/0_2_12/wp00_baseline_scope_contract.json", "qualification/0_2_12/wp00_baseline_scope.md", "exact Git refs and validation output"],
+      "wp00_verdict": "PASS_AFTER_DELIVERABLE_VALIDATION"
+    },
+    {
+      "id": "QF0212_G02",
+      "name": "Architecture / identities",
+      "inputs": ["WP01 shared contracts", "WP02 prepared-system design", "result/checkpoint schemas"],
+      "checks": ["physical/operator/excitation identity", "method-aware maturity", "result availability", "serialization/versioning", "damping/reaction/frame semantics", "checkpoint migration policy"],
+      "pass": "Interfaces and identity rules are versioned, deterministic and fail closed before numerical implementation.",
+      "fail": "Ambiguous identity, inferred damping/reactions, unsafe resume or implicit legacy maturity.",
+      "blocking": "Blocks WP02-WP11 numerical implementation.",
+      "evidence": ["WP01 contract", "architecture diagrams", "negative contract tests"],
+      "wp00_verdict": "NOT_RUN"
+    },
+    {
+      "id": "QF0212_G03",
+      "name": "Formulations",
+      "subverdicts": ["DYN", "NL"],
+      "inputs": ["frozen equations and operator contracts", "independent reference definitions", "accepted-state/stress/tangent semantics"],
+      "checks": ["DYN operator, modal reduction, excitation and base-acceleration equations", "NL stress measure definitions, raw/returned tangent semantics, checkpoint state meaning"],
+      "pass": "DYN and NL each independently pass their formulation tests; no aggregate PASS can hide a failing axis.",
+      "fail": "Either DYN or NL has a formulation defect or unsupported scope is silently accepted.",
+      "blocking": "Blocks only the affected track and dependent integration; release core cannot claim the failed track.",
+      "evidence": ["versioned formulation contracts", "analytic/local checks", "reviewed derivations"],
+      "wp00_verdict": "NOT_RUN"
+    },
+    {
+      "id": "QF0212_G04",
+      "name": "Numerical behavior",
+      "subverdicts": ["DYN", "NL"],
+      "inputs": ["preregistered tolerances", "targeted reference cases", "method contracts"],
+      "checks": ["DYN residuals, modal clusters, reduced/direct comparisons where assumptions permit, time/frequency response", "NL stress/tangent/objectivity/convergence/checkpoint replay metrics"],
+      "pass": "Each axis meets its preregistered numerical and failure-mode criteria; any ambiguity remains visible.",
+      "fail": "A required metric fails, threshold changes post hoc, or a failure is hidden by another axis.",
+      "blocking": "Blocks claims and release of the affected capability; no automatic maturity promotion.",
+      "evidence": ["schema-versioned execution records", "hashed references", "observed values, tolerances and diagnostics"],
+      "wp00_verdict": "NOT_RUN"
+    },
+    {
+      "id": "QF0212_G05",
+      "name": "Non-regression / interfaces",
+      "inputs": ["WP00 preserved capability list", "legacy test selection", "result/API contracts"],
+      "checks": ["old route behavior", "public/import/CLI compatibility", "result availability and round-trip", "legacy checkpoint readers and fail-closed migration"],
+      "pass": "No unapproved regression; availability changes are explicit; legacy-compatible inputs remain compatible.",
+      "fail": "Any unexplained legacy numerical/API change or silent data loss.",
+      "blocking": "Blocks merge of affected WP and candidate freeze.",
+      "evidence": ["targeted non-regression results on exact candidate SHA", "before/after metrics"],
+      "wp00_verdict": "NOT_RUN"
+    },
+    {
+      "id": "QF0212_G06",
+      "name": "Candidate / audit",
+      "inputs": ["frozen candidate source", "selected distribution contract", "G01-G05 evidence"],
+      "checks": ["exact source and artifact bytes", "package/documentation scans", "build reproducibility", "installed probes", "scope/maturity/limitation claims"],
+      "pass": "Candidate and exact selected artifacts pass all bound release checks; historical archive clearance remains separate.",
+      "fail": "Any identity/hash mismatch, missing proof, unapproved payload or misleading claim.",
+      "blocking": "Blocks tag and publication authorization.",
+      "evidence": ["candidate contract", "build manifest", "audit records", "exact-SHA CI"],
+      "wp00_verdict": "NOT_RUN"
+    },
+    {
+      "id": "QF0212_G07",
+      "name": "Publication",
+      "inputs": ["Owner authorization", "exact tag and selected artifacts", "G06 pass", "channel-specific metadata"],
+      "checks": ["tag target", "GitHub assets", "PyPI bytes", "Zenodo selected files and DOI", "post-publication verification"],
+      "pass": "Only authorized selected artifacts are published and independently re-downloaded/hash-verified; no whole-repository clearance is implied.",
+      "fail": "Any remote mismatch, unselected archive upload, missing Owner authorization or inaccurate maturity/claim.",
+      "blocking": "Blocks final publication verdict.",
+      "evidence": ["tag object/target", "remote asset hashes", "public channel records", "post-publication verification record"],
+      "wp00_verdict": "NOT_RUN"
+    }
+  ],
+  "preserved_non_regression_surfaces": [
+    "Existing linear static routes and their contracted element/material combinations.",
+    "Existing direct modal, harmonic and Newmark routes; no replacement or implicit routing to the new reduced methods.",
+    "Existing BEAM2 non-rotating behavior.",
+    "Existing mass/spring assembly and boundary-condition reduction for inputs already supported.",
+    "Existing nonlinear-static constitutive and contact behavior outside explicitly authorized WP08-WP10 changes.",
+    "Existing result/serialization readers and explicitly supported checkpoint schemas; unsafe migrations must refuse rather than corrupt or silently reinterpret state.",
+    "Existing API, CLI, package imports and public documentation outside approved versioned edits."
+  ],
+  "wp01_boundary": {
+    "must_freeze_before_numerical_implementation": [
+      "method-aware maturity",
+      "result availability",
+      "serialization/version contracts",
+      "physical/operator/excitation identities",
+      "checkpoint migration policy",
+      "damping semantics",
+      "reactions availability",
+      "relative/absolute response frames",
+      "qualification-scope selection"
+    ],
+    "allowed_in_wp01": "Design, schema/contracts, compatibility policy and contract tests only; no numerical operator, solver, stress, tangent, excitation or result-producing implementation.",
+    "prohibited_in_wp01": ["WP02-WP13 implementation", "OPTION-A implementation", "changes to v0.2.11 history or artifacts", "maturity promotion", "global solver qualification campaign"],
+    "exit_condition": "Every listed contract has a versioned definition, positive and negative tests, explicit compatibility behavior, and no unresolved choice that numerical WPs would otherwise invent."
+  },
+  "wp00_validation": {
+    "baseline_refs_verified": true,
+    "release_policy_metadata_correction": "Applied only to the current Release Metadata subsection; historical records and policy gates are unchanged.",
+    "numeric_implementation_started": false,
+    "tests": [
+      {"check": "Git baseline / tag / remote / worktree / branch / open-PR inspection", "result": "PASS"},
+      {"check": "Contract JSON parse and required-field/scope consistency", "result": "PASS"},
+      {"check": "Public release metadata matches GitHub, PyPI and Zenodo publication verification", "result": "PASS"},
+      {"check": "git diff --check", "result": "PASS"}
+    ]
+  },
+  "wp00_exit": {
+    "baseline_exact": true,
+    "scope_unambiguous": true,
+    "authorities_identified": true,
+    "historical_statuses_preserved": true,
+    "exclusions_explicit": true,
+    "option_a_non_blocking": true,
+    "method_scope_matrix_defined": true,
+    "gates_defined": true,
+    "numerical_development_started": false,
+    "blocking_ambiguity_before_wp01": false,
+    "wp01_ready": true
+  }
+}
