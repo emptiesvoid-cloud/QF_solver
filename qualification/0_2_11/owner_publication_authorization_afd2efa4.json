@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0211-OWNER-SELECTED-PUBLICATION-AUTHORIZATION-AFD2EFA4-2026-10-07",
+  "record_type": "PROSPECTIVE_OWNER_SELECTED_DISTRIBUTION_AUTHORIZATION",
+  "decision": "AUTHORIZE_SELECTED_PACKAGE_RELEASE",
+  "decision_authority": "Repository Owner",
+  "decision_date": "2026-10-07",
+  "decision_basis": "Explicit Owner authorization in the release-governance task, conditional on all fail-closed checks passing.",
+  "status": "OWNER_AUTHORIZED_SELECTED_PACKAGE_RELEASE",
+  "version": "0.2.11",
+  "authorized_source_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+  "authorized_tag": "v0.2.11",
+  "authorized_tag_target_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+  "authorized_artifacts": {
+    "wheel": {
+      "filename": "qf_solver-0.2.11-py3-none-any.whl",
+      "bytes": 1559189,
+      "sha256": "bcf860f0a008f4a2c3c9efbe2301753a59c687ecc101d6f799dd52557d0fcba8"
+    },
+    "sdist": {
+      "filename": "qf_solver-0.2.11.tar.gz",
+      "bytes": 1177522,
+      "sha256": "bdf61fb59e5617778a2c539ab9729ab9b0912bc841ac9207d4cce1fba175824e"
+    },
+    "manifest": {
+      "filename": "qf_solver-0.2.11-afd2efa4-SHA256SUMS.txt",
+      "bytes": 190,
+      "sha256": "b461928d9443f5164c555ba6d520efe00ddeaea23b7d4af6215442f54b942364"
+    }
+  },
+  "authorized_wheel_sha256": "bcf860f0a008f4a2c3c9efbe2301753a59c687ecc101d6f799dd52557d0fcba8",
+  "authorized_sdist_sha256": "bdf61fb59e5617778a2c539ab9729ab9b0912bc841ac9207d4cce1fba175824e",
+  "authorized_manifest_sha256": "b461928d9443f5164c555ba6d520efe00ddeaea23b7d4af6215442f54b942364",
+  "publication_scope": "SELECTED_DISTRIBUTION",
+  "release_gates": {
+    "QF0211_G01": "INHERITED_PASS",
+    "QF0211_G02": "INHERITED_PASS",
+    "QF0211_G03": "INHERITED_PASS",
+    "QF0211_G04": "INHERITED_PASS",
+    "QF0211_G05": "INHERITED_PASS",
+    "QF0211_G06": "INHERITED_PASS",
+    "QF0211_G07": "PASS",
+    "QF0211_G08": "PASS"
+  },
+  "maturities": {
+    "rotating_modal": "EXPERIMENTAL",
+    "campbell": "EXPERIMENTAL",
+    "campbell_100_rad_s_ambiguity": "PRESERVED",
+    "gyro_06_evidence": "INTERNAL_MESH_CONVERGENCE_ONLY"
+  },
+  "publication_phase": {
+    "current_phase": "PRE_PUBLICATION",
+    "version_doi": "NOT_ASSIGNED",
+    "release_date": "NOT_SET",
+    "concept_doi": "10.5281/zenodo.22697897"
+  },
+  "authorization": {
+    "selected_package_publication_allowed": true,
+    "tag_creation_allowed": true,
+    "pypi_publication_allowed": true,
+    "github_release_allowed": true,
+    "zenodo_selected_artifact_publication_allowed": true,
+    "whole_repository_archive_cleared": false,
+    "whole_repository_archive_publication_allowed": false,
+    "ledger_update_allowed": false,
+    "wp14_promotion_allowed": false,
+    "numeric_maturity_promotion_allowed": false,
+    "historical_result_reclassification_allowed": false,
+    "certification_or_universal_validation_claims_allowed": false
+  },
+  "selected_package_publication_allowed": true,
+  "tag_creation_allowed": true,
+  "pypi_publication_allowed": true,
+  "github_release_allowed": true,
+  "zenodo_selected_artifact_publication_allowed": true,
+  "whole_repository_archive_cleared": false,
+  "whole_repository_archive_publication_allowed": false,
+  "ledger_update_allowed": false,
+  "wp14_promotion_allowed": false,
+  "numeric_maturity_promotion_allowed": false,
+  "historical_result_reclassification_allowed": false,
+  "certification_or_universal_validation_claims_allowed": false,
+  "g03_status": "FAIL_PRESERVED",
+  "wp14_status": "HOLD_NOT_PROMOTED",
+  "preserved_gates": {
+    "g03_status": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "wp14_status": "HOLD_NOT_PROMOTED"
+  },
+  "zenodo_selected_files": [
+    "qf_solver-0.2.11-py3-none-any.whl",
+    "qf_solver-0.2.11.tar.gz",
+    "qf_solver-0.2.11-afd2efa4-SHA256SUMS.txt"
+  ],
+  "restrictions": [
+    "This authorization is limited to the exact selected distribution files and source SHA above.",
+    "It does not authorize or clear any whole-repository archive, including GitHub-generated source ZIP/TAR files.",
+    "Historical G03 remains FAIL_PRESERVED, whole_repository_archive_cleared remains false, and historical WP14 remains HOLD_NOT_PROMOTED.",
+    "No numerical maturity promotion, historical result reclassification, ledger update, or certification claim is authorized.",
+    "The 0.2.11 version DOI and release date are not claimed before actual Zenodo publication."
+  ]
+}

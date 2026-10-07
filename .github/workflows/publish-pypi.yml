@@ -66,14 +66,26 @@ jobs:
           contract = json.load(open(sys.argv[1], encoding="utf-8"))
           if contract.get("status") != "OWNER_AUTHORIZED_SELECTED_PACKAGE_RELEASE":
               raise SystemExit("The release contract is not Owner-authorized.")
+          if contract.get("publication_scope") != "SELECTED_DISTRIBUTION":
+              raise SystemExit("Only an explicit selected-distribution contract may use this workflow.")
+          if contract.get("package_version") != sys.argv[2][1:]:
+              raise SystemExit("The release contract version differs from the requested tag.")
           if contract.get("release_tag") != sys.argv[2] or contract.get("source_sha") != sys.argv[3]:
               raise SystemExit("The requested tag differs from the exact audited package source.")
           if contract.get("g03_status") != "FAIL_PRESERVED" or contract.get("whole_repository_archive_cleared") is not False:
               raise SystemExit("G03 must remain failed and the complete repository archive uncleared.")
           if contract.get("wp14_status") != "HOLD_NOT_PROMOTED":
               raise SystemExit("This release workflow does not authorize a WP14 status change.")
+          authorization = contract.get("authorization", {})
+          if authorization.get("whole_repository_archive_publication_allowed") is not False:
+              raise SystemExit("Selected distribution authorization must not permit a whole-repository archive.")
+          if authorization.get("selected_package_publication_allowed") is not True:
+              raise SystemExit("The selected distribution is not explicitly authorized.")
           PY
-          python scripts/check_publication_metadata.py --root tagged-source --tag "$RELEASE_TAG"
+          python scripts/check_publication_metadata.py \
+            --root tagged-source \
+            --tag "$RELEASE_TAG" \
+            --phase PRE_PUBLICATION
 
   quality:
     name: Tagged release quality gate

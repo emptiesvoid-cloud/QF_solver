@@ -4,14 +4,16 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib
 import importlib.metadata
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable, cast
 
 if __package__:
     from scripts.git_tools import git_run
@@ -34,36 +36,18 @@ else:
         write_record,
     )
 
+_scope_policy = cast(
+    Callable[[str, str, bool], str],
+    getattr(
+        importlib.import_module(
+            "scripts.public_release_scope" if __package__ else "public_release_scope"
+        ),
+        "publication_scope_decision",
+    ),
+)
 
-OWNER_REAUTHORIZATION_PATH = "qualification/0_2_10/owner_publication_reauthorization_e535ff.json"
-OWNER_REAUTHORIZATION_COMMIT = "a2eb6ac4b091725bd05393fb3b1115f836953e81"
-OWNER_REAUTHORIZATION_SHA256 = "485e7c2f612b470be4443e36e1ec46ec43346828338212093c58f63039cb4572"
-OWNER_REAUTHORIZATION_ID = "QF-0210-OWNER-PUBLICATION-REAUTHORIZATION-E535FF63464D"
-AUTHORIZED_SOURCE_SHA = "e535ff63464ddd7d76c2898df25470350b5154f1"
-AUTHORIZED_TAG = "v0.2.10"
-AUTHORIZED_ARTIFACTS = {
-    "wheel": {
-        "filename": "qf_solver-0.2.10-py3-none-any.whl",
-        "bytes": 1509431,
-        "sha256": "61641c97860cb25fb4c7a01e5c7ab724dc58616b97802cea2b9926fd10912454",
-    },
-    "sdist": {
-        "filename": "qf_solver-0.2.10.tar.gz",
-        "bytes": 1114201,
-        "sha256": "82e54d0d5d05c1ff224e1af72f90d0bbd84e13e93f7cc5f881ccd16242e4f3f3",
-    },
-    "manifest": {
-        "filename": "qf_solver-0.2.10-e535ff-SHA256SUMS.txt",
-        "bytes": 190,
-        "sha256": "a8d7e13cd3bf5292b9b941975d569512fed9c4985a9f9d7cd8a5c9efe9af6287",
-    },
-}
-SUPERSEDED_OWNER_RECORD = {
-    "path": "qualification/0_2_10/owner_publication_reauthorization_b453265d.json",
-    "commit_sha": "e350ef870dfa5182a4e25c79c07ce04b974d5568",
-    "sha256": "8d684c17345f827ea70ab647c2e38cd4b3b711e0e8925207c09881f3582b20a7",
-    "historical_record_preserved": True,
-}
+
+SUPPORTED_RELEASE_CONTRACT_SCHEMA_VERSIONS = {1, 2}
 
 
 def _relative_path(value: str) -> str:
@@ -84,11 +68,14 @@ def _committed_bytes(root: Path, head: str, relative: str) -> bytes:
     return committed
 
 
-def _check_tool_bindings(root: Path, head: str, bindings: Any) -> None:
+def _check_tool_bindings(root: Path, commit: str, bindings: Any) -> None:
     if not isinstance(bindings, dict) or not bindings:
         raise ValueError("The release contract must bind its release verification tools.")
     for relative, expected in bindings.items():
-        observed = hashlib.sha256(_committed_bytes(root, head, relative)).hexdigest()
+        path = _relative_path(relative)
+        if not isinstance(expected, str) or not re.fullmatch(r"[0-9a-f]{64}", expected):
+            raise ValueError(f"Release tool binding is malformed: {relative}")
+        observed = hashlib.sha256(git_run(["show", f"{commit}:{path}"], cwd=root, check=True).stdout).hexdigest()
         if observed != expected:
             raise ValueError(f"Release tool binding mismatch: {relative}")
 
@@ -164,36 +151,75 @@ def verify_artifact_set(dist: Path, contract: dict[str, Any]) -> dict[str, Any]:
 
 
 def validate_owner_artifact_scope(contract: dict[str, Any], owner_record: dict[str, Any]) -> None:
-    """Require a prospective release to stay inside the Owner's exact source and byte authorization."""
+    """Require the contract and prospective Owner record to agree on exact release identity and bytes."""
+    schema_version = contract.get("schema_version")
+    if schema_version not in SUPPORTED_RELEASE_CONTRACT_SCHEMA_VERSIONS:
+        raise ValueError("Unknown selected-release contract schema; refusing implicit fallback.")
+
+    version = contract.get("package_version")
+    if not isinstance(version, str) or not re.fullmatch(r"\d+\.\d+\.\d+", version):
+        raise ValueError("The selected-release contract has no stable package version.")
+    if contract.get("status") != "OWNER_AUTHORIZED_SELECTED_PACKAGE_RELEASE":
+        raise ValueError("The selected-release contract is not explicitly Owner-authorized.")
+    expected_decisions = {
+        f"AUTHORIZE_V{version.replace('.', '_')}_PUBLICATION",
+        "AUTHORIZE_SELECTED_PACKAGE_RELEASE",
+    }
     approved_source = owner_record.get("authorized_source_sha")
     if (
-        owner_record.get("record_id") != OWNER_REAUTHORIZATION_ID
-        or owner_record.get("decision") != "AUTHORIZE_V0_2_10_PUBLICATION"
-        or owner_record.get("version") != "0.2.10"
-        or approved_source != AUTHORIZED_SOURCE_SHA
-        or contract.get("source_sha") != AUTHORIZED_SOURCE_SHA
+        owner_record.get("decision") not in expected_decisions
+        or owner_record.get("version") != version
+        or owner_record.get("status") not in {
+            "OWNER_AUTHORIZED_SELECTED_PACKAGE_RELEASE",
+            "OWNER_REAUTHORIZED_LATER_AUDITED_RELEASE_CANDIDATE",
+        }
+        or not isinstance(approved_source, str)
+        or not re.fullmatch(r"[0-9a-f]{40}", approved_source)
+        or contract.get("source_sha") != approved_source
         or contract.get("tag_target_sha") != approved_source
         or owner_record.get("authorized_tag_target_sha") != approved_source
-        or owner_record.get("authorized_tag") != AUTHORIZED_TAG
-        or contract.get("release_tag") != AUTHORIZED_TAG
+        or owner_record.get("authorized_tag") != f"v{version}"
+        or contract.get("release_tag") != f"v{version}"
     ):
         raise ValueError("The candidate source differs from the exact source accepted by the Owner.")
 
     artifacts = contract.get("audited_artifacts")
     approved_artifacts = owner_record.get("authorized_artifacts")
-    if not isinstance(artifacts, dict) or not isinstance(approved_artifacts, dict):
-        raise ValueError("The prospective release does not bind the Owner-authorized package bytes.")
-    for kind in ("wheel", "sdist", "manifest"):
+    if not isinstance(artifacts, dict) or set(artifacts) != {"wheel", "sdist"}:
+        raise ValueError("The selected-release contract must bind exactly one wheel and one sdist.")
+    if not isinstance(approved_artifacts, dict) or set(approved_artifacts) != {"wheel", "sdist", "manifest"}:
+        raise ValueError("The Owner record must bind exactly the selected wheel, sdist and manifest.")
+    manifest = contract.get("sha256_manifest")
+    if not isinstance(manifest, dict):
+        raise ValueError("The selected-release contract has no checksum manifest binding.")
+    candidate_bindings = {"wheel": artifacts["wheel"], "sdist": artifacts["sdist"], "manifest": manifest}
+    for kind, candidate in candidate_bindings.items():
         approved = approved_artifacts.get(kind)
-        candidate = contract.get("sha256_manifest") if kind == "manifest" else artifacts.get(kind)
-        if not isinstance(approved, dict) or not isinstance(candidate, dict) or approved != AUTHORIZED_ARTIFACTS[kind]:
-            raise ValueError(f"The Owner authorization lacks the exact {kind} artifact binding.")
+        if not isinstance(approved, dict) or set(approved) != {"filename", "bytes", "sha256"}:
+            raise ValueError(f"The Owner authorization lacks a complete {kind} artifact binding.")
+        if not isinstance(candidate, dict) or set(candidate) != {"filename", "bytes", "sha256"}:
+            raise ValueError(f"The selected-release contract has a malformed {kind} binding.")
+        candidate_size = candidate.get("bytes")
         if (
-            candidate.get("filename") != approved.get("filename")
-            or candidate.get("bytes") != approved.get("bytes")
-            or candidate.get("sha256") != approved.get("sha256")
+            not isinstance(candidate.get("filename"), str)
+            or not isinstance(candidate_size, int)
+            or isinstance(candidate_size, bool)
+            or candidate_size <= 0
+            or not isinstance(candidate.get("sha256"), str)
+            or not re.fullmatch(r"[0-9a-f]{64}", candidate["sha256"])
         ):
+            raise ValueError(f"The selected-release contract has an invalid {kind} binding.")
+        if candidate != approved:
             raise ValueError(f"The candidate {kind} bytes differ from the exact artifact accepted by the Owner.")
+
+    if (
+        not artifacts["wheel"]["filename"].startswith(f"qf_solver-{version}-")
+        or not artifacts["wheel"]["filename"].endswith(".whl")
+        or artifacts["sdist"]["filename"] != f"qf_solver-{version}.tar.gz"
+        or not manifest["filename"].startswith(f"qf_solver-{version}-")
+        or not manifest["filename"].endswith("-SHA256SUMS.txt")
+    ):
+        raise ValueError("Selected artifact filenames do not identify the authorized package version.")
 
     required_authorization = {
         "selected_package_publication_allowed": True,
@@ -246,6 +272,10 @@ def validate_owner_artifact_scope(contract: dict[str, Any], owner_record: dict[s
         raise ValueError("The Owner record changes the preserved release boundary.")
     if owner_record.get("whole_repository_archive_publication_allowed") is not False:
         raise ValueError("The Owner record permits whole-repository archive publication despite G03.")
+    if any(contract.get(key) != expected for key, expected in required_preserved.items() if key != "numeric_maturity_promotion_allowed" and key != "historical_result_reclassification_allowed" and key != "ledger_update_allowed"):
+        raise ValueError("The release contract does not preserve G03 and WP14 archive boundaries.")
+    if contract.get("whole_repository_archive_publication_allowed") is not False:
+        raise ValueError("The release contract permits a whole-repository archive despite G03.")
     expected_gate_summary = {
         "g03_status": "FAIL_PRESERVED",
         "whole_repository_archive_cleared": False,
@@ -254,23 +284,78 @@ def validate_owner_artifact_scope(contract: dict[str, Any], owner_record: dict[s
     if owner_record.get("preserved_gates") != expected_gate_summary:
         raise ValueError("The Owner record's preserved gate summary is inconsistent.")
 
+    scope = contract.get("publication_scope")
+    if schema_version == 1 and scope is None:
+        # Explicit adapter for the unchanged 0.2.10 contract shape.
+        scope = "SELECTED_DISTRIBUTION"
+    if scope != "SELECTED_DISTRIBUTION":
+        raise ValueError("This verifier authorizes only an explicit selected-distribution scope.")
+    if schema_version == 2 and owner_record.get("publication_scope") != scope:
+        raise ValueError("The Owner record and release contract must name the same selected scope.")
+    g03_status = contract.get("g03_status")
+    archive_cleared = contract.get("whole_repository_archive_cleared")
+    if not isinstance(scope, str) or not isinstance(g03_status, str) or not isinstance(archive_cleared, bool):
+        raise ValueError("The selected-release scope and preserved G03 state are malformed.")
+    if _scope_policy(scope, g03_status, archive_cleared) != "ALLOWED":
+        raise ValueError("The selected-release policy does not clear the declared publication scope.")
+
+    release_gates = contract.get("release_gates")
+    owner_gates = owner_record.get("release_gates")
+    if schema_version == 2 or release_gates is not None or owner_gates is not None:
+        if not isinstance(release_gates, dict) or not isinstance(owner_gates, dict) or release_gates != owner_gates:
+            raise ValueError("Owner and release-contract gate decisions differ.")
+        required = {f"QF0211_G0{number}" for number in range(1, 9)}
+        if set(release_gates) != required:
+            raise ValueError("A 0.2.11 release contract must bind exactly QF0211 gates G01 through G08.")
+        if any(release_gates[f"QF0211_G0{number}"] not in {"PASS", "INHERITED_PASS"} for number in range(1, 9)):
+            raise ValueError("A required QF0211 release gate is not passing.")
+    if version == "0.2.11":
+        expected_maturity = {
+            "rotating_modal": "EXPERIMENTAL",
+            "campbell": "EXPERIMENTAL",
+            "campbell_100_rad_s_ambiguity": "PRESERVED",
+            "gyro_06_evidence": "INTERNAL_MESH_CONVERGENCE_ONLY",
+        }
+        if contract.get("maturities") != expected_maturity or owner_record.get("maturities") != expected_maturity:
+            raise ValueError("The 0.2.11 contract must preserve the bounded experimental maturity and evidence claims.")
+        expected_phase = {
+            "current_phase": "PRE_PUBLICATION",
+            "version_doi": "NOT_ASSIGNED",
+            "release_date": "NOT_SET",
+            "concept_doi": "10.5281/zenodo.22697897",
+        }
+        if (
+            contract.get("publication_phase") != expected_phase
+            or owner_record.get("publication_phase") != expected_phase
+        ):
+            raise ValueError("The 0.2.11 authorization must explicitly remain in the no-DOI prepublication phase.")
+
 
 def _validate_superseded_owner_record(
     root: Path, head: str, owner_record: dict[str, Any], contract: dict[str, Any],
 ) -> None:
     previous = owner_record.get("superseded_record")
     previous_contract = contract.get("superseded_owner_authorization")
+    if previous is None and previous_contract is None:
+        if owner_record.get("supersedes_for_release") is not None:
+            raise ValueError("Owner record names a superseded decision without binding its exact record.")
+        return
     if not isinstance(previous, dict) or not isinstance(previous_contract, dict):
-        raise ValueError("The prospective reauthorization must identify the preserved historical Owner record.")
+        raise ValueError("Superseded Owner decisions must be bound on both records or neither.")
     path = _relative_path(previous.get("path", ""))
-    if previous != SUPERSEDED_OWNER_RECORD or previous != previous_contract:
+    if previous != previous_contract:
         raise ValueError("The superseded Owner record reference differs from the prospective contract.")
     commit = previous.get("commit_sha")
     if (
-        owner_record.get("supersedes_for_release") != "QF-0210-OWNER-PUBLICATION-REAUTHORIZATION-B453265D"
+        not isinstance(commit, str)
+        or not re.fullmatch(r"[0-9a-f]{40}", commit)
+        or not isinstance(previous.get("sha256"), str)
+        or not re.fullmatch(r"[0-9a-f]{64}", previous["sha256"])
+        or previous.get("historical_record_preserved") is not True
+        or not isinstance(owner_record.get("supersedes_for_release"), str)
         or git_run(["merge-base", "--is-ancestor", commit, contract["source_sha"]], cwd=root).returncode
     ):
-        raise ValueError("The reauthorization does not supersede the exact historical decision for this release.")
+        raise ValueError("The reauthorization does not bind an exact prior decision in source history.")
     historical_bytes = git_run(["show", f"{commit}:{path}"], cwd=root, check=True).stdout
     current_bytes = _committed_bytes(root, head, path)
     if (
@@ -303,6 +388,9 @@ def _validate_contract(root: Path, contract_path: Path, candidate_path: Path) ->
     relative_contract = contract_path.relative_to(root).as_posix()
     relative_candidate = candidate_path.relative_to(root).as_posix()
     release_contract = json.loads(_committed_bytes(root, head, relative_contract))
+    schema_version = release_contract.get("schema_version")
+    if schema_version not in SUPPORTED_RELEASE_CONTRACT_SCHEMA_VERSIONS:
+        raise ValueError("Unknown selected-release contract schema; refusing implicit fallback.")
     source_contract = release_contract.get("source_contract", {})
     if source_contract.get("path") != relative_candidate:
         raise ValueError("The supplied frozen package contract path differs from the authorized release contract.")
@@ -337,12 +425,13 @@ def _validate_contract(root: Path, contract_path: Path, candidate_path: Path) ->
     owner_path = _relative_path(owner.get("path", ""))
     owner_commit = owner.get("commit_sha")
     if (
-        owner_path != OWNER_REAUTHORIZATION_PATH
-        or owner_commit != OWNER_REAUTHORIZATION_COMMIT
-        or owner.get("sha256") != OWNER_REAUTHORIZATION_SHA256
-        or owner.get("record_id") != OWNER_REAUTHORIZATION_ID
+        not isinstance(owner_commit, str)
+        or not re.fullmatch(r"[0-9a-f]{40}", owner_commit)
+        or not isinstance(owner.get("sha256"), str)
+        or not re.fullmatch(r"[0-9a-f]{64}", owner["sha256"])
+        or not isinstance(owner.get("record_id"), str)
     ):
-        raise ValueError("The release contract does not bind the exact prospective Owner reauthorization.")
+        raise ValueError("The release contract does not bind an exact prospective Owner authorization.")
     owner_bytes = _committed_bytes(root, head, owner_path)
     owner_record = json.loads(owner_bytes)
     recorded_owner_bytes = git_run(["show", f"{owner_commit}:{owner_path}"], cwd=root, check=True).stdout
@@ -356,9 +445,12 @@ def _validate_contract(root: Path, contract_path: Path, candidate_path: Path) ->
     if (
         owner.get("record_id") != owner_record.get("record_id")
         or owner.get("supersedes_for_release") != owner_record.get("supersedes_for_release")
-        or owner_record.get("status") != "OWNER_REAUTHORIZED_LATER_AUDITED_RELEASE_CANDIDATE"
+        or owner_record.get("status") not in {
+            "OWNER_AUTHORIZED_SELECTED_PACKAGE_RELEASE",
+            "OWNER_REAUTHORIZED_LATER_AUDITED_RELEASE_CANDIDATE",
+        }
     ):
-        raise ValueError("The contract does not identify the exact prospective Owner reauthorization.")
+        raise ValueError("The contract does not identify the exact prospective Owner authorization.")
     _validate_superseded_owner_record(root, head, owner_record, release_contract)
     validate_owner_artifact_scope(release_contract, owner_record)
     resolution = release_contract.get("authorization_resolution", {})
@@ -371,7 +463,10 @@ def _validate_contract(root: Path, contract_path: Path, candidate_path: Path) ->
         "candidate_manifest_sha256": release_contract["sha256_manifest"]["sha256"],
     }
     if (
-        resolution.get("status") != "RESOLVED_BY_OWNER_REAUTHORIZATION"
+        resolution.get("status") not in {
+            "RESOLVED_BY_OWNER_REAUTHORIZATION",
+            "RESOLVED_BY_EXACT_OWNER_AUTHORIZATION",
+        }
         or resolution.get("owner_approved_source_sha") != source_sha
         or resolution.get("candidate_source_sha") != source_sha
         or any(resolution.get(key) != value for key, value in resolution_hashes.items())
@@ -402,7 +497,19 @@ def _validate_contract(root: Path, contract_path: Path, candidate_path: Path) ->
         raise ValueError("G03 and WP14 must remain explicitly uncleared and unpromoted.")
 
     bindings = release_contract.get("tool_bindings")
-    _check_tool_bindings(root, head, bindings)
+    if schema_version == 1:
+        # Version 1 was frozen with its tools in the last commit that changed
+        # that historical contract. Verify those historical Git blobs rather
+        # than silently comparing them with today's release tooling.
+        frozen_contract_commit = git_run(
+            ["log", "-1", "--format=%H", head, "--", relative_contract],
+            cwd=root,
+            check=True,
+            text=True,
+        ).stdout.strip()
+        _check_tool_bindings(root, frozen_contract_commit, bindings)
+    else:
+        _check_tool_bindings(root, head, bindings)
     manifest_path = _relative_path(release_contract.get("manifest_repository_path", ""))
     manifest_bytes = _committed_bytes(root, head, manifest_path)
     manifest_binding = release_contract["sha256_manifest"]
