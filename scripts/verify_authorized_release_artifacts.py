@@ -80,6 +80,132 @@ def _check_tool_bindings(root: Path, commit: str, bindings: Any) -> None:
             raise ValueError(f"Release tool binding mismatch: {relative}")
 
 
+def _validate_candidate_audit(
+    root: Path, head: str, source_sha: str, contract: dict[str, Any],
+) -> None:
+    reference = contract.get("candidate_audit")
+    if not isinstance(reference, dict):
+        raise ValueError("The selected-release contract must bind the exact final candidate audit record.")
+    path = _relative_path(reference.get("path", ""))
+    commit = reference.get("commit_sha")
+    expected_hash = reference.get("sha256")
+    if (
+        not isinstance(commit, str)
+        or not re.fullmatch(r"[0-9a-f]{40}", commit)
+        or not isinstance(expected_hash, str)
+        or not re.fullmatch(r"[0-9a-f]{64}", expected_hash)
+        or git_run(["merge-base", "--is-ancestor", source_sha, commit], cwd=root).returncode
+        or git_run(["merge-base", "--is-ancestor", commit, head], cwd=root).returncode
+    ):
+        raise ValueError("The final candidate audit is not an exact descendant audit of the authorized source.")
+    committed = _committed_bytes(root, head, path)
+    at_commit = git_run(["show", f"{commit}:{path}"], cwd=root, check=True).stdout
+    if hashlib.sha256(committed).hexdigest() != expected_hash or hashlib.sha256(at_commit).hexdigest() != expected_hash:
+        raise ValueError("The final candidate audit record bytes differ from their frozen hash.")
+    audit = json.loads(committed)
+    candidate = audit.get("candidate", {})
+    if (
+        audit.get("record_id") != reference.get("record_id")
+        or audit.get("status") != "READY_FOR_OWNER_RELEASE_AUTHORIZATION"
+        or not isinstance(candidate, dict)
+        or candidate.get("package_version") != contract.get("package_version")
+        or candidate.get("package_source_sha") != source_sha
+        or candidate.get("expected_tag") != contract.get("release_tag")
+        or candidate.get("expected_tag_target_sha") != source_sha
+        or candidate.get("tag_created") is not False
+        or not isinstance(audit.get("release_gates"), dict)
+        or audit.get("release_gates", {}).get("ready_for_owner_release_authorization") is not True
+    ):
+        raise ValueError("The candidate audit does not describe this exact frozen, untagged release candidate.")
+
+    expected_gate_keys = {f"QF0211_G0{number}" for number in range(1, 9)}
+    audit_gates = audit.get("release_gates", {})
+    contract_gates = contract.get("release_gates", {})
+    if any(audit_gates.get(key) != contract_gates.get(key) for key in expected_gate_keys):
+        raise ValueError("The final candidate audit and selected-release contract gate results differ.")
+
+    ci = audit.get("ci", {})
+    if not isinstance(ci, dict):
+        raise ValueError("The candidate audit CI record is malformed.")
+    jobs = ci.get("quality_jobs", {})
+    if not isinstance(jobs, dict):
+        raise ValueError("The candidate audit CI job matrix is malformed.")
+    if (
+        ci.get("quality_head_sha") != source_sha
+        or ci.get("quality_conclusion") != "SUCCESS"
+        or ci.get("documentation_head_sha") != source_sha
+        or ci.get("documentation_conclusion") != "SUCCESS"
+        or ci.get("ci_sha_exact_match") is not True
+        or any(jobs.get(name) != "PASS" for name in (
+            "ubuntu_python_3_10",
+            "ubuntu_python_3_13",
+            "windows_python_3_10",
+            "windows_python_3_13",
+            "wp14_recovered_evidence_targeted",
+            "documentation_evidence",
+            "full_engineering_campaign",
+        ))
+    ):
+        raise ValueError("The candidate audit does not contain successful exact-source Quality and Documentation CI.")
+
+    built = audit.get("build_and_artifacts", {})
+    if not isinstance(built, dict):
+        raise ValueError("The candidate audit build record is malformed.")
+    expected_artifacts = contract.get("audited_artifacts", {})
+    expected_manifest = contract.get("sha256_manifest", {})
+    if not isinstance(expected_artifacts, dict) or not isinstance(expected_manifest, dict):
+        raise ValueError("The selected-release artifact bindings are malformed.")
+    wheel = built.get("wheel", {})
+    sdist = built.get("sdist", {})
+    manifest = built.get("manifest", {})
+    if (
+        wheel.get("filename") != expected_artifacts.get("wheel", {}).get("filename")
+        or wheel.get("sha256") != expected_artifacts.get("wheel", {}).get("sha256")
+        or wheel.get("size_bytes") != expected_artifacts.get("wheel", {}).get("bytes")
+        or wheel.get("independent_builds_byte_identical") is not True
+        or sdist.get("filename") != expected_artifacts.get("sdist", {}).get("filename")
+        or sdist.get("sha256") != expected_artifacts.get("sdist", {}).get("sha256")
+        or sdist.get("size_bytes") != expected_artifacts.get("sdist", {}).get("bytes")
+        or sdist.get("normalized_builds_byte_identical") is not True
+        or manifest.get("filename") != expected_manifest.get("filename")
+        or manifest.get("sha256") != expected_manifest.get("sha256")
+        or manifest.get("size_bytes") != expected_manifest.get("bytes")
+        or audit.get("build_and_artifacts", {}).get("twine_check") != "PASS"
+    ):
+        raise ValueError("The candidate audit artifact bytes or reproducibility results differ from the Owner contract.")
+    probes = built.get("installed_package_probes", {})
+    if not isinstance(probes, dict):
+        raise ValueError("The candidate audit installation-probe record is malformed.")
+    if (
+        probes.get("isolated_no_index_no_deps_install") != "PASS"
+        or probes.get("imports_outside_checkout_and_safe_path") != "PASS"
+        or probes.get("installed_import_origins") != "PASS"
+        or probes.get("version_and_cli_probes") != "PASS"
+        or probes.get("static_smoke") != "PASS"
+        or probes.get("modal_smoke") != "PASS"
+        or probes.get("rotating_modal_smoke") != "PASS_EXPERIMENTAL"
+        or probes.get("campbell_smoke") != "PASS_EXPERIMENTAL"
+    ):
+        raise ValueError("The candidate audit installed-package probes are incomplete or failing.")
+
+    scan = audit.get("selected_scope_audit", {})
+    if not isinstance(scan, dict):
+        raise ValueError("The candidate audit selected-scope scan record is malformed.")
+    selected_scope = contract.get("selected_scope")
+    if not isinstance(selected_scope, dict):
+        raise ValueError("The selected-release contract has no bounded selected-scope counts.")
+    if (
+        scan.get("status") != "PASS_BOUNDED_PUBLIC_SURFACES"
+        or scan.get("selected_package_files") != selected_scope.get("package_source_files")
+        or scan.get("selected_package_findings") != 0
+        or scan.get("served_document_files") != selected_scope.get("served_document_files")
+        or scan.get("served_document_findings") != 0
+        or scan.get("whole_repository_scanned") is not False
+        or scan.get("whole_repository_g03") != "FAIL_PRESERVED"
+    ):
+        raise ValueError("The candidate audit selected-scope scans do not match the frozen release contract.")
+
+
 def verify_artifact_set(dist: Path, contract: dict[str, Any]) -> dict[str, Any]:
     """Require exactly the two frozen packages and their exact SHA-256 manifest."""
     artifacts = contract.get("audited_artifacts")
@@ -453,6 +579,7 @@ def _validate_contract(root: Path, contract_path: Path, candidate_path: Path) ->
         raise ValueError("The contract does not identify the exact prospective Owner authorization.")
     _validate_superseded_owner_record(root, head, owner_record, release_contract)
     validate_owner_artifact_scope(release_contract, owner_record)
+    _validate_candidate_audit(root, head, source_sha, release_contract)
     resolution = release_contract.get("authorization_resolution", {})
     resolution_hashes = {
         "owner_approved_wheel_sha256": release_contract["audited_artifacts"]["wheel"]["sha256"],
