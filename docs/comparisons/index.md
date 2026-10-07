@@ -2,7 +2,7 @@
 doc_id: DOC-SOLVER-COMP-000
 revision: 1.0
 status: controlled_candidate
-applicable_version: 0.2.10
+applicable_version: 0.2.11
 reviewer: ""
 approver: ""
 ---
@@ -17,12 +17,12 @@ This section compares QF Solver with several open-source finite-element tools.
 
 > **HISTORICAL SNAPSHOT NOTICE.** The detailed comparison pages retain their
 > explicitly labeled 0.2.7 analysis snapshots and have not been refreshed for
-> the 0.2.10 release. They are not current capability or maturity records;
-> use the 0.2.10 index and V&V summary for current scope.
+> subsequent releases. They are not current capability or maturity records;
+> use the current capability index and V&V summary for current scope.
 
-The current published package is 0.2.10. The detailed comparison articles
+The current documentation baseline is 0.2.11. The detailed comparison articles
 retain their explicit 0.2.7 snapshots. For current maturity and
-limitations, use the 0.2.10 sources linked below; in particular, mixed
+limitations, use the sources linked below; in particular, mixed
 distributed PETSc/MPI remains `NOT_VALIDATED`.
 
 The objective is not to claim that QF Solver is universally better. Each
@@ -58,7 +58,7 @@ QF Solver deliberately distinguishes between:
 - implemented capabilities;
 - tested capabilities;
 - verified capabilities;
-- externally validated capabilities;
+- external numerical correlation (distinct from physical validation);
 - qualified capabilities;
 - experimental capabilities.
 
@@ -101,8 +101,9 @@ The authoritative QF Solver capability information is available in:
 
 - [Elements](../elements/index.md)
 - [Analyses](../analyses/index.md)
-- [0.2.10 capability index](../capabilities/index.md)
-- [0.2.10 V&V summary](../verification/0_2_10/README.md)
+- [Current capability index](../capabilities/index.md)
+- [0.2.11 V&V summary](../verification/0_2_11/README.md)
+- [Inherited 0.2.10 evidence](../verification/0_2_10/README.md)
 - [Known limitations](../etat/limites.md)
 - [Published QF Solver 0.2.8 verification](../verification/0_2_8/README.md)
 - [Historical QF Solver 0.2.7 verification](../verification/0_2_7/README.md)

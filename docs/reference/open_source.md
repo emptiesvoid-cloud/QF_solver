@@ -2,7 +2,7 @@
 doc_id: DOC-REF-OSS-001
 revision: 1.1
 status: controlled
-applicable_version: 0.2.8
+applicable_version: 0.2.11
 reviewer: ""
 approver: ""
 ---
@@ -26,10 +26,14 @@ terms described in CONTRIBUTING.md.
 
 ## Release boundary
 
-The published 0.2.8 release scope is explicitly bounded. Experimental,
+The cumulative 0.2.11 solver retains explicitly bounded scopes. Experimental,
 research-only, not-validated and non-comparable
 routes remain labeled as such in the capabilities and known-limitations pages.
 Historical audit records keep the version and status that were true when they
 were produced.
 
 This page does not imply certification or automatic publication.
+
+Selected distribution audits apply only to their recorded source and exact
+artifact bytes. They do not clear full-repository archives: historical G03
+remains `FAIL_PRESERVED`, and WP14 remains `HOLD_NOT_PROMOTED`.

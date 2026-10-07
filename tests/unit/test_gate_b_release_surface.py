@@ -78,13 +78,16 @@ def test_version_registry_and_public_docs_are_aligned() -> None:
 
     assert project["version"] == __version__ == "0.2.11"
     assert project["optional-dependencies"]["hdf5"] == ["h5py>=3.10"]
-    # CITATION.cff identifies the latest published release until 0.2.11 is
-    # actually published; the candidate uses the existing project concept DOI.
+    # The candidate citation identifies 0.2.11, but has no release-only date
+    # or DOI until publication. The project concept DOI remains in project URLs.
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
-    assert 'version: "0.2.10"' in citation
-    assert 'doi: "10.5281/zenodo.23106744"' in citation
+    assert 'version: "0.2.11"' in citation
+    assert not any(line.startswith("date-released:") for line in citation.splitlines())
+    assert not any(line.startswith("doi:") for line in citation.splitlines())
     assert project["urls"]["DOI"] == "https://doi.org/10.5281/zenodo.22697897"
-    assert "0.2.11 candidate" in (ROOT / "README.md").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "The current QF Solver release is `0.2.11`" in readme
+    assert "0.2.11 is a **candidate, not yet published**" not in readme
     registry = json.loads((ROOT / "qualification/0_2_8/consolidated_registry.json").read_text(encoding="utf-8"))
     assert registry["combination_registry"]["state_counts"] == {
         "QUALIFIED_BOUNDED": 32,
@@ -93,5 +96,6 @@ def test_version_registry_and_public_docs_are_aligned() -> None:
     }
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "qualification/0_2_8/consolidated_registry.json" in readme
-    assert "Mixed distributed PETSc/MPI" in readme and "`NOT_VALIDATED`" in readme
-    assert "WEDGE6 static | `QUALIFIED_BOUNDED`" in readme
+    assert "no general HPC or nonlinear distributed claim" in readme
+    assert "`NOT_VALIDATED`" in readme
+    assert "WEDGE6 static | `QUALIFIED_BOUNDED`" in (ROOT / "docs/capabilities/index.md").read_text(encoding="utf-8")

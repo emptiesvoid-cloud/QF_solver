@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "contract_id": "QF-0211-WP07-SELECTED-PACKAGE-CANDIDATE-AFD2EFA4-01",
+  "status": "FROZEN_CANDIDATE_BUILD",
+  "package_version": "0.2.11",
+  "source_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+  "expected_tag": "v0.2.11",
+  "expected_tag_target_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+  "source_date_epoch": 1791305555,
+  "integration": {
+    "strategy": "Dedicated 0.2.11 candidate branch; the 39-file public-surface commit is followed by one assertion-only correction aligning the packaging documentation test with the published-candidate installation instructions.",
+    "previous_package_candidate_sha": "5c34a5cae20a8147501d6a31ff47c97c36bcc5a3",
+    "public_surface_commit_sha": "5c34a5cae20a8147501d6a31ff47c97c36bcc5a3",
+    "test_correction_commit_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+    "public_surface_files_committed": 39,
+    "correction_files_committed": 1,
+    "v0_2_10_tag_target_sha": "e535ff63464ddd7d76c2898df25470350b5154f1",
+    "historical_tag_unchanged": true,
+    "tag_is_not_created_by_this_contract": true
+  },
+  "change_scope": {
+    "numerical_source_changed": false,
+    "scientific_test_changed": false,
+    "qualification_records_changed_in_public_surface_or_correction_commits": false,
+    "qualification_thresholds_changed": false,
+    "scientific_inputs_changed": false,
+    "qualification_contract_changed": false,
+    "public_api_changed": false,
+    "documentation_meaning_changed": false,
+    "package_metadata_changed_in_public_surface_or_correction_commits": false,
+    "changelog_changed_in_public_surface_or_correction_commits": false,
+    "historical_records_or_maturities_changed": false
+  },
+  "selection": {
+    "include_exact": [
+      "CHANGELOG.md", "CITATION.cff", "LICENSE", "LICENSE-DOCS", "MANIFEST.in",
+      "NOTICE", "README.md", "THIRD_PARTY_LICENSES.md", "pyproject.toml",
+      "qualification/benchmarks.json", "qualification/campaign.json",
+      "qualification/demonstrations.json", "qualification/element_analysis_matrix.json",
+      "qualification/formulas.json", "qualification/requirements.json",
+      "qualification/release_vv_0_2_1.json", "qualification/technical_content_coverage.json",
+      "qualification/0_2_7/capability_registry_v2.json",
+      "qualification/0_2_8/consolidated_registry.json",
+      "qualification/0_2_8/wp10_hex8_sri_owner_gate_final.json",
+      "qualification/0_2_8/wp13_02d_mixed_dynamics_delivery.json",
+      "qualification/0_2_8/wp13_03d_mixed_mpc_owner_delivery.json",
+      "qualification/0_2_8/wp13_04d_multimaterial_owner_delivery.json",
+      "qualification/0_2_8/wp13_05_inp_import_capability_record.json",
+      "qualification/0_2_8/wp13_05c_registry_reconciliation_erratum.json",
+      "qualification/0_2_8/wp13_06d_mixed_hdf5_capability_record.json",
+      "qualification/0_2_8/wp13_07d_contact_capability_record.json",
+      "requirements/baseline-standard.txt", "requirements/baseline-large-linux.txt"
+    ],
+    "include_prefixes": ["examples/", "src/qf_solver/", "src/solveur/"],
+    "exclude_exact": ["examples/README.md", "src/solveur/verification/j2_multifamily_performance.py"],
+    "forbid_prefixes": ["qualification/0_2_9/", "docs/", "scripts/", "tests/"]
+  },
+  "documentation_selection": {
+    "include_prefixes": ["docs/"],
+    "exclude_prefixes": ["docs/verification/0_2_9/"],
+    "suffixes": [
+      ".cff", ".cfg", ".csv", ".htm", ".html", ".ini", ".json", ".md",
+      ".pdf", ".ps1", ".py", ".rst", ".sh", ".tex", ".toml", ".txt",
+      ".xml", ".yaml", ".yml"
+    ]
+  },
+  "documentation_publication_policy": {
+    "config_path": ".github/pages/mkdocs.yml",
+    "config_sha256": "3a0ebd36a87ffe53ff3ab1aea3b67dce8f2ab7343877a2a130bb46f32a6b6fcd",
+    "excluded_source_prefix": "docs/verification/0_2_9/",
+    "mkdocs_exclude_pattern": "verification/0_2_9/**"
+  },
+  "tool_bindings": {
+    "scripts/audit_public_release.py": "cb1493a8a49d3f1ee0be89efc37050dc87a8c5165dbfb6de6fdd17b3bbeaf79c",
+    "scripts/audit_release_archive.py": "b67613d0eb5e1b305aba2bb9181d12529eda7859db00b840a71746bc39c52a37",
+    "scripts/git_tools.py": "9192aef8e8610ee4f651cac11a18af189678f561d9c85c20c64c77be47a287fa",
+    "scripts/plan_public_package.py": "d1a734cb4a11d53abfa102507f531f9369bc70797adf23075dd5b03c10f8e1f8",
+    "scripts/probe_installed_package.py": "46576afa82a8285730c4afc67e41fd58f5a8deb753f054f5a35cc0442eb18675",
+    "scripts/review_vocabulary.py": "28af00eab2a09fdcb94bf3c4682230dcaaca9b519aeb0867d96b67d4589ad3aa",
+    "scripts/verify_public_package.py": "7e25532f5a8c2c80b0a8ab711c235fc45a34eb6219efdef0386543d00f1bc86c"
+  },
+  "scope_scan_tool_sha256": "fa2a39d03b2f14bfcbbaf725c7c9f25fe84b117a2824f3355765c0fa8c26d616",
+  "sdist_normalization": {
+    "tool_path": "scripts/normalize_public_sdist.py",
+    "tool_sha256": "c8d969bfb0ac4a368379a95c6b71658bd60be326e0f53ed4b77f620eb2dcf8c1",
+    "source_date_epoch": 1791305555,
+    "command_contract": "Set SOURCE_DATE_EPOCH to this exact value for each build; normalize each fresh raw sdist with this source-bound script into a new path; compare normalized bytes, not raw gzip metadata."
+  },
+  "expected_preflight_counts": {
+    "selected_package_files": 562,
+    "served_document_files": 753,
+    "docs_archival_exclusion_files": 208,
+    "findings_per_surface": 0
+  },
+  "candidate_execution_profile": {
+    "source_materialization": "Selected regular Git blobs from source_sha only; no working-tree source bytes.",
+    "build_command": "Set SOURCE_DATE_EPOCH=1791305555; python scripts/verify_public_package.py --root . --contract qualification/0_2_11/wp07_candidate_build_contract_afd2efa4.json --output <new-external-output>",
+    "build_environment": {
+      "python": "3.13.1",
+      "build": "1.5.0",
+      "setuptools": "82.0.1",
+      "wheel": "0.47.0",
+      "twine": "7.0.0",
+      "source_date_epoch": 1791305555
+    },
+    "reproducibility": "Two independent fresh external output directories; compare exact wheel bytes and separately normalized sdist bytes. No prior candidate artifact reuse.",
+    "archive_checks": [
+      "regular files and safe portable paths only",
+      "selected source byte equality",
+      "reject undeclared payloads, aliases, symlinks and unexpected files",
+      "verify package version and distribution metadata",
+      "twine check on the exact wheel and normalized sdist"
+    ],
+    "installed_probes": [
+      "separate no-index/no-deps install of exact wheel",
+      "verify installed source hashes and import origins outside and inside checkout with safe-path mode",
+      "qf-solver, solveur-ef and mitc4-solver version/help probes",
+      "static, modal, rotating_modal and Campbell smoke solves using only the installed wheel"
+    ],
+    "evidence_output": "New external output directories only; preserve source mapping, command records, environment, archive checks, installed probes and hashes."
+  },
+  "candidate_status": {
+    "latest_published_version": "0.2.10",
+    "version_doi_0_2_11": "NOT_ASSIGNED_NOT_CLAIMED",
+    "release_date_0_2_11": "NOT_SET",
+    "citation_cff": "Identifies candidate version 0.2.11 without asserting a release date or version DOI.",
+    "whole_repository_g03": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "wp14": "HOLD_NOT_PROMOTED",
+    "rotating_modal_maturity": "EXPERIMENTAL",
+    "campbell_maturity": "EXPERIMENTAL",
+    "campbell_100_rad_s_ambiguity": "PRESERVED",
+    "gyro_06_evidence": "INTERNAL_MESH_CONVERGENCE_NOT_INDEPENDENT_PHYSICAL_VALIDATION"
+  },
+  "package_build_allowed": true,
+  "publication_allowed": false,
+  "structural_solves_allowed": false,
+  "numeric_threshold_changes_allowed": false,
+  "whole_repository_gate_waivers_allowed": false,
+  "release_permissions": {
+    "tag_creation_allowed": false,
+    "github_release_allowed": false,
+    "pypi_upload_allowed": false,
+    "zenodo_deposit_allowed": false,
+    "ledger_update_allowed": false,
+    "maturity_promotion_allowed": false,
+    "historical_result_reclassification_allowed": false,
+    "whole_repository_archive_publication_allowed": false
+  },
+  "limitations": [
+    "This contract authorizes selected candidate build and bounded scans only. It does not authorize a tag, GitHub Release, PyPI upload, Zenodo deposit, DOI assignment, ledger update or maturity promotion.",
+    "The package selection does not scan or clear the full repository or Git history; G03 remains FAIL_PRESERVED and the whole-repository archive remains uncleared.",
+    "WP14 remains HOLD_NOT_PROMOTED; successful targeted checks do not change that decision.",
+    "rotating_modal and Campbell remain EXPERIMENTAL for the bounded serial dense BEAM2 shaft and centered rigid axisymmetric disk scope.",
+    "At 100 rad/s the high-frequency pair remains ambiguous and that ambiguity is preserved; GYRO-06 is internal mesh-convergence evidence, not independent physical validation.",
+    "The 0.2.11 version DOI and release date are not assigned or published."
+  ]
+}

@@ -82,11 +82,12 @@ def test_active_boundaries_match_registry_and_release_truth() -> None:
     assert state["global_accounting"]["level_up_2"] == "50/50 CLOSED"
 
     root_readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "WEDGE6 static | `QUALIFIED_BOUNDED`" in root_readme
+    capabilities_index = (ROOT / "docs/capabilities/index.md").read_text(encoding="utf-8")
+    assert "WEDGE6 static | `QUALIFIED_BOUNDED`" in capabilities_index
     assert "qualification/0_2_8/consolidated_registry.json" in root_readme
-    assert "No claim of GPU, general HPC" in root_readme
-    assert "two complete 5M Silver replays" in root_readme
-    assert "No claim of certification" in root_readme
+    assert "no general HPC or nonlinear distributed claim" in root_readme
+    assert "two complete 5M Silver replays" not in root_readme
+    assert "project is not certified" in root_readme
 
     interfaces = (ROOT / "docs/reference/interfaces.md").read_text(encoding="utf-8")
     assert "PYTHONPATH=src" in interfaces
@@ -110,7 +111,7 @@ def test_active_lu2_views_do_not_present_old_accounting_as_current() -> None:
 
     roadmap = (ROOT / "docs/reference/feuille_de_route.md").read_text(encoding="utf-8")
     normalized_roadmap = " ".join(roadmap.split())
-    assert "QF Solver 0.2.10 is the current published release" in normalized_roadmap
+    assert "QF Solver 0.2.11 is the current documentation baseline" in normalized_roadmap
     assert (
         "Version 0.2.9 was a development/source snapshot, not a PyPI package, "
         "GitHub Release, or version DOI."

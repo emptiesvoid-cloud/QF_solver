@@ -54,15 +54,20 @@ def test_security_policy_identifies_current_and_older_release_channels() -> None
     assert "best-effort basis" in security
 
 
-def test_release_candidate_and_latest_published_citation_are_distinct() -> None:
+def test_release_candidate_citation_has_no_unpublished_release_metadata() -> None:
     project = tomllib.loads(_text("pyproject.toml"))["project"]
     runtime = _text("src/solveur/version.py")
     citation = _text("CITATION.cff")
     assert project["version"] == "0.2.11"
     assert '__version__ = "0.2.11"' in runtime
-    # Citation metadata remains attached to the latest actually published release.
-    assert 'version: "0.2.10"' in citation
-    assert 'doi: "10.5281/zenodo.23106744"' in citation
+    # The candidate is identified, but release-only metadata stays absent until
+    # the version DOI and publication date actually exist.
+    assert 'title: "QF Solver"' in citation
+    assert 'version: "0.2.11"' in citation
+    assert 'license: "Apache-2.0"' in citation
+    assert 'repository-code: "https://github.com/emptiesvoid-cloud/QF_solver"' in citation
+    assert not any(line.startswith("date-released:") for line in citation.splitlines())
+    assert not any(line.startswith("doi:") for line in citation.splitlines())
     assert "NOT_PUBLISHED_YET" not in citation
     assert "NOT_AVAILABLE_YET" not in citation
 
@@ -80,13 +85,10 @@ def test_release_candidate_and_latest_published_citation_are_distinct() -> None:
 
     assert "0.2.8" in _text("README.md")
     assert "0.2.8" in _text("CHANGELOG.md")
-    assert "0.2.11 candidate" in _text("README.md")
+    assert "The current QF Solver release is `0.2.11`" in _text("README.md")
     assert "10.5281/zenodo.23106744" in _text("README.md")
     assert "10.5281/zenodo.22697897" in _text("README.md")
-    assert (
-        "`v0.2.9` tag is a source snapshot, not a PyPI, GitHub Release or Zenodo"
-        in _text("README.md")
-    )
+    assert "current QF Solver release is `0.2.11`" in _text("README.md")
 
 
 def test_public_release_policy_classifies_reviewed_evidence_and_exclusions() -> None:
@@ -110,7 +112,7 @@ def test_release_registry_and_public_boundaries_remain_unchanged() -> None:
         "EXPERIMENTAL": 14,
         "NOT_QUALIFIED": 0,
     }
-    assert "Mixed distributed PETSc/MPI" in _text("README.md")
+    assert "no general HPC or nonlinear distributed claim" in _text("README.md")
     assert "`NOT_VALIDATED`" in _text("README.md")
     assert "0.2.10" in _text("CONTRIBUTING.md")
     assert "haven't had the time to put everything on GitHub" not in _text("CONTRIBUTING.md")

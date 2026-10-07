@@ -9,8 +9,8 @@ approver: ""
 
 # Analyses
 
-This page maps published QF Solver 0.2.10 routes and separately identifies
-the experimental 0.2.11 release candidates. Candidate rows are not part of
+This page maps the cumulative QF Solver 0.2.11 analysis surface. The
+experimental rotating routes have their own evidence and are not part of
 the immutable 0.2.10 tag or distribution. The
 [consolidated 0.2.8 registry](https://github.com/emptiesvoid-cloud/QF_solver/blob/v0.2.8/qualification/0_2_8/consolidated_registry.json)
 remains authoritative for its 46 element-analysis decisions. Development-cycle
@@ -23,8 +23,8 @@ evidence is linked separately and does not rewrite that registry.
 | Newmark transient | Route-dependent; mixed route `EXPERIMENTAL_BOUNDED` | Linear dynamics only; recorded time-step, mass and damping assumptions apply. |
 | Harmonic | Route-dependent; mixed route `EXPERIMENTAL_BOUNDED` | Recorded linear frequency-domain cases only. |
 | Linear buckling | Route-dependent | Bounded first-factor cases; not postbuckling or bifurcation analysis. |
-| Rotating modal (0.2.11 candidate) | `EXPERIMENTAL` | One signed speed per solve; serial dense QEP; straight circular-isotropic BEAM2 shaft with centered rigid axisymmetric disks, undamped and unprestressed. See [scope and limitations](../mechanics/rotating-modal.md). |
-| Campbell sweep / modal tracking (0.2.11 candidate) | `EXPERIMENTAL` | Orchestrates explicit ordered speeds through the bounded `rotating_modal` route; complex MAC, global assignment, subspace-aware degeneracy and visible ambiguity. No forced-response or general rotordynamics claim; see [Campbell limits](../mechanics/campbell.md). |
+| Rotating modal | `EXPERIMENTAL` | One signed speed per solve; serial dense QEP; straight circular-isotropic BEAM2 shaft with centered rigid axisymmetric disks, undamped and unprestressed. See [scope and limitations](../mechanics/rotating-modal.md). |
+| Campbell sweep / modal tracking | `EXPERIMENTAL` | Orchestrates explicit ordered speeds through the bounded `rotating_modal` route; complex MAC, global assignment, subspace-aware degeneracy and visible ambiguity. No forced-response or general rotordynamics claim; see [Campbell limits](../mechanics/campbell.md). |
 | Small-strain J2 | `QUALIFIED_BOUNDED` | The exact element-analysis combinations in the registry. |
 | Corotational J2 | `QUALIFIED_BOUNDED` within accepted scope | HEX8 only; large rotations with small local strains, not general finite-strain plasticity. |
 | Total-Lagrangian geometric nonlinear | Audited `GO_WITH_LIMITATIONS`; maturity not promoted | Selected StVK static serial TET4/HEX8 cases. |
@@ -37,5 +37,6 @@ evidence is linked separately and does not rewrite that registry.
 For element-family boundaries use the [elements map](../elements/index.md).
 For nonlinear mechanics see the [mechanics overview](../mechanics/nonlinear-overview.md)
 and [capability matrix](../capabilities/index.md). The current
-[V&V summary](../verification/0_2_10/README.md) distinguishes implementation,
+[0.2.11 V&V summary](../verification/0_2_11/README.md) and separate
+[0.2.10 evidence](../verification/0_2_10/README.md) distinguish implementation,
 verification, bounded acceptance, and physical validation.

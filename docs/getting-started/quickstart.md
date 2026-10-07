@@ -2,7 +2,7 @@
 doc_id: DOC-START-PUB-002
 revision: 1.0
 status: controlled_candidate
-applicable_version: 0.2.10
+applicable_version: 0.2.11
 reviewer: ""
 approver: ""
 ---
@@ -28,7 +28,9 @@ using a result.
 from qf_solver import check_mesh, load_model, save_result, solve_model
 
 model = load_model("examples/tet4_static.json")
-check_mesh(model)
+report = check_mesh(model)
+if report.status == "FAIL":
+    raise RuntimeError(report.errors)
 result = solve_model(model)
 save_result(result, "results/tet4.json")
 ```
@@ -42,8 +44,8 @@ surface.
 Confirm that the element, analysis, material, loading, boundary conditions and
 solver backend fall within a matching evidence scope. The linked 0.2.8
 consolidated registry remains the authority for its 46 published
-element-analysis records; the [0.2.10 capability index](../capabilities/index.md)
-adds source-cycle evidence without rewriting those historical decisions. For
+element-analysis records; the [current capability index](../capabilities/index.md)
+adds separate later evidence without rewriting those historical decisions. For
 mixed workflows or separate capabilities, read the controlling record. Review
 the [known limitations](../etat/limites.md) and retain the input,
 configuration and result files with the calculation record.

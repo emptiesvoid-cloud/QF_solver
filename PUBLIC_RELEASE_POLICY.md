@@ -54,7 +54,7 @@ do not rely on deleting a file in a later commit.
 
 ## Release Gate
 
-Before promoting a full repository source archive or GitHub Release, run:
+Before promoting a **whole-repository source archive** as a cleared distribution, run:
 
 ```powershell
 python .\scripts\audit_public_release.py --output .\public_release_audit.json
@@ -73,11 +73,36 @@ is also excluded: only selected, reviewed V&V packages may be copied into a
 future public release deliberately. These rules are safeguards, not substitutes
 for review.
 
-A source tag used solely to identify a separately audited PyPI candidate does
-not pass this whole-repository gate by implication. GitHub may still offer an
-automatic source archive for the tag; it must not be described or uploaded as
-a cleared distribution while this gate fails. The separate PyPI decision and
-its frozen selected-content checks are specified below.
+### Selected distribution versus whole-repository archive
+
+`SELECTED_DISTRIBUTION_CLEARANCE` and
+`WHOLE_REPOSITORY_ARCHIVE_CLEARANCE` are separate decisions. A prospective,
+Owner-authorized selected-release contract may authorize only its exact wheel,
+sdist and checksum manifest when the selected-source/documentation audit,
+package checks, artifact hashes and required release gates pass. This bounded
+decision does not change a historical whole-repository G03 failure and does
+not clear or authorize a complete repository archive.
+
+A GitHub Release page may carry those exact selected assets when a separate
+Owner authorization and the selected-release contract permit it. This is a
+channel-specific authorization, independent of the PyPI decision. GitHub's
+automatically generated `Source code (zip)` and `Source code (tar.gz)` assets
+are platform-generated repository archives, not selected distribution assets.
+When G03 is not cleared, they must not be called audited, qualified or cleared,
+and they must not be uploaded to Zenodo as release artifacts. Authorization
+for one publication channel does not implicitly authorize another channel.
+
+A Zenodo version record for a selected distribution may contain only the exact
+files named in its selected-release contract. It must not import or include a
+full repository snapshot, GitHub-generated source archive or unselected
+qualification archive unless whole-repository archive clearance is separately
+granted.
+
+A source tag used solely to identify a separately audited selected candidate
+does not pass this whole-repository gate by implication. GitHub may still offer
+an automatic source archive for the tag; it must not be described or uploaded
+as a cleared distribution while this gate fails. Selected binary distribution
+checks are independent and do not alter the whole-repository gate.
 
 `audit_release_archive.py` uses worktree attributes by default to verify the
 next prospective archive. Immediately before tagging, run it again with
@@ -188,9 +213,21 @@ alone is not.
 
 The selected package must be built from the contract's exact tagged Git blobs,
 not from the rest of the engineering checkout. Publish only those audited
-wheel/sdist bytes. A PyPI-only decision never clears a failing whole-repository
-source/archive/history audit and never authorizes a GitHub Release, an upload
-of the repository archive to Zenodo, or a WP14 status change. Do not move an
-existing tag to make corrected metadata appear retroactively in its source.
-If the immutable tag's public metadata is inconsistent, prepare a new version
-and tag after the corrections and a new frozen audit.
+wheel/sdist bytes. A selected PyPI decision never clears a failing
+whole-repository source/archive/history audit, authorizes an unselected
+repository archive for Zenodo, or changes WP14. A GitHub Release requires its
+own explicit Owner permission in the exact selected-release contract. Do not
+move an existing tag to make corrected metadata appear retroactively in its
+source. If immutable tagged metadata is inconsistent, stop and follow a
+prospective, explicitly authorized correction sequence.
+
+### Publication metadata phases
+
+Before Zenodo publication, a frozen candidate may identify its version and
+project concept DOI while leaving `date-released` absent and its version DOI
+absent.
+The prepublication metadata gate requires this state and rejects a reserved or
+invented version DOI. After publication, a separate postpublication check
+requires the factual release date, the resolving version DOI, matching public
+citation metadata, and verified selected-asset hashes. A missing version DOI
+is valid only in `PRE_PUBLICATION`; it fails the `POST_PUBLICATION` gate.

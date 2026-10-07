@@ -1,6 +1,6 @@
 ---
 doc_id: DOC-VV-PUBLIC-0211-001
-title: QF Solver 0.2.11 candidate verification summary
+title: QF Solver 0.2.11 verification summary
 revision: 1.0
 status: controlled_candidate
 applicable_version: 0.2.11
@@ -8,11 +8,12 @@ reviewer: ""
 approver: ""
 ---
 
-# QF Solver 0.2.11 candidate verification summary
+# QF Solver 0.2.11 verification summary
 
-**Status:** prepublication candidate evidence. QF Solver 0.2.10 remains the
-latest published version. This summary reports the WP01–WP06 evidence without
-turning a numerical result into an automatic maturity decision.
+This summary reports the recorded WP01–WP06 evidence for QF Solver 0.2.11.
+It does not turn a numerical result into an automatic maturity decision or
+confirm a package upload. The original source identities, measurements and
+decisions remain in their structured records.
 
 ## Scope and provenance
 
@@ -33,7 +34,7 @@ and [contract](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualific
 | GYRO-03 | Independent disk-oscillator analytical oracle over signed speeds | PASS; oracle does not use the production gyroscopic assembly. |
 | GYRO-04 | Zero-speed degeneracy and signed-speed spectral splitting | PASS within the frozen WP05 scope and tolerances. |
 | GYRO-05 | Analytical Campbell branches, phase/order invariance, degeneracy lineage and a controlled ambiguous case | PASS; ambiguity is reported rather than connected by force. |
-| GYRO-06 | 4/8/16/32-element BEAM2 shaft-and-disk mesh sequence at 0, 100 and 250 rad/s | PASS internal convergence evidence only; the high-frequency pair remains ambiguous at 100 rad/s. |
+| GYRO-06 | 4/8/16/32-element BEAM2 shaft-and-disk mesh sequence at 0, 100 and 250 rad/s | PASS internal mesh-convergence evidence only; the high-frequency pair remains ambiguous at 100 rad/s. |
 
 The detailed machine-readable records are [GYRO-05](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_11/gyro_05_campbell_analytical.json)
 and [GYRO-06](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/qualification/0_2_11/gyro_06_beam2_convergence.json).
@@ -45,8 +46,8 @@ For GYRO-06, the maximum relative frequency delta between the two finest
 meshes (16 and 32 elements) was `0.00011432899`, against the predeclared
 `0.005` limit. The largest recorded QEP relative residual was
 `1.61735001e-9`, against `1e-8`. These comparisons establish internal
-discretization-convergence evidence for the documented model; they are not an
-independent physical validation or a general rotordynamics qualification.
+mesh-convergence evidence for the documented model, not independent physical
+validation or a general rotordynamics qualification.
 
 ## Maturity and visible limitations
 
@@ -70,9 +71,11 @@ outside scope.
 WP01–WP06 provide their recorded baseline, architecture, V&V, historical
 retest, gyro and Campbell evidence. The final QF0211-G07/G08 candidate gates
 and exact-source release audit are recorded separately during WP07. The
-published 0.2.10 tag and artifacts are not modified by this candidate.
+published 0.2.10 tag and artifacts are not modified by this version or by
+edits to the current public documentation. Each release audit applies only
+to its recorded source and artifact bytes.
 
 Historical 0.2.10 G03 remains `FAIL_PRESERVED`; the complete repository
 archive is not cleared. Historical WP14 remains `HOLD_NOT_PROMOTED`. These
 statuses are distinct from the QF0211 work-package gates and are not changed
-by the candidate's passing results.
+by the newer passing results.

@@ -11,7 +11,7 @@
     {
       "id": "DOC-STATE-001",
       "path": "index.md",
-      "title": "QF Solver 0.2.10",
+      "title": "QF Solver",
       "status": "controlled_candidate",
       "requirements": [
         "REQ-AUD-001",
@@ -115,7 +115,7 @@
     {
       "id": "DOC-VV-PUBLIC-0211-001",
       "path": "verification/0_2_11/README.md",
-      "title": "QF Solver 0.2.11 candidate verification summary",
+      "title": "QF Solver 0.2.11 verification summary",
       "status": "controlled_candidate",
       "requirements": [],
       "examples": [],
