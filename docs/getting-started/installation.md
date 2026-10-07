@@ -12,15 +12,17 @@ approver: ""
 This guide applies to QF Solver `0.2.11`. Release availability is
 authoritative on [PyPI](https://pypi.org/project/qf-solver/) and
 [GitHub Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases).
-Only the exact selected wheel/sdist bytes bound to a successful release audit
-are audited distribution artifacts; this page is not an upload confirmation.
+The selected QF Solver `0.2.11` wheel and sdist are the audited PyPI release
+artifacts. Their exact hashes are recorded in the selected-release contract
+and checksum manifest. GitHub's automatically generated source archives are
+not part of the audited selected distribution.
 See [What's New in 0.2.11](../whats-new/0.2.11.md) for the release
 scope and [the capability index](../capabilities/index.md) for maturity
 boundaries.
 
 ## User installation
 
-Install the exact version from the package index after its release upload:
+Install the published release from PyPI:
 
 ```bash
 python -m pip install "qf-solver==0.2.11"
@@ -38,8 +40,8 @@ python -m pip install .
 qf-solver --version
 ```
 
-The tag command applies once that release tag exists. The default branch is
-not a promise that it contains a specific release.
+The `v0.2.11` tag is immutable and identifies the source used for the release.
+The default branch may advance and is not a release selector.
 
 The published core package requires Python 3.10 or newer. The recommended
 public import is:

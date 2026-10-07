@@ -89,6 +89,10 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
     assert "0.2.8 is the current development candidate" not in roadmap
     assert "10.5281/zenodo.23106744" in readme
     assert "10.5281/zenodo.23106744" in index
+    assert "10.5281/zenodo.23214487" in readme
+    assert "10.5281/zenodo.23214487" in index
+    assert "2026-10-07" in readme
+    assert "2026-10-07" in index
     assert "version DOI" in readme
     assert "Current release" in normalized_index
     assert "current documentation baseline is 0.2.11" in normalized_comparisons
@@ -99,8 +103,8 @@ def test_public_release_status_copy_distinguishes_release_and_tagged_source() ->
     assert "not a current capability or maturity record" in normalized_comparison_snapshot
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
     assert 'version: "0.2.11"' in citation
-    assert not any(line.startswith("date-released:") for line in citation.splitlines())
-    assert not any(line.startswith("doi:") for line in citation.splitlines())
+    assert 'date-released: "2026-10-07"' in citation
+    assert 'doi: "10.5281/zenodo.23214487"' in citation
 
 
 @pytest.mark.parametrize(

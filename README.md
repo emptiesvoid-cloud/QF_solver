@@ -512,18 +512,18 @@ and the controlling evidence record for the chosen analysis.
 
 ## Current release and citation
 
-The current QF Solver release is `0.2.11`; it follows the published `0.2.10`
-release. The [What's New in 0.2.11](docs/whats-new/0.2.11.md) page summarizes
-the changes, while the [changelog](CHANGELOG.md) retains the full project
-history.
-
-Use a version DOI for exact-release reproducibility when one is assigned. Use
-the version DOI for the preceding release, `10.5281/zenodo.23106744`, when
-citing 0.2.10. Use the project concept DOI
+The current QF Solver release is `0.2.11`, published on 2026-10-07. Cite this
+version with [DOI `10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487).
+The preceding 0.2.10 release has version DOI
+[`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744). Use the
+project concept DOI
 [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897) to cite
-QF Solver as a project. The previous release used source tag
+QF Solver across versions. [`CITATION.cff`](CITATION.cff) provides
+machine-readable citation metadata. The preceding release used source tag
 [`v0.2.10`](https://github.com/emptiesvoid-cloud/QF_solver/tree/v0.2.10).
-[`CITATION.cff`](CITATION.cff) provides machine-readable citation metadata.
+The 0.2.11 selected wheel, sdist and checksum manifest are the audited
+distribution artifacts. GitHub's automatically generated source archives are
+not part of that selected distribution.
 The whole-repository G03 archive gate remains **FAIL**, the full repository
 archive is not cleared, and WP14 remains **HOLD_NOT_PROMOTED**. Selected
 distribution checks do not change those states.

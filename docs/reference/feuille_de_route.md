@@ -9,9 +9,11 @@ approver: ""
 
 # Public roadmap
 
-QF Solver 0.2.11 is the current documentation baseline. Version 0.2.9 was a
-development/source snapshot, not a PyPI package, GitHub Release, or version
-DOI. This roadmap is a product-level orientation; it is not a release gate,
+QF Solver 0.2.11 is the current documentation baseline. QF Solver 0.2.11 is
+the current published release. It was published on 2026-10-07 with version DOI
+[`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487). Version
+0.2.9 was a development/source snapshot, not a PyPI package, GitHub Release,
+or version DOI. This roadmap is a product-level orientation; it is not a release gate,
 tag, publication decision, or promise that an unqualified route is ready for
 production.
 
@@ -21,8 +23,9 @@ Version 0.2.11 includes prospective V&V consolidation and experimental
 gyroscopic modal/Campbell routes within a bounded BEAM2-and-disk scope.
 Neither route is promoted beyond `EXPERIMENTAL`. The
 [verification summary](../verification/0_2_11/README.md) records its evidence
-and limitations. Package publication is governed by separate exact-source
-release gates and is not inferred from this roadmap.
+and limitations. The selected 0.2.11 distribution has been published after
+exact-source release gates; this does not clear the whole-repository archive
+or broaden any technical claim.
 
 Follow-up work will extend evidence and reproducibility without
 generalizing the existing bounded nonlinear routes or changing the linear

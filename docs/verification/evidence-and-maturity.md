@@ -10,6 +10,8 @@ approver: ""
 # Verification, validation, evidence and maturity
 
 **Current release documentation:** QF Solver `0.2.11`<br>
+**Current version DOI:** [`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487)<br>
+**Published:** 2026-10-07<br>
 **Previous version DOI (0.2.10 only):** [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744)
 
 The cumulative solver retains the 0.2.10 development made since the published 0.2.8
@@ -21,14 +23,13 @@ current scopes. The 46-combination
 is historical authority for those published element-analysis decisions and
 is not silently rewritten here.
 
-QF Solver 0.2.11 adds experimental gyroscopic modal and Campbell
-evidence. Those results, their availability and their maturity decisions are
-summarized separately in the [0.2.11 V&V page](0_2_11/README.md);
-they are not part of the published 0.2.10 record.
-
-Publication availability is established by PyPI and GitHub Releases, not by
-this page. The 0.2.11 citation metadata does not assert a publication date or
-an assigned version DOI.
+QF Solver 0.2.11 adds experimental gyroscopic modal and Campbell evidence.
+Those results, their availability and their maturity decisions are summarized
+separately in the [0.2.11 V&V page](0_2_11/README.md); they do not rewrite the
+published 0.2.10 record. The selected 0.2.11 wheel and sdist are published on
+PyPI, with matching selected assets on GitHub Releases and Zenodo. The version
+DOI above identifies the Zenodo record; this page summarizes evidence but is
+not a substitute for its controlling records.
 
 ## Four distinct claims
 

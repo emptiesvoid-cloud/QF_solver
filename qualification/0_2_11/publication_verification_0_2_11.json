@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0211-G09-PUBLICATION-VERIFICATION-2026-10-07",
+  "status": "PUBLICATION_VERIFIED",
+  "publication_phase": "POST_PUBLICATION",
+  "version": "0.2.11",
+  "tag": "v0.2.11",
+  "source_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+  "release_date": "2026-10-07",
+  "version_doi": "10.5281/zenodo.23214487",
+  "concept_doi": "10.5281/zenodo.22697897",
+  "tag_exists": true,
+  "main_contains_tag_target": true,
+  "tag_verification": {
+    "target_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+    "annotated": true,
+    "immutable_target_verified": true
+  },
+  "github_release": {
+    "published": true,
+    "release_id": 405822960,
+    "tag": "v0.2.11",
+    "url": "https://github.com/emptiesvoid-cloud/QF_solver/releases/tag/v0.2.11",
+    "selected_assets": [
+      {
+        "filename": "qf_solver-0.2.11-py3-none-any.whl",
+        "sha256": "bcf860f0a008f4a2c3c9efbe2301753a59c687ecc101d6f799dd52557d0fcba8"
+      },
+      {
+        "filename": "qf_solver-0.2.11.tar.gz",
+        "sha256": "bdf61fb59e5617778a2c539ab9729ab9b0912bc841ac9207d4cce1fba175824e"
+      },
+      {
+        "filename": "qf_solver-0.2.11-afd2efa4-SHA256SUMS.txt",
+        "sha256": "b461928d9443f5164c555ba6d520efe00ddeaea23b7d4af6215442f54b942364"
+      }
+    ],
+    "platform_generated_source_archives_are_selected_artifacts": false
+  },
+  "pypi": {
+    "published": true,
+    "version": "0.2.11",
+    "url": "https://pypi.org/project/qf-solver/0.2.11/",
+    "install_probe": "PASS",
+    "files": [
+      {
+        "filename": "qf_solver-0.2.11-py3-none-any.whl",
+        "sha256": "bcf860f0a008f4a2c3c9efbe2301753a59c687ecc101d6f799dd52557d0fcba8"
+      },
+      {
+        "filename": "qf_solver-0.2.11.tar.gz",
+        "sha256": "bdf61fb59e5617778a2c539ab9729ab9b0912bc841ac9207d4cce1fba175824e"
+      }
+    ],
+    "downloaded_public_bytes_hash_verified": true
+  },
+  "zenodo": {
+    "published": true,
+    "record_id": 23214487,
+    "url": "https://zenodo.org/records/23214487",
+    "doi_resolves": true,
+    "version_doi": "10.5281/zenodo.23214487",
+    "concept_doi": "10.5281/zenodo.22697897",
+    "release_date": "2026-10-07",
+    "version": "0.2.11",
+    "author": "Quentin Farinazzo",
+    "license": "Apache-2.0",
+    "whole_repository_archive_present": false,
+    "file_count": 3,
+    "files": [
+      {
+        "filename": "qf_solver-0.2.11-py3-none-any.whl",
+        "bytes": 1559189,
+        "sha256": "bcf860f0a008f4a2c3c9efbe2301753a59c687ecc101d6f799dd52557d0fcba8"
+      },
+      {
+        "filename": "qf_solver-0.2.11.tar.gz",
+        "bytes": 1177522,
+        "sha256": "bdf61fb59e5617778a2c539ab9729ab9b0912bc841ac9207d4cce1fba175824e"
+      },
+      {
+        "filename": "qf_solver-0.2.11-afd2efa4-SHA256SUMS.txt",
+        "bytes": 190,
+        "sha256": "b461928d9443f5164c555ba6d520efe00ddeaea23b7d4af6215442f54b942364"
+      }
+    ],
+    "public_file_bytes_downloaded_and_hash_verified": true
+  },
+  "qf0211_gates": {
+    "QF0211_G01": "INHERITED_PASS",
+    "QF0211_G02": "INHERITED_PASS",
+    "QF0211_G03": "INHERITED_PASS",
+    "QF0211_G04": "INHERITED_PASS",
+    "QF0211_G05": "INHERITED_PASS",
+    "QF0211_G06": "INHERITED_PASS",
+    "QF0211_G07": "PASS",
+    "QF0211_G08": "PASS",
+    "QF0211_G09": "PASS"
+  },
+  "maturities_and_limitations": {
+    "rotating_modal": "EXPERIMENTAL",
+    "campbell": "EXPERIMENTAL",
+    "campbell_100_rad_s_ambiguity": "PRESERVED",
+    "gyro_06_evidence": "INTERNAL_MESH_CONVERGENCE_ONLY"
+  },
+  "historical_statuses": {
+    "G03": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "WP14": "HOLD_NOT_PROMOTED"
+  },
+  "publication_scope": "SELECTED_DISTRIBUTION_ONLY",
+  "whole_repository_archive_cleared": false
+}

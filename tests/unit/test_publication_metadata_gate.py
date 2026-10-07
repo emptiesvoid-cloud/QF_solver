@@ -13,8 +13,10 @@ from scripts.check_publication_metadata import check_publication_metadata
 ROOT = Path(__file__).resolve().parents[2]
 VERSION = "0.2.11"
 TAG = "v0.2.11"
-VERSION_DOI = "10.5281/zenodo.99999999"
+VERSION_DOI = "10.5281/zenodo.23214487"
 RELEASE_DATE = "2026-10-07"
+PUBLICATION_RECORD = ROOT / "qualification/0_2_11/publication_verification_0_2_11.json"
+RELEASE_CONTRACT = ROOT / "qualification/0_2_11/authorized_selected_package_release_contract_afd2efa.json"
 
 
 def _write_release_copy(root: Path, phase: str, *, doi: str | None = None, released: bool = False) -> None:
@@ -169,8 +171,16 @@ def _write_postpublication_evidence(root: Path, *, doi: str = VERSION_DOI) -> tu
     return contract_path, record_path
 
 
-def test_candidate_prepublication_metadata_is_valid_without_a_version_doi() -> None:
-    failures = check_publication_metadata(ROOT, TAG, "PRE_PUBLICATION")
+def test_current_postpublication_metadata_matches_public_evidence() -> None:
+    failures = check_publication_metadata(
+        ROOT,
+        TAG,
+        "POST_PUBLICATION",
+        version_doi=VERSION_DOI,
+        release_date=RELEASE_DATE,
+        publication_record=PUBLICATION_RECORD,
+        release_contract=RELEASE_CONTRACT,
+    )
     assert failures == []
 
 

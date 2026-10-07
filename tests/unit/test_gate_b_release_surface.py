@@ -78,15 +78,16 @@ def test_version_registry_and_public_docs_are_aligned() -> None:
 
     assert project["version"] == __version__ == "0.2.11"
     assert project["optional-dependencies"]["hdf5"] == ["h5py>=3.10"]
-    # The candidate citation identifies 0.2.11, but has no release-only date
-    # or DOI until publication. The project concept DOI remains in project URLs.
+    # Citation metadata records the published version DOI; the package project
+    # URL continues to identify the concept DOI across releases.
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
     assert 'version: "0.2.11"' in citation
-    assert not any(line.startswith("date-released:") for line in citation.splitlines())
-    assert not any(line.startswith("doi:") for line in citation.splitlines())
+    assert 'date-released: "2026-10-07"' in citation
+    assert 'doi: "10.5281/zenodo.23214487"' in citation
     assert project["urls"]["DOI"] == "https://doi.org/10.5281/zenodo.22697897"
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "The current QF Solver release is `0.2.11`" in readme
+    assert "10.5281/zenodo.23214487" in readme
     assert "0.2.11 is a **candidate, not yet published**" not in readme
     registry = json.loads((ROOT / "qualification/0_2_8/consolidated_registry.json").read_text(encoding="utf-8"))
     assert registry["combination_registry"]["state_counts"] == {
