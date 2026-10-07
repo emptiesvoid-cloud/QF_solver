@@ -197,6 +197,20 @@ def test_actual_0211_owner_authorization_matches_the_frozen_candidate() -> None:
     assert owner["wp14_status"] == "HOLD_NOT_PROMOTED"
 
 
+def test_actual_0211_release_contract_binds_only_the_authorized_distribution() -> None:
+    contract_path = ROOT / "qualification/0_2_11/authorized_selected_package_release_contract_afd2efa.json"
+    owner_path = ROOT / "qualification/0_2_11/owner_publication_authorization_afd2efa4.json"
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    owner = json.loads(owner_path.read_text(encoding="utf-8"))
+    validate_owner_artifact_scope(contract, owner)
+    assert contract["source_sha"] == "afd2efa469a18e66581720ff4801f50de7d29eb4"
+    assert contract["publication_scope"] == "SELECTED_DISTRIBUTION"
+    assert contract["g03_status"] == "FAIL_PRESERVED"
+    assert contract["whole_repository_archive_cleared"] is False
+    assert contract["wp14_status"] == "HOLD_NOT_PROMOTED"
+    assert contract["authorization"]["whole_repository_archive_publication_allowed"] is False
+
+
 def test_changed_source_version_or_hash_fails_closed(tmp_path: Path) -> None:
     _, contract, owner = _fixture(tmp_path)
     changed_source = {**contract, "source_sha": "c" * 40}

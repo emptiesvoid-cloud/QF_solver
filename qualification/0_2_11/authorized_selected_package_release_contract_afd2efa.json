@@ -1,0 +1,165 @@
+{
+  "schema_version": 2,
+  "contract_id": "QF-0211-AUTHORIZED-SELECTED-DISTRIBUTION-AFD2EFA4-2026-10-07",
+  "record_type": "PROSPECTIVE_AUTHORIZED_SELECTED_DISTRIBUTION_RELEASE",
+  "status": "OWNER_AUTHORIZED_SELECTED_PACKAGE_RELEASE",
+  "publication_scope": "SELECTED_DISTRIBUTION",
+  "package_version": "0.2.11",
+  "release_tag": "v0.2.11",
+  "source_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+  "tag_target_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+  "source_tree_sha": "8b135547a9dcde4420c18eea7a39565a1ff446e8",
+  "source_contract": {
+    "path": "qualification/0_2_11/wp07_candidate_build_contract_afd2efa4.json",
+    "commit_sha": "1176612212c970579cc43c6695aa4af238a905c4",
+    "sha256": "3aaea04c62f2c622a143fdb039c43fa2128ddadc4a11c32e9105e1c17570158e",
+    "status": "FROZEN_CANDIDATE_BUILD",
+    "publication_allowed": false
+  },
+  "candidate_audit": {
+    "path": "qualification/0_2_11/wp07_final_candidate_audit_afd2efa4.json",
+    "commit_sha": "5c64c51a74375aef35db00c33c40861044d892cc",
+    "sha256": "c3c1fcda86a1b9e90fee6b1ea2829361d9471d993b6dcc08f1bc5d8d667b206e",
+    "record_id": "QF-0211-WP07-FINAL-CANDIDATE-AUDIT-AFD2EFA4-2026-10-07"
+  },
+  "owner_authorization": {
+    "path": "qualification/0_2_11/owner_publication_authorization_afd2efa4.json",
+    "commit_sha": "f87e423765a67612cce8ebeb6e1c8932a21d0481",
+    "sha256": "da883ec9a890d25bdc5cc0cf9a71efa54d36c848fc43a427cf2487e79b37ff25",
+    "record_id": "QF-0211-OWNER-SELECTED-PUBLICATION-AUTHORIZATION-AFD2EFA4-2026-10-07"
+  },
+  "authorization_resolution": {
+    "status": "RESOLVED_BY_EXACT_OWNER_AUTHORIZATION",
+    "owner_approved_source_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+    "candidate_source_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+    "owner_approved_wheel_sha256": "bcf860f0a008f4a2c3c9efbe2301753a59c687ecc101d6f799dd52557d0fcba8",
+    "candidate_wheel_sha256": "bcf860f0a008f4a2c3c9efbe2301753a59c687ecc101d6f799dd52557d0fcba8",
+    "owner_approved_sdist_sha256": "bdf61fb59e5617778a2c539ab9729ab9b0912bc841ac9207d4cce1fba175824e",
+    "candidate_sdist_sha256": "bdf61fb59e5617778a2c539ab9729ab9b0912bc841ac9207d4cce1fba175824e",
+    "owner_approved_manifest_sha256": "b461928d9443f5164c555ba6d520efe00ddeaea23b7d4af6215442f54b942364",
+    "candidate_manifest_sha256": "b461928d9443f5164c555ba6d520efe00ddeaea23b7d4af6215442f54b942364"
+  },
+  "audited_artifacts": {
+    "wheel": {
+      "filename": "qf_solver-0.2.11-py3-none-any.whl",
+      "bytes": 1559189,
+      "sha256": "bcf860f0a008f4a2c3c9efbe2301753a59c687ecc101d6f799dd52557d0fcba8"
+    },
+    "sdist": {
+      "filename": "qf_solver-0.2.11.tar.gz",
+      "bytes": 1177522,
+      "sha256": "bdf61fb59e5617778a2c539ab9729ab9b0912bc841ac9207d4cce1fba175824e"
+    }
+  },
+  "sha256_manifest": {
+    "filename": "qf_solver-0.2.11-afd2efa4-SHA256SUMS.txt",
+    "bytes": 190,
+    "sha256": "b461928d9443f5164c555ba6d520efe00ddeaea23b7d4af6215442f54b942364"
+  },
+  "manifest_repository_path": "qualification/0_2_11/qf_solver-0.2.11-afd2efa4-SHA256SUMS.txt",
+  "build_provenance": {
+    "source_materialization": "Selected Git blobs from exactly afd2efa469a18e66581720ff4801f50de7d29eb4; no working-tree bytes.",
+    "candidate_audit_record": "qualification/0_2_11/wp07_final_candidate_audit_afd2efa4.json",
+    "independent_builds": 2,
+    "wheel_byte_identical": true,
+    "sdist_raw_builds_byte_identical": false,
+    "sdist_difference": "Gzip metadata only, covered by the pre-bound normalizer.",
+    "sdist_normalized_byte_identical": true,
+    "normalization_tool": "scripts/normalize_public_sdist.py",
+    "source_date_epoch": 1791305555,
+    "build_environment": {
+      "python": "3.13.1",
+      "build": "1.5.0",
+      "setuptools": "82.0.1",
+      "wheel": "0.47.0",
+      "twine": "7.0.0"
+    },
+    "twine_check": "PASS",
+    "installed_probes": "PASS",
+    "governance_remediation_rebuilt_candidate": false
+  },
+  "selected_scope": {
+    "package_source_files": 562,
+    "package_findings": 0,
+    "served_document_files": 753,
+    "served_document_findings": 0,
+    "historical_document_files_excluded": 208,
+    "whole_repository_scanned": false,
+    "whole_repository_g03": "FAIL_PRESERVED"
+  },
+  "release_gates": {
+    "QF0211_G01": "INHERITED_PASS",
+    "QF0211_G02": "INHERITED_PASS",
+    "QF0211_G03": "INHERITED_PASS",
+    "QF0211_G04": "INHERITED_PASS",
+    "QF0211_G05": "INHERITED_PASS",
+    "QF0211_G06": "INHERITED_PASS",
+    "QF0211_G07": "PASS",
+    "QF0211_G08": "PASS"
+  },
+  "maturities": {
+    "rotating_modal": "EXPERIMENTAL",
+    "campbell": "EXPERIMENTAL",
+    "campbell_100_rad_s_ambiguity": "PRESERVED",
+    "gyro_06_evidence": "INTERNAL_MESH_CONVERGENCE_ONLY"
+  },
+  "publication_phase": {
+    "current_phase": "PRE_PUBLICATION",
+    "version_doi": "NOT_ASSIGNED",
+    "release_date": "NOT_SET",
+    "concept_doi": "10.5281/zenodo.22697897"
+  },
+  "authorization": {
+    "selected_package_publication_allowed": true,
+    "tag_creation_allowed": true,
+    "pypi_publication_allowed": true,
+    "github_release_allowed": true,
+    "zenodo_selected_artifact_publication_allowed": true,
+    "whole_repository_archive_cleared": false,
+    "whole_repository_archive_publication_allowed": false,
+    "ledger_update_allowed": false,
+    "wp14_promotion_allowed": false,
+    "numeric_maturity_promotion_allowed": false,
+    "historical_result_reclassification_allowed": false,
+    "certification_or_universal_validation_claims_allowed": false
+  },
+  "g03_status": "FAIL_PRESERVED",
+  "whole_repository_archive_cleared": false,
+  "whole_repository_archive_publication_allowed": false,
+  "wp14_status": "HOLD_NOT_PROMOTED",
+  "remediation_root_causes": {
+    "B01": {
+      "classification": "RELEASE_PHASE_MODEL_MISSING",
+      "resolution": "Explicit PRE_PUBLICATION and POST_PUBLICATION metadata validation; no DOI/date is required before Zenodo publication, while postpublication requires a captured record and exact channel/hash evidence."
+    },
+    "B02": {
+      "classification": "VERSION_HARDCODED_AUTHORIZATION",
+      "resolution": "Artifact verification is contract-driven, schema-versioned, exact-source and exact-bytes bound, with an explicit read adapter for unchanged historical schema-1 contracts."
+    },
+    "B03": {
+      "classification": "SELECTED_RELEASE_AND_FULL_ARCHIVE_COUPLED",
+      "resolution": "Selected wheel/sdist/manifest clearance is an independent bounded decision; whole-repository clearance remains separately gated and denied while G03 is FAIL_PRESERVED."
+    }
+  },
+  "tool_bindings": {
+    "scripts/verify_authorized_release_artifacts.py": "00b2778f2725c1e8675eccbe0587d4f7a3bb65ae5f21850ecb52a74ad7a378ef",
+    "scripts/public_release_scope.py": "c44299fa59d04b70c283d63e82f91f8dd5d9315a78f7ab7aedfa5ae7901d21a7",
+    "scripts/check_publication_metadata.py": "c0843deefdfa56b67460bef0d4e157aa71029f7060ba9391715c51c8cbf831bb",
+    "scripts/check_distribution.py": "456ba6fd025053073a8eaf46609a19f7b674edb2ca99cd024f963f8ef8848860",
+    "scripts/audit_wp14_public_scope.py": "fa2a39d03b2f14bfcbbaf725c7c9f25fe84b117a2824f3355765c0fa8c26d616",
+    "scripts/git_tools.py": "9192aef8e8610ee4f651cac11a18af189678f561d9c85c20c64c77be47a287fa",
+    "scripts/verify_public_package.py": "7e25532f5a8c2c80b0a8ab711c235fc45a34eb6219efdef0386543d00f1bc86c",
+    "scripts/probe_installed_package.py": "46576afa82a8285730c4afc67e41fd58f5a8deb753f054f5a35cc0442eb18675",
+    "scripts/normalize_public_sdist.py": "1c3594c61b46af5601fda7993644aa613fb1523edb4709526b0ee35a01213d2c",
+    ".github/workflows/publish-pypi.yml": "eb4db4df2cec3a7c1a4895235a418588f1c76da64c730d06485bc5d50dcf2cfe",
+    "PUBLIC_RELEASE_POLICY.md": "107187551267fcf6d6fe00594dbe89967f12acc22bff25a0ca053485ff1e37f5"
+  },
+  "release_constraints": [
+    "This contract authorizes only the exact selected distribution. It does not authorize or clear a whole-repository archive.",
+    "The current workflow instruction does not create a tag or publish GitHub, PyPI or Zenodo; a later explicit Owner instruction is required to execute those mutations.",
+    "GitHub-generated Source code ZIP/TAR files are not selected audited artifacts and are not cleared while G03 remains failed.",
+    "Zenodo may receive only the wheel, normalized sdist and this selected checksum manifest; no repository snapshot or qualification archive is permitted.",
+    "Historical G03 remains FAIL_PRESERVED, whole_repository_archive_cleared remains false, and historical WP14 remains HOLD_NOT_PROMOTED.",
+    "Rotating modal and Campbell remain EXPERIMENTAL. The 100 rad/s high-frequency ambiguity is preserved, and GYRO-06 is internal mesh-convergence evidence only."
+  ]
+}
