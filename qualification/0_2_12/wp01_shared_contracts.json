@@ -1,0 +1,408 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0212-WP01-SHARED-CONTRACTS-2026-10-07",
+  "record_type": "PROSPECTIVE_SHARED_CONTRACTS",
+  "status": "CONTRACTS_FROZEN_TESTED",
+  "work_package": "WP01",
+  "baseline_main_sha": "e367fe58b2b9ebb4aef321424ca775e80e82d9ca",
+  "wp00_commit": "99ea0ac0085b1e374b2d6e3b586fa6844e39d590",
+  "implementation_base_sha": "99ea0ac0085b1e374b2d6e3b586fa6844e39d590",
+  "implementation_scope": {
+    "contract_and_design_only": true,
+    "runtime_solver_code_changed": false,
+    "numerical_feature_implementation_started": false,
+    "wp02_through_wp10_implemented": false,
+    "historical_records_or_results_changed": false,
+    "maturity_promoted": false
+  },
+  "contract_versioning": {
+    "contract_id_prefix": "QF-0212",
+    "contract_version": 1,
+    "identity_schema_versions_are_independent": true,
+    "unknown_contract_or_identity_schema": "REJECT_FAIL_CLOSED",
+    "canonical_json": {
+      "encoding": "UTF-8",
+      "object_keys": "sorted lexicographically",
+      "separators": [",", ":"],
+      "non_finite_numbers": "reject",
+      "units": "resolve and normalize before identity construction",
+      "unordered_entity_collections": "sort by stable logical identifier",
+      "ordered_vectors_and_histories": "preserve semantic order",
+      "timestamps_output_directories_and_temporary_paths": "exclude from scientific identity; retain separately as operational provenance",
+      "file_identity": "identify content by logical role, byte length and SHA-256, never by a private absolute path alone"
+    },
+    "hash_algorithm": "SHA-256 over UTF-8 bytes of a domain-separated prefix and canonical JSON; each identity family has its own prefix and version."
+  },
+  "method_aware_maturity": {
+    "scope_key_fields": [
+      "analysis",
+      "method",
+      "element_family",
+      "material_scope",
+      "damping_scope",
+      "excitation_scope",
+      "formulation_scope"
+    ],
+    "resolution": "Exact registered composite scope only; no fallback from method to analysis type, nearest method, or broad legacy registry entry.",
+    "unknown_or_unregistered_scope": "REJECT_UNREGISTERED_METHOD_SCOPE",
+    "new_0_2_12_methods": [
+      {"analysis": "modal_basis", "method": "reduced_basis", "maturity": "EXPERIMENTAL"},
+      {"analysis": "harmonic_response", "method": "modal_superposition", "maturity": "EXPERIMENTAL"},
+      {"analysis": "transient_dynamic", "method": "modal_newmark", "maturity": "EXPERIMENTAL"},
+      {"analysis": "harmonic_response", "method": "uniform_base_acceleration_phasor", "maturity": "EXPERIMENTAL"},
+      {"analysis": "transient_dynamic", "method": "uniform_base_acceleration_history", "maturity": "EXPERIMENTAL"}
+    ],
+    "no_implicit_inheritance_from": ["harmonic_response/direct_frequency", "transient_dynamic/direct", "modal/legacy_method"],
+    "numerical_pass_implies_qualification": false,
+    "no_historical_maturity_promotion": true
+  },
+  "qualification_scope": {
+    "scope_identity_fields": [
+      "analysis",
+      "method",
+      "element_family",
+      "material_scope",
+      "damping_scope",
+      "excitation_scope",
+      "relevant_formulation_scope",
+      "boundary_condition_scope",
+      "result_contract_version"
+    ],
+    "scope_id": "Deterministic identifier derived from the exact resolved scope tuple; each tuple has its own qualification authority and evidence links.",
+    "examples_that_must_remain_distinct": [
+      ["harmonic_response", "direct_frequency"],
+      ["harmonic_response", "modal_superposition"],
+      ["transient_dynamic", "direct"],
+      ["transient_dynamic", "modal_newmark"]
+    ],
+    "independent_axes": {
+      "numerical_status": ["PASS", "FAIL", "INCONCLUSIVE", "BLOCKED", "NOT_RUN"],
+      "evidence_availability": ["AVAILABLE_AND_REPRODUCIBLE", "AVAILABLE_HISTORICAL_ONLY", "AVAILABLE_LOCAL_ONLY", "RECONSTRUCTED", "OPTIONAL_DEPENDENCY", "MISSING"],
+      "maturity": ["EXPERIMENTAL", "QUALIFIED_BOUNDED", "QUALIFIED", "INDUSTRIAL"],
+      "qualification_decision": ["NOT_ASSESSED", "IN_REVIEW", "QUALIFIED_BOUNDED", "QUALIFIED", "NOT_QUALIFIED", "HOLD", "FAIL_PRESERVED"]
+    },
+    "decision_rule": "No axis is inferred from another. A numerical PASS is evidence for review, not a qualification decision or maturity transition.",
+    "missing_or_ambiguous_scope": "REJECT_FAIL_CLOSED"
+  },
+  "identities": {
+    "physical_identity": {
+      "schema": "qf-physical-identity/v1",
+      "purpose": "Identify the modeled physical system independently of the solver method and applied excitation.",
+      "required_components": [
+        "geometry coordinates and geometry content identity",
+        "element connectivity, family and formulation/integration identifiers",
+        "material model identifiers, parameters, units and initial physical state when relevant",
+        "boundary conditions, prescribed values, constraint semantics and constrained DOF map",
+        "active DOF set, physical DOF labels and stable DOF ordering map",
+        "concentrated mass entities including stable ID, node, DOF mapping, mass/inertia values and units",
+        "spring entities including stable ID, endpoints/support ownership, DOFs, stiffness values and units",
+        "resolved unit system and coordinate/frame conventions",
+        "model schema and physical semantic version"
+      ],
+      "excludes": ["applied force amplitudes/phases/histories", "output paths", "timestamps", "temporary directories", "solver tolerance choices"],
+      "discrete_entity_rule": "Concentrated masses and springs are first-class physical inputs; omission of either from identity is invalid.",
+      "confirmed_legacy_finding": "NEW_MARK_PHYSICAL_IDENTITY_INCOMPLETE = CONFIRMED",
+      "legacy_identity_use": "An identity missing required physical components is incomplete and cannot authorize cache reuse or checkpoint resume."
+    },
+    "operator_identity": {
+      "schema": "qf-operator-identity/v1",
+      "purpose": "Identify assembled/prepared operators and constraints so they can be reused when excitation alone changes.",
+      "required_components": [
+        "physical_identity digest",
+        "source commit and relevant assembly implementation identity",
+        "operator family and formulation versions",
+        "full/reduced DOF maps and reduction/projection identity",
+        "M and K content digests where assembled, including discrete mass and spring contributions",
+        "declared damping operator identity when a physical damping operator exists",
+        "assembly options and unit-resolved parameters"
+      ],
+      "excludes": ["force values", "force phases", "time histories", "frequency sweep values"],
+      "reuse_rule": "K/M may be reused only if the complete operator identity matches. An excitation change alone does not invalidate K/M; a physical or assembly change does.",
+      "unknown_operator_semantics": "REJECT_REUSE_FAIL_CLOSED"
+    },
+    "excitation_identity": {
+      "schema": "qf-excitation-identity/v1",
+      "purpose": "Identify spatial load distributions and their temporal amplitudes independently of K/M.",
+      "required_components": [
+        "stable unique channel IDs",
+        "real spatial distribution keyed by physical DOF or a hashed external load field",
+        "resolved spatial units, coordinate frame and sign convention",
+        "temporal amplitude or complex phasor, input units and resolved values",
+        "frequency/history samples, ordering and content digest when applicable",
+        "phase convention and load-factor application policy"
+      ],
+      "canonical_order": "Sort channels by stable channel ID; preserve the semantic sample order inside each history.",
+      "zero_channel": "Accept as a recorded no-op. It contributes zero force and remains in input provenance/identity; it must not trigger a nonzero response claim.",
+      "cancellation": "Combine channels deterministically in canonical ID order; retain per-channel provenance and record the resulting net excitation.",
+      "load_factor": "Apply each declared load factor exactly once at the defined channel-composition stage.",
+      "contradictory_syntax": "If legacy load syntax and new channel syntax are both present, accept only proven semantic equivalence or an explicit, versioned disjoint-channel combine mode. Otherwise reject; never silently add, override or double-apply either representation."
+    },
+    "modal_basis_identity": {
+      "schema": "qf-modal-basis-identity/v1",
+      "purpose": "Bind basis vectors and spectral selection to the exact operator and extraction contract.",
+      "required_components": [
+        "operator identity digest",
+        "eigensolver/backend and relevant version/configuration",
+        "basis dimension and physical/reduced DOF map",
+        "eigenvalue ordering and selected spectral interval/count",
+        "normalization and mass-matrix digest",
+        "basis content digest",
+        "cluster membership and cluster-policy version",
+        "truncation-policy version"
+      ],
+      "invalidation": "Any physical/operator/constraint/M/K change, basis data change or relevant extraction-policy change invalidates the basis for reuse.",
+      "normalization": "For a real symmetric basis, Phi.T M_r Phi = I within a preregistered method tolerance; complex generalizations must use the contracted Hermitian form.",
+      "sign_phase": "Individual real signs or complex phases are nonphysical; comparisons and identity decisions use canonical data/subspace rules, not raw sign/phase equality.",
+      "clusters": "Record clusters as subspaces using a versioned, preregistered spectral-gap policy. A requested truncation that cuts an identified cluster is REJECT_EXPLICITLY; no silent mode-count expansion.",
+      "cluster_threshold_policy": "The detection formula and tolerance source must be fixed by the method contract before benchmark results; missing policy or threshold is a fail-closed precondition."
+    },
+    "execution_identity": {
+      "schema": "qf-execution-identity/v1",
+      "purpose": "Identify one numerical execution and the result semantics it produces.",
+      "required_components": [
+        "source commit and solver implementation identity",
+        "physical identity digest",
+        "operator identity digest",
+        "excitation identity digest or explicit NONE",
+        "modal basis identity digest or explicit NONE",
+        "damping identity and model semantics",
+        "initial conditions and their frame",
+        "integration/frequency grid and numerical algorithm settings",
+        "tolerances, result request and result-schema/semantic versions",
+        "relevant dependency versions and numerical environment"
+      ],
+      "excludes": ["timestamps", "process IDs", "temporary paths", "output directory names"],
+      "key": "SHA-256 of the canonical, domain-separated identity document.",
+      "change_rule": "Any scientifically relevant component change creates a different execution identity; operational-only metadata does not."
+    }
+  },
+  "checkpoint_and_migration": {
+    "principle": "READABLE != SAFE_TO_RESUME",
+    "confirmed_legacy_finding": "NL_V1_TO_V2_MIGRATION_UNSAFE_CASE = CONFIRMED",
+    "resume_required_bindings": [
+      "supported checkpoint schema and semantic version",
+      "physical identity including concentrated masses and springs",
+      "operator identity including constraints, M/K and damping semantics",
+      "excitation identity when the execution depends on applied channels",
+      "execution identity including algorithm, time step/grid, tolerances and initial state",
+      "accepted solver state and all required state/result artifact hashes"
+    ],
+    "safe_resume_conditions": [
+      "schema is explicitly supported or a named, reviewed adapter proves semantic equivalence",
+      "all required identity digests match the current model and execution",
+      "all required state fields and artifacts exist and verify by size/hash",
+      "migration is lossless for required state and preserves its meaning",
+      "no unknown field or semantic ambiguity affects continuation"
+    ],
+    "identity_missing_or_insufficient": {"safe_resume": "NO", "fail_closed": "YES", "action": "REFUSE_RESUME"},
+    "read_policy": "An old record may be decoded read-only for inspection while being explicitly marked non-resumable.",
+    "migration_policy": "Never rewrite historical checkpoint bytes or synthesize missing physical identity. Store any reviewed migrated representation separately with source hash, adapter ID and provenance.",
+    "newmark_identity_requirement": "A Newmark checkpoint must bind mass/spring-inclusive physical identity, operator identity, excitation, damping, initial conditions, integration step and state."
+  },
+  "damping_semantics": {
+    "models": [
+      {
+        "id": "rayleigh_physical_or_projected",
+        "definition": "C = alpha M + beta K; when reduced, C_r = P.T C P using the same full operators and projection, or an explicitly declared reduced-operator construction.",
+        "units": {"alpha": "1/s", "beta": "s"},
+        "identity_fields": ["alpha", "beta", "full_or_reduced_construction", "M/K/operator digests", "projection identity"],
+        "physical_matrix_claim": "Allowed only when the construction actually defines the physical full-space C and its projection. A reduced-only approximation must be labelled reduced."
+      },
+      {
+        "id": "prescribed_modal_damping",
+        "definition": "C_modal = diag(2*zeta_j*omega_j) in the selected, identified modal basis.",
+        "identity_fields": ["modal_basis_identity", "per-mode or cluster damping values", "frequency units", "cluster policy"],
+        "physical_matrix_claim": "Not a complete physical full-space C by default; never fabricate one solely to export reactions.",
+        "degenerate_cluster_rule": "Within an exact or policy-defined near-degenerate cluster, damping must be invariant to basis rotation: use equal damping over the cluster or a separately contracted invariant cluster operator. Otherwise reject the assignment."
+      }
+    ],
+    "direct_reduced_equivalence": "Assert equivalence only when M/K/constraints, damping operator, excitation, initial conditions, retained basis and numerical scheme are demonstrably equivalent. A modal damping diagonal is not assumed equivalent to a physical direct damping matrix.",
+    "reaction_implication": "Physical reactions require all physical terms used in the full-space equilibrium balance. Reduced modal damping alone does not satisfy this condition.",
+    "unknown_or_mixed_damping": "REJECT_FAIL_CLOSED"
+  },
+  "modal_basis_contract": {
+    "system_binding": "Exact operator identity, full/reduced DOF maps, M/K digests, constraint reduction and basis extraction version.",
+    "dimensions": "Record full system dimension, reduced dimension, basis column count and retained cluster boundaries.",
+    "normalization": "Declare M-orthonormality target and measured residual; no implicit renormalization after identity is established.",
+    "residual_metrics": ["per-eigenpair generalized residual", "M-orthogonality residual", "cluster/subspace residual"],
+    "ordering": "Deterministic sort by contracted eigenvalue key with stable tie handling; clusters treated as subspaces.",
+    "truncation": "If requested count cuts a detected cluster, reject explicitly. Do not silently include extra modes or separate a cluster.",
+    "model_mutation": "Any relevant identity change invalidates the basis and dependent caches."
+  },
+  "excitation_contract": {
+    "channel_schema": "qf-excitation-channel/v1",
+    "spatial_temporal_separation": {
+      "SPATIAL_LOAD_DISTRIBUTION": "REAL",
+      "TEMPORAL_AMPLITUDE_OR_FREQUENCY_PHASOR": "separate scalar/history/phasor payload"
+    },
+    "harmonic": {
+      "phasor_representation": {"real": "finite scalar", "imag": "finite scalar"},
+      "response_convention": "response(t) = Re(U * exp(+i*omega*t))",
+      "input_frequency": "Hz",
+      "internal_frequency": "rad/s",
+      "conversion": "omega = 2*pi*f exactly once at the explicit input boundary"
+    },
+    "channel_identity": ["stable channel ID", "real spatial distribution digest", "resolved units/frame/sign", "temporal payload digest", "phase/frequency convention"],
+    "force_zero_and_cancellation": "Zero channels are accepted as recorded no-ops; cancellation is deterministic and per-channel provenance is retained.",
+    "legacy_compatibility": "Existing load syntax and defaults continue unchanged when the new channel syntax is absent. Mixed syntax must be equivalent or use a future explicit disjoint combine mode; ambiguity is rejected.",
+    "factor_application": "Load and scaling factors are applied once at the contract-defined composition stage; duplicate application is invalid.",
+    "scope_guard": "Do not convert all historical loads into complex-valued entities. Only temporal harmonic amplitudes use complex phasors."
+  },
+  "response_frames_and_base_motion": {
+    "coordinate_map": "P maps reduced relative coordinates into the full physical DOF vector; r_full is the influence vector for the declared uniform translational base direction.",
+    "definitions": {
+      "relative_displacement": "u_rel_full = P q_rel",
+      "absolute_displacement": "u_abs = P q_rel + r_full*x_g",
+      "absolute_velocity": "v_abs = P v_rel + r_full*v_g",
+      "absolute_acceleration": "a_abs = P a_rel + r_full*a_g",
+      "base_force_reduced": "f_base,red = -P.T*M_full*r_full*a_g"
+    },
+    "mass_ordering": "Construct the base-inertia term with the complete supported M_full before elimination of constrained DOFs whenever coupling requires it; then project consistently.",
+    "influence_vector": "For uniform translational base motion, translational DOFs follow the declared direction and rotational entries are zero. The DOF map and coordinate frame are explicit.",
+    "moving_supports": "Only supports declared comoving with the prescribed base and consistent with the influence map are admissible. Incompatible independently prescribed support motion is rejected.",
+    "springs": "Spring endpoints/support motion ownership is explicit; no spring-to-ground motion is inferred from a fixed-support label.",
+    "input_availability": {
+      "base_acceleration_given": "Relative response and absolute acceleration can be reported when the solver response exists and the map is known.",
+      "base_displacement_or_velocity": "Absolute displacement/velocity require x_g/v_g history or declared integration constants/initial conditions; otherwise mark unavailable, not zero."
+    },
+    "output_frame_label_required": true
+  },
+  "reaction_availability": {
+    "availability_enum": ["AVAILABLE", "UNAVAILABLE", "NOT_COMPUTED", "NOT_APPLICABLE"],
+    "required_metadata": ["status", "reason_code", "physical_or_reduced_scope", "operator/damping identity when relevant"],
+    "available_when": "A contracted full-space equilibrium balance can be reconstructed from known physical M, K, physical C if applicable, excitation, constraints and response fields.",
+    "unavailable_when": [
+      "only prescribed modal damping exists and no equivalent physical full-space C is defined",
+      "required constrained/full-space state is not retained or reconstructible",
+      "base-motion/support coupling needed by equilibrium is missing"
+    ],
+    "not_computed": "Reaction calculation was supported and requested by the method but was not performed.",
+    "not_applicable": "The selected analysis/result contract has no reaction quantity.",
+    "forbidden": "Never synthesize a physical C or report zero reactions to disguise unavailable data."
+  },
+  "result_availability": {
+    "availability_enum": ["AVAILABLE", "UNAVAILABLE", "NOT_COMPUTED", "NOT_APPLICABLE"],
+    "per_quantity_fields": [
+      "availability status and reason",
+      "computed",
+      "retained",
+      "reconstructible",
+      "exportable",
+      "physical or reduced-model quantity",
+      "relative or absolute frame when applicable",
+      "real or complex representation",
+      "units and semantic version",
+      "source operator/excitation/basis identity"
+    ],
+    "export_rule": "An unavailable, unretained and unreconstructible quantity cannot be emitted as an empty table or zero-filled result. An export request must return an explicit typed error/status with reason.",
+    "stress_rule": "Stress export is only available when its measure, configuration/frame, semantic version and recovery path are declared; no dynamic stress snapshot capability is implied by this contract."
+  },
+  "serialization_and_semantic_versioning": {
+    "new_result_envelope": {"schema_id": "qf-solver-result", "schema_version": 1},
+    "semantic_version_field_required": true,
+    "typed_result_required": "Serialize through explicit DTO/serializer contracts; do not serialize PreparedDynamicSystem, ModalBasis or other runtime Python objects directly into model JSON.",
+    "complex_values": "Represent as explicit {real, imag} finite scalars; never cast silently to real.",
+    "legacy_reading": "Keep historical serializers/readers available where possible. A decoder may return a read-only legacy view annotated with its original schema and known semantic gaps.",
+    "semantic_change": "OLD_SEMANTICS != NEW_SEMANTICS. New labels/versioned fields do not retroactively reinterpret stored values.",
+    "stress_metadata_fields": ["stress_measure", "stress_frame", "semantic_version"],
+    "stress_measure_values": ["LOCAL_STRESS_WITH_EXPLICIT_MEASURE", "FIRST_PIOLA_KIRCHHOFF", "SECOND_PIOLA_KIRCHHOFF", "CAUCHY"],
+    "stress_frame_values": ["ELEMENT_COROTATED", "REFERENCE_CONFIGURATION", "CURRENT_CONFIGURATION", "EXPLICIT_USER_FRAME", "LEGACY_UNKNOWN"],
+    "legacy_second_piola_rule": "A legacy field named second_piola_stress is not proof that its bytes contain second Piola stress. Preserve its old payload/label as legacy, mark unresolved semantics, and never silently relabel or transform it.",
+    "old_result_migration": "Read-only adapter unless a separate versioned, lossless semantic migration is authorized and tested; never edit historical evidence in place."
+  },
+  "nonlinear_contract_boundaries": {
+    "confirmed_findings": {
+      "COROTATIONAL_SECOND_PIOLA_LABEL_INCORRECT": "CONFIRMED",
+      "COROTATIONAL_TANGENT_CENTRAL_DIFFERENCE": "CONFIRMED",
+      "COROTATIONAL_TANGENT_SYMMETRIZED": "CONFIRMED",
+      "COROTATIONAL_FD_STEP_ORIGIN_DEPENDENT": "CONFIRMED",
+      "HEX8_FORCE_EVAL_COUNT": 49,
+      "HEX20_FORCE_EVAL_COUNT": 121
+    },
+    "stress_semantics": {
+      "local_stress": "Must state both the actual stress measure and the element/local frame; 'local' alone is not a constitutive measure.",
+      "first_piola": "Two-point stress measure mapping reference area to force; frame/configuration must be recorded.",
+      "second_piola": "Reference-configuration material stress measure; only emitted when the computed tensor has this meaning.",
+      "cauchy": "Current-configuration true stress; identify the transformation/recovery path and current frame."
+    },
+    "tangent_provenance_fields": [
+      "raw finite-difference tangent before any symmetrization",
+      "returned tangent actually consumed by Newton iteration",
+      "symmetrization operation and rule",
+      "finite-difference step policy and characteristic length",
+      "coordinate origin/translation invariance diagnostic",
+      "force evaluation count and perturbation ordering",
+      "raw/returned tangent asymmetry and comparison metrics"
+    ],
+    "wp08_wp09_rescope_rule": "If a correction requires a substantial new constitutive formulation, finite-strain plasticity, multiplicative plasticity, or a general corotational continuum reformulation: STOP, RECORD_LIMITATION, RESCOPE_REQUIRED. No silent 0.2.12 scope expansion.",
+    "wp01_effect": "Define semantics and required evidence only; no constitutive, tangent or result-producing behavior changes in WP01."
+  },
+  "api_and_backward_compatibility": {
+    "new_methods_additive": true,
+    "legacy_defaults_changed": false,
+    "legacy_methods_require_new_fields": false,
+    "unsupported_new_method_scope": "Reject only that new route with a typed fail-closed reason; do not globally reject a model accepted by an existing compatible route.",
+    "model_serialization": "PreparedDynamicSystem and ModalBasis are runtime objects and are not embedded directly in JSON model input.",
+    "legacy_checkpoint_and_result_reading": "Preserve supported reading; safe resume and semantic reinterpretation are separate decisions."
+  },
+  "wp01_contract_tests": {
+    "test_module": "tests/unit/test_wp01_shared_contracts.py",
+    "test_kind": "Declarative contract tests only; no future solver, operator assembly, excitation, constitutive update or time integration is executed.",
+    "required_cases": [
+      "unknown method scope rejects with no maturity fallback",
+      "new method target is EXPERIMENTAL and numerical PASS does not imply qualification",
+      "direct and reduced harmonic/transient scopes have distinct qualification IDs",
+      "unavailable result has an explicit status and reason",
+      "legacy serialization read policy is preserved and new semantic version is identifiable",
+      "unproven checkpoint migration is not safe to resume",
+      "physical identity requires concentrated masses and springs",
+      "operator and excitation identities are separate",
+      "Rayleigh and prescribed modal damping are distinct models",
+      "modal damping does not fabricate physical reactions",
+      "operator mutation invalidates modal basis",
+      "truncation through a modal cluster rejects explicitly",
+      "spatial excitation is real and harmonic temporal phasor has explicit real/imag convention",
+      "base response frames and full-mass base forcing are declared",
+      "contradictory old/new excitation syntax rejects",
+      "corotational stress/tangent findings and rescope guard remain explicit",
+      "API additions preserve legacy defaults and keep runtime objects out of model JSON"
+    ],
+    "runtime_feature_simulation": false
+  },
+  "gate_status": {
+    "QF0212_G01": "PASS",
+    "QF0212_G02": "PASS",
+    "QF0212_G03_DYN": "NOT_YET_APPLICABLE",
+    "QF0212_G03_NL": "NOT_YET_APPLICABLE",
+    "QF0212_G04_DYN": "NOT_YET_APPLICABLE",
+    "QF0212_G04_NL": "NOT_YET_APPLICABLE",
+    "QF0212_G05_CONTRACTS": "PASS",
+    "QF0212_G05_RUNTIME_NON_REGRESSION": "NOT_YET_APPLICABLE",
+    "QF0212_G06": "NOT_YET_APPLICABLE",
+    "QF0212_G07": "NOT_YET_APPLICABLE",
+    "interpretation": "WP01 closes the shared-contract portion of G02 and prepares G03/G05. It does not claim implementation-dependent formulation, numerical, runtime non-regression, candidate or publication gates."
+  },
+  "readiness": {
+    "WP02_READY": true,
+    "WP03_READY": true,
+    "WP04_READY": true,
+    "WP08_READY": true,
+    "remaining_conceptual_blockers": [],
+    "deferred_to_implementing_wps": [
+      "Numerical cluster and residual tolerance values must be preregistered in the relevant method contract before results are observed.",
+      "WP03 defines any explicit disjoint legacy/new excitation combine API before implementing it.",
+      "WP04 records the selected eigensolver and cluster thresholds before modal benchmark execution.",
+      "WP08/WP09 stop and rescope if the stated constitutive/continuum boundary is exceeded."
+    ],
+    "wp02_plus_started": false
+  },
+  "historical_preservation": {
+    "HISTORICAL_G03": "FAIL_PRESERVED",
+    "HISTORICAL_WP14": "HOLD_NOT_PROMOTED",
+    "WHOLE_REPOSITORY_ARCHIVE_CLEARED": "NO",
+    "historical_qualification_records_modified": false,
+    "historical_checkpoint_bytes_modified": false,
+    "historical_result_semantics_rewritten": false,
+    "maturity_promotion": "NONE"
+  }
+}
