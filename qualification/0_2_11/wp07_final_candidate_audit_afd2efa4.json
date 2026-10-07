@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0211-WP07-FINAL-CANDIDATE-AUDIT-AFD2EFA4-2026-10-07",
+  "record_type": "PROSPECTIVE_RELEASE_CANDIDATE_AUDIT",
+  "status": "READY_FOR_OWNER_RELEASE_AUTHORIZATION",
+  "candidate": {
+    "package_version": "0.2.11",
+    "package_source_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+    "package_source_tree_sha": "8b135547a9dcde4420c18eea7a39565a1ff446e8",
+    "branch": "codex/v0.2.11-public-readme-citation",
+    "pre_audit_governance_head_sha": "1176612212c970579cc43c6695aa4af238a905c4",
+    "previous_package_candidate_sha": "5c34a5cae20a8147501d6a31ff47c97c36bcc5a3",
+    "expected_tag": "v0.2.11",
+    "expected_tag_target_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+    "tag_created": false,
+    "v0_2_10_tag_target_sha": "e535ff63464ddd7d76c2898df25470350b5154f1"
+  },
+  "source_change_review": {
+    "correction_commit_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+    "correction_commit_parent_sha": "e93094eb2a74c630f45892e81e5ad0afc4e039b7",
+    "correction_commit_paths": [
+      "tests/unit/test_pp06_packaging_surface.py"
+    ],
+    "correction_commit_change": "Updated the explicit installation-branch assertion from v0.2.10 to v0.2.11; the version-specific packaging/documentation check remains strict.",
+    "root_cause": "OBSOLETE_DOCUMENTATION_ASSERTION",
+    "numerical_defect": false,
+    "packaging_defect": false,
+    "numerical_source_changed": false,
+    "scientific_test_changed": false,
+    "qualification_input_changed": false,
+    "scientific_qualification_contract_changed": false,
+    "qualification_threshold_changed": false,
+    "public_api_changed": false,
+    "documentation_changed_by_correction": false,
+    "maturity_or_historical_record_changed": false,
+    "governance_records_excluded_from_selected_package": [
+      "qualification/0_2_11/wp07_candidate_build_contract_afd2efa4.json",
+      "qualification/0_2_11/wp07_final_candidate_audit_afd2efa4.json"
+    ],
+    "historical_governance_contracts_rewritten": false
+  },
+  "build_contract": {
+    "path": "qualification/0_2_11/wp07_candidate_build_contract_afd2efa4.json",
+    "sha256": "3aaea04c62f2c622a143fdb039c43fa2128ddadc4a11c32e9105e1c17570158e",
+    "status": "FROZEN_CANDIDATE_BUILD",
+    "source_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+    "expected_tag_target_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+    "source_date_epoch": 1791305555,
+    "source_materialization": "Selected regular Git blobs from the exact package_source_sha; no working-tree source bytes.",
+    "selected_package_file_count": 562,
+    "served_document_file_count": 753,
+    "historical_document_files_excluded": 208,
+    "expected_findings_per_surface": 0
+  },
+  "ci": {
+    "quality_run_id": 37584391386,
+    "quality_run_url": "https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/37584391386",
+    "quality_head_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+    "quality_conclusion": "SUCCESS",
+    "quality_jobs": {
+      "ubuntu_python_3_10": "PASS",
+      "ubuntu_python_3_13": "PASS",
+      "windows_python_3_10": "PASS",
+      "windows_python_3_13": "PASS",
+      "wp14_recovered_evidence_targeted": "PASS",
+      "documentation_evidence": "PASS",
+      "full_engineering_campaign": "PASS"
+    },
+    "documentation_run_id": 37584391488,
+    "documentation_run_url": "https://github.com/emptiesvoid-cloud/QF_solver/actions/runs/37584391488",
+    "documentation_head_sha": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+    "documentation_conclusion": "SUCCESS",
+    "ci_sha_exact_match": true,
+    "non_blocking_runner_warnings": [
+      "GitHub Actions warns that actions targeting Node.js 20 are being run on Node.js 24.",
+      "GitHub Actions warns of the planned ubuntu-latest image migration."
+    ]
+  },
+  "focused_validation": {
+    "targeted_test_command": "python -m pytest tests/unit/test_pp06_packaging_surface.py tests/unit/test_gate_b_release_surface.py tests/unit/test_pp05_release_metadata.py tests/unit/test_f3_public_claims.py tests/unit/test_pp04_public_documentation.py tests/unit/test_publication_metadata_gate.py tests/documentation/test_docs_generation.py",
+    "targeted_test_result": "92 passed, 2 skipped",
+    "ruff_modified_python_tests": "PASS",
+    "documentation_tests": "PASS",
+    "mkdocs_strict": "PASS",
+    "release_surface_and_metadata_tests": "PASS"
+  },
+  "selected_scope_audit": {
+    "status": "PASS_BOUNDED_PUBLIC_SURFACES",
+    "source_materialization": "Exact selected Git blobs from afd2efa469a18e66581720ff4801f50de7d29eb4.",
+    "selected_package_files": 562,
+    "selected_package_findings": 0,
+    "served_document_files": 753,
+    "served_document_findings": 0,
+    "historical_document_files_excluded": 208,
+    "whole_repository_scanned": false,
+    "whole_repository_g03": "FAIL_PRESERVED"
+  },
+  "build_and_artifacts": {
+    "build_policy": "Two independent builds from fresh external output directories using the frozen Git-blob materialization, pinned build environment and SOURCE_DATE_EPOCH. Compare wheel bytes directly and compare sdist bytes after only the bound normalizer.",
+    "build_environment": {
+      "python": "3.13.1",
+      "build": "1.5.0",
+      "setuptools": "82.0.1",
+      "wheel": "0.47.0",
+      "twine": "7.0.0",
+      "source_date_epoch": 1791305555
+    },
+    "wheel": {
+      "filename": "qf_solver-0.2.11-py3-none-any.whl",
+      "sha256": "bcf860f0a008f4a2c3c9efbe2301753a59c687ecc101d6f799dd52557d0fcba8",
+      "size_bytes": 1559189,
+      "independent_builds_byte_identical": true,
+      "archive_content_and_path_audit": "PASS"
+    },
+    "sdist": {
+      "filename": "qf_solver-0.2.11.tar.gz",
+      "sha256": "bdf61fb59e5617778a2c539ab9729ab9b0912bc841ac9207d4cce1fba175824e",
+      "size_bytes": 1177522,
+      "file_count": 570,
+      "raw_build_a_sha256": "4b8aa4e0d31b300f55a7d83bc64034f686e8d96a9e4a30a2615d8210a965a167",
+      "raw_build_b_sha256": "9a5dace6b64320ce64bfadd293ee7c1b2a6dfff874595ce9e647b31c45a8a978",
+      "raw_builds_byte_identical": false,
+      "raw_difference": "Gzip metadata only, handled by the pre-bound sdist normalizer.",
+      "normalized_builds_byte_identical": true,
+      "normalization_policy": "The source-bound scripts/normalize_public_sdist.py and frozen epoch were used; normalized payload preservation was checked."
+    },
+    "manifest": {
+      "filename": "qf_solver-0.2.11-afd2efa4-SHA256SUMS.txt",
+      "sha256": "b461928d9443f5164c555ba6d520efe00ddeaea23b7d4af6215442f54b942364",
+      "size_bytes": 190,
+      "entries_match_exact_artifacts": true
+    },
+    "twine_check": "PASS",
+    "installed_package_probes": {
+      "isolated_no_index_no_deps_install": "PASS",
+      "imports_outside_checkout_and_safe_path": "PASS",
+      "installed_import_origins": "PASS",
+      "version_and_cli_probes": "PASS",
+      "static_smoke": "PASS",
+      "modal_smoke": "PASS",
+      "rotating_modal_smoke": "PASS_EXPERIMENTAL",
+      "campbell_smoke": "PASS_EXPERIMENTAL",
+      "developer_only_verify_all_from_installed_wheel": "EXPECTED_FAIL_CLOSED_NOT_A_DISTRIBUTION_PROBE"
+    }
+  },
+  "release_gates": {
+    "QF0211_G01": "INHERITED_PASS",
+    "QF0211_G02": "INHERITED_PASS",
+    "QF0211_G03": "INHERITED_PASS",
+    "QF0211_G04": "INHERITED_PASS",
+    "QF0211_G05": "INHERITED_PASS",
+    "QF0211_G06": "INHERITED_PASS",
+    "inheritance_basis": "No numerical source, scientific test, scientific input, or scientific qualification contract changed in the assertion-only correction.",
+    "QF0211_G07": "PASS",
+    "QF0211_G08": "PASS",
+    "final_release_contract": "PASS",
+    "ready_for_owner_release_authorization": true
+  },
+  "citation_and_public_claims": {
+    "readme_current_release": "0.2.11",
+    "citation_version": "0.2.11",
+    "version_doi_0_2_11": "NOT_ASSIGNED_NOT_CLAIMED",
+    "concept_doi": "10.5281/zenodo.22697897",
+    "version_doi_0_2_10": "10.5281/zenodo.23106744",
+    "rotating_modal_maturity": "EXPERIMENTAL",
+    "campbell_maturity": "EXPERIMENTAL",
+    "campbell_100_rad_s_high_frequency_pair": "AMBIGUITY_PRESERVED",
+    "gyro_06_evidence": "INTERNAL_MESH_CONVERGENCE_ONLY_NOT_INDEPENDENT_PHYSICAL_VALIDATION",
+    "historical_g03": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "historical_wp14": "HOLD_NOT_PROMOTED",
+    "historical_failures_reclassified": false,
+    "maturity_promotions": "NONE"
+  },
+  "authorization_and_publication": {
+    "owner_release_authorization": "PENDING",
+    "publication_allowed": false,
+    "tag_creation_allowed": false,
+    "github_release_allowed": false,
+    "pypi_upload_allowed": false,
+    "zenodo_deposit_allowed": false,
+    "ledger_update_allowed": false,
+    "version_doi_or_release_date_may_be_claimed": false,
+    "limitations": [
+      "This audit establishes readiness for Owner authorization only; it does not authorize a tag or any publication.",
+      "The full repository archive remains outside selected distribution clearance. Historical G03 remains FAIL_PRESERVED and whole_repository_archive_cleared remains false.",
+      "WP14 remains HOLD_NOT_PROMOTED despite its targeted CI job passing.",
+      "Rotating modal and Campbell remain EXPERIMENTAL within their bounded serial BEAM2 and centered rigid axisymmetric disk scope.",
+      "At 100 rad/s the high-frequency pair remains ambiguous and the tracker preserves that ambiguity. GYRO-06 is internal mesh-convergence evidence, not independent physical validation.",
+      "The 0.2.11 version DOI and release date are unassigned pending an authorized publication sequence."
+    ]
+  }
+}
