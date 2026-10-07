@@ -48,26 +48,24 @@ def test_028_changelog_is_structured_released_and_bounded() -> None:
 def test_security_policy_identifies_current_and_older_release_channels() -> None:
     security = _text("SECURITY.md")
     assert "Latest published release" in security
-    assert "Current `0.2.10` release" in security
+    assert "Current `0.2.11` release" in security
     assert "Older releases" in security
     assert "0.2.7 = supported" not in security
     assert "best-effort basis" in security
 
 
-def test_release_candidate_citation_has_no_unpublished_release_metadata() -> None:
+def test_published_release_citation_has_exact_release_metadata() -> None:
     project = tomllib.loads(_text("pyproject.toml"))["project"]
     runtime = _text("src/solveur/version.py")
     citation = _text("CITATION.cff")
     assert project["version"] == "0.2.11"
     assert '__version__ = "0.2.11"' in runtime
-    # The candidate is identified, but release-only metadata stays absent until
-    # the version DOI and publication date actually exist.
     assert 'title: "QF Solver"' in citation
     assert 'version: "0.2.11"' in citation
+    assert 'date-released: "2026-10-07"' in citation
+    assert 'doi: "10.5281/zenodo.23214487"' in citation
     assert 'license: "Apache-2.0"' in citation
     assert 'repository-code: "https://github.com/emptiesvoid-cloud/QF_solver"' in citation
-    assert not any(line.startswith("date-released:") for line in citation.splitlines())
-    assert not any(line.startswith("doi:") for line in citation.splitlines())
     assert "NOT_PUBLISHED_YET" not in citation
     assert "NOT_AVAILABLE_YET" not in citation
 
@@ -114,5 +112,6 @@ def test_release_registry_and_public_boundaries_remain_unchanged() -> None:
     }
     assert "no general HPC or nonlinear distributed claim" in _text("README.md")
     assert "`NOT_VALIDATED`" in _text("README.md")
-    assert "0.2.10" in _text("CONTRIBUTING.md")
+    assert "QF Solver `0.2.11` (`v0.2.11`) is the current published release" in _text("CONTRIBUTING.md")
+    assert "10.5281/zenodo.23214487" in _text("SECURITY.md")
     assert "haven't had the time to put everything on GitHub" not in _text("CONTRIBUTING.md")

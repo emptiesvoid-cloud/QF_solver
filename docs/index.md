@@ -10,6 +10,8 @@ approver: ""
 # QF Solver
 
 **Current release documentation:** `0.2.11`<br>
+**Published:** 2026-10-07<br>
+**Version DOI:** [`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487)<br>
 **Project concept DOI:** [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897)
 
 QF Solver is an inspectable Python finite-element solver for structural
@@ -76,13 +78,14 @@ be represented as audited Python distribution artifacts.
 The full-repository G03 archive gate remains failed; automatic GitHub source
 archives and a complete repository archive are not represented as cleared.
 
-For reproducibility, cite a published exact-version DOI when one is assigned.
-The DOI [`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744)
-identifies the preceding 0.2.10 release, not 0.2.11. Use
-[concept DOI `10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897)
-to cite the project across versions. The machine-readable
+For exact-version reproducibility, cite the 0.2.11 version DOI
+[`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487). The
+preceding 0.2.10 release has version DOI
+[`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744). Use the
+project concept DOI [`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897)
+to cite QF Solver across versions. The machine-readable
 [`CITATION.cff`](https://github.com/emptiesvoid-cloud/QF_solver/blob/main/CITATION.cff)
-identifies version 0.2.11 without asserting a publication date or version DOI.
+records the 0.2.11 version DOI and publication date.
 Release availability is authoritative on [PyPI](https://pypi.org/project/qf-solver/)
 and [GitHub Releases](https://github.com/emptiesvoid-cloud/QF_solver/releases).
 

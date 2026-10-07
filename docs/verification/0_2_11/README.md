@@ -11,9 +11,12 @@ approver: ""
 # QF Solver 0.2.11 verification summary
 
 This summary reports the recorded WP01–WP06 evidence for QF Solver 0.2.11.
-It does not turn a numerical result into an automatic maturity decision or
-confirm a package upload. The original source identities, measurements and
-decisions remain in their structured records.
+It does not turn a numerical result into an automatic maturity decision. The
+release was published on 2026-10-07 with version DOI
+[`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487); the
+separate publication record verifies channel availability and exact selected
+artifact hashes. Original source identities, measurements and decisions remain
+in their structured records.
 
 ## Scope and provenance
 
@@ -69,11 +72,11 @@ outside scope.
 ## Gates and publication boundary
 
 WP01–WP06 provide their recorded baseline, architecture, V&V, historical
-retest, gyro and Campbell evidence. The final QF0211-G07/G08 candidate gates
-and exact-source release audit are recorded separately during WP07. The
-published 0.2.10 tag and artifacts are not modified by this version or by
-edits to the current public documentation. Each release audit applies only
-to its recorded source and artifact bytes.
+retest, gyro and Campbell evidence. The final QF0211-G07/G08 gates and exact-
+source release audit are recorded separately under WP07. The published 0.2.10
+tag and artifacts are not modified by this version or by later edits to the
+current public documentation. Each release audit applies only to its recorded
+source and artifact bytes.
 
 Historical 0.2.10 G03 remains `FAIL_PRESERVED`; the complete repository
 archive is not cleared. Historical WP14 remains `HOLD_NOT_PROMOTED`. These

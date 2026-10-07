@@ -5,14 +5,14 @@
 | Version or channel | Security support |
 | --- | --- |
 | Latest published release | Best-effort security support. |
-| Current `0.2.10` release | Best-effort security support for the published release. |
+| Current `0.2.11` release | Best-effort security support for the published release. |
 | Older releases | Best effort only; not actively supported. |
 
 Support is provided on a best-effort basis. A security fix does not imply
 certification or qualification for a broader technical scope.
 
-Current release: `0.2.10` / `v0.2.10`. Version DOI:
-[`10.5281/zenodo.23106744`](https://doi.org/10.5281/zenodo.23106744).
+Current release: `0.2.11` / `v0.2.11`. Version DOI:
+[`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487).
 
 ## Reporting
 

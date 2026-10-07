@@ -1,8 +1,10 @@
 cff-version: 1.2.0
-message: "For the evolving project, use concept DOI 10.5281/zenodo.22697897. For exact-version reproducibility, use a published version DOI when assigned. This metadata identifies version 0.2.11 without asserting a release date or version DOI."
+message: "For QF Solver 0.2.11, cite version DOI 10.5281/zenodo.23214487. Use concept DOI 10.5281/zenodo.22697897 to cite the project across versions."
 type: software
 title: "QF Solver"
 version: "0.2.11"
+date-released: "2026-10-07"
+doi: "10.5281/zenodo.23214487"
 license: "Apache-2.0"
 authors:
   - family-names: "Farinazzo"

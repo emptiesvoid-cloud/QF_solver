@@ -1,12 +1,14 @@
 # Changelog
 
-## 0.2.11 - Release candidate; not published
+## 0.2.11 - Released
 
-QF Solver 0.2.11 is being prepared as a cumulative update to the published
-0.2.10 solver. The package version in this candidate is 0.2.11, while the
-latest public PyPI/GitHub/Zenodo release and `CITATION.cff` remain 0.2.10
-until a separate release authorization and publication. This entry describes
-the candidate scope; it does not announce a release or assign a version DOI.
+QF Solver 0.2.11 is a cumulative update to 0.2.10, published on 2026-10-07.
+Its version DOI is [`10.5281/zenodo.23214487`](https://doi.org/10.5281/zenodo.23214487);
+the project concept DOI remains
+[`10.5281/zenodo.22697897`](https://doi.org/10.5281/zenodo.22697897). This
+entry describes bounded capabilities and their exclusions. The audited
+distribution is limited to the selected wheel, sdist and checksum manifest;
+the complete repository archive is not cleared.
 
 ### Added
 
@@ -45,19 +47,18 @@ the candidate scope; it does not announce a release or assign a version DOI.
 
 ### API and packaging
 
-- The candidate adds `rotating_modal` and `campbell` routes with provisional
-  result contracts. They are not represented as stable API guarantees before
-  the 0.2.11 publication decision.
+- The release includes `rotating_modal` and `campbell` routes with experimental
+  result contracts. They are not represented as stable downstream API
+  guarantees.
 - Fixed Campbell execution-provenance hashing to resolve implementation files
   from the installed wheel layout as well as a source checkout; no solver or
   tracking calculation changed.
-- Package metadata identifies 0.2.11; `CITATION.cff` continues to identify the
-  actually published 0.2.10 release. The package DOI URL uses the published
-  project concept DOI until a version DOI exists.
+- Package and citation metadata identify 0.2.11. The project DOI URL continues
+  to use the concept DOI; exact-version citation uses the 0.2.11 version DOI.
 
 ### Documentation
 
-- Added candidate What's New and V&V summaries and made the rotating-modal and
+- Added What's New and V&V summaries and made the rotating-modal and
   Campbell scope, ambiguity, provenance, and maturity visible in the public
   documentation.
 
