@@ -21,6 +21,26 @@ from solveur.core.nonlinear.contracts import NonlinearFailureReason
 
 
 _STATE_SCHEMA_VERSION = 1
+_CHECKPOINT_ACCEPTANCE_KEY = "__qf_checkpoint_acceptance_status"
+
+
+def checkpoint_acceptance_status(state: NonlinearState) -> str | None:
+    """Return the transaction-attested checkpoint status carried by ``state``."""
+
+    status = state.accepted_increment_metadata.get(_CHECKPOINT_ACCEPTANCE_KEY)
+    return status if isinstance(status, str) else None
+
+
+def _set_checkpoint_acceptance_status(state: NonlinearState, status: str) -> None:
+    metadata = dict(state.accepted_increment_metadata)
+    metadata[_CHECKPOINT_ACCEPTANCE_KEY] = status
+    state.accepted_increment_metadata = metadata
+
+
+def mark_checkpoint_state_accepted(state: NonlinearState) -> None:
+    """Mark an explicitly supplied committed state for checkpoint creation."""
+
+    _set_checkpoint_acceptance_status(state, "ACCEPTED")
 
 
 @dataclass
@@ -133,6 +153,12 @@ class NonlinearStateTransaction:
 
     def __post_init__(self) -> None:
         self._accepted_state = self._accepted_state.detached_copy()
+        status = checkpoint_acceptance_status(self._accepted_state)
+        if status == "TRIAL":
+            raise ValueError("A trial nonlinear state cannot initialize an accepted-state transaction.")
+        if status not in (None, "ACCEPTED"):
+            raise ValueError(f"Unknown nonlinear checkpoint acceptance status {status!r}.")
+        _set_checkpoint_acceptance_status(self._accepted_state, "ACCEPTED")
 
     @property
     def accepted_state(self) -> NonlinearState:
@@ -168,12 +194,14 @@ class NonlinearStateTransaction:
         self._accepted_state.validate()
         self._accepted_digest_before_trial = self._accepted_state.digest
         self._trial_state = self._accepted_state.detached_copy()
+        _set_checkpoint_acceptance_status(self._trial_state, "TRIAL")
         return self._trial_state
 
     def replace_trial(self, state: NonlinearState) -> NonlinearState:
         """Replace the trial with a detached, validated candidate state."""
         self._require_trial()
         prepared = state.detached_copy()
+        _set_checkpoint_acceptance_status(prepared, "TRIAL")
         prepared.validate()
         self._trial_state = prepared
         return self._trial_state
@@ -184,6 +212,7 @@ class NonlinearStateTransaction:
         self._ensure_accepted_intact()
         try:
             prepared = trial.detached_copy()
+            _set_checkpoint_acceptance_status(prepared, "ACCEPTED")
             prepared.validate()
         except (TypeError, ValueError) as exc:
             raise NumericalConvergenceError(
@@ -247,9 +276,7 @@ def _validate_payload(value: Any, path: str) -> None:
             raise ValueError(f"NonlinearState {path} contains a non-finite scalar.")
         return
     if isinstance(value, np.ndarray):
-        if value.dtype.hasobject or not (
-            np.issubdtype(value.dtype, np.number) or np.issubdtype(value.dtype, np.bool_)
-        ):
+        if value.dtype.hasobject or not (np.issubdtype(value.dtype, np.number) or np.issubdtype(value.dtype, np.bool_)):
             raise TypeError(f"NonlinearState {path} array must have a non-object numeric dtype.")
         if not np.all(np.isfinite(value)):
             raise ValueError(f"NonlinearState {path} array contains non-finite values.")
@@ -344,9 +371,7 @@ def decode_canonical_state_payload(payload: Any) -> Any:
         return float.fromhex(str(payload["value"]))
     if payload_type == "ndarray":
         dtype: np.dtype = np.dtype(str(payload["dtype"]))
-        if dtype.hasobject or not (
-            np.issubdtype(dtype, np.number) or np.issubdtype(dtype, np.bool_)
-        ):
+        if dtype.hasobject or not (np.issubdtype(dtype, np.number) or np.issubdtype(dtype, np.bool_)):
             raise ValueError("Canonical arrays must have a numeric non-object dtype")
         shape = tuple(int(axis) for axis in payload["shape"])
         if any(axis < 0 for axis in shape):

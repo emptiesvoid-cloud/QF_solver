@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 from dataclasses import replace
 
 import numpy as np
 from scipy.sparse import csr_matrix
 
 from solveur.core.dofs import DofManager
-from solveur.core.errors import NumericalConvergenceError
+from solveur.core.errors import InputValidationError, NumericalConvergenceError
 from solveur.core.nonlinear.material_state import (
     MaterialStateTable,
     commit_material_states,
@@ -37,6 +38,7 @@ from solveur.core.nonlinear.robustness import (
 )
 from solveur.core.nonlinear.state import NonlinearState
 from solveur.core.nonlinear.support import _failure_reason_value
+
 
 class _MaterialLoadControlContribution:
     """Adapt the existing material/geometric/contact assembly to the common driver."""
@@ -136,14 +138,18 @@ class NonlinearLoadControlMixin:
         stored_increment = controller.accepted_state.continuation_state.get("next_increment")
         adaptive_policy = UnifiedAdaptiveStepPolicy(controls)
         increment = adaptive_policy.initial_increment(
-            float(stored_increment)
-            if isinstance(stored_increment, (int, float))
-            else None
+            float(stored_increment) if isinstance(stored_increment, (int, float)) else None
         )
         history: list[NonlinearStep] = []
         pending_cutbacks = 0
         metadata = controller.accepted_state.accepted_increment_metadata
         self._rejected_increments = int(metadata.get("rejected_increments", 0)) if isinstance(metadata, dict) else 0
+        stored_rejection_log = metadata.get("rejection_log", []) if isinstance(metadata, dict) else []
+        if not isinstance(stored_rejection_log, list) or any(
+            not isinstance(item, dict) for item in stored_rejection_log
+        ):
+            raise InputValidationError("Accepted nonlinear checkpoint rejection history is invalid.")
+        self._rejection_log = deepcopy(stored_rejection_log)
         self._adaptive_policy_diagnostics = adaptive_policy.configuration_diagnostics()
         while current_factor < 1.0 - 1.0e-12:
             policy_increment = increment
@@ -186,11 +192,7 @@ class NonlinearLoadControlMixin:
                 pending_cutbacks += 1
                 rejected = proposed
                 error_diagnostics = getattr(error, "diagnostics", None)
-                failed_iterations = (
-                    error_diagnostics.get("iterations")
-                    if isinstance(error_diagnostics, dict)
-                    else None
-                )
+                failed_iterations = error_diagnostics.get("iterations") if isinstance(error_diagnostics, dict) else None
                 policy_decision = adaptive_policy.on_failure(
                     base_load_factor=current_factor,
                     proposed_increment=proposed,
@@ -272,6 +274,7 @@ class NonlinearLoadControlMixin:
                 "load_increment": proposed,
                 "load_step_cutbacks": accepted_cutbacks,
                 "rejected_increments": controller.rejected_increments,
+                "rejection_log": deepcopy(self._rejection_log),
             }
             controller.commit()
             self._continuation_commit_count = controller.transaction.commit_count
@@ -293,7 +296,6 @@ class NonlinearLoadControlMixin:
                 )
         self._adaptive_policy_diagnostics = adaptive_policy.configuration_diagnostics()
         return history
-
 
     def _solve_load_step(
         self,
@@ -499,18 +501,12 @@ class NonlinearLoadControlMixin:
                 int(index) for index in contact_diagnostics.get("master_face_indices", [])
             ),
             contact_search_mode=(
-                str(contact_diagnostics["search_mode"])
-                if contact_diagnostics.get("search_mode") is not None
-                else None
+                str(contact_diagnostics["search_mode"]) if contact_diagnostics.get("search_mode") is not None else None
             ),
             contact_finite_sliding=bool(contact_diagnostics.get("finite_sliding", False)),
             contact_projection_clamped=tuple(
                 bool(value) for value in contact_diagnostics.get("projection_clamped", [])
             ),
-            contact_closest_distances=tuple(
-                float(value) for value in contact_diagnostics.get("closest_distances", [])
-            ),
-            contact_projection_modes=tuple(
-                str(value) for value in contact_diagnostics.get("projection_modes", [])
-            ),
+            contact_closest_distances=tuple(float(value) for value in contact_diagnostics.get("closest_distances", [])),
+            contact_projection_modes=tuple(str(value) for value in contact_diagnostics.get("projection_modes", [])),
         )

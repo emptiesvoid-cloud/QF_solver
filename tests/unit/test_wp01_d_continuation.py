@@ -20,7 +20,11 @@ from solveur.core.nonlinear.driver import (
     continuation_retry_permitted,
 )
 from solveur.core.nonlinear.iteration import solve_adaptive_full_newton
-from solveur.core.nonlinear.state import NonlinearState, deterministic_state_digest
+from solveur.core.nonlinear.state import (
+    NonlinearState,
+    deterministic_state_digest,
+    mark_checkpoint_state_accepted,
+)
 from solveur.core.nonlinear.solver import NonlinearStaticSolver
 from solveur.io.nonlinear_checkpoint import NpzNonlinearCheckpointStore
 from tests.unit.test_analysis_features import elastoplastic_tet4_model, nonlinear_tet4_model
@@ -150,7 +154,10 @@ def test_t34_second_retry_starts_from_accepted_state() -> None:
         path="adaptive",
     )
     retry = controller.begin_trial()
-    assert retry.digest == accepted
+    assert retry.accepted_increment_metadata["__qf_checkpoint_acceptance_status"] == "TRIAL"
+    normalized = retry.detached_copy()
+    mark_checkpoint_state_accepted(normalized)
+    assert normalized.digest == accepted
 
 
 def test_t35_load_factor_changes_only_on_commit() -> None:
@@ -233,13 +240,19 @@ def test_t41_arc_length_accepted_step_has_one_composite_commit() -> None:
 def test_t42_arc_length_rejection_preserves_displacement_digest(monkeypatch: pytest.MonkeyPatch) -> None:
     data = _arc_reject_once(monkeypatch)
     rejection = data["solver"]["continuation_rejection_log"][0]
-    assert rejection["accepted_component_digests_before"]["displacement"] == rejection["accepted_component_digests_after"]["displacement"]
+    assert (
+        rejection["accepted_component_digests_before"]["displacement"]
+        == rejection["accepted_component_digests_after"]["displacement"]
+    )
 
 
 def test_t43_arc_length_rejection_preserves_material_digest(monkeypatch: pytest.MonkeyPatch) -> None:
     data = _arc_reject_once(monkeypatch)
     rejection = data["solver"]["continuation_rejection_log"][0]
-    assert rejection["accepted_component_digests_before"]["material_state"] == rejection["accepted_component_digests_after"]["material_state"]
+    assert (
+        rejection["accepted_component_digests_before"]["material_state"]
+        == rejection["accepted_component_digests_after"]["material_state"]
+    )
 
 
 def test_t44_arc_length_rejection_preserves_load_factor(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -317,7 +330,7 @@ def test_t49_arc_length_replay_has_identical_state_and_diagnostic_digest() -> No
         data = solve_model(_arc_model(), enforce_policy=False).to_dict()
         canonical = {
             "displacements": data["displacements"],
-                "material_states": data.get("material_states", []),
+            "material_states": data.get("material_states", []),
             "steps": [
                 {
                     "load_factor": step["load_factor"],

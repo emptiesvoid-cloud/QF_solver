@@ -46,9 +46,7 @@ class GeometricNonlinearStaticSolver:
         if report.status == "FAIL":
             raise MeshValidationError("; ".join(report.errors))
         parameters = model.analysis.parameters
-        controls = GeometricNonlinearControls(
-            load_increments=int(parameters.get("load_increments", 10))
-        )
+        controls = GeometricNonlinearControls(load_increments=int(parameters.get("load_increments", 10)))
         tolerance = float(parameters.get("tolerance", 1.0e-9))
         max_iterations = int(parameters.get("max_iterations", 30))
         if not 0.0 < tolerance < 1.0:
@@ -99,10 +97,14 @@ class GeometricNonlinearStaticSolver:
 
         def save_fixed(local_step: int, state: NonlinearState) -> None:
             global_step = checkpoint_session.restart_step + local_step
-            state.accepted_increment_metadata = {
-                "step": global_step,
-                "load_control": "geometric_fixed",
-            }
+            accepted_metadata = dict(state.accepted_increment_metadata)
+            accepted_metadata.update(
+                {
+                    "step": global_step,
+                    "load_control": "geometric_fixed",
+                }
+            )
+            state.accepted_increment_metadata = accepted_metadata
             checkpoint_session.save_state(
                 global_step,
                 state,
@@ -131,7 +133,10 @@ class GeometricNonlinearStaticSolver:
             robustness_options=robustness_options,
             initial_state=restored,
             target_load_factors=(
-                [step / controls.load_increments for step in range(checkpoint_session.restart_step + 1, controls.load_increments + 1)]
+                [
+                    step / controls.load_increments
+                    for step in range(checkpoint_session.restart_step + 1, controls.load_increments + 1)
+                ]
                 if adaptive_controls is None
                 else None
             ),
@@ -194,36 +199,24 @@ class GeometricNonlinearStaticSolver:
     def _validate_scope(model: FiniteElementModel) -> None:
         families = {element.type for element in model.elements}
         if not families or not families <= {"TET4", "TET10", "HEX8", "HEX20"}:
-            raise InputValidationError(
-                "geometric_nonlinear_static supports TET4, TET10, HEX8 and HEX20."
-            )
+            raise InputValidationError("geometric_nonlinear_static supports TET4, TET10, HEX8 and HEX20.")
         if len(families) != 1:
-            raise InputValidationError(
-                "geometric_nonlinear_static currently requires one homogeneous element family."
-            )
+            raise InputValidationError("geometric_nonlinear_static currently requires one homogeneous element family.")
         material_names = {element.material for element in model.elements}
         if len(material_names) != 1:
-            raise InputValidationError(
-                "geometric_nonlinear_static currently requires one homogeneous material."
-            )
+            raise InputValidationError("geometric_nonlinear_static currently requires one homogeneous material.")
         material = model.materials[next(iter(material_names))]
         if str(material.get("type", "")) != "isotropic_3d":
-            raise InputValidationError(
-                "geometric_nonlinear_static requires material type 'isotropic_3d'."
-            )
+            raise InputValidationError("geometric_nonlinear_static requires material type 'isotropic_3d'.")
         if model.distributed_loads:
-            raise InputValidationError(
-                "geometric_nonlinear_static currently accepts nodal dead loads only."
-            )
+            raise InputValidationError("geometric_nonlinear_static currently accepts nodal dead loads only.")
         if model.contacts:
             if str(model.analysis.parameters.get("contact_mode", "")).lower() != "penalty":
                 raise InputValidationError(
                     "geometric_nonlinear_static contact requires explicit contact_mode='penalty'."
                 )
             if any(contact.friction_coefficient > 0.0 for contact in model.contacts):
-                raise InputValidationError(
-                    "geometric_nonlinear_static currently supports frictionless contact only."
-                )
+                raise InputValidationError("geometric_nonlinear_static currently supports frictionless contact only.")
 
 
 class _PenaltyContactAssembly:
@@ -235,9 +228,7 @@ class _PenaltyContactAssembly:
         self.ndof = dofs.ndof
         self.last_details: dict[str, object] = {}
 
-    def assemble(
-        self, displacement: np.ndarray, *, tangent_required: bool = True
-    ) -> tuple[np.ndarray, object | None]:
+    def assemble(self, displacement: np.ndarray, *, tangent_required: bool = True) -> tuple[np.ndarray, object | None]:
         internal, tangent, details = assemble_penalty_contact(
             self.model,
             self.dofs,
@@ -284,20 +275,14 @@ class _PenaltyContactAssembly:
             "effective_penalty_sum": float(sum(effective_values)),
         }
 
-    def line_search_activation_factors(
-        self, displacement: np.ndarray, direction: np.ndarray
-    ) -> tuple[float, ...]:
+    def line_search_activation_factors(self, displacement: np.ndarray, direction: np.ndarray) -> tuple[float, ...]:
         """Predict fixed-search gap-zero events along a Newton correction."""
 
         if str(self.model.analysis.parameters.get("contact_search_mode", "initial")).lower() != "initial":
             return ()
         penalty = float(self.model.analysis.parameters.get("contact_penalty", 1.0e6))
-        _, _, base = assemble_penalty_contact(
-            self.model, self.dofs, displacement, penalty=penalty
-        )
-        _, _, endpoint = assemble_penalty_contact(
-            self.model, self.dofs, displacement + direction, penalty=penalty
-        )
+        _, _, base = assemble_penalty_contact(self.model, self.dofs, displacement, penalty=penalty)
+        _, _, endpoint = assemble_penalty_contact(self.model, self.dofs, displacement + direction, penalty=penalty)
         base_gaps = base.get("gaps", [])
         endpoint_gaps = endpoint.get("gaps", [])
         if not isinstance(base_gaps, list) or not isinstance(endpoint_gaps, list):
@@ -323,7 +308,10 @@ def _newton_dead_load(
     increments: int,
     tolerance: float,
     max_iterations: int,
-    determinant_assembly: TotalLagrangianTet4Assembly | TotalLagrangianHex8Assembly | TotalLagrangianHighOrderAssembly | None = None,
+    determinant_assembly: TotalLagrangianTet4Assembly
+    | TotalLagrangianHex8Assembly
+    | TotalLagrangianHighOrderAssembly
+    | None = None,
     adaptive_controls: AdaptiveLoadControls | None = None,
     robustness_options: NonlinearRobustnessOptions | None = None,
     initial_state: NonlinearState | None = None,

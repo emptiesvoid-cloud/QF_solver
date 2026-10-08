@@ -146,11 +146,7 @@ def _write_v1_checkpoint(model: Any, source: Path, destination: Path, *, incompl
         "previous_du",
         "previous_dlambda",
     }
-    continuation = {
-        key: checkpoint.continuation_state[key]
-        for key in required
-        if key in checkpoint.continuation_state
-    }
+    continuation = {key: checkpoint.continuation_state[key] for key in required if key in checkpoint.continuation_state}
     if incomplete:
         continuation.pop("previous_du", None)
     metadata = {
@@ -213,9 +209,7 @@ def rejection_run(tmp_path_factory: pytest.TempPathFactory) -> tuple[Any, Any]:
     return _run_rejection_case(tmp_path_factory.mktemp("wp02d-rejection"))
 
 
-def test_t02d_01_arc_restore_uses_composite_restore_state(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_t02d_01_arc_restore_uses_composite_restore_state(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     calls: list[NonlinearState] = []
     original = NonlinearCheckpointSession.restore_state
 
@@ -231,9 +225,7 @@ def test_t02d_01_arc_restore_uses_composite_restore_state(
     assert model.analysis.method == "arc_length"
 
 
-def test_t02d_02_arc_save_uses_accepted_composite_state(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_t02d_02_arc_save_uses_accepted_composite_state(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     calls: list[tuple[int, NonlinearState]] = []
     original = NonlinearCheckpointSession.save_state
 
@@ -276,9 +268,7 @@ def test_t02d_03_checkpoint_is_saved_only_after_controller_commit(
             assert any(previous == ("commit", event[1]) for previous in events[:index])
 
 
-def test_t02d_04_continuous_vs_restarted_monotonic_path(
-    standard_run: tuple[Any, Any], tmp_path: Path
-) -> None:
+def test_t02d_04_continuous_vs_restarted_monotonic_path(standard_run: tuple[Any, Any], tmp_path: Path) -> None:
     model, reference = standard_run
     restarted, resumed = _restart_from(standard_run, tmp_path, 2)
     _assert_final_equivalence(reference, resumed)
@@ -288,9 +278,7 @@ def test_t02d_04_continuous_vs_restarted_monotonic_path(
     assert model.analysis.parameters["arc_length_stop_mode"] == "max_steps"
 
 
-def test_t02d_05_continuous_vs_restarted_turning_point_path(
-    standard_run: tuple[Any, Any], tmp_path: Path
-) -> None:
+def test_t02d_05_continuous_vs_restarted_turning_point_path(standard_run: tuple[Any, Any], tmp_path: Path) -> None:
     _model, reference = standard_run
     _restarted, resumed = _restart_from(standard_run, tmp_path, 2)
     _assert_path_equivalence(reference, resumed, 2)
@@ -325,16 +313,17 @@ def test_t02d_08_checkpoint_boundary_composite_digest_is_exact(standard_run: tup
 
 def test_t02d_09_material_digest_is_exact_after_restore(standard_run: tuple[Any, Any]) -> None:
     checkpoint = NpzNonlinearCheckpointStore().load(_step_file(standard_run, 3))
-    assert checkpoint.component_digests["material_state"] == checkpoint.accepted_state.component_digests[
-        "material_state"
-    ]
+    assert (
+        checkpoint.component_digests["material_state"] == checkpoint.accepted_state.component_digests["material_state"]
+    )
 
 
 def test_t02d_10_continuation_digest_is_exact_after_restore(standard_run: tuple[Any, Any]) -> None:
     checkpoint = NpzNonlinearCheckpointStore().load(_step_file(standard_run, 3))
-    assert checkpoint.component_digests["continuation_state"] == checkpoint.accepted_state.component_digests[
-        "continuation_state"
-    ]
+    assert (
+        checkpoint.component_digests["continuation_state"]
+        == checkpoint.accepted_state.component_digests["continuation_state"]
+    )
 
 
 def test_t02d_11_previous_du_is_exact_after_restore(standard_run: tuple[Any, Any]) -> None:
@@ -346,9 +335,10 @@ def test_t02d_11_previous_du_is_exact_after_restore(standard_run: tuple[Any, Any
 
 def test_t02d_12_previous_dlambda_is_exact_after_restore(standard_run: tuple[Any, Any]) -> None:
     checkpoint = NpzNonlinearCheckpointStore().load(_step_file(standard_run, 3))
-    assert checkpoint.continuation_state["previous_dlambda"] == checkpoint.accepted_state.continuation_state[
-        "previous_dlambda"
-    ]
+    assert (
+        checkpoint.continuation_state["previous_dlambda"]
+        == checkpoint.accepted_state.continuation_state["previous_dlambda"]
+    )
 
 
 def test_t02d_13_radius_is_exact_after_restore(standard_run: tuple[Any, Any]) -> None:
@@ -367,9 +357,7 @@ def test_t02d_15_accepted_load_factor_is_exact_after_restore(standard_run: tuple
     assert checkpoint.continuation_state["load_factor"] == checkpoint.load_factor
 
 
-def test_t02d_16_failed_restore_does_not_mutate_runtime_state(
-    standard_run: tuple[Any, Any], tmp_path: Path
-) -> None:
+def test_t02d_16_failed_restore_does_not_mutate_runtime_state(standard_run: tuple[Any, Any], tmp_path: Path) -> None:
     model, _reference = standard_run
     bad = tmp_path / "tampered.npz"
     _tamper_composite_digest(_step_file(standard_run, 2), bad)
@@ -398,9 +386,7 @@ def test_t02d_17_rejected_arc_trial_is_never_persisted(rejection_run: tuple[Any,
     _model, result = rejection_run
     files = [Path(str(raw)) for raw in result.solver["checkpoint_files"]]
     accepted_steps = sorted(
-        int(path.name.split(".step", 1)[1].split(".npz", 1)[0])
-        for path in files
-        if ".step" in path.name
+        int(path.name.split(".step", 1)[1].split(".npz", 1)[0]) for path in files if ".step" in path.name
     )
     assert accepted_steps == list(range(1, 7))
     assert all(NpzNonlinearCheckpointStore().load(path).completed_step in accepted_steps for path in files)
@@ -422,7 +408,9 @@ def test_t02d_18_minimum_radius_failure_preserves_last_accepted_checkpoint(
     )
 
     def always_fail(*args: Any, **kwargs: Any) -> Any:
-        raise NumericalConvergenceError("controlled minimum-radius failure", reason=NonlinearFailureReason.MAX_ITERATIONS)
+        raise NumericalConvergenceError(
+            "controlled minimum-radius failure", reason=NonlinearFailureReason.MAX_ITERATIONS
+        )
 
     monkeypatch.setattr(NonlinearStaticSolver, "_solve_arc_length_step", always_fail)
     with pytest.raises(NumericalConvergenceError) as raised:
@@ -438,7 +426,9 @@ def test_t02d_19_checkpoint_write_failure_does_not_trigger_radius_cutback(
 
     def fail_save(self: Any, step: int, accepted_state: NonlinearState, *args: Any, **kwargs: Any) -> None:
         calls.append((step, accepted_state.detached_copy()))
-        raise NumericalConvergenceError("checkpoint infrastructure failure", reason=NonlinearFailureReason.CHECKPOINT_FAILURE)
+        raise NumericalConvergenceError(
+            "checkpoint infrastructure failure", reason=NonlinearFailureReason.CHECKPOINT_FAILURE
+        )
 
     monkeypatch.setattr(NonlinearCheckpointSession, "save_state", fail_save)
     with pytest.raises(NumericalConvergenceError) as raised:
@@ -467,7 +457,9 @@ def test_t02d_20_checkpoint_write_failure_preserves_accepted_runtime_state(
         return accepted
 
     def fail_save(self: Any, step: int, accepted_state: NonlinearState, *args: Any, **kwargs: Any) -> None:
-        raise NumericalConvergenceError("checkpoint infrastructure failure", reason=NonlinearFailureReason.CHECKPOINT_FAILURE)
+        raise NumericalConvergenceError(
+            "checkpoint infrastructure failure", reason=NonlinearFailureReason.CHECKPOINT_FAILURE
+        )
 
     monkeypatch.setattr(UnifiedContinuationController, "commit", commit_spy)
     monkeypatch.setattr(NonlinearCheckpointSession, "save_state", fail_save)
@@ -484,7 +476,7 @@ def test_t02d_20_checkpoint_write_failure_preserves_accepted_runtime_state(
     assert commits[0].continuation_state["accepted_step"] == 1
 
 
-def test_t02d_21_supported_v1_arc_checkpoint_migrates(
+def test_t02d_21_supported_v1_arc_checkpoint_is_readable_but_not_resumable(
     standard_run: tuple[Any, Any], tmp_path: Path
 ) -> None:
     model, _reference = standard_run
@@ -498,14 +490,15 @@ def test_t02d_21_supported_v1_arc_checkpoint_migrates(
             "checkpoint_keep_steps": True,
         }
     )
-    resumed = solve_model(restarted, enforce_policy=False)
-    assert resumed.solver["restart_step"] == 2
-    assert resumed.solver["checkpoint_files"]
+    legacy = NpzNonlinearCheckpointStore().read_legacy_v1(v1)
+    assert legacy.completed_step == 2
+    with pytest.raises(InputValidationError, match="IDENTITY_STATUS=UNPROVEN"):
+        solve_model(restarted, enforce_policy=False)
+    assert v1.exists()
+    assert not (tmp_path / "v2-output.npz").exists()
 
 
-def test_t02d_22_incomplete_v1_arc_checkpoint_is_rejected(
-    standard_run: tuple[Any, Any], tmp_path: Path
-) -> None:
+def test_t02d_22_incomplete_v1_arc_checkpoint_is_rejected(standard_run: tuple[Any, Any], tmp_path: Path) -> None:
     model, _reference = standard_run
     v1 = tmp_path / "incomplete.npz"
     _write_v1_checkpoint(model, _step_file(standard_run, 2), v1, incomplete=True)
@@ -517,13 +510,11 @@ def test_t02d_22_incomplete_v1_arc_checkpoint_is_rejected(
             "checkpoint_keep_steps": False,
         }
     )
-    with pytest.raises(InputValidationError, match="incomplete"):
+    with pytest.raises(InputValidationError, match="IDENTITY_STATUS=UNPROVEN"):
         solve_model(restarted, enforce_policy=False)
 
 
-def test_t02d_23_v1_resumed_arc_run_writes_v2(
-    standard_run: tuple[Any, Any], tmp_path: Path
-) -> None:
+def test_t02d_23_v1_arc_restart_never_promotes_to_v2(standard_run: tuple[Any, Any], tmp_path: Path) -> None:
     model, _reference = standard_run
     v1 = tmp_path / "legacy.npz"
     output = tmp_path / "resumed-v2.npz"
@@ -536,10 +527,10 @@ def test_t02d_23_v1_resumed_arc_run_writes_v2(
             "checkpoint_keep_steps": False,
         }
     )
-    solve_model(restarted, enforce_policy=False)
-    with np.load(output, allow_pickle=False) as data:
-        metadata = json.loads(str(data["metadata_json"].item()))
-    assert metadata["schema_version"] == 2
+    with pytest.raises(InputValidationError, match="IDENTITY_STATUS=UNPROVEN"):
+        solve_model(restarted, enforce_policy=False)
+    assert v1.exists()
+    assert not output.exists()
 
 
 def test_t02d_24_turning_branch_direction_is_preserved_after_restart(
@@ -594,23 +585,19 @@ def test_t02d_27_legacy_restore_continuation_delegates(
     assert "restore_continuation" not in inspect.getsource(NonlinearStaticSolver.solve)
 
 
-def test_t02d_28_legacy_save_delegates(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_t02d_28_legacy_scalar_save_refuses_unattested_state(monkeypatch: pytest.MonkeyPatch) -> None:
     model = _arc_model()
     session = NonlinearCheckpointSession.create(model, 6, NpzNonlinearCheckpointStore())
-    calls: list[NonlinearState] = []
-    original = NonlinearCheckpointSession.save_state
 
-    def spy(self: Any, step: int, accepted_state: NonlinearState, *args: Any, **kwargs: Any) -> None:
-        calls.append(accepted_state.detached_copy())
-        original(self, step, accepted_state, *args, **kwargs)
+    def forbidden_save_state(*args: Any, **kwargs: Any) -> None:
+        pytest.fail("unattested scalar state must not be promoted through save_state")
 
-    monkeypatch.setattr(NonlinearCheckpointSession, "save_state", spy)
-    session.save(
-        1,
-        0.25,
-        np.zeros(model.dof_manager().ndof),
-        initial_material_states(model),
-        continuation_state={"accepted_step": 1},
-    )
-    assert len(calls) == 1
-    assert calls[0].load_factor == 0.25
+    monkeypatch.setattr(NonlinearCheckpointSession, "save_state", forbidden_save_state)
+    with pytest.raises(InputValidationError, match="cannot prove transaction acceptance"):
+        session.save(
+            1,
+            0.25,
+            np.zeros(model.dof_manager().ndof),
+            initial_material_states(model),
+            continuation_state={"accepted_step": 1},
+        )

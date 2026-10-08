@@ -1,0 +1,87 @@
+{
+  "evidence_id": "QF0212_WP10_RESTART_EVIDENCE_V1",
+  "scope": "bounded software restart and identity evidence; not global nonlinear qualification",
+  "baseline": {
+    "wp09_commit": "eb3dde63d487f5a88f9dd34e043ca561407018f7",
+    "v0_2_11_target": "afd2efa469a18e66581720ff4801f50de7d29eb4"
+  },
+  "cases": [
+    {
+      "case": "schema-v1 omitted mass/spring fields",
+      "test": "test_v1_identity_omission_never_authorizes_restart_after_discrete_mutation",
+      "oracle": "independent reproduction of equal legacy signature after current model mass/spring mutation, followed by mandatory UNPROVEN refusal",
+      "status": "PASS"
+    },
+    {
+      "case": "v2 physical input mutation",
+      "tests": [
+        "test_v2_model_identity_changes_for_discrete_physics",
+        "test_v2_model_identity_changes_for_core_physical_inputs"
+      ],
+      "mutations": ["mass", "spring", "material", "boundary", "mesh", "load"],
+      "status": "PASS"
+    },
+    {
+      "case": "operator identity reuse across load-only mutation",
+      "test": "test_load_identity_is_separate_from_operator_identity",
+      "expected": "operator digest stable; load digest changes",
+      "status": "PASS"
+    },
+    {
+      "case": "trial cannot be checkpointed; commit is atomic",
+      "test": "test_trial_state_cannot_be_checkpointed_and_commit_attests_atomically",
+      "status": "PASS"
+    },
+    {
+      "case": "accepted state remains intact through rollback/retry",
+      "test": "test_rollback_keeps_accepted_composite_and_retry_is_a_new_trial",
+      "status": "PASS"
+    },
+    {
+      "case": "load/save component identity bundle and model mismatch",
+      "test": "test_v2_checkpoint_identity_bundle_binds_execution_and_model",
+      "mutations_refused_on_load": ["mass", "spring", "material", "boundary", "mesh", "load"],
+      "status": "PASS"
+    },
+    {
+      "case": "checkpoint identity metadata tampering",
+      "test": "test_v2_checkpoint_metadata_identity_tampering_fails_integrity",
+      "expected": "metadata integrity mismatch is a typed state-corruption failure",
+      "status": "PASS"
+    },
+    {
+      "case": "zero-load residual and max-iteration status",
+      "tests": [
+        "test_zero_load_residual_uses_finite_absolute_floor_and_commits",
+        "test_max_iterations_is_reported_as_nonconvergence_not_acceptance"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "cutback rejection history survives accepted checkpoint and restart",
+      "test": "test_t02c_21_rejected_adaptive_increment_is_never_persisted",
+      "status": "PASS"
+    },
+    {
+      "case": "continuous versus accepted-checkpoint restart after adaptive retry",
+      "test": "test_t02c_22_adaptive_retry_after_restart_begins_from_last_accepted_state",
+      "comparison": "terminal displacement and accepted checkpoint step",
+      "status": "PASS"
+    },
+    {
+      "case": "arc-length schema-v1 remains readable but cannot resume or promote",
+      "tests": [
+        "test_t02d_21_supported_v1_arc_checkpoint_is_readable_but_not_resumable",
+        "test_t02d_22_incomplete_v1_arc_checkpoint_is_rejected",
+        "test_t02d_23_v1_arc_restart_never_promotes_to_v2"
+      ],
+      "status": "PASS"
+    }
+  ],
+  "continuous_restart_equivalence": {
+    "status": "PASS for bounded schema-v2 load-control and arc-length restart tests in the final complete unit suite",
+    "comparison": ["accepted displacements", "load/continuation state", "checkpoint digests where deterministic"],
+    "bitwise_claim": false
+  },
+  "known_boundary": "No v1 restart equivalence is claimed because physical/constitutive identity was not stored. Such restart is intentionally refused."
+}

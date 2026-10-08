@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
 from time import perf_counter
 
 import numpy as np
@@ -24,7 +25,6 @@ from solveur.core.nonlinear.iteration import solve_arc_length_correction
 from solveur.core.nonlinear.robustness import UnifiedArcLengthRadiusPolicy
 from solveur.core.nonlinear.state import NonlinearState
 from solveur.core.nonlinear.support import _failure_reason_value
-
 
 
 class NonlinearArcLengthMixin:
@@ -58,9 +58,7 @@ class NonlinearArcLengthMixin:
         if stop_mode not in {"target_load", "max_steps"}:
             raise InputValidationError("arc_length_stop_mode must be 'target_load' or 'max_steps'.")
         allow_turning = bool(params.get("arc_length_allow_load_factor_turning", stop_mode == "max_steps"))
-        load_factor_limit = float(
-            params.get("arc_length_load_factor_limit", max(abs(target_factor), 1.0))
-        )
+        load_factor_limit = float(params.get("arc_length_load_factor_limit", max(abs(target_factor), 1.0)))
         if not np.isfinite(load_factor_limit) or load_factor_limit <= 0.0:
             raise InputValidationError("arc_length_load_factor_limit must be finite and positive.")
         target_direction = 1.0 if target_factor >= 0.0 else -1.0
@@ -115,9 +113,7 @@ class NonlinearArcLengthMixin:
             )
             initial_radius = radius
             radius = float(params.get("arc_length_radius", radius))
-            maximum_radius = float(
-                params.get("max_arc_length_radius", max(initial_radius, radius))
-            )
+            maximum_radius = float(params.get("max_arc_length_radius", max(initial_radius, radius)))
             load_scale = float(params.get("arc_length_load_scale", load_scale))
             previous_du = np.zeros(free.size, dtype=float)
             previous_dlambda = 0.0
@@ -142,11 +138,7 @@ class NonlinearArcLengthMixin:
                     "control_dof": control_dof,
                 },
             )
-        if (
-            not np.isfinite(maximum_radius)
-            or maximum_radius < controls.minimum_radius
-            or maximum_radius < radius
-        ):
+        if not np.isfinite(maximum_radius) or maximum_radius < controls.minimum_radius or maximum_radius < radius:
             raise InputValidationError(
                 "max_arc_length_radius must be finite and at least the current arc-length radius."
             )
@@ -155,6 +147,12 @@ class NonlinearArcLengthMixin:
         self._arc_radius_policy_diagnostics = radius_policy.configuration_diagnostics()
         self._continuation_rejection_log: list[dict[str, object]] = []
         self._continuation_commit_count = 0
+        stored_rejection_log = restored_state.accepted_increment_metadata.get("rejection_log", [])
+        if not isinstance(stored_rejection_log, list) or any(
+            not isinstance(item, dict) for item in stored_rejection_log
+        ):
+            raise InputValidationError("Accepted arc-length checkpoint rejection history is invalid.")
+        self._rejection_log = deepcopy(stored_rejection_log)
         accepted_step = step
         effective_retry_radius: float | None = None
 
@@ -256,6 +254,7 @@ class NonlinearArcLengthMixin:
                     "arc_length_radius": step_radius,
                     "accepted_radius_for_next_trial": next_radius,
                     "accepted_load_factor": trial_factor,
+                    "rejection_log": deepcopy(self._rejection_log),
                 }
                 controller.commit()
                 self._continuation_commit_count = controller.transaction.commit_count
@@ -275,9 +274,7 @@ class NonlinearArcLengthMixin:
                 self._arc_radius_policy_diagnostics = radius_policy.configuration_diagnostics()
             except RuntimeError as error:
                 failure_diagnostics = (
-                    dict(error.diagnostics)
-                    if isinstance(error, NumericalConvergenceError)
-                    else {"message": str(error)}
+                    dict(error.diagnostics) if isinstance(error, NumericalConvergenceError) else {"message": str(error)}
                 )
                 retry_classification = controller.rollback(
                     error,
@@ -357,7 +354,6 @@ class NonlinearArcLengthMixin:
         self._arc_radius_policy_diagnostics = radius_policy.configuration_diagnostics()
         return history
 
-
     def _initial_arc_length_radius(
         self,
         model: FiniteElementModel,
@@ -384,7 +380,6 @@ class NonlinearArcLengthMixin:
         scale = max(float(np.linalg.norm(predictor)), 1.0e-12)
         radius = np.sqrt(float(predictor @ predictor) + scale**2) / max(load_steps, 1)
         return float(radius), float(scale)
-
 
     def _radius_for_target(
         self,
@@ -418,7 +413,6 @@ class NonlinearArcLengthMixin:
         exact_radius = abs(remaining) * np.sqrt(float(predictor @ predictor) + load_scale**2)
         return min(radius, float(exact_radius))
 
-
     def _solve_arc_length_step(
         self,
         model: FiniteElementModel,
@@ -449,9 +443,7 @@ class NonlinearArcLengthMixin:
         linear_solve_seconds = 0.0
         phase_timing: dict[str, float | int] = {}
         phase_started = perf_counter()
-        _, tangent, _ = self._assemble_internal_tangent(
-            model, dofs, displacement, material_states, timing=phase_timing
-        )
+        _, tangent, _ = self._assemble_internal_tangent(model, dofs, displacement, material_states, timing=phase_timing)
         assembly_seconds += perf_counter() - phase_started
         phase_started = perf_counter()
         predictor, info = self.linear_solver.solve(
@@ -521,9 +513,7 @@ class NonlinearArcLengthMixin:
             constraint = float(delta_u_step @ delta_u_step + (load_scale * delta_lambda) ** 2 - radius**2)
             relative = max(residual_norm / reference, abs(constraint) / max(radius**2, 1.0e-30))
             if relative <= tolerance:
-                alignment = float(
-                    delta_u_step @ previous_du + load_scale**2 * delta_lambda * previous_dlambda
-                )
+                alignment = float(delta_u_step @ previous_du + load_scale**2 * delta_lambda * previous_dlambda)
                 # A negative augmented-space dot product is not sufficient to
                 # reject a point: at a legitimate load-factor turning point,
                 # the displacement branch can remain continuous while the
@@ -568,17 +558,13 @@ class NonlinearArcLengthMixin:
                         reference_cache_misses=int(phase_timing.get("reference_cache_misses", 0)),
                         sparse_chunk_count=int(phase_timing.get("sparse_chunk_count", 0)),
                         sparse_peak_chunk_entries=int(phase_timing.get("sparse_peak_chunk_entries", 0)),
-                        sparse_peak_chunk_bytes_estimate=int(
-                            phase_timing.get("sparse_peak_chunk_bytes_estimate", 0)
-                        ),
+                        sparse_peak_chunk_bytes_estimate=int(phase_timing.get("sparse_peak_chunk_bytes_estimate", 0)),
                         sparse_accumulator_levels=int(phase_timing.get("sparse_accumulator_levels", 0)),
                         tangent_nnz=int(phase_timing.get("tangent_nnz", 0)),
                         contact_active_contacts=tuple(
                             int(index) for index in contact_diagnostics.get("active_contacts", [])
                         ),
-                        contact_gaps=tuple(
-                            float(gap) for gap in contact_diagnostics.get("gaps", [])
-                        ),
+                        contact_gaps=tuple(float(gap) for gap in contact_diagnostics.get("gaps", [])),
                         contact_tangent_nnz=int(contact_diagnostics.get("tangent_nnz", 0)),
                         contact_master_face_indices=tuple(
                             int(index) for index in contact_diagnostics.get("master_face_indices", [])
@@ -656,9 +642,7 @@ def _validate_arc_continuation_state(
     }
     missing = sorted(key for key in required if key not in continuation)
     if missing:
-        raise InputValidationError(
-            "Arc-length checkpoint continuation state is incomplete: " + ", ".join(missing)
-        )
+        raise InputValidationError("Arc-length checkpoint continuation state is incomplete: " + ", ".join(missing))
 
     accepted_step = continuation["accepted_step"]
     if isinstance(accepted_step, bool) or not isinstance(accepted_step, (int, np.integer)) or accepted_step < 0:

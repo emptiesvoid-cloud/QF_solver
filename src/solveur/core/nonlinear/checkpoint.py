@@ -1,9 +1,9 @@
 """Storage-neutral nonlinear checkpoint contracts.
 
 Schema v2 is deliberately expressed in terms of one accepted
-``NonlinearState``.  The legacy v1 dataclass remains available as a
-compatibility input, but new persistence is promoted to v2 by the storage
-adapter.
+``NonlinearState``. The legacy v1 dataclass remains available for validated
+read-only inspection; its incomplete identity cannot authorize promotion or
+restart.
 """
 
 from __future__ import annotations
@@ -19,7 +19,11 @@ from solveur.core.errors import InfrastructureError, InputValidationError, Numer
 from solveur.core.model import FiniteElementModel
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.core.nonlinear.material_state import MaterialStateTable, copy_material_states
-from solveur.core.nonlinear.state import NonlinearState, deterministic_state_digest
+from solveur.core.nonlinear.state import (
+    NonlinearState,
+    checkpoint_acceptance_status,
+    deterministic_state_digest,
+)
 from solveur.io.checkpoint_common import checkpoint_signature
 from solveur.io.model_writer import model_to_dict
 
@@ -29,8 +33,8 @@ class NonlinearCheckpoint:
     """Legacy schema-v1 committed nonlinear state.
 
     This type is retained so callers that construct historical checkpoint
-    records keep working. ``NpzNonlinearCheckpointStore.save`` promotes it to
-    :class:`NonlinearCheckpointV2` before writing.
+    records remain decodable. It is not a resumable or writable migration
+    source because its signature omitted required physical inputs.
     """
 
     model_signature: str
@@ -327,6 +331,7 @@ class NonlinearCheckpointSession:
             from solveur.elements.solid.corotational_j2 import (
                 CORRECTED_COROTATIONAL_J2,
                 CORRECTED_COROTATIONAL_STATE,
+                CORRECTED_TANGENT_STRATEGY_VERSION,
             )
 
             corrected_states = checkpoint.material_states
@@ -347,6 +352,10 @@ class NonlinearCheckpointSession:
             ):
                 raise InputValidationError(
                     "Corrected corotational restart requires an explicitly versioned corrected checkpoint."
+                )
+            if checkpoint.migration_metadata.get("tangent_strategy_version") != CORRECTED_TANGENT_STRATEGY_VERSION:
+                raise InputValidationError(
+                    "Corrected corotational restart requires a checkpoint bound to the current tangent strategy."
                 )
         self.restart_step = checkpoint.completed_step
         self.persisted_signature = checkpoint.model_signature
@@ -407,9 +416,11 @@ class NonlinearCheckpointSession:
         if self.store is None or self.settings.path is None:
             raise InfrastructureError("Nonlinear checkpoint persistence is not configured.")
         prepared = accepted_state.detached_copy()
+        validate_checkpoint_accepted_state(prepared, expected_step=step)
         prepared.validate()
         topology = build_state_topology(self.model, prepared)
         signature = model_signature_v2(self.model, topology) if self.model is not None else self.signature
+        formulation_metadata = _formulation_checkpoint_metadata(self.model)
         checkpoint = NonlinearCheckpointV2.from_state(
             model_signature=signature,
             completed_step=step,
@@ -419,7 +430,8 @@ class NonlinearCheckpointSession:
                 "writer": "NonlinearCheckpointSession.save_state",
                 "source_schema_version": 2,
                 **dict(migration_metadata or {}),
-                **_formulation_checkpoint_metadata(self.model),
+                **formulation_metadata,
+                **_checkpoint_identity_metadata(self.model, formulation_metadata),
             },
         )
         written = self.store.save(self.settings.path, checkpoint, keep_step=self.settings.keep_steps)
@@ -434,15 +446,54 @@ class NonlinearCheckpointSession:
         material_states: MaterialStateTable,
         continuation_state: dict[str, object] | None = None,
     ) -> None:
-        self.save_state(
-            step,
-            NonlinearState(
-                displacement=displacement,
-                load_factor=load_factor,
-                material_state=copy_material_states(material_states),
-                continuation_state=dict(continuation_state or {}),
-            ),
+        raise InputValidationError(
+            "The scalar nonlinear checkpoint save interface cannot prove transaction acceptance. "
+            "Pass the complete accepted NonlinearState to save_state()."
         )
+
+
+def validate_checkpoint_accepted_state(
+    state: NonlinearState,
+    *,
+    expected_step: int | None = None,
+    allow_unmarked_schema_v2: bool = False,
+) -> None:
+    """Reject trial/unknown states at checkpoint write and resume boundaries.
+
+    Older schema-v2 files predate the explicit lifecycle marker. Their schema
+    contract names the payload ``accepted_state``; that historical assertion
+    is accepted only for reading/resume, never for creating a new checkpoint.
+    """
+
+    status = checkpoint_acceptance_status(state)
+    if status is None and allow_unmarked_schema_v2:
+        pass
+    elif status != "ACCEPTED":
+        raise InputValidationError(
+            "Nonlinear checkpoint refused: state is not transaction-attested as ACCEPTED "
+            f"(observed {status or 'UNMARKED'})."
+        )
+    metadata = state.accepted_increment_metadata
+    declared_steps = [
+        value
+        for value in (
+            metadata.get("step"),
+            metadata.get("accepted_step"),
+            state.continuation_state.get("accepted_step"),
+        )
+        if value is not None
+    ]
+    parsed_steps: list[int] = []
+    for declared_step in declared_steps:
+        if isinstance(declared_step, bool) or not isinstance(declared_step, (int, np.integer)):
+            raise InputValidationError("Nonlinear checkpoint accepted-step metadata is invalid.")
+        parsed_steps.append(int(declared_step))
+    if parsed_steps and len(set(parsed_steps)) != 1:
+        raise InputValidationError("Nonlinear checkpoint accepted-step counters disagree within the composite state.")
+    if status == "ACCEPTED" and expected_step is not None and not parsed_steps:
+        raise InputValidationError("Accepted nonlinear checkpoint state is missing its accepted-step counter.")
+    if expected_step is not None and parsed_steps and parsed_steps[0] != expected_step:
+        raise InputValidationError("Nonlinear checkpoint step does not match the accepted composite state.")
 
 
 def _signature_payload(model: FiniteElementModel) -> dict[str, object]:
@@ -469,9 +520,111 @@ def _formulation_checkpoint_metadata(model: FiniteElementModel | None) -> dict[s
         "corrected_corotational_biot_j2/v1"
     ):
         return {}
+    from solveur.elements.solid.corotational_j2 import CORRECTED_TANGENT_STRATEGY_VERSION
+
     return {
         "formulation_id": "corrected_corotational_biot_j2/v1",
         "constitutive_state_version": "corotational_j2_state/v2",
+        "tangent_strategy_version": CORRECTED_TANGENT_STRATEGY_VERSION,
+    }
+
+
+def _checkpoint_identity_metadata(
+    model: FiniteElementModel | None,
+    formulation_metadata: Mapping[str, object] | None = None,
+) -> dict[str, object]:
+    """Return canonical, domain-separated identities for a new checkpoint.
+
+    The established v2 model signature remains the compatibility authority.
+    These component digests make the physical, operator, constitutive, load,
+    execution and schema bindings individually auditable.
+    """
+
+    if model is None:
+        return {
+            "identity_schema": "qf-nonlinear-checkpoint-identity/v1",
+            "identity_status": "UNBOUND",
+            "identity_digests": {},
+        }
+
+    payload = _json_safe(model_to_dict(model))
+    parameters = dict(payload["analysis"]["parameters"])
+    operational = {
+        "checkpoint_path",
+        "checkpoint_interval",
+        "checkpoint_keep_steps",
+        "restart_from",
+        "output_path",
+        "output_dir",
+        "results_path",
+        "report_path",
+        "cache_dir",
+    }
+    execution_parameters = {key: value for key, value in parameters.items() if key not in operational}
+    physical_keys = (
+        "schema_version",
+        "units",
+        "nodes",
+        "elements",
+        "materials",
+        "fixed_dofs",
+        "springs",
+        "concentrated_masses",
+        "multipoint_constraints",
+        "rbe2",
+        "rbe3",
+        "contacts",
+    )
+    physical_payload = {key: payload[key] for key in physical_keys}
+    physical_digest = checkpoint_signature(physical_payload, label="Nonlinear physical identity")
+    operator_payload = {
+        "physical_identity": physical_digest,
+        "kinematics": parameters.get("kinematics", "small_strain"),
+        "corotational_formulation": parameters.get("corotational_formulation", "legacy_default"),
+    }
+    operator_digest = checkpoint_signature(operator_payload, label="Nonlinear operator identity")
+    load_digest = checkpoint_signature(
+        {"loads": payload["loads"], "distributed_loads": payload["distributed_loads"]},
+        label="Nonlinear load identity",
+    )
+    formulation = dict(formulation_metadata or _formulation_checkpoint_metadata(model))
+    constitutive_digest = checkpoint_signature(
+        {
+            "materials": payload["materials"],
+            "formulation": formulation.get("formulation_id", "legacy_or_route_default"),
+            "constitutive_state_version": formulation.get("constitutive_state_version", "historical"),
+        },
+        label="Nonlinear constitutive identity",
+    )
+    execution_digest = checkpoint_signature(
+        {
+            "physical_identity": physical_digest,
+            "operator_identity": operator_digest,
+            "load_identity": load_digest,
+            "constitutive_identity": constitutive_digest,
+            "analysis_type": payload["analysis"]["type"],
+            "analysis_method": payload["analysis"]["method"],
+            "analysis_parameters": execution_parameters,
+            "algorithm_contract": "nonlinear-accepted-state/wp10-v1",
+            "tangent_strategy_version": formulation.get("tangent_strategy_version", "legacy_or_not_applicable"),
+        },
+        label="Nonlinear execution identity",
+    )
+    schema_digest = checkpoint_signature(
+        {"checkpoint_schema_version": 2, "state_schema_version": 1, "identity_schema": 1},
+        label="Nonlinear checkpoint schema identity",
+    )
+    return {
+        "identity_schema": "qf-nonlinear-checkpoint-identity/v1",
+        "identity_status": "VERIFIED",
+        "identity_digests": {
+            "physical_identity": physical_digest,
+            "operator_identity": operator_digest,
+            "constitutive_identity": constitutive_digest,
+            "load_identity": load_digest,
+            "execution_identity": execution_digest,
+            "checkpoint_schema_identity": schema_digest,
+        },
     }
 
 
@@ -542,37 +695,23 @@ def migrate_v1_checkpoint(
     expected_model_signature: str | None = None,
     expected_legacy_model_signature: str | None = None,
 ) -> NonlinearCheckpointV2:
-    """Migrate a bounded v1 checkpoint without inventing contact history."""
+    """Refuse v1-to-v2 promotion when historical physical identity is incomplete.
+
+    The schema-v1 signature omitted concentrated masses, springs, multipoint
+    constraints, rigid links and contact definitions.  Matching that digest
+    to a current model cannot prove those omitted values were absent when the
+    checkpoint was written.  Keep the function as a compatibility entry point
+    so callers receive a clear fail-closed diagnostic instead of a fabricated
+    v2 identity.
+    """
 
     checkpoint.validate(expected_dofs)
     if expected_legacy_model_signature is not None and checkpoint.model_signature != expected_legacy_model_signature:
         raise InputValidationError("Legacy nonlinear checkpoint does not match the physical model or load path.")
-    contacts = getattr(model, "contacts", []) if model is not None else []
-    if any(float(getattr(contact, "friction_coefficient", 0.0)) > 0.0 for contact in contacts):
-        raise InputValidationError(
-            "Schema-v1 checkpoint is ambiguous for a stateful contact model; contact history was not persisted."
-        )
-    state = NonlinearState(
-        displacement=checkpoint.displacement,
-        load_factor=checkpoint.load_factor,
-        material_state=cast(Mapping[str | int, Any], checkpoint.material_states),
-        contact_state={},
-        continuation_state=cast(Mapping[str | int, Any], checkpoint.continuation_state),
-        accepted_increment_metadata={
-            "migration_source_schema": 1,
-            "historical_metadata_available": False,
-        },
-    )
-    topology = state_topology or build_state_topology(model, state)
-    signature = model_signature_v2(model, topology) if model is not None else checkpoint.model_signature
-    if expected_model_signature is not None and signature != expected_model_signature:
-        raise InputValidationError("Migrated nonlinear checkpoint does not match the requested model signature.")
-    return NonlinearCheckpointV2.from_state(
-        model_signature=signature,
-        completed_step=checkpoint.completed_step,
-        state=state,
-        state_topology=topology,
-        migration_metadata={"source_schema_version": 1, "bounded_contact_policy": "contact-free-or-stateless-only"},
+    raise InputValidationError(
+        "Schema-v1 checkpoint is readable but not safe to migrate or resume: its historical signature does not "
+        "prove physical identity for masses, springs, constraints, rigid links, contacts, or formulation state. "
+        "IDENTITY_STATUS=UNPROVEN; FAIL_CLOSED=YES."
     )
 
 

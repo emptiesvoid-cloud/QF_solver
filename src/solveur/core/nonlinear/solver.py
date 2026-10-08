@@ -223,11 +223,15 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                 accepted_state = self._last_load_step_state
                 if accepted_state is None:
                     raise InputValidationError("Unified nonlinear load step did not expose an accepted state.")
-                accepted_state.accepted_increment_metadata = {
-                    "step": step,
-                    "load_increment": float(history[-1].load_increment),
-                    "load_control": "fixed",
-                }
+                accepted_metadata = dict(accepted_state.accepted_increment_metadata)
+                accepted_metadata.update(
+                    {
+                        "step": step,
+                        "load_increment": float(history[-1].load_increment),
+                        "load_control": "fixed",
+                    }
+                )
+                accepted_state.accepted_increment_metadata = accepted_metadata
                 checkpoint_session.save_state(
                     step,
                     accepted_state,

@@ -10,20 +10,28 @@ import pytest
 
 from solveur.api import solve_model
 from solveur.core.errors import InputValidationError
-from solveur.core.nonlinear_checkpoint import NonlinearCheckpoint, NonlinearCheckpointSettings
+from solveur.core.nonlinear_checkpoint import (
+    NonlinearCheckpoint,
+    NonlinearCheckpointSettings,
+    NonlinearCheckpointV2,
+)
+from solveur.core.nonlinear.state import NonlinearState, mark_checkpoint_state_accepted
 from solveur.io.nonlinear_checkpoint import NpzNonlinearCheckpointStore
 from tests.unit.test_analysis_features import elastoplastic_tet4_model, nonlinear_tet4_model
 
 
 def test_nonlinear_checkpoint_round_trip_and_versioned_copy(tmp_path) -> None:
-    checkpoint = NonlinearCheckpoint(
+    state = NonlinearState(
+        displacement=np.array([1.0, 2.0, 3.0]),
+        load_factor=0.5,
+        material_state={0: [{"equivalent_plastic_strain": 0.01, "plastic_strain": [0.1, -0.05, -0.05, 0, 0, 0]}]},
+        accepted_increment_metadata={"step": 2},
+    )
+    mark_checkpoint_state_accepted(state)
+    checkpoint = NonlinearCheckpointV2.from_state(
         model_signature="signature",
         completed_step=2,
-        load_factor=0.5,
-        displacement=np.array([1.0, 2.0, 3.0]),
-        material_states={
-            0: [{"equivalent_plastic_strain": 0.01, "plastic_strain": [0.1, -0.05, -0.05, 0, 0, 0]}]
-        },
+        state=state,
     )
     store = NpzNonlinearCheckpointStore()
 
@@ -35,6 +43,18 @@ def test_nonlinear_checkpoint_round_trip_and_versioned_copy(tmp_path) -> None:
     assert loaded.load_factor == 0.5
     assert loaded.material_states == checkpoint.material_states
     np.testing.assert_array_equal(loaded.displacement, checkpoint.displacement)
+
+
+def test_v1_checkpoint_write_is_refused_without_physical_identity_proof(tmp_path) -> None:
+    checkpoint = NonlinearCheckpoint(
+        model_signature="legacy-signature",
+        completed_step=1,
+        load_factor=0.5,
+        displacement=np.zeros(3),
+        material_states={},
+    )
+    with pytest.raises(InputValidationError, match="cannot be written or promoted"):
+        NpzNonlinearCheckpointStore().save(tmp_path / "legacy.npz", checkpoint)
 
 
 def test_corrupted_nonlinear_checkpoint_is_an_input_error(tmp_path) -> None:

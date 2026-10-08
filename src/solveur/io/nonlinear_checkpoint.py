@@ -16,8 +16,10 @@ from solveur.core.nonlinear.checkpoint import (
     NonlinearCheckpoint,
     NonlinearCheckpointV2,
     build_state_topology,
-    migrate_v1_checkpoint,
+    _checkpoint_identity_metadata,
+    _formulation_checkpoint_metadata,
     model_signature_v2,
+    validate_checkpoint_accepted_state,
 )
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.core.nonlinear.state import (
@@ -31,9 +33,9 @@ from solveur.io.checkpoint_common import checkpoint_signature
 class NpzNonlinearCheckpointStore:
     """Persist one validated accepted nonlinear state atomically.
 
-    ``allow_pickle=False`` is retained as a hard boundary.  Schema-v1 input
-    is read and promoted in memory; every write emitted by this store is
-    schema v2.
+    ``allow_pickle=False`` is retained as a hard boundary. Schema-v1 files
+    have a read-only inspection path; they are never promoted to resumable v2
+    checkpoints because their original physical identity is incomplete.
     """
 
     def signature(self, payload: dict[str, object]) -> str:
@@ -47,13 +49,22 @@ class NpzNonlinearCheckpointStore:
         keep_step: bool = False,
     ) -> tuple[Path, ...]:
         if isinstance(checkpoint, NonlinearCheckpoint):
-            checkpoint = migrate_v1_checkpoint(checkpoint)
+            checkpoint.validate()
+            raise InputValidationError(
+                "Schema-v1 nonlinear checkpoints cannot be written or promoted as resumable schema-v2 state; "
+                "their physical identity is unproven."
+            )
         if not isinstance(checkpoint, NonlinearCheckpointV2):
             raise InputValidationError("Unsupported nonlinear checkpoint object.")
         checkpoint.validate()
+        validate_checkpoint_accepted_state(checkpoint.accepted_state, expected_step=checkpoint.completed_step)
         target = Path(path)
         target.parent.mkdir(parents=True, exist_ok=True)
         metadata = _v2_metadata(checkpoint)
+        metadata["checkpoint_metadata_digest"] = checkpoint_signature(
+            metadata,
+            label="Nonlinear checkpoint metadata",
+        )
         temporary = target.with_name(f".{target.name}.tmp.npz")
         try:
             with temporary.open("wb") as stream:
@@ -111,20 +122,74 @@ class NpzNonlinearCheckpointStore:
                 schema_version = int(metadata["schema_version"])
                 if schema_version == 1:
                     legacy = _decode_v1(data, metadata)
-                    checkpoint = migrate_v1_checkpoint(
-                        legacy,
-                        model=model,
-                        expected_dofs=expected_dofs,
-                        expected_model_signature=expected_model_signature,
-                        expected_legacy_model_signature=expected_legacy_model_signature,
+                    legacy.validate(expected_dofs)
+                    if (
+                        expected_legacy_model_signature is not None
+                        and legacy.model_signature != expected_legacy_model_signature
+                    ):
+                        raise InputValidationError(
+                            "Legacy nonlinear checkpoint does not match the physical model or load path."
+                        )
+                    raise InputValidationError(
+                        "Schema-v1 nonlinear checkpoint is readable but not safe to resume: "
+                        "IDENTITY_STATUS=UNPROVEN; FAIL_CLOSED=YES. Use read_legacy_v1() for read-only inspection."
                     )
                 elif schema_version == 2:
+                    metadata_digest = metadata.get("checkpoint_metadata_digest")
+                    migration_metadata = metadata.get("migration_metadata", {})
+                    has_identity_record = isinstance(migration_metadata, dict) and any(
+                        key in migration_metadata for key in ("identity_schema", "identity_status", "identity_digests")
+                    )
+                    if metadata_digest is None:
+                        if has_identity_record:
+                            raise InputValidationError(
+                                "Schema-v2 checkpoint has component identities but no checkpoint metadata integrity digest."
+                            )
+                    else:
+                        unsigned_metadata = {
+                            key: value for key, value in metadata.items() if key != "checkpoint_metadata_digest"
+                        }
+                        expected_metadata_digest = checkpoint_signature(
+                            unsigned_metadata,
+                            label="Nonlinear checkpoint metadata",
+                        )
+                        if metadata_digest != expected_metadata_digest:
+                            raise NumericalConvergenceError(
+                                "Schema-v2 checkpoint metadata integrity check failed.",
+                                reason=NonlinearFailureReason.STATE_CORRUPTION,
+                            )
                     checkpoint = _decode_v2(metadata)
+                    checkpoint.validate(expected_dofs)
+                    validate_checkpoint_accepted_state(
+                        checkpoint.accepted_state,
+                        expected_step=checkpoint.completed_step,
+                        allow_unmarked_schema_v2=True,
+                    )
                     model_signature = expected_model_signature
                     topology = expected_topology
                     if model is not None:
                         model_signature = model_signature_v2(model, checkpoint.state_topology)
                         topology = build_state_topology(model, checkpoint.accepted_state)
+                        stored_identity = checkpoint.migration_metadata.get("identity_digests")
+                        has_identity_record = any(
+                            key in checkpoint.migration_metadata
+                            for key in ("identity_schema", "identity_status", "identity_digests")
+                        )
+                        if has_identity_record:
+                            expected_identity = _checkpoint_identity_metadata(
+                                model,
+                                _formulation_checkpoint_metadata(model),
+                            )
+                            if (
+                                checkpoint.migration_metadata.get("identity_schema")
+                                != "qf-nonlinear-checkpoint-identity/v1"
+                                or checkpoint.migration_metadata.get("identity_status") != "VERIFIED"
+                                or not isinstance(stored_identity, dict)
+                                or stored_identity != expected_identity.get("identity_digests")
+                            ):
+                                raise InputValidationError(
+                                    "Nonlinear checkpoint does not match the current model/execution component identities."
+                                )
                     checkpoint.validate(
                         expected_dofs,
                         expected_model_signature=model_signature,
@@ -139,6 +204,25 @@ class NpzNonlinearCheckpointStore:
         except (OSError, ValueError, TypeError, KeyError, json.JSONDecodeError) as exc:
             raise InputValidationError(f"Cannot read nonlinear checkpoint {source}: invalid or corrupted NPZ.") from exc
         return checkpoint
+
+    def read_legacy_v1(self, path: str | Path, *, expected_dofs: int | None = None) -> NonlinearCheckpoint:
+        """Decode and validate a v1 record for inspection only, never restart."""
+
+        source = Path(path)
+        try:
+            with np.load(source, allow_pickle=False) as data:
+                metadata = json.loads(str(data["metadata_json"].item()))
+                if int(metadata.get("schema_version", -1)) != 1:
+                    raise InputValidationError("Requested nonlinear checkpoint is not schema v1.")
+                checkpoint = _decode_v1(data, metadata)
+                checkpoint.validate(expected_dofs)
+                return checkpoint
+        except InputValidationError:
+            raise
+        except (OSError, ValueError, TypeError, KeyError, json.JSONDecodeError) as exc:
+            raise InputValidationError(
+                f"Cannot inspect legacy nonlinear checkpoint {source}: invalid or corrupted NPZ."
+            ) from exc
 
 
 def _v2_metadata(checkpoint: NonlinearCheckpointV2) -> dict[str, Any]:

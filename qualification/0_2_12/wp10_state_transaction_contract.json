@@ -1,0 +1,91 @@
+{
+  "contract_id": "QF0212_WP10_NONLINEAR_STATE_TRANSACTION_V1",
+  "scope": "accepted nonlinear state lifecycle; no constitutive equation or Newton algorithm change",
+  "state_lifecycle": [
+    "ACCEPTED_STATE",
+    "TRIAL_STATE",
+    "NEWTON_ITERATION",
+    "LINE_SEARCH",
+    "ACCEPT_OR_REJECT",
+    "COMMIT_OR_ROLLBACK",
+    "NEXT_INCREMENT"
+  ],
+  "lifecycle_marker": {
+    "metadata_key": "__qf_checkpoint_acceptance_status",
+    "trial_value": "TRIAL",
+    "accepted_value": "ACCEPTED",
+    "purpose": "prevent accidental persistence of a trial or unknown lifecycle state",
+    "security_boundary": "internal consistency guard, not a cryptographic authenticity claim"
+  },
+  "components": [
+    {
+      "component": "displacement/load_factor/accepted_step",
+      "owner": "NonlinearState transaction and continuation controller",
+      "mutability": "detached in trial; published only as a validated composite commit",
+      "acceptance_rule": "finite state, compatible counters, convergence accepted by existing engine",
+      "rollback_rule": "discard trial; previous accepted digest remains unchanged",
+      "checkpoint_rule": "persist only transaction-attested accepted composite",
+      "identity_requirements": ["physical", "load", "execution", "schema"]
+    },
+    {
+      "component": "material_state",
+      "owner": "material-state transaction and element trial update",
+      "mutability": "trial-local; accepted state immutable during Newton/line search/tangent probes",
+      "acceptance_rule": "constitutive update successful and increment accepted",
+      "rollback_rule": "discard all trial plastic strain/hardening variables",
+      "checkpoint_rule": "serialize only with displacement and continuation state from the same accepted increment",
+      "identity_requirements": ["constitutive", "physical", "formulation version"]
+    },
+    {
+      "component": "contact_state",
+      "owner": "existing contact/active-set state machinery",
+      "mutability": "existing transaction behavior preserved; WP10 does not alter contact law",
+      "acceptance_rule": "existing route acceptance contract",
+      "rollback_rule": "existing rejected-trial rollback preserved",
+      "checkpoint_rule": "existing v2 typed state and topology validation; v1 history remains unproven",
+      "identity_requirements": ["physical", "contact model/schema", "execution"]
+    },
+    {
+      "component": "residuals/reactions/internal forces/tangent diagnostics",
+      "owner": "Newton evaluation and result diagnostics",
+      "mutability": "iteration-local; never evidence of accepted state until attached to accepted composite",
+      "acceptance_rule": "residual and convergence status correspond to the candidate being committed",
+      "rollback_rule": "discard values for rejected trial; retain rejection reason in bounded run history",
+      "checkpoint_rule": "persist only accepted-step counters/provenance needed for safe continuation, not transient trial arrays",
+      "identity_requirements": ["operator", "constitutive", "load", "execution"]
+    },
+    {
+      "component": "load/continuation parameters and rejection history",
+      "owner": "load-control or arc-length controller",
+      "mutability": "trial controller may propose changes; accepted values move atomically with state",
+      "acceptance_rule": "accepted increment and counters agree",
+      "rollback_rule": "reject trial factor/radius but preserve explicit rejection diagnostic",
+      "checkpoint_rule": "compact rejection log and accepted counters stored with accepted state",
+      "identity_requirements": ["load", "execution", "accepted-step counter"]
+    }
+  ],
+  "transaction_rules": {
+    "begin_trial": "detached copy of accepted state; mark TRIAL; accepted digest recorded",
+    "line_search_evaluation": "all candidates derive from the same accepted reference and cannot mutate accepted state",
+    "commit": "validate detached trial, stamp ACCEPTED, then replace accepted composite once",
+    "rollback": "verify accepted digest then discard trial",
+    "checkpoint_during_trial": "REFUSED",
+    "checkpoint_unmarked_new_state": "REFUSED",
+    "counter_disagreement": "REFUSED",
+    "legacy_state_migration": "only if physical and constitutive compatibility are proven; schema v1 currently UNPROVEN"
+  },
+  "failure_atomicity": [
+    "constitutive update failure",
+    "tangent evaluation failure",
+    "linear solver failure",
+    "line search rejection",
+    "cutback rejection",
+    "checkpoint write failure"
+  ],
+  "wp08_wp09_invariants": {
+    "corrected_constitutive_state_isolated": true,
+    "wp09_tangent_perturbations_reuse_same_accepted_reference": true,
+    "force_and_tangent_formulation_pair_must_match": true,
+    "no_general_semismooth_newton_guarantee": true
+  }
+}

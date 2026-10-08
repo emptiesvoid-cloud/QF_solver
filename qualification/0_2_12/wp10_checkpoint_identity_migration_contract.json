@@ -1,0 +1,81 @@
+{
+  "contract_id": "QF0212_WP10_CHECKPOINT_IDENTITY_MIGRATION_V1",
+  "readability_is_resumability": false,
+  "identity_status_values": ["VERIFIED", "UNPROVEN", "UNBOUND", "MISMATCH"],
+  "restart_policy": "If required physical, constitutive, load, execution, or schema identity is not demonstrated: RESTART=REFUSED; REASON=EXPLICIT; FAIL_CLOSED=YES.",
+  "component_identities": {
+    "physical_identity": [
+      "model schema and units",
+      "node coordinates",
+      "element connectivity and definitions",
+      "material definitions",
+      "fixed DOFs and boundary conditions",
+      "springs",
+      "concentrated masses",
+      "MPC/RBE definitions",
+      "contact definitions"
+    ],
+    "operator_identity": ["physical_identity", "kinematics", "corotational formulation selector"],
+    "constitutive_identity": ["material definitions", "formulation ID", "constitutive state version"],
+    "load_identity": ["nodal loads", "distributed loads"],
+    "execution_identity": [
+      "physical/operator/load/constitutive identities",
+      "analysis type and method",
+      "algorithm-relevant parameters",
+      "WP10 accepted-state algorithm contract",
+      "WP09 tangent strategy version where applicable"
+    ],
+    "checkpoint_schema_identity": ["checkpoint schema version", "state schema version", "identity schema version"]
+  },
+  "operational_parameters_excluded_from_execution_identity": [
+    "checkpoint_path",
+    "checkpoint_interval",
+    "checkpoint_keep_steps",
+    "restart_from",
+    "output_path",
+    "output_dir",
+    "results_path",
+    "report_path",
+    "cache_dir"
+  ],
+  "schema_v1": {
+    "readable": "YES when structural validation succeeds",
+    "migratable": "NO under current evidence",
+    "resumable": "NO",
+    "identity_status": "UNPROVEN",
+    "missing_proof_includes": [
+      "concentrated masses",
+      "springs",
+      "multipoint constraints",
+      "rigid links",
+      "contact definitions/history",
+      "constitutive formulation/state version"
+    ],
+    "actions": {
+      "read_legacy_v1": "decode and validate for inspection only",
+      "load_for_restart": "explicit refusal",
+      "migrate_v1_checkpoint": "explicit refusal; never synthesize v2 identity",
+      "write_v1_as_v2": "explicit refusal"
+    }
+  },
+  "schema_v2": {
+    "existing_without_component_identity": {
+      "resume": "allowed only when full historical model_signature_v2 and topology match",
+      "retroactive_component_identity": "not added or claimed"
+    },
+    "new": {
+      "state": "transaction-attested ACCEPTED composite",
+      "identity_status": "VERIFIED when saved with bound model",
+      "integrity": "existing deterministic state component and composite digests",
+      "metadata_integrity": "checkpoint_metadata_digest binds the full canonical schema-v2 metadata including component identities; tampering is rejected",
+      "file_write": "existing temporary-file plus atomic replace path",
+      "formulation_binding": "formulation ID, constitutive state version, tangent strategy version for corrected J2"
+    }
+  },
+  "determinism": {
+    "canonicalization": "existing canonical JSON checkpoint signature and deterministic state digest",
+    "dictionary_order": "canonicalized before hashing",
+    "mutable_model": "identity recomputed at save/load boundary from serialized model snapshot",
+    "cryptographic_authenticity": "NOT_PROVIDED; SHA-based integrity is not an authenticated signature"
+  }
+}

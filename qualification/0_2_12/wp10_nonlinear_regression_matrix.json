@@ -1,0 +1,90 @@
+{
+  "matrix_id": "QF0212_WP10_REGRESSION_MATRIX_V1",
+  "baseline_commit": "eb3dde63d487f5a88f9dd34e043ca561407018f7",
+  "classification": ["PASS", "FAIL", "SKIPPED", "NOT_RUN", "INTERRUPTED", "PREEXISTING_DEFECT", "EXPECTED_CONTRACT_CHANGE", "UNRESOLVED"],
+  "campaigns": [
+    {
+      "area": "WP10 identity/accepted state/checkpoint",
+      "command": "python -m pytest -q tests/unit/test_wp10_nonlinear_state_checkpoints.py tests/unit/test_wp02_b_checkpoint_v2.py tests/unit/test_wp02_c_restart_migration.py tests/unit/test_unified_nonlinear_foundation.py tests/unit/test_wp01_d_continuation.py tests/unit/test_wp03_c_adaptive_policy.py tests/unit/test_nonlinear_checkpoint.py tests/unit/test_wp02_d_arc_length_restart.py tests/unit/test_wp02_d1_arc_length_material_state.py tests/unit/test_wp03_d_arc_radius_policy.py",
+      "status": "PASS",
+      "result": "241 passed in 23.75 s",
+      "additional_final_run": "100 passed across WP10, checkpoint, arc-length, and adversarial failure campaign tests",
+      "notes": "Includes expected contract update: schema-v1 restart/promotion is refused; v1 remains read-only."
+    },
+    {
+      "area": "WP08 corrected J2 / WP09 tangent",
+      "command": "python -m pytest -q tests/unit/test_corotational_j2.py tests/unit/test_corotational_j2_corrected.py tests/unit/test_total_lagrangian_j2.py tests/unit/test_j2_plastic_dissipation.py tests/unit/test_nonlinear_constitutive_vv.py tests/unit/test_nonlinear_state_transaction_contract.py tests/unit/test_nonlinear_failure_modes.py tests/unit/test_nonlinear_iteration_sparse.py tests/unit/test_nonlinear_contact_composition.py tests/unit/test_frictional_contact.py tests/unit/test_frictionless_contact.py tests/unit/test_contact_finite_sliding.py tests/unit/test_contact_surface_tangential_stiffness.py tests/unit/test_contact_surface_lumped_penalty.py tests/unit/test_contact_sparse_stick_assembly.py tests/unit/test_dynamic_checkpoint.py tests/unit/test_prepared_dynamic_system.py tests/unit/test_wp07_uniform_base_acceleration.py",
+      "status": "PASS",
+      "result": "221 passed in 59.72 s"
+    },
+    {
+      "area": "Newton historical and Total-Lagrangian J2",
+      "status": "PASS within the 221-case impact campaign and final complete unit suite"
+    },
+    {
+      "area": "contact routes",
+      "status": "PASS within the 221-case impact campaign and final complete unit suite; no contact formulation changed"
+    },
+    {
+      "area": "WP02-WP07 dynamic routes",
+      "status": "PASS within the impact campaign and final complete unit suite"
+    },
+    {
+      "area": "complete unit suite on final source tree",
+      "command": "python -m pytest -q tests/unit",
+      "status": "PASS",
+      "result": "3346 passed, 93 skipped, 0 failed in 1360.59 s",
+      "warnings": "6 warnings: source-size advisory and NumPy invalid determinant warnings in existing adversarial tests",
+      "prior_runs": [
+        "3340 passed, 93 skipped, 1 failed because the adversarial fixture attempted to write a v1 record through the newly fail-closed production writer; fixture was corrected to construct v2 directly",
+        "3341 passed, 93 skipped before the final additional mutation-identity test parameters; the exact final tree was then fully rerun"
+      ]
+    },
+    {
+      "area": "documentation tests on final docs",
+      "command": "python -m pytest -q tests/documentation",
+      "status": "PASS",
+      "result": "88 passed, 6 skipped in 21.22 s"
+    },
+    {
+      "area": "Ruff lint and format on changed Python files",
+      "status": "PASS"
+    },
+    {
+      "area": "targeted mypy on changed source modules",
+      "status": "PREEXISTING_DIAGNOSTICS_ONLY",
+      "result": "WP09 baseline: 30 diagnostics; WP10: 27 diagnostics across the same 8 source modules; no new diagnostics",
+      "notes": "The removed scalar checkpoint writer annotation error and two missing rejection-log mixin attributes account for the reduction. Remaining Mapping/mixin typing issues predate WP10; targeted mypy is not clean."
+    },
+    {
+      "area": "git diff --check",
+      "status": "PASS"
+    }
+  ],
+  "historical_contract_changes": [
+    {
+      "area": "schema-v1 checkpoint restart",
+      "classification": "EXPECTED_CONTRACT_CHANGE",
+      "reason": "v1 signature omits physical and constitutive identity inputs; automatic migration fabricated proof"
+    },
+    {
+      "area": "scalar checkpoint session save",
+      "classification": "EXPECTED_CONTRACT_CHANGE",
+      "reason": "scalar displacement/material arguments cannot attest a committed composite transaction; use save_state with accepted NonlinearState"
+    }
+  ],
+  "gates": {
+    "QF0212_G02": "OPEN",
+    "QF0212_G03_NL": "OPEN",
+    "QF0212_G04_NL": "OPEN",
+    "QF0212_G05": "OPEN",
+    "global_release_gates": "OPEN"
+  },
+  "historical_invariants": {
+    "HISTORICAL_G03": "FAIL_PRESERVED",
+    "HISTORICAL_WP14": "HOLD_NOT_PROMOTED",
+    "WHOLE_REPOSITORY_ARCHIVE_CLEARED": "NO",
+    "CORRECTED_J2_MATURITY": "EXPERIMENTAL",
+    "RELEASE_PUBLICATION_AUTHORIZED": "NO"
+  }
+}
