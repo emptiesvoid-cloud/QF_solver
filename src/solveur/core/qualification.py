@@ -55,6 +55,7 @@ MATURITY_BY_MATERIAL = {
 }
 
 MATURITY_BY_METHOD = {
+    "modal_superposition": "experimental",
     "arc_length": "experimental",
     "newton_raphson": "experimental",
     "modified_newton": "experimental",

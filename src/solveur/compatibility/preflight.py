@@ -179,6 +179,17 @@ def _route_status(
             "NOT_QUALIFIED_ROUTE", "REGISTRY_NOT_QUALIFIED", f"{element} + {analysis} is explicitly not qualified.",
             element, analysis, material, route, maturity,
         )
+    if route == "modal_superposition":
+        return _result(
+            "EXPERIMENTAL_ROUTE",
+            "EXPERIMENTAL_METHOD",
+            "harmonic_response/modal_superposition is a new method-specific experimental route.",
+            element,
+            analysis,
+            material,
+            route,
+            "EXPERIMENTAL",
+        )
     if route == "arc_length" or maturity == "EXPERIMENTAL" or maturity is None:
         reason = "EXPERIMENTAL_ROUTE" if route == "arc_length" or maturity == "EXPERIMENTAL" else "NO_REGISTRY_COMBINATION"
         return _result(
@@ -256,7 +267,13 @@ def preflight_model(model: Any) -> ModelCompatibilityReport:
     analysis_settings = getattr(model, "analysis", None)
     analysis = str(getattr(analysis_settings, "type", "linear_static"))
     method = str(getattr(analysis_settings, "method", ""))
-    route = "arc_length" if method == "arc_length" else analysis
+    route = (
+        "arc_length"
+        if method == "arc_length"
+        else "modal_superposition"
+        if analysis == "harmonic_response" and method == "modal_superposition"
+        else analysis
+    )
     loads = _load_categories(model)
     results: list[CompatibilityResult] = []
     quality_report = assess_model(model)

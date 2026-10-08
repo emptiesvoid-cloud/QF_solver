@@ -25,7 +25,7 @@ SUPPORTED_METHODS = {
     "geometric_nonlinear_static": ("newton_raphson",),
     "linear_buckling": ("eigsh",),
     "transient_dynamic": ("newmark", "newmark_average_acceleration"),
-    "harmonic_response": ("direct_frequency", "harmonic_direct"),
+    "harmonic_response": ("direct_frequency", "harmonic_direct", "modal_superposition"),
     "rotating_modal": ("dense_qep",),
     "campbell": ("complex_mac_hungarian",),
 }

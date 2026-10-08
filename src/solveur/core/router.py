@@ -109,5 +109,9 @@ class AnalysisRouter:
 
             return NewmarkDynamicSolver(checkpoint_store=NpzDynamicCheckpointStore()).solve(model)
         if model.analysis.type == "harmonic_response":
+            if model.analysis.method == "modal_superposition":
+                from solveur.core.analyses.reduced_harmonic import ReducedHarmonicResponseSolver
+
+                return ReducedHarmonicResponseSolver().solve(model)
             return HarmonicResponseSolver().solve(model)
         raise ValueError(f"Unsupported analysis type {model.analysis.type!r}.")

@@ -323,6 +323,32 @@ class PreparedDynamicSystem:
     def expand_state(self, reduced_vector: np.ndarray, full_load: np.ndarray | None = None) -> np.ndarray:
         return self._reducer.expand_state(reduced_vector, full_load)
 
+    def expand_complex_state(
+        self,
+        reduced_vector: np.ndarray,
+        full_load: np.ndarray | None = None,
+        *,
+        stiffness_factor: complex = 1.0 + 0.0j,
+    ) -> np.ndarray:
+        """Reconstruct a complex harmonic state through the prepared reducer.
+
+        This is an additive consumer interface for WP05. It delegates to the
+        existing dynamic reducer and does not change its reduction contract.
+        """
+        values = np.asarray(reduced_vector, dtype=np.complex128)
+        if values.shape != (self._reducer.reduced_size,) or not np.all(np.isfinite(values)):
+            raise InputValidationError("Prepared complex state must be finite and match the reduced system size.")
+        if full_load is not None:
+            load = np.asarray(full_load, dtype=np.complex128)
+            if load.shape != (self._reducer.full_size,) or not np.all(np.isfinite(load)):
+                raise InputValidationError("Prepared complex full load must be finite and match the full DOF size.")
+        else:
+            load = None
+        result = self._reducer.expand_complex_state(values, load, stiffness_factor=stiffness_factor)
+        if result.shape != (self._reducer.full_size,) or not np.all(np.isfinite(result)):
+            raise InputValidationError("Prepared complex state reconstruction produced invalid values.")
+        return np.asarray(result, dtype=np.complex128)
+
     @staticmethod
     def _readonly_array(values: np.ndarray) -> np.ndarray:
         result = np.asarray(values, dtype=int).copy()

@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0212-WP05-REDUCED-HARMONIC",
+  "record_type": "REDUCED_HARMONIC_METHOD_CONTRACT",
+  "status": "PRE_REGISTERED_BEFORE_WP05_QUALIFICATION_CAMPAIGN",
+  "contract_clarification": "The initial implementation incorrectly treated the reconstructed physical residual as a universal pass threshold for truncated bases. This was corrected before qualification: the physical residual remains reported, is a strict check only for full-basis equivalence, and is diagnostic-only for truncated bases. No numerical threshold was raised.",
+  "release": "0.2.12",
+  "work_package": "WP05",
+  "base_commit": "436627b23ae079ae33646364f6333193a67695ba",
+  "method_contract": "qf-reduced-harmonic/v1",
+  "route": {
+    "analysis": "harmonic_response",
+    "method": "modal_superposition",
+    "default_method_unchanged": "direct_frequency",
+    "maturity": "EXPERIMENTAL",
+    "qualification_scope_is_method_specific": true,
+    "numerical_pass_implies_qualification": false
+  },
+  "scope": {
+    "prepared_inputs": ["WP02 PreparedDynamicSystem", "WP03 ExcitationChannelSet", "WP04 ModalBasis"],
+    "elements": ["TET4", "TET10", "HEX8", "HEX20", "BEAM2 straight non-rotating"],
+    "material": "linear isotropic elastic",
+    "constraints": "homogeneous fixed supports",
+    "discrete_entities": ["admissible concentrated masses", "admissible linear springs"],
+    "excluded": ["contact", "shells", "rotor", "general prestress", "MPC/RBE", "nonlinear harmonic response", "unhandled algebraic coordinates"]
+  },
+  "input_contract": {
+    "modal_mode_count": "required positive integer; no implicit truncation count",
+    "modal_extraction_method": "existing WP04 extraction method, default eigsh",
+    "frequency_input": "existing frequencies_hz/frequency range contract; finite and non-negative",
+    "frequency_conversion": "omega_rad_s = 2*pi*frequency_hz exactly once",
+    "explicit_excitation_api": "ExcitationChannelSet for one frequency or a frequency_hz-to-ExcitationChannelSet mapping for a sweep; exact frequency match required",
+    "legacy_excitation": "WP03 legacy adapter; unchanged historical real load semantics",
+    "mixed_legacy_and_explicit_excitation": "reject"
+  },
+  "equations": {
+    "phase_convention": "u(t) = Re[U(omega) exp(+i*omega*t)]",
+    "reduced_impedance": "Zr = Kr + i*omega*Cr - omega^2*Mr",
+    "reduced_rhs": "Fr = Phi.T * Fhat; WP03 spatial distributions are real and phasors retain real/imaginary parts",
+    "reduced_solution": "Zr * Q = Fr",
+    "physical_reconstruction": "U = expand(Phi * Q) using the exact prepared DOF reduction",
+    "operators": "use explicitly projected Mr and Kr; do not replace them by I or diag(eigenvalues)"
+  },
+  "damping": {
+    "default_model": "rayleigh_physical_projected",
+    "rayleigh": {
+      "definition": "C = alpha*M + beta*K; Cr = Phi.T*C*Phi = alpha*Mr + beta*Kr",
+      "units": {"alpha": "s^-1", "beta": "s"},
+      "existing_two_target_calibration": "uses rayleigh_damping_definition and remains physical Rayleigh damping"
+    },
+    "prescribed_modal": {
+      "selector": "reduced_damping_model=prescribed_modal",
+      "parameters": "modal_damping_ratios, one finite non-negative ratio per retained mode",
+      "operator": "reuse WP04 invariant cluster operator; Cr is a reduced model, not a full physical C",
+      "reactions": "UNAVAILABLE; do not synthesize a physical C matrix",
+      "conflicts": ["rayleigh_alpha", "rayleigh_beta", "modal_damping_targets", "damping_model"]
+    },
+    "rayleigh_reactions": "NOT_COMPUTED by WP05; reaction recovery is not implied by the reduced response"
+  },
+  "numerical_policy": {
+    "policy_id": "qf-reduced-harmonic-numerics/v1",
+    "scaled_impedance": "S*Zr*S where S=diag(1/sqrt(diag(Kr))); all diagonal entries must be positive",
+    "condition_metrics": "rcond=sigma_min/sigma_max and singular_floor=sigma_min/max(1,sigma_max) for S*Zr*S",
+    "conditioning_indicator": "min(rcond, singular_floor); singular_floor prevents a scalar impedance near zero from appearing well-conditioned",
+    "conditioning_warning_max": 1e-8,
+    "conditioning_failure_max": 1e-12,
+    "singular_or_quasi_singular_action": "fail closed when conditioning indicator <= 1e-12; preserve a warning diagnostic when <= 1e-8",
+    "reduced_backward_error_max": 1e-8,
+    "full_basis_physical_free_backward_error_max": 1e-8,
+    "analytical_fixture_relative_error_max": 1e-10,
+    "full_basis_direct_relative_error_max": 1e-8,
+    "frequency_and_phasor_match": "exact finite Hz values; no implicit interpolation",
+    "zero_rhs": "solve the same impedance contract; zero force does not bypass singularity checks"
+  },
+  "residuals_and_error": {
+    "reduced_residual": "||Zr*Q-Fr|| / (||Zr||_F*||Q|| + ||Fr||)",
+    "physical_residual": "computed on free physical equations only when a full physical damping operator exists; strict 1e-8 check applies only for a full basis",
+    "truncated_basis_physical_residual": "reported as a diagnostic of omitted equation content; no general threshold is a truncation-error estimate",
+    "prescribed_modal_physical_residual": "UNAVAILABLE because no complete physical C exists",
+    "truncation_error": "NOT_KNOWN_EXACTLY; reduced residual and modal participation are not physical truncation-error estimates"
+  },
+  "result_availability": {
+    "complex_full_response": "AVAILABLE unless response_probes selects a partial output",
+    "complex_modal_coordinates": "AVAILABLE and retained per requested frequency",
+    "reduced_residual": "AVAILABLE",
+    "physical_free_residual": "AVAILABLE for Rayleigh damping; UNAVAILABLE for prescribed modal damping",
+    "physical_reactions": "NOT_COMPUTED for Rayleigh; UNAVAILABLE for prescribed modal damping",
+    "stress": "NOT_COMPUTED in WP05",
+    "truncation_error": "UNAVAILABLE_EXACTLY; diagnostics only"
+  },
+  "memory_policy": {
+    "response_probes": "optional list of active {node,dof} outputs; retain only selected response entries after solving each frequency",
+    "frequency_sweep": "process one frequency at a time; do not build an N_DOF by N_FREQUENCY dense block",
+    "reduced_operators": "dense mode_count by mode_count operators inherited from WP04"
+  },
+  "execution_identity": {
+    "includes": ["source SHA", "physical identity", "operator identity", "basis identity", "excitation identity by frequency", "damping identity and provenance", "frequency vector", "response selection", "solver method", "policy ID", "relevant software versions"],
+    "excludes": ["timestamps", "temporary paths", "output directories"],
+    "canonicalizer": "solveur.io.checkpoint_common.checkpoint_signature"
+  },
+  "tolerances": {
+    "inherited_wp04": {
+      "matrix_symmetry": 1e-12,
+      "scaled_spd_minimum_eigenvalue_strictly_greater_than": 1e-12,
+      "modal_residual": 1e-8,
+      "mass_orthogonality": 1e-8,
+      "cluster_relative_eigenvalue_gap": 1e-8
+    },
+    "post_observation_relaxation": false
+  },
+  "historical_statuses": {
+    "HISTORICAL_G03": "FAIL_PRESERVED",
+    "HISTORICAL_WP14": "HOLD_NOT_PROMOTED",
+    "WHOLE_REPOSITORY_ARCHIVE_CLEARED": "NO"
+  }
+}

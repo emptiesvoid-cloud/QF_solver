@@ -657,6 +657,11 @@ class BoundExcitationChannels:
         return len(self._channels)
 
     @property
+    def channel_ids(self) -> tuple[str, ...]:
+        """Stable identifiers of the bound channels in canonical order."""
+        return tuple(channel.channel_id for channel in self._channels)
+
+    @property
     def dof_count(self) -> int:
         return int(self._distribution.shape[0])
 
