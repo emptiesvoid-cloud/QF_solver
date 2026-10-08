@@ -291,6 +291,35 @@ class PreparedDynamicSystem:
     def reduce_state(self, full_vector: np.ndarray) -> np.ndarray:
         return self._reducer.reduce_state(full_vector)
 
+    def reduce_load(self, full_vector: np.ndarray) -> np.ndarray:
+        """Project a real or complex full-space RHS without reassembling K/M.
+
+        The existing reducer is real-valued.  Its linear map is applied
+        independently to real and imaginary parts so harmonic phasors are
+        preserved without introducing a separate reduction formulation.
+        """
+        try:
+            raw = np.asarray(full_vector)
+            if raw.shape != (self._reducer.full_size,):
+                raise InputValidationError(
+                    f"Prepared load vector must have shape ({self._reducer.full_size},)."
+                )
+            contains_complex = np.iscomplexobj(raw) or (
+                raw.dtype.kind == "O"
+                and any(isinstance(value, (complex, np.complexfloating)) for value in raw.flat)
+            )
+            values = np.asarray(raw, dtype=np.complex128 if contains_complex else np.float64)
+        except (TypeError, ValueError, OverflowError) as exc:
+            raise InputValidationError("Prepared load vector must contain finite numeric values.") from exc
+        if not np.all(np.isfinite(values)):
+            raise InputValidationError("Prepared load vector must contain finite numeric values.")
+        if contains_complex:
+            reduced = self._reducer.reduce_load(values.real) + 1j * self._reducer.reduce_load(values.imag)
+            if not np.all(np.isfinite(reduced)):
+                raise InputValidationError("Reduced complex load vector contains non-finite values.")
+            return np.asarray(reduced, dtype=np.complex128)
+        return self._reducer.reduce_load(np.asarray(values, dtype=np.float64))
+
     def expand_state(self, reduced_vector: np.ndarray, full_load: np.ndarray | None = None) -> np.ndarray:
         return self._reducer.expand_state(reduced_vector, full_load)
 

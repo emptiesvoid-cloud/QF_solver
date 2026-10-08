@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0212-WP03-EXCITATION-CHANNELS-2026-10-08",
+  "record_type": "WP03_EXCITATION_CHANNELS_CONTRACT_AND_EVIDENCE",
+  "work_package": "WP03",
+  "branch": "codex/v0.2.12-wp03-excitation-channels",
+  "base_commit": "7005d6151f39f05a12237bd280d6b18c55bf2aab",
+  "implementation": {
+    "module": "src/solveur/core/analyses/excitation_channels.py",
+    "prepared_complex_rhs_projection": "src/solveur/core/analyses/prepared_dynamic_system.py:PreparedDynamicSystem.reduce_load",
+    "runtime_scope": "RHS assembly, temporal scaling, phasor composition, identity and sparse DOF mapping only",
+    "new_dynamic_solver": false,
+    "element_formulation_changed": false,
+    "global_cache": false,
+    "maturity_or_qualification_promoted": false
+  },
+  "channel_contract": {
+    "schema": "qf-excitation-channel/v1",
+    "identity": {
+      "schema": "qf-excitation-identity/v1",
+      "canonicalizer": "solveur.io.checkpoint_common.checkpoint_signature",
+      "domain_separation": true,
+      "canonical_channel_order": "stable channel_id ascending",
+      "spatial_order": "node then normalized DOF; duplicate entries are summed before hashing",
+      "history_order": "semantic sample order; times must be finite, non-negative and strictly increasing",
+      "includes": [
+        "stable channel ID",
+        "real spatial weights keyed by physical node and normalized DOF",
+        "declared spatial, amplitude and result units",
+        "frame and sign convention",
+        "constant amplitude, piecewise-linear time samples, or complex frequency phasor",
+        "frequency in Hz and resolved angular frequency in rad/s",
+        "source provenance and content identity"
+      ],
+      "excludes": ["operator matrix contents for explicit channels", "output paths", "temporary paths", "timestamps", "process IDs"],
+      "operator_reuse": "An excitation-only change changes the channel-set identity but does not change or invalidate PreparedDynamicSystem K/M. A bound channel map is tied to its exact operator identity and DOF signature."
+    },
+    "spatial_temporal_separation": {
+      "spatial_distribution": "finite real scalar weights only; complex and non-finite values are rejected",
+      "temporal_signal_kinds": ["real_constant", "real_time_history", "harmonic_phasor"],
+      "history_interpolation": "piecewise linear with endpoint hold; time unit seconds",
+      "harmonic_phasor": {"representation": {"real": "finite scalar", "imag": "finite scalar"}, "input_frequency": "Hz", "internal_frequency": "rad/s", "conversion": "omega = 2*pi*f once when HarmonicAmplitude is constructed", "response_convention": "response(t) = Re(U * exp(+i*omega*t))"},
+      "unit_policy": "Units, frame and sign are explicit labels. Channels are superposed only when these declared contracts match exactly; no implicit unit conversion is performed.",
+      "zero_and_cancellation": "Zero channels remain identified no-ops. Complex channels are combined in canonical ID order; exact and near cancellation are evaluated using absolute residual/norms near zero.",
+      "factor_application": "Explicit signal is multiplied by its real spatial map once. Legacy load values are assembled into the spatial map once and existing temporal factors are applied once per legacy load."
+    },
+    "interfaces": {
+      "serialization": "ExcitationChannelSet.to_dict/from_dict use explicit schema and identity verification; phasors always serialize as real/imag.",
+      "binding": "ExcitationChannelSet.bind(PreparedDynamicSystem) builds an instance-local CSC map keyed by its physical DOF signature.",
+      "rhs": ["BoundExcitationChannels.full_real_rhs", "BoundExcitationChannels.full_harmonic_rhs", "BoundExcitationChannels.reduced_real_rhs", "BoundExcitationChannels.reduced_harmonic_rhs"],
+      "projection": "PreparedDynamicSystem.reduce_load applies the existing real reducer independently to real and imaginary parts; no K/M assembly or new modal projection is performed.",
+      "future_consumers": ["WP04 modal projection may consume full RHS", "WP05 reduced harmonic may consume complex reduced RHS", "WP06 may consume real histories", "WP07 base acceleration is not implemented", "OPTION-A is not implemented"]
+    }
+  },
+  "legacy_compatibility": {
+    "legacy_adapter": "ExcitationChannelSet.from_legacy_model uses GlobalAssembler.assemble_load_vectors and deterministic IDs legacy:nodal:i / legacy:distributed:i.",
+    "distributed_load_integration": "Delegated to the existing GlobalAssembler; this adapter does not change its domain or integration rules.",
+    "per_load_temporal_factors": "Existing Newmark load-function/table/sequence/per-load factor semantics are reused through NewmarkDynamicSolver helpers; one factor is composed per load vector.",
+    "legacy_harmonic_load": "A legacy real load vector is exposed as a zero-phase phasor only when an explicit requested frequency in Hz is supplied.",
+    "mixed_syntax": "Legacy loads plus explicit channel input, or explicit channels plus legacy temporal load controls, are rejected. No disjoint-channel combine mode is implemented.",
+    "model_json": "No channel fields are injected into or serialized with legacy FiniteElementModel JSON. Historical model serialization shape is unchanged.",
+    "unsupported_domain": "The adapter requires an admissible PreparedDynamicSystem. Route-local rejection does not change legacy solver admissibility."
+  },
+  "sparse_and_lifecycle": {
+    "distribution_storage": "CSC sparse map, one column per channel; no dense ndof-by-channel matrix is retained.",
+    "legacy_temporary_memory": "GlobalAssembler.assemble_load_vectors currently returns dense vectors; the legacy adapter temporarily receives these existing vectors before storing sparse DOF weights.",
+    "snapshot": "Channel records, weight tuples and temporal samples are immutable; bound sparse buffers are read-only. Legacy controls are JSON-snapshotted.",
+    "binding_validity": "A bound object rejects any different operator identity or full DOF signature. Legacy distributed maps also reject binding to a different prepared operator because their integration depends on geometry/formulation."
+  },
+  "verification": {
+    "targeted_command": "python -m pytest tests/unit/test_excitation_channels.py tests/unit/test_prepared_dynamic_system.py tests/unit/test_dynamic_controls.py tests/unit/test_dynamic_initial_conditions.py tests/unit/test_harmonic_shell_post.py tests/unit/test_analysis_features.py tests/unit/test_distributed_loads.py tests/unit/test_schema_validation_paths.py tests/unit/test_mitc4_dynamics.py tests/unit/test_code_aster_beam2_newmark.py tests/unit/test_code_aster_tet4_dynamic.py tests/integration/test_beam2_workflow.py -q",
+    "targeted_result": "165 passed",
+    "ruff": "PASS for changed files and repository source/test/script scope",
+    "mypy": "PASS for excitation_channels.py, prepared_dynamic_system.py, and the repository progressive typing gate",
+    "full_unit_suite_attempt": "INTERRUPTED_BY_OPERATOR around 45% after prolonged CPU-bound legacy numerical tests; no failure was reported before interruption; this is not a full-suite PASS",
+    "coverage_families": ["TET4", "TET10", "HEX8", "HEX20", "BEAM2 non-rotating"],
+    "coverage_topics": [
+      "legacy nodal and distributed load adaptation",
+      "individual historical temporal factors and exactly-once scaling",
+      "real and complex superposition, phase 0/90/180 degrees, exact and near cancellation",
+      "independent analytic complex RHS reference",
+      "Hz to rad/s conversion and frequency mismatch rejection",
+      "units/frame/sign incompatibility, dimension and active-DOF rejection",
+      "NaN/Inf/complex spatial rejection",
+      "serialization round-trip and fail-closed schema",
+      "stable-ID ordering and mutation-sensitive excitation identity",
+      "operator identity stability on load-only mutation",
+      "legacy/new mixed syntax rejection",
+      "prepared K/M not reassembled during load adaptation",
+      "complex RHS reduction without imaginary loss",
+      "legacy model JSON shape and existing assembly equivalence",
+      "sparse channel-map storage"
+    ],
+    "independent_oracle_note": "The hand-constructed complex vector is an independent composition oracle. Existing-assembler comparisons establish integration/compatibility only and are not claimed as independent physical validation.",
+    "performance_smoke": {
+      "model": "single TET4 test model",
+      "physical_dof_count": 12,
+      "channel_count": 64,
+      "distribution_nnz": 64,
+      "csc_distribution_bytes": 1028,
+      "dense_equivalent_bytes": 6144,
+      "bind_seconds_single_observation": 0.0002441,
+      "rhs_composition_seconds_1000_calls_repeated_3_times": [0.033342, 0.0330535, 0.033123],
+      "limitation": "Small local smoke measurement only; not an industrial scaling or stable performance claim."
+    }
+  },
+  "gate_status": {
+    "QF0212_G02_WP03_EXCITATION_IDENTITY_AND_INTERFACE": "PASS",
+    "QF0212_G02_GLOBAL": "OPEN; overall architecture gate spans other WPs",
+    "QF0212_G03_DYN": "NOT_YET_APPLICABLE; no new physical formulation or response solver",
+    "QF0212_G04_DYN": "NOT_YET_APPLICABLE; no dynamic response solve",
+    "QF0212_G05_WP03_INTERFACE_AND_LEGACY_SUBSET": "PASS",
+    "QF0212_G05_RELEASE": "OPEN"
+  },
+  "historical_statuses": {
+    "historical_G03": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "historical_WP14": "HOLD_NOT_PROMOTED",
+    "historical_records_modified": false,
+    "maturity_promotion": "NONE"
+  },
+  "limitations": [
+    "No PSD, random, spatially complex, or general spectral excitation support.",
+    "One harmonic RHS requires a single common frequency; cross-frequency response superposition belongs to consuming analyses.",
+    "No implicit unit conversion or generalized-force dimension inference is performed.",
+    "No legacy/new disjoint-channel combine mode is implemented; mixed input fails closed.",
+    "Legacy load adaptation inherits the existing dense-vector return shape of assemble_load_vectors.",
+    "No modal basis, reduced harmonic solver, Newmark modal solver, or uniform base acceleration was implemented."
+  ]
+}
