@@ -89,7 +89,12 @@ class NewmarkDynamicSolver:
         checkpoint_settings = DynamicCheckpointSettings.from_parameters(params, steps)
         if checkpoint_settings.requires_store and self.checkpoint_store is None:
             raise InfrastructureError("Dynamic checkpoint persistence is not configured for this solver instance.")
-        signature = self.checkpoint_store.signature(_checkpoint_signature_payload(model)) if self.checkpoint_store else ""
+        signature = (
+            "qf-newmark-resume/v2:"
+            + self.checkpoint_store.signature(_checkpoint_signature_payload(model))
+            if self.checkpoint_store
+            else ""
+        )
 
         restart_step = 0
         if checkpoint_settings.restart_from is not None:
@@ -686,12 +691,19 @@ def _checkpoint_signature_payload(model: FiniteElementModel) -> dict[str, object
     excluded = {"checkpoint_path", "checkpoint_interval", "checkpoint_keep_steps", "restart_from"}
     parameters = {key: value for key, value in model.analysis.parameters.items() if key not in excluded}
     return {
+        "checkpoint_identity_schema": "qf-newmark-physical-resume/v2",
         "schema_version": model.schema_version,
         "units": model.units,
         "nodes": model.nodes.tolist(),
         "elements": [asdict(element) for element in model.elements],
         "materials": model.materials,
         "fixed_dofs": [asdict(condition) for condition in model.fixed_dofs],
+        "springs": [asdict(spring) for spring in model.springs],
+        "concentrated_masses": [asdict(mass) for mass in model.concentrated_masses],
+        "multipoint_constraints": [asdict(constraint) for constraint in model.multipoint_constraints],
+        "rbe2": [asdict(definition) for definition in model.rbe2],
+        "rbe3": [asdict(definition) for definition in model.rbe3],
+        "contacts": [asdict(contact) for contact in model.contacts],
         "loads": [asdict(load) for load in model.loads],
         "distributed_loads": [asdict(load) for load in model.distributed_loads],
         "analysis": {"type": model.analysis.type, "method": model.analysis.method, "parameters": parameters},
@@ -708,6 +720,10 @@ def _validate_restart(
     gamma: float,
 ) -> None:
     checkpoint.validate(ndof)
+    if not checkpoint.model_signature.startswith("qf-newmark-resume/v2:"):
+        raise InputValidationError(
+            "Dynamic checkpoint is readable but not safe to resume: it lacks the v2 physical identity."
+        )
     if checkpoint.model_signature != signature:
         raise InputValidationError("Dynamic checkpoint does not match the current physical model or analysis settings.")
     if checkpoint.completed_step > total_steps:

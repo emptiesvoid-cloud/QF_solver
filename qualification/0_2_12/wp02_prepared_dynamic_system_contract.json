@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0212-WP02-PREPARED-DYNAMIC-SYSTEM-2026-10-08",
+  "record_type": "WP02_PREPARED_DYNAMIC_SYSTEM_CONTRACT_AND_EVIDENCE",
+  "status": "PASS",
+  "work_package": "WP02",
+  "branch": "codex/v0.2.12-wp02-prepared-dynamics",
+  "base_commit": "f1bbf0253966b83c49b0ebec50b1040422fede02",
+  "scope": {
+    "prepared_linear_dynamic_operators_only": true,
+    "reduced_modal_harmonic_or_transient_solver_added": false,
+    "element_formulation_changed": false,
+    "legacy_newmark_integrator_reimplemented": false,
+    "global_cache_added": false
+  },
+  "prepared_dynamic_system": {
+    "implementation": "src/solveur/core/analyses/prepared_dynamic_system.py:PreparedDynamicSystem",
+    "source_sha_required": true,
+    "preparation_lifecycle": [
+      "fail-closed admissibility validation",
+      "deep-copy model snapshot; input coordinate array made read-only",
+      "derive DofManager from private snapshot",
+      "build existing AssemblyPlan for snapshot",
+      "paired GlobalAssembler K/M assembly exactly once",
+      "apply existing DynamicDofReducer for fixed/free and supported reduction mapping",
+      "retain sparse full/reduced matrices and identity digests in this instance"
+    ],
+    "public_mutability": "Matrix and mapping accessors return defensive copies; physical snapshot is canonical immutable bytes; identity fields are read-only properties.",
+    "reuse": "require_compatible checks physical identity and assembly chunk policy without assembling K/M again.",
+    "cache_policy": {
+      "scope": "PREPARED_SYSTEM_INSTANCE_ONLY",
+      "global_cache": false,
+      "factorization": "NOT_CREATED_IN_WP02",
+      "assembly_plan": "retained only by its PreparedDynamicSystem instance"
+    }
+  },
+  "identity_contract": {
+    "canonical_digest_implementation": "Reuse solveur.io.checkpoint_common.checkpoint_signature for canonical JSON and solveur.io.manifest.content_digest for sparse content bytes.",
+    "domain_separation": "Each identity envelope carries an explicit identity_domain and identity_schema_version.",
+    "physical_identity": {
+      "schema": "qf-physical-identity/v1",
+      "includes": [
+        "coordinates and model schema",
+        "element family/connectivity/material reference",
+        "used material definitions and units",
+        "homogeneous fixed-DOF set and active DOF signature",
+        "concentrated mass definitions",
+        "spring definitions and support ownership"
+      ],
+      "excludes": ["nodal loads", "distributed load amplitudes", "output paths", "analysis method settings"]
+    },
+    "operator_identity": {
+      "schema": "qf-operator-identity/v1",
+      "includes": [
+        "physical identity digest",
+        "explicit source SHA",
+        "paired GlobalAssembler semantics version",
+        "assembler default/configured chunk size",
+        "full/reduced DOF and fixed/free maps",
+        "reduction transform digest",
+        "full and reduced K/M sparse-content digests"
+      ],
+      "excitation_only_change_invalidates_km": false,
+      "physical_or_assembly_change_invalidates_km": true
+    },
+    "excitation_identity": {
+      "schema": "qf-excitation-identity/v1",
+      "includes": [
+        "ordered nodal loads",
+        "ordered distributed-load definitions",
+        "existing dynamic load function/table/factors and harmonic frequency grid parameters"
+      ],
+      "independent_of_operator_identity": true,
+      "future_channel_contract": "Deferred to WP03; no channel implementation added here."
+    },
+    "execution_identity": "Not assembled as a new general framework in WP02; the existing Newmark checkpoint signature binds its solver parameters and excitation separately from PreparedDynamicSystem operator reuse."
+  },
+  "admissible_domain": {
+    "element_families": ["TET4", "TET10", "HEX8", "HEX20", "BEAM2 non-rotating"],
+    "materials": ["isotropic_3d for solid elements", "beam_isotropic for BEAM2"],
+    "density": "Finite positive density required for each used material.",
+    "boundary_conditions": "Existing fixed homogeneous BoundaryCondition representation only.",
+    "discrete_entities": "ConcentratedMass and linear springs only on DDL already supplied by supported structural elements.",
+    "excluded": [
+      "shells and other element families",
+      "rotating disks",
+      "orthotropic/nonlinear materials",
+      "MPC/RBE constraints",
+      "contact",
+      "springs or masses adding structural DDL",
+      "static/non-dynamic analysis model types"
+    ],
+    "matrix_checks": ["expected sparse shape", "finite stored coefficients"],
+    "positive_definiteness": "Not asserted by shared preparation; each consuming numerical method must apply its preregistered M/K definiteness contract. No eigensolver or new positivity threshold was introduced in WP02."
+  },
+  "newmark_checkpoint": {
+    "finding_addressed": "NEW_MARK_PHYSICAL_IDENTITY_INCOMPLETE = CONFIRMED",
+    "new_signature_prefix": "qf-newmark-resume/v2:",
+    "new_identity_schema": "qf-newmark-physical-resume/v2",
+    "bound_inputs": [
+      "geometry, connectivity, used materials, units and schema",
+      "fixed DOFs, concentrated masses, springs, MPC/RBE/contact entities",
+      "nodal/distributed loads",
+      "analysis method and dynamic parameters except checkpoint storage paths/policy"
+    ],
+    "storage_schema": "Existing NPZ checkpoint schema v1 retained and readable.",
+    "legacy_policy": "A checkpoint with an unversioned signature can be decoded for inspection but is rejected for resume with an explicit readable-but-not-safe-to-resume error. Historical checkpoint bytes are not rewritten."
+  },
+  "verification": {
+    "commands": [
+      "python -m pytest -q tests/unit/test_prepared_dynamic_system.py tests/unit/test_analysis_features.py tests/unit/test_dynamic_initial_conditions.py tests/unit/test_dynamic_controls.py tests/unit/test_assembly_plan.py tests/unit/test_mitc4_dynamics.py tests/unit/test_dynamic_checkpoint.py tests/integration/test_hex8_workflow.py tests/integration/test_hex20_workflow.py tests/integration/test_beam2_workflow.py",
+      "python -m ruff check src/solveur/core/analyses/dynamic.py src/solveur/core/analyses/prepared_dynamic_system.py tests/unit/test_prepared_dynamic_system.py",
+      "python -m mypy src/solveur/core/analyses/prepared_dynamic_system.py"
+    ],
+    "pytest_result": "109 passed",
+    "ruff_result": "PASS",
+    "mypy_prepared_module_result": "PASS",
+    "numeric_oracle_claim": "Direct-versus-prepared assembly establishes integration/non-regression only; it is not claimed as independent physical validation.",
+    "sparse_storage_bytes_single_element_smoke": {
+      "TET4": {"ndof": 12, "K_nnz": 72, "M_nnz": 48, "full_and_reduced_KM_bytes": 1648},
+      "TET10": {"ndof": 30, "K_nnz": 690, "M_nnz": 300, "full_and_reduced_KM_bytes": 14128},
+      "HEX8": {"ndof": 24, "K_nnz": 576, "M_nnz": 192, "full_and_reduced_KM_bytes": 11824},
+      "HEX20": {"ndof": 60, "K_nnz": 3600, "M_nnz": 1200, "full_and_reduced_KM_bytes": 79120},
+      "BEAM2": {"ndof": 12, "K_nnz": 40, "M_nnz": 40, "full_and_reduced_KM_bytes": 1360}
+    },
+    "performance_limit": "Single-element storage smoke only; no RSS study, repeated timing campaign, or large-model performance claim. Assembly diagnostics preserve timings but they are not qualification evidence."
+  },
+  "gate_evidence": {
+    "QF0212_G02_prepared_system_and_identity_evidence": "PASS",
+    "QF0212_G02_global_gate": "OPEN; later WP contracts/consumers and overall architecture remain to be assessed",
+    "QF0212_G03_DYN": "NOT_YET_APPLICABLE",
+    "QF0212_G03_NL": "NOT_YET_APPLICABLE",
+    "QF0212_G04_DYN": "NOT_YET_APPLICABLE",
+    "QF0212_G04_NL": "NOT_YET_APPLICABLE",
+    "QF0212_G05_legacy_route_subset": "PASS for the targeted regression campaign; release-level gate remains open"
+  },
+  "historical_statuses": {
+    "historical_G03": "FAIL_PRESERVED",
+    "whole_repository_archive_cleared": false,
+    "historical_WP14": "HOLD_NOT_PROMOTED",
+    "historical_records_modified": false
+  },
+  "deferred": [
+    "reduced modal, harmonic, and transient solvers",
+    "excitation channels",
+    "modal basis and damping contracts in consuming routes",
+    "method-specific positive-definiteness checks",
+    "general persistent prepared-system cache",
+    "factorization cache",
+    "full performance characterization"
+  ]
+}
