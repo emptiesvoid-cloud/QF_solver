@@ -1,0 +1,208 @@
+{
+  "schema": "qf-solver-wp08-constitutive-feasibility-audit-v1",
+  "audit_kind": "READ_ONLY_SCIENTIFIC_FEASIBILITY_NOT_QUALIFICATION",
+  "repository": "emptiesvoid-cloud/QF_solver",
+  "audit_branch": "codex/v0.2.12-wp08-constitutive-feasibility-audit",
+  "audit_base_commit": "c1769ccaa9670fb98950c555c9ac29d66cd96ee4",
+  "wp08_base_commit": "f85b6ad589a67e40782ff65b2e69e0e9e937e00a",
+  "git": {
+    "audit_head_at_start": "c1769ccaa9670fb98950c555c9ac29d66cd96ee4",
+    "wp08_diagnostic_is_ancestor": true,
+    "wp07_is_ancestor": true,
+    "origin_main": "e367fe58b2b9ebb4aef321424ca775e80e82d9ca",
+    "published_tag": "v0.2.11",
+    "published_tag_target": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+    "wp00_wp01_contracts_present": true,
+    "worktree_clean_before_audit": true,
+    "source_or_test_diff_from_wp07_to_wp08_diagnostic": false,
+    "wp08_historical_report_and_contract_modified": false
+  },
+  "environment": {
+    "python": "3.13.1",
+    "numpy": "2.2.6",
+    "scipy": "1.15.2",
+    "persistent_investigation_script": false,
+    "reproducibility_note": "The diagnostic implementation was executed inline and not persisted. Fixture, formulas, fixed thresholds, commands, and observed values are captured here and in wp08_constitutive_feasibility_report.md."
+  },
+  "preregistered_metrics": {
+    "relative_skew": "frobenius(A-A.T) / max(frobenius(A), 1 Pa)",
+    "relative_commutator": "frobenius(T U-U T) / (frobenius(T) * frobenius(U))",
+    "transform_residual_limit": 1e-12,
+    "symmetry_diagnostic_threshold": 1e-10,
+    "threshold_source": "WP08 diagnostic contract, fixed before the diagnostic result review",
+    "thresholds_changed_after_observation": false
+  },
+  "fixture": {
+    "element": "unit linear TET4, one integration point",
+    "coordinates": [[0,0,0],[1,0,0],[0,1,0],[0,0,1]],
+    "young_modulus_pa": 210000000000.0,
+    "poisson_ratio": 0.3,
+    "yield_stress_pa": 250000000.0,
+    "isotropic_hardening_pa": 1000000000.0,
+    "corotational_strain_limit_frobenius": 0.05,
+    "rotation": "Qz(theta)=[[cos(theta),-sin(theta),0],[sin(theta),cos(theta),0],[0,0,1]]"
+  },
+  "implemented_equations": {
+    "deformation_gradient": "F=I+u.T gradN",
+    "polar_decomposition": "F=R U",
+    "local_strain": "E_local=sym(U-I), engineering shear components passed to J2 radial return",
+    "local_update": "additive infinitesimal J2 strain update with isotropic hardening",
+    "committed_state_transport": "A_local_new=(R_current.T R_old) A_local_old (R_current.T R_old).T",
+    "nominal_stress_used_by_force": "P_code=R T_local",
+    "internal_force": "f_int=integral(P_code gradN) dV0",
+    "reported_second_piola": "S_legacy=T_local",
+    "reported_cauchy": "sigma_legacy=P_code F.T/det(F)"
+  },
+  "independent_identities": {
+    "algebraic_second_piola_from_current_P": "S=solve(F,P_code)=U^{-1} T_local",
+    "algebraic_cauchy_from_current_P": "sigma=P_code F.T/J=R T_local U R.T/J",
+    "symmetry_condition_for_these_maps": "T_local U=U T_local",
+    "polar_variation_principal_stretch": "deltaU_ij=(lambda_i A_ij+lambda_j A_ji)/(lambda_i+lambda_j), A=R.T deltaF, i!=j",
+    "energy_conjugate_nominal_map": "In U eigenbasis, Pbar_ii=T_ii; Pbar_ij=2*T_ij*lambda_i/(lambda_i+lambda_j), P=R V Pbar V.T",
+    "exact_map_identity": "Pbar U=U Pbar.T; this yields symmetric F^{-1}P and P F.T/J for symmetric T and positive stretches"
+  },
+  "observations": {
+    "prior_wp08_sweep": [
+      {"a":0.0015,"eqp_step2":0.0004663294,"S_skew":0.0005990573,"cauchy_skew":0.0005987163,"strain_norm":0.00156245},
+      {"a":0.002,"eqp_step2":0.0011020051,"S_skew":0.0013769493,"cauchy_skew":0.0013762116,"strain_norm":0.0020832667},
+      {"a":0.003,"eqp_step2":0.0026198207,"S_skew":0.0028949073,"cauchy_skew":0.0028939173,"strain_norm":0.0031249},
+      {"a":0.005,"eqp_step2":0.0058374954,"S_skew":0.0056262736,"cauchy_skew":0.005626103,"strain_norm":0.0052081667},
+      {"a":0.01,"eqp_step2":0.014076912,"S_skew":0.0119812515,"cauchy_skew":0.0119868228,"strain_norm":0.0104163},
+      {"a":0.02,"eqp_step2":0.0306637968,"S_skew":0.024377512,"cauchy_skew":0.0244081488,"strain_norm":0.0208327}
+    ],
+    "repeated_noncoaxial_a_0_016": {
+      "F1": "diag(1+a,1-a/2,1-a/2)",
+      "F2": "Qz(0.42) diag(1+0.85a,1-0.45a,1-0.40a) Qz(0.42).T",
+      "eqp_step2": 0.024024127901099784,
+      "strain_norm": 0.01666613332479983,
+      "commutator_relative": 0.011264000003101312,
+      "S_relative_skew": 0.019438223232948824,
+      "cauchy_relative_skew": 0.019456680906819696
+    },
+    "resultant_moment_identity_from_wp08": {
+      "nodal_torque_z": 661464.4237900935,
+      "reference_volume_axial_skew_PFt_z": 661464.4237900872,
+      "relative_difference": 9.503802702848686e-15
+    },
+    "pure_spin_after_plastic_preload": {
+      "preload_F": "diag(1.016,0.992,0.992)",
+      "spin_increment": "F2=Qz(0.71) F1",
+      "U_relative_difference": 6.40946542861686e-17,
+      "eqp_before": 0.0149067341131837,
+      "eqp_after": 0.031216474204717005,
+      "local_stress_relative_change": 0.7339975313825275,
+      "nominal_stress_covariance_residual": 0.916232788918697,
+      "interpretation": "A rigid spin with unchanged right stretch creates a plastic-state update in the current state-transport implementation."
+    },
+    "elastic_controls": {
+      "virgin_zero_rigid_rotation_uniaxial_tension_compression_coaxial_shear_and_rotated_stretch": "all returned zero relative S/Cauchy skew at displayed precision",
+      "noncoaxial_elastic_strain_norm": 0.008602325267042674,
+      "noncoaxial_elastic_commutator_relative": 5.382076800103013e-17,
+      "interpretation": "The isotropic elastic response is coaxial with U-I; this does not exercise noncoaxial plastic state."
+    },
+    "local_incremental_potential": {
+      "independent_radial_return_stress_vs_production_relative_error": 2.9908446174786545e-15,
+      "finite_difference_energy_gradient_vs_local_stress_relative_error": 1.5507501868396704e-10,
+      "strain_space_fd_step": 1e-7,
+      "potential": "psi=mu||E-Ep||^2 + lambda/2 tr(E-Ep)^2 + H/2*(alpha_new^2-alpha_old^2) + sigma_y*(alpha_new-alpha_old)",
+      "scope": "bounded local associative isotropic J2 return map only; not a complete finite-strain constitutive validation"
+    },
+    "element_force_vs_incremental_potential_gradient": {
+      "fixture": "same TET4 and plastic committed state; independent central differences in 12 nodal components",
+      "fixed_material_state_frame_relative_force_error": 0.008515010961631729,
+      "production_state_transport_relative_force_error": 0.008467117515640731,
+      "steps_and_errors_transport_enabled": [
+        {"h":1e-5,"relative_error":0.008466396903179694},
+        {"h":1e-6,"relative_error":0.008467110830943828},
+        {"h":1e-7,"relative_error":0.008467117515640731}
+      ],
+      "interpretation": "The error plateaus under step refinement, consistent with a force-map discrepancy rather than finite-difference noise."
+    },
+    "exact_polar_mapping_on_audited_plastic_state": {
+      "current_R_T_vs_energy_conjugate_P_relative_difference": 0.007854369155040218,
+      "energy_conjugate_cauchy_skew": 1.9194266161814818e-16,
+      "energy_conjugate_second_piola_skew": 9.670265960953647e-17,
+      "local_commutator_relative": 0.009096586807382723,
+      "interpretation": "Exact chain-rule map for the stated local conjugate stress; it changes the internal-force-producing P."
+    },
+    "same_final_deformation_different_plastic_paths": {
+      "endpoint_F": "diag(1.014,0.993,0.993)",
+      "path_A": ["diag(1.016,0.992,0.992)","endpoint_F"],
+      "path_B": ["diag(1.016,0.992,0.992)","[[1.012,0.003,0],[0.003,0.994,0],[0,0,0.994]]","endpoint_F"],
+      "eqp_A": 0.0149067341131837,
+      "eqp_B": 0.020122465837273656,
+      "plastic_strain_relative_difference": 0.11537792020059556,
+      "stress_relative_difference": 1.7290596405280163,
+      "interpretation": "Different path-dependent plastic histories; not by itself a defect or a claimed reference mismatch."
+    },
+    "smooth_rotating_principal_strain_step_sensitivity": {
+      "path": "F(t)=Qz(0.6t) diag(1+0.015t,1-0.0075t,1-0.0075t) Qz(0.6t).T, t in [0,1]",
+      "results_by_increments": {
+        "1":{"eqp":0.013910844135314428,"stress_norm_pa":176936909.60938907},
+        "2":{"eqp":0.015274646827365321,"stress_norm_pa":166785443.65643775},
+        "4":{"eqp":0.015758582762523697,"stress_norm_pa":167156975.3795549},
+        "8":{"eqp":0.015970861395243247,"stress_norm_pa":169473720.52076265},
+        "16":{"eqp":0.016072563298308994,"stress_norm_pa":171174970.09172255},
+        "32":{"eqp":0.01612337576176913,"stress_norm_pa":172151609.19708073}
+      },
+      "relative_eqp_change_16_to_32": 0.003160442,
+      "interpretation": "Bounded path-sampling sensitivity; not a universal convergence order or physical error bound."
+    },
+    "finite_difference_tangent": {
+      "raw_skew_at_origin": 0.001505846500875754,
+      "relative_change_caused_by_symmetrization": 0.000752923250437877,
+      "origin_shift": [1000.0,-700.0,400.0],
+      "fd_step_origin_zero": 1e-7,
+      "fd_step_shifted": 0.0001001,
+      "raw_tangent_relative_difference_after_origin_shift": 4.1439960340067316e-05,
+      "interpretation": "Existing origin-dependent step is confirmed; tangent is a downstream WP09 issue, not the cause of the point stress skew."
+    },
+    "unloading": {
+      "path": "plastic preload diag(1.016,0.992,0.992) then F=I",
+      "eqp_before": 0.0149067341131837,
+      "eqp_after": 0.02866342867943639,
+      "stress_norm_pa_at_final": 227527736.74635705,
+      "interpretation": "Reverse yield is possible for this total-strain reversal; no pass/fail inference without a dedicated reference path."
+    }
+  },
+  "test_run": {
+    "command": "python -m pytest -q tests/unit/test_corotational_j2.py tests/unit/test_tet4_tl_stress.py tests/unit/test_total_lagrangian_tet4_batch.py tests/unit/test_wp01_shared_contracts.py",
+    "status": "PASS",
+    "passed": 33,
+    "failed": 0,
+    "skipped": 0,
+    "duration_seconds": 7.56,
+    "coverage_note": "These are existing regression tests, not physical qualification. They do not test the pure-spin-after-plastic-preload counterexample or the exact polar force derivative."
+  },
+  "cause_assessment": {
+    "legacy_second_piola_label": "CONFIRMED_SEMANTIC_DEFECT",
+    "P_equals_R_times_local_stress_as_general_work_conjugate_map": "CONFIRMED_DEFECT_OUTSIDE_COAXIAL_LIMIT",
+    "internal_state_transport_under_rigid_spin": "CONFIRMED_OBJECTIVITY_DEFECT_FOR_TESTED_PLASTIC_STATE",
+    "local_additive_J2_return_map": "LOCALLY_CONJUGATE_TO_U_MINUS_I_IN_TESTED_CASE",
+    "all_corotational_J2_histories_invalid": "NOT_ESTABLISHED",
+    "total_lagrangian_j2_affected": "NOT_INFERRED"
+  },
+  "decision_proposal": {
+    "recommended_decision": "RESCOPE_MINIMAL_CORRECTION",
+    "limited_biot_strain_correction_feasible": "YES_IN_PRINCIPLE_NOT_YET_IMPLEMENTED_OR_QUALIFIED",
+    "internal_force_change_required": true,
+    "tangent_change_or_revalidation_required": true,
+    "general_finite_strain_redesign_required_within_existing_small_strain_bound": false,
+    "general_finite_strain_redesign_required_if_general_finite_strain_plasticity_is_claimed": true,
+    "historical_results": "Keep immutable; preserve old payload semantics as unresolved legacy; do not silently convert/relabel; introduce prospective semantic version if authorized.",
+    "expected_vnv_cost": "HIGH",
+    "owner_decision_required": true
+  },
+  "preserved_statuses": {
+    "WP08_STATUS": "BLOCKED",
+    "WP09_READY": "NO",
+    "WP10_READY": "NO",
+    "QF0212_G03_NL": "BLOCKED",
+    "QF0212_G04_NL": "BLOCKED",
+    "HISTORICAL_G03": "FAIL_PRESERVED",
+    "HISTORICAL_WP14": "HOLD_NOT_PROMOTED",
+    "WHOLE_REPOSITORY_ARCHIVE_CLEARED": "NO",
+    "RELEASE_PUBLICATION_AUTHORIZED": "NO",
+    "maturity_changed": false
+  }
+}
