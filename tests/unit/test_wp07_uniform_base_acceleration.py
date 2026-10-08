@@ -395,6 +395,45 @@ def test_transient_base_acceleration_initial_equilibrium_absolute_acceleration_a
     assert restored.maturity == "EXPERIMENTAL"
 
 
+def test_transient_base_sdof_matches_independent_constant_acceleration_solution() -> None:
+    acceleration = 2.0
+    dt = 1.0e-4
+    steps = 100
+    final_time = dt * steps
+    model = _beam_model(
+        "transient",
+        history=[{"time_s": 0.0, "value": acceleration}, {"time_s": final_time, "value": acceleration}],
+        extra_parameters={"time_step": dt, "steps": steps},
+    )
+    prepared, basis = _prepare(model)
+    result = ModalNewmarkTransientSolver().solve(model, source_sha=_SOURCE_SHA, prepared=prepared, basis=basis)
+
+    # Independent closed-form oscillator response with the inertial coefficient
+    # formed directly from M_full and the explicit global influence vector.
+    dofs = model.dof_manager()
+    influence = np.zeros(dofs.ndof)
+    for node, names in dofs.node_dofs.items():
+        if "UX" in names:
+            influence[dofs.index(node, "UX")] = 1.0
+    free = int(prepared.free_dof_indices[0])
+    base_force_per_acceleration = -float((prepared.mass_full @ influence)[free])
+    modal_mass = float(prepared.mass[0, 0])
+    stiffness = float(prepared.stiffness[0, 0])
+    omega_n = math.sqrt(stiffness / modal_mass)
+    constant_rhs_acceleration = base_force_per_acceleration * acceleration / modal_mass
+
+    times = np.asarray([row["time_s"] for row in result.time_history])
+    expected_displacement = constant_rhs_acceleration / omega_n**2 * (1.0 - np.cos(omega_n * times))
+    expected_velocity = constant_rhs_acceleration / omega_n * np.sin(omega_n * times)
+    expected_acceleration = constant_rhs_acceleration * np.cos(omega_n * times)
+    actual_displacement = np.asarray([row["probes"]["tip"]["displacement"] for row in result.time_history])
+    actual_velocity = np.asarray([row["probes"]["tip"]["velocity"] for row in result.time_history])
+    actual_acceleration = np.asarray([row["probes"]["tip"]["acceleration"] for row in result.time_history])
+    np.testing.assert_allclose(actual_displacement, expected_displacement, rtol=1.0e-5, atol=1.0e-12)
+    np.testing.assert_allclose(actual_velocity, expected_velocity, rtol=1.0e-5, atol=1.0e-11)
+    np.testing.assert_allclose(actual_acceleration, expected_acceleration, rtol=1.0e-5, atol=5.0e-6)
+
+
 def test_transient_base_acceleration_superposes_with_legacy_external_force() -> None:
     model = _beam_model(
         "transient",

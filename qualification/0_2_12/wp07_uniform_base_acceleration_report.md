@@ -108,15 +108,18 @@ freezes the input/formulation/result semantics and numerical thresholds. The
 targeted tests include independent full-mass SDOF equations, constrained/free
 consistent-mass coupling in BEAM2 and TET4, BEAM2 rotational influence entries,
 complex 90-degree phasors and force superposition, relative Rayleigh damping,
-zero-frequency absolute-kinematics unavailability, transient initial
-equilibrium, absolute acceleration, restart equivalence/refusal, spring/support
+zero-frequency absolute-kinematics unavailability, independent
+constant-acceleration transient SDOF trajectory, transient initial equilibrium,
+absolute acceleration, restart equivalence/refusal, spring/support
 fail-closed behavior, and all five WP00 element families for a bounded transient
 case.
 
-The comparison tolerance for the independent harmonic algebra is
-`relative=1e-11`, `absolute=1e-13`; full-mass projection comparison uses
-`1e-12*max(1, ||projected load||)`. These are implementation checks on small
-fixtures, not general accuracy claims. QF direct/reduced comparisons are
+The independent harmonic algebra uses `relative=1e-11`, `absolute=1e-13`; the
+constant-acceleration transient SDOF uses a 0.0001 s step over 100 steps, with
+predeclared displacement, velocity, and acceleration tolerances in the JSON
+contract. Full-mass projection comparison uses
+`1e-12*max(1, ||projected load||)`. These are bounded fixture checks, not
+general accuracy claims. QF direct/reduced comparisons are
 integration/non-regression evidence, not independent physical validation.
 
 ## Gate contribution and limitations
@@ -128,8 +131,9 @@ WP07 contributes bounded evidence to `QF0212_G02`, `QF0212_G03_DYN`,
 
 | Check | Result |
 |---|---|
-| WP07, modal Newmark, and reduced harmonic targeted tests | 69 PASS |
-| Complete `tests/unit` suite | 3,282 PASS, 93 SKIPPED, 0 FAIL, 6 warnings, 1,302.33 s |
+| WP07, modal Newmark, and reduced harmonic targeted tests | 70 PASS |
+| Independent constant-base-acceleration SDOF transient oracle | PASS; `dt=1e-4 s`, 100 steps, preregistered state tolerances |
+| Complete `tests/unit` suite | 3,283 PASS, 93 SKIPPED, 0 FAIL, 6 warnings, 1,306.01 s |
 | Documentation tests | 88 PASS, 6 SKIPPED |
 | Ruff check | PASS |
 | Ruff format check | PASS, all 7 changed Python files formatted |

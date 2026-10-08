@@ -109,6 +109,14 @@
     "direction_unit_norm_absolute_error_max": 1e-12,
     "explicit_P_vs_prepared_load_absolute_error_max": "1e-12*max(1, norm(projected_load))",
     "analytic_harmonic_response": {"relative": 1e-11, "absolute": 1e-13},
+    "analytic_transient_constant_base_acceleration": {
+      "time_step_s": 0.0001,
+      "steps": 100,
+      "displacement": {"relative": 1e-5, "absolute": 1e-12},
+      "velocity": {"relative": 1e-5, "absolute": 1e-11},
+      "acceleration": {"relative": 1e-5, "absolute": 5e-6},
+      "post_observation_relaxation": false
+    },
     "harmonic_rayleigh_relative_velocity_reference": {"relative": 1e-11, "absolute": 1e-13},
     "restart_vs_continuous": {"relative": 1e-12, "absolute": 1e-14},
     "post_observation_relaxation": false
