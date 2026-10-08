@@ -153,9 +153,9 @@ class NonlinearCheckpointV2:
         if not isinstance(self.state_topology, dict):
             raise InputValidationError("Schema-v2 checkpoint state topology is invalid.")
         _validate_state_topology_payload(self.state_topology, self.accepted_state, expected_dofs)
-        if expected_topology is not None and deterministic_state_digest(self.state_topology) != deterministic_state_digest(
-            expected_topology
-        ):
+        if expected_topology is not None and deterministic_state_digest(
+            self.state_topology
+        ) != deterministic_state_digest(expected_topology):
             raise InputValidationError("Schema-v2 checkpoint state topology does not match the model.")
         expected_components = self.accepted_state.component_digests
         if self.component_digests != expected_components:
@@ -314,11 +314,40 @@ class NonlinearCheckpointSession:
             if not np.isfinite(limit) or limit <= 0.0:
                 raise InputValidationError("Nonlinear checkpoint load-factor limit must be finite and positive.")
             if abs(checkpoint.load_factor) > limit + 1.0e-12:
-                raise InputValidationError("Nonlinear checkpoint load factor is outside the requested continuation envelope.")
+                raise InputValidationError(
+                    "Nonlinear checkpoint load factor is outside the requested continuation envelope."
+                )
         if require_continuation and not checkpoint.continuation_state:
             raise InputValidationError("Nonlinear checkpoint does not contain continuation state.")
 
         _validate_state_topology(initial.material_state, checkpoint.material_states)
+        if self.model is not None and self.model.analysis.parameters.get("corotational_formulation") == (
+            "corrected_corotational_biot_j2/v1"
+        ):
+            from solveur.elements.solid.corotational_j2 import (
+                CORRECTED_COROTATIONAL_J2,
+                CORRECTED_COROTATIONAL_STATE,
+            )
+
+            corrected_states = checkpoint.material_states
+            if not corrected_states or any(
+                not isinstance(point, dict)
+                or point.get("formulation_id") != CORRECTED_COROTATIONAL_J2
+                or point.get("state_schema") != CORRECTED_COROTATIONAL_STATE
+                for points in corrected_states.values()
+                for point in points
+            ):
+                raise InputValidationError(
+                    "Corrected corotational restart refuses material states without the matching "
+                    "formulation and constitutive-state schema."
+                )
+            if (
+                checkpoint.migration_metadata.get("formulation_id") != CORRECTED_COROTATIONAL_J2
+                or checkpoint.migration_metadata.get("constitutive_state_version") != CORRECTED_COROTATIONAL_STATE
+            ):
+                raise InputValidationError(
+                    "Corrected corotational restart requires an explicitly versioned corrected checkpoint."
+                )
         self.restart_step = checkpoint.completed_step
         self.persisted_signature = checkpoint.model_signature
         return checkpoint.accepted_state.detached_copy()
@@ -353,9 +382,7 @@ class NonlinearCheckpointSession:
                 material_state=material_states,
             ),
             load_factor_limit=(
-                float(load_factor_limit)
-                if load_factor_limit is not None
-                else max(abs(target_load_factor), 1.0)
+                float(load_factor_limit) if load_factor_limit is not None else max(abs(target_load_factor), 1.0)
             ),
             require_continuation=True,
         )
@@ -382,11 +409,7 @@ class NonlinearCheckpointSession:
         prepared = accepted_state.detached_copy()
         prepared.validate()
         topology = build_state_topology(self.model, prepared)
-        signature = (
-            model_signature_v2(self.model, topology)
-            if self.model is not None
-            else self.signature
-        )
+        signature = model_signature_v2(self.model, topology) if self.model is not None else self.signature
         checkpoint = NonlinearCheckpointV2.from_state(
             model_signature=signature,
             completed_step=step,
@@ -396,6 +419,7 @@ class NonlinearCheckpointSession:
                 "writer": "NonlinearCheckpointSession.save_state",
                 "source_schema_version": 2,
                 **dict(migration_metadata or {}),
+                **_formulation_checkpoint_metadata(self.model),
             },
         )
         written = self.store.save(self.settings.path, checkpoint, keep_step=self.settings.keep_steps)
@@ -439,6 +463,18 @@ def _signature_payload(model: FiniteElementModel) -> dict[str, object]:
     }
 
 
+def _formulation_checkpoint_metadata(model: FiniteElementModel | None) -> dict[str, object]:
+    """Bind corrected constitutive restarts to their explicit formulation identity."""
+    if model is None or model.analysis.parameters.get("corotational_formulation") != (
+        "corrected_corotational_biot_j2/v1"
+    ):
+        return {}
+    return {
+        "formulation_id": "corrected_corotational_biot_j2/v1",
+        "constitutive_state_version": "corotational_j2_state/v2",
+    }
+
+
 def model_signature_v2(model: FiniteElementModel, state_topology: dict[str, Any] | None = None) -> str:
     """Return the v2 physical model signature."""
 
@@ -472,7 +508,9 @@ def build_state_topology(model: FiniteElementModel | None, state: NonlinearState
     """Build deterministic topology metadata for an accepted state."""
 
     material_entries = []
-    for element, points in sorted(state.material_state.items(), key=lambda item: (type(item[0]).__name__, str(item[0]))):
+    for element, points in sorted(
+        state.material_state.items(), key=lambda item: (type(item[0]).__name__, str(item[0]))
+    ):
         material_entries.append(
             {
                 "key_type": "int" if isinstance(element, int) else "str",
@@ -507,10 +545,7 @@ def migrate_v1_checkpoint(
     """Migrate a bounded v1 checkpoint without inventing contact history."""
 
     checkpoint.validate(expected_dofs)
-    if (
-        expected_legacy_model_signature is not None
-        and checkpoint.model_signature != expected_legacy_model_signature
-    ):
+    if expected_legacy_model_signature is not None and checkpoint.model_signature != expected_legacy_model_signature:
         raise InputValidationError("Legacy nonlinear checkpoint does not match the physical model or load path.")
     contacts = getattr(model, "contacts", []) if model is not None else []
     if any(float(getattr(contact, "friction_coefficient", 0.0)) > 0.0 for contact in contacts):

@@ -23,6 +23,9 @@ from solveur.elements.solid.total_lagrangian_j2 import (
     TotalLagrangianJ2Tet4Element,
 )
 from solveur.elements.solid.corotational_j2 import (
+    CORRECTED_COROTATIONAL_J2,
+    CORRECTED_RESULT_SCHEMA,
+    LEGACY_COROTATIONAL_J2,
     CorotationalJ2Hex8Element,
     CorotationalJ2Hex20Element,
     CorotationalJ2Tet10Element,
@@ -58,6 +61,20 @@ from solveur.post.solid_recovery import (
 )
 
 
+def _stress_tensor_voigt(tensor: np.ndarray) -> np.ndarray:
+    """Convert a symmetric 3x3 stress tensor to the public six-component order."""
+    value = np.asarray(tensor, dtype=float)
+    if value.shape != (3, 3) or not np.all(np.isfinite(value)):
+        raise ValueError("Stress post-processing requires a finite 3x3 tensor.")
+    skew = float(np.linalg.norm(value - value.T)) / max(float(np.linalg.norm(value)), 1.0)
+    if skew > 1.0e-10:
+        raise ValueError(f"Cauchy stress is not symmetric within the corrected stress contract ({skew:.6e}).")
+    return np.asarray(
+        [value[0, 0], value[1, 1], value[2, 2], value[0, 1], value[1, 2], value[0, 2]],
+        dtype=float,
+    )
+
+
 class StressPostProcessor:
     """Recover element strains and stresses where implemented."""
 
@@ -79,9 +96,7 @@ class StressPostProcessor:
             material = MaterialFactory.create(model.materials[definition.material], coordinates=coords)
             states = (material_states or {}).get(index)
             kinematics = str(model.analysis.parameters.get("kinematics", "small_strain")).lower()
-            corotational_strain_limit = float(
-                model.analysis.parameters.get("corotational_max_local_strain", 0.05)
-            )
+            corotational_strain_limit = float(model.analysis.parameters.get("corotational_max_local_strain", 0.05))
             if (
                 kinematics in {"total_lagrangian", "total_lagrangian_j2"}
                 and definition.type in {"TET4", "TET10", "HEX8", "HEX20"}
@@ -121,6 +136,9 @@ class StressPostProcessor:
                         ),
                         result_label=kinematics,
                         corotational_strain_limit=corotational_strain_limit,
+                        corotational_formulation_id=str(
+                            model.analysis.parameters.get("corotational_formulation", LEGACY_COROTATIONAL_J2)
+                        ),
                     )
                 )
             elif definition.type == "TET4" and isinstance(material, SolidConstitutiveMaterial):
@@ -202,6 +220,7 @@ class StressPostProcessor:
         nonlinear_quadrature: str = "hammer4",
         result_label: str = "total_lagrangian_j2",
         corotational_strain_limit: float = 0.05,
+        corotational_formulation_id: str = LEGACY_COROTATIONAL_J2,
     ) -> dict[str, object]:
         """Recover objective finite-kinematic J2 fields for a research path."""
         if result_label == "corotational_j2":
@@ -224,19 +243,30 @@ class StressPostProcessor:
                     material,
                     nonlinear_quadrature=nonlinear_quadrature,
                     max_corotational_strain=corotational_strain_limit,
+                    formulation_id=corotational_formulation_id,
                 )
             else:
                 element = element_class(material, nonlinear_quadrature=nonlinear_quadrature)
         else:
             if result_label == "corotational_j2":
-                element = element_class(material, max_corotational_strain=corotational_strain_limit)
+                element = element_class(
+                    material,
+                    max_corotational_strain=corotational_strain_limit,
+                    formulation_id=corotational_formulation_id,
+                )
             else:
                 element = element_class(material)
         raw_points = element.integration_point_results(coords, local_u, states)
+        corrected = result_label == "corotational_j2" and corotational_formulation_id == CORRECTED_COROTATIONAL_J2
         points: list[dict[str, object]] = []
         for raw in raw_points:
-            stress = np.asarray(raw["stress"], dtype=float)
-            strain = np.asarray(raw["strain"], dtype=float)
+            if corrected:
+                cauchy = np.asarray(raw["cauchy_stress"], dtype=float)
+                stress = _stress_tensor_voigt(cauchy)
+                strain = np.asarray(raw["biot_strain"], dtype=float)
+            else:
+                stress = np.asarray(raw["stress"], dtype=float)
+                strain = np.asarray(raw["strain"], dtype=float)
             state = raw.get("material_state")
             state_dict = state if isinstance(state, dict) else None
             points.append(
@@ -255,30 +285,84 @@ class StressPostProcessor:
             points[-1].update(
                 {
                     "deformation_gradient": raw["deformation_gradient"],
-                    "green_lagrange_strain": raw["green_lagrange_strain"],
                     "second_piola_stress": raw["second_piola_stress"],
                     "cauchy_stress": raw["cauchy_stress"],
                     "det_f": raw["det_f"],
                 }
             )
+            if not corrected:
+                points[-1]["green_lagrange_strain"] = raw["green_lagrange_strain"]
             if result_label == "corotational_j2":
-                points[-1].update(
-                    {
-                        "corotation": raw["corotation"],
-                        "right_stretch": raw["right_stretch"],
-                        "corotational_strain": raw["corotational_strain"],
-                        "corotational_strain_norm": raw["corotational_strain_norm"],
-                        "local_stress": raw["local_stress"],
-                        "first_piola_stress": raw["first_piola_stress"],
-                    }
-                )
+                if corrected:
+                    points[-1].update(
+                        {
+                            "formulation_id": raw["formulation_id"],
+                            "state_schema": raw["state_schema"],
+                            "semantic_version": raw["semantic_version"],
+                            "result_schema_version": raw["result_schema_version"],
+                            "maturity": "EXPERIMENTAL",
+                            "qualification_status": "NOT_ASSESSED",
+                            "stress_measure": "CAUCHY",
+                            "stress_frame": "CURRENT_CONFIGURATION",
+                            "strain_measure": "BIOT_STRAIN",
+                            "strain_frame": "MATERIAL_REFERENCE_FRAME",
+                            "von_mises_measure": "CAUCHY",
+                            "principal_stress_measure": "CAUCHY",
+                            "principal_strain_measure": "BIOT_STRAIN",
+                            "deviatoric_stress_measure": "CAUCHY",
+                            "stress_trace_measure": "CAUCHY",
+                            "strain_trace_measure": "BIOT_STRAIN",
+                            "hydrostatic_pressure_measure": "CAUCHY",
+                            "biot_strain": raw["biot_strain"],
+                            "biot_stress": raw["biot_stress"],
+                            "first_piola_stress": raw["first_piola_stress"],
+                            "stress_semantics": {
+                                **cast(dict[str, object], raw["stress_semantics"]),
+                                "principal_strain": {"strain_measure": "BIOT_STRAIN"},
+                                "deviatoric_stress": {"stress_measure": "CAUCHY"},
+                                "stress_trace": {"stress_measure": "CAUCHY"},
+                                "strain_trace": {"strain_measure": "BIOT_STRAIN"},
+                                "hydrostatic_pressure": {"stress_measure": "CAUCHY"},
+                            },
+                            "availability": {
+                                "stress": {"status": "AVAILABLE", "reason": None},
+                                "strain": {"status": "AVAILABLE", "reason": None},
+                                "von_mises": {"status": "AVAILABLE", "reason": None},
+                                "principal_stress": {"status": "AVAILABLE", "reason": None},
+                                "principal_strain": {"status": "AVAILABLE", "reason": None},
+                                "deviatoric_stress": {"status": "AVAILABLE", "reason": None},
+                                "stress_trace": {"status": "AVAILABLE", "reason": None},
+                                "strain_trace": {"status": "AVAILABLE", "reason": None},
+                                "hydrostatic_pressure": {"status": "AVAILABLE", "reason": None},
+                                "biot_stress": {"status": "AVAILABLE", "reason": None},
+                                "first_piola_stress": {"status": "AVAILABLE", "reason": None},
+                                "second_piola_stress": {"status": "AVAILABLE", "reason": None},
+                                "cauchy_stress": {"status": "AVAILABLE", "reason": None},
+                            },
+                        }
+                    )
+                else:
+                    points[-1].update(
+                        {
+                            "corotation": raw["corotation"],
+                            "right_stretch": raw["right_stretch"],
+                            "corotational_strain": raw["corotational_strain"],
+                            "corotational_strain_norm": raw["corotational_strain_norm"],
+                            "local_stress": raw["local_stress"],
+                            "first_piola_stress": raw["first_piola_stress"],
+                        }
+                    )
         weights = np.asarray([float(cast(float, point["weight"])) for point in points], dtype=float)
         normalized = weights / max(float(np.sum(weights)), np.finfo(float).eps)
         strain = sum(normalized[i] * np.asarray(point["strain"], dtype=float) for i, point in enumerate(points))
         stress = sum(normalized[i] * np.asarray(point["stress"], dtype=float) for i, point in enumerate(points))
         aggregate_state: dict[str, object] = {
-            "model": f"{result_label}_corotational" if result_label == "corotational_j2" else f"{result_label}_green_lagrange",
-            "kinematics": "corotational_small_strain" if result_label == "corotational_j2" else "green_lagrange_second_piola",
+            "model": f"{result_label}_corotational"
+            if result_label == "corotational_j2"
+            else f"{result_label}_green_lagrange",
+            "kinematics": "corotational_small_strain"
+            if result_label == "corotational_j2"
+            else "green_lagrange_second_piola",
             "equivalent_plastic_strain": float(
                 sum(
                     normalized[i] * float(cast(float, point.get("equivalent_plastic_strain", 0.0)))
@@ -288,9 +372,149 @@ class StressPostProcessor:
         }
         result = _solid_result(strain, stress, aggregate_state)
         result["kinematics"] = (
-            "corotational_small_strain" if result_label == "corotational_j2" else "green_lagrange_second_piola"
+            "corotational_biot_strain"
+            if corrected
+            else "corotational_small_strain"
+            if result_label == "corotational_j2"
+            else "green_lagrange_second_piola"
         )
         result["von_mises"] = Tet4Element.von_mises(stress)
+        if corrected:
+            nodal_results = _solid_nodal_results(
+                coords, nodes, result, float(result["von_mises"]), f"{result_label}_average"
+            )
+            averaged_measures = {
+                name: sum(
+                    normalized[index] * np.asarray(raw[name], dtype=float) for index, raw in enumerate(raw_points)
+                ).tolist()
+                for name in (
+                    "biot_stress",
+                    "biot_strain",
+                    "first_piola_stress",
+                    "second_piola_stress",
+                    "cauchy_stress",
+                )
+            }
+            result.update(
+                {
+                    "formulation_id": CORRECTED_COROTATIONAL_J2,
+                    "semantic_version": "corotational_stress/v2",
+                    "result_schema_version": CORRECTED_RESULT_SCHEMA,
+                    "maturity": "EXPERIMENTAL",
+                    "qualification_status": "NOT_ASSESSED",
+                    "numerical_pass_implies_qualification": False,
+                    "stress_measure": "CAUCHY",
+                    "stress_frame": "CURRENT_CONFIGURATION",
+                    "strain_measure": "BIOT_STRAIN",
+                    "strain_frame": "MATERIAL_REFERENCE_FRAME",
+                    "von_mises_measure": "CAUCHY",
+                    "principal_stress_measure": "CAUCHY",
+                    "principal_strain_measure": "BIOT_STRAIN",
+                    "deviatoric_stress_measure": "CAUCHY",
+                    "stress_trace_measure": "CAUCHY",
+                    "strain_trace_measure": "BIOT_STRAIN",
+                    "hydrostatic_pressure_measure": "CAUCHY",
+                    "biot_strain": averaged_measures["biot_strain"],
+                    "biot_stress": averaged_measures["biot_stress"],
+                    "first_piola_stress": averaged_measures["first_piola_stress"],
+                    "second_piola_stress": averaged_measures["second_piola_stress"],
+                    "cauchy_stress": averaged_measures["cauchy_stress"],
+                    "stress_semantics": {
+                        "stress": {
+                            "stress_measure": "CAUCHY",
+                            "stress_frame": "CURRENT_CONFIGURATION",
+                        },
+                        "strain": {
+                            "strain_measure": "BIOT_STRAIN",
+                            "strain_frame": "MATERIAL_REFERENCE_FRAME",
+                        },
+                        "von_mises": {"stress_measure": "CAUCHY"},
+                        "principal_stress": {"stress_measure": "CAUCHY"},
+                        "principal_strain": {"strain_measure": "BIOT_STRAIN"},
+                        "deviatoric_stress": {"stress_measure": "CAUCHY"},
+                        "stress_trace": {"stress_measure": "CAUCHY"},
+                        "strain_trace": {"strain_measure": "BIOT_STRAIN"},
+                        "hydrostatic_pressure": {"stress_measure": "CAUCHY"},
+                        "stress_measure": "CAUCHY",
+                        "stress_frame": "CURRENT_CONFIGURATION",
+                        "strain_measure": "BIOT_STRAIN",
+                        "strain_frame": "MATERIAL_REFERENCE_FRAME",
+                        "semantic_version": "corotational_stress/v2",
+                        "result_schema_version": CORRECTED_RESULT_SCHEMA,
+                        **cast(dict[str, object], raw_points[0]["stress_semantics"]),
+                    },
+                    "availability": {
+                        "stress": {"status": "AVAILABLE", "reason": None},
+                        "strain": {"status": "AVAILABLE", "reason": None},
+                        "principal_strain": {"status": "AVAILABLE", "reason": None},
+                        "deviatoric_stress": {"status": "AVAILABLE", "reason": None},
+                        "stress_trace": {"status": "AVAILABLE", "reason": None},
+                        "strain_trace": {"status": "AVAILABLE", "reason": None},
+                        "hydrostatic_pressure": {"status": "AVAILABLE", "reason": None},
+                        "biot_stress": {"status": "AVAILABLE", "reason": None},
+                        "cauchy_stress": {"status": "AVAILABLE", "reason": None},
+                        "von_mises": {"status": "AVAILABLE", "reason": None},
+                        "principal_stress": {"status": "AVAILABLE", "reason": None},
+                        "first_piola_stress": {"status": "AVAILABLE", "reason": None},
+                        "second_piola_stress": {"status": "AVAILABLE", "reason": None},
+                    },
+                }
+            )
+            for nodal in nodal_results:
+                nodal.update(
+                    {
+                        "formulation_id": CORRECTED_COROTATIONAL_J2,
+                        "maturity": "EXPERIMENTAL",
+                        "qualification_status": "NOT_ASSESSED",
+                        "numerical_pass_implies_qualification": False,
+                        "stress_measure": "CAUCHY",
+                        "stress_frame": "CURRENT_CONFIGURATION",
+                        "strain_measure": "BIOT_STRAIN",
+                        "strain_frame": "MATERIAL_REFERENCE_FRAME",
+                        "von_mises_measure": "CAUCHY",
+                        "principal_stress_measure": "CAUCHY",
+                        "principal_strain_measure": "BIOT_STRAIN",
+                        "deviatoric_stress_measure": "CAUCHY",
+                        "stress_trace_measure": "CAUCHY",
+                        "strain_trace_measure": "BIOT_STRAIN",
+                        "hydrostatic_pressure_measure": "CAUCHY",
+                        "semantic_version": "corotational_stress/v2",
+                        "result_schema_version": CORRECTED_RESULT_SCHEMA,
+                        "stress_semantics": {
+                            "stress_measure": "CAUCHY",
+                            "stress_frame": "CURRENT_CONFIGURATION",
+                            "strain_measure": "BIOT_STRAIN",
+                            "strain_frame": "MATERIAL_REFERENCE_FRAME",
+                            "von_mises_measure": "CAUCHY",
+                            "principal_stress_measure": "CAUCHY",
+                            "principal_strain_measure": "BIOT_STRAIN",
+                            "deviatoric_stress_measure": "CAUCHY",
+                            "stress_trace_measure": "CAUCHY",
+                            "strain_trace_measure": "BIOT_STRAIN",
+                            "hydrostatic_pressure_measure": "CAUCHY",
+                            "semantic_version": "corotational_stress/v2",
+                            "result_schema_version": CORRECTED_RESULT_SCHEMA,
+                        },
+                        "availability": {
+                            name: {"status": "AVAILABLE", "reason": None}
+                            for name in (
+                                "stress",
+                                "strain",
+                                "principal_stress",
+                                "principal_strain",
+                                "von_mises",
+                                "deviatoric_stress",
+                                "stress_trace",
+                                "strain_trace",
+                                "hydrostatic_pressure",
+                            )
+                        },
+                    }
+                )
+        else:
+            nodal_results = _solid_nodal_results(
+                coords, nodes, result, float(result["von_mises"]), f"{result_label}_average"
+            )
         return {
             "element": index,
             "type": (
@@ -301,9 +525,7 @@ class StressPostProcessor:
             "location": "integration_average",
             **result,
             "integration_points": points,
-            "nodal_results": _solid_nodal_results(
-                coords, nodes, result, float(result["von_mises"]), f"{result_label}_average"
-            ),
+            "nodal_results": nodal_results,
         }
 
     @staticmethod
@@ -559,9 +781,7 @@ class StressPostProcessor:
             "shear_force": shear_force.tolist(),
             "shell_faces": shell_faces,
             "integration_points": [center_point],
-            "nodal_results": _shell_nodal_results(
-                nodes, coords, membrane_strain, curvature, shear_strain, shell_faces
-            ),
+            "nodal_results": _shell_nodal_results(nodes, coords, membrane_strain, curvature, shear_strain, shell_faces),
         }
         if isinstance(material, LaminateShellMaterial):
             center_point["ply_results"] = ply_results
@@ -575,8 +795,7 @@ class StressPostProcessor:
                 result["material_angle_offset_deg"] = offset
                 result["ply_directions_global"] = [
                     (
-                        np.cos(np.deg2rad(ply.angle_deg)) * frame[0]
-                        + np.sin(np.deg2rad(ply.angle_deg)) * frame[1]
+                        np.cos(np.deg2rad(ply.angle_deg)) * frame[0] + np.sin(np.deg2rad(ply.angle_deg)) * frame[1]
                     ).tolist()
                     for ply in material.laminate.plies
                 ]

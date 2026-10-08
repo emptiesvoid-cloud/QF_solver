@@ -165,10 +165,42 @@ def _replace_state(target: Any, source: Any) -> None:
 
 def initial_material_states(model: FiniteElementModel) -> MaterialStateTable:
     """Create empty integration-point states for path-dependent materials."""
+    corrected_corotational = (
+        str(model.analysis.parameters.get("kinematics", "small_strain")).lower() == "corotational_j2"
+        and model.analysis.parameters.get("corotational_formulation") == "corrected_corotational_biot_j2/v1"
+    )
+    corrected_element_classes: dict[str, type[object]] = {}
+    if corrected_corotational:
+        from solveur.elements.solid.corotational_j2 import (
+            CorotationalJ2Hex8Element,
+            CorotationalJ2Hex20Element,
+            CorotationalJ2Tet10Element,
+            CorotationalJ2Tet4Element,
+        )
+
+        corrected_element_classes = {
+            "TET4": CorotationalJ2Tet4Element,
+            "TET10": CorotationalJ2Tet10Element,
+            "HEX8": CorotationalJ2Hex8Element,
+            "HEX20": CorotationalJ2Hex20Element,
+        }
     table: MaterialStateTable = {}
     for index, definition in enumerate(model.elements):
         material = MaterialFactory.create(model.materials[definition.material])
         if not hasattr(material, "initial_state"):
+            continue
+        if corrected_corotational:
+            element_class = corrected_element_classes.get(str(definition.type).upper())
+            if element_class is None:
+                raise ValueError(f"Corrected corotational J2 does not support initial states for {definition.type}.")
+            kwargs: dict[str, object] = {"formulation_id": "corrected_corotational_biot_j2/v1"}
+            if definition.type == "TET10":
+                kwargs["nonlinear_quadrature"] = str(
+                    model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")
+                )
+            element = element_class(material, **kwargs)  # type: ignore[call-arg]
+            count = int(getattr(element, "integration_point_count", 0))
+            table[index] = [element.corrected_initial_state() for _ in range(count)]  # type: ignore[attr-defined]
             continue
         if definition.type == "TET10":
             quadrature = model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")

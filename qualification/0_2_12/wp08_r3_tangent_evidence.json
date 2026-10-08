@@ -1,0 +1,83 @@
+{
+  "schema": "qf-solver-wp08-r3-tangent-evidence/v1",
+  "record_type": "BOUNDED_IMPLEMENTATION_VERIFICATION_NOT_QUALIFICATION",
+  "status": "PASS_BOUNDED_IMPLEMENTATION_VERIFICATION_NOT_QUALIFICATION",
+  "baseline_r2": "d19004f676f6f85716c0b331bfb08001e5a5bfdc",
+  "formulation_id": "corrected_corotational_biot_j2/v1",
+  "tangent": {
+    "implementation": "central difference of the corrected element internal force",
+    "accepted_state_policy": "same detached accepted material states are supplied to base, plus and minus evaluations; no trial evaluation mutates the accepted input",
+    "formula": "K[:,j] = (f_corr(u+h*e_j;xi_n)-f_corr(u-h*e_j;xi_n))/(2*h)",
+    "step": "h=1e-5*V0^(1/3), with V0 assembled from reference integration measures",
+    "symmetrization": false,
+    "force_evaluations_per_element_tangent": "2*n_dof+1",
+    "diagnostics": [
+      "relative step and characteristic length",
+      "force evaluation count",
+      "integration-point active-branch switch count",
+      "raw tangent relative skew",
+      "classical derivative claim only if no branch switch"
+    ],
+    "yield_switch_policy": "central secant may be returned to bounded Newton; branch switches are exposed and classical derivative claim is false. No general semismooth convergence theorem is claimed."
+  },
+  "preregistered_r1_a10": {
+    "relative_steps": [0.0001, 0.00003, 0.00001, 0.000003],
+    "direction": "seed-27 normal variate in R^12, Euclidean normalized",
+    "metric": "||K v-K_FD v|| / max(||K v||,||K_FD v||,F_char/L_char)",
+    "acceptance_directional_error": 0.00002,
+    "acceptance_smooth_branch_raw_skew": 0.00002,
+    "threshold_changed": false,
+    "bounded_tet4_noncoaxial_plastic_probe": {
+      "accepted_state": "plastic preload from F=diag(1.016,0.992,0.992), then independent smooth noncoaxial displacement gradient",
+      "production_step_relative": 0.00001,
+      "reference_step_relative": 0.000003,
+      "scaled_tangent_action_error": 2.351870888847e-8,
+      "scaled_plateau_delta_between_1e-5_and_3e-6": 5.196591020267e-8,
+      "raw_tangent_relative_skew": 4.425823883694e-8,
+      "branch_switches": 0,
+      "classical_derivative_claim": true,
+      "force_evaluations": 25,
+      "status": "PASS_BOUNDED_SMOOTH_PROBE"
+    },
+    "yield_surface_probe": {
+      "method": "construct diagonal affine deformation at elastic trial yield boundary and inspect perturbation branches",
+      "observed_branch_switch_count": 6,
+      "one_sided_direction": "normalized affine nodal perturbation associated with F_xx",
+      "relative_steps": [0.0001, 0.00003, 0.00001, 0.000003],
+      "positive_side": "active plastic branch at each sampled step",
+      "negative_side": "elastic branch at each sampled step",
+      "positive_one_sided_plateau_delta": 3.717102290158e-11,
+      "negative_one_sided_plateau_delta": 3.721574948409e-11,
+      "one_sided_plateau_acceptance": 0.00002,
+      "classical_derivative_claim": false,
+      "tangent_symmetrized": false,
+      "status": "PASS_BOUNDED_ONE_SIDED_DIAGNOSTIC_NOT_CLASSICAL_DERIVATIVE"
+    }
+  },
+  "independent_force_reference_context": {
+    "r3_directional_oracle": "Calls corrected force/state evaluation directly, independently of the tangent-producing method; this independently differentiates the implemented force but shares the physical force kernel.",
+    "r2_incremental_potential_oracle": "Separately coded local J2 incremental-potential gradient, fixed accepted states, elastic/active-plastic/noncoaxial TET4; retained as R2 bounded force verification and not reclassified as an R3 tangent oracle.",
+    "qualification": "Neither comparison is qualification or evidence for general finite-strain plasticity."
+  },
+  "element_cost_counts": [
+    {"family": "TET4", "dof_count": 12, "integration_points": 1, "force_evaluations_per_tangent": 25},
+    {"family": "TET10", "dof_count": 30, "integration_points": 4, "force_evaluations_per_tangent": 61},
+    {"family": "HEX8", "dof_count": 24, "integration_points": 8, "force_evaluations_per_tangent": 49},
+    {"family": "HEX20", "dof_count": 60, "integration_points": 27, "force_evaluations_per_tangent": 121}
+  ],
+  "status_limits": {
+    "analytic_algorithmic_tangent": false,
+    "raw_tangent_symmetrized": false,
+    "global_generalized_newton_guarantee": false,
+    "maturity": "EXPERIMENTAL",
+    "numerical_pass_implies_qualification": false
+  },
+  "full_unit_suite": {
+    "status": "PASS",
+    "passed": 3311,
+    "skipped": 93,
+    "failed": 0,
+    "duration_seconds": 1335.99,
+    "source_test_tree_record": "qualification/0_2_12/wp08_r3_integrated_vnv_matrix.json"
+  }
+}

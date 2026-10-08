@@ -1,0 +1,154 @@
+{
+  "schema": "qf-solver-wp08-r3-integrated-vnv/v1",
+  "record_type": "IMPLEMENTATION_VERIFICATION_MATRIX_NOT_QUALIFICATION",
+  "formulation_id": "corrected_corotational_biot_j2/v1",
+  "status": "PASS_BOUNDED_IMPLEMENTATION_VERIFICATION_NOT_QUALIFICATION",
+  "frozen_threshold_source": "qualification/0_2_12/wp08_r1_vnv_acceptance_matrix.json",
+  "thresholds_modified": false,
+  "checks": [
+    {
+      "id": "R1-A01-A06",
+      "property": "polar kinematics, stress transforms, polar derivative, work identity, raw stress symmetry and moment",
+      "evidence": "R2 independent tensor references plus rerun corrected kernel tests in tests/unit/test_corotational_j2_corrected.py",
+      "status": "PASS_BOUNDED_FIXTURES"
+    },
+    {
+      "id": "R1-A07-A09",
+      "property": "incremental potential gradient, elastic patches, J2 states and noncoaxial plastic history",
+      "evidence": "R2 independent local potential/radial-return oracles retained; corrected tests rerun; not reclassified as qualification",
+      "status": "PASS_BOUNDED_FIXTURES"
+    },
+    {
+      "id": "R1-A10",
+      "property": "corrected force derivative and raw tangent",
+      "evidence": "test_corrected_tangent_matches_independent_directional_force_differences; preregistered four-step sequence; smooth TET4 noncoaxial plastic probe",
+      "observed": {
+        "scaled_directional_error": 2.351870888847e-8,
+        "plateau_delta": 5.196591020267e-8,
+        "raw_skew": 4.425823883694e-8,
+        "branch_switches": 0
+      },
+      "status": "PASS_BOUNDED_SMOOTH_BRANCH"
+    },
+    {
+      "id": "R1-A10-YIELD",
+      "property": "yield switching branch handling",
+      "evidence": "test_corrected_tangent_marks_yield_switch_as_nonsmooth; four preregistered one-sided steps stay on their respective plastic/elastic branches",
+      "observed": {
+        "branch_switches_in_production_stencil": 6,
+        "positive_plastic_side_plateau_delta": 3.717102290158e-11,
+        "negative_elastic_side_plateau_delta": 3.721574948409e-11,
+        "threshold": 0.00002
+      },
+      "status": "PASS_BOUNDED_ONE_SIDED_DIAGNOSTIC_CLASSICAL_DERIVATIVE_NOT_CLAIMED"
+    },
+    {
+      "id": "R1-A11",
+      "property": "coordinate-origin invariance",
+      "evidence": "test_corrected_force_and_tangent_are_origin_invariant; translation up to 1000 characteristic lengths",
+      "threshold": 1e-9,
+      "status": "PASS_BOUNDED_FIXTURE"
+    },
+    {
+      "id": "R1-A12",
+      "property": "Newton equilibrium and legacy non-regression",
+      "evidence": "corrected elastic/plastic Full Newton, line-search and cutback tests; test_corotational_j2.py legacy suite",
+      "status": "PASS_BOUNDED_LOAD_PATHS"
+    },
+    {
+      "id": "R1-A13",
+      "property": "declared solid families",
+      "evidence": "corrected numerical tangent shape/finite checks on TET4, TET10, HEX8, HEX20; inherited R2 independent force/stress tests per family",
+      "status": "PASS_BOUNDED_FAMILY_FIXTURES"
+    },
+    {
+      "id": "R1-A14",
+      "property": "trial, commit, rollback and corrected restart",
+      "evidence": "corrected state transaction, line search, adaptive rejected increment, checkpoint restart and mismatch/corruption tests",
+      "status": "PASS_BOUNDED_PATHS"
+    },
+    {
+      "id": "RESULTS",
+      "property": "stress semantics, derived observables and JSON serialization",
+      "evidence": "test_corrected_newton_plasticity_line_search_results_and_serialization; corrected postprocessing reports Cauchy-derived generic stress and Biot strain separately",
+      "status": "PASS_BOUNDED_TET4"
+    },
+    {
+      "id": "CHECKPOINT",
+      "property": "formulation-bound corrected checkpoint resume and legacy refusal",
+      "evidence": "test_corrected_checkpoint_restart_is_formulation_bound_and_deterministic; test_corrected_restart_rejects_legacy_checkpoint_and_changed_material",
+      "status": "PASS_BOUNDED_FIXED_LOAD_CONTROL"
+    },
+    {
+      "id": "DOMAIN",
+      "property": "runtime corrected route restrictions and explicit selection",
+      "evidence": "test_corrected_global_route_is_explicit_and_legacy_remains_the_default; solver-side family/material/contact/method/local-strain checks",
+      "status": "PASS_TESTED_GUARDS"
+    },
+    {
+      "id": "LEGACY_TL",
+      "property": "legacy corotational and unaffected Total-Lagrangian J2 routes",
+      "evidence": "test_corotational_j2.py; test_total_lagrangian_j2.py; nonlinear checkpoint/assembly/state regression set",
+      "status": "PASS_TARGETED"
+    },
+    {
+      "id": "WP02-WP07",
+      "property": "dynamic route non-regression",
+      "evidence": "prepared dynamic system, excitation channels, modal basis/damping, reduced harmonic, modal Newmark, base acceleration, dynamic checkpoints",
+      "status": "PASS_TARGETED"
+    }
+  ],
+  "runs": {
+    "targeted_nonlinear_checkpoint_dynamic_regressions": {
+      "status": "PASS",
+      "passed": 252,
+      "skipped": 2,
+      "failed": 0,
+      "duration_seconds": 47.78,
+      "note": "final targeted regression run after the last source and test amendments"
+    },
+    "documentation_generation": {
+      "status": "PASS",
+      "passed": 62,
+      "skipped": 2,
+      "failed": 0,
+      "duration_seconds": 2.23,
+      "note": "final documentation-generation run after evidence records were finalized"
+    },
+    "ruff": {"status": "PASS", "scope": "all modified Python files"},
+    "ruff_format": {"status": "PASS", "scope": "all modified Python files"},
+    "targeted_mypy": {"status": "PASS", "scope": "6 modified source modules", "errors": 0},
+    "full_unit_suite": {
+      "status": "PASS",
+      "passed": 3311,
+      "skipped": 93,
+      "failed": 0,
+      "warnings": 6,
+      "duration_seconds": 1335.99,
+      "exact_tree": "WP08-R3 source/test working tree; the seven changed source/test files below were hashed after the run and were not modified afterward; only qualification records changed.",
+      "source_test_sha256": {
+        "src/solveur/core/assembly/nonlinear.py": "80e72e8fff87662073cd006d2575259967f52dfebbf6affdf271036dc568997f",
+        "src/solveur/core/nonlinear/checkpoint.py": "0e8c68a8eb3970013ada79ae32c93e2132be77f8a29296103e7eaa6d3b63954e",
+        "src/solveur/core/nonlinear/material_state.py": "6439f50398a8a914123abd804752c018d879fad909f437f075267373916b7dfa",
+        "src/solveur/core/nonlinear/solver.py": "fae6cafff91ce683214e865d51b3980399c04afe3a6625618da91bc042f11c45",
+        "src/solveur/elements/solid/corotational_j2.py": "10fd34f97d6ab7bacab80e400a00aff02d746f691122a2829c8389fdd9358e4e",
+        "src/solveur/post/stress.py": "116ba82788075e8ccccb4cb99794351995e373a54219ccc852dee7b5d4f70677",
+        "tests/unit/test_corotational_j2_corrected.py": "8b3cf66424eb40745ec3308d895ee40ce8ee68596e3873fd5da780d0f2ac75bb"
+      },
+      "warning_summary": "One source-size advisory and five NumPy invalid-determinant runtime warnings in intentional failure-path tests; no failures."
+    },
+    "git_diff_check": {"status": "PASS", "scope": "all 15 staged WP08-R3 source, test, and evidence files"}
+  },
+  "qualification_and_gate_status": {
+    "corrected_j2_maturity": "EXPERIMENTAL",
+    "qualification": "NOT_ASSESSED",
+    "numerical_pass_implies_qualification": false,
+    "wp08_global": "PASS_BOUNDED",
+    "qf0212_g03_nl_global": "OPEN",
+    "qf0212_g04_nl_global": "OPEN",
+    "historical_g03": "FAIL_PRESERVED",
+    "historical_wp14": "HOLD_NOT_PROMOTED",
+    "whole_repository_archive_cleared": false,
+    "release_publication_authorized": false
+  }
+}

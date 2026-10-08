@@ -4,14 +4,14 @@ This module lives beside, rather than inside, the existing Green--Lagrange /
 second-Piola research path. The default ``legacy_corotational_j2/v1`` route
 retains its original transported-state, ``P=R T_local`` and finite-difference
 tangent behavior. An explicitly selected
-``corrected_corotational_biot_j2/v1`` kernel implements the R1 material-frame
-state and exact polar-adjoint internal force, but intentionally has no global
-Newton tangent, public stress aggregation, or checkpoint migration yet.
+``corrected_corotational_biot_j2/v1`` route implements the R1 material-frame
+state and exact polar-adjoint internal force, a raw numerical derivative of
+that force for bounded Full-Newton analyses, and versioned stress/checkpoint
+contracts. The corrected route remains experimental and bounded; its finite-
+difference tangent is not a general finite-strain constitutive qualification.
 
 Both routes are bounded small-local-strain models, not general finite-strain
-plasticity. The corrected force-only kernel cannot be used as a validated
-nonlinear analysis route until WP08-R3 supplies its compatible tangent and
-result contracts.
+plasticity. The corrected route is opt-in and does not change legacy defaults.
 """
 
 from __future__ import annotations
@@ -38,6 +38,8 @@ LEGACY_COROTATIONAL_J2 = "legacy_corotational_j2/v1"
 CORRECTED_COROTATIONAL_J2 = "corrected_corotational_biot_j2/v1"
 CORRECTED_COROTATIONAL_STATE = "corotational_j2_state/v2"
 CORRECTED_STRESS_SEMANTICS = "corotational_stress/v2"
+CORRECTED_RESULT_SCHEMA = "qf-solid-stress-results/v2"
+CORRECTED_TANGENT_RELATIVE_STEP = 1.0e-5
 
 
 def _strain_voigt(tensor: np.ndarray) -> np.ndarray:
@@ -305,12 +307,15 @@ def _validate_corrected_state(state: Mapping[str, Any], material: VonMisesElasto
     if state.get("material_identity") != _corrected_material_identity(material):
         raise ValueError("Corrected J2 state material identity does not match this material.")
     required = (
+        "elastic",
         "plastic_strain",
         "equivalent_plastic_strain",
         "plastic_dissipation",
         "hardening_energy",
         "strain",
         "stress",
+        "yield_function",
+        "plastic_multiplier",
     )
     if any(name not in state for name in required):
         raise ValueError("Corrected J2 state is missing required schema-v2 fields.")
@@ -334,13 +339,18 @@ def _validate_corrected_state(state: Mapping[str, Any], material: VonMisesElasto
     alpha = float(copied["equivalent_plastic_strain"])
     dissipation = float(copied["plastic_dissipation"])
     hardening_energy = float(copied["hardening_energy"])
+    yield_function = float(copied["yield_function"])
+    plastic_multiplier = float(copied["plastic_multiplier"])
     if (
         not np.isfinite(alpha)
         or not np.isfinite(dissipation)
         or not np.isfinite(hardening_energy)
+        or not np.isfinite(yield_function)
+        or not np.isfinite(plastic_multiplier)
         or alpha < 0.0
         or dissipation < 0.0
         or hardening_energy < 0.0
+        or plastic_multiplier < 0.0
     ):
         raise ValueError("Corrected J2 scalar state fields must be finite and non-negative.")
     expected_hardening = 0.5 * float(material.hardening_modulus) * alpha**2
@@ -438,7 +448,9 @@ def _transport_state(state: dict[str, Any] | None, rotation: np.ndarray) -> dict
         raise ValueError("Corotational state transport produced non-finite rotation data.")
 
     if "plastic_strain" in state:
-        plastic = relative_rotation @ _strain_tensor(np.asarray(state["plastic_strain"], dtype=float)) @ relative_rotation.T
+        plastic = (
+            relative_rotation @ _strain_tensor(np.asarray(state["plastic_strain"], dtype=float)) @ relative_rotation.T
+        )
         transported["plastic_strain"] = _strain_voigt(symmetrize(plastic)).tolist()
     if "stress" in state:
         stress = relative_rotation @ _stress_tensor(np.asarray(state["stress"], dtype=float)) @ relative_rotation.T
@@ -452,16 +464,14 @@ def _transport_state(state: dict[str, Any] | None, rotation: np.ndarray) -> dict
 
 
 class _CorotationalJ2Mixin:
-    """Legacy corotational route plus an isolated corrected force-only kernel."""
+    """Legacy route plus the explicitly selected corrected Biot-J2 route."""
 
     tangent_step: float = 1.0e-7
     if TYPE_CHECKING:
         node_count: int
         material: object
 
-        def _cached_reference_data(
-            self, coords: np.ndarray
-        ) -> tuple[tuple[float, np.ndarray], ...]: ...
+        def _cached_reference_data(self, coords: np.ndarray) -> tuple[tuple[float, np.ndarray], ...]: ...
 
     def __init__(
         self,
@@ -484,6 +494,7 @@ class _CorotationalJ2Mixin:
             )
         self.max_corotational_strain = float(max_corotational_strain)
         self.formulation_id = formulation_id
+        self.last_corrected_tangent_diagnostics: dict[str, Any] = {}
         super().__init__(material, **kwargs)  # type: ignore[call-arg]
 
     def corrected_initial_state(self) -> dict[str, Any]:
@@ -511,11 +522,11 @@ class _CorotationalJ2Mixin:
         local_displacement: np.ndarray,
         states: list[dict[str, Any]] | None = None,
     ) -> tuple[np.ndarray, list[dict[str, Any]], list[dict[str, Any]]]:
-        """Evaluate R2 corrected forces and diagnostics without a Newton tangent.
+        """Evaluate the corrected force, trial states, and stress evidence.
 
-        This explicitly selected diagnostic/kernel API is not wired to nonlinear
-        global Newton assembly.  R3 must supply and validate its compatible
-        tangent and result migration before that route can be enabled.
+        The accepted ``states`` are read-only inputs. Every material update
+        returns detached trial data, so repeated force evaluations used by the
+        corrected numerical tangent start from the same accepted state.
         """
 
         if self.formulation_id != CORRECTED_COROTATIONAL_J2:
@@ -555,10 +566,24 @@ class _CorotationalJ2Mixin:
                 deformation, max_local_strain=self.max_corotational_strain
             )
             biot_strain = stretch - identity
-            accepted = accepted_states[point_index]
-            biot_stress, trial_state, diagnostics = _evaluate_corrected_material_state(
-                self.material, biot_strain, accepted
-            )
+            accepted = _validate_corrected_state(accepted_states[point_index], self.material)
+            strain_voigt = _strain_voigt(biot_strain)
+            accepted_strain = np.asarray(accepted["strain"], dtype=float)
+            if np.allclose(accepted_strain, strain_voigt, rtol=1.0e-12, atol=1.0e-14):
+                # Re-assembling an already accepted equilibrium state (for the
+                # audit or postprocessor) must not re-integrate its history.
+                biot_stress = _stress_tensor(np.asarray(accepted["stress"], dtype=float))
+                trial_state = accepted
+                diagnostics = {
+                    "elastic": bool(accepted["elastic"]),
+                    "yield_function": float(accepted["yield_function"]),
+                    "plastic_multiplier": float(accepted["plastic_multiplier"]),
+                    "accepted_state_reused": True,
+                }
+            else:
+                biot_stress, trial_state, diagnostics = _evaluate_corrected_material_state(
+                    self.material, biot_strain, accepted
+                )
             first_piola, nominal_material = _corrected_first_piola_from_biot_stress(rotation, stretch, biot_stress)
             second_piola, cauchy = _corrected_stress_measures(deformation, first_piola, determinant)
             internal += measure * np.einsum("iJ,aJ->ai", first_piola, gradients, optimize=True).reshape(expected)
@@ -570,6 +595,7 @@ class _CorotationalJ2Mixin:
                     "formulation_id": CORRECTED_COROTATIONAL_J2,
                     "state_schema": CORRECTED_COROTATIONAL_STATE,
                     "semantic_version": CORRECTED_STRESS_SEMANTICS,
+                    "result_schema_version": CORRECTED_RESULT_SCHEMA,
                     "deformation_gradient": deformation.tolist(),
                     "rotation": rotation.tolist(),
                     "right_stretch": stretch.tolist(),
@@ -579,13 +605,23 @@ class _CorotationalJ2Mixin:
                     "second_piola_stress": second_piola.tolist(),
                     "cauchy_stress": cauchy.tolist(),
                     "stress_semantics": {
+                        "stress": {
+                            "stress_measure": "CAUCHY",
+                            "stress_frame": "CURRENT_CONFIGURATION",
+                        },
+                        "strain": {
+                            "strain_measure": "BIOT_STRAIN",
+                            "strain_frame": "MATERIAL_REFERENCE_FRAME",
+                        },
+                        "von_mises": {"stress_measure": "CAUCHY"},
+                        "principal_stress": {"stress_measure": "CAUCHY"},
                         "biot_stress": {
                             "stress_measure": "BIOT_STRESS_CONJUGATE_TO_RIGHT_STRETCH_STRAIN",
                             "stress_frame": "REFERENCE_CONFIGURATION",
                         },
                         "first_piola_stress": {
                             "stress_measure": "FIRST_PIOLA_KIRCHHOFF",
-                            "stress_frame": "EXPLICIT_USER_FRAME",
+                            "stress_frame": "SPATIAL_REFERENCE_TWO_POINT",
                         },
                         "second_piola_stress": {
                             "stress_measure": "SECOND_PIOLA_KIRCHHOFF",
@@ -600,8 +636,15 @@ class _CorotationalJ2Mixin:
                     "material_diagnostics": diagnostics,
                     "material_state": deepcopy(trial_state),
                     "public_result_availability": {
-                        "status": "UNAVAILABLE",
-                        "reason": "WP08-R3 result aggregation and serialization are not implemented.",
+                        "status": "AVAILABLE",
+                        "reason": None,
+                        "fields": [
+                            "biot_strain",
+                            "biot_stress",
+                            "first_piola_stress",
+                            "second_piola_stress",
+                            "cauchy_stress",
+                        ],
                     },
                 }
             )
@@ -676,16 +719,62 @@ class _CorotationalJ2Mixin:
     ) -> tuple[np.ndarray, np.ndarray, list[dict[str, Any]]]:
         """Return corotational internal force, tangent and trial states."""
 
-        if self.formulation_id == CORRECTED_COROTATIONAL_J2:
-            raise RuntimeError(
-                "Corrected corotational J2 has no production-compatible tangent yet; "
-                "global Newton is not ready until WP08-R3."
-            )
-
         displacement = np.asarray(local_displacement, dtype=float)
         expected = 3 * self.node_count
         if displacement.shape != (expected,) or not np.all(np.isfinite(displacement)):
             raise ValueError(f"{self.__class__.__name__} displacement must have shape ({expected},).")
+        if self.formulation_id == CORRECTED_COROTATIONAL_J2:
+            internal, updated_states, base_points = self._corrected_force_and_states(coords, displacement, states)
+            reference_data = self._cached_reference_data(coords)
+            volume = float(sum(float(measure) for measure, _ in reference_data))
+            if not np.isfinite(volume) or volume <= 0.0:
+                raise ValueError("Corrected tangent requires a finite positive reference element volume.")
+            characteristic_length = volume ** (1.0 / 3.0)
+            step = CORRECTED_TANGENT_RELATIVE_STEP * characteristic_length
+            if not np.isfinite(step) or step <= 0.0:
+                raise ValueError("Corrected tangent perturbation is invalid for this element scale.")
+            corrected_tangent: np.ndarray = np.empty((expected, expected), dtype=float)
+            basis = np.eye(expected)
+            branch_switches = 0
+            force_evaluations = 1
+            for column in range(expected):
+                direction = basis[column]
+                force_plus, _, plus_points = self._corrected_force_and_states(
+                    coords, displacement + step * direction, states
+                )
+                force_minus, _, minus_points = self._corrected_force_and_states(
+                    coords, displacement - step * direction, states
+                )
+                force_evaluations += 2
+                for base_point, plus_point, minus_point in zip(base_points, plus_points, minus_points, strict=True):
+                    base_elastic = bool(base_point["material_diagnostics"]["elastic"])
+                    if (
+                        bool(plus_point["material_diagnostics"]["elastic"]) != base_elastic
+                        or bool(minus_point["material_diagnostics"]["elastic"]) != base_elastic
+                    ):
+                        branch_switches += 1
+                corrected_tangent[:, column] = (force_plus - force_minus) / (2.0 * step)
+            if not np.all(np.isfinite(corrected_tangent)):
+                raise ValueError("Corrected numerical tangent contains non-finite values.")
+            tangent_scale = max(float(np.linalg.norm(corrected_tangent)), 1.0)
+            self.last_corrected_tangent_diagnostics = {
+                "algorithm": "central_difference_of_corrected_force_fixed_accepted_state",
+                "relative_step": CORRECTED_TANGENT_RELATIVE_STEP,
+                "characteristic_length": characteristic_length,
+                "absolute_step": step,
+                "force_evaluations": force_evaluations,
+                "branch_switch_count": branch_switches,
+                "raw_tangent_relative_skew": float(
+                    np.linalg.norm(corrected_tangent - corrected_tangent.T) / tangent_scale
+                ),
+                "symmetrized": False,
+                "classical_derivative_claim": branch_switches == 0,
+            }
+            # This is the raw derivative of the implemented corrected force.
+            # Do not symmetrize it: finite-difference, active-set, or geometric
+            # asymmetry must remain visible to the Newton solve and diagnostics.
+            return internal, corrected_tangent, updated_states
+
         internal, updated_states, _ = self._force_and_states(coords, displacement, states)
         tangent: np.ndarray = np.zeros((expected, expected), dtype=float)
         scale = self.tangent_step * max(
@@ -723,9 +812,8 @@ class _CorotationalJ2Mixin:
         """Return local corotational and global stress measures for post-processing."""
 
         if self.formulation_id == CORRECTED_COROTATIONAL_J2:
-            raise RuntimeError(
-                "Corrected stress results are not exposed through legacy post-processing; WP08-R3 is required."
-            )
+            _, _, points = self._corrected_force_and_states(coords, local_displacement, states)
+            return points
 
         _, _, points = self._force_and_states(coords, local_displacement, states)
         return points
@@ -750,7 +838,9 @@ class CorotationalJ2Hex20Element(_CorotationalJ2Mixin, TotalLagrangianJ2Hex20Ele
 __all__ = [
     "CORRECTED_COROTATIONAL_J2",
     "CORRECTED_COROTATIONAL_STATE",
+    "CORRECTED_RESULT_SCHEMA",
     "CORRECTED_STRESS_SEMANTICS",
+    "CORRECTED_TANGENT_RELATIVE_STEP",
     "LEGACY_COROTATIONAL_J2",
     "CorotationalJ2Hex8Element",
     "CorotationalJ2Hex20Element",

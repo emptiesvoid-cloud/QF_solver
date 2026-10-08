@@ -30,6 +30,12 @@ from solveur.core.nonlinear.checkpoint import NonlinearCheckpointSession, Nonlin
 from solveur.core.nonlinear.arc_length import NonlinearArcLengthMixin
 from solveur.core.nonlinear.load_control import NonlinearLoadControlMixin
 from solveur.core.nonlinear.state import NonlinearState
+from solveur.elements.solid.corotational_j2 import (
+    CORRECTED_COROTATIONAL_J2,
+    CORRECTED_RESULT_SCHEMA,
+    CORRECTED_STRESS_SEMANTICS,
+    CORRECTED_TANGENT_RELATIVE_STEP,
+)
 from solveur.core.results import SolveResult
 from solveur.mesh.validation import MeshValidator
 from solveur.post.audit import PostProcessingAuditor
@@ -276,6 +282,21 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
             analysis="nonlinear_static",
             method=model.analysis.method,
             solver={
+                **(
+                    {
+                        "formulation_id": CORRECTED_COROTATIONAL_J2,
+                        "constitutive_state_version": "corotational_j2_state/v2",
+                        "stress_semantic_version": CORRECTED_STRESS_SEMANTICS,
+                        "result_schema_version": CORRECTED_RESULT_SCHEMA,
+                        "tangent_scheme": "central_difference_of_corrected_force_fixed_accepted_state",
+                        "tangent_relative_step": CORRECTED_TANGENT_RELATIVE_STEP,
+                        "maturity": "EXPERIMENTAL",
+                        "qualification_status": "NOT_ASSESSED",
+                        "numerical_pass_implies_qualification": False,
+                    }
+                    if params.get("corotational_formulation") == CORRECTED_COROTATIONAL_J2
+                    else {}
+                ),
                 "nonlinear_options": {
                     "load_steps": options.load_steps,
                     "max_iterations": options.max_iterations,
@@ -289,15 +310,9 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                 "adaptive_load_steps": adaptive,
                 "arc_length": model.analysis.method == "arc_length",
                 "adaptive_arc_length": bool(arc_length_controls and arc_length_controls.adaptive_radius),
-                "arc_length_growth_factor": (
-                    arc_length_controls.growth_factor if arc_length_controls else None
-                ),
-                "arc_length_shrink_factor": (
-                    arc_length_controls.shrink_factor if arc_length_controls else None
-                ),
-                "arc_length_minimum_radius": (
-                    arc_length_controls.minimum_radius if arc_length_controls else None
-                ),
+                "arc_length_growth_factor": (arc_length_controls.growth_factor if arc_length_controls else None),
+                "arc_length_shrink_factor": (arc_length_controls.shrink_factor if arc_length_controls else None),
+                "arc_length_minimum_radius": (arc_length_controls.minimum_radius if arc_length_controls else None),
                 "arc_length_stop_mode": str(params.get("arc_length_stop_mode", "target_load")).lower(),
                 "arc_length_allow_load_factor_turning": bool(
                     params.get(
@@ -322,9 +337,7 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                 "checkpoint_path": checkpoint_session.settings.path if checkpoint_session else None,
                 "checkpoint_files": checkpoint_session.files if checkpoint_session else [],
                 "checkpoint_model_signature": (
-                    checkpoint_session.persisted_signature or checkpoint_session.signature
-                    if checkpoint_session
-                    else ""
+                    checkpoint_session.persisted_signature or checkpoint_session.signature if checkpoint_session else ""
                 ),
                 "rejected_increments": self._rejected_increments,
                 "rejection_log": list(self._rejection_log),
@@ -340,12 +353,6 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
             material_states=copy_material_states(material_states),
             audit=audit,
         )
-
-
-
-
-
-
 
     @staticmethod
     def _validate_kinematics_scope(model: FiniteElementModel, params: dict[str, object]) -> None:
@@ -379,22 +386,13 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                 f"{kinematics} currently supports homogeneous TET4, TET10, HEX8 or HEX20 meshes."
             )
         if len(families) != 1:
-            raise InputValidationError(
-                f"{kinematics} currently requires one homogeneous element family."
-            )
-        material_types = {
-            str(model.materials[element.material].get("type", "")).lower()
-            for element in model.elements
-        }
+            raise InputValidationError(f"{kinematics} currently requires one homogeneous element family.")
+        material_types = {str(model.materials[element.material].get("type", "")).lower() for element in model.elements}
         expected_material = (
-            "von_mises_elastoplastic_3d"
-            if kinematics in {"total_lagrangian_j2", "corotational_j2"}
-            else "isotropic_3d"
+            "von_mises_elastoplastic_3d" if kinematics in {"total_lagrangian_j2", "corotational_j2"} else "isotropic_3d"
         )
         if material_types != {expected_material}:
-            raise InputValidationError(
-                f"{kinematics} requires material type '{expected_material}'."
-            )
+            raise InputValidationError(f"{kinematics} requires material type '{expected_material}'.")
 
     def _assemble_internal_tangent(
         self,

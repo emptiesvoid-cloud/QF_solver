@@ -1,0 +1,68 @@
+{
+  "schema": "qf-solver-wp08-r3-stress-results-contract/v1",
+  "record_type": "PROSPECTIVE_CORRECTED_RESULT_SEMANTICS_NOT_QUALIFICATION",
+  "formulation_id": "corrected_corotational_biot_j2/v1",
+  "constitutive_state_version": "corotational_j2_state/v2",
+  "stress_semantic_version": "corotational_stress/v2",
+  "result_schema_version": "qf-solid-stress-results/v2",
+  "maturity": "EXPERIMENTAL",
+  "qualification_status": "NOT_ASSESSED",
+  "numerical_pass_implies_qualification": false,
+  "field_contract": {
+    "stress": {"measure": "CAUCHY", "frame": "CURRENT_CONFIGURATION", "availability": "AVAILABLE"},
+    "strain": {"measure": "BIOT_STRAIN_U_MINUS_I", "frame": "MATERIAL_REFERENCE_FRAME", "availability": "AVAILABLE"},
+    "biot_strain": {"measure": "BIOT_STRAIN_U_MINUS_I", "frame": "MATERIAL_REFERENCE_FRAME", "availability": "AVAILABLE"},
+    "biot_stress": {
+      "measure": "STRESS_CONJUGATE_TO_BIOT_STRAIN",
+      "frame": "MATERIAL_REFERENCE_FRAME",
+      "availability": "AVAILABLE"
+    },
+    "first_piola_stress": {
+      "measure": "FIRST_PIOLA_KIRCHHOFF_P",
+      "frame": "SPATIAL_REFERENCE_TWO_POINT",
+      "availability": "AVAILABLE"
+    },
+    "second_piola_stress": {
+      "measure": "SECOND_PIOLA_KIRCHHOFF_S=F^-1 P",
+      "frame": "REFERENCE_CONFIGURATION",
+      "availability": "AVAILABLE"
+    },
+    "cauchy_stress": {
+      "measure": "CAUCHY_SIGMA=P F^T/det(F)",
+      "frame": "CURRENT_CONFIGURATION",
+      "availability": "AVAILABLE"
+    },
+    "von_mises": {"derived_from": "CAUCHY", "frame": "CURRENT_CONFIGURATION", "availability": "AVAILABLE"},
+    "principal_stress": {"derived_from": "CAUCHY", "frame": "CURRENT_CONFIGURATION", "availability": "AVAILABLE"},
+    "deviatoric_stress": {"derived_from": "CAUCHY", "frame": "CURRENT_CONFIGURATION", "availability": "AVAILABLE"},
+    "stress_trace": {"derived_from": "CAUCHY", "frame": "CURRENT_CONFIGURATION", "availability": "AVAILABLE"},
+    "hydrostatic_pressure": {"derived_from": "CAUCHY", "frame": "CURRENT_CONFIGURATION", "availability": "AVAILABLE"},
+    "principal_strain": {"derived_from": "BIOT_STRAIN_U_MINUS_I", "frame": "MATERIAL_REFERENCE_FRAME", "availability": "AVAILABLE"},
+    "strain_trace": {"derived_from": "BIOT_STRAIN_U_MINUS_I", "frame": "MATERIAL_REFERENCE_FRAME", "availability": "AVAILABLE"}
+  },
+  "representation": {
+    "stress_voigt_order": ["xx", "yy", "zz", "xy", "yz", "xz"],
+    "strain_voigt_shear_convention": "engineering_shear_as_existing_material_update",
+    "stress_tensors": "3x3 matrices; first Piola is a two-point tensor with spatial row and reference column",
+    "derived_fields": "principal values, von Mises, deviatoric stress and scalar invariants are derived from the explicitly named source measure; no cross-measure averaging"
+  },
+  "aggregate_policy": {
+    "integration_average": "existing reference quadrature weights, applied independently to each explicitly named tensor field",
+    "nodal_results": "existing element-side constant recovery from the integration-average result; metadata identifies the underlying measure and frame",
+    "not_available_policy": "report an explicit availability status and reason; never emit a valid-looking empty array for an uncomputed field"
+  },
+  "compatibility": {
+    "legacy_formulation_id": "legacy_corotational_j2/v1",
+    "legacy_default_preserved": true,
+    "legacy_second_piola_semantics_reinterpreted": false,
+    "legacy_files_rewritten": false,
+    "corrected_and_legacy_results_may_be_combined": false,
+    "migration": "No implicit migration. Formulation, state, stress-semantic and result-schema versions must match the corrected route."
+  },
+  "properties": {
+    "corrected_PK2_and_Cauchy_symmetry": "verified on bounded corrected element fixtures by unsymmetrized raw transforms and explicit skew guards",
+    "first_Piola_symmetry": "not required; no symmetrization",
+    "stress_aggregation_semantics": "all generic aggregate stress-derived fields use Cauchy; measures are retained separately",
+    "qualification": "No result contract or numerical test promotes maturity or qualification."
+  }
+}

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 from dataclasses import replace
+import json
 
 import numpy as np
 import pytest
@@ -12,7 +13,8 @@ from solveur.core.assembly.nonlinear import (
     validate_corotational_formulation,
 )
 from solveur.core.errors import InputValidationError
-from solveur.core.nonlinear.material_state import StateTransaction, state_digest
+from solveur.core.nonlinear.material_state import StateTransaction, initial_material_states, state_digest
+from solveur.core.nonlinear.solver import NonlinearStaticSolver
 from solveur.elements.solid.corotational_j2 import (
     CORRECTED_COROTATIONAL_J2,
     LEGACY_COROTATIONAL_J2,
@@ -28,6 +30,7 @@ from solveur.elements.solid.corotational_j2 import (
     _polar_stretch_directional_derivative,
 )
 from solveur.materials.solid import VonMisesElastoplasticMaterial
+from solveur.io.nonlinear_checkpoint import NpzNonlinearCheckpointStore
 from solveur.verification.robustness_nonlinear_solids import _refinement_model
 
 
@@ -200,6 +203,23 @@ def _hex20_coordinates() -> np.ndarray:
 
 def _affine_displacement(coords: np.ndarray, deformation: np.ndarray) -> np.ndarray:
     return ((deformation - np.eye(3)) @ coords.T).T.reshape(-1)
+
+
+def _corrected_global_model(*, load_scale: float = 0.25, method: str = "newton_raphson", **updates):
+    model = _refinement_model("TET4", 1)
+    parameters = {
+        **model.analysis.parameters,
+        "kinematics": "corotational_j2",
+        "corotational_formulation": CORRECTED_COROTATIONAL_J2,
+        "max_iterations": 35,
+        "tolerance": 1.0e-8,
+        **updates,
+    }
+    return replace(
+        model,
+        analysis=replace(model.analysis, method=method, parameters=parameters),
+        loads=[replace(load, value=load.value * load_scale) for load in model.loads],
+    )
 
 
 def _proper_rotation(axis: np.ndarray, angle: float) -> np.ndarray:
@@ -547,7 +567,15 @@ def test_corrected_element_force_matches_independent_incremental_potential_gradi
     else:
         assert accepted["equivalent_plastic_strain"] > 0.0
         assert states[0]["plastic_multiplier"] > 0.0
-    assert points[0]["public_result_availability"]["status"] == "UNAVAILABLE"
+    availability = points[0]["public_result_availability"]
+    assert availability["status"] == "AVAILABLE"
+    assert availability["reason"] is None
+    assert {
+        "biot_stress",
+        "first_piola_stress",
+        "second_piola_stress",
+        "cauchy_stress",
+    }.issubset(availability["fields"])
     char_stress = max(
         np.linalg.norm(np.asarray(points[0]["biot_stress"])),
         material.E * np.linalg.norm(np.asarray(points[0]["biot_strain"])),
@@ -723,17 +751,48 @@ def test_corrected_state_is_versioned_detached_and_transaction_safe() -> None:
     assert states[0]["formulation_id"] == CORRECTED_COROTATIONAL_J2
 
 
-def test_corrected_newton_entry_is_rejected_until_r3_and_legacy_default_is_unchanged() -> None:
+def test_corrected_element_provides_raw_numerical_force_tangent_and_results() -> None:
     material = _material()
     coords = _tet4_coordinates()
     legacy = CorotationalJ2Tet4Element(material)
     corrected = CorotationalJ2Tet4Element(material, formulation_id=CORRECTED_COROTATIONAL_J2)
     assert legacy.formulation_id == LEGACY_COROTATIONAL_J2
     assert _corrected_material_identity(material) == corrected.corrected_initial_state()["material_identity"]
-    with pytest.raises(RuntimeError, match="no production-compatible tangent"):
-        corrected.internal_force_tangent_state(coords, np.zeros(12), [corrected.corrected_initial_state()])
-    with pytest.raises(RuntimeError, match="post-processing"):
-        corrected.integration_point_results(coords, np.zeros(12), [corrected.corrected_initial_state()])
+    initial = [corrected.corrected_initial_state()]
+    displacement = _affine_displacement(coords, np.diag([1.008, 0.996, 0.996]))
+    accepted_before = deepcopy(initial)
+    force, tangent, updated = corrected.internal_force_tangent_state(coords, displacement, initial)
+    assert force.shape == (12,)
+    assert tangent.shape == (12, 12)
+    assert np.all(np.isfinite(tangent))
+    assert updated[0]["formulation_id"] == CORRECTED_COROTATIONAL_J2
+    assert initial == accepted_before
+    diagnostics = corrected.last_corrected_tangent_diagnostics
+    assert diagnostics["algorithm"] == "central_difference_of_corrected_force_fixed_accepted_state"
+    assert diagnostics["force_evaluations"] == 25
+    assert diagnostics["symmetrized"] is False
+    direct_columns = np.column_stack(
+        [
+            (
+                corrected.corrected_internal_force_state(
+                    coords,
+                    displacement + np.eye(12)[column] * diagnostics["absolute_step"],
+                    initial,
+                )[0]
+                - corrected.corrected_internal_force_state(
+                    coords,
+                    displacement - np.eye(12)[column] * diagnostics["absolute_step"],
+                    initial,
+                )[0]
+            )
+            / (2.0 * diagnostics["absolute_step"])
+            for column in range(12)
+        ]
+    )
+    np.testing.assert_array_equal(tangent, direct_columns)
+    points = corrected.integration_point_results(coords, displacement, updated)
+    assert points[0]["formulation_id"] == CORRECTED_COROTATIONAL_J2
+    assert points[0]["stress_semantics"]["second_piola_stress"]["stress_measure"] == "SECOND_PIOLA_KIRCHHOFF"
     legacy_force, legacy_tangent, _ = legacy.internal_force_tangent_state(
         coords, np.zeros(12), [material.initial_state()]
     )
@@ -741,7 +800,7 @@ def test_corrected_newton_entry_is_rejected_until_r3_and_legacy_default_is_uncha
     assert np.all(np.isfinite(legacy_tangent))
 
 
-def test_global_solver_rejects_corrected_route_without_a_validated_tangent() -> None:
+def test_corrected_global_route_is_explicit_and_legacy_remains_the_default() -> None:
     model = _refinement_model("TET4", 1)
     parameters = {
         **model.analysis.parameters,
@@ -749,13 +808,19 @@ def test_global_solver_rejects_corrected_route_without_a_validated_tangent() -> 
         "corotational_formulation": CORRECTED_COROTATIONAL_J2,
     }
     model = replace(model, analysis=replace(model.analysis, parameters=parameters))
-    with pytest.raises(InputValidationError, match="disabled until WP08-R3"):
-        validate_corotational_formulation(model)
+    assert validate_corotational_formulation(model) == CORRECTED_COROTATIONAL_J2
     dofs = model.dof_manager()
-    with pytest.raises(InputValidationError, match="disabled until WP08-R3"):
-        build_nonlinear_assembly_plan(model, dofs)
-    with pytest.raises(InputValidationError, match="disabled until WP08-R3"):
-        assemble_internal_tangent(model, dofs, np.zeros(dofs.ndof))
+    plan = build_nonlinear_assembly_plan(model, dofs)
+    assert plan.corotational_formulation_id == CORRECTED_COROTATIONAL_J2
+    states = initial_material_states(model)
+    assert all(
+        point["formulation_id"] == CORRECTED_COROTATIONAL_J2
+        for integration_points in states.values()
+        for point in integration_points
+    )
+    force, tangent, trial = assemble_internal_tangent(model, dofs, np.zeros(dofs.ndof), states, plan=plan)
+    assert np.all(np.isfinite(force)) and np.all(np.isfinite(tangent.data))
+    assert all(points[0]["formulation_id"] == CORRECTED_COROTATIONAL_J2 for points in trial.values())
     legacy_model = replace(
         model,
         analysis=replace(
@@ -764,9 +829,336 @@ def test_global_solver_rejects_corrected_route_without_a_validated_tangent() -> 
         ),
     )
     assert validate_corotational_formulation(legacy_model) == LEGACY_COROTATIONAL_J2
+    assert build_nonlinear_assembly_plan(legacy_model, dofs).corotational_formulation_id == LEGACY_COROTATIONAL_J2
+    for disabled_method in ("modified_newton", "arc_length"):
+        disabled = replace(model, analysis=replace(model.analysis, method=disabled_method))
+        with pytest.raises(InputValidationError, match="Full Newton"):
+            validate_corotational_formulation(disabled)
     with pytest.raises(ValueError, match="strain cap"):
         CorotationalJ2Tet4Element(
             _material(),
             formulation_id=CORRECTED_COROTATIONAL_J2,
             max_corotational_strain=0.06,
         )
+
+
+def test_corrected_tangent_matches_independent_directional_force_differences() -> None:
+    material = _material()
+    element = CorotationalJ2Tet4Element(material, formulation_id=CORRECTED_COROTATIONAL_J2)
+    coords = _tet4_coordinates()
+    accepted = [element.corrected_initial_state()]
+    preload = _affine_displacement(coords, np.diag([1.016, 0.992, 0.992]))
+    _, accepted, _ = element.corrected_internal_force_state(coords, preload, accepted)
+    deformation = np.array([[1.010, 0.002, 0.0], [0.002, 0.996, 0.001], [0.0, 0.001, 0.994]])
+    displacement = _affine_displacement(coords, deformation)
+    accepted_hash = state_digest(accepted)
+    force, tangent, trial = element.internal_force_tangent_state(coords, displacement, accepted)
+    assert trial[0]["equivalent_plastic_strain"] >= accepted[0]["equivalent_plastic_strain"]
+    assert state_digest(accepted) == accepted_hash
+
+    direction = np.random.default_rng(27).normal(size=12)
+    direction /= np.linalg.norm(direction)
+    length = (1.0 / 6.0) ** (1.0 / 3.0)
+    relative_steps = (1.0e-4, 3.0e-5, 1.0e-5, 3.0e-6)
+    differences = []
+    for relative_step in relative_steps:
+        step = relative_step * length
+        plus = element.corrected_internal_force_state(coords, displacement + step * direction, accepted)[0]
+        minus = element.corrected_internal_force_state(coords, displacement - step * direction, accepted)[0]
+        differences.append((plus - minus) / (2.0 * step))
+    reference = differences[-1]
+    sigma_scale = max(
+        float(
+            np.linalg.norm(
+                np.asarray(element.corrected_internal_force_state(coords, displacement, accepted)[2][0]["biot_stress"])
+            )
+        ),
+        material.E
+        * float(
+            np.linalg.norm(
+                np.asarray(element.corrected_internal_force_state(coords, displacement, accepted)[2][0]["biot_strain"])
+            )
+        ),
+        material.yield_stress,
+        1.0,
+    )
+    denominator = max(
+        float(np.linalg.norm(tangent @ direction)),
+        float(np.linalg.norm(reference)),
+        sigma_scale * length,
+        1.0e-30,
+    )
+    assert np.linalg.norm(tangent @ direction - reference) / denominator <= 2.0e-5
+    plateau = np.linalg.norm(differences[-2] - differences[-1]) / denominator
+    assert plateau <= 2.0e-5
+    diagnostics = element.last_corrected_tangent_diagnostics
+    assert diagnostics["branch_switch_count"] == 0
+    assert diagnostics["classical_derivative_claim"] is True
+    assert diagnostics["raw_tangent_relative_skew"] <= 2.0e-5
+    assert diagnostics["symmetrized"] is False
+
+
+def test_corrected_tangent_supports_each_declared_element_family() -> None:
+    material = VonMisesElastoplasticMaterial(E=2100.0, nu=0.3, yield_stress=1.0e8, hardening_modulus=18.0)
+    cases = (
+        (CorotationalJ2Tet4Element, _tet4_coordinates),
+        (CorotationalJ2Tet10Element, _tet10_coordinates),
+        (CorotationalJ2Hex8Element, _hex8_coordinates),
+        (CorotationalJ2Hex20Element, _hex20_coordinates),
+    )
+    deformation = np.array([[1.004, 0.001, 0.0], [0.0, 0.998, 0.001], [0.0, 0.0, 0.998]])
+    for element_type, coordinates in cases:
+        coords = coordinates()
+        element = element_type(material, formulation_id=CORRECTED_COROTATIONAL_J2)
+        initial = [element.corrected_initial_state() for _ in element._cached_reference_data(coords)]
+        displacement = _affine_displacement(coords, deformation)
+        force, tangent, states = element.internal_force_tangent_state(coords, displacement, initial)
+        assert force.shape == (3 * len(coords),)
+        assert tangent.shape == (force.size, force.size)
+        assert np.all(np.isfinite(tangent))
+        assert len(states) == len(initial)
+        assert element.last_corrected_tangent_diagnostics["force_evaluations"] == 2 * force.size + 1
+
+
+def test_corrected_tangent_marks_yield_switch_as_nonsmooth() -> None:
+    material = _material()
+    element = CorotationalJ2Tet4Element(material, formulation_id=CORRECTED_COROTATIONAL_J2)
+    coords = _tet4_coordinates()
+    shear = material.E / (2.0 * (1.0 + material.nu))
+    yield_strain = material.yield_stress / (2.0 * shear)
+    displacement = _affine_displacement(coords, np.diag([1.0 + yield_strain, 1.0, 1.0]))
+    accepted = [element.corrected_initial_state()]
+    force_0, _, points_0 = element.corrected_internal_force_state(coords, displacement, accepted)
+    direction = _affine_displacement(coords, np.diag([1.0, 0.0, 0.0]))
+    direction /= np.linalg.norm(direction)
+    characteristic_length = (1.0 / 6.0) ** (1.0 / 3.0)
+    positive_derivatives = []
+    negative_derivatives = []
+    for relative_step in (1.0e-4, 3.0e-5, 1.0e-5, 3.0e-6):
+        step = relative_step * characteristic_length
+        force_plus, _, plus_points = element.corrected_internal_force_state(
+            coords, displacement + step * direction, accepted
+        )
+        force_minus, _, minus_points = element.corrected_internal_force_state(
+            coords, displacement - step * direction, accepted
+        )
+        assert all(not point["material_diagnostics"]["elastic"] for point in plus_points)
+        assert all(point["material_diagnostics"]["elastic"] for point in minus_points)
+        positive_derivatives.append((force_plus - force_0) / step)
+        negative_derivatives.append((force_0 - force_minus) / step)
+    one_sided_scale = max(
+        float(np.linalg.norm(positive_derivatives[-1])),
+        float(np.linalg.norm(negative_derivatives[-1])),
+        material.yield_stress * characteristic_length,
+        1.0e-30,
+    )
+    positive_plateau = float(np.linalg.norm(positive_derivatives[-2] - positive_derivatives[-1])) / one_sided_scale
+    negative_plateau = float(np.linalg.norm(negative_derivatives[-2] - negative_derivatives[-1])) / one_sided_scale
+    assert positive_plateau <= 2.0e-5
+    assert negative_plateau <= 2.0e-5
+    _, tangent, _ = element.internal_force_tangent_state(coords, displacement, accepted)
+    assert np.all(np.isfinite(tangent))
+    assert element.last_corrected_tangent_diagnostics["branch_switch_count"] > 0
+    assert element.last_corrected_tangent_diagnostics["classical_derivative_claim"] is False
+
+
+def test_corrected_newton_elastic_route_and_adaptive_cutback_rollback() -> None:
+    elastic_model = _corrected_global_model(load_scale=0.01)
+    elastic_result = NonlinearStaticSolver().solve(elastic_model)
+    assert elastic_result.status == "PASS"
+    assert (
+        max(
+            float(state["equivalent_plastic_strain"])
+            for integration_points in elastic_result.material_states.values()
+            for state in integration_points
+        )
+        == 0.0
+    )
+
+    base = _refinement_model("TET4", 1)
+    parameters = {key: value for key, value in base.analysis.parameters.items() if key != "load_path"}
+    parameters.update(
+        {
+            "kinematics": "corotational_j2",
+            "corotational_formulation": CORRECTED_COROTATIONAL_J2,
+            "adaptive_load_steps": True,
+            "load_steps": 1,
+            "initial_load_increment": 1.0,
+            "min_load_increment": 0.03125,
+            "max_load_increment": 1.0,
+            "max_iterations": 6,
+            "tolerance": 1.0e-8,
+            "max_cutbacks": 20,
+        }
+    )
+    cutback_model = replace(
+        base,
+        analysis=replace(base.analysis, parameters=parameters),
+        loads=[replace(load, value=load.value * 0.35) for load in base.loads],
+    )
+    cutback_result = NonlinearStaticSolver().solve(cutback_model)
+    assert cutback_result.status == "PASS"
+    assert cutback_result.solver["rejected_increments"] == 1
+    assert len(cutback_result.solver["steps"]) > 1
+    assert all(step["state_committed"] for step in cutback_result.solver["steps"])
+
+
+def test_corrected_newton_plasticity_line_search_results_and_serialization() -> None:
+    model = _corrected_global_model(load_scale=0.25, method="newton_line_search")
+    result = NonlinearStaticSolver().solve(model)
+    assert result.status == "PASS"
+    assert result.solver["formulation_id"] == CORRECTED_COROTATIONAL_J2
+    assert result.solver["constitutive_state_version"] == "corotational_j2_state/v2"
+    assert result.solver["maturity"] == "EXPERIMENTAL"
+    assert result.solver["qualification_status"] == "NOT_ASSESSED"
+    assert result.solver["numerical_pass_implies_qualification"] is False
+    assert all(step["residual_norm"] <= 1.0e-8 for step in result.solver["steps"])
+    assert any(step["line_search_reductions"] > 0 for step in result.solver["steps"])
+    assert (
+        max(
+            float(state["equivalent_plastic_strain"])
+            for integration_points in result.material_states.values()
+            for state in integration_points
+        )
+        > 0.0
+    )
+    first = result.element_results[0]
+    assert first["formulation_id"] == CORRECTED_COROTATIONAL_J2
+    assert first["semantic_version"] == "corotational_stress/v2"
+    assert first["stress_measure"] == first["von_mises_measure"] == "CAUCHY"
+    assert first["stress_frame"] == "CURRENT_CONFIGURATION"
+    assert first["strain_measure"] == "BIOT_STRAIN"
+    assert first["strain_frame"] == "MATERIAL_REFERENCE_FRAME"
+    assert first["principal_stress_measure"] == "CAUCHY"
+    assert first["principal_strain_measure"] == "BIOT_STRAIN"
+    assert first["deviatoric_stress_measure"] == "CAUCHY"
+    assert first["stress_semantics"]["stress"]["stress_measure"] == "CAUCHY"
+    assert first["stress_semantics"]["strain"]["strain_measure"] == "BIOT_STRAIN"
+    assert all(point["stress_measure"] == "CAUCHY" for point in first["integration_points"])
+    assert all(
+        point["availability"]["principal_stress"]["status"] == "AVAILABLE" for point in first["integration_points"]
+    )
+    assert all(
+        point["availability"]["principal_strain"]["status"] == "AVAILABLE" for point in first["integration_points"]
+    )
+    assert first["integration_points"][0]["stress_semantics"]["principal_strain"]["strain_measure"] == ("BIOT_STRAIN")
+    assert all(nodal["stress_measure"] == "CAUCHY" for nodal in first["nodal_results"])
+    assert all(nodal["strain_measure"] == "BIOT_STRAIN" for nodal in first["nodal_results"])
+    assert all(nodal["availability"]["von_mises"]["status"] == "AVAILABLE" for nodal in first["nodal_results"])
+    serialized = result.to_dict()
+    json.dumps(serialized, allow_nan=False)
+    serialized_point = serialized["element_results"][0]["integration_points"][0]
+    assert "second_piola_stress" in serialized_point
+    assert serialized_point["stress_semantics"]["second_piola_stress"]["stress_measure"] == ("SECOND_PIOLA_KIRCHHOFF")
+
+
+def test_corrected_checkpoint_restart_is_formulation_bound_and_deterministic(tmp_path) -> None:
+    store = NpzNonlinearCheckpointStore()
+    checkpoint = tmp_path / "corrected.npz"
+    model = _corrected_global_model(
+        load_scale=0.25,
+        checkpoint_path=str(checkpoint),
+        checkpoint_interval=1,
+        checkpoint_keep_steps=True,
+    )
+    continuous = NonlinearStaticSolver(store).solve(model)
+    first_step_checkpoint = tmp_path / "corrected.step00000001.npz"
+    assert first_step_checkpoint.is_file()
+    loaded = store.load(checkpoint)
+    assert loaded.migration_metadata["formulation_id"] == CORRECTED_COROTATIONAL_J2
+    restart_model = replace(
+        model,
+        analysis=replace(
+            model.analysis,
+            parameters={
+                **model.analysis.parameters,
+                "checkpoint_path": str(tmp_path / "resumed.npz"),
+                "restart_from": str(first_step_checkpoint),
+            },
+        ),
+    )
+    resumed = NonlinearStaticSolver(store).solve(restart_model)
+    np.testing.assert_allclose(resumed.displacements, continuous.displacements, rtol=1.0e-11, atol=1.0e-12)
+    assert state_digest(resumed.material_states) == state_digest(continuous.material_states)
+    assert resumed.solver["restart_step"] == 1
+
+
+def test_corrected_restart_rejects_legacy_checkpoint_and_changed_material(tmp_path) -> None:
+    store = NpzNonlinearCheckpointStore()
+    legacy_checkpoint = tmp_path / "legacy.npz"
+    legacy_model = _refinement_model("TET4", 1)
+    legacy_model = replace(
+        legacy_model,
+        analysis=replace(
+            legacy_model.analysis,
+            parameters={
+                **legacy_model.analysis.parameters,
+                "kinematics": "corotational_j2",
+                "checkpoint_path": str(legacy_checkpoint),
+            },
+        ),
+        loads=[replace(load, value=load.value * 0.05) for load in legacy_model.loads],
+    )
+    NonlinearStaticSolver(store).solve(legacy_model)
+    corrected_model = replace(
+        legacy_model,
+        analysis=replace(
+            legacy_model.analysis,
+            parameters={
+                **legacy_model.analysis.parameters,
+                "corotational_formulation": CORRECTED_COROTATIONAL_J2,
+                "restart_from": str(legacy_checkpoint),
+                "checkpoint_path": str(tmp_path / "corrected.npz"),
+            },
+        ),
+    )
+    with pytest.raises(InputValidationError, match="does not match"):
+        NonlinearStaticSolver(store).solve(corrected_model)
+
+    corrected = _corrected_global_model(
+        load_scale=0.25,
+        checkpoint_path=str(tmp_path / "source.npz"),
+        checkpoint_interval=1,
+    )
+    NonlinearStaticSolver(store).solve(corrected)
+    corrupted = tmp_path / "corrupted.npz"
+    corrupted.write_bytes(b"not a valid npz checkpoint")
+    corrupt_restart = replace(
+        corrected,
+        analysis=replace(
+            corrected.analysis,
+            parameters={**corrected.analysis.parameters, "restart_from": str(corrupted)},
+        ),
+    )
+    with pytest.raises(InputValidationError, match="Cannot read nonlinear checkpoint"):
+        NonlinearStaticSolver(store).solve(corrupt_restart)
+    changed_materials = deepcopy(corrected.materials)
+    changed_materials["j2"]["yield_stress"] *= 1.01
+    changed = replace(
+        corrected,
+        materials=changed_materials,
+        analysis=replace(
+            corrected.analysis,
+            parameters={**corrected.analysis.parameters, "restart_from": str(tmp_path / "source.npz")},
+        ),
+    )
+    with pytest.raises(InputValidationError, match="does not match"):
+        NonlinearStaticSolver(store).solve(changed)
+
+
+def test_corrected_force_and_tangent_are_origin_invariant() -> None:
+    material = VonMisesElastoplasticMaterial(E=2100.0, nu=0.3, yield_stress=1.0e8, hardening_modulus=18.0)
+    element = CorotationalJ2Tet4Element(material, formulation_id=CORRECTED_COROTATIONAL_J2)
+    coords = _tet4_coordinates()
+    deformation = np.array([[1.006, 0.001, 0.0], [0.0, 0.998, 0.001], [0.0, 0.0, 0.997]])
+    states = [element.corrected_initial_state()]
+    force, tangent, _ = element.internal_force_tangent_state(coords, _affine_displacement(coords, deformation), states)
+    shift = np.array([1000.0, -600.0, 400.0])
+    translated = coords + shift
+    translated_force, translated_tangent, _ = element.internal_force_tangent_state(
+        translated, _affine_displacement(translated, deformation), states
+    )
+    force_error = np.linalg.norm(translated_force - force) / max(np.linalg.norm(force), 1.0)
+    tangent_error = np.linalg.norm(translated_tangent - tangent) / max(np.linalg.norm(tangent), 1.0)
+    assert force_error <= 1.0e-9
+    assert tangent_error <= 1.0e-9

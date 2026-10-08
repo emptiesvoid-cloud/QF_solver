@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Any, cast
 
 import numpy as np
 from time import perf_counter
@@ -48,7 +49,7 @@ def _corotational_strain_limit(model: FiniteElementModel, kinematics: str) -> fl
 
 
 def validate_corotational_formulation(model: FiniteElementModel) -> str:
-    """Resolve the legacy default and fail closed on the R2 force-only route."""
+    """Resolve the legacy default and guard the opt-in corrected Newton route."""
 
     parameters = model.analysis.parameters
     kinematics = str(parameters.get("kinematics", "small_strain")).lower()
@@ -59,11 +60,17 @@ def validate_corotational_formulation(model: FiniteElementModel) -> str:
         return LEGACY_COROTATIONAL_J2
     formulation = LEGACY_COROTATIONAL_J2 if selected is None else str(selected)
     if formulation == CORRECTED_COROTATIONAL_J2:
-        raise InputValidationError(
-            "corrected_corotational_biot_j2/v1 currently provides only the WP08-R2 "
-            "force/state kernel; corrected global Newton is disabled until WP08-R3 "
-            "implements and validates its compatible tangent."
-        )
+        if model.analysis.type != "nonlinear_static":
+            raise InputValidationError("The corrected corotational J2 formulation is limited to nonlinear_static.")
+        if model.analysis.method not in {"newton_raphson", "newton_line_search"}:
+            raise InputValidationError(
+                "The corrected corotational J2 route supports Full Newton with optional line search; "
+                "modified Newton and arc-length are not enabled."
+            )
+        if model.contacts:
+            raise InputValidationError("The corrected corotational J2 route does not support contact.")
+        _corotational_strain_limit(model, kinematics)
+        return formulation
     if formulation != LEGACY_COROTATIONAL_J2:
         raise InputValidationError(f"Unknown corotational_formulation {formulation!r}.")
     return formulation
@@ -95,6 +102,7 @@ class NonlinearAssemblyPlan:
     node_count: int
     ndof: int
     kinematics: str
+    corotational_formulation_id: str
     nonlinear_quadrature: str
     corotational_strain_limit: float
     elements: tuple[NonlinearAssemblyElement, ...]
@@ -102,10 +110,8 @@ class NonlinearAssemblyPlan:
     def matches(self, model: FiniteElementModel, dofs: DofManager) -> bool:
         """Return whether the plan is safe to reuse for ``model`` and ``dofs``."""
         kinematics = str(model.analysis.parameters.get("kinematics", "small_strain")).lower()
-        validate_corotational_formulation(model)
-        quadrature = str(
-            model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")
-        ).lower()
+        formulation_id = validate_corotational_formulation(model)
+        quadrature = str(model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")).lower()
         strain_limit = _corotational_strain_limit(model, kinematics)
         return (
             self.model_token == id(model)
@@ -114,6 +120,7 @@ class NonlinearAssemblyPlan:
             and self.ndof == dofs.ndof
             and len(self.elements) == len(model.elements)
             and self.kinematics == kinematics
+            and self.corotational_formulation_id == formulation_id
             and self.nonlinear_quadrature == quadrature
             and self.corotational_strain_limit == strain_limit
         )
@@ -126,6 +133,7 @@ def _create_nonlinear_element(
     finite_kinematics: str,
     nonlinear_quadrature: str,
     corotational_strain_limit: float,
+    corotational_formulation_id: str = LEGACY_COROTATIONAL_J2,
 ) -> object:
     """Create one nonlinear kernel while keeping formulation dispatch local."""
     if finite_kinematics == "corotational_j2":
@@ -136,16 +144,19 @@ def _create_nonlinear_element(
             "HEX20": CorotationalJ2Hex20Element,
         }.get(element_type)
         if element_class is None:
-            raise InputValidationError(
-                "corotational_j2 supports TET4, TET10, HEX8 and HEX20."
-            )
+            raise InputValidationError("corotational_j2 supports TET4, TET10, HEX8 and HEX20.")
         if element_type == "TET10":
             return element_class(
                 material,
                 nonlinear_quadrature=nonlinear_quadrature,
                 max_corotational_strain=corotational_strain_limit,
+                formulation_id=corotational_formulation_id,
             )
-        return element_class(material, max_corotational_strain=corotational_strain_limit)
+        return element_class(
+            material,
+            max_corotational_strain=corotational_strain_limit,
+            formulation_id=corotational_formulation_id,
+        )
     if finite_kinematics in {"total_lagrangian", "total_lagrangian_j2"}:
         element_class = {
             "TET4": TotalLagrangianJ2Tet4Element,
@@ -154,9 +165,7 @@ def _create_nonlinear_element(
             "HEX20": TotalLagrangianJ2Hex20Element,
         }.get(element_type)
         if element_class is None:
-            raise InputValidationError(
-                "total_lagrangian supports TET4, TET10, HEX8 and HEX20."
-            )
+            raise InputValidationError("total_lagrangian supports TET4, TET10, HEX8 and HEX20.")
         if element_type == "TET10":
             return element_class(material, nonlinear_quadrature=nonlinear_quadrature)
         return element_class(material)
@@ -171,10 +180,8 @@ def build_nonlinear_assembly_plan(
 ) -> NonlinearAssemblyPlan:
     """Prepare reusable nonlinear element kernels without retaining matrices."""
     finite_kinematics = str(model.analysis.parameters.get("kinematics", "small_strain")).lower()
-    validate_corotational_formulation(model)
-    nonlinear_quadrature = str(
-        model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")
-    ).lower()
+    corotational_formulation_id = validate_corotational_formulation(model)
+    nonlinear_quadrature = str(model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")).lower()
     corotational_strain_limit = _corotational_strain_limit(model, finite_kinematics)
     material_cache: dict[str, object] = {}
     entries: list[NonlinearAssemblyElement] = []
@@ -186,11 +193,7 @@ def build_nonlinear_assembly_plan(
             material_cache[definition.material] = material
         coordinates = np.asarray(model.nodes[list(definition.nodes)], dtype=float)
         global_dofs = np.asarray(
-            [
-                index
-                for node in definition.nodes
-                for index in dofs.node_indices(node, spec.dofs)
-            ],
+            [index for node in definition.nodes for index in dofs.node_indices(node, spec.dofs)],
             dtype=np.int64,
         )
         entries.append(
@@ -207,6 +210,7 @@ def build_nonlinear_assembly_plan(
                     finite_kinematics,
                     nonlinear_quadrature,
                     corotational_strain_limit,
+                    corotational_formulation_id,
                 ),
             )
         )
@@ -216,6 +220,7 @@ def build_nonlinear_assembly_plan(
         node_count=model.node_count,
         ndof=dofs.ndof,
         kinematics=finite_kinematics,
+        corotational_formulation_id=corotational_formulation_id,
         nonlinear_quadrature=nonlinear_quadrature,
         corotational_strain_limit=corotational_strain_limit,
         elements=tuple(entries),
@@ -235,7 +240,7 @@ def assemble_internal_tangent(
     """Assemble nonlinear internal force and tangent without dense intermediates."""
     if plan is not None and not plan.matches(model, dofs):
         raise InputValidationError("Nonlinear assembly plan does not match the supplied model and DDL map.")
-    validate_corotational_formulation(model)
+    corotational_formulation_id = validate_corotational_formulation(model)
     if timing is not None:
         timing.setdefault("element_kernel_calls", 0)
         timing.setdefault("contact_assembly_calls", 0)
@@ -289,31 +294,24 @@ def assemble_internal_tangent(
                 finite_kinematics,
                 str(model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")),
                 corotational_strain_limit,
+                corotational_formulation_id,
             )
             coords = model.nodes[list(definition.nodes)]
             edofs = np.asarray(
-                [
-                    index
-                    for node in definition.nodes
-                    for index in dofs.node_indices(node, spec.dofs)
-                ],
+                [index for node in definition.nodes for index in dofs.node_indices(node, spec.dofs)],
                 dtype=np.int64,
             )
             if timing is not None:
                 timing["element_cache_misses"] = int(timing["element_cache_misses"]) + 1
         if timing is not None:
-            timing["element_setup_seconds"] = float(timing["element_setup_seconds"]) + (
-                perf_counter() - setup_started
-            )
+            timing["element_setup_seconds"] = float(timing["element_setup_seconds"]) + (perf_counter() - setup_started)
         if not hasattr(element, "internal_force_and_tangent"):
             raise InputValidationError(f"Element {definition.type} does not support nonlinear static analysis.")
         local_u = displacement[edofs]
         states = (material_states or {}).get(element_index)
         element_states: object = {}
         reference_cache_info = getattr(element, "reference_geometry_cache_info", None)
-        reference_cache_before = (
-            dict(reference_cache_info()) if callable(reference_cache_info) else None
-        )
+        reference_cache_before = dict(reference_cache_info()) if callable(reference_cache_info) else None
         try:
             kernel_started = perf_counter()
             if hasattr(element, "internal_force_tangent_state"):
@@ -321,7 +319,13 @@ def assemble_internal_tangent(
                     coords, local_u, states
                 )
                 if element_states:
-                    updated_states[element_index] = element_states
+                    if not isinstance(element_states, list) or any(
+                        not isinstance(point, dict) for point in element_states
+                    ):
+                        raise InputValidationError(
+                            f"Nonlinear element {element_index} returned an invalid material-state collection."
+                        )
+                    updated_states[element_index] = cast(list[dict[str, Any]], element_states)
             else:
                 local_internal, local_tangent = element.internal_force_and_tangent(coords, local_u)
             if timing is not None:
@@ -346,12 +350,10 @@ def assemble_internal_tangent(
         if timing is not None and reference_cache_before is not None and callable(reference_cache_info):
             reference_cache_after = dict(reference_cache_info())
             timing["reference_cache_hits"] = int(timing["reference_cache_hits"]) + (
-                int(reference_cache_after.get("hits", 0))
-                - int(reference_cache_before.get("hits", 0))
+                int(reference_cache_after.get("hits", 0)) - int(reference_cache_before.get("hits", 0))
             )
             timing["reference_cache_misses"] = int(timing["reference_cache_misses"]) + (
-                int(reference_cache_after.get("misses", 0))
-                - int(reference_cache_before.get("misses", 0))
+                int(reference_cache_after.get("misses", 0)) - int(reference_cache_before.get("misses", 0))
             )
         if not np.all(np.isfinite(local_internal)) or not np.all(np.isfinite(local_tangent)):
             raise NumericalConvergenceError(
@@ -441,9 +443,7 @@ def assemble_internal_tangent(
         )
     if model.contacts:
         if contact_mode != "penalty":
-            raise InputValidationError(
-                "Nonlinear contact requires explicit analysis parameter contact_mode='penalty'."
-            )
+            raise InputValidationError("Nonlinear contact requires explicit analysis parameter contact_mode='penalty'.")
         contact_started = perf_counter()
         contact_internal, contact_tangent, details = assemble_penalty_contact(
             model,
@@ -461,23 +461,21 @@ def assemble_internal_tangent(
         if contact_diagnostics is not None:
             contact_diagnostics.update(
                 {
-                "search_mode": details.get("search_mode"),
-                "active_contacts": list(details.get("active_contacts", [])),
-                "gaps": list(details.get("gaps", [])),
-                "master_face_indices": list(details.get("master_face_indices", [])),
-                "penalty": details.get("penalty"),
-                "penalty_integration": details.get("penalty_integration"),
-                "penalty_integration_weights": list(
-                    details.get("penalty_integration_weights", [])
-                ),
-                "effective_penalties": list(details.get("effective_penalties", [])),
-                "slave_node_count": details.get("slave_node_count", 0),
-                "maximum_penetration": details.get("maximum_penetration", 0.0),
-                "minimum_gap": details.get("minimum_gap", 0.0),
-                "contact_force_norm": details.get("contact_force_norm", 0.0),
-                "tangent_nnz": details.get("tangent_nnz", int(contact_tangent.nnz)),
-                "active_penetrations": list(details.get("active_penetrations", [])),
-                "finite_sliding": details.get("finite_sliding", False),
+                    "search_mode": details.get("search_mode"),
+                    "active_contacts": list(details.get("active_contacts", [])),
+                    "gaps": list(details.get("gaps", [])),
+                    "master_face_indices": list(details.get("master_face_indices", [])),
+                    "penalty": details.get("penalty"),
+                    "penalty_integration": details.get("penalty_integration"),
+                    "penalty_integration_weights": list(details.get("penalty_integration_weights", [])),
+                    "effective_penalties": list(details.get("effective_penalties", [])),
+                    "slave_node_count": details.get("slave_node_count", 0),
+                    "maximum_penetration": details.get("maximum_penetration", 0.0),
+                    "minimum_gap": details.get("minimum_gap", 0.0),
+                    "contact_force_norm": details.get("contact_force_norm", 0.0),
+                    "tangent_nnz": details.get("tangent_nnz", int(contact_tangent.nnz)),
+                    "active_penetrations": list(details.get("active_penetrations", [])),
+                    "finite_sliding": details.get("finite_sliding", False),
                     "projection_clamped": list(details.get("projection_clamped", [])),
                     "closest_distances": list(details.get("closest_distances", [])),
                     "projection_modes": list(details.get("projection_modes", [])),
