@@ -1,0 +1,201 @@
+{
+  "schema": "qf-solver-wp08-r1-constitutive-state-contract/v1",
+  "record_type": "IMPLEMENTATION_DESIGN_NOT_QUALIFICATION",
+  "status": "FROZEN_FOR_R2_DESIGN",
+  "baseline_commit": "0eb52ed65a0a6891f30ca51e68371b37210a0fc8",
+  "owner_rescope": "RESCOPE_MINIMAL_CORRECTION",
+  "scope": {
+    "formulation_id": "corrected_corotational_biot_j2/v1",
+    "legacy_formulation_id": "legacy_corotational_j2/v1",
+    "kinematics": "F=R U; E_B=U-I",
+    "maximum_local_strain_frobenius": 0.05,
+    "element_families": ["TET4", "TET10", "HEX8", "HEX20"],
+    "material": "isotropic linear elasticity with existing associative small-strain J2 radial return and linear isotropic hardening",
+    "prospective_maturity": "EXPERIMENTAL",
+    "prospective_qualification": "NOT_ASSESSED",
+    "numerical_pass_implies_qualification": false,
+    "general_finite_strain_plasticity": false,
+    "multiplicative_plasticity": false
+  },
+  "frames": {
+    "reference_material": "Fixed reference basis in which right stretch U, Biot strain E_B, plastic strain, and local Biot-conjugate stress are represented.",
+    "spatial_current": "Current spatial basis in which Cauchy stress and current-force components are represented.",
+    "two_point": "First Piola stress has one spatial index and one reference index.",
+    "superposed_spatial_rotation": {
+      "transformation": "F_star=Q F; R_star=Q R; U_star=U",
+      "state_rule": "Do not rotate or update reference/material internal variables because of Q.",
+      "stress_rule": "T_B_star=T_B; P_star=Q P; S_star=S; sigma_star=Q sigma Q^T"
+    }
+  },
+  "state_schema": {
+    "id": "corotational_j2_state/v2",
+    "accepted_state_is_immutable_during_trial": true,
+    "commit_only_after_global_convergence": true,
+    "rollback_discards_trial": true,
+    "fields": {
+      "formulation_id": {
+        "type": "string",
+        "required": true,
+        "value": "corrected_corotational_biot_j2/v1"
+      },
+      "state_schema": {
+        "type": "string",
+        "required": true,
+        "value": "corotational_j2_state/v2"
+      },
+      "plastic_strain": {
+        "type": "symmetric_deviatoric_tensor_engineering_voigt",
+        "frame": "REFERENCE_MATERIAL",
+        "required": true,
+        "invariant_under_superposed_spatial_rotation": true
+      },
+      "equivalent_plastic_strain": {
+        "type": "finite_nonnegative_scalar",
+        "frame": "INVARIANT",
+        "required": true,
+        "monotone_on_accepted_plastic_steps": true
+      },
+      "strain": {
+        "type": "symmetric_tensor_engineering_voigt",
+        "measure": "BIOT_STRETCH_STRAIN_U_MINUS_I",
+        "frame": "REFERENCE_MATERIAL",
+        "required": true
+      },
+      "stress": {
+        "type": "symmetric_stress_voigt",
+        "measure": "LOCAL_STRESS_WITH_EXPLICIT_MEASURE",
+        "measure_detail": "BIOT_STRESS_CONJUGATE_TO_RIGHT_STRETCH_STRAIN_U_MINUS_I",
+        "frame": "REFERENCE_MATERIAL",
+        "required": true
+      },
+      "plastic_dissipation": {
+        "type": "finite_nonnegative_scalar",
+        "definition": "sum(sigma_y * delta_alpha) for the stated rate-independent J2 law",
+        "unit": "Pa (energy per reference volume)",
+        "frame": "INVARIANT",
+        "required": true
+      },
+      "hardening_energy": {
+        "type": "finite_nonnegative_scalar",
+        "definition": "0.5 * H * equivalent_plastic_strain^2",
+        "unit": "Pa (energy per reference volume)",
+        "frame": "INVARIANT",
+        "required": true
+      },
+      "last_rotation_R": {
+        "type": "not_required_for_constitutive_state",
+        "required": false,
+        "rule": "If retained for diagnostics, never use it to rotate accepted plastic state."
+      }
+    },
+    "validation": [
+      "Reject non-finite or wrongly shaped tensors/scalars.",
+      "Reject a plastic strain with a trace or skew part above the frozen state tolerance.",
+      "Reject negative equivalent plastic strain, dissipation, or hardening energy beyond roundoff.",
+      "Reject a state whose formulation, material identity, or schema is unknown."
+    ]
+  },
+  "local_update": {
+    "strain": "E_B=U-I",
+    "elastic_trial": "T_trial=2*mu*dev(E_B-Ep_n)+lambda*tr(E_B-Ep_n)*I",
+    "yield_function": "f_trial=sqrt(3/2*dev(T_trial):dev(T_trial))-(sigma_y+H*alpha_n)",
+    "plastic_multiplier": "delta_gamma=max(f_trial,0)/(3*mu+H)",
+    "flow": "Ep_(n+1)=Ep_n+(3/2)*delta_gamma*dev(T_trial)/q_trial",
+    "equivalent_plastic_strain": "alpha_(n+1)=alpha_n+delta_gamma",
+    "algorithmic_stress": "Use the existing isotropic J2 radial-return stress in tensor-consistent engineering Voigt; stress is conjugate to E_B.",
+    "incremental_thermodynamics": {
+      "elastic_energy": "0.5*(E_B-Ep):C:(E_B-Ep)",
+      "hardening_energy": "0.5*H*alpha^2",
+      "rate_independent_dissipation_increment": "sigma_y*delta_gamma",
+      "global_path_independent_energy_claim": false
+    },
+    "history_rules": [
+      "All Newton and line-search evaluations are evaluated from the same accepted state for the current increment.",
+      "Plastic history evolves only through the return map driven by changes in E_B; spatial spin alone does not change it.",
+      "Unload/reload is path-dependent and follows the same return map; reverse yielding is allowed when the trial stress reaches the opposite yield surface.",
+      "A change in principal directions is handled by tensor components in the fixed reference/material basis, not by rotating the state with R."
+    ]
+  },
+  "stress_output_contract": {
+    "semantic_version": "corotational_stress/v2",
+    "fields": {
+      "biot_stress": {
+        "stress_measure": "LOCAL_STRESS_WITH_EXPLICIT_MEASURE",
+        "stress_measure_detail": "BIOT_STRESS_CONJUGATE_TO_RIGHT_STRETCH_STRAIN_U_MINUS_I",
+        "stress_frame": "REFERENCE_CONFIGURATION",
+        "stress_frame_detail": "fixed material/reference basis"
+      },
+      "first_piola_stress": {
+        "stress_measure": "FIRST_PIOLA_KIRCHHOFF",
+        "stress_measure_detail": "P=R*Pbar; Pbar=adjoint(D_F U)[T_B]",
+        "stress_frame": "EXPLICIT_USER_FRAME",
+        "stress_frame_detail": "two-point tensor with current-spatial and reference-material indices"
+      },
+      "second_piola_stress": {
+        "stress_measure": "SECOND_PIOLA_KIRCHHOFF",
+        "stress_frame": "REFERENCE_CONFIGURATION",
+        "must_be_symmetric": true
+      },
+      "cauchy_stress": {
+        "stress_measure": "CAUCHY",
+        "stress_frame": "CURRENT_CONFIGURATION",
+        "must_be_symmetric": true
+      },
+      "stress": {
+        "stress_measure": "CAUCHY",
+        "stress_frame": "CURRENT_CONFIGURATION",
+        "stress_measure_detail": "corrected generic/principal/von-Mises aggregation"
+      }
+    },
+    "availability": {
+      "valid_invertible_F_within_strain_bound": {
+        "status": "AVAILABLE",
+        "reason": null
+      },
+      "invalid_or_nonfinite_F": {
+        "status": "UNAVAILABLE",
+        "reason": "invalid deformation or failed corrected stress transformation"
+      },
+      "historical_result_without_measure_or_frame": {
+        "status": "AVAILABLE",
+        "semantic_status": "LEGACY_SEMANTICS_UNRESOLVED",
+        "evidence_availability": "AVAILABLE_HISTORICAL_ONLY"
+      }
+    },
+    "aggregate_rule": "Never average different measures or frames. Principal stresses and von Mises in the corrected generic field are computed from the declared symmetric Cauchy stress."
+  },
+  "checkpoint_and_migration": {
+    "identity_fields": [
+      "formulation_id",
+      "state_schema",
+      "physical_identity",
+      "operator/assembly identity",
+      "element family and integration rule",
+      "material identifier, parameters, units",
+      "accepted increment and load-state identity",
+      "accepted material-state content hash"
+    ],
+    "legacy_checkpoint_readable": "YES_WHERE_EXISTING_PARSER_SUPPORTS_IT",
+    "legacy_checkpoint_safe_to_resume_as_corrected": false,
+    "missing_or_unknown_identity": "READ_ONLY_OR_REFUSE_READ; SAFE_RESUME=NO; FAIL_CLOSED=YES",
+    "automatic_migration": false,
+    "corrected_to_legacy_resume": false,
+    "legacy_to_corrected_resume": false,
+    "fresh_zero_state": "Allowed only as a new corrected analysis, not as an inferred migration from a legacy checkpoint."
+  },
+  "preservation": {
+    "historical_result_bytes_modified": false,
+    "historical_vnv_promoted": false,
+    "wp08_status": "BLOCKED",
+    "wp09_authorized": false,
+    "wp10_authorized": false,
+    "qf0212_g03_nl": "BLOCKED",
+    "qf0212_g04_nl": "BLOCKED",
+    "historical_g03": "FAIL_PRESERVED",
+    "historical_wp14": "HOLD_NOT_PROMOTED",
+    "whole_repository_archive_cleared": false,
+    "release_publication_authorized": false,
+    "numerical_pass_implies_qualification": false,
+    "maturity_promotion": false
+  }
+}

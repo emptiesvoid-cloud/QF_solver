@@ -1,0 +1,180 @@
+{
+  "schema": "qf-solver-wp08-r1-vnv-acceptance/v1",
+  "record_type": "PREREGISTERED_IMPLEMENTATION_ACCEPTANCE_NOT_QUALIFICATION",
+  "status": "FROZEN_BEFORE_R2_IMPLEMENTATION",
+  "formulation_id": "corrected_corotational_biot_j2/v1",
+  "implementation_started": false,
+  "result_status_for_all_checks": "NOT_RUN",
+  "r1_formula_sanity_probe": {
+    "status": "DESIGN_SANITY_ONLY_NOT_IMPLEMENTATION_VALIDATION",
+    "performed": true,
+    "method": "one-off independent NumPy calculation of the written spectral adjoint on a random SPD stretch, proper rotation, symmetric local stress, and random deltaF; no QF production helper imported",
+    "random_seed": 812,
+    "observed": {
+      "work_virtual_relative_residual": 1.3460343460756855e-15,
+      "angular_identity_relative_residual": 1.33186854516782e-16,
+      "second_piola_relative_skew": 2.3084566874448166e-16,
+      "cauchy_relative_skew": 3.3423896348039557e-16
+    },
+    "interpretation": "Checks the algebraic consistency of this written spectral formula for one finite-dimensional sample only. It does not exercise the QF implementation, the J2 return, element force assembly, a plastic history, or qualification.",
+    "scratch_harness_note": "An initial scratch calculation mixed eigenbasis components with diagonal entries of the non-diagonal U and failed; the basis mismatch was corrected by using the eigenvalues. Only the corrected values above are reported, and the failed scratch calculation is not evidence about production behavior."
+  },
+  "common_metrics": {
+    "tensor_relative_error": "||A-B||_F / max(||A||_F, ||B||_F, scale_floor)",
+    "relative_skew": "||A-A^T||_F / max(||A||_F, 1 Pa)",
+    "force_scale": "F_char = sigma_char * V0^(2/3), sigma_char=max(||T_B||_F, E*||E_B||_F, sigma_y, 1 Pa)",
+    "work_scale": "W_char=max(||P||_F*||deltaF||_F, ||T_B||_F*||deltaU||_F, 1 Pa*max(||deltaF||_F,||deltaU||_F), 1e-30 Pa); this is work per reference volume",
+    "origin_rule": "All perturbation lengths use element-local geometry/displacement scales, never max(abs(reference_coordinates)).",
+    "threshold_rule": "Each criterion below is property-specific. The historical 1e-10 symmetry diagnostic is retained only for asserted symmetric stress measures; it is not a universal tolerance."
+  },
+  "checks": [
+    {
+      "id": "R1-A01",
+      "property": "polar decomposition and local-strain guard",
+      "oracle": "independent SVD/right-polar calculation on bounded 3x3 tensors",
+      "metric": "relative reconstruction ||F-RU||; orthogonality ||R^T R-I||; symmetry ||U-U^T||; eigmin(U)",
+      "acceptance": "reconstruction<=1e-12; orthogonality<=1e-12; symmetry<=1e-12*max(||U||,1); all finite; eigmin(U)>0; det(F)>1e-10; ||U-I||_F<=0.05",
+      "evidence_class": "ANALYTICAL_IDENTITY_AND_NUMERICAL_VERIFICATION",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "R1-A02",
+      "property": "pure rigid rotation, virgin and after plastic preload",
+      "oracle": "U(QF)=U(F), independent polar SVD; compare committed state before/after spin",
+      "metric": "tensor_relative_error(U); absolute delta alpha; tensor_relative_error(Ep,T_B)",
+      "acceptance": "U/state/stress relative error<=5e-12; |delta alpha|<=5e-13; no plastic increment for an unchanged U",
+      "evidence_class": "NUMERICAL_VERIFICATION",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "R1-A03",
+      "property": "objectivity under a superposed spatial rotation of a multi-step history",
+      "oracle": "independent QF, U, stress push/pull transformations; no production transport helper",
+      "metric": "U_star-U; state_star-state; P_star-QP; S_star-S; sigma_star-Q sigma Q^T, scaled tensor errors",
+      "acceptance": "each relative error<=5e-11 over elastic, plastic, unload/reload, and noncoaxial histories",
+      "evidence_class": "NUMERICAL_VERIFICATION",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "R1-A04",
+      "property": "stress transformation identities",
+      "oracle": "independent dense solve for S and direct product for Cauchy",
+      "metric": "relative residual of S=solve(F,P), sigma=P F^T/J, and P=R Pbar",
+      "acceptance": "each relative residual<=1e-12",
+      "evidence_class": "ANALYTICAL_IDENTITY_AND_NUMERICAL_VERIFICATION",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "R1-A05",
+      "property": "physical Cauchy and PK2 symmetry / angular momentum",
+      "oracle": "uncorrected raw tensors from independently formed exact polar-adjoint P; no symmetrization",
+      "metric": "relative_skew(S), relative_skew(sigma), ||P F^T-(P F^T)^T||/max(||P F^T||,1 Pa)",
+      "acceptance": "all three<=1e-10; where tensor norm<1 Pa require absolute skew<=1e-10 Pa; corrected force resultant moment must agree with volume-integrated angular-momentum identity within 1e-9 relative using its characteristic force-length scale",
+      "evidence_class": "ANALYTICAL_CONDITION_AND_NUMERICAL_VERIFICATION",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "R1-A06",
+      "property": "polar differential and adjoint work conjugacy",
+      "oracle": "independent Sylvester solve and central-difference U(F); random normalized perturbations spanning symmetric and skew parts",
+      "metric": "relative error in deltaU and absolute work residual normalized by W_char",
+      "acceptance": "deltaU finite-difference plateau error<=2e-7; |P:deltaF-T_B:deltaU|/W_char<=5e-12",
+      "evidence_class": "ANALYTICAL_IDENTITY_AND_NUMERICAL_VERIFICATION",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "R1-A07",
+      "property": "incremental-potential gradient versus assembled internal force",
+      "oracle": "independently coded local radial-return incremental potential differentiated in nodal displacement; not StressPostProcessor or production P helper",
+      "metric": "||f_int-f_FD||/max(||f_int||,||f_FD||,F_char); central-difference step plateau and Richardson comparison",
+      "acceptance": "relative scaled error<=2e-6 at a converged finite-difference plateau on elastic, active plastic, and noncoaxial smooth-branch cases",
+      "evidence_class": "INDEPENDENT_NUMERICAL_VERIFICATION",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "R1-A08",
+      "property": "elastic patch response: tension, compression, simple shear, principal/coaxial and noncoaxial",
+      "oracle": "closed-form local isotropic J2 elastic law and affine constant-stress patch equilibrium",
+      "metric": "material stress error, force/work identity, symmetry, and element patch-force error scaled by material/force scale",
+      "acceptance": "stress/work identities<=1e-10; affine patch force error<=1e-10 on each supported element/quadrature fixture; no plastic state change below yield",
+      "evidence_class": "ANALYTICAL_REFERENCE_AND_NUMERICAL_VERIFICATION",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "R1-A09",
+      "property": "plastic monotone loading, unloading, reverse yield, and noncoaxial multi-increment history",
+      "oracle": "independently authored tensor radial-return implementation with same frozen discrete strain path and accepted-state sequence",
+      "metric": "relative stress/Ep error; absolute alpha error; yield residual; dissipation increment; exact state immutability during trial",
+      "acceptance": "stress/Ep scaled error<=1e-10; alpha absolute error<=1e-12; normalized yield residual<=1e-10 on active branch; dissipation increment>=-1e-12*max(total dissipation,1 Pa); trial does not alter accepted-state bytes",
+      "evidence_class": "INDEPENDENT_MATERIAL_POINT_VERIFICATION",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "R1-A10",
+      "property": "raw consistent tangent and force derivative",
+      "oracle": "independent central directional force differences at four preregistered relative steps using a fixed accepted state",
+      "metric": "||K v-K_FD v||/max(||K v||,||K_FD v||,F_char/L_char); raw tangent skew ratio on smooth branches",
+      "acceptance": "directional error<=2e-5 at a step-size plateau; raw tangent skew<=2e-5 only on smooth branches where the incremental potential Hessian is classical; no symmetrization before reporting; yield switching uses one-sided/generalized derivative checks",
+      "evidence_class": "INDEPENDENT_NUMERICAL_VERIFICATION",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "R1-A11",
+      "property": "origin invariance",
+      "oracle": "same reference geometry/displacement field translated by a constant vector, independent local length scale",
+      "metric": "relative difference in F, E_B, T_B, P, and assembled force",
+      "acceptance": "all relative differences<=1e-9 for translations up to 1e3 characteristic element lengths; failures due conditioning are reported, not hidden by changing thresholds",
+      "evidence_class": "NUMERICAL_VERIFICATION",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "R1-A12",
+      "property": "Newton equilibrium and legacy-route non-regression",
+      "oracle": "existing nonlinear solver tolerances and saved baseline fixtures; separately select legacy and corrected formulation IDs",
+      "metric": "convergence status, final residual using existing scale, iteration/failure diagnostics, legacy output/state byte-level fixture comparison where deterministic",
+      "acceptance": "corrected supported fixtures converge under existing controls with final residual meeting the existing solver tolerance; legacy route results remain within the pre-existing regression assertions; no defaults silently change",
+      "evidence_class": "INTEGRATION_AND_NONREGRESSION",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "R1-A13",
+      "property": "element families and integration rules",
+      "oracle": "independent affine patch and per-family quadrature/force reference",
+      "metric": "force/work/symmetry metrics for TET4, TET10, HEX8, HEX20",
+      "acceptance": "each supported family passes A05-A08 and the pre-existing element-specific checks; no inference from one family to another",
+      "evidence_class": "NUMERICAL_VERIFICATION",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "R1-A14",
+      "property": "trial/commit/rollback and restart boundary",
+      "oracle": "accepted-state content hash before/after repeated trials, rejection, commit, rollback; checkpoint identity contract",
+      "metric": "state hash and formulation/schema identity equality",
+      "acceptance": "trial/rejection/rollback preserve accepted-state hash exactly; commit applies one accepted state; legacy or unknown checkpoint under corrected formulation yields SAFE_RESUME=NO and FAIL_CLOSED=YES",
+      "evidence_class": "CONTRACT_AND_INTEGRATION_VERIFICATION",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "R1-A15",
+      "property": "invalid deformation and return-map inputs",
+      "oracle": "constructed NaN/Inf, det floor, strain-cap, non-positive stretch, and malformed-state cases",
+      "metric": "deterministic rejection code and absence of valid stress output",
+      "acceptance": "all invalid cases reject before assembling/serializing a valid corrected response; legacy behavior is tested separately and is not broadened",
+      "evidence_class": "FAIL_CLOSED_CONTRACT_VERIFICATION",
+      "status": "NOT_RUN"
+    }
+  ],
+  "interpretation": {
+    "analytical_identity": "The polar adjoint and stress transformations are mathematical identities under the stated invertibility and smoothness assumptions.",
+    "numerical_verification": "Passing the finite-dimensional or element tests verifies implementation against specified independent oracles only.",
+    "qualification": "No check in this record automatically qualifies the method, closes QF0212 gates, promotes maturity, or establishes industrial/general finite-strain validity.",
+    "historical_gates": {
+      "historical_g03": "FAIL_PRESERVED",
+      "historical_wp14": "HOLD_NOT_PROMOTED",
+      "whole_repository_archive_cleared": false,
+      "wp08_status": "BLOCKED",
+      "qf0212_g03_nl": "BLOCKED",
+      "qf0212_g04_nl": "BLOCKED"
+    }
+  }
+}
