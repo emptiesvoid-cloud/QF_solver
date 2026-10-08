@@ -1,0 +1,103 @@
+{
+  "schema": "qf-solver-wp08-r2-equation-implementation-test-map/v1",
+  "record_type": "PRE_IMPLEMENTATION_FROZEN_TRACEABILITY_NOT_QUALIFICATION",
+  "status": "FROZEN_BEFORE_SOURCE_CHANGE",
+  "source_baseline": "8fc7eb90b5e0063a58acb3f7e788edd517e223ca",
+  "design_authority": {
+    "formulation_id": "corrected_corotational_biot_j2/v1",
+    "state_schema": "corotational_j2_state/v2",
+    "acceptance_matrix": "qualification/0_2_12/wp08_r1_vnv_acceptance_matrix.json",
+    "legacy_formulation_id": "legacy_corotational_j2/v1",
+    "wp08_global_status": "BLOCKED"
+  },
+  "scope": {
+    "implemented_in_r2": [
+      "corrected material-frame state adapter around the existing J2 radial return",
+      "F=R U kinematics with the R1 admissibility bounds",
+      "exact polar-adjoint first Piola stress",
+      "element internal force assembled from corrected first Piola stress",
+      "independent material-point, tensor, work, angular-momentum and element-force checks"
+    ],
+    "not_implemented_in_r2": [
+      "production algorithmic tangent and tangent qualification (WP08-R3)",
+      "corrected global Newton analysis route (disabled until R3 supplies a compatible tangent)",
+      "public stress aggregation, serializer and checkpoint migration (WP08-R3)",
+      "general tangent robustness (WP09)",
+      "general checkpoint/restart work (WP10)"
+    ],
+    "legacy_default": "Existing corotational_j2 calls retain legacy_corotational_j2/v1 behavior unless a corrected-only kernel API is explicitly selected.",
+    "corrected_route_safety": "Corrected force evaluation is exposed only through an explicitly named corrected kernel. The global Newton assembly path must reject this formulation until a compatible production tangent exists."
+  },
+  "equation_to_implementation_to_independent_test": [
+    {
+      "equation_id": "R1-KIN-01",
+      "equation": "F = I + grad_X(u); F = R U; U = U^T > 0; J = det(F) > 1e-10; ||U-I||_F <= 0.05",
+      "implementation_function": "_corrected_polar_kinematics",
+      "independent_test": "tests/unit/test_corotational_j2_corrected.py::test_corrected_polar_kinematics_and_fail_closed_guards",
+      "oracle": "Independent NumPy SVD/right-polar reconstruction, determinant and fixed R1 thresholds R1-A01/R1-A15."
+    },
+    {
+      "equation_id": "R1-MAT-01",
+      "equation": "E_B=U-I; evaluate the existing associative isotropic J2 radial return from the immutable accepted material-frame state; spatial spin with unchanged U does not change that state.",
+      "implementation_function": "_evaluate_corrected_material_state",
+      "independent_test": "tests/unit/test_corotational_j2_corrected.py::test_corrected_state_matches_independent_tensor_j2_history and ::test_corrected_pure_spin_preserves_accepted_material_state",
+      "oracle": "Separately coded tensor radial-return and incremental-potential reference; compare stress/Ep, alpha, yield residual and dissipation using frozen R1-A02/R1-A03/R1-A09 thresholds."
+    },
+    {
+      "equation_id": "R1-POLAR-01",
+      "equation": "A=R^T deltaF; solve Omega U + U Omega = A-A^T with Omega skew; deltaU=sym(A-Omega U).",
+      "implementation_function": "_polar_stretch_directional_derivative",
+      "independent_test": "tests/unit/test_corotational_j2_corrected.py::test_polar_directional_derivative_matches_independent_sylvester_and_fd",
+      "oracle": "Independent Sylvester solve plus central differences of an independent NumPy right-polar SVD; frozen R1-A06 plateau threshold 2e-7."
+    },
+    {
+      "equation_id": "R1-POLAR-ADJ-01",
+      "equation": "In an eigenbasis of U, Pbar_ii=T_B,ii and Pbar_ij=2 lambda_i T_B,ij/(lambda_i+lambda_j); P=R Pbar; no post-hoc symmetrization.",
+      "implementation_function": "_corrected_first_piola_from_biot_stress",
+      "independent_test": "tests/unit/test_corotational_j2_corrected.py::test_polar_adjoint_satisfies_virtual_work_and_angular_identity",
+      "oracle": "Independent construction of deltaU and Pbar for random normalized deltaF; direct work identity and Pbar U=U Pbar^T; frozen R1-A05/R1-A06."
+    },
+    {
+      "equation_id": "R1-STRESS-01",
+      "equation": "S=solve(F,P)=U^-1 Pbar; sigma=P F^T/J; raw S and sigma are symmetric under the R1 assumptions.",
+      "implementation_function": "_corrected_stress_measures",
+      "independent_test": "tests/unit/test_corotational_j2_corrected.py::test_corrected_pk2_and_cauchy_match_independent_transforms_without_symmetrizing",
+      "oracle": "Independent dense solve/product without symmetrization; frozen transformation and symmetry limits R1-A04/R1-A05."
+    },
+    {
+      "equation_id": "R1-FORCE-01",
+      "equation": "f_int[a,i]=sum_q w_q P[i,J] N[a,J]",
+      "implementation_function": "_corrected_force_and_states",
+      "independent_test": "tests/unit/test_corotational_j2_corrected.py::test_corrected_element_force_matches_independent_incremental_potential_gradient",
+      "oracle": "Independent local J2 incremental potential and independently coded affine TET4 nodal perturbations, fixed accepted state, preregistered finite-difference plateau; frozen R1-A07 tolerance 2e-6."
+    },
+    {
+      "equation_id": "R1-STATE-01",
+      "equation": "Corrected state schema v2 is reference/material-frame; trial starts from accepted state, commit/rollback semantics remain detached; D_p += sigma_y delta_alpha and hardening energy=H alpha^2/2.",
+      "implementation_function": "_corrected_initial_state and _evaluate_corrected_material_state",
+      "independent_test": "tests/unit/test_corotational_j2_corrected.py::test_corrected_state_is_versioned_detached_and_transaction_safe",
+      "oracle": "State hashes and independently calculated invariants/dissipation; frozen R1-A09/R1-A14."
+    },
+    {
+      "equation_id": "R1-ELEMENT-01",
+      "equation": "The corrected kernel is limited to TET4, TET10, HEX8, HEX20 and the frozen strain/domain guards; unsupported use fails closed.",
+      "implementation_function": "_CorotationalJ2Mixin.corrected_internal_force_state",
+      "independent_test": "tests/unit/test_corotational_j2_corrected.py::test_corrected_force_kernel_supported_element_families and ::test_corrected_newton_entry_is_rejected_until_r3",
+      "oracle": "Per-family affine patch/reference-force checks and explicit dispatch refusal; frozen R1-A08/R1-A12/R1-A13."
+    },
+    {
+      "equation_id": "R1-OBJECTIVITY-01",
+      "equation": "For F*=QF: U*=U, T_B*=T_B, state*=state, P*=QP, S*=S, sigma*=Q sigma Q^T.",
+      "implementation_function": "_corrected_force_and_states plus corrected tensor helpers",
+      "independent_test": "tests/unit/test_corotational_j2_corrected.py::test_corrected_superposed_rotation_covariance_and_origin_invariance",
+      "oracle": "Independent proper rotation and tensor push/pull; translated-coordinate fixture; frozen R1-A02/R1-A03/R1-A11."
+    }
+  ],
+  "acceptance_boundary": {
+    "thresholds_source": "wp08_r1_vnv_acceptance_matrix.json; frozen before implementation",
+    "thresholds_may_be_changed_after_observation": false,
+    "tangent_acceptance": "R1-A10 is deferred to R3; R2 may collect diagnostics only and must not label a tangent qualified.",
+    "newton_acceptance": "R1-A12 corrected convergence is NOT_RUN/NOT_APPLICABLE in R2 because corrected Newton is explicitly disabled; legacy-route regression remains required.",
+    "qualification": "Numerical verification in R2 does not close QF0212_G03_NL or QF0212_G04_NL, qualify the route, or promote maturity."
+  }
+}
