@@ -35,6 +35,7 @@ from solveur.elements.solid.corotational_j2 import (
     CORRECTED_RESULT_SCHEMA,
     CORRECTED_STRESS_SEMANTICS,
     CORRECTED_TANGENT_RELATIVE_STEP,
+    CORRECTED_TANGENT_STRATEGY_VERSION,
 )
 from solveur.core.results import SolveResult
 from solveur.mesh.validation import MeshValidator
@@ -289,6 +290,7 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                         "stress_semantic_version": CORRECTED_STRESS_SEMANTICS,
                         "result_schema_version": CORRECTED_RESULT_SCHEMA,
                         "tangent_scheme": "central_difference_of_corrected_force_fixed_accepted_state",
+                        "tangent_strategy_version": CORRECTED_TANGENT_STRATEGY_VERSION,
                         "tangent_relative_step": CORRECTED_TANGENT_RELATIVE_STEP,
                         "maturity": "EXPERIMENTAL",
                         "qualification_status": "NOT_ASSESSED",

@@ -1,0 +1,78 @@
+{
+  "schema": "qf-solver-wp09-tangent-perturbation-policy/v1",
+  "record_type": "PREREGISTERED_BOUNDED_IMPLEMENTATION_VERIFICATION_NOT_QUALIFICATION",
+  "status": "FROZEN_ACCEPTANCE_THRESHOLDS; REPRESENTABILITY_GUARDS_DOCUMENTED",
+  "acceptance_thresholds_frozen_before_corrective_measurements": true,
+  "representability_guards_are_outcome_tuned_thresholds": false,
+  "formulation_id": "corrected_corotational_biot_j2/v1",
+  "baseline_commit": "ef139f0cef60718407391a1ec0e5d956e5ecc86f",
+  "frozen_wp08_criteria": {
+    "directional_derivative_relative_error_max": 2e-5,
+    "smooth_raw_tangent_relative_skew_max": 2e-5,
+    "independent_relative_steps": [1e-4, 3e-5, 1e-5, 3e-6],
+    "origin_invariance_max_through_1e3_characteristic_lengths": 1e-9,
+    "thresholds_changed": false
+  },
+  "production_tangent_policy": {
+    "formula": "K[:,j]=(f_corr(u+h*e_j;accepted)-f_corr(u-h*e_j;accepted))/(2*h)",
+    "relative_step": 1e-5,
+    "length_scale": "L=V0^(1/3), with V0 from the selected element reference integration rule",
+    "column_step": "h_j=1e-5*L for every translational nodal DOF; no absolute coordinates or rigid translation enters h_j",
+    "accepted_state": "same immutable accepted state for base, plus and minus force evaluations",
+    "production_step_unchanged_from_wp08_r3": true,
+    "symmetrization": false,
+    "branch_transition_policy": "return the bounded central secant only with an explicit non-classical branch-transition status; do not claim a classical derivative",
+    "failure_policy": "a failed/non-finite perturbed force invalidates the tangent and is reported with column and side; do not silently fall back"
+  },
+  "coordinate_precision_contract": {
+    "local_geometry_origin": "subtract the first reference node, normalize centered coordinates by maximum pairwise nodal distance for quadrature geometry, then restore quadrature weights by L^3 and gradients by 1/L; subtract the first nodal displacement before forming displacement gradients",
+    "coordinate_resolution_metric": "spacing(max(abs(reference_coordinates)))/max_pairwise_node_distance",
+    "maximum_admissible_coordinate_resolution_ratio": 1e-8,
+    "exceedance_behavior": "reject corrected-route evaluation as numerically unresolved; preserve the legacy route behavior",
+    "translation_relative_error_max_at_1e3_characteristic_lengths": 1e-9,
+    "translation_relative_error_max_at_1e6_characteristic_lengths": 1e-8,
+    "translation_relative_error_max_at_resolution_ratio_up_to_1e-8": 1e-7,
+    "rationale": "the strict R1 bound remains unchanged through 1e3 characteristic lengths; extended bounds account for floating-point quantization of input coordinates while requiring the local geometry to remain representable"
+  },
+  "displacement_stencil_precision_contract": {
+    "metric": "spacing(max(abs(displacement_components)))",
+    "acceptance": "floating_point_spacing < production_step",
+    "exceedance_behavior": "reject tangent as NUMERICALLY_AMBIGUOUS before any perturbed force evaluation; do not alter the frozen step",
+    "rationale": "a central perturbation that is not representable in the supplied displacement vector cannot define the intended stencil; this is a representability guard, not an empirical accuracy threshold"
+  },
+  "geometry_cache": {
+    "scope": "element instance only",
+    "key": "exact contiguous float64 reference-coordinate shape, dtype and bytes",
+    "invalidation": "any coordinate change changes the key and recomputes normalized quadrature data",
+    "global_mutable_cache": false
+  },
+  "scale_covariance_contract": {
+    "geometry_and_displacement_scales": [1e-6, 1.0, 1e6],
+    "force_scaling_for_fixed_stress": "s^2",
+    "tangent_scaling": "s",
+    "relative_error_max": 2e-5,
+    "state": "same constitutive strain path and dimensionally consistent reference coordinates/displacements; material parameters and stress units unchanged"
+  },
+  "branch_status_contract": [
+    "SMOOTH_ELASTIC",
+    "SMOOTH_PLASTIC",
+    "BRANCH_TRANSITION",
+    "NUMERICALLY_AMBIGUOUS",
+    "INVALID_STATE"
+  ],
+  "transactional_state_acceptance": {
+    "accepted_state_digest_before_after_tangent": "exactly equal",
+    "determinism": "repeated evaluation from identical inputs yields identical force, tangent, and branch summary",
+    "perturbation_failure": "accepted state remains byte-equivalent and no trial state is committed"
+  },
+  "cost_contract": {
+    "force_evaluations_per_successful_element_tangent": "2*n_dof+1",
+    "adaptive_repeated_tangent_sweeps_in_production": false,
+    "optimization": "no performance optimization is accepted without unchanged force/state outputs, directional-derivative acceptance, and measured end-to-end benefit"
+  },
+  "evidence_limits": [
+    "Passing these checks is bounded numerical verification, not qualification.",
+    "No classical derivative or general semismooth Newton guarantee is asserted at a constitutive branch transition.",
+    "Coordinate inputs whose local geometry is below the declared floating-point resolution are rejected, not repaired or silently recentered into a different shape."
+  ]
+}

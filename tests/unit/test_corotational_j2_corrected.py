@@ -18,6 +18,7 @@ from solveur.core.nonlinear.solver import NonlinearStaticSolver
 from solveur.elements.solid.corotational_j2 import (
     CORRECTED_COROTATIONAL_J2,
     LEGACY_COROTATIONAL_J2,
+    CORRECTED_TANGENT_STRATEGY_VERSION,
     CorotationalJ2Hex8Element,
     CorotationalJ2Hex20Element,
     CorotationalJ2Tet4Element,
@@ -893,6 +894,7 @@ def test_corrected_tangent_matches_independent_directional_force_differences() -
     assert plateau <= 2.0e-5
     diagnostics = element.last_corrected_tangent_diagnostics
     assert diagnostics["branch_switch_count"] == 0
+    assert diagnostics["numerical_status"] == "SMOOTH_PLASTIC"
     assert diagnostics["classical_derivative_claim"] is True
     assert diagnostics["raw_tangent_relative_skew"] <= 2.0e-5
     assert diagnostics["symmetrized"] is False
@@ -918,6 +920,42 @@ def test_corrected_tangent_supports_each_declared_element_family() -> None:
         assert np.all(np.isfinite(tangent))
         assert len(states) == len(initial)
         assert element.last_corrected_tangent_diagnostics["force_evaluations"] == 2 * force.size + 1
+        assert element.last_corrected_tangent_diagnostics["reference_geometry_cache_misses"] == 1
+        assert element.last_corrected_tangent_diagnostics["reference_geometry_cache_hits"] == 2 * force.size + 1
+        for scale in (1.0e-6, 1.0e6):
+            scaled_coords = scale * coords
+            scaled_displacement = scale * displacement
+            scaled_force, scaled_tangent, _ = element.internal_force_tangent_state(
+                scaled_coords, scaled_displacement, initial
+            )
+            scaled_force_error = np.linalg.norm(scaled_force - scale**2 * force) / max(
+                np.linalg.norm(scale**2 * force), 1.0e-30
+            )
+            scaled_tangent_error = np.linalg.norm(scaled_tangent - scale * tangent) / max(
+                np.linalg.norm(scale * tangent), 1.0e-30
+            )
+            assert scaled_force_error <= 2.0e-5
+            assert scaled_tangent_error <= 2.0e-5
+            assert element.last_corrected_tangent_diagnostics["reference_geometry_cache_misses"] == 1
+        for geometry_transform in (
+            np.diag([10.0, 1.0, 1.0]),
+            np.array([[1.0, 0.2, 0.0], [0.0, 1.1, 0.15], [0.05, 0.0, 0.9]]),
+        ):
+            transformed_coords = coords @ geometry_transform.T
+            transformed_displacement = _affine_displacement(transformed_coords, deformation)
+            transformed_force, transformed_tangent, _ = element.internal_force_tangent_state(
+                transformed_coords, transformed_displacement, initial
+            )
+            assert np.all(np.isfinite(transformed_force))
+            assert np.all(np.isfinite(transformed_tangent))
+        translated = coords + np.array([1000.0, -600.0, 400.0])
+        translated_force, translated_tangent, _ = element.internal_force_tangent_state(
+            translated, displacement, initial
+        )
+        force_error = np.linalg.norm(translated_force - force) / max(np.linalg.norm(force), 1.0)
+        tangent_error = np.linalg.norm(translated_tangent - tangent) / max(np.linalg.norm(tangent), 1.0)
+        assert force_error <= 1.0e-9
+        assert tangent_error <= 1.0e-9
 
 
 def test_corrected_tangent_marks_yield_switch_as_nonsmooth() -> None:
@@ -959,6 +997,7 @@ def test_corrected_tangent_marks_yield_switch_as_nonsmooth() -> None:
     _, tangent, _ = element.internal_force_tangent_state(coords, displacement, accepted)
     assert np.all(np.isfinite(tangent))
     assert element.last_corrected_tangent_diagnostics["branch_switch_count"] > 0
+    assert element.last_corrected_tangent_diagnostics["numerical_status"] == "BRANCH_TRANSITION"
     assert element.last_corrected_tangent_diagnostics["classical_derivative_claim"] is False
 
 
@@ -1008,6 +1047,7 @@ def test_corrected_newton_plasticity_line_search_results_and_serialization() -> 
     result = NonlinearStaticSolver().solve(model)
     assert result.status == "PASS"
     assert result.solver["formulation_id"] == CORRECTED_COROTATIONAL_J2
+    assert result.solver["tangent_strategy_version"] == CORRECTED_TANGENT_STRATEGY_VERSION
     assert result.solver["constitutive_state_version"] == "corotational_j2_state/v2"
     assert result.solver["maturity"] == "EXPERIMENTAL"
     assert result.solver["qualification_status"] == "NOT_ASSESSED"
@@ -1162,3 +1202,184 @@ def test_corrected_force_and_tangent_are_origin_invariant() -> None:
     tangent_error = np.linalg.norm(translated_tangent - tangent) / max(np.linalg.norm(tangent), 1.0)
     assert force_error <= 1.0e-9
     assert tangent_error <= 1.0e-9
+
+
+def test_corrected_origin_invariance_and_unresolved_geometry_fail_closed() -> None:
+    material = VonMisesElastoplasticMaterial(E=2100.0, nu=0.3, yield_stress=1.0e8, hardening_modulus=18.0)
+    element = CorotationalJ2Tet4Element(material, formulation_id=CORRECTED_COROTATIONAL_J2)
+    coords = _tet4_coordinates()
+    displacement = _affine_displacement(coords, np.array([[1.006, 0.001, 0.0], [0.0, 0.998, 0.001], [0.0, 0.0, 0.997]]))
+    accepted = [element.corrected_initial_state()]
+    accepted_digest = state_digest(accepted)
+    reference_force, reference_tangent, _ = element.internal_force_tangent_state(coords, displacement, accepted)
+
+    for offset, tolerance in ((1.0e3, 1.0e-9), (1.0e6, 1.0e-8), (5.0e7, 1.0e-7)):
+        shifted = coords + np.array([offset, -0.6 * offset, 0.4 * offset])
+        force, tangent, _ = element.internal_force_tangent_state(shifted, displacement, accepted)
+        force_error = np.linalg.norm(force - reference_force) / max(np.linalg.norm(reference_force), 1.0)
+        tangent_error = np.linalg.norm(tangent - reference_tangent) / max(np.linalg.norm(reference_tangent), 1.0)
+        assert force_error <= tolerance
+        assert tangent_error <= tolerance
+        assert element.last_corrected_tangent_diagnostics["coordinate_resolution_ratio"] <= 1.0e-8
+        assert element.last_corrected_tangent_diagnostics["absolute_step"] == pytest.approx(
+            1.0e-5 * (1.0 / 6.0) ** (1.0 / 3.0), rel=2.0e-8
+        )
+        assert state_digest(accepted) == accepted_digest
+
+    unresolved = coords + np.array([1.0e9, -0.6e9, 0.4e9])
+    with pytest.raises(ValueError, match="numerically unresolved"):
+        element.internal_force_tangent_state(unresolved, displacement, accepted)
+    assert element.last_corrected_tangent_diagnostics["numerical_status"] == "NUMERICALLY_AMBIGUOUS"
+    assert element.last_corrected_tangent_diagnostics["failure_stage"] == "BASE_FORCE"
+    assert state_digest(accepted) == accepted_digest
+
+
+def test_corrected_rigid_displacement_does_not_scale_the_tangent_step() -> None:
+    material = VonMisesElastoplasticMaterial(E=2100.0, nu=0.3, yield_stress=1.0e8, hardening_modulus=18.0)
+    element = CorotationalJ2Tet4Element(material, formulation_id=CORRECTED_COROTATIONAL_J2)
+    coords = _tet4_coordinates()
+    displacement = _affine_displacement(coords, np.array([[1.006, 0.001, 0.0], [0.0, 0.998, 0.001], [0.0, 0.0, 0.997]]))
+    accepted = [element.corrected_initial_state()]
+    reference_force, reference_tangent, _ = element.internal_force_tangent_state(coords, displacement, accepted)
+    reference_step = element.last_corrected_tangent_diagnostics["absolute_step"]
+
+    for magnitude in (1.0e3, 1.0e6):
+        rigid_translation = np.tile(np.array([magnitude, -0.6 * magnitude, 0.4 * magnitude]), len(coords))
+        force, tangent, _ = element.internal_force_tangent_state(coords, displacement + rigid_translation, accepted)
+        force_error = np.linalg.norm(force - reference_force) / max(np.linalg.norm(reference_force), 1.0)
+        tangent_error = np.linalg.norm(tangent - reference_tangent) / max(np.linalg.norm(reference_tangent), 1.0)
+        assert force_error <= 2.0e-5
+        assert tangent_error <= 2.0e-5
+        assert element.last_corrected_tangent_diagnostics["absolute_step"] == reference_step
+        assert state_digest(accepted) == state_digest([element.corrected_initial_state()])
+
+
+def test_corrected_tangent_rejects_unresolvable_displacement_stencil() -> None:
+    element = CorotationalJ2Tet4Element(_material(), formulation_id=CORRECTED_COROTATIONAL_J2)
+    coords = _tet4_coordinates()
+    displacement = _affine_displacement(coords, np.diag([1.002, 0.999, 0.999]))
+    accepted = [element.corrected_initial_state()]
+    accepted_digest = state_digest(accepted)
+    rigid_translation = np.tile(np.array([1.0e12, -0.6e12, 0.4e12]), len(coords))
+
+    with pytest.raises(ValueError, match="numerically unresolved"):
+        element.internal_force_tangent_state(coords, displacement + rigid_translation, accepted)
+
+    diagnostics = element.last_corrected_tangent_diagnostics
+    assert diagnostics["numerical_status"] == "NUMERICALLY_AMBIGUOUS"
+    assert diagnostics["failure_stage"] == "PERTURBATION_RESOLUTION"
+    assert diagnostics["displacement_resolution"] >= diagnostics["absolute_step"]
+    assert state_digest(accepted) == accepted_digest
+
+
+def test_corrected_tangent_and_force_obey_geometric_scale_covariance() -> None:
+    material = VonMisesElastoplasticMaterial(E=2100.0, nu=0.3, yield_stress=1.0e8, hardening_modulus=18.0)
+    element = CorotationalJ2Tet4Element(material, formulation_id=CORRECTED_COROTATIONAL_J2)
+    coords = _tet4_coordinates()
+    deformation = np.array([[1.006, 0.001, 0.0], [0.0, 0.998, 0.001], [0.0, 0.0, 0.997]])
+    accepted = [element.corrected_initial_state()]
+    force_reference, tangent_reference, _ = element.internal_force_tangent_state(
+        coords, _affine_displacement(coords, deformation), accepted
+    )
+
+    for scale in (1.0e-6, 1.0e6):
+        scaled_coords = scale * coords
+        scaled_displacement = _affine_displacement(scaled_coords, deformation)
+        force, tangent, _ = element.internal_force_tangent_state(scaled_coords, scaled_displacement, accepted)
+        force_error = np.linalg.norm(force - scale**2 * force_reference) / max(
+            np.linalg.norm(scale**2 * force_reference), 1.0e-30
+        )
+        tangent_error = np.linalg.norm(tangent - scale * tangent_reference) / max(
+            np.linalg.norm(scale * tangent_reference), 1.0e-30
+        )
+        assert force_error <= 2.0e-5
+        assert tangent_error <= 2.0e-5
+        assert element.last_corrected_tangent_diagnostics["force_evaluations"] == 25
+
+
+def test_corrected_tangent_failed_perturbation_is_transactional_and_diagnostic() -> None:
+    element = CorotationalJ2Tet4Element(_material(), formulation_id=CORRECTED_COROTATIONAL_J2)
+    coords = _tet4_coordinates()
+    accepted = [element.corrected_initial_state()]
+    accepted_digest = state_digest(accepted)
+    displacement = _affine_displacement(coords, np.diag([1.049995, 1.0, 1.0]))
+
+    with pytest.raises(ValueError, match="small-strain bound exceeded"):
+        element.internal_force_tangent_state(coords, displacement, accepted)
+
+    diagnostics = element.last_corrected_tangent_diagnostics
+    assert diagnostics["numerical_status"] == "INVALID_STATE"
+    assert diagnostics["failure_stage"] == "PERTURBED_FORCE"
+    assert diagnostics["failed_column"] == 0
+    assert diagnostics["failed_side"] in {"PLUS", "MINUS"}
+    assert diagnostics["symmetrized"] is False
+    assert state_digest(accepted) == accepted_digest
+
+
+def test_corrected_tangent_marks_missing_branch_evidence_ambiguous(monkeypatch) -> None:
+    element = CorotationalJ2Tet4Element(
+        VonMisesElastoplasticMaterial(E=2100.0, nu=0.3, yield_stress=1.0e8, hardening_modulus=18.0),
+        formulation_id=CORRECTED_COROTATIONAL_J2,
+    )
+    coords = _tet4_coordinates()
+    displacement = _affine_displacement(coords, np.diag([1.004, 0.998, 0.998]))
+    accepted = [element.corrected_initial_state()]
+    accepted_digest = state_digest(accepted)
+    original = element._corrected_force_and_states
+    calls = 0
+
+    def without_branch_metadata(reference, trial_displacement, states):
+        nonlocal calls
+        force, trial_states, points = original(reference, trial_displacement, states)
+        calls += 1
+        if calls > 1:
+            for point in points:
+                point["material_diagnostics"].pop("elastic")
+        return force, trial_states, points
+
+    monkeypatch.setattr(element, "_corrected_force_and_states", without_branch_metadata)
+    _, tangent, _ = element.internal_force_tangent_state(coords, displacement, accepted)
+
+    assert np.all(np.isfinite(tangent))
+    assert element.last_corrected_tangent_diagnostics["numerical_status"] == "NUMERICALLY_AMBIGUOUS"
+    assert element.last_corrected_tangent_diagnostics["classical_derivative_claim"] is False
+    assert element.last_corrected_tangent_diagnostics["branch_status_counts"]["NUMERICALLY_AMBIGUOUS"] > 0
+    assert state_digest(accepted) == accepted_digest
+
+
+@pytest.mark.parametrize(
+    ("element_type", "coordinates"),
+    (
+        (CorotationalJ2Tet4Element, _tet4_coordinates),
+        (CorotationalJ2Tet10Element, _tet10_coordinates),
+        (CorotationalJ2Hex8Element, _hex8_coordinates),
+        (CorotationalJ2Hex20Element, _hex20_coordinates),
+    ),
+)
+def test_corrected_route_rejects_degenerate_geometry_transactionally(element_type, coordinates) -> None:
+    material = VonMisesElastoplasticMaterial(E=2100.0, nu=0.3, yield_stress=1.0e8, hardening_modulus=18.0)
+    element = element_type(material, formulation_id=CORRECTED_COROTATIONAL_J2)
+    coords = coordinates()
+    coords[:, 2] = 0.0
+    accepted = [element.corrected_initial_state() for _ in element._cached_reference_data(coordinates())]
+    accepted_digest = state_digest(accepted)
+
+    with pytest.raises((ValueError, ArithmeticError)):
+        element.internal_force_tangent_state(coords, np.zeros(3 * len(coords)), accepted)
+
+    assert element.last_corrected_tangent_diagnostics["numerical_status"] == "INVALID_STATE"
+    assert state_digest(accepted) == accepted_digest
+
+
+def test_corrected_newton_route_is_invariant_to_large_mesh_origin_translation() -> None:
+    model = _corrected_global_model(load_scale=0.25)
+    reference = NonlinearStaticSolver().solve(model)
+    translated = replace(model, nodes=model.nodes + np.array([1.0e6, -0.6e6, 0.4e6]))
+    shifted = NonlinearStaticSolver().solve(translated)
+
+    assert reference.status == shifted.status == "PASS"
+    np.testing.assert_allclose(shifted.displacements, reference.displacements, rtol=1.0e-9, atol=1.0e-11)
+    assert state_digest(shifted.material_states) == state_digest(reference.material_states)
+    assert [step["iterations"] for step in shifted.solver["steps"]] == [
+        step["iterations"] for step in reference.solver["steps"]
+    ]

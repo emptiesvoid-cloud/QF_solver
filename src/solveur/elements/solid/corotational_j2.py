@@ -40,6 +40,49 @@ CORRECTED_COROTATIONAL_STATE = "corotational_j2_state/v2"
 CORRECTED_STRESS_SEMANTICS = "corotational_stress/v2"
 CORRECTED_RESULT_SCHEMA = "qf-solid-stress-results/v2"
 CORRECTED_TANGENT_RELATIVE_STEP = 1.0e-5
+CORRECTED_MAX_COORDINATE_RESOLUTION_RATIO = 1.0e-8
+CORRECTED_TANGENT_STRATEGY_VERSION = "origin_centered_scaled_geometry/v2"
+
+
+def _centered_corrected_reference_coordinates(
+    coords: np.ndarray, shape: tuple[int, int], element_name: str
+) -> tuple[np.ndarray, float, float]:
+    """Center corrected-route geometry and fail closed on unresolved coordinates.
+
+    Translation is a coordinate choice, not a geometric input. Centering before
+    quadrature Jacobians avoids cancellation from summing shape-gradient terms
+    against a large common origin. The spacing check does not alter geometry or
+    the finite-difference step; it rejects inputs whose stored coordinates no
+    longer resolve the local element shape at the declared precision.
+    """
+
+    values = validate_coords_shape(coords, shape, element_name)
+    if not np.all(np.isfinite(values)):
+        raise ValueError("Corrected corotational J2 coordinates must be finite.")
+    centered = np.asarray(values - values[0], dtype=float)
+    pairwise = centered[:, None, :] - centered[None, :, :]
+    characteristic_distance = float(np.max(np.linalg.norm(pairwise, axis=2)))
+    if not np.isfinite(characteristic_distance) or characteristic_distance <= 0.0:
+        raise ValueError("Corrected corotational J2 reference geometry has no resolvable positive length.")
+    coordinate_magnitude = float(np.max(np.abs(values)))
+    coordinate_spacing = float(np.spacing(coordinate_magnitude))
+    resolution_ratio = coordinate_spacing / characteristic_distance
+    if not np.isfinite(resolution_ratio) or resolution_ratio > CORRECTED_MAX_COORDINATE_RESOLUTION_RATIO:
+        raise ValueError(
+            "Corrected corotational J2 reference geometry is numerically unresolved: "
+            f"coordinate spacing/local length={resolution_ratio:.6e} exceeds "
+            f"{CORRECTED_MAX_COORDINATE_RESOLUTION_RATIO:.6e}."
+        )
+    return np.ascontiguousarray(centered), characteristic_distance, resolution_ratio
+
+
+def _corrected_tangent_failure_status(error: Exception) -> str:
+    """Separate floating-point resolution failures from invalid material states."""
+
+    message = str(error).lower()
+    if "numerically unresolved" in message or "no resolvable positive length" in message:
+        return "NUMERICALLY_AMBIGUOUS"
+    return "INVALID_STATE"
 
 
 def _strain_voigt(tensor: np.ndarray) -> np.ndarray:
@@ -470,8 +513,46 @@ class _CorotationalJ2Mixin:
     if TYPE_CHECKING:
         node_count: int
         material: object
+        _corrected_reference_cache_key: tuple[tuple[int, ...], str, bytes] | None
+        _corrected_reference_cache: tuple[tuple[tuple[float, np.ndarray], ...], float, float] | None
+        _corrected_reference_cache_hits: int
+        _corrected_reference_cache_misses: int
 
         def _cached_reference_data(self, coords: np.ndarray) -> tuple[tuple[float, np.ndarray], ...]: ...
+
+    def _corrected_reference_data(
+        self, coords: np.ndarray
+    ) -> tuple[tuple[tuple[float, np.ndarray], ...], float, float]:
+        """Build/cache dimensionally restored data by exact input geometry."""
+
+        coordinates = np.ascontiguousarray(
+            validate_coords_shape(coords, (self.node_count, 3), self.__class__.__name__), dtype=float
+        )
+        key = (tuple(coordinates.shape), coordinates.dtype.str, coordinates.tobytes())
+        if key == self._corrected_reference_cache_key and self._corrected_reference_cache is not None:
+            self._corrected_reference_cache_hits += 1
+            return self._corrected_reference_cache
+        centered, geometry_scale, resolution_ratio = _centered_corrected_reference_coordinates(
+            coordinates, (self.node_count, 3), self.__class__.__name__
+        )
+        normalized = np.ascontiguousarray(centered / geometry_scale)
+        normalized_data = self._cached_reference_data(normalized)
+        scale_cubed = geometry_scale**3
+        if not np.isfinite(scale_cubed) or scale_cubed <= 0.0:
+            raise ValueError("Corrected corotational J2 reference geometry scale is outside finite range.")
+        reference_data = tuple(
+            (float(measure) * scale_cubed, np.asarray(gradients, dtype=float) / geometry_scale)
+            for measure, gradients in normalized_data
+        )
+        if any(
+            not np.isfinite(measure) or measure <= 0.0 or not np.all(np.isfinite(gradients))
+            for measure, gradients in reference_data
+        ):
+            raise ValueError("Corrected corotational J2 reference quadrature scaling produced invalid data.")
+        self._corrected_reference_cache_key = key
+        self._corrected_reference_cache = (reference_data, geometry_scale, resolution_ratio)
+        self._corrected_reference_cache_misses += 1
+        return self._corrected_reference_cache
 
     def __init__(
         self,
@@ -495,6 +576,10 @@ class _CorotationalJ2Mixin:
         self.max_corotational_strain = float(max_corotational_strain)
         self.formulation_id = formulation_id
         self.last_corrected_tangent_diagnostics: dict[str, Any] = {}
+        self._corrected_reference_cache_key = None
+        self._corrected_reference_cache = None
+        self._corrected_reference_cache_hits = 0
+        self._corrected_reference_cache_misses = 0
         super().__init__(material, **kwargs)  # type: ignore[call-arg]
 
     def corrected_initial_state(self) -> dict[str, Any]:
@@ -539,7 +624,8 @@ class _CorotationalJ2Mixin:
         if displacement.shape != (expected,) or not np.all(np.isfinite(displacement)):
             raise ValueError(f"{self.__class__.__name__} displacement must have shape ({expected},).")
         local = displacement.reshape(self.node_count, 3)
-        reference_data = self._cached_reference_data(coords)
+        local_relative = local - local[0]
+        reference_data, _, _ = self._corrected_reference_data(coords)
         if states is None:
             accepted_states = [self.corrected_initial_state() for _ in reference_data]
         else:
@@ -561,7 +647,7 @@ class _CorotationalJ2Mixin:
                 or not np.all(np.isfinite(gradients))
             ):
                 raise ValueError(f"Invalid corrected reference integration data at point {point_index}.")
-            deformation = identity + local.T @ gradients
+            deformation = identity + local_relative.T @ gradients
             rotation, stretch, determinant = _corrected_polar_kinematics(
                 deformation, max_local_strain=self.max_corotational_strain
             )
@@ -724,51 +810,184 @@ class _CorotationalJ2Mixin:
         if displacement.shape != (expected,) or not np.all(np.isfinite(displacement)):
             raise ValueError(f"{self.__class__.__name__} displacement must have shape ({expected},).")
         if self.formulation_id == CORRECTED_COROTATIONAL_J2:
-            internal, updated_states, base_points = self._corrected_force_and_states(coords, displacement, states)
-            reference_data = self._cached_reference_data(coords)
+            force_evaluations = 1
+            reference_cache_hits_before = self._corrected_reference_cache_hits
+            reference_cache_misses_before = self._corrected_reference_cache_misses
+            try:
+                internal, updated_states, base_points = self._corrected_force_and_states(coords, displacement, states)
+            except Exception as exc:
+                self.last_corrected_tangent_diagnostics = {
+                    "algorithm": "central_difference_of_corrected_force_fixed_accepted_state",
+                    "strategy_version": CORRECTED_TANGENT_STRATEGY_VERSION,
+                    "numerical_status": _corrected_tangent_failure_status(exc),
+                    "failure_stage": "BASE_FORCE",
+                    "failure_reason": f"{type(exc).__name__}: {exc}",
+                    "force_evaluations": force_evaluations,
+                    "symmetrized": False,
+                    "classical_derivative_claim": False,
+                }
+                raise
+            reference_data, _, coordinate_resolution_ratio = self._corrected_reference_data(coords)
             volume = float(sum(float(measure) for measure, _ in reference_data))
             if not np.isfinite(volume) or volume <= 0.0:
                 raise ValueError("Corrected tangent requires a finite positive reference element volume.")
             characteristic_length = volume ** (1.0 / 3.0)
             step = CORRECTED_TANGENT_RELATIVE_STEP * characteristic_length
-            if not np.isfinite(step) or step <= 0.0:
+            minimum_step = 64.0 * np.finfo(float).eps * characteristic_length
+            if not np.isfinite(step) or step <= minimum_step:
                 raise ValueError("Corrected tangent perturbation is invalid for this element scale.")
+            displacement_magnitude = float(np.max(np.abs(displacement)))
+            displacement_resolution = float(np.spacing(displacement_magnitude))
+            if displacement_resolution >= step:
+                self.last_corrected_tangent_diagnostics = {
+                    "algorithm": "central_difference_of_corrected_force_fixed_accepted_state",
+                    "strategy_version": CORRECTED_TANGENT_STRATEGY_VERSION,
+                    "numerical_status": "NUMERICALLY_AMBIGUOUS",
+                    "failure_stage": "PERTURBATION_RESOLUTION",
+                    "failure_reason": "Displacement perturbation is below floating-point resolution.",
+                    "force_evaluations": force_evaluations,
+                    "characteristic_length": characteristic_length,
+                    "absolute_step": step,
+                    "displacement_resolution": displacement_resolution,
+                    "coordinate_resolution_ratio": coordinate_resolution_ratio,
+                    "symmetrized": False,
+                    "classical_derivative_claim": False,
+                }
+                raise ValueError("Corrected tangent displacement perturbation is numerically unresolved.")
             corrected_tangent: np.ndarray = np.empty((expected, expected), dtype=float)
-            basis = np.eye(expected)
             branch_switches = 0
-            force_evaluations = 1
+            branch_status_counts = {
+                "SMOOTH_ELASTIC": 0,
+                "SMOOTH_PLASTIC": 0,
+                "BRANCH_TRANSITION": 0,
+                "NUMERICALLY_AMBIGUOUS": 0,
+                "INVALID_STATE": 0,
+            }
+            column_statuses: list[dict[str, Any]] = []
             for column in range(expected):
-                direction = basis[column]
-                force_plus, _, plus_points = self._corrected_force_and_states(
-                    coords, displacement + step * direction, states
-                )
-                force_minus, _, minus_points = self._corrected_force_and_states(
-                    coords, displacement - step * direction, states
-                )
-                force_evaluations += 2
+                direction: np.ndarray = np.zeros(expected, dtype=float)
+                direction[column] = 1.0
+                try:
+                    force_evaluations += 1
+                    force_plus, _, plus_points = self._corrected_force_and_states(
+                        coords, displacement + step * direction, states
+                    )
+                except Exception as exc:
+                    self.last_corrected_tangent_diagnostics = {
+                        "algorithm": "central_difference_of_corrected_force_fixed_accepted_state",
+                        "strategy_version": CORRECTED_TANGENT_STRATEGY_VERSION,
+                        "numerical_status": _corrected_tangent_failure_status(exc),
+                        "failure_stage": "PERTURBED_FORCE",
+                        "failed_column": column,
+                        "failed_side": "PLUS",
+                        "failure_reason": f"{type(exc).__name__}: {exc}",
+                        "force_evaluations": force_evaluations,
+                        "characteristic_length": characteristic_length,
+                        "absolute_step": step,
+                        "coordinate_resolution_ratio": coordinate_resolution_ratio,
+                        "symmetrized": False,
+                        "classical_derivative_claim": False,
+                    }
+                    raise
+                try:
+                    force_evaluations += 1
+                    force_minus, _, minus_points = self._corrected_force_and_states(
+                        coords, displacement - step * direction, states
+                    )
+                except Exception as exc:
+                    self.last_corrected_tangent_diagnostics = {
+                        "algorithm": "central_difference_of_corrected_force_fixed_accepted_state",
+                        "strategy_version": CORRECTED_TANGENT_STRATEGY_VERSION,
+                        "numerical_status": _corrected_tangent_failure_status(exc),
+                        "failure_stage": "PERTURBED_FORCE",
+                        "failed_column": column,
+                        "failed_side": "MINUS",
+                        "failure_reason": f"{type(exc).__name__}: {exc}",
+                        "force_evaluations": force_evaluations,
+                        "characteristic_length": characteristic_length,
+                        "absolute_step": step,
+                        "coordinate_resolution_ratio": coordinate_resolution_ratio,
+                        "symmetrized": False,
+                        "classical_derivative_claim": False,
+                    }
+                    raise
+                column_status = "SMOOTH_ELASTIC"
+                point_statuses: list[str] = []
                 for base_point, plus_point, minus_point in zip(base_points, plus_points, minus_points, strict=True):
-                    base_elastic = bool(base_point["material_diagnostics"]["elastic"])
-                    if (
-                        bool(plus_point["material_diagnostics"]["elastic"]) != base_elastic
-                        or bool(minus_point["material_diagnostics"]["elastic"]) != base_elastic
-                    ):
+                    base_diagnostics = base_point.get("material_diagnostics", {})
+                    plus_diagnostics = plus_point.get("material_diagnostics", {})
+                    minus_diagnostics = minus_point.get("material_diagnostics", {})
+                    elastic_flags = (
+                        base_diagnostics.get("elastic"),
+                        plus_diagnostics.get("elastic"),
+                        minus_diagnostics.get("elastic"),
+                    )
+                    if any(not isinstance(flag, (bool, np.bool_)) for flag in elastic_flags):
+                        point_status = "NUMERICALLY_AMBIGUOUS"
+                    elif elastic_flags[1] != elastic_flags[0] or elastic_flags[2] != elastic_flags[0]:
+                        point_status = "BRANCH_TRANSITION"
                         branch_switches += 1
+                    elif bool(elastic_flags[0]):
+                        point_status = "SMOOTH_ELASTIC"
+                    else:
+                        point_status = "SMOOTH_PLASTIC"
+                    point_statuses.append(point_status)
+                    branch_status_counts[point_status] += 1
+                if "NUMERICALLY_AMBIGUOUS" in point_statuses:
+                    column_status = "NUMERICALLY_AMBIGUOUS"
+                elif "BRANCH_TRANSITION" in point_statuses:
+                    column_status = "BRANCH_TRANSITION"
+                elif "SMOOTH_PLASTIC" in point_statuses:
+                    column_status = "SMOOTH_PLASTIC"
+                column_statuses.append(
+                    {"column": column, "status": column_status, "integration_point_statuses": point_statuses}
+                )
                 corrected_tangent[:, column] = (force_plus - force_minus) / (2.0 * step)
             if not np.all(np.isfinite(corrected_tangent)):
+                self.last_corrected_tangent_diagnostics = {
+                    "algorithm": "central_difference_of_corrected_force_fixed_accepted_state",
+                    "strategy_version": CORRECTED_TANGENT_STRATEGY_VERSION,
+                    "numerical_status": "NUMERICALLY_AMBIGUOUS",
+                    "failure_stage": "TANGENT_ASSEMBLY",
+                    "force_evaluations": force_evaluations,
+                    "symmetrized": False,
+                    "classical_derivative_claim": False,
+                }
                 raise ValueError("Corrected numerical tangent contains non-finite values.")
             tangent_scale = max(float(np.linalg.norm(corrected_tangent)), 1.0)
+            if branch_status_counts["NUMERICALLY_AMBIGUOUS"]:
+                numerical_status = "NUMERICALLY_AMBIGUOUS"
+            elif branch_switches:
+                numerical_status = "BRANCH_TRANSITION"
+            elif branch_status_counts["SMOOTH_PLASTIC"]:
+                numerical_status = "SMOOTH_PLASTIC"
+            else:
+                numerical_status = "SMOOTH_ELASTIC"
             self.last_corrected_tangent_diagnostics = {
                 "algorithm": "central_difference_of_corrected_force_fixed_accepted_state",
+                "strategy_version": CORRECTED_TANGENT_STRATEGY_VERSION,
+                "numerical_status": numerical_status,
+                "perturbation_policy": "fixed_characteristic_length_central_difference/v1",
                 "relative_step": CORRECTED_TANGENT_RELATIVE_STEP,
                 "characteristic_length": characteristic_length,
                 "absolute_step": step,
+                "coordinate_resolution_ratio": coordinate_resolution_ratio,
                 "force_evaluations": force_evaluations,
+                "reference_geometry_cache_hits": self._corrected_reference_cache_hits - reference_cache_hits_before,
+                "reference_geometry_cache_misses": self._corrected_reference_cache_misses
+                - reference_cache_misses_before,
                 "branch_switch_count": branch_switches,
+                "branch_status_counts": branch_status_counts,
+                "column_statuses": column_statuses,
                 "raw_tangent_relative_skew": float(
                     np.linalg.norm(corrected_tangent - corrected_tangent.T) / tangent_scale
                 ),
+                "accepted_state_reused_for_all_evaluations": True,
+                "derivative_quality": "NOT_ESTIMATED_PER_CALL; see preregistered directional-derivative evidence",
                 "symmetrized": False,
-                "classical_derivative_claim": branch_switches == 0,
+                "classical_derivative_claim": (
+                    branch_switches == 0 and branch_status_counts["NUMERICALLY_AMBIGUOUS"] == 0
+                ),
             }
             # This is the raw derivative of the implemented corrected force.
             # Do not symmetrize it: finite-difference, active-set, or geometric
@@ -837,10 +1056,12 @@ class CorotationalJ2Hex20Element(_CorotationalJ2Mixin, TotalLagrangianJ2Hex20Ele
 
 __all__ = [
     "CORRECTED_COROTATIONAL_J2",
+    "CORRECTED_MAX_COORDINATE_RESOLUTION_RATIO",
     "CORRECTED_COROTATIONAL_STATE",
     "CORRECTED_RESULT_SCHEMA",
     "CORRECTED_STRESS_SEMANTICS",
     "CORRECTED_TANGENT_RELATIVE_STEP",
+    "CORRECTED_TANGENT_STRATEGY_VERSION",
     "LEGACY_COROTATIONAL_J2",
     "CorotationalJ2Hex8Element",
     "CorotationalJ2Hex20Element",

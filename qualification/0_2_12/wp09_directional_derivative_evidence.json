@@ -1,0 +1,86 @@
+{
+  "schema": "qf-solver-wp09-directional-derivative-evidence/v1",
+  "record_type": "BOUNDED_IMPLEMENTATION_VERIFICATION_NOT_QUALIFICATION",
+  "base_commit": "ef139f0cef60718407391a1ec0e5d956e5ecc86f",
+  "formulation_id": "corrected_corotational_biot_j2/v1",
+  "production_strategy": "origin_centered_scaled_geometry/v2",
+  "production_step": "1e-5 * V0^(1/3), unchanged from WP08-R3",
+  "force_evaluations": "2*n_dof+1; unchanged",
+  "symmetrized": false,
+  "threshold_source": "qualification/0_2_12/wp08_r1_vnv_acceptance_matrix.json",
+  "thresholds_changed": false,
+  "results": {
+    "smooth_elastic_tet4": {
+      "directions": 3,
+      "max_scaled_error_over_sampled_steps": 3.16e-13,
+      "max_plateau_delta": 7.52e-15,
+      "raw_tangent_relative_skew": 2.624e-10,
+      "branch_switches": 0,
+      "status": "PASS_BOUNDED_SMOOTH_BRANCH"
+    },
+    "smooth_noncoaxial_plastic_tet4": {
+      "directions": 3,
+      "max_error_at_frozen_production_step_set": 1.5469e-5,
+      "production_step_vs_independent_3e-6_step_error": 1.73185e-7,
+      "plateau_delta_1e-5_vs_3e-6": 1.42165e-7,
+      "raw_tangent_relative_skew": 4.42582e-8,
+      "branch_switches": 0,
+      "frozen_max_error": 2e-5,
+      "status": "PASS_BOUNDED_SMOOTH_BRANCH"
+    },
+    "plastic_step_sensitivity_sample": {
+      "relative_step_vs_directional_reference": [1e-3, 3e-4, 1e-4, 3e-5, 1e-5, 3e-6, 1e-6, 3e-7, 1e-7, 3e-8],
+      "scaled_directional_error": [6.7261e-5, 6.0589e-6, 6.7135e-7, 5.8497e-8, 5.1146e-9, 2.7169e-9, 2.8898e-9, 3.2820e-9, 1.6346e-8, 3.2875e-8],
+      "branch_changes": 0,
+      "interpretation": "large steps show truncation error; a central plateau appears around 3e-5 through 1e-6; the smallest steps rise as roundoff begins to dominate"
+    },
+    "yield_transition": {
+      "production_branch_switch_count": 6,
+      "one_sided_plastic_branch_plateau_delta": 3.717102290158e-11,
+      "one_sided_elastic_branch_plateau_delta": 3.721574948409e-11,
+      "classical_derivative_claim": false,
+      "status": "BRANCH_TRANSITION_DIAGNOSTIC_ONLY"
+    }
+  },
+  "origin_and_translation": {
+    "same_nodal_displacement_reference_geometry": {
+      "offsets": [0, 1e3, 1e6, 5e7],
+      "max_reference_coordinate_resolution_ratio": 1e-8,
+      "observed_force_and_tangent_relative_difference": [0, 0, 0, 0],
+      "interpretation": "integer-coordinate fixture; equality is exact for the sampled representable inputs, not a universal floating-point guarantee"
+    },
+    "rigid_component_added_to_nodal_displacement": {
+      "magnitudes": [1e3, 1e6],
+      "relative_force_error": [9.4549654e-12, 1.8635442e-8],
+      "relative_tangent_error": [6.7149316e-9, 4.9040533e-6],
+      "absolute_step_unchanged": true,
+      "frozen_tolerance": 2e-5,
+      "status": "PASS_BOUNDED"
+    },
+    "unresolved_reference_geometry": {
+      "offset": 1e9,
+      "coordinate_resolution_ratio": 8.42937e-8,
+      "outcome": "REJECTED_NUMERICALLY_AMBIGUOUS"
+    },
+    "unresolved_displacement_stencil": {
+      "rigid_displacement_magnitude": 1e12,
+      "guard": "spacing(max(abs(u))) >= h",
+      "outcome": "REJECTED_NUMERICALLY_AMBIGUOUS",
+      "accepted_state_unchanged": true
+    }
+  },
+  "geometric_scale_covariance": {
+    "scales": [1e-6, 1, 1e6],
+    "force_scale": "s^2 for fixed stress",
+    "tangent_scale": "s",
+    "tet4_max_relative_force_error": 3.7045e-17,
+    "tet4_max_relative_tangent_error": 4.676e-11,
+    "other_families": "TET10/HEX8/HEX20 assertions pass at 1e-6 and 1e6; see WP09 tests; no industrial-scale claim"
+  },
+  "scope_limits": [
+    "Numerical verification is bounded to the fixtures and directions named here.",
+    "No classical derivative is claimed when production perturbations cross a plastic branch.",
+    "No general semismooth-Newton convergence theorem is asserted.",
+    "The R1 strict origin threshold remains unchanged; extended coordinate-origin bands are additional implementation checks, not requalification."
+  ]
+}

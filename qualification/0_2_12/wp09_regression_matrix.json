@@ -1,0 +1,82 @@
+{
+  "schema": "qf-solver-wp09-regression-matrix/v1",
+  "record_type": "IMPLEMENTATION_VERIFICATION_NOT_QUALIFICATION",
+  "base_commit": "ef139f0cef60718407391a1ec0e5d956e5ecc86f",
+  "historical_invariants": {
+    "wp08_status": "PASS_BOUNDED",
+    "corrected_j2_maturity": "EXPERIMENTAL",
+    "historical_g03": "FAIL_PRESERVED",
+    "historical_wp14": "HOLD_NOT_PROMOTED",
+    "whole_repository_archive_cleared": false,
+    "release_publication_authorized": false,
+    "wp10_started": false,
+    "thresholds_changed": false
+  },
+  "checks": [
+    {
+      "area": "WP09 corrected tangent",
+      "command": "python -m pytest -q tests/unit/test_corotational_j2_corrected.py",
+      "status": "PASS",
+      "passed": 39,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "area": "WP08 legacy/TL/Newton/state and WP02-WP07 selected regressions",
+      "command": "python -m pytest -q tests/unit/test_corotational_j2.py tests/unit/test_total_lagrangian_j2.py tests/unit/test_nonlinear_checkpoint.py tests/unit/test_nonlinear_state_transaction_contract.py tests/unit/test_nonlinear_assembly_plan.py tests/unit/test_dynamic_checkpoint.py tests/unit/test_prepared_dynamic_system.py tests/unit/test_excitation_channels.py tests/unit/test_modal_basis_damping.py tests/unit/test_modal_newmark.py tests/unit/test_nonlinear_load_path.py tests/unit/test_geometric_nonlinear_adaptive.py",
+      "status": "PASS",
+      "passed": 188,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "area": "Ruff lint/format",
+      "status": "PASS",
+      "scope": "all modified Python files"
+    },
+    {
+      "area": "Targeted typing",
+      "status": "PASS",
+      "scope": "src/solveur/elements/solid/corotational_j2.py and src/solveur/core/nonlinear/solver.py"
+    },
+    {
+      "area": "Documentation tests",
+      "command": "python -m pytest -q tests/documentation",
+      "status": "PASS",
+      "passed": 88,
+      "skipped": 6,
+      "failed": 0
+    },
+    {
+      "area": "Full tests/unit suite on final source/test tree",
+      "command": "python -m pytest -q tests/unit",
+      "status": "PASS",
+      "passed": 3322,
+      "skipped": 93,
+      "failed": 0,
+      "warnings": 6,
+      "duration_seconds": 1353.83,
+      "warning_classification": [
+        "one source-size advisory warning; no behavior failure",
+        "five NumPy invalid-determinant runtime warnings in intentional failure-path tests"
+      ],
+      "exact_final_source_test_tree": true,
+      "source_test_sha256": {
+        "src/solveur/elements/solid/corotational_j2.py": "5db81fad53732bcda7ea02827454a1859abc4ebef6f72faed5fd8bf2ff49dc5b",
+        "src/solveur/core/nonlinear/solver.py": "dab27b0ce1607537a142de080654e002af5863e03d48ce69772582b5b9b3704c",
+        "tests/unit/test_corotational_j2_corrected.py": "418cafa5b0cfa0e761378f17c944cb12aad4764fa4d3b828350edbb9d875791d"
+      }
+    },
+    {
+      "area": "git diff --check",
+      "status": "PASS",
+      "scope": "current worktree changes"
+    }
+  ],
+  "scope": [
+    "WP09 corrected tangent robustness only",
+    "No WP10 work",
+    "No constitutive equation or material-state schema change",
+    "No global qualification or gate closure"
+  ]
+}
