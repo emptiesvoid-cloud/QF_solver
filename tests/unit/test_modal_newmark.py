@@ -528,6 +528,8 @@ def test_second_order_time_refinement_for_smooth_free_vibration() -> None:
         )
         prepared, basis = _prepared_basis(model)
         result = _run(model, prepared=prepared, basis=basis)
+        assert result.solver["integration"]["second_order_claim"] == "NOT_CLAIMED"
+        assert result.solver["integration"]["applied_force_regularity_assessed"] is False
         omega = math.sqrt(float(prepared.stiffness[0, 0] / prepared.mass[0, 0]))
         exact = q0 * math.cos(omega * result.times[-1])
         index = model.dof_manager().index(1, "UX")

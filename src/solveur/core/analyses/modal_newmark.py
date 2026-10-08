@@ -593,7 +593,9 @@ class ModalNewmarkTransientSolver:
                 "duration_s": final_time,
                 "beta": beta,
                 "gamma": gamma,
-                "second_order_claim": gamma == 0.5,
+                "second_order_claim": "NOT_CLAIMED",
+                "second_order_condition": "gamma=0.5 and sufficiently regular applied force history",
+                "applied_force_regularity_assessed": False,
                 "stability_validation": "existing Newmark condition gamma>=0.5 and beta>=0.25*(gamma+0.5)^2",
                 "initial_projection": {
                     "policy": projection_policy,
