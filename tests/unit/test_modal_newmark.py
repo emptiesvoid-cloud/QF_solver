@@ -24,6 +24,7 @@ from solveur.core.errors import InputValidationError
 from solveur.core.model import FiniteElementModel
 from solveur.core.qualification import model_maturity
 from solveur.core.results import ModalNewmarkResult
+from solveur.elements.discrete import ConcentratedMass, SpringDefinition
 
 
 _SOURCE_SHA = "a" * 40
@@ -453,6 +454,65 @@ def test_restart_matches_continuous_run_and_refuses_corrupt_or_incompatible_chec
         _run(tampered_model)
 
 
+@pytest.mark.parametrize("physical_change", ["mass", "spring", "material", "boundary"])
+def test_modal_restart_refuses_each_changed_physical_operator_input(tmp_path, physical_change: str) -> None:
+    checkpoint = tmp_path / f"modal-{physical_change}.npz"
+    baseline = _model(
+        load=0.1,
+        steps=4,
+        dt=0.0001,
+        extra_parameters={
+            "checkpoint_path": str(checkpoint),
+            "checkpoint_interval": 2,
+            "checkpoint_keep_steps": True,
+        },
+    )
+    _run(baseline)
+    intermediate = tmp_path / f"modal-{physical_change}.step00000002.npz"
+    assert intermediate.is_file()
+
+    changed = _model(
+        load=0.1,
+        steps=4,
+        dt=0.0001,
+        extra_parameters={"restart_from": str(intermediate)},
+    )
+    if physical_change == "mass":
+        changed.concentrated_masses.append(ConcentratedMass(node=1, mass=0.25))
+    elif physical_change == "spring":
+        changed.springs.append(SpringDefinition(node_a=1, dofs=("UX",), stiffness=((25.0,),)))
+    elif physical_change == "material":
+        changed.materials["mat"]["density"] *= 1.1
+    else:
+        changed.fixed_dofs[1] = replace(
+            changed.fixed_dofs[1],
+            dofs=tuple(dof for dof in changed.fixed_dofs[1].dofs if dof != "UY"),
+        )
+
+    with pytest.raises(InputValidationError, match="restart is refused"):
+        _run(changed)
+
+
+def test_modal_restart_rejects_a_direct_newmark_checkpoint(tmp_path) -> None:
+    checkpoint = tmp_path / "direct-state.npz"
+    direct_model = _model(
+        load=0.1,
+        steps=4,
+        extra_parameters={"checkpoint_path": str(checkpoint), "checkpoint_interval": 2},
+    )
+    direct_model.analysis = replace(direct_model.analysis, method="newmark")
+    solve_model(direct_model)
+    assert checkpoint.is_file()
+
+    modal_model = _model(
+        load=0.1,
+        steps=4,
+        extra_parameters={"restart_from": str(checkpoint)},
+    )
+    with pytest.raises(InputValidationError, match="unsupported, incompatible or corrupted NPZ"):
+        _run(modal_model)
+
+
 def test_result_round_trip_experimental_maturity_and_bounded_history_availability(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -537,6 +597,38 @@ def test_second_order_time_refinement_for_smooth_free_vibration() -> None:
     observed_order = math.log(errors[0] / errors[1], 2.0)
     assert observed_order >= 1.8
     assert errors[2] < errors[1] < errors[0]
+
+
+def test_mode_count_refinement_converges_to_full_basis_direct_reference() -> None:
+    seed = _model(family="TET4", mode_count=None, load=None, dt=1.0e-5, steps=12)
+    prepared, full_basis = _prepared_basis(seed)
+    omitted_mode = prepared.expand_state(full_basis.modes[:, -1])
+    amplitude = 1.0e-3 / float(np.max(np.abs(omitted_mode)))
+    dofs = seed.dof_manager()
+    # Build the sparse physical initial state in the model's canonical DDL order.
+    initial_state = []
+    offset = 0
+    for node, names in sorted(dofs.node_dofs.items()):
+        for dof in names:
+            value = float(amplitude * omitted_mode[offset])
+            if abs(value) > 1.0e-14:
+                initial_state.append({"node": node, "dof": dof, "value": value})
+            offset += 1
+
+    parameters = {"initial_displacements": initial_state}
+    partial_model = _model(family="TET4", mode_count=2, load=None, dt=1.0e-5, steps=12, extra_parameters=parameters)
+    full_model = _model(family="TET4", mode_count=None, load=None, dt=1.0e-5, steps=12, extra_parameters=parameters)
+    direct_model = copy.deepcopy(full_model)
+    direct_model.analysis = replace(direct_model.analysis, method="newmark")
+
+    partial = _run(partial_model)
+    full = _run(full_model, prepared=prepared, basis=full_basis)
+    direct = solve_model(direct_model)
+    partial_error = float(np.linalg.norm(partial.accelerations - direct.accelerations))
+    full_error = float(np.linalg.norm(full.accelerations - direct.accelerations))
+    assert np.isfinite(partial_error) and partial_error > 0.0
+    assert full_error < 1.0e-8 * partial_error
+    assert full.result_availability["physical_truncation_error"]["status"] == "UNAVAILABLE"
 
 
 def test_modal_newmark_rejects_unsupported_base_motion_and_conflicting_legacy_loads() -> None:
