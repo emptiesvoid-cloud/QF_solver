@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0212-WP04-MODAL-BASIS-DAMPING",
+  "record_type": "MODAL_BASIS_AND_DAMPING_CONTRACT",
+  "status": "PRE_REGISTERED_BEFORE_WP04_NUMERICAL_TESTS",
+  "release": "0.2.12",
+  "branch": "codex/v0.2.12-wp04-modal-basis-damping",
+  "base_commit": "62bf6bfe6296b4b68ac372c32fc59e020dfbe78c",
+  "contract_version": "qf-modal-basis/v1",
+  "scope": {
+    "prepared_operator_source": "PreparedDynamicSystem reduced sparse M/K",
+    "element_families": ["TET4", "TET10", "HEX8", "HEX20", "BEAM2 non-rotating"],
+    "material": "linear isotropic elastic",
+    "constraints": "homogeneous fixed supports already resolved by PreparedDynamicSystem",
+    "method": "lowest-frequency real symmetric generalized eigenpairs only",
+    "new_response_solvers": false,
+    "maturity": "EXPERIMENTAL",
+    "numerical_pass_implies_qualification": false
+  },
+  "preregistered_numerical_policy": {
+    "relative_matrix_symmetry_error_max": 1e-12,
+    "positive_definite_diagonal_scaling": "D^-1/2 A D^-1/2 where D=diag(A); every diagonal entry must be positive",
+    "minimum_scaled_eigenvalue_strictly_greater_than": 1e-12,
+    "dense_positive_definiteness_cholesky_max_dofs": 256,
+    "sparse_positive_definiteness_method": "scipy.sparse.linalg.eigsh(k=1, which='SA') on diagonally scaled symmetric input; convergence and Ritz residual are mandatory; report as a numerical SPD screen, not a formal proof",
+    "sparse_positive_definiteness_solver_tolerance": 1e-10,
+    "sparse_positive_definiteness_max_iterations": 5000,
+    "sparse_positive_definiteness_ritz_residual_max": 1e-8,
+    "eigensolver_relative_tolerance": 1e-10,
+    "eigensolver_max_iterations": 5000,
+    "relative_modal_residual_max": 1e-8,
+    "mass_orthogonality_frobenius_error_max": 1e-8,
+    "relative_eigenvalue_gap_cluster_threshold": 1e-8,
+    "relative_eigenvalue_span_for_degenerate_subspace_rotation_max": 1e-12,
+    "cluster_modal_damping_ratio_absolute_spread_max": 1e-12,
+    "cluster_boundary_lookahead_modes": 1,
+    "cluster_cut_policy": "REJECT_EXPLICITLY; never increase requested mode count silently",
+    "modal_residual_definition": "norm(K*phi-lambda*M*phi)/(norm(K*phi)+abs(lambda)*norm(M*phi)); zero denominator is invalid"
+  },
+  "modal_basis": {
+    "normalization": "Phi.T M Phi is explicitly computed; each mode is mass-normalized and the full Gram matrix is checked",
+    "projection": ["Mr=Phi.T M Phi", "Kr=Phi.T K Phi", "Fr=Phi.T F", "Br=Phi.T B"],
+    "complex_rhs": "real Phi projection preserves both real and imaginary components",
+    "selection": "lowest positive modes from the selected existing dense/eigsh/lobpcg backend; sparse backend is not used to request a full large spectrum",
+    "identity": ["operator identity", "DOF map", "eigensolver and selection settings", "eigenpairs content", "normalization policy", "cluster and truncation policy", "contract version"],
+    "equivalence": "separate mass-metric subspace comparison invariant to mode sign, ordering and admissible rotations; exact basis identity remains byte/content specific",
+    "participation": "computed only for explicitly supplied reduced-coordinate influence vectors; cumulative ratio is not a local-error guarantee",
+    "truncation": "records selected low-frequency range and unrepresented spectrum; no residual-flexibility correction"
+  },
+  "damping": {
+    "rayleigh_physical_projected": {
+      "formula": "C=alpha*M+beta*K; Cr=Phi.T*C*Phi",
+      "validation": "reuse rayleigh_damping_definition; alpha>=0, beta>=0, finite",
+      "coefficient_units": {"alpha": "s^-1", "beta": "s"},
+      "reaction_availability": "NOT_COMPUTED until a consumer performs full-space equilibrium recovery"
+    },
+    "prescribed_modal": {
+      "formula": "Cr[j,j]=2*zeta_j*omega_j for isolated modes and non-cluster singletons",
+      "validation": "zeta finite and non-negative; frequency strictly positive; zero zeta is valid",
+      "cluster_policy": "all zeta values within an identified cluster must agree within the preregistered tolerance; a cluster receives the invariant scalar block 2*mean(zeta_j*omega_j)*I, recorded as an invariant cluster operator",
+      "physical_full_space_matrix": false,
+      "reaction_availability": "UNAVAILABLE; no complete physical C is inferred or fabricated",
+      "direct_equivalence": "not presumed; only under exact operator, damping, basis, excitation, initial-state and scheme compatibility"
+    }
+  },
+  "result_availability": {
+    "basis_modes_and_projected_M_K": "AVAILABLE after successful construction",
+    "projected_excitation": "AVAILABLE when a compatible WP03 bound channel set is supplied",
+    "physical_reactions": "NOT_COMPUTED for Rayleigh basis preparation; UNAVAILABLE for prescribed modal damping without full-space C",
+    "full_response": "NOT_APPLICABLE in WP04; no forced-response or transient solver is implemented"
+  },
+  "tests_required": [
+    "analytical two-DOF generalized eigenproblem",
+    "coupled non-diagonal mass and independent projection identity",
+    "mass normalization, orthogonality, residuals and projected M/K",
+    "WP03 real and complex excitation projection without reassembly",
+    "full-basis projection identity on bounded fixtures",
+    "truncation and fail-closed cluster boundary",
+    "degenerate-subspace rotation and sign invariance",
+    "Rayleigh projected damping and prescribed modal damping",
+    "unequal damping within a cluster rejected",
+    "singular mass, non-positive stiffness and rigid modes rejected",
+    "operator mutation invalidates basis while excitation mutation does not",
+    "all five WP00 element families, sparse storage and historical ModalAnalysisSolver non-regression",
+    "reaction availability explicit"
+  ],
+  "historical_statuses": {
+    "HISTORICAL_G03": "FAIL_PRESERVED",
+    "HISTORICAL_WP14": "HOLD_NOT_PROMOTED",
+    "WHOLE_REPOSITORY_ARCHIVE_CLEARED": "NO",
+    "maturity_promotion": "NONE"
+  }
+}
