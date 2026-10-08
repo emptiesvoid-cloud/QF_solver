@@ -550,6 +550,40 @@ def test_modal_newmark_integrates_each_wp00_family_in_bounded_full_basis(family:
     assert result.ndof == model.dof_manager().ndof
 
 
+@pytest.mark.parametrize("family", ["TET4", "TET10", "HEX8", "HEX20", "BEAM2"])
+def test_wp07_uniform_base_acceleration_integrates_each_wp00_family(family: str) -> None:
+    model = _model(
+        family=family,
+        mode_count=None,
+        load=None,
+        dt=1.0e-5,
+        steps=1,
+        extra_parameters={
+            "uniform_base_acceleration": {
+                "schema": "qf-uniform-base-acceleration/v1",
+                "direction": [1.0, 0.0, 0.0],
+                "direction_frame": "global_model_axes",
+                "acceleration_unit": "m/s^2",
+                "support_policy": "all_homogeneous_fixed_supports_comoving",
+                "time_history": {
+                    "time_unit": "s",
+                    "interpolation": "linear_endpoint_hold",
+                    "samples": [
+                        {"time_s": 0.0, "value": 0.25},
+                        {"time_s": 1.0e-5, "value": 0.25},
+                    ],
+                },
+            }
+        },
+    )
+    prepared, basis = _prepared_basis(model)
+    result = _run(model, prepared=prepared, basis=basis)
+    assert basis.is_full_basis
+    assert result.absolute_accelerations is not None
+    assert result.solver["uniform_base_acceleration"]["mass_formed_before_constraint_reduction"] is True
+    assert result.maturity == "EXPERIMENTAL"
+
+
 def test_modal_method_identity_is_additive_and_direct_default_is_unchanged(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("QF_SOURCE_SHA", _SOURCE_SHA)
     model = _model(load=0.1, steps=2)

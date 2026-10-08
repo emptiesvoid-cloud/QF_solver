@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0212-WP07-UNIFORM-BASE-ACCELERATION",
+  "record_type": "UNIFORM_BASE_ACCELERATION_METHOD_CONTRACT",
+  "status": "PREREGISTERED_BOUNDED_EXPERIMENTAL_CONTRACT",
+  "release": "0.2.12",
+  "work_package": "WP07",
+  "branch": "codex/v0.2.12-wp07-uniform-base-acceleration",
+  "base_commit": "08f49907d27ed822537d7ae488f12869506e4475",
+  "input_schema": "qf-uniform-base-acceleration/v1",
+  "routes": {
+    "harmonic": {"analysis": "harmonic_response", "method": "modal_superposition"},
+    "transient": {"analysis": "transient_dynamic", "method": "modal_newmark"},
+    "maturity": "EXPERIMENTAL",
+    "qualification": "NOT_ASSESSED",
+    "numerical_pass_implies_qualification": false,
+    "historical_route_default_changed": false
+  },
+  "scope": {
+    "elements": ["TET4", "TET10", "HEX8", "HEX20", "BEAM2 straight non-rotating"],
+    "material": "linear isotropic elastic",
+    "constraints": "homogeneous fixed constraints interpreted as comoving supports only after explicit WP07 input opt-in",
+    "support_policy": "all_homogeneous_fixed_supports_comoving",
+    "ground_spring_policy": "a spring with a ground endpoint is admitted only when explicitly declared COMOVING_WITH_BASE",
+    "operators": "WP02 prepared full M/K and constrained reduction; WP04 admissible spectral domain",
+    "excluded": [
+      "multi-support excitation",
+      "combined translational/rotational base motion",
+      "deformable foundation",
+      "arbitrary imposed motion",
+      "fixed-in-absolute-frame ground spring",
+      "contact",
+      "follower loads",
+      "general prestress",
+      "rotor",
+      "condensed/algebraic DOF maps not represented by the contracted P",
+      "direct_frequency base excitation",
+      "direct Newmark base excitation"
+    ]
+  },
+  "physical_formulation": {
+    "kinematics": [
+      "u_abs = P*u_rel + r_full*x_g",
+      "v_abs = P*v_rel + r_full*v_g",
+      "a_abs = P*a_rel + r_full*a_g"
+    ],
+    "full_mass_before_constraint_reduction": true,
+    "base_load": "F_base_free = -P.T*M_full*r_full*a_g",
+    "modal_projection": "F_base_modal = Phi.T*F_base_free",
+    "influence_vector": "global-axis unit translation on active translational DOFs; zero on rotational DOFs",
+    "coordinate_map_implemented": "For the frozen WP00 domain, P is the full-to-free selector. Non-identity reduction transforms and condensed algebraic/drilling DOFs are rejected rather than approximated.",
+    "mass_coupling": "M_full*r_full is formed before P.T; free/constrained consistent-mass coupling is retained.",
+    "relative_equation": "P.T*M_full*P*u_rel_dd + C_rel*u_rel_d + K_rel*u_rel = P.T*F_external - P.T*M_full*r_full*a_g",
+    "rigid_base_stiffness_term": "No separate K*r*x_g term is applied: the admitted structural and explicitly comoving spring references undergo the same rigid translation, so their relative deformation is unchanged. Non-comoving references fail closed.",
+    "damping_frame": "WP04 damping acts on structural relative velocity. No C*r*v_g term is added for rigid base translation; this frame is explicit and is not a general absolute-frame dashpot model.",
+    "hypothesis_review": "The reduced equation is valid only for the explicit comoving-support, homogeneous-relative-constraint, linear-operator scope above. No inference is made from historical fixed-DOF inputs when the WP07 object is absent."
+  },
+  "input_contract": {
+    "direction": "already-normalized finite 3-vector in global_model_axes; norm error <= 1e-12",
+    "acceleration_unit": "m/s^2 only",
+    "harmonic": {
+      "input_frequency": "Hz",
+      "internal_conversion": "omega_rad_s=2*pi*frequency_hz exactly once at the method boundary",
+      "phasor": "{real, imag}, both finite",
+      "convention": "a_g(t)=Re[A_g*exp(+i*omega*t)]",
+      "positive_frequency_base_kinematics": ["X_g=-A_g/omega^2", "V_g=A_g/(i*omega)"],
+      "zero_frequency": "nonzero A_g is rejected; zero A_g can drive the relative DC force equation. Relative acceleration and absolute acceleration are available; absolute displacement and velocity remain unavailable because acceleration does not determine integration constants",
+      "frequency_binding": "exact one-to-one set match to the requested harmonic frequency grid; duplicates or missing frequencies fail closed"
+    },
+    "transient": {
+      "time_unit": "s",
+      "history": "finite real samples starting at t=0, strictly increasing",
+      "interpolation": "linear_endpoint_hold",
+      "initial_conditions": "relative structural initial conditions; base displacement/velocity are not integrated or inferred"
+    },
+    "force_superposition": "WP03 external force channels and the equivalent base-inertia force are added once in full coordinates, then projected; K/M and ModalBasis remain reusable when only excitation changes."
+  },
+  "damping_and_reactions": {
+    "rayleigh": "C=alpha*M+beta_R*K per WP04; applied to relative structural velocity, with beta_R distinct from Newmark beta",
+    "prescribed_modal": "WP04 reduced C_modal only; no full-space C is fabricated",
+    "transient_reactions": {
+      "physical_rayleigh": "AVAILABLE only for fixed-DOF residuals when full-space balance is reconstructible; residual uses M_full*a_abs + C_full*v_rel + K_full*u_rel - F_external",
+      "prescribed_modal": "UNAVAILABLE; no physical C_full exists",
+      "harmonic": "NOT_COMPUTED by the reduced harmonic result",
+      "comoving_ground_spring_reference": "UNAVAILABLE; the spring reference has no modeled physical DOF/reaction mapping and is not included in the fixed-DOF reaction vector"
+    },
+    "reduced_generalized_force_is_support_reaction": false
+  },
+  "identity_and_restart": {
+    "identity_layers_preserved": ["PHYSICAL_IDENTITY", "OPERATOR_IDENTITY", "EXCITATION_IDENTITY", "MODAL_BASIS_IDENTITY", "EXECUTION_IDENTITY"],
+    "base_excitation_identity_fields": ["schema", "route", "direction", "direction frame", "resolved acceleration units", "phasor or time history", "phase/interpolation convention", "support policy", "ground-spring reference policy"],
+    "operator_reuse": "Base-excitation mutation changes excitation/execution identity but not physical/operator identity or ModalBasis when structural inputs are unchanged.",
+    "modal_checkpoint": "Existing qf-modal-newmark-checkpoint/v1 binds the combined WP03/WP07 excitation identity; incompatible or mutated excitation refuses resume.",
+    "legacy_checkpoint_semantics_changed": false
+  },
+  "result_contract": {
+    "maturity": "EXPERIMENTAL",
+    "qualification": "NOT_ASSESSED",
+    "relative_fields": ["RELATIVE_DISPLACEMENT", "RELATIVE_VELOCITY", "RELATIVE_ACCELERATION"],
+    "absolute_fields": ["ABSOLUTE_DISPLACEMENT", "ABSOLUTE_VELOCITY", "ABSOLUTE_ACCELERATION"],
+    "harmonic": "relative velocity=i*omega*U_rel and relative acceleration=-omega^2*U_rel; absolute acceleration=relative acceleration+r_full*A_g; absolute displacement and velocity require positive-frequency base kinematics",
+    "harmonic_zero_frequency": "relative/absolute acceleration remain available; absolute displacement and velocity are UNAVAILABLE because integration constants are undefined",
+    "transient_absolute": "absolute acceleration is reconstructed from a_g; absolute displacement/velocity are unavailable without x_g/v_g history or declared integration constants",
+    "frame_labels_required": true,
+    "unavailable_values": "explicit status and reason; never substituted with zero",
+    "serialization": "additive fields in existing versioned result contracts; old payloads without WP07 fields remain readable"
+  },
+  "preregistered_tolerances": {
+    "direction_unit_norm_absolute_error_max": 1e-12,
+    "explicit_P_vs_prepared_load_absolute_error_max": "1e-12*max(1, norm(projected_load))",
+    "analytic_harmonic_response": {"relative": 1e-11, "absolute": 1e-13},
+    "harmonic_rayleigh_relative_velocity_reference": {"relative": 1e-11, "absolute": 1e-13},
+    "restart_vs_continuous": {"relative": 1e-12, "absolute": 1e-14},
+    "post_observation_relaxation": false
+  },
+  "historical_statuses": {
+    "HISTORICAL_G03": "FAIL_PRESERVED",
+    "HISTORICAL_WP14": "HOLD_NOT_PROMOTED",
+    "WHOLE_REPOSITORY_ARCHIVE_CLEARED": "NO",
+    "maturity_promotion": "NONE"
+  }
+}

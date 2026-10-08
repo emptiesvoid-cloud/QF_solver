@@ -29,6 +29,12 @@ from solveur.core.analyses.modal_newmark_checkpoint import (
 )
 from solveur.core.analyses.prepared_dynamic_system import PreparedDynamicSystem
 from solveur.core.analyses.reduced_harmonic import _resolve_damping, _resolve_source_sha
+from solveur.core.analyses.uniform_base_acceleration import (
+    PreparedBaseAcceleration,
+    UniformBaseAcceleration,
+    combined_excitation_identity,
+    prepare_base_acceleration,
+)
 from solveur.core.dofs import DofManager
 from solveur.core.errors import InputValidationError, MeshValidationError, NumericalConvergenceError
 from solveur.core.model import FiniteElementModel
@@ -130,6 +136,19 @@ class ModalNewmarkTransientSolver:
         damping, physical_rayleigh = _resolve_damping(basis, prepared, parameters)
         channels = _resolve_transient_channels(model, prepared, excitation_channels)
         bound = channels.bind(prepared)
+        base_specification = (
+            None
+            if "uniform_base_acceleration" not in parameters
+            else UniformBaseAcceleration.from_mapping(
+                parameters["uniform_base_acceleration"], route="transient", model=model
+            )
+        )
+        base_motion = (
+            None
+            if base_specification is None
+            else prepare_base_acceleration(base_specification, model, prepared, basis.modes)
+        )
+        excitation_identity = combined_excitation_identity(bound.channel_identity, base_motion)
 
         dofs = DofManager.from_node_requirements({int(node): set(names) for node, names in prepared.dof_signature})
         if tuple(sorted((int(node), tuple(names)) for node, names in dofs.node_dofs.items())) != prepared.dof_signature:
@@ -207,7 +226,7 @@ class ModalNewmarkTransientSolver:
             "physical_identity": prepared.physical_identity,
             "operator_identity": prepared.operator_identity,
             "basis_identity": basis.basis_identity,
-            "excitation_identity": bound.channel_identity,
+            "excitation_identity": excitation_identity,
             "damping_identity": damping.identity,
             "integration": {
                 "scheme": "Newmark-implicit-constant-step",
@@ -239,6 +258,8 @@ class ModalNewmarkTransientSolver:
                 "initial_projection_exact_max": _INITIAL_PROJECTION_EXACT_MAX,
             },
         }
+        if base_specification is not None:
+            identity["uniform_base_acceleration_identity"] = base_specification.identity
         execution_key = self.checkpoint_store.signature(identity)
         checkpoint_settings = DynamicCheckpointSettings.from_parameters(parameters, steps)
         restart_step = 0
@@ -251,7 +272,7 @@ class ModalNewmarkTransientSolver:
                 prepared=prepared,
                 basis=basis,
                 damping=damping,
-                channels=bound,
+                excitation_identity=excitation_identity,
                 total_steps=steps,
                 dt=dt,
                 beta=beta,
@@ -265,7 +286,9 @@ class ModalNewmarkTransientSolver:
         else:
             q = q_initial
             qdot = qdot_initial
-            initial_force_full = bound.full_real_rhs(prepared, time_s=0.0, step=0, steps=steps, dt=dt)
+            initial_force_full = _transient_force_with_base(
+                bound, prepared, base_motion, base_specification, time_s=0.0, step=0, steps=steps, dt=dt
+            )
             initial_force = basis.project_full_rhs(initial_force_full, prepared)
             qddot = self.newmark_core._initial_acceleration(
                 mr_sparse,
@@ -330,6 +353,12 @@ class ModalNewmarkTransientSolver:
                 full_u = prepared.expand_state(modes @ q)
                 full_v = prepared.expand_state(modes @ qdot)
                 full_a = prepared.expand_state(modes @ qddot)
+                base_acceleration = (
+                    0.0 if base_specification is None else base_specification.acceleration_at(time_value)
+                )
+                full_absolute_a = (
+                    None if base_motion is None else full_a + base_motion.influence_full * base_acceleration
+                )
                 reconstruction_seconds += perf_counter() - reconstruction_started
                 row: dict[str, Any] = {
                     "step": step,
@@ -347,6 +376,14 @@ class ModalNewmarkTransientSolver:
                     "reduced_equilibrium_residual_norm": residual_norm,
                     "reduced_equilibrium_relative_error": relative_residual,
                 }
+                if full_absolute_a is not None:
+                    row["response_frames"] = {
+                        "displacement": "RELATIVE_RESPONSE",
+                        "velocity": "RELATIVE_RESPONSE",
+                        "acceleration": "RELATIVE_RESPONSE",
+                        "absolute_acceleration": "ABSOLUTE_RESPONSE",
+                    }
+                    row["max_absolute_acceleration"] = float(np.max(np.abs(full_absolute_a), initial=0.0))
                 if probe_indices:
                     row["probes"] = {
                         label: {
@@ -356,6 +393,9 @@ class ModalNewmarkTransientSolver:
                         }
                         for label, index in probe_indices
                     }
+                    if full_absolute_a is not None:
+                        for label, index in probe_indices:
+                            row["probes"][label]["absolute_acceleration"] = float(full_absolute_a[index])
                 history.append(row)
                 times.append(float(time_value))
             if store_modal_history:
@@ -370,20 +410,38 @@ class ModalNewmarkTransientSolver:
                 )
 
         if restart_step > 0:
-            restart_force = bound.full_real_rhs(
-                prepared, time_s=restart_step * dt, step=restart_step, steps=steps, dt=dt
+            restart_force = _transient_force_with_base(
+                bound,
+                prepared,
+                base_motion,
+                base_specification,
+                time_s=restart_step * dt,
+                step=restart_step,
+                steps=steps,
+                dt=dt,
             )
             sample_state(
                 restart_step,
                 basis.project_full_rhs(restart_force, prepared),
             )
         else:
-            initial_force_full = bound.full_real_rhs(prepared, time_s=0.0, step=0, steps=steps, dt=dt)
+            initial_force_full = _transient_force_with_base(
+                bound, prepared, base_motion, base_specification, time_s=0.0, step=0, steps=steps, dt=dt
+            )
             sample_state(0, basis.project_full_rhs(initial_force_full, prepared))
 
         for step in range(restart_step + 1, steps + 1):
             time_value = step * dt
-            force_full = bound.full_real_rhs(prepared, time_s=time_value, step=step, steps=steps, dt=dt)
+            force_full = _transient_force_with_base(
+                bound,
+                prepared,
+                base_motion,
+                base_specification,
+                time_s=time_value,
+                step=step,
+                steps=steps,
+                dt=dt,
+            )
             force_modal = basis.project_full_rhs(force_full, prepared)
             rhs = NewmarkDynamicSolver._effective_rhs(
                 mr_sparse,
@@ -423,7 +481,7 @@ class ModalNewmarkTransientSolver:
                     source_sha=prepared.source_sha,
                     physical_identity=prepared.physical_identity,
                     operator_identity=prepared.operator_identity,
-                    excitation_identity=bound.channel_identity,
+                    excitation_identity=excitation_identity,
                     damping_identity=damping.identity,
                     basis_identity=basis.basis_identity,
                     completed_step=step,
@@ -444,13 +502,17 @@ class ModalNewmarkTransientSolver:
 
         integration_seconds = perf_counter() - integration_started
         final_time = steps * dt
-        final_force = bound.full_real_rhs(prepared, time_s=final_time, step=steps, steps=steps, dt=dt)
+        final_external_force = bound.full_real_rhs(prepared, time_s=final_time, step=steps, steps=steps, dt=dt)
         final_reduced_u = modes @ q
         final_reduced_v = modes @ qdot
         final_reduced_a = modes @ qddot
         final_u = prepared.expand_state(final_reduced_u)
         final_v = prepared.expand_state(final_reduced_v)
         final_a = prepared.expand_state(final_reduced_a)
+        final_base_acceleration = 0.0 if base_specification is None else base_specification.acceleration_at(final_time)
+        final_absolute_a = (
+            None if base_motion is None else final_a + base_motion.influence_full * final_base_acceleration
+        )
         if not all(np.all(np.isfinite(item)) for item in (final_u, final_v, final_a)):
             raise NumericalConvergenceError("Modal Newmark reconstructed a non-finite final state.")
 
@@ -460,17 +522,23 @@ class ModalNewmarkTransientSolver:
         reaction_status = damping.reaction_availability
         reaction_reason = damping.reaction_reason
         if full_damping is not None:
-            physical_residual = full_mass @ final_a + full_damping @ final_v + full_stiffness @ final_u - final_force
+            inertial_acceleration = final_a if final_absolute_a is None else final_absolute_a
+            physical_residual = (
+                full_mass @ inertial_acceleration
+                + full_damping @ final_v
+                + full_stiffness @ final_u
+                - final_external_force
+            )
             free = prepared.free_dof_indices
             physical_residual_norm = float(np.linalg.norm(physical_residual[free]))
             physical_relative_residual = _physical_relative_error(
                 full_mass,
                 full_damping,
                 full_stiffness,
-                final_a,
+                inertial_acceleration,
                 final_v,
                 final_u,
-                final_force,
+                final_external_force,
                 free,
             )
             if basis.is_full_basis and physical_relative_residual > _FULL_BASIS_PHYSICAL_RESIDUAL_MAX:
@@ -496,9 +564,30 @@ class ModalNewmarkTransientSolver:
             "platform": platform.platform(),
         }
         result_availability = {
-            "final_displacement": _availability("AVAILABLE", True, True, "full physical DOF vector at final time"),
-            "final_velocity": _availability("AVAILABLE", True, True, "full physical DOF vector at final time"),
-            "final_acceleration": _availability("AVAILABLE", True, True, "full physical DOF vector at final time"),
+            "final_displacement": _availability(
+                "AVAILABLE",
+                True,
+                True,
+                "full physical relative DOF vector at final time"
+                if base_motion is not None
+                else "full physical DOF vector at final time",
+            ),
+            "final_velocity": _availability(
+                "AVAILABLE",
+                True,
+                True,
+                "full physical relative DOF vector at final time"
+                if base_motion is not None
+                else "full physical DOF vector at final time",
+            ),
+            "final_acceleration": _availability(
+                "AVAILABLE",
+                True,
+                True,
+                "full physical relative DOF acceleration at final time"
+                if base_motion is not None
+                else "full physical DOF vector at final time",
+            ),
             "modal_final_state": _availability("AVAILABLE", True, True, "retained basis coordinates at final time"),
             "requested_probe_history": _availability(
                 "AVAILABLE" if record_history and probe_indices else "NOT_APPLICABLE",
@@ -541,17 +630,58 @@ class ModalNewmarkTransientSolver:
                 "UNAVAILABLE", False, False, "reduced equilibrium residual is not a physical truncation-error estimate"
             ),
         }
+        if base_motion is not None:
+            result_availability.update(
+                {
+                    "relative_displacement": _availability(
+                        "AVAILABLE", True, True, "full physical relative DOF state at final time"
+                    ),
+                    "relative_velocity": _availability(
+                        "AVAILABLE", True, True, "full physical relative DOF state at final time"
+                    ),
+                    "relative_acceleration": _availability(
+                        "AVAILABLE", True, True, "full physical relative DOF state at final time"
+                    ),
+                    "absolute_displacement": _availability(
+                        "UNAVAILABLE",
+                        False,
+                        False,
+                        "Acceleration history alone does not define base displacement integration constants.",
+                    ),
+                    "absolute_velocity": _availability(
+                        "UNAVAILABLE",
+                        False,
+                        False,
+                        "Acceleration history alone does not define base velocity integration constants.",
+                    ),
+                    "absolute_acceleration": _availability(
+                        "AVAILABLE", True, True, "P*a_rel + r_full*a_g at the final time"
+                    ),
+                    "comoving_spring_reference_reactions": _availability(
+                        "UNAVAILABLE" if any(spring.node_b is None for spring in model.springs) else "NOT_APPLICABLE",
+                        False,
+                        False,
+                        "The spring-reference endpoint has no physical DOF/reaction mapping in this result; "
+                        "the reaction vector contains fixed-DOF residuals only."
+                        if any(spring.node_b is None for spring in model.springs)
+                        else "No ground-referenced spring exists.",
+                    ),
+                }
+            )
+        qualification_scope = {
+            "schema": "qf-method-qualification-scope/v1",
+            "analysis": "transient_dynamic",
+            "method": "modal_newmark",
+            "element_families": list(prepared.element_families),
+            "material_scope": "linear_isotropic_elastic",
+            "damping_scope": damping.source,
+            "excitation_scope": "WP03 real identified time channels",
+            "formulation_scope": MODAL_NEWMARK_CONTRACT,
+        }
+        if base_motion is not None:
+            qualification_scope["base_excitation_scope"] = "WP07_uniform_translational_base_acceleration"
         qualification_scope_id = checkpoint_signature(
-            {
-                "schema": "qf-method-qualification-scope/v1",
-                "analysis": "transient_dynamic",
-                "method": "modal_newmark",
-                "element_families": list(prepared.element_families),
-                "material_scope": "linear_isotropic_elastic",
-                "damping_scope": damping.source,
-                "excitation_scope": "WP03 real identified time channels",
-                "formulation_scope": MODAL_NEWMARK_CONTRACT,
-            },
+            qualification_scope,
             label="Modal Newmark qualification scope",
         )
         basis_storage = basis.dense_storage_bytes
@@ -570,7 +700,7 @@ class ModalNewmarkTransientSolver:
             "source_sha": prepared.source_sha,
             "physical_identity": prepared.physical_identity,
             "operator_identity": prepared.operator_identity,
-            "excitation_identity": bound.channel_identity,
+            "excitation_identity": excitation_identity,
             "basis_identity": basis.basis_identity,
             "damping": {
                 "identity": damping.identity,
@@ -675,6 +805,25 @@ class ModalNewmarkTransientSolver:
             "phase_convention": "real time-domain amplitudes; no harmonic phasor coercion",
             "environment": environment,
         }
+        if base_motion is not None and base_specification is not None:
+            solver_metadata["force_channel_identity"] = bound.channel_identity
+            solver_metadata["response_frames"] = {
+                "displacements": "RELATIVE_RESPONSE",
+                "velocities": "RELATIVE_RESPONSE",
+                "accelerations": "RELATIVE_RESPONSE",
+                "absolute_displacements": "UNAVAILABLE_FROM_ACCELERATION_ONLY",
+                "absolute_velocities": "UNAVAILABLE_FROM_ACCELERATION_ONLY",
+                "absolute_accelerations": "AVAILABLE",
+            }
+            solver_metadata["uniform_base_acceleration"] = {
+                "identity": base_specification.identity,
+                "contract": base_specification.identity_payload(),
+                "equivalent_inertial_load": "-P.T @ M_full @ r_full * a_g(t)",
+                "mass_formed_before_constraint_reduction": True,
+                "stiffness_and_damping": "relative structural operators; comoving references; no rigid-base K/C forcing",
+                "absolute_displacement_velocity_integration": "NOT_PERFORMED; initial base x_g/v_g are unspecified",
+                "reaction_scope": "fixed-DOF residuals only; comoving spring-reference reactions are not exported",
+            }
         provenance = {
             "schema_version": 1,
             "source_sha": prepared.source_sha,
@@ -682,7 +831,7 @@ class ModalNewmarkTransientSolver:
             "physical_identity": prepared.physical_identity,
             "operator_identity": prepared.operator_identity,
             "basis_identity": basis.basis_identity,
-            "excitation_identity": bound.channel_identity,
+            "excitation_identity": excitation_identity,
             "damping_identity": damping.identity,
             "execution_key": execution_key,
             "evidence_availability": "AVAILABLE_AND_REPRODUCIBLE",
@@ -691,6 +840,10 @@ class ModalNewmarkTransientSolver:
             "output_paths_excluded_from_execution_identity": True,
             "maturity": "EXPERIMENTAL",
         }
+        if base_motion is not None and base_specification is not None:
+            provenance["force_channel_identity"] = bound.channel_identity
+            provenance["uniform_base_acceleration_identity"] = base_specification.identity
+            provenance["uniform_base_acceleration_contract"] = base_specification.identity_payload()
         if record_history:
             output_times = np.asarray(times, dtype=np.float64)
         else:
@@ -717,6 +870,7 @@ class ModalNewmarkTransientSolver:
             time_history=tuple(history),
             modal_history=tuple(modal_history),
             reactions=reactions,
+            absolute_accelerations=final_absolute_a,
         )
 
 
@@ -762,7 +916,6 @@ def _resolve_transient_channels(
 def _validate_modal_newmark_scope(parameters: Mapping[str, Any]) -> None:
     unsupported = {
         "base_acceleration",
-        "uniform_base_acceleration",
         "ground_motion",
         "multi_support_excitation",
         "time_varying_supports",
@@ -770,7 +923,7 @@ def _validate_modal_newmark_scope(parameters: Mapping[str, Any]) -> None:
     }.intersection(parameters)
     if unsupported:
         raise InputValidationError(
-            "modal_newmark does not support base or moving-support excitation in WP06: "
+            "modal_newmark does not support general base or moving-support excitation: "
             + ", ".join(sorted(unsupported))
             + "."
         )
@@ -812,7 +965,7 @@ def _validate_modal_checkpoint(
     prepared: PreparedDynamicSystem,
     basis: ModalBasis,
     damping: Any,
-    channels: BoundExcitationChannels,
+    excitation_identity: str,
     total_steps: int,
     dt: float,
     beta: float,
@@ -824,7 +977,7 @@ def _validate_modal_checkpoint(
         and checkpoint.source_sha == source_sha
         and checkpoint.physical_identity == prepared.physical_identity
         and checkpoint.operator_identity == prepared.operator_identity
-        and checkpoint.excitation_identity == channels.channel_identity
+        and checkpoint.excitation_identity == excitation_identity
         and checkpoint.damping_identity == damping.identity
         and checkpoint.basis_identity == basis.basis_identity
         and checkpoint.total_steps == total_steps
@@ -838,6 +991,28 @@ def _validate_modal_checkpoint(
         )
     if checkpoint.completed_step > total_steps:
         raise InputValidationError("Modal Newmark checkpoint is beyond the requested final step.")
+
+
+def _transient_force_with_base(
+    channels: BoundExcitationChannels,
+    prepared: PreparedDynamicSystem,
+    base_motion: PreparedBaseAcceleration | None,
+    base_specification: UniformBaseAcceleration | None,
+    *,
+    time_s: float,
+    step: int,
+    steps: int,
+    dt: float,
+) -> np.ndarray:
+    force = np.asarray(channels.full_real_rhs(prepared, time_s=time_s, step=step, steps=steps, dt=dt), dtype=np.float64)
+    if base_motion is None or base_specification is None:
+        return force
+    if base_motion.specification.identity != base_specification.identity:
+        raise InputValidationError("Prepared base-motion load and input identity do not match.")
+    result = force + base_motion.inertial_load_full_per_m_s2 * base_specification.acceleration_at(time_s)
+    if not np.all(np.isfinite(result)):
+        raise InputValidationError("Combined force and uniform-base inertial load are non-finite.")
+    return result
 
 
 def _execution_parameters(parameters: Mapping[str, Any]) -> dict[str, Any]:

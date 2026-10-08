@@ -27,6 +27,11 @@ from solveur.core.analyses.excitation_channels import (
 from solveur.core.analyses.harmonic import frequency_grid
 from solveur.core.analyses.modal_basis import ModalBasis
 from solveur.core.analyses.prepared_dynamic_system import PreparedDynamicSystem
+from solveur.core.analyses.uniform_base_acceleration import (
+    UniformBaseAcceleration,
+    combined_excitation_identity,
+    prepare_base_acceleration,
+)
 from solveur.core.dofs import DOF_ORDER, DofManager
 from solveur.core.errors import InputValidationError, MeshValidationError, NumericalConvergenceError
 from solveur.core.model import FiniteElementModel
@@ -116,6 +121,24 @@ class ReducedHarmonicResponseSolver:
         frequencies = frequency_grid(parameters)
         damping, physical_rayleigh = _resolve_damping(basis, prepared, parameters)
         frequency_channels = _resolve_channels(model, prepared, excitation_channels, frequencies)
+        base_specification = (
+            None
+            if "uniform_base_acceleration" not in parameters
+            else UniformBaseAcceleration.from_mapping(
+                parameters["uniform_base_acceleration"], route="harmonic", model=model
+            )
+        )
+        base_motion = (
+            None
+            if base_specification is None
+            else prepare_base_acceleration(base_specification, model, prepared, basis.modes)
+        )
+        if base_specification is not None and {frequency for frequency, _ in base_specification.harmonic_phasors} != {
+            float(item) for item in frequencies
+        }:
+            raise InputValidationError(
+                "Base-acceleration harmonic phasors must match the requested frequency set exactly."
+            )
         dofs = DofManager.from_node_requirements({int(node): set(names) for node, names in prepared.dof_signature})
         actual_signature = tuple(sorted((int(node), tuple(names)) for node, names in dofs.node_dofs.items()))
         if actual_signature != prepared.dof_signature:
@@ -130,6 +153,11 @@ class ReducedHarmonicResponseSolver:
             raise InputValidationError("Prepared modal basis and projected operator dimensions are inconsistent.")
 
         responses: list[np.ndarray] = []
+        absolute_responses: list[np.ndarray | None] = []
+        absolute_velocity_responses: list[np.ndarray | None] = []
+        relative_velocity_responses: list[np.ndarray] = []
+        relative_acceleration_responses: list[np.ndarray] = []
+        absolute_acceleration_responses: list[np.ndarray] = []
         modal_coordinates: list[np.ndarray] = []
         frequency_records: list[dict[str, Any]] = []
         projection_seconds: list[float] = []
@@ -150,13 +178,27 @@ class ReducedHarmonicResponseSolver:
             frequency_value = float(frequency)
             channel_set = frequency_channels[frequency_value]
             bound = channel_set.bind(prepared)
-            excitation_identities_by_frequency[frequency_value] = bound.channel_identity
             bound_memory = max(bound_memory, bound.distribution_storage_bytes)
             bound_nnz = max(bound_nnz, bound.distribution_nnz)
 
             projection_started = perf_counter()
             full_force = bound.full_harmonic_rhs(prepared, frequency_hz=frequency_value)
-            projected_force = basis.project_harmonic_excitation(bound, prepared, frequency_hz=frequency_value)
+            force_channel_identity = bound.channel_identity
+            combined_identity = combined_excitation_identity(force_channel_identity, base_motion)
+            excitation_identities_by_frequency[frequency_value] = combined_identity
+            effective_full_force = np.asarray(full_force, dtype=np.complex128)
+            base_phasor: complex | None = None
+            base_displacement: complex | None = None
+            base_velocity: complex | None = None
+            if base_motion is not None and base_specification is not None:
+                base_phasor = base_specification.phasor_at(frequency_value)
+                effective_full_force = effective_full_force + (base_motion.inertial_load_full_per_m_s2 * base_phasor)
+                projected_force = (
+                    basis.project_harmonic_excitation(bound, prepared, frequency_hz=frequency_value)
+                    + base_motion.modal_load_per_m_s2 * base_phasor
+                )
+            else:
+                projected_force = basis.project_harmonic_excitation(bound, prepared, frequency_hz=frequency_value)
             projection_seconds.append(perf_counter() - projection_started)
 
             omega = 2.0 * math.pi * frequency_value
@@ -180,7 +222,7 @@ class ReducedHarmonicResponseSolver:
             )
             full_response = prepared.expand_complex_state(
                 physical_state,
-                full_force,
+                effective_full_force,
                 stiffness_factor=stiffness_factor,
             )
             reduced_residual = _relative_backward_error(impedance, coordinates, projected_force)
@@ -198,14 +240,14 @@ class ReducedHarmonicResponseSolver:
                     physical_k @ full_response
                     + 1j * omega * (physical_c @ full_response)
                     - omega**2 * (physical_m @ full_response)
-                    - full_force
+                    - effective_full_force
                 )
                 physical_residual = _physical_free_backward_error(
                     physical_k,
                     physical_m,
                     physical_c,
                     full_response,
-                    full_force,
+                    effective_full_force,
                     omega,
                     free,
                     residual_vector,
@@ -224,9 +266,45 @@ class ReducedHarmonicResponseSolver:
                 )
             selected_response = full_response[probe_indices].copy()
             selected_response.setflags(write=False)
+            if base_motion is None or base_phasor is None:
+                selected_absolute_response = None
+                selected_absolute_velocity = None
+            else:
+                relative_velocity_full = 1j * omega * full_response
+                relative_acceleration_full = -(omega**2) * full_response
+                absolute_acceleration_full = relative_acceleration_full + base_motion.influence_full * base_phasor
+                selected_relative_velocity = relative_velocity_full[probe_indices].copy()
+                selected_relative_acceleration = relative_acceleration_full[probe_indices].copy()
+                selected_absolute_acceleration = absolute_acceleration_full[probe_indices].copy()
+                for state in (
+                    selected_relative_velocity,
+                    selected_relative_acceleration,
+                    selected_absolute_acceleration,
+                ):
+                    state.setflags(write=False)
+                relative_velocity_responses.append(selected_relative_velocity)
+                relative_acceleration_responses.append(selected_relative_acceleration)
+                absolute_acceleration_responses.append(selected_absolute_acceleration)
+                if omega == 0.0:
+                    # Acceleration at DC does not determine the base's unknown
+                    # displacement/velocity integration constants, even when
+                    # the acceleration phasor itself is zero.
+                    selected_absolute_response = None
+                    selected_absolute_velocity = None
+                else:
+                    base_displacement = -base_phasor / (omega**2)
+                    base_velocity = base_phasor / (1j * omega)
+                    absolute_full_response = full_response + base_motion.influence_full * base_displacement
+                    absolute_velocity_full = full_response * (1j * omega) + base_motion.influence_full * base_velocity
+                    selected_absolute_response = absolute_full_response[probe_indices].copy()
+                    selected_absolute_velocity = absolute_velocity_full[probe_indices].copy()
+                    selected_absolute_response.setflags(write=False)
+                    selected_absolute_velocity.setflags(write=False)
             coordinates = np.asarray(coordinates, dtype=np.complex128).copy()
             coordinates.setflags(write=False)
             responses.append(selected_response)
+            absolute_responses.append(selected_absolute_response)
+            absolute_velocity_responses.append(selected_absolute_velocity)
             modal_coordinates.append(coordinates)
             reconstruction_seconds.append(perf_counter() - reconstruct_started)
 
@@ -234,7 +312,7 @@ class ReducedHarmonicResponseSolver:
                 {
                     "frequency_hz": frequency_value,
                     "omega_rad_s": omega,
-                    "channel_identity": bound.channel_identity,
+                    "channel_identity": combined_identity,
                     "channel_count": bound.channel_count,
                     "channel_ids": list(bound.channel_ids),
                     "reduced_backward_error": reduced_residual,
@@ -254,8 +332,34 @@ class ReducedHarmonicResponseSolver:
                     "conditioning_indicator": impedance_diagnostics["conditioning_indicator"],
                     "conditioning_status": impedance_diagnostics["conditioning_status"],
                     "linear_solver_relative_residual": float(solve_info.relative_residual_norm),
+                    **(
+                        {}
+                        if (base_motion is None or base_specification is None or base_phasor is None)
+                        else {
+                            "base_acceleration_phasor_m_s2": {
+                                "real": float(base_phasor.real),
+                                "imag": float(base_phasor.imag),
+                            },
+                            "base_displacement_phasor_m": (
+                                None
+                                if base_displacement is None
+                                else {"real": float(base_displacement.real), "imag": float(base_displacement.imag)}
+                            ),
+                            "base_velocity_phasor_m_s": (
+                                None
+                                if base_velocity is None
+                                else {"real": float(base_velocity.real), "imag": float(base_velocity.imag)}
+                            ),
+                            "absolute_kinematics_status": (
+                                "UNAVAILABLE_ZERO_FREQUENCY_INTEGRATION_CONSTANTS" if omega == 0.0 else "AVAILABLE"
+                            ),
+                            "base_acceleration_identity": base_specification.identity,
+                        }
+                    ),
                 }
             )
+            if base_motion is not None and base_specification is not None and base_phasor is not None:
+                frequency_records[-1]["force_channel_identity"] = force_channel_identity
 
         excitation_by_frequency = [
             {"frequency_hz": frequency, "identity": excitation_identities_by_frequency[frequency]}
@@ -275,18 +379,26 @@ class ReducedHarmonicResponseSolver:
             preparation_seconds=preparation_seconds,
             basis_seconds=basis_seconds,
         )
+        if base_motion is not None and base_specification is not None:
+            execution_identity["uniform_base_acceleration_identity"] = base_specification.identity
+            execution_identity["uniform_base_acceleration_contract"] = base_specification.identity_payload()
+            provenance["uniform_base_acceleration_identity"] = base_specification.identity
+            provenance["uniform_base_acceleration_contract"] = base_specification.identity_payload()
         execution_key = checkpoint_signature(execution_identity, label="Reduced harmonic execution identity")
+        qualification_scope = {
+            "scope_schema": "qf-method-qualification-scope/v1",
+            "analysis": "harmonic_response",
+            "method": "modal_superposition",
+            "element_families": list(prepared.element_families),
+            "material_scope": "linear_isotropic_elastic",
+            "damping_scope": damping.source,
+            "excitation_scope": "identified_WP03_channels",
+            "formulation_scope": REDUCED_HARMONIC_CONTRACT,
+        }
+        if base_motion is not None:
+            qualification_scope["base_excitation_scope"] = "WP07_uniform_translational_base_acceleration"
         qualification_scope_id = checkpoint_signature(
-            {
-                "scope_schema": "qf-method-qualification-scope/v1",
-                "analysis": "harmonic_response",
-                "method": "modal_superposition",
-                "element_families": list(prepared.element_families),
-                "material_scope": "linear_isotropic_elastic",
-                "damping_scope": damping.source,
-                "excitation_scope": "identified_WP03_channels",
-                "formulation_scope": REDUCED_HARMONIC_CONTRACT,
-            },
+            qualification_scope,
             label="Reduced harmonic qualification scope",
         )
 
@@ -346,10 +458,120 @@ class ReducedHarmonicResponseSolver:
                 "reason": "A small reduced residual does not estimate full physical modal truncation error.",
             },
         }
+        if base_motion is not None:
+            absolute_response_count = sum(item is not None for item in absolute_responses)
+            absolute_status = (
+                "AVAILABLE"
+                if absolute_response_count == len(absolute_responses)
+                else "PARTIALLY_AVAILABLE"
+                if absolute_response_count
+                else "UNAVAILABLE"
+            )
+            absolute_reason = (
+                None
+                if absolute_status == "AVAILABLE"
+                else "At 0 Hz, acceleration alone does not determine base displacement/velocity integration constants."
+            )
+            result_availability["complex_displacements"] = {
+                "status": "AVAILABLE" if response_is_full else "PARTIALLY_AVAILABLE",
+                "computed": True,
+                "retained": True,
+                "scope": "full physical DOFs" if response_is_full else "explicit response_probes only",
+                "reconstructible": response_is_full,
+                "frame": "RELATIVE_RESPONSE",
+                "reason": None if response_is_full else "Unselected relative response entries were not retained.",
+            }
+            result_availability.update(
+                {
+                    "relative_complex_displacements": {
+                        "status": "AVAILABLE" if response_is_full else "PARTIALLY_AVAILABLE",
+                        "computed": True,
+                        "retained": True,
+                        "frame": "RELATIVE_RESPONSE",
+                        "scope": "full physical DOFs" if response_is_full else "explicit response_probes only",
+                        "reconstructible": response_is_full,
+                        "reason": None
+                        if response_is_full
+                        else "Unselected relative response entries were not retained.",
+                    },
+                    "absolute_complex_displacements": {
+                        "status": absolute_status
+                        if response_is_full
+                        else "PARTIALLY_AVAILABLE"
+                        if absolute_response_count
+                        else "UNAVAILABLE",
+                        "computed": bool(absolute_response_count),
+                        "retained": True,
+                        "frame": "ABSOLUTE_RESPONSE",
+                        "scope": "positive-frequency kinematic reconstruction from the acceleration phasor",
+                        "reconstructible": response_is_full and absolute_status == "AVAILABLE",
+                        "reason": absolute_reason
+                        if absolute_status != "AVAILABLE"
+                        else None
+                        if response_is_full
+                        else "Unselected absolute response entries were not retained.",
+                    },
+                    "absolute_complex_velocities": {
+                        "status": absolute_status
+                        if response_is_full
+                        else "PARTIALLY_AVAILABLE"
+                        if absolute_response_count
+                        else "UNAVAILABLE",
+                        "computed": bool(absolute_response_count),
+                        "retained": True,
+                        "frame": "ABSOLUTE_RESPONSE",
+                        "scope": "i*omega times the absolute displacement phasor",
+                        "reconstructible": response_is_full and absolute_status == "AVAILABLE",
+                        "reason": absolute_reason
+                        if absolute_status != "AVAILABLE"
+                        else None
+                        if response_is_full
+                        else "Unselected absolute response entries were not retained.",
+                    },
+                    "relative_complex_velocities": {
+                        "status": "AVAILABLE" if response_is_full else "PARTIALLY_AVAILABLE",
+                        "computed": True,
+                        "retained": True,
+                        "frame": "RELATIVE_RESPONSE",
+                        "reconstructible": response_is_full,
+                        "reason": None
+                        if response_is_full
+                        else "Unselected relative velocity entries were not retained.",
+                    },
+                    "relative_complex_accelerations": {
+                        "status": "AVAILABLE" if response_is_full else "PARTIALLY_AVAILABLE",
+                        "computed": True,
+                        "retained": True,
+                        "frame": "RELATIVE_RESPONSE",
+                        "reconstructible": response_is_full,
+                        "reason": None
+                        if response_is_full
+                        else "Unselected relative acceleration entries were not retained.",
+                    },
+                    "absolute_complex_accelerations": {
+                        "status": "AVAILABLE" if response_is_full else "PARTIALLY_AVAILABLE",
+                        "computed": True,
+                        "retained": True,
+                        "frame": "ABSOLUTE_RESPONSE",
+                        "reconstructible": response_is_full,
+                        "reason": None
+                        if response_is_full
+                        else "Unselected absolute acceleration entries were not retained.",
+                    },
+                }
+            )
 
         modal_storage = int(basis.dense_storage_bytes["modes"])
         reduced_matrix_storage = int(mr.nbytes + kr.nbytes + cr.nbytes)
-        response_storage = int(sum(item.nbytes for item in responses) + sum(item.nbytes for item in modal_coordinates))
+        response_storage = int(
+            sum(item.nbytes for item in responses)
+            + sum(item.nbytes for item in modal_coordinates)
+            + sum(item.nbytes for item in absolute_responses if item is not None)
+            + sum(item.nbytes for item in absolute_velocity_responses if item is not None)
+            + sum(item.nbytes for item in relative_velocity_responses)
+            + sum(item.nbytes for item in relative_acceleration_responses)
+            + sum(item.nbytes for item in absolute_acceleration_responses)
+        )
         solver_metadata = {
             "contract": REDUCED_HARMONIC_CONTRACT,
             "numerical_policy_id": _NUMERICAL_POLICY_ID,
@@ -414,6 +636,24 @@ class ReducedHarmonicResponseSolver:
                 "full_basis_physical_free_backward_error_max": _BACKWARD_ERROR_MAX,
             },
         }
+        if base_motion is not None and base_specification is not None:
+            solver_metadata["uniform_base_acceleration"] = {
+                "identity": base_specification.identity,
+                "contract": base_specification.identity_payload(),
+                "equivalent_inertial_load": "-P.T @ M_full @ r_full * A_g",
+                "mass_formed_before_constraint_reduction": True,
+                "stiffness_and_damping": "relative structural operators; comoving references; no rigid-base K/C forcing",
+                "reactions": "NOT_COMPUTED_BY_REDUCED_HARMONIC_RESULT",
+            }
+            solver_metadata["response_frames"] = {
+                "responses": "RELATIVE_RESPONSE",
+                "relative_velocities": "i*omega*U_rel",
+                "relative_accelerations": "-omega^2*U_rel",
+                "absolute_accelerations": "-omega^2*U_rel + r_full*A_g",
+                "absolute_displacements": "AVAILABLE_ONLY_FOR_POSITIVE_FREQUENCY; X_g=-A_g/omega^2",
+                "absolute_velocities": "AVAILABLE_ONLY_FOR_POSITIVE_FREQUENCY; V_g=A_g/(i*omega)",
+                "zero_frequency_absolute_displacement_velocity": "UNAVAILABLE; integration constants are not defined",
+            }
         return ReducedHarmonicResult(
             numerical_status="PASS",
             frequencies_hz=frequencies,
@@ -430,6 +670,15 @@ class ReducedHarmonicResponseSolver:
             execution_key=execution_key,
             qualification_scope_id=qualification_scope_id,
             mesh_report=mesh_report.to_dict(),
+            absolute_responses=tuple(absolute_responses) if base_motion is not None else None,
+            absolute_velocity_responses=(tuple(absolute_velocity_responses) if base_motion is not None else None),
+            relative_velocity_responses=(tuple(relative_velocity_responses) if base_motion is not None else None),
+            relative_acceleration_responses=(
+                tuple(relative_acceleration_responses) if base_motion is not None else None
+            ),
+            absolute_acceleration_responses=(
+                tuple(absolute_acceleration_responses) if base_motion is not None else None
+            ),
         )
 
 

@@ -64,6 +64,17 @@ class AnalysisRouter:
         if not isinstance(model.analysis, AnalysisSettings):
             model.analysis = AnalysisSettings.from_raw(model.analysis)
         model.analysis.validate()
+        if "uniform_base_acceleration" in model.analysis.parameters and (
+            (model.analysis.type, model.analysis.method)
+            not in {
+                ("harmonic_response", "modal_superposition"),
+                ("transient_dynamic", "modal_newmark"),
+            }
+        ):
+            raise InputValidationError(
+                "uniform_base_acceleration is supported only by harmonic_response/modal_superposition "
+                "and transient_dynamic/modal_newmark."
+            )
         has_rotating_disk = any(isinstance(item, RotatingDisk) for item in model.concentrated_masses)
         if model.analysis.type not in {"rotating_modal", "campbell"} and has_rotating_disk:
             raise InputValidationError(
