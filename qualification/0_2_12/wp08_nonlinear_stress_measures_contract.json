@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0212-WP08-NONLINEAR-STRESS-MEASURES",
+  "record_type": "WP08_PREIMPLEMENTATION_DIAGNOSTIC_AND_RESCOPE_RECORD",
+  "release": "0.2.12",
+  "work_package": "WP08",
+  "branch": "codex/v0.2.12-wp08-nonlinear-stress-measures",
+  "base_commit": "f85b6ad589a67e40782ff65b2e69e0e9e937e00a",
+  "status": "BLOCKED_RESCOPE_REQUIRED",
+  "scope": "Audit and independent bounded diagnostics only; no production stress, constitutive, force, tangent, result, serializer, or historical-record change.",
+  "stop_rule": {
+    "trigger": "The mathematically corrected stress transforms are materially nonsymmetric on accepted noncoaxial plastic histories, and the skew is linked to the existing internal-force nominal stress.",
+    "classification": "CONSTITUTIVE_CONSISTENCY_ISSUE",
+    "required_action": ["STOP", "RECORD_LIMITATION", "RESCOPE_REQUIRED"],
+    "wp08_implementation_may_continue": false,
+    "owner_decision_required": true
+  },
+  "git_baseline": {
+    "wp07_commit": "f85b6ad589a67e40782ff65b2e69e0e9e937e00a",
+    "origin_main": "e367fe58b2b9ebb4aef321424ca775e80e82d9ca",
+    "published_tag": "v0.2.11",
+    "published_tag_target": "afd2efa469a18e66581720ff4801f50de7d29eb4",
+    "wp07_is_ancestor": true,
+    "wp06_is_ancestor": true,
+    "worktree_clean_before_record": true,
+    "wp08_remote_branch_preexisting": false
+  },
+  "legacy_corotational_producer": {
+    "kinematics": "F=R U",
+    "strain_input": "sym(U-I)",
+    "constitutive_scope": "Additive small-strain J2 response evaluated in the element-corotated frame; not a finite-strain or multiplicative plasticity law.",
+    "local_response_voigt_order": ["xx", "yy", "zz", "xy", "yz", "xz"],
+    "force_stress_expression": "P_force=R*sigma_local",
+    "internal_force_uses_P_force": true,
+    "legacy_payloads": {
+      "stress": "Six-component local constitutive response.",
+      "local_stress": "Six-component local constitutive response.",
+      "first_piola_stress": "3x3 P_force tensor; physical constitutive consistency is not established by the label.",
+      "second_piola_stress": "3x3 sigma_local matrix, not generally F^{-1}P_force.",
+      "cauchy_stress": "Algebraic P_force*F^T/det(F); nonsymmetric on tested noncoaxial plastic histories."
+    }
+  },
+  "independent_transform_contract": {
+    "algebraic_second_piola_candidate": "S_alg=solve(F,P_force)=U^{-1}*sigma_local",
+    "algebraic_cauchy_candidate": "sigma_alg=P_force*F^T/det(F)=R*sigma_local*U*R^T/det(F)",
+    "symmetry_requirement_for_classical_no_couple_interpretation": "S_alg and sigma_alg must be symmetric within numerical tolerance.",
+    "coaxial_condition": "Symmetry requires sigma_local and U to commute for the stated expressions.",
+    "physical_validity": "NOT_ESTABLISHED; algebraic transform identities do not prove constitutive conjugacy or angular-momentum consistency."
+  },
+  "preregistered_diagnostics": {
+    "transform_residual": "||calculated-reference||_F/max(||reference||_F,1 Pa) <= 1e-12",
+    "relative_skew": "||T-T^T||_F/max(||T||_F,1 Pa)",
+    "symmetry_diagnostic_threshold": 1e-10,
+    "small_stress_policy": "Do not classify by relative skew alone when ||T||_F < 1 Pa.",
+    "thresholds_relaxed_after_observation": false
+  },
+  "observed_noncoaxial_history": {
+    "fixture": "Unit TET4; E=210 GPa; nu=0.3; yield=250 MPa; isotropic hardening=1 GPa; existing corotational strain bound 0.05.",
+    "path": "F1=diag(1+a,1-a/2,1-a/2); F2=Qz(0.42) diag(1+0.85a,1-0.45a,1-0.40a) Qz(0.42)^T; material trial state carried from step 1.",
+    "results": [
+      {"a": 0.0015, "step2_equivalent_plastic_strain": 0.0004663294, "S_relative_skew": 0.0005990573, "cauchy_relative_skew": 0.0005987163, "step2_corotational_strain_norm": 0.00156245},
+      {"a": 0.002, "step2_equivalent_plastic_strain": 0.0011020051, "S_relative_skew": 0.0013769493, "cauchy_relative_skew": 0.0013762116, "step2_corotational_strain_norm": 0.0020832667},
+      {"a": 0.003, "step2_equivalent_plastic_strain": 0.0026198207, "S_relative_skew": 0.0028949073, "cauchy_relative_skew": 0.0028939172, "step2_corotational_strain_norm": 0.0031249},
+      {"a": 0.005, "step2_equivalent_plastic_strain": 0.0058374954, "S_relative_skew": 0.0056262736, "cauchy_relative_skew": 0.0056261030, "step2_corotational_strain_norm": 0.0052081667},
+      {"a": 0.01, "step2_equivalent_plastic_strain": 0.0140769120, "S_relative_skew": 0.0119812515, "cauchy_relative_skew": 0.0119868228, "step2_corotational_strain_norm": 0.0104163333},
+      {"a": 0.02, "step2_equivalent_plastic_strain": 0.0306637968, "S_relative_skew": 0.0243775120, "cauchy_relative_skew": 0.0244081488, "step2_corotational_strain_norm": 0.0208326667}
+    ],
+    "internal_force_moment_identity": {
+      "nodal_resultant_torque": [0.0, 0.0, 661464.4237900935],
+      "reference_volume_times_axial_skew_of_PFt": [0.0, 0.0, 661464.4237900872],
+      "relative_difference": 9.503802702848686e-15
+    },
+    "superposed_rigid_rotation": {
+      "angle_rad": 0.71,
+      "local_stress_covariance_residual": 1.54e-13,
+      "P_covariance_residual": 1.54e-13,
+      "Cauchy_covariance_residual": 1.54e-13,
+      "S_invariance_residual": 1.54e-13,
+      "cauchy_relative_skew_remains": 0.0194566809
+    },
+    "affine_coaxial_label_check": {
+      "F": "diag(1.01,0.995,1)",
+      "legacy_second_piola_is_local_stress": true,
+      "relative_difference_from_solve_F_P": 0.0071687523
+    }
+  },
+  "consumer_audit": {
+    "corotational_postprocessor": "StressPostProcessor._total_lagrangian_j2_result() consumes raw stress for generic principal/von-Mises and aggregate/nodal recovery, then copies raw second_piola_stress and cauchy_stress into integration-point output.",
+    "aggregation_risk": "Corotational integration-point stress Voigt components are averaged without transforming varying element-corotated frames to a common frame.",
+    "serialization": "SolveResult.to_dict() passes result dictionaries through; JSON and CSV retain unversioned semantics.",
+    "vtu": "VTU exports generic stress-derived von-Mises, principal stress, and trace scalars; the corotational measure/frame is not attached.",
+    "total_lagrangian_boundary": "TotalLagrangianJ2Element and geometric_nonlinear assembly use a separate Green-Lagrange/second-Piola path. No corotational defect is inferred for that route.",
+    "legacy_tests": "Existing focused tests pass but do not establish second-Piola identity or noncoaxial symmetry."
+  },
+  "validation": {
+    "focused_existing_tests": {
+      "command": "python -m pytest -q tests/unit/test_corotational_j2.py tests/unit/test_tet4_tl_stress.py tests/unit/test_total_lagrangian_tet4_batch.py tests/unit/test_wp01_shared_contracts.py",
+      "result": "33 passed in 7.56 s"
+    },
+    "full_unit_suite": "NOT_RUN",
+    "documentation_tests": "NOT_RUN",
+    "ruff": "NOT_RUN",
+    "formatting": "NOT_RUN",
+    "typing": "NOT_RUN",
+    "production_source_changed": false,
+    "historical_records_changed": false
+  },
+  "classification": {
+    "legacy_second_piola_payload": "SEMANTIC_DEFECT; the intended F^{-1}P transform is absent.",
+    "noncoaxial_S_and_Cauchy_skew": "CONSTITUTIVE_CONSISTENCY_ISSUE; observed well above preregistered roundoff diagnostic in accepted corotational strain scope.",
+    "transform_formula_residuals": "No algebraic implementation error observed in independently evaluated sample cases.",
+    "numerical_roundoff": "NOT_CAUSAL for the measured skew.",
+    "total_lagrangian_route": "OUT_OF_SCOPE for this finding."
+  },
+  "gate_status": {
+    "QF0212_G03_NL": "BLOCKED",
+    "QF0212_G04_NL": "BLOCKED",
+    "QF0212_G05": "NOT_YET_APPLICABLE",
+    "numerical_pass_implies_qualification": false,
+    "maturity_promotion": "NONE"
+  },
+  "historical_statuses": {
+    "HISTORICAL_G03": "FAIL_PRESERVED",
+    "HISTORICAL_WP14": "HOLD_NOT_PROMOTED",
+    "WHOLE_REPOSITORY_ARCHIVE_CLEARED": "NO",
+    "historical_records_rewritten": false
+  },
+  "required_owner_decision": "Rescope the corotational constitutive/force consistency as a separate mechanics task, or authorize a contract that limits/disables physically unvalidated stress claims/outputs. No option is applied implicitly in WP08."
+}
