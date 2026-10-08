@@ -23,6 +23,8 @@ from solveur.elements.solid.total_lagrangian_j2 import (
     TotalLagrangianJ2Tet4Element,
 )
 from solveur.elements.solid.corotational_j2 import (
+    CORRECTED_COROTATIONAL_J2,
+    LEGACY_COROTATIONAL_J2,
     CorotationalJ2Hex8Element,
     CorotationalJ2Hex20Element,
     CorotationalJ2Tet10Element,
@@ -43,6 +45,28 @@ def _corotational_strain_limit(model: FiniteElementModel, kinematics: str) -> fl
     if not np.isfinite(limit) or limit <= 0.0:
         raise InputValidationError("corotational_max_local_strain must be a positive finite value.")
     return limit
+
+
+def validate_corotational_formulation(model: FiniteElementModel) -> str:
+    """Resolve the legacy default and fail closed on the R2 force-only route."""
+
+    parameters = model.analysis.parameters
+    kinematics = str(parameters.get("kinematics", "small_strain")).lower()
+    selected = parameters.get("corotational_formulation")
+    if kinematics != "corotational_j2":
+        if selected is not None:
+            raise InputValidationError("corotational_formulation is valid only when kinematics='corotational_j2'.")
+        return LEGACY_COROTATIONAL_J2
+    formulation = LEGACY_COROTATIONAL_J2 if selected is None else str(selected)
+    if formulation == CORRECTED_COROTATIONAL_J2:
+        raise InputValidationError(
+            "corrected_corotational_biot_j2/v1 currently provides only the WP08-R2 "
+            "force/state kernel; corrected global Newton is disabled until WP08-R3 "
+            "implements and validates its compatible tangent."
+        )
+    if formulation != LEGACY_COROTATIONAL_J2:
+        raise InputValidationError(f"Unknown corotational_formulation {formulation!r}.")
+    return formulation
 
 
 @dataclass(frozen=True)
@@ -78,6 +102,7 @@ class NonlinearAssemblyPlan:
     def matches(self, model: FiniteElementModel, dofs: DofManager) -> bool:
         """Return whether the plan is safe to reuse for ``model`` and ``dofs``."""
         kinematics = str(model.analysis.parameters.get("kinematics", "small_strain")).lower()
+        validate_corotational_formulation(model)
         quadrature = str(
             model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")
         ).lower()
@@ -146,6 +171,7 @@ def build_nonlinear_assembly_plan(
 ) -> NonlinearAssemblyPlan:
     """Prepare reusable nonlinear element kernels without retaining matrices."""
     finite_kinematics = str(model.analysis.parameters.get("kinematics", "small_strain")).lower()
+    validate_corotational_formulation(model)
     nonlinear_quadrature = str(
         model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")
     ).lower()
@@ -209,6 +235,7 @@ def assemble_internal_tangent(
     """Assemble nonlinear internal force and tangent without dense intermediates."""
     if plan is not None and not plan.matches(model, dofs):
         raise InputValidationError("Nonlinear assembly plan does not match the supplied model and DDL map.")
+    validate_corotational_formulation(model)
     if timing is not None:
         timing.setdefault("element_kernel_calls", 0)
         timing.setdefault("contact_assembly_calls", 0)

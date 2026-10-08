@@ -1,0 +1,193 @@
+{
+  "schema": "qf-solver-wp08-r2-constitutive-force-evidence/v1",
+  "record_type": "BOUNDED_IMPLEMENTATION_VERIFICATION_NOT_QUALIFICATION",
+  "status": "PASS_FORCE_STATE_KERNEL_ONLY",
+  "branch": "codex/v0.2.12-wp08-r2-constitutive-forces",
+  "base_commit": "8fc7eb90b5e0063a58acb3f7e788edd517e223ca",
+  "preregistered_equation_test_map_commit": "f0bc55e91f795c1ea736a181b71636c180dce5e9",
+  "preregistered_test_name_crosswalk": [
+    {
+      "frozen_name": "test_corrected_newton_entry_is_rejected_until_r3",
+      "executed_name": "test_corrected_newton_entry_is_rejected_until_r3_and_legacy_default_is_unchanged",
+      "explanation": "The executed test retains the preregistered guard assertion and additionally checks the unchanged legacy default; the preimplementation map was not edited."
+    }
+  ],
+  "formulation_id": "corrected_corotational_biot_j2/v1",
+  "state_schema": "corotational_j2_state/v2",
+  "stress_semantics": "corotational_stress/v2",
+  "scope": {
+    "kinematics": "F=R U; E_B=U-I",
+    "material": "existing associative isotropic small-strain J2 with linear isotropic hardening",
+    "element_families_tested": ["TET4", "TET10", "HEX8", "HEX20"],
+    "max_local_stretch_strain_norm": 0.05,
+    "determinant_floor": 1e-10,
+    "multiplicative_plasticity": false,
+    "global_newton_route_ready": false,
+    "checkpoint_migration": "NOT_IMPLEMENTED; legacy/unknown state is rejected by corrected material state validator"
+  },
+  "frozen_r1_acceptance_thresholds": {
+    "polar_reconstruction_and_orthogonality": 1e-12,
+    "rigid_spin_state_stress_relative_error": 5e-12,
+    "rigid_spin_delta_alpha_absolute": 5e-13,
+    "objectivity_relative_error": 5e-11,
+    "pk2_and_cauchy_relative_skew": 1e-10,
+    "angular_momentum_normalized_residual": 1e-9,
+    "virtual_work_normalized_residual": 5e-12,
+    "polar_derivative_fd_plateau": 2e-7,
+    "incremental_potential_force_gradient_relative_error": 2e-6,
+    "state_stress_and_plastic_strain_relative_error": 1e-10,
+    "state_alpha_absolute_error": 1e-12,
+    "active_yield_normalized_residual": 1e-10,
+    "plastic_dissipation_negative_tolerance": "1e-12 * max(total dissipation, 1 Pa)"
+  },
+  "equation_to_function_to_test": [
+    {
+      "equation": "F=R U; E_B=U-I",
+      "implementation": "_corrected_polar_kinematics",
+      "tests": ["test_corrected_polar_matches_independent_svd_and_rejects_invalid_domain", "test_corrected_elastic_controls_and_raw_stress_identities", "test_corrected_objectivity_and_origin_translation"]
+    },
+    {
+      "equation": "Omega U + U Omega = A-A^T; deltaU=sym(A-Omega U)",
+      "implementation": "_polar_stretch_directional_derivative",
+      "tests": ["test_corrected_polar_derivative_matches_independent_sylvester_and_svd_fd"]
+    },
+    {
+      "equation": "Pbar=L_U^*[T_B]; P=R Pbar; Pbar U=U Pbar^T",
+      "implementation": "_corrected_first_piola_from_biot_stress",
+      "tests": ["test_corrected_virtual_work_and_angular_identity_without_symmetrization", "test_corrected_element_force_matches_independent_incremental_potential_gradient"]
+    },
+    {
+      "equation": "S=solve(F,P); sigma=P F^T/J",
+      "implementation": "_corrected_stress_measures",
+      "tests": ["test_corrected_elastic_controls_and_raw_stress_identities", "test_corrected_objectivity_and_origin_translation"]
+    },
+    {
+      "equation": "E_B -> existing J2 radial-return trial from immutable accepted material state",
+      "implementation": "_evaluate_corrected_material_state",
+      "tests": ["test_corrected_material_return_matches_independent_tensor_radial_return", "test_corrected_state_is_immutable_across_trial_rollback_and_commit", "test_corrected_objective_state_does_not_evolve_under_superposed_rigid_spin"]
+    },
+    {
+      "equation": "f_int[a,i]=sum_q w_q P[i,J] N[a,J]",
+      "implementation": "_corrected_force_and_states",
+      "tests": ["test_corrected_element_force_matches_independent_incremental_potential_gradient", "test_corrected_force_oracles_cover_each_solid_family"]
+    }
+  ],
+  "measured_diagnostics": {
+    "bounded_two_step_noncoaxial_tet4": {
+      "legacy_cauchy_relative_skew": 0.019435682829880684,
+      "corrected_cauchy_relative_skew": 1.309077983855475e-16,
+      "corrected_pk2_relative_skew": 1.316278678438816e-16,
+      "corrected_normalized_resultant_moment": 7.983988316015165e-18,
+      "corrected_equivalent_plastic_strain": 0.01485788113695092,
+      "legacy_equivalent_plastic_strain": 0.01485788113695092,
+      "corrected_intrinsic_dissipation": 0.037144702842377295,
+      "corrected_vs_legacy_internal_force_relative_difference": 0.005476930316979128,
+      "interpretation": "bounded semantic-change comparison; not calibration or universal evidence"
+    },
+    "independent_incremental_potential_gradient": {
+      "oracle": "separately coded local radial-return incremental potential, centrally differentiated in nodal displacement from fixed accepted states",
+      "relative_steps": [1e-4, 3e-5, 1e-5, 3e-6],
+      "cases": {
+        "tet4_elastic": {
+          "scaled_errors_by_step": [2.9016436010066702e-8, 2.611484004296721e-9, 2.9214614092615224e-10, 9.97757159348361e-11],
+          "minimum_plateau_delta": 2.556509466904117e-10,
+          "plastic_multiplier": 0.0
+        },
+        "tet4_active_plastic": {
+          "scaled_errors_by_step": [1.4813757681917604e-7, 1.332645314463841e-8, 1.4929902568749618e-9, 1.9616671315403844e-10],
+          "minimum_plateau_delta": 1.3141394659277831e-9,
+          "plastic_multiplier": 0.011807686015723594
+        },
+        "tet4_noncoaxial_plastic": {
+          "scaled_errors_by_step": [1.822861402909717e-7, 1.640573856045276e-8, 1.823016075174474e-9, 1.7182891891195344e-10],
+          "minimum_plateau_delta": 1.651938008500139e-9,
+          "plastic_multiplier": 0.010001588914071352
+        }
+      },
+      "acceptance_threshold": 2e-6,
+      "status": "PASS_BOUNDED_FORCE_VERIFICATION_NOT_TANGENT_VALIDATION"
+    }
+  },
+  "tests": {
+    "focused_current_tree": {
+      "command_scope": "corrected/legacy corotational J2, state transactions, TL J2, checkpoint/assembly, WP02-WP07 impact set",
+      "passed": 196,
+      "failed": 0,
+      "skipped": 0,
+      "duration_seconds": 22.9,
+      "status": "PASS"
+    },
+    "full_unit_suite": {
+      "passed": 3303,
+      "skipped": 93,
+      "failed": 0,
+      "duration_seconds": 1321.29,
+      "timing_caveat": "completed before the final small fail-closed guard/test edits; not exact-final-tree evidence",
+      "status": "PASS_WITH_SCOPE_CAVEAT"
+    },
+    "ruff": "PASS",
+    "targeted_mypy": "PASS: 3 modified source files, no issues",
+    "ruff_format_new_test": "PASS",
+    "production_file_format_baseline": "PREEXISTING_FORMAT_DRIFT; broad unrelated formatting was not applied",
+    "git_diff_check": "PASS"
+  },
+  "preregistered_acceptance_disposition": {
+    "R1-A01_polar_guards": "PASS_BOUNDED_FIXTURES",
+    "R1-A02_rigid_spin_state": "PASS_TESTED_PATHS",
+    "R1-A03_objectivity_history": "PASS_TESTED_PATHS",
+    "R1-A04_stress_transformations": "PASS_BOUNDED_TENSORS_AND_ELEMENTS",
+    "R1-A05_stress_symmetry_and_moment": "PASS_BOUNDED_FIXTURES",
+    "R1-A06_polar_differential_and_work": "PASS_BOUNDED_FIXTURES",
+    "R1-A07_force_incremental_potential_gradient": "PASS_ELASTIC_ACTIVE_PLASTIC_NONCOAXIAL_TET4_FIXTURES",
+    "R1-A08_elastic_patch_controls": "PASS_TESTED_SUPPORTED_ELEMENT_FIXTURES",
+    "R1-A09_plastic_history_and_trial_immutability": "PASS_TESTED_MATERIAL_POINT_PATHS",
+    "R1-A10_production_tangent": "NOT_IMPLEMENTED_DEFERRED_TO_R3",
+    "R1-A11_origin_invariance": "PASS_BOUNDED_TRANSLATION_FIXTURES",
+    "R1-A12_corrected_newton_equilibrium": "NOT_APPLICABLE_CORRECTED_ROUTE_DISABLED; LEGACY_REGRESSION_PASS",
+    "R1-A13_element_families": "PASS_SEPARATE_BOUNDED_FIXTURES_FOR_TET4_TET10_HEX8_HEX20",
+    "R1-A14_state_transaction": "PASS; CHECKPOINT_RESUME_NOT_IMPLEMENTED",
+    "R1-A15_invalid_inputs_fail_closed": "PASS_TESTED_INVALID_CASES"
+  },
+  "bounded_performance": {
+    "environment": "single local environment; microbenchmark only",
+    "TET4_1_ip": {
+      "legacy_median_us": 338.994,
+      "corrected_median_us": 616.22,
+      "corrected_to_legacy_ratio": 1.818,
+      "corrected_python_tracemalloc_peak_bytes": 10661,
+      "serialized_state_bytes": 864,
+      "diagnostic_state_bytes": 3236
+    },
+    "HEX20_27_ip": {
+      "legacy_median_us": 9361.342,
+      "corrected_median_us": 17219.867,
+      "corrected_to_legacy_ratio": 1.839,
+      "corrected_python_tracemalloc_peak_bytes": 217197,
+      "serialized_state_bytes": 23317,
+      "diagnostic_state_bytes": 90141
+    },
+    "microkernel_median_us": {
+      "polar_kinematics": 90.613,
+      "polar_stretch_derivative": 50.201,
+      "material_return": 260.627
+    },
+    "memory_caveat": "tracemalloc may not include all native NumPy allocation",
+    "industrial_scaling_claim": false
+  },
+  "safety_and_unimplemented": {
+    "legacy_default_preserved": true,
+    "corrected_global_newton": "NOT_READY_UNTIL_R3_COMPATIBLE_TANGENT",
+    "production_tangent_validated": false,
+    "corrected_public_stress_results": "UNAVAILABLE_UNTIL_R3",
+    "corrected_checkpoint_resume_or_migration": "NOT_IMPLEMENTED; legacy/unknown corrected-state inputs rejected",
+    "wp08_status": "BLOCKED",
+    "qf0212_g03_nl": "BLOCKED",
+    "qf0212_g04_nl": "BLOCKED",
+    "historical_g03": "FAIL_PRESERVED",
+    "historical_wp14": "HOLD_NOT_PROMOTED",
+    "whole_repository_archive_cleared": false,
+    "release_publication_authorized": false,
+    "maturity_promotion": false
+  },
+  "qualification_statement": "R2 checks are bounded implementation verification only. They do not close WP08, QF0212 gates, qualify a nonlinear route, validate a production tangent, or establish general finite-strain/plasticity validity."
+}

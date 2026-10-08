@@ -18,6 +18,7 @@ from solveur.core.assembly.nonlinear import (
     NonlinearAssemblyPlan,
     assemble_internal_tangent,
     build_nonlinear_assembly_plan,
+    validate_corotational_formulation,
 )
 from solveur.core.model import FiniteElementModel
 from solveur.core.nonlinear.controls import (
@@ -359,6 +360,7 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
             if any(contact.friction_coefficient > 0.0 for contact in model.contacts):
                 raise InputValidationError("The common nonlinear contact path is frictionless only.")
         kinematics = str(params.get("kinematics", "small_strain")).lower()
+        validate_corotational_formulation(model)
         if kinematics == "small_strain":
             return
         if kinematics not in {"total_lagrangian", "total_lagrangian_j2", "corotational_j2"}:
