@@ -42,6 +42,20 @@
     "corotational_strain_limit_frobenius": 0.05,
     "rotation": "Qz(theta)=[[cos(theta),-sin(theta),0],[sin(theta),cos(theta),0],[0,0,1]]"
   },
+  "reproduction_procedure": {
+    "production_object_under_test": "CorotationalJ2Tet4Element._force_and_states(coords, u, states) from src/solveur/elements/solid/corotational_j2.py",
+    "affine_displacement": "u_a=(F-I) X_a, flattened node-major; this gives F=I+u.T gradN for the linear TET4",
+    "independent_polar": "L,s,Vt=numpy.linalg.svd(F); R=L@Vt; U=Vt.T@diag(s)@Vt; symmetrize U only for roundoff in the independently computed polar product",
+    "independent_stress_transforms": "S=numpy.linalg.solve(F,P); sigma=P@F.T/det(F); skew is evaluated before any symmetrization",
+    "plastic_history": "For every path step, pass the previous returned trial state as the next committed state; the pure-spin case uses F2=Qz(0.71)@F1 and the state returned at F1",
+    "commutator_and_skew": "Use Frobenius norms and the preregistered denominators in preregistered_metrics; do not symmetrize S or sigma",
+    "independent_local_radial_return": "With e=U-I-Ep_old, form trial=2*mu*dev(e)+K*tr(e)*I; q=sqrt(3/2*s:s); if q>sigma_y+H*alpha_old, gamma=(q-sigma_y-H*alpha_old)/(3*mu+H), update Ep=Ep_old+(3/2)*gamma*s/q and alpha=alpha_old+gamma, then recompute stress",
+    "incremental_potential_difference": "Evaluate psi=mu*||E-Ep_new||^2+lambda/2*tr(E-Ep_new)^2+H/2*(alpha_new^2-alpha_old^2)+sigma_y*(alpha_new-alpha_old); central-difference each symmetric strain component at h=1e-7 and compare the tensor gradient with the independent stress",
+    "element_force_energy_difference": "Use the TET4 reference quadrature measure; central-difference the summed incremental potential over each of 12 nodal displacement components at h=1e-5,1e-6,1e-7; compare with the internal force from _force_and_states; the fixed-state and transported-state variants are separately identified in this record",
+    "polar_force_map": "Diagonalize U=V diag(lambda) V.T; transform T_hat=V.T@T@V; build Pbar_hat_ii=T_hat_ii and Pbar_hat_ij=2*T_hat_ij*lambda_i/(lambda_i+lambda_j); compare P_code=R@T with P_exact=R@V@Pbar_hat@V.T and independently check the skew of solve(F,P_exact) and P_exact@F.T/det(F)",
+    "tangent_origin_probe": "At the same affine F and nodal topology, compare raw central-difference force Jacobians for X and X+[1000,-700,400], using the source formula h=1e-7*max(1,max(abs(u)),max(abs(X))); report raw skew before symmetrization",
+    "existing_regression_command": "python -m pytest -q tests/unit/test_corotational_j2.py tests/unit/test_tet4_tl_stress.py tests/unit/test_total_lagrangian_tet4_batch.py tests/unit/test_wp01_shared_contracts.py"
+  },
   "implemented_equations": {
     "deformation_gradient": "F=I+u.T gradN",
     "polar_decomposition": "F=R U",
