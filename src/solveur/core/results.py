@@ -412,6 +412,177 @@ class HarmonicResult(QualificationAwareResult):
 
 
 @dataclass(frozen=True)
+class ModalNewmarkResult(QualificationAwareResult):
+    """Versioned transient result for experimental modal Newmark analysis."""
+
+    numerical_status: str
+    times: np.ndarray
+    displacements: np.ndarray
+    velocities: np.ndarray
+    accelerations: np.ndarray
+    modal_displacements: np.ndarray
+    modal_velocities: np.ndarray
+    modal_accelerations: np.ndarray
+    dofs: DofManager
+    node_count: int
+    element_count: int
+    solver: dict[str, Any]
+    provenance: dict[str, Any]
+    result_availability: dict[str, Any]
+    execution_identity: dict[str, Any]
+    execution_key: str
+    qualification_scope_id: str
+    mesh_report: dict[str, Any]
+    time_history: tuple[dict[str, Any], ...] = ()
+    modal_history: tuple[dict[str, Any], ...] = ()
+    reactions: np.ndarray | None = None
+
+    CONTRACT = "qf-modal-newmark-result/v1"
+
+    def __post_init__(self) -> None:
+        times = _readonly_real_vector(self.times, "modal Newmark times")
+        if times.size == 0 or np.any(np.diff(times) <= 0.0) or times[0] < 0.0:
+            raise ValueError("Modal Newmark result times must be non-empty, finite and strictly increasing.")
+        vectors = {
+            "displacements": _readonly_real_vector(self.displacements, "modal Newmark displacement"),
+            "velocities": _readonly_real_vector(self.velocities, "modal Newmark velocity"),
+            "accelerations": _readonly_real_vector(self.accelerations, "modal Newmark acceleration"),
+            "modal_displacements": _readonly_real_vector(self.modal_displacements, "modal coordinates"),
+            "modal_velocities": _readonly_real_vector(self.modal_velocities, "modal velocities"),
+            "modal_accelerations": _readonly_real_vector(self.modal_accelerations, "modal accelerations"),
+        }
+        physical_size = self.dofs.ndof
+        if any(vectors[name].size != physical_size for name in ("displacements", "velocities", "accelerations")):
+            raise ValueError("Modal Newmark final physical state does not match the DOF map.")
+        if (
+            len({vectors[name].size for name in ("modal_displacements", "modal_velocities", "modal_accelerations")})
+            != 1
+        ):
+            raise ValueError("Modal Newmark final reduced state vectors have inconsistent dimensions.")
+        reactions = None if self.reactions is None else _readonly_real_vector(self.reactions, "modal Newmark reactions")
+        if reactions is not None and reactions.size != physical_size:
+            raise ValueError("Modal Newmark reaction vector does not match the DOF map.")
+        if not isinstance(self.execution_key, str) or not self.execution_key:
+            raise ValueError("Modal Newmark result requires an execution key.")
+        object.__setattr__(self, "times", times)
+        for name, value in vectors.items():
+            object.__setattr__(self, name, value)
+        object.__setattr__(self, "reactions", reactions)
+        object.__setattr__(self, "time_history", tuple(deepcopy(dict(row)) for row in self.time_history))
+        object.__setattr__(self, "modal_history", tuple(deepcopy(dict(row)) for row in self.modal_history))
+        object.__setattr__(self, "solver", deepcopy(self.solver))
+        object.__setattr__(self, "provenance", deepcopy(self.provenance))
+        object.__setattr__(self, "result_availability", deepcopy(self.result_availability))
+        object.__setattr__(self, "execution_identity", deepcopy(self.execution_identity))
+        object.__setattr__(self, "mesh_report", deepcopy(self.mesh_report))
+
+    @property
+    def analysis(self) -> str:
+        return "transient_dynamic"
+
+    @property
+    def method(self) -> str:
+        return "modal_newmark"
+
+    @property
+    def maturity(self) -> str:
+        return "EXPERIMENTAL"
+
+    @property
+    def status(self) -> str:
+        return self.numerical_status
+
+    @property
+    def run_verdict(self) -> RunVerdict:
+        return RunVerdict.WARNING if self.numerical_status == "PASS" else RunVerdict.FAIL
+
+    @property
+    def ndof(self) -> int:
+        return int(self.displacements.size)
+
+    @property
+    def max_displacement(self) -> float:
+        return float(np.max(np.abs(self.displacements), initial=0.0))
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "schema": self.CONTRACT,
+            "analysis": self.analysis,
+            "method": self.method,
+            "status": self.numerical_status,
+            "numerical_status": self.numerical_status,
+            "run_verdict": self.run_verdict.value,
+            "maturity": self.maturity,
+            "qualification_decision": "NOT_ASSESSED",
+            "qualification_scope_id": self.qualification_scope_id,
+            "node_count": self.node_count,
+            "element_count": self.element_count,
+            "ndof": self.ndof,
+            "dof_map": [
+                {"node": int(node), "dofs": list(names)} for node, names in sorted(self.dofs.node_dofs.items())
+            ],
+            "times_s": self.times.tolist(),
+            "final_state": {
+                "displacement": self.displacements.tolist(),
+                "velocity": self.velocities.tolist(),
+                "acceleration": self.accelerations.tolist(),
+                "modal_displacement": self.modal_displacements.tolist(),
+                "modal_velocity": self.modal_velocities.tolist(),
+                "modal_acceleration": self.modal_accelerations.tolist(),
+                "reactions": None if self.reactions is None else self.reactions.tolist(),
+            },
+            "time_history": deepcopy(self.time_history),
+            "modal_history": deepcopy(self.modal_history),
+            "result_availability": deepcopy(self.result_availability),
+            "execution_identity": deepcopy(self.execution_identity),
+            "execution_key": self.execution_key,
+            "solver": deepcopy(self.solver),
+            "provenance": deepcopy(self.provenance),
+            "mesh_report": deepcopy(self.mesh_report),
+        }
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "ModalNewmarkResult":
+        if payload.get("schema") != cls.CONTRACT:
+            raise ValueError(f"Unsupported modal Newmark result schema {payload.get('schema')!r}.")
+        if payload.get("analysis") != "transient_dynamic" or payload.get("method") != "modal_newmark":
+            raise ValueError("Serialized result is not a modal Newmark transient result.")
+        try:
+            raw_map = payload["dof_map"]
+            if not isinstance(raw_map, list):
+                raise ValueError("DOF map must be a list.")
+            requirements = {int(item["node"]): set(str(dof) for dof in item["dofs"]) for item in raw_map}
+            dofs = DofManager.from_node_requirements(requirements)
+            state = payload["final_state"]
+            reactions = state.get("reactions")
+            return cls(
+                numerical_status=str(payload["numerical_status"]),
+                times=np.asarray(payload["times_s"], dtype=np.float64),
+                displacements=np.asarray(state["displacement"], dtype=np.float64),
+                velocities=np.asarray(state["velocity"], dtype=np.float64),
+                accelerations=np.asarray(state["acceleration"], dtype=np.float64),
+                modal_displacements=np.asarray(state["modal_displacement"], dtype=np.float64),
+                modal_velocities=np.asarray(state["modal_velocity"], dtype=np.float64),
+                modal_accelerations=np.asarray(state["modal_acceleration"], dtype=np.float64),
+                reactions=None if reactions is None else np.asarray(reactions, dtype=np.float64),
+                dofs=dofs,
+                node_count=int(payload["node_count"]),
+                element_count=int(payload["element_count"]),
+                solver=dict(payload["solver"]),
+                provenance=dict(payload["provenance"]),
+                result_availability=dict(payload["result_availability"]),
+                execution_identity=dict(payload["execution_identity"]),
+                execution_key=str(payload["execution_key"]),
+                qualification_scope_id=str(payload["qualification_scope_id"]),
+                mesh_report=dict(payload["mesh_report"]),
+                time_history=tuple(payload.get("time_history", ())),
+                modal_history=tuple(payload.get("modal_history", ())),
+            )
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError("Serialized modal Newmark result is incomplete or malformed.") from exc
+
+
+@dataclass(frozen=True)
 class ReducedHarmonicResult:
     """Versioned result for the method-specific experimental reduced route."""
 
@@ -559,9 +730,7 @@ class ReducedHarmonicResult:
         if not isinstance(raw_dof_map, list):
             raise ValueError("Reduced harmonic result requires a DOF map.")
         try:
-            signature = tuple(
-                (int(item["node"]), tuple(str(name) for name in item["dofs"])) for item in raw_dof_map
-            )
+            signature = tuple((int(item["node"]), tuple(str(name) for name in item["dofs"])) for item in raw_dof_map)
             responses = tuple(cls._decode_complex(item) for item in payload["raw_complex_response_vectors"])
             coordinates = tuple(cls._decode_complex(item) for item in payload["raw_complex_modal_coordinates"])
             frequencies = np.asarray(payload["frequencies_hz"], dtype=np.float64)
@@ -590,6 +759,17 @@ def _readonly_complex_vector(values: np.ndarray, label: str) -> np.ndarray:
     array = np.asarray(values, dtype=np.complex128).copy()
     if array.ndim != 1 or not np.all(np.isfinite(array)):
         raise ValueError(f"{label} must be a finite complex vector.")
+    array.setflags(write=False)
+    return array
+
+
+def _readonly_real_vector(values: np.ndarray, label: str) -> np.ndarray:
+    raw = np.asarray(values)
+    if np.iscomplexobj(raw):
+        raise ValueError(f"{label} must not contain complex values in a real time-domain result.")
+    array = np.asarray(raw, dtype=np.float64).copy()
+    if array.ndim != 1 or not np.all(np.isfinite(array)):
+        raise ValueError(f"{label} must be a finite real vector.")
     array.setflags(write=False)
     return array
 

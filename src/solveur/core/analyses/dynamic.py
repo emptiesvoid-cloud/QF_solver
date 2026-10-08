@@ -11,7 +11,11 @@ from scipy.sparse import csr_matrix
 from solveur.core.assembly.assembler import GlobalAssembler
 from solveur.core.audit import SolverAudit
 from solveur.core.dofs import DofManager
-from solveur.core.analyses.dynamic_checkpoint import DynamicCheckpoint, DynamicCheckpointSettings, DynamicCheckpointStore
+from solveur.core.analyses.dynamic_checkpoint import (
+    DynamicCheckpoint,
+    DynamicCheckpointSettings,
+    DynamicCheckpointStore,
+)
 from solveur.core.analyses.dynamic_controls import (
     component_load_factors,
     rayleigh_damping_definition,
@@ -19,7 +23,12 @@ from solveur.core.analyses.dynamic_controls import (
 )
 from solveur.core.analyses.dynamic_history import history_row, validated_history_probes, validated_shell_stress_probes
 from solveur.core.analyses.dynamic_reduction import DynamicDofReducer
-from solveur.core.errors import InfrastructureError, InputValidationError, MeshValidationError, NumericalConvergenceError
+from solveur.core.errors import (
+    InfrastructureError,
+    InputValidationError,
+    MeshValidationError,
+    NumericalConvergenceError,
+)
 from solveur.core.solvers.linear import LinearSystemSolver, ReusableSparseFactorization
 from solveur.core.solvers.policy import LinearSolverPolicy, linear_execution_settings
 from solveur.core.model import FiniteElementModel
@@ -55,9 +64,7 @@ class NewmarkDynamicSolver:
         stiffness, mass, stiffness_assembly, mass_assembly = self.assembler.assemble_stiffness_and_mass(model, dofs)
         params = model.analysis.parameters
         damping_definition = rayleigh_damping_definition(params)
-        damping = (
-            damping_definition.alpha * mass + damping_definition.beta * stiffness
-        ).tocsr()
+        damping = (damping_definition.alpha * mass + damping_definition.beta * stiffness).tocsr()
         load_vectors = self.assembler.assemble_load_vectors(model, dofs)
         validate_per_load_factors(params.get("load_factors_by_load"), len(load_vectors))
         loads = np.zeros(dofs.ndof, dtype=float)
@@ -90,8 +97,7 @@ class NewmarkDynamicSolver:
         if checkpoint_settings.requires_store and self.checkpoint_store is None:
             raise InfrastructureError("Dynamic checkpoint persistence is not configured for this solver instance.")
         signature = (
-            "qf-newmark-resume/v2:"
-            + self.checkpoint_store.signature(_checkpoint_signature_payload(model))
+            "qf-newmark-resume/v2:" + self.checkpoint_store.signature(_checkpoint_signature_payload(model))
             if self.checkpoint_store
             else ""
         )
@@ -168,9 +174,7 @@ class NewmarkDynamicSolver:
         for step in range(restart_step + 1, steps + 1):
             time = step * dt
             factor = self._load_factor(params, step, time, steps, dt)
-            component_factors = self._component_load_factors(
-                params, step, time, steps, dt, len(load_vectors)
-            )
+            component_factors = self._component_load_factors(params, step, time, steps, dt, len(load_vectors))
             force = sum(
                 (factor * vector for factor, vector in zip(component_factors, load_vectors, strict=True)),
                 np.zeros_like(loads),
@@ -198,10 +202,15 @@ class NewmarkDynamicSolver:
             linear_iteration_history.append(int(info.iterations))
             linear_relative_residual_history.append(float(info.relative_residual_norm))
             linear_backends.add(info.backend)
-            next_a = (next_u - reduced_displacement) / (beta * dt**2)
-            next_a -= reduced_velocity / (beta * dt)
-            next_a -= (1.0 / (2.0 * beta) - 1.0) * reduced_acceleration
-            next_v = reduced_velocity + dt * ((1.0 - gamma) * reduced_acceleration + gamma * next_a)
+            next_v, next_a = self._recover_newmark_state(
+                next_u,
+                reduced_displacement,
+                reduced_velocity,
+                reduced_acceleration,
+                dt=dt,
+                beta=beta,
+                gamma=gamma,
+            )
             reduced_displacement = next_u
             reduced_velocity = next_v
             reduced_acceleration = next_a
@@ -228,23 +237,23 @@ class NewmarkDynamicSolver:
                 )
             residual_history.append(residual_norm)
             row = history_row(
-                    step,
-                    time,
-                    factor,
-                    displacement,
-                    velocity,
-                    acceleration,
-                    stiffness,
-                    mass,
-                    damping,
-                    residual_norm,
-                    initial_energy,
-                    history_probes,
-                    model=model,
-                    dofs=dofs,
-                    shell_stress_probes=shell_stress_probes,
-                    shell_stress_post=shell_stress_post,
-                )
+                step,
+                time,
+                factor,
+                displacement,
+                velocity,
+                acceleration,
+                stiffness,
+                mass,
+                damping,
+                residual_norm,
+                initial_energy,
+                history_probes,
+                model=model,
+                dofs=dofs,
+                shell_stress_probes=shell_stress_probes,
+                shell_stress_post=shell_stress_post,
+            )
             row["load_component_factors"] = component_factors
             history.append(row)
             if checkpoint_settings.should_save(step, steps):
@@ -313,7 +322,7 @@ class NewmarkDynamicSolver:
             solver_selection=linear_selection.to_dict(used_method=linear_method),
             notes=[
                 "Transient dynamic audit uses the final Newmark state.",
-                *( [f"Restarted from completed step {restart_step}."] if restart_step else []),
+                *([f"Restarted from completed step {restart_step}."] if restart_step else []),
             ],
         )
         return DynamicResult(
@@ -446,6 +455,29 @@ class NewmarkDynamicSolver:
         return force + mass_term + damping_term
 
     @staticmethod
+    def _recover_newmark_state(
+        next_displacement: np.ndarray,
+        displacement: np.ndarray,
+        velocity: np.ndarray,
+        acceleration: np.ndarray,
+        *,
+        dt: float,
+        beta: float,
+        gamma: float,
+    ) -> tuple[np.ndarray, np.ndarray]:
+        """Recover velocity and acceleration for the shared Newmark step.
+
+        Both the historical full-coordinate route and the experimental modal
+        route use this recurrence. Keeping the arithmetic here avoids a
+        second, subtly divergent Newmark implementation.
+        """
+        next_acceleration = (next_displacement - displacement) / (beta * dt**2)
+        next_acceleration -= velocity / (beta * dt)
+        next_acceleration -= (1.0 / (2.0 * beta) - 1.0) * acceleration
+        next_velocity = velocity + dt * ((1.0 - gamma) * acceleration + gamma * next_acceleration)
+        return next_velocity, next_acceleration
+
+    @staticmethod
     def _load_factor(params: dict[str, object], step: int, time: float, steps: int, dt: float) -> float:
         if "load_factors" in params:
             return _factor_from_sequence(params["load_factors"], step)
@@ -481,9 +513,7 @@ class NewmarkDynamicSolver:
         loads: np.ndarray,
         load_vectors: list[np.ndarray],
     ) -> np.ndarray:
-        factors = self._component_load_factors(
-            params, step, time, steps, dt, len(load_vectors)
-        )
+        factors = self._component_load_factors(params, step, time, steps, dt, len(load_vectors))
         return sum(
             (factor * vector for factor, vector in zip(factors, load_vectors, strict=True)),
             np.zeros_like(loads),
@@ -499,9 +529,7 @@ class NewmarkDynamicSolver:
         load_count: int,
     ) -> list[float]:
         fallback = self._load_factor(params, step, time, steps, dt)
-        return component_load_factors(
-            params.get("load_factors_by_load"), load_count, step, fallback
-        )
+        return component_load_factors(params.get("load_factors_by_load"), load_count, step, fallback)
 
     @staticmethod
     def _load_definition(params: dict[str, object]) -> str:
@@ -539,9 +567,7 @@ def _initial_vector(
     vector = np.zeros(dofs.ndof, dtype=float)
     fixed_set = {int(item) for item in fixed_indices} if fixed_indices is not None else set()
     if not isinstance(entries, list):
-        raise InputValidationError(
-            "Initial conditions must be provided as a list of {node, dof, value} entries."
-        )
+        raise InputValidationError("Initial conditions must be provided as a list of {node, dof, value} entries.")
     for position, entry in enumerate(entries):
         if not isinstance(entry, dict):
             raise InputValidationError(
@@ -550,9 +576,7 @@ def _initial_vector(
         missing = {"node", "dof", "value"}.difference(entry)
         if missing:
             names = ", ".join(sorted(missing))
-            raise InputValidationError(
-                f"Initial-condition entry {position} is missing required field(s): {names}."
-            )
+            raise InputValidationError(f"Initial-condition entry {position} is missing required field(s): {names}.")
         try:
             node = int(entry["node"])
             value = float(entry["value"])
@@ -560,9 +584,7 @@ def _initial_vector(
                 raise ValueError("value must be finite")
             index = dofs.index(node, entry["dof"])
         except (TypeError, ValueError, OverflowError, KeyError) as exc:
-            raise InputValidationError(
-                f"Invalid initial-condition entry {position}: {exc}."
-            ) from exc
+            raise InputValidationError(f"Invalid initial-condition entry {position}: {exc}.") from exc
         if index in fixed_set and value != 0.0:
             raise InputValidationError(
                 f"{field_name} entry {position} sets a nonzero value on fixed DOF "

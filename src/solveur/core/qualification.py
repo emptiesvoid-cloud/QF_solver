@@ -56,6 +56,7 @@ MATURITY_BY_MATERIAL = {
 
 MATURITY_BY_METHOD = {
     "modal_superposition": "experimental",
+    "modal_newmark": "experimental",
     "arc_length": "experimental",
     "newton_raphson": "experimental",
     "modified_newton": "experimental",
@@ -112,11 +113,7 @@ def model_maturity(model: object) -> dict[str, Any]:
     material_data = getattr(model, "materials", {})
     used_materials = sorted({getattr(element, "material", "") for element in getattr(model, "elements", [])})
     material_types = sorted(
-        {
-            str(material_data.get(name, {}).get("type", ""))
-            for name in used_materials
-            if isinstance(material_data, dict)
-        }
+        {str(material_data.get(name, {}).get("type", "")) for name in used_materials if isinstance(material_data, dict)}
     )
     maturities = [MATURITY_BY_ANALYSIS.get(analysis, "research")]
     maturities.extend(MATURITY_BY_ELEMENT.get(element, "research") for element in elements)

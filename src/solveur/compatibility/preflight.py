@@ -155,35 +155,62 @@ def _route_status(
     element = descriptor.canonical_name
     if analysis not in descriptor.supported_analyses:
         return _result(
-            "UNSUPPORTED_ROUTE", "ANALYSIS_NOT_SUPPORTED", f"{element} does not declare analysis {analysis!r}.",
-            element, analysis, material, route,
+            "UNSUPPORTED_ROUTE",
+            "ANALYSIS_NOT_SUPPORTED",
+            f"{element} does not declare analysis {analysis!r}.",
+            element,
+            analysis,
+            material,
+            route,
         )
     if material not in descriptor.supported_material_families:
         return _result(
-            "UNSUPPORTED_ROUTE", "MATERIAL_NOT_SUPPORTED", f"{element} does not declare material {material!r}.",
-            element, analysis, material, route,
+            "UNSUPPORTED_ROUTE",
+            "MATERIAL_NOT_SUPPORTED",
+            f"{element} does not declare material {material!r}.",
+            element,
+            analysis,
+            material,
+            route,
         )
     if route == "arc_length" and analysis != "nonlinear_static":
         return _result(
-            "UNSUPPORTED_ROUTE", "FORMULATION_NOT_SUPPORTED", "arc_length requires nonlinear_static.",
-            element, analysis, material, route,
+            "UNSUPPORTED_ROUTE",
+            "FORMULATION_NOT_SUPPORTED",
+            "arc_length requires nonlinear_static.",
+            element,
+            analysis,
+            material,
+            route,
         )
     if material in NOT_QUALIFIED_MATERIALS:
         return _result(
-            "NOT_QUALIFIED_ROUTE", "MATERIAL_NOT_QUALIFIED", f"{material} is present as research inventory, not a qualified route.",
-            element, analysis, material, route, "NOT_QUALIFIED",
+            "NOT_QUALIFIED_ROUTE",
+            "MATERIAL_NOT_QUALIFIED",
+            f"{material} is present as research inventory, not a qualified route.",
+            element,
+            analysis,
+            material,
+            route,
+            "NOT_QUALIFIED",
         )
     maturity = _registry_maturity(element, analysis)
     if maturity == "NOT_QUALIFIED":
         return _result(
-            "NOT_QUALIFIED_ROUTE", "REGISTRY_NOT_QUALIFIED", f"{element} + {analysis} is explicitly not qualified.",
-            element, analysis, material, route, maturity,
+            "NOT_QUALIFIED_ROUTE",
+            "REGISTRY_NOT_QUALIFIED",
+            f"{element} + {analysis} is explicitly not qualified.",
+            element,
+            analysis,
+            material,
+            route,
+            maturity,
         )
-    if route == "modal_superposition":
+    if route in {"modal_superposition", "modal_newmark"}:
         return _result(
             "EXPERIMENTAL_ROUTE",
             "EXPERIMENTAL_METHOD",
-            "harmonic_response/modal_superposition is a new method-specific experimental route.",
+            f"{analysis}/{route} is a new method-specific experimental route.",
             element,
             analysis,
             material,
@@ -191,14 +218,28 @@ def _route_status(
             "EXPERIMENTAL",
         )
     if route == "arc_length" or maturity == "EXPERIMENTAL" or maturity is None:
-        reason = "EXPERIMENTAL_ROUTE" if route == "arc_length" or maturity == "EXPERIMENTAL" else "NO_REGISTRY_COMBINATION"
+        reason = (
+            "EXPERIMENTAL_ROUTE" if route == "arc_length" or maturity == "EXPERIMENTAL" else "NO_REGISTRY_COMBINATION"
+        )
         return _result(
-            "EXPERIMENTAL_ROUTE", reason, f"{element} + {analysis} is technically declared but remains experimental/bounded by its registry state.",
-            element, analysis, material, route, maturity,
+            "EXPERIMENTAL_ROUTE",
+            reason,
+            f"{element} + {analysis} is technically declared but remains experimental/bounded by its registry state.",
+            element,
+            analysis,
+            material,
+            route,
+            maturity,
         )
     return _result(
-        "SUPPORTED_ROUTE", "SUPPORTED_COMBINATION", f"{element} + {analysis} is declared and has an active bounded registry record.",
-        element, analysis, material, route, maturity,
+        "SUPPORTED_ROUTE",
+        "SUPPORTED_COMBINATION",
+        f"{element} + {analysis} is declared and has an active bounded registry record.",
+        element,
+        analysis,
+        material,
+        route,
+        maturity,
     )
 
 
@@ -218,9 +259,25 @@ def check_compatibility(
     try:
         descriptor = get_element_descriptor(element_family)
     except KeyError:
-        return _result("UNSUPPORTED_ROUTE", "UNKNOWN_ELEMENT", f"Unknown element family {element_family!r}.", None, normalized_analysis, normalized_material, formulation_or_route)
+        return _result(
+            "UNSUPPORTED_ROUTE",
+            "UNKNOWN_ELEMENT",
+            f"Unknown element family {element_family!r}.",
+            None,
+            normalized_analysis,
+            normalized_material,
+            formulation_or_route,
+        )
     if backend is not None and backend not in {"scipy_sparse", "scipy_dense", "auto"}:
-        return _result("UNSUPPORTED_ROUTE", "BACKEND_NOT_SUPPORTED", f"Backend {backend!r} is not declared for {descriptor.canonical_name}.", descriptor.canonical_name, normalized_analysis, normalized_material, formulation_or_route)
+        return _result(
+            "UNSUPPORTED_ROUTE",
+            "BACKEND_NOT_SUPPORTED",
+            f"Backend {backend!r} is not declared for {descriptor.canonical_name}.",
+            descriptor.canonical_name,
+            normalized_analysis,
+            normalized_material,
+            formulation_or_route,
+        )
     if backend not in {None, "auto"} and backend not in descriptor.backend_restrictions:
         return _result(
             "UNSUPPORTED_ROUTE",
@@ -236,7 +293,16 @@ def check_compatibility(
         return result
     unsupported_loads = sorted(set(load_categories) - set(descriptor.supported_load_categories))
     if unsupported_loads:
-        return _result("UNSUPPORTED_ROUTE", "LOAD_NOT_SUPPORTED", f"{descriptor.canonical_name} does not declare load category/categories {unsupported_loads!r}.", descriptor.canonical_name, normalized_analysis, normalized_material, formulation_or_route, result.registry_maturity)
+        return _result(
+            "UNSUPPORTED_ROUTE",
+            "LOAD_NOT_SUPPORTED",
+            f"{descriptor.canonical_name} does not declare load category/categories {unsupported_loads!r}.",
+            descriptor.canonical_name,
+            normalized_analysis,
+            normalized_material,
+            formulation_or_route,
+            result.registry_maturity,
+        )
     return result
 
 
@@ -272,6 +338,8 @@ def preflight_model(model: Any) -> ModelCompatibilityReport:
         if method == "arc_length"
         else "modal_superposition"
         if analysis == "harmonic_response" and method == "modal_superposition"
+        else "modal_newmark"
+        if analysis == "transient_dynamic" and method == "modal_newmark"
         else analysis
     )
     loads = _load_categories(model)
@@ -280,7 +348,17 @@ def preflight_model(model: Any) -> ModelCompatibilityReport:
     for element in getattr(model, "elements", []):
         material_data = getattr(model, "materials", {}).get(element.material)
         if not isinstance(material_data, dict):
-            results.append(_result("UNSUPPORTED_ROUTE", "MATERIAL_REFERENCE_MISSING", f"Material reference {element.material!r} is not defined.", str(element.type).upper(), _normalize_analysis(analysis), None, route))
+            results.append(
+                _result(
+                    "UNSUPPORTED_ROUTE",
+                    "MATERIAL_REFERENCE_MISSING",
+                    f"Material reference {element.material!r} is not defined.",
+                    str(element.type).upper(),
+                    _normalize_analysis(analysis),
+                    None,
+                    route,
+                )
+            )
             continue
         result = check_compatibility(
             element.type,
@@ -293,7 +371,17 @@ def preflight_model(model: Any) -> ModelCompatibilityReport:
     if not results and (getattr(model, "springs", []) or getattr(model, "concentrated_masses", [])):
         results.append(check_compatibility("DISCRETE", analysis, "discrete_linear", load_categories=loads))
     if not results:
-        results.append(_result("UNSUPPORTED_ROUTE", "NO_ELEMENTS_OR_ENTITIES", "Model has no compatible finite elements or discrete entities.", None, _normalize_analysis(analysis), None, route))
+        results.append(
+            _result(
+                "UNSUPPORTED_ROUTE",
+                "NO_ELEMENTS_OR_ENTITIES",
+                "Model has no compatible finite elements or discrete entities.",
+                None,
+                _normalize_analysis(analysis),
+                None,
+                route,
+            )
+        )
     if quality_report.classification == INVALID:
         for assessment in quality_report.elements:
             if assessment.classification != INVALID:

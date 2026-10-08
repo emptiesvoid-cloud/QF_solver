@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "record_id": "QF-0212-WP06-MODAL-NEWMARK",
+  "record_type": "MODAL_NEWMARK_METHOD_CONTRACT",
+  "status": "THRESHOLDS_FROZEN_BEFORE_FINAL_QUALIFICATION_CAMPAIGN",
+  "release": "0.2.12",
+  "work_package": "WP06",
+  "branch": "codex/v0.2.12-wp06-modal-newmark",
+  "base_commit": "eeb8b193b0956ec97c721ebbeff5b16eaad82bf9",
+  "method_contract": "qf-modal-newmark/v1",
+  "route": {
+    "analysis": "transient_dynamic",
+    "method": "modal_newmark",
+    "historical_default": "newmark",
+    "maturity": "EXPERIMENTAL",
+    "numerical_pass_implies_qualification": false,
+    "automatic_direct_reduced_selection": false
+  },
+  "scope": {
+    "prepared_inputs": [
+      "WP02 PreparedDynamicSystem",
+      "WP03 ExcitationChannelSet",
+      "WP04 ModalBasis and ModalDamping",
+      "WP05 reduced-method result/identity conventions",
+      "WP01 shared contracts"
+    ],
+    "elements": ["TET4", "TET10", "HEX8", "HEX20", "BEAM2 straight non-rotating"],
+    "material": "linear isotropic elastic",
+    "constraints": "fixed homogeneous supports already represented by PreparedDynamicSystem",
+    "discrete_entities": ["admissible concentrated masses", "admissible linear springs"],
+    "execution": "serial SciPy backend, constant time step",
+    "excluded": [
+      "uniform base acceleration (WP07)",
+      "moving or multi-support excitation",
+      "contact",
+      "plasticity",
+      "reduced shells",
+      "rotor",
+      "general prestress",
+      "complex MPC/RBE",
+      "follower loads",
+      "generalized-alpha",
+      "adaptive time stepping",
+      "nonlinear transient",
+      "residual flexibility (OPTION-A)"
+    ]
+  },
+  "formulation": {
+    "equation": "Mr*qddot + Cr*qdot + Kr*q = Phi.T*F(t)",
+    "projection": ["Mr=Phi.T*M*Phi", "Kr=Phi.T*K*Phi", "Cr=WP04 declared damping operator"],
+    "initial_displacement": "q0=solve(Mr,Phi.T*M*u0_reduced)",
+    "initial_velocity": "qdot0=solve(Mr,Phi.T*M*v0_reduced)",
+    "initial_acceleration": "solve(Mr,Fr(0)-Cr*qdot0-Kr*q0)",
+    "reconstruction": ["u=Phi*q", "v=Phi*qdot", "a=Phi*qddot"],
+    "time_grid": "t_n=n*dt for n=0..steps; real WP03 histories are sampled at each t_n using their declared interpolation",
+    "newmark_update": "reuse NewmarkDynamicSolver effective matrix, RHS, factorization and state-recovery kernel",
+    "default_method_unchanged": true
+  },
+  "damping": {
+    "rayleigh": {
+      "definition": "C=alpha*M+beta_R*K; Cr=alpha*Mr+beta_R*Kr",
+      "units": {"alpha": "s^-1", "beta_R": "s"},
+      "full_physical_C": true
+    },
+    "prescribed_modal": {
+      "definition": "Cr[j,j]=2*zeta_j*omega_j under the WP04 invariant cluster policy",
+      "full_physical_C": false,
+      "physical_reactions": "UNAVAILABLE; no artificial full-space C is constructed"
+    },
+    "newmark_beta_name": "newmark_beta; distinct from Rayleigh beta_R"
+  },
+  "checkpoint": {
+    "schema": "qf-modal-newmark-checkpoint/v1",
+    "storage": "NPZ; distinct from direct Newmark schema",
+    "state": ["q", "qdot", "qddot", "accepted step", "time", "initial energy"],
+    "identity": [
+      "source SHA",
+      "physical identity",
+      "operator identity",
+      "excitation identity and content",
+      "damping identity",
+      "exact modal basis identity/content",
+      "Newmark beta/gamma/dt/step count",
+      "initial state",
+      "state array content hash"
+    ],
+    "direct_modal_conversion": "FORBIDDEN",
+    "unproven_compatibility": "REFUSE_RESTART; FAIL_CLOSED"
+  },
+  "result_and_storage": {
+    "schema": "qf-modal-newmark-result/v1",
+    "maturity": "EXPERIMENTAL",
+    "final_physical_state": "always retained",
+    "time_history": "retained only when record_time_history=true or history_probes are requested",
+    "modal_history": "retained only when store_modal_history=true",
+    "full_physical_state_history": "not retained by this route",
+    "stress": "NOT_COMPUTED",
+    "truncation_error": "UNAVAILABLE; reduced residual is not a physical truncation-error estimate",
+    "reaction_availability": "typed status plus reason; prescribed modal damping is unavailable"
+  },
+  "preregistered_tolerances": {
+    "default_reduced_equilibrium_relative_error_max": 1e-7,
+    "full_basis_physical_free_residual_max": 1e-7,
+    "exact_initial_projection_relative_mass_error_max": 1e-10,
+    "full_basis_direct_final_state_relative_difference_max": 1e-8,
+    "restart_continuous_final_state_relative_difference_max": 1e-12,
+    "dt_refinement_observed_order_minimum": 1.8,
+    "sdof_undamped_analytic_displacement": {"relative": 2e-4, "absolute": 1e-9},
+    "sdof_damped_analytic_displacement": {"relative": 2e-4, "absolute": 1e-9},
+    "sdof_constant_force_analytic_displacement": {"relative": 3e-4, "absolute": 1e-9},
+    "sdof_sinusoidal_force_analytic_displacement": {"relative": 5e-4, "absolute": 1e-9},
+    "coupled_tet4_analytic_modal_expansion": {"relative": 3e-4, "absolute": 1e-9},
+    "undamped_discrete_energy_drift_max": 1e-10,
+    "damped_energy_stepwise_increase_max": 1e-12,
+    "post_observation_relaxation": false
+  },
+  "numerical_parameter_contract": {
+    "beta_gamma_dt_validation": "existing direct Newmark validation: gamma>=0.5 and beta>=0.25*(gamma+0.5)^2; dt>0",
+    "second_order_claim": "only for gamma=0.5 and sufficiently regular input histories",
+    "factorization": "one reusable factorization per constant Mr/Cr/Kr/dt/beta/gamma execution",
+    "execution_backend": "serial SciPy only in WP06"
+  },
+  "historical_statuses": {
+    "HISTORICAL_G03": "FAIL_PRESERVED",
+    "HISTORICAL_WP14": "HOLD_NOT_PROMOTED",
+    "WHOLE_REPOSITORY_ARCHIVE_CLEARED": "NO",
+    "maturity_promotion": "NONE"
+  }
+}

@@ -66,7 +66,9 @@ class AnalysisRouter:
         model.analysis.validate()
         has_rotating_disk = any(isinstance(item, RotatingDisk) for item in model.concentrated_masses)
         if model.analysis.type not in {"rotating_modal", "campbell"} and has_rotating_disk:
-            raise InputValidationError("RotatingDisk entities are only valid for analysis='rotating_modal' or 'campbell'.")
+            raise InputValidationError(
+                "RotatingDisk entities are only valid for analysis='rotating_modal' or 'campbell'."
+            )
         if model.analysis.type not in {"rotating_modal", "campbell"} and "rotation" in model.analysis.parameters:
             raise InputValidationError("analysis.parameters.rotation is only valid for rotating_modal or campbell.")
         compatibility = preflight_model(model)
@@ -105,6 +107,10 @@ class AnalysisRouter:
 
             return LinearBucklingSolver().solve(model)
         if model.analysis.type == "transient_dynamic":
+            if model.analysis.method == "modal_newmark":
+                from solveur.core.analyses.modal_newmark import ModalNewmarkTransientSolver
+
+                return ModalNewmarkTransientSolver().solve(model)
             from solveur.io.dynamic_checkpoint import NpzDynamicCheckpointStore
 
             return NewmarkDynamicSolver(checkpoint_store=NpzDynamicCheckpointStore()).solve(model)
