@@ -9,6 +9,7 @@ for binding the inputs to a compatible ``PreparedDynamicSystem`` and
 from __future__ import annotations
 
 from dataclasses import dataclass
+import hashlib
 import math
 from time import perf_counter
 from typing import Any, Mapping
@@ -32,6 +33,7 @@ CORRECTION_SOLVE_BACKWARD_ERROR_MAX = 1.0e-8
 MASS_ORTHOGONALITY_MAX = 1.0e-8
 PROJECTED_STIFFNESS_RELATIVE_MAX = 1.0e-8
 _FLOAT_TINY = np.finfo(np.float64).tiny
+_S_K_ABS = math.sqrt(205.0 / 576.0)
 _S_M_ABS = math.sqrt(0.25 * (1.0 + 1.0 / 16.0 + 1.0 / 81.0 + 1.0 / 256.0))
 _C7_FREQUENCIES_RAD_S = (0.0, 0.15, 0.30, 0.60)
 
@@ -140,6 +142,8 @@ class ResidualFlexibilityCorrector:
         if not math.isfinite(self._factorization_seconds) or self._factorization_seconds < 0.0:
             raise NumericalConvergenceError("Residual-flexibility factorization timing is invalid.")
         self._stiffness_frobenius = _sparse_frobenius(self._stiffness)
+        self._mass_frobenius = _sparse_frobenius(self._mass)
+        self._damping_frobenius = _sparse_frobenius(self._damping)
         self._uses = 0
         self._stiffness_rhs_solves = 0
         self._modal_stiffness_rhs_solves = 0
@@ -190,13 +194,25 @@ class ResidualFlexibilityCorrector:
         q_solve = _complex_vector(modal_coordinates, self._basis.mode_count, "reduced harmonic solve coordinates")
         if not isinstance(excitation_identity, str) or not excitation_identity:
             raise InputValidationError("Residual flexibility requires the bound excitation identity.")
+        modal_reconstruction = np.asarray(self._modes @ q_solve, dtype=np.complex128)
+        modal_reconstruction_error = float(np.linalg.norm(um - modal_reconstruction))
+        modal_reconstruction_scale = max(
+            float(np.linalg.norm(um)), float(np.linalg.norm(modal_reconstruction)), _FLOAT_TINY
+        )
+        modal_reconstruction_relative_error = modal_reconstruction_error / modal_reconstruction_scale
+        if modal_reconstruction_relative_error > 64.0 * np.finfo(np.float64).eps:
+            raise InputValidationError(
+                "WP-D01 requires the uncorrected state to equal Phi @ q_solve; "
+                f"relative reconstruction error={modal_reconstruction_relative_error:.3e}."
+            )
 
-        impedance = (
-            self._stiffness.astype(np.complex128)
-            + 1j * omega * self._damping
-            - omega**2 * self._mass
-        ).tocsr()
-        residual = np.asarray(f - impedance @ um, dtype=np.complex128)
+        residual = np.asarray(
+            f
+            - self._stiffness @ um
+            - 1j * omega * (self._damping @ um)
+            + omega**2 * (self._mass @ um),
+            dtype=np.complex128,
+        )
         modal_rhs = np.asarray(self._basis.modes.T @ residual, dtype=np.complex128)
         try:
             modal_coefficients = np.asarray(
@@ -226,8 +242,8 @@ class ResidualFlexibilityCorrector:
         b_m_um, q_projected_um, projected_um = self._mass_projection(um)
         b_m_correction, q_projected_correction, projected_correction = self._mass_projection(correction)
         b_m_corrected, q_projected_corrected, projected_corrected = self._mass_projection(corrected)
-        projected_um_norm = _mass_norm(self._mass, projected_um, "projected uncorrected response")
-        projected_correction_norm = _mass_norm(self._mass, projected_correction, "projected correction")
+        projected_um_norm = _energy_norm(self._mass, projected_um, "projected uncorrected response")
+        projected_correction_norm = _energy_norm(self._mass, projected_correction, "projected correction")
         c7_denominator = max(projected_um_norm, _S_M_ABS)
         if not math.isfinite(c7_denominator) or c7_denominator <= 0.0:
             raise NumericalConvergenceError("C7 retained-subspace reference denominator is invalid.")
@@ -240,13 +256,18 @@ class ResidualFlexibilityCorrector:
             self._alpha,
             self._beta,
         )
-        if verification_fixture_id not in {None, "MIXED_RETAINED_OMITTED"}:
+        if verification_fixture_id not in {None, "MIXED_RETAINED_OMITTED", "COMPLETE_MODAL_BASIS"}:
             raise InputValidationError(f"Unsupported WP-D01 verification fixture {verification_fixture_id!r}.")
         if verification_fixture_id == "MIXED_RETAINED_OMITTED" and not fixture_match:
             raise InputValidationError(
                 "The declared MIXED_RETAINED_OMITTED fixture does not match its frozen operator, basis, load, "
                 "or damping definition."
             )
+        complete_fixture_match = _matches_complete_basis_fixture(
+            self._stiffness, self._mass, self._basis.modes
+        )
+        if verification_fixture_id == "COMPLETE_MODAL_BASIS" and not complete_fixture_match:
+            raise InputValidationError("The declared COMPLETE_MODAL_BASIS fixture does not match frozen K, M and modes.")
         c7_mandatory = (
             verification_fixture_id == "MIXED_RETAINED_OMITTED"
             and any(_same_frequency(omega, value) for value in _C7_FREQUENCIES_RAD_S)
@@ -260,13 +281,36 @@ class ResidualFlexibilityCorrector:
                 diagnostics={"C7_e_ret": c7_metric, "C7_limit": 1.0e-8},
             )
 
+        c3_metric: float | None = None
+        c3_status = "CHARACTERIZATION_ONLY" if self._basis.is_full_basis else "NOT_APPLICABLE"
+        if verification_fixture_id == "COMPLETE_MODAL_BASIS":
+            correction_k_norm = _energy_norm(self._stiffness, correction, "correction K-energy")
+            uncorrected_k_norm = _energy_norm(self._stiffness, um, "uncorrected K-energy")
+            c3_denominator = max(uncorrected_k_norm, _S_K_ABS)
+            if not math.isfinite(c3_denominator) or c3_denominator <= 0.0:
+                raise NumericalConvergenceError("C3 complete-basis reference denominator is invalid.")
+            c3_metric = correction_k_norm / c3_denominator
+            c3_status = "PASS" if c3_metric <= 1.0e-8 else "FAIL"
+            if c3_status == "FAIL":
+                raise NumericalConvergenceError(
+                    f"Fixture-specific C3 complete-basis correction ratio {c3_metric:.3e} exceeds 1e-8.",
+                    diagnostics={"C3_correction_ratio": c3_metric, "C3_limit": 1.0e-8},
+                )
+
         stiffness_orthogonality = np.asarray(self._basis.modes.T @ (self._stiffness @ correction))
         mass_leakage = np.asarray(self._basis.modes.T @ (self._mass @ correction))
         modal_residual_orthogonality = np.asarray(self._basis.modes.T @ residual_perpendicular)
-        dynamic_residual = np.asarray(f - impedance @ corrected, dtype=np.complex128)
-        dynamic_denominator = _sparse_frobenius(impedance) * float(np.linalg.norm(corrected)) + float(
-            np.linalg.norm(f)
+        dynamic_residual = np.asarray(
+            f
+            - self._stiffness @ corrected
+            - 1j * omega * (self._damping @ corrected)
+            + omega**2 * (self._mass @ corrected),
+            dtype=np.complex128,
         )
+        dynamic_operator_scale = (
+            self._stiffness_frobenius + omega * self._damping_frobenius + omega**2 * self._mass_frobenius
+        )
+        dynamic_denominator = dynamic_operator_scale * float(np.linalg.norm(corrected)) + float(np.linalg.norm(f))
         dynamic_eta = _normalized_residual(dynamic_residual, dynamic_denominator, "corrected dynamic residual")
 
         q_projected_change = q_projected_corrected - q_projected_um
@@ -293,6 +337,8 @@ class ResidualFlexibilityCorrector:
             "operator_identity": self._operator_identity,
             "modal_basis_identity": self._basis_identity,
             "excitation_identity": excitation_identity,
+            "reduced_force_sha256": _complex_vector_digest(f),
+            "reduced_force_coordinate_scope": "prepared constrained operator coordinates",
             "q_solve": _complex_pair(q_solve),
             "b_M_uncorrected": _complex_pair(b_m_um),
             "b_M_correction": _complex_pair(b_m_correction),
@@ -301,9 +347,10 @@ class ResidualFlexibilityCorrector:
             "q_projected_correction": _complex_pair(q_projected_correction),
             "q_projected_corrected": _complex_pair(q_projected_corrected),
             "q_projected_change": _complex_pair(q_projected_change),
+            "modal_solve_reconstruction_relative_error": modal_reconstruction_relative_error,
             "modal_projection_reconstruction_relative_error": projection_reconstruction_error,
             "correction_norm_euclidean": float(np.linalg.norm(correction)),
-            "correction_norm_mass": _mass_norm(self._mass, correction, "correction"),
+            "correction_norm_mass": _energy_norm(self._mass, correction, "correction M-energy"),
             "C1": {
                 "status": "PASS",
                 "normalized_backward_error": c1_eta,
@@ -311,6 +358,19 @@ class ResidualFlexibilityCorrector:
                 "absolute_residual_norm": float(np.linalg.norm(correction_residual)),
                 "denominator": c1_denominator,
             },
+            "C2": {"status": "NOT_COMPUTED", "reason": "An independent static reference was not supplied."},
+            "C3": {
+                "status": c3_status,
+                "applicability": "MANDATORY_COMPLETE_BASIS_FIXTURE" if c3_metric is not None else c3_status,
+                "correction_ratio": c3_metric,
+                "limit": 1.0e-8 if c3_metric is not None else None,
+                "absolute_correction_k_energy_norm": _energy_norm(self._stiffness, correction, "correction K-energy")
+                if self._basis.is_full_basis
+                else None,
+                "absolute_correction_units": "sqrt(J) only for the frozen four-DOF SI fixture; otherwise operator-dependent",
+                "absolute_reference_floor_sqrt_j": _S_K_ABS if c3_metric is not None else None,
+            },
+            "C5": {"status": "NOT_COMPUTED", "reason": "The independent full-order V&V oracle is not part of this solve call."},
             "C7": {
                 "status": c7_status,
                 "applicability": "MANDATORY_FIXTURE_GATE" if c7_mandatory else "CHARACTERIZATION_ONLY",
@@ -319,8 +379,10 @@ class ResidualFlexibilityCorrector:
                 "numerator_mass_norm": projected_correction_norm,
                 "denominator_mass_norm": c7_denominator,
                 "absolute_reference_floor_m_sqrt_kg": _S_M_ABS,
+                "absolute_reference_floor_scope": "frozen four-DOF SI fixture scale; universal C7 gate is not implied",
                 "reference_flags": reference_flags,
             },
+            "C6": {"status": "CHARACTERIZATION_ONLY", "accuracy_threshold": None},
             "mass_projection_leakage_vector": _complex_pair(mass_leakage),
             "mass_projection_leakage_norm": float(np.linalg.norm(mass_leakage)),
             "stiffness_orthogonality_vector": _complex_pair(stiffness_orthogonality),
@@ -333,6 +395,7 @@ class ResidualFlexibilityCorrector:
                 "normalized_backward_error": dynamic_eta,
                 "absolute_residual_norm": float(np.linalg.norm(dynamic_residual)),
                 "denominator": dynamic_denominator,
+                "normalization": "(||K||F + omega*||C||F + omega^2*||M||F)*||Uc||2 + ||f||2",
                 "assessment": "DIAGNOSTIC_ONLY; does not certify truncated response accuracy",
             },
             "first_omitted_mode": self._first_omitted_evidence(),
@@ -498,15 +561,15 @@ def _normalized_residual(residual: np.ndarray, denominator: float, label: str) -
     return absolute / denominator
 
 
-def _mass_norm(mass: csr_matrix, values: np.ndarray, label: str) -> float:
+def _energy_norm(metric: csr_matrix, values: np.ndarray, label: str) -> float:
     vector = np.asarray(values, dtype=np.complex128)
-    quadratic = np.vdot(vector, mass @ vector)
+    quadratic = np.vdot(vector, metric @ vector)
     if not np.isfinite(quadratic.real) or not np.isfinite(quadratic.imag):
-        raise NumericalConvergenceError(f"{label} mass norm is non-finite.")
+        raise NumericalConvergenceError(f"{label} energy norm is non-finite.")
     if abs(float(quadratic.imag)) > 1.0e-12 * max(abs(float(quadratic.real)), _FLOAT_TINY):
-        raise NumericalConvergenceError(f"{label} mass norm has a material imaginary component.")
+        raise NumericalConvergenceError(f"{label} energy norm has a material imaginary component.")
     if float(quadratic.real) < 0.0:
-        raise NumericalConvergenceError(f"{label} mass norm has a negative quadratic form.")
+        raise NumericalConvergenceError(f"{label} energy norm has a negative quadratic form.")
     return math.sqrt(float(quadratic.real))
 
 
@@ -529,6 +592,14 @@ def _complex_pair(values: np.ndarray) -> dict[str, list[float]]:
     if not np.all(np.isfinite(vector)):
         raise NumericalConvergenceError("Residual-flexibility diagnostic vector is non-finite.")
     return {"real": vector.real.tolist(), "imag": vector.imag.tolist()}
+
+
+def _complex_vector_digest(values: np.ndarray) -> str:
+    vector = np.asarray(values, dtype=np.complex128)
+    shape = np.asarray(vector.shape, dtype="<i8").tobytes()
+    real = np.ascontiguousarray(vector.real, dtype="<f8").tobytes()
+    imag = np.ascontiguousarray(vector.imag, dtype="<f8").tobytes()
+    return hashlib.sha256(b"qf-wp-d01-complex-force/v1\0" + shape + real + imag).hexdigest()
 
 
 def _readonly(values: np.ndarray) -> np.ndarray:
@@ -562,6 +633,21 @@ def _matches_c7_fixture(
         and np.allclose(actual_k, expected_k, rtol=1.0e-13, atol=1.0e-14)
         and np.allclose(force, expected_f, rtol=0.0, atol=1.0e-14)
         and np.allclose(basis_projector, expected_projector, rtol=0.0, atol=1.0e-12)
+    )
+
+
+def _matches_complete_basis_fixture(stiffness: csr_matrix, mass: csr_matrix, modes: np.ndarray) -> bool:
+    if stiffness.shape != (4, 4) or modes.shape != (4, 4):
+        return False
+    q = 0.5 * np.asarray(
+        [[1.0, 1.0, 1.0, 1.0], [1.0, -1.0, 1.0, -1.0], [1.0, 1.0, -1.0, -1.0], [1.0, -1.0, -1.0, 1.0]],
+        dtype=np.float64,
+    )
+    expected_k = q @ np.diag([1.0, 4.0, 9.0, 16.0]) @ q.T
+    return bool(
+        np.allclose(mass.toarray(), np.eye(4), rtol=0.0, atol=1.0e-14)
+        and np.allclose(stiffness.toarray(), expected_k, rtol=1.0e-13, atol=1.0e-14)
+        and np.allclose(modes @ modes.T, np.eye(4), rtol=0.0, atol=1.0e-12)
     )
 
 

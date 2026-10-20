@@ -162,7 +162,9 @@ def test_truncated_basis_records_observable_differences_without_claiming_error_b
         response_index = model.dof_manager().index(1, "UX")
         observations[count] = result.responses[0][response_index]
         assert result.solver["truncation"]["response_error_estimate"] == "NOT_PROVIDED"
-        assert result.solver["truncation"]["residual_flexibility"].startswith("NOT_IMPLEMENTED")
+        assert result.solver["truncation"]["residual_flexibility"] == (
+            "NOT_ENABLED; WP05 default path is unchanged"
+        )
     full = observations[prepared.reduced_size]
     differences = {
         count: float(abs(value - full) / max(abs(full), np.finfo(float).tiny)) for count, value in observations.items()

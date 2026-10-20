@@ -126,6 +126,7 @@ class ModalBasis:
         mode_count: int,
         method: str = "eigsh",
         dense_limit: int = _DENSE_MODAL_MAX_DOFS,
+        include_first_omitted_evidence: bool = False,
     ) -> "ModalBasis":
         """Extract the lowest ``mode_count`` admissible modes from prepared K/M."""
         if not isinstance(prepared, PreparedDynamicSystem):
@@ -159,6 +160,7 @@ class ModalBasis:
             requested_modes=mode_count,
             method=selected_method,
             dense_limit=dense_limit,
+            include_first_omitted_evidence=include_first_omitted_evidence,
             spectral_screens={"mass": mass_screen, "stiffness": stiffness_screen},
         )
 
@@ -173,6 +175,7 @@ class ModalBasis:
         requested_modes: int,
         method: str,
         dense_limit: int,
+        include_first_omitted_evidence: bool = False,
         spectral_screens: Mapping[str, object] | None = None,
     ) -> "ModalBasis":
         """Matrix-level constructor used by from_prepared and analytical tests."""
@@ -237,7 +240,7 @@ class ModalBasis:
         selected_values = values[:requested_modes].copy()
         selected_vectors = vectors[:, :requested_modes].copy()
         first_omitted_eigenpair: dict[str, object] | None = None
-        if requested_modes < n:
+        if requested_modes < n and include_first_omitted_evidence:
             omitted_value = float(values[requested_modes])
             omitted_vector = np.asarray(vectors[:, requested_modes], dtype=np.float64).copy()
             omitted_mass_norm_squared = float(omitted_vector @ (m_matrix @ omitted_vector))

@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field, replace
 from typing import Any
 
+from solveur.core.analyses.residual_flexibility_config import residual_flexibility_config
 
 DEFAULT_METHODS = {
     "linear_static": "direct",
@@ -97,6 +98,7 @@ class AnalysisSettings:
         projection_errors = reduced_damping_projection_errors(self.type, self.method, self.parameters)
         if projection_errors:
             raise ValueError(" ".join(projection_errors))
+        residual_flexibility_config(self.parameters, analysis_type=self.type, method=self.method)
         mass_formulation = self.parameters.get("mass_formulation")
         if self.type in DYNAMIC_ANALYSIS_TYPES and mass_formulation is not None:
             normalized = str(mass_formulation).strip().lower()

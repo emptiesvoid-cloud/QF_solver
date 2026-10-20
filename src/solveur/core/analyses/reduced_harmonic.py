@@ -27,6 +27,15 @@ from solveur.core.analyses.excitation_channels import (
 from solveur.core.analyses.harmonic import frequency_grid
 from solveur.core.analyses.modal_basis import ModalBasis
 from solveur.core.analyses.prepared_dynamic_system import PreparedDynamicSystem
+from solveur.core.analyses.residual_flexibility import ResidualFlexibilityCorrector
+from solveur.core.analyses.residual_flexibility_config import (
+    residual_flexibility_config,
+    residual_flexibility_implementation_hashes,
+)
+from solveur.core.analyses.residual_flexibility_results import (
+    ResidualFlexibilityFrequencyResult,
+    ResidualFlexibilityHarmonicResult,
+)
 from solveur.core.analyses.uniform_base_acceleration import (
     UniformBaseAcceleration,
     combined_excitation_identity,
@@ -65,7 +74,7 @@ class ReducedHarmonicResponseSolver:
         prepared: PreparedDynamicSystem | None = None,
         basis: ModalBasis | None = None,
         excitation_channels: ExcitationChannelSet | Mapping[float, ExcitationChannelSet] | None = None,
-    ) -> ReducedHarmonicResult:
+    ) -> ReducedHarmonicResult | ResidualFlexibilityHarmonicResult:
         """Solve one model while permitting explicit instance-local reuse.
 
         A clean checkout or an explicit ``QF_SOURCE_SHA``/``GITHUB_SHA`` is
@@ -97,6 +106,11 @@ class ReducedHarmonicResponseSolver:
                 raise InputValidationError("Explicit source SHA does not match the supplied prepared system.")
 
         parameters = model.analysis.parameters
+        residual_config = residual_flexibility_config(
+            parameters,
+            analysis_type=model.analysis.type,
+            method=model.analysis.method,
+        )
         basis_seconds = 0.0
         if basis is None:
             mode_count = parameters.get("modal_mode_count")
@@ -110,6 +124,7 @@ class ReducedHarmonicResponseSolver:
                 mode_count=int(mode_count),
                 method=str(parameters.get("modal_extraction_method", "eigsh")),
                 dense_limit=int(parameters.get("modal_dense_limit", 2000)),
+                include_first_omitted_evidence=residual_config.enabled,
             )
             basis_seconds = perf_counter() - basis_started
         else:
@@ -117,6 +132,10 @@ class ReducedHarmonicResponseSolver:
             declared_count = parameters.get("modal_mode_count")
             if declared_count is not None and int(declared_count) != basis.mode_count:
                 raise InputValidationError("Supplied ModalBasis mode count conflicts with modal_mode_count.")
+            if residual_config.enabled and not basis.is_full_basis and basis.first_omitted_eigenpair is None:
+                raise InputValidationError(
+                    "WP-D01 requires first-omitted eigenpair and cutoff-cluster evidence in the supplied ModalBasis."
+                )
 
         frequencies = frequency_grid(parameters)
         damping, physical_rayleigh = _resolve_damping(basis, prepared, parameters)
@@ -172,6 +191,17 @@ class ReducedHarmonicResponseSolver:
         if physical_rayleigh is not None:
             alpha, beta = physical_rayleigh
             physical_c = (alpha * physical_m + beta * physical_k).tocsr()
+        residual_corrector: ResidualFlexibilityCorrector | None = None
+        residual_frequency_results: list[ResidualFlexibilityFrequencyResult] = []
+        if residual_config.enabled:
+            if physical_rayleigh is None:
+                raise InputValidationError("WP-D01 requires an explicit physical Rayleigh damping operator.")
+            residual_corrector = ResidualFlexibilityCorrector.from_prepared(
+                prepared,
+                basis,
+                rayleigh_alpha=physical_rayleigh[0],
+                rayleigh_beta=physical_rayleigh[1],
+            )
         free = prepared.free_dof_indices
 
         for frequency in frequencies:
@@ -266,6 +296,43 @@ class ReducedHarmonicResponseSolver:
                 )
             selected_response = full_response[probe_indices].copy()
             selected_response.setflags(write=False)
+            if residual_corrector is not None:
+                reduced_force = prepared.reduce_load(effective_full_force)
+                correction_result = residual_corrector.correct(
+                    omega,
+                    reduced_force,
+                    physical_state,
+                    coordinates,
+                    excitation_identity=combined_identity,
+                )
+                corrected_full_response = prepared.expand_complex_state(
+                    correction_result.corrected,
+                    effective_full_force,
+                    stiffness_factor=stiffness_factor,
+                )
+                if not np.all(np.isfinite(corrected_full_response)):
+                    raise NumericalConvergenceError(
+                        f"WP-D01 corrected response contains non-finite values at {frequency_value:.9g} Hz."
+                    )
+                selected_corrected = corrected_full_response[probe_indices].copy()
+                selected_correction = selected_corrected - selected_response
+                selected_corrected.setflags(write=False)
+                selected_correction.setflags(write=False)
+                residual_frequency_results.append(
+                    ResidualFlexibilityFrequencyResult(
+                        frequency_hz=frequency_value,
+                        uncorrected=selected_response,
+                        correction=selected_correction,
+                        corrected=selected_corrected,
+                        diagnostics={
+                            **correction_result.diagnostics,
+                            "response_scope": (
+                                "full physical DOFs" if "response_probes" not in parameters else "explicit response_probes"
+                            ),
+                            "response_dof_signature": [[node, list(names)] for node, names in output_signature],
+                        },
+                    )
+                )
             if base_motion is None or base_phasor is None:
                 selected_absolute_response = None
                 selected_absolute_velocity = None
@@ -626,7 +693,11 @@ class ReducedHarmonicResponseSolver:
             "truncation": {
                 **basis.diagnostics["truncation"],
                 "response_error_estimate": "NOT_PROVIDED",
-                "residual_flexibility": "NOT_IMPLEMENTED; OPTION-A is outside WP05",
+                "residual_flexibility": (
+                    "IMPLEMENTED_OPT_IN_MODE_ACCELERATION"
+                    if residual_corrector is not None
+                    else "NOT_ENABLED; WP05 default path is unchanged"
+                ),
                 "mass_participation_interpretation": "not a guarantee of local displacement, stress, or response accuracy",
             },
             "phase_convention": "u(t) = Re[U(omega) exp(+i*omega*t)]",
@@ -654,7 +725,7 @@ class ReducedHarmonicResponseSolver:
                 "absolute_velocities": "AVAILABLE_ONLY_FOR_POSITIVE_FREQUENCY; V_g=A_g/(i*omega)",
                 "zero_frequency_absolute_displacement_velocity": "UNAVAILABLE; integration constants are not defined",
             }
-        return ReducedHarmonicResult(
+        wp05_result = ReducedHarmonicResult(
             numerical_status="PASS",
             frequencies_hz=frequencies,
             responses=tuple(responses),
@@ -679,6 +750,50 @@ class ReducedHarmonicResponseSolver:
             absolute_acceleration_responses=(
                 tuple(absolute_acceleration_responses) if base_motion is not None else None
             ),
+        )
+        if residual_corrector is None:
+            return wp05_result
+
+        residual_frequency_results = [
+            ResidualFlexibilityFrequencyResult(
+                frequency_hz=row.frequency_hz,
+                uncorrected=row.uncorrected,
+                correction=row.correction,
+                corrected=row.corrected,
+                diagnostics={**row.diagnostics, "wp05_execution_key": wp05_result.execution_key},
+            )
+            for row in residual_frequency_results
+        ]
+
+        d01_implementation_hashes = residual_flexibility_implementation_hashes()
+        extension_identity = {
+            "schema_version": 1,
+            "method": "mode_acceleration",
+            "config_schema": "qf-harmonic-residual-flexibility-config/v1",
+            "result_schema": "qf-reduced-harmonic-residual-flexibility-result/v1",
+            "wp05_execution_key": wp05_result.execution_key,
+            "source_sha": prepared.source_sha,
+            "operator_identity": prepared.operator_identity,
+            "modal_basis_identity": basis.basis_identity,
+            "first_omitted_eigenpair": basis.first_omitted_eigenpair,
+            "damping_identity": damping.identity,
+            "damping_source": damping.source,
+            "physical_rayleigh_coefficients": {
+                "alpha_s_inv": physical_rayleigh[0],
+                "beta_s": physical_rayleigh[1],
+            },
+            "excitation_identity_by_frequency": excitation_by_frequency,
+            "implementation_sha256": d01_implementation_hashes,
+        }
+        extension_execution_key = checkpoint_signature(
+            extension_identity, label="WP-D01 residual-flexibility execution identity"
+        )
+        return ResidualFlexibilityHarmonicResult(
+            wp05_result=wp05_result,
+            frequency_results=tuple(residual_frequency_results),
+            telemetry=residual_corrector.telemetry,
+            extension_identity=extension_identity,
+            extension_execution_key=extension_execution_key,
         )
 
 
