@@ -80,6 +80,7 @@ class ModalBasis:
         clusters: tuple[tuple[int, ...], ...],
         diagnostics: Mapping[str, object],
         extraction: Mapping[str, object],
+        first_omitted_eigenpair: Mapping[str, object] | None = None,
     ) -> None:
         self._operator_identity = operator_identity
         self._dof_signature = tuple((int(node), tuple(names)) for node, names in dof_signature)
@@ -91,6 +92,11 @@ class ModalBasis:
         self._clusters = tuple(tuple(int(index) for index in cluster) for cluster in clusters)
         self._diagnostics = _json_snapshot(dict(diagnostics), "modal basis diagnostics")
         self._extraction = _json_snapshot(dict(extraction), "modal basis extraction metadata")
+        self._first_omitted_eigenpair = (
+            None
+            if first_omitted_eigenpair is None
+            else _json_snapshot(dict(first_omitted_eigenpair), "first omitted eigenpair evidence")
+        )
         self._frequencies_hz = _readonly(np.sqrt(self._eigenvalues) / (2.0 * math.pi), dtype=np.float64)
         eigenvalue_digest = _array_digest(self._eigenvalues)
         modes_digest = _array_digest(self._modes)
@@ -230,6 +236,46 @@ class ModalBasis:
             )
         selected_values = values[:requested_modes].copy()
         selected_vectors = vectors[:, :requested_modes].copy()
+        first_omitted_eigenpair: dict[str, object] | None = None
+        if requested_modes < n:
+            omitted_value = float(values[requested_modes])
+            omitted_vector = np.asarray(vectors[:, requested_modes], dtype=np.float64).copy()
+            omitted_mass_norm_squared = float(omitted_vector @ (m_matrix @ omitted_vector))
+            if not math.isfinite(omitted_mass_norm_squared) or omitted_mass_norm_squared <= 0.0:
+                raise NumericalConvergenceError("The first omitted modal vector has invalid generalized mass.")
+            omitted_vector /= math.sqrt(omitted_mass_norm_squared)
+            omitted_residual = _relative_modal_residual(k_matrix, m_matrix, omitted_value, omitted_vector)
+            if not math.isfinite(omitted_residual) or omitted_residual > _MODAL_RESIDUAL_MAX:
+                raise NumericalConvergenceError(
+                    "The first omitted eigenpair residual exceeds the inherited WP04 modal limit: "
+                    f"{omitted_residual:.3e} > {_MODAL_RESIDUAL_MAX:.3e}."
+                )
+            cutoff_gap = abs(omitted_value - float(selected_values[-1])) / max(
+                abs(omitted_value), abs(float(selected_values[-1])), _FLOAT_TINY
+            )
+            cutoff_complete = not any(
+                requested_modes - 1 in cluster and requested_modes in cluster for cluster in observed_clusters
+            ) and cutoff_gap > _CLUSTER_RELATIVE_GAP
+            evidence_document: dict[str, object] = {
+                "schema": "qf-first-omitted-modal-eigenpair-evidence/v1",
+                "status": "AVAILABLE",
+                "operator_identity": operator_identity,
+                "eigenvalue_rad2_s2": omitted_value,
+                "omega_rad_s": math.sqrt(omitted_value),
+                "frequency_hz": math.sqrt(omitted_value) / (2.0 * math.pi),
+                "relative_eigenpair_residual": omitted_residual,
+                "eigenvector_sha256": _array_digest(omitted_vector),
+                "eigensolver_backend": backend,
+                "one_mode_lookahead": True,
+                "retained_cutoff_gap_relative": cutoff_gap,
+                "retained_cutoff_cluster_complete": cutoff_complete,
+                "retained_cutoff_cluster_relative_gap_tolerance": _CLUSTER_RELATIVE_GAP,
+                "first_omitted_cluster_extent": "ONE_MODE_LOOKAHEAD_ONLY_NOT_CLAIMED_COMPLETE",
+            }
+            evidence_document["evidence_identity"] = checkpoint_signature(
+                evidence_document, label="WP04 first omitted eigenpair evidence"
+            )
+            first_omitted_eigenpair = evidence_document
         selected_clusters = tuple(
             tuple(index for index in cluster if index < requested_modes)
             for cluster in observed_clusters
@@ -325,6 +371,7 @@ class ModalBasis:
             clusters=selected_clusters,
             diagnostics=diagnostics,
             extraction=extraction,
+            first_omitted_eigenpair=first_omitted_eigenpair,
         )
 
     @property
@@ -391,6 +438,13 @@ class ModalBasis:
     @property
     def extraction(self) -> dict[str, object]:
         return _json_snapshot(self._extraction, "modal basis extraction metadata")
+
+    @property
+    def first_omitted_eigenpair(self) -> dict[str, object] | None:
+        """Verified one-mode look-ahead evidence, separate from WP05 v1 identity."""
+        if self._first_omitted_eigenpair is None:
+            return None
+        return _json_snapshot(self._first_omitted_eigenpair, "first omitted eigenpair evidence")
 
     @property
     def result_availability(self) -> dict[str, object]:
