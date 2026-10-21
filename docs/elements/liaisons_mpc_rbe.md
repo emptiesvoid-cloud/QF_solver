@@ -1,32 +1,45 @@
 ---
 doc_id: DOC-ELEM-MPC-RBE-001
 revision: 0.2
-status: experimental
-applicable_version: 0.2.0
-reviewer: ""
-approver: ""
-review_date: ""
+status: controlled_candidate
+applicable_version: 0.2.12
+reviewer: "WP13 independent source reviewer; see qualification report"
+approver: "Owner decision WP13-RBE-INTEGRATION"
+review_date: "2026-10-21"
 ---
 
 # Liaisons MPC et RBE
 
 ## Perimetre et statut V1
 
-Les liaisons sont disponibles seulement en `linear_static` et conservent le
-statut documentaire `experimental` jusqu'a une decision explicite du
-proprietaire. La campagne WP13-RBE du 21 octobre 2026 a execute 100 cas cibles
-avec succes sur RBE2, RBE3, reduction MPC et diagnostic de rang; elle fournit
-une preuve bornee pour le domaine decrit ici, et non une qualification generale.
-Le rapport de campagne, ses limites et les recommandations de maturite sont
-dans `qualification/0_2_12/wp13_rbe_vnv_qualification_report.md`.
+Le proprietaire a approuve des maturites bornees pour les configurations
+lineaires statiques explicitement enumerees ci-dessous. L'approbation est
+liee a l'implementation source examinee et aux configurations verifiees; elle
+ne constitue ni une publication ni une qualification generale du solveur.
+L'integration reste en attente d'un choix formel de branche v0.2.12 faisant
+autorite et de l'approbation finale de fusion.
 
-Le domaine candidate a une maturite bornee est la statique lineaire, avec
-petites deformations, les combinaisons RBE/MPC documentees, et le diagnostic
-de rang MPC jusqu'a 180 DDL actifs. Le mode `RBE3 rigid_body_projection` est
-couvert par des references ponderees independantes; le mode `weighted` a une
-portee separee, limitee a l'interpolation algebrique par composante. Les
-geometries, assemblages et routes hors de cette preuve restent experimentaux
-ou refusent explicitement l'operation.
+La campagne WP13-RBE a execute 100 cas cibles avec succes sur le checkout
+source, puis les memes sept modules ont ete rejoues apres integration sur la
+base v0.2.12 : 100 PASS, 0 FAIL, 0 SKIP. Le rapport source, les limites et la
+provenance sont dans `qualification/0_2_12/wp13_rbe_vnv_qualification_report.md`;
+la decision de maturite et la preparation d'integration sont consignees dans
+`qualification/0_2_12/wp13_rbe_integration_report.md`.
+
+| Fonctionnalite | Maturite approuvee | Domaine strictement borne |
+| --- | --- | --- |
+| RBE2 lin-statique | `QUALIFIED_BOUNDED` | Petites deformations; bras rigides et combinaisons acycliques verifies; rotations esclaves seulement si elles ont un sens mecanique et sont explicitement liees. |
+| RBE3 `rigid_body_projection` lin-statique | `QUALIFIED_BOUNDED` | Six DDL de reference, translations independantes, poids strictement positifs et geometrie de rang six (`sigma_min/sigma_max > 1e-12`). |
+| Reduction MPC acyclique lin-statique | `QUALIFIED_BOUNDED` | Contraintes affines acycliques et compatibles dans le domaine des cas verifies; cycles et incompatibilites sont refuses. |
+| RBE3 `weighted` | `VERIFIED_BOUNDED` | Interpolation algebrique par composante; aucune garantie generale de conservation du moment. |
+| Diagnostic de rang MPC | `VERIFIED_BOUNDED` | Au plus 180 DDL actifs; diagnostic spectral dense et heuristiques associees, pas un verdict universel de rang. |
+
+Ces maturites n'ont pas ete inscrites dans le registre de preflight runtime
+v0.2.7 : celui-ci cle par famille d'elements et type d'analyse, sans cle
+distincte pour une composition RBE/MPC. Le modifier ici aurait elargi la
+decision a des routes lineaires statiques non approuvees. Les resultats/runtime
+existants ne sont donc pas promus automatiquement; cette decision de portee
+est documentaire et liee a l'integration en revue.
 
 `RBE2` et `RBE3` sont des noms fonctionnels courants. Ils decrivent ici le
 comportement implemente par QF_solver, sans pretendre reproduire une syntaxe ou
@@ -186,8 +199,11 @@ blocages.
 }
 ```
 
-Voir aussi `examples/rbe2_rigid_arm.json` et
-`tests/unit/test_mpc_reduction.py`, `tests/unit/test_rbe_links.py`.
+Voir aussi `examples/rbe2_rigid_arm.json`,
+`examples/rbe2_rigid_offset_combined_wrench.json`,
+`examples/rbe3_unequal_weight_projection.json`,
+`docs/elements/rbe_user_examples.md`, ainsi que
+`tests/unit/test_mpc_reduction.py` et `tests/unit/test_rbe_links.py`.
 
 ## Correlation externe RBE2
 
@@ -258,4 +274,8 @@ n'a pas ete rejoue ni independamment reconstitue pendant cette revision.
 
 ![Deformee RBE2 generee](../assets/generated/rbe2_deformation.png){ .result-figure }
 
-Owner review requise avant tout changement de maturite.
+La decision Owner du 21 octobre 2026 approuve les maturites bornees du tableau
+ci-dessus pour cette implementation et ce perimetre uniquement. La branche
+d'integration n'est pas encore fusionnee dans une branche v0.2.12 faisant
+autorite; aucune publication publique ni promotion d'autres routes n'est
+autorisee.

@@ -1,0 +1,61 @@
+{
+  "decision_id": "WP13-RBE-INTEGRATION-2026-10-21",
+  "decision_date": "2026-10-21",
+  "authority": "Owner GO — Bounded Maturity Approval and Integration Preparation",
+  "source_project": "https://github.com/emptiesvoid-cloud/QF_solver.git",
+  "approved_source_revision": "dc3fed78a33e7557e0214916dbdcf659ed5944ab",
+  "approved_source_tree": "81516bf096a4d66443d88479325f8e32a23ff698",
+  "qualification_report": {
+    "path": "qualification/0_2_12/wp13_rbe_vnv_qualification_report.md",
+    "sha256": "8a2805b9be7010e11c0f097e5445f74d1a57290a89137879fb18f119c707c7a4",
+    "targeted_results": "100 PASS / 0 FAIL / 0 SKIP"
+  },
+  "approvals": [
+    {
+      "capability": "RBE2_LINEAR_STATIC",
+      "maturity": "QUALIFIED_BOUNDED",
+      "scope": "Small-displacement linear statics; verified rigid-arm configurations; acyclic supported constraints; rotations and tie_rotations only when their mechanical meaning and DOF support are explicit."
+    },
+    {
+      "capability": "RBE3_RIGID_BODY_PROJECTION_LINEAR_STATIC",
+      "maturity": "QUALIFIED_BOUNDED",
+      "scope": "Linear statics; six reference DOFs; translational independent-node DOFs; strictly positive weights; admissible full-rank geometry with sigma_min/sigma_max greater than 1e-12."
+    },
+    {
+      "capability": "MPC_REDUCTION_ACYCLIC_LINEAR_STATIC",
+      "maturity": "QUALIFIED_BOUNDED",
+      "scope": "Verified affine, compatible, acyclic linear-static MPC systems. Cycles and incompatible constraints are refused."
+    },
+    {
+      "capability": "RBE3_WEIGHTED",
+      "maturity": "VERIFIED_BOUNDED",
+      "scope": "Per-component weighted algebraic interpolation/extrapolation only; general spatial moment preservation is not guaranteed."
+    },
+    {
+      "capability": "MPC_RANK_DIAGNOSTIC",
+      "maturity": "VERIFIED_BOUNDED",
+      "scope": "Dense reduced-system diagnostic for at most 180 active DOFs; conservative threshold, not a universal rank decision."
+    }
+  ],
+  "integration": {
+    "branch": "codex/wp13-rbe-integration-20261021",
+    "base_branch": "codex/v0.2.12-wp10-nonlinear-state-checkpoints",
+    "base_commit": "1d7fef04094d2f4b920795b4b3c25f052fcf21c0",
+    "implementation_commit": "d07fdf72e487ac35e2ef9afaccc8d9c46f25d4bd",
+    "status": "PENDING_AUTHORITATIVE_TARGET_AND_FINAL_MERGE_APPROVAL"
+  },
+  "runtime_capability_registry_changed": false,
+  "public_release_authorized": false,
+  "external_code_aster_correlation": "HISTORICAL_NOT_RERUN",
+  "excluded_scopes": [
+    "modal analysis",
+    "harmonic analysis",
+    "Newmark or other transient dynamics",
+    "nonlinear FEM",
+    "contact",
+    "arbitrary RBE/MPC compositions",
+    "RBE3 weighted mode as a general spatial load distributor",
+    "MPC rank decision above 180 active DOFs",
+    "general Nastran compatibility"
+  ]
+}

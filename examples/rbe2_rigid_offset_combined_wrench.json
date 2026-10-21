@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "units": {"system": "SI", "length": "m", "force": "N"},
+  "analysis": "linear_static",
+  "nodes": [[0.0, 0.0, 0.0], [2.0, 1.0, 0.0]],
+  "elements": [],
+  "materials": {},
+  "springs": [
+    {"node_a": 0, "dofs": ["UX"], "stiffness": 1000.0},
+    {"node_a": 0, "dofs": ["RZ"], "stiffness": 1000.0}
+  ],
+  "fixed_dofs": [
+    {"node": 0, "dofs": ["UY", "UZ", "RX", "RY"]}
+  ],
+  "loads": [
+    {"node": 1, "dof": "UX", "value": 10.0},
+    {"node": 1, "dof": "UY", "value": 20.0},
+    {"node": 0, "dof": "RZ", "value": 5.0}
+  ],
+  "rbe2": [
+    {"name": "offset_combined_wrench", "master": 0, "slaves": [1]}
+  ]
+}

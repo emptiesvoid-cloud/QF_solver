@@ -657,13 +657,15 @@
       "id": "DOC-ELEM-MPC-RBE-001",
       "path": "elements/liaisons_mpc_rbe.md",
       "title": "Liaisons MPC et RBE",
-      "status": "draft",
+      "status": "controlled_candidate",
       "requirements": [
         "REQ-MPC-001",
         "REQ-DOC-001"
       ],
       "examples": [
-        "examples/rbe2_rigid_arm.json"
+        "examples/rbe2_rigid_arm.json",
+        "examples/rbe2_rigid_offset_combined_wrench.json",
+        "examples/rbe3_unequal_weight_projection.json"
       ],
       "tests": [
         "tests/unit/test_mpc_reduction.py",
