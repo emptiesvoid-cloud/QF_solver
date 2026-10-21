@@ -6,6 +6,8 @@ from typing import Any
 
 import numpy as np
 
+from solveur.core.constraints import ConstraintReduction
+
 
 def check_mechanical_rank(
     model: object,
@@ -22,11 +24,30 @@ def check_mechanical_rank(
         assembler = GlobalAssembler()
         stiffness = assembler.assemble_stiffness(model, dofs)
         fixed = assembler.fixed_indices(model, dofs)
-        free = np.setdiff1d(np.arange(dofs.ndof, dtype=int), fixed)
-        reduced = stiffness[free, :][:, free]
+        constraints = model.linear_constraints()
+        if constraints:
+            reduction = ConstraintReduction.from_system(
+                dofs,
+                stiffness,
+                np.zeros(dofs.ndof, dtype=np.float64),
+                constraints,
+                fixed,
+            )
+            reduced = reduction.matrix
+            rank_basis = "fixed_and_mpc_reduced"
+        else:
+            free = np.setdiff1d(np.arange(dofs.ndof, dtype=int), fixed)
+            reduced = stiffness[free, :][:, free]
+            rank_basis = "fixed_dof_reduced"
         dense = 0.5 * (reduced.toarray() + reduced.toarray().T)
         if dense.size == 0:
-            details["mechanical_rank"] = {"checked": True, "free_dof_count": int(free.size), "rank": 0, "zero_mode_count": 0}
+            details["mechanical_rank"] = {
+                "checked": True,
+                "rank_basis": rank_basis,
+                "free_dof_count": int(reduced.shape[0]),
+                "rank": 0,
+                "zero_mode_count": 0,
+            }
             return
         eigenvalues = np.linalg.eigvalsh(dense)
         scale = max(float(np.max(np.abs(eigenvalues))), 1.0)
@@ -34,7 +55,8 @@ def check_mechanical_rank(
         zero_modes = int(np.count_nonzero(eigenvalues <= tolerance))
         details["mechanical_rank"] = {
             "checked": True,
-            "free_dof_count": int(free.size),
+            "rank_basis": rank_basis,
+            "free_dof_count": int(reduced.shape[0]),
             "rank": int(np.linalg.matrix_rank(dense, tol=tolerance)),
             "zero_mode_count": zero_modes,
             "eigenvalue_min": float(np.min(eigenvalues)),

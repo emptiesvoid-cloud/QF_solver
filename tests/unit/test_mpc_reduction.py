@@ -58,6 +58,62 @@ def test_affine_constraint_reconstructs_prescribed_relative_displacement() -> No
     assert full[dofs.index(1, "UX")] - full[dofs.index(2, "UX")] == pytest.approx(0.2)
 
 
+def test_elimination_preserves_sub_femtoscale_constraint_coefficients() -> None:
+    dofs = DofManager.from_node_requirements({0: {"UX"}, 1: {"UX"}})
+    constraints = [
+        LinearConstraint(
+            (ConstraintTerm(1, "UX", 1.0), ConstraintTerm(0, "UX", -5.0e-16)),
+            name="small_but_nonzero_coupling",
+        )
+    ]
+    reduction = ConstraintReduction.from_system(
+        dofs,
+        csr_matrix(np.eye(2)),
+        np.zeros(2),
+        constraints,
+        np.array([], dtype=int),
+    )
+
+    assert reduction.transform[dofs.index(1, "UX"), 0] == pytest.approx(5.0e-16, rel=0.0, abs=0.0)
+
+
+def test_mpc_equation_acceptance_is_invariant_to_common_coefficient_scale() -> None:
+    dofs = DofManager.from_node_requirements({0: {"UX"}, 1: {"UX"}})
+    constraints = [
+        LinearConstraint(
+            (ConstraintTerm(1, "UX", 2.0e-20), ConstraintTerm(0, "UX", -2.0e-20)),
+            name="uniformly_scaled_tie",
+        )
+    ]
+    reduction = ConstraintReduction.from_system(
+        dofs,
+        csr_matrix(np.eye(2)),
+        np.zeros(2),
+        constraints,
+        np.array([], dtype=int),
+    )
+
+    assert reduction.transform[dofs.index(1, "UX"), 0] == 1.0
+
+    model = JsonModelReader().from_dict(
+        {
+            "nodes": [[0.0, 0.0, 0.0], [1.0, 0.0, 0.0]],
+            "elements": [],
+            "materials": {},
+            "springs": [{"node_a": 0, "dofs": ["UX"], "stiffness": 1.0}],
+            "multipoint_constraints": [
+                {
+                    "terms": [
+                        {"node": 1, "dof": "UX", "coefficient": 2.0e-20},
+                        {"node": 0, "dof": "UX", "coefficient": -2.0e-20},
+                    ]
+                }
+            ],
+        }
+    )
+    assert model.linear_constraints()[0].terms[0].coefficient == 2.0e-20
+
+
 @pytest.mark.parametrize(
     "constraints, message",
     [

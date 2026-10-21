@@ -82,8 +82,8 @@ class MeshValidator:
         if dofs is not None:
             self._check_conditions(model, dofs, errors, warnings)
             errors.extend(multipoint_constraint_errors(model, dofs))
-            self._check_component_constraints(model, dofs, details, warnings)
             self._check_mechanical_rank(model, dofs, details, warnings)
+            self._check_component_constraints(model, dofs, details, warnings)
         if not model.fixed_dofs:
             warnings.append("No fixed degree of freedom is defined; the solve may be singular.")
         status = "FAIL" if errors else "WARNING" if warnings else "PASS"
@@ -358,6 +358,22 @@ class MeshValidator:
             referenced_nodes.update(contact_nodes)
             for node in contact_nodes:
                 adjacency[node].update(contact_nodes - {node})
+        constraint_node_groups: list[list[int]] = []
+        for constraint in model.multipoint_constraints:
+            constraint_node_groups.append([int(term.node) for term in constraint.terms])
+        for definition in model.rbe2:
+            constraint_node_groups.append([int(definition.master), *(int(node) for node in definition.slaves)])
+        for definition in model.rbe3:
+            constraint_node_groups.append(
+                [int(definition.reference), *(int(node) for node, _ in definition.independents)]
+            )
+        for group in constraint_node_groups:
+            valid = [node for node in group if 0 <= node < model.node_count]
+            referenced_nodes.update(valid)
+            if valid:
+                adjacency[valid[0]].update(valid[1:])
+                for node in valid[1:]:
+                    adjacency[node].add(valid[0])
         isolated = [node for node in range(model.node_count) if node not in referenced_nodes]
         if isolated:
             warnings.append(f"Mesh contains isolated nodes not referenced by any element: {isolated}.")
@@ -595,7 +611,8 @@ class MeshValidator:
             name = normalize_dof_name(load.dof)
             if not dofs.has(load.node, name):
                 errors.append(f"Load DOF {name} is not active on node {load.node}.")
-        if constrained < 3:
+        has_mpc_coupling = bool(model.multipoint_constraints or model.rbe2 or model.rbe3)
+        if constrained < 3 and not (has_mpc_coupling and dofs.ndof <= 180):
             warnings.append("Fewer than three constrained dofs; rigid body motion is likely.")
 
     @staticmethod
@@ -620,6 +637,9 @@ class MeshValidator:
             }
             for component in components
         }
+        has_mpc_coupling = bool(model.multipoint_constraints or model.rbe2 or model.rbe3)
+        rank_details = details.get("mechanical_rank", {})
+        rank_checked = bool(rank_details.get("checked", False))
         for condition in model.fixed_dofs:
             component = node_to_component.get(int(condition.node))
             if component is None:
@@ -653,6 +673,10 @@ class MeshValidator:
             component.update(counts[index])
             types = set(component.get("element_types", {}))
             required = 6 if types.intersection({"MITC3", "MITC4", "BEAM2"}) else 3
+            if has_mpc_coupling and rank_checked:
+                # Raw nodal support counts do not describe an MPC-coupled
+                # component; the constrained reduced stiffness is checked next.
+                continue
             if counts[index]["fixed_dof_count"] == 0:
                 warnings.append(f"Component {index} has no fixed dof; rigid body motion is likely.")
             elif counts[index]["fixed_translation_dof_count"] < 3:
@@ -669,6 +693,13 @@ class MeshValidator:
                 )
             if counts[index]["fixed_dof_count"] < required:
                 warnings.append(f"Component {index} has {counts[index]['fixed_dof_count']} fixed dofs; expected at least {required}.")
+        if has_mpc_coupling and not rank_checked:
+            reason = rank_details.get("reason")
+            if reason == "model too large":
+                message = "because the model exceeds 180 active DOFs"
+            else:
+                message = f"because the reduced-rank check did not complete ({reason or 'unknown reason'})"
+            warnings.append(f"MPC/RBE-coupled support sufficiency was not rank-checked {message}.")
 
     @staticmethod
     def _check_mechanical_rank(

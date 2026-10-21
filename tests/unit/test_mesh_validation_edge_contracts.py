@@ -1,9 +1,14 @@
 from __future__ import annotations
 
 import numpy as np
+from scipy.sparse import csr_matrix
 
 from solveur.core.analysis import AnalysisSettings
+from solveur.core.assembly.assembler import GlobalAssembler
+from solveur.core.constraints import ConstraintTerm, LinearConstraint
+from solveur.core.dofs import DofManager
 from solveur.core.model import BoundaryCondition, ElementDefinition, FiniteElementModel, NodalLoad
+from solveur.core.rbe import Rbe2Definition
 from solveur.elements.discrete import ConcentratedMass, SpringDefinition
 from solveur.loads.entities import BodyLoad, EdgeLoad, GravityLoad, LineLoad, SurfaceLoad
 from solveur.mesh.validation import MeshValidator
@@ -156,3 +161,51 @@ def test_mesh_validator_skips_mechanical_rank_for_large_models() -> None:
 
     MeshValidator._check_mechanical_rank(model, LargeDofs(), details, warnings)
     assert details["mechanical_rank"] == {"checked": False, "reason": "model too large", "ndof": 181}
+
+
+def test_mesh_validator_checks_mpc_reduced_rank_at_180_dof_boundary(monkeypatch) -> None:
+    requirements = {node: {"UX", "UY", "UZ"} for node in range(60)}
+    dofs = DofManager.from_node_requirements(requirements)
+    model = _model([])
+    model.nodes = np.zeros((60, 3))
+    model.multipoint_constraints = [
+        LinearConstraint(
+            (ConstraintTerm(1, "UX", 1.0), ConstraintTerm(0, "UX", -1.0)),
+            name="rank_boundary_tie",
+        )
+    ]
+    monkeypatch.setattr(
+        GlobalAssembler,
+        "assemble_stiffness",
+        lambda self, model, dofs: csr_matrix(np.eye(180)),
+    )
+    monkeypatch.setattr(GlobalAssembler, "fixed_indices", lambda self, model, dofs: np.empty(0, dtype=int))
+    details: dict[str, object] = {}
+    warnings: list[str] = []
+
+    MeshValidator._check_mechanical_rank(model, dofs, details, warnings)
+
+    assert details["mechanical_rank"]["checked"] is True
+    assert details["mechanical_rank"]["rank_basis"] == "fixed_and_mpc_reduced"
+    assert details["mechanical_rank"]["free_dof_count"] == 179
+    assert details["mechanical_rank"]["rank"] == 179
+    assert details["mechanical_rank"]["zero_mode_count"] == 0
+
+
+def test_mesh_component_support_warnings_remain_when_mpc_rank_check_fails() -> None:
+    model = _model([])
+    model.rbe2 = [Rbe2Definition(master=0, slaves=(1,))]
+
+    class Dofs:
+        ndof = 12
+
+    details: dict[str, object] = {
+        "components": [{"index": 0, "nodes": [0, 1, 2, 3], "element_types": {"TET4": 1}}],
+        "mechanical_rank": {"checked": False, "reason": "synthetic assembly failure", "ndof": 12},
+    }
+    warnings: list[str] = []
+
+    MeshValidator._check_component_constraints(model, Dofs(), details, warnings)
+
+    assert any("Component 0 has no fixed dof" in warning for warning in warnings)
+    assert any("reduced-rank check did not complete" in warning for warning in warnings)
