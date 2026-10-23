@@ -19,3 +19,23 @@ WP-E01 is included in v0.2.12 as an experimental capability set with strictly sc
 - `GENERAL_SCIENTIFIC_QUALIFICATION=NOT_ACQUIRED`.
 
 See [`wp_e01_bc_integration_report.md`](wp_e01_bc_integration_report.md) for the integrated file inventory, maturity matrix, tests, exact hashes, exclusions, and risks. The original Owner roadmap and historical reports remain unchanged.
+
+## Current WP11 consolidation — WP11-A/B
+
+`WP11=OPEN`. The WP11-A audit and WP11-B traceability package cover the
+capabilities present on this integration branch. The API surface and selected
+serialization/refusal contracts have targeted non-qualifying regression
+coverage; this does not close the complete WP11 integration gate by itself.
+The ordinary result DTOs do not all have a shared versioned schema or generic
+deserializer. WP11-B records this contract boundary for an Owner decision.
+
+WP-D02 remains `CLOSED_BOUNDED` at its documented recovery scope. WP-E01
+remains `OPEN_WITH_BOUNDED_CERTIFICATES`: the GF4 certificate is historical to
+its exact TET4 slave-subsystem identity, master assembly equilibrium remains
+`NOT_VERIFIED`, and the global J2 tangent remains unresolved. D01 and C02 are
+not treated as WP11 prerequisites absent a demonstrated dependency or an
+explicit historical contract requiring them. WP12 and WP13 remain open and
+retain their separate criteria.
+
+See [`wp11_b_closure_gate_assessment.md`](wp11_b_closure_gate_assessment.md)
+for the current gate assessment and recommended decision.

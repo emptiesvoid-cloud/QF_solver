@@ -1,15 +1,15 @@
 ---
 doc_id: DOC-REF-API-003
-revision: 1.0
+revision: 1.1
 status: controlled_candidate
-applicable_version: 0.2.11
+applicable_version: 0.2.12
 reviewer: ""
 approver: ""
 ---
 
 # `qf_solver` public API contract
 
-This page documents the public `qf_solver` API for release 0.2.11.
+This page documents the public `qf_solver` API for release 0.2.12.
 
 This page is the concise contract for the Python surface exported by
 `qf_solver`. New integrations should use this namespace. Implementation
@@ -103,6 +103,26 @@ save_result(result: object, path: str | Path) -> None
   or campaign workflows whose result schemas may evolve.
 - `DEPRECATED`: retained for compatibility and not recommended for new code.
 
+## Version 0.2.12 bounded addition — WP-D02 stress recovery
+
+Version 0.2.12 adds three `PROVISIONAL` post-processing wrappers to the public
+facade: `recover_solid_stress_field`, `recover_harmonic_stress`, and
+`recover_modal_transient_stress`. They recover stress from an existing
+full-order displacement or from selected states in a prepared reduced dynamic
+result; they do not assemble or solve a model. Their returned dictionaries use
+the `qf-dynamic-solid-stress/v1` contract and carry stress convention,
+component order, units, element coverage, `maturity=EXPERIMENTAL`, and
+`qualification_decision=NOT_ASSESSED`.
+
+The bounded D02 scope is linear isotropic solid stress recovery for TET4,
+TET10, HEX8, and HEX20. Contact, BEAM2, nonlinear material recovery, and a
+general qualification claim are outside that scope. The relevant API symbol
+list and signatures appear in the provisional inventory below; the D02
+qualification report records the exact fixtures and evidence.
+
+The `Version 0.2.11` notes below describe routes introduced in that historical
+release and remain part of this current 0.2.12 reference.
+
 The legacy `solveur` top-level namespace, the `solveur-ef` console entry point,
 and the `main_solveur.py` launcher are compatibility paths. They are marked for
 removal in 0.3.0 by the existing version contract. They are not re-exported as
@@ -149,7 +169,7 @@ return annotation is the documented return type where one is available.
 
 ### Experimental `rotating_modal`
 
-Version 0.2.11 adds a JSON analysis route consumed through the existing
+Version 0.2.11 added a JSON analysis route consumed through the existing
 `load_model`/`solve_model` API. It returns a distinct complex
 `RotatingModalResult`, but neither that result schema nor the numerical
 capability is declared stable or included in the immutable 0.2.10 contract.
@@ -160,7 +180,7 @@ is a separate experimental route documented below.
 
 ### Experimental `campbell`
 
-Version 0.2.11 adds an experimental JSON `campbell` route,
+Version 0.2.11 added an experimental JSON `campbell` route,
 consumed through the same `load_model`/`solve_model` workflow. The caller must
 provide finite, strictly increasing `spin_speeds_rad_s`, an explicit global
 axis/frame, a mode count, and the frozen WP05 QEP/WP06 tracking policy IDs.

@@ -89,3 +89,13 @@ The initial snapshot above recorded WP-E01 as separate and not integrated. This 
 - **Historical evidence archive:** E01 reports/manifests are preserved as source-snapshot records under `qualification/0_2_12/`; see [the integration report](wp_e01_bc_integration_report.md) for exact identities and test results.
 
 No public capability registry, release policy, `main` branch, tag, or publication was changed.
+
+## WP11 consolidation — Owner mandate WP11-B (2026-10-23)
+
+- **Current status:** `WP11=OPEN`; WP11-A/B consolidate the actual API, results, schema, serialization and maturity scope without claiming closure automatically.
+- **Scope assessed:** only capabilities present in `codex/v0.2.12-integration`, including bounded D02 stress recovery and isolated experimental E01-BC Hencky point-material kernels. C02, D01 and broader E01 solver/contact changes remain outside this branch.
+- **D01/C02 sequencing:** neither is treated as a technical WP11 prerequisite absent a demonstrated direct dependency or an explicit historical contract. No source from those branches was imported.
+- **Result-schema boundary:** ordinary static/modal/transient/harmonic result DTOs expose `to_dict()` serialization but do not share one versioned schema or a generic result deserializer. Experimental modal-Newmark and reduced-harmonic DTOs have separate versioned contracts. WP11-B documents this distinction; it does not alter solver behavior or create a new serialization contract.
+- **Scientific exclusions retained:** `WP_D02=CLOSED_BOUNDED`; `WP_E01=OPEN_WITH_BOUNDED_CERTIFICATES`; `PRODUCTION_ARMIJO_GF4_SLAVE_BOUNDED=VERIFIED_BOUNDED` only for its historical TET4 slave scope; `MASTER_ASSEMBLY_EQUILIBRIUM=NOT_VERIFIED`; raw E01-BA aggregate verdict `FAIL`; global J2 tangent unresolved; `GENERAL_SCIENTIFIC_QUALIFICATION=NOT_ACQUIRED`.
+- **Decision:** WP11 closure is proposed only after review of the traceability matrix and the Owner decision on whether the unversioned ordinary-result payloads meet the existing integration contract. WP12/WP13 remain open.
+- **Evidence:** see `wp11_b_api_results_maturity_consolidation.md`, `wp11_b_capability_traceability_matrix.tsv`, and `wp11_b_closure_gate_assessment.md`. No FEM solve, Docker operation, release action, or public capability promotion was performed for WP11-B.

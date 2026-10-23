@@ -1,15 +1,15 @@
 ---
 doc_id: DOC-REF-API-002
-revision: 1.0
+revision: 1.1
 status: controlled_candidate
-applicable_version: 0.2.11
+applicable_version: 0.2.12
 reviewer: ""
 approver: ""
 ---
 
 # API stability
 
-This page describes the public API surface of QF Solver 0.2.11.
+This page describes the public API surface of QF Solver 0.2.12.
 
 ## Public namespace
 
@@ -33,7 +33,7 @@ The `solveur` namespace remains a compatibility facade for existing 0.2.x
 applications. The recommended CLI is `qf-solver`; legacy entry points remain
 available during the 0.2.x compatibility period. The current compatibility
 plan schedules removal of the legacy `solveur-ef` launcher for 0.3.0; this is
-a plan, not a 0.2.11 removal.
+a plan, not a removal in 0.2.12.
 
 ## Compatibility boundary
 
@@ -46,14 +46,27 @@ and separate mixed-workflow/capability records define those boundaries.
 `qf_solver.read_inp(path)` remains `PROVISIONAL`; it covers only the documented
 bounded Abaqus/CalculiX subset and is not a full-format compatibility claim.
 
-Version 0.2.11 contains `rotating_modal` and `campbell` JSON
+Version 0.2.11 introduced `rotating_modal` and `campbell` JSON
 routes with `EXPERIMENTAL` maturity. They are not part of the published
 0.2.10 API contract. Their complex result schemas are provisional
 and must not be treated as stable for downstream integrations. Package
 publication does not promote numerical maturity or schema stability. See the [rotating-modal
 scope](../mechanics/rotating-modal.md) and [Campbell scope](../mechanics/campbell.md).
 
+Version 0.2.12 adds the provisional WP-D02 stress-recovery wrappers described
+in the [public API contract](qf_solver_api.md). Their
+`qf-dynamic-solid-stress/v1` payload is explicitly experimental and not assessed
+for qualification; its bounded element/material scope is not a general
+stress-recovery guarantee.
+
 The family-aware mixed HDF5 functions are also `PROVISIONAL` and
 `EXPERIMENTAL_BOUNDED`: they cover the documented schema-v1.0 TET4/WEDGE6/HEX8
 result-storage path only. Internal implementation symbols under `solveur` are
 not stable API exports unless listed in the API contract.
+
+The ordinary `SolveResult`, `ModalResult`, `DynamicResult`, and `HarmonicResult`
+objects expose `to_dict()` and are written by `save_result`; they do not share
+one versioned result schema or a generic result deserializer. The experimental
+modal-Newmark and reduced-harmonic DTOs have separate versioned contracts and
+`from_dict()` methods. Do not infer cross-version round-trip compatibility
+where the individual result contract does not declare it.

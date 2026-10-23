@@ -149,6 +149,20 @@ def test_documented_stability_classification_covers_every_export() -> None:
     assert not any(f"- `{name}" in text and f"- `{name}` — `DEPRECATED`" in text for name in EXPECTED_PUBLIC_SYMBOLS)
 
 
+def test_reference_pages_match_the_0_2_12_api_candidate() -> None:
+    api_contract = (ROOT / "docs" / "reference" / "qf_solver_api.md").read_text(encoding="utf-8")
+    stability = (ROOT / "docs" / "reference" / "api_stability.md").read_text(encoding="utf-8")
+
+    assert "applicable_version: 0.2.12" in api_contract
+    assert "public `qf_solver` API for release 0.2.12" in api_contract
+    assert "applicable_version: 0.2.12" in stability
+    assert "public API surface of QF Solver 0.2.12" in stability
+    assert "qf-dynamic-solid-stress/v1" in api_contract
+    assert "qf-dynamic-solid-stress/v1" in stability
+    # Retain route history: 0.2.11 is still named as the introduction version.
+    assert "Version 0.2.11 added" in api_contract
+
+
 def test_critical_workflow_signatures_are_stable() -> None:
     expected = {
         "load_model": "(path: 'str | Path') -> 'FiniteElementModel'",
