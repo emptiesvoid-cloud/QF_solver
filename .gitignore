@@ -203,3 +203,6 @@ public_release_audit.json
 # Local TL physical branch diagnostic outputs
 .tmp_tl_physical_branch_validation/
 .tmp_tl_rescue_optimization/
+
+# Local DEVELOPMENT_AUTONOMOUS run ledgers and bounded logs
+.codex/development-runs/

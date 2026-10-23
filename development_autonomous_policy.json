@@ -1,0 +1,139 @@
+{
+  "schema": "qfsolver-development-autonomous-v2",
+  "mode": "DEVELOPMENT_AUTONOMOUS",
+  "mandate_id": "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v1",
+  "run_store": ".codex/development-runs",
+  "minimum_free_disk_mib": 1024,
+  "poll_interval_seconds": 0.25,
+  "standard_scopes": {
+    "unit": {
+      "pytest_root": "tests/unit",
+      "markers": "not evidence and not benchmark and not large",
+      "timeout_seconds": 900,
+      "rss_soft_limit_mib": 4096,
+      "process_tree_limit": 32,
+      "output_total_limit_mib": 64,
+      "output_stream_limit_mib": 32,
+      "temporary_limit_mib": 256,
+      "archive_size_limit_mib": 320,
+      "max_attempts_per_series": 8
+    },
+    "integration": {
+      "pytest_root": "tests/integration",
+      "markers": "not evidence and not benchmark and not large",
+      "timeout_seconds": 1200,
+      "rss_soft_limit_mib": 4096,
+      "process_tree_limit": 32,
+      "output_total_limit_mib": 64,
+      "output_stream_limit_mib": 32,
+      "temporary_limit_mib": 256,
+      "archive_size_limit_mib": 320,
+      "max_attempts_per_series": 8
+    }
+  },
+  "worktrees": {
+    "d01": {
+      "purpose": "WP-D01 M3 projected-damping and residual-flexibility development diagnostic only",
+      "mode": "fem_exploratory",
+      "root": "C:\\wpc01-frictionless-public-integration-wp-d01-bp-exploratory",
+      "git_root": "C:\\wpc01-frictionless-public-integration-wp-d01-bp-exploratory",
+      "branch": "codex/wp-d01-ch-m3-diagnostic-20261023",
+      "baseline_commit": "881014d878124e0ca27ce0ddc59ca20c90229c73",
+      "source_root": "src",
+      "pytest_root": "tests/verification",
+      "allow_native_vv_skip_override": true,
+      "attempt_limit_per_nodeid": 3,
+      "budgets": {
+        "timeout_seconds": 180,
+        "rss_soft_limit_mib": 2048,
+        "process_tree_limit": 8,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 256,
+        "archive_size_limit_mib": 64
+      },
+      "allowed_nodeids": [
+        "tests/verification/test_wp_d01_bj_wp05_native_experiment.py::test_wp05_native_modal_and_residual_flexibility_characterization[M3]"
+      ]
+    },
+    "c01": {
+      "purpose": "WP-C01 prospective A/B legacy vs dimensional_v1 benchmark and mechanical diagnostics",
+      "mode": "fem_exploratory",
+      "root": "C:\\wpc01-frictionless-public-integration",
+      "git_root": "C:\\wpc01-frictionless-public-integration",
+      "branch": "emptiesvoids-cloud/wp-c01-contact-aware-equilibrium-audit",
+      "baseline_commit": "3c0e0492104375fa01ce271896ca3e91c2cc53db",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 3,
+      "budgets": {
+        "timeout_seconds": 1200,
+        "rss_soft_limit_mib": 2048,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 256,
+        "output_stream_limit_mib": 128,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_wpc01_dimensional_coupled_reference.py::test_dimensional_v1_classification_is_unit_covariant[1.0-1.0]",
+        "tests/unit/test_wpc01_dimensional_coupled_reference.py::test_dimensional_v1_classification_is_unit_covariant[1000.0-0.001]",
+        "tests/unit/test_wpc01_dimensional_coupled_reference.py::test_frozen_legacy_counterexample_is_non_covariant_and_legacy_is_unchanged",
+        "tests/unit/test_wpc01_dimensional_coupled_reference.py::test_production_compatible_reference_matches_real_dimensional_v1_return_map[1.0-1.0-0.0-stick]",
+        "tests/unit/test_wpc01_dimensional_coupled_reference.py::test_production_compatible_reference_matches_real_dimensional_v1_return_map[1000.0-0.001-0.0-stick]",
+        "tests/unit/test_wpc01_dimensional_coupled_reference.py::test_coupled_slip_cap_and_off_diagonal_mechanical_compliance",
+        "tests/unit/test_wpc01_coupled_corrective_reproduction.py::test_g01_ideal_and_production_contracts_diverge_inside_yield_band",
+        "tests/unit/test_wpc01_coupled_corrective_reproduction.py::test_g02_ideal_omission_bound_and_production_one_sided_bound_are_distinct[stick]",
+        "tests/unit/test_wpc01_coupled_corrective_reproduction.py::test_g02_ideal_omission_bound_and_production_one_sided_bound_are_distinct[slip]",
+        "tests/unit/test_wpc01_contact_equilibrium_diagnostic.py::test_body_master_and_whole_system_contracts_do_not_double_count_contact",
+        "tests/unit/test_wpc01_contact_equilibrium_diagnostic.py::test_missing_contact_or_mount_reaction_is_visible_not_silently_zeroed",
+        "tests/unit/test_wpc01_contact_equilibrium_diagnostic.py::test_wrong_contact_sign_is_detected_by_pair_and_body_residuals",
+        "tests/unit/test_wpc01_contact_equilibrium_diagnostic.py::test_reference_and_current_moments_close_only_when_same_frame_is_used",
+        "tests/unit/test_wpc01_contact_equilibrium_diagnostic.py::test_nodal_wrench_rejects_incomplete_or_nonfinite_arrays",
+        "tests/unit/test_wpc01_contact_equilibrium_diagnostic.py::test_archive_array_reconstruction_separates_physical_contact_from_solver_lhs",
+        "tests/unit/test_wpc01_contact_equilibrium_diagnostic.py::test_archive_payload_rejects_missing_or_malformed_contact_fields",
+        "tests/unit/test_wpc01_contact_equilibrium_diagnostic.py::test_seal_verifier_accepts_exact_inventory_and_rejects_mutation_or_extra_file",
+        "tests/unit/test_wpc01_contact_equilibrium_diagnostic.py::test_independent_json_reader_rejects_ambiguous_or_nonstandard_values"
+      ]
+    },
+    "e01": {
+      "purpose": "WP-E01 constitutive mathematics only; element assembly and FEM runs excluded",
+      "mode": "math_non_fem",
+      "root": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\tmp\\qf-v0.2.12-integration",
+      "git_root": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\tmp\\qf-v0.2.12-integration",
+      "branch": "codex/v0.2.12-integration",
+      "baseline_commit": "ae429934edc8a18d3febaf85d9b14b21d548eefe",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 3,
+      "budgets": {
+        "timeout_seconds": 900,
+        "rss_soft_limit_mib": 2048,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 128,
+        "archive_size_limit_mib": 64
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_wp_e01m_hencky_material_point.py::test_identity_deformation_has_zero_energy_and_all_stresses",
+        "tests/unit/test_wp_e01m_hencky_material_point.py::test_uniaxial_stretch_has_analytic_principal_strain_energy_and_pk2",
+        "tests/unit/test_wp_e01m_hencky_material_point.py::test_isotropic_volumetric_stretch_has_analytic_response",
+        "tests/unit/test_wp_e01m_hencky_material_point.py::test_isochoric_principal_stretches_have_analytic_energy",
+        "tests/unit/test_wp_e01m_hencky_material_point.py::test_simple_shear_principal_strains_match_closed_form",
+        "tests/unit/test_wp_e01m_hencky_material_point.py::test_repeated_principal_stretches_have_finite_symmetric_response",
+        "tests/unit/test_wp_e01m_hencky_material_point.py::test_nearly_repeated_positive_stretches_remain_resolved",
+        "tests/unit/test_wp_e01m_hencky_material_point.py::test_principal_strains_reconstruct_right_cauchy_green",
+        "tests/unit/test_wp_e01m_hencky_material_point.py::test_energy_matches_definition_for_general_three_dimensional_f",
+        "tests/unit/test_wp_e01m_hencky_material_point.py::test_pk_stress_transformations_are_explicit_and_cauchy_is_symmetric",
+        "tests/unit/test_wp_e01m_hencky_material_point.py::test_consistent_tangent_is_explicitly_unavailable",
+        "tests/unit/test_wp_e01q_hencky_tangent.py::test_identity_state_has_analytic_linear_elastic_tangent_action",
+        "tests/unit/test_wp_e01q_hencky_tangent.py::test_identity_state_maps_an_infinitesimal_rigid_spin_to_zero",
+        "tests/unit/test_wp_e01q_hencky_tangent.py::test_material_response_still_does_not_claim_a_verified_tangent",
+        "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_action_is_read_only_and_does_not_change_response"
+      ]
+    }
+  }
+}
