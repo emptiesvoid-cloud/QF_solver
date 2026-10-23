@@ -58,6 +58,9 @@ EXPECTED_PUBLIC_SYMBOLS = (
     "postprocess_large_model",
     "qualify_large_tet4_pipeline",
     "qualification_readiness",
+    "recover_harmonic_stress",
+    "recover_modal_transient_stress",
+    "recover_solid_stress_field",
     "recommended_large_block",
     "run_large_scale_campaign",
     "run_large_preconditioner_campaign",
@@ -129,7 +132,7 @@ PROVISIONAL_SYMBOLS = set(EXPECTED_PUBLIC_SYMBOLS) - STABLE_SYMBOLS
 
 def test_public_facade_matches_documented_export_inventory() -> None:
     assert tuple(qf_solver.__all__) == EXPECTED_PUBLIC_SYMBOLS
-    assert len(EXPECTED_PUBLIC_SYMBOLS) == 74
+    assert len(EXPECTED_PUBLIC_SYMBOLS) == 77
     assert all(name == "__version__" or not name.startswith("_") for name in qf_solver.__all__)
     assert all(hasattr(qf_solver, name) for name in qf_solver.__all__)
 
@@ -137,7 +140,7 @@ def test_public_facade_matches_documented_export_inventory() -> None:
 def test_documented_stability_classification_covers_every_export() -> None:
     text = (ROOT / "docs" / "reference" / "qf_solver_api.md").read_text(encoding="utf-8")
     assert len(STABLE_SYMBOLS) == 30
-    assert len(PROVISIONAL_SYMBOLS) == 44
+    assert len(PROVISIONAL_SYMBOLS) == 47
     assert STABLE_SYMBOLS | PROVISIONAL_SYMBOLS == set(EXPECTED_PUBLIC_SYMBOLS)
     for name in STABLE_SYMBOLS:
         assert f"- `{name}" in text
@@ -187,3 +190,122 @@ def test_documented_input_and_serialization_exceptions(tmp_path: Path) -> None:
         qf_solver.load_model(ROOT / "does-not-exist.json")
     with pytest.raises(InputValidationError):
         save_result(InvalidResult(), tmp_path / "invalid-result.json")
+
+
+def test_public_recover_solid_stress_forwards_arguments(monkeypatch: pytest.MonkeyPatch) -> None:
+    from solveur.post import dynamic_stress
+
+    model = object()
+    displacement = object()
+    expected = {"recovered": object()}
+    observed: dict[str, object] = {}
+
+    def fake_recovery(actual_model: object, actual_displacement: object, *, stress_convention: str) -> dict[str, object]:
+        observed.update(
+            model=actual_model,
+            displacement=actual_displacement,
+            stress_convention=stress_convention,
+        )
+        return expected
+
+    monkeypatch.setattr(dynamic_stress, "recover_solid_stress_field", fake_recovery)
+    result = qf_solver.recover_solid_stress_field(model, displacement)
+
+    assert observed["model"] is model
+    assert observed["displacement"] is displacement
+    assert observed["stress_convention"] == "GLOBAL_SMALL_STRAIN_CAUCHY_VOIGT_XX_YY_ZZ_XY_YZ_ZX"
+    assert result is expected
+
+
+def test_public_recover_harmonic_stress_forwards_arguments(monkeypatch: pytest.MonkeyPatch) -> None:
+    from solveur.post import dynamic_stress
+
+    model, result, prepared, basis = (object() for _ in range(4))
+    selected_frequencies = [10.0, 25.0]
+    convention = "TEST_HARMONIC_CONVENTION"
+    expected = {"harmonic": object()}
+    observed: dict[str, object] = {}
+
+    def fake_recovery(
+        actual_model: object,
+        actual_result: object,
+        *,
+        prepared: object,
+        basis: object,
+        selected_frequencies_hz: list[float] | tuple[float, ...],
+        stress_convention: str,
+    ) -> dict[str, object]:
+        observed.update(
+            model=actual_model,
+            result=actual_result,
+            prepared=prepared,
+            basis=basis,
+            selected_frequencies_hz=selected_frequencies_hz,
+            stress_convention=stress_convention,
+        )
+        return expected
+
+    monkeypatch.setattr(dynamic_stress, "recover_harmonic_stress", fake_recovery)
+    recovered = qf_solver.recover_harmonic_stress(
+        model,
+        result,
+        prepared=prepared,
+        basis=basis,
+        selected_frequencies_hz=selected_frequencies,
+        stress_convention=convention,
+    )
+
+    assert observed["model"] is model
+    assert observed["result"] is result
+    assert observed["prepared"] is prepared
+    assert observed["basis"] is basis
+    assert observed["selected_frequencies_hz"] is selected_frequencies
+    assert observed["stress_convention"] == convention
+    assert recovered is expected
+
+
+def test_public_recover_modal_transient_stress_forwards_arguments(monkeypatch: pytest.MonkeyPatch) -> None:
+    from solveur.post import dynamic_stress
+
+    model, result, prepared, basis = (object() for _ in range(4))
+    selected_times = (0.0, 0.125, 0.25)
+    convention = "TEST_TRANSIENT_CONVENTION"
+    expected = {"transient": object()}
+    observed: dict[str, object] = {}
+
+    def fake_recovery(
+        actual_model: object,
+        actual_result: object,
+        *,
+        prepared: object,
+        basis: object,
+        selected_times_s: list[float] | tuple[float, ...],
+        stress_convention: str,
+    ) -> dict[str, object]:
+        observed.update(
+            model=actual_model,
+            result=actual_result,
+            prepared=prepared,
+            basis=basis,
+            selected_times_s=selected_times_s,
+            stress_convention=stress_convention,
+        )
+        return expected
+
+    monkeypatch.setattr(dynamic_stress, "recover_modal_transient_stress", fake_recovery)
+    recovered = qf_solver.recover_modal_transient_stress(
+        model,
+        result,
+        prepared=prepared,
+        basis=basis,
+        selected_times_s=selected_times,
+        stress_convention=convention,
+    )
+
+    assert observed["model"] is model
+    assert observed["result"] is result
+    assert observed["prepared"] is prepared
+    assert observed["basis"] is basis
+    assert observed["selected_times_s"] is selected_times
+    assert observed["stress_convention"] == convention
+    assert recovered is expected
