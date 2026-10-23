@@ -20,6 +20,11 @@ from threadpoolctl import threadpool_limits
 from solveur.core.model import FiniteElementModel
 from solveur.core.solvers.static import LinearStaticSolver
 from solveur.mesh.validation import MeshValidator
+from scripts.wpc02_ar_native_collection import (
+    decode_audit_vectors,
+    production_support_reactions,
+    resultant_and_moment,
+)
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -237,7 +242,9 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
 
     try:
         with threadpool_limits(limits=1):
-            result = LinearStaticSolver().solve(model, detail_level="summary")
+            # Full detail is required by the documented SolverAudit contract:
+            # summary mode omits sparse vector values needed for reactions.
+            result = LinearStaticSolver().solve(model, detail_level="full")
         if result.status != "PASS" or result.solver.get("contact", {}).get("method") != "lagrange_active_set":
             raise RuntimeError("The public production FEM/contact route did not return a converged active-set result.")
 
@@ -249,13 +256,11 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
             [3 * int(node) + axis for node in top for axis in range(3)], dtype=int
         )
         u = np.asarray(result.displacements[body_indices], dtype=float)
-        reaction_all = np.asarray(result.audit.vectors["reactions"], dtype=float)
-        reaction = reaction_all[body_indices].reshape((n_body, 3))
-        production_load = np.asarray(result.audit.vectors["loads"], dtype=float)[body_indices]
+        audit_vectors = decode_audit_vectors(result.audit.vectors, expected_size=dofs.ndof)
+        production_load = audit_vectors["loads"][body_indices]
         load_max_abs_difference = float(np.max(np.abs(production_load - external.reshape(-1)), initial=0.0))
         if load_max_abs_difference != 0.0:
             raise RuntimeError(f"Production-assembled load vector differs from the frozen AJ load by {load_max_abs_difference} N.")
-        K_production = result.audit.matrices["stiffness"][body_indices][:, body_indices].toarray()
         K_independent = aj._independent_stiffness(xyz, tets)
         contact_rows = result.solver["contact"].get("contacts")
         if not isinstance(contact_rows, list) or len(contact_rows) != len(bottom):
@@ -270,8 +275,7 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
         active = multipliers > PLAN["frozen_aj_acceptance_gates"]["force_tolerance_n"]
         opened = gaps > PLAN["frozen_aj_acceptance_gates"]["gap_tolerance_m"]
         pressure = multipliers / np.asarray([areas[int(node)] for node in bottom], dtype=float)
-        support = np.zeros((n_body, 3), dtype=float)
-        support[top] = reaction[top]
+        support = production_support_reactions(audit_vectors, top_nodes=top)[:n_body]
 
         partial_record.update(
             {
@@ -312,7 +316,8 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
         u_ref = np.asarray(independent["displacement"], dtype=float)
         lambda_ref = np.asarray(independent["multipliers"], dtype=float)
         gap_ref = np.asarray(independent["gaps"], dtype=float)
-        stationarity = K_production[np.ix_(free, np.arange(K_production.shape[0]))] @ u
+        production_internal = audit_vectors["internal_force"][body_indices]
+        stationarity = production_internal[free]
         stationarity -= external.reshape(-1)[free]
         stationarity -= independent["G"].T @ multipliers
 
@@ -331,17 +336,13 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
 
         contact_force = np.zeros((n_body, 3), dtype=float)
         contact_force[bottom, 2] = multipliers
-        force_balance = external.sum(axis=0) + support.sum(axis=0) + contact_force.sum(axis=0)
-        moment_balance = (
-            np.cross(xyz, external).sum(axis=0)
-            + np.cross(xyz, support).sum(axis=0)
-            + np.cross(xyz, contact_force).sum(axis=0)
-        )
+        external_resultant, external_moment = resultant_and_moment(xyz, external)
+        support_resultant, support_moment = resultant_and_moment(xyz, support)
+        contact_resultant, contact_moment = resultant_and_moment(xyz, contact_force)
+        force_balance = external_resultant + support_resultant + contact_resultant
+        moment_balance = external_moment + support_moment + contact_moment
         support_exact, support_moment_exact = aj._exact_top(FRONT_X_M)
-        support_resultant = support.sum(axis=0)
-        support_moment = np.cross(xyz, support).sum(axis=0)
         exact_contact_force, exact_contact_moment = aj._exact_contact(FRONT_X_M)
-        contact_moment = np.cross(xyz[bottom], contact_force[bottom]).sum(axis=0)
         force_scale = max(abs(float(exact_contact_force)), 1.0)
         moment_scale = force_scale
 
@@ -358,14 +359,17 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
         support_mask[prescribed] = True
         reference_residual = K_independent @ u_ref - external.reshape(-1) - independent_contact_force.reshape(-1)
         reference_support.reshape(-1)[support_mask] = reference_residual[support_mask]
-        ref_force_balance = external.sum(axis=0) + reference_support.sum(axis=0) + independent_contact_force.sum(axis=0)
-        ref_moment_balance = (
-            np.cross(xyz, external).sum(axis=0)
-            + np.cross(xyz, reference_support).sum(axis=0)
-            + np.cross(xyz, independent_contact_force).sum(axis=0)
-        )
+        reference_support_resultant, reference_support_moment = resultant_and_moment(xyz, reference_support)
+        reference_contact_resultant, reference_contact_moment = resultant_and_moment(xyz, independent_contact_force)
+        ref_force_balance = external_resultant + reference_support_resultant + reference_contact_resultant
+        ref_moment_balance = external_moment + reference_support_moment + reference_contact_moment
 
-        field = aj._field_metrics(mesh, u, FRONT_X_M, K_production)
+        field = aj._field_metrics(mesh, u, FRONT_X_M, K_independent)
+        production_energy = 0.5 * float(u @ production_internal)
+        field["strain_energy_j"] = production_energy
+        field["fe_energy_matrix_vs_quadrature_error_j"] = abs(
+            production_energy - field["fe_integrated_strain_energy_j"]
+        )
         front = aj._front_diagnostics(bottom, xyz, areas, FRONT_X_M, spec["hx_m"], gaps, multipliers)
         front = _enrich_front_trace(front, bottom, xyz, gaps, multipliers, areas)
         front["rows_with_more_than_one_active_open_transition"] = _multiple_front_rows(front["front_trace_by_y"])
@@ -437,8 +441,8 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
                 "independent_qp_multiplier_max_error_n": float(np.max(np.abs(multipliers - lambda_ref))),
                 "independent_qp_nnls_residual_sqrt_j": float(independent["nnls_residual_sqrt_j"]),
                 "independent_qp_dual_condition": float(independent["dual_hessian_condition"]),
-                "independent_stiffness_max_abs_difference_from_production_n_per_m": float(
-                    np.max(np.abs(K_independent - K_production), initial=0.0)
+                "production_internal_force_max_abs_difference_from_independent_stiffness_n": float(
+                    np.max(np.abs(production_internal - K_independent @ u), initial=0.0)
                 ),
                 "strict_active_max_gap_m": float(np.max(gaps[active], initial=-np.inf)),
                 "strict_active_min_multiplier_n": float(np.min(multipliers[active], initial=np.inf)),

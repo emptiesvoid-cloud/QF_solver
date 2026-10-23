@@ -18,7 +18,7 @@ def _load(path: Path) -> dict[str, Any]:
 
 
 def _finite(value: Any) -> bool:
-    return isinstance(value, (int, float)) and math.isfinite(float(value))
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(float(value))
 
 
 def _pass(actual: Any, criterion: str, threshold: Any) -> dict[str, Any]:
@@ -131,6 +131,11 @@ def _table_row(level: str, record: dict[str, Any] | None, baseline: dict[str, An
         ]
     if record is None:
         return [level, "—", "—", "—", "—", "—", "—", "—", "—", "—", "—", "—", "—", "NOT_ACQUIRED"]
+    if record.get("scenario_state") != "COMPLETED_DIAGNOSTICS":
+        return [
+            level, "—", "—", "—", "—", "—", "—", "—", "—", "—", "—", "—", "—",
+            _scenario_verdict(record),
+        ]
     d = record["diagnostics"]
     return [
         level,
@@ -156,14 +161,207 @@ def _md_table(headers: list[str], rows: list[list[str]]) -> str:
     return "\n".join(lines)
 
 
+def _scenario_verdict(record: dict[str, Any] | None, checks: dict[str, Any] | None = None) -> str:
+    if record is None:
+        return "NOT_EVALUATED"
+    if record.get("scenario_state") == "COLLECTION_ERROR":
+        return "ERROR_COLLECTION"
+    if record.get("scenario_state") == "COMPLETED_DIAGNOSTICS":
+        if checks is None:
+            return "NOT_EVALUATED"
+        return _status(checks)
+    failure = record.get("failure")
+    if isinstance(failure, dict) and failure.get("type") in {"NumericalConvergenceError", "MeshValidationError"}:
+        return "FAIL"
+    if isinstance(failure, dict) or record.get("scenario_state") in {
+        "SOLVER_OR_DIAGNOSTIC_EXCEPTION", "REPORT_GENERATION_FAILURE"
+    }:
+        return "ERROR_COLLECTION"
+    return "NOT_EVALUATED"
+
+
+def _load_scenario(path: Path, level: str, plan: dict[str, Any]) -> dict[str, Any] | None:
+    if not path.is_file():
+        return None
+    try:
+        record = _load(path)
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        return {"level": level, "scenario_state": "COLLECTION_ERROR", "failure": {
+            "type": type(exc).__name__, "message": str(exc)
+        }}
+    if not isinstance(record, dict):
+        return {"level": level, "scenario_state": "COLLECTION_ERROR", "failure": {
+            "type": "InvalidRecord", "message": "Scenario diagnostics JSON must be an object."
+        }}
+    if record.get("scenario_state") == "COMPLETED_DIAGNOSTICS":
+        try:
+            _validate_complete_record(record)
+            _level_checks(level, record, plan)
+        except (KeyError, TypeError, ValueError, IndexError) as exc:
+            return {**record, "scenario_state": "COLLECTION_ERROR", "failure": {
+                "type": type(exc).__name__, "message": str(exc)
+            }}
+    return record
+
+
+def _validate_complete_record(record: dict[str, Any]) -> None:
+    diagnostics = record.get("diagnostics")
+    fields = record.get("field_values")
+    if not isinstance(diagnostics, dict) or not isinstance(fields, dict):
+        raise ValueError("completed record lacks diagnostics or field_values objects")
+    required_diagnostics = {
+        "relative_l2_displacement_error", "pressure_relative_l2_error",
+        "active_count", "open_count", "maximum_penetration_m", "production_gap_reconstruction_error_m",
+        "production_complementarity_inf_nm", "strict_active_max_gap_m", "strict_open_max_multiplier_n",
+        "production_stationarity_inf_n", "independent_qp_primal_gap_min_m", "independent_qp_dual_multiplier_min_n",
+        "independent_qp_complementarity_inf_nm", "independent_qp_stationarity_inf_n",
+        "independent_qp_displacement_max_error_m", "independent_qp_multiplier_max_error_n",
+        "production_force_balance_relative", "production_moment_balance_relative",
+        "independent_qp_force_balance_relative", "independent_qp_moment_balance_relative",
+        "production_contact_work_identity_error_j", "independent_qp_contact_work_identity_error_j",
+        "fe_energy_matrix_vs_quadrature_error_j", "contact_resultant_relative_error",
+        "contact_moment_relative_error", "front_error_max_abs_m", "front_error_max_over_hx",
+        "front_bracketed_row_count", "front_bracket_ordered_row_count", "front_row_count",
+        "front_trace_by_y",
+        "false_positives", "false_negatives", "false_positive_count", "false_negative_count",
+        "rows_with_more_than_one_active_open_transition", "strain_energy_j", "fe_integrated_strain_energy_j",
+        "exact_strain_energy_j", "absolute_strain_energy_difference_j", "strain_energy_error_norm_j_sqrt",
+        "support_resultant_error_n", "support_moment_error_nm", "contact_resultant_n", "contact_moment_error_nm",
+        "mesh",
+    }
+    missing = sorted(required_diagnostics - diagnostics.keys())
+    if missing:
+        raise ValueError(f"completed diagnostics are missing required fields: {missing}")
+    numeric_fields = required_diagnostics - {
+        "false_positives", "false_negatives", "rows_with_more_than_one_active_open_transition",
+        "front_trace_by_y", "mesh",
+    }
+    for name in numeric_fields:
+        value = diagnostics[name]
+        if not isinstance(value, (int, float)) or isinstance(value, bool) or not math.isfinite(float(value)):
+            raise ValueError(f"completed diagnostic {name!r} must be a finite number")
+    required_mesh = {"nodes", "tet4", "body_mechanical_dofs", "body_free_dofs", "contact_rows"}
+    if not isinstance(diagnostics["mesh"], dict) or not required_mesh.issubset(diagnostics["mesh"]):
+        raise ValueError("completed diagnostics have incomplete mesh dimensions")
+    for name in ("nodes", "tet4", "body_mechanical_dofs", "body_free_dofs", "contact_rows"):
+        value = diagnostics["mesh"][name]
+        if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+            raise ValueError(f"completed mesh dimension {name!r} must be a non-negative integer")
+    for name in (
+        "active_count", "open_count", "front_bracketed_row_count", "front_bracket_ordered_row_count",
+        "front_row_count", "false_positive_count", "false_negative_count",
+    ):
+        value = diagnostics[name]
+        if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+            raise ValueError(f"completed diagnostic count {name!r} must be a non-negative integer")
+    traces = diagnostics["front_trace_by_y"]
+    if not isinstance(traces, list) or len(traces) != diagnostics["front_row_count"]:
+        raise ValueError("front_trace_by_y must contain exactly front_row_count rows")
+    seen_contact_nodes: set[int] = set()
+    bracketed_rows = 0
+    ordered_rows = 0
+    for trace in traces:
+        if not isinstance(trace, dict) or not isinstance(trace.get("contact_states_by_x"), list):
+            raise ValueError("each front trace must contain a contact_states_by_x list")
+        if not isinstance(trace.get("front_bracketed_by_observed_states"), bool):
+            raise ValueError("each front trace must report its observed active/open bracket state")
+        if not isinstance(trace.get("ordered_active_open_bracket"), bool):
+            raise ValueError("each front trace must report its ordered active/open bracket state")
+        bracketed_rows += int(trace["front_bracketed_by_observed_states"])
+        ordered_rows += int(trace["ordered_active_open_bracket"])
+        if not trace["contact_states_by_x"]:
+            raise ValueError("front trace rows cannot omit their contact classifications")
+        for state in trace["contact_states_by_x"]:
+            if not isinstance(state, dict) or state.get("classification") not in {
+                "ACTIVE", "OPEN", "BI-ACTIVE", "ACTIVE_AND_OPEN", "UNCLASSIFIED"
+            }:
+                raise ValueError("front trace contact states must carry a recognized classification")
+            node = state.get("node")
+            if (
+                isinstance(node, bool) or not isinstance(node, int)
+                or not 0 <= node < diagnostics["mesh"]["nodes"] or node in seen_contact_nodes
+            ):
+                raise ValueError("front trace contact node IDs must be unique integers")
+            seen_contact_nodes.add(node)
+    if len(seen_contact_nodes) != diagnostics["mesh"]["contact_rows"]:
+        raise ValueError("front trace rows do not cover every contact row exactly once")
+    if bracketed_rows != diagnostics["front_bracketed_row_count"]:
+        raise ValueError("front_bracketed_row_count does not match front trace rows")
+    if ordered_rows != diagnostics["front_bracket_ordered_row_count"]:
+        raise ValueError("front_bracket_ordered_row_count does not match front trace rows")
+    for name in ("false_positives", "false_negatives", "rows_with_more_than_one_active_open_transition"):
+        if not isinstance(diagnostics[name], list):
+            raise ValueError(f"completed diagnostic {name!r} must be a list")
+    for point in (*diagnostics["false_positives"], *diagnostics["false_negatives"]):
+        if not isinstance(point, dict) or not _finite(point.get("distance_to_front_over_hx")):
+            raise ValueError("completed front misclassification records must include finite normalized distances")
+    if diagnostics["false_positive_count"] != len(diagnostics["false_positives"]):
+        raise ValueError("false_positive_count does not match its front point records")
+    if diagnostics["false_negative_count"] != len(diagnostics["false_negatives"]):
+        raise ValueError("false_negative_count does not match its front point records")
+    required_fields = {
+        "body_displacements_m_node_major_xyz", "contact_node_ids", "contact_gaps_m",
+        "contact_multipliers_n", "production_contact_active_set_flags", "contact_pressures_pa",
+        "contact_area_weights_m2", "support_reactions_n_node_major_xyz",
+        "external_nodal_loads_n_node_major_xyz",
+    }
+    missing_fields = sorted(required_fields - fields.keys())
+    if missing_fields:
+        raise ValueError(f"completed field_values are missing required fields: {missing_fields}")
+    if any(not isinstance(fields[name], list) for name in required_fields):
+        raise ValueError("completed field_values arrays must be JSON lists")
+    numeric_array_fields = required_fields - {"production_contact_active_set_flags"}
+    for name in numeric_array_fields:
+        if not _finite_json_array(fields[name]):
+            raise ValueError(f"completed field_values[{name!r}] contains non-numeric or non-finite data")
+    for flag in fields["production_contact_active_set_flags"]:
+        if not isinstance(flag, bool):
+            raise ValueError("production contact active-set flags must be booleans")
+    body_nodes = diagnostics["mesh"]["nodes"]
+    contact_rows = diagnostics["mesh"]["contact_rows"]
+    node_ids = fields["contact_node_ids"]
+    if any(isinstance(node, bool) or not isinstance(node, int) or not 0 <= node < body_nodes for node in node_ids):
+        raise ValueError("contact_node_ids must be unique body mesh node indices")
+    if len(set(node_ids)) != contact_rows:
+        raise ValueError("contact_node_ids must identify each contact row exactly once")
+    if set(node_ids) != seen_contact_nodes:
+        raise ValueError("front trace contact node IDs do not match contact_node_ids")
+    for name in (
+        "body_displacements_m_node_major_xyz", "support_reactions_n_node_major_xyz",
+        "external_nodal_loads_n_node_major_xyz",
+    ):
+        values = fields[name]
+        if len(values) != body_nodes or any(not isinstance(row, list) or len(row) != 3 for row in values):
+            raise ValueError(f"completed field_values[{name!r}] must have shape ({body_nodes}, 3)")
+    for name in (
+        "contact_node_ids", "contact_gaps_m", "contact_multipliers_n", "production_contact_active_set_flags",
+        "contact_pressures_pa", "contact_area_weights_m2",
+    ):
+        if len(fields[name]) != contact_rows:
+            raise ValueError(f"completed field_values[{name!r}] must contain {contact_rows} contact rows")
+
+
+def _finite_json_array(value: Any) -> bool:
+    if isinstance(value, list):
+        return all(_finite_json_array(item) for item in value)
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(float(value))
+
+
+def _failure_details(record: dict[str, Any]) -> tuple[str, str]:
+    failure = record.get("failure")
+    if not isinstance(failure, dict):
+        return "InvalidFailureRecord", f"failure field must be an object; got {type(failure).__name__}"
+    return str(failure.get("type", "unknown")), str(failure.get("message", "no detail"))
+
+
 def render_report(archive: Path) -> str:
     plan = _load(PLAN_PATH)
     baseline_doc = _load(BASELINE_PATH)
     baselines = {row["level"]: row for row in baseline_doc["levels"]}
-    records: dict[str, dict[str, Any] | None] = {}
-    for level in ("M4", "M5"):
-        path = archive / f"{level.lower()}_diagnostics.json"
-        records[level] = _load(path) if path.is_file() else None
+    records: dict[str, dict[str, Any] | None] = {
+        level: _load_scenario(archive / f"{level.lower()}_diagnostics.json", level, plan)
+        for level in ("M4", "M5")
+    }
 
     per_level: dict[str, dict[str, Any] | None] = {}
     all_level_gates = True
@@ -297,12 +495,7 @@ def render_report(archive: Path) -> str:
         # complete M2-M5 coverage criterion from being demonstrated.
         front_status = "NOT_ACQUIRED"
 
-    if any(
-        records[level] is not None
-        and records[level].get("scenario_state") == "SOLVER_OR_DIAGNOSTIC_EXCEPTION"
-        and records[level].get("failure", {}).get("type") in {"NumericalConvergenceError", "MeshValidationError"}
-        for level in ("M4", "M5")
-    ):
+    if any(_scenario_verdict(records[level]) == "FAIL" for level in ("M4", "M5")):
         scientific_verdict = "FAIL"
     elif any(records[level] is not None and records[level].get("scenario_state") == "COMPLETED_DIAGNOSTICS" for level in ("M4", "M5")):
         if any(
@@ -334,9 +527,10 @@ def render_report(archive: Path) -> str:
             continue
         state = record.get("scenario_state")
         if state != "COMPLETED_DIAGNOSTICS":
-            failure = record.get("failure", {})
+            failure_type, failure_message = _failure_details(record)
             level_sections.append(
-                f"### {level}\n\nÉtat : `{state}`. Échec enregistré : `{failure.get('type', 'unknown')}: {failure.get('message', 'no detail')}`.\n"
+                f"### {level}\n\nÉtat : `{_scenario_verdict(record)}` (enregistrement `{state}`). "
+                f"Échec enregistré : `{failure_type}: {failure_message}`.\n"
             )
             continue
         diag = record["diagnostics"]
@@ -406,7 +600,7 @@ def render_report(archive: Path) -> str:
 
     check_lines = []
     for level, checks in per_level.items():
-        check_lines.append(f"- **{level}** : `{_status(checks) if checks is not None else 'NOT_ACQUIRED'}`")
+        check_lines.append(f"- **{level}** : `{_scenario_verdict(records[level], checks)}`")
     check_lines.append(f"- **M1→M3 historique AJ/AQ** : `{'PASS' if all(c['passed'] for c in historical_m1_m3.values()) else 'FAIL'}` (ne modifie pas le verdict Docker archivé).")
     check_lines.append(f"- **Ratios prospectifs M1→M5** : `{endpoint_status}`.")
     check_lines.append(f"- **Front actif M2–M5** : `{front_status}`; les traces historiques AQ M2/M3 ne sont pas archivées dans les preuves consultées.")
