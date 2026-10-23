@@ -1,0 +1,147 @@
+{
+  "schema": "wp_e01_uvw_newton_preparation.v1",
+  "campaign": "WP-E01-U/V/W Stage V experimental incremental Newton",
+  "owner_authorization": "Isolated, bounded small-model Hencky Newton research prototype; never connected to public production solver routes.",
+  "repository": {
+    "worktree": "C:/wpc01-frictionless-public-integration-wt/wp-e01-uvw",
+    "origin": "https://github.com/emptiesvoid-cloud/QF_solver.git",
+    "branch": "codex/wp-e01-uvw-hencky-global-newton-20261021",
+    "baseline_head": "d9992d43bac411e647684539516b937928a9306d"
+  },
+  "executable_target": {
+    "path": "tests/unit/test_wp_e01uvw_newton.py",
+    "classification": "NUMERICAL_UNIT",
+    "test_functions": [
+      "test_incremental_equilibrium_matches_independent_affine_hencky_reference",
+      "test_final_equilibrium_is_independent_of_admissible_load_partition",
+      "test_small_strain_solution_approaches_linear_hencky_limit",
+      "test_unattainable_excessive_load_fails_without_fabricating_equilibrium",
+      "test_failed_second_increment_preserves_last_accepted_equilibrium",
+      "test_iteration_limit_refuses_increment_without_changing_accepted_state",
+      "test_singular_reduced_tangent_refuses_and_preserves_initial_state",
+      "test_residual_merit_backtracking_records_rejected_full_step",
+      "test_invalid_trial_is_rejected_then_smaller_admissible_step_is_selected",
+      "test_wrong_mesh_accepted_state_fails_closed",
+      "test_same_mesh_non_equilibrium_state_is_not_accepted_as_restart",
+      "test_load_step_count_and_order_are_bounded",
+      "test_reduced_increment_embedding_has_zero_prescribed_components",
+      "test_initial_state_must_be_in_free_space_equilibrium"
+    ],
+    "expected_node_ids": [
+      "tests/unit/test_wp_e01uvw_newton.py::test_incremental_equilibrium_matches_independent_affine_hencky_reference[tet4]",
+      "tests/unit/test_wp_e01uvw_newton.py::test_incremental_equilibrium_matches_independent_affine_hencky_reference[hex8]",
+      "tests/unit/test_wp_e01uvw_newton.py::test_final_equilibrium_is_independent_of_admissible_load_partition[tet4]",
+      "tests/unit/test_wp_e01uvw_newton.py::test_final_equilibrium_is_independent_of_admissible_load_partition[hex8]",
+      "tests/unit/test_wp_e01uvw_newton.py::test_small_strain_solution_approaches_linear_hencky_limit",
+      "tests/unit/test_wp_e01uvw_newton.py::test_unattainable_excessive_load_fails_without_fabricating_equilibrium",
+      "tests/unit/test_wp_e01uvw_newton.py::test_failed_second_increment_preserves_last_accepted_equilibrium",
+      "tests/unit/test_wp_e01uvw_newton.py::test_iteration_limit_refuses_increment_without_changing_accepted_state",
+      "tests/unit/test_wp_e01uvw_newton.py::test_singular_reduced_tangent_refuses_and_preserves_initial_state",
+      "tests/unit/test_wp_e01uvw_newton.py::test_residual_merit_backtracking_records_rejected_full_step",
+      "tests/unit/test_wp_e01uvw_newton.py::test_invalid_trial_is_rejected_then_smaller_admissible_step_is_selected",
+      "tests/unit/test_wp_e01uvw_newton.py::test_wrong_mesh_accepted_state_fails_closed",
+      "tests/unit/test_wp_e01uvw_newton.py::test_same_mesh_non_equilibrium_state_is_not_accepted_as_restart",
+      "tests/unit/test_wp_e01uvw_newton.py::test_load_step_count_and_order_are_bounded",
+      "tests/unit/test_wp_e01uvw_newton.py::test_reduced_increment_embedding_has_zero_prescribed_components",
+      "tests/unit/test_wp_e01uvw_newton.py::test_initial_state_must_be_in_free_space_equilibrium"
+    ],
+    "static_parameter_expanded_cases": 16
+  },
+  "global_adapter": {
+    "path": "src/solveur/verification/experimental_hencky_global.py",
+    "scope": "Previously bounded sparse experimental total-Lagrangian Hencky TET4/HEX8 assembly; no public solver dispatch."
+  },
+  "newton_driver": {
+    "path": "src/solveur/verification/experimental_hencky_newton.py",
+    "scope": "In-memory incremental dead-load Newton prototype with sparse reduced solve, optional residual-merit backtracking, bounded iterations/DOFs, and transactional accepted displacement/load state; no history variables, persistence or public route."
+  },
+  "mathematical_contract": {
+    "reference_configuration": "X and Grad_X; x=X+u; F=I+Grad_X(u); energy and PK1 forces are total-Lagrangian.",
+    "residual": "R(u,lambda)=f_int(u)-lambda*f_dead for displacement-independent dead nodal loads only.",
+    "tangent": "K_t=dR/du from the experimental Hencky global assembler, including material and geometric terms.",
+    "reduced_newton": "K_ff delta_u_f=-R_f with selector reduction; prescribed components of delta_u are exactly zero and prescribed displacements are reimposed for each trial.",
+    "globalization": "Optional backtracking on phi=0.5*||R_f||^2; for fixed dead loads and exact Newton direction Dphi=-||R_f||^2. This is not total-potential decrease or a production Armijo certificate.",
+    "accepted_state": "Mesh fingerprint, immutable bytes-backed displacement vector and load factor only. Every supplied state is reassembled and its current free residual is checked against abs tolerance plus relative tolerance times current applied free dead-load norm.",
+    "reactions": "Support-on-structure reactions are recovered from the full unreduced residual; force/moment closure is a consistency check.",
+    "units": "coordinates/displacements m, stress Pa, energy J, force N, stiffness N/m."
+  },
+  "verification_cases": [
+    "TET4 and HEX8 proportional prescribed-displacement affine uniaxial equilibrium over four dead-load increments; independent diagonal PK1 and hand-integrated area reference.",
+    "Final-state invariance under two admissible load partitions for TET4 and HEX8.",
+    "Small-strain approach to the analytical linear Hencky limit.",
+    "Unattainable large load preserves the previous accepted state.",
+    "A second increment that inverts TET4 is refused and rolls back to the prior accepted state.",
+    "Iteration limit and singular reduced tangent fail closed.",
+    "Residual-merit helper checks a synthetic rejected full step and accepted half step; not a physical FEM line-search trajectory.",
+    "Invalid trial backtracking, wrong mesh identity, same-mesh prescribed-consistent non-equilibrium state, bounded load schedule, free-DOF embedding, and initial free-equilibrium check.",
+    "State scale metadata cannot be caller-inflated; accepted displacement and dead-load arrays cannot have writeability re-enabled."
+  ],
+  "numerical_diagnostics": {
+    "convergence_criteria": "PROPOSED_NOT_APPROVED; absolute force tolerance 1e-8 N and relative factor 1e-9 against applied free dead-load norm.",
+    "max_load_steps": 8,
+    "max_newton_iterations": 20,
+    "max_reduced_dofs": 72,
+    "tangent_condition_limit": 1000000000000.0,
+    "backtracking_max_reductions": 12,
+    "threshold_status": "PROPOSED_NOT_APPROVED"
+  },
+  "resource_limits": {
+    "node_count_max": 8,
+    "element_count_max": 1,
+    "dof_count_max": 24,
+    "tests_max": 16,
+    "collection_and_run_wall_deadline_seconds_each": 120,
+    "commit_memory_bytes_each": 268435456,
+    "active_process_limit": 1,
+    "blas_threads": 1,
+    "parallel_pytest": false,
+    "test_child_processes": 0,
+    "automatic_retry": false
+  },
+  "execution_policy": {
+    "collection": "exact allowlist under fixed-target supervisor; RUN only after accepted collection receipt and second frozen-source preflight.",
+    "run": "one exact module execution under Windows Job Object; no retries.",
+    "limitations": [
+      "one free mechanical DOF for the principal equilibrium references",
+      "physical Newton line-search rejection is not demonstrated; only scalar merit-helper behavior is tested",
+      "no incremental material history for path-independent hyperelasticity",
+      "no checkpoint/restart or crash durability",
+      "no follower loads, contact, instability, or branch tracking",
+      "no public solver, native backend, Gmsh, network, worker or external solver"
+    ]
+  },
+  "source_identity_sha256": {
+    "experiments/__init__.py": "c53bbb7fb1db078784969a162f9ddc069111e74dd908a33586af65d6707b2068",
+    "experiments/wpc01_execution_safety.py": "c354dbe446d1700312f654268f5b7fe7b2661d347470d5334579747bb59e9085",
+    "experiments/wpc01_exploratory_provenance.py": "b7686e1b7f9e74a70f2b0c039966df486fa25d87a168ce915228385c9c0dc429",
+    "experiments/wpc01_exploratory_supervisor.py": "9bd8c75b19b49c758f9558cf9299eeedc18762b1e40dbd69968377a94d6c9090",
+    "experiments/wpc01_exploratory_tolerance_budget.py": "a0966b5f697a709c3b3a1185d3e38a690cf9891e60199d4b4559749f5e95a2d3",
+    "src/solveur/__init__.py": "49f63b0a115a50907c4b4a9390caf021173d0b67c8a11f0e16f9e38568051ee7",
+    "src/solveur/core/__init__.py": "357ad87d068916a13f546049ebf59cbdf88521ba0260a88b6658ea49bf1d763f",
+    "src/solveur/core/dofs.py": "62b1a414b2fe9e816c8373b8a0193a5f5abff1bff54bfabe3289fda52faba114",
+    "src/solveur/core/errors.py": "9281dc8f2e320e37dd26da0f4504c343aaa54376d5f80fd03ec9294f9c01a943",
+    "src/solveur/core/nonlinear/__init__.py": "fff92eadadfa34acda0631ef9f3430760e5156fea85f2b55dfcdef9cd4f9dfad",
+    "src/solveur/core/nonlinear/contracts.py": "faea669e31a85988071e64d930246769212f5745ed5e09e8ecc07b7200363809",
+    "src/solveur/elements/__init__.py": "75f0510d27f57643b51272b60448c74e86c79797aad36cb15bedf2b4c77c7f2a",
+    "src/solveur/elements/solid/__init__.py": "8d96049a56f2b4c812055715b57586db2700020e1780a515e74210f3b2e134ce",
+    "src/solveur/elements/solid/common.py": "ed5ef8cdef23b001f1d0fe1df7ecb603180512d70dba46d502b860b3a3d30379",
+    "src/solveur/elements/solid/hex8.py": "e4d37b19268bd7fce81f270e17ba314ce8390667b19685cc982f514802e13a3f",
+    "src/solveur/elements/solid/j2_state.py": "17c28fb3997d470bdb3dd4cb7d07095f0b752c15be53c2b1212430af0ea55f84",
+    "src/solveur/elements/solid/tet4.py": "5daa0cdece28f0c352649607872eed2a49900acf7be76bcc11eb98a8c9181b59",
+    "src/solveur/materials/__init__.py": "b328c948d0f413343d87ce0717fbe9bf491373364cf3383eeba05951111bc09d",
+    "src/solveur/materials/beam.py": "686f1888228302bdb5bf58cc149f19b61c8600db9be74dadd098c90db0aff72f",
+    "src/solveur/materials/composite.py": "ec00b4f7c7489449f6c3dae641540ad5c46a91acd4c37c3642dd6b4b4d855a7c",
+    "src/solveur/materials/failure.py": "173a50983b65880eb95b352c771a88035b32cb66fe29c02e09f08324a857c4d9",
+    "src/solveur/materials/finite_strain_hencky.py": "b87706cecfb036d3a4b31461c83da1b8af0b7aeb7098037e2cf7e65cdf466f50",
+    "src/solveur/materials/finite_strain_hencky_tangent.py": "8ca5dde952eb820a462eb3ebacd329f010d22e5f246fac95863ebee6c467b8b1",
+    "src/solveur/materials/laminate.py": "6265facb4442e4c9552c0ea5ee22b021ccd9145fc44bef46b5c7316b0111fe2d",
+    "src/solveur/materials/orthotropic.py": "b436ec852e8ff0831998f0b3585200f01163702d44cc511b1c94904a6ea66083",
+    "src/solveur/materials/solid.py": "7d8223c81999d037900c26bf1a6a2abc9f4b47c0cff597f4be0cf0163e8092aa",
+    "src/solveur/verification/__init__.py": "702ed6866e6b2f486995c68cc343b544b97b5f3b5213cb7d74cf694f4c052cfd",
+    "src/solveur/verification/experimental_hencky_global.py": "e02baaf346c3b8f853049990c8ac053b5e76ffab92f0a138f167f997cd2503b9",
+    "src/solveur/version.py": "abff537ba2890e65b542881381a905089b25c2043bd2b18eaaea7439e67f7380",
+    "tests/conftest.py": "e83a839aaad16fbe14b2b169ec1465445a01ed0a92e89e1b565e979d88b114c5",
+    "src/solveur/verification/experimental_hencky_newton.py": "1a24046913a4544aadba8dbec715f796ef56069f3cdbe813fd871a630950ffb0",
+    "tests/unit/test_wp_e01uvw_newton.py": "c58cfde4aea001d155c1c0d2e5cc42bc99e781b66ca5509c9d90b3635aa16e4f"
+  }
+}

@@ -131,6 +131,7 @@ requirements = ["requirements/baseline-standard.txt", "requirements/baseline-lar
 testpaths = ["tests"]
 pythonpath = ["src"]
 markers = [
+  "numerical_unit: bounded deterministic numerical unit checks without a public solver or native FEM route",
   "large: optional large-scale tests for manually generated big models",
   "docs: Markdown/PDF documentation evidence checks requiring optional dependencies",
   "benchmark: controlled meshed mechanical benchmark campaign requiring Gmsh",

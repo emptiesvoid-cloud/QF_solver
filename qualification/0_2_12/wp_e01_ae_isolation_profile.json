@@ -1,0 +1,105 @@
+{
+  "authorization": {
+    "collect_go_id": null,
+    "native_fem_go_id": null,
+    "run_go_id": null
+  },
+  "mounts": {
+    "host_repository_write_access": false,
+    "host_source_is_live_worktree": false,
+    "output_persists_on_host": true,
+    "personal_folders_mapped": false,
+    "read_only": [
+      {
+        "guest": "C:/e01/source",
+        "host": "C:/wpc01-frictionless-public-integration-wt/wp-e01-ae-source-snapshot",
+        "purpose": "immutable Git archive snapshot"
+      },
+      {
+        "guest": "C:/e01/runtime",
+        "host": "C:/wpc01-frictionless-public-integration-wt/wp-e01-ae-runtime",
+        "purpose": "frozen CPython and dependencies"
+      },
+      {
+        "guest": "C:/e01/control",
+        "host": "C:/wpc01-frictionless-public-integration-wt/wp-e01-ae-control",
+        "purpose": "hash-pinned provenance and future Owner manifest"
+      }
+    ],
+    "read_write": [
+      {
+        "guest": "C:/e01/output",
+        "host": "C:/wpc01-frictionless-public-integration-wt/wp-e01-ae-output",
+        "purpose": "campaign evidence only"
+      }
+    ]
+  },
+  "profile_id": "E01_PHYSICAL_FEM_SANDBOX_PREPARED_AF",
+  "repository": {
+    "branch": "codex/wp-e01-x-newton-test-remediation-20261021",
+    "origin": "https://github.com/emptiesvoid-cloud/QF_solver.git",
+    "preparation_base_head": "8a284e5f657fab93b0dff4834a00c10a2934242a",
+    "preparation_base_tree": "807971b615df48185de198487c3baef28bc86fa1"
+  },
+  "resource_policy": {
+    "note": "Guest Job Object values are separate from the Sandbox VM memory allocation; none have been runtime-verified in this profile.",
+    "phase_wall_seconds": 120,
+    "sandbox_cpu_rate_limit": "NOT_AVAILABLE_IN_WSB_PROFILE",
+    "sandbox_memory_mb": 2048,
+    "sandbox_memory_minimum_mb": 2048,
+    "worker_active_processes": 1,
+    "worker_descendants": 0,
+    "worker_job_commit_bytes": 268435456,
+    "worker_job_user_cpu_seconds": 100,
+    "worker_process_commit_bytes": 268435456
+  },
+  "runnable": false,
+  "runtime": {
+    "dependency_closure": "17 exact distributions; see wp_e01_ad_profile.json runtime.distribution_versions and runtime-lock.json",
+    "implementation": "CPython",
+    "matplotlib": "3.10.3",
+    "numpy": "2.2.6",
+    "pytest": "8.4.1",
+    "python_version": "3.13.1",
+    "runtime_lock_sha256": "aeaa17d26632929a608c30f252c5d32654acece5ecefe2bcd1f9f472ee8bf700",
+    "scipy": "1.15.2",
+    "site_initialization": "isolated _pth; no site, no user-site, no PYTHONPATH",
+    "source": "copied from pre-existing local interpreter and installed files; no download/install; source files not mounted"
+  },
+  "runtime_dependencies": {
+    "dependency_lock_verified_by_static_hashes": true,
+    "host_acl_and_sandbox_mount_validation": false,
+    "network_installation": false,
+    "python_runtime_staged_outside_personal_folders": true,
+    "sandbox_cleanup_verified": false,
+    "site_packages_staged_outside_personal_folders": true
+  },
+  "sandbox": {
+    "audio_video_printers": "DISABLED",
+    "clipboard": "DISABLED",
+    "config_path": "qualification/0_2_12/wp_e01_ae_windows_sandbox.wsb",
+    "networking": "DISABLED",
+    "protected_client": "ENABLED",
+    "runtime_verified": false,
+    "startup_command": null,
+    "technology": "Windows Sandbox",
+    "vGPU": "DISABLED"
+  },
+  "schema": "wp_e01_ae_isolation_profile.v1",
+  "security_contract": {
+    "cleanup": "Sandbox guest state is ephemeral at close; host output is retained and requires explicit evidence export/review then manual cleanup",
+    "control_mount": "read-only external manifests; no active operation manifest is prepared",
+    "execution": "no startup command; fixed supervisor only after a separate future Owner GO",
+    "network": "disabled in .wsb; runtime not observed",
+    "output_mount": "only writable mapped folder; separate from source/runtime/control and persistent on host",
+    "runtime_mount": "read-only frozen Python bundle; full inventory hash-checked before scientific import",
+    "source_mount": "read-only immutable snapshot; full inventory hash-checked before scientific import"
+  },
+  "status": "PREPARED_NOT_EXECUTABLE",
+  "target": {
+    "classification": "NUMERICAL_UNIT",
+    "node": "tests/unit/test_wp_e01uvw_newton.py::test_production_contact_newton_rejects_full_step_then_accepts_reduced_step",
+    "scenario_id": "WP_E01_AB_GF4_TET4_PRESSURE_18_75_PA"
+  },
+  "work_package": "WP-E01"
+}

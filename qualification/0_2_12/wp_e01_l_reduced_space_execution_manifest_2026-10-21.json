@@ -1,0 +1,198 @@
+{
+  "manifest_id": "WP-E01-L-reduced-space-J2-tangent-diagnostic-2026-10-21",
+  "status": "PREPARED_NOT_RUN",
+  "execution_authorized_by_this_mandate": false,
+  "collection_observed": false,
+  "repository": {
+    "root": "C:/wpc01-frictionless-public-integration-wt/wp-e01",
+    "origin": "https://github.com/emptiesvoid-cloud/QF_solver.git",
+    "branch": "codex/qf-wp-e01-a-implementation-20261020",
+    "baseline_head": "affa6346b57224accceb35bd27d6a98b4fc46e95",
+    "baseline_was_clean_before_preparation": true,
+    "canonical_roadmap_modified": false,
+    "production_sources_modified": false
+  },
+  "preserved_historical_evidence": {
+    "wp_e01_k_report": "qualification/0_2_12/wp_e01_k_j2_translation_verification_2026-10-21.md",
+    "wp_e01_k_report_sha256": "c9628d955436395136b327e79e163d765881034d119b92eb17aebab7a4e0d1c8",
+    "rigid_translation": "PREVIOUS_VERIFIED_BOUNDED_12_OF_12",
+    "weak_full_space_differences_percent": [
+      6.74,
+      11.03
+    ],
+    "weak_direction_status": "UNRESOLVED",
+    "j2_assembled_tangent": "BLOCKED_PENDING_INDEPENDENT_EVIDENCE"
+  },
+  "diagnostic_contract": {
+    "residual": "R_f = P_f.T @ (F_int - F_ext); fixture F_ext is identically zero",
+    "reduced_tangent": "K_ff = P_f.T @ K_t @ P_f",
+    "directional_reference": "central difference of the independently integrated fixed-history reduced internal-force residual",
+    "newton_relation": "K_ff * delta_u_f = -R_f; no Newton iteration is executed by these tests",
+    "direction": "project arbitrary seed to free entries, reject zero/near-degenerate projection, then unit-normalize",
+    "fixed_history": "one synthetic prior-material-evaluation snapshot is held unchanged for base, plus and minus oracle evaluations; it is not a solver-committed or equilibrated increment",
+    "preload_state_assertion": "all integration-point history entries must be finite and shape-valid; at least one point must have positive accumulated equivalent plastic strain and nonzero plastic strain",
+    "boundary_kinematics": "model fixed_dofs encode zero prescribed displacement; preload and base displacements move only the free center node and leave every prescribed component exactly zero",
+    "branch_rule": "production and Decimal integration-point branch arrays must agree at the base state; for each finite-difference step, Decimal plus/minus branch arrays must preserve the corresponding Decimal base branch; the production tangent is evaluated only at the base state; mixed base branches are allowed",
+    "hardening_moduli_Pa": [
+      0.0,
+      1500000000.0
+    ],
+    "families": [
+      "TET4",
+      "HEX8"
+    ],
+    "direction_fixtures": [
+      "projected_historical_weak",
+      "projected_mixed"
+    ],
+    "centered_difference_steps_m": [
+      "1e-4",
+      "3e-5",
+      "1e-5",
+      "3e-6",
+      "1e-6",
+      "3e-7",
+      "1e-8",
+      "1e-10",
+      "1e-12",
+      "1e-14",
+      "1e-16",
+      "1e-18"
+    ],
+    "decimal_precision_digits": 80,
+    "decimal_input_policy": "Decimal.from_float reconstructs exact stored binary64 model, state and direction inputs; no rounded computed production force is converted into the force oracle",
+    "stiffness_reference_N_per_m": "525000000000",
+    "stiffness_reference_provenance": "max(3K,2mu)*V_ref/L_ref^2 for E=210 GPa, nu=0.30, K=175 GPa and a 1 m cube envelope (V_ref=1 m^3, L_ref=1 m); diagnostic normalization only",
+    "acceptance_threshold": null,
+    "threshold_status": "NO_TANGENT_ACCEPTANCE_THRESHOLD_ASSERTED; all candidate tangent gates remain PROPOSED_NOT_APPROVED"
+  },
+  "executable": {
+    "path": "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py",
+    "sha256": "de87ed55efc5db341a4f90fc0ad34de4758acbfd76241c91f7a37c7b80a61d2a",
+    "classification": "NUMERICAL_UNIT",
+    "static_test_function_count": 2,
+    "static_parameter_expanded_case_count": 15,
+    "observed_pytest_collection": null,
+    "expected_node_ids_static_only": [
+      "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py::test_reduced_space_j2_fixed_history_tangent_diagnostic[tet4-perfect-historical-weak-projected]",
+      "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py::test_reduced_space_j2_fixed_history_tangent_diagnostic[tet4-perfect-mixed-projected]",
+      "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py::test_reduced_space_j2_fixed_history_tangent_diagnostic[tet4-hardening-historical-weak-projected]",
+      "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py::test_reduced_space_j2_fixed_history_tangent_diagnostic[tet4-hardening-mixed-projected]",
+      "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py::test_reduced_space_j2_fixed_history_tangent_diagnostic[hex8-perfect-historical-weak-projected]",
+      "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py::test_reduced_space_j2_fixed_history_tangent_diagnostic[hex8-perfect-mixed-projected]",
+      "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py::test_reduced_space_j2_fixed_history_tangent_diagnostic[hex8-hardening-historical-weak-projected]",
+      "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py::test_reduced_space_j2_fixed_history_tangent_diagnostic[hex8-hardening-mixed-projected]",
+      "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py::test_free_projection_rejects_invalid_or_degenerate_seed[all-prescribed]",
+      "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py::test_free_projection_rejects_invalid_or_degenerate_seed[numerically-degenerate-free-projection]",
+      "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py::test_free_projection_rejects_invalid_or_degenerate_seed[nonfinite-seed]",
+      "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py::test_free_projection_rejects_invalid_or_degenerate_seed[wrong-shape]",
+      "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py::test_free_projection_rejects_invalid_or_degenerate_seed[duplicate-fixed-index]",
+      "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py::test_free_projection_rejects_invalid_or_degenerate_seed[out-of-range-fixed-index]",
+      "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py::test_free_projection_rejects_invalid_or_degenerate_seed[zero-seed]"
+    ],
+    "safety_registry": {
+      "path": "tests/conftest.py",
+      "sha256": "34b6d57a76be6c84d7b803c6d1e9c1899e800b81e6bc1cad8746139858371f71"
+    },
+    "collection_guard": {
+      "path": "experiments/wp_e01l_collection_guard.py",
+    "sha256": "5105bb6ea5ad68d481e5bac4ab14671da1044045aca6fd019580dd99f62919c8"
+    },
+    "supervisor": {
+      "path": "experiments/wp_e01l_reduced_space_supervisor.py",
+    "sha256": "f6000e9df5391681b831ec5d16514d315d36cb2377ce9a94428a8c744df0b831"
+    }
+  },
+  "production_source_identity_sha256": {
+    "src/solveur/core/errors.py": "9281DC8F2E320E37DD26DA0F4504C343AAA54376D5F80FD03EC9294F9C01A943",
+    "src/solveur/core/assembly/nonlinear.py": "C5C6E1953C3B08C30397F18F8DF07FB8D355216BF372C45CEE5695FCE7BC65E1",
+    "src/solveur/core/assembly/assembler.py": "23E0702165A65AFB2108670B2F140B8173F4857134A4E1461C5D75E8333B30CB",
+    "src/solveur/core/assembly/geometric.py": "B81454F32F8A824725F3E0902871EB5394BB0A4D83BD4709D9DC626A3108A22C",
+    "src/solveur/elements/solid/tet4.py": "5DAA0CDECE28F0C352649607872EED2A49900ACF7BE76BCC11EB98A8C9181B59",
+    "src/solveur/elements/solid/hex8.py": "E4D37B19268BD7FCE81F270E17BA314CE8390667B19685CC982F514802E13A3F",
+    "src/solveur/elements/solid/j2_state.py": "1DD85418DF2026D3A9E3DE4F8DA5FCA30021E85882F0606290F083C0D23C26A4",
+    "src/solveur/elements/solid/tet4_total_lagrangian_batch.py": "CC7FA09C23778312B2EC8AED54208041A5E0E9EEBA0AD7F983672D6522BBEBCA",
+    "src/solveur/elements/solid/hex8_total_lagrangian_batch.py": "95DF9E1895BB631D598FA52FD22986E153C865F77C91557E904FF0AF766451A6",
+    "src/solveur/core/nonlinear/checkpoint.py": "EB2B320537D45B3AFD012E143B248237175D7528F7628FDA84E9D64E95885C81",
+    "src/solveur/io/nonlinear_checkpoint.py": "69983B613DF6A4ECC16183D45AD67EC55BAFA2857043278CFA4B77026DC19709",
+    "src/solveur/core/nonlinear/driver.py": "B2C6FF6C37581EDCE2019EC700C78F2BD04383C6D4D0BD4602A31F58BCBF1866",
+    "src/solveur/core/nonlinear/load_control.py": "4DB5F31AC68E07E1C469F4AD93FFBA75FD4CFA239A6A40B3B9791CEEFA07AFBC",
+    "src/solveur/core/nonlinear/e01a.py": "C0DC0EBFB56FC2DA52AFCA89550ADC922E2A52ED04C0B53A2F4A9022CC7BC139",
+    "src/solveur/core/nonlinear/solver.py": "8FBAAB82BD4EDDF721AA48BBFBEA6CA5024C9BB7E6ED3B1E3B0E9DD620C8C6F8",
+    "src/solveur/core/audit.py": "C214661599FCF58AB0B76C7ABA7B3180D6C7A74DA25ECFCB2CC0AC82DB0A1AF8",
+    "src/solveur/materials/solid.py": "7D8223C81999D037900C26BF1A6A2ABC9F4B47C0CFF597F4BE0CF0163E8092AA",
+    "src/solveur/materials/factory.py": "63F06024111085FB87F68A4B5CFD5EADD10C4D6253D7E02761CCE19D88FBC275",
+    "src/solveur/core/model.py": "15DD9C88BFA68E33863DA3027C10E73369E8AB892D584E40D1601C7E0A5448FF",
+    "src/solveur/core/dofs.py": "62B1A414B2FE9E816C8373B8A0193A5F5ABFF1BFF54BFABE3289FDA52FABA114",
+    "src/solveur/core/assembly/plan.py": "DD7B468645AB713A172D0DD067182D17625C4B24F3D7856842336E9B97B7677F",
+    "src/solveur/core/assembly/sparse.py": "5999F94A132DC762D8F92DFC3A5DD27815426D4FEC0CEB04DF2BBF4199CD4B96",
+    "src/solveur/core/nonlinear/material_state.py": "6439F50398A8A914123ABD804752C018D879FAD909F437F075267373916B7DFA",
+    "src/solveur/core/nonlinear/contracts.py": "FAEA669E31A85988071E64D930246769212F5745ED5E09E8ECC07B7200363809",
+    "src/solveur/elements/registry.py": "AD055AD1FE624B5B780D81A161323378A4E26C1FE07F46E99A7281494D55EEF8",
+    "src/solveur/elements/solid/common.py": "ED5EF8CDEF23B001F1D0FE1DF7ECB603180512D70DBA46D502B860B3A3D30379",
+    "src/solveur/core/analyses/settings.py": "8E654EC276669829911A79DD477F595C830396E522010DDF67C1F7A5636FBB76",
+    "src/solveur/core/constraints.py": "63F89595AE0DD035B31CE5CDB7A621D52F8DBBA9D0AC934A0090BBB955936E14",
+    "experiments/wpc01_exploratory_supervisor.py": "9BD8C75B19B49C758F9558CF9299EEEDC18762B1E40DBD69968377A94D6C9090"
+  },
+  "environment": {
+    "os_requirement": "Windows",
+    "python": "C:/Python313/python.exe",
+    "python_version": "3.13.1",
+    "pytest_version": "8.4.1",
+    "numpy_version": "2.2.6",
+    "scipy_version": "1.15.2",
+    "pytest_package_root": "C:/Users/fari/AppData/Roaming/Python/Python313/site-packages",
+    "blas_threads": 1
+  },
+  "supervision": {
+    "containment_primitive": "Reviewed _WindowsKillOnCloseJob from experiments/wpc01_exploratory_supervisor.py; source is pinned in production_source_identity_sha256",
+    "parent_command_for_a_later_separate_owner_go": [
+      "C:/Python313/python.exe",
+      "-m",
+      "experiments.wp_e01l_reduced_space_supervisor"
+    ],
+    "child_command_template": [
+      "C:/Python313/python.exe",
+      "-S",
+      "-m",
+      "pytest",
+      "-p",
+      "no:cacheprovider",
+      "-p",
+      "experiments.wp_e01l_collection_guard",
+      "-o",
+      "addopts=",
+      "-q",
+      "-s",
+      "--basetemp",
+      "<isolated-temp>/execution/pytest-tmp",
+      "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py"
+    ],
+    "collection_gate": "The guard checks exact nodes, function names, fixtures, classification and hashes at collection_finish and rechecks the persisted collection record before runtestloop.",
+    "job_memory_cap_bytes": 268435456,
+    "per_process_memory_cap_bytes": 268435456,
+    "active_process_limit": 1,
+    "parent_wall_deadline_seconds": 120,
+    "kill_on_job_close": true,
+    "breakaway_allowed": false,
+    "automatic_retry": false,
+    "limits_verified_this_mandate": false,
+    "limits_source": "Prepared to reuse the previously reviewed WP-E01-K supervisor limits; a new Owner execution GO must require fresh runtime enforcement evidence."
+  },
+  "static_safety_review": {
+    "test_module_process_or_network_calls": "NONE_FOUND_BY_SOURCE_INSPECTION",
+    "public_solve_or_solve_model": "NONE_FOUND_IN_TEST_BODY",
+    "native_fem_gmsh": "NONE_FOUND_IN_TEST_BODY",
+    "solver_route": "No nonlinear driver, public solve, load stepping, Newton loop or Armijo route is called; direct in-memory assembly is used.",
+    "contact": "No contact fixture or external load is defined; nonlinear assembly has conditional contact imports, but the tested model has no contact pairs.",
+    "collection_and_runtime": "NOT_RUN; no pytest collection or numerical calculation was performed in WP-E01-L.",
+    "supervisor_execution": "NOT_RUN; manifest and fixed-target supervisor are prepared only."
+  },
+  "future_execution_conditions": [
+    "A separate Owner GO must authorize this exact test SHA-256, registry, guard, supervisor and production source pin set.",
+    "The independent read-only review must cover the final committed test identity and this manifest.",
+    "Fresh branch, HEAD, worktree, hash, import, collection-hook and process-call-path preflight is required.",
+    "If the supervisor resource or process-containment checks fail, stop without an unsupervised fallback.",
+    "The historical 6.74\u201311.03% full-space discrepancies remain unresolved and must not be reclassified from projected-direction results alone."
+  ]
+}

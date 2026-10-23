@@ -1,0 +1,248 @@
+{
+  "manifest_id": "WP-E01-M-HENCKY-MATERIAL-POINT-NEXT-GO",
+  "created_date": "2026-10-21",
+  "repository": {
+    "worktree": "C:\\wpc01-frictionless-public-integration-wt\\wp-e01-m",
+    "origin": "https://github.com/emptiesvoid-cloud/QF_solver.git",
+    "branch": "codex/qf-wp-e01-m-logarithmic-strain-20261021",
+    "baseline_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5"
+  },
+  "execution_state": {
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "numerical_tests_run": false,
+    "owner_go_required": true,
+    "production_solver_or_fem_authorized": false
+  },
+  "target": {
+    "path": "tests/unit/test_wp_e01m_hencky_material_point.py",
+    "sha256": "55e8cb65c77f724799b40415451759dc8a99f980194e95c4ccb2eacfadec6e83",
+    "classification": "NUMERICAL_UNIT",
+    "registry_path": "tests/conftest.py",
+    "registry_sha256": "8b90d1556f7f611759378fe051bca716905832ecb2731e38d111d001a2500261",
+    "expected_static_inventory": {
+      "test_functions": 23,
+      "parameter_expanded_cases_by_ast": 36,
+      "inventory_method": "source AST only; pytest collection not performed; actual pytest node IDs remain unobserved",
+      "functions": [
+        {
+          "name": "test_identity_deformation_has_zero_energy_and_all_stresses",
+          "parameter_counts": [],
+          "static_case_count": 1
+        },
+        {
+          "name": "test_nonpositive_or_nonfinite_moduli_are_rejected",
+          "parameter_counts": [
+            4
+          ],
+          "static_case_count": 4
+        },
+        {
+          "name": "test_proper_rigid_rotation_is_stress_free",
+          "parameter_counts": [
+            2
+          ],
+          "static_case_count": 2
+        },
+        {
+          "name": "test_uniaxial_stretch_has_analytic_principal_strain_energy_and_pk2",
+          "parameter_counts": [],
+          "static_case_count": 1
+        },
+        {
+          "name": "test_isotropic_volumetric_stretch_has_analytic_response",
+          "parameter_counts": [],
+          "static_case_count": 1
+        },
+        {
+          "name": "test_isochoric_principal_stretches_have_analytic_energy",
+          "parameter_counts": [],
+          "static_case_count": 1
+        },
+        {
+          "name": "test_simple_shear_principal_strains_match_closed_form",
+          "parameter_counts": [],
+          "static_case_count": 1
+        },
+        {
+          "name": "test_left_rotation_of_stretch_is_objective_for_all_stress_measures",
+          "parameter_counts": [],
+          "static_case_count": 1
+        },
+        {
+          "name": "test_hencky_strain_has_infinitesimal_symmetric_gradient_limit",
+          "parameter_counts": [
+            3
+          ],
+          "static_case_count": 3
+        },
+        {
+          "name": "test_repeated_principal_stretches_have_finite_symmetric_response",
+          "parameter_counts": [],
+          "static_case_count": 1
+        },
+        {
+          "name": "test_nearly_repeated_positive_stretches_remain_resolved",
+          "parameter_counts": [],
+          "static_case_count": 1
+        },
+        {
+          "name": "test_singular_inverted_nonfinite_or_complex_f_fails_closed",
+          "parameter_counts": [
+            5
+          ],
+          "static_case_count": 5
+        },
+        {
+          "name": "test_principal_strains_reconstruct_right_cauchy_green",
+          "parameter_counts": [],
+          "static_case_count": 1
+        },
+        {
+          "name": "test_energy_matches_definition_for_general_three_dimensional_f",
+          "parameter_counts": [],
+          "static_case_count": 1
+        },
+        {
+          "name": "test_pk1_is_directional_derivative_of_energy",
+          "parameter_counts": [
+            3
+          ],
+          "static_case_count": 3
+        },
+        {
+          "name": "test_pk_stress_transformations_are_explicit_and_cauchy_is_symmetric",
+          "parameter_counts": [],
+          "static_case_count": 1
+        },
+        {
+          "name": "test_consistent_tangent_is_explicitly_unavailable",
+          "parameter_counts": [],
+          "static_case_count": 1
+        },
+        {
+          "name": "test_tet4_affine_displacement_recovers_constant_f",
+          "parameter_counts": [],
+          "static_case_count": 1
+        },
+        {
+          "name": "test_hex8_affine_displacement_recovers_f_at_all_existing_gauss_points",
+          "parameter_counts": [],
+          "static_case_count": 1
+        },
+        {
+          "name": "test_tet4_force_adapter_matches_uniform_pk1_reference",
+          "parameter_counts": [],
+          "static_case_count": 1
+        },
+        {
+          "name": "test_hex8_force_adapter_matches_unit_cube_uniform_pk1_reference",
+          "parameter_counts": [],
+          "static_case_count": 1
+        },
+        {
+          "name": "test_tet4_inverted_or_degenerate_reference_geometry_is_rejected",
+          "parameter_counts": [
+            2
+          ],
+          "static_case_count": 2
+        },
+        {
+          "name": "test_hex8_inverted_reference_geometry_is_rejected",
+          "parameter_counts": [],
+          "static_case_count": 1
+        }
+      ]
+    },
+    "child_commands_after_separate_owner_go": [
+      [
+        "python",
+        "-m",
+        "pytest",
+        "--collect-only",
+        "-q",
+        "tests/unit/test_wp_e01m_hencky_material_point.py"
+      ],
+      [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "-s",
+        "tests/unit/test_wp_e01m_hencky_material_point.py"
+      ]
+    ]
+  },
+  "source_identity_sha256": {
+    "conftest.py": "fa60f4724885bc5047f28e66833e3187ee2622782a7c57c12c5a472d43720375",
+    "pyproject.toml": "347f94d1c1bcda96fa8c0d8b56350f978f0929a25138f7ca351e3edf861391d3",
+    "tests/conftest.py": "8b90d1556f7f611759378fe051bca716905832ecb2731e38d111d001a2500261",
+    "tests/child_guard/sitecustomize.py": "631f8eba0451804d6dc1cd9d5497391c65047da8b9279e6e093bcd18f8333e80",
+    "tests/child_guard/_execution_denial.py": "522d74f34e750fbd76b508a9be03d4791f1a5a399054207ab3fddcea286ae78e",
+    "tests/unit/test_wp_e01m_hencky_material_point.py": "55e8cb65c77f724799b40415451759dc8a99f980194e95c4ccb2eacfadec6e83",
+    "src/solveur/__init__.py": "49f63b0a115a50907c4b4a9390caf021173d0b67c8a11f0e16f9e38568051ee7",
+    "src/solveur/version.py": "abff537ba2890e65b542881381a905089b25c2043bd2b18eaaea7439e67f7380",
+    "src/solveur/materials/__init__.py": "b328c948d0f413343d87ce0717fbe9bf491373364cf3383eeba05951111bc09d",
+    "src/solveur/materials/beam.py": "686f1888228302bdb5bf58cc149f19b61c8600db9be74dadd098c90db0aff72f",
+    "src/solveur/materials/composite.py": "ec00b4f7c7489449f6c3dae641540ad5c46a91acd4c37c3642dd6b4b4d855a7c",
+    "src/solveur/materials/failure.py": "173a50983b65880eb95b352c771a88035b32cb66fe29c02e09f08324a857c4d9",
+    "src/solveur/materials/laminate.py": "6265facb4442e4c9552c0ea5ee22b021ccd9145fc44bef46b5c7316b0111fe2d",
+    "src/solveur/materials/orthotropic.py": "b436ec852e8ff0831998f0b3585200f01163702d44cc511b1c94904a6ea66083",
+    "src/solveur/materials/solid.py": "7d8223c81999d037900c26bf1a6a2abc9f4b47c0cff597f4be0cf0163e8092aa",
+    "src/solveur/materials/finite_strain_hencky.py": "b318dad553073f848b96528c61589ab2015c1eb1dd8fa52cb0bd52d13b09eab2",
+    "src/solveur/core/__init__.py": "357ad87d068916a13f546049ebf59cbdf88521ba0260a88b6658ea49bf1d763f",
+    "src/solveur/core/errors.py": "9281dc8f2e320e37dd26da0f4504c343aaa54376d5f80fd03ec9294f9c01a943",
+    "src/solveur/core/nonlinear/__init__.py": "fff92eadadfa34acda0631ef9f3430760e5156fea85f2b55dfcdef9cd4f9dfad",
+    "src/solveur/core/nonlinear/contracts.py": "faea669e31a85988071e64d930246769212f5745ed5e09e8ecc07b7200363809",
+    "src/solveur/elements/__init__.py": "75f0510d27f57643b51272b60448c74e86c79797aad36cb15bedf2b4c77c7f2a",
+    "src/solveur/elements/solid/__init__.py": "8d96049a56f2b4c812055715b57586db2700020e1780a515e74210f3b2e134ce",
+    "src/solveur/elements/solid/common.py": "ed5ef8cdef23b001f1d0fe1df7ecb603180512d70dba46d502b860b3a3d30379",
+    "src/solveur/elements/solid/j2_state.py": "17c28fb3997d470bdb3dd4cb7d07095f0b752c15be53c2b1212430af0ea55f84",
+    "src/solveur/elements/solid/tet4.py": "5daa0cdece28f0c352649607872eed2a49900acf7be76bcc11eb98a8c9181b59",
+    "src/solveur/elements/solid/hex8.py": "e4d37b19268bd7fce81f270e17ba314ce8390667b19685cc982f514802e13a3f"
+  },
+  "runtime_proposal_not_verified": {
+    "python_executable": "C:/Python313/python.exe",
+    "python_version": "3.13.1",
+    "pytest_version": "8.4.1",
+    "resource_limits": {
+      "job_commit_bytes": 268435456,
+      "process_commit_bytes": 268435456,
+      "wall_deadline_seconds": 120,
+      "active_child_process_limit": 1,
+      "blas_threads": 1
+    },
+    "status": "proposed for a future Owner GO; not enforced or measured in this source-only mandate"
+  },
+  "supervision": {
+    "required": "fixed-target Windows Job Object supervisor, collection and execution separately gated, no arbitrary target arguments, no retry",
+    "existing_candidate": "experiments/wp_e01f_global_assembly_supervisor.py",
+    "existing_candidate_reusable_unchanged": false,
+    "reason": "the existing supervisor is hard-bound to a different worktree and module identity",
+    "future_gate": "new exact-target supervisor or separately reviewed re-binding must be pinned before any collection"
+  },
+  "safety_scope": {
+    "allowed": "NumPy material-point and isolated TET4/HEX8 reference-gradient/force algebra only",
+    "forbidden": [
+      "global assembly",
+      "Newton",
+      "public solve",
+      "native FEM",
+      "Gmsh",
+      "worker",
+      "subprocess from tests",
+      "network",
+      "qualification",
+      "merge",
+      "release"
+    ],
+    "import_note": "test import of solveur.materials.finite_strain_hencky executes solveur.materials.__init__, which imports beam/composite/failure/laminate/orthotropic modules; reviewed as Python material definitions only",
+    "collection_guard": "tests/collection policy must remain active; NUMERICAL_UNIT hash binding may not be bypassed"
+  },
+  "scientific_boundaries": {
+    "material_tangent": "NOT_IMPLEMENTED",
+    "acceptance_thresholds": "proposed test assertions only; not Owner-frozen",
+    "element_adapters": "force-only local algebra; no global assembly or FEM route",
+    "finite_strain_j2": "NOT_IMPLEMENTED"
+  }
+}

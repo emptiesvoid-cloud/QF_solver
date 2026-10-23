@@ -1,0 +1,141 @@
+{
+  "schema": "wp_e01_x_newton_runtime.v1",
+  "campaign": "WP-E01-X",
+  "repository": {
+    "worktree": "C:/wpc01-frictionless-public-integration-wt/wp-e01-x",
+    "origin": "https://github.com/emptiesvoid-cloud/QF_solver.git",
+    "branch": "codex/wp-e01-x-newton-test-remediation-20261021"
+  },
+  "source_commit": "580f39c157bcce4e8716c0ff0c2c45ff856aa588",
+  "static_manifest": {
+    "path": "qualification/0_2_12/wp_e01_x_newton_execution_manifest_2026-10-21.json",
+    "sha256": "1f8f423e7347f1b1ce4a58b73b3907b73e35199060185982b3dd0fec79ce56bc"
+  },
+  "target": {
+    "path": "tests/unit/test_wp_e01uvw_newton.py",
+    "classification": "NUMERICAL_UNIT",
+    "sha256": "5ad19f7e563efc4ae2f40805c7d8b15c4cb59b32136b185b6147349b4d3ff0a2",
+    "test_functions": [
+      "test_incremental_equilibrium_matches_independent_affine_hencky_reference",
+      "test_final_equilibrium_is_independent_of_admissible_load_partition",
+      "test_small_strain_solution_approaches_linear_hencky_limit",
+      "test_unattainable_excessive_load_fails_without_fabricating_equilibrium",
+      "test_failed_second_increment_preserves_last_accepted_equilibrium",
+      "test_iteration_limit_refuses_increment_without_changing_accepted_state",
+      "test_singular_reduced_tangent_refuses_and_preserves_initial_state",
+      "test_residual_merit_backtracking_records_rejected_full_step",
+      "test_invalid_trial_is_rejected_then_smaller_admissible_step_is_selected",
+      "test_wrong_mesh_accepted_state_fails_closed",
+      "test_same_mesh_non_equilibrium_state_is_not_accepted_as_restart",
+      "test_load_step_count_and_order_are_bounded",
+      "test_reduced_increment_embedding_has_zero_prescribed_components",
+      "test_initial_state_must_be_in_free_space_equilibrium"
+    ],
+    "expected_node_ids": [
+      "tests/unit/test_wp_e01uvw_newton.py::test_incremental_equilibrium_matches_independent_affine_hencky_reference[tet4]",
+      "tests/unit/test_wp_e01uvw_newton.py::test_incremental_equilibrium_matches_independent_affine_hencky_reference[hex8]",
+      "tests/unit/test_wp_e01uvw_newton.py::test_final_equilibrium_is_independent_of_admissible_load_partition[tet4]",
+      "tests/unit/test_wp_e01uvw_newton.py::test_final_equilibrium_is_independent_of_admissible_load_partition[hex8]",
+      "tests/unit/test_wp_e01uvw_newton.py::test_small_strain_solution_approaches_linear_hencky_limit",
+      "tests/unit/test_wp_e01uvw_newton.py::test_unattainable_excessive_load_fails_without_fabricating_equilibrium",
+      "tests/unit/test_wp_e01uvw_newton.py::test_failed_second_increment_preserves_last_accepted_equilibrium",
+      "tests/unit/test_wp_e01uvw_newton.py::test_iteration_limit_refuses_increment_without_changing_accepted_state",
+      "tests/unit/test_wp_e01uvw_newton.py::test_singular_reduced_tangent_refuses_and_preserves_initial_state",
+      "tests/unit/test_wp_e01uvw_newton.py::test_residual_merit_backtracking_records_rejected_full_step",
+      "tests/unit/test_wp_e01uvw_newton.py::test_invalid_trial_is_rejected_then_smaller_admissible_step_is_selected",
+      "tests/unit/test_wp_e01uvw_newton.py::test_wrong_mesh_accepted_state_fails_closed",
+      "tests/unit/test_wp_e01uvw_newton.py::test_same_mesh_non_equilibrium_state_is_not_accepted_as_restart",
+      "tests/unit/test_wp_e01uvw_newton.py::test_load_step_count_and_order_are_bounded",
+      "tests/unit/test_wp_e01uvw_newton.py::test_reduced_increment_embedding_has_zero_prescribed_components",
+      "tests/unit/test_wp_e01uvw_newton.py::test_initial_state_must_be_in_free_space_equilibrium"
+    ],
+    "expected_cases": 16
+  },
+  "safety_registry": {
+    "path": "tests/conftest.py",
+    "sha256": "113f5c6267689e31df3b73fa3f333421488967b1358085809a8da8dfd20de9e3",
+    "classification": "NUMERICAL_UNIT"
+  },
+  "source_identity_sha256": {
+    "experiments/__init__.py": "b5d95ec79911ab5fb97d034b316c2d140c89d6aa18bbc3f79e8f5953bafd21d1",
+    "experiments/wp_e01uvw_newton_reporting.py": "eed8f852e24e7c89d41ecf844e209171bae8e5970e50bb493c9851a091822301",
+    "experiments/wpc01_execution_safety.py": "580906195cb3ac6013c9b76814253fd7090257db521056ec09e8af76188bbb39",
+    "experiments/wpc01_exploratory_provenance.py": "f83e504d9fe267d6d6ecfc1817959c17521b9b3e2aedc5dde9dcbce42d0ce59e",
+    "experiments/wpc01_exploratory_supervisor.py": "76e71e833280b92c2478ec8aed187a473bf5f4002e5983c2386f37b58e9bbe62",
+    "experiments/wpc01_exploratory_tolerance_budget.py": "a1910f1fb3aaf3d9e89d80b1c8f99c917c038e28a767a95258656cc39e31b400",
+    "src/solveur/__init__.py": "5840895a08aab9a050339d370471fdd85d691d839d6460933ebe351e8fa8d37e",
+    "src/solveur/core/__init__.py": "c1025c672a51f5ec085eec32882938f1b04b3584630d49c285eda0dbc33e549c",
+    "src/solveur/core/dofs.py": "42f49ec1878193263ba8c6931f8ff9687186d28ea692dba280b5445cbaa86c49",
+    "src/solveur/core/errors.py": "25fce48bea27438da45b261a06e3bf504c349c0e47128f6f21cf35e597c2d4d4",
+    "src/solveur/core/nonlinear/__init__.py": "56d7f0b194845a5671c87b6c8db1c8823f5f10dcb56e7113746503d30aec94c8",
+    "src/solveur/core/nonlinear/contracts.py": "2682035ddab1a9adbb0e29785ec10f22fd19e896344c55b005ddadf1ea9afe3d",
+    "src/solveur/elements/__init__.py": "d2a12b7b69363460424e784adf0c765e941eaf9438048430fec2d0cfe86739ed",
+    "src/solveur/elements/solid/__init__.py": "3e20024ce85d3c47661d0d2f31c423a2e426d357e0437dc008670ddad29c45ea",
+    "src/solveur/elements/solid/common.py": "3b9c5fb39f35b9740a205872a123aa3d07e1d470393dd88d86f197eff4ca38fe",
+    "src/solveur/elements/solid/hex8.py": "517fdc282ddb00d61fbe4f5bd373df45098736a3bc326ad949dddedd2e849cbb",
+    "src/solveur/elements/solid/j2_state.py": "1dd85418df2026d3a9e3de4f8da5fca30021e85882f0606290f083c0d23c26a4",
+    "src/solveur/elements/solid/tet4.py": "c7094a544a2405bda40d0da11d5adf50b0fb11d267cebb72a7a0ec3a82d343e3",
+    "src/solveur/materials/__init__.py": "c2488df7f69fd0de23eeac089346fe815ad79ee0fc0ffc824864384b3ec93967",
+    "src/solveur/materials/beam.py": "e3282118b88baa8959b1d7014ea9d6d37517f1beae123f62b45fcd40cf360dfe",
+    "src/solveur/materials/composite.py": "33684642d1d9b14cc193a48557819c147f07faffeca3cdc508f70d9fabdf326d",
+    "src/solveur/materials/failure.py": "3161297f929bed9597e72e7277de9a439fc51d14711da7ef82a35da1d0ad2bb0",
+    "src/solveur/materials/finite_strain_hencky.py": "b318dad553073f848b96528c61589ab2015c1eb1dd8fa52cb0bd52d13b09eab2",
+    "src/solveur/materials/finite_strain_hencky_tangent.py": "31109bbbf2353f9bbd86b7a7b0e5fe776016fdd1638550848b58b8bd4afef135",
+    "src/solveur/materials/laminate.py": "54495cac7098df8750b18766fdd2f751dfcc9c25490e0589c496ad903a52b062",
+    "src/solveur/materials/orthotropic.py": "546b4ccec853cde3556ef98cfb7b92baa3bc4eb6f8ea6e7035ff9ed20c9f7391",
+    "src/solveur/materials/solid.py": "7953876c444887c18213c59b48c6f7db18f4a9155992bca71e82b35d46e6f3b8",
+    "src/solveur/verification/__init__.py": "92fbc5d546587b061baef774e6ceb6fa303bb6df789c3881f36e6d38fd2a10ff",
+    "src/solveur/verification/experimental_hencky_global.py": "e02baaf346c3b8f853049990c8ac053b5e76ffab92f0a138f167f997cd2503b9",
+    "src/solveur/verification/experimental_hencky_newton.py": "1a24046913a4544aadba8dbec715f796ef56069f3cdbe813fd871a630950ffb0",
+    "src/solveur/version.py": "c05c60719ec04e8a0a0b673da85830f34990b67e8ece47e3e8c502aec71e0583",
+    "tests/conftest.py": "113f5c6267689e31df3b73fa3f333421488967b1358085809a8da8dfd20de9e3",
+    "tests/unit/test_wp_e01uvw_newton.py": "5ad19f7e563efc4ae2f40805c7d8b15c4cb59b32136b185b6147349b4d3ff0a2",
+    "tests/unit/test_wp_e01uvw_newton_reporting.py": "966bb3f9b95005dc4a5d8a94f4f60b6d24604da921ee88529ab6a5c11872d34b",
+    "experiments/wp_e01uvw_newton_collection_guard.py": "e5ea3bbe695c4380a5445694f62e0c2cc415ab361faf6f85d1171ed463d41ccb",
+    "experiments/wp_e01uvw_newton_supervisor.py": "d3986e408a9e9739165cc1f01e52cbddddb6fcf012f26601e30511373c957892"
+  },
+  "collection_guard": {
+    "path": "experiments/wp_e01uvw_newton_collection_guard.py",
+    "sha256": "e5ea3bbe695c4380a5445694f62e0c2cc415ab361faf6f85d1171ed463d41ccb"
+  },
+  "supervisor": {
+    "path": "experiments/wp_e01uvw_newton_supervisor.py",
+    "sha256": "d3986e408a9e9739165cc1f01e52cbddddb6fcf012f26601e30511373c957892"
+  },
+  "job_object_helper": {
+    "path": "experiments/wpc01_exploratory_supervisor.py",
+    "sha256": "76e71e833280b92c2478ec8aed187a473bf5f4002e5983c2386f37b58e9bbe62"
+  },
+  "python_environment": {
+    "executable": "C:/Python313/python.exe",
+    "python_version": "3.13.1",
+    "pytest_version": "8.4.1",
+    "numpy_version": "2.2.6",
+    "scipy_version": "1.15.2",
+    "psutil_version": "7.2.2",
+    "package_root": "C:/Users/fari/AppData/Roaming/Python/Python313/site-packages",
+    "plugin_autoload": false,
+    "pytest_addopts": "",
+    "blas_threads": 1,
+    "parallel_pytest": false,
+    "child_mode": "python -S with explicit frozen PYTHONPATH"
+  },
+  "resource_limits": {
+    "process_commit_bytes": 268435456,
+    "job_commit_bytes": 268435456,
+    "active_process_limit": 1,
+    "wall_deadline_seconds_per_phase": 120.0,
+    "cleanup_reserve_seconds": 5.0,
+    "blas_threads": 1,
+    "automatic_retry": false
+  },
+  "evidence_directory": "qualification/0_2_12/wp_e01_x_newton_execution_2026-10-21",
+  "execution_phase": "RUN",
+  "accepted_collection": {
+    "output_directory": "C:\\wpc01-frictionless-public-integration-wt\\wp-e01-x\\qualification\\0_2_12\\wp_e01_x_newton_execution_2026-10-21\\20261021T200339Z",
+    "receipt_sha256": "ef4f60942cd8510ba2bd249643c7e044f93da68cffc4475a3831731b43359fa9",
+    "collection_nodes_sha256": "3a3efcabc6634f7bebbf4bc68ed2979ec5c65ef4cbae6a25aa5e4a1d0d5e61a0",
+    "collection_runtime_manifest_sha256": "0727521211942e3ccff3265afaa28403ce844a0a7fa3336321a8984f21369403"
+  },
+  "automatic_retry": false
+}

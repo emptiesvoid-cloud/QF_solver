@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+  <VGpu>Disable</VGpu>
+  <Networking>Disable</Networking>
+  <AudioInput>Disable</AudioInput>
+  <VideoInput>Disable</VideoInput>
+  <PrinterRedirection>Disable</PrinterRedirection>
+  <ClipboardRedirection>Disable</ClipboardRedirection>
+  <!-- Sandbox VM minimum is separate from the guest Job Object caps. -->
+  <ProtectedClient>Enable</ProtectedClient>
+  <MemoryInMB>2048</MemoryInMB>
+  <MappedFolders>
+    <MappedFolder><HostFolder>C:\wpc01-frictionless-public-integration-wt\wp-e01-ae-source-snapshot</HostFolder><SandboxFolder>C:\e01\source</SandboxFolder><ReadOnly>true</ReadOnly></MappedFolder>
+    <MappedFolder><HostFolder>C:\wpc01-frictionless-public-integration-wt\wp-e01-ae-runtime</HostFolder><SandboxFolder>C:\e01\runtime</SandboxFolder><ReadOnly>true</ReadOnly></MappedFolder>
+    <MappedFolder><HostFolder>C:\wpc01-frictionless-public-integration-wt\wp-e01-ae-control</HostFolder><SandboxFolder>C:\e01\control</SandboxFolder><ReadOnly>true</ReadOnly></MappedFolder>
+    <MappedFolder><HostFolder>C:\wpc01-frictionless-public-integration-wt\wp-e01-ae-output</HostFolder><SandboxFolder>C:\e01\output</SandboxFolder><ReadOnly>false</ReadOnly></MappedFolder>
+  </MappedFolders>
+</Configuration>

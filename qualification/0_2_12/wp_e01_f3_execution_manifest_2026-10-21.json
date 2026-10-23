@@ -1,0 +1,98 @@
+{
+  "manifest_id": "WP-E01-F3-global-assembly-corrected-identity-2026-10-21",
+  "status_at_freeze": "FROZEN_NOT_YET_EXECUTED",
+  "authorization_scope": "One supervised collection and execution of the exact corrected NUMERICAL_UNIT module below.",
+  "repository": {
+    "root": "C:/wpc01-frictionless-public-integration-wt/wp-e01",
+    "origin": "https://github.com/emptiesvoid-cloud/QF_solver.git",
+    "branch": "codex/qf-wp-e01-a-implementation-20261020",
+    "baseline_commit": "458bf595877d8fe51ff5ce98f95835ec7ad1268e",
+    "frozen_commit": "b3ff58571a915c61b84a1b3f025e62293328031f"
+  },
+  "correction": {
+    "scope": "Test-only exception type name at import and matching pytest.raises assertion.",
+    "old_name": "NonlinearConvergenceError",
+    "new_name": "NumericalConvergenceError",
+    "production_source_modified": false,
+    "fixtures_or_scientific_thresholds_modified": false,
+    "safety_classification_changed": false
+  },
+  "executable": {
+    "test_path": "tests/unit/test_wp_e01e_global_assembly_vnv.py",
+    "classification": "NUMERICAL_UNIT",
+    "original_sha256": "A6F6F104E331F1E9E09B384CF65B9FD49B783392C5B3C6002D67FE81A9ECEE45",
+    "corrected_sha256": "F726B9FA059C3782ED1CE4C6915CE1DAAAA20EDA726D39DA7DDEFA0B4A243528",
+    "expected_test_functions": 8,
+    "expected_parameter_expanded_cases": 20,
+    "expected_node_ids_are_frozen_at": "Guarded pytest collection; no node IDs are assumed before collection."
+  },
+  "safety_registry": {
+    "path": "tests/conftest.py",
+    "sha256": "080B5527359F09CAB0F4F978AE429A593C7E4CBF8D526928D8DB680407B2973A",
+    "required_classification": "NUMERICAL_UNIT",
+    "deny_rules_changed": false
+  },
+  "supervision": {
+    "path": "experiments/wp_e01f_global_assembly_supervisor.py",
+    "sha256": "7AEDC5FE3C654AB6C7A1576279A95394F6030F71A3B1A78BC91501A662F33F66",
+    "collection_guard_path": "experiments/wp_e01f_collection_guard.py",
+    "collection_guard_sha256": "324D49F2542FAF2FBDD9B31DA2188EAB6FDEA5F512CC85A15FE26A7D42B36E24",
+    "interpreter": "C:/Python313/python.exe",
+    "python_version": "3.13.1",
+    "pytest_version": "8.4.1",
+    "launch_mode": "Exactly one suspended child, assigned to Windows Job Object before resume; shell=false.",
+    "collection_and_execution": "Same pytest child; collection-finish guard verifies exact module, function set, fixture set and case count, writes node IDs, and aborts before runtestloop on mismatch.",
+    "child_command_template": [
+      "C:/Python313/python.exe",
+      "-S",
+      "-m",
+      "pytest",
+      "-p",
+      "no:cacheprovider",
+      "-p",
+      "experiments.wp_e01f_collection_guard",
+      "-q",
+      "-s",
+      "--basetemp",
+      "<isolated-output>/execution/pytest-tmp",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py"
+    ],
+    "resource_limits": {
+      "job_committed_memory_bytes": 268435456,
+      "per_process_committed_memory_bytes": 268435456,
+      "active_process_limit": 1,
+      "wall_clock_seconds": 120,
+      "kill_on_job_close": true,
+      "breakaway_allowed": false,
+      "blas_threads": 1,
+      "automatic_retry": false
+    }
+  },
+  "unchanged_production_source_sha256": {
+    "src/solveur/core/errors.py": "9281DC8F2E320E37DD26DA0F4504C343AAA54376D5F80FD03EC9294F9C01A943",
+    "src/solveur/core/assembly/nonlinear.py": "C5C6E1953C3B08C30397F18F8DF07FB8D355216BF372C45CEE5695FCE7BC65E1",
+    "src/solveur/core/assembly/assembler.py": "23E0702165A65AFB2108670B2F140B8173F4857134A4E1461C5D75E8333B30CB",
+    "src/solveur/core/assembly/geometric.py": "B81454F32F8A824725F3E0902871EB5394BB0A4D83BD4709D9DC626A3108A22C",
+    "src/solveur/elements/solid/tet4.py": "5DAA0CDECE28F0C352649607872EED2A49900ACF7BE76BCC11EB98A8C9181B59",
+    "src/solveur/elements/solid/hex8.py": "E4D37B19268BD7FCE81F270E17BA314CE8390667B19685CC982F514802E13A3F",
+    "src/solveur/elements/solid/j2_state.py": "1DD85418DF2026D3A9E3DE4F8DA5FCA30021E85882F0606290F083C0D23C26A4",
+    "src/solveur/elements/solid/tet4_total_lagrangian_batch.py": "CC7FA09C23778312B2EC8AED54208041A5E0E9EEBA0AD7F983672D6522BBEBCA",
+    "src/solveur/elements/solid/hex8_total_lagrangian_batch.py": "95DF9E1895BB631D598FA52FD22986E153C865F77C91557E904FF0AF766451A6",
+    "src/solveur/core/nonlinear/checkpoint.py": "EB2B320537D45B3AFD012E143B248237175D7528F7628FDA84E9D64E95885C81",
+    "src/solveur/io/nonlinear_checkpoint.py": "69983B613DF6A4ECC16183D45AD67EC55BAFA2857043278CFA4B77026DC19709",
+    "src/solveur/core/nonlinear/driver.py": "B2C6FF6C37581EDCE2019EC700C78F2BD04383C6D4D0BD4602A31F58BCBF1866",
+    "src/solveur/core/nonlinear/load_control.py": "4DB5F31AC68E07E1C469F4AD93FFBA75FD4CFA239A6A40B3B9791CEEFA07AFBC",
+    "src/solveur/core/nonlinear/e01a.py": "C0DC0EBFB56FC2DA52AFCA89550ADC922E2A52ED04C0B53A2F4A9022CC7BC139",
+    "src/solveur/core/nonlinear/solver.py": "8FBAAB82BD4EDDF721AA48BBFBEA6CA5024C9BB7E6ED3B1E3B0E9DD620C8C6F8",
+    "src/solveur/core/audit.py": "C214661599FCF58AB0B76C7ABA7B3180D6C7A74DA25ECFCB2CC0AC82DB0A1AF8",
+    "experiments/wpc01_exploratory_supervisor.py": "9BD8C75B19B49C758F9558CF9299EEEDC18762B1E40DBD69968377A94D6C9090"
+  },
+  "explicit_exclusions": [
+    "No production source changes",
+    "No tests outside this exact module",
+    "No native FEM, Gmsh, public solver or solve_model",
+    "No test-side subprocess, worker, network, or additional pytest process",
+    "No production Armijo derivative certificate activation",
+    "No scientific qualification, merge, or release"
+  ]
+}

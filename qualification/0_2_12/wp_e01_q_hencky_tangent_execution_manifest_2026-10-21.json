@@ -1,0 +1,134 @@
+{
+  "schema": "wp_e01_q_hencky_tangent_execution_manifest.v1",
+  "campaign": "WP-E01-Q analytic directional Hencky tangent verification",
+  "prepared_date": "2026-10-21",
+  "authorization_state": {
+    "source_implementation_authorized": true,
+    "test_preparation_authorized": true,
+    "collection_authorized": false,
+    "numerical_execution_authorized": false,
+    "numerical_tests_run": false,
+    "scientific_qualification_authorized": false
+  },
+  "repository": {
+    "worktree": "C:/wpc01-frictionless-public-integration-wt/wp-e01-q",
+    "origin": "https://github.com/emptiesvoid-cloud/QF_solver.git",
+    "branch": "codex/qf-wp-e01-q-hencky-tangent-20261021",
+    "required_parent_head": "3972d68418b45a8e0b3529b6786917732f74ede9",
+    "frozen_source_identity_head": "e3d086735b120eb3652dfb9a4f4029f9a50bce4e"
+  },
+  "historical_evidence": {
+    "WP_E01_P3": {
+      "collected": 41,
+      "passed": 41,
+      "failed": 0,
+      "source_test_identity": "tests/unit/test_wp_e01m_hencky_material_point.py",
+      "historical_test_sha256": "cdd2651e9427c0e64284a75671d83d4f14cdd916a979759be0422f44dde84bfc",
+      "tangent_status_at_that_identity": "NOT_IMPLEMENTED",
+      "result_is_historical_and_not_repeated": true
+    }
+  },
+  "executable_target": {
+    "path": "tests/unit/test_wp_e01q_hencky_tangent.py",
+    "sha256": "a99bcc6ea32bff3e2a669d2923380033f23e587aab95f612ab4047f98b7d7b50",
+    "classification": "NUMERICAL_UNIT",
+    "static_test_functions": 13,
+    "static_parameter_expanded_cases": 35,
+    "inventory_kind": "static-authored-inventory; no pytest collection performed",
+    "expected_node_ids": [
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_identity_state_has_analytic_linear_elastic_tangent_action",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_identity_state_maps_an_infinitesimal_rigid_spin_to_zero",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_isotropic_volumetric_state_matches_closed_form_tangent[compression]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_isotropic_volumetric_state_matches_closed_form_tangent[identity]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_isotropic_volumetric_state_matches_closed_form_tangent[extension]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_diagonal_tangent_matches_independent_decimal_closed_form[base-moduli]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_diagonal_tangent_matches_independent_decimal_closed_form[high-bulk-modulus]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_tangent_matches_multistep_centered_pk1_difference[general-stretch]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_tangent_matches_multistep_centered_pk1_difference[repeated-stretches]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_tangent_matches_multistep_centered_pk1_difference[near-clustered-stretches]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_tangent_matches_multistep_centered_pk1_difference[rotated-stretch]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_tangent_matches_multistep_centered_pk1_difference[three-dimensional-shear]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_tangent_matches_multistep_centered_pk1_difference[near-incompressible-isochoric]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_tangent_is_covariant_under_superposed_rotation[repeated]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_tangent_is_covariant_under_superposed_rotation[clustered]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_tangent_is_covariant_under_superposed_rotation[shear]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_tangent_is_covariant_under_superposed_rotation[near-incompressible]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_tangent_has_major_hessian_symmetry[general-stretch]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_tangent_has_major_hessian_symmetry[repeated-stretches]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_tangent_has_major_hessian_symmetry[near-clustered-stretches]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_tangent_has_major_hessian_symmetry[rotated-stretch]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_repeated_and_nearly_repeated_spectral_nodes_remain_finite[all-repeated]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_repeated_and_nearly_repeated_spectral_nodes_remain_finite[pair-repeated]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_repeated_and_nearly_repeated_spectral_nodes_remain_finite[near-repeat]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_inadmissible_base_deformation_is_rejected[singular]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_inadmissible_base_deformation_is_rejected[inverted]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_inadmissible_base_deformation_is_rejected[spectrally-unresolved]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_invalid_tangent_direction_is_rejected[nan]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_invalid_tangent_direction_is_rejected[wrong-shape]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_invalid_tangent_direction_is_rejected[infinite]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_material_response_still_does_not_claim_a_verified_tangent",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_action_is_read_only_and_does_not_change_response",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_energy_hessian_matches_tangent_action[general-stretch]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_energy_hessian_matches_tangent_action[repeated-stretches]",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_energy_hessian_matches_tangent_action[near-clustered-stretches]"
+    ]
+  },
+  "source_identity_sha256": {
+    "src/solveur/materials/finite_strain_hencky_tangent.py": "31109bbbf2353f9bbd86b7a7b0e5fe776016fdd1638550848b58b8bd4afef135",
+    "src/solveur/materials/finite_strain_hencky.py": "b87706cecfb036d3a4b31461c83da1b8af0b7aeb7098037e2cf7e65cdf466f50",
+    "tests/unit/test_wp_e01q_hencky_tangent.py": "a99bcc6ea32bff3e2a669d2923380033f23e587aab95f612ab4047f98b7d7b50",
+    "tests/unit/test_wp_e01m_hencky_material_point.py": "0d58ad2a499d13f84752f931c872c987577f8d3faae52cac06a8449ab2e2cec4",
+    "tests/conftest.py": "23db87ce25e78f54bb23e382014d69e322fdf2cbe68823914930c8d6d8969305"
+  },
+  "historical_byte_identity_note": {
+    "P3_kernel_sha256": "b318dad553073f848b96528c61589ab2015c1eb1dd8fa52cb0bd52d13b09eab2",
+    "Q_worktree_kernel_sha256": "b87706cecfb036d3a4b31461c83da1b8af0b7aeb7098037e2cf7e65cdf466f50",
+    "P3_test_sha256": "cdd2651e9427c0e64284a75671d83d4f14cdd916a979759be0422f44dde84bfc",
+    "Q_worktree_test_sha256": "0d58ad2a499d13f84752f931c872c987577f8d3faae52cac06a8449ab2e2cec4",
+    "reason": "The two worktrees have identical Git blob identities for these unchanged files; core.autocrlf=true gives the Q checkout CRLF bytes while the P3 worktree contains LF bytes. No source or historical test content was modified."
+  },
+  "safety_registry": {
+    "path": "tests/conftest.py",
+    "sha256": "23db87ce25e78f54bb23e382014d69e322fdf2cbe68823914930c8d6d8969305",
+    "classification": "NUMERICAL_UNIT",
+    "hash_binding_exact": true
+  },
+  "python_environment": {
+    "executable": "C:/Python313/python.exe",
+    "version_from_previous_wp_e01_o_profile": "3.13.1",
+    "pytest_version_from_previous_wp_e01_o_profile": "8.4.1",
+    "numpy_version_from_previous_wp_e01_o_profile": "2.2.6",
+    "current_q_environment_verified": false,
+    "next_go_must_verify_versions": true,
+    "plugin_autoload": false,
+    "pytest_addopts": "",
+    "blas_threads": 1
+  },
+  "future_execution_profile": {
+    "authorized_now": false,
+    "exact_pytest_child_command": "C:/Python313/python.exe -m pytest -q -s tests/unit/test_wp_e01q_hencky_tangent.py",
+    "fixed_target_only": true,
+    "expected_static_cases": 35,
+    "proposed_max_processes": 1,
+    "proposed_process_commit_bytes": 268435456,
+    "proposed_job_commit_bytes": 268435456,
+    "proposed_parent_wall_deadline_seconds_per_phase": 120,
+    "proposed_blas_threads": 1,
+    "proposed_parallel_pytest": false,
+    "proposed_automatic_retry": false,
+    "required_collection_gate": "Observe and approve the exact 35 node IDs above before test-body execution.",
+    "supervisor": "The existing WP-E01-O supervisor is fixed to a different 41-case target and is not authorized for this module. A Q-specific fixed-target supervisor and its hash binding must be reviewed before launch.",
+    "evidence_directory": "qualification/0_2_12/wp_e01_q_execution_2026-10-21/",
+    "resource_limits_are_proposed_not_runtime_verified": true
+  },
+  "prohibitions": [
+    "No public solver or solve_model",
+    "No production Newton or Armijo route",
+    "No global or native FEM",
+    "No Gmsh",
+    "No worker or child process from test code",
+    "No network",
+    "No automatic retry",
+    "No qualification, merge, or release"
+  ]
+}

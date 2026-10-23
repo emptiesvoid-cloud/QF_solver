@@ -73,3 +73,19 @@ These labels apply only to the approved tested configurations. The runtime capab
 - WP-E01: separate work package; not integrated here.
 - Other work-package changes remain outside this branch pending their own review and authorization.
 - This branch is an internal development integration target only. Main-branch merge, release, website deployment and broader qualification remain unauthorized.
+
+## WP-E01 bounded experimental inclusion — Owner decision BC (2026-10-23)
+
+The initial snapshot above recorded WP-E01 as separate and not integrated. This section records the later Owner decision BC and is the current operational status; the earlier section remains historical context.
+
+- **Current status:** `WP_E01=OPEN_WITH_BOUNDED_CERTIFICATES`.
+- **Owner scope:** E01 is included in v0.2.12 as an experimental capability set. It is not a standalone release gate and does not close WP11, WP12, or WP13.
+- **Integrated experimental material-point code:** the isolated, opt-in Hencky kinematics/material-point kernel and its directional material tangent are available by direct module import only. They are not registered in a material factory, public API, element dispatch, global assembly, or Newton route.
+- **Tests:** the original hash-bound 41-case Hencky material-point suite and 35-case directional-tangent suite are retained and pass on this integration branch. The tangent evidence establishes bounded directional agreement only; `TANGENT_CONVERGENCE_PLATEAU=NOT_ESTABLISHED`.
+- **StVK:** existing WP08–WP10 implementations and their bounded scopes remain authoritative; E01 does not replace or broaden them.
+- **Historical E01 certificate:** `PRODUCTION_ARMIJO_GF4_SLAVE_BOUNDED=VERIFIED_BOUNDED` only for the archived GF4 TET4 slave subsystem, its exact source commit/tree, manifest, and image. It is preserved as historical evidence and is not a certificate for this integration HEAD.
+- **Required exclusions:** `MASTER_ASSEMBLY_EQUILIBRIUM=NOT_VERIFIED`; `GLOBAL_J2_TANGENT=UNRESOLVED`; `GENERAL_SCIENTIFIC_QUALIFICATION=NOT_ACQUIRED`. The raw global BA verdict remains `FAIL`.
+- **Not integrated:** E01 contact, nonlinear assembly/solver, public-route, worker/supervisor, Docker, global-assembly, Newton, and Hencky element-tangent adapter changes. They overlap shared C02/D02/WP08–WP10 paths or lack target-specific qualification.
+- **Historical evidence archive:** E01 reports/manifests are preserved as source-snapshot records under `qualification/0_2_12/`; see [the integration report](wp_e01_bc_integration_report.md) for exact identities and test results.
+
+No public capability registry, release policy, `main` branch, tag, or publication was changed.

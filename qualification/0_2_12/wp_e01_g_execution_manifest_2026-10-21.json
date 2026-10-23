@@ -1,0 +1,146 @@
+{
+  "manifest_id": "WP-E01-G-corrected-reference-and-J2-diagnostics-2026-10-21",
+  "status": "PREPARED_NOT_RUN_AWAITING_EXACT_OWNER_GO",
+  "authorization_scope": "One future supervised collection and execution of the exact hash-bound NUMERICAL_UNIT module, after separate Owner GO. This manifest grants no execution authorization.",
+  "repository": {
+    "root": "C:/wpc01-frictionless-public-integration-wt/wp-e01",
+    "origin": "https://github.com/emptiesvoid-cloud/QF_solver.git",
+    "branch": "codex/qf-wp-e01-a-implementation-20261020",
+    "starting_head": "5bd79c3e764c89c8f5630a59d5ab66fe5d2cec2a",
+    "executable_identity_commit": "4e274ec023d72d81967c2d078d825800001e9606",
+    "documentation_commit": null
+  },
+  "historical_f3_evidence": {
+    "report": "qualification/0_2_12/wp_e01_f3_global_assembly_results_2026-10-21.md",
+    "report_sha256": "05B0CFE0934DDCC14F25B556CCCA6035C212AAD455AC1A680C86093B8EC44381",
+    "original_test_sha256": "A6F6F104E331F1E9E09B384CF65B9FD49B783392C5B3C6002D67FE81A9ECEE45",
+    "f3_test_sha256": "F726B9FA059C3782ED1CE4C6915CE1DAAAA20EDA726D39DA7DDEFA0B4A243528",
+    "f3_registry_sha256": "080B5527359F09CAB0F4F978AE429A593C7E4CBF8D526928D8DB680407B2973A",
+    "f3_supervisor_sha256": "7AEDC5FE3C654AB6C7A1576279A95394F6030F71A3B1A78BC91501A662F33F66",
+    "observed_cases": 20,
+    "passed": 14,
+    "failed": 6,
+    "skipped": 0,
+    "xfailed": 0,
+    "xpassed": 0,
+    "stdout_log_sha256": "C2CC8404829349EEC9ED41913A87B13421CFA380053630FE34553C2AA086EA2B",
+    "interpretation": "Historical execution only. The two analytic-reference failures preceded assembly. Four J2 candidate tangent-gate failures remain unresolved; this manifest does not overwrite or reinterpret those results."
+  },
+  "correction_and_diagnostics": {
+    "elastic_patch_expected_literal": {
+      "old": "12.115384615e6 Pa",
+      "new": "12.115384615384615e6 Pa",
+      "formula": "sigma_yy = lambda_Lame * epsilon_x; lambda_Lame = E*nu/((1+nu)*(1-2*nu))",
+      "test_problem_or_threshold_changed": false
+    },
+    "j2_instrumentation": "Pre-assert per-direction outputs include stepwise independent and production force derivatives, accepted-state digest checks, production integration-point elastic/plastic branch identity, error scales, and case metadata. All four directions are evaluated and printed before the unchanged candidate assertions are aggregated, so an early failed direction does not hide later direction evidence. No test function, numerical threshold, fixture, dependency, or production source changed.",
+    "new_numerical_evidence": "NONE; no collection or numerical execution occurred under WP-E01-G."
+  },
+  "executable": {
+    "test_path": "tests/unit/test_wp_e01e_global_assembly_vnv.py",
+    "classification": "NUMERICAL_UNIT",
+    "old_f3_sha256": "F726B9FA059C3782ED1CE4C6915CE1DAAAA20EDA726D39DA7DDEFA0B4A243528",
+    "current_sha256": "8FA46D1D2FF402C72E0D85851EB57307173FBA3D37A39567E3678608FE818296",
+    "test_functions": 8,
+    "static_parameter_expansion": 20,
+    "new_identity_collection": "NOT_RUN; the unchanged collection guard must re-observe and match exactly before any test body executes.",
+    "expected_node_ids_from_prior_f3_collection_only": [
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_j2_global_affine_elastic_patch_and_reaction_reference[TET4]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_j2_global_affine_elastic_patch_and_reaction_reference[HEX8]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_j2_global_monotone_path_matches_tensor_return[TET4-0.0]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_j2_global_monotone_path_matches_tensor_return[TET4-1500000000.0]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_j2_global_monotone_path_matches_tensor_return[HEX8-0.0]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_j2_global_monotone_path_matches_tensor_return[HEX8-1500000000.0]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_j2_global_residual_tangent_fixed_state_fd[TET4-0.0]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_j2_global_residual_tangent_fixed_state_fd[TET4-1500000000.0]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_j2_global_residual_tangent_fixed_state_fd[HEX8-0.0]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_j2_global_residual_tangent_fixed_state_fd[HEX8-1500000000.0]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_j2_global_accepted_state_trial_rollback_and_exactly_once_commit[TET4]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_j2_global_accepted_state_trial_rollback_and_exactly_once_commit[HEX8]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_j2_global_accepted_state_wp10_v2_checkpoint_serialization_roundtrip[TET4]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_j2_global_accepted_state_wp10_v2_checkpoint_serialization_roundtrip[HEX8]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_stvk_global_rigid_rotation_and_affine_patch[TET4]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_stvk_global_rigid_rotation_and_affine_patch[HEX8]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_stvk_global_residual_tangent_and_material_geometric_split[TET4]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_stvk_global_residual_tangent_and_material_geometric_split[HEX8]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_j2_global_assembly_rejects_wrong_integration_point_state_vector[TET4]",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py::test_j2_global_assembly_rejects_wrong_integration_point_state_vector[HEX8]"
+    ]
+  },
+  "safety_registry": {
+    "path": "tests/conftest.py",
+    "sha256": "CC54ADD4E7521762ECAD97E7CF0B19579AB898FE79CFF25319D889BEC2F081A2",
+    "required_classification": "NUMERICAL_UNIT",
+    "deny_rules_changed": false
+  },
+  "supervision": {
+    "path": "experiments/wp_e01f_global_assembly_supervisor.py",
+    "sha256": "06FE16E642CA8FEFE850B92DD41F30128C84A96712E1CBA954272AE23EFAE79B",
+    "collection_guard_path": "experiments/wp_e01f_collection_guard.py",
+    "collection_guard_sha256": "324D49F2542FAF2FBDD9B31DA2188EAB6FDEA5F512CC85A15FE26A7D42B36E24",
+    "interpreter": "C:/Python313/python.exe",
+    "python_version": "3.13.1",
+    "pytest_version": "8.4.1",
+    "parent_command": [
+      "C:/Python313/python.exe",
+      "-m",
+      "experiments.wp_e01f_global_assembly_supervisor"
+    ],
+    "child_command_template": [
+      "C:/Python313/python.exe",
+      "-S",
+      "-m",
+      "pytest",
+      "-p",
+      "no:cacheprovider",
+      "-p",
+      "experiments.wp_e01f_collection_guard",
+      "-q",
+      "-s",
+      "--basetemp",
+      "<isolated-output>/execution/pytest-tmp",
+      "tests/unit/test_wp_e01e_global_assembly_vnv.py"
+    ],
+    "collection_behavior": "The supervisor starts one pytest child. Its collection-finish guard records and validates exact node IDs, function set, fixtures, markers, and count before the pytest runtest loop. Any mismatch exits before test bodies.",
+    "resource_limits": {
+      "job_committed_memory_bytes": 268435456,
+      "per_process_committed_memory_bytes": 268435456,
+      "active_process_limit": 1,
+      "deadline_seconds_per_phase": 120,
+      "kill_on_job_close": true,
+      "breakaway_allowed": false,
+      "blas_threads": 1,
+      "automatic_retry": false
+    },
+    "safety_review": "Static import/call-path review only. No pytest collection or test execution under this manifest. The test diff added no imports or fixtures; supervisor containment code and collection guard code are unchanged."
+  },
+  "unchanged_production_source_sha256": {
+    "src/solveur/core/errors.py": "9281DC8F2E320E37DD26DA0F4504C343AAA54376D5F80FD03EC9294F9C01A943",
+    "src/solveur/core/assembly/nonlinear.py": "C5C6E1953C3B08C30397F18F8DF07FB8D355216BF372C45CEE5695FCE7BC65E1",
+    "src/solveur/core/assembly/assembler.py": "23E0702165A65AFB2108670B2F140B8173F4857134A4E1461C5D75E8333B30CB",
+    "src/solveur/core/assembly/geometric.py": "B81454F32F8A824725F3E0902871EB5394BB0A4D83BD4709D9DC626A3108A22C",
+    "src/solveur/elements/solid/tet4.py": "5DAA0CDECE28F0C352649607872EED2A49900ACF7BE76BCC11EB98A8C9181B59",
+    "src/solveur/elements/solid/hex8.py": "E4D37B19268BD7FCE81F270E17BA314CE8390667B19685CC982F514802E13A3F",
+    "src/solveur/elements/solid/j2_state.py": "1DD85418DF2026D3A9E3DE4F8DA5FCA30021E85882F0606290F083C0D23C26A4",
+    "src/solveur/elements/solid/tet4_total_lagrangian_batch.py": "CC7FA09C23778312B2EC8AED54208041A5E0E9EEBA0AD7F983672D6522BBEBCA",
+    "src/solveur/elements/solid/hex8_total_lagrangian_batch.py": "95DF9E1895BB631D598FA52FD22986E153C865F77C91557E904FF0AF766451A6",
+    "src/solveur/core/nonlinear/checkpoint.py": "EB2B320537D45B3AFD012E143B248237175D7528F7628FDA84E9D64E95885C81",
+    "src/solveur/io/nonlinear_checkpoint.py": "69983B613DF6A4ECC16183D45AD67EC55BAFA2857043278CFA4B77026DC19709",
+    "src/solveur/core/nonlinear/driver.py": "B2C6FF6C37581EDCE2019EC700C78F2BD04383C6D4D0BD4602A31F58BCBF1866",
+    "src/solveur/core/nonlinear/load_control.py": "4DB5F31AC68E07E1C469F4AD93FFBA75FD4CFA239A6A40B3B9791CEEFA07AFBC",
+    "src/solveur/core/nonlinear/e01a.py": "C0DC0EBFB56FC2DA52AFCA89550ADC922E2A52ED04C0B53A2F4A9022CC7BC139",
+    "src/solveur/core/nonlinear/solver.py": "8FBAAB82BD4EDDF721AA48BBFBEA6CA5024C9BB7E6ED3B1E3B0E9DD620C8C6F8",
+    "src/solveur/core/audit.py": "C214661599FCF58AB0B76C7ABA7B3180D6C7A74DA25ECFCB2CC0AC82DB0A1AF8",
+    "experiments/wpc01_exploratory_supervisor.py": "9BD8C75B19B49C758F9558CF9299EEEDC18762B1E40DBD69968377A94D6C9090"
+  },
+  "execution_exclusions": [
+    "No execution is authorized by this manifest; obtain a new exact-path Owner GO.",
+    "No production source modification.",
+    "No tests outside the exact module.",
+    "No native FEM, Gmsh, public solver, solve_model, or integrated nonlinear solve.",
+    "No test-side subprocess, worker, network, additional pytest child, or automatic retry.",
+    "No production Armijo derivative-certificate activation.",
+    "No J2 tangent threshold change or scientific freeze.",
+    "No qualification, merge, or release."
+  ]
+}
