@@ -1,0 +1,1372 @@
+{
+  "schema": "qf-wp-d02-integration-validation-summary/v1",
+  "provenance": {
+    "classification": "SANITIZED_DERIVATIVE_NOT_ORIGINAL_RECEIPT",
+    "purpose": "Curated summary of focused local D02 integration validation; raw source receipts/logs remain in external documentary archive.",
+    "source_result_logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/integration_results.json",
+    "source_result_sha256": "81fa7bd19ce2ebf8091acc1ae1c9e52af6b5a3c5af13958d9efdcb95c8cd7c0e",
+    "superseded_ambiguous_result_logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/integration_results.pre-totals-clarification-20261022.json",
+    "superseded_ambiguous_result_sha256": "437e14aafc0be869fe66cf00e210a5cc1fe971eb53de93ce9065bd7daacbd563",
+    "no_private_identity_or_machine_path_reproduced": true,
+    "final_integration_run_receipt": {
+      "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/run.receipt.json",
+      "sha256": "4bd37570d70705bb2d0bd46cb25f1651c903858de345426436aa18bbb8393358"
+    }
+  },
+  "validation_identity": {
+    "candidate_branch": "codex/v0.2.12-integration",
+    "candidate_head": "cccf897f207c17ecad105948d231bf1240057184",
+    "candidate_identity_fingerprint": "9c9d831743cec175ddd4fed86c374f25d1a9f0a54f3645d9a30375017b5ff09a",
+    "fingerprint_unchanged_during_continuation": true,
+    "source_test_pin_sha256": {
+      "docs/reference/qf_solver_api.md": "522adca6892170230682e662b45ea1caf5a692ec61c215fe7830fe252f381176",
+      "examples/tet4_static.json": "5296102b955ae4ac83b341178a8a555feb87faa0e9a30abe9f77c29df21988b8",
+      "examples/wp_d02_dynamic_stress.py": "815fe5754148b3d5343054afe2a7fc7eeef4bbf684077aaeb7462120fe268503",
+      "pyproject.toml": "dc99b600fe20b8e6962e81e5067eaeaafcc77132e06e5b72d474a612b1b7160b",
+      "qf_solver.py": "222e0661d6f24c72091b87ec9e3fa5d9b536a42cc3c48693b79c19b12823680e",
+      "qualification/0_2_12/wp10_roadmap_amendment_owner_approved.md": "c7be6ac246531908b95e02fa84c2dc7203cdca48e1c627d54af40f49b97ccf28",
+      "qualification/0_2_12/wp_d02_ab_evidence_summary.json": "719d9d5b969758116740bbd8cb272a112a1f451f643c24875818cb9602caa5c8",
+      "qualification/0_2_12/wp_d02_bounded_closure_report.md": "f572a544df0c268b25b798cfd2b9bdf4d98b30569cb1ca06927e22b80fb59998",
+      "src/solveur/__init__.py": "f15465c323007e149f193b080aaf58204aacc173220b1f830dc62800c1c5ae4d",
+      "src/solveur/api/__init__.py": "c314ea7fb5877d4c0b564a71f2ffdc12f376ac339be5449b2a02106c9c757638",
+      "src/solveur/api/public.py": "0630fd68ac6174e3d0e341caae45d7d9b6d02604e6db4e82f2b8462c12c9ad9a",
+      "src/solveur/post/dynamic_stress.py": "aef4c4244a5c2490478cecefde6864a42c50ac2a71dfb42da77bce801163b0d1",
+      "src/solveur/post/solid_results.py": "8f66a770c3cb131b61bab93e6e208c7e4e2e740e0640a92d34c0c328cfcd79a6",
+      "tests/conftest.py": "b2a33ddad09f5b069fe6780c99ef48b948966d2a98dff3b781671cc9aa69143d",
+      "tests/integration/test_api_and_cli.py": "369c103d609c17e14f11cc83822dedd219e379060cd17e18aa24eed850d85c8d",
+      "tests/integration/test_public_qf_solver_api.py": "0ae2de01cee821ac514a1c7651481acbf88fea284fcbeb465f0b3f97ce8c3bdf",
+      "tests/unit/test_analysis_features.py": "f437db0de09c9d821341cdea2f524e5de6804c65046204fdce7fe496325d5502",
+      "tests/unit/test_public_api_contract.py": "22f09695ae82c39c54ed577a5390e3b6b9a9552468e95f037ca4802a7794a2ce",
+      "tests/unit/test_reduced_harmonic.py": "32462b25e8453d038be75281981e8994db63e75f6ac0b7a39cc8adbc7af70e4d",
+      "tests/unit/test_result_serialization_contracts.py": "c512d464748a94872aadfba015616fd6d1bb660d7dc5ec90c4d4d210fdfd116b",
+      "tests/unit/test_tet10_element.py": "c97fc06d6c3d032b3eb53c70ae807a9740f26be4135c8da85c1a7cb05200ec02",
+      "tests/unit/test_wp_d02_dynamic_stress.py": "c3b45ce5b7dbc3ead709f28638ef6f4d4101db23a36e46b4a231e4e7601e3e67",
+      "tests/unit/test_wp_d02_roundoff_guard.py": "870e519c221aee54dd85a031a1e2c3dd592c7ad4e531e8d097e8b46fcbbb4bd6"
+    },
+    "pin_scope_note": "Pins describe the verified pre-result candidate snapshot. The report, AB summary and roadmap are post-run documentary updates; production and test source hashes are separately retained."
+  },
+  "execution_scope": {
+    "kind": "focused_D02_candidate_integration_regression",
+    "distinct_from_original_AB_scientific_campaign": true,
+    "AB_campaign_retried": false,
+    "total_logical_batches": 6,
+    "total_batch_attempts": 7,
+    "successful_test_body_attempts": 53,
+    "total_unique_nodes": 53,
+    "passed_nodes": 53,
+    "failed_nodes": 0,
+    "setup_call_teardown_phase_reports_passed": 159,
+    "zero_node_collection_failure_attempts": 1,
+    "all_attempts_cleanup_complete": true,
+    "active_processes_after_each_attempt": 0,
+    "peak_job_or_process_commit_bytes": 161693696,
+    "peak_commit_MiB": 154.203125
+  },
+  "logical_batch_results": [
+    {
+      "batch_id": "d02_exact_14",
+      "unique_node_count": 14,
+      "final_result": "PASS",
+      "attempt_count": 1,
+      "successful_test_body_attempts": 1,
+      "evidence_basis": "offline reassessment supplement; original harness receipt state preserved"
+    },
+    {
+      "batch_id": "roundoff_guards",
+      "unique_node_count": 5,
+      "final_result": "PASS",
+      "attempt_count": 1,
+      "successful_test_body_attempts": 1,
+      "evidence_basis": "accepted batch receipt"
+    },
+    {
+      "batch_id": "legacy_static_recovery",
+      "unique_node_count": 4,
+      "final_result": "PASS",
+      "attempt_count": 2,
+      "successful_test_body_attempts": 1,
+      "evidence_basis": "first collection attempt 0 nodes/0 bodies; second run with scratch profile passed all four nodes"
+    },
+    {
+      "batch_id": "harmonic_modal_transient_core",
+      "unique_node_count": 12,
+      "final_result": "PASS",
+      "attempt_count": 1,
+      "successful_test_body_attempts": 1,
+      "evidence_basis": "accepted batch receipt"
+    },
+    {
+      "batch_id": "reduced_harmonic_integration",
+      "unique_node_count": 3,
+      "final_result": "PASS",
+      "attempt_count": 1,
+      "successful_test_body_attempts": 1,
+      "evidence_basis": "accepted batch receipt"
+    },
+    {
+      "batch_id": "public_api_and_serialization",
+      "unique_node_count": 15,
+      "final_result": "PASS",
+      "attempt_count": 1,
+      "successful_test_body_attempts": 1,
+      "evidence_basis": "accepted batch receipt"
+    }
+  ],
+  "batch_attempts": [
+    {
+      "batch_id": "d02_exact_14",
+      "attempt": 1,
+      "expected_node_count": 14,
+      "harness_attempt_state": "FAILED_OR_NODE_OR_COUNT_MISMATCH",
+      "recorded_result": "PASS_BY_OFFLINE_REASSESSMENT_ORIGINAL_GATE_FAILED_MARKER_FRAMING",
+      "collected_node_count": 14,
+      "test_body_phase_pass_count": 42,
+      "pytest_summary": "14 passed in 1.68s",
+      "pytest_exit_code": 0,
+      "elapsed_seconds": 3.25,
+      "timed_out": false,
+      "containment_complete": true,
+      "accounting": {
+        "peak_process_commit_bytes": 137424896,
+        "peak_job_commit_bytes": 137424896,
+        "stderr_bytes": 0,
+        "active_processes_after_exit": 0,
+        "total_processes": 1
+      },
+      "expected_nodeids": [
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_uniaxial_reference_checks_sign_scaling_units_and_rigid_translation[TET4]",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_uniaxial_reference_checks_sign_scaling_units_and_rigid_translation[TET10]",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_uniaxial_reference_checks_sign_scaling_units_and_rigid_translation[HEX8]",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_uniaxial_reference_checks_sign_scaling_units_and_rigid_translation[HEX20]",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_tet4_complex_harmonic_stress_matches_independent_affine_reference",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_harmonic_recovery_refuses_a_phase_convention_mismatch",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_complete_modal_basis_stress_matches_direct_full_order_displacement",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_truncated_basis_changes_local_stress_and_does_not_claim_full_order_accuracy",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_modal_transient_selected_times_match_direct_displacement_recovery",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_dynamic_recovery_fails_closed_for_invalid_sources_and_incomplete_fields",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_dynamic_recovery_refuses_stale_operators_and_basis",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_transient_tet4_free_vibration_matches_modal_oracle_and_independent_stress",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_hex20_multiaxial_affine_stress_and_translation_on_valid_geometries[regular]",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_hex20_multiaxial_affine_stress_and_translation_on_valid_geometries[moderately_distorted]"
+      ],
+      "collected_nodeids": [
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_uniaxial_reference_checks_sign_scaling_units_and_rigid_translation[TET4]",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_uniaxial_reference_checks_sign_scaling_units_and_rigid_translation[TET10]",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_uniaxial_reference_checks_sign_scaling_units_and_rigid_translation[HEX8]",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_uniaxial_reference_checks_sign_scaling_units_and_rigid_translation[HEX20]",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_tet4_complex_harmonic_stress_matches_independent_affine_reference",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_harmonic_recovery_refuses_a_phase_convention_mismatch",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_complete_modal_basis_stress_matches_direct_full_order_displacement",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_truncated_basis_changes_local_stress_and_does_not_claim_full_order_accuracy",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_modal_transient_selected_times_match_direct_displacement_recovery",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_dynamic_recovery_fails_closed_for_invalid_sources_and_incomplete_fields",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_dynamic_recovery_refuses_stale_operators_and_basis",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_transient_tet4_free_vibration_matches_modal_oracle_and_independent_stress",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_hex20_multiaxial_affine_stress_and_translation_on_valid_geometries[regular]",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_hex20_multiaxial_affine_stress_and_translation_on_valid_geometries[moderately_distorted]"
+      ],
+      "raw_artifacts": [
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T174219Z-79bcdd3f56cd/01-d02_exact_14.receipt.json",
+          "sha256": "be943c37eeb2c3adbf7b0e56f1189ec164a79dcadaf0e558900055535a86e7cb"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T174219Z-79bcdd3f56cd/01-d02_exact_14.stdout.log",
+          "sha256": "e3ceeb250b1c797f877ed595b1b5ae83062ef713efbded5e4b7e141d933363de"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T174219Z-79bcdd3f56cd/01-d02_exact_14.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T174219Z-79bcdd3f56cd/01-d02_exact_14.pytest-node-receipt.json",
+          "sha256": "505b4bbc93fb979e9a8953e2c36bc54b5b025dc1384cc4f4410810772b44edbc"
+        }
+      ]
+    },
+    {
+      "batch_id": "roundoff_guards",
+      "attempt": 1,
+      "expected_node_count": 5,
+      "harness_attempt_state": "PASS",
+      "recorded_result": "PASS",
+      "collected_node_count": 5,
+      "test_body_phase_pass_count": 15,
+      "pytest_summary": "5 passed in 0.44s",
+      "pytest_exit_code": 0,
+      "elapsed_seconds": 2.078,
+      "timed_out": false,
+      "containment_complete": true,
+      "accounting": {
+        "peak_process_commit_bytes": 54980608,
+        "peak_job_commit_bytes": 54980608,
+        "stderr_bytes": 0,
+        "active_processes_after_exit": 0,
+        "total_processes": 1
+      },
+      "expected_nodeids": [
+        "tests/unit/test_wp_d02_roundoff_guard.py::test_roundoff_guard_recovers_cancelled_dot_product_without_bias",
+        "tests/unit/test_wp_d02_roundoff_guard.py::test_roundoff_guard_leaves_well_conditioned_dot_product_alone",
+        "tests/unit/test_wp_d02_roundoff_guard.py::test_decimal_matvec_preserves_complex_real_and_imaginary_parts",
+        "tests/unit/test_wp_d02_roundoff_guard.py::test_roundoff_guard_detects_cancellation_in_complex_components",
+        "tests/unit/test_wp_d02_roundoff_guard.py::test_roundoff_guard_detects_strain_accumulation_error"
+      ],
+      "collected_nodeids": [
+        "tests/unit/test_wp_d02_roundoff_guard.py::test_roundoff_guard_recovers_cancelled_dot_product_without_bias",
+        "tests/unit/test_wp_d02_roundoff_guard.py::test_roundoff_guard_leaves_well_conditioned_dot_product_alone",
+        "tests/unit/test_wp_d02_roundoff_guard.py::test_decimal_matvec_preserves_complex_real_and_imaginary_parts",
+        "tests/unit/test_wp_d02_roundoff_guard.py::test_roundoff_guard_detects_cancellation_in_complex_components",
+        "tests/unit/test_wp_d02_roundoff_guard.py::test_roundoff_guard_detects_strain_accumulation_error"
+      ],
+      "raw_artifacts": [
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175023Z-0912ba30780d/01-roundoff_guards.receipt.json",
+          "sha256": "e95dd50dfc407edd7e29278f014494faa9697bb996d4693d9d788153ac4e3142"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175023Z-0912ba30780d/01-roundoff_guards.stdout.log",
+          "sha256": "94ebb0fe5b404e4449edf675d744360124d754ade5e715d3cf227f05a7ea2630"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175023Z-0912ba30780d/01-roundoff_guards.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175023Z-0912ba30780d/01-roundoff_guards.pytest-node-receipt.json",
+          "sha256": "5741467d989e01e96956744fe9a6c76def01d28f55fcd8e828656f54d2bad151"
+        }
+      ]
+    },
+    {
+      "batch_id": "legacy_static_recovery",
+      "attempt": 1,
+      "expected_node_count": 4,
+      "harness_attempt_state": "FAILED_OR_NODE_OR_COUNT_MISMATCH",
+      "recorded_result": "COLLECTION_INFRA_FAILURE_ZERO_TEST_BODIES",
+      "collected_node_count": 0,
+      "test_body_phase_pass_count": 0,
+      "pytest_summary": null,
+      "pytest_exit_code": 4,
+      "elapsed_seconds": 4.484,
+      "timed_out": false,
+      "containment_complete": true,
+      "accounting": {
+        "peak_process_commit_bytes": 83972096,
+        "peak_job_commit_bytes": 83972096,
+        "stderr_bytes": 406,
+        "active_processes_after_exit": 0,
+        "total_processes": 1
+      },
+      "expected_nodeids": [
+        "tests/unit/test_analysis_features.py::test_tet4_mass_and_stress_recovery",
+        "tests/unit/test_analysis_features.py::test_linear_static_can_use_cg_and_outputs_stress",
+        "tests/unit/test_tet10_element.py::test_tet10_mass_and_stress_recovery",
+        "tests/unit/test_tet10_element.py::test_tet10_post_processing_outputs_invariants"
+      ],
+      "collected_nodeids": [],
+      "raw_artifacts": [
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175023Z-0912ba30780d/02-legacy_static_recovery.receipt.json",
+          "sha256": "cab1658e9a859a92c322cc8d718ed00cd73c1a0d72500349439ce4b184c2212d"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175023Z-0912ba30780d/02-legacy_static_recovery.stdout.log",
+          "sha256": "db135ff69d7ebfb941d696703cc65583a84b366cd162e463eef180dc2e1e336c"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175023Z-0912ba30780d/02-legacy_static_recovery.stderr.log",
+          "sha256": "6d6980c4c83ea079ed09f46d89e05049789c8387f936a0f5448f54bf07a23da7"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175023Z-0912ba30780d/02-legacy_static_recovery.pytest-node-receipt.json",
+          "sha256": "684654048c798e8704d588e82ac646b9a06e7468bad81da3b02cec08228efb69"
+        }
+      ]
+    },
+    {
+      "batch_id": "legacy_static_recovery",
+      "attempt": 2,
+      "expected_node_count": 4,
+      "harness_attempt_state": "PASS",
+      "recorded_result": "PASS",
+      "collected_node_count": 4,
+      "test_body_phase_pass_count": 12,
+      "pytest_summary": "4 passed in 3.39s",
+      "pytest_exit_code": 0,
+      "elapsed_seconds": 5.109,
+      "timed_out": false,
+      "containment_complete": true,
+      "accounting": {
+        "peak_process_commit_bytes": 127954944,
+        "peak_job_commit_bytes": 127954944,
+        "stderr_bytes": 0,
+        "active_processes_after_exit": 0,
+        "total_processes": 1
+      },
+      "expected_nodeids": [
+        "tests/unit/test_analysis_features.py::test_tet4_mass_and_stress_recovery",
+        "tests/unit/test_analysis_features.py::test_linear_static_can_use_cg_and_outputs_stress",
+        "tests/unit/test_tet10_element.py::test_tet10_mass_and_stress_recovery",
+        "tests/unit/test_tet10_element.py::test_tet10_post_processing_outputs_invariants"
+      ],
+      "collected_nodeids": [
+        "tests/unit/test_analysis_features.py::test_tet4_mass_and_stress_recovery",
+        "tests/unit/test_analysis_features.py::test_linear_static_can_use_cg_and_outputs_stress",
+        "tests/unit/test_tet10_element.py::test_tet10_mass_and_stress_recovery",
+        "tests/unit/test_tet10_element.py::test_tet10_post_processing_outputs_invariants"
+      ],
+      "raw_artifacts": [
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/01-legacy_static_recovery.receipt.json",
+          "sha256": "11283e22e71accf9620327c8dbd9176f46d5d71aae1278cddcae68dee6e65122"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/01-legacy_static_recovery.stdout.log",
+          "sha256": "0ae0dbf6297e3bdeb6a97c3f873b38a48cd95617600f56e2e3fa13ad3f7c9d3f"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/01-legacy_static_recovery.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/01-legacy_static_recovery.pytest-node-receipt.json",
+          "sha256": "5fdf439bb0ad26f96c9407ad9e5e20efdae768f60228afc75baf73cc06f31b7d"
+        }
+      ]
+    },
+    {
+      "batch_id": "harmonic_modal_transient_core",
+      "attempt": 1,
+      "expected_node_count": 12,
+      "harness_attempt_state": "PASS",
+      "recorded_result": "PASS",
+      "collected_node_count": 12,
+      "test_body_phase_pass_count": 36,
+      "pytest_summary": "12 passed in 4.60s",
+      "pytest_exit_code": 0,
+      "elapsed_seconds": 6.563,
+      "timed_out": false,
+      "containment_complete": true,
+      "accounting": {
+        "peak_process_commit_bytes": 161693696,
+        "peak_job_commit_bytes": 161693696,
+        "stderr_bytes": 0,
+        "active_processes_after_exit": 0,
+        "total_processes": 1
+      },
+      "expected_nodeids": [
+        "tests/unit/test_analysis_features.py::test_modal_analysis_returns_positive_frequencies",
+        "tests/unit/test_analysis_features.py::test_modal_eigenpair_refinement_reports_residual_improvement",
+        "tests/unit/test_analysis_features.py::test_transient_dynamic_newmark_returns_time_history",
+        "tests/unit/test_analysis_features.py::test_transient_dynamic_newmark_conserves_energy_without_damping",
+        "tests/unit/test_analysis_features.py::test_transient_dynamic_iterative_method_does_not_create_direct_factorization",
+        "tests/unit/test_analysis_features.py::test_transient_dynamic_sdof_matches_closed_form_initial_energy",
+        "tests/unit/test_analysis_features.py::test_transient_dynamic_accepts_tabulated_load_factor",
+        "tests/unit/test_analysis_features.py::test_transient_dynamic_restarts_from_intermediate_checkpoint",
+        "tests/unit/test_analysis_features.py::test_transient_dynamic_rejects_checkpoint_from_modified_model",
+        "tests/unit/test_analysis_features.py::test_harmonic_frequency_grid_accepts_list_and_range",
+        "tests/unit/test_analysis_features.py::test_harmonic_response_zero_frequency_matches_static_solution",
+        "tests/unit/test_analysis_features.py::test_harmonic_sdof_matches_closed_form_amplitude_and_phase"
+      ],
+      "collected_nodeids": [
+        "tests/unit/test_analysis_features.py::test_modal_analysis_returns_positive_frequencies",
+        "tests/unit/test_analysis_features.py::test_modal_eigenpair_refinement_reports_residual_improvement",
+        "tests/unit/test_analysis_features.py::test_transient_dynamic_newmark_returns_time_history",
+        "tests/unit/test_analysis_features.py::test_transient_dynamic_newmark_conserves_energy_without_damping",
+        "tests/unit/test_analysis_features.py::test_transient_dynamic_iterative_method_does_not_create_direct_factorization",
+        "tests/unit/test_analysis_features.py::test_transient_dynamic_sdof_matches_closed_form_initial_energy",
+        "tests/unit/test_analysis_features.py::test_transient_dynamic_accepts_tabulated_load_factor",
+        "tests/unit/test_analysis_features.py::test_transient_dynamic_restarts_from_intermediate_checkpoint",
+        "tests/unit/test_analysis_features.py::test_transient_dynamic_rejects_checkpoint_from_modified_model",
+        "tests/unit/test_analysis_features.py::test_harmonic_frequency_grid_accepts_list_and_range",
+        "tests/unit/test_analysis_features.py::test_harmonic_response_zero_frequency_matches_static_solution",
+        "tests/unit/test_analysis_features.py::test_harmonic_sdof_matches_closed_form_amplitude_and_phase"
+      ],
+      "raw_artifacts": [
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/02-harmonic_modal_transient_core.receipt.json",
+          "sha256": "fd50432d16fcf8e8bcd4d2be94b885874dee2b16c74251d93ba0a863bf194544"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/02-harmonic_modal_transient_core.stdout.log",
+          "sha256": "11f5583842543b04ab95362dc805c2dc876d73c5cb3b3a155cafa61b96c217c6"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/02-harmonic_modal_transient_core.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/02-harmonic_modal_transient_core.pytest-node-receipt.json",
+          "sha256": "9e533bf771ed117bdc4a36dcf683333d5901b2f713a8cf51f1656e3f57d481f0"
+        }
+      ]
+    },
+    {
+      "batch_id": "reduced_harmonic_integration",
+      "attempt": 1,
+      "expected_node_count": 3,
+      "harness_attempt_state": "PASS",
+      "recorded_result": "PASS",
+      "collected_node_count": 3,
+      "test_body_phase_pass_count": 9,
+      "pytest_summary": "3 passed in 1.96s",
+      "pytest_exit_code": 0,
+      "elapsed_seconds": 3.641,
+      "timed_out": false,
+      "containment_complete": true,
+      "accounting": {
+        "peak_process_commit_bytes": 160804864,
+        "peak_job_commit_bytes": 160804864,
+        "stderr_bytes": 0,
+        "active_processes_after_exit": 0,
+        "total_processes": 1
+      },
+      "expected_nodeids": [
+        "tests/unit/test_reduced_harmonic.py::test_full_basis_reduced_harmonic_matches_direct_rayleigh_route_and_zero_hz",
+        "tests/unit/test_reduced_harmonic.py::test_probe_outputs_are_sparse_in_frequency_and_result_serialization_preserves_complex_values",
+        "tests/unit/test_reduced_harmonic.py::test_public_router_dispatches_modal_superposition_to_experimental_result"
+      ],
+      "collected_nodeids": [
+        "tests/unit/test_reduced_harmonic.py::test_full_basis_reduced_harmonic_matches_direct_rayleigh_route_and_zero_hz",
+        "tests/unit/test_reduced_harmonic.py::test_probe_outputs_are_sparse_in_frequency_and_result_serialization_preserves_complex_values",
+        "tests/unit/test_reduced_harmonic.py::test_public_router_dispatches_modal_superposition_to_experimental_result"
+      ],
+      "raw_artifacts": [
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/03-reduced_harmonic_integration.receipt.json",
+          "sha256": "309a1494994c277084ce04296d096c2a86a0778a895a00cde564907c8475b432"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/03-reduced_harmonic_integration.stdout.log",
+          "sha256": "79a05836b63392f4c4ee0c9558f17266c6da38552f2e304ef9cb74f5bc98b76f"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/03-reduced_harmonic_integration.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/03-reduced_harmonic_integration.pytest-node-receipt.json",
+          "sha256": "79c31196d6488eeb1cf0c2fba2e30e4bf19c051baabf0dcb4c97befb4e1dbc3f"
+        }
+      ]
+    },
+    {
+      "batch_id": "public_api_and_serialization",
+      "attempt": 1,
+      "expected_node_count": 15,
+      "harness_attempt_state": "PASS",
+      "recorded_result": "PASS",
+      "collected_node_count": 15,
+      "test_body_phase_pass_count": 45,
+      "pytest_summary": "15 passed in 2.72s",
+      "pytest_exit_code": 0,
+      "elapsed_seconds": 4.672,
+      "timed_out": false,
+      "containment_complete": true,
+      "accounting": {
+        "peak_process_commit_bytes": 130125824,
+        "peak_job_commit_bytes": 130125824,
+        "stderr_bytes": 0,
+        "active_processes_after_exit": 0,
+        "total_processes": 1
+      },
+      "expected_nodeids": [
+        "tests/unit/test_public_api_contract.py::test_public_facade_matches_documented_export_inventory",
+        "tests/unit/test_public_api_contract.py::test_documented_stability_classification_covers_every_export",
+        "tests/unit/test_public_api_contract.py::test_critical_workflow_signatures_are_stable",
+        "tests/unit/test_public_api_contract.py::test_02x_compatibility_imports_remain_available",
+        "tests/unit/test_public_api_contract.py::test_minimal_documented_workflow_is_executable",
+        "tests/unit/test_public_api_contract.py::test_documented_input_and_serialization_exceptions",
+        "tests/unit/test_result_serialization_contracts.py::test_nodal_and_modal_serialization_are_sorted_and_named",
+        "tests/unit/test_result_serialization_contracts.py::test_complex_serialization_exposes_real_imag_amplitude_and_phase",
+        "tests/unit/test_result_serialization_contracts.py::test_legacy_six_dof_vector_pads_missing_shell_dofs",
+        "tests/integration/test_public_qf_solver_api.py::test_public_facade_exports_documented_workflow",
+        "tests/integration/test_public_qf_solver_api.py::test_public_facade_exports_documented_types",
+        "tests/integration/test_api_and_cli.py::test_public_api_load_check_solve_save",
+        "tests/unit/test_public_api_contract.py::test_public_recover_solid_stress_forwards_arguments",
+        "tests/unit/test_public_api_contract.py::test_public_recover_harmonic_stress_forwards_arguments",
+        "tests/unit/test_public_api_contract.py::test_public_recover_modal_transient_stress_forwards_arguments"
+      ],
+      "collected_nodeids": [
+        "tests/unit/test_public_api_contract.py::test_public_facade_matches_documented_export_inventory",
+        "tests/unit/test_public_api_contract.py::test_documented_stability_classification_covers_every_export",
+        "tests/unit/test_public_api_contract.py::test_critical_workflow_signatures_are_stable",
+        "tests/unit/test_public_api_contract.py::test_02x_compatibility_imports_remain_available",
+        "tests/unit/test_public_api_contract.py::test_minimal_documented_workflow_is_executable",
+        "tests/unit/test_public_api_contract.py::test_documented_input_and_serialization_exceptions",
+        "tests/unit/test_result_serialization_contracts.py::test_nodal_and_modal_serialization_are_sorted_and_named",
+        "tests/unit/test_result_serialization_contracts.py::test_complex_serialization_exposes_real_imag_amplitude_and_phase",
+        "tests/unit/test_result_serialization_contracts.py::test_legacy_six_dof_vector_pads_missing_shell_dofs",
+        "tests/integration/test_public_qf_solver_api.py::test_public_facade_exports_documented_workflow",
+        "tests/integration/test_public_qf_solver_api.py::test_public_facade_exports_documented_types",
+        "tests/integration/test_api_and_cli.py::test_public_api_load_check_solve_save",
+        "tests/unit/test_public_api_contract.py::test_public_recover_solid_stress_forwards_arguments",
+        "tests/unit/test_public_api_contract.py::test_public_recover_harmonic_stress_forwards_arguments",
+        "tests/unit/test_public_api_contract.py::test_public_recover_modal_transient_stress_forwards_arguments"
+      ],
+      "raw_artifacts": [
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/04-public_api_and_serialization.receipt.json",
+          "sha256": "94f3a4d827cd63848b1ee98193f568930e05096641542da5223072f03ebf5e6a"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/04-public_api_and_serialization.stdout.log",
+          "sha256": "89a354b52287a34e0b321db585a9229d33ff48bdc2e45a38ea3312349c981cf7"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/04-public_api_and_serialization.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/04-public_api_and_serialization.pytest-node-receipt.json",
+          "sha256": "a047952b8f299dd8699c5fb754c6d993cf328f7e6d2fd6c944ec934f6044e06a"
+        }
+      ]
+    }
+  ],
+  "node_results": [
+    {
+      "nodeid": "tests/unit/test_wp_d02_dynamic_stress.py::test_uniaxial_reference_checks_sign_scaling_units_and_rigid_translation[TET4]",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_dynamic_stress.py::test_uniaxial_reference_checks_sign_scaling_units_and_rigid_translation[TET10]",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_dynamic_stress.py::test_uniaxial_reference_checks_sign_scaling_units_and_rigid_translation[HEX8]",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_dynamic_stress.py::test_uniaxial_reference_checks_sign_scaling_units_and_rigid_translation[HEX20]",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_dynamic_stress.py::test_tet4_complex_harmonic_stress_matches_independent_affine_reference",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_dynamic_stress.py::test_harmonic_recovery_refuses_a_phase_convention_mismatch",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_dynamic_stress.py::test_complete_modal_basis_stress_matches_direct_full_order_displacement",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_dynamic_stress.py::test_truncated_basis_changes_local_stress_and_does_not_claim_full_order_accuracy",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_dynamic_stress.py::test_modal_transient_selected_times_match_direct_displacement_recovery",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_dynamic_stress.py::test_dynamic_recovery_fails_closed_for_invalid_sources_and_incomplete_fields",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_dynamic_stress.py::test_dynamic_recovery_refuses_stale_operators_and_basis",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_dynamic_stress.py::test_transient_tet4_free_vibration_matches_modal_oracle_and_independent_stress",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_dynamic_stress.py::test_hex20_multiaxial_affine_stress_and_translation_on_valid_geometries[regular]",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_dynamic_stress.py::test_hex20_multiaxial_affine_stress_and_translation_on_valid_geometries[moderately_distorted]",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_roundoff_guard.py::test_roundoff_guard_recovers_cancelled_dot_product_without_bias",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_roundoff_guard.py::test_roundoff_guard_leaves_well_conditioned_dot_product_alone",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_roundoff_guard.py::test_decimal_matvec_preserves_complex_real_and_imaginary_parts",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_roundoff_guard.py::test_roundoff_guard_detects_cancellation_in_complex_components",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_wp_d02_roundoff_guard.py::test_roundoff_guard_detects_strain_accumulation_error",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_analysis_features.py::test_tet4_mass_and_stress_recovery",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_analysis_features.py::test_linear_static_can_use_cg_and_outputs_stress",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_tet10_element.py::test_tet10_mass_and_stress_recovery",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_tet10_element.py::test_tet10_post_processing_outputs_invariants",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_analysis_features.py::test_modal_analysis_returns_positive_frequencies",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_analysis_features.py::test_modal_eigenpair_refinement_reports_residual_improvement",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_analysis_features.py::test_transient_dynamic_newmark_returns_time_history",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_analysis_features.py::test_transient_dynamic_newmark_conserves_energy_without_damping",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_analysis_features.py::test_transient_dynamic_iterative_method_does_not_create_direct_factorization",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_analysis_features.py::test_transient_dynamic_sdof_matches_closed_form_initial_energy",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_analysis_features.py::test_transient_dynamic_accepts_tabulated_load_factor",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_analysis_features.py::test_transient_dynamic_restarts_from_intermediate_checkpoint",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_analysis_features.py::test_transient_dynamic_rejects_checkpoint_from_modified_model",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_analysis_features.py::test_harmonic_frequency_grid_accepts_list_and_range",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_analysis_features.py::test_harmonic_response_zero_frequency_matches_static_solution",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_analysis_features.py::test_harmonic_sdof_matches_closed_form_amplitude_and_phase",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_reduced_harmonic.py::test_full_basis_reduced_harmonic_matches_direct_rayleigh_route_and_zero_hz",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_reduced_harmonic.py::test_probe_outputs_are_sparse_in_frequency_and_result_serialization_preserves_complex_values",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_reduced_harmonic.py::test_public_router_dispatches_modal_superposition_to_experimental_result",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_public_api_contract.py::test_public_facade_matches_documented_export_inventory",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_public_api_contract.py::test_documented_stability_classification_covers_every_export",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_public_api_contract.py::test_critical_workflow_signatures_are_stable",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_public_api_contract.py::test_02x_compatibility_imports_remain_available",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_public_api_contract.py::test_minimal_documented_workflow_is_executable",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_public_api_contract.py::test_documented_input_and_serialization_exceptions",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_result_serialization_contracts.py::test_nodal_and_modal_serialization_are_sorted_and_named",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_result_serialization_contracts.py::test_complex_serialization_exposes_real_imag_amplitude_and_phase",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_result_serialization_contracts.py::test_legacy_six_dof_vector_pads_missing_shell_dofs",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/integration/test_public_qf_solver_api.py::test_public_facade_exports_documented_workflow",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/integration/test_public_qf_solver_api.py::test_public_facade_exports_documented_types",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/integration/test_api_and_cli.py::test_public_api_load_check_solve_save",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_public_api_contract.py::test_public_recover_solid_stress_forwards_arguments",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_public_api_contract.py::test_public_recover_harmonic_stress_forwards_arguments",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    },
+    {
+      "nodeid": "tests/unit/test_public_api_contract.py::test_public_recover_modal_transient_stress_forwards_arguments",
+      "result": "PASS",
+      "phases": {
+        "setup": "passed",
+        "call": "passed",
+        "teardown": "passed"
+      },
+      "wasxfail": false
+    }
+  ],
+  "runtime": {
+    "implementation": "CPython",
+    "python": "3.12.3",
+    "architecture": "x64",
+    "pytest": "9.0.2",
+    "numpy": "2.0.2",
+    "scipy": "1.14.1",
+    "matplotlib": "3.10.0",
+    "pytest_plugin_autoload": "disabled by verified supervisor primitive",
+    "thread_limits": {
+      "BLIS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "supervisor_sha256": "e8e1498d1c3f8c250bd2c51b9a305cb3a1add7ae60a8b772af066c0d3469046f"
+  },
+  "history_and_nonretry": [
+    {
+      "event": "initial_D02_14_node_gate",
+      "state": "HARNESS_MARKER_FRAMING_REJECTED",
+      "detail": "All 14 expected IDs were collected and all 42 setup/call/teardown phases passed, but the original parser rejected the valid plugin marker appended after pytest progress. Original rejection and raw files remain preserved; an offline reassessment supplement supports the logical PASS; no test body repeated.",
+      "run_receipt_sha256": "e76b1d93b09dd663d9366f11aafd803049d8c8cfdb66bc70e493f22511bcde8c",
+      "batch_receipt_sha256": "be943c37eeb2c3adbf7b0e56f1189ec164a79dcadaf0e558900055535a86e7cb",
+      "offline_reassessment_supplement_sha256": "43202fde9cc8550830ed7eb5066bdaa37ca30e8b027a39501068273fdd9856ea"
+    },
+    {
+      "event": "initial_static_recovery_collection",
+      "state": "ZERO_NODE_ENVIRONMENT_COLLECTION_FAILURE",
+      "detail": "Initial attempt collected zero nodes and ran zero test bodies because isolated Path.home() lacked a resolvable home profile. A controlled scratch-home profile with Matplotlib Agg was checked by a supervised non-numerical probe before the one successful four-node body attempt.",
+      "run_receipt_sha256": "169b0140a6d50957b42b9bb0b68edede17b105f4710c53d48cbfab35fcebbb02",
+      "batch_receipt_sha256": "cab1658e9a859a92c322cc8d718ed00cd73c1a0d72500349439ce4b184c2212d",
+      "environment_probe_receipt_sha256": "1ac1d98839df763d1030c1ccf0e53851e42577bc73ec15ec4ee817dcac21f6e4"
+    }
+  ],
+  "external_proofs": {
+    "final_harness_sha256": "9dafcbd63e007e777873e6b83c442112002ad55ea478ed724ba3de81ee160841",
+    "reviewed_plan_sha256": "e71670719c93b758a86faadc3df2e466b5ebf81e3386df663e5fe8daf368eb85",
+    "continuation_plan1_sha256": "28929b1ddfd523abe0de8468282dc309799d40278a5a6b8110585fe387dc8a78",
+    "continuation_plan2_sha256": "48232866fbf230fabd38f003defc184b6570b9c99d6659521d81b32351a4b6d0",
+    "continuation2_harness_sha256": "9dafcbd63e007e777873e6b83c442112002ad55ea478ed724ba3de81ee160841",
+    "original_AB_digest_invariant": {
+      "state": "PASS_EXPECTED_DIGESTS_MATCH",
+      "expected_sha256": {
+        "run.json": "b2108a83610e6bd6fb68a9bdcc3dfafd9186962a66b82f8387c173fa7ad892a6",
+        "collection.json": "9069bedb24ab6e93067cb1a06da5e4e98e7121ee99c10e1bc29b316993c8c98b",
+        "wp_d02_ab_scientific_run_report.md": "aee1eb9be869f85ad9b83929c8b50b764733d877369cce500f90b5bcb9fb0142"
+      },
+      "observed_sha256": {
+        "run.json": "b2108a83610e6bd6fb68a9bdcc3dfafd9186962a66b82f8387c173fa7ad892a6",
+        "collection.json": "9069bedb24ab6e93067cb1a06da5e4e98e7121ee99c10e1bc29b316993c8c98b",
+        "wp_d02_ab_scientific_run_report.md": "aee1eb9be869f85ad9b83929c8b50b764733d877369cce500f90b5bcb9fb0142"
+      },
+      "all_match": true,
+      "files_read": "only run.json, collection.json, wp_d02_ab_scientific_run_report.md",
+      "ledger_or_authorization_artifacts_opened_or_changed": false,
+      "proof_file_sha256": "0173f09b72c4da863a4a349bb497dd6c6da536aa647712e4230f18a56ed1a5c0"
+    },
+    "full_run_history": [
+      {
+        "run_id": "20261022T174219Z-79bcdd3f56cd",
+        "state": "STOPPED_ON_FIRST_FAILURE",
+        "plan_sha256": "e71670719c93b758a86faadc3df2e466b5ebf81e3386df663e5fe8daf368eb85",
+        "harness_sha256": "17b9ec0151cfedce798c6343e0a23d5f37fab676a692d60876474f4926fa8fe1",
+        "run_receipt_sha256": "e76b1d93b09dd663d9366f11aafd803049d8c8cfdb66bc70e493f22511bcde8c",
+        "retry_performed": false,
+        "not_run": [
+          "roundoff_guards",
+          "legacy_static_recovery",
+          "harmonic_modal_transient_core",
+          "reduced_harmonic_integration",
+          "public_api_and_serialization"
+        ],
+        "raw_artifacts": [
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T174219Z-79bcdd3f56cd/01-d02_exact_14.pytest-node-receipt.json",
+            "sha256": "505b4bbc93fb979e9a8953e2c36bc54b5b025dc1384cc4f4410810772b44edbc"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T174219Z-79bcdd3f56cd/01-d02_exact_14.reassessment-supplement.json",
+            "sha256": "43202fde9cc8550830ed7eb5066bdaa37ca30e8b027a39501068273fdd9856ea"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T174219Z-79bcdd3f56cd/01-d02_exact_14.receipt.json",
+            "sha256": "be943c37eeb2c3adbf7b0e56f1189ec164a79dcadaf0e558900055535a86e7cb"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T174219Z-79bcdd3f56cd/01-d02_exact_14.stderr.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T174219Z-79bcdd3f56cd/01-d02_exact_14.stdout.log",
+            "sha256": "e3ceeb250b1c797f877ed595b1b5ae83062ef713efbded5e4b7e141d933363de"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T174219Z-79bcdd3f56cd/run.receipt.json",
+            "sha256": "e76b1d93b09dd663d9366f11aafd803049d8c8cfdb66bc70e493f22511bcde8c"
+          }
+        ]
+      },
+      {
+        "run_id": "20261022T175023Z-0912ba30780d",
+        "state": "STOPPED_ON_FIRST_FAILURE",
+        "plan_sha256": "28929b1ddfd523abe0de8468282dc309799d40278a5a6b8110585fe387dc8a78",
+        "harness_sha256": "55624128b271c753e2e86e060d6195c819bcd51ab690a320aae266314a493031",
+        "run_receipt_sha256": "169b0140a6d50957b42b9bb0b68edede17b105f4710c53d48cbfab35fcebbb02",
+        "retry_performed": false,
+        "not_run": [
+          "harmonic_modal_transient_core",
+          "reduced_harmonic_integration",
+          "public_api_and_serialization"
+        ],
+        "raw_artifacts": [
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175023Z-0912ba30780d/01-roundoff_guards.pytest-node-receipt.json",
+            "sha256": "5741467d989e01e96956744fe9a6c76def01d28f55fcd8e828656f54d2bad151"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175023Z-0912ba30780d/01-roundoff_guards.receipt.json",
+            "sha256": "e95dd50dfc407edd7e29278f014494faa9697bb996d4693d9d788153ac4e3142"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175023Z-0912ba30780d/01-roundoff_guards.stderr.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175023Z-0912ba30780d/01-roundoff_guards.stdout.log",
+            "sha256": "94ebb0fe5b404e4449edf675d744360124d754ade5e715d3cf227f05a7ea2630"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175023Z-0912ba30780d/02-legacy_static_recovery.pytest-node-receipt.json",
+            "sha256": "684654048c798e8704d588e82ac646b9a06e7468bad81da3b02cec08228efb69"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175023Z-0912ba30780d/02-legacy_static_recovery.receipt.json",
+            "sha256": "cab1658e9a859a92c322cc8d718ed00cd73c1a0d72500349439ce4b184c2212d"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175023Z-0912ba30780d/02-legacy_static_recovery.stderr.log",
+            "sha256": "6d6980c4c83ea079ed09f46d89e05049789c8387f936a0f5448f54bf07a23da7"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175023Z-0912ba30780d/02-legacy_static_recovery.stdout.log",
+            "sha256": "db135ff69d7ebfb941d696703cc65583a84b366cd162e463eef180dc2e1e336c"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175023Z-0912ba30780d/run.receipt.json",
+            "sha256": "169b0140a6d50957b42b9bb0b68edede17b105f4710c53d48cbfab35fcebbb02"
+          }
+        ]
+      },
+      {
+        "run_id": "20261022T175836Z-4213f8973208",
+        "state": "COMPLETE",
+        "plan_sha256": "48232866fbf230fabd38f003defc184b6570b9c99d6659521d81b32351a4b6d0",
+        "harness_sha256": "9dafcbd63e007e777873e6b83c442112002ad55ea478ed724ba3de81ee160841",
+        "run_receipt_sha256": "4bd37570d70705bb2d0bd46cb25f1651c903858de345426436aa18bbb8393358",
+        "retry_performed": false,
+        "not_run": [],
+        "raw_artifacts": [
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/01-legacy_static_recovery.pytest-node-receipt.json",
+            "sha256": "5fdf439bb0ad26f96c9407ad9e5e20efdae768f60228afc75baf73cc06f31b7d"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/01-legacy_static_recovery.receipt.json",
+            "sha256": "11283e22e71accf9620327c8dbd9176f46d5d71aae1278cddcae68dee6e65122"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/01-legacy_static_recovery.stderr.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/01-legacy_static_recovery.stdout.log",
+            "sha256": "0ae0dbf6297e3bdeb6a97c3f873b38a48cd95617600f56e2e3fa13ad3f7c9d3f"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/02-harmonic_modal_transient_core.pytest-node-receipt.json",
+            "sha256": "9e533bf771ed117bdc4a36dcf683333d5901b2f713a8cf51f1656e3f57d481f0"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/02-harmonic_modal_transient_core.receipt.json",
+            "sha256": "fd50432d16fcf8e8bcd4d2be94b885874dee2b16c74251d93ba0a863bf194544"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/02-harmonic_modal_transient_core.stderr.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/02-harmonic_modal_transient_core.stdout.log",
+            "sha256": "11f5583842543b04ab95362dc805c2dc876d73c5cb3b3a155cafa61b96c217c6"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/03-reduced_harmonic_integration.pytest-node-receipt.json",
+            "sha256": "79c31196d6488eeb1cf0c2fba2e30e4bf19c051baabf0dcb4c97befb4e1dbc3f"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/03-reduced_harmonic_integration.receipt.json",
+            "sha256": "309a1494994c277084ce04296d096c2a86a0778a895a00cde564907c8475b432"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/03-reduced_harmonic_integration.stderr.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/03-reduced_harmonic_integration.stdout.log",
+            "sha256": "79a05836b63392f4c4ee0c9558f17266c6da38552f2e304ef9cb74f5bc98b76f"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/04-public_api_and_serialization.pytest-node-receipt.json",
+            "sha256": "a047952b8f299dd8699c5fb754c6d993cf328f7e6d2fd6c944ec934f6044e06a"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/04-public_api_and_serialization.receipt.json",
+            "sha256": "94f3a4d827cd63848b1ee98193f568930e05096641542da5223072f03ebf5e6a"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/04-public_api_and_serialization.stderr.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/04-public_api_and_serialization.stdout.log",
+            "sha256": "89a354b52287a34e0b321db585a9229d33ff48bdc2e45a38ea3312349c981cf7"
+          },
+          {
+            "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/runs/20261022T175836Z-4213f8973208/run.receipt.json",
+            "sha256": "4bd37570d70705bb2d0bd46cb25f1651c903858de345426436aa18bbb8393358"
+          }
+        ]
+      }
+    ],
+    "provenance_artifact_sha256": {
+      "integration_harness.py": "9dafcbd63e007e777873e6b83c442112002ad55ea478ed724ba3de81ee160841",
+      "integration_plan.reviewed-execution-plan.json": "e71670719c93b758a86faadc3df2e466b5ebf81e3386df663e5fe8daf368eb85",
+      "integration_continuation_plan.json": "28929b1ddfd523abe0de8468282dc309799d40278a5a6b8110585fe387dc8a78",
+      "integration_continuation2_home_profile_plan.json": "48232866fbf230fabd38f003defc184b6570b9c99d6659521d81b32351a4b6d0",
+      "matplotlib_home_profile_probe.py": "aea13c14706e2f55578abb85b04a4f4958d093ab04f510c47526cbb29c7be7fe",
+      "environment_profile_static_review.json": "f1ac5891f4d084bd37bacd2e44f435413b26654812558f31b970827a4756b930",
+      "marker_fix_static_review.json": "1eef3df0c368b409468c0161c60912577600c288062d83b0ab3d8bb1bbfaaf11",
+      "ab_digest_invariant_check.json": "0173f09b72c4da863a4a349bb497dd6c6da536aa647712e4230f18a56ed1a5c0"
+    },
+    "independent_reviews": [
+      {
+        "name": "full independent review",
+        "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/independent_review.md",
+        "sha256": "5f635a0ffc38b89d9e5d64f385751e58300df79cd30663385457960317f335bb",
+        "finding_summary": "No P0/P1 scientific defect; harness acceptance, identity pins, wording/table and source attribution repairs identified."
+      },
+      {
+        "name": "independent delta review",
+        "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/independent_review_delta.md",
+        "sha256": "f2aebb259ffd8a2559d40725fd21b37d660a30bca2b0eb3064e8786218fbb5af",
+        "finding_summary": "Harness, exact-node/phase checks and 23-file identity gates confirmed; Decimal table syntax and external launch guidance noted."
+      },
+      {
+        "name": "independent marker review",
+        "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/independent_marker_review.md",
+        "sha256": "b097bba7219aab308cad56be3ccd78606ed89395d196a9e9921b2cfeebb4c907",
+        "finding_summary": "Original 14-node marker-framing rejection and corrected parser confirmed; preserved proof and static zero-node collection issue noted."
+      },
+      {
+        "name": "independent environment review",
+        "logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/independent_environment_review.md",
+        "sha256": "f78f296901e75c5271b46c1c9fc42c59c81b175e01deeed3f769c6903a15e09d",
+        "finding_summary": "No P0/P1; scratch-home/Agg probe and exact continuation confirmed; no successful body or AB campaign repeated."
+      }
+    ]
+  },
+  "integration_decision": {
+    "WP_D02_STATUS": "CLOSED_BOUNDED",
+    "WP_D02_TRANSIENT_INDEPENDENT_ORACLE": "PASS_BOUNDED_TET4_FIXTURE_ONLY",
+    "INTEGRATION_VALIDATION": "PASS",
+    "AUTHORITATIVE_INTEGRATION": "READY_FOR_NORMAL_LOCAL_MERGE",
+    "merge_status": "NOT_MERGED",
+    "final_results_and_curated_document_review": "PASS_INDEPENDENT_READONLY_AND_MANAGER_EVIDENCE_CHECK",
+    "final_full_review_sha256": "cc228aeb14301cebff495e0759b1513d28389f5dd951faabaef49ad222153a61",
+    "final_delta_review_sha256": "1b351dde830dbdf9437d4a9422c8b055fa1da75be3d548216a6020fea26f9f5d",
+    "final_delta_disposition": "APPROVE_NORMAL_LOCAL_MERGE",
+    "reviewed_staged_tree_before_status_update": "1a5397722652d888383d64ca0b0cabbdb668ebcb",
+    "general_scientific_qualification": "NOT_ACQUIRED",
+    "WP11_WP12_WP13_closure": false,
+    "public_release": "NOT_AUTHORIZED",
+    "github_CI": "NOT_RUN_LOCAL_TARGET_ONLY",
+    "current_premerge_snapshot_head": "cccf897f207c17ecad105948d231bf1240057184",
+    "merge_commit_sha": "TO_BE_RECORDED_AFTER_MERGE"
+  },
+  "static_quality": {
+    "evidence_logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AC-final/integration-validation/quality/quality_summary.json",
+    "evidence_sha256": "c8cc64bf01fb8556c63278845c7656c615ea661ee7704a146867b4e3c272ee0c",
+    "ruff_version": "0.15.20",
+    "python": "3.13.1",
+    "full_configured_source_test_script_ruff": "PASS",
+    "changed_candidate_file_ruff": "PASS",
+    "ast_parse_eight_changed_python_files": "PASS",
+    "six_source_files_byte_equal_frozen_blobs": "PASS",
+    "scientific_test_lambda_to_def_ast_equivalence": "PASS",
+    "public_api_inventory": {
+      "total_exports": 77,
+      "stable": 30,
+      "provisional": 47,
+      "inventory_stability_signature_checks": "PASS"
+    },
+    "python_3_12_ruff": "UNAVAILABLE_RUFF_NOT_INSTALLED",
+    "whole_CI": "NOT_RUN",
+    "details": {
+      "full_ruff_log_sha256": "b7a95b77a9305361ba44b2c76e61746124328622feecf010b7981ac8d869c8a4",
+      "ast_parse_log_sha256": "ad104193feffdb354e673c84398f527befb46863c1420c66ac4c5f8455057162",
+      "source_equality_log_sha256": "91287982acc6e279cdd668bb24ed06704cf5729475ae929178d88e8177e28c3e",
+      "private_path_scan_log_sha256": "fab0d45584a1fa162c20ec761c74eb90a4fd30ab1e8b2c7b7902480d724ac8f1"
+    }
+  }
+}

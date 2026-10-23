@@ -171,6 +171,62 @@ def solve_model(
     return enforce_qualification_policy(result, model) if enforce_policy else result
 
 
+def recover_solid_stress_field(
+    model: FiniteElementModel,
+    displacement: object,
+    *,
+    stress_convention: str = "GLOBAL_SMALL_STRAIN_CAUCHY_VOIGT_XX_YY_ZZ_XY_YZ_ZX",
+) -> dict[str, object]:
+    """Recover a supported solid stress field from a full-order displacement vector."""
+    from solveur.post.dynamic_stress import recover_solid_stress_field as recover
+
+    return recover(model, displacement, stress_convention=stress_convention)
+
+
+def recover_harmonic_stress(
+    model: FiniteElementModel,
+    result: object,
+    *,
+    prepared: object,
+    basis: object,
+    selected_frequencies_hz: list[float] | tuple[float, ...],
+    stress_convention: str = "GLOBAL_SMALL_STRAIN_CAUCHY_VOIGT_XX_YY_ZZ_XY_YZ_ZX",
+) -> dict[str, object]:
+    """Recover phase-preserving stress for selected reduced harmonic frequencies."""
+    from solveur.post.dynamic_stress import recover_harmonic_stress as recover
+
+    return recover(
+        model,
+        result,
+        prepared=prepared,
+        basis=basis,
+        selected_frequencies_hz=selected_frequencies_hz,
+        stress_convention=stress_convention,
+    )
+
+
+def recover_modal_transient_stress(
+    model: FiniteElementModel,
+    result: object,
+    *,
+    prepared: object,
+    basis: object,
+    selected_times_s: list[float] | tuple[float, ...],
+    stress_convention: str = "GLOBAL_SMALL_STRAIN_CAUCHY_VOIGT_XX_YY_ZZ_XY_YZ_ZX",
+) -> dict[str, object]:
+    """Recover stress at selected stored modal Newmark times."""
+    from solveur.post.dynamic_stress import recover_modal_transient_stress as recover
+
+    return recover(
+        model,
+        result,
+        prepared=prepared,
+        basis=basis,
+        selected_times_s=selected_times_s,
+        stress_convention=stress_convention,
+    )
+
+
 def run_contact_verification(output_dir: str | Path) -> dict[str, object]:
     """Run the public internal V1 normal and frictional contact evidence suite."""
     return ContactVerificationCampaign(output_dir).run()

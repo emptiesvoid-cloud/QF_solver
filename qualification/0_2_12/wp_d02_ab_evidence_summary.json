@@ -1,0 +1,430 @@
+{
+  "schema": "qf-wp-d02-bounded-evidence-summary/v1",
+  "provenance": {
+    "classification": "SANITIZED_DERIVATIVE_NOT_ORIGINAL_RECEIPT",
+    "purpose": "Curated documentary projection of an existing Owner-authorized WP-D02 AB supervised run for bounded closure review.",
+    "original_evidence_is_immutable": true,
+    "derived_from": {
+      "report_logical_path": "external_evidence/WP-D02-DynamicStress/documentary-reports/AB/wp_d02_ab_scientific_run_report.md",
+      "report_sha256": "aee1eb9be869f85ad9b83929c8b50b764733d877369cce500f90b5bcb9fb0142",
+      "run_receipt_logical_path": "external_evidence/WP-D02-DynamicStress/23f11f5d9457271814db9d67e5c160514ea69972-36a5fef148daa114f5f42bcede89b6aad0b18369/run.json",
+      "run_receipt_sha256": "b2108a83610e6bd6fb68a9bdcc3dfafd9186962a66b82f8387c173fa7ad892a6",
+      "collection_receipt_logical_path": "external_evidence/WP-D02-DynamicStress/23f11f5d9457271814db9d67e5c160514ea69972-36a5fef148daa114f5f42bcede89b6aad0b18369/collection.json",
+      "collection_receipt_sha256": "9069bedb24ab6e93067cb1a06da5e4e98e7121ee99c10e1bc29b316993c8c98b",
+      "stdout_logical_path": "external_evidence/WP-D02-DynamicStress/23f11f5d9457271814db9d67e5c160514ea69972-36a5fef148daa114f5f42bcede89b6aad0b18369/run.stdout.log",
+      "stdout_sha256": "1b40b9605327ea3dfc52455534fede7d22c5eccff3555b2e7d1447472b0ed44f",
+      "stderr_logical_path": "external_evidence/WP-D02-DynamicStress/23f11f5d9457271814db9d67e5c160514ea69972-36a5fef148daa114f5f42bcede89b6aad0b18369/run.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "source_identity": {
+      "branch": "codex/wp-d02-dynamic-stress-20261021",
+      "head": "23f11f5d9457271814db9d67e5c160514ea69972",
+      "tree": "36a5fef148daa114f5f42bcede89b6aad0b18369",
+      "campaign_id": "be52f8a369e94b9d9f604e65492d2256",
+      "operation_id": "WP-D02-RUN-be52f8a369e94b9d9f604e65492d2256"
+    },
+    "identity_lineage": {
+      "production_module_provenance": {
+        "initial_scientific_candidate_commit_u": "bba04a1362745d8967e4111d90be98a3d997d31e",
+        "u_execution_metadata_freeze_commit": "6e730c79f32363a3f76f8a2f2474ab9aa0d26374",
+        "u_freeze_was_metadata_only": true,
+        "production_module_logical_path": "src/solveur/post/dynamic_stress.py",
+        "production_module_sha256_unchanged_through_x_z_ab": "aef4c4244a5c2490478cecefde6864a42c50ac2a71dfb42da77bce801163b0d1"
+      },
+      "scientific_test_freeze_x": {
+        "head": "8b40df300572ea78e6b8a76432042b81f3d35505",
+        "tree": "64b3f478bc7bb3ab324c395b9126e50118331248"
+      },
+      "execution_freeze_z": {
+        "head": "185f3c81c4bd1d323b24fde944df617771abb296",
+        "tree": "d9934f9a96d753a4f6983a7cf40e91504facc7f5",
+        "purpose": "authorization/execution metadata freeze; source hashes remained pinned"
+      },
+      "actual_ab_execution_identity": {
+        "head": "23f11f5d9457271814db9d67e5c160514ea69972",
+        "tree": "36a5fef148daa114f5f42bcede89b6aad0b18369"
+      },
+      "identity_rule": "The AB documentary/execution HEAD is not claimed as the commit that introduced or last changed the numerical production code. The production module SHA-256 and scientific/test/execution freeze identities are separately retained."
+    },
+    "integration_candidate_alignment": {
+      "six_curated_files_verified_as_exact_git_blobs_from_ab_head": [
+        "examples/wp_d02_dynamic_stress.py",
+        "src/solveur/__init__.py",
+        "src/solveur/api/__init__.py",
+        "src/solveur/api/public.py",
+        "src/solveur/post/dynamic_stress.py",
+        "tests/unit/test_wp_d02_roundoff_guard.py"
+      ],
+      "scientific_test_file_adjustment": {
+        "logical_path": "tests/unit/test_wp_d02_dynamic_stress.py",
+        "ab_sha256": "567c537443bf01c36f3e91839a2995b127c0b9414e69589bb270fce9818179fb",
+        "candidate_sha256": "c3b45ce5b7dbc3ead709f28638ef6f4d4101db23a36e46b4a231e4e7601e3e67",
+        "candidate_git_blob": "d28f63946721df59f289a8db32643ac4778c8133",
+        "difference": "Only replaces exact=lambda value: Fraction.from_float(float(value)) with a local def exact(value) returning the identical Fraction.from_float(float(value)); E731 lint-only syntax adjustment.",
+        "fixtures_formulas_oracles_tolerances_production_code_changed": false,
+        "ab_numerical_verdict_transfers_to_candidate_test": false
+      },
+      "api_inventory_delta": {
+        "new_provisional_symbols": 3,
+        "total_symbols": 77,
+        "old_signatures_changed": false
+      },
+      "integration_tests_for_this_candidate": "PENDING_NOT_RUN_IN_THIS_DOCUMENTATION_TASK"
+    },
+    "important_distinction": "This file is a sanitized summary derived from the raw artifacts. It is not the original run receipt, collection receipt, or report; no authorization identity or private host/user metadata is reproduced."
+  },
+  "source_digests": {
+    "manifest": {
+      "logical_path": "frozen_source_snapshot/23f11f5d9457271814db9d67e5c160514ea69972/qualification/0_2_12/wp_d02_z_execution_freeze.json",
+      "sha256": "e09aec8b58fa689462553eed44874d4c62a2d30102ff46a6c6560e094c786ae3"
+    },
+    "supervisor": {
+      "logical_path": "frozen_source_snapshot/23f11f5d9457271814db9d67e5c160514ea69972/scripts/wp_d02_supervised_pytest.py",
+      "sha256": "e8e1498d1c3f8c250bd2c51b9a305cb3a1add7ae60a8b772af066c0d3469046f"
+    },
+    "numerical_unit_registry": {
+      "logical_path": "frozen_source_snapshot/23f11f5d9457271814db9d67e5c160514ea69972/qualification/0_2_12/wp_d02_numerical_unit_registry.json",
+      "sha256": "b43c1f9a8dfab361b2bdd4053183d4d612531d573fbf0ea05b68c16274d8be1e"
+    },
+    "scientific_test": {
+      "logical_path": "frozen_source_snapshot/23f11f5d9457271814db9d67e5c160514ea69972/tests/unit/test_wp_d02_dynamic_stress.py",
+      "sha256": "567c537443bf01c36f3e91839a2995b127c0b9414e69589bb270fce9818179fb"
+    },
+    "production_module": {
+      "logical_path": "frozen_source_snapshot/23f11f5d9457271814db9d67e5c160514ea69972/src/solveur/post/dynamic_stress.py",
+      "sha256": "aef4c4244a5c2490478cecefde6864a42c50ac2a71dfb42da77bce801163b0d1"
+    },
+    "roundoff_guard_test": {
+      "logical_path": "frozen_source_snapshot/23f11f5d9457271814db9d67e5c160514ea69972/tests/unit/test_wp_d02_roundoff_guard.py",
+      "sha256": "870e519c221aee54dd85a031a1e2c3dd592c7ad4e531e8d097e8b46fcbbb4bd6"
+    },
+    "historical_v_decimal_audit_script": {
+      "logical_path": "frozen_source_snapshot/23f11f5d9457271814db9d67e5c160514ea69972/scripts/wp_d02_v_decimal_audit.py",
+      "sha256": "163cd85aa282c8b6a1badec86c795ecbeb56ce05774605e03467b9a1a53b5505"
+    },
+    "historical_v_decimal_audit_report": {
+      "logical_path": "frozen_source_snapshot/23f11f5d9457271814db9d67e5c160514ea69972/qualification/0_2_12/wp_d02_v_independent_transient_vnv_report.md",
+      "sha256": "615f964c0d8b19341ad8737677531ceed2bd06e34ef62b5eafb980d815493f80"
+    },
+    "historical_v_decimal_diagnostic": {
+      "logical_path": "frozen_source_snapshot/23f11f5d9457271814db9d67e5c160514ea69972/qualification/0_2_12/wp_d02_v_decimal_audit_preflight.json",
+      "sha256": "7cc3db18fa2a15458c47d75a8a7d34aff3bcbd83fb7ac4cf4c5703fb16227571"
+    },
+    "historical_w_decimal_remediation_report": {
+      "logical_path": "frozen_source_snapshot/23f11f5d9457271814db9d67e5c160514ea69972/qualification/0_2_12/wp_d02_w_oracle_transient_remediation_report.md",
+      "sha256": "025fba2a50417b57c709d0c01975df9676b6a89ff0f8f11f09c5b7b0f3d2dbdb"
+    }
+  },
+  "run": {
+    "receipt_status": "ACCEPTED",
+    "phase": "RUN",
+    "child_exit_code": 0,
+    "pytest_summary": "14 passed in 1.65s",
+    "retry_performed": false,
+    "collect_accepted": true,
+    "collect_and_run_node_ids_identical": true,
+    "runtime": {
+      "python": "3.12.3 x64",
+      "pytest": "9.0.2",
+      "numpy": "2.0.2",
+      "scipy": "1.14.1",
+      "platform": "Windows AMD64"
+    },
+    "accounting": {
+      "worker_count": 1,
+      "active_processes_after_exit": 0,
+      "forced_terminations": 0,
+      "worker_elapsed_seconds": 2.766,
+      "timeout_seconds": 120,
+      "peak_process_commit_bytes": 136552448,
+      "peak_job_commit_bytes": 136552448,
+      "process_commit_limit_bytes": 268435456,
+      "job_commit_limit_bytes": 268435456,
+      "stdout_bytes": 9004,
+      "stderr_bytes": 0,
+      "cleanup_verified": true
+    }
+  },
+  "historical_decimal_audit": {
+    "audit_was_required_and_performed": true,
+    "measurement_phase": "V pre-freeze diagnostic; outside pytest run",
+    "diagnostic_provenance": {
+      "report_logical_path": "frozen_source_snapshot/23f11f5d9457271814db9d67e5c160514ea69972/qualification/0_2_12/wp_d02_v_independent_transient_vnv_report.md:93-104",
+      "raw_diagnostic_logical_path": "frozen_source_snapshot/23f11f5d9457271814db9d67e5c160514ea69972/qualification/0_2_12/wp_d02_v_decimal_audit_preflight.json",
+      "w_followup_logical_path": "frozen_source_snapshot/23f11f5d9457271814db9d67e5c160514ea69972/qualification/0_2_12/wp_d02_w_oracle_transient_remediation_report.md:84-88"
+    },
+    "precision_and_operand_loss": {
+      "method": "Compare B·u and D·epsilon to Fraction affine-fit/Lame oracle from the actual stored binary64 geometry and displacements; Decimal.from_float preserves those binary64 operands exactly, accumulates at precision 80, then converts to float64.",
+      "regular_hex20_float_max_strain_error": 4.336808689942018E-19,
+      "regular_hex20_guarded_max_strain_error": 4.336808689942018E-19,
+      "regular_hex20_float_max_stress_error_Pa": 2.3283064365386963E-10,
+      "regular_hex20_guarded_max_stress_error_Pa": 2.3283064365386963E-10,
+      "distorted_hex20_float_max_strain_error": 3.2526065174565133E-19,
+      "distorted_hex20_guarded_max_strain_error": 3.2526065174565133E-19,
+      "distorted_hex20_float_max_stress_error_Pa": 2.3283064365386963E-10,
+      "distorted_hex20_guarded_max_stress_error_Pa": 2.3283064365386963E-10,
+      "information_already_lost_before_binary64_operands": "not recoverable by Decimal fallback"
+    },
+    "fallback_trigger": {
+      "rule": "per-row |result| <= 8 * machine_epsilon * n * sum(abs(products))",
+      "regular_hex20_physical_triggers": {
+        "B_times_u": 0,
+        "D_times_strain": 0,
+        "points_per_stage": 27
+      },
+      "moderately_distorted_hex20_physical_triggers": {
+        "B_times_u": 0,
+        "D_times_strain": 0,
+        "points_per_stage": 27
+      },
+      "synthetic_cancellation": {
+        "expression": "1e16 + 1 - 1e16",
+        "binary64": 0.0,
+        "decimal_guarded": 1.0,
+        "exact_fraction": 1
+      },
+      "disposition": "The audit exercises the fallback trigger synthetically but does not show a physical HEX20 fixture triggering it. Guarded and ordinary float errors match on both measured physical geometries."
+    },
+    "cpu_and_memory_cost": {
+      "physical_chains": "27 B·u + 27 D·epsilon per geometry",
+      "timing_samples": 7,
+      "repeats_per_sample": 100,
+      "regular_seconds_per_chain": {
+        "float": 5.7997999829240146E-05,
+        "guarded_no_trigger": 0.0030223909998312593
+      },
+      "moderately_distorted_seconds_per_chain": {
+        "float": 5.827999964822084E-05,
+        "guarded_no_trigger": 0.003029458000091836
+      },
+      "synthetic_matvec_median_seconds": {
+        "binary64": 1.0718700010329485E-06,
+        "decimal_fallback": 7.0517899992410095E-06
+      },
+      "tracemalloc_peak_bytes_guarded_without_decimal_trigger": 2262,
+      "triggered_fallback_memory_cost": "not measured",
+      "timing_is_acceptance_gate": false
+    },
+    "criterion_disposition": {
+      "required_v_diagnostic_audit": "SATISFIED_AS_RECORDED: precision, actual operand semantics, trigger counts, synthetic trigger behavior, timing, and no-trigger memory trace were measured and reported.",
+      "physical_trigger_and_triggered_memory_cost": "NOT DEMONSTRATED; no mandatory threshold or requirement for a physical fixture trigger or cost pass exists in the pinned diagnostic contract. This blocks claims of real-case fallback activation or triggered-fallback performance/cost, but not the bounded recovery accuracy claim on fixtures where fallback did not trigger.",
+      "no_silent_optional_reclassification": true
+    }
+  },
+  "status": {
+    "numerical_vnv": "PASS_BOUNDED",
+    "transient_independent_stress_oracle": "VERIFIED_BOUNDED_TET4_FIXTURE_ONLY",
+    "harmonic_stress_oracle": "VERIFIED_BOUNDED_TET4_AFFINE_FIXTURE_ONLY",
+    "hex20_multigeometry": "VERIFIED_BOUNDED_TWO_FIXTURES_ONLY",
+    "general_scientific_qualification": "NOT_ACQUIRED",
+    "authoritative_integration": "PENDING",
+    "public_release": "NOT_AUTHORIZED"
+  },
+  "tests": [
+    {
+      "id": "tests/unit/test_wp_d02_dynamic_stress.py::test_uniaxial_reference_checks_sign_scaling_units_and_rigid_translation[TET4]",
+      "result": "PASS",
+      "oracle": "Affine uniaxial strain and isotropic constitutive reference.",
+      "metrics": {
+        "stress_relative_tolerance": 2E-12,
+        "stress_absolute_tolerance_Pa": 1E-08,
+        "translation_absolute_tolerance_Pa": 1E-06,
+        "integration_points": 1,
+        "observed_case_residual": null
+      },
+      "oracle_scope": "Bounded fixture; numeric residual not emitted in run log."
+    },
+    {
+      "id": "tests/unit/test_wp_d02_dynamic_stress.py::test_uniaxial_reference_checks_sign_scaling_units_and_rigid_translation[TET10]",
+      "result": "PASS",
+      "oracle": "Affine uniaxial strain and isotropic constitutive reference.",
+      "metrics": {
+        "stress_relative_tolerance": 2E-12,
+        "stress_absolute_tolerance_Pa": 1E-08,
+        "translation_absolute_tolerance_Pa": 1E-06,
+        "integration_points": 4,
+        "observed_case_residual": null
+      },
+      "oracle_scope": "Bounded fixture; numeric residual not emitted in run log."
+    },
+    {
+      "id": "tests/unit/test_wp_d02_dynamic_stress.py::test_uniaxial_reference_checks_sign_scaling_units_and_rigid_translation[HEX8]",
+      "result": "PASS",
+      "oracle": "Affine uniaxial strain and isotropic constitutive reference.",
+      "metrics": {
+        "stress_relative_tolerance": 2E-12,
+        "stress_absolute_tolerance_Pa": 1E-08,
+        "translation_absolute_tolerance_Pa": 1E-06,
+        "integration_points": 8,
+        "observed_case_residual": null
+      },
+      "oracle_scope": "Bounded fixture; numeric residual not emitted in run log."
+    },
+    {
+      "id": "tests/unit/test_wp_d02_dynamic_stress.py::test_uniaxial_reference_checks_sign_scaling_units_and_rigid_translation[HEX20]",
+      "result": "PASS",
+      "oracle": "Affine uniaxial strain and isotropic constitutive reference.",
+      "metrics": {
+        "stress_relative_tolerance": 2E-12,
+        "stress_absolute_tolerance_Pa": 1E-08,
+        "translation_absolute_tolerance_Pa": 1E-06,
+        "integration_points": 27,
+        "observed_case_residual": null
+      },
+      "oracle_scope": "Bounded fixture; numeric residual not emitted in run log."
+    },
+    {
+      "id": "tests/unit/test_wp_d02_dynamic_stress.py::test_tet4_complex_harmonic_stress_matches_independent_affine_reference",
+      "result": "PASS",
+      "oracle": "Independent affine TET4 nodal fit and Lamé law; real/imaginary components, instantaneous phase, sampled von Mises peak.",
+      "metrics": {
+        "real_imag_relative_tolerance": 2E-11,
+        "real_imag_absolute_tolerance_Pa": 1E-08,
+        "phase_peak_relative_tolerance": 2E-08,
+        "instantaneous_relative_tolerance": 2E-11,
+        "instantaneous_absolute_tolerance_Pa": 1E-08
+      },
+      "oracle_scope": "Independent recovery oracle for one affine TET4 case; not general harmonic solver validation."
+    },
+    {
+      "id": "tests/unit/test_wp_d02_dynamic_stress.py::test_harmonic_recovery_refuses_a_phase_convention_mismatch",
+      "result": "PASS",
+      "oracle": "Expected fail-closed interface refusal for incompatible phase convention.",
+      "metrics": {
+        "expected_exception": "ValueError"
+      },
+      "oracle_scope": "Contract refusal, no precision claim."
+    },
+    {
+      "id": "tests/unit/test_wp_d02_dynamic_stress.py::test_complete_modal_basis_stress_matches_direct_full_order_displacement",
+      "result": "PASS",
+      "oracle": "The test constructs synthetic full-order displacement and response fields from the same complete modal basis and coordinates, then checks reconstruction/recovery consistency; it does not compare against an independent direct harmonic solve.",
+      "metrics": {
+        "displacement_relative_tolerance": 2E-12,
+        "displacement_absolute_tolerance": 1E-12,
+        "stress_relative_tolerance": 2E-11,
+        "stress_absolute_tolerance_Pa": 1E-08
+      },
+      "oracle_scope": "Internal consistency on shared synthetic basis fields, not an independent harmonic accuracy oracle."
+    },
+    {
+      "id": "tests/unit/test_wp_d02_dynamic_stress.py::test_truncated_basis_changes_local_stress_and_does_not_claim_full_order_accuracy",
+      "result": "PASS",
+      "oracle": "Checks truncation changes displacement/stress and reports no full-order stress bound.",
+      "metrics": {
+        "required_displacement_difference": ">0",
+        "required_stress_difference": ">0",
+        "reported_error_bound": "none",
+        "observed_difference_values": null
+      },
+      "oracle_scope": "No quantitative truncation error bound."
+    },
+    {
+      "id": "tests/unit/test_wp_d02_dynamic_stress.py::test_modal_transient_selected_times_match_direct_displacement_recovery",
+      "result": "PASS",
+      "oracle": "At stored times 0 and 0.02 s, compares modal recovery to direct displacement-based recovery using the same recovery kernel.",
+      "metrics": {
+        "stress_relative_tolerance": 2E-11,
+        "stress_absolute_tolerance_Pa": 1E-08,
+        "selected_times_s": [
+          0.0,
+          0.02
+        ]
+      },
+      "oracle_scope": "Internal consistency only; independent transient oracle is test 12."
+    },
+    {
+      "id": "tests/unit/test_wp_d02_dynamic_stress.py::test_dynamic_recovery_fails_closed_for_invalid_sources_and_incomplete_fields",
+      "result": "PASS",
+      "oracle": "Expected refusal for unsupported convention, incomplete field, nonlinear material, contact and unsupported element.",
+      "metrics": {
+        "expected_refusals": 5
+      },
+      "oracle_scope": "Fail-closed contract checks."
+    },
+    {
+      "id": "tests/unit/test_wp_d02_dynamic_stress.py::test_dynamic_recovery_refuses_stale_operators_and_basis",
+      "result": "PASS",
+      "oracle": "Expected refusal for stale prepared operators and stale modal basis.",
+      "metrics": {
+        "expected_refusals": 2
+      },
+      "oracle_scope": "Fail-closed provenance checks."
+    },
+    {
+      "id": "tests/unit/test_wp_d02_dynamic_stress.py::test_transient_tet4_free_vibration_matches_modal_oracle_and_independent_stress",
+      "result": "PASS",
+      "oracle": "Independent Fraction affine fit plus Lamé stress law from actual transient nodal displacement; closed-form modal oscillator uses solver-computed eigenvalues.",
+      "metrics": {
+        "duration_s": 0.0004,
+        "time_step_s": 2.5E-06,
+        "steps": 160,
+        "sample_times_s": [
+          0.0,
+          0.0001,
+          0.0002,
+          0.0004
+        ],
+        "initial_projection_relative_error": 0.0,
+        "initial_projection_relative_limit": 1E-12,
+        "max_modal_relative_error": 0.00018541991320092637,
+        "modal_relative_limit": 0.0005,
+        "max_stress_absolute_error_Pa": 1.1368683772161603E-13,
+        "stress_absolute_limit_Pa": 1E-07,
+        "max_stress_relative_error": 2.0259036216911936E-16,
+        "sample_count": 24
+      },
+      "oracle_scope": "Independent stress recovery for this TET4 free-vibration fixture; modal time integration checked conditional on computed eigenpairs, not an independent eigenpair extraction oracle."
+    },
+    {
+      "id": "tests/unit/test_wp_d02_dynamic_stress.py::test_hex20_multiaxial_affine_stress_and_translation_on_valid_geometries[regular]",
+      "result": "PASS",
+      "oracle": "Fraction affine fit on actual geometry/nodal displacement plus Lamé law; tensor shear mapping checked.",
+      "metrics": {
+        "max_stress_absolute_error_Pa": 2.3283064365386963E-10,
+        "stress_absolute_limit_Pa": 1E-08,
+        "gauss_determinant_min": 0.9999999999999997,
+        "gauss_determinant_max": 1.0,
+        "sampled_7x7x7_determinant_min": 0.9999999999999991,
+        "sampled_7x7x7_determinant_max": 1.0000000000000007,
+        "integration_points": 27,
+        "translation_delta_Pa": 0.0
+      },
+      "oracle_scope": "One regular affine HEX20 geometry; Jacobian positivity only sampled at 27 points and 7^3 grid."
+    },
+    {
+      "id": "tests/unit/test_wp_d02_dynamic_stress.py::test_hex20_multiaxial_affine_stress_and_translation_on_valid_geometries[moderately_distorted]",
+      "result": "PASS",
+      "oracle": "Fraction affine fit on actual geometry/nodal displacement plus Lamé law; tensor shear mapping checked.",
+      "metrics": {
+        "max_stress_absolute_error_Pa": 2.3283064365386963E-10,
+        "stress_absolute_limit_Pa": 1E-08,
+        "gauss_determinant_min": 0.9415307269062345,
+        "gauss_determinant_max": 1.1071927125238985,
+        "sampled_7x7x7_determinant_min": 0.927662037037037,
+        "sampled_7x7x7_determinant_max": 1.15625,
+        "integration_points": 27,
+        "translation_delta_Pa": 0.0
+      },
+      "oracle_scope": "One moderately distorted affine HEX20 geometry; Jacobian positivity only sampled at 27 points and 7^3 grid."
+    }
+  ],
+  "unresolved_scope": {
+    "required_before_integration": [
+      "Focused D02 wrapper delegation, legacy TET4/TET10 static recovery/output, targeted linear-dynamic result, public API export inventory/stability/signatures, result serialization, and independent candidate review; exact integration commands/results remain to be recorded by the integration manager."
+    ],
+    "not_demonstrated_and_not_claimed": [
+      "BEAM2 stress recovery; D02 is solid-only despite BEAM2 being present in WP00 upstream dynamic analysis domain.",
+      "Mixed-family meshes, shells, wedge/pyramid, orthotropic/composite/nonlinear material, contact, or unsupported configurations beyond tested refusal cases.",
+      "Rigid rotations: only constant translation invariance is tested; infinitesimal rotation and finite-rotation objectivity are not validated.",
+      "Stress-unit fallback when model stress unit is absent, or a non-Pa unit conversion; no unit conversion is implemented.",
+      "General harmonic solver accuracy, independent eigenpair extraction, mesh convergence, industrial meshes, and exhaustive Jacobian positivity.",
+      "A physical HEX20 case that triggers Decimal fallback, Decimal performance/cost, and recovery of information already lost upstream of binary64 operands.",
+      "Truncated-basis quantitative stress error bound or complete transient stress history/interpolation."
+    ],
+    "maturity": "EXPERIMENTAL",
+    "general_scientific_qualification": "NOT_ACQUIRED",
+    "authoritative_integration": "PENDING",
+    "public_release": "NOT_AUTHORIZED"
+  }
+}
