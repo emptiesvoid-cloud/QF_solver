@@ -21,6 +21,8 @@ from solveur.core.model import FiniteElementModel
 from solveur.core.solvers.static import LinearStaticSolver
 from solveur.mesh.validation import MeshValidator
 from scripts.wpc02_ar_native_collection import (
+    contact_force_vectors,
+    decode_contact_rows,
     decode_audit_vectors,
     production_support_reactions,
     resultant_and_moment,
@@ -266,15 +268,24 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
         if not isinstance(contact_rows, list) or len(contact_rows) != len(bottom):
             raise RuntimeError("Production solver did not return one result row per frozen AR contact constraint.")
 
-        gaps = np.asarray([float(row["gap"]) for row in contact_rows], dtype=float)
-        multipliers = np.asarray([-float(row["pressure"]) for row in contact_rows], dtype=float)
-        solver_active = np.asarray([bool(row["active"]) for row in contact_rows], dtype=bool)
+        contact = decode_contact_rows(
+            contact_rows,
+            contact_nodes=bottom,
+            area_weights_m2=np.asarray([areas[int(node)] for node in bottom], dtype=float),
+            # WP-C02-AR freezes a +Z normal; production row pressure already
+            # uses positive compression and is the force on the slave node.
+            expected_normals=np.asarray([0.0, 0.0, 1.0]),
+            active_force_tolerance_n=PLAN["frozen_aj_acceptance_gates"]["force_tolerance_n"],
+        )
+        gaps = contact["gaps_m"]
+        multipliers = contact["multipliers_n"]
+        solver_active = contact["active_flags"]
         u_nodes = u.reshape((n_body, 3))
         reconstructed_gaps = GAP_M + u_nodes[bottom, 2]
         gap_reconstruction_error = float(np.max(np.abs(gaps - reconstructed_gaps), initial=0.0))
         active = multipliers > PLAN["frozen_aj_acceptance_gates"]["force_tolerance_n"]
         opened = gaps > PLAN["frozen_aj_acceptance_gates"]["gap_tolerance_m"]
-        pressure = multipliers / np.asarray([areas[int(node)] for node in bottom], dtype=float)
+        pressure = contact["pressure_pa"]
         support = production_support_reactions(audit_vectors, top_nodes=top)[:n_body]
 
         partial_record.update(
@@ -334,8 +345,12 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
                 exact_pressure_sq += exact**2 * area_weight
         pressure_error = float(np.sqrt(pressure_error_sq / exact_pressure_sq))
 
-        contact_force = np.zeros((n_body, 3), dtype=float)
-        contact_force[bottom, 2] = multipliers
+        contact_force = contact_force_vectors(
+            node_ids=bottom,
+            normals=contact["normals"],
+            force_magnitudes_n=multipliers,
+            node_count=n_body,
+        )
         external_resultant, external_moment = resultant_and_moment(xyz, external)
         support_resultant, support_moment = resultant_and_moment(xyz, support)
         contact_resultant, contact_moment = resultant_and_moment(xyz, contact_force)
@@ -444,8 +459,8 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
                 "production_internal_force_max_abs_difference_from_independent_stiffness_n": float(
                     np.max(np.abs(production_internal - K_independent @ u), initial=0.0)
                 ),
-                "strict_active_max_gap_m": float(np.max(gaps[active], initial=-np.inf)),
-                "strict_active_min_multiplier_n": float(np.min(multipliers[active], initial=np.inf)),
+                "strict_active_max_gap_m": float(np.max(gaps[active])) if np.any(active) else None,
+                "strict_active_min_multiplier_n": float(np.min(multipliers[active])) if np.any(active) else None,
                 "strict_open_min_gap_m": float(np.min(gaps[opened], initial=np.inf)),
                 "strict_open_max_multiplier_n": float(np.max(multipliers[opened], initial=0.0)),
                 "contact_resultant_n": float(multipliers.sum()),

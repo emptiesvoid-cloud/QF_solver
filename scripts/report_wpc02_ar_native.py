@@ -22,6 +22,9 @@ def _finite(value: Any) -> bool:
 
 
 def _pass(actual: Any, criterion: str, threshold: Any) -> dict[str, Any]:
+    if criterion != "bool_lt" and not _finite(actual):
+        return {"actual": actual, "operator": criterion, "threshold": threshold, "passed": False,
+                "evaluated": False, "status": "NOT_EVALUATED"}
     if criterion == "le":
         passed = _finite(actual) and float(actual) <= float(threshold)
     elif criterion == "ge":
@@ -32,7 +35,8 @@ def _pass(actual: Any, criterion: str, threshold: Any) -> dict[str, Any]:
         passed = bool(actual) is True
     else:
         raise ValueError(f"Unknown criterion {criterion!r}.")
-    return {"actual": actual, "operator": criterion, "threshold": threshold, "passed": bool(passed)}
+    return {"actual": actual, "operator": criterion, "threshold": threshold, "passed": bool(passed),
+            "evaluated": True, "status": "PASS" if passed else "FAIL"}
 
 
 def _level_checks(level: str, diagnostic: dict[str, Any], plan: dict[str, Any]) -> dict[str, Any]:
@@ -43,8 +47,11 @@ def _level_checks(level: str, diagnostic: dict[str, Any], plan: dict[str, Any]) 
             "actual": d["active_count"],
             "criterion": "0 < active_count < contact_rows",
             "passed": 0 < d["active_count"] < d["mesh"]["contact_rows"],
+            "evaluated": True,
+            "status": "PASS" if 0 < d["active_count"] < d["mesh"]["contact_rows"] else "FAIL",
         },
-        "open_contact_count": {"actual": d["open_count"], "criterion": "> 0", "passed": d["open_count"] > 0},
+        "open_contact_count": {"actual": d["open_count"], "criterion": "> 0", "passed": d["open_count"] > 0,
+                               "evaluated": True, "status": "PASS" if d["open_count"] > 0 else "FAIL"},
         "maximum_penetration_m": _pass(d["maximum_penetration_m"], "le", gates["production_maximum_penetration_m"]),
         "gap_reconstruction_error_m": _pass(d["production_gap_reconstruction_error_m"], "le", gates["production_gap_reconstruction_error_m"]),
         "production_complementarity_nm": _pass(d["production_complementarity_inf_nm"], "le", gates["complementarity_tolerance_nm"]),
@@ -86,6 +93,8 @@ def _level_checks(level: str, diagnostic: dict[str, Any], plan: dict[str, Any]) 
             ),
             "criterion": "every y row has an ordered active/open front bracket",
             "passed": all_rows,
+            "evaluated": True,
+            "status": "PASS" if all_rows else "FAIL",
         }
         checks["prospective_front_misclassification_locality"] = {
             "actual": {
@@ -98,17 +107,26 @@ def _level_checks(level: str, diagnostic: dict[str, Any], plan: dict[str, Any]) 
             },
             "criterion": "all false positive/negative nodes within hx",
             "passed": all_mislabels_local,
+            "evaluated": True,
+            "status": "PASS" if all_mislabels_local else "FAIL",
         }
         checks["prospective_front_no_multiple_front"] = {
             "actual": d["rows_with_more_than_one_active_open_transition"],
             "criterion": "no row with multiple active/open transitions",
             "passed": not d["rows_with_more_than_one_active_open_transition"],
+            "evaluated": True,
+            "status": "PASS" if not d["rows_with_more_than_one_active_open_transition"] else "FAIL",
         }
     return checks
 
 
 def _status(checks: dict[str, Any]) -> str:
-    return "PASS" if all(check["passed"] for check in checks.values()) else "FAIL"
+    statuses = [check.get("status", "PASS" if check.get("passed") else "FAIL") for check in checks.values()]
+    if any(status == "FAIL" for status in statuses):
+        return "FAIL"
+    if any(status == "NOT_EVALUATED" for status in statuses):
+        return "NOT_ACQUIRED"
+    return "PASS"
 
 
 def _table_row(level: str, record: dict[str, Any] | None, baseline: dict[str, Any] | None) -> list[str]:
@@ -137,6 +155,8 @@ def _table_row(level: str, record: dict[str, Any] | None, baseline: dict[str, An
             _scenario_verdict(record),
         ]
     d = record["diagnostics"]
+    front_error = "NOT_EVALUATED" if not _finite(d["front_error_max_abs_m"]) else f"{d['front_error_max_abs_m']:.7g}"
+    front_error_hx = "NOT_EVALUATED" if not _finite(d["front_error_max_over_hx"]) else f"{d['front_error_max_over_hx']:.7g}"
     return [
         level,
         f"{d['mesh']['nodes']} / {d['mesh']['tet4']}",
@@ -150,7 +170,7 @@ def _table_row(level: str, record: dict[str, Any] | None, baseline: dict[str, An
         f"{d['contact_resultant_relative_error']:.7g}",
         f"{d['contact_moment_error_nm']:.7g}",
         f"{d['support_resultant_error_n']:.7g} / {d['support_moment_error_nm']:.7g}",
-        f"{d['front_error_max_abs_m']:.7g} / {d['front_error_max_over_hx']:.7g}",
+        f"{front_error} / {front_error_hx}",
         record["scenario_state"],
     ]
 
@@ -164,6 +184,19 @@ def _md_table(headers: list[str], rows: list[list[str]]) -> str:
 def _scenario_verdict(record: dict[str, Any] | None, checks: dict[str, Any] | None = None) -> str:
     if record is None:
         return "NOT_EVALUATED"
+    # The one-shot ledger is the authoritative pytest outcome.  A later
+    # missing derived metric must not erase an already recorded criterion fail.
+    if record.get("_ledger_state") == "SCIENTIFIC_CRITERION_FAILURE":
+        return "FAIL"
+    if record.get("_ledger_state") in {
+        "RSS_LIMIT_EXCEEDED", "WALL_TIMEOUT_EXCEEDED",
+        "INFRASTRUCTURE_FAILURE_NO_DIAGNOSTIC", "INFRASTRUCTURE_FAILURE_INCOMPLETE_DIAGNOSTIC",
+    }:
+        return "NOT_EVALUATED"
+    if record.get("_ledger_error") is not None:
+        if checks is not None and _status(checks) == "FAIL":
+            return "FAIL"
+        return "ERROR_COLLECTION"
     if record.get("scenario_state") == "COLLECTION_ERROR":
         return "ERROR_COLLECTION"
     if record.get("scenario_state") == "COMPLETED_DIAGNOSTICS":
@@ -180,19 +213,49 @@ def _scenario_verdict(record: dict[str, Any] | None, checks: dict[str, Any] | No
     return "NOT_EVALUATED"
 
 
-def _load_scenario(path: Path, level: str, plan: dict[str, Any]) -> dict[str, Any] | None:
+def _load_scenario(
+    path: Path,
+    level: str,
+    plan: dict[str, Any],
+    ledger_entry: dict[str, Any] | None = None,
+    *,
+    ledger_error: str | None = None,
+) -> dict[str, Any] | None:
     if not path.is_file():
-        return None
+        if ledger_entry is None and ledger_error is None:
+            return None
+        result: dict[str, Any] = {"level": level, "scenario_state": "DIAGNOSTICS_MISSING"}
+        if ledger_entry is not None:
+            result["_ledger_state"] = ledger_entry.get("state")
+            result["failure"] = {"type": "MissingDiagnostics", "message": "pytest ledger has no diagnostic file"}
+        if ledger_error is not None:
+            result["_ledger_error"] = ledger_error
+        return result
     try:
         record = _load(path)
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
-        return {"level": level, "scenario_state": "COLLECTION_ERROR", "failure": {
+        result = {"level": level, "scenario_state": "COLLECTION_ERROR", "failure": {
             "type": type(exc).__name__, "message": str(exc)
         }}
+        if ledger_entry is not None:
+            result["_ledger_state"] = ledger_entry.get("state")
+        if ledger_error is not None:
+            result["_ledger_error"] = ledger_error
+        return result
     if not isinstance(record, dict):
-        return {"level": level, "scenario_state": "COLLECTION_ERROR", "failure": {
+        result = {"level": level, "scenario_state": "COLLECTION_ERROR", "failure": {
             "type": "InvalidRecord", "message": "Scenario diagnostics JSON must be an object."
         }}
+        if ledger_entry is not None:
+            result["_ledger_state"] = ledger_entry.get("state")
+        if ledger_error is not None:
+            result["_ledger_error"] = ledger_error
+        return result
+    record["level"] = level
+    if ledger_entry is not None:
+        record["_ledger_state"] = ledger_entry.get("state")
+    if ledger_error is not None:
+        record["_ledger_error"] = ledger_error
     if record.get("scenario_state") == "COMPLETED_DIAGNOSTICS":
         try:
             _validate_complete_record(record)
@@ -202,6 +265,33 @@ def _load_scenario(path: Path, level: str, plan: dict[str, Any]) -> dict[str, An
                 "type": type(exc).__name__, "message": str(exc)
             }}
     return record
+
+
+def _load_run_ledger(archive: Path) -> tuple[dict[str, dict[str, Any]], str | None]:
+    path = archive / "run_ledger.json"
+    if not path.is_file():
+        has_campaign_identity = (archive / "archive_integrity_manifest.json").is_file() or any(
+            candidate.is_file()
+            for candidate in archive.glob("*execution_manifest*.json")
+        )
+        if has_campaign_identity:
+            return {}, "MissingLedger: native campaign archive has no run_ledger.json"
+        return {}, None
+    try:
+        ledger = _load(path)
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        return {}, f"{type(exc).__name__}: {exc}"
+    scenarios = ledger.get("scenarios") if isinstance(ledger, dict) else None
+    if not isinstance(scenarios, list):
+        return {}, "InvalidLedger: scenarios must be a list"
+    entries: dict[str, dict[str, Any]] = {}
+    for entry in scenarios:
+        if not isinstance(entry, dict) or entry.get("level") not in {"M4", "M5"}:
+            return {}, "InvalidLedger: each scenario entry must identify M4 or M5"
+        if entry["level"] in entries or not isinstance(entry.get("state"), str):
+            return {}, f"InvalidLedger: duplicate or missing state for {entry['level']}"
+        entries[entry["level"]] = entry
+    return entries, None
 
 
 def _validate_complete_record(record: dict[str, Any]) -> None:
@@ -236,10 +326,21 @@ def _validate_complete_record(record: dict[str, Any]) -> None:
         "false_positives", "false_negatives", "rows_with_more_than_one_active_open_transition",
         "front_trace_by_y", "mesh",
     }
+    nullable_when_population_empty = {
+        "strict_active_max_gap_m",
+        "front_error_max_abs_m",
+        "front_error_max_over_hx",
+    }
     for name in numeric_fields:
         value = diagnostics[name]
+        if value is None and name in nullable_when_population_empty:
+            continue
         if not isinstance(value, (int, float)) or isinstance(value, bool) or not math.isfinite(float(value)):
             raise ValueError(f"completed diagnostic {name!r} must be a finite number")
+    if diagnostics["strict_active_max_gap_m"] is None and diagnostics["active_count"] != 0:
+        raise ValueError("strict_active_max_gap_m may be null only when no strict-active rows were measured")
+    if any(diagnostics[name] is None for name in ("front_error_max_abs_m", "front_error_max_over_hx")) and diagnostics["front_bracketed_row_count"] != 0:
+        raise ValueError("front error metrics may be null only when no row front was bracketed")
     required_mesh = {"nodes", "tet4", "body_mechanical_dofs", "body_free_dofs", "contact_rows"}
     if not isinstance(diagnostics["mesh"], dict) or not required_mesh.issubset(diagnostics["mesh"]):
         raise ValueError("completed diagnostics have incomplete mesh dimensions")
@@ -358,8 +459,12 @@ def render_report(archive: Path) -> str:
     plan = _load(PLAN_PATH)
     baseline_doc = _load(BASELINE_PATH)
     baselines = {row["level"]: row for row in baseline_doc["levels"]}
+    ledger_entries, ledger_error = _load_run_ledger(archive)
     records: dict[str, dict[str, Any] | None] = {
-        level: _load_scenario(archive / f"{level.lower()}_diagnostics.json", level, plan)
+        level: _load_scenario(
+            archive / f"{level.lower()}_diagnostics.json", level, plan,
+            ledger_entries.get(level), ledger_error=ledger_error,
+        )
         for level in ("M4", "M5")
     }
 
@@ -460,6 +565,8 @@ def render_report(archive: Path) -> str:
             front_rows.append([level, "—", "—", "—", "—", "NOT_ACQUIRED", "NOT_ACQUIRED", "NOT_ACQUIRED"])
             continue
         d = record["diagnostics"]
+        front_error = "NOT_EVALUATED" if not _finite(d["front_error_max_abs_m"]) else f"{d['front_error_max_abs_m']:.7g}"
+        front_error_hx = "NOT_EVALUATED" if not _finite(d["front_error_max_over_hx"]) else f"{d['front_error_max_over_hx']:.7g}"
         max_mislabel_distance = max(
             (p["distance_to_front_over_hx"] for p in (*d["false_positives"], *d["false_negatives"])),
             default=0.0,
@@ -467,8 +574,8 @@ def render_report(archive: Path) -> str:
         front_rows.append(
             [
                 level,
-                f"{d['front_error_max_abs_m']:.7g}",
-                f"{d['front_error_max_over_hx']:.7g}",
+                front_error,
+                front_error_hx,
                 f"{d['false_positive_count']} / {d['false_negative_count']}",
                 f"{max_mislabel_distance:.7g}",
                 f"{d['front_bracketed_row_count']}/{d['front_row_count']}",
@@ -483,7 +590,7 @@ def render_report(archive: Path) -> str:
     front_status = "NOT_ACQUIRED"
     native_front_fail = any(
         checks is not None and any(
-            name.startswith("prospective_front_") and not check["passed"]
+            name.startswith("prospective_front_") and check.get("status") == "FAIL"
             for name, check in checks.items()
         )
         for checks in native_front.values()
@@ -509,6 +616,8 @@ def render_report(archive: Path) -> str:
             scientific_verdict = "NOT_ACQUIRED"
     else:
         scientific_verdict = "NOT_ACQUIRED"
+    if ledger_error is not None and scientific_verdict == "PASS":
+        scientific_verdict = "NOT_ACQUIRED"
 
     report_rows = [_table_row(level, None, baselines[level]) for level in ("M1", "M2", "M3")]
     report_rows.extend([_table_row(level, records[level], None) for level in ("M4", "M5")])
@@ -529,8 +638,10 @@ def render_report(archive: Path) -> str:
         if state != "COMPLETED_DIAGNOSTICS":
             failure_type, failure_message = _failure_details(record)
             level_sections.append(
-                f"### {level}\n\nÉtat : `{_scenario_verdict(record)}` (enregistrement `{state}`). "
-                f"Échec enregistré : `{failure_type}: {failure_message}`.\n"
+                f"### {level}\n\nÉtat principal : `{_scenario_verdict(record)}` "
+                f"(pytest ledger `{record.get('_ledger_state', 'NOT_RECORDED')}`, enregistrement `{state}`). "
+                f"Cause/limitation : `{failure_type}: {failure_message}`. "
+                "Les diagnostics dérivés absents ou invalides sont `NOT_EVALUATED`; ils ne remplacent pas un FAIL déjà consigné.\n"
             )
             continue
         diag = record["diagnostics"]

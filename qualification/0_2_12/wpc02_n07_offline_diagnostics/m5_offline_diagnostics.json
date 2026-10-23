@@ -1,0 +1,944 @@
+{
+  "active_count": 42,
+  "complementarity_inf_nm": 2.275702646934442e-12,
+  "contact_moment_nm": [
+    83.44511523245274,
+    -21.19288038313765,
+    0.0
+  ],
+  "contact_resultant_n": [
+    0.0,
+    0.0,
+    166.6684522983598
+  ],
+  "contact_work_identity_error_j": 2.5172641748838487e-12,
+  "corrected_contact_force_max_n": 12.90994833220617,
+  "corrected_contact_force_min_n": 0.0,
+  "corrected_contact_pressure_max_pa": 900.0175161476789,
+  "corrected_contact_pressure_min_pa": 0.0,
+  "exact_contact_moment_nm": [
+    83.3333333333334,
+    -20.833333333333318,
+    0.0
+  ],
+  "exact_contact_resultant_n": 166.66666666666657,
+  "force_balance_relative": 2.5490553249518584e-14,
+  "force_balance_vector_n": [
+    -1.2699286067174853e-12,
+    1.3898415838348166e-12,
+    3.808509063674137e-12
+  ],
+  "front": {
+    "area_metric_note": "Nodal tributary areas define a lumped mismatch measure, not an exact active-area integral or Hausdorff distance.",
+    "biactive_count": 0,
+    "false_negative_count": 0,
+    "false_negative_tributary_area_m2": 0.0,
+    "false_negatives": [],
+    "false_positive_count": 6,
+    "false_positive_tributary_area_m2": 0.1,
+    "false_positives": [
+      {
+        "distance_to_front_m": 0.09999999999999998,
+        "distance_to_front_over_hx": 0.9999999999999998,
+        "gap_m": 1.5590827240341554e-16,
+        "lambda_n": 0.03166464564449128,
+        "node": 6,
+        "pressure_pa": 3.166464564449128,
+        "x_m": 0.6,
+        "y_m": 0.0
+      },
+      {
+        "distance_to_front_m": 0.09999999999999998,
+        "distance_to_front_over_hx": 0.9999999999999998,
+        "gap_m": 4.36282954208167e-16,
+        "lambda_n": 0.09929633280615385,
+        "node": 17,
+        "pressure_pa": 4.964816640307693,
+        "x_m": 0.6,
+        "y_m": 0.2
+      },
+      {
+        "distance_to_front_m": 0.09999999999999998,
+        "distance_to_front_over_hx": 0.9999999999999998,
+        "gap_m": -3.0791341698588326e-16,
+        "lambda_n": 0.12583305691168387,
+        "node": 28,
+        "pressure_pa": 6.291652845584193,
+        "x_m": 0.6,
+        "y_m": 0.4
+      },
+      {
+        "distance_to_front_m": 0.09999999999999998,
+        "distance_to_front_over_hx": 0.9999999999999998,
+        "gap_m": 1.235990476633475e-16,
+        "lambda_n": 0.14828697317000206,
+        "node": 39,
+        "pressure_pa": 7.414348658500103,
+        "x_m": 0.6,
+        "y_m": 0.6
+      },
+      {
+        "distance_to_front_m": 0.09999999999999998,
+        "distance_to_front_over_hx": 0.9999999999999998,
+        "gap_m": -4.100452616340178e-16,
+        "lambda_n": 0.1612058970289354,
+        "node": 50,
+        "pressure_pa": 8.06029485144677,
+        "x_m": 0.6,
+        "y_m": 0.8
+      },
+      {
+        "distance_to_front_m": 0.09999999999999998,
+        "distance_to_front_over_hx": 0.9999999999999998,
+        "gap_m": -4.505944228849756e-16,
+        "lambda_n": 0.05277295516954439,
+        "node": 61,
+        "pressure_pa": 5.277295516954439,
+        "x_m": 0.6,
+        "y_m": 1.0
+      }
+    ],
+    "front_biactive_nodes": [],
+    "front_bracket_ordered_row_count": 6,
+    "front_bracketed_row_count": 6,
+    "front_definition": "per y-row: greatest x with lambda above frozen force tolerance; descriptive, not a label-equality gate",
+    "front_error_max_abs_m": 0.09999999999999998,
+    "front_error_max_over_hx": 0.9999999999999998,
+    "front_error_rms_m": 0.09999999999999998,
+    "front_error_rms_over_hx": 0.9999999999999998,
+    "front_exact_x_m": 0.5,
+    "front_row_count": 6,
+    "front_trace_by_y": [
+      {
+        "absolute_front_error_m": 0.09999999999999998,
+        "active_x_m": [
+          0.0,
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6
+        ],
+        "bracket_width_m": 0.09999999999999998,
+        "contact_states_by_x": [
+          {
+            "classification": "ACTIVE",
+            "gap_m": 3.619283692191111e-15,
+            "lambda_n": 5.670334924666548,
+            "node": 0,
+            "pressure_pa": 850.5502386999822,
+            "x_m": 0.0
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -1.7162269869142044e-14,
+            "lambda_n": 5.888525537654687,
+            "node": 1,
+            "pressure_pa": 588.8525537654687,
+            "x_m": 0.1
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 2.3993914494147006e-13,
+            "lambda_n": 3.2258043165441848,
+            "node": 2,
+            "pressure_pa": 322.5804316544185,
+            "x_m": 0.2
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -9.671712215830741e-14,
+            "lambda_n": 1.3618015976059894,
+            "node": 3,
+            "pressure_pa": 136.18015976059894,
+            "x_m": 0.3
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 5.666040553409246e-15,
+            "lambda_n": 0.2985748928073235,
+            "node": 4,
+            "pressure_pa": 29.857489280732352,
+            "x_m": 0.4
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 3.155028321932818e-16,
+            "lambda_n": 0.021780302131759726,
+            "node": 5,
+            "pressure_pa": 2.1780302131759726,
+            "x_m": 0.5
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 1.5590827240341554e-16,
+            "lambda_n": 0.03166464564449128,
+            "node": 6,
+            "pressure_pa": 3.166464564449128,
+            "x_m": 0.6
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 1.5047680915804013e-06,
+            "lambda_n": 0.0,
+            "node": 7,
+            "pressure_pa": 0.0,
+            "x_m": 0.7
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 8.457539381775047e-06,
+            "lambda_n": 0.0,
+            "node": 8,
+            "pressure_pa": 0.0,
+            "x_m": 0.8
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 2.692998137336384e-05,
+            "lambda_n": 0.0,
+            "node": 9,
+            "pressure_pa": 0.0,
+            "x_m": 0.9
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 6.532878120087333e-05,
+            "lambda_n": 0.0,
+            "node": 10,
+            "pressure_pa": 0.0,
+            "x_m": 1.0
+          }
+        ],
+        "first_open_signed_offset_m": 0.19999999999999996,
+        "first_open_values": {
+          "classification": "OPEN",
+          "gap_m": 1.5047680915804013e-06,
+          "lambda_n": 0.0,
+          "node": 7,
+          "pressure_pa": 0.0,
+          "x_m": 0.7
+        },
+        "first_open_x_m": 0.7,
+        "front_bracketed_by_observed_states": true,
+        "last_active_values": {
+          "classification": "ACTIVE",
+          "gap_m": 1.5590827240341554e-16,
+          "lambda_n": 0.03166464564449128,
+          "node": 6,
+          "pressure_pa": 3.166464564449128,
+          "x_m": 0.6
+        },
+        "last_active_x_m": 0.6,
+        "open_x_m": [
+          0.7,
+          0.8,
+          0.9,
+          1.0
+        ],
+        "ordered_active_open_bracket": true,
+        "signed_front_error_m": 0.09999999999999998,
+        "y_m": 0.0
+      },
+      {
+        "absolute_front_error_m": 0.09999999999999998,
+        "active_x_m": [
+          0.0,
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6
+        ],
+        "bracket_width_m": 0.09999999999999998,
+        "contact_states_by_x": [
+          {
+            "classification": "ACTIVE",
+            "gap_m": -6.053100728986571e-15,
+            "lambda_n": 8.674844299110198,
+            "node": 11,
+            "pressure_pa": 867.4844299110198,
+            "x_m": 0.0
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 1.1471943187069122e-14,
+            "lambda_n": 12.90994833220617,
+            "node": 12,
+            "pressure_pa": 645.4974166103085,
+            "x_m": 0.1
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 5.998109994798106e-14,
+            "lambda_n": 7.320333161915528,
+            "node": 13,
+            "pressure_pa": 366.0166580957764,
+            "x_m": 0.2
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -2.279383279346625e-14,
+            "lambda_n": 3.328238785862183,
+            "node": 14,
+            "pressure_pa": 166.41193929310916,
+            "x_m": 0.3
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 7.794546258432788e-15,
+            "lambda_n": 0.936473988799321,
+            "node": 15,
+            "pressure_pa": 46.82369943996605,
+            "x_m": 0.4
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -6.53340229139765e-16,
+            "lambda_n": 0.12383498944041094,
+            "node": 16,
+            "pressure_pa": 6.191749472020547,
+            "x_m": 0.5
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 4.36282954208167e-16,
+            "lambda_n": 0.09929633280615385,
+            "node": 17,
+            "pressure_pa": 4.964816640307693,
+            "x_m": 0.6
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 1.3076460067781067e-06,
+            "lambda_n": 0.0,
+            "node": 18,
+            "pressure_pa": 0.0,
+            "x_m": 0.7
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 7.774934857222556e-06,
+            "lambda_n": 0.0,
+            "node": 19,
+            "pressure_pa": 0.0,
+            "x_m": 0.8
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 2.520894482803827e-05,
+            "lambda_n": 0.0,
+            "node": 20,
+            "pressure_pa": 0.0,
+            "x_m": 0.9
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 6.156048960477404e-05,
+            "lambda_n": 0.0,
+            "node": 21,
+            "pressure_pa": 0.0,
+            "x_m": 1.0
+          }
+        ],
+        "first_open_signed_offset_m": 0.19999999999999996,
+        "first_open_values": {
+          "classification": "OPEN",
+          "gap_m": 1.3076460067781067e-06,
+          "lambda_n": 0.0,
+          "node": 18,
+          "pressure_pa": 0.0,
+          "x_m": 0.7
+        },
+        "first_open_x_m": 0.7,
+        "front_bracketed_by_observed_states": true,
+        "last_active_values": {
+          "classification": "ACTIVE",
+          "gap_m": 4.36282954208167e-16,
+          "lambda_n": 0.09929633280615385,
+          "node": 17,
+          "pressure_pa": 4.964816640307693,
+          "x_m": 0.6
+        },
+        "last_active_x_m": 0.6,
+        "open_x_m": [
+          0.7,
+          0.8,
+          0.9,
+          1.0
+        ],
+        "ordered_active_open_bracket": true,
+        "signed_front_error_m": 0.09999999999999998,
+        "y_m": 0.2
+      },
+      {
+        "absolute_front_error_m": 0.09999999999999998,
+        "active_x_m": [
+          0.0,
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6
+        ],
+        "bracket_width_m": 0.09999999999999998,
+        "contact_states_by_x": [
+          {
+            "classification": "ACTIVE",
+            "gap_m": 1.1719574963264812e-14,
+            "lambda_n": 8.670872257601694,
+            "node": 22,
+            "pressure_pa": 867.0872257601694,
+            "x_m": 0.0
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 2.2251948547657996e-14,
+            "lambda_n": 12.901847143445117,
+            "node": 23,
+            "pressure_pa": 645.0923571722559,
+            "x_m": 0.1
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -2.527492104498208e-14,
+            "lambda_n": 7.311846251115583,
+            "node": 24,
+            "pressure_pa": 365.59231255577913,
+            "x_m": 0.2
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 1.95590071916385e-16,
+            "lambda_n": 3.3181953165523446,
+            "node": 25,
+            "pressure_pa": 165.90976582761724,
+            "x_m": 0.3
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 2.1545265571631944e-14,
+            "lambda_n": 0.9238025294074106,
+            "node": 26,
+            "pressure_pa": 46.19012647037053,
+            "x_m": 0.4
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -1.4283279420324035e-15,
+            "lambda_n": 0.10828932469621577,
+            "node": 27,
+            "pressure_pa": 5.414466234810789,
+            "x_m": 0.5
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -3.0791341698588326e-16,
+            "lambda_n": 0.12583305691168387,
+            "node": 28,
+            "pressure_pa": 6.291652845584193,
+            "x_m": 0.6
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 1.1718054384714585e-06,
+            "lambda_n": 0.0,
+            "node": 29,
+            "pressure_pa": 0.0,
+            "x_m": 0.7
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 7.4068864040811606e-06,
+            "lambda_n": 0.0,
+            "node": 30,
+            "pressure_pa": 0.0,
+            "x_m": 0.8
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 2.4495670760598786e-05,
+            "lambda_n": 0.0,
+            "node": 31,
+            "pressure_pa": 0.0,
+            "x_m": 0.9
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 6.045888459379936e-05,
+            "lambda_n": 0.0,
+            "node": 32,
+            "pressure_pa": 0.0,
+            "x_m": 1.0
+          }
+        ],
+        "first_open_signed_offset_m": 0.19999999999999996,
+        "first_open_values": {
+          "classification": "OPEN",
+          "gap_m": 1.1718054384714585e-06,
+          "lambda_n": 0.0,
+          "node": 29,
+          "pressure_pa": 0.0,
+          "x_m": 0.7
+        },
+        "first_open_x_m": 0.7,
+        "front_bracketed_by_observed_states": true,
+        "last_active_values": {
+          "classification": "ACTIVE",
+          "gap_m": -3.0791341698588326e-16,
+          "lambda_n": 0.12583305691168387,
+          "node": 28,
+          "pressure_pa": 6.291652845584193,
+          "x_m": 0.6
+        },
+        "last_active_x_m": 0.6,
+        "open_x_m": [
+          0.7,
+          0.8,
+          0.9,
+          1.0
+        ],
+        "ordered_active_open_bracket": true,
+        "signed_front_error_m": 0.09999999999999998,
+        "y_m": 0.4
+      },
+      {
+        "absolute_front_error_m": 0.09999999999999998,
+        "active_x_m": [
+          0.0,
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6
+        ],
+        "bracket_width_m": 0.09999999999999998,
+        "contact_states_by_x": [
+          {
+            "classification": "ACTIVE",
+            "gap_m": -2.7069709321314583e-14,
+            "lambda_n": 8.6674741519357,
+            "node": 33,
+            "pressure_pa": 866.74741519357,
+            "x_m": 0.0
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -1.441750364927774e-14,
+            "lambda_n": 12.894918182556609,
+            "node": 34,
+            "pressure_pa": 644.7459091278304,
+            "x_m": 0.1
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -3.115316164759019e-13,
+            "lambda_n": 7.304885047230755,
+            "node": 35,
+            "pressure_pa": 365.24425236153775,
+            "x_m": 0.2
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 2.8611206286111024e-13,
+            "lambda_n": 3.3101414159716076,
+            "node": 36,
+            "pressure_pa": 165.50707079858037,
+            "x_m": 0.3
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -1.1744576665362327e-13,
+            "lambda_n": 0.9140113968250299,
+            "node": 37,
+            "pressure_pa": 45.70056984125149,
+            "x_m": 0.4
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 1.0319436277717031e-14,
+            "lambda_n": 0.09709622098796444,
+            "node": 38,
+            "pressure_pa": 4.854811049398222,
+            "x_m": 0.5
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 1.235990476633475e-16,
+            "lambda_n": 0.14828697317000206,
+            "node": 39,
+            "pressure_pa": 7.414348658500103,
+            "x_m": 0.6
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 1.0680748162665826e-06,
+            "lambda_n": 0.0,
+            "node": 40,
+            "pressure_pa": 0.0,
+            "x_m": 0.7
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 7.14019693055898e-06,
+            "lambda_n": 0.0,
+            "node": 41,
+            "pressure_pa": 0.0,
+            "x_m": 0.8
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 2.3999889097105534e-05,
+            "lambda_n": 0.0,
+            "node": 42,
+            "pressure_pa": 0.0,
+            "x_m": 0.9
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 5.970387524247998e-05,
+            "lambda_n": 0.0,
+            "node": 43,
+            "pressure_pa": 0.0,
+            "x_m": 1.0
+          }
+        ],
+        "first_open_signed_offset_m": 0.19999999999999996,
+        "first_open_values": {
+          "classification": "OPEN",
+          "gap_m": 1.0680748162665826e-06,
+          "lambda_n": 0.0,
+          "node": 40,
+          "pressure_pa": 0.0,
+          "x_m": 0.7
+        },
+        "first_open_x_m": 0.7,
+        "front_bracketed_by_observed_states": true,
+        "last_active_values": {
+          "classification": "ACTIVE",
+          "gap_m": 1.235990476633475e-16,
+          "lambda_n": 0.14828697317000206,
+          "node": 39,
+          "pressure_pa": 7.414348658500103,
+          "x_m": 0.6
+        },
+        "last_active_x_m": 0.6,
+        "open_x_m": [
+          0.7,
+          0.8,
+          0.9,
+          1.0
+        ],
+        "ordered_active_open_bracket": true,
+        "signed_front_error_m": 0.09999999999999998,
+        "y_m": 0.6
+      },
+      {
+        "absolute_front_error_m": 0.09999999999999998,
+        "active_x_m": [
+          0.0,
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6
+        ],
+        "bracket_width_m": 0.09999999999999998,
+        "contact_states_by_x": [
+          {
+            "classification": "ACTIVE",
+            "gap_m": 4.973755782233802e-14,
+            "lambda_n": 8.666241290491705,
+            "node": 44,
+            "pressure_pa": 866.6241290491705,
+            "x_m": 0.0
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -1.5191840840866888e-14,
+            "lambda_n": 12.887382068913686,
+            "node": 45,
+            "pressure_pa": 644.3691034456842,
+            "x_m": 0.1
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 1.819174151596048e-13,
+            "lambda_n": 7.297438976074073,
+            "node": 46,
+            "pressure_pa": 364.8719488037036,
+            "x_m": 0.2
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -1.4639331413768275e-14,
+            "lambda_n": 3.3014771937847627,
+            "node": 47,
+            "pressure_pa": 165.07385968923813,
+            "x_m": 0.3
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -2.3295601558892542e-14,
+            "lambda_n": 0.9024236499295683,
+            "node": 48,
+            "pressure_pa": 45.12118249647841,
+            "x_m": 0.4
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -2.1658022597570437e-15,
+            "lambda_n": 0.08052119093242993,
+            "node": 49,
+            "pressure_pa": 4.026059546621497,
+            "x_m": 0.5
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -4.100452616340178e-16,
+            "lambda_n": 0.1612058970289354,
+            "node": 50,
+            "pressure_pa": 8.06029485144677,
+            "x_m": 0.6
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 9.599640010331083e-07,
+            "lambda_n": 0.0,
+            "node": 51,
+            "pressure_pa": 0.0,
+            "x_m": 0.7
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 6.803085388306339e-06,
+            "lambda_n": 0.0,
+            "node": 52,
+            "pressure_pa": 0.0,
+            "x_m": 0.8
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 2.32780565293481e-05,
+            "lambda_n": 0.0,
+            "node": 53,
+            "pressure_pa": 0.0,
+            "x_m": 0.9
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 5.850138547944326e-05,
+            "lambda_n": 0.0,
+            "node": 54,
+            "pressure_pa": 0.0,
+            "x_m": 1.0
+          }
+        ],
+        "first_open_signed_offset_m": 0.19999999999999996,
+        "first_open_values": {
+          "classification": "OPEN",
+          "gap_m": 9.599640010331083e-07,
+          "lambda_n": 0.0,
+          "node": 51,
+          "pressure_pa": 0.0,
+          "x_m": 0.7
+        },
+        "first_open_x_m": 0.7,
+        "front_bracketed_by_observed_states": true,
+        "last_active_values": {
+          "classification": "ACTIVE",
+          "gap_m": -4.100452616340178e-16,
+          "lambda_n": 0.1612058970289354,
+          "node": 50,
+          "pressure_pa": 8.06029485144677,
+          "x_m": 0.6
+        },
+        "last_active_x_m": 0.6,
+        "open_x_m": [
+          0.7,
+          0.8,
+          0.9,
+          1.0
+        ],
+        "ordered_active_open_bracket": true,
+        "signed_front_error_m": 0.09999999999999998,
+        "y_m": 0.8
+      },
+      {
+        "absolute_front_error_m": 0.09999999999999998,
+        "active_x_m": [
+          0.0,
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6
+        ],
+        "bracket_width_m": 0.09999999999999998,
+        "contact_states_by_x": [
+          {
+            "classification": "ACTIVE",
+            "gap_m": 3.903214557121615e-14,
+            "lambda_n": 3.00005838715893,
+            "node": 55,
+            "pressure_pa": 900.0175161476789,
+            "x_m": 0.0
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 6.911528641073694e-14,
+            "lambda_n": 7.002136820117784,
+            "node": 56,
+            "pressure_pa": 700.2136820117784,
+            "x_m": 0.1
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 2.8170608207256365e-13,
+            "lambda_n": 4.07696991663002,
+            "node": 57,
+            "pressure_pa": 407.696991663002,
+            "x_m": 0.2
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -7.50651710929029e-14,
+            "lambda_n": 1.9490169768599657,
+            "node": 58,
+            "pressure_pa": 194.90169768599657,
+            "x_m": 0.3
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": 3.723518889053867e-14,
+            "lambda_n": 0.6194965871806062,
+            "node": 59,
+            "pressure_pa": 61.94965871806062,
+            "x_m": 0.4
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -6.3868181576776095e-15,
+            "lambda_n": 0.0823550124851522,
+            "node": 60,
+            "pressure_pa": 8.23550124851522,
+            "x_m": 0.5
+          },
+          {
+            "classification": "ACTIVE",
+            "gap_m": -4.505944228849756e-16,
+            "lambda_n": 0.05277295516954439,
+            "node": 61,
+            "pressure_pa": 5.277295516954439,
+            "x_m": 0.6
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 8.925143465835037e-07,
+            "lambda_n": 0.0,
+            "node": 62,
+            "pressure_pa": 0.0,
+            "x_m": 0.7
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 6.309086947100043e-06,
+            "lambda_n": 0.0,
+            "node": 63,
+            "pressure_pa": 0.0,
+            "x_m": 0.8
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 2.1645456896397927e-05,
+            "lambda_n": 0.0,
+            "node": 64,
+            "pressure_pa": 0.0,
+            "x_m": 0.9
+          },
+          {
+            "classification": "OPEN",
+            "gap_m": 5.413345199375269e-05,
+            "lambda_n": 0.0,
+            "node": 65,
+            "pressure_pa": 0.0,
+            "x_m": 1.0
+          }
+        ],
+        "first_open_signed_offset_m": 0.19999999999999996,
+        "first_open_values": {
+          "classification": "OPEN",
+          "gap_m": 8.925143465835037e-07,
+          "lambda_n": 0.0,
+          "node": 62,
+          "pressure_pa": 0.0,
+          "x_m": 0.7
+        },
+        "first_open_x_m": 0.7,
+        "front_bracketed_by_observed_states": true,
+        "last_active_values": {
+          "classification": "ACTIVE",
+          "gap_m": -4.505944228849756e-16,
+          "lambda_n": 0.05277295516954439,
+          "node": 61,
+          "pressure_pa": 5.277295516954439,
+          "x_m": 0.6
+        },
+        "last_active_x_m": 0.6,
+        "open_x_m": [
+          0.7,
+          0.8,
+          0.9,
+          1.0
+        ],
+        "ordered_active_open_bracket": true,
+        "signed_front_error_m": 0.09999999999999998,
+        "y_m": 1.0
+      }
+    ],
+    "front_unbracketed_y_m": [],
+    "mismatch_tributary_area_fraction": 0.1,
+    "rows_with_more_than_one_active_open_transition": [],
+    "strict_active_max_gap_m": 2.8611206286111024e-13,
+    "strict_active_min_lambda_n": 0.021780302131759726,
+    "strict_open_max_lambda_n": 0.0,
+    "strict_open_min_gap_m": 8.925143465835037e-07
+  },
+  "gap_min_m": -3.115316164759019e-13,
+  "gap_reconstruction_error_m": 0.0,
+  "input_diagnostics_sha256": "b50e0538afb23b5aea1e5788165baee692099901c22f1bd503accc36f77776b5",
+  "lambda_min_n": 0.0,
+  "max_penetration_m": 3.115316164759019e-13,
+  "mesh": {
+    "contact_rows": 66,
+    "hx_m": 0.1,
+    "nodes": 396,
+    "tet4": 1500
+  },
+  "moment_balance_relative": 2.936141256045023e-14,
+  "moment_balance_vector_nm": [
+    -2.5011104298755527e-12,
+    -2.0321522242738865e-12,
+    3.68263752825726e-12
+  ],
+  "open_count": 24,
+  "production_stationarity": "NOT_EVALUATED: N06 archive does not contain production internal-force vector.",
+  "production_vs_independent_qp_displacement_max_error_m": 3.115316164759019e-13,
+  "production_vs_independent_qp_multiplier_max_error_n": 4.154205872630712e-07,
+  "qualification_reclassification": "PROHIBITED; does not alter N06 FAIL or acquire M2/M3 historical front traces.",
+  "relative_pressure_l2_error_vs_AJ": 0.07790737379433552,
+  "status": "OFFLINE_DIAGNOSTIC_ONLY",
+  "transformation": "corrected p_n = -archived_N06 field_values.contact_multipliers_n; p_n is production row pressure in positive-compression convention; pressure_Pa=p_n/A_trib; slave force=p_n*(+Z).",
+  "unchanged_N06_field_error_metrics": {
+    "fe_integrated_strain_energy_j": 1.485944971751668,
+    "relative_energy_norm_error": 0.010424904367980313,
+    "relative_l2_displacement_error": 0.0015859910001943525,
+    "strain_energy_error_norm_j_sqrt": 0.01797265767458146
+  }
+}

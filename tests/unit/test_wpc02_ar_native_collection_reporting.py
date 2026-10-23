@@ -10,6 +10,8 @@ import pytest
 
 from scripts import report_wpc02_ar_native as reporter
 from scripts.wpc02_ar_native_collection import (
+    contact_force_vectors,
+    decode_contact_rows,
     decode_audit_vectors,
     production_support_reactions,
     resultant_and_moment,
@@ -168,6 +170,132 @@ def test_opposite_sign_is_preserved_and_unbalanced_fixture_is_not_hidden() -> No
     assert float(decoded["loads"][2] + decoded["reactions"][2]) == -10.0
 
 
+def _contact_row(gap: float, pressure_force_n: float, *, active: bool = False) -> dict[str, object]:
+    return {"gap": gap, "pressure": pressure_force_n, "normal": [0.0, 0.0, 1.0], "active": active}
+
+
+def test_production_contact_pressure_is_positive_compression_and_open_is_zero() -> None:
+    decoded = decode_contact_rows(
+        [_contact_row(0.0, 5.0, active=True), _contact_row(1.0e-4, 0.0)],
+        contact_nodes=np.asarray([0, 1]),
+        area_weights_m2=np.asarray([0.5, 0.25]),
+        expected_normals=np.asarray([0.0, 0.0, 1.0]),
+    )
+    np.testing.assert_array_equal(decoded["multipliers_n"], [5.0, 0.0])
+    np.testing.assert_array_equal(decoded["pressure_pa"], [10.0, 0.0])
+    np.testing.assert_array_equal(decoded["gaps_m"], [0.0, 1.0e-4])
+    np.testing.assert_array_equal(decoded["active_flags"], [True, False])
+
+
+def test_contact_decode_keeps_partial_active_and_open_classification() -> None:
+    decoded = decode_contact_rows(
+        [_contact_row(0.0, 2.0, active=True), _contact_row(0.0, 0.0), _contact_row(2.0e-4, 0.0)],
+        contact_nodes=np.asarray([0, 1, 2]),
+        area_weights_m2=np.ones(3),
+        expected_normals=np.asarray([0.0, 0.0, 1.0]),
+    )
+    active = decoded["multipliers_n"] > 1.0e-7
+    opened = decoded["gaps_m"] > 1.0e-10
+    assert int(np.count_nonzero(active)) == 1
+    assert int(np.count_nonzero(opened)) == 1
+    assert not np.all(active) and not np.all(opened)
+
+
+def test_contact_action_reaction_and_physical_force_moment_balance() -> None:
+    slave_contact = contact_force_vectors(
+        node_ids=np.asarray([0]),
+        normals=np.asarray([[0.0, 0.0, 1.0]]),
+        force_magnitudes_n=np.asarray([5.0]),
+        node_count=2,
+    )
+    master_contact = contact_force_vectors(
+        node_ids=np.asarray([1]),
+        normals=np.asarray([[0.0, 0.0, -1.0]]),
+        force_magnitudes_n=np.asarray([5.0]),
+        node_count=2,
+    )
+    np.testing.assert_array_equal(slave_contact[0], -master_contact[1])
+    coordinates = np.asarray([[1.0, 0.0, 0.0], [1.0, 0.0, 0.0]])
+    slave_resultant, slave_moment = resultant_and_moment(coordinates, slave_contact)
+    np.testing.assert_array_equal(slave_resultant, [0.0, 0.0, 5.0])
+    np.testing.assert_array_equal(slave_moment, [0.0, -5.0, 0.0])
+    resultant, moment = resultant_and_moment(coordinates, slave_contact + master_contact)
+    np.testing.assert_array_equal(resultant, np.zeros(3))
+    np.testing.assert_array_equal(moment, np.zeros(3))
+
+
+def test_kkt_admissibility_and_complementarity_with_compression_sign() -> None:
+    gaps = np.asarray([0.0, 2.0e-4])
+    compression = np.asarray([3.0, 0.0])
+    assert float(np.min(gaps)) >= -1.0e-10
+    assert float(np.min(compression)) >= -1.0e-7
+    assert float(np.max(np.abs(gaps * compression))) == 0.0
+    inverted = -compression
+    assert float(np.min(inverted)) < -1.0e-7
+
+
+def test_front_trace_brackets_known_partial_contact_without_fem() -> None:
+    import importlib.util
+    from pathlib import Path
+
+    aj_path = Path(__file__).with_name("test_wpc02_aj_partial_active_contact.py")
+    spec = importlib.util.spec_from_file_location("wpc02_aj_front_fixture", aj_path)
+    assert spec is not None and spec.loader is not None
+    aj = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(aj)
+    nodes = np.asarray([0, 1, 2, 3, 4, 5])
+    xyz = np.asarray([
+        [0.0, 0.0, 0.0], [0.5, 0.0, 0.0], [1.0, 0.0, 0.0],
+        [0.0, 1.0, 0.0], [0.5, 1.0, 0.0], [1.0, 1.0, 0.0],
+    ])
+    gaps = np.asarray([0.0, 0.0, 1.0e-4, 0.0, 0.0, 1.0e-4])
+    pressure_force = np.asarray([2.0, 0.0, 0.0, 2.0, 0.0, 0.0])
+    trace = aj._front_diagnostics(nodes, xyz, np.ones(6), 0.5, 0.5, gaps, pressure_force)
+    assert trace["front_bracketed_row_count"] == trace["front_row_count"] == 2
+    assert trace["front_error_max_over_hx"] == 1.0
+
+
+@pytest.mark.parametrize("bad_value", [float("nan"), float("inf"), -float("inf")])
+def test_contact_decoder_rejects_nonfinite_row_data(bad_value: float) -> None:
+    with pytest.raises(ValueError, match="finite"):
+        decode_contact_rows(
+            [_contact_row(0.0, bad_value)],
+            contact_nodes=np.asarray([0]),
+            area_weights_m2=np.asarray([1.0]),
+        )
+
+
+def test_contact_decoder_rejects_wrong_normal_or_bad_area() -> None:
+    with pytest.raises(ValueError, match="normals differ"):
+        decode_contact_rows(
+            [{"gap": 0.0, "pressure": 1.0, "normal": [0.0, 0.0, -1.0], "active": True}],
+            contact_nodes=np.asarray([0]), area_weights_m2=np.asarray([1.0]),
+            expected_normals=np.asarray([0.0, 0.0, 1.0]),
+        )
+    with pytest.raises(ValueError, match="areas"):
+        decode_contact_rows(
+            [_contact_row(0.0, 1.0)], contact_nodes=np.asarray([0]), area_weights_m2=np.asarray([0.0])
+        )
+
+
+@pytest.mark.parametrize(
+    ("force", "active", "message"),
+    [
+        (-1.0e-4, True, "tensile contact force"),
+        (2.0, False, "inactive flag conflicts"),
+    ],
+)
+def test_contact_decoder_rejects_sign_or_active_flag_inconsistency(
+    force: float, active: bool, message: str
+) -> None:
+    with pytest.raises(ValueError, match=message):
+        decode_contact_rows(
+            [_contact_row(0.0, force, active=active)],
+            contact_nodes=np.asarray([0]),
+            area_weights_m2=np.asarray([1.0]),
+            expected_normals=np.asarray([0.0, 0.0, 1.0]),
+            active_force_tolerance_n=1.0e-7,
+        )
 def test_reporter_handles_malformed_partial_missing_and_mixed_scenarios(tmp_path: Path) -> None:
     (tmp_path / "m4_diagnostics.json").write_text("{not json", encoding="utf-8")
     (tmp_path / "m5_diagnostics.json").write_text(json.dumps({
@@ -254,11 +382,89 @@ def test_collection_and_reporting_helpers_never_enter_fem(monkeypatch: pytest.Mo
         ({"scenario_state": "SOLVER_OR_DIAGNOSTIC_EXCEPTION", "failure": {"type": "TypeError"}}, "ERROR_COLLECTION"),
         ({"scenario_state": "SOLVER_COMPLETED_RAW_FIELDS"}, "NOT_EVALUATED"),
         ({"scenario_state": "COLLECTION_ERROR"}, "ERROR_COLLECTION"),
+        ({"scenario_state": "COLLECTION_ERROR", "_ledger_state": "SCIENTIFIC_CRITERION_FAILURE"}, "FAIL"),
+        ({"scenario_state": "DIAGNOSTICS_MISSING", "_ledger_state": "SCIENTIFIC_CRITERION_FAILURE"}, "FAIL"),
+        ({"scenario_state": "DIAGNOSTICS_MISSING", "_ledger_state": "WALL_TIMEOUT_EXCEEDED"}, "NOT_EVALUATED"),
     ],
 )
 def test_reporter_scenario_status_classification(record: dict[str, object], expected: str) -> None:
     checks = {"example": {"passed": True}} if record["scenario_state"] == "COMPLETED_DIAGNOSTICS" else None
     assert reporter._scenario_verdict(record, checks) == expected
+
+
+def test_reporter_marks_empty_contact_and_front_metrics_not_evaluated_but_keeps_fail() -> None:
+    record = _complete_record()
+    d = record["diagnostics"]
+    d["active_count"] = 0
+    d["strict_active_max_gap_m"] = None
+    d["front_error_max_abs_m"] = None
+    d["front_error_max_over_hx"] = None
+    d["front_bracketed_row_count"] = 0
+    d["front_bracket_ordered_row_count"] = 0
+    d["front_trace_by_y"] = [{
+        "front_bracketed_by_observed_states": False,
+        "ordered_active_open_bracket": False,
+        "contact_states_by_x": [
+            {"node": 0, "classification": "UNCLASSIFIED"},
+            {"node": 1, "classification": "OPEN"},
+            {"node": 2, "classification": "OPEN"},
+            {"node": 3, "classification": "OPEN"},
+        ],
+    }]
+    reporter._validate_complete_record(record)
+    checks = reporter._level_checks("M4", record, reporter._load(reporter.PLAN_PATH))
+    assert checks["partial_contact_active_count"]["status"] == "FAIL"
+    assert checks["strict_active_gap_m"]["status"] == "NOT_EVALUATED"
+    assert reporter._status(checks) == "FAIL"
+
+
+def test_reporter_does_not_claim_pass_when_run_ledger_is_unreadable() -> None:
+    record = {"scenario_state": "COMPLETED_DIAGNOSTICS", "_ledger_error": "invalid ledger"}
+    assert reporter._scenario_verdict(record, {"one": {"passed": True}}) == "ERROR_COLLECTION"
+    assert reporter._scenario_verdict(record, {"one": {"passed": False}}) == "FAIL"
+
+
+def test_campaign_identity_requires_authoritative_run_ledger(tmp_path: Path) -> None:
+    (tmp_path / "archive_integrity_manifest.json").write_text("{}", encoding="utf-8")
+    entries, error = reporter._load_run_ledger(tmp_path)
+    assert entries == {}
+    assert error is not None and "MissingLedger" in error
+    record = {"scenario_state": "COMPLETED_DIAGNOSTICS", "_ledger_error": error}
+    assert reporter._scenario_verdict(record, {"one": {"passed": True}}) == "ERROR_COLLECTION"
+
+
+@pytest.mark.parametrize("serialization", ["invalid_json", "nan_metric", "missing_record"])
+def test_reporter_ledger_scientific_failure_survives_diagnostic_collection_errors(
+    tmp_path: Path, serialization: str
+) -> None:
+    if serialization == "invalid_json":
+        (tmp_path / "m4_diagnostics.json").write_text("{broken", encoding="utf-8")
+    elif serialization == "nan_metric":
+        record = _complete_record()
+        record["diagnostics"]["production_stationarity_inf_n"] = float("nan")
+        (tmp_path / "m4_diagnostics.json").write_text(json.dumps(record), encoding="utf-8")
+    (tmp_path / "run_ledger.json").write_text(json.dumps({"scenarios": [
+        {"level": "M4", "state": "SCIENTIFIC_CRITERION_FAILURE", "attempt_count": 1},
+        {"level": "M5", "state": "WALL_TIMEOUT_EXCEEDED", "attempt_count": 1},
+    ]}), encoding="utf-8")
+    report = reporter.render_report(tmp_path)
+    assert "**M4** : `FAIL`" in report
+    assert "**M5** : `NOT_EVALUATED`" in report
+    assert "diagnostics dérivés absents ou invalides sont `NOT_EVALUATED`" in report
+
+
+def test_reporter_preserves_collection_error_when_no_scientific_failure_was_recorded(tmp_path: Path) -> None:
+    (tmp_path / "m4_diagnostics.json").write_text("{broken", encoding="utf-8")
+    (tmp_path / "run_ledger.json").write_text(json.dumps({"scenarios": [
+        {"level": "M4", "state": "INFRASTRUCTURE_FAILURE_NO_DIAGNOSTIC", "attempt_count": 1},
+    ]}), encoding="utf-8")
+    record = reporter._load_scenario(
+        tmp_path / "m4_diagnostics.json", "M4", reporter._load(reporter.PLAN_PATH),
+        reporter._load_run_ledger(tmp_path)[0]["M4"],
+    )
+    assert record is not None
+    assert reporter._scenario_verdict(record) == "NOT_EVALUATED"
+    assert record["scenario_state"] == "COLLECTION_ERROR"
 
 
 def test_n04_archive_remains_readable_and_hash_intact() -> None:

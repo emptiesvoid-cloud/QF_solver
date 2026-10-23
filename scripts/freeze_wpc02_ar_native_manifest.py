@@ -38,7 +38,14 @@ def _assert_external(path: Path) -> None:
         raise RuntimeError("The execution manifest must remain outside the committed source tree.")
 
 
-def bind_manifest(seed_path: Path, output_path: Path) -> dict[str, Any]:
+def bind_manifest(
+    seed_path: Path,
+    output_path: Path,
+    *,
+    campaign: str = "WP-C02-AR native one-shot campaign N03 M4/M5",
+    campaign_id: str = "wpc02-ar-native-n03-m4m5-20261023-01",
+    archive_relative_path: str = "qualification/0_2_12/wpc02_ar_native_campaign_n03_20261023_01",
+) -> dict[str, Any]:
     _assert_external(output_path)
     manifest = json.loads(seed_path.read_text(encoding="utf-8"))
     head = _git("rev-parse", "HEAD")
@@ -77,8 +84,8 @@ def bind_manifest(seed_path: Path, output_path: Path) -> dict[str, Any]:
     manifest["source_file_count"] = len(committed)
     manifest["source_set_sha256"] = _aggregate(committed)
     manifest["schema"] = "wpc02-ar-native-execution-manifest-v3"
-    manifest["campaign"] = "WP-C02-AR native one-shot campaign N03 M4/M5"
-    manifest["campaign_id"] = "wpc02-ar-native-n03-m4m5-20261023-01"
+    manifest["campaign"] = campaign
+    manifest["campaign_id"] = campaign_id
     manifest["identity"] = {
         "git_head": head,
         "git_tree_oid": tree,
@@ -86,9 +93,7 @@ def bind_manifest(seed_path: Path, output_path: Path) -> dict[str, Any]:
         "source_commit_only": True,
         "manifest_external_to_tree": True,
     }
-    manifest["execution"]["archive_relative_path"] = (
-        "qualification/0_2_12/wpc02_ar_native_campaign_n03_20261023_01"
-    )
+    manifest["execution"]["archive_relative_path"] = archive_relative_path
     manifest["execution"]["manifest_external_path"] = str(output_path.resolve())
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -100,8 +105,20 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--seed", type=Path, default=DEFAULT_SEED)
     parser.add_argument("--output", type=Path, default=DEFAULT_SEED)
+    parser.add_argument("--campaign", default="WP-C02-AR native one-shot campaign N03 M4/M5")
+    parser.add_argument("--campaign-id", default="wpc02-ar-native-n03-m4m5-20261023-01")
+    parser.add_argument(
+        "--archive-relative-path",
+        default="qualification/0_2_12/wpc02_ar_native_campaign_n03_20261023_01",
+    )
     args = parser.parse_args()
-    manifest = bind_manifest(args.seed, args.output)
+    manifest = bind_manifest(
+        args.seed,
+        args.output,
+        campaign=args.campaign,
+        campaign_id=args.campaign_id,
+        archive_relative_path=args.archive_relative_path,
+    )
     print(json.dumps({
         "campaign_id": manifest["campaign_id"],
         "git_head": manifest["identity"]["git_head"],

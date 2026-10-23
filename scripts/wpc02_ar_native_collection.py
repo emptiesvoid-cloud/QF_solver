@@ -87,6 +87,114 @@ def production_support_reactions(vectors: dict[str, np.ndarray], *, top_nodes: n
     return support
 
 
+def decode_contact_rows(
+    rows: Any,
+    *,
+    contact_nodes: np.ndarray,
+    area_weights_m2: np.ndarray,
+    expected_normals: np.ndarray | None = None,
+    active_force_tolerance_n: float = 1.0e-7,
+) -> dict[str, np.ndarray]:
+    """Decode contact output using SolverAudit's positive-compression pressure.
+
+    ``support._pressures`` stores ``-raw_lagrange_multiplier`` because the
+    saddle-system multiplier has the opposite sign to the physical force on
+    the slave.  The row's ``pressure`` is therefore already the nonnegative
+    physical contact force (N); it must not be negated a second time.
+    ``pressure_pa`` is that force divided by its nodal tributary area.
+    """
+    nodes = np.asarray(contact_nodes)
+    areas = np.asarray(area_weights_m2, dtype=float)
+    if nodes.ndim != 1 or nodes.size == 0 or nodes.dtype.kind not in "iu":
+        raise ValueError("contact node IDs must be a non-empty one-dimensional integer array")
+    if len(set(int(node) for node in nodes)) != len(nodes) or np.any(nodes < 0):
+        raise ValueError("contact node IDs must be unique non-negative integers")
+    if areas.shape != nodes.shape or not np.all(np.isfinite(areas)) or np.any(areas <= 0.0):
+        raise ValueError("contact tributary areas must be finite, positive, and match contact node IDs")
+    if (not math.isfinite(active_force_tolerance_n) or active_force_tolerance_n < 0.0):
+        raise ValueError("active force tolerance must be finite and non-negative")
+    if not isinstance(rows, list) or len(rows) != len(nodes):
+        raise ValueError("contact rows must be a list with exactly one row per frozen contact node")
+
+    gaps = np.empty(len(rows), dtype=float)
+    forces = np.empty(len(rows), dtype=float)
+    active_flags = np.empty(len(rows), dtype=bool)
+    normals = np.empty((len(rows), 3), dtype=float)
+    for index, row in enumerate(rows):
+        if not isinstance(row, dict):
+            raise ValueError(f"contact row {index} must be an object")
+        try:
+            gap = float(row["gap"])
+            force = float(row["pressure"])
+            normal = np.asarray(row["normal"], dtype=float)
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError(f"contact row {index} is missing a valid gap, pressure, or normal") from exc
+        active = row.get("active")
+        if not isinstance(active, bool):
+            raise ValueError(f"contact row {index} active flag must be boolean")
+        if not math.isfinite(gap) or not math.isfinite(force):
+            raise ValueError(f"contact row {index} gap and pressure must be finite")
+        if force < -active_force_tolerance_n:
+            raise ValueError(f"contact row {index} has tensile contact force beyond the frozen tolerance")
+        if active and force < -active_force_tolerance_n:
+            raise ValueError(f"contact row {index} active flag conflicts with tensile contact force")
+        if not active and force > active_force_tolerance_n:
+            raise ValueError(f"contact row {index} inactive flag conflicts with compressive contact force")
+        if normal.shape != (3,) or not np.all(np.isfinite(normal)):
+            raise ValueError(f"contact row {index} normal must be a finite global XYZ vector")
+        if not math.isclose(float(np.linalg.norm(normal)), 1.0, rel_tol=0.0, abs_tol=1.0e-12):
+            raise ValueError(f"contact row {index} normal must be unit length")
+        gaps[index] = gap
+        forces[index] = force
+        active_flags[index] = active
+        normals[index] = normal
+
+    if expected_normals is not None:
+        expected = np.asarray(expected_normals, dtype=float)
+        if expected.shape == (3,):
+            expected = np.broadcast_to(expected, normals.shape)
+        if expected.shape != normals.shape or not np.all(np.isfinite(expected)):
+            raise ValueError("expected contact normals must be finite XYZ vectors matching the rows")
+        if not np.allclose(normals, expected, rtol=0.0, atol=1.0e-12):
+            raise ValueError("production contact normals differ from the frozen qualification convention")
+
+    return {
+        "gaps_m": gaps,
+        "multipliers_n": forces,
+        "active_flags": active_flags,
+        "pressure_pa": forces / areas,
+        "normals": normals,
+    }
+
+
+def contact_force_vectors(
+    *,
+    node_ids: np.ndarray,
+    normals: np.ndarray,
+    force_magnitudes_n: np.ndarray,
+    node_count: int,
+) -> np.ndarray:
+    """Assemble physical forces on slave nodes: compression magnitude × normal."""
+    nodes = np.asarray(node_ids)
+    directions = np.asarray(normals, dtype=float)
+    magnitudes = np.asarray(force_magnitudes_n, dtype=float)
+    if isinstance(node_count, bool) or not isinstance(node_count, int) or node_count <= 0:
+        raise ValueError("node_count must be a positive integer")
+    if nodes.ndim != 1 or nodes.dtype.kind not in "iu" or magnitudes.shape != nodes.shape:
+        raise ValueError("contact node IDs and force magnitudes must be matching one-dimensional arrays")
+    if directions.shape != (len(nodes), 3):
+        raise ValueError("contact normals must be an N-by-3 array")
+    if len(set(int(node) for node in nodes)) != len(nodes) or np.any(nodes < 0) or np.any(nodes >= node_count):
+        raise ValueError("contact node IDs must be unique and within the nodal force array")
+    if not np.all(np.isfinite(directions)) or not np.all(np.isfinite(magnitudes)):
+        raise ValueError("contact directions and force magnitudes must be finite")
+    if np.any(np.abs(np.linalg.norm(directions, axis=1) - 1.0) > 1.0e-12):
+        raise ValueError("contact normals must be unit length")
+    forces = np.zeros((node_count, 3), dtype=float)
+    forces[nodes] = magnitudes[:, None] * directions
+    return forces
+
+
 def resultant_and_moment(coordinates_m: np.ndarray, forces_n: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """Sum global force and moment about the global origin using SI inputs."""
     coordinates = np.asarray(coordinates_m, dtype=float)
