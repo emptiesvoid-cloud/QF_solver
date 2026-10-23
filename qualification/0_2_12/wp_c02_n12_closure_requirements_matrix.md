@@ -33,3 +33,13 @@ Finding restant au niveau documentaire : le résumé AQ/baseline avait `support_
 ## Décision Owner N13
 
 L’Owner a approuvé `WP_C02_STATUS=CLOSED_BOUNDED` exclusivement pour le benchmark WP-C02-AR et les critères N03. Cet état administratif est rattaché à [la décision N13](wp_c02_n13_owner_bounded_closure_decision.md). Les statuts `GENERAL_CONTACT_QUALIFICATION=NOT_ACQUIRED`, `DOCKER_EQUIVALENCE=NOT_ACQUIRED`, absence de preuve asymptotique, et les échecs N06/N08 et Docker restent maintenus.
+
+## Intégration M-ERGE — état de branche
+
+La clôture bornée est intégrée sélectivement dans `codex/v0.2.12-integration`;
+le détail des commits, tests et limites est consigné dans
+[le rapport M-ERGE](wp_c02_integration_merge_report.md). `WP_C02_INTEGRATION`
+décrit uniquement cet état de branche et ne promeut ni la qualification
+générale du contact, ni l’équivalence Docker, ni la disponibilité de release.
+L’intégration autoritative vers `main` et toute publication restent hors
+périmètre.

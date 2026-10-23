@@ -32,10 +32,28 @@ deserializer. WP11-B records this contract boundary for an Owner decision.
 WP-D02 remains `CLOSED_BOUNDED` at its documented recovery scope. WP-E01
 remains `OPEN_WITH_BOUNDED_CERTIFICATES`: the GF4 certificate is historical to
 its exact TET4 slave-subsystem identity, master assembly equilibrium remains
-`NOT_VERIFIED`, and the global J2 tangent remains unresolved. D01 and C02 are
-not treated as WP11 prerequisites absent a demonstrated dependency or an
-explicit historical contract requiring them. WP12 and WP13 remain open and
-retain their separate criteria.
+`NOT_VERIFIED`, and the global J2 tangent remains unresolved. WP-C02 is now
+`CLOSED_BOUNDED` only for the WP-C02-AR manufactured TET4 fixed planar-face
+benchmark and prospective criteria N03. `GENERAL_CONTACT_QUALIFICATION` and
+`DOCKER_EQUIVALENCE` remain `NOT_ACQUIRED`; no asymptotic convergence claim is
+made. The N06/N08 and Docker `FAIL`/`FAIL_CLOSED` verdicts remain unchanged.
+This does not close the broader contact route or alter the WP11, WP12, or WP13
+criteria. D01 remains separate from the bounded C02 decision.
 
 See [`wp11_b_closure_gate_assessment.md`](wp11_b_closure_gate_assessment.md)
 for the current gate assessment and recommended decision.
+
+## Current WP-C02 decision and integration — Owner N13 / M-ERGE
+
+`WP_C02_STATUS=CLOSED_BOUNDED` applies solely to WP-C02-AR/N03. The selected
+integration is recorded in
+[`wp_c02_integration_merge_report.md`](wp_c02_integration_merge_report.md);
+it does not change the scientific scope or claim Docker equivalence. N10
+execution results and their archive remain external and are linked by their
+own manifest and integrity hashes.
+
+The integration portfolio count is **19 work packages: 13 positive closures,
+1 negative closure, and 5 open**, for **68.4% positive closure**. This is an
+operational roadmap count only; it does not measure overall scientific
+maturity or release readiness. The Owner roadmap remains preserved verbatim,
+and `main`/public release are unchanged.
