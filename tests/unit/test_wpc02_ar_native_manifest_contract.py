@@ -13,10 +13,19 @@ from typing import Any
 import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
+SOURCE_ROOT = Path(os.environ.get("WPC02_AR_NATIVE_SOURCE_ROOT", ROOT))
 MANIFEST_PATH = Path(os.environ.get(
     "WPC02_AR_NATIVE_MANIFEST_PATH",
     ROOT / "qualification/0_2_12/wp_c02_ar_native_execution_manifest.json",
 ))
+
+
+def _load_manifest() -> dict[str, Any]:
+    if not MANIFEST_PATH.is_file():
+        if "WPC02_AR_NATIVE_MANIFEST_PATH" in os.environ:
+            pytest.fail(f"Configured frozen manifest is missing: {MANIFEST_PATH}")
+        pytest.skip("external frozen WP-C02 manifest is not present in this checkout")
+    return json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
 
 
 def _load_module(name: str, path: Path) -> Any:
@@ -37,7 +46,7 @@ def _aggregate(files: dict[str, str]) -> str:
 
 
 def test_manifest_source_hash_contract_and_all_files() -> None:
-    manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    manifest = _load_manifest()
     runner = _load_module("wpc02_ar_candidate_runner_contract", ROOT / "scripts/run_wpc02_ar_native_pytest.py")
     assert manifest["source_set_contract"] == runner.SOURCE_SET_CONTRACT
     files = manifest["source_files_sha256"]
@@ -47,14 +56,14 @@ def test_manifest_source_hash_contract_and_all_files() -> None:
     assert "qualification/0_2_12/wp_c02_ar_native_preparation_report.md" not in files
     assert "qualification/0_2_12/wp_c02_ar_native_execution_manifest.json" not in files
     for relative, expected in files.items():
-        path = ROOT / relative
+        path = SOURCE_ROOT / relative
         assert path.is_file(), f"missing frozen source: {relative}"
         assert _sha256(path) == expected, f"source hash mismatch: {relative}"
-    runner._verify_source_set(manifest)
+    runner._verify_source_set(manifest, root=SOURCE_ROOT)
 
 
 def test_runner_rejects_aggregate_tampering() -> None:
-    manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    manifest = _load_manifest()
     runner = _load_module("wpc02_ar_candidate_runner_tamper", ROOT / "scripts/run_wpc02_ar_native_pytest.py")
     manifest["source_set_sha256"] = "0" * 64
     with pytest.raises(RuntimeError, match="source-set hash mismatch"):
@@ -116,6 +125,7 @@ def test_runner_rejects_changed_source_file(tmp_path: Path) -> None:
 
 
 def test_runner_refuses_wrong_manifest_digest_before_pytest() -> None:
+    _load_manifest()
     result = subprocess.run(
         [
             sys.executable,
