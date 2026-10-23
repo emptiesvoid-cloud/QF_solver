@@ -1,0 +1,150 @@
+{
+  "schema": "wpc02-ar-mesh-plan-v1",
+  "status": "DESIGN_ONLY_NOT_COLLECTABLE_NOT_RUN",
+  "campaign": "WP-C02-AR bounded spatial convergence preparation",
+  "repository": {
+    "branch": "codex/wp-c02-ar-spatial-convergence-20261023",
+    "design_base_head": "fe1586f59a83156f090a6976672f7c1645583df1",
+    "design_base_tree": "808b498a96daaf4ffbcc0d5aa1a79d4cf3af38d2",
+    "origin": "https://github.com/emptiesvoid-cloud/QF_solver.git"
+  },
+  "provenance": {
+    "aq_report_path": "qualification/0_2_12/wp_c02_aq_docker_fem_execution_report.md",
+    "aq_report_sha256": "ab1f9389c265174f20e1c8ef841513876cc1d635839e2bb2f30aadcf56104cab",
+    "aq_execution_head": "847e93086b518e5d724f17ecb33e92d534212fcc",
+    "aq_run_receipt_sha256": "172a70d86828018d36aafdd37cf9044fadf3b381a5bcb73549472d398281b499",
+    "aj_test_path": "tests/unit/test_wpc02_aj_partial_active_contact.py",
+    "aj_test_sha256": "7b14816b6ed6f6bed8aaa8e3bbde568251cf94332aa6c7b12765f389d6ae226e",
+    "aj_historical_manifest_sha256": "7bf71c3c0ce146f1bc01f5c6964d48f8bf642392d225514258d7f59829f606ca",
+    "scientific_source_tree_sha256": "26d82115b3e4a1628cdaa62bcd91a17873ae30a09d5604383029e10602aed883",
+    "contact_source_path": "src/solveur/contact/experimental_distributed_frozen.py",
+    "contact_source_sha256": "3f8ed76e57abe8cdf5ee2fc113eda667919aa649c0ba18f8d4902384a611844e"
+  },
+  "model_contract": {
+    "domain_m": [[0.0, 1.0], [0.0, 1.0], [0.001, 1.001]],
+    "material": {"young_modulus_pa": 3000000.0, "poisson_ratio": 0.0},
+    "element": "linear tetrahedral TET4; six-tet cube split copied from the frozen AJ fixture",
+    "support": "zero ux, uy, uz on every top-boundary node",
+    "master": "one fixed rigid planar triangular patch at z=0 m; normal +z; frozen geometry",
+    "contact": "frictionless unilateral Signorini; one normal constraint at every bottom node; no edge/corner, finite sliding, self-contact, or deformable master",
+    "gap": "g=0.001 m + uz; g>=0",
+    "reaction": "lambda>=0 N; force on slave body is +lambda e_z",
+    "complementarity": "g*lambda=0 N*m",
+    "analytic_front_x_m": 0.5,
+    "analytic_pressure": "p(x)=4000*max(0,0.5-x)^2 Pa",
+    "manufactured_active_region": "0<=x<0.5 m; 0<=y<=1 m",
+    "manufactured_open_region": "0.5<x<=1 m; 0<=y<=1 m",
+    "biactive_front": "g=lambda=0 in the continuum at x=0.5 m; nodal classification is not forced at this line",
+    "loads": "unchanged analytic body forces and noncontact boundary tractions from the AJ fixture",
+    "voigt": "[epsilon_xx, epsilon_yy, epsilon_zz, gamma_xy, gamma_yz, gamma_xz], engineering shear; D shear entries=mu",
+    "energy": "U=0.5 integral(epsilon^T D epsilon)dV; energy error norm=sqrt(integral(delta_epsilon^T D delta_epsilon)dV), units sqrt(J)"
+  },
+  "mesh_family": {
+    "construction": "nx=2k, ny=k, nz=k; same physical domain, same structured cells, same six-tet local split, same boundary and load rules",
+    "h_x_m": "1/nx",
+    "h_max_m": "3/nx, largest tetrahedral edge for this cell aspect ratio and split",
+    "counts_formula": {
+      "nodes": "(nx+1)*(ny+1)*(nz+1)",
+      "tet4": "6*nx*ny*nz",
+      "mechanical_dofs": "3*nodes",
+      "top_prescribed_dofs": "3*(nx+1)*(ny+1)",
+      "free_dofs": "mechanical_dofs-top_prescribed_dofs",
+      "contact_rows": "(nx+1)*(ny+1)",
+      "continuum_strict_active_rows": "(nx/2)*(ny+1)",
+      "continuum_strict_open_rows": "(nx/2)*(ny+1)",
+      "analytic_biactive_front_nodes": "ny+1"
+    },
+    "levels": [
+      {"level":"M1","status":"historical_AQ","nx":2,"ny":1,"nz":1,"nodes":12,"tet4":12,"mechanical_dofs":36,"free_dofs":18,"contact_rows":6,"full_constraint_kkt_dimension":24,"strict_active":2,"strict_open":2,"biactive_front_nodes":2,"hx_m":0.5,"hmax_m":1.5},
+      {"level":"M2","status":"historical_AQ","nx":4,"ny":2,"nz":2,"nodes":45,"tet4":96,"mechanical_dofs":135,"free_dofs":90,"contact_rows":15,"full_constraint_kkt_dimension":105,"strict_active":6,"strict_open":6,"biactive_front_nodes":3,"hx_m":0.25,"hmax_m":0.75},
+      {"level":"M3","status":"historical_AQ","nx":6,"ny":3,"nz":3,"nodes":112,"tet4":324,"mechanical_dofs":336,"free_dofs":252,"contact_rows":28,"full_constraint_kkt_dimension":280,"strict_active":12,"strict_open":12,"biactive_front_nodes":4,"hx_m":0.16666666666666666,"hmax_m":0.5},
+      {"level":"M4","status":"prepared_not_assembled","nx":8,"ny":4,"nz":4,"nodes":225,"tet4":768,"mechanical_dofs":675,"free_dofs":540,"contact_rows":45,"full_constraint_kkt_dimension":585,"strict_active":20,"strict_open":20,"biactive_front_nodes":5,"hx_m":0.125,"hmax_m":0.375},
+      {"level":"M5","status":"prepared_not_assembled","nx":10,"ny":5,"nz":5,"nodes":396,"tet4":1500,"mechanical_dofs":1188,"free_dofs":990,"contact_rows":66,"full_constraint_kkt_dimension":1056,"strict_active":30,"strict_open":30,"biactive_front_nodes":6,"hx_m":0.1,"hmax_m":0.3}
+    ],
+    "nesting": "M1-M2 has aligned node nesting; M2-M3-M4-M5 are not nested; compare fields with the analytic continuum and never by nodal index",
+    "front_alignment": "x=0.5 m remains an x-cell boundary at each level; this family does not test a misaligned continuum front"
+  },
+  "frozen_aj_acceptance_gates": {
+    "scope": "exact AJ test assertions applied at each of M1-M3; AJ coarse/fine endpoint is M1/M3, not M1/M5",
+    "gap_tolerance_m": 1e-10,
+    "force_tolerance_n": 1e-7,
+    "partial_contact_counts": "0 < active_count < contact_rows and open_count > 0 at each level",
+    "production_maximum_penetration_m": 1e-10,
+    "production_gap_reconstruction_error_m": 1e-10,
+    "complementarity_tolerance_nm": 1e-10,
+    "production_strict_active_max_gap_m": 1e-10,
+    "production_strict_open_max_multiplier_n": 1e-7,
+    "production_stationarity_inf_residual_n": 1e-6,
+    "independent_qp_primal_min_gap_m": -1e-10,
+    "independent_qp_dual_min_multiplier_n": -1e-7,
+    "independent_qp_complementarity_inf_nm": 1e-10,
+    "independent_qp_stationarity_inf_residual_n": 1e-6,
+    "production_vs_independent_qp_displacement_max_error_m": 1e-9,
+    "production_vs_independent_qp_multiplier_max_error_n": 1e-6,
+    "production_normalized_force_balance": 1e-9,
+    "production_normalized_moment_balance": 1e-9,
+    "independent_qp_normalized_force_balance": 1e-9,
+    "independent_qp_normalized_moment_balance": 1e-9,
+    "production_contact_work_identity_error_j": 1e-9,
+    "independent_qp_contact_work_identity_error_j": 1e-9,
+    "fe_matrix_energy_vs_quadrature_error_j": 1e-10,
+    "relative_displacement_error_ratio_M3_over_M1_strictly_less_than": 0.9,
+    "relative_pressure_error_ratio_M3_over_M1_strictly_less_than": 0.9,
+    "energy_error_norm_M3_strictly_less_than_M1": true,
+    "contact_force_and_moment_errors": "must be finite and reported; no discretization error threshold in AJ",
+    "front_metrics": "must be finite and reported; no front acceptance threshold in AJ"
+  },
+  "proposed_ar_endpoint_gates_require_owner_approval": {
+    "relative_displacement_error_ratio_M5_over_M1_strictly_less_than": 0.9,
+    "relative_pressure_error_ratio_M5_over_M1_strictly_less_than": 0.9,
+    "energy_error_norm_M5_strictly_less_than_M1": true,
+    "note": "same numeric thresholds as AJ, but extending the fine endpoint from M3 to M5 is prospective AR policy, not a historical frozen AJ result; no strict adjacent-level monotonicity gate"
+  },
+  "proposed_ar_front_gate_requires_owner_approval": {
+    "classification": "prospective benchmark-specific empirical criterion; not a frozen AJ criterion or general theorem",
+    "active_node": "lambda > 1e-7 N",
+    "open_node": "gap > 1e-10 m",
+    "biactive_node": "record both gap and lambda against their frozen absolute tolerances; do not force an active/open label at x=0.5 m",
+    "row_front": "per y row, largest x with lambda > force tolerance; also record first open x, adjacent gaps/multipliers, and bracket width",
+    "front_distance": "D_front,max=max_y(abs(x_h(y)-0.5 m)); report m and D_front,max/hx; equivalent to Hausdorff distance for this straight full-width front when all y rows are represented",
+    "eligible_levels": ["M2","M3","M4","M5"],
+    "physical_resolution_gate": "D_front,max/hx <= 1 at each eligible level",
+    "spatial_locality_gate": "every false-positive or false-negative node is within hx of x=0.5 m",
+    "coverage_gate": "every y row has interpretable active and open states and a front bracket; no row may be silently excluded",
+    "M1_policy": "report only; its zero physical error is an alignment/biactivity alias and cannot anchor front trend",
+    "area_mismatch": "diagnostic only; do not gate monotonicity of lumped nodal-tributary mismatch",
+    "interpretation": "bounded one-cell localization over this structured mesh family; not asymptotic convergence, not a general free-boundary theorem"
+  },
+  "measurement_protocol": {
+    "displacement": "integrate FE interpolation error against the exact continuum field on each mesh; relative L2 and absolute norm",
+    "pressure": "derive nodal pressure lambda/tributary area; interpolate on the bottom triangles and integrate squared error against exact pressure; same physical domain and exact denominator per mesh",
+    "energy": "report FE 0.5*u^T*K*u, independently quadrature-integrated FE energy, exact continuum energy, absolute energy error, and energy-error norm in sqrt(J)",
+    "front": "record every row, last active, first open, biactive rows, bracket width, physical and hx-normalized error, false-positive/negative coordinates and distance to front",
+    "mechanics": "all-row independent QP KKT residuals, primal/dual feasibility, complementarity, force/moment balance, contact resultant/moment and analytic support-reaction comparison",
+    "nonnested_comparison": "primary errors use continuum exact fields on each mesh; any direct inter-mesh field difference must use a fixed common physical quadrature/grid and interpolate each FE solution there",
+    "observed_orders": "report pairwise log(error ratio)/log(mesh-size ratio) for positive measured errors; label apparent only, report interval and nonmonotone signs, no asymptotic claim from five levels"
+  },
+  "capacity_blocker": {
+    "frozen_max_dense_mechanical_dofs": 384,
+    "frozen_max_contact_constraints": 32,
+    "M4_exceeds_caps": true,
+    "M5_exceeds_caps": true,
+    "authorization_required": "explicit source/capacity and numerical-resource authorization plus a fresh source/test/runner/manifest freeze before any COLLECT or RUN"
+  },
+  "manifest_metadata_correction": {
+    "historical_aj_manifest_free_dofs_m1": 24,
+    "source_and_aq_report_free_dofs_m1": 18,
+    "correct_prospective_value": 18,
+    "historical_aj_manifest_full_contact_kkt_size_m1": 30,
+    "correct_prospective_full_contact_kkt_size_m1": 24,
+    "handling": "historical AJ manifest immutable; all prospective manifests must use 18 and recalculate M1 KKT dimension accordingly"
+  },
+  "authorizations": {
+    "diagnostic_and_design": "authorized by WP-C02-AR",
+    "unit_tests": "authorized, but no new numerical/scientific tests were run in this protocol-only work",
+    "independent_review": "authorized and performed read-only",
+    "collect": "not authorized for this prepared M4/M5 identity",
+    "run": "not authorized",
+    "retry": "not authorized"
+  }
+}
