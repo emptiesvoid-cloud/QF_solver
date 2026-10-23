@@ -13,7 +13,10 @@ from scripts.wpc02_ar_native_collection import (
     contact_force_vectors,
     decode_contact_rows,
     decode_audit_vectors,
+    elastic_strain_energy_from_total_internal,
+    production_free_stationarity_inf,
     production_support_reactions,
+    recover_elastic_internal_force,
     resultant_and_moment,
 )
 from solveur.core.audit import _vector_summary
@@ -222,6 +225,93 @@ def test_contact_action_reaction_and_physical_force_moment_balance() -> None:
     resultant, moment = resultant_and_moment(coordinates, slave_contact + master_contact)
     np.testing.assert_array_equal(resultant, np.zeros(3))
     np.testing.assert_array_equal(moment, np.zeros(3))
+
+
+def test_production_total_force_stationarity_and_energy_have_independent_oracle() -> None:
+    # A deliberately specified SPD elastic system, not assembled by the collector.
+    stiffness = np.asarray([[4.0, 1.0, 0.0], [1.0, 3.0, 0.0], [0.0, 0.0, 2.0]])
+    displacement = np.asarray([0.2, -0.1, 0.3])
+    elastic_force = np.asarray([0.7, -0.1, 0.6])  # independently evaluated K @ u
+    np.testing.assert_allclose(stiffness @ displacement, elastic_force, rtol=0.0, atol=2.0e-16)
+
+    # Active compression at DOF 0; DOF 1 is open; DOF 2 is constrained.
+    contact = np.asarray([0.5, 0.0, 0.0])
+    production_total = elastic_force - contact  # production K u - P convention
+    loads = np.asarray([0.2, -0.1, -7.0])
+    free = np.asarray([0, 1], dtype=int)
+    expected_residual = np.asarray([0.0, 0.0])  # total production force balances loads
+
+    assert production_free_stationarity_inf(production_total, loads, free) == pytest.approx(
+        np.linalg.norm(expected_residual, ord=np.inf), abs=1.0e-15
+    )
+    # A large constrained-DOF reaction is correctly masked from free stationarity.
+    assert production_free_stationarity_inf(production_total, loads, np.asarray([0, 1])) < 1.0e-15
+
+    # The historical double subtraction and a reversed contact sign fail the same oracle.
+    with pytest.raises(AssertionError):
+        assert np.linalg.norm((production_total - loads - contact)[free], ord=np.inf) <= 1.0e-12
+    with pytest.raises(AssertionError):
+        assert np.linalg.norm((production_total + contact - loads)[free], ord=np.inf) <= 1.0e-12
+
+    recovered = recover_elastic_internal_force(production_total, contact)
+    np.testing.assert_array_equal(recovered, elastic_force)
+    expected_energy = 0.5 * float(displacement @ stiffness @ displacement)
+    assert expected_energy == pytest.approx(0.165, abs=1.0e-15)
+    assert elastic_strain_energy_from_total_internal(displacement, production_total, contact) == pytest.approx(
+        expected_energy, abs=1.0e-15
+    )
+    # Omitting +P contaminates elastic energy by -1/2 u.P and fails independently.
+    with pytest.raises(AssertionError):
+        assert 0.5 * float(displacement @ production_total) == pytest.approx(expected_energy, abs=1.0e-12)
+
+
+def test_force_energy_helpers_cover_no_contact_and_reject_invalid_inputs() -> None:
+    stiffness = np.diag([2.0, 3.0])
+    displacement = np.asarray([0.25, -0.5])
+    elastic = stiffness @ displacement
+    zero_contact = np.zeros(2)
+    assert elastic_strain_energy_from_total_internal(displacement, elastic, zero_contact) == pytest.approx(
+        0.4375
+    )
+    with pytest.raises(ValueError, match="same shape"):
+        recover_elastic_internal_force(np.ones(2), np.ones(3))
+    with pytest.raises(ValueError, match="free DOFs"):
+        production_free_stationarity_inf(np.ones(2), np.ones(2), np.asarray([True, False]))
+    for bad in (np.asarray([np.nan, 1.0]), np.asarray([np.inf, 1.0])):
+        with pytest.raises(ValueError, match="finite"):
+            elastic_strain_energy_from_total_internal(np.ones(2), bad, np.zeros(2))
+    with pytest.raises(ValueError, match="finite"):
+        production_free_stationarity_inf(np.ones(2), np.asarray([0.0, np.nan]), np.asarray([0]))
+
+
+def test_recovered_elastic_energy_matches_independent_bar_quadrature() -> None:
+    # Analytic one-dimensional bar: constant strain is integrated at independent
+    # Gauss points, without using the collector's stiffness-energy expression.
+    youngs_modulus_pa = 20.0
+    area_m2 = 0.5
+    length_m = 2.0
+    displacement = np.asarray([0.0, -0.2])
+    strain = (displacement[1] - displacement[0]) / length_m
+    gauss_xi = np.asarray([-1.0 / np.sqrt(3.0), 1.0 / np.sqrt(3.0)])
+    gauss_weights = np.asarray([1.0, 1.0])
+    jacobian = length_m / 2.0
+    quadrature_energy = sum(
+        0.5 * youngs_modulus_pa * strain**2 * area_m2 * weight * jacobian
+        for _xi, weight in zip(gauss_xi, gauss_weights)
+    )
+
+    stiffness = youngs_modulus_pa * area_m2 / length_m * np.asarray([[1.0, -1.0], [-1.0, 1.0]])
+    elastic_force = stiffness @ displacement
+    physical_compression = np.asarray([0.0, 0.7])
+    production_total = elastic_force - physical_compression
+    recovered = elastic_strain_energy_from_total_internal(
+        displacement, production_total, physical_compression
+    )
+    assert recovered == pytest.approx(quadrature_energy, rel=1.0e-14, abs=1.0e-15)
+    with pytest.raises(AssertionError):
+        assert 0.5 * float(displacement @ production_total) == pytest.approx(
+            quadrature_energy, rel=1.0e-14, abs=1.0e-15
+        )
 
 
 def test_kkt_admissibility_and_complementarity_with_compression_sign() -> None:

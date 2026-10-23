@@ -1,0 +1,41 @@
+{
+  "archive_directory_name": "wpc02_ar_native_campaign_n07_20261023_01",
+  "archive_file_count_validated": 539,
+  "archive_integrity_manifest_sha256": "5df8d84ed560c3535b9c5cbc2ae04d94916059415b9363a56e35cab41a435bc2",
+  "contact_work_interpretation": "endpoint force-displacement product used in the AR identity; no physical path-integrated contact work is inferred",
+  "formula": "U_el = U_old + 0.5 C_contact; U_old=0.5 u.(K u-P), C_contact=u.P, production internal=K u-P",
+  "levels": {
+    "M4": {
+      "archived_contact_work_j": -0.16674289824050137,
+      "archived_matrix_energy_misinterpreted_as_elastic_j": 1.569158561910239,
+      "corrected_elastic_energy_j_offline": 1.4857871127899884,
+      "corrected_matrix_quadrature_error_j_offline": 4.3520742565306136e-14,
+      "diagnostic_sha256": "894ae0bcb82d3b97e1cf539465f2fe3b67764eaa97f5f7a041600aec83000def",
+      "old_matrix_quadrature_error_j": 0.08337144912020711,
+      "production_stationarity_status": "NOT_EVALUATED",
+      "quadrature_elastic_energy_j_archived": 1.485787112790032,
+      "raw_production_internal_force_archived": false,
+      "recomputed_contact_work_j": -0.16674289824050134
+    },
+    "M5": {
+      "archived_contact_work_j": -0.16666845229584257,
+      "archived_matrix_energy_misinterpreted_as_elastic_j": 1.5692791978995198,
+      "corrected_elastic_energy_j_offline": 1.4859449717515985,
+      "corrected_matrix_quadrature_error_j_offline": 6.94999613415348e-14,
+      "diagnostic_sha256": "d435b99c8e1f8df9cdfa26b0a6019e270f06bbc99e6f4cd9553dc363ad4bc1e5",
+      "old_matrix_quadrature_error_j": 0.0833342261478518,
+      "production_stationarity_status": "NOT_EVALUATED",
+      "quadrature_elastic_energy_j_archived": 1.485944971751668,
+      "raw_production_internal_force_archived": false,
+      "recomputed_contact_work_j": -0.16666845229584257
+    }
+  },
+  "missing_evidence": [
+    "raw production internal_force vector",
+    "raw production residual vector",
+    "production stiffness matrix/vector K u"
+  ],
+  "no_fem_or_matrix_assembly_performed": true,
+  "production_stationarity": "NOT_EVALUATED because the archived raw force/residual vectors are absent",
+  "status": "OFFLINE_DIAGNOSTIC_ONLY"
+}

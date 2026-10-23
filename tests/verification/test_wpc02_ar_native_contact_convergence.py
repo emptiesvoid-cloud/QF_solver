@@ -24,6 +24,8 @@ from scripts.wpc02_ar_native_collection import (
     contact_force_vectors,
     decode_contact_rows,
     decode_audit_vectors,
+    elastic_strain_energy_from_total_internal,
+    production_free_stationarity_inf,
     production_support_reactions,
     resultant_and_moment,
 )
@@ -259,6 +261,8 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
         )
         u = np.asarray(result.displacements[body_indices], dtype=float)
         audit_vectors = decode_audit_vectors(result.audit.vectors, expected_size=dofs.ndof)
+        production_internal_raw = audit_vectors["internal_force"][body_indices]
+        production_residual_raw = audit_vectors["residual"][body_indices]
         production_load = audit_vectors["loads"][body_indices]
         load_max_abs_difference = float(np.max(np.abs(production_load - external.reshape(-1)), initial=0.0))
         if load_max_abs_difference != 0.0:
@@ -312,6 +316,8 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
                     "contact_area_weights_m2": [float(areas[int(node)]) for node in bottom],
                     "support_reactions_n_node_major_xyz": support.tolist(),
                     "external_nodal_loads_n_node_major_xyz": external.tolist(),
+                    "production_total_internal_force_n_body_node_major_xyz": production_internal_raw.reshape((n_body, 3)).tolist(),
+                    "production_residual_force_n_body_node_major_xyz": production_residual_raw.reshape((n_body, 3)).tolist(),
                 },
             }
         )
@@ -327,10 +333,24 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
         u_ref = np.asarray(independent["displacement"], dtype=float)
         lambda_ref = np.asarray(independent["multipliers"], dtype=float)
         gap_ref = np.asarray(independent["gaps"], dtype=float)
-        production_internal = audit_vectors["internal_force"][body_indices]
-        stationarity = production_internal[free]
-        stationarity -= external.reshape(-1)[free]
-        stationarity -= independent["G"].T @ multipliers
+        production_internal = production_internal_raw
+        production_residual = production_residual_raw
+        contact_force = contact_force_vectors(
+            node_ids=bottom,
+            normals=contact["normals"],
+            force_magnitudes_n=multipliers,
+            node_count=n_body,
+        ).reshape(-1)
+        production_stationarity = production_free_stationarity_inf(
+            production_internal,
+            external.reshape(-1),
+            free,
+        )
+        residual_identity_error = float(
+            np.linalg.norm(
+                (production_internal - external.reshape(-1) - production_residual)[free], ord=np.inf
+            )
+        )
 
         exact_pressure = np.asarray([aj._lambda_exact(float(xyz[node, 0]), FRONT_X_M) for node in bottom])
         pressure_error_sq = 0.0
@@ -345,12 +365,7 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
                 exact_pressure_sq += exact**2 * area_weight
         pressure_error = float(np.sqrt(pressure_error_sq / exact_pressure_sq))
 
-        contact_force = contact_force_vectors(
-            node_ids=bottom,
-            normals=contact["normals"],
-            force_magnitudes_n=multipliers,
-            node_count=n_body,
-        )
+        contact_force = contact_force.reshape((n_body, 3))
         external_resultant, external_moment = resultant_and_moment(xyz, external)
         support_resultant, support_moment = resultant_and_moment(xyz, support)
         contact_resultant, contact_moment = resultant_and_moment(xyz, contact_force)
@@ -380,7 +395,9 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
         ref_moment_balance = external_moment + reference_support_moment + reference_contact_moment
 
         field = aj._field_metrics(mesh, u, FRONT_X_M, K_independent)
-        production_energy = 0.5 * float(u @ production_internal)
+        production_energy = elastic_strain_energy_from_total_internal(
+            np.asarray(u, dtype=float), production_internal, contact_force.reshape(-1)
+        )
         field["strain_energy_j"] = production_energy
         field["fe_energy_matrix_vs_quadrature_error_j"] = abs(
             production_energy - field["fe_integrated_strain_energy_j"]
@@ -399,8 +416,6 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
         qp_force_balance = float(np.linalg.norm(ref_force_balance) / force_scale)
         qp_moment_balance = float(np.linalg.norm(ref_moment_balance) / moment_scale)
         production_complementarity = float(np.max(np.abs(gaps * multipliers), initial=0.0))
-        production_stationarity = float(np.linalg.norm(stationarity, ord=np.inf))
-
         partial_record = {
             **partial_record,
             "scenario_state": "COMPLETED_DIAGNOSTICS",
@@ -425,6 +440,8 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
                 "contact_area_weights_m2": [float(areas[int(node)]) for node in bottom],
                 "support_reactions_n_node_major_xyz": support.tolist(),
                 "external_nodal_loads_n_node_major_xyz": external.tolist(),
+                "production_total_internal_force_n_body_node_major_xyz": production_internal.reshape((n_body, 3)).tolist(),
+                "production_residual_force_n_body_node_major_xyz": audit_vectors["residual"][body_indices].reshape((n_body, 3)).tolist(),
                 "independent_qp_displacements_m_node_major_xyz": u_ref.reshape((n_body, 3)).tolist(),
                 "independent_qp_multipliers_n": lambda_ref.tolist(),
             },
@@ -448,6 +465,8 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
                 "production_gap_reconstruction_error_m": gap_reconstruction_error,
                 "production_complementarity_inf_nm": production_complementarity,
                 "production_stationarity_inf_n": production_stationarity,
+                "production_residual_stationarity_inf_n": float(np.linalg.norm(production_residual[free], ord=np.inf)),
+                "production_residual_identity_error_inf_n": residual_identity_error,
                 "independent_qp_primal_gap_min_m": float(np.min(gap_ref)),
                 "independent_qp_dual_multiplier_min_n": float(np.min(lambda_ref)),
                 "independent_qp_complementarity_inf_nm": float(independent["complementarity_inf_nm"]),
@@ -456,8 +475,8 @@ def _scenario_diagnostic(level: str) -> dict[str, Any]:
                 "independent_qp_multiplier_max_error_n": float(np.max(np.abs(multipliers - lambda_ref))),
                 "independent_qp_nnls_residual_sqrt_j": float(independent["nnls_residual_sqrt_j"]),
                 "independent_qp_dual_condition": float(independent["dual_hessian_condition"]),
-                "production_internal_force_max_abs_difference_from_independent_stiffness_n": float(
-                    np.max(np.abs(production_internal - K_independent @ u), initial=0.0)
+                "production_elastic_internal_force_max_abs_difference_from_independent_stiffness_n": float(
+                    np.max(np.abs(production_internal + contact_force.reshape(-1) - K_independent @ u), initial=0.0)
                 ),
                 "strict_active_max_gap_m": float(np.max(gaps[active])) if np.any(active) else None,
                 "strict_active_min_multiplier_n": float(np.min(multipliers[active])) if np.any(active) else None,

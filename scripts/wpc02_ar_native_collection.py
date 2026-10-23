@@ -10,6 +10,74 @@ import numpy as np
 _VECTOR_FIELDS = {"name", "size", "norm", "max_abs", "nonzero_count", "nonzero_entries"}
 
 
+def production_free_stationarity_inf(
+    total_internal_force_n: np.ndarray,
+    external_force_n: np.ndarray,
+    free_dofs: np.ndarray,
+) -> float:
+    """Return the free-DOF residual for the production total internal force.
+
+    The frictionless contact solver exports ``K @ u + C.T @ mu`` as
+    ``internal_force``. Its physical compression is ``p = -mu``, therefore
+    this exported total is ``K @ u - P``. Contact is already included: the
+    production equilibrium residual is ``internal_force - external_force``
+    on free DOFs. The independent KKT oracle has a different decomposition
+    and must be evaluated separately.
+    """
+    internal = _finite_vector(total_internal_force_n, "total internal force")
+    external = _finite_vector(external_force_n, "external force")
+    free = _validated_mask(free_dofs, internal.size)
+    if external.shape != internal.shape:
+        raise ValueError("internal and external force vectors must have the same shape")
+    return float(np.linalg.norm((internal - external)[free], ord=np.inf))
+
+
+def recover_elastic_internal_force(
+    total_internal_force_n: np.ndarray,
+    physical_contact_force_n: np.ndarray,
+) -> np.ndarray:
+    """Recover ``K @ u`` from production ``K @ u - P`` and physical ``P``."""
+    total = _finite_vector(total_internal_force_n, "total internal force")
+    contact = _finite_vector(physical_contact_force_n, "physical contact force")
+    if contact.shape != total.shape:
+        raise ValueError("total internal and contact force vectors must have the same shape")
+    return total + contact
+
+
+def elastic_strain_energy_from_total_internal(
+    displacement_m: np.ndarray,
+    total_internal_force_n: np.ndarray,
+    physical_contact_force_n: np.ndarray,
+) -> float:
+    """Compute elastic energy ``1/2 u.T K u`` from contact-inclusive output."""
+    displacement = _finite_vector(displacement_m, "displacement")
+    elastic_internal = recover_elastic_internal_force(total_internal_force_n, physical_contact_force_n)
+    if displacement.shape != elastic_internal.shape:
+        raise ValueError("displacement and internal force vectors must have the same shape")
+    energy = 0.5 * float(displacement @ elastic_internal)
+    if not math.isfinite(energy):
+        raise ValueError("elastic strain energy is non-finite")
+    return energy
+
+
+def _finite_vector(values: np.ndarray, name: str) -> np.ndarray:
+    vector = np.asarray(values, dtype=float)
+    if vector.ndim != 1 or vector.size == 0 or not np.all(np.isfinite(vector)):
+        raise ValueError(f"{name} must be a non-empty finite vector")
+    return vector
+
+
+def _validated_mask(indices: np.ndarray, size: int) -> np.ndarray:
+    raw = np.asarray(indices)
+    if raw.ndim != 1 or raw.dtype.kind not in "iu" or raw.size == 0:
+        raise ValueError("free DOFs must be a non-empty one-dimensional integer array")
+    if np.any(raw < 0) or np.any(raw >= size) or len(set(int(i) for i in raw)) != len(raw):
+        raise ValueError("free DOFs must be unique valid vector indices")
+    mask = np.zeros(size, dtype=bool)
+    mask[raw] = True
+    return mask
+
+
 def decode_audit_vectors(vectors: Any, *, expected_size: int) -> dict[str, np.ndarray]:
     """Decode full-detail SolverAudit vector summaries without guessing schema.
 
