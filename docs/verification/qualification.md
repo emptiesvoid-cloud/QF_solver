@@ -31,6 +31,26 @@ associees sont centralisees dans le [pack 0.2.5](0_2_5/README.md).
 | strict | Revue technique | Warnings bloquants selon politique |
 | qualification | Candidat controle | Revision source, preuves et maturites obligatoires |
 
+## Certificat borne E01-L C03 — branche d'integration v0.2.12
+
+La branche `codex/v0.2.12-integration` contient le certificat documentaire
+`C03_BRANCH_STABILITY=CERTIFIED_BOUNDED`. Il etablit la stabilite du signe de
+branche J2 pour huit actions archivees TET4/HEX8, avec histoire entrante fixe
+et segments demontres de ±1e-4 m. Les sources scientifiques correspondent au
+snapshot historique `87e54913077c7d9fce6f259fb4a4a11f5295e6a5`; la preuve ne
+s'applique pas automatiquement au HEAD d'integration.
+
+La promotion est limitee a la stabilite des branches du modele d'essai affine
+et aux donnees archivees. Elle n'acquiert pas
+`GLOBAL_J2_TANGENT_QUALIFICATION`, ne valide pas la generation des histoires
+plastiques et ne promeut pas C04, C05, C06 ou les criteres globaux. Les statuts
+restent `GLOBAL_J2_TANGENT_QUALIFICATION=NOT_ACQUIRED`,
+`CRITERIA_GLOBAL=NOT_APPROVED`, `BA_GLOBAL_VERDICT=FAIL` et
+`WP_E01_STATUS=OPEN_WITH_BOUNDED_CERTIFICATES`. Aucun calcul FEM n'a ete lance
+pour integrer ce dossier. Le dossier de preuve, sa provenance, la revue et la
+decision Owner sont conserves dans
+`qualification/0_2_12/wp_e01_l_c03_metadata_fix/`.
+
 Le site `engineering` peut etre construit sur un depot non committe, mais il
 affiche `source revision: uncommitted`. Le site `qualification` refuse cet
 etat, les pages sans revue, les exigences orphelines et les capacites

@@ -598,6 +598,12 @@
         "REQ-REL-001"
       ]
     },
+    "wp-e01-l-c03-branch-stability": {
+      "status": "qualified",
+      "requirements": [
+        "REQ-NL-C03-001"
+      ]
+    },
     "contact-v1-linear-static-bounded": {
       "status": "development",
       "requirements": [
@@ -2470,6 +2476,48 @@
       "independent_references": [],
       "artifacts": [
         "CHANGELOG.md"
+      ]
+    },
+    {
+      "id": "REQ-NL-C03-001",
+      "title": "Stabilite bornee des branches J2 pour huit actions archivees",
+      "design": [
+        "docs/qualification_matrix.md",
+        "docs/verification/qualification.md",
+        "qualification/0_2_12/wp_e01_l_c03_metadata_fix/proof_contract.json",
+        "qualification/0_2_12/wp_e01_l_c03_metadata_fix/mathematical_method.md",
+        "qualification/0_2_12/wp_e01_l_c03_metadata_fix/input_provenance.md"
+      ],
+      "code": [
+        "qualification/0_2_12/wp_e01_l_c03_metadata_fix/archive_inputs.py",
+        "qualification/0_2_12/wp_e01_l_c03_metadata_fix/rigorous_math.py",
+        "qualification/0_2_12/wp_e01_l_c03_metadata_fix/production_branch_budget.py",
+        "qualification/0_2_12/wp_e01_l_c03_metadata_fix/integrate_proofs.py",
+        "qualification/0_2_12/wp_e01_l_c03_metadata_fix/finalize_inventory.py"
+      ],
+      "functions": [
+        "derive_final_decision",
+        "certify_production_branch",
+        "evaluate_margin",
+        "verify_frozen_provenance",
+        "finalize"
+      ],
+      "tests": [
+        "qualification/0_2_12/wp_e01_l_c03_metadata_fix/test_archive_inputs.py",
+        "qualification/0_2_12/wp_e01_l_c03_metadata_fix/test_integrate_proofs.py",
+        "qualification/0_2_12/wp_e01_l_c03_metadata_fix/test_metadata_finalization.py",
+        "qualification/0_2_12/wp_e01_l_c03_metadata_fix/test_production_branch_budget.py",
+        "qualification/0_2_12/wp_e01_l_c03_metadata_fix/test_rigorous_math.py"
+      ],
+      "independent_references": [
+        "Revue independante GPT-6.1 Sol acceptee: qualification/0_2_12/wp_e01_l_c03_metadata_fix/independent_review.md",
+        "Revue independante ciblee de la correction metadata: qualification/0_2_12/wp_e01_l_c03_metadata_fix/metadata_fix_independent_review.md"
+      ],
+      "artifacts": [
+        "qualification/0_2_12/wp_e01_l_c03_metadata_fix/archive_inventory.json",
+        "qualification/0_2_12/wp_e01_l_c03_metadata_fix/artifact_manifest.json",
+        "qualification/0_2_12/wp_e01_l_c03_metadata_fix/proof_action_summary.json",
+        "qualification/0_2_12/wp_e01_l_c03_metadata_fix/c03_certificate_promotion_record.json"
       ]
     }
   ]

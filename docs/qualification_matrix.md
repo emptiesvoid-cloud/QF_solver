@@ -62,6 +62,7 @@ Les formules critiques sont reliees separement dans
 | REQ-DYN-003 | Newmark MITC4 opere sur le systeme physique condense. | Energie libre, amortissement massique, residu et reconstruction. | development |
 | REQ-HAR-001 | Harmonique direct expose amplitude, phase, pic et contraintes complexes MITC4. | Test 0 Hz vs statique, exemple 1 ddl analytique, reponse modale MITC4, complement de Schur Rayleigh, large bande et correlation `S11` Navier/NAFEMS/Abaqus. | stable_after_reinforced_tests |
 | REQ-NL-001 | Le non-lineaire declare sa maturite experimentale. | Audit, solver settings, qualification summary. | experimental |
+| REQ-NL-C03-001 | La stabilite de branche J2 est certifiee pour huit actions archivees, dans le domaine borne de C03. | Preuves rationnelles de segments, liaison de branche aux etats de base, inventaire et decision Owner archives. | certified_bounded |
 | REQ-AUD-001 | Chaque resultat contient un audit boite blanche. | `audit`, `checks`, `qualification_summary`. | stable |
 | REQ-EVD-001 | Un dossier de preuve reproductible est exportable et verifiable. | CLI/API `evidence`, `verify-evidence`, fichiers JSON/MD/CSV/VTU, manifeste SHA-256. | stable |
 | REQ-CMP-001 | La campagne souveraine applique des criteres numeriques executables. | `qualification/campaign.json`, commande `qualify`, tests campagne. | stable |
@@ -76,6 +77,35 @@ Les formules critiques sont reliees separement dans
 | REQ-LRG-006 | Un backend sans assemblage global existe pour qualifier les blocs structures generes. | Backend `matrix_free`, comparaison tests avec SciPy, sortie HDF5 et `verify-large`. | experimental |
 | REQ-LRG-007 | Un run grand modele trace l'environnement numerique qui a produit les resultats. | `runtime_environment.json`, roles manifeste, `verify-large`, tests API/benchmark/qualification. | experimental |
 | REQ-REL-001 | Une release suit une checklist qualite. | `CHANGELOG.md`, `docs/controle_qualite.md`. | stable |
+
+## Certificat borne E01-L C03 — integration v0.2.12
+
+Le registre expose le scope dedie `wp-e01-l-c03-branch-stability` comme
+`qualified` pour le seul certificat documentaire C03. Cette entree ne change
+pas les scopes `material-nonlinear`, `tet4-material-nonlinear` ou
+`tet10-material-nonlinear`, qui restent `development` avec `REQ-NL-001`
+experimental.
+
+Le certificat `C03_BRANCH_STABILITY=CERTIFIED_BOUNDED` couvre uniquement les
+familles TET4 et HEX8, les modules d'ecrouissage H = 0 et 1,5 GPa, deux
+directions par etat de base, huit actions au total, l'histoire constitutive
+entrante archivee et fixe, et les segments s dans [-1e-4, +1e-4] m. La preuve
+porte sur la stabilite du signe de branche du modele d'essai affine J2 exact;
+elle ne qualifie ni la generation d'histoire plastique, ni la matrice
+tangente J2 complete, ni C04-C06, ni des directions, histoires, elements,
+segments ou runtimes non archives. L'identite des sources est le snapshot
+historique `87e54913077c7d9fce6f259fb4a4a11f5295e6a5` (tree
+`c42e3c2241af1862d66cab51a38fda74a1167361`).
+
+Les 8 preuves techniques et 304 controles point × action sont PASS; la
+promotion Owner est enregistree dans
+`qualification/0_2_12/wp_e01_l_c03_metadata_fix/c03_certificate_promotion_record.json`.
+Le resultat de `qualification-readiness` verifie les liens de tracabilite du
+scope, pas la preuve mathematique elle-meme. Les limites et statuts globaux
+restent `GLOBAL_J2_TANGENT_QUALIFICATION=NOT_ACQUIRED`,
+`CRITERIA_GLOBAL=NOT_APPROVED`, `BA_GLOBAL_VERDICT=FAIL` et
+`WP_E01_STATUS=OPEN_WITH_BOUNDED_CERTIFICATES`. Aucun RUN FEM, merge vers main
+ou release n'est couvert par cette integration.
 
 ## Checklist release qualifiable
 
