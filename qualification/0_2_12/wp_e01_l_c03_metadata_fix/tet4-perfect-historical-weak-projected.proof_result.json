@@ -1,0 +1,3670 @@
+{
+  "action_id": "tet4-perfect-historical-weak-projected",
+  "action_verdict": "PASS",
+  "branch_point_counts": {
+    "elastic": 0,
+    "plastic": 12
+  },
+  "complete_archive_inputs_valid": true,
+  "expected_scope": "elastic_plastic_branch_stability on exact-real affine J2 path",
+  "family": "TET4",
+  "mathematical_candidate_verdict": "PASS",
+  "mathematical_point_pass_count": 12,
+  "maximum_a_posteriori_base_discrepancy_B_pa": {
+    "decimal_outward": {
+      "hi": "0.000000465746",
+      "lo": "0.000000465745",
+      "places": 12
+    },
+    "hi": {
+      "denominator": "85070591730234615865843651857942052864",
+      "numerator": "39621239882401099485369168255267"
+    },
+    "lo": {
+      "denominator": "85070591730234615865843651857942052864",
+      "numerator": "39621239882401099485369168255267"
+    }
+  },
+  "minimum_certified_clearance_pa": {
+    "decimal_outward": {
+      "hi": "526964930.480085381193",
+      "lo": "526964930.480085381192",
+      "places": 12
+    },
+    "hi": {
+      "denominator": "21267647932558653966460912964485513216",
+      "numerator": "11207304614255702673095599639960537150237934303"
+    },
+    "lo": {
+      "denominator": "21267647932558653966460912964485513216",
+      "numerator": "11207304614255702673095599639960537150237934303"
+    }
+  },
+  "point_count": 12,
+  "points": [
+    {
+      "bounds": {
+        "margin_range": {
+          "decimal_outward": {
+            "hi": "607697296.277511987962",
+            "lo": "556777899.633774141348",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "103394337174383293070826118425629106368778533651"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "189461701536649381706926283960043556993428105309"
+          }
+        },
+        "maximum_margin_range": {
+          "decimal_outward": {
+            "hi": "607697296.277511987962",
+            "lo": "607697296.277511987961",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "103394337174383293070826118425629106368778533651"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "206788674348766586141652236851258212737557067301"
+          }
+        },
+        "minimum_margin_range": {
+          "decimal_outward": {
+            "hi": "556777899.633774141349",
+            "lo": "556777899.633774141348",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "94730850768324690853463141980021778496714052655"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "189461701536649381706926283960043556993428105309"
+          }
+        },
+        "radicand_range": {
+          "decimal_outward": {
+            "hi": "735644652041754179.441795287067",
+            "lo": "650890579337484141.797711902550",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "169732830924855844955022870194554303871164708627823246442496",
+            "numerator": "124863049345777471291704086258878600977536872298812389510386196600123779296875"
+          },
+          "lo": {
+            "denominator": "169732830924855844955022870194554303871164708627823246442496",
+            "numerator": "110477500653270665193880174804936665186862988864258984703463956600123779296875"
+          }
+        },
+        "resistance_range": {
+          "decimal_outward": {
+            "hi": "250000000.000000000000",
+            "lo": "250000000.000000000000",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1",
+            "numerator": "250000000"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "250000000"
+          }
+        },
+        "sqrt_range": {
+          "decimal_outward": {
+            "hi": "857697296.277511987962",
+            "lo": "806777899.633774141348",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "145929633039500601003747944354600132800778533651"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "274532293266883997572769935817985609857428105309"
+          }
+        },
+        "sqrt_squared_checks": {
+          "maximum_extremum_lower": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "124863049345777471291704086258878600977536872298812389510386196600123779296875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "85181831196173221668292143071998926367177275469190160932751857137512605022854974749779843424601"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "21295457799043305417073035767999731591794318867443469866227464885381899200068343820245739389801"
+            },
+            "upper_squared_ge_input": true
+          },
+          "maximum_extremum_upper": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "124863049345777471291704086258878600977536872298812389510386196600123779296875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "85181831196173221668292143071998926367177275469190160932751857137512605022854974749779843424601"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "21295457799043305417073035767999731591794318867443469866227464885381899200068343820245739389801"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_lower": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "110477500653270665193880174804936665186862988864258984703463956600123779296875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "75367980046374400708544997843571109223466609137655867691055048369846753354979952135781593985481"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "18841995011593600177136249460892777305866652284551233069397204091248073306653980838874112549025"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_upper": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "110477500653270665193880174804936665186862988864258984703463956600123779296875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "75367980046374400708544997843571109223466609137655867691055048369846753354979952135781593985481"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "18841995011593600177136249460892777305866652284551233069397204091248073306653980838874112549025"
+            },
+            "upper_squared_ge_input": true
+          }
+        }
+      },
+      "expected_branch_from_archive": "plastic",
+      "mathematical_verdict_for_exact_real_target": "PASS",
+      "point_id": "e0:q0",
+      "point_verdict": "PASS",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.004076529389350384,
+        "equivalent_stress": 250000000.0,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 809804.2158027762,
+        "plastic_multiplier": 0.0024019043370718247,
+        "plastic_strain": [
+          0.003213379008499313,
+          -0.0016066895042496565,
+          -0.0016066895042496565,
+          -0.002410034256374485,
+          0.0,
+          0.0036150513845617273
+        ],
+        "strain": [
+          0.00604,
+          0.0,
+          0.0,
+          -0.00302,
+          0.0,
+          0.00453
+        ],
+        "stress": [
+          1188377237.0885725,
+          991311381.4557137,
+          991311381.4557137,
+          -49266463.908214666,
+          0.0,
+          73899695.86232199
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 250000000.0
+      },
+      "production_branch_archived": "plastic",
+      "production_branch_budget": {
+        "a_posteriori_discrepancy_bound_B_exact": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "39621239882401099485369168255267"
+        },
+        "a_posteriori_discrepancy_bound_B_pa": "39621239882401099485369168255267/85070591730234615865843651857942052864",
+        "archive_provenance_validated": true,
+        "archived_elastic": false,
+        "base_branch_clearance_pa": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "198044302519221185351185606709426896148752065675"
+        },
+        "base_clearance_dominates_B": true,
+        "consistency_modulus_D_pa": {
+          "decimal_outward": {
+            "hi": "242307692307.692382812500",
+            "lo": "242307692307.692260742187",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1024",
+            "numerator": "248123076923077"
+          },
+          "lo": {
+            "denominator": "8192",
+            "numerator": "1984984615384615"
+          }
+        },
+        "discrepancy_interval_production_minus_model_pa": {
+          "decimal_outward": {
+            "hi": "0.000000130302",
+            "lo": "-0.000000465746",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "44339136506912306297995839839093"
+          },
+          "lo": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "-39621239882401099485369168255267"
+          }
+        },
+        "expected_branch": "plastic",
+        "frozen_source_identity_validated": true,
+        "g0_interval_pa": {
+          "decimal_outward": {
+            "hi": "581999897.059711564417",
+            "lo": "581999897.059711564416",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "49511075629805296337796401677356724037188016419"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "198044302519221185351185606709426896148752065675"
+          }
+        },
+        "mathematical_base_sign_status": "PASS",
+        "mathematical_segment_sign_status": "PASS",
+        "production_branch_linkage_valid": true,
+        "production_numeric_yield_value_available": false,
+        "production_sign_status": "PASS",
+        "production_yield_value_pa": {
+          "decimal_outward": {
+            "hi": "581999897.059711694718",
+            "lo": "581999897.059711098670",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "4194304",
+            "numerator": "2441084496237137"
+          },
+          "lo": {
+            "denominator": "8388608",
+            "numerator": "4882168992474269"
+          }
+        },
+        "production_yield_value_representation": "certified_inverse_division_enclosure; actual value unavailable",
+        "reason": "production_base_and_segment_signs_consistent_with_clearance_over_B",
+        "rounding_budget_scope": "a_posteriori_base_state_discrepancy_only_not_a_priori_segment_budget",
+        "segment_decisive_extremum_interval_pa": {
+          "decimal_outward": {
+            "hi": "556777899.633774141349",
+            "lo": "556777899.633774141348",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "94730850768324690853463141980021778496714052655"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "189461701536649381706926283960043556993428105309"
+          }
+        },
+        "verdict": "PASS"
+      },
+      "reason": "mathematical_sign_only_archive_branch_or_required_rounding_evidence_missing"
+    },
+    {
+      "bounds": {
+        "margin_range": {
+          "decimal_outward": {
+            "hi": "607697296.277511987962",
+            "lo": "556777899.633774141348",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "103394337174383293070826118425629106368778533651"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "189461701536649381706926283960043556993428105309"
+          }
+        },
+        "maximum_margin_range": {
+          "decimal_outward": {
+            "hi": "607697296.277511987962",
+            "lo": "607697296.277511987961",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "103394337174383293070826118425629106368778533651"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "206788674348766586141652236851258212737557067301"
+          }
+        },
+        "minimum_margin_range": {
+          "decimal_outward": {
+            "hi": "556777899.633774141349",
+            "lo": "556777899.633774141348",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "94730850768324690853463141980021778496714052655"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "189461701536649381706926283960043556993428105309"
+          }
+        },
+        "radicand_range": {
+          "decimal_outward": {
+            "hi": "735644652041754179.441795287067",
+            "lo": "650890579337484141.797711902550",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "169732830924855844955022870194554303871164708627823246442496",
+            "numerator": "124863049345777471291704086258878600977536872298812389510386196600123779296875"
+          },
+          "lo": {
+            "denominator": "169732830924855844955022870194554303871164708627823246442496",
+            "numerator": "110477500653270665193880174804936665186862988864258984703463956600123779296875"
+          }
+        },
+        "resistance_range": {
+          "decimal_outward": {
+            "hi": "250000000.000000000000",
+            "lo": "250000000.000000000000",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1",
+            "numerator": "250000000"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "250000000"
+          }
+        },
+        "sqrt_range": {
+          "decimal_outward": {
+            "hi": "857697296.277511987962",
+            "lo": "806777899.633774141348",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "145929633039500601003747944354600132800778533651"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "274532293266883997572769935817985609857428105309"
+          }
+        },
+        "sqrt_squared_checks": {
+          "maximum_extremum_lower": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "124863049345777471291704086258878600977536872298812389510386196600123779296875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "85181831196173221668292143071998926367177275469190160932751857137512605022854974749779843424601"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "21295457799043305417073035767999731591794318867443469866227464885381899200068343820245739389801"
+            },
+            "upper_squared_ge_input": true
+          },
+          "maximum_extremum_upper": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "124863049345777471291704086258878600977536872298812389510386196600123779296875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "85181831196173221668292143071998926367177275469190160932751857137512605022854974749779843424601"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "21295457799043305417073035767999731591794318867443469866227464885381899200068343820245739389801"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_lower": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "110477500653270665193880174804936665186862988864258984703463956600123779296875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "75367980046374400708544997843571109223466609137655867691055048369846753354979952135781593985481"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "18841995011593600177136249460892777305866652284551233069397204091248073306653980838874112549025"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_upper": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "110477500653270665193880174804936665186862988864258984703463956600123779296875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "75367980046374400708544997843571109223466609137655867691055048369846753354979952135781593985481"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "18841995011593600177136249460892777305866652284551233069397204091248073306653980838874112549025"
+            },
+            "upper_squared_ge_input": true
+          }
+        }
+      },
+      "expected_branch_from_archive": "plastic",
+      "mathematical_verdict_for_exact_real_target": "PASS",
+      "point_id": "e1:q0",
+      "point_verdict": "PASS",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.004076529389350384,
+        "equivalent_stress": 250000000.0,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 809804.2158027762,
+        "plastic_multiplier": 0.0024019043370718247,
+        "plastic_strain": [
+          0.003213379008499313,
+          -0.0016066895042496565,
+          -0.0016066895042496565,
+          -0.002410034256374485,
+          0.0,
+          0.0036150513845617273
+        ],
+        "strain": [
+          0.00604,
+          0.0,
+          0.0,
+          -0.00302,
+          0.0,
+          0.00453
+        ],
+        "stress": [
+          1188377237.0885725,
+          991311381.4557137,
+          991311381.4557137,
+          -49266463.908214666,
+          0.0,
+          73899695.86232199
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 250000000.0
+      },
+      "production_branch_archived": "plastic",
+      "production_branch_budget": {
+        "a_posteriori_discrepancy_bound_B_exact": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "39621239882401099485369168255267"
+        },
+        "a_posteriori_discrepancy_bound_B_pa": "39621239882401099485369168255267/85070591730234615865843651857942052864",
+        "archive_provenance_validated": true,
+        "archived_elastic": false,
+        "base_branch_clearance_pa": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "198044302519221185351185606709426896148752065675"
+        },
+        "base_clearance_dominates_B": true,
+        "consistency_modulus_D_pa": {
+          "decimal_outward": {
+            "hi": "242307692307.692382812500",
+            "lo": "242307692307.692260742187",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1024",
+            "numerator": "248123076923077"
+          },
+          "lo": {
+            "denominator": "8192",
+            "numerator": "1984984615384615"
+          }
+        },
+        "discrepancy_interval_production_minus_model_pa": {
+          "decimal_outward": {
+            "hi": "0.000000130302",
+            "lo": "-0.000000465746",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "44339136506912306297995839839093"
+          },
+          "lo": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "-39621239882401099485369168255267"
+          }
+        },
+        "expected_branch": "plastic",
+        "frozen_source_identity_validated": true,
+        "g0_interval_pa": {
+          "decimal_outward": {
+            "hi": "581999897.059711564417",
+            "lo": "581999897.059711564416",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "49511075629805296337796401677356724037188016419"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "198044302519221185351185606709426896148752065675"
+          }
+        },
+        "mathematical_base_sign_status": "PASS",
+        "mathematical_segment_sign_status": "PASS",
+        "production_branch_linkage_valid": true,
+        "production_numeric_yield_value_available": false,
+        "production_sign_status": "PASS",
+        "production_yield_value_pa": {
+          "decimal_outward": {
+            "hi": "581999897.059711694718",
+            "lo": "581999897.059711098670",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "4194304",
+            "numerator": "2441084496237137"
+          },
+          "lo": {
+            "denominator": "8388608",
+            "numerator": "4882168992474269"
+          }
+        },
+        "production_yield_value_representation": "certified_inverse_division_enclosure; actual value unavailable",
+        "reason": "production_base_and_segment_signs_consistent_with_clearance_over_B",
+        "rounding_budget_scope": "a_posteriori_base_state_discrepancy_only_not_a_priori_segment_budget",
+        "segment_decisive_extremum_interval_pa": {
+          "decimal_outward": {
+            "hi": "556777899.633774141349",
+            "lo": "556777899.633774141348",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "94730850768324690853463141980021778496714052655"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "189461701536649381706926283960043556993428105309"
+          }
+        },
+        "verdict": "PASS"
+      },
+      "reason": "mathematical_sign_only_archive_branch_or_required_rounding_evidence_missing"
+    },
+    {
+      "bounds": {
+        "margin_range": {
+          "decimal_outward": {
+            "hi": "607697296.277511987962",
+            "lo": "556777899.633774141348",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "103394337174383293070826118425629106368778533651"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "189461701536649381706926283960043556993428105309"
+          }
+        },
+        "maximum_margin_range": {
+          "decimal_outward": {
+            "hi": "607697296.277511987962",
+            "lo": "607697296.277511987961",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "103394337174383293070826118425629106368778533651"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "206788674348766586141652236851258212737557067301"
+          }
+        },
+        "minimum_margin_range": {
+          "decimal_outward": {
+            "hi": "556777899.633774141349",
+            "lo": "556777899.633774141348",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "94730850768324690853463141980021778496714052655"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "189461701536649381706926283960043556993428105309"
+          }
+        },
+        "radicand_range": {
+          "decimal_outward": {
+            "hi": "735644652041754179.441795287067",
+            "lo": "650890579337484141.797711902550",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "169732830924855844955022870194554303871164708627823246442496",
+            "numerator": "124863049345777471291704086258878600977536872298812389510386196600123779296875"
+          },
+          "lo": {
+            "denominator": "169732830924855844955022870194554303871164708627823246442496",
+            "numerator": "110477500653270665193880174804936665186862988864258984703463956600123779296875"
+          }
+        },
+        "resistance_range": {
+          "decimal_outward": {
+            "hi": "250000000.000000000000",
+            "lo": "250000000.000000000000",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1",
+            "numerator": "250000000"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "250000000"
+          }
+        },
+        "sqrt_range": {
+          "decimal_outward": {
+            "hi": "857697296.277511987962",
+            "lo": "806777899.633774141348",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "145929633039500601003747944354600132800778533651"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "274532293266883997572769935817985609857428105309"
+          }
+        },
+        "sqrt_squared_checks": {
+          "maximum_extremum_lower": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "124863049345777471291704086258878600977536872298812389510386196600123779296875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "85181831196173221668292143071998926367177275469190160932751857137512605022854974749779843424601"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "21295457799043305417073035767999731591794318867443469866227464885381899200068343820245739389801"
+            },
+            "upper_squared_ge_input": true
+          },
+          "maximum_extremum_upper": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "124863049345777471291704086258878600977536872298812389510386196600123779296875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "85181831196173221668292143071998926367177275469190160932751857137512605022854974749779843424601"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "21295457799043305417073035767999731591794318867443469866227464885381899200068343820245739389801"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_lower": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "110477500653270665193880174804936665186862988864258984703463956600123779296875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "75367980046374400708544997843571109223466609137655867691055048369846753354979952135781593985481"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "18841995011593600177136249460892777305866652284551233069397204091248073306653980838874112549025"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_upper": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "110477500653270665193880174804936665186862988864258984703463956600123779296875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "75367980046374400708544997843571109223466609137655867691055048369846753354979952135781593985481"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "18841995011593600177136249460892777305866652284551233069397204091248073306653980838874112549025"
+            },
+            "upper_squared_ge_input": true
+          }
+        }
+      },
+      "expected_branch_from_archive": "plastic",
+      "mathematical_verdict_for_exact_real_target": "PASS",
+      "point_id": "e2:q0",
+      "point_verdict": "PASS",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.004076529389350384,
+        "equivalent_stress": 250000000.0,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 809804.2158027762,
+        "plastic_multiplier": 0.0024019043370718247,
+        "plastic_strain": [
+          -0.003213379008499313,
+          0.0016066895042496565,
+          0.0016066895042496565,
+          0.002410034256374485,
+          0.0,
+          -0.0036150513845617273
+        ],
+        "strain": [
+          -0.00604,
+          0.0,
+          0.0,
+          0.00302,
+          0.0,
+          -0.00453
+        ],
+        "stress": [
+          -1188377237.0885725,
+          -991311381.4557137,
+          -991311381.4557137,
+          49266463.908214666,
+          0.0,
+          -73899695.86232199
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 250000000.0
+      },
+      "production_branch_archived": "plastic",
+      "production_branch_budget": {
+        "a_posteriori_discrepancy_bound_B_exact": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "39621239882401099485369168255267"
+        },
+        "a_posteriori_discrepancy_bound_B_pa": "39621239882401099485369168255267/85070591730234615865843651857942052864",
+        "archive_provenance_validated": true,
+        "archived_elastic": false,
+        "base_branch_clearance_pa": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "198044302519221185351185606709426896148752065675"
+        },
+        "base_clearance_dominates_B": true,
+        "consistency_modulus_D_pa": {
+          "decimal_outward": {
+            "hi": "242307692307.692382812500",
+            "lo": "242307692307.692260742187",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1024",
+            "numerator": "248123076923077"
+          },
+          "lo": {
+            "denominator": "8192",
+            "numerator": "1984984615384615"
+          }
+        },
+        "discrepancy_interval_production_minus_model_pa": {
+          "decimal_outward": {
+            "hi": "0.000000130302",
+            "lo": "-0.000000465746",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "44339136506912306297995839839093"
+          },
+          "lo": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "-39621239882401099485369168255267"
+          }
+        },
+        "expected_branch": "plastic",
+        "frozen_source_identity_validated": true,
+        "g0_interval_pa": {
+          "decimal_outward": {
+            "hi": "581999897.059711564417",
+            "lo": "581999897.059711564416",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "49511075629805296337796401677356724037188016419"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "198044302519221185351185606709426896148752065675"
+          }
+        },
+        "mathematical_base_sign_status": "PASS",
+        "mathematical_segment_sign_status": "PASS",
+        "production_branch_linkage_valid": true,
+        "production_numeric_yield_value_available": false,
+        "production_sign_status": "PASS",
+        "production_yield_value_pa": {
+          "decimal_outward": {
+            "hi": "581999897.059711694718",
+            "lo": "581999897.059711098670",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "4194304",
+            "numerator": "2441084496237137"
+          },
+          "lo": {
+            "denominator": "8388608",
+            "numerator": "4882168992474269"
+          }
+        },
+        "production_yield_value_representation": "certified_inverse_division_enclosure; actual value unavailable",
+        "reason": "production_base_and_segment_signs_consistent_with_clearance_over_B",
+        "rounding_budget_scope": "a_posteriori_base_state_discrepancy_only_not_a_priori_segment_budget",
+        "segment_decisive_extremum_interval_pa": {
+          "decimal_outward": {
+            "hi": "556777899.633774141349",
+            "lo": "556777899.633774141348",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "94730850768324690853463141980021778496714052655"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "189461701536649381706926283960043556993428105309"
+          }
+        },
+        "verdict": "PASS"
+      },
+      "reason": "mathematical_sign_only_archive_branch_or_required_rounding_evidence_missing"
+    },
+    {
+      "bounds": {
+        "margin_range": {
+          "decimal_outward": {
+            "hi": "607697296.277511987962",
+            "lo": "556777899.633774141348",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "103394337174383293070826118425629106368778533651"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "189461701536649381706926283960043556993428105309"
+          }
+        },
+        "maximum_margin_range": {
+          "decimal_outward": {
+            "hi": "607697296.277511987962",
+            "lo": "607697296.277511987961",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "103394337174383293070826118425629106368778533651"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "206788674348766586141652236851258212737557067301"
+          }
+        },
+        "minimum_margin_range": {
+          "decimal_outward": {
+            "hi": "556777899.633774141349",
+            "lo": "556777899.633774141348",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "94730850768324690853463141980021778496714052655"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "189461701536649381706926283960043556993428105309"
+          }
+        },
+        "radicand_range": {
+          "decimal_outward": {
+            "hi": "735644652041754179.441795287067",
+            "lo": "650890579337484141.797711902550",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "169732830924855844955022870194554303871164708627823246442496",
+            "numerator": "124863049345777471291704086258878600977536872298812389510386196600123779296875"
+          },
+          "lo": {
+            "denominator": "169732830924855844955022870194554303871164708627823246442496",
+            "numerator": "110477500653270665193880174804936665186862988864258984703463956600123779296875"
+          }
+        },
+        "resistance_range": {
+          "decimal_outward": {
+            "hi": "250000000.000000000000",
+            "lo": "250000000.000000000000",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1",
+            "numerator": "250000000"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "250000000"
+          }
+        },
+        "sqrt_range": {
+          "decimal_outward": {
+            "hi": "857697296.277511987962",
+            "lo": "806777899.633774141348",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "145929633039500601003747944354600132800778533651"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "274532293266883997572769935817985609857428105309"
+          }
+        },
+        "sqrt_squared_checks": {
+          "maximum_extremum_lower": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "124863049345777471291704086258878600977536872298812389510386196600123779296875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "85181831196173221668292143071998926367177275469190160932751857137512605022854974749779843424601"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "21295457799043305417073035767999731591794318867443469866227464885381899200068343820245739389801"
+            },
+            "upper_squared_ge_input": true
+          },
+          "maximum_extremum_upper": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "124863049345777471291704086258878600977536872298812389510386196600123779296875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "85181831196173221668292143071998926367177275469190160932751857137512605022854974749779843424601"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "21295457799043305417073035767999731591794318867443469866227464885381899200068343820245739389801"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_lower": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "110477500653270665193880174804936665186862988864258984703463956600123779296875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "75367980046374400708544997843571109223466609137655867691055048369846753354979952135781593985481"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "18841995011593600177136249460892777305866652284551233069397204091248073306653980838874112549025"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_upper": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "110477500653270665193880174804936665186862988864258984703463956600123779296875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "75367980046374400708544997843571109223466609137655867691055048369846753354979952135781593985481"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "18841995011593600177136249460892777305866652284551233069397204091248073306653980838874112549025"
+            },
+            "upper_squared_ge_input": true
+          }
+        }
+      },
+      "expected_branch_from_archive": "plastic",
+      "mathematical_verdict_for_exact_real_target": "PASS",
+      "point_id": "e3:q0",
+      "point_verdict": "PASS",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.004076529389350384,
+        "equivalent_stress": 250000000.0,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 809804.2158027762,
+        "plastic_multiplier": 0.0024019043370718247,
+        "plastic_strain": [
+          -0.003213379008499313,
+          0.0016066895042496565,
+          0.0016066895042496565,
+          0.002410034256374485,
+          0.0,
+          -0.0036150513845617273
+        ],
+        "strain": [
+          -0.00604,
+          0.0,
+          0.0,
+          0.00302,
+          0.0,
+          -0.00453
+        ],
+        "stress": [
+          -1188377237.0885725,
+          -991311381.4557137,
+          -991311381.4557137,
+          49266463.908214666,
+          0.0,
+          -73899695.86232199
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 250000000.0
+      },
+      "production_branch_archived": "plastic",
+      "production_branch_budget": {
+        "a_posteriori_discrepancy_bound_B_exact": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "39621239882401099485369168255267"
+        },
+        "a_posteriori_discrepancy_bound_B_pa": "39621239882401099485369168255267/85070591730234615865843651857942052864",
+        "archive_provenance_validated": true,
+        "archived_elastic": false,
+        "base_branch_clearance_pa": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "198044302519221185351185606709426896148752065675"
+        },
+        "base_clearance_dominates_B": true,
+        "consistency_modulus_D_pa": {
+          "decimal_outward": {
+            "hi": "242307692307.692382812500",
+            "lo": "242307692307.692260742187",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1024",
+            "numerator": "248123076923077"
+          },
+          "lo": {
+            "denominator": "8192",
+            "numerator": "1984984615384615"
+          }
+        },
+        "discrepancy_interval_production_minus_model_pa": {
+          "decimal_outward": {
+            "hi": "0.000000130302",
+            "lo": "-0.000000465746",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "44339136506912306297995839839093"
+          },
+          "lo": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "-39621239882401099485369168255267"
+          }
+        },
+        "expected_branch": "plastic",
+        "frozen_source_identity_validated": true,
+        "g0_interval_pa": {
+          "decimal_outward": {
+            "hi": "581999897.059711564417",
+            "lo": "581999897.059711564416",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "49511075629805296337796401677356724037188016419"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "198044302519221185351185606709426896148752065675"
+          }
+        },
+        "mathematical_base_sign_status": "PASS",
+        "mathematical_segment_sign_status": "PASS",
+        "production_branch_linkage_valid": true,
+        "production_numeric_yield_value_available": false,
+        "production_sign_status": "PASS",
+        "production_yield_value_pa": {
+          "decimal_outward": {
+            "hi": "581999897.059711694718",
+            "lo": "581999897.059711098670",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "4194304",
+            "numerator": "2441084496237137"
+          },
+          "lo": {
+            "denominator": "8388608",
+            "numerator": "4882168992474269"
+          }
+        },
+        "production_yield_value_representation": "certified_inverse_division_enclosure; actual value unavailable",
+        "reason": "production_base_and_segment_signs_consistent_with_clearance_over_B",
+        "rounding_budget_scope": "a_posteriori_base_state_discrepancy_only_not_a_priori_segment_budget",
+        "segment_decisive_extremum_interval_pa": {
+          "decimal_outward": {
+            "hi": "556777899.633774141349",
+            "lo": "556777899.633774141348",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "94730850768324690853463141980021778496714052655"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "189461701536649381706926283960043556993428105309"
+          }
+        },
+        "verdict": "PASS"
+      },
+      "reason": "mathematical_sign_only_archive_branch_or_required_rounding_evidence_missing"
+    },
+    {
+      "bounds": {
+        "margin_range": {
+          "decimal_outward": {
+            "hi": "567594292.429374556076",
+            "lo": "526964930.480085381192",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "24142791159835359672753939749817827599885600465"
+          },
+          "lo": {
+            "denominator": "21267647932558653966460912964485513216",
+            "numerator": "11207304614255702673095599639960537150237934303"
+          }
+        },
+        "maximum_margin_range": {
+          "decimal_outward": {
+            "hi": "567594292.429374556076",
+            "lo": "567594292.429374556075",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "24142791159835359672753939749817827599885600465"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "193142329278682877382031517998542620799084803719"
+          }
+        },
+        "minimum_margin_range": {
+          "decimal_outward": {
+            "hi": "526964930.480085381193",
+            "lo": "526964930.480085381192",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "179316873828091242769529594239368594403806948849"
+          },
+          "lo": {
+            "denominator": "21267647932558653966460912964485513216",
+            "numerator": "11207304614255702673095599639960537150237934303"
+          }
+        },
+        "radicand_range": {
+          "decimal_outward": {
+            "hi": "668460427013089636.538949466034",
+            "lo": "603674503195923909.414624538942",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "169732830924855844955022870194554303871164708627823246442496",
+            "numerator": "113459680638169684097613708563316418618417700083213041023693270492971435546875"
+          },
+          "lo": {
+            "denominator": "169732830924855844955022870194554303871164708627823246442496",
+            "numerator": "102463382384600102340677727688981965744577866814908020827730390492971435546875"
+          }
+        },
+        "resistance_range": {
+          "decimal_outward": {
+            "hi": "250000000.000000000000",
+            "lo": "250000000.000000000000",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1",
+            "numerator": "250000000"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "250000000"
+          }
+        },
+        "sqrt_range": {
+          "decimal_outward": {
+            "hi": "817594292.429374556076",
+            "lo": "776964930.480085381192",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "34776615126114686655984396232060584207885600465"
+          },
+          "lo": {
+            "denominator": "21267647932558653966460912964485513216",
+            "numerator": "16524216597395366164710827881081915454237934303"
+          }
+        },
+        "sqrt_squared_checks": {
+          "maximum_extremum_lower": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "113459680638169684097613708563316418618417700083213041023693270492971435546875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "77402429416314164689057777784113402948657312222126120783001098720118779030755254697064756230961"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "1809251394333065553493296640760748560207343510400633813116524750123642650624",
+              "numerator": "1209412959629908823266527777876771921072770503479414791015920839165852021413566000693608216225"
+            },
+            "upper_squared_ge_input": true
+          },
+          "maximum_extremum_upper": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "113459680638169684097613708563316418618417700083213041023693270492971435546875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "77402429416314164689057777784113402948657312222126120783001098720118779030755254697064756230961"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "1809251394333065553493296640760748560207343510400633813116524750123642650624",
+              "numerator": "1209412959629908823266527777876771921072770503479414791015920839165852021413566000693608216225"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_lower": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "102463382384600102340677727688981965744577866814908020827730390492971435546875"
+            },
+            "lower_squared": {
+              "denominator": "452312848583266388373324160190187140051835877600158453279131187530910662656",
+              "numerator": "273049734157636492690770109960566408812659022435608598777843164146480410994961449856544095809"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "69900731944354942128837148149905000656040709744044576218244501738769731706904752457810902424801"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_upper": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "102463382384600102340677727688981965744577866814908020827730390492971435546875"
+            },
+            "lower_squared": {
+              "denominator": "452312848583266388373324160190187140051835877600158453279131187530910662656",
+              "numerator": "273049734157636492690770109960566408812659022435608598777843164146480410994961449856544095809"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "69900731944354942128837148149905000656040709744044576218244501738769731706904752457810902424801"
+            },
+            "upper_squared_ge_input": true
+          }
+        }
+      },
+      "expected_branch_from_archive": "plastic",
+      "mathematical_verdict_for_exact_real_target": "PASS",
+      "point_id": "e4:q0",
+      "point_verdict": "PASS",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.0037697479487192615,
+        "equivalent_stress": 250000000.0,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 753425.507342421,
+        "plastic_multiplier": 0.0022576561100201044,
+        "plastic_strain": [
+          0.0007903539225811913,
+          -0.001580707845162383,
+          0.0007903539225811913,
+          0.0047421235354871485,
+          0.0035565926516153614,
+          0.0
+        ],
+        "strain": [
+          0.0,
+          -0.00302,
+          0.0,
+          0.00604,
+          0.00453,
+          0.0
+        ],
+        "stress": [
+          -493557172.1092694,
+          -598385655.7814612,
+          -493557172.1092694,
+          104828483.67219183,
+          78621362.75414386,
+          0.0
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 250000000.0
+      },
+      "production_branch_archived": "plastic",
+      "production_branch_budget": {
+        "a_posteriori_discrepancy_bound_B_exact": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "125834572895574586933200342469013"
+        },
+        "a_posteriori_discrepancy_bound_B_pa": "125834572895574586933200342469013/340282366920938463463374607431768211456",
+        "archive_provenance_validated": true,
+        "archived_elastic": false,
+        "base_branch_clearance_pa": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "46537649599137570214574101739860105598424642149"
+        },
+        "base_clearance_dominates_B": true,
+        "consistency_modulus_D_pa": {
+          "decimal_outward": {
+            "hi": "242307692307.692382812500",
+            "lo": "242307692307.692260742187",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1024",
+            "numerator": "248123076923077"
+          },
+          "lo": {
+            "denominator": "8192",
+            "numerator": "1984984615384615"
+          }
+        },
+        "discrepancy_interval_production_minus_model_pa": {
+          "decimal_outward": {
+            "hi": "0.000000226252",
+            "lo": "-0.000000369795",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "19247380785235529326568042597787"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "-125834572895574586933200342469013"
+          }
+        },
+        "expected_branch": "plastic",
+        "frozen_source_identity_validated": true,
+        "g0_interval_pa": {
+          "decimal_outward": {
+            "hi": "547047442.043333065756",
+            "lo": "547047442.043333065755",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "186150598396550280858296406959440422393698568597"
+          },
+          "lo": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "46537649599137570214574101739860105598424642149"
+          }
+        },
+        "mathematical_base_sign_status": "PASS",
+        "mathematical_segment_sign_status": "PASS",
+        "production_branch_linkage_valid": true,
+        "production_numeric_yield_value_available": false,
+        "production_sign_status": "PASS",
+        "production_yield_value_pa": {
+          "decimal_outward": {
+            "hi": "547047442.043333292008",
+            "lo": "547047442.043332695960",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "4194304",
+            "numerator": "2294483274352121"
+          },
+          "lo": {
+            "denominator": "8388608",
+            "numerator": "4588966548704237"
+          }
+        },
+        "production_yield_value_representation": "certified_inverse_division_enclosure; actual value unavailable",
+        "reason": "production_base_and_segment_signs_consistent_with_clearance_over_B",
+        "rounding_budget_scope": "a_posteriori_base_state_discrepancy_only_not_a_priori_segment_budget",
+        "segment_decisive_extremum_interval_pa": {
+          "decimal_outward": {
+            "hi": "526964930.480085381193",
+            "lo": "526964930.480085381192",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "179316873828091242769529594239368594403806948849"
+          },
+          "lo": {
+            "denominator": "21267647932558653966460912964485513216",
+            "numerator": "11207304614255702673095599639960537150237934303"
+          }
+        },
+        "verdict": "PASS"
+      },
+      "reason": "mathematical_sign_only_archive_branch_or_required_rounding_evidence_missing"
+    },
+    {
+      "bounds": {
+        "margin_range": {
+          "decimal_outward": {
+            "hi": "567594292.429374556076",
+            "lo": "526964930.480085381192",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "24142791159835359672753939749817827599885600465"
+          },
+          "lo": {
+            "denominator": "21267647932558653966460912964485513216",
+            "numerator": "11207304614255702673095599639960537150237934303"
+          }
+        },
+        "maximum_margin_range": {
+          "decimal_outward": {
+            "hi": "567594292.429374556076",
+            "lo": "567594292.429374556075",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "24142791159835359672753939749817827599885600465"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "193142329278682877382031517998542620799084803719"
+          }
+        },
+        "minimum_margin_range": {
+          "decimal_outward": {
+            "hi": "526964930.480085381193",
+            "lo": "526964930.480085381192",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "179316873828091242769529594239368594403806948849"
+          },
+          "lo": {
+            "denominator": "21267647932558653966460912964485513216",
+            "numerator": "11207304614255702673095599639960537150237934303"
+          }
+        },
+        "radicand_range": {
+          "decimal_outward": {
+            "hi": "668460427013089636.538949466034",
+            "lo": "603674503195923909.414624538942",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "169732830924855844955022870194554303871164708627823246442496",
+            "numerator": "113459680638169684097613708563316418618417700083213041023693270492971435546875"
+          },
+          "lo": {
+            "denominator": "169732830924855844955022870194554303871164708627823246442496",
+            "numerator": "102463382384600102340677727688981965744577866814908020827730390492971435546875"
+          }
+        },
+        "resistance_range": {
+          "decimal_outward": {
+            "hi": "250000000.000000000000",
+            "lo": "250000000.000000000000",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1",
+            "numerator": "250000000"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "250000000"
+          }
+        },
+        "sqrt_range": {
+          "decimal_outward": {
+            "hi": "817594292.429374556076",
+            "lo": "776964930.480085381192",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "34776615126114686655984396232060584207885600465"
+          },
+          "lo": {
+            "denominator": "21267647932558653966460912964485513216",
+            "numerator": "16524216597395366164710827881081915454237934303"
+          }
+        },
+        "sqrt_squared_checks": {
+          "maximum_extremum_lower": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "113459680638169684097613708563316418618417700083213041023693270492971435546875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "77402429416314164689057777784113402948657312222126120783001098720118779030755254697064756230961"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "1809251394333065553493296640760748560207343510400633813116524750123642650624",
+              "numerator": "1209412959629908823266527777876771921072770503479414791015920839165852021413566000693608216225"
+            },
+            "upper_squared_ge_input": true
+          },
+          "maximum_extremum_upper": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "113459680638169684097613708563316418618417700083213041023693270492971435546875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "77402429416314164689057777784113402948657312222126120783001098720118779030755254697064756230961"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "1809251394333065553493296640760748560207343510400633813116524750123642650624",
+              "numerator": "1209412959629908823266527777876771921072770503479414791015920839165852021413566000693608216225"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_lower": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "102463382384600102340677727688981965744577866814908020827730390492971435546875"
+            },
+            "lower_squared": {
+              "denominator": "452312848583266388373324160190187140051835877600158453279131187530910662656",
+              "numerator": "273049734157636492690770109960566408812659022435608598777843164146480410994961449856544095809"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "69900731944354942128837148149905000656040709744044576218244501738769731706904752457810902424801"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_upper": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "102463382384600102340677727688981965744577866814908020827730390492971435546875"
+            },
+            "lower_squared": {
+              "denominator": "452312848583266388373324160190187140051835877600158453279131187530910662656",
+              "numerator": "273049734157636492690770109960566408812659022435608598777843164146480410994961449856544095809"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "69900731944354942128837148149905000656040709744044576218244501738769731706904752457810902424801"
+            },
+            "upper_squared_ge_input": true
+          }
+        }
+      },
+      "expected_branch_from_archive": "plastic",
+      "mathematical_verdict_for_exact_real_target": "PASS",
+      "point_id": "e5:q0",
+      "point_verdict": "PASS",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.0037697479487192615,
+        "equivalent_stress": 250000000.0,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 753425.507342421,
+        "plastic_multiplier": 0.0022576561100201044,
+        "plastic_strain": [
+          0.0007903539225811913,
+          -0.001580707845162383,
+          0.0007903539225811913,
+          0.0047421235354871485,
+          0.0035565926516153614,
+          0.0
+        ],
+        "strain": [
+          0.0,
+          -0.00302,
+          0.0,
+          0.00604,
+          0.00453,
+          0.0
+        ],
+        "stress": [
+          -493557172.1092694,
+          -598385655.7814612,
+          -493557172.1092694,
+          104828483.67219183,
+          78621362.75414386,
+          0.0
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 250000000.0
+      },
+      "production_branch_archived": "plastic",
+      "production_branch_budget": {
+        "a_posteriori_discrepancy_bound_B_exact": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "125834572895574586933200342469013"
+        },
+        "a_posteriori_discrepancy_bound_B_pa": "125834572895574586933200342469013/340282366920938463463374607431768211456",
+        "archive_provenance_validated": true,
+        "archived_elastic": false,
+        "base_branch_clearance_pa": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "46537649599137570214574101739860105598424642149"
+        },
+        "base_clearance_dominates_B": true,
+        "consistency_modulus_D_pa": {
+          "decimal_outward": {
+            "hi": "242307692307.692382812500",
+            "lo": "242307692307.692260742187",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1024",
+            "numerator": "248123076923077"
+          },
+          "lo": {
+            "denominator": "8192",
+            "numerator": "1984984615384615"
+          }
+        },
+        "discrepancy_interval_production_minus_model_pa": {
+          "decimal_outward": {
+            "hi": "0.000000226252",
+            "lo": "-0.000000369795",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "19247380785235529326568042597787"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "-125834572895574586933200342469013"
+          }
+        },
+        "expected_branch": "plastic",
+        "frozen_source_identity_validated": true,
+        "g0_interval_pa": {
+          "decimal_outward": {
+            "hi": "547047442.043333065756",
+            "lo": "547047442.043333065755",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "186150598396550280858296406959440422393698568597"
+          },
+          "lo": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "46537649599137570214574101739860105598424642149"
+          }
+        },
+        "mathematical_base_sign_status": "PASS",
+        "mathematical_segment_sign_status": "PASS",
+        "production_branch_linkage_valid": true,
+        "production_numeric_yield_value_available": false,
+        "production_sign_status": "PASS",
+        "production_yield_value_pa": {
+          "decimal_outward": {
+            "hi": "547047442.043333292008",
+            "lo": "547047442.043332695960",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "4194304",
+            "numerator": "2294483274352121"
+          },
+          "lo": {
+            "denominator": "8388608",
+            "numerator": "4588966548704237"
+          }
+        },
+        "production_yield_value_representation": "certified_inverse_division_enclosure; actual value unavailable",
+        "reason": "production_base_and_segment_signs_consistent_with_clearance_over_B",
+        "rounding_budget_scope": "a_posteriori_base_state_discrepancy_only_not_a_priori_segment_budget",
+        "segment_decisive_extremum_interval_pa": {
+          "decimal_outward": {
+            "hi": "526964930.480085381193",
+            "lo": "526964930.480085381192",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "179316873828091242769529594239368594403806948849"
+          },
+          "lo": {
+            "denominator": "21267647932558653966460912964485513216",
+            "numerator": "11207304614255702673095599639960537150237934303"
+          }
+        },
+        "verdict": "PASS"
+      },
+      "reason": "mathematical_sign_only_archive_branch_or_required_rounding_evidence_missing"
+    },
+    {
+      "bounds": {
+        "margin_range": {
+          "decimal_outward": {
+            "hi": "567594292.429374556076",
+            "lo": "526964930.480085381192",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "24142791159835359672753939749817827599885600465"
+          },
+          "lo": {
+            "denominator": "21267647932558653966460912964485513216",
+            "numerator": "11207304614255702673095599639960537150237934303"
+          }
+        },
+        "maximum_margin_range": {
+          "decimal_outward": {
+            "hi": "567594292.429374556076",
+            "lo": "567594292.429374556075",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "24142791159835359672753939749817827599885600465"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "193142329278682877382031517998542620799084803719"
+          }
+        },
+        "minimum_margin_range": {
+          "decimal_outward": {
+            "hi": "526964930.480085381193",
+            "lo": "526964930.480085381192",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "179316873828091242769529594239368594403806948849"
+          },
+          "lo": {
+            "denominator": "21267647932558653966460912964485513216",
+            "numerator": "11207304614255702673095599639960537150237934303"
+          }
+        },
+        "radicand_range": {
+          "decimal_outward": {
+            "hi": "668460427013089636.538949466034",
+            "lo": "603674503195923909.414624538942",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "169732830924855844955022870194554303871164708627823246442496",
+            "numerator": "113459680638169684097613708563316418618417700083213041023693270492971435546875"
+          },
+          "lo": {
+            "denominator": "169732830924855844955022870194554303871164708627823246442496",
+            "numerator": "102463382384600102340677727688981965744577866814908020827730390492971435546875"
+          }
+        },
+        "resistance_range": {
+          "decimal_outward": {
+            "hi": "250000000.000000000000",
+            "lo": "250000000.000000000000",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1",
+            "numerator": "250000000"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "250000000"
+          }
+        },
+        "sqrt_range": {
+          "decimal_outward": {
+            "hi": "817594292.429374556076",
+            "lo": "776964930.480085381192",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "34776615126114686655984396232060584207885600465"
+          },
+          "lo": {
+            "denominator": "21267647932558653966460912964485513216",
+            "numerator": "16524216597395366164710827881081915454237934303"
+          }
+        },
+        "sqrt_squared_checks": {
+          "maximum_extremum_lower": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "113459680638169684097613708563316418618417700083213041023693270492971435546875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "77402429416314164689057777784113402948657312222126120783001098720118779030755254697064756230961"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "1809251394333065553493296640760748560207343510400633813116524750123642650624",
+              "numerator": "1209412959629908823266527777876771921072770503479414791015920839165852021413566000693608216225"
+            },
+            "upper_squared_ge_input": true
+          },
+          "maximum_extremum_upper": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "113459680638169684097613708563316418618417700083213041023693270492971435546875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "77402429416314164689057777784113402948657312222126120783001098720118779030755254697064756230961"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "1809251394333065553493296640760748560207343510400633813116524750123642650624",
+              "numerator": "1209412959629908823266527777876771921072770503479414791015920839165852021413566000693608216225"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_lower": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "102463382384600102340677727688981965744577866814908020827730390492971435546875"
+            },
+            "lower_squared": {
+              "denominator": "452312848583266388373324160190187140051835877600158453279131187530910662656",
+              "numerator": "273049734157636492690770109960566408812659022435608598777843164146480410994961449856544095809"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "69900731944354942128837148149905000656040709744044576218244501738769731706904752457810902424801"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_upper": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "102463382384600102340677727688981965744577866814908020827730390492971435546875"
+            },
+            "lower_squared": {
+              "denominator": "452312848583266388373324160190187140051835877600158453279131187530910662656",
+              "numerator": "273049734157636492690770109960566408812659022435608598777843164146480410994961449856544095809"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "69900731944354942128837148149905000656040709744044576218244501738769731706904752457810902424801"
+            },
+            "upper_squared_ge_input": true
+          }
+        }
+      },
+      "expected_branch_from_archive": "plastic",
+      "mathematical_verdict_for_exact_real_target": "PASS",
+      "point_id": "e6:q0",
+      "point_verdict": "PASS",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.0037697479487192615,
+        "equivalent_stress": 250000000.0,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 753425.507342421,
+        "plastic_multiplier": 0.0022576561100201044,
+        "plastic_strain": [
+          -0.0007903539225811913,
+          0.001580707845162383,
+          -0.0007903539225811913,
+          -0.0047421235354871485,
+          -0.0035565926516153614,
+          0.0
+        ],
+        "strain": [
+          0.0,
+          0.00302,
+          0.0,
+          -0.00604,
+          -0.00453,
+          0.0
+        ],
+        "stress": [
+          493557172.1092694,
+          598385655.7814612,
+          493557172.1092694,
+          -104828483.67219183,
+          -78621362.75414386,
+          0.0
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 250000000.0
+      },
+      "production_branch_archived": "plastic",
+      "production_branch_budget": {
+        "a_posteriori_discrepancy_bound_B_exact": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "125834572895574586933200342469013"
+        },
+        "a_posteriori_discrepancy_bound_B_pa": "125834572895574586933200342469013/340282366920938463463374607431768211456",
+        "archive_provenance_validated": true,
+        "archived_elastic": false,
+        "base_branch_clearance_pa": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "46537649599137570214574101739860105598424642149"
+        },
+        "base_clearance_dominates_B": true,
+        "consistency_modulus_D_pa": {
+          "decimal_outward": {
+            "hi": "242307692307.692382812500",
+            "lo": "242307692307.692260742187",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1024",
+            "numerator": "248123076923077"
+          },
+          "lo": {
+            "denominator": "8192",
+            "numerator": "1984984615384615"
+          }
+        },
+        "discrepancy_interval_production_minus_model_pa": {
+          "decimal_outward": {
+            "hi": "0.000000226252",
+            "lo": "-0.000000369795",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "19247380785235529326568042597787"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "-125834572895574586933200342469013"
+          }
+        },
+        "expected_branch": "plastic",
+        "frozen_source_identity_validated": true,
+        "g0_interval_pa": {
+          "decimal_outward": {
+            "hi": "547047442.043333065756",
+            "lo": "547047442.043333065755",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "186150598396550280858296406959440422393698568597"
+          },
+          "lo": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "46537649599137570214574101739860105598424642149"
+          }
+        },
+        "mathematical_base_sign_status": "PASS",
+        "mathematical_segment_sign_status": "PASS",
+        "production_branch_linkage_valid": true,
+        "production_numeric_yield_value_available": false,
+        "production_sign_status": "PASS",
+        "production_yield_value_pa": {
+          "decimal_outward": {
+            "hi": "547047442.043333292008",
+            "lo": "547047442.043332695960",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "4194304",
+            "numerator": "2294483274352121"
+          },
+          "lo": {
+            "denominator": "8388608",
+            "numerator": "4588966548704237"
+          }
+        },
+        "production_yield_value_representation": "certified_inverse_division_enclosure; actual value unavailable",
+        "reason": "production_base_and_segment_signs_consistent_with_clearance_over_B",
+        "rounding_budget_scope": "a_posteriori_base_state_discrepancy_only_not_a_priori_segment_budget",
+        "segment_decisive_extremum_interval_pa": {
+          "decimal_outward": {
+            "hi": "526964930.480085381193",
+            "lo": "526964930.480085381192",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "179316873828091242769529594239368594403806948849"
+          },
+          "lo": {
+            "denominator": "21267647932558653966460912964485513216",
+            "numerator": "11207304614255702673095599639960537150237934303"
+          }
+        },
+        "verdict": "PASS"
+      },
+      "reason": "mathematical_sign_only_archive_branch_or_required_rounding_evidence_missing"
+    },
+    {
+      "bounds": {
+        "margin_range": {
+          "decimal_outward": {
+            "hi": "567594292.429374556076",
+            "lo": "526964930.480085381192",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "24142791159835359672753939749817827599885600465"
+          },
+          "lo": {
+            "denominator": "21267647932558653966460912964485513216",
+            "numerator": "11207304614255702673095599639960537150237934303"
+          }
+        },
+        "maximum_margin_range": {
+          "decimal_outward": {
+            "hi": "567594292.429374556076",
+            "lo": "567594292.429374556075",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "24142791159835359672753939749817827599885600465"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "193142329278682877382031517998542620799084803719"
+          }
+        },
+        "minimum_margin_range": {
+          "decimal_outward": {
+            "hi": "526964930.480085381193",
+            "lo": "526964930.480085381192",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "179316873828091242769529594239368594403806948849"
+          },
+          "lo": {
+            "denominator": "21267647932558653966460912964485513216",
+            "numerator": "11207304614255702673095599639960537150237934303"
+          }
+        },
+        "radicand_range": {
+          "decimal_outward": {
+            "hi": "668460427013089636.538949466034",
+            "lo": "603674503195923909.414624538942",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "169732830924855844955022870194554303871164708627823246442496",
+            "numerator": "113459680638169684097613708563316418618417700083213041023693270492971435546875"
+          },
+          "lo": {
+            "denominator": "169732830924855844955022870194554303871164708627823246442496",
+            "numerator": "102463382384600102340677727688981965744577866814908020827730390492971435546875"
+          }
+        },
+        "resistance_range": {
+          "decimal_outward": {
+            "hi": "250000000.000000000000",
+            "lo": "250000000.000000000000",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1",
+            "numerator": "250000000"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "250000000"
+          }
+        },
+        "sqrt_range": {
+          "decimal_outward": {
+            "hi": "817594292.429374556076",
+            "lo": "776964930.480085381192",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "34776615126114686655984396232060584207885600465"
+          },
+          "lo": {
+            "denominator": "21267647932558653966460912964485513216",
+            "numerator": "16524216597395366164710827881081915454237934303"
+          }
+        },
+        "sqrt_squared_checks": {
+          "maximum_extremum_lower": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "113459680638169684097613708563316418618417700083213041023693270492971435546875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "77402429416314164689057777784113402948657312222126120783001098720118779030755254697064756230961"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "1809251394333065553493296640760748560207343510400633813116524750123642650624",
+              "numerator": "1209412959629908823266527777876771921072770503479414791015920839165852021413566000693608216225"
+            },
+            "upper_squared_ge_input": true
+          },
+          "maximum_extremum_upper": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "113459680638169684097613708563316418618417700083213041023693270492971435546875"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "77402429416314164689057777784113402948657312222126120783001098720118779030755254697064756230961"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "1809251394333065553493296640760748560207343510400633813116524750123642650624",
+              "numerator": "1209412959629908823266527777876771921072770503479414791015920839165852021413566000693608216225"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_lower": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "102463382384600102340677727688981965744577866814908020827730390492971435546875"
+            },
+            "lower_squared": {
+              "denominator": "452312848583266388373324160190187140051835877600158453279131187530910662656",
+              "numerator": "273049734157636492690770109960566408812659022435608598777843164146480410994961449856544095809"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "69900731944354942128837148149905000656040709744044576218244501738769731706904752457810902424801"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_upper": {
+            "input": {
+              "denominator": "169732830924855844955022870194554303871164708627823246442496",
+              "numerator": "102463382384600102340677727688981965744577866814908020827730390492971435546875"
+            },
+            "lower_squared": {
+              "denominator": "452312848583266388373324160190187140051835877600158453279131187530910662656",
+              "numerator": "273049734157636492690770109960566408812659022435608598777843164146480410994961449856544095809"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "69900731944354942128837148149905000656040709744044576218244501738769731706904752457810902424801"
+            },
+            "upper_squared_ge_input": true
+          }
+        }
+      },
+      "expected_branch_from_archive": "plastic",
+      "mathematical_verdict_for_exact_real_target": "PASS",
+      "point_id": "e7:q0",
+      "point_verdict": "PASS",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.0037697479487192615,
+        "equivalent_stress": 250000000.0,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 753425.507342421,
+        "plastic_multiplier": 0.0022576561100201044,
+        "plastic_strain": [
+          -0.0007903539225811913,
+          0.001580707845162383,
+          -0.0007903539225811913,
+          -0.0047421235354871485,
+          -0.0035565926516153614,
+          0.0
+        ],
+        "strain": [
+          0.0,
+          0.00302,
+          0.0,
+          -0.00604,
+          -0.00453,
+          0.0
+        ],
+        "stress": [
+          493557172.1092694,
+          598385655.7814612,
+          493557172.1092694,
+          -104828483.67219183,
+          -78621362.75414386,
+          0.0
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 250000000.0
+      },
+      "production_branch_archived": "plastic",
+      "production_branch_budget": {
+        "a_posteriori_discrepancy_bound_B_exact": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "125834572895574586933200342469013"
+        },
+        "a_posteriori_discrepancy_bound_B_pa": "125834572895574586933200342469013/340282366920938463463374607431768211456",
+        "archive_provenance_validated": true,
+        "archived_elastic": false,
+        "base_branch_clearance_pa": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "46537649599137570214574101739860105598424642149"
+        },
+        "base_clearance_dominates_B": true,
+        "consistency_modulus_D_pa": {
+          "decimal_outward": {
+            "hi": "242307692307.692382812500",
+            "lo": "242307692307.692260742187",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1024",
+            "numerator": "248123076923077"
+          },
+          "lo": {
+            "denominator": "8192",
+            "numerator": "1984984615384615"
+          }
+        },
+        "discrepancy_interval_production_minus_model_pa": {
+          "decimal_outward": {
+            "hi": "0.000000226252",
+            "lo": "-0.000000369795",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "19247380785235529326568042597787"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "-125834572895574586933200342469013"
+          }
+        },
+        "expected_branch": "plastic",
+        "frozen_source_identity_validated": true,
+        "g0_interval_pa": {
+          "decimal_outward": {
+            "hi": "547047442.043333065756",
+            "lo": "547047442.043333065755",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "186150598396550280858296406959440422393698568597"
+          },
+          "lo": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "46537649599137570214574101739860105598424642149"
+          }
+        },
+        "mathematical_base_sign_status": "PASS",
+        "mathematical_segment_sign_status": "PASS",
+        "production_branch_linkage_valid": true,
+        "production_numeric_yield_value_available": false,
+        "production_sign_status": "PASS",
+        "production_yield_value_pa": {
+          "decimal_outward": {
+            "hi": "547047442.043333292008",
+            "lo": "547047442.043332695960",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "4194304",
+            "numerator": "2294483274352121"
+          },
+          "lo": {
+            "denominator": "8388608",
+            "numerator": "4588966548704237"
+          }
+        },
+        "production_yield_value_representation": "certified_inverse_division_enclosure; actual value unavailable",
+        "reason": "production_base_and_segment_signs_consistent_with_clearance_over_B",
+        "rounding_budget_scope": "a_posteriori_base_state_discrepancy_only_not_a_priori_segment_budget",
+        "segment_decisive_extremum_interval_pa": {
+          "decimal_outward": {
+            "hi": "526964930.480085381193",
+            "lo": "526964930.480085381192",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "179316873828091242769529594239368594403806948849"
+          },
+          "lo": {
+            "denominator": "21267647932558653966460912964485513216",
+            "numerator": "11207304614255702673095599639960537150237934303"
+          }
+        },
+        "verdict": "PASS"
+      },
+      "reason": "mathematical_sign_only_archive_branch_or_required_rounding_evidence_missing"
+    },
+    {
+      "bounds": {
+        "margin_range": {
+          "decimal_outward": {
+            "hi": "581894894.198175367770",
+            "lo": "542337964.077851421865",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "198008571896964176787544608915054871143152340919"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "184548046087494181344640792385856245546989274827"
+          }
+        },
+        "maximum_margin_range": {
+          "decimal_outward": {
+            "hi": "581894894.198175367770",
+            "lo": "581894894.198175367769",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "198008571896964176787544608915054871143152340919"
+          },
+          "lo": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "99004285948482088393772304457527435571576170459"
+          }
+        },
+        "minimum_margin_range": {
+          "decimal_outward": {
+            "hi": "542337964.077851421866",
+            "lo": "542337964.077851421865",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "46137011521873545336160198096464061386747318707"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "184548046087494181344640792385856245546989274827"
+          }
+        },
+        "radicand_range": {
+          "decimal_outward": {
+            "hi": "692049114992993389.167157640311",
+            "lo": "627799449319034570.197231395592",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42433207731213961238755717548638575967791177156955811610624",
+            "numerator": "29365863856700466777963424121718178831187405515471725675799895246829345703125"
+          },
+          "lo": {
+            "denominator": "42433207731213961238755717548638575967791177156955811610624",
+            "numerator": "26639544446496325157415879404751143568710583290075100429018455246829345703125"
+          }
+        },
+        "resistance_range": {
+          "decimal_outward": {
+            "hi": "250000000.000000000000",
+            "lo": "250000000.000000000000",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1",
+            "numerator": "250000000"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "250000000"
+          }
+        },
+        "sqrt_range": {
+          "decimal_outward": {
+            "hi": "831894894.198175367770",
+            "lo": "792337964.077851421865",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "283079163627198792653388260772996924007152340919"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "269618637817728797210484444243798298410989274827"
+          }
+        },
+        "sqrt_squared_checks": {
+          "maximum_extremum_lower": {
+            "input": {
+              "denominator": "42433207731213961238755717548638575967791177156955811610624",
+              "numerator": "29365863856700466777963424121718178831187405515471725675799895246829345703125"
+            },
+            "lower_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "20033453219968596977810430363289831163391028647770377339444694452799224104519457111151824270681"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "80133812879874387911241721453159324653564114591647667685033175396503672939623822292621601764561"
+            },
+            "upper_squared_ge_input": true
+          },
+          "maximum_extremum_upper": {
+            "input": {
+              "denominator": "42433207731213961238755717548638575967791177156955811610624",
+              "numerator": "29365863856700466777963424121718178831187405515471725675799895246829345703125"
+            },
+            "lower_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "20033453219968596977810430363289831163391028647770377339444694452799224104519457111151824270681"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "80133812879874387911241721453159324653564114591647667685033175396503672939623822292621601764561"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_lower": {
+            "input": {
+              "denominator": "42433207731213961238755717548638575967791177156955811610624",
+              "numerator": "26639544446496325157415879404751143568710583290075100429018455246829345703125"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "72694209858687617147760821720736377642673604010099478804174118549942357943065872914823335879929"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "7237005577332262213973186563042994240829374041602535252466099000494570602496",
+              "numerator": "4543388116167976071735051357546023602667100250664919754988098509022707926972091844477832151849"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_upper": {
+            "input": {
+              "denominator": "42433207731213961238755717548638575967791177156955811610624",
+              "numerator": "26639544446496325157415879404751143568710583290075100429018455246829345703125"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "72694209858687617147760821720736377642673604010099478804174118549942357943065872914823335879929"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "7237005577332262213973186563042994240829374041602535252466099000494570602496",
+              "numerator": "4543388116167976071735051357546023602667100250664919754988098509022707926972091844477832151849"
+            },
+            "upper_squared_ge_input": true
+          }
+        }
+      },
+      "expected_branch_from_archive": "plastic",
+      "mathematical_verdict_for_exact_real_target": "PASS",
+      "point_id": "e8:q0",
+      "point_verdict": "PASS",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.003899893317057434,
+        "equivalent_stress": 250000000.0,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 777342.9508615221,
+        "plastic_multiplier": 0.0023188502898347425,
+        "plastic_strain": [
+          -0.0011940935847601062,
+          -0.0011940935847601062,
+          0.0023881871695202125,
+          0.0,
+          -0.0023881871695202125,
+          0.004776374339040425
+        ],
+        "strain": [
+          0.0,
+          0.0,
+          0.00453,
+          0.0,
+          -0.00302,
+          0.00604
+        ],
+        "stress": [
+          741718963.6920171,
+          741718963.6920171,
+          894812072.6159657,
+          0.0,
+          -51031036.30798288,
+          102062072.61596575
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 250000000.0
+      },
+      "production_branch_archived": "plastic",
+      "production_branch_budget": {
+        "a_posteriori_discrepancy_bound_B_exact": {
+          "denominator": "42535295865117307932921825928971026432",
+          "numerator": "17030359255416212676444236032167"
+        },
+        "a_posteriori_discrepancy_bound_B_pa": "17030359255416212676444236032167/42535295865117307932921825928971026432",
+        "archive_provenance_validated": true,
+        "archived_elastic": false,
+        "base_branch_clearance_pa": {
+          "denominator": "42535295865117307932921825928971026432",
+          "numerator": "23899530531296647504924560891041789616978384729"
+        },
+        "base_clearance_dominates_B": true,
+        "consistency_modulus_D_pa": {
+          "decimal_outward": {
+            "hi": "242307692307.692382812500",
+            "lo": "242307692307.692260742187",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1024",
+            "numerator": "248123076923077"
+          },
+          "lo": {
+            "denominator": "8192",
+            "numerator": "1984984615384615"
+          }
+        },
+        "discrepancy_interval_production_minus_model_pa": {
+          "decimal_outward": {
+            "hi": "0.000000400382",
+            "lo": "-0.000000195665",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "17030359255416212676444236032167"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "-66581221993187002827918624602825"
+          }
+        },
+        "expected_branch": "plastic",
+        "frozen_source_identity_validated": true,
+        "g0_interval_pa": {
+          "decimal_outward": {
+            "hi": "561875262.536879854364",
+            "lo": "561875262.536879854363",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "191196244250373180039396487128334316935827077833"
+          },
+          "lo": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "23899530531296647504924560891041789616978384729"
+          }
+        },
+        "mathematical_base_sign_status": "PASS",
+        "mathematical_segment_sign_status": "PASS",
+        "production_branch_linkage_valid": true,
+        "production_numeric_yield_value_available": false,
+        "production_sign_status": "PASS",
+        "production_yield_value_pa": {
+          "decimal_outward": {
+            "hi": "561875262.536880254746",
+            "lo": "561875262.536879658699",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "4194304",
+            "numerator": "2356675661159487"
+          },
+          "lo": {
+            "denominator": "8388608",
+            "numerator": "4713351322318969"
+          }
+        },
+        "production_yield_value_representation": "certified_inverse_division_enclosure; actual value unavailable",
+        "reason": "production_base_and_segment_signs_consistent_with_clearance_over_B",
+        "rounding_budget_scope": "a_posteriori_base_state_discrepancy_only_not_a_priori_segment_budget",
+        "segment_decisive_extremum_interval_pa": {
+          "decimal_outward": {
+            "hi": "542337964.077851421866",
+            "lo": "542337964.077851421865",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "46137011521873545336160198096464061386747318707"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "184548046087494181344640792385856245546989274827"
+          }
+        },
+        "verdict": "PASS"
+      },
+      "reason": "mathematical_sign_only_archive_branch_or_required_rounding_evidence_missing"
+    },
+    {
+      "bounds": {
+        "margin_range": {
+          "decimal_outward": {
+            "hi": "581894894.198175367770",
+            "lo": "542337964.077851421865",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "198008571896964176787544608915054871143152340919"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "184548046087494181344640792385856245546989274827"
+          }
+        },
+        "maximum_margin_range": {
+          "decimal_outward": {
+            "hi": "581894894.198175367770",
+            "lo": "581894894.198175367769",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "198008571896964176787544608915054871143152340919"
+          },
+          "lo": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "99004285948482088393772304457527435571576170459"
+          }
+        },
+        "minimum_margin_range": {
+          "decimal_outward": {
+            "hi": "542337964.077851421866",
+            "lo": "542337964.077851421865",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "46137011521873545336160198096464061386747318707"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "184548046087494181344640792385856245546989274827"
+          }
+        },
+        "radicand_range": {
+          "decimal_outward": {
+            "hi": "692049114992993389.167157640311",
+            "lo": "627799449319034570.197231395592",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42433207731213961238755717548638575967791177156955811610624",
+            "numerator": "29365863856700466777963424121718178831187405515471725675799895246829345703125"
+          },
+          "lo": {
+            "denominator": "42433207731213961238755717548638575967791177156955811610624",
+            "numerator": "26639544446496325157415879404751143568710583290075100429018455246829345703125"
+          }
+        },
+        "resistance_range": {
+          "decimal_outward": {
+            "hi": "250000000.000000000000",
+            "lo": "250000000.000000000000",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1",
+            "numerator": "250000000"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "250000000"
+          }
+        },
+        "sqrt_range": {
+          "decimal_outward": {
+            "hi": "831894894.198175367770",
+            "lo": "792337964.077851421865",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "283079163627198792653388260772996924007152340919"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "269618637817728797210484444243798298410989274827"
+          }
+        },
+        "sqrt_squared_checks": {
+          "maximum_extremum_lower": {
+            "input": {
+              "denominator": "42433207731213961238755717548638575967791177156955811610624",
+              "numerator": "29365863856700466777963424121718178831187405515471725675799895246829345703125"
+            },
+            "lower_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "20033453219968596977810430363289831163391028647770377339444694452799224104519457111151824270681"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "80133812879874387911241721453159324653564114591647667685033175396503672939623822292621601764561"
+            },
+            "upper_squared_ge_input": true
+          },
+          "maximum_extremum_upper": {
+            "input": {
+              "denominator": "42433207731213961238755717548638575967791177156955811610624",
+              "numerator": "29365863856700466777963424121718178831187405515471725675799895246829345703125"
+            },
+            "lower_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "20033453219968596977810430363289831163391028647770377339444694452799224104519457111151824270681"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "80133812879874387911241721453159324653564114591647667685033175396503672939623822292621601764561"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_lower": {
+            "input": {
+              "denominator": "42433207731213961238755717548638575967791177156955811610624",
+              "numerator": "26639544446496325157415879404751143568710583290075100429018455246829345703125"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "72694209858687617147760821720736377642673604010099478804174118549942357943065872914823335879929"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "7237005577332262213973186563042994240829374041602535252466099000494570602496",
+              "numerator": "4543388116167976071735051357546023602667100250664919754988098509022707926972091844477832151849"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_upper": {
+            "input": {
+              "denominator": "42433207731213961238755717548638575967791177156955811610624",
+              "numerator": "26639544446496325157415879404751143568710583290075100429018455246829345703125"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "72694209858687617147760821720736377642673604010099478804174118549942357943065872914823335879929"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "7237005577332262213973186563042994240829374041602535252466099000494570602496",
+              "numerator": "4543388116167976071735051357546023602667100250664919754988098509022707926972091844477832151849"
+            },
+            "upper_squared_ge_input": true
+          }
+        }
+      },
+      "expected_branch_from_archive": "plastic",
+      "mathematical_verdict_for_exact_real_target": "PASS",
+      "point_id": "e9:q0",
+      "point_verdict": "PASS",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.003899893317057434,
+        "equivalent_stress": 250000000.0,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 777342.9508615221,
+        "plastic_multiplier": 0.0023188502898347425,
+        "plastic_strain": [
+          -0.0011940935847601062,
+          -0.0011940935847601062,
+          0.0023881871695202125,
+          0.0,
+          -0.0023881871695202125,
+          0.004776374339040425
+        ],
+        "strain": [
+          0.0,
+          0.0,
+          0.00453,
+          0.0,
+          -0.00302,
+          0.00604
+        ],
+        "stress": [
+          741718963.6920171,
+          741718963.6920171,
+          894812072.6159657,
+          0.0,
+          -51031036.30798288,
+          102062072.61596575
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 250000000.0
+      },
+      "production_branch_archived": "plastic",
+      "production_branch_budget": {
+        "a_posteriori_discrepancy_bound_B_exact": {
+          "denominator": "42535295865117307932921825928971026432",
+          "numerator": "17030359255416212676444236032167"
+        },
+        "a_posteriori_discrepancy_bound_B_pa": "17030359255416212676444236032167/42535295865117307932921825928971026432",
+        "archive_provenance_validated": true,
+        "archived_elastic": false,
+        "base_branch_clearance_pa": {
+          "denominator": "42535295865117307932921825928971026432",
+          "numerator": "23899530531296647504924560891041789616978384729"
+        },
+        "base_clearance_dominates_B": true,
+        "consistency_modulus_D_pa": {
+          "decimal_outward": {
+            "hi": "242307692307.692382812500",
+            "lo": "242307692307.692260742187",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1024",
+            "numerator": "248123076923077"
+          },
+          "lo": {
+            "denominator": "8192",
+            "numerator": "1984984615384615"
+          }
+        },
+        "discrepancy_interval_production_minus_model_pa": {
+          "decimal_outward": {
+            "hi": "0.000000400382",
+            "lo": "-0.000000195665",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "17030359255416212676444236032167"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "-66581221993187002827918624602825"
+          }
+        },
+        "expected_branch": "plastic",
+        "frozen_source_identity_validated": true,
+        "g0_interval_pa": {
+          "decimal_outward": {
+            "hi": "561875262.536879854364",
+            "lo": "561875262.536879854363",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "191196244250373180039396487128334316935827077833"
+          },
+          "lo": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "23899530531296647504924560891041789616978384729"
+          }
+        },
+        "mathematical_base_sign_status": "PASS",
+        "mathematical_segment_sign_status": "PASS",
+        "production_branch_linkage_valid": true,
+        "production_numeric_yield_value_available": false,
+        "production_sign_status": "PASS",
+        "production_yield_value_pa": {
+          "decimal_outward": {
+            "hi": "561875262.536880254746",
+            "lo": "561875262.536879658699",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "4194304",
+            "numerator": "2356675661159487"
+          },
+          "lo": {
+            "denominator": "8388608",
+            "numerator": "4713351322318969"
+          }
+        },
+        "production_yield_value_representation": "certified_inverse_division_enclosure; actual value unavailable",
+        "reason": "production_base_and_segment_signs_consistent_with_clearance_over_B",
+        "rounding_budget_scope": "a_posteriori_base_state_discrepancy_only_not_a_priori_segment_budget",
+        "segment_decisive_extremum_interval_pa": {
+          "decimal_outward": {
+            "hi": "542337964.077851421866",
+            "lo": "542337964.077851421865",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "46137011521873545336160198096464061386747318707"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "184548046087494181344640792385856245546989274827"
+          }
+        },
+        "verdict": "PASS"
+      },
+      "reason": "mathematical_sign_only_archive_branch_or_required_rounding_evidence_missing"
+    },
+    {
+      "bounds": {
+        "margin_range": {
+          "decimal_outward": {
+            "hi": "581894894.198175367770",
+            "lo": "542337964.077851421865",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "198008571896964176787544608915054871143152340919"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "184548046087494181344640792385856245546989274827"
+          }
+        },
+        "maximum_margin_range": {
+          "decimal_outward": {
+            "hi": "581894894.198175367770",
+            "lo": "581894894.198175367769",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "198008571896964176787544608915054871143152340919"
+          },
+          "lo": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "99004285948482088393772304457527435571576170459"
+          }
+        },
+        "minimum_margin_range": {
+          "decimal_outward": {
+            "hi": "542337964.077851421866",
+            "lo": "542337964.077851421865",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "46137011521873545336160198096464061386747318707"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "184548046087494181344640792385856245546989274827"
+          }
+        },
+        "radicand_range": {
+          "decimal_outward": {
+            "hi": "692049114992993389.167157640311",
+            "lo": "627799449319034570.197231395592",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42433207731213961238755717548638575967791177156955811610624",
+            "numerator": "29365863856700466777963424121718178831187405515471725675799895246829345703125"
+          },
+          "lo": {
+            "denominator": "42433207731213961238755717548638575967791177156955811610624",
+            "numerator": "26639544446496325157415879404751143568710583290075100429018455246829345703125"
+          }
+        },
+        "resistance_range": {
+          "decimal_outward": {
+            "hi": "250000000.000000000000",
+            "lo": "250000000.000000000000",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1",
+            "numerator": "250000000"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "250000000"
+          }
+        },
+        "sqrt_range": {
+          "decimal_outward": {
+            "hi": "831894894.198175367770",
+            "lo": "792337964.077851421865",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "283079163627198792653388260772996924007152340919"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "269618637817728797210484444243798298410989274827"
+          }
+        },
+        "sqrt_squared_checks": {
+          "maximum_extremum_lower": {
+            "input": {
+              "denominator": "42433207731213961238755717548638575967791177156955811610624",
+              "numerator": "29365863856700466777963424121718178831187405515471725675799895246829345703125"
+            },
+            "lower_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "20033453219968596977810430363289831163391028647770377339444694452799224104519457111151824270681"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "80133812879874387911241721453159324653564114591647667685033175396503672939623822292621601764561"
+            },
+            "upper_squared_ge_input": true
+          },
+          "maximum_extremum_upper": {
+            "input": {
+              "denominator": "42433207731213961238755717548638575967791177156955811610624",
+              "numerator": "29365863856700466777963424121718178831187405515471725675799895246829345703125"
+            },
+            "lower_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "20033453219968596977810430363289831163391028647770377339444694452799224104519457111151824270681"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "80133812879874387911241721453159324653564114591647667685033175396503672939623822292621601764561"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_lower": {
+            "input": {
+              "denominator": "42433207731213961238755717548638575967791177156955811610624",
+              "numerator": "26639544446496325157415879404751143568710583290075100429018455246829345703125"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "72694209858687617147760821720736377642673604010099478804174118549942357943065872914823335879929"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "7237005577332262213973186563042994240829374041602535252466099000494570602496",
+              "numerator": "4543388116167976071735051357546023602667100250664919754988098509022707926972091844477832151849"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_upper": {
+            "input": {
+              "denominator": "42433207731213961238755717548638575967791177156955811610624",
+              "numerator": "26639544446496325157415879404751143568710583290075100429018455246829345703125"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "72694209858687617147760821720736377642673604010099478804174118549942357943065872914823335879929"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "7237005577332262213973186563042994240829374041602535252466099000494570602496",
+              "numerator": "4543388116167976071735051357546023602667100250664919754988098509022707926972091844477832151849"
+            },
+            "upper_squared_ge_input": true
+          }
+        }
+      },
+      "expected_branch_from_archive": "plastic",
+      "mathematical_verdict_for_exact_real_target": "PASS",
+      "point_id": "e10:q0",
+      "point_verdict": "PASS",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.003899893317057434,
+        "equivalent_stress": 250000000.0,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 777342.9508615221,
+        "plastic_multiplier": 0.0023188502898347425,
+        "plastic_strain": [
+          0.0011940935847601062,
+          0.0011940935847601062,
+          -0.0023881871695202125,
+          0.0,
+          0.0023881871695202125,
+          -0.004776374339040425
+        ],
+        "strain": [
+          0.0,
+          0.0,
+          -0.00453,
+          0.0,
+          0.00302,
+          -0.00604
+        ],
+        "stress": [
+          -741718963.6920171,
+          -741718963.6920171,
+          -894812072.6159657,
+          0.0,
+          51031036.30798288,
+          -102062072.61596575
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 250000000.0
+      },
+      "production_branch_archived": "plastic",
+      "production_branch_budget": {
+        "a_posteriori_discrepancy_bound_B_exact": {
+          "denominator": "42535295865117307932921825928971026432",
+          "numerator": "17030359255416212676444236032167"
+        },
+        "a_posteriori_discrepancy_bound_B_pa": "17030359255416212676444236032167/42535295865117307932921825928971026432",
+        "archive_provenance_validated": true,
+        "archived_elastic": false,
+        "base_branch_clearance_pa": {
+          "denominator": "42535295865117307932921825928971026432",
+          "numerator": "23899530531296647504924560891041789616978384729"
+        },
+        "base_clearance_dominates_B": true,
+        "consistency_modulus_D_pa": {
+          "decimal_outward": {
+            "hi": "242307692307.692382812500",
+            "lo": "242307692307.692260742187",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1024",
+            "numerator": "248123076923077"
+          },
+          "lo": {
+            "denominator": "8192",
+            "numerator": "1984984615384615"
+          }
+        },
+        "discrepancy_interval_production_minus_model_pa": {
+          "decimal_outward": {
+            "hi": "0.000000400382",
+            "lo": "-0.000000195665",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "17030359255416212676444236032167"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "-66581221993187002827918624602825"
+          }
+        },
+        "expected_branch": "plastic",
+        "frozen_source_identity_validated": true,
+        "g0_interval_pa": {
+          "decimal_outward": {
+            "hi": "561875262.536879854364",
+            "lo": "561875262.536879854363",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "191196244250373180039396487128334316935827077833"
+          },
+          "lo": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "23899530531296647504924560891041789616978384729"
+          }
+        },
+        "mathematical_base_sign_status": "PASS",
+        "mathematical_segment_sign_status": "PASS",
+        "production_branch_linkage_valid": true,
+        "production_numeric_yield_value_available": false,
+        "production_sign_status": "PASS",
+        "production_yield_value_pa": {
+          "decimal_outward": {
+            "hi": "561875262.536880254746",
+            "lo": "561875262.536879658699",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "4194304",
+            "numerator": "2356675661159487"
+          },
+          "lo": {
+            "denominator": "8388608",
+            "numerator": "4713351322318969"
+          }
+        },
+        "production_yield_value_representation": "certified_inverse_division_enclosure; actual value unavailable",
+        "reason": "production_base_and_segment_signs_consistent_with_clearance_over_B",
+        "rounding_budget_scope": "a_posteriori_base_state_discrepancy_only_not_a_priori_segment_budget",
+        "segment_decisive_extremum_interval_pa": {
+          "decimal_outward": {
+            "hi": "542337964.077851421866",
+            "lo": "542337964.077851421865",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "46137011521873545336160198096464061386747318707"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "184548046087494181344640792385856245546989274827"
+          }
+        },
+        "verdict": "PASS"
+      },
+      "reason": "mathematical_sign_only_archive_branch_or_required_rounding_evidence_missing"
+    },
+    {
+      "bounds": {
+        "margin_range": {
+          "decimal_outward": {
+            "hi": "581894894.198175367770",
+            "lo": "542337964.077851421865",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "198008571896964176787544608915054871143152340919"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "184548046087494181344640792385856245546989274827"
+          }
+        },
+        "maximum_margin_range": {
+          "decimal_outward": {
+            "hi": "581894894.198175367770",
+            "lo": "581894894.198175367769",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "198008571896964176787544608915054871143152340919"
+          },
+          "lo": {
+            "denominator": "170141183460469231731687303715884105728",
+            "numerator": "99004285948482088393772304457527435571576170459"
+          }
+        },
+        "minimum_margin_range": {
+          "decimal_outward": {
+            "hi": "542337964.077851421866",
+            "lo": "542337964.077851421865",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "46137011521873545336160198096464061386747318707"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "184548046087494181344640792385856245546989274827"
+          }
+        },
+        "radicand_range": {
+          "decimal_outward": {
+            "hi": "692049114992993389.167157640311",
+            "lo": "627799449319034570.197231395592",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42433207731213961238755717548638575967791177156955811610624",
+            "numerator": "29365863856700466777963424121718178831187405515471725675799895246829345703125"
+          },
+          "lo": {
+            "denominator": "42433207731213961238755717548638575967791177156955811610624",
+            "numerator": "26639544446496325157415879404751143568710583290075100429018455246829345703125"
+          }
+        },
+        "resistance_range": {
+          "decimal_outward": {
+            "hi": "250000000.000000000000",
+            "lo": "250000000.000000000000",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1",
+            "numerator": "250000000"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "250000000"
+          }
+        },
+        "sqrt_range": {
+          "decimal_outward": {
+            "hi": "831894894.198175367770",
+            "lo": "792337964.077851421865",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "283079163627198792653388260772996924007152340919"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "269618637817728797210484444243798298410989274827"
+          }
+        },
+        "sqrt_squared_checks": {
+          "maximum_extremum_lower": {
+            "input": {
+              "denominator": "42433207731213961238755717548638575967791177156955811610624",
+              "numerator": "29365863856700466777963424121718178831187405515471725675799895246829345703125"
+            },
+            "lower_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "20033453219968596977810430363289831163391028647770377339444694452799224104519457111151824270681"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "80133812879874387911241721453159324653564114591647667685033175396503672939623822292621601764561"
+            },
+            "upper_squared_ge_input": true
+          },
+          "maximum_extremum_upper": {
+            "input": {
+              "denominator": "42433207731213961238755717548638575967791177156955811610624",
+              "numerator": "29365863856700466777963424121718178831187405515471725675799895246829345703125"
+            },
+            "lower_squared": {
+              "denominator": "28948022309329048855892746252171976963317496166410141009864396001978282409984",
+              "numerator": "20033453219968596977810430363289831163391028647770377339444694452799224104519457111151824270681"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "80133812879874387911241721453159324653564114591647667685033175396503672939623822292621601764561"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_lower": {
+            "input": {
+              "denominator": "42433207731213961238755717548638575967791177156955811610624",
+              "numerator": "26639544446496325157415879404751143568710583290075100429018455246829345703125"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "72694209858687617147760821720736377642673604010099478804174118549942357943065872914823335879929"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "7237005577332262213973186563042994240829374041602535252466099000494570602496",
+              "numerator": "4543388116167976071735051357546023602667100250664919754988098509022707926972091844477832151849"
+            },
+            "upper_squared_ge_input": true
+          },
+          "minimum_extremum_upper": {
+            "input": {
+              "denominator": "42433207731213961238755717548638575967791177156955811610624",
+              "numerator": "26639544446496325157415879404751143568710583290075100429018455246829345703125"
+            },
+            "lower_squared": {
+              "denominator": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+              "numerator": "72694209858687617147760821720736377642673604010099478804174118549942357943065872914823335879929"
+            },
+            "lower_squared_le_input": true,
+            "upper_squared": {
+              "denominator": "7237005577332262213973186563042994240829374041602535252466099000494570602496",
+              "numerator": "4543388116167976071735051357546023602667100250664919754988098509022707926972091844477832151849"
+            },
+            "upper_squared_ge_input": true
+          }
+        }
+      },
+      "expected_branch_from_archive": "plastic",
+      "mathematical_verdict_for_exact_real_target": "PASS",
+      "point_id": "e11:q0",
+      "point_verdict": "PASS",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.003899893317057434,
+        "equivalent_stress": 250000000.0,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 777342.9508615221,
+        "plastic_multiplier": 0.0023188502898347425,
+        "plastic_strain": [
+          0.0011940935847601062,
+          0.0011940935847601062,
+          -0.0023881871695202125,
+          0.0,
+          0.0023881871695202125,
+          -0.004776374339040425
+        ],
+        "strain": [
+          0.0,
+          0.0,
+          -0.00453,
+          0.0,
+          0.00302,
+          -0.00604
+        ],
+        "stress": [
+          -741718963.6920171,
+          -741718963.6920171,
+          -894812072.6159657,
+          0.0,
+          51031036.30798288,
+          -102062072.61596575
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 250000000.0
+      },
+      "production_branch_archived": "plastic",
+      "production_branch_budget": {
+        "a_posteriori_discrepancy_bound_B_exact": {
+          "denominator": "42535295865117307932921825928971026432",
+          "numerator": "17030359255416212676444236032167"
+        },
+        "a_posteriori_discrepancy_bound_B_pa": "17030359255416212676444236032167/42535295865117307932921825928971026432",
+        "archive_provenance_validated": true,
+        "archived_elastic": false,
+        "base_branch_clearance_pa": {
+          "denominator": "42535295865117307932921825928971026432",
+          "numerator": "23899530531296647504924560891041789616978384729"
+        },
+        "base_clearance_dominates_B": true,
+        "consistency_modulus_D_pa": {
+          "decimal_outward": {
+            "hi": "242307692307.692382812500",
+            "lo": "242307692307.692260742187",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "1024",
+            "numerator": "248123076923077"
+          },
+          "lo": {
+            "denominator": "8192",
+            "numerator": "1984984615384615"
+          }
+        },
+        "discrepancy_interval_production_minus_model_pa": {
+          "decimal_outward": {
+            "hi": "0.000000400382",
+            "lo": "-0.000000195665",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "17030359255416212676444236032167"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "-66581221993187002827918624602825"
+          }
+        },
+        "expected_branch": "plastic",
+        "frozen_source_identity_validated": true,
+        "g0_interval_pa": {
+          "decimal_outward": {
+            "hi": "561875262.536879854364",
+            "lo": "561875262.536879854363",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "191196244250373180039396487128334316935827077833"
+          },
+          "lo": {
+            "denominator": "42535295865117307932921825928971026432",
+            "numerator": "23899530531296647504924560891041789616978384729"
+          }
+        },
+        "mathematical_base_sign_status": "PASS",
+        "mathematical_segment_sign_status": "PASS",
+        "production_branch_linkage_valid": true,
+        "production_numeric_yield_value_available": false,
+        "production_sign_status": "PASS",
+        "production_yield_value_pa": {
+          "decimal_outward": {
+            "hi": "561875262.536880254746",
+            "lo": "561875262.536879658699",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "4194304",
+            "numerator": "2356675661159487"
+          },
+          "lo": {
+            "denominator": "8388608",
+            "numerator": "4713351322318969"
+          }
+        },
+        "production_yield_value_representation": "certified_inverse_division_enclosure; actual value unavailable",
+        "reason": "production_base_and_segment_signs_consistent_with_clearance_over_B",
+        "rounding_budget_scope": "a_posteriori_base_state_discrepancy_only_not_a_priori_segment_budget",
+        "segment_decisive_extremum_interval_pa": {
+          "decimal_outward": {
+            "hi": "542337964.077851421866",
+            "lo": "542337964.077851421865",
+            "places": 12
+          },
+          "hi": {
+            "denominator": "85070591730234615865843651857942052864",
+            "numerator": "46137011521873545336160198096464061386747318707"
+          },
+          "lo": {
+            "denominator": "340282366920938463463374607431768211456",
+            "numerator": "184548046087494181344640792385856245546989274827"
+          }
+        },
+        "verdict": "PASS"
+      },
+      "reason": "mathematical_sign_only_archive_branch_or_required_rounding_evidence_missing"
+    }
+  ],
+  "production_branch_linkage_valid": true,
+  "production_branch_witness": "archived elastic/yield_function for elastic points; inverse division enclosure from archived plastic_multiplier and source operation graph for plastic points",
+  "production_point_pass_count": 12,
+  "production_rounding_budget_valid": true,
+  "proof_input_path": "tet4-perfect-historical-weak-projected.proof_input.json",
+  "proof_input_sha256": "1a17f6ee10a9914188209a53d037d8e1637dfc23f5c039ada5278f80bcef7b0f",
+  "provenance_valid": true,
+  "reason": "Exact-real segment signs and per-point production base branch enclosures were evaluated from hash-verified frozen inputs; see each production_branch_budget record for the a-posteriori discrepancy scope and numerical-value availability.",
+  "schema_version": 1,
+  "segment_margin_range_pa": {
+    "decimal_outward": {
+      "hi": "607697296.277511987962",
+      "lo": "526964930.480085381192",
+      "places": 12
+    },
+    "hi": {
+      "denominator": "170141183460469231731687303715884105728",
+      "numerator": "103394337174383293070826118425629106368778533651"
+    },
+    "lo": {
+      "denominator": "21267647932558653966460912964485513216",
+      "numerator": "11207304614255702673095599639960537150237934303"
+    }
+  }
+}

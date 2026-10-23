@@ -1,0 +1,75 @@
+{
+  "mission": "WP-E01-L-C03-PROOF",
+  "date_local": "2026-10-24",
+  "owner_request_sha256": "aa8053a5f12f725ac78e65c28b0dd54cb5de36da2a63a7e260d09758c9be8c59",
+  "historical_snapshot_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5",
+  "historical_snapshot_tree": "c42e3c2241af1862d66cab51a38fda74a1167361",
+  "preparation_base_commit": "df9a6f20860e1c8dcea1f48dd997f58e7a02021a",
+  "scope": {
+    "element_families": ["TET4", "HEX8"],
+    "hardening_modulus_Pa": [0, 1500000000],
+    "directions": ["historical_weak_projected", "mixed_projected"],
+    "number_of_actions": 8,
+    "number_of_base_states": 4,
+    "history": "archived_incoming_history_fixed",
+    "segment_m": {"lower": "-1/10000", "upper": "1/10000"},
+    "claim": "elastic_plastic_branch_stability_only"
+  },
+  "authorized_operations": [
+    "read_frozen_sources_and_archives",
+    "exact_rational_and_certified_interval_postprocessing",
+    "non_FEM_synthetic_mathematical_tests",
+    "independent_Sol_6_1_review"
+  ],
+  "forbidden_operations": [
+    "scientific_kernel_evaluation",
+    "FEM_assembly_or_solution",
+    "regenerate_missing_history_with_production",
+    "reconstruct_missing_inputs_from_rounded_report_values",
+    "solver_or_archive_modification",
+    "merge",
+    "release",
+    "automatic_certificate_promotion"
+  ],
+  "proof_requirements": {
+    "coefficients": "derive_A_B_C_from_frozen_inputs_not_observed_margins",
+    "plastic": "certified_lower_bound_of_segment_min_g_strictly_positive",
+    "elastic": "certified_upper_bound_of_segment_max_g_strictly_negative",
+    "production_base": "separately_establish_numerical_branch_value_rounding_budget_and_archived_actual_branch",
+    "touches_zero_or_missing_bound": "INCONCLUSIVE",
+    "invalid_identity_or_method": "INVALID_PROTOCOL",
+    "valid_proof_of_branch_contradiction": "FAIL",
+    "promotion": "separate_Owner_decision_required"
+  },
+  "mathematical_target": {
+    "inputs": "exact_binary64_values_restored_from_hash_verified_JSON",
+    "history": "fixed_incoming_history_not_updated_state",
+    "kinematics": "source_level_small_strain_reference_geometry",
+    "HEX8_abscissae": "ideal_real_plus_minus_1_over_sqrt_3_with_certified_rational_enclosure",
+    "arithmetic": "exact_real_model_enclosed_by_Fraction_and_checked_integer_square_roots"
+  },
+  "production_base_evidence_method": {
+    "elastic": "archived_yield_function_is_pre_return_yield_value",
+    "plastic": "recover_certified_enclosure_of_pre_return_yield_value_from_archived_plastic_multiplier_and_source_division",
+    "denominator": "per_operation_binary64_floor_ceil_enclosure_of_3_shear_plus_H_from_frozen_E_nu_H",
+    "inverse_division": "pre_round_quotient_lies_between_predecessor_and_successor_of_archived_binary64_multiplier",
+    "comparison_budget": "certified_a_posteriori_bound_on_actual_base_numerical_discrepancy_from_exact_model",
+    "exact_plastic_trial_scalar": "not_archived_no_exact_value_is_claimed",
+    "limits": "not_an_a_priori_error_bound_not_a_production_runtime_segment_bound_not_a_Decimal_force_proof"
+  },
+  "global_states_preserved": {
+    "WP_E01_STATUS": "OPEN_WITH_BOUNDED_CERTIFICATES",
+    "GLOBAL_J2_TANGENT_QUALIFICATION": "NOT_ACQUIRED",
+    "CRITERIA_GLOBAL": "NOT_APPROVED",
+    "BA_GLOBAL_VERDICT": "FAIL",
+    "RUN": "NOT_RUN_BLOCKED"
+  },
+  "coordination_budget": {
+    "initial_parallel_Luna_workers": 2,
+    "distinct_Sol_reviewer": 1,
+    "maximum_simultaneous_child_agents": 3,
+    "initial_worker_target_minutes": 20,
+    "maximum_attempts_per_bug_hypothesis": 3,
+    "token_usage": "NOT_MEASURED"
+  }
+}

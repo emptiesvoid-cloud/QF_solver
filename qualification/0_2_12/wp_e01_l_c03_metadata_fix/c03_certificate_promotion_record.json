@@ -1,0 +1,59 @@
+{
+  "mission": "WP-E01-L-C03-METADATA-FIX",
+  "decision_date_local": "2026-10-24",
+  "decision_layer": "SEPARATE_OWNER_BOUNDED_CERTIFICATE_PROMOTION",
+  "authorization": "Owner explicitly authorized documentary promotion of only C03 if the listed concordance checks pass and the final independent review is favorable.",
+  "decision": "PROMOTED_BOUNDED",
+  "C03_BRANCH_STABILITY": "CERTIFIED_BOUNDED",
+  "evidence_identity": {
+    "historical_snapshot_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5",
+    "historical_snapshot_tree": "c42e3c2241af1862d66cab51a38fda74a1167361",
+    "final_archive_inventory_sha256": "f9700613545826a8211bba85ec634be1022c3bad1df55014234b3fac64d2999d",
+    "technical_action_summary_sha256": "6ce32911d1f64a929e11d9ca70982bfcf1728d0779566576db75d3f3e9eb2386",
+    "candidate_manifest_reviewed_sha256": "b5c7dc2e333321c89c89b8d2c21963ef90a07acef9a7bc837e2c4177a869f2e5",
+    "independent_review_sha256": "097e6c6086959ac4e12a29488780fc7991623e6ac263dd921b42e909fdc868fa"
+  },
+  "conditions_verified": {
+    "technical_action_proofs": "8/8 PASS",
+    "point_action_controls": "304/304 PASS",
+    "serialized_full_segment_extrema_and_root_inequalities": "verified",
+    "production_branch_linkage_at_archived_base_states": "verified for all 304 points",
+    "mathematical_regressions": "44/44 PASS",
+    "metadata_regressions": "13/13 PASS",
+    "final_independent_review": "ACCEPT by distinct GPT-6.1 Sol reviewer",
+    "original_proof_bundle": "37/37 files match original manifest",
+    "candidate_proof_inputs_and_results": "16/16 match original SHA-256",
+    "historical_production_pins": "29/29 verified in each archive",
+    "archive_manifest_and_adapter_capture_identities": "bound to preserved pre-fix identities",
+    "historical_snapshot_identity_and_cleanliness": "verified",
+    "scientific_source_or_equation_changes": "none"
+  },
+  "bounded_scope": {
+    "claim": "elastic/plastic branch-sign stability of the exact-real affine trial J2 model on the archived segments, with archived production branch linkage at each base state",
+    "element_families": ["TET4", "HEX8"],
+    "hardening_modulus_Pa": [0, 1500000000],
+    "directions_per_base_state": ["historical_weak_projected", "mixed_projected"],
+    "action_count": 8,
+    "incoming_history": "fixed and explicitly archived; generation is not qualified",
+    "segment_s_m": {"lower": "-1/10000", "upper": "1/10000"},
+    "production_numeric_discrepancy": "a-posteriori bound at archived base states only"
+  },
+  "explicit_nonclaims": [
+    "No qualification of the complete J2 tangent matrix.",
+    "No qualification of plastic-history generation.",
+    "No proof of the full rounded Decimal force calculation.",
+    "No promotion of C04, C05, or C06 or of global criteria.",
+    "No validation of unarchived elements, directions, histories, segments, or runtimes."
+  ],
+  "technical_inventory_semantics": "archive_inventory.json preserves the proof evaluator's PROPOSED_NOT_PROMOTED output because that stage cannot auto-promote. This separate Owner-authorized record is the bounded promotion decision.",
+  "preserved_global_states": {
+    "GLOBAL_J2_TANGENT_QUALIFICATION": "NOT_ACQUIRED",
+    "CRITERIA_GLOBAL": "NOT_APPROVED",
+    "BA_GLOBAL_VERDICT": "FAIL",
+    "WP_E01_STATUS": "OPEN_WITH_BOUNDED_CERTIFICATES",
+    "RUN": "NOT_RUN_BLOCKED"
+  },
+  "FEM_run": "NOT_RUN",
+  "merge": "NOT_AUTHORIZED",
+  "release": "NOT_AUTHORIZED"
+}

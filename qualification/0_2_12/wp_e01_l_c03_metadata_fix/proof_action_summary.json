@@ -1,0 +1,380 @@
+{
+  "action_count": 8,
+  "certificate_status": "PROPOSED_NOT_PROMOTED",
+  "global_verdict": "C03_PROOF_READY_FOR_OWNER_REVIEW",
+  "owner_status": "READY_FOR_OWNER_REVIEW",
+  "point_count": 304,
+  "reason": "Technical aggregate is the precedence-preserving aggregation of all eight action verdicts; owner-facing status follows the C03 status mapping. A passing technical result is proposed for owner review and is not promoted.",
+  "schema_version": 1,
+  "summary": [
+    {
+      "action_id": "tet4-perfect-historical-weak-projected",
+      "action_verdict": "PASS",
+      "branch_point_counts": {
+        "elastic": 0,
+        "plastic": 12
+      },
+      "mathematical_candidate_verdict": "PASS",
+      "mathematical_point_pass_count": 12,
+      "maximum_a_posteriori_base_discrepancy_B_pa": {
+        "decimal_outward": {
+          "hi": "0.000000465746",
+          "lo": "0.000000465745",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "39621239882401099485369168255267"
+        },
+        "lo": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "39621239882401099485369168255267"
+        }
+      },
+      "minimum_certified_clearance_pa": {
+        "decimal_outward": {
+          "hi": "526964930.480085381193",
+          "lo": "526964930.480085381192",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "21267647932558653966460912964485513216",
+          "numerator": "11207304614255702673095599639960537150237934303"
+        },
+        "lo": {
+          "denominator": "21267647932558653966460912964485513216",
+          "numerator": "11207304614255702673095599639960537150237934303"
+        }
+      },
+      "point_count": 12,
+      "production_gates_complete": true,
+      "production_point_pass_count": 12,
+      "proof_input_sha256": "1a17f6ee10a9914188209a53d037d8e1637dfc23f5c039ada5278f80bcef7b0f",
+      "proof_result_path": "tet4-perfect-historical-weak-projected.proof_result.json",
+      "proof_result_sha256": "24dec65fb2a6de66c07254bf9b2eb23b59e5284d7a44d4ad04199be4bbe31100"
+    },
+    {
+      "action_id": "tet4-perfect-mixed-projected",
+      "action_verdict": "PASS",
+      "branch_point_counts": {
+        "elastic": 0,
+        "plastic": 12
+      },
+      "mathematical_candidate_verdict": "PASS",
+      "mathematical_point_pass_count": 12,
+      "maximum_a_posteriori_base_discrepancy_B_pa": {
+        "decimal_outward": {
+          "hi": "0.000000465746",
+          "lo": "0.000000465745",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "39621239882401099485369168255267"
+        },
+        "lo": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "39621239882401099485369168255267"
+        }
+      },
+      "minimum_certified_clearance_pa": {
+        "decimal_outward": {
+          "hi": "532345925.312127124861",
+          "lo": "532345925.312127124860",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "181147931485927745028251096607100088019327835667"
+        },
+        "lo": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "181147931485927745028251096607100088019327835667"
+        }
+      },
+      "point_count": 12,
+      "production_gates_complete": true,
+      "production_point_pass_count": 12,
+      "proof_input_sha256": "05c9b984b850042efe1081b819f4a6673c771c33be9059ebfac78747a51ef0a5",
+      "proof_result_path": "tet4-perfect-mixed-projected.proof_result.json",
+      "proof_result_sha256": "fa4f892fb96dcfa8f425228e2cdd9e83a135bbbedd59406d9d055deebad0936d"
+    },
+    {
+      "action_id": "tet4-hardening-historical-weak-projected",
+      "action_verdict": "PASS",
+      "branch_point_counts": {
+        "elastic": 0,
+        "plastic": 12
+      },
+      "mathematical_candidate_verdict": "PASS",
+      "mathematical_point_pass_count": 12,
+      "maximum_a_posteriori_base_discrepancy_B_pa": {
+        "decimal_outward": {
+          "hi": "0.000000455277",
+          "lo": "0.000000455276",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "170141183460469231731687303715884105728",
+          "numerator": "77461222035888977774093181536949"
+        },
+        "lo": {
+          "denominator": "170141183460469231731687303715884105728",
+          "numerator": "77461222035888977774093181536949"
+        }
+      },
+      "minimum_certified_clearance_pa": {
+        "decimal_outward": {
+          "hi": "526964241.724462317524",
+          "lo": "526964241.724462317523",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "179316639456697596558761760364971850639417818389"
+        },
+        "lo": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "179316639456697596558761760364971850639417818389"
+        }
+      },
+      "point_count": 12,
+      "production_gates_complete": true,
+      "production_point_pass_count": 12,
+      "proof_input_sha256": "8bdda31b62dc0ef881462e93891320c56dec5be42f0b561b5949d22cc809bb97",
+      "proof_result_path": "tet4-hardening-historical-weak-projected.proof_result.json",
+      "proof_result_sha256": "d587f6f4cf3398c4493bd40ca0b877ad04acdd815d1f7167421fc7355c55cea7"
+    },
+    {
+      "action_id": "tet4-hardening-mixed-projected",
+      "action_verdict": "PASS",
+      "branch_point_counts": {
+        "elastic": 0,
+        "plastic": 12
+      },
+      "mathematical_candidate_verdict": "PASS",
+      "mathematical_point_pass_count": 12,
+      "maximum_a_posteriori_base_discrepancy_B_pa": {
+        "decimal_outward": {
+          "hi": "0.000000455277",
+          "lo": "0.000000455276",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "170141183460469231731687303715884105728",
+          "numerator": "77461222035888977774093181536949"
+        },
+        "lo": {
+          "denominator": "170141183460469231731687303715884105728",
+          "numerator": "77461222035888977774093181536949"
+        }
+      },
+      "minimum_certified_clearance_pa": {
+        "decimal_outward": {
+          "hi": "532344530.188572287669",
+          "lo": "532344530.188572287668",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "170141183460469231731687303715884105728",
+          "numerator": "90573728374991178937365357456677859640858495511"
+        },
+        "lo": {
+          "denominator": "170141183460469231731687303715884105728",
+          "numerator": "90573728374991178937365357456677859640858495511"
+        }
+      },
+      "point_count": 12,
+      "production_gates_complete": true,
+      "production_point_pass_count": 12,
+      "proof_input_sha256": "a370e6f78c2f6a21542c917e1bbeb5fdb52a5dfce1be68a729de9bba1c40d5ea",
+      "proof_result_path": "tet4-hardening-mixed-projected.proof_result.json",
+      "proof_result_sha256": "a1d4f22de2d54e40cf1e65e29e4264e7a96eaa1c89f50202017a37f1a57f83b6"
+    },
+    {
+      "action_id": "hex8-perfect-historical-weak-projected",
+      "action_verdict": "PASS",
+      "branch_point_counts": {
+        "elastic": 8,
+        "plastic": 56
+      },
+      "mathematical_candidate_verdict": "PASS",
+      "mathematical_point_pass_count": 64,
+      "maximum_a_posteriori_base_discrepancy_B_pa": {
+        "decimal_outward": {
+          "hi": "0.000000751619",
+          "lo": "0.000000751618",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "255762524092859834336412584536029"
+        },
+        "lo": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "255762524092859834336412584536029"
+        }
+      },
+      "minimum_certified_clearance_pa": {
+        "decimal_outward": {
+          "hi": "17953899.556314442361",
+          "lo": "17953899.556314442360",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "6109395436483465356945539287585020929098056805"
+        },
+        "lo": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "6109395436483465356945539287585020929098056805"
+        }
+      },
+      "point_count": 64,
+      "production_gates_complete": true,
+      "production_point_pass_count": 64,
+      "proof_input_sha256": "e4330e52ead0141c30b84020edf929bbb578c823971897cb32553bc62e405745",
+      "proof_result_path": "hex8-perfect-historical-weak-projected.proof_result.json",
+      "proof_result_sha256": "b345357876f3045b97c9d35d7dd0f8527b813b165b982c483f172be02eb62858"
+    },
+    {
+      "action_id": "hex8-perfect-mixed-projected",
+      "action_verdict": "PASS",
+      "branch_point_counts": {
+        "elastic": 8,
+        "plastic": 56
+      },
+      "mathematical_candidate_verdict": "PASS",
+      "mathematical_point_pass_count": 64,
+      "maximum_a_posteriori_base_discrepancy_B_pa": {
+        "decimal_outward": {
+          "hi": "0.000000751619",
+          "lo": "0.000000751618",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "255762524092859834336412584536029"
+        },
+        "lo": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "255762524092859834336412584536029"
+        }
+      },
+      "minimum_certified_clearance_pa": {
+        "decimal_outward": {
+          "hi": "21372630.382441973991",
+          "lo": "21372630.382441973990",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "1818182313465929287926014690049915532892076945"
+        },
+        "lo": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "1818182313465929287926014690049915532892076945"
+        }
+      },
+      "point_count": 64,
+      "production_gates_complete": true,
+      "production_point_pass_count": 64,
+      "proof_input_sha256": "965b518d668bf8b1244737c2b7af7be8d70647c34e594c2dbc2175ef7498fcd2",
+      "proof_result_path": "hex8-perfect-mixed-projected.proof_result.json",
+      "proof_result_sha256": "5374b71b2090460272c2a3efd9b3c2c97eb22336cf10da4c3583f9c968b3c594"
+    },
+    {
+      "action_id": "hex8-hardening-historical-weak-projected",
+      "action_verdict": "PASS",
+      "branch_point_counts": {
+        "elastic": 8,
+        "plastic": 56
+      },
+      "mathematical_candidate_verdict": "PASS",
+      "mathematical_point_pass_count": 64,
+      "maximum_a_posteriori_base_discrepancy_B_pa": {
+        "decimal_outward": {
+          "hi": "0.000000705168",
+          "lo": "0.000000705167",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "239956208357167519892407536758677"
+        },
+        "lo": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "239956208357167519892407536758677"
+        }
+      },
+      "minimum_certified_clearance_pa": {
+        "decimal_outward": {
+          "hi": "17953899.556314442361",
+          "lo": "17953899.556314442360",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "6109395436483465356945539287585020929098056805"
+        },
+        "lo": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "6109395436483465356945539287585020929098056805"
+        }
+      },
+      "point_count": 64,
+      "production_gates_complete": true,
+      "production_point_pass_count": 64,
+      "proof_input_sha256": "aea4cafc27266730f9f2e125e705b5e21acc9d5e8be24a490b64069c12f8a938",
+      "proof_result_path": "hex8-hardening-historical-weak-projected.proof_result.json",
+      "proof_result_sha256": "ee7b8080eb7073224e8f86a6ab0e00e8d86f2bb46b4edb0a8ba89319f7952cc2"
+    },
+    {
+      "action_id": "hex8-hardening-mixed-projected",
+      "action_verdict": "PASS",
+      "branch_point_counts": {
+        "elastic": 8,
+        "plastic": 56
+      },
+      "mathematical_candidate_verdict": "PASS",
+      "mathematical_point_pass_count": 64,
+      "maximum_a_posteriori_base_discrepancy_B_pa": {
+        "decimal_outward": {
+          "hi": "0.000000705168",
+          "lo": "0.000000705167",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "239956208357167519892407536758677"
+        },
+        "lo": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "239956208357167519892407536758677"
+        }
+      },
+      "minimum_certified_clearance_pa": {
+        "decimal_outward": {
+          "hi": "21372630.382441973991",
+          "lo": "21372630.382441973990",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "1818182313465929287926014690049915532892076945"
+        },
+        "lo": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "1818182313465929287926014690049915532892076945"
+        }
+      },
+      "point_count": 64,
+      "production_gates_complete": true,
+      "production_point_pass_count": 64,
+      "proof_input_sha256": "0d82806f43d508abf1690c05fc402a2c0cfc2227b2239b4dd23dca46ab3c2c51",
+      "proof_result_path": "hex8-hardening-mixed-projected.proof_result.json",
+      "proof_result_sha256": "efa0b2484fec5d10288cc96bb4e9c73be4ebc93af3ef86d8620e27e52e3c2741"
+    }
+  ],
+  "technical_aggregate_verdict": "PASS"
+}

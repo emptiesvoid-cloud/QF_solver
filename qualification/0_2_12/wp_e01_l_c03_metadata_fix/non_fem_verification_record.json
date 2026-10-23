@@ -1,0 +1,55 @@
+{
+  "FEM_execution": "NOT_RUN",
+  "command_argv": [
+    "C:\\Python313\\python.exe",
+    "-I",
+    "-S",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "C:\\Users\\fari\\.codex\\worktrees\\wp-e01l-prep-ae429\\qualification\\0_2_12\\wp_e01_l_c03_proof",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "cwd": "C:\\Users\\fari\\.codex\\worktrees\\wp-e01l-prep-ae429\\qualification\\0_2_12\\wp_e01_l_c03_proof",
+  "elapsed_seconds": 0.22800260000076378,
+  "purpose": "synthetic_non_FEM_mathematical_verification_only",
+  "returncode": 0,
+  "runtime": {
+    "binary_float_mantissa_bits": 53,
+    "binary_float_max_exp": 1024,
+    "binary_float_min_exp": -1021,
+    "binary_float_radix": 2,
+    "bytecode_writes_disabled": true,
+    "executable": "C:\\Python313\\python.exe",
+    "executable_sha256": "03573716a7fcbd8b7fed8fe0163bbfbd3a852546920d6a666123f307c8dac7d9",
+    "implementation": "cpython",
+    "isolated_child": true,
+    "platform": "Windows-10-10.0.19045-SP0",
+    "site_initialization_disabled": true,
+    "version": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]"
+  },
+  "scientific_evidence": false,
+  "stderr": {
+    "path": "non_fem_tests.stderr.txt",
+    "sha256": "715e78dac2dfd6c291065bca65217e773cca25d6c01ca512377c8024915afa70"
+  },
+  "stdout": {
+    "path": "non_fem_tests.stdout.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "tested_sources": {
+    "archive_inputs.py": "a1685152da6f45b232206ab7c20455048bd809f8f36bd340d9a05c927029686e",
+    "integrate_proofs.py": "c19ea97206336db293a5810d011ec05f200e901f0f3c33b44c3f5e8d05f50f07",
+    "production_branch_budget.py": "eaba6d150646a1e26faf0ba026ef42dc01dbc52bd6e864ca1bf9b3eef1522a33",
+    "rigorous_math.py": "935d7a5c5a05d2007cddbdec9a2ad73051f1f8ca7f569a184bfcd3bcdf679836",
+    "test_archive_inputs.py": "4c729616ef3682532f09869ac9d445deeac75113d748749510a616dd3325e9fa",
+    "test_integrate_proofs.py": "9c57d8c21c6da5c36038fe39d7af1af0edfd421e45ae12796a883418c1a32d59",
+    "test_production_branch_budget.py": "1fb068faf07986917900f59ab544e76f79974d37f65c4b83d859b668f495d1bd",
+    "test_rigorous_math.py": "4cc3370c5696bc295626f6c2301028d38c0d4d24541aa1bb50427fb71bfa45e6",
+    "verify_non_fem.py": "244d3b0f62f1056747e940d0ae1ea20a7b1035d94a663f75c3d07acb5e2af6e2"
+  }
+}

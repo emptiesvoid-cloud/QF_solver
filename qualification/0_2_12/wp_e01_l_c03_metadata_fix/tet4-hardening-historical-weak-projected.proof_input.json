@@ -1,0 +1,5503 @@
+{
+  "accepted_history_digest": "92eb982d83fc684fc87291ab7afbe6d40ab138accb6e72b4351218c0c0f91e13",
+  "action_id": "tet4-hardening-historical-weak-projected",
+  "archive_status": "COMPLETE_EXPLORATORY",
+  "elasticity_modulus_pa": {
+    "denominator": "1",
+    "numerator": "210000000000"
+  },
+  "family": "TET4",
+  "frozen_inputs": {
+    "base_state_displacement_m_binary64_exact": [
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "576460752303423488",
+          "numerator": "1740911471956339"
+        },
+        "lo": {
+          "denominator": "576460752303423488",
+          "numerator": "1740911471956339"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1152921504606846976",
+          "numerator": "-1740911471956339"
+        },
+        "lo": {
+          "denominator": "1152921504606846976",
+          "numerator": "-1740911471956339"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "2305843009213693952",
+          "numerator": "5222734415869017"
+        },
+        "lo": {
+          "denominator": "2305843009213693952",
+          "numerator": "5222734415869017"
+        }
+      }
+    ],
+    "base_state_source": "observed_data.base_state_displacement_m",
+    "binary64_interpretation": "Each archived/source binary64 value is represented as its exact integer-ratio rational point interval.",
+    "direction_binary64_exact": [
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "0"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "0"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "1",
+          "numerator": "1"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "1"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "5070602400912917605986812821504",
+          "numerator": "-3894341229720175"
+        },
+        "lo": {
+          "denominator": "5070602400912917605986812821504",
+          "numerator": "-3894341229720175"
+        }
+      },
+      {
+        "hi": {
+          "denominator": "20282409603651670423947251286016",
+          "numerator": "-4814437513950799"
+        },
+        "lo": {
+          "denominator": "20282409603651670423947251286016",
+          "numerator": "-4814437513950799"
+        }
+      }
+    ],
+    "direction_source": "centered_difference_observations[*].full_projected_direction",
+    "elements_connectivity_zero_based": [
+      {
+        "index": 0,
+        "nodes": [
+          8,
+          0,
+          7,
+          3
+        ]
+      },
+      {
+        "index": 1,
+        "nodes": [
+          8,
+          0,
+          4,
+          7
+        ]
+      },
+      {
+        "index": 2,
+        "nodes": [
+          8,
+          1,
+          6,
+          5
+        ]
+      },
+      {
+        "index": 3,
+        "nodes": [
+          8,
+          1,
+          2,
+          6
+        ]
+      },
+      {
+        "index": 4,
+        "nodes": [
+          8,
+          0,
+          5,
+          4
+        ]
+      },
+      {
+        "index": 5,
+        "nodes": [
+          8,
+          0,
+          1,
+          5
+        ]
+      },
+      {
+        "index": 6,
+        "nodes": [
+          8,
+          3,
+          6,
+          2
+        ]
+      },
+      {
+        "index": 7,
+        "nodes": [
+          8,
+          3,
+          7,
+          6
+        ]
+      },
+      {
+        "index": 8,
+        "nodes": [
+          8,
+          0,
+          2,
+          1
+        ]
+      },
+      {
+        "index": 9,
+        "nodes": [
+          8,
+          0,
+          3,
+          2
+        ]
+      },
+      {
+        "index": 10,
+        "nodes": [
+          8,
+          4,
+          6,
+          7
+        ]
+      },
+      {
+        "index": 11,
+        "nodes": [
+          8,
+          4,
+          5,
+          6
+        ]
+      }
+    ],
+    "geometry_source": [
+      "observed_data.nodes",
+      "observed_data.elements"
+    ],
+    "material_constants": {
+      "E_pa": {
+        "hi": {
+          "denominator": "1",
+          "numerator": "210000000000"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "210000000000"
+        }
+      },
+      "H_pa": {
+        "hi": {
+          "denominator": "1",
+          "numerator": "1500000000"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "1500000000"
+        }
+      },
+      "nu": {
+        "hi": {
+          "denominator": "18014398509481984",
+          "numerator": "5404319552844595"
+        },
+        "lo": {
+          "denominator": "18014398509481984",
+          "numerator": "5404319552844595"
+        }
+      },
+      "sigma_y0_pa": {
+        "hi": {
+          "denominator": "1",
+          "numerator": "250000000"
+        },
+        "lo": {
+          "denominator": "1",
+          "numerator": "250000000"
+        }
+      }
+    },
+    "nodes_m_binary64_exact": [
+      [
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        }
+      ],
+      [
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        }
+      ],
+      [
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        }
+      ],
+      [
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        }
+      ],
+      [
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        }
+      ],
+      [
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        }
+      ],
+      [
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        }
+      ],
+      [
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        }
+      ],
+      [
+        {
+          "hi": {
+            "denominator": "2",
+            "numerator": "1"
+          },
+          "lo": {
+            "denominator": "2",
+            "numerator": "1"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "2",
+            "numerator": "1"
+          },
+          "lo": {
+            "denominator": "2",
+            "numerator": "1"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "2",
+            "numerator": "1"
+          },
+          "lo": {
+            "denominator": "2",
+            "numerator": "1"
+          }
+        }
+      ]
+    ],
+    "quadrature_reference_coordinate": "HEX8 exact-real \u00b11/sqrt(3); TET4 one exact rational reference point"
+  },
+  "hardening_modulus_pa": {
+    "denominator": "1",
+    "numerator": "1500000000"
+  },
+  "input_record_sha256": "aa73e3c30f7e40249b331393c4e190944c8f5faf5b3a9b31479a7da30daa0ed5",
+  "number_of_points": 12,
+  "points": [
+    {
+      "A_pa2": {
+        "hi": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "381922417518444215775789247635903461837768554687500"
+        },
+        "lo": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "381922417518444215775789247635903461837768554687500"
+        }
+      },
+      "B_pa2_per_m": {
+        "hi": {
+          "denominator": "37688259385516752465466543452377990746341376",
+          "numerator": "16019090163130467691136947771545497519461352379604625701904296875"
+        },
+        "lo": {
+          "denominator": "37688259385516752465466543452377990746341376",
+          "numerator": "16019090163130467691136947771545497519461352379604625701904296875"
+        }
+      },
+      "C_pa2_per_m2": {
+        "hi": {
+          "denominator": "663018870800218144355558086697477749496737143077434556416",
+          "numerator": "69205046632638155421289578390898062696184420732948656142608046923351287841796875"
+        },
+        "lo": {
+          "denominator": "663018870800218144355558086697477749496737143077434556416",
+          "numerator": "69205046632638155421289578390898062696184420732948656142608046923351287841796875"
+        }
+      },
+      "R_pa": {
+        "hi": {
+          "denominator": "18014398509481984",
+          "numerator": "4548572269866464025390625"
+        },
+        "lo": {
+          "denominator": "18014398509481984",
+          "numerator": "4548572269866464025390625"
+        }
+      },
+      "action_id": "tet4-hardening-historical-weak-projected",
+      "affine_deviator_base_pa": [
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "10269934906436351562500000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "10269934906436351562500000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3851225589913631425781250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3851225589913631425781250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "5776838384870447343750000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "5776838384870447343750000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3851225589913631425781250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3851225589913631425781250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-5134967453218175781250000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-5134967453218175781250000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "5776838384870447343750000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "5776838384870447343750000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-5134967453218175781250000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-5134967453218175781250000"
+          }
+        }
+      ],
+      "affine_deviator_direction_pa_per_m": [
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "5044031582654955520000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "5044031582654955520000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-798644197501207763671875"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-798644197501207763671875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "-987335818290691201171875"
+          },
+          "lo": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "-987335818290691201171875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-798644197501207763671875"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-798644197501207763671875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-2522015791327477760000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-2522015791327477760000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "-987335818290691201171875"
+          },
+          "lo": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "-987335818290691201171875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-2522015791327477760000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-2522015791327477760000000000"
+          }
+        }
+      ],
+      "expected_branch": "plastic",
+      "incoming_equivalent_plastic_strain_binary64_exact": {
+        "hi": {
+          "denominator": "4611686018427387904",
+          "numerator": "7675330985978543"
+        },
+        "lo": {
+          "denominator": "4611686018427387904",
+          "numerator": "7675330985978543"
+        }
+      },
+      "incoming_plastic_strain_voigt_binary64_exact": [
+        {
+          "hi": {
+            "denominator": "576460752303423488",
+            "numerator": "756272834008627"
+          },
+          "lo": {
+            "denominator": "576460752303423488",
+            "numerator": "756272834008627"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1152921504606846976",
+            "numerator": "-756272834008627"
+          },
+          "lo": {
+            "denominator": "1152921504606846976",
+            "numerator": "-756272834008627"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1152921504606846976",
+            "numerator": "-756272834008627"
+          },
+          "lo": {
+            "denominator": "1152921504606846976",
+            "numerator": "-756272834008627"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "4611686018427387904",
+            "numerator": "-4537637004051763"
+          },
+          "lo": {
+            "denominator": "4611686018427387904",
+            "numerator": "-4537637004051763"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1152921504606846976",
+            "numerator": "1701613876519411"
+          },
+          "lo": {
+            "denominator": "1152921504606846976",
+            "numerator": "1701613876519411"
+          }
+        }
+      ],
+      "point_id": "e0:q0",
+      "production_base_branch_archived": "plastic",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.004051448990835689,
+        "equivalent_stress": 256077173.48625353,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 817132.6636643494,
+        "plastic_multiplier": 0.00238712688492704,
+        "plastic_strain": [
+          0.0031936090477276665,
+          -0.0015968045238638328,
+          -0.0015968045238638328,
+          -0.00239520678579575,
+          0.0,
+          0.003592810178693625
+        ],
+        "strain": [
+          0.00604,
+          0.0,
+          0.0,
+          -0.00302,
+          0.0,
+          0.00453
+        ],
+        "stress": [
+          1191570846.1363,
+          989714576.93185,
+          989714576.93185,
+          -50464067.30111252,
+          0.0,
+          75696100.95166878
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 256077173.48625353
+      },
+      "production_branch_linkage_valid": false,
+      "production_rounding_budget_valid": false,
+      "provenance_refs": {
+        "base_state_field": "observed_data.base_state_displacement_m",
+        "capture_commit": "c1d123d7ac785473cd26b6593caf78563c3b0fdc",
+        "capture_serializer_hashes": {
+          "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
+          "experiments/wp_e01l_probe/launcher.py": "00ec2953ce12a21488e169e372594d5d2f14362ec8d729041b95de46596a37bc",
+          "experiments/wp_e01l_probe/probe_contract.json": "42ccc39a375bd194b6ea230618d585b4acf24e9098f8ebbefb57a6512bc89c76",
+          "experiments/wp_e01l_probe/pytest_capture.py": "daee977663b58ae2b244e2143be6924b8f8314bb33cf85e6917457b0ef6d0b43",
+          "experiments/wp_e01l_probe/support.py": "f9620f4246087ae0f19facfcd92b2c1012f21e6d0d0af20c42670aff35b4a064"
+        },
+        "capture_tree": "41c621d04c0805726721c3957208bbef18492e1b",
+        "case_json": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023\\cases\\tet4-hardening-historical-weak-projected\\case.json",
+        "case_json_sha256": "aa73e3c30f7e40249b331393c4e190944c8f5faf5b3a9b31479a7da30daa0ed5",
+        "direction_field": "centered_difference_observations[*].full_projected_direction",
+        "geometry_fields": [
+          "observed_data.nodes",
+          "observed_data.elements"
+        ],
+        "historical_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5",
+        "historical_test_sha256": "de87ed55efc5db341a4f90fc0ad34de4758acbfd76241c91f7a37c7b80a61d2a",
+        "historical_tree": "c42e3c2241af1862d66cab51a38fda74a1167361",
+        "history_field": "observed_data.accepted_history.0[0]",
+        "production_branch_field": "observed_data.production_trial_state_by_integration_point.0[0].elastic"
+      },
+      "provenance_valid": true,
+      "segment_s_m": {
+        "hi": {
+          "denominator": "10000",
+          "numerator": "1"
+        },
+        "lo": {
+          "denominator": "10000",
+          "numerator": "-1"
+        }
+      }
+    },
+    {
+      "A_pa2": {
+        "hi": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "381922417518444215775789247635903461837768554687500"
+        },
+        "lo": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "381922417518444215775789247635903461837768554687500"
+        }
+      },
+      "B_pa2_per_m": {
+        "hi": {
+          "denominator": "37688259385516752465466543452377990746341376",
+          "numerator": "16019090163130467691136947771545497519461352379604625701904296875"
+        },
+        "lo": {
+          "denominator": "37688259385516752465466543452377990746341376",
+          "numerator": "16019090163130467691136947771545497519461352379604625701904296875"
+        }
+      },
+      "C_pa2_per_m2": {
+        "hi": {
+          "denominator": "663018870800218144355558086697477749496737143077434556416",
+          "numerator": "69205046632638155421289578390898062696184420732948656142608046923351287841796875"
+        },
+        "lo": {
+          "denominator": "663018870800218144355558086697477749496737143077434556416",
+          "numerator": "69205046632638155421289578390898062696184420732948656142608046923351287841796875"
+        }
+      },
+      "R_pa": {
+        "hi": {
+          "denominator": "18014398509481984",
+          "numerator": "4548572269866464025390625"
+        },
+        "lo": {
+          "denominator": "18014398509481984",
+          "numerator": "4548572269866464025390625"
+        }
+      },
+      "action_id": "tet4-hardening-historical-weak-projected",
+      "affine_deviator_base_pa": [
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "10269934906436351562500000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "10269934906436351562500000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3851225589913631425781250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3851225589913631425781250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "5776838384870447343750000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "5776838384870447343750000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3851225589913631425781250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3851225589913631425781250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-5134967453218175781250000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-5134967453218175781250000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "5776838384870447343750000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "5776838384870447343750000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-5134967453218175781250000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-5134967453218175781250000"
+          }
+        }
+      ],
+      "affine_deviator_direction_pa_per_m": [
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "5044031582654955520000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "5044031582654955520000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-798644197501207763671875"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-798644197501207763671875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "-987335818290691201171875"
+          },
+          "lo": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "-987335818290691201171875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-798644197501207763671875"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-798644197501207763671875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-2522015791327477760000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-2522015791327477760000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "-987335818290691201171875"
+          },
+          "lo": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "-987335818290691201171875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-2522015791327477760000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-2522015791327477760000000000"
+          }
+        }
+      ],
+      "expected_branch": "plastic",
+      "incoming_equivalent_plastic_strain_binary64_exact": {
+        "hi": {
+          "denominator": "4611686018427387904",
+          "numerator": "7675330985978543"
+        },
+        "lo": {
+          "denominator": "4611686018427387904",
+          "numerator": "7675330985978543"
+        }
+      },
+      "incoming_plastic_strain_voigt_binary64_exact": [
+        {
+          "hi": {
+            "denominator": "576460752303423488",
+            "numerator": "756272834008627"
+          },
+          "lo": {
+            "denominator": "576460752303423488",
+            "numerator": "756272834008627"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1152921504606846976",
+            "numerator": "-756272834008627"
+          },
+          "lo": {
+            "denominator": "1152921504606846976",
+            "numerator": "-756272834008627"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1152921504606846976",
+            "numerator": "-756272834008627"
+          },
+          "lo": {
+            "denominator": "1152921504606846976",
+            "numerator": "-756272834008627"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "4611686018427387904",
+            "numerator": "-4537637004051763"
+          },
+          "lo": {
+            "denominator": "4611686018427387904",
+            "numerator": "-4537637004051763"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1152921504606846976",
+            "numerator": "1701613876519411"
+          },
+          "lo": {
+            "denominator": "1152921504606846976",
+            "numerator": "1701613876519411"
+          }
+        }
+      ],
+      "point_id": "e1:q0",
+      "production_base_branch_archived": "plastic",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.004051448990835689,
+        "equivalent_stress": 256077173.48625353,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 817132.6636643494,
+        "plastic_multiplier": 0.00238712688492704,
+        "plastic_strain": [
+          0.0031936090477276665,
+          -0.0015968045238638328,
+          -0.0015968045238638328,
+          -0.00239520678579575,
+          0.0,
+          0.003592810178693625
+        ],
+        "strain": [
+          0.00604,
+          0.0,
+          0.0,
+          -0.00302,
+          0.0,
+          0.00453
+        ],
+        "stress": [
+          1191570846.1363,
+          989714576.93185,
+          989714576.93185,
+          -50464067.30111252,
+          0.0,
+          75696100.95166878
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 256077173.48625353
+      },
+      "production_branch_linkage_valid": false,
+      "production_rounding_budget_valid": false,
+      "provenance_refs": {
+        "base_state_field": "observed_data.base_state_displacement_m",
+        "capture_commit": "c1d123d7ac785473cd26b6593caf78563c3b0fdc",
+        "capture_serializer_hashes": {
+          "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
+          "experiments/wp_e01l_probe/launcher.py": "00ec2953ce12a21488e169e372594d5d2f14362ec8d729041b95de46596a37bc",
+          "experiments/wp_e01l_probe/probe_contract.json": "42ccc39a375bd194b6ea230618d585b4acf24e9098f8ebbefb57a6512bc89c76",
+          "experiments/wp_e01l_probe/pytest_capture.py": "daee977663b58ae2b244e2143be6924b8f8314bb33cf85e6917457b0ef6d0b43",
+          "experiments/wp_e01l_probe/support.py": "f9620f4246087ae0f19facfcd92b2c1012f21e6d0d0af20c42670aff35b4a064"
+        },
+        "capture_tree": "41c621d04c0805726721c3957208bbef18492e1b",
+        "case_json": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023\\cases\\tet4-hardening-historical-weak-projected\\case.json",
+        "case_json_sha256": "aa73e3c30f7e40249b331393c4e190944c8f5faf5b3a9b31479a7da30daa0ed5",
+        "direction_field": "centered_difference_observations[*].full_projected_direction",
+        "geometry_fields": [
+          "observed_data.nodes",
+          "observed_data.elements"
+        ],
+        "historical_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5",
+        "historical_test_sha256": "de87ed55efc5db341a4f90fc0ad34de4758acbfd76241c91f7a37c7b80a61d2a",
+        "historical_tree": "c42e3c2241af1862d66cab51a38fda74a1167361",
+        "history_field": "observed_data.accepted_history.1[0]",
+        "production_branch_field": "observed_data.production_trial_state_by_integration_point.1[0].elastic"
+      },
+      "provenance_valid": true,
+      "segment_s_m": {
+        "hi": {
+          "denominator": "10000",
+          "numerator": "1"
+        },
+        "lo": {
+          "denominator": "10000",
+          "numerator": "-1"
+        }
+      }
+    },
+    {
+      "A_pa2": {
+        "hi": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "381922417518444215775789247635903461837768554687500"
+        },
+        "lo": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "381922417518444215775789247635903461837768554687500"
+        }
+      },
+      "B_pa2_per_m": {
+        "hi": {
+          "denominator": "37688259385516752465466543452377990746341376",
+          "numerator": "16019090163130467691136947771545497519461352379604625701904296875"
+        },
+        "lo": {
+          "denominator": "37688259385516752465466543452377990746341376",
+          "numerator": "16019090163130467691136947771545497519461352379604625701904296875"
+        }
+      },
+      "C_pa2_per_m2": {
+        "hi": {
+          "denominator": "663018870800218144355558086697477749496737143077434556416",
+          "numerator": "69205046632638155421289578390898062696184420732948656142608046923351287841796875"
+        },
+        "lo": {
+          "denominator": "663018870800218144355558086697477749496737143077434556416",
+          "numerator": "69205046632638155421289578390898062696184420732948656142608046923351287841796875"
+        }
+      },
+      "R_pa": {
+        "hi": {
+          "denominator": "18014398509481984",
+          "numerator": "4548572269866464025390625"
+        },
+        "lo": {
+          "denominator": "18014398509481984",
+          "numerator": "4548572269866464025390625"
+        }
+      },
+      "action_id": "tet4-hardening-historical-weak-projected",
+      "affine_deviator_base_pa": [
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-10269934906436351562500000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-10269934906436351562500000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3851225589913631425781250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3851225589913631425781250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-5776838384870447343750000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-5776838384870447343750000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3851225589913631425781250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3851225589913631425781250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "5134967453218175781250000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "5134967453218175781250000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-5776838384870447343750000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-5776838384870447343750000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "5134967453218175781250000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "5134967453218175781250000"
+          }
+        }
+      ],
+      "affine_deviator_direction_pa_per_m": [
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-5044031582654955520000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-5044031582654955520000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "798644197501207763671875"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "798644197501207763671875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "987335818290691201171875"
+          },
+          "lo": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "987335818290691201171875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "798644197501207763671875"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "798644197501207763671875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "2522015791327477760000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "2522015791327477760000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "987335818290691201171875"
+          },
+          "lo": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "987335818290691201171875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "2522015791327477760000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "2522015791327477760000000000"
+          }
+        }
+      ],
+      "expected_branch": "plastic",
+      "incoming_equivalent_plastic_strain_binary64_exact": {
+        "hi": {
+          "denominator": "4611686018427387904",
+          "numerator": "7675330985978543"
+        },
+        "lo": {
+          "denominator": "4611686018427387904",
+          "numerator": "7675330985978543"
+        }
+      },
+      "incoming_plastic_strain_voigt_binary64_exact": [
+        {
+          "hi": {
+            "denominator": "576460752303423488",
+            "numerator": "-756272834008627"
+          },
+          "lo": {
+            "denominator": "576460752303423488",
+            "numerator": "-756272834008627"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1152921504606846976",
+            "numerator": "756272834008627"
+          },
+          "lo": {
+            "denominator": "1152921504606846976",
+            "numerator": "756272834008627"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1152921504606846976",
+            "numerator": "756272834008627"
+          },
+          "lo": {
+            "denominator": "1152921504606846976",
+            "numerator": "756272834008627"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "4611686018427387904",
+            "numerator": "4537637004051763"
+          },
+          "lo": {
+            "denominator": "4611686018427387904",
+            "numerator": "4537637004051763"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1152921504606846976",
+            "numerator": "-1701613876519411"
+          },
+          "lo": {
+            "denominator": "1152921504606846976",
+            "numerator": "-1701613876519411"
+          }
+        }
+      ],
+      "point_id": "e2:q0",
+      "production_base_branch_archived": "plastic",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.004051448990835689,
+        "equivalent_stress": 256077173.48625353,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 817132.6636643494,
+        "plastic_multiplier": 0.00238712688492704,
+        "plastic_strain": [
+          -0.0031936090477276665,
+          0.0015968045238638328,
+          0.0015968045238638328,
+          0.00239520678579575,
+          0.0,
+          -0.003592810178693625
+        ],
+        "strain": [
+          -0.00604,
+          0.0,
+          0.0,
+          0.00302,
+          0.0,
+          -0.00453
+        ],
+        "stress": [
+          -1191570846.1363,
+          -989714576.93185,
+          -989714576.93185,
+          50464067.30111252,
+          0.0,
+          -75696100.95166878
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 256077173.48625353
+      },
+      "production_branch_linkage_valid": false,
+      "production_rounding_budget_valid": false,
+      "provenance_refs": {
+        "base_state_field": "observed_data.base_state_displacement_m",
+        "capture_commit": "c1d123d7ac785473cd26b6593caf78563c3b0fdc",
+        "capture_serializer_hashes": {
+          "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
+          "experiments/wp_e01l_probe/launcher.py": "00ec2953ce12a21488e169e372594d5d2f14362ec8d729041b95de46596a37bc",
+          "experiments/wp_e01l_probe/probe_contract.json": "42ccc39a375bd194b6ea230618d585b4acf24e9098f8ebbefb57a6512bc89c76",
+          "experiments/wp_e01l_probe/pytest_capture.py": "daee977663b58ae2b244e2143be6924b8f8314bb33cf85e6917457b0ef6d0b43",
+          "experiments/wp_e01l_probe/support.py": "f9620f4246087ae0f19facfcd92b2c1012f21e6d0d0af20c42670aff35b4a064"
+        },
+        "capture_tree": "41c621d04c0805726721c3957208bbef18492e1b",
+        "case_json": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023\\cases\\tet4-hardening-historical-weak-projected\\case.json",
+        "case_json_sha256": "aa73e3c30f7e40249b331393c4e190944c8f5faf5b3a9b31479a7da30daa0ed5",
+        "direction_field": "centered_difference_observations[*].full_projected_direction",
+        "geometry_fields": [
+          "observed_data.nodes",
+          "observed_data.elements"
+        ],
+        "historical_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5",
+        "historical_test_sha256": "de87ed55efc5db341a4f90fc0ad34de4758acbfd76241c91f7a37c7b80a61d2a",
+        "historical_tree": "c42e3c2241af1862d66cab51a38fda74a1167361",
+        "history_field": "observed_data.accepted_history.2[0]",
+        "production_branch_field": "observed_data.production_trial_state_by_integration_point.2[0].elastic"
+      },
+      "provenance_valid": true,
+      "segment_s_m": {
+        "hi": {
+          "denominator": "10000",
+          "numerator": "1"
+        },
+        "lo": {
+          "denominator": "10000",
+          "numerator": "-1"
+        }
+      }
+    },
+    {
+      "A_pa2": {
+        "hi": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "381922417518444215775789247635903461837768554687500"
+        },
+        "lo": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "381922417518444215775789247635903461837768554687500"
+        }
+      },
+      "B_pa2_per_m": {
+        "hi": {
+          "denominator": "37688259385516752465466543452377990746341376",
+          "numerator": "16019090163130467691136947771545497519461352379604625701904296875"
+        },
+        "lo": {
+          "denominator": "37688259385516752465466543452377990746341376",
+          "numerator": "16019090163130467691136947771545497519461352379604625701904296875"
+        }
+      },
+      "C_pa2_per_m2": {
+        "hi": {
+          "denominator": "663018870800218144355558086697477749496737143077434556416",
+          "numerator": "69205046632638155421289578390898062696184420732948656142608046923351287841796875"
+        },
+        "lo": {
+          "denominator": "663018870800218144355558086697477749496737143077434556416",
+          "numerator": "69205046632638155421289578390898062696184420732948656142608046923351287841796875"
+        }
+      },
+      "R_pa": {
+        "hi": {
+          "denominator": "18014398509481984",
+          "numerator": "4548572269866464025390625"
+        },
+        "lo": {
+          "denominator": "18014398509481984",
+          "numerator": "4548572269866464025390625"
+        }
+      },
+      "action_id": "tet4-hardening-historical-weak-projected",
+      "affine_deviator_base_pa": [
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-10269934906436351562500000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-10269934906436351562500000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3851225589913631425781250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3851225589913631425781250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-5776838384870447343750000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-5776838384870447343750000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3851225589913631425781250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3851225589913631425781250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "5134967453218175781250000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "5134967453218175781250000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-5776838384870447343750000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-5776838384870447343750000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "5134967453218175781250000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "5134967453218175781250000"
+          }
+        }
+      ],
+      "affine_deviator_direction_pa_per_m": [
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-5044031582654955520000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-5044031582654955520000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "798644197501207763671875"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "798644197501207763671875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "987335818290691201171875"
+          },
+          "lo": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "987335818290691201171875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "798644197501207763671875"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "798644197501207763671875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "2522015791327477760000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "2522015791327477760000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "987335818290691201171875"
+          },
+          "lo": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "987335818290691201171875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "2522015791327477760000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "2522015791327477760000000000"
+          }
+        }
+      ],
+      "expected_branch": "plastic",
+      "incoming_equivalent_plastic_strain_binary64_exact": {
+        "hi": {
+          "denominator": "4611686018427387904",
+          "numerator": "7675330985978543"
+        },
+        "lo": {
+          "denominator": "4611686018427387904",
+          "numerator": "7675330985978543"
+        }
+      },
+      "incoming_plastic_strain_voigt_binary64_exact": [
+        {
+          "hi": {
+            "denominator": "576460752303423488",
+            "numerator": "-756272834008627"
+          },
+          "lo": {
+            "denominator": "576460752303423488",
+            "numerator": "-756272834008627"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1152921504606846976",
+            "numerator": "756272834008627"
+          },
+          "lo": {
+            "denominator": "1152921504606846976",
+            "numerator": "756272834008627"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1152921504606846976",
+            "numerator": "756272834008627"
+          },
+          "lo": {
+            "denominator": "1152921504606846976",
+            "numerator": "756272834008627"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "4611686018427387904",
+            "numerator": "4537637004051763"
+          },
+          "lo": {
+            "denominator": "4611686018427387904",
+            "numerator": "4537637004051763"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1152921504606846976",
+            "numerator": "-1701613876519411"
+          },
+          "lo": {
+            "denominator": "1152921504606846976",
+            "numerator": "-1701613876519411"
+          }
+        }
+      ],
+      "point_id": "e3:q0",
+      "production_base_branch_archived": "plastic",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.004051448990835689,
+        "equivalent_stress": 256077173.48625353,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 817132.6636643494,
+        "plastic_multiplier": 0.00238712688492704,
+        "plastic_strain": [
+          -0.0031936090477276665,
+          0.0015968045238638328,
+          0.0015968045238638328,
+          0.00239520678579575,
+          0.0,
+          -0.003592810178693625
+        ],
+        "strain": [
+          -0.00604,
+          0.0,
+          0.0,
+          0.00302,
+          0.0,
+          -0.00453
+        ],
+        "stress": [
+          -1191570846.1363,
+          -989714576.93185,
+          -989714576.93185,
+          50464067.30111252,
+          0.0,
+          -75696100.95166878
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 256077173.48625353
+      },
+      "production_branch_linkage_valid": false,
+      "production_rounding_budget_valid": false,
+      "provenance_refs": {
+        "base_state_field": "observed_data.base_state_displacement_m",
+        "capture_commit": "c1d123d7ac785473cd26b6593caf78563c3b0fdc",
+        "capture_serializer_hashes": {
+          "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
+          "experiments/wp_e01l_probe/launcher.py": "00ec2953ce12a21488e169e372594d5d2f14362ec8d729041b95de46596a37bc",
+          "experiments/wp_e01l_probe/probe_contract.json": "42ccc39a375bd194b6ea230618d585b4acf24e9098f8ebbefb57a6512bc89c76",
+          "experiments/wp_e01l_probe/pytest_capture.py": "daee977663b58ae2b244e2143be6924b8f8314bb33cf85e6917457b0ef6d0b43",
+          "experiments/wp_e01l_probe/support.py": "f9620f4246087ae0f19facfcd92b2c1012f21e6d0d0af20c42670aff35b4a064"
+        },
+        "capture_tree": "41c621d04c0805726721c3957208bbef18492e1b",
+        "case_json": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023\\cases\\tet4-hardening-historical-weak-projected\\case.json",
+        "case_json_sha256": "aa73e3c30f7e40249b331393c4e190944c8f5faf5b3a9b31479a7da30daa0ed5",
+        "direction_field": "centered_difference_observations[*].full_projected_direction",
+        "geometry_fields": [
+          "observed_data.nodes",
+          "observed_data.elements"
+        ],
+        "historical_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5",
+        "historical_test_sha256": "de87ed55efc5db341a4f90fc0ad34de4758acbfd76241c91f7a37c7b80a61d2a",
+        "historical_tree": "c42e3c2241af1862d66cab51a38fda74a1167361",
+        "history_field": "observed_data.accepted_history.3[0]",
+        "production_branch_field": "observed_data.production_trial_state_by_integration_point.3[0].elastic"
+      },
+      "provenance_valid": true,
+      "segment_s_m": {
+        "hi": {
+          "denominator": "10000",
+          "numerator": "1"
+        },
+        "lo": {
+          "denominator": "10000",
+          "numerator": "-1"
+        }
+      }
+    },
+    {
+      "A_pa2": {
+        "hi": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "350386712632982923605983291351531973266601562500000"
+        },
+        "lo": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "350386712632982923605983291351531973266601562500000"
+        }
+      },
+      "B_pa2_per_m": {
+        "hi": {
+          "denominator": "75376518771033504930933086904755981492682752",
+          "numerator": "24485741482499691134767277379977886104841937277413272857666015625"
+        },
+        "lo": {
+          "denominator": "75376518771033504930933086904755981492682752",
+          "numerator": "24485741482499691134767277379977886104841937277413272857666015625"
+        }
+      },
+      "C_pa2_per_m2": {
+        "hi": {
+          "denominator": "663018870800218144355558086697477749496737143077434556416",
+          "numerator": "51903784974478616565967183793192137457669541109595012856183786316967010498046875"
+        },
+        "lo": {
+          "denominator": "663018870800218144355558086697477749496737143077434556416",
+          "numerator": "51903784974478616565967183793192137457669541109595012856183786316967010498046875"
+        }
+      },
+      "R_pa": {
+        "hi": {
+          "denominator": "18014398509481984",
+          "numerator": "4544207383471099498046875"
+        },
+        "lo": {
+          "denominator": "18014398509481984",
+          "numerator": "4544207383471099498046875"
+        }
+      },
+      "action_id": "tet4-hardening-historical-weak-projected",
+      "affine_deviator_base_pa": [
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "2616325985644682363281250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "2616325985644682363281250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "7848977956934046269531250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "7848977956934046269531250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "7848977956934046269531250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "7848977956934046269531250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-5232651971289364726562500"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-5232651971289364726562500"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "5886733467700534804687500"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "5886733467700534804687500"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "5886733467700534804687500"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "5886733467700534804687500"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "2616325985644682363281250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "2616325985644682363281250"
+          }
+        }
+      ],
+      "affine_deviator_direction_pa_per_m": [
+        {
+          "hi": {
+            "denominator": "3218644102141988687249932288",
+            "numerator": "266214732500402587890625"
+          },
+          "lo": {
+            "denominator": "3218644102141988687249932288",
+            "numerator": "266214732500402587890625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3783023686991216640000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3783023686991216640000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3783023686991216640000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3783023686991216640000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1609322051070994343624966144",
+            "numerator": "-266214732500402587890625"
+          },
+          "lo": {
+            "denominator": "1609322051070994343624966144",
+            "numerator": "-266214732500402587890625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "-987335818290691201171875"
+          },
+          "lo": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "-987335818290691201171875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "-987335818290691201171875"
+          },
+          "lo": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "-987335818290691201171875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "3218644102141988687249932288",
+            "numerator": "266214732500402587890625"
+          },
+          "lo": {
+            "denominator": "3218644102141988687249932288",
+            "numerator": "266214732500402587890625"
+          }
+        }
+      ],
+      "expected_branch": "plastic",
+      "incoming_equivalent_plastic_strain_binary64_exact": {
+        "hi": {
+          "denominator": "4611686018427387904",
+          "numerator": "6930390374502997"
+        },
+        "lo": {
+          "denominator": "4611686018427387904",
+          "numerator": "6930390374502997"
+        }
+      },
+      "incoming_plastic_strain_voigt_binary64_exact": [
+        {
+          "hi": {
+            "denominator": "9223372036854775808",
+            "numerator": "2906009256862011"
+          },
+          "lo": {
+            "denominator": "9223372036854775808",
+            "numerator": "2906009256862011"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "4611686018427387904",
+            "numerator": "-2906009256862011"
+          },
+          "lo": {
+            "denominator": "4611686018427387904",
+            "numerator": "-2906009256862011"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "9223372036854775808",
+            "numerator": "2906009256862011"
+          },
+          "lo": {
+            "denominator": "9223372036854775808",
+            "numerator": "2906009256862011"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "4611686018427387904",
+            "numerator": "8718027770586035"
+          },
+          "lo": {
+            "denominator": "4611686018427387904",
+            "numerator": "8718027770586035"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "2305843009213693952",
+            "numerator": "3269260413969763"
+          },
+          "lo": {
+            "denominator": "2305843009213693952",
+            "numerator": "3269260413969763"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        }
+      ],
+      "point_id": "e4:q0",
+      "production_base_branch_archived": "plastic",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.003746554989261925,
+        "equivalent_stress": 255619832.4838929,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 759317.6455259344,
+        "plastic_multiplier": 0.0022437661292201696,
+        "plastic_strain": [
+          0.0007854913570376251,
+          -0.0015709827140752502,
+          0.0007854913570376251,
+          0.004712948142225751,
+          0.0035347111066693134,
+          0.0
+        ],
+        "strain": [
+          0.0,
+          -0.00302,
+          0.0,
+          0.00604,
+          0.00453,
+          0.0
+        ],
+        "stress": [
+          -492771680.7522318,
+          -599956638.4955364,
+          -492771680.7522318,
+          107184957.7433047,
+          80388718.30747853,
+          0.0
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 255619832.4838929
+      },
+      "production_branch_linkage_valid": false,
+      "production_rounding_budget_valid": false,
+      "provenance_refs": {
+        "base_state_field": "observed_data.base_state_displacement_m",
+        "capture_commit": "c1d123d7ac785473cd26b6593caf78563c3b0fdc",
+        "capture_serializer_hashes": {
+          "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
+          "experiments/wp_e01l_probe/launcher.py": "00ec2953ce12a21488e169e372594d5d2f14362ec8d729041b95de46596a37bc",
+          "experiments/wp_e01l_probe/probe_contract.json": "42ccc39a375bd194b6ea230618d585b4acf24e9098f8ebbefb57a6512bc89c76",
+          "experiments/wp_e01l_probe/pytest_capture.py": "daee977663b58ae2b244e2143be6924b8f8314bb33cf85e6917457b0ef6d0b43",
+          "experiments/wp_e01l_probe/support.py": "f9620f4246087ae0f19facfcd92b2c1012f21e6d0d0af20c42670aff35b4a064"
+        },
+        "capture_tree": "41c621d04c0805726721c3957208bbef18492e1b",
+        "case_json": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023\\cases\\tet4-hardening-historical-weak-projected\\case.json",
+        "case_json_sha256": "aa73e3c30f7e40249b331393c4e190944c8f5faf5b3a9b31479a7da30daa0ed5",
+        "direction_field": "centered_difference_observations[*].full_projected_direction",
+        "geometry_fields": [
+          "observed_data.nodes",
+          "observed_data.elements"
+        ],
+        "historical_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5",
+        "historical_test_sha256": "de87ed55efc5db341a4f90fc0ad34de4758acbfd76241c91f7a37c7b80a61d2a",
+        "historical_tree": "c42e3c2241af1862d66cab51a38fda74a1167361",
+        "history_field": "observed_data.accepted_history.4[0]",
+        "production_branch_field": "observed_data.production_trial_state_by_integration_point.4[0].elastic"
+      },
+      "provenance_valid": true,
+      "segment_s_m": {
+        "hi": {
+          "denominator": "10000",
+          "numerator": "1"
+        },
+        "lo": {
+          "denominator": "10000",
+          "numerator": "-1"
+        }
+      }
+    },
+    {
+      "A_pa2": {
+        "hi": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "350386712632982923605983291351531973266601562500000"
+        },
+        "lo": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "350386712632982923605983291351531973266601562500000"
+        }
+      },
+      "B_pa2_per_m": {
+        "hi": {
+          "denominator": "75376518771033504930933086904755981492682752",
+          "numerator": "24485741482499691134767277379977886104841937277413272857666015625"
+        },
+        "lo": {
+          "denominator": "75376518771033504930933086904755981492682752",
+          "numerator": "24485741482499691134767277379977886104841937277413272857666015625"
+        }
+      },
+      "C_pa2_per_m2": {
+        "hi": {
+          "denominator": "663018870800218144355558086697477749496737143077434556416",
+          "numerator": "51903784974478616565967183793192137457669541109595012856183786316967010498046875"
+        },
+        "lo": {
+          "denominator": "663018870800218144355558086697477749496737143077434556416",
+          "numerator": "51903784974478616565967183793192137457669541109595012856183786316967010498046875"
+        }
+      },
+      "R_pa": {
+        "hi": {
+          "denominator": "18014398509481984",
+          "numerator": "4544207383471099498046875"
+        },
+        "lo": {
+          "denominator": "18014398509481984",
+          "numerator": "4544207383471099498046875"
+        }
+      },
+      "action_id": "tet4-hardening-historical-weak-projected",
+      "affine_deviator_base_pa": [
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "2616325985644682363281250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "2616325985644682363281250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "7848977956934046269531250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "7848977956934046269531250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "7848977956934046269531250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "7848977956934046269531250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-5232651971289364726562500"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-5232651971289364726562500"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "5886733467700534804687500"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "5886733467700534804687500"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "5886733467700534804687500"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "5886733467700534804687500"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "2616325985644682363281250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "2616325985644682363281250"
+          }
+        }
+      ],
+      "affine_deviator_direction_pa_per_m": [
+        {
+          "hi": {
+            "denominator": "3218644102141988687249932288",
+            "numerator": "266214732500402587890625"
+          },
+          "lo": {
+            "denominator": "3218644102141988687249932288",
+            "numerator": "266214732500402587890625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3783023686991216640000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3783023686991216640000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3783023686991216640000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3783023686991216640000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1609322051070994343624966144",
+            "numerator": "-266214732500402587890625"
+          },
+          "lo": {
+            "denominator": "1609322051070994343624966144",
+            "numerator": "-266214732500402587890625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "-987335818290691201171875"
+          },
+          "lo": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "-987335818290691201171875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "-987335818290691201171875"
+          },
+          "lo": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "-987335818290691201171875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "3218644102141988687249932288",
+            "numerator": "266214732500402587890625"
+          },
+          "lo": {
+            "denominator": "3218644102141988687249932288",
+            "numerator": "266214732500402587890625"
+          }
+        }
+      ],
+      "expected_branch": "plastic",
+      "incoming_equivalent_plastic_strain_binary64_exact": {
+        "hi": {
+          "denominator": "4611686018427387904",
+          "numerator": "6930390374502997"
+        },
+        "lo": {
+          "denominator": "4611686018427387904",
+          "numerator": "6930390374502997"
+        }
+      },
+      "incoming_plastic_strain_voigt_binary64_exact": [
+        {
+          "hi": {
+            "denominator": "9223372036854775808",
+            "numerator": "2906009256862011"
+          },
+          "lo": {
+            "denominator": "9223372036854775808",
+            "numerator": "2906009256862011"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "4611686018427387904",
+            "numerator": "-2906009256862011"
+          },
+          "lo": {
+            "denominator": "4611686018427387904",
+            "numerator": "-2906009256862011"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "9223372036854775808",
+            "numerator": "2906009256862011"
+          },
+          "lo": {
+            "denominator": "9223372036854775808",
+            "numerator": "2906009256862011"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "4611686018427387904",
+            "numerator": "8718027770586035"
+          },
+          "lo": {
+            "denominator": "4611686018427387904",
+            "numerator": "8718027770586035"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "2305843009213693952",
+            "numerator": "3269260413969763"
+          },
+          "lo": {
+            "denominator": "2305843009213693952",
+            "numerator": "3269260413969763"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        }
+      ],
+      "point_id": "e5:q0",
+      "production_base_branch_archived": "plastic",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.003746554989261925,
+        "equivalent_stress": 255619832.4838929,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 759317.6455259344,
+        "plastic_multiplier": 0.0022437661292201696,
+        "plastic_strain": [
+          0.0007854913570376251,
+          -0.0015709827140752502,
+          0.0007854913570376251,
+          0.004712948142225751,
+          0.0035347111066693134,
+          0.0
+        ],
+        "strain": [
+          0.0,
+          -0.00302,
+          0.0,
+          0.00604,
+          0.00453,
+          0.0
+        ],
+        "stress": [
+          -492771680.7522318,
+          -599956638.4955364,
+          -492771680.7522318,
+          107184957.7433047,
+          80388718.30747853,
+          0.0
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 255619832.4838929
+      },
+      "production_branch_linkage_valid": false,
+      "production_rounding_budget_valid": false,
+      "provenance_refs": {
+        "base_state_field": "observed_data.base_state_displacement_m",
+        "capture_commit": "c1d123d7ac785473cd26b6593caf78563c3b0fdc",
+        "capture_serializer_hashes": {
+          "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
+          "experiments/wp_e01l_probe/launcher.py": "00ec2953ce12a21488e169e372594d5d2f14362ec8d729041b95de46596a37bc",
+          "experiments/wp_e01l_probe/probe_contract.json": "42ccc39a375bd194b6ea230618d585b4acf24e9098f8ebbefb57a6512bc89c76",
+          "experiments/wp_e01l_probe/pytest_capture.py": "daee977663b58ae2b244e2143be6924b8f8314bb33cf85e6917457b0ef6d0b43",
+          "experiments/wp_e01l_probe/support.py": "f9620f4246087ae0f19facfcd92b2c1012f21e6d0d0af20c42670aff35b4a064"
+        },
+        "capture_tree": "41c621d04c0805726721c3957208bbef18492e1b",
+        "case_json": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023\\cases\\tet4-hardening-historical-weak-projected\\case.json",
+        "case_json_sha256": "aa73e3c30f7e40249b331393c4e190944c8f5faf5b3a9b31479a7da30daa0ed5",
+        "direction_field": "centered_difference_observations[*].full_projected_direction",
+        "geometry_fields": [
+          "observed_data.nodes",
+          "observed_data.elements"
+        ],
+        "historical_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5",
+        "historical_test_sha256": "de87ed55efc5db341a4f90fc0ad34de4758acbfd76241c91f7a37c7b80a61d2a",
+        "historical_tree": "c42e3c2241af1862d66cab51a38fda74a1167361",
+        "history_field": "observed_data.accepted_history.5[0]",
+        "production_branch_field": "observed_data.production_trial_state_by_integration_point.5[0].elastic"
+      },
+      "provenance_valid": true,
+      "segment_s_m": {
+        "hi": {
+          "denominator": "10000",
+          "numerator": "1"
+        },
+        "lo": {
+          "denominator": "10000",
+          "numerator": "-1"
+        }
+      }
+    },
+    {
+      "A_pa2": {
+        "hi": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "350386712632982923605983291351531973266601562500000"
+        },
+        "lo": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "350386712632982923605983291351531973266601562500000"
+        }
+      },
+      "B_pa2_per_m": {
+        "hi": {
+          "denominator": "75376518771033504930933086904755981492682752",
+          "numerator": "24485741482499691134767277379977886104841937277413272857666015625"
+        },
+        "lo": {
+          "denominator": "75376518771033504930933086904755981492682752",
+          "numerator": "24485741482499691134767277379977886104841937277413272857666015625"
+        }
+      },
+      "C_pa2_per_m2": {
+        "hi": {
+          "denominator": "663018870800218144355558086697477749496737143077434556416",
+          "numerator": "51903784974478616565967183793192137457669541109595012856183786316967010498046875"
+        },
+        "lo": {
+          "denominator": "663018870800218144355558086697477749496737143077434556416",
+          "numerator": "51903784974478616565967183793192137457669541109595012856183786316967010498046875"
+        }
+      },
+      "R_pa": {
+        "hi": {
+          "denominator": "18014398509481984",
+          "numerator": "4544207383471099498046875"
+        },
+        "lo": {
+          "denominator": "18014398509481984",
+          "numerator": "4544207383471099498046875"
+        }
+      },
+      "action_id": "tet4-hardening-historical-weak-projected",
+      "affine_deviator_base_pa": [
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-2616325985644682363281250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-2616325985644682363281250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-7848977956934046269531250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-7848977956934046269531250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-7848977956934046269531250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-7848977956934046269531250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "5232651971289364726562500"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "5232651971289364726562500"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-5886733467700534804687500"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-5886733467700534804687500"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-5886733467700534804687500"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-5886733467700534804687500"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-2616325985644682363281250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-2616325985644682363281250"
+          }
+        }
+      ],
+      "affine_deviator_direction_pa_per_m": [
+        {
+          "hi": {
+            "denominator": "3218644102141988687249932288",
+            "numerator": "-266214732500402587890625"
+          },
+          "lo": {
+            "denominator": "3218644102141988687249932288",
+            "numerator": "-266214732500402587890625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3783023686991216640000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3783023686991216640000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3783023686991216640000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3783023686991216640000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1609322051070994343624966144",
+            "numerator": "266214732500402587890625"
+          },
+          "lo": {
+            "denominator": "1609322051070994343624966144",
+            "numerator": "266214732500402587890625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "987335818290691201171875"
+          },
+          "lo": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "987335818290691201171875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "987335818290691201171875"
+          },
+          "lo": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "987335818290691201171875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "3218644102141988687249932288",
+            "numerator": "-266214732500402587890625"
+          },
+          "lo": {
+            "denominator": "3218644102141988687249932288",
+            "numerator": "-266214732500402587890625"
+          }
+        }
+      ],
+      "expected_branch": "plastic",
+      "incoming_equivalent_plastic_strain_binary64_exact": {
+        "hi": {
+          "denominator": "4611686018427387904",
+          "numerator": "6930390374502997"
+        },
+        "lo": {
+          "denominator": "4611686018427387904",
+          "numerator": "6930390374502997"
+        }
+      },
+      "incoming_plastic_strain_voigt_binary64_exact": [
+        {
+          "hi": {
+            "denominator": "9223372036854775808",
+            "numerator": "-2906009256862011"
+          },
+          "lo": {
+            "denominator": "9223372036854775808",
+            "numerator": "-2906009256862011"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "4611686018427387904",
+            "numerator": "2906009256862011"
+          },
+          "lo": {
+            "denominator": "4611686018427387904",
+            "numerator": "2906009256862011"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "9223372036854775808",
+            "numerator": "-2906009256862011"
+          },
+          "lo": {
+            "denominator": "9223372036854775808",
+            "numerator": "-2906009256862011"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "4611686018427387904",
+            "numerator": "-8718027770586035"
+          },
+          "lo": {
+            "denominator": "4611686018427387904",
+            "numerator": "-8718027770586035"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "2305843009213693952",
+            "numerator": "-3269260413969763"
+          },
+          "lo": {
+            "denominator": "2305843009213693952",
+            "numerator": "-3269260413969763"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        }
+      ],
+      "point_id": "e6:q0",
+      "production_base_branch_archived": "plastic",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.003746554989261925,
+        "equivalent_stress": 255619832.4838929,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 759317.6455259344,
+        "plastic_multiplier": 0.0022437661292201696,
+        "plastic_strain": [
+          -0.0007854913570376251,
+          0.0015709827140752502,
+          -0.0007854913570376251,
+          -0.004712948142225751,
+          -0.0035347111066693134,
+          0.0
+        ],
+        "strain": [
+          0.0,
+          0.00302,
+          0.0,
+          -0.00604,
+          -0.00453,
+          0.0
+        ],
+        "stress": [
+          492771680.7522318,
+          599956638.4955364,
+          492771680.7522318,
+          -107184957.7433047,
+          -80388718.30747853,
+          0.0
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 255619832.4838929
+      },
+      "production_branch_linkage_valid": false,
+      "production_rounding_budget_valid": false,
+      "provenance_refs": {
+        "base_state_field": "observed_data.base_state_displacement_m",
+        "capture_commit": "c1d123d7ac785473cd26b6593caf78563c3b0fdc",
+        "capture_serializer_hashes": {
+          "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
+          "experiments/wp_e01l_probe/launcher.py": "00ec2953ce12a21488e169e372594d5d2f14362ec8d729041b95de46596a37bc",
+          "experiments/wp_e01l_probe/probe_contract.json": "42ccc39a375bd194b6ea230618d585b4acf24e9098f8ebbefb57a6512bc89c76",
+          "experiments/wp_e01l_probe/pytest_capture.py": "daee977663b58ae2b244e2143be6924b8f8314bb33cf85e6917457b0ef6d0b43",
+          "experiments/wp_e01l_probe/support.py": "f9620f4246087ae0f19facfcd92b2c1012f21e6d0d0af20c42670aff35b4a064"
+        },
+        "capture_tree": "41c621d04c0805726721c3957208bbef18492e1b",
+        "case_json": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023\\cases\\tet4-hardening-historical-weak-projected\\case.json",
+        "case_json_sha256": "aa73e3c30f7e40249b331393c4e190944c8f5faf5b3a9b31479a7da30daa0ed5",
+        "direction_field": "centered_difference_observations[*].full_projected_direction",
+        "geometry_fields": [
+          "observed_data.nodes",
+          "observed_data.elements"
+        ],
+        "historical_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5",
+        "historical_test_sha256": "de87ed55efc5db341a4f90fc0ad34de4758acbfd76241c91f7a37c7b80a61d2a",
+        "historical_tree": "c42e3c2241af1862d66cab51a38fda74a1167361",
+        "history_field": "observed_data.accepted_history.6[0]",
+        "production_branch_field": "observed_data.production_trial_state_by_integration_point.6[0].elastic"
+      },
+      "provenance_valid": true,
+      "segment_s_m": {
+        "hi": {
+          "denominator": "10000",
+          "numerator": "1"
+        },
+        "lo": {
+          "denominator": "10000",
+          "numerator": "-1"
+        }
+      }
+    },
+    {
+      "A_pa2": {
+        "hi": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "350386712632982923605983291351531973266601562500000"
+        },
+        "lo": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "350386712632982923605983291351531973266601562500000"
+        }
+      },
+      "B_pa2_per_m": {
+        "hi": {
+          "denominator": "75376518771033504930933086904755981492682752",
+          "numerator": "24485741482499691134767277379977886104841937277413272857666015625"
+        },
+        "lo": {
+          "denominator": "75376518771033504930933086904755981492682752",
+          "numerator": "24485741482499691134767277379977886104841937277413272857666015625"
+        }
+      },
+      "C_pa2_per_m2": {
+        "hi": {
+          "denominator": "663018870800218144355558086697477749496737143077434556416",
+          "numerator": "51903784974478616565967183793192137457669541109595012856183786316967010498046875"
+        },
+        "lo": {
+          "denominator": "663018870800218144355558086697477749496737143077434556416",
+          "numerator": "51903784974478616565967183793192137457669541109595012856183786316967010498046875"
+        }
+      },
+      "R_pa": {
+        "hi": {
+          "denominator": "18014398509481984",
+          "numerator": "4544207383471099498046875"
+        },
+        "lo": {
+          "denominator": "18014398509481984",
+          "numerator": "4544207383471099498046875"
+        }
+      },
+      "action_id": "tet4-hardening-historical-weak-projected",
+      "affine_deviator_base_pa": [
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-2616325985644682363281250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-2616325985644682363281250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-7848977956934046269531250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-7848977956934046269531250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-7848977956934046269531250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-7848977956934046269531250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "5232651971289364726562500"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "5232651971289364726562500"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-5886733467700534804687500"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-5886733467700534804687500"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-5886733467700534804687500"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-5886733467700534804687500"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-2616325985644682363281250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-2616325985644682363281250"
+          }
+        }
+      ],
+      "affine_deviator_direction_pa_per_m": [
+        {
+          "hi": {
+            "denominator": "3218644102141988687249932288",
+            "numerator": "-266214732500402587890625"
+          },
+          "lo": {
+            "denominator": "3218644102141988687249932288",
+            "numerator": "-266214732500402587890625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3783023686991216640000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3783023686991216640000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3783023686991216640000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3783023686991216640000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1609322051070994343624966144",
+            "numerator": "266214732500402587890625"
+          },
+          "lo": {
+            "denominator": "1609322051070994343624966144",
+            "numerator": "266214732500402587890625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "987335818290691201171875"
+          },
+          "lo": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "987335818290691201171875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "987335818290691201171875"
+          },
+          "lo": {
+            "denominator": "25749152817135909497999458304",
+            "numerator": "987335818290691201171875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "3218644102141988687249932288",
+            "numerator": "-266214732500402587890625"
+          },
+          "lo": {
+            "denominator": "3218644102141988687249932288",
+            "numerator": "-266214732500402587890625"
+          }
+        }
+      ],
+      "expected_branch": "plastic",
+      "incoming_equivalent_plastic_strain_binary64_exact": {
+        "hi": {
+          "denominator": "4611686018427387904",
+          "numerator": "6930390374502997"
+        },
+        "lo": {
+          "denominator": "4611686018427387904",
+          "numerator": "6930390374502997"
+        }
+      },
+      "incoming_plastic_strain_voigt_binary64_exact": [
+        {
+          "hi": {
+            "denominator": "9223372036854775808",
+            "numerator": "-2906009256862011"
+          },
+          "lo": {
+            "denominator": "9223372036854775808",
+            "numerator": "-2906009256862011"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "4611686018427387904",
+            "numerator": "2906009256862011"
+          },
+          "lo": {
+            "denominator": "4611686018427387904",
+            "numerator": "2906009256862011"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "9223372036854775808",
+            "numerator": "-2906009256862011"
+          },
+          "lo": {
+            "denominator": "9223372036854775808",
+            "numerator": "-2906009256862011"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "4611686018427387904",
+            "numerator": "-8718027770586035"
+          },
+          "lo": {
+            "denominator": "4611686018427387904",
+            "numerator": "-8718027770586035"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "2305843009213693952",
+            "numerator": "-3269260413969763"
+          },
+          "lo": {
+            "denominator": "2305843009213693952",
+            "numerator": "-3269260413969763"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        }
+      ],
+      "point_id": "e7:q0",
+      "production_base_branch_archived": "plastic",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.003746554989261925,
+        "equivalent_stress": 255619832.4838929,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 759317.6455259344,
+        "plastic_multiplier": 0.0022437661292201696,
+        "plastic_strain": [
+          -0.0007854913570376251,
+          0.0015709827140752502,
+          -0.0007854913570376251,
+          -0.004712948142225751,
+          -0.0035347111066693134,
+          0.0
+        ],
+        "strain": [
+          0.0,
+          0.00302,
+          0.0,
+          -0.00604,
+          -0.00453,
+          0.0
+        ],
+        "stress": [
+          492771680.7522318,
+          599956638.4955364,
+          492771680.7522318,
+          -107184957.7433047,
+          -80388718.30747853,
+          0.0
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 255619832.4838929
+      },
+      "production_branch_linkage_valid": false,
+      "production_rounding_budget_valid": false,
+      "provenance_refs": {
+        "base_state_field": "observed_data.base_state_displacement_m",
+        "capture_commit": "c1d123d7ac785473cd26b6593caf78563c3b0fdc",
+        "capture_serializer_hashes": {
+          "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
+          "experiments/wp_e01l_probe/launcher.py": "00ec2953ce12a21488e169e372594d5d2f14362ec8d729041b95de46596a37bc",
+          "experiments/wp_e01l_probe/probe_contract.json": "42ccc39a375bd194b6ea230618d585b4acf24e9098f8ebbefb57a6512bc89c76",
+          "experiments/wp_e01l_probe/pytest_capture.py": "daee977663b58ae2b244e2143be6924b8f8314bb33cf85e6917457b0ef6d0b43",
+          "experiments/wp_e01l_probe/support.py": "f9620f4246087ae0f19facfcd92b2c1012f21e6d0d0af20c42670aff35b4a064"
+        },
+        "capture_tree": "41c621d04c0805726721c3957208bbef18492e1b",
+        "case_json": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023\\cases\\tet4-hardening-historical-weak-projected\\case.json",
+        "case_json_sha256": "aa73e3c30f7e40249b331393c4e190944c8f5faf5b3a9b31479a7da30daa0ed5",
+        "direction_field": "centered_difference_observations[*].full_projected_direction",
+        "geometry_fields": [
+          "observed_data.nodes",
+          "observed_data.elements"
+        ],
+        "historical_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5",
+        "historical_test_sha256": "de87ed55efc5db341a4f90fc0ad34de4758acbfd76241c91f7a37c7b80a61d2a",
+        "historical_tree": "c42e3c2241af1862d66cab51a38fda74a1167361",
+        "history_field": "observed_data.accepted_history.7[0]",
+        "production_branch_field": "observed_data.production_trial_state_by_integration_point.7[0].elastic"
+      },
+      "provenance_valid": true,
+      "segment_s_m": {
+        "hi": {
+          "denominator": "10000",
+          "numerator": "1"
+        },
+        "lo": {
+          "denominator": "10000",
+          "numerator": "-1"
+        }
+      }
+    },
+    {
+      "A_pa2": {
+        "hi": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "363599118297578787247623360207871293640136718750000"
+        },
+        "lo": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "363599118297578787247623360207871293640136718750000"
+        }
+      },
+      "B_pa2_per_m": {
+        "hi": {
+          "denominator": "150753037542067009861866173809511962985365504",
+          "numerator": "48569757119306694813475557060068119514836355302250576019287109375"
+        },
+        "lo": {
+          "denominator": "150753037542067009861866173809511962985365504",
+          "numerator": "48569757119306694813475557060068119514836355302250576019287109375"
+        }
+      },
+      "C_pa2_per_m2": {
+        "hi": {
+          "denominator": "165754717700054536088889521674369437374184285769358639104",
+          "numerator": "12975946243619654141491795948295726742205095821984633597334080792713165283203125"
+        },
+        "lo": {
+          "denominator": "165754717700054536088889521674369437374184285769358639104",
+          "numerator": "12975946243619654141491795948295726742205095821984633597334080792713165283203125"
+        }
+      },
+      "R_pa": {
+        "hi": {
+          "denominator": "18014398509481984",
+          "numerator": "4546059091796447775390625"
+        },
+        "lo": {
+          "denominator": "18014398509481984",
+          "numerator": "4546059091796447775390625"
+        }
+      },
+      "action_id": "tet4-hardening-historical-weak-projected",
+      "affine_deviator_base_pa": [
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3892295371936605498046875"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3892295371936605498046875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "7784590743873210175781250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "7784590743873210175781250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3892295371936605498046875"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3892295371936605498046875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3892295371936605087890625"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3892295371936605087890625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "7784590743873210175781250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "7784590743873210175781250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3892295371936605087890625"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3892295371936605087890625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "7784590743873210996093750"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "7784590743873210996093750"
+          }
+        }
+      ],
+      "affine_deviator_direction_pa_per_m": [
+        {
+          "hi": {
+            "denominator": "12874576408567954748999729152",
+            "numerator": "329111939430230400390625"
+          },
+          "lo": {
+            "denominator": "12874576408567954748999729152",
+            "numerator": "329111939430230400390625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3783023686991216640000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3783023686991216640000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "12874576408567954748999729152",
+            "numerator": "329111939430230400390625"
+          },
+          "lo": {
+            "denominator": "12874576408567954748999729152",
+            "numerator": "329111939430230400390625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-798644197501207763671875"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-798644197501207763671875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3783023686991216640000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3783023686991216640000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-798644197501207763671875"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-798644197501207763671875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-329111939430230400390625"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-329111939430230400390625"
+          }
+        }
+      ],
+      "expected_branch": "plastic",
+      "incoming_equivalent_plastic_strain_binary64_exact": {
+        "hi": {
+          "denominator": "4611686018427387904",
+          "numerator": "7246415262029103"
+        },
+        "lo": {
+          "denominator": "4611686018427387904",
+          "numerator": "7246415262029103"
+        }
+      },
+      "incoming_plastic_strain_voigt_binary64_exact": [
+        {
+          "hi": {
+            "denominator": "18446744073709551616",
+            "numerator": "-8875009928143881"
+          },
+          "lo": {
+            "denominator": "18446744073709551616",
+            "numerator": "-8875009928143881"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "18446744073709551616",
+            "numerator": "-8875009928143881"
+          },
+          "lo": {
+            "denominator": "18446744073709551616",
+            "numerator": "-8875009928143881"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "9223372036854775808",
+            "numerator": "8875009928143881"
+          },
+          "lo": {
+            "denominator": "9223372036854775808",
+            "numerator": "8875009928143881"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "9223372036854775808",
+            "numerator": "-8875009928143883"
+          },
+          "lo": {
+            "denominator": "9223372036854775808",
+            "numerator": "-8875009928143883"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "4611686018427387904",
+            "numerator": "8875009928143883"
+          },
+          "lo": {
+            "denominator": "4611686018427387904",
+            "numerator": "8875009928143883"
+          }
+        }
+      ],
+      "point_id": "e8:q0",
+      "production_base_branch_archived": "plastic",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.003875899652541699,
+        "equivalent_stress": 255813849.47881255,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 783827.3824772525,
+        "plastic_multiplier": 0.002304583818576885,
+        "plastic_strain": [
+          -0.0011867470553697218,
+          -0.0011867470553697218,
+          0.0023734941107394435,
+          0.0,
+          -0.002373494110739444,
+          0.004746988221478888
+        ],
+        "strain": [
+          0.0,
+          0.0,
+          0.00453,
+          0.0,
+          -0.00302,
+          0.00604
+        ],
+        "stress": [
+          740532216.6366473,
+          740532216.6366473,
+          897185566.7267052,
+          0.0,
+          -52217783.363352604,
+          104435566.72670521
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 255813849.47881255
+      },
+      "production_branch_linkage_valid": false,
+      "production_rounding_budget_valid": false,
+      "provenance_refs": {
+        "base_state_field": "observed_data.base_state_displacement_m",
+        "capture_commit": "c1d123d7ac785473cd26b6593caf78563c3b0fdc",
+        "capture_serializer_hashes": {
+          "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
+          "experiments/wp_e01l_probe/launcher.py": "00ec2953ce12a21488e169e372594d5d2f14362ec8d729041b95de46596a37bc",
+          "experiments/wp_e01l_probe/probe_contract.json": "42ccc39a375bd194b6ea230618d585b4acf24e9098f8ebbefb57a6512bc89c76",
+          "experiments/wp_e01l_probe/pytest_capture.py": "daee977663b58ae2b244e2143be6924b8f8314bb33cf85e6917457b0ef6d0b43",
+          "experiments/wp_e01l_probe/support.py": "f9620f4246087ae0f19facfcd92b2c1012f21e6d0d0af20c42670aff35b4a064"
+        },
+        "capture_tree": "41c621d04c0805726721c3957208bbef18492e1b",
+        "case_json": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023\\cases\\tet4-hardening-historical-weak-projected\\case.json",
+        "case_json_sha256": "aa73e3c30f7e40249b331393c4e190944c8f5faf5b3a9b31479a7da30daa0ed5",
+        "direction_field": "centered_difference_observations[*].full_projected_direction",
+        "geometry_fields": [
+          "observed_data.nodes",
+          "observed_data.elements"
+        ],
+        "historical_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5",
+        "historical_test_sha256": "de87ed55efc5db341a4f90fc0ad34de4758acbfd76241c91f7a37c7b80a61d2a",
+        "historical_tree": "c42e3c2241af1862d66cab51a38fda74a1167361",
+        "history_field": "observed_data.accepted_history.8[0]",
+        "production_branch_field": "observed_data.production_trial_state_by_integration_point.8[0].elastic"
+      },
+      "provenance_valid": true,
+      "segment_s_m": {
+        "hi": {
+          "denominator": "10000",
+          "numerator": "1"
+        },
+        "lo": {
+          "denominator": "10000",
+          "numerator": "-1"
+        }
+      }
+    },
+    {
+      "A_pa2": {
+        "hi": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "363599118297578787247623360207871293640136718750000"
+        },
+        "lo": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "363599118297578787247623360207871293640136718750000"
+        }
+      },
+      "B_pa2_per_m": {
+        "hi": {
+          "denominator": "150753037542067009861866173809511962985365504",
+          "numerator": "48569757119306694813475557060068119514836355302250576019287109375"
+        },
+        "lo": {
+          "denominator": "150753037542067009861866173809511962985365504",
+          "numerator": "48569757119306694813475557060068119514836355302250576019287109375"
+        }
+      },
+      "C_pa2_per_m2": {
+        "hi": {
+          "denominator": "165754717700054536088889521674369437374184285769358639104",
+          "numerator": "12975946243619654141491795948295726742205095821984633597334080792713165283203125"
+        },
+        "lo": {
+          "denominator": "165754717700054536088889521674369437374184285769358639104",
+          "numerator": "12975946243619654141491795948295726742205095821984633597334080792713165283203125"
+        }
+      },
+      "R_pa": {
+        "hi": {
+          "denominator": "18014398509481984",
+          "numerator": "4546059091796447775390625"
+        },
+        "lo": {
+          "denominator": "18014398509481984",
+          "numerator": "4546059091796447775390625"
+        }
+      },
+      "action_id": "tet4-hardening-historical-weak-projected",
+      "affine_deviator_base_pa": [
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3892295371936605498046875"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3892295371936605498046875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "7784590743873210175781250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "7784590743873210175781250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3892295371936605498046875"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3892295371936605498046875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3892295371936605087890625"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3892295371936605087890625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "7784590743873210175781250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "7784590743873210175781250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3892295371936605087890625"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3892295371936605087890625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "7784590743873210996093750"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "7784590743873210996093750"
+          }
+        }
+      ],
+      "affine_deviator_direction_pa_per_m": [
+        {
+          "hi": {
+            "denominator": "12874576408567954748999729152",
+            "numerator": "329111939430230400390625"
+          },
+          "lo": {
+            "denominator": "12874576408567954748999729152",
+            "numerator": "329111939430230400390625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3783023686991216640000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3783023686991216640000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "12874576408567954748999729152",
+            "numerator": "329111939430230400390625"
+          },
+          "lo": {
+            "denominator": "12874576408567954748999729152",
+            "numerator": "329111939430230400390625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-798644197501207763671875"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-798644197501207763671875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3783023686991216640000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3783023686991216640000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-798644197501207763671875"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-798644197501207763671875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-329111939430230400390625"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "-329111939430230400390625"
+          }
+        }
+      ],
+      "expected_branch": "plastic",
+      "incoming_equivalent_plastic_strain_binary64_exact": {
+        "hi": {
+          "denominator": "4611686018427387904",
+          "numerator": "7246415262029103"
+        },
+        "lo": {
+          "denominator": "4611686018427387904",
+          "numerator": "7246415262029103"
+        }
+      },
+      "incoming_plastic_strain_voigt_binary64_exact": [
+        {
+          "hi": {
+            "denominator": "18446744073709551616",
+            "numerator": "-8875009928143881"
+          },
+          "lo": {
+            "denominator": "18446744073709551616",
+            "numerator": "-8875009928143881"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "18446744073709551616",
+            "numerator": "-8875009928143881"
+          },
+          "lo": {
+            "denominator": "18446744073709551616",
+            "numerator": "-8875009928143881"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "9223372036854775808",
+            "numerator": "8875009928143881"
+          },
+          "lo": {
+            "denominator": "9223372036854775808",
+            "numerator": "8875009928143881"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "9223372036854775808",
+            "numerator": "-8875009928143883"
+          },
+          "lo": {
+            "denominator": "9223372036854775808",
+            "numerator": "-8875009928143883"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "4611686018427387904",
+            "numerator": "8875009928143883"
+          },
+          "lo": {
+            "denominator": "4611686018427387904",
+            "numerator": "8875009928143883"
+          }
+        }
+      ],
+      "point_id": "e9:q0",
+      "production_base_branch_archived": "plastic",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.003875899652541699,
+        "equivalent_stress": 255813849.47881255,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 783827.3824772525,
+        "plastic_multiplier": 0.002304583818576885,
+        "plastic_strain": [
+          -0.0011867470553697218,
+          -0.0011867470553697218,
+          0.0023734941107394435,
+          0.0,
+          -0.002373494110739444,
+          0.004746988221478888
+        ],
+        "strain": [
+          0.0,
+          0.0,
+          0.00453,
+          0.0,
+          -0.00302,
+          0.00604
+        ],
+        "stress": [
+          740532216.6366473,
+          740532216.6366473,
+          897185566.7267052,
+          0.0,
+          -52217783.363352604,
+          104435566.72670521
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 255813849.47881255
+      },
+      "production_branch_linkage_valid": false,
+      "production_rounding_budget_valid": false,
+      "provenance_refs": {
+        "base_state_field": "observed_data.base_state_displacement_m",
+        "capture_commit": "c1d123d7ac785473cd26b6593caf78563c3b0fdc",
+        "capture_serializer_hashes": {
+          "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
+          "experiments/wp_e01l_probe/launcher.py": "00ec2953ce12a21488e169e372594d5d2f14362ec8d729041b95de46596a37bc",
+          "experiments/wp_e01l_probe/probe_contract.json": "42ccc39a375bd194b6ea230618d585b4acf24e9098f8ebbefb57a6512bc89c76",
+          "experiments/wp_e01l_probe/pytest_capture.py": "daee977663b58ae2b244e2143be6924b8f8314bb33cf85e6917457b0ef6d0b43",
+          "experiments/wp_e01l_probe/support.py": "f9620f4246087ae0f19facfcd92b2c1012f21e6d0d0af20c42670aff35b4a064"
+        },
+        "capture_tree": "41c621d04c0805726721c3957208bbef18492e1b",
+        "case_json": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023\\cases\\tet4-hardening-historical-weak-projected\\case.json",
+        "case_json_sha256": "aa73e3c30f7e40249b331393c4e190944c8f5faf5b3a9b31479a7da30daa0ed5",
+        "direction_field": "centered_difference_observations[*].full_projected_direction",
+        "geometry_fields": [
+          "observed_data.nodes",
+          "observed_data.elements"
+        ],
+        "historical_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5",
+        "historical_test_sha256": "de87ed55efc5db341a4f90fc0ad34de4758acbfd76241c91f7a37c7b80a61d2a",
+        "historical_tree": "c42e3c2241af1862d66cab51a38fda74a1167361",
+        "history_field": "observed_data.accepted_history.9[0]",
+        "production_branch_field": "observed_data.production_trial_state_by_integration_point.9[0].elastic"
+      },
+      "provenance_valid": true,
+      "segment_s_m": {
+        "hi": {
+          "denominator": "10000",
+          "numerator": "1"
+        },
+        "lo": {
+          "denominator": "10000",
+          "numerator": "-1"
+        }
+      }
+    },
+    {
+      "A_pa2": {
+        "hi": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "363599118297578787247623360207871293640136718750000"
+        },
+        "lo": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "363599118297578787247623360207871293640136718750000"
+        }
+      },
+      "B_pa2_per_m": {
+        "hi": {
+          "denominator": "150753037542067009861866173809511962985365504",
+          "numerator": "48569757119306694813475557060068119514836355302250576019287109375"
+        },
+        "lo": {
+          "denominator": "150753037542067009861866173809511962985365504",
+          "numerator": "48569757119306694813475557060068119514836355302250576019287109375"
+        }
+      },
+      "C_pa2_per_m2": {
+        "hi": {
+          "denominator": "165754717700054536088889521674369437374184285769358639104",
+          "numerator": "12975946243619654141491795948295726742205095821984633597334080792713165283203125"
+        },
+        "lo": {
+          "denominator": "165754717700054536088889521674369437374184285769358639104",
+          "numerator": "12975946243619654141491795948295726742205095821984633597334080792713165283203125"
+        }
+      },
+      "R_pa": {
+        "hi": {
+          "denominator": "18014398509481984",
+          "numerator": "4546059091796447775390625"
+        },
+        "lo": {
+          "denominator": "18014398509481984",
+          "numerator": "4546059091796447775390625"
+        }
+      },
+      "action_id": "tet4-hardening-historical-weak-projected",
+      "affine_deviator_base_pa": [
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3892295371936605498046875"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3892295371936605498046875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-7784590743873210175781250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-7784590743873210175781250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3892295371936605498046875"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3892295371936605498046875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3892295371936605087890625"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3892295371936605087890625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-7784590743873210175781250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-7784590743873210175781250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3892295371936605087890625"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3892295371936605087890625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-7784590743873210996093750"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-7784590743873210996093750"
+          }
+        }
+      ],
+      "affine_deviator_direction_pa_per_m": [
+        {
+          "hi": {
+            "denominator": "12874576408567954748999729152",
+            "numerator": "-329111939430230400390625"
+          },
+          "lo": {
+            "denominator": "12874576408567954748999729152",
+            "numerator": "-329111939430230400390625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3783023686991216640000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3783023686991216640000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "12874576408567954748999729152",
+            "numerator": "-329111939430230400390625"
+          },
+          "lo": {
+            "denominator": "12874576408567954748999729152",
+            "numerator": "-329111939430230400390625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "798644197501207763671875"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "798644197501207763671875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3783023686991216640000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3783023686991216640000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "798644197501207763671875"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "798644197501207763671875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "329111939430230400390625"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "329111939430230400390625"
+          }
+        }
+      ],
+      "expected_branch": "plastic",
+      "incoming_equivalent_plastic_strain_binary64_exact": {
+        "hi": {
+          "denominator": "4611686018427387904",
+          "numerator": "7246415262029103"
+        },
+        "lo": {
+          "denominator": "4611686018427387904",
+          "numerator": "7246415262029103"
+        }
+      },
+      "incoming_plastic_strain_voigt_binary64_exact": [
+        {
+          "hi": {
+            "denominator": "18446744073709551616",
+            "numerator": "8875009928143881"
+          },
+          "lo": {
+            "denominator": "18446744073709551616",
+            "numerator": "8875009928143881"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "18446744073709551616",
+            "numerator": "8875009928143881"
+          },
+          "lo": {
+            "denominator": "18446744073709551616",
+            "numerator": "8875009928143881"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "9223372036854775808",
+            "numerator": "-8875009928143881"
+          },
+          "lo": {
+            "denominator": "9223372036854775808",
+            "numerator": "-8875009928143881"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "9223372036854775808",
+            "numerator": "8875009928143883"
+          },
+          "lo": {
+            "denominator": "9223372036854775808",
+            "numerator": "8875009928143883"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "4611686018427387904",
+            "numerator": "-8875009928143883"
+          },
+          "lo": {
+            "denominator": "4611686018427387904",
+            "numerator": "-8875009928143883"
+          }
+        }
+      ],
+      "point_id": "e10:q0",
+      "production_base_branch_archived": "plastic",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.003875899652541699,
+        "equivalent_stress": 255813849.47881255,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 783827.3824772525,
+        "plastic_multiplier": 0.002304583818576885,
+        "plastic_strain": [
+          0.0011867470553697218,
+          0.0011867470553697218,
+          -0.0023734941107394435,
+          0.0,
+          0.002373494110739444,
+          -0.004746988221478888
+        ],
+        "strain": [
+          0.0,
+          0.0,
+          -0.00453,
+          0.0,
+          0.00302,
+          -0.00604
+        ],
+        "stress": [
+          -740532216.6366473,
+          -740532216.6366473,
+          -897185566.7267052,
+          0.0,
+          52217783.363352604,
+          -104435566.72670521
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 255813849.47881255
+      },
+      "production_branch_linkage_valid": false,
+      "production_rounding_budget_valid": false,
+      "provenance_refs": {
+        "base_state_field": "observed_data.base_state_displacement_m",
+        "capture_commit": "c1d123d7ac785473cd26b6593caf78563c3b0fdc",
+        "capture_serializer_hashes": {
+          "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
+          "experiments/wp_e01l_probe/launcher.py": "00ec2953ce12a21488e169e372594d5d2f14362ec8d729041b95de46596a37bc",
+          "experiments/wp_e01l_probe/probe_contract.json": "42ccc39a375bd194b6ea230618d585b4acf24e9098f8ebbefb57a6512bc89c76",
+          "experiments/wp_e01l_probe/pytest_capture.py": "daee977663b58ae2b244e2143be6924b8f8314bb33cf85e6917457b0ef6d0b43",
+          "experiments/wp_e01l_probe/support.py": "f9620f4246087ae0f19facfcd92b2c1012f21e6d0d0af20c42670aff35b4a064"
+        },
+        "capture_tree": "41c621d04c0805726721c3957208bbef18492e1b",
+        "case_json": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023\\cases\\tet4-hardening-historical-weak-projected\\case.json",
+        "case_json_sha256": "aa73e3c30f7e40249b331393c4e190944c8f5faf5b3a9b31479a7da30daa0ed5",
+        "direction_field": "centered_difference_observations[*].full_projected_direction",
+        "geometry_fields": [
+          "observed_data.nodes",
+          "observed_data.elements"
+        ],
+        "historical_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5",
+        "historical_test_sha256": "de87ed55efc5db341a4f90fc0ad34de4758acbfd76241c91f7a37c7b80a61d2a",
+        "historical_tree": "c42e3c2241af1862d66cab51a38fda74a1167361",
+        "history_field": "observed_data.accepted_history.10[0]",
+        "production_branch_field": "observed_data.production_trial_state_by_integration_point.10[0].elastic"
+      },
+      "provenance_valid": true,
+      "segment_s_m": {
+        "hi": {
+          "denominator": "10000",
+          "numerator": "1"
+        },
+        "lo": {
+          "denominator": "10000",
+          "numerator": "-1"
+        }
+      }
+    },
+    {
+      "A_pa2": {
+        "hi": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "363599118297578787247623360207871293640136718750000"
+        },
+        "lo": {
+          "denominator": "548436355682741158896046449843241",
+          "numerator": "363599118297578787247623360207871293640136718750000"
+        }
+      },
+      "B_pa2_per_m": {
+        "hi": {
+          "denominator": "150753037542067009861866173809511962985365504",
+          "numerator": "48569757119306694813475557060068119514836355302250576019287109375"
+        },
+        "lo": {
+          "denominator": "150753037542067009861866173809511962985365504",
+          "numerator": "48569757119306694813475557060068119514836355302250576019287109375"
+        }
+      },
+      "C_pa2_per_m2": {
+        "hi": {
+          "denominator": "165754717700054536088889521674369437374184285769358639104",
+          "numerator": "12975946243619654141491795948295726742205095821984633597334080792713165283203125"
+        },
+        "lo": {
+          "denominator": "165754717700054536088889521674369437374184285769358639104",
+          "numerator": "12975946243619654141491795948295726742205095821984633597334080792713165283203125"
+        }
+      },
+      "R_pa": {
+        "hi": {
+          "denominator": "18014398509481984",
+          "numerator": "4546059091796447775390625"
+        },
+        "lo": {
+          "denominator": "18014398509481984",
+          "numerator": "4546059091796447775390625"
+        }
+      },
+      "action_id": "tet4-hardening-historical-weak-projected",
+      "affine_deviator_base_pa": [
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3892295371936605498046875"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3892295371936605498046875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-7784590743873210175781250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-7784590743873210175781250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3892295371936605498046875"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3892295371936605498046875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3892295371936605087890625"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3892295371936605087890625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-7784590743873210175781250"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-7784590743873210175781250"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "3892295371936605087890625"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "3892295371936605087890625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-7784590743873210996093750"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-7784590743873210996093750"
+          }
+        }
+      ],
+      "affine_deviator_direction_pa_per_m": [
+        {
+          "hi": {
+            "denominator": "12874576408567954748999729152",
+            "numerator": "-329111939430230400390625"
+          },
+          "lo": {
+            "denominator": "12874576408567954748999729152",
+            "numerator": "-329111939430230400390625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3783023686991216640000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3783023686991216640000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "12874576408567954748999729152",
+            "numerator": "-329111939430230400390625"
+          },
+          "lo": {
+            "denominator": "12874576408567954748999729152",
+            "numerator": "-329111939430230400390625"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "798644197501207763671875"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "798644197501207763671875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "23418718062326579",
+            "numerator": "-3783023686991216640000000000"
+          },
+          "lo": {
+            "denominator": "23418718062326579",
+            "numerator": "-3783023686991216640000000000"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "798644197501207763671875"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "798644197501207763671875"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "329111939430230400390625"
+          },
+          "lo": {
+            "denominator": "6437288204283977374499864576",
+            "numerator": "329111939430230400390625"
+          }
+        }
+      ],
+      "expected_branch": "plastic",
+      "incoming_equivalent_plastic_strain_binary64_exact": {
+        "hi": {
+          "denominator": "4611686018427387904",
+          "numerator": "7246415262029103"
+        },
+        "lo": {
+          "denominator": "4611686018427387904",
+          "numerator": "7246415262029103"
+        }
+      },
+      "incoming_plastic_strain_voigt_binary64_exact": [
+        {
+          "hi": {
+            "denominator": "18446744073709551616",
+            "numerator": "8875009928143881"
+          },
+          "lo": {
+            "denominator": "18446744073709551616",
+            "numerator": "8875009928143881"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "18446744073709551616",
+            "numerator": "8875009928143881"
+          },
+          "lo": {
+            "denominator": "18446744073709551616",
+            "numerator": "8875009928143881"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "9223372036854775808",
+            "numerator": "-8875009928143881"
+          },
+          "lo": {
+            "denominator": "9223372036854775808",
+            "numerator": "-8875009928143881"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "1",
+            "numerator": "0"
+          },
+          "lo": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "9223372036854775808",
+            "numerator": "8875009928143883"
+          },
+          "lo": {
+            "denominator": "9223372036854775808",
+            "numerator": "8875009928143883"
+          }
+        },
+        {
+          "hi": {
+            "denominator": "4611686018427387904",
+            "numerator": "-8875009928143883"
+          },
+          "lo": {
+            "denominator": "4611686018427387904",
+            "numerator": "-8875009928143883"
+          }
+        }
+      ],
+      "point_id": "e11:q0",
+      "production_base_branch_archived": "plastic",
+      "production_base_state_record": {
+        "elastic": false,
+        "equivalent_plastic_strain": 0.003875899652541699,
+        "equivalent_stress": 255813849.47881255,
+        "model": "von_mises_isotropic_hardening",
+        "plastic_dissipation": 783827.3824772525,
+        "plastic_multiplier": 0.002304583818576885,
+        "plastic_strain": [
+          0.0011867470553697218,
+          0.0011867470553697218,
+          -0.0023734941107394435,
+          0.0,
+          0.002373494110739444,
+          -0.004746988221478888
+        ],
+        "strain": [
+          0.0,
+          0.0,
+          -0.00453,
+          0.0,
+          0.00302,
+          -0.00604
+        ],
+        "stress": [
+          -740532216.6366473,
+          -740532216.6366473,
+          -897185566.7267052,
+          0.0,
+          52217783.363352604,
+          -104435566.72670521
+        ],
+        "yield_function": 0.0,
+        "yield_stress": 255813849.47881255
+      },
+      "production_branch_linkage_valid": false,
+      "production_rounding_budget_valid": false,
+      "provenance_refs": {
+        "base_state_field": "observed_data.base_state_displacement_m",
+        "capture_commit": "c1d123d7ac785473cd26b6593caf78563c3b0fdc",
+        "capture_serializer_hashes": {
+          "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
+          "experiments/wp_e01l_probe/launcher.py": "00ec2953ce12a21488e169e372594d5d2f14362ec8d729041b95de46596a37bc",
+          "experiments/wp_e01l_probe/probe_contract.json": "42ccc39a375bd194b6ea230618d585b4acf24e9098f8ebbefb57a6512bc89c76",
+          "experiments/wp_e01l_probe/pytest_capture.py": "daee977663b58ae2b244e2143be6924b8f8314bb33cf85e6917457b0ef6d0b43",
+          "experiments/wp_e01l_probe/support.py": "f9620f4246087ae0f19facfcd92b2c1012f21e6d0d0af20c42670aff35b4a064"
+        },
+        "capture_tree": "41c621d04c0805726721c3957208bbef18492e1b",
+        "case_json": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023\\cases\\tet4-hardening-historical-weak-projected\\case.json",
+        "case_json_sha256": "aa73e3c30f7e40249b331393c4e190944c8f5faf5b3a9b31479a7da30daa0ed5",
+        "direction_field": "centered_difference_observations[*].full_projected_direction",
+        "geometry_fields": [
+          "observed_data.nodes",
+          "observed_data.elements"
+        ],
+        "historical_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5",
+        "historical_test_sha256": "de87ed55efc5db341a4f90fc0ad34de4758acbfd76241c91f7a37c7b80a61d2a",
+        "historical_tree": "c42e3c2241af1862d66cab51a38fda74a1167361",
+        "history_field": "observed_data.accepted_history.11[0]",
+        "production_branch_field": "observed_data.production_trial_state_by_integration_point.11[0].elastic"
+      },
+      "provenance_valid": true,
+      "segment_s_m": {
+        "hi": {
+          "denominator": "10000",
+          "numerator": "1"
+        },
+        "lo": {
+          "denominator": "10000",
+          "numerator": "-1"
+        }
+      }
+    }
+  ],
+  "poisson_ratio": {
+    "denominator": "18014398509481984",
+    "numerator": "5404319552844595"
+  },
+  "production_branch_linkage_valid": false,
+  "production_rounding_budget_valid": false,
+  "provenance_valid": true,
+  "schema_version": 1,
+  "source_identity_valid": true,
+  "yield_stress_pa": {
+    "denominator": "1",
+    "numerator": "250000000"
+  }
+}

@@ -1,0 +1,554 @@
+{
+  "action_count": 8,
+  "actions": [
+    {
+      "accepted_history_digest": "0110460624862f97b00b3ab7e4b8c525984cba434f20995a7f4b9fd6b465057e",
+      "action_id": "tet4-perfect-historical-weak-projected",
+      "action_verdict": "PASS",
+      "branch_linkage_valid": true,
+      "point_count": 12,
+      "production_rounding_budget_valid": true,
+      "proof_input_path": "tet4-perfect-historical-weak-projected.proof_input.json",
+      "sha256": "1a17f6ee10a9914188209a53d037d8e1637dfc23f5c039ada5278f80bcef7b0f"
+    },
+    {
+      "accepted_history_digest": "0110460624862f97b00b3ab7e4b8c525984cba434f20995a7f4b9fd6b465057e",
+      "action_id": "tet4-perfect-mixed-projected",
+      "action_verdict": "PASS",
+      "branch_linkage_valid": true,
+      "point_count": 12,
+      "production_rounding_budget_valid": true,
+      "proof_input_path": "tet4-perfect-mixed-projected.proof_input.json",
+      "sha256": "05c9b984b850042efe1081b819f4a6673c771c33be9059ebfac78747a51ef0a5"
+    },
+    {
+      "accepted_history_digest": "92eb982d83fc684fc87291ab7afbe6d40ab138accb6e72b4351218c0c0f91e13",
+      "action_id": "tet4-hardening-historical-weak-projected",
+      "action_verdict": "PASS",
+      "branch_linkage_valid": true,
+      "point_count": 12,
+      "production_rounding_budget_valid": true,
+      "proof_input_path": "tet4-hardening-historical-weak-projected.proof_input.json",
+      "sha256": "8bdda31b62dc0ef881462e93891320c56dec5be42f0b561b5949d22cc809bb97"
+    },
+    {
+      "accepted_history_digest": "92eb982d83fc684fc87291ab7afbe6d40ab138accb6e72b4351218c0c0f91e13",
+      "action_id": "tet4-hardening-mixed-projected",
+      "action_verdict": "PASS",
+      "branch_linkage_valid": true,
+      "point_count": 12,
+      "production_rounding_budget_valid": true,
+      "proof_input_path": "tet4-hardening-mixed-projected.proof_input.json",
+      "sha256": "a370e6f78c2f6a21542c917e1bbeb5fdb52a5dfce1be68a729de9bba1c40d5ea"
+    },
+    {
+      "accepted_history_digest": "379409f35f7f301a6a3253fa23c8accc3ace9690004b29e18781910b659c2598",
+      "action_id": "hex8-perfect-historical-weak-projected",
+      "action_verdict": "PASS",
+      "branch_linkage_valid": true,
+      "point_count": 64,
+      "production_rounding_budget_valid": true,
+      "proof_input_path": "hex8-perfect-historical-weak-projected.proof_input.json",
+      "sha256": "e4330e52ead0141c30b84020edf929bbb578c823971897cb32553bc62e405745"
+    },
+    {
+      "accepted_history_digest": "379409f35f7f301a6a3253fa23c8accc3ace9690004b29e18781910b659c2598",
+      "action_id": "hex8-perfect-mixed-projected",
+      "action_verdict": "PASS",
+      "branch_linkage_valid": true,
+      "point_count": 64,
+      "production_rounding_budget_valid": true,
+      "proof_input_path": "hex8-perfect-mixed-projected.proof_input.json",
+      "sha256": "965b518d668bf8b1244737c2b7af7be8d70647c34e594c2dbc2175ef7498fcd2"
+    },
+    {
+      "accepted_history_digest": "de8120863f267cb83d9d7b92d63c59e5db96baa4b27d1da2aaa1c2f077d71b3f",
+      "action_id": "hex8-hardening-historical-weak-projected",
+      "action_verdict": "PASS",
+      "branch_linkage_valid": true,
+      "point_count": 64,
+      "production_rounding_budget_valid": true,
+      "proof_input_path": "hex8-hardening-historical-weak-projected.proof_input.json",
+      "sha256": "aea4cafc27266730f9f2e125e705b5e21acc9d5e8be24a490b64069c12f8a938"
+    },
+    {
+      "accepted_history_digest": "de8120863f267cb83d9d7b92d63c59e5db96baa4b27d1da2aaa1c2f077d71b3f",
+      "action_id": "hex8-hardening-mixed-projected",
+      "action_verdict": "PASS",
+      "branch_linkage_valid": true,
+      "point_count": 64,
+      "production_rounding_budget_valid": true,
+      "proof_input_path": "hex8-hardening-mixed-projected.proof_input.json",
+      "sha256": "0d82806f43d508abf1690c05fc402a2c0cfc2227b2239b4dd23dca46ab3c2c51"
+    }
+  ],
+  "all_eight_raw_input_archives_complete": true,
+  "archives": [
+    {
+      "campaign_status": "INCOMPLETE",
+      "manifest": "archive_integrity.json",
+      "manifest_sha256": "4024e9b706ac8d784a4223161853133224dc625463e7f40cb7c2acc53dd8edb8",
+      "path": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023",
+      "verified_files": 28
+    },
+    {
+      "campaign_status": "COMPLETED_EXPLORATORY",
+      "manifest": "artifact_inventory.json",
+      "manifest_sha256": "ee8a992038d546a99afeb335339b00212d178ee56b167008b9f45f24790b015b",
+      "path": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_hex8_run_6787cb37-d498-4f96-8604-1598e6aa5d64",
+      "verified_files": 35
+    }
+  ],
+  "candidate_point_count": 304,
+  "capture_source_commits": [
+    {
+      "archive": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023",
+      "commit": "c1d123d7ac785473cd26b6593caf78563c3b0fdc",
+      "file_sha256": {
+        "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
+        "experiments/wp_e01l_probe/launcher.py": "00ec2953ce12a21488e169e372594d5d2f14362ec8d729041b95de46596a37bc",
+        "experiments/wp_e01l_probe/probe_contract.json": "42ccc39a375bd194b6ea230618d585b4acf24e9098f8ebbefb57a6512bc89c76",
+        "experiments/wp_e01l_probe/pytest_capture.py": "daee977663b58ae2b244e2143be6924b8f8314bb33cf85e6917457b0ef6d0b43",
+        "experiments/wp_e01l_probe/support.py": "f9620f4246087ae0f19facfcd92b2c1012f21e6d0d0af20c42670aff35b4a064"
+      },
+      "tree": "41c621d04c0805726721c3957208bbef18492e1b"
+    },
+    {
+      "archive": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_hex8_run_6787cb37-d498-4f96-8604-1598e6aa5d64",
+      "commit": "b5bda19f7c6c4dab97c0105b4374f247bcce81a8",
+      "file_sha256": {
+        "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
+        "experiments/wp_e01l_probe/launcher.py": "c6bef73fb193ba44eae5081e010be00c1c82a6f7400080f7612dec717c1997df",
+        "experiments/wp_e01l_probe/probe_contract.json": "4750f9e7aee31b1a8e7a9fe4e92c15db092b7a7ed96c6d35877b0c081e892279",
+        "experiments/wp_e01l_probe/pytest_capture.py": "811b814f6b8d5ee1155c3f38e96d54a00c0baf9bf919bdbc310cf1e9a0b00fca",
+        "experiments/wp_e01l_probe/support.py": "f9620f4246087ae0f19facfcd92b2c1012f21e6d0d0af20c42670aff35b4a064"
+      },
+      "tree": "76ccc5f5bb3aaa93d882a61638628ae52a4c5c47"
+    }
+  ],
+  "certificate_status": "PROPOSED_NOT_PROMOTED",
+  "extraction_stage": {
+    "reason": "Inputs and per-point A/B/C/R are extracted from hash-verified archives, but production base branch scalar and rounding budget are not archived as evaluable values. HEX8 coefficients are certified rational intervals; branch linkage remains unproved.",
+    "reason_stage": "historical_intermediate_extraction_message",
+    "status": "INPUTS_EXTRACTED_PENDING_PROOF_EVALUATION",
+    "strict_action_proofs_ready": false
+  },
+  "global_verdict": "C03_PROOF_READY_FOR_OWNER_REVIEW",
+  "historical_source_files": {
+    "src/solveur/core/nonlinear/material_state.py": "6439f50398a8a914123abd804752c018d879fad909f437f075267373916b7dfa",
+    "src/solveur/elements/solid/j2_state.py": "1dd85418df2026d3a9e3de4f8da5fca30021e85882f0606290f083c0d23c26a4",
+    "tests/conftest.py": "34b6d57a76be6c84d7b803c6d1e9c1899e800b81e6bc1cad8746139858371f71",
+    "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py": "de87ed55efc5db341a4f90fc0ad34de4758acbfd76241c91f7a37c7b80a61d2a"
+  },
+  "metadata_finalization": {
+    "mode": "METADATA_ONLY_FROM_FROZEN_PROOF_OUTPUTS",
+    "proof_output_recheck": {
+      "baseline_inventory_sha256": "76fa7dcc7e9af6623951e0c774effa30ab3b26ac11bdd67f8d1fadc7c3bd3d26",
+      "baseline_manifest_sha256": "408a1d3aff65ccf09a90e89a47ad87592fbcdb48957dc70ead180a53a8818e31",
+      "baseline_summary_sha256": "6ce32911d1f64a929e11d9ca70982bfcf1728d0779566576db75d3f3e9eb2386",
+      "proof_input_result_hashes_verified": true,
+      "verified_action_count": 8,
+      "verified_point_count": 304
+    },
+    "provenance_recheck": {
+      "adapter_captures": [
+        {
+          "commit": "c1d123d7ac785473cd26b6593caf78563c3b0fdc",
+          "files_verified": 5,
+          "tree": "41c621d04c0805726721c3957208bbef18492e1b"
+        },
+        {
+          "commit": "b5bda19f7c6c4dab97c0105b4374f247bcce81a8",
+          "files_verified": 5,
+          "tree": "76ccc5f5bb3aaa93d882a61638628ae52a4c5c47"
+        }
+      ],
+      "hex8_archive_files_verified": 35,
+      "historical_checkout_clean": true,
+      "probe_archive_files_verified": 28,
+      "production_pin_set_identical_across_archives": true,
+      "production_pins_verified_per_archive": 29,
+      "snapshot_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5",
+      "snapshot_tree": "c42e3c2241af1862d66cab51a38fda74a1167361"
+    },
+    "scientific_recalculation": false
+  },
+  "owner_status": "READY_FOR_OWNER_REVIEW",
+  "point_count": 304,
+  "proof_results": [
+    {
+      "action_id": "tet4-perfect-historical-weak-projected",
+      "action_verdict": "PASS",
+      "branch_point_counts": {
+        "elastic": 0,
+        "plastic": 12
+      },
+      "mathematical_candidate_verdict": "PASS",
+      "mathematical_point_pass_count": 12,
+      "maximum_a_posteriori_base_discrepancy_B_pa": {
+        "decimal_outward": {
+          "hi": "0.000000465746",
+          "lo": "0.000000465745",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "39621239882401099485369168255267"
+        },
+        "lo": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "39621239882401099485369168255267"
+        }
+      },
+      "minimum_certified_clearance_pa": {
+        "decimal_outward": {
+          "hi": "526964930.480085381193",
+          "lo": "526964930.480085381192",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "21267647932558653966460912964485513216",
+          "numerator": "11207304614255702673095599639960537150237934303"
+        },
+        "lo": {
+          "denominator": "21267647932558653966460912964485513216",
+          "numerator": "11207304614255702673095599639960537150237934303"
+        }
+      },
+      "point_count": 12,
+      "production_gates_complete": true,
+      "production_point_pass_count": 12,
+      "proof_input_sha256": "1a17f6ee10a9914188209a53d037d8e1637dfc23f5c039ada5278f80bcef7b0f",
+      "proof_result_path": "tet4-perfect-historical-weak-projected.proof_result.json",
+      "proof_result_sha256": "24dec65fb2a6de66c07254bf9b2eb23b59e5284d7a44d4ad04199be4bbe31100"
+    },
+    {
+      "action_id": "tet4-perfect-mixed-projected",
+      "action_verdict": "PASS",
+      "branch_point_counts": {
+        "elastic": 0,
+        "plastic": 12
+      },
+      "mathematical_candidate_verdict": "PASS",
+      "mathematical_point_pass_count": 12,
+      "maximum_a_posteriori_base_discrepancy_B_pa": {
+        "decimal_outward": {
+          "hi": "0.000000465746",
+          "lo": "0.000000465745",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "39621239882401099485369168255267"
+        },
+        "lo": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "39621239882401099485369168255267"
+        }
+      },
+      "minimum_certified_clearance_pa": {
+        "decimal_outward": {
+          "hi": "532345925.312127124861",
+          "lo": "532345925.312127124860",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "181147931485927745028251096607100088019327835667"
+        },
+        "lo": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "181147931485927745028251096607100088019327835667"
+        }
+      },
+      "point_count": 12,
+      "production_gates_complete": true,
+      "production_point_pass_count": 12,
+      "proof_input_sha256": "05c9b984b850042efe1081b819f4a6673c771c33be9059ebfac78747a51ef0a5",
+      "proof_result_path": "tet4-perfect-mixed-projected.proof_result.json",
+      "proof_result_sha256": "fa4f892fb96dcfa8f425228e2cdd9e83a135bbbedd59406d9d055deebad0936d"
+    },
+    {
+      "action_id": "tet4-hardening-historical-weak-projected",
+      "action_verdict": "PASS",
+      "branch_point_counts": {
+        "elastic": 0,
+        "plastic": 12
+      },
+      "mathematical_candidate_verdict": "PASS",
+      "mathematical_point_pass_count": 12,
+      "maximum_a_posteriori_base_discrepancy_B_pa": {
+        "decimal_outward": {
+          "hi": "0.000000455277",
+          "lo": "0.000000455276",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "170141183460469231731687303715884105728",
+          "numerator": "77461222035888977774093181536949"
+        },
+        "lo": {
+          "denominator": "170141183460469231731687303715884105728",
+          "numerator": "77461222035888977774093181536949"
+        }
+      },
+      "minimum_certified_clearance_pa": {
+        "decimal_outward": {
+          "hi": "526964241.724462317524",
+          "lo": "526964241.724462317523",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "179316639456697596558761760364971850639417818389"
+        },
+        "lo": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "179316639456697596558761760364971850639417818389"
+        }
+      },
+      "point_count": 12,
+      "production_gates_complete": true,
+      "production_point_pass_count": 12,
+      "proof_input_sha256": "8bdda31b62dc0ef881462e93891320c56dec5be42f0b561b5949d22cc809bb97",
+      "proof_result_path": "tet4-hardening-historical-weak-projected.proof_result.json",
+      "proof_result_sha256": "d587f6f4cf3398c4493bd40ca0b877ad04acdd815d1f7167421fc7355c55cea7"
+    },
+    {
+      "action_id": "tet4-hardening-mixed-projected",
+      "action_verdict": "PASS",
+      "branch_point_counts": {
+        "elastic": 0,
+        "plastic": 12
+      },
+      "mathematical_candidate_verdict": "PASS",
+      "mathematical_point_pass_count": 12,
+      "maximum_a_posteriori_base_discrepancy_B_pa": {
+        "decimal_outward": {
+          "hi": "0.000000455277",
+          "lo": "0.000000455276",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "170141183460469231731687303715884105728",
+          "numerator": "77461222035888977774093181536949"
+        },
+        "lo": {
+          "denominator": "170141183460469231731687303715884105728",
+          "numerator": "77461222035888977774093181536949"
+        }
+      },
+      "minimum_certified_clearance_pa": {
+        "decimal_outward": {
+          "hi": "532344530.188572287669",
+          "lo": "532344530.188572287668",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "170141183460469231731687303715884105728",
+          "numerator": "90573728374991178937365357456677859640858495511"
+        },
+        "lo": {
+          "denominator": "170141183460469231731687303715884105728",
+          "numerator": "90573728374991178937365357456677859640858495511"
+        }
+      },
+      "point_count": 12,
+      "production_gates_complete": true,
+      "production_point_pass_count": 12,
+      "proof_input_sha256": "a370e6f78c2f6a21542c917e1bbeb5fdb52a5dfce1be68a729de9bba1c40d5ea",
+      "proof_result_path": "tet4-hardening-mixed-projected.proof_result.json",
+      "proof_result_sha256": "a1d4f22de2d54e40cf1e65e29e4264e7a96eaa1c89f50202017a37f1a57f83b6"
+    },
+    {
+      "action_id": "hex8-perfect-historical-weak-projected",
+      "action_verdict": "PASS",
+      "branch_point_counts": {
+        "elastic": 8,
+        "plastic": 56
+      },
+      "mathematical_candidate_verdict": "PASS",
+      "mathematical_point_pass_count": 64,
+      "maximum_a_posteriori_base_discrepancy_B_pa": {
+        "decimal_outward": {
+          "hi": "0.000000751619",
+          "lo": "0.000000751618",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "255762524092859834336412584536029"
+        },
+        "lo": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "255762524092859834336412584536029"
+        }
+      },
+      "minimum_certified_clearance_pa": {
+        "decimal_outward": {
+          "hi": "17953899.556314442361",
+          "lo": "17953899.556314442360",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "6109395436483465356945539287585020929098056805"
+        },
+        "lo": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "6109395436483465356945539287585020929098056805"
+        }
+      },
+      "point_count": 64,
+      "production_gates_complete": true,
+      "production_point_pass_count": 64,
+      "proof_input_sha256": "e4330e52ead0141c30b84020edf929bbb578c823971897cb32553bc62e405745",
+      "proof_result_path": "hex8-perfect-historical-weak-projected.proof_result.json",
+      "proof_result_sha256": "b345357876f3045b97c9d35d7dd0f8527b813b165b982c483f172be02eb62858"
+    },
+    {
+      "action_id": "hex8-perfect-mixed-projected",
+      "action_verdict": "PASS",
+      "branch_point_counts": {
+        "elastic": 8,
+        "plastic": 56
+      },
+      "mathematical_candidate_verdict": "PASS",
+      "mathematical_point_pass_count": 64,
+      "maximum_a_posteriori_base_discrepancy_B_pa": {
+        "decimal_outward": {
+          "hi": "0.000000751619",
+          "lo": "0.000000751618",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "255762524092859834336412584536029"
+        },
+        "lo": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "255762524092859834336412584536029"
+        }
+      },
+      "minimum_certified_clearance_pa": {
+        "decimal_outward": {
+          "hi": "21372630.382441973991",
+          "lo": "21372630.382441973990",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "1818182313465929287926014690049915532892076945"
+        },
+        "lo": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "1818182313465929287926014690049915532892076945"
+        }
+      },
+      "point_count": 64,
+      "production_gates_complete": true,
+      "production_point_pass_count": 64,
+      "proof_input_sha256": "965b518d668bf8b1244737c2b7af7be8d70647c34e594c2dbc2175ef7498fcd2",
+      "proof_result_path": "hex8-perfect-mixed-projected.proof_result.json",
+      "proof_result_sha256": "5374b71b2090460272c2a3efd9b3c2c97eb22336cf10da4c3583f9c968b3c594"
+    },
+    {
+      "action_id": "hex8-hardening-historical-weak-projected",
+      "action_verdict": "PASS",
+      "branch_point_counts": {
+        "elastic": 8,
+        "plastic": 56
+      },
+      "mathematical_candidate_verdict": "PASS",
+      "mathematical_point_pass_count": 64,
+      "maximum_a_posteriori_base_discrepancy_B_pa": {
+        "decimal_outward": {
+          "hi": "0.000000705168",
+          "lo": "0.000000705167",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "239956208357167519892407536758677"
+        },
+        "lo": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "239956208357167519892407536758677"
+        }
+      },
+      "minimum_certified_clearance_pa": {
+        "decimal_outward": {
+          "hi": "17953899.556314442361",
+          "lo": "17953899.556314442360",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "6109395436483465356945539287585020929098056805"
+        },
+        "lo": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "6109395436483465356945539287585020929098056805"
+        }
+      },
+      "point_count": 64,
+      "production_gates_complete": true,
+      "production_point_pass_count": 64,
+      "proof_input_sha256": "aea4cafc27266730f9f2e125e705b5e21acc9d5e8be24a490b64069c12f8a938",
+      "proof_result_path": "hex8-hardening-historical-weak-projected.proof_result.json",
+      "proof_result_sha256": "ee7b8080eb7073224e8f86a6ab0e00e8d86f2bb46b4edb0a8ba89319f7952cc2"
+    },
+    {
+      "action_id": "hex8-hardening-mixed-projected",
+      "action_verdict": "PASS",
+      "branch_point_counts": {
+        "elastic": 8,
+        "plastic": 56
+      },
+      "mathematical_candidate_verdict": "PASS",
+      "mathematical_point_pass_count": 64,
+      "maximum_a_posteriori_base_discrepancy_B_pa": {
+        "decimal_outward": {
+          "hi": "0.000000705168",
+          "lo": "0.000000705167",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "239956208357167519892407536758677"
+        },
+        "lo": {
+          "denominator": "340282366920938463463374607431768211456",
+          "numerator": "239956208357167519892407536758677"
+        }
+      },
+      "minimum_certified_clearance_pa": {
+        "decimal_outward": {
+          "hi": "21372630.382441973991",
+          "lo": "21372630.382441973990",
+          "places": 12
+        },
+        "hi": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "1818182313465929287926014690049915532892076945"
+        },
+        "lo": {
+          "denominator": "85070591730234615865843651857942052864",
+          "numerator": "1818182313465929287926014690049915532892076945"
+        }
+      },
+      "point_count": 64,
+      "production_gates_complete": true,
+      "production_point_pass_count": 64,
+      "proof_input_sha256": "0d82806f43d508abf1690c05fc402a2c0cfc2227b2239b4dd23dca46ab3c2c51",
+      "proof_result_path": "hex8-hardening-mixed-projected.proof_result.json",
+      "proof_result_sha256": "efa0b2484fec5d10288cc96bb4e9c73be4ebc93af3ef86d8620e27e52e3c2741"
+    }
+  ],
+  "reason": "PASS: all 8/8 authorized actions and 304/304 points have strict mathematical branch signs over the full frozen segments and certified production branch linkage at the archived base states. The production discrepancy bound is a-posteriori at the base only.",
+  "schema_version": 1,
+  "snapshot_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5",
+  "snapshot_tree": "c42e3c2241af1862d66cab51a38fda74a1167361",
+  "strict_action_proofs_ready": true,
+  "technical_aggregate_verdict": "PASS"
+}

@@ -1,0 +1,90 @@
+{
+  "mission": "WP-E01-L-C03-METADATA-FIX",
+  "generated_local": "2026-10-24",
+  "status": "C03_BRANCH_STABILITY_CERTIFIED_BOUNDED",
+  "baseline_artifact_manifest_sha256": "408a1d3aff65ccf09a90e89a47ad87592fbcdb48957dc70ead180a53a8818e31",
+  "baseline_archive_inventory_sha256": "76fa7dcc7e9af6623951e0c774effa30ab3b26ac11bdd67f8d1fadc7c3bd3d26",
+  "corrected_archive_inventory_sha256": "f9700613545826a8211bba85ec634be1022c3bad1df55014234b3fac64d2999d",
+  "final_independent_review": {
+    "reviewer": "GPT-6.1 Sol",
+    "verdict": "ACCEPT",
+    "reviewed_candidate_manifest_sha256": "b5c7dc2e333321c89c89b8d2c21963ef90a07acef9a7bc837e2c4177a869f2e5",
+    "review_record": "metadata_fix_independent_review.md",
+    "review_record_sha256": "097e6c6086959ac4e12a29488780fc7991623e6ac263dd921b42e909fdc868fa"
+  },
+  "bounded_certificate_promotion": {
+    "C03_BRANCH_STABILITY": "CERTIFIED_BOUNDED",
+    "promotion_record": "c03_certificate_promotion_record.json",
+    "promotion_record_sha256": "a39be4ff28d7b8e469980978331a5a7b41d017af98b9f824fa987c88adb345b0",
+    "scope": "C03 only, as defined in the promotion record"
+  },
+  "archive_inventory_regeneration": {
+    "runs": 2,
+    "deterministic": true,
+    "sha256_each_run": "f9700613545826a8211bba85ec634be1022c3bad1df55014234b3fac64d2999d",
+    "mode": "METADATA_ONLY_FROM_FROZEN_PROOF_OUTPUTS",
+    "scientific_recalculation": false
+  },
+  "original_proof_bundle": {
+    "manifest_sha256": "408a1d3aff65ccf09a90e89a47ad87592fbcdb48957dc70ead180a53a8818e31",
+    "files_expected": 37,
+    "files_hash_and_size_verified": 37,
+    "mismatches": []
+  },
+  "candidate_proof_inputs_and_results": {
+    "files_expected": 16,
+    "files_matching_original_sha256": 16
+  },
+  "technical_proof": {
+    "action_verdicts": "8/8 PASS",
+    "point_verdicts": "304/304 PASS",
+    "point_id_branch_and_input_result_links": "304/304 verified",
+    "strict_full_segment_extrema": "verified from serialized proof records",
+    "production_base_linkage": "verified from serialized per-point proof records",
+    "production_pins_verified_per_archive": 29,
+    "snapshot_commit": "87e54913077c7d9fce6f259fb4a4a11f5295e6a5",
+    "snapshot_tree": "c42e3c2241af1862d66cab51a38fda74a1167361",
+    "snapshot_clean": true,
+    "archive_manifest_identities_bound_to_pre_fix_inventory": true,
+    "adapter_capture_identities_bound_to_pre_fix_inventory": true,
+    "historical_source_hashes_bound_to_pre_fix_inventory": true
+  },
+  "tests": {
+    "command": "C:\\Python313\\python.exe -I -S -B -m unittest discover -s <candidate> -p test_*.py -v",
+    "returncode": 0,
+    "passed": 57,
+    "original_mathematical_regressions": 44,
+    "metadata_regressions": 13,
+    "runtime_version": "Python 3.13.1",
+    "interpreter_sha256": "03573716a7fcbd8b7fed8fe0163bbfbd3a852546920d6a666123f307c8dac7d9",
+    "log": "metadata_fix_tests.log",
+    "log_sha256": "7c6caf081d5192a65e0007c7cfadb07cae0ad289dbe128e2f44891e835e9f73f"
+  },
+  "modified_candidate_sources_sha256": {
+    "archive_inputs.py": "00d73f81d202de263ee93a33884d3cd77da820da38ea922a888de59b42adbe4f",
+    "integrate_proofs.py": "2bfc446c52a0b2937096af8242dbb5178d1a30f958624f0299ae39ea86971405",
+    "finalize_inventory.py": "d474d889d239267a8ab7e849f66e26234d1c4b2d0f66078a53d55153bef55a19",
+    "test_metadata_finalization.py": "7746d78afaba15a2a900d2e85dc19a8ed1aa726447f358fee64484b4e32fb811"
+  },
+  "first_independent_review": {
+    "reviewer": "GPT-6.1 Sol",
+    "verdict": "BLOCK",
+    "findings_addressed": [
+      "archive manifest digests were not linked to preserved archive identities",
+      "adapter capture identities were not compared to preserved source captures",
+      "partial extraction action rows were classified as INVALID_PROTOCOL",
+      "action-level production flags could remain true despite a missing point gate"
+    ],
+    "final_re_review": "ACCEPT"
+  },
+  "fem_or_solver_execution": "NOT_RUN",
+  "owner_promotion": "C03_BRANCH_STABILITY=CERTIFIED_BOUNDED; separately recorded after final independent ACCEPT",
+  "process_deviation": "preserved in process_deviations.md",
+  "global_states": {
+    "GLOBAL_J2_TANGENT_QUALIFICATION": "NOT_ACQUIRED",
+    "CRITERIA_GLOBAL": "NOT_APPROVED",
+    "BA_GLOBAL_VERDICT": "FAIL",
+    "WP_E01_STATUS": "OPEN_WITH_BOUNDED_CERTIFICATES",
+    "RUN": "NOT_RUN_BLOCKED"
+  }
+}
