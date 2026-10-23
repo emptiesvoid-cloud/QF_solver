@@ -1,0 +1,85 @@
+{
+  "schema": "wpc02-ak-docker-execution-manifest-v1",
+  "campaign_id": "wp-c02-an-collect-20261022-03",
+  "branch": "codex/wp-c02-ak-docker-contact-vnv-20261022",
+  "execution_head": "847e93086b518e5d724f17ecb33e92d534212fcc",
+  "execution_tree": "503348daa9dbfe882ea71b6bd2e3260282dacf6f",
+  "safety_classification": "T1 targeted experimental numerical unit tests, policy 0_2_7",
+  "image_id": "sha256:5502c6337d7eacbad450b40bf1f80837077d4a4fd3486e7041d9dec941dcb293",
+  "image_base": "python:3.13.1-slim-bookworm@sha256:031ebf3cde9f3719d2db385233bcb18df5162038e9cda20e64e08f49f4b47a2f",
+  "nodeids": [
+    "tests/unit/test_wpc02_aj_partial_active_contact.py::test_aj_partial_active_contact_refinement",
+    "tests/unit/test_wpc02_aj_partial_active_contact.py::test_aj_analytic_partial_contact_contract",
+    "tests/unit/test_wpc02_aj_partial_active_contact.py::test_aj_accepted_open_partial_extension_release_sequence"
+  ],
+  "test_sha256": "7b14816b6ed6f6bed8aaa8e3bbde568251cf94332aa6c7b12765f389d6ae226e",
+  "source_tree_sha256": "26d82115b3e4a1628cdaa62bcd91a17873ae30a09d5604383029e10602aed883",
+  "aj_manifest_sha256": "7bf71c3c0ce146f1bc01f5c6964d48f8bf642392d225514258d7f59829f606ca",
+  "worker_sha256": "131e06321d9e90e13e04ba46117d6a95a98fcaf89ad459d8c0644befcc16f1db",
+  "launcher_sha256": "769336a22a0cc94250b12e1b0c1af2e24b8979ebea3c1a7176533fa041e6892d",
+  "dockerfile_sha256": "15dd6988d6903773698422d29e0ac7968ebb0306b12f12c6c08333ca3b0ee61c",
+  "dockerignore_sha256": "c51c846581c1f4590b77766ceb4b30bd9eb237593246806d0eaaa9e9e15fa605",
+  "dependency_lock_sha256": "796add65ca2763ba324191ec16dd690a62423ef5fa729568cbf1be7d0b70114a",
+  "limits": {
+    "cpus": 2,
+    "wall_seconds": 60,
+    "parallel_workers": 0,
+    "cpu_seconds": 60,
+    "blas_threads": 1,
+    "memory_bytes": 1073741824,
+    "automatic_retries": 0,
+    "pids": 64,
+    "worker_wall_seconds": 38,
+    "supervisor_wait_seconds": 42,
+    "cleanup_grace_seconds": 18,
+    "cpu_enforcement": "Linux RLIMIT_CPU soft=60 hard=60; worker wall SIGALRM=38s; host supervisor wait=42s plus bounded cleanup up to18s"
+  },
+  "docker": {
+    "cap_drop": [
+      "ALL"
+    ],
+    "read_only_rootfs": true,
+    "no_socket": true,
+    "tmpfs": "/tmp:rw,noexec,nosuid,nodev,size=64m",
+    "no_credentials": true,
+    "user": "10001:10001",
+    "no_new_privileges": true,
+    "network": "none"
+  },
+  "execution": {
+    "runner_invocations": 1,
+    "run": "one supervised RUN only after accepted collection receipt; subject to supervisor confirmation bound to the receipt",
+    "collect": "one fixed worker pytest.main collect-only invocation after accepted preflight; test bodies forbidden"
+  },
+  "arguments_helper_sha256": "f29aeea07f955debce69089893affb38dc3aa8d4cb8556c2183e7f6dbe99503d",
+  "inspection_helper_sha256": "43449c90f7b1364d4bca63bc88fba236ef2308c83bbcdd749735f31a1f4bfa22",
+  "static_test_sha256": "e9e9901f40ed54587c2a7f81a2571410dead33b587902ca9adda9931cec91279",
+  "preflight": {
+    "campaign_id": "wp-c02-an-preflight-20261022-03",
+    "scope": "create-inspect-remove-only; never start a container",
+    "script_sha256": "899bcf38c2abe85aad70f2cd0ac83190a1d163fed15b314f0bc3c1f2272c4e18",
+    "attempts": 1,
+    "docker_start_invocations": 0,
+    "worker_launches": 0,
+    "pytest_invocations": 0,
+    "main_deadline_seconds": 40,
+    "total_deadline_seconds": 60,
+    "review_sha256": "26b5e0415ac0f9d9da01e2323fe66f5813d6bf979ec36a4a3295cfbc35446e51"
+  },
+  "owner_authorization": {
+    "campaign": "WP-C02-AQ",
+    "implementation": "GRANTED",
+    "static_tests": "GRANTED",
+    "independent_review": "GRANTED",
+    "preflight": "GRANTED CONDITIONALLY after clean frozen identity and no P0/P1",
+    "collect": "GRANTED CONDITIONALLY after accepted preflight; one invocation only",
+    "run": "GRANTED CONDITIONALLY after accepted collect; one invocation only; supervisor receipt-bound confirmation remains mandatory",
+    "automatic_retry": "FORBIDDEN"
+  },
+  "historical": {
+    "AP_status": "COLLECTION_INCOMPLETE; Docker volume-create evidence contract rejected a complete hashtable record",
+    "AP_campaign": "wp-c02-an-collect-20261022-02",
+    "AP_failure_receipt_sha256": "5590ecef1ebc7717d2e3fde8aceae612de376a9673decacd01fb0e10e6623d8c",
+    "AP_receipt_status": "CLEANUP_INCOMPLETE"
+  }
+}

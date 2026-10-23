@@ -1,0 +1,46 @@
+{
+  "file_count": 8,
+  "files": [
+    {
+      "path": "aq_collection_receipt.json",
+      "sha256": "47f7328f820ec376d01a076309ea59297be5944dbb12f73d90bcb3900be9b3a1",
+      "size_bytes": 8767
+    },
+    {
+      "path": "aq_execution_manifest.json",
+      "sha256": "ba28108ece19c11277303167cc0197bb0f13a4b1ce8cc619a873075457b7b84e",
+      "size_bytes": 4379
+    },
+    {
+      "path": "aq_frozen_test_source.py",
+      "sha256": "7b14816b6ed6f6bed8aaa8e3bbde568251cf94332aa6c7b12765f389d6ae226e",
+      "size_bytes": 36460
+    },
+    {
+      "path": "aq_run_receipt.json",
+      "sha256": "172a70d86828018d36aafdd37cf9044fadf3b381a5bcb73549472d398281b499",
+      "size_bytes": 7907
+    },
+    {
+      "path": "aq_stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "aq_stdout.log",
+      "sha256": "b10863968b43ebb228dd8d2423f5099a9418f27f2e781d2bf1c8404c25df5986",
+      "size_bytes": 27744
+    },
+    {
+      "path": "aq_worker_run_result.json",
+      "sha256": "383943dece4c032db8aff145df2e026eef4dbd9e3ad64715dce741b0638c346c",
+      "size_bytes": 3206
+    },
+    {
+      "path": "m2_m3_front_reconstruction.json",
+      "sha256": "38fe255f714b5e0c56da8b795b683ec91cf0df6d1a5b85c039d876f38c5b4ca6",
+      "size_bytes": 26540
+    }
+  ],
+  "schema": "wpc02-ar-n11-offline-archive-integrity-v1"
+}

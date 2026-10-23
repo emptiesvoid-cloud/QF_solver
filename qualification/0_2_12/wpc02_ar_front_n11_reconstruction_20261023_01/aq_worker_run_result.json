@@ -1,0 +1,90 @@
+{
+  "campaign_id": "wp-c02-an-collect-20261022-03",
+  "collection_only_bodies_run": false,
+  "elapsed_seconds": 28.607977435996872,
+  "expected_node_count": 3,
+  "identity": {
+    "aj_manifest_sha256": "7bf71c3c0ce146f1bc01f5c6964d48f8bf642392d225514258d7f59829f606ca",
+    "branch": "codex/wp-c02-ak-docker-contact-vnv-20261022",
+    "campaign_id": "wp-c02-an-collect-20261022-03",
+    "conftest_sha256": "b2a33ddad09f5b069fe6780c99ef48b948966d2a98dff3b781671cc9aa69143d",
+    "execution_head": "847e93086b518e5d724f17ecb33e92d534212fcc",
+    "image_id": "sha256:5502c6337d7eacbad450b40bf1f80837077d4a4fd3486e7041d9dec941dcb293",
+    "pyproject_sha256": "dc99b600fe20b8e6962e81e5067eaeaafcc77132e06e5b72d474a612b1b7160b",
+    "safety_classification": "T1 targeted experimental numerical unit tests, policy 0_2_7",
+    "source_tree_sha256": "26d82115b3e4a1628cdaa62bcd91a17873ae30a09d5604383029e10602aed883",
+    "test_policy_sha256": "71a64233fbee87b17480178277e6d438cffc5e75f53adc7dbf1024e01e8bc1b7",
+    "test_sha256": "7b14816b6ed6f6bed8aaa8e3bbde568251cf94332aa6c7b12765f389d6ae226e"
+  },
+  "nodeids": [
+    "tests/unit/test_wpc02_aj_partial_active_contact.py::test_aj_partial_active_contact_refinement",
+    "tests/unit/test_wpc02_aj_partial_active_contact.py::test_aj_analytic_partial_contact_contract",
+    "tests/unit/test_wpc02_aj_partial_active_contact.py::test_aj_accepted_open_partial_extension_release_sequence"
+  ],
+  "operation": "run",
+  "pytest_exit_code": 0,
+  "pytest_returned": true,
+  "python_pytest_numpy_scipy_threadpoolctl": [
+    "3.13.1",
+    "8.4.1",
+    "2.2.6",
+    "1.15.2",
+    "3.6.0"
+  ],
+  "runtime_snapshot_after": {
+    "cpu_max": "200000 100000",
+    "docker_socket_visible": false,
+    "memory_max_bytes": 1073741824,
+    "memory_peak_bytes_before": 191741952,
+    "parent_pid": 0,
+    "pid": 1,
+    "pids_current": 1,
+    "pids_max": 64,
+    "root_read_only": true,
+    "uid": 10001
+  },
+  "schema": "wpc02-ak-docker-worker-result-v1",
+  "status": "RUN_COMPLETE",
+  "test_bodies_run": true,
+  "test_outcomes": {
+    "failed": 0,
+    "passed": 3,
+    "skipped": 0,
+    "xfailed": 0,
+    "xpassed": 0
+  },
+  "threadpools_after": [
+    {
+      "architecture": "Haswell",
+      "filepath": "/usr/local/lib/python3.13/site-packages/numpy.libs/libscipy_openblas64_-56d6093b.so",
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "prefix": "libscipy_openblas",
+      "threading_layer": "pthreads",
+      "user_api": "blas",
+      "version": "0.3.29"
+    },
+    {
+      "architecture": "Haswell",
+      "filepath": "/usr/local/lib/python3.13/site-packages/scipy.libs/libscipy_openblas-68440149.so",
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "prefix": "libscipy_openblas",
+      "threading_layer": "pthreads",
+      "user_api": "blas",
+      "version": "0.3.28"
+    }
+  ],
+  "threadpools_before": [
+    {
+      "architecture": "Haswell",
+      "filepath": "/usr/local/lib/python3.13/site-packages/numpy.libs/libscipy_openblas64_-56d6093b.so",
+      "internal_api": "openblas",
+      "num_threads": 1,
+      "prefix": "libscipy_openblas",
+      "threading_layer": "pthreads",
+      "user_api": "blas",
+      "version": "0.3.29"
+    }
+  ]
+}
