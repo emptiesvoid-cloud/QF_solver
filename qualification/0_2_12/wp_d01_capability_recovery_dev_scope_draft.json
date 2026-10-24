@@ -1,0 +1,59 @@
+{
+  "schema": "qf-development-autonomous-scope-draft/v1",
+  "scope_status": "INACTIVE_OWNER_REVIEW_REQUIRED",
+  "execution_enabled": false,
+  "campaign_id": "b0e9e158-1e2c-4254-8946-344e5ebfa1f5",
+  "work_package": "WP-D01",
+  "purpose": "Exploratory native validation of the integrated residual-flexibility harmonic path; not qualification",
+  "worktree": {
+    "canonical_root": "C:\\Users\\fari\\.codex\\worktrees\\wp-d01-fem-revalidation-20261024",
+    "branch": "codex/wp-d01-residual-flexibility-20261024",
+    "head": "0c01316b54b80171b8b0a5a0c79c7769d1031577",
+    "tree": "bd69abf60c13477b7c075b5a633321cc794715e4",
+    "solver_import_root": "src"
+  },
+  "scenarios": {
+    "nodeids": [
+      "tests/verification/test_wp_d01_bj_wp05_native_experiment.py::test_wp05_native_modal_and_residual_flexibility_characterization[M1]",
+      "tests/verification/test_wp_d01_bj_wp05_native_experiment.py::test_wp05_native_modal_and_residual_flexibility_characterization[M2]",
+      "tests/verification/test_wp_d01_bj_wp05_native_experiment.py::test_wp05_native_modal_and_residual_flexibility_characterization[M3]"
+    ],
+    "elements": {"M1": 8, "M2": 16, "M3": 32},
+    "free_dofs": {"M1": 48, "M2": 96, "M3": 192},
+    "mode_counts": [2, 4],
+    "frequency_grid": "0 Hz static plus five positive frozen ratios"
+  },
+  "budgets": {
+    "seconds_per_nodeid": 180,
+    "seconds_total": 600,
+    "rss_mib": 2048,
+    "rss_enforcement": "SOFT_SAMPLED_NOT_HARD_LIMIT",
+    "aggregate_output_mib": 64,
+    "stdout_mib_per_nodeid": 16,
+    "stderr_mib_per_nodeid": 16,
+    "artifact_mib_per_file": 8,
+    "control_reserve_mib": 1,
+    "max_parallel_fem_scenarios": 1,
+    "max_attempts_per_nodeid": 1,
+    "retry": false
+  },
+  "execution": {
+    "runner": "scripts/development_autonomous.py",
+    "phase": "fem_exploratory",
+    "owner_scope_approval_required": true,
+    "collect_only_required_before_activation": true,
+    "no_qualification_or_c4_promotion": true,
+    "historical_attempt_ledgers_are_immutable": true,
+    "prior_m3_attempts_reset": false
+  },
+  "environment_observed": {
+    "python": "3.13.1",
+    "ruff": "UNAVAILABLE_IN_CURRENT_ENVIRONMENT"
+  },
+  "limitations": [
+    "This draft does not modify or activate development_autonomous_policy.json.",
+    "The current active D01 registry remains bound to the historical D01 worktree and branch.",
+    "The budget values are proposed for this new source identity and require Owner/policy activation before any FEM body can run.",
+    "This scope is experimental only; C4 remains NOT_ACQUIRED and WP05 FEM qualification remains NOT_EVALUATED."
+  ]
+}
