@@ -7,7 +7,11 @@ from typing import Iterable
 import pytest
 
 
-_D01_NATIVE_NODE = (
+_D01_NATIVE_NODES = (
+    "tests/verification/test_wp_d01_bj_wp05_native_experiment.py::"
+    "test_wp05_native_modal_and_residual_flexibility_characterization[M1]",
+    "tests/verification/test_wp_d01_bj_wp05_native_experiment.py::"
+    "test_wp05_native_modal_and_residual_flexibility_characterization[M2]",
     "tests/verification/test_wp_d01_bj_wp05_native_experiment.py::"
     "test_wp05_native_modal_and_residual_flexibility_characterization[M3]"
 )
@@ -28,8 +32,8 @@ class ExactNodeGate:
             )
         if not self.allow_native_skip_override:
             return
-        if self.expected_nodeids != (_D01_NATIVE_NODE,):
-            raise pytest.UsageError("native-V&V override is restricted to the registered D01 M3 node")
+        if len(self.expected_nodeids) != 1 or self.expected_nodeids[0] not in _D01_NATIVE_NODES:
+            raise pytest.UsageError("native-V&V override is restricted to one registered D01 M1/M2/M3 node")
         if len(items) != 1:
             raise pytest.UsageError("native-V&V skip override is restricted to one exact node")
         item = items[0]
@@ -47,7 +51,7 @@ class ExactNodeGate:
 
     @pytest.hookimpl(hookwrapper=True)
     def pytest_runtest_call(self, item) -> Iterable[None]:
-        if not self.allow_native_skip_override or item.nodeid != _D01_NATIVE_NODE:
+        if not self.allow_native_skip_override or item.nodeid not in _D01_NATIVE_NODES:
             yield
             return
 

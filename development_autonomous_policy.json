@@ -33,16 +33,31 @@
   },
   "worktrees": {
     "d01": {
-      "purpose": "WP-D01 M3 projected-damping and residual-flexibility development diagnostic only",
+      "purpose": "WP-D01 M1/M2/M3 projected-damping and residual-flexibility development characterization only",
       "mode": "fem_exploratory",
       "root": "C:\\wpc01-frictionless-public-integration-wp-d01-bp-exploratory",
       "git_root": "C:\\wpc01-frictionless-public-integration-wp-d01-bp-exploratory",
       "branch": "codex/wp-d01-ch-m3-diagnostic-20261023",
       "baseline_commit": "881014d878124e0ca27ce0ddc59ca20c90229c73",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v2-d01",
+      "require_clean_worktree": true,
       "source_root": "src",
       "pytest_root": "tests/verification",
       "allow_native_vv_skip_override": true,
       "attempt_limit_per_nodeid": 3,
+      "attempt_limits_per_nodeid": {
+        "tests/verification/test_wp_d01_bj_wp05_native_experiment.py::test_wp05_native_modal_and_residual_flexibility_characterization[M1]": 1,
+        "tests/verification/test_wp_d01_bj_wp05_native_experiment.py::test_wp05_native_modal_and_residual_flexibility_characterization[M2]": 1,
+        "tests/verification/test_wp_d01_bj_wp05_native_experiment.py::test_wp05_native_modal_and_residual_flexibility_characterization[M3]": 3
+      },
+      "node_attempt_ledger": {
+        "path": "node-attempt-ledger-d01-v2.json",
+        "predecessor": {
+          "path": "node-attempt-ledger.json",
+          "sha256": "5a6f9693e3649e2269625eb9baeb6bf53c6f2fda89ccc6011f508922b808bbc2",
+          "mandate_id": "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v1"
+        }
+      },
       "budgets": {
         "timeout_seconds": 180,
         "rss_soft_limit_mib": 2048,
@@ -53,6 +68,8 @@
         "archive_size_limit_mib": 64
       },
       "allowed_nodeids": [
+        "tests/verification/test_wp_d01_bj_wp05_native_experiment.py::test_wp05_native_modal_and_residual_flexibility_characterization[M1]",
+        "tests/verification/test_wp_d01_bj_wp05_native_experiment.py::test_wp05_native_modal_and_residual_flexibility_characterization[M2]",
         "tests/verification/test_wp_d01_bj_wp05_native_experiment.py::test_wp05_native_modal_and_residual_flexibility_characterization[M3]"
       ]
     },
