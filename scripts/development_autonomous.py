@@ -44,6 +44,12 @@ OWNER_ENV_KEYS = {
     "QF_SOLVER_RUN_RECOVERED_EVIDENCE",
     "QF_SOLVER_EVIDENCE_ARCHIVE_ROOT",
 }
+NATIVE_GUARD_ENV_KEYS = (
+    "QF_SOLVER_NO_NATIVE_EXECUTION",
+    "WPC01_NO_NATIVE_EXECUTION",
+    "WPC01_SPATIAL_NO_FEM_TEST",
+    "WPC01_SPATIAL_TERMINAL_REHEARSAL",
+)
 
 
 class PolicyError(ValueError):
@@ -342,6 +348,40 @@ def build_child_environment(
         environment["QF_WP_D01_BJ_SOURCE_SHA"] = d01_source_sha
     environment["QF_DEVELOPMENT_AUTONOMOUS"] = "1"
     return environment
+
+
+def _native_guard_environment(environment: Mapping[str, str]) -> dict[str, Any]:
+    """Record no-native marker states without persisting arbitrary env values."""
+    values: dict[str, str] = {}
+    for index, name in enumerate(NATIVE_GUARD_ENV_KEYS):
+        value = environment.get(name)
+        if value is None:
+            values[name] = "UNSET"
+        elif index < 2:
+            values[name] = "ACTIVE" if value not in ("", "0", "false", "False") else "INACTIVE"
+        else:
+            values[name] = "ACTIVE" if value == "1" else "INACTIVE"
+    active = [
+        name
+        for name in NATIVE_GUARD_ENV_KEYS[:2]
+        if values[name] == "ACTIVE"
+    ]
+    active.extend(name for name in NATIVE_GUARD_ENV_KEYS[2:] if values[name] == "ACTIVE")
+    return {"values": values, "active_markers": active}
+
+
+def _validate_native_guard_environment(
+    parent_environment: Mapping[str, str],
+    child_environment: Mapping[str, str],
+) -> dict[str, Any]:
+    """Require the child to preserve the no-native guard state checked preflight."""
+    parent_state = _native_guard_environment(parent_environment)
+    child_state = _native_guard_environment(child_environment)
+    if child_state != parent_state:
+        raise PolicyError(
+            "child environment changed an explicit no-native marker after development preflight"
+        )
+    return child_state
 
 
 def _sha256(path: Path) -> str:
@@ -932,6 +972,19 @@ def run_pytest(
     minimum_free = int(policy["minimum_free_disk_mib"] * 1024 * 1024)
     if free_bytes < minimum_free:
         raise PolicyError(f"insufficient free disk: {free_bytes} bytes; requires {minimum_free}")
+    inherited_environment = dict(os.environ)
+    inherited_native_guard = _native_guard_environment(inherited_environment)
+    if (
+        worktree_id == "d01"
+        and entry is not None
+        and entry["allow_native_vv_skip_override"]
+        and inherited_native_guard["active_markers"]
+    ):
+        markers = ", ".join(inherited_native_guard["active_markers"])
+        raise PolicyError(
+            "D01 native development is refused before reserving an attempt because explicit no-FEM "
+            f"environment markers are active: {markers}"
+        )
     if series_id is None:
         series_id = f"dev-{uuid.uuid4().hex[:12]}"
     if not SERIES_RE.fullmatch(series_id):
@@ -981,6 +1034,13 @@ def run_pytest(
             controller_root=ROOT,
             allow_native_skip_override=bool(entry and entry["allow_native_vv_skip_override"]),
         )
+        environment = build_child_environment(
+            temp_dir,
+            base=inherited_environment,
+            source_root=source_root,
+            d01_source_sha=identity["head"] if worktree_id == "d01" else None,
+        )
+        child_native_guard = _validate_native_guard_environment(inherited_environment, environment)
         started_at = datetime.now(timezone.utc).isoformat()
         initial: dict[str, Any] = {
             "schema": "qfsolver-development-attempt-v2",
@@ -999,6 +1059,7 @@ def run_pytest(
             "source_fingerprint": source_fingerprint,
             "solver_import_root": str(source_root.resolve()) if source_root else None,
             "solver_origin_expected": str((source_root / "solveur" / "__init__.py").resolve()) if source_root else None,
+            "native_guard_environment": child_native_guard,
             "command": command,
             "budgets": dict(scope),
             "budget_semantics": {
@@ -1016,11 +1077,6 @@ def run_pytest(
         }
         record_path = attempt_dir / "run.json"
         _atomic_json(record_path, initial)
-        environment = build_child_environment(
-            temp_dir,
-            source_root=source_root,
-            d01_source_sha=identity["head"] if worktree_id == "d01" else None,
-        )
         limits = dict(scope)
         limits["minimum_free_disk_mib"] = policy["minimum_free_disk_mib"]
         try:

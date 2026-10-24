@@ -232,6 +232,92 @@ def test_d01_native_capability_is_scoped_only_to_the_exact_call(monkeypatch: pyt
         next(unrelated)
 
 
+def test_d01_explicit_no_fem_environment_refuses_before_attempt_reservation(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    from contextlib import nullcontext
+
+    nodeid = (
+        "tests/verification/test_wp_d01_bj_wp05_native_experiment.py::"
+        "test_wp05_native_modal_and_residual_flexibility_characterization[M3]"
+    )
+    source_root = tmp_path / "src"
+    entry = {
+        "allow_native_vv_skip_override": True,
+        "attempt_limit_per_nodeid": 3,
+        "budgets": {},
+    }
+    policy = {
+        "minimum_free_disk_mib": 1,
+        "run_store": ".codex/development-runs",
+        "worktrees": {"d01": entry},
+    }
+    monkeypatch.setattr(MODULE, "load_policy", lambda: policy)
+    monkeypatch.setattr(MODULE, "resolve_targets", lambda *args, **kwargs: [nodeid])
+    monkeypatch.setattr(
+        MODULE,
+        "_registered_worktree",
+        lambda *args, **kwargs: (entry, tmp_path, source_root, {"head": "a" * 40}, "b" * 64),
+    )
+    monkeypatch.setattr(MODULE, "_exclusive_file_lock", lambda *_args, **_kwargs: nullcontext())
+    monkeypatch.setattr(MODULE, "psutil", object())
+    monkeypatch.setattr(MODULE.shutil, "disk_usage", lambda _path: SimpleNamespace(free=2 * 1024**3))
+    monkeypatch.setattr(
+        MODULE,
+        "_next_attempt",
+        lambda *_args, **_kwargs: pytest.fail("environment refusal must precede attempt reservation"),
+    )
+    for name in MODULE.NATIVE_GUARD_ENV_KEYS:
+        for marker_name in MODULE.NATIVE_GUARD_ENV_KEYS:
+            monkeypatch.delenv(marker_name, raising=False)
+        monkeypatch.setenv(name, "1")
+        with pytest.raises(MODULE.PolicyError, match="before reserving an attempt"):
+            MODULE.run_pytest(
+                "fem_exploratory",
+                nodeid,
+                "dev-no-fem-flag",
+                worktree_id="d01",
+                reason="verify fail-closed environment preflight",
+            )
+        monkeypatch.delenv(name, raising=False)
+
+
+def test_native_guard_environment_snapshot_matches_guard_semantics(tmp_path: Path) -> None:
+    inherited = {
+        "QF_SOLVER_NO_NATIVE_EXECUTION": "false",
+        "WPC01_NO_NATIVE_EXECUTION": "0",
+        "WPC01_SPATIAL_NO_FEM_TEST": "1",
+        "WPC01_SPATIAL_TERMINAL_REHEARSAL": "0",
+    }
+    child = MODULE.build_child_environment(tmp_path, base=inherited)
+    active = MODULE._native_guard_environment(child)
+    assert active["active_markers"] == ["WPC01_SPATIAL_NO_FEM_TEST"]
+    assert active["values"] == {
+        "QF_SOLVER_NO_NATIVE_EXECUTION": "INACTIVE",
+        "WPC01_NO_NATIVE_EXECUTION": "INACTIVE",
+        "WPC01_SPATIAL_NO_FEM_TEST": "ACTIVE",
+        "WPC01_SPATIAL_TERMINAL_REHEARSAL": "INACTIVE",
+    }
+
+
+def test_native_guard_snapshot_is_bound_to_the_child_environment() -> None:
+    parent = {
+        "QF_SOLVER_NO_NATIVE_EXECUTION": "0",
+        "WPC01_NO_NATIVE_EXECUTION": "false",
+        "WPC01_SPATIAL_NO_FEM_TEST": "0",
+        "WPC01_SPATIAL_TERMINAL_REHEARSAL": "0",
+    }
+    unchanged_child = dict(parent)
+    assert MODULE._validate_native_guard_environment(parent, unchanged_child) == (
+        MODULE._native_guard_environment(parent)
+    )
+
+    altered_child = {**parent, "QF_SOLVER_NO_NATIVE_EXECUTION": "1"}
+    with pytest.raises(MODULE.PolicyError, match="changed an explicit no-native marker"):
+        MODULE._validate_native_guard_environment(parent, altered_child)
+
+
 def test_retry_series_is_scoped_and_bounded(tmp_path: Path) -> None:
     series = tmp_path / "dev-12345678abcd"
     first, _ = MODULE._next_attempt(series, series.name, "unit", 2)
