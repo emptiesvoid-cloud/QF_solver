@@ -1,0 +1,1565 @@
+{
+  "accepted_slip_checkpoint_count": 2,
+  "accepted_slip_checkpoints": [
+    {
+      "accepted": true,
+      "accepted_checkpoint": {
+        "active_contacts": [
+          0
+        ],
+        "displacement": [
+          0.0005831051345973444,
+          -0.00017688899317635444,
+          -0.0013319745039504826,
+          0.0006423371060350792,
+          -6.472243828253883e-06,
+          -0.000990216210997916,
+          0.0005392804571151582,
+          0.00017694796505557966,
+          -0.0011203424282473214,
+          0.0,
+          0.0,
+          0.0,
+          0.005736271569985073,
+          -2.952222298750409e-05,
+          -0.02118304530800139,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "gaps": [
+          3.469446951953614e-18
+        ],
+        "multipliers": [
+          -25742.18104269137
+        ],
+        "pressures": [
+          25742.18104269137
+        ],
+        "slip_references": [
+          [
+            0.0030989668412468125,
+            1.708666781404205e-06
+          ]
+        ],
+        "step": 8,
+        "tangential_forces": [
+          [
+            10296.870851925947,
+            5.677350574520019
+          ]
+        ],
+        "tangential_states": [
+          "slip"
+        ]
+      },
+      "accepted_return_map_force_N_components": [
+        10296.870851925947,
+        5.677350574520019
+      ],
+      "accepted_return_map_force_norm_N": 10296.872417076544,
+      "active_contact": true,
+      "contact_state_event_sequence": null,
+      "contact_transition_cause": null,
+      "dissipation_increment_J": 31.90967103941966,
+      "independently_recomputed_trial_margin_N": 15494.836561488322,
+      "iterations": 1,
+      "load_factors": [
+        1.0,
+        0.95
+      ],
+      "margin_source": "independently reconstructed from accepted displacement, prior committed slip reference, k_t, and accepted pressure; slip-branch trial margin is not emitted in CONTACT_STATE telemetry",
+      "mu_p_capacity_N": 10296.872417076549,
+      "pressure_N": 25742.18104269137,
+      "reported_coulomb_trial_margin_N": null,
+      "reported_margin_reason": "NOT_RECORDED",
+      "reported_minus_recomputed_margin_N": null,
+      "sequence_number": 71,
+      "slip_reference": [
+        0.0030989668412468125,
+        1.708666781404205e-06
+      ],
+      "slip_reference_change_magnitude": 0.0030989673122976654,
+      "state": "slip",
+      "step": 8,
+      "trial_tangential_force_N_components": [
+        25791.70505816001,
+        14.220684481541044
+      ],
+      "trial_tangential_force_norm_N": 25791.70897856487
+    },
+    {
+      "accepted": true,
+      "accepted_checkpoint": {
+        "active_contacts": [
+          0
+        ],
+        "displacement": [
+          0.0005831053865899243,
+          -0.00017691135726936213,
+          -0.0013319776494444188,
+          0.0006423368923454871,
+          -6.4856900778264135e-06,
+          -0.0009902162830674206,
+          0.0005392800471426612,
+          0.0001769312605350018,
+          -0.0011203390407047058,
+          0.0,
+          0.0,
+          0.0,
+          0.00885627132108012,
+          -2.797061623344013e-05,
+          -0.02118304572522827,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "gaps": [
+          -1.3877787807814457e-17
+        ],
+        "multipliers": [
+          -25742.180761865584
+        ],
+        "pressures": [
+          25742.180761865584
+        ],
+        "slip_references": [
+          [
+            0.006218966707254565,
+            3.338518139467763e-06
+          ]
+        ],
+        "step": 9,
+        "tangential_forces": [
+          [
+            10296.870899792284,
+            5.378964660276949
+          ]
+        ],
+        "tangential_states": [
+          "slip"
+        ]
+      },
+      "accepted_return_map_force_N_components": [
+        10296.870899792284,
+        5.378964660276949
+      ],
+      "accepted_return_map_force_norm_N": 10296.872304746232,
+      "active_contact": true,
+      "contact_state_event_sequence": null,
+      "contact_transition_cause": null,
+      "dissipation_increment_J": 32.12624459456391,
+      "independently_recomputed_trial_margin_N": 15600.001458576731,
+      "iterations": 1,
+      "load_factors": [
+        1.0,
+        1.0
+      ],
+      "margin_source": "independently reconstructed from accepted displacement, prior committed slip reference, k_t, and accepted pressure; slip-branch trial margin is not emitted in CONTACT_STATE telemetry",
+      "mu_p_capacity_N": 10296.872304746234,
+      "pressure_N": 25742.180761865584,
+      "reported_coulomb_trial_margin_N": null,
+      "reported_margin_reason": "NOT_RECORDED",
+      "reported_minus_recomputed_margin_N": null,
+      "sequence_number": 103,
+      "slip_reference": [
+        0.006218966707254565,
+        3.338518139467763e-06
+      ],
+      "slip_reference_change_magnitude": 0.003120000291715346,
+      "state": "slip",
+      "step": 9,
+      "trial_tangential_force_N_components": [
+        25896.87022983105,
+        13.528221450594742
+      ],
+      "trial_tangential_force_norm_N": 25896.873763322965
+    }
+  ],
+  "all_active_checkpoint_margins_reconstructable": true,
+  "campaign_id": "WP-C01-R14-BSTAR-SLIP-EXPLORATORY-20261024T0558Z",
+  "checkpoints": {
+    "accepted_checkpoint_count": 9,
+    "accepted_checkpoints": [
+      {
+        "accepted": true,
+        "accepted_checkpoint": {
+          "active_contacts": [
+            0
+          ],
+          "displacement": [
+            -0.00018146045357357745,
+            -0.00016846777639955483,
+            -0.0014448401094369838,
+            0.00015850907656217932,
+            -1.6800582846997193e-05,
+            -0.0008761268454245949,
+            -2.3385487511209533e-05,
+            0.00016571866779932094,
+            -0.0011250718411310976,
+            0.0,
+            0.0,
+            0.0,
+            -5.818207440853951e-05,
+            -3.533150603943074e-05,
+            -0.021206731312942127,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "gaps": [
+            -3.469446951953614e-18
+          ],
+          "multipliers": [
+            -25726.238539365873
+          ],
+          "pressures": [
+            25726.238539365873
+          ],
+          "slip_references": [
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "step": 1,
+          "tangential_forces": [
+            [
+              11.188860463180777,
+              6.794520392198358
+            ]
+          ],
+          "tangential_states": [
+            "stick"
+          ]
+        },
+        "accepted_return_map_force_N_components": [
+          11.188860463180777,
+          6.794520392198358
+        ],
+        "accepted_return_map_force_norm_N": 13.090305795684426,
+        "active_contact": true,
+        "contact_state_event_sequence": 8,
+        "contact_transition_cause": "ACTIVE_SET_STABLE",
+        "dissipation_increment_J": 0.0,
+        "independently_recomputed_trial_margin_N": -10277.405109950667,
+        "iterations": 3,
+        "load_factors": [
+          1.0,
+          0.0
+        ],
+        "margin_source": "CONTACT_STATE telemetry, independently cross-checked from accepted state",
+        "mu_p_capacity_N": 10290.49541574635,
+        "pressure_N": 25726.238539365873,
+        "reported_coulomb_trial_margin_N": -10277.405109950667,
+        "reported_margin_reason": "NUMERIC",
+        "reported_minus_recomputed_margin_N": 0.0,
+        "sequence_number": 9,
+        "slip_reference": [
+          0.0,
+          0.0
+        ],
+        "slip_reference_change_magnitude": 0.0,
+        "state": "stick",
+        "step": 1,
+        "trial_tangential_force_N_components": [
+          11.188860463180777,
+          6.794520392198358
+        ],
+        "trial_tangential_force_norm_N": 13.090305795684426
+      },
+      {
+        "accepted": true,
+        "accepted_checkpoint": {
+          "active_contacts": [
+            0
+          ],
+          "displacement": [
+            -3.992728940167781e-05,
+            -0.00017002233700356352,
+            -0.001423946285862436,
+            0.0002480733577088208,
+            -1.4886034050668184e-05,
+            -0.0008972465819699978,
+            8.077297985101001e-05,
+            0.00016780063057549485,
+            -0.0011241970092304744,
+            0.0,
+            0.0,
+            0.0,
+            0.00044079529392301907,
+            -3.4557232208548046e-05,
+            -0.02120234657689974,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "gaps": [
+            0.0
+          ],
+          "multipliers": [
+            -25729.189804009788
+          ],
+          "pressures": [
+            25729.189804009788
+          ],
+          "slip_references": [
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "step": 2,
+          "tangential_forces": [
+            [
+              1915.2316742455732,
+              6.645621578566783
+            ]
+          ],
+          "tangential_states": [
+            "stick"
+          ]
+        },
+        "accepted_return_map_force_N_components": [
+          1915.2316742455732,
+          6.645621578566783
+        ],
+        "accepted_return_map_force_norm_N": 1915.2432039612272,
+        "active_contact": true,
+        "contact_state_event_sequence": 13,
+        "contact_transition_cause": "ACTIVE_SET_STABLE",
+        "dissipation_increment_J": 0.0,
+        "independently_recomputed_trial_margin_N": -8376.432717642689,
+        "iterations": 3,
+        "load_factors": [
+          1.0,
+          0.16666666666666666
+        ],
+        "margin_source": "CONTACT_STATE telemetry, independently cross-checked from accepted state",
+        "mu_p_capacity_N": 10291.675921603915,
+        "pressure_N": 25729.189804009788,
+        "reported_coulomb_trial_margin_N": -8376.432717642689,
+        "reported_margin_reason": "NUMERIC",
+        "reported_minus_recomputed_margin_N": 0.0,
+        "sequence_number": 14,
+        "slip_reference": [
+          0.0,
+          0.0
+        ],
+        "slip_reference_change_magnitude": 0.0,
+        "state": "stick",
+        "step": 2,
+        "trial_tangential_force_N_components": [
+          1915.2316742455732,
+          6.645621578566783
+        ],
+        "trial_tangential_force_norm_N": 1915.2432039612272
+      },
+      {
+        "accepted": true,
+        "accepted_checkpoint": {
+          "active_contacts": [
+            0
+          ],
+          "displacement": [
+            0.00010160587477022173,
+            -0.00017157689760757223,
+            -0.0014030524622878884,
+            0.00033763763885546235,
+            -1.2971485254339168e-05,
+            -0.0009183663185154007,
+            0.00018493144721322952,
+            0.00016988259335166877,
+            -0.0011233221773298504,
+            0.0,
+            0.0,
+            0.0,
+            0.0009397726622545776,
+            -3.378295837766533e-05,
+            -0.021197961840857357,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "gaps": [
+            0.0
+          ],
+          "multipliers": [
+            -25732.1410686537
+          ],
+          "pressures": [
+            25732.1410686537
+          ],
+          "slip_references": [
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "step": 3,
+          "tangential_forces": [
+            [
+              3819.2744880279656,
+              6.4967227649354635
+            ]
+          ],
+          "tangential_states": [
+            "stick"
+          ]
+        },
+        "accepted_return_map_force_N_components": [
+          3819.2744880279656,
+          6.4967227649354635
+        ],
+        "accepted_return_map_force_norm_N": 3819.280013603083,
+        "active_contact": true,
+        "contact_state_event_sequence": 18,
+        "contact_transition_cause": "ACTIVE_SET_STABLE",
+        "dissipation_increment_J": 0.0,
+        "independently_recomputed_trial_margin_N": -6473.576413858397,
+        "iterations": 3,
+        "load_factors": [
+          1.0,
+          0.3333333333333333
+        ],
+        "margin_source": "CONTACT_STATE telemetry, independently cross-checked from accepted state",
+        "mu_p_capacity_N": 10292.85642746148,
+        "pressure_N": 25732.1410686537,
+        "reported_coulomb_trial_margin_N": -6473.576413858397,
+        "reported_margin_reason": "NUMERIC",
+        "reported_minus_recomputed_margin_N": 0.0,
+        "sequence_number": 19,
+        "slip_reference": [
+          0.0,
+          0.0
+        ],
+        "slip_reference_change_magnitude": 0.0,
+        "state": "stick",
+        "step": 3,
+        "trial_tangential_force_N_components": [
+          3819.2744880279656,
+          6.4967227649354635
+        ],
+        "trial_tangential_force_norm_N": 3819.280013603083
+      },
+      {
+        "accepted": true,
+        "accepted_checkpoint": {
+          "active_contacts": [
+            0
+          ],
+          "displacement": [
+            0.0002431390389421213,
+            -0.00017313145821158102,
+            -0.0013821586387133412,
+            0.0004272019200021039,
+            -1.1056936458010158e-05,
+            -0.0009394860550608036,
+            0.0002890899145754491,
+            0.00017196455612784265,
+            -0.001122447345429227,
+            0.0,
+            0.0,
+            0.0,
+            0.0014387500305861362,
+            -3.300868454678262e-05,
+            -0.021193577104814978,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "gaps": [
+            -3.469446951953614e-18
+          ],
+          "multipliers": [
+            -25735.09233329761
+          ],
+          "pressures": [
+            25735.09233329761
+          ],
+          "slip_references": [
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "step": 4,
+          "tangential_forces": [
+            [
+              5723.317301810358,
+              6.347823951304313
+            ]
+          ],
+          "tangential_states": [
+            "stick"
+          ]
+        },
+        "accepted_return_map_force_N_components": [
+          5723.317301810358,
+          6.347823951304313
+        ],
+        "accepted_return_map_force_norm_N": 5723.320822046473,
+        "active_contact": true,
+        "contact_state_event_sequence": 23,
+        "contact_transition_cause": "ACTIVE_SET_STABLE",
+        "dissipation_increment_J": 0.0,
+        "independently_recomputed_trial_margin_N": -4570.716111272572,
+        "iterations": 3,
+        "load_factors": [
+          1.0,
+          0.5
+        ],
+        "margin_source": "CONTACT_STATE telemetry, independently cross-checked from accepted state",
+        "mu_p_capacity_N": 10294.036933319045,
+        "pressure_N": 25735.09233329761,
+        "reported_coulomb_trial_margin_N": -4570.716111272572,
+        "reported_margin_reason": "NUMERIC",
+        "reported_minus_recomputed_margin_N": 0.0,
+        "sequence_number": 24,
+        "slip_reference": [
+          0.0,
+          0.0
+        ],
+        "slip_reference_change_magnitude": 0.0,
+        "state": "stick",
+        "step": 4,
+        "trial_tangential_force_N_components": [
+          5723.317301810358,
+          6.347823951304313
+        ],
+        "trial_tangential_force_norm_N": 5723.320822046473
+      },
+      {
+        "accepted": true,
+        "accepted_checkpoint": {
+          "active_contacts": [
+            0
+          ],
+          "displacement": [
+            0.0003846722031140208,
+            -0.00017468601881558975,
+            -0.0013612648151387938,
+            0.0005167662011487453,
+            -9.14238766168114e-06,
+            -0.0009606057916062066,
+            0.0003932483819376687,
+            0.00017404651890401654,
+            -0.0011215725135286033,
+            0.0,
+            0.0,
+            0.0,
+            0.0019377273989176949,
+            -3.2234410715899906e-05,
+            -0.021189192368772595,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "gaps": [
+            -6.938893903907228e-18
+          ],
+          "multipliers": [
+            -25738.04359794152
+          ],
+          "pressures": [
+            25738.04359794152
+          ],
+          "slip_references": [
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "step": 5,
+          "tangential_forces": [
+            [
+              7627.360115592752,
+              6.198925137673094
+            ]
+          ],
+          "tangential_states": [
+            "stick"
+          ]
+        },
+        "accepted_return_map_force_N_components": [
+          7627.360115592752,
+          6.198925137673094
+        ],
+        "accepted_return_map_force_norm_N": 7627.362634594472,
+        "active_contact": true,
+        "contact_state_event_sequence": 28,
+        "contact_transition_cause": "ACTIVE_SET_STABLE",
+        "dissipation_increment_J": 0.0,
+        "independently_recomputed_trial_margin_N": -2667.854804582137,
+        "iterations": 3,
+        "load_factors": [
+          1.0,
+          0.6666666666666666
+        ],
+        "margin_source": "CONTACT_STATE telemetry, independently cross-checked from accepted state",
+        "mu_p_capacity_N": 10295.21743917661,
+        "pressure_N": 25738.04359794152,
+        "reported_coulomb_trial_margin_N": -2667.854804582137,
+        "reported_margin_reason": "NUMERIC",
+        "reported_minus_recomputed_margin_N": 0.0,
+        "sequence_number": 29,
+        "slip_reference": [
+          0.0,
+          0.0
+        ],
+        "slip_reference_change_magnitude": 0.0,
+        "state": "stick",
+        "step": 5,
+        "trial_tangential_force_N_components": [
+          7627.360115592752,
+          6.198925137673094
+        ],
+        "trial_tangential_force_norm_N": 7627.362634594472
+      },
+      {
+        "accepted": true,
+        "accepted_checkpoint": {
+          "active_contacts": [
+            0
+          ],
+          "displacement": [
+            0.0005262053672859204,
+            -0.00017624057941959852,
+            -0.0013403709915642465,
+            0.0006063304822953869,
+            -7.227838865352132e-06,
+            -0.0009817255281516094,
+            0.0004974068492998884,
+            0.00017612848168019045,
+            -0.0011206976816279801,
+            0.0,
+            0.0,
+            0.0,
+            0.0024367047672492538,
+            -3.1460136885017204e-05,
+            -0.021184807632730212,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "gaps": [
+            -3.469446951953614e-18
+          ],
+          "multipliers": [
+            -25740.99486258543
+          ],
+          "pressures": [
+            25740.99486258543
+          ],
+          "slip_references": [
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "step": 6,
+          "tangential_forces": [
+            [
+              9531.402929375145,
+              6.050026324041791
+            ]
+          ],
+          "tangential_states": [
+            "stick"
+          ]
+        },
+        "accepted_return_map_force_N_components": [
+          9531.402929375145,
+          6.050026324041791
+        ],
+        "accepted_return_map_force_norm_N": 9531.404849491999,
+        "active_contact": true,
+        "contact_state_event_sequence": 33,
+        "contact_transition_cause": "ACTIVE_SET_STABLE",
+        "dissipation_increment_J": 0.0,
+        "independently_recomputed_trial_margin_N": -764.9930955421733,
+        "iterations": 3,
+        "load_factors": [
+          1.0,
+          0.8333333333333334
+        ],
+        "margin_source": "CONTACT_STATE telemetry, independently cross-checked from accepted state",
+        "mu_p_capacity_N": 10296.397945034172,
+        "pressure_N": 25740.99486258543,
+        "reported_coulomb_trial_margin_N": -764.9930955421733,
+        "reported_margin_reason": "NUMERIC",
+        "reported_minus_recomputed_margin_N": 0.0,
+        "sequence_number": 34,
+        "slip_reference": [
+          0.0,
+          0.0
+        ],
+        "slip_reference_change_magnitude": 0.0,
+        "state": "stick",
+        "step": 6,
+        "trial_tangential_force_N_components": [
+          9531.402929375145,
+          6.050026324041791
+        ],
+        "trial_tangential_force_norm_N": 9531.404849491999
+      },
+      {
+        "accepted": true,
+        "accepted_checkpoint": {
+          "active_contacts": [
+            0
+          ],
+          "displacement": [
+            0.0005828186329546803,
+            -0.00017686240366120195,
+            -0.001332013462134427,
+            0.0006421561947540436,
+            -6.462019346820522e-06,
+            -0.0009901734227697706,
+            0.0005390702362447759,
+            0.00017696126679066004,
+            -0.0011203477488677305,
+            0.0,
+            0.0,
+            0.0,
+            0.002636295714581877,
+            -3.1150427352664126e-05,
+            -0.021183053738313258,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "gaps": [
+            -3.469446951953614e-18
+          ],
+          "multipliers": [
+            -25742.175368442997
+          ],
+          "pressures": [
+            25742.175368442997
+          ],
+          "slip_references": [
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "step": 7,
+          "tangential_forces": [
+            [
+              10293.0200548881,
+              5.990466798588992
+            ]
+          ],
+          "tangential_states": [
+            "stick"
+          ]
+        },
+        "accepted_return_map_force_N_components": [
+          10293.0200548881,
+          5.990466798588992
+        ],
+        "accepted_return_map_force_norm_N": 10293.021798093167,
+        "active_contact": true,
+        "contact_state_event_sequence": 38,
+        "contact_transition_cause": "ACTIVE_SET_STABLE",
+        "dissipation_increment_J": 0.0,
+        "independently_recomputed_trial_margin_N": -3.8483492840332474,
+        "iterations": 3,
+        "load_factors": [
+          1.0,
+          0.9
+        ],
+        "margin_source": "CONTACT_STATE telemetry, independently cross-checked from accepted state",
+        "mu_p_capacity_N": 10296.8701473772,
+        "pressure_N": 25742.175368442997,
+        "reported_coulomb_trial_margin_N": -3.8483492840332474,
+        "reported_margin_reason": "NUMERIC",
+        "reported_minus_recomputed_margin_N": 0.0,
+        "sequence_number": 39,
+        "slip_reference": [
+          0.0,
+          0.0
+        ],
+        "slip_reference_change_magnitude": 0.0,
+        "state": "stick",
+        "step": 7,
+        "trial_tangential_force_N_components": [
+          10293.0200548881,
+          5.990466798588992
+        ],
+        "trial_tangential_force_norm_N": 10293.021798093167
+      },
+      {
+        "accepted": true,
+        "accepted_checkpoint": {
+          "active_contacts": [
+            0
+          ],
+          "displacement": [
+            0.0005831051345973444,
+            -0.00017688899317635444,
+            -0.0013319745039504826,
+            0.0006423371060350792,
+            -6.472243828253883e-06,
+            -0.000990216210997916,
+            0.0005392804571151582,
+            0.00017694796505557966,
+            -0.0011203424282473214,
+            0.0,
+            0.0,
+            0.0,
+            0.005736271569985073,
+            -2.952222298750409e-05,
+            -0.02118304530800139,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "gaps": [
+            3.469446951953614e-18
+          ],
+          "multipliers": [
+            -25742.18104269137
+          ],
+          "pressures": [
+            25742.18104269137
+          ],
+          "slip_references": [
+            [
+              0.0030989668412468125,
+              1.708666781404205e-06
+            ]
+          ],
+          "step": 8,
+          "tangential_forces": [
+            [
+              10296.870851925947,
+              5.677350574520019
+            ]
+          ],
+          "tangential_states": [
+            "slip"
+          ]
+        },
+        "accepted_return_map_force_N_components": [
+          10296.870851925947,
+          5.677350574520019
+        ],
+        "accepted_return_map_force_norm_N": 10296.872417076544,
+        "active_contact": true,
+        "contact_state_event_sequence": null,
+        "contact_transition_cause": null,
+        "dissipation_increment_J": 31.90967103941966,
+        "independently_recomputed_trial_margin_N": 15494.836561488322,
+        "iterations": 1,
+        "load_factors": [
+          1.0,
+          0.95
+        ],
+        "margin_source": "independently reconstructed from accepted displacement, prior committed slip reference, k_t, and accepted pressure; slip-branch trial margin is not emitted in CONTACT_STATE telemetry",
+        "mu_p_capacity_N": 10296.872417076549,
+        "pressure_N": 25742.18104269137,
+        "reported_coulomb_trial_margin_N": null,
+        "reported_margin_reason": "NOT_RECORDED",
+        "reported_minus_recomputed_margin_N": null,
+        "sequence_number": 71,
+        "slip_reference": [
+          0.0030989668412468125,
+          1.708666781404205e-06
+        ],
+        "slip_reference_change_magnitude": 0.0030989673122976654,
+        "state": "slip",
+        "step": 8,
+        "trial_tangential_force_N_components": [
+          25791.70505816001,
+          14.220684481541044
+        ],
+        "trial_tangential_force_norm_N": 25791.70897856487
+      },
+      {
+        "accepted": true,
+        "accepted_checkpoint": {
+          "active_contacts": [
+            0
+          ],
+          "displacement": [
+            0.0005831053865899243,
+            -0.00017691135726936213,
+            -0.0013319776494444188,
+            0.0006423368923454871,
+            -6.4856900778264135e-06,
+            -0.0009902162830674206,
+            0.0005392800471426612,
+            0.0001769312605350018,
+            -0.0011203390407047058,
+            0.0,
+            0.0,
+            0.0,
+            0.00885627132108012,
+            -2.797061623344013e-05,
+            -0.02118304572522827,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "gaps": [
+            -1.3877787807814457e-17
+          ],
+          "multipliers": [
+            -25742.180761865584
+          ],
+          "pressures": [
+            25742.180761865584
+          ],
+          "slip_references": [
+            [
+              0.006218966707254565,
+              3.338518139467763e-06
+            ]
+          ],
+          "step": 9,
+          "tangential_forces": [
+            [
+              10296.870899792284,
+              5.378964660276949
+            ]
+          ],
+          "tangential_states": [
+            "slip"
+          ]
+        },
+        "accepted_return_map_force_N_components": [
+          10296.870899792284,
+          5.378964660276949
+        ],
+        "accepted_return_map_force_norm_N": 10296.872304746232,
+        "active_contact": true,
+        "contact_state_event_sequence": null,
+        "contact_transition_cause": null,
+        "dissipation_increment_J": 32.12624459456391,
+        "independently_recomputed_trial_margin_N": 15600.001458576731,
+        "iterations": 1,
+        "load_factors": [
+          1.0,
+          1.0
+        ],
+        "margin_source": "independently reconstructed from accepted displacement, prior committed slip reference, k_t, and accepted pressure; slip-branch trial margin is not emitted in CONTACT_STATE telemetry",
+        "mu_p_capacity_N": 10296.872304746234,
+        "pressure_N": 25742.180761865584,
+        "reported_coulomb_trial_margin_N": null,
+        "reported_margin_reason": "NOT_RECORDED",
+        "reported_minus_recomputed_margin_N": null,
+        "sequence_number": 103,
+        "slip_reference": [
+          0.006218966707254565,
+          3.338518139467763e-06
+        ],
+        "slip_reference_change_magnitude": 0.003120000291715346,
+        "state": "slip",
+        "step": 9,
+        "trial_tangential_force_N_components": [
+          25896.87022983105,
+          13.528221450594742
+        ],
+        "trial_tangential_force_norm_N": 25896.873763322965
+      }
+    ],
+    "all_telemetry_event_count": 106,
+    "event_types": [
+      "ANALYSIS_END",
+      "ANALYSIS_START",
+      "ASSEMBLY_END",
+      "ASSEMBLY_START",
+      "CONTACT_STATE",
+      "LINEAR_SOLVE_END",
+      "LINEAR_SOLVE_START",
+      "MESH_READY",
+      "STEP_ACCEPTED",
+      "STEP_START"
+    ],
+    "rejected_step_event_count": 0,
+    "rejected_step_events": []
+  },
+  "contact_convergence": {
+    "backend": "scipy.sparse.linalg.spsolve",
+    "complementarity_max": 3.5724452232357406e-13,
+    "converged": true,
+    "iterations": 1,
+    "reason": "ACTIVE_SET_STABLE",
+    "relative_residual": 1.3877787807814457e-17,
+    "residual_final": 1.3877787807814457e-17,
+    "residual_initial": -1.3877787807814457e-17,
+    "solver": "contact_active_set"
+  },
+  "contact_cumulative_local_dissipation_J": 64.03591563398356,
+  "contact_load_steps": [
+    {
+      "iteration_count": 3,
+      "load_norm": 40000.0,
+      "local_dissipation_increment": 0.0,
+      "slip_references": [
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "states": [
+        "stick"
+      ],
+      "step": 1,
+      "tangential_forces": [
+        [
+          11.188860463180777,
+          6.794520392198358
+        ]
+      ]
+    },
+    {
+      "iteration_count": 3,
+      "load_norm": 40049.96878900157,
+      "local_dissipation_increment": 0.0,
+      "slip_references": [
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "states": [
+        "stick"
+      ],
+      "step": 2,
+      "tangential_forces": [
+        [
+          1915.2316742455732,
+          6.645621578566783
+        ]
+      ]
+    },
+    {
+      "iteration_count": 3,
+      "load_norm": 40199.502484483564,
+      "local_dissipation_increment": 0.0,
+      "slip_references": [
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "states": [
+        "stick"
+      ],
+      "step": 3,
+      "tangential_forces": [
+        [
+          3819.2744880279656,
+          6.4967227649354635
+        ]
+      ]
+    },
+    {
+      "iteration_count": 3,
+      "load_norm": 40447.496832313365,
+      "local_dissipation_increment": 0.0,
+      "slip_references": [
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "states": [
+        "stick"
+      ],
+      "step": 4,
+      "tangential_forces": [
+        [
+          5723.317301810358,
+          6.347823951304313
+        ]
+      ]
+    },
+    {
+      "iteration_count": 3,
+      "load_norm": 40792.15610874228,
+      "local_dissipation_increment": 0.0,
+      "slip_references": [
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "states": [
+        "stick"
+      ],
+      "step": 5,
+      "tangential_forces": [
+        [
+          7627.360115592752,
+          6.198925137673094
+        ]
+      ]
+    },
+    {
+      "iteration_count": 3,
+      "load_norm": 41231.056256176606,
+      "local_dissipation_increment": 0.0,
+      "slip_references": [
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "states": [
+        "stick"
+      ],
+      "step": 6,
+      "tangential_forces": [
+        [
+          9531.402929375145,
+          6.050026324041791
+        ]
+      ]
+    },
+    {
+      "iteration_count": 3,
+      "load_norm": 41432.35450707575,
+      "local_dissipation_increment": 0.0,
+      "slip_references": [
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "states": [
+        "stick"
+      ],
+      "step": 7,
+      "tangential_forces": [
+        [
+          10293.0200548881,
+          5.990466798588992
+        ]
+      ]
+    },
+    {
+      "iteration_count": 1,
+      "load_norm": 41592.78783635452,
+      "local_dissipation_increment": 31.90967103941966,
+      "slip_references": [
+        [
+          0.0030989668412468125,
+          1.708666781404205e-06
+        ]
+      ],
+      "states": [
+        "slip"
+      ],
+      "step": 8,
+      "tangential_forces": [
+        [
+          10296.870851925947,
+          5.677350574520019
+        ]
+      ]
+    },
+    {
+      "iteration_count": 1,
+      "load_norm": 41761.2260356422,
+      "local_dissipation_increment": 32.12624459456391,
+      "slip_references": [
+        [
+          0.006218966707254565,
+          3.338518139467763e-06
+        ]
+      ],
+      "states": [
+        "slip"
+      ],
+      "step": 9,
+      "tangential_forces": [
+        [
+          10296.870899792284,
+          5.378964660276949
+        ]
+      ]
+    }
+  ],
+  "contact_slip_references_final": [
+    [
+      0.006218966707254565,
+      3.338518139467763e-06
+    ]
+  ],
+  "correction_note": "The initial manifest-bound postprocessor read contact_reference_moment_correction and free residuals from the wrong audit nesting and required CONTACT_STATE margins even when slip-branch trial margins were not emitted. This report reads those audit fields at equilibrium and independently reconstructs slip trial margins from accepted displacement, the previous accepted slip reference, k_t, and accepted pressure.",
+  "global_balance": {
+    "combined_independent_force_resultant_N": [
+      9.094947017729282e-13,
+      0.0,
+      -4.831690603168681e-12
+    ],
+    "combined_independent_force_resultant_norm_N": 4.9165449959602284e-12,
+    "combined_independent_moment_Nm": [
+      -1.3642420526593924e-12,
+      1.2079226507921703e-12,
+      -4.547473508864641e-13
+    ],
+    "combined_independent_moment_norm_Nm": 1.8780385144291777e-12,
+    "external_plus_fixed_and_spring_force_resultant_N": [
+      9.094947017729282e-13,
+      0.0,
+      -4.831690603168681e-12
+    ],
+    "external_plus_fixed_and_spring_moment_Nm": [
+      -1.3642420526593924e-12,
+      1.2079226507921703e-12,
+      -4.547473508864641e-13
+    ],
+    "fixed_reactions": [
+      {
+        "dof": "UX",
+        "index": 9,
+        "node": 3,
+        "value": -1473.2592694019197
+      },
+      {
+        "dof": "UY",
+        "index": 10,
+        "node": 3,
+        "value": -37.70789872121088
+      },
+      {
+        "dof": "UZ",
+        "index": 11,
+        "node": 3,
+        "value": 8529.515895782855
+      },
+      {
+        "dof": "UX",
+        "index": 15,
+        "node": 5,
+        "value": -7813.62305940818
+      },
+      {
+        "dof": "UY",
+        "index": 16,
+        "node": 5,
+        "value": -6105.1149945401885
+      },
+      {
+        "dof": "UZ",
+        "index": 17,
+        "node": 5,
+        "value": 15955.569373681854
+      },
+      {
+        "dof": "UX",
+        "index": 18,
+        "node": 6,
+        "value": 6110.493959200465
+      },
+      {
+        "dof": "UY",
+        "index": 19,
+        "node": 6,
+        "value": -0.0
+      },
+      {
+        "dof": "UZ",
+        "index": 20,
+        "node": 6,
+        "value": -1703.129100207716
+      },
+      {
+        "dof": "UX",
+        "index": 21,
+        "node": 7,
+        "value": -0.0
+      },
+      {
+        "dof": "UY",
+        "index": 22,
+        "node": 7,
+        "value": 6110.493959200466
+      },
+      {
+        "dof": "UZ",
+        "index": 23,
+        "node": 7,
+        "value": 5.378964660276949
+      }
+    ],
+    "independent_contact_force_resultant_N": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "independent_contact_moment_Nm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "moment_reference": "common reference origin [0,0,0] m",
+    "postprocess_correction_norm_Nm": 0.0,
+    "postprocess_moment_correction_Nm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "raw_moment_limit_Nm": 0.002,
+    "raw_moment_limit_pass": true,
+    "solver_force_balance_relative_error": 1.7958968532911039e-16,
+    "solver_force_imbalance_N": [
+      1.8189894035458565e-12,
+      0.0,
+      -7.275957614183426e-12
+    ],
+    "solver_free_relative_residual": 9.317978377630717e-17,
+    "solver_free_residual_norm": 3.89130201223463e-12,
+    "solver_moment_balance_relative_error": 3.081928524130256e-16,
+    "solver_raw_moment_imbalance_Nm": [
+      -1.8189894035458565e-12,
+      1.8189894035458565e-12,
+      0.0
+    ],
+    "solver_raw_moment_norm_Nm": 2.5724394843074972e-12,
+    "spring_reactions_N": {
+      "0": {
+        "UX": -2915.526932949622,
+        "UY": 884.5567863468107,
+        "UZ": 6659.888247222094
+      },
+      "1": {
+        "UX": -3211.6844617274355,
+        "UY": 32.42845038913207,
+        "UZ": 4951.081415337103
+      },
+      "2": {
+        "UX": -2696.4002357133063,
+        "UY": -884.656302675009,
+        "UZ": 5601.695203523529
+      }
+    }
+  },
+  "independent_contact": {
+    "accepted_contact_active": true,
+    "accepted_state": "slip",
+    "accepted_tangential_force_local_N": [
+      10296.870899792284,
+      5.378964660276949
+    ],
+    "accepted_tangential_force_norm_N": 10296.872304746232,
+    "accepted_tangential_force_world_N": [
+      10296.870899792284,
+      5.378964660276949,
+      0.0
+    ],
+    "contact_force_resultant_N": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "contact_force_resultant_norm_N": 0.0,
+    "contact_moment_about_origin_Nm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "contact_moment_norm_Nm": 0.0,
+    "coulomb_capacity_N": 10296.872304746234,
+    "friction_coefficient": 0.4,
+    "generalized_contact_forces_N_by_node": [
+      [
+        -4633.591904906528,
+        -2.4205340971246274,
+        11377.936345550463
+      ],
+      [
+        -2574.217724948071,
+        -1.3447411650692374,
+        6641.482608462242
+      ],
+      [
+        -3089.061269937685,
+        -1.6136893980830849,
+        7722.76180785288
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        10296.870899792284,
+        5.378964660276949,
+        -25742.180761865584
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "pressure_N": 25742.180761865584,
+    "reference_barycentric": [
+      0.45,
+      0.25,
+      0.3
+    ],
+    "reference_gap_m": 0.02,
+    "reference_normal": [
+      0.0,
+      0.0,
+      1.0
+    ],
+    "virtual_work_absolute_difference_Nm": 0.0,
+    "virtual_work_check": "B* work-conjugate identity evaluated independently from frozen geometry and archived force",
+    "virtual_work_local_Nm": -3674.8075387478502,
+    "virtual_work_nodal_Nm": -3674.8075387478502,
+    "virtual_work_relative_difference": 0.0
+  },
+  "independent_method": "reconstruct force/moment resultants and B* work pairing from frozen input, archived nodal displacements, reactions, springs, contact force, and telemetry; no solver correction applied",
+  "kinematics": {
+    "contact_relative_tangential_displacement_m": [
+      0.008271505659885483,
+      1.8153889672888746e-07
+    ],
+    "deformed_geometric_gap_m": -2.8264535873579e-06,
+    "deformed_master_projection_barycentric": [
+      0.44173021348214164,
+      0.25827101473558806,
+      0.29999877178227036
+    ],
+    "element_polar_rotations": [
+      {
+        "element_index": 0,
+        "max_abs_linear_strain_principal": 0.0042829122944829014,
+        "nodes": [
+          0,
+          2,
+          1,
+          3
+        ],
+        "polar_rotation_rad": 0.0008362375521645852
+      },
+      {
+        "element_index": 1,
+        "max_abs_linear_strain_principal": 0.07357153055862825,
+        "nodes": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "polar_rotation_rad": 0.014256209275080603
+      }
+    ],
+    "finite_sliding": false,
+    "frozen_initial_pair": [
+      [
+        0,
+        1,
+        2
+      ],
+      4
+    ],
+    "kinematic_scope": "small rotations; initial master-slave pair and projection frozen",
+    "master_element_polar_rotation_rad": 0.0008362375521645852,
+    "max_nodal_displacement_m": 0.022959872609948653,
+    "slave_element_polar_rotation_rad": 0.014256209275080603,
+    "solver_reported_tangential_displacement_m": [
+      0.008278340887213022,
+      4.414311071523153e-06
+    ]
+  },
+  "manifest_sha256": "ed0f0970c139196d18305981079dcd65eafe0f3c264afe7addcf24078e9bf868",
+  "postprocess_moment_correction_zero": true,
+  "preliminary_verdict": "B_STAR_STICK_SLIP_VALIDATED_EXPLORATORY",
+  "protocol_integrity_check": true,
+  "raw_moment_limit_pass": true,
+  "reanalysis_note": "Supplemental post-run reconstruction; the manifest-bound original postprocess result is preserved unchanged.",
+  "record_type": "WP-C01-R14-POST-RUN-REANALYSIS",
+  "scenario_id": "B_SLIP_R14",
+  "scope_limit": "One frozen master-triangle/slave-node pair, small rotations, finite_sliding=false; no finite-sliding or physical qualification claim.",
+  "slip_tangent_status": "Global consistent tangent in slip remains unestablished.",
+  "solver_message": "",
+  "solver_result_sha256": "ecaaf3480f0c29d209a1c68c063447bd335a7494901b7d1e23d3313e76cc56f9",
+  "solver_status": "PASS",
+  "superseded_initial_postprocess_sha256": "3f452c6ba4246d33261df09a0f29dc5fa0a8ef39b14fd146181ac5ba45715a29",
+  "virtual_work_check_pass": true
+}

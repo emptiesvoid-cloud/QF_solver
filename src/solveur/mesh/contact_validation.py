@@ -13,9 +13,20 @@ if TYPE_CHECKING:
 
 def frictionless_contact_errors(model: "FiniteElementModel") -> list[str]:
     """Return blocking errors for unsupported contact combinations or geometry."""
-    if not model.contacts:
-        return []
     errors: list[str] = []
+    transfer_value = model.analysis.parameters.get("contact_tangential_transfer", "legacy")
+    if not isinstance(transfer_value, str):
+        errors.append("contact_tangential_transfer must be 'legacy' or 'small_rotation_work_conjugate'.")
+        transfer_mode = "legacy"
+    else:
+        transfer_mode = transfer_value.strip().lower()
+        if transfer_mode not in {"legacy", "small_rotation_work_conjugate"}:
+            errors.append("contact_tangential_transfer must be 'legacy' or 'small_rotation_work_conjugate'.")
+            transfer_mode = "legacy"
+    if not model.contacts:
+        if transfer_mode == "small_rotation_work_conjugate":
+            errors.append("small_rotation_work_conjugate requires exactly one frictional slave-master pair.")
+        return errors
     common_penalty = (
         model.analysis.type in {"nonlinear_static", "geometric_nonlinear_static"}
         and str(model.analysis.parameters.get("contact_mode", "")).lower() == "penalty"
@@ -47,6 +58,25 @@ def frictionless_contact_errors(model: "FiniteElementModel") -> list[str]:
             )
         if search_mode != "updated":
             errors.append("contact_finite_sliding requires contact_search_mode='updated'.")
+    if transfer_mode == "small_rotation_work_conjugate":
+        if model.analysis.type != "linear_static" or common_penalty:
+            errors.append(
+                "small_rotation_work_conjugate is restricted to the linear static node-to-triangle active-set route."
+            )
+        if search_mode != "initial":
+            errors.append(
+                "small_rotation_work_conjugate requires the frozen initial contact projection."
+            )
+        if finite_sliding:
+            errors.append("small_rotation_work_conjugate does not support finite sliding.")
+        if not any(contact.friction_coefficient > 0.0 for contact in model.contacts):
+            errors.append("small_rotation_work_conjugate requires at least one frictional contact.")
+        if len(model.contacts) != 1:
+            errors.append("small_rotation_work_conjugate is restricted to one frozen slave-master pair.")
+        elif len(model.contacts[0].faces) != 1 or model.contacts[0].slave_patch_nodes is not None:
+            errors.append(
+                "small_rotation_work_conjugate requires one slave node and one reference master triangle."
+            )
     _validate_positive_integer(model.analysis.parameters, "contact_max_iterations", errors)
     if common_penalty:
         _validate_positive_float(model.analysis.parameters, "contact_penalty", errors)

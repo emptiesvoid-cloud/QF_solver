@@ -1,0 +1,34 @@
+{
+  "record_type": "WP-C01-R13-NON-FEM-UNIT-TEST-RUN",
+  "execution_id": "R13-ALGEBRA-01",
+  "started_utc": "2026-10-23T23:47:04.946166+00:00",
+  "branch": "emptiesvoids-cloud/wp-c01-r13-transfer",
+  "base_head": "b547601ad7d6558f32d93cec37e1cc90e805eab1",
+  "base_tree": "552f8e6a00f8f1de89d2627a7c5c297dbe34da06",
+  "working_tree_dirty": true,
+  "command": [
+    "C:\\Python313\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/unit/test_wpc01_r13_small_rotation_transfer.py"
+  ],
+  "scope": "algebraic/model-admissibility tests only; no global solve or FEM",
+  "exit_code": 0,
+  "stdout_stderr": "...........                                                              [100%]\n11 passed in 1.44s\n",
+  "wall_seconds": 3.516135599998961,
+  "peak_process_tree_rss_bytes_sampled": 126951424,
+  "process_tree_cpu_seconds_sampled": 2.984375,
+  "resource_sampling_interval_seconds": 0.04,
+  "output_artifacts_created_by_run": [],
+  "output_and_temp_bytes": "not measured; no FEM output or temporary campaign files",
+  "source_file_sha256": {
+    "src/solveur/contact/evaluation.py": "c0aa30bc1b175638c026b85d23eb961a317b84fffe7668f39c6369343259c47f",
+    "src/solveur/contact/solver.py": "5d9fe2221948a271d51abcb5d4cec8d2bf26863edcedec4e128d67426d7d1787",
+    "src/solveur/contact/support.py": "d054258b1f7de56920ced8c510e8ce843384e7fb58ea8f0ce793567e8706166e",
+    "src/solveur/core/solvers/static.py": "a2b8b039c352af2c948137e0854e3e861172a0392d777e16bf1abd4a664cd6cb",
+    "src/solveur/mesh/contact_validation.py": "c124fd43052a8ae6a9333e396491b81704ad5f35fccc25c3eb9dab20067db0fa",
+    "docs/contact_small_rotation_work_conjugate_transfer.md": "f4f1b5b1e47a5e8d5c27496671a6158e793323f1ef3ec781f7ddfecfd8300dec",
+    "tests/unit/test_wpc01_r13_small_rotation_transfer.py": "9bac13f8c7eb6628f43cabbcf5014964d7c305bd2fe5148659378ddf2dd24c7e"
+  }
+}

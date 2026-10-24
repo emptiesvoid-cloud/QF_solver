@@ -16,6 +16,13 @@ from solveur.core.errors import InputValidationError, NumericalConvergenceError
 from solveur.core.model import FiniteElementModel
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
 
+LEGACY_TANGENTIAL_TRANSFER = "legacy"
+SMALL_ROTATION_TANGENTIAL_TRANSFER = "small_rotation_work_conjugate"
+_TANGENTIAL_TRANSFER_MODES = {
+    LEGACY_TANGENTIAL_TRANSFER,
+    SMALL_ROTATION_TANGENTIAL_TRANSFER,
+}
+
 
 @dataclass(frozen=True)
 class _ContactOperator:
@@ -35,9 +42,11 @@ class _ContactOperator:
     projection_clamped: bool
     closest_distance: float
     projection_mode: str
+    master_barycentric: tuple[float, float, float] | None = None
     tangential_stiffness_mode: str = "nodal"
     reference_slave_area: float | None = None
     declared_tangential_stiffness: float | None = None
+    tangential_transfer_mode: str = LEGACY_TANGENTIAL_TRANSFER
 
     @property
     def has_friction(self) -> bool:
@@ -87,6 +96,36 @@ def _expanded_contacts(contacts: list[FrictionlessContact]) -> list[Frictionless
     return [item for contact in contacts for item in contact.expanded_slave_contacts()]
 
 
+def _contact_tangential_transfer_mode(model: FiniteElementModel) -> str:
+    """Return the explicitly selected, bounded tangential transfer contract."""
+    value = model.analysis.parameters.get("contact_tangential_transfer", LEGACY_TANGENTIAL_TRANSFER)
+    if not isinstance(value, str):
+        raise InputValidationError(
+            "contact_tangential_transfer must be 'legacy' or 'small_rotation_work_conjugate'."
+        )
+    mode = value.strip().lower()
+    if mode not in _TANGENTIAL_TRANSFER_MODES:
+        raise InputValidationError(
+            "contact_tangential_transfer must be 'legacy' or 'small_rotation_work_conjugate'."
+        )
+    return mode
+
+
+def _triangle_surface_gradients(master: np.ndarray) -> np.ndarray:
+    """Return the constant surface gradients of a linear triangle's shape functions."""
+    points = np.asarray(master, dtype=float)
+    edge_one = points[1] - points[0]
+    edge_two = points[2] - points[0]
+    oriented_area = np.cross(edge_one, edge_two)
+    area_norm = float(np.linalg.norm(oriented_area))
+    if not np.isfinite(area_norm) or area_norm <= 1.0e-14:
+        raise InputValidationError("Contact master triangle cannot define surface shape gradients.")
+    normal = oriented_area / area_norm
+    gradient_one = np.cross(edge_two, normal) / area_norm
+    gradient_two = np.cross(normal, edge_one) / area_norm
+    return np.asarray((-gradient_one - gradient_two, gradient_one, gradient_two), dtype=float)
+
+
 def _operator(
     contact: FrictionlessContact,
     nodes: np.ndarray,
@@ -94,7 +133,12 @@ def _operator(
     reference_displacement: np.ndarray | None = None,
     *,
     finite_sliding: bool = False,
+    tangential_transfer_mode: str = LEGACY_TANGENTIAL_TRANSFER,
 ) -> _ContactOperator:
+    if tangential_transfer_mode not in _TANGENTIAL_TRANSFER_MODES:
+        raise InputValidationError(
+            "contact_tangential_transfer must be 'legacy' or 'small_rotation_work_conjugate'."
+        )
     geometry_nodes = nodes if reference_displacement is None else _deformed_nodes(nodes, dofs, reference_displacement)
     geometry = contact.face_geometry(
         geometry_nodes,
@@ -112,10 +156,22 @@ def _operator(
         raise InputValidationError("Contact master triangle cannot define a stable tangential basis.")
     tangent_one = tangent_one_raw / tangent_one_norm
     tangent_two = np.cross(normal, tangent_one)
-    tangential_vectors = (
-        _relative_vector(contact.slave_node, geometry.master_nodes, dofs, tangent_one, barycentric),
-        _relative_vector(contact.slave_node, geometry.master_nodes, dofs, tangent_two, barycentric),
+    tangential_vectors = []
+    gradients = (
+        _triangle_surface_gradients(master)
+        if tangential_transfer_mode == SMALL_ROTATION_TANGENTIAL_TRANSFER
+        else None
     )
+    for tangent in (tangent_one, tangent_two):
+        relative = _relative_vector(contact.slave_node, geometry.master_nodes, dofs, tangent, barycentric)
+        if gradients is not None:
+            # B* dU = t.(dU_s - sum(beta_j dU_j) - g0 dn), with
+            # dn = -sum(a_j.(n.dU_j)). These rows make the assembled force B*^T F_t.
+            for node, gradient in zip(geometry.master_nodes, gradients):
+                coefficient = float(geometry.gap) * float(tangent @ gradient)
+                for component, name in enumerate(("UX", "UY", "UZ")):
+                    relative[dofs.index(node, name)] += coefficient * normal[component]
+        tangential_vectors.append(relative)
     stiffness, reference_area = contact.tangential_regularization(nodes)
     return _ContactOperator(
         name=contact.name or f"contact_slave_{contact.slave_node}",
@@ -124,11 +180,12 @@ def _operator(
         tolerance=contact.gap_tolerance,
         normal=normal,
         master_nodes=geometry.master_nodes,
+        master_barycentric=tuple(float(value) for value in barycentric),
         master_face_index=geometry.face_index,
         master_face_count=len(contact.faces),
         slave_node=contact.slave_node,
         tangents=(tangent_one, tangent_two),
-        tangential_vectors=tangential_vectors,
+        tangential_vectors=tuple(tangential_vectors),
         friction_coefficient=contact.friction_coefficient,
         tangential_stiffness=float(stiffness or 0.0),
         projection_clamped=geometry.projection_clamped,
@@ -137,6 +194,7 @@ def _operator(
         tangential_stiffness_mode=contact.tangential_stiffness_mode,
         reference_slave_area=reference_area,
         declared_tangential_stiffness=contact.tangential_stiffness,
+        tangential_transfer_mode=tangential_transfer_mode,
     )
 
 
@@ -481,6 +539,10 @@ def _details(
             "active": index in active,
             "complementarity": float(abs(gaps[index] * pressures[index])),
         }
+        if operator.tangential_transfer_mode != LEGACY_TANGENTIAL_TRANSFER:
+            row["master_barycentric"] = (
+                None if operator.master_barycentric is None else list(operator.master_barycentric)
+            )
         if tangential_states is not None and tangential_forces is not None and tangential_displacements is not None:
             friction_limit = operator.friction_coefficient * max(float(pressures[index]), 0.0)
             row.update(
@@ -507,7 +569,7 @@ def _details(
                 }
             )
         rows.append(row)
-    return {
+    details: dict[str, object] = {
         "method": "lagrange_active_set_coulomb_regularized" if tangential_states is not None else "lagrange_active_set",
         "converged": True,
         "iteration_count": len(history),
@@ -515,6 +577,12 @@ def _details(
         "contacts": rows,
         "history": history,
     }
+    if operators and operators[0].tangential_transfer_mode != LEGACY_TANGENTIAL_TRANSFER:
+        details["tangential_transfer_mode"] = operators[0].tangential_transfer_mode
+        for row, operator in zip(rows, operators):
+            if operator.tangential_transfer_mode != LEGACY_TANGENTIAL_TRANSFER:
+                row["tangential_transfer_mode"] = operator.tangential_transfer_mode
+    return details
 
 
 def _contact_convergence_diagnostics(

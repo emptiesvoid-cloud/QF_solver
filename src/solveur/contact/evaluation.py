@@ -226,6 +226,19 @@ def contact_configuration_payload(
         "penalty": penalty_value,
         "contact_penalty_parameter": _optional_finite_float(parameters.get("contact_penalty"), "contact_penalty"),
     }
+    transfer_mode_value = parameters.get("contact_tangential_transfer", "legacy")
+    if not isinstance(transfer_mode_value, str):
+        raise InputValidationError(
+            "contact_tangential_transfer must be 'legacy' or 'small_rotation_work_conjugate'."
+        )
+    transfer_mode = transfer_mode_value.strip().lower()
+    if transfer_mode not in {"legacy", "small_rotation_work_conjugate"}:
+        raise InputValidationError(
+            "contact_tangential_transfer must be 'legacy' or 'small_rotation_work_conjugate'."
+        )
+    if transfer_mode != "legacy":
+        # Keep legacy restart digests unchanged while binding the experimental law.
+        contact_parameters["contact_tangential_transfer"] = transfer_mode
     for name in _CONTACT_PARAMETER_NAMES:
         value = parameters.get(name)
         if name.endswith("iterations") and value is not None:

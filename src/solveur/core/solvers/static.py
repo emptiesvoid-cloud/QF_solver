@@ -357,6 +357,14 @@ def _apply_contact_moment_transport(
     raw value visible and supplies a contact-work-consistent global moment
     closure for the audit.
     """
+    if contact_details.get("tangential_transfer_mode", "legacy") == "small_rotation_work_conjugate":
+        raw = np.asarray(equilibrium.get("moment_imbalance_about_origin", (0.0, 0.0, 0.0)), dtype=float)
+        equilibrium["raw_moment_imbalance_about_origin"] = raw.tolist()
+        equilibrium["contact_reference_moment_correction"] = [0.0, 0.0, 0.0]
+        equilibrium["moment_transport_status"] = "ASSEMBLED_WORK_CONJUGATE_TRANSFER"
+        equilibrium["moment_balance_relative_error"] = float(np.linalg.norm(raw) / moment_scale)
+        return
+
     rows = contact_details.get("contacts", [])
     correction: np.ndarray = np.zeros(3, dtype=float)
     if isinstance(rows, list):
