@@ -4,7 +4,7 @@ import importlib.util
 import json
 import sys
 from pathlib import Path
-from types import SimpleNamespace
+from types import ModuleType, SimpleNamespace
 
 import pytest
 
@@ -174,7 +174,7 @@ def test_registered_command_is_fixed_to_one_target_and_checks_import_origin(tmp_
 
 
 def test_exact_node_plugin_lifts_only_the_approved_native_skip() -> None:
-    nodeid = "tests/verification/test_native.py::test_m3[M3]"
+    nodeid = _policy()["worktrees"]["d01"]["allowed_nodeids"][0]
     native_skip = SimpleNamespace(name="skip", kwargs={"reason": "tier NATIVE_AUTH_REQUIRED: offline route"})
     unrelated_skip = SimpleNamespace(name="skip", kwargs={"reason": "unrelated skip"})
     item = SimpleNamespace(nodeid=nodeid, own_markers=[native_skip, unrelated_skip])
@@ -186,6 +186,50 @@ def test_exact_node_plugin_lifts_only_the_approved_native_skip() -> None:
     ordinary = SimpleNamespace(nodeid=nodeid, own_markers=[native_skip])
     PLUGIN.ExactNodeGate((nodeid,)).pytest_collection_modifyitems(None, None, [ordinary])
     assert ordinary.own_markers == [native_skip]
+
+    arbitrary = SimpleNamespace(nodeid="tests/verification/test_other.py::test_native", own_markers=[native_skip])
+    with pytest.raises(pytest.UsageError, match="restricted to the registered D01 M3 node"):
+        PLUGIN.ExactNodeGate((arbitrary.nodeid,), allow_native_skip_override=True).pytest_collection_modifyitems(
+            None, None, [arbitrary]
+        )
+
+
+def test_d01_native_capability_is_scoped_only_to_the_exact_call(monkeypatch: pytest.MonkeyPatch) -> None:
+    policy = _policy()
+    nodeid = policy["worktrees"]["d01"]["allowed_nodeids"][0]
+    guard_path = Path(policy["worktrees"]["d01"]["root"]) / "src/solveur/core/execution_guard.py"
+    guard_spec = importlib.util.spec_from_file_location("solveur.core.execution_guard", guard_path)
+    assert guard_spec is not None and guard_spec.loader is not None
+    guard = importlib.util.module_from_spec(guard_spec)
+    guard_spec.loader.exec_module(guard)
+    solveur_package = ModuleType("solveur")
+    solveur_package.__path__ = []
+    core_package = ModuleType("solveur.core")
+    core_package.__path__ = []
+    monkeypatch.setitem(sys.modules, "solveur", solveur_package)
+    monkeypatch.setitem(sys.modules, "solveur.core", core_package)
+    monkeypatch.setitem(sys.modules, "solveur.core.execution_guard", guard)
+    monkeypatch.setenv("PYTEST_CURRENT_TEST", f"{nodeid} (call)")
+    gate = PLUGIN.ExactNodeGate((nodeid,), allow_native_skip_override=True)
+    wrapper = gate.pytest_runtest_call(SimpleNamespace(nodeid=nodeid))
+    next(wrapper)
+    boundary = "solveur.core.analyses.reduced_harmonic.ReducedHarmonicResponseSolver.solve"
+    guard.require_solver_execution_allowed(boundary)
+    monkeypatch.setenv(guard.NO_NATIVE_EXECUTION_ENV, "1")
+    with pytest.raises(guard.SolverExecutionBlockedError):
+        guard.require_solver_execution_allowed(boundary)
+    monkeypatch.delenv(guard.NO_NATIVE_EXECUTION_ENV)
+    with pytest.raises(StopIteration):
+        next(wrapper)
+    with pytest.raises(guard.SolverExecutionBlockedError):
+        guard.require_solver_execution_allowed(boundary)
+
+    unrelated = gate.pytest_runtest_call(SimpleNamespace(nodeid="tests/unit/test_other.py::test_safe"))
+    next(unrelated)
+    with pytest.raises(guard.SolverExecutionBlockedError):
+        guard.require_solver_execution_allowed(boundary)
+    with pytest.raises(StopIteration):
+        next(unrelated)
 
 
 def test_retry_series_is_scoped_and_bounded(tmp_path: Path) -> None:
