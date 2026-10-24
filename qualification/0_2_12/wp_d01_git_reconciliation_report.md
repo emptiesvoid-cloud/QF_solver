@@ -49,7 +49,7 @@ Ces fichiers locaux — y compris les changements d’autonomie D01/C01/E01 pré
 
 ## Portage et chevauchements
 
-Les commits D01 transportés depuis la base sont :
+Les cinq commits du portage D01 transportés depuis la base sont :
 
 ```text
 5fef29ae feat(wp-d01): add sparse residual flexibility core
@@ -57,10 +57,17 @@ Les commits D01 transportés depuis la base sont :
 0c01316b feat(d01): restore opt-in residual flexibility harmonic path
 e038cdc1 docs(d01): record residual flexibility port readiness
 9fa2a260 docs(d01): mark exploratory scope non-consumable
-dbf6bb87 docs(d01): record safe merge status
 ```
 
-Au snapshot `dbf6bb87`, le diff comptait 22 chemins (portage D01 et compte rendu précédent). Le présent rapport ajoute un chemin documentaire D01 : le candidat final comptera donc 23 chemins depuis la base.
+Les commits documentaires de suivi déjà présents au snapshot `80fa80d9` sont :
+
+```text
+dbf6bb87 docs(d01): record safe merge status
+1a8d6fd3 docs(d01): record git reconciliation evidence
+80fa80d9 docs(d01): clarify reconciled candidate scope
+```
+
+La chaîne au snapshot `80fa80d9` comprend donc huit commits depuis la base. Le diff y compte 23 chemins (portage, rapports et pièces documentaires D01). Le présent commit actualise uniquement ce rapport; il n’ajoute aucun chemin ni modification scientifique.
 
 Le candidat ne remplace pas la projection `rayleigh_structured` de la base. Le comportement harmonique historique reste le défaut; la correction est opt-in et le correcteur refuse le damping non-Rayleigh.
 
@@ -68,6 +75,8 @@ Les deux chemins communs ont été examinés par blocs :
 
 - `scripts/development_autonomous.py` : D01 ajoute uniquement l’acceptation contrôlée de la grille expérimentale gelée (0 Hz puis cinq fréquences positives strictement croissantes), sans modifier les nouvelles règles locales de registre/ledger, de bootstrap ou les ajouts E01/C01.
 - `tests/unit/test_development_autonomous_policy.py` : D01 modifie seulement le payload d’essai D01 correspondant à cette grille et ajoute ses cas de refus; les tests locaux E01/C01/D01 du registre restent hors candidat.
+
+Les plages des hunks locaux et D01 dans ces deux fichiers ne se chevauchent pas. Cependant, l’opération de fast-forward Git refuse un fichier suivi modifié localement dès lors que le commit entrant le met aussi à jour, même si les hunks sont distincts.
 
 La répétition dans le worktree isolé `C:\Users\fari\.codex\worktrees\wp-d01-safe-ff-rehearsal-20261024` a copié les sept fichiers depuis la sauvegarde puis exécuté `git merge --ff-only dbf6bb8753c3d828fed1662d0fd2f9ea6272c8e8`. Git a refusé avec le message « Your local changes to the following files would be overwritten by merge » pour les deux fichiers partagés et a abandonné. HEAD du rehearsal est resté `b86ba5c1...`; les sept SHA-256 y concordent encore avec la sauvegarde. La même opération n’a pas été tentée sur le worktree officiel.
 
