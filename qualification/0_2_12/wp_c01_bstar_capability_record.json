@@ -1,0 +1,43 @@
+{
+  "schema": "qfsolver-wp-c01-capability-record-v1",
+  "capability_id": "CON-FRICTION-BSTAR-SMALL-ROTATION",
+  "B_STAR_CAPABILITY_MATURITY": "EXPERIMENTAL_BOUNDED",
+  "record_scope": "WP-C01 B* sub-capability; integration-only record, not a public release certificate",
+  "available_route": {
+    "analysis": "linear_static",
+    "contact": "frictional node-to-triangle active-set",
+    "pair": "one initially frozen slave node and one reference master triangle",
+    "kinematics": "small rotations, first-order reference-pair transfer",
+    "activation_parameter": "analysis.parameters.contact_tangential_transfer=small_rotation_work_conjugate",
+    "default_parameter_value": "legacy"
+  },
+  "evidence": {
+    "B_STAR_STICK_SLIP": "VALIDATED_EXPLORATORY",
+    "R13": "Algebraic virtual-work, force/moment, and stick tangent checks; exploratory stick calculations",
+    "R14": "Nine accepted steps; stick steps 1-7, slip steps 8-9; frozen-pair configuration SHA-256 b74c57cae86d94b4cbfdae0c298ea98aa660f70159c72eb4b72f0ee4b5eee3e5",
+    "R16": "Integrated solver reproduced the R14 fixture on nine accepted steps; original pytest FAIL is preserved",
+    "R17_R18": "Offline archive replay PASS; independent raw moment norm 1.8780385144291777e-12 N.m against the unchanged 0.002 N.m limit",
+    "source_integration_commit": "9035adff88b42e2ed8172260ead7c74485494d88"
+  },
+  "exclusions": [
+    "finite sliding or updated projection",
+    "large rotations",
+    "multiple contact pairs",
+    "slave patches or master patches",
+    "a qualified global consistent slip tangent",
+    "general spatial convergence",
+    "industrial or production qualification",
+    "general scientific certification"
+  ],
+  "implementation_limitations": {
+    "numeric_angle_threshold": "none is implemented or qualified; small rotation is an analyst-enforced scope condition",
+    "slip_tangent": "global consistent tangent NOT_ACQUIRED",
+    "finite_sliding": "NOT_ACQUIRED",
+    "spatial_convergence": "NOT_ACQUIRED"
+  },
+  "registry_compatibility": {
+    "canonical_0_2_7_vocabulary_contains_EXPERIMENTAL_BOUNDED": false,
+    "handling": "Use this versioned dedicated field; do not change the existing registry state vocabulary or infer qualification."
+  },
+  "qualification_promotion": "NONE"
+}

@@ -1,0 +1,14 @@
+ID	Requirement or claim	Evidence	Validation	State	Boundary
+C01-R19-01	Classify the B* sub-capability using bounded experimental maturity	wp_c01_bstar_capability_record.json; WP-C01 R13-R18 records	R19 contract tests plus schema vocabulary assertion; 34 targeted tests PASS	EXPERIMENTAL_BOUNDED	Dedicated field; 0.2.7 registry vocabulary not changed; not a certificate
+C01-R19-02	Static frictional transfer is explicit opt-in and legacy is default	contact/support.py; contact validation; algebraic R13 tests	Targeted R13 algebraic tests	PASS	No scientific source edits in R19
+C01-R19-03	Use one initially frozen slave/master pair with one master triangle	wp_c01_bstar_capability_record.json; solver scope guards	Targeted scope tests and source inspection	PASS	No multipair, patches, or updated projection
+C01-R19-04	Document virtual-work-conjugate B* transfer and small-rotation contract	docs/contact_small_rotation_work_conjugate_transfer.md	Markdown link check and independent review	PASS	No numerical angle threshold; small-rotation regime is analyst-enforced
+C01-R19-05	Provide a reproducible API example from the exact R14 fixture	examples/contact/frictional_bstar_small_rotation/model_r14_bstar_slip.json SHA-256 b74c57cae86d94b4cbfdae0c298ea98aa660f70159c72eb4b72f0ee4b5eee3e5; run_example.py	Fixture/config tests and CLI no-run check	READY_TO_RUN_EXPLICITLY	No solve is triggered by tests or docs build
+C01-R19-06	Preserve R14/R16 observed stick/slip and result comparisons	R14 report; R16 raw SHA-256 43917c4e2f6e4ac4e72db26a327adbe32a98ef679d043425f787250bf0794752; R18 replay JSON SHA-256 59144a0a4fa5a0b077a043c7328eefcbe78da9bbd0af5339455b0b16ed202478	Evidence cross-check	PASS	R16 original pytest FAIL remains historical
+C01-R19-07	Preserve raw moment check and independent R16 result	R17/R18 independent balance report	Archive replay result	ACQUIRED; 1.8780385144291777e-12 N.m	Case-specific; limit remains 0.002 N.m
+C01-R19-08	Prepare user and release-note text without publication	docs/examples/index.md; examples/README.md; CHANGELOG.md; wp_c01_r19_site_copy_draft.md	Link/content review	READY_FOR_LATER_USE	No qfsolver.org modification or publication
+C01-R19-09	Global slip tangent qualification	No evidence acquired	Not qualified	NOT_ACQUIRED	No global consistent tangent claim
+C01-R19-10	Finite sliding qualification	No evidence acquired	Not qualified	NOT_ACQUIRED	Frozen initial projection only
+C01-R19-11	General spatial convergence	No refinement campaign	Not acquired	NOT_ACQUIRED	No spatial convergence claim
+C01-ADMIN-01	Remediation remains open and follow-up is pending	wp_c01_r19_status_register.json	Status contract check	OPEN; PENDING_FURTHER_QUALIFICATION	Existing WP_C01_REMEDIATION vocabulary unchanged
+WP11-ADMIN-01	WP11 remains paused and WP12/WP13 untouched	Owner R19 instruction	Worktree/activity review	PAUSED_BY_OWNER; NOT_RUN	No work on WP11, WP12, or WP13

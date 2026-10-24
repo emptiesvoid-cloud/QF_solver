@@ -1,5 +1,24 @@
 # Experimental small-rotation tangential contact transfer
 
+## Maturity and provenance
+
+For the internal 0.2.12 integration candidate, this B* sub-capability is
+classified `EXPERIMENTAL_BOUNDED`. This is a scoped maturity label, not a
+scientific certificate or a statement about the published 0.2.11 release. The
+mode is opt-in; omission of the transfer parameter continues to select the
+legacy behavior. The dedicated record at
+[`qualification/0_2_12/wp_c01_bstar_capability_record.json`](../qualification/0_2_12/wp_c01_bstar_capability_record.json)
+tracks the classification and the R13–R18 provenance.
+
+R13 supplies algebraic and exploratory stick evidence. R14 observed nine
+accepted steps with stick at 1–7 and slip at 8–9. R16 reproduced the fixture
+from the integrated solver; its original pytest parsing failure remains
+preserved. R17/R18 replayed the archived output offline and independently
+reconstructed the raw moment. These observations do not qualify finite
+sliding, a global consistent slip tangent, or general mesh convergence.
+There is no numeric angle threshold: remaining in the small-rotation regime
+is an analyst-enforced scope condition.
+
 ## Scope and conventions
 
 `contact_tangential_transfer="small_rotation_work_conjugate"` is an explicit,
@@ -81,6 +100,9 @@ The implementation rejects unsupported route/projection options, but it does
 not impose a numerical angle cutoff at runtime. The caller must keep the
 kinematics within the small-rotation regime; reported rotations are diagnostics,
 not an automatic admissibility certificate.
+
+The bounded example and archived comparison notes are in
+[`examples/contact/frictional_bstar_small_rotation/`](../examples/contact/frictional_bstar_small_rotation/README.md).
 
 ## Verification
 

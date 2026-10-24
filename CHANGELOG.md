@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.12 — Preparation (unreleased)
+
+The integration candidate records the B* small-rotation frictional contact
+transfer as `EXPERIMENTAL_BOUNDED` in a dedicated C01 capability record. The
+route remains opt-in and legacy remains the default. Its example requires an
+explicit `--run` to launch a calculation. This preparation entry is not a
+release announcement; finite sliding, a global consistent slip tangent,
+general spatial convergence, and production qualification remain unacquired.
+
 ## 0.2.11 - Released
 
 QF Solver 0.2.11 is a cumulative update to 0.2.10, published on 2026-10-07.

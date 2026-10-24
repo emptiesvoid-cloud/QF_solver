@@ -91,6 +91,16 @@ The initial snapshot above recorded WP-E01 as separate and not integrated. This 
 
 No public capability registry, release policy, `main` branch, tag, or publication was changed.
 
+## WP-C01 R19 — bounded experimental capability and example (2026-10-24)
+
+- **Classification:** `B_STAR_CAPABILITY_MATURITY=EXPERIMENTAL_BOUNDED` is recorded in the dedicated, versioned [C01 B* capability record](wp_c01_bstar_capability_record.json) and [R19 status register](wp_c01_r19_status_register.json). The existing registry vocabulary does not contain this label; its schema and historical records are unchanged.
+- **Capability boundary:** linear-static frictional node-to-triangle active-set contact; one initially frozen slave/master pair and one reference master triangle; first-order transfer for analyst-enforced small rotations. `small_rotation_work_conjugate` remains explicit opt-in; legacy remains the default. No numeric angle cutoff is implemented or qualified.
+- **Evidence preserved:** R13 algebraic/stick evidence; R14 nine accepted steps with stick 1–7 and slip 8–9; R16 integrated FEM output and historical pytest FAIL; R17/R18 offline replay PASS and independent raw-moment reconstruction. The fixture hash is recorded in the capability record and example README. No archived evidence was modified and no new FEM was run in R19.
+- **Example and documentation:** [B* example](../../examples/contact/frictional_bstar_small_rotation/README.md), [transfer contract](../../docs/contact_small_rotation_work_conjugate_transfer.md), and [unreleased preparation note](../../docs/whats-new/0.2.12-preparation.md). Running the example requires explicit `--run`; tests and documentation generation do not launch it. [qfsolver.org copy](wp_c01_r19_site_copy_draft.md) is a draft only and was not published.
+- **Excluded claims:** finite sliding or updated projection, large rotations, multiple pairs/patches, a global consistent slip tangent, general spatial convergence, and industrial/production qualification remain unacquired. Classification is not a scientific certificate.
+- **Administrative state:** `WP_C01_HISTORICAL=CLOSED_NEGATIVE`; `WP_C01_REMEDIATION=OPEN`; `C01_FOLLOWUP_STATE=PENDING_FURTHER_QUALIFICATION`; `WP_C02=CLOSED_BOUNDED`; `WP11=PAUSED_BY_OWNER`; WP12/WP13 were not run. No `main` merge, push, tag, release, site modification, or certificate promotion occurred in this R19 work.
+- **Verification and integration identity:** to be filled from the R19 isolated branch after targeted non-FEM checks, independent review, and fast-forward to `codex/v0.2.12-integration`. The local AGENTS/D01/E01 changes in the destination worktree are excluded and preserved.
+
 ## WP11 consolidation — Owner mandate WP11-B (2026-10-23)
 
 - **Current status:** `WP11=OPEN`; WP11-A/B consolidate the actual API, results, schema, serialization and maturity scope without claiming closure automatically.

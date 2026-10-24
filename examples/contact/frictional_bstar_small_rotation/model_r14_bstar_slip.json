@@ -1,0 +1,223 @@
+{
+  "analysis": {
+    "contact_emit_step_checkpoints": true,
+    "contact_finite_sliding": false,
+    "contact_load_history": [
+      [
+        1.0,
+        0.0
+      ],
+      [
+        1.0,
+        0.16666666666666666
+      ],
+      [
+        1.0,
+        0.3333333333333333
+      ],
+      [
+        1.0,
+        0.5
+      ],
+      [
+        1.0,
+        0.6666666666666666
+      ],
+      [
+        1.0,
+        0.8333333333333334
+      ],
+      [
+        1.0,
+        0.9
+      ],
+      [
+        1.0,
+        0.95
+      ],
+      [
+        1.0,
+        1.0
+      ]
+    ],
+    "contact_search_mode": "initial",
+    "contact_tangential_transfer": "small_rotation_work_conjugate",
+    "method": "direct",
+    "type": "linear_static"
+  },
+  "contacts": [
+    {
+      "friction_coefficient": 0.4,
+      "master_nodes": [
+        0,
+        1,
+        2
+      ],
+      "name": "r13_frozen_slave_triangle",
+      "slave_node": 4,
+      "tangential_stiffness": 5000000.0
+    }
+  ],
+  "elements": [
+    {
+      "material": "soft_solid",
+      "nodes": [
+        0,
+        2,
+        1,
+        3
+      ],
+      "type": "TET4"
+    },
+    {
+      "material": "soft_solid",
+      "nodes": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "type": "TET4"
+    }
+  ],
+  "fixed_dofs": [
+    {
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ],
+      "node": 3
+    },
+    {
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ],
+      "node": 5
+    },
+    {
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ],
+      "node": 6
+    },
+    {
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ],
+      "node": 7
+    }
+  ],
+  "loads": [
+    {
+      "dof": "UZ",
+      "node": 4,
+      "value": -40000.0
+    },
+    {
+      "dof": "UX",
+      "node": 4,
+      "value": 12000.0
+    }
+  ],
+  "materials": {
+    "soft_solid": {
+      "E": 10000000.0,
+      "nu": 0.3,
+      "type": "isotropic_3d"
+    }
+  },
+  "nodes": [
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0
+    ],
+    [
+      0.25,
+      0.25,
+      -0.3
+    ],
+    [
+      0.25,
+      0.3,
+      0.02
+    ],
+    [
+      0.25,
+      0.3,
+      0.32
+    ],
+    [
+      0.55,
+      0.3,
+      0.32
+    ],
+    [
+      0.25,
+      0.6,
+      0.32
+    ]
+  ],
+  "springs": [
+    {
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ],
+      "node_a": 0,
+      "stiffness": [
+        5000000.0,
+        5000000.0,
+        5000000.0
+      ]
+    },
+    {
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ],
+      "node_a": 1,
+      "stiffness": [
+        5000000.0,
+        5000000.0,
+        5000000.0
+      ]
+    },
+    {
+      "dofs": [
+        "UX",
+        "UY",
+        "UZ"
+      ],
+      "node_a": 2,
+      "stiffness": [
+        5000000.0,
+        5000000.0,
+        5000000.0
+      ]
+    }
+  ],
+  "units": {
+    "system": "SI"
+  },
+  "verification_profile": "engineering"
+}
