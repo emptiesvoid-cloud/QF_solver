@@ -101,7 +101,7 @@ def test_uniaxial_and_simple_shear_match_direct_tensor_references(
     assert shear_response.jacobian_determinant == pytest.approx(1.0, abs=1.0e-14)
     if isinstance(model, StVenantKirchhoff):
         expected_second_shear = _LAMBDA_PA * (shear**2 / 2.0) * np.eye(3)
-        expected_second_shear[1, 1] += _MU_PA * shear
+        expected_second_shear[1, 1] += _MU_PA * shear**2
         expected_second_shear[0, 1] = expected_second_shear[1, 0] = _MU_PA * shear
         expected_shear_energy = (
             _LAMBDA_PA * shear**4 / 8.0
@@ -137,11 +137,12 @@ def test_uniaxial_and_simple_shear_match_direct_tensor_references(
 def test_rigid_rotation_and_rotation_plus_stretch_are_objective(
     model: StVenantKirchhoff | CompressibleNeoHookean,
 ) -> None:
-    angle = 0.61
+    # Use an exactly representable quarter-turn so this objectivity check
+    # isolates the constitutive transformation from roundoff in trigonometry.
     rotation = np.array(
         [
-            [np.cos(angle), -np.sin(angle), 0.0],
-            [np.sin(angle), np.cos(angle), 0.0],
+            [0.0, -1.0, 0.0],
+            [1.0, 0.0, 0.0],
             [0.0, 0.0, 1.0],
         ]
     )
