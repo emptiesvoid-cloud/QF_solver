@@ -1,0 +1,48 @@
+{
+  "schema": "qfsolver-wp-c01-r18-status-register-v1",
+  "recorded_on": "2026-10-24",
+  "integration_branch": "codex/v0.2.12-integration",
+  "integration_base_head": "3eaffd634337b905569842610d8fd5b31e4a9f5e",
+  "r17_source_commit": "0f70192413d99486e114e2cae040ad298ac09395",
+  "provenance": {
+    "R16_result_sha256": "43917c4e2f6e4ac4e72db26a327adbe32a98ef679d043425f787250bf0794752",
+    "R14_result_sha256": "ecaaf3480f0c29d209a1c68c063447bd335a7494901b7d1e23d3313e76cc56f9",
+    "fixture_sha256": "b74c57cae86d94b4cbfdae0c298ea98aa660f70159c72eb4b72f0ee4b5eee3e5",
+    "R16_attempt_ledger_sha256": "84ee055eeacbc0905885226083aea398b75221e56957d573ca44a6e12b889caa",
+    "R18_offline_replay_sha256": "59144a0a4fa5a0b077a043c7328eefcbe78da9bbd0af5339455b0b16ed202478",
+    "replay_script_sha256": "d8983f6342081fb6c9c0a08363075eb990d9b9c5f1ffbb188461176e991f291c"
+  },
+  "historical_status": {
+    "WP_C01_HISTORICAL": "CLOSED_NEGATIVE",
+    "CANONICAL_M2": "NOT_RECOVERED",
+    "WP_C02": "CLOSED_BOUNDED"
+  },
+  "remediation_status": {
+    "WP_C01_REMEDIATION": "OPEN",
+    "C01_FOLLOWUP_STATE": "PENDING_FURTHER_QUALIFICATION",
+    "pending_reason": "The existing register contract does not define PENDING_FURTHER_QUALIFICATION as a WP_C01_REMEDIATION value. Keep OPEN and record pending follow-up separately."
+  },
+  "experimental_bstar": {
+    "B_STAR_INTEGRATION": "MERGED_EXPERIMENTAL",
+    "B_STAR_STICK_SLIP": "VALIDATED_EXPLORATORY",
+    "B_STAR_INTEGRATED_FEM_REPLAY": "PASS",
+    "R16_RAW_MOMENT": "ACQUIRED",
+    "B_STAR_GLOBAL_SLIP_TANGENT": "NOT_ACQUIRED",
+    "FINITE_SLIDING_CONTACT": "NOT_ACQUIRED",
+    "C01_SPATIAL_CONVERGENCE": "NOT_ACQUIRED",
+    "default_mode": "legacy",
+    "experimental_mode": "small_rotation_work_conjugate",
+    "scope": "Opt-in only; small rotations and one initially frozen master/slave pair. No explicit numerical angle threshold is implemented."
+  },
+  "historical_r16_attempt": {
+    "B_STAR_INTEGRATED_FEM_SMOKE": "FAIL",
+    "reason": "The original pytest failed after the solver completed because serialized telemetry events were JSON strings consumed as mappings.",
+    "preserved": true
+  },
+  "other_work_packages": {
+    "WP11": "PAUSED_BY_OWNER",
+    "WP12_action": "NOT_RUN",
+    "WP13_action": "NOT_RUN"
+  },
+  "qualification_boundary": "No finite-sliding qualification, coherent global slip tangent, general spatial convergence, broad contact qualification, or scientific certificate is implied. No FEM was run during R17/R18 consolidation."
+}

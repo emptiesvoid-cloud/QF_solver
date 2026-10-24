@@ -1,0 +1,82 @@
+{
+  "accepted_states": [
+    "stick",
+    "stick",
+    "stick",
+    "stick",
+    "stick",
+    "stick",
+    "stick",
+    "slip",
+    "slip"
+  ],
+  "accepted_step_count": 9,
+  "event_count": 106,
+  "fem_rerun": false,
+  "independent_balance": {
+    "combined_moment_Nm": [
+      -1.3642420526593924e-12,
+      1.2079226507921703e-12,
+      -4.547473508864641e-13
+    ],
+    "combined_moment_norm_Nm": 1.8780385144291777e-12,
+    "combined_resultant_N": [
+      9.094947017729282e-13,
+      0.0,
+      -4.831690603168681e-12
+    ],
+    "contact_moment_Nm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "contact_resultant_N": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "contract_limit_Nm": 0.002,
+    "external_support_spring_moment_Nm": [
+      -1.3642420526593924e-12,
+      1.2079226507921703e-12,
+      -4.547473508864641e-13
+    ],
+    "external_support_spring_resultant_N": [
+      9.094947017729282e-13,
+      0.0,
+      -4.831690603168681e-12
+    ],
+    "moment_reference_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "passes_contract_limit": true,
+    "source": "R16 archived reactions and result fields plus the SHA-bound fixture; independent B* nodal-force and cross-product reconstruction"
+  },
+  "input_sha256": {
+    "fixture": "b74c57cae86d94b4cbfdae0c298ea98aa660f70159c72eb4b72f0ee4b5eee3e5",
+    "r14_result": "ecaaf3480f0c29d209a1c68c063447bd335a7494901b7d1e23d3313e76cc56f9",
+    "r16_result": "43917c4e2f6e4ac4e72db26a327adbe32a98ef679d043425f787250bf0794752"
+  },
+  "max_abs_gap_m": 1.3877787807814457e-17,
+  "max_slip_coulomb_difference_N": 5.4569682106375694e-12,
+  "r16_r14_exact_fields": [
+    "nodes_m",
+    "displacements_m",
+    "contact",
+    "accepted committed_contact_state"
+  ],
+  "r16_solver_audit_moment_correction_Nm_cross_check": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "r16_solver_audit_raw_moment_Nm_cross_check": [
+    -1.8189894035458565e-12,
+    1.8189894035458565e-12,
+    0.0
+  ],
+  "schema": "qfsolver-wp-c01-r16-archive-replay-v1",
+  "verdict": "B_STAR_R16_ARCHIVE_REPLAY_PASS"
+}

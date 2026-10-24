@@ -100,3 +100,13 @@ No public capability registry, release policy, `main` branch, tag, or publicatio
 - **Scientific exclusions retained:** `WP_D02=CLOSED_BOUNDED`; `WP_E01=OPEN_WITH_BOUNDED_CERTIFICATES`; `PRODUCTION_ARMIJO_GF4_SLAVE_BOUNDED=VERIFIED_BOUNDED` only for its historical TET4 slave scope; `MASTER_ASSEMBLY_EQUILIBRIUM=NOT_VERIFIED`; raw E01-BA aggregate verdict `FAIL`; global J2 tangent unresolved; `GENERAL_SCIENTIFIC_QUALIFICATION=NOT_ACQUIRED`.
 - **Decision:** WP11 closure is proposed only after review of the traceability matrix and the Owner decision on whether the unversioned ordinary-result payloads meet the existing integration contract. WP12/WP13 remain open.
 - **Evidence:** see `wp11_b_api_results_maturity_consolidation.md`, `wp11_b_capability_traceability_matrix.tsv`, and `wp11_b_closure_gate_assessment.md`. No FEM solve, Docker operation, release action, or public capability promotion was performed for WP11-B.
+
+## WP-C01 R18 consolidation — administrative pending state (2026-10-24)
+
+- **Historical status preserved:** `WP_C01_HISTORICAL=CLOSED_NEGATIVE`; `CANONICAL_M2_NOT_RECOVERED`; `WP_C02=CLOSED_BOUNDED`.
+- **Remediation status:** the existing WP status contract has no `PENDING_FURTHER_QUALIFICATION` value. Keep `WP_C01_REMEDIATION=OPEN` and record `C01_FOLLOWUP_STATE=PENDING_FURTHER_QUALIFICATION` in [the R18 status register](wp_c01_r18_status_register.json).
+- **R17 integration:** the archive JSON reader, offline replay tool, unit tests, replay evidence and independent review are included. The FEM smoke node itself was not added to this branch, and no FEM was launched in R17/R18.
+- **R16 archive replay:** `B_STAR_R16_ARCHIVE_REPLAY=PASS`; the original `B_STAR_INTEGRATED_FEM_SMOKE=FAIL` and consumed attempt ledger remain preserved. `R16_RAW_MOMENT=ACQUIRED` from the independent archived-data reconstruction.
+- **B* scope:** `B_STAR_INTEGRATION=MERGED_EXPERIMENTAL`, `B_STAR_STICK_SLIP=VALIDATED_EXPLORATORY`; legacy remains the default. The opt-in mode is limited to small rotations and one initially frozen pair. No numeric angle threshold is implemented. `B_STAR_GLOBAL_SLIP_TANGENT`, `FINITE_SLIDING_CONTACT`, and `C01_SPATIAL_CONVERGENCE` remain `NOT_ACQUIRED`.
+- **Other work packages:** `WP11=PAUSED_BY_OWNER`; no WP11, WP12 or WP13 work was performed in this consolidation. The previous WP11-B section is a historical record and is not updated here.
+- **Review and validation:** see [the independent review](wp_c01_r18_independent_review.md) and [traceability matrix](wp_c01_r18_traceability_matrix.tsv). No scientific solver equations, thresholds, or archives were changed. No merge to `main`, release, Docker operation, or certificate promotion occurred.

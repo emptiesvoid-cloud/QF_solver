@@ -1,0 +1,83 @@
+{
+  "fem_rerun": false,
+  "independent_r16_balance": {
+    "b_star_contact_moment_Nm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "b_star_contact_resultant_N": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "basis": "R16 archived reactions + hashed fixture loads/springs/nodes + R16 displacement/contact fields; independently reconstructed, no R14 moment copied",
+    "combined_moment_Nm": [
+      -1.3642420526593924e-12,
+      1.2079226507921703e-12,
+      -4.547473508864641e-13
+    ],
+    "combined_moment_norm_Nm": 1.8780385144291777e-12,
+    "combined_resultant_N": [
+      9.094947017729282e-13,
+      0.0,
+      -4.831690603168681e-12
+    ],
+    "contract_limit_Nm": 0.002,
+    "external_fixed_spring_moment_Nm": [
+      -1.3642420526593924e-12,
+      1.2079226507921703e-12,
+      -4.547473508864641e-13
+    ],
+    "external_fixed_spring_resultant_N": [
+      9.094947017729282e-13,
+      0.0,
+      -4.831690603168681e-12
+    ],
+    "moment_reference_m": [
+      0,
+      0,
+      0
+    ],
+    "passes_limit": true
+  },
+  "input_sha256": {
+    "fixture": "b74c57cae86d94b4cbfdae0c298ea98aa660f70159c72eb4b72f0ee4b5eee3e5",
+    "r14_raw": "ecaaf3480f0c29d209a1c68c063447bd335a7494901b7d1e23d3313e76cc56f9",
+    "r16_raw": "43917c4e2f6e4ac4e72db26a327adbe32a98ef679d043425f787250bf0794752"
+  },
+  "r16_solver_audit_contact_reference_correction_Nm": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "r16_solver_audit_raw_moment_Nm": [
+    -1.8189894035458565e-12,
+    1.8189894035458565e-12,
+    0.0
+  ],
+  "replay": {
+    "accepted_steps": 9,
+    "contact_active_all_steps": true,
+    "events": 106,
+    "max_abs_gap_m": 1.3877787807814457e-17,
+    "max_coulomb_excess_stick_N": 0,
+    "max_slip_abs_coulomb_difference_N": 5.4569682106375694e-12,
+    "positive_pressure_all_steps": true,
+    "r16_vs_r14_accepted_checkpoints_exact": true,
+    "r16_vs_r14_nodes_displacements_contact_exact": true,
+    "states": [
+      "stick",
+      "stick",
+      "stick",
+      "stick",
+      "stick",
+      "stick",
+      "stick",
+      "slip",
+      "slip"
+    ]
+  },
+  "test_failure_root_cause": "Telemetry event entries are JSON strings; the original smoke test called .get() on strings after the solver returned and wrote the payload.",
+  "verdict": "B_STAR_R16_ARCHIVE_REPLAY_PASS"
+}
