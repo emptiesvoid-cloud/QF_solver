@@ -1,11 +1,13 @@
 {
   "schema": "qf-development-autonomous-scope-draft/v1",
   "scope_status": "INACTIVE_OWNER_REVIEW_REQUIRED",
+  "binding_status": "PREPARATION_ONLY_NOT_CONSUMABLE",
+  "binding_note": "The source snapshot identifies the code commit before the documentation-only report commit. Rebind to the final integrated HEAD/tree and activate a separate ledger only after Owner/policy approval.",
   "execution_enabled": false,
   "campaign_id": "b0e9e158-1e2c-4254-8946-344e5ebfa1f5",
   "work_package": "WP-D01",
   "purpose": "Exploratory native validation of the integrated residual-flexibility harmonic path; not qualification",
-  "worktree": {
+  "source_snapshot": {
     "canonical_root": "C:\\Users\\fari\\.codex\\worktrees\\wp-d01-fem-revalidation-20261024",
     "branch": "codex/wp-d01-residual-flexibility-20261024",
     "head": "0c01316b54b80171b8b0a5a0c79c7769d1031577",

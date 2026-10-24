@@ -50,7 +50,7 @@ L’agent de revue confirme également l’absence d’archive/JUnit sous cette 
 
 ## Identité, fusion et classifications
 
-Commit de portage : `0c01316b54b80171b8b0a5a0c79c7769d1031577`.
+Commit de portage : `0c01316b54b80171b8b0a5a0c79c7769d1031577` (tree `bd69abf60c13477b7c075b5a633321cc794715e4`). Les livrables documentaires sont postérieurs à ce snapshot; le scope draft reste volontairement ancré au commit de code et porte `PREPARATION_ONLY_NOT_CONSUMABLE`. Il doit être rebindé au HEAD/tree final après intégration et autorisé avant exécution.
 
 La cible `codex/v0.2.12-integration` contient des changements C01/E01 non commités, notamment des modifications de `scripts/development_autonomous.py` et `tests/unit/test_development_autonomous_policy.py`, également touchés ici. Pour protéger ces changements, aucun merge n’a été réalisé. Le worktree source de la campagne est isolé et propre après le commit du rapport.
 
