@@ -21,6 +21,7 @@ class ExactNodeGate:
         self.expected_nodeids = tuple(expected_nodeids)
         self.allow_native_skip_override = allow_native_skip_override
 
+    @pytest.hookimpl(trylast=True)
     def pytest_collection_modifyitems(self, session, config, items) -> None:
         import pytest
 
