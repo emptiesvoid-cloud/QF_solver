@@ -688,14 +688,28 @@ def _resolve_damping(
     parameters: Mapping[str, Any],
 ) -> tuple[Any, tuple[float, float] | None]:
     model = str(parameters.get("reduced_damping_model", "rayleigh_physical_projected")).strip().lower()
+    projection_method_value = parameters.get("reduced_damping_projection", "legacy_direct")
+    if not isinstance(projection_method_value, str):
+        raise InputValidationError("reduced_damping_projection must be a string.")
+    projection_method = projection_method_value.strip().lower()
+    if projection_method not in {"legacy_direct", "rayleigh_structured"}:
+        raise InputValidationError(
+            "reduced_damping_projection must be 'legacy_direct' or 'rayleigh_structured'."
+        )
     if model == "rayleigh_physical_projected":
         if "modal_damping_ratios" in parameters:
             raise InputValidationError("modal_damping_ratios require reduced_damping_model='prescribed_modal'.")
         definition = rayleigh_damping_definition(dict(parameters))
-        damping = basis.rayleigh_damping_from_parameters(prepared, parameters)
+        damping = basis.rayleigh_damping_from_parameters(
+            prepared,
+            parameters,
+            projection_method=projection_method,
+        )
         return damping, (definition.alpha, definition.beta)
     if model != "prescribed_modal":
         raise InputValidationError("reduced_damping_model must be 'rayleigh_physical_projected' or 'prescribed_modal'.")
+    if "reduced_damping_projection" in parameters:
+        raise InputValidationError("reduced_damping_projection applies only to physical Rayleigh damping.")
     conflicts = {"rayleigh_alpha", "rayleigh_beta", "modal_damping_targets", "damping_model"}.intersection(parameters)
     if conflicts:
         raise InputValidationError(

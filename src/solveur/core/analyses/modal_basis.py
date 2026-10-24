@@ -55,6 +55,8 @@ _IDENTITY_DOMAIN = "qf-modal-basis-identity/v1"
 _EIGENSOLVER_TOL = 1.0e-10
 _EIGENSOLVER_MAXITER = 5000
 _DENSE_MODAL_MAX_DOFS = 2000
+_DAMPING_PROJECTION_LEGACY = "legacy_direct"
+_DAMPING_PROJECTION_RAYLEIGH_STRUCTURED = "rayleigh_structured"
 
 
 class ModalBasis:
@@ -560,47 +562,88 @@ class ModalBasis:
         *,
         alpha: float,
         beta: float,
+        projection_method: str = _DAMPING_PROJECTION_LEGACY,
     ) -> "ModalDamping":
-        """Project the declared physical Rayleigh matrix C=alpha*M+beta*K."""
+        """Project declared Rayleigh damping with an explicit numerical route.
+
+        ``legacy_direct`` preserves the historical ``Phi.T @ (C @ Phi)``
+        contract. ``rayleigh_structured`` contracts the already projected
+        physical K/M operators and is valid only because this API constructs
+        C from the declared Rayleigh coefficients.
+        """
         self.assert_compatible(prepared)
         _finite_nonnegative(alpha, "Rayleigh alpha")
         _finite_nonnegative(beta, "Rayleigh beta")
         definition = rayleigh_damping_definition({"rayleigh_alpha": alpha, "rayleigh_beta": beta})
-        return self._project_rayleigh_definition(prepared, definition)
+        return self._project_rayleigh_definition(prepared, definition, projection_method=projection_method)
 
     def rayleigh_damping_from_parameters(
         self,
         prepared: PreparedDynamicSystem,
         parameters: Mapping[str, object],
+        *,
+        projection_method: str = _DAMPING_PROJECTION_LEGACY,
     ) -> "ModalDamping":
-        """Resolve the existing Rayleigh definition contract, then project it."""
+        """Resolve a Rayleigh definition and apply the explicitly selected route."""
         self.assert_compatible(prepared)
         if not isinstance(parameters, Mapping):
             raise InputValidationError("Rayleigh damping parameters must be a mapping.")
         definition = rayleigh_damping_definition(dict(parameters))
-        return self._project_rayleigh_definition(prepared, definition)
+        return self._project_rayleigh_definition(prepared, definition, projection_method=projection_method)
 
     def _project_rayleigh_definition(
         self,
         prepared: PreparedDynamicSystem,
         definition: RayleighDampingDefinition,
+        *,
+        projection_method: str = _DAMPING_PROJECTION_LEGACY,
     ) -> "ModalDamping":
+        if not isinstance(projection_method, str):
+            raise InputValidationError("Rayleigh projection_method must be a string.")
+        method = projection_method.strip().lower()
+        if method not in {_DAMPING_PROJECTION_LEGACY, _DAMPING_PROJECTION_RAYLEIGH_STRUCTURED}:
+            raise InputValidationError(
+                "Rayleigh projection_method must be 'legacy_direct' or 'rayleigh_structured'."
+            )
         c_physical = (definition.alpha * prepared.mass + definition.beta * prepared.stiffness).tocsr()
-        projected = np.asarray(self._modes.T @ (c_physical @ self._modes), dtype=np.float64)
-        _validate_projected_damping(projected)
         expected = definition.alpha * self._projected_mass + definition.beta * self._projected_stiffness
+        direct = np.asarray(self._modes.T @ (c_physical @ self._modes), dtype=np.float64)
+        if method == _DAMPING_PROJECTION_LEGACY:
+            # Preserve the historical fail-closed ordering as well as output.
+            _validate_projected_damping(direct)
+        elif direct.shape != expected.shape or not np.all(np.isfinite(direct)):
+            raise NumericalConvergenceError("Direct Rayleigh projection is non-finite or has inconsistent dimensions.")
+        consistency_scale = direct if method == _DAMPING_PROJECTION_LEGACY else expected
         relative_error = float(
-            np.linalg.norm(projected - expected, ord="fro")
-            / max(float(np.linalg.norm(projected, ord="fro")), _FLOAT_TINY)
+            np.linalg.norm(direct - expected, ord="fro")
+            / max(float(np.linalg.norm(consistency_scale, ord="fro")), _FLOAT_TINY)
         )
-        if relative_error > _MODAL_RESIDUAL_MAX:
+        if not math.isfinite(relative_error) or relative_error > _MODAL_RESIDUAL_MAX:
             raise NumericalConvergenceError("Projected Rayleigh damping disagrees with projected K/M.")
+        if method == _DAMPING_PROJECTION_LEGACY:
+            # Keep the historical gate and output unchanged unless callers
+            # explicitly select the structurally equivalent Rayleigh route.
+            projected = direct
+        else:
+            # This identity is valid only for the Rayleigh definition above.
+            # It does not average or repair a computed matrix: each reduced
+            # operator comes from the already validated K/M modal projections.
+            projected = np.asarray(expected, dtype=np.float64)
+            _validate_projected_damping(projected)
         return ModalDamping(
             matrix=projected,
             source="RAYLEIGH_PHYSICAL_PROJECTED",
             basis_identity=self.basis_identity,
             operator_identity=self.operator_identity,
-            parameters=definition.to_dict(),
+            parameters=(
+                definition.to_dict()
+                if method == _DAMPING_PROJECTION_LEGACY
+                else {
+                    **definition.to_dict(),
+                    "projection_method": method,
+                    "direct_projection_relative_consistency_error": relative_error,
+                }
+            ),
             reaction_availability="NOT_COMPUTED",
             reaction_reason="A full-space equilibrium consumer has not reconstructed physical reactions.",
         )

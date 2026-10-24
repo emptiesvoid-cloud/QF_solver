@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Mapping
 from typing import Any
 
-from solveur.core.analyses.settings import SUPPORTED_METHODS
+from solveur.core.analyses.settings import DEFAULT_METHODS, SUPPORTED_METHODS, reduced_damping_projection_errors
 from solveur.io.laminate_schema import validate_laminate_plies
 from solveur.io.schema_values import (
     is_int as _is_int,
@@ -185,10 +185,19 @@ class JsonSchemaAnalysisMixin:
         if method is not None and method not in SUPPORTED_METHODS[analysis_type]:
             allowed = ", ".join(SUPPORTED_METHODS[analysis_type])
             errors.append(f"analysis.method {method!r} is unsupported for {analysis_type}; allowed: {allowed}.")
-        self._validate_analysis_parameters(analysis_type, params, errors)
+        effective_method = method or DEFAULT_METHODS.get(analysis_type)
+        self._validate_analysis_parameters(analysis_type, params, errors, method=effective_method)
 
 
-    def _validate_analysis_parameters(self, analysis_type: str, params: Mapping[str, Any], errors: list[str]) -> None:
+    def _validate_analysis_parameters(
+        self,
+        analysis_type: str,
+        params: Mapping[str, Any],
+        errors: list[str],
+        *,
+        method: str | None = None,
+    ) -> None:
+        errors.extend(reduced_damping_projection_errors(analysis_type, method, dict(params)))
         if analysis_type == "rotating_modal":
             self._reject_unknown("analysis.parameters", params, {"rotation", "modes"}, errors)
             self._positive_int("analysis.parameters.modes", params.get("modes", 6), errors)
