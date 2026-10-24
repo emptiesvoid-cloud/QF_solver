@@ -135,7 +135,9 @@ markers = [
   "large: optional large-scale tests for manually generated big models",
   "docs: Markdown/PDF documentation evidence checks requiring optional dependencies",
   "benchmark: controlled meshed mechanical benchmark campaign requiring Gmsh",
-  "evidence: checks requiring the optional controlled V&V evidence corpus"
+  "evidence: checks requiring the optional controlled V&V evidence corpus",
+  "native_vv: owner-gated native scientific test scenario; use only under a registered development scope",
+  "scientific_vv: scientific verification scenario; execution is explicitly gated"
 ]
 
 [tool.ruff]

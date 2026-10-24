@@ -301,7 +301,7 @@ def test_d01_junit_payload_is_required_and_bound_to_mesh_and_two_mode_counts(tmp
             "stored_representation_sha256": digest.hexdigest(),
         }
 
-    frequencies = [float(index) for index in range(1, 7)]
+    frequencies = [0.0, *[float(index) for index in range(1, 6)]]
     frequency_raw = struct.pack("<6d", *frequencies)
     frequency_identity = json.dumps(
         {"dtype": "<f8", "shape": [6], "order": "C"},
@@ -449,6 +449,15 @@ def test_d01_junit_payload_is_required_and_bound_to_mesh_and_two_mode_counts(tmp
         "response_rows_per_treatment": 12,
         "symmetry_threshold": 1.0e-12,
     }
+
+    for invalid_grid in (
+        [-1.0, 1.0, 2.0, 3.0, 4.0, 5.0],
+        [0.0, 1.0, 2.0, 3.0, 4.0, 4.0],
+        [0.0, 1.0, 2.0, 3.0, 4.0],
+        [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],
+    ):
+        assert not MODULE._valid_d01_experimental_frequency_grid(invalid_grid)
+    assert MODULE._valid_d01_experimental_frequency_grid(frequencies)
 
     missing_xml = tmp_path / "missing.xml"
     write_xml(missing_xml, {key: value for key, value in properties.items() if key != "wp_d01_bj_experimental_results_json"})

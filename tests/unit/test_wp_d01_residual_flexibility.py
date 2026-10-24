@@ -320,10 +320,15 @@ def test_opt_in_configuration_is_strict_and_disabled_is_default_compatible() -> 
         {
             "type": "harmonic_response",
             "method": "modal_superposition",
-            "parameters": {"frequencies_hz": [1.0], "residual_flexibility": enabled},
+            "parameters": {
+                "frequencies_hz": [1.0],
+                "reduced_damping_projection": "rayleigh_structured",
+                "residual_flexibility": enabled,
+            },
         }
     )
     assert settings.parameters["residual_flexibility"]["enabled"] is True
+    assert settings.parameters["reduced_damping_projection"] == "rayleigh_structured"
 
     with pytest.raises(InputValidationError, match="only for harmonic_response/modal_superposition"):
         AnalysisSettings.from_raw(

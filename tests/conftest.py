@@ -111,6 +111,9 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     mesh_available = _gmsh_available()
     evidence_marker = pytest.mark.skip(reason="optional controlled V&V evidence corpus is not installed")
     mesh_marker = pytest.mark.skip(reason="optional Gmsh dependency is not installed")
+    native_marker = pytest.mark.skip(
+        reason="tier NATIVE_AUTH_REQUIRED: scenario requires a separately registered D01 development scope"
+    )
     for item in items:
         base_nodeid = item.nodeid.split("[", maxsplit=1)[0]
         module_path = base_nodeid.split("::", maxsplit=1)[0]
@@ -125,6 +128,8 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
             item.add_marker(evidence_marker)
         if not mesh_available and module_path in OPTIONAL_MESH_TEST_MODULES:
             item.add_marker(mesh_marker)
+        if item.get_closest_marker("native_vv") is not None:
+            item.add_marker(native_marker)
 
 
 def _gmsh_available() -> bool:

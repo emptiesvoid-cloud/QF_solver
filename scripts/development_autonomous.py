@@ -829,8 +829,8 @@ def _validate_d01_junit_payload(
     if not isinstance(responses, dict) or set(responses) != {"uncorrected", "corrected"}:
         return False, ["experimental response groups are missing or malformed"], None
     frequencies = payload.get("frequencies_hz")
-    if not isinstance(frequencies, list) or len(frequencies) != 6 or any(not _finite_number(value) or value <= 0 for value in frequencies):
-        return False, ["experimental payload lacks the six finite positive frequencies"], None
+    if not _valid_d01_experimental_frequency_grid(frequencies):
+        return False, ["experimental payload must contain 0 Hz followed by five finite, positive, increasing frequencies"], None
     if source_arrays["frequencies_hz"]["values"] != frequencies:
         return False, ["source-operator and response payload frequency grids differ"], None
     for treatment, rows in responses.items():
@@ -886,6 +886,20 @@ def _validate_d01_junit_payload(
         "response_rows_per_treatment": 12,
         "symmetry_threshold": 1.0e-12,
     }
+
+
+def _valid_d01_experimental_frequency_grid(frequencies: Any) -> bool:
+    """Accept the frozen experiment grid: one static point, then five positive points."""
+    if not isinstance(frequencies, list) or len(frequencies) != 6:
+        return False
+    if any(not _finite_number(value) for value in frequencies):
+        return False
+    numeric = [float(value) for value in frequencies]
+    return (
+        numeric[0] == 0.0
+        and all(value > 0.0 for value in numeric[1:])
+        and all(left < right for left, right in zip(numeric, numeric[1:]))
+    )
 
 
 def _d01_final_state(current_state: str, payload_complete: bool | None) -> str:
