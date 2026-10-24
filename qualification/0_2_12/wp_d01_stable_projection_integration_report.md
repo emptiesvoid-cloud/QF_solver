@@ -2,9 +2,9 @@
 
 ## Verdict borné
 
-`D01_STABLE_PROJECTION_MERGE_CANDIDATE`
+`D01_STABLE_PROJECTION_MERGED`
 
-Ce changement ajoute au chemin harmonique réduit une sélection explicite de projection Rayleigh structurée. La voie historique reste la valeur par défaut. Le correctif est vérifié sur les opérandes M3 archivés et sur des tests algébriques non FEM ; il ne constitue pas une nouvelle exécution FEM ni une qualification. La fusion reste conditionnée à la revue indépendante et à l’intégration propre dans le worktree de destination.
+Ce changement ajoute au chemin harmonique réduit une sélection explicite de projection Rayleigh structurée. La voie historique reste la valeur par défaut. Le correctif est vérifié sur les opérandes M3 archivés et sur des tests algébriques non FEM ; il ne constitue pas une nouvelle exécution FEM ni une qualification. La revue indépendante finale est favorable et le commit a été intégré par fast-forward local.
 
 Statuts conservés : `WP_D01_STATUS=INCONCLUSIVE`, `C4=NOT_ACQUIRED`, `WP05_FEM_QUALIFICATION=NOT_EVALUATED`, `WP11=PAUSED_BY_OWNER`.
 
@@ -76,7 +76,9 @@ Aucune équation physique, valeur de `α/β`, tolérance, oracle, réponse ou ar
 
 La première revue read-only n’a trouvé aucun P0/P1, mais a relevé un P2 : le schéma laissait spécifier l’option hors `modal_superposition` ou avec `prescribed_modal`, ce qui pouvait produire une option ignorée ou un refus tardif. Correction appliquée : le validateur reçoit maintenant la méthode effective (y compris le défaut `direct_frequency`) et refuse l’option hors du chemin modal Rayleigh avant toute préparation. Des tests ciblent les méthodes directes, le défaut de méthode, `prescribed_modal`, ratios prescrits, modèle non-Rayleigh et valeurs mal formées. Une seconde revue indépendante du snapshot corrigé est requise avant commit/merge.
 
-La seconde revue a confirmé la fermeture du cas JSON, puis relevé que les objets `FiniteElementModel` construits en Python peuvent contourner le schéma JSON. Correction appliquée : le contrat de sélection est centralisé dans `reduced_damping_projection_errors()` et appelé par `AnalysisSettings.validate()`, qui s’exécute lors de la construction du modèle et au début du solveur, avant préparation/assemblage. Le schéma JSON appelle la même fonction avec sa méthode effective. Les tests programment directement ces modèles/configurations sans préparer ni assembler de système. Une revue finale du snapshot consolidé reste requise avant commit/merge.
+La seconde revue a confirmé la fermeture du cas JSON, puis relevé que les objets `FiniteElementModel` construits en Python peuvent contourner le schéma JSON. Correction appliquée : le contrat de sélection est centralisé dans `reduced_damping_projection_errors()` et appelé par `AnalysisSettings.validate()`, qui s’exécute lors de la construction du modèle et au début du solveur, avant préparation/assemblage. Le schéma JSON appelle la même fonction avec sa méthode effective. Les tests programment directement ces modèles/configurations sans préparer ni assembler de système.
+
+La revue indépendante finale en lecture seule du snapshot consolidé a conclu : P0=0, P1=0, P2=0 identifié, et recommande l’intégration. Elle a confirmé la validation commune des configurations JSON et programmatiques, le refus avant préparation pour les configurations incompatibles, l’option structurée limitée au Rayleigh déclaré, le maintien du garde `1e-12`, et la conservation du chemin legacy par défaut. La revue n’a exécuté ni tests, ni assemblage, ni FEM ; elle ne constitue pas une preuve runtime.
 
 ## Limites et étape suivante
 
@@ -84,7 +86,7 @@ La seconde revue a confirmé la fermeture du cas JSON, puis relevé que les obje
 2. C reste un oracle de contraction hors ligne ; il n’est pas déployé.
 3. La symétrie projetée obtenue par B n’acquiert ni C4 ni qualification FEM ; une validation FEM prospective reste nécessaire.
 4. WP05 FEM M1/M2/M3 n’est pas promu ; M1/M2 n’ont pas d’opérandes archivés pour comparer A/B/C.
-5. La revue indépendante finale du diff consolidé, puis un fast-forward sans conflit dans la branche d’intégration en préservant les changements C01/E01/AGENTS, restent requis avant `D01_STABLE_PROJECTION_MERGED`.
+5. Le commit a été intégré localement par fast-forward après réapplication au-dessus des deux commits documentaires C01 apparus depuis le HEAD initial. Les changements de travail non commités C01/E01/AGENTS sont restés hors du commit et inchangés.
 
 ```text
 WP_D01_STATUS=INCONCLUSIVE
