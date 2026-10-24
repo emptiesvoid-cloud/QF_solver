@@ -60,6 +60,8 @@ e038cdc1 docs(d01): record residual flexibility port readiness
 dbf6bb87 docs(d01): record safe merge status
 ```
 
+Au snapshot `dbf6bb87`, le diff comptait 22 chemins (portage D01 et compte rendu précédent). Le présent rapport ajoute un chemin documentaire D01 : le candidat final comptera donc 23 chemins depuis la base.
+
 Le candidat ne remplace pas la projection `rayleigh_structured` de la base. Le comportement harmonique historique reste le défaut; la correction est opt-in et le correcteur refuse le damping non-Rayleigh.
 
 Les deux chemins communs ont été examinés par blocs :
