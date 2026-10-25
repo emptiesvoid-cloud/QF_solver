@@ -18,3 +18,10 @@
 - Preserve qualification runners, manifests, Owner gates, thresholds, evidence namespaces, and historical results. Never use a development record as a qualification PASS or certificate.
 - A failed exploratory FEM test remains a development failure/diagnostic. It does not promote or rewrite D01, C01, E01, C4, WP05, or general qualification status.
 - Codex, Windows, and OS-level prompts remain outside this repository policy; do not bypass them.
+
+## Technical knowledge base
+
+- Use [docs/ai/INDEX.md](docs/ai/INDEX.md) to orient yourself in the technical documentation.
+- Consult specialized knowledge-base pages according to the task.
+- Verify applicable contracts, current source, and recorded evidence before technical changes or claims.
+- This knowledge base does not replace or override the safety and execution rules in this file.
