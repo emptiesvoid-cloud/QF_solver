@@ -8,7 +8,7 @@ WP12-X relie en une seule orchestration les cas factices existants du runner : l
 
 Le seul point d'entrée est scripts/run_wp12_qualification.py avec --mode SELF_TEST et --case all ou un cas fixe. Les cas admis proviennent exclusivement de FAKE_CASES dans scripts/wp12_runner/process.py. Le mode appelle run_fake_process; aucun sélecteur pytest n'est construit. Les résultats portent SYNTHETIC_RUNNER_SELF_TEST, scientific_execution=false et une empreinte du plan et des sources runner. Les journaux et reçus sont placés dans un répertoire temporaire puis supprimés après émission du rapport; ils ne sont pas des preuves WP12 durables.
 
-L'orchestrateur refuse de démarrer si REAL_EXECUTION_ENABLED est vrai. Le mode CLI EXECUTE et le blocker inconditionnel REAL_EXECUTION_DISABLED_IN_WP12_R2 restent inchangés. Cette orchestration ne doit jamais être appelée pour exécuter les nodeids de WP12-1, WP12-2 ou WP12-3.
+L'orchestrateur refuse de démarrer si REAL_EXECUTION_ENABLED est vrai. En WP12-A, le mode CLI EXECUTE retourne toujours `DENY_EXECUTION` avec le blocker `REAL_EXECUTION_DISABLED_IN_WP12_A`, avant toute lecture de manifeste, décision Owner, réservation de tentative ou lancement de processus. Le stub `execute_pilot` refuse également toutes les entrées. Le seul `subprocess.Popen` du runner appartient à `run_fake_process`, dont la commande est construite pour `fake_child.py` à partir des six cas fixes. Aucun nodeid scientifique n'est exécutable par le runner courant.
 
 ## Cycle synthétique
 
@@ -39,13 +39,13 @@ La [revue WP12-S du manifeste](wp12_s_wp12_1_scope_review.md) trace les neuf nod
 
 ### Décisions et révisions préparatoires
 
-- wp12_1_execution_manifest.json, revisions/wp12_1_execution_manifest.r2-prepared.json et revisions/manifest_revision_index.json restent inchangés; leurs hashes d'origine et R2 restent la trace historique.
-- Après décision Owner, préparer une nouvelle révision WP12-1 qui garde les nodeids 1–6; une révision WP12-2 qui ajoute 7–8; et une révision WP12-3 qui ajoute 9. Chaque version doit rester PREPARED_NOT_AUTHORIZED, porter un SHA-256 propre, des dépendances/fixtures complètes, les budgets et l'environnement à résoudre, ainsi qu'une destination propre.
-- Soumettre à l'Owner le retrait des trois nodeids du WP12-1 R2 et leur affectation aux lots proposés. Tant que cette décision n'est pas enregistrée, la proposition ne remplace aucun scope officiel.
-- Les chemins modal_newmark_checkpoint.py et test_modal_newmark.py, déclarés dans l'inventaire WP12-1 R2 mais non couverts par ces neuf nodeids, doivent être retirés de l'inventaire ou associés à un nodeid sélectionné dans une révision future.
+- Les manifestes R1/R2 et `revisions/manifest_revision_index.json` restent inchangés. Leur correspondance et leurs SHA-256 historiques sont conservés dans le [nouvel index de proposition R3](revisions/manifest_scope_proposal_index.r3.json), qui référence aussi le SHA-256 du manifeste WP12-Scope R2.
+- De nouvelles révisions `r3-scope-proposal` sont préparées : [WP12-1](revisions/wp12_1_execution_manifest.r3-scope-proposal.json) garde les nodeids 1–6; [WP12-2](revisions/wp12_2_execution_manifest.r3-scope-proposal.json) ajoute 7–8; [WP12-3](revisions/wp12_3_execution_manifest.r3-scope-proposal.json) ajoute 9. Elles restent `PREPARED_NOT_AUTHORIZED` et `PENDING_OWNER_DECISION`; elles ne modifient pas le scope officiel et n'autorisent aucun essai.
+- L'Owner doit confirmer cette partition avant que les R3 soient retenues comme périmètre normatif. Les neuf nodeids sont conservés textuellement avec leur numéro d'origine, la révision d'origine et les révisions préparées correspondantes dans l'index R3.
+- L'inventaire WP12-1 R3 retire `modal_newmark_checkpoint.py` et les fichiers de tests sans nodeid dans ce lot. Les dépendances directes des deux nodeids Newmark/système préparé et du helper `elastoplastic_tet4_model` sont ajoutées aux inventaires WP12-2/WP12-3 R3. La fermeture transitive complète demeure à vérifier avant tout gel d'exécution.
 
-**État actuel :** aucun nodeid historique n'a été lancé; aucun nouveau manifeste n'est autorisé; WP11 reste CLOSED, WP12 et WP13 restent OPEN.
+**État actuel :** aucun nodeid historique ou scientifique n'a été lancé; le pilote n'a pas été autorisé; aucun résultat scientifique n'a été produit. WP11 reste CLOSED, WP12 et WP13 restent OPEN.
 
 ## Vérifications d'implémentation
 
-Le 2026-10-25, la suite dédiée tests/unit/test_wp12_qualification_runner.py a réussi avec 40 tests. Ruff a réussi sur cli.py, synthetic_orchestrator.py et cette suite. Ces tests utilisent les processus factices et les refus statiques du runner; aucun test QF Solver, solveur, calcul FEM ou campagne WP12 n'a été exécuté. Ce résultat ne constitue pas une preuve scientifique.
+Le 2026-10-25, la suite dédiée `tests/unit/test_wp12_qualification_runner.py` a réussi avec 50 tests et `ruff check` a réussi sur les nouveaux modules runner et la suite dédiée. Le mode `SELF_TEST --case all` a réussi les six cas synthétiques (`success`, `exit`, `sleep`, `tree`, `flood`, `memory`); le journal temporaire a 14 événements et sa chaîne a été vérifiée. Les reçus SELF_TEST sont temporaires et supprimés après le rapport. Une revue indépendante, en lecture seule, n'a trouvé aucun chemin de lancement scientifique accessible; elle a demandé d'actualiser les références documentaires historiques R2, fait dans cette révision. Aucun pytest QF Solver, solveur, calcul FEM ou campagne WP12 n'a été exécuté. Ces résultats démontrent uniquement le comportement du runner sur enfants factices.

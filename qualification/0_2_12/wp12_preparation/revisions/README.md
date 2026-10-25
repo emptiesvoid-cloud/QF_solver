@@ -13,6 +13,12 @@ Ces six documents révisés ne remplacent pas silencieusement les manifestes WP1
 | WP12-5 | [Scénarios de performance proposés](wp12_5_execution_manifest.r2-prepared.json) |
 | WP12-6 | [Consolidation prospective](wp12_6_execution_manifest.r2-prepared.json) |
 
+## Proposition de partition WP12-S — R3
+
+Les révisions [WP12-1 R3](wp12_1_execution_manifest.r3-scope-proposal.json), [WP12-2 R3](wp12_2_execution_manifest.r3-scope-proposal.json) et [WP12-3 R3](wp12_3_execution_manifest.r3-scope-proposal.json) transcrivent la proposition de séparation des neuf nodeids identifiés par WP12-S. L'[index R3](manifest_scope_proposal_index.r3.json) conserve les SHA-256 des manifestes originaux, de R2, de l'index R2 et des nouveaux fichiers.
+
+Ces R3 restent `PREPARED_NOT_AUTHORIZED` avec `PENDING_OWNER_DECISION`. Elles ne remplacent ni R1/R2 ni le scope normatif des lots. `EXECUTE` reste inconditionnellement bloqué en WP12-A.
+
 Toutes les révisions conservent `PREPARED_NOT_AUTHORIZED`. Les inventaires WP12-1..4 identifient les blobs du candidat scientifique `00428adf38e9397340ac136f6f503a268eb671da` / tree `df4ec667bf746b042c900fad1f86bf542e1a437b`. Les alias de chemins découverts par inspection du tree restent signalés comme changements de périmètre à approuver. Aucun test, fixture scientifique ou commande n'est exécuté depuis ces manifestes.
 
-WP12-5 ne dispose pas encore d'un harness v0.2.12, d'un inventaire source/test ou de valeurs de workload gelées. WP12-6 ne peut pas connaître son identité finale avant les campagnes précédentes. Les fixtures inline ne sont pas matérialisées pour calculer leur hash; les écarts C01 et l'overlay C02 requis sont conservés.
+WP12-5 ne dispose pas encore d'un harness v0.2.12, d'un inventaire source/test ou de valeurs de workload gelées. WP12-6 ne peut pas connaître son identité finale avant les campagnes précédentes. Dans les révisions R1/R2, les fixtures inline restent à résoudre selon leurs règles d'origine; le pilote WP12-A possède un manifeste distinct et une extraction canonique pour son unique fixture. Les écarts C01 et l'overlay C02 requis restent conservés.

@@ -4,7 +4,7 @@
 
 État préparatoire au 2026-10-25, branche `emptiesvoids-cloud/0.2.12`, code cible `00428adf38e9397340ac136f6f503a268eb671da`, Git tree `df4ec667bf746b042c900fad1f86bf542e1a437b`. L'arbre de travail était propre au début de WP12-0. Les futurs documents de préparation ne font pas partie du code ciblé par les campagnes.
 
-Ce dossier décrit le périmètre, les preuves, les campagnes et les contrôles d'exécution proposés. Il n'autorise aucun test, calcul FEM, solveur, benchmark, promotion scientifique ou changement de statut. Chaque manifeste reste `PREPARED_NOT_AUTHORIZED` jusqu'à une décision Owner explicite et une relecture de l'identité, des commandes, des limites et des destinations.
+Ce dossier décrit le périmètre, les preuves, les campagnes et les contrôles d'exécution proposés. Il n'autorise aucun test, calcul FEM, solveur, benchmark, promotion scientifique ou changement de statut. Les six manifestes WP12-0 et leurs révisions R1/R2/R3 restent `PREPARED_NOT_AUTHORIZED` jusqu'à décision Owner. Le manifeste de pilote WP12-A est séparément `FROZEN_NOT_AUTHORIZED`; il n'est ni signé ni exécutable.
 
 ## Documents
 
@@ -26,7 +26,7 @@ Ce dossier décrit le périmètre, les preuves, les campagnes et les contrôles 
 - [Décisions Owner requises](wp12_owner_decisions_required.md)
 - [Plan de non-régression rotor existant](../wp12_rotating_inherited_regression_plan.md)
 
-Les preuves historiques demeurent dans leurs emplacements v0.2.11/v0.2.12 existants et ne sont ni déplacées ni réécrites. Les tableaux de ce dossier les citent sans les requalifier comme essais du code cible. WP12-R2 autorise VALIDATE statique, SYNC explicite et SELF_TEST synthétique; toute exécution scientifique reste refusée et nécessite une décision Owner authentifiée, une revue de sécurité et un environnement d'isolation adapté.
+Les preuves historiques demeurent dans leurs emplacements v0.2.11/v0.2.12 existants et ne sont ni déplacées ni réécrites. Les tableaux de ce dossier les citent sans les requalifier comme essais du code cible. Depuis WP12-A, le chemin scientifique EXECUTE est inconditionnellement bloqué par le code; ni une décision ni une signature ne lèvent cette barrière. VALIDATE et SELF_TEST restent les seuls modes pertinents de cette préparation. Aucun test scientifique n'est autorisé par ces documents.
 
 ## WP12-R2 — Durcissement préparatoire
 
@@ -44,4 +44,10 @@ La [revue de scope WP12-1](wp12_s_wp12_1_scope_review.md) relève notamment un n
 
 ## WP12-X — Orchestration synthétique
 
-L'[orchestrateur SELF_TEST WP12-X](wp12_x_synthetic_orchestration.md) orchestre uniquement les cas factices fixes du runner, avec journal temporaire chaîné et reçus vérifiés. Le même document conserve les neuf nodeids WP12-1 R2 et soumet à l'Owner les transferts de périmètre proposés vers WP12-2 et WP12-3. Les décisions restent en attente; aucun manifeste ni scope historique n'est réécrit.
+L'[orchestrateur SELF_TEST WP12-X](wp12_x_synthetic_orchestration.md) orchestre uniquement les cas factices fixes du runner, avec journal temporaire chaîné et reçus vérifiés. Les propositions de partition des neuf nodeids sont tracées dans les [révisions R3 préparatoires](revisions/manifest_scope_proposal_index.r3.json); R1/R2 restent inchangés, le scope reste en attente de décision Owner et `EXECUTE` est inconditionnellement bloqué.
+
+## WP12-A — Préparation du pilote Owner
+
+Les documents [plan d'activation](wp12_a_activation_plan.md), [dossier Owner](wp12_a_owner_decision_package.md), [revue du manifeste pilote](wp12_a_pilot_manifest_review.md), [état de sécurité de l'environnement](wp12_a_environment_security_report.md) et [revue du chemin d'exécution](wp12_a_runner_execution_review.md) préparent uniquement une éventuelle revue Owner. Le manifeste [wp12_a_pilot_manifest_v1.json](wp12_a_pilot_manifest_v1.json) cible un seul nodeid et porte son SHA-256 dans le dossier; il n'est pas signé ni autorisé. L'attestation [wp12_a_isolation_attestation.json](wp12_a_isolation_attestation.json) consigne des contrôles manquants. Il n'existe pas de rapport d'issue de pilote, car aucun lancement scientifique n'a eu lieu.
+
+WP12-A est **BLOCKED_SECURITY** : confiance Owner non provisionnée, protections NTFS insuffisantes, compte non dédié, absence de venv isolé/ancrage externe, limites CPU/stockage/threads non dures et résolution du plugin entre checkouts non figée. WP11 reste CLOSED; WP12 et WP13 restent OPEN.
