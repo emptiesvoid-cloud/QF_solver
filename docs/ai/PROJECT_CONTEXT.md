@@ -50,4 +50,4 @@ An AI can use this document to orient itself, but cannot determine from it alone
 
 ## Ask for more context
 
-For implementation locations start with [ARCHITECTURE.md](ARCHITECTURE.md); for actual route boundaries use [CAPABILITIES.md](CAPABILITIES.md); for formulation conventions use [MECHANICS.md](MECHANICS.md); and for a particular evidence claim use [QUALIFICATION.md](QUALIFICATION.md) and its linked release-specific records.
+For implementation locations start with [ARCHITECTURE.md](ARCHITECTURE.md); for actual route boundaries use [CAPABILITIES.md](CAPABILITIES.md); for the integrated v0.2.12 candidate use its [release-specific capability inventory](releases/v0.2.12.md); for formulation conventions use [MECHANICS.md](MECHANICS.md); and for a particular evidence claim use [QUALIFICATION.md](QUALIFICATION.md) and its linked release-specific records.

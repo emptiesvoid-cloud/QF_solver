@@ -21,6 +21,7 @@ Use this knowledge base in three steps:
 | What the project does and its current boundaries | [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md) |
 | Where a feature is implemented | [ARCHITECTURE.md](ARCHITECTURE.md), [DEVELOPMENT.md](DEVELOPMENT.md) |
 | Whether a capability exists and its limits | [CAPABILITIES.md](CAPABILITIES.md) |
+| What is integrated in the v0.2.12 candidate | [v0.2.12 release inventory](releases/v0.2.12.md) |
 | Formulations, conventions, or physical assumptions | [MECHANICS.md](MECHANICS.md) |
 | Impact of changing a shared module | [DEPENDENCIES.md](DEPENDENCIES.md) |
 | Tests and verification routes | [TESTING.md](TESTING.md) |
