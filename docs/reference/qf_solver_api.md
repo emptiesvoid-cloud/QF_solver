@@ -89,10 +89,11 @@ save_result(result: object, path: str | Path) -> None
 
 - `result`: result object returned by `solve_model`.
 - `path`: JSON output path, as `str` or `pathlib.Path`.
-- Returns `None` after writing a finite JSON result.
+- Returns `None` after writing a finite JSON result to a new path.
+- Refuses to overwrite an existing path and raises `InputValidationError`.
 - Raises `InputValidationError` when a result exposing `to_dict()` cannot be
   serialized as finite JSON; an object without `to_dict()` is ordinary caller
-  misuse and raises `AttributeError`. Filesystem errors remain ordinary
+  misuse and raises `AttributeError`. Other filesystem errors remain ordinary
   `OSError` failures.
 - Stability: `STABLE`.
 

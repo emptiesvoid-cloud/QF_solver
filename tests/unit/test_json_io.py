@@ -3,6 +3,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+from solveur.core.errors import InputValidationError
 from solveur.core.results import SolveResult
 from solveur.io.json_reader import JsonModelReader
 from solveur.io.json_writer import JsonResultWriter
@@ -129,3 +130,21 @@ def test_json_writer_saves_result(tmp_path: Path):
     target = tmp_path / "result.json"
     JsonResultWriter().write(result, target)
     assert '"status": "PASS"' in target.read_text(encoding="utf-8")
+
+
+def test_json_writer_refuses_to_overwrite_existing_result(tmp_path: Path):
+    dofs = JsonModelReader().from_dict(
+        {
+            "nodes": [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]],
+            "elements": [{"type": "TET4", "nodes": [0, 1, 2, 3], "material": "steel"}],
+            "materials": {"steel": {"type": "isotropic_3d", "E": 1.0, "nu": 0.25}},
+        }
+    ).dof_manager()
+    result = SolveResult("PASS", np.zeros(dofs.ndof), dofs, MeshReport("PASS"), 4, 1)
+    target = tmp_path / "result.json"
+    target.write_text('{"preserved": true}', encoding="utf-8")
+
+    with pytest.raises(InputValidationError, match="Refusing to overwrite"):
+        JsonResultWriter().write(result, target)
+
+    assert target.read_text(encoding="utf-8") == '{"preserved": true}'

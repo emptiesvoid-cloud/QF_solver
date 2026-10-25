@@ -206,6 +206,20 @@ def test_documented_input_and_serialization_exceptions(tmp_path: Path) -> None:
         save_result(InvalidResult(), tmp_path / "invalid-result.json")
 
 
+def test_public_save_result_refuses_to_overwrite_an_existing_path(tmp_path: Path) -> None:
+    class Result:
+        def to_dict(self) -> dict[str, str]:
+            return {"status": "PASS"}
+
+    target = tmp_path / "result.json"
+    target.write_text('{"preserved": true}', encoding="utf-8")
+
+    with pytest.raises(InputValidationError, match="Refusing to overwrite"):
+        qf_solver.save_result(Result(), target)
+
+    assert target.read_text(encoding="utf-8") == '{"preserved": true}'
+
+
 def test_public_recover_solid_stress_forwards_arguments(monkeypatch: pytest.MonkeyPatch) -> None:
     from solveur.post import dynamic_stress
 

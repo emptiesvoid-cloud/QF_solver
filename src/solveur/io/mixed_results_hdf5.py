@@ -98,8 +98,10 @@ def write_mixed_results_hdf5(
     metadata_json = _canonical_json(metadata_payload)
 
     target.parent.mkdir(parents=True, exist_ok=True)
+    created_target_identity: tuple[int, int] | None = None
     try:
         with h5py.File(target, "x") as handle:
+            created_target_identity = _path_file_identity(target)
             handle.attrs["format"] = MIXED_RESULTS_FORMAT
             handle.attrs["schema_version"] = MIXED_RESULTS_SCHEMA_VERSION
             handle.attrs["qf_solver_version_or_dev_state"] = str(qf_solver_version_or_dev_state)
@@ -136,8 +138,14 @@ def write_mixed_results_hdf5(
                 block_results = [result_by_id[element.element_id] for element in block_elements]
                 _write_fields(fields_group, block_results, block.element_count)
     except Exception:
-        if target.exists():
-            target.unlink()
+        # Exclusive HDF5 creation can fail because another writer won the race
+        # after the preflight check above.  Remove a partial file only when we
+        # can prove it is the same file this writer opened.
+        if created_target_identity is not None and _path_file_identity(target) == created_target_identity:
+            try:
+                target.unlink()
+            except OSError:
+                pass
         raise
     return target
 
@@ -414,6 +422,14 @@ def _json_safe(value: Any) -> Any:
 
 def _text(value: Any) -> str:
     return value.decode("utf-8") if isinstance(value, bytes) else str(value)
+
+
+def _path_file_identity(path: Path) -> tuple[int, int] | None:
+    try:
+        info = path.stat()
+    except OSError:
+        return None
+    return int(info.st_dev), int(info.st_ino)
 
 
 def _update_digest(digest: hashlib._Hash, path: str, value: Any) -> None:

@@ -18,4 +18,8 @@ class JsonResultWriter:
             serialized = json.dumps(result.to_dict(), indent=2, allow_nan=False)
         except (TypeError, ValueError) as exc:
             raise InputValidationError(f"Cannot serialize solve result as finite JSON: {exc}") from exc
-        target.write_text(serialized, encoding="utf-8")
+        try:
+            with target.open("x", encoding="utf-8") as handle:
+                handle.write(serialized)
+        except FileExistsError as exc:
+            raise InputValidationError(f"Refusing to overwrite existing solve result JSON: {target}") from exc
