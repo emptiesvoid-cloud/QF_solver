@@ -66,6 +66,7 @@ from scripts.wp12_runner.process import (
 )
 from scripts.wp12_runner.cli import main as runner_main
 import scripts.wp12_runner.cli as runner_cli
+import scripts.wp12_runner.synthetic_orchestrator as synthetic_orchestrator
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -891,7 +892,14 @@ def test_self_test_cli_runs_only_the_fixed_synthetic_cases(monkeypatch: pytest.M
     assert len(reports) == 1
     report = reports[0]
     assert report["scientific_execution"] is False
-    assert report["state"] == "PASS"
+    expected_state = "PASS_WITH_NOT_APPLICABLE" if os.name != "nt" else "PASS"
+    assert report["state"] == expected_state
+    assert report["campaign_id"] == "WP12-X-SYNTHETIC-ORCHESTRATOR"
+    assert report["result_kind"] == "SYNTHETIC_RUNNER_SELF_TEST"
+    assert report["journal_chain_verified"] is True
+    assert report["journal_record_count"] == 14
+    assert report["temporary_evidence_discarded_after_report"] is True
+    assert len(report["plan_sha256"]) == 64
     assert {item["case"] for item in report["results"]} == {
         "success",
         "exit",
@@ -900,7 +908,25 @@ def test_self_test_cli_runs_only_the_fixed_synthetic_cases(monkeypatch: pytest.M
         "flood",
         "memory",
     }
-    assert all(item["self_test"] == "PASS" for item in report["results"])
+    assert all(item["self_test"] in {"PASS", "NOT_APPLICABLE"} for item in report["results"])
+    assert len({item["run_id"] for item in report["results"]}) == len(report["results"])
+    assert all(item["attempt"] == item["maximum_attempts"] == 1 for item in report["results"])
+    assert all(item["scientific_result"] is False for item in report["results"])
+    assert all("nodeid" not in item for item in report["results"])
+    assert all(
+        item["self_test"] == "NOT_APPLICABLE" or len(item["receipt_sha256"]) == 64 for item in report["results"]
+    )
+
+
+def test_synthetic_orchestrator_rejects_unknown_cases_and_real_execute_enablement(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    with pytest.raises(ContractError, match="fixed synthetic case IDs"):
+        synthetic_orchestrator.run_synthetic_orchestration("tests/unit/test_anything.py::test_case")
+
+    monkeypatch.setattr(synthetic_orchestrator, "REAL_EXECUTION_ENABLED", True)
+    with pytest.raises(ContractError, match="scientific EXECUTE is enabled"):
+        synthetic_orchestrator.run_synthetic_orchestration("success")
 
 
 @pytest.mark.skipif(os.name != "nt", reason="Windows Job Object memory enforcement is platform-specific")

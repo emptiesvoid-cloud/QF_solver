@@ -41,3 +41,7 @@ WP12-R2 est `PREPARATION_ONLY`; `NUMERICAL_EXECUTION_NOT_PERFORMED`; `WP12_STATU
 La [revue de sécurité Owner](wp12_s_owner_security_assessment.md) conclut `SECURITY_REVIEW_WITH_BLOCKERS`. La [matrice des contrôles](wp12_s_security_controls_matrix.md) distingue les garanties synthétiques, les protections partielles et les limites absentes; la [checklist Owner](wp12_s_owner_action_checklist.md) décrit les prérequis de confiance, d'isolation, de reçus et d'approbation sans configurer de secrets ou paramètres système.
 
 La [revue de scope WP12-1](wp12_s_wp12_1_scope_review.md) relève notamment un nodeid Newmark qui appelle `solve_model`, des dépendances checkpoint non linéaires hors de l'inventaire direct, et des champs de fixture/environnement/ressource encore à figer. Ces documents sont préparatoires : aucune campagne ni décision Owner n'est autorisée par leur présence. WP11 reste CLOSED; WP12 et WP13 restent OPEN.
+
+## WP12-X — Orchestration synthétique
+
+L'[orchestrateur SELF_TEST WP12-X](wp12_x_synthetic_orchestration.md) orchestre uniquement les cas factices fixes du runner, avec journal temporaire chaîné et reçus vérifiés. Le même document conserve les neuf nodeids WP12-1 R2 et soumet à l'Owner les transferts de périmètre proposés vers WP12-2 et WP12-3. Les décisions restent en attente; aucun manifeste ni scope historique n'est réécrit.

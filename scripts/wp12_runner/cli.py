@@ -4,10 +4,8 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 from pathlib import Path
 import sys
-import tempfile
 from typing import Any, Mapping, Sequence
 
 from .contracts import (
@@ -21,11 +19,11 @@ from .contracts import (
     validate_owner_decision_structure,
     verify_manifest_input_identities,
 )
-from .evidence import record_refusal, verify_receipt, write_receipt
+from .evidence import record_refusal
 from .environment import collect_environment_provenance
 from .git_remote import sync_remote_identity, write_sync_receipt
 from .owner_trust import load_machine_trust_store, verify_owner_decision
-from .process import FAKE_CASES, ProcessOutcome, run_fake_process
+from .synthetic_orchestrator import SYNTHETIC_CASES, run_synthetic_orchestration
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
@@ -123,106 +121,25 @@ def _validate_mode(manifest_path: Path, root: Path) -> int:
     return 0 if state == "STRUCTURALLY_VALID_NOT_AUTHORIZED" else 2
 
 
-def _expected_self_test_result(case: str, outcome: ProcessOutcome) -> tuple[bool, str]:
-    if case == "memory":
-        passed = (
-            outcome.state == "PROCESS_EXITED" and outcome.return_code not in (None, 0) and outcome.hard_job_enforced
-        )
-        return (
-            passed,
-            "Windows Job Object memory ceiling terminated the synthetic child"
-            if passed
-            else "hard memory ceiling was not demonstrated",
-        )
-    expected = {
-        "success": ("PROCESS_EXITED", 0),
-        "exit": ("PROCESS_EXITED", 17),
-        "sleep": ("TIMEOUT", None),
-        "tree": ("TIMEOUT", None),
-        "flood": ("RESOURCE_LIMIT", None),
-    }[case]
-    passed = outcome.state == expected[0]
-    if expected[1] is not None:
-        passed = passed and outcome.return_code == expected[1]
-    if case == "tree":
-        passed = passed and not outcome.child_pids_remaining
-    return (
-        passed,
-        "synthetic supervisor behavior matched its fixture expectation"
-        if passed
-        else "unexpected synthetic process result",
-    )
-
-
 def _self_test_mode(case: str) -> int:
-    cases = sorted(FAKE_CASES) if case == "all" else [case]
-    results: list[dict[str, Any]] = []
-    with tempfile.TemporaryDirectory(prefix="qf-wp12-runner-self-test-") as temporary:
-        root = Path(temporary)
-        for selected in cases:
-            if selected == "memory" and os.name != "nt":
-                results.append(
-                    {
-                        "case": selected,
-                        "self_test": "NOT_APPLICABLE",
-                        "explanation": "Windows Job Object resource enforcement is platform-specific",
-                        "scientific_result": False,
-                    }
-                )
-                continue
-            run_directory = root / selected
-            timeout = 0.35 if selected in {"sleep", "tree"} else 2.0
-            output_limit = 256 if selected == "flood" else 64 * 1024
-            outcome = run_fake_process(
-                selected,
-                run_directory,
-                timeout_seconds=timeout,
-                output_byte_limit=output_limit,
-                process_count_limit=8,
-                memory_hard_limit_bytes=64 * 1024 * 1024 if selected == "memory" else None,
-            )
-            passed, explanation = _expected_self_test_result(selected, outcome)
-            receipt_hash, _receipt_path = write_receipt(
-                run_directory,
-                {
-                    "mode": "SELF_TEST",
-                    "case": selected,
-                    "supervisor_state": outcome.state,
-                    "scientific_result": False,
-                },
-            )
-            receipt_issues = verify_receipt(run_directory)
-            passed = passed and not receipt_issues
-            results.append(
-                {
-                    "case": selected,
-                    "self_test": "PASS" if passed else "FAIL",
-                    "explanation": explanation,
-                    "supervisor_state": outcome.state,
-                    "return_code": outcome.return_code,
-                    "stop_reason": outcome.stop_reason,
-                    "elapsed_seconds": round(outcome.elapsed_seconds, 6),
-                    "stdout_bytes_seen": outcome.stdout_bytes,
-                    "stderr_bytes_seen": outcome.stderr_bytes,
-                    "sampled_peak_rss_bytes": outcome.sampled_peak_rss_bytes,
-                    "sampled_peak_process_count": outcome.sampled_peak_process_count,
-                    "child_pids_remaining": list(outcome.child_pids_remaining),
-                    "hard_job_enforced": outcome.hard_job_enforced,
-                    "receipt_sha256": receipt_hash,
-                    "receipt_issues": list(receipt_issues),
-                }
-            )
-    all_pass = all(result["self_test"] in {"PASS", "NOT_APPLICABLE"} for result in results)
-    has_not_applicable = any(result["self_test"] == "NOT_APPLICABLE" for result in results)
-    _json_print(
-        {
-            "mode": "SELF_TEST",
-            "state": "PASS_WITH_NOT_APPLICABLE" if all_pass and has_not_applicable else "PASS" if all_pass else "FAIL",
-            "scientific_execution": False,
-            "results": results,
-        }
-    )
-    return 0 if all_pass else 1
+    try:
+        report = run_synthetic_orchestration(case)
+    except (OSError, ContractError) as exc:
+        _json_print(
+            {
+                "mode": "SELF_TEST",
+                "campaign_id": "WP12-X-SYNTHETIC-ORCHESTRATOR",
+                "result_kind": "SYNTHETIC_RUNNER_SELF_TEST",
+                "state": "INFRA_ERROR",
+                "error": type(exc).__name__,
+                "scientific_execution": False,
+                "real_execute_enabled": False,
+            },
+            stream=sys.stderr,
+        )
+        return 2
+    _json_print(report)
+    return 0 if report["state"] in {"PASS", "PASS_WITH_NOT_APPLICABLE"} else 1
 
 
 def _resolve_exact_argv(manifest: Mapping[str, Any], nodeid: str | None) -> Sequence[str] | None:
@@ -366,14 +283,16 @@ def _log_execute_argument_refusal(blocker: str) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="WP12 fail-closed preparation and runner self-test utility")
+    parser = argparse.ArgumentParser(
+        description="WP12 fail-closed preparation and fixed synthetic runner self-test utility"
+    )
     parser.add_argument("--mode", choices=("VALIDATE", "SELF_TEST", "SYNC", "EXECUTE"), required=True)
     parser.add_argument("--root", type=Path, default=REPOSITORY_ROOT)
     parser.add_argument("--manifest", type=Path)
     parser.add_argument("--owner-decision", type=Path)
     parser.add_argument("--manifest-sha256")
     parser.add_argument("--nodeid")
-    parser.add_argument("--case", choices=("all", *sorted(FAKE_CASES)))
+    parser.add_argument("--case", choices=("all", *SYNTHETIC_CASES))
     return parser
 
 
