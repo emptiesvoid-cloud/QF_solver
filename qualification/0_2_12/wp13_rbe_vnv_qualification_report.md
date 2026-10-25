@@ -16,7 +16,7 @@ La revue d’un second agent n’a relevé aucun P0/P1/P2 ouvert après la corre
 
 ## Identité et périmètre Git
 
-Le dépôt complet est le clone QF Solver situé sous solveur/tmp/wpc01-m4-kkt-full-capture; le dépôt parent SAFRAN/solveur est resté inchangé. Une branche WP13 dédiée a été créée depuis le HEAD de départ. Les changements de départ déjà présents ont été préservés; les modifications ajoutées pour cette campagne sont limitées à la vérification RBE/MPC et à sa documentation. Le rapport historique d’audit, non suivi au début de cette campagne, reste byte-for-byte inchangé.
+Le dépôt complet est le clone QF Solver situé sous solveur/tmp/wpc01-m4-kkt-full-capture; le dépôt parent local solver worktree est resté inchangé. Une branche WP13 dédiée a été créée depuis le HEAD de départ. Les changements de départ déjà présents ont été préservés; les modifications ajoutées pour cette campagne sont limitées à la vérification RBE/MPC et à sa documentation. Le rapport historique d’audit, non suivi au début de cette campagne, reste byte-for-byte inchangé.
 
 Fichiers livrés :
 

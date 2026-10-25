@@ -56,7 +56,7 @@ C:\Python313\python.exe -S -m pytest -p no:cacheprovider -p experiments.wp_e01f_
 
 The child was assigned to its Windows Job Object before resume. Job and per-process committed-memory limits were each 268,435,456 bytes, active-process limit was one, deadline was 120 seconds, kill-on-close was enabled, breakaway was disabled, and BLAS thread counts were set to one. Peak process and job commit were both 109,105,152 bytes. The run took 7.5326 seconds in the supervisor phase (pytest reported 6.71 seconds), did not time out, exited with code 1, and cleanup was `VERIFIED_WINDOWS_JOB_CLOSED`. These are committed-memory figures, not RSS claims.
 
-Output directory: `C:\Users\fari\AppData\Local\Temp\qf_wp_e01f_global_assembly_z7bq3wfx`.
+Output directory: `<local-temp>\qf_wp_e01f_global_assembly_z7bq3wfx`.
 
 | Captured evidence | SHA-256 |
 |---|---|

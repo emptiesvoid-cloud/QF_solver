@@ -45,7 +45,7 @@ Les quatre scripts de build/worker/freeze/launcher nomment explicitement la bran
 
 ## 3. Remediation candidate isolee
 
-- Worktree: `C:/Users/fari/Documents/projet/SAFRAN/.codex-worktrees/wp-c02-n01-remediation`, cree detache de la base; les huit diffs AT partages n'ont pas ete copies.
+- Worktree: `<legacy-worktree>/.codex-worktrees/wp-c02-n01-remediation`, cree detache de la base; les huit diffs AT partages n'ont pas ete copies.
 - HEAD de base: `cd02eef59d3345643d617035be96190811d370bb`; tree OID de base: `4d24fbebcc4c08f63d17f41c693394a01d040bd5`.
 - Le test scientifique natif reste byte-identique au fichier precedent (`d04f3c4d315adcc7d0d3f9d176b8afdbc4942d1cd8f9069bf513fe8b34e54451`). Les hashes du plan AR, protocole AR, baseline M1-M3 et fixture AJ sont conserves.
 - Seuls changements de code: le runner recalcule et verifie l'agregat source; un nouveau test unitaire couvre la formule, les 526 hashes individuels, l'agregat falsifie et les portes pytest. Aucun changement d'equation, maillage, contact, seuil, condition limite ou chemin de solveur.

@@ -74,7 +74,7 @@ La politique pytest racine vérifie la disponibilité de Gmsh par un import opti
 
 ## Revue indépendante et décision de clôture
 
-La revue indépendante de WP11-B par `/root/bb_integration_review` est favorable, sans P0/P1. Elle a demandé deux corrections P2 avant commit : le libellé de maturité API-04 et le hash du rapport de clôture. Les deux ont été corrigés et les pins du tableau d’empreintes revérifiés sur les octets courants. La revue WP11-A antérieure avait aussi confirmé l’exactitude des 27 lignes d’empreintes et des trois annexes historiques.
+La revue indépendante de WP11-B par `<reviewer-workspace>` est favorable, sans P0/P1. Elle a demandé deux corrections P2 avant commit : le libellé de maturité API-04 et le hash du rapport de clôture. Les deux ont été corrigés et les pins du tableau d’empreintes revérifiés sur les octets courants. La revue WP11-A antérieure avait aussi confirmé l’exactitude des 27 lignes d’empreintes et des trois annexes historiques.
 
 Le détail des gates et la recommandation sont dans [`wp11_b_closure_gate_assessment.md`](wp11_b_closure_gate_assessment.md). Recommandation provisoire : **C — `OPEN_WITH_INTEGRATION_READY`** en tant que description seulement; statut officiel `WP11=OPEN` jusqu’à la décision Owner sur le critère de clôture existant.
 

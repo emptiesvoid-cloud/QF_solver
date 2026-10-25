@@ -1666,7 +1666,7 @@
     }
   },
   "schema": "wpc02-n07-offline-diagnostics-v1",
-  "source_archive": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\.codex-worktrees\\wp-c02-n05-remediation\\qualification\\0_2_12\\wpc02_ar_native_campaign_n05_20261023_01",
+  "source_archive": "<legacy-worktree>\\.codex-worktrees\\wp-c02-n05-remediation\\qualification\\0_2_12\\wpc02_ar_native_campaign_n05_20261023_01",
   "source_manifest_sha256": "d929ddeaeac4ad716b8b843de51f35c3faafa5e228467603ace94bbe8098810e",
   "status": "OFFLINE_DIAGNOSTIC_ONLY"
 }

@@ -20,7 +20,7 @@ Les corrections réduisent les blocages et les deux profils de qualité/engineer
 
 ## Provenance d’exécution
 
-- Checkout isolé : `C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_r1_13_integration_20260927`
+- Checkout isolé : `<local-temp>\qf_solver_029_wp08_r1_13_integration_20260927`
 - Branche : `0.2.9-unified-nonlinear`
 - HEAD : `72784718f442531fc4901a09d4f3b3e298a0b1d0`
 - État : worktree modifié ; G04/G05 ont été exécutés sur les octets du worktree à ce HEAD, pas sur un commit propre/final.

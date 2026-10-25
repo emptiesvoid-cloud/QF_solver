@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import sys
 import threading
 from pathlib import Path
@@ -29,7 +30,11 @@ from solveur.core.nonlinear.telemetry import JsonlNonlinearTelemetry, process_me
 
 ROOT = Path(__file__).resolve().parents[1]
 START_SHA = "bee8cb606a975a8714947776be489e00af8fa623"
-DEFAULT_CAPTURE = Path(r"C:\Users\fari\AppData\Local\Temp\qf_solver_029_r2b_forensics")
+DEFAULT_CAPTURE = (
+    Path(os.environ["QF_WP04_R2B_CAPTURE_DIR"])
+    if os.environ.get("QF_WP04_R2B_CAPTURE_DIR")
+    else None
+)
 
 
 def _json_safe(value: Any) -> Any:
@@ -355,10 +360,17 @@ def _spectral_probe(capture_path: Path) -> dict[str, Any]:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--capture-dir", type=Path, default=DEFAULT_CAPTURE)
+    parser.add_argument(
+        "--capture-dir",
+        type=Path,
+        default=DEFAULT_CAPTURE,
+        help="capture directory (or set QF_WP04_R2B_CAPTURE_DIR)",
+    )
     parser.add_argument("--shootout", action="store_true")
     parser.add_argument("--spectral", action="store_true")
     args = parser.parse_args()
+    if args.capture_dir is None:
+        parser.error("provide --capture-dir or set QF_WP04_R2B_CAPTURE_DIR; no historical capture default is configured")
     args.capture_dir.mkdir(parents=True, exist_ok=True)
     metadata = _capture_failure(args.capture_dir)
     output: dict[str, Any] = {"schema_version": 1, "record_id": "QF-SOLVER-0.2.9-R2B-FAIL-TANGENT-FORENSICS-001", "forensics": metadata}

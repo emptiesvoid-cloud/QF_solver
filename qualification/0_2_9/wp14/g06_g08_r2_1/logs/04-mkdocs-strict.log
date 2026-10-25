@@ -1,8 +1,8 @@
 START_UTC=2026-09-28T06:50:20.8679280+00:00
 COMMAND=mkdocs build --strict -f .github/pages/mkdocs.yml
-PATH_PREFIX=C:\Users\fari\AppData\Local\Temp\wp14_g06_g08_r2_1_16f31991\mkdocs-venv\Scripts
-MKDOCS=mkdocs, version 1.6.1 from C:\Users\fari\AppData\Local\Temp\wp14_g06_g08_r2_1_16f31991\mkdocs-venv\Lib\site-packages\mkdocs (Python 3.13)
-CWD=C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_r1_13_integration_20260927
+PATH_PREFIX=<local-temp>\wp14_g06_g08_r2_1_16f31991\mkdocs-venv\Scripts
+MKDOCS=mkdocs, version 1.6.1 from <local-temp>\wp14_g06_g08_r2_1_16f31991\mkdocs-venv\Lib\site-packages\mkdocs (Python 3.13)
+CWD=<local-temp>\qf_solver_029_wp08_r1_13_integration_20260927
 
  \u2502  \u26a0  Warning from the Material for MkDocs team
  \u2502
@@ -20,7 +20,7 @@ CWD=C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_r1_13_integration_202609
  \u2502  https://squidfunk.github.io/mkdocs-material/blog/2026/02/18/mkdocs-2.0/
 
 INFO    -  Cleaning site directory
-INFO    -  Building documentation to directory: C:\Users\fari\AppData\Local\Temp\qf_solver_029_wp08_r1_13_integration_20260927\site
+INFO    -  Building documentation to directory: <local-temp>\qf_solver_029_wp08_r1_13_integration_20260927\site
 INFO    -  The following pages exist in the docs directory, but are not included in the "nav" configuration:
   - architecture.md
   - audit_qualification_industrielle.md

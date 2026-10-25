@@ -37,6 +37,14 @@ except ImportError:  # pragma: no cover - exercised only in an incomplete dev in
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _registered_root(value: str, *, strict: bool = False) -> Path:
+    """Resolve an absolute worktree root or a repository-relative root."""
+    path = Path(value)
+    if not path.is_absolute():
+        path = ROOT / path
+    return path.resolve(strict=strict)
 POLICY_PATH = ROOT / "development_autonomous_policy.json"
 SERIES_RE = re.compile(r"^dev-[a-z0-9][a-z0-9-]{7,48}$")
 PREFLIGHT_RE = re.compile(r"^pf-[a-z0-9]{12}$")
@@ -180,7 +188,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
                 raise PolicyError(f"worktree {worktree_id} requires {field}")
         if not re.fullmatch(r"[0-9a-f]{40}", entry["baseline_commit"]):
             raise PolicyError(f"worktree {worktree_id} baseline_commit must be a full Git SHA-1")
-        if Path(entry["root"]).resolve() != Path(entry["git_root"]).resolve():
+        if _registered_root(entry["root"]) != _registered_root(entry["git_root"]):
             raise PolicyError(f"worktree {worktree_id} root and git_root must be identical")
         nodeids = entry.get("allowed_nodeids")
         if not isinstance(nodeids, list) or not nodeids or len(nodeids) != len(set(nodeids)):
@@ -272,8 +280,9 @@ def resolve_targets(
         if not target or target not in entry["allowed_nodeids"]:
             raise PolicyError("target must be one exact nodeid in the registered worktree allowlist")
         path_text = target.split("::", maxsplit=1)[0]
-        candidate = (Path(entry["root"]) / path_text).resolve()
-        scope_root = (Path(entry["root"]) / entry["pytest_root"]).resolve()
+        registered_root = _registered_root(entry["root"])
+        candidate = (registered_root / path_text).resolve()
+        scope_root = (registered_root / entry["pytest_root"]).resolve()
         if not _is_within(candidate, scope_root) or not candidate.is_file():
             raise PolicyError("registered nodeid resolves outside its canonical worktree test root")
         return [target]
@@ -1407,8 +1416,8 @@ def _registered_worktree(
         entry = policy["worktrees"][worktree_id]
     except KeyError as exc:
         raise PolicyError("unknown registered worktree") from exc
-    root = Path(entry["root"]).resolve(strict=True)
-    git_root = Path(entry["git_root"]).resolve(strict=True)
+    root = _registered_root(entry["root"], strict=True)
+    git_root = _registered_root(entry["git_root"], strict=True)
     if root != git_root:
         raise PolicyError("registered worktree/Git root identity changed")
     source_root = (root / entry["source_root"]).resolve(strict=True)

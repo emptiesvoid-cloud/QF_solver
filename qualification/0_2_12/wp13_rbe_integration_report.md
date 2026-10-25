@@ -29,7 +29,7 @@ The latest sequential local v0.2.12 work-package baseline was
 integration base, not represented as the canonical release target.
 
 The integration worktree is
-`C:\Users\fari\Documents\projet\SAFRAN\solveur\tmp\wp13-rbe-integration`.
+`<legacy-worktree>\solveur\tmp\wp13-rbe-integration`.
 It was created separately from active work-package worktrees. The implementation
 commit is `d07fdf72e487ac35e2ef9afaccc8d9c46f25d4bd`. It contains only the 11
 WP13 RBE/MPC implementation, test and documentation files. There were no merge

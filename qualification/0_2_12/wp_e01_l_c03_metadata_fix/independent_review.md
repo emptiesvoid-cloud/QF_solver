@@ -1,6 +1,6 @@
 # Revue indépendante C03 — 2026-10-24
 
-Auditeur distinct : `/root/c03_sol61_independent_audit`, configuré GPT-6.1 Sol,
+Auditeur distinct : `<reviewer-workspace>`, configuré GPT-6.1 Sol,
 effort high demandé. Mandat en lecture seule, sans sous-délégation. Le présent
 compte rendu est transcrit par le manager à partir du retour final de l'auditeur.
 

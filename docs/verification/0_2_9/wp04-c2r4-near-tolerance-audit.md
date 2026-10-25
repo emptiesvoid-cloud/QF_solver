@@ -47,7 +47,7 @@ at step 3, Newton iteration 11, load factor 0.25. The reported residual was
 
 One reduced 90,000 x 90,000 system with 3,835,710 nonzeros was captured
 outside Git at
-`C:\Users\fari\AppData\Local\Temp\qf_solver_029_c2r4_forensics\c2_m2_stagnation_step3.npz`
+`<local-temp>\qf_solver_029_c2r4_forensics\c2_m2_stagnation_step3.npz`
 (27,324,848 bytes, SHA-256
 `8c690567cc1307796fe5384d9c464e7eafd8b12a4dd96ebcaf98d9abfd43d85e`).
 It contains the accepted pre-step displacement, plateau trial displacement,

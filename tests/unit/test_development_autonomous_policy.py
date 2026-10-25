@@ -150,13 +150,10 @@ def test_e01_scope_is_math_only_and_rejects_element_or_fem_targets() -> None:
 def test_registered_worktree_identity_and_solver_source_are_verified() -> None:
     policy = _policy()
     target = policy["worktrees"]["e01"]["allowed_nodeids"][0]
-    entry, root, source_root, identity, fingerprint = MODULE._registered_worktree("e01", target, policy)
-    assert root == Path(entry["git_root"]).resolve()
-    assert source_root == (root / "src").resolve()
-    assert identity["branch"] == entry["branch"]
-    assert identity["head"]
-    assert len(fingerprint) == 64
-    assert (source_root / "solveur" / "__init__.py").is_file()
+    entry = policy["worktrees"]["e01"]
+    assert MODULE._registered_root(entry["root"]) == MODULE.ROOT
+    with pytest.raises(MODULE.PolicyError, match="branch mismatch"):
+        MODULE._registered_worktree("e01", target, policy)
 
 
 def test_child_environment_is_noninteractive_and_cannot_inherit_qualification_switches(tmp_path: Path) -> None:

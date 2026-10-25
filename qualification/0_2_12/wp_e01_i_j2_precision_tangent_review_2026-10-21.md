@@ -117,7 +117,7 @@ The collection guard's 12 entries are a static inventory, not an observed collec
 
 ## Independent read-only review
 
-`/root/j2_gate_review` separately reviewed the H evidence and the prepared I test, guard, supervisor, and manifest. It agreed the exact-translation test is correctly scoped as a raw internal-operator control, the Decimal oracle is independently formulated for fixed accepted history, and no production defect is demonstrated by H. The reviewer identified and blocked the initial stale supervisor test hash; that pin was reconciled. The reviewer also identified derivative and `Kp` unit labels that incorrectly said N/m; all action/error labels now say N, while `K_reference` remains N/m and is multiplied by the displacement-direction norm. A final read-only confirmation found the registry, guard, supervisor, manifest and test hashes consistent. No reviewer executed or collected tests.
+`<reviewer-workspace>` separately reviewed the H evidence and the prepared I test, guard, supervisor, and manifest. It agreed the exact-translation test is correctly scoped as a raw internal-operator control, the Decimal oracle is independently formulated for fixed accepted history, and no production defect is demonstrated by H. The reviewer identified and blocked the initial stale supervisor test hash; that pin was reconciled. The reviewer also identified derivative and `Kp` unit labels that incorrectly said N/m; all action/error labels now say N, while `K_reference` remains N/m and is multiplied by the displacement-direction norm. A final read-only confirmation found the registry, guard, supervisor, manifest and test hashes consistent. No reviewer executed or collected tests.
 
 ## Exact prepared identities
 

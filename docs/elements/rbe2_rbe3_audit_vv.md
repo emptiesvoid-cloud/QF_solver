@@ -6,7 +6,7 @@ Statut global : implémentation statique expérimentale; preuve bornée en stati
 
 ## Périmètre et traçabilité
 
-Le répertoire de travail indiqué initialement, `SAFRAN/solveur`, ne contient
+Le répertoire de travail indiqué initialement, `local solver worktree`, ne contient
 pas l’arborescence `src/solveur` demandée. Il s’agit d’un dépôt d’accueil
 minimal. L’audit et les corrections ont donc été réalisés dans le clone QF
 Solver complet déjà présent sous

@@ -105,7 +105,7 @@ The full raw logs, preflights, receipts, runtime snapshot, structured results, p
 
 ## Independent review
 
-A distinct reviewer (`/root/wp_e01x_review`) performed read-only post-run review; no tests were run and no files were changed. The reviewer independently confirmed the exact node set, 48 passing lifecycle reports, consistency between structured counts and console output, accepted receipt and runtime bindings, evidence-index contents/digests, Job Object limits, timing, process accounting and cleanup. No P0/P1 scientific or safety issue was found.
+A distinct reviewer (`<reviewer-workspace>`) performed read-only post-run review; no tests were run and no files were changed. The reviewer independently confirmed the exact node set, 48 passing lifecycle reports, consistency between structured counts and console output, accepted receipt and runtime bindings, evidence-index contents/digests, Job Object limits, timing, process accounting and cleanup. No P0/P1 scientific or safety issue was found.
 
 One P2 reporting correction is recorded here: a prior static limitation phrase that physical Newton line-search rejection was not demonstrated would be overbroad for this run. The excessive-load TET4 path did reject nine physical trials before terminal failure. However, no physical rejected-then-smaller-accepted globalization step occurred. This narrows the wording; it does not alter the test or scientific gate.
 

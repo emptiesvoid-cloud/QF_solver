@@ -43,7 +43,7 @@ evidence-acceptance decision, historical failures, or qualification results.
 
 The 99 raw R2.5 files (3,949,086,874 bytes) were not added to Git or pushed.
 They remain in the isolated local worktree at
-`C:/Users/fari/AppData/Local/Temp/qf_solver_wp07d_contact_r2_5_20260925/qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_5/`.
+`<local-temp>/AppData/Local/Temp/qf_solver_wp07d_contact_r2_5_20260925/qualification/0_2_9/wp07d_contact_requalification_r2/runs_r2_5/`.
 Preserve that worktree until the planned WP16 archive verifies and records the
 external archive. Do not delete it before then.
 

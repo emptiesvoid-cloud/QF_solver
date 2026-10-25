@@ -9,7 +9,7 @@
     "-B",
     "qualification/0_2_12/wp_e01_l_c03_proof/integrate_proofs.py"
   ],
-  "cwd": "C:\\Users\\fari\\.codex\\worktrees\\wp-e01l-prep-ae429",
+  "cwd": "<local-config>\\worktrees\\wp-e01l-prep-ae429",
   "elapsed_seconds": 6.0710182,
   "final_summary_sha256": "6ce32911d1f64a929e11d9ca70982bfcf1728d0779566576db75d3f3e9eb2386",
   "process_deviation_evidence": "process_deviations.md",

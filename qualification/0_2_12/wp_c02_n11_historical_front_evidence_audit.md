@@ -16,7 +16,7 @@ Les tableaux bruts des contacts M2/M3 comprennent `gap_m`, `contact_pressures_pa
 - Commit d’exécution : `847e93086b518e5d724f17ecb33e92d534212fcc`; tree `503348daa9dbfe882ea71b6bd2e3260282dacf6f`.
 - Arbre source SHA-256 : `26d82115b3e4a1628cdaa62bcd91a17873ae30a09d5604383029e10602aed883`.
 - Manifeste AQ SHA-256 : `ba28108ece19c11277303167cc0197bb0f13a4b1ce8cc619a873075457b7b84e`; il correspond au SHA déclaré par le reçu.
-- Reçu de RUN : `C:\Users\fari\AppData\Local\QFSolver\WP-C02-AK\wp-c02-an-collect-20261022-03\run-receipt.json`.
+- Reçu de RUN : `<local-data>\WP-C02-AK\wp-c02-an-collect-20261022-03\run-receipt.json`.
 - `stdout.log` AQ original SHA-256 : `b10863968b43ebb228dd8d2423f5099a9418f27f2e781d2bf1c8404c25df5986`, identique à l’entrée `stdout.log` du reçu.
 - Test exécuté `tests/unit/test_wpc02_aj_partial_active_contact.py` SHA-256 : `7b14816b6ed6f6bed8aaa8e3bbde568251cf94332aa6c7b12765f389d6ae226e`, recalculé depuis le blob du commit AQ.
 - **48/48** artefacts du reçu contrôlés : fichiers présents, aucun hash divergent.

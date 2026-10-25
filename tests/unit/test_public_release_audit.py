@@ -40,6 +40,14 @@ def test_audit_reports_relative_path_for_private_workstation_marker(tmp_path) ->
     ]
 
 
+def test_audit_detects_both_legacy_employer_names(tmp_path) -> None:
+    (tmp_path / "README.md").write_text("saf" + "ran\nsnec" + "ma\n", encoding="utf-8")
+
+    findings = audit_public_release(tmp_path)["findings"]
+
+    assert [finding["identifier"] for finding in findings] == ["legacy_brand", "legacy_brand"]
+
+
 def test_audit_scans_generated_latex_sources(tmp_path) -> None:
     docs = tmp_path / "docs"
     docs.mkdir()

@@ -79,21 +79,21 @@
       "campaign_status": "INCOMPLETE",
       "manifest": "archive_integrity.json",
       "manifest_sha256": "4024e9b706ac8d784a4223161853133224dc625463e7f40cb7c2acc53dd8edb8",
-      "path": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023",
+      "path": "probe_archive",
       "verified_files": 28
     },
     {
       "campaign_status": "COMPLETED_EXPLORATORY",
       "manifest": "artifact_inventory.json",
       "manifest_sha256": "ee8a992038d546a99afeb335339b00212d178ee56b167008b9f45f24790b015b",
-      "path": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_hex8_run_6787cb37-d498-4f96-8604-1598e6aa5d64",
+      "path": "hex8_archive",
       "verified_files": 35
     }
   ],
   "candidate_point_count": 304,
   "capture_source_commits": [
     {
-      "archive": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_probe_run_20261023",
+      "archive": "probe_archive",
       "commit": "c1d123d7ac785473cd26b6593caf78563c3b0fdc",
       "file_sha256": {
         "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
@@ -105,7 +105,7 @@
       "tree": "41c621d04c0805726721c3957208bbef18492e1b"
     },
     {
-      "archive": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\qualification\\0_2_12\\wp_e01_l_hex8_run_6787cb37-d498-4f96-8604-1598e6aa5d64",
+      "archive": "hex8_archive",
       "commit": "b5bda19f7c6c4dab97c0105b4374f247bcce81a8",
       "file_sha256": {
         "experiments/wp_e01l_probe/adapter.py": "bb2aa19f036244523a8318b6f580e282394ffbb64147b8d4b283c275e03fe6c7",
@@ -126,6 +126,11 @@
     "tests/unit/test_wp_e01l_j2_reduced_space_diagnostic.py": "de87ed55efc5db341a4f90fc0ad34de4758acbfd76241c91f7a37c7b80a61d2a"
   },
   "owner_status": "READY_FOR_OWNER_REVIEW",
+  "privacy_sanitization": {
+    "historical_action_sha256_values_recomputed": false,
+    "note": "The action hashes retain their original historical meaning; this path-redacted inventory is not byte-identical to the original inventory. Original tracked bytes are preserved locally.",
+    "type": "path_redacted_historical_inventory_copy"
+  },
   "proof_results": [
     {
       "action_id": "tet4-perfect-historical-weak-projected",

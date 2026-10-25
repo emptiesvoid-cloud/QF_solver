@@ -117,8 +117,8 @@
     "e01": {
       "purpose": "WP-E01 constitutive mathematics only; element assembly and FEM runs excluded",
       "mode": "math_non_fem",
-      "root": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\tmp\\qf-v0.2.12-integration",
-      "git_root": "C:\\Users\\fari\\Documents\\projet\\SAFRAN\\solveur\\tmp\\qf-v0.2.12-integration",
+      "root": ".",
+      "git_root": ".",
       "branch": "codex/v0.2.12-integration",
       "baseline_commit": "ae429934edc8a18d3febaf85d9b14b21d548eefe",
       "source_root": "src",

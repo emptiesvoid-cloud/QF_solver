@@ -38,6 +38,11 @@ jobs:
           python -m pip install -e . --no-deps
       - name: Ruff
         run: python -m ruff check src/qf_solver src/solveur tests scripts
+      - name: Privacy additions gate
+        shell: bash
+        env:
+          PRIVACY_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
+        run: python scripts/check_privacy_diff.py --base "$PRIVACY_BASE_SHA"
       - name: Progressive typing gate
         run: >-
           python -m mypy

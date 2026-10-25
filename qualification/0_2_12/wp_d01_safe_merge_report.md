@@ -13,8 +13,8 @@ Le portage candidat est disponible dans un worktree propre et directement dériv
 - Base d’intégration : `b86ba5c1b0a66b67eee850ae394710840491204f`, tree `121593fb947b03626d3822f94cd4459b9d336284`.
 - Candidat D01 examiné : `9fa2a260bac6fcc31f92ddd8b60cc6c9bd64f331`, tree `d6c93865ea3870c7caa7a2043aa2173d2a94132d`.
 - Ancêtre commun/base vérifié : le HEAD d’intégration `b86ba5c1...` est un ancêtre du candidat.
-- Worktree candidat : `C:\Users\fari\.codex\worktrees\wp-d01-safe-merge-20261024`, branche `codex/wp-d01-safe-merge-20261024`, propre avant le présent rapport.
-- Worktree officiel : `C:\Users\fari\Documents\projet\SAFRAN\solveur\tmp\qf-v0.2.12-integration`, toujours à `b86ba5c1...` / tree `121593fb...`.
+- Worktree candidat : `<local-config>\worktrees\wp-d01-safe-merge-20261024`, branche `codex/wp-d01-safe-merge-20261024`, propre avant le présent rapport.
+- Worktree officiel : `<legacy-worktree>\solveur\tmp\qf-v0.2.12-integration`, toujours à `b86ba5c1...` / tree `121593fb...`.
 
 ## Portage candidat
 

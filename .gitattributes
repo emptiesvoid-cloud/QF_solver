@@ -1,6 +1,9 @@
 *.msh -text whitespace=-trailing-space
 # Qualification files are hash-bound evidence; preserve their Git blob bytes on Windows.
 qualification/** -text
+# WP-E01 reviewed numerical test modules are SHA-256-bound by tests/unit/conftest.py.
+tests/unit/test_wp_e01m_hencky_material_point.py text eol=lf
+tests/unit/test_wp_e01q_hencky_tangent.py text eol=lf
 # The WP06F migration audit verifies this document's exact historical byte delta.
 docs/verification/0_2_9/wp06f-closure-contract.md text eol=lf
 qualification/0_2_9/wp08d_phase1/M2/** -text

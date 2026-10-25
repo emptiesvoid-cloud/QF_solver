@@ -27,7 +27,7 @@ is `b5c05bc59d70ea53fdb0b480f4734c0dd53451b75c889e16e750c9fc6e7c12da`.
 
 The pre-existing untracked WP05 execution directory was hashed and moved to
 the external archive
-`C:/Users/fari/AppData/Local/Temp/qf_solver_029_wp05_evidence_archive_20260916`.
+`<local-temp>/AppData/Local/Temp/qf_solver_029_wp05_evidence_archive_20260916`.
 It is preserved; it is not part of the candidate contract and must not be used
 to imply a requalification under the new observable.
 
