@@ -1,8 +1,8 @@
-# WP12-0 — Exigences pour un runner contrôlé
+# WP12-R — Exigences et état du runner contrôlé
 
 **PREPARATION_ONLY** · **NUMERICAL_EXECUTION_NOT_PERFORMED** · **WP12_STATUS=OPEN**
 
-Ce document est une spécification; aucun runner WP12 n'est créé, activé ou exécuté dans WP12-0.
+Ce document conserve le protocole préparatoire WP12-0 et constate l'implémentation WP12-R. Le runner vérifie les manifestes, exécute seulement des processus factices via SELF_TEST et refuse toujours EXECUTE. Cela ne constitue ni une autorisation de campagne ni une preuve scientifique.
 
 ## 1. Comparaison des mécanismes existants
 
@@ -29,6 +29,16 @@ La préparation s'inspire des mécanismes forts ci-dessus sans hériter de leurs
 9. **Arrêt sûr** : refuser mismatch de SHA/tree/source hash, dirty tree, origin inattendue, nodeids inattendus, fixtures modifiées, ressource inconnue, destination déjà présente ou manifeste non approuvé. À timeout/erreur environnement, terminer les descendants, sceller l'état partiel et sortir `NOT_RUN/INCONCLUSIVE` sans retry automatique.
 10. **Interprétation** : enregistrer oracle et seuil gelés avant lancement; convertir aucun skip en PASS; les données brutes et échecs sont immuables. Pas de promotion de maturité/statut par le runner.
 
-## 3. État préparatoire
+## 3. État préparatoire conservé
 
-Les manifestes par lot contiennent l'identité source proposée `00428adf…` et son tree `df4ec667…`, et un plan non exécuté. Les limites CPU/RAM/thread/timeout qui ne sont pas gelées par un contrat sont `null` et `PROPOSED — OWNER_APPROVAL_REQUIRED`; elles ne sont pas implicitement empruntées aux runners voisins. Le runner exige une commande et une limite concrètes avant autorisation. WP12-0 n'apporte pas cette implémentation.
+Les manifestes par lot gardent l'identité source proposée `00428adf…` et son tree `df4ec667…`; ils n'ont pas été réécrits. Les limites CPU/RAM/thread/timeout qui ne sont pas gelées par un contrat restent `null` et `PROPOSED — OWNER_APPROVAL_REQUIRED`; elles ne sont pas implicitement empruntées aux runners voisins. Les campagnes WP12-1 à WP12-4 n'ont pas une couverture complète d'empreintes pour tous les chemins listés; WP12-5 n'a ni nodeid/scénarios figés ni inventaire de hachages; WP12-6 n'a pas encore d'identité de commit final. La validation statique expose ces écarts. Aucun de ces six manifestes n'est autorisé.
+
+## 4. Implémentation WP12-R
+
+- `scripts/run_wp12_qualification.py` expose VALIDATE, SELF_TEST et EXECUTE.
+- Les contrats et identités Git sont dans `scripts/wp12_runner/contracts.py`; journaux, reçus et chemins exclusifs dans `evidence.py`; supervision des seuls enfants factices dans `process.py`.
+- Les manifestes d'exécution unitaires et les décisions Owner séparées ont des schémas JSON dédiés. Un statut `APPROVED` et une enveloppe Ed25519 structurellement correcte ne prouvent pas l'identité du signataire.
+- L'exécution réelle reste désactivée par conception dans WP12-R. Aucun solveur, test QF, overlay C02, test rotor ni benchmark scientifique n'a été exécuté.
+- Les tests autorisés sont isolés dans `tests/unit/test_wp12_qualification_runner.py` et ne doivent importer aucun module de calcul QF Solver.
+
+Les détails d'utilisation, le modèle de confiance, les limites de confinement et les résultats de tests sont dans le [guide](wp12_runner_usage.md), le [modèle de sécurité](wp12_runner_security_model.md), l'[audit](wp12_runner_audit.md) et le [registre des écarts](wp12_runner_residual_gaps.md).

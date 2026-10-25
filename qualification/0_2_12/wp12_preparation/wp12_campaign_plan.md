@@ -2,7 +2,7 @@
 
 **PREPARATION_ONLY** · **NUMERICAL_EXECUTION_NOT_PERFORMED** · **WP12_STATUS=OPEN**
 
-Toutes les commandes de cette section sont des propositions, non exécutées. Les nœuds sont résolus par lecture de source. Les manifestes par lot sont `PREPARED_NOT_AUTHORIZED`. Une approbation Owner, l'implémentation/revue d'un runner contrôlé et le gel de l'identité sont des prérequis distincts à toute exécution.
+Toutes les commandes de cette section sont des propositions, non exécutées. Les nœuds sont résolus par lecture de source. Les manifestes par lot sont `PREPARED_NOT_AUTHORIZED`. Une approbation Owner, la revue des limites du runner WP12-R, un mécanisme de confiance indépendant, une isolation des ressources adéquate et le gel de l'identité sont des prérequis distincts à toute exécution. WP12-R ne fournit pas le mode EXECUTE.
 
 ## Ordre et dépendances
 

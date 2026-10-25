@@ -16,9 +16,14 @@ Ce dossier décrit le périmètre, les preuves, les campagnes et les contrôles 
 - [Gabarit de manifeste](wp12_execution_manifest_template.json)
 - [Manifeste WP12-1](wp12_1_execution_manifest.json) · [WP12-2](wp12_2_execution_manifest.json) · [WP12-3](wp12_3_execution_manifest.json)
 - [Manifeste WP12-4](wp12_4_execution_manifest.json) · [WP12-5](wp12_5_execution_manifest.json) · [WP12-6](wp12_6_execution_manifest.json)
-- [Exigences du futur runner](wp12_runner_requirements.md)
+- [Exigences et état du runner WP12-R](wp12_runner_requirements.md)
+- [Guide d'utilisation en modes VALIDATE / SELF_TEST / EXECUTE](wp12_runner_usage.md)
+- [Modèle de confiance et limites de sécurité](wp12_runner_security_model.md)
+- [Audit du runner et contrôles synthétiques](wp12_runner_audit.md)
+- [Registre des écarts résiduels du runner](wp12_runner_residual_gaps.md)
+- Schémas : [manifeste préparatoire](wp12_prepared_manifest.schema.json), [unité d'exécution figée](wp12_execution_manifest.schema.json), [décision Owner séparée](wp12_owner_decision.schema.json)
 - [Registre des risques](wp12_risk_register.md)
 - [Décisions Owner requises](wp12_owner_decisions_required.md)
 - [Plan de non-régression rotor existant](../wp12_rotating_inherited_regression_plan.md)
 
-Les preuves historiques demeurent dans leurs emplacements v0.2.11/v0.2.12 existants et ne sont ni déplacées ni réécrites. Les tableaux de ce dossier les citent sans les requalifier comme essais du code cible.
+Les preuves historiques demeurent dans leurs emplacements v0.2.11/v0.2.12 existants et ne sont ni déplacées ni réécrites. Les tableaux de ce dossier les citent sans les requalifier comme essais du code cible. Le runner WP12-R n'autorise que VALIDATE statique et SELF_TEST synthétique; toute exécution scientifique est refusée et nécessite une décision Owner, un ancrage de confiance vérifiable et une isolation OS adaptée.

@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:qf-solver:wp12:prepared-manifest:v1",
+  "title": "Non-authorizing WP12-0 prepared campaign manifest",
+  "type": "object",
+  "required": [
+    "schema", "campaign_id", "status", "mode", "numerical_execution_performed", "wp12_status",
+    "authorization", "repository", "target", "scope", "source_and_test_identity", "fixtures", "tests",
+    "oracles_and_acceptance", "environment", "resource_limits", "attempt_policy", "evidence",
+    "execution_status_label", "preparation_status_label", "wp12_status_label"
+  ],
+  "properties": {
+    "schema": {"const": "qf-solver-wp12-prepared-manifest-v1"},
+    "campaign_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"},
+    "status": {"const": "PREPARED_NOT_AUTHORIZED"},
+    "mode": {"const": "PREPARATION_ONLY"},
+    "numerical_execution_performed": {"const": false},
+    "wp12_status": {"const": "OPEN"},
+    "execution_status_label": {"const": "NUMERICAL_EXECUTION_NOT_PERFORMED"},
+    "preparation_status_label": {"const": "PREPARATION_ONLY"},
+    "wp12_status_label": {"const": "WP12_STATUS=OPEN"},
+    "repository": {"const": "emptiesvoid-cloud/QF_solver"},
+    "authorization": {
+      "type": "object",
+      "required": ["execution_authorized"],
+      "properties": {"execution_authorized": {"const": false}},
+      "additionalProperties": true
+    },
+    "target": {
+      "type": "object",
+      "required": ["branch", "commit", "git_tree", "worktree_must_be_clean"],
+      "properties": {
+        "branch": {"const": "emptiesvoids-cloud/0.2.12"},
+        "commit": {"type": ["string", "null"], "pattern": "^[a-f0-9]{40}$"},
+        "git_tree": {"type": ["string", "null"], "pattern": "^[a-f0-9]{40}$"},
+        "worktree_must_be_clean": {"const": true}
+      },
+      "additionalProperties": true
+    },
+    "scope": {
+      "type": "object",
+      "required": ["capability_matrix_ids", "scientific_boundary"],
+      "properties": {
+        "capability_matrix_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "scientific_boundary": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "source_and_test_identity": {
+      "type": "object",
+      "required": ["tracked_source_files", "tracked_test_files", "git_blob_oids"],
+      "properties": {
+        "tracked_source_files": {"$ref": "#/$defs/pathList"},
+        "tracked_test_files": {"$ref": "#/$defs/pathList"},
+        "git_blob_oids": {
+          "type": "object",
+          "propertyNames": {"$ref": "#/$defs/repositoryPath"},
+          "additionalProperties": {"$ref": "#/$defs/gitObjectId"}
+        }
+      },
+      "additionalProperties": true
+    },
+    "fixtures": {
+      "type": "object",
+      "required": ["entries"],
+      "properties": {"entries": {"type": "array", "items": {"type": "object"}}},
+      "additionalProperties": true
+    },
+    "tests": {
+      "type": "object",
+      "required": ["exact_nodeids"],
+      "properties": {
+        "exact_nodeids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/nodeid"}},
+        "commands": {"type": "array"}
+      },
+      "additionalProperties": true
+    },
+    "oracles_and_acceptance": {"type": "object"},
+    "environment": {"type": "object"},
+    "resource_limits": {"type": "object"},
+    "attempt_policy": {"type": "object"},
+    "evidence": {"type": "object"}
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "gitObjectId": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "repositoryPath": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$"},
+    "pathList": {"type": "array", "items": {"$ref": "#/$defs/repositoryPath"}},
+    "nodeid": {"type": "string", "pattern": "^tests/(unit|integration|verification)/[A-Za-z0-9_./-]+\\.py::[A-Za-z_][A-Za-z0-9_]*(::[A-Za-z_][A-Za-z0-9_]*)?(\\[[^\\]\\r\\n]+\\])?$"}
+  }
+}
