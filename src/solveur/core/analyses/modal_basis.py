@@ -29,13 +29,16 @@ from solveur.core.analyses.modal_basis_numerics import (
     detect_clusters as _detect_clusters,
     finite_nonnegative as _finite_nonnegative,
     finite_vector as _finite_vector,
+    is_exactly_sparse_symmetric as _is_exactly_sparse_symmetric,
     json_snapshot as _json_snapshot,
     mass_metric_subspace_equivalent as _mass_metric_subspace_equivalent,
     mass_normalize_and_handle_degenerate_subspaces as _mass_normalize_and_handle_degenerate_subspaces,
     modal_zeta_values as _modal_zeta_values,
     positive_definite_screen as _positive_definite_screen,
+    project_exact_symmetric_bilinear as _project_exact_symmetric_bilinear,
     relative_modal_residual as _relative_modal_residual,
     relative_sparse_symmetry_error as _relative_sparse_symmetry_error,
+    sparse_symmetry_metrics as _sparse_symmetry_metrics,
     require_small_symmetric as _require_small_symmetric,
     require_sparse_finite_square as _require_sparse_finite_square,
     readonly as _readonly,
@@ -143,7 +146,7 @@ class ModalBasis:
             raise InputValidationError("Prepared K/M dimensions do not match the prepared reduced DOF system.")
         _require_sparse_finite_square(stiffness, "stiffness")
         _require_sparse_finite_square(mass, "mass")
-        k_symmetry = _relative_sparse_symmetry_error(stiffness)
+        k_symmetry, k_exactly_symmetric = _sparse_symmetry_metrics(stiffness)
         m_symmetry = _relative_sparse_symmetry_error(mass)
         if k_symmetry > _SYMMETRY_TOL or m_symmetry > _SYMMETRY_TOL:
             raise InputValidationError(
@@ -160,6 +163,7 @@ class ModalBasis:
             requested_modes=mode_count,
             method=selected_method,
             dense_limit=dense_limit,
+            stiffness_exact_symmetry=k_exactly_symmetric,
             include_first_omitted_evidence=include_first_omitted_evidence,
             spectral_screens={"mass": mass_screen, "stiffness": stiffness_screen},
         )
@@ -175,6 +179,7 @@ class ModalBasis:
         requested_modes: int,
         method: str,
         dense_limit: int,
+        stiffness_exact_symmetry: bool | None = None,
         include_first_omitted_evidence: bool = False,
         spectral_screens: Mapping[str, object] | None = None,
     ) -> "ModalBasis":
@@ -292,7 +297,20 @@ class ModalBasis:
         )
         gram = selected_vectors.T @ (m_matrix @ selected_vectors)
         projected_mass = np.asarray(gram, dtype=np.float64)
-        projected_stiffness = np.asarray(selected_vectors.T @ (k_matrix @ selected_vectors), dtype=np.float64)
+        exact_symmetric_k = (
+            _is_exactly_sparse_symmetric(k_matrix)
+            if stiffness_exact_symmetry is None
+            else stiffness_exact_symmetry
+        )
+        if exact_symmetric_k:
+            projected_stiffness = _project_exact_symmetric_bilinear(
+                k_matrix, selected_vectors, exact_symmetry_validated=True
+            )
+        else:
+            # Preserve the historical bilinear projection for tolerated but
+            # non-exactly-symmetric operators; the structured path is defined
+            # only for a symmetric input and never repairs K.
+            projected_stiffness = np.asarray(selected_vectors.T @ (k_matrix @ selected_vectors), dtype=np.float64)
         if not np.all(np.isfinite(projected_mass)) or not np.all(np.isfinite(projected_stiffness)):
             raise NumericalConvergenceError("Modal projection produced non-finite reduced operators.")
         mass_orthogonality = float(np.linalg.norm(projected_mass - np.eye(requested_modes), ord="fro"))

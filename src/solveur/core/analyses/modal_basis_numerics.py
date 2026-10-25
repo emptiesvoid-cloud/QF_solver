@@ -164,9 +164,57 @@ def relative_modal_residual(k_matrix: csr_matrix, m_matrix: csr_matrix, value: f
 
 
 def relative_sparse_symmetry_error(matrix: csr_matrix) -> float:
-    difference = matrix - matrix.T
+    return sparse_symmetry_metrics(matrix)[0]
+
+
+def sparse_symmetry_metrics(matrix: csr_matrix) -> tuple[float, bool]:
+    """Return relative symmetry error and exact stored symmetry from one diff."""
+    difference = csr_matrix(matrix - matrix.T)
+    difference.eliminate_zeros()
     denominator = max(sparse_frobenius_norm(matrix), FLOAT_TINY)
-    return sparse_frobenius_norm(csr_matrix(difference)) / denominator
+    error = sparse_frobenius_norm(difference) / denominator
+    return error, difference.nnz == 0
+
+
+def is_exactly_sparse_symmetric(matrix: csr_matrix) -> bool:
+    """Return whether a sparse matrix equals its transpose at stored precision."""
+    return sparse_symmetry_metrics(matrix)[1]
+
+
+def project_exact_symmetric_bilinear(
+    matrix: csr_matrix,
+    modes: np.ndarray,
+    *,
+    exact_symmetry_validated: bool = False,
+) -> np.ndarray:
+    """Evaluate ``modes.T @ matrix @ modes`` using exact input symmetry.
+
+    A single sparse-dense product forms ``matrix @ modes``. Each reduced
+    upper-triangle entry is then evaluated as its own bilinear form, and the
+    corresponding symmetric entry is assigned from that same scalar. This
+    uses the identity implied by exactly symmetric input; it neither averages
+    a completed projection nor modifies the input operator.
+    """
+    require_sparse_finite_square(matrix, "stiffness")
+    vectors = np.asarray(modes, dtype=np.float64)
+    if vectors.ndim != 2 or vectors.shape[0] != matrix.shape[0] or vectors.shape[1] == 0:
+        raise InputValidationError("Symmetric bilinear projection modes have incompatible dimensions.")
+    if not np.all(np.isfinite(vectors)):
+        raise InputValidationError("Symmetric bilinear projection modes must be finite.")
+    if not exact_symmetry_validated and not is_exactly_sparse_symmetric(matrix):
+        raise InputValidationError("Symmetric bilinear projection requires exactly symmetric stored stiffness.")
+
+    mode_count = vectors.shape[1]
+    operator_modes = np.asarray(matrix @ vectors, dtype=np.float64)
+    projected = np.zeros((mode_count, mode_count), dtype=np.float64)
+    for i in range(mode_count):
+        for j in range(i, mode_count):
+            value = float(np.dot(vectors[:, i], operator_modes[:, j]))
+            if not math.isfinite(value):
+                raise NumericalConvergenceError("Symmetric bilinear projection produced non-finite values.")
+            projected[i, j] = value
+            projected[j, i] = value
+    return projected
 
 
 def sparse_frobenius_norm(matrix: csr_matrix) -> float:
