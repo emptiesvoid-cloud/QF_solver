@@ -1,0 +1,34 @@
+# WP12-0 — Exigences pour un runner contrôlé
+
+**PREPARATION_ONLY** · **NUMERICAL_EXECUTION_NOT_PERFORMED** · **WP12_STATUS=OPEN**
+
+Ce document est une spécification; aucun runner WP12 n'est créé, activé ou exécuté dans WP12-0.
+
+## 1. Comparaison des mécanismes existants
+
+| Mécanisme | Contrôles utiles observés | Limite pour WP12 |
+|---|---|---|
+| `scripts/development_autonomous.py` + `development_autonomous_policy.json` | Sélection de worktree/branche, nodeids enregistrés, inventaire source, origine de `solveur`, tentatives/ledger et journaux; limite de sortie capturée. | Runner de développement ciblé D01/C01/E01, pas un runner de qualification WP12. Les worktrees, scopes, branches, nodeids et budgets sont différents; RSS/process/temp/disk sont des observations périodiques souples, pas des limites OS. |
+| `scripts/run_wpc02_ar_native_pytest.py` | Modèle de runner one-shot; vérification de manifeste/source, identité Git, refuse les résultats existants, journal de tentatives, timeout et suivi de processus. | Verrouillé sur anciens manifestes/sources N10/N13 et sorties C02; ne peut pas être rebondi sur le candidat WP12 et ne doit jamais écrire dans les archives N10. |
+| `scripts/run_wp06_verification.py` et `scripts/record_wp05_gyro_evidence.py` | Orchestration historique de preuves rotor. | Les scripts écrivent dans des chemins gelés v0.2.11 et certains écrivent sans refus d'écrasement. Incompatibles avec une exécution future WP12 sans wrapper/sortie nouvelle revue. |
+| `.github/workflows/quality.yml` | CI de PR/main, sélection de tests et couverture; utile en sentinelle logicielle. | Les runs CI ne sont pas actuellement présents pour le HEAD de base; le workflow n'émet pas automatiquement un manifeste scientifique WP12 ou des budgets par test. CI ne vaut pas qualification FEM. |
+| `scripts/run_wp12_scaling.py` | Mesure ancienne de grandes tailles existante. | Le nom WP12 est réutilisé depuis v0.2.7; contrat/résultats dans l'espace 0.2.7. Pas un harness de performance v0.2.12. |
+
+La préparation s'inspire des mécanismes forts ci-dessus sans hériter de leurs permissions, statuts, fichiers, sorties ou budgets.
+
+## 2. Protocole requis avant tout lancement futur
+
+1. **Décision d'autorisation** : Owner nomme un campaign ID, approuve le SHA-256 exact du manifeste et les limites numériques, essais, nœuds, environment et destination; aucun autre test n'est sélectionné implicitement. Chaque nouveau scope exige un nouveau manifeste.
+2. **Identité source** : checkout dédié, commit et tree attendus, branche/ancestry précisés, index/worktree propres, aucun sous-module/modification non suivi non explicitement inventorié. Vérifier aussi l'origine réelle de `solveur.__file__`, le Python, les dépendances, les roues et les versions des bibliothèques natives.
+3. **Nœuds exacts** : une commande enfant par nodeid explicite, pas de répertoire/module/suite globale. Les cas paramétrés ont leurs IDs résolus et approuvés avant le freeze; aucun `--collect-only` ne sert à deviner le scope après autorisation. Contrôler les tests réellement sélectionnés avant qu'un appel solver soit possible.
+4. **Entrées** : calculer SHA-256 de chaque fixture, modèle, mesh, contrat et fichier de référence avant l'exécution; capturer la génération déterministe inline quand aucune fixture externe n'existe. Figer valeurs d'environnement, ordre, seeds et BLAS/OpenMP/MKL threads.
+5. **Ressources** : valeurs explicites CPU, nombre de threads, mémoire, temps par nœud/campagne, espace temporaire/sortie. Les limites appliquées doivent être distinguées des seuils surveillés. Sur Windows, un polling RSS/descendants est soft; si une limite mémoire forte est un critère, utiliser une contrainte OS Job Object/container adéquate ou bloquer le lancement. Ne pas annoncer un plafond dur non imposé.
+6. **Tentatives** : une seule tentative proposée par nodeid, aucune relance automatique. Toute nouvelle tentative exige un diagnostic et l'approbation d'une nouvelle hypothèse/version de manifeste. Un FAIL scientifique reste archivé, pas effacé par un PASS ultérieur.
+7. **Destinations exclusives** : `qualification/0_2_12/wp12_evidence/<campaign_id>/<run_id>/`; créer uniquement si inexistant et refuser tout écrasement. Jamais `qualification/0_2_11`, un répertoire C02 gelé, ou un dossier de preuves partagé. En cas de collision, stopper.
+8. **Journal et reçu** : copier manifeste et SHA-256, sources/fixtures, commande exacte, stdout/stderr avec plafonds, exit code, temps wall/CPU, RSS/peak observé, OS/process descendants, versions, seed, statut, raisons de skip/timeout, artefacts; produire inventaire SHA-256 signé/revu hors processus solver. Distinguer écriture atomique et garantie de durabilité.
+9. **Arrêt sûr** : refuser mismatch de SHA/tree/source hash, dirty tree, origin inattendue, nodeids inattendus, fixtures modifiées, ressource inconnue, destination déjà présente ou manifeste non approuvé. À timeout/erreur environnement, terminer les descendants, sceller l'état partiel et sortir `NOT_RUN/INCONCLUSIVE` sans retry automatique.
+10. **Interprétation** : enregistrer oracle et seuil gelés avant lancement; convertir aucun skip en PASS; les données brutes et échecs sont immuables. Pas de promotion de maturité/statut par le runner.
+
+## 3. État préparatoire
+
+Les manifestes par lot contiennent l'identité source proposée `00428adf…` et son tree `df4ec667…`, et un plan non exécuté. Les limites CPU/RAM/thread/timeout qui ne sont pas gelées par un contrat sont `null` et `PROPOSED — OWNER_APPROVAL_REQUIRED`; elles ne sont pas implicitement empruntées aux runners voisins. Le runner exige une commande et une limite concrètes avant autorisation. WP12-0 n'apporte pas cette implémentation.

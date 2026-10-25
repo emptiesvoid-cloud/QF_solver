@@ -36,6 +36,8 @@ Portfolio total: **19 work packages; 14 positive closures, 1 historical negative
 
 WP11 closed only for its approved API, integration, traceability, result-contract, serialization, documented-compatibility, and refusal scope. The [closure assessment](wp11_final/closure_gate_assessment.md) and [capability traceability matrix](wp11_final/capability_traceability_matrix.tsv) preserve the accepted boundary. Its closure does not require or imply rotor numerical non-regression. Rotor numerical V&V belongs to WP12; WP12 remains open. No WP12 solver checks or WP13 activities are executed by this roadmap update.
 
+The WP12-0 preparation package is indexed at [qualification/0_2_12/wp12_preparation/README.md](wp12_preparation/README.md). It is preparation-only; its manifests do not authorize campaigns, and WP12 remains `OPEN`.
+
 ## Capacités héritées de v0.2.11 — Rotordynamique
 
 These are already implemented v0.2.11 capabilities carried in the current source tree. They are inherited experimental routes, not newly created v0.2.12 work packages and not part of the v0.2.12 WP05/WP06 feature names.

@@ -1,0 +1,286 @@
+{
+  "schema": "qf-solver-wp12-prepared-manifest-v1",
+  "campaign_id": "WP12-3-NONLINEAR-CONTACT-BOUNDED",
+  "title": "Non-linéaire, transactions d'état et contact AR/N03",
+  "status": "PREPARED_NOT_AUTHORIZED",
+  "mode": "PREPARATION_ONLY",
+  "numerical_execution_performed": false,
+  "wp12_status": "OPEN",
+  "authorization": {
+    "execution_authorized": false,
+    "owner_decision_id": null,
+    "approved_manifest_sha256": null,
+    "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+  },
+  "repository": "emptiesvoid-cloud/QF_solver",
+  "target": {
+    "branch": "emptiesvoids-cloud/0.2.12",
+    "commit": "00428adf38e9397340ac136f6f503a268eb671da",
+    "git_tree": "df4ec667bf746b042c900fad1f86bf542e1a437b",
+    "worktree_must_be_clean": true,
+    "detached_checkout_allowed_only_at_exact_commit": true,
+    "source_change_policy": "Exact source, test and fixture identity required; M4/M5 are a new v0.2.12 regression only if separately approved."
+  },
+  "scope": {
+    "capability_matrix_ids": [
+      "NL-08-01",
+      "NL-08-02",
+      "NL-09-01",
+      "NL-09-02",
+      "NL-10-01",
+      "E01-01",
+      "C01-01",
+      "C02-01",
+      "E01-02"
+    ],
+    "scientific_boundary": "Bounded corrected corotational J2/state routes and frictionless planar C02 AR/N03 only. Does not qualify general J2, contact, Docker equivalence, finite sliding or E01 globally.",
+    "preserved_statuses": [
+      "WP-C01=CLOSED_NEGATIVE; remediation OPEN",
+      "WP-C02=CLOSED_BOUNDED AR/N03 only",
+      "WP-E01=OPEN_WITH_BOUNDED_CERTIFICATES",
+      "WP12=OPEN"
+    ],
+    "required_contracts": [
+      "wp08_r1_constitutive_state_contract.json",
+      "wp09_perturbation_policy.json",
+      "wp10_state_transaction_contract.json",
+      "wp10_checkpoint_identity_migration_contract.json",
+      "wp_c02_n12_closure_requirements_matrix.md",
+      "wp_c02_n13_owner_bounded_closure_decision.md"
+    ]
+  },
+  "source_and_test_identity": {
+    "repository_tree_roots": {
+      "src": "3fd84f22c35aaecd989f2fe614e0b3fd9d7fbc6e",
+      "tests": "25ac8dad53b310407385353373db7886b8823ceb",
+      "fixtures_or_examples": "199741620aeec02ad4342d55dd361210a766d885"
+    },
+    "tracked_source_files": [
+      "src/solveur/core/assembly/nonlinear.py",
+      "src/solveur/core/nonlinear",
+      "src/solveur/elements/solid/corotational_j2.py",
+      "src/solveur/core/analyses/contact",
+      "src/solveur/core/analysis/static.py",
+      "src/solveur/core/analyses/residual_flexibility.py"
+    ],
+    "tracked_test_files": [
+      "tests/unit/test_corotational_j2_corrected.py",
+      "tests/unit/test_wp10_nonlinear_state_checkpoints.py",
+      "tests/unit/test_nonlinear_checkpoint.py",
+      "tests/unit/test_wp_e01_j2_global_phase2.py",
+      "tests/verification/test_wpc02_ar_native_contact_convergence.py",
+      "tests/unit/test_wpc01_r13_small_rotation_transfer.py",
+      "tests/unit/test_wp_c01_r19_example_contract.py",
+      "tests/unit/test_wp_c01_r16_smoke_contract.py",
+      "tests/unit/test_wp_e01_j2_global_phase2.py",
+      "tests/unit/test_wp_e01_j2_coro_phase8.py",
+      "tests/unit/test_wp_e01m_hencky_material_point.py",
+      "tests/unit/test_wp_e01q_hencky_tangent.py",
+      "tests/unit/test_wp_d01_residual_flexibility.py"
+    ],
+    "git_blob_oids": {
+      "tests/unit/test_corotational_j2_corrected.py": "6b1707486a31933036691dfd6ea7ad50edb91a3d",
+      "tests/unit/test_wp10_nonlinear_state_checkpoints.py": "778301bf10a61da078cfb1da842a3814545e9877",
+      "tests/verification/test_wpc02_ar_native_contact_convergence.py": "9e75adcff94f68bffe876dbf9f8dac07fa0346d6",
+      "tests/unit/test_wpc01_r13_small_rotation_transfer.py": "ffc442862a6c5ac8751fad4cc0a5f3e0913d2185",
+      "tests/unit/test_wp_c01_r19_example_contract.py": "e340da506db226c48783b03435b2f1a87cf7ebbb",
+      "tests/unit/test_wp_c01_r16_smoke_contract.py": "ef779950d8bf5fb8d0d0d559312eb853255587fc",
+      "tests/unit/test_wp_e01_j2_global_phase2.py": "88b73047d8b4b10ac645312cc57eda3cd88d1ffd",
+      "tests/unit/test_wp_e01_j2_coro_phase8.py": "3af86f5d2a420436f80809b44343b98a9e69b308",
+      "tests/unit/test_wp_e01m_hencky_material_point.py": "259fb07b6dda81cfcd160b0a3dd161ea6b842541",
+      "tests/unit/test_wp_e01q_hencky_tangent.py": "3d82f09f381661548748ed8d17278f33c551c6d0",
+      "tests/unit/test_wp_d01_residual_flexibility.py": "0bd2fbb5d4af9c77c089aafbab10793fb450b620",
+      "src/solveur/core/analyses/residual_flexibility.py": "f7d4f5ee1bea08ac95d495939c7018d18dda32e5"
+    },
+    "sha256_inventory_file": "Required at freeze; historical N10 external archive hash does not bind these current sources.",
+    "inventory_completeness": "Contact M4/M5 procedural model is defined by test/source; inspect any accessed external asset and add its byte hash before approval."
+  },
+  "fixtures": {
+    "entries": [
+      {
+        "id": "corrected-J2-material-and-element-cases",
+        "identity": "Embedded test inputs bound by test_corotational_j2_corrected.py Git blob 6b1707486a31933036691dfd6ea7ad50edb91a3d",
+        "byte_sha256": "Compute materialized input snapshot at freeze"
+      },
+      {
+        "id": "C02-AR-N03-M4",
+        "identity": "Procedurally generated by current test node; do not reuse N10 external archive as current fixture",
+        "test_blob_oid": "9e75adcff94f68bffe876dbf9f8dac07fa0346d6",
+        "byte_sha256": "Capture/hash every generated model input at freeze"
+      },
+      {
+        "id": "C02-AR-N03-M5",
+        "identity": "Procedurally generated by current test node; do not reuse N10 external archive as current fixture",
+        "test_blob_oid": "9e75adcff94f68bffe876dbf9f8dac07fa0346d6",
+        "byte_sha256": "Capture/hash every generated model input at freeze"
+      },
+      {
+        "identity": "Current tracked plan used for M4/M5; exact plan SHA-256",
+        "byte_sha256": "fa3806c842acefbe707499ffdec9f703bcedb5031962594df4c5293d0fbe6cfc",
+        "git_blob_oid": "fc8ceade8f7b5bcb22eefda88bac92110840338c",
+        "id": "N12 AR mesh plan",
+        "path": "qualification/0_2_12/wp_c02_ar_mesh_plan.json"
+      },
+      {
+        "availability": "MISSING; recover only from identified original artifact",
+        "byte_sha256": "7b14816b6ed6f6bed8aaa8e3bbde568251cf94332aa6c7b12765f389d6ae226e",
+        "git_blob_oid": "c05a72879440081f0f4f725f72c0adaa09f66c99",
+        "id": "Frozen AJ mesh/load helper",
+        "identity": "Exact blob is recoverable from existing local Git history commit 9e1cf9805b49c90a74006a39cb0ded640265f64f; absent from target tree and requires an Owner-approved temporary isolated overlay",
+        "source_commit": "9e1cf9805b49c90a74006a39cb0ded640265f64f",
+        "path": "tests/unit/test_wpc02_aj_partial_active_contact.py"
+      },
+      {
+        "status": "CONFLICT_REQUIRES_OWNER_RESOLUTION",
+        "byte_sha256": "a732254d59268aace44e44e2a21f5619d4c267531c388eed1aab0bb09fb2def0",
+        "git_blob_oid": "0a95b55a7c1e35ce8097741fa357aeaa938d69b0",
+        "id": "C01 R19 model fixture",
+        "identity": "Current file bytes differ from digest embedded in C01 contract test; not selected for fixture-integrity node",
+        "expected_sha256_in_test": "b74c57cae86d94b4cbfdae0c298ea98aa660f70159c72eb4b72f0ee4b5eee3e5",
+        "path": "examples/contact/frictional_bstar_small_rotation/model_r14_bstar_slip.json"
+      }
+    ],
+    "external_fixture_policy": "Any untracked/external file input requires source/provenance and SHA-256 before approval; otherwise STOP."
+  },
+  "tests": {
+    "exact_nodeids": [
+      "tests/unit/test_corotational_j2_corrected.py::test_corrected_state_matches_independent_tensor_j2_history",
+      "tests/unit/test_corotational_j2_corrected.py::test_corrected_tangent_matches_independent_directional_force_differences",
+      "tests/unit/test_corotational_j2_corrected.py::test_corrected_newton_plasticity_line_search_results_and_serialization",
+      "tests/unit/test_wp10_nonlinear_state_checkpoints.py::test_trial_state_cannot_be_checkpointed_and_commit_attests_atomically",
+      "tests/unit/test_wp10_nonlinear_state_checkpoints.py::test_rollback_keeps_accepted_composite_and_retry_is_a_new_trial",
+      "tests/unit/test_wp10_nonlinear_state_checkpoints.py::test_max_iterations_is_reported_as_nonconvergence_not_acceptance",
+      "tests/unit/test_nonlinear_checkpoint.py::test_nonlinear_restart_matches_continuous_cyclic_solution",
+      "tests/unit/test_wp_e01_j2_global_phase2.py::test_j2_return_map_and_tangent_match_independent_tensor_oracle",
+      "tests/unit/test_wp_e01_j2_coro_phase8.py::test_phase8_inadmissible_guard_state_is_refused_without_retry",
+      "tests/verification/test_wpc02_ar_native_contact_convergence.py::test_wpc02_ar_native_m4",
+      "tests/verification/test_wpc02_ar_native_contact_convergence.py::test_wpc02_ar_native_m5",
+      "tests/unit/test_wpc01_r13_small_rotation_transfer.py::test_default_and_explicit_legacy_are_identical",
+      "tests/unit/test_wpc01_r13_small_rotation_transfer.py::test_mode_validation_is_opt_in_and_excludes_updated_or_finite_sliding_routes",
+      "tests/unit/test_wp_c01_r19_example_contract.py::test_example_default_invocation_does_not_launch_a_calculation",
+      "tests/unit/test_wp_c01_r16_smoke_contract.py::test_smoke_payload_requires_active_contact_on_every_accepted_step",
+      "tests/unit/test_corotational_j2_corrected.py::test_polar_directional_derivative_matches_independent_sylvester_and_fd",
+      "tests/unit/test_wp_e01_j2_global_phase2.py::test_j2_return_map_and_tangent_match_independent_tensor_oracle",
+      "tests/unit/test_wp_e01_j2_coro_phase8.py::test_phase8_inadmissible_guard_state_is_refused_without_retry",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_material_response_still_does_not_claim_a_verified_tangent",
+      "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_tangent_matches_multistep_centered_pk1_difference"
+    ],
+    "parameterized_node_resolution": "Inspect decorators and bind expanded IDs if any; resolve current source-set behavior before Owner freeze.",
+    "commands": [
+      {
+        "runner": "FUTURE_WP12_RUNNER_NOT_IMPLEMENTED",
+        "argv_template": [
+          "python",
+          "-m",
+          "pytest",
+          "-q",
+          "<one exact nodeid>"
+        ],
+        "dispatch_policy": "one exact node per child process; C02 M4/M5 separated, no retry",
+        "execution_status": "NOT_EXECUTED"
+      }
+    ],
+    "status": "NOT_RUN"
+  },
+  "oracles_and_acceptance": {
+    "contract_references": [
+      "wp08_r1_vnv_acceptance_matrix.json",
+      "wp09_perturbation_policy.json",
+      "wp10_state_transaction_contract.json",
+      "wp10_checkpoint_identity_migration_contract.json",
+      "wp_c02_n12_closure_requirements_matrix.md",
+      "wp_c02_n13_owner_bounded_closure_decision.md"
+    ],
+    "oracle_class_by_case": {
+      "J2": "independent tensor/material-point and directional force reference; global assembly status is separate",
+      "transactions": "accepted/trial state invariant, rollback, counters and tamper refusal",
+      "C02": "manufactured AR/N03 displacement/pressure, equilibrium/work/energy/front criteria"
+    },
+    "frozen_tolerances": {
+      "C02_gap_m": 1E-10,
+      "C02_stationarity_N": 1E-06,
+      "C02_open_multiplier_N": 1E-07,
+      "C02_force_moment_normalized": 1E-09,
+      "C02_production_QP_displacement_m": 1E-09,
+      "C02_production_QP_multiplier_N": 1E-06,
+      "C02_work_J": 1E-09,
+      "C02_energy_matrix_quadrature_J": 1E-10,
+      "C02_endpoint_displacement_and_pressure_error_ratio_strictly_less_than": 0.9,
+      "C02_front_distance_over_hx_max": 1.0
+    },
+    "no_new_thresholds": true,
+    "success_conditions": [
+      "J2/transaction cases meet their source-bound contracts and never relabel nonconvergence as acceptance.",
+      "Only if authorized: current M4 and M5 independently satisfy frozen N12/N13 criteria on the exact v0.2.12 source/fixture.",
+      "Preserve C02 AR/N03 only and historical N06/N08/Docker results."
+    ],
+    "fail_or_stop_conditions": [
+      "Any production/QP mismatch, frozen metric failure, identity mismatch or undocumented fixture stops; no modification of N10/N13 evidence; resource/timeout stop is NOT_RUN or INCONCLUSIVE, not PASS."
+    ]
+  },
+  "environment": {
+    "os": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "python": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "numpy_scipy_pytest": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "optional_solvers": "Contact route uses native SciPy path in historical campaign; exact candidate dependencies must be pinned at freeze.",
+    "blas_openmp_mkl_threads": null,
+    "environment_lock_sha256": null
+  },
+  "resource_limits": {
+    "cpu_cores": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "ram_mib": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "numerical_threads": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "timeout_seconds_per_node": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "timeout_seconds_campaign": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "temporary_storage_mib": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "limit_enforcement": "M4/M5 require explicit resource approval; sampled RSS is not a hard cap."
+  },
+  "attempt_policy": {
+    "maximum_attempts_per_node": {
+      "value": 1,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "automatic_retry": false,
+    "retry_requires": "Separate Owner approval and new identified hypothesis; N10 cannot be replayed into its old evidence path."
+  },
+  "evidence": {
+    "exclusive_destination_template": "qualification/0_2_12/wp12_evidence/WP12-3-NONLINEAR-CONTACT-BOUNDED/<run_id>/",
+    "refuse_if_destination_exists": true,
+    "historical_paths_writable": false,
+    "capture": [
+      "current source/test/fixture hashes",
+      "manifest and Owner decision",
+      "exact node/argv",
+      "stdout/stderr",
+      "resource observations",
+      "oracle fields/errors",
+      "final artifact SHA-256 inventory"
+    ],
+    "partial_run_policy": "Keep partial receipt and FAIL/NOT_RUN/INCONCLUSIVE; no overwrite or retry."
+  },
+  "prepared_at": "2026-10-25",
+  "notes": "PREPARATION_ONLY; no tests/FEM run. New M4/M5 results, if ever authorized, are WP12 regression evidence and do not rewrite N10 or extend C02 status.",
+  "preflight_status": "BLOCKED_PENDING_OWNER_APPROVED_FIXTURE_OVERLAY",
+  "preflight_blocker": "The exact helper blob is recovered from commit 9e1cf9805b49c90a74006a39cb0ded640265f64f (Git blob c05a72879440081f0f4f725f72c0adaa09f66c99; SHA-256 7b14816b6ed6f6bed8aaa8e3bbde568251cf94332aa6c7b12765f389d6ae226e), but is absent from the target tree. Do not add it to the candidate checkout. An Owner decision and runner support for a temporary isolated, hash-verified overlay are required before M4/M5 can be authorized.",
+  "execution_status_label": "NUMERICAL_EXECUTION_NOT_PERFORMED",
+  "preparation_status_label": "PREPARATION_ONLY",
+  "wp12_status_label": "WP12_STATUS=OPEN"
+}

@@ -1,0 +1,132 @@
+{
+  "schema": "qf-solver-wp12-prepared-manifest-v1",
+  "campaign_id": "WP12-6-EVIDENCE-CONSOLIDATION",
+  "title": "Consolidation documentaire des campagnes et paquet Owner",
+  "status": "PREPARED_NOT_AUTHORIZED",
+  "mode": "PREPARATION_ONLY",
+  "numerical_execution_performed": false,
+  "wp12_status": "OPEN",
+  "authorization": {
+    "execution_authorized": false,
+    "owner_decision_id": null,
+    "approved_manifest_sha256": null,
+    "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+  },
+  "repository": "emptiesvoid-cloud/QF_solver",
+  "target": {
+    "branch": "emptiesvoids-cloud/0.2.12",
+    "commit": null,
+    "git_tree": null,
+    "worktree_must_be_clean": true,
+    "source_change_policy": "Resolve final documentation/evidence commit and hashes before consolidation; this manifest cannot self-bind its containing commit."
+  },
+  "scope": {
+    "campaign_dependencies": [
+      "WP12-1",
+      "WP12-2",
+      "WP12-3",
+      "WP12-4",
+      "WP12-5 if Owner requires performance characterization"
+    ],
+    "scientific_boundary": "Index and evaluate evidence/status only; no new solve/test/benchmark and no automatic close or promotion.",
+    "preserved_statuses": [
+      "WP12=OPEN until separate Owner decision",
+      "WP-C01=CLOSED_NEGATIVE/remediation OPEN",
+      "WP-C02=CLOSED_BOUNDED AR/N03 only",
+      "WP-D01=INCONCLUSIVE",
+      "WP-D02=CLOSED_BOUNDED",
+      "WP-E01=OPEN_WITH_BOUNDED_CERTIFICATES"
+    ],
+    "required_contracts": [
+      "all approved campaign manifests and run receipts",
+      "wp00_baseline_scope_contract.json",
+      "ROADMAP.md"
+    ]
+  },
+  "source_and_test_identity": {
+    "inputs": [
+      "approved manifests and their SHA-256",
+      "run receipts and raw evidence inventories",
+      "status/contract references",
+      "final candidate commit/tree"
+    ],
+    "hash_policy": "Recompute document and artifact hashes; never edit or re-archive historical source evidence."
+  },
+  "fixtures": {
+    "entries": [],
+    "policy": "No scientific fixtures or solver inputs; only immutable evidence files are inventoried."
+  },
+  "tests": {
+    "exact_nodeids": [],
+    "commands": [
+      {
+        "command": "git diff --check",
+        "execution_status": "DOCUMENTARY_CHECK_ONLY; not run during preparation"
+      },
+      {
+        "command": "Validate approved JSON/TSV and all cited paths/links without imports or collection",
+        "execution_status": "DOCUMENTARY_CHECK_ONLY; not run during preparation"
+      }
+    ],
+    "status": "NOT_RUN"
+  },
+  "oracles_and_acceptance": {
+    "contract_references": [
+      "wp12_capability_evidence_matrix.tsv",
+      "wp12_risk_register.md",
+      "wp12_owner_decisions_required.md"
+    ],
+    "acceptance": [
+      "Every verdict ties to exact commit/tree and immutable artifacts.",
+      "Historical/current evidence are separate.",
+      "Failures, skips, NOT_RUN and ambiguity remain visible.",
+      "A recommendation is submitted to Owner; no status is modified here."
+    ],
+    "no_new_thresholds": true
+  },
+  "environment": {
+    "os": "Not applicable for static consolidation; record tool versions if used.",
+    "python": "No project import or execution",
+    "optional_solvers": "NOT_USED"
+  },
+  "resource_limits": {
+    "cpu_cores": {
+      "value": null,
+      "state": "Not applicable to document-only review"
+    },
+    "ram_mib": {
+      "value": null,
+      "state": "Not applicable to document-only review"
+    },
+    "numerical_threads": {
+      "value": 0,
+      "state": "No numerical execution"
+    },
+    "timeout_seconds": {
+      "value": null,
+      "state": "Not applicable to document-only review"
+    }
+  },
+  "attempt_policy": {
+    "maximum_attempts": 1,
+    "automatic_retry": false,
+    "correction_policy": "Any documentary correction is a new versioned edit; preserve prior evidence and rerun only documentary validation."
+  },
+  "evidence": {
+    "exclusive_destination_template": "qualification/0_2_12/wp12_evidence/WP12-6-EVIDENCE-CONSOLIDATION/<run_id>/",
+    "refuse_if_destination_exists": true,
+    "historical_paths_writable": false,
+    "capture": [
+      "final matrix",
+      "manifest/result hashes",
+      "status reconciliation",
+      "Owner decision reference"
+    ],
+    "partial_run_policy": "Never change a scientific status from an incomplete evidence inventory."
+  },
+  "prepared_at": "2026-10-25",
+  "notes": "This is a future consolidation plan only; no tests, calculations or status decisions performed.",
+  "execution_status_label": "NUMERICAL_EXECUTION_NOT_PERFORMED",
+  "preparation_status_label": "PREPARATION_ONLY",
+  "wp12_status_label": "WP12_STATUS=OPEN"
+}
