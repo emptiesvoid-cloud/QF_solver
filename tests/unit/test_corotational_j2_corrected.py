@@ -843,7 +843,7 @@ def test_corrected_global_route_is_explicit_and_legacy_remains_the_default() -> 
         )
 
 
-def test_corrected_tangent_matches_independent_directional_force_differences() -> None:
+def test_corrected_tangent_matches_independent_directional_force_differences(tmp_path) -> None:
     material = _material()
     element = CorotationalJ2Tet4Element(material, formulation_id=CORRECTED_COROTATIONAL_J2)
     coords = _tet4_coordinates()
@@ -889,8 +889,22 @@ def test_corrected_tangent_matches_independent_directional_force_differences() -
         sigma_scale * length,
         1.0e-30,
     )
-    assert np.linalg.norm(tangent @ direction - reference) / denominator <= 2.0e-5
+    tangent_action_error = float(np.linalg.norm(tangent @ direction - reference) / denominator)
     plateau = np.linalg.norm(differences[-2] - differences[-1]) / denominator
+    (tmp_path / "corrected_corotational_metrics.json").write_text(
+        json.dumps(
+            {
+                "relative_steps": list(relative_steps),
+                "tangent_action_relative_error": tangent_action_error,
+                "last_two_difference_plateau_relative": float(plateau),
+                "branch_switch_count": element.last_corrected_tangent_diagnostics["branch_switch_count"],
+                "tangent_symmetrized": element.last_corrected_tangent_diagnostics["symmetrized"],
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    assert tangent_action_error <= 2.0e-5
     assert plateau <= 2.0e-5
     diagnostics = element.last_corrected_tangent_diagnostics
     assert diagnostics["branch_switch_count"] == 0
