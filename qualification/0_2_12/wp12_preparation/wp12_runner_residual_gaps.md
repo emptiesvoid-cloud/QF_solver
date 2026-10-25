@@ -2,6 +2,8 @@
 
 **PREPARATION_ONLY** · **NUMERICAL_EXECUTION_NOT_PERFORMED** · **WP12_STATUS=OPEN**
 
+> Snapshot de WP12-R conservé pour traçabilité. Les statuts courants après WP12-R2 sont dans l'addendum ci-dessous.
+
 | ID | Écart | Effet | Requis avant WP12-1 | Statut |
 |---|---|---|---|---|
 | R-01 | Aucune racine de confiance Owner n'est configurée; la structure Ed25519 n'est pas une authentification. | Une décision JSON ne peut pas autoriser un processus. | Provisionner une clé publique vérifiable hors du checkout, définir payload canonique, vérification, révocation et rotation; revue indépendante. | Bloquant; EXECUTE désactivé. |
@@ -17,3 +19,23 @@
 | R-11 | Aucun ledger durable de tentatives campagne/unité n'est encore intégré; le gate reçoit un compte de tentatives mais le mode EXECUTE actuel est désactivé. | Une future activation ne doit pas réutiliser le compte statique du prototype ni masquer une tentative passée. | Concevoir/faire approuver un ledger append-only lié au SHA manifeste et à chaque run id; chaque relance doit avoir une nouvelle unité/tentative approuvée. | Bloquant avant activation d'EXECUTE. |
 
 Ce registre ne classe pas l'absence de preuve comme un défaut mécanique. Il précise les prérequis d'exécution, d'intégrité et de provenance.
+
+## Addendum WP12-R2 — 2026-10-25
+
+Ce tableau remplace les statuts de travail pour le suivi du runner à partir de R2; il ne supprime pas l'état R1 ci-dessus. `PARTIALLY_RESOLVED` ne signifie pas autorisé. `BLOCKED_OWNER_ACTION` est conditionnel aux cas C01/C02 de WP12-3.
+
+| ID | Statut WP12-R2 | Observation et réserve |
+|---|---|---|
+| R-01 | `PARTIALLY_RESOLVED` | Vérificateur Ed25519 et trust loader HKLM présents; aucune clé réelle ni trust store machine configuré. `EXECUTE` refuse. |
+| R-02 | `PARTIALLY_RESOLVED` | Job Object Windows impose et teste processus actifs, mémoire agrégée et kill-on-close sur faux enfants. La sonde de quota CPU dur a échoué au timeout wall et a été retirée; aucun sandbox FS, plafond de threads/stockage ou compte dédié n'est fourni. |
+| R-03 | `PARTIALLY_RESOLVED` | Révisions R2 WP12-1..4 complètent les OID/SHA pour le scope résolu; les changements de chemins proposés restent à approuver. Inline fixtures non matérialisées; WP12-5 harness/scénarios chiffrés et WP12-6 identité finale encore à résoudre. |
+| R-04 | `PARTIALLY_RESOLVED` | Collecte statique d'environnement et d'identités implémentée sans import scientifique; libraries réellement chargées et chemin d'import du processus futur non observables. |
+| R-05 | `DEFERRED_WITH_JUSTIFICATION` | Aucune orchestration scientifique n'est activée; activation incompatible avec la restriction R2. Nouvelle revue/autorisation requise. |
+| R-06 | `PARTIALLY_RESOLVED` | Contrôle de reparse/symlink et `mkdir` exclusif, garde du ledger et refusions testés; TOCTOU et permissions de fichiers du compte subsistent. |
+| R-07 | `PARTIALLY_RESOLVED` | Chaîne hash du ledger et reçus sont vérifiables, mais pas physiquement immuables ni ancrés à l'extérieur. |
+| R-08 | `BLOCKED_OWNER_ACTION` | Inclusion C02 exige décision et overlay exact isolé; l'écart C01 reste inchangé et exige décision d'identité. Aucune correction ou matérialisation automatique. |
+| R-09 | `DEFERRED_WITH_JUSTIFICATION` | Pas de preuve numérique actuelle attendue en WP12-R2; tous résultats WP12 restent NOT_RUN et WP12=OPEN. |
+| R-10 | `PARTIALLY_RESOLVED` | SYNC explicite à refspec non forcé, testé sur bare Git local; aucune sync GitHub R2 et aucune garantie de fraîcheur après le fetch. |
+| R-11 | `PARTIALLY_RESOLVED` | Ledger verrouillé/hash-chain/fsync, états incomplets, répétitions et tentatives distinctes testés; l'intégration au futur EXECUTE et l'archivage externe restent absents. |
+
+Voir [revue sécurité WP12-R2](wp12_r2_runner_security_review.md) et l'[index des révisions de manifestes](revisions/manifest_revision_index.json). Aucun statut scientifique ni statut WP n'est modifié.

@@ -20,8 +20,8 @@ from typing import Any, Mapping, Sequence
 
 
 PREPARED_SCHEMA = "qf-solver-wp12-prepared-manifest-v1"
-EXECUTION_SCHEMA = "qf-solver-wp12-execution-manifest-v1"
-OWNER_DECISION_SCHEMA = "qf-solver-wp12-owner-decision-v1"
+EXECUTION_SCHEMA = "qf-solver-wp12-execution-manifest-v2"
+OWNER_DECISION_SCHEMA = "qf-solver-wp12-owner-decision-v2"
 REPOSITORY = "emptiesvoid-cloud/QF_solver"
 TARGET_BRANCH = "emptiesvoids-cloud/0.2.12"
 OWNER_TRUST_CONFIGURED = False
@@ -333,6 +333,19 @@ def assess_execution_manifest(document: Mapping[str, Any], manifest_sha256: str)
         errors.append("target must require a clean checkout")
     if not isinstance(target, Mapping) or not isinstance(target.get("allow_detached_at_exact_commit"), bool):
         errors.append("target must explicitly state detached-checkout policy")
+    for identity_name in ("scientific_identity", "runner_identity"):
+        identity = document.get(identity_name)
+        if not isinstance(identity, Mapping) or any(
+            not isinstance(identity.get(field), str) or not _HEX40.fullmatch(identity[field])
+            for field in ("commit", "git_tree")
+        ):
+            errors.append(f"{identity_name} must bind full commit and tree IDs")
+    runner_identity = document.get("runner_identity")
+    if isinstance(target, Mapping) and isinstance(runner_identity, Mapping):
+        if target.get("commit") != runner_identity.get("commit") or target.get("git_tree") != runner_identity.get(
+            "git_tree"
+        ):
+            errors.append("target commit/tree must equal runner_identity commit/tree")
     scope = document.get("scope")
     if not isinstance(scope, Mapping) or scope.get("operation") != "EXECUTE_ONE_TEST_NODE":
         errors.append("scope must authorize only one exact test node")
@@ -468,6 +481,15 @@ def validate_owner_decision_structure(decision: Mapping[str, Any]) -> tuple[str,
         errors.append("invalid Owner decision target")
     elif not all(isinstance(target.get(key), str) and _HEX40.fullmatch(target[key]) for key in ("commit", "git_tree")):
         errors.append("Owner decision commit/tree must be full Git object IDs")
+    for field in ("scientific_identity", "runner_identity"):
+        identity = decision.get(field)
+        if not isinstance(identity, Mapping):
+            errors.append(f"{field} must be an object")
+        elif any(
+            not isinstance(identity.get(key), str) or not _HEX40.fullmatch(identity[key])
+            for key in ("commit", "git_tree")
+        ):
+            errors.append(f"{field} commit/tree must be full Git object IDs")
     nodeids = decision.get("nodeids")
     if not isinstance(nodeids, list) or not nodeids or any(not is_exact_nodeid(nodeid) for nodeid in nodeids):
         errors.append("Owner decision must list exact nodeids")
@@ -525,6 +547,17 @@ def validate_owner_decision_structure(decision: Mapping[str, Any]) -> tuple[str,
                 errors.append("decided_utc must include a timezone")
         except ValueError:
             errors.append("decided_utc must be an ISO-8601 timestamp")
+    for timestamp_field in ("not_before_utc", "expires_utc"):
+        timestamp = decision.get(timestamp_field)
+        if not isinstance(timestamp, str):
+            errors.append(f"{timestamp_field} must be an ISO-8601 timestamp")
+        else:
+            try:
+                parsed = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+                if parsed.tzinfo is None:
+                    errors.append(f"{timestamp_field} must include a timezone")
+            except ValueError:
+                errors.append(f"{timestamp_field} must be an ISO-8601 timestamp")
     budgets = decision.get("budgets")
     budget_names = (
         "wall_seconds",
@@ -560,6 +593,10 @@ def owner_decision_binding_errors(
         for key, manifest_key in (("branch", "branch"), ("commit", "commit"), ("git_tree", "git_tree")):
             if target.get(key) != manifest_target.get(manifest_key):
                 errors.append(f"Owner decision target {key} does not match manifest")
+    if manifest.get("schema") == EXECUTION_SCHEMA:
+        for identity_name in ("scientific_identity", "runner_identity"):
+            if decision.get(identity_name) != manifest.get(identity_name):
+                errors.append(f"Owner decision {identity_name} does not match manifest")
     manifest_tests = manifest.get("tests")
     if isinstance(manifest_tests, Mapping) and isinstance(manifest_tests.get("exact_nodeids"), list):
         manifest_nodeids = manifest_tests["exact_nodeids"]
@@ -636,6 +673,54 @@ def git_identity_issues(target: Mapping[str, Any], snapshot: GitSnapshot) -> tup
     if target.get("worktree_must_be_clean") is True and not snapshot.clean:
         issues.append("GIT_CHECKOUT_DIRTY")
     return tuple(issues)
+
+
+def git_commit_is_ancestor(repository_root: Path, ancestor: str, descendant: str) -> bool:
+    """Check a local ancestry relation without fetching or changing Git state."""
+    if (
+        not isinstance(ancestor, str)
+        or not _HEX40.fullmatch(ancestor)
+        or not isinstance(descendant, str)
+        or not _HEX40.fullmatch(descendant)
+    ):
+        raise ContractError("Git ancestry check requires full commit IDs")
+    result = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", ancestor, descendant],
+        cwd=repository_root.resolve(strict=True),
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=10,
+        shell=False,
+    )
+    if result.returncode == 0:
+        return True
+    if result.returncode == 1:
+        return False
+    raise ContractError(f"git merge-base --is-ancestor failed: {result.stderr.strip()}")
+
+
+def git_commit_tree_matches(repository_root: Path, commit: str, expected_tree: str) -> bool:
+    """Verify that a declared tree is the tree object of its declared commit."""
+    if (
+        not isinstance(commit, str)
+        or not _HEX40.fullmatch(commit)
+        or not isinstance(expected_tree, str)
+        or not _HEX40.fullmatch(expected_tree)
+    ):
+        raise ContractError("Git commit/tree check requires full object IDs")
+    result = subprocess.run(
+        ["git", "rev-parse", f"{commit}^{{tree}}"],
+        cwd=repository_root.resolve(strict=True),
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=10,
+        shell=False,
+    )
+    if result.returncode:
+        raise ContractError(f"git rev-parse commit tree failed: {result.stderr.strip()}")
+    return result.stdout.strip() == expected_tree
 
 
 def verify_file_hashes(root: Path, expected: Mapping[str, str]) -> tuple[str, ...]:
@@ -904,6 +989,7 @@ def execution_gate_blockers(
     previous_attempts: int,
     attempt_number: int,
     destination_exists: bool,
+    owner_authenticated: bool = False,
 ) -> tuple[str, ...]:
     blockers = list(assessment.execution_blockers)
     blockers.extend(validate_manifest_schema(manifest))
@@ -914,12 +1000,32 @@ def execution_gate_blockers(
         blockers.append("OWNER_DECISION_ABSENT")
     else:
         blockers.extend(owner_decision_binding_errors(owner_decision, manifest, assessment.manifest_sha256))
-        blockers.append("OWNER_SIGNATURE_UNVERIFIED_NO_TRUST_ROOT")
+        if not owner_authenticated:
+            blockers.append("OWNER_DECISION_UNAUTHENTICATED")
     target = manifest.get("target")
     if git_snapshot is None or not isinstance(target, Mapping):
         blockers.append("GIT_IDENTITY_UNAVAILABLE")
     else:
         blockers.extend(git_identity_issues(target, git_snapshot))
+        if manifest.get("schema") == EXECUTION_SCHEMA:
+            science = manifest.get("scientific_identity")
+            if not isinstance(science, Mapping):
+                blockers.append("SCIENTIFIC_IDENTITY_UNAVAILABLE")
+            else:
+                try:
+                    if not git_commit_is_ancestor(git_snapshot.root, science.get("commit", ""), git_snapshot.commit):
+                        blockers.append("SCIENTIFIC_COMMIT_NOT_ANCESTOR_OF_RUNNER_COMMIT")
+                except (OSError, ContractError):
+                    blockers.append("GIT_ANCESTRY_CHECK_UNAVAILABLE")
+                try:
+                    if not git_commit_tree_matches(
+                        git_snapshot.root,
+                        science.get("commit", ""),
+                        science.get("git_tree", ""),
+                    ):
+                        blockers.append("SCIENTIFIC_COMMIT_TREE_MISMATCH")
+                except (OSError, ContractError):
+                    blockers.append("SCIENTIFIC_COMMIT_TREE_UNAVAILABLE")
     tests = manifest.get("tests")
     if isinstance(tests, Mapping) and isinstance(tests.get("exact_nodeids"), list):
         nodeids = tests["exact_nodeids"]
@@ -945,5 +1051,5 @@ def execution_gate_blockers(
         blockers.append("ATTEMPT_BUDGET_EXCEEDED_OR_UNCONFIGURED")
     if destination_exists:
         blockers.append("DESTINATION_ALREADY_EXISTS")
-    blockers.append("REAL_EXECUTION_DISABLED_IN_WP12_R")
+    blockers.append("REAL_EXECUTION_DISABLED_IN_WP12_R2")
     return tuple(dict.fromkeys(blockers))

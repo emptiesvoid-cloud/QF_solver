@@ -5,10 +5,15 @@ from __future__ import annotations
 import ast
 import base64
 from datetime import datetime, timezone
+from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
+import os
 from pathlib import Path
+import subprocess
+import sys
 import threading
+from types import SimpleNamespace
 
 import pytest
 
@@ -21,6 +26,8 @@ from scripts.wp12_runner.contracts import (
     assess_prepared_manifest,
     attempt_allowed,
     execution_gate_blockers,
+    git_commit_is_ancestor,
+    git_commit_tree_matches,
     git_identity_issues,
     load_json,
     owner_decision_binding_errors,
@@ -38,6 +45,17 @@ from scripts.wp12_runner.evidence import (
     record_refusal,
     verify_receipt,
     write_receipt,
+)
+from scripts.wp12_runner.environment import collect_environment_provenance
+from scripts.wp12_runner.git_remote import sync_remote_identity, write_sync_receipt
+from scripts.wp12_runner.ledger import AttemptLedger
+from scripts.wp12_runner.owner_trust import (
+    TRUST_STORE_PATH_VALUE,
+    TRUST_STORE_SHA_VALUE,
+    TrustedOwnerKey,
+    canonical_payload,
+    load_machine_trust_store,
+    verify_owner_decision,
 )
 from scripts.wp12_runner.process import (
     ProcessOutcome,
@@ -94,12 +112,14 @@ def _manifest() -> dict[str, object]:
 
 def _decision(manifest: dict[str, object], digest: str) -> dict[str, object]:
     return {
-        "schema": "qf-solver-wp12-owner-decision-v1",
+        "schema": "qf-solver-wp12-owner-decision-v2",
         "decision_id": "OWNER-SYNTHETIC-01",
         "status": "APPROVED",
         "campaign_id": "WP12-SYNTHETIC",
         "manifest_sha256": digest,
         "target": {"branch": "emptiesvoids-cloud/0.2.12", "commit": COMMIT, "git_tree": TREE},
+        "scientific_identity": {"commit": COMMIT, "git_tree": TREE},
+        "runner_identity": {"commit": COMMIT, "git_tree": TREE},
         "operations": ["EXECUTE_ONE_TEST_NODE"],
         "nodeids": [NODEID],
         "environment": {
@@ -124,6 +144,8 @@ def _decision(manifest: dict[str, object], digest: str) -> dict[str, object]:
         "destination": "qualification/0_2_12/wp12_evidence/WP12-SYNTHETIC/run-001",
         "owner": {"principal": "synthetic-owner", "display_name": "Synthetic Owner"},
         "decided_utc": datetime.now(timezone.utc).isoformat(),
+        "not_before_utc": "2026-01-01T00:00:00Z",
+        "expires_utc": "2027-01-01T00:00:00Z",
         "signature": {
             "algorithm": "ed25519",
             "key_id": "synthetic-key",
@@ -136,7 +158,7 @@ def _decision(manifest: dict[str, object], digest: str) -> dict[str, object]:
 
 def _execution_manifest() -> dict[str, object]:
     return {
-        "schema": "qf-solver-wp12-execution-manifest-v1",
+        "schema": "qf-solver-wp12-execution-manifest-v2",
         "campaign_id": "WP12-SYNTHETIC",
         "unit_id": "SYNTH-UNIT-01",
         "status": "FROZEN_NOT_AUTHORIZED",
@@ -148,6 +170,8 @@ def _execution_manifest() -> dict[str, object]:
             "require_clean_checkout": True,
             "allow_detached_at_exact_commit": False,
         },
+        "scientific_identity": {"commit": COMMIT, "git_tree": TREE},
+        "runner_identity": {"commit": COMMIT, "git_tree": TREE},
         "scope": {
             "operation": "EXECUTE_ONE_TEST_NODE",
             "capability_ids": ["SYNTH-01"],
@@ -157,7 +181,6 @@ def _execution_manifest() -> dict[str, object]:
             "source_files_sha256": {"src/example.py": "1" * 64},
             "test_files_sha256": {"tests/unit/test_synthetic.py": "2" * 64},
             "fixture_files_sha256": {"tests/fixtures/synthetic.json": "3" * 64},
-            "runner_commit": COMMIT,
         },
         "tests": {"nodeid": NODEID, "argv": ["python", "-m", "pytest", "-q", NODEID]},
         "fixtures": {"overlays": []},
@@ -215,6 +238,29 @@ def test_wp12_prepared_manifests_remain_blocked_and_incomplete_inventories_are_v
         assert identity_errors, path.name
 
 
+def test_wp12_r2_manifest_revisions_preserve_originals_and_remain_unapproved() -> None:
+    revision_root = WP12_PREPARATION / "revisions"
+    index = json.loads((revision_root / "manifest_revision_index.json").read_text(encoding="utf-8"))
+    assert len(index["revisions"]) == 6
+    for entry in index["revisions"]:
+        original_path = ROOT / entry["original_path"]
+        revision_path = ROOT / entry["revision_path"]
+        assert hashlib.sha256(original_path.read_bytes()).hexdigest() == entry["original_sha256"]
+        assert hashlib.sha256(revision_path.read_bytes()).hexdigest() == entry["revision_sha256"]
+        revision = json.loads(revision_path.read_text(encoding="utf-8"))
+        assert revision["status"] == "PREPARED_NOT_AUTHORIZED"
+        assert revision["authorization"]["execution_authorized"] is False
+        assert validate_manifest_schema(revision) == ()
+        if revision["campaign_id"].startswith(("WP12-1", "WP12-2", "WP12-3", "WP12-4")):
+            identity = revision["source_and_test_identity"]
+            paths = set(identity["tracked_source_files"] + identity["tracked_test_files"])
+            assert set(identity["git_blob_oids"]) == paths
+            assert set(identity["sha256_by_file"]) == paths
+        if revision["campaign_id"].startswith("WP12-3"):
+            nodeids = revision["tests"]["exact_nodeids"]
+            assert len(nodeids) == len(set(nodeids))
+
+
 def test_frozen_execution_and_owner_schemas_are_strict_and_valid() -> None:
     execution_manifest = _execution_manifest()
     assert validate_manifest_schema(execution_manifest) == ()
@@ -224,6 +270,22 @@ def test_frozen_execution_and_owner_schemas_are_strict_and_valid() -> None:
     assert validate_manifest_schema(execution_manifest)[0].startswith("schema violation")
     decision = _decision(_manifest(), "7" * 64)
     assert validate_manifest_schema(decision) == ()
+
+
+def test_execution_manifest_binds_science_and_runner_identities_separately() -> None:
+    manifest = _execution_manifest()
+    manifest["scientific_identity"] = {"commit": "c" * 40, "git_tree": "d" * 40}
+    assert manifest["runner_identity"] == {"commit": COMMIT, "git_tree": TREE}
+    assert manifest["target"]["commit"] == manifest["runner_identity"]["commit"]
+    assert assess_manifest(manifest, "8" * 64).structurally_valid
+    decision = _decision(_manifest(), "8" * 64)
+    errors = owner_decision_binding_errors(decision, manifest, "8" * 64)
+    assert "Owner decision scientific_identity does not match manifest" in errors
+
+    mismatch = dict(manifest)
+    mismatch["runner_identity"] = {"commit": "e" * 40, "git_tree": TREE}
+    assessment = assess_manifest(mismatch, "8" * 64)
+    assert "target commit/tree must equal runner_identity commit/tree" in assessment.structural_errors
 
 
 def test_invalid_or_duplicate_json_is_rejected(tmp_path: Path) -> None:
@@ -325,7 +387,7 @@ def test_owner_json_status_does_not_authenticate_authority() -> None:
         attempt_number=1,
         destination_exists=False,
     )
-    assert "OWNER_SIGNATURE_UNVERIFIED_NO_TRUST_ROOT" in blockers
+    assert "OWNER_DECISION_UNAUTHENTICATED" in blockers
     assert "REAL_EXECUTION_DISABLED_IN_WP12_R" in blockers
 
 
@@ -338,6 +400,308 @@ def test_owner_decision_binding_rejects_changed_nodeid_and_commit() -> None:
     errors = owner_decision_binding_errors(decision, manifest, digest)
     assert any("nodeids" in error for error in errors)
     assert any("commit" in error for error in errors)
+
+
+def _signed_synthetic_decision(
+    manifest: dict[str, object], digest: str
+) -> tuple[dict[str, object], dict[str, TrustedOwnerKey]]:
+    from cryptography.hazmat.primitives import serialization
+    from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+
+    private_key = Ed25519PrivateKey.generate()
+    public_bytes = private_key.public_key().public_bytes(
+        encoding=serialization.Encoding.Raw,
+        format=serialization.PublicFormat.Raw,
+    )
+    decision = _decision(manifest, digest)
+    payload = canonical_payload(decision)
+    decision["signature"] = {
+        "algorithm": "ed25519",
+        "key_id": "synthetic-key",
+        "public_key_sha256": hashlib.sha256(public_bytes).hexdigest(),
+        "payload_sha256": hashlib.sha256(payload).hexdigest(),
+        "signature_base64": base64.b64encode(private_key.sign(payload)).decode("ascii"),
+    }
+    return decision, {
+        "synthetic-key": TrustedOwnerKey(
+            "synthetic-key", "synthetic-owner", base64.b64encode(public_bytes).decode("ascii")
+        )
+    }
+
+
+def test_ed25519_owner_decision_authentication_and_fail_closed_bindings() -> None:
+    manifest = _manifest()
+    digest = "a" * 64
+    decision, keys = _signed_synthetic_decision(manifest, digest)
+    expected = {"commit": COMMIT, "git_tree": TREE}
+    common = {
+        "trusted_keys": keys,
+        "manifest_sha256": digest,
+        "expected_campaign_id": "WP12-SYNTHETIC",
+        "expected_scientific_identity": expected,
+        "expected_runner_identity": expected,
+        "now": datetime(2026, 10, 25, tzinfo=timezone.utc),
+    }
+    assert verify_owner_decision(decision, **common).authenticated
+    assert not verify_owner_decision({**decision, "manifest_sha256": "b" * 64}, **common).authenticated
+    assert not verify_owner_decision(decision, **{**common, "trusted_keys": {}}).authenticated
+    revoked = {
+        "synthetic-key": TrustedOwnerKey(
+            "synthetic-key", "synthetic-owner", keys["synthetic-key"].public_key_base64, revoked=True
+        )
+    }
+    assert not verify_owner_decision(decision, **{**common, "trusted_keys": revoked}).authenticated
+    assert not verify_owner_decision(
+        decision,
+        **{**common, "expected_runner_identity": {"commit": "c" * 40, "git_tree": TREE}},
+    ).authenticated
+    assert not verify_owner_decision(
+        decision,
+        **{**common, "now": datetime(2028, 1, 1, tzinfo=timezone.utc)},
+    ).authenticated
+    tampered_signature = json.loads(json.dumps(decision))
+    tampered_signature["signature"]["signature_base64"] = base64.b64encode(b"x" * 64).decode("ascii")
+    assert not verify_owner_decision(tampered_signature, **common).authenticated
+
+
+@pytest.mark.skipif(os.name != "nt", reason="machine-scoped trust store is Windows-specific")
+def test_machine_trust_store_requires_hklm_sha256_pin(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    public_key = base64.b64encode(b"p" * 32).decode("ascii")
+    trust_bytes = (
+        json.dumps(
+            {
+                "schema": "qf-wp12-owner-trust-store-v1",
+                "keys": [
+                    {
+                        "key_id": "synthetic-machine-key",
+                        "principal": "synthetic-owner",
+                        "public_key_base64": public_key,
+                        "revoked": False,
+                    }
+                ],
+            },
+            sort_keys=True,
+        )
+    ).encode("utf-8")
+    trust_path = tmp_path / "owner-trust.json"
+    trust_path.write_bytes(trust_bytes)
+
+    class RegistryKey:
+        def __enter__(self) -> "RegistryKey":
+            return self
+
+        def __exit__(self, *_args: object) -> None:
+            return None
+
+    values = {
+        TRUST_STORE_PATH_VALUE: str(trust_path),
+        TRUST_STORE_SHA_VALUE: hashlib.sha256(trust_bytes).hexdigest(),
+    }
+    fake_registry = SimpleNamespace(
+        HKEY_LOCAL_MACHINE=object(),
+        KEY_READ=1,
+        OpenKey=lambda *_args: RegistryKey(),
+        QueryValueEx=lambda _key, name: (values[name], 1),
+    )
+    monkeypatch.setitem(sys.modules, "winreg", fake_registry)
+    keys, digest = load_machine_trust_store(ROOT)
+    assert digest == values[TRUST_STORE_SHA_VALUE]
+    assert keys["synthetic-machine-key"].principal == "synthetic-owner"
+    values[TRUST_STORE_SHA_VALUE] = "0" * 64
+    with pytest.raises(ContractError, match="do not match"):
+        load_machine_trust_store(ROOT)
+
+
+def test_attempt_ledger_preserves_failures_and_rejects_reuse_or_partial_lines(tmp_path: Path) -> None:
+    ledger = AttemptLedger(tmp_path / "attempts.jsonl", allowed_root=tmp_path)
+
+    def start(run_id: str, attempt: int) -> None:
+        ledger.start_attempt(
+            campaign_id="WP12-SYNTHETIC",
+            manifest_sha256="a" * 64,
+            run_id=run_id,
+            nodeid=NODEID,
+            attempt=attempt,
+            maximum_attempts=2,
+            git_identity={"commit": COMMIT, "git_tree": TREE},
+            started_utc="2026-10-25T10:00:00Z",
+        )
+
+    start("run-001", 1)
+    with pytest.raises(ContractError, match="still open"):
+        start("run-002", 2)
+    ledger.finish_attempt(
+        run_id="run-001",
+        status="FAIL",
+        finished_utc="2026-10-25T10:00:01Z",
+        reason="synthetic failure preserved",
+        stdout_sha256="b" * 64,
+        stderr_sha256="c" * 64,
+        evidence_sha256={"synthetic.json": "d" * 64},
+    )
+    with pytest.raises(ContractError, match="already appeared"):
+        start("run-001", 2)
+    start("run-002", 2)
+    records = ledger.verify()
+    assert [record["event"] for record in records] == ["ATTEMPT_STARTED", "ATTEMPT_FINISHED", "ATTEMPT_STARTED"]
+    with pytest.raises(ContractError, match="already has a terminal"):
+        ledger.finish_attempt(
+            run_id="run-001",
+            status="PASS",
+            finished_utc="2026-10-25T10:00:02Z",
+            reason=None,
+            stdout_sha256=None,
+            stderr_sha256=None,
+            evidence_sha256={},
+        )
+    with (tmp_path / "attempts.jsonl").open("ab") as stream:
+        stream.write(b'{"partial":')
+    with pytest.raises(ContractError, match="incomplete record"):
+        ledger.verify()
+
+
+def test_attempt_ledger_serializes_concurrent_campaign_appends(tmp_path: Path) -> None:
+    ledger = AttemptLedger(tmp_path / "concurrent.jsonl", allowed_root=tmp_path)
+
+    def append_for_campaign(index: int) -> None:
+        ledger.start_attempt(
+            campaign_id=f"WP12-SYNTH-{index}",
+            manifest_sha256=f"{index:064x}",
+            run_id=f"run-{index}",
+            nodeid=NODEID,
+            attempt=1,
+            maximum_attempts=1,
+            git_identity={"commit": COMMIT, "git_tree": TREE},
+            started_utc="2026-10-25T10:00:00Z",
+        )
+
+    with ThreadPoolExecutor(max_workers=8) as executor:
+        list(executor.map(append_for_campaign, range(8)))
+    records = ledger.verify()
+    assert len(records) == 8
+    assert [record["sequence"] for record in records] == list(range(1, 9))
+
+
+def test_interrupted_attempt_requires_reconciliation_and_a_new_run_id(tmp_path: Path) -> None:
+    ledger = AttemptLedger(tmp_path / "interrupted.jsonl", allowed_root=tmp_path)
+    ledger.start_attempt(
+        campaign_id="WP12-SYNTH-INTERRUPT",
+        manifest_sha256="a" * 64,
+        run_id="run-before-interrupt",
+        nodeid=NODEID,
+        attempt=1,
+        maximum_attempts=2,
+        git_identity={"commit": COMMIT, "git_tree": TREE},
+        started_utc="2026-10-25T10:00:00Z",
+    )
+    with pytest.raises(ContractError, match="still open"):
+        ledger.start_attempt(
+            campaign_id="WP12-SYNTH-INTERRUPT",
+            manifest_sha256="a" * 64,
+            run_id="run-after-interrupt",
+            nodeid=NODEID,
+            attempt=2,
+            maximum_attempts=2,
+            git_identity={"commit": COMMIT, "git_tree": TREE},
+            started_utc="2026-10-25T10:01:00Z",
+        )
+    ledger.finish_attempt(
+        run_id="run-before-interrupt",
+        status="INTERRUPTED",
+        finished_utc="2026-10-25T10:00:30Z",
+        reason="synthetic process interrupted",
+        stdout_sha256=None,
+        stderr_sha256=None,
+        evidence_sha256={},
+    )
+    ledger.start_attempt(
+        campaign_id="WP12-SYNTH-INTERRUPT",
+        manifest_sha256="a" * 64,
+        run_id="run-after-interrupt",
+        nodeid=NODEID,
+        attempt=2,
+        maximum_attempts=2,
+        git_identity={"commit": COMMIT, "git_tree": TREE},
+        started_utc="2026-10-25T10:01:00Z",
+    )
+    assert ledger.verify()[-2]["status"] == "INTERRUPTED"
+    assert ledger.verify()[-1]["run_id"] == "run-after-interrupt"
+
+
+def test_environment_provenance_is_static_and_marks_child_import_unverifiable() -> None:
+    provenance = collect_environment_provenance(
+        repository_root=ROOT,
+        source_files=("scripts/wp12_runner/environment.py",),
+        test_files=("tests/unit/test_wp12_qualification_runner.py",),
+        fixture_files=("tests/fixtures/wp12_runner/fake_child.py",),
+    )
+    assert provenance["observed"]["python"]["sha256"]
+    assert provenance["observed"]["inputs"]["sources"][0]["state"] == "OBSERVED_FILE"
+    assert provenance["observed"]["solver_origin"]["actual_child_import_origin"] is None
+    assert any("BLAS/LAPACK" in item for item in provenance["unverifiable"])
+
+
+def test_explicit_remote_sync_uses_exact_non_force_refspec(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import scripts.wp12_runner.git_remote as git_remote
+
+    bare = tmp_path / "origin.git"
+    repository = tmp_path / "repo"
+    bare.mkdir()
+    repository.mkdir()
+
+    def git(cwd: Path, *args: str) -> str:
+        result = subprocess.run(
+            ["git", *args], cwd=cwd, check=True, capture_output=True, text=True, timeout=20, shell=False
+        )
+        return result.stdout.strip()
+
+    git(bare, "init", "--bare")
+    git(repository, "init", "--initial-branch=emptiesvoids-cloud/0.2.12")
+    git(repository, "config", "user.name", "Synthetic Owner")
+    git(repository, "config", "user.email", "synthetic@example.invalid")
+    (repository / "README.synthetic").write_text("synthetic git identity fixture\n", encoding="utf-8")
+    git(repository, "add", "README.synthetic")
+    git(repository, "commit", "-m", "synthetic identity fixture")
+    git(repository, "remote", "add", "origin", str(bare))
+    git(repository, "push", "-u", "origin", "emptiesvoids-cloud/0.2.12")
+    monkeypatch.setattr(
+        git_remote, "_assert_expected_origin", lambda _root: "https://github.com/emptiesvoid-cloud/QF_solver.git"
+    )
+    identity = sync_remote_identity(repository)
+    assert identity.local_commit == identity.remote_commit
+    assert identity.local_tree == identity.remote_tree
+    assert identity.local_is_ancestor
+    receipt = write_sync_receipt(repository, identity, repository / ".codex" / "wp12_runner_audit")
+    assert receipt.is_file()
+
+
+def test_scientific_commit_ancestry_is_checked_without_fetch(tmp_path: Path) -> None:
+    repository = tmp_path / "ancestry"
+    repository.mkdir()
+
+    def git(*args: str) -> str:
+        result = subprocess.run(
+            ["git", *args], cwd=repository, check=True, capture_output=True, text=True, timeout=20, shell=False
+        )
+        return result.stdout.strip()
+
+    git("init", "--initial-branch=synthetic")
+    git("config", "user.name", "Synthetic Owner")
+    git("config", "user.email", "synthetic@example.invalid")
+    document = repository / "candidate.txt"
+    document.write_text("scientific source identity\n", encoding="utf-8")
+    git("add", "candidate.txt")
+    git("commit", "-m", "synthetic scientific base")
+    science_commit = git("rev-parse", "HEAD")
+    science_tree = git("rev-parse", "HEAD^{tree}")
+    document.write_text("runner infrastructure only\n", encoding="utf-8")
+    git("commit", "-am", "synthetic runner descendant")
+    runner_commit = git("rev-parse", "HEAD")
+    runner_tree = git("rev-parse", "HEAD^{tree}")
+    assert git_commit_is_ancestor(repository, science_commit, runner_commit)
+    assert not git_commit_is_ancestor(repository, runner_commit, science_commit)
+    assert git_commit_tree_matches(repository, science_commit, science_tree)
+    assert not git_commit_tree_matches(repository, science_commit, runner_tree)
 
 
 def test_wrong_commit_tree_or_dirty_checkout_is_rejected() -> None:
@@ -516,6 +880,41 @@ def test_descendant_process_is_terminated_and_reported(tmp_path: Path) -> None:
     outcome = run_fake_process("tree", tmp_path / "tree", timeout_seconds=0.3)
     assert outcome.state == "TIMEOUT"
     assert outcome.child_pids_remaining == ()
+    if os.name == "nt":
+        assert outcome.hard_job_enforced
+
+
+def test_self_test_cli_runs_only_the_fixed_synthetic_cases(monkeypatch: pytest.MonkeyPatch) -> None:
+    reports: list[dict[str, object]] = []
+    monkeypatch.setattr(runner_cli, "_json_print", lambda value, **_kwargs: reports.append(dict(value)))
+    assert runner_main(["--mode", "SELF_TEST", "--case", "all"]) == 0
+    assert len(reports) == 1
+    report = reports[0]
+    assert report["scientific_execution"] is False
+    assert report["state"] == "PASS"
+    assert {item["case"] for item in report["results"]} == {
+        "success",
+        "exit",
+        "sleep",
+        "tree",
+        "flood",
+        "memory",
+    }
+    assert all(item["self_test"] == "PASS" for item in report["results"])
+
+
+@pytest.mark.skipif(os.name != "nt", reason="Windows Job Object memory enforcement is platform-specific")
+def test_hard_job_memory_limit_terminates_synthetic_allocator(tmp_path: Path) -> None:
+    outcome = run_fake_process(
+        "memory",
+        tmp_path / "memory-limit",
+        timeout_seconds=8,
+        output_byte_limit=4096,
+        process_count_limit=4,
+        memory_hard_limit_bytes=64 * 1024 * 1024,
+    )
+    assert outcome.hard_job_enforced
+    assert outcome.return_code not in (None, 0)
 
 
 def test_interruption_is_not_reclassified_as_success(tmp_path: Path) -> None:

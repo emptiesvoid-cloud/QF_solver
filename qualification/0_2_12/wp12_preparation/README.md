@@ -21,9 +21,17 @@ Ce dossier décrit le périmètre, les preuves, les campagnes et les contrôles 
 - [Modèle de confiance et limites de sécurité](wp12_runner_security_model.md)
 - [Audit du runner et contrôles synthétiques](wp12_runner_audit.md)
 - [Registre des écarts résiduels du runner](wp12_runner_residual_gaps.md)
-- Schémas : [manifeste préparatoire](wp12_prepared_manifest.schema.json), [unité d'exécution figée](wp12_execution_manifest.schema.json), [décision Owner séparée](wp12_owner_decision.schema.json)
+- Schémas : [manifeste préparatoire](wp12_prepared_manifest.schema.json), [unité d'exécution figée](wp12_execution_manifest.schema.json), [décision Owner signée v2](wp12_owner_decision.schema.json), [trust store public](wp12_owner_trust_store.schema.json)
 - [Registre des risques](wp12_risk_register.md)
 - [Décisions Owner requises](wp12_owner_decisions_required.md)
 - [Plan de non-régression rotor existant](../wp12_rotating_inherited_regression_plan.md)
 
-Les preuves historiques demeurent dans leurs emplacements v0.2.11/v0.2.12 existants et ne sont ni déplacées ni réécrites. Les tableaux de ce dossier les citent sans les requalifier comme essais du code cible. Le runner WP12-R n'autorise que VALIDATE statique et SELF_TEST synthétique; toute exécution scientifique est refusée et nécessite une décision Owner, un ancrage de confiance vérifiable et une isolation OS adaptée.
+Les preuves historiques demeurent dans leurs emplacements v0.2.11/v0.2.12 existants et ne sont ni déplacées ni réécrites. Les tableaux de ce dossier les citent sans les requalifier comme essais du code cible. WP12-R2 autorise VALIDATE statique, SYNC explicite et SELF_TEST synthétique; toute exécution scientifique reste refusée et nécessite une décision Owner authentifiée, une revue de sécurité et un environnement d'isolation adapté.
+
+## WP12-R2 — Durcissement préparatoire
+
+L'addendum [WP12-R2 sécurité et écarts](wp12_r2_runner_security_review.md) décrit le vérificateur Ed25519, les Job Objects Windows testés avec des processus factices, le ledger append-only logique, la collecte statique de provenance et le mode distinct de synchronisation distante. La confiance Owner n'est pas provisionnée et `EXECUTE` reste désactivé.
+
+Les six manifestes WP12-0 sont conservés octet pour octet. Les nouvelles révisions [WP12-1 à WP12-6](revisions/manifest_revision_index.json) restent `PREPARED_NOT_AUTHORIZED`; l'index relie chaque révision au SHA-256 de son original et au candidat scientifique WP12-0. Les révisions ne sont ni une autorisation ni une preuve d'exécution.
+
+WP12-R2 est `PREPARATION_ONLY`; `NUMERICAL_EXECUTION_NOT_PERFORMED`; `WP12_STATUS=OPEN`.

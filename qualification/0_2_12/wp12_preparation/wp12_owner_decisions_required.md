@@ -19,3 +19,20 @@ Rien dans cette liste n'est présumé approuvé. Aucune campagne ou limite n'est
 | O-11 | Après revue du runner, autoriser séparément une campagne et son unité exacte : SHA-256 du manifeste figé, commit/tree, nodeid/commande, environnement, budgets appliqués, tentative, destination et décision signée vérifiable. | Tous les manifestes WP12-0 restent `PREPARED_NOT_AUTHORIZED`; aucun lancement scientifique. |
 
 Une autorisation doit identifier le campaign ID et le hash manifeste, pas seulement l'intention générale de « lancer WP12 ». Une nouvelle hypothèse, une relance après FAIL, ou une modification de seuil/source nécessite une décision et un enregistrement propres.
+
+## Décisions et actions ajoutées en WP12-R2
+
+Ces actions ne sont pas présumées faites. L'authentification Ed25519 est implémentée mais sans trust root réel; le mode `EXECUTE` reste désactivé.
+
+| ID | Action/décision Owner | Vérification exigée | Si absente |
+|---|---|---|---|
+| R2-O1 | Provisionner le trust store public Ed25519 hors checkout, son SHA-256 pin dans HKLM, des ACL NTFS et un compte runner standard dédié. Conserver la clé privée exclusivement sous contrôle Owner. | Vérifier le hash fichier/pin, le principal lié à la clé, la lecture par le compte runner et l'absence de droits d'écriture runner sur fichier et pin. Voir le bloc `OWNER_ACTION_REQUIRED` dans [revue sécurité R2](wp12_r2_runner_security_review.md). | Toutes décisions restent non authentifiées; `EXECUTE` refuse. |
+| R2-O2 | Choisir le niveau d'isolation exigé pour CPU, stockage, threads et archives. Le Job Object WP12-R2 ne fournit pas de quota CPU dur, de plafond stockage/threads ni de sandbox fichier. | Documenter le compte, ACL, environnement/VM éventuel et vérifier que l'enfant ne peut pas écrire dans les archives gelées. | Refuser toute unité exigeant des limites dures non présentes. |
+| R2-O3 | Revoir les chemins corrigés dans les révisions WP12-1..4 et confirmer le périmètre scientifique après inspection des mappings. | Comparer `path_resolution` de chaque manifeste R2 au tree `df4ec667...`; les chemins anciens restent dans l'index avec leur SHA original. | Aucun manifeste R2 n'est figé ni approuvable. |
+| R2-O4 | Geler les bytes des entrées inline WP12-1/2 par une source déterministe et approuver le SHA résultant. Pour WP12-3, décider séparément du contrôle C01 divergent et de l'éventuel overlay C02. | SHA-256 et Git OID vérifiables; aucune modification des fixtures C01 ou preuve C02 historique. | Les unités concernées demeurent bloquées ou exclues explicitement. |
+| R2-O5 | Finaliser les scénarios WP12-5, paramètres exacts, répétitions et instrumentation; déterminer si la performance est descriptive ou gate. | Manifeste complet et seuils approuvés avant le run, sans extrapolation à partir d'un workload unique. | WP12-5 reste préparatoire/NOT_RUN. |
+| R2-O6 | Définir le candidat distant exact après le commit runner, demander un reçu SYNC frais et approuver le commit/tree scientifique et runner séparément. | Confirmer origin, branche, commit/tree, ascendance et checkout propre; la vérification SYNC n'a pas été faite sur GitHub dans R2. | Toute unité dépendante du distant reste bloquée. |
+| R2-O7 | Revoir l'architecture du runner R2 puis autoriser séparément toute nouvelle implémentation qui activerait EXECUTE. | Contrôler l'authentification Owner, l'environnement isolé, l'inventaire, le ledger, la sélection réelle d'un nodeid et la réception d'un résultat avant activation. | EXECUTE reste un refus inconditionnel. |
+| R2-O8 | Décider le stockage d'archive/ancrage externe des ledgers et reçus lorsque l'intégrité doit résister à un acteur ayant accès au même compte. | Démontrer une copie indépendante ou un service immuable/signature externe, et vérifier les hashes après archivage. | Les hashes courants détectent l'altération seulement si l'original externe est conservé. |
+
+WP12-R2 ne fait pas ces décisions à la place de l'Owner. Toute campagne future doit avoir une décision signée distincte liant un manifeste figé, une tentative et une destination unique.

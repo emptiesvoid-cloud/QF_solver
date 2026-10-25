@@ -42,3 +42,11 @@ Les manifestes par lot gardent l'identité source proposée `00428adf…` et son
 - Les tests autorisés sont isolés dans `tests/unit/test_wp12_qualification_runner.py` et ne doivent importer aucun module de calcul QF Solver.
 
 Les détails d'utilisation, le modèle de confiance, les limites de confinement et les résultats de tests sont dans le [guide](wp12_runner_usage.md), le [modèle de sécurité](wp12_runner_security_model.md), l'[audit](wp12_runner_audit.md) et le [registre des écarts](wp12_runner_residual_gaps.md).
+
+## Addendum WP12-R2
+
+L'état R2 courant, les limites démontrées, les statuts R-01..R-11 et les décisions Owner restantes sont dans [wp12_r2_runner_security_review.md](wp12_r2_runner_security_review.md). Le schéma de décision Owner a été versionné en v2 pour inclure `scientific_identity`, `runner_identity`, `not_before_utc` et `expires_utc`; la signature est vérifiée uniquement contre un trust store public piné dans HKLM. Aucun trust store réel n'est configuré.
+
+Le runner utilise désormais un Windows Job Object pour les seuls processus factices SELF_TEST. Les limites durement imposées sont le nombre de processus actifs, la mémoire agrégée lorsqu'elle est précisée et la terminaison à la fermeture du Job. Wall time est supervisé et les sorties sont plafonnées par le collecteur; aucun quota CPU dur, plafond de threads ou de stockage, ni isolation des permissions de fichiers n'est fourni.
+
+Un ledger JSONL verrouillé relie chaque tentative à une chaîne SHA-256; il reste modifiable par tout acteur disposant des droits d'écriture. Les métadonnées d'environnement sont recueillies sans import QF/NumPy/SciPy et marquent les libraries réellement chargées comme non vérifiables. SYNC est un mode séparé, jamais déclenché par VALIDATE.

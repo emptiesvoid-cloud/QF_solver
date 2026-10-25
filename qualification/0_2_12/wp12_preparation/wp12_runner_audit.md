@@ -55,3 +55,19 @@ Pendant l'implémentation, un premier passage a compté 24 PASS et 1 FAIL synth�
 ## Verdict de préparation
 
 **RUNNER_READY_WITH_LIMITATIONS** : WP12-R peut être soumis à revue Owner pour VALIDATE et SELF_TEST. Il ne peut pas être utilisé pour lancer une campagne scientifique. Même si tous les tests factices passent, WP12-R ne devra pas être nommé `QUALIFIED`. L'Owner doit encore approuver le modèle de confiance, l'environnement d'isolation, les manifestes complets et chaque campagne; WP12 reste `OPEN`.
+
+## Addendum WP12-R2 — durcissement préparatoire
+
+**PREPARATION_ONLY** · **NUMERICAL_EXECUTION_NOT_PERFORMED** · **WP12_STATUS=OPEN**
+
+WP12-R2 ajoute `owner_trust.py` (vérification Ed25519 et racine HKLM pinée), `windows_job.py` (Job Objects pour enfants Windows), `ledger.py` (journal d'essais hash-chain), `environment.py` (collecte statique) et `git_remote.py` (SYNC explicite). Le mode `EXECUTE` reste inconditionnellement désactivé. Aucune autorisation n'a été créée; aucune clé Owner réelle n'est configurée.
+
+Le contrôle pytest WP12-R2 cible uniquement `tests/unit/test_wp12_qualification_runner.py`, avec `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1` et `--confcutdir=tests/unit`. Il utilise des clés éphémères, des fichiers temporaires, un bare Git local et `fake_child.py`; il ne charge aucun module QF Solver et n'exécute aucune suite scientifique. Le passage final du 2026-10-25 a donné **39 passed**. Ruff `check` et `format --check` ont réussi sur les modules du runner, la fixture et cette suite.
+
+Un premier passage intermédiaire a échoué parce qu'une modification provisoire avait rendu obligatoires les identités runner/scientifique dans les manifestes WP12-0 déjà existants. Le contrôle a détecté l'incompatibilité; l'exigence a été retirée des seuls manifestes préparatoires historiques, tout en la conservant pour le schéma des futurs manifests d'exécution figés. Le passage final est entièrement vert.
+
+Les scénarios Windows vérifient l'attachement préalable au Job Object, les descendants et un enfant qui dépasse le plafond mémoire factice. Une sonde CPU factice a atteint le timeout wall sans démontrer le quota CPU Job Object; le code et le scénario CPU non démontrés ont été retirés. Cette limitation demeure dans R-02. Les contrôles démontrent uniquement le comportement synthétique de cet hôte. Les limites de stockage/threads, le sandbox fichier, les ACL d'archives et l'intégrité physique du ledger ne sont pas démontrés.
+
+Les six manifestes d'origine sont inchangés. Les six révisions sont sous [`revisions/`](revisions/manifest_revision_index.json), restent `PREPARED_NOT_AUTHORIZED` et lient leur SHA d'origine. Les mappings de chemins et les paramètres non déterminés demandent encore les décisions Owner listées dans [`wp12_owner_decisions_required.md`](wp12_owner_decisions_required.md).
+
+Voir l'[addendum sécurité WP12-R2](wp12_r2_runner_security_review.md) pour l'analyse comparative Ed25519/GitHub, les statuts R-01 à R-11, les limitations et la préparation de WP12-1.

@@ -1,0 +1,146 @@
+{
+  "schema": "qf-wp12-preparation-manifest-revision-index-v1",
+  "mode": "PREPARATION_ONLY",
+  "numerical_execution_performed": false,
+  "wp12_status": "OPEN",
+  "source_identity": {
+    "commit": "00428adf38e9397340ac136f6f503a268eb671da",
+    "git_tree": "df4ec667bf746b042c900fad1f86bf542e1a437b"
+  },
+  "revisions": [
+    {
+      "campaign_id": "WP12-1-MODAL-PROJECTION-CONTRACTS",
+      "original_path": "qualification/0_2_12/wp12_preparation/wp12_1_execution_manifest.json",
+      "original_sha256": "70ff305a584fdd5334fdc3cdc3e03afc7fa9efe71abb866a4937626127a8b70c",
+      "revision_path": "qualification/0_2_12/wp12_preparation/revisions/wp12_1_execution_manifest.r2-prepared.json",
+      "revision_sha256": "1b61f4de19e46d933fc825a1eb1525aaf14d43e8ebade21e0c1b1f0bf010cf0b",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "path_resolution_summary": {
+        "path_replacements": [],
+        "unresolved_declared_paths": [],
+        "stale_oid_references": [],
+        "nodeids_not_found_by_static_ast": []
+      }
+    },
+    {
+      "campaign_id": "WP12-2-DYNAMICS-D02",
+      "original_path": "qualification/0_2_12/wp12_preparation/wp12_2_execution_manifest.json",
+      "original_sha256": "1034c6fab83c43602a837d5c212f2a8af02afc5360ffa456f2594c52ac269070",
+      "revision_path": "qualification/0_2_12/wp12_preparation/revisions/wp12_2_execution_manifest.r2-prepared.json",
+      "revision_sha256": "d1411f7bcb605dab4ebf3ec373fe10f80c76fdead412c7b297c1c9081c8e4805",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "path_resolution_summary": {
+        "path_replacements": [
+          {
+            "group": "tracked_source_files",
+            "declared_path": "src/solveur/core/analyses/dynamic_stress.py",
+            "candidate_paths": [
+              "src/solveur/post/dynamic_stress.py"
+            ],
+            "basis": "static Git tree inspection; Owner scope approval still required"
+          }
+        ],
+        "unresolved_declared_paths": [],
+        "stale_oid_references": [
+          {
+            "path": "tests/unit/test_modal_symmetric_projection.py",
+            "previous_oid": "20889499b60cdd4fa79b2a2d2f76626279ed3e8e",
+            "source_commit_oid": null
+          }
+        ],
+        "nodeids_not_found_by_static_ast": []
+      }
+    },
+    {
+      "campaign_id": "WP12-3-NONLINEAR-CONTACT-BOUNDED",
+      "original_path": "qualification/0_2_12/wp12_preparation/wp12_3_execution_manifest.json",
+      "original_sha256": "064e2587a7f2789495a459d5c75d5d605140e17e6fba6bcff06ec8573f28d9b3",
+      "revision_path": "qualification/0_2_12/wp12_preparation/revisions/wp12_3_execution_manifest.r2-prepared.json",
+      "revision_sha256": "7fd489614c07a6b6cca5ee333d6709e1ba0194af304e3e5771376b0bec774ce2",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "path_resolution_summary": {
+        "path_replacements": [
+          {
+            "group": "tracked_source_files",
+            "declared_path": "src/solveur/core/analyses/contact",
+            "candidate_paths": [
+              "src/solveur/contact/__init__.py",
+              "src/solveur/contact/entities.py",
+              "src/solveur/contact/evaluation.py",
+              "src/solveur/contact/measures.py",
+              "src/solveur/contact/restart.py",
+              "src/solveur/contact/slip_root.py",
+              "src/solveur/contact/solver.py",
+              "src/solveur/contact/support.py"
+            ],
+            "basis": "static Git tree inspection; Owner scope approval still required"
+          },
+          {
+            "group": "tracked_source_files",
+            "declared_path": "src/solveur/core/analysis/static.py",
+            "candidate_paths": [
+              "src/solveur/core/solvers/static.py"
+            ],
+            "basis": "static Git tree inspection; Owner scope approval still required"
+          }
+        ],
+        "unresolved_declared_paths": [],
+        "stale_oid_references": [],
+        "nodeids_not_found_by_static_ast": []
+      }
+    },
+    {
+      "campaign_id": "WP12-4-INHERITED-TRANSVERSAL",
+      "original_path": "qualification/0_2_12/wp12_preparation/wp12_4_execution_manifest.json",
+      "original_sha256": "521f0fa940e14374c08662c8f6d6400e4c8b5e18561abc55fe1d5c8dc5ae3028",
+      "revision_path": "qualification/0_2_12/wp12_preparation/revisions/wp12_4_execution_manifest.r2-prepared.json",
+      "revision_sha256": "88aea097a2e5d94f6397c406803ad65eb7a00a9b1b7fd41c2add8b01bf75832c",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "path_resolution_summary": {
+        "path_replacements": [
+          {
+            "group": "tracked_source_files",
+            "declared_path": "src/solveur/core/analyses/rotating_qep.py",
+            "candidate_paths": [
+              "src/solveur/core/analyses/qep.py"
+            ],
+            "basis": "static Git tree inspection; Owner scope approval still required"
+          },
+          {
+            "group": "tracked_source_files",
+            "declared_path": "src/solveur/core/constraints",
+            "candidate_paths": [
+              "src/solveur/core/constraints.py"
+            ],
+            "basis": "static Git tree inspection; Owner scope approval still required"
+          }
+        ],
+        "unresolved_declared_paths": [],
+        "stale_oid_references": [
+          {
+            "path": "tests/unit/test_api_and_cli.py",
+            "previous_oid": "1a5a5e6ba282bfdcb61414680bbdcaf661402843",
+            "source_commit_oid": null
+          }
+        ],
+        "nodeids_not_found_by_static_ast": []
+      }
+    },
+    {
+      "campaign_id": "WP12-5-PERFORMANCE-CHARACTERIZATION",
+      "original_path": "qualification/0_2_12/wp12_preparation/wp12_5_execution_manifest.json",
+      "original_sha256": "eee7c31740b5dc6bdf4584a18724ce210b02c0475f597a59d10f4b96b9ea75bc",
+      "revision_path": "qualification/0_2_12/wp12_preparation/revisions/wp12_5_execution_manifest.r2-prepared.json",
+      "revision_sha256": "be749d61a4bf9525aa3e6799d34ae35ddf61a9f162983e9b68bdd6f48800c03c",
+      "status": "PREPARED_NOT_AUTHORIZED"
+    },
+    {
+      "campaign_id": "WP12-6-EVIDENCE-CONSOLIDATION",
+      "original_path": "qualification/0_2_12/wp12_preparation/wp12_6_execution_manifest.json",
+      "original_sha256": "77802ec2a961b95aec5af8be63e273d31167e4b7fdf6f4bbe195dd57d7a00f7b",
+      "revision_path": "qualification/0_2_12/wp12_preparation/revisions/wp12_6_execution_manifest.r2-prepared.json",
+      "revision_sha256": "b23af05529bcec877b8d329dad4b98fc46f7831d8d83b15991cd20209a3b9a3b",
+      "status": "PREPARED_NOT_AUTHORIZED"
+    }
+  ]
+}

@@ -45,6 +45,12 @@ def main() -> int:
         sys.stdout.buffer.write(b"x" * (1024 * 1024))
         sys.stdout.flush()
         return 0
+    if case == "memory":
+        payload = bytearray(256 * 1024 * 1024)
+        for offset in range(0, len(payload), 4096):
+            payload[offset] = 1
+        print("WP12_RUNNER_SYNTHETIC_MEMORY_ALLOCATION_COMPLETED", flush=True)
+        return 0
     return 64
 
 

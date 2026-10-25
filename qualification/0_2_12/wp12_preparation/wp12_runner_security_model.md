@@ -2,6 +2,8 @@
 
 **PREPARATION_ONLY** · **NUMERICAL_EXECUTION_NOT_PERFORMED** · **WP12_STATUS=OPEN**
 
+> Snapshot de conception WP12-R. Les constats historiques ci-dessous décrivent la première implémentation; l'état courant après durcissement est dans [l'addendum WP12-R2](wp12_r2_runner_security_review.md). En particulier, R2 ajoute Ed25519, les Job Objects Windows pour processus synthétiques, un ledger logique et SYNC explicite; leurs limites restent applicables.
+
 ## Frontière d'autorité
 
 Le manifeste décrit une unité d'exécution; il ne s'auto-autorise pas. Une décision Owner séparée lie un identifiant de campagne, le SHA-256 exact du manifeste, le commit/tree, les opérations et nodeids, l'environnement, les budgets, les tentatives, la destination, le principal et l'horodatage. Son enveloppe prévoit Ed25519, l'identifiant de clé et les empreintes du payload/signataire.

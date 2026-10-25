@@ -1,0 +1,239 @@
+{
+  "schema": "qf-solver-wp12-prepared-manifest-v1",
+  "campaign_id": "WP12-5-PERFORMANCE-CHARACTERIZATION",
+  "title": "Caractérisation descriptive des performances v0.2.12",
+  "status": "PREPARED_NOT_AUTHORIZED",
+  "mode": "PREPARATION_ONLY",
+  "numerical_execution_performed": false,
+  "wp12_status": "OPEN",
+  "authorization": {
+    "execution_authorized": false,
+    "owner_decision_id": null,
+    "approved_manifest_sha256": null,
+    "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+  },
+  "repository": "emptiesvoid-cloud/QF_solver",
+  "target": {
+    "branch": "emptiesvoids-cloud/0.2.12",
+    "commit": "00428adf38e9397340ac136f6f503a268eb671da",
+    "git_tree": "df4ec667bf746b042c900fad1f86bf542e1a437b",
+    "worktree_must_be_clean": true,
+    "detached_checkout_allowed_only_at_exact_commit": true,
+    "source_change_policy": "Any source, harness or fixture change invalidates run design and requires new hashes/approval."
+  },
+  "scope": {
+    "capability_matrix_ids": [
+      "PERF-01",
+      "PERF-02",
+      "PERF-03"
+    ],
+    "scientific_boundary": "Measure bounded representative workloads; characterize this environment only. No extrapolation or universal performance qualification.",
+    "preserved_statuses": [
+      "WP12=OPEN",
+      "all scientific status/maturity fields unchanged"
+    ],
+    "required_contracts": [
+      "wp02 through wp10 contracts applicable to selected paths",
+      "historical performance reports for comparison only"
+    ]
+  },
+  "source_and_test_identity": {
+    "repository_tree_roots": {
+      "src": "3fd84f22c35aaecd989f2fe614e0b3fd9d7fbc6e",
+      "tests": "25ac8dad53b310407385353373db7886b8823ceb",
+      "fixtures_or_examples": "199741620aeec02ad4342d55dd361210a766d885"
+    },
+    "tracked_source_files": [],
+    "tracked_test_files": [],
+    "git_blob_oids": {},
+    "sha256_inventory_file": "Future harness input and fixture inventory; not available in WP12-0.",
+    "inventory_completeness": "No runnable v0.2.12 performance harness is identified; inventory intentionally empty pending Owner-approved design.",
+    "sha256_by_file": {},
+    "unresolved_declared_scope": "WP12-0 used a prose placeholder. scripts/run_wp12_scaling.py belongs to v0.2.7 and is excluded."
+  },
+  "fixtures": {
+    "entries": [],
+    "planned_workloads": [
+      "one small/medium prepared dynamic model at declared Nfull and Nr",
+      "reduced harmonic with declared mode/frequency counts",
+      "Newmark with declared step count and history policy",
+      "one nonlinear element/tangent and checkpoint case only if included"
+    ],
+    "identity_policy": "Freeze deterministic generated model inputs and SHA-256 before execution; no workload can be selected dynamically after approval."
+  },
+  "tests": {
+    "exact_nodeids": [],
+    "parameterized_node_resolution": "Not applicable; performance harness scenarios require their own immutable scenario IDs.",
+    "commands": [
+      {
+        "runner": "FUTURE_REVIEWED_INSTRUMENTED_HARNESS_NOT_IMPLEMENTED",
+        "argv_template": [
+          "<approved-harness>",
+          "--manifest-sha256",
+          "<exact-approved-manifest-hash>"
+        ],
+        "execution_status": "NOT_EXECUTED",
+        "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+      }
+    ],
+    "status": "NOT_RUN"
+  },
+  "oracles_and_acceptance": {
+    "contract_references": [
+      "wp08_r3_performance_report.md",
+      "wp09_performance_characterization.md",
+      "wp10_performance_characterization.md",
+      "wp05_dense_characterization.json"
+    ],
+    "metrics": [
+      "wall and CPU time per assembly/projection/factorization/solve/postprocess stage",
+      "number of factorizations and right-hand-side solves",
+      "Nfull, Nr, frequency count, time steps, retained history",
+      "process RSS including native allocations when available",
+      "checkpoint bytes and save/load time",
+      "warmup/repetition count and dispersion"
+    ],
+    "frozen_tolerances": {},
+    "no_new_thresholds": true,
+    "success_conditions": [
+      "All measurements include source/environment/workload identity and raw repeat values.",
+      "Report descriptive metrics only unless a separate Owner-approved performance limit already exists."
+    ],
+    "fail_or_stop_conditions": [
+      "Stop at Owner-approved wall/RAM/disk limits; hardware/environment mismatch or missing instrumentation makes measurement inconclusive, not PASS."
+    ]
+  },
+  "environment": {
+    "os": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "python": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "numpy_scipy_pytest": "PROPOSED — OWNER_APPROVAL_REQUIRED",
+    "optional_solvers": "List exact backend only if selected; no MPI/PETSc workload by default.",
+    "blas_openmp_mkl_threads": null,
+    "environment_lock_sha256": null
+  },
+  "resource_limits": {
+    "cpu_cores": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "ram_mib": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "numerical_threads": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "timeout_seconds_per_node": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "timeout_seconds_campaign": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "temporary_storage_mib": {
+      "value": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "limit_enforcement": "No benchmark before explicit numerical and storage limits; monitored metrics are not hard caps."
+  },
+  "attempt_policy": {
+    "maximum_attempts_per_scenario": {
+      "value": 1,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    "automatic_retry": false,
+    "retry_requires": "Separate approval; preserve raw timings and failed/aborted observations."
+  },
+  "evidence": {
+    "exclusive_destination_template": "qualification/0_2_12/wp12_evidence/WP12-5-PERFORMANCE-CHARACTERIZATION/<run_id>/",
+    "refuse_if_destination_exists": true,
+    "historical_paths_writable": false,
+    "capture": [
+      "scenario inputs/hashes",
+      "raw timings/repetitions",
+      "CPU/RSS observations",
+      "versions/hardware",
+      "stdout/stderr",
+      "command and manifest digest",
+      "artifact inventory"
+    ],
+    "partial_run_policy": "Keep partial measurements and stop reason; no overwrite/retry."
+  },
+  "prepared_at": "2026-10-25",
+  "notes": "No runnable v0.2.12 performance harness is present. Historical synthetic/small measurements are not current candidate measurements.",
+  "execution_status_label": "NUMERICAL_EXECUTION_NOT_PERFORMED",
+  "preparation_status_label": "PREPARATION_ONLY",
+  "wp12_status_label": "WP12_STATUS=OPEN",
+  "preparation_revision": {
+    "schema": "qf-wp12-prepared-manifest-revision-v1",
+    "revision_id": "WP12-5-R2-PREPARED-01",
+    "created_utc_date": "2026-10-25",
+    "supersedes": "qualification/0_2_12/wp12_preparation/wp12_5_execution_manifest.json",
+    "superseded_manifest_sha256": "eee7c31740b5dc6bdf4584a18724ce210b02c0475f597a59d10f4b96b9ea75bc",
+    "status": "PREPARED_NOT_AUTHORIZED",
+    "changes": [
+      "added proposed descriptive performance scenarios and measurement fields",
+      "no numeric acceptance thresholds or resource budgets invented"
+    ]
+  },
+  "proposed_performance_scenarios": [
+    {
+      "scenario_id": "PERF-R2-01",
+      "purpose": "Representative dynamic assembly and modal projection timing",
+      "parameters": [
+        "model identity",
+        "Nfull",
+        "Nr",
+        "warmup count",
+        "repeat count"
+      ],
+      "values": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    {
+      "scenario_id": "PERF-R2-02",
+      "purpose": "Reduced harmonic sweep stage timing and factorization count",
+      "parameters": [
+        "model identity",
+        "Nr",
+        "frequency count",
+        "frequency grid",
+        "factorization policy"
+      ],
+      "values": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    {
+      "scenario_id": "PERF-R2-03",
+      "purpose": "Newmark modal time and history storage characterization",
+      "parameters": [
+        "model identity",
+        "Nr",
+        "time step count",
+        "history retention policy"
+      ],
+      "values": null,
+      "state": "PROPOSED — OWNER_APPROVAL_REQUIRED"
+    },
+    {
+      "scenario_id": "PERF-R2-04",
+      "purpose": "Checkpoint bytes and save/load timing if checkpointing remains in scope",
+      "parameters": [
+        "checkpoint format",
+        "model identity",
+        "state size",
+        "repeat count"
+      ],
+      "values": null,
+      "state": "CONDITIONAL_PROPOSED — OWNER_APPROVAL_REQUIRED"
+    }
+  ],
+  "scenario_resolution_conditions": [
+    "Implement and review a dedicated v0.2.12 measurement harness",
+    "freeze exact workloads and source/test/fixture hashes",
+    "decide whether results are descriptive or gated",
+    "approve hard resource limits and instrumentation before any run"
+  ]
+}

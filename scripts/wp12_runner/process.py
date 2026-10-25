@@ -23,7 +23,7 @@ from .evidence import JsonlJournal
 
 _ROOT = Path(__file__).resolve().parents[2]
 FAKE_CHILD = _ROOT / "tests" / "fixtures" / "wp12_runner" / "fake_child.py"
-FAKE_CASES = frozenset({"success", "exit", "sleep", "tree", "flood"})
+FAKE_CASES = frozenset({"success", "exit", "sleep", "tree", "flood", "memory"})
 
 
 @dataclass(frozen=True)
@@ -43,6 +43,7 @@ class ProcessOutcome:
     sampled_peak_rss_bytes: int | None
     sampled_peak_process_count: int
     child_pids_remaining: tuple[int, ...]
+    hard_job_enforced: bool = False
 
 
 class _OutputCapture:
@@ -182,6 +183,7 @@ def run_fake_process(
     output_byte_limit: int = 64 * 1024,
     process_count_limit: int = 8,
     memory_soft_limit_bytes: int | None = None,
+    memory_hard_limit_bytes: int | None = None,
     storage_soft_limit_bytes: int | None = None,
     poll_interval_seconds: float = 0.02,
     sample_provider: Callable[[int], ResourceSample] = _sample_process_tree,
@@ -196,6 +198,10 @@ def run_fake_process(
         raise FileExistsError(f"refusing to reuse run directory: {run_directory}")
     if timeout_seconds <= 0 or output_byte_limit < 1 or process_count_limit < 1:
         raise ContractError("self-test limits must be positive")
+    if memory_hard_limit_bytes is not None and memory_hard_limit_bytes < 1:
+        raise ContractError("hard memory limit must be positive")
+    if os.name != "nt" and memory_hard_limit_bytes is not None:
+        raise ContractError("requested hard memory limit requires a Windows Job Object")
     run_directory.mkdir(parents=True, exist_ok=False)
     journal = JsonlJournal(run_directory / "journal.jsonl")
     journal.append({"event": "RUNNING", "case": case, "utc_epoch": time.time()})
@@ -209,6 +215,8 @@ def run_fake_process(
     }
     environment.update({"PYTHONHASHSEED": "0", "PYTHONIOENCODING": "utf-8"})
     creationflags = getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0) if os.name == "nt" else 0
+    job = None
+    hard_job_enforced = False
     started = time.monotonic()
     peak_rss: int | None = 0
     peak_processes = 0
@@ -217,6 +225,15 @@ def run_fake_process(
     process: subprocess.Popen[bytes] | None = None
     threads: list[threading.Thread] = []
     try:
+        if os.name == "nt":
+            from .windows_job import WindowsJob
+
+            job = WindowsJob(
+                process_count_limit=process_count_limit,
+                memory_limit_bytes=memory_hard_limit_bytes,
+            )
+            job.__enter__()
+            creationflags |= getattr(subprocess, "CREATE_SUSPENDED", 0x00000004)
         process = subprocess.Popen(
             command,
             cwd=run_directory,
@@ -229,6 +246,9 @@ def run_fake_process(
             creationflags=creationflags,
             start_new_session=(os.name != "nt"),
         )
+        if job is not None:
+            job.assign_suspended_process(process)
+            hard_job_enforced = True
         assert process.stdout is not None and process.stderr is not None
         threads = [
             threading.Thread(target=capture.drain, args=("stdout", process.stdout), daemon=True),
@@ -326,7 +346,13 @@ def run_fake_process(
             sampled_peak_process_count=peak_processes,
             child_pids_remaining=remaining,
         )
-    except OSError as exc:
+    except (OSError, ContractError) as exc:
+        if process is not None and process.poll() is None:
+            try:
+                process.kill()
+                process.wait(timeout=2)
+            except (OSError, subprocess.TimeoutExpired):
+                pass
         outcome = ProcessOutcome(
             state="INFRA_ERROR",
             return_code=None,
@@ -337,6 +363,36 @@ def run_fake_process(
             sampled_peak_rss_bytes=peak_rss,
             sampled_peak_process_count=peak_processes,
             child_pids_remaining=remaining,
+            hard_job_enforced=hard_job_enforced,
+        )
+    if job is not None:
+        try:
+            job.close()
+        except OSError as exc:
+            outcome = ProcessOutcome(
+                state="INFRA_ERROR",
+                return_code=outcome.return_code,
+                stop_reason=f"Windows Job Object close failed: {type(exc).__name__}",
+                elapsed_seconds=outcome.elapsed_seconds,
+                stdout_bytes=outcome.stdout_bytes,
+                stderr_bytes=outcome.stderr_bytes,
+                sampled_peak_rss_bytes=outcome.sampled_peak_rss_bytes,
+                sampled_peak_process_count=outcome.sampled_peak_process_count,
+                child_pids_remaining=outcome.child_pids_remaining,
+                hard_job_enforced=hard_job_enforced,
+            )
+    if hard_job_enforced and not outcome.hard_job_enforced:
+        outcome = ProcessOutcome(
+            state=outcome.state,
+            return_code=outcome.return_code,
+            stop_reason=outcome.stop_reason,
+            elapsed_seconds=outcome.elapsed_seconds,
+            stdout_bytes=outcome.stdout_bytes,
+            stderr_bytes=outcome.stderr_bytes,
+            sampled_peak_rss_bytes=outcome.sampled_peak_rss_bytes,
+            sampled_peak_process_count=outcome.sampled_peak_process_count,
+            child_pids_remaining=outcome.child_pids_remaining,
+            hard_job_enforced=True,
         )
     journal.append(
         {

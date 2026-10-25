@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 import sys
 import tempfile
@@ -21,6 +22,9 @@ from .contracts import (
     verify_manifest_input_identities,
 )
 from .evidence import record_refusal, verify_receipt, write_receipt
+from .environment import collect_environment_provenance
+from .git_remote import sync_remote_identity, write_sync_receipt
+from .owner_trust import load_machine_trust_store, verify_owner_decision
 from .process import FAKE_CASES, ProcessOutcome, run_fake_process
 
 
@@ -67,6 +71,27 @@ def _validate_mode(manifest_path: Path, root: Path) -> int:
             input_errors, input_records = verify_manifest_input_identities(root, manifest)
         except (OSError, ContractError) as exc:
             input_errors, input_records = (f"INPUT_IDENTITY_CHECK_FAILED:{type(exc).__name__}",), ()
+        source_identity = manifest.get("source_and_test_identity", {})
+        source_files = source_identity.get("tracked_source_files", []) if isinstance(source_identity, Mapping) else []
+        test_files = source_identity.get("tracked_test_files", []) if isinstance(source_identity, Mapping) else []
+        identity_entries = manifest.get("code_identity", {})
+        if isinstance(identity_entries, Mapping):
+            source_files = list(source_files) + list(identity_entries.get("source_files_sha256", {}))
+            test_files = list(test_files) + list(identity_entries.get("test_files_sha256", {}))
+        fixture_section = manifest.get("fixtures", {})
+        fixture_entries = fixture_section.get("entries", []) if isinstance(fixture_section, Mapping) else []
+        fixture_files = [
+            entry["path"]
+            for entry in fixture_entries
+            if isinstance(entry, Mapping) and isinstance(entry.get("path"), str)
+        ]
+        environment_provenance = collect_environment_provenance(
+            declared=dict(manifest.get("environment", {})) if isinstance(manifest.get("environment"), Mapping) else {},
+            repository_root=root,
+            source_files=(path for path in source_files if isinstance(path, str)),
+            test_files=(path for path in test_files if isinstance(path, str)),
+            fixture_files=fixture_files,
+        )
     except (OSError, ContractError) as exc:
         _json_print({"mode": "VALIDATE", "state": "INVALID", "error": str(exc)}, stream=sys.stderr)
         return 2
@@ -91,6 +116,7 @@ def _validate_mode(manifest_path: Path, root: Path) -> int:
             "input_identity_errors": list(input_errors),
             "input_identity_records": list(input_records),
             "git": git_details,
+            "environment_provenance": environment_provenance,
             "execution_started": False,
         }
     )
@@ -98,6 +124,16 @@ def _validate_mode(manifest_path: Path, root: Path) -> int:
 
 
 def _expected_self_test_result(case: str, outcome: ProcessOutcome) -> tuple[bool, str]:
+    if case == "memory":
+        passed = (
+            outcome.state == "PROCESS_EXITED" and outcome.return_code not in (None, 0) and outcome.hard_job_enforced
+        )
+        return (
+            passed,
+            "Windows Job Object memory ceiling terminated the synthetic child"
+            if passed
+            else "hard memory ceiling was not demonstrated",
+        )
     expected = {
         "success": ("PROCESS_EXITED", 0),
         "exit": ("PROCESS_EXITED", 17),
@@ -124,6 +160,16 @@ def _self_test_mode(case: str) -> int:
     with tempfile.TemporaryDirectory(prefix="qf-wp12-runner-self-test-") as temporary:
         root = Path(temporary)
         for selected in cases:
+            if selected == "memory" and os.name != "nt":
+                results.append(
+                    {
+                        "case": selected,
+                        "self_test": "NOT_APPLICABLE",
+                        "explanation": "Windows Job Object resource enforcement is platform-specific",
+                        "scientific_result": False,
+                    }
+                )
+                continue
             run_directory = root / selected
             timeout = 0.35 if selected in {"sleep", "tree"} else 2.0
             output_limit = 256 if selected == "flood" else 64 * 1024
@@ -133,6 +179,7 @@ def _self_test_mode(case: str) -> int:
                 timeout_seconds=timeout,
                 output_byte_limit=output_limit,
                 process_count_limit=8,
+                memory_hard_limit_bytes=64 * 1024 * 1024 if selected == "memory" else None,
             )
             passed, explanation = _expected_self_test_result(selected, outcome)
             receipt_hash, _receipt_path = write_receipt(
@@ -160,15 +207,17 @@ def _self_test_mode(case: str) -> int:
                     "sampled_peak_rss_bytes": outcome.sampled_peak_rss_bytes,
                     "sampled_peak_process_count": outcome.sampled_peak_process_count,
                     "child_pids_remaining": list(outcome.child_pids_remaining),
+                    "hard_job_enforced": outcome.hard_job_enforced,
                     "receipt_sha256": receipt_hash,
                     "receipt_issues": list(receipt_issues),
                 }
             )
-    all_pass = all(result["self_test"] == "PASS" for result in results)
+    all_pass = all(result["self_test"] in {"PASS", "NOT_APPLICABLE"} for result in results)
+    has_not_applicable = any(result["self_test"] == "NOT_APPLICABLE" for result in results)
     _json_print(
         {
             "mode": "SELF_TEST",
-            "state": "PASS" if all_pass else "FAIL",
+            "state": "PASS_WITH_NOT_APPLICABLE" if all_pass and has_not_applicable else "PASS" if all_pass else "FAIL",
             "scientific_execution": False,
             "results": results,
         }
@@ -229,22 +278,68 @@ def _execute_mode(
         except (OSError, ContractError) as exc:
             event["git_error"] = str(exc)
         argv = _resolve_exact_argv(manifest, nodeid)
-        blockers = execution_gate_blockers(
-            assessment=assessment,
-            manifest=manifest,
-            supplied_manifest_sha256=supplied_sha256,
-            owner_decision=decision,
-            git_snapshot=git_snapshot,
-            nodeid=nodeid,
-            argv=argv,
-            previous_attempts=0,
-            attempt_number=1,
-            destination_exists=_destination_exists(root, manifest),
-        )
-        blockers = tuple(dict.fromkeys((*blockers, *(f"MANIFEST_INPUT_IDENTITY:{error}" for error in input_errors))))
+        owner_authenticated = False
         if decision is not None:
             event["owner_decision_structural_errors"] = list(validate_owner_decision_structure(decision))
-        event["blockers"] = list(blockers)
+            try:
+                trusted_keys, trust_store_sha256 = load_machine_trust_store(root)
+                target = manifest.get("target", {})
+                declared_scientific = manifest.get("scientific_identity", target)
+                if isinstance(declared_scientific, Mapping):
+                    scientific_identity = {
+                        "commit": str(declared_scientific.get("commit", "")),
+                        "git_tree": str(declared_scientific.get("git_tree", "")),
+                    }
+                else:
+                    scientific_identity = {"commit": "", "git_tree": ""}
+                runner_identity = (
+                    {"commit": git_snapshot.commit, "git_tree": git_snapshot.tree}
+                    if git_snapshot is not None
+                    else {"commit": "", "git_tree": ""}
+                )
+                authentication = verify_owner_decision(
+                    decision,
+                    trusted_keys=trusted_keys,
+                    manifest_sha256=digest,
+                    expected_campaign_id=str(manifest.get("campaign_id", "")),
+                    expected_scientific_identity=scientific_identity,
+                    expected_runner_identity=runner_identity,
+                )
+                event["owner_authentication"] = {
+                    "authenticated": authentication.authenticated,
+                    "key_id": authentication.key_id,
+                    "principal": authentication.principal,
+                    "payload_sha256": authentication.payload_sha256,
+                    "trust_store_sha256": trust_store_sha256,
+                    "errors": list(authentication.errors),
+                }
+                owner_authenticated = authentication.authenticated
+            except (OSError, ContractError) as exc:
+                event["owner_authentication"] = {
+                    "authenticated": False,
+                    "errors": [str(exc)],
+                }
+        blockers = list(
+            execution_gate_blockers(
+                assessment=assessment,
+                manifest=manifest,
+                supplied_manifest_sha256=supplied_sha256,
+                owner_decision=decision,
+                git_snapshot=git_snapshot,
+                nodeid=nodeid,
+                argv=argv,
+                previous_attempts=0,
+                attempt_number=1,
+                destination_exists=_destination_exists(root, manifest),
+                owner_authenticated=owner_authenticated,
+            )
+        )
+        blockers.extend(f"MANIFEST_INPUT_IDENTITY:{error}" for error in input_errors)
+        if decision is not None and not owner_authenticated:
+            auth_errors = event.get("owner_authentication", {}).get("errors", [])
+            if any("trust root" in error.lower() or "trust-store" in error.lower() for error in auth_errors):
+                blockers.append("OWNER_TRUST_ROOT_UNAVAILABLE")
+        event["blockers"] = list(dict.fromkeys(blockers))
     except (OSError, ContractError) as exc:
         event["blockers"] = ["INPUT_INVALID", str(exc)]
     try:
@@ -272,7 +367,7 @@ def _log_execute_argument_refusal(blocker: str) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="WP12 fail-closed preparation and runner self-test utility")
-    parser.add_argument("--mode", choices=("VALIDATE", "SELF_TEST", "EXECUTE"), required=True)
+    parser.add_argument("--mode", choices=("VALIDATE", "SELF_TEST", "SYNC", "EXECUTE"), required=True)
     parser.add_argument("--root", type=Path, default=REPOSITORY_ROOT)
     parser.add_argument("--manifest", type=Path)
     parser.add_argument("--owner-decision", type=Path)
@@ -304,6 +399,24 @@ def main(argv: Sequence[str] | None = None) -> int:
         if any(value is not None for value in (args.owner_decision, args.manifest_sha256, args.nodeid, args.case)):
             parser.error("VALIDATE is static and does not accept execution authorization or node selectors")
         return _validate_mode(args.manifest, args.root)
+    if args.mode == "SYNC":
+        if any(
+            value is not None
+            for value in (args.manifest, args.owner_decision, args.manifest_sha256, args.nodeid, args.case)
+        ):
+            parser.error("SYNC refreshes only the exact configured remote branch and accepts no manifest selectors")
+        try:
+            identity = sync_remote_identity(args.root)
+            receipt_path = write_sync_receipt(args.root, identity, DEFAULT_AUDIT_DIRECTORY)
+        except (OSError, ContractError) as exc:
+            _json_print(
+                {"mode": "SYNC", "state": "BLOCKED", "error": str(exc), "execution_started": False}, stream=sys.stderr
+            )
+            return 2
+        _json_print(
+            {"mode": "SYNC", "state": "SYNCHRONIZED", "remote": identity.__dict__, "receipt": str(receipt_path)}
+        )
+        return 0
     if args.manifest is None:
         _log_execute_argument_refusal("MANIFEST_ABSENT")
         return 3

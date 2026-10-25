@@ -1,19 +1,30 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:qf-solver:wp12:owner-decision:v1",
-  "title": "Detached Owner decision for one WP12 campaign unit",
+  "$id": "urn:qf-solver:wp12:owner-decision:v2",
+  "title": "Signed detached Owner decision for one WP12 campaign unit",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "schema", "decision_id", "status", "campaign_id", "manifest_sha256", "target", "operations",
-    "nodeids", "environment", "budgets", "maximum_attempts", "destination", "owner", "decided_utc", "signature"
+    "nodeids", "scientific_identity", "runner_identity", "environment", "budgets", "maximum_attempts",
+    "destination", "owner", "decided_utc", "not_before_utc", "expires_utc", "signature"
   ],
   "properties": {
-    "schema": {"const": "qf-solver-wp12-owner-decision-v1"},
+    "schema": {"const": "qf-solver-wp12-owner-decision-v2"},
     "decision_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"},
     "status": {"const": "APPROVED"},
     "campaign_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"},
     "manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "scientific_identity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["commit", "git_tree"],
+      "properties": {"commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"}, "git_tree": {"type": "string", "pattern": "^[a-f0-9]{40}$"}}
+    },
+    "runner_identity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["commit", "git_tree"],
+      "properties": {"commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"}, "git_tree": {"type": "string", "pattern": "^[a-f0-9]{40}$"}}
+    },
     "target": {
       "type": "object", "additionalProperties": false,
       "required": ["branch", "commit", "git_tree"],
@@ -56,6 +67,8 @@
       "properties": {"principal": {"type": "string", "minLength": 1}, "display_name": {"type": "string", "minLength": 1}}
     },
     "decided_utc": {"type": "string", "format": "date-time"},
+    "not_before_utc": {"type": "string", "format": "date-time"},
+    "expires_utc": {"type": "string", "format": "date-time"},
     "signature": {
       "type": "object", "additionalProperties": false,
       "required": ["algorithm", "key_id", "public_key_sha256", "payload_sha256", "signature_base64"],

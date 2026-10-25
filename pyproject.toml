@@ -52,7 +52,8 @@ test = [
   "psutil>=5.9",
   "jsonschema>=4.26,<5",
   "PyYAML>=6.0",
-  "threadpoolctl>=3.5"
+  "threadpoolctl>=3.5",
+  "cryptography>=42"
 ]
 dev = [
   "pytest>=8",
@@ -66,7 +67,13 @@ dev = [
   "mypy>=1.16",
   "hypothesis>=6.135",
   "PyYAML>=6.0",
-  "threadpoolctl>=3.5"
+  "threadpoolctl>=3.5",
+  "cryptography>=42"
+]
+wp12-runner = [
+  "cryptography>=42",
+  "jsonschema>=4.26,<5",
+  "psutil>=5.9"
 ]
 large = [
   "h5py>=3.10",

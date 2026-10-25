@@ -1,16 +1,16 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:qf-solver:wp12:execution-manifest:v1",
-  "title": "Owner-frozen WP12 single-unit execution manifest",
+  "$id": "urn:qf-solver:wp12:execution-manifest:v2",
+  "title": "Owner-frozen WP12 single-unit execution manifest with separate science and runner identities",
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "schema", "campaign_id", "unit_id", "status", "repository", "target", "scope",
+    "schema", "campaign_id", "unit_id", "status", "repository", "target", "scientific_identity", "runner_identity", "scope",
     "code_identity", "tests", "fixtures", "environment", "resource_limits", "attempt_policy",
     "destination", "oracle", "prepared_at", "authorization_reference"
   ],
   "properties": {
-    "schema": {"const": "qf-solver-wp12-execution-manifest-v1"},
+    "schema": {"const": "qf-solver-wp12-execution-manifest-v2"},
     "campaign_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"},
     "unit_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"},
     "status": {"const": "FROZEN_NOT_AUTHORIZED"},
@@ -26,6 +26,22 @@
         "allow_detached_at_exact_commit": {"type": "boolean"}
       }
     },
+    "scientific_identity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["commit", "git_tree"],
+      "properties": {
+        "commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "git_tree": {"type": "string", "pattern": "^[a-f0-9]{40}$"}
+      }
+    },
+    "runner_identity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["commit", "git_tree"],
+      "properties": {
+        "commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "git_tree": {"type": "string", "pattern": "^[a-f0-9]{40}$"}
+      }
+    },
     "scope": {
       "type": "object", "additionalProperties": false,
       "required": ["operation", "capability_ids", "scientific_boundary"],
@@ -37,12 +53,11 @@
     },
     "code_identity": {
       "type": "object", "additionalProperties": false,
-      "required": ["source_files_sha256", "test_files_sha256", "runner_commit", "fixture_files_sha256"],
+      "required": ["source_files_sha256", "test_files_sha256", "fixture_files_sha256"],
       "properties": {
         "source_files_sha256": {"$ref": "#/$defs/pathHashes"},
         "test_files_sha256": {"$ref": "#/$defs/pathHashes"},
-        "fixture_files_sha256": {"$ref": "#/$defs/pathHashes"},
-        "runner_commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"}
+        "fixture_files_sha256": {"$ref": "#/$defs/pathHashes"}
       }
     },
     "tests": {
