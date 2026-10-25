@@ -1,0 +1,153 @@
+{
+  "schema": "qf-wp12-preparation-manifest-scope-proposal-index-v1",
+  "mode": "PREPARATION_ONLY",
+  "numerical_execution_performed": false,
+  "wp12_status": "OPEN",
+  "source_identity": {
+    "commit": "00428adf38e9397340ac136f6f503a268eb671da",
+    "git_tree": "df4ec667bf746b042c900fad1f86bf542e1a437b"
+  },
+  "historical_r2_index": {
+    "path": "qualification/0_2_12/wp12_preparation/revisions/manifest_revision_index.json",
+    "sha256": "bd185ce511bbec057d0ff58b05cc24b47945aad603395b91da5ef6e08b75659d"
+  },
+  "scope_proposal_status": "PENDING_OWNER_DECISION",
+  "nine_historical_nodeids": [
+    {
+      "historical_number": 1,
+      "nodeid": "tests/unit/test_modal_symmetric_projection.py::test_structured_symmetric_projection_matches_dense_bilinear_form",
+      "proposed_work_package": "WP12-1"
+    },
+    {
+      "historical_number": 2,
+      "nodeid": "tests/unit/test_modal_symmetric_projection.py::test_modal_basis_uses_structured_projection_for_exact_symmetric_k",
+      "proposed_work_package": "WP12-1"
+    },
+    {
+      "historical_number": 3,
+      "nodeid": "tests/unit/test_modal_symmetric_projection.py::test_from_prepared_reuses_one_sparse_symmetry_difference",
+      "proposed_work_package": "WP12-1"
+    },
+    {
+      "historical_number": 4,
+      "nodeid": "tests/unit/test_modal_symmetric_projection.py::test_tolerated_near_symmetric_k_falls_back_to_historical_bilinear_path",
+      "proposed_work_package": "WP12-1"
+    },
+    {
+      "historical_number": 5,
+      "nodeid": "tests/unit/test_modal_symmetric_projection.py::test_from_prepared_rejects_significantly_asymmetric_stiffness",
+      "proposed_work_package": "WP12-1"
+    },
+    {
+      "historical_number": 6,
+      "nodeid": "tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators",
+      "proposed_work_package": "WP12-1"
+    },
+    {
+      "historical_number": 7,
+      "nodeid": "tests/unit/test_prepared_dynamic_system.py::test_prepared_identity_is_deterministic_and_dof_maps_are_defensive",
+      "proposed_work_package": "WP12-2"
+    },
+    {
+      "historical_number": 8,
+      "nodeid": "tests/unit/test_prepared_dynamic_system.py::test_newmark_old_checkpoint_is_readable_but_not_safe_to_resume",
+      "proposed_work_package": "WP12-2"
+    },
+    {
+      "historical_number": 9,
+      "nodeid": "tests/unit/test_wp10_nonlinear_state_checkpoints.py::test_v2_checkpoint_metadata_identity_tampering_fails_integrity",
+      "proposed_work_package": "WP12-3"
+    }
+  ],
+  "revisions": [
+    {
+      "campaign_id": "WP12-1-MODAL-PROJECTION-CONTRACTS",
+      "historical_original_path": "qualification/0_2_12/wp12_preparation/wp12_1_execution_manifest.json",
+      "historical_original_sha256": "70ff305a584fdd5334fdc3cdc3e03afc7fa9efe71abb866a4937626127a8b70c",
+      "r2_path": "qualification/0_2_12/wp12_preparation/revisions/wp12_1_execution_manifest.r2-prepared.json",
+      "r2_sha256": "1b61f4de19e46d933fc825a1eb1525aaf14d43e8ebade21e0c1b1f0bf010cf0b",
+      "r3_proposal_path": "qualification/0_2_12/wp12_preparation/revisions/wp12_1_execution_manifest.r3-scope-proposal.json",
+      "r3_proposal_sha256": "f73a5b00f5dd993d6ba9319ab1275a3e0234c67d81758fd3c029722db1d8df5a",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "owner_scope_decision": "PENDING_OWNER_DECISION",
+      "nodeids": [
+        "tests/unit/test_modal_symmetric_projection.py::test_structured_symmetric_projection_matches_dense_bilinear_form",
+        "tests/unit/test_modal_symmetric_projection.py::test_modal_basis_uses_structured_projection_for_exact_symmetric_k",
+        "tests/unit/test_modal_symmetric_projection.py::test_from_prepared_reuses_one_sparse_symmetry_difference",
+        "tests/unit/test_modal_symmetric_projection.py::test_tolerated_near_symmetric_k_falls_back_to_historical_bilinear_path",
+        "tests/unit/test_modal_symmetric_projection.py::test_from_prepared_rejects_significantly_asymmetric_stiffness",
+        "tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators"
+      ]
+    },
+    {
+      "campaign_id": "WP12-2-DYNAMICS-D02",
+      "historical_original_path": "qualification/0_2_12/wp12_preparation/wp12_2_execution_manifest.json",
+      "historical_original_sha256": "1034c6fab83c43602a837d5c212f2a8af02afc5360ffa456f2594c52ac269070",
+      "r2_path": "qualification/0_2_12/wp12_preparation/revisions/wp12_2_execution_manifest.r2-prepared.json",
+      "r2_sha256": "d1411f7bcb605dab4ebf3ec373fe10f80c76fdead412c7b297c1c9081c8e4805",
+      "r3_proposal_path": "qualification/0_2_12/wp12_preparation/revisions/wp12_2_execution_manifest.r3-scope-proposal.json",
+      "r3_proposal_sha256": "688bfdea13642d537da70702f9b65452ed3d70ef93b46f3af6bc26468ed047dd",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "owner_scope_decision": "PENDING_OWNER_DECISION",
+      "nodeids": [
+        "tests/unit/test_prepared_dynamic_system.py::test_prepared_operators_match_legacy_assembly_and_remain_sparse",
+        "tests/unit/test_modal_basis_damping.py::test_degenerate_subspace_rotation_and_sign_are_equivalent_and_residual_safe",
+        "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_matches_independent_analytical_sdof_amplitude_and_phase",
+        "tests/unit/test_reduced_harmonic.py::test_truncated_basis_records_observable_differences_without_claiming_error_bound",
+        "tests/unit/test_modal_newmark.py::test_sdof_free_undamped_matches_analytic_solution_and_initial_projection",
+        "tests/unit/test_modal_newmark.py::test_coupled_tet4_full_basis_matches_independent_eigen_expansion",
+        "tests/unit/test_modal_newmark.py::test_second_order_time_refinement_for_smooth_free_vibration",
+        "tests/unit/test_modal_newmark.py::test_restart_matches_continuous_run_and_refuses_corrupt_or_incompatible_checkpoint",
+        "tests/unit/test_wp07_uniform_base_acceleration.py::test_full_mass_base_load_keeps_free_constrained_coupling_and_beam_rotations",
+        "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames",
+        "tests/unit/test_wp07_uniform_base_acceleration.py::test_transient_base_sdof_matches_independent_constant_acceleration_solution",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_tet4_complex_harmonic_stress_matches_independent_affine_reference",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_transient_tet4_free_vibration_matches_modal_oracle_and_independent_stress",
+        "tests/unit/test_wp_d02_dynamic_stress.py::test_dynamic_recovery_fails_closed_for_invalid_sources_and_incomplete_fields",
+        "tests/unit/test_prepared_dynamic_system.py::test_prepared_identity_is_deterministic_and_dof_maps_are_defensive",
+        "tests/unit/test_prepared_dynamic_system.py::test_newmark_old_checkpoint_is_readable_but_not_safe_to_resume"
+      ]
+    },
+    {
+      "campaign_id": "WP12-3-NONLINEAR-CONTACT-BOUNDED",
+      "historical_original_path": "qualification/0_2_12/wp12_preparation/wp12_3_execution_manifest.json",
+      "historical_original_sha256": "064e2587a7f2789495a459d5c75d5d605140e17e6fba6bcff06ec8573f28d9b3",
+      "r2_path": "qualification/0_2_12/wp12_preparation/revisions/wp12_3_execution_manifest.r2-prepared.json",
+      "r2_sha256": "7fd489614c07a6b6cca5ee333d6709e1ba0194af304e3e5771376b0bec774ce2",
+      "r3_proposal_path": "qualification/0_2_12/wp12_preparation/revisions/wp12_3_execution_manifest.r3-scope-proposal.json",
+      "r3_proposal_sha256": "79acb365d6848060535b39e0e8201f74e52242cd7640e5ac6391e37bd8daaa0f",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "owner_scope_decision": "PENDING_OWNER_DECISION",
+      "nodeids": [
+        "tests/unit/test_corotational_j2_corrected.py::test_corrected_state_matches_independent_tensor_j2_history",
+        "tests/unit/test_corotational_j2_corrected.py::test_corrected_tangent_matches_independent_directional_force_differences",
+        "tests/unit/test_corotational_j2_corrected.py::test_corrected_newton_plasticity_line_search_results_and_serialization",
+        "tests/unit/test_wp10_nonlinear_state_checkpoints.py::test_trial_state_cannot_be_checkpointed_and_commit_attests_atomically",
+        "tests/unit/test_wp10_nonlinear_state_checkpoints.py::test_rollback_keeps_accepted_composite_and_retry_is_a_new_trial",
+        "tests/unit/test_wp10_nonlinear_state_checkpoints.py::test_max_iterations_is_reported_as_nonconvergence_not_acceptance",
+        "tests/unit/test_nonlinear_checkpoint.py::test_nonlinear_restart_matches_continuous_cyclic_solution",
+        "tests/unit/test_wp_e01_j2_global_phase2.py::test_j2_return_map_and_tangent_match_independent_tensor_oracle",
+        "tests/unit/test_wp_e01_j2_coro_phase8.py::test_phase8_inadmissible_guard_state_is_refused_without_retry",
+        "tests/verification/test_wpc02_ar_native_contact_convergence.py::test_wpc02_ar_native_m4",
+        "tests/verification/test_wpc02_ar_native_contact_convergence.py::test_wpc02_ar_native_m5",
+        "tests/unit/test_wpc01_r13_small_rotation_transfer.py::test_default_and_explicit_legacy_are_identical",
+        "tests/unit/test_wpc01_r13_small_rotation_transfer.py::test_mode_validation_is_opt_in_and_excludes_updated_or_finite_sliding_routes",
+        "tests/unit/test_wp_c01_r19_example_contract.py::test_example_default_invocation_does_not_launch_a_calculation",
+        "tests/unit/test_wp_c01_r16_smoke_contract.py::test_smoke_payload_requires_active_contact_on_every_accepted_step",
+        "tests/unit/test_corotational_j2_corrected.py::test_polar_directional_derivative_matches_independent_sylvester_and_fd",
+        "tests/unit/test_wp_e01q_hencky_tangent.py::test_material_response_still_does_not_claim_a_verified_tangent",
+        "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_tangent_matches_multistep_centered_pk1_difference",
+        "tests/unit/test_wp10_nonlinear_state_checkpoints.py::test_v2_checkpoint_metadata_identity_tampering_fails_integrity"
+      ]
+    }
+  ],
+  "notes": [
+    "R1/R2 manifests and the R2 revision index are preserved unchanged.",
+    "R3 files record a proposed partition only; they are not Owner approval and do not authorize execution.",
+    "No solver, QF pytest test, FEM calculation, or campaign was run.",
+    "A future unit requires its own authenticated Owner decision and separate security/isolation gates."
+  ],
+  "preparation_status_label": "PREPARATION_ONLY",
+  "execution_status_label": "NUMERICAL_EXECUTION_NOT_PERFORMED",
+  "wp12_status_label": "WP12_STATUS=OPEN"
+}

@@ -1,0 +1,49 @@
+{
+  "schema": "qf-wp12-isolation-attestation-v1",
+  "status": "NOT_VERIFIED",
+  "profile": "wp12-a-dedicated-unprivileged-windows-runner-v1",
+  "observed_at_utc": "2026-10-25",
+  "account": {
+    "identity_checked": true,
+    "principal": "REDACTED_FROM_TRACKED_REPORT",
+    "administrator": false,
+    "dedicated_runner_account": false
+  },
+  "read_only_roots": [
+    "science-checkout/src",
+    "science-checkout/tests",
+    "science-checkout/qualification/0_2_11",
+    "runner-checkout/src",
+    "runner-checkout/tests",
+    "runner-checkout/qualification/0_2_11",
+    "runner-checkout/qualification/0_2_12/wp12_preparation"
+  ],
+  "exclusive_write_root": "qualification/0_2_12/wp12_evidence/WP12-1-PILOT-001/attempt-001",
+  "hard_controls": {
+    "checkout_read_only": false,
+    "archive_read_only": false,
+    "evidence_volume_quota": false,
+    "trust_store_unmodifiable": false,
+    "external_evidence_anchor": false,
+    "process_descendant_termination_job_object_tested": true,
+    "hard_memory_job_object_tested_synthetically": true,
+    "wall_timeout_tested_synthetically": true,
+    "log_byte_limit_tested_synthetically": true
+  },
+  "observations": {
+    "windows_account_is_administrator": false,
+    "runner_and_science_checkout_paths_writable_by_current_context": true,
+    "historical_qualification_paths_writable_by_current_context": true,
+    "machine_owner_trust_root_configured": false,
+    "dedicated_virtual_environment_present": false,
+    "external_evidence_anchor_configured": false
+  },
+  "limitations": [
+    "Job Objects do not sandbox filesystem access.",
+    "The current account can modify source, test, preparation, and historical archive directories.",
+    "A dedicated account, VM, or equivalent isolation is required before any scientific process.",
+    "Memory/process-tree controls were tested with fake children only; no scientific process was run.",
+    "No independent external evidence anchor is configured.",
+    "This attestation records observed blockers and is not an Owner security approval."
+  ]
+}
