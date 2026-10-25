@@ -33,10 +33,11 @@ Commandes dédiées effectuées sur le code WP12-R préparé :
 | `python -m ruff format --check` sur les fichiers Python WP12-R | PASS; 8 fichiers déjà formatés |
 | `tests/unit/test_wp12_qualification_runner.py` avec `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1` et `--confcutdir=tests/unit` | **27 passed** en 6,92 s; seul nodeid explicitement ciblé |
 | CLI `SELF_TEST --case all` | PASS, 5 cas factices; reçus vérifiés, 0 problème de reçu et 0 descendant résiduel sur chaque cas |
-| CLI `VALIDATE` sur WP12-1 | Refus attendu `BLOCKED`, code retour 2, `execution_started=false`; mismatch commit/tree de préparation, checkout de travail modifié, inventaire incomplet et hashes des fixtures inline non gelés |
+| CLI `VALIDATE` sur WP12-1, avant commit | Refus attendu `BLOCKED`, code retour 2, `execution_started=false`; mismatch commit/tree de préparation, worktree alors modifié par WP12-R, inventaire incomplet et hashes des fixtures inline non gelés |
+| CLI `VALIDATE` après commit sur worktree propre | Toujours `BLOCKED`, code retour 2, `execution_started=false`; aucun blocker `GIT_CHECKOUT_DIRTY`. Le commit/tree cible historique et les identités source/fixture restent en écart, en plus des blockers d'autorisation intrinsèques du manifeste préparatoire |
 | JSON schemas et manifestes préparatoires | Trois schémas chargés/vérifiés; WP12-1/2/4 structurels, WP12-3 dupliqué/invalide, WP12-5 inventaire/scénarios incomplets, WP12-6 identité/inventaires finaux absents; les six restent non exécutables |
 | Liens relatifs et recherche de chemins personnels/références employeur dans les fichiers modifiés | 0 lien rompu; 0 correspondance trouvée lors du contrôle statique |
-| `git diff --check` sur l'index préparé | À confirmer avant commit |
+| `git diff --cached --check` avant commit | PASS; le hook de confidentialité du commit a également indiqué PASS |
 | Tests, calculs, benchmarks QF Solver | **NON EXÉCUTÉS** |
 
 Un PASS de cette suite est uniquement une preuve de comportement du runner avec fichiers et processus factices. Ce n'est ni une validation du solveur, ni un PASS FEM, ni une qualification de sécurité de production.
