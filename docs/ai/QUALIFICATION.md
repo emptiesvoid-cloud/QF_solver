@@ -32,7 +32,15 @@ These classes answer different questions and are not interchangeable.
 
 ## Work packages and dispositions
 
-WP numbering is release-specific: WP05 v0.2.11 is gyroscopic rotating modal, while WP05 v0.2.12 is reduced harmonic response. Always include release in a WP reference.
+WP numbering is release-specific. Always include release and operational/prospective context in a WP reference. In v0.2.12, the current operational WP13 is release engineering, packaging, and the publication decision. A historical RBE/MPC stream used the label WP13-RBE; the October 7 prospective architecture appendix used WP13 for prepared Campbell. Neither closes the active operational WP13.
+
+| Record identity | Meaning | Status/authority |
+|---|---|---|
+| Current operational v0.2.12 WP13 | Release engineering, packaging, publication decision | OPEN in the current operational roadmap and Owner roadmap. |
+| `WP13-RBE` / `wp13_rbe_*` artifacts | Separate historical RBE2/RBE3/MPC implementation and bounded-maturity workstream | Owner's decision is limited to named RBE/MPC scopes and source identity; integration was pending authoritative target/final-merge approval. It is not the active WP13 gate. |
+| October 7 prospective WP13 | Prepared Campbell | Historical prospective appendix, not the operational ledger. |
+| v0.2.11 WP05 / WP06 | Gyroscopic rotating modal / Campbell | Inherited routes; historical and experimental. |
+| v0.2.12 WP05 / WP06 | Reduced harmonic / modal Newmark | Current-release feature WPs, not the v0.2.11 rotor WPs. |
 
 The latest recorded v0.2.12 portfolio state on 2026-10-25 is 19 WPs: 14 positive closures, one historical negative closure, and four open. This is an administrative tally, not qualification coverage.
 
@@ -50,7 +58,7 @@ Use the exact definitions in the relevant roadmap, contract, decision, and repor
 
 ## Current v0.2.12 distinctions
 
-As recorded by the roadmap: WP-C01 is CLOSED_NEGATIVE with remediation open; WP-C02 is CLOSED_BOUNDED for AR/N03 only; WP-D01 is INCONCLUSIVE; WP-D02 is CLOSED_BOUNDED; WP-E01 is OPEN_WITH_BOUNDED_CERTIFICATES; WP11 is CLOSED for its approved API/integration scope; WP12 and WP13 are OPEN.
+As recorded by the roadmap: WP-C01 is CLOSED_NEGATIVE with remediation open; WP-C02 is CLOSED_BOUNDED for AR/N03 only; WP-D01 is INCONCLUSIVE; WP-D02 is CLOSED_BOUNDED; WP-E01 is OPEN_WITH_BOUNDED_CERTIFICATES; WP11 is CLOSED for its approved API/integration scope; WP12 and the operational release-engineering WP13 are OPEN.
 
 The [WP11 closure assessment](../../qualification/0_2_12/wp11_final/closure_gate_assessment.md) and its [traceability matrix](../../qualification/0_2_12/wp11_final/capability_traceability_matrix.tsv) define WP11’s boundary. WP12’s [preparation index](../../qualification/0_2_12/wp12_preparation/README.md), [runner security review](../../qualification/0_2_12/wp12_preparation/wp12_r2_runner_security_review.md), and [rotor regression plan](../../qualification/0_2_12/wp12_rotating_inherited_regression_plan.md) do not authorize campaigns. The runner is RUNNER_READY_FOR_OWNER_SECURITY_REVIEW; scientific execution remains disabled.
 

@@ -51,7 +51,7 @@ Nonlinear routes assemble/update state through nonlinear solver and material int
 
 ## Optional backends
 
-SciPy is used for applicable sparse and complex linear-algebra routes. PETSc/MPI support is route- and configuration-specific; repository evidence for a selected large linear-static path must not be generalized to all analyses or distributed execution. Read the selected route, backend policy, and qualification record together.
+SciPy is used for applicable sparse and complex linear-algebra routes. Optional PETSc linear solving and a SLEPc modal path are available only on selected routes/configurations; specialized internal large-TET4 modal/Newmark helpers do not constitute exported public workflows. PETSc/MPI support is route- and configuration-specific; evidence for a selected large linear-static path must not be generalized to all analyses or distributed execution. Read the selected route, backend policy, and qualification record together.
 
 ## Navigation and dependency map
 

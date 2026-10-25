@@ -35,17 +35,21 @@ The descriptor also distinguishes load categories: nodal loads, gravity/body for
 
 ## Material families
 
-The source contains:
+The JSON/API `MaterialFactory` accepts `beam_isotropic`, `isotropic_3d`, `orthotropic_3d`, `composite_orthotropic_3d`, `nonlinear_isotropic_3d`, `von_mises_elastoplastic_3d`, `shell_isotropic`, `orthotropic_lamina`, and `shell_laminate`. Element compatibility and analysis preflight restrict which combinations may be assembled; this list is not a support matrix.
 
-- **Elastic solids:** isotropic, orthotropic, and composite-orthotropic material records.
-- **Shells and laminates:** isotropic shell materials, laminate stacks, and orthotropic lamina data.
-- **Beams:** isotropic beam material properties.
-- **Nonlinear solids:** small-strain nonlinear isotropic/J2 paths and an explicitly selected corrected corotational J2 route.
-- **Geometric nonlinear solids:** total-Lagrangian StVK and selected corotational paths.
-- **Experimental finite strain:** Hencky kinematics and directional material-point tangent modules exist, with no general production material-factory/assembly integration claim.
-- **Composite failure indicators:** failure/post-processing code exists; it does not imply progressive damage or general damage evolution.
+Source-level material capabilities include:
 
-See [materials](../../src/solveur/materials/), [compatibility descriptors](../../src/solveur/compatibility/descriptors.py), [nonlinear mechanics overview](../mechanics/nonlinear-overview.md), and the release-specific records in [v0.2.12](releases/v0.2.12.md). A material class being constructible does not prove its compatibility with every element or analysis.
+- **Elastic solids:** isotropic, orthotropic, and provenance/homogenization-tagged composite-orthotropic records; orthotropic orientation and optional cylindrical-tangent orientation fields.
+- **Shells and laminates:** isotropic shell material, orthotropic lamina data, classical laminate stacks, layer stress/recovery and first-ply indicators.
+- **Beams:** isotropic Timoshenko beam section material.
+- **Small-strain nonlinear solids:** nonlinear isotropic material and von Mises/J2 elastoplasticity with radial return and isotropic hardening; the corrected corotational J2 path is selected explicitly and remains bounded/experimental.
+- **Geometric nonlinear solids:** total-Lagrangian StVK and selected corotational element routes, distinct from the standalone finite-strain material-point kernels below.
+- **Experimental finite-strain material-point kernels:** internal `StVenantKirchhoff` and `CompressibleNeoHookean` evaluations return energy, strain, PK2/PK1/Cauchy stress and tangents. They are not JSON `MaterialFactory` types or a general assembled route.
+- **Experimental Hencky code:** Hencky kinematics and material-point response, TET4/HEX8 deformation-gradient helpers and force-only element adapters, plus a directional material-point tangent. The force adapters have no element tangent/global assembly/Newton integration. WP-E01 remains OPEN_WITH_BOUNDED_CERTIFICATES; general production material-factory/assembly support is not established.
+- **Finite-kinematic J2 research path:** the identifier is marked NOT_QUALIFIED by compatibility preflight and appears in a bounded verification benchmark; it is not a generally qualified JSON material/analysis route.
+- **Composite failure indicators:** maximum stress, optional maximum strain, Tsai-Hill and Tsai-Wu first-ply indicators in laminate material axes. They do not degrade material state and do not implement progressive damage.
+
+See [material factory](../../src/solveur/materials/factory.py), [materials](../../src/solveur/materials/), [compatibility descriptors](../../src/solveur/compatibility/descriptors.py), [composite failure implementation](../../src/solveur/materials/failure.py), [finite-strain material tests](../../tests/unit/test_wp_e01c_finite_strain_material.py), [Hencky tests](../../tests/unit/test_wp_e01m_hencky_material_point.py), [first-ply indicator tests](../../tests/unit/test_composite_failure.py), [nonlinear mechanics overview](../mechanics/nonlinear-overview.md), and the release-specific records in [v0.2.12](releases/v0.2.12.md). A material class being constructible does not prove its compatibility with every element or analysis.
 
 ## Analysis routes
 
@@ -63,11 +67,13 @@ The router selects an explicit analysis family and method. The current settings 
 | Rotating modal | dense_qep | [rotating modal](../../src/solveur/core/analyses/rotating_modal.py) | Inherited v0.2.11 EXPERIMENTAL route; bounded rotating-disk BEAM2 model. |
 | Campbell | complex_mac_hungarian | [Campbell](../../src/solveur/core/analyses/campbell.py) | Inherited v0.2.11 EXPERIMENTAL explicit-speed sweep; ambiguity is retained. |
 
+Backend choice is separate from the method string. SciPy sparse/dense solvers serve the ordinary routes; optional PETSc linear solves and a SLEPc modal path are available only on selected configurations and size envelopes. Direct complex harmonic response explicitly refuses PETSc. The inherited rotor QEP is dense/serial and has no sparse PETSc/SLEPc route. Additional PETSc/SLEPc TET4 modal and Newmark functions exist in `solveur.large.dynamic`, but are not exported by the large-model package or the public API/CLI; treat them as internal implementation code, not a supported large-model workflow.
+
 Contact is composed into the nonlinear/contact model path rather than exposed as a universal new top-level analysis family. The API may also expose specialized large-model and V&V operations outside AnalysisRouter.
 
 ## Constraints and contact
 
-- Linear MPC reduction, RBE2 rigid-arm constraints, and two RBE3 modes are implemented. Current bounded scope and maturity differ by mode: see [WP13 in the v0.2.12 inventory](releases/v0.2.12.md), [RBE source](../../src/solveur/core/rbe.py), [constraint reduction](../../src/solveur/core/constraints.py), and [WP13 decision/report](../../qualification/0_2_12/wp13_rbe_owner_maturity_decision.json).
+- Linear MPC reduction, RBE2 rigid-arm constraints, and two RBE3 modes are present in source and the public model/API definitions. Their bounded decisions are in a separate historical RBE integration stream named `WP13-RBE`; this is not the current operational v0.2.12 WP13, which is release engineering and publication. See [RBE source](../../src/solveur/core/rbe.py), [constraint reduction](../../src/solveur/core/constraints.py), the [RBE decision](../../qualification/0_2_12/wp13_rbe_owner_maturity_decision.json), and the [WP-numbering map](QUALIFICATION.md#release-specific-work-package-identities).
 - Normal/frictionless and frictional contact components, search/evaluation and restart state exist. C01 remains CLOSED_NEGATIVE with remediation open. C02 is CLOSED_BOUNDED for AR/N03 only. Neither result qualifies general contact, arbitrary finite sliding, or arbitrary mesh/search configurations.
 - Read [contact source](../../src/solveur/contact/), [C01 status](../../qualification/0_2_12/wp_c01_r19_status_register.json), [C02 Owner decision](../../qualification/0_2_12/wp_c02_n13_owner_bounded_closure_decision.md), and [roadmap](../../qualification/0_2_12/ROADMAP.md).
 
@@ -78,8 +84,8 @@ The public facade is [qf_solver](../../src/qf_solver/__init__.py); its implement
 The public surface supports:
 
 - **Model creation and inspection:** JSON model load/save, Gmsh MSH 4.1 plus companion setup import, bounded Abaqus/CalculiX INP subset, mesh quality validation, model audit, and method listing.
-- **Solve and result handling:** solve an explicitly selected route; result assessment; JSON result saving; CSV and VTU exports; audit Markdown; evidence-bundle writing and verification.
-- **Post-processing:** solid stress recovery, selected reduced harmonic stress recovery, and selected modal transient stress recovery. WP-D02 additions are provisional and bounded; see the [v0.2.12 inventory](releases/v0.2.12.md).
+- **Solve and result handling:** solve an explicitly selected route; result assessment; JSON result saving; selected static-result CSV/VTU exports; audit Markdown; evidence-bundle writing and verification.
+- **Post-processing:** solid recovery, shell/laminate result fields and first-ply indicators, Campbell plotting, plus the three WP-D02 wrappers for full-order solid, selected harmonic, and selected modal-transient stress recovery. WP-D02 wrappers are provisional and bounded; see the [v0.2.12 inventory](releases/v0.2.12.md).
 - **V&V and demonstrations:** controlled benchmark and demonstration catalogs, study import/comparison, linear solver/contact/MITC4 checks, structured TET4 studies, release V&V readiness and manifest-based qualification APIs. These are tools that can execute work; their existence is not authorization to run it.
 - **Results:** ordinary SolveResult, ModalResult, DynamicResult, and HarmonicResult are heterogeneous DTOs. Reduced harmonic, modal Newmark, and other scoped outputs carry separate schemas. There is no universal result schema or generic result loader. save_result refuses replacement unless overwrite is explicitly enabled.
 - **Mixed HDF5:** experimental/provisional family-aware result storage and selection for schema v1.0 TET4/WEDGE6/HEX8 only; semantic digest support does not imply a universal result format.
@@ -88,7 +94,7 @@ The main CLI command groups include solve/check/inspect, evidence, Gmsh mesh imp
 
 ## Large-model and optional HPC capabilities
 
-The specialized large-model API is primarily a structured/partitioned TET4 linear-static path. It includes HDF5/NPZ model storage, model conversion and inspection, structured block/cantilever generators, solving, bounded-memory chunked post-processing with checkpoints, runtime/readiness reports, benchmark campaigns, scaling analysis, PETSc profile/tuning analysis, and qualification verification.
+The public specialized large-model API is primarily a structured/partitioned TET4 linear-static path. It includes HDF5/NPZ model storage, model conversion and inspection, structured block/cantilever generators, solving, bounded-memory chunked post-processing with checkpoints, runtime/readiness reports, benchmark campaigns, scaling analysis, PETSc profile/tuning analysis, and qualification verification. Internal PETSc/SLEPc modal/Newmark helpers are not exported as public large-model or CLI routes.
 
 Optional dependency groups include HDF5, large-model PETSc/MPI, and broader HPC/SLEPc dependencies. Runtime availability and supported route are separate: PETSc/MPI does not apply to all analyses, and the evidence recorded for selected linear-static workloads does not prove general scaling, nonlinear distribution, or general MPI support. See [large-model implementation](../../src/solveur/large/), [public API contract](../reference/qf_solver_api.md), and [capability index](../capabilities/index.md).
 
