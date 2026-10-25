@@ -1,35 +1,64 @@
 # WP11 — Audit API, résultats et sérialisation
 
-## Résultat d’ensemble
+## Décision de contrat
 
-La façade `qf_solver` expose 77 noms documentés et classés : 30 `STABLE`, 47 `PROVISIONAL`. Les tests de dépôt qui vérifient l’inventaire, la classification, les pages de référence et les signatures critiques ont réussi sur l’état audité. Un type de construction utilisé par `FiniteElementModel` apparaît dans sa signature sans être exporté lui-même par la façade; `load_model()` reste le chemin d’entrée documenté. C’est un point d’ergonomie P2, pas un défaut de signature démontré.
+L’Owner accepte pour v0.2.12 les DTO ordinaires hétérogènes lorsqu’ils sont
+documentés. Aucun schéma de résultat universel ou `load_result()` générique
+n’est exigé. Les schémas versionnés existants, leurs refus et leurs limites
+restent inchangés. Les références exactes aux tests et aux contrats figurent
+dans [`wp11_acceptance_matrix.tsv`](wp11_acceptance_matrix.tsv).
 
-Les API ordinaires de résultats n’ont ni schéma universel versionné ni désérialiseur générique partagé. Les pages de référence le disent déjà. Aucun contrat WP11 approuvé ne requiert explicitement `load_result()` ou un format commun; le dossier ne crée donc pas cette obligation.
+## Inventaire et limites
 
-## Défauts corrigés
+- `SolveResult`, `ModalResult`, `DynamicResult` et `HarmonicResult` exposent
+  des sorties propres à l’analyse; pas de schéma commun versionné ni de lecteur
+  partagé.
+- Modal-Newmark : `qf-modal-newmark-result/v1`, cartes DOF et champs temporels;
+  `from_dict()` spécifique; maturité `EXPERIMENTAL`, qualification
+  `NOT_ASSESSED`.
+- Harmonique réduit : `qf-reduced-harmonic-result/v1`, fréquences et phasors
+  réel/imaginaire explicites, disponibilité déclarée et provenance de base /
+  opérateurs; `from_dict()` spécifique; `EXPERIMENTAL`, `NOT_ASSESSED`.
+- D01 : configuration stricte `qf-harmonic-residual-flexibility-config/v1`
+  et résultat imbriquant le résultat WP05 sans réécriture sous
+  `qf-reduced-harmonic-residual-flexibility-result/v1`.
+- Rotor/Campbell : payloads complexes dédiés et aides de sérialisation; aucun
+  lecteur partagé. Les routes restent expérimentales et bornées.
+- HDF5 mixte : lecteur, writer, sélecteurs et digest sémantique version `1.0`
+  pour TET4/WEDGE6/HEX8; le round-trip synthétique vérifie le contenu et le
+  digest logique.
+- D02 : `qf-dynamic-solid-stress/v1` conserve convention, ordre, unités,
+  identité et statut expérimental selon son périmètre borné.
+- Checkpoints : contrats propres aux objets conservent identités de source,
+  opérateur, base ou exécution lorsqu’ils s’appliquent; pas de chargeur
+  universel.
 
-| Finding | Correction | Vérification |
-| --- | --- | --- |
-| `JsonResultWriter.write()` écrivait sur une destination existante avec remplacement silencieux. | Ouverture exclusive `x`; destination existante refusée avec `InputValidationError`; signature publique inchangée. Le contrat de `save_result()` est documenté. | `test_json_writer_saves_result`, `test_json_writer_refuses_to_overwrite_existing_result`, `test_public_save_result_refuses_to_overwrite_an_existing_path`. |
-| Le chemin d’échec HDF5 supprimait toute cible existante après une course entre le précontrôle et `h5py.File(..., "x")`. | Nettoyage limité à l’identité fichier (device/inode) observée après ouverture réussie; erreur d’ouverture exclusive ne supprime pas le fichier concurrent. | `test_hdf5_writer_does_not_remove_file_created_by_competing_writer`. |
-| `HarmonicResult.to_dict()` utilisait `zip()` et pouvait ignorer des fréquences excédentaires. | Contrôle explicite de l’égalité des nombres de fréquences et de réponses avant sérialisation. | `test_harmonic_result_rejects_mismatched_frequency_and_response_counts`. |
-| Les décodeurs v1 Modal-Newmark et harmonique réduit reconstruisaient le DTO sans confronter plusieurs champs dérivés redondants. | Vérification des alias d’état, du verdict, de la maturité, de la décision de qualification et des champs dérivés (`ndof`, `response_dof_count`, lignes fréquentielles). Un champ absent ou incohérent est refusé. | `test_versioned_experimental_result_dtos_round_trip_without_solver_execution`, avec métadonnées volontairement altérées. |
+## Compatibilité comportementale de `save_result`
 
-Les corrections ne changent ni formule, ni loi constitutive, ni solveur, ni seuil, ni statut scientifique. Aucun champ inconnu n’est automatiquement interprété comme une capacité commune et aucun format historique n’est réécrit.
+La comparaison du writer historique au baseline de travail a montré que
+`Path.write_text()` remplaçait silencieusement une cible existante. Le writer
+actuel, introduit avant cette revue, refusait cette cible avec ouverture
+exclusive. Ainsi, les appels existants à deux arguments vers une nouvelle
+destination restent compatibles, mais ceux qui dépendaient du remplacement
+implicite ne le sont pas.
 
-## Inventaire de sérialisation
+Le contrat WP11 conserve la protection par défaut et rend le remplacement
+explicite : `save_result(result, path, overwrite=True)`. Le paramètre est
+keyword-only et optionnel; le CLI fournit `--overwrite` sur ses points de
+sortie utilisant ce writer. Le test d’intégration existant qui réutilise son
+chemin de résultat est migré vers ce flag; son exécution FEM reste exclue de
+cette vérification. La matrice distingue donc la compatibilité des appels sur
+nouveau chemin de la migration requise pour les anciens appels qui écrasaient.
 
-- `SolveResult`, `ModalResult`, `DynamicResult`, `HarmonicResult` : DTO propres à l’analyse, `to_dict()` et sorties dédiées; pas de version commune ou de `from_dict()` partagé. Les tests WP11 ajoutés exercent un DTO synthétique et la règle de refus d’écrasement, sans solveur.
-- Modal-Newmark : schéma `qf-modal-newmark-result/v1`, cartes DOF et champs temps réels, `from_dict()` spécifique; maturité `EXPERIMENTAL`, qualification `NOT_ASSESSED`.
-- Harmonique réduit : schéma `qf-reduced-harmonic-result/v1`, fréquences et phasors séparés en réel/imaginaire, disponibilité de réponse explicite, provenance de base/opérateurs; `from_dict()` spécifique; maturité `EXPERIMENTAL`, qualification `NOT_ASSESSED`.
-- Flexibilité résiduelle D01 : configuration stricte `qf-harmonic-residual-flexibility-config/v1`, résultat imbriquant sans réécriture le résultat WP05 et le schéma `qf-reduced-harmonic-residual-flexibility-result/v1`; test synthétique de round-trip réussi.
-- Rotor/Campbell : payloads complexes spécifiques et helpers complexes présents; pas de lecteur commun. Les routes restent expérimentales et leur contrat ne permet pas d’inférer une qualification générale en rotordynamique.
-- HDF5 : lecteur, écrivain, sélecteurs et digest sémantique version `1.0`; blocs homogènes TET4/WEDGE6/HEX8. Un round-trip synthétique sans assemblage vérifie le champ et l’égalité du digest logique. Le test d’API existant relit aussi un artefact historisé.
-- D02 : `qf-dynamic-solid-stress/v1` documente convention, ordre, unités, identité et statut expérimental; wrappers sans lecteur générique dédié.
-- Checkpoints : contrats spécifiques conservent identités d’opérateurs, sources, bases et clés d’exécution lorsqu’ils s’appliquent; ils ne sont pas un chargeur universel de résultats.
+Les autres corrections déjà enregistrées sont conservées : nettoyage HDF5
+limité à l’identité du fichier créé par ce writer; vérification des nombres de
+fréquences/réponses avant `zip()` pour `HarmonicResult`; validation des champs
+dérivés redondants par les décodeurs v1 Modal-Newmark et harmonique réduit.
 
-## Compatibilité et limites résiduelles
+## Statuts scientifiques
 
-Le changement `save_result` est additif en signature mais plus strict en comportement : un script qui s’attendait à remplacer son JSON doit maintenant choisir explicitement une destination nouvelle ou gérer le fichier existant. Ce durcissement est demandé par le gate d’absence d’écrasement silencieux.
-
-Les tests de cette campagne ne rejouent pas les solveurs ou analyses. Les fichiers d’API documentent les routes, mais leur disponibilité n’étend pas les limites d’éléments, de matériaux, de backend, de maturité ou de qualification définies par leurs work packages propriétaires.
+D01 reste `INCONCLUSIVE`; C02 reste `CLOSED_BOUNDED` uniquement sur AR/N03; E01
+reste `OPEN_WITH_BOUNDED_CERTIFICATES`. Ces statuts ne bloquent pas
+l’acceptation des contrats API WP11 et ne sont pas promus par les preuves de ce
+dossier. La V&V numérique et la performance sont affectées à WP12. Aucun calcul
+FEM supplémentaire n’a été exécuté.

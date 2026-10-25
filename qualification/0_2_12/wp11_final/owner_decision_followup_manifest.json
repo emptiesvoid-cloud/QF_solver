@@ -1,0 +1,90 @@
+{
+  "schema": "qf-wp11-owner-decision-followup/v1",
+  "execution_date_utc": "2026-10-25",
+  "scope": "WP11 API integration, documented result contracts, serialization, compatibility behavior, and refusal checks; non-qualifying regression evidence",
+  "owner_decision": {
+    "date": "2026-10-25",
+    "source": "Owner Decision — WP11 v0.2.12",
+    "result_dto_policy": "Heterogeneous documented DTOs accepted; no universal result schema or generic load_result required.",
+    "scientific_statuses_preserved": {
+      "D01": "INCONCLUSIVE",
+      "C02": "CLOSED_BOUNDED on AR/N03 only",
+      "E01": "OPEN_WITH_BOUNDED_CERTIFICATES"
+    },
+    "additional_fem_execution": "NOT_AUTHORIZED; requires its own frozen manifest and separate authorization",
+    "numerical_vv_and_performance": "ASSIGNED_TO_WP12"
+  },
+  "baseline": {
+    "branch": "emptiesvoids-cloud/0.2.12",
+    "source_sha": "174e2f79f664dd3e4706d0392a90bf255aea5383",
+    "origin": "https://github.com/emptiesvoid-cloud/QF_solver.git",
+    "remote_branch_sha_at_review_start": "174e2f79f664dd3e4706d0392a90bf255aea5383"
+  },
+  "tested_source": {
+    "commit_sha": "84de7837f90406aedfbccd3f9af560958d49819d",
+    "commit_subject": "Add explicit overwrite option to save_result",
+    "author": "Quentin Farinazzo <284553195+emptiesvoid-cloud@users.noreply.github.com>",
+    "committer": "Quentin Farinazzo <284553195+emptiesvoid-cloud@users.noreply.github.com>",
+    "code_and_public_api_docs_match_commit": true,
+    "worktree_state_at_test_start": "Code and public API pages match tested commit; only WP11 dossier and roadmap follow-up documents were uncommitted.",
+    "package_metadata_version": "0.2.11",
+    "api_documentation_candidate": "0.2.12"
+  },
+  "environment": {
+    "platform": "Windows (win32)",
+    "python": "3.13.1",
+    "pytest": "8.4.1",
+    "ruff": "0.15.20",
+    "git": "2.54.0.windows.1"
+  },
+  "test_policy": "One exact pytest nodeid per command. Synthetic result objects and parser/forwarding checks only; no solver, assembly, or FEM campaign was executed.",
+  "pytest_summary": {
+    "pass": 12,
+    "fail": 0,
+    "skip": 0,
+    "concurrent_wall_time_seconds": 9.1
+  },
+  "pytest_runs": [
+    {"nodeid": "tests/unit/test_json_io.py::test_json_writer_can_overwrite_when_explicitly_requested", "command": "python -m pytest -q tests/unit/test_json_io.py::test_json_writer_can_overwrite_when_explicitly_requested", "result": "PASS"},
+    {"nodeid": "tests/unit/test_json_io.py::test_json_writer_refuses_to_overwrite_existing_result", "command": "python -m pytest -q tests/unit/test_json_io.py::test_json_writer_refuses_to_overwrite_existing_result", "result": "PASS"},
+    {"nodeid": "tests/unit/test_public_api_contract.py::test_public_save_result_refuses_to_overwrite_an_existing_path", "command": "python -m pytest -q tests/unit/test_public_api_contract.py::test_public_save_result_refuses_to_overwrite_an_existing_path", "result": "PASS"},
+    {"nodeid": "tests/unit/test_public_api_contract.py::test_public_save_result_can_explicitly_overwrite_an_existing_path", "command": "python -m pytest -q tests/unit/test_public_api_contract.py::test_public_save_result_can_explicitly_overwrite_an_existing_path", "result": "PASS"},
+    {"nodeid": "tests/unit/test_public_api_contract.py::test_critical_workflow_signatures_are_stable", "command": "python -m pytest -q tests/unit/test_public_api_contract.py::test_critical_workflow_signatures_are_stable", "result": "PASS"},
+    {"nodeid": "tests/unit/test_public_api_contract.py::test_reference_pages_match_the_0_2_12_api_candidate", "command": "python -m pytest -q tests/unit/test_public_api_contract.py::test_reference_pages_match_the_0_2_12_api_candidate", "result": "PASS"},
+    {"nodeid": "tests/unit/test_public_api_contract.py::test_public_facade_matches_documented_export_inventory", "command": "python -m pytest -q tests/unit/test_public_api_contract.py::test_public_facade_matches_documented_export_inventory", "result": "PASS"},
+    {"nodeid": "tests/unit/test_public_api_contract.py::test_documented_stability_classification_covers_every_export", "command": "python -m pytest -q tests/unit/test_public_api_contract.py::test_documented_stability_classification_covers_every_export", "result": "PASS"},
+    {"nodeid": "tests/unit/test_save_result_cli_overwrite.py::test_solve_cli_overwrite_is_opt_in", "command": "python -m pytest -q tests/unit/test_save_result_cli_overwrite.py::test_solve_cli_overwrite_is_opt_in", "result": "PASS"},
+    {"nodeid": "tests/unit/test_save_result_cli_overwrite.py::test_all_json_result_cli_commands_expose_overwrite", "command": "python -m pytest -q tests/unit/test_save_result_cli_overwrite.py::test_all_json_result_cli_commands_expose_overwrite", "result": "PASS"},
+    {"nodeid": "tests/unit/test_save_result_cli_overwrite.py::test_solve_cli_forwards_explicit_overwrite_without_solving", "command": "python -m pytest -q tests/unit/test_save_result_cli_overwrite.py::test_solve_cli_forwards_explicit_overwrite_without_solving", "result": "PASS"},
+    {"nodeid": "tests/unit/test_verification_cli_contracts.py::test_readiness_promotion_owner_and_qualification_commands", "command": "python -m pytest -q tests/unit/test_verification_cli_contracts.py::test_readiness_promotion_owner_and_qualification_commands", "result": "PASS"}
+  ],
+  "save_result_compatibility": {
+    "historical_behavior": "Two-argument save_result replaced an existing JSON path.",
+    "behavior_at_review_start": "Two-argument save_result refused an existing path.",
+    "resolution": "Keep refusal by default; add keyword-only overwrite=True and CLI --overwrite for intentional replacement; update the existing repeated-output CLI integration fixture.",
+    "migration_limit": "Existing clients that relied on implicit replacement must add overwrite=True or --overwrite.",
+    "tests": [
+      "tests/unit/test_public_api_contract.py::test_public_save_result_refuses_to_overwrite_an_existing_path",
+      "tests/unit/test_public_api_contract.py::test_public_save_result_can_explicitly_overwrite_an_existing_path",
+      "tests/unit/test_save_result_cli_overwrite.py::test_solve_cli_forwards_explicit_overwrite_without_solving"
+    ],
+    "fem_integration_test_execution": "NOT_RUN"
+  },
+  "additional_checks": [
+    {"command": "python -m ruff check src/solveur/api/public.py src/solveur/cli/main.py src/solveur/cli/standard.py src/solveur/cli/large.py src/solveur/cli/verification.py src/solveur/io/json_writer.py tests/unit/test_json_io.py tests/unit/test_public_api_contract.py tests/unit/test_save_result_cli_overwrite.py tests/unit/test_verification_cli_contracts.py", "result": "PASS", "summary": "All checks passed."},
+    {"command": "python -m py_compile on changed source and unit test files", "result": "PASS"},
+    {"command": "Python import smoke for qf_solver and CLI parser with --overwrite", "result": "PASS", "summary": "77 public exports; overwrite flag parsed as true."},
+    {"command": "git diff --cached --check for tested source/API commit", "result": "PASS"},
+    {"command": "WP11 dossier validation: JSON parse, 9-row TSV shape, local Markdown links, and trailing-whitespace scan", "result": "PASS"}
+  ],
+  "historical_evidence": {
+    "prior_manifest": "qualification/0_2_12/wp11_final/regression_manifest.json",
+    "prior_test_summary": "14 passed, 0 failed, 0 skipped; source revision 81a139399077952c4adc2c6c4946529ce6372231; no FEM execution.",
+    "prior_manifest_modified": false
+  },
+  "exclusions": {
+    "fem_assembly_or_solve": "NOT_RUN",
+    "reason": "Owner assigned numerical V&V and performance to WP12; any additional FEM execution requires a separate frozen manifest and authorization.",
+    "other_excluded_work": ["WP12", "WP13", "Docker", "MPI", "external solvers", "merge to main", "tag", "package or site publication"]
+  }
+}

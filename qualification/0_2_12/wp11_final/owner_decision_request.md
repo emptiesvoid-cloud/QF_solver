@@ -1,5 +1,11 @@
 # WP11 — Décisions demandées à l’Owner
 
+> **Archive de la demande initiale, supersédée le 2026-10-25.** Les cinq
+> questions ci-dessous ont reçu les décisions consignées dans
+> [`owner_decision_record.md`](owner_decision_record.md). La recommandation
+> `OPEN_WITH_ACTIONS` et les questions non résolues ci-après décrivent l’état
+> avant la décision Owner; elles ne constituent pas le verdict courant.
+
 ## Proposition de l’équipe
 
 Conserver le statut officiel `WP11=OPEN` jusqu’à la décision Owner. Le dossier relève les contrats et intégrations présents, corrige quatre défauts démontrés de sérialisation/écriture et passe les tests non-FEM sélectionnés. La catégorie de rapport proposée est **`OPEN_WITH_ACTIONS`** : le gate opérationnel « complet » n’a pas de critères d’acceptation détaillés approuvés dans les documents consultés, et aucune campagne FEM n’a été autorisée par un manifeste gelé.

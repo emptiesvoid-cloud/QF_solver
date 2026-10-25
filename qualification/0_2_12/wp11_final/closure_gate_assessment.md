@@ -1,39 +1,63 @@
-# WP11 — Évaluation du gate de clôture
+# WP11 v0.2.12 — Évaluation du gate de clôture
 
-## Conclusion
+## Verdict
 
-**Décision de rapport : `OPEN_WITH_ACTIONS`.** L’inventaire de la façade, les contrats documentés, les tests de sérialisation synthétiques et les corrections P2 exécutables sont démontrés. Le gate global d’intégration reste ouvert : la roadmap exige un gate complet sans en publier une matrice d’acceptation détaillée, aucune revue Owner de clôture n’est enregistrée et aucun test d’intégration FEM n’a été exécuté sous un manifeste d’exécution autorisé et gelé.
+**Verdict : `CLOSE` — WP11 opérationnel d’intégration API, résultats et sérialisation.**
+Les critères acceptés par l’Owner sont satisfaits selon la
+[`matrice d’acceptation`](wp11_acceptance_matrix.tsv) et les résultats de tests
+du [`manifeste de suivi`](owner_decision_followup_manifest.json). Le statut
+officiel a été maintenu `WP11=OPEN` pendant les contrôles, puis clôturé pour ce
+seul gate opérationnel v0.2.12 après leur réussite.
 
-Ce libellé est une catégorie de ce rapport. Il n’est pas ajouté à la roadmap comme statut normatif.
+## Motifs et références exactes
 
-## État des critères
+- L’inventaire public (77 exports : 30 `STABLE`, 47 `PROVISIONAL`), la
+  classification, les signatures et les références 0.2.12 sont couverts par
+  les tests `tests/unit/test_public_api_contract.py::test_public_facade_matches_documented_export_inventory`,
+  `tests/unit/test_public_api_contract.py::test_documented_stability_classification_covers_every_export`,
+  `tests/unit/test_public_api_contract.py::test_critical_workflow_signatures_are_stable` et
+  `tests/unit/test_public_api_contract.py::test_reference_pages_match_the_0_2_12_api_candidate`.
+- Les contrats versionnés et refus ciblés sont étayés par les tests référencés
+  dans `regression_manifest.json` et la matrice : round-trips Modal-Newmark,
+  réduit et D01; intégrité HDF5; métadonnées harmoniques alignées; refus JSON.
+- Le changement de comportement historique de `save_result` est vérifié et
+  déclaré. Les cibles nouvelles conservent le chemin à deux arguments; le
+  remplacement existant requiert `overwrite=True` ou `--overwrite`. Les tests
+  `tests/unit/test_public_api_contract.py::test_public_save_result_refuses_to_overwrite_an_existing_path`,
+  `tests/unit/test_public_api_contract.py::test_public_save_result_can_explicitly_overwrite_an_existing_path`,
+  `tests/unit/test_save_result_cli_overwrite.py::test_solve_cli_overwrite_is_opt_in`,
+  `tests/unit/test_save_result_cli_overwrite.py::test_solve_cli_forwards_explicit_overwrite_without_solving` et
+  `tests/unit/test_save_result_cli_overwrite.py::test_all_json_result_cli_commands_expose_overwrite`
+  vérifient le refus par défaut, l’écrasement explicite et le passage du flag
+  CLI sans solveur.
+- Les pages API gardent `status: controlled_candidate` et contiennent le nom du
+  reviewer, la décision Owner datée et la limite « pas une approbation de
+  release ». La roadmap conserve les états scientifiques séparés.
 
-| Critère | État | Preuve et limite |
-| --- | --- | --- |
-| Identité de départ | **PASS** | Branche `emptiesvoids-cloud/0.2.12`, origin attendu, HEAD initial `4bd6abb704f39cda758a3f0a36d8cd71d81da554`; identité/push consignés dans le rapport de livraison. |
-| Façade publique et stabilité | **PASS ciblé** | 77 exports, 30 `STABLE` et 47 `PROVISIONAL`; tests inventaire, classification, signatures critiques et documentation candidat passés. |
-| Entrées et résultats documentés | **PASS documentaire** | JSON modèle v1 et limites `.inp` documentés; résultats ordinaires propres aux analyses; aucune exigence trouvée pour un schéma universel ou `load_result()`. |
-| Contrats de résultat versionnés | **PASS ciblé** | Modal-Newmark, harmonique réduit, wrapper D01, D02 et HDF5 ont chacun leur contrat; round-trips synthétiques Modal-Newmark, réduit, D01 et HDF5 sélectionnés passent. |
-| Absence de corruption silencieuse | **PASS pour les défauts reproduits** | Refus JSON sur cible existante; course de création HDF5 ne supprime pas le fichier concurrent; HarmonicResult refuse des listes désalignées; métadonnées dérivées incohérentes v1 refusées. |
-| Provenance, complexité et identités | **PARTIEL** | Les DTO et checkpoints conservent les identités déclarées et les phasors réel/imaginaire. Seuls les contrats ciblés ont été testés; aucun flux de calcul ou checkpoint complet n’a été exécuté. |
-| Maturités et statuts scientifiques | **PASS comme préservation** | C01, C02, D01, D02 et E01 restent limités aux états propres documentés. Aucun résultat de ce dossier ne les promeut. |
-| Gate d’intégration complet | **OUVERT** | Aucune campagne FEM réduite n’a été lancée; aucun nouveau manifeste avec entrées gelées, budget, allowlist de nodeids et décision Owner n’a été fourni. Les tests historiques n’ont pas été rejoués. |
-| Décision de clôture | **OUVERTE** | La reprise est autorisée par la mission, mais la clôture administrative ou scientifique appartient à l’Owner. La décision sur les formats hétérogènes et le séquencement est demandée ci-dessous. |
+Les nodeids, commandes, environnement, résultat Ruff et contrôles locaux sont
+consignés dans `owner_decision_followup_manifest.json`, avec le SHA exact du
+commit source testé. Le manifeste historique
+[`regression_manifest.json`](regression_manifest.json) est conservé intact.
 
-## Findings
+## Réserves documentaires et limites de preuve
 
-- **P0 : aucun identifié** dans les audits API et sérialisation exécutés.
-- **P1 : aucun défaut WP11 de code identifié** dans ce périmètre. Les limites scientifiques E01 et les gates D01 non acquis demeurent des limites des work packages propriétaires.
-- **P2 corrigés :** remplacement silencieux de JSON, suppression possible d’un fichier HDF5 concurrent, troncation par `zip()` d’un résultat harmonique, et métadonnées dérivées contradictoires dans deux DTO versionnés.
-- **P2 résiduel :** certains types visibles dans la signature de `FiniteElementModel` ne sont pas exportés comme symboles autonomes par la façade. `load_model()` est le chemin documenté et les signatures existantes concordent; décision d’ergonomie non bloquante.
-- **Décision Owner résiduelle :** suffisance des contrats résultat hétérogènes et portée du séquencement D01/C02 au regard du gate WP11.
+- Les intégrations qui appelaient `save_result(result, path)` pour remplacer
+  implicitement un fichier doivent ajouter `overwrite=True`. Le test
+  d’intégration FEM existant a été migré vers `--overwrite`, mais son exécution
+  n’a pas été autorisée dans cette mission.
+- Aucun solveur ni assemblage FEM n’a été exécuté. Les tests de suivi sont
+  synthétiques ou vérifient les contrats CLI/API sans lancer de calcul. Cela
+  laisse hors preuve les campagnes V&V numériques, les performances et les
+  résultats de calcul de bout en bout; ces sujets relèvent de WP12 ou d’un
+  manifeste et d’une autorisation dédiés.
+- Les DTO ordinaires n’ont toujours pas de schéma universel ni de
+  `load_result()` générique, conformément à la décision Owner. Les règles de
+  refus, versions, capacités et limites propres aux contrats sont maintenues.
 
-## Tests et exclusions
+## Frontières administratives et scientifiques
 
-Quatorze fonctions de test explicites ont réussi, avec zéro échec et zéro saut. Elles couvrent l’inventaire/API, les refus, les DTO synthétiques D01/Modal-Newmark/harmonique et l’I/O HDF5. Ruff, compilation/import ciblés et `git diff --check` réussissent également. Les nodeids exacts et commandes figurent dans `regression_manifest.json`.
-
-Aucun assemblage FEM ou solveur n’a tourné. Les tests de campagnes, les simulations D02/C01/C02/E01, la dynamique réduite, les campagnes grandes tailles, Docker, MPI et solveurs externes sont exclus. Ils ne peuvent pas être remplacés par les round-trips synthétiques. Un gate d’intégration qui exige une exécution FEM reste à démontrer avec un mandat concret gelant l’identité source et des entrées, le budget et les nodeids autorisés.
-
-## Proposition
-
-Maintenir `WP11=OPEN` en attendant les réponses Owner dans `owner_decision_request.md` et, si exigé, un mandat ciblé d’intégration FEM. Ce dossier n’inscrit aucun nouveau statut à la roadmap et ne modifie pas le ledger historique.
+La clôture concerne uniquement le gate API/intégration WP11 v0.2.12. D01 reste
+`INCONCLUSIVE`; C02 reste `CLOSED_BOUNDED` uniquement sur AR/N03; E01 reste
+`OPEN_WITH_BOUNDED_CERTIFICATES`. Aucune qualification ou promotion
+scientifique n’en découle. WP12 et WP13 ne sont pas lancés. Aucun merge vers
+`main`, tag, package ou site n’est réalisé dans cette mission.
