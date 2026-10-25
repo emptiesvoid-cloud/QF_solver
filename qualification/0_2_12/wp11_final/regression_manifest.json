@@ -1,0 +1,70 @@
+{
+  "schema": "qf-wp11-regression-manifest/v1",
+  "execution_date_utc": "2026-10-25",
+  "scope": "WP11 operational API, result serialization, and integration contract; non-qualifying regression evidence",
+  "baseline": {
+    "branch": "emptiesvoids-cloud/0.2.12",
+    "source_sha": "4bd6abb704f39cda758a3f0a36d8cd71d81da554",
+    "origin": "https://github.com/emptiesvoid-cloud/QF_solver.git",
+    "remote_branch_sha_before_commit": "4bd6abb704f39cda758a3f0a36d8cd71d81da554"
+  },
+  "tested_source": {
+    "commit_sha": "81a139399077952c4adc2c6c4946529ce6372231",
+    "commit_subject": "Complete WP11 API and serialization audit",
+    "author": "Quentin Farinazzo <284553195+emptiesvoid-cloud@users.noreply.github.com>",
+    "committer": "Quentin Farinazzo <284553195+emptiesvoid-cloud@users.noreply.github.com>",
+    "worktree_state_at_test_start": "clean",
+    "package_metadata_version": "0.2.11",
+    "api_documentation_candidate": "0.2.12"
+  },
+  "environment": {
+    "platform": "Windows (win32)",
+    "python": "3.13.1",
+    "pytest": "8.4.1",
+    "h5py": "3.14.0",
+    "ruff": "0.15.20",
+    "git": "2.54.0.windows.1"
+  },
+  "test_policy": "One exact pytest nodeid per command. Synthetic DTO and serialization tests only; no FEM assembly or solve was executed.",
+  "pytest_summary": {
+    "pass": 14,
+    "fail": 0,
+    "skip": 0,
+    "concurrent_wall_time_seconds": 10.8,
+    "sum_of_reported_node_elapsed_seconds": 46.57
+  },
+  "pytest_nodes": [
+    {"nodeid": "tests/unit/test_json_io.py::test_json_writer_saves_result", "command": "python -m pytest -q tests/unit/test_json_io.py::test_json_writer_saves_result", "result": "PASS", "elapsed_seconds": 2.45},
+    {"nodeid": "tests/unit/test_json_io.py::test_json_writer_refuses_to_overwrite_existing_result", "command": "python -m pytest -q tests/unit/test_json_io.py::test_json_writer_refuses_to_overwrite_existing_result", "result": "PASS", "elapsed_seconds": 2.45},
+    {"nodeid": "tests/unit/test_public_api_contract.py::test_public_save_result_refuses_to_overwrite_an_existing_path", "command": "python -m pytest -q tests/unit/test_public_api_contract.py::test_public_save_result_refuses_to_overwrite_an_existing_path", "result": "PASS", "elapsed_seconds": 4.38},
+    {"nodeid": "tests/unit/test_result_serialization_contracts.py::test_versioned_experimental_result_dtos_round_trip_without_solver_execution", "command": "python -m pytest -q tests/unit/test_result_serialization_contracts.py::test_versioned_experimental_result_dtos_round_trip_without_solver_execution", "result": "PASS", "elapsed_seconds": 2.43},
+    {"nodeid": "tests/unit/test_result_serialization_contracts.py::test_harmonic_result_rejects_mismatched_frequency_and_response_counts", "command": "python -m pytest -q tests/unit/test_result_serialization_contracts.py::test_harmonic_result_rejects_mismatched_frequency_and_response_counts", "result": "PASS", "elapsed_seconds": 2.63},
+    {"nodeid": "tests/unit/test_mixed_results_hdf5_io.py::test_hdf5_writer_reader_round_trip_has_stable_semantic_digest", "command": "python -m pytest -q tests/unit/test_mixed_results_hdf5_io.py::test_hdf5_writer_reader_round_trip_has_stable_semantic_digest", "result": "PASS", "elapsed_seconds": 2.52},
+    {"nodeid": "tests/unit/test_mixed_results_hdf5_io.py::test_hdf5_writer_does_not_remove_file_created_by_competing_writer", "command": "python -m pytest -q tests/unit/test_mixed_results_hdf5_io.py::test_hdf5_writer_does_not_remove_file_created_by_competing_writer", "result": "PASS", "elapsed_seconds": 2.61},
+    {"nodeid": "tests/unit/test_public_api_contract.py::test_public_facade_matches_documented_export_inventory", "command": "python -m pytest -q tests/unit/test_public_api_contract.py::test_public_facade_matches_documented_export_inventory", "result": "PASS", "elapsed_seconds": 4.36},
+    {"nodeid": "tests/unit/test_public_api_contract.py::test_documented_stability_classification_covers_every_export", "command": "python -m pytest -q tests/unit/test_public_api_contract.py::test_documented_stability_classification_covers_every_export", "result": "PASS", "elapsed_seconds": 4.34},
+    {"nodeid": "tests/unit/test_public_api_contract.py::test_reference_pages_match_the_0_2_12_api_candidate", "command": "python -m pytest -q tests/unit/test_public_api_contract.py::test_reference_pages_match_the_0_2_12_api_candidate", "result": "PASS", "elapsed_seconds": 4.41},
+    {"nodeid": "tests/unit/test_public_api_contract.py::test_critical_workflow_signatures_are_stable", "command": "python -m pytest -q tests/unit/test_public_api_contract.py::test_critical_workflow_signatures_are_stable", "result": "PASS", "elapsed_seconds": 4.42},
+    {"nodeid": "tests/unit/test_wp_d01_residual_flexibility.py::test_opt_in_configuration_is_strict_and_disabled_is_default_compatible", "command": "python -m pytest -q tests/unit/test_wp_d01_residual_flexibility.py::test_opt_in_configuration_is_strict_and_disabled_is_default_compatible", "result": "PASS", "elapsed_seconds": 2.47},
+    {"nodeid": "tests/unit/test_wp_d01_residual_flexibility.py::test_versioned_result_wrapper_round_trips_without_rewriting_wp05_v1", "command": "python -m pytest -q tests/unit/test_wp_d01_residual_flexibility.py::test_versioned_result_wrapper_round_trips_without_rewriting_wp05_v1", "result": "PASS", "elapsed_seconds": 2.59},
+    {"nodeid": "tests/unit/test_gate_b_release_surface.py::test_hdf5_api_smoke_with_optional_dependency", "command": "python -m pytest -q tests/unit/test_gate_b_release_surface.py::test_hdf5_api_smoke_with_optional_dependency", "result": "PASS", "elapsed_seconds": 4.51}
+  ],
+  "additional_checks": [
+    {"command": "python -m ruff check src/solveur/io/json_writer.py src/solveur/io/mixed_results_hdf5.py src/solveur/core/results.py tests/unit/test_json_io.py tests/unit/test_result_serialization_contracts.py tests/unit/test_mixed_results_hdf5_io.py tests/unit/test_public_api_contract.py", "result": "PASS", "summary": "All checks passed."},
+    {"command": "python -m py_compile src/solveur/io/json_writer.py src/solveur/io/mixed_results_hdf5.py src/solveur/core/results.py tests/unit/test_json_io.py tests/unit/test_result_serialization_contracts.py tests/unit/test_mixed_results_hdf5_io.py tests/unit/test_public_api_contract.py", "result": "PASS"},
+    {"command": "python -c import smoke for qf_solver, HarmonicResult, ModalNewmarkResult, ReducedHarmonicResult, and write_mixed_results_hdf5", "result": "PASS"},
+    {"command": "git diff --check", "result": "PASS"},
+    {"command": "tracked employer-name scan (case insensitive)", "result": "PASS", "summary": "No tracked-file matches at tested source revision."}
+  ],
+  "exclusions": {
+    "fem_assembly_or_solve": "NOT_RUN",
+    "reason": "No distinct Owner execution manifest fixed the source/input identities, budget, and exact authorized FEM nodeids.",
+    "other_excluded_work": ["WP12", "WP13", "Docker", "MPI", "external solvers", "release or site publication"]
+  },
+  "privacy": {
+    "new_or_modified_files_scanned": true,
+    "employer_reference_matches": 0,
+    "absolute_personal_paths_added": 0,
+    "historical_personal_path_artifact_groups_modified": 0
+  }
+}
