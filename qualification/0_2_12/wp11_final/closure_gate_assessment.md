@@ -53,6 +53,10 @@ commit source testé. Le manifeste historique
 - Les DTO ordinaires n’ont toujours pas de schéma universel ni de
   `load_result()` générique, conformément à la décision Owner. Les règles de
   refus, versions, capacités et limites propres aux contrats sont maintenues.
+- Les métadonnées du package indiquent encore `0.2.11`, tandis que les pages API
+  sont un candidat documentaire `0.2.12`. La synchronisation de version et la
+  publication restent hors de cette clôture; les pages conservent le statut
+  `controlled_candidate`.
 
 ## Frontières administratives et scientifiques
 
