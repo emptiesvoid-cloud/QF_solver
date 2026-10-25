@@ -11,7 +11,9 @@ from solveur.core.errors import InputValidationError
 class JsonResultWriter:
     """Serialize solve results with stable formatting."""
 
-    def write(self, result: object, path: str | Path) -> None:
+    def write(self, result: object, path: str | Path, *, overwrite: bool = False) -> None:
+        if type(overwrite) is not bool:
+            raise InputValidationError("overwrite must be a bool")
         target = Path(path)
         target.parent.mkdir(parents=True, exist_ok=True)
         try:
@@ -19,7 +21,9 @@ class JsonResultWriter:
         except (TypeError, ValueError) as exc:
             raise InputValidationError(f"Cannot serialize solve result as finite JSON: {exc}") from exc
         try:
-            with target.open("x", encoding="utf-8") as handle:
+            with target.open("w" if overwrite else "x", encoding="utf-8") as handle:
                 handle.write(serialized)
         except FileExistsError as exc:
+            if overwrite:
+                raise
             raise InputValidationError(f"Refusing to overwrite existing solve result JSON: {target}") from exc

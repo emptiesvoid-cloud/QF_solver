@@ -169,7 +169,7 @@ def test_readiness_promotion_owner_and_qualification_commands(monkeypatch, tmp_p
         checks=[SimpleNamespace(status="FAIL", identifier="r1", detail="missing")],
     )
     monkeypatch.setattr(verification, "qualification_readiness", lambda *_: readiness)
-    monkeypatch.setattr(verification, "save_result", lambda *_: None)
+    monkeypatch.setattr(verification, "save_result", lambda *_, **__: None)
     assert verification.command_qualification_readiness(
         Namespace(scope="scope", registry="registry.json", json_report=tmp_path / "readiness.json")
     ) == int(ExitCode.ACCEPTED)

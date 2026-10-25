@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import inspect
+import json
 from pathlib import Path
 
 import pytest
@@ -159,6 +160,11 @@ def test_reference_pages_match_the_0_2_12_api_candidate() -> None:
     assert "public API surface of QF Solver 0.2.12" in stability
     assert "qf-dynamic-solid-stress/v1" in api_contract
     assert "qf-dynamic-solid-stress/v1" in stability
+    for text in (api_contract, stability):
+        assert "status: controlled_candidate" in text
+        assert 'reviewer: "GPT-6 Luna — WP11 contract review (2026-10-25)"' in text
+        assert 'approver: "Owner — WP11 policy decision (2026-10-25; not release approval)"' in text
+        assert "Review and approval record" in text
     # Retain route history: 0.2.11 is still named as the introduction version.
     assert "Version 0.2.11 added" in api_contract
 
@@ -168,7 +174,7 @@ def test_critical_workflow_signatures_are_stable() -> None:
         "load_model": "(path: 'str | Path') -> 'FiniteElementModel'",
         "check_mesh": "(model: 'FiniteElementModel') -> 'MeshReport'",
         "solve_model": "(model: 'FiniteElementModel', *, enforce_policy: 'bool' = True, telemetry: 'TelemetryEmitter | None' = None) -> 'object'",
-        "save_result": "(result: 'object', path: 'str | Path') -> 'None'",
+        "save_result": "(result: 'object', path: 'str | Path', *, overwrite: 'bool' = False) -> 'None'",
     }
     for name, signature in expected.items():
         assert str(inspect.signature(getattr(qf_solver, name))) == signature
@@ -218,6 +224,19 @@ def test_public_save_result_refuses_to_overwrite_an_existing_path(tmp_path: Path
         qf_solver.save_result(Result(), target)
 
     assert target.read_text(encoding="utf-8") == '{"preserved": true}'
+
+
+def test_public_save_result_can_explicitly_overwrite_an_existing_path(tmp_path: Path) -> None:
+    class Result:
+        def to_dict(self) -> dict[str, str]:
+            return {"status": "PASS"}
+
+    target = tmp_path / "result.json"
+    target.write_text('{"old": true}', encoding="utf-8")
+
+    qf_solver.save_result(Result(), target, overwrite=True)
+
+    assert json.loads(target.read_text(encoding="utf-8")) == {"status": "PASS"}
 
 
 def test_public_recover_solid_stress_forwards_arguments(monkeypatch: pytest.MonkeyPatch) -> None:

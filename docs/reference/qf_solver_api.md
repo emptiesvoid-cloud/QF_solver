@@ -1,10 +1,10 @@
 ---
 doc_id: DOC-REF-API-003
-revision: 1.1
+revision: 1.2
 status: controlled_candidate
 applicable_version: 0.2.12
-reviewer: ""
-approver: ""
+reviewer: "GPT-6 Luna — WP11 contract review (2026-10-25)"
+approver: "Owner — WP11 policy decision (2026-10-25; not release approval)"
 ---
 
 # `qf_solver` public API contract
@@ -14,6 +14,15 @@ This page documents the public `qf_solver` API for release 0.2.12.
 This page is the concise contract for the Python surface exported by
 `qf_solver`. New integrations should use this namespace. Implementation
 modules and private names under `solveur` are not public API.
+
+## Review and approval record
+
+Reviewed for the WP11 v0.2.12 acceptance scope by GPT-6 Luna on 2026-10-25.
+The Owner decision of 2026-10-25 approves heterogeneous documented result
+DTOs and keeps the scientific statuses at their existing bounded states. This
+approval covers the WP11 contract policy only; it does not approve package
+publication or close a scientific qualification. This page remains a
+`controlled_candidate` pending the separate release-document control process.
 
 The contract is additive for the 0.2.x line. A symbol marked `PROVISIONAL` is
 importable and supported for the current documented use, but its signature or
@@ -84,13 +93,17 @@ solve_model(model: FiniteElementModel, *, enforce_policy: bool = True) -> object
 ### `save_result`
 
 ```python
-save_result(result: object, path: str | Path) -> None
+save_result(result: object, path: str | Path, *, overwrite: bool = False) -> None
 ```
 
 - `result`: result object returned by `solve_model`.
 - `path`: JSON output path, as `str` or `pathlib.Path`.
-- Returns `None` after writing a finite JSON result to a new path.
-- Refuses to overwrite an existing path and raises `InputValidationError`.
+- Returns `None` after writing a finite JSON result. By default, it creates a
+  new path and refuses an existing path with `InputValidationError`.
+- `overwrite=True` explicitly replaces an existing JSON result. Existing
+  integrations that relied on the former implicit replacement behavior must
+  pass this keyword when reusing a path. Calls using two positional arguments
+  remain valid when the target is new.
 - Raises `InputValidationError` when a result exposing `to_dict()` cannot be
   serialized as finite JSON; an object without `to_dict()` is ordinary caller
   misuse and raises `AttributeError`. Other filesystem errors remain ordinary
@@ -162,7 +175,7 @@ return annotation is the documented return type where one is available.
 - `save_audit_markdown(result_or_audit: object, path: str | Path) -> None` — write an audit report; `STABLE`.
 - `save_evidence(model: FiniteElementModel, result: object, directory: str | Path, *, input_path: str | Path | None = None) -> dict[str, Path]` — write a reproducible evidence bundle; `STABLE`.
 - `save_model(model: FiniteElementModel, path: str | Path) -> None` — write strict model JSON; `STABLE`.
-- `save_result(result: object, path: str | Path) -> None` — write result JSON; `STABLE`.
+- `save_result(result: object, path: str | Path, *, overwrite: bool = False) -> None` — write result JSON; `STABLE`.
 - `save_result_csv(result: object, directory: str | Path, model: FiniteElementModel | None = None) -> dict[str, Path]` — write result tables; `STABLE`.
 - `save_result_vtu(result: object, model: FiniteElementModel, path: str | Path) -> None` — write an ASCII VTU result; `STABLE`.
 - `solve_model(model: FiniteElementModel, *, enforce_policy: bool = True) -> object` — solve through the public router; `STABLE`.
