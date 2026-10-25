@@ -331,7 +331,6 @@ class NonlinearCheckpointSession:
             from solveur.elements.solid.corotational_j2 import (
                 CORRECTED_COROTATIONAL_J2,
                 CORRECTED_COROTATIONAL_STATE,
-                CORRECTED_TANGENT_STRATEGY_VERSION,
             )
 
             corrected_states = checkpoint.material_states
@@ -353,7 +352,8 @@ class NonlinearCheckpointSession:
                 raise InputValidationError(
                     "Corrected corotational restart requires an explicitly versioned corrected checkpoint."
                 )
-            if checkpoint.migration_metadata.get("tangent_strategy_version") != CORRECTED_TANGENT_STRATEGY_VERSION:
+            expected_tangent_version = _expected_corrected_tangent_strategy_version(self.model)
+            if checkpoint.migration_metadata.get("tangent_strategy_version") != expected_tangent_version:
                 raise InputValidationError(
                     "Corrected corotational restart requires a checkpoint bound to the current tangent strategy."
                 )
@@ -520,13 +520,25 @@ def _formulation_checkpoint_metadata(model: FiniteElementModel | None) -> dict[s
         "corrected_corotational_biot_j2/v1"
     ):
         return {}
-    from solveur.elements.solid.corotational_j2 import CORRECTED_TANGENT_STRATEGY_VERSION
-
     return {
         "formulation_id": "corrected_corotational_biot_j2/v1",
         "constitutive_state_version": "corotational_j2_state/v2",
-        "tangent_strategy_version": CORRECTED_TANGENT_STRATEGY_VERSION,
+        "tangent_strategy_version": _expected_corrected_tangent_strategy_version(model),
     }
+
+
+def _expected_corrected_tangent_strategy_version(model: FiniteElementModel) -> str:
+    """Resolve checkpoint strategy identity through the same fail-closed selector as assembly."""
+    from solveur.core.assembly.nonlinear import (
+        validate_corotational_formulation,
+        validate_corotational_tangent_strategy,
+    )
+    from solveur.elements.solid.corotational_j2 import corrected_tangent_strategy_version
+
+    kinematics = str(model.analysis.parameters.get("kinematics", "small_strain")).lower()
+    formulation = validate_corotational_formulation(model)
+    strategy = validate_corotational_tangent_strategy(model, kinematics, formulation)
+    return corrected_tangent_strategy_version(strategy)
 
 
 def _checkpoint_identity_metadata(

@@ -15,6 +15,7 @@ from scipy.sparse import csr_matrix
 from solveur.core.errors import NumericalConvergenceError
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.core.nonlinear.robustness import UnifiedNonlinearRobustnessController
+from solveur.core.nonlinear.corotational_guard_diagnostics import bind_newton_trial_guard_context
 from solveur.core.nonlinear.state import NonlinearState, NonlinearStateTransaction
 from solveur.core.nonlinear.telemetry import (
     NonlinearTelemetryObserver,
@@ -442,6 +443,7 @@ class UnifiedNewtonEngine:
         accepted_state_callback: Callable[[int, NonlinearState], None] | None = None,
         telemetry_observer: NonlinearTelemetryObserver | None = None,
         floor_aware_evidence: FloorAwareEvidence | None = None,
+        diagnostic_increment: int | None = None,
     ) -> UnifiedNewtonResult:
         """Solve the requested fixed load factors through one transaction lifecycle."""
 
@@ -496,6 +498,7 @@ class UnifiedNewtonEngine:
                     robustness_controller=policy,
                     telemetry_observer=telemetry_observer,
                     floor_aware_evidence=floor_aware_evidence,
+                    diagnostic_increment=diagnostic_increment,
                 )
                 if accepted_state_callback is not None:
                     accepted_state_callback(step, transaction.accepted_state.detached_copy())
@@ -601,6 +604,7 @@ class UnifiedNewtonEngine:
         robustness_controller: UnifiedNonlinearRobustnessController,
         telemetry_observer: NonlinearTelemetryObserver | None,
         floor_aware_evidence: FloorAwareEvidence | None,
+        diagnostic_increment: int | None = None,
     ) -> tuple[dict[str, Any], int]:
         trial = transaction.trial_state
         if trial is None:
@@ -622,6 +626,10 @@ class UnifiedNewtonEngine:
         correction_norms: list[float] = []
         relative_residual_history: list[float] = []
         contribution_diagnostics: Mapping[str, Mapping[str, Any]] = {}
+        guard_diagnostics_enabled = any(
+            bool(getattr(contribution, "corotational_guard_diagnostics_enabled", False))
+            for contribution in contributions
+        )
         stagnation_diagnostics: dict[str, Any] | None = None
 
         def add_robustness_diagnostics(details: dict[str, Any]) -> dict[str, Any]:
@@ -635,7 +643,16 @@ class UnifiedNewtonEngine:
             iteration_started = perf_counter()
             assembly_started = perf_counter()
             try:
-                responses = tuple(contribution.evaluate(trial) for contribution in contributions)
+                with bind_newton_trial_guard_context(
+                    {
+                        "load_factor": float(load_factor),
+                        "increment": int(diagnostic_increment or step),
+                        "newton_iteration": iteration,
+                        "evaluation_state": "TRIAL",
+                    },
+                    enabled=guard_diagnostics_enabled,
+                ):
+                    responses = tuple(contribution.evaluate(trial) for contribution in contributions)
                 composite = compose_contribution_responses(responses)
                 contribution_diagnostics = composite.diagnostics
                 if apply_trial_state is not None:
@@ -889,7 +906,18 @@ class UnifiedNewtonEngine:
             else:
                 line_started = perf_counter()
                 try:
-                    updated, reductions, line_diagnostics = line_search(trial, free, correction, target, residual_norm)
+                    with bind_newton_trial_guard_context(
+                        {
+                            "load_factor": float(load_factor),
+                            "increment": int(diagnostic_increment or step),
+                            "newton_iteration": iteration,
+                            "evaluation_state": "TRIAL",
+                        },
+                        enabled=guard_diagnostics_enabled,
+                    ):
+                        updated, reductions, line_diagnostics = line_search(
+                            trial, free, correction, target, residual_norm
+                        )
                 except NumericalConvergenceError as exc:
                     line_elapsed = perf_counter() - line_started
                     line_search_seconds += line_elapsed

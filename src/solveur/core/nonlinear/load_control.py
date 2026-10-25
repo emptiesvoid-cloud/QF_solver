@@ -63,6 +63,9 @@ class _MaterialLoadControlContribution:
         self.first_internal: np.ndarray | None = None
         self.last_internal: np.ndarray | None = None
         self.last_updated_states: MaterialStateTable | None = None
+        self.corotational_guard_diagnostics_enabled = (
+            model.analysis.parameters.get("corotational_guard_diagnostics", False) is True
+        )
 
     def evaluate(self, state: NonlinearState) -> ContributionResponse:
         internal, tangent, updated_states = self.owner._assemble_internal_tangent(
@@ -429,6 +432,7 @@ class NonlinearLoadControlMixin:
             solver_name="nonlinear_static_unified_newton",
             stagnation_check=False,
             robustness_controller=robustness_controller,
+            diagnostic_increment=step,
         )
         final_state = result.state
         self._last_load_step_state = final_state.detached_copy()

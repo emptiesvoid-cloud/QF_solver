@@ -15,6 +15,7 @@ from solveur.core.nonlinear.material_state import MaterialStateTable, state_is_f
 from solveur.core.nonlinear.contracts import NonlinearFailureReason
 from solveur.core.model import FiniteElementModel
 from solveur.core.assembly.sparse import SparseCsrAccumulator
+from solveur.core.nonlinear.corotational_guard_diagnostics import emit_corotational_guard_event
 from solveur.contact.solver import assemble_penalty_contact
 from solveur.elements.registry import ElementRegistry, ElementSpec
 from solveur.elements.solid.total_lagrangian_j2 import (
@@ -25,6 +26,8 @@ from solveur.elements.solid.total_lagrangian_j2 import (
 )
 from solveur.elements.solid.corotational_j2 import (
     CORRECTED_COROTATIONAL_J2,
+    CORRECTED_TANGENT_FINITE_DIFFERENCE,
+    CORRECTED_TANGENT_POLAR_ANALYTIC,
     LEGACY_COROTATIONAL_J2,
     CorotationalJ2Hex8Element,
     CorotationalJ2Hex20Element,
@@ -57,6 +60,7 @@ def validate_corotational_formulation(model: FiniteElementModel) -> str:
     if kinematics != "corotational_j2":
         if selected is not None:
             raise InputValidationError("corotational_formulation is valid only when kinematics='corotational_j2'.")
+        validate_corotational_tangent_strategy(model, kinematics, LEGACY_COROTATIONAL_J2)
         return LEGACY_COROTATIONAL_J2
     formulation = LEGACY_COROTATIONAL_J2 if selected is None else str(selected)
     if formulation == CORRECTED_COROTATIONAL_J2:
@@ -70,10 +74,49 @@ def validate_corotational_formulation(model: FiniteElementModel) -> str:
         if model.contacts:
             raise InputValidationError("The corrected corotational J2 route does not support contact.")
         _corotational_strain_limit(model, kinematics)
+        validate_corotational_tangent_strategy(model, kinematics, formulation)
         return formulation
     if formulation != LEGACY_COROTATIONAL_J2:
         raise InputValidationError(f"Unknown corotational_formulation {formulation!r}.")
+    validate_corotational_tangent_strategy(model, kinematics, formulation)
     return formulation
+
+
+def validate_corotational_tangent_strategy(
+    model: FiniteElementModel,
+    kinematics: str | None = None,
+    formulation_id: str | None = None,
+) -> str:
+    """Resolve the opt-in tangent strategy without changing historical defaults.
+
+    ``j2_corotational_tangent=analytic_experimental`` selects the experimental
+    polar-Sylvester force+tangent map.  It is deliberately accepted only on
+    the corrected corotational J2 route; omission preserves the existing
+    finite-difference tangent behavior.
+    """
+
+    parameters = model.analysis.parameters
+    selected = parameters.get("j2_corotational_tangent")
+    resolved_kinematics = kinematics or str(parameters.get("kinematics", "small_strain")).lower()
+    resolved_formulation = formulation_id or (
+        LEGACY_COROTATIONAL_J2
+        if parameters.get("corotational_formulation") is None
+        else str(parameters.get("corotational_formulation"))
+    )
+    if selected is None:
+        return CORRECTED_TANGENT_FINITE_DIFFERENCE
+    if selected != "analytic_experimental":
+        raise InputValidationError(f"Unknown j2_corotational_tangent {selected!r}.")
+    if resolved_kinematics != "corotational_j2":
+        raise InputValidationError(
+            "j2_corotational_tangent is valid only when kinematics='corotational_j2'."
+        )
+    if resolved_formulation != CORRECTED_COROTATIONAL_J2:
+        raise InputValidationError(
+            "j2_corotational_tangent='analytic_experimental' requires "
+            "corotational_formulation='corrected'."
+        )
+    return CORRECTED_TANGENT_POLAR_ANALYTIC
 
 
 @dataclass(frozen=True)
@@ -103,6 +146,7 @@ class NonlinearAssemblyPlan:
     ndof: int
     kinematics: str
     corotational_formulation_id: str
+    corotational_tangent_strategy: str
     nonlinear_quadrature: str
     corotational_strain_limit: float
     elements: tuple[NonlinearAssemblyElement, ...]
@@ -111,6 +155,7 @@ class NonlinearAssemblyPlan:
         """Return whether the plan is safe to reuse for ``model`` and ``dofs``."""
         kinematics = str(model.analysis.parameters.get("kinematics", "small_strain")).lower()
         formulation_id = validate_corotational_formulation(model)
+        tangent_strategy = validate_corotational_tangent_strategy(model, kinematics, formulation_id)
         quadrature = str(model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")).lower()
         strain_limit = _corotational_strain_limit(model, kinematics)
         return (
@@ -121,6 +166,7 @@ class NonlinearAssemblyPlan:
             and len(self.elements) == len(model.elements)
             and self.kinematics == kinematics
             and self.corotational_formulation_id == formulation_id
+            and self.corotational_tangent_strategy == tangent_strategy
             and self.nonlinear_quadrature == quadrature
             and self.corotational_strain_limit == strain_limit
         )
@@ -134,6 +180,7 @@ def _create_nonlinear_element(
     nonlinear_quadrature: str,
     corotational_strain_limit: float,
     corotational_formulation_id: str = LEGACY_COROTATIONAL_J2,
+    corotational_tangent_strategy: str = CORRECTED_TANGENT_FINITE_DIFFERENCE,
 ) -> object:
     """Create one nonlinear kernel while keeping formulation dispatch local."""
     if finite_kinematics == "corotational_j2":
@@ -151,11 +198,13 @@ def _create_nonlinear_element(
                 nonlinear_quadrature=nonlinear_quadrature,
                 max_corotational_strain=corotational_strain_limit,
                 formulation_id=corotational_formulation_id,
+                corrected_tangent_strategy=corotational_tangent_strategy,
             )
         return element_class(
             material,
             max_corotational_strain=corotational_strain_limit,
             formulation_id=corotational_formulation_id,
+            corrected_tangent_strategy=corotational_tangent_strategy,
         )
     if finite_kinematics in {"total_lagrangian", "total_lagrangian_j2"}:
         element_class = {
@@ -181,6 +230,9 @@ def build_nonlinear_assembly_plan(
     """Prepare reusable nonlinear element kernels without retaining matrices."""
     finite_kinematics = str(model.analysis.parameters.get("kinematics", "small_strain")).lower()
     corotational_formulation_id = validate_corotational_formulation(model)
+    corotational_tangent_strategy = validate_corotational_tangent_strategy(
+        model, finite_kinematics, corotational_formulation_id
+    )
     nonlinear_quadrature = str(model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")).lower()
     corotational_strain_limit = _corotational_strain_limit(model, finite_kinematics)
     material_cache: dict[str, object] = {}
@@ -211,6 +263,7 @@ def build_nonlinear_assembly_plan(
                     nonlinear_quadrature,
                     corotational_strain_limit,
                     corotational_formulation_id,
+                    corotational_tangent_strategy,
                 ),
             )
         )
@@ -221,6 +274,7 @@ def build_nonlinear_assembly_plan(
         ndof=dofs.ndof,
         kinematics=finite_kinematics,
         corotational_formulation_id=corotational_formulation_id,
+        corotational_tangent_strategy=corotational_tangent_strategy,
         nonlinear_quadrature=nonlinear_quadrature,
         corotational_strain_limit=corotational_strain_limit,
         elements=tuple(entries),
@@ -241,6 +295,11 @@ def assemble_internal_tangent(
     if plan is not None and not plan.matches(model, dofs):
         raise InputValidationError("Nonlinear assembly plan does not match the supplied model and DDL map.")
     corotational_formulation_id = validate_corotational_formulation(model)
+    corotational_tangent_strategy = validate_corotational_tangent_strategy(
+        model,
+        str(model.analysis.parameters.get("kinematics", "small_strain")).lower(),
+        corotational_formulation_id,
+    )
     if timing is not None:
         timing.setdefault("element_kernel_calls", 0)
         timing.setdefault("contact_assembly_calls", 0)
@@ -295,6 +354,7 @@ def assemble_internal_tangent(
                 str(model.analysis.parameters.get("tet10_nonlinear_quadrature", "hammer4")),
                 corotational_strain_limit,
                 corotational_formulation_id,
+                corotational_tangent_strategy,
             )
             coords = model.nodes[list(definition.nodes)]
             edofs = np.asarray(
@@ -336,6 +396,26 @@ def assemble_internal_tangent(
             raise
         except ValueError as error:
             message = str(error)
+            if message.startswith("Corrected corotational small-strain bound exceeded: "):
+                route = (
+                    "analytic_experimental"
+                    if corotational_tangent_strategy == CORRECTED_TANGENT_POLAR_ANALYTIC
+                    else "corrected_fd"
+                )
+                norm_fro = getattr(error, "norm_fro", None)
+                limit = getattr(error, "limit", None)
+                if isinstance(norm_fro, float) and isinstance(limit, float):
+                    emit_corotational_guard_event(
+                        {
+                            "family": str(definition.type).upper(),
+                            "element_index_zero_based": element_index,
+                            "element_ordinal": element_index + 1,
+                            "route": route,
+                            "norm_u_minus_i_fro": norm_fro,
+                            "limit_u_minus_i_fro": limit,
+                            "reason": message,
+                        }
+                    )
             lowered = message.lower()
             reason = (
                 NonlinearFailureReason.MATERIAL_UPDATE_FAILURE

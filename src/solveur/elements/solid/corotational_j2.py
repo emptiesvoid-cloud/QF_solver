@@ -19,6 +19,7 @@ from __future__ import annotations
 from copy import deepcopy
 import hashlib
 import json
+import time
 from typing import TYPE_CHECKING, Any, Mapping
 
 import numpy as np
@@ -42,6 +43,35 @@ CORRECTED_RESULT_SCHEMA = "qf-solid-stress-results/v2"
 CORRECTED_TANGENT_RELATIVE_STEP = 1.0e-5
 CORRECTED_MAX_COORDINATE_RESOLUTION_RATIO = 1.0e-8
 CORRECTED_TANGENT_STRATEGY_VERSION = "origin_centered_scaled_geometry/v2"
+CORRECTED_TANGENT_FINITE_DIFFERENCE = "central_difference/v1"
+# This opt-in selects a distinct force+tangent map version because it always
+# recomputes return mapping; the default corrected map retains its accepted-
+# stress allclose shortcut and finite-difference tangent.
+CORRECTED_TANGENT_POLAR_ANALYTIC = "polar_sylvester_force_tangent/v1"
+CORRECTED_TANGENT_POLAR_ANALYTIC_VERSION = "polar_sylvester_force_tangent/v1"
+
+
+def _corotational_strain_limit_error(norm_fro: float, limit: float) -> ValueError:
+    """Build the historical ValueError and attach diagnostic values for the opt-in logger."""
+
+    norm_value = float(norm_fro)
+    limit_value = float(limit)
+    error = ValueError(
+        "Corrected corotational small-strain bound exceeded: "
+        f"||U-I||_F={norm_value:.6e} > {limit_value:.6e}."
+    )
+    error.norm_fro = norm_value  # type: ignore[attr-defined]
+    error.limit = limit_value  # type: ignore[attr-defined]
+    return error
+
+
+def corrected_tangent_strategy_version(strategy: str) -> str:
+    """Return the stable identity of the selected corrected force/tangent map."""
+    if strategy == CORRECTED_TANGENT_POLAR_ANALYTIC:
+        return CORRECTED_TANGENT_POLAR_ANALYTIC_VERSION
+    if strategy == CORRECTED_TANGENT_FINITE_DIFFERENCE:
+        return CORRECTED_TANGENT_STRATEGY_VERSION
+    raise ValueError(f"Unknown corrected corotational tangent strategy: {strategy!r}.")
 
 
 def _centered_corrected_reference_coordinates(
@@ -179,16 +209,22 @@ def _corrected_polar_kinematics(
             "orthogonality, symmetry or positive-stretch checks."
         )
     if strain_norm > max_local_strain:
-        raise ValueError(
-            f"Corrected corotational small-strain bound exceeded: ||U-I||_F={strain_norm:.6e} > {max_local_strain:.6e}."
-        )
+        raise _corotational_strain_limit_error(strain_norm, max_local_strain)
     return rotation, stretch, determinant
 
 
 def _polar_stretch_directional_derivative(
     rotation: np.ndarray, stretch: np.ndarray, delta_deformation: np.ndarray
 ) -> np.ndarray:
-    """Apply the exact right-polar differential using its skew Sylvester solve."""
+    """Apply the exact right-polar stretch differential."""
+
+    return _polar_rotation_stretch_directional_derivative(rotation, stretch, delta_deformation)[1]
+
+
+def _polar_rotation_stretch_directional_derivative(
+    rotation: np.ndarray, stretch: np.ndarray, delta_deformation: np.ndarray
+) -> tuple[np.ndarray, np.ndarray]:
+    """Return ``Omega=R.T dR`` and ``dU`` from the polar Sylvester solve."""
 
     rotation = np.asarray(rotation, dtype=float)
     stretch = np.asarray(stretch, dtype=float)
@@ -220,7 +256,42 @@ def _polar_stretch_directional_derivative(
     omega = basis @ omega_local @ basis.T
     local_frame_increment = rotation.T @ delta_deformation
     delta_stretch = local_frame_increment - omega @ stretch
-    return 0.5 * (delta_stretch + delta_stretch.T)
+    return omega, 0.5 * (delta_stretch + delta_stretch.T)
+
+
+def _polar_adjoint_stress_directional_derivative(
+    stretch: np.ndarray,
+    nominal_material: np.ndarray,
+    stress_increment: np.ndarray,
+    stretch_increment: np.ndarray,
+) -> np.ndarray:
+    """Differentiate the exact polar-adjoint map without differentiating eigenvectors.
+
+    If ``A = R.T @ P``, the force map satisfies ``A + A.T = 2*tau`` and
+    ``A @ U = U @ A.T``. Writing ``dA = dtau + W`` with skew ``W`` reduces
+    its second identity to a positive-denominator skew Sylvester equation.
+    """
+
+    u = np.asarray(stretch, dtype=float)
+    a = np.asarray(nominal_material, dtype=float)
+    dtau = np.asarray(stress_increment, dtype=float)
+    du = np.asarray(stretch_increment, dtype=float)
+    if any(value.shape != (3, 3) or not np.all(np.isfinite(value)) for value in (u, a, dtau, du)):
+        raise ValueError("Polar-adjoint differential inputs must be finite 3x3 tensors.")
+    eigenvalues, basis = np.linalg.eigh(u)
+    if float(np.min(eigenvalues)) <= 0.0:
+        raise ValueError("Polar-adjoint differential requires positive stretches.")
+    right = du @ a.T - a @ du + u @ dtau - dtau @ u
+    right = 0.5 * (right - right.T)
+    local_right = basis.T @ right @ basis
+    local_skew = np.zeros((3, 3), dtype=float)
+    for row in range(3):
+        for column in range(row + 1, 3):
+            value = local_right[row, column] / (eigenvalues[row] + eigenvalues[column])
+            local_skew[row, column] = value
+            local_skew[column, row] = -value
+    skew_increment = basis @ local_skew @ basis.T
+    return dtau + skew_increment
 
 
 def _corrected_first_piola_from_biot_stress(
@@ -560,6 +631,7 @@ class _CorotationalJ2Mixin:
         *,
         max_corotational_strain: float = 0.05,
         formulation_id: str = LEGACY_COROTATIONAL_J2,
+        corrected_tangent_strategy: str = CORRECTED_TANGENT_FINITE_DIFFERENCE,
         **kwargs: Any,
     ) -> None:
         if not np.isfinite(max_corotational_strain) or max_corotational_strain <= 0.0:
@@ -573,8 +645,16 @@ class _CorotationalJ2Mixin:
                 "Corrected corotational J2 requires the existing isotropic "
                 "VonMisesElastoplasticMaterial implementation."
             )
+        if corrected_tangent_strategy not in {
+            CORRECTED_TANGENT_FINITE_DIFFERENCE,
+            CORRECTED_TANGENT_POLAR_ANALYTIC,
+        }:
+            raise ValueError(f"Unknown corrected corotational tangent strategy: {corrected_tangent_strategy!r}.")
+        if formulation_id != CORRECTED_COROTATIONAL_J2 and corrected_tangent_strategy != CORRECTED_TANGENT_FINITE_DIFFERENCE:
+            raise ValueError("The polar consistent tangent strategy requires corrected corotational J2.")
         self.max_corotational_strain = float(max_corotational_strain)
         self.formulation_id = formulation_id
+        self.corrected_tangent_strategy = corrected_tangent_strategy
         self.last_corrected_tangent_diagnostics: dict[str, Any] = {}
         self._corrected_reference_cache_key = None
         self._corrected_reference_cache = None
@@ -655,7 +735,10 @@ class _CorotationalJ2Mixin:
             accepted = _validate_corrected_state(accepted_states[point_index], self.material)
             strain_voigt = _strain_voigt(biot_strain)
             accepted_strain = np.asarray(accepted["strain"], dtype=float)
-            if np.allclose(accepted_strain, strain_voigt, rtol=1.0e-12, atol=1.0e-14):
+            if (
+                self.corrected_tangent_strategy != CORRECTED_TANGENT_POLAR_ANALYTIC
+                and np.allclose(accepted_strain, strain_voigt, rtol=1.0e-12, atol=1.0e-14)
+            ):
                 # Re-assembling an already accepted equilibrium state (for the
                 # audit or postprocessor) must not re-integrate its history.
                 biot_stress = _stress_tensor(np.asarray(accepted["stress"], dtype=float))
@@ -810,6 +893,8 @@ class _CorotationalJ2Mixin:
         if displacement.shape != (expected,) or not np.all(np.isfinite(displacement)):
             raise ValueError(f"{self.__class__.__name__} displacement must have shape ({expected},).")
         if self.formulation_id == CORRECTED_COROTATIONAL_J2:
+            if self.corrected_tangent_strategy == CORRECTED_TANGENT_POLAR_ANALYTIC:
+                return self._corrected_polar_consistent_force_tangent(coords, displacement, states)
             force_evaluations = 1
             reference_cache_hits_before = self._corrected_reference_cache_hits
             reference_cache_misses_before = self._corrected_reference_cache_misses
@@ -818,7 +903,7 @@ class _CorotationalJ2Mixin:
             except Exception as exc:
                 self.last_corrected_tangent_diagnostics = {
                     "algorithm": "central_difference_of_corrected_force_fixed_accepted_state",
-                    "strategy_version": CORRECTED_TANGENT_STRATEGY_VERSION,
+                    "strategy_version": corrected_tangent_strategy_version(self.corrected_tangent_strategy),
                     "numerical_status": _corrected_tangent_failure_status(exc),
                     "failure_stage": "BASE_FORCE",
                     "failure_reason": f"{type(exc).__name__}: {exc}",
@@ -841,7 +926,7 @@ class _CorotationalJ2Mixin:
             if displacement_resolution >= step:
                 self.last_corrected_tangent_diagnostics = {
                     "algorithm": "central_difference_of_corrected_force_fixed_accepted_state",
-                    "strategy_version": CORRECTED_TANGENT_STRATEGY_VERSION,
+                    "strategy_version": corrected_tangent_strategy_version(self.corrected_tangent_strategy),
                     "numerical_status": "NUMERICALLY_AMBIGUOUS",
                     "failure_stage": "PERTURBATION_RESOLUTION",
                     "failure_reason": "Displacement perturbation is below floating-point resolution.",
@@ -875,7 +960,7 @@ class _CorotationalJ2Mixin:
                 except Exception as exc:
                     self.last_corrected_tangent_diagnostics = {
                         "algorithm": "central_difference_of_corrected_force_fixed_accepted_state",
-                        "strategy_version": CORRECTED_TANGENT_STRATEGY_VERSION,
+                        "strategy_version": corrected_tangent_strategy_version(self.corrected_tangent_strategy),
                         "numerical_status": _corrected_tangent_failure_status(exc),
                         "failure_stage": "PERTURBED_FORCE",
                         "failed_column": column,
@@ -897,7 +982,7 @@ class _CorotationalJ2Mixin:
                 except Exception as exc:
                     self.last_corrected_tangent_diagnostics = {
                         "algorithm": "central_difference_of_corrected_force_fixed_accepted_state",
-                        "strategy_version": CORRECTED_TANGENT_STRATEGY_VERSION,
+                        "strategy_version": corrected_tangent_strategy_version(self.corrected_tangent_strategy),
                         "numerical_status": _corrected_tangent_failure_status(exc),
                         "failure_stage": "PERTURBED_FORCE",
                         "failed_column": column,
@@ -946,7 +1031,7 @@ class _CorotationalJ2Mixin:
             if not np.all(np.isfinite(corrected_tangent)):
                 self.last_corrected_tangent_diagnostics = {
                     "algorithm": "central_difference_of_corrected_force_fixed_accepted_state",
-                    "strategy_version": CORRECTED_TANGENT_STRATEGY_VERSION,
+                    "strategy_version": corrected_tangent_strategy_version(self.corrected_tangent_strategy),
                     "numerical_status": "NUMERICALLY_AMBIGUOUS",
                     "failure_stage": "TANGENT_ASSEMBLY",
                     "force_evaluations": force_evaluations,
@@ -965,7 +1050,7 @@ class _CorotationalJ2Mixin:
                 numerical_status = "SMOOTH_ELASTIC"
             self.last_corrected_tangent_diagnostics = {
                 "algorithm": "central_difference_of_corrected_force_fixed_accepted_state",
-                "strategy_version": CORRECTED_TANGENT_STRATEGY_VERSION,
+                "strategy_version": corrected_tangent_strategy_version(self.corrected_tangent_strategy),
                 "numerical_status": numerical_status,
                 "perturbation_policy": "fixed_characteristic_length_central_difference/v1",
                 "relative_step": CORRECTED_TANGENT_RELATIVE_STEP,
@@ -1010,6 +1095,128 @@ class _CorotationalJ2Mixin:
             force_minus, _, _ = self._force_and_states(coords, minus, states)
             tangent[:, column] = (force_plus - force_minus) / (2.0 * scale)
         return internal, symmetrize(tangent), updated_states
+
+    def _corrected_polar_consistent_force_tangent(
+        self,
+        coords: np.ndarray,
+        displacement: np.ndarray,
+        states: list[dict[str, Any]] | None,
+    ) -> tuple[np.ndarray, np.ndarray, list[dict[str, Any]]]:
+        """Assemble the unsymmetrized consistent Hessian of the corrected force.
+
+        This route recomputes the radial return from the fixed accepted history,
+        including when the base strain equals the stored accepted strain. That
+        keeps the force map locally differentiable instead of using the finite
+        difference strategy's accepted-stress cache shortcut.
+        """
+
+        started = time.perf_counter()
+        reference_cache_hits_before = self._corrected_reference_cache_hits
+        reference_cache_misses_before = self._corrected_reference_cache_misses
+        internal, updated_states, points = self._corrected_force_and_states(coords, displacement, states)
+        reference_data, _, coordinate_resolution_ratio = self._corrected_reference_data(coords)
+        accepted_states = (
+            states if states is not None else [self.corrected_initial_state() for _ in reference_data]
+        )
+        if len(accepted_states) != len(reference_data):
+            raise ValueError("Corrected J2 accepted-state count must match the integration rule.")
+        tangent = np.zeros((3 * self.node_count, 3 * self.node_count), dtype=float)
+        branch_status_counts = {"SMOOTH_ELASTIC": 0, "SMOOTH_PLASTIC": 0, "BRANCH_TRANSITION": 0}
+        branch_yield_function_values: list[float] = []
+        material_tangent_evaluations = 0
+        polar_directional_evaluations = 0
+        # This is a heuristic ambiguity indicator, not a forward-error bound.
+        # The trial-stress and yield-function cancellation can depend on the
+        # incoming history and material scale, which are not enclosed here.
+        transition_scale = 512.0 * np.finfo(float).eps
+
+        for point_index, ((measure, gradients), point) in enumerate(zip(reference_data, points, strict=True)):
+            measure = float(measure)
+            gradients = np.asarray(gradients, dtype=float)
+            rotation = np.asarray(point["rotation"], dtype=float)
+            stretch = np.asarray(point["right_stretch"], dtype=float)
+            biot_stress = np.asarray(point["biot_stress"], dtype=float)
+            nominal_material = rotation.T @ np.asarray(point["first_piola_stress"], dtype=float)
+            accepted = _validate_corrected_state(accepted_states[point_index], self.material)
+            strain_voigt = np.asarray(point["biot_strain"], dtype=float)
+            stress_voigt, material_tangent, trial_state = self.material.stress_tangent_state(strain_voigt, accepted)
+            if not np.allclose(stress_voigt, _stress_voigt(biot_stress), rtol=2.0e-13, atol=2.0e-13):
+                raise ArithmeticError("Consistent tangent material response diverged from the force evaluation.")
+            material_tangent_evaluations += 1
+            diagnostics = point.get("material_diagnostics", {})
+            elastic = bool(diagnostics.get("elastic", False))
+            yield_function = float(diagnostics.get("yield_function", float("nan")))
+            if not elastic:
+                # The return-map state stores zero residual yield function after
+                # projection. Recover the positive trial margin from Δγ instead
+                # of mistaking every smooth plastic point for a transition.
+                yield_function = float(trial_state.get("plastic_multiplier", 0.0)) * (
+                    3.0 * float(self.material.shear_modulus) + float(self.material.hardening_modulus)
+                )
+            branch_yield_function_values.append(float(yield_function))
+            yield_scale = max(
+                abs(float(trial_state.get("yield_stress", 0.0))),
+                float(np.linalg.norm(biot_stress)),
+                np.finfo(float).tiny,
+            )
+            if not np.isfinite(yield_function) or abs(yield_function) <= transition_scale * yield_scale:
+                branch_status = "BRANCH_TRANSITION"
+            else:
+                branch_status = "SMOOTH_ELASTIC" if elastic else "SMOOTH_PLASTIC"
+            branch_status_counts[branch_status] += 1
+            for node_column in range(self.node_count):
+                for component_column in range(3):
+                    delta_deformation = np.zeros((3, 3), dtype=float)
+                    delta_deformation[component_column, :] = gradients[node_column, :]
+                    omega, delta_stretch = _polar_rotation_stretch_directional_derivative(
+                        rotation, stretch, delta_deformation
+                    )
+                    polar_directional_evaluations += 1
+                    delta_strain_voigt = _strain_voigt(delta_stretch)
+                    delta_stress_voigt = material_tangent @ delta_strain_voigt
+                    delta_stress = _stress_tensor(delta_stress_voigt)
+                    delta_nominal_material = _polar_adjoint_stress_directional_derivative(
+                        stretch,
+                        nominal_material,
+                        delta_stress,
+                        delta_stretch,
+                    )
+                    delta_first_piola = rotation @ (omega @ nominal_material + delta_nominal_material)
+                    for node_row in range(self.node_count):
+                        row_slice = slice(3 * node_row, 3 * node_row + 3)
+                        tangent[row_slice, 3 * node_column + component_column] += (
+                            measure * (delta_first_piola @ gradients[node_row])
+                        )
+
+        if not np.all(np.isfinite(tangent)):
+            raise ValueError("Polar consistent corotational tangent contains non-finite values.")
+        branch_transition = branch_status_counts["BRANCH_TRANSITION"] > 0
+        self.last_corrected_tangent_diagnostics = {
+            "algorithm": CORRECTED_TANGENT_POLAR_ANALYTIC,
+            "strategy_version": corrected_tangent_strategy_version(self.corrected_tangent_strategy),
+            "numerical_status": "BRANCH_TRANSITION" if branch_transition else (
+                "SMOOTH_PLASTIC" if branch_status_counts["SMOOTH_PLASTIC"] else "SMOOTH_ELASTIC"
+            ),
+            "base_force_evaluations": 1,
+            "material_tangent_evaluations": material_tangent_evaluations,
+            "polar_directional_evaluations": polar_directional_evaluations,
+            "reference_geometry_cache_hits": self._corrected_reference_cache_hits - reference_cache_hits_before,
+            "reference_geometry_cache_misses": self._corrected_reference_cache_misses - reference_cache_misses_before,
+            "coordinate_resolution_ratio": coordinate_resolution_ratio,
+            "branch_status_counts": branch_status_counts,
+            "branch_trial_yield_function_values": branch_yield_function_values,
+            "branch_status_semantics": "heuristic_near_yield_ambiguity_indicator_not_an_error_bound",
+            "branch_transition_relative_tolerance": transition_scale,
+            "raw_tangent_relative_skew": float(
+                np.linalg.norm(tangent - tangent.T) / max(float(np.linalg.norm(tangent)), 1.0)
+            ),
+            "accepted_history_fixed": True,
+            "accepted_stress_shortcut_disabled": True,
+            "symmetrized": False,
+            "classical_derivative_claim": not branch_transition,
+            "elapsed_seconds": time.perf_counter() - started,
+        }
+        return internal, tangent, updated_states
 
     def internal_force_and_tangent(
         self,
@@ -1062,6 +1269,9 @@ __all__ = [
     "CORRECTED_STRESS_SEMANTICS",
     "CORRECTED_TANGENT_RELATIVE_STEP",
     "CORRECTED_TANGENT_STRATEGY_VERSION",
+    "CORRECTED_TANGENT_POLAR_ANALYTIC",
+    "CORRECTED_TANGENT_POLAR_ANALYTIC_VERSION",
+    "corrected_tangent_strategy_version",
     "LEGACY_COROTATIONAL_J2",
     "CorotationalJ2Hex8Element",
     "CorotationalJ2Hex20Element",

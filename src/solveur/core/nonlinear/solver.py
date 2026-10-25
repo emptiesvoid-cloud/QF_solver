@@ -34,8 +34,10 @@ from solveur.elements.solid.corotational_j2 import (
     CORRECTED_COROTATIONAL_J2,
     CORRECTED_RESULT_SCHEMA,
     CORRECTED_STRESS_SEMANTICS,
+    CORRECTED_TANGENT_FINITE_DIFFERENCE,
+    CORRECTED_TANGENT_POLAR_ANALYTIC,
     CORRECTED_TANGENT_RELATIVE_STEP,
-    CORRECTED_TANGENT_STRATEGY_VERSION,
+    corrected_tangent_strategy_version,
 )
 from solveur.core.results import SolveResult
 from solveur.mesh.validation import MeshValidator
@@ -293,9 +295,23 @@ class NonlinearStaticSolver(NonlinearArcLengthMixin, NonlinearLoadControlMixin):
                         "constitutive_state_version": "corotational_j2_state/v2",
                         "stress_semantic_version": CORRECTED_STRESS_SEMANTICS,
                         "result_schema_version": CORRECTED_RESULT_SCHEMA,
-                        "tangent_scheme": "central_difference_of_corrected_force_fixed_accepted_state",
-                        "tangent_strategy_version": CORRECTED_TANGENT_STRATEGY_VERSION,
-                        "tangent_relative_step": CORRECTED_TANGENT_RELATIVE_STEP,
+                        "tangent_scheme": (
+                            "polar_sylvester_derivative_of_corrected_force_fixed_accepted_state"
+                            if self._assembly_plan is not None
+                            and self._assembly_plan.corotational_tangent_strategy == CORRECTED_TANGENT_POLAR_ANALYTIC
+                            else "central_difference_of_corrected_force_fixed_accepted_state"
+                        ),
+                        "tangent_strategy_version": corrected_tangent_strategy_version(
+                            self._assembly_plan.corotational_tangent_strategy
+                            if self._assembly_plan is not None
+                            else CORRECTED_TANGENT_FINITE_DIFFERENCE
+                        ),
+                        **(
+                            {"tangent_relative_step": CORRECTED_TANGENT_RELATIVE_STEP}
+                            if self._assembly_plan is None
+                            or self._assembly_plan.corotational_tangent_strategy != CORRECTED_TANGENT_POLAR_ANALYTIC
+                            else {}
+                        ),
                         "maturity": "EXPERIMENTAL",
                         "qualification_status": "NOT_ASSESSED",
                         "numerical_pass_implies_qualification": False,
