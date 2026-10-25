@@ -1,9 +1,4 @@
-"""Synthetic-only subprocess supervision used by WP12 runner self-tests.
-
-There is intentionally no public arbitrary-command launch function.  Real WP12
-execution remains disabled until Owner-signature trust and an OS sandbox with
-the required hard limits are established.
-"""
+"""Bounded subprocess supervision for fixed synthetic self-tests only."""
 
 from __future__ import annotations
 
@@ -15,7 +10,7 @@ import subprocess
 import sys
 import threading
 import time
-from typing import Callable
+from typing import Callable, Mapping, Sequence
 
 from .contracts import ContractError
 from .evidence import JsonlJournal
@@ -44,12 +39,21 @@ class ProcessOutcome:
     sampled_peak_process_count: int
     child_pids_remaining: tuple[int, ...]
     hard_job_enforced: bool = False
+    process_started: bool = False
 
 
 class _OutputCapture:
-    def __init__(self, stdout_path: Path, stderr_path: Path, byte_limit: int) -> None:
+    def __init__(
+        self,
+        stdout_path: Path,
+        stderr_path: Path,
+        byte_limit: int,
+        *,
+        stream_byte_limits: Mapping[str, int] | None = None,
+    ) -> None:
         self.paths = {"stdout": stdout_path, "stderr": stderr_path}
         self.byte_limit = byte_limit
+        self.stream_byte_limits = dict(stream_byte_limits or {"stdout": byte_limit, "stderr": byte_limit})
         self.lock = threading.Lock()
         self.total_written = 0
         self.stream_written = {"stdout": 0, "stderr": 0}
@@ -65,7 +69,11 @@ class _OutputCapture:
                     break
                 with self.lock:
                     self.stream_seen[stream_name] += len(chunk)
-                    remaining = max(0, self.byte_limit - self.total_written)
+                    stream_limit = self.stream_byte_limits[stream_name]
+                    remaining = min(
+                        max(0, self.byte_limit - self.total_written),
+                        max(0, stream_limit - self.stream_written[stream_name]),
+                    )
                     kept = chunk[:remaining]
                     if kept:
                         sink.write(kept)
@@ -408,8 +416,47 @@ def run_fake_process(
     return outcome
 
 
+def validate_approved_pilot_command(
+    command: Sequence[str], *, cwd: Path, run_directory: Path, python_executable: str
+) -> None:
+    """Validate the single supported pytest argv without starting a process."""
+    from .inline_fixtures import PILOT_NODEID
+
+    if not command or any(not isinstance(item, str) or not item for item in command):
+        raise ContractError("approved process argv is malformed")
+    expected_prefix = [
+        str(Path(python_executable).resolve()),
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "-p",
+        "scripts.wp12_runner.pytest_provenance_plugin",
+    ]
+    if (
+        len(command) != 10
+        or str(Path(command[0]).resolve()) != expected_prefix[0]
+        or list(command[1:8]) != expected_prefix[1:]
+        or command[9] != PILOT_NODEID
+    ):
+        raise ContractError("approved process accepts only the exact WP12-1 pilot pytest command")
+    junit_option = command[8]
+    if not junit_option.startswith("--junitxml="):
+        raise ContractError("approved process requires the pinned JUnit output argument")
+    junit_path = Path(junit_option.removeprefix("--junitxml="))
+    if not junit_path.is_absolute():
+        junit_path = cwd / junit_path
+    if junit_path.resolve(strict=False) != (run_directory / "junit.xml").resolve(strict=False):
+        raise ContractError("approved JUnit output must be the exact reserved evidence file")
+
+
 def classify_pytest_junit(xml_payload: bytes, expected_nodeid: str) -> str:
-    """Classify exactly one JUnit testcase without importing pytest or QF Solver."""
+    """Classify a supplied JUnit record; this helper alone is not campaign evidence.
+
+    It does not prove how pytest selected or ran a nodeid, and the current
+    runner's scientific EXECUTE mode is unconditionally disabled.
+    """
     import xml.etree.ElementTree as ET
 
     try:
@@ -435,6 +482,10 @@ def classify_pytest_junit(xml_payload: bytes, expected_nodeid: str) -> str:
 
 
 def classify_process_result(outcome: ProcessOutcome, junit_payload: bytes | None, expected_nodeid: str) -> str:
+    """Combine synthetic supervisor status and a supplied JUnit record only.
+
+    The current scientific runner never calls this helper.
+    """
     if outcome.state in {"TIMEOUT", "RESOURCE_LIMIT", "INTERRUPTED", "INFRA_ERROR"}:
         return outcome.state
     if junit_payload is None:

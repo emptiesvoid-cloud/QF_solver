@@ -21,10 +21,11 @@ from typing import Any, Mapping, Sequence
 
 PREPARED_SCHEMA = "qf-solver-wp12-prepared-manifest-v1"
 EXECUTION_SCHEMA = "qf-solver-wp12-execution-manifest-v2"
-OWNER_DECISION_SCHEMA = "qf-solver-wp12-owner-decision-v2"
+EXECUTION_SCHEMA_V3 = "qf-solver-wp12-execution-manifest-v3"
+OWNER_DECISION_SCHEMA = "qf-solver-wp12-owner-decision-v3"
 REPOSITORY = "emptiesvoid-cloud/QF_solver"
 TARGET_BRANCH = "emptiesvoids-cloud/0.2.12"
-OWNER_TRUST_CONFIGURED = False
+TARGET_REMOTE_URL = "https://github.com/emptiesvoid-cloud/QF_solver.git"
 REAL_EXECUTION_ENABLED = False
 
 _HEX40 = re.compile(r"^[a-f0-9]{40}$")
@@ -39,6 +40,10 @@ _NODEID = re.compile(
 
 class ContractError(ValueError):
     """An input does not satisfy the runner's structural contract."""
+
+
+def _is_execution_schema(value: Any) -> bool:
+    return value in {EXECUTION_SCHEMA, EXECUTION_SCHEMA_V3}
 
 
 @dataclass(frozen=True)
@@ -274,8 +279,7 @@ def assess_prepared_manifest(document: Mapping[str, Any], manifest_sha256: str) 
     blockers = [
         "MANIFEST_PREPARED_NOT_AUTHORIZED",
         "SEPARATE_OWNER_DECISION_REQUIRED",
-        "OWNER_TRUST_ROOT_NOT_CONFIGURED",
-        "REAL_EXECUTION_DISABLED_IN_WP12_R",
+        "REAL_EXECUTION_DISABLED_IN_WP12_A",
     ]
     if _contains_unresolved(document):
         blockers.append("MANIFEST_HAS_UNRESOLVED_PROPOSED_VALUES")
@@ -311,10 +315,12 @@ def assess_execution_manifest(document: Mapping[str, Any], manifest_sha256: str)
         "prepared_at",
         "authorization_reference",
     }
+    if document.get("schema") == EXECUTION_SCHEMA_V3:
+        required.add("isolation_assessment")
     missing = sorted(required.difference(document))
     if missing:
         errors.append("missing execution-manifest fields: " + ", ".join(missing))
-    if document.get("schema") != EXECUTION_SCHEMA:
+    if not _is_execution_schema(document.get("schema")):
         errors.append("unsupported execution-manifest schema")
     if document.get("status") != "FROZEN_NOT_AUTHORIZED":
         errors.append("frozen execution manifest must start FROZEN_NOT_AUTHORIZED")
@@ -357,16 +363,38 @@ def assess_execution_manifest(document: Mapping[str, Any], manifest_sha256: str)
         argv = tests.get("argv")
         if not is_exact_nodeid(nodeid):
             errors.append("execution manifest must contain one exact nodeid")
-        if (
+        environment = document.get("environment")
+        junit_relative = (
+            environment.get("junit_relative_path_from_science_checkout")
+            if isinstance(environment, Mapping)
+            else None
+        )
+        if document.get("schema") == EXECUTION_SCHEMA_V3:
+            expected_junit = f"--junitxml={junit_relative}/junit.xml" if isinstance(junit_relative, str) else None
+            if (
+                tests.get("command_profile") != "qf-wp12-single-node-pytest-v1"
+                or not isinstance(argv, list)
+                or len(argv) != 10
+                or not all(isinstance(argument, str) and argument for argument in argv)
+                or argv[1:4] != ["-m", "pytest", "-q"]
+                or argv[4:8] != ["-p", "no:cacheprovider", "-p", "scripts.wp12_runner.pytest_provenance_plugin"]
+                or argv[8] != expected_junit
+                or argv[9] != nodeid
+            ):
+                errors.append("argv must match the versioned single-node pytest profile and exact nodeid")
+        elif (
             not isinstance(argv, list)
             or len(argv) != 5
             or not all(isinstance(argument, str) and argument for argument in argv)
             or argv[1:4] != ["-m", "pytest", "-q"]
             or argv[4] != nodeid
         ):
-            errors.append("argv must be the exact one-node pytest command; no broad selectors or extra flags")
+            errors.append("legacy argv must contain one exact nodeid and no additional selector")
         if isinstance(argv, list) and argv and not isinstance(argv[0], str):
             errors.append("argv[0] must name the approved Python executable")
+        if document.get("schema") == EXECUTION_SCHEMA_V3 and isinstance(argv, list) and isinstance(environment, Mapping):
+            if argv and argv[0] != environment.get("python_executable_path"):
+                errors.append("argv Python executable must match the pinned environment executable")
     code_identity = document.get("code_identity")
     if not isinstance(code_identity, Mapping):
         errors.append("code_identity must be an object")
@@ -405,10 +433,25 @@ def assess_execution_manifest(document: Mapping[str, Any], manifest_sha256: str)
         errors.append("destination must be under the WP12 evidence root")
     if not safe_repo_relative_path(destination):
         errors.append("destination is unsafe or traversal-bearing")
+    if document.get("schema") == EXECUTION_SCHEMA_V3 and isinstance(destination, str) and isinstance(document.get("campaign_id"), str):
+        expected_prefix = f"qualification/0_2_12/wp12_evidence/{document['campaign_id']}/"
+        if not destination.startswith(expected_prefix) or len(PurePosixPath(destination).parts) != 5:
+            errors.append("destination must be the campaign's exclusive run directory")
+    isolation = document.get("isolation_assessment")
+    if document.get("schema") == EXECUTION_SCHEMA_V3 and not isinstance(isolation, Mapping):
+        errors.append("isolation_assessment must be an object")
+    elif document.get("schema") == EXECUTION_SCHEMA_V3 and isinstance(isolation, Mapping):
+        if not safe_repo_relative_path(isolation.get("attestation_path")):
+            errors.append("isolation attestation path must be repository-relative")
+        if not isinstance(isolation.get("sha256"), str) or not _HEX64.fullmatch(isolation["sha256"]):
+            errors.append("isolation attestation must bind a SHA-256")
+        if isolation.get("status") not in {"NOT_VERIFIED", "VERIFIED"}:
+            errors.append("isolation assessment status is invalid")
+        if isolation.get("review_status") not in {"NOT_REVIEWED", "INDEPENDENTLY_REVIEWED"}:
+            errors.append("isolation review status is invalid")
     blockers = [
         "SEPARATE_OWNER_DECISION_REQUIRED",
-        "OWNER_TRUST_ROOT_NOT_CONFIGURED",
-        "REAL_EXECUTION_DISABLED_IN_WP12_R",
+        "REAL_EXECUTION_DISABLED_IN_WP12_A",
     ]
     if _contains_unresolved(document):
         blockers.append("MANIFEST_HAS_UNRESOLVED_PROPOSED_VALUES")
@@ -423,13 +466,13 @@ def assess_execution_manifest(document: Mapping[str, Any], manifest_sha256: str)
 def assess_manifest(document: Mapping[str, Any], manifest_sha256: str) -> ManifestAssessment:
     if document.get("schema") == PREPARED_SCHEMA:
         return assess_prepared_manifest(document, manifest_sha256)
-    if document.get("schema") == EXECUTION_SCHEMA:
+    if _is_execution_schema(document.get("schema")):
         return assess_execution_manifest(document, manifest_sha256)
     return ManifestAssessment(
         manifest_sha256=manifest_sha256,
         campaign_id=None,
         structural_errors=("unsupported manifest schema",),
-        execution_blockers=("REAL_EXECUTION_DISABLED_IN_WP12_R",),
+        execution_blockers=("REAL_EXECUTION_DISABLED_IN_WP12_A",),
     )
 
 
@@ -438,7 +481,8 @@ def validate_manifest_schema(document: Mapping[str, Any]) -> tuple[str, ...]:
     schema_name = {
         PREPARED_SCHEMA: "wp12_prepared_manifest.schema.json",
         EXECUTION_SCHEMA: "wp12_execution_manifest.schema.json",
-        OWNER_DECISION_SCHEMA: "wp12_owner_decision.schema.json",
+        EXECUTION_SCHEMA_V3: "wp12_execution_manifest_v3.schema.json",
+        OWNER_DECISION_SCHEMA: "wp12_owner_decision_v3.schema.json",
     }.get(document.get("schema"))
     if schema_name is None:
         return ("unsupported manifest schema",)
@@ -525,6 +569,8 @@ def validate_owner_decision_structure(decision: Mapping[str, Any]) -> tuple[str,
     owner = decision.get("owner")
     if not isinstance(owner, Mapping) or not owner.get("principal") or not owner.get("display_name"):
         errors.append("owner principal and display_name are required")
+    if not isinstance(decision.get("owner_key_id"), str) or not decision["owner_key_id"]:
+        errors.append("owner_key_id is required in the signed payload")
     environment = decision.get("environment")
     if not isinstance(environment, Mapping):
         errors.append("environment must be an object")
@@ -576,6 +622,19 @@ def validate_owner_decision_structure(decision: Mapping[str, Any]) -> tuple[str,
             value = budgets.get(name)
             if isinstance(value, bool) or not isinstance(value, int) or value < 1:
                 errors.append(f"budgets.{name} must be a positive integer")
+        enforcement = budgets.get("enforcement")
+        if not isinstance(enforcement, Mapping) or set(enforcement) != {
+            "wall",
+            "cpu",
+            "memory",
+            "process_tree",
+            "storage",
+            "logs",
+            "threads",
+        }:
+            errors.append("budgets.enforcement must declare every resource control")
+        elif any(value not in {"hard", "soft"} for value in enforcement.values()):
+            errors.append("budgets.enforcement values must be hard or soft")
     return tuple(errors)
 
 
@@ -593,7 +652,27 @@ def owner_decision_binding_errors(
         for key, manifest_key in (("branch", "branch"), ("commit", "commit"), ("git_tree", "git_tree")):
             if target.get(key) != manifest_target.get(manifest_key):
                 errors.append(f"Owner decision target {key} does not match manifest")
-    if manifest.get("schema") == EXECUTION_SCHEMA:
+        remote = decision.get("remote_identity")
+        if manifest.get("schema") == EXECUTION_SCHEMA_V3 and isinstance(remote, Mapping):
+            for field in ("remote_name", "remote_url", "remote_ref"):
+                if remote.get(field) != manifest_target.get(field):
+                    errors.append(f"Owner decision remote identity {field} does not match manifest")
+    if manifest.get("schema") == EXECUTION_SCHEMA_V3:
+        if decision.get("unit_id") != manifest.get("unit_id"):
+            errors.append("Owner decision unit_id does not match manifest")
+        if decision.get("attempt_number") != 1:
+            errors.append("Owner decision must authorize attempt number 1 exactly")
+        if decision.get("launch_confirmation") != "RUN_EXACT_APPROVED_UNIT":
+            errors.append("Owner decision lacks explicit exact-unit launch confirmation")
+        if manifest.get("schema") == EXECUTION_SCHEMA_V3:
+            isolation = manifest.get("isolation_assessment")
+            isolation_sha = isolation.get("sha256") if isinstance(isolation, Mapping) else None
+            if decision.get("isolation_assessment_sha256") != isolation_sha:
+                errors.append("Owner decision isolation assessment digest does not match manifest")
+        for identity_name in ("scientific_identity", "runner_identity"):
+            if decision.get(identity_name) != manifest.get(identity_name):
+                errors.append(f"Owner decision {identity_name} does not match manifest")
+    elif manifest.get("schema") == EXECUTION_SCHEMA:
         for identity_name in ("scientific_identity", "runner_identity"):
             if decision.get(identity_name) != manifest.get(identity_name):
                 errors.append(f"Owner decision {identity_name} does not match manifest")
@@ -606,7 +685,7 @@ def owner_decision_binding_errors(
         manifest_nodeids = None
     if decision.get("nodeids") != manifest_nodeids:
         errors.append("Owner decision nodeids do not exactly match manifest")
-    if manifest.get("schema") == EXECUTION_SCHEMA:
+    if _is_execution_schema(manifest.get("schema")):
         if decision.get("environment") != manifest.get("environment"):
             errors.append("Owner decision environment does not exactly match manifest")
         manifest_resources = manifest.get("resource_limits")
@@ -624,6 +703,8 @@ def owner_decision_binding_errors(
             ):
                 if manifest_resources.get(key) != decision_budgets.get(key):
                     errors.append(f"Owner decision budget {key} does not exactly match manifest")
+            if manifest_resources.get("enforcement") != decision_budgets.get("enforcement"):
+                errors.append("Owner decision resource enforcement does not exactly match manifest")
         if decision.get("destination") != manifest.get("destination"):
             errors.append("Owner decision destination does not exactly match manifest")
         attempts = manifest.get("attempt_policy")
@@ -664,15 +745,83 @@ def inspect_git(root: Path) -> GitSnapshot:
 
 def git_identity_issues(target: Mapping[str, Any], snapshot: GitSnapshot) -> tuple[str, ...]:
     issues: list[str] = []
-    if snapshot.branch != target.get("branch"):
+    detached_at_exact_commit = (
+        snapshot.branch == "HEAD"
+        and target.get("allow_detached_at_exact_commit") is True
+        and snapshot.commit == target.get("commit")
+    )
+    if snapshot.branch != target.get("branch") and not detached_at_exact_commit:
         issues.append("GIT_BRANCH_MISMATCH")
     if snapshot.commit != target.get("commit"):
         issues.append("GIT_COMMIT_MISMATCH")
     if snapshot.tree != target.get("git_tree"):
         issues.append("GIT_TREE_MISMATCH")
-    if target.get("worktree_must_be_clean") is True and not snapshot.clean:
+    if (target.get("worktree_must_be_clean") is True or target.get("require_clean_checkout") is True) and not snapshot.clean:
         issues.append("GIT_CHECKOUT_DIRTY")
     return tuple(issues)
+
+
+def remote_identity_issues(
+    repository_root: Path, target: Mapping[str, Any], owner_decision: Mapping[str, Any]
+) -> tuple[str, ...]:
+    """Read the configured origin branch with ls-remote; never fetch or mutate refs."""
+    if (
+        target.get("remote_name") != "origin"
+        or target.get("remote_url") != TARGET_REMOTE_URL
+        or target.get("remote_ref") != f"refs/heads/{TARGET_BRANCH}"
+    ):
+        return ("REMOTE_IDENTITY_DECLARATION_UNSUPPORTED",)
+    declared = owner_decision.get("remote_identity")
+    if not isinstance(declared, Mapping):
+        return ("OWNER_DECISION_REMOTE_IDENTITY_MISSING",)
+    remote_commit = declared.get("commit")
+    remote_tree = declared.get("git_tree")
+    if (
+        declared.get("remote_name") != target.get("remote_name")
+        or declared.get("remote_url") != target.get("remote_url")
+        or declared.get("remote_ref") != target.get("remote_ref")
+        or not isinstance(remote_commit, str)
+        or not _HEX40.fullmatch(remote_commit)
+        or not isinstance(remote_tree, str)
+        or not _HEX40.fullmatch(remote_tree)
+    ):
+        return ("OWNER_DECISION_REMOTE_IDENTITY_MALFORMED",)
+    root = repository_root.resolve(strict=True)
+    configured = subprocess.run(
+        ["git", "config", "--get", "remote.origin.url"],
+        cwd=root,
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=15,
+        shell=False,
+    )
+    if configured.returncode != 0 or configured.stdout.strip() != TARGET_REMOTE_URL:
+        return ("REMOTE_ORIGIN_URL_MISMATCH",)
+    advertised = subprocess.run(
+        ["git", "ls-remote", "--exit-code", "--heads", "origin", f"refs/heads/{TARGET_BRANCH}"],
+        cwd=root,
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=30,
+        shell=False,
+    )
+    if advertised.returncode != 0:
+        return ("REMOTE_BRANCH_UNAVAILABLE",)
+    rows = [line.split() for line in advertised.stdout.splitlines() if line.strip()]
+    if len(rows) != 1 or len(rows[0]) != 2 or rows[0][1] != f"refs/heads/{TARGET_BRANCH}":
+        return ("REMOTE_BRANCH_ADVERTISEMENT_MALFORMED",)
+    if rows[0][0] != remote_commit:
+        return ("REMOTE_COMMIT_MISMATCH",)
+    try:
+        if not git_commit_tree_matches(root, remote_commit, remote_tree):
+            return ("REMOTE_COMMIT_TREE_MISMATCH",)
+        if not git_commit_is_ancestor(root, str(target.get("commit", "")), remote_commit):
+            return ("RUNNER_COMMIT_NOT_ANCESTOR_OF_APPROVED_REMOTE",)
+    except (OSError, ContractError, subprocess.TimeoutExpired):
+        return ("REMOTE_COMMIT_OBJECT_UNAVAILABLE_LOCALLY",)
+    return ()
 
 
 def git_commit_is_ancestor(repository_root: Path, ancestor: str, descendant: str) -> bool:
@@ -991,7 +1140,12 @@ def execution_gate_blockers(
     destination_exists: bool,
     owner_authenticated: bool = False,
 ) -> tuple[str, ...]:
-    blockers = list(assessment.execution_blockers)
+    blockers = [
+        blocker
+        for blocker in assessment.execution_blockers
+        if not (blocker == "SEPARATE_OWNER_DECISION_REQUIRED" and owner_decision is not None and owner_authenticated)
+    ]
+    blockers.insert(0, "REAL_EXECUTION_DISABLED_IN_WP12_A")
     blockers.extend(validate_manifest_schema(manifest))
     blockers.extend(f"MANIFEST_STRUCTURAL_INVALID:{error}" for error in assessment.structural_errors)
     if supplied_manifest_sha256 != assessment.manifest_sha256:
@@ -1007,7 +1161,7 @@ def execution_gate_blockers(
         blockers.append("GIT_IDENTITY_UNAVAILABLE")
     else:
         blockers.extend(git_identity_issues(target, git_snapshot))
-        if manifest.get("schema") == EXECUTION_SCHEMA:
+        if _is_execution_schema(manifest.get("schema")):
             science = manifest.get("scientific_identity")
             if not isinstance(science, Mapping):
                 blockers.append("SCIENTIFIC_IDENTITY_UNAVAILABLE")
@@ -1051,5 +1205,4 @@ def execution_gate_blockers(
         blockers.append("ATTEMPT_BUDGET_EXCEEDED_OR_UNCONFIGURED")
     if destination_exists:
         blockers.append("DESTINATION_ALREADY_EXISTS")
-    blockers.append("REAL_EXECUTION_DISABLED_IN_WP12_R2")
     return tuple(dict.fromkeys(blockers))

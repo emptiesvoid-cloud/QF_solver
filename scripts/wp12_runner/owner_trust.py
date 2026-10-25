@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from .contracts import ContractError, OWNER_DECISION_SCHEMA, sha256_bytes, validate_owner_decision_structure
+from scripts.wp12_owner_canonicalization import CanonicalizationError, canonical_owner_payload
 
 
 TRUST_STORE_PATH_VALUE = "QF_WP12_TRUST_STORE"
@@ -41,20 +42,20 @@ class OwnerVerification:
 
 
 def canonical_payload(decision: Mapping[str, Any]) -> bytes:
-    """Return RFC-8785-like constrained canonical UTF-8 JSON for our data model."""
-    if "signature" not in decision:
-        raise ContractError("Owner decision signature envelope is missing")
-    payload = {key: value for key, value in decision.items() if key != "signature"}
+    """Return canonical bytes using the versioned Owner signing profile."""
     try:
-        return json.dumps(
-            payload,
-            sort_keys=True,
-            separators=(",", ":"),
-            ensure_ascii=False,
-            allow_nan=False,
-        ).encode("utf-8")
-    except (TypeError, ValueError) as exc:
+        return canonical_owner_payload(decision)
+    except CanonicalizationError as exc:
         raise ContractError("Owner decision contains non-canonical JSON values") from exc
+
+
+def _unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise ContractError(f"duplicate Owner trust-store JSON key: {key}")
+        result[key] = value
+    return result
 
 
 def _parse_utc(value: Any, field: str) -> datetime:
@@ -85,6 +86,14 @@ def load_machine_trust_store(repository_root: Path) -> tuple[dict[str, TrustedOw
             expected_sha256, _ = winreg.QueryValueEx(key, TRUST_STORE_SHA_VALUE)
     except OSError as exc:
         raise ContractError("machine-scoped Owner trust root is not configured") from exc
+    try:
+        with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, registry_path, 0, winreg.KEY_SET_VALUE):
+            raise ContractError("runner account can modify the machine-scoped Owner trust pin")
+    except PermissionError:
+        pass
+    except OSError as exc:
+        if getattr(exc, "winerror", None) not in {5, 1314}:
+            raise ContractError("could not verify write protection for the machine-scoped Owner trust pin") from exc
     if not isinstance(configured_path, str) or not isinstance(expected_sha256, str):
         raise ContractError("machine-scoped Owner trust settings have invalid types")
     if len(expected_sha256) != 64 or any(character not in "0123456789abcdef" for character in expected_sha256):
@@ -102,6 +111,22 @@ def load_machine_trust_store(repository_root: Path) -> tuple[dict[str, TrustedOw
         current = current / part
         if current.is_symlink() or bool(getattr(current, "is_junction", lambda: False)()):
             raise ContractError("pinned Owner trust-store path contains a symlink or junction")
+    try:
+        writable_fd = os.open(trust_path, os.O_WRONLY)
+    except PermissionError:
+        writable_fd = None
+    except OSError as exc:
+        if getattr(exc, "winerror", None) != 5:
+            raise ContractError("could not verify write protection for the Owner trust-store file") from exc
+        writable_fd = None
+    if writable_fd is not None:
+        os.close(writable_fd)
+        raise ContractError("runner account can open the Owner trust-store file for writing")
+    parent = trust_path.parent
+    while parent != Path(parent.anchor):
+        if os.access(parent, os.W_OK):
+            raise ContractError("runner account has write access to an Owner trust-store parent directory")
+        parent = parent.parent
     root = repository_root.resolve(strict=True)
     try:
         trust_path.resolve(strict=True).relative_to(root)
@@ -114,7 +139,7 @@ def load_machine_trust_store(repository_root: Path) -> tuple[dict[str, TrustedOw
     if actual_sha256 != expected_sha256:
         raise ContractError("Owner trust-store bytes do not match the machine-scoped SHA-256 pin")
     try:
-        document = json.loads(raw.decode("utf-8"))
+        document = json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_object)
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise ContractError("pinned Owner trust store is invalid UTF-8 JSON") from exc
     if (
@@ -167,6 +192,8 @@ def verify_owner_decision(
     owner = decision.get("owner")
     key_id = signature.get("key_id") if isinstance(signature, Mapping) else None
     key = trusted_keys.get(key_id) if isinstance(key_id, str) else None
+    if decision.get("owner_key_id") != key_id:
+        errors.append("signed Owner key_id does not match the canonical decision payload")
     if key is None:
         errors.append("Owner signing key is unknown")
     elif key.revoked:

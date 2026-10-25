@@ -157,6 +157,8 @@ class AttemptLedger:
         maximum_attempts: int,
         git_identity: Mapping[str, str],
         started_utc: str,
+        owner_decision_sha256: str | None = None,
+        environment_sha256: str | None = None,
     ) -> dict[str, Any]:
         identifier_pattern = r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"
         if (
@@ -179,13 +181,26 @@ class AttemptLedger:
             raise ContractError("attempt exceeds the approved maximum")
         if len(manifest_sha256) != 64 or any(character not in "0123456789abcdef" for character in manifest_sha256):
             raise ContractError("manifest SHA-256 must be 64 hexadecimal characters")
-        if not isinstance(git_identity, Mapping) or any(
-            not isinstance(git_identity.get(field), str)
-            or len(git_identity[field]) != 40
-            or any(character not in "0123456789abcdef" for character in git_identity[field])
-            for field in ("commit", "git_tree")
+        if not isinstance(git_identity, Mapping):
+            raise ContractError("ledger Git identity must be an object")
+        if {"runner_commit", "runner_tree", "scientific_commit", "scientific_tree"}.issubset(git_identity):
+            git_hashes = [git_identity[key] for key in ("runner_commit", "runner_tree", "scientific_commit", "scientific_tree")]
+        else:
+            git_hashes = [git_identity.get("commit"), git_identity.get("git_tree")]
+        if any(
+            not isinstance(value, str)
+            or len(value) != 40
+            or any(character not in "0123456789abcdef" for character in value)
+            for value in git_hashes
         ):
-            raise ContractError("ledger Git identity must include full commit and tree IDs")
+            raise ContractError("ledger Git identity must include full runner and scientific commit/tree IDs")
+        for label, digest in (("owner decision", owner_decision_sha256), ("environment", environment_sha256)):
+            if digest is not None and (
+                not isinstance(digest, str)
+                or len(digest) != 64
+                or any(character not in "0123456789abcdef" for character in digest)
+            ):
+                raise ContractError(f"ledger {label} identity must be a lowercase SHA-256")
         if not isinstance(started_utc, str) or not started_utc:
             raise ContractError("attempt start timestamp is required")
         with _exclusive_lock(self.lock_path):
@@ -220,6 +235,8 @@ class AttemptLedger:
                     "attempt": attempt,
                     "maximum_attempts": maximum_attempts,
                     "git_identity": dict(git_identity),
+                    "owner_decision_sha256": owner_decision_sha256,
+                    "environment_sha256": environment_sha256,
                     "started_utc": started_utc,
                     "status": "RUNNING",
                 }

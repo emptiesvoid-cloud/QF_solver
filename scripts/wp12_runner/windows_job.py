@@ -1,9 +1,9 @@
 """Windows Job Object controls for synthetic children.
 
 This module uses stdlib ctypes and is intentionally not a filesystem sandbox.
-It imposes active-process and optional aggregate memory limits, plus
-kill-on-close. Wall time is supervised by the parent process. No hard CPU-time,
-CPU-rate, storage, thread-count, or archive-write restriction is implemented.
+It imposes active-process, optional aggregate memory and user CPU-time limits,
+plus kill-on-close. Wall time is supervised by the parent process. No CPU-rate,
+storage, thread-count, filesystem, or archive-write restriction is implemented.
 """
 
 from __future__ import annotations
@@ -20,6 +20,7 @@ from .contracts import ContractError
 _JOB_OBJECT_LIMIT_ACTIVE_PROCESS = 0x00000008
 _JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE = 0x00002000
 _JOB_OBJECT_LIMIT_JOB_MEMORY = 0x00000200
+_JOB_OBJECT_LIMIT_JOB_TIME = 0x00000004
 _JOB_OBJECT_EXTENDED_LIMIT_INFORMATION = 9
 _THREAD_SUSPEND_RESUME = 0x0002
 _TH32CS_SNAPTHREAD = 0x00000004
@@ -64,6 +65,19 @@ class _ExtendedLimitInformation(ctypes.Structure):
     ]
 
 
+class _BasicAccountingInformation(ctypes.Structure):
+    _fields_ = [
+        ("TotalUserTime", ctypes.c_longlong),
+        ("TotalKernelTime", ctypes.c_longlong),
+        ("ThisPeriodTotalUserTime", ctypes.c_longlong),
+        ("ThisPeriodTotalKernelTime", ctypes.c_longlong),
+        ("TotalPageFaultCount", wintypes.DWORD),
+        ("TotalProcesses", wintypes.DWORD),
+        ("ActiveProcesses", wintypes.DWORD),
+        ("TotalTerminatedProcesses", wintypes.DWORD),
+    ]
+
+
 class _ThreadEntry32(ctypes.Structure):
     _fields_ = [
         ("dwSize", wintypes.DWORD),
@@ -84,13 +98,19 @@ class WindowsJob:
         *,
         process_count_limit: int,
         memory_limit_bytes: int | None = None,
+        cpu_time_limit_seconds: int | None = None,
     ) -> None:
         if os.name != "nt":
             raise ContractError("Windows Job Objects are unavailable on this platform")
-        if process_count_limit < 1 or (memory_limit_bytes is not None and memory_limit_bytes < 1):
+        if (
+            process_count_limit < 1
+            or (memory_limit_bytes is not None and memory_limit_bytes < 1)
+            or (cpu_time_limit_seconds is not None and cpu_time_limit_seconds < 1)
+        ):
             raise ContractError("Windows Job Object limits must be positive")
         self.process_count_limit = process_count_limit
         self.memory_limit_bytes = memory_limit_bytes
+        self.cpu_time_limit_seconds = cpu_time_limit_seconds
         self._kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
         self._handle: Any = None
         self._configure_api()
@@ -101,6 +121,14 @@ class WindowsJob:
         kernel.CreateJobObjectW.restype = wintypes.HANDLE
         kernel.SetInformationJobObject.argtypes = [wintypes.HANDLE, ctypes.c_int, ctypes.c_void_p, wintypes.DWORD]
         kernel.SetInformationJobObject.restype = wintypes.BOOL
+        kernel.QueryInformationJobObject.argtypes = [
+            wintypes.HANDLE,
+            ctypes.c_int,
+            ctypes.c_void_p,
+            wintypes.DWORD,
+            ctypes.POINTER(wintypes.DWORD),
+        ]
+        kernel.QueryInformationJobObject.restype = wintypes.BOOL
         kernel.AssignProcessToJobObject.argtypes = [wintypes.HANDLE, wintypes.HANDLE]
         kernel.AssignProcessToJobObject.restype = wintypes.BOOL
         kernel.TerminateJobObject.argtypes = [wintypes.HANDLE, wintypes.UINT]
@@ -132,13 +160,19 @@ class WindowsJob:
         if self.memory_limit_bytes is not None:
             info.BasicLimitInformation.LimitFlags |= _JOB_OBJECT_LIMIT_JOB_MEMORY
             info.JobMemoryLimit = self.memory_limit_bytes
+        if self.cpu_time_limit_seconds is not None:
+            info.BasicLimitInformation.LimitFlags |= _JOB_OBJECT_LIMIT_JOB_TIME
+            info.BasicLimitInformation.PerJobUserTimeLimit = self.cpu_time_limit_seconds * 10_000_000
         if not self._kernel32.SetInformationJobObject(
             self._handle,
             _JOB_OBJECT_EXTENDED_LIMIT_INFORMATION,
             ctypes.byref(info),
             ctypes.sizeof(info),
         ):
-            self._raise_last_error("SetInformationJobObject failed")
+            try:
+                self.close()
+            finally:
+                self._raise_last_error("SetInformationJobObject failed")
         return self
 
     def assign_suspended_process(self, process: subprocess.Popen[bytes]) -> None:
@@ -178,6 +212,31 @@ class WindowsJob:
     def terminate(self, exit_code: int = 1) -> None:
         if self._handle is not None and not self._kernel32.TerminateJobObject(self._handle, exit_code):
             self._raise_last_error("TerminateJobObject failed")
+
+    def _accounting_information(self) -> _BasicAccountingInformation:
+        if self._handle is None:
+            raise ContractError("Windows Job Object is not open")
+        information = _BasicAccountingInformation()
+        returned = wintypes.DWORD()
+        if not self._kernel32.QueryInformationJobObject(
+            self._handle,
+            1,
+            ctypes.byref(information),
+            ctypes.sizeof(information),
+            ctypes.byref(returned),
+        ):
+            self._raise_last_error("QueryInformationJobObject failed")
+        if returned.value != ctypes.sizeof(information):
+            raise ContractError("Windows Job Object accounting response size is invalid")
+        return information
+
+    def cpu_limit_exceeded(self) -> bool:
+        if self.cpu_time_limit_seconds is None:
+            return False
+        return self._accounting_information().TotalUserTime >= self.cpu_time_limit_seconds * 10_000_000
+
+    def active_process_count(self) -> int:
+        return int(self._accounting_information().ActiveProcesses)
 
     def close(self) -> None:
         if self._handle is not None:

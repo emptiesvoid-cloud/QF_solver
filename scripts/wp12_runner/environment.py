@@ -12,7 +12,7 @@ from typing import Any, Iterable
 from .contracts import sha256_file
 
 
-_DISTRIBUTIONS = ("qf-solver", "numpy", "scipy", "pytest", "psutil", "cryptography")
+_DISTRIBUTIONS = ("qf-solver", "numpy", "scipy", "pytest", "psutil", "cryptography", "jsonschema")
 _NATIVE_SUFFIXES = {".dll", ".pyd", ".so", ".dylib"}
 _THREAD_VARIABLES = (
     "OMP_NUM_THREADS",

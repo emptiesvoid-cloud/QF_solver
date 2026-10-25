@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import ast
 import base64
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
@@ -32,6 +32,7 @@ from scripts.wp12_runner.contracts import (
     load_json,
     owner_decision_binding_errors,
     overlay_errors,
+    remote_identity_issues,
     sha256_bytes,
     safe_repo_relative_path,
     validate_owner_decision_structure,
@@ -63,10 +64,12 @@ from scripts.wp12_runner.process import (
     classify_process_result,
     classify_pytest_junit,
     run_fake_process,
+    validate_approved_pilot_command,
 )
 from scripts.wp12_runner.cli import main as runner_main
 import scripts.wp12_runner.cli as runner_cli
 import scripts.wp12_runner.synthetic_orchestrator as synthetic_orchestrator
+from scripts.wp12_owner_canonicalization import CanonicalizationError, PROFILE, canonical_owner_payload
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -113,8 +116,20 @@ def _manifest() -> dict[str, object]:
 
 def _decision(manifest: dict[str, object], digest: str) -> dict[str, object]:
     return {
-        "schema": "qf-solver-wp12-owner-decision-v2",
+        "schema": "qf-solver-wp12-owner-decision-v3",
+        "canonicalization": PROFILE,
         "decision_id": "OWNER-SYNTHETIC-01",
+        "unit_id": "SYNTH-UNIT-01",
+        "attempt_number": 1,
+        "launch_confirmation": "RUN_EXACT_APPROVED_UNIT",
+        "isolation_assessment_sha256": "9" * 64,
+        "remote_identity": {
+            "remote_name": "origin",
+            "remote_url": "https://github.com/emptiesvoid-cloud/QF_solver.git",
+            "remote_ref": "refs/heads/emptiesvoids-cloud/0.2.12",
+            "commit": COMMIT,
+            "git_tree": TREE,
+        },
         "status": "APPROVED",
         "campaign_id": "WP12-SYNTHETIC",
         "manifest_sha256": digest,
@@ -125,11 +140,19 @@ def _decision(manifest: dict[str, object], digest: str) -> dict[str, object]:
         "nodeids": [NODEID],
         "environment": {
             "platform": "synthetic",
+            "python_implementation": "CPython",
+            "architecture": "64bit",
             "python_version": "3.13.0",
             "venv_executable_sha256": "d" * 64,
             "packages": {"pytest": "8.4.1"},
             "native_libraries": {},
             "thread_environment": {},
+            "python_executable_path": "C:\\synthetic\\venv\\Scripts\\python.exe",
+            "python_executable_sha256": "d" * 64,
+            "virtual_environment": {"kind": "venv", "path": "C:\\synthetic\\venv"},
+            "solver_import_origin": "src/solveur/__init__.py",
+            "temporary_directory": "qualification/0_2_12/wp12_evidence/WP12-SYNTHETIC/run-001/tmp",
+            "junit_relative_path_from_science_checkout": "../runner/qualification/0_2_12/wp12_evidence/WP12-SYNTHETIC/run-001",
         },
         "budgets": {
             "wall_seconds": 10,
@@ -140,10 +163,20 @@ def _decision(manifest: dict[str, object], digest: str) -> dict[str, object]:
             "temporary_storage_bytes": 4096,
             "stdout_bytes": 1024,
             "stderr_bytes": 1024,
+            "enforcement": {
+                "wall": "hard",
+                "cpu": "hard",
+                "memory": "hard",
+                "process_tree": "hard",
+                "storage": "hard",
+                "logs": "hard",
+                "threads": "soft",
+            },
         },
         "maximum_attempts": 1,
         "destination": "qualification/0_2_12/wp12_evidence/WP12-SYNTHETIC/run-001",
         "owner": {"principal": "synthetic-owner", "display_name": "Synthetic Owner"},
+        "owner_key_id": "synthetic-key",
         "decided_utc": datetime.now(timezone.utc).isoformat(),
         "not_before_utc": "2026-01-01T00:00:00Z",
         "expires_utc": "2027-01-01T00:00:00Z",
@@ -219,6 +252,136 @@ def _execution_manifest() -> dict[str, object]:
     }
 
 
+def _execution_manifest_v3() -> dict[str, object]:
+    nodeid = "tests/unit/test_modal_symmetric_projection.py::test_structured_symmetric_projection_matches_dense_bilinear_form"
+    destination = "qualification/0_2_12/wp12_evidence/WP12-1-PILOT-001/attempt-001"
+    junit_relative = "../checkout-0.2.12/" + destination
+    test_sha = "2" * 64
+    return {
+        "schema": "qf-solver-wp12-execution-manifest-v3",
+        "campaign_id": "WP12-1-PILOT-001",
+        "unit_id": "WP12-1-PILOT-001-UNIT-01",
+        "status": "FROZEN_NOT_AUTHORIZED",
+        "repository": "emptiesvoid-cloud/QF_solver",
+        "target": {
+            "branch": "emptiesvoids-cloud/0.2.12",
+            "commit": COMMIT,
+            "git_tree": TREE,
+            "require_clean_checkout": True,
+            "allow_detached_at_exact_commit": True,
+            "remote_name": "origin",
+            "remote_url": "https://github.com/emptiesvoid-cloud/QF_solver.git",
+            "remote_ref": "refs/heads/emptiesvoids-cloud/0.2.12",
+        },
+        "scientific_identity": {"commit": "c" * 40, "git_tree": "d" * 40},
+        "runner_identity": {"commit": COMMIT, "git_tree": TREE},
+        "scope": {
+            "operation": "EXECUTE_ONE_TEST_NODE",
+            "capability_ids": ["WP12-1-MODAL-SYMMETRIC-PROJECTION"],
+            "scientific_boundary": "one structured symmetric projection identity only",
+        },
+        "code_identity": {
+            "source_files_sha256": {
+                "src/solveur/core/analyses/modal_basis_numerics.py": "1" * 64,
+                "pyproject.toml": "3" * 64,
+            },
+            "test_files_sha256": {"tests/unit/test_modal_symmetric_projection.py": test_sha},
+            "fixture_files_sha256": {"tests/unit/test_modal_symmetric_projection.py": test_sha},
+        },
+        "tests": {
+            "nodeid": nodeid,
+            "command_profile": "qf-wp12-single-node-pytest-v1",
+            "argv": [
+                "C:\\synthetic\\venv\\Scripts\\python.exe",
+                "-m",
+                "pytest",
+                "-q",
+                "-p",
+                "no:cacheprovider",
+                "-p",
+                "scripts.wp12_runner.pytest_provenance_plugin",
+                f"--junitxml={junit_relative}/junit.xml",
+                nodeid,
+            ],
+        },
+        "fixtures": {
+            "overlays": [],
+            "inline": [
+                {
+                    "id": "WP12-1-PILOT-001-projection-matrices",
+                    "nodeid": nodeid,
+                    "source_file": "tests/unit/test_modal_symmetric_projection.py",
+                    "source_file_sha256": test_sha,
+                    "canonicalization": "qf-wp12-inline-fixture-v1",
+                    "sha256": "4" * 64,
+                }
+            ],
+        },
+        "environment": {
+            "platform": "synthetic-platform",
+            "python_implementation": "CPython",
+            "architecture": "64bit",
+            "python_version": "3.13.1",
+            "venv_executable_sha256": "5" * 64,
+            "packages": {"pytest": "8.4.1"},
+            "native_libraries": {},
+            "thread_environment": {
+                "OMP_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "BLIS_NUM_THREADS": "1",
+                "VECLIB_MAXIMUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+            },
+            "python_executable_path": "C:\\synthetic\\venv\\Scripts\\python.exe",
+            "python_executable_sha256": "5" * 64,
+            "virtual_environment": {"kind": "venv", "path": "C:\\synthetic\\venv"},
+            "solver_import_origin": "src/solveur/__init__.py",
+            "temporary_directory": f"{destination}/tmp",
+            "junit_relative_path_from_science_checkout": junit_relative,
+        },
+        "resource_limits": {
+            "wall_seconds": 60,
+            "cpu_seconds": 30,
+            "memory_bytes": 536870912,
+            "process_count": 2,
+            "thread_count": 1,
+            "temporary_storage_bytes": 10485760,
+            "stdout_bytes": 1048576,
+            "stderr_bytes": 1048576,
+            "enforcement": {
+                "wall": "hard",
+                "cpu": "hard",
+                "memory": "hard",
+                "process_tree": "hard",
+                "storage": "hard",
+                "logs": "hard",
+                "threads": "soft",
+            },
+        },
+        "attempt_policy": {"maximum_attempts": 1, "automatic_retry": False},
+        "destination": destination,
+        "oracle": {
+            "reference": "existing assertions in the selected nodeid",
+            "classification": "algebraic projection identity",
+            "frozen_acceptance": {"source": "test assertions; no new threshold"},
+        },
+        "prepared_at": "2026-10-25",
+        "authorization_reference": {"status": "OWNER_DECISION_REQUIRED"},
+        "isolation_assessment": {
+            "status": "NOT_VERIFIED",
+            "profile": "wp12-pilot-isolated-windows-v1",
+            "attestation_path": "qualification/0_2_12/wp12_preparation/wp12_a_isolation_attestation.json",
+            "sha256": "6" * 64,
+            "evidence_anchor_status": "NOT_CONFIGURED",
+            "review_status": "NOT_REVIEWED",
+            "read_only_roots": ["science/src", "science/tests", "qualification/0_2_11"],
+            "exclusive_write_root": destination,
+            "limitations": ["synthetic test manifest only"],
+        },
+    }
+
+
 def test_wp12_prepared_manifests_remain_blocked_and_incomplete_inventories_are_visible() -> None:
     paths = sorted(WP12_PREPARATION.glob("wp12_[1-6]_execution_manifest.json"))
     assert len(paths) == 6
@@ -227,7 +390,7 @@ def test_wp12_prepared_manifests_remain_blocked_and_incomplete_inventories_are_v
         assessment = assess_prepared_manifest(manifest, digest)
         assert not assessment.execution_eligible
         assert "MANIFEST_PREPARED_NOT_AUTHORIZED" in assessment.execution_blockers
-        assert "REAL_EXECUTION_DISABLED_IN_WP12_R" in assessment.execution_blockers
+        assert "SEPARATE_OWNER_DECISION_REQUIRED" in assessment.execution_blockers
         schema_errors = validate_manifest_schema(manifest)
         if index in {1, 2, 4}:
             assert assessment.structurally_valid, (path.name, assessment.structural_errors)
@@ -299,12 +462,269 @@ def test_invalid_or_duplicate_json_is_rejected(tmp_path: Path) -> None:
         load_json(path)
 
 
+def test_owner_canonicalization_profile_v1_matches_fixed_synthetic_vector() -> None:
+    decision = {
+        "schema": "qf-solver-wp12-owner-decision-v3",
+        "canonicalization": PROFILE,
+        "launch_confirmation": "RUN_EXACT_APPROVED_UNIT",
+        "attempt_number": 1,
+        "owner": {"principal": "synthetic-owner", "display_name": "Quentin Farinazzo – synthétique"},
+        "signature": {"signature_base64": "ignored-envelope"},
+    }
+    expected = (
+        '{"attempt_number":1,"canonicalization":"qf-owner-json-v1",'
+        '"launch_confirmation":"RUN_EXACT_APPROVED_UNIT",'
+        '"owner":{"display_name":"Quentin Farinazzo – synthétique","principal":"synthetic-owner"},'
+        '"schema":"qf-solver-wp12-owner-decision-v3"}'
+    ).encode("utf-8")
+    assert canonical_owner_payload(decision) == expected
+    assert canonical_payload(decision) == expected
+    with pytest.raises(CanonicalizationError, match="floating-point"):
+        canonical_owner_payload({**decision, "attempt_number": 1.0})
+    with pytest.raises(CanonicalizationError, match="ASCII"):
+        canonical_owner_payload({**decision, "clÉ": "rejected"})
+
+
 def test_invalid_manifest_schema_is_rejected() -> None:
     manifest = _manifest()
     manifest["schema"] = "unknown"
     assessment = assess_manifest(manifest, "1" * 64)
     assert not assessment.structurally_valid
     assert "unsupported manifest schema" in assessment.structural_errors
+
+
+def test_pilot_v3_manifest_binds_exact_instrumented_command_and_stays_unauthorized() -> None:
+    manifest = _execution_manifest_v3()
+    assert validate_manifest_schema(manifest) == ()
+    assessment = assess_manifest(manifest, "7" * 64)
+    assert assessment.structural_errors == ()
+    assert assessment.execution_blockers == (
+        "SEPARATE_OWNER_DECISION_REQUIRED",
+        "REAL_EXECUTION_DISABLED_IN_WP12_A",
+    )
+
+    altered = _execution_manifest_v3()
+    altered["tests"]["argv"] = [*altered["tests"]["argv"][:-1], "-k", "modal"]
+    assert validate_manifest_schema(altered)
+    assert assess_manifest(altered, "7" * 64).structural_errors
+
+
+def test_owner_signature_profile_round_trips_with_ephemeral_synthetic_key() -> None:
+    from cryptography.hazmat.primitives import serialization
+    from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+    from scripts.sign_wp12_owner_decision import sign_owner_decision
+
+    manifest = _execution_manifest_v3()
+    manifest_sha = hashlib.sha256(json.dumps(manifest, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    now = datetime.now(timezone.utc)
+    target = manifest["target"]
+    remote = {key: target[key] for key in ("remote_name", "remote_url", "remote_ref")}
+    remote.update({"commit": "e" * 40, "git_tree": "f" * 40})
+    decision = {
+        "schema": "qf-solver-wp12-owner-decision-v3",
+        "canonicalization": PROFILE,
+        "decision_id": "SYNTHETIC-OWNER-DECISION-01",
+        "unit_id": manifest["unit_id"],
+        "attempt_number": 1,
+        "launch_confirmation": "RUN_EXACT_APPROVED_UNIT",
+        "isolation_assessment_sha256": manifest["isolation_assessment"]["sha256"],
+        "remote_identity": remote,
+        "status": "APPROVED",
+        "campaign_id": manifest["campaign_id"],
+        "manifest_sha256": manifest_sha,
+        "target": {key: target[key] for key in ("branch", "commit", "git_tree")},
+        "scientific_identity": manifest["scientific_identity"],
+        "runner_identity": manifest["runner_identity"],
+        "operations": ["EXECUTE_ONE_TEST_NODE"],
+        "nodeids": [manifest["tests"]["nodeid"]],
+        "environment": manifest["environment"],
+        "budgets": {**manifest["resource_limits"]},
+        "maximum_attempts": 1,
+        "destination": manifest["destination"],
+        "owner": {"principal": "synthetic-owner", "display_name": "Synthetic Owner"},
+        "owner_key_id": "synthetic-key",
+        "decided_utc": now.isoformat(),
+        "not_before_utc": (now - timedelta(minutes=1)).isoformat(),
+        "expires_utc": (now + timedelta(hours=1)).isoformat(),
+        "signature": {"key_id": "synthetic-key"},
+    }
+    private_key = Ed25519PrivateKey.generate()
+    signed = sign_owner_decision(decision, private_key)
+    assert validate_owner_decision_structure(signed) == ()
+    assert owner_decision_binding_errors(signed, manifest, manifest_sha) == ()
+
+    public_raw = private_key.public_key().public_bytes(
+        encoding=serialization.Encoding.Raw,
+        format=serialization.PublicFormat.Raw,
+    )
+    trusted = TrustedOwnerKey(
+        "synthetic-key",
+        "synthetic-owner",
+        base64.b64encode(public_raw).decode("ascii"),
+    )
+    verified = verify_owner_decision(
+        signed,
+        trusted_keys={trusted.key_id: trusted},
+        manifest_sha256=manifest_sha,
+        expected_campaign_id=manifest["campaign_id"],
+        expected_scientific_identity=manifest["scientific_identity"],
+        expected_runner_identity=manifest["runner_identity"],
+        now=now,
+    )
+    assert verified.authenticated
+
+
+def test_approved_command_builder_rejects_arbitrary_pytest_flags(tmp_path: Path) -> None:
+    from scripts.wp12_runner.inline_fixtures import PILOT_NODEID
+
+    science_root = tmp_path / "science"
+    evidence_dir = tmp_path / "evidence" / "attempt-001"
+    science_root.mkdir()
+    evidence_dir.mkdir(parents=True)
+    relative_junit = os.path.relpath(evidence_dir / "junit.xml", science_root).replace("\\", "/")
+    exact = [
+        sys.executable,
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "-p",
+        "scripts.wp12_runner.pytest_provenance_plugin",
+        f"--junitxml={relative_junit}",
+        PILOT_NODEID,
+    ]
+    validate_approved_pilot_command(exact, cwd=science_root, run_directory=evidence_dir, python_executable=sys.executable)
+    with pytest.raises(ContractError, match="exact WP12-1 pilot"):
+        validate_approved_pilot_command(
+            [*exact[:-1], "-k", "modal"],
+            cwd=science_root,
+            run_directory=evidence_dir,
+            python_executable=sys.executable,
+        )
+
+
+def test_pilot_inline_fixture_identity_is_extracted_without_importing_solver() -> None:
+    from scripts.wp12_runner.inline_fixtures import fixture_sha256, projection_pilot_fixture
+
+    source_path = ROOT / "tests" / "unit" / "test_modal_symmetric_projection.py"
+    fixture = projection_pilot_fixture(source_path.read_bytes())
+    assert fixture["nodeid"].endswith("test_structured_symmetric_projection_matches_dense_bilinear_form")
+    assert len(fixture_sha256(fixture)) == 64
+    assert not any(name == "solveur" or name.startswith("solveur.") for name in sys.modules)
+
+
+def test_execute_pilot_denies_without_owner_decision_before_manifest_access(tmp_path: Path) -> None:
+    from scripts.wp12_runner.scientific_execution import execute_pilot
+
+    event = execute_pilot(
+        runner_root=ROOT,
+        manifest_path=tmp_path / "absent-manifest.json",
+        owner_decision_path=None,
+        supplied_manifest_sha256=None,
+    )
+    assert event["status"] == "DENY_EXECUTION"
+    assert event["execution_started"] is False
+    assert event["blockers"] == ["REAL_EXECUTION_DISABLED_IN_WP12_A"]
+
+
+def test_execute_is_unconditionally_disabled_even_with_manifest_and_owner_inputs(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str], tmp_path: Path
+) -> None:
+    refusal_records: list[dict[str, object]] = []
+
+    def record(_directory: Path, event: dict[str, object], *, allowed_root: Path) -> Path:
+        refusal_records.append(dict(event))
+        return tmp_path / "refusal.json"
+
+    monkeypatch.setattr(runner_cli, "record_refusal", record)
+    result = runner_cli._execute_mode(
+        tmp_path / "manifest.json",
+        tmp_path / "owner.json",
+        "f" * 64,
+        None,
+        ROOT,
+    )
+    output = json.loads(capsys.readouterr().err)
+    assert result == 3
+    assert output["status"] == "DENY_EXECUTION"
+    assert output["execution_started"] is False
+    assert output["attempt_reserved"] is False
+    assert output["blockers"] == ["REAL_EXECUTION_DISABLED_IN_WP12_A"]
+    assert len(refusal_records) == 1
+
+
+def test_scientific_execution_stub_ignores_all_authorization_inputs(tmp_path: Path) -> None:
+    from scripts.wp12_runner.scientific_execution import execute_pilot
+
+    event = execute_pilot(
+        runner_root=ROOT,
+        manifest_path=tmp_path / "manifest.json",
+        owner_decision_path=tmp_path / "decision.json",
+        supplied_manifest_sha256="f" * 64,
+    )
+    assert event["status"] == "DENY_EXECUTION"
+    assert event["execution_started"] is False
+    assert event["attempt_reserved"] is False
+    assert event["blockers"] == ["REAL_EXECUTION_DISABLED_IN_WP12_A"]
+
+
+def test_trust_status_reports_only_public_metadata(monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]) -> None:
+    public_bytes = b"p" * 32
+    key = TrustedOwnerKey("synthetic-key", "synthetic-owner", base64.b64encode(public_bytes).decode("ascii"))
+    monkeypatch.setattr(
+        "scripts.wp12_runner.owner_trust.load_machine_trust_store",
+        lambda _root: ({key.key_id: key}, "a" * 64),
+    )
+    assert runner_cli._trust_status_mode(ROOT) == 0
+    output = json.loads(capsys.readouterr().out)
+    assert output["state"] == "VERIFIED_READ_ONLY"
+    assert output["keys"][0]["key_id"] == "synthetic-key"
+    assert "public_key_base64" not in output["keys"][0]
+    assert output["private_key_accessed"] is False
+
+
+def test_remote_identity_requires_signed_advertisement_and_does_not_fetch(monkeypatch: pytest.MonkeyPatch) -> None:
+    import scripts.wp12_runner.contracts as contracts
+
+    remote_commit = "c" * 40
+    remote_tree = "d" * 40
+    target = {
+        "branch": "emptiesvoids-cloud/0.2.12",
+        "commit": COMMIT,
+        "git_tree": TREE,
+        "remote_name": "origin",
+        "remote_url": "https://github.com/emptiesvoid-cloud/QF_solver.git",
+        "remote_ref": "refs/heads/emptiesvoids-cloud/0.2.12",
+    }
+    owner = {
+        "remote_identity": {
+            "remote_name": "origin",
+            "remote_url": target["remote_url"],
+            "remote_ref": target["remote_ref"],
+            "commit": remote_commit,
+            "git_tree": remote_tree,
+        }
+    }
+    calls: list[list[str]] = []
+
+    def fake_run(command: list[str], **_: object) -> SimpleNamespace:
+        calls.append(command)
+        if command[1:3] == ["config", "--get"]:
+            return SimpleNamespace(returncode=0, stdout=target["remote_url"], stderr="")
+        if command[1] == "ls-remote":
+            return SimpleNamespace(returncode=0, stdout=f"{remote_commit}\t{target['remote_ref']}\n", stderr="")
+        if command[1:3] == ["rev-parse", f"{remote_commit}^{{tree}}"]:
+            return SimpleNamespace(returncode=0, stdout=remote_tree, stderr="")
+        if command[1:3] == ["merge-base", "--is-ancestor"]:
+            return SimpleNamespace(returncode=0, stdout="", stderr="")
+        raise AssertionError(f"unexpected git call: {command}")
+
+    monkeypatch.setattr(contracts.subprocess, "run", fake_run)
+    assert remote_identity_issues(ROOT, target, owner) == ()
+    assert all(command[1] != "fetch" for command in calls)
+    owner["remote_identity"]["commit"] = "e" * 40
+    assert remote_identity_issues(ROOT, target, owner) == ("REMOTE_COMMIT_MISMATCH",)
 
 
 def test_malformed_nodeid_inventory_does_not_crash_validator() -> None:
@@ -346,7 +766,7 @@ def test_owner_decision_absence_and_manifest_hash_mismatch_deny() -> None:
         destination_exists=False,
     )
     assert "MANIFEST_SHA256_NOT_APPROVED" in mismatch
-    assert "REAL_EXECUTION_DISABLED_IN_WP12_R" in mismatch
+    assert "OWNER_DECISION_ABSENT" in mismatch
 
 
 def test_existing_evidence_destination_is_an_explicit_gate_blocker() -> None:
@@ -389,7 +809,7 @@ def test_owner_json_status_does_not_authenticate_authority() -> None:
         destination_exists=False,
     )
     assert "OWNER_DECISION_UNAUTHENTICATED" in blockers
-    assert "REAL_EXECUTION_DISABLED_IN_WP12_R" in blockers
+    assert "MANIFEST_PREPARED_NOT_AUTHORIZED" in blockers
 
 
 def test_owner_decision_binding_rejects_changed_nodeid_and_commit() -> None:
@@ -498,13 +918,30 @@ def test_machine_trust_store_requires_hklm_sha256_pin(tmp_path: Path, monkeypatc
         TRUST_STORE_PATH_VALUE: str(trust_path),
         TRUST_STORE_SHA_VALUE: hashlib.sha256(trust_bytes).hexdigest(),
     }
+    def open_key(_hive: object, _path: str, _reserved: int, access: int) -> RegistryKey:
+        if access == 2:
+            raise PermissionError("synthetic read-only machine key")
+        return RegistryKey()
+
     fake_registry = SimpleNamespace(
         HKEY_LOCAL_MACHINE=object(),
         KEY_READ=1,
-        OpenKey=lambda *_args: RegistryKey(),
+        KEY_SET_VALUE=2,
+        OpenKey=open_key,
         QueryValueEx=lambda _key, name: (values[name], 1),
     )
     monkeypatch.setitem(sys.modules, "winreg", fake_registry)
+    import scripts.wp12_runner.owner_trust as owner_trust_module
+
+    real_open = owner_trust_module.os.open
+
+    def read_only_open(path: str | Path, flags: int, *args: object, **kwargs: object) -> int:
+        if Path(path) == trust_path and flags & os.O_WRONLY:
+            raise PermissionError("synthetic read-only trust file")
+        return real_open(path, flags, *args, **kwargs)
+
+    monkeypatch.setattr(owner_trust_module.os, "open", read_only_open)
+    monkeypatch.setattr(owner_trust_module.os, "access", lambda *_args: False)
     keys, digest = load_machine_trust_store(ROOT)
     assert digest == values[TRUST_STORE_SHA_VALUE]
     assert keys["synthetic-machine-key"].principal == "synthetic-owner"
@@ -841,8 +1278,7 @@ def test_execute_mode_logs_refusal_for_prepared_manifest_and_never_launches_test
     refusal_files = list(audit.glob("refusal-*.json"))
     assert len(refusal_files) == 1
     refusal = json.loads(refusal_files[0].read_text(encoding="utf-8"))
-    assert "REAL_EXECUTION_DISABLED_IN_WP12_R" in refusal["blockers"]
-    assert "MANIFEST_PREPARED_NOT_AUTHORIZED" in refusal["blockers"]
+    assert refusal["blockers"] == ["REAL_EXECUTION_DISABLED_IN_WP12_A"]
 
 
 def test_execute_argument_rejection_is_logged_and_force_flag_is_not_supported(

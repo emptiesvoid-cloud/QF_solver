@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import argparse
+import base64
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -11,18 +13,15 @@ from typing import Any, Mapping, Sequence
 from .contracts import (
     ContractError,
     assess_manifest,
-    execution_gate_blockers,
     inspect_git,
     load_json,
     safe_repo_relative_path,
     validate_manifest_schema,
-    validate_owner_decision_structure,
     verify_manifest_input_identities,
 )
 from .evidence import record_refusal
 from .environment import collect_environment_provenance
 from .git_remote import sync_remote_identity, write_sync_receipt
-from .owner_trust import load_machine_trust_store, verify_owner_decision
 from .synthetic_orchestrator import SYNTHETIC_CASES, run_synthetic_orchestration
 
 
@@ -30,8 +29,8 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_AUDIT_DIRECTORY = REPOSITORY_ROOT / ".codex" / "wp12_runner_audit"
 
 
-def _json_print(value: Mapping[str, Any], *, stream: Any = sys.stdout) -> None:
-    print(json.dumps(dict(value), indent=2, sort_keys=True, ensure_ascii=False), file=stream)
+def _json_print(value: Mapping[str, Any], *, stream: Any | None = None) -> None:
+    print(json.dumps(dict(value), indent=2, sort_keys=True, ensure_ascii=False), file=stream or sys.stdout)
 
 
 def _git_report(manifest: Mapping[str, Any], root: Path) -> tuple[dict[str, Any], tuple[str, ...]]:
@@ -174,96 +173,20 @@ def _execute_mode(
     nodeid: str | None,
     root: Path,
 ) -> int:
-    event: dict[str, Any] = {"mode": "EXECUTE", "event": "DENY_EXECUTION", "execution_started": False}
-    manifest: dict[str, Any] = {}
-    digest = ""
-    assessment = None
-    decision = None
-    git_snapshot = None
+    event: dict[str, Any] = {
+        "mode": "EXECUTE",
+        "event": "DENY_EXECUTION",
+        "execution_started": False,
+        "attempt_reserved": False,
+        "status": "DENY_EXECUTION",
+        "blockers": ["REAL_EXECUTION_DISABLED_IN_WP12_A"],
+    }
     try:
-        manifest, digest = load_json(manifest_path)
-        assessment = assess_manifest(manifest, digest)
-        event.update({"campaign_id": assessment.campaign_id, "manifest_sha256": digest})
-        input_errors, input_records = verify_manifest_input_identities(root, manifest)
-        event["input_identity_errors"] = list(input_errors)
-        event["input_identity_records"] = list(input_records)
-        if owner_path is not None:
-            decision, _decision_sha = load_json(owner_path)
-            event["owner_decision_sha256"] = _decision_sha
-        try:
-            git_snapshot = inspect_git(root)
-        except (OSError, ContractError) as exc:
-            event["git_error"] = str(exc)
-        argv = _resolve_exact_argv(manifest, nodeid)
-        owner_authenticated = False
-        if decision is not None:
-            event["owner_decision_structural_errors"] = list(validate_owner_decision_structure(decision))
-            try:
-                trusted_keys, trust_store_sha256 = load_machine_trust_store(root)
-                target = manifest.get("target", {})
-                declared_scientific = manifest.get("scientific_identity", target)
-                if isinstance(declared_scientific, Mapping):
-                    scientific_identity = {
-                        "commit": str(declared_scientific.get("commit", "")),
-                        "git_tree": str(declared_scientific.get("git_tree", "")),
-                    }
-                else:
-                    scientific_identity = {"commit": "", "git_tree": ""}
-                runner_identity = (
-                    {"commit": git_snapshot.commit, "git_tree": git_snapshot.tree}
-                    if git_snapshot is not None
-                    else {"commit": "", "git_tree": ""}
-                )
-                authentication = verify_owner_decision(
-                    decision,
-                    trusted_keys=trusted_keys,
-                    manifest_sha256=digest,
-                    expected_campaign_id=str(manifest.get("campaign_id", "")),
-                    expected_scientific_identity=scientific_identity,
-                    expected_runner_identity=runner_identity,
-                )
-                event["owner_authentication"] = {
-                    "authenticated": authentication.authenticated,
-                    "key_id": authentication.key_id,
-                    "principal": authentication.principal,
-                    "payload_sha256": authentication.payload_sha256,
-                    "trust_store_sha256": trust_store_sha256,
-                    "errors": list(authentication.errors),
-                }
-                owner_authenticated = authentication.authenticated
-            except (OSError, ContractError) as exc:
-                event["owner_authentication"] = {
-                    "authenticated": False,
-                    "errors": [str(exc)],
-                }
-        blockers = list(
-            execution_gate_blockers(
-                assessment=assessment,
-                manifest=manifest,
-                supplied_manifest_sha256=supplied_sha256,
-                owner_decision=decision,
-                git_snapshot=git_snapshot,
-                nodeid=nodeid,
-                argv=argv,
-                previous_attempts=0,
-                attempt_number=1,
-                destination_exists=_destination_exists(root, manifest),
-                owner_authenticated=owner_authenticated,
-            )
+        event["refusal_record"] = str(
+            record_refusal(DEFAULT_AUDIT_DIRECTORY, event, allowed_root=REPOSITORY_ROOT)
         )
-        blockers.extend(f"MANIFEST_INPUT_IDENTITY:{error}" for error in input_errors)
-        if decision is not None and not owner_authenticated:
-            auth_errors = event.get("owner_authentication", {}).get("errors", [])
-            if any("trust root" in error.lower() or "trust-store" in error.lower() for error in auth_errors):
-                blockers.append("OWNER_TRUST_ROOT_UNAVAILABLE")
-        event["blockers"] = list(dict.fromkeys(blockers))
     except (OSError, ContractError) as exc:
-        event["blockers"] = ["INPUT_INVALID", str(exc)]
-    try:
-        refusal_path = record_refusal(DEFAULT_AUDIT_DIRECTORY, event, allowed_root=REPOSITORY_ROOT)
-        event["refusal_record"] = str(refusal_path)
-    except (OSError, ContractError) as exc:
-        event["refusal_record_error"] = str(exc)
+        event["refusal_record_error"] = f"{type(exc).__name__}: {exc}"
     _json_print(event, stream=sys.stderr)
     return 3
 
@@ -282,11 +205,47 @@ def _log_execute_argument_refusal(blocker: str) -> None:
     _json_print(event, stream=sys.stderr)
 
 
+def _trust_status_mode(root: Path) -> int:
+    from .owner_trust import load_machine_trust_store
+
+    try:
+        trusted_keys, trust_store_sha = load_machine_trust_store(root)
+    except (OSError, ContractError) as exc:
+        _json_print(
+            {
+                "mode": "TRUST_STATUS",
+                "state": "NOT_CONFIGURED_OR_INVALID",
+                "error": str(exc),
+                "private_key_accessed": False,
+            },
+            stream=sys.stderr,
+        )
+        return 2
+    _json_print(
+        {
+            "mode": "TRUST_STATUS",
+            "state": "VERIFIED_READ_ONLY",
+            "trust_store_sha256": trust_store_sha,
+            "keys": [
+                {
+                    "key_id": key.key_id,
+                    "principal": key.principal,
+                    "revoked": key.revoked,
+                    "public_key_sha256": hashlib.sha256(base64.b64decode(key.public_key_base64)).hexdigest(),
+                }
+                for key in sorted(trusted_keys.values(), key=lambda item: item.key_id)
+            ],
+            "private_key_accessed": False,
+        }
+    )
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="WP12 fail-closed preparation and fixed synthetic runner self-test utility"
+        description="WP12 static validation, trust inspection, synthetic self-tests, and disabled scientific EXECUTE"
     )
-    parser.add_argument("--mode", choices=("VALIDATE", "SELF_TEST", "SYNC", "EXECUTE"), required=True)
+    parser.add_argument("--mode", choices=("VALIDATE", "TRUST_STATUS", "SELF_TEST", "SYNC", "EXECUTE"), required=True)
     parser.add_argument("--root", type=Path, default=REPOSITORY_ROOT)
     parser.add_argument("--manifest", type=Path)
     parser.add_argument("--owner-decision", type=Path)
@@ -312,6 +271,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         if any(value is not None for value in (args.manifest, args.owner_decision, args.manifest_sha256, args.nodeid)):
             parser.error("SELF_TEST accepts no manifest, Owner decision, nodeid, or command selector")
         return _self_test_mode(args.case or "all")
+    if args.mode == "TRUST_STATUS":
+        if any(value is not None for value in (args.manifest, args.owner_decision, args.manifest_sha256, args.nodeid, args.case)):
+            parser.error("TRUST_STATUS reads only the machine-pinned Owner trust root")
+        if args.root.resolve(strict=False) != REPOSITORY_ROOT.resolve(strict=False):
+            parser.error("TRUST_STATUS must run from the configured runner checkout")
+        return _trust_status_mode(REPOSITORY_ROOT)
     if args.mode == "VALIDATE":
         if args.manifest is None:
             parser.error("VALIDATE requires --manifest")
