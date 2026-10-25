@@ -35,3 +35,9 @@ L'addendum [WP12-R2 sécurité et écarts](wp12_r2_runner_security_review.md) d�
 Les six manifestes WP12-0 sont conservés octet pour octet. Les nouvelles révisions [WP12-1 à WP12-6](revisions/manifest_revision_index.json) restent `PREPARED_NOT_AUTHORIZED`; l'index relie chaque révision au SHA-256 de son original et au candidat scientifique WP12-0. Les révisions ne sont ni une autorisation ni une preuve d'exécution.
 
 WP12-R2 est `PREPARATION_ONLY`; `NUMERICAL_EXECUTION_NOT_PERFORMED`; `WP12_STATUS=OPEN`.
+
+## WP12-S — Revue de sécurité Owner et périmètre WP12-1
+
+La [revue de sécurité Owner](wp12_s_owner_security_assessment.md) conclut `SECURITY_REVIEW_WITH_BLOCKERS`. La [matrice des contrôles](wp12_s_security_controls_matrix.md) distingue les garanties synthétiques, les protections partielles et les limites absentes; la [checklist Owner](wp12_s_owner_action_checklist.md) décrit les prérequis de confiance, d'isolation, de reçus et d'approbation sans configurer de secrets ou paramètres système.
+
+La [revue de scope WP12-1](wp12_s_wp12_1_scope_review.md) relève notamment un nodeid Newmark qui appelle `solve_model`, des dépendances checkpoint non linéaires hors de l'inventaire direct, et des champs de fixture/environnement/ressource encore à figer. Ces documents sont préparatoires : aucune campagne ni décision Owner n'est autorisée par leur présence. WP11 reste CLOSED; WP12 et WP13 restent OPEN.
