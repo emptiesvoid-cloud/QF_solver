@@ -1,0 +1,335 @@
+{
+  "all_attempts_passed": true,
+  "artifacts": {
+    "case_metrics_csv": "E:\\QFSolverAgents\\evidence\\tet4\\fem-cases-wp12-v1\\analysis-20261026-v1\\case_metrics.csv",
+    "convergence_plot": "E:\\QFSolverAgents\\evidence\\tet4\\fem-cases-wp12-v1\\analysis-20261026-v1\\convergence.png",
+    "cost_plot": "E:\\QFSolverAgents\\evidence\\tet4\\fem-cases-wp12-v1\\analysis-20261026-v1\\cost.png",
+    "family_comparison_plot": "E:\\QFSolverAgents\\evidence\\tet4\\fem-cases-wp12-v1\\analysis-20261026-v1\\family_comparison.png"
+  },
+  "budget": {
+    "attempts_used": 6,
+    "max_attempts": 12,
+    "max_selected_dofs": 50000,
+    "max_timeout_seconds": 900,
+    "rss_soft_limit_mib": 4096
+  },
+  "case_count": 6,
+  "convergence": [
+    {
+      "aspect_ratio_median": 2.4494897427831783,
+      "attempt_elapsed_seconds": 4.811287100019399,
+      "cells": [
+        5,
+        1,
+        1
+      ],
+      "dofs": 72,
+      "elements": 30,
+      "energy_identity_relative_error_work_scale": 3.547709411260737e-14,
+      "evidence_path": "E:\\QFSolverAgents\\evidence\\tet4\\fem-cases-wp12-v1\\tet4_factor_1\\20261026T182516Z-309148b1\\mechanics.json",
+      "external_work_j": 1.837293439600374e-08,
+      "factor": 1,
+      "force_balance_relative_error": 2.0701253766085166e-13,
+      "free_residual_relative_to_free_load": 7.483395905343611e-13,
+      "magnitude_change_from_previous": null,
+      "max_edge_m": 0.9797958971132715,
+      "mean_uz_m": -1.837293439600374e-08,
+      "moment_balance_relative_error": 1.4805378206966641e-13,
+      "nodes": 24,
+      "peak_rss_mib": 154.3203125,
+      "solve_seconds": 0.1817857999703847,
+      "strain_energy_j": 9.186467198001544e-09,
+      "tet4_quality_median": 0.5019280510983322,
+      "tet4_quality_p05": 0.40284487956872517,
+      "timoshenko_relative_difference": 0.8723848573407162
+    },
+    {
+      "aspect_ratio_median": 2.4494897427831774,
+      "attempt_elapsed_seconds": 5.1757544000283815,
+      "cells": [
+        10,
+        2,
+        2
+      ],
+      "dofs": 297,
+      "elements": 240,
+      "energy_identity_relative_error_work_scale": 2.976543896334393e-13,
+      "evidence_path": "E:\\QFSolverAgents\\evidence\\tet4\\fem-cases-wp12-v1\\tet4_factor_2\\20261026T182530Z-34949b2b\\mechanics.json",
+      "external_work_j": 5.057774275395339e-08,
+      "factor": 2,
+      "force_balance_relative_error": 3.362110477665218e-12,
+      "free_residual_relative_to_free_load": 7.164301141028063e-12,
+      "magnitude_change_from_previous": 1.752839675134008,
+      "max_edge_m": 0.48989794855663593,
+      "mean_uz_m": -5.057774275395338e-08,
+      "moment_balance_relative_error": 2.0880062000423412e-12,
+      "nodes": 99,
+      "peak_rss_mib": 158.29296875,
+      "solve_seconds": 0.4940065999981016,
+      "strain_energy_j": 2.528887137696917e-08,
+      "tet4_quality_median": 0.5019280510983324,
+      "tet4_quality_p05": 0.40284487956872517,
+      "timoshenko_relative_difference": 0.6486959721396371
+    },
+    {
+      "aspect_ratio_median": 2.4494897427831783,
+      "attempt_elapsed_seconds": 7.957184099999722,
+      "cells": [
+        20,
+        4,
+        4
+      ],
+      "dofs": 1575,
+      "elements": 1920,
+      "energy_identity_relative_error_work_scale": 1.2194731171381567e-11,
+      "evidence_path": "E:\\QFSolverAgents\\evidence\\tet4\\fem-cases-wp12-v1\\tet4_factor_4\\20261026T182542Z-02709b80\\mechanics.json",
+      "external_work_j": 9.648387665539072e-08,
+      "factor": 4,
+      "force_balance_relative_error": 1.979344857882131e-11,
+      "free_residual_relative_to_free_load": 6.264005775389033e-11,
+      "magnitude_change_from_previous": 0.9076350861436793,
+      "max_edge_m": 0.244948974278318,
+      "mean_uz_m": -9.64838766553907e-08,
+      "moment_balance_relative_error": 1.7414972510646217e-11,
+      "nodes": 525,
+      "peak_rss_mib": 253.59375,
+      "solve_seconds": 3.38986819999991,
+      "strain_energy_j": 4.8241938328283656e-08,
+      "tet4_quality_median": 0.5019280510983322,
+      "tet4_quality_p05": 0.40284487956872517,
+      "timoshenko_relative_difference": 0.32984011054997514
+    },
+    {
+      "aspect_ratio_median": 2.4494897427831797,
+      "attempt_elapsed_seconds": 33.3129797000438,
+      "cells": [
+        40,
+        8,
+        8
+      ],
+      "dofs": 9963,
+      "elements": 15360,
+      "energy_identity_relative_error_work_scale": 4.499547380413911e-11,
+      "evidence_path": "E:\\QFSolverAgents\\evidence\\tet4\\fem-cases-wp12-v1\\tet4_factor_8\\20261026T182557Z-4c674d19\\mechanics.json",
+      "external_work_j": 1.2705772212998438e-07,
+      "factor": 8,
+      "force_balance_relative_error": 2.430542066377198e-10,
+      "free_residual_relative_to_free_load": 3.418055080381486e-10,
+      "magnitude_change_from_previous": 0.31688035902406386,
+      "max_edge_m": 0.12247448713915901,
+      "mean_uz_m": -1.270577221299844e-07,
+      "moment_balance_relative_error": 1.7879531081803405e-10,
+      "nodes": 3321,
+      "peak_rss_mib": 975.9921875,
+      "solve_seconds": 27.88392819999717,
+      "strain_energy_j": 6.352886106213368e-08,
+      "tet4_quality_median": 0.5019280510983317,
+      "tet4_quality_p05": 0.4028448795687246,
+      "timoshenko_relative_difference": 0.11747960417752434
+    }
+  ],
+  "family_comparison": [
+    {
+      "absolute_displacement_difference_vs_tet4_f4": 0.0,
+      "aspect_ratio_median": 2.4494897427831783,
+      "aspect_ratio_p95": 2.44948974278318,
+      "attempt_elapsed_seconds": 7.957184099999722,
+      "case_id": "tet4_factor_4",
+      "cells": [
+        20,
+        4,
+        4
+      ],
+      "dofs": 1575,
+      "elements": 1920,
+      "energy_identity_relative_error_work_scale": 1.2194731171381567e-11,
+      "evidence_path": "E:\\QFSolverAgents\\evidence\\tet4\\fem-cases-wp12-v1\\tet4_factor_4\\20261026T182542Z-02709b80\\mechanics.json",
+      "face_area_m2": 0.1600000000000001,
+      "family": "TET4",
+      "family_distortion_metric_p95": 0.5971551204312748,
+      "free_residual_relative_to_free_load": 6.264005775389033e-11,
+      "jacobian_ratio_min": 1.0,
+      "mean_uz_m": -9.64838766553907e-08,
+      "nodes": 525,
+      "peak_rss_mib": 253.59375,
+      "reaction_moment_about_origin_nm": [
+        0.20000000000352144,
+        -4.000000000069273,
+        7.308598171107406e-12
+      ],
+      "reaction_resultant_n": [
+        1.1801670751765414e-12,
+        2.8033131371785203e-12,
+        1.0000000000195581
+      ],
+      "relative_force_balance": 1.979344857882131e-11,
+      "relative_moment_balance": 1.7414972510646217e-11,
+      "solve_seconds": 3.38986819999991,
+      "work_conjugate_difference_m": -3.970466940254533e-23
+    },
+    {
+      "absolute_displacement_difference_vs_tet4_f4": 0.4771400363705147,
+      "aspect_ratio_median": 2.4494897427831783,
+      "aspect_ratio_p95": 2.44948974278318,
+      "attempt_elapsed_seconds": 36.69368970004143,
+      "case_id": "tet10_factor_4",
+      "cells": [
+        20,
+        4,
+        4
+      ],
+      "dofs": 9963,
+      "elements": 1920,
+      "energy_identity_relative_error_work_scale": 2.9888968152013584e-11,
+      "evidence_path": "E:\\QFSolverAgents\\evidence\\tet4\\fem-cases-wp12-v1\\tet10_factor_4\\20261026T182714Z-a19dd60f\\mechanics.json",
+      "face_area_m2": 0.1600000000000001,
+      "family": "TET10",
+      "family_distortion_metric_p95": 1.609823385706477e-14,
+      "free_residual_relative_to_free_load": 3.559240448365674e-10,
+      "jacobian_ratio_min": 0.9999999999999761,
+      "mean_uz_m": -1.4252019707191207e-07,
+      "nodes": 3321,
+      "peak_rss_mib": 786.17578125,
+      "reaction_moment_about_origin_nm": [
+        0.1999999999758933,
+        -3.9999999998054463,
+        9.550887858367219e-12
+      ],
+      "reaction_resultant_n": [
+        -4.399036690472258e-12,
+        5.322339791113961e-12,
+        0.9999999999242499
+      ],
+      "relative_force_balance": 7.606413324378081e-11,
+      "relative_moment_balance": 4.9007284345057924e-11,
+      "solve_seconds": 27.008718999975827,
+      "work_conjugate_difference_m": 0.0
+    },
+    {
+      "absolute_displacement_difference_vs_tet4_f4": 0.33042238410989344,
+      "aspect_ratio_median": 2.0,
+      "aspect_ratio_p95": 2.000000000000002,
+      "attempt_elapsed_seconds": 8.589889900002163,
+      "case_id": "hex8_factor_4",
+      "cells": [
+        20,
+        4,
+        4
+      ],
+      "dofs": 1575,
+      "elements": 320,
+      "energy_identity_relative_error_work_scale": 5.510709280796704e-12,
+      "evidence_path": "E:\\QFSolverAgents\\evidence\\tet4\\fem-cases-wp12-v1\\hex8_factor_4\\20261026T182752Z-fe03d683\\mechanics.json",
+      "face_area_m2": 0.1600000000000001,
+      "family": "HEX8",
+      "family_distortion_metric_p95": 3.4416913763379853e-15,
+      "free_residual_relative_to_free_load": 3.1218863198554715e-11,
+      "jacobian_ratio_min": 0.9999999999999963,
+      "mean_uz_m": -1.283643092080298e-07,
+      "nodes": 525,
+      "peak_rss_mib": 219.5546875,
+      "reaction_moment_about_origin_nm": [
+        0.2000000000041449,
+        -4.000000000066038,
+        -5.347500220409529e-12
+      ],
+      "reaction_resultant_n": [
+        2.028377465990161e-13,
+        -1.6118217871508023e-12,
+        1.000000000021231
+      ],
+      "relative_force_balance": 2.129318922446728e-11,
+      "relative_moment_balance": 1.6575287149359993e-11,
+      "solve_seconds": 3.6798841999843717,
+      "work_conjugate_difference_m": -2.6469779601696886e-23
+    }
+  ],
+  "important_limits": [
+    "The four TET4 meshes are nested self-similar refinements with the same shape-quality distribution.",
+    "The Timoshenko result is a one-dimensional diagnostic, not an independent 3D exact reference.",
+    "No asymptotic convergence order is inferred from four levels.",
+    "TET10 and HEX8 each have one factor-4 sample; no family convergence series is available.",
+    "Development results are not qualification or release evidence."
+  ],
+  "mechanical_closure_maxima": {
+    "energy_identity_relative_error_work_scale": 4.499547380413911e-11,
+    "force_balance_relative_error": 2.430542066377198e-10,
+    "free_residual_relative_to_free_load": 3.559240448365674e-10,
+    "moment_balance_relative_error": 1.7879531081803405e-10,
+    "work_conjugate_minus_area_average_m": 3.970466940254533e-23
+  },
+  "quality_audit": {
+    "invalid_or_fatal_element_count": 0,
+    "warning_count": 0
+  },
+  "registered_cases": [
+    {
+      "authorization_id": "wp12-t4-f1-attempt-01",
+      "case_id": "tet4_factor_1",
+      "elements": 30,
+      "maximum_fem_cases_per_attempt": 1,
+      "maximum_selected_dofs": 50000,
+      "nodeid": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_1",
+      "selected_dofs": 72,
+      "timeout_seconds": 900
+    },
+    {
+      "authorization_id": "wp12-t4-f2-attempt-01",
+      "case_id": "tet4_factor_2",
+      "elements": 240,
+      "maximum_fem_cases_per_attempt": 1,
+      "maximum_selected_dofs": 50000,
+      "nodeid": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_2",
+      "selected_dofs": 297,
+      "timeout_seconds": 900
+    },
+    {
+      "authorization_id": "wp12-t4-f4-attempt-01",
+      "case_id": "tet4_factor_4",
+      "elements": 1920,
+      "maximum_fem_cases_per_attempt": 1,
+      "maximum_selected_dofs": 50000,
+      "nodeid": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_4",
+      "selected_dofs": 1575,
+      "timeout_seconds": 900
+    },
+    {
+      "authorization_id": "wp12-t4-f8-attempt-01",
+      "case_id": "tet4_factor_8",
+      "elements": 15360,
+      "maximum_fem_cases_per_attempt": 1,
+      "maximum_selected_dofs": 50000,
+      "nodeid": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet4_refinement_factor_8",
+      "selected_dofs": 9963,
+      "timeout_seconds": 900
+    },
+    {
+      "authorization_id": "wp12-t10-f4-attempt-01",
+      "case_id": "tet10_factor_4",
+      "elements": 1920,
+      "maximum_fem_cases_per_attempt": 1,
+      "maximum_selected_dofs": 50000,
+      "nodeid": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet10_family_comparison_factor_4",
+      "selected_dofs": 9963,
+      "timeout_seconds": 900
+    },
+    {
+      "authorization_id": "wp12-h8-f4-attempt-01",
+      "case_id": "hex8_factor_4",
+      "elements": 320,
+      "maximum_fem_cases_per_attempt": 1,
+      "maximum_selected_dofs": 50000,
+      "nodeid": "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_hex8_family_comparison_factor_4",
+      "selected_dofs": 1575,
+      "timeout_seconds": 900
+    }
+  ],
+  "resource_maxima": {
+    "attempt_elapsed_seconds": 36.69368970004143,
+    "peak_rss_bytes": 1023401984,
+    "peak_rss_mib": 975.9921875
+  },
+  "schema": "qf-wp12-tet4-convergence-summary-v1",
+  "source_head": "619fddd97d56936ca3333cbeca9e7ae46dbd6a8e",
+  "status": "DEVELOPMENT_ONLY"
+}
