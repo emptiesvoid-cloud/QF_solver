@@ -104,10 +104,15 @@ the exact state on that same fixed `[0,T]` sample grid. Each successive order is
 and `steps+1` sample count match the requested fixed interval. Displacement,
 velocity, and acceleration are reported in m, m/s, and m/s^2; relative errors
 and observed orders are dimensionless. The test asserts only the existing
-displacement order, reduced residual, and energy limits. It prints a
-deterministic JSON observation record for capture by an authorized `-s`
-invocation. It does not use v/a error limits that are absent from the frozen
-contract.
+displacement order, reduced residual, and energy limits. It writes the sample
+states/errors, residual history, and energy balance history to a JSON sidecar
+inside the controller-created `output/` directory for that attempt. The test
+derives this destination from the launcher's temporary path and validates the
+matching in-progress `run.json`, exact manifest path/hash, nodeid, and attempt
+identity before writing. It publishes by same-directory atomic no-replace hard
+link; the controller's final `output_inventory` records the file size and
+SHA-256 under the configured archive budget. It does not use v/a error limits
+that are absent from the frozen contract.
 
 **Stability interpretation:** the contract's parameter domain is
 `gamma >= 0.5`, `beta >= 0.25*(gamma+0.5)^2`, `dt > 0`; these are the selected
@@ -234,7 +239,8 @@ runs, archive plots from captured JSON only:
    rather than plotting them as zero.
 
 Plots are diagnostic summaries, not new acceptance criteria. Preserve the raw
-JSON, JUnit, stdout/stderr, environment and provenance with the run evidence.
+JSON sidecar, inventoried stdout/stderr, environment and provenance with the
+run evidence.
 
 ## Bounded verdict and next action
 
