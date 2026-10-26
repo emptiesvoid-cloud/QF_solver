@@ -1,7 +1,7 @@
 # STAT-BEAM-001 — BEAM2 Timoshenko cantilever preparation
 
-**Status:** `PREPARATION_ONLY`<br>
-**Numerical execution:** `NUMERICAL_EXECUTION_NOT_PERFORMED`<br>
+**Status:** `EXECUTION_RECORDED`<br>
+**Numerical execution:** `PERFORMED_FOR_TWO_ONE_ELEMENT_CASES`<br>
 **WP12:** `OPEN`
 
 The two prepared cases are `STAT-BEAM-UY-001` and `STAT-BEAM-UZ-001`, selected through fixed non-parameterized wrappers. They reuse `beam_model` and constants from `tests/unit/test_beam2_element.py`; that historical source test is not modified. The original pytest IDs are parameterized. Their anticipated suffixes were derived from source and pytest's primitive parameter ID rule, but collection was not run. The new wrappers avoid relying on those bracketed IDs.
@@ -24,7 +24,7 @@ The existing test compares displacement and rotation at relative tolerance `1e-1
 
 ## Theoretical references (not solver results)
 
-Formula substitution yields the following analytical reference values. They are included to make the intended scale and units reviewable, not as computed QF Solver outputs:
+Formula substitution yields the following analytical reference values. The measured QF Solver values and discrepancies from the authorized execution are recorded in the [execution report](WP12_S_EXECUTION_REPORT.md); the checks agreed to the existing `rel=1e-12` criteria. These cases each use one straight element and do not establish mesh convergence or 3-D validation:
 
 | Plane | Reference tip displacement | Reference tip rotation |
 |---|---:|---:|

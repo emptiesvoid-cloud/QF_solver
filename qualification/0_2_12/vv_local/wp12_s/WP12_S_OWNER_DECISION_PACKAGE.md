@@ -1,14 +1,14 @@
 # WP12-S Owner decision package
 
-**Status:** `PREPARATION_ONLY`<br>
-**Numerical execution:** `NUMERICAL_EXECUTION_NOT_PERFORMED`<br>
+**Status:** `OWNER_DECISION_RECORDED`<br>
+**Numerical execution:** `PERFORMED_FOR_EIGHT_APPROVED_CASES`<br>
 **WP12:** `OPEN`
 
-The prepared campaign manifest SHA-256 is **`df8c1401a122d18be270ba25bbd0f77c92ede5ff667d9fe4b87da62c10745d9c`** (detached digest: [`WP12_S_QUANTITATIVE_MANIFEST.sha256`](WP12_S_QUANTITATIVE_MANIFEST.sha256)). It contains eight cases. Each case needs its own explicit decision bound to that exact hash, case ID and nodeid. No decision file or approval signature has been created.
+The prepared campaign manifest SHA-256 is **`df8c1401a122d18be270ba25bbd0f77c92ede5ff667d9fe4b87da62c10745d9c`** (detached digest: [`WP12_S_QUANTITATIVE_MANIFEST.sha256`](WP12_S_QUANTITATIVE_MANIFEST.sha256)). It contains eight cases. Each case required an individual decision bound to that exact hash, case ID and nodeid. The decisions were recorded as non-cryptographic local records; no approval signature was created.
 
-The Owner decision supplied for manifest SHA-256 `ea8f32e24d9eaded198230b0bc5f8aab45ed76293c3e73bdf77533e0bf08a0db` applies to the four original WP12-R cases only. It does not authorize any instrumented WP12-S nodeid under this new manifest. No WP12-S scientific case is authorized by that earlier decision.
+The Owner subsequently approved all eight listed cases individually against the WP12-S manifest SHA-256 above. This approval was explicit in the conversation and accepted the local non-attested environment limits. It is not an Ed25519 signature; per-case local decision records and execution receipts are stored in the manifest-declared evidence archive. The older WP12-R decision remains limited to its four original nodes and was not reused.
 
-## Cases for individual decision
+## Approved cases and exact scope
 
 | Case ID | Exact nodeid | Proposed scope | Oracle / criterion | Timeout / log limit |
 |---|---|---|---|---|
@@ -32,6 +32,6 @@ All nodeids are prefixed with `tests/unit/test_wp12_s_quantitative_extraction.py
 - Evidence root: `E:\QFSolverWP12B\wp12-local-vv-evidence\WP12-S-QUANT-001`; destination must not exist for the selected attempt.
 - Local limits: same-user process, no filesystem sandbox, no hard CPU/RAM/disk quota and no guaranteed descendant termination. Timeout and output cap are supervision controls; log cap is soft polling.
 - No assertion, tolerance, reference, scientific source or historical receipt will be changed.
-- Results remain internal evidence pending independent oracle review. No WP12 closure, maturity promotion, release, tag, main merge, or publication is authorized.
+- Results remain internal evidence pending Owner review of the oracle interpretations. No WP12 closure, maturity promotion, release, tag, main merge, or publication is authorized.
 
-The existing local Owner decision format is non-cryptographic: it records the accepted decision but cannot prove the identity of its author. This package does not create an `APPROVED_FOR_EXECUTION` JSON or synthesize a signature. After the Owner explicitly approves chosen case IDs and this manifest hash, the operator may prepare the corresponding decision records outside the repository and run only those cases.
+The local decision records are non-cryptographic and cannot independently prove the author's identity. They record, but do not replace, the explicit Owner decision. The eight executions are complete; see [the execution report](WP12_S_EXECUTION_REPORT.md). This package does not authorize additional tests, retries, benchmarks, WP12 closure, maturity changes, or publication.

@@ -1,11 +1,11 @@
 # WP12-S scientific results summary
 
-**Status:** `PREPARATION_ONLY`<br>
-**Numerical execution:** `NUMERICAL_EXECUTION_NOT_PERFORMED`<br>
+**Status:** `EXECUTION_RECORDED` — 8/8 cases executed; 7 `PYTEST_PASS_ONLY`, 1 `FAIL`.<br>
+**Numerical execution:** `PERFORMED`; oracle and qualification conclusions remain scoped below.<br>
 **WP12:** `OPEN`
 
-There are no WP12-S numerical results yet. The four earlier WP12-R receipts show `PYTEST_PASS_ONLY`, while their quantitative payload is `NOT_EXPOSED`. They must not be interpreted as recorded solver values or oracle verdicts.
+WP12-R's four prior receipts remain `PYTEST_PASS_ONLY` with numeric payload `NOT_EXPOSED`; none of the values below are reconstructed from them. The eight separate instrumented WP12-S executions are recorded in the [execution report](WP12_S_EXECUTION_REPORT.md), with raw values in the manifest-linked external receipts and derived machine-readable tables under `results/WP12-S-QUANT-001-20261026T095251Z/`.
 
-The prepared Q1–Q4 wrappers are designed to report algebraic projection matrices, a discrete spring/mass frequency and residual, coupled modal operators and errors, and Newmark time history/errors/energy drift. The prepared supplemental units add an independent scalar modal eigenvalue reference, both BEAM2 bending-plane comparisons, and a bounded three-level TET4 characterization. Their current status is `PREPARED_NOT_AUTHORIZED`; no new test, solver, FEM model, benchmark, or plotting script has been executed.
+Results include an exact recorded projection identity; a spring/mass frequency agreeing with its analytic reference; same-backend modal consistency; a single-dt Newmark free-vibration history; an independent scalar modal-root comparison whose overall test is `FAIL` on a separate zero-atol projected-stiffness assertion; two one-element BEAM2 comparisons; and a three-level TET4 characterization whose helper status is `WARNING`.
 
-No `PASS`, `FAIL`, convergence order, physical validation, maturity change, qualification decision, or publication claim is assigned. TET4's helper status and historical large-model campaigns remain separate from this proposed small study. WP12 and WP13 remain open; WP11 remains closed.
+The results do not establish general physical validation, modal-basis qualification, temporal convergence, asymptotic spatial convergence, or qualification of all BEAM2/TET4 uses. The polynomial `FAIL` and TET4 `WARNING` are preserved. The reported TET4 orders are descriptive only; the 1-D beam formula is a diagnostic reference, not a 3-D continuum oracle. No maturity or work-package status was changed; WP12 and WP13 remain open, and WP11 remains closed.

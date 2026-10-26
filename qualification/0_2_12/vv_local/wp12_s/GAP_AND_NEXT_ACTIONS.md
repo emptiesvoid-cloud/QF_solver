@@ -1,17 +1,15 @@
 # WP12-S gaps and next actions
 
-**Status:** `PREPARATION_ONLY`<br>
-**Numerical execution:** `NUMERICAL_EXECUTION_NOT_PERFORMED`<br>
+**Status:** `EXECUTION_RECORDED`<br>
+**Numerical execution:** `PERFORMED_FOR_EIGHT_AUTHORIZED_CASES`<br>
 **WP12:** `OPEN`
 
 ## What remains
 
-1. Review the exact manifest SHA-256 and approve only the individual case IDs desired. The old WP12-R approval is not transferable.
-2. Accept or revise the proposed timeout/log limits and explicitly acknowledge that this local route has no hard CPU/RAM/disk quota, filesystem sandbox, or guaranteed process-tree termination.
-3. For TET4, decide whether a characterization-only run is acceptable with no physical convergence threshold. A stronger validation claim requires a justified 3-D reference or external correlation and a predeclared criterion.
-4. The manifest's non-executing `VALIDATE` completed on 2026-10-26 as `VALIDATED_NOT_AUTHORIZED` for eight cases. It verified the declared science, test and runner identities, file inventories, Python/package versions, and import origin. Before any execution, repeat the checks, confirm free disk, and confirm the exclusive destination does not exist; no execution preflight or campaign run has occurred.
-5. Execute the approved cases sequentially, one exact node and one attempt each. Preserve a failed or partial result and stop at the first anomaly.
-6. Have an independent reviewer inspect the raw payload, exact oracle, errors, residuals, and limits before any scientific conclusion.
+1. The Owner approved all eight case IDs individually against manifest SHA-256 `df8c1401a122d18be270ba25bbd0f77c92ede5ff667d9fe4b87da62c10745d9c`, including the accepted local non-attested limits. Each case was executed sequentially once. The original manifest remains unchanged and retains its prepared status.
+2. The execution report records all eight results and the independent read-only review. Seven test processes reported `PYTEST_PASS_ONLY`; the polynomial modal case remains `FAIL`; the TET4 helper reports `WARNING`. None of these is a WP12 qualification verdict.
+3. The independent reviewer checked receipt identities, output hashes, the exact polynomial assertion failure, and the bounded interpretation of TET4. No further execution is authorized by this campaign decision.
+4. Any follow-up—investigating the zero-atol assertion, obtaining an independent modal oracle, temporal convergence, a justified 3-D TET4 reference/correlation, or broader tests and benchmarks—requires a separately reviewed scope and Owner decision.
 
 ## Known evidence gaps
 
@@ -21,7 +19,7 @@
 - BEAM2 covers one element and two principal planes; it is not a general beam convergence or 3-D validation study.
 - TET4 lacks a validated independent 3-D reference. Its 1-D beam comparison is diagnostic, and three meshes may not establish the asymptotic regime.
 - The prior TET4 plan's element counts need correction in any later normative summary; this package uses source-derived counts 12/96/768.
-- No publication figures exist until numerical values have been run and reviewed.
+- Derived internal tables and figures now exist under the results directory. They are not publication approval and do not replace the raw external receipts.
 
 ## Independent review follow-up — 2026-10-26
 

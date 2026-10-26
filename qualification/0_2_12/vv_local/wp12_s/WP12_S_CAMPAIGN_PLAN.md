@@ -1,7 +1,7 @@
 # WP12-S campaign plan
 
-**Status:** `PREPARATION_ONLY`<br>
-**Numerical execution:** `NUMERICAL_EXECUTION_NOT_PERFORMED`<br>
+**Status:** `EXECUTION_RECORDED`<br>
+**Numerical execution:** `PERFORMED_FOR_EIGHT_AUTHORIZED_CASES`<br>
 **WP12:** `OPEN`
 
 ## Objective and identities
@@ -14,7 +14,7 @@ The scientific checkout remains frozen at commit `00428adf38e9397340ac136f6f503a
 
 WP12-R's Owner decision was bound to manifest SHA-256 `ea8f32e24d9eaded198230b0bc5f8aab45ed76293c3e73bdf77533e0bf08a0db`. It authorized the four original nodes only and does not authorize these instrumented wrappers or new cases. This new manifest remains `PREPARED_NOT_AUTHORIZED`, with `execution_authorized: false`.
 
-Approve each case individually against the manifest hash in [the Owner decision package](WP12_S_OWNER_DECISION_PACKAGE.md). The decision must accept the displayed oracle/criteria, interpreter, exact nodeid, single attempt, proposed timeout/log cap, evidence root, and non-attested local limits. The TET4 unit is specifically a characterization run: the Owner must approve that it produces a bounded refinement dataset without claiming convergence acceptance or 3-D validation.
+The Owner subsequently approved all eight cases individually against the exact manifest hash, displayed oracle/criteria, interpreter, exact nodeids, one attempt, timeouts/log cap, evidence root, and non-attested local limits. TET4 was approved as characterization only, without a convergence acceptance or 3-D validation claim. Actual outcomes are in [the execution report](WP12_S_EXECUTION_REPORT.md). This plan remains the scope snapshot; the manifest's historical prepared status was not rewritten.
 
 ## Prepared units
 
@@ -33,7 +33,7 @@ The timeouts and 16 MiB per-stream log cap are operational proposals, not Owner-
 
 ## Execution sequence after approval
 
-Run one exact node per process, in the table order, with one attempt maximum. Stop at the first identity, import, environment, selection, timeout, malformed output, missing output, or unexplained scientific discrepancy. Preserve partial files and the marker payload; do not retry or overwrite. A pytest failure is `FAIL`; runner/provenance/report problems are infrastructure outcomes. Review each raw payload against the stated oracle before assigning an oracle-specific outcome.
+The authorized sequence was run one exact node per process, in table order, with one attempt maximum. Raw evidence and partial outputs were preserved; there were no retries. One pytest failure (`MODAL-2DOF-POLY-001`) remains `FAIL`; the TET4 helper reported `WARNING`. See the execution report for classification, payloads, and independent review. No separate oracle verdict or qualification status is assigned here.
 
 The TET4 case runs only its three declared factors, sequentially, through a fixed wrapper. The corrected element counts are 12/96/768, not the 24/192/1536 values in the older planning page; see [the TET4 review](TET4_CONVERGENCE_REPORT.md). Its mesh-to-mesh changes, solver residuals, time and estimated operator memory are reported separately. No asymptotic order or 3-D validation is inferred.
 

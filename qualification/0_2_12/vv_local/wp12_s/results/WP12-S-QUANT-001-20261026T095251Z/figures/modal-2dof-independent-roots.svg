@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="430" viewBox="0 0 800 430">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:Arial,sans-serif;fill:#17212b}.title{font-size:22px;font-weight:bold}.label{font-size:13px}.small{font-size:11px}.axis{stroke:#3d4d5c;stroke-width:1}.grid{stroke:#d8dee5;stroke-width:1}.blue{stroke:#1677b8;fill:#1677b8}.orange{stroke:#e28a18;fill:#e28a18}.red{stroke:#bb3333;fill:#bb3333}.green{stroke:#17834a;fill:#17834a}</style>
+<title>MODAL-2DOF-POLY-001 — independent scalar roots</title>
+<desc>Scalar characteristic-polynomial roots and computed eigenvalues agree within the listed relative errors. The test result is FAIL because a separate projected-stiffness assertion uses zero absolute tolerance for off-diagonal entries.</desc>
+<text class="title" x="24" y="34">MODAL-2DOF-POLY-001 — independent scalar roots</text>
+<line class="grid" x1="100.0" y1="300.00" x2="750.0" y2="300.00"/>
+<text class="small" x="90.00" y="304.00" text-anchor="end">0.0</text>
+<line class="grid" x1="100.0" y1="260.00" x2="750.0" y2="260.00"/>
+<text class="small" x="90.00" y="264.00" text-anchor="end">2.5</text>
+<line class="grid" x1="100.0" y1="220.00" x2="750.0" y2="220.00"/>
+<text class="small" x="90.00" y="224.00" text-anchor="end">5.0</text>
+<line class="grid" x1="100.0" y1="180.00" x2="750.0" y2="180.00"/>
+<text class="small" x="90.00" y="184.00" text-anchor="end">7.5</text>
+<line class="grid" x1="100.0" y1="140.00" x2="750.0" y2="140.00"/>
+<text class="small" x="90.00" y="144.00" text-anchor="end">10.0</text>
+<line class="grid" x1="100.0" y1="100.00" x2="750.0" y2="100.00"/>
+<text class="small" x="90.00" y="104.00" text-anchor="end">12.5</text>
+<circle class="orange" cx="281.00" cy="224.81" r="6.00"/>
+<circle class="blue" cx="299.00" cy="224.81" r="6.00"/>
+<text class="label" x="290.00" y="324.00" text-anchor="middle">Mode 1</text>
+<text class="small" x="290.00" y="211.81" text-anchor="middle">4.69945201197</text>
+<circle class="orange" cx="551.00" cy="119.19" r="6.00"/>
+<circle class="blue" cx="569.00" cy="119.19" r="6.00"/>
+<text class="label" x="560.00" y="324.00" text-anchor="middle">Mode 2</text>
+<text class="small" x="560.00" y="106.19" text-anchor="middle">11.300547988</text>
+<line class="axis" x1="100.0" y1="100.0" x2="100.0" y2="300.0"/>
+<line class="axis" x1="100.0" y1="300.0" x2="750.0" y2="300.0"/>
+<circle class="orange" cx="175.00" cy="350.00" r="5.00"/>
+<text class="small" x="188.00" y="354.00" text-anchor="start">Scalar polynomial reference</text>
+<circle class="blue" cx="385.00" cy="350.00" r="5.00"/>
+<text class="small" x="398.00" y="354.00" text-anchor="start">Computed eigenvalue</text>
+<text class="small" x="400.00" y="395.00" text-anchor="middle">Test status: FAIL — projected K off-diagonal ≈ −4.44×10⁻¹⁶; asserted atol=0.</text>
+</svg>

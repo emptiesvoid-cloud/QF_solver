@@ -1,7 +1,7 @@
 # Q1–Q4 quantitative extraction review
 
-**Status:** `PREPARATION_ONLY`<br>
-**Numerical execution:** `NUMERICAL_EXECUTION_NOT_PERFORMED`<br>
+**Status:** `EXECUTION_RECORDED`<br>
+**Numerical execution:** `PERFORMED_FOR_Q1_TO_Q4`<br>
 **WP12:** `OPEN`
 
 ## Historical record
@@ -23,4 +23,4 @@ Q4's additional history flags are recorded in its canonical manifest fixture. Th
 
 ## Re-execution and reporting policy
 
-The new marker records actual observed numbers only after an authorized run. The result table currently uses `NOT_EXPOSED` for all quantities, including theoretical reference quantities not serialized in old receipts. The analytical formulas and source inputs are documented but are not mislabeled as solver outputs. The original four receipts remain untouched. See [the campaign plan](WP12_S_CAMPAIGN_PLAN.md) and [the manifest](WP12_S_QUANTITATIVE_MANIFEST.json).
+The eight WP12-S instrumented cases were subsequently run once each under the separate Owner decision bound to the prepared manifest hash. Q1–Q4 values and receipt hashes are in [the execution report](WP12_S_EXECUTION_REPORT.md) and [executed Q1–Q4 table](results/WP12-S-QUANT-001-20261026T095251Z/Q1_Q4_EXECUTED_RESULTS.csv). The old WP12-R receipts remain unchanged and still have numeric payload `NOT_EXPOSED`; no values are reconstructed from them. The polynomial case's overall test status is `FAIL` because its existing projected-stiffness assertion uses `atol=0`, despite scalar roots, residuals, and orthogonality agreeing closely. No thresholds were changed. These results do not qualify a general modal or transient capability.

@@ -1,7 +1,7 @@
 # FEM-TET4-H-001 — bounded refinement characterization
 
-**Status:** `PREPARATION_ONLY`<br>
-**Numerical execution:** `NUMERICAL_EXECUTION_NOT_PERFORMED`<br>
+**Status:** `EXECUTION_RECORDED`<br>
+**Numerical execution:** `PERFORMED_AS_BOUNDED_CHARACTERIZATION`<br>
 **WP12:** `OPEN`
 
 ## Corrected mesh inventory
@@ -18,7 +18,7 @@ The fixed study uses base cells `(2,1,1)`, refinement factors `(1,2,4)`, six TET
 
 The fixed wrapper calls `solveur.verification.tet4_structured_convergence.run_structured_tet4_study` with `length=4.0`, `width=height=0.4`, `E=70e9`, `nu=0.3`, total global-Z load `-1.0`, matrix-free backend, chunk size 8192, and maximum 10,000 CG iterations. It uses no default larger mesh and no PETSc/MPI path. The generator fixes all three translational DOFs on `x=0` and distributes the load over the `x=L` face using tributary weights. The observable is mean tip-face `UZ`.
 
-Expected artifacts, if a future Owner-approved run occurs, are three model HDF5 files plus the utility's `summary.json`/`report.md`, the wrapper's `results.csv`, and the numeric marker in the runner receipt. Time and operator memory are captured as reported by the utility; `operator_memory_bytes` is an estimate, not a measured process peak.
+The Owner-approved run produced three model HDF5 files plus the utility's `summary.json`/`report.md`, the wrapper's `results.csv`, and a numeric marker in the runner receipt; raw artifacts remain in the external evidence archive. The [execution report](WP12_S_EXECUTION_REPORT.md) records measured values and receipt hash. Time and operator memory are captured as reported by the utility; `operator_memory_bytes` is an estimate, not a measured process peak.
 
 ## Reference and criteria
 
@@ -32,4 +32,4 @@ The utility calculates observed orders from error relative to the beam formula a
 
 The 675-DOF top level is the bounded local candidate, but actual runtime and memory are unknown until executed. Local resource handling provides only direct-child timeout and soft log-size polling: no hard CPU/RAM/disk quota, filesystem sandbox, or guaranteed process-tree termination. The proposed 1,800-second timeout and 16-MiB per-stream cap require Owner acceptance. Stop on any unexpected mesh inventory, backend substitution, incomplete output, non-finite value, timeout, or provenance mismatch and preserve the partial attempt.
 
-The three levels can establish a bounded refinement trend if outputs are valid; they need not establish asymptotic convergence. They provide no independent 3-D reference or external solver correlation. Historical large TET4 campaigns in [`docs/verification/tet4_structured_convergence_campaign.md`](../../../../docs/verification/tet4_structured_convergence_campaign.md) are contextual evidence only and do not supply results for this proposed small matrix-free study.
+The three levels recorded finite outputs, but the helper diagnostic returned `WARNING` because the provisional 1% beam-reference difference was not met. This is not an approved WP12 acceptance threshold. The levels do not demonstrate an asymptotic regime and provide no independent 3-D reference or external solver correlation. Historical large TET4 campaigns in [`docs/verification/tet4_structured_convergence_campaign.md`](../../../../docs/verification/tet4_structured_convergence_campaign.md) are contextual evidence only and do not supply results for this bounded study.
