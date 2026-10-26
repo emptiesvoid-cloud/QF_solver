@@ -357,6 +357,79 @@
         }
       ]
     },
+    "wp12_elements_loads": {
+      "purpose": "WP12-B BEAM2 rotated line load, curved TET10 pressure and HEX20 affine traction cases",
+      "mode": "fem_exploratory",
+      "root": "C:\\Users\\fari\\.codex\\worktrees\\verify-wp12-elements-loads\\qf_solver",
+      "git_root": "C:\\Users\\fari\\.codex\\worktrees\\verify-wp12-elements-loads\\qf_solver",
+      "branch": "verify/wp12-elements-loads",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp12-elements-loads",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 1,
+      "max_total_attempts": 3,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": 30000,
+      "max_timeout_seconds": 300,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-B-ELEMENTS-LOADS-2026-10-26-v1",
+      "require_clean_worktree": true,
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 3
+      },
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "output_stream_limit_mib": 32,
+        "output_total_limit_mib": 64,
+        "process_tree_limit": 16,
+        "rss_soft_limit_mib": 4096,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 300
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_wp12b_beam2_continuity.py::test_wp12b_beam2_rotated_uniform_line_load",
+        "tests/unit/test_wp12b_tet10_curved_load.py::test_wp12b_tet10_curved_face_pressure_solve",
+        "tests/unit/test_wp12b_hex20_affine_patch.py::test_wp12b_hex20_uniaxial_traction_patch"
+      ],
+      "nodeid_registration_records": [
+        {
+          "reason": "Register the reviewed rotated BEAM2 line-load continuity case on its exact scientific branch.",
+          "registered_at_utc": "2026-10-26T21:34:57.660424+00:00",
+          "selected_dofs": 12,
+          "selection_basis": "One BEAM2 has two six-DOF nodes; the clamped root fixes six DDL and the tip retains six free DDL.",
+          "source_fingerprint": "d7eeaa57fac7b124eeeb34d6886420fa4dc0a2f6dd588e3c4df440d00c673896",
+          "target": "tests/unit/test_wp12b_beam2_continuity.py::test_wp12b_beam2_rotated_uniform_line_load",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "8818b1b4095bd7f5c1303d640375c2c577bdc4d8"
+        },
+        {
+          "reason": "Register the reviewed curved TET10 pressure solve with independent face resultant and moment quadrature.",
+          "registered_at_utc": "2026-10-26T21:35:02.942755+00:00",
+          "selected_dofs": 30,
+          "selection_basis": "One TET10 has 10 nodes times 3 translational DDL; six support-face nodes fix 18 DDL, leaving 12 free.",
+          "source_fingerprint": "53b10b6ffb8bead69f5c31e4529c542eefd3a97d23dbbf763d0851846903e953",
+          "target": "tests/unit/test_wp12b_tet10_curved_load.py::test_wp12b_tet10_curved_face_pressure_solve",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "8818b1b4095bd7f5c1303d640375c2c577bdc4d8"
+        },
+        {
+          "reason": "Register the reviewed HEX20 affine traction patch with exact Hooke field and work-energy checks.",
+          "registered_at_utc": "2026-10-26T21:35:04.227992+00:00",
+          "selected_dofs": 60,
+          "selection_basis": "One HEX20 has 20 nodes times 3 translational DDL; the eight-node x=0 face fixes 24, leaving 36 free.",
+          "source_fingerprint": "eb43367d0c044afb20df5693715a056c8ced622ead545b799dcb6d9e19ce3d77",
+          "target": "tests/unit/test_wp12b_hex20_affine_patch.py::test_wp12b_hex20_uniaxial_traction_patch",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "8818b1b4095bd7f5c1303d640375c2c577bdc4d8"
+        }
+      ]
+    },
     "wp12_dynamics": {
       "purpose": "WP12 WP04-WP07 modal projection, reduced harmonic, Newmark and base-acceleration checks",
       "mode": "fem_exploratory",

@@ -54,6 +54,11 @@ WP12_TET4_NODEIDS = (
     "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_tet10_family_comparison_factor_4",
     "tests/unit/test_wp12_tet4_prepared_fem.py::test_wp12_hex8_family_comparison_factor_4",
 )
+WP12_ELEMENTS_LOADS_NODEIDS = (
+    "tests/unit/test_wp12b_beam2_continuity.py::test_wp12b_beam2_rotated_uniform_line_load",
+    "tests/unit/test_wp12b_tet10_curved_load.py::test_wp12b_tet10_curved_face_pressure_solve",
+    "tests/unit/test_wp12b_hex20_affine_patch.py::test_wp12b_hex20_uniaxial_traction_patch",
+)
 
 
 def _policy() -> dict:
@@ -64,7 +69,7 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
     policy = _policy()
     assert policy["mode"] == "DEVELOPMENT_AUTONOMOUS"
     assert set(policy["worktrees"]) == {
-        "d01", "c01", "e01", "wp12_wp07", "wp12_tet4", "wp12_elements", "wp12_dynamics"
+        "d01", "c01", "e01", "wp12_wp07", "wp12_tet4", "wp12_elements", "wp12_elements_loads", "wp12_dynamics"
     }
     assert policy["worktrees"]["d01"]["attempt_limit_per_nodeid"] == 3
     assert policy["worktrees"]["d01"]["development_mandate_id"] == "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v2-d01"
@@ -79,6 +84,10 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
     assert policy["worktrees"]["wp12_tet4"]["target_max_dofs"] == 50000
     assert policy["worktrees"]["wp12_elements"]["max_total_attempts"] == 20
     assert policy["worktrees"]["wp12_elements"]["target_max_dofs"] == 30000
+    assert policy["worktrees"]["wp12_elements_loads"]["max_total_attempts"] == 3
+    assert policy["worktrees"]["wp12_elements_loads"]["attempt_limit_per_nodeid"] == 1
+    assert policy["worktrees"]["wp12_elements_loads"]["target_max_dofs"] == 30000
+    assert policy["worktrees"]["wp12_elements_loads"]["allowed_nodeids"] == list(WP12_ELEMENTS_LOADS_NODEIDS)
     assert policy["worktrees"]["wp12_dynamics"]["attempt_limit_per_nodeid"] == 10
     assert policy["worktrees"]["wp12_dynamics"]["max_total_attempts"] == 130
     assert policy["worktrees"]["wp12_dynamics"]["max_timeout_seconds"] == 300
@@ -122,12 +131,19 @@ def test_each_worktree_has_a_separate_output_namespace(tmp_path: Path) -> None:
         MODULE._series_root(tmp_path, "fem_exploratory", "e02")
 
 
-def test_wp12_registry_has_four_distinct_exact_worktree_envelopes() -> None:
+def test_wp12_registry_has_five_distinct_exact_worktree_envelopes() -> None:
     policy = _policy()
     expected = {
         "wp12_wp07": ("E:\\QFSolverAgents\\wp07", "fix/wp12-wp07-serialization", 300, 10, None),
         "wp12_tet4": ("E:\\QFSolverAgents\\tet4", "experiment/wp12-tet4-convergence", 900, 12, 50000),
         "wp12_elements": ("E:\\QFSolverAgents\\vv-elements", "test/wp12-fem-regressions", 300, 20, 30000),
+        "wp12_elements_loads": (
+            "C:\\Users\\fari\\.codex\\worktrees\\verify-wp12-elements-loads\\qf_solver",
+            "verify/wp12-elements-loads",
+            300,
+            3,
+            30000,
+        ),
         "wp12_dynamics": (
             "E:\\QFSolverAgents\\wp12-dynamics",
             "codex/wp12-dynamic-harmonic-verification",
@@ -223,6 +239,18 @@ def test_wp12_registry_has_four_distinct_exact_worktree_envelopes() -> None:
                 record["source_fingerprint"] == "12a935bd4e926eb53d31372e93f1c9d5f991a3900c8b2bac2d74103ee7401104"
                 for record in records
             )
+        elif worktree_id == "wp12_elements_loads":
+            assert entry["allowed_nodeids"] == list(WP12_ELEMENTS_LOADS_NODEIDS)
+            records = entry["nodeid_registration_records"]
+            assert [record["target"] for record in records] == list(WP12_ELEMENTS_LOADS_NODEIDS)
+            assert [record["selected_dofs"] for record in records] == [12, 30, 60]
+            assert all(record["worktree_head"] == "8818b1b4095bd7f5c1303d640375c2c577bdc4d8" for record in records)
+            assert [record["source_fingerprint"] for record in records] == [
+                "d7eeaa57fac7b124eeeb34d6886420fa4dc0a2f6dd588e3c4df440d00c673896",
+                "53b10b6ffb8bead69f5c31e4529c542eefd3a97d23dbbf763d0851846903e953",
+                "eb43367d0c044afb20df5693715a056c8ced622ead545b799dcb6d9e19ce3d77",
+            ]
+            assert all(record["timeout_seconds"] == 300 for record in records)
         else:
             assert entry["allowed_nodeids"] == []
             assert entry["nodeid_registration_records"] == []
@@ -872,13 +900,14 @@ def test_wp12_evidence_namespaces_never_overlap(tmp_path: Path) -> None:
         ("wp07", "wp12_wp07"),
         ("tet4", "wp12_tet4"),
         ("elements", "wp12_elements"),
+        ("elements-loads", "wp12_elements_loads"),
         ("dynamics", "wp12_dynamics"),
     )]
-    assert len(set(roots)) == 4
+    assert len(set(roots)) == 5
     for index, root in enumerate(roots):
         root.mkdir(parents=True)
         (root / "marker.json").write_text(json.dumps({"agent": index}), encoding="utf-8")
-    assert [json.loads((root / "marker.json").read_text(encoding="utf-8"))["agent"] for root in roots] == [0, 1, 2, 3]
+    assert [json.loads((root / "marker.json").read_text(encoding="utf-8"))["agent"] for root in roots] == [0, 1, 2, 3, 4]
 
 
 def test_run_provenance_records_controller_and_runtime_identity() -> None:
