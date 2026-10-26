@@ -46,6 +46,8 @@ def _registered_root(value: str, *, strict: bool = False) -> Path:
     if not path.is_absolute():
         path = ROOT / path
     return path.resolve(strict=strict)
+
+
 POLICY_PATH = ROOT / "development_autonomous_policy.json"
 SERIES_RE = re.compile(r"^dev-[a-z0-9][a-z0-9-]{7,48}$")
 PREFLIGHT_RE = re.compile(r"^pf-[a-z0-9]{12}$")
@@ -125,6 +127,20 @@ WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
         "max_fem_cases_per_attempt": 1,
         "concurrency_class": "parallel",
         "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-ELEMENTS-2026-10-26-v1",
+    },
+    "wp12_elements_loads": {
+        "root": r"C:\Users\fari\.codex\worktrees\verify-wp12-elements-loads\qf_solver",
+        "branch": "verify/wp12-elements-loads",
+        "evidence_root": r"E:\QFSolverAgents\evidence\wp12-elements-loads",
+        "timeout_seconds": 300,
+        "max_timeout_seconds": 300,
+        "max_total_attempts": 3,
+        "attempt_limit_per_nodeid": 1,
+        "max_registered_nodeids": 3,
+        "max_dofs": 30000,
+        "max_fem_cases_per_attempt": 1,
+        "concurrency_class": "parallel",
+        "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-B-ELEMENTS-LOADS-2026-10-26-v1",
     },
     "wp12_dynamics": {
         "root": r"E:\QFSolverAgents\wp12-dynamics",
@@ -235,7 +251,9 @@ def _validate_wp12_case_selection(
             or "\n" in timeout_reason
             or "\r" in timeout_reason
         ):
-            raise PolicyError("the exceptional 900-second elements timeout requires a one-line 20 to 300 character reason")
+            raise PolicyError(
+                "the exceptional 900-second elements timeout requires a one-line 20 to 300 character reason"
+            )
         normalized_timeout_reason = timeout_reason.strip()
     elif timeout_reason not in (None, ""):
         raise PolicyError("timeout reason is only valid for the exceptional 900-second elements budget")
@@ -379,7 +397,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
     worktrees = policy.get("worktrees")
     legacy_worktree_ids = {"d01", "c01", "e01"}
     if not isinstance(worktrees, dict) or set(worktrees) != legacy_worktree_ids | set(WP12_OWNER_ENVELOPES):
-        raise PolicyError("the authorized worktree registry must retain D01/C01/E01 and the four WP12 scopes")
+        raise PolicyError("the authorized worktree registry must retain D01/C01/E01 and every exact WP12 scope")
     required_budget_fields = (
         "timeout_seconds",
         "rss_soft_limit_mib",
@@ -408,7 +426,9 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             raise PolicyError(f"worktree {worktree_id} requires unique exact nodeids")
         if entry.get("allow_native_vv_skip_override") is not (worktree_id == "d01"):
             raise PolicyError("only exact D01 development nodes may lift their native-V&V skip")
-        attempt_limit = _positive_integer(entry.get("attempt_limit_per_nodeid"), f"worktrees.{worktree_id}.attempt_limit_per_nodeid")
+        attempt_limit = _positive_integer(
+            entry.get("attempt_limit_per_nodeid"), f"worktrees.{worktree_id}.attempt_limit_per_nodeid"
+        )
         if not is_wp12 and attempt_limit != 3:
             raise PolicyError("this Owner mandate permits at most three attempts per nodeid")
         budgets = entry.get("budgets")
@@ -420,7 +440,9 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             _positive_integer(budgets[field], f"worktrees.{worktree_id}.budgets.{field}")
         if budgets["output_total_limit_mib"] > 2 * budgets["output_stream_limit_mib"]:
             raise PolicyError(f"worktree {worktree_id} aggregate output exceeds its two stream caps")
-        expected_test_root = "tests/unit" if worktree_id in {"c01", "e01", *WP12_OWNER_ENVELOPES} else "tests/verification"
+        expected_test_root = (
+            "tests/unit" if worktree_id in {"c01", "e01", *WP12_OWNER_ENVELOPES} else "tests/verification"
+        )
         if entry["pytest_root"] != expected_test_root:
             raise PolicyError(f"worktree {worktree_id} is bound to the wrong test class")
         for nodeid in nodeids:
@@ -428,7 +450,11 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
                 raise PolicyError(f"worktree {worktree_id} contains a non-nodeid target")
             test_path = Path(nodeid.split("::", maxsplit=1)[0])
             exact_verification_node = worktree_id == "wp12_elements" and nodeid in WP12_ELEMENTS_VERIFICATION_NODEIDS
-            if test_path.is_absolute() or ".." in test_path.parts or not (nodeid.startswith(expected_test_root + "/") or exact_verification_node):
+            if (
+                test_path.is_absolute()
+                or ".." in test_path.parts
+                or not (nodeid.startswith(expected_test_root + "/") or exact_verification_node)
+            ):
                 raise PolicyError(f"worktree {worktree_id} nodeid escapes its approved test root")
             if is_wp12:
                 _validate_wp12_nodeid_syntax(nodeid, worktree_id=worktree_id)
@@ -455,7 +481,9 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
                 "require_clean_worktree": True,
             }
             if any(entry.get(field) != expected for field, expected in expected_identity.items()):
-                raise PolicyError(f"{worktree_id} identity and attempt envelope must match its Owner authorization exactly")
+                raise PolicyError(
+                    f"{worktree_id} identity and attempt envelope must match its Owner authorization exactly"
+                )
             registration = entry.get("nodeid_registration")
             if registration != {"enabled": True, "max_nodeids": envelope["max_registered_nodeids"]}:
                 raise PolicyError(f"{worktree_id} nodeid registration cap must match its Owner authorization")
@@ -534,9 +562,10 @@ def resolve_targets(
         registered_root = _registered_root(entry["root"])
         candidate = (registered_root / path_text).resolve()
         scope_root = (registered_root / entry["pytest_root"]).resolve()
-        if not _wp12_nodeid_module_within_scope(
-            worktree_id, target, candidate, registered_root, scope_root
-        ) or not candidate.is_file():
+        if (
+            not _wp12_nodeid_module_within_scope(worktree_id, target, candidate, registered_root, scope_root)
+            or not candidate.is_file()
+        ):
             raise PolicyError("registered nodeid resolves outside its canonical worktree test scope")
         return [target]
 
@@ -547,7 +576,9 @@ def resolve_targets(
     scope = policy["standard_scopes"][scope_name]
     scope_root = (ROOT / scope["pytest_root"]).resolve()
     if target is None:
-        raise PolicyError("standard development scopes require one explicit test function; broad suites are not auto-enabled")
+        raise PolicyError(
+            "standard development scopes require one explicit test function; broad suites are not auto-enabled"
+        )
     if "::" not in target or not target.rsplit("::", maxsplit=1)[-1].startswith("test_"):
         raise PolicyError("standard development scopes require one exact pytest test-function nodeid")
     path_text = target.split("::", maxsplit=1)[0]
@@ -587,7 +618,9 @@ def _wp12_active_registration(
     if active is None:
         raise PolicyError("WP12 nodeid has no inspected registration record")
     if active.get("source_fingerprint") != source_fingerprint:
-        raise PolicyError("WP12 source fingerprint changed; inspect and register the exact nodeid revision before execution")
+        raise PolicyError(
+            "WP12 source fingerprint changed; inspect and register the exact nodeid revision before execution"
+        )
     selection = _validate_wp12_case_selection(
         worktree_id,
         selected_dofs=active.get("selected_dofs"),
@@ -669,7 +702,9 @@ def _validate_wp12_execution_manifest(
         or manifest.get("controller_fingerprint") != controller_fingerprint
         or manifest.get("limits") != _wp12_manifest_limits(entry, selection)
     ):
-        raise PolicyError("WP12 execution manifest does not bind this exact worktree, source, nodeid, controller and budget")
+        raise PolicyError(
+            "WP12 execution manifest does not bind this exact worktree, source, nodeid, controller and budget"
+        )
     return {
         "path": str(path),
         "sha256": _sha256(path),
@@ -817,11 +852,7 @@ def _native_guard_environment(environment: Mapping[str, str]) -> dict[str, Any]:
             values[name] = "ACTIVE" if value not in ("", "0", "false", "False") else "INACTIVE"
         else:
             values[name] = "ACTIVE" if value == "1" else "INACTIVE"
-    active = [
-        name
-        for name in NATIVE_GUARD_ENV_KEYS[:2]
-        if values[name] == "ACTIVE"
-    ]
+    active = [name for name in NATIVE_GUARD_ENV_KEYS[:2] if values[name] == "ACTIVE"]
     active.extend(name for name in NATIVE_GUARD_ENV_KEYS[2:] if values[name] == "ACTIVE")
     return {"values": values, "active_markers": active}
 
@@ -834,9 +865,7 @@ def _validate_native_guard_environment(
     parent_state = _native_guard_environment(parent_environment)
     child_state = _native_guard_environment(child_environment)
     if child_state != parent_state:
-        raise PolicyError(
-            "child environment changed an explicit no-native marker after development preflight"
-        )
+        raise PolicyError("child environment changed an explicit no-native marker after development preflight")
     return child_state
 
 
@@ -853,10 +882,10 @@ def _stable_fingerprint(value: Any) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
-def _atomic_json(path: Path, payload: Mapping[str, Any]) -> None:
+def _atomic_json(path: Path, payload: Mapping[str, Any], *, sort_keys: bool = True) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False, suffix=".tmp") as stream:
-        json.dump(payload, stream, indent=2, sort_keys=True)
+        json.dump(payload, stream, indent=2, sort_keys=sort_keys)
         stream.write("\n")
         temporary = Path(stream.name)
     os.replace(temporary, path)
@@ -1016,9 +1045,7 @@ def _valid_csr_snapshot(value: Any, expected_shape: list[int]) -> bool:
         encoded = item.get("raw_bytes_base64")
         if dtype_match is None or not isinstance(encoded, str) or len(item["values"]) != expected_lengths[name]:
             return False
-        if (name == "data" and dtype_match.group(1) != "f") or (
-            name != "data" and dtype_match.group(1) not in "iu"
-        ):
+        if (name == "data" and dtype_match.group(1) != "f") or (name != "data" and dtype_match.group(1) not in "iu"):
             return False
         try:
             raw = base64.b64decode(encoded, validate=True)
@@ -1103,11 +1130,7 @@ def _validate_d01_junit_payload(
         return False, ["JUnit reports a failed testcase despite pytest's successful exit code"], None
     property_items = case.findall("./properties/property")
     property_names = [item.get("name") for item in property_items]
-    properties = {
-        item.get("name"): item.get("value", item.text or "")
-        for item in property_items
-        if item.get("name")
-    }
+    properties = {item.get("name"): item.get("value", item.text or "") for item in property_items if item.get("name")}
     required = (
         "wp_d01_cg_source_operands_json",
         "wp_d01_cg_projected_damping_m2_json",
@@ -1132,10 +1155,18 @@ def _validate_d01_junit_payload(
     matrix_shape = [expected_free_dofs, expected_free_dofs]
     source = decoded["wp_d01_cg_source_operands_json"]
     source_sha_values = [
-        decoded["wp_d01_cg_source_operands_json"].get("source_sha") if isinstance(decoded["wp_d01_cg_source_operands_json"], dict) else None,
-        decoded["wp_d01_cg_projected_damping_m2_json"].get("source_sha") if isinstance(decoded["wp_d01_cg_projected_damping_m2_json"], dict) else None,
-        decoded["wp_d01_cg_projected_damping_m4_json"].get("source_sha") if isinstance(decoded["wp_d01_cg_projected_damping_m4_json"], dict) else None,
-        decoded["wp_d01_bj_experimental_results_json"].get("source_sha") if isinstance(decoded["wp_d01_bj_experimental_results_json"], dict) else None,
+        decoded["wp_d01_cg_source_operands_json"].get("source_sha")
+        if isinstance(decoded["wp_d01_cg_source_operands_json"], dict)
+        else None,
+        decoded["wp_d01_cg_projected_damping_m2_json"].get("source_sha")
+        if isinstance(decoded["wp_d01_cg_projected_damping_m2_json"], dict)
+        else None,
+        decoded["wp_d01_cg_projected_damping_m4_json"].get("source_sha")
+        if isinstance(decoded["wp_d01_cg_projected_damping_m4_json"], dict)
+        else None,
+        decoded["wp_d01_bj_experimental_results_json"].get("source_sha")
+        if isinstance(decoded["wp_d01_bj_experimental_results_json"], dict)
+        else None,
     ]
     if expected_source_sha != expected_source_sha.lower() or not re.fullmatch(r"[0-9a-f]{40}", expected_source_sha):
         return False, ["expected source identity is not a full lowercase Git commit SHA"], None
@@ -1164,7 +1195,10 @@ def _validate_d01_junit_payload(
         or not _valid_numeric_array_snapshot(source_arrays.get("reduced_force"), [expected_free_dofs])
         or not isinstance(source_arrays.get("responses_full_free_complex"), list)
         or len(source_arrays["responses_full_free_complex"]) != 6
-        or any(not _valid_numeric_array_snapshot(item, [expected_free_dofs]) for item in source_arrays["responses_full_free_complex"])
+        or any(
+            not _valid_numeric_array_snapshot(item, [expected_free_dofs])
+            for item in source_arrays["responses_full_free_complex"]
+        )
     ):
         return False, ["source numerical arrays are missing, empty, malformed, or fail their exact-byte hashes"], None
     for mode_count, property_name in (
@@ -1193,13 +1227,21 @@ def _validate_d01_junit_payload(
             "projected_damping": [mode_count, mode_count],
             "expected_projected_rayleigh_from_cached_operators": [mode_count, mode_count],
         }
-        if (
-            any(not _valid_numeric_array_snapshot(projected_arrays.get(name), shape) for name, shape in projected_shapes.items())
-            or not _valid_csr_snapshot(projection.get("input_damping"), matrix_shape)
-        ):
-            return False, [f"projected-damping exact operands for {mode_count} modes are missing, malformed, or hash-invalid"], None
+        if any(
+            not _valid_numeric_array_snapshot(projected_arrays.get(name), shape)
+            for name, shape in projected_shapes.items()
+        ) or not _valid_csr_snapshot(projection.get("input_damping"), matrix_shape):
+            return (
+                False,
+                [f"projected-damping exact operands for {mode_count} modes are missing, malformed, or hash-invalid"],
+                None,
+            )
         if not _same_csr_snapshot(operators["C_used_by_experiment"], projection["input_damping"]):
-            return False, [f"projected-damping input for {mode_count} modes does not exactly match source C_used_by_experiment"], None
+            return (
+                False,
+                [f"projected-damping input for {mode_count} modes does not exactly match source C_used_by_experiment"],
+                None,
+            )
     payload = decoded["wp_d01_bj_experimental_results_json"]
     if (
         not isinstance(payload, dict)
@@ -1222,7 +1264,11 @@ def _validate_d01_junit_payload(
         return False, ["experimental response groups are missing or malformed"], None
     frequencies = payload.get("frequencies_hz")
     if not _valid_d01_experimental_frequency_grid(frequencies):
-        return False, ["experimental payload must contain 0 Hz followed by five finite, positive, increasing frequencies"], None
+        return (
+            False,
+            ["experimental payload must contain 0 Hz followed by five finite, positive, increasing frequencies"],
+            None,
+        )
     if source_arrays["frequencies_hz"]["values"] != frequencies:
         return False, ["source-operator and response payload frequency grids differ"], None
     for treatment, rows in responses.items():
@@ -1242,25 +1288,40 @@ def _validate_d01_junit_payload(
                 or not _finite_number(tip.get("imag"))
                 or any(
                     not _finite_number(row.get(name)) or row[name] < 0
-                    for name in ("relative_full_free_displacement_error", "normalized_free_equilibrium_residual", "direct_reference_residual")
+                    for name in (
+                        "relative_full_free_displacement_error",
+                        "normalized_free_equilibrium_residual",
+                        "direct_reference_residual",
+                    )
                 )
                 or any(
                     row.get(name) is not None and not _finite_number(row.get(name))
                     for name in ("relative_tip_amplitude_error", "tip_phase_error_rad")
                 )
                 or not isinstance(row.get("energy"), dict)
-                or not all(_finite_number(row["energy"].get(key)) for key in ("average_input_power_W", "average_rayleigh_dissipation_W"))
-                or (row["energy"].get("absolute_balance_gap_W") is not None and not _finite_number(row["energy"].get("absolute_balance_gap_W")))
+                or not all(
+                    _finite_number(row["energy"].get(key))
+                    for key in ("average_input_power_W", "average_rayleigh_dissipation_W")
+                )
+                or (
+                    row["energy"].get("absolute_balance_gap_W") is not None
+                    and not _finite_number(row["energy"].get("absolute_balance_gap_W"))
+                )
             ):
                 return False, [f"{treatment} response row lacks finite displacement/error/residual metrics"], None
-            if treatment == "uncorrected" and (not isinstance(row.get("wp05_diagnostic"), dict) or not row["wp05_diagnostic"]):
+            if treatment == "uncorrected" and (
+                not isinstance(row.get("wp05_diagnostic"), dict) or not row["wp05_diagnostic"]
+            ):
                 return False, ["uncorrected response row lacks WP05 diagnostic evidence"], None
             if treatment == "corrected" and (
                 row.get("correction_error_ratio_status") is None
                 or not isinstance(row.get("correction_degraded_error"), bool)
                 or not isinstance(row.get("wp_d01_diagnostics"), dict)
                 or not row["wp_d01_diagnostics"]
-                or (row.get("correction_error_ratio") is not None and (not _finite_number(row["correction_error_ratio"]) or row["correction_error_ratio"] < 0))
+                or (
+                    row.get("correction_error_ratio") is not None
+                    and (not _finite_number(row["correction_error_ratio"]) or row["correction_error_ratio"] < 0)
+                )
             ):
                 return False, ["corrected response row lacks a valid correction ratio or D01 diagnostic"], None
     operator_identities = [
@@ -1268,16 +1329,28 @@ def _validate_d01_junit_payload(
         decoded["wp_d01_cg_projected_damping_m2_json"].get("operator_identity"),
         decoded["wp_d01_cg_projected_damping_m4_json"].get("operator_identity"),
     ]
-    if not isinstance(payload.get("operator_identity"), str) or not payload["operator_identity"] or operator_identities != [payload["operator_identity"]] * 3:
-        return False, ["source operators, projected damping and harmonic result payloads do not share one operator identity"], None
-    return True, [], {
-        "mesh_id": mesh_id,
-        "elements": expected_elements,
-        "free_dofs": expected_free_dofs,
-        "property_names": list(required),
-        "response_rows_per_treatment": 12,
-        "symmetry_threshold": 1.0e-12,
-    }
+    if (
+        not isinstance(payload.get("operator_identity"), str)
+        or not payload["operator_identity"]
+        or operator_identities != [payload["operator_identity"]] * 3
+    ):
+        return (
+            False,
+            ["source operators, projected damping and harmonic result payloads do not share one operator identity"],
+            None,
+        )
+    return (
+        True,
+        [],
+        {
+            "mesh_id": mesh_id,
+            "elements": expected_elements,
+            "free_dofs": expected_free_dofs,
+            "property_names": list(required),
+            "response_rows_per_treatment": 12,
+            "symmetry_threshold": 1.0e-12,
+        },
+    )
 
 
 def _valid_d01_experimental_frequency_grid(frequencies: Any) -> bool:
@@ -1657,8 +1730,10 @@ def _worktree_source_fingerprint(root: Path, target: str) -> str:
         relative = Path(os.fsdecode(raw).replace("\\", "/"))
         relative_text = relative.as_posix()
         if (
-            relative_text.startswith("src/solveur/") and relative.suffix == ".py"
-            or relative_text.startswith("experiments/") and relative.suffix == ".py"
+            relative_text.startswith("src/solveur/")
+            and relative.suffix == ".py"
+            or relative_text.startswith("experiments/")
+            and relative.suffix == ".py"
             or relative_text == target_module
             or relative_text in {"tests/conftest.py", "tests/unit/conftest.py", "pyproject.toml", "pytest.ini"}
         ):
@@ -1760,13 +1835,23 @@ def _reserve_node_attempt(
                     last.get("source_fingerprint") == source_fingerprint
                     and last.get("controller_fingerprint") == controller_fingerprint
                 )
-                if attempt_basis in {"source_change", "instrumentation_change"} and last.get("source_fingerprint") == source_fingerprint:
+                if (
+                    attempt_basis in {"source_change", "instrumentation_change"}
+                    and last.get("source_fingerprint") == source_fingerprint
+                ):
                     raise PolicyError(f"{attempt_basis} requires a changed D01 source fingerprint")
-                if attempt_basis == "launcher_correction" and last.get("controller_fingerprint") == controller_fingerprint:
+                if (
+                    attempt_basis == "launcher_correction"
+                    and last.get("controller_fingerprint") == controller_fingerprint
+                ):
                     raise PolicyError("launcher_correction requires a changed controller fingerprint")
                 if same_inputs and attempt_basis != "new_diagnostic_hypothesis":
                     raise PolicyError("identical D01 inputs require a separately identified new diagnostic hypothesis")
-                if same_inputs and last.get("attempt_basis") == attempt_basis and last.get("hypothesis_id") == hypothesis_id:
+                if (
+                    same_inputs
+                    and last.get("attempt_basis") == attempt_basis
+                    and last.get("hypothesis_id") == hypothesis_id
+                ):
                     raise PolicyError("identical D01 attempt basis/hypothesis refused")
         elif attempts:
             last = attempts[-1]
@@ -1834,7 +1919,10 @@ def _registered_worktree(
         raise PolicyError("registered solver package is missing or outside its source root")
     test_module = (root / target.split("::", maxsplit=1)[0]).resolve(strict=True)
     test_root = (root / entry["pytest_root"]).resolve(strict=True)
-    if not _wp12_nodeid_module_within_scope(worktree_id, target, test_module, root, test_root) or not test_module.is_file():
+    if (
+        not _wp12_nodeid_module_within_scope(worktree_id, target, test_module, root, test_root)
+        or not test_module.is_file()
+    ):
         raise PolicyError("registered test module is missing or escaped its worktree")
     identity = _git_identity(
         root,
@@ -1852,11 +1940,7 @@ def _run_root(policy: Mapping[str, Any], worktree_id: str | None = None) -> Path
         root = Path(policy["worktrees"][worktree_id]["evidence_root"]).resolve()
         checkout = Path(policy["worktrees"][worktree_id]["git_root"]).resolve()
         coordination_root = WP12_COORDINATION_ROOT.resolve()
-        if (
-            _is_within(root, checkout)
-            or _is_within(root, coordination_root)
-            or _is_within(coordination_root, root)
-        ):
+        if _is_within(root, checkout) or _is_within(root, coordination_root) or _is_within(coordination_root, root):
             raise PolicyError("WP12 evidence must be separate from source and shared coordination roots")
         return root
     root = (ROOT / policy["run_store"]).resolve()
@@ -1957,7 +2041,7 @@ def register_wp12_nodeid(
 ) -> dict[str, Any]:
     """Register one inspected exact WP12 pytest function and its preselected case envelope."""
     if worktree_id not in WP12_OWNER_ENVELOPES:
-        raise PolicyError("controlled nodeid registration is available only for the four WP12 scopes")
+        raise PolicyError("controlled nodeid registration is available only for registered WP12 scopes")
     if not isinstance(reason, str) or not 8 <= len(reason.strip()) <= 300 or "\n" in reason or "\r" in reason:
         raise PolicyError("nodeid registration requires a one-line reason of 8 to 300 characters")
     selection = _validate_wp12_case_selection(
@@ -1984,11 +2068,17 @@ def register_wp12_nodeid(
     if entry.get("require_clean_worktree") and identity["status_short"]:
         raise PolicyError(f"registered {worktree_id} source worktree must be clean before nodeid inspection")
     source_root = (root / entry["source_root"]).resolve(strict=True)
-    if not _is_within(source_root / "solveur" / "__init__.py", root) or not (source_root / "solveur" / "__init__.py").is_file():
+    if (
+        not _is_within(source_root / "solveur" / "__init__.py", root)
+        or not (source_root / "solveur" / "__init__.py").is_file()
+    ):
         raise PolicyError("registered solver source root is not inside the exact worktree")
     module_file = (root / module_path).resolve(strict=True)
     tests_root = (root / entry["pytest_root"]).resolve(strict=True)
-    if not _wp12_nodeid_module_within_scope(worktree_id, target, module_file, root, tests_root) or not module_file.is_file():
+    if (
+        not _wp12_nodeid_module_within_scope(worktree_id, target, module_file, root, tests_root)
+        or not module_file.is_file()
+    ):
         raise PolicyError("registered nodeid module is missing or escaped its approved test scope")
     function_name = match.group(1)
     try:
@@ -2031,7 +2121,7 @@ def register_wp12_nodeid(
             **selection,
         }
         records.append(record)
-        _atomic_json(POLICY_PATH, policy)
+        _atomic_json(POLICY_PATH, policy, sort_keys=False)
     return {
         "state": "NODEID_REGISTERED",
         "worktree_id": worktree_id,
@@ -2066,7 +2156,7 @@ def _controller_provenance() -> dict[str, Any]:
 def prepare_wp12_execution_manifest(worktree_id: str, target: str, authorization_id: str) -> dict[str, Any]:
     """Write an exact WP12 execution-manifest template that remains unapproved."""
     if worktree_id not in WP12_OWNER_ENVELOPES:
-        raise PolicyError("WP12 execution manifests are available only for the four WP12 scopes")
+        raise PolicyError("WP12 execution manifests are available only for registered WP12 scopes")
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", authorization_id):
         raise PolicyError("authorization ID must be 8 to 64 safe alphanumeric, dot, underscore or hyphen characters")
     policy = load_policy(POLICY_PATH)
@@ -2121,9 +2211,7 @@ def preflight_pytest(
     if worktree_id != "d01":
         raise PolicyError("collect-only preflight is currently enabled only for the D01 native nodes")
     targets = resolve_targets("fem_exploratory", target, policy, worktree_id=worktree_id)
-    entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
-        worktree_id, target, policy
-    )
+    entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(worktree_id, target, policy)
     store = _run_root(policy)
     ledger_path, _ledger_lock, mandate_id, predecessor = _node_ledger_context(policy, store, worktree_id)
     if predecessor is None or mandate_id != entry["development_mandate_id"]:
@@ -2467,7 +2555,9 @@ def run_pytest(
         ledger_key: str | None = None
         ledger_number: int | None = None
         if is_registered:
-            assert worktree_id is not None and source_fingerprint is not None and reason is not None and target is not None
+            assert (
+                worktree_id is not None and source_fingerprint is not None and reason is not None and target is not None
+            )
             try:
                 ledger_key, ledger_number = _reserve_node_attempt(
                     node_ledger_path,
@@ -2552,7 +2642,10 @@ def run_pytest(
             "budgets": dict(scope),
             "wp12_case_selection": (
                 {
-                    **{key: wp12_registration[key] for key in ("selected_dofs", "selection_basis", "timeout_seconds", "timeout_reason")},
+                    **{
+                        key: wp12_registration[key]
+                        for key in ("selected_dofs", "selection_basis", "timeout_seconds", "timeout_reason")
+                    },
                     "checked_before_attempt_reservation": True,
                     "registration_source_fingerprint": wp12_registration["source_fingerprint"],
                 }
@@ -2599,7 +2692,9 @@ def run_pytest(
             )
         except OSError as exc:
             finished_at = datetime.now(timezone.utc).isoformat()
-            post_fingerprint = _worktree_source_fingerprint(execution_root, target) if is_registered and target else "NOT_CAPTURED"
+            post_fingerprint = (
+                _worktree_source_fingerprint(execution_root, target) if is_registered and target else "NOT_CAPTURED"
+            )
             final = {
                 **initial,
                 "state": "LAUNCH_FAILED",
@@ -2620,7 +2715,12 @@ def run_pytest(
                     finished_at_utc=finished_at,
                     post_fingerprint=post_fingerprint,
                 )
-            return {"series_id": series_id, "attempt": ledger_number or number, "state": "LAUNCH_FAILED", "record": str(record_path)}, 1
+            return {
+                "series_id": series_id,
+                "attempt": ledger_number or number,
+                "state": "LAUNCH_FAILED",
+                "record": str(record_path),
+            }, 1
         finished_at = datetime.now(timezone.utc).isoformat()
         post_fingerprint = source_fingerprint
         state = result.status
@@ -2701,10 +2801,21 @@ def main(argv: Sequence[str] | None = None) -> int:
     registration_parser.add_argument("--worktree", choices=tuple(WP12_OWNER_ENVELOPES), required=True)
     registration_parser.add_argument("--target", required=True, help="exact tests/unit/module.py::test_function nodeid")
     registration_parser.add_argument("--reason", required=True, help="short scientific or regression rationale")
-    registration_parser.add_argument("--selected-dofs", type=int, required=True, help="declared DDL count checked before execution")
-    registration_parser.add_argument("--selection-basis", required=True, help="brief mesh/formulation basis for the selected DDL count")
-    registration_parser.add_argument("--timeout-seconds", type=int, choices=(300, 900), help="defaults to the scope budget; 900 is exceptional for elements")
-    registration_parser.add_argument("--timeout-reason", help="required only for an exceptional 900-second elements case")
+    registration_parser.add_argument(
+        "--selected-dofs", type=int, required=True, help="declared DDL count checked before execution"
+    )
+    registration_parser.add_argument(
+        "--selection-basis", required=True, help="brief mesh/formulation basis for the selected DDL count"
+    )
+    registration_parser.add_argument(
+        "--timeout-seconds",
+        type=int,
+        choices=(300, 900),
+        help="defaults to the scope budget; 900 is exceptional for elements",
+    )
+    registration_parser.add_argument(
+        "--timeout-reason", help="required only for an exceptional 900-second elements case"
+    )
     manifest_parser = subparsers.add_parser(
         "prepare-manifest",
         help="write a source-bound WP12 execution-manifest template marked NOT_AUTHORIZED; never runs tests",
@@ -2713,14 +2824,24 @@ def main(argv: Sequence[str] | None = None) -> int:
     manifest_parser.add_argument("--target", required=True, help="one previously registered exact nodeid")
     manifest_parser.add_argument("--authorization-id", required=True)
     test_parser = subparsers.add_parser("test", help="run one fixed development pytest scope")
-    test_parser.add_argument("--scope", choices=("unit", "integration", "fem_exploratory", "math_non_fem"), required=True)
-    test_parser.add_argument("--target", help="repository-relative test file/nodeid; FEM requires an exact approved nodeid")
+    test_parser.add_argument(
+        "--scope", choices=("unit", "integration", "fem_exploratory", "math_non_fem"), required=True
+    )
+    test_parser.add_argument(
+        "--target", help="repository-relative test file/nodeid; FEM requires an exact approved nodeid"
+    )
     test_parser.add_argument("--series", help="development-only dev-* series ID for bounded follow-up attempts")
     test_parser.add_argument("--worktree", help="registered worktree ID for one exact development nodeid")
-    test_parser.add_argument("--reason", help="short documented development hypothesis/reason for a registered nodeid attempt")
+    test_parser.add_argument(
+        "--reason", help="short documented development hypothesis/reason for a registered nodeid attempt"
+    )
     test_parser.add_argument("--preflight-id", help="successful exact-node D01 collect-only receipt ID")
-    test_parser.add_argument("--execution-manifest", help="Owner-authorized WP12 manifest under that mission's evidence root")
-    test_parser.add_argument("--attempt-basis", choices=D01_ATTEMPT_BASES, help="D01 baseline/change/hypothesis classification")
+    test_parser.add_argument(
+        "--execution-manifest", help="Owner-authorized WP12 manifest under that mission's evidence root"
+    )
+    test_parser.add_argument(
+        "--attempt-basis", choices=D01_ATTEMPT_BASES, help="D01 baseline/change/hypothesis classification"
+    )
     test_parser.add_argument("--hypothesis-id", help="unique ID required for a same-input new diagnostic hypothesis")
     args = parser.parse_args(argv)
     try:
