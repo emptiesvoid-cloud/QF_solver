@@ -1,0 +1,63 @@
+{
+  "attempt_number": 1,
+  "budgets": {
+    "archive_size_limit_mib": 64,
+    "attempts_per_nodeid": 1,
+    "blas_thread_environment": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "budget_semantics": {
+      "captured_output": "controller-enforced byte caps",
+      "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+      "wall_timeout": "watchdog process-tree termination, best effort"
+    },
+    "initial_campaign_max_attempts": 6,
+    "minimum_free_disk_mib": 1024,
+    "output_stream_limit_mib": 8,
+    "output_total_limit_mib": 16,
+    "process_tree_limit": 8,
+    "rss_soft_limit_mib": 1024,
+    "temporary_limit_mib": 64,
+    "timeout_seconds": 180
+  },
+  "campaign_id": "HEX8-SRI-CANTILEVER-6-2026-10-26",
+  "case_id": "sri_corrected_nu_0p4999",
+  "common_problem": {
+    "path": "common_problem.json",
+    "sha256": "34c0a53c7ec1340d247a54628bc16005c78a5064a61b842ff3f34a0355bc0a41"
+  },
+  "controller_code_sha256": {
+    "pytest_plugin": "c1cf6238bba05fa24de5c455beac9ddd6844935999e8b4556d3b13e5f6e9ee16",
+    "runner": "d17a026f8f3688777c42c741be34905eed3d706a074443407b086c4a81298e74"
+  },
+  "controller_registration_id": "hex8sri",
+  "do_not_execute": true,
+  "exact_nodeid": "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_corrected_nu_0p4999]",
+  "execution_artifact_root": "E:/QFSolverAgents/hex8sri-runs/HEX8-SRI-CANTILEVER-6-2026-10-26",
+  "execution_authorized": false,
+  "execution_state": "PREPARATION_COMPLETE_AWAITING_SEPARATE_OWNER_EXECUTION_DECISION",
+  "formulation": {
+    "element_type": "Hex8SRIElement",
+    "id": "sri_corrected",
+    "operator": "corrected central volumetric integration with weight 8",
+    "source_note": "research element called directly; registry not used"
+  },
+  "poisson_ratio": 0.4999,
+  "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
+  "qualification_promotion": "PROHIBITED",
+  "retry_allowed": false,
+  "schema": "qfsolver-hex8-sri-structural-case-v2",
+  "science_branch": "research/hex8-sri-equilibrium",
+  "science_source_commit": "b547cf0e1c8057ef7f58ba780967d1b19c891ac4",
+  "source_files_sha256": {
+    "experiments/hex8_sri_equilibrium/__init__.py": "5125c36783846afbe6f6d7228195756280c8661ccc3a9c2962e6c7b9ed2e31ca",
+    "experiments/hex8_sri_equilibrium/campaign.py": "a104313f8546ab177d3fc7f49b474bc6610030a2082ff9981415764609d510fd",
+    "src/solveur/elements/solid/hex8.py": "4dd8ba606b7e8cab9697fd26ce0baf37fbaf046f9e95894afb0ac8eaa0c85d7a",
+    "src/solveur/elements/solid/hex8_sri.py": "56f7776de6327441fb424e550238e3384bddaf98e84b4d4cf825dc2d275e6440",
+    "src/solveur/materials/solid.py": "663caa9019d22a6fb74578e18ed1a994aae8e29bf0e0c9173ebaa2501bdfbd79",
+    "tests/verification/test_hex8_sri_structural_campaign.py": "f922bc987182956d7b43ebff1f99c74e4b77313ef7a163f9201772f4b5d9710a"
+  },
+  "source_fingerprint_sha256": "e14217217a6044ca9cb7c64a0f187864121589463c00e1eaac53251696b60c29"
+}

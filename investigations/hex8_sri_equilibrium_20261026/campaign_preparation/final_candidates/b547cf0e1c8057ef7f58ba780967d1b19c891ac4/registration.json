@@ -1,0 +1,66 @@
+{
+  "budgets": {
+    "archive_size_limit_mib": 64,
+    "attempts_per_nodeid": 1,
+    "blas_thread_environment": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "budget_semantics": {
+      "captured_output": "controller-enforced byte caps",
+      "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+      "wall_timeout": "watchdog process-tree termination, best effort"
+    },
+    "initial_campaign_max_attempts": 6,
+    "minimum_free_disk_mib": 1024,
+    "output_stream_limit_mib": 8,
+    "output_total_limit_mib": 16,
+    "process_tree_limit": 8,
+    "rss_soft_limit_mib": 1024,
+    "temporary_limit_mib": 64,
+    "timeout_seconds": 180
+  },
+  "campaign_run_count": 0,
+  "controller_manifest_map": {
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[hex8_standard_nu_0p3]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4/manifest_hex8_standard_nu_0p3.json",
+      "sha256": "b50f1a99c1d1061a038602b229750d6e8e7e4eebd08811bf98007613b0d57085"
+    },
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[hex8_standard_nu_0p4999]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4/manifest_hex8_standard_nu_0p4999.json",
+      "sha256": "dc6e216882fcc598d3015b4d6b47b4ddafa2857d043862efc23029e6e63ac350"
+    },
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_corrected_nu_0p3]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4/manifest_sri_corrected_nu_0p3.json",
+      "sha256": "abd187924b2466347f50da2471678a81a7c1a1c18796f47b361b965d7d8d2678"
+    },
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_corrected_nu_0p4999]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4/manifest_sri_corrected_nu_0p4999.json",
+      "sha256": "494077c50768aaaaba95d473f71ebd00fc2f0768388b6eda54e48f6a11e9197e"
+    },
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_historical_nu_0p3]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4/manifest_sri_historical_nu_0p3.json",
+      "sha256": "6004a87e47a58ee3bb44599e5194f67c597d86c0af587776f8b9cca6402271b0"
+    },
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_historical_nu_0p4999]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4/manifest_sri_historical_nu_0p4999.json",
+      "sha256": "9f47da668e7ae0c1e7187a996e2b5d80c25314835104ebfabee715b8382cb206"
+    }
+  },
+  "controller_registration_id": "hex8sri",
+  "exact_nodeids": [
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[hex8_standard_nu_0p3]",
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_historical_nu_0p3]",
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_corrected_nu_0p3]",
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[hex8_standard_nu_0p4999]",
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_historical_nu_0p4999]",
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_corrected_nu_0p4999]"
+  ],
+  "execution_authorized": false,
+  "preflight": "required exact-node collect-only receipt; NOT_RUN under this Owner decision",
+  "schema": "qfsolver-hex8sri-controller-registration-v2",
+  "science_source_commit": "b547cf0e1c8057ef7f58ba780967d1b19c891ac4",
+  "science_source_fingerprint_sha256": "e14217217a6044ca9cb7c64a0f187864121589463c00e1eaac53251696b60c29",
+  "status": "PREPARED_NOT_EXECUTION_AUTHORIZED"
+}

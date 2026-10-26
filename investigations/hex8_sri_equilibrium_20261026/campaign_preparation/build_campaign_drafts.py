@@ -48,6 +48,11 @@ BUDGETS = {
     },
     "attempts_per_nodeid": 1,
     "initial_campaign_max_attempts": 6,
+    "blas_thread_environment": {
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+    },
     "budget_semantics": {
         "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
         "captured_output": "controller-enforced byte caps",
@@ -202,7 +207,7 @@ def main() -> None:
         "runner": args.controller_runner_sha256,
         "pytest_plugin": args.controller_plugin_sha256,
     }
-    output = PREPARATION / "final_candidates" / source_head
+    output = PREPARATION / "final_candidates" / f"{source_head}_{args.controller_runner_sha256[:12]}_protocol2"
     output.mkdir(parents=True, exist_ok=False)
     common = common_problem(source_head, fingerprint, controller_hashes)
     common_sha = write_new_json(output / "common_problem.json", common)

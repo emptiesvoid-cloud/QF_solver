@@ -1,0 +1,66 @@
+{
+  "budgets": {
+    "archive_size_limit_mib": 64,
+    "attempts_per_nodeid": 1,
+    "blas_thread_environment": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "budget_semantics": {
+      "captured_output": "controller-enforced byte caps",
+      "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+      "wall_timeout": "watchdog process-tree termination, best effort"
+    },
+    "initial_campaign_max_attempts": 6,
+    "minimum_free_disk_mib": 1024,
+    "output_stream_limit_mib": 8,
+    "output_total_limit_mib": 16,
+    "process_tree_limit": 8,
+    "rss_soft_limit_mib": 1024,
+    "temporary_limit_mib": 64,
+    "timeout_seconds": 180
+  },
+  "campaign_run_count": 0,
+  "controller_manifest_map": {
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[hex8_standard_nu_0p3]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4_2896c0f0f5e5_protocol2/manifest_hex8_standard_nu_0p3.json",
+      "sha256": "06ab0b685fbef726a0e38feb40c6a08b851a6b34e6101bcd243c1609da5692ce"
+    },
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[hex8_standard_nu_0p4999]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4_2896c0f0f5e5_protocol2/manifest_hex8_standard_nu_0p4999.json",
+      "sha256": "08cea3a66d570ea61316a6e5c58d97fcda7a663408c23d8fc98a61c6f07d63e1"
+    },
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_corrected_nu_0p3]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4_2896c0f0f5e5_protocol2/manifest_sri_corrected_nu_0p3.json",
+      "sha256": "06f2e66d7559f8a427946174502a6452c07170951476781d40090a056a49d789"
+    },
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_corrected_nu_0p4999]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4_2896c0f0f5e5_protocol2/manifest_sri_corrected_nu_0p4999.json",
+      "sha256": "8128e872feb2d6a3147b279ebbee7d022721e5d21dc739bfe9240a9e042ea56e"
+    },
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_historical_nu_0p3]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4_2896c0f0f5e5_protocol2/manifest_sri_historical_nu_0p3.json",
+      "sha256": "1a3f6784a3a63a872659af4037e104d2eb33bfdac642145137c9643cea62b82e"
+    },
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_historical_nu_0p4999]": {
+      "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4_2896c0f0f5e5_protocol2/manifest_sri_historical_nu_0p4999.json",
+      "sha256": "6f0f641455dbc525c6e56840058ae9d0b3be57d49297a1587b051eb69588166d"
+    }
+  },
+  "controller_registration_id": "hex8sri",
+  "exact_nodeids": [
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[hex8_standard_nu_0p3]",
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_historical_nu_0p3]",
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_corrected_nu_0p3]",
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[hex8_standard_nu_0p4999]",
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_historical_nu_0p4999]",
+    "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_corrected_nu_0p4999]"
+  ],
+  "execution_authorized": false,
+  "preflight": "required exact-node collect-only receipt; NOT_RUN under this Owner decision",
+  "schema": "qfsolver-hex8sri-controller-registration-v2",
+  "science_source_commit": "b547cf0e1c8057ef7f58ba780967d1b19c891ac4",
+  "science_source_fingerprint_sha256": "e14217217a6044ca9cb7c64a0f187864121589463c00e1eaac53251696b60c29",
+  "status": "PREPARED_NOT_EXECUTION_AUTHORIZED"
+}

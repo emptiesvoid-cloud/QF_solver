@@ -1,0 +1,15 @@
+{
+  "execution_authorized": false,
+  "manifest_sha256": {
+    "manifest_hex8_standard_nu_0p3.json": "06ab0b685fbef726a0e38feb40c6a08b851a6b34e6101bcd243c1609da5692ce",
+    "manifest_hex8_standard_nu_0p4999.json": "08cea3a66d570ea61316a6e5c58d97fcda7a663408c23d8fc98a61c6f07d63e1",
+    "manifest_sri_corrected_nu_0p3.json": "06f2e66d7559f8a427946174502a6452c07170951476781d40090a056a49d789",
+    "manifest_sri_corrected_nu_0p4999.json": "8128e872feb2d6a3147b279ebbee7d022721e5d21dc739bfe9240a9e042ea56e",
+    "manifest_sri_historical_nu_0p3.json": "1a3f6784a3a63a872659af4037e104d2eb33bfdac642145137c9643cea62b82e",
+    "manifest_sri_historical_nu_0p4999.json": "6f0f641455dbc525c6e56840058ae9d0b3be57d49297a1587b051eb69588166d"
+  },
+  "reason": "Generated before the explicit registration-level execution authorization gate was added.",
+  "schema": "qfsolver-hex8sri-superseded-preparation-candidate-v1",
+  "status": "SUPERSEDED_NOT_REGISTERED_NOT_EXECUTION_AUTHORIZED",
+  "superseded_by": "b547cf0e1c8057ef7f58ba780967d1b19c891ac4_9121059c172d_protocol2"
+}

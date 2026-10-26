@@ -1,0 +1,15 @@
+{
+  "execution_authorized": false,
+  "manifest_sha256": {
+    "manifest_hex8_standard_nu_0p3.json": "14cd4da032d3d2c6677f454dcfc2a479fbd5863f5359cbcbcdd53b50b52e1049",
+    "manifest_hex8_standard_nu_0p4999.json": "d1d49f28e218f2564e6ed3116dd26deead0ea408faee52fb7fed295629cd6b51",
+    "manifest_sri_corrected_nu_0p3.json": "d67d87d0c99ea816886145259b738fcdeac12edd065df2a5a526dd511a59613e",
+    "manifest_sri_corrected_nu_0p4999.json": "f9862ebc86892c4e5b73453728c643915cc05a5981e6427ef7c97c374b231d90",
+    "manifest_sri_historical_nu_0p3.json": "d9abf5987fa20d58354f6df4f51507913fe9350002178ba1fbf4af4c4c9f928d",
+    "manifest_sri_historical_nu_0p4999.json": "6840f57777e32707252885fb958df5f050d7045c6ee993cce7c2f914984f851c"
+  },
+  "reason": "Generated before the final single-thread budget was pinned in controller code.",
+  "schema": "qfsolver-hex8sri-superseded-preparation-candidate-v1",
+  "status": "SUPERSEDED_NOT_REGISTERED_NOT_EXECUTION_AUTHORIZED",
+  "superseded_by": "b547cf0e1c8057ef7f58ba780967d1b19c891ac4_9121059c172d_protocol2"
+}

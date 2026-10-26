@@ -1,0 +1,388 @@
+{
+  "artifact_root": "E:/QFSolverAgents/hex8sri-runs/HEX8-SRI-CANTILEVER-6-2026-10-26",
+  "budgets": {
+    "archive_size_limit_mib": 64,
+    "attempts_per_nodeid": 1,
+    "blas_thread_environment": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "budget_semantics": {
+      "captured_output": "controller-enforced byte caps",
+      "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+      "wall_timeout": "watchdog process-tree termination, best effort"
+    },
+    "initial_campaign_max_attempts": 6,
+    "minimum_free_disk_mib": 1024,
+    "output_stream_limit_mib": 8,
+    "output_total_limit_mib": 16,
+    "process_tree_limit": 8,
+    "rss_soft_limit_mib": 1024,
+    "temporary_limit_mib": 64,
+    "timeout_seconds": 180
+  },
+  "campaign_id": "HEX8-SRI-CANTILEVER-6-2026-10-26",
+  "controller_code_sha256": {
+    "pytest_plugin": "c1cf6238bba05fa24de5c455beac9ddd6844935999e8b4556d3b13e5f6e9ee16",
+    "runner": "4950f4b6b5565f11701799a01a8f5a4cfea81e767cba1a8e132ecbee737917d0"
+  },
+  "execution_authorized": false,
+  "loading": {
+    "area_m2": 1.0,
+    "loaded_face": "x=20",
+    "nodal_loads": [
+      {
+        "area_weight_m2": 0.0625,
+        "coordinate_m": [
+          20.0,
+          0.0,
+          0.0
+        ],
+        "force_N": [
+          0.0,
+          0.0,
+          -0.0625
+        ],
+        "node_id": 36
+      },
+      {
+        "area_weight_m2": 0.125,
+        "coordinate_m": [
+          20.0,
+          0.0,
+          0.5
+        ],
+        "force_N": [
+          0.0,
+          0.0,
+          -0.125
+        ],
+        "node_id": 37
+      },
+      {
+        "area_weight_m2": 0.0625,
+        "coordinate_m": [
+          20.0,
+          0.0,
+          1.0
+        ],
+        "force_N": [
+          0.0,
+          0.0,
+          -0.0625
+        ],
+        "node_id": 38
+      },
+      {
+        "area_weight_m2": 0.125,
+        "coordinate_m": [
+          20.0,
+          0.5,
+          0.0
+        ],
+        "force_N": [
+          0.0,
+          0.0,
+          -0.125
+        ],
+        "node_id": 39
+      },
+      {
+        "area_weight_m2": 0.25,
+        "coordinate_m": [
+          20.0,
+          0.5,
+          0.5
+        ],
+        "force_N": [
+          0.0,
+          0.0,
+          -0.25
+        ],
+        "node_id": 40
+      },
+      {
+        "area_weight_m2": 0.125,
+        "coordinate_m": [
+          20.0,
+          0.5,
+          1.0
+        ],
+        "force_N": [
+          0.0,
+          0.0,
+          -0.125
+        ],
+        "node_id": 41
+      },
+      {
+        "area_weight_m2": 0.0625,
+        "coordinate_m": [
+          20.0,
+          1.0,
+          0.0
+        ],
+        "force_N": [
+          0.0,
+          0.0,
+          -0.0625
+        ],
+        "node_id": 42
+      },
+      {
+        "area_weight_m2": 0.125,
+        "coordinate_m": [
+          20.0,
+          1.0,
+          0.5
+        ],
+        "force_N": [
+          0.0,
+          0.0,
+          -0.125
+        ],
+        "node_id": 43
+      },
+      {
+        "area_weight_m2": 0.0625,
+        "coordinate_m": [
+          20.0,
+          1.0,
+          1.0
+        ],
+        "force_N": [
+          0.0,
+          0.0,
+          -0.0625
+        ],
+        "node_id": 44
+      }
+    ],
+    "resultant_force_N": [
+      0.0,
+      0.0,
+      -1.0
+    ],
+    "resultant_moment_about_origin_Nm": [
+      -0.5,
+      20.0,
+      0.0
+    ],
+    "traction_Pa": [
+      0.0,
+      0.0,
+      -1.0
+    ]
+  },
+  "model": {
+    "E_Pa": 1000000.0,
+    "degrees_of_freedom": 135,
+    "elements": 16,
+    "fixed_dofs": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "fixed_face": "x=0; UX, UY, UZ",
+    "free_dofs": [
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134
+    ],
+    "geometry_dimensions_L_y_z_m": [
+      20.0,
+      1.0,
+      1.0
+    ],
+    "mesh_divisions_xyz": [
+      4,
+      2,
+      2
+    ],
+    "nodes": 45,
+    "poisson_ratios": [
+      0.3,
+      0.4999
+    ],
+    "same_geometry_loads_supports_and_dof_order_for_all_cases": true
+  },
+  "observables_and_criteria": {
+    "conditioning": "dense 108x108 Kff 2-norm condition number, no acceptance threshold",
+    "convergence": "not assessed from one mesh",
+    "displacements_m": "full 135-vector and L2 norm",
+    "energy_J": "0.5*u^T*K*u; load work=u^T*F; report 2U-W without a new threshold",
+    "reactions_and_closure": "27 support reactions; global force and origin-moment closures, no new threshold",
+    "residual_N": "free residual vector, L2 norm and frozen relative value",
+    "signed_mean_loaded_face_UZ_m": "consistent face-area-weighted average",
+    "strains": "16x8x6 Gauss-point values, dimensionless",
+    "validity_criteria": [
+      "all outputs finite",
+      "center and eight Gauss Jacobians positive",
+      "existing relative residual <=1e-7"
+    ]
+  },
+  "qualification": "DEVELOPMENT_ONLY_NOT_QUALIFICATION",
+  "schema": "qfsolver-hex8-sri-structural-common-input-v2",
+  "solver": {
+    "production_global_solver_used": false,
+    "production_registry_used": false,
+    "residual_definition": "||Kff uf-Ff||2/max(||Ff||2,||Kff uf||2,1 N)",
+    "residual_failure_tolerance": 1e-07,
+    "scope": "test-local element stiffness assembly plus direct SciPy solve"
+  },
+  "source_identity": {
+    "branch": "research/hex8-sri-equilibrium",
+    "science_source_commit": "b547cf0e1c8057ef7f58ba780967d1b19c891ac4",
+    "source_files_sha256": {
+      "experiments/hex8_sri_equilibrium/__init__.py": "5125c36783846afbe6f6d7228195756280c8661ccc3a9c2962e6c7b9ed2e31ca",
+      "experiments/hex8_sri_equilibrium/campaign.py": "a104313f8546ab177d3fc7f49b474bc6610030a2082ff9981415764609d510fd",
+      "src/solveur/elements/solid/hex8.py": "4dd8ba606b7e8cab9697fd26ce0baf37fbaf046f9e95894afb0ac8eaa0c85d7a",
+      "src/solveur/elements/solid/hex8_sri.py": "56f7776de6327441fb424e550238e3384bddaf98e84b4d4cf825dc2d275e6440",
+      "src/solveur/materials/solid.py": "663caa9019d22a6fb74578e18ed1a994aae8e29bf0e0c9173ebaa2501bdfbd79",
+      "tests/verification/test_hex8_sri_structural_campaign.py": "f922bc987182956d7b43ebff1f99c74e4b77313ef7a163f9201772f4b5d9710a"
+    },
+    "source_fingerprint_sha256": "e14217217a6044ca9cb7c64a0f187864121589463c00e1eaac53251696b60c29"
+  },
+  "units": {
+    "E": "Pa",
+    "coordinates": "m",
+    "displacement": "m",
+    "energy": "J",
+    "force": "N",
+    "memory": "bytes; MiB=bytes/2^20",
+    "moment": "N·m",
+    "strain": "dimensionless",
+    "time": "s",
+    "traction": "Pa"
+  }
+}

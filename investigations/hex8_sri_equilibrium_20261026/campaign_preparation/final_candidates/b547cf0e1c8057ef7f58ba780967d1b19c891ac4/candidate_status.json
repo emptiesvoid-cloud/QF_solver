@@ -1,0 +1,15 @@
+{
+  "execution_authorized": false,
+  "manifest_sha256": {
+    "manifest_hex8_standard_nu_0p3.json": "b50f1a99c1d1061a038602b229750d6e8e7e4eebd08811bf98007613b0d57085",
+    "manifest_hex8_standard_nu_0p4999.json": "dc6e216882fcc598d3015b4d6b47b4ddafa2857d043862efc23029e6e63ac350",
+    "manifest_sri_corrected_nu_0p3.json": "abd187924b2466347f50da2471678a81a7c1a1c18796f47b361b965d7d8d2678",
+    "manifest_sri_corrected_nu_0p4999.json": "494077c50768aaaaba95d473f71ebd00fc2f0768388b6eda54e48f6a11e9197e",
+    "manifest_sri_historical_nu_0p3.json": "6004a87e47a58ee3bb44599e5194f67c597d86c0af587776f8b9cca6402271b0",
+    "manifest_sri_historical_nu_0p4999.json": "9f47da668e7ae0c1e7187a996e2b5d80c25314835104ebfabee715b8382cb206"
+  },
+  "reason": "Generated with the unextended canonical controller hash; superseded before registration.",
+  "schema": "qfsolver-hex8sri-superseded-preparation-candidate-v1",
+  "status": "SUPERSEDED_NOT_REGISTERED_NOT_EXECUTION_AUTHORIZED",
+  "superseded_by": "b547cf0e1c8057ef7f58ba780967d1b19c891ac4_9121059c172d_protocol2"
+}
