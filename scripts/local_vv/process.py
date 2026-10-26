@@ -216,6 +216,7 @@ def _case_command(
         "-m",
         "pytest",
         "-q",
+        "-s",
         "--noconftest",
         "-p",
         "no:cacheprovider",
