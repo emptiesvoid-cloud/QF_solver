@@ -69,7 +69,14 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
     policy = _policy()
     assert policy["mode"] == "DEVELOPMENT_AUTONOMOUS"
     assert set(policy["worktrees"]) == {
-        "d01", "c01", "e01", "wp12_wp07", "wp12_tet4", "wp12_elements", "wp12_elements_loads", "wp12_dynamics"
+        "d01",
+        "c01",
+        "e01",
+        "wp12_wp07",
+        "wp12_tet4",
+        "wp12_elements",
+        "wp12_elements_loads",
+        "wp12_dynamics",
     }
     assert policy["worktrees"]["d01"]["attempt_limit_per_nodeid"] == 3
     assert policy["worktrees"]["d01"]["development_mandate_id"] == "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v2-d01"
@@ -93,8 +100,7 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
     assert policy["worktrees"]["wp12_dynamics"]["max_timeout_seconds"] == 300
     assert policy["worktrees"]["d01"]["allowed_nodeids"] == list(MODULE.D01_NATIVE_NODEIDS)
     assert {
-        name: policy["worktrees"]["d01"]["budgets"][name]
-        for name in MODULE.D01_OWNER_BUDGETS
+        name: policy["worktrees"]["d01"]["budgets"][name] for name in MODULE.D01_OWNER_BUDGETS
     } == MODULE.D01_OWNER_BUDGETS
     assert policy["worktrees"]["d01"]["attempt_limits_per_nodeid"] == {
         MODULE.D01_NATIVE_NODEIDS[0]: 1,
@@ -217,9 +223,9 @@ def test_wp12_registry_has_five_distinct_exact_worktree_envelopes() -> None:
                 "969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6",
             )
             for record in (newmark_records[3], harmonic_records[2], base_records[2]):
-                assert record["selected_dofs"] == {newmark_target: 1, harmonic_target: 3, base_target: 1}[
-                    record["target"]
-                ]
+                assert (
+                    record["selected_dofs"] == {newmark_target: 1, harmonic_target: 3, base_target: 1}[record["target"]]
+                )
                 assert record["timeout_seconds"] == 300
         elif worktree_id == "wp12_tet4":
             assert entry["allowed_nodeids"] == list(WP12_TET4_NODEIDS)
@@ -283,13 +289,17 @@ def test_each_wp12_worktree_resolves_its_registered_test_and_solver_root(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     policy = _policy()
-    monkeypatch.setattr(MODULE, "_git_identity", lambda root, **kwargs: {
-        "root": str(root),
-        "branch": kwargs["expected_branch"],
-        "head": "a" * 40,
-        "tree": "b" * 40,
-        "status_short": "",
-    })
+    monkeypatch.setattr(
+        MODULE,
+        "_git_identity",
+        lambda root, **kwargs: {
+            "root": str(root),
+            "branch": kwargs["expected_branch"],
+            "head": "a" * 40,
+            "tree": "b" * 40,
+            "status_short": "",
+        },
+    )
     monkeypatch.setattr(MODULE, "_worktree_source_fingerprint", lambda *_args: "c" * 64)
     for index, worktree_id in enumerate(MODULE.WP12_OWNER_ENVELOPES):
         root = tmp_path / worktree_id
@@ -347,7 +357,7 @@ def _prepare_wp12_registration_context(tmp_path: Path, monkeypatch: pytest.Monke
     coordination_root = tmp_path / "evidence" / ".wp12-coordination"
     for directory in (controller, agent_root / "src" / "solveur", agent_root / "tests" / "unit"):
         directory.mkdir(parents=True, exist_ok=True)
-    (agent_root / "src" / "solveur" / "__init__.py").write_text("\"synthetic package\"\n", encoding="utf-8")
+    (agent_root / "src" / "solveur" / "__init__.py").write_text('"synthetic package"\n', encoding="utf-8")
     module = agent_root / "tests" / "unit" / "test_candidate.py"
     module.write_text("def test_candidate_case():\n    assert True\n", encoding="utf-8")
 
@@ -514,12 +524,14 @@ def test_wp12_exact_nodeid_registration_and_allowlist_selection_are_synthetic(
     from contextlib import nullcontext
 
     _agent_root, policy_path, target = _prepare_wp12_registration_context(tmp_path, monkeypatch)
-    monkeypatch.setattr(MODULE, "run_supervised_command", lambda *_args, **_kwargs: pytest.fail("registration must not launch pytest"))
+    monkeypatch.setattr(
+        MODULE, "run_supervised_command", lambda *_args, **_kwargs: pytest.fail("registration must not launch pytest")
+    )
     lock_paths: list[Path] = []
     monkeypatch.setattr(
         MODULE,
         "_exclusive_file_lock",
-        lambda path: (lock_paths.append(path) or nullcontext()),
+        lambda path: lock_paths.append(path) or nullcontext(),
     )
     result = MODULE.register_wp12_nodeid(
         "wp12_wp07",
@@ -610,7 +622,9 @@ def test_wp12_run_refuses_before_attempt_reservation_without_manifest(
     )
     load_policy = MODULE.load_policy
     monkeypatch.setattr(MODULE, "load_policy", lambda *_args, **_kwargs: load_policy(policy_path))
-    monkeypatch.setattr(MODULE, "run_supervised_command", lambda *_args, **_kwargs: pytest.fail("refusal must precede FEM"))
+    monkeypatch.setattr(
+        MODULE, "run_supervised_command", lambda *_args, **_kwargs: pytest.fail("refusal must precede FEM")
+    )
     with pytest.raises(MODULE.PolicyError, match="require a distinct Owner-authorized execution manifest"):
         MODULE.run_pytest(
             "fem_exploratory",
@@ -694,13 +708,19 @@ def test_wp12_registration_rejects_bad_paths_functions_and_repeats(
     _agent_root, _policy_path, target = _prepare_wp12_registration_context(tmp_path, monkeypatch)
     with pytest.raises(MODULE.PolicyError, match="below tests/unit"):
         MODULE.register_wp12_nodeid(
-            "wp12_wp07", "tests/unit/../../outside.py::test_case", "path traversal test",
-            selected_dofs=12, selection_basis="Synthetic path traversal refusal check",
+            "wp12_wp07",
+            "tests/unit/../../outside.py::test_case",
+            "path traversal test",
+            selected_dofs=12,
+            selection_basis="Synthetic path traversal refusal check",
         )
     with pytest.raises(MODULE.PolicyError, match="does not name a test function"):
         MODULE.register_wp12_nodeid(
-            "wp12_wp07", "tests/unit/test_candidate.py::test_absent", "missing test function",
-            selected_dofs=12, selection_basis="Synthetic missing function refusal check",
+            "wp12_wp07",
+            "tests/unit/test_candidate.py::test_absent",
+            "missing test function",
+            selected_dofs=12,
+            selection_basis="Synthetic missing function refusal check",
         )
     MODULE.register_wp12_nodeid(
         "wp12_wp07",
@@ -896,18 +916,27 @@ def test_wp12_shared_resource_slots_allow_three_parallel_runs_and_exclude_overfl
 
 
 def test_wp12_evidence_namespaces_never_overlap(tmp_path: Path) -> None:
-    roots = [MODULE._series_root(tmp_path / name, "fem_exploratory", worktree_id) for name, worktree_id in (
-        ("wp07", "wp12_wp07"),
-        ("tet4", "wp12_tet4"),
-        ("elements", "wp12_elements"),
-        ("elements-loads", "wp12_elements_loads"),
-        ("dynamics", "wp12_dynamics"),
-    )]
+    roots = [
+        MODULE._series_root(tmp_path / name, "fem_exploratory", worktree_id)
+        for name, worktree_id in (
+            ("wp07", "wp12_wp07"),
+            ("tet4", "wp12_tet4"),
+            ("elements", "wp12_elements"),
+            ("elements-loads", "wp12_elements_loads"),
+            ("dynamics", "wp12_dynamics"),
+        )
+    ]
     assert len(set(roots)) == 5
     for index, root in enumerate(roots):
         root.mkdir(parents=True)
         (root / "marker.json").write_text(json.dumps({"agent": index}), encoding="utf-8")
-    assert [json.loads((root / "marker.json").read_text(encoding="utf-8"))["agent"] for root in roots] == [0, 1, 2, 3, 4]
+    assert [json.loads((root / "marker.json").read_text(encoding="utf-8"))["agent"] for root in roots] == [
+        0,
+        1,
+        2,
+        3,
+        4,
+    ]
 
 
 def test_run_provenance_records_controller_and_runtime_identity() -> None:
@@ -959,7 +988,9 @@ def test_c01_scope_contains_only_registered_legacy_dimensional_and_mechanics_nod
     assert any("contact_equilibrium_diagnostic" in nodeid for nodeid in c01)
     assert all(nodeid.startswith("tests/unit/") for nodeid in c01)
     with pytest.raises(MODULE.PolicyError, match="exact nodeid"):
-        MODULE.resolve_targets("fem_exploratory", "tests/unit/test_wpc01_gf5a_fe_qualification.py::test_case", policy, worktree_id="c01")
+        MODULE.resolve_targets(
+            "fem_exploratory", "tests/unit/test_wpc01_gf5a_fe_qualification.py::test_case", policy, worktree_id="c01"
+        )
 
 
 def test_e01_scope_is_math_only_and_rejects_element_or_fem_targets() -> None:
@@ -970,7 +1001,12 @@ def test_e01_scope_is_math_only_and_rejects_element_or_fem_targets() -> None:
     assert all(not any(word in nodeid.lower() for word in ("tet", "hex", "beam", "assembly", "fem")) for nodeid in e01)
     assert MODULE.resolve_targets("math_non_fem", e01[0], policy, worktree_id="e01") == [e01[0]]
     with pytest.raises(MODULE.PolicyError, match="exact nodeid"):
-        MODULE.resolve_targets("math_non_fem", "tests/unit/test_wp_e01m_hencky_material_point.py::test_tet4_force_adapter_matches_uniform_pk1_reference", policy, worktree_id="e01")
+        MODULE.resolve_targets(
+            "math_non_fem",
+            "tests/unit/test_wp_e01m_hencky_material_point.py::test_tet4_force_adapter_matches_uniform_pk1_reference",
+            policy,
+            worktree_id="e01",
+        )
 
 
 def test_registered_worktree_identity_and_solver_source_are_verified() -> None:
@@ -1284,7 +1320,9 @@ def test_d01_junit_payload_is_required_and_bound_to_mesh_and_two_mode_counts(tmp
     assert MODULE._valid_d01_experimental_frequency_grid(frequencies)
 
     missing_xml = tmp_path / "missing.xml"
-    write_xml(missing_xml, {key: value for key, value in properties.items() if key != "wp_d01_bj_experimental_results_json"})
+    write_xml(
+        missing_xml, {key: value for key, value in properties.items() if key != "wp_d01_bj_experimental_results_json"}
+    )
     complete, errors, _metadata = MODULE._validate_d01_junit_payload(missing_xml, target, expected_source_sha)
     assert not complete and "every required numerical property" in errors[0]
 
@@ -1329,9 +1367,7 @@ def test_d01_junit_payload_is_required_and_bound_to_mesh_and_two_mode_counts(tmp
     assert not complete and "non-object response row" in errors[0]
 
     empty_arrays_payload = json.loads(properties["wp_d01_bj_experimental_results_json"])
-    empty_arrays_payload["responses"]["uncorrected"] = [
-        {"mode_count": count} for count in [2] * 6 + [4] * 6
-    ]
+    empty_arrays_payload["responses"]["uncorrected"] = [{"mode_count": count} for count in [2] * 6 + [4] * 6]
     empty_arrays_properties = dict(properties)
     empty_arrays_properties["wp_d01_bj_experimental_results_json"] = json.dumps(empty_arrays_payload)
     empty_arrays_xml = tmp_path / "empty-numerical-rows.xml"
@@ -1354,9 +1390,7 @@ def test_d01_junit_payload_is_required_and_bound_to_mesh_and_two_mode_counts(tmp
     empty_roundtrip_properties["wp_d01_cg_source_operands_json"] = json.dumps(empty_roundtrip)
     empty_roundtrip_xml = tmp_path / "empty-json-values.xml"
     write_xml(empty_roundtrip_xml, empty_roundtrip_properties)
-    complete, errors, _metadata = MODULE._validate_d01_junit_payload(
-        empty_roundtrip_xml, target, expected_source_sha
-    )
+    complete, errors, _metadata = MODULE._validate_d01_junit_payload(empty_roundtrip_xml, target, expected_source_sha)
     assert not complete and "exact-byte hashes" in errors[0]
 
     wrong_source = dict(properties)
@@ -1365,9 +1399,7 @@ def test_d01_junit_payload_is_required_and_bound_to_mesh_and_two_mode_counts(tmp
     )
     wrong_source_xml = tmp_path / "wrong-source-identity.xml"
     write_xml(wrong_source_xml, wrong_source)
-    complete, errors, _metadata = MODULE._validate_d01_junit_payload(
-        wrong_source_xml, target, expected_source_sha
-    )
+    complete, errors, _metadata = MODULE._validate_d01_junit_payload(wrong_source_xml, target, expected_source_sha)
     assert not complete and "bind to the exact D01 source" in errors[0]
 
     wrong_source_operator = dict(properties)
@@ -1410,7 +1442,9 @@ def test_exact_node_plugin_lifts_only_the_approved_native_skip() -> None:
     unrelated_skip = SimpleNamespace(name="skip", kwargs={"reason": "unrelated skip"})
     for nodeid in MODULE.D01_NATIVE_NODEIDS:
         item = SimpleNamespace(nodeid=nodeid, own_markers=[native_skip, unrelated_skip])
-        PLUGIN.ExactNodeGate((nodeid,), allow_native_skip_override=True).pytest_collection_modifyitems(None, None, [item])
+        PLUGIN.ExactNodeGate((nodeid,), allow_native_skip_override=True).pytest_collection_modifyitems(
+            None, None, [item]
+        )
         assert item.own_markers == [unrelated_skip]
         ordinary = SimpleNamespace(nodeid=nodeid, own_markers=[native_skip])
         PLUGIN.ExactNodeGate((nodeid,)).pytest_collection_modifyitems(None, None, [ordinary])
@@ -1418,9 +1452,9 @@ def test_exact_node_plugin_lifts_only_the_approved_native_skip() -> None:
 
     other = SimpleNamespace(nodeid="tests/verification/test_native.py::test_other", own_markers=[native_skip])
     with pytest.raises(pytest.UsageError, match="requires exactly its registered nodeid"):
-        PLUGIN.ExactNodeGate((MODULE.D01_NATIVE_NODEIDS[0],), allow_native_skip_override=True).pytest_collection_modifyitems(
-            None, None, [other]
-        )
+        PLUGIN.ExactNodeGate(
+            (MODULE.D01_NATIVE_NODEIDS[0],), allow_native_skip_override=True
+        ).pytest_collection_modifyitems(None, None, [other])
     arbitrary = SimpleNamespace(nodeid="tests/verification/test_other.py::test_native", own_markers=[native_skip])
     with pytest.raises(pytest.UsageError, match="restricted to one registered D01"):
         PLUGIN.ExactNodeGate((arbitrary.nodeid,), allow_native_skip_override=True).pytest_collection_modifyitems(
@@ -1547,7 +1581,16 @@ def test_d01_missing_preflight_receipt_refuses_before_attempt_reservation(
         "_registered_worktree",
         lambda *args, **kwargs: (entry, tmp_path, tmp_path / "src", {"head": "a" * 40}, "b" * 64),
     )
-    monkeypatch.setattr(MODULE, "_node_ledger_context", lambda *_args: (store / "v2.json", store / "v2.lock", "v2", {"path": "v1", "sha256": "c" * 64, "mandate_id": "v1"}))
+    monkeypatch.setattr(
+        MODULE,
+        "_node_ledger_context",
+        lambda *_args: (
+            store / "v2.json",
+            store / "v2.lock",
+            "v2",
+            {"path": "v1", "sha256": "c" * 64, "mandate_id": "v1"},
+        ),
+    )
     monkeypatch.setattr(MODULE, "_run_root", lambda _policy, _worktree_id=None: store)
     monkeypatch.setattr(MODULE, "_exclusive_file_lock", lambda *_args, **_kwargs: nullcontext())
     monkeypatch.setattr(MODULE, "psutil", object())
@@ -1727,7 +1770,11 @@ def test_d01_v2_ledger_is_linked_to_but_never_mutates_v1_predecessor(tmp_path: P
 def test_d01_v2_retry_requires_changed_inputs_or_unique_hypothesis(tmp_path: Path) -> None:
     ledger = tmp_path / "ledger-d01-v2.json"
     lock = tmp_path / "ledger-d01-v2.lock"
-    predecessor = {"path": "node-attempt-ledger.json", "sha256": "c" * 64, "mandate_id": "DEVELOPMENT_AUTONOMOUS-FEM-v1"}
+    predecessor = {
+        "path": "node-attempt-ledger.json",
+        "sha256": "c" * 64,
+        "mandate_id": "DEVELOPMENT_AUTONOMOUS-FEM-v1",
+    }
     common = {
         "ledger_path": ledger,
         "lock_path": lock,
