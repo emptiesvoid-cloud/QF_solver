@@ -135,6 +135,7 @@ def test_hex8sri_is_a_separate_manifest_bound_research_scope() -> None:
     assert hex8sri["attempt_limit_per_nodeid"] == 1
     assert hex8sri["allow_native_vv_skip_override"] is False
     assert hex8sri["require_clean_worktree"] is True
+    assert hex8sri["execution_authorized"] is False
     assert len(hex8sri["allowed_nodeids"]) == 6
     assert set(hex8sri["case_manifests"]) == set(hex8sri["allowed_nodeids"])
     for nodeid in hex8sri["allowed_nodeids"]:

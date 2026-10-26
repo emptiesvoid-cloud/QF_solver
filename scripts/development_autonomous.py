@@ -224,6 +224,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             hex8sri.get("attempt_limit_per_nodeid") != 1
             or hex8sri.get("allow_native_vv_skip_override") is not False
             or hex8sri.get("require_clean_worktree") is not True
+            or type(hex8sri.get("execution_authorized")) is not bool
             or not isinstance(manifest_map, dict)
             or set(manifest_map) != set(hex8sri.get("allowed_nodeids", []))
             or len(manifest_map) != 6
@@ -1901,6 +1902,8 @@ def run_pytest(
         elif worktree_id == "hex8sri":
             if preflight_id is None:
                 raise PolicyError("HEX8-SRI FEM attempts require a successful exact-node collect-only preflight first")
+            if entry.get("execution_authorized") is not True:
+                raise PolicyError("HEX8-SRI registration is preparation-only; Owner execution authorization is absent")
             manifest_path, hex8sri_manifest, manifest_sha256 = _hex8sri_case_manifest(
                 entry, execution_root, target, require_execution_authorized=True
             )
