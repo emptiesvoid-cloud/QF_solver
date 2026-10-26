@@ -24,7 +24,7 @@ NODEID = "tests/unit/test_wp12b_beam2_continuity.py::test_wp12b_beam2_rotated_un
 
 
 def test_wp12b_beam2_rotated_uniform_line_load() -> None:
-    evidence_root = require_controller_scope(12)
+    evidence_root = require_controller_scope(12, expected_worktree_id="wp12_elements_loads")
     direction = np.asarray([math.cos(ANGLE), math.sin(ANGLE), 0.0])
     transverse = np.asarray([-math.sin(ANGLE), math.cos(ANGLE), 0.0])
     end = LENGTH * direction

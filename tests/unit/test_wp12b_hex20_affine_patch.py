@@ -37,7 +37,7 @@ def _hex20_coordinates() -> np.ndarray:
 
 
 def test_wp12b_hex20_uniaxial_traction_patch() -> None:
-    evidence_root = require_controller_scope(60)
+    evidence_root = require_controller_scope(60, expected_worktree_id="wp12_elements_loads")
     nodes = _hex20_coordinates()
     lame_lambda = YOUNG * POISSON / ((1.0 + POISSON) * (1.0 - 2.0 * POISSON))
     shear_mu = YOUNG / (2.0 * (1.0 + POISSON))

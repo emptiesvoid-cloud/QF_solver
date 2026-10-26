@@ -16,11 +16,16 @@ from typing import Any
 import numpy as np
 
 
-def require_controller_scope(expected_dofs: int) -> Path:
+WP12B_WORKTREE_ID = "wp12_elements_loads"
+
+
+def require_controller_scope(expected_dofs: int, expected_worktree_id: str) -> Path:
     """Refuse a scientific solve outside its exact registered controller scope."""
     if os.environ.get("QF_DEVELOPMENT_AUTONOMOUS") != "1":
         raise RuntimeError("WP12-B FEM cases require the autonomous development controller.")
-    if os.environ.get("QF_DEV_WORKTREE_ID") != "wp12_elements":
+    if expected_worktree_id != WP12B_WORKTREE_ID:
+        raise RuntimeError("WP12-B test declares the wrong controller worktree ID.")
+    if os.environ.get("QF_DEV_WORKTREE_ID") != expected_worktree_id:
         raise RuntimeError("WP12-B FEM case received the wrong controller worktree ID.")
     selected = os.environ.get("QF_DEV_SELECTED_DOFS")
     if selected != str(expected_dofs):

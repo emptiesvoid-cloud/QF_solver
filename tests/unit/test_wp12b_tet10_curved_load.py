@@ -52,7 +52,7 @@ def _independent_pressure_resultant_moment(nodes: np.ndarray) -> tuple[np.ndarra
 
 
 def test_wp12b_tet10_curved_face_pressure_solve() -> None:
-    evidence_root = require_controller_scope(30)
+    evidence_root = require_controller_scope(30, expected_worktree_id="wp12_elements_loads")
     nodes = np.asarray(
         [
             [0, 0, 0],
