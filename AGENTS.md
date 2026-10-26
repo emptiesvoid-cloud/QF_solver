@@ -19,6 +19,18 @@
 - A failed exploratory FEM test remains a development failure/diagnostic. It does not promote or rewrite D01, C01, E01, C4, WP05, or general qualification status.
 - Codex, Windows, and OS-level prompts remain outside this repository policy; do not bypass them.
 
+## `QUALIFICATION_LOCAL_VV`
+
+- The Owner has approved the principle of ordinary local scientific verification on the Owner's Windows workstation. This is a separate, non-attested V&V route; it is not a security sandbox, a qualification certificate, or release approval.
+- A policy-level approval does not authorize a campaign. Every scientific run requires a frozen case manifest and a separate explicit Owner decision binding the exact manifest hash, science/test/runner identities, case ID, exact nodeid or fixed benchmark entry point, environment, output location, attempt limit, oracle, and acceptance criteria.
+- Run one exact nodeid or one reviewed fixed benchmark entry point per process. Do not accept arbitrary shell commands, directories, wildcards, full suites, implicit retries, or mutable criteria. The local runner must construct the argument vector without a shell.
+- Before execution, verify the clean frozen science checkout, separately identified runner and tests, exact file hashes, Python environment, `solveur.__file__`, package versions, and controlled numerical thread variables. A mismatch denies the run.
+- Write every attempt to a new case/run directory outside source and historical evidence trees. Refuse overwrite. Preserve command, environment, stdout/stderr, JUnit, structured results when exposed, exit status, hashes, warnings, failures, and an immutable-per-attempt receipt. A retry is a new Owner-reviewed attempt; never replace or delete a failed result.
+- Distinguish `PYTEST_PASS_ONLY` from an oracle result and from any qualification decision. Classify test assertion failures, infrastructure errors, timeouts, interruptions, and inconclusive outcomes separately. Missing numerical observables remain `NOT_EXPOSED`; do not infer them from a green test.
+- An Owner, operator, and reviewer retain separate responsibilities. Local files and hashes are not cryptographic proof of authorship or tamper-proof storage; archive accepted records in an Owner-controlled location. Do not claim hard CPU, memory, process-tree, or filesystem isolation unless the selected OS mechanism demonstrably enforces it.
+- This route does not modify or bypass the WP12-A/B/C signed runner, its trust requirements, refusal behavior, manifests, or evidence. It does not expand `DEVELOPMENT_AUTONOMOUS`; development runs remain governed by their registered policy and cannot be relabeled as V&V.
+- WP12 remains OPEN until its own approved gate and Owner disposition. No local run authorizes a maturity promotion, release, publication, tag, or merge.
+
 ## Technical knowledge base
 
 - Use [docs/ai/INDEX.md](docs/ai/INDEX.md) to orient yourself in the technical documentation.
