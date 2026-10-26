@@ -324,6 +324,42 @@ def _all_finite(*arrays: Any) -> bool:
     return all(bool(np.isfinite(np.asarray(array)).all()) for array in arrays)
 
 
+def _local_matrix_entry(local_matrices: Any, element: int, row: int, column: int) -> float:
+    """Read one local entry from either a list of matrices or a 3-D array."""
+    return float(local_matrices[element][row, column])
+
+
+def _pair_contribution_records(
+    local_matrices: Any, dof_maps: list[list[int]], row_dof: int, column_dof: int
+) -> list[dict[str, Any]]:
+    records = []
+    for element, dofs in enumerate(dof_maps):
+        if row_dof in dofs and column_dof in dofs:
+            records.append(
+                {
+                    "element": element,
+                    "binary64_hex": _local_matrix_entry(
+                        local_matrices, element, dofs.index(row_dof), dofs.index(column_dof)
+                    ).hex(),
+                }
+            )
+    return records
+
+
+def _canonical_operator_columns(operator: Any, size: int, np: Any) -> Any:
+    columns = np.zeros((size, size), dtype=np.float64)
+    for column, basis in enumerate(_canonical_basis_vectors(size, np)):
+        columns[:, column] = np.asarray(operator @ basis, dtype=np.float64)
+    return columns
+
+
+def _canonical_basis_vectors(size: int, np: Any) -> Any:
+    for index in range(size):
+        basis = np.zeros(size, dtype=np.float64)
+        basis[index] = 1.0
+        yield basis
+
+
 def _emit(payload: dict[str, Any]) -> None:
     print(RESULT_MARKER + json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False))
 
@@ -455,46 +491,10 @@ def test_tet4_h1_operator_audit_002(monkeypatch: pytest.MonkeyPatch) -> None:
         batch_global, list(batch_local), dof_maps
     )
     pair_14_22_contributions = {
-        "K_14_22": [
-            {
-                "element": element,
-                "binary64_hex": float(
-                    batch_local[element, dof_maps[element].index(14), dof_maps[element].index(22)]
-                ).hex(),
-            }
-            for element in range(model.element_count)
-            if 14 in dof_maps[element] and 22 in dof_maps[element]
-        ],
-        "K_22_14": [
-            {
-                "element": element,
-                "binary64_hex": float(
-                    batch_local[element, dof_maps[element].index(22), dof_maps[element].index(14)]
-                ).hex(),
-            }
-            for element in range(model.element_count)
-            if 14 in dof_maps[element] and 22 in dof_maps[element]
-        ],
-        "scalar_K_14_22": [
-            {
-                "element": element,
-                "binary64_hex": float(
-                    scalar_local[element, dof_maps[element].index(14), dof_maps[element].index(22)]
-                ).hex(),
-            }
-            for element in range(model.element_count)
-            if 14 in dof_maps[element] and 22 in dof_maps[element]
-        ],
-        "scalar_K_22_14": [
-            {
-                "element": element,
-                "binary64_hex": float(
-                    scalar_local[element, dof_maps[element].index(22), dof_maps[element].index(14)]
-                ).hex(),
-            }
-            for element in range(model.element_count)
-            if 14 in dof_maps[element] and 22 in dof_maps[element]
-        ],
+        "K_14_22": _pair_contribution_records(batch_local, dof_maps, 14, 22),
+        "K_22_14": _pair_contribution_records(batch_local, dof_maps, 22, 14),
+        "scalar_K_14_22": _pair_contribution_records(scalar_local, dof_maps, 14, 22),
+        "scalar_K_22_14": _pair_contribution_records(scalar_local, dof_maps, 22, 14),
     }
     if [item["element"] for item in pair_14_22_contributions["K_14_22"]] != [0, 8, 9]:
         raise AssertionError("the recorded H1 contributors to global pair (14,22) changed")
@@ -521,14 +521,11 @@ def test_tet4_h1_operator_audit_002(monkeypatch: pytest.MonkeyPatch) -> None:
     exact_free = [[exact_global[int(row)][int(column)] for column in free] for row in free]
     exact_free_float = np.asarray([[float(value) for value in row] for row in exact_free])
     free_count = int(free.size)
-    matrix_free_columns = np.zeros((free_count, free_count), dtype=np.float64)
+    matrix_free_columns = _canonical_operator_columns(operator, free_count, np)
     column_component_records: list[dict[str, Any]] = []
     column_bound_ok = True
     for column_index, global_column_value in enumerate(free):
         global_column = int(global_column_value)
-        basis = np.zeros(free_count, dtype=np.float64)
-        basis[column_index] = 1.0
-        matrix_free_columns[:, column_index] = np.asarray(operator @ basis, dtype=np.float64)
         for row_index, global_row_value in enumerate(free):
             global_row = int(global_row_value)
             contribution_count = 0
