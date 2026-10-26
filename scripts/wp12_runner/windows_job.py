@@ -175,12 +175,19 @@ class WindowsJob:
                 self._raise_last_error("SetInformationJobObject failed")
         return self
 
-    def assign_suspended_process(self, process: subprocess.Popen[bytes]) -> None:
+    def assign_suspended_process(self, process: subprocess.Popen[bytes], *, resume: bool = True) -> None:
         if self._handle is None:
             raise ContractError("Windows Job Object has not been configured")
         if not self._kernel32.AssignProcessToJobObject(self._handle, process._handle):  # type: ignore[attr-defined]
             self._raise_last_error("AssignProcessToJobObject failed")
-        self._resume_primary_thread(process.pid)
+        if resume:
+            self.resume_suspended_process(process.pid)
+
+    def resume_suspended_process(self, process_id: int) -> None:
+        """Resume a suspended process after its identity has been inspected."""
+        if self._handle is None:
+            raise ContractError("Windows Job Object has not been configured")
+        self._resume_primary_thread(process_id)
 
     def _resume_primary_thread(self, process_id: int) -> None:
         snapshot = self._kernel32.CreateToolhelp32Snapshot(_TH32CS_SNAPTHREAD, 0)
