@@ -558,6 +558,39 @@
           "timeout_reason": null,
           "timeout_seconds": 300,
           "worktree_head": "ed24d6b00d95e339b288a8ec8fa0edf16149be5a"
+        },
+        {
+          "reason": "Refresh source-bound node registration at science HEAD 1f609e5; preserve earlier Newmark revisions.",
+          "registered_at_utc": "2026-10-26T19:38:39.867710+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "BEAM2 two-node fixture fixes node 0 all six DDL and node 1 all but UX; one free node-1 UX.",
+          "source_fingerprint": "6d50810fee371a96f4ea240bd767000924cc80e9d1173a04e0db5f9dd3392438",
+          "target": "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "1f609e52fe7838a8e2c61684a2658429fac00a5e"
+        },
+        {
+          "reason": "Register the source-bound harmonic sweep revision at science HEAD 1f609e5; keep prior record.",
+          "registered_at_utc": "2026-10-26T19:38:44.424957+00:00",
+          "selected_dofs": 3,
+          "selection_basis": "Single TET4 has 12 translational DDL; nodes 0, 2, and 3 are fixed in UX/UY/UZ, leaving node 1 UX/UY/UZ free.",
+          "source_fingerprint": "b203b2fd8cf786e86c1a33b65a1160268a763b7ec0d895d07e6826ef915d7c94",
+          "target": "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "1f609e52fe7838a8e2c61684a2658429fac00a5e"
+        },
+        {
+          "reason": "Register the source-bound base acceleration sweep revision at science HEAD 1f609e5; preserve prior record.",
+          "registered_at_utc": "2026-10-26T19:38:48.702670+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "BEAM2 two-node fixture fixes node 0 all six DDL and node 1 all but UX; one free node-1 UX.",
+          "source_fingerprint": "04461145a495ff3f3aebfe573ad3d8859befb7ec9a99bd7d54dd6cf486ae4d56",
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "1f609e52fe7838a8e2c61684a2658429fac00a5e"
         }
       ]
     }
