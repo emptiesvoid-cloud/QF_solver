@@ -1,4 +1,7 @@
 *.msh -text whitespace=-trailing-space
+# Keep raw-byte-hash-bound E01 test modules identical to their pinned Git blobs.
+tests/unit/test_wp_e01m_hencky_material_point.py -text
+tests/unit/test_wp_e01q_hencky_tangent.py -text
 # Qualification files are hash-bound evidence; preserve their Git blob bytes on Windows.
 qualification/** -text
 # The WP06F migration audit verifies this document's exact historical byte delta.
