@@ -35,7 +35,7 @@ def _policy() -> dict:
 def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualification_separate() -> None:
     policy = _policy()
     assert policy["mode"] == "DEVELOPMENT_AUTONOMOUS"
-    assert set(policy["worktrees"]) == {"d01", "c01", "e01"}
+    assert set(policy["worktrees"]) == {"d01", "c01", "e01", "wp12_wp07", "wp12_tet4", "wp12_elements"}
     assert policy["worktrees"]["d01"]["attempt_limit_per_nodeid"] == 3
     assert policy["worktrees"]["d01"]["development_mandate_id"] == "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v2-d01"
     assert policy["worktrees"]["d01"]["node_attempt_ledger"]["path"] == "node-attempt-ledger-d01-v2.json"
@@ -73,6 +73,268 @@ def test_d01_policy_rejects_budget_expansion_beyond_owner_envelope(
     monkeypatch.setattr(MODULE, "ROOT", tmp_path)
     with pytest.raises(MODULE.PolicyError, match="must match the Owner envelope exactly"):
         MODULE.load_policy(candidate)
+
+
+def _synthetic_wp12_setup(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, worktree_id: str = "wp12_tet4") -> tuple[dict, Path, str, dict]:
+    import hashlib
+
+    root = tmp_path / "scientific-worktree"
+    source_init = root / "src" / "solveur" / "__init__.py"
+    source_init.parent.mkdir(parents=True)
+    source_init.write_text("# synthetic solver package; registration must not import this file\n", encoding="utf-8")
+    test_target = "tests/unit/test_synthetic_wp12.py::test_case"
+    test_module = root / "tests" / "unit" / "test_synthetic_wp12.py"
+    test_module.parent.mkdir(parents=True)
+    test_module.write_text("import module_with_side_effects\n\ndef test_case():\n    pass\n", encoding="utf-8")
+    evidence_root = tmp_path / "evidence"
+    coordination_root = tmp_path / "coordination"
+    envelope = dict(MODULE.WP12_OWNER_ENVELOPES[worktree_id])
+    envelope.update({"root": str(root), "evidence_root": str(evidence_root)})
+    monkeypatch.setitem(MODULE.WP12_OWNER_ENVELOPES, worktree_id, envelope)
+    monkeypatch.setattr(MODULE, "WP12_COORDINATION_ROOT", coordination_root)
+    monkeypatch.setattr(MODULE, "ROOT", tmp_path)
+    policy_path = tmp_path / "development_autonomous_policy.json"
+    policy = json.loads(Path(SCRIPT_PATH.parent.parent / "development_autonomous_policy.json").read_text(encoding="utf-8"))
+    policy["resource_coordination_root"] = str(coordination_root)
+    entry = policy["worktrees"][worktree_id]
+    entry.update({"root": str(root), "git_root": str(root), "evidence_root": str(evidence_root)})
+    policy_path.write_text(json.dumps(policy, indent=2) + "\n", encoding="utf-8")
+    monkeypatch.setattr(MODULE, "POLICY_PATH", policy_path)
+    original_load_policy = MODULE.load_policy
+    monkeypatch.setattr(MODULE, "load_policy", lambda path=policy_path: original_load_policy(policy_path))
+    identity_state = {"branch": envelope["branch"], "root": str(root)}
+
+    def fake_git_identity(path=tmp_path, *, expected_branch=None, baseline_commit=None):
+        resolved = Path(path).resolve()
+        if resolved == root.resolve():
+            if Path(identity_state["root"]).resolve() != resolved:
+                raise MODULE.PolicyError("registered project root is not the Git worktree being executed")
+            branch = identity_state["branch"]
+            if expected_branch is not None and branch != expected_branch:
+                raise MODULE.PolicyError(f"worktree branch mismatch: expected {expected_branch}, got {branch}")
+            if baseline_commit is not None and baseline_commit != MODULE.WP12_BASELINE_COMMIT:
+                raise MODULE.PolicyError("registered baseline is not an ancestor of this worktree HEAD")
+            return {"root": str(resolved), "branch": branch, "head": MODULE.WP12_BASELINE_COMMIT, "tree": "a" * 40, "status_short": ""}
+        return {"root": str(resolved), "branch": "configuration-controller", "head": "b" * 40, "tree": "c" * 40, "status_short": ""}
+
+    monkeypatch.setattr(MODULE, "_git_identity", fake_git_identity)
+    monkeypatch.setattr(
+        MODULE,
+        "_worktree_source_fingerprint",
+        lambda checkout, target: hashlib.sha256((checkout / target.split("::", 1)[0]).read_bytes()).hexdigest(),
+    )
+    return policy, root, test_target, identity_state
+
+
+def test_wp12_policy_registers_all_three_bounded_missions() -> None:
+    policy = _policy()
+    expected = {
+        "wp12_wp07": ("fix/wp12-wp07-serialization", 300, 300, 10, None, "parallel"),
+        "wp12_tet4": ("experiment/wp12-tet4-convergence", 900, 900, 12, 50000, "exclusive"),
+        "wp12_elements": ("test/wp12-fem-regressions", 300, 900, 20, 30000, "exclusive"),
+    }
+    for worktree_id, (branch, timeout, maximum, attempts, dofs, concurrency) in expected.items():
+        entry = policy["worktrees"][worktree_id]
+        assert entry["branch"] == branch
+        assert entry["baseline_commit"] == MODULE.WP12_BASELINE_COMMIT
+        assert entry["budgets"]["timeout_seconds"] == timeout
+        assert entry["max_timeout_seconds"] == maximum
+        assert entry["max_total_attempts"] == attempts
+        assert entry["attempt_limit_per_nodeid"] == attempts
+        assert entry["target_max_dofs"] == dofs
+        assert entry["concurrency_class"] == concurrency
+        assert entry["allowed_nodeids"] == []
+        assert entry["require_clean_worktree"] is True
+        assert entry["max_fem_cases_per_attempt"] == 1
+    assert policy["resource_coordination_root"] == str(MODULE.WP12_COORDINATION_ROOT)
+
+
+def test_wp12_worktrees_are_recognized_with_exact_solver_and_test_roots(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    for worktree_id in MODULE.WP12_OWNER_ENVELOPES:
+        with monkeypatch.context() as scoped:
+            policy, root, target, _state = _synthetic_wp12_setup(tmp_path / worktree_id, scoped, worktree_id)
+            entry, actual_root, source_root, identity, fingerprint = MODULE._registered_worktree(worktree_id, target, policy)
+            assert entry["root"] == str(root)
+            assert actual_root == root.resolve()
+            assert source_root == (root / "src").resolve()
+            assert identity["branch"] == entry["branch"]
+            assert fingerprint
+            assert (source_root / "solveur" / "__init__.py").is_file()
+
+
+def test_wp12_registration_is_static_exact_and_never_runs_tests(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    _policy_data, _root, target, _state = _synthetic_wp12_setup(tmp_path, monkeypatch)
+    launches: list[object] = []
+    monkeypatch.setattr(MODULE, "run_supervised_command", lambda *args, **kwargs: launches.append((args, kwargs)))
+    registered = MODULE.register_wp12_nodeid(
+        "wp12_tet4", target, "Check the synthetic TET4 regression path before any FEM run"
+    )
+    policy = MODULE.load_policy()
+    assert registered["state"] == "NODEID_REGISTERED"
+    assert MODULE.resolve_targets("fem_exploratory", target, policy, worktree_id="wp12_tet4") == [target]
+    assert launches == []
+    with pytest.raises(MODULE.PolicyError, match="exact nodeid"):
+        MODULE.resolve_targets("fem_exploratory", target.replace("test_case", "test_unknown"), policy, worktree_id="wp12_tet4")
+    with pytest.raises(MODULE.PolicyError, match="one test function"):
+        MODULE.register_wp12_nodeid("wp12_tet4", "tests/unit/../outside.py::test_case", "Invalid traversal case")
+    with pytest.raises(MODULE.PolicyError, match="must name one module-level test function"):
+        MODULE.register_wp12_nodeid("wp12_tet4", target.replace("test_case", "test_missing"), "Missing static function")
+    class_module = _root / "tests" / "unit" / "test_class_only.py"
+    class_module.write_text("class Tests:\n    def test_nested(self):\n        pass\n", encoding="utf-8")
+    with pytest.raises(MODULE.PolicyError, match="one module-level test function"):
+        MODULE.register_wp12_nodeid("wp12_tet4", "tests/unit/test_class_only.py::test_nested", "Reject nested selector")
+
+
+def test_wp12_registration_rejects_wrong_git_root_and_branch(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    policy, _root, target, state = _synthetic_wp12_setup(tmp_path, monkeypatch)
+    state["branch"] = "other/branch"
+    with pytest.raises(MODULE.PolicyError, match="branch mismatch"):
+        MODULE._registered_worktree("wp12_tet4", target, policy)
+    state["branch"] = policy["worktrees"]["wp12_tet4"]["branch"]
+    state["root"] = str(tmp_path / "wrong-root")
+    with pytest.raises(MODULE.PolicyError, match="Git worktree being executed"):
+        MODULE._registered_worktree("wp12_tet4", target, policy)
+
+
+def test_wp12_wrong_solver_import_origin_is_rejected(tmp_path: Path) -> None:
+    source_root = tmp_path / "src"
+    wrong_origin = tmp_path / "other" / "solveur" / "__init__.py"
+    with pytest.raises(MODULE.PolicyError, match="wrong solveur import origin"):
+        MODULE._verify_solver_import_origin(source_root, wrong_origin)
+
+
+def test_wp12_budget_expansion_and_exceptional_timeout_are_bounded(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    policy = _policy()
+    elements_entry = policy["worktrees"]["wp12_elements"]
+    policy["worktrees"]["wp12_tet4"]["budgets"]["timeout_seconds"] = 901
+    candidate = tmp_path / "candidate-policy.json"
+    candidate.write_text(json.dumps(policy), encoding="utf-8")
+    monkeypatch.setattr(MODULE, "ROOT", tmp_path)
+    with pytest.raises(MODULE.PolicyError, match="budgets must match its Owner-approved"):
+        MODULE.load_policy(candidate)
+    with pytest.raises(MODULE.PolicyError, match="mission ceiling"):
+        MODULE._wp12_manifest_limits("wp12_elements", elements_entry, 901, "too long")
+    with pytest.raises(MODULE.PolicyError, match="20 to 300 character reason"):
+        MODULE._wp12_manifest_limits("wp12_elements", elements_entry, 900, "short")
+    assert MODULE._wp12_manifest_limits(
+        "wp12_elements", elements_entry, 900, "A separately authorized exceptional elements diagnostic run"
+    )["timeout_seconds"] == 900
+
+
+def test_wp12_child_environment_carries_the_case_and_ddl_contracts(tmp_path: Path) -> None:
+    environment = MODULE.build_child_environment(
+        tmp_path / "scratch",
+        {"QF_DEV_MAX_FEM_CASES": "99", "QF_DEV_MAX_DOFS": "1", "KEEP_ME": "yes"},
+        source_root=tmp_path / "src",
+        wp12_entry={"worktree_id": "wp12_tet4", "max_fem_cases_per_attempt": 1, "target_max_dofs": 50000},
+    )
+    assert environment["QF_DEV_WORKTREE_ID"] == "wp12_tet4"
+    assert environment["QF_DEV_MAX_FEM_CASES"] == "1"
+    assert environment["QF_DEV_MAX_DOFS"] == "50000"
+    assert environment["KEEP_ME"] == "yes"
+
+
+def test_wp12_total_attempt_cap_applies_across_nodeids(tmp_path: Path) -> None:
+    common = {
+        "ledger_path": tmp_path / "wp12-ledger.json",
+        "lock_path": tmp_path / "wp12-ledger.lock",
+        "mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-TET4-test",
+        "worktree_id": "wp12_tet4",
+        "source_fingerprint": "a" * 64,
+        "maximum": 12,
+        "total_maximum": 2,
+    }
+    for index, target in enumerate(("tests/unit/test_a.py::test_a", "tests/unit/test_b.py::test_b"), start=1):
+        MODULE._reserve_node_attempt(
+            **common, target=target, series_id=f"dev-{index:08d}", reason=f"distinct bounded diagnostic {index}",
+            authorization_id=f"wp12-test-auth-{index:02d}",
+        )
+    with pytest.raises(MODULE.PolicyError, match="mission cap"):
+        MODULE._reserve_node_attempt(
+            **common, target="tests/unit/test_c.py::test_c", series_id="dev-00000003",
+            reason="third diagnostic beyond the mission cap", authorization_id="wp12-test-auth-03",
+        )
+
+
+def test_wp12_one_owner_manifest_can_cover_planned_retries_within_the_caps(tmp_path: Path) -> None:
+    common = {
+        "ledger_path": tmp_path / "wp12-retries.json",
+        "lock_path": tmp_path / "wp12-retries.lock",
+        "mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-TET4-retry-test",
+        "worktree_id": "wp12_tet4",
+        "target": "tests/unit/test_tet4_case.py::test_one_mesh",
+        "series_id": "dev-11111111",
+        "source_fingerprint": "a" * 64,
+        "maximum": 3,
+        "total_maximum": 3,
+        "authorization_id": "wp12-test-auth-repeatable",
+    }
+    _, first = MODULE._reserve_node_attempt(**common, reason="first approved diagnostic attempt")
+    _, second = MODULE._reserve_node_attempt(
+        **{**common, "series_id": "dev-22222222"}, reason="second approved diagnostic hypothesis"
+    )
+    assert (first, second) == (1, 2)
+
+
+def test_wp12_evidence_roots_are_separate_and_never_overwrite(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    evidence_paths: list[Path] = []
+    for worktree_id in MODULE.WP12_OWNER_ENVELOPES:
+        with monkeypatch.context() as scoped:
+            policy, _root, _target, _state = _synthetic_wp12_setup(tmp_path / worktree_id, scoped, worktree_id)
+            evidence_root = MODULE._run_root(policy, worktree_id)
+            marker = evidence_root / "marker.txt"
+            marker.parent.mkdir(parents=True)
+            marker.write_text(worktree_id, encoding="utf-8")
+            evidence_paths.append(marker)
+    assert len({path.parent for path in evidence_paths}) == 3
+    assert [path.read_text(encoding="utf-8") for path in evidence_paths] == list(MODULE.WP12_OWNER_ENVELOPES)
+
+
+def test_wp12_shared_fem_slots_allow_two_small_runs_and_serialize_heavy_runs(tmp_path: Path) -> None:
+    with MODULE._wp12_resource_lock(tmp_path, "parallel"):
+        with MODULE._wp12_resource_lock(tmp_path, "parallel"):
+            with pytest.raises(MODULE.PolicyError, match="all shared WP12 FEM resource slots are busy"):
+                with MODULE._wp12_resource_lock(tmp_path, "parallel"):
+                    pass
+    with MODULE._wp12_resource_lock(tmp_path, "exclusive"):
+        with pytest.raises(MODULE.PolicyError, match="all shared WP12 FEM resource slots are busy"):
+            with MODULE._wp12_resource_lock(tmp_path, "parallel"):
+                pass
+
+
+def test_wp12_manifest_is_not_authorization_and_never_launches_fem(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    _policy_data, _root, target, _state = _synthetic_wp12_setup(tmp_path, monkeypatch)
+    launches: list[object] = []
+    monkeypatch.setattr(MODULE, "run_supervised_command", lambda *args, **kwargs: launches.append((args, kwargs)))
+    MODULE.register_wp12_nodeid("wp12_tet4", target, "Register one static synthetic FEM test function")
+    prepared = MODULE.prepare_wp12_execution_manifest("wp12_tet4", target, "wp12-test-auth-0001")
+    manifest_path = Path(prepared["path"])
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert prepared["state"] == "PREPARED_NOT_AUTHORIZED"
+    assert manifest["state"] == "PREPARED_NOT_AUTHORIZED"
+    policy = MODULE.load_policy()
+    entry, _root, _source, identity, fingerprint = MODULE._registered_worktree("wp12_tet4", target, policy)
+    controller_fp = MODULE._stable_fingerprint(MODULE._controller_provenance())
+    with pytest.raises(MODULE.PolicyError, match="distinct, explicit Owner decision"):
+        MODULE._validate_wp12_execution_manifest(
+            manifest_path, worktree_id="wp12_tet4", target=target, entry=entry, identity=identity,
+            source_fingerprint=fingerprint, controller_fingerprint=controller_fp,
+        )
+    with pytest.raises(MODULE.PolicyError, match="require a distinct Owner-authorized"):
+        MODULE.run_pytest("fem_exploratory", target, None, worktree_id="wp12_tet4", reason="synthetic no-launch check")
+    assert launches == []
+    manifest["state"] = "OWNER_AUTHORIZED"
+    manifest["owner_decision"] = {
+        "status": "APPROVED", "approved_by": "Owner", "approved_at_utc": "2026-10-26T12:00:00+00:00",
+        "reason": "Synthetic manifest validation only; no solver or FEM execution is authorized here",
+    }
+    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    receipt = MODULE._validate_wp12_execution_manifest(
+        manifest_path, worktree_id="wp12_tet4", target=target, entry=entry, identity=identity,
+        source_fingerprint=fingerprint, controller_fingerprint=controller_fp,
+    )
+    assert receipt["authorization_id"] == "wp12-test-auth-0001"
+    assert launches == []
 
 
 def test_each_worktree_has_a_separate_output_namespace(tmp_path: Path) -> None:

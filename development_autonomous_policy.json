@@ -151,6 +151,112 @@
         "tests/unit/test_wp_e01q_hencky_tangent.py::test_material_response_still_does_not_claim_a_verified_tangent",
         "tests/unit/test_wp_e01q_hencky_tangent.py::test_directional_action_is_read_only_and_does_not_change_response"
       ]
+    },
+    "wp12_wp07": {
+      "purpose": "WP12 ReducedHarmonicResult reproduction, correction and regression development only",
+      "mode": "fem_exploratory",
+      "root": "E:\\QFSolverAgents\\wp07",
+      "git_root": "E:\\QFSolverAgents\\wp07",
+      "branch": "fix/wp12-wp07-serialization",
+      "baseline_commit": "2aa994f34900f39bef8df9db5fb025157fb694bb",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-WP07-2026-10-26-v1",
+      "require_clean_worktree": true,
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 10,
+      "max_total_attempts": 10,
+      "max_fem_cases_per_attempt": 1,
+      "max_timeout_seconds": 300,
+      "target_max_dofs": null,
+      "concurrency_class": "parallel",
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 10
+      },
+      "nodeid_registration_records": [],
+      "budgets": {
+        "timeout_seconds": 300,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [],
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\wp07"
+    },
+    "wp12_tet4": {
+      "purpose": "WP12 TET4 mesh quality, convergence and compatible TET10/HEX8 comparisons",
+      "mode": "fem_exploratory",
+      "root": "E:\\QFSolverAgents\\tet4",
+      "git_root": "E:\\QFSolverAgents\\tet4",
+      "branch": "experiment/wp12-tet4-convergence",
+      "baseline_commit": "2aa994f34900f39bef8df9db5fb025157fb694bb",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-TET4-2026-10-26-v1",
+      "require_clean_worktree": true,
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 12,
+      "max_total_attempts": 12,
+      "max_fem_cases_per_attempt": 1,
+      "max_timeout_seconds": 900,
+      "target_max_dofs": 50000,
+      "concurrency_class": "exclusive",
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 12
+      },
+      "nodeid_registration_records": [],
+      "budgets": {
+        "timeout_seconds": 900,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [],
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\tet4"
+    },
+    "wp12_elements": {
+      "purpose": "WP12 HEX8-SRI, finite-element and cross-element regression development only",
+      "mode": "fem_exploratory",
+      "root": "E:\\QFSolverAgents\\vv-elements",
+      "git_root": "E:\\QFSolverAgents\\vv-elements",
+      "branch": "test/wp12-fem-regressions",
+      "baseline_commit": "2aa994f34900f39bef8df9db5fb025157fb694bb",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-ELEMENTS-2026-10-26-v1",
+      "require_clean_worktree": true,
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 20,
+      "max_total_attempts": 20,
+      "max_fem_cases_per_attempt": 1,
+      "max_timeout_seconds": 900,
+      "target_max_dofs": 30000,
+      "concurrency_class": "exclusive",
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 20
+      },
+      "nodeid_registration_records": [],
+      "budgets": {
+        "timeout_seconds": 300,
+        "rss_soft_limit_mib": 4096,
+        "process_tree_limit": 16,
+        "output_total_limit_mib": 64,
+        "output_stream_limit_mib": 32,
+        "temporary_limit_mib": 512,
+        "archive_size_limit_mib": 256
+      },
+      "allowed_nodeids": [],
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\vv-elements"
     }
-  }
+  },
+  "resource_coordination_root": "E:\\QFSolverAgents\\evidence\\.wp12-coordination"
 }
