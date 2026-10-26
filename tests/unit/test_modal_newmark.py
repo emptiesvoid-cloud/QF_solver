@@ -633,6 +633,103 @@ def test_second_order_time_refinement_for_smooth_free_vibration() -> None:
     assert errors[2] < errors[1] < errors[0]
 
 
+def test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables() -> None:
+    """Record u/v/a convergence and equilibrium/energy diagnostics at fixed final time."""
+    import json
+
+    q0 = 1.0e-3
+    final_time = 0.08
+    observations: list[dict[str, int | float]] = []
+
+    for dt in (0.002, 0.001, 0.0005):
+        steps = round(final_time / dt)
+        model = _model(
+            dt=dt,
+            steps=steps,
+            extra_parameters={
+                "initial_displacements": [{"node": 1, "dof": "UX", "value": q0}],
+                "initial_velocities": [{"node": 1, "dof": "UX", "value": 0.0}],
+                "record_time_history": True,
+                "history_probes": [{"label": "tip", "node": 1, "dof": "UX"}],
+                "newmark_beta": 0.25,
+                "newmark_gamma": 0.5,
+            },
+        )
+        prepared, basis = _prepared_basis(model)
+        result = _run(model, prepared=prepared, basis=basis)
+
+        omega = math.sqrt(float(prepared.stiffness[0, 0] / prepared.mass[0, 0]))
+        times = np.asarray(result.times, dtype=float)
+        assert times[0] == pytest.approx(0.0)
+        assert times[-1] == pytest.approx(final_time)
+        assert times.size == steps + 1
+        exact = {
+            "displacement": q0 * np.cos(omega * times),
+            "velocity": -q0 * omega * np.sin(omega * times),
+            "acceleration": -q0 * omega**2 * np.cos(omega * times),
+        }
+        actual = {
+            field: np.asarray([row["probes"]["tip"][field] for row in result.time_history], dtype=float)
+            for field in exact
+        }
+        errors = {field: float(np.max(np.abs(actual[field] - exact[field]))) for field in exact}
+        relative_errors = {field: errors[field] / float(np.max(np.abs(exact[field]))) for field in exact}
+        integration = result.execution_identity["integration"]
+        assert integration["beta"] == 0.25
+        assert integration["gamma"] == 0.5
+        assert integration["time_step_s"] == dt
+        assert integration["duration_s"] == pytest.approx(final_time)
+
+        residual_max = max(row["reduced_equilibrium_relative_error"] for row in result.time_history)
+        energy_drift_max = max(abs(row["relative_energy_drift"]) for row in result.time_history)
+        observations.append(
+            {
+                "dt_s": dt,
+                "steps": steps,
+                "displacement_max_abs_error": errors["displacement"],
+                "velocity_max_abs_error": errors["velocity"],
+                "acceleration_max_abs_error": errors["acceleration"],
+                "displacement_max_relative_error": relative_errors["displacement"],
+                "velocity_max_relative_error": relative_errors["velocity"],
+                "acceleration_max_relative_error": relative_errors["acceleration"],
+                "max_reduced_equilibrium_relative_error": float(residual_max),
+                "max_relative_energy_drift": float(energy_drift_max),
+            }
+        )
+        assert math.isfinite(residual_max)
+        assert residual_max <= 1.0e-7
+        assert math.isfinite(energy_drift_max)
+        assert energy_drift_max <= 1.0e-10
+
+    observed_orders = {
+        field: [math.log(errors[index] / errors[index + 1], 2.0) for index in range(2)]
+        for field, errors in {
+            "displacement": [item["displacement_max_relative_error"] for item in observations],
+            "velocity": [item["velocity_max_relative_error"] for item in observations],
+            "acceleration": [item["acceleration_max_relative_error"] for item in observations],
+        }.items()
+    }
+    assert min(observed_orders["displacement"]) >= 1.8
+    print(
+        json.dumps(
+            {
+                "case": "WP12-NEWMARK-SDOF-FIXED-TIME",
+                "units": {
+                    "time_step": "s",
+                    "displacement": "m",
+                    "velocity": "m/s",
+                    "acceleration": "m/s^2",
+                    "relative_error": "dimensionless",
+                },
+                "initial_displacement_m": q0,
+                "observations": observations,
+                "observed_orders": observed_orders,
+            },
+            sort_keys=True,
+        )
+    )
+
+
 def test_mode_count_refinement_converges_to_full_basis_direct_reference() -> None:
     seed = _model(family="TET4", mode_count=None, load=None, dt=1.0e-5, steps=12)
     prepared, full_basis = _prepared_basis(seed)

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import json
 import math
 
 import numpy as np
@@ -230,6 +231,141 @@ def test_full_basis_reduced_harmonic_matches_direct_rayleigh_route_and_zero_hz()
     for actual, expected in zip(reduced.responses, direct.responses, strict=True):
         np.testing.assert_allclose(actual, expected, rtol=1e-8, atol=1e-11)
     assert reduced.solver["frequency_records"][0]["omega_rad_s"] == 0.0
+
+
+def test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation() -> None:
+    """Emit complex response, phase, and residual observations around retained/omitted modes."""
+    seed = _model(frequencies=[1.0])
+    prepared, full_basis = _prepare(seed)
+    natural_frequencies = np.sqrt(np.asarray(full_basis.eigenvalues, dtype=float)) / (2.0 * math.pi)
+    assert natural_frequencies.size == prepared.reduced_size
+    assert natural_frequencies[0] > 0.0
+    assert natural_frequencies[-1] > natural_frequencies[0]
+
+    frequency_values = sorted(
+        {
+            0.0,
+            0.5 * float(natural_frequencies[0]),
+            0.98 * float(natural_frequencies[0]),
+            1.02 * float(natural_frequencies[0]),
+            0.98 * float(natural_frequencies[-1]),
+            1.02 * float(natural_frequencies[-1]),
+        }
+    )
+    seed.analysis.parameters["frequencies_hz"] = frequency_values
+    full_basis_result = ReducedHarmonicResponseSolver().solve(
+        seed,
+        source_sha=_SOURCE_SHA,
+        prepared=prepared,
+        basis=full_basis,
+    )
+
+    direct_model = copy.deepcopy(seed)
+    direct_model.analysis = AnalysisSettings.from_raw(
+        {
+            "type": "harmonic_response",
+            "method": "direct_frequency",
+            **direct_model.analysis.parameters,
+        }
+    )
+    direct_result = HarmonicResponseSolver().solve(direct_model)
+
+    truncated_model = copy.deepcopy(seed)
+    truncated_model.analysis.parameters["modal_mode_count"] = 2
+    truncated_prepared, truncated_basis = _prepare(truncated_model)
+    assert truncated_prepared.physical_identity == prepared.physical_identity
+    truncated_result = ReducedHarmonicResponseSolver().solve(
+        truncated_model,
+        source_sha=_SOURCE_SHA,
+        prepared=truncated_prepared,
+        basis=truncated_basis,
+    )
+
+    assert full_basis.is_full_basis
+    assert not truncated_basis.is_full_basis
+    assert len(full_basis_result.responses) == len(direct_result.responses) == len(truncated_result.responses)
+    records = full_basis_result.solver["frequency_records"]
+    assert max(float(row["reduced_backward_error"]) for row in records) <= 1.0e-8
+    assert max(float(row["physical_free_backward_error"]) for row in records) <= 1.0e-8
+
+    observations: list[dict[str, float | str | None]] = []
+    response_index = seed.dof_manager().index(1, "UX")
+    for frequency_hz, direct, full, truncated, record, truncated_record in zip(
+        frequency_values,
+        direct_result.responses,
+        full_basis_result.responses,
+        truncated_result.responses,
+        records,
+        truncated_result.solver["frequency_records"],
+        strict=True,
+    ):
+        direct_response = complex(direct[response_index])
+        full_response = complex(full[response_index])
+        truncated_response = complex(truncated[response_index])
+        direct_norm = max(float(np.linalg.norm(direct)), np.finfo(float).tiny)
+        observations.append(
+            {
+                "frequency_hz": float(frequency_hz),
+                "direct_probe_amplitude": abs(direct_response),
+                "direct_probe_phase_rad": (
+                    None if abs(direct_response) == 0.0 else float(np.angle(direct_response))
+                ),
+                "direct_probe_real_m": direct_response.real,
+                "direct_probe_imag_m": direct_response.imag,
+                "full_basis_probe_amplitude": abs(full_response),
+                "full_basis_probe_phase_rad": (
+                    None if abs(full_response) == 0.0 else float(np.angle(full_response))
+                ),
+                "full_basis_probe_real_m": full_response.real,
+                "full_basis_probe_imag_m": full_response.imag,
+                "truncated_probe_amplitude": abs(truncated_response),
+                "truncated_probe_phase_rad": (
+                    None if abs(truncated_response) == 0.0 else float(np.angle(truncated_response))
+                ),
+                "truncated_probe_real_m": truncated_response.real,
+                "truncated_probe_imag_m": truncated_response.imag,
+                "full_basis_phase_error_rad": float(np.angle(full_response * np.conjugate(direct_response))),
+                "truncated_phase_error_rad": float(np.angle(truncated_response * np.conjugate(direct_response))),
+                "full_basis_vector_relative_error": float(np.linalg.norm(full - direct) / direct_norm),
+                "truncated_vector_relative_difference": float(np.linalg.norm(truncated - direct) / direct_norm),
+                "reduced_backward_error": float(record["reduced_backward_error"]),
+                "full_basis_physical_free_backward_error": float(record["physical_free_backward_error"]),
+                "conditioning_indicator": float(record["conditioning_indicator"]),
+                "conditioning_status": str(record["conditioning_status"]),
+                "truncated_physical_free_backward_error": (
+                    None
+                    if truncated_record["physical_free_backward_error"] is None
+                    else float(truncated_record["physical_free_backward_error"])
+                ),
+            }
+        )
+
+    maximum_full_basis_error = max(item["full_basis_vector_relative_error"] for item in observations)
+    assert maximum_full_basis_error <= 1.0e-8
+    print(
+        json.dumps(
+            {
+                "case": "WP12-HARMONIC-COMPLEX-SWEEP",
+                "units": {
+                    "frequency": "Hz",
+                    "probe_displacement": "m",
+                    "phase": "rad",
+                    "backward_error": "dimensionless",
+                    "conditioning_indicator": "dimensionless",
+                },
+                "probe": "node 1 UX in the global model frame",
+                "phasor_time_convention": "exp(+i*omega*t)",
+                "natural_frequencies_hz": natural_frequencies.tolist(),
+                "observations": observations,
+                "interpretation": {
+                    "full_basis_vs_direct": "route/projection/linear-solve cross-check on shared assembled operators",
+                    "truncated_vs_direct": "combined omitted-subspace and solve difference; not an error bound",
+                },
+            },
+            sort_keys=True,
+            allow_nan=False,
+        )
+    )
 
 
 def test_multichannel_phasor_phase_superposition_and_exact_cancellation() -> None:

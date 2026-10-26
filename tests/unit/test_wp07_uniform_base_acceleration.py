@@ -265,6 +265,187 @@ def test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_
     )
 
 
+def test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization() -> None:
+    """Compare harmonic base response to the free equation over a resonance-adjacent sweep."""
+    model = _beam_model("harmonic", frequency_hz=1.0, acceleration=0.7 - 0.4j)
+    prepared, basis = _prepare(model)
+    dofs = model.dof_manager()
+    response_index = dofs.index(1, "UX")
+    free = int(prepared.free_dof_indices[0])
+    mass_full = prepared.mass_full.toarray()
+    stiffness_full = prepared.stiffness_full.toarray()
+    omega_n = math.sqrt(float(stiffness_full[free, free] / mass_full[free, free]))
+    natural_frequency_hz = omega_n / (2.0 * math.pi)
+    frequencies_hz = [0.0, 0.5 * natural_frequency_hz, 0.98 * natural_frequency_hz, 1.02 * natural_frequency_hz]
+    acceleration = 0.7 - 0.4j
+
+    model.analysis.parameters["frequencies_hz"] = frequencies_hz
+    base_input = model.analysis.parameters["uniform_base_acceleration"]
+    base_input["harmonic_phasors"] = [
+        {
+            "frequency_hz": frequency,
+            "real": 0.0 if frequency == 0.0 else acceleration.real,
+            "imag": 0.0 if frequency == 0.0 else acceleration.imag,
+        }
+        for frequency in frequencies_hz
+    ]
+    result = ReducedHarmonicResponseSolver().solve(
+        model,
+        source_sha=_SOURCE_SHA,
+        prepared=prepared,
+        basis=basis,
+    )
+    assert basis.is_full_basis
+    assert result.relative_velocity_responses is not None
+    assert result.relative_acceleration_responses is not None
+    assert result.absolute_responses is not None
+    assert result.absolute_velocity_responses is not None
+    assert result.absolute_acceleration_responses is not None
+
+    influence = np.zeros(dofs.ndof)
+    for node, names in dofs.node_dofs.items():
+        if "UX" in names:
+            influence[dofs.index(node, "UX")] = 1.0
+    inertial_coupling = float((mass_full @ influence)[free])
+
+    def phasor_metrics(prefix: str, value: complex | None) -> dict[str, float | None]:
+        if value is None:
+            return {
+                f"{prefix}_real": None,
+                f"{prefix}_imag": None,
+                f"{prefix}_amplitude": None,
+                f"{prefix}_phase_rad": None,
+            }
+        amplitude = abs(value)
+        return {
+            f"{prefix}_real": value.real,
+            f"{prefix}_imag": value.imag,
+            f"{prefix}_amplitude": amplitude,
+            f"{prefix}_phase_rad": None if amplitude == 0.0 else float(np.angle(value)),
+        }
+
+    observations: list[dict[str, float | None]] = []
+    for index, frequency_hz in enumerate(frequencies_hz):
+        omega = 2.0 * math.pi * frequency_hz
+        base_phasor = 0.0j if frequency_hz == 0.0 else acceleration
+        impedance = complex(stiffness_full[free, free] - omega**2 * mass_full[free, free])
+        expected_rhs = -inertial_coupling * base_phasor
+        expected_relative = expected_rhs / impedance
+        actual_relative = complex(result.responses[index][response_index])
+        assert actual_relative == pytest.approx(expected_relative, rel=1.0e-11, abs=1.0e-13)
+        assert result.relative_velocity_responses[index][response_index] == pytest.approx(
+            1j * omega * expected_relative, rel=1.0e-11, abs=1.0e-13
+        )
+        assert result.relative_acceleration_responses[index][response_index] == pytest.approx(
+            -(omega**2) * expected_relative, rel=1.0e-11, abs=1.0e-13
+        )
+
+        expected_absolute: complex | None = None
+        expected_absolute_velocity: complex | None = None
+        if frequency_hz > 0.0:
+            expected_ground_displacement = -base_phasor / omega**2
+            expected_absolute = expected_relative + expected_ground_displacement
+            expected_absolute_velocity = 1j * omega * expected_absolute
+            assert result.absolute_responses[index] is not None
+            assert result.absolute_velocity_responses[index] is not None
+            assert result.absolute_responses[index][response_index] == pytest.approx(
+                expected_absolute, rel=1.0e-11, abs=1.0e-13
+            )
+            assert result.absolute_velocity_responses[index][response_index] == pytest.approx(
+                expected_absolute_velocity, rel=1.0e-11, abs=1.0e-13
+            )
+        else:
+            assert result.absolute_responses[index] is None
+            assert result.absolute_velocity_responses[index] is None
+
+        expected_absolute_acceleration = -(omega**2) * expected_relative + base_phasor
+        assert result.absolute_acceleration_responses[index] is not None
+        assert result.absolute_acceleration_responses[index][response_index] == pytest.approx(
+            expected_absolute_acceleration, rel=1.0e-11, abs=1.0e-13
+        )
+        record = result.solver["frequency_records"][index]
+        actual_relative_velocity = complex(result.relative_velocity_responses[index][response_index])
+        actual_relative_acceleration = complex(result.relative_acceleration_responses[index][response_index])
+        actual_absolute_displacement = (
+            None if result.absolute_responses[index] is None else complex(result.absolute_responses[index][response_index])
+        )
+        actual_absolute_velocity = (
+            None
+            if result.absolute_velocity_responses[index] is None
+            else complex(result.absolute_velocity_responses[index][response_index])
+        )
+        actual_absolute_acceleration = complex(result.absolute_acceleration_responses[index][response_index])
+        observations.append(
+            {
+                "frequency_hz": frequency_hz,
+                "base_acceleration_real_m_s2": base_phasor.real,
+                "base_acceleration_imag_m_s2": base_phasor.imag,
+                **phasor_metrics("relative_displacement_m", actual_relative),
+                **phasor_metrics("relative_velocity_m_s", actual_relative_velocity),
+                **phasor_metrics("relative_acceleration_m_s2", actual_relative_acceleration),
+                **phasor_metrics("absolute_displacement_m", actual_absolute_displacement),
+                **phasor_metrics("absolute_velocity_m_s", actual_absolute_velocity),
+                **phasor_metrics("absolute_acceleration_m_s2", actual_absolute_acceleration),
+                "reduced_backward_error": float(record["reduced_backward_error"]),
+                "physical_free_backward_error": (
+                    None
+                    if record["physical_free_backward_error"] is None
+                    else float(record["physical_free_backward_error"])
+                ),
+            }
+        )
+
+    restored = ReducedHarmonicResult.from_dict(result.to_dict())
+    for field in (
+        "responses",
+        "relative_velocity_responses",
+        "relative_acceleration_responses",
+        "absolute_responses",
+        "absolute_velocity_responses",
+        "absolute_acceleration_responses",
+    ):
+        actual_values = getattr(restored, field)
+        expected_values = getattr(result, field)
+        assert actual_values is not None and expected_values is not None
+        for actual, expected in zip(actual_values, expected_values, strict=True):
+            if actual is None:
+                assert expected is None
+            else:
+                assert expected is not None
+                np.testing.assert_array_equal(actual, expected)
+
+    assert restored.execution_key == result.execution_key
+    print(
+        json.dumps(
+            {
+                "case": "WP12-WP07-COMPLEX-BASE-SWEEP",
+                "units": {
+                    "frequency": "Hz",
+                    "base_acceleration": "m/s^2",
+                    "displacement": "m",
+                    "velocity": "m/s",
+                    "acceleration": "m/s^2",
+                    "phase": "rad",
+                    "backward_error": "dimensionless",
+                },
+                "natural_frequency_hz": natural_frequency_hz,
+                "observations": observations,
+                "frame_contract": {
+                    "base_direction_frame": "global_model_axes",
+                    "base_direction_vector": [1.0, 0.0, 0.0],
+                    "probe_dof": "node 1 UX in the global model frame",
+                    "relative_acceleration": "-omega^2 * U_relative",
+                    "absolute_acceleration": "relative_acceleration + A_g",
+                    "dc_absolute_displacement_velocity": "UNAVAILABLE",
+                    "phasor_time_convention": "exp(+i*omega*t)",
+                },
+            },
+            sort_keys=True,
+            allow_nan=False,
+        )
+    )
+
+
 def test_harmonic_base_and_wp03_force_superpose_without_losing_phasor_phase() -> None:
     frequency = 1.25
     model = _beam_model("harmonic", frequency_hz=frequency, acceleration=2.0j)
