@@ -887,7 +887,7 @@ def test_tet4_h1_operator_audit_002(monkeypatch: pytest.MonkeyPatch) -> None:
     }
 
     result = {
-        "schema": "qf-wp12-v2-h1-operator-audit-v1",
+        "schema": "qf-wp12-v2-r1-h1-operator-audit-v1",
         "case_id": CASE_ID,
         "nodeid": NODEID,
         "execution_state": "PROSPECTIVE_TEST_RESULT_IF_RUN",
@@ -1038,24 +1038,113 @@ def test_tet4_h1_operator_audit_002(monkeypatch: pytest.MonkeyPatch) -> None:
             ),
             "negative_controls_detected": all(negative_controls.values()),
             "rounding_mode_runtime_verified": False,
+            "rounding_assumptions_verified": False,
+            "rounding_assumption_reasons": [
+                "runtime floating-point rounding mode is not independently read by this test",
+                "internal intermediate operations are not fully observed or independently verified",
+            ],
+            "gamma_bound_evaluated": True,
+            "gamma_bound_evaluation_scope": (
+                "scalar and batch accumulation, scalar and batch componentwise symmetry, and matrix-free "
+                + "componentwise bounds were computed; their booleans are diagnostics and do not establish "
+                + "the unverified rounding assumptions"
+            ),
+            "gamma_bound_satisfied": bool(
+                scalar_roundoff_ok
+                and batch_roundoff_ok
+                and scalar_symmetry_ok
+                and batch_symmetry_ok
+                and column_bound_ok
+            ),
             "owner_decision_required": True,
-            "execution_authorized": False,
+            "test_self_authorizes_execution": False,
         },
+        "rounding_assumptions_verified": False,
+        "gamma_bound_evaluated": True,
+        "gamma_bound_satisfied": bool(
+            scalar_roundoff_ok and batch_roundoff_ok and scalar_symmetry_ok and batch_symmetry_ok and column_bound_ok
+        ),
+        "gamma_bound_semantics": (
+            "evaluated means scalar and batch accumulation, scalar and batch componentwise symmetry, and "
+            + "matrix-free componentwise bounds were computed; satisfied is diagnostic only unless rounding "
+            + "assumptions are verified"
+        ),
+        "gamma_scientific_status": "INCONCLUSIVE",
+        "pytest_execution_status": "FAIL",
+        "overall_scientific_status": "INCONCLUSIVE",
+        "assertion_records": [],
     }
-    _emit(result)
-
-    assert finite_values
-    assert not subnormal_values_present
-    assert exact_global_symmetric
-    assert scalar_relative_error <= ASSEMBLED_MATRIX_RELATIVE_LIMIT
-    assert batch_relative_error <= ASSEMBLED_MATRIX_RELATIVE_LIMIT
-    assert scalar_roundoff_ok and batch_roundoff_ok
-    assert scalar_symmetry_ok and batch_symmetry_ok
-    assert matrix_free_relative_error <= OPERATOR_COLUMN_RELATIVE_LIMIT
-    assert direct_free_relative_error <= OPERATOR_COLUMN_RELATIVE_LIMIT
-    assert max(column_relative_errors, default=0.0) <= OPERATOR_COLUMN_RELATIVE_LIMIT
-    assert route_relative_difference <= OPERATOR_COLUMN_RELATIVE_LIMIT
-    assert column_bound_ok
-    assert residual_mf_relative <= MATRIX_FREE_RESIDUAL_LIMIT
-    assert residual_direct_relative <= DIRECT_RESIDUAL_LIMIT
-    assert all(negative_controls.values())
+    checks = [
+        ("all_finite", finite_values),
+        ("exact_reference_symmetric", exact_global_symmetric),
+        ("scalar_global_accuracy", scalar_relative_error <= ASSEMBLED_MATRIX_RELATIVE_LIMIT),
+        ("batch_global_accuracy", batch_relative_error <= ASSEMBLED_MATRIX_RELATIVE_LIMIT),
+        ("matrix_free_relative_accuracy", matrix_free_relative_error <= OPERATOR_COLUMN_RELATIVE_LIMIT),
+        ("direct_relative_accuracy", direct_free_relative_error <= OPERATOR_COLUMN_RELATIVE_LIMIT),
+        ("matrix_free_per_column_accuracy", max(column_relative_errors, default=0.0) <= OPERATOR_COLUMN_RELATIVE_LIMIT),
+        ("matrix_free_vs_direct_accuracy", route_relative_difference <= OPERATOR_COLUMN_RELATIVE_LIMIT),
+        ("matrix_free_archived_residual", residual_mf_relative <= MATRIX_FREE_RESIDUAL_LIMIT),
+        ("direct_archived_residual", residual_direct_relative <= DIRECT_RESIDUAL_LIMIT),
+        (
+            "archived_energy_identity",
+            all(
+                value["twice_energy_minus_work_J_exact_fraction"] == value["free_residual_work_J_exact_fraction"]
+                for value in energy_work.values()
+            ),
+        ),
+        ("synthetic_negative_controls", all(negative_controls.values())),
+    ]
+    result["assertion_records"] = [
+        {"name": name, "status": "NOT_REACHED", "acceptance_role": "mandatory"} for name, _condition in checks
+    ]
+    gamma_checks = [
+        ("no_subnormal_values_for_gamma_profile", not subnormal_values_present),
+        ("scalar_and_batch_accumulation_bounds", scalar_roundoff_ok and batch_roundoff_ok),
+        ("scalar_and_batch_componentwise_symmetry_bounds", scalar_symmetry_ok and batch_symmetry_ok),
+        ("matrix_free_componentwise_error_bound", column_bound_ok),
+    ]
+    result["assertion_records"].extend(
+        {
+            "name": name,
+            "status": "NOT_REACHED",
+            "acceptance_role": "gamma_conditional",
+            "reason": "rounding assumptions are not verified; diagnostic is not established as an acceptance criterion",
+        }
+        for name, _condition in gamma_checks
+    )
+    try:
+        for record, (_name, condition) in zip(result["assertion_records"][: len(checks)], checks, strict=True):
+            record["status"] = "PASS" if condition else "FAIL"
+            assert condition, record["name"]
+        if result["rounding_assumptions_verified"]:
+            for record, (_name, condition) in zip(
+                result["assertion_records"][len(checks) :], gamma_checks, strict=True
+            ):
+                record["status"] = "PASS" if condition else "FAIL"
+                assert condition, record["name"]
+    finally:
+        mandatory_records = [
+            record for record in result["assertion_records"] if record["acceptance_role"] == "mandatory"
+        ]
+        gamma_records = [
+            record for record in result["assertion_records"] if record["acceptance_role"] == "gamma_conditional"
+        ]
+        failed = any(record["status"] == "FAIL" for record in mandatory_records)
+        all_reached = all(record["status"] != "NOT_REACHED" for record in mandatory_records)
+        gamma_reached = not result["rounding_assumptions_verified"] or all(
+            record["status"] != "NOT_REACHED" for record in gamma_records
+        )
+        any_assertion_failed = any(record["status"] == "FAIL" for record in result["assertion_records"])
+        result["pytest_execution_status"] = (
+            "PASS" if all_reached and gamma_reached and not any_assertion_failed else "FAIL"
+        )
+        gamma_satisfied = result["gamma_bound_satisfied"]
+        if result["rounding_assumptions_verified"]:
+            result["gamma_scientific_status"] = "PASS" if gamma_satisfied else "FAIL"
+        else:
+            result["gamma_scientific_status"] = "INCONCLUSIVE"
+        if failed:
+            result["overall_scientific_status"] = "FAIL"
+        else:
+            result["overall_scientific_status"] = result["gamma_scientific_status"]
+        _emit(result)
