@@ -296,7 +296,13 @@ def _write_wp12_attempt_observables(
         },
         "artifact_path_relative_to_evidence_root": (output_dir / case_file).relative_to(evidence_root).as_posix(),
     }
-    encoded = json.dumps(complete_payload, sort_keys=True, indent=2, allow_nan=False) + "\n"
+    non_finite_values: dict[str, str] = {}
+    json_payload = _json_safe_observables(complete_payload, "$", non_finite_values)
+    if not isinstance(json_payload, dict):
+        raise TypeError("The WP12 observables payload must remain a JSON object.")
+    if non_finite_values:
+        json_payload["non_finite_values"] = non_finite_values
+    encoded = json.dumps(json_payload, sort_keys=True, indent=2, allow_nan=False) + "\n"
     temporary_path = output_dir / f".{case_name}.{series_id}.{attempt}.{uuid.uuid4().hex}.tmp"
     try:
         with temporary_path.open("x", encoding="utf-8", newline="\n") as stream:
@@ -308,9 +314,41 @@ def _write_wp12_attempt_observables(
     finally:
         temporary_path.unlink(missing_ok=True)
 
-    if json.loads(artifact_path.read_text(encoding="utf-8")) != complete_payload:
+    if json.loads(artifact_path.read_text(encoding="utf-8")) != json_payload:
         raise RuntimeError("The published WP12 observables JSON did not round-trip exactly.")
     return {"path": str(artifact_path), "sha256": hashlib.sha256(artifact_path.read_bytes()).hexdigest()}
+
+
+def _json_safe_observables(value: object, path: str, non_finite_values: dict[str, str]) -> object:
+    if isinstance(value, np.generic):
+        return _json_safe_observables(value.item(), path, non_finite_values)
+    if isinstance(value, float) and not math.isfinite(value):
+        non_finite_values[path] = repr(value)
+        return None
+    if isinstance(value, dict):
+        return {
+            str(key): _json_safe_observables(item, f"{path}.{key}", non_finite_values) for key, item in value.items()
+        }
+    if isinstance(value, (list, tuple)):
+        return [_json_safe_observables(item, f"{path}[{index}]", non_finite_values) for index, item in enumerate(value)]
+    return value
+
+
+def _publish_wp12_observables_before_assertions(
+    *,
+    case_name: str,
+    nodeid: str,
+    payload: dict[str, object],
+    checks: list[tuple[str, bool]],
+) -> dict[str, str]:
+    """Persist computed observations first, then raise for any failed test oracle."""
+    artifact = _write_wp12_attempt_observables(case_name=case_name, nodeid=nodeid, payload=payload)
+    failed_checks = [label for label, passed in checks if not passed]
+    if failed_checks:
+        raise AssertionError(
+            "WP12 numerical checks failed after observables were archived: " + "; ".join(failed_checks)
+        )
+    return artifact
 
 
 def test_sdof_free_undamped_matches_analytic_solution_and_initial_projection() -> None:
@@ -780,6 +818,7 @@ def test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observable
     final_time = 0.08
     observations: list[dict[str, object]] = []
     resolution_identities: list[dict[str, object]] = []
+    assertion_checks: list[tuple[str, bool]] = []
 
     for dt in (0.002, 0.001, 0.0005):
         steps = round(final_time / dt)
@@ -800,9 +839,13 @@ def test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observable
 
         omega = math.sqrt(float(prepared.stiffness[0, 0] / prepared.mass[0, 0]))
         times = np.asarray(result.times, dtype=float)
-        assert times[0] == pytest.approx(0.0)
-        assert times[-1] == pytest.approx(final_time)
-        assert times.size == steps + 1
+        assertion_checks.extend(
+            [
+                (f"dt={dt:g}s starts at t=0", bool(times[0] == pytest.approx(0.0))),
+                (f"dt={dt:g}s ends at fixed final time", bool(times[-1] == pytest.approx(final_time))),
+                (f"dt={dt:g}s has steps+1 samples", bool(times.size == steps + 1)),
+            ]
+        )
         exact = {
             "displacement": q0 * np.cos(omega * times),
             "velocity": -q0 * omega * np.sin(omega * times),
@@ -815,10 +858,17 @@ def test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observable
         errors = {field: float(np.max(np.abs(actual[field] - exact[field]))) for field in exact}
         relative_errors = {field: errors[field] / float(np.max(np.abs(exact[field]))) for field in exact}
         integration = result.execution_identity["integration"]
-        assert integration["beta"] == 0.25
-        assert integration["gamma"] == 0.5
-        assert integration["time_step_s"] == dt
-        assert integration["duration_s"] == pytest.approx(final_time)
+        assertion_checks.extend(
+            [
+                (f"dt={dt:g}s beta remains 0.25", bool(integration["beta"] == 0.25)),
+                (f"dt={dt:g}s gamma remains 0.5", bool(integration["gamma"] == 0.5)),
+                (f"dt={dt:g}s execution step matches input", bool(integration["time_step_s"] == dt)),
+                (
+                    f"dt={dt:g}s execution duration matches fixed final time",
+                    bool(integration["duration_s"] == pytest.approx(final_time)),
+                ),
+            ]
+        )
 
         residual_max = max(row["reduced_equilibrium_relative_error"] for row in result.time_history)
         energy_drift_max = max(abs(row["relative_energy_drift"]) for row in result.time_history)
@@ -881,10 +931,14 @@ def test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observable
                 "sample_observables": sample_observables,
             }
         )
-        assert math.isfinite(residual_max)
-        assert residual_max <= 1.0e-7
-        assert math.isfinite(energy_drift_max)
-        assert energy_drift_max <= 1.0e-10
+        assertion_checks.extend(
+            [
+                (f"dt={dt:g}s reduced residual is finite", math.isfinite(residual_max)),
+                (f"dt={dt:g}s reduced residual <= 1e-7", residual_max <= 1.0e-7),
+                (f"dt={dt:g}s energy drift is finite", math.isfinite(energy_drift_max)),
+                (f"dt={dt:g}s energy drift <= 1e-10", energy_drift_max <= 1.0e-10),
+            ]
+        )
 
     observed_orders = {
         field: [math.log(errors[index] / errors[index + 1], 2.0) for index in range(2)]
@@ -894,7 +948,9 @@ def test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observable
             "acceleration": [item["acceleration_max_relative_error"] for item in observations],
         }.items()
     }
-    assert min(observed_orders["displacement"]) >= 1.8
+    assertion_checks.append(
+        ("minimum displacement convergence order >= 1.8", min(observed_orders["displacement"]) >= 1.8)
+    )
     payload: dict[str, object] = {
         "schema": "qfsolver-wp12-newmark-observables-v1",
         "case": "WP12-NEWMARK-SDOF-FIXED-TIME",
@@ -945,6 +1001,7 @@ def test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observable
         ),
         "observations": observations,
         "observed_orders": observed_orders,
+        "assertion_results": {label: passed for label, passed in assertion_checks},
         "acceptance_criteria": {
             "minimum_displacement_order": 1.8,
             "maximum_reduced_equilibrium_relative_error": 1.0e-7,
@@ -953,14 +1010,15 @@ def test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observable
         },
         "oracle_scope": "closed-form SDOF integration conditional on the prepared scalar K/M operators",
     }
-    artifact = _write_wp12_attempt_observables(
+    artifact = _publish_wp12_observables_before_assertions(
         case_name="wp12-newmark-fixed-time-observables",
         nodeid=str(payload["case_identity"]["nodeid"]),
         payload=payload,
+        checks=assertion_checks,
     )
     print(
         json.dumps(
-            {"artifact": artifact, **payload},
+            {"artifact": artifact},
             sort_keys=True,
             allow_nan=False,
         )
