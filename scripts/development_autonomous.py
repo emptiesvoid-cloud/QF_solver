@@ -7,6 +7,7 @@ fixed pytest scopes instead of an arbitrary command execution interface.
 from __future__ import annotations
 
 import argparse
+import ast
 import base64
 import binascii
 import hashlib
@@ -24,7 +25,7 @@ import threading
 import time
 import uuid
 import xml.etree.ElementTree as ET
-from contextlib import contextmanager, nullcontext
+from contextlib import ExitStack, contextmanager, nullcontext
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -80,6 +81,62 @@ D01_OWNER_BUDGETS = {
     "rss_soft_limit_mib": 2048,
     "output_total_limit_mib": 64,
 }
+WP12_BASELINE_COMMIT = "6d8f140834db75ea9b968b055af23445261d0073"
+WP12_COORDINATION_ROOT = Path(r"E:\QFSolverAgents\evidence\.wp12-coordination")
+WP12_OWNER_ENVELOPES: dict[str, dict[str, Any]] = {
+    "wp12_wp07": {
+        "root": r"E:\QFSolverAgents\wp07",
+        "branch": "fix/wp12-wp07-serialization",
+        "evidence_root": r"E:\QFSolverAgents\evidence\wp07",
+        "timeout_seconds": 300,
+        "max_timeout_seconds": 300,
+        "max_total_attempts": 10,
+        "attempt_limit_per_nodeid": 10,
+        "max_registered_nodeids": 10,
+        "max_dofs": None,
+        "max_fem_cases_per_attempt": 1,
+        "concurrency_class": "parallel",
+        "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-WP07-2026-10-26-v1",
+    },
+    "wp12_tet4": {
+        "root": r"E:\QFSolverAgents\tet4",
+        "branch": "experiment/wp12-tet4-convergence",
+        "evidence_root": r"E:\QFSolverAgents\evidence\tet4",
+        "timeout_seconds": 900,
+        "max_timeout_seconds": 900,
+        "max_total_attempts": 12,
+        "attempt_limit_per_nodeid": 12,
+        "max_registered_nodeids": 12,
+        "max_dofs": 50000,
+        "max_fem_cases_per_attempt": 1,
+        "concurrency_class": "exclusive",
+        "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-TET4-2026-10-26-v1",
+    },
+    "wp12_elements": {
+        "root": r"E:\QFSolverAgents\vv-elements",
+        "branch": "test/wp12-fem-regressions",
+        "evidence_root": r"E:\QFSolverAgents\evidence\vv-elements",
+        "timeout_seconds": 300,
+        "max_timeout_seconds": 900,
+        "max_total_attempts": 20,
+        "attempt_limit_per_nodeid": 20,
+        "max_registered_nodeids": 20,
+        "max_dofs": 30000,
+        "max_fem_cases_per_attempt": 1,
+        "concurrency_class": "exclusive",
+        "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-ELEMENTS-2026-10-26-v1",
+    },
+}
+WP12_RUN_BUDGETS = {
+    "rss_soft_limit_mib": 4096,
+    "process_tree_limit": 16,
+    "output_total_limit_mib": 64,
+    "output_stream_limit_mib": 32,
+    "temporary_limit_mib": 512,
+    "archive_size_limit_mib": 256,
+}
+WP12_MAX_PARALLEL_FEM_SLOTS = 2
+WP12_TEST_SELECTOR_RE = re.compile(r"(test_[A-Za-z0-9_]+)(?:\[[^\]\r\n]{1,128}\])?")
 
 
 class PolicyError(ValueError):
@@ -117,6 +174,116 @@ def _positive_integer(value: Any, name: str) -> int:
     if not number.is_integer():
         raise PolicyError(f"policy field {name} must be an integer")
     return int(number)
+
+
+def _validate_wp12_case_selection(
+    worktree_id: str,
+    *,
+    selected_dofs: Any,
+    selection_basis: Any,
+    timeout_seconds: Any = None,
+    timeout_reason: Any = None,
+) -> dict[str, Any]:
+    envelope = WP12_OWNER_ENVELOPES[worktree_id]
+    if isinstance(selected_dofs, bool) or not isinstance(selected_dofs, int) or selected_dofs < 1:
+        raise PolicyError("WP12 registration requires a positive integer selected DDL count before execution")
+    dof_cap = envelope["max_dofs"]
+    if dof_cap is not None and selected_dofs > dof_cap:
+        raise PolicyError(f"selected DDL {selected_dofs} exceeds the {dof_cap}-DDL cap; case refused before execution")
+    if (
+        not isinstance(selection_basis, str)
+        or not 8 <= len(selection_basis.strip()) <= 300
+        or "\n" in selection_basis
+        or "\r" in selection_basis
+    ):
+        raise PolicyError("WP12 registration requires an 8 to 300 character one-line DDL selection basis")
+
+    default_timeout = envelope["timeout_seconds"]
+    maximum_timeout = envelope["max_timeout_seconds"]
+    actual_timeout = default_timeout if timeout_seconds is None else timeout_seconds
+    if isinstance(actual_timeout, bool) or not isinstance(actual_timeout, int):
+        raise PolicyError("WP12 timeout must be an integer number of seconds")
+    if actual_timeout not in {default_timeout, maximum_timeout}:
+        raise PolicyError(f"WP12 timeout must be {default_timeout} seconds by default or its registered maximum")
+    normalized_timeout_reason: str | None = None
+    if actual_timeout != default_timeout:
+        if worktree_id != "wp12_elements" or actual_timeout != 900:
+            raise PolicyError("only WP12 elements cases may request the exceptional 900-second timeout")
+        if (
+            not isinstance(timeout_reason, str)
+            or not 20 <= len(timeout_reason.strip()) <= 300
+            or "\n" in timeout_reason
+            or "\r" in timeout_reason
+        ):
+            raise PolicyError("the exceptional 900-second elements timeout requires a one-line 20 to 300 character reason")
+        normalized_timeout_reason = timeout_reason.strip()
+    elif timeout_reason not in (None, ""):
+        raise PolicyError("timeout reason is only valid for the exceptional 900-second elements budget")
+    return {
+        "selected_dofs": selected_dofs,
+        "selection_basis": selection_basis.strip(),
+        "timeout_seconds": actual_timeout,
+        "timeout_reason": normalized_timeout_reason,
+    }
+
+
+def _validate_wp12_registration_history(worktree_id: str, entry: Mapping[str, Any]) -> None:
+    nodeids = entry["allowed_nodeids"]
+    records = entry.get("nodeid_registration_records", [])
+    if not isinstance(records, list):
+        raise PolicyError(f"{worktree_id} nodeid registration history must be a list")
+    first_seen: list[str] = []
+    for record in records:
+        if not isinstance(record, dict):
+            raise PolicyError(f"{worktree_id} nodeid registration history contains a malformed record")
+        target = record.get("target")
+        if not isinstance(target, str) or target not in nodeids:
+            raise PolicyError(f"{worktree_id} registration history contains an unallowlisted target")
+        if target not in first_seen:
+            first_seen.append(target)
+        if (
+            not isinstance(record.get("reason"), str)
+            or not record["reason"].strip()
+            or not re.fullmatch(r"[0-9a-f]{40}", str(record.get("worktree_head", "")))
+            or not re.fullmatch(r"[0-9a-f]{64}", str(record.get("source_fingerprint", "")))
+        ):
+            raise PolicyError(f"{worktree_id} registration history lacks its rationale, Git head or source fingerprint")
+        try:
+            registered_at = datetime.fromisoformat(str(record.get("registered_at_utc", "")).replace("Z", "+00:00"))
+        except ValueError as exc:
+            raise PolicyError(f"{worktree_id} registration history has an invalid timestamp") from exc
+        if registered_at.tzinfo is None or registered_at.utcoffset() != timezone.utc.utcoffset(registered_at):
+            raise PolicyError(f"{worktree_id} registration timestamps must use UTC")
+        selection = _validate_wp12_case_selection(
+            worktree_id,
+            selected_dofs=record.get("selected_dofs"),
+            selection_basis=record.get("selection_basis"),
+            timeout_seconds=record.get("timeout_seconds"),
+            timeout_reason=record.get("timeout_reason"),
+        )
+        if any(record.get(field) != value for field, value in selection.items()):
+            raise PolicyError(f"{worktree_id} registration selection metadata is not normalized")
+    if first_seen != nodeids:
+        raise PolicyError(f"{worktree_id} registration history must bind every exact allowlisted target")
+
+
+def _validate_wp12_nodeid_syntax(target: str) -> re.Match[str]:
+    if not isinstance(target, str) or target.count("::") != 1:
+        raise PolicyError("WP12 allowlists require one exact pytest test-function nodeid")
+    module_name, selector = target.split("::", maxsplit=1)
+    module_path = Path(module_name)
+    match = WP12_TEST_SELECTOR_RE.fullmatch(selector)
+    if (
+        match is None
+        or module_path.is_absolute()
+        or "\\" in module_name
+        or ".." in module_path.parts
+        or module_path.suffix != ".py"
+        or not module_path.name.startswith("test_")
+        or not module_name.startswith("tests/unit/")
+    ):
+        raise PolicyError("WP12 target must be one exact test-function nodeid below tests/unit")
+    return match
 
 
 def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
@@ -166,8 +333,9 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         if scope["output_total_limit_mib"] > 2 * scope["output_stream_limit_mib"]:
             raise PolicyError(f"scope {name} total output limit exceeds its two stream limits")
     worktrees = policy.get("worktrees")
-    if not isinstance(worktrees, dict) or set(worktrees) != {"d01", "c01", "e01"}:
-        raise PolicyError("the authorized worktree registry must contain exactly d01, c01, and e01")
+    legacy_worktree_ids = {"d01", "c01", "e01"}
+    if not isinstance(worktrees, dict) or set(worktrees) != legacy_worktree_ids | set(WP12_OWNER_ENVELOPES):
+        raise PolicyError("the authorized worktree registry must retain D01/C01/E01 and the three WP12 scopes")
     required_budget_fields = (
         "timeout_seconds",
         "rss_soft_limit_mib",
@@ -191,12 +359,13 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         if _registered_root(entry["root"]) != _registered_root(entry["git_root"]):
             raise PolicyError(f"worktree {worktree_id} root and git_root must be identical")
         nodeids = entry.get("allowed_nodeids")
-        if not isinstance(nodeids, list) or not nodeids or len(nodeids) != len(set(nodeids)):
+        is_wp12 = worktree_id in WP12_OWNER_ENVELOPES
+        if not isinstance(nodeids, list) or (not nodeids and not is_wp12) or len(nodeids) != len(set(nodeids)):
             raise PolicyError(f"worktree {worktree_id} requires unique exact nodeids")
         if entry.get("allow_native_vv_skip_override") is not (worktree_id == "d01"):
             raise PolicyError("only exact D01 development nodes may lift their native-V&V skip")
         attempt_limit = _positive_integer(entry.get("attempt_limit_per_nodeid"), f"worktrees.{worktree_id}.attempt_limit_per_nodeid")
-        if attempt_limit != 3:
+        if not is_wp12 and attempt_limit != 3:
             raise PolicyError("this Owner mandate permits at most three attempts per nodeid")
         budgets = entry.get("budgets")
         if not isinstance(budgets, dict):
@@ -207,7 +376,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             _positive_integer(budgets[field], f"worktrees.{worktree_id}.budgets.{field}")
         if budgets["output_total_limit_mib"] > 2 * budgets["output_stream_limit_mib"]:
             raise PolicyError(f"worktree {worktree_id} aggregate output exceeds its two stream caps")
-        expected_test_root = "tests/unit" if worktree_id in {"c01", "e01"} else "tests/verification"
+        expected_test_root = "tests/unit" if worktree_id in {"c01", "e01", *WP12_OWNER_ENVELOPES} else "tests/verification"
         if entry["pytest_root"] != expected_test_root:
             raise PolicyError(f"worktree {worktree_id} is bound to the wrong test class")
         for nodeid in nodeids:
@@ -216,8 +385,45 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             test_path = Path(nodeid.split("::", maxsplit=1)[0])
             if test_path.is_absolute() or ".." in test_path.parts or not nodeid.startswith(expected_test_root + "/"):
                 raise PolicyError(f"worktree {worktree_id} nodeid escapes its approved test root")
+            if is_wp12:
+                _validate_wp12_nodeid_syntax(nodeid)
             if worktree_id == "e01" and re.search(r"(?i)(tet|hex|beam|assembly|fem)", nodeid):
                 raise PolicyError("E01 allowlist may contain only non-FEM constitutive-math tests")
+        if is_wp12:
+            envelope = WP12_OWNER_ENVELOPES[worktree_id]
+            expected_identity = {
+                "root": envelope["root"],
+                "git_root": envelope["root"],
+                "branch": envelope["branch"],
+                "baseline_commit": WP12_BASELINE_COMMIT,
+                "source_root": "src",
+                "pytest_root": "tests/unit",
+                "mode": "fem_exploratory",
+                "evidence_root": envelope["evidence_root"],
+                "target_max_dofs": envelope["max_dofs"],
+                "max_fem_cases_per_attempt": envelope["max_fem_cases_per_attempt"],
+                "concurrency_class": envelope["concurrency_class"],
+                "development_mandate_id": envelope["development_mandate_id"],
+                "max_timeout_seconds": envelope["max_timeout_seconds"],
+                "attempt_limit_per_nodeid": envelope["attempt_limit_per_nodeid"],
+                "max_total_attempts": envelope["max_total_attempts"],
+                "require_clean_worktree": True,
+            }
+            if any(entry.get(field) != expected for field, expected in expected_identity.items()):
+                raise PolicyError(f"{worktree_id} identity and attempt envelope must match its Owner authorization exactly")
+            registration = entry.get("nodeid_registration")
+            if registration != {"enabled": True, "max_nodeids": envelope["max_registered_nodeids"]}:
+                raise PolicyError(f"{worktree_id} nodeid registration cap must match its Owner authorization")
+            if len(nodeids) > envelope["max_registered_nodeids"]:
+                raise PolicyError(f"{worktree_id} has more registered nodeids than its Owner cap")
+            _validate_wp12_registration_history(worktree_id, entry)
+            if entry.get("allow_native_vv_skip_override") is not False:
+                raise PolicyError("WP12 scopes cannot override native-V&V skips")
+            expected_budgets = {"timeout_seconds": envelope["timeout_seconds"], **WP12_RUN_BUDGETS}
+            if budgets != expected_budgets:
+                raise PolicyError(f"{worktree_id} budgets must match its Owner-approved resource envelope exactly")
+    if policy.get("resource_coordination_root") != str(WP12_COORDINATION_ROOT):
+        raise PolicyError("WP12 runs must use the one registered shared resource coordination root")
     d01 = worktrees["d01"]
     d01_budgets = d01["budgets"]
     if any(
@@ -312,6 +518,119 @@ def resolve_targets(
     return [target]
 
 
+def _verify_solver_import_origin(source_root: Path, imported_file: Path) -> Path:
+    expected = (source_root.resolve() / "solveur" / "__init__.py").resolve()
+    actual = Path(imported_file).resolve()
+    if actual != expected:
+        raise PolicyError(f"wrong solveur import origin: expected {expected}, got {actual}")
+    return actual
+
+
+def _wp12_active_registration(
+    worktree_id: str,
+    target: str,
+    entry: Mapping[str, Any],
+    source_fingerprint: str,
+) -> dict[str, Any]:
+    records = entry.get("nodeid_registration_records", [])
+    active = next(
+        (record for record in reversed(records) if record.get("target") == target),
+        None,
+    )
+    if active is None:
+        raise PolicyError("WP12 nodeid has no inspected registration record")
+    if active.get("source_fingerprint") != source_fingerprint:
+        raise PolicyError("WP12 source fingerprint changed; inspect and register the exact nodeid revision before execution")
+    selection = _validate_wp12_case_selection(
+        worktree_id,
+        selected_dofs=active.get("selected_dofs"),
+        selection_basis=active.get("selection_basis"),
+        timeout_seconds=active.get("timeout_seconds"),
+        timeout_reason=active.get("timeout_reason"),
+    )
+    return {**active, **selection}
+
+
+def _wp12_manifest_limits(entry: Mapping[str, Any], selection: Mapping[str, Any]) -> dict[str, Any]:
+    budgets = dict(entry["budgets"])
+    budgets["timeout_seconds"] = selection["timeout_seconds"]
+    return {
+        **budgets,
+        "max_total_attempts": entry["max_total_attempts"],
+        "attempt_limit_per_nodeid": entry["attempt_limit_per_nodeid"],
+        "max_fem_cases_per_attempt": entry["max_fem_cases_per_attempt"],
+        "target_max_dofs": entry["target_max_dofs"],
+        "selected_dofs": selection["selected_dofs"],
+        "selection_basis": selection["selection_basis"],
+        "timeout_reason": selection["timeout_reason"],
+    }
+
+
+def _validate_wp12_execution_manifest(
+    manifest_path: Path,
+    *,
+    worktree_id: str,
+    target: str,
+    entry: Mapping[str, Any],
+    identity: Mapping[str, Any],
+    source_fingerprint: str,
+    controller_fingerprint: str,
+    selection: Mapping[str, Any],
+) -> dict[str, Any]:
+    evidence_root = Path(entry["evidence_root"]).resolve()
+    authorization_root = (evidence_root / "authorizations" / worktree_id).resolve()
+    try:
+        path = manifest_path.resolve(strict=True)
+    except OSError as exc:
+        raise PolicyError(f"WP12 execution manifest is missing: {exc}") from exc
+    if not _is_within(path, authorization_root) or not path.is_file():
+        raise PolicyError("WP12 execution manifest must be a file in this mission's evidence authorization directory")
+    try:
+        manifest = json.loads(
+            path.read_text(encoding="utf-8"),
+            parse_constant=lambda value: (_ for _ in ()).throw(ValueError(f"non-finite JSON token {value}")),
+        )
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        raise PolicyError(f"WP12 execution manifest is unreadable or not strict JSON: {exc}") from exc
+    if not isinstance(manifest, dict):
+        raise PolicyError("WP12 execution manifest must be a JSON object")
+    decision = manifest.get("owner_decision")
+    if (
+        manifest.get("schema") != "qfsolver-wp12-development-execution-v1"
+        or manifest.get("state") != "OWNER_AUTHORIZED"
+        or not isinstance(manifest.get("authorization_id"), str)
+        or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", manifest["authorization_id"])
+        or not isinstance(decision, dict)
+        or decision.get("status") != "APPROVED"
+        or decision.get("approved_by") != "Owner"
+        or not isinstance(decision.get("approved_at_utc"), str)
+        or not isinstance(decision.get("reason"), str)
+        or len(decision["reason"].strip()) < 20
+    ):
+        raise PolicyError("WP12 execution manifest lacks a distinct, explicit Owner decision")
+    try:
+        decision_time = datetime.fromisoformat(decision["approved_at_utc"].replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise PolicyError("WP12 Owner approval time must be an ISO-8601 timestamp") from exc
+    if decision_time.tzinfo is None or decision_time.utcoffset() != timezone.utc.utcoffset(decision_time):
+        raise PolicyError("WP12 Owner approval time must be expressed in UTC")
+    if (
+        manifest.get("worktree_id") != worktree_id
+        or manifest.get("target") != target
+        or manifest.get("identity") != dict(identity)
+        or manifest.get("source_fingerprint") != source_fingerprint
+        or manifest.get("controller_fingerprint") != controller_fingerprint
+        or manifest.get("limits") != _wp12_manifest_limits(entry, selection)
+    ):
+        raise PolicyError("WP12 execution manifest does not bind this exact worktree, source, nodeid, controller and budget")
+    return {
+        "path": str(path),
+        "sha256": _sha256(path),
+        "authorization_id": manifest["authorization_id"],
+        "owner_decision": decision,
+    }
+
+
 def build_pytest_command(
     scope_name: str,
     targets: Sequence[str],
@@ -341,10 +660,12 @@ def build_pytest_command(
                 "sys.path.insert(0, str(controller / 'scripts'))",
                 "import solveur",
                 "origin = Path(solveur.__file__).resolve()",
-                "expected = (src / 'solveur' / '__init__.py').resolve()",
                 "print('QF_DEV_SOLVER_ORIGIN=' + str(origin))",
-                "if origin != expected:",
-                "    raise SystemExit('wrong solveur import origin: ' + str(origin))",
+                "from development_autonomous import PolicyError, _verify_solver_import_origin",
+                "try:",
+                "    _verify_solver_import_origin(src, origin)",
+                "except PolicyError as exc:",
+                "    raise SystemExit(str(exc))",
                 "import pytest",
                 "from development_autonomous_pytest_plugin import ExactNodeGate",
                 f"gate = ExactNodeGate((target,), allow_native_skip_override=(mode == 'd01' and {native_override}))",
@@ -400,10 +721,14 @@ def build_child_environment(
     *,
     source_root: Path | None = None,
     d01_source_sha: str | None = None,
+    wp12_entry: Mapping[str, Any] | None = None,
+    wp12_selection: Mapping[str, Any] | None = None,
 ) -> dict[str, str]:
     environment = dict(os.environ if base is None else base)
     for key in tuple(environment):
         if key in OWNER_ENV_KEYS or (key.startswith("QF_") and ("OWNER" in key or "QUALIFICATION" in key)):
+            environment.pop(key, None)
+        elif key.startswith("QF_DEV_"):
             environment.pop(key, None)
     environment.pop("PYTEST_ADDOPTS", None)
     environment.pop("PYTEST_PLUGINS", None)
@@ -419,6 +744,13 @@ def build_child_environment(
         environment["PYTHONPATH"] = str(source_root)
     if d01_source_sha is not None:
         environment["QF_WP_D01_BJ_SOURCE_SHA"] = d01_source_sha
+    if wp12_entry is not None:
+        environment["QF_DEV_WORKTREE_ID"] = str(wp12_entry["worktree_id"])
+        environment["QF_DEV_MAX_FEM_CASES"] = str(wp12_entry["max_fem_cases_per_attempt"])
+        if wp12_entry.get("target_max_dofs") is not None:
+            environment["QF_DEV_MAX_DOFS"] = str(wp12_entry["target_max_dofs"])
+    if wp12_selection is not None:
+        environment["QF_DEV_SELECTED_DOFS"] = str(wp12_selection["selected_dofs"])
     environment["QF_DEVELOPMENT_AUTONOMOUS"] = "1"
     return environment
 
@@ -1304,6 +1636,9 @@ def _reserve_node_attempt(
     source_fingerprint: str,
     reason: str,
     maximum: int,
+    total_maximum: int | None = None,
+    wp12_selection: Mapping[str, Any] | None = None,
+    authorization_id: str | None = None,
     predecessor: Mapping[str, str] | None = None,
     controller_fingerprint: str | None = None,
     attempt_basis: str | None = None,
@@ -1334,6 +1669,26 @@ def _reserve_node_attempt(
             raise PolicyError("development attempt ledger entry is malformed")
         if len(attempts) >= maximum:
             raise PolicyError(f"development mandate exhausted {maximum} attempts for this nodeid")
+        if total_maximum is not None:
+            mission_prefix = f"{mandate_id}:{worktree_id}:"
+            mission_records = [
+                item
+                for ledger_key, items in ledger["entries"].items()
+                if ledger_key.startswith(mission_prefix) and isinstance(items, list)
+                for item in items
+                if isinstance(item, dict)
+            ]
+            if authorization_id is not None and any(
+                item.get("authorization_id") == authorization_id for item in mission_records
+            ):
+                raise PolicyError("WP12 execution manifest authorization ID has already been consumed")
+            total_attempts = sum(
+                len(items)
+                for ledger_key, items in ledger["entries"].items()
+                if ledger_key.startswith(mission_prefix) and isinstance(items, list)
+            )
+            if total_attempts >= total_maximum:
+                raise PolicyError(f"development mandate exhausted its {total_maximum}-attempt mission cap")
         if worktree_id == "d01" and mandate_id.endswith("-v2-d01"):
             if attempt_basis not in D01_ATTEMPT_BASES or controller_fingerprint is None:
                 raise PolicyError("D01 v2 attempts require a classified change basis and controller fingerprint")
@@ -1376,6 +1731,8 @@ def _reserve_node_attempt(
                 "attempt_basis": attempt_basis,
                 "hypothesis_id": hypothesis_id,
                 "reason": reason,
+                "wp12_selection": dict(wp12_selection) if wp12_selection is not None else None,
+                "authorization_id": authorization_id,
                 "state": "RESERVED",
                 "started_at_utc": datetime.now(timezone.utc).isoformat(),
             }
@@ -1434,12 +1791,23 @@ def _registered_worktree(
         baseline_commit=entry["baseline_commit"],
     )
     if entry.get("require_clean_worktree") and identity["status_short"]:
-        raise PolicyError("registered D01 source worktree must be clean before preflight or FEM execution")
+        raise PolicyError(f"registered {worktree_id} source worktree must be clean before collection or execution")
     fingerprint = _worktree_source_fingerprint(root, target)
     return entry, root, source_root, identity, fingerprint
 
 
-def _run_root(policy: Mapping[str, Any]) -> Path:
+def _run_root(policy: Mapping[str, Any], worktree_id: str | None = None) -> Path:
+    if worktree_id in WP12_OWNER_ENVELOPES:
+        root = Path(policy["worktrees"][worktree_id]["evidence_root"]).resolve()
+        checkout = Path(policy["worktrees"][worktree_id]["git_root"]).resolve()
+        coordination_root = WP12_COORDINATION_ROOT.resolve()
+        if (
+            _is_within(root, checkout)
+            or _is_within(root, coordination_root)
+            or _is_within(coordination_root, root)
+        ):
+            raise PolicyError("WP12 evidence must be separate from source and shared coordination roots")
+        return root
     root = (ROOT / policy["run_store"]).resolve()
     if not _is_within(root, ROOT.resolve()) or _is_within(root, (ROOT / "qualification").resolve()):
         raise PolicyError("development run store must be inside the worktree and outside qualification")
@@ -1456,7 +1824,7 @@ def _node_ledger_context(
         return (
             store / "node-attempt-ledger.json",
             store / "node-attempt-ledger.lock",
-            str(policy["mandate_id"]),
+            str(entry.get("development_mandate_id", policy["mandate_id"])),
             None,
         )
 
@@ -1496,12 +1864,135 @@ def _node_ledger_context(
 
 def _series_root(store: Path, scope_name: str, worktree_id: str | None) -> Path:
     if worktree_id is not None:
-        if worktree_id not in {"d01", "c01", "e01"}:
+        if worktree_id not in {"d01", "c01", "e01", *WP12_OWNER_ENVELOPES}:
             raise PolicyError("unknown worktree output namespace")
         return store / "worktrees" / worktree_id
     if scope_name not in STANDARD_SCOPES:
         raise PolicyError("standard output namespace requires a fixed local test scope")
     return store / "standard" / scope_name
+
+
+@contextmanager
+def _wp12_resource_lock(store: Path, concurrency_class: str) -> Iterator[None]:
+    """Reserve one of two shared FEM slots, or both for an exclusive run."""
+    if concurrency_class not in {"parallel", "exclusive"}:
+        raise PolicyError("unknown WP12 FEM concurrency class")
+    lock_root = store / "fem-slots"
+    with ExitStack() as stack:
+        acquired = 0
+        for index in range(WP12_MAX_PARALLEL_FEM_SLOTS):
+            try:
+                stack.enter_context(_exclusive_file_lock(lock_root / f"slot-{index}.lock"))
+                acquired += 1
+                if concurrency_class == "parallel":
+                    break
+            except PolicyError:
+                if concurrency_class == "exclusive":
+                    raise
+        if acquired == 0:
+            raise PolicyError("all shared WP12 FEM resource slots are busy")
+        yield
+
+
+def register_wp12_nodeid(
+    worktree_id: str,
+    target: str,
+    reason: str,
+    *,
+    selected_dofs: int,
+    selection_basis: str,
+    timeout_seconds: int | None = None,
+    timeout_reason: str | None = None,
+) -> dict[str, Any]:
+    """Register one inspected exact WP12 pytest function and its preselected case envelope."""
+    if worktree_id not in WP12_OWNER_ENVELOPES:
+        raise PolicyError("controlled nodeid registration is available only for the three WP12 scopes")
+    if not isinstance(reason, str) or not 8 <= len(reason.strip()) <= 300 or "\n" in reason or "\r" in reason:
+        raise PolicyError("nodeid registration requires a one-line reason of 8 to 300 characters")
+    selection = _validate_wp12_case_selection(
+        worktree_id,
+        selected_dofs=selected_dofs,
+        selection_basis=selection_basis,
+        timeout_seconds=timeout_seconds,
+        timeout_reason=timeout_reason,
+    )
+    if not isinstance(target, str) or len(target) > 512 or target.count("::") != 1:
+        raise PolicyError("registration requires one exact repository-relative pytest nodeid")
+    match = _validate_wp12_nodeid_syntax(target)
+    module_name = target.split("::", maxsplit=1)[0]
+    module_path = Path(module_name)
+
+    policy = load_policy(POLICY_PATH)
+    entry = policy["worktrees"][worktree_id]
+    root = Path(entry["git_root"]).resolve(strict=True)
+    identity = _git_identity(
+        root,
+        expected_branch=entry["branch"],
+        baseline_commit=entry["baseline_commit"],
+    )
+    if entry.get("require_clean_worktree") and identity["status_short"]:
+        raise PolicyError(f"registered {worktree_id} source worktree must be clean before nodeid inspection")
+    source_root = (root / entry["source_root"]).resolve(strict=True)
+    if not _is_within(source_root / "solveur" / "__init__.py", root) or not (source_root / "solveur" / "__init__.py").is_file():
+        raise PolicyError("registered solver source root is not inside the exact worktree")
+    module_file = (root / module_path).resolve(strict=True)
+    tests_root = (root / entry["pytest_root"]).resolve(strict=True)
+    if not _is_within(module_file, tests_root) or not module_file.is_file():
+        raise PolicyError("registered nodeid module is missing or escaped tests/unit")
+    function_name = match.group(1)
+    try:
+        syntax_tree = ast.parse(module_file.read_text(encoding="utf-8"), filename=str(module_file))
+    except (OSError, SyntaxError, UnicodeError) as exc:
+        raise PolicyError(f"cannot inspect nodeid test module without importing it: {exc}") from exc
+    if not any(
+        isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name == function_name
+        for node in ast.walk(syntax_tree)
+    ):
+        raise PolicyError("registered nodeid does not name a test function in its exact module")
+
+    evidence_root = _run_root(policy, worktree_id)
+    lock_path = evidence_root / "locks" / "nodeid-registration.lock"
+    with _exclusive_file_lock(lock_path):
+        policy = load_policy(POLICY_PATH)
+        entry = policy["worktrees"][worktree_id]
+        nodeids = entry["allowed_nodeids"]
+        records = entry.setdefault("nodeid_registration_records", [])
+        current_identity = _git_identity(
+            root,
+            expected_branch=entry["branch"],
+            baseline_commit=entry["baseline_commit"],
+        )
+        if entry.get("require_clean_worktree") and current_identity["status_short"]:
+            raise PolicyError(f"registered {worktree_id} source worktree must be clean before nodeid inspection")
+        current_fingerprint = _worktree_source_fingerprint(root, target)
+        previous = next((item for item in reversed(records) if item.get("target") == target), None)
+        if previous is not None and previous.get("source_fingerprint") == current_fingerprint:
+            raise PolicyError("nodeid and source revision are already registered")
+        if target not in nodeids:
+            if len(nodeids) >= entry["nodeid_registration"]["max_nodeids"]:
+                raise PolicyError("nodeid registration cap is exhausted for this WP12 scope")
+            nodeids.append(target)
+        record = {
+            "target": target,
+            "reason": reason.strip(),
+            "registered_at_utc": datetime.now(timezone.utc).isoformat(),
+            "worktree_head": current_identity["head"],
+            "source_fingerprint": current_fingerprint,
+            **selection,
+        }
+        records.append(record)
+        _atomic_json(POLICY_PATH, policy)
+    return {
+        "state": "NODEID_REGISTERED",
+        "worktree_id": worktree_id,
+        "target": target,
+        "registered_count": len(nodeids),
+        "registration_cap": entry["nodeid_registration"]["max_nodeids"],
+        "selected_dofs": selection["selected_dofs"],
+        "timeout_seconds": selection["timeout_seconds"],
+        "revision": sum(item.get("target") == target for item in records),
+        "policy": str(POLICY_PATH.resolve()),
+    }
 
 
 def _controller_provenance() -> dict[str, Any]:
@@ -1520,6 +2011,45 @@ def _controller_provenance() -> dict[str, Any]:
             "psutil_version": importlib.metadata.version("psutil") if psutil is not None else None,
         },
     }
+
+
+def prepare_wp12_execution_manifest(worktree_id: str, target: str, authorization_id: str) -> dict[str, Any]:
+    """Write an exact WP12 execution-manifest template that remains unapproved."""
+    if worktree_id not in WP12_OWNER_ENVELOPES:
+        raise PolicyError("WP12 execution manifests are available only for the three WP12 scopes")
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", authorization_id):
+        raise PolicyError("authorization ID must be 8 to 64 safe alphanumeric, dot, underscore or hyphen characters")
+    policy = load_policy(POLICY_PATH)
+    resolve_targets("fem_exploratory", target, policy, worktree_id=worktree_id)
+    entry, _root, _source_root, identity, source_fingerprint = _registered_worktree(worktree_id, target, policy)
+    selection = _wp12_active_registration(worktree_id, target, entry, source_fingerprint)
+    controller_fingerprint = _stable_fingerprint(_controller_provenance())
+    evidence_root = _run_root(policy, worktree_id)
+    manifest_dir = evidence_root / "authorizations" / worktree_id
+    path = manifest_dir / f"{authorization_id}.json"
+    with _exclusive_file_lock(evidence_root / "locks" / "manifest-template.lock"):
+        if path.exists():
+            raise PolicyError("refusing to overwrite an existing WP12 execution manifest")
+        payload = {
+            "schema": "qfsolver-wp12-development-execution-v1",
+            "state": "PREPARED_NOT_AUTHORIZED",
+            "authorization_id": authorization_id,
+            "worktree_id": worktree_id,
+            "target": target,
+            "identity": identity,
+            "source_fingerprint": source_fingerprint,
+            "controller_fingerprint": controller_fingerprint,
+            "limits": _wp12_manifest_limits(entry, selection),
+            "owner_decision": {
+                "status": "NOT_AUTHORIZED",
+                "approved_by": None,
+                "approved_at_utc": None,
+                "reason": None,
+            },
+            "preparation_note": "Template only. A distinct Owner execution decision is required before setting OWNER_AUTHORIZED.",
+        }
+        _atomic_json(path, payload)
+    return {"state": payload["state"], "path": str(path.resolve()), "target": target}
 
 
 def _preflight_directory(store: Path, worktree_id: str, preflight_id: str) -> Path:
@@ -1749,6 +2279,7 @@ def run_pytest(
     worktree_id: str | None = None,
     reason: str | None = None,
     preflight_id: str | None = None,
+    execution_manifest: Path | None = None,
     attempt_basis: str | None = None,
     hypothesis_id: str | None = None,
 ) -> tuple[dict[str, Any], int]:
@@ -1758,7 +2289,10 @@ def run_pytest(
     entry: dict[str, Any] | None = None
     source_root: Path | None = None
     source_fingerprint: str | None = None
+    wp12_registration: dict[str, Any] | None = None
     ledger_context: tuple[Path, Path, str, dict[str, str] | None] | None = None
+    controller_provenance: dict[str, Any] | None = None
+    execution_manifest_receipt: dict[str, Any] | None = None
     if is_registered:
         if not worktree_id or not target or not reason or not reason.strip():
             raise PolicyError("registered worktree tests require one exact target, worktree, and documented reason")
@@ -1769,28 +2303,63 @@ def run_pytest(
         )
         scope = dict(entry["budgets"])
         attempt_limit = int(entry.get("attempt_limits_per_nodeid", {}).get(target, entry["attempt_limit_per_nodeid"]))
+        if worktree_id in WP12_OWNER_ENVELOPES:
+            assert source_fingerprint is not None
+            wp12_registration = _wp12_active_registration(worktree_id, target, entry, source_fingerprint)
+            scope["timeout_seconds"] = wp12_registration["timeout_seconds"]
         if worktree_id == "d01":
             if preflight_id is None:
                 raise PolicyError("D01 FEM attempts require a successful exact-node collect-only preflight first")
             if attempt_basis not in D01_ATTEMPT_BASES:
                 raise PolicyError("D01 FEM attempts require a classified attempt basis")
-            ledger_context = _node_ledger_context(policy, _run_root(policy), worktree_id)
+            ledger_context = _node_ledger_context(policy, _run_root(policy, worktree_id), worktree_id)
         elif preflight_id is not None:
             raise PolicyError("preflight receipt IDs are supported only for the D01 development envelope")
+        if worktree_id in WP12_OWNER_ENVELOPES:
+            if execution_manifest is None:
+                raise PolicyError("WP12 FEM attempts require a distinct Owner-authorized execution manifest")
+            assert wp12_registration is not None and source_fingerprint is not None
+            controller_provenance = _controller_provenance()
+            execution_manifest_receipt = _validate_wp12_execution_manifest(
+                execution_manifest,
+                worktree_id=worktree_id,
+                target=target,
+                entry=entry,
+                identity=identity,
+                source_fingerprint=source_fingerprint,
+                controller_fingerprint=_stable_fingerprint(controller_provenance),
+                selection=wp12_registration,
+            )
+        elif execution_manifest is not None:
+            raise PolicyError("execution manifests are supported only by the registered WP12 missions")
     else:
         execution_root = ROOT
         scope = policy["standard_scopes"][scope_name]
         identity = _git_identity(ROOT)
         attempt_limit = int(scope["max_attempts_per_series"])
     if is_registered and scope_name == "fem_exploratory":
-        # The lock is shared by D01 and C01: at most one exploratory FEM/test
-        # scenario started through this policy can be active at a time.
-        scenario_lock = _exclusive_file_lock(_run_root(policy) / "locks" / "fem-exploratory.lock")
+        if worktree_id in WP12_OWNER_ENVELOPES:
+            scenario_lock = _wp12_resource_lock(
+                WP12_COORDINATION_ROOT,
+                entry["concurrency_class"],
+            )
+        else:
+            # The lock remains shared by the historical D01/C01 scopes.
+            scenario_lock = _exclusive_file_lock(_run_root(policy) / "locks" / "fem-exploratory.lock")
     else:
         scenario_lock = nullcontext()
     if psutil is None:
         raise PolicyError("psutil is missing; install the project test/dev dependencies before launch")
-    free_bytes = min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free)
+    disk_paths = [ROOT, execution_root]
+    if worktree_id in WP12_OWNER_ENVELOPES:
+        disk_paths.extend([_run_root(policy, worktree_id), WP12_COORDINATION_ROOT])
+    disk_anchors: list[Path] = []
+    for disk_path in disk_paths:
+        anchor = disk_path.resolve()
+        while not anchor.exists():
+            anchor = anchor.parent
+        disk_anchors.append(anchor)
+    free_bytes = min(shutil.disk_usage(path).free for path in disk_anchors)
     minimum_free = int(policy["minimum_free_disk_mib"] * 1024 * 1024)
     if free_bytes < minimum_free:
         raise PolicyError(f"insufficient free disk: {free_bytes} bytes; requires {minimum_free}")
@@ -1811,10 +2380,10 @@ def run_pytest(
         series_id = f"dev-{uuid.uuid4().hex[:12]}"
     if not SERIES_RE.fullmatch(series_id):
         raise PolicyError("series ID must use the development-only format dev-<lowercase-id>")
-    store = _run_root(policy)
+    store = _run_root(policy, worktree_id)
     series_dir = _series_root(store, scope_name, worktree_id) / series_id
     preflight_receipt: tuple[Path, str] | None = None
-    controller_provenance = _controller_provenance()
+    controller_provenance = controller_provenance or _controller_provenance()
     if worktree_id == "d01":
         assert preflight_id is not None and source_fingerprint is not None and target is not None
         preflight_receipt = _validate_d01_preflight_receipt(
@@ -1860,6 +2429,13 @@ def run_pytest(
                     source_fingerprint=source_fingerprint,
                     reason=reason.strip(),
                     maximum=attempt_limit,
+                    total_maximum=(entry.get("max_total_attempts") if worktree_id in WP12_OWNER_ENVELOPES else None),
+                    wp12_selection=wp12_registration,
+                    authorization_id=(
+                        execution_manifest_receipt["authorization_id"]
+                        if execution_manifest_receipt is not None
+                        else None
+                    ),
                     predecessor=ledger_predecessor,
                     controller_fingerprint=_stable_fingerprint(controller_provenance),
                     attempt_basis=attempt_basis,
@@ -1887,6 +2463,12 @@ def run_pytest(
             base=inherited_environment,
             source_root=source_root,
             d01_source_sha=identity["head"] if worktree_id == "d01" else None,
+            wp12_entry=(
+                {**entry, "worktree_id": worktree_id}
+                if worktree_id in WP12_OWNER_ENVELOPES and entry is not None
+                else None
+            ),
+            wp12_selection=wp12_registration,
         )
         child_native_guard = _validate_native_guard_environment(inherited_environment, environment)
         started_at = datetime.now(timezone.utc).isoformat()
@@ -1915,8 +2497,29 @@ def run_pytest(
                 if preflight_receipt is not None
                 else None
             ),
+            "execution_manifest": execution_manifest_receipt,
             "command": command,
             "budgets": dict(scope),
+            "wp12_case_selection": (
+                {
+                    **{key: wp12_registration[key] for key in ("selected_dofs", "selection_basis", "timeout_seconds", "timeout_reason")},
+                    "checked_before_attempt_reservation": True,
+                    "registration_source_fingerprint": wp12_registration["source_fingerprint"],
+                }
+                if wp12_registration is not None
+                else None
+            ),
+            "wp12_mission_limits": (
+                {
+                    "max_total_attempts": entry["max_total_attempts"],
+                    "max_fem_cases_per_attempt": entry["max_fem_cases_per_attempt"],
+                    "target_max_dofs": entry["target_max_dofs"],
+                    "concurrency_class": entry["concurrency_class"],
+                    "enforcement": "exact nodeid and declared selected DDL are validated before attempt reservation; the cap is also passed to the child test",
+                }
+                if worktree_id in WP12_OWNER_ENVELOPES and entry is not None
+                else None
+            ),
             "budget_semantics": {
                 "wall_timeout": "watchdog-triggered process-tree termination; best-effort OS control",
                 "rss": "sampled soft monitor; not a hard memory/commit limit",
@@ -1924,7 +2527,7 @@ def run_pytest(
                 "captured_output": "application-enforced byte caps on captured stdout/stderr",
                 "temporary_and_archive_size": "sampled size monitoring; not an NTFS quota",
                 "free_disk": "preflight and sampled floor check",
-                "attempt_limit": "persistent procedural ledger under the development run store",
+                "attempt_limit": "persistent procedural ledger under the mission evidence root",
             },
             "free_disk_before_bytes": free_bytes,
             "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
@@ -2041,18 +2644,51 @@ def main(argv: Sequence[str] | None = None) -> int:
     preflight_parser.add_argument("--worktree", choices=("d01",), required=True)
     preflight_parser.add_argument("--target", required=True)
     preflight_parser.add_argument("--preflight-id", help="optional unused pf-<12 lowercase hex> ID")
+    registration_parser = subparsers.add_parser(
+        "register-nodeid",
+        help="append one exact WP12 pytest function to its bounded allowlist without importing or executing it",
+    )
+    registration_parser.add_argument("--worktree", choices=tuple(WP12_OWNER_ENVELOPES), required=True)
+    registration_parser.add_argument("--target", required=True, help="exact tests/unit/module.py::test_function nodeid")
+    registration_parser.add_argument("--reason", required=True, help="short scientific or regression rationale")
+    registration_parser.add_argument("--selected-dofs", type=int, required=True, help="declared DDL count checked before execution")
+    registration_parser.add_argument("--selection-basis", required=True, help="brief mesh/formulation basis for the selected DDL count")
+    registration_parser.add_argument("--timeout-seconds", type=int, choices=(300, 900), help="defaults to the scope budget; 900 is exceptional for elements")
+    registration_parser.add_argument("--timeout-reason", help="required only for an exceptional 900-second elements case")
+    manifest_parser = subparsers.add_parser(
+        "prepare-manifest",
+        help="write a source-bound WP12 execution-manifest template marked NOT_AUTHORIZED; never runs tests",
+    )
+    manifest_parser.add_argument("--worktree", choices=tuple(WP12_OWNER_ENVELOPES), required=True)
+    manifest_parser.add_argument("--target", required=True, help="one previously registered exact nodeid")
+    manifest_parser.add_argument("--authorization-id", required=True)
     test_parser = subparsers.add_parser("test", help="run one fixed development pytest scope")
     test_parser.add_argument("--scope", choices=("unit", "integration", "fem_exploratory", "math_non_fem"), required=True)
     test_parser.add_argument("--target", help="repository-relative test file/nodeid; FEM requires an exact approved nodeid")
     test_parser.add_argument("--series", help="development-only dev-* series ID for bounded follow-up attempts")
-    test_parser.add_argument("--worktree", help="registered worktree ID (d01, c01, e01) for an exact development nodeid")
+    test_parser.add_argument("--worktree", help="registered worktree ID for one exact development nodeid")
     test_parser.add_argument("--reason", help="short documented development hypothesis/reason for a registered nodeid attempt")
     test_parser.add_argument("--preflight-id", help="successful exact-node D01 collect-only receipt ID")
+    test_parser.add_argument("--execution-manifest", help="Owner-authorized WP12 manifest under that mission's evidence root")
     test_parser.add_argument("--attempt-basis", choices=D01_ATTEMPT_BASES, help="D01 baseline/change/hypothesis classification")
     test_parser.add_argument("--hypothesis-id", help="unique ID required for a same-input new diagnostic hypothesis")
     args = parser.parse_args(argv)
     try:
-        if args.command == "preflight":
+        if args.command == "register-nodeid":
+            result = register_wp12_nodeid(
+                args.worktree,
+                args.target,
+                args.reason,
+                selected_dofs=args.selected_dofs,
+                selection_basis=args.selection_basis,
+                timeout_seconds=args.timeout_seconds,
+                timeout_reason=args.timeout_reason,
+            )
+            exit_code = 0
+        elif args.command == "prepare-manifest":
+            result = prepare_wp12_execution_manifest(args.worktree, args.target, args.authorization_id)
+            exit_code = 0
+        elif args.command == "preflight":
             result = preflight_pytest(args.worktree, args.target, args.preflight_id)
             exit_code = 0 if result["state"] == "PREFLIGHT_PASS" else 1
         else:
@@ -2063,6 +2699,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 worktree_id=args.worktree,
                 reason=args.reason,
                 preflight_id=args.preflight_id,
+                execution_manifest=(Path(args.execution_manifest) if args.execution_manifest else None),
                 attempt_basis=args.attempt_basis,
                 hypothesis_id=args.hypothesis_id,
             )
