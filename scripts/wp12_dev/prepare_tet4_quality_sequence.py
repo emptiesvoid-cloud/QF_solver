@@ -10,18 +10,22 @@ import argparse
 import hashlib
 import json
 import subprocess
+import sys
 from pathlib import Path
 from typing import Any, Sequence
 
 import numpy as np
 
-from solveur.core.model import FiniteElementModel
-from solveur.io.model_writer import JsonModelWriter
-from solveur.large.generator import generate_tet4_cantilever_block
-from solveur.large.io import save_large_model
-from solveur.mesh.quality_contract import assess_element
+REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPOSITORY_ROOT / "src"))
 
-from tet4_mechanical_oracles import SurfaceMeasure, linear_static_observables, surface_measure_weights
+from solveur.core.model import FiniteElementModel  # noqa: E402
+from solveur.io.model_writer import JsonModelWriter  # noqa: E402
+from solveur.large.generator import generate_tet4_cantilever_block  # noqa: E402
+from solveur.large.io import save_large_model  # noqa: E402
+from solveur.mesh.quality_contract import assess_element  # noqa: E402
+
+from tet4_mechanical_oracles import SurfaceMeasure, linear_static_observables, surface_measure_weights  # noqa: E402
 
 
 LENGTH_M = 4.0
@@ -358,11 +362,10 @@ def prepare(output_dir: Path) -> dict[str, Any]:
     if output.exists():
         raise FileExistsError(f"refusing to overwrite existing preparation/evidence directory: {output}")
     output.mkdir(parents=True, exist_ok=False)
-    root = Path(__file__).resolve().parents[2]
     script_path = Path(__file__).resolve()
     oracle_path = script_path.with_name("tet4_mechanical_oracles.py")
     source = {
-        "git_commit": _source_commit(root),
+        "git_commit": _source_commit(REPOSITORY_ROOT),
         "preparation_script_sha256": _file_sha256(script_path),
         "mechanical_oracles_sha256": _file_sha256(oracle_path),
     }
