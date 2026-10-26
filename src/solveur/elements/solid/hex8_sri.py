@@ -23,6 +23,7 @@ class Hex8SRIElement:
     integration_point_count = Hex8Element.integration_point_count
     integration_points = Hex8Element.integration_points
     volumetric_integration_points = ((0.0, 0.0, 0.0),)
+    volumetric_integration_weight = 8.0
 
     def __init__(self, material: SolidMaterial):
         if type(material) is not SolidMaterial:
@@ -74,7 +75,9 @@ class Hex8SRIElement:
         _, volumetric = self._constitutive_split(self.material)
         point = self.volumetric_integration_points[0]
         b_matrix, determinant = self.b_matrix(coords, point)
-        stiffness = determinant * (b_matrix.T @ volumetric @ b_matrix)
+        stiffness = self.volumetric_integration_weight * determinant * (
+            b_matrix.T @ volumetric @ b_matrix
+        )
         return 0.5 * (stiffness + stiffness.T)
 
     def stiffness(self, coords: np.ndarray) -> np.ndarray:
