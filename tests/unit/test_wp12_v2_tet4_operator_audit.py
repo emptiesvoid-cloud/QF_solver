@@ -496,8 +496,8 @@ def test_tet4_h1_operator_audit_002(monkeypatch: pytest.MonkeyPatch) -> None:
         "scalar_K_14_22": _pair_contribution_records(scalar_local, dof_maps, 14, 22),
         "scalar_K_22_14": _pair_contribution_records(scalar_local, dof_maps, 22, 14),
     }
-    if [item["element"] for item in pair_14_22_contributions["K_14_22"]] != [0, 8, 9]:
-        raise AssertionError("the recorded H1 contributors to global pair (14,22) changed")
+    if [item["element"] for item in pair_14_22_contributions["K_14_22"]] != [0, 5, 8, 9]:
+        raise AssertionError("the H1 element incidence for global pair (14,22) changed")
 
     fixed = np.asarray(assembly.fixed_dofs, dtype=np.int64)
     matrix_free_fixed = np.asarray(fixed_dof_indices(model), dtype=np.int64)
