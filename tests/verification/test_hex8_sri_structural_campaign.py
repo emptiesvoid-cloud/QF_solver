@@ -8,6 +8,9 @@ source freeze, and controller registration are complete.
 from __future__ import annotations
 
 import pytest
+import numpy as np
+
+from solveur.elements.solid.hex8_sri import Hex8SRIElement
 
 
 CASES = (
@@ -18,6 +21,20 @@ CASES = (
     pytest.param("sri_historical", 0.4999, id="sri_historical_nu_0p4999"),
     pytest.param("sri_corrected", 0.4999, id="sri_corrected_nu_0p4999"),
 )
+
+
+class HistoricalHex8SRIElement(Hex8SRIElement):
+    """Research-only copy of the parent commit's unweighted central operator."""
+
+    historical_parent_commit = "2aa994f34900f39bef8df9db5fb025157fb694bb"
+
+    def volumetric_stiffness(self, coords: np.ndarray) -> np.ndarray:
+        self.validate_geometry(coords)
+        _, volumetric = self._constitutive_split(self.material)
+        point = self.volumetric_integration_points[0]
+        b_matrix, determinant = self.b_matrix(coords, point)
+        stiffness = determinant * (b_matrix.T @ volumetric @ b_matrix)
+        return 0.5 * (stiffness + stiffness.T)
 
 
 @pytest.mark.parametrize(("formulation", "poisson_ratio"), CASES)
