@@ -455,7 +455,7 @@ def test_orchestrator_rejects_missing_required_numeric_payload(tmp_path: Path, m
     result = runner.run_case(manifest, raw_manifest, decision, case)
     assert result["status"] == "INFRA_ERROR"
     receipt = json.loads(Path(result["receipt"]).read_text(encoding="utf-8"))
-    assert receipt["numeric_observables"]["status"] == "MALFORMED"
+    assert receipt["numeric_observables"]["status"] == "NOT_EXPOSED"
     assert receipt["numeric_observables"]["error"] == "required numeric result marker is missing"
 
 

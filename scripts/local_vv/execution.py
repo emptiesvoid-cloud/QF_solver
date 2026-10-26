@@ -151,15 +151,21 @@ def run_case(
         expected_payload_schema = case.get("numeric_payload_schema")
         if expected_payload_schema is not None:
             if numeric_payload is None:
-                raise LocalVVError("required numeric result marker is missing")
-            if numeric_payload.get("schema") != expected_payload_schema:
+                numeric_error = "required numeric result marker is missing"
+                if status == "PYTEST_PASS_ONLY":
+                    status = "INFRA_ERROR"
+            elif numeric_payload.get("schema") != expected_payload_schema:
                 raise LocalVVError("numeric result marker schema does not match the prepared case")
+        else:
+            numeric_error = None
         if numeric_payload is not None and numeric_payload.get("case_id") != case["case_id"]:
             raise LocalVVError("numeric result marker case_id does not match the approved case")
-        numeric_error = None
+        if numeric_payload is not None:
+            numeric_error = None
     except (OSError, ValueError, json.JSONDecodeError, LocalVVError) as exc:
         numeric_status, numeric_payload, numeric_error = "MALFORMED", None, str(exc)
-        status = "INFRA_ERROR"
+        if status == "PYTEST_PASS_ONLY":
+            status = "INFRA_ERROR"
     output_hashes = _write_hash_inventory(run_dir)
     receipt = {
         "schema": "qf-local-vv-run-receipt-v1",
