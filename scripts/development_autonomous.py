@@ -229,6 +229,12 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
             or len(manifest_map) != 6
         ):
             raise PolicyError("hex8sri requires six exact manifest-bound nodes, one attempt each, a clean worktree, and no skip override")
+        if hex8sri.get("blas_thread_environment") != {
+            "OMP_NUM_THREADS": "1",
+            "MKL_NUM_THREADS": "1",
+            "OPENBLAS_NUM_THREADS": "1",
+        }:
+            raise PolicyError("hex8sri BLAS thread limits must remain fixed at one thread")
         for nodeid, binding in manifest_map.items():
             if (
                 not isinstance(binding, dict)
@@ -2047,6 +2053,7 @@ def run_pytest(
                     "QF_DEV_CONTROLLER_RUNNER_SHA256": controller_provenance["sha256"]["runner"],
                     "QF_DEV_CONTROLLER_POLICY_SHA256": controller_provenance["sha256"]["policy"],
                     "QF_DEV_CONTROLLER_PLUGIN_SHA256": controller_provenance["sha256"]["pytest_plugin"],
+                    **entry["blas_thread_environment"],
                 }
             )
         child_native_guard = _validate_native_guard_environment(inherited_environment, environment)
