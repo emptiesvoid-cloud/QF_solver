@@ -158,8 +158,14 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         if scope["output_total_limit_mib"] > 2 * scope["output_stream_limit_mib"]:
             raise PolicyError(f"scope {name} total output limit exceeds its two stream limits")
     worktrees = policy.get("worktrees")
-    if not isinstance(worktrees, dict) or set(worktrees) != {"d01", "c01", "e01"}:
-        raise PolicyError("the authorized worktree registry must contain exactly d01, c01, and e01")
+    required_worktrees = {"d01", "c01", "e01"}
+    allowed_worktrees = required_worktrees | {"hex8sri"}
+    if (
+        not isinstance(worktrees, dict)
+        or not required_worktrees.issubset(worktrees)
+        or not set(worktrees).issubset(allowed_worktrees)
+    ):
+        raise PolicyError("the registry must preserve d01, c01, e01 and may add only the approved hex8sri research domain")
     required_budget_fields = (
         "timeout_seconds",
         "rss_soft_limit_mib",
@@ -188,8 +194,9 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
         if entry.get("allow_native_vv_skip_override") is not (worktree_id == "d01"):
             raise PolicyError("only exact D01 development nodes may lift their native-V&V skip")
         attempt_limit = _positive_integer(entry.get("attempt_limit_per_nodeid"), f"worktrees.{worktree_id}.attempt_limit_per_nodeid")
-        if attempt_limit != 3:
-            raise PolicyError("this Owner mandate permits at most three attempts per nodeid")
+        expected_attempt_limit = 1 if worktree_id == "hex8sri" else 3
+        if attempt_limit != expected_attempt_limit:
+            raise PolicyError(f"worktree {worktree_id} attempt limit must be exactly {expected_attempt_limit}")
         budgets = entry.get("budgets")
         if not isinstance(budgets, dict):
             raise PolicyError(f"worktree {worktree_id} requires a budgets object")
@@ -210,6 +217,26 @@ def load_policy(path: Path = POLICY_PATH) -> dict[str, Any]:
                 raise PolicyError(f"worktree {worktree_id} nodeid escapes its approved test root")
             if worktree_id == "e01" and re.search(r"(?i)(tet|hex|beam|assembly|fem)", nodeid):
                 raise PolicyError("E01 allowlist may contain only non-FEM constitutive-math tests")
+    if "hex8sri" in worktrees:
+        hex8sri = worktrees["hex8sri"]
+        manifest_map = hex8sri.get("case_manifests")
+        if (
+            hex8sri.get("attempt_limit_per_nodeid") != 1
+            or hex8sri.get("allow_native_vv_skip_override") is not False
+            or hex8sri.get("require_clean_worktree") is not True
+            or not isinstance(manifest_map, dict)
+            or set(manifest_map) != set(hex8sri.get("allowed_nodeids", []))
+            or len(manifest_map) != 6
+        ):
+            raise PolicyError("hex8sri requires six exact manifest-bound nodes, one attempt each, a clean worktree, and no skip override")
+        for nodeid, binding in manifest_map.items():
+            if (
+                not isinstance(binding, dict)
+                or not isinstance(binding.get("path"), str)
+                or not re.fullmatch(r"[0-9a-f]{64}", str(binding.get("sha256", "")))
+                or not nodeid.startswith("tests/verification/test_hex8_sri_structural_campaign.py::")
+            ):
+                raise PolicyError("hex8sri manifest bindings must pin exact campaign nodeids and SHA-256 values")
     d01 = worktrees["d01"]
     d01_budgets = d01["budgets"]
     if any(
@@ -1430,6 +1457,43 @@ def _registered_worktree(
     return entry, root, source_root, identity, fingerprint
 
 
+def _hex8sri_case_manifest(
+    entry: Mapping[str, Any],
+    execution_root: Path,
+    target: str,
+    *,
+    require_execution_authorized: bool,
+) -> tuple[Path, dict[str, Any], str]:
+    """Verify the immutable case binding before exact-node preflight or launch."""
+    bindings = entry.get("case_manifests")
+    binding = bindings.get(target) if isinstance(bindings, dict) else None
+    if not isinstance(binding, dict):
+        raise PolicyError("hex8sri exact node has no registered case manifest")
+    manifest_path = (execution_root / binding["path"]).resolve()
+    if not _is_within(manifest_path, execution_root.resolve()) or not manifest_path.is_file():
+        raise PolicyError("hex8sri case manifest is missing or outside its registered worktree")
+    actual_sha256 = _sha256(manifest_path)
+    if actual_sha256 != binding.get("sha256"):
+        raise PolicyError("hex8sri case manifest SHA-256 differs from the registered value")
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise PolicyError(f"hex8sri case manifest is unreadable: {exc}") from exc
+    if (
+        manifest.get("schema") != "qfsolver-hex8-sri-structural-case-v2"
+        or manifest.get("controller_registration_id") != "hex8sri"
+        or manifest.get("exact_nodeid") != target
+        or manifest.get("source_fingerprint_sha256") != _worktree_source_fingerprint(execution_root, target)
+        or manifest.get("science_branch") != entry.get("branch")
+    ):
+        raise PolicyError("hex8sri manifest does not match the exact node, branch, or current source fingerprint")
+    if require_execution_authorized and (
+        manifest.get("execution_authorized") is not True or manifest.get("do_not_execute") is not False
+    ):
+        raise PolicyError("hex8sri manifest is still preparation-only; execution authorization is absent")
+    return manifest_path, manifest, actual_sha256
+
+
 def _run_root(policy: Mapping[str, Any]) -> Path:
     root = (ROOT / policy["run_store"]).resolve()
     if not _is_within(root, ROOT.resolve()) or _is_within(root, (ROOT / "qualification").resolve()):
@@ -1487,7 +1551,7 @@ def _node_ledger_context(
 
 def _series_root(store: Path, scope_name: str, worktree_id: str | None) -> Path:
     if worktree_id is not None:
-        if worktree_id not in {"d01", "c01", "e01"}:
+        if worktree_id not in {"d01", "c01", "e01", "hex8sri"}:
             raise PolicyError("unknown worktree output namespace")
         return store / "worktrees" / worktree_id
     if scope_name not in STANDARD_SCOPES:
@@ -1529,21 +1593,34 @@ def preflight_pytest(
 ) -> dict[str, Any]:
     """Collect one exact registered node without reserving a FEM attempt."""
     policy = load_policy()
-    if worktree_id != "d01":
-        raise PolicyError("collect-only preflight is currently enabled only for the D01 native nodes")
+    if worktree_id not in {"d01", "hex8sri"}:
+        raise PolicyError("collect-only preflight is available only for registered D01 and HEX8-SRI exact nodes")
     targets = resolve_targets("fem_exploratory", target, policy, worktree_id=worktree_id)
     entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
         worktree_id, target, policy
     )
     store = _run_root(policy)
     ledger_path, _ledger_lock, mandate_id, predecessor = _node_ledger_context(policy, store, worktree_id)
-    if predecessor is None or mandate_id != entry["development_mandate_id"]:
+    if worktree_id == "d01" and (predecessor is None or mandate_id != entry["development_mandate_id"]):
         raise PolicyError("D01 preflight is not bound to its distinct development envelope")
+    manifest_binding: dict[str, Any] | None = None
+    if worktree_id == "hex8sri":
+        manifest_path, manifest, manifest_sha256 = _hex8sri_case_manifest(
+            entry, execution_root, target, require_execution_authorized=False
+        )
+        controller = _controller_provenance()
+        registered_code = manifest.get("controller_code_sha256", {})
+        if (
+            registered_code.get("runner") != controller["sha256"].get("runner")
+            or registered_code.get("pytest_plugin") != controller["sha256"].get("pytest_plugin")
+        ):
+            raise PolicyError("HEX8-SRI manifest is not bound to this controller code")
+        manifest_binding = {"path": str(manifest_path), "sha256": manifest_sha256, "case_id": manifest["case_id"]}
     if psutil is None:
         raise PolicyError("psutil is missing; install the project test/dev dependencies before launch")
     inherited = dict(os.environ)
     guard_state = _native_guard_environment(inherited)
-    if guard_state["active_markers"]:
+    if worktree_id == "d01" and guard_state["active_markers"]:
         raise PolicyError(
             "D01 preflight refused before collection because explicit no-FEM environment markers are active"
         )
@@ -1567,7 +1644,7 @@ def preflight_pytest(
         repository_root=execution_root,
         source_root=source_root,
         controller_root=ROOT,
-        allow_native_skip_override=True,
+        allow_native_skip_override=bool(entry["allow_native_vv_skip_override"]),
         collect_only=True,
     )
     if "--collect-only" not in command:
@@ -1576,7 +1653,7 @@ def preflight_pytest(
         temporary_dir,
         base=inherited,
         source_root=source_root,
-        d01_source_sha=identity["head"],
+        d01_source_sha=identity["head"] if worktree_id == "d01" else None,
     )
     child_guard_state = _validate_native_guard_environment(inherited, environment)
     limits = dict(entry["budgets"])
@@ -1584,7 +1661,11 @@ def preflight_pytest(
     started = datetime.now(timezone.utc).isoformat()
     record_path = receipt_dir / "preflight.json"
     initial = {
-        "schema": "qfsolver-development-d01-preflight-v1",
+        "schema": (
+            "qfsolver-development-d01-preflight-v1"
+            if worktree_id == "d01"
+            else "qfsolver-development-hex8sri-preflight-v1"
+        ),
         "mode": "DEVELOPMENT_AUTONOMOUS",
         "mandate_id": mandate_id,
         "worktree_id": worktree_id,
@@ -1594,6 +1675,7 @@ def preflight_pytest(
         "bodies_executed": False,
         "identity": identity,
         "source_fingerprint": source_fingerprint,
+        "case_manifest": manifest_binding,
         "solver_origin_expected": str((source_root / "solveur" / "__init__.py").resolve()),
         "controller_provenance": _controller_provenance(),
         "native_guard_environment": child_guard_state,
@@ -1608,7 +1690,9 @@ def preflight_pytest(
         },
         "free_disk_before_bytes": free_bytes,
         "predecessor_ledger": predecessor,
-        "predecessor_ledger_sha256_verified": _sha256(store / predecessor["path"]),
+        "predecessor_ledger_sha256_verified": (
+            _sha256(store / predecessor["path"]) if predecessor is not None else None
+        ),
     }
 
     scenario_lock = _exclusive_file_lock(store / "locks" / "fem-exploratory.lock")
@@ -1732,6 +1816,46 @@ def _validate_d01_preflight_receipt(
     return record_path, actual_hash
 
 
+def _validate_hex8sri_preflight_receipt(
+    store: Path,
+    preflight_id: str,
+    *,
+    target: str,
+    identity: Mapping[str, Any],
+    source_fingerprint: str,
+    controller_provenance: Mapping[str, Any],
+    manifest_binding: Mapping[str, Any],
+) -> tuple[Path, str]:
+    receipt_dir = _preflight_directory(store, "hex8sri", preflight_id)
+    record_path = receipt_dir / "preflight.json"
+    sha_path = receipt_dir / "preflight.sha256.json"
+    if not record_path.is_file() or not sha_path.is_file():
+        raise PolicyError("a successful exact-node HEX8-SRI collect-only receipt is required before FEM")
+    try:
+        receipt = json.loads(record_path.read_text(encoding="utf-8"))
+        sidecar = json.loads(sha_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise PolicyError(f"HEX8-SRI preflight receipt is unreadable: {exc}") from exc
+    actual_sha256 = _sha256(record_path)
+    if sidecar.get("sha256") != actual_sha256:
+        raise PolicyError("HEX8-SRI preflight receipt checksum mismatch")
+    if (
+        receipt.get("schema") != "qfsolver-development-hex8sri-preflight-v1"
+        or receipt.get("state") != "PREFLIGHT_PASS"
+        or receipt.get("bodies_executed") is not False
+        or receipt.get("target") != target
+        or receipt.get("preflight_id") != preflight_id
+        or receipt.get("identity") != dict(identity)
+        or receipt.get("source_fingerprint") != source_fingerprint
+        or receipt.get("controller_provenance") != dict(controller_provenance)
+        or receipt.get("case_manifest") != dict(manifest_binding)
+        or receipt.get("solver_origin_observed") != receipt.get("solver_origin_expected")
+        or receipt.get("collected_nodeids") != [target]
+    ):
+        raise PolicyError("HEX8-SRI preflight does not match this exact source, controller, manifest, and nodeid")
+    return record_path, actual_sha256
+
+
 def run_pytest(
     scope_name: str,
     target: str | None,
@@ -1750,6 +1874,8 @@ def run_pytest(
     source_root: Path | None = None
     source_fingerprint: str | None = None
     ledger_context: tuple[Path, Path, str, dict[str, str] | None] | None = None
+    hex8sri_binding: dict[str, Any] | None = None
+    hex8sri_manifest: dict[str, Any] | None = None
     if is_registered:
         if not worktree_id or not target or not reason or not reason.strip():
             raise PolicyError("registered worktree tests require one exact target, worktree, and documented reason")
@@ -1766,8 +1892,26 @@ def run_pytest(
             if attempt_basis not in D01_ATTEMPT_BASES:
                 raise PolicyError("D01 FEM attempts require a classified attempt basis")
             ledger_context = _node_ledger_context(policy, _run_root(policy), worktree_id)
+        elif worktree_id == "hex8sri":
+            if preflight_id is None:
+                raise PolicyError("HEX8-SRI FEM attempts require a successful exact-node collect-only preflight first")
+            manifest_path, hex8sri_manifest, manifest_sha256 = _hex8sri_case_manifest(
+                entry, execution_root, target, require_execution_authorized=True
+            )
+            hex8sri_binding = {
+                "path": str(manifest_path),
+                "sha256": manifest_sha256,
+                "case_id": hex8sri_manifest["case_id"],
+            }
+            controller_now = _controller_provenance()
+            manifest_controller = hex8sri_manifest.get("controller_code_sha256", {})
+            if (
+                manifest_controller.get("runner") != controller_now["sha256"].get("runner")
+                or manifest_controller.get("pytest_plugin") != controller_now["sha256"].get("pytest_plugin")
+            ):
+                raise PolicyError("HEX8-SRI manifest is not bound to the current controller code")
         elif preflight_id is not None:
-            raise PolicyError("preflight receipt IDs are supported only for the D01 development envelope")
+            raise PolicyError("preflight receipt IDs are supported only for D01 and HEX8-SRI research nodes")
     else:
         execution_root = ROOT
         scope = policy["standard_scopes"][scope_name]
@@ -1816,6 +1960,18 @@ def run_pytest(
             source_fingerprint=source_fingerprint,
             controller_provenance=controller_provenance,
             guard_state=_native_guard_environment(inherited_environment),
+        )
+    elif worktree_id == "hex8sri":
+        assert preflight_id is not None and target is not None and identity is not None
+        assert source_fingerprint is not None and hex8sri_binding is not None
+        preflight_receipt = _validate_hex8sri_preflight_receipt(
+            store,
+            preflight_id,
+            target=target,
+            identity=identity,
+            source_fingerprint=source_fingerprint,
+            controller_provenance=controller_provenance,
+            manifest_binding=hex8sri_binding,
         )
     with scenario_lock:
         number, attempt_dir = _next_attempt(
@@ -1879,6 +2035,20 @@ def run_pytest(
             source_root=source_root,
             d01_source_sha=identity["head"] if worktree_id == "d01" else None,
         )
+        if worktree_id == "hex8sri":
+            assert target is not None and hex8sri_binding is not None and hex8sri_manifest is not None
+            environment.update(
+                {
+                    "QF_DEV_WORKTREE_ID": "hex8sri",
+                    "QF_DEV_TARGET_NODEID": target,
+                    "QF_DEV_MANIFEST_SHA256": hex8sri_binding["sha256"],
+                    "QF_DEV_CONTROLLER_ROOT": str(ROOT.resolve()),
+                    "QF_DEV_CONTROLLER_HEAD": str(controller_provenance["identity"]["head"]),
+                    "QF_DEV_CONTROLLER_RUNNER_SHA256": controller_provenance["sha256"]["runner"],
+                    "QF_DEV_CONTROLLER_POLICY_SHA256": controller_provenance["sha256"]["policy"],
+                    "QF_DEV_CONTROLLER_PLUGIN_SHA256": controller_provenance["sha256"]["pytest_plugin"],
+                }
+            )
         child_native_guard = _validate_native_guard_environment(inherited_environment, environment)
         started_at = datetime.now(timezone.utc).isoformat()
         initial: dict[str, Any] = {
@@ -1906,6 +2076,7 @@ def run_pytest(
                 if preflight_receipt is not None
                 else None
             ),
+            "case_manifest": hex8sri_binding,
             "command": command,
             "budgets": dict(scope),
             "budget_semantics": {
@@ -2027,9 +2198,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     subparsers = parser.add_subparsers(dest="command", required=True)
     preflight_parser = subparsers.add_parser(
         "preflight",
-        help="collect one exact D01 native node without running its test body or consuming an attempt",
+        help="collect one exact registered node without running its body or consuming an attempt",
     )
-    preflight_parser.add_argument("--worktree", choices=("d01",), required=True)
+    preflight_parser.add_argument("--worktree", choices=("d01", "hex8sri"), required=True)
     preflight_parser.add_argument("--target", required=True)
     preflight_parser.add_argument("--preflight-id", help="optional unused pf-<12 lowercase hex> ID")
     test_parser = subparsers.add_parser("test", help="run one fixed development pytest scope")
@@ -2038,7 +2209,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     test_parser.add_argument("--series", help="development-only dev-* series ID for bounded follow-up attempts")
     test_parser.add_argument("--worktree", help="registered worktree ID (d01, c01, e01) for an exact development nodeid")
     test_parser.add_argument("--reason", help="short documented development hypothesis/reason for a registered nodeid attempt")
-    test_parser.add_argument("--preflight-id", help="successful exact-node D01 collect-only receipt ID")
+    test_parser.add_argument("--preflight-id", help="successful exact-node D01 or HEX8-SRI collect-only receipt ID")
     test_parser.add_argument("--attempt-basis", choices=D01_ATTEMPT_BASES, help="D01 baseline/change/hypothesis classification")
     test_parser.add_argument("--hypothesis-id", help="unique ID required for a same-input new diagnostic hypothesis")
     args = parser.parse_args(argv)

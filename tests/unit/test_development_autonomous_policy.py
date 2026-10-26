@@ -35,7 +35,8 @@ def _policy() -> dict:
 def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualification_separate() -> None:
     policy = _policy()
     assert policy["mode"] == "DEVELOPMENT_AUTONOMOUS"
-    assert set(policy["worktrees"]) == {"d01", "c01", "e01"}
+    assert {"d01", "c01", "e01"}.issubset(policy["worktrees"])
+    assert set(policy["worktrees"]).issubset({"d01", "c01", "e01", "hex8sri"})
     assert policy["worktrees"]["d01"]["attempt_limit_per_nodeid"] == 3
     assert policy["worktrees"]["d01"]["development_mandate_id"] == "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v2-d01"
     assert policy["worktrees"]["d01"]["node_attempt_ledger"]["path"] == "node-attempt-ledger-d01-v2.json"
@@ -78,6 +79,7 @@ def test_d01_policy_rejects_budget_expansion_beyond_owner_envelope(
 def test_each_worktree_has_a_separate_output_namespace(tmp_path: Path) -> None:
     assert MODULE._series_root(tmp_path, "fem_exploratory", "d01") == tmp_path / "worktrees" / "d01"
     assert MODULE._series_root(tmp_path, "fem_exploratory", "c01") == tmp_path / "worktrees" / "c01"
+    assert MODULE._series_root(tmp_path, "fem_exploratory", "hex8sri") == tmp_path / "worktrees" / "hex8sri"
     assert MODULE._series_root(tmp_path, "math_non_fem", "e01") == tmp_path / "worktrees" / "e01"
     assert MODULE._series_root(tmp_path, "unit", None) == tmp_path / "standard" / "unit"
     with pytest.raises(MODULE.PolicyError, match="unknown worktree"):
@@ -122,6 +124,28 @@ def test_fem_scope_accepts_only_exact_registered_nodeids_and_worktree_pairs() ->
         MODULE.resolve_targets("fem_exploratory", d01[2], policy, worktree_id="e01")
     with pytest.raises(MODULE.PolicyError, match="registered worktree ID"):
         MODULE.resolve_targets("fem_exploratory", d01[2], policy)
+
+
+def test_hex8sri_is_a_separate_manifest_bound_research_scope() -> None:
+    policy = _policy()
+    hex8sri = policy["worktrees"].get("hex8sri")
+    if hex8sri is None:
+        pytest.skip("HEX8-SRI registration is added only after final source manifests are frozen")
+    assert hex8sri["mode"] == "fem_exploratory"
+    assert hex8sri["attempt_limit_per_nodeid"] == 1
+    assert hex8sri["allow_native_vv_skip_override"] is False
+    assert hex8sri["require_clean_worktree"] is True
+    assert len(hex8sri["allowed_nodeids"]) == 6
+    assert set(hex8sri["case_manifests"]) == set(hex8sri["allowed_nodeids"])
+    for nodeid in hex8sri["allowed_nodeids"]:
+        assert MODULE.resolve_targets("fem_exploratory", nodeid, policy, worktree_id="hex8sri") == [nodeid]
+    with pytest.raises(MODULE.PolicyError, match="exact nodeid"):
+        MODULE.resolve_targets(
+            "fem_exploratory",
+            hex8sri["allowed_nodeids"][0].replace("hex8_standard_nu_0p3", "unregistered"),
+            policy,
+            worktree_id="hex8sri",
+        )
 
 
 def test_c01_scope_contains_only_registered_legacy_dimensional_and_mechanics_nodes() -> None:
