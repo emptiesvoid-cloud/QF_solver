@@ -27,6 +27,22 @@ PLUGIN = importlib.util.module_from_spec(PLUGIN_SPEC)
 sys.modules[PLUGIN_SPEC.name] = PLUGIN
 PLUGIN_SPEC.loader.exec_module(PLUGIN)
 
+WP12_DYNAMICS_NODEIDS = (
+    "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables",
+    "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
+    "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
+    "tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators",
+    "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_matches_independent_analytical_sdof_amplitude_and_phase",
+    "tests/unit/test_reduced_harmonic.py::test_coupled_two_dof_complex_response_uses_full_projected_operators",
+    "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_detects_exact_and_near_resonance_before_solving",
+    "tests/unit/test_reduced_harmonic.py::test_full_basis_reduced_harmonic_matches_direct_rayleigh_route_and_zero_hz",
+    "tests/unit/test_modal_newmark.py::test_sdof_free_undamped_matches_analytic_solution_and_initial_projection",
+    "tests/unit/test_modal_newmark.py::test_sdof_free_damped_matches_under_damped_analytic_solution",
+    "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames",
+    "tests/unit/test_wp07_uniform_base_acceleration.py::test_transient_base_sdof_matches_independent_constant_acceleration_solution",
+    "tests/unit/test_result_serialization_contracts.py::test_reduced_harmonic_json_round_trip_preserves_signed_zero_phase_metadata",
+)
+
 
 def _policy() -> dict:
     return MODULE.load_policy()
@@ -35,7 +51,9 @@ def _policy() -> dict:
 def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualification_separate() -> None:
     policy = _policy()
     assert policy["mode"] == "DEVELOPMENT_AUTONOMOUS"
-    assert set(policy["worktrees"]) == {"d01", "c01", "e01", "wp12_wp07", "wp12_tet4", "wp12_elements"}
+    assert set(policy["worktrees"]) == {
+        "d01", "c01", "e01", "wp12_wp07", "wp12_tet4", "wp12_elements", "wp12_dynamics"
+    }
     assert policy["worktrees"]["d01"]["attempt_limit_per_nodeid"] == 3
     assert policy["worktrees"]["d01"]["development_mandate_id"] == "DEVELOPMENT_AUTONOMOUS-FEM-2026-10-24-v2-d01"
     assert policy["worktrees"]["d01"]["node_attempt_ledger"]["path"] == "node-attempt-ledger-d01-v2.json"
@@ -49,6 +67,9 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
     assert policy["worktrees"]["wp12_tet4"]["target_max_dofs"] == 50000
     assert policy["worktrees"]["wp12_elements"]["max_total_attempts"] == 20
     assert policy["worktrees"]["wp12_elements"]["target_max_dofs"] == 30000
+    assert policy["worktrees"]["wp12_dynamics"]["attempt_limit_per_nodeid"] == 10
+    assert policy["worktrees"]["wp12_dynamics"]["max_total_attempts"] == 130
+    assert policy["worktrees"]["wp12_dynamics"]["max_timeout_seconds"] == 300
     assert policy["worktrees"]["d01"]["allowed_nodeids"] == list(MODULE.D01_NATIVE_NODEIDS)
     assert {
         name: policy["worktrees"]["d01"]["budgets"][name]
@@ -89,12 +110,19 @@ def test_each_worktree_has_a_separate_output_namespace(tmp_path: Path) -> None:
         MODULE._series_root(tmp_path, "fem_exploratory", "e02")
 
 
-def test_wp12_registry_has_three_distinct_exact_worktree_envelopes() -> None:
+def test_wp12_registry_has_four_distinct_exact_worktree_envelopes() -> None:
     policy = _policy()
     expected = {
         "wp12_wp07": ("E:\\QFSolverAgents\\wp07", "fix/wp12-wp07-serialization", 300, 10, None),
         "wp12_tet4": ("E:\\QFSolverAgents\\tet4", "experiment/wp12-tet4-convergence", 900, 12, 50000),
         "wp12_elements": ("E:\\QFSolverAgents\\vv-elements", "test/wp12-fem-regressions", 300, 20, 30000),
+        "wp12_dynamics": (
+            "E:\\QFSolverAgents\\wp12-dynamics",
+            "codex/wp12-dynamic-harmonic-verification",
+            300,
+            130,
+            None,
+        ),
     }
     for worktree_id, (root, branch, timeout, attempts, max_dofs) in expected.items():
         entry = policy["worktrees"][worktree_id]
@@ -105,10 +133,25 @@ def test_wp12_registry_has_three_distinct_exact_worktree_envelopes() -> None:
         assert entry["budgets"]["timeout_seconds"] == timeout
         assert entry["max_total_attempts"] == attempts
         assert entry["target_max_dofs"] == max_dofs
-        assert entry["allowed_nodeids"] == []
-        assert entry["nodeid_registration_records"] == []
+        if worktree_id == "wp12_dynamics":
+            assert entry["allowed_nodeids"] == list(WP12_DYNAMICS_NODEIDS)
+            assert len(entry["nodeid_registration_records"]) == 13
+            assert all(len(record["worktree_head"]) == 40 for record in entry["nodeid_registration_records"])
+            assert all(len(record["source_fingerprint"]) == 64 for record in entry["nodeid_registration_records"])
+        else:
+            assert entry["allowed_nodeids"] == []
+            assert entry["nodeid_registration_records"] == []
         assert entry["nodeid_registration"]["enabled"] is True
         assert entry["max_timeout_seconds"] == (900 if worktree_id in {"wp12_tet4", "wp12_elements"} else 300)
+        assert entry["concurrency_class"] == "parallel"
+
+    with pytest.raises(MODULE.PolicyError, match="exact nodeid in the registered worktree allowlist"):
+        MODULE.resolve_targets(
+            "fem_exploratory",
+            "tests/unit/test_modal_newmark.py::test_unregistered_case",
+            policy,
+            worktree_id="wp12_dynamics",
+        )
 
 
 def test_each_wp12_worktree_resolves_its_registered_test_and_solver_root(
@@ -220,8 +263,16 @@ def _prepare_wp12_registration_context(tmp_path: Path, monkeypatch: pytest.Monke
 def test_wp12_exact_nodeid_registration_and_allowlist_selection_are_synthetic(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
+    from contextlib import nullcontext
+
     _agent_root, policy_path, target = _prepare_wp12_registration_context(tmp_path, monkeypatch)
     monkeypatch.setattr(MODULE, "run_supervised_command", lambda *_args, **_kwargs: pytest.fail("registration must not launch pytest"))
+    lock_paths: list[Path] = []
+    monkeypatch.setattr(
+        MODULE,
+        "_exclusive_file_lock",
+        lambda path: (lock_paths.append(path) or nullcontext()),
+    )
     result = MODULE.register_wp12_nodeid(
         "wp12_wp07",
         target,
@@ -237,6 +288,7 @@ def test_wp12_exact_nodeid_registration_and_allowlist_selection_are_synthetic(
     assert registration["selected_dofs"] == 12
     assert registration["timeout_seconds"] == 300
     assert registration["source_fingerprint"] == "c" * 64
+    assert lock_paths == [MODULE.WP12_COORDINATION_ROOT / "locks" / "nodeid-registration.lock"]
     with pytest.raises(MODULE.PolicyError, match="exact nodeid"):
         MODULE.resolve_targets(
             "fem_exploratory",
@@ -528,20 +580,23 @@ def test_wp12_execution_authorization_id_is_durable_and_single_use(tmp_path: Pat
         MODULE._reserve_node_attempt(**common, target="tests/unit/test_mesh.py::test_second")
 
 
-def test_wp12_shared_resource_slots_allow_two_small_runs_and_exclude_heavy_runs(
+def test_wp12_shared_resource_slots_allow_three_parallel_runs_and_exclude_overflow(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     monkeypatch.setattr(MODULE, "WP12_COORDINATION_ROOT", tmp_path / "coordination")
     first = MODULE._wp12_resource_lock(MODULE.WP12_COORDINATION_ROOT, "parallel")
     second = MODULE._wp12_resource_lock(MODULE.WP12_COORDINATION_ROOT, "parallel")
+    third = MODULE._wp12_resource_lock(MODULE.WP12_COORDINATION_ROOT, "parallel")
     first.__enter__()
     second.__enter__()
+    third.__enter__()
     with pytest.raises(MODULE.PolicyError, match="all shared.*busy"):
         with MODULE._wp12_resource_lock(MODULE.WP12_COORDINATION_ROOT, "parallel"):
             pass
     with pytest.raises(MODULE.PolicyError, match="another authorized scenario"):
         with MODULE._wp12_resource_lock(MODULE.WP12_COORDINATION_ROOT, "exclusive"):
             pass
+    third.__exit__(None, None, None)
     second.__exit__(None, None, None)
     first.__exit__(None, None, None)
     with MODULE._wp12_resource_lock(MODULE.WP12_COORDINATION_ROOT, "exclusive"):
@@ -553,12 +608,13 @@ def test_wp12_evidence_namespaces_never_overlap(tmp_path: Path) -> None:
         ("wp07", "wp12_wp07"),
         ("tet4", "wp12_tet4"),
         ("elements", "wp12_elements"),
+        ("dynamics", "wp12_dynamics"),
     )]
-    assert len(set(roots)) == 3
+    assert len(set(roots)) == 4
     for index, root in enumerate(roots):
         root.mkdir(parents=True)
         (root / "marker.json").write_text(json.dumps({"agent": index}), encoding="utf-8")
-    assert [json.loads((root / "marker.json").read_text(encoding="utf-8"))["agent"] for root in roots] == [0, 1, 2]
+    assert [json.loads((root / "marker.json").read_text(encoding="utf-8"))["agent"] for root in roots] == [0, 1, 2, 3]
 
 
 def test_run_provenance_records_controller_and_runtime_identity() -> None:
@@ -676,7 +732,8 @@ def test_registered_command_is_fixed_to_one_target_and_checks_import_origin(tmp_
         allow_native_skip_override=True,
     )
     assert command[:3] == [sys.executable, "-B", "-c"]
-    assert "wrong solveur import origin" in command[3]
+    assert "_verify_solver_import_origin(src, origin)" in command[3]
+    assert "solveur.__file__" in command[3]
     assert "QF_DEV_SOLVER_ORIGIN=" in command[3]
     assert command[-1] == target
     with pytest.raises(MODULE.PolicyError, match="one exact nodeid"):
@@ -1198,7 +1255,7 @@ def test_d01_missing_preflight_receipt_refuses_before_attempt_reservation(
         lambda *args, **kwargs: (entry, tmp_path, tmp_path / "src", {"head": "a" * 40}, "b" * 64),
     )
     monkeypatch.setattr(MODULE, "_node_ledger_context", lambda *_args: (store / "v2.json", store / "v2.lock", "v2", {"path": "v1", "sha256": "c" * 64, "mandate_id": "v1"}))
-    monkeypatch.setattr(MODULE, "_run_root", lambda _policy: store)
+    monkeypatch.setattr(MODULE, "_run_root", lambda _policy, _worktree_id=None: store)
     monkeypatch.setattr(MODULE, "_exclusive_file_lock", lambda *_args, **_kwargs: nullcontext())
     monkeypatch.setattr(MODULE, "psutil", object())
     monkeypatch.setattr(MODULE.shutil, "disk_usage", lambda _path: SimpleNamespace(free=2 * 1024**3))

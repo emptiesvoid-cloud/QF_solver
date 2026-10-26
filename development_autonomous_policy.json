@@ -171,7 +171,10 @@
       "concurrency_class": "parallel",
       "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-WP07-2026-10-26-v1",
       "require_clean_worktree": true,
-      "nodeid_registration": {"enabled": true, "max_nodeids": 10},
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 10
+      },
       "budgets": {
         "timeout_seconds": 300,
         "rss_soft_limit_mib": 4096,
@@ -200,10 +203,13 @@
       "max_fem_cases_per_attempt": 1,
       "target_max_dofs": 50000,
       "max_timeout_seconds": 900,
-      "concurrency_class": "exclusive",
+      "concurrency_class": "parallel",
       "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-TET4-2026-10-26-v1",
       "require_clean_worktree": true,
-      "nodeid_registration": {"enabled": true, "max_nodeids": 12},
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 12
+      },
       "budgets": {
         "timeout_seconds": 900,
         "rss_soft_limit_mib": 4096,
@@ -232,10 +238,13 @@
       "max_fem_cases_per_attempt": 1,
       "target_max_dofs": 30000,
       "max_timeout_seconds": 900,
-      "concurrency_class": "exclusive",
+      "concurrency_class": "parallel",
       "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-ELEMENTS-2026-10-26-v1",
       "require_clean_worktree": true,
-      "nodeid_registration": {"enabled": true, "max_nodeids": 20},
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 20
+      },
       "budgets": {
         "timeout_seconds": 300,
         "rss_soft_limit_mib": 4096,
@@ -247,6 +256,199 @@
       },
       "allowed_nodeids": [],
       "nodeid_registration_records": []
+    },
+    "wp12_dynamics": {
+      "purpose": "WP12 WP04-WP07 modal projection, reduced harmonic, Newmark and base-acceleration checks",
+      "mode": "fem_exploratory",
+      "root": "E:\\QFSolverAgents\\wp12-dynamics",
+      "git_root": "E:\\QFSolverAgents\\wp12-dynamics",
+      "branch": "codex/wp12-dynamic-harmonic-verification",
+      "baseline_commit": "6d8f140834db75ea9b968b055af23445261d0073",
+      "source_root": "src",
+      "pytest_root": "tests/unit",
+      "evidence_root": "E:\\QFSolverAgents\\evidence\\dynamics",
+      "allow_native_vv_skip_override": false,
+      "attempt_limit_per_nodeid": 10,
+      "max_total_attempts": 130,
+      "max_fem_cases_per_attempt": 1,
+      "target_max_dofs": null,
+      "max_timeout_seconds": 300,
+      "concurrency_class": "parallel",
+      "development_mandate_id": "DEVELOPMENT_AUTONOMOUS-WP12-DYNAMICS-2026-10-26-v1",
+      "require_clean_worktree": true,
+      "nodeid_registration": {
+        "enabled": true,
+        "max_nodeids": 13
+      },
+      "budgets": {
+        "archive_size_limit_mib": 256,
+        "output_stream_limit_mib": 32,
+        "output_total_limit_mib": 64,
+        "process_tree_limit": 16,
+        "rss_soft_limit_mib": 4096,
+        "temporary_limit_mib": 512,
+        "timeout_seconds": 300
+      },
+      "allowed_nodeids": [
+        "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables",
+        "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
+        "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
+        "tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators",
+        "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_matches_independent_analytical_sdof_amplitude_and_phase",
+        "tests/unit/test_reduced_harmonic.py::test_coupled_two_dof_complex_response_uses_full_projected_operators",
+        "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_detects_exact_and_near_resonance_before_solving",
+        "tests/unit/test_reduced_harmonic.py::test_full_basis_reduced_harmonic_matches_direct_rayleigh_route_and_zero_hz",
+        "tests/unit/test_modal_newmark.py::test_sdof_free_undamped_matches_analytic_solution_and_initial_projection",
+        "tests/unit/test_modal_newmark.py::test_sdof_free_damped_matches_under_damped_analytic_solution",
+        "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames",
+        "tests/unit/test_wp07_uniform_base_acceleration.py::test_transient_base_sdof_matches_independent_constant_acceleration_solution",
+        "tests/unit/test_result_serialization_contracts.py::test_reduced_harmonic_json_round_trip_preserves_signed_zero_phase_metadata"
+      ],
+      "nodeid_registration_records": [
+        {
+          "reason": "Approved dynamics experimental node; exact 300-second development envelope.",
+          "registered_at_utc": "2026-10-26T17:48:39.436939+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One free axial translation in the BEAM2 SDOF Newmark fixture",
+          "source_fingerprint": "63e2972018db9bd4f8fc50947504da886e2de29ee4494c3c78422f5ec5c1536d",
+          "target": "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:48:59.287210+00:00",
+          "selected_dofs": 3,
+          "selection_basis": "Three free translational DDL in the bounded single-TET4 harmonic fixture",
+          "source_fingerprint": "ff58a607ad1a5f4d3c1c632cb448219bc24746cb80623abab3886917ba749074",
+          "target": "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:00.651959+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One free UX DDL in the axial BEAM2 base-acceleration fixture",
+          "source_fingerprint": "6db5b4597252082012fa38b1ed5cba02190562746556d5eabd1f74a256e0f8da",
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:02.005214+00:00",
+          "selected_dofs": 2,
+          "selection_basis": "Two DDL in the analytical coupled generalized eigenproblem",
+          "source_fingerprint": "f590849467f9fadf10e871c053d0f369e8e2a095a6ef99ddc452a9d6128b0262",
+          "target": "tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:03.341614+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One scalar generalized coordinate in the analytical impedance oracle",
+          "source_fingerprint": "ff58a607ad1a5f4d3c1c632cb448219bc24746cb80623abab3886917ba749074",
+          "target": "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_matches_independent_analytical_sdof_amplitude_and_phase",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:04.730565+00:00",
+          "selected_dofs": 2,
+          "selection_basis": "Two projected coordinates in the complex impedance check",
+          "source_fingerprint": "ff58a607ad1a5f4d3c1c632cb448219bc24746cb80623abab3886917ba749074",
+          "target": "tests/unit/test_reduced_harmonic.py::test_coupled_two_dof_complex_response_uses_full_projected_operators",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:16.729347+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One scalar generalized coordinate in the resonance conditioning check",
+          "source_fingerprint": "ff58a607ad1a5f4d3c1c632cb448219bc24746cb80623abab3886917ba749074",
+          "target": "tests/unit/test_reduced_harmonic.py::test_reduced_impedance_detects_exact_and_near_resonance_before_solving",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:18.144665+00:00",
+          "selected_dofs": 3,
+          "selection_basis": "Three free translational DDL in the bounded single-TET4 route comparison",
+          "source_fingerprint": "ff58a607ad1a5f4d3c1c632cb448219bc24746cb80623abab3886917ba749074",
+          "target": "tests/unit/test_reduced_harmonic.py::test_full_basis_reduced_harmonic_matches_direct_rayleigh_route_and_zero_hz",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:19.581389+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One free axial translation in the BEAM2 SDOF Newmark fixture",
+          "source_fingerprint": "63e2972018db9bd4f8fc50947504da886e2de29ee4494c3c78422f5ec5c1536d",
+          "target": "tests/unit/test_modal_newmark.py::test_sdof_free_undamped_matches_analytic_solution_and_initial_projection",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:21.074382+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One free axial translation in the damped BEAM2 SDOF fixture",
+          "source_fingerprint": "63e2972018db9bd4f8fc50947504da886e2de29ee4494c3c78422f5ec5c1536d",
+          "target": "tests/unit/test_modal_newmark.py::test_sdof_free_damped_matches_under_damped_analytic_solution",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:22.635981+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One free UX DDL in the harmonic BEAM2 base-acceleration fixture",
+          "source_fingerprint": "6db5b4597252082012fa38b1ed5cba02190562746556d5eabd1f74a256e0f8da",
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_harmonic_base_sdof_matches_independent_full_free_equation_and_absolute_frames",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:24.119471+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One free UX DDL in the transient BEAM2 base-acceleration fixture",
+          "source_fingerprint": "6db5b4597252082012fa38b1ed5cba02190562746556d5eabd1f74a256e0f8da",
+          "target": "tests/unit/test_wp07_uniform_base_acceleration.py::test_transient_base_sdof_matches_independent_constant_acceleration_solution",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Owner-approved WP12 dynamics development case; exact node from the reviewed plan.",
+          "registered_at_utc": "2026-10-26T17:49:25.628459+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "Serialization-only node; 1 is schema minimum, no solver assembly or FEM DDL selected",
+          "source_fingerprint": "202d9cefb4fd3f997ff2f47962c686397f4883930c69d242f79a9c0be54afe58",
+          "target": "tests/unit/test_result_serialization_contracts.py::test_reduced_harmonic_json_round_trip_preserves_signed_zero_phase_metadata",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        }
+      ]
     }
   },
   "resource_coordination_root": "E:\\QFSolverAgents\\evidence\\.wp12-coordination"
