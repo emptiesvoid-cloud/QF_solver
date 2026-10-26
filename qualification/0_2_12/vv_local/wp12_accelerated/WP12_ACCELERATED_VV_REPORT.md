@@ -103,6 +103,23 @@ This accounting is specific to this accelerated sample and counts matrix rows, n
 
 The four groups sum to 62. The classification does not replace the master matrix or alter any official maturity/status.
 
+## WP12-V2-R3 H1 operator observations
+
+The separate H1 development audit reused the frozen 12-element TET4 fixture and archived U3 displacement fields; it did not perform a new linear solve or mesh refinement. The exact nodeid was `tests/unit/test_wp12_v2_tet4_operator_audit.py::test_tet4_h1_operator_audit_002`. One initial attempt failed on a test-incidence expectation; two later attempts passed pytest and reached the numerical payload. The pytest assertions passed, but the scientific result remains **INCONCLUSIVE** because the runtime rounding mode and every internal reduction intermediate required by the gamma argument were not established.
+
+Quantitative comparisons from the accepted development payload:
+
+| H1 comparison | Relative Frobenius error |
+|---|---:|
+| Scalar assembly vs exact-rational matrix | `7.7646962192e-17` |
+| Batch assembly vs exact-rational matrix | `8.3481183542e-17` |
+| Matrix-free vs exact-rational free matrix | `6.2690720621e-17` |
+| Direct assembled vs exact-rational free matrix | `8.6199288246e-17` |
+| Matrix-free vs direct | `7.2609224516e-17` |
+| Maximum of 24 matrix-free column errors, normalized by exact free-matrix Frobenius norm | `2.2626119268e-17` |
+
+The archived matrix-free field's relative free residual was `8.0176680895e-9` against its inherited `1e-8` criterion; the direct field was `1.1492670025e-13` against `1e-7`. The matrix-free result passes narrowly (about 1.25× margin). A componentwise batch stiffness asymmetry of `7.62939453125e-6 N/m` remained enclosed by a computed gamma bound, but because the arithmetic assumptions were not independently proven, gamma and overall H1 status remain `INCONCLUSIVE`. This is an operator comparison for one discrete fixture, not continuum validation, mesh convergence, or general TET4 qualification. U3's historical `FAIL` is not replaced by this audit. See the [full R3 H1 report](../wp12_v2/r3/R3_RESULTS_REPORT.md) for reactions, moments, energy/work, exact-rational details, and all preserved attempt identities.
+
 ## R3 compatibility and next gates
 
 The campaign allowlist now explicitly includes `WP12-V2-R3-H1-OPERATOR-AUDIT-002`; the existing command remains pinned to the exact H1 nodeid and includes `-s`. Its dedicated synthetic suite previously returned **10 passed** without importing `solveur`, NumPy, or SciPy. The R3 compatibility change is recorded at commit `8b78db0aa169e787f5f36d6f8a2fa909bdd61489`.
