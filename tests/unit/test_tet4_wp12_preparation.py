@@ -105,6 +105,9 @@ def test_tet4_wp12_mesh_preparation_builds_nested_and_family_inputs(tmp_path: Pa
     assert [item["elements"] for item in levels] == [30, 240, 1920, 15360]
     assert [item["signed_volume_m3"] for item in levels] == pytest.approx([0.64] * 4)
     assert all(item["mesh_quality"]["fatal_element_count"] == 0 for item in levels)
+    for item in levels:
+        quality = item["mesh_quality"]["metrics"]["tet4_quality_6sqrt2V_over_rms_edge_cubed"]
+        assert quality["min"] <= quality["p05"] <= quality["median"] <= quality["p95"] <= quality["max"]
     assert all(item["mechanical_input_audit"]["load_resultant_n"] == pytest.approx([0.0, 0.0, -1.0]) for item in levels)
 
     family_models = summary["family_comparison"]["models"]
@@ -112,6 +115,8 @@ def test_tet4_wp12_mesh_preparation_builds_nested_and_family_inputs(tmp_path: Pa
     assert all(item["dofs"] <= 50_000 for item in family_models)
     assert all(item["mesh_quality"]["fatal_element_count"] == 0 for item in family_models)
     for item in family_models:
+        for values in item["mesh_quality"]["metrics"].values():
+            assert values["min"] <= values["p05"] <= values["median"] <= values["p95"] <= values["max"]
         assert item["mechanical_input_audit"]["load_resultant_n"] == pytest.approx([0.0, 0.0, -1.0])
         assert item["mechanical_input_audit"]["applied_moment_about_origin_nm"] == pytest.approx([-0.2, 4.0, 0.0])
         assert (output / item["model_file"]).is_file()

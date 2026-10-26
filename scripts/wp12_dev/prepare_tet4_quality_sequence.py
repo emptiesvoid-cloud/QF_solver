@@ -284,9 +284,13 @@ def _element_quality_summary(model: FiniteElementModel) -> dict[str, Any]:
                 "max": float(np.max(samples)),
             }
     if family == "TET4" and "distortion_metric" in stats:
+        distortion = stats["distortion_metric"]
         stats["tet4_quality_6sqrt2V_over_rms_edge_cubed"] = {
-            name: float(1.0 - stats["distortion_metric"][name])
-            for name in ("min", "p05", "median", "p95", "max")
+            "min": float(1.0 - distortion["max"]),
+            "p05": float(1.0 - distortion["p95"]),
+            "median": float(1.0 - distortion["median"]),
+            "p95": float(1.0 - distortion["p05"]),
+            "max": float(1.0 - distortion["min"]),
         }
     return {
         "contract": "solveur.mesh.quality_contract.assess_element",
@@ -492,6 +496,8 @@ def prepare(output_dir: Path) -> dict[str, Any]:
 
     summary: dict[str, Any] = {
         "study_id": "WP12-TET4-CONTROLLED-PREPARATION-001",
+        "preparation_revision": 2,
+        "supersedes_preparation": "quality-sequence-v1 (TET4 p05/p95 labels were reversed)",
         "status": "PREPARED_NO_FEM_EXECUTED",
         "source": source,
         "execution": {"fem_execution_performed": False, "solver_calls": 0, "displacement_or_reaction_results": None},
@@ -536,7 +542,7 @@ def prepare(output_dir: Path) -> dict[str, Any]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    default_output = Path(__file__).resolve().parents[2].parent / "evidence" / "tet4" / "preparation" / "quality-sequence-v1"
+    default_output = Path(__file__).resolve().parents[2].parent / "evidence" / "tet4" / "preparation" / "quality-sequence-v2"
     parser.add_argument("--output", type=Path, default=default_output, help="new output/evidence directory; must not exist")
     args = parser.parse_args()
     summary = prepare(args.output)
