@@ -751,6 +751,8 @@ def test_tet4_h1_operator_audit_002(monkeypatch: pytest.MonkeyPatch) -> None:
         archived_moment_key = (
             "matrix_free_support_moment_Nm" if route_name == "matrix_free" else "direct_support_moment_Nm"
         )
+        archived_reaction = historical[archived_reaction_key]
+        archived_moment = historical[archived_moment_key]
         reaction_records[route_name] = {
             "support_reaction_N_exact_fraction": [str(value) for value in support_force],
             "external_force_N_exact_fraction": [str(value) for value in external_force],
@@ -762,8 +764,14 @@ def test_tet4_h1_operator_audit_002(monkeypatch: pytest.MonkeyPatch) -> None:
             "force_cauchy_bound_from_free_residual": force_cauchy_bound,
             "moment_identity_from_free_residual": moment_identity,
             "moment_cauchy_bound_from_free_residual": moment_cauchy_bound,
-            "archived_support_reaction_N": historical[archived_reaction_key],
-            "archived_support_moment_Nm": historical[archived_moment_key],
+            "archived_support_reaction_N": archived_reaction,
+            "recomputed_minus_archived_support_reaction_N_exact_fraction": [
+                str(support_force[axis] - _fraction(float(archived_reaction[axis]))) for axis in range(3)
+            ],
+            "archived_support_moment_Nm": archived_moment,
+            "recomputed_minus_archived_support_moment_Nm_exact_fraction": [
+                str(support_moment[axis] - _fraction(float(archived_moment[axis]))) for axis in range(3)
+            ],
         }
 
     free_exact_matrix = [[exact_global[int(row)][int(column)] for column in free] for row in free]
@@ -853,11 +861,8 @@ def test_tet4_h1_operator_audit_002(monkeypatch: pytest.MonkeyPatch) -> None:
     mirrored_global_relative_error = _relative_frobenius_error_to_exact(mirrored_global, exact_global)
     wrong_symmetric = exact_free_float.copy()
     wrong_symmetric[0, 0] += abs(wrong_symmetric[0, 0])
-    wrong_column = matrix_free_columns.copy()
-    largest_entry = np.unravel_index(int(np.argmax(np.abs(wrong_column))), wrong_column.shape)
-    wrong_column[largest_entry] += (
-        4.0 * OPERATOR_COLUMN_RELATIVE_LIMIT * float(np.linalg.norm(exact_free_float, ord="fro"))
-    )
+    wrong_column = exact_free_float.copy()
+    wrong_column[0, 0] += 4.0 * OPERATOR_COLUMN_RELATIVE_LIMIT * float(np.linalg.norm(exact_free_float, ord="fro"))
     zero_solution = [0.0 for _ in archived_mf]
     zero_solution_residual = _exact_residual(exact_global, zero_solution, exact_load)
     zero_solution_relative_residual = _norm2([zero_solution_residual[int(index)] for index in free]) / norm_rhs
@@ -980,7 +985,7 @@ def test_tet4_h1_operator_audit_002(monkeypatch: pytest.MonkeyPatch) -> None:
             "per_column_relative_errors_normalized_by_exact_matrix_frobenius": column_relative_errors,
             "componentwise_kernel_plus_scatter_bounds_passed": column_bound_ok,
             "componentwise_error_bound_records": column_component_records,
-            "acceptance_limit_reused_from_wp12_u_wp15": OPERATOR_COLUMN_RELATIVE_LIMIT,
+            "acceptance_limit_reused_from_wp12_u": OPERATOR_COLUMN_RELATIVE_LIMIT,
         },
         "archived_solution_recalculation": {
             "archived_solution_fields_used": True,
