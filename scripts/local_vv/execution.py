@@ -33,6 +33,8 @@ from .process import (
     extract_numeric_payload,
     supervise_process,
 )
+from .manifest import COMMAND_PROFILE_V2
+from .results import classify_v2_result
 
 
 def _preflight(manifest: dict[str, Any], case: dict[str, Any]) -> dict[str, Any]:
@@ -144,12 +146,27 @@ def run_case(
     else:
         postflight = {}
         post_files = []
+    scientific_result: dict[str, Any] | None = None
     try:
         numeric_status, numeric_payload = (
-            extract_numeric_payload(stdout_path) if stdout_path.exists() else ("NOT_EXPOSED", None)
+            extract_numeric_payload(stdout_path, strict=case.get("command_profile") == COMMAND_PROFILE_V2)
+            if stdout_path.exists()
+            else ("NOT_EXPOSED", None)
         )
         expected_payload_schema = case.get("numeric_payload_schema")
-        if expected_payload_schema is not None:
+        if case.get("command_profile") == COMMAND_PROFILE_V2:
+            pytest_status = "PASS" if status == "PYTEST_PASS_ONLY" else "FAIL" if status == "FAIL" else "INCOMPLETE"
+            if numeric_payload is not None and numeric_payload.get("schema") != expected_payload_schema:
+                numeric_status = "MALFORMED"
+            scientific_result = classify_v2_result(
+                numeric_status,
+                numeric_payload,
+                case_id=case["case_id"],
+                pytest_execution_status=pytest_status,
+            )
+            scientific_result["pytest_execution_status"] = pytest_status
+            numeric_error = scientific_result["error"]
+        elif expected_payload_schema is not None:
             if numeric_payload is None:
                 numeric_error = "required numeric result marker is missing"
                 if status == "PYTEST_PASS_ONLY":
@@ -158,13 +175,32 @@ def run_case(
                 raise LocalVVError("numeric result marker schema does not match the prepared case")
         else:
             numeric_error = None
-        if numeric_payload is not None and numeric_payload.get("case_id") != case["case_id"]:
+        if (
+            case.get("command_profile") != COMMAND_PROFILE_V2
+            and numeric_payload is not None
+            and numeric_payload.get("case_id") != case["case_id"]
+        ):
             raise LocalVVError("numeric result marker case_id does not match the approved case")
-        if numeric_payload is not None:
+        if case.get("command_profile") != COMMAND_PROFILE_V2 and numeric_payload is not None:
             numeric_error = None
     except (OSError, ValueError, json.JSONDecodeError, LocalVVError) as exc:
         numeric_status, numeric_payload, numeric_error = "MALFORMED", None, str(exc)
-        if status == "PYTEST_PASS_ONLY":
+        if case.get("command_profile") == COMMAND_PROFILE_V2:
+            scientific_result = classify_v2_result(
+                "MALFORMED",
+                None,
+                case_id=case["case_id"],
+                pytest_execution_status="PASS"
+                if status == "PYTEST_PASS_ONLY"
+                else "FAIL"
+                if status == "FAIL"
+                else "INCOMPLETE",
+            )
+            scientific_result["pytest_execution_status"] = (
+                "PASS" if status == "PYTEST_PASS_ONLY" else "FAIL" if status == "FAIL" else "INCOMPLETE"
+            )
+            numeric_error = scientific_result["error"]
+        elif status == "PYTEST_PASS_ONLY":
             status = "INFRA_ERROR"
     output_hashes = _write_hash_inventory(run_dir)
     receipt = {
@@ -195,6 +231,15 @@ def run_case(
         "selected_nodeids": selected_nodeids,
         "selection_record": selected,
         "numeric_observables": {"status": numeric_status, "payload": numeric_payload, "error": numeric_error},
+        **({"scientific_result": scientific_result} if scientific_result is not None else {}),
+        **(
+            {
+                "pytest_execution_status": scientific_result["pytest_execution_status"],
+                "overall_scientific_status": scientific_result["status"],
+            }
+            if scientific_result is not None
+            else {}
+        ),
         "output_hashes": output_hashes,
         "limitations": [
             "Local process monitoring is not a filesystem sandbox.",
@@ -206,11 +251,26 @@ def run_case(
     _write_new_json(receipt_path, receipt)
     receipt_hash = sha256_file(receipt_path)
     _write_new_json(run_dir / "receipt.sha256.json", {"sha256": receipt_hash, "path": "receipt.json"})
-    _write_new_json(
-        attempts_root / f"{case['case_id']}-result-{run_id}.json",
-        {"case_id": case["case_id"], "run_id": run_id, "status": status, "receipt_sha256": receipt_hash},
-    )
-    return {"status": status, "run_id": run_id, "receipt": str(receipt_path), "receipt_sha256": receipt_hash}
+    attempt_result = {
+        "case_id": case["case_id"],
+        "run_id": run_id,
+        "status": status,
+        "receipt_sha256": receipt_hash,
+    }
+    if scientific_result is not None:
+        attempt_result.update(
+            {
+                "pytest_execution_status": scientific_result["pytest_execution_status"],
+                "gamma_scientific_status": scientific_result["gamma_scientific_status"],
+                "overall_scientific_status": scientific_result["status"],
+            }
+        )
+    _write_new_json(attempts_root / f"{case['case_id']}-result-{run_id}.json", attempt_result)
+    result = {"status": status, "run_id": run_id, "receipt": str(receipt_path), "receipt_sha256": receipt_hash}
+    if scientific_result is not None:
+        result["pytest_execution_status"] = scientific_result["pytest_execution_status"]
+        result["overall_scientific_status"] = scientific_result["status"]
+    return result
 
 
 def validate_manifest_file(path: Path) -> tuple[dict[str, Any], bytes, list[str]]:

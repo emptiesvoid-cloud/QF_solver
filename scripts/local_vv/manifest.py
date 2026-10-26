@@ -18,6 +18,31 @@ from typing import Any
 MANIFEST_SCHEMA = "qf-local-vv-campaign-v1"
 DECISION_SCHEMA = "qf-local-vv-owner-execution-decision-v1"
 COMMAND_PROFILE = "local-vv-pytest-exact-node-v1"
+COMMAND_PROFILE_V2 = "local-vv-pytest-exact-node-v2"
+V2_RESULT_SCHEMA = "qf-wp12-v2-r1-h1-operator-audit-v1"
+V2_CAMPAIGN_ID = "WP12-V2-R1-H1-OPERATOR-AUDIT-002"
+V2_CASE_ID = "TET4-H1-OPERATOR-AUDIT-002"
+V2_NODEID = "tests/unit/test_wp12_v2_tet4_operator_audit.py::test_tet4_h1_operator_audit_002"
+V2_COMMAND_TEMPLATE = [
+    "{python_executable}",
+    "-m",
+    "pytest",
+    "-q",
+    "-s",
+    "--noconftest",
+    "-p",
+    "no:cacheprovider",
+    "-p",
+    "local_vv_pytest_plugin",
+    "-c",
+    "{tests_checkout}/pyproject.toml",
+    "-o",
+    "pythonpath=",
+    "-o",
+    "addopts=",
+    "--junitxml={new_run_directory}/junit.xml",
+    "{one_exact_nodeid}",
+]
 NODEID_PATTERN = re.compile(r"^tests/unit/[A-Za-z0-9_./-]+\.py::test_[A-Za-z0-9_]+$")
 IDENTITY_PATTERN = re.compile(r"^[0-9a-f]{40}$")
 HASH_PATTERN = re.compile(r"^[0-9a-f]{64}$")
@@ -141,13 +166,24 @@ def validate_manifest_shape(manifest: dict[str, Any]) -> list[str]:
                 errors.append(f"{prefix}.nodeid contains a forbidden path or selector")
         if case.get("status") != "PREPARED_NOT_AUTHORIZED":
             errors.append(f"{prefix}.status must be PREPARED_NOT_AUTHORIZED")
-        if case.get("command_profile") != COMMAND_PROFILE:
+        command_profile = case.get("command_profile")
+        if command_profile not in (COMMAND_PROFILE, COMMAND_PROFILE_V2):
             errors.append(f"{prefix}.command_profile is not the fixed runner command profile")
+        if command_profile == COMMAND_PROFILE_V2 and manifest.get("command_template") != V2_COMMAND_TEMPLATE:
+            errors.append("v2 command_template must exactly match the fixed pytest argv profile")
+        if command_profile == COMMAND_PROFILE_V2 and (
+            manifest.get("campaign_id") != V2_CAMPAIGN_ID
+            or case.get("case_id") != V2_CASE_ID
+            or case.get("nodeid") != V2_NODEID
+        ):
+            errors.append("v2 result profile is scoped to its named campaign, case, and exact nodeid")
         numeric_payload_schema = case.get("numeric_payload_schema")
         if numeric_payload_schema is not None and (
             not isinstance(numeric_payload_schema, str) or not numeric_payload_schema.strip()
         ):
             errors.append(f"{prefix}.numeric_payload_schema must be a non-empty string when declared")
+        if command_profile == COMMAND_PROFILE_V2 and numeric_payload_schema != V2_RESULT_SCHEMA:
+            errors.append(f"{prefix}.numeric_payload_schema must be {V2_RESULT_SCHEMA}")
         for field in ("oracle_id", "acceptance_ref"):
             if not isinstance(case.get(field), str) or not case[field].strip():
                 errors.append(f"{prefix}.{field} is required")

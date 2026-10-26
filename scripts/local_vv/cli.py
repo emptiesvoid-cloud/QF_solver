@@ -51,7 +51,8 @@ def main(argv: list[str] | None = None) -> int:
             raise LocalVVError("DENY_EXECUTION: case_id is not listed in the frozen manifest")
         result = run_case(manifest, raw, decision, case, decision_raw)
         print(json.dumps(result, indent=2, sort_keys=True))
-        return 0 if result["status"] == "PYTEST_PASS_ONLY" else 1
+        scientific_ok = result.get("overall_scientific_status", "PASS") == "PASS"
+        return 0 if result["status"] == "PYTEST_PASS_ONLY" and scientific_ok else 1
     except (OSError, ValueError, KeyError, LocalVVError, subprocess.TimeoutExpired) as exc:
         print(f"DENY_EXECUTION/INFRA_ERROR: {exc}", file=sys.stderr)
         return 2

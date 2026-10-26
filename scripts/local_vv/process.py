@@ -12,7 +12,20 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any
 
-from .manifest import LocalVVError, RESULT_MARKER, _checkout_path, _execution_environment, load_json, sha256_file
+from .manifest import (
+    COMMAND_PROFILE,
+    COMMAND_PROFILE_V2,
+    V2_CAMPAIGN_ID,
+    V2_CASE_ID,
+    V2_COMMAND_TEMPLATE,
+    V2_NODEID,
+    LocalVVError,
+    RESULT_MARKER,
+    _checkout_path,
+    _execution_environment,
+    load_json,
+    sha256_file,
+)
 
 
 def _junit_cases(path: Path) -> list[ET.Element]:
@@ -60,7 +73,7 @@ def classify_junit(
     return "INFRA_ERROR"
 
 
-def extract_numeric_payload(stdout_path: Path) -> tuple[str, dict[str, Any] | None]:
+def extract_numeric_payload(stdout_path: Path, *, strict: bool = False) -> tuple[str, dict[str, Any] | None]:
     marked_lines = [
         line
         for line in stdout_path.read_text(encoding="utf-8", errors="replace").splitlines()
@@ -73,6 +86,7 @@ def extract_numeric_payload(stdout_path: Path) -> tuple[str, dict[str, Any] | No
     payload = json.loads(
         marked_lines[0][len(RESULT_MARKER) :],
         parse_constant=lambda value: (_ for _ in ()).throw(ValueError(value)),
+        object_pairs_hook=_reject_duplicate_json_keys if strict else None,
     )
     if not isinstance(payload, dict):
         raise LocalVVError("numeric result marker must contain a JSON object")
@@ -81,6 +95,15 @@ def extract_numeric_payload(stdout_path: Path) -> tuple[str, dict[str, Any] | No
     if not isinstance(payload.get("case_id"), str) or not payload["case_id"]:
         raise LocalVVError("numeric result marker must declare a non-empty case_id")
     return "EXPOSED_JSON", payload
+
+
+def _reject_duplicate_json_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise LocalVVError(f"duplicate key in structured scientific result: {key}")
+        result[key] = value
+    return result
 
 
 def supervise_process(
@@ -216,6 +239,17 @@ def _read_selection(path: Path) -> dict[str, Any] | None:
 def _case_command(
     manifest: dict[str, Any], case: dict[str, Any], run_dir: Path
 ) -> tuple[list[str], Path, dict[str, str]]:
+    profile = case.get("command_profile")
+    if profile not in (COMMAND_PROFILE, COMMAND_PROFILE_V2):
+        raise LocalVVError("unsupported local V&V command profile")
+    if profile == COMMAND_PROFILE_V2 and manifest.get("command_template") != V2_COMMAND_TEMPLATE:
+        raise LocalVVError("v2 command_template diverges from the fixed pytest argv profile")
+    if profile == COMMAND_PROFILE_V2 and (
+        manifest.get("campaign_id") != V2_CAMPAIGN_ID
+        or case.get("case_id") != V2_CASE_ID
+        or case.get("nodeid") != V2_NODEID
+    ):
+        raise LocalVVError("v2 result profile is scoped to its named campaign, case, and exact nodeid")
     science_root = _checkout_path(manifest, "science")
     tests_root = _checkout_path(manifest, case.get("test_checkout", "tests"))
     runner_root = _checkout_path(manifest, "runner")
@@ -241,7 +275,22 @@ def _case_command(
         f"--junitxml={junit}",
         case["nodeid"],
     ]
+    if profile == COMMAND_PROFILE_V2:
+        argv = _render_v2_command_template(python, tests_root, run_dir, case["nodeid"])
     environment = _execution_environment(manifest, run_dir)
     environment["PYTHONPATH"] = os.pathsep.join((str(science_root / "src"), str(runner_root / "scripts")))
     environment["QF_LOCAL_VV_EXPECTED_NODEID"] = case["nodeid"]
     return argv, tests_root, environment
+
+
+def _render_v2_command_template(python: str, tests_root: Path, run_dir: Path, nodeid: str) -> list[str]:
+    values = {"python_executable": python, "one_exact_nodeid": nodeid}
+    rendered: list[str] = []
+    for token in V2_COMMAND_TEMPLATE:
+        if token == "{tests_checkout}/pyproject.toml":
+            rendered.append(str(tests_root / "pyproject.toml"))
+        elif token == "--junitxml={new_run_directory}/junit.xml":
+            rendered.append(f"--junitxml={run_dir / 'junit.xml'}")
+        else:
+            rendered.append(token.format_map(values))
+    return rendered
