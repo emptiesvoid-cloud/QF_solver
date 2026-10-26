@@ -148,12 +148,12 @@ def test_wp12_registry_has_four_distinct_exact_worktree_envelopes() -> None:
         if worktree_id == "wp12_dynamics":
             assert entry["allowed_nodeids"] == list(WP12_DYNAMICS_NODEIDS)
             records = entry["nodeid_registration_records"]
-            assert len(records) == 17
+            assert len(records) == 20
             assert all(len(record["worktree_head"]) == 40 for record in entry["nodeid_registration_records"])
             assert all(len(record["source_fingerprint"]) == 64 for record in entry["nodeid_registration_records"])
             newmark_target = "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables"
             newmark_records = [record for record in records if record["target"] == newmark_target]
-            assert len(newmark_records) == 3
+            assert len(newmark_records) == 4
             assert (newmark_records[0]["worktree_head"], newmark_records[0]["source_fingerprint"]) == (
                 "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d",
                 "63e2972018db9bd4f8fc50947504da886e2de29ee4494c3c78422f5ec5c1536d",
@@ -166,9 +166,13 @@ def test_wp12_registry_has_four_distinct_exact_worktree_envelopes() -> None:
                 "1f609e52fe7838a8e2c61684a2658429fac00a5e",
                 "6d50810fee371a96f4ea240bd767000924cc80e9d1173a04e0db5f9dd3392438",
             )
+            assert (newmark_records[3]["worktree_head"], newmark_records[3]["source_fingerprint"]) == (
+                "d9deddbd6b42467c5fdc9e278bd54e97605f5738",
+                "65e4078b1735de9adb258d1438fed39dcd69c1b68fa3560afb69896da60bdff8",
+            )
             harmonic_target = "tests/unit/test_reduced_harmonic.py::test_wp12_harmonic_sweep_separates_full_basis_route_error_from_truncation"
             harmonic_records = [record for record in records if record["target"] == harmonic_target]
-            assert len(harmonic_records) == 2
+            assert len(harmonic_records) == 3
             assert (harmonic_records[0]["worktree_head"], harmonic_records[0]["source_fingerprint"]) == (
                 "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d",
                 "ff58a607ad1a5f4d3c1c632cb448219bc24746cb80623abab3886917ba749074",
@@ -177,9 +181,13 @@ def test_wp12_registry_has_four_distinct_exact_worktree_envelopes() -> None:
                 "1f609e52fe7838a8e2c61684a2658429fac00a5e",
                 "b203b2fd8cf786e86c1a33b65a1160268a763b7ec0d895d07e6826ef915d7c94",
             )
+            assert (harmonic_records[2]["worktree_head"], harmonic_records[2]["source_fingerprint"]) == (
+                "d9deddbd6b42467c5fdc9e278bd54e97605f5738",
+                "bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c",
+            )
             base_target = "tests/unit/test_wp07_uniform_base_acceleration.py::test_wp12_base_acceleration_complex_sweep_checks_frames_sign_and_serialization"
             base_records = [record for record in records if record["target"] == base_target]
-            assert len(base_records) == 2
+            assert len(base_records) == 3
             assert (base_records[0]["worktree_head"], base_records[0]["source_fingerprint"]) == (
                 "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d",
                 "6db5b4597252082012fa38b1ed5cba02190562746556d5eabd1f74a256e0f8da",
@@ -188,7 +196,11 @@ def test_wp12_registry_has_four_distinct_exact_worktree_envelopes() -> None:
                 "1f609e52fe7838a8e2c61684a2658429fac00a5e",
                 "04461145a495ff3f3aebfe573ad3d8859befb7ec9a99bd7d54dd6cf486ae4d56",
             )
-            for record in (newmark_records[2], harmonic_records[1], base_records[1]):
+            assert (base_records[2]["worktree_head"], base_records[2]["source_fingerprint"]) == (
+                "d9deddbd6b42467c5fdc9e278bd54e97605f5738",
+                "969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6",
+            )
+            for record in (newmark_records[3], harmonic_records[2], base_records[2]):
                 assert record["selected_dofs"] == {newmark_target: 1, harmonic_target: 3, base_target: 1}[
                     record["target"]
                 ]
