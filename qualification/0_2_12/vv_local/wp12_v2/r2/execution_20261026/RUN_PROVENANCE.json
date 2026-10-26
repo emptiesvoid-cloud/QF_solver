@@ -1,0 +1,243 @@
+{
+  "schema": "qf-wp12-v2-r2-execution-report-v1",
+  "recorded_at_utc": "2026-10-26T15:07:02.505112Z",
+  "campaign_id": "WP12-V2-R2-H1-OPERATOR-AUDIT-002",
+  "case_id": "TET4-H1-OPERATOR-AUDIT-002",
+  "nodeid": "tests/unit/test_wp12_v2_tet4_operator_audit.py::test_tet4_h1_operator_audit_002",
+  "run_id": "20261026T150049Z-ac1279749bfb",
+  "manifest_sha256": "a0eb16a37ab1c4e23e6624b77d829d091a7a1ac4635617a0038034d50611a503",
+  "receipt_sha256": "1e275f9e92f8fa0a5d7e5b21b7c15fd055579be0d5c24ca66aeccc151358d13a",
+  "owner_decision_sha256": "de487adb117fea0dc256a943cd9ae6f0f9ffe53c5145dc3d3e6296d74712d0a9",
+  "preflight_sha256": "06d5edf2d7949fdec6e17e9020f997edb1a6afd7ffac774d3227bf8d41a7f03a",
+  "owner_decision": {
+    "approved_by": "Quentin Farinazzo",
+    "approved_at_utc": "2026-10-26T15:00:28Z",
+    "valid_until_utc": "2026-10-27T15:00:28Z",
+    "authentication": "OWNER_REVIEW_OUTSIDE_RUNNER; NOT_CRYPTOGRAPHIC",
+    "source": "Explicit direct human Owner authorization in the current Codex user message for WP12-V2-R2; UTC timestamp records operational registration, not a cryptographic signing time."
+  },
+  "attempt": {
+    "number": 1,
+    "maximum": 1,
+    "remaining": 0,
+    "started_at_utc": "2026-10-26T15:00:49.376317Z",
+    "raw_runner_status": "FAIL",
+    "pytest_execution_status": "FAIL",
+    "overall_scientific_status": "INCOMPLETE",
+    "process": {
+      "duration_seconds": 1.738046,
+      "exit_code": 1,
+      "interrupted": false,
+      "output_limited": false,
+      "stderr_bytes": 0,
+      "stdout_bytes": 10514,
+      "timed_out": false
+    },
+    "automatic_retry": false
+  },
+  "selection": {
+    "collected_nodeids": [
+      "tests/unit/test_wp12_v2_tet4_operator_audit.py::test_tet4_h1_operator_audit_002"
+    ],
+    "exact_match": true,
+    "expected_nodeid": "tests/unit/test_wp12_v2_tet4_operator_audit.py::test_tet4_h1_operator_audit_002",
+    "expected_source_import": "E:\\QFSolverWP12B\\science\\src\\solveur\\__init__.py",
+    "import_error": null,
+    "schema": "qf-local-vv-pytest-selection-v1",
+    "source_import": "E:\\QFSolverWP12B\\science\\src\\solveur\\__init__.py",
+    "source_import_ok": true,
+    "sys_path_unchanged": true
+  },
+  "identities_before": {
+    "runner": {
+      "commit": "731fd9d6b05efe227de60e8cb19ba095cc8b29d9",
+      "path": "E:\\QFSolverWP12B\\runner-local-vv-v2r2",
+      "status": "CLEAN",
+      "tree": "19b775be2d49890b890c41b6d56f5b1be082279b"
+    },
+    "science": {
+      "commit": "00428adf38e9397340ac136f6f503a268eb671da",
+      "path": "E:\\QFSolverWP12B\\science",
+      "status": "CLEAN",
+      "tree": "df4ec667bf746b042c900fad1f86bf542e1a437b"
+    },
+    "tests": {
+      "commit": "67813b4a36a057bbaa9e5fba32bcdea66ddf4df3",
+      "path": "E:\\QFSolverWP12B\\tests-wp12-v2-r1",
+      "status": "CLEAN",
+      "tree": "ffee889f0cd70b089ec8e1719b84a667babfa1be"
+    }
+  },
+  "identities_after": {
+    "runner": {
+      "commit": "731fd9d6b05efe227de60e8cb19ba095cc8b29d9",
+      "path": "E:\\QFSolverWP12B\\runner-local-vv-v2r2",
+      "status": "CLEAN",
+      "tree": "19b775be2d49890b890c41b6d56f5b1be082279b"
+    },
+    "science": {
+      "commit": "00428adf38e9397340ac136f6f503a268eb671da",
+      "path": "E:\\QFSolverWP12B\\science",
+      "status": "CLEAN",
+      "tree": "df4ec667bf746b042c900fad1f86bf542e1a437b"
+    },
+    "tests": {
+      "commit": "67813b4a36a057bbaa9e5fba32bcdea66ddf4df3",
+      "path": "E:\\QFSolverWP12B\\tests-wp12-v2-r1",
+      "status": "CLEAN",
+      "tree": "ffee889f0cd70b089ec8e1719b84a667babfa1be"
+    }
+  },
+  "file_inventory_count_before": 35,
+  "file_inventory_count_after": 35,
+  "file_inventory_unchanged": true,
+  "scientific_result": {
+    "assertion_records": [],
+    "error": "required structured scientific result marker is missing",
+    "gamma_bound_evaluated": null,
+    "gamma_bound_satisfied": null,
+    "gamma_scientific_status": "INCONCLUSIVE",
+    "pytest_execution_status": "FAIL",
+    "rounding_assumptions_verified": null,
+    "status": "INCOMPLETE"
+  },
+  "numeric_observables_status": "NOT_EXPOSED",
+  "junit": {
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "suite_time_seconds": 1.27,
+    "testcase_time_seconds": 0.935,
+    "testcase_name": "test_tet4_h1_operator_audit_002",
+    "failure_message": "TypeError: list indices must be integers or slices, not tuple"
+  },
+  "diagnosis": {
+    "classification": "TEST_INSTRUMENTATION_TYPE_ERROR",
+    "first_failure": {
+      "source": "tests/unit/test_wp12_v2_tet4_operator_audit.py",
+      "line": 482,
+      "expression": "scalar_local[element, row, column]"
+    },
+    "same_proven_issue": {
+      "line": 492,
+      "expression": "scalar_local[element, column, row]"
+    },
+    "type_definition_line": 425,
+    "consequence": "Failure while building contribution diagnostics, before the scientific result marker/final acceptance records and before 24-column matrix-free/archived-field evaluations.",
+    "confidence": "HIGH",
+    "mechanical_oracle_failure_demonstrated": false,
+    "new_scientific_metrics": "NOT_ACQUIRED"
+  },
+  "environment": {
+    "python_executable": "E:\\QFSolverWP12B\\venv-3.13.17\\Scripts\\python.exe",
+    "python_version": "3.13.17",
+    "packages": {
+      "h5py": "3.14.0",
+      "numpy": "2.2.6",
+      "pytest": "8.4.1",
+      "scipy": "1.15.2",
+      "threadpoolctl": "3.6.0"
+    },
+    "effective_child_threads": {
+      "BLIS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "native_libraries": [
+      {
+        "user_api": "blas",
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "prefix": "libscipy_openblas",
+        "filepath": "E:\\QFSolverWP12B\\venv-3.13.17\\Lib\\site-packages\\numpy.libs\\libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+        "version": "0.3.29",
+        "threading_layer": "pthreads",
+        "architecture": "Haswell",
+        "sha256": "6547e9fb966e9773caee2755e91a8bf4d6f3a2f0eebf9646b0158f8675ea4ab5"
+      }
+    ]
+  },
+  "command_argv": [
+    "E:\\QFSolverWP12B\\venv-3.13.17\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-s",
+    "--noconftest",
+    "-p",
+    "no:cacheprovider",
+    "-p",
+    "local_vv_pytest_plugin",
+    "-c",
+    "E:\\QFSolverWP12B\\tests-wp12-v2-r1\\pyproject.toml",
+    "-o",
+    "pythonpath=",
+    "-o",
+    "addopts=",
+    "--junitxml=E:\\QFSolverWP12B\\wp12-local-vv-evidence\\WP12-V2-R2-H1-OPERATOR-AUDIT-002\\TET4-H1-OPERATOR-AUDIT-002\\20261026T150049Z-ac1279749bfb\\junit.xml",
+    "tests/unit/test_wp12_v2_tet4_operator_audit.py::test_tet4_h1_operator_audit_002"
+  ],
+  "working_directory": "E:\\QFSolverWP12B\\tests-wp12-v2-r1",
+  "evidence_namespace": "E:\\QFSolverWP12B\\wp12-local-vv-evidence\\WP12-V2-R2-H1-OPERATOR-AUDIT-002\\TET4-H1-OPERATOR-AUDIT-002\\20261026T150049Z-ac1279749bfb",
+  "evidence_file_inventory": [
+    {
+      "path": "junit.xml",
+      "bytes": 10481,
+      "sha256": "35e2d314e40ec04da8f0c378c6a5d7e66bddc85f8949ce025e782c2bdb342906"
+    },
+    {
+      "path": "receipt.json",
+      "bytes": 23991,
+      "sha256": "1e275f9e92f8fa0a5d7e5b21b7c15fd055579be0d5c24ca66aeccc151358d13a"
+    },
+    {
+      "path": "receipt.sha256.json",
+      "bytes": 109,
+      "sha256": "3ce98e4c32cbf6314c2371cc15dee08cbf5a03f4f2aa9e4152af7b5e8eddfa6e"
+    },
+    {
+      "path": "selection.json",
+      "bytes": 536,
+      "sha256": "55915d53e1e8ddf161f63d4c16dfce8e4ca875ecbbdf85353e6aa0674d350b82"
+    },
+    {
+      "path": "stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stdout.log",
+      "bytes": 10514,
+      "sha256": "af5fcb9606e562ee8e95c696af48065928d7eaac291e1f85becfe8242e8351a4"
+    }
+  ],
+  "ledger": {
+    "reservation_sha256": "c84ff95861f1e7094ad5bc4f4cdf6d67e29cf68fd0d447c82277afd40ef48021",
+    "terminal_record": {
+      "case_id": "TET4-H1-OPERATOR-AUDIT-002",
+      "gamma_scientific_status": "INCONCLUSIVE",
+      "overall_scientific_status": "INCOMPLETE",
+      "pytest_execution_status": "FAIL",
+      "receipt_sha256": "1e275f9e92f8fa0a5d7e5b21b7c15fd055579be0d5c24ca66aeccc151358d13a",
+      "run_id": "20261026T150049Z-ac1279749bfb",
+      "status": "FAIL"
+    },
+    "terminal_sha256": "6feff2c0fc589aa393562b663e5e47e8c868b6ce4f928fd8f4c747e53b465cc7"
+  },
+  "limits": [
+    "Local process monitoring is not a filesystem sandbox.",
+    "This runner does not attest cryptographic authorship or provide hard CPU/RAM/process-tree isolation.",
+    "A pytest pass is not a scientific oracle verdict or work-package qualification."
+  ],
+  "historical_preservation": {
+    "u3": "FAIL",
+    "science_tests_runner_manifest": "UNCHANGED",
+    "wp12": "OPEN",
+    "wp13": "OPEN",
+    "wp12_w": "PREPARED_NOT_AUTHORIZED"
+  }
+}
