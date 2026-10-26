@@ -1201,6 +1201,258 @@ def test_d01_collect_only_command_is_non_fem_and_keeps_exact_node_gate(tmp_path:
     assert "ExactNodeGate" in command[3]
 
 
+@pytest.mark.parametrize(
+    "target",
+    [
+        "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[100.0]",
+        "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[-100.0]",
+    ],
+)
+def test_rotor_collect_only_command_keeps_exact_parameterized_nodeid(tmp_path: Path, target: str) -> None:
+    policy = _policy()
+    command = MODULE.build_pytest_command(
+        "fem_exploratory",
+        [target],
+        tmp_path / "tmp",
+        repository_root=Path(policy["worktrees"]["rotor"]["root"]),
+        source_root=Path(policy["worktrees"]["rotor"]["root"]) / "src",
+        rotor_collect_only_attestation=True,
+        collect_only=True,
+    )
+    assert "--collect-only" in command
+    assert command[-1] == target
+    assert "rotor-preflight" in command[3]
+    assert "ExactCollectOnlyAttestor" in command[3]
+    assert "mode == 'd01' and False" in command[3]
+    with pytest.raises(MODULE.PolicyError, match="requires collect-only"):
+        MODULE.build_pytest_command(
+            "fem_exploratory",
+            [target],
+            tmp_path / "tmp",
+            source_root=Path(policy["worktrees"]["rotor"]["root"]) / "src",
+            rotor_collect_only_attestation=True,
+        )
+
+
+def test_rotor_collect_only_attestation_rejects_nodeid_outside_rotor_allowlist(tmp_path: Path) -> None:
+    policy = _policy()
+    with pytest.raises(MODULE.PolicyError, match="exact rotor nodeid allowlist"):
+        MODULE.build_pytest_command(
+            "fem_exploratory",
+            ["tests/unit/test_static_linear.py::test_anything"],
+            tmp_path / "tmp",
+            repository_root=Path(policy["worktrees"]["rotor"]["root"]),
+            source_root=Path(policy["worktrees"]["rotor"]["root"]) / "src",
+            rotor_collect_only_attestation=True,
+            collect_only=True,
+        )
+
+
+@pytest.mark.parametrize(
+    "target",
+    [
+        "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[100.0]",
+        "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[-100.0]",
+    ],
+)
+def test_rotor_collect_attestor_reports_exact_node_scope_and_no_body(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str], target: str
+) -> None:
+    monkeypatch.setenv("QF_DEV_WORKTREE_ID", "rotor")
+    monkeypatch.setenv("QF_DEV_SELECTED_DOFS", "2")
+    monkeypatch.setenv("QF_DEV_MAX_DOFS", "12")
+    item = SimpleNamespace(nodeid=target, iter_markers=lambda: iter(()))
+    attestor = PLUGIN.ExactCollectOnlyAttestor(
+        target,
+        solver_origin=r"C:\synthetic\src\solveur\__init__.py",
+        selected_dofs=2,
+        max_dofs=12,
+    )
+    attestor.pytest_collection_finish(SimpleNamespace(items=[item]))
+    attestor.pytest_sessionfinish(SimpleNamespace(), 0)
+    output = capsys.readouterr().out
+    state, payload = MODULE._validate_rotor_collect_attestation(
+        output,
+        target=target,
+        solver_origin=r"C:\synthetic\src\solveur\__init__.py",
+        selected_dofs=2,
+        max_dofs=12,
+    )
+    assert state == "PREFLIGHT_PASS"
+    assert payload is not None
+    assert payload["collected_nodeids"] == [target]
+    assert payload["skip_markers"] == []
+    assert payload["bodies_executed"] is False
+
+
+@pytest.mark.parametrize(
+    ("payload_changes", "expected_state"),
+    [
+        ({"collected_nodeids": ["tests/unit/test_rotating_qep.py::test_other"]}, "PREFLIGHT_NODEID_NOT_CONFIRMED"),
+        ({"solver_origin": r"C:\\global\\site-packages\\solveur\\__init__.py"}, "PREFLIGHT_WRONG_SOLVER_ORIGIN"),
+        ({"skip_markers": [{"nodeid": "target", "marker": "skip", "reason": "synthetic"}]}, "PREFLIGHT_SKIPPED"),
+        ({"bodies_executed": True}, "PREFLIGHT_BODY_EXECUTION_DETECTED"),
+        ({"worktree_id": "wp12_dynamics"}, "PREFLIGHT_SCOPE_MISMATCH"),
+    ],
+)
+def test_rotor_collect_attestation_rejects_wrong_scope_skip_import_or_selection(
+    payload_changes: dict[str, object], expected_state: str
+) -> None:
+    payload: dict[str, object] = {
+        "schema": "qfsolver-rotor-collect-only-v1",
+        "expected_nodeid": "target",
+        "collected_nodeids": ["target"],
+        "skip_markers": [],
+        "bodies_executed": False,
+        "solver_origin": "expected-origin",
+        "worktree_id": "rotor",
+        "selected_dofs_expected": 2,
+        "selected_dofs": "2",
+        "max_dofs_expected": 12,
+        "max_dofs": "12",
+        "exitstatus": 0,
+    }
+    payload.update(payload_changes)
+    output = MODULE.ROTOR_PREFLIGHT_ATTESTATION_PREFIX + json.dumps(payload)
+    state, _ = MODULE._validate_rotor_collect_attestation(
+        output, target="target", solver_origin="expected-origin", selected_dofs=2, max_dofs=12
+    )
+    assert state == expected_state
+
+
+def test_rotor_preflight_refuses_a_fake_solver_import_path(tmp_path: Path) -> None:
+    source_root = tmp_path / "source" / "src"
+    expected = source_root / "solveur" / "__init__.py"
+    wrong = tmp_path / "venv" / "site-packages" / "solveur" / "__init__.py"
+    expected.parent.mkdir(parents=True)
+    wrong.parent.mkdir(parents=True)
+    expected.write_text("", encoding="utf-8")
+    wrong.write_text("", encoding="utf-8")
+    with pytest.raises(MODULE.PolicyError, match="wrong solveur import origin"):
+        MODULE._verify_solver_import_origin(source_root, wrong)
+
+
+@pytest.mark.parametrize("worktree_id", ["wp12_dynamics", "wp12_elements", "c01", "e01"])
+def test_collect_only_preflight_does_not_expand_to_other_scopes(
+    monkeypatch: pytest.MonkeyPatch, worktree_id: str
+) -> None:
+    monkeypatch.setattr(MODULE, "load_policy", lambda *_args, **_kwargs: {})
+    with pytest.raises(MODULE.PolicyError, match="enabled only for D01 native nodes and the explicit rotor scope"):
+        MODULE.preflight_pytest(worktree_id, "tests/unit/test_anything.py::test_case")
+
+
+def test_preflight_cli_routes_only_the_explicit_rotor_scope(monkeypatch: pytest.MonkeyPatch, capsys) -> None:
+    target = "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[100.0]"
+    monkeypatch.setattr(
+        MODULE,
+        "preflight_pytest",
+        lambda worktree, nodeid, preflight_id=None: {
+            "state": "PREFLIGHT_PASS",
+            "worktree": worktree,
+            "nodeid": nodeid,
+        },
+    )
+    assert MODULE.main(["preflight", "--worktree", "rotor", "--target", target]) == 0
+    assert json.loads(capsys.readouterr().out)["worktree"] == "rotor"
+    with pytest.raises(SystemExit) as exc:
+        MODULE.main(["preflight", "--worktree", "wp12_dynamics", "--target", target])
+    assert exc.value.code == 2
+
+
+def test_rotor_preflight_uses_rotor_evidence_and_never_reserves_an_attempt(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    target = "tests/unit/test_rotating_qep.py::test_gyro03_independent_disk_oracle_and_qep_residual[100.0]"
+    policy = json.loads(json.dumps(_policy()))
+    entry = policy["worktrees"]["rotor"]
+    fake_root = tmp_path / "rotor-source"
+    source_root = fake_root / "src"
+    (source_root / "solveur").mkdir(parents=True)
+    (source_root / "solveur" / "__init__.py").write_text("", encoding="utf-8")
+    (fake_root / "tests" / "unit").mkdir(parents=True)
+    (fake_root / "tests" / "unit" / "test_rotating_qep.py").write_text("", encoding="utf-8")
+    evidence_root = tmp_path / "evidence" / "rotor"
+    coordination_root = tmp_path / "coordination"
+    entry["root"] = entry["git_root"] = str(fake_root)
+    entry["evidence_root"] = str(evidence_root)
+    selection = {
+        "selected_dofs": 2,
+        "selection_basis": "synthetic selection",
+        "timeout_seconds": 300,
+        "timeout_reason": None,
+    }
+    identity = {
+        "root": str(fake_root),
+        "branch": entry["branch"],
+        "head": "a" * 40,
+        "tree": "b" * 40,
+        "status_short": "",
+    }
+    monkeypatch.setattr(MODULE, "load_policy", lambda *_args, **_kwargs: policy)
+    monkeypatch.setattr(MODULE, "WP12_COORDINATION_ROOT", coordination_root)
+    monkeypatch.setattr(
+        MODULE, "_registered_worktree", lambda *_args, **_kwargs: (entry, fake_root, source_root, identity, "c" * 64)
+    )
+    monkeypatch.setattr(MODULE, "_wp12_active_registration", lambda *_args, **_kwargs: selection)
+    monkeypatch.setattr(MODULE, "_controller_provenance", lambda: {"identity": "synthetic"})
+    monkeypatch.setattr(MODULE, "psutil", object())
+    monkeypatch.setattr(
+        MODULE,
+        "_reserve_node_attempt",
+        lambda *_args, **_kwargs: pytest.fail("collect-only preflight must not reserve a scientific attempt"),
+    )
+
+    def fake_supervised(command, *, cwd, environment, output_dir, temporary_dir, limits, poll_interval):
+        assert command[-1] == target and "--collect-only" in command
+        assert environment["QF_DEV_WORKTREE_ID"] == "rotor"
+        assert environment["QF_DEV_SELECTED_DOFS"] == "2"
+        assert environment["QF_DEV_MAX_DOFS"] == "12"
+        origin = str((source_root / "solveur" / "__init__.py").resolve())
+        payload = {
+            "schema": "qfsolver-rotor-collect-only-v1",
+            "expected_nodeid": target,
+            "collected_nodeids": [target],
+            "skip_markers": [],
+            "bodies_executed": False,
+            "solver_origin": origin,
+            "worktree_id": "rotor",
+            "selected_dofs_expected": 2,
+            "selected_dofs": "2",
+            "max_dofs_expected": 12,
+            "max_dofs": "12",
+            "exitstatus": 0,
+        }
+        (output_dir / "stdout.log").write_text(
+            f"QF_DEV_SOLVER_ORIGIN={origin}\n{MODULE.ROTOR_PREFLIGHT_ATTESTATION_PREFIX}{json.dumps(payload)}\n",
+            encoding="utf-8",
+        )
+        (output_dir / "stderr.log").write_text("", encoding="utf-8")
+        return SimpleNamespace(
+            status="PASS",
+            return_code=0,
+            elapsed_seconds=0.1,
+            peak_rss_bytes=1,
+            peak_process_count=1,
+            stdout_bytes=10,
+            stderr_bytes=0,
+            archive_bytes=0,
+            temporary_bytes=0,
+            stop_reason=None,
+        )
+
+    monkeypatch.setattr(MODULE, "run_supervised_command", fake_supervised)
+    result = MODULE.preflight_pytest("rotor", target, "pf-0123456789ab")
+    assert result["state"] == "PREFLIGHT_PASS"
+    assert result["bodies_executed"] is False
+    assert result["nodeid"] == target
+    receipt = json.loads(Path(result["receipt"]).read_text(encoding="utf-8"))
+    assert receipt["attempt_reserved"] is False
+    assert receipt["collected_nodeids"] == [target]
+    assert receipt["worktree_id_observed"] == "rotor"
+    receipt_hash = json.loads((Path(result["receipt"]).parent / "preflight.sha256.json").read_text(encoding="utf-8"))
+    assert receipt_hash["sha256"] == MODULE._sha256(Path(result["receipt"]))
+
+
 def test_d01_run_command_persists_record_property_payload_as_junit_xml(tmp_path: Path) -> None:
     policy = _policy()
     target = MODULE.D01_NATIVE_NODEIDS[2]
