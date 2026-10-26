@@ -149,6 +149,33 @@ def test_hex8sri_is_a_separate_manifest_bound_research_scope() -> None:
         )
 
 
+def test_hex8sri_refuses_manifest_sha_mismatch() -> None:
+    policy = _policy()
+    entry = dict(policy["worktrees"]["hex8sri"])
+    target = entry["allowed_nodeids"][0]
+    bindings = dict(entry["case_manifests"])
+    bindings[target] = {**bindings[target], "sha256": "0" * 64}
+    entry["case_manifests"] = bindings
+
+    with pytest.raises(MODULE.PolicyError, match="manifest SHA-256 differs"):
+        MODULE._hex8sri_case_manifest(
+            entry,
+            Path(entry["root"]),
+            target,
+            require_execution_authorized=False,
+        )
+
+
+def test_hex8sri_refuses_a_mismatched_registered_branch() -> None:
+    policy = _policy()
+    entry = policy["worktrees"]["hex8sri"]
+    target = entry["allowed_nodeids"][0]
+    entry["branch"] = "codex/not-the-research-branch"
+
+    with pytest.raises(MODULE.PolicyError, match="branch mismatch"):
+        MODULE._registered_worktree("hex8sri", target, policy)
+
+
 def test_c01_scope_contains_only_registered_legacy_dimensional_and_mechanics_nodes() -> None:
     policy = _policy()
     c01 = policy["worktrees"]["c01"]["allowed_nodeids"]
