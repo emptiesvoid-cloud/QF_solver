@@ -21,6 +21,8 @@ COMMAND_PROFILE = "local-vv-pytest-exact-node-v1"
 COMMAND_PROFILE_V2 = "local-vv-pytest-exact-node-v2"
 V2_RESULT_SCHEMA = "qf-wp12-v2-r1-h1-operator-audit-v1"
 V2_CAMPAIGN_ID = "WP12-V2-R1-H1-OPERATOR-AUDIT-002"
+V2_R2_CAMPAIGN_ID = "WP12-V2-R2-H1-OPERATOR-AUDIT-002"
+V2_CAMPAIGN_IDS = (V2_CAMPAIGN_ID, V2_R2_CAMPAIGN_ID)
 V2_CASE_ID = "TET4-H1-OPERATOR-AUDIT-002"
 V2_NODEID = "tests/unit/test_wp12_v2_tet4_operator_audit.py::test_tet4_h1_operator_audit_002"
 V2_COMMAND_TEMPLATE = [
@@ -172,7 +174,7 @@ def validate_manifest_shape(manifest: dict[str, Any]) -> list[str]:
         if command_profile == COMMAND_PROFILE_V2 and manifest.get("command_template") != V2_COMMAND_TEMPLATE:
             errors.append("v2 command_template must exactly match the fixed pytest argv profile")
         if command_profile == COMMAND_PROFILE_V2 and (
-            manifest.get("campaign_id") != V2_CAMPAIGN_ID
+            manifest.get("campaign_id") not in V2_CAMPAIGN_IDS
             or case.get("case_id") != V2_CASE_ID
             or case.get("nodeid") != V2_NODEID
         ):

@@ -15,7 +15,7 @@ from typing import Any
 from .manifest import (
     COMMAND_PROFILE,
     COMMAND_PROFILE_V2,
-    V2_CAMPAIGN_ID,
+    V2_CAMPAIGN_IDS,
     V2_CASE_ID,
     V2_COMMAND_TEMPLATE,
     V2_NODEID,
@@ -245,7 +245,7 @@ def _case_command(
     if profile == COMMAND_PROFILE_V2 and manifest.get("command_template") != V2_COMMAND_TEMPLATE:
         raise LocalVVError("v2 command_template diverges from the fixed pytest argv profile")
     if profile == COMMAND_PROFILE_V2 and (
-        manifest.get("campaign_id") != V2_CAMPAIGN_ID
+        manifest.get("campaign_id") not in V2_CAMPAIGN_IDS
         or case.get("case_id") != V2_CASE_ID
         or case.get("nodeid") != V2_NODEID
     ):
