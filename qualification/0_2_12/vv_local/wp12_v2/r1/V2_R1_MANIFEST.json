@@ -1,0 +1,475 @@
+{
+  "schema": "qf-local-vv-campaign-v1",
+  "policy": "QUALIFICATION_LOCAL_VV",
+  "status": "PREPARED_NOT_AUTHORIZED",
+  "execution_authorized": false,
+  "numerical_execution_performed": false,
+  "numerical_execution_status": "NUMERICAL_EXECUTION_NOT_PERFORMED",
+  "mode": "PREPARATION_ONLY",
+  "wp12_status": "OPEN",
+  "campaign_id": "WP12-V2-R1-H1-OPERATOR-AUDIT-002",
+  "title": "Prospective H1 TET4 operator audit with explicit R1 scientific result protocol",
+  "prepared_at": "2026-10-26",
+  "identities": {
+    "science": {
+      "path": "E:\\QFSolverWP12B\\science",
+      "commit": "00428adf38e9397340ac136f6f503a268eb671da",
+      "tree": "df4ec667bf746b042c900fad1f86bf542e1a437b",
+      "purpose": "Frozen WP12-0 scientific source checkout; separate from test and runner identities."
+    },
+    "runner": {
+      "path": "E:\\QFSolverWP12B\\runner-local-vv-v2r1",
+      "commit": "a9dcd5ac2b13e02db7e1fe2bc6fb940fbb490a09",
+      "tree": "fd4ea17d7a25452f72faa58a62704daa51b62fab",
+      "purpose": "Clean detached R1 runner checkout; strict fixed-command profile and separate scientific result classification."
+    },
+    "tests": {
+      "path": "E:\\QFSolverWP12B\\tests-wp12-v2-r1",
+      "commit": "67813b4a36a057bbaa9e5fba32bcdea66ddf4df3",
+      "tree": "ffee889f0cd70b089ec8e1719b84a667babfa1be",
+      "purpose": "Clean detached prospective R1 test checkout; unchanged H1/archive fixtures and numerical values; explicit gamma INCONCLUSIVE protocol."
+    }
+  },
+  "environment": {
+    "python": {
+      "executable": "E:\\QFSolverWP12B\\venv-3.13.17\\Scripts\\python.exe",
+      "venv": "E:\\QFSolverWP12B\\venv-3.13.17",
+      "version": "3.13.17",
+      "solveur_version": "0.2.11",
+      "distribution_version": null,
+      "expected_source_import": "E:\\QFSolverWP12B\\science\\src\\solveur\\__init__.py"
+    },
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.15.2",
+      "h5py": "3.14.0",
+      "pytest": "8.4.1",
+      "threadpoolctl": "3.6.0"
+    },
+    "thread_environment": {
+      "BLIS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "native_libraries": {
+      "prior_observation": "OpenBLAS 0.3.29; library numpy.libs/libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll; SHA-256 6547e9fb966e9773caee2755e91a8bf4d6f3a2f0eebf9646b0158f8675ea4ab5.",
+      "status": "Observed in the 2026-10-26 preflight; expected DLL SHA-256 matched. No numerical libraries imported during R1. Reconfirm before execution; native identity is reported, not an OS isolation guarantee."
+    },
+    "platform_observed_2026_10_26": {
+      "platform": "Windows-10-10.0.19045-SP0",
+      "architecture": "AMD64",
+      "status": "Prior WP12-U observation; revalidate."
+    },
+    "isolation": "LOCAL_CURRENT_USER_NON_ATTESTED; no filesystem sandbox, no hard CPU/RAM/disk quota, and no guaranteed descendant containment. Owner acceptance is required for this exact case.",
+    "provenance_note": "Versions, source import, native OpenBLAS version/hash and one-thread pool were observed during the 2026-10-26 preflight using this same scientific checkout and venv. R1 performs only static/synthetic checks and does not repeat solveur or numerical-library imports. Revalidate the actual environment under the future complete Owner decision before science."
+  },
+  "evidence_root": "E:\\QFSolverWP12B\\wp12-local-vv-evidence",
+  "evidence_destination_template": "<evidence_root>/<campaign_id>/<case_id>/<new_run_id>/",
+  "attempt_policy": {
+    "maximum_attempts_per_case": 1,
+    "automatic_retry": false,
+    "sequence": [
+      "TET4-H1-OPERATOR-AUDIT-002"
+    ],
+    "stop_on_first_unexplained_anomaly": true,
+    "new_run_id_is_generated_by_runner": true
+  },
+  "command_template": [
+    "{python_executable}",
+    "-m",
+    "pytest",
+    "-q",
+    "-s",
+    "--noconftest",
+    "-p",
+    "no:cacheprovider",
+    "-p",
+    "local_vv_pytest_plugin",
+    "-c",
+    "{tests_checkout}/pyproject.toml",
+    "-o",
+    "pythonpath=",
+    "-o",
+    "addopts=",
+    "--junitxml={new_run_directory}/junit.xml",
+    "{one_exact_nodeid}"
+  ],
+  "resource_policy": {
+    "cpu": "No hard CPU quota; one exact node per invocation; Owner approval required.",
+    "memory": "No hard RAM quota; observed memory is not a limit; Owner approval required.",
+    "filesystem": "Current-user local permissions; not a sandbox. Historical archives remain outside the output namespace; Owner accepts local risk per case.",
+    "process_tree": "No guaranteed descendant containment; timeout supervision limitation must be accepted.",
+    "timeout_seconds": 300,
+    "timeout_status": "PROPOSED_OWNER_REVIEW_REQUIRED",
+    "output_limit_bytes": 16777216,
+    "output_limit_note": "Per-stream software-polled cap only; not a hard disk quota.",
+    "storage": "No hard storage quota; preserve all partial evidence and stop if output limit is reached."
+  },
+  "owner_decision_required": true,
+  "owner_decision": "No complete R1 execution decision exists. The current R1 task authorizes preparation and synthetic checks only; the conditional decision for the previous manifest cannot authorize these revised identities.",
+  "cases": [
+    {
+      "case_id": "TET4-H1-OPERATOR-AUDIT-002",
+      "title": "Bounded H1 TET4 operator audit using the archived WP12-U fields",
+      "nodeid": "tests/unit/test_wp12_v2_tet4_operator_audit.py::test_tet4_h1_operator_audit_002",
+      "test_checkout": "tests",
+      "status": "PREPARED_NOT_AUTHORIZED",
+      "result_status": "NOT_RUN",
+      "command_profile": "local-vv-pytest-exact-node-v2",
+      "oracle_id": "H1-TET4-EXACT-RATIONAL-MATRIX-AND-ARCHIVED-FIELDS-v1",
+      "acceptance_ref": "qualification/0_2_12/vv_local/wp12_v2/r1/README.md (R1 result semantics); qualification/0_2_12/vv_local/wp12_v2/V2_NUMERICAL_CRITERIA.md (unchanged numerical criteria); exact test assertions.",
+      "numeric_payload_schema": "qf-wp12-v2-r1-h1-operator-audit-v1",
+      "timeout_seconds": 300,
+      "timeout_status": "PROPOSED_OWNER_REVIEW_REQUIRED",
+      "output_limit_bytes": 16777216,
+      "output_limit_status": "PROPOSED_SOFT_POLLING_ONLY_OWNER_REVIEW_REQUIRED",
+      "max_attempts": 1,
+      "attempt_plan_id": "WP12-V2-R1-H1-OPERATOR-AUDIT-002-A1",
+      "criterion_status": "PROPOSED_OWNER_REVIEW_REQUIRED; numeric limits unchanged; unverified gamma assumptions remain INCONCLUSIVE",
+      "criteria": {
+        "assembled_matrix_relative_frobenius_limit": 1e-12,
+        "assembled_matrix_limit_provenance": "Reused from the WP12-U H1 manifest criteria; requires this V2 case-specific Owner approval.",
+        "matrix_free_to_exact_relative_frobenius_limit": 1e-12,
+        "matrix_free_column_normalization": "Each column 2-norm error divided by exact full free-matrix Frobenius norm.",
+        "matrix_free_to_direct_relative_frobenius_limit": 1e-12,
+        "matrix_free_comparison_normalization": "Full 24x24 Frobenius difference divided by exact free-matrix Frobenius norm.",
+        "matrix_free_column_limit_provenance": "Reused WP12-U H1 operator-product proposal; Owner must approve V2 use.",
+        "matrix_free_residual_limit": 1e-08,
+        "matrix_free_residual_denominator": "L2 norm of exact-rational free residual divided by L2 norm of free load.",
+        "direct_residual_limit": 1e-07,
+        "direct_residual_denominator": "L2 norm of exact-rational free residual divided by max(L2 free load norm, L2 exact Ku free norm, 1).",
+        "componentwise_symmetry": "For each transposed global pair: abs(stored Kij-Kji) <= sum of exact-rational local mirror differences + gamma_(mij-1)*sum_abs(Kij contributions) + gamma_(mji-1)*sum_abs(Kji contributions).",
+        "gamma_model": "u=2^-53; gamma_p=p*u/(1-p*u), p=m-1; conditional on finite binary64 round-to-nearest operations without overflow or underflow.",
+        "gamma_runtime_limit": "Runtime rounding mode and every internal reduction intermediate are not established by this test. Unverified assumptions always yield gamma INCONCLUSIVE; Owner risk acceptance cannot establish them, no fallback tolerance is allowed.",
+        "matrix_difference_diagnostics": "Record exact-fraction difference matrix, Frobenius norm, matrix infinity norm (maximum absolute row sum), maximum absolute entry, and relative versions normalized by the corresponding exact matrix norms; no new infinity/max pass threshold.",
+        "equilibrium_identity": "Exact rigid-translation/rotation residual projection identities with Cauchy bounds; moments about fixture origin.",
+        "energy_identity": "For each archived field: exact 2U-W = u_free.T*r_free with exact rational K, loads, binary64 displacement values and homogeneous zero fixed translations.",
+        "synthetic_negative_controls": [
+          "Missing element contribution",
+          "Shifted DOF map",
+          "Perturbed mirrored local entry",
+          "Symmetric but incorrect matrix",
+          "Perturbed matrix-free column",
+          "Inconsistent archived residual",
+          "Non-finite value"
+        ],
+        "owner_decision_required": true
+      },
+      "inputs": {
+        "h1_fixture_path": "tests/fixtures/wp12_u/tet4_h1_level1_model.h5",
+        "h1_fixture_sha256": "4807fea4cde876f57ef1e376f9b0791f5367526d182e236655b39e73e57baa7d",
+        "h1_expected_identity": {
+          "elements": 12,
+          "nodes": 12,
+          "total_dofs": 36,
+          "free_dofs": 24,
+          "units": "SI",
+          "homogeneous_material_count": 1
+        },
+        "archived_u3_fields_path": "tests/fixtures/wp12_v2/u3_archived_solution_fields.json",
+        "archived_u3_fields_sha256": "a862bd016bb408566459491b3c726694e2cd408e084031b4f693223883429ba8",
+        "derived_from": {
+          "receipt_sha256": "c47a566d97998746a58823ce3f88b5f4950b7cf597bf62129f72aa54c3956542",
+          "u3_manifest_sha256": "3f10c7156c6f4e5eaf07f0bf66a92fe3f7cc6ef9031c200c1e41ca1087bf2a1c",
+          "source_test_sha256": "c2e103ce8b195640af69de9d42dba8239eed91d63b3cfbc90b54c9c9d5ae9d38",
+          "source_test_git_blob_oid": "6e43a09a74ad7400b31c61d7be2dfdb00fb3c7a2",
+          "source_run_id": "20261026T120509Z-3a69e91f9b42",
+          "provenance_note": "A derived fields-only JSON copy is used; the original receipt and evidence archive are not modified or represented as this checkout file."
+        },
+        "new_linear_solve": false,
+        "binary64_canonicalization": "Each stored float is recorded with float.hex(); exact oracles use Fraction.from_float on the exact binary64 input."
+      },
+      "observables": [
+        "12 scalar and batch element stiffness matrices in binary64 hex",
+        "12 element global DOF maps and batch production map comparison",
+        "Exact CSR constructor input values, row indices and column indices in emitted order",
+        "Scalar and batch 36x36 global stiffness entries",
+        "Componentwise symmetry differences, contribution sums, addition counts and gamma bounds",
+        "Exact-rational 36x36 and free 24x24 stiffness references",
+        "All 24 matrix-free canonical-vector output columns",
+        "Full matrix-free-minus-direct difference matrix and Frobenius/infinity/max metrics",
+        "Each archived U3 field: full/free exact residual, reactions, force/moment balance, energy/work identity",
+        "Archived-field difference, mean terminal-face UZ and load-conjugate displacement",
+        "Synthetic acceptance-predicate negative-control results",
+        "R1 explicit gamma/pytest/overall scientific statuses and ordered acceptance assertions actually reached"
+      ],
+      "external_dependencies": [
+        "Pinned NumPy, SciPy, h5py, pytest and threadpoolctl packages; no external solver."
+      ],
+      "file_inventory": [
+        {
+          "checkout": "runner",
+          "path": "scripts/local_vv/__init__.py",
+          "sha256": "9a2954a4b45f5c6ea5bce633b1014c0c11c9643f195e462503363e3d554647e1",
+          "git_blob_oid": "931457c7780c4bc0a0d905825a81e96ec1a7856d"
+        },
+        {
+          "checkout": "runner",
+          "path": "scripts/local_vv/cli.py",
+          "sha256": "4e82c899e7bb8a10629154791ae31be1fbd7c8c3f7ecb0d928f9318e4758a734",
+          "git_blob_oid": "4f42abccea1274434ab728d2757320b796b575ac"
+        },
+        {
+          "checkout": "runner",
+          "path": "scripts/local_vv/execution.py",
+          "sha256": "82e90a945554835c0ab658d4c1ad876f04e9ef2231e3a9f739502ff9d16b1e2f",
+          "git_blob_oid": "ba695e6c041a1e35c84fa8ae49387fc32904a38a"
+        },
+        {
+          "checkout": "runner",
+          "path": "scripts/local_vv/manifest.py",
+          "sha256": "6b4452b7d5e4ec7ff5d7bd4546095d9239eab67e9d1d5ccd150213339da3d2dc",
+          "git_blob_oid": "eb5a6a46eac7a79305d541216d7074081ddfd346"
+        },
+        {
+          "checkout": "runner",
+          "path": "scripts/local_vv/process.py",
+          "sha256": "e701702162554978f0d286876f752002333f849cb7adea13375bd04b019d9c4a",
+          "git_blob_oid": "537696f8cf907b7e32ceadc91a372b1ab839707e"
+        },
+        {
+          "checkout": "runner",
+          "path": "scripts/local_vv_pytest_plugin.py",
+          "sha256": "f9487ee00dc4412f732e1c80a7410cf4156e5b80253e54bcf49b8cbb99df4c5e",
+          "git_blob_oid": "08767078b9817594c5618fad84598577afaa5d9c"
+        },
+        {
+          "checkout": "runner",
+          "path": "scripts/run_local_vv.py",
+          "sha256": "7b51d086f64d95c6abc895bead85fd05cc614e81f6d176920bdb0f2cf4f9229a",
+          "git_blob_oid": "9f5e0090ac815aa2ea4fb4881870ee08055b1e55"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/__init__.py",
+          "sha256": "a66ecda7b0d0a242db44a02ad09db8804c05ed6162648c080fd789d4f41ac158",
+          "git_blob_oid": "a4833ca8b820c9fb5780afd1a922a2d60d4e3fdd"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/version.py",
+          "sha256": "abff537ba2890e65b542881381a905089b25c2043bd2b18eaaea7439e67f7380",
+          "git_blob_oid": "af83d3f6c4183467f9d59c0cfd5654548d4c4cf5"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/core/errors.py",
+          "sha256": "9281dc8f2e320e37dd26da0f4504c343aaa54376d5f80fd03ec9294f9c01a943",
+          "git_blob_oid": "295dd5a59ffc6d4491aa7efa297c4795669e5257"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/core/model.py",
+          "sha256": "36766c46a8842ba6a4074a26d120079253ac8cb663d6fec83838889faed6534f",
+          "git_blob_oid": "7ff8d9d0e75845d2347342c2b5cd3564679d05c3"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/core/assembly/sparse.py",
+          "sha256": "5999f94a132dc762d8f92dfc3a5dd27815426d4fec0ceb04df2bbf4199cd4b96",
+          "git_blob_oid": "bf16142765b70508e9bf24d57a21ce6d2deb2589"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/core/nonlinear/contracts.py",
+          "sha256": "faea669e31a85988071e64d930246769212f5745ed5e09e8ecc07b7200363809",
+          "git_blob_oid": "d4c3cd5bb779cab6af590b2ad861f591e344041b"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/elements/solid/common.py",
+          "sha256": "efb267439fbea27db606b69beb71b7a22db521332231e8f2e4cf03b52cb77da5",
+          "git_blob_oid": "bcd3f022e6230ff0e5d898a02701442fe2df0c87"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/elements/solid/tet4.py",
+          "sha256": "0517683946a0292e2224d77ba197229ebdbc91dcf935b57d9b75e728d9be3d0b",
+          "git_blob_oid": "46d309e23ae294476fbd0d84221c46f045287414"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/materials/factory.py",
+          "sha256": "63f06024111085fb87f68a4b5cfd5eadd10c4d6253d7e02761cce19d88fbc275",
+          "git_blob_oid": "8f09ae47a4c61d93693cabf306410f5cba5cc93a"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/materials/solid.py",
+          "sha256": "663caa9019d22a6fb74578e18ed1a994aae8e29bf0e0c9173ebaa2501bdfbd79",
+          "git_blob_oid": "d1e939608a3c29a258986ff5bdbc3b47a3c011b3"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/large/__init__.py",
+          "sha256": "26d92f382567287de868dcd0b7a5b940b65cfd30c91f0156d80e1f5f63a54caa",
+          "git_blob_oid": "d43fb6b05ae5880d82d21a98c81b53454c631cca"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/large/assembler.py",
+          "sha256": "fc2df69250692b73539b1c67cac3c62903da27d1852d198cca20bfc1694ba1c1",
+          "git_blob_oid": "33a9ef1a9e4049a515862eaa08e6530eb046df2f"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/large/dofs.py",
+          "sha256": "ee6da963edf0a9b00c4c329aa716881143904cedd69f47a8f3adea91aca34da5",
+          "git_blob_oid": "855d04f63850c052fee42aa014ed69c478adeb5f"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/large/io.py",
+          "sha256": "d344b04876839f4c0e729c06470d5131ae6519ac80a32969034616f95d32fd07",
+          "git_blob_oid": "0273f5fa78652a0897f7ee3aaf8987c11b7596de"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/large/materials.py",
+          "sha256": "fc6fecebe7f35e041e8fc1f28c807c65e16e9620d327173f5e74c74bc4f2baff",
+          "git_blob_oid": "b3691d86fe7c80e5c13231f26eb4ff13cadeb827"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/large/matrix_free.py",
+          "sha256": "de9cf63466ff95bdc70806950c6942c85a50f02266524e605140cde7ea03b191",
+          "git_blob_oid": "09c67ad587fd855e79d9e73101db1f15547830fe"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/large/model.py",
+          "sha256": "de1fc199c3b4673883c3ad5cbe19b57638eef103c422fc5c391d1568ff67f035",
+          "git_blob_oid": "bdb555bef02c479673daf5dcd2d0b16c485092a9"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/large/telemetry.py",
+          "sha256": "09b17da2d81b3b8cdd898fc6e7f8a7dde6386cbbc5e0ac2f114cfcbfc5d9acc8",
+          "git_blob_oid": "6542cb12bc8f0781005dd0b9663868652a2dbbff"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/large/tet4_batch.py",
+          "sha256": "f647c9dd7d63250b383d23a9cbc2c54af85f6603f9361f470912bbc0eae32962",
+          "git_blob_oid": "e93036f2f105c1f38b4403d809cf2a26d4dd1883"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/io/json_reader.py",
+          "sha256": "df2d15405ae8793524f4a1e20ff110d0917dcf9762a6a08d2597d500ea138520",
+          "git_blob_oid": "0d33ea0511fa613e76088a92cd941365b1cb582a"
+        },
+        {
+          "checkout": "science",
+          "path": "src/solveur/mesh/quality.py",
+          "sha256": "0431bfd3aead4d5fd4fdcf26281b839a9c56e6a9eee4208f09e50b99611d9ff8",
+          "git_blob_oid": "1cc0a2a8140c72d45af33ae5eff418a33e4d890e"
+        },
+        {
+          "checkout": "tests",
+          "path": "pyproject.toml",
+          "sha256": "4f2216177a27d6a754dc11465c764d47acec161936596b31a54658c79acaf711",
+          "git_blob_oid": "838b3355b37270bae6df814dd254f1b63f0a0a37"
+        },
+        {
+          "checkout": "tests",
+          "path": "tests/fixtures/wp12_u/tet4_h1_level1_model.h5",
+          "sha256": "4807fea4cde876f57ef1e376f9b0791f5367526d182e236655b39e73e57baa7d",
+          "git_blob_oid": "798d0bf67e85244f8b07cb183cc069562ec2d76c"
+        },
+        {
+          "checkout": "tests",
+          "path": "tests/fixtures/wp12_v2/u3_archived_solution_fields.json",
+          "sha256": "a862bd016bb408566459491b3c726694e2cd408e084031b4f693223883429ba8",
+          "git_blob_oid": "459cf4ad431a1c0e02a84be418c396dbdeb45ee8"
+        },
+        {
+          "checkout": "tests",
+          "path": "tests/unit/test_wp12_v2_tet4_operator_audit.py",
+          "sha256": "bd15f3287e19cd31913bb813b138c13e121631ba7bbf2c69a2895916920f53d0",
+          "git_blob_oid": "54d66f352f02dc13ead87ea1768a98c7190a8a98"
+        },
+        {
+          "checkout": "runner",
+          "path": "scripts/local_vv/results.py",
+          "sha256": "97c7ac6012c9bbeae663c2a4afca46f4ccb15603f6b75e7fa49e27bb41763f29",
+          "git_blob_oid": "3ea39816fdf953692fe187a77efa817e24e9c2fa"
+        },
+        {
+          "checkout": "runner",
+          "path": "tests/synthetic/test_wp12_v2_r1_result_profile.py",
+          "sha256": "c26d97c0f2076f9a0ca3219658c3777f3f908cd7403480de7540019aaa57d719",
+          "git_blob_oid": "056dda5f4a7f56e49a7faf6c27af30eb75a6c830"
+        }
+      ],
+      "notes": "This is one proposed unit/one exact nodeid. U3 remains FAIL. Local execution is non-attested; the output cap is soft and there is no hard CPU/RAM/disk quota or filesystem sandbox. A pytest pass is not a general FEM qualification.",
+      "result_protocol": {
+        "required_fields": [
+          "rounding_assumptions_verified",
+          "gamma_bound_evaluated",
+          "gamma_bound_satisfied",
+          "gamma_scientific_status",
+          "pytest_execution_status",
+          "overall_scientific_status",
+          "assertion_records"
+        ],
+        "mandatory_assertions": [
+          "all_finite",
+          "exact_reference_symmetric",
+          "scalar_global_accuracy",
+          "batch_global_accuracy",
+          "matrix_free_relative_accuracy",
+          "direct_relative_accuracy",
+          "matrix_free_per_column_accuracy",
+          "matrix_free_vs_direct_accuracy",
+          "matrix_free_archived_residual",
+          "direct_archived_residual",
+          "archived_energy_identity",
+          "synthetic_negative_controls"
+        ],
+        "gamma_conditional_assertions": [
+          "no_subnormal_values_for_gamma_profile",
+          "scalar_and_batch_accumulation_bounds",
+          "scalar_and_batch_componentwise_symmetry_bounds",
+          "matrix_free_componentwise_error_bound"
+        ],
+        "missing_marker": "INCOMPLETE",
+        "malformed_duplicate_or_contradictory_marker": "ERROR",
+        "expected_gamma_status_for_this_frozen_test": "INCONCLUSIVE",
+        "expected_overall_when_all_mandatory_assertions_pass": "INCONCLUSIVE",
+        "cli_exit_when_science_inconclusive": 1,
+        "meaning": "Pytest assertion execution is distinct from scientific control status. No WP qualification or maturity decision is granted."
+      }
+    }
+  ],
+  "revision": "WP12-V2-R1",
+  "previous_preparation": {
+    "path": "../V2_MANIFEST.json",
+    "sha256": "dd72bc80ff5dbae1d105bef5ad6f778eb9046335706697db0479b0764145d665",
+    "status": "PRESERVED_PREPARED_NOT_AUTHORIZED; no authorization is transferred"
+  },
+  "command_preview": [
+    "E:\\QFSolverWP12B\\venv-3.13.17\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-s",
+    "--noconftest",
+    "-p",
+    "no:cacheprovider",
+    "-p",
+    "local_vv_pytest_plugin",
+    "-c",
+    "E:\\QFSolverWP12B\\tests-wp12-v2-r1\\pyproject.toml",
+    "-o",
+    "pythonpath=",
+    "-o",
+    "addopts=",
+    "--junitxml=E:\\QFSolverWP12B\\wp12-local-vv-evidence\\WP12-V2-R1-H1-OPERATOR-AUDIT-002\\TET4-H1-OPERATOR-AUDIT-002\\<new_run_id>\\junit.xml",
+    "tests/unit/test_wp12_v2_tet4_operator_audit.py::test_tet4_h1_operator_audit_002"
+  ],
+  "command_resolution": "Only the pinned Python/tests checkout, this exact nodeid and the runner-generated new_run_id under the approved namespace may replace fixed profile placeholders. No additional argument is accepted."
+}
