@@ -87,6 +87,7 @@ def _decision(manifest: dict[str, object]) -> dict[str, object]:
     return {
         "schema": runner.DECISION_SCHEMA,
         "decision_status": "APPROVED_FOR_EXECUTION",
+        "authentication": "OWNER_REVIEW_OUTSIDE_RUNNER; NOT_CRYPTOGRAPHIC",
         "decision_id": "SYNTHETIC-DECISION-001",
         "approved_by": "Synthetic Owner",
         "approved_at_utc": "2026-01-01T00:00:00Z",

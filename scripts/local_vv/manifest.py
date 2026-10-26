@@ -424,6 +424,8 @@ def validate_owner_decision(
     errors: list[str] = []
     if decision.get("schema") != DECISION_SCHEMA:
         errors.append("unsupported Owner execution-decision schema")
+    if decision.get("authentication") != "OWNER_REVIEW_OUTSIDE_RUNNER; NOT_CRYPTOGRAPHIC":
+        errors.append("decision record must explicitly disclose its non-cryptographic trust model")
     if decision.get("decision_status") != "APPROVED_FOR_EXECUTION":
         errors.append("separate Owner execution decision is not APPROVED_FOR_EXECUTION")
     if decision.get("campaign_id") != manifest.get("campaign_id"):
