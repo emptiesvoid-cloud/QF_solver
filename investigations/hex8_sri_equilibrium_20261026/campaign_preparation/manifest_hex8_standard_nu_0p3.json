@@ -1,123 +1,63 @@
 {
-  "schema": "qfsolver-hex8-sri-structural-case-draft-v1",
-  "campaign_id": "HEX8-SRI-CANTILEVER-6-2026-10-26",
-  "case_id": "hex8_standard_nu_0p3",
-  "execution_state": "OWNER_AUTHORIZATION_PENDING",
-  "execution_authorized": false,
-  "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
-  "qualification_promotion": "PROHIBITED",
-  "common_problem": {
-    "path": "common_problem.json",
-    "sha256": "003c8551d05c0ea4029e8ce5b552d6900abf306788d10bb43a829ad0be7737dc"
-  },
-  "exact_proposed_nodeid": "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[hex8_standard_nu_0p3]",
-  "nodeid_status": "collected_exact_node; currently skipped placeholder; not active in controller allowlist",
-  "formulation": {
-    "id": "hex8_standard",
-    "element_type": "HEX8",
-    "operator": "Hex8Element.stiffness",
-    "legacy_or_corrected": "standard_full_integration"
-  },
-  "poisson_ratio": 0.3,
-  "source_preparation_commit": "344bb385b905544e8d94df496c312d5904edb55f",
-  "source_fingerprint_sha256_controller_algorithm": "60131a66dcafefd55c5b3300c505da3c3a495f2e79619c7006202e051919ef7f",
-  "source_freeze_files": {
-    "src/solveur/elements/solid/hex8.py": {
-      "sha256_worktree_raw_bytes": "4dd8ba606b7e8cab9697fd26ce0baf37fbaf046f9e95894afb0ac8eaa0c85d7a",
-      "sha256_git_blob_bytes": "d10eb59654cfc9fdc071ed46d13c5d545a796a52d4c71e56d8130e69e12bb74d"
-    },
-    "src/solveur/elements/solid/hex8_sri.py": {
-      "sha256_worktree_raw_bytes": "56f7776de6327441fb424e550238e3384bddaf98e84b4d4cf825dc2d275e6440",
-      "sha256_git_blob_bytes": "844bcdded7d039fb7e7d108322be4b45815992ee00117bb93ea59235409563d4"
-    },
-    "src/solveur/elements/solid/common.py": {
-      "sha256_worktree_raw_bytes": "efb267439fbea27db606b69beb71b7a22db521332231e8f2e4cf03b52cb77da5",
-      "sha256_git_blob_bytes": "2579374dd713a2d001cfff90861abf3c3dca4c65db1c3e7489cb11ba2e99b6f5"
-    },
-    "src/solveur/materials/solid.py": {
-      "sha256_worktree_raw_bytes": "663caa9019d22a6fb74578e18ed1a994aae8e29bf0e0c9173ebaa2501bdfbd79",
-      "sha256_git_blob_bytes": "784d830c12354525918a1cfbc1a3cb81c7015d721b36533eeab115d4ec70b452"
-    },
-    "src/solveur/materials/factory.py": {
-      "sha256_worktree_raw_bytes": "63f06024111085fb87f68a4b5cfd5eadd10c4d6253d7e02761cce19d88fbc275",
-      "sha256_git_blob_bytes": "6db6720b4db9d8a23b816589eecba8ce97d2354cfb07f9c21af1d99241a1e40c"
-    },
-    "src/solveur/core/model.py": {
-      "sha256_worktree_raw_bytes": "36766c46a8842ba6a4074a26d120079253ac8cb663d6fec83838889faed6534f",
-      "sha256_git_blob_bytes": "93bd373670d692e33bdb98f6c2bee8704d4c09567a290e514b50fa6a3872e152"
-    },
-    "src/solveur/core/assembly/assembler.py": {
-      "sha256_worktree_raw_bytes": "23e0702165a65afb2108670b2f140b8173f4857134a4e1461c5d75e8333b30cb",
-      "sha256_git_blob_bytes": "e4e9710fe28822668d87e5a1d805aaf0f13369de01a094c585d17e5241910d41"
-    },
-    "src/solveur/core/audit.py": {
-      "sha256_worktree_raw_bytes": "6b0b993f746d89e4e850e6b7d1044adca07ec82c0b35ce8b53fe4a02d57d7cd3",
-      "sha256_git_blob_bytes": "ec796f9a080d2c91f5ec1990e3edbc6a530ff199de4d499f36d493861da85824"
-    },
-    "src/solveur/core/solvers/static.py": {
-      "sha256_worktree_raw_bytes": "f0efb9afe0a8f304faeacefcfc5d76fbb79057527f9f51c03bb9fa9e915363d7",
-      "sha256_git_blob_bytes": "330523f7694cfcc5587e604ebfb33b126f6cd5db841ffa9c92b6df5e2fe80e52"
-    },
-    "src/solveur/core/solvers/linear.py": {
-      "sha256_worktree_raw_bytes": "dab4014642740135f01a4493ef963410309dac6c2a799124b67f7fe411f2a2ac",
-      "sha256_git_blob_bytes": "ac125c55d3b84f5e06a88afe1594c73b3b11b7f03748db809e2935bbffca8bc9"
-    },
-    "src/solveur/elements/registry.py": {
-      "sha256_worktree_raw_bytes": "ad055ad1fe624b5b780d81a161323378a4e26c1fe07f46e99a7281494d55eef8",
-      "sha256_git_blob_bytes": "8569268351f08346e55cd859f18f8d9e042b69c60ca4b5d58e993647d51e300d"
-    },
-    "src/solveur/loads/integration.py": {
-      "sha256_worktree_raw_bytes": "c30d5a6e53321d0a9f12bc3ac9c4d1b78e07a84f7d57b3532c0488eba3a3f2a9",
-      "sha256_git_blob_bytes": "8fb1b9d085632cf41ac0bebe3b71d39245dfd75c1f48a3354cc7ad1719b648d5"
-    },
-    "src/solveur/mesh/validation.py": {
-      "sha256_worktree_raw_bytes": "2f80e5f2f17f5138ac875bc32d9e46ad416a9941b11ba13688188ec23b4642b6",
-      "sha256_git_blob_bytes": "606b25154a37cedfba5467f08d94177bd2292d66292497bf676c1b64611d6c09"
-    },
-    "src/solveur/post/stress.py": {
-      "sha256_worktree_raw_bytes": "116ba82788075e8ccccb4cb99794351995e373a54219ccc852dee7b5d4f70677",
-      "sha256_git_blob_bytes": "1d8628dcc8d0446343c65e497fba12ff105a7a14717d1a356cb52e55c9f74a87"
-    },
-    "tests/verification/test_hex8_sri_structural_campaign.py": {
-      "sha256_worktree_raw_bytes": "0db16e7be4adc2ffa84fc73911abfa919171ee50ffe897b666d80b8d0040105f",
-      "sha256_git_blob_bytes": "0db16e7be4adc2ffa84fc73911abfa919171ee50ffe897b666d80b8d0040105f"
-    }
-  },
-  "controller_and_policy_sha256_raw_worktree_bytes": {
-    "scripts/development_autonomous.py": "d17a026f8f3688777c42c741be34905eed3d706a074443407b086c4a81298e74",
-    "scripts/development_autonomous_pytest_plugin.py": "c1cf6238bba05fa24de5c455beac9ddd6844935999e8b4556d3b13e5f6e9ee16",
-    "development_autonomous_policy.json": "2e2fb54a0c2dcfea5312008c5985acf7df4fd5eb9367d777fddf6ac31e6d0822"
-  },
-  "run_control": {
-    "scope": "fem_exploratory",
-    "proposed_worktree_id": "hex8sri",
-    "policy_registration_active": false,
-    "controller_compatibility": "BLOCKED: current controller only permits d01/c01/e01",
-    "owner_decision_required": true,
-    "attempt_number_if_authorized": 1,
-    "no_automatic_or_manual_retry_in_this_six-case_batch": true
-  },
-  "configuration": {
-    "common_problem_sha256": "003c8551d05c0ea4029e8ce5b552d6900abf306788d10bb43a829ad0be7737dc",
-    "formulation_specific_changes": "only element stiffness operator; all geometry, material E, nu case, load vector, supports, DOF order, direct solver, tolerance, and postprocess definitions are shared"
-  },
-  "proposed_budgets": {
-    "wall_seconds_per_case": 180,
-    "peak_rss_mib_soft": 1024,
-    "process_tree_limit": 8,
-    "captured_output_total_mib": 16,
-    "captured_output_per_stream_mib": 8,
-    "temporary_mib_sampled": 64,
-    "archive_mib_sampled": 64,
-    "minimum_free_disk_mib": 1024,
-    "attempts_per_node_initial_campaign": 1,
-    "six_case_total_max_attempts": 6,
+  "attempt_number": 1,
+  "budgets": {
+    "archive_size_limit_mib": 64,
+    "attempts_per_nodeid": 1,
     "blas_thread_environment": {
-      "OMP_NUM_THREADS": "1",
       "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
       "OPENBLAS_NUM_THREADS": "1"
     },
-    "budget_status": "proposed only; requires Owner acceptance and controller support"
+    "budget_semantics": {
+      "captured_output": "controller-enforced byte caps",
+      "rss_process_temporary_archive": "sampled soft observations, not OS quotas",
+      "wall_timeout": "watchdog process-tree termination, best effort"
+    },
+    "initial_campaign_max_attempts": 6,
+    "minimum_free_disk_mib": 1024,
+    "output_stream_limit_mib": 8,
+    "output_total_limit_mib": 16,
+    "process_tree_limit": 8,
+    "rss_soft_limit_mib": 1024,
+    "temporary_limit_mib": 64,
+    "timeout_seconds": 180
   },
-  "do_not_execute": true
+  "campaign_id": "HEX8-SRI-CANTILEVER-6-2026-10-26",
+  "case_id": "hex8_standard_nu_0p3",
+  "common_problem": {
+    "path": "final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4_d73a2a4f6173_protocol3/common_problem.json",
+    "sha256": "ace23f5efe7923203dbd6973100fd1081dc94417ec161da88d26b8eced7e2934"
+  },
+  "controller_code_sha256": {
+    "pytest_plugin": "c1cf6238bba05fa24de5c455beac9ddd6844935999e8b4556d3b13e5f6e9ee16",
+    "runner": "d73a2a4f6173d53f49d90899a8d71c112371bad7a97c350c6076f8f96327f198"
+  },
+  "controller_registration_id": "hex8sri",
+  "do_not_execute": false,
+  "exact_nodeid": "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[hex8_standard_nu_0p3]",
+  "execution_artifact_root": "E:/QFSolverAgents/hex8sri-runs/HEX8-SRI-CANTILEVER-6-2026-10-26-owner-authorized",
+  "execution_authorized": true,
+  "execution_state": "OWNER_AUTHORIZED_BOUNDED_DEVELOPMENT_EXECUTION",
+  "formulation": {
+    "element_type": "Hex8Element",
+    "id": "hex8_standard",
+    "operator": "complete 2x2x2 Gauss integration",
+    "source_note": "production HEX8 element, selected directly; registry not used"
+  },
+  "poisson_ratio": 0.3,
+  "qualification": "NOT_APPLICABLE_DEVELOPMENT_ONLY",
+  "qualification_promotion": "PROHIBITED",
+  "retry_allowed": false,
+  "schema": "qfsolver-hex8-sri-structural-case-v2",
+  "science_branch": "research/hex8-sri-equilibrium",
+  "science_source_commit": "b547cf0e1c8057ef7f58ba780967d1b19c891ac4",
+  "source_files_sha256": {
+    "experiments/hex8_sri_equilibrium/__init__.py": "5125c36783846afbe6f6d7228195756280c8661ccc3a9c2962e6c7b9ed2e31ca",
+    "experiments/hex8_sri_equilibrium/campaign.py": "a104313f8546ab177d3fc7f49b474bc6610030a2082ff9981415764609d510fd",
+    "src/solveur/elements/solid/hex8.py": "4dd8ba606b7e8cab9697fd26ce0baf37fbaf046f9e95894afb0ac8eaa0c85d7a",
+    "src/solveur/elements/solid/hex8_sri.py": "56f7776de6327441fb424e550238e3384bddaf98e84b4d4cf825dc2d275e6440",
+    "src/solveur/materials/solid.py": "663caa9019d22a6fb74578e18ed1a994aae8e29bf0e0c9173ebaa2501bdfbd79",
+    "tests/verification/test_hex8_sri_structural_campaign.py": "f922bc987182956d7b43ebff1f99c74e4b77313ef7a163f9201772f4b5d9710a"
+  },
+  "source_fingerprint_sha256": "e14217217a6044ca9cb7c64a0f187864121589463c00e1eaac53251696b60c29"
 }
