@@ -1,0 +1,143 @@
+{
+  "schema": "qf-wp12-v2-r1-preflight-outcome-v1",
+  "recorded_at_utc": "2026-10-26T14:35:33.861909Z",
+  "campaign_id": "WP12-V2-R1-H1-OPERATOR-AUDIT-002",
+  "case_id": "TET4-H1-OPERATOR-AUDIT-002",
+  "nodeid": "tests/unit/test_wp12_v2_tet4_operator_audit.py::test_tet4_h1_operator_audit_002",
+  "manifest_sha256": "fe19d40bd46c0d8c1fc0fc6f49cb37e978b8132d5c5077d15b4ab8d9f46db77d",
+  "report_parent_commit": "4aa919114a74f445b7ed22bb20ba9145849bc342",
+  "owner_authorization": {
+    "status": "EXPLICITLY_APPROVED",
+    "request_sha256": "ccc02d21edc6ea7b0d19999c63e19fe772d79ace20c248a58ef26a2ac0a12703",
+    "received_at_utc": "2026-10-26T14:26:23Z",
+    "valid_until_utc": "2026-10-27T14:26:23Z",
+    "time_basis": "Attachment creation time when receiving the explicit current-turn Owner request, preceding operational registration.",
+    "local_non_attested_limits": "EXPLICITLY_ACCEPTED_FOR_THIS_CASE",
+    "authentication": "OWNER_REVIEW_OUTSIDE_RUNNER; NOT_CRYPTOGRAPHIC"
+  },
+  "operator_prelaunch_disposition": "DENY_EXECUTION",
+  "reason": "STATICALLY_DEMONSTRATED_COLLECTION_SOURCE_IMPORT_ORDER_BLOCKER",
+  "execution": {
+    "scientific_status": "NOT_RUN",
+    "pytest_execution_status": "NOT_RUN",
+    "scientific_attempts_in_this_mission": 0,
+    "attempt_reserved": false,
+    "campaign_directory_created": false,
+    "run_id": null,
+    "junit_created": false,
+    "scientific_payload_created": false,
+    "scientific_receipt_created": false
+  },
+  "preflight": {
+    "manifest_and_34_file_identities": "SATISFIED",
+    "clean_checkout_commit_and_tree": "SATISFIED",
+    "python_dependencies_import_and_native_library": "SATISFIED",
+    "six_effective_child_thread_variables": "SATISFIED",
+    "full_command_including_s": "MATCH",
+    "new_destination_and_no_reservation": "SATISFIED",
+    "collection_hook_compatibility": "BLOCKED",
+    "formal_validate_cli_status": "VALIDATED_NOT_AUTHORIZED"
+  },
+  "identities": {
+    "runner": {
+      "commit": "a9dcd5ac2b13e02db7e1fe2bc6fb940fbb490a09",
+      "path": "E:\\QFSolverWP12B\\runner-local-vv-v2r1",
+      "status": "CLEAN",
+      "tree": "fd4ea17d7a25452f72faa58a62704daa51b62fab"
+    },
+    "science": {
+      "commit": "00428adf38e9397340ac136f6f503a268eb671da",
+      "path": "E:\\QFSolverWP12B\\science",
+      "status": "CLEAN",
+      "tree": "df4ec667bf746b042c900fad1f86bf542e1a437b"
+    },
+    "tests": {
+      "commit": "67813b4a36a057bbaa9e5fba32bcdea66ddf4df3",
+      "path": "E:\\QFSolverWP12B\\tests-wp12-v2-r1",
+      "status": "CLEAN",
+      "tree": "ffee889f0cd70b089ec8e1719b84a667babfa1be"
+    }
+  },
+  "environment": {
+    "python_executable": "E:\\QFSolverWP12B\\venv-3.13.17\\Scripts\\python.exe",
+    "python_version": "3.13.17",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "packages": {
+      "h5py": "3.14.0",
+      "numpy": "2.2.6",
+      "pytest": "8.4.1",
+      "scipy": "1.15.2",
+      "threadpoolctl": "3.6.0"
+    },
+    "solveur_source_file": "E:\\QFSolverWP12B\\science\\src\\solveur\\__init__.py",
+    "thread_environment": {
+      "BLIS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1"
+    },
+    "native_libraries": [
+      {
+        "user_api": "blas",
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "prefix": "libscipy_openblas",
+        "filepath": "E:\\QFSolverWP12B\\venv-3.13.17\\Lib\\site-packages\\numpy.libs\\libscipy_openblas64_-13e2df515630b4a41f92893938845698.dll",
+        "version": "0.3.29",
+        "threading_layer": "pthreads",
+        "architecture": "Haswell",
+        "sha256": "6547e9fb966e9773caee2755e91a8bf4d6f3a2f0eebf9646b0158f8675ea4ab5"
+      }
+    ]
+  },
+  "command_preview": [
+    "E:\\QFSolverWP12B\\venv-3.13.17\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-s",
+    "--noconftest",
+    "-p",
+    "no:cacheprovider",
+    "-p",
+    "local_vv_pytest_plugin",
+    "-c",
+    "E:\\QFSolverWP12B\\tests-wp12-v2-r1\\pyproject.toml",
+    "-o",
+    "pythonpath=",
+    "-o",
+    "addopts=",
+    "--junitxml=E:\\QFSolverWP12B\\wp12-local-vv-evidence\\WP12-V2-R1-H1-OPERATOR-AUDIT-002\\TET4-H1-OPERATOR-AUDIT-002\\<new_run_id>\\junit.xml",
+    "tests/unit/test_wp12_v2_tet4_operator_audit.py::test_tet4_h1_operator_audit_002"
+  ],
+  "working_directory": "E:\\QFSolverWP12B\\tests-wp12-v2-r1",
+  "local_record_hashes": {
+    "preflight_validation_sha256": "0a344cf14a8c2a6e8f3d938dd95dabb74a4a557ba670ceee65b50bfc482eb877",
+    "owner_decision_blocked_sha256": "1b9f756a16449ac6dd3c670801738c1ca7946a302e0cabf619cf722691e91d12",
+    "owner_request_sha256": "ccc02d21edc6ea7b0d19999c63e19fe772d79ace20c248a58ef26a2ac0a12703"
+  },
+  "scientific_control_statuses": {
+    "rounding_assumptions_verified": null,
+    "gamma_bound_evaluated": false,
+    "gamma_bound_satisfied": null,
+    "gamma_scientific_status": "NOT_ACQUIRED",
+    "overall_scientific_status": "NOT_RUN"
+  },
+  "operator_incident": {
+    "status": "CORRECTED_DIAGNOSTIC_INVOCATION",
+    "description": "An initial inline call to validate_all_cases was refused by verify_runner_entrypoint because sys.argv[0] was stdin (-). No scientific process or reservation was involved. The documented pinned validate CLI was then used successfully; the guard was not bypassed.",
+    "scientific_attempt": false
+  },
+  "preservation": {
+    "science_unchanged": true,
+    "tests_unchanged": true,
+    "runner_unchanged": true,
+    "manifest_unchanged": true,
+    "u3_historical_status": "FAIL",
+    "wp12": "OPEN",
+    "wp13": "OPEN",
+    "wp12_w": "PREPARED_NOT_AUTHORIZED"
+  }
+}
