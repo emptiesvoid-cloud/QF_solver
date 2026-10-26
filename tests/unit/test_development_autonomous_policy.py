@@ -147,9 +147,21 @@ def test_wp12_registry_has_four_distinct_exact_worktree_envelopes() -> None:
         assert entry["target_max_dofs"] == max_dofs
         if worktree_id == "wp12_dynamics":
             assert entry["allowed_nodeids"] == list(WP12_DYNAMICS_NODEIDS)
-            assert len(entry["nodeid_registration_records"]) == 13
+            records = entry["nodeid_registration_records"]
+            assert len(records) == 14
             assert all(len(record["worktree_head"]) == 40 for record in entry["nodeid_registration_records"])
             assert all(len(record["source_fingerprint"]) == 64 for record in entry["nodeid_registration_records"])
+            newmark_target = "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables"
+            newmark_records = [record for record in records if record["target"] == newmark_target]
+            assert len(newmark_records) == 2
+            assert (newmark_records[0]["worktree_head"], newmark_records[0]["source_fingerprint"]) == (
+                "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d",
+                "63e2972018db9bd4f8fc50947504da886e2de29ee4494c3c78422f5ec5c1536d",
+            )
+            assert (newmark_records[1]["worktree_head"], newmark_records[1]["source_fingerprint"]) == (
+                "ed24d6b00d95e339b288a8ec8fa0edf16149be5a",
+                "0174c88cd3aa03529c0e6fd6d6ab2e7ef728586ecd2e71f27330c42ffda5811d",
+            )
         elif worktree_id == "wp12_tet4":
             assert entry["allowed_nodeids"] == list(WP12_TET4_NODEIDS)
             records = entry["nodeid_registration_records"]

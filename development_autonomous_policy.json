@@ -547,6 +547,17 @@
           "timeout_reason": null,
           "timeout_seconds": 300,
           "worktree_head": "e64493e90b428ec3f41da0dcbc3ebfb5fd4cbc3d"
+        },
+        {
+          "reason": "Record the source-bound Newmark revision at dynamics HEAD ed24d6 while preserving the prior registration history.",
+          "registered_at_utc": "2026-10-26T19:11:39.971548+00:00",
+          "selected_dofs": 1,
+          "selection_basis": "One free axial translation in the BEAM2 SDOF Newmark fixture",
+          "source_fingerprint": "0174c88cd3aa03529c0e6fd6d6ab2e7ef728586ecd2e71f27330c42ffda5811d",
+          "target": "tests/unit/test_modal_newmark.py::test_wp12_newmark_fixed_time_state_refinement_residual_and_energy_observables",
+          "timeout_reason": null,
+          "timeout_seconds": 300,
+          "worktree_head": "ed24d6b00d95e339b288a8ec8fa0edf16149be5a"
         }
       ]
     }
