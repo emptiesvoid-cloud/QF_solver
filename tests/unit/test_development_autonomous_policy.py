@@ -154,6 +154,18 @@ def test_wp12_registry_has_four_distinct_exact_worktree_envelopes() -> None:
         )
 
 
+def test_dynamic_nodeids_are_allowlisted_only_for_the_dynamics_worktree() -> None:
+    policy = _policy()
+    for nodeid in WP12_DYNAMICS_NODEIDS:
+        assert MODULE.resolve_targets("fem_exploratory", nodeid, policy, worktree_id="wp12_dynamics") == [nodeid]
+        with pytest.raises(MODULE.PolicyError, match="exact nodeid in the registered worktree allowlist"):
+            MODULE.resolve_targets("fem_exploratory", nodeid, policy, worktree_id="wp12_wp07")
+
+    unknown_nodeid = "tests/unit/test_modal_newmark.py::test_unregistered_dynamic_case"
+    with pytest.raises(MODULE.PolicyError, match="exact nodeid in the registered worktree allowlist"):
+        MODULE.resolve_targets("fem_exploratory", unknown_nodeid, policy, worktree_id="wp12_dynamics")
+
+
 def test_each_wp12_worktree_resolves_its_registered_test_and_solver_root(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -560,6 +572,48 @@ def test_wp12_attempt_ledger_enforces_total_cap_across_nodeids(tmp_path: Path) -
     MODULE._reserve_node_attempt(**common, target="tests/unit/test_mesh.py::test_first")
     with pytest.raises(MODULE.PolicyError, match="mission cap"):
         MODULE._reserve_node_attempt(**common, target="tests/unit/test_mesh.py::test_second")
+
+
+def test_wp12_dynamics_attempt_ledger_preserves_authorized_node_and_total_caps(tmp_path: Path) -> None:
+    envelope = MODULE.WP12_OWNER_ENVELOPES["wp12_dynamics"]
+    per_node_limit = envelope["attempt_limit_per_nodeid"]
+    total_limit = envelope["max_total_attempts"]
+    common = {
+        "ledger_path": tmp_path / "dynamics-ledger.json",
+        "lock_path": tmp_path / "dynamics-ledger.lock",
+        "mandate_id": envelope["development_mandate_id"],
+        "worktree_id": "wp12_dynamics",
+        "source_fingerprint": "a" * 64,
+        "total_maximum": total_limit,
+    }
+
+    for node_index, target in enumerate(WP12_DYNAMICS_NODEIDS):
+        for attempt_index in range(per_node_limit):
+            MODULE._reserve_node_attempt(
+                **common,
+                target=target,
+                series_id=f"dev-dynamics-{node_index:02d}-{attempt_index:02d}",
+                reason=f"synthetic authorized dynamics attempt {node_index:02d}-{attempt_index:02d}",
+                maximum=per_node_limit,
+            )
+        if node_index == 0:
+            with pytest.raises(MODULE.PolicyError, match=f"exhausted {per_node_limit} attempts for this nodeid"):
+                MODULE._reserve_node_attempt(
+                    **common,
+                    target=target,
+                    series_id="dev-dynamics-node-cap",
+                    reason="synthetic dynamics attempt above the authorized per-node cap",
+                    maximum=per_node_limit,
+                )
+
+    with pytest.raises(MODULE.PolicyError, match=f"exhausted its {total_limit}-attempt mission cap"):
+        MODULE._reserve_node_attempt(
+            **common,
+            target="tests/unit/test_dynamic_synthetic.py::test_after_authorized_cap",
+            series_id="dev-dynamics-mission-cap",
+            reason="synthetic dynamics attempt above the authorized mission cap",
+            maximum=per_node_limit,
+        )
 
 
 def test_wp12_execution_authorization_id_is_durable_and_single_use(tmp_path: Path) -> None:
