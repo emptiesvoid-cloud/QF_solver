@@ -1,14 +1,91 @@
 # QF Solver v0.2.12 — Integration roadmap overlay
 
-**Normative state updated:** 2026-10-25
+**Original integration overlay date:** 2026-10-25
 **Reviewed branch:** `emptiesvoids-cloud/0.2.12`
 **HEAD at review start:** `8aa83f632643c389aed3b8c4e9223f8c422eee1a`
 
 This file records the current integration decision that supplements the preserved Owner roadmap. The Owner-approved roadmap remains byte-preserved at [`owner_provided/QF_Solver_v0.2.12_roadmap_WPE01.md`](owner_provided/QF_Solver_v0.2.12_roadmap_WPE01.md). The earlier integration snapshot is preserved verbatim at [`wp_e01_source_snapshot_ROADMAP.md`](wp_e01_source_snapshot_ROADMAP.md); its WP-E01 row reflects the status before Owner decision BC and is historical.
 
-## Normative portfolio state — 2026-10-25
+## Latest normative state — 2026-10-26
 
-This is the latest operational state after the recorded WP11 closure decision. It supersedes earlier portfolio-count snapshots below without changing their historical contents.
+**Integration branch:** `emptiesvoids-cloud/0.2.12`<br>
+**Integration HEAD assessed before this documentation update:** `48b4960d16d3ad9616270f52bd5313045c1c1a78`<br>
+**Frozen scientific candidate used by WP12-S:** commit `00428adf38e9397340ac136f6f503a268eb671da`, tree `df4ec667bf746b042c900fad1f86bf542e1a437b`.
+
+This is the latest operational portfolio state as of 2026-10-26. It supersedes the dated 2026-10-25 snapshot below. Campaign execution records remain tied to their own manifests and source identities; their results must not be described as runs on the later integration HEAD unless the record says so.
+
+### Normative portfolio disposition
+
+| Work package | Current disposition |
+|---|---|
+| WP00 | `CLOSED` — positive historical closure |
+| WP01 | `CLOSED` — positive historical closure |
+| WP02 | `CLOSED` — positive historical closure |
+| WP03 | `CLOSED` — positive historical closure |
+| WP04 | `CLOSED` — positive historical closure |
+| WP05 | `CLOSED` — positive historical closure; v0.2.12 reduced harmonic |
+| WP06 | `CLOSED` — positive historical closure; v0.2.12 modal Newmark |
+| WP07 | `CLOSED` — positive historical closure |
+| WP08 | `CLOSED_BOUNDED` — positive historical closure within its recorded scope |
+| WP09 | `CLOSED_BOUNDED` — positive historical closure within its recorded scope |
+| WP10 | `CLOSED_BOUNDED` — positive historical closure within its recorded scope |
+| WP-C01 | `CLOSED_NEGATIVE`; remediation remains `OPEN` |
+| WP-C02 | `CLOSED_BOUNDED` — WP-C02-AR/N03 only |
+| WP-D01 | `INCONCLUSIVE` — open |
+| WP-D02 | `CLOSED_BOUNDED` — within its recorded scope |
+| WP-E01 | `OPEN_WITH_BOUNDED_CERTIFICATES` — selected capabilities integrated; general qualification not acquired |
+| WP11 | `CLOSED` — approved API/integration gate only |
+| WP12 | `OPEN` — verification, validation, non-regression, and performance |
+| WP13 | `OPEN` — packaging and publication |
+
+Portfolio total: **19 work packages; 14 positive closures, 1 historical negative closure, and 4 open or inconclusive packages** (WP-D01, WP-E01, WP12, WP13). This is an administrative count, not a measure of scientific coverage, qualification, or release readiness. WP-C01's remediation remains part of that existing work package and is not an additional open package.
+
+WP11 remains closed only for its accepted API, integration, traceability, result-contract, serialization, compatibility, and refusal scope. WP12 remains the scientific V&V and performance gate; WP13 remains the packaging/publication gate. No status below promotes maturity or grants publication approval. The [WP12 master plan](vv_master_plan/README.md) records these governance boundaries.
+
+### WP12 progress — 2026-10-26
+
+| Phase | State | Recorded outcome |
+|---|---|---|
+| WP12-P | Complete | Master V&V plan and inventory of 62 capabilities; planning artifact, not execution evidence. |
+| WP12-Q | Complete | Local V&V policy and runner preparation; policy adoption did not authorize a scientific case. See the [Owner policy decision](vv_local/WP12_Q_OWNER_POLICY_DECISION.md). |
+| WP12-R | Executed | 4/4 cases returned `PYTEST_PASS_ONLY`; numerical observables were `NOT_EXPOSED`. The later WP12-S extraction report preserves this distinction. |
+| WP12-S | Executed | 8/8 authorized cases ran: seven receipts are `PYTEST_PASS_ONLY`, and one historical `FAIL` is preserved. `PYTEST_PASS_ONLY` is not an oracle verdict or qualification decision. |
+| WP12-T | Complete | Scientific audit of modal 2-DOF and TET4 evidence; no new solver test, FEM run, benchmark, or mesh generation was performed. |
+| WP12-U | Proposed | Three discriminating experiments are prepared: a better-conditioned modal criterion, an affine TET4 oracle, and a same-model matrix-free/direct route comparison. None has been executed; each requires its own explicit authorization. |
+
+See the [WP12-R numerical extraction status](vv_local/wp12_s/Q1_Q4_NUMERICAL_EXTRACTION.md), [WP12-S execution report](vv_local/wp12_s/WP12_S_EXECUTION_REPORT.md), [WP12-T audit synthesis](vv_local/wp12_t_audit/SCIENTIFIC_AUDIT_SUMMARY.md), and [prospective experiment plan](vv_local/wp12_t_audit/PROSPECTIVE_TEST_PLAN.md). WP12-P/Q/T are preparation or audit milestones; they are not scientific test passes.
+
+### WP12-S observations and limits
+
+- **Modal 2-DOF:** the independent polynomial roots agree with the recorded computed eigenvalues to a maximum relative difference of about `1.89e-16`. The historical `MODAL-2DOF-POLY-001` test remains `FAIL`: its projected-stiffness assertion uses `atol=0` against theoretically zero off-diagonal entries, where roundoff of about `4.44e-16` fails. WP12-T classifies this as `TEST_CRITERION_DEFECT`; no solver defect is demonstrated by this failure, and the historical result is not erased. The prospective replacement has not been run. See the [modal root-cause audit](vv_local/wp12_t_audit/MODAL_2DOF_ROOT_CAUSE.md).
+- **BEAM2:** two one-element bending-plane cases agreed with their Timoshenko expressions at roughly `5–6e-16` relative error. This is a bounded single-element comparison, not spatial convergence, 3-D validation, or general BEAM2 qualification.
+- **Newmark:** the single recorded discretization has a final displacement error of about `5.95e-11 m`. One time step size was used; temporal convergence is not established.
+- **TET4:** the recorded meshes contain 12, 96, and 768 TET4 elements with 36, 135, and 675 total DOFs. The finest-level tip result differs from the 1-D beam diagnostic by `66.69%`; the helper's `WARNING` remains. The audit checked archived volume, load/resultant and moment, support, topology, and mesh identities, but the cause of the deficit remains `INCONCLUSIVE`. The beam expression is not an exact 3-D oracle; no 3-D validation or asymptotic convergence is claimed. See the [TET4 reference audit](vv_local/wp12_t_audit/TET4_REFERENCE_AUDIT.md).
+
+The [WP12-S report](vv_local/wp12_s/WP12_S_EXECUTION_REPORT.md) retains raw case statuses and recorded values. These bounded observations do not close WP12, establish general validation, or promote any capability's maturity.
+
+### WP12-U proposed next evidence
+
+WP12-U proposes, in order, (1) an independent modal 2-DOF criterion with numerically appropriate checks, (2) a small-strain affine TET4 oracle using an exact-rational reference, and (3) a comparison on the same archived H1 model between matrix-free and assembled SciPy direct routes, explicitly selecting `parameters={"method": "direct"}`. If those results leave a specific flexural-resolution question, a directional refinement or formulation comparison may be proposed separately. Broader V&V and performance work remains in WP12. These proposals are not authorized test cases, and neither a previous WP12-S decision nor the presence of prepared tests authorizes them.
+
+### WP-E01 disposition and publication boundary
+
+`WP-E01=OPEN_WITH_BOUNDED_CERTIFICATES`. The selected E01 capabilities are integrated into the v0.2.12 candidate, but WP-E01 is **not officially CLOSED** and general qualification is not acquired.
+
+- The isolated Hencky material-point kernel and directional material tangent have bounded evidence for their recorded scopes; both remain experimental, and the tangent evidence does not establish a robust convergence plateau.
+- The historical Newton–Armijo GF4 certificate applies only to its identified TET4 deformable slave subsystem and its recorded source, manifest, and image identity. It is not evidence for global master assembly or for the current integration runtime.
+- Global master-assembly equilibrium remains `NOT_VERIFIED`; the historical raw global BA verdict remains `FAIL`; the global J2 tangent remains unresolved; `GENERAL_SCIENTIFIC_QUALIFICATION=NOT_ACQUIRED`.
+- Under the current Owner roadmap decision, WP-E01 is not a standalone mandatory publication gate. Do not add general WP-E01 closure as an extra condition for v0.2.12 publication. This does not waive the actual WP12/WP13 gates or alter any recorded Owner decision.
+
+The [WP-E01 integration report](wp_e01_bc_integration_report.md) and [global scientific audit](wp_e01_bb_global_scientific_audit_and_closure_readiness.md) define the certificate boundaries and preserve the negative global result. The [Owner roadmap](owner_provided/QF_Solver_v0.2.12_roadmap_WPE01.md) remains byte-preserved; this current disposition follows its recorded BC decision and the integration evidence.
+
+### Publication and status interpretation
+
+`WP11=CLOSED` is limited to its operational API/integration scope. `WP12=OPEN` and `WP13=OPEN`. `WP-C01=CLOSED_NEGATIVE` with remediation open; `WP-C02=CLOSED_BOUNDED` only for AR/N03; `WP-D01=INCONCLUSIVE`; `WP-D02=CLOSED_BOUNDED`; and `WP-E01=OPEN_WITH_BOUNDED_CERTIFICATES`. Administrative closure, implementation maturity, scientific evidence, and publication authorization are distinct. Nothing in this 2026-10-26 update authorizes WP12-U, closes WP12/WP13, promotes maturity, or publishes v0.2.12.
+
+## Historical snapshot — normative portfolio state as of 2026-10-25 (superseded)
+
+This dated section preserves the operational state after the WP11 closure decision as recorded on 2026-10-25. It is superseded by the 2026-10-26 state above; its contents are retained as a historical snapshot without changing the underlying decisions.
 
 | Work package | Current disposition |
 |---|---|
