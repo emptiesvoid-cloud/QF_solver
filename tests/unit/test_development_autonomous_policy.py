@@ -59,6 +59,12 @@ WP12_ELEMENTS_LOADS_NODEIDS = (
     "tests/unit/test_wp12b_tet10_curved_load.py::test_wp12b_tet10_curved_face_pressure_solve",
     "tests/unit/test_wp12b_hex20_affine_patch.py::test_wp12b_hex20_uniaxial_traction_patch",
 )
+WP12_ELEMENTS_LOADS_CORRECTIVE_NODEIDS = WP12_ELEMENTS_LOADS_NODEIDS
+WP12_ELEMENTS_LOADS_CORRECTIVE_FINGERPRINTS = (
+    "f55021a05cca3cde5014584d7236823a0936df2e6eca97887c910d99468be107",
+    "cb601689e3e34227f4403ddb4108962d312fd0300a49c597775ee6c3eaf322bb",
+    "34709c5f7485a55cf9debc3952927a02639cf9c57ea4a945d19829945448962e",
+)
 
 
 def _policy() -> dict:
@@ -76,6 +82,7 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
         "wp12_tet4",
         "wp12_elements",
         "wp12_elements_loads",
+        "wp12_elements_loads_corrective",
         "wp12_dynamics",
         "rotor",
     }
@@ -96,6 +103,22 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
     assert policy["worktrees"]["wp12_elements_loads"]["attempt_limit_per_nodeid"] == 1
     assert policy["worktrees"]["wp12_elements_loads"]["target_max_dofs"] == 30000
     assert policy["worktrees"]["wp12_elements_loads"]["allowed_nodeids"] == list(WP12_ELEMENTS_LOADS_NODEIDS)
+    corrective = policy["worktrees"]["wp12_elements_loads_corrective"]
+    assert corrective["execution_scope_id"] == "wp12_elements_loads"
+    assert corrective["campaign_id"] == "WP12B-CORRECTIVE-R1-2026-10-26"
+    assert corrective["branch"] == "emptiesvoids-cloud/fix-wp12b-scope-identity-guard"
+    assert corrective["max_total_attempts"] == 3
+    assert corrective["attempt_limit_per_nodeid"] == 1
+    assert corrective["evidence_root"] != policy["worktrees"]["wp12_elements_loads"]["evidence_root"]
+    assert corrective["development_mandate_id"] != policy["worktrees"]["wp12_elements_loads"]["development_mandate_id"]
+    assert corrective["allowed_nodeids"] == list(WP12_ELEMENTS_LOADS_CORRECTIVE_NODEIDS)
+    assert [record["source_fingerprint"] for record in corrective["nodeid_registration_records"]] == list(
+        WP12_ELEMENTS_LOADS_CORRECTIVE_FINGERPRINTS
+    )
+    assert [record["selected_dofs"] for record in corrective["nodeid_registration_records"]] == [12, 30, 60]
+    assert all(
+        record["campaign_id"] == corrective["campaign_id"] for record in corrective["nodeid_registration_records"]
+    )
     assert policy["worktrees"]["wp12_dynamics"]["attempt_limit_per_nodeid"] == 10
     assert policy["worktrees"]["wp12_dynamics"]["max_total_attempts"] == 130
     assert policy["worktrees"]["wp12_dynamics"]["max_timeout_seconds"] == 300
@@ -109,6 +132,78 @@ def test_policy_registers_only_owner_authorized_worktrees_and_keeps_qualificatio
         MODULE.D01_NATIVE_NODEIDS[2]: 3,
     }
     assert "QUALIFICATION_RELEASE" not in policy["worktrees"]
+
+
+def test_wp12b_corrective_campaign_sets_canonical_scope_and_separate_evidence_root(tmp_path: Path) -> None:
+    policy = _policy()
+    original = policy["worktrees"]["wp12_elements_loads"]
+    corrective = policy["worktrees"]["wp12_elements_loads_corrective"]
+    environment = MODULE.build_child_environment(
+        tmp_path,
+        base={},
+        wp12_entry={**corrective, "worktree_id": "wp12_elements_loads_corrective"},
+        wp12_selection={"selected_dofs": 12},
+    )
+    assert environment["QF_DEV_WORKTREE_ID"] == "wp12_elements_loads"
+    assert environment["QF_DEV_EVIDENCE_ROOT"] == str(Path(corrective["evidence_root"]).resolve())
+    assert environment["QF_DEV_SELECTED_DOFS"] == "12"
+    assert corrective["evidence_root"] != original["evidence_root"]
+    assert corrective["development_mandate_id"] != original["development_mandate_id"]
+    with pytest.raises(MODULE.PolicyError, match="execution-scope identity is inconsistent"):
+        MODULE.build_child_environment(
+            tmp_path,
+            base={},
+            wp12_entry={
+                **corrective,
+                "worktree_id": "wp12_elements_loads_corrective",
+                "execution_scope_id": "wp12_elements",
+            },
+            wp12_selection={"selected_dofs": 12},
+        )
+
+
+def test_wp12b_corrective_manifest_binds_campaign_and_remains_unapproved(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    target = WP12_ELEMENTS_LOADS_CORRECTIVE_NODEIDS[0]
+    policy = _policy()
+    entry = policy["worktrees"]["wp12_elements_loads_corrective"]
+    monkeypatch.setattr(MODULE, "load_policy", lambda *_args, **_kwargs: policy)
+    monkeypatch.setattr(
+        MODULE,
+        "_registered_worktree",
+        lambda *_args, **_kwargs: (
+            entry,
+            tmp_path,
+            tmp_path / "src",
+            {"head": "a" * 40},
+            WP12_ELEMENTS_LOADS_CORRECTIVE_FINGERPRINTS[0],
+        ),
+    )
+    monkeypatch.setattr(
+        MODULE,
+        "_wp12_active_registration",
+        lambda *_args, **_kwargs: {
+            "selected_dofs": 12,
+            "selection_basis": "Synthetic BEAM2 total DDL selection",
+            "timeout_seconds": 300,
+            "timeout_reason": None,
+        },
+    )
+    monkeypatch.setattr(MODULE, "_controller_provenance", lambda: {"identity": "synthetic"})
+    evidence = tmp_path / "campaign-evidence"
+    monkeypatch.setattr(MODULE, "_run_root", lambda *_args, **_kwargs: evidence)
+
+    prepared = MODULE.prepare_wp12_execution_manifest(
+        "wp12_elements_loads_corrective", target, "WP12B-CORRECTIVE-BEAM2-0001"
+    )
+    manifest = json.loads(Path(prepared["path"]).read_text(encoding="utf-8"))
+    assert manifest["state"] == "PREPARED_NOT_AUTHORIZED"
+    assert manifest["campaign_id"] == "WP12B-CORRECTIVE-R1-2026-10-26"
+    assert manifest["worktree_id"] == "wp12_elements_loads_corrective"
+    assert manifest["limits"]["timeout_seconds"] == 300
+    assert manifest["limits"]["rss_soft_limit_mib"] == 4096
+    assert manifest["owner_decision"]["status"] == "NOT_AUTHORIZED"
 
 
 @pytest.mark.parametrize(
