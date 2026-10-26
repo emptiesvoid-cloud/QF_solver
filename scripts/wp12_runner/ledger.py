@@ -184,7 +184,9 @@ class AttemptLedger:
         if not isinstance(git_identity, Mapping):
             raise ContractError("ledger Git identity must be an object")
         if {"runner_commit", "runner_tree", "scientific_commit", "scientific_tree"}.issubset(git_identity):
-            git_hashes = [git_identity[key] for key in ("runner_commit", "runner_tree", "scientific_commit", "scientific_tree")]
+            git_hashes = [
+                git_identity[key] for key in ("runner_commit", "runner_tree", "scientific_commit", "scientific_tree")
+            ]
         else:
             git_hashes = [git_identity.get("commit"), git_identity.get("git_tree")]
         if any(

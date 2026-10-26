@@ -20,6 +20,7 @@ from typing import Any
 from scripts.wp12_owner_canonicalization import canonical_owner_payload
 from scripts.wp12_runner.contracts import (
     ContractError,
+    OWNER_DECISION_SCHEMA,
     load_json,
     owner_decision_binding_errors,
     validate_owner_decision_structure,
@@ -33,6 +34,8 @@ def sign_owner_decision(decision: dict[str, Any], private_key: Any) -> dict[str,
 
     if not isinstance(private_key, Ed25519PrivateKey):
         raise ContractError("Owner signing key must be Ed25519")
+    if decision.get("schema") != OWNER_DECISION_SCHEMA:
+        raise ContractError("Owner signer accepts only the run-bound Owner decision schema v4")
     key_envelope = decision.get("signature")
     envelope_key_id = key_envelope.get("key_id") if isinstance(key_envelope, dict) else None
     if decision.get("owner_key_id") != envelope_key_id:
@@ -105,7 +108,9 @@ def main(argv: list[str] | None = None) -> int:
 
         from cryptography.hazmat.primitives import serialization
 
-        passphrase = getpass.getpass("Owner Ed25519 key passphrase (leave empty only for an unencrypted hardware-managed export): ")
+        passphrase = getpass.getpass(
+            "Owner Ed25519 key passphrase (leave empty only for an unencrypted hardware-managed export): "
+        )
         password = passphrase.encode("utf-8") if passphrase else None
         private_key = serialization.load_pem_private_key(key_path.read_bytes(), password=password)
         signed = sign_owner_decision(decision, private_key)

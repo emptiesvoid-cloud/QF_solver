@@ -70,8 +70,18 @@ def _parse_utc(value: Any, field: str) -> datetime:
     return parsed.astimezone(timezone.utc)
 
 
-def load_machine_trust_store(repository_root: Path) -> tuple[dict[str, TrustedOwnerKey], str]:
-    """Load the pinned keyring via HKLM; caller/session environment is ignored."""
+def load_machine_trust_store(
+    repository_root: Path,
+    *,
+    check_runner_permissions: bool = True,
+) -> tuple[dict[str, TrustedOwnerKey], str]:
+    """Load the pinned keyring via HKLM; caller/session environment is ignored.
+
+    The SYSTEM archive worker sets ``check_runner_permissions=False`` because
+    its elevated token can write administrator-owned paths by design. It still
+    verifies the HKLM path and SHA-256 pin. The ordinary runner must keep the
+    default and prove that its own token cannot modify the pin or trust file.
+    """
     if os.name != "nt":
         raise ContractError("machine-scoped Owner trust is supported only on Windows")
     try:
@@ -86,14 +96,15 @@ def load_machine_trust_store(repository_root: Path) -> tuple[dict[str, TrustedOw
             expected_sha256, _ = winreg.QueryValueEx(key, TRUST_STORE_SHA_VALUE)
     except OSError as exc:
         raise ContractError("machine-scoped Owner trust root is not configured") from exc
-    try:
-        with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, registry_path, 0, winreg.KEY_SET_VALUE):
-            raise ContractError("runner account can modify the machine-scoped Owner trust pin")
-    except PermissionError:
-        pass
-    except OSError as exc:
-        if getattr(exc, "winerror", None) not in {5, 1314}:
-            raise ContractError("could not verify write protection for the machine-scoped Owner trust pin") from exc
+    if check_runner_permissions:
+        try:
+            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, registry_path, 0, winreg.KEY_SET_VALUE):
+                raise ContractError("runner account can modify the machine-scoped Owner trust pin")
+        except PermissionError:
+            pass
+        except OSError as exc:
+            if getattr(exc, "winerror", None) not in {5, 1314}:
+                raise ContractError("could not verify write protection for the machine-scoped Owner trust pin") from exc
     if not isinstance(configured_path, str) or not isinstance(expected_sha256, str):
         raise ContractError("machine-scoped Owner trust settings have invalid types")
     if len(expected_sha256) != 64 or any(character not in "0123456789abcdef" for character in expected_sha256):
@@ -111,22 +122,23 @@ def load_machine_trust_store(repository_root: Path) -> tuple[dict[str, TrustedOw
         current = current / part
         if current.is_symlink() or bool(getattr(current, "is_junction", lambda: False)()):
             raise ContractError("pinned Owner trust-store path contains a symlink or junction")
-    try:
-        writable_fd = os.open(trust_path, os.O_WRONLY)
-    except PermissionError:
-        writable_fd = None
-    except OSError as exc:
-        if getattr(exc, "winerror", None) != 5:
-            raise ContractError("could not verify write protection for the Owner trust-store file") from exc
-        writable_fd = None
-    if writable_fd is not None:
-        os.close(writable_fd)
-        raise ContractError("runner account can open the Owner trust-store file for writing")
-    parent = trust_path.parent
-    while parent != Path(parent.anchor):
-        if os.access(parent, os.W_OK):
-            raise ContractError("runner account has write access to an Owner trust-store parent directory")
-        parent = parent.parent
+    if check_runner_permissions:
+        try:
+            writable_fd = os.open(trust_path, os.O_WRONLY)
+        except PermissionError:
+            writable_fd = None
+        except OSError as exc:
+            if getattr(exc, "winerror", None) != 5:
+                raise ContractError("could not verify write protection for the Owner trust-store file") from exc
+            writable_fd = None
+        if writable_fd is not None:
+            os.close(writable_fd)
+            raise ContractError("runner account can open the Owner trust-store file for writing")
+        parent = trust_path.parent
+        while parent != Path(parent.anchor):
+            if os.access(parent, os.W_OK):
+                raise ContractError("runner account has write access to an Owner trust-store parent directory")
+            parent = parent.parent
     root = repository_root.resolve(strict=True)
     try:
         trust_path.resolve(strict=True).relative_to(root)

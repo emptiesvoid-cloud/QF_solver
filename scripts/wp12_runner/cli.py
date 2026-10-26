@@ -1,4 +1,4 @@
-"""Command-line modes for static validation and synthetic runner checks."""
+"""Static validation, synthetic runner checks, and gated one-unit execution."""
 
 from __future__ import annotations
 
@@ -6,8 +6,10 @@ import argparse
 import base64
 import hashlib
 import json
+import os
 from pathlib import Path
 import sys
+import tempfile
 from typing import Any, Mapping, Sequence
 
 from .contracts import (
@@ -23,14 +25,22 @@ from .evidence import record_refusal
 from .environment import collect_environment_provenance
 from .git_remote import sync_remote_identity, write_sync_receipt
 from .synthetic_orchestrator import SYNTHETIC_CASES, run_synthetic_orchestration
+from .scientific_execution import execute_pilot
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_AUDIT_DIRECTORY = REPOSITORY_ROOT / ".codex" / "wp12_runner_audit"
+_USER_AUDIT_ROOT = Path(os.environ.get("LOCALAPPDATA") or tempfile.gettempdir()).resolve(strict=True)
+DEFAULT_AUDIT_DIRECTORY = _USER_AUDIT_ROOT / "QFSolverWP12" / "runner-audit"
 
 
 def _json_print(value: Mapping[str, Any], *, stream: Any | None = None) -> None:
     print(json.dumps(dict(value), indent=2, sort_keys=True, ensure_ascii=False), file=stream or sys.stdout)
+
+
+def _write_refusal(event: Mapping[str, Any]) -> Path:
+    parent = DEFAULT_AUDIT_DIRECTORY.parent
+    parent.mkdir(parents=True, exist_ok=True)
+    return record_refusal(DEFAULT_AUDIT_DIRECTORY, event, allowed_root=parent)
 
 
 def _git_report(manifest: Mapping[str, Any], root: Path) -> tuple[dict[str, Any], tuple[str, ...]]:
@@ -173,22 +183,18 @@ def _execute_mode(
     nodeid: str | None,
     root: Path,
 ) -> int:
-    event: dict[str, Any] = {
-        "mode": "EXECUTE",
-        "event": "DENY_EXECUTION",
-        "execution_started": False,
-        "attempt_reserved": False,
-        "status": "DENY_EXECUTION",
-        "blockers": ["REAL_EXECUTION_DISABLED_IN_WP12_A"],
-    }
+    event = execute_pilot(
+        runner_root=root,
+        manifest_path=manifest_path,
+        owner_decision_path=owner_path,
+        supplied_manifest_sha256=supplied_sha256,
+    )
     try:
-        event["refusal_record"] = str(
-            record_refusal(DEFAULT_AUDIT_DIRECTORY, event, allowed_root=REPOSITORY_ROOT)
-        )
+        event["refusal_record"] = str(_write_refusal(event))
     except (OSError, ContractError) as exc:
         event["refusal_record_error"] = f"{type(exc).__name__}: {exc}"
     _json_print(event, stream=sys.stderr)
-    return 3
+    return 0 if event.get("status") in {"PASS", "FAIL", "INCONCLUSIVE"} else 3
 
 
 def _log_execute_argument_refusal(blocker: str) -> None:
@@ -199,7 +205,7 @@ def _log_execute_argument_refusal(blocker: str) -> None:
         "blockers": [blocker],
     }
     try:
-        event["refusal_record"] = str(record_refusal(DEFAULT_AUDIT_DIRECTORY, event, allowed_root=REPOSITORY_ROOT))
+        event["refusal_record"] = str(_write_refusal(event))
     except (OSError, ContractError) as exc:
         event["refusal_record_error"] = f"{type(exc).__name__}: {exc}"
     _json_print(event, stream=sys.stderr)
@@ -243,7 +249,7 @@ def _trust_status_mode(root: Path) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="WP12 static validation, trust inspection, synthetic self-tests, and disabled scientific EXECUTE"
+        description="WP12 static validation, trust inspection, synthetic self-tests, and authenticated single-unit EXECUTE"
     )
     parser.add_argument("--mode", choices=("VALIDATE", "TRUST_STATUS", "SELF_TEST", "SYNC", "EXECUTE"), required=True)
     parser.add_argument("--root", type=Path, default=REPOSITORY_ROOT)
@@ -272,7 +278,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             parser.error("SELF_TEST accepts no manifest, Owner decision, nodeid, or command selector")
         return _self_test_mode(args.case or "all")
     if args.mode == "TRUST_STATUS":
-        if any(value is not None for value in (args.manifest, args.owner_decision, args.manifest_sha256, args.nodeid, args.case)):
+        if any(
+            value is not None
+            for value in (args.manifest, args.owner_decision, args.manifest_sha256, args.nodeid, args.case)
+        ):
             parser.error("TRUST_STATUS reads only the machine-pinned Owner trust root")
         if args.root.resolve(strict=False) != REPOSITORY_ROOT.resolve(strict=False):
             parser.error("TRUST_STATUS must run from the configured runner checkout")

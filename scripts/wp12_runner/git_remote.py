@@ -9,8 +9,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime, timezone
 import json
+import os
 from pathlib import Path
 import subprocess
+import tempfile
 from typing import Any
 
 from .contracts import ContractError, REPOSITORY, TARGET_BRANCH
@@ -98,18 +100,23 @@ def sync_remote_identity(root: Path) -> RemoteIdentity:
 
 
 def write_sync_receipt(repository_root: Path, identity: RemoteIdentity, receipt_directory: Path) -> Path:
-    """Write a create-new local receipt; it is not a cryptographic Owner approval."""
+    """Write a create-new local receipt outside read-only checkouts when configured."""
     root = repository_root.resolve(strict=True)
-    expected = root / ".codex" / "wp12_runner_audit"
     destination = receipt_directory.resolve(strict=False)
-    if destination != expected:
-        raise ContractError("remote sync receipt destination must be .codex/wp12_runner_audit")
-    try:
-        destination.relative_to(root)
-    except ValueError as exc:
-        raise ContractError("remote sync receipt must remain inside the repository audit area") from exc
-    if destination.is_symlink() or bool(getattr(destination, "is_junction", lambda: False)()):
-        raise ContractError("remote sync receipt directory must not be a symlink or junction")
+    legacy = root / ".codex" / "wp12_runner_audit"
+    user_state = Path(os.environ.get("LOCALAPPDATA") or tempfile.gettempdir()).resolve(strict=True)
+    if destination != legacy:
+        try:
+            destination.relative_to(user_state)
+        except ValueError as exc:
+            raise ContractError(
+                "remote sync receipt must use the repository legacy audit path or user-local state"
+            ) from exc
+    current = Path(destination.anchor)
+    for part in destination.parts[1:]:
+        current = current / part
+        if current.exists() and (current.is_symlink() or bool(getattr(current, "is_junction", lambda: False)())):
+            raise ContractError("remote sync receipt directory path contains a symlink or junction")
     destination.mkdir(parents=True, exist_ok=True)
     payload: dict[str, Any] = {"schema": "qf-wp12-remote-sync-receipt-v1", **identity.__dict__}
     name = f"remote-sync-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%f')}.json"
@@ -117,7 +124,5 @@ def write_sync_receipt(repository_root: Path, identity: RemoteIdentity, receipt_
     with path.open("xb") as stream:
         stream.write((json.dumps(payload, indent=2, sort_keys=True) + "\n").encode("utf-8"))
         stream.flush()
-        import os
-
         os.fsync(stream.fileno())
     return path

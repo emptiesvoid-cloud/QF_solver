@@ -1,8 +1,7 @@
 """Manifest, identity, and authorization checks for the WP12 runner.
 
-This module deliberately does not import QF Solver.  Execution authorization is
-not available in WP12-R because the repository has no independently trusted
-Owner key store or hard process sandbox configured.
+This module deliberately does not import QF Solver. Scientific execution is
+eligible only after the separate runner's complete authenticated preflight.
 """
 
 from __future__ import annotations
@@ -22,7 +21,9 @@ from typing import Any, Mapping, Sequence
 PREPARED_SCHEMA = "qf-solver-wp12-prepared-manifest-v1"
 EXECUTION_SCHEMA = "qf-solver-wp12-execution-manifest-v2"
 EXECUTION_SCHEMA_V3 = "qf-solver-wp12-execution-manifest-v3"
-OWNER_DECISION_SCHEMA = "qf-solver-wp12-owner-decision-v3"
+EXECUTION_SCHEMA_V4 = "qf-solver-wp12-execution-manifest-v4"
+OWNER_DECISION_SCHEMA_V3 = "qf-solver-wp12-owner-decision-v3"
+OWNER_DECISION_SCHEMA = "qf-solver-wp12-owner-decision-v4"
 REPOSITORY = "emptiesvoid-cloud/QF_solver"
 TARGET_BRANCH = "emptiesvoids-cloud/0.2.12"
 TARGET_REMOTE_URL = "https://github.com/emptiesvoid-cloud/QF_solver.git"
@@ -43,7 +44,7 @@ class ContractError(ValueError):
 
 
 def _is_execution_schema(value: Any) -> bool:
-    return value in {EXECUTION_SCHEMA, EXECUTION_SCHEMA_V3}
+    return value in {EXECUTION_SCHEMA, EXECUTION_SCHEMA_V3, EXECUTION_SCHEMA_V4}
 
 
 @dataclass(frozen=True)
@@ -317,6 +318,8 @@ def assess_execution_manifest(document: Mapping[str, Any], manifest_sha256: str)
     }
     if document.get("schema") == EXECUTION_SCHEMA_V3:
         required.add("isolation_assessment")
+    if document.get("schema") == EXECUTION_SCHEMA_V4:
+        required.update({"isolation_assessment", "execution_context"})
     missing = sorted(required.difference(document))
     if missing:
         errors.append("missing execution-manifest fields: " + ", ".join(missing))
@@ -365,13 +368,30 @@ def assess_execution_manifest(document: Mapping[str, Any], manifest_sha256: str)
             errors.append("execution manifest must contain one exact nodeid")
         environment = document.get("environment")
         junit_relative = (
-            environment.get("junit_relative_path_from_science_checkout")
-            if isinstance(environment, Mapping)
-            else None
+            environment.get("junit_relative_path_from_science_checkout") if isinstance(environment, Mapping) else None
         )
-        if document.get("schema") == EXECUTION_SCHEMA_V3:
+        if document.get("schema") in {EXECUTION_SCHEMA_V3, EXECUTION_SCHEMA_V4}:
             expected_junit = f"--junitxml={junit_relative}/junit.xml" if isinstance(junit_relative, str) else None
-            if (
+            if document.get("schema") == EXECUTION_SCHEMA_V4:
+                context = document.get("execution_context")
+                destination_path = context.get("destination_path") if isinstance(context, Mapping) else None
+                expected_junit = (
+                    f"--junitxml={Path(destination_path) / 'junit.xml'}" if isinstance(destination_path, str) else None
+                )
+                if (
+                    tests.get("command_profile") != "qf-wp12-single-node-pytest-v3"
+                    or not isinstance(argv, list)
+                    or len(argv) != 13
+                    or not all(isinstance(argument, str) and argument for argument in argv)
+                    or argv[1:4] != ["-m", "pytest", "-q"]
+                    or argv[4:8] != ["-p", "no:cacheprovider", "-p", "scripts.wp12_runner.pytest_provenance_plugin"]
+                    or argv[8:10] != ["-o", "addopts="]
+                    or argv[10] != "--noconftest"
+                    or argv[11] != expected_junit
+                    or argv[12] != nodeid
+                ):
+                    errors.append("argv must match the pinned single-node pytest profile v3 and exact nodeid")
+            elif (
                 tests.get("command_profile") != "qf-wp12-single-node-pytest-v1"
                 or not isinstance(argv, list)
                 or len(argv) != 10
@@ -392,7 +412,11 @@ def assess_execution_manifest(document: Mapping[str, Any], manifest_sha256: str)
             errors.append("legacy argv must contain one exact nodeid and no additional selector")
         if isinstance(argv, list) and argv and not isinstance(argv[0], str):
             errors.append("argv[0] must name the approved Python executable")
-        if document.get("schema") == EXECUTION_SCHEMA_V3 and isinstance(argv, list) and isinstance(environment, Mapping):
+        if (
+            document.get("schema") in {EXECUTION_SCHEMA_V3, EXECUTION_SCHEMA_V4}
+            and isinstance(argv, list)
+            and isinstance(environment, Mapping)
+        ):
             if argv and argv[0] != environment.get("python_executable_path"):
                 errors.append("argv Python executable must match the pinned environment executable")
     code_identity = document.get("code_identity")
@@ -433,14 +457,18 @@ def assess_execution_manifest(document: Mapping[str, Any], manifest_sha256: str)
         errors.append("destination must be under the WP12 evidence root")
     if not safe_repo_relative_path(destination):
         errors.append("destination is unsafe or traversal-bearing")
-    if document.get("schema") == EXECUTION_SCHEMA_V3 and isinstance(destination, str) and isinstance(document.get("campaign_id"), str):
+    if (
+        document.get("schema") in {EXECUTION_SCHEMA_V3, EXECUTION_SCHEMA_V4}
+        and isinstance(destination, str)
+        and isinstance(document.get("campaign_id"), str)
+    ):
         expected_prefix = f"qualification/0_2_12/wp12_evidence/{document['campaign_id']}/"
         if not destination.startswith(expected_prefix) or len(PurePosixPath(destination).parts) != 5:
             errors.append("destination must be the campaign's exclusive run directory")
     isolation = document.get("isolation_assessment")
-    if document.get("schema") == EXECUTION_SCHEMA_V3 and not isinstance(isolation, Mapping):
+    if document.get("schema") in {EXECUTION_SCHEMA_V3, EXECUTION_SCHEMA_V4} and not isinstance(isolation, Mapping):
         errors.append("isolation_assessment must be an object")
-    elif document.get("schema") == EXECUTION_SCHEMA_V3 and isinstance(isolation, Mapping):
+    elif document.get("schema") in {EXECUTION_SCHEMA_V3, EXECUTION_SCHEMA_V4} and isinstance(isolation, Mapping):
         if not safe_repo_relative_path(isolation.get("attestation_path")):
             errors.append("isolation attestation path must be repository-relative")
         if not isinstance(isolation.get("sha256"), str) or not _HEX64.fullmatch(isolation["sha256"]):
@@ -449,12 +477,89 @@ def assess_execution_manifest(document: Mapping[str, Any], manifest_sha256: str)
             errors.append("isolation assessment status is invalid")
         if isolation.get("review_status") not in {"NOT_REVIEWED", "INDEPENDENTLY_REVIEWED"}:
             errors.append("isolation review status is invalid")
-    blockers = [
-        "SEPARATE_OWNER_DECISION_REQUIRED",
-        "REAL_EXECUTION_DISABLED_IN_WP12_A",
-    ]
+    blockers = ["SEPARATE_OWNER_DECISION_REQUIRED"]
+    if document.get("schema") != EXECUTION_SCHEMA_V4:
+        blockers.append("REAL_EXECUTION_DISABLED_IN_WP12_A")
     if _contains_unresolved(document):
         blockers.append("MANIFEST_HAS_UNRESOLVED_PROPOSED_VALUES")
+    if document.get("schema") == EXECUTION_SCHEMA_V4:
+        context = document.get("execution_context")
+        if not isinstance(context, Mapping):
+            errors.append("execution_context must be an object")
+        else:
+            science = context.get("science_checkout")
+            runner = context.get("runner_checkout")
+            if not isinstance(science, Mapping) or not isinstance(runner, Mapping):
+                errors.append("execution_context must bind separate science and runner checkouts")
+            else:
+                for label, identity in (("scientific", science), ("runner", runner)):
+                    if not isinstance(identity.get("path"), str) or not Path(identity["path"]).is_absolute():
+                        errors.append(f"execution_context {label} checkout path must be absolute")
+                    if any(
+                        not isinstance(identity.get(field), str) or not _HEX40.fullmatch(identity[field])
+                        for field in ("commit", "git_tree")
+                    ):
+                        errors.append(f"execution_context {label} checkout must bind full commit/tree IDs")
+            if isinstance(science, Mapping) and isinstance(document.get("scientific_identity"), Mapping):
+                if {key: science.get(key) for key in ("commit", "git_tree")} != document["scientific_identity"]:
+                    errors.append("execution_context science checkout identity differs from scientific_identity")
+            if isinstance(runner, Mapping) and isinstance(document.get("runner_identity"), Mapping):
+                if {key: runner.get(key) for key in ("commit", "git_tree")} != document["runner_identity"]:
+                    errors.append("execution_context runner checkout identity differs from runner_identity")
+            for field in (
+                "python_executable",
+                "venv_root",
+                "python_base_root",
+                "working_directory",
+                "plugin_path",
+                "solver_import_root",
+                "evidence_root",
+                "destination_path",
+                "temporary_root",
+            ):
+                value = context.get(field)
+                if not isinstance(value, str) or not Path(value).is_absolute():
+                    errors.append(f"execution_context.{field} must be an absolute path")
+            if isinstance(science, Mapping) and context.get("working_directory") != science.get("path"):
+                errors.append("execution_context working directory must equal the scientific checkout")
+            if isinstance(runner, Mapping) and isinstance(context.get("plugin_path"), str):
+                try:
+                    Path(context["plugin_path"]).resolve(strict=False).relative_to(
+                        Path(runner.get("path", "")).resolve(strict=False)
+                    )
+                except ValueError:
+                    errors.append("execution_context provenance plugin must be inside the runner checkout")
+            if isinstance(science, Mapping) and isinstance(context.get("solver_import_root"), str):
+                expected_source_root = Path(science.get("path", "")) / "src"
+                if Path(context["solver_import_root"]).resolve(strict=False) != expected_source_root.resolve(
+                    strict=False
+                ):
+                    errors.append("execution_context solver import root must be the science checkout src directory")
+            package_map = context.get("expected_packages")
+            environment_packages = environment.get("packages") if isinstance(environment, Mapping) else None
+            if not isinstance(package_map, Mapping) or package_map != environment_packages:
+                errors.append("execution_context expected packages must equal the declared environment package map")
+            archive = context.get("archive")
+            isolation_record = context.get("isolation_attestation")
+            review = context.get("security_review")
+            if isinstance(archive, Mapping):
+                archive_manifest_path = archive.get("manifest_path")
+                owner_decision_root = archive.get("owner_decision_root")
+                if not isinstance(archive_manifest_path, str) or not Path(archive_manifest_path).is_absolute():
+                    errors.append("execution_context.archive.manifest_path must be an absolute path")
+                elif isinstance(owner_decision_root, str) and isinstance(document.get("campaign_id"), str):
+                    expected_manifest_parent = Path(owner_decision_root).resolve(strict=False) / document["campaign_id"]
+                    actual_manifest_parent = Path(archive_manifest_path).resolve(strict=False).parent
+                    if actual_manifest_parent != expected_manifest_parent:
+                        errors.append("execution manifest must be in the protected Owner decision campaign directory")
+                if archive.get("execution_attestation") != "NONE":
+                    errors.append("no independent child-process attestation is implemented; EXECUTE remains disabled")
+            if not isinstance(archive, Mapping) or archive.get("status") != "CONFIGURED":
+                blockers.append("INDEPENDENT_EVIDENCE_ARCHIVE_NOT_CONFIGURED")
+            if not isinstance(isolation_record, Mapping) or isolation_record.get("status") != "VERIFIED":
+                blockers.append("WINDOWS_ISOLATION_NOT_VERIFIED")
+            if not isinstance(review, Mapping) or review.get("status") != "INDEPENDENTLY_REVIEWED":
+                blockers.append("INDEPENDENT_SECURITY_REVIEW_NOT_RECORDED")
     return ManifestAssessment(
         manifest_sha256=manifest_sha256,
         campaign_id=document.get("campaign_id") if isinstance(document.get("campaign_id"), str) else None,
@@ -482,7 +587,9 @@ def validate_manifest_schema(document: Mapping[str, Any]) -> tuple[str, ...]:
         PREPARED_SCHEMA: "wp12_prepared_manifest.schema.json",
         EXECUTION_SCHEMA: "wp12_execution_manifest.schema.json",
         EXECUTION_SCHEMA_V3: "wp12_execution_manifest_v3.schema.json",
-        OWNER_DECISION_SCHEMA: "wp12_owner_decision_v3.schema.json",
+        EXECUTION_SCHEMA_V4: "wp12_execution_manifest_v4.schema.json",
+        OWNER_DECISION_SCHEMA_V3: "wp12_owner_decision_v3.schema.json",
+        OWNER_DECISION_SCHEMA: "wp12_owner_decision_v4.schema.json",
     }.get(document.get("schema"))
     if schema_name is None:
         return ("unsupported manifest schema",)
@@ -510,11 +617,14 @@ def validate_manifest_schema(document: Mapping[str, Any]) -> tuple[str, ...]:
 
 def validate_owner_decision_structure(decision: Mapping[str, Any]) -> tuple[str, ...]:
     errors = list(validate_manifest_schema(decision))
-    if decision.get("schema") != OWNER_DECISION_SCHEMA:
+    if decision.get("schema") not in {OWNER_DECISION_SCHEMA_V3, OWNER_DECISION_SCHEMA}:
         errors.append("unsupported Owner decision schema")
     if decision.get("status") != "APPROVED":
         errors.append("Owner decision status must be APPROVED")
-    for key in ("decision_id", "campaign_id"):
+    identifier_fields = ["decision_id", "campaign_id", "unit_id"]
+    if decision.get("schema") == OWNER_DECISION_SCHEMA:
+        identifier_fields.append("run_id")
+    for key in identifier_fields:
         value = decision.get(key)
         if not isinstance(value, str) or not _CAMPAIGN_ID.fullmatch(value):
             errors.append(f"invalid {key}")
@@ -547,6 +657,8 @@ def validate_owner_decision_structure(decision: Mapping[str, Any]) -> tuple[str,
     destination = decision.get("destination")
     if not safe_repo_relative_path(destination):
         errors.append("Owner decision destination must be repository-relative and traversal-free")
+    elif decision.get("schema") == OWNER_DECISION_SCHEMA and decision.get("run_id") != destination.rsplit("/", 1)[-1]:
+        errors.append("Owner decision run_id must equal the final destination component")
     signature = decision.get("signature")
     if not isinstance(signature, Mapping):
         errors.append("signature envelope is required")
@@ -653,18 +765,18 @@ def owner_decision_binding_errors(
             if target.get(key) != manifest_target.get(manifest_key):
                 errors.append(f"Owner decision target {key} does not match manifest")
         remote = decision.get("remote_identity")
-        if manifest.get("schema") == EXECUTION_SCHEMA_V3 and isinstance(remote, Mapping):
+        if manifest.get("schema") in {EXECUTION_SCHEMA_V3, EXECUTION_SCHEMA_V4} and isinstance(remote, Mapping):
             for field in ("remote_name", "remote_url", "remote_ref"):
                 if remote.get(field) != manifest_target.get(field):
                     errors.append(f"Owner decision remote identity {field} does not match manifest")
-    if manifest.get("schema") == EXECUTION_SCHEMA_V3:
+    if manifest.get("schema") in {EXECUTION_SCHEMA_V3, EXECUTION_SCHEMA_V4}:
         if decision.get("unit_id") != manifest.get("unit_id"):
             errors.append("Owner decision unit_id does not match manifest")
         if decision.get("attempt_number") != 1:
             errors.append("Owner decision must authorize attempt number 1 exactly")
         if decision.get("launch_confirmation") != "RUN_EXACT_APPROVED_UNIT":
             errors.append("Owner decision lacks explicit exact-unit launch confirmation")
-        if manifest.get("schema") == EXECUTION_SCHEMA_V3:
+        if manifest.get("schema") in {EXECUTION_SCHEMA_V3, EXECUTION_SCHEMA_V4}:
             isolation = manifest.get("isolation_assessment")
             isolation_sha = isolation.get("sha256") if isinstance(isolation, Mapping) else None
             if decision.get("isolation_assessment_sha256") != isolation_sha:
@@ -707,6 +819,17 @@ def owner_decision_binding_errors(
                 errors.append("Owner decision resource enforcement does not exactly match manifest")
         if decision.get("destination") != manifest.get("destination"):
             errors.append("Owner decision destination does not exactly match manifest")
+        manifest_destination = manifest.get("destination")
+        if (
+            decision.get("schema") == OWNER_DECISION_SCHEMA
+            and isinstance(manifest_destination, str)
+            and decision.get("run_id") != manifest_destination.rsplit("/", 1)[-1]
+        ):
+            errors.append("Owner decision run_id does not match the manifest destination")
+        execution_context = manifest.get("execution_context")
+        if decision.get("schema") == OWNER_DECISION_SCHEMA and isinstance(execution_context, Mapping):
+            if decision.get("run_id") != execution_context.get("attempt_id"):
+                errors.append("Owner decision run_id does not match execution_context.attempt_id")
         attempts = manifest.get("attempt_policy")
         if isinstance(attempts, Mapping) and decision.get("maximum_attempts") != attempts.get("maximum_attempts"):
             errors.append("Owner decision attempt limit does not exactly match manifest")
@@ -756,7 +879,9 @@ def git_identity_issues(target: Mapping[str, Any], snapshot: GitSnapshot) -> tup
         issues.append("GIT_COMMIT_MISMATCH")
     if snapshot.tree != target.get("git_tree"):
         issues.append("GIT_TREE_MISMATCH")
-    if (target.get("worktree_must_be_clean") is True or target.get("require_clean_checkout") is True) and not snapshot.clean:
+    if (
+        target.get("worktree_must_be_clean") is True or target.get("require_clean_checkout") is True
+    ) and not snapshot.clean:
         issues.append("GIT_CHECKOUT_DIRTY")
     return tuple(issues)
 
@@ -1145,7 +1270,8 @@ def execution_gate_blockers(
         for blocker in assessment.execution_blockers
         if not (blocker == "SEPARATE_OWNER_DECISION_REQUIRED" and owner_decision is not None and owner_authenticated)
     ]
-    blockers.insert(0, "REAL_EXECUTION_DISABLED_IN_WP12_A")
+    if manifest.get("schema") != EXECUTION_SCHEMA_V4:
+        blockers.insert(0, "LEGACY_EXECUTION_MANIFEST_PROFILE_DISABLED")
     blockers.extend(validate_manifest_schema(manifest))
     blockers.extend(f"MANIFEST_STRUCTURAL_INVALID:{error}" for error in assessment.structural_errors)
     if supplied_manifest_sha256 != assessment.manifest_sha256:

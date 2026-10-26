@@ -11,7 +11,9 @@ from .contracts import ContractError
 
 
 FIXTURE_SCHEMA = "qf-wp12-inline-fixture-v1"
-PILOT_NODEID = "tests/unit/test_modal_symmetric_projection.py::test_structured_symmetric_projection_matches_dense_bilinear_form"
+PILOT_NODEID = (
+    "tests/unit/test_modal_symmetric_projection.py::test_structured_symmetric_projection_matches_dense_bilinear_form"
+)
 
 
 def _assignment_value(function: ast.FunctionDef, name: str) -> Any:
@@ -64,9 +66,7 @@ def projection_pilot_fixture(source: bytes) -> dict[str, Any]:
     except (UnicodeDecodeError, SyntaxError) as exc:
         raise ContractError("pilot test source is not valid UTF-8 Python") from exc
     functions = [
-        node
-        for node in tree.body
-        if isinstance(node, ast.FunctionDef) and node.name == PILOT_NODEID.split("::")[-1]
+        node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == PILOT_NODEID.split("::")[-1]
     ]
     if len(functions) != 1:
         raise ContractError("pilot nodeid must resolve to exactly one top-level function")
@@ -74,7 +74,9 @@ def projection_pilot_fixture(source: bytes) -> dict[str, Any]:
     arrays = []
     for name, dtype in (("stiffness", "float64/csr_matrix"), ("modes", "float64")):
         values = _assignment_value(function, name)
-        arrays.append({"name": name, "dtype": dtype, "shape": _shape(values), "decimal_values": _decimal_strings(values)})
+        arrays.append(
+            {"name": name, "dtype": dtype, "shape": _shape(values), "decimal_values": _decimal_strings(values)}
+        )
     return {
         "schema": FIXTURE_SCHEMA,
         "fixture_id": "WP12-1-PILOT-001-projection-matrices",

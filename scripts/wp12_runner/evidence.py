@@ -6,6 +6,7 @@ import json
 from pathlib import Path, PurePosixPath
 import re
 import os
+import secrets
 from datetime import datetime, timezone
 import uuid
 from typing import Any, Mapping
@@ -29,6 +30,96 @@ def _has_symlink_component(base: Path, target: Path) -> bool:
         if current.is_symlink() or bool(getattr(current, "is_junction", lambda: False)()):
             return True
     return False
+
+
+def reserve_pilot_evidence_directory(
+    evidence_root: Path,
+    campaign_id: str,
+    run_id: str,
+    manifest_sha256: str,
+) -> Path:
+    """Atomically reserve a new campaign/run directory before the attempt ledger.
+
+    The marker binds this exclusive directory to the exact manifest and run ID.
+    It is a race/collision control, not an OS sandbox or an authenticated Owner
+    decision; those checks are performed by the caller and Windows ACL policy.
+    """
+    if not _IDENTIFIER.fullmatch(campaign_id) or not _IDENTIFIER.fullmatch(run_id):
+        raise ContractError("campaign_id and run_id must be safe single path components")
+    if len(manifest_sha256) != 64 or any(character not in "0123456789abcdef" for character in manifest_sha256):
+        raise ContractError("manifest SHA-256 must be a full lowercase digest")
+    root = evidence_root.resolve(strict=True)
+    if not root.is_dir() or root.is_symlink() or bool(getattr(root, "is_junction", lambda: False)()):
+        raise ContractError("evidence root must be an existing ordinary directory")
+    campaign_root = root / campaign_id
+    destination = campaign_root / run_id
+    if _has_symlink_component(root, destination):
+        raise ContractError("evidence reservation path contains a symlink or junction")
+    try:
+        destination.resolve(strict=False).relative_to(root)
+    except ValueError as exc:
+        raise ContractError("evidence reservation escapes its exclusive root") from exc
+    if campaign_root.exists():
+        if (
+            not campaign_root.is_dir()
+            or campaign_root.is_symlink()
+            or bool(getattr(campaign_root, "is_junction", lambda: False)())
+        ):
+            raise ContractError("existing evidence campaign path is not an ordinary directory")
+    else:
+        campaign_root.mkdir(exist_ok=False)
+    try:
+        destination.mkdir(exist_ok=False)
+    except BaseException:
+        # Preserve any concurrent or partial directory for investigation.
+        raise
+    marker = {
+        "schema": "qf-wp12-evidence-reservation-v1",
+        "campaign_id": campaign_id,
+        "run_id": run_id,
+        "manifest_sha256": manifest_sha256,
+        "nonce": secrets.token_hex(32),
+        "reserved_utc": datetime.now(timezone.utc).isoformat(),
+    }
+    raw = (json.dumps(marker, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
+    with (destination / ".reservation.json").open("xb") as stream:
+        stream.write(raw)
+        stream.flush()
+        os.fsync(stream.fileno())
+    return destination
+
+
+def verify_pilot_evidence_reservation(
+    run_directory: Path,
+    *,
+    campaign_id: str,
+    run_id: str,
+    manifest_sha256: str,
+) -> tuple[str, ...]:
+    """Check a create-new reservation and ensure no artifacts predate launch."""
+    if run_directory.is_symlink() or bool(getattr(run_directory, "is_junction", lambda: False)()):
+        return ("evidence run directory is a reparse point",)
+    marker_path = run_directory / ".reservation.json"
+    if marker_path.is_symlink() or bool(getattr(marker_path, "is_junction", lambda: False)()):
+        return ("evidence reservation marker is a reparse point",)
+    try:
+        marker = json.loads(marker_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        return ("evidence reservation marker is absent or invalid",)
+    expected = {
+        "schema": "qf-wp12-evidence-reservation-v1",
+        "campaign_id": campaign_id,
+        "run_id": run_id,
+        "manifest_sha256": manifest_sha256,
+    }
+    if not isinstance(marker, dict) or any(marker.get(key) != value for key, value in expected.items()):
+        return ("evidence reservation does not match the approved unit",)
+    if not isinstance(marker.get("nonce"), str) or len(marker["nonce"]) != 64:
+        return ("evidence reservation nonce is malformed",)
+    entries = {path.name for path in run_directory.iterdir()}
+    if entries != {".reservation.json"}:
+        return ("reserved evidence directory is not empty",)
+    return ()
 
 
 def create_evidence_directory(repository_root: Path, campaign_id: str, run_id: str) -> Path:

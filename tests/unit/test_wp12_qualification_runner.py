@@ -14,6 +14,7 @@ import subprocess
 import sys
 import threading
 from types import SimpleNamespace
+from typing import Any
 
 import pytest
 
@@ -44,11 +45,13 @@ from scripts.wp12_runner.evidence import (
     JsonlJournal,
     create_evidence_directory,
     record_refusal,
+    reserve_pilot_evidence_directory,
     verify_receipt,
     write_receipt,
 )
 from scripts.wp12_runner.environment import collect_environment_provenance
 from scripts.wp12_runner.git_remote import sync_remote_identity, write_sync_receipt
+from scripts.wp12_runner.import_probe import probe_solver_import
 from scripts.wp12_runner.ledger import AttemptLedger
 from scripts.wp12_runner.owner_trust import (
     TRUST_STORE_PATH_VALUE,
@@ -64,12 +67,14 @@ from scripts.wp12_runner.process import (
     classify_process_result,
     classify_pytest_junit,
     run_fake_process,
+    run_approved_pilot_process,
     validate_approved_pilot_command,
 )
 from scripts.wp12_runner.cli import main as runner_main
 import scripts.wp12_runner.cli as runner_cli
 import scripts.wp12_runner.synthetic_orchestrator as synthetic_orchestrator
 from scripts.wp12_owner_canonicalization import CanonicalizationError, PROFILE, canonical_owner_payload
+from scripts.build_wp12_owner_trust_store import build_public_trust_store
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -116,10 +121,11 @@ def _manifest() -> dict[str, object]:
 
 def _decision(manifest: dict[str, object], digest: str) -> dict[str, object]:
     return {
-        "schema": "qf-solver-wp12-owner-decision-v3",
+        "schema": "qf-solver-wp12-owner-decision-v4",
         "canonicalization": PROFILE,
         "decision_id": "OWNER-SYNTHETIC-01",
         "unit_id": "SYNTH-UNIT-01",
+        "run_id": "run-001",
         "attempt_number": 1,
         "launch_confirmation": "RUN_EXACT_APPROVED_UNIT",
         "isolation_assessment_sha256": "9" * 64,
@@ -464,7 +470,7 @@ def test_invalid_or_duplicate_json_is_rejected(tmp_path: Path) -> None:
 
 def test_owner_canonicalization_profile_v1_matches_fixed_synthetic_vector() -> None:
     decision = {
-        "schema": "qf-solver-wp12-owner-decision-v3",
+        "schema": "qf-solver-wp12-owner-decision-v4",
         "canonicalization": PROFILE,
         "launch_confirmation": "RUN_EXACT_APPROVED_UNIT",
         "attempt_number": 1,
@@ -475,7 +481,7 @@ def test_owner_canonicalization_profile_v1_matches_fixed_synthetic_vector() -> N
         '{"attempt_number":1,"canonicalization":"qf-owner-json-v1",'
         '"launch_confirmation":"RUN_EXACT_APPROVED_UNIT",'
         '"owner":{"display_name":"Quentin Farinazzo – synthétique","principal":"synthetic-owner"},'
-        '"schema":"qf-solver-wp12-owner-decision-v3"}'
+        '"schema":"qf-solver-wp12-owner-decision-v4"}'
     ).encode("utf-8")
     assert canonical_owner_payload(decision) == expected
     assert canonical_payload(decision) == expected
@@ -509,6 +515,100 @@ def test_pilot_v3_manifest_binds_exact_instrumented_command_and_stays_unauthoriz
     assert assess_manifest(altered, "7" * 64).structural_errors
 
 
+def test_pilot_v4_manifest_binds_separate_checkouts_and_stays_blocked() -> None:
+    manifest = _execution_manifest_v3()
+    manifest["schema"] = "qf-solver-wp12-execution-manifest-v4"
+    manifest["isolation_assessment"]["runner_account"] = "QF_WP12_RUNNER"
+    manifest["isolation_assessment"]["runner_account_sid"] = "S-1-5-21-1000-1000-1000-1001"
+    science_path = r"C:\WP12\science"
+    runner_path = r"C:\WP12\runner"
+    venv_path = r"C:\WP12\venv"
+    evidence_path = r"C:\WP12\evidence\WP12-1-PILOT-001\attempt-001"
+    nodeid = manifest["tests"]["nodeid"]
+    manifest["tests"]["command_profile"] = "qf-wp12-single-node-pytest-v3"
+    manifest["tests"]["argv"] = [
+        str(Path(venv_path) / "Scripts" / "python.exe"),
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "-p",
+        "scripts.wp12_runner.pytest_provenance_plugin",
+        "-o",
+        "addopts=",
+        "--noconftest",
+        f"--junitxml={evidence_path}\\junit.xml",
+        nodeid,
+    ]
+    manifest["environment"]["python_executable_path"] = manifest["tests"]["argv"][0]
+    manifest["environment"]["virtual_environment"]["path"] = venv_path
+    manifest["execution_context"] = {
+        "science_checkout": {"path": science_path, **manifest["scientific_identity"]},
+        "runner_checkout": {"path": runner_path, **manifest["runner_identity"]},
+        "python_executable": manifest["tests"]["argv"][0],
+        "venv_root": venv_path,
+        "python_base_root": r"C:\Python313",
+        "working_directory": science_path,
+        "plugin_path": str(Path(runner_path) / "scripts" / "wp12_runner" / "pytest_provenance_plugin.py"),
+        "solver_import_root": str(Path(science_path) / "src"),
+        "pythonpath": [runner_path, str(Path(science_path) / "src")],
+        "requirements_lock_sha256": "9" * 64,
+        "inline_fixture": {
+            "schema": "qf-wp12-inline-fixture-v1",
+            "fixture_id": "WP12-1-PILOT-001-projection-matrices",
+            "canonicalization": "qf-wp12-inline-fixture-v1",
+            "sha256": "4" * 64,
+        },
+        "expected_packages": {"pytest": "8.4.1"},
+        "expected_native_libraries_sha256": {"numpy/sample.pyd": "a" * 64},
+        "thread_environment": manifest["environment"]["thread_environment"],
+        "evidence_root": r"C:\WP12\evidence",
+        "destination_path": evidence_path,
+        "temporary_root": r"C:\WP12\temporary",
+        "archive": {
+            "status": "NOT_CONFIGURED",
+            "method": "ADMINISTRATOR_SEALED_COPY_V1",
+            "destination": r"C:\WP12\sealed-archive",
+            "request_root": r"C:\WP12\archive-requests",
+            "owner_decision_root": r"C:\WP12\owner-decisions",
+            "manifest_path": r"C:\WP12\owner-decisions\WP12-1-PILOT-001\manifest-v2.json",
+            "python_executable": str(Path(venv_path) / "Scripts" / "python.exe"),
+            "python_executable_sha256": "5" * 64,
+            "decision_verifier_script_path": str(
+                Path(runner_path) / "scripts" / "wp12_runner" / "owner_decision_verifier.py"
+            ),
+            "decision_verifier_script_sha256": "9" * 64,
+            "contracts_script_sha256": "a" * 64,
+            "owner_trust_script_sha256": "b" * 64,
+            "canonicalization_script_sha256": "c" * 64,
+            "execution_attestation": "NONE",
+            "worker_task_name": r"\QFSolverWP12\ArchiveWorker",
+            "worker_script_path": r"C:\WP12\runner\scripts\wp12_runner\windows\Invoke-WP12EvidenceArchiveWorker.ps1",
+            "worker_script_sha256": "c" * 64,
+            "ack_timeout_seconds": 60,
+        },
+        "isolation_attestation": {
+            "path": r"C:\ProgramData\QFSolverWP12\isolation.json",
+            "sha256": "6" * 64,
+            "status": "NOT_VERIFIED",
+        },
+        "security_review": {"status": "NOT_REVIEWED", "review_record_path": r"C:\WP12\review.json", "sha256": "7" * 64},
+        "attempt_id": "attempt-001",
+        "runner_files_sha256": {"scripts/wp12_runner/pytest_provenance_plugin.py": "8" * 64},
+    }
+    errors = validate_manifest_schema(manifest)
+    assert errors == ()
+    assessment = assess_manifest(manifest, "b" * 64)
+    assert assessment.structural_errors == ()
+    assert "SEPARATE_OWNER_DECISION_REQUIRED" in assessment.execution_blockers
+    assert "WINDOWS_ISOLATION_NOT_VERIFIED" in assessment.execution_blockers
+    assert "INDEPENDENT_EVIDENCE_ARCHIVE_NOT_CONFIGURED" in assessment.execution_blockers
+    fabricated_attestation = json.loads(json.dumps(manifest))
+    fabricated_attestation["execution_context"]["archive"]["execution_attestation"] = "SYSTEM_OBSERVED_CHILD_V1"
+    assert validate_manifest_schema(fabricated_attestation)
+
+
 def test_owner_signature_profile_round_trips_with_ephemeral_synthetic_key() -> None:
     from cryptography.hazmat.primitives import serialization
     from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
@@ -521,10 +621,11 @@ def test_owner_signature_profile_round_trips_with_ephemeral_synthetic_key() -> N
     remote = {key: target[key] for key in ("remote_name", "remote_url", "remote_ref")}
     remote.update({"commit": "e" * 40, "git_tree": "f" * 40})
     decision = {
-        "schema": "qf-solver-wp12-owner-decision-v3",
+        "schema": "qf-solver-wp12-owner-decision-v4",
         "canonicalization": PROFILE,
         "decision_id": "SYNTHETIC-OWNER-DECISION-01",
         "unit_id": manifest["unit_id"],
+        "run_id": "attempt-001",
         "attempt_number": 1,
         "launch_confirmation": "RUN_EXACT_APPROVED_UNIT",
         "isolation_assessment_sha256": manifest["isolation_assessment"]["sha256"],
@@ -574,6 +675,199 @@ def test_owner_signature_profile_round_trips_with_ephemeral_synthetic_key() -> N
     assert verified.authenticated
 
 
+def test_protected_worker_verifier_binds_synthetic_signature_manifest_and_attempt(tmp_path: Path) -> None:
+    from cryptography.hazmat.primitives import serialization
+    from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+    from scripts.sign_wp12_owner_decision import sign_owner_decision
+    from scripts.wp12_runner.owner_decision_verifier import verify_authorized_decision
+
+    manifest = _execution_manifest_v3()
+    manifest["schema"] = "qf-solver-wp12-execution-manifest-v4"
+    science = tmp_path / "science"
+    runner = tmp_path / "runner"
+    evidence = tmp_path / "evidence" / "WP12-1-PILOT-001" / "attempt-001"
+    owner_decisions = tmp_path / "owner-decisions"
+    python_path = Path(sys.executable).resolve()
+    python_sha = sha256_bytes(python_path.read_bytes())
+    science_identity = manifest["scientific_identity"]
+    runner_identity = manifest["runner_identity"]
+    nodeid = manifest["tests"]["nodeid"]
+    destination = "qualification/0_2_12/wp12_evidence/WP12-1-PILOT-001/attempt-001"
+    manifest["isolation_assessment"]["runner_account"] = "QF_WP12_RUNNER"
+    manifest["isolation_assessment"]["runner_account_sid"] = "S-1-5-21-1-2-3-1001"
+    manifest["tests"]["command_profile"] = "qf-wp12-single-node-pytest-v3"
+    manifest["tests"]["argv"] = [
+        str(python_path),
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "-p",
+        "scripts.wp12_runner.pytest_provenance_plugin",
+        "-o",
+        "addopts=",
+        "--noconftest",
+        f"--junitxml={evidence / 'junit.xml'}",
+        nodeid,
+    ]
+    manifest["tests"]["argv"][0] = str(python_path)
+    manifest["environment"]["platform"] = "synthetic-Windows"
+    manifest["environment"]["python_executable_path"] = str(python_path)
+    manifest["environment"]["python_executable_sha256"] = python_sha
+    manifest["environment"]["venv_executable_sha256"] = python_sha
+    manifest["environment"]["virtual_environment"] = {"kind": "venv", "path": str(Path(sys.prefix).resolve())}
+    manifest["environment"]["python_version"] = ".".join(map(str, sys.version_info[:3]))
+    manifest["execution_context"] = {
+        "science_checkout": {"path": str(science), **science_identity},
+        "runner_checkout": {"path": str(runner), **runner_identity},
+        "python_executable": str(python_path),
+        "venv_root": str(Path(sys.prefix).resolve()),
+        "python_base_root": str(Path(sys.base_prefix).resolve()),
+        "working_directory": str(science),
+        "plugin_path": str(runner / "scripts" / "wp12_runner" / "pytest_provenance_plugin.py"),
+        "solver_import_root": str(science / "src"),
+        "pythonpath": [str(runner), str(science / "src")],
+        "requirements_lock_sha256": "9" * 64,
+        "inline_fixture": {
+            "schema": "qf-wp12-inline-fixture-v1",
+            "fixture_id": "WP12-1-PILOT-001-projection-matrices",
+            "canonicalization": "qf-wp12-inline-fixture-v1",
+            "sha256": "4" * 64,
+        },
+        "expected_packages": {"pytest": "8.4.1"},
+        "expected_native_libraries_sha256": {"numpy/sample.pyd": "a" * 64},
+        "thread_environment": manifest["environment"]["thread_environment"],
+        "evidence_root": str(evidence.parents[1]),
+        "destination_path": str(evidence),
+        "temporary_root": str(tmp_path / "temporary"),
+        "archive": {
+            "status": "NOT_CONFIGURED",
+            "method": "ADMINISTRATOR_SEALED_COPY_V1",
+            "destination": str(tmp_path / "sealed-archive"),
+            "request_root": str(tmp_path / "archive-requests"),
+            "owner_decision_root": str(owner_decisions),
+            "manifest_path": str(owner_decisions / "WP12-1-PILOT-001" / "manifest-v2.json"),
+            "python_executable": str(python_path),
+            "python_executable_sha256": python_sha,
+            "decision_verifier_script_path": str(runner / "scripts" / "wp12_runner" / "owner_decision_verifier.py"),
+            "decision_verifier_script_sha256": "9" * 64,
+            "contracts_script_sha256": "a" * 64,
+            "owner_trust_script_sha256": "b" * 64,
+            "canonicalization_script_sha256": "c" * 64,
+            "execution_attestation": "NONE",
+            "worker_task_name": r"\QFSolverWP12\ArchiveWorker",
+            "worker_script_path": str(
+                runner / "scripts" / "wp12_runner" / "windows" / "Invoke-WP12EvidenceArchiveWorker.ps1"
+            ),
+            "worker_script_sha256": "c" * 64,
+            "ack_timeout_seconds": 60,
+        },
+        "isolation_attestation": {
+            "path": str(tmp_path / "isolation.json"),
+            "sha256": "6" * 64,
+            "status": "NOT_VERIFIED",
+        },
+        "security_review": {
+            "status": "NOT_REVIEWED",
+            "review_record_path": str(tmp_path / "review.json"),
+            "sha256": "7" * 64,
+        },
+        "attempt_id": "attempt-001",
+        "runner_files_sha256": {"scripts/wp12_runner/pytest_provenance_plugin.py": "8" * 64},
+    }
+    manifest["destination"] = destination
+    manifest["unit_id"] = "WP12-1-PILOT-001-UNIT-01"
+    manifest_path = owner_decisions / "WP12-1-PILOT-001" / "manifest-v2.json"
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    manifest_path.write_text(json.dumps(manifest, sort_keys=True, indent=2), encoding="utf-8")
+    manifest_sha = sha256_bytes(manifest_path.read_bytes())
+    assert validate_manifest_schema(manifest) == ()
+
+    now = datetime.now(timezone.utc)
+    target = manifest["target"]
+    decision: dict[str, Any] = {
+        "schema": "qf-solver-wp12-owner-decision-v4",
+        "canonicalization": PROFILE,
+        "decision_id": "SYNTHETIC-OWNER-01",
+        "unit_id": manifest["unit_id"],
+        "run_id": "attempt-001",
+        "attempt_number": 1,
+        "launch_confirmation": "RUN_EXACT_APPROVED_UNIT",
+        "isolation_assessment_sha256": manifest["isolation_assessment"]["sha256"],
+        "remote_identity": {
+            "remote_name": "origin",
+            "remote_url": "https://github.com/emptiesvoid-cloud/QF_solver.git",
+            "remote_ref": "refs/heads/emptiesvoids-cloud/0.2.12",
+            "commit": target["commit"],
+            "git_tree": target["git_tree"],
+        },
+        "status": "APPROVED",
+        "campaign_id": manifest["campaign_id"],
+        "manifest_sha256": manifest_sha,
+        "target": {key: target[key] for key in ("branch", "commit", "git_tree")},
+        "scientific_identity": science_identity,
+        "runner_identity": runner_identity,
+        "operations": ["EXECUTE_ONE_TEST_NODE"],
+        "nodeids": [nodeid],
+        "environment": manifest["environment"],
+        "budgets": manifest["resource_limits"],
+        "maximum_attempts": 1,
+        "destination": destination,
+        "owner": {"principal": "synthetic-owner", "display_name": "Synthetic Owner"},
+        "owner_key_id": "synthetic-owner-key",
+        "decided_utc": now.isoformat(),
+        "not_before_utc": (now - timedelta(minutes=1)).isoformat(),
+        "expires_utc": (now + timedelta(hours=1)).isoformat(),
+        "signature": {"key_id": "synthetic-owner-key"},
+    }
+    private_key = Ed25519PrivateKey.generate()
+    signed = sign_owner_decision(decision, private_key)
+    decision_path = owner_decisions / manifest["campaign_id"] / f"{signed['decision_id']}.json"
+    decision_path.parent.mkdir(parents=True, exist_ok=True)
+    decision_path.write_text(json.dumps(signed, sort_keys=True, indent=2), encoding="utf-8")
+    public_raw = private_key.public_key().public_bytes(
+        encoding=serialization.Encoding.Raw,
+        format=serialization.PublicFormat.Raw,
+    )
+    trusted = TrustedOwnerKey("synthetic-owner-key", "synthetic-owner", base64.b64encode(public_raw).decode("ascii"))
+    report = verify_authorized_decision(
+        runner_root=runner,
+        decision_path=decision_path,
+        manifest_path=manifest_path,
+        campaign_id=manifest["campaign_id"],
+        decision_id=signed["decision_id"],
+        unit_id=manifest["unit_id"],
+        run_id="attempt-001",
+        manifest_sha256=manifest_sha,
+        nodeid=nodeid,
+        attempt_number=1,
+        destination=destination,
+        scientific_identity=science_identity,
+        runner_identity=runner_identity,
+        trusted_keys={trusted.key_id: trusted},
+    )
+    assert report["authenticated"] is True, report["errors"]
+    mismatched_run = verify_authorized_decision(
+        runner_root=runner,
+        decision_path=decision_path,
+        manifest_path=manifest_path,
+        campaign_id=manifest["campaign_id"],
+        decision_id=signed["decision_id"],
+        unit_id=manifest["unit_id"],
+        run_id="attempt-002",
+        manifest_sha256=manifest_sha,
+        nodeid=nodeid,
+        attempt_number=1,
+        destination=destination,
+        scientific_identity=science_identity,
+        runner_identity=runner_identity,
+        trusted_keys={trusted.key_id: trusted},
+    )
+    assert mismatched_run["authenticated"] is False
+    assert any("run ID" in error for error in mismatched_run["errors"])
+
+
 def test_approved_command_builder_rejects_arbitrary_pytest_flags(tmp_path: Path) -> None:
     from scripts.wp12_runner.inline_fixtures import PILOT_NODEID
 
@@ -591,17 +885,104 @@ def test_approved_command_builder_rejects_arbitrary_pytest_flags(tmp_path: Path)
         "no:cacheprovider",
         "-p",
         "scripts.wp12_runner.pytest_provenance_plugin",
+        "-o",
+        "addopts=",
+        "--noconftest",
         f"--junitxml={relative_junit}",
         PILOT_NODEID,
     ]
-    validate_approved_pilot_command(exact, cwd=science_root, run_directory=evidence_dir, python_executable=sys.executable)
+    validate_approved_pilot_command(
+        exact,
+        cwd=science_root,
+        run_directory=evidence_dir,
+        python_executable=sys.executable,
+        expected_nodeid=PILOT_NODEID,
+    )
     with pytest.raises(ContractError, match="exact WP12-1 pilot"):
         validate_approved_pilot_command(
             [*exact[:-1], "-k", "modal"],
             cwd=science_root,
             run_directory=evidence_dir,
             python_executable=sys.executable,
+            expected_nodeid=PILOT_NODEID,
         )
+
+
+def test_production_process_launcher_refuses_before_starting_any_child(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import scripts.wp12_runner.process as process_module
+    from scripts.wp12_runner.evidence import reserve_pilot_evidence_directory
+
+    evidence_root = tmp_path / "evidence"
+    evidence_root.mkdir()
+    run_directory = reserve_pilot_evidence_directory(evidence_root, "WP12-1-PILOT-001", "attempt-001", "a" * 64)
+    cwd = tmp_path / "science"
+    cwd.mkdir()
+    nodeid = "tests/unit/test_modal_symmetric_projection.py::test_structured_symmetric_projection_matches_dense_bilinear_form"
+    command = [
+        sys.executable,
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "-p",
+        "scripts.wp12_runner.pytest_provenance_plugin",
+        "-o",
+        "addopts=",
+        "--noconftest",
+        f"--junitxml={run_directory}\\junit.xml",
+        nodeid,
+    ]
+    limits = {
+        "wall_seconds": 60,
+        "cpu_seconds": 30,
+        "memory_bytes": 1024 * 1024,
+        "process_count": 2,
+        "thread_count": 1,
+        "temporary_storage_bytes": 1024,
+        "stdout_bytes": 1024,
+        "stderr_bytes": 1024,
+        "enforcement": {
+            "wall": "hard",
+            "cpu": "hard",
+            "memory": "hard",
+            "process_tree": "hard",
+            "storage": "hard",
+            "logs": "hard",
+            "threads": "hard",
+        },
+    }
+    threads = {
+        name: "1"
+        for name in (
+            "OMP_NUM_THREADS",
+            "OPENBLAS_NUM_THREADS",
+            "MKL_NUM_THREADS",
+            "BLIS_NUM_THREADS",
+            "VECLIB_MAXIMUM_THREADS",
+            "NUMEXPR_NUM_THREADS",
+        )
+    }
+    monkeypatch.setattr(
+        process_module.subprocess,
+        "Popen",
+        lambda *_args, **_kwargs: pytest.fail("production launcher started a process before child attestation"),
+    )
+    with pytest.raises(ContractError, match="SYSTEM_CHILD_PROCESS_ATTESTATION_NOT_IMPLEMENTED"):
+        run_approved_pilot_process(
+            command,
+            campaign_id="WP12-1-PILOT-001",
+            run_id="attempt-001",
+            nodeid=nodeid,
+            manifest_sha256="a" * 64,
+            cwd=cwd,
+            run_directory=run_directory,
+            environment=threads,
+            resource_limits=limits,
+        )
+    assert (run_directory / ".reservation.json").is_file()
 
 
 def test_pilot_inline_fixture_identity_is_extracted_without_importing_solver() -> None:
@@ -625,10 +1006,10 @@ def test_execute_pilot_denies_without_owner_decision_before_manifest_access(tmp_
     )
     assert event["status"] == "DENY_EXECUTION"
     assert event["execution_started"] is False
-    assert event["blockers"] == ["REAL_EXECUTION_DISABLED_IN_WP12_A"]
+    assert event["blockers"] == ["OWNER_DECISION_ABSENT"]
 
 
-def test_execute_is_unconditionally_disabled_even_with_manifest_and_owner_inputs(
+def test_execute_requires_machine_trust_before_opening_manifest(
     monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str], tmp_path: Path
 ) -> None:
     refusal_records: list[dict[str, object]] = []
@@ -650,11 +1031,11 @@ def test_execute_is_unconditionally_disabled_even_with_manifest_and_owner_inputs
     assert output["status"] == "DENY_EXECUTION"
     assert output["execution_started"] is False
     assert output["attempt_reserved"] is False
-    assert output["blockers"] == ["REAL_EXECUTION_DISABLED_IN_WP12_A"]
+    assert output["blockers"] == ["OWNER_TRUST_STORE_NOT_CONFIGURED_OR_INVALID"]
     assert len(refusal_records) == 1
 
 
-def test_scientific_execution_stub_ignores_all_authorization_inputs(tmp_path: Path) -> None:
+def test_scientific_execution_rejects_untrusted_decision_before_manifest_access(tmp_path: Path) -> None:
     from scripts.wp12_runner.scientific_execution import execute_pilot
 
     event = execute_pilot(
@@ -666,10 +1047,12 @@ def test_scientific_execution_stub_ignores_all_authorization_inputs(tmp_path: Pa
     assert event["status"] == "DENY_EXECUTION"
     assert event["execution_started"] is False
     assert event["attempt_reserved"] is False
-    assert event["blockers"] == ["REAL_EXECUTION_DISABLED_IN_WP12_A"]
+    assert event["blockers"] == ["OWNER_TRUST_STORE_NOT_CONFIGURED_OR_INVALID"]
 
 
-def test_trust_status_reports_only_public_metadata(monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]) -> None:
+def test_trust_status_reports_only_public_metadata(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
     public_bytes = b"p" * 32
     key = TrustedOwnerKey("synthetic-key", "synthetic-owner", base64.b64encode(public_bytes).decode("ascii"))
     monkeypatch.setattr(
@@ -918,6 +1301,7 @@ def test_machine_trust_store_requires_hklm_sha256_pin(tmp_path: Path, monkeypatc
         TRUST_STORE_PATH_VALUE: str(trust_path),
         TRUST_STORE_SHA_VALUE: hashlib.sha256(trust_bytes).hexdigest(),
     }
+
     def open_key(_hive: object, _path: str, _reserved: int, access: int) -> RegistryKey:
         if access == 2:
             raise PermissionError("synthetic read-only machine key")
@@ -1197,6 +1581,22 @@ def test_existing_destination_and_traversal_are_refused(tmp_path: Path) -> None:
     assert not safe_repo_relative_path("qualification//wp12_evidence/run")
 
 
+def test_execution_safe_path_rejects_symlinked_ancestor(tmp_path: Path) -> None:
+    from scripts.wp12_runner.scientific_execution import _safe_path
+
+    actual_root = tmp_path / "actual"
+    actual_root.mkdir()
+    target = actual_root / "probe.txt"
+    target.write_text("synthetic path probe", encoding="utf-8")
+    link = tmp_path / "alias"
+    try:
+        link.symlink_to(actual_root, target_is_directory=True)
+    except OSError:
+        pytest.skip("this Windows account cannot create a synthetic directory symlink")
+
+    assert _safe_path(str(link / "probe.txt")) is None
+
+
 def test_undeclared_overlay_and_mutated_overlay_are_refused() -> None:
     data = b"historical helper bytes"
     path = "tests/unit/frozen_helper.py"
@@ -1278,7 +1678,7 @@ def test_execute_mode_logs_refusal_for_prepared_manifest_and_never_launches_test
     refusal_files = list(audit.glob("refusal-*.json"))
     assert len(refusal_files) == 1
     refusal = json.loads(refusal_files[0].read_text(encoding="utf-8"))
-    assert refusal["blockers"] == ["REAL_EXECUTION_DISABLED_IN_WP12_A"]
+    assert refusal["blockers"] == ["OWNER_DECISION_ABSENT"]
 
 
 def test_execute_argument_rejection_is_logged_and_force_flag_is_not_supported(
@@ -1333,7 +1733,7 @@ def test_self_test_cli_runs_only_the_fixed_synthetic_cases(monkeypatch: pytest.M
     assert report["campaign_id"] == "WP12-X-SYNTHETIC-ORCHESTRATOR"
     assert report["result_kind"] == "SYNTHETIC_RUNNER_SELF_TEST"
     assert report["journal_chain_verified"] is True
-    assert report["journal_record_count"] == 14
+    assert report["journal_record_count"] == 16
     assert report["temporary_evidence_discarded_after_report"] is True
     assert len(report["plan_sha256"]) == 64
     assert {item["case"] for item in report["results"]} == {
@@ -1343,15 +1743,14 @@ def test_self_test_cli_runs_only_the_fixed_synthetic_cases(monkeypatch: pytest.M
         "tree",
         "flood",
         "memory",
+        "cpu",
     }
     assert all(item["self_test"] in {"PASS", "NOT_APPLICABLE"} for item in report["results"])
     assert len({item["run_id"] for item in report["results"]}) == len(report["results"])
     assert all(item["attempt"] == item["maximum_attempts"] == 1 for item in report["results"])
     assert all(item["scientific_result"] is False for item in report["results"])
     assert all("nodeid" not in item for item in report["results"])
-    assert all(
-        item["self_test"] == "NOT_APPLICABLE" or len(item["receipt_sha256"]) == 64 for item in report["results"]
-    )
+    assert all(item["self_test"] == "NOT_APPLICABLE" or len(item["receipt_sha256"]) == 64 for item in report["results"])
 
 
 def test_synthetic_orchestrator_rejects_unknown_cases_and_real_execute_enablement(
@@ -1377,6 +1776,21 @@ def test_hard_job_memory_limit_terminates_synthetic_allocator(tmp_path: Path) ->
     )
     assert outcome.hard_job_enforced
     assert outcome.return_code not in (None, 0)
+
+
+@pytest.mark.skipif(os.name != "nt", reason="Windows Job Object CPU-time enforcement is platform-specific")
+def test_hard_job_cpu_time_limit_terminates_synthetic_spinner(tmp_path: Path) -> None:
+    outcome = run_fake_process(
+        "cpu",
+        tmp_path / "cpu-limit",
+        timeout_seconds=8,
+        output_byte_limit=4096,
+        process_count_limit=4,
+        cpu_hard_limit_seconds=1,
+    )
+    assert outcome.hard_job_enforced
+    assert outcome.cpu_limit_exceeded
+    assert outcome.state == "RESOURCE_LIMIT"
 
 
 def test_interruption_is_not_reclassified_as_success(tmp_path: Path) -> None:
@@ -1409,15 +1823,74 @@ def test_simulated_resource_sample_causes_resource_limit(tmp_path: Path) -> None
 
 
 def test_pytest_result_classification_keeps_fail_separate_from_infrastructure() -> None:
-    passed = b'<testsuite><testcase classname="tests.unit.test_synthetic" name="test_case" /></testsuite>'
-    failed = b'<testsuite><testcase classname="test_synthetic" name="test_case"><failure /></testcase></testsuite>'
-    skipped = b'<testsuite><testcase classname="test_synthetic" name="test_case"><skipped /></testcase></testsuite>'
+    passed = b'<testsuite tests="1" failures="0" errors="0" skipped="0"><testcase classname="tests.unit.test_synthetic" name="test_case" /></testsuite>'
+    failed = b'<testsuite tests="1" failures="1" errors="0" skipped="0"><testcase classname="test_synthetic" name="test_case"><failure /></testcase></testsuite>'
+    skipped = b'<testsuite tests="1" failures="0" errors="0" skipped="1"><testcase classname="test_synthetic" name="test_case"><skipped /></testcase></testsuite>'
     assert classify_pytest_junit(passed, NODEID) == "PASS"
     assert classify_pytest_junit(failed, NODEID) == "FAIL"
     assert classify_pytest_junit(skipped, NODEID) == "INCONCLUSIVE"
     process = ProcessOutcome("PROCESS_EXITED", 1, None, 0.1, 0, 0, 10, 1, ())
     assert classify_process_result(process, failed, NODEID) == "FAIL"
     assert classify_process_result(process, None, NODEID) == "INFRA_ERROR"
+    assert (
+        classify_process_result(ProcessOutcome("PROCESS_EXITED", 0, None, 0.1, 0, 0, 10, 1, ()), failed, NODEID)
+        == "INFRA_ERROR"
+    )
+    wrapped_pass = b'<testsuites><testsuite tests="1" failures="0" errors="0" skipped="0"><testcase classname="tests.unit.test_synthetic" name="test_case" /></testsuite></testsuites>'
+    evil_wrapper = b'<evil><testsuite tests="1" failures="0" errors="0" skipped="0"><testcase classname="tests.unit.test_synthetic" name="test_case" /></testsuite></evil>'
+    multiple_suites = b'<testsuites><testsuite tests="1" failures="0" errors="0" skipped="0"><testcase classname="tests.unit.test_synthetic" name="test_case" /></testsuite><testsuite tests="0" failures="0" errors="0" skipped="0" /></testsuites>'
+    multiple_cases = b'<testsuite tests="2" failures="0" errors="0" skipped="0"><testcase classname="tests.unit.test_synthetic" name="test_case" /><testcase classname="tests.unit.test_synthetic" name="test_case" /></testsuite>'
+    assert classify_pytest_junit(wrapped_pass, NODEID) == "PASS"
+    assert classify_pytest_junit(evil_wrapper, NODEID) == "INFRA_ERROR"
+    assert classify_pytest_junit(multiple_suites, NODEID) == "INFRA_ERROR"
+    assert classify_pytest_junit(multiple_cases, NODEID) == "INFRA_ERROR"
+    assert (
+        classify_process_result(ProcessOutcome("PROCESS_EXITED", 2, None, 0.1, 0, 0, 10, 1, ()), failed, NODEID)
+        == "INFRA_ERROR"
+    )
+    contradictory = b'<testsuite tests="1" failures="0" errors="0" skipped="0"><testcase classname="tests.unit.test_synthetic" name="test_case"><failure /></testcase></testsuite>'
+    assert classify_pytest_junit(contradictory, NODEID) == "INFRA_ERROR"
+
+
+def test_pilot_evidence_destination_is_reserved_once_and_bound_to_the_manifest(tmp_path: Path) -> None:
+    from scripts.wp12_runner.evidence import verify_pilot_evidence_reservation
+
+    evidence_root = tmp_path / "evidence"
+    evidence_root.mkdir()
+    run = reserve_pilot_evidence_directory(evidence_root, "WP12-1-PILOT-001", "attempt-001", "a" * 64)
+    assert (
+        verify_pilot_evidence_reservation(
+            run,
+            campaign_id="WP12-1-PILOT-001",
+            run_id="attempt-001",
+            manifest_sha256="a" * 64,
+        )
+        == ()
+    )
+    assert verify_pilot_evidence_reservation(
+        run,
+        campaign_id="WP12-1-PILOT-001",
+        run_id="attempt-001",
+        manifest_sha256="b" * 64,
+    )
+    with pytest.raises(FileExistsError):
+        reserve_pilot_evidence_directory(evidence_root, "WP12-1-PILOT-001", "attempt-001", "a" * 64)
+
+
+def test_pilot_evidence_reservation_rejects_a_prepopulated_destination(tmp_path: Path) -> None:
+    from scripts.wp12_runner.evidence import verify_pilot_evidence_reservation
+
+    root = tmp_path / "evidence"
+    root.mkdir()
+    run = reserve_pilot_evidence_directory(root, "WP12-1-PILOT-001", "attempt-001", "a" * 64)
+    (run / "unexpected.txt").write_text("synthetic", encoding="utf-8")
+    errors = verify_pilot_evidence_reservation(
+        run,
+        campaign_id="WP12-1-PILOT-001",
+        run_id="attempt-001",
+        manifest_sha256="a" * 64,
+    )
+    assert errors == ("reserved evidence directory is not empty",)
 
 
 def test_runner_sources_and_fixture_import_no_scientific_package() -> None:
@@ -1436,3 +1909,269 @@ def test_runner_sources_and_fixture_import_no_scientific_package() -> None:
             elif isinstance(node, ast.ImportFrom) and node.module:
                 imports.append(node.module.split(".", 1)[0])
         assert not forbidden.intersection(imports), path
+
+
+def test_import_probe_child_resolves_only_the_declared_synthetic_source(tmp_path: Path) -> None:
+    package = tmp_path / "src" / "solveur"
+    package.mkdir(parents=True)
+    (package / "__init__.py").write_text("from importlib import import_module\n", encoding="utf-8")
+    (package / "version.py").write_text('__version__ = "synthetic"\n', encoding="utf-8")
+
+    report = probe_solver_import(Path(sys.executable), tmp_path)
+
+    assert report["state"] == "SOURCE_IMPORT_VERIFIED"
+    assert report["scientific_source_root"] == str(tmp_path.resolve())
+    assert report["solveur_file"] == str((package / "__init__.py").resolve())
+    assert report["version"] == "synthetic"
+    assert report["fem_or_analysis_api_called"] is False
+
+
+def test_provenance_plugin_accepts_pinned_inventory_superset_with_only_fake_module(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from scripts.wp12_runner.pytest_provenance_plugin import WP12ProvenancePlugin
+    import types
+
+    science = tmp_path / "science"
+    source = science / "src" / "solveur" / "__init__.py"
+    evidence = tmp_path / "evidence"
+    source.parent.mkdir(parents=True)
+    evidence.mkdir()
+    source.write_text("# synthetic package marker\n", encoding="utf-8")
+    source_digest = hashlib.sha256(source.read_bytes()).hexdigest()
+    monkeypatch.setenv("QF_WP12_EXPECTED_NODEID", NODEID)
+    plugin_path = Path(__file__).resolve().parents[2] / "scripts" / "wp12_runner" / "pytest_provenance_plugin.py"
+    monkeypatch.setenv("QF_WP12_EXPECTED_PLUGIN_PATH", str(plugin_path))
+    monkeypatch.setenv("QF_WP12_EXPECTED_PLUGIN_SHA256", hashlib.sha256(plugin_path.read_bytes()).hexdigest())
+    monkeypatch.setenv("QF_WP12_SOLVER_ROOT", str(science / "src"))
+    monkeypatch.setenv("QF_WP12_EVIDENCE_ROOT", str(evidence))
+    monkeypatch.setenv(
+        "QF_WP12_EXPECTED_SOURCE_HASHES",
+        json.dumps(
+            {
+                "src/solveur/__init__.py": source_digest,
+                "src/solveur/not_imported.py": "a" * 64,
+            }
+        ),
+    )
+    fake = types.ModuleType("solveur")
+    fake.__file__ = str(source)
+    monkeypatch.setitem(sys.modules, "solveur", fake)
+    plugin = WP12ProvenancePlugin()
+    item = SimpleNamespace(nodeid=NODEID)
+    plugin.pytest_collection_modifyitems(SimpleNamespace(), SimpleNamespace(), [item])
+    report = json.loads((evidence / "collection.json").read_text(encoding="utf-8"))
+    assert report["collection_valid"] is True
+    assert report["plugin_verified"] is True
+    assert report["declared_source_hashes_verified"] is True
+    assert report["selected_nodeids"] == [NODEID]
+
+
+def test_owner_trust_store_builder_exports_only_a_synthetic_public_key(tmp_path: Path) -> None:
+    from cryptography.hazmat.primitives import serialization
+    from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+
+    key = Ed25519PrivateKey.generate()
+    private_path = tmp_path / "synthetic-owner.pem"
+    private_path.write_bytes(
+        key.private_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.PKCS8,
+            encryption_algorithm=serialization.NoEncryption(),
+        )
+    )
+    document, digest = build_public_trust_store(
+        private_path,
+        key_id="synthetic-owner-key",
+        principal="synthetic-owner",
+        passphrase="",
+        repository_root=ROOT,
+    )
+
+    assert document["schema"] == "qf-wp12-owner-trust-store-v1"
+    assert document["keys"][0]["key_id"] == "synthetic-owner-key"
+    assert len(base64.b64decode(document["keys"][0]["public_key_base64"])) == 32
+    assert len(digest) == 64
+    assert base64.b64encode(
+        key.private_bytes(
+            encoding=serialization.Encoding.Raw,
+            format=serialization.PrivateFormat.Raw,
+            encryption_algorithm=serialization.NoEncryption(),
+        )
+    ).decode("ascii") not in json.dumps(document)
+
+
+def test_system_archive_worker_refuses_forged_reservation_without_protected_owner_decision(
+    tmp_path: Path,
+) -> None:
+    import shutil
+    import subprocess
+
+    powershell = shutil.which("powershell.exe") or shutil.which("powershell")
+    if powershell is None:
+        pytest.skip("Windows PowerShell is unavailable for the synthetic archive-worker check")
+    from scripts.wp12_runner.archive_protocol import create_attempt_reservation_request
+    from scripts.wp12_runner.contracts import sha256_file
+
+    request_root = tmp_path / "requests"
+    archive_root = tmp_path / "archive"
+    evidence_root = tmp_path / "evidence"
+    owner_decision_root = tmp_path / "owner-decisions"
+    for directory in (request_root, archive_root, evidence_root, owner_decision_root):
+        directory.mkdir()
+    worker = ROOT / "scripts" / "wp12_runner" / "windows" / "Invoke-WP12EvidenceArchiveWorker.ps1"
+    verifier = ROOT / "scripts" / "wp12_runner" / "owner_decision_verifier.py"
+    identities = {
+        "scientific_commit": "1" * 40,
+        "scientific_tree": "2" * 40,
+        "runner_commit": "3" * 40,
+        "runner_tree": "4" * 40,
+    }
+    campaign_id = "WP12-1-PILOT-001"
+    nodeid = "tests/unit/test_modal_symmetric_projection.py::test_structured_symmetric_projection_matches_dense_bilinear_form"
+    request_path, _digest, request_id, reservation_key_value = create_attempt_reservation_request(
+        request_root=request_root,
+        campaign_id=campaign_id,
+        decision_id="OWNER-SYNTHETIC-01",
+        unit_id="WP12-1-PILOT-001-UNIT-01",
+        run_id="attempt-001",
+        nodeid=nodeid,
+        destination="qualification/0_2_12/wp12_evidence/WP12-1-PILOT-001/attempt-001",
+        manifest_sha256="a" * 64,
+        owner_decision_sha256="b" * 64,
+        identities=identities,
+    )
+    campaign_owner_root = owner_decision_root / campaign_id
+    campaign_owner_root.mkdir()
+    manifest_path = campaign_owner_root / "manifest-v2.json"
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "campaign_id": campaign_id,
+                "status": "FROZEN_NOT_AUTHORIZED",
+                "execution_context": {
+                    "archive": {
+                        "manifest_path": str(manifest_path),
+                        "execution_attestation": "NONE",
+                    }
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    manifest_hash = sha256_file(manifest_path)
+    worker_hash = sha256_file(worker)
+    verifier_hash = sha256_file(verifier)
+    contracts_hash = sha256_file(ROOT / "scripts" / "wp12_runner" / "contracts.py")
+    owner_trust_hash = sha256_file(ROOT / "scripts" / "wp12_runner" / "owner_trust.py")
+    canonicalization_hash = sha256_file(ROOT / "scripts" / "wp12_owner_canonicalization.py")
+    python_hash = sha256_file(Path(sys.executable).resolve())
+    argv = [
+        powershell,
+        "-NoProfile",
+        "-NonInteractive",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        str(worker),
+        "-RequestRoot",
+        str(request_root),
+        "-EvidenceRoot",
+        str(evidence_root),
+        "-ArchiveRoot",
+        str(archive_root),
+        "-OwnerDecisionRoot",
+        str(owner_decision_root),
+        "-PythonExecutable",
+        str(Path(sys.executable).resolve()),
+        "-PythonExecutableSha256",
+        python_hash,
+        "-VerifierScriptSha256",
+        verifier_hash,
+        "-ContractsScriptSha256",
+        contracts_hash,
+        "-OwnerTrustScriptSha256",
+        owner_trust_hash,
+        "-CanonicalizationScriptSha256",
+        canonicalization_hash,
+        "-WorkerScriptSha256",
+        worker_hash,
+        "-ManifestPath",
+        str(manifest_path),
+        "-ManifestSha256",
+        manifest_hash,
+        "-RunnerSid",
+        "S-1-5-21-1-2-3-1001",
+    ]
+    result = subprocess.run(argv, capture_output=True, text=True, timeout=20, check=False)
+    assert result.returncode == 0, result.stderr
+    assert request_path.is_file()
+    reservations = archive_root / "_wp12_ledger" / "reservations"
+    assert not reservations.exists() or list(reservations.iterdir()) == []
+    ack_path = archive_root / "_wp12_ledger" / "reservation-acks" / f"{request_id}.json"
+    assert not ack_path.exists()
+    assert reservation_key_value
+
+
+def test_production_pilot_entrypoint_is_unconditionally_fail_closed() -> None:
+    from scripts.wp12_runner.pilot_execution import execute_authenticated_pilot_unit
+
+    result = execute_authenticated_pilot_unit(
+        manifest={"campaign_id": "synthetic", "unit_id": "synthetic", "tests": {"nodeid": "x"}},
+        manifest_sha256="0" * 64,
+        owner_decision_sha256="1" * 64,
+        owner_decision_id="synthetic",
+        context={"attempt_id": "synthetic"},
+        environment_report={},
+    )
+
+    assert result["status"] == "DENY_EXECUTION"
+    assert result["reason"] == "SYSTEM_CHILD_PROCESS_ATTESTATION_NOT_IMPLEMENTED"
+    assert result["execution_started"] is False
+
+
+def test_pilot_preflight_recomputes_inline_fixture_from_exact_test_source(tmp_path: Path) -> None:
+    from scripts.wp12_runner.inline_fixtures import PILOT_NODEID, fixture_sha256, projection_pilot_fixture
+    from scripts.wp12_runner.scientific_execution import _pilot_inline_fixture_errors
+
+    source_relative = "tests/unit/test_modal_symmetric_projection.py"
+    source_bytes = (ROOT / source_relative).read_bytes()
+    source_path = tmp_path / source_relative
+    source_path.parent.mkdir(parents=True)
+    source_path.write_bytes(source_bytes)
+    source_digest = hashlib.sha256(source_bytes).hexdigest()
+    fixture = projection_pilot_fixture(source_bytes)
+    canonical_digest = fixture_sha256(fixture)
+    fixture_id = fixture["fixture_id"]
+    manifest: dict[str, Any] = {
+        "code_identity": {
+            "test_files_sha256": {source_relative: source_digest},
+            "fixture_files_sha256": {source_relative: source_digest},
+        },
+        "fixtures": {
+            "inline": [
+                {
+                    "id": fixture_id,
+                    "nodeid": PILOT_NODEID,
+                    "source_file": source_relative,
+                    "source_file_sha256": source_digest,
+                    "canonicalization": "qf-wp12-inline-fixture-v1",
+                    "sha256": canonical_digest,
+                }
+            ]
+        },
+    }
+    context = {
+        "inline_fixture": {
+            "schema": "qf-wp12-inline-fixture-v1",
+            "fixture_id": fixture_id,
+            "canonicalization": "qf-wp12-inline-fixture-v1",
+            "sha256": canonical_digest,
+        }
+    }
+
+    assert _pilot_inline_fixture_errors(tmp_path, manifest, context, PILOT_NODEID) == ()
+    manifest["fixtures"]["inline"][0]["sha256"] = "0" * 64
+    assert _pilot_inline_fixture_errors(tmp_path, manifest, context, PILOT_NODEID) == (
+        "PILOT_INLINE_FIXTURE_CANONICAL_HASH_MISMATCH",
+    )

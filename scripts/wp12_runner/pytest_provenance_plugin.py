@@ -21,6 +21,15 @@ class WP12ProvenancePlugin:
         self.report_written = False
 
     def _write_report(self, nodeids: list[str], *, valid: bool, reason: str | None) -> None:
+        plugin_path = Path(__file__).resolve(strict=True)
+        expected_plugin_path = Path(os.environ.get("QF_WP12_EXPECTED_PLUGIN_PATH", "")).resolve(strict=False)
+        plugin_sha256 = hashlib.sha256(plugin_path.read_bytes()).hexdigest()
+        expected_plugin_sha256 = os.environ.get("QF_WP12_EXPECTED_PLUGIN_SHA256", "")
+        plugin_verified = (
+            expected_plugin_path == plugin_path
+            and len(expected_plugin_sha256) == 64
+            and plugin_sha256 == expected_plugin_sha256
+        )
         modules: list[dict[str, str]] = []
         origins_valid = True
         source_hashes: dict[str, str] = {}
@@ -49,9 +58,13 @@ class WP12ProvenancePlugin:
             expected_hashes = None
         declared_hashes_valid = isinstance(expected_hashes, dict) and bool(expected_hashes)
         if declared_hashes_valid:
-            declared_hashes_valid = all(source_hashes.get(path) == digest for path, digest in expected_hashes.items())
+            # The manifest inventories every source file in scope, but a
+            # single test imports only a subset. Every loaded module must match
+            # its pinned hash; unused inventory entries need not be imported.
+            declared_hashes_valid = all(expected_hashes.get(path) == digest for path, digest in source_hashes.items())
         valid = (
             valid
+            and plugin_verified
             and origins_valid
             and declared_hashes_valid
             and any(item["module"] == "solveur" for item in modules)
@@ -59,6 +72,9 @@ class WP12ProvenancePlugin:
         report: dict[str, Any] = {
             "schema": "qf-wp12-child-collection-provenance-v1",
             "expected_nodeid": self.expected_nodeid,
+            "plugin_origin": str(plugin_path),
+            "plugin_sha256": plugin_sha256,
+            "plugin_verified": plugin_verified,
             "selected_nodeids": nodeids,
             "collection_exact": nodeids == [self.expected_nodeid],
             "solver_origin_root": str(self.solver_root),
@@ -82,7 +98,9 @@ class WP12ProvenancePlugin:
             raise pytest.UsageError("refusing to overwrite the collection provenance report") from exc
         self.report_written = True
 
-    def pytest_collection_modifyitems(self, session: pytest.Session, config: pytest.Config, items: list[pytest.Item]) -> None:
+    def pytest_collection_modifyitems(
+        self, session: pytest.Session, config: pytest.Config, items: list[pytest.Item]
+    ) -> None:
         nodeids = [item.nodeid for item in items]
         exact = nodeids == [self.expected_nodeid]
         self._write_report(nodeids, valid=exact, reason=None if exact else "pytest selected a different item set")

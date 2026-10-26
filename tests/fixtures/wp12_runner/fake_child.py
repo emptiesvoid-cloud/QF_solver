@@ -51,6 +51,13 @@ def main() -> int:
             payload[offset] = 1
         print("WP12_RUNNER_SYNTHETIC_MEMORY_ALLOCATION_COMPLETED", flush=True)
         return 0
+    if case == "cpu":
+        deadline = time.monotonic() + 10.0
+        accumulator = 0
+        while time.monotonic() < deadline:
+            accumulator = (accumulator + 1) % 1_000_003
+        print(f"WP12_RUNNER_SYNTHETIC_CPU_COMPLETED {accumulator}", flush=True)
+        return 0
     return 64
 
 

@@ -1,4 +1,4 @@
-"""Bounded subprocess supervision for fixed synthetic self-tests only."""
+"""Bounded subprocess supervision for synthetic checks and one gated WP12 pilot."""
 
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ from .evidence import JsonlJournal
 
 _ROOT = Path(__file__).resolve().parents[2]
 FAKE_CHILD = _ROOT / "tests" / "fixtures" / "wp12_runner" / "fake_child.py"
-FAKE_CASES = frozenset({"success", "exit", "sleep", "tree", "flood", "memory"})
+FAKE_CASES = frozenset({"success", "exit", "sleep", "tree", "flood", "memory", "cpu"})
 
 
 @dataclass(frozen=True)
@@ -40,6 +40,7 @@ class ProcessOutcome:
     child_pids_remaining: tuple[int, ...]
     hard_job_enforced: bool = False
     process_started: bool = False
+    cpu_limit_exceeded: bool = False
 
 
 class _OutputCapture:
@@ -192,6 +193,7 @@ def run_fake_process(
     process_count_limit: int = 8,
     memory_soft_limit_bytes: int | None = None,
     memory_hard_limit_bytes: int | None = None,
+    cpu_hard_limit_seconds: int | None = None,
     storage_soft_limit_bytes: int | None = None,
     poll_interval_seconds: float = 0.02,
     sample_provider: Callable[[int], ResourceSample] = _sample_process_tree,
@@ -208,8 +210,10 @@ def run_fake_process(
         raise ContractError("self-test limits must be positive")
     if memory_hard_limit_bytes is not None and memory_hard_limit_bytes < 1:
         raise ContractError("hard memory limit must be positive")
-    if os.name != "nt" and memory_hard_limit_bytes is not None:
-        raise ContractError("requested hard memory limit requires a Windows Job Object")
+    if cpu_hard_limit_seconds is not None and cpu_hard_limit_seconds < 1:
+        raise ContractError("hard CPU time limit must be positive")
+    if os.name != "nt" and (memory_hard_limit_bytes is not None or cpu_hard_limit_seconds is not None):
+        raise ContractError("requested hard memory or CPU limit requires a Windows Job Object")
     run_directory.mkdir(parents=True, exist_ok=False)
     journal = JsonlJournal(run_directory / "journal.jsonl")
     journal.append({"event": "RUNNING", "case": case, "utc_epoch": time.time()})
@@ -239,6 +243,7 @@ def run_fake_process(
             job = WindowsJob(
                 process_count_limit=process_count_limit,
                 memory_limit_bytes=memory_hard_limit_bytes,
+                cpu_time_limit_seconds=cpu_hard_limit_seconds,
             )
             job.__enter__()
             creationflags |= getattr(subprocess, "CREATE_SUSPENDED", 0x00000004)
@@ -327,6 +332,19 @@ def run_fake_process(
             state = "INFRA_ERROR"
             stop_reason = f"process descendants remain after termination: {remaining}"
         elapsed = time.monotonic() - started
+        cpu_limit_exceeded = bool(job is not None and job.cpu_limit_exceeded())
+        if cpu_limit_exceeded:
+            state = "RESOURCE_LIMIT"
+            stop_reason = "hard Windows Job Object user CPU-time limit exceeded"
+            if job is not None and job.active_process_count() > 0:
+                job.terminate()
+                try:
+                    process.wait(timeout=2)
+                except subprocess.TimeoutExpired:
+                    pass
+                if job.active_process_count() > 0:
+                    state = "INFRA_ERROR"
+                    stop_reason = "processes remained active after CPU-time Job Object termination"
         outcome = ProcessOutcome(
             state=state,
             return_code=return_code,
@@ -337,6 +355,7 @@ def run_fake_process(
             sampled_peak_rss_bytes=peak_rss,
             sampled_peak_process_count=peak_processes,
             child_pids_remaining=remaining,
+            cpu_limit_exceeded=cpu_limit_exceeded,
         )
     except KeyboardInterrupt:
         if process is not None:
@@ -354,7 +373,7 @@ def run_fake_process(
             sampled_peak_process_count=peak_processes,
             child_pids_remaining=remaining,
         )
-    except (OSError, ContractError) as exc:
+    except Exception as exc:
         if process is not None and process.poll() is None:
             try:
                 process.kill()
@@ -372,6 +391,7 @@ def run_fake_process(
             sampled_peak_process_count=peak_processes,
             child_pids_remaining=remaining,
             hard_job_enforced=hard_job_enforced,
+            cpu_limit_exceeded=bool(job is not None and job.cpu_limit_exceeded()),
         )
     if job is not None:
         try:
@@ -388,6 +408,7 @@ def run_fake_process(
                 sampled_peak_process_count=outcome.sampled_peak_process_count,
                 child_pids_remaining=outcome.child_pids_remaining,
                 hard_job_enforced=hard_job_enforced,
+                cpu_limit_exceeded=outcome.cpu_limit_exceeded,
             )
     if hard_job_enforced and not outcome.hard_job_enforced:
         outcome = ProcessOutcome(
@@ -401,6 +422,7 @@ def run_fake_process(
             sampled_peak_process_count=outcome.sampled_peak_process_count,
             child_pids_remaining=outcome.child_pids_remaining,
             hard_job_enforced=True,
+            cpu_limit_exceeded=outcome.cpu_limit_exceeded,
         )
     journal.append(
         {
@@ -416,8 +438,38 @@ def run_fake_process(
     return outcome
 
 
+def run_approved_pilot_process(
+    command: Sequence[str],
+    *,
+    campaign_id: str,
+    run_id: str,
+    nodeid: str,
+    manifest_sha256: str,
+    cwd: Path,
+    run_directory: Path,
+    environment: Mapping[str, str],
+    resource_limits: Mapping[str, object],
+    interrupt_event: threading.Event | None = None,
+    poll_interval_seconds: float = 0.05,
+) -> ProcessOutcome:
+    """Disabled scientific-process boundary.
+
+    The existing SYSTEM worker verifies and copies evidence bytes but does not
+    attest the identity or result of the launched child. Refuse here as well as
+    in the CLI and pilot orchestrator, so callers cannot bypass preflight by
+    invoking this low-level API directly. Synthetic process supervision uses a
+    separate fixed fake-child path.
+    """
+    raise ContractError("SYSTEM_CHILD_PROCESS_ATTESTATION_NOT_IMPLEMENTED")
+
+
 def validate_approved_pilot_command(
-    command: Sequence[str], *, cwd: Path, run_directory: Path, python_executable: str
+    command: Sequence[str],
+    *,
+    cwd: Path,
+    run_directory: Path,
+    python_executable: str,
+    expected_nodeid: str,
 ) -> None:
     """Validate the single supported pytest argv without starting a process."""
     from .inline_fixtures import PILOT_NODEID
@@ -435,13 +487,16 @@ def validate_approved_pilot_command(
         "scripts.wp12_runner.pytest_provenance_plugin",
     ]
     if (
-        len(command) != 10
+        len(command) != 13
         or str(Path(command[0]).resolve()) != expected_prefix[0]
         or list(command[1:8]) != expected_prefix[1:]
-        or command[9] != PILOT_NODEID
+        or list(command[8:10]) != ["-o", "addopts="]
+        or command[10] != "--noconftest"
+        or expected_nodeid != PILOT_NODEID
+        or command[12] != expected_nodeid
     ):
         raise ContractError("approved process accepts only the exact WP12-1 pilot pytest command")
-    junit_option = command[8]
+    junit_option = command[11]
     if not junit_option.startswith("--junitxml="):
         raise ContractError("approved process requires the pinned JUnit output argument")
     junit_path = Path(junit_option.removeprefix("--junitxml="))
@@ -452,45 +507,86 @@ def validate_approved_pilot_command(
 
 
 def classify_pytest_junit(xml_payload: bytes, expected_nodeid: str) -> str:
-    """Classify a supplied JUnit record; this helper alone is not campaign evidence.
-
-    It does not prove how pytest selected or ran a nodeid, and the current
-    runner's scientific EXECUTE mode is unconditionally disabled.
-    """
+    """Classify one exact pytest testcase, rejecting absent or contradictory XML."""
     import xml.etree.ElementTree as ET
 
     try:
         root = ET.fromstring(xml_payload)
     except ET.ParseError:
         return "INFRA_ERROR"
-    cases = root.findall(".//testcase")
-    if len(cases) != 1:
+    if root.tag == "testsuite":
+        suite = root
+    elif root.tag == "testsuites":
+        if any(child.tag != "testsuite" for child in root) or len(root) != 1:
+            return "INFRA_ERROR"
+        suite = root[0]
+    else:
         return "INFRA_ERROR"
+    if any(child.tag not in {"properties", "testcase"} for child in suite):
+        return "INFRA_ERROR"
+    cases = [child for child in suite if child.tag == "testcase"]
+    if len(cases) != 1 or suite.findall(".//testsuite"):
+        return "INFRA_ERROR"
+    try:
+        declared_tests = int(suite.get("tests", "-1"))
+        declared_failures = int(suite.get("failures", "-1"))
+        declared_errors = int(suite.get("errors", "-1"))
+        declared_skipped = int(suite.get("skipped", "-1"))
+    except ValueError:
+        return "INFRA_ERROR"
+    case = cases[0]
+    if any(child.tag not in {"failure", "error", "skipped", "system-out", "system-err"} for child in case):
+        return "INFRA_ERROR"
+    failure_nodes = case.findall("failure")
+    error_nodes = case.findall("error")
+    skipped_nodes = case.findall("skipped")
+    if len(failure_nodes) > 1 or len(error_nodes) > 1 or len(skipped_nodes) > 1:
+        return "INFRA_ERROR"
+    failure = failure_nodes[0] if failure_nodes else None
+    error = error_nodes[0] if error_nodes else None
+    skipped = skipped_nodes[0] if skipped_nodes else None
+    actual_counts = (1, int(failure is not None), int(error is not None), int(skipped is not None))
+    if (declared_tests, declared_failures, declared_errors, declared_skipped) != actual_counts:
+        return "INFRA_ERROR"
+    if root.tag == "testsuites":
+        for name, actual in zip(("tests", "failures", "errors", "skipped"), actual_counts, strict=True):
+            declared = root.get(name)
+            if declared is not None:
+                try:
+                    if int(declared) != actual:
+                        return "INFRA_ERROR"
+                except ValueError:
+                    return "INFRA_ERROR"
     node_path, _, test_path = expected_nodeid.partition("::")
     expected_module = node_path.removesuffix(".py").replace("/", ".")
     expected_name = test_path.split("::")[-1]
-    case = cases[0]
     if case.get("name") != expected_name or case.get("classname") not in {expected_module, Path(node_path).stem}:
         return "INFRA_ERROR"
-    if case.find("failure") is not None:
-        return "FAIL"
-    if case.find("error") is not None:
+    outcomes = sum(item is not None for item in (failure, error, skipped))
+    if outcomes > 1:
         return "INFRA_ERROR"
-    if case.find("skipped") is not None:
+    if failure is not None:
+        return "FAIL"
+    if error is not None:
+        return "INFRA_ERROR"
+    if skipped is not None:
         return "INCONCLUSIVE"
     return "PASS"
 
 
 def classify_process_result(outcome: ProcessOutcome, junit_payload: bytes | None, expected_nodeid: str) -> str:
-    """Combine synthetic supervisor status and a supplied JUnit record only.
-
-    The current scientific runner never calls this helper.
-    """
+    """Combine the supervised process state with its exact one-test JUnit record."""
     if outcome.state in {"TIMEOUT", "RESOURCE_LIMIT", "INTERRUPTED", "INFRA_ERROR"}:
         return outcome.state
+    if outcome.state != "PROCESS_EXITED" or outcome.return_code is None:
+        return "INFRA_ERROR"
     if junit_payload is None:
         return "INFRA_ERROR"
     test_state = classify_pytest_junit(junit_payload, expected_nodeid)
-    if outcome.return_code != 0 and test_state == "PASS":
+    if outcome.return_code == 1 and test_state == "FAIL":
+        return "FAIL"
+    if outcome.return_code != 0:
+        return "INFRA_ERROR"
+    if test_state == "FAIL":
         return "INFRA_ERROR"
     return test_state

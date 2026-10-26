@@ -33,9 +33,7 @@ def _utc_now() -> str:
 
 
 def _canonical(value: Mapping[str, Any]) -> bytes:
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode(
-        "utf-8"
-    )
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode("utf-8")
 
 
 def _plan_sha256(cases: tuple[str, ...]) -> str:
@@ -52,6 +50,7 @@ def _plan_sha256(cases: tuple[str, ...]) -> str:
             "default_output_byte_limit": 65536,
             "flood_output_byte_limit": 256,
             "memory_hard_limit_bytes": 64 * 1024 * 1024,
+            "cpu_hard_limit_seconds": 1,
         },
         "scientific_execution": False,
         "owner_authorization": "NOT_APPLICABLE_TO_SYNTHETIC_SELF_TEST",
@@ -136,6 +135,15 @@ def _expected_result(case: str, outcome: ProcessOutcome) -> tuple[bool, str]:
         )
         return passed, explanation
 
+    if case == "cpu":
+        passed = outcome.state == "RESOURCE_LIMIT" and outcome.cpu_limit_exceeded and outcome.hard_job_enforced
+        explanation = (
+            "Windows Job Object terminated the synthetic CPU-bound child"
+            if passed
+            else "hard Windows Job Object CPU-time enforcement was not demonstrated"
+        )
+        return passed, explanation
+
     expected = {
         "success": ("PROCESS_EXITED", 0),
         "exit": ("PROCESS_EXITED", 17),
@@ -190,6 +198,7 @@ def _result_record(
         "sampled_peak_process_count": outcome.sampled_peak_process_count if outcome is not None else 0,
         "child_pids_remaining": list(outcome.child_pids_remaining) if outcome is not None else [],
         "hard_job_enforced": outcome.hard_job_enforced if outcome is not None else False,
+        "cpu_limit_exceeded": outcome.cpu_limit_exceeded if outcome is not None else False,
         "receipt_sha256": receipt_sha256,
         "receipt_issues": list(receipt_issues),
     }
@@ -219,7 +228,7 @@ def _run_one_case(
         }
     )
 
-    if case == "memory" and os.name != "nt":
+    if case in {"memory", "cpu"} and os.name != "nt":
         result = _result_record(
             case=case,
             run_id=run_id,
@@ -244,6 +253,7 @@ def _run_one_case(
     timeout = 0.35 if case in {"sleep", "tree"} else 2.0
     output_limit = 256 if case == "flood" else 64 * 1024
     memory_limit = 64 * 1024 * 1024 if case == "memory" else None
+    cpu_limit = 1 if case == "cpu" else None
     outcome: ProcessOutcome | None = None
     receipt_sha: str | None = None
     receipt_issues: tuple[str, ...] = ()
@@ -257,6 +267,7 @@ def _run_one_case(
             output_byte_limit=output_limit,
             process_count_limit=8,
             memory_hard_limit_bytes=memory_limit,
+            cpu_hard_limit_seconds=cpu_limit,
         )
         matched, explanation = _expected_result(case, outcome)
         metadata = {
@@ -414,9 +425,7 @@ def run_synthetic_orchestration(case_selector: str = "all") -> dict[str, Any]:
         "journal_errors": list(journal_issues),
         "journal_record_count": journal_record_count,
         "temporary_evidence_discarded_after_report": True,
-        "synthetic_case_invocations": sum(
-            result["self_test"] != "NOT_APPLICABLE" for result in results
-        ),
+        "synthetic_case_invocations": sum(result["self_test"] != "NOT_APPLICABLE" for result in results),
         "scientific_execution": False,
         "real_execute_enabled": False,
     }
