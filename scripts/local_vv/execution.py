@@ -148,6 +148,8 @@ def run_case(
         numeric_status, numeric_payload = (
             extract_numeric_payload(stdout_path) if stdout_path.exists() else ("NOT_EXPOSED", None)
         )
+        if numeric_payload is not None and numeric_payload.get("case_id") != case["case_id"]:
+            raise LocalVVError("numeric result marker case_id does not match the approved case")
         numeric_error = None
     except (OSError, ValueError, json.JSONDecodeError, LocalVVError) as exc:
         numeric_status, numeric_payload, numeric_error = "MALFORMED", None, str(exc)

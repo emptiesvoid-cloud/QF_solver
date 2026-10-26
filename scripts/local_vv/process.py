@@ -61,16 +61,26 @@ def classify_junit(
 
 
 def extract_numeric_payload(stdout_path: Path) -> tuple[str, dict[str, Any] | None]:
-    for line in stdout_path.read_text(encoding="utf-8", errors="replace").splitlines():
-        if not line.startswith(RESULT_MARKER):
-            continue
-        payload = json.loads(
-            line[len(RESULT_MARKER) :], parse_constant=lambda value: (_ for _ in ()).throw(ValueError(value))
-        )
-        if not isinstance(payload, dict):
-            raise LocalVVError("numeric result marker must contain a JSON object")
-        return "EXPOSED_JSON", payload
-    return "NOT_EXPOSED", None
+    marked_lines = [
+        line
+        for line in stdout_path.read_text(encoding="utf-8", errors="replace").splitlines()
+        if line.startswith(RESULT_MARKER)
+    ]
+    if not marked_lines:
+        return "NOT_EXPOSED", None
+    if len(marked_lines) != 1:
+        raise LocalVVError("stdout must contain at most one structured numeric result marker")
+    payload = json.loads(
+        marked_lines[0][len(RESULT_MARKER) :],
+        parse_constant=lambda value: (_ for _ in ()).throw(ValueError(value)),
+    )
+    if not isinstance(payload, dict):
+        raise LocalVVError("numeric result marker must contain a JSON object")
+    if not isinstance(payload.get("schema"), str) or not payload["schema"]:
+        raise LocalVVError("numeric result marker must declare a non-empty schema")
+    if not isinstance(payload.get("case_id"), str) or not payload["case_id"]:
+        raise LocalVVError("numeric result marker must declare a non-empty case_id")
+    return "EXPOSED_JSON", payload
 
 
 def supervise_process(
