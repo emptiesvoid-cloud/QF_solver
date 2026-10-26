@@ -1,0 +1,198 @@
+{
+  "schema": "qf-solver-wp12-nodeid-partition-r4",
+  "revision": "R4-prepared",
+  "prepared_at": "2026-10-26",
+  "preparation_status": "PREPARED_NOT_AUTHORIZED",
+  "execution_status": "NUMERICAL_EXECUTION_NOT_PERFORMED",
+  "wp12_status": "OPEN",
+  "repository": "emptiesvoid-cloud/QF_solver",
+  "scientific_identity": {
+    "commit": "00428adf38e9397340ac136f6f503a268eb671da",
+    "git_tree": "df4ec667bf746b042c900fad1f86bf542e1a437b"
+  },
+  "runner_identity": {
+    "commit": "782820fe31fa8b69223bd368e39949fca325ba3e",
+    "git_tree": "100d7b3ca869cad267666337947f204c9c8bf31e"
+  },
+  "scope_decision": {
+    "status": "OWNER_ACCEPTED_PREPARATORY_SCOPE",
+    "meaning": "The Owner accepted this partition as the scope to formalize for preparation. No historical manifest record is rewritten, and no test execution is authorized.",
+    "owner_instruction_basis": "Owner instruction for WP12-A/WP12-B: prepare the five symmetric-projection tests and coupled 2-DOF oracle for WP12-1; transfer the prepared-system identity and Newmark checkpoint cases to WP12-2; transfer nonlinear checkpoint integrity to WP12-3.",
+    "preparatory_mapping_effective": true,
+    "scientific_execution_authorized": false,
+    "historical_r1_r2_r3_records_modified": false
+  },
+  "historical_references": {
+    "scope_review": {
+      "path": "qualification/0_2_12/wp12_preparation/wp12_s_wp12_1_scope_review.md",
+      "sha256": "c5671ad0067b5e2a4ab5f745927efe28bdae85a3572ab5ad66f5e1d88399afd7"
+    },
+    "r2_manifest_index": {
+      "path": "qualification/0_2_12/wp12_preparation/revisions/manifest_revision_index.json",
+      "sha256": "bd185ce511bbec057d0ff58b05cc24b47945aad603395b91da5ef6e08b75659d"
+    },
+    "r3_scope_proposal_index": {
+      "path": "qualification/0_2_12/wp12_preparation/revisions/manifest_scope_proposal_index.r3.json",
+      "sha256": "632c2a22543e0c51d17bc0b213538687e52a927967197f35715a2374e9918b9b"
+    },
+    "original_and_revision_sha256": [
+      {
+        "campaign": "WP12-1-MODAL-PROJECTION-CONTRACTS",
+        "original": "qualification/0_2_12/wp12_preparation/wp12_1_execution_manifest.json",
+        "original_sha256": "70ff305a584fdd5334fdc3cdc3e03afc7fa9efe71abb866a4937626127a8b70c",
+        "r2": "qualification/0_2_12/wp12_preparation/revisions/wp12_1_execution_manifest.r2-prepared.json",
+        "r2_sha256": "1b61f4de19e46d933fc825a1eb1525aaf14d43e8ebade21e0c1b1f0bf010cf0b",
+        "r3": "qualification/0_2_12/wp12_preparation/revisions/wp12_1_execution_manifest.r3-scope-proposal.json",
+        "r3_sha256": "f73a5b00f5dd993d6ba9319ab1275a3e0234c67d81758fd3c029722db1d8df5a"
+      },
+      {
+        "campaign": "WP12-2-DYNAMICS-D02",
+        "original": "qualification/0_2_12/wp12_preparation/wp12_2_execution_manifest.json",
+        "original_sha256": "1034c6fab83c43602a837d5c212f2a8af02afc5360ffa456f2594c52ac269070",
+        "r2": "qualification/0_2_12/wp12_preparation/revisions/wp12_2_execution_manifest.r2-prepared.json",
+        "r2_sha256": "d1411f7bcb605dab4ebf3ec373fe10f80c76fdead412c7b297c1c9081c8e4805",
+        "r3": "qualification/0_2_12/wp12_preparation/revisions/wp12_2_execution_manifest.r3-scope-proposal.json",
+        "r3_sha256": "688bfdea13642d537da70702f9b65452ed3d70ef93b46f3af6bc26468ed047dd"
+      },
+      {
+        "campaign": "WP12-3-NONLINEAR-CONTACT-BOUNDED",
+        "original": "qualification/0_2_12/wp12_preparation/wp12_3_execution_manifest.json",
+        "original_sha256": "064e2587a7f2789495a459d5c75d5d605140e17e6fba6bcff06ec8573f28d9b3",
+        "r2": "qualification/0_2_12/wp12_preparation/revisions/wp12_3_execution_manifest.r2-prepared.json",
+        "r2_sha256": "7fd489614c07a6b6cca5ee333d6709e1ba0194af304e3e5771376b0bec774ce2",
+        "r3": "qualification/0_2_12/wp12_preparation/revisions/wp12_3_execution_manifest.r3-scope-proposal.json",
+        "r3_sha256": "79acb365d6848060535b39e0e8201f74e52242cd7640e5ac6391e37bd8daaa0f"
+      }
+    ],
+    "historical_status": "The R1/R2 manifests and the R3 proposal records remain historical and unchanged. Their prior test totals are not current executions."
+  },
+  "nodeids": [
+    {
+      "historical_number": 1,
+      "nodeid": "tests/unit/test_modal_symmetric_projection.py::test_structured_symmetric_projection_matches_dense_bilinear_form",
+      "proposed_work_package": "WP12-1",
+      "pilot_selected": true,
+      "pilot_manifest": "qualification/0_2_12/wp12_preparation/wp12_b_pilot_manifest_v3.json",
+      "pilot_manifest_sha256": "501d978557e6b45ee8fcebfd99de8d928af451b8bfa47dd9f970738ea83bdd01",
+      "historical_file_record": "T1",
+      "scientific_commit_blob_oid": "20889499b60cdd4fa79b2a2d2f76626279ed3e8e",
+      "scientific_commit_file_sha256": "9be78449948ebcdc9d577a8968b2dbacbc9b25015b4c9484ece8f91218e20d28"
+    },
+    {
+      "historical_number": 2,
+      "nodeid": "tests/unit/test_modal_symmetric_projection.py::test_modal_basis_uses_structured_projection_for_exact_symmetric_k",
+      "proposed_work_package": "WP12-1",
+      "pilot_selected": false,
+      "historical_file_record": "T1",
+      "scientific_commit_blob_oid": "20889499b60cdd4fa79b2a2d2f76626279ed3e8e",
+      "scientific_commit_file_sha256": "9be78449948ebcdc9d577a8968b2dbacbc9b25015b4c9484ece8f91218e20d28"
+    },
+    {
+      "historical_number": 3,
+      "nodeid": "tests/unit/test_modal_symmetric_projection.py::test_from_prepared_reuses_one_sparse_symmetry_difference",
+      "proposed_work_package": "WP12-1",
+      "pilot_selected": false,
+      "historical_file_record": "T1",
+      "scientific_commit_blob_oid": "20889499b60cdd4fa79b2a2d2f76626279ed3e8e",
+      "scientific_commit_file_sha256": "9be78449948ebcdc9d577a8968b2dbacbc9b25015b4c9484ece8f91218e20d28"
+    },
+    {
+      "historical_number": 4,
+      "nodeid": "tests/unit/test_modal_symmetric_projection.py::test_tolerated_near_symmetric_k_falls_back_to_historical_bilinear_path",
+      "proposed_work_package": "WP12-1",
+      "pilot_selected": false,
+      "historical_file_record": "T1",
+      "scientific_commit_blob_oid": "20889499b60cdd4fa79b2a2d2f76626279ed3e8e",
+      "scientific_commit_file_sha256": "9be78449948ebcdc9d577a8968b2dbacbc9b25015b4c9484ece8f91218e20d28"
+    },
+    {
+      "historical_number": 5,
+      "nodeid": "tests/unit/test_modal_symmetric_projection.py::test_from_prepared_rejects_significantly_asymmetric_stiffness",
+      "proposed_work_package": "WP12-1",
+      "pilot_selected": false,
+      "historical_file_record": "T1",
+      "scientific_commit_blob_oid": "20889499b60cdd4fa79b2a2d2f76626279ed3e8e",
+      "scientific_commit_file_sha256": "9be78449948ebcdc9d577a8968b2dbacbc9b25015b4c9484ece8f91218e20d28"
+    },
+    {
+      "historical_number": 6,
+      "nodeid": "tests/unit/test_modal_basis_damping.py::test_analytical_coupled_two_dof_eigenproblem_and_projected_operators",
+      "proposed_work_package": "WP12-1",
+      "pilot_selected": false,
+      "historical_file_record": "T2",
+      "scientific_commit_blob_oid": "9710c3faa55c0859047cd748f39acc0979a5efb0",
+      "scientific_commit_file_sha256": "a915c1364f450fb8a596ff5444bb17181056d4f2284d1a59c540b5bd223268ca"
+    },
+    {
+      "historical_number": 7,
+      "nodeid": "tests/unit/test_prepared_dynamic_system.py::test_prepared_identity_is_deterministic_and_dof_maps_are_defensive",
+      "proposed_work_package": "WP12-2",
+      "pilot_selected": false,
+      "scope_change_owner_decision_required": true,
+      "historical_file_record": "T4",
+      "scientific_commit_blob_oid": "44f758e8429a3e93e981804b3bd22ade57fba386",
+      "scientific_commit_file_sha256": "8320c5422b699e74984255c190885d0ec4b88d1bb03a221284d883ecb3ea6975"
+    },
+    {
+      "historical_number": 8,
+      "nodeid": "tests/unit/test_prepared_dynamic_system.py::test_newmark_old_checkpoint_is_readable_but_not_safe_to_resume",
+      "proposed_work_package": "WP12-2",
+      "pilot_selected": false,
+      "scope_change_owner_decision_required": true,
+      "historical_file_record": "T4",
+      "scientific_commit_blob_oid": "44f758e8429a3e93e981804b3bd22ade57fba386",
+      "scientific_commit_file_sha256": "8320c5422b699e74984255c190885d0ec4b88d1bb03a221284d883ecb3ea6975"
+    },
+    {
+      "historical_number": 9,
+      "nodeid": "tests/unit/test_wp10_nonlinear_state_checkpoints.py::test_v2_checkpoint_metadata_identity_tampering_fails_integrity",
+      "proposed_work_package": "WP12-3",
+      "pilot_selected": false,
+      "scope_change_owner_decision_required": true,
+      "historical_file_record": "T5",
+      "scientific_commit_blob_oid": "778301bf10a61da078cfb1da842a3814545e9877",
+      "scientific_commit_file_sha256": "4c6c5e9e95dc187b7c1f819330fa7f7828b014af68cc92ddd5ee91d37cea88aa"
+    }
+  ],
+  "checksum_findings": [
+    {
+      "historical_file_record": "T1",
+      "historical_scope_review_sha256": "12acd147e72310c01311a68bbb4b85abd6b8d3dbab1888bc80f43f77c1520308",
+      "sha256_at_scientific_commit": "9be78449948ebcdc9d577a8968b2dbacbc9b25015b4c9484ece8f91218e20d28",
+      "blob_oid_at_scientific_commit": "20889499b60cdd4fa79b2a2d2f76626279ed3e8e",
+      "status": "RECORDED_SHA256_DOES_NOT_MATCH_PINNED_COMMIT_BYTES"
+    },
+    {
+      "historical_file_record": "T2",
+      "historical_scope_review_sha256": "24bba2ab2fbcd046265577e2c7ad53f51a2edde7e55039e376d2b21c4e844f8a",
+      "sha256_at_scientific_commit": "a915c1364f450fb8a596ff5444bb17181056d4f2284d1a59c540b5bd223268ca",
+      "blob_oid_at_scientific_commit": "9710c3faa55c0859047cd748f39acc0979a5efb0",
+      "status": "RECORDED_SHA256_DOES_NOT_MATCH_PINNED_COMMIT_BYTES"
+    },
+    {
+      "historical_file_record": "T4",
+      "historical_scope_review_sha256": "aaadae37953e8e7601a49cee46b377c85c9180a07cb9ee5e59aa3ab4679ad16b",
+      "sha256_at_scientific_commit": "8320c5422b699e74984255c190885d0ec4b88d1bb03a221284d883ecb3ea6975",
+      "blob_oid_at_scientific_commit": "44f758e8429a3e93e981804b3bd22ade57fba386",
+      "status": "RECORDED_SHA256_DOES_NOT_MATCH_PINNED_COMMIT_BYTES"
+    },
+    {
+      "historical_file_record": "T5",
+      "historical_scope_review_sha256": "f4ba738a6c804f6b7305a1c0154c066d7ba6fcb808597b8dda80d333c73f62f5",
+      "sha256_at_scientific_commit": "4c6c5e9e95dc187b7c1f819330fa7f7828b014af68cc92ddd5ee91d37cea88aa",
+      "blob_oid_at_scientific_commit": "778301bf10a61da078cfb1da842a3814545e9877",
+      "status": "RECORDED_SHA256_DOES_NOT_MATCH_PINNED_COMMIT_BYTES"
+    }
+  ],
+  "scope_boundaries": {
+    "static_presence_check": {
+      "method": "AST parse of the four test source files at the pinned scientific checkout; no pytest collection, import, or execution",
+      "result": "9_OF_9_NODEIDS_FOUND_AS_TOP_LEVEL_TEST_FUNCTIONS"
+    },
+    "pilot_only_nodeid_1": true,
+    "other_eight_nodeids_executed": false,
+    "transfers_effective_for_preparation_only": true,
+    "requires_owner_scope_decision": false,
+    "requires_separate_signed_execution_decision_per_unit": true
+  }
+}
