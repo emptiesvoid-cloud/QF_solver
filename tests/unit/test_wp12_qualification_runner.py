@@ -609,6 +609,102 @@ def test_pilot_v4_manifest_binds_separate_checkouts_and_stays_blocked() -> None:
     assert validate_manifest_schema(fabricated_attestation)
 
 
+def test_validate_v4_manifest_uses_separate_science_and_runner_checkouts(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from scripts.wp12_runner.cli import _validate_mode
+
+    manifest_path = WP12_PREPARATION / "wp12_b_pilot_manifest_v2.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    science = tmp_path / "science"
+    runner = tmp_path / "runner"
+
+    def make_repository(root: Path, paths: set[str], branch: str) -> tuple[str, str, dict[str, str]]:
+        root.mkdir(parents=True)
+
+        def git(*args: str) -> str:
+            result = subprocess.run(
+                ["git", *args], cwd=root, check=True, capture_output=True, text=True, timeout=20, shell=False
+            )
+            return result.stdout.strip()
+
+        git("init", "--initial-branch=" + branch)
+        git("config", "user.name", "Synthetic Owner")
+        git("config", "user.email", "synthetic@example.invalid")
+        hashes: dict[str, str] = {}
+        for relative in sorted(paths):
+            content = f"synthetic fixture for {relative}\n".encode("utf-8")
+            path = root.joinpath(*relative.split("/"))
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(content)
+            hashes[relative] = hashlib.sha256(content).hexdigest()
+        git("add", "--all")
+        git("commit", "-m", "synthetic split-checkout fixture")
+        return git("rev-parse", "HEAD"), git("rev-parse", "HEAD^{tree}"), hashes
+
+    science_paths = set().union(
+        *(
+            set(manifest["code_identity"][group])
+            for group in ("source_files_sha256", "test_files_sha256", "fixture_files_sha256")
+        )
+    )
+    runner_paths = set(manifest["execution_context"]["runner_files_sha256"])
+    science_commit, science_tree, science_hashes = make_repository(science, science_paths, "science-fixture")
+    runner_commit, runner_tree, runner_hashes = make_repository(runner, runner_paths, "emptiesvoids-cloud/0.2.12")
+
+    for group in ("source_files_sha256", "test_files_sha256", "fixture_files_sha256"):
+        manifest["code_identity"][group] = {path: science_hashes[path] for path in manifest["code_identity"][group]}
+    manifest["scientific_identity"] = {"commit": science_commit, "git_tree": science_tree}
+    manifest["runner_identity"] = {"commit": runner_commit, "git_tree": runner_tree}
+    manifest["target"]["commit"] = runner_commit
+    manifest["target"]["git_tree"] = runner_tree
+    manifest["execution_context"]["science_checkout"] = {
+        "path": str(science),
+        "commit": science_commit,
+        "git_tree": science_tree,
+    }
+    manifest["execution_context"]["runner_checkout"] = {
+        "path": str(runner),
+        "commit": runner_commit,
+        "git_tree": runner_tree,
+    }
+    manifest["execution_context"]["working_directory"] = str(science)
+    manifest["execution_context"]["plugin_path"] = str(
+        runner / "scripts" / "wp12_runner" / "pytest_provenance_plugin.py"
+    )
+    manifest["execution_context"]["solver_import_root"] = str(science / "src")
+    manifest["execution_context"]["pythonpath"] = [str(runner), str(science / "src")]
+    manifest["execution_context"]["runner_files_sha256"] = runner_hashes
+    temp_manifest = tmp_path / "manifest-v4.json"
+    temp_manifest.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    monkeypatch.setattr(
+        runner_cli,
+        "collect_environment_provenance",
+        lambda **kwargs: {"root": str(kwargs["repository_root"]), "declared": kwargs.get("declared", {})},
+    )
+
+    assert _validate_mode(temp_manifest, runner) == 0
+    valid = json.loads(capsys.readouterr().out)
+    assert valid["state"] == "STRUCTURALLY_VALID_NOT_AUTHORIZED"
+    assert valid["execution_started"] is False
+    assert valid["input_identity_errors"] == []
+    assert valid["git"]["commit"] == runner_commit
+    assert valid["science_git"]["commit"] == science_commit
+    expected_science_records = sum(
+        len(manifest["code_identity"][group])
+        for group in ("source_files_sha256", "test_files_sha256", "fixture_files_sha256")
+    )
+    assert len(valid["input_identity_records"]) == expected_science_records + len(runner_hashes)
+
+    altered = science / "src" / "solveur" / "contact" / "entities.py"
+    altered.write_text("tampered synthetic source\n", encoding="utf-8")
+    assert _validate_mode(temp_manifest, runner) == 2
+    blocked = json.loads(capsys.readouterr().out)
+    assert blocked["state"] == "BLOCKED"
+    assert "SCIENTIFIC_CHECKOUT_IDENTITY_OR_CLEANLINESS_MISMATCH" in blocked["input_identity_errors"]
+    assert "SHA256_MISMATCH:src/solveur/contact/entities.py" in blocked["input_identity_errors"]
+
+
 def test_owner_signature_profile_round_trips_with_ephemeral_synthetic_key() -> None:
     from cryptography.hazmat.primitives import serialization
     from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey

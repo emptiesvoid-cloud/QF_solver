@@ -68,16 +68,158 @@ def _git_report(manifest: Mapping[str, Any], root: Path) -> tuple[dict[str, Any]
     return details, tuple(issues)
 
 
+def _resolve_ordinary_directory(value: Any) -> Path | None:
+    if not isinstance(value, str):
+        return None
+    candidate = Path(value)
+    if not candidate.is_absolute():
+        return None
+    current = Path(candidate.anchor)
+    for part in candidate.parts[1:]:
+        current = current / part
+        if current.is_symlink() or bool(getattr(current, "is_junction", lambda: False)()):
+            return None
+    try:
+        resolved = candidate.resolve(strict=True)
+    except (OSError, RuntimeError):
+        return None
+    return resolved if resolved.is_dir() else None
+
+
+def _split_checkout_validation(
+    manifest: Mapping[str, Any], runner_root: Path
+) -> tuple[dict[str, Any] | None, tuple[str, ...], tuple[dict[str, str], ...], dict[str, Any]]:
+    """Validate v4 science and runner inputs against their separately pinned checkouts."""
+    from .contracts import inspect_git, verify_file_hashes
+
+    context = manifest.get("execution_context")
+    if not isinstance(context, Mapping):
+        return None, ("EXECUTION_CONTEXT_INVALID",), (), {}
+    science_identity = context.get("science_checkout")
+    runner_identity = context.get("runner_checkout")
+    if not isinstance(science_identity, Mapping) or not isinstance(runner_identity, Mapping):
+        return None, ("SEPARATE_CHECKOUT_IDENTITIES_MISSING",), (), {}
+
+    science_root = _resolve_ordinary_directory(science_identity.get("path"))
+    declared_runner_root = _resolve_ordinary_directory(runner_identity.get("path"))
+    actual_runner_root = _resolve_ordinary_directory(str(runner_root))
+    errors: list[str] = []
+    if science_root is None:
+        errors.append("SCIENTIFIC_CHECKOUT_PATH_INVALID_OR_REPARSE_POINT")
+    if actual_runner_root is None:
+        errors.append("RUNNER_CHECKOUT_PATH_INVALID_OR_REPARSE_POINT")
+        actual_runner_root = runner_root.resolve(strict=False)
+    if declared_runner_root is None or declared_runner_root != actual_runner_root:
+        errors.append("RUNNER_CHECKOUT_PATH_DIFFERS_FROM_MANIFEST")
+    if science_root is not None and (
+        science_root == actual_runner_root
+        or science_root.is_relative_to(actual_runner_root)
+        or actual_runner_root.is_relative_to(science_root)
+    ):
+        errors.append("SCIENTIFIC_AND_RUNNER_CHECKOUTS_ARE_NOT_SEPARATE")
+
+    science_git: dict[str, Any] = {"available": False}
+    records: list[dict[str, str]] = []
+    input_errors: list[str] = []
+    if science_root is not None:
+        try:
+            snapshot = inspect_git(science_root)
+            expected = manifest.get("scientific_identity")
+            identity_matches = (
+                isinstance(expected, Mapping)
+                and snapshot.commit == expected.get("commit")
+                and snapshot.tree == expected.get("git_tree")
+                and snapshot.clean
+            )
+            science_git = {
+                "available": True,
+                "path": str(science_root),
+                "branch": snapshot.branch,
+                "commit": snapshot.commit,
+                "git_tree": snapshot.tree,
+                "clean": snapshot.clean,
+                "identity_matches": identity_matches,
+                "status_porcelain": snapshot.status_porcelain,
+            }
+            if not identity_matches:
+                input_errors.append("SCIENTIFIC_CHECKOUT_IDENTITY_OR_CLEANLINESS_MISMATCH")
+            code_identity = manifest.get("code_identity")
+            if isinstance(code_identity, Mapping):
+                for group in ("source_files_sha256", "test_files_sha256", "fixture_files_sha256"):
+                    inventory = code_identity.get(group)
+                    if isinstance(inventory, Mapping):
+                        input_errors.extend(verify_file_hashes(science_root, inventory))
+                        records.extend(
+                            {
+                                "path": relative,
+                                "expected_sha256": digest,
+                                "identity_group": group,
+                                "checkout": "science",
+                                "state": "HASH_CHECKED",
+                            }
+                            for relative, digest in sorted(inventory.items())
+                        )
+        except (OSError, ContractError) as exc:
+            input_errors.append(f"SCIENTIFIC_CHECKOUT_INSPECTION_FAILED:{type(exc).__name__}")
+
+    try:
+        runner_snapshot = inspect_git(actual_runner_root)
+        context_runner_matches = (
+            runner_snapshot.commit == runner_identity.get("commit")
+            and runner_snapshot.tree == runner_identity.get("git_tree")
+            and runner_snapshot.clean
+        )
+        if not context_runner_matches:
+            input_errors.append("RUNNER_CHECKOUT_CONTEXT_IDENTITY_OR_CLEANLINESS_MISMATCH")
+    except (OSError, ContractError) as exc:
+        input_errors.append(f"RUNNER_CHECKOUT_INSPECTION_FAILED:{type(exc).__name__}")
+
+    runner_files = context.get("runner_files_sha256")
+    if not isinstance(runner_files, Mapping) or not runner_files:
+        input_errors.append("RUNNER_FILE_INVENTORY_MISSING")
+    else:
+        input_errors.extend(verify_file_hashes(actual_runner_root, runner_files))
+        records.extend(
+            {
+                "path": relative,
+                "expected_sha256": digest,
+                "identity_group": "runner_files_sha256",
+                "checkout": "runner",
+                "state": "HASH_CHECKED",
+            }
+            for relative, digest in sorted(runner_files.items())
+        )
+
+    details = {"science_git": science_git}
+    return (
+        details,
+        tuple(dict.fromkeys(errors + input_errors)),
+        tuple(records),
+        {
+            "science_root": science_root,
+            "runner_root": actual_runner_root,
+        },
+    )
+
+
 def _validate_mode(manifest_path: Path, root: Path) -> int:
     try:
         manifest, digest = load_json(manifest_path)
         schema_errors = validate_manifest_schema(manifest)
         assessment = assess_manifest(manifest, digest)
         git_details, git_issues = _git_report(manifest, root)
-        try:
-            input_errors, input_records = verify_manifest_input_identities(root, manifest)
-        except (OSError, ContractError) as exc:
-            input_errors, input_records = (f"INPUT_IDENTITY_CHECK_FAILED:{type(exc).__name__}",), ()
+        split_checkout = manifest.get("schema") == "qf-solver-wp12-execution-manifest-v4"
+        split_details: dict[str, Any] = {}
+        if split_checkout:
+            split_details, split_errors, split_records, checkout_roots = _split_checkout_validation(manifest, root)
+            input_errors = split_errors
+            input_records = split_records
+        else:
+            checkout_roots = {"science_root": root, "runner_root": root}
+            try:
+                input_errors, input_records = verify_manifest_input_identities(root, manifest)
+            except (OSError, ContractError) as exc:
+                input_errors, input_records = (f"INPUT_IDENTITY_CHECK_FAILED:{type(exc).__name__}",), ()
         source_identity = manifest.get("source_and_test_identity", {})
         source_files = source_identity.get("tracked_source_files", []) if isinstance(source_identity, Mapping) else []
         test_files = source_identity.get("tracked_test_files", []) if isinstance(source_identity, Mapping) else []
@@ -92,20 +234,49 @@ def _validate_mode(manifest_path: Path, root: Path) -> int:
             for entry in fixture_entries
             if isinstance(entry, Mapping) and isinstance(entry.get("path"), str)
         ]
-        environment_provenance = collect_environment_provenance(
-            declared=dict(manifest.get("environment", {})) if isinstance(manifest.get("environment"), Mapping) else {},
-            repository_root=root,
-            source_files=(path for path in source_files if isinstance(path, str)),
-            test_files=(path for path in test_files if isinstance(path, str)),
-            fixture_files=fixture_files,
+        if split_checkout and isinstance(identity_entries, Mapping):
+            fixture_files = list(identity_entries.get("fixture_files_sha256", {})) + fixture_files
+        declared_environment = (
+            dict(manifest.get("environment", {})) if isinstance(manifest.get("environment"), Mapping) else {}
         )
+        if split_checkout and split_details is not None:
+            science_root = checkout_roots.get("science_root")
+            runner_root = checkout_roots.get("runner_root")
+            environment_provenance = {
+                "scientific_checkout": collect_environment_provenance(
+                    declared=declared_environment,
+                    repository_root=science_root,
+                    source_files=(path for path in source_files if isinstance(path, str)),
+                    test_files=(path for path in test_files if isinstance(path, str)),
+                    fixture_files=fixture_files,
+                ),
+                "runner_checkout": collect_environment_provenance(
+                    declared={"role": "runner-infrastructure"},
+                    repository_root=runner_root,
+                    source_files=(
+                        path
+                        for path in manifest.get("execution_context", {}).get("runner_files_sha256", {})
+                        if isinstance(path, str)
+                    ),
+                ),
+            }
+        else:
+            environment_provenance = collect_environment_provenance(
+                declared=declared_environment,
+                repository_root=root,
+                source_files=(path for path in source_files if isinstance(path, str)),
+                test_files=(path for path in test_files if isinstance(path, str)),
+                fixture_files=fixture_files,
+            )
     except (OSError, ContractError) as exc:
         _json_print({"mode": "VALIDATE", "state": "INVALID", "error": str(exc)}, stream=sys.stderr)
         return 2
-    blockers = [*schema_errors, *assessment.execution_blockers]
+    blockers = [*schema_errors, *assessment.structural_errors, *assessment.execution_blockers]
     blockers.extend(git_issues)
     if input_errors:
         blockers.append("MANIFEST_INPUT_IDENTITY_PROBLEMS")
+    if split_checkout and split_details:
+        blockers.extend(input_errors)
     if schema_errors or assessment.structural_errors:
         state = "INVALID"
     elif git_issues or input_errors:
@@ -123,6 +294,7 @@ def _validate_mode(manifest_path: Path, root: Path) -> int:
             "input_identity_errors": list(input_errors),
             "input_identity_records": list(input_records),
             "git": git_details,
+            **(split_details or {}),
             "environment_provenance": environment_provenance,
             "execution_started": False,
         }
