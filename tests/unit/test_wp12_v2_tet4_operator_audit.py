@@ -887,7 +887,7 @@ def test_tet4_h1_operator_audit_002(monkeypatch: pytest.MonkeyPatch) -> None:
         "schema": "qf-wp12-v2-r1-h1-operator-audit-v1",
         "case_id": CASE_ID,
         "nodeid": NODEID,
-        "execution_state": "PROSPECTIVE_TEST_RESULT_IF_RUN",
+        "execution_state": "RESULT_EMITTED_DURING_NODE_EXECUTION",
         "interpretation": "A pytest result is not general FEM qualification or continuum validation.",
         "identities": {
             "science_commit": "00428adf38e9397340ac136f6f503a268eb671da",
