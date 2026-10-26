@@ -4,6 +4,8 @@ tests/unit/test_wp_e01m_hencky_material_point.py -text
 tests/unit/test_wp_e01q_hencky_tangent.py -text
 # Keep the six research manifest digests stable across Windows checkouts.
 investigations/hex8_sri_equilibrium_20261026/campaign_preparation/*.json -text
+# Keep final campaign manifest hashes byte-stable across Windows checkouts.
+investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/**/*.json -text
 # Qualification files are hash-bound evidence; preserve their Git blob bytes on Windows.
 qualification/** -text
 # The WP06F migration audit verifies this document's exact historical byte delta.
