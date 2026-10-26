@@ -83,6 +83,50 @@ Sens des statuts employés :
 - D01 flexibilité résiduelle : qualification/0_2_12/wp_d01_capability_recovery_report.md — 87 pass algébriques, 3 skipped sur les tests natifs et FEM_RUN=NOT_RUN.
 - Preuves récentes WP12 sous E:/QFSolverAgents/evidence/dynamics/worktrees/wp12_dynamics/ : Newmark dev-74c6cb1e73a1, harmonique dev-7b5e16653765, accélération de base dev-9a95b817d69d. Les empreintes SHA-256 des observables sont inscrites dans la matrice.
 
+## Traçabilité dynamique et proposition d’intégration minimale
+
+Références comparées :
+
+- HEAD scientifique d’exécution : d9deddbd6b42467c5fdc9e278bd54e97605f5738, branche codex/wp12-dynamic-harmonic-verification.
+- Rapport scientifique : 630d22b7667a0d84dd7b136b9f8c7d89ae00fc66, dont le parent est d9deddb. Ce commit ajoute uniquement DYNAMIC_HARMONIC_RESULTS_REPORT.md; il ne modifie ni code ni tests.
+- HEAD actuel de l’intégration distante relevé avant cette analyse : 98456355f0a85dff9edf7f37d53c7c6fff59bf37, branche emptiesvoids-cloud/0.2.12. Entre cbdd54a et 98456355, le diff est documentaire seulement; scripts/development_autonomous.py et development_autonomous_policy.json n’ont pas changé.
+
+Le commit 630d22b classe la sous-campagne CLOSED_BOUNDED et ses trois cas DEVELOPMENT_PASS_BOUNDED. Il précise que l’harmonique complet/direct concorde à la précision machine, tandis que la base tronquée à deux modes produit une réponse nulle à la sonde aux six fréquences, soit 100 % d’erreur d’amplitude sur cette sonde. Ce constat reste une limite locale au fixture et ne doit être ni masqué ni transformé en borne générale. Le rapport exclut explicitement qualification WP05/WP06/WP07/WP12 et validation physique générale.
+
+| Fichier | État d9 → intégration 984 | Action minimale proposée |
+|---|---|---|
+| tests/unit/test_modal_newmark.py | d9 contient 397 lignes de tests/instrumentation supplémentaires; le nodeid Newmark exact manque à 984. | Réappliquer seulement le bloc WP12 final de d9, y compris l’archivage avant assertions et la validation corrigée identité série/tentative. |
+| tests/unit/test_reduced_harmonic.py | d9 contient 383 lignes supplémentaires; le nodeid harmonique exact manque à 984. | Réappliquer seulement le bloc WP12 final de d9; garder les tests du candidat sans les remplacer. |
+| tests/unit/test_wp07_uniform_base_acceleration.py | d9 contient 461 lignes supplémentaires; le nodeid d’accélération de base exact manque à 984. | Réappliquer seulement le bloc WP12 final de d9. |
+| tests/unit/test_wp12_observable_archive_synthetic.py | Présent à d9 (blob 321 lignes), absent à l’intégration 984. | Ajouter le fichier synthétique exact de d9 pour préserver les tests de l’archivage avant assertion et l’identité d’essai global/local. |
+| src/solveur/**, experiments/**/*.py, tests/conftest.py, tests/unit/conftest.py, pyproject.toml, pytest.ini | Aucun diff d9 ↔ intégration 984 dans les fichiers de l’inventaire de fingerprints hors des trois modules de test ciblés. | Aucun fichier scientifique solveur à intégrer. Restaurer les trois modules de test aux octets d9 rétablit les entrées source connues, sous réserve de recalcul post-intégration. |
+
+Les empreintes source d9 consignées dans le rapport et l’historique de politique sont : Newmark 65e4078b1735de9adb258d1438fed39dcd69c1b68fa3560afb69896da60bdff8; harmonique bd65535cfeaff0af932fb33e556ded5c1762f2dd90a5467793bdc01c6daca50c; base 969dd0276e4b9b9d4963751bcf1c06603e122aac623852f3c7a3a2c4496745c6. Le calcul du contrôleur inclut les sources Python sous src/solveur et experiments, le module de test ciblé, les conftests et la configuration pytest. Les trois modules ciblés ayant changé, leurs empreintes actuelles ne correspondent pas aux enregistrements d9. Le fichier de tests synthétiques d’archivage n’est pas un substitut à ces modules et doit aussi être conservé.
+
+Ne pas transporter depuis la branche dynamique development_autonomous_policy.json, scripts/development_autonomous.py, tests/unit/test_development_autonomous_policy.py, AGENTS.md, le plan expérimental ou le rapport scientifique. La comparaison de branche montre des divergences de 741 lignes du contrôleur, 478 lignes de politique et 804 lignes de tests de politique; la politique d’intégration 984 conserve déjà les trois allowlists et les historiques d’empreintes d9. Le rapport 630d indique un controller HEAD cbdd54a et un controller fingerprint 95d9e4c8ccce76216f7580f6f9e780820772aa0dc4764aaf11a154f270266fb5. Bien que les fichiers contrôleur/politique n’aient pas changé depuis cbdd54a, le HEAD courant 98456355 entre dans l’identité Git du contrôleur; il faut recalculer le fingerprint contrôleur et préparer de nouveaux manifestes après l’intégration. Les anciens manifestes ont déjà été consommés et restent des preuves historiques; ne pas les réutiliser.
+
+Plan proposé, sans exécution dans cette phase :
+
+1. Sur l’intégration 984, appliquer les quatre changements de test listés ci-dessus par patch sélectif depuis d9, sans cherry-pick global et sans modifier le contrôleur ou la politique.
+2. Vérifier le diff pour s’assurer que les assertions, tolérances, données numériques, écritures JSON et helpers sont identiques à d9; vérifier que les tests synthétiques ont été ajoutés et que les reçus, manifestes et sidecars archivés restent byte-for-byte inchangés.
+3. Confirmer la présence des trois fonctions exactes. Recalculer les trois source fingerprints avec le contrôleur canonique; attendre les valeurs d9 ci-dessus si tous les fichiers de l’inventaire sont identiques. Si une seule valeur diffère, arrêter et réévaluer l’inscription exacte avant tout manifeste.
+4. Revalider l’ascendance Git et l’identité du worktree dynamique, puis préparer trois nouveaux manifestes liés au HEAD scientifique, à la source, au contrôleur et à la politique actuels. Les anciens manifestes/decisions ne sont pas transférables à cette identité; une nouvelle décision Owner est requise si les champs liés ont changé.
+5. Garder les preuves des anciennes tentatives et leurs numéros dans les archives et le ledger. Aucun retry, reset de ledger ou calcul FEM n’est impliqué par cette proposition.
+
+## Sentinelles WP12-A encore utiles
+
+La liste suivante contient cinq contrôles au maximum. Les trois cas D01 sont des tests distincts de flexibilité résiduelle; ils ne dupliquent pas les balayages WP12 harmonique/Newmark/base déjà achevés. Les valeurs d’autorisation décrivent le registre consulté, pas une autorisation d’exécution pour cette mission.
+
+| Priorité | Nodeid exact | Portée, oracle et raison | DDL et ressources | Statut d’autorisation |
+|---|---|---|---|---|
+| P1 | tests/verification/test_wp_d01_bj_wp05_native_experiment.py::test_wp05_native_modal_and_residual_flexibility_characterization[M1] | BEAM2 cantilever 8 éléments; comparer la réponse harmonique directe et modal corrigée, résidus et bilan énergétique sur le même K/M; oracle algébrique direct du même opérateur, pas une validation externe. Première taille nécessaire pour rendre vérifiable le statut D01 inconclusif. | 54 DDL totaux, 48 libres; 6 fréquences, bases de 2 et 4 modes. Registre d01 : timeout 180 s, RSS soft 2048 MiB, 8 processus, 64 MiB sortie/archive et 256 MiB temporaires. | Nodeid inscrit dans l’allowlist d01. Aucun manifeste Owner ni lancement autorisé par cette mission; NOT_RUN ici. |
+| P1 | tests/verification/test_wp_d01_bj_wp05_native_experiment.py::test_wp05_native_modal_and_residual_flexibility_characterization[M2] | Même oracle/observables, maillage BEAM2 16 éléments; vérifie si la correction reste cohérente quand les modes omis et le maillage évoluent. | 102 DDL totaux, 96 libres; même enveloppe enregistrée que M1. | Nodeid inscrit dans l’allowlist d01. Aucun manifeste Owner ni lancement autorisé par cette mission; NOT_RUN ici. |
+| P1 | tests/verification/test_wp_d01_bj_wp05_native_experiment.py::test_wp05_native_modal_and_residual_flexibility_characterization[M3] | Même oracle/observables, BEAM2 32 éléments; taille maximale actuelle de cette série et contrôle le plus exigeant des opérateurs clairsemés/résidus. | 198 DDL totaux, 192 libres; même enveloppe enregistrée que M1. | Nodeid inscrit dans l’allowlist d01. Aucun manifeste Owner ni lancement autorisé par cette mission; NOT_RUN ici. |
+| P2 | tests/unit/test_modal_symmetric_projection.py::test_assembled_tet4_modal_projection_preserves_operator_invariants (nodeid proposé, non présent) | Ajouter un unique TET4 assemblé à l’oracle existant dense: symétrie de K, Phi.T M Phi, Phi.T K Phi et reconstruction. Couvre le raccord assemblage→projection absent des fixtures matricielles 4x4; aucune résolution de réponse. | 12 DDL du modèle, 3 libres après blocage des 9 autres; une petite matrice creuse/dense, <1 s et <64 MiB estimés. | Nouveau nodeid non inscrit; pas d’autorisation Owner. Inscription et décision Owner nécessaires avant toute exécution FEM. |
+| P2 | tests/unit/test_result_serialization_contracts.py::test_reduced_harmonic_json_round_trip_preserves_signed_zero_phase_metadata | DTO/JSON seulement; oracle exact sur signbit(-0.0) et phase 180° après round-trip. Ajoute une preuve de régression indépendante du balayage harmonique physique, qui ne couvrait pas ce cas de bord. | Aucun DDL FEM ni assemblage; le registre WP12 indique selected_dofs=1 comme minimum de schéma. Ressource négligeable, sans solveur. | Nodeid inscrit dans l’allowlist wp12_dynamics; aucun manifeste Owner/exécution post-fix vérifié ici. NOT_RUN dans cette mission. |
+
+L’intégration des trois tests d9 rétablit des preuves de cas déjà exécutés; ce n’est pas une quatrième/cinquième nouvelle sentinelle scientifique à relancer. Aucune des sentinelles listées ici n’a été exécutée dans cette mission.
+
 ## État de l’exécution de cet audit
 
 PYTEST_RUN=NOT_RUN
