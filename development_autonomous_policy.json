@@ -164,7 +164,7 @@
       "allow_native_vv_skip_override": false,
       "require_clean_worktree": true,
       "attempt_limit_per_nodeid": 1,
-      "execution_authorized": false,
+      "execution_authorized": true,
       "blas_thread_environment": {
         "MKL_NUM_THREADS": "1",
         "OMP_NUM_THREADS": "1",
@@ -190,28 +190,28 @@
       ],
       "case_manifests": {
         "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[hex8_standard_nu_0p3]": {
-          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4_d73a2a4f6173_protocol3/manifest_hex8_standard_nu_0p3.json",
-          "sha256": "480e0c5ccad8a9a6b7a646266e1dc51efb79708b28a0769269af3ac3c9795c04"
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/manifest_hex8_standard_nu_0p3.json",
+          "sha256": "8c61e58aabae640836888ec8b78845599877fe2bd6691d795a4c2375df496601"
         },
         "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[hex8_standard_nu_0p4999]": {
-          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4_d73a2a4f6173_protocol3/manifest_hex8_standard_nu_0p4999.json",
-          "sha256": "44e02dccf9744cd799bad48a1c193030cebcbb47b7b246542cc1a255522da342"
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/manifest_hex8_standard_nu_0p4999.json",
+          "sha256": "f7f8e60b076aa31a7442535c1320667431cba0fa94d78f8a8ced816d18c30197"
         },
         "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_corrected_nu_0p3]": {
-          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4_d73a2a4f6173_protocol3/manifest_sri_corrected_nu_0p3.json",
-          "sha256": "61abe26fad59d035ac8228225bcb26e08f907fafe7c01afcfacc81e8311d76c0"
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/manifest_sri_corrected_nu_0p3.json",
+          "sha256": "e74283dcbcf15a078763160dd0e7c6b128324888b7f3dbada87537d6611e07ad"
         },
         "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_corrected_nu_0p4999]": {
-          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4_d73a2a4f6173_protocol3/manifest_sri_corrected_nu_0p4999.json",
-          "sha256": "023f509fc8e1d26280ff096c19ed613952e1943d49fd5675aa06d803ba8587ab"
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/manifest_sri_corrected_nu_0p4999.json",
+          "sha256": "c29ebffaba6b445afcd13bda6374311e51f2a162cbb84e9ac3294a8e8b6e81f6"
         },
         "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_historical_nu_0p3]": {
-          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4_d73a2a4f6173_protocol3/manifest_sri_historical_nu_0p3.json",
-          "sha256": "b4a072198d853a2932ad781b89445f46389cd3ce1fc2289741da56b38aa7584d"
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/manifest_sri_historical_nu_0p3.json",
+          "sha256": "4dbe87a250f3ef96da394fdbbe96fe4ed81085f41f44a48ac4d2080a986119c6"
         },
         "tests/verification/test_hex8_sri_structural_campaign.py::test_hex8_sri_cantilever_campaign[sri_historical_nu_0p4999]": {
-          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/final_candidates/b547cf0e1c8057ef7f58ba780967d1b19c891ac4_d73a2a4f6173_protocol3/manifest_sri_historical_nu_0p4999.json",
-          "sha256": "d8fb3c9d94f76a4f8582cbb46aeaf3c47a11a188ababa9a6b05ed0ed56f4fe57"
+          "path": "investigations/hex8_sri_equilibrium_20261026/campaign_preparation/manifest_sri_historical_nu_0p4999.json",
+          "sha256": "fd027656e33ac038ae4e34c20cfe48756bd86754e012bd48fae05f83f46d82d7"
         }
       }
     }
