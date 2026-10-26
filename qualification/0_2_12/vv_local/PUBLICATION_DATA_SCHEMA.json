@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qfsolver.org/schemas/qf-scientific-vv-record-v1.json",
+  "title": "QF Solver scientific V&V and publication data record",
+  "description": "Open JSON record for reproducible measured cases. A record with NOT_RUN is preparation only and contains no claimed scientific values.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "record_status", "case", "scientific_context", "provenance", "inputs", "results", "interpretation"],
+  "properties": {
+    "schema": {"const": "qf-scientific-vv-record-v1"},
+    "record_status": {"enum": ["PREPARATION_ONLY", "MEASURED_PENDING_REVIEW", "REVIEWED"]},
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["benchmark_id", "campaign_id", "case_id", "nodeid", "execution_status"],
+      "properties": {
+        "benchmark_id": {"type": "string"},
+        "campaign_id": {"type": "string"},
+        "case_id": {"type": "string"},
+        "nodeid": {"type": "string"},
+        "execution_status": {"enum": ["NOT_RUN", "PYTEST_PASS_ONLY", "FAIL", "INCONCLUSIVE", "TIMEOUT", "RESOURCE_LIMIT", "INTERRUPTED", "INFRA_ERROR", "DENY_EXECUTION"]}
+      }
+    },
+    "scientific_context": {
+      "type": "object",
+      "required": ["problem", "hypotheses", "formulation", "units", "domain_limits"],
+      "properties": {
+        "problem": {"type": "string"},
+        "hypotheses": {"type": "array", "items": {"type": "string"}},
+        "formulation": {"type": "string"},
+        "geometry": {"type": ["object", "string", "null"]},
+        "materials": {"type": ["object", "string", "null"]},
+        "loads": {"type": ["object", "string", "null"]},
+        "boundary_conditions": {"type": ["object", "string", "null"]},
+        "units": {"type": "object", "description": "Explicit unit mapping; use UNDECLARED if the model/test has no unit system."},
+        "domain_limits": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["repository", "science_identity", "runner_identity", "tests_identity", "environment", "command", "run_id", "attempt"],
+      "properties": {
+        "repository": {"type": "string"},
+        "science_identity": {"$ref": "#/$defs/gitIdentity"},
+        "runner_identity": {"$ref": "#/$defs/gitIdentity"},
+        "tests_identity": {"$ref": "#/$defs/gitIdentity"},
+        "environment": {"type": "object"},
+        "command": {"type": "array", "items": {"type": "string"}},
+        "working_directory": {"type": "string"},
+        "run_id": {"type": "string"},
+        "attempt": {"type": "integer", "minimum": 1},
+        "started_at_utc": {"type": "string", "format": "date-time"},
+        "finished_at_utc": {"type": "string", "format": "date-time"}
+      },
+      "additionalProperties": true
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "origin", "sha256"],
+        "properties": {
+          "name": {"type": "string"},
+          "origin": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "units": {"type": ["string", "null"]},
+          "provenance": {"type": ["string", "null"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "results": {
+      "type": "object",
+      "required": ["oracle_class", "observables", "warnings", "failures", "artifacts"],
+      "properties": {
+        "oracle_class": {"enum": ["NOT_SELECTED", "ALGEBRAIC", "ANALYTICAL", "INVARIANT", "MESH_CONVERGENCE", "TIME_CONVERGENCE", "EXTERNAL_CORRELATION", "EXPERIMENTAL_VALIDATION", "SAME_BACKEND_CONSISTENCY"]},
+        "observables": {"type": "array", "items": {"$ref": "#/$defs/observable"}},
+        "residuals": {"type": "array", "items": {"$ref": "#/$defs/observable"}},
+        "reactions_and_balances": {"type": "array", "items": {"$ref": "#/$defs/observable"}},
+        "convergence": {"type": ["object", "null"]},
+        "warnings": {"type": "array", "items": {"type": "string"}},
+        "failures": {"type": "array", "items": {"type": "string"}},
+        "artifacts": {"type": "array", "items": {"$ref": "#/$defs/artifact"}},
+        "pytest_status": {"enum": ["NOT_RUN", "PASS", "FAIL", "SKIP", "ERROR", "NOT_EXPOSED"]},
+        "oracle_status": {"enum": ["NOT_RUN", "PASS", "FAIL", "INCONCLUSIVE", "NOT_APPLICABLE"]},
+        "qualification_status": {"enum": ["NOT_DECIDED", "OPEN", "BOUNDED", "CLOSED"]}
+      },
+      "additionalProperties": true
+    },
+    "interpretation": {
+      "type": "object",
+      "required": ["verdict", "justification", "coverage", "limitations", "review"],
+      "properties": {
+        "verdict": {"enum": ["NOT_RUN", "PYTEST_PASS_ONLY", "ORACLE_PASS", "FAIL", "INCONCLUSIVE", "INFRA_ERROR", "NOT_APPLICABLE"]},
+        "justification": {"type": "string"},
+        "coverage": {"type": "array", "items": {"type": "string"}},
+        "limitations": {"type": "array", "items": {"type": "string"}},
+        "review": {"type": ["object", "null"]},
+        "public_use_approved": {"type": "boolean", "default": false}
+      },
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "gitIdentity": {
+      "type": "object",
+      "required": ["commit", "tree"],
+      "properties": {
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "tree": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      },
+      "additionalProperties": true
+    },
+    "observable": {
+      "type": "object",
+      "required": ["name", "value", "unit", "status"],
+      "properties": {
+        "name": {"type": "string"},
+        "value": {"type": ["number", "string", "null"]},
+        "reference": {"type": ["number", "string", "null"]},
+        "absolute_error": {"type": ["number", "null"]},
+        "relative_error": {"type": ["number", "null"]},
+        "unit": {"type": "string"},
+        "status": {"enum": ["AVAILABLE", "NOT_EXPOSED", "NOT_RUN", "NOT_APPLICABLE"]},
+        "criterion_ref": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "artifact": {
+      "type": "object",
+      "required": ["path", "format", "sha256"],
+      "properties": {
+        "path": {"type": "string"},
+        "format": {"type": "string"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "description": {"type": "string"}
+      },
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qfsolver.org/schemas/qf-local-vv-owner-execution-decision-v1.json",
+  "title": "Separate per-case Owner execution decision record",
+  "description": "A binding data record for the non-attested local route. This schema and the runner do not cryptographically authenticate its author.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "decision_status", "decision_id", "campaign_id", "manifest_sha256",
+    "case_id", "nodeid", "oracle_id", "acceptance_ref", "command_profile", "science_identity",
+    "runner_identity", "tests_identity", "python_executable", "evidence_root",
+    "attempt_number", "max_attempts", "timeout_seconds", "output_limit_bytes",
+    "approved_by", "approved_at_utc", "valid_until_utc", "authentication"
+  ],
+  "properties": {
+    "schema": {"const": "qf-local-vv-owner-execution-decision-v1"},
+    "decision_status": {"const": "APPROVED_FOR_EXECUTION"},
+    "decision_id": {"type": "string", "minLength": 1},
+    "campaign_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]{2,79}$"},
+    "manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "case_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]{2,79}$"},
+    "nodeid": {"type": "string", "pattern": "^tests/unit/[A-Za-z0-9_./-]+\\.py::test_[A-Za-z0-9_]+$"},
+    "oracle_id": {"type": "string"},
+    "acceptance_ref": {"type": "string"},
+    "command_profile": {"const": "local-vv-pytest-exact-node-v1"},
+    "science_identity": {"$ref": "#/$defs/gitIdentity"},
+    "runner_identity": {"$ref": "#/$defs/gitIdentity"},
+    "tests_identity": {"$ref": "#/$defs/gitIdentity"},
+    "python_executable": {"type": "string", "minLength": 1},
+    "evidence_root": {"type": "string", "minLength": 3},
+    "attempt_number": {"const": 1},
+    "max_attempts": {"const": 1},
+    "timeout_seconds": {"type": "integer", "minimum": 1},
+    "output_limit_bytes": {"type": "integer", "minimum": 1},
+    "approved_by": {"type": "string", "minLength": 1},
+    "approved_at_utc": {"type": "string", "format": "date-time"},
+    "valid_until_utc": {"type": "string", "format": "date-time"},
+    "authentication": {"const": "OWNER_REVIEW_OUTSIDE_RUNNER; NOT_CRYPTOGRAPHIC"},
+    "decision_notes": {"type": "string"}
+  },
+  "$defs": {
+    "gitIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit", "tree"],
+      "properties": {
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "tree": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    }
+  }
+}
