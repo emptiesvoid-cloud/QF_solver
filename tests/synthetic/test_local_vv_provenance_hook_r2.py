@@ -25,7 +25,10 @@ from scripts.local_vv.manifest import (
     V2_CASE_ID,
     V2_COMMAND_TEMPLATE,
     V2_NODEID,
+    V2_R2_CAMPAIGN_ID,
+    V2_R3_CAMPAIGN_ID,
     V2_RESULT_SCHEMA,
+    validate_manifest_shape,
 )
 from scripts.local_vv.process import _case_command
 
@@ -197,7 +200,7 @@ class ProvenanceHookLifecycleTests(unittest.TestCase):
 
     def test_r2_campaign_uses_the_existing_fixed_v2_argv_profile(self) -> None:
         manifest = {
-            "campaign_id": "WP12-V2-R2-H1-OPERATOR-AUDIT-002",
+            "campaign_id": V2_R2_CAMPAIGN_ID,
             "command_template": V2_COMMAND_TEMPLATE,
             "identities": {name: {"path": f"/synthetic/{name}"} for name in ("science", "runner", "tests")},
             "environment": {"python": {"executable": str(PYTHON)}},
@@ -219,9 +222,48 @@ class ProvenanceHookLifecycleTests(unittest.TestCase):
         self.assertEqual(argv[0], str(PYTHON))
         self.assertIn(V2_NODEID, argv)
         self.assertEqual(argv.count(V2_NODEID), 1)
-        self.assertEqual(manifest["campaign_id"], V2_CAMPAIGN_IDS[1])
+        self.assertEqual(manifest["campaign_id"], V2_R2_CAMPAIGN_ID)
         self.assertEqual(V2_CAMPAIGN_IDS[0], V2_CAMPAIGN_ID)
+        self.assertEqual(V2_CAMPAIGN_IDS[1], V2_R2_CAMPAIGN_ID)
+        self.assertEqual(V2_CAMPAIGN_IDS[2], V2_R3_CAMPAIGN_ID)
         self.assertTrue(V2_RESULT_SCHEMA.startswith("qf-wp12-v2-r1-"))
+
+    def test_r3_campaign_uses_the_same_fixed_v2_argv_profile(self) -> None:
+        manifest = {
+            "campaign_id": V2_R3_CAMPAIGN_ID,
+            "command_template": V2_COMMAND_TEMPLATE,
+            "identities": {name: {"path": f"/synthetic/{name}"} for name in ("science", "runner", "tests")},
+            "environment": {"python": {"executable": str(PYTHON)}},
+        }
+        case = {
+            "command_profile": COMMAND_PROFILE_V2,
+            "case_id": V2_CASE_ID,
+            "nodeid": V2_NODEID,
+            "test_checkout": "tests",
+        }
+        with (
+            patch(
+                "scripts.local_vv.process._checkout_path",
+                side_effect=lambda _manifest, key: Path(f"/synthetic/{key}"),
+            ),
+            patch("scripts.local_vv.process._execution_environment", return_value={}),
+        ):
+            argv, _cwd, _environment = _case_command(manifest, case, Path("/synthetic/run"))
+        self.assertEqual(argv[0], str(PYTHON))
+        self.assertIn("-s", argv)
+        self.assertIn(V2_NODEID, argv)
+        self.assertEqual(argv.count(V2_NODEID), 1)
+        self.assertEqual(V2_CAMPAIGN_IDS, (V2_CAMPAIGN_ID, V2_R2_CAMPAIGN_ID, V2_R3_CAMPAIGN_ID))
+
+    def test_unlisted_v2_campaign_is_rejected_by_manifest_shape(self) -> None:
+        manifest = json.loads(
+            (PROJECT_ROOT / "qualification/0_2_12/vv_local/wp12_v2/r3/V2_R3_MANIFEST.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        manifest["campaign_id"] = "WP12-V2-R3-UNAPPROVED-002"
+        errors = validate_manifest_shape(manifest)
+        self.assertIn("v2 result profile is scoped to its named campaign, case, and exact nodeid", errors)
 
 
 if __name__ == "__main__":
