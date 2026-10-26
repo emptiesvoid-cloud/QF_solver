@@ -751,15 +751,21 @@ def build_pytest_command(
     controller_root: Path = ROOT,
     allow_native_skip_override: bool = False,
     collect_only: bool = False,
+    rotor_collect_only_attestation: bool = False,
     junit_xml_path: Path | None = None,
 ) -> list[str]:
     if scope_name in WORKTREE_SCOPES:
         if len(targets) != 1 or source_root is None:
             raise PolicyError("registered worktree execution requires one exact nodeid and a source root")
+        if rotor_collect_only_attestation and (not collect_only or allow_native_skip_override):
+            raise PolicyError("rotor collection attestation requires collect-only without any skip override")
+        if rotor_collect_only_attestation and targets[0] not in WP12_ROTOR_NODEIDS:
+            raise PolicyError("rotor collection attestation is restricted to the exact rotor nodeid allowlist")
         native_override = "True" if allow_native_skip_override else "False"
         bootstrap = "\n".join(
             (
                 "from pathlib import Path",
+                "import os",
                 "import sys",
                 "src = Path(sys.argv[1]).resolve()",
                 "root = Path(sys.argv[2]).resolve()",
@@ -779,7 +785,16 @@ def build_pytest_command(
                 "import pytest",
                 "from development_autonomous_pytest_plugin import ExactNodeGate",
                 f"gate = ExactNodeGate((target,), allow_native_skip_override=(mode == 'd01' and {native_override}))",
-                "raise SystemExit(pytest.main(sys.argv[6:], plugins=[gate]))",
+                "plugins = [gate]",
+                "if mode == 'rotor-preflight':",
+                "    from development_autonomous_pytest_plugin import ExactCollectOnlyAttestor",
+                "    attestor = ExactCollectOnlyAttestor(",
+                "        target, solver_origin=str(origin),",
+                "        selected_dofs=int(os.environ['QF_DEV_SELECTED_DOFS']),",
+                "        max_dofs=int(os.environ['QF_DEV_MAX_DOFS']),",
+                "    )",
+                "    plugins.append(attestor)",
+                "raise SystemExit(pytest.main(sys.argv[6:], plugins=plugins))",
             )
         )
         command = [
@@ -790,7 +805,9 @@ def build_pytest_command(
             str(source_root),
             str(repository_root),
             str(controller_root),
-            "d01" if allow_native_skip_override else "registered",
+            "d01"
+            if allow_native_skip_override
+            else ("rotor-preflight" if rotor_collect_only_attestation else "registered"),
             targets[0],
             "-q",
             "-p",
@@ -2229,6 +2246,216 @@ def _preflight_directory(store: Path, worktree_id: str, preflight_id: str) -> Pa
     return directory
 
 
+ROTOR_PREFLIGHT_ATTESTATION_PREFIX = "QF_DEV_ROTOR_PREFLIGHT="
+
+
+def _validate_rotor_collect_attestation(
+    stdout: str,
+    *,
+    target: str,
+    solver_origin: str,
+    selected_dofs: int,
+    max_dofs: int,
+) -> tuple[str, dict[str, Any] | None]:
+    lines = [
+        line[len(ROTOR_PREFLIGHT_ATTESTATION_PREFIX) :]
+        for line in stdout.splitlines()
+        if line.startswith(ROTOR_PREFLIGHT_ATTESTATION_PREFIX)
+    ]
+    if len(lines) != 1:
+        return "PREFLIGHT_ATTESTATION_INVALID", None
+    try:
+        payload = json.loads(lines[0])
+    except json.JSONDecodeError:
+        return "PREFLIGHT_ATTESTATION_INVALID", None
+    if not isinstance(payload, dict) or payload.get("schema") != "qfsolver-rotor-collect-only-v1":
+        return "PREFLIGHT_ATTESTATION_INVALID", None
+    if payload.get("worktree_id") != "rotor":
+        return "PREFLIGHT_SCOPE_MISMATCH", payload
+    if payload.get("expected_nodeid") != target:
+        return "PREFLIGHT_NODEID_NOT_CONFIRMED", payload
+    if payload.get("solver_origin") != solver_origin:
+        return "PREFLIGHT_WRONG_SOLVER_ORIGIN", payload
+    if payload.get("collected_nodeids") != [target]:
+        return "PREFLIGHT_NODEID_NOT_CONFIRMED", payload
+    if payload.get("skip_markers") != []:
+        return "PREFLIGHT_SKIPPED", payload
+    if payload.get("bodies_executed") is not False:
+        return "PREFLIGHT_BODY_EXECUTION_DETECTED", payload
+    if (
+        payload.get("selected_dofs_expected") != selected_dofs
+        or payload.get("selected_dofs") != str(selected_dofs)
+        or payload.get("max_dofs_expected") != max_dofs
+        or payload.get("max_dofs") != str(max_dofs)
+    ):
+        return "PREFLIGHT_SCOPE_MISMATCH", payload
+    if payload.get("exitstatus") != 0:
+        return "PREFLIGHT_FAILED", payload
+    return "PREFLIGHT_PASS", payload
+
+
+def preflight_rotor_pytest(
+    target: str, preflight_id: str | None = None, *, policy: Mapping[str, Any] | None = None
+) -> dict[str, Any]:
+    """Collect one registered rotor node with exact-node, origin, skip and body attestations."""
+    current_policy = load_policy() if policy is None else policy
+    targets = resolve_targets("fem_exploratory", target, current_policy, worktree_id="rotor")
+    entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(
+        "rotor", target, current_policy
+    )
+    selection = _wp12_active_registration("rotor", target, entry, source_fingerprint)
+    store = _run_root(current_policy, "rotor")
+    if psutil is None:
+        raise PolicyError("psutil is missing; install the project test/dev dependencies before launch")
+    free_bytes = min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free)
+    minimum_free = int(current_policy["minimum_free_disk_mib"] * 1024 * 1024)
+    if free_bytes < minimum_free:
+        raise PolicyError(f"insufficient free disk for rotor preflight: {free_bytes} bytes; requires {minimum_free}")
+
+    preflight_id = preflight_id or f"pf-{uuid.uuid4().hex[:12]}"
+    receipt_dir = _preflight_directory(store, "rotor", preflight_id)
+    if receipt_dir.exists():
+        raise PolicyError("preflight ID already exists; refusing to overwrite a prior receipt")
+    temporary_dir = receipt_dir / "tmp"
+    output_dir = receipt_dir / "output"
+    temporary_dir.mkdir(parents=True)
+    output_dir.mkdir()
+    controller_provenance = _controller_provenance()
+    expected_origin = str((source_root / "solveur" / "__init__.py").resolve())
+    command = build_pytest_command(
+        "fem_exploratory",
+        targets,
+        temporary_dir,
+        repository_root=execution_root,
+        source_root=source_root,
+        controller_root=ROOT,
+        collect_only=True,
+        rotor_collect_only_attestation=True,
+    )
+    if "--collect-only" not in command or command[-1] != target:
+        raise PolicyError("rotor preflight command must collect only its exact registered nodeid")
+    environment = build_child_environment(
+        temporary_dir,
+        source_root=source_root,
+        wp12_entry={**entry, "worktree_id": "rotor"},
+        wp12_selection=selection,
+    )
+    budgets = dict(entry["budgets"])
+    budgets["minimum_free_disk_mib"] = current_policy["minimum_free_disk_mib"]
+    started = datetime.now(timezone.utc).isoformat()
+    record_path = receipt_dir / "preflight.json"
+    initial = {
+        "schema": "qfsolver-development-wp12-rotor-preflight-v1",
+        "mode": "DEVELOPMENT_AUTONOMOUS",
+        "mandate_id": entry["development_mandate_id"],
+        "worktree_id": "rotor",
+        "target": target,
+        "preflight_id": preflight_id,
+        "phase": "PYTEST_COLLECT_ONLY",
+        "attempt_reserved": False,
+        "execution_manifest_required_for_test_execution": True,
+        "execution_authorization_evaluated": False,
+        "bodies_executed": None,
+        "identity": identity,
+        "source_fingerprint": source_fingerprint,
+        "solver_origin_expected": expected_origin,
+        "controller_provenance": controller_provenance,
+        "command": command,
+        "budgets": budgets,
+        "free_disk_before_bytes": free_bytes,
+    }
+    try:
+        with _wp12_resource_lock(WP12_COORDINATION_ROOT, entry["concurrency_class"]):
+            result = run_supervised_command(
+                command,
+                cwd=execution_root,
+                environment=environment,
+                output_dir=output_dir,
+                temporary_dir=temporary_dir,
+                limits=budgets,
+                poll_interval=float(current_policy["poll_interval_seconds"]),
+            )
+    except OSError as exc:
+        _atomic_json(
+            record_path,
+            {
+                **initial,
+                "state": "PREFLIGHT_LAUNCH_FAILED",
+                "started_at_utc": started,
+                "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+                "launch_error": f"{type(exc).__name__}: {exc}",
+            },
+        )
+        raise PolicyError(f"rotor collect-only preflight could not launch: {exc}") from exc
+
+    stdout_path, stderr_path = output_dir / "stdout.log", output_dir / "stderr.log"
+    stdout = stdout_path.read_text(encoding="utf-8", errors="replace") if stdout_path.is_file() else ""
+    origin_prefix = "QF_DEV_SOLVER_ORIGIN="
+    origin_lines = [line[len(origin_prefix) :] for line in stdout.splitlines() if line.startswith(origin_prefix)]
+    origin_status = (
+        "PREFLIGHT_WRONG_SOLVER_ORIGIN"
+        if len(origin_lines) == 1 and origin_lines[0] != expected_origin
+        else "PREFLIGHT_IMPORT_FAILED"
+        if len(origin_lines) != 1
+        else None
+    )
+    attestation_status, attestation = _validate_rotor_collect_attestation(
+        stdout,
+        target=target,
+        solver_origin=expected_origin,
+        selected_dofs=selection["selected_dofs"],
+        max_dofs=entry["target_max_dofs"],
+    )
+    after_policy = load_policy()
+    after_entry, _after_root, _after_source, after_identity, after_fingerprint = _registered_worktree(
+        "rotor", target, after_policy
+    )
+    if after_identity != identity or after_fingerprint != source_fingerprint or after_entry != entry:
+        state = "PREFLIGHT_SOURCE_CHANGED"
+    elif origin_status is not None:
+        state = origin_status
+    elif result.status != "PASS":
+        state = "PREFLIGHT_FAILED"
+    else:
+        state = attestation_status
+    final = {
+        **initial,
+        "state": state,
+        "started_at_utc": started,
+        "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+        "collected_nodeids": (attestation or {}).get("collected_nodeids", []),
+        "skip_markers": (attestation or {}).get("skip_markers"),
+        "bodies_executed": (attestation or {}).get("bodies_executed"),
+        "worktree_id_observed": (attestation or {}).get("worktree_id"),
+        "selected_dofs_observed": (attestation or {}).get("selected_dofs"),
+        "max_dofs_observed": (attestation or {}).get("max_dofs"),
+        "solver_origin_observed": origin_lines[0] if len(origin_lines) == 1 else None,
+        "attestation_error": None if attestation is not None else attestation_status,
+        "return_code": result.return_code,
+        "elapsed_seconds": result.elapsed_seconds,
+        "peak_rss_bytes": result.peak_rss_bytes,
+        "peak_process_count": result.peak_process_count,
+        "stdout_bytes": result.stdout_bytes,
+        "stderr_bytes": result.stderr_bytes,
+        "stdout_sha256": _sha256(stdout_path) if stdout_path.is_file() else None,
+        "stderr_sha256": _sha256(stderr_path) if stderr_path.is_file() else None,
+        "identity_after": after_identity,
+        "source_fingerprint_after": after_fingerprint,
+        "free_disk_after_bytes": min(shutil.disk_usage(ROOT).free, shutil.disk_usage(execution_root).free),
+    }
+    _atomic_json(record_path, final)
+    receipt_sha256 = _sha256(record_path)
+    _atomic_json(receipt_dir / "preflight.sha256.json", {"sha256": receipt_sha256})
+    return {
+        "preflight_id": preflight_id,
+        "state": state,
+        "bodies_executed": final["bodies_executed"],
+        "nodeid": target if final["collected_nodeids"] == [target] else None,
+        "receipt": str(record_path),
+        "receipt_sha256": receipt_sha256,
+    }
+
+
 def preflight_pytest(
     worktree_id: str,
     target: str,
@@ -2236,8 +2463,10 @@ def preflight_pytest(
 ) -> dict[str, Any]:
     """Collect one exact registered node without reserving a FEM attempt."""
     policy = load_policy()
+    if worktree_id == "rotor":
+        return preflight_rotor_pytest(target, preflight_id, policy=policy)
     if worktree_id != "d01":
-        raise PolicyError("collect-only preflight is currently enabled only for the D01 native nodes")
+        raise PolicyError("collect-only preflight is enabled only for D01 native nodes and the explicit rotor scope")
     targets = resolve_targets("fem_exploratory", target, policy, worktree_id=worktree_id)
     entry, execution_root, source_root, identity, source_fingerprint = _registered_worktree(worktree_id, target, policy)
     store = _run_root(policy)
@@ -2817,9 +3046,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     subparsers = parser.add_subparsers(dest="command", required=True)
     preflight_parser = subparsers.add_parser(
         "preflight",
-        help="collect one exact D01 native node without running its test body or consuming an attempt",
+        help="collect one exact D01 or rotor node without running its test body or consuming an attempt",
     )
-    preflight_parser.add_argument("--worktree", choices=("d01",), required=True)
+    preflight_parser.add_argument("--worktree", choices=("d01", "rotor"), required=True)
     preflight_parser.add_argument("--target", required=True)
     preflight_parser.add_argument("--preflight-id", help="optional unused pf-<12 lowercase hex> ID")
     registration_parser = subparsers.add_parser(
