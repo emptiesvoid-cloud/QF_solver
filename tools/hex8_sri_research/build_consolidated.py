@@ -546,6 +546,9 @@ def _write_figures(path: Path, cases: list[dict[str, Any]]) -> None:
     axis.legend(frameon=False)
     figure.savefig(path / "condition_number.svg", format="svg")
     plt.close(figure)
+    for svg_path in path.glob("*.svg"):
+        svg_lines = svg_path.read_text(encoding="utf-8").splitlines()
+        svg_path.write_text("\n".join(line.rstrip() for line in svg_lines) + "\n", encoding="utf-8")
 
 
 def build_report(
