@@ -4,8 +4,8 @@
 
 - Audit statique du code, des tests et des preuves déjà archivées au commit de base `cbdd54aadbb640a96c6b6b5b9726e1247da36012`.
 - Branche : `verify/wp12-elements-loads`; worktree indépendant : `C:\Users\fari\.codex\worktrees\verify-wp12-elements-loads\qf_solver`.
-- Pendant l’audit initial, aucun test ni calcul FEM n’a été lancé. La mise à jour courante n’autorise que des tests synthétiques d’archivage et des contrôles statiques; aucun manifeste FEM ni runner n’est exécuté ou modifié. La politique commune et les preuves historiques sont intactes.
-- Les protocoles ci-dessous sont des propositions. Leurs nodeids ne sont ni créés, ni enregistrés, ni autorisés. Ils ne peuvent être exécutés qu’après validation du worktree et inscription par le contrôleur.
+- Pendant l’audit initial, aucun test ni calcul FEM n’a été lancé. Cette mise à jour ajoute trois tests préparés et une suite synthétique d’archivage; seuls les tests synthétiques et les contrôles statiques sont exécutés. Aucun manifeste FEM ni runner n’est exécuté ou modifié. La politique commune et les preuves historiques sont intactes.
+- Les trois nodeids MUST sont implémentés, mais ne sont ni enregistrés ni autorisés. Ils ne peuvent être exécutés qu’après validation du worktree, inscription et décision Owner liée à leurs manifestes.
 - Les six résultats TET4 de WP12 précédemment clôturés sont hors périmètre et n’ont pas été relancés.
 
 Dans la matrice, « analytique » désigne un champ fermé ou une intégration indépendante; « externe » désigne une corrélation avec un autre solveur; « interne » désigne un invariant, une identité algébrique ou une convergence sans référence physique indépendante. Un statut de campagne PASS ne change pas cette distinction.
@@ -38,16 +38,16 @@ Les DDL et les conditions aux limites sont figés ci-dessous. Les estimations de
 
 ### Observables à conserver avant les assertions
 
-Chaque futur test devrait produire un enregistrement structuré avant tout `assert`, de sorte qu’une assertion physique échouée n’efface pas le résultat. Le schéma minimal recommandé est :
+Les trois tests préparés appellent un assistant commun avant leurs assertions physiques. Il produit un sidecar JSON strict, atomique et sans écrasement sous le `QF_DEV_EVIDENCE_ROOT` affecté par le contrôleur. Les contrôles synthétiques démontrent la survie du sidecar après une assertion volontairement échouée, le refus d’écrasement et l’encodage JSON des valeurs non finies.
 
-- identité du cas, commit, nodeid, unités, type et nombre d’éléments, signature/hash de connectivité, nombre de DDL total/libre/fixé;
-- déplacements complets, moyenne de bout et déplacement conjugué, maximum absolu avec nœud/DDL;
+- identité du cas, commit, empreintes SHA-256 des modules de test/support/solveur, hash du modèle, nodeid, unités, type et nombre d’éléments, nombre de DDL sélectionné;
+- déplacements complets et maximum absolu avec indice DDL;
 - vecteur de charge et centre de moment; résultante externe/réaction et moment externe/réaction;
 - résidu libre absolu et relatif, erreurs de bilan force/moment, énergie de déformation, travail externe et écart d’identité;
 - statut/méthode/itérations du solveur, messages de convergence, métriques de qualité/Jacobien;
-- durée murale et CPU, pic RSS observé, verdict brut du solveur et résultat d’assertion.
+- durée murale du solveur, verdict/méthode/itérations et indicateurs de convergence.
 
-Écrire un JSON de résultats dans l’espace de sortie archivé par le contrôleur; ajouter les mêmes métriques en propriétés JUnit seulement après vérification synthétique que le contrôleur conserve ces propriétés. `print()` seul ne suffit pas. Cette compatibilité d’archivage n’a pas été vérifiée dans cette étape sans exécution.
+Le contrôleur reste responsable de l’archivage durable, des budgets temps/RSS et des métadonnées de tentative autorisées. Les synthétiques valident le mécanisme d’écriture local; la conservation par l’archiveur du contrôleur et les mesures CPU/RSS n’ont pas été exécutées dans cette phase.
 
 ## Recommandation v0.2.12
 
@@ -70,4 +70,4 @@ Chaque futur test devrait produire un enregistrement structuré avant tout `asse
 
 ## État de préparation
 
-Branche et worktree créés. Seul ce rapport est ajouté; aucune politique, preuve historique, source numérique, test FEM ou runner n’a été modifié. Les nodeids listés sont des noms de conception et restent non enregistrés/non autorisés.
+Branche `verify/wp12-elements-loads`. Le rapport, les trois tests FEM instrumentés et les tests synthétiques d’archivage sont préparés. Les quatre tests synthétiques passent; Ruff, compilation, formatage et contrôle AST des trois appels solve passent. Aucun test FEM, manifeste ou runner n’a été exécuté ou modifié. Les nodeids restent non enregistrés et non autorisés.
