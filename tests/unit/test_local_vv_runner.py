@@ -240,9 +240,29 @@ def test_numeric_payload_is_not_inferred_when_unexposed(tmp_path: Path) -> None:
     assert runner.extract_numeric_payload(stdout) == ("NOT_EXPOSED", None)
 
 
+def test_numeric_payload_requires_schema_and_case_identity(tmp_path: Path) -> None:
+    stdout = tmp_path / "stdout.log"
+    stdout.write_text(
+        'QF_VV_NUMERIC_RESULT={"schema":"synthetic-v1","case_id":"CASE-001","value":1.0}\n',
+        encoding="utf-8",
+    )
+    assert runner.extract_numeric_payload(stdout) == (
+        "EXPOSED_JSON",
+        {"schema": "synthetic-v1", "case_id": "CASE-001", "value": 1.0},
+    )
+
+
+def test_numeric_payload_rejects_duplicate_markers(tmp_path: Path) -> None:
+    stdout = tmp_path / "stdout.log"
+    marker = 'QF_VV_NUMERIC_RESULT={"schema":"synthetic-v1","case_id":"CASE-001"}\n'
+    stdout.write_text(marker + marker, encoding="utf-8")
+    with pytest.raises(runner.LocalVVError, match="at most one"):
+        runner.extract_numeric_payload(stdout)
+
+
 def test_numeric_payload_rejects_non_finite_json(tmp_path: Path) -> None:
     stdout = tmp_path / "stdout.log"
-    stdout.write_text('QF_VV_NUMERIC_RESULT={"value":NaN}\n', encoding="utf-8")
+    stdout.write_text('QF_VV_NUMERIC_RESULT={"schema":"x","case_id":"x","value":NaN}\n', encoding="utf-8")
     with pytest.raises(ValueError):
         runner.extract_numeric_payload(stdout)
 

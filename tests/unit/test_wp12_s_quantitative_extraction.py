@@ -65,11 +65,6 @@ def test_wp12_s_alg_proj_001() -> None:
     relative_frobenius_error = float(np.linalg.norm(projected - dense_bilinear, ord="fro") / reference_norm)
     symmetry_defect = float(np.max(np.abs(projected - projected.T), initial=0.0))
 
-    assert is_exactly_sparse_symmetric(stiffness)
-    assert sparse_symmetry_metrics(stiffness) == (0.0, True)
-    np.testing.assert_array_equal(projected, projected.T)
-    np.testing.assert_allclose(projected, dense_bilinear, rtol=2.0e-16, atol=2.0e-16)
-    np.testing.assert_array_equal(stiffness.toarray(), stiffness.toarray().T)
     _emit(
         "ALG-PROJ-QUANT-001",
         projected_structured=projected.tolist(),
@@ -83,6 +78,11 @@ def test_wp12_s_alg_proj_001() -> None:
         existing_atol=2.0e-16,
         units="NOT_APPLICABLE_ALGEBRAIC_SYNTHETIC_OPERATORS",
     )
+    assert is_exactly_sparse_symmetric(stiffness)
+    assert sparse_symmetry_metrics(stiffness) == (0.0, True)
+    np.testing.assert_array_equal(projected, projected.T)
+    np.testing.assert_allclose(projected, dense_bilinear, rtol=2.0e-16, atol=2.0e-16)
+    np.testing.assert_array_equal(stiffness.toarray(), stiffness.toarray().T)
 
 
 def test_wp12_s_modal_discrete_001() -> None:
@@ -101,8 +101,6 @@ def test_wp12_s_modal_discrete_001() -> None:
     relative_error = abs(frequency_computed - frequency_reference) / abs(frequency_reference)
     relative_residual = float(result.solver["max_relative_residual"])
 
-    assert frequency_computed == pytest.approx(frequency_reference, rel=1.0e-12)
-    assert relative_residual < 1.0e-12
     _emit(
         "MODAL-DISCRETE-QUANT-001",
         k_effective=k_effective,
@@ -116,6 +114,8 @@ def test_wp12_s_modal_discrete_001() -> None:
         existing_residual_limit=1.0e-12,
         units="UNDECLARED_IN_SOURCE; INPUTS_ONLY_INTERNALLY_CONSISTENT",
     )
+    assert frequency_computed == pytest.approx(frequency_reference, rel=1.0e-12)
+    assert relative_residual < 1.0e-12
 
 
 def test_wp12_s_modal_2dof_001() -> None:
@@ -138,11 +138,6 @@ def test_wp12_s_modal_2dof_001() -> None:
         denominator = float(np.linalg.norm(k_mode) + abs(eigenvalue) * np.linalg.norm(m_mode))
         residuals.append(numerator / denominator)
 
-    np.testing.assert_allclose(eigenvalues, expected_values, rtol=1.0e-12, atol=1.0e-12)
-    np.testing.assert_allclose(projected_mass, np.eye(2), rtol=0.0, atol=1.0e-12)
-    np.testing.assert_allclose(projected_stiffness, np.diag(expected_values), rtol=1.0e-11, atol=1.0e-11)
-    np.testing.assert_allclose(mass_orthogonality, np.eye(2), atol=1.0e-12)
-    np.testing.assert_allclose(reconstructed_stiffness, stiffness, rtol=1.0e-11, atol=1.0e-11)
     _emit(
         "MODAL-2DOF-QUANT-001",
         mass=mass.tolist(),
@@ -163,6 +158,11 @@ def test_wp12_s_modal_2dof_001() -> None:
         existing_projected_operator_atol=1.0e-11,
         maturity=basis.maturity,
     )
+    np.testing.assert_allclose(eigenvalues, expected_values, rtol=1.0e-12, atol=1.0e-12)
+    np.testing.assert_allclose(projected_mass, np.eye(2), rtol=0.0, atol=1.0e-12)
+    np.testing.assert_allclose(projected_stiffness, np.diag(expected_values), rtol=1.0e-11, atol=1.0e-11)
+    np.testing.assert_allclose(mass_orthogonality, np.eye(2), atol=1.0e-12)
+    np.testing.assert_allclose(reconstructed_stiffness, stiffness, rtol=1.0e-11, atol=1.0e-11)
 
 
 def test_wp12_s_dyn_sdof_001() -> None:
@@ -193,14 +193,6 @@ def test_wp12_s_dyn_sdof_001() -> None:
     max_absolute_error = float(np.max(np.abs(difference), initial=0.0))
     relative_energy_drifts = [float(row["relative_energy_drift"]) for row in result.time_history]
 
-    assert times.size == 81
-    assert computed[-1] == pytest.approx(
-        float(result.displacements[result.dofs.index(1, "UX")]), rel=1.0e-12, abs=1.0e-12
-    )
-    assert computed[-1] == pytest.approx(float(exact[-1]), rel=2.0e-4, abs=1.0e-9)
-    assert result.solver["integration"]["initial_projection"]["displacement_relative_mass_error"] < 1.0e-12
-    assert result.solver["reduced_equilibrium_diagnostics"]["maximum_relative_error"] < 1.0e-7
-    assert result.maturity == "EXPERIMENTAL"
     _emit(
         "DYN-SDOF-QUANT-001",
         mass_effective=mass,
@@ -232,6 +224,14 @@ def test_wp12_s_dyn_sdof_001() -> None:
         convergence="NOT_ESTABLISHED_SINGLE_DT",
         maturity=result.maturity,
     )
+    assert times.size == 81
+    assert computed[-1] == pytest.approx(
+        float(result.displacements[result.dofs.index(1, "UX")]), rel=1.0e-12, abs=1.0e-12
+    )
+    assert computed[-1] == pytest.approx(float(exact[-1]), rel=2.0e-4, abs=1.0e-9)
+    assert result.solver["integration"]["initial_projection"]["displacement_relative_mass_error"] < 1.0e-12
+    assert result.solver["reduced_equilibrium_diagnostics"]["maximum_relative_error"] < 1.0e-7
+    assert result.maturity == "EXPERIMENTAL"
 
 
 def test_wp12_s_modal_2dof_poly_001() -> None:
@@ -277,12 +277,6 @@ def test_wp12_s_modal_2dof_poly_001() -> None:
     projected_mass = basis.modes.T @ mass @ basis.modes
     orthogonality_error = float(np.linalg.norm(projected_mass - np.eye(2), ord="fro"))
 
-    assert (a, b, c) == (Fraction(47, 16), Fraction(-47), Fraction(156))
-    assert discriminant > 0
-    np.testing.assert_allclose(eigenvalues, expected, rtol=1.0e-10, atol=0.0)
-    np.testing.assert_allclose(projected_mass, np.eye(2), rtol=0.0, atol=1.0e-8)
-    assert max(residuals) <= 1.0e-8
-    assert orthogonality_error <= 1.0e-8
     _emit(
         "MODAL-2DOF-POLY-001",
         characteristic_coefficients_rational=[str(a), str(b), str(c)],
@@ -300,6 +294,13 @@ def test_wp12_s_modal_2dof_poly_001() -> None:
         independence_scope="SCALAR_EIGENVALUE_ORACLE_ONLY; PRODUCTION_MODAL_BASIS_REMAINS_UNDER_TEST",
         maturity=basis.maturity,
     )
+    assert (a, b, c) == (Fraction(47, 16), Fraction(-47), Fraction(156))
+    assert discriminant > 0
+    np.testing.assert_allclose(eigenvalues, expected, rtol=1.0e-10, atol=0.0)
+    np.testing.assert_allclose(projected_mass, np.eye(2), rtol=0.0, atol=1.0e-8)
+    np.testing.assert_allclose(basis.projected_stiffness, np.diag(expected), rtol=1.0e-10, atol=0.0)
+    assert max(residuals) <= 1.0e-8
+    assert orthogonality_error <= 1.0e-8
 
 
 def _beam2_quantitative(case_id: str, dof: str, inertia_name: str, rotation_dof: str, sign: float) -> None:
@@ -317,9 +318,6 @@ def _beam2_quantitative(case_id: str, dof: str, inertia_name: str, rotation_dof:
     displacement_abs_error = abs(displacement - expected_displacement)
     rotation_abs_error = abs(rotation - expected_rotation)
 
-    assert displacement == pytest.approx(expected_displacement, rel=1.0e-12)
-    assert rotation == pytest.approx(expected_rotation, rel=1.0e-12)
-    assert result.mesh_report.status == "PASS"
     _emit(
         case_id,
         plane=dof,
@@ -344,6 +342,9 @@ def _beam2_quantitative(case_id: str, dof: str, inertia_name: str, rotation_dof:
         existing_rtol=1.0e-12,
         scope="ONE_STRAIGHT_UNIFORM_BEAM2_CANTILEVER; NOT_MESH_CONVERGENCE",
     )
+    assert displacement == pytest.approx(expected_displacement, rel=1.0e-12)
+    assert rotation == pytest.approx(expected_rotation, rel=1.0e-12)
+    assert result.mesh_report.status == "PASS"
 
 
 def test_wp12_s_stat_beam_uy_001() -> None:
@@ -390,10 +391,6 @@ def test_wp12_s_fem_tet4_h_001(tmp_path: Path) -> None:
         study_id="FEM-TET4-H-001",
     )
     rows = summary["rows"]
-    assert len(rows) == 3
-    assert tuple((row["elements"], row["nodes"], row["dofs"]) for row in rows) == expected_levels
-    assert all(math.isfinite(float(row["tip_uz_m"])) for row in rows)
-    assert all(math.isfinite(float(row["relative_residual"])) for row in rows)
     csv_path = output / "results.csv"
     fieldnames = list(rows[0])
     with csv_path.open("x", encoding="utf-8", newline="") as stream:
@@ -430,3 +427,7 @@ def test_wp12_s_fem_tet4_h_001(tmp_path: Path) -> None:
         three_dimensional_independent_reference="NOT_AVAILABLE_IN_THIS_CAMPAIGN",
         physical_validation="NOT_ESTABLISHED",
     )
+    assert len(rows) == 3
+    assert tuple((row["elements"], row["nodes"], row["dofs"]) for row in rows) == expected_levels
+    assert all(math.isfinite(float(row["tip_uz_m"])) for row in rows)
+    assert all(math.isfinite(float(row["relative_residual"])) for row in rows)
