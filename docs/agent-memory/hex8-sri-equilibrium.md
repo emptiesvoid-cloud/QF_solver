@@ -27,3 +27,7 @@ Campagne `20×1×1 m`, `4×2×2`, `E=1 MPa`, `ν=.3/.4999`, HEX8 standard/SRI hi
 ## Dossier consolidé
 
 Point d’entrée : `investigations/hex8_sri_equilibrium_20261026/consolidated/README.md`. Les matrices suivantes restent `PREPARED_NOT_AUTHORIZED` : 60 cas convergence/quasi-incompressibilité et 115 contrôles complémentaires. Les tests de ce dossier sont synthétiques, unitaires et ne chargent pas le solveur.
+
+## Livraison de recherche
+
+Le code d’audit/outillage est commit `8ffec8c2`; le dossier documentaire et les preuves consolidées sont commit `4ca399d8`, tous deux poussés sur la branche de recherche. Contrôles finaux : 14 tests synthétiques ciblés PASS, Ruff check/format et compilation PASS, liens Markdown PASS. Aucun FEM, assemblage, eigensolve ou calcul modal n’a été exécuté par l’agent principal.
